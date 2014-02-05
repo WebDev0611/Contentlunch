@@ -1,8 +1,7 @@
 {
   "name": "ContentLaunch",
-  "version": "0.0.0",
-  "description": "[![Latest Stable Version](https://poser.pugx.org/laravel/framework/version.png)](https://packagist.org/packages/laravel/framework) [![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.png)](https://packagist.org/packages/laravel/framework) [![Build Status](https://travis-ci.org/laravel/framework.png)](https://travis-ci.org/laravel/framework)",
-  "main": "index.js",
+  "version": "0.1.0",
+  "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,9 +9,9 @@
     "type": "git",
     "url": "https://surge.kilnhg.com/Code/ContentLaunch/Group/ContentLaunch.git"
   },
-  "author": "",
-  "license": "BSD",
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.8.0"
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt": "~0.4.2",
+    "grunt-contrib-uglify": "~0.3.2"
   }
 }
