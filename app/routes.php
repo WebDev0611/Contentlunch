@@ -1,20 +1,23 @@
 <?php
+/**
+ * If nothing else matches, pass this route along to let
+ * angular handle the route.
+ * Return the master layout view
+ * @todo : Add an authentication filter?
+ */
+Route::get('{any}', function()
+{
+	return View::make('master');
+});
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the Closure to execute when that URI is requested.
-|
-*/
-
+// Homepage route
+// @todo : Not sure what to do with this yet
 Route::get('/', function()
 {
-	return View::make('hello');
-});// Confide routes
+	return View::make('master');
+});
+
+// Confide routes
 Route::get( 'user/create',                 'UserController@create');
 Route::post('user',                        'UserController@store');
 Route::get( 'user/login',                  'UserController@login');
@@ -25,3 +28,23 @@ Route::post('user/forgot_password',        'UserController@do_forgot_password');
 Route::get( 'user/reset_password/{token}', 'UserController@reset_password');
 Route::post('user/reset_password',         'UserController@do_reset_password');
 Route::get( 'user/logout',                 'UserController@logout');
+
+/**
+ * API calls, prefixed with /api
+ * Should return json responses
+ * @todo : Add authentication filter
+ * @todo : Determine consistent response structure
+ */
+Route::group(array('prefix' => 'api'), function()
+{
+	
+	Route::get('test', function()
+	{
+		return array(
+			array('id' => 1, 'title' => 'test 1'),
+			array('id' => 2, 'title' => 'test 2'),
+			array('id' => 3, 'title' => 'test 3')
+		);
+	});
+
+});
