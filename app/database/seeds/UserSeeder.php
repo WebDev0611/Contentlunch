@@ -4,9 +4,9 @@ class UserSeeder extends Seeder {
 
   public function run()
   {
+    DB::table('users')->delete();
     $now = date('Y-m-d H:i:s');
     $user = new User;
-    $user->id = 1;
     $user->username = 'admin';
     $user->email = 'jkuchynka@surgeforward.com';
     $user->password = $user->password_confirmation = 'launch123';
