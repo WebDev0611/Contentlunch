@@ -37,6 +37,10 @@ Route::get( 'user/logout',                 'UserController@logout');
  */
 Route::group(array('prefix' => 'api'), function()
 {
+
+	Route::resource('account', 'AccountController', array(
+		'only' => array('index', 'store', 'show', 'update', 'destroy')
+	));
 	
 	Route::get('test', function()
 	{
