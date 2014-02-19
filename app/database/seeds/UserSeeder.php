@@ -21,7 +21,7 @@ class UserSeeder extends Seeder {
       $user = new User;
       $user->username = $user->email = $email;
       $user->password = $user->password_confirmation = 'launch123';
-      $user->created_at = $user->updated_at = $now;
+      $user->created_at = $user->updated_at = time();
       $user->first_name = 'Test';
       $user->last_name = $roles[0];
       $user->confirmed = 1;
