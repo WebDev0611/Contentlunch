@@ -14,7 +14,7 @@ class User extends ConfideUser {
 
   public function accounts()
   {
-  	return $this->belongsToMany('Account');
+  	return $this->belongsToMany('Account')->withTimestamps();
   }
 
 }
