@@ -12,4 +12,9 @@ class User extends ConfideUser {
     'password' => 'required|between:4,11|confirmed'
   );
 
+  public function accounts()
+  {
+  	return $this->belongsToMany('Account');
+  }
+
 }

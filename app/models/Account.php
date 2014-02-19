@@ -35,7 +35,7 @@ class Account extends Ardent {
 	 */
 	public function users()
 	{
-		return $this->hasMany('User');
+		return $this->belongsToMany('User');
 	}
 
 }
