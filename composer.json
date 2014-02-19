@@ -3,16 +3,10 @@
 	"description": "The Laravel Framework.",
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/Zizaco/ardent.git"
-    }
-  ],
 	"require": {
 		"laravel/framework": "4.1.*",
-    "laravelbook/ardent": "dev-has-session-fix",
-    "zizaco/confide": "3.1.x",
+    "laravelbook/ardent": "dev-master",
+    "zizaco/confide": "dev-master",
     "zizaco/entrust": "dev-master"
 	},
 	"autoload": {
