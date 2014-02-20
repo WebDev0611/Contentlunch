@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="cl">
+<html lang="en" ng-app="launch">
 <head>
 
 <meta charset="utf-8" />
-<title>Content Launch</title>
+<title>Pop</title>
 <meta name="keywords" content="Content Launch" />
 <meta name="description" content="Content Launch" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" type="text/css" href="/assets/styles/app.css" />
+<link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -27,7 +27,7 @@
         
         <div class="logo">
           <a href="/">
-            <img src="/images/popwords-logo.png" alt="Content Launch" />
+            <img src="/images/logo.png" alt="Logo" />
           </a>
         </div>
 
@@ -55,7 +55,8 @@
 	</footer>
 </div>
 
-<script type="text/javascript" src="/assets/scripts/app.js"></script>
+<script type="text/javascript" src="/assets/js/build.js"></script>
+<script type="text/javascript" src="/assets/js/app.js"></script>
 
 </body>
 </html>

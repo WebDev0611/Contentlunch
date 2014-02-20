@@ -1,0 +1,21 @@
+{
+  "name": "ContentLaunch",
+  "version": "0.1.0",
+  "authors": [
+    "Jason Kuchynka <jkuchynka@surgeforward.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.13",
+    "angular-route": "~1.2.13",
+    "angular-resource": "~1.2.13"
+  }
+}
