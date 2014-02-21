@@ -9,8 +9,8 @@ class AccountController extends BaseController {
 
 	public function store()
 	{
-		$account = Account::create(Input::all());
-		if ($account->isSaved())
+		$account = new Account;
+		if ($account->save())
 		{
 			return $account;
 		}
@@ -24,8 +24,8 @@ class AccountController extends BaseController {
 
 	public function update($id)
 	{
-		$account = Account::update($id);
-		if ($account->isSaved())
+		$account = Account::find($id);
+		if ($account->updateUniques())
 		{
 			return $account;
 		}
@@ -35,7 +35,10 @@ class AccountController extends BaseController {
 	public function destroy($id)
 	{
 		$account = Account::find($id);
-		return $account->delete();
+		if ($account->delete()) {
+			return array('success' => 'OK');
+		}
+		return 500;
 	}
 
 }
