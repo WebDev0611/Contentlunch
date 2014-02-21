@@ -4,8 +4,13 @@ use LaravelBook\Ardent\Ardent;
 
 class Account extends Ardent {
 
+	// Hydrates from input on new entrie's validation
+	public $autoHydrateEntityFromInput = true;
+	// Hydrates from input whenver validation is called
+	public $forceEntityHydrationFromInput = true;
+
 	public static $rules = array(
-		'title' => 'required|alpha_num|min:5|unique:accounts'
+		'title' => 'required|min:5|unique:accounts'
 	);
 
 	/**
