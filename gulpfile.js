@@ -7,6 +7,8 @@ var gulp = require('gulp'),
 		imagemin = require('gulp-imagemin'),
 		rename = require('gulp-rename'),
 		clean = require('gulp-clean'),
+		less = require('gulp-less'),
+		path = require('path'),
 		concat = require('gulp-concat'),
 		notify = require('gulp-notify'),
 		cache = require('gulp-cache'),
@@ -17,8 +19,7 @@ var gulp = require('gulp'),
 var gutil = require('gulp-util');
 
 gulp.task('styles', function() {
-	return gulp.src(['src/css/main.css',
-					'./bower_components/bootstrap/dist/css/bootstrap.css',
+	return gulp.src(['./bower_components/bootstrap/dist/css/bootstrap.css',
 					'./bower_components/bootstrap/dist/css/bootstrap-theme.css.css'])
     .pipe(gulp.dest('public/assets/css'))
     .pipe(rename({suffix: '.min'}))
@@ -26,6 +27,19 @@ gulp.task('styles', function() {
     .pipe(gulp.dest('public/assets/css'))
     .pipe(livereload(server))
     .pipe(notify({ message: 'Styles task complete' }));
+});
+
+gulp.task('less', function () {
+	return gulp.src(['src/css/*.less'])
+	.pipe(less({
+		paths: [path.join(__dirname, 'less', 'includes')]
+	}))
+	.pipe(gulp.dest('public/assets/css'))
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(minifycss())
+    .pipe(gulp.dest('public/assets/css'))
+    .pipe(livereload(server))
+    .pipe(notify({ message: 'LESS task complete' }));
 });
 
 gulp.task('scripts', function() {
@@ -96,7 +110,7 @@ gulp.task('clean', function() {
 
 // Run clean task first as dependency
 gulp.task('default', ['clean'], function() {
-	gulp.start('styles', 'scripts', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff')
+	gulp.start('styles', 'less', 'scripts', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff')
 });
 
 gulp.task('watch', function() {
@@ -106,6 +120,7 @@ gulp.task('watch', function() {
 			return console.log(err);
 		}
 		gulp.watch('src/css/**/*.scss', ['styles']);
+		gulp.watch('src/css/**/*.less', ['less']);
 		gulp.watch('src/js/**/*.js', ['scripts']);
 		gulp.watch('src/views/**/*.html', ['views']);
 		gulp.watch('src/images/**/*', ['images']);
