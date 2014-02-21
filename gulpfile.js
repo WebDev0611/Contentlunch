@@ -17,7 +17,9 @@ var gulp = require('gulp'),
 var gutil = require('gulp-util');
 
 gulp.task('styles', function() {
-	return gulp.src('src/css/main.css')
+	return gulp.src(['src/css/main.css',
+					'./bower_components/bootstrap/dist/css/bootstrap.css',
+					'./bower_components/bootstrap/dist/css/bootstrap-theme.css.css'])
     .pipe(gulp.dest('public/assets/css'))
     .pipe(rename({suffix: '.min'}))
     .pipe(minifycss())
@@ -27,7 +29,11 @@ gulp.task('styles', function() {
 });
 
 gulp.task('scripts', function() {
-  gulp.src(['./bower_components/angular/angular.js', './bower_components/angular-route/angular-route.js', './bower_components/angular-resource/angular-resource.js'])
+	gulp.src(['./bower_components/jquery/dist/jquery.js',
+				'./bower_components/bootstrap/dist/js/bootstrap.js',
+				'./bower_components/angular/angular.js',
+				'./bower_components/angular-route/angular-route.js',
+				'./bower_components/angular-resource/angular-resource.js'])
     .pipe(concat('build.js'))
     .pipe(gulp.dest('./public/assets/js'));
 	return gulp.src(['src/js/app.js', 'src/js/**/*.js'])
@@ -39,7 +45,35 @@ gulp.task('scripts', function() {
     .pipe(notify({ message: 'Scripts task complete' }));
 });
 
-gulp.task('views', function() {
+gulp.task('fonts-eot', function () {
+	return gulp.src('./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot')
+		.pipe(gulp.dest('./public/assets/fonts'))
+		.pipe(livereload(server))
+		.pipe(notify({ message: 'Font EOT task complete' }));
+});
+
+gulp.task('fonts-svg', function () {
+	return gulp.src('./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg')
+		.pipe(gulp.dest('./public/assets/fonts'))
+		.pipe(livereload(server))
+		.pipe(notify({ message: 'Font SVG task complete' }));
+});
+
+gulp.task('fonts-ttf', function () {
+	return gulp.src('./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf')
+		.pipe(gulp.dest('./public/assets/fonts'))
+		.pipe(livereload(server))
+		.pipe(notify({ message: 'Font TTF task complete' }));
+});
+
+gulp.task('fonts-woff', function () {
+	return gulp.src('./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff')
+		.pipe(gulp.dest('./public/assets/fonts'))
+		.pipe(livereload(server))
+		.pipe(notify({ message: 'Font WOFF task complete' }));
+});
+
+gulp.task('views', function () {
 	return gulp.src('src/views/**/*.html')
 	//	.pipe(embedlr())
 		.pipe(gulp.dest('public/assets/views'))
@@ -62,7 +96,7 @@ gulp.task('clean', function() {
 
 // Run clean task first as dependency
 gulp.task('default', ['clean'], function() {
-	gulp.start('styles', 'scripts', 'views', 'images')
+	gulp.start('styles', 'scripts', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff')
 });
 
 gulp.task('watch', function() {

@@ -1,0 +1,12 @@
+syntax: glob
+*.csproj
+*.user
+app
+bin
+obj
+vendor
+*.config
+composer.lock
+bower_components
+node_modules
+public
