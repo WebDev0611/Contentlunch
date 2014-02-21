@@ -18,6 +18,13 @@
 				return items;
 			}
 
+			function detectRoute () {
+				angular.forEach($scope.menu, function (item) {
+					item.active = $location.path().match(new RegExp(item.url)) ? true : false;
+				});
+			}
+
+			$scope.$on('$routeChangeSuccess', detectRoute);
 		}
 	])
 	.directive('navigationTemplate', function () {
