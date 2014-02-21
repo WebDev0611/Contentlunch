@@ -18,29 +18,7 @@
     <link rel="shortcut icon" href="/favicon.ico">
 </head>
 <body>
-    <header class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div>
-		    <nav class="navbar-collapse bs-navbar-collapse collapse" role="navigation">
-			    <ul class="nav navbar-nav">
-				    <li><a href="/">HOME</a></li>
-				    <li><a href="/consult">CONSULT</a></li>
-				    <li><a  href="/create">CREATE</a></li>
-				    <li><a href="/calendar">CALENDAR</a></li>
-				    <li><a href="/launch">LAUNCH</a></li>
-				    <li><a href="/measure">MEASURE</a></li>
-			    </ul>
-		    </nav>
-		    <div class="navbar-header">
-			    <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-nav-items">
-				    <span class="sr-only">Toggle navigation</span>
-				    <span class="icon-bar"></span>
-				    <span class="icon-bar"></span>
-				    <span class="icon-bar"></span>
-			    </button>
-			    <a href="/" class="navbar-brand">ContentLaunch</a>
-		    </div>
-        </div>
-	</header>
+	<header ng-controller="NavigationController" navigation-template></header>
 
     <div class="container main">
         <div class="row" ng-view></div>
