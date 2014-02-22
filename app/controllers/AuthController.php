@@ -70,7 +70,7 @@ class AuthController extends BaseController {
                 $err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
             }
 
-                        return Redirect::action('UserController@login')
+                        return Redirect::action('AuthController@login')
                             ->withInput(Input::except('password'))
                 ->with( 'error', $err_msg );
         }
@@ -86,13 +86,13 @@ class AuthController extends BaseController {
         if ( Confide::confirm( $code ) )
         {
             $notice_msg = Lang::get('confide::confide.alerts.confirmation');
-                        return Redirect::action('UserController@login')
+                        return Redirect::action('AuthController@login')
                             ->with( 'notice', $notice_msg );
         }
         else
         {
             $error_msg = Lang::get('confide::confide.alerts.wrong_confirmation');
-                        return Redirect::action('UserController@login')
+                        return Redirect::action('AuthController@login')
                             ->with( 'error', $error_msg );
         }
     }
@@ -115,13 +115,13 @@ class AuthController extends BaseController {
         if( Confide::forgotPassword( Input::get( 'email' ) ) )
         {
             $notice_msg = Lang::get('confide::confide.alerts.password_forgot');
-                        return Redirect::action('UserController@login')
+                        return Redirect::action('AuthController@login')
                             ->with( 'notice', $notice_msg );
         }
         else
         {
             $error_msg = Lang::get('confide::confide.alerts.wrong_password_forgot');
-                        return Redirect::action('UserController@forgot_password')
+                        return Redirect::action('AuthController@forgot_password')
                             ->withInput()
                 ->with( 'error', $error_msg );
         }
@@ -153,13 +153,13 @@ class AuthController extends BaseController {
         if( Confide::resetPassword( $input ) )
         {
             $notice_msg = Lang::get('confide::confide.alerts.password_reset');
-                        return Redirect::action('UserController@login')
+                        return Redirect::action('AuthController@login')
                             ->with( 'notice', $notice_msg );
         }
         else
         {
             $error_msg = Lang::get('confide::confide.alerts.wrong_password_reset');
-                        return Redirect::action('UserController@reset_password', array('token'=>$input['token']))
+                        return Redirect::action('AuthController@reset_password', array('token'=>$input['token']))
                             ->withInput()
                 ->with( 'error', $error_msg );
         }
