@@ -17,3 +17,7 @@ header .login-info {
   font-size: 9pt;
   text-align: right;
 }
+.error {
+  color: #ff0000;
+  font-weight: bold;
+}

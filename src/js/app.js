@@ -2,7 +2,7 @@
 	'use strict';
 
 	launch = window.launch || (window.launch = { });
-	launch.token = window.token || (window.token = 'something');
+	launch.token = window.token || (window.token = null);
 	launch.module = angular.module('launch', ['ngRoute', 'ngResource']);
 	launch.module.config([
 		'$routeProvider', '$locationProvider', '$resourceProvider', function ($routeProvider, $locationProvider, $resource) {
