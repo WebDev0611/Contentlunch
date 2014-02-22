@@ -5,7 +5,9 @@
   "main": "index.js",
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-less": "^1.2.1"
+  },
   "devDependencies": {
     "gulp-util": "~2.2.14",
     "gulp": "~3.5.2",
