@@ -71,7 +71,8 @@ gulp.task('fonts-svg', function () {
 });
 
 gulp.task('fonts-ttf', function () {
-	return gulp.src('./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf')
+	return gulp.src(['./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf',
+			'./app/assets/fonts/**/*.ttf'])
 		.pipe(gulp.dest('./public/assets/fonts'))
 		.pipe(livereload(server));
 });

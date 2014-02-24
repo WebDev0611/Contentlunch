@@ -1,4 +1,6 @@
 
-launch.module.controller('HomeController', ['$scope', function($scope) {
-  $scope.title = 'This is the home page controller';
-}]);
+launch.module.controller('HomeController' , [
+	'$scope', '$resource', function ($scope, $resource) {
+		$scope.title = 'This is the home page controller';
+	}
+]);
