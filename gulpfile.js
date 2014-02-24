@@ -59,13 +59,15 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('fonts-eot', function () {
-	return gulp.src('./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot')
+	return gulp.src(['./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot',
+			'./app/assets/fonts/**/*.eot'])
 		.pipe(gulp.dest('./public/assets/fonts'))
 		.pipe(livereload(server));
 });
 
 gulp.task('fonts-svg', function () {
-	return gulp.src('./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg')
+	return gulp.src(['./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg',
+			'./app/assets/fonts/**/*.svg'])
 		.pipe(gulp.dest('./public/assets/fonts'))
 		.pipe(livereload(server));
 });
@@ -78,7 +80,8 @@ gulp.task('fonts-ttf', function () {
 });
 
 gulp.task('fonts-woff', function () {
-	return gulp.src('./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff')
+	return gulp.src(['./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff',
+			'./app/assets/fonts/**/*.woff'])
 		.pipe(gulp.dest('./public/assets/fonts'))
 		.pipe(livereload(server));
 });
