@@ -2,8 +2,9 @@
 	'use strict';
 
 	launch = window.launch || (window.launch = { });
-	launch.token = window.token || (window.token = 'something');
+	launch.activeMenu = null;
 	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize']);
+
 	launch.module.config([
 		'$routeProvider', '$locationProvider', '$resourceProvider', function ($routeProvider, $locationProvider, $resource) {
 			$locationProvider.html5Mode(true);
@@ -20,13 +21,32 @@
 					controller: 'AccountsController',
 					templateUrl: '/assets/views/accounts.html'
 				})
-        .when('/user', {
-          controller: 'UserController',
-          templateUrl: '/assets/views/user.html'
-        })
+				.when('/user', {
+					controller: 'UserController',
+					templateUrl: '/assets/views/user.html'
+				})
 				.otherwise({
 					redirectTo: '/'
 				});
 		}
-	]);
+	])
+	.run(['$rootScope', '$location', 'UserService', 'AuthService', function ($rootScope, $location, userService, authService) {
+		$rootScope.$on('$routeChangeStart', function (event, next, current) {
+			if ($location.path() === '/login') {
+				authService.logout();
+				return;
+			}
+
+			//if ($location.path() !== '/login') {
+			//	//$location.path('/login');
+			//	userService.get(function (resource) {
+			//		//launch.user = resource;
+			//		//launch.token = launch.user.confirmation_code;
+			//		$location.path('/');
+			//	}, function (r) {
+			//		$location.path('/login');
+			//	});
+			//}
+		});
+	}]);
 })(window, angular);

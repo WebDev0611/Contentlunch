@@ -1,7 +1,12 @@
-﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="navbar-collapse collapse" role="navigation">
+﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-if="showNav()">
+	<div class="navbar-collapse collapse" role="navigation">
 		<ul class="nav navbar-nav">
-			<li ng-class="{active:item.active}" ng-repeat="item in menu"><a href="{{ item.url }}">{{ item.title }}</a></li>
+			<li ng-class="[item.title.toLowerCase(), item.active]" ng-repeat="item in menu" ng-click="navigate(item)">
+				<div class="dark">
+					<img ng-src="{{ imagePath(item) }}" />
+					{{ item.title }}
+				</div>
+			</li>
 		</ul>
 	</div>
 	<div class="navbar-header">
@@ -13,7 +18,11 @@
 		</button>
 		<a href="/" class="navbar-brand">ContentLaunch</a>
 	</div>
-	<div class="login-info">
+</nav>
+
+<div class="login-info" ng-if="showNav()">
+	<div id="menu-arrow" class="top-arrow" ng-class="activeMenu"></div>
+	<div>
 		<span>
 			Admin Settings
 			<span class="glyphicon glyphicon-cog"></span>
@@ -22,5 +31,8 @@
 			USER NAME HERE
 			USER PIC HERE
 		</span>
+		<span>
+			<a href="/login">LOGOUT</a>
+		</span>
 	</div>
-</nav>
+</div>

@@ -1,5 +1,4 @@
-﻿// UTILS
-launch.utils = {
+﻿launch.utils = {
 	isBlank: function(str) {
 		var i;
 

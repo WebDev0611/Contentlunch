@@ -4,24 +4,180 @@
 body {
   background: @background-color;
   color: @text-color;
+  font-family: Lato, sans-serif;
   padding-top: 70px;
+
 }
 
 header {
-	> div {
-		position: relative;
-	}
+	position: relative;
 
-	.navbar-header {
-		position: absolute;
-		right: 0;
-		top: 0;
+	.navbar {
+		border: 0;
+
+		.navbar-header {
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+
+		ul.nav {
+			li {
+				cursor: pointer;
+				height: 80px;
+				padding: @navPadding;
+				text-align: center;
+				vertical-align: middle;
+				width: @navWidth;
+
+				.dark {
+					border-radius: 8px;
+					color: #ffffff;
+					font-size: 6pt;
+					.inner-nav-width(@navWidth, @navPadding);
+
+					img {
+						height: 40px;
+						margin: 0 0 4px 0;
+					}
+				}
+
+				&.home {
+					background-color: @homeColor;
+
+					.dark {
+						background-color: @homeColorDark;
+					}
+				}
+
+				&.consult {
+					background-color: @consultColor;
+
+					.dark {
+						background-color: @consultColorDark;
+					}
+				}
+
+				&.create {
+					background-color: @createColor;
+
+					.dark {
+						background-color: @createColorDark;
+					}
+				}
+
+				&.collaborate {
+					background-color: @collaborateColor;
+
+					.dark {
+						background-color: @collaborateColorDark;
+					}
+				}
+
+				&.calendar {
+					background-color: @calendarColor;
+
+					.dark {
+						background-color: @calendarColorDark;
+					}
+				}
+
+				&.launch {
+					background-color: @launchColor;
+
+					.dark {
+						background-color: @launchColorDark;
+					}
+				}
+
+				&.measure {
+					background-color: @meaureColor;
+
+					.dark {
+						background-color: @meaureColorDark;
+					}
+				}
+			}
+		}
 	}
 
 	.login-info {
-		background-color: #000000;
+		background-color: #282725;
 		color: #ffffff;
 		font-size: 9pt;
+		margin-top: 10px;
 		text-align: right;
+
+		.top-arrow {
+			position: absolute;
+			display: inline-block;
+			width: 0;
+			height: 0;
+			border-color: transparent;
+			border-style: solid;
+			.nav-arrow(@navWidth, @navPadding);
+
+			&.home {
+				border-top-color: @homeColor;
+				.nav-arrow-position(@navWidth, @navPadding, 0);
+			}
+
+			&.consult {
+				border-top-color: @consultColor;
+				.nav-arrow-position(@navWidth, @navPadding, 1);
+			}
+
+			&.create {
+				border-top-color: @createColor;
+				.nav-arrow-position(@navWidth, @navPadding, 2);
+			}
+
+			&.collaborate {
+				border-top-color: @collaborateColor;
+				.nav-arrow-position(@navWidth, @navPadding, 3);
+			}
+
+			&.calendar {
+				border-top-color: @calendarColor;
+				.nav-arrow-position(@navWidth, @navPadding, 4);
+			}
+
+			&.launch {
+				border-top-color: @launchColor;
+				.nav-arrow-position(@navWidth, @navPadding, 5);
+			}
+
+			&.measure {
+				border-top-color: @meaureColor;
+				.nav-arrow-position(@navWidth, @navPadding, 6);
+			}
+		}
+	}
+}
+
+.error {
+	color: #ff0000;
+	font-weight: bold;
+}
+
+.control-and-label {
+	margin: 8px;
+}
+
+#login-form {
+	margin: auto;
+	width: 300px;
+
+	h2 {
+		text-align: center;
+	}
+
+	input[type="text"], input[type="password"] {
+		width: 100%;
+	}
+
+	button {
+		margin: 8px;
+		width: 40%;
 	}
 }
