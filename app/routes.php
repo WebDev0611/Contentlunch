@@ -18,16 +18,20 @@ Route::get('/', function()
 });
 
 // Confide routes
+
+Route::post('user/login',                  'AuthController@do_login');
+Route::get( 'user/logout',                 'AuthController@logout');
+
 Route::get( 'user/create',                 'AuthController@create');
 Route::post('user',                        'AuthController@store');
 Route::get( 'user/login',                  'AuthController@login');
-Route::post('user/login',                  'AuthController@do_login');
+
 Route::get( 'user/confirm/{code}',         'AuthController@confirm');
 Route::get( 'user/forgot_password',        'AuthController@forgot_password');
 Route::post('user/forgot_password',        'AuthController@do_forgot_password');
 Route::get( 'user/reset_password/{token}', 'AuthController@reset_password');
 Route::post('user/reset_password',         'AuthController@do_reset_password');
-Route::get( 'user/logout',                 'AuthController@logout');
+
 
 /**
  * API calls, prefixed with /api
@@ -41,6 +45,11 @@ Route::group(array('prefix' => 'api'), function()
 	Route::resource('account', 'AccountController', array(
 		'only' => array('index', 'store', 'show', 'update', 'destroy')
 	));
+
+	Route::group(array('prefix' => 'auth'), function() {
+		Route::post('/', 'AuthController@do_login');
+		Route::get('/logout', 'AuthController@logout');
+	});
 
 	Route::resource('user', 'UserController', array(
 		'only' => array('index', 'store', 'show', 'update', 'destroy')

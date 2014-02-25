@@ -3,7 +3,7 @@
 
 	launch = window.launch || (window.launch = { });
 	launch.token = window.token || (window.token = 'something');
-	launch.module = angular.module('launch', ['ngRoute', 'ngResource']);
+	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize']);
 	launch.module.config([
 		'$routeProvider', '$locationProvider', '$resourceProvider', function ($routeProvider, $locationProvider, $resource) {
 			$locationProvider.html5Mode(true);
@@ -20,6 +20,10 @@
 					controller: 'AccountsController',
 					templateUrl: '/assets/views/accounts.html'
 				})
+        .when('/user', {
+          controller: 'UserController',
+          templateUrl: '/assets/views/user.html'
+        })
 				.otherwise({
 					redirectTo: '/'
 				});

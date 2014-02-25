@@ -47,7 +47,8 @@ gulp.task('scripts', function() {
 				'./bower_components/bootstrap/dist/js/bootstrap.js',
 				'./bower_components/angular/angular.js',
 				'./bower_components/angular-route/angular-route.js',
-				'./bower_components/angular-resource/angular-resource.js'])
+				'./bower_components/angular-resource/angular-resource.js',
+				'./bower_components/angular-sanitize/angular-sanitize.js'])
     .pipe(concat('build.js'))
     .pipe(gulp.dest('./public/assets/js'));
 	return gulp.src(['src/js/app.js', 'src/js/**/*.js'])

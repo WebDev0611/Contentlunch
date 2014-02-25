@@ -50,7 +50,10 @@ class AuthController extends BaseController {
             // caught by the authentication filter IE Redirect::guest('user/login').
             // Otherwise fallback to '/'
             // Fix pull #145
-            return Redirect::intended('/'); // change it to '/admin', '/dashboard' or something
+            //return Redirect::intended('/'); // change it to '/admin', '/dashboard' or something
+            return Response::json(array(
+                'user' => Auth::user()->toArray()
+            ), 202);
         }
         else
         {
@@ -69,6 +72,9 @@ class AuthController extends BaseController {
             {
                 $err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
             }
+            return Response::json(array(
+                'flash' => $err_msg
+            ), 401);
 
                         return Redirect::action('AuthController@login')
                             ->withInput(Input::except('password'))
@@ -172,6 +178,10 @@ class AuthController extends BaseController {
     public function logout()
     {
         Confide::logout();
+
+        return Response::json(array(
+            'flash' => 'Logged out'
+        ), 200);
         
         return Redirect::to('/');
     }

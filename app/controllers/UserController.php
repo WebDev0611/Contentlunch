@@ -4,6 +4,7 @@ class UserController extends BaseController {
 
 	public function index()
 	{
+		return Auth::user()->toArray();
 		return User::all();
 	}
 
