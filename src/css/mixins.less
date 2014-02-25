@@ -19,3 +19,26 @@
 		border-top-left-radius: @radius;
 	}
 }
+
+.inner-nav-width(@width, @padding) {
+	width: @width - (@padding * 2);
+	padding: (@padding * 2);
+}
+
+.nav-arrow(@width, @padding){
+	.nav-arrow-side-width(@width, @padding);
+	border-top-width: 10px;
+	border-bottom-width: 0;
+}
+
+.nav-arrow-side-width(@width, @padding) {
+	@borderWidth: ((@width - (@padding * 2)) / 3);
+	border-left-width: @borderWidth;
+	border-right-width: @borderWidth;
+}
+
+.nav-arrow-position(@width, @padding, @index) {
+	@startPosition: (@width * @index);
+	@arrowWidth: (((@width - (@padding * 2)) / 3) * 2);
+	left: (@startPosition + ((@width - @arrowWidth) / 2));
+}

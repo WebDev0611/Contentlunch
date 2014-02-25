@@ -3,17 +3,27 @@
 			$scope.title = 'This is the Navigation controller';
 			$scope.isLoggedIn = !!launch.token;
 			$scope.menu = getNavigationItems();
+			$scope.activeMenu = 'home';
+
+			$scope.navigate = function(item) {
+				$location.url(angular.lowercase(item.url));
+			};
+
+			$scope.imagePath = function(item) {
+				return '/assets/images/' + angular.lowercase(item.title) + '.svg';
+			};
 
 			function getNavigationItems () {
 				var items = [];
 
-				if ($scope.isLoggedIn) {
-					items.push({ title: 'HOME', url: '/', active: true });
-					items.push({ title: 'CONSULT', url: '/consult', active: false });
-					items.push({ title: 'CREATE', url: '/create', active: false });
-					items.push({ title: 'CALENDAR', url: '/calendar', active: false });
-					items.push({ title: 'LAUNCH', url: '/launch', active: false });
-					items.push({ title: 'MEASURE', url: '/measure', active: false });
+				if (!$scope.isLoggedIn) {
+					items.push({ title: 'HOME', url: '/', active: null });
+					items.push({ title: 'CONSULT', url: '/consult', active: null });
+					items.push({ title: 'CREATE', url: '/create', active: null });
+					items.push({ title: 'COLLABORATE', url: '/collaborate', active: null });
+					items.push({ title: 'CALENDAR', url: '/calendar', active: null });
+					items.push({ title: 'LAUNCH', url: '/launch', active: null });
+					items.push({ title: 'MEASURE', url: '/measure', active: null });
 				}
 
 				return items;
@@ -21,7 +31,15 @@
 
 			function detectRoute () {
 				angular.forEach($scope.menu, function (item) {
-					item.active = $location.path().match(new RegExp(item.url)) ? true : false;
+					item.active = $location.path().match(new RegExp(item.url)) ? 'active' : '';
+
+					if (!launch.utils.isBlank(item.active)) {
+						launch.activeMenu = $scope.activeMenu = angular.lowercase(item.title);
+
+						//var activeItem = $('.navbar-nav li.' + $scope.activeMenu);
+						//var arrow = $('#menu-arrow');
+						//$('#menu-arrow').css('left', (activeItem.offset().left + activeItem.outerWidth() / 2) - parseInt(arrow.css('border-left-width')) - $('.navbar').parent().offset().left);
+					}
 				});
 			}
 
