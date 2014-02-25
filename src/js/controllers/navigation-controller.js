@@ -1,9 +1,13 @@
 ﻿launch.module.controller('NavigationController', [
 		'$scope', '$location', 'AuthService', function ($scope, $location, authService) {
 			$scope.title = 'This is the Navigation controller';
-			$scope.menu = getNavigationItems();
+			$scope.menu = [];
 			$scope.activeMenu = 'home';
 			$scope.showNav = authService.isLoggedIn;
+
+			$scope.init = function() {
+				$scope.menu = getNavigationItems();
+			};
 
 			$scope.navigate = function(item) {
 				$location.url(angular.lowercase(item.url));
@@ -27,7 +31,7 @@
 				}
 
 				return items;
-			}
+			};
 
 			function detectRoute() {
 				angular.forEach($scope.menu, function(item) {
