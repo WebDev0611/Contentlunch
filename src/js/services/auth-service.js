@@ -1,11 +1,13 @@
 
 launch.module.factory('AuthService', function ($resource, $sanitize, SessionService) {
-	var cacheSession = function () {
+	var cacheSession = function (user) {
 		SessionService.set('authenticated', true);
+		SessionService.set('user', user);
 	};
 
 	var uncacheSession = function () {
 		SessionService.unset('authenticated');
+		SessionService.unset('user');
 	};
 
 	var loginError = function (response) {
@@ -15,11 +17,11 @@ launch.module.factory('AuthService', function ($resource, $sanitize, SessionServ
 	return {
 		login: function (username, password, remember, callbacks) {
 			var login = $resource('/api/auth/').save({
-				'email': $sanitize(username),
-				'password': $sanitize(password),
-				'remember': remember
+				email: $sanitize(username),
+				password: $sanitize(password),
+				remember: remember
 			}, function (resource) {
-				cacheSession();
+				cacheSession(resource.user);
 
 				if (!!callbacks && $.isFunction(callbacks.success)) {
 					callbacks.success(resource);
@@ -35,16 +37,11 @@ launch.module.factory('AuthService', function ($resource, $sanitize, SessionServ
 			return login;
 		},
 		logout: function () {
-			try {
-				var logout = $resource('/api/user/logout').get(function(r) {
-
-				});
-
+			var logout = $resource('/api/auth/logout').get(function (r) {
 				uncacheSession();
+			});
 
-				return logout;
-			} catch (e) {
-			}
+			return logout;
 		},
 		isLoggedIn: function () {
 			return Boolean(SessionService.get('authenticated'));

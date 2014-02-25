@@ -36,17 +36,6 @@
 				authService.logout();
 				return;
 			}
-
-			//if ($location.path() !== '/login') {
-			//	//$location.path('/login');
-			//	userService.get(function (resource) {
-			//		//launch.user = resource;
-			//		//launch.token = launch.user.confirmation_code;
-			//		$location.path('/');
-			//	}, function (r) {
-			//		$location.path('/login');
-			//	});
-			//}
 		});
 	}]);
 })(window, angular);
