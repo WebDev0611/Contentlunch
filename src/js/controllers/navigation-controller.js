@@ -2,11 +2,13 @@
 		'$scope', '$location', 'AuthService', function ($scope, $location, authService) {
 			$scope.title = 'This is the Navigation controller';
 			$scope.menu = [];
+			$scope.user = { };
 			$scope.activeMenu = 'home';
 			$scope.showNav = authService.isLoggedIn;
 
 			$scope.init = function() {
 				$scope.menu = getNavigationItems();
+				$scope.user = authService.userInfo();
 			};
 
 			$scope.navigate = function(item) {
@@ -15,6 +17,20 @@
 
 			$scope.imagePath = function(item) {
 				return '/assets/images/' + angular.lowercase(item.title) + '.svg';
+			};
+
+			$scope.formatName = function() {
+				var user = $scope.user;
+
+				if (!user) {
+					return null;
+				}
+
+				if (!launch.utils.isBlank(user.first_name) && !launch.utils.isBlank(user.last_name)) {
+					return user.first_name + ' ' + user.last_name;
+				}
+
+				return null;
 			};
 
 			function getNavigationItems() {
@@ -31,7 +47,7 @@
 				}
 
 				return items;
-			};
+			}
 
 			function detectRoute() {
 				angular.forEach($scope.menu, function(item) {
