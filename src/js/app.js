@@ -3,7 +3,7 @@
 
 	launch = window.launch || (window.launch = { });
 	launch.activeMenu = null;
-	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize']);
+	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap']);
 
 	launch.module.config([
 		'$routeProvider', '$locationProvider', '$resourceProvider', function ($routeProvider, $locationProvider, $resource) {

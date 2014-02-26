@@ -55,14 +55,16 @@ gulp.task('less', function () {
 });
 
 gulp.task('scripts', function() {
-	gulp.src(['./bower_components/jquery/dist/jquery.js',
-				'./bower_components/bootstrap/dist/js/bootstrap.js',
-				'./bower_components/angular/angular.js',
-				'./bower_components/angular-route/angular-route.js',
-				'./bower_components/angular-resource/angular-resource.js',
-				'./bower_components/angular-sanitize/angular-sanitize.js'])
-    .pipe(concat('build.js'))
-    .pipe(gulp.dest('./public/assets/js'));
+	gulp.src([
+			'./bower_components/jquery/dist/jquery.js',
+			'./bower_components/angular/angular.js',
+			'./bower_components/angular-route/angular-route.js',
+			'./bower_components/angular-resource/angular-resource.js',
+			'./bower_components/angular-sanitize/angular-sanitize.js',
+			'./bower_components/angular-bootstrap/ui-bootstrap-tpls.js'
+		])
+		.pipe(concat('build.js'))
+		.pipe(gulp.dest('./public/assets/js'));
 	return gulp.src(['src/js/app.js', 'src/js/**/*.js'])
 		.pipe(jshint('.jshintrc'))
 		.pipe(jshint.reporter('jshint-stylish'))

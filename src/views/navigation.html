@@ -22,11 +22,11 @@
 </nav>
 
 <div class="login-info" ng-if="showNav()">
-	<div data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+	<div popover-placement="bottom" popover="I appeared on mouse enter!" popover-trigger="mouseenter">
 		<span class="glyphicon glyphicon-cog"></span>
 		Admin Settings
 	</div>
-	<div data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+	<div popover-placement="bottom" popover="I appeared on mouse enter!" popover-trigger="mouseenter">
 		<span class="glyphicon glyphicon-user"></span>
 		{{ formatUserName() }}
 		
