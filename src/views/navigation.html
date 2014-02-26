@@ -6,8 +6,7 @@
 					<img ng-src="{{ imagePath(item) }}" />
 					{{ formatMenuTitle(item.title) }}
 				</div>
-				<!--<div id="menu-arrow" class="top-arrow" ng-class="[item.title, item.active]"></div>-->
-				<div id="menu-arrow" class="top-arrow" ng-class="[item.title]"></div>
+				<div id="menu-arrow" class="top-arrow" ng-class="item.title"></div>
 			</li>
 		</ul>
 	</div>

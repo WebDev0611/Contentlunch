@@ -41,7 +41,7 @@
 				var items = [];
 
 				if (authService.isLoggedIn() === true) {
-					items.push({ title: 'home', url: '/', active: false });
+					items.push({ title: 'home', url: '/', active: true });
 					items.push({ title: 'consult', url: '/consult', active: false });
 					items.push({ title: 'create', url: '/create', active: false });
 					items.push({ title: 'collaborate', url: '/collaborate', active: false });
