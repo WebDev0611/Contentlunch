@@ -34,7 +34,8 @@
 		$rootScope.$on('$routeChangeStart', function (event, next, current) {
 			if ($location.path() === '/login') {
 				authService.logout();
-				return;
+			} else if (!authService.isLoggedIn()) {
+				$location.path('/login');
 			}
 		});
 	}]);
