@@ -54,8 +54,12 @@
 			}
 
 			function detectRoute() {
-				angular.forEach($scope.menu, function(item) {
-					item.active = $location.path().match(new RegExp(item.url)) ? 'active' : '';
+				angular.forEach($scope.menu, function (item) {
+					if (item.url === '/') {
+						item.active = ($location.path() === '/') ? 'active' : '';
+					} else {
+						item.active = $location.path().match(new RegExp(item.url)) ? 'active' : '';
+					}
 
 					if (!launch.utils.isBlank(item.active)) {
 						launch.activeMenu = $scope.activeMenu = angular.lowercase(item.title);
