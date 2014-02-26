@@ -177,10 +177,31 @@ header .login-info {
   margin-top: 10px;
   text-align: right;
 }
-header .login-info div {
+header .login-info .popover-menu {
   cursor: pointer;
   display: inline-block;
-  margin: 0 8px 0 8px;
+  margin: 0 16px 0 8px;
+}
+header .login-info .popover-menu.user-menu {
+  margin-right: 96px;
+}
+header .login-info .popover-menu .popover-content {
+  min-width: 200px;
+  padding: 0;
+}
+header .login-info .popover-menu .admin-menu {
+  color: #000000;
+  font-size: 12pt;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+header .login-info .popover-menu .admin-menu li {
+  margin: 0;
+  padding: 8px;
+}
+header .login-info .popover-menu .admin-menu li:hover {
+  background-color: #cccccc;
 }
 .error {
   color: #ff0000;
