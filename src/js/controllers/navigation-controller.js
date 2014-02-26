@@ -19,7 +19,7 @@
 				return '/assets/images/' + angular.lowercase(item.title) + '.svg';
 			};
 
-			$scope.formatName = function() {
+			$scope.formatUserName = function() {
 				var user = $scope.user;
 
 				if (!user) {
@@ -33,17 +33,21 @@
 				return null;
 			};
 
+			$scope.formatMenuTitle = function(title) {
+				return angular.uppercase(title);
+			};
+
 			function getNavigationItems() {
 				var items = [];
 
 				if (authService.isLoggedIn() === true) {
-					items.push({ title: 'HOME', url: '/', active: null });
-					items.push({ title: 'CONSULT', url: '/consult', active: null });
-					items.push({ title: 'CREATE', url: '/create', active: null });
-					items.push({ title: 'COLLABORATE', url: '/collaborate', active: null });
-					items.push({ title: 'CALENDAR', url: '/calendar', active: null });
-					items.push({ title: 'LAUNCH', url: '/launch', active: null });
-					items.push({ title: 'MEASURE', url: '/measure', active: null });
+					items.push({ title: 'home', url: '/', active: false });
+					items.push({ title: 'consult', url: '/consult', active: false });
+					items.push({ title: 'create', url: '/create', active: false });
+					items.push({ title: 'collaborate', url: '/collaborate', active: false });
+					items.push({ title: 'calendar', url: '/calendar', active: false });
+					items.push({ title: 'launch', url: '/launch', active: false });
+					items.push({ title: 'measure', url: '/measure', active: false });
 				}
 
 				return items;

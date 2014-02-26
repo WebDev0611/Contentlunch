@@ -37,9 +37,8 @@
 	border-right-width: @borderWidth;
 }
 
-.nav-arrow-position(@width, @height, @padding, @index) {
-	@startPosition: (@width * @index);
+.nav-arrow-position(@width, @height, @padding) {
 	@arrowWidth: (((@width - (@padding * 2)) / 3) * 2);
-	left: (@startPosition + ((@width - @arrowWidth) / 2));
+	left: ((@width - @arrowWidth) / 2);
 	top: @height;
 }

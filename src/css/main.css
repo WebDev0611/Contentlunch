@@ -95,11 +95,17 @@ header .navbar ul.nav li.home {
 header .navbar ul.nav li.home .dark {
   background-color: #10699d;
 }
+header .navbar ul.nav li.home .top-arrow {
+  border-top-color: #1797e1;
+}
 header .navbar ul.nav li.consult {
   background-color: #39e4fd;
 }
 header .navbar ul.nav li.consult .dark {
   background-color: #2badc0;
+}
+header .navbar ul.nav li.consult .top-arrow {
+  border-top-color: #39e4fd;
 }
 header .navbar ul.nav li.create {
   background-color: #ffb503;
@@ -107,11 +113,17 @@ header .navbar ul.nav li.create {
 header .navbar ul.nav li.create .dark {
   background-color: #d99a03;
 }
+header .navbar ul.nav li.create .top-arrow {
+  border-top-color: #ffb503;
+}
 header .navbar ul.nav li.collaborate {
   background-color: #ff5b02;
 }
 header .navbar ul.nav li.collaborate .dark {
   background-color: #c24502;
+}
+header .navbar ul.nav li.collaborate .top-arrow {
+  border-top-color: #ff5b02;
 }
 header .navbar ul.nav li.calendar {
   background-color: #ba1760;
@@ -119,11 +131,17 @@ header .navbar ul.nav li.calendar {
 header .navbar ul.nav li.calendar .dark {
   background-color: #93124c;
 }
+header .navbar ul.nav li.calendar .top-arrow {
+  border-top-color: #ba1760;
+}
 header .navbar ul.nav li.launch {
   background-color: #773876;
 }
 header .navbar ul.nav li.launch .dark {
   background-color: #532752;
+}
+header .navbar ul.nav li.launch .top-arrow {
+  border-top-color: #773876;
 }
 header .navbar ul.nav li.measure {
   background-color: #afe43f;
@@ -131,9 +149,12 @@ header .navbar ul.nav li.measure {
 header .navbar ul.nav li.measure .dark {
   background-color: #8eb933;
 }
-header .top-arrow {
+header .navbar ul.nav li.measure .top-arrow {
+  border-top-color: #afe43f;
+}
+header .navbar ul.nav li .top-arrow {
   position: absolute;
-  display: inline-block;
+  display: none;
   width: 0;
   height: 0;
   border-color: transparent;
@@ -142,41 +163,12 @@ header .top-arrow {
   border-right-width: 24px;
   border-top-width: 10px;
   border-bottom-width: 0;
-}
-header .top-arrow.home {
-  border-top-color: #1797e1;
   left: 16px;
   top: 80px;
 }
-header .top-arrow.consult {
-  border-top-color: #39e4fd;
-  left: 96px;
-  top: 80px;
-}
-header .top-arrow.create {
-  border-top-color: #ffb503;
-  left: 176px;
-  top: 80px;
-}
-header .top-arrow.collaborate {
-  border-top-color: #ff5b02;
-  left: 256px;
-  top: 80px;
-}
-header .top-arrow.calendar {
-  border-top-color: #ba1760;
-  left: 336px;
-  top: 80px;
-}
-header .top-arrow.launch {
-  border-top-color: #773876;
-  left: 416px;
-  top: 80px;
-}
-header .top-arrow.measure {
-  border-top-color: #afe43f;
-  left: 496px;
-  top: 80px;
+header .navbar ul.nav li.active .top-arrow,
+header .navbar ul.nav li:hover .top-arrow {
+  display: inline-block;
 }
 header .login-info {
   background-color: #282725;

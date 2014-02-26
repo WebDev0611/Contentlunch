@@ -1,14 +1,15 @@
 ﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-if="showNav()" ng-init="init()">
 	<div class="navbar-collapse collapse" role="navigation">
 		<ul class="nav navbar-nav">
-			<li ng-class="[item.title.toLowerCase(), item.active]" ng-repeat="item in menu" ng-click="navigate(item)">
+			<li ng-class="[item.title, item.active]" ng-repeat="item in menu" ng-click="navigate(item)">
 				<div class="dark">
 					<img ng-src="{{ imagePath(item) }}" />
-					{{ item.title }}
+					{{ formatMenuTitle(item.title) }}
 				</div>
+				<!--<div id="menu-arrow" class="top-arrow" ng-class="[item.title, item.active]"></div>-->
+				<div id="menu-arrow" class="top-arrow" ng-class="[item.title]"></div>
 			</li>
 		</ul>
-		<div id="menu-arrow" class="top-arrow" ng-class="activeMenu"></div>
 	</div>
 	<!--<div class="navbar-header">
 		<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-nav-items">
@@ -28,7 +29,7 @@
 	</div>
 	<div data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
 		<span class="glyphicon glyphicon-user"></span>
-		{{ formatName() }}
+		{{ formatUserName() }}
 		
 	</div>
 	<div>

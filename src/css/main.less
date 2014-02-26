@@ -42,6 +42,10 @@ header {
 					.dark {
 						background-color: @homeColorDark;
 					}
+
+					.top-arrow {
+						border-top-color: @homeColor;
+					}
 				}
 
 				&.consult {
@@ -49,6 +53,10 @@ header {
 
 					.dark {
 						background-color: @consultColorDark;
+					}
+
+					.top-arrow {
+						border-top-color: @consultColor;
 					}
 				}
 
@@ -58,6 +66,10 @@ header {
 					.dark {
 						background-color: @createColorDark;
 					}
+
+					.top-arrow {
+						border-top-color: @createColor;
+					}
 				}
 
 				&.collaborate {
@@ -65,6 +77,10 @@ header {
 
 					.dark {
 						background-color: @collaborateColorDark;
+					}
+
+					.top-arrow {
+						border-top-color: @collaborateColor;
 					}
 				}
 
@@ -74,6 +90,10 @@ header {
 					.dark {
 						background-color: @calendarColorDark;
 					}
+
+					.top-arrow {
+						border-top-color: @calendarColor;
+					}
 				}
 
 				&.launch {
@@ -81,6 +101,10 @@ header {
 
 					.dark {
 						background-color: @launchColorDark;
+					}
+
+					.top-arrow {
+						border-top-color: @launchColor;
 					}
 				}
 
@@ -90,53 +114,29 @@ header {
 					.dark {
 						background-color: @meaureColorDark;
 					}
+
+					.top-arrow {
+						border-top-color: @meaureColor;
+					}
+				}
+
+				.top-arrow {
+					position: absolute;
+					display: none;
+					width: 0;
+					height: 0;
+					border-color: transparent;
+					border-style: solid;
+					.nav-arrow(@navWidth, @navPadding);
+					.nav-arrow-position(@navWidth, @navHeight, @navPadding);
+				}
+
+				&.active, &:hover {
+					.top-arrow{
+						display: inline-block;
+					}
 				}
 			}
-		}
-	}
-
-	.top-arrow {
-		position: absolute;
-		display: inline-block;
-		width: 0;
-		height: 0;
-		border-color: transparent;
-		border-style: solid;
-		.nav-arrow(@navWidth, @navPadding);
-
-		&.home {
-			border-top-color: @homeColor;
-			.nav-arrow-position(@navWidth, @navHeight, @navPadding, 0);
-		}
-
-		&.consult {
-			border-top-color: @consultColor;
-			.nav-arrow-position(@navWidth, @navHeight, @navPadding, 1);
-		}
-
-		&.create {
-			border-top-color: @createColor;
-			.nav-arrow-position(@navWidth, @navHeight, @navPadding, 2);
-		}
-
-		&.collaborate {
-			border-top-color: @collaborateColor;
-			.nav-arrow-position(@navWidth, @navHeight, @navPadding, 3);
-		}
-
-		&.calendar {
-			border-top-color: @calendarColor;
-			.nav-arrow-position(@navWidth, @navHeight, @navPadding, 4);
-		}
-
-		&.launch {
-			border-top-color: @launchColor;
-			.nav-arrow-position(@navWidth, @navHeight, @navPadding, 5);
-		}
-
-		&.measure {
-			border-top-color: @meaureColor;
-			.nav-arrow-position(@navWidth, @navHeight, @navPadding, 6);
 		}
 	}
 
@@ -151,9 +151,6 @@ header {
 			cursor: pointer;
 			display: inline-block;
 			margin: 0 8px 0 8px;
-		}
-
-		.admin-menu {
 		}
 	}
 }
