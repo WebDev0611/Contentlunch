@@ -59,7 +59,7 @@
 				];
 
 				$scope.userMenu = [
-					{ text: 'My Account', cssClass: 'glyphicon-user', url: '/myaccount' },
+					{ text: 'My Account', cssClass: 'glyphicon-user', url: '/user' },
 					{ text: 'Logout', cssClass: 'glyphicon-log-out', url: '/login' }
 				];
 

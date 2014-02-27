@@ -25,6 +25,14 @@
 						controller: 'UserController',
 						templateUrl: '/assets/views/user.html'
 					})
+					.when('/users', {
+						controller: 'UsersController',
+						templateUrl: '/assets/views/users.html'
+					})
+					.when('/roles', {
+						controller: 'RolesController',
+						templateUrl: '/assets/views/roles.html'
+					})
 					.when('/consult', {
 						controller: 'ConsultController',
 						templateUrl: '/assets/views/consult.html'
