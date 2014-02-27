@@ -26,8 +26,8 @@ return array(
 	|
 	*/
 
-  //'default' => 'sqlite',
-  'default' => 'mysql',
+  'default' => 'testing',
+  //'default' => 'mysql',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -49,7 +49,7 @@ return array(
 
     'testing' => array(
       'driver' => 'sqlite',
-      'database' => 'memory',
+      'database' => ':memory:',
       'prefix' => '',
     ),
 

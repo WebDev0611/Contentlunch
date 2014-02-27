@@ -1,12 +1,11 @@
 <?php
-require_once 'IntegrationTestCase.php';
 
 /**
  * Integration test for Accounts
  * Runs tests against a sqllite database to make sure apis
  * are interacting with the database correctly and returning correct responses
  */
-class AccountIntegrationTest extends IntegrationTestCase {
+class AccountIntegrationTest extends TestCase {
 
 	/**
 	 * Test account id that gets seeded before each test

@@ -14,5 +14,8 @@
         <testsuite name="Application Test Suite">
             <directory>./app/tests/</directory>
         </testsuite>
+        <testsuite name="Auth">
+          <file>./app/tests/integration/AuthIntegrationTest.php</file>
+        </testsuite>
     </testsuites>
 </phpunit>

@@ -19,13 +19,6 @@ Route::get('/', function()
 
 // Confide routes
 
-Route::post('user/login',                  'AuthController@do_login');
-Route::get( 'user/logout',                 'AuthController@logout');
-
-Route::get( 'user/create',                 'AuthController@create');
-Route::post('user',                        'AuthController@store');
-Route::get( 'user/login',                  'AuthController@login');
-
 Route::get( 'user/confirm/{code}',         'AuthController@confirm');
 Route::get( 'user/forgot_password',        'AuthController@forgot_password');
 Route::post('user/forgot_password',        'AuthController@do_forgot_password');
@@ -47,7 +40,11 @@ Route::group(array('prefix' => 'api'), function()
 	));
 
 	Route::group(array('prefix' => 'auth'), function() {
+		// Attempt to login a user
 		Route::post('/', 'AuthController@do_login');
+		// Gets the currently logged in user, or guest
+		Route::get('/', 'AuthController@show_current');
+		// Logout
 		Route::get('/logout', 'AuthController@logout');
 	});
 

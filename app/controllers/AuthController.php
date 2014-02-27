@@ -4,6 +4,20 @@
  */
 class AuthController extends BaseController {
 
+    /**
+     * Get the active logged in user
+     * @return [type] [description]
+     */
+    public function show_current()
+    {
+        
+        if ($user = Confide::user()) {
+            $ctrl = new UserController;
+            $ctrl->callAction('show', array($user->id));
+        }
+        return Response::json(array('name' => 'guest'));
+    }
+
     public function store()
     {
        
@@ -51,9 +65,11 @@ class AuthController extends BaseController {
             // Otherwise fallback to '/'
             // Fix pull #145
             //return Redirect::intended('/'); // change it to '/admin', '/dashboard' or something
-            return Response::json(array(
-                'user' => Auth::user()->toArray()
-            ), 202);
+            //
+            //$id = User::where('email', $input['email'])->pluck('id');
+            $user = Confide::user();
+            $ctrl = new UserController;
+            return $ctrl->callAction('show', array($user->id));
         }
         else
         {
