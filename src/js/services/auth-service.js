@@ -2,7 +2,7 @@
 launch.module.factory('AuthService', function ($resource, $sanitize, SessionService) {
 	var cacheSession = function (user) {
 		SessionService.set('authenticated', true);
-		SessionService.set('user', user);
+		SessionService.set('user', JSON.stringify(user));
 	};
 
 	var uncacheSession = function () {
@@ -45,6 +45,9 @@ launch.module.factory('AuthService', function ($resource, $sanitize, SessionServ
 		},
 		isLoggedIn: function () {
 			return Boolean(SessionService.get('authenticated'));
+		},
+		userInfo: function() {
+			return this.isLoggedIn() ? JSON.parse(SessionService.get('user')) : { };
 		}
 	};
 });

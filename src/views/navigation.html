@@ -1,15 +1,16 @@
 ﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-if="showNav()" ng-init="init()">
 	<div class="navbar-collapse collapse" role="navigation">
 		<ul class="nav navbar-nav">
-			<li ng-class="[item.title.toLowerCase(), item.active]" ng-repeat="item in menu" ng-click="navigate(item)">
+			<li ng-class="[item.title, item.active]" ng-repeat="item in menu" ng-click="navigate(item.url)">
 				<div class="dark">
 					<img ng-src="{{ imagePath(item) }}" />
-					{{ item.title }}
+					{{ formatMenuTitle(item.title) }}
 				</div>
+				<div id="menu-arrow" class="top-arrow" ng-class="item.title"></div>
 			</li>
 		</ul>
 	</div>
-	<div class="navbar-header">
+	<!--<div class="navbar-header">
 		<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-nav-items">
 			<span class="sr-only">Toggle navigation</span>
 			<span class="icon-bar"></span>
@@ -17,22 +18,25 @@
 			<span class="icon-bar"></span>
 		</button>
 		<a href="/" class="navbar-brand">ContentLaunch</a>
-	</div>
+	</div>-->
 </nav>
 
 <div class="login-info" ng-if="showNav()">
-	<div id="menu-arrow" class="top-arrow" ng-class="activeMenu"></div>
-	<div>
-		<span>
-			Admin Settings
-			<span class="glyphicon glyphicon-cog"></span>
-		</span>
-		<span>
-			USER NAME HERE
-			USER PIC HERE
-		</span>
-		<span>
-			<a href="/login">LOGOUT</a>
-		</span>
+	<div class="popover-menu admin-menu" menu-popover menu-items="adminMenu" data-placement="bottom" data-trigger="hover" data-menu="true">
+		<span class="glyphicon glyphicon-cog"></span>
+		Admin Settings
+	</div>
+	<div class="popover-menu user-menu" menu-popover menu-items="userMenu" data-placement="bottom" data-trigger="hover" data-menu="true">
+		<span class="glyphicon glyphicon-user"></span>
+		{{ formatUserName() }}
 	</div>
 </div>
+
+<script type="text/ng-template" id="popover-menu.html">
+	<ul class="admin-menu">
+		<li ng-repeat="item in currentMenu" ng-click="navigate(item.url)">
+			<span class="glyphicon" ng-class="item.cssClass"></span>
+			{{ item.text }}
+		</li>
+	</ul>
+</script>
