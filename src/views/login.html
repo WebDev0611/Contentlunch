@@ -1,6 +1,11 @@
 
 <form id="login-form">
-	<h2>Login</h2>
+	<h3>
+		<span class="launch-icon"></span> CONTENT LAUNCH
+	</h3>
+	<h3>
+		Login
+	</h3>
 	
 	<div class="error" ng-show="!!flash" ng-bind="flash"></div>
 
@@ -18,5 +23,8 @@
 	</div>
 
 	<button type="button" class="btn btn-default" ng-click="login($event, user)">Login</button>
-	<a href="#">Forgot Password</a>
+	
+	<div>
+		<a href="#">Forgot Password</a>
+	</div>
 </form>

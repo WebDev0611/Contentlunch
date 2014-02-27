@@ -20,12 +20,9 @@
 <body>
 	<header ng-controller="NavigationController" ng-cloak navigation-template></header>
 
-    <div class="container main">
-        <div class="row" ng-view></div>
-    </div>
+    <div class="main-content" ng-view></div>
 
-    <footer>
-    </footer>
+    <footer></footer>
 
     <script type="text/javascript" src="/assets/js/build.js"></script>
     <script type="text/javascript" src="/assets/js/app.js"></script>

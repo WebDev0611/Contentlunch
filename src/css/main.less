@@ -181,29 +181,56 @@ header {
 	}
 }
 
+.main-content {
+	margin: 0px;
+
+}
+
 .error {
 	color: #ff0000;
 	font-weight: bold;
 }
 
 .control-and-label {
-	margin: 8px;
+	margin: 16px 0;
+}
+
+.launch-icon {
+	background-image: url(/assets/images/launch.svg);
+	background-size: 40px;
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 40px;
+	width: 40px;
 }
 
 #login-form {
+	background-color: @homeColorDark;
+	border-radius: 40px;
+	color: #ffffff;
 	margin: auto;
-	width: 300px;
+	padding: 20px;
+	width: 350px;
 
-	h2 {
+	h3 {
+		margin: 16px;
 		text-align: center;
+		vertical-align: top;
 	}
 
 	input[type="text"], input[type="password"] {
 		width: 100%;
 	}
 
+	a {
+		color: #ffffff;
+	}
+
 	button {
-		margin: 8px;
-		width: 40%;
+		background-color: #000000;
+		border: 0;
+		color: #ffffff;
+		margin: 0 0 16px 0;
+		width: 100%;
 	}
 }
