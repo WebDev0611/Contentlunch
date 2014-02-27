@@ -25,6 +25,30 @@
 						controller: 'UserController',
 						templateUrl: '/assets/views/user.html'
 					})
+					.when('/consult', {
+						controller: 'ConsultController',
+						templateUrl: '/assets/views/consult.html'
+					})
+					.when('/create', {
+						controller: 'CreateController',
+						templateUrl: '/assets/views/create.html'
+					})
+					.when('/collaborate', {
+						controller: 'CollaborateController',
+						templateUrl: '/assets/views/collaborate.html'
+					})
+					.when('/calendar', {
+						controller: 'CalendarController',
+						templateUrl: '/assets/views/calendar.html'
+					})
+					.when('/launch', {
+						controller: 'LaunchController',
+						templateUrl: '/assets/views/launch.html'
+					})
+					.when('/measure', {
+						controller: 'MeasureController',
+						templateUrl: '/assets/views/measure.html'
+					})
 					.otherwise({
 						redirectTo: '/'
 					});
