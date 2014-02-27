@@ -236,6 +236,7 @@ header .login-info .popover-menu .admin-menu li:hover {
 }
 #login-form input[type="text"],
 #login-form input[type="password"] {
+  color: #000000;
   width: 100%;
 }
 #login-form a {
