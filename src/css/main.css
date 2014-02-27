@@ -58,11 +58,15 @@
   font-weight: normal;
   font-style: normal;
 }
+html,
+body {
+  height: 100%;
+}
 body {
   background: #ffffff;
   color: #000000;
   font-family: Lato, sans-serif;
-  padding-top: 70px;
+  min-height: 100%;
 }
 header {
   position: relative;
@@ -174,7 +178,6 @@ header .login-info {
   background-color: #282725;
   color: #ffffff;
   font-size: 9pt;
-  margin-top: 10px;
   text-align: right;
 }
 header .login-info .popover-menu {
@@ -204,7 +207,12 @@ header .login-info .popover-menu .admin-menu li:hover {
   background-color: #cccccc;
 }
 .main-content {
-  margin: 0px;
+  max-width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 97px;
 }
 .error {
   color: #ff0000;
@@ -248,4 +256,13 @@ header .login-info .popover-menu .admin-menu li:hover {
   color: #ffffff;
   margin: 0 0 16px 0;
   width: 100%;
+}
+.left-pane {
+  background-color: #aaaaaa;
+  height: 100%;
+  overflow: auto;
+}
+.right-pane {
+  height: 100%;
+  overflow: auto;
 }

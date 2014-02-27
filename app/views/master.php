@@ -20,7 +20,7 @@
 <body>
 	<header ng-controller="NavigationController" ng-cloak navigation-template></header>
 
-    <div class="main-content" ng-view></div>
+    <div class="main-content row" ng-view></div>
 
     <footer></footer>
 

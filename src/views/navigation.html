@@ -19,18 +19,19 @@
 		</button>
 		<a href="/" class="navbar-brand">ContentLaunch</a>
 	</div>-->
+	<div class="login-info" ng-if="showNav()">
+		<div class="popover-menu admin-menu" menu-popover menu-items="adminMenu" data-placement="bottom" data-trigger="hover" data-menu="true">
+			<span class="glyphicon glyphicon-cog"></span>
+			Admin Settings
+		</div>
+		<div class="popover-menu user-menu" menu-popover menu-items="userMenu" data-placement="bottom" data-trigger="hover" data-menu="true">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ formatUserName() }}
+		</div>
+	</div>
 </nav>
 
-<div class="login-info" ng-if="showNav()">
-	<div class="popover-menu admin-menu" menu-popover menu-items="adminMenu" data-placement="bottom" data-trigger="hover" data-menu="true">
-		<span class="glyphicon glyphicon-cog"></span>
-		Admin Settings
-	</div>
-	<div class="popover-menu user-menu" menu-popover menu-items="userMenu" data-placement="bottom" data-trigger="hover" data-menu="true">
-		<span class="glyphicon glyphicon-user"></span>
-		{{ formatUserName() }}
-	</div>
-</div>
+
 
 <script type="text/ng-template" id="popover-menu.html">
 	<ul class="admin-menu">

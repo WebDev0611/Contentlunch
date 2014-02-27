@@ -1,11 +1,15 @@
 @import 'variables.less';
 @import 'mixins.less';
 
+html, body {
+	height: 100%;
+}
+
 body {
   background: @background-color;
   color: @text-color;
   font-family: Lato, sans-serif;
-  padding-top: 70px;
+  min-height: 100%;
 
 }
 
@@ -144,7 +148,6 @@ header {
 		background-color: #282725;
 		color: #ffffff;
 		font-size: 9pt;
-		margin-top: 10px;
 		text-align: right;
 
 		.popover-menu {
@@ -182,8 +185,12 @@ header {
 }
 
 .main-content {
-	margin: 0px;
-
+	max-width: 100%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 97px;
 }
 
 .error {
@@ -234,4 +241,15 @@ header {
 		margin: 0 0 16px 0;
 		width: 100%;
 	}
+}
+
+.left-pane {
+	background-color: @leftPaneColor;
+	height: 100%;
+	overflow: auto;
+}
+
+.right-pane {
+	height: 100%;
+	overflow: auto;
 }

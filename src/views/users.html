@@ -1,5 +1,13 @@
-﻿<h3 ng-bind="title"></h3>
+﻿
+<div class="col-md-3 left-pane">
+	LEFT<br/>
+	SIDE<br/>
+	CONTENT<br/>
+</div>
+<div class="col-md-9 right-pane">
+	<h3 ng-bind="title"></h3>
 
-<div ng-repeat="user in users">
-  {{ user.id }} - {{ user.email }}
+	<div ng-repeat="user in users">
+		{{ user.id }} - {{ user.email }}
+	</div>
 </div>
