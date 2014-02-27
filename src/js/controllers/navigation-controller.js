@@ -11,6 +11,17 @@
 			$scope.init = function() {
 				$scope.menu = getNavigationItems();
 				$scope.user = authService.userInfo();
+
+				$scope.adminMenu = [
+					{ text: 'Account Settings', cssClass: 'glyphicon-cog', url: '/accounts' },
+					{ text: 'Users', cssClass: 'glyphicon-user', url: '/users' },
+					{ text: 'User Roles', cssClass: 'glyphicon-lock', url: '/roles' }
+				];
+
+				$scope.userMenu = [
+					{ text: 'My Account', cssClass: 'glyphicon-user', url: '/user' },
+					{ text: 'Logout', cssClass: 'glyphicon-log-out', url: '/login' }
+				];
 			};
 
 			$scope.navigate = function(url) {
@@ -51,17 +62,6 @@
 					items.push({ title: 'launch', url: '/launch', active: '' });
 					items.push({ title: 'measure', url: '/measure', active: '' });
 				}
-
-				$scope.adminMenu = [
-					{ text: 'Account Settings', cssClass: 'glyphicon-cog', url: '/accounts' },
-					{ text: 'Users', cssClass: 'glyphicon-user', url: '/users' },
-					{ text: 'User Roles', cssClass: 'glyphicon-lock', url: '/roles' }
-				];
-
-				$scope.userMenu = [
-					{ text: 'My Account', cssClass: 'glyphicon-user', url: '/user' },
-					{ text: 'Logout', cssClass: 'glyphicon-log-out', url: '/login' }
-				];
 
 				return items;
 			}

@@ -6,17 +6,17 @@
 
 	<div class="control-and-label">
 		<div class="error" ng-show="!!emailError" ng-bind="emailError"></div>
-		<input id="email" name="email" type="text" ng-model="user.email" ng-change="validateLogin(user)" placeholder="Email Address" />
+		<input id="email" name="email" type="text" ng-model="user.email" ng-change="validateLogin(user)" placeholder="Email Address" ng-keypress="login($event, user)" />
 	</div>
 	<div class="control-and-label">
 		<div class="error" ng-show="!!passwordError" ng-bind="passwordError"></div>
-		<input id="password" name="password" type="password" ng-model="user.password" ng-change="validateLogin(user)" placeholder="Password" />
+		<input id="password" name="password" type="password" ng-model="user.password" ng-change="validateLogin(user)" placeholder="Password" ng-keypress="login($event, user)" />
 	</div>
 	<div class="control-and-label">
 		<input id="remember" name="remember" type="checkbox" ng-model="user.remember" />
 		<label for="remember">Remember Me</label>
 	</div>
 
-	<button type="button" class="btn btn-default" ng-click="login(user)">Login</button>
+	<button type="button" class="btn btn-default" ng-click="login($event, user)">Login</button>
 	<a href="#">Forgot Password</a>
 </form>

@@ -26,7 +26,11 @@ launch.module.controller('LoginController', [
 			return (launch.utils.isBlank($scope.emailError) && launch.utils.isBlank($scope.passwordError));
 		};
 
-		$scope.login = function(user) {
+		$scope.login = function (e, user) {
+			if (e.type === 'keypress' && e.charCode !== 13) {
+				return;
+			}
+
 			if (!$scope.validateLogin(user)) {
 				return;
 			}
@@ -34,8 +38,6 @@ launch.module.controller('LoginController', [
 			authService.login($scope.user.email, $scope.user.password, $scope.user.remember, {
 				success: function(r) {
 					$scope.flash = null;
-					//launch.user = r.user;
-					//launch.token = launch.user.confirmation_code;
 					$location.path('/');
 				},
 				error: function(r) {
