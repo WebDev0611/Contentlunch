@@ -21,7 +21,6 @@ launch.module.factory('AuthService', function ($resource, $sanitize, SessionServ
 				password: $sanitize(password),
 				remember: remember
 			}, function (resource) {
-console.log(resource);
 				var user = {
           id: resource.id,
 					confirmed: resource.confirmed,
@@ -60,6 +59,9 @@ console.log(resource);
 		},
 		userInfo: function() {
 			return this.isLoggedIn() ? JSON.parse(SessionService.get('user')) : { };
-		}
+		},
+    getCurrentUser: function (callback) {
+      return $resource('/api/auth').get(callback);
+    }
 	};
 });
