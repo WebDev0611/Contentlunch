@@ -258,11 +258,13 @@ header .login-info .popover-menu .admin-menu li:hover {
   width: 100%;
 }
 .left-pane {
-  background-color: #aaaaaa;
+  background-color: #cccccc;
   height: 100%;
+  padding: 8px;
   overflow: auto;
 }
 .right-pane {
   height: 100%;
+  padding: 8px;
   overflow: auto;
 }
