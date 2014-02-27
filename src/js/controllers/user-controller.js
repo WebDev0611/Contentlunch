@@ -6,9 +6,7 @@ launch.module.controller('UserController', [
 
 		var info = AuthService.userInfo();
 
-		UserService.get({ id: info.id }, function (user) {
-			$scope.user = user;
-		});
+		$scope.user = UserService.get({ id: info.id });
 
 		AuthService.getCurrentUser(function (user) {
 			$scope.serverUser = user;

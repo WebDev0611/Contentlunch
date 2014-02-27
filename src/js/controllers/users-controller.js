@@ -3,6 +3,7 @@ launch.module.controller('UsersController', [
 		$scope.title = 'This is the users page controller';
 		$scope.users = [];
 
-		$scope.users = UserService.get($scope.users);
+		//$scope.users = UserService.get($scope.users);
+    $scope.users = UserService.query();
 	}
 ]);

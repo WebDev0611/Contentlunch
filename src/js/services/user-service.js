@@ -14,7 +14,7 @@ launch.module.factory('UserService', function ($resource) {
 				return users;
 			}
 
-			if ($.isObject(dto)) {
+			if ($.isPlainObject(dto)) {
 				return map.fromDto(dto);
 			}
 
@@ -49,6 +49,7 @@ launch.module.factory('UserService', function ($resource) {
 	};
 
 	var resource = $resource('/api/user/:id', { id: '@id' }, {
+    get: { method: 'GET', transformResponse: map.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: map.parseResponse }
 	});
 
@@ -75,9 +76,11 @@ launch.module.factory('UserService', function ($resource) {
 	};
 
 	return {
-		query: function(params) { },
-		get: function () {
-			return resource.query();
+		query: function(params) {
+      return resource.query(params);
+    },
+		get: function (params) {
+			return resource.get(params);
 		}
 	};
 });
