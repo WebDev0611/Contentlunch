@@ -21,7 +21,17 @@ launch.module.factory('AuthService', function ($resource, $sanitize, SessionServ
 				password: $sanitize(password),
 				remember: remember
 			}, function (resource) {
-				cacheSession(resource.user);
+				var user = {
+					confirmed: resource.confirmed,
+					created_at: resource.created_at,
+					email: resource.email,
+					first_name: resource.first_name,
+					last_name: resource.last_name,
+					updated_at: resource.updated_at,
+					username: resource.username
+				};
+
+				cacheSession(user);
 
 				if (!!callbacks && $.isFunction(callbacks.success)) {
 					callbacks.success(resource);
