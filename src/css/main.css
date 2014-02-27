@@ -221,13 +221,40 @@ header .login-info .popover-menu .admin-menu li:hover {
 .control-and-label {
   margin: 16px 0;
 }
-.launch-icon {
-  background-image: url(/assets/images/launch.svg);
-  background-size: 40px;
+span[class^="icon-"],
+span[class*=" icon-"] {
   background-repeat: no-repeat;
+  -moz-background-size: 16px;
+  -o-background-size: 16px;
+  background-size: 16px;
   display: inline-block;
-  height: 40px;
-  width: 40px;
+  height: 16px;
+  width: 16px;
+}
+span[class^="icon-"].dark,
+span[class*=" icon-"].dark {
+  color: #000000;
+}
+.icon-home {
+  background-image: url(/assets/images/home.svg);
+}
+.icon-consult {
+  background-image: url(/assets/images/consult.svg);
+}
+.icon-create {
+  background-image: url(/assets/images/create.svg);
+}
+.icon-collaborate {
+  background-image: url(/assets/images/collaborate.svg);
+}
+.icon-calendar {
+  background-image: url(/assets/images/calendar.svg);
+}
+.icon-measure {
+  background-image: url(/assets/images/measure.svg);
+}
+.icon-launch {
+  background-image: url(/assets/images/launch.svg);
 }
 #login-form {
   background-color: #10699d;
@@ -257,6 +284,13 @@ header .login-info .popover-menu .admin-menu li:hover {
   margin: 0 0 16px 0;
   width: 100%;
 }
+#login-form .icon-launch {
+  -moz-background-size: 40px;
+  -o-background-size: 40px;
+  background-size: 40px;
+  height: 40px;
+  width: 40px;
+}
 .left-pane {
   background-color: #cccccc;
   height: 100%;
@@ -267,4 +301,33 @@ header .login-info .popover-menu .admin-menu li:hover {
   height: 100%;
   padding: 8px;
   overflow: auto;
+}
+.view {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.users .left-pane .btn-group {
+  margin-bottom: 12px;
+  width: 100%;
+}
+.users .left-pane .btn-group .btn-create-user {
+  background-color: #000000;
+  color: #ffffff;
+  width: 100%;
+}
+.users .left-pane .btn-group .btn-create-user .glyphicon {
+  margin-right: 8px;
+}
+.users .left-pane hr {
+  border-color: #000000;
+  margin-top: 10px;
+}
+.users .left-pane ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.users .left-pane ul li:hover {
+  background-color: #eeeeee;
 }

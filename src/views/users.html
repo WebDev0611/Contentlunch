@@ -1,13 +1,35 @@
 ﻿
-<div class="col-md-3 left-pane">
-	LEFT<br/>
-	SIDE<br/>
-	CONTENT<br/>
-</div>
-<div class="col-md-9 right-pane">
-	<h3 ng-bind="title"></h3>
+<div class="view users">
+	<div class="col-md-3 left-pane">
+		<div class="btn-group">
+			<button class="btn btn-default btn-create-user">
+				<span class="glyphicon glyphicon-user"></span>
+				CREATE NEW USER
+			</button>
+		</div>
 
-	<div ng-repeat="user in users">
-		{{ user.id }} - {{ user.email }}
+		<div class="input-group">
+			<input type="text" class="form-control">
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="button">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+			</span>
+		</div>
+		
+		<hr/>
+
+		<ul>
+			<li ng-repeat="user in users">
+				{{ user.formatName() }}<br/>
+			</li>
+		</ul>
+	</div>
+	<div class="col-md-9 right-pane">
+		<h3 ng-bind="title"></h3>
+
+		<div ng-repeat="user in users">
+			{{ user.id }} - {{ user.email }}
+		</div>
 	</div>
 </div>

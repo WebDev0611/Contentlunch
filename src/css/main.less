@@ -202,13 +202,46 @@ header {
 	margin: 16px 0;
 }
 
-.launch-icon {
-	background-image: url(/assets/images/launch.svg);
-	background-size: 40px;
+span[class^="icon-"], span[class*=" icon-"] {
 	background-repeat: no-repeat;
+	-moz-background-size: 16px;
+	-o-background-size: 16px;
+	background-size: 16px;
 	display: inline-block;
-	height: 40px;
-	width: 40px;
+	height: 16px;
+	width: 16px;
+
+	&.dark {
+		color: #000000;
+	}
+}
+
+.icon-home {
+	background-image: url(/assets/images/home.svg);
+}
+
+.icon-consult {
+	background-image: url(/assets/images/consult.svg);
+}
+
+.icon-create {
+	background-image: url(/assets/images/create.svg);
+}
+
+.icon-collaborate {
+	background-image: url(/assets/images/collaborate.svg);
+}
+
+.icon-calendar {
+	background-image: url(/assets/images/calendar.svg);
+}
+
+.icon-measure {
+	background-image: url(/assets/images/measure.svg);
+}
+
+.icon-launch {
+	background-image: url(/assets/images/launch.svg);
 }
 
 #login-form {
@@ -241,6 +274,14 @@ header {
 		margin: 0 0 16px 0;
 		width: 100%;
 	}
+
+	.icon-launch {
+		-moz-background-size: 40px;
+		-o-background-size: 40px;
+		background-size: 40px;
+		height: 40px;
+		width: 40px;
+	}
 }
 
 .left-pane {
@@ -254,4 +295,44 @@ header {
 	height: 100%;
 	padding: 8px;
 	overflow: auto;
+}
+
+.view {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.users {
+	.left-pane {
+		.btn-group {
+			margin-bottom: 12px;
+			width: 100%;
+
+			.btn-create-user {
+				background-color: #000000;
+				color: #ffffff;
+				width: 100%;
+
+				.glyphicon {
+					margin-right: 8px;
+				}
+			}
+		}
+
+		hr {
+			border-color: #000000;
+			margin-top: 10px;
+		}
+
+		ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+
+			li:hover {
+				background-color: #eeeeee;
+			}
+		}
+	}
 }
