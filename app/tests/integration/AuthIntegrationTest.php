@@ -50,17 +50,32 @@ class AuthIntegrationTest extends TestCase {
 		$this->assertEquals('test@mail.net', $user->email);
 	}
 
-	public function testGetCurrentUserAuth()
+	public function testLoginDirectCurrentUserAuth()
 	{
 		// Log the user in
 		$attempt = Confide::logAttempt(array(
 			'email' => 'test@mail.net',
-			'password' => 'password'
+			'password' => 'password',
+			'remember' => 1
 		));
 		$user = Confide::user();
 		$ctrl = new AuthController;
 		$response = $ctrl->callAction('show_current', array($user->id));
 		$data = json_decode($response);
+		$this->assertEquals('test@mail.net', $user->email);
+		$this->assertObjectNotHasAttribute('password', $user);
+	}
+
+	public function testUserCanLoginAndCurrentUserAuth()
+	{
+		// Log the user in
+		$response = $this->call('POST', '/api/auth', array(
+			'email' => 'test@mail.net',
+			'password' => 'password'
+		));
+		// Get current user
+		$response = $this->call('GET', '/api/auth');
+		$user = json_decode($response->getContent());
 		$this->assertEquals('test@mail.net', $user->email);
 		$this->assertObjectNotHasAttribute('password', $user);
 	}

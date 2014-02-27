@@ -9,11 +9,10 @@ class AuthController extends BaseController {
      * @return [type] [description]
      */
     public function show_current()
-    {
-        
+    {   
         if ($user = Confide::user()) {
             $ctrl = new UserController;
-            $ctrl->callAction('show', array($user->id));
+            return $ctrl->callAction('show', array($user->id));
         }
         return Response::json(array('name' => 'guest'));
     }
