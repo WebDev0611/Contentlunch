@@ -1,28 +1,28 @@
 
-launch.module.factory('AuthService', function ($resource, $sanitize, SessionService) {
-	var cacheSession = function (user) {
+launch.module.factory('AuthService', function($resource, $sanitize, SessionService) {
+	var cacheSession = function(user) {
 		SessionService.set('authenticated', true);
 		SessionService.set('user', JSON.stringify(user));
 	};
 
-	var uncacheSession = function () {
+	var uncacheSession = function() {
 		SessionService.unset('authenticated');
 		SessionService.unset('user');
 	};
 
-	var loginError = function (response) {
-		
+	var loginError = function(response) {
+
 	};
 
 	return {
-		login: function (username, password, remember, callbacks) {
+		login: function(username, password, remember, callbacks) {
 			var login = $resource('/api/auth/').save({
 				email: $sanitize(username),
 				password: $sanitize(password),
 				remember: remember
-			}, function (resource) {
+			}, function(resource) {
 				var user = {
-          id: resource.id,
+					id: resource.id,
 					confirmed: resource.confirmed,
 					created_at: resource.created_at,
 					email: resource.email,
@@ -37,7 +37,7 @@ launch.module.factory('AuthService', function ($resource, $sanitize, SessionServ
 				if (!!callbacks && $.isFunction(callbacks.success)) {
 					callbacks.success(resource);
 				}
-			}, function (resource) {
+			}, function(resource) {
 				loginError(resource);
 
 				if (!!callbacks && $.isFunction(callbacks.error)) {
@@ -47,21 +47,21 @@ launch.module.factory('AuthService', function ($resource, $sanitize, SessionServ
 
 			return login;
 		},
-		logout: function () {
-			var logout = $resource('/api/auth/logout').get(function (r) {
+		logout: function() {
+			var logout = $resource('/api/auth/logout').get(function(r) {
 				uncacheSession();
 			});
 
 			return logout;
 		},
-		isLoggedIn: function () {
+		isLoggedIn: function() {
 			return Boolean(SessionService.get('authenticated'));
 		},
 		userInfo: function() {
 			return this.isLoggedIn() ? JSON.parse(SessionService.get('user')) : { };
 		},
-    getCurrentUser: function (callback) {
-      return $resource('/api/auth').get(callback);
-    }
+		getCurrentUser: function (callback) {
+			return $resource('/api/auth').get(callback);
+		}
 	};
 });
