@@ -21,7 +21,9 @@ launch.module.factory('AuthService', function ($resource, $sanitize, SessionServ
 				password: $sanitize(password),
 				remember: remember
 			}, function (resource) {
+console.log(resource);
 				var user = {
+          id: resource.id,
 					confirmed: resource.confirmed,
 					created_at: resource.created_at,
 					email: resource.email,
