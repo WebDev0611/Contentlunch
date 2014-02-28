@@ -21,7 +21,11 @@
 
 		<ul>
 			<li ng-repeat="user in users">
-				{{ user.formatName() }}<br/>
+				<div class="user-image" ng-style="{ 'background-image': user.imageUrl() }"></div>
+				<div class="user-info">
+					<span class="user-name">{{ user.formatName() }}</span><br/>
+					{{ user.role }}
+				</div>
 			</li>
 		</ul>
 	</div>

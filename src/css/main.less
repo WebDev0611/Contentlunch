@@ -330,8 +330,38 @@ span[class^="icon-"], span[class*=" icon-"] {
 			margin: 0;
 			padding: 0;
 
-			li:hover {
-				background-color: #eeeeee;
+			li {
+				cursor: pointer;
+				padding: 8px;
+				position: relative;
+
+				&:hover, &.selected {
+					background-color: #eeeeee;
+				}
+
+				.user-image {
+					background: #000000 url("../images/user.png") no-repeat;
+					background-position-x: center;
+					background-position-y: top;
+					background-size: 40px;
+					-moz-background-size: 40px;
+					-o-background-size: 40px;
+					border: solid 2px #ffffff;
+					border-radius: 50%;
+					display: inline-block;
+					height: 40px;
+					width: 40px;
+					left: 8px;
+					position: absolute;
+				}
+
+				.user-info {
+					margin-left: 52px;
+
+					.user-name {
+						font-size: 12pt;
+					}
+				}
 			}
 		}
 	}
