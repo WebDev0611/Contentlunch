@@ -1,7 +1,7 @@
 
 launch.module.factory('UserService', function($resource) {
 	var map = {
-		parseResponse: function(r, a, b, c) {
+		parseResponse: function(r, getHeaders) {
 			var dto = JSON.parse(r);
 
 			if ($.isArray(dto)) {
@@ -75,17 +75,23 @@ launch.module.factory('UserService', function($resource) {
 		};
 
 		self.hasImage = function() { return !launch.utils.isBlank(self.image); };
-		self.imageUrl = function () { return self.hasImage() ? 'url(\'' + self.image + '\')' : null; };
+		self.imageUrl = function() { return self.hasImage() ? 'url(\'' + self.image + '\')' : null; };
 
 		return self;
 	};
 
 	return {
-		query: function(params) {
-			return resource.query(params);
+		query: function(params, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return resource.query(params, success, error);
 		},
-		get: function(params) {
-			return resource.get(params);
+		get: function(params, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return resource.get(params, success, error);
 		}
 	};
 });

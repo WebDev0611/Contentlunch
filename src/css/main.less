@@ -148,12 +148,19 @@ header {
 		background-color: #282725;
 		color: #ffffff;
 		font-size: 9pt;
+		height: 20px;
+		margin: 0;
+		padding: 0;
 		text-align: right;
+		vertical-align: middle;
 
 		.popover-menu {
 			cursor: pointer;
 			display: inline-block;
+			height: 20px;
 			margin: 0 16px 0 8px;
+			padding: 0;
+			vertical-align: text-top;
 
 			&.user-menu {
 				margin-right: 96px;
@@ -292,6 +299,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 }
 
 .right-pane {
+	background-color: @rightPaneColor;
 	height: 100%;
 	padding: 8px;
 	overflow: auto;
@@ -303,8 +311,26 @@ span[class^="icon-"], span[class*=" icon-"] {
 	padding: 0;
 }
 
+.user-image {
+	background: #000000 url("../images/user.svg") no-repeat;
+	background-position-x: center;
+	background-position-y: top;
+	background-size: 40px;
+	-moz-background-size: 40px;
+	-o-background-size: 40px;
+	border: solid 2px #ffffff;
+	border-radius: 50%;
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	left: 8px;
+	position: absolute;
+}
+
 .users {
 	.left-pane {
+		position: relative;
+
 		.btn-group {
 			margin-bottom: 12px;
 			width: 100%;
@@ -325,7 +351,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 			margin-top: 10px;
 		}
 
-		ul {
+		ul.users-list {
 			list-style: none;
 			margin: 0;
 			padding: 0;
@@ -339,27 +365,34 @@ span[class^="icon-"], span[class*=" icon-"] {
 					background-color: #eeeeee;
 				}
 
-				.user-image {
-					background: #000000 url("../images/user.png") no-repeat;
-					background-position-x: center;
-					background-position-y: top;
-					background-size: 40px;
-					-moz-background-size: 40px;
-					-o-background-size: 40px;
-					border: solid 2px #ffffff;
-					border-radius: 50%;
-					display: inline-block;
-					height: 40px;
-					width: 40px;
-					left: 8px;
-					position: absolute;
-				}
-
 				.user-info {
 					margin-left: 52px;
+					font-size: 8pt;
 
 					.user-name {
 						font-size: 12pt;
+					}
+				}
+			}
+		}
+
+		.users-pager {
+			ul.pagination {
+				display: block;
+
+				li {
+					a {
+						background-color: transparent;
+						border-color: @text-color;
+						border-radius: 0 !important;
+						color: @text-color;
+						cursor: pointer;
+						margin: 0 4px;
+					}
+
+					&.active a {
+						background-color: @text-color;
+						color: #ffffff;
 					}
 				}
 			}

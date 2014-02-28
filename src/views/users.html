@@ -1,6 +1,6 @@
 ﻿
 <div class="view users">
-	<div class="col-md-3 left-pane">
+	<div class="col-md-2 left-pane">
 		<div class="btn-group">
 			<button class="btn btn-default btn-create-user">
 				<span class="glyphicon glyphicon-user"></span>
@@ -19,8 +19,14 @@
 		
 		<hr/>
 
-		<ul>
-			<li ng-repeat="user in users">
+		<div class="btn-group btn-group-justified">
+			<a class="btn btn-default" ng-class="{ active: search.userStatus === 'active' }" ng-click="search.toggleStatus('active')">Active</a>
+			<a class="btn btn-default" ng-class="{ active: search.userStatus === 'inactive' }" ng-click="search.toggleStatus('inactive')">Inactive</a>
+			<a class="btn btn-default" ng-class="{ active: search.userStatus === 'all' }" ng-click="search.toggleStatus('all')">All</a>
+		</div>
+
+		<ul class="users-list">
+			<li ng-repeat="user in getPagedUsers()">
 				<div class="user-image" ng-style="{ 'background-image': user.imageUrl() }"></div>
 				<div class="user-info">
 					<span class="user-name">{{ user.formatName() }}</span><br/>
@@ -28,8 +34,20 @@
 				</div>
 			</li>
 		</ul>
+		
+		<div class="users-pager" ng-show="pagination.showPager() === true">
+			<hr/>
+
+			<pagination
+				total-items="pagination.totalItems"
+				items-per-page="pagination.pageSize"
+				page="pagination.currentPage"
+				on-select-page="pagination.onPageChange(page)"
+				direction-links="false"
+				num-pages="smallnumPages"></pagination>
+		</div>
 	</div>
-	<div class="col-md-9 right-pane">
+	<div class="col-md-10 right-pane">
 		<h3 ng-bind="title"></h3>
 
 		<div ng-repeat="user in users">
