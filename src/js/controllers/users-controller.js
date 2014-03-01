@@ -1,11 +1,13 @@
 launch.module.controller('UsersController', [
-	'$scope', '$location', 'UserService', function($scope, $location, UserService) {
+	'$scope', '$location', '$filter', 'UserService', function ($scope, $location, $filter, UserService) {
 		$scope.title = 'This is the users page controller';
 		$scope.users = [];
+		$scope.filteredUsers = [];
 
 		$scope.search = {
 			searchTerm: null,
-			userStatus: 'all',
+			searchTermMinLength: 1,
+			userStatus: 'active',
 			toggleStatus: function(status) {
 				this.userStatus = status;
 			}
@@ -13,39 +15,38 @@ launch.module.controller('UsersController', [
 
 		$scope.pagination = {
 			totalItems: 0,
-			pageSize: 3,
+			pageSize: 2,
 			currentPage: 1,
 			currentSort: null,
 			currentSortDirection: 'ASC',
-			onPageChange: function(page) {
+			onPageChange: function (page) {
 				// IF WE WANT TO PAGE FROM THE SERVER, ENTER THAT CODE AND
 				// REMOVE THE getPagedUsers FUNCTION BELOW. ALSO, WE'LL NEED
 				// TO TWEAK THE WHAT THAT pagination.totalItems IS CALCULATED
 				// SUCH THAT THIS VALUE COMES BACK IN THE JSON RESPONSE.
 			},
-			showPager: function() {
+			showPager: function () {
 				return (this.totalItems > this.pageSize);
 			}
 		};
 
 		$scope.users = UserService.query(null, {
-			success: function(users) {
-				$scope.pagination.totalItems = ($.isArray(users)) ? users.length : 0;
+			success: function (users) {
+				$scope.pagination.totalItems = $scope.users.length;
 			}
 		});
 
-		$scope.getPagedUsers = function() {
-			if (!$scope.pagination.showPager()) {
-				return $scope.users;
+		$scope.applyFilter = function (user) {
+			if (!launch.utils.isBlank($scope.search.searchTerm) && $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
+				return  (launch.utils.isBlank($scope.search.searchTerm) ? true : user.matchSearchTerm($scope.search.searchTerm));
 			}
 
-			var index = (($scope.pagination.currentPage - 1) * $scope.pagination.pageSize);
-			var length = ($scope.pagination.pageSize * $scope.pagination.currentPage);
-			var newArray = $.grep($scope.users, function(user, i) {
-				return (i >= index && i < length);
-			});
-
-			return newArray;
+			return true;
 		};
+
+		$scope.$watch('search.searchTerm', function () {
+			if (!launch.utils.isBlank($scope.search.searchTerm) && $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
+			}
+		}, true);
 	}
 ]);

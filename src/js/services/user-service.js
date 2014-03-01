@@ -74,6 +74,15 @@ launch.module.factory('UserService', function($resource) {
 			return self.id;
 		};
 
+		self.matchSearchTerm = function(term) {
+			if (launch.utils.startsWith(self.userName, term) || launch.utils.startsWith(self.firstName, term) ||
+				launch.utils.startsWith(self.lastName, term) || launch.utils.startsWith(self.email, term)) {
+				return true;
+			}
+
+			return false;
+		};
+
 		self.hasImage = function() { return !launch.utils.isBlank(self.image); };
 		self.imageUrl = function() { return self.hasImage() ? 'url(\'' + self.image + '\')' : null; };
 

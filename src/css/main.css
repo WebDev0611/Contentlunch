@@ -345,6 +345,10 @@ span[class*=" icon-"].dark {
 .users .left-pane .btn-group .btn-create-user .glyphicon {
   margin-right: 8px;
 }
+.users .left-pane .btn-group.btn-group-user-filter .btn.active {
+  background-color: #000000;
+  color: #ffffff;
+}
 .users .left-pane hr {
   border-color: #000000;
   margin-top: 10px;
