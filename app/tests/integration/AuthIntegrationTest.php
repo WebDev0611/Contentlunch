@@ -5,28 +5,6 @@
  */
 class AuthIntegrationTest extends TestCase {
 
-	// test user
-	protected $testUser;
-
-	public function setUp()
-	{
-		parent::setUp();
-		DB::table('users')->delete();
-		// Add test user to db
-		$user = new User;
-		$user->username = 'test';
-		$user->email = 'test@mail.net';
-		$user->password = $user->password_confirmation = 'password';
-		//$user->password = 'password';
-		$user->created_at = $user->updated_at = time();
-		$user->first_name = 'First';
-		$user->last_name = 'Last';
-		$user->confirmed = 1;
-		$user->confirmation_code = '12345';
-		$user->save();
-		$this->testUser = $user;
-	}
-
 	public function testCurrentUserGuest()
 	{
 		// Call the service that returns the current loggedin user
@@ -34,50 +12,92 @@ class AuthIntegrationTest extends TestCase {
 		$response = $this->call('GET', '/api/auth');
 		$this->assertResponseOk();
 		$user = json_decode($response->getContent());
-		$this->assertEquals('guest', $user->name);
+		$this->assertEquals('guest', $user->username);
 	}
 
-	public function testUserCanLogin()
+	public function testLoginSuccessReturnsUserObject()
 	{
+		$this->setupTestUsers();
+		$this->setupTestRoles();
+		$this->setupAttachUserToRole(1, 1);
+		$expect = $this->getTestUsers(1);
+		$expect['roles'] = array(1 => 'Admin');
 		// Log the user in
 		$response = $this->call('POST', '/api/auth', array(
-			'email' => 'test@mail.net',
+			'email' => $expect['email'],
 			'password' => 'password'
 		));
-		$this->assertResponseOk();
+		$this->assertResponseOk("Can't login");
 		$user = json_decode($response->getContent());
-		$this->assertObjectNotHasAttribute('password', $user);
-		$this->assertEquals('test@mail.net', $user->email);
+		$this->assertUserFields($expect, $user);
 	}
 
 	public function testLoginDirectCurrentUserAuth()
 	{
+		$this->setupTestUsers();
+		$this->setupTestRoles();
+		$this->setupAttachUserToRole(1, 1);
+		$this->setupAttachUserToRole(1, 2);
+		$expect = $this->getTestUsers(1);
+		$expect['roles'] = array(1 => 'Admin', 2 => 'Editor');
 		// Log the user in
 		$attempt = Confide::logAttempt(array(
-			'email' => 'test@mail.net',
+			'email' => $expect['email'],
 			'password' => 'password',
 			'remember' => 1
 		));
 		$user = Confide::user();
 		$ctrl = new AuthController;
 		$response = $ctrl->callAction('show_current', array($user->id));
-		$data = json_decode($response);
-		$this->assertEquals('test@mail.net', $user->email);
-		$this->assertObjectNotHasAttribute('password', $user);
+		$data = json_decode($response->getContent());
+		$this->assertUserFields($expect, $data);
 	}
 
-	public function testUserCanLoginAndCurrentUserAuth()
+	public function testUserCanLoginAndGetCurrentUserAuth()
 	{
+		$this->setupTestUsers();
+		$this->setupTestRoles();
+		$this->setupAttachUserToRole(1, 1);
+		$expect = $this->getTestUsers(1);
+		$expect['roles'] = array(1 => 'Admin');
 		// Log the user in
 		$response = $this->call('POST', '/api/auth', array(
-			'email' => 'test@mail.net',
+			'email' => $expect['email'],
 			'password' => 'password'
 		));
-		// Get current user
+		// Get current user through api call
 		$response = $this->call('GET', '/api/auth');
 		$user = json_decode($response->getContent());
-		$this->assertEquals('test@mail.net', $user->email);
-		$this->assertObjectNotHasAttribute('password', $user);
+		$this->assertUserFields($expect, $user);
+	}
+
+	public function testLoginFailureReturns401()
+	{
+		$response = $this->call('POST', '/api/auth', array(
+			'email' => 'none@mail.net',
+			'password' => 'password'
+		));
+		$this->assertResponseStatus(401);
+	}
+
+	public function testUserCanLogout()
+	{
+		$this->setupTestUsers();
+		$expect = $this->getTestUsers(1);
+		$expect['roles'] = array();
+		// Log the user in
+		$response = $this->call('POST', '/api/auth', array(
+			'email' => $expect['email'],
+			'password' => 'password'
+		));
+		$this->assertResponseOk();
+		$response = $this->call('GET', '/api/auth/logout');
+		$this->assertResponseOk();
+		// Shouldn't be current user
+		$response = $this->call('GET', '/api/auth');
+		$this->assertResponseOk();
+		$user = json_decode($response->getContent());
+		$this->assertEquals('guest', $user->username);
 	}
 
 }

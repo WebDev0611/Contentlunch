@@ -14,7 +14,7 @@ class AuthController extends BaseController {
             $ctrl = new UserController;
             return $ctrl->callAction('show', array($user->id));
         }
-        return Response::json(array('name' => 'guest'));
+        return Response::json(array('username' => 'guest'));
     }
 
     public function store()
@@ -193,12 +193,9 @@ class AuthController extends BaseController {
     public function logout()
     {
         Confide::logout();
-
         return Response::json(array(
             'flash' => 'Logged out'
         ), 200);
-        
-        return Redirect::to('/');
     }
 
 }
