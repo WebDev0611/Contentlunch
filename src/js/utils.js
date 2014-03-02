@@ -15,5 +15,37 @@
 		}
 
 		return true;
+	},
+
+	startsWith: function (s1, s2) {
+		if (!this.isBlank(s1) && !this.isBlank(s2)) {
+			return (s1.toLowerCase().match('^' + s2.toLowerCase()) !== null);
+		}
+
+		return false;
+	},
+
+	endsWith: function (s1, s2) {
+		if (!this.isBlank(s1) && !this.isBlank(s2)) {
+			return (s1.toLowerCase().match(s2.toLowerCase() + '$') !== null);
+		}
+
+		return false;
+	},
+
+	isValidPattern: function (s, pattern) {
+		if (this.isBlank(s)) {
+			return false;
+		}
+
+		if (!(new RegExp(pattern).test(s))) {
+			return false;
+		}
+
+		return true;
+	},
+
+	isValidEmail: function (s) {
+		return this.isValidPattern(s, launch.config.EMAIL_ADDRESS_REGEX);
 	}
 };

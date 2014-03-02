@@ -11,7 +11,7 @@ launch.module.controller('LoginController', [
 		$scope.validateLogin = function(user) {
 			if (launch.utils.isBlank(user.email)) {
 				$scope.emailError = 'Please enter your email address.';
-			} else if (!user.email.match(launch.config.EMAIL_ADDRESS_REGEX)) {
+			} else if (!launch.utils.isValidEmail(user.email)) {
 				$scope.emailError = 'Please enter a valid email address.';
 			} else {
 				$scope.emailError = null;

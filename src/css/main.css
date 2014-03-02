@@ -178,12 +178,19 @@ header .login-info {
   background-color: #282725;
   color: #ffffff;
   font-size: 9pt;
+  height: 20px;
+  margin: 0;
+  padding: 0;
   text-align: right;
+  vertical-align: middle;
 }
 header .login-info .popover-menu {
   cursor: pointer;
   display: inline-block;
+  height: 20px;
   margin: 0 16px 0 8px;
+  padding: 0;
+  vertical-align: text-top;
 }
 header .login-info .popover-menu.user-menu {
   margin-right: 96px;
@@ -292,12 +299,13 @@ span[class*=" icon-"].dark {
   width: 40px;
 }
 .left-pane {
-  background-color: #cccccc;
+  background-color: #c4bfb5;
   height: 100%;
   padding: 8px;
   overflow: auto;
 }
 .right-pane {
+  background-color: #f2f0ec;
   height: 100%;
   padding: 8px;
   overflow: auto;
@@ -306,6 +314,24 @@ span[class*=" icon-"].dark {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+.user-image {
+  background: #000000 url("../images/user.svg") no-repeat;
+  background-position-x: center;
+  background-position-y: top;
+  background-size: 40px;
+  -moz-background-size: 40px;
+  -o-background-size: 40px;
+  border: solid 2px #ffffff;
+  border-radius: 50%;
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  left: 8px;
+  position: absolute;
+}
+.users .left-pane {
+  position: relative;
 }
 .users .left-pane .btn-group {
   margin-bottom: 12px;
@@ -319,15 +345,47 @@ span[class*=" icon-"].dark {
 .users .left-pane .btn-group .btn-create-user .glyphicon {
   margin-right: 8px;
 }
+.users .left-pane .btn-group.btn-group-user-filter .btn.active {
+  background-color: #000000;
+  color: #ffffff;
+}
 .users .left-pane hr {
   border-color: #000000;
   margin-top: 10px;
 }
-.users .left-pane ul {
+.users .left-pane ul.users-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.users .left-pane ul li:hover {
+.users .left-pane ul.users-list li {
+  cursor: pointer;
+  padding: 8px;
+  position: relative;
+}
+.users .left-pane ul.users-list li:hover,
+.users .left-pane ul.users-list li.selected {
   background-color: #eeeeee;
+}
+.users .left-pane ul.users-list li .user-info {
+  margin-left: 52px;
+  font-size: 8pt;
+}
+.users .left-pane ul.users-list li .user-info .user-name {
+  font-size: 12pt;
+}
+.users .left-pane .users-pager ul.pagination {
+  display: block;
+}
+.users .left-pane .users-pager ul.pagination li a {
+  background-color: transparent;
+  border-color: #000000;
+  border-radius: 0 !important;
+  color: #000000;
+  cursor: pointer;
+  margin: 0 4px;
+}
+.users .left-pane .users-pager ul.pagination li.active a {
+  background-color: #000000;
+  color: #ffffff;
 }

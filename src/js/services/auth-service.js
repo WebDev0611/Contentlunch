@@ -60,7 +60,7 @@ launch.module.factory('AuthService', function($resource, $sanitize, SessionServi
 		userInfo: function() {
 			return this.isLoggedIn() ? JSON.parse(SessionService.get('user')) : { };
 		},
-		getCurrentUser: function (callback) {
+		getCurrentUser: function(callback) {
 			return $resource('/api/auth').get(callback);
 		}
 	};

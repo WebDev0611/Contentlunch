@@ -73,4 +73,10 @@
 				});
 			}
 		]);
+
+	launch.module.filter('pageStart', function() {
+		return function(input, start) {
+			return input.splice(parseInt(start));
+		};
+	});
 })(window, angular);
