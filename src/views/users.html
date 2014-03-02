@@ -1,5 +1,4 @@
-﻿
-<div class="view users">
+﻿<div class="view users">
 	<div class="col-md-3 left-pane">
 		<div class="btn-group">
 			<button class="btn btn-default btn-create-user">
@@ -9,7 +8,7 @@
 		</div>
 
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" />
+			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="applyFilter()" />
 			<span class="input-group-addon">
 				<span class="glyphicon glyphicon-search"></span>
 			</span>
@@ -24,8 +23,7 @@
 		</div>
 
 		<ul class="users-list">
-			<!--<li ng-repeat="user in users | filter:applyFilter | pageStart:((pagination.currentPage - 1) * pagination.pageSize) | limitTo:pagination.pageSize">-->
-			<li ng-repeat="user in users | filter:applyFilter | pageStart:((pagination.currentPage - 1) * pagination.pageSize) | limitTo:pagination.pageSize">
+			<li ng-repeat="user in pagedUsers[pagination.currentPage - 1]">
 				<div class="user-image" ng-style="{ 'background-image': user.imageUrl() }"></div>
 				<div class="user-info">
 					<span class="user-name">{{ user.formatName() }}</span><br/>
