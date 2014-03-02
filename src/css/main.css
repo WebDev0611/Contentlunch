@@ -228,6 +228,9 @@ header .login-info .popover-menu .admin-menu li:hover {
 .control-and-label {
   margin: 16px 0;
 }
+label {
+  font-weight: normal;
+}
 span[class^="icon-"],
 span[class*=" icon-"] {
   background-repeat: no-repeat;
@@ -271,9 +274,18 @@ span[class*=" icon-"].dark {
   padding: 20px;
   width: 350px;
 }
-#login-form h3 {
+#login-form .header {
+  font-family: 'Lato-Light';
+  font-size: 20px;
   margin: 16px;
   text-align: center;
+}
+#login-form .header .content {
+  font-family: 'Lato-Light';
+  vertical-align: top;
+}
+#login-form .header .launch {
+  font-family: 'Lato-Black';
   vertical-align: top;
 }
 #login-form input[type="text"],
@@ -288,6 +300,7 @@ span[class*=" icon-"].dark {
   background-color: #000000;
   border: 0;
   color: #ffffff;
+  font-family: 'Lato-Bold';
   margin: 0 0 16px 0;
   width: 100%;
 }
