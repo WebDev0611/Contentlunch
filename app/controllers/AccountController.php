@@ -4,7 +4,8 @@ class AccountController extends BaseController {
 
 	public function index()
 	{
-		return Account::all();
+		$accounts = Account::all();
+		return Response::json($accounts->toArray(), 200);
 	}
 
 	public function store()
@@ -12,9 +13,11 @@ class AccountController extends BaseController {
 		$account = new Account;
 		if ($account->save())
 		{
-			return $account;
+			return Response::json($account->toArray(), 200);
 		}
-		return $account->errors();
+		return Response::json(array(
+			'errors' => $account->errors()->toArray()
+			), 401);
 	}
 
 	public function show($id)
@@ -27,9 +30,11 @@ class AccountController extends BaseController {
 		$account = Account::find($id);
 		if ($account->updateUniques())
 		{
-			return $account;
+			return Response::json($account->toArray(), 200);
 		}
-		return $account->errors();
+		return Response::json(array(
+			'errors' => $account->errors()->toArray()
+			), 401);
 	}
 
 	public function destroy($id)

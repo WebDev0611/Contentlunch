@@ -7,68 +7,84 @@
  */
 class AccountIntegrationTest extends TestCase {
 
-	/**
-	 * Test account id that gets seeded before each test
-	 * @var integer
-	 */
-	protected $surgeId;
-
-	/**
-	 * Setup runs before each test method
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-		// Start off clean
-		DB::table('accounts')->delete();
-		// Seed accounts table
-		$this->seed('AccountSeeder');
-		$this->surgeId = Account::where('title', 'Surge')->pluck('id');
-	}
-
 	public function testIndex() 
 	{
+		$this->setupTestAccounts();
 		$response = $this->call('GET', 'api/account');
 		$this->assertResponseOk();
 		$accounts = json_decode($response->getContent());
-		$this->assertEquals('Surge', $accounts[0]->title);
+		$expect = $this->getTestAccounts();
+		$this->assertAccountFields($expect[1], $accounts[0]);
+		$this->assertAccountFields($expect[1], $accounts[0]);
 	}
 
 	public function testStore()
 	{
+		$expect = $this->getTestAccounts(1);
 		$response = $this->call('POST', 'api/account', array(
-			'title' => 'New Account',
-			'active' => 1
+			'title' => $expect['title'],
+			'active' => $expect['active']
 		));
 		$account = json_decode($response->getContent());
-		$this->assertEquals('New Account', $account->title);
-		$this->assertNotEmpty($account->id);
+		$this->assertAccountFields($expect, $account);
+	}
+
+	public function testStoreFailValidationReturnsError()
+	{
+		$response = $this->call('POST', 'api/account', array(
+			'title' => '123', // Title should be longer
+		));
+		$return = json_decode($response->getContent());
+		$this->assertResponseStatus(401);
+		$this->assertNotEmpty($return->errors->title);
 	}
 
 	public function testShow()
 	{
-		$response = $this->call('GET', 'api/account/'. $this->surgeId);
+		$this->setupTestAccounts();
+		$expect = $this->getTestAccounts(1);
+		$response = $this->call('GET', 'api/account/'. $expect['id']);
 		$this->assertResponseOk();
 		$account = json_decode($response->getContent());
-		$this->assertEquals('Surge', $account->title);
+		$this->assertAccountFields($expect, $account);
 	}
 
 	public function testUpdate()
 	{
-		$response = $this->call('PUT', 'api/account/'. $this->surgeId, array('title' => 'Surge Foo'));
+		$this->setupTestAccounts();
+		$changes = array(
+			'title' => 'Foobar',
+			'active' => 0
+		);
+		$expect = array_merge($this->getTestAccounts(1), $changes);
+		$response = $this->call('PUT', 'api/account/'. $expect['id'], $changes);
 		$this->assertResponseOk();
 		$account = json_decode($response->getContent());
-		$this->assertEquals('Surge Foo', $account->title);
+		$this->assertAccountFields($expect, $account);
+	}
+
+	public function testUpdateFailValidationReturnsError()
+	{
+		$this->setupTestAccounts();
+		$expect = $this->getTestAccounts(1);
+		$response = $this->call('PUT', 'api/account/'. $expect['id'], array('title' => '123'));
+		$return = json_decode($response->getContent());
+		$this->assertResponseStatus(401);
+		$this->assertNotEmpty($return->errors->title);
 	}
 
 	public function testDestroy()
 	{
 		// @todo: Implement soft delete?
-		$response = $this->call('DELETE', 'api/account/'. $this->surgeId);
+		$this->setupTestAccounts();
+		$expect = $this->getTestAccounts(1);
+		$response = $this->call('DELETE', 'api/account/'. $expect['id']);
 		$this->assertResponseOk();
 		$response = json_decode($response->getContent());
 		// @todo: Determine a common response to use here
 		$this->assertEquals('OK', $response->success);
+		$id = DB::table('accounts')->where('id', $expect['id'])->pluck('id');
+		$this->assertEmpty($id);
 	}
 
 }

@@ -4,7 +4,7 @@ use LaravelBook\Ardent\Ardent;
 
 class Account extends Ardent {
 
-	// Hydrates from input on new entrie's validation
+	// Hydrates from input on new entry's validation
 	public $autoHydrateEntityFromInput = true;
 	// Hydrates from input whenver validation is called
 	public $forceEntityHydrationFromInput = true;
@@ -32,7 +32,12 @@ class Account extends Ardent {
 	 * 
 	 * @var array
 	 */
-	protected $fillable = array('title');
+	protected $fillable = array('title', 'active');
+
+	protected function getDateFormat()
+  {
+    return 'Y-m-d H:i:s';
+  }
 
 	/**
 	 * Define relationship to another model.

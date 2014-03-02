@@ -32,8 +32,19 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     DB::table('assigned_roles')->delete();
     DB::table('users')->delete();
     DB::table('roles')->delete();
+    DB::table('accounts')->delete();
   }
 
+  /**
+   * Seed test accounts in the db
+   */
+  protected function setupTestAccounts()
+  {
+    $accounts = $this->getTestAccounts();
+    foreach ($accounts as $account) {
+      DB::table('accounts')->insert($account);
+    }
+  }
 
   /**
    * Seed test users in the db
@@ -104,6 +115,30 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     return $users;
   }
 
+  protected function getTestAccounts($id = null)
+  {
+    $accounts = array(
+      1 => array(
+        'id' => 1,
+        'title' => 'Surge',
+        'active' => 1,
+        'created_at' => $this->now,
+        'updated_at' => $this->now
+      ),
+      2 => array(
+        'id' => 2,
+        'title' => 'Test Account',
+        'active' => 0,
+        'created_at' => $this->now,
+        'updated_at' => $this->now
+      )
+    );
+    if ($id) {
+      return $accounts[$id];
+    }
+    return $accounts;
+  }
+
 
 	/**
 	 * Creates the application.
@@ -129,12 +164,27 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
   }
 
   /**
-   * Assertion helper, check valid fields and match test data for users
-   * @param  array $testUser User to check against
-   * @param  object $user User object returned
-   * @param  array $fields Fields to check, or check all
+   * Assertion helper, check valid fields and match test data for accounts
+   * @param  array $expect Expected account
+   * @param  object $account Account object returned
    */
-  protected function assertUserFields($expect, $user) {
+  protected function assertAccountFields($expect, $account)
+  {
+    $err = 'Failed assertion in account object: ';
+    $this->assertEquals($expect['id'], $account->id, $err .' ->id');
+    $this->assertEquals($expect['title'], $account->title, $err .' ->title');
+    $this->assertEquals($expect['active'], $account->active, $err .' ->active');
+    $this->assertNotEmpty($account->created_at, $err .' ->created_at');
+    $this->assertNotEmpty($account->updated_at, $err .' ->updated_at');
+  }
+
+  /**
+   * Assertion helper, check valid fields and match test data for users
+   * @param  array $expect Expected user
+   * @param  object $user User object returned
+   */
+  protected function assertUserFields($expect, $user)
+  {
     $err = 'Failed assertion in User object: ';
     // Make sure required fields are set and match
     $this->assertEquals($expect['id'], $user->id, $err .' ->id');
