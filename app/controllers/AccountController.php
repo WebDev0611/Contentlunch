@@ -36,9 +36,9 @@ class AccountController extends BaseController {
 	{
 		$account = Account::find($id);
 		if ($account->delete()) {
-			return array('success' => 'OK');
+			return Response::json(array('success' => 'OK'), 200);
 		}
-		return 500;
+		return Response::json(array('message' => "Couldn't delete account"), 401);
 	}
 
 }
