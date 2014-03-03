@@ -86,6 +86,16 @@ launch.module.factory('UserService', function($resource) {
 		self.hasImage = function() { return !launch.utils.isBlank(self.image); };
 		self.imageUrl = function() { return self.hasImage() ? 'url(\'' + self.image + '\')' : null; };
 
+		self.id = null;
+		self.userName = null;
+		self.firstName = null;
+		self.lastName = null;
+		self.email = null;
+		self.created = null;
+		self.updated = null;
+		self.confirmed = null;
+		self.role = null;
+
 		return self;
 	};
 
@@ -101,6 +111,9 @@ launch.module.factory('UserService', function($resource) {
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return resource.get(params, success, error);
+		},
+		getNewUser: function() {
+			return new User();
 		}
 	};
 });

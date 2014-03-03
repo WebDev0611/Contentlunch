@@ -207,6 +207,11 @@ header {
 
 .control-and-label {
 	margin: 16px 0;
+
+	label, input[type="text"], select, textarea {
+		display: block;
+		margin: 0;
+	}
 }
 
 label {
@@ -269,12 +274,12 @@ span[class^="icon-"], span[class*=" icon-"] {
 		margin: 16px;
 		text-align: center;
 
-		.content{
+		.content {
 			font-family: 'Lato-Light';
 			vertical-align: top;
 		}
 
-		.launch{
+		.launch {
 			font-family: 'Lato-Black';
 			vertical-align: top;
 		}
@@ -363,7 +368,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 			&.btn-group-user-filter {
 				.btn {
-					&.active{
+					&.active {
 						background-color: #000000;
 						color: #ffffff;
 					}
@@ -419,6 +424,46 @@ span[class^="icon-"], span[class*=" icon-"] {
 						background-color: @text-color;
 						color: #ffffff;
 					}
+				}
+			}
+		}
+	}
+
+	.right-pane {
+		padding: 16px;
+
+		.user-image {
+			background-size: 96px;
+			-moz-background-size: 96px;
+			-o-background-size: 96px;
+			border: solid 3px #ffffff;
+			left: 16px;
+			height: 96px;
+			width: 96px;
+		}
+
+		.user-editor {
+			margin-left: 128px;
+
+			.control-group {
+				margin: 0 8px 8px 0;
+
+				.control-and-label {
+					display: inline-block;
+					margin: 0 0 0 8px;
+
+					input[type="text"], select, label {
+						width: 20em;
+					}
+				}
+
+				.btn-default {
+					background-color: #000000;
+					color: #ffffff;
+				}
+
+				&.btn-toolbar {
+					margin: 16px 0;
 				}
 			}
 		}

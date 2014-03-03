@@ -228,6 +228,13 @@ header .login-info .popover-menu .admin-menu li:hover {
 .control-and-label {
   margin: 16px 0;
 }
+.control-and-label label,
+.control-and-label input[type="text"],
+.control-and-label select,
+.control-and-label textarea {
+  display: block;
+  margin: 0;
+}
 label {
   font-weight: normal;
 }
@@ -401,4 +408,38 @@ span[class*=" icon-"].dark {
 .users .left-pane .users-pager ul.pagination li.active a {
   background-color: #000000;
   color: #ffffff;
+}
+.users .right-pane {
+  padding: 16px;
+}
+.users .right-pane .user-image {
+  background-size: 96px;
+  -moz-background-size: 96px;
+  -o-background-size: 96px;
+  border: solid 3px #ffffff;
+  left: 16px;
+  height: 96px;
+  width: 96px;
+}
+.users .right-pane .user-editor {
+  margin-left: 128px;
+}
+.users .right-pane .user-editor .control-group {
+  margin: 0 8px 8px 0;
+}
+.users .right-pane .user-editor .control-group .control-and-label {
+  display: inline-block;
+  margin: 0 0 0 8px;
+}
+.users .right-pane .user-editor .control-group .control-and-label input[type="text"],
+.users .right-pane .user-editor .control-group .control-and-label select,
+.users .right-pane .user-editor .control-group .control-and-label label {
+  width: 20em;
+}
+.users .right-pane .user-editor .control-group .btn-default {
+  background-color: #000000;
+  color: #ffffff;
+}
+.users .right-pane .user-editor .control-group.btn-toolbar {
+  margin: 16px 0;
 }
