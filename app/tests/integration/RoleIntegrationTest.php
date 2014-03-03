@@ -21,6 +21,16 @@ class RoleIntegrationTest extends TestCase {
 		$this->assertRoleFields($expect, $role);
 	}
 
+	public function testStoreFailValidationReturnsError()
+	{
+		$response = $this->call('POST', 'api/role', array(
+			'name' => '',
+		));
+		$this->assertResponseStatus(401);
+		$response = json_decode($response->getContent());
+		$this->assertNotEmpty($response->errors->name);	
+	}
+
 	public function testShow()
 	{
 		$this->setupTestRoles();

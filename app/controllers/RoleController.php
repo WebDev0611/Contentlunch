@@ -4,7 +4,7 @@ class RoleController extends BaseController {
 
 	public function index()
 	{
-		return Response::json(Role::all()->toArray());
+		return Role::all();
 	}
 
 	public function store()
@@ -17,7 +17,7 @@ class RoleController extends BaseController {
 		return Response::json(array(
 			'message' => "Couldn't store new role",
 			'errors' => $role->errors()->toArray()
-			));
+			), 401);
 	}
 
 	public function show($id)
