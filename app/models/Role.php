@@ -5,6 +5,18 @@ use Zizaco\Entrust\EntrustRole;
 class Role extends EntrustRole
 {
 
+	public $forceEntityHydrationFromInput = true;
+
+	public $autoHydrateEntityFromInput = true;
+
+	protected $fillable = array(
+		'name'
+	);
+
+	public static $rules = array(
+		'name' => 'required|unique:roles'
+	);
+
 	/**
 	 * Get a role model by name
 	 * 

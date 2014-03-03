@@ -80,8 +80,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
   /**
    * Test data for roles
    */
-  protected function getTestRoles() {
-    return array(
+  protected function getTestRoles($id = null) {
+    $roles = array(
       1 => array(
         'id' => 1, 'name' => 'Admin', 'created_at' => $this->now, 'updated_at' => $this->now
       ),
@@ -89,6 +89,10 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         'id' => 2, 'name' => 'Editor', 'created_at' => $this->now, 'updated_at' => $this->now
       )
     );
+    if ($id) {
+      return $roles[$id];
+    }
+    return $roles;
   }
 
   /**
@@ -176,6 +180,19 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     $this->assertEquals($expect['active'], $account->active, $err .' ->active');
     $this->assertNotEmpty($account->created_at, $err .' ->created_at');
     $this->assertNotEmpty($account->updated_at, $err .' ->updated_at');
+  }
+
+  /**
+   * Assert role fields
+   * @param  array $expect Expected role
+   * @param  object $role  Role object to check
+   */
+  protected function assertRoleFields($expect, $role) {
+    $err = 'Failed assertion in role object: ';
+    $this->assertEquals($expect['id'], $role->id, $err .' ->id');
+    $this->assertEquals($expect['name'], $role->name, $err .' ->name');
+    $this->assertNotEmpty($role->created_at, $err .' ->created_at');
+    $this->assertNotEmpty($role->updated_at, $err .' ->updated_at');
   }
 
   /**

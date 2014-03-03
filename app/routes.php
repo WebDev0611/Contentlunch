@@ -38,6 +38,8 @@ Route::group(array('prefix' => 'api'), function()
 	Route::resource('account', 'AccountController', array(
 		'only' => array('index', 'store', 'show', 'update', 'destroy')
 	));
+	Route::post('account/add_user', 'AccountController@add_user');
+	Route::get('account/users', 'AccountController@get_users');
 
 	Route::group(array('prefix' => 'auth'), function() {
 		// Attempt to login a user
@@ -47,6 +49,10 @@ Route::group(array('prefix' => 'api'), function()
 		// Logout
 		Route::get('/logout', 'AuthController@logout');
 	});
+
+	Route::resource('role', 'RoleController', array(
+		'only' => array('index', 'store', 'show', 'update', 'destroy')
+	));
 
 	Route::resource('user', 'UserController', array(
 		'only' => array('index', 'store', 'show', 'update', 'destroy')
