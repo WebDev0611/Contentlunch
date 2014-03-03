@@ -209,6 +209,10 @@ header {
 	margin: 16px 0;
 }
 
+label {
+	font-weight: normal;
+}
+
 span[class^="icon-"], span[class*=" icon-"] {
 	background-repeat: no-repeat;
 	-moz-background-size: 16px;
@@ -259,10 +263,21 @@ span[class^="icon-"], span[class*=" icon-"] {
 	padding: 20px;
 	width: 350px;
 
-	h3 {
+	.header {
+		font-family: 'Lato-Light';
+		font-size: 20px;
 		margin: 16px;
 		text-align: center;
-		vertical-align: top;
+
+		.content{
+			font-family: 'Lato-Light';
+			vertical-align: top;
+		}
+
+		.launch{
+			font-family: 'Lato-Black';
+			vertical-align: top;
+		}
 	}
 
 	input[type="text"], input[type="password"] {
@@ -278,6 +293,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 		background-color: #000000;
 		border: 0;
 		color: #ffffff;
+		font-family: 'Lato-Bold';
 		margin: 0 0 16px 0;
 		width: 100%;
 	}
