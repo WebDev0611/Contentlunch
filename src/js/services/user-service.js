@@ -36,8 +36,8 @@ launch.module.factory('UserService', function($resource) {
 
 			return user;
 		},
-		toDto: function(user) {
-			return {
+		toDto: function (user) {
+			return JSON.stringify({
 				id: user.id,
 				userName: user.userName,
 				first_name: user.firstName,
@@ -46,13 +46,14 @@ launch.module.factory('UserService', function($resource) {
 				created_at: user.created,
 				updated_at: user.updated,
 				confirmed: user.confirmed
-			};
+			});
 		}
 	};
 
 	var resource = $resource('/api/user/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: map.parseResponse },
-		query: { method: 'GET', isArray: true, transformResponse: map.parseResponse }
+		query: { method: 'GET', isArray: true, transformResponse: map.parseResponse },
+		update: { method: 'PUT', transformRequest: map.toDto, transformResponse: map.parseResponse }
 	});
 
 	var User = function() {
@@ -111,6 +112,12 @@ launch.module.factory('UserService', function($resource) {
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return resource.get(params, success, error);
+		},
+		update: function (user, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return resource.update({ id: user.id }, user, success, error);
 		},
 		getNewUser: function() {
 			return new User();
