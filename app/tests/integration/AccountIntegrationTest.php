@@ -87,4 +87,36 @@ class AccountIntegrationTest extends TestCase {
 		$this->assertEmpty($id);
 	}
 
+	public function testAddUserToAccount()
+	{
+		$this->setupTestUsers();
+		$this->setupTestAccounts();
+		$account = $this->getTestAccounts(1);
+		$user = $this->getTestUsers(1);
+		$response = $this->call('POST', 'api/account/'. $account['id'] .'/add_user', array(
+			'user_id' => $user['id']
+		));
+		$this->assertResponseOk();
+	}
+
+	public function testGetAccountUsers()
+	{
+		$this->setupTestUsers();
+		$this->setupTestAccounts();
+		$account = $this->getTestAccounts(1);
+		$account = Account::find($account['id']);
+		$users = $this->getTestUsers();
+		foreach ($users as $user) {
+			$account->add_user($user['id']);
+		}
+		$response = $this->call('GET', 'api/account/'. $account->id .'/users');
+		$users = json_decode($response->getContent());
+		$expect = $this->getTestUsers(1);
+		$expect['roles'] = array();
+		$this->assertUserFields($expect, $users[0]);
+		$expect = $this->getTestUsers(2);
+		$expect['roles'] = array();
+		$this->assertUserFields($expect, $users[1]);
+	}
+
 }

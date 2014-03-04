@@ -38,8 +38,10 @@ Route::group(array('prefix' => 'api'), function()
 	Route::resource('account', 'AccountController', array(
 		'only' => array('index', 'store', 'show', 'update', 'destroy')
 	));
-	Route::post('account/add_user', 'AccountController@add_user');
-	Route::get('account/users', 'AccountController@get_users');
+
+	Route::post('account/{id}/add_user', 'AccountController@add_user');
+
+	Route::get('account/{id}/users', 'AccountController@get_users');
 
 	Route::group(array('prefix' => 'auth'), function() {
 		// Attempt to login a user

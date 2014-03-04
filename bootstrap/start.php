@@ -24,12 +24,22 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(array(
+/**
+ * Change environment detection to lookup by the server name
+ * By default, will return local
+ */
+$env = $app->detectEnvironment(function() {
+  $hosts = array(
+    'test.contentlaunch.surgeforward.com' => 'test',
+    'contentlaunch.com' => 'prod'
+  );
+ 
+  if (isset($_SERVER['SERVER_NAME']) && isset($hosts[$_SERVER['SERVER_NAME']])) {
+    return $hosts[$_SERVER['SERVER_NAME']];
+  }
+  return 'local';
+});
 
-	'local' => array('*localhost'),
-  'test' => array('test.contentlaunch.surgeforward.com'),
-
-));
 
 /*
 |--------------------------------------------------------------------------

@@ -8,8 +8,6 @@ class User extends ConfideUser {
 
   public $autoPurgeRedundantAttributes = true;
 
-  //public $autoHydrateEntityFromInput = true;
-
   public $forceEntityHydrationFromInput = true;
 
   protected $hidden = array('password', 'password_confirmation', 'confirmation_code');
@@ -22,6 +20,11 @@ class User extends ConfideUser {
     'email' => 'required|email',
     'password' => 'required|between:4,11|confirmed'
   );
+
+  protected function getDateFormat()
+  {
+    return 'Y-m-d H:i:s';
+  }
 
   public function accounts()
   {
@@ -55,9 +58,12 @@ class User extends ConfideUser {
     return $ret;
   }
 
-  protected function getDateFormat()
-  {
-    return 'Y-m-d H:i:s';
+  public function scopeAccount($query, $id) {
+    return $query->with('accounts')->where('accounts.id', $id);
+    return $query->with(array('accounts' => function($query) use ($id) {
+      $query->where('accounts.id', $id);
+    }));
+    return $query->accounts()->where('id', $id);
   }
 
 }

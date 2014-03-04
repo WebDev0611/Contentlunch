@@ -45,7 +45,20 @@ class Account extends Ardent {
 	 */
 	public function users()
 	{
-		return $this->belongsToMany('User');
+		return $this->belongsToMany('User')->withTimestamps();
+	}
+
+	/**
+	 * Attach a user to this account
+	 * @param  integer $id User id
+	 */
+	public function add_user($id)
+	{
+		$this->users()->attach($id);
+	}
+
+	public function getUsers() {
+		return $this->users()->with('roles')->get();
 	}
 
 }
