@@ -8,7 +8,7 @@
 		</div>
 
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter()" />
+			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter(true)" />
 			<span class="input-group-addon">
 				<span class="glyphicon glyphicon-search"></span>
 			</span>
@@ -23,7 +23,7 @@
 		</div>
 
 		<ul class="users-list">
-			<li ng-repeat="user in pagedUsers[pagination.currentPage - 1]" ng-click="selectUser(user)" ng-class="{ selected: isSelectedUser(user) }">
+			<li ng-repeat="user in pagedUsers[pagination.currentPage - 1]" ng-click="selectUser(user, $index)" ng-class="{ selected: isSelectedUser(user) }">
 				<div class="user-image" ng-style="{ 'background-image': user.imageUrl() }"></div>
 				<div class="user-info">
 					<span class="user-name">{{ user.formatName() }}</span><br/>
@@ -41,7 +41,8 @@
 				page="pagination.currentPage"
 				on-select-page="pagination.onPageChange(page)"
 				direction-links="false"
-				max-size="6"></pagination>
+				max-size="6">
+			</pagination>
 		</div>
 	</div>
 	<div class="col-md-9 right-pane">
@@ -50,48 +51,48 @@
 			<div class="control-group">
 				<div class="control-and-label form-group">
 					<label for="txtFirstName">First Name</label>
-					<input type="text" id="txtFirstName" name="txtFirstName" class="form-control" ng-value="selectedUser.firstName" />
+					<input type="text" id="txtFirstName" name="txtFirstName" class="form-control" ng-model="selectedUser.firstName" />
 				</div>
 				<div class="control-and-label form-group">
 					<label for="txtLastName">Last Name</label>
-					<input type="text" id="txtLastName" name="txtLastName" class="form-control" ng-value="selectedUser.lastName" />
+					<input type="text" id="txtLastName" name="txtLastName" class="form-control" ng-model="selectedUser.lastName" />
 				</div>
 				<div class="control-and-label form-group">
 					<label for="txtTitle">Title</label>
-					<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-value="selectedUser.title" />
+					<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="selectedUser.title" />
 				</div>
 			</div>
 
 			<div class="control-group">
 				<div class="control-and-label form-group">
 					<label for="txtEmail">Email</label>
-					<input type="text" id="txtEmail" name="txtEmail" class="form-control" ng-value="selectedUser.email" />
+					<input type="text" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedUser.email" />
 				</div>
 				<div class="control-and-label form-group">
 					<label for="txtPhoneNumber">Phone Number</label>
-					<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-value="selectedUser.phoneNumber" />
+					<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="selectedUser.phoneNumber" />
 				</div>
 			</div>
 
 			<div class="control-group">
 				<div class="control-and-label form-group">
 					<label for="txtAddress1">Address 1</label>
-					<input type="text" id="txtAddress1" name="txtAddress1" class="form-control" ng-value="selectedUser.address1" />
+					<input type="text" id="txtAddress1" name="txtAddress1" class="form-control" ng-model="selectedUser.address1" />
 				</div>
 				<div class="control-and-label form-group">
 					<label for="txtAddress2">Address 2</label>
-					<input type="text" id="txtAddress2" name="txtAddress2" class="form-control" ng-value="selectedUser.address2" />
+					<input type="text" id="txtAddress2" name="txtAddress2" class="form-control" ng-model="selectedUser.address2" />
 				</div>
 			</div>
 
 			<div class="control-group">
 				<div class="control-and-label form-group">
 					<label for="txtCity">City</label>
-					<input type="text" id="txtCity" name="txtCity" class="form-control" ng-value="selectedUser.city" />
+					<input type="text" id="txtCity" name="txtCity" class="form-control" ng-model="selectedUser.city" />
 				</div>
 				<div class="control-and-label form-group">
 					<label for="selState">State</label>
-					<select id="selState" name="selState" class="form-control">
+					<select id="selState" name="selState" class="form-control" ng-model="selectedUser.state">
 						<option value="AL" ng-selected="selectedUser.state === 'AL'">Alabama</option>
 						<option value="AK" ng-selected="selectedUser.state === 'AK'">Alaska</option>
 						<option value="AZ" ng-selected="selectedUser.state === 'AZ'">Arizona</option>
@@ -150,14 +151,14 @@
 			<div class="control-group">
 				<div class="control-and-label form-group">
 					<label for="selStatus">Status</label>
-					<select id="selStatus" name="selStatus" class="form-control">
+					<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedUser.active">
 						<option value="ACTIVE" ng-selected="selectedUser.active">Active</option>
 						<option value="INACTIVE" ng-selected="!selectedUser.active">Inactive</option>
 					</select>
 				</div>
 				<div class="control-and-label form-group">
 					<label for="selRole">Role</label>
-					<select id="selRole" name="selRole" class="form-control">
+					<select id="selRole" name="selRole" class="form-control" ng-model="selectedUser.role">
 						<option value="ROLE1" ng-selected="selectedUser.role === 'ROLE1'">Role 1</option>
 						<option value="ROLE2" ng-selected="selectedUser.role === 'ROLE2'">Role 2</option>
 					</select>

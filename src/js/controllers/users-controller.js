@@ -1,8 +1,9 @@
 launch.module.controller('UsersController', [
-	'$scope', '$location', '$filter', 'UserService', function ($scope, $location, $filter, UserService) {
+	'$scope', '$location', '$filter', 'UserService', function($scope, $location, $filter, UserService) {
 		$scope.users = [];
 		$scope.filteredUsers = [];
 		$scope.pagedUsers = [];
+		$scope.selectedIndex = null;
 		$scope.selectedUser = null;
 
 		$scope.search = {
@@ -12,7 +13,7 @@ launch.module.controller('UsersController', [
 			toggleStatus: function(status) {
 				this.userStatus = status;
 			},
-			applyFilter: function() {
+			applyFilter: function(reset) {
 				$scope.filteredUsers = $filter('filter')($scope.users, function(user) {
 					if (!launch.utils.isBlank($scope.search.searchTerm) && $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
 						return (launch.utils.isBlank($scope.search.searchTerm) ? true : user.matchSearchTerm($scope.search.searchTerm));
@@ -21,7 +22,10 @@ launch.module.controller('UsersController', [
 					return true;
 				});
 
-				$scope.pagination.currentPage = 1;
+				if (reset === true) {
+					$scope.pagination.currentPage = 1;
+				}
+
 				$scope.pagination.totalItems = $scope.filteredUsers.length;
 				$scope.pagination.groupToPages();
 			}
@@ -33,7 +37,9 @@ launch.module.controller('UsersController', [
 			currentPage: 1,
 			currentSort: 'firstName',
 			currentSortDirection: 'ASC',
-			onPageChange: function(page) {
+			onPageChange: function (page) {
+				$scope.selectUser();
+
 				// IF WE WANT TO PAGE FROM THE SERVER, ENTER THAT CODE AND
 				// REMOVE THE getPagedUsers FUNCTION BELOW. ALSO, WE'LL NEED
 				// TO TWEAK THE WHAT THAT pagination.totalItems IS CALCULATED
@@ -56,39 +62,59 @@ launch.module.controller('UsersController', [
 		};
 
 		$scope.users = UserService.query(null, {
-			success: function (users) {
-				$scope.search.applyFilter();
+			success: function(users) {
+				$scope.search.applyFilter(true);
 			}
 		});
 
-		$scope.isSelectedUser = function(user) {
-			return user === $scope.selectedUser;
+		$scope.isSelectedUser = function (user) {
+			if (!$scope.selectedUser || !user) {
+				return false;
+			}
+
+			return (user.id === $scope.selectedUser.id);
 		};
 
 		$scope.enterNewUser = function() {
+			$scope.selectedIndex = -1;
 			$scope.selectedUser = UserService.getNewUser();
 		};
 
-		$scope.selectUser = function(user) {
-			if ($scope.selectedUser === user) {
+		$scope.selectUser = function (user, i) {
+			if (!user || $scope.selectedUser === user) {
+				$scope.selectedIndex = null;
 				$scope.selectedUser = null;
 			} else {
+				$scope.selectedIndex = ((($scope.pagination.currentPage - 1) * $scope.pagination.pageSize) + i);
 				$scope.selectedUser = user;
 			}
 		};
 
-		$scope.cancelEdit = function () {
+		$scope.cancelEdit = function() {
+			$scope.selectedIndex = null;
 			$scope.selectedUser = null;
 
 			$scope.users = UserService.query(null, {
-				success: function (users) {
-					$scope.search.applyFilter();
+				success: function(users) {
+					$scope.search.applyFilter(false);
 				}
 			});
 		};
 
 		$scope.saveUser = function () {
+			UserService.update($scope.selectedUser, {
+				success: function(r) {
+					if ($scope.selectedIndex >= 0) {
+						$scope.users[$scope.selectedIndex] = r;
+						$scope.search.applyFilter(false);
+					} else {
+						
+					}
+				},
+				error: function(r) {
 
+				}
+			});
 		};
 	}
 ]);
