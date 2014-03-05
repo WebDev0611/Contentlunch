@@ -13,7 +13,7 @@ class User extends ConfideUser {
   protected $hidden = array('password', 'password_confirmation', 'confirmation_code');
 
   protected $fillable = array('email', 'first_name', 'last_name', 'confirmed', 'password', 
-    'address', 'address_2', 'city', 'state', 'phone', 'title', 'status');
+    'address', 'address_2', 'city', 'state', 'phone', 'title', 'status', 'country');
   protected $guarded = array('id');
 
   public static $rules = array(

@@ -86,6 +86,7 @@ class UserIntegrationTest extends TestCase {
 			'state' => 'UT',
 			'phone' => '5094321432',
 			'status' => 0,
+			'country' => 'Mexico'
 		);
 		// Update user
 		$response = $this->call('PUT', 'api/user/1', $changes);
