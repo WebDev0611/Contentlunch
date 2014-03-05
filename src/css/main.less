@@ -1,5 +1,6 @@
 @import 'variables.less';
 @import 'mixins.less';
+@import 'bootstrap-overrides.less';
 
 html, body {
 	height: 100%;
@@ -205,17 +206,27 @@ header {
 	font-weight: bold;
 }
 
-.control-and-label {
+.form-group {
 	margin: 16px 0;
 
-	label, input[type="text"], select, textarea {
-		display: block;
-		margin: 0;
+	&.has-error {
+		label {
+			.error-message {
+				float: right;
+			}
+		}
 	}
 }
 
 label {
-	font-weight: normal;
+	display: inline;
+	font-family: 'Lato-Bold';
+	margin: 0;
+
+	span {
+		font-family: 'Lato';
+		font-weight: normal;
+	}
 }
 
 span[class^="icon-"], span[class*=" icon-"] {
@@ -448,13 +459,10 @@ span[class^="icon-"], span[class*=" icon-"] {
 			.control-group {
 				margin: 0 8px 8px 0;
 
-				.control-and-label {
+				.form-group {
 					display: inline-block;
 					margin: 0 0 0 8px;
-
-					input[type="text"], select, label {
-						width: 20em;
-					}
+					width: 20em;
 				}
 
 				.btn-default {
