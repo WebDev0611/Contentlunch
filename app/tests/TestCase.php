@@ -104,12 +104,16 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         'id' => 1, 'username' => 'test@mail.net', 'email' => 'test@mail.net',
         'password' => Hash::make('password'), 'created_at' => $this->now, 'updated_at' => $this->now,
         'first_name' => 'First', 'last_name' => 'Last', 'confirmed' => 1, 
+        'address' => '123 First Dr', 'address_2' => 'Apt K123', 'city' => 'Spokane', 'state' => 'WA',
+        'phone' => '5091231234', 'status' => 1,
         'confirmation_code' => 12345
       ),
       2 => array(
         'id' => 2, 'username' => 'test2@mail.net', 'email' => 'test2@mail.net',
         'password' => Hash::make('password'), 'created_at' => $this->now, 'updated_at' => $this->now,
         'first_name' => 'First2', 'last_name' => 'Last2', 'confirmed' => 1, 
+        'address' => '91919 E Main st.', 'address_2' => 'Suite 5132', 'city' => 'Spangle', 'state' => 'OH',
+        'phone' => '2069193818', 'status' => 1,
         'confirmation_code' => 54321
       )
     );
@@ -214,6 +218,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     $this->assertEquals($expect['first_name'], $user->first_name, $err .' ->first_name');
     $this->assertEquals($expect['last_name'], $user->last_name, $err .' ->last_name');
     $this->assertEquals($expect['confirmed'], $user->confirmed, $err .' ->confirmed');
+    $this->assertEquals($expect['address'], $user->address, $err .' ->address');
+    $this->assertEquals($expect['address_2'], $user->address_2, $err .' ->address_2');
+    $this->assertEquals($expect['city'], $user->city, $err .' ->city');
+    $this->assertEquals($expect['state'], $user->state, $err .' ->state');
+    $this->assertEquals($expect['phone'], $user->phone, $err .' ->phone');
+    $this->assertEquals($expect['status'], $user->status, $err .' ->status');
     // Make sure certain fields aren't set
     $this->assertObjectNotHasAttribute('password', $user, $err ." ->password shouldn't be set.");
     $this->assertObjectNotHasAttribute('password_confirmation', $user, $err ." ->password_confirmation shouldn't be set.");
