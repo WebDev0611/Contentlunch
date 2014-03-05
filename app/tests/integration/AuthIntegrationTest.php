@@ -21,7 +21,10 @@ class AuthIntegrationTest extends TestCase {
 		$this->setupTestRoles();
 		$this->setupAttachUserToRole(1, 1);
 		$expect = $this->getTestUsers(1);
-		$expect['roles'] = array(1 => 'Admin');
+		$expect['roles'] = array(array(
+			'id' => 1,
+			'name' => 'Admin'
+		));
 		// Log the user in
 		$response = $this->call('POST', '/api/auth', array(
 			'email' => $expect['email'],
@@ -39,7 +42,13 @@ class AuthIntegrationTest extends TestCase {
 		$this->setupAttachUserToRole(1, 1);
 		$this->setupAttachUserToRole(1, 2);
 		$expect = $this->getTestUsers(1);
-		$expect['roles'] = array(1 => 'Admin', 2 => 'Editor');
+		$expect['roles'] = array(array(
+			'id' => 1,
+			'name' => 'Admin'
+		), array(
+			'id' => 2,
+			'name' => 'Editor'
+		));
 		// Log the user in
 		$attempt = Confide::logAttempt(array(
 			'email' => $expect['email'],
@@ -59,7 +68,10 @@ class AuthIntegrationTest extends TestCase {
 		$this->setupTestRoles();
 		$this->setupAttachUserToRole(1, 1);
 		$expect = $this->getTestUsers(1);
-		$expect['roles'] = array(1 => 'Admin');
+		$expect['roles'] = array(array(
+			'id' => 1,
+			'name' => 'Admin'
+		));
 		// Log the user in
 		$response = $this->call('POST', '/api/auth', array(
 			'email' => $expect['email'],

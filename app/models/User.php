@@ -38,14 +38,18 @@ class User extends ConfideUser {
    */
   public function saveRoles($roles) {
     if ( ! empty($roles)) {
-      $this->roles()->sync($roles);
+      $storeRoles = array();
+      foreach ($roles as $role) {
+        $storeRoles[] = $role['id'];
+      }
+      $this->roles()->sync($storeRoles);
     } else {
       $this->roles()->detach();
     }
   }
 
   /**
-   * Get this user's roles in associative array id => role name
+   * Get this user's roles in associative array id => :id, name = :name
    * @return array $roles
    */
   public function getRoles() {
@@ -53,7 +57,10 @@ class User extends ConfideUser {
     $roles = $this->roles;
     if ($roles) {
       foreach ($roles as $role) {
-        $ret[$role->id] = $role->name;
+        $ret[] = array(
+          'id' => $role->id,
+          'name' => $role->name
+        );
       }
     }
     return $ret;

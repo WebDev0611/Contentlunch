@@ -16,7 +16,10 @@ class UserController extends BaseController {
 			if ($user['roles']) {
 				$roles = array();
 				foreach ($user['roles'] as $role) {
-					$roles[$role['id']] = $role['name'];
+					$roles[] = array(
+						'id' => $role['id'],
+						'name' => $role['name']
+					);
 				}
 				$user['roles'] = $roles;
 			}

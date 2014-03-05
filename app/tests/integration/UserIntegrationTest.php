@@ -27,11 +27,23 @@ class UserIntegrationTest extends TestCase {
 		$users = json_decode($response->getContent());
 		// Setup first user expectation with roles
 		$expect = $this->getTestUsers(1);
-		$expect['roles'] = array(1 => 'Admin', 2 => 'Editor');
+		$expect['roles'] = array(
+			array(
+				'id' => 1,
+				'name' => 'Admin'
+			),
+			array(
+				'id' => 2,
+				'name' => 'Editor'
+			)
+		);
 		$this->assertUserFields($expect, $users[0]);
 		// Setup second user expectation with roles
 		$expect = $this->getTestUsers(2);
-		$expect['roles'] = array(2 => 'Editor');
+		$expect['roles'] = array(array(
+			'id' => 2,
+			'name' => 'Editor'
+		));
 		$this->assertUserFields($expect, $users[1]);
 	}
 
@@ -44,7 +56,10 @@ class UserIntegrationTest extends TestCase {
 		// Setup password
 		$data['password_confirmation'] = $data['password'] = 'password';
 		// Add role
-		$data['roles'] = array(0 => 1);
+		$data['roles'] = array(array(
+			'id' => 1,
+			'name' => 'Admin'
+		));
 		// Don't need to post username, timestamps
 		unset($data['username'], $data['created_at'], $data['updated_at']);
 		$response = $this->call('POST', 'api/user', $data);
@@ -52,7 +67,10 @@ class UserIntegrationTest extends TestCase {
 		$user = json_decode($response->getContent());
 		$expect = $this->getTestUsers(1);
 		// Add role
-		$expect['roles'] = array(1 => 'Admin');
+		$expect['roles'] = array(array(
+			'id' => 1,
+			'name' => 'Admin'
+		));
 		$this->assertUserFields($expect, $user);
 	}
 
@@ -65,7 +83,10 @@ class UserIntegrationTest extends TestCase {
 		$this->assertResponseOk();
 		$user = json_decode($response->getContent());
 		$expect = $this->getTestUsers(1);
-		$expect['roles'] = array(1 => 'Admin');
+		$expect['roles'] = array(array(
+			'id' => 1,
+			'name' => 'Admin'
+		));
 		$this->assertUserFields($expect, $user);
 	}
 
@@ -93,7 +114,10 @@ class UserIntegrationTest extends TestCase {
 		$this->assertResponseOk();
 		$user = json_decode($response->getContent());
 		$expect = array_merge($this->getTestUsers(1), $changes);
-		$expect['roles'] = array(2 => 'Editor');
+		$expect['roles'] = array(array(
+			'id' => 2,
+			'name' => 'Editor'
+		));
 	}
 
 	public function testUpdateShouldBeAbleToUpdateSingleField()
