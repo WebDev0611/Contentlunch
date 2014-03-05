@@ -1,5 +1,5 @@
 launch.module.controller('UsersController', [
-	'$scope', '$location', '$filter', '$modal', 'UserService', function($scope, $location, $filter, $modal, UserService) {
+	'$scope', '$location', '$filter', '$modal', 'UserService', 'NotificationService', function ($scope, $location, $filter, $modal, userService, notificationService) {
 		var self = this;
 
 		$scope.users = [];
@@ -65,7 +65,7 @@ launch.module.controller('UsersController', [
 			}
 		};
 
-		$scope.users = UserService.query(null, {
+		$scope.users = userService.query(null, {
 			success: function(users) {
 				$scope.search.applyFilter(true);
 			}
@@ -81,7 +81,7 @@ launch.module.controller('UsersController', [
 
 		$scope.enterNewUser = function() {
 			$scope.selectedIndex = -1;
-			$scope.selectedUser = UserService.getNewUser();
+			$scope.selectedUser = userService.getNewUser();
 		};
 
 		$scope.selectUser = function(user, i) {
@@ -128,8 +128,10 @@ launch.module.controller('UsersController', [
 				return;
 			}
 
-			UserService.update($scope.selectedUser, {
-				success: function(r) {
+			userService.update($scope.selectedUser, {
+				success: function (r) {
+					notificationService.success('Success!', 'You have successfully saved user ' + r.id + '!');
+
 					if ($scope.selectedIndex >= 0) {
 						$scope.users[$scope.selectedIndex] = r;
 						$scope.search.applyFilter(false);
@@ -399,7 +401,7 @@ launch.module.controller('UsersController', [
 		self.discardChanges = function() {
 			self.reset();
 
-			$scope.users = UserService.query(null, {
+			$scope.users = userService.query(null, {
 				success: function(users) {
 					$scope.search.applyFilter(false);
 				}
