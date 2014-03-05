@@ -79,7 +79,13 @@ class UserIntegrationTest extends TestCase {
 			'first_name' => 'J',
 			'last_name' => 'B',
 			'confirmed' => 0,
-			'roles' => array(0 => 2)
+			'roles' => array(0 => 2),
+			'address' => '4321 Foobar Rd.',
+			'address2' => '',
+			'city' => 'Spangle',
+			'state' => 'UT',
+			'phone' => '5094321432',
+			'status' => 0,
 		);
 		// Update user
 		$response = $this->call('PUT', 'api/user/1', $changes);

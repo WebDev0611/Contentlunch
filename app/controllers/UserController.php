@@ -11,11 +11,6 @@ class UserController extends BaseController {
 	{
 		$return = array();
 		$query = User::with('roles');
-		//$query = User::roles();
-		if (Input::get('account_id')) {
-			//$query->account(Input::get('account_id'));
-			//$query->accounts()->where('account_user.account_id', Input::get('account_id'));
-		}
 		$users = $query->get()->toArray();
 		foreach ($users as &$user) {
 			if ($user['roles']) {
