@@ -63,6 +63,14 @@
 				}
 
 				return null;
+			case 'title':
+				return launch.utils.isBlank(this.title) ? 'Title is required.' : null;
+			case 'phoneNumber':
+				return launch.utils.isBlank(this.phoneNumber) ? 'Phone Number is required.' : null;
+			case 'active':
+				return launch.utils.isBlank(this.active) ? 'Active Status is required.' : null;
+			case 'role':
+				return (!this.role || launch.utils.isBlank(this.role.roleName)) ? 'Role is required.' : null;
 			default:
 				return null;
 		}

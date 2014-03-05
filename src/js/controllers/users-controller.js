@@ -9,8 +9,6 @@ launch.module.controller('UsersController', [
 		$scope.selectedIndex = null;
 		$scope.selectedUser = null;
 
-		self.validation = null;
-
 		$scope.search = {
 			searchTerm: null,
 			searchTermMinLength: 1,
@@ -94,7 +92,6 @@ launch.module.controller('UsersController', [
 			} else {
 				$scope.selectedIndex = ((($scope.pagination.currentPage - 1) * $scope.pagination.pageSize) + i);
 				$scope.selectedUser = user;
-				self.validation = null;
 			}
 		};
 
@@ -138,7 +135,7 @@ launch.module.controller('UsersController', [
 
 					if ($scope.selectedIndex >= 0) {
 						$scope.users[$scope.selectedIndex] = r;
-						$scope.search.applyFilter(false);
+						$scope.search.applyFilter(true);
 					} else {
 						// TODO: WHAT DO WE DO WHEN WE ADD A NEW USER?
 					}
@@ -422,7 +419,6 @@ launch.module.controller('UsersController', [
 		self.reset = function() {
 			$scope.selectedIndex = null;
 			$scope.selectedUser = null;
-			self.validation = null;
 		};
 	}
 ]);

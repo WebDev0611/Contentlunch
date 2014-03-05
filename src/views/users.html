@@ -123,14 +123,20 @@
 
 				<div class="control-group">
 					<div class="form-group" ng-class="{ 'has-error': errorState('active') }">
-						<label class="control-label" for="selStatus">Status</label>
+						<label class="control-label" for="selStatus">
+							Status
+							<span class="error-message" error-message message="errorMessage('active')"></span>
+						</label>
 						<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedUser.active">
 							<option value="active">Active</option>
 							<option value="inactive">Inactive</option>
 						</select>
 					</div>
-					<div class="form-group" ng-class="{ 'has-error': errorState('roles') }">
-						<label class="control-label" for="selRole">Role</label>
+					<div class="form-group" ng-class="{ 'has-error': errorState('role') }">
+						<label class="control-label" for="selRole">
+							Role
+							<span class="error-message" error-message message="errorMessage('role')"></span>
+						</label>
 						<select id="selRole" name="selRole" class="form-control" ng-model="selectedUser.role" ng-options="r.roleName for r in roles track by r.roleId"></select>
 					</div>
 				</div>
