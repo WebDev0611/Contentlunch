@@ -304,6 +304,7 @@ span[class*=" icon-"].dark {
 #login-form input[type="text"],
 #login-form input[type="password"] {
   color: #000000;
+  margin-bottom: 16px;
   width: 100%;
 }
 #login-form a {

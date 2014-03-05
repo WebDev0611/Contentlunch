@@ -71,6 +71,9 @@
 						$location.path('/login');
 					}
 				});
+
+				$.pnotify.defaults.styling = "bootstrap3";
+				$.pnotify.defaults.history = false;
 			}
 		]);
 
