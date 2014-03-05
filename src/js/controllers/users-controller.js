@@ -1,8 +1,9 @@
 launch.module.controller('UsersController', [
-	'$scope', '$location', '$filter', '$modal', 'UserService', 'NotificationService', function ($scope, $location, $filter, $modal, userService, notificationService) {
+	'$scope', '$location', '$filter', '$modal', 'UserService', 'RoleService', 'NotificationService', function ($scope, $location, $filter, $modal, userService, roleService, notificationService) {
 		var self = this;
 
 		$scope.users = [];
+		$scope.roles = [];
 		$scope.filteredUsers = [];
 		$scope.pagedUsers = [];
 		$scope.selectedIndex = null;
@@ -71,6 +72,8 @@ launch.module.controller('UsersController', [
 				$scope.search.applyFilter(true);
 			}
 		});
+
+		$scope.roles = roleService.query();
 
 		$scope.isSelectedUser = function(user) {
 			if (!$scope.selectedUser || !user) {

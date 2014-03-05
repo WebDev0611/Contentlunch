@@ -46,8 +46,12 @@ launch.module.factory('UserService', function($resource) {
 			return null;
 		},
 		fromDto: function(dto) {
-			var user = new User();
-			var roleObject = Object.keys(dto.roles);
+			var user = new launch.User();
+			var roles = [];
+
+			angular.forEach(dto.roles, function(r, i) {
+				roles.push(new launch.Role(r.id, r.name));
+			});
 
 			user.id = dto.id;
 			user.userName = dto.userName;
@@ -66,23 +70,13 @@ launch.module.factory('UserService', function($resource) {
 			user.title = dto.title;
 			user.username = dto.username;
 			user.active = (parseInt(dto.status) === 1) ? 'active' : 'inactive';
-			user.roles = [];
-
-			for (var i = 0; i < roleObject.length; i++) {
-				user.roles.push(new Role(roleObject[i], dto.roles[roleObject[i]]));
-			}
+			user.role = (roles.length > 0) ? roles[0] : null;
 
 			//user.image = '/assets/images/testing-user-image.png';
 
 			return user;
 		},
 		toDto: function (user) {
-			var roles = '';
-
-			for (var i = 0; i < user.roles.length; i++) {
-				roles += '"' + user.roles[i].roleId + '": "' + user.roles[i].roleName.replace('"', '\\"') + '"';
-			}
-
 			return JSON.stringify({
 				id: user.id,
 				userName: user.userName,
@@ -99,8 +93,7 @@ launch.module.factory('UserService', function($resource) {
 				phone: user.phoneNumber,
 				title: user.title,
 				status: (user.active === 'active') ? 1 : 0,
-				// TODO: THIS IS CAUSING ERRORS. REMOVE COMMENT ONCE IT'S WORKING
-				//roles: JSON.parse('{' + roles + '}')
+				roles: [{ id: user.role.roleId, name: user.role.roleName }]
 			});
 		}
 	};
@@ -110,98 +103,6 @@ launch.module.factory('UserService', function($resource) {
 		query: { method: 'GET', isArray: true, transformResponse: map.parseResponse },
 		update: { method: 'PUT', transformRequest: map.toDto, transformResponse: map.parseResponse }
 	});
-
-	var User = function() {
-		var self = this;
-
-		self.id = null;
-		self.userName = null;
-		self.firstName = null;
-		self.lastName = null;
-		self.email = null;
-		self.created = null;
-		self.updated = null;
-		self.confirmed = null;
-		self.address1 = null;
-		self.address2 = null;
-		self.city = null;
-		self.country = null;
-		self.state = null;
-		self.phoneNumber = null;
-		self.title = null;
-		self.active = 'active';
-		self.image = null;
-		self.roles = [];
-
-		self.formatName = function () {
-			if (!launch.utils.isBlank(self.firstName) && !launch.utils.isBlank(self.lastName)) {
-				return self.firstName + ' ' + self.lastName;
-			}
-
-			if (!launch.utils.isBlank(self.userName)) {
-				return self.userName;
-			}
-
-			if (!launch.utils.isBlank(self.email)) {
-				return self.email;
-			}
-
-			return self.id;
-		};
-
-		self.matchSearchTerm = function(term) {
-			if (launch.utils.startsWith(self.userName, term) || launch.utils.startsWith(self.firstName, term) ||
-				launch.utils.startsWith(self.lastName, term) || launch.utils.startsWith(self.email, term)) {
-				return true;
-			}
-
-			return false;
-		};
-
-		self.hasImage = function() { return !launch.utils.isBlank(self.image); };
-		self.imageUrl = function() { return self.hasImage() ? 'url(\'' + self.image + '\')' : null; };
-
-		self.validateProperty = function(property) {
-			switch (property) {
-				case 'firstName':
-					return launch.utils.isBlank(this.firstName) ? 'First Name is required.' : null;
-				case 'lastName':
-					return launch.utils.isBlank(this.lastName) ? 'Last Name is required.' : null;
-				case 'email':
-					if (launch.utils.isBlank(this.email)) {
-						return 'Email is required.';
-					} else if (!launch.utils.isValidEmail(this.email)) {
-						return 'Please enter a valid email address.';
-					}
-
-					return null;
-				default:
-					return null;
-			}
-		};
-
-		self.validate = function () {
-			var properties = Object.keys(this);
-
-			for (var i = 0; i < properties.length; i++) {
-				if (!launch.utils.isBlank(this.validateProperty(properties[i]))) {
-					return false;
-				}
-			}
-
-			return true;
-		};
-
-		return self;
-	};
-	var Role = function(id, name) {
-		var self = this;
-
-		self.roleId = id;
-		self.roleName = name;
-
-		return self;
-	};
 
 	return {
 		query: function(params, callback) {
@@ -223,7 +124,7 @@ launch.module.factory('UserService', function($resource) {
 			return resource.update({ id: user.id }, user, success, error);
 		},
 		getNewUser: function() {
-			return new User();
+			return new launch.User();
 		}
 	};
 });

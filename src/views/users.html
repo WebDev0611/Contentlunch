@@ -27,7 +27,7 @@
 				<div class="user-image" ng-style="{ 'background-image': user.imageUrl() }"></div>
 				<div class="user-info">
 					<span class="user-name">{{ user.formatName() }}</span><br/>
-					{{ user.roles[0].roleName }}
+					{{ user.role.roleName }}
 				</div>
 			</li>
 		</ul>
@@ -64,8 +64,11 @@
 						</label>
 						<input type="text" id="txtLastName" name="txtLastName" class="form-control" ng-model="selectedUser.lastName" />
 					</div>
-					<div class="form-group">
-						<label class="control-label" for="txtTitle">Title</label>
+					<div class="form-group" ng-class="{ 'has-error': errorState('title') }">
+						<label class="control-label" for="txtTitle">
+							Title
+							<span class="error-message" error-message message="errorMessage('title')"></span>
+						</label>
 						<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="selectedUser.title" />
 					</div>
 				</div>
@@ -78,8 +81,11 @@
 						</label>
 						<input type="text" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedUser.email" />
 					</div>
-					<div class="form-group">
-						<label class="control-label" for="txtPhoneNumber">Phone Number</label>
+					<div class="form-group" ng-class="{ 'has-error': errorState('phoneNumber') }">
+						<label class="control-label" for="txtPhoneNumber">
+							Phone Number
+							<span class="error-message" error-message message="errorMessage('phoneNumber')"></span>
+						</label>
 						<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="selectedUser.phoneNumber" />
 					</div>
 				</div>
@@ -116,25 +122,16 @@
 				</div>
 
 				<div class="control-group">
-					<div class="form-group">
+					<div class="form-group" ng-class="{ 'has-error': errorState('active') }">
 						<label class="control-label" for="selStatus">Status</label>
 						<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedUser.active">
 							<option value="active">Active</option>
 							<option value="inactive">Inactive</option>
 						</select>
 					</div>
-					<div class="form-group">
+					<div class="form-group" ng-class="{ 'has-error': errorState('roles') }">
 						<label class="control-label" for="selRole">Role</label>
-						<select id="selRole" name="selRole" class="form-control" ng-model="selectedUser.roles[0].roleName">
-							<option value="Admin">Admin</option>
-							<option value="Site Admin">Site Admin</option>
-							<option value="Content Creator">Content Creator</option>
-							<option value="Manager">Manager</option>
-							<option value="Director">Director</option>
-							<option value="C-Level">C-Level</option>
-							<option value="Editor">Editor</option>
-							<option value="Client">Client</option>
-						</select>
+						<select id="selRole" name="selRole" class="form-control" ng-model="selectedUser.role" ng-options="r.roleName for r in roles track by r.roleId"></select>
 					</div>
 				</div>
 			

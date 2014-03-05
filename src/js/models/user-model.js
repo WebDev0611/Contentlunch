@@ -1,0 +1,84 @@
+﻿launch.User = function() {
+	var self = this;
+
+	self.id = null;
+	self.userName = null;
+	self.firstName = null;
+	self.lastName = null;
+	self.email = null;
+	self.created = null;
+	self.updated = null;
+	self.confirmed = null;
+	self.address1 = null;
+	self.address2 = null;
+	self.city = null;
+	self.country = null;
+	self.state = null;
+	self.phoneNumber = null;
+	self.title = null;
+	self.active = 'active';
+	self.image = null;
+	self.role = null;
+	self.roles = [];
+
+	self.formatName = function() {
+		if (!launch.utils.isBlank(self.firstName) && !launch.utils.isBlank(self.lastName)) {
+			return self.firstName + ' ' + self.lastName;
+		}
+
+		if (!launch.utils.isBlank(self.userName)) {
+			return self.userName;
+		}
+
+		if (!launch.utils.isBlank(self.email)) {
+			return self.email;
+		}
+
+		return self.id;
+	};
+
+	self.matchSearchTerm = function(term) {
+		if (launch.utils.startsWith(self.userName, term) || launch.utils.startsWith(self.firstName, term) ||
+			launch.utils.startsWith(self.lastName, term) || launch.utils.startsWith(self.email, term)) {
+			return true;
+		}
+
+		return false;
+	};
+
+	self.hasImage = function() { return !launch.utils.isBlank(self.image); };
+	self.imageUrl = function() { return self.hasImage() ? 'url(\'' + self.image + '\')' : null; };
+
+	self.validateProperty = function(property) {
+		switch (property) {
+			case 'firstName':
+				return launch.utils.isBlank(this.firstName) ? 'First Name is required.' : null;
+			case 'lastName':
+				return launch.utils.isBlank(this.lastName) ? 'Last Name is required.' : null;
+			case 'email':
+				if (launch.utils.isBlank(this.email)) {
+					return 'Email is required.';
+				} else if (!launch.utils.isValidEmail(this.email)) {
+					return 'Please enter a valid email address.';
+				}
+
+				return null;
+			default:
+				return null;
+		}
+	};
+
+	self.validate = function() {
+		var properties = Object.keys(this);
+
+		for (var i = 0; i < properties.length; i++) {
+			if (!launch.utils.isBlank(this.validateProperty(properties[i]))) {
+				return false;
+			}
+		}
+
+		return true;
+	};
+
+	return self;
+};
