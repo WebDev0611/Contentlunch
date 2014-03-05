@@ -77,7 +77,7 @@ launch.module.factory('UserService', function($resource) {
 			return user;
 		},
 		toDto: function (user) {
-			return JSON.stringify({
+			var dto = {
 				id: user.id,
 				userName: user.userName,
 				first_name: user.firstName,
@@ -94,14 +94,22 @@ launch.module.factory('UserService', function($resource) {
 				title: user.title,
 				status: (user.active === 'active') ? 1 : 0,
 				roles: [{ id: user.role.roleId, name: user.role.roleName }]
-			});
+			};
+
+			if (!launch.utils.isBlank(user.password) && !launch.utils.isBlank(user.passwordConfirmation)) {
+				dto.password = user.password;
+				dto.password_confirmation = user.passwordConfirmation;
+			}
+
+			return JSON.stringify(dto);
 		}
 	};
 
 	var resource = $resource('/api/user/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: map.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: map.parseResponse },
-		update: { method: 'PUT', transformRequest: map.toDto, transformResponse: map.parseResponse }
+		update: { method: 'PUT', transformRequest: map.toDto, transformResponse: map.parseResponse },
+		insert: { method: 'POST', transformRequest: map.toDto, transformResponse: map.parseResponse }
 	});
 
 	return {
@@ -122,6 +130,12 @@ launch.module.factory('UserService', function($resource) {
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return resource.update({ id: user.id }, user, success, error);
+		},
+		add: function(user, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return resource.insert(null, user, success, error);
 		},
 		getNewUser: function() {
 			return new launch.User();

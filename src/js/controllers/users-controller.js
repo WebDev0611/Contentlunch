@@ -132,15 +132,15 @@ launch.module.controller('UsersController', [
 				return;
 			}
 
-			userService.update($scope.selectedUser, {
+			var method = launch.utils.isBlank($scope.selectedUser.id) ? userService.add : userService.update;
+
+			method($scope.selectedUser, {
 				success: function (r) {
 					notificationService.success('Success!', 'You have successfully saved user ' + r.id + '!');
 
 					if ($scope.selectedIndex >= 0) {
 						$scope.users[$scope.selectedIndex] = r;
 						$scope.search.applyFilter(true);
-					} else {
-						// TODO: WHAT DO WE DO WHEN WE ADD A NEW USER?
 					}
 				},
 				error: function (r) {

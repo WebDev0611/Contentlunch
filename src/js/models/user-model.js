@@ -8,7 +8,7 @@
 	self.email = null;
 	self.created = null;
 	self.updated = null;
-	self.confirmed = null;
+	self.confirmed = false;
 	self.address1 = null;
 	self.address2 = null;
 	self.city = null;
