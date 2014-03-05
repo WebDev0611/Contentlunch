@@ -27,7 +27,7 @@
 				<div class="user-image" ng-style="{ 'background-image': user.imageUrl() }"></div>
 				<div class="user-info">
 					<span class="user-name">{{ user.formatName() }}</span><br/>
-					{{ user.role }}
+					{{ user.roles[0].roleName }}
 				</div>
 			</li>
 		</ul>
@@ -119,15 +119,21 @@
 					<div class="form-group">
 						<label class="control-label" for="selStatus">Status</label>
 						<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedUser.active">
-							<option value="ACTIVE">Active</option>
-							<option value="INACTIVE">Inactive</option>
+							<option value="active">Active</option>
+							<option value="inactive">Inactive</option>
 						</select>
 					</div>
 					<div class="form-group">
 						<label class="control-label" for="selRole">Role</label>
-						<select id="selRole" name="selRole" class="form-control" ng-model="selectedUser.role">
-							<option value="ROLE1">Role 1</option>
-							<option value="ROLE2">Role 2</option>
+						<select id="selRole" name="selRole" class="form-control" ng-model="selectedUser.roles[0].roleName">
+							<option value="Admin">Admin</option>
+							<option value="Site Admin">Site Admin</option>
+							<option value="Content Creator">Content Creator</option>
+							<option value="Manager">Manager</option>
+							<option value="Director">Director</option>
+							<option value="C-Level">C-Level</option>
+							<option value="Editor">Editor</option>
+							<option value="Client">Client</option>
 						</select>
 					</div>
 				</div>
@@ -146,7 +152,7 @@
 		You have not saved your changes. Are you sure you want to cancel?
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-primary" ng-click="save()">Save Changes</button>
-		<button class="btn btn-warning" ng-click="cancel()">Discard Changes</button>
+		<button class="btn btn-default" ng-click="save()">Save Changes</button>
+		<button class="btn btn-default" ng-click="cancel()">Discard Changes</button>
 	</div>
 </script>

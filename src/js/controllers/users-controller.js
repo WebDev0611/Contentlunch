@@ -16,6 +16,7 @@ launch.module.controller('UsersController', [
 			userStatus: 'active',
 			toggleStatus: function(status) {
 				this.userStatus = status;
+				this.applyFilter(true);
 			},
 			applyFilter: function(reset) {
 				$scope.filteredUsers = $filter('filter')($scope.users, function(user) {
@@ -23,7 +24,7 @@ launch.module.controller('UsersController', [
 						return (launch.utils.isBlank($scope.search.searchTerm) ? true : user.matchSearchTerm($scope.search.searchTerm));
 					}
 
-					return true;
+					return ($scope.search.userStatus === 'all' || $scope.search.userStatus === user.active);
 				});
 
 				if (reset === true) {
@@ -136,11 +137,18 @@ launch.module.controller('UsersController', [
 						$scope.users[$scope.selectedIndex] = r;
 						$scope.search.applyFilter(false);
 					} else {
-
+						// TODO: WHAT DO WE DO WHEN WE ADD A NEW USER?
 					}
 				},
-				error: function(r) {
+				error: function (r) {
+					var err = (!launch.utils.isBlank(r.message)) ? r.message : null;
+					var msg = 'Looks like we\'ve encountered an error trying to save this user.';
 
+					if (!launch.utils.isBlank(err)) {
+						msg += ' Here is more information:\n\n' + err;
+					}
+
+					notificationService.error('Whoops!', msg);
 				}
 			});
 		};
