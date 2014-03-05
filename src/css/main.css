@@ -58,6 +58,10 @@
   font-weight: normal;
   font-style: normal;
 }
+.form-control:focus {
+  border-color: #cccccc;
+  box-shadow: none;
+}
 html,
 body {
   height: 100%;
@@ -225,17 +229,19 @@ header .login-info .popover-menu .admin-menu li:hover {
   color: #ff0000;
   font-weight: bold;
 }
-.control-and-label {
+.form-group {
   margin: 16px 0;
 }
-.control-and-label label,
-.control-and-label input[type="text"],
-.control-and-label select,
-.control-and-label textarea {
-  display: block;
-  margin: 0;
+.form-group.has-error label .error-message {
+  float: right;
 }
 label {
+  display: inline;
+  font-family: 'Lato-Bold';
+  margin: 0;
+}
+label span {
+  font-family: 'Lato';
   font-weight: normal;
 }
 span[class^="icon-"],
@@ -427,13 +433,9 @@ span[class*=" icon-"].dark {
 .users .right-pane .user-editor .control-group {
   margin: 0 8px 8px 0;
 }
-.users .right-pane .user-editor .control-group .control-and-label {
+.users .right-pane .user-editor .control-group .form-group {
   display: inline-block;
   margin: 0 0 0 8px;
-}
-.users .right-pane .user-editor .control-group .control-and-label input[type="text"],
-.users .right-pane .user-editor .control-group .control-and-label select,
-.users .right-pane .user-editor .control-group .control-and-label label {
   width: 20em;
 }
 .users .right-pane .user-editor .control-group .btn-default {

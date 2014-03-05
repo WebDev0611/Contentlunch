@@ -46,129 +46,107 @@
 		</div>
 	</div>
 	<div class="col-md-9 right-pane">
-		<div class="user-image" ng-show="!!selectedUser" ng-style="{ 'background-image': selectedUser.imageUrl() }"></div>
-		<div class="user-editor" ng-show="!!selectedUser">
-			<div class="control-group">
-				<div class="control-and-label form-group">
-					<label for="txtFirstName">First Name</label>
-					<input type="text" id="txtFirstName" name="txtFirstName" class="form-control" ng-model="selectedUser.firstName" />
+		<form name="editUser" novalidate="novalidate">
+			<div class="user-image" ng-show="!!selectedUser" ng-style="{ 'background-image': selectedUser.imageUrl() }"></div>
+			<div class="user-editor" ng-show="!!selectedUser">
+				<div class="control-group">
+					<div class="form-group" ng-class="{ 'has-error': errorState('firstName') }">
+						<label class="control-label" for="txtFirstName">
+							First Name
+							<span class="error-message" error-message message="errorMessage('firstName')"></span>
+						</label>
+						<input type="text" id="txtFirstName" name="txtFirstName" class="form-control" ng-model="selectedUser.firstName" />
+					</div>
+					<div class="form-group" ng-class="{ 'has-error': errorState('lastName') }">
+						<label class="control-label" for="txtLastName">
+							Last Name
+							<span class="error-message" error-message message="errorMessage('lastName')"></span>
+						</label>
+						<input type="text" id="txtLastName" name="txtLastName" class="form-control" ng-model="selectedUser.lastName" />
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="txtTitle">Title</label>
+						<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="selectedUser.title" />
+					</div>
 				</div>
-				<div class="control-and-label form-group">
-					<label for="txtLastName">Last Name</label>
-					<input type="text" id="txtLastName" name="txtLastName" class="form-control" ng-model="selectedUser.lastName" />
-				</div>
-				<div class="control-and-label form-group">
-					<label for="txtTitle">Title</label>
-					<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="selectedUser.title" />
-				</div>
-			</div>
 
-			<div class="control-group">
-				<div class="control-and-label form-group">
-					<label for="txtEmail">Email</label>
-					<input type="text" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedUser.email" />
+				<div class="control-group">
+					<div class="form-group" ng-class="{ 'has-error': errorState('email') }">
+						<label class="control-label" for="txtEmail">
+							Email
+							<span class="error-message" error-message message="errorMessage('email')"></span>
+						</label>
+						<input type="text" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedUser.email" />
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="txtPhoneNumber">Phone Number</label>
+						<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="selectedUser.phoneNumber" />
+					</div>
 				</div>
-				<div class="control-and-label form-group">
-					<label for="txtPhoneNumber">Phone Number</label>
-					<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="selectedUser.phoneNumber" />
-				</div>
-			</div>
 
-			<div class="control-group">
-				<div class="control-and-label form-group">
-					<label for="txtAddress1">Address 1</label>
-					<input type="text" id="txtAddress1" name="txtAddress1" class="form-control" ng-model="selectedUser.address1" />
+				<div class="control-group">
+					<div class="form-group">
+						<label class="control-label" for="txtAddress1">Address 1</label>
+						<input type="text" id="txtAddress1" name="txtAddress1" class="form-control" ng-model="selectedUser.address1" />
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="txtAddress2">Address 2</label>
+						<input type="text" id="txtAddress2" name="txtAddress2" class="form-control" ng-model="selectedUser.address2" />
+					</div>
 				</div>
-				<div class="control-and-label form-group">
-					<label for="txtAddress2">Address 2</label>
-					<input type="text" id="txtAddress2" name="txtAddress2" class="form-control" ng-model="selectedUser.address2" />
-				</div>
-			</div>
 
-			<div class="control-group">
-				<div class="control-and-label form-group">
-					<label for="txtCity">City</label>
-					<input type="text" id="txtCity" name="txtCity" class="form-control" ng-model="selectedUser.city" />
+				<div class="control-group">
+					<div class="form-group">
+						<label class="control-label" for="txtCity">City</label>
+						<input type="text" id="txtCity" name="txtCity" class="form-control" ng-model="selectedUser.city" />
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="selCountry">Country</label>
+						<select id="selCountry" name="selCountry" class="form-control" ng-model="selectedUser.country">
+							<option value="Australia">Australia</option>
+							<option value="Canada">Canada</option>
+							<option value="UK">UK</option>
+							<option value="USA">USA</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="selState">State</label>
+						<select id="selState" name="selState" class="form-control" ng-model="selectedUser.state" ng-options="s.name for s in getStates() track by s.value"></select>
+					</div>
 				</div>
-				<div class="control-and-label form-group">
-					<label for="selState">State</label>
-					<select id="selState" name="selState" class="form-control" ng-model="selectedUser.state">
-						<option value="AL" ng-selected="selectedUser.state === 'AL'">Alabama</option>
-						<option value="AK" ng-selected="selectedUser.state === 'AK'">Alaska</option>
-						<option value="AZ" ng-selected="selectedUser.state === 'AZ'">Arizona</option>
-						<option value="AR" ng-selected="selectedUser.state === 'AR'">Arkansas</option>
-						<option value="CA" ng-selected="selectedUser.state === 'CA'">California</option>
-						<option value="CO" ng-selected="selectedUser.state === 'CO'">Colorado</option>
-						<option value="CT" ng-selected="selectedUser.state === 'CT'">Connecticut</option>
-						<option value="DE" ng-selected="selectedUser.state === 'DE'">Delaware</option>
-						<option value="DC" ng-selected="selectedUser.state === 'DC'">District Of Columbia</option>
-						<option value="FL" ng-selected="selectedUser.state === 'FL'">Florida</option>
-						<option value="GA" ng-selected="selectedUser.state === 'GA'">Georgia</option>
-						<option value="HI" ng-selected="selectedUser.state === 'HI'">Hawaii</option>
-						<option value="ID" ng-selected="selectedUser.state === 'ID'">Idaho</option>
-						<option value="IL" ng-selected="selectedUser.state === 'IL'">Illinois</option>
-						<option value="IN" ng-selected="selectedUser.state === 'IN'">Indiana</option>
-						<option value="IA" ng-selected="selectedUser.state === 'IA'">Iowa</option>
-						<option value="KS" ng-selected="selectedUser.state === 'KS'">Kansas</option>
-						<option value="KY" ng-selected="selectedUser.state === 'KY'">Kentucky</option>
-						<option value="LA" ng-selected="selectedUser.state === 'LA'">Louisiana</option>
-						<option value="ME" ng-selected="selectedUser.state === 'ME'">Maine</option>
-						<option value="MD" ng-selected="selectedUser.state === 'MD'">Maryland</option>
-						<option value="MA" ng-selected="selectedUser.state === 'MA'">Massachusetts</option>
-						<option value="MI" ng-selected="selectedUser.state === 'MI'">Michigan</option>
-						<option value="MN" ng-selected="selectedUser.state === 'MN'">Minnesota</option>
-						<option value="MS" ng-selected="selectedUser.state === 'MS'">Mississippi</option>
-						<option value="MO" ng-selected="selectedUser.state === 'MO'">Missouri</option>
-						<option value="MT" ng-selected="selectedUser.state === 'MT'">Montana</option>
-						<option value="NE" ng-selected="selectedUser.state === 'NE'">Nebraska</option>
-						<option value="NV" ng-selected="selectedUser.state === 'NV'">Nevada</option>
-						<option value="NH" ng-selected="selectedUser.state === 'NH'">New Hampshire</option>
-						<option value="NJ" ng-selected="selectedUser.state === 'NJ'">New Jersey</option>
-						<option value="NM" ng-selected="selectedUser.state === 'NM'">New Mexico</option>
-						<option value="NY" ng-selected="selectedUser.state === 'NY'">New York</option>
-						<option value="NC" ng-selected="selectedUser.state === 'NC'">North Carolina</option>
-						<option value="ND" ng-selected="selectedUser.state === 'ND'">North Dakota</option>
-						<option value="OH" ng-selected="selectedUser.state === 'OH'">Ohio</option>
-						<option value="OK" ng-selected="selectedUser.state === 'OK'">Oklahoma</option>
-						<option value="OR" ng-selected="selectedUser.state === 'OR'">Oregon</option>
-						<option value="PA" ng-selected="selectedUser.state === 'PA'">Pennsylvania</option>
-						<option value="RI" ng-selected="selectedUser.state === 'RI'">Rhode Island</option>
-						<option value="SC" ng-selected="selectedUser.state === 'SC'">South Carolina</option>
-						<option value="SD" ng-selected="selectedUser.state === 'SD'">South Dakota</option>
-						<option value="TN" ng-selected="selectedUser.state === 'TN'">Tennessee</option>
-						<option value="TX" ng-selected="selectedUser.state === 'TX'">Texas</option>
-						<option value="UT" ng-selected="selectedUser.state === 'UT'">Utah</option>
-						<option value="VT" ng-selected="selectedUser.state === 'VT'">Vermont</option>
-						<option value="VA" ng-selected="selectedUser.state === 'VA'">Virginia</option>
-						<option value="WA" ng-selected="selectedUser.state === 'WA'">Washington</option>
-						<option value="WV" ng-selected="selectedUser.state === 'WV'">West Virginia</option>
-						<option value="WI" ng-selected="selectedUser.state === 'WI'">Wisconsin</option>
-						<option value="WY" ng-selected="selectedUser.state === 'WY'">Wyoming</option>
-					</select>
-				</div>
-			</div>
 
-			<div class="control-group">
-				<div class="control-and-label form-group">
-					<label for="selStatus">Status</label>
-					<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedUser.active">
-						<option value="ACTIVE" ng-selected="selectedUser.active">Active</option>
-						<option value="INACTIVE" ng-selected="!selectedUser.active">Inactive</option>
-					</select>
+				<div class="control-group">
+					<div class="form-group">
+						<label class="control-label" for="selStatus">Status</label>
+						<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedUser.active">
+							<option value="ACTIVE">Active</option>
+							<option value="INACTIVE">Inactive</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="selRole">Role</label>
+						<select id="selRole" name="selRole" class="form-control" ng-model="selectedUser.role">
+							<option value="ROLE1">Role 1</option>
+							<option value="ROLE2">Role 2</option>
+						</select>
+					</div>
 				</div>
-				<div class="control-and-label form-group">
-					<label for="selRole">Role</label>
-					<select id="selRole" name="selRole" class="form-control" ng-model="selectedUser.role">
-						<option value="ROLE1" ng-selected="selectedUser.role === 'ROLE1'">Role 1</option>
-						<option value="ROLE2" ng-selected="selectedUser.role === 'ROLE2'">Role 2</option>
-					</select>
-				</div>
-			</div>
 			
-			<div class="control-group btn-toolbar">
-				<button type="button" class="btn btn-default" ng-click="saveUser()">Save</button>
-				<button type="button" class="btn btn-default" ng-click="cancelEdit()">Cancel</button>
+				<div class="control-group btn-toolbar">
+					<button type="button" class="btn btn-default" ng-click="saveUser()">Save</button>
+					<button type="button" class="btn btn-default" ng-click="cancelEdit(editUser.$dirty)">Cancel</button>
+				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 </div>
+
+<script type="text/ng-template" id="form-dirty.html">
+	<div class="modal-body">
+		You have not saved your changes. Are you sure you want to cancel?
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="save()">Save Changes</button>
+		<button class="btn btn-warning" ng-click="cancel()">Discard Changes</button>
+	</div>
+</script>
