@@ -125,7 +125,10 @@ launch.module.controller('UsersController', [
 				return;
 			}
 
-			if (!$scope.selectedUser.validate()) {
+			var msg = $scope.selectedUser.validateAll();
+
+			if (!launch.utils.isBlank(msg)) {
+				notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
 				return;
 			}
 
