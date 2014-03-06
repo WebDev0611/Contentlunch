@@ -34,8 +34,32 @@ launch.module.controller('UsersController', [
 		self.reset = function (form) {
 			$scope.selectedIndex = null;
 			$scope.selectedUser = null;
-			form.$setPristine();
+
 			self.forceDirty = false;
+
+			if (!!form) {
+				form.$setPristine();
+			}
+		};
+
+		self.adjustPage = function(userId, form) {
+			var index = null;
+			var user = $.grep($scope.users, function (u, i) {
+				if (userId === u.id) {
+					index = i;
+					return true;
+				}
+
+				return false;
+			});
+
+			if (user.length === 1) {
+				$scope.pagination.currentPage = parseInt(index / $scope.pagination.pageSize) + 1;
+
+				if ($scope.selectedUser.id !== user[0].id) {
+					$scope.selectUser(user[0], index, form);
+				}
+			}
 		};
 
 		$scope.users = [];
@@ -48,19 +72,23 @@ launch.module.controller('UsersController', [
 
 		$scope.search = {
 			searchTerm: null,
-			searchTermMinLength: 3,
+			searchTermMinLength: 1,
 			userStatus: 'active',
 			toggleStatus: function(status) {
 				this.userStatus = status;
 				this.applyFilter(true);
 			},
 			applyFilter: function(reset) {
-				$scope.filteredUsers = $filter('filter')($scope.users, function(user) {
-					if (!launch.utils.isBlank($scope.search.searchTerm) && $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
-						return (launch.utils.isBlank($scope.search.searchTerm) ? true : user.matchSearchTerm($scope.search.searchTerm));
+				$scope.filteredUsers = $filter('filter')($scope.users, function (user) {
+					if ($scope.search.userStatus === 'all' || $scope.search.userStatus === user.active) {
+						if (!launch.utils.isBlank($scope.search.searchTerm) && $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
+							return (launch.utils.isBlank($scope.search.searchTerm) ? true : user.matchSearchTerm($scope.search.searchTerm));
+						} else {
+							return true;
+						}
+					} else {
+						return false;
 					}
-
-					return ($scope.search.userStatus === 'all' || $scope.search.userStatus === user.active);
 				});
 
 				if (reset === true) {
@@ -69,6 +97,14 @@ launch.module.controller('UsersController', [
 
 				$scope.pagination.totalItems = $scope.filteredUsers.length;
 				$scope.pagination.groupToPages();
+
+				if (!!$scope.selectedUser) {
+					if ($.inArray($scope.selectedUser, $scope.filteredUsers) >= 0) {
+						self.adjustPage($scope.selectedUser.id, null);
+					} else {
+						self.reset();
+					}
+				}
 			}
 		};
 
@@ -78,8 +114,10 @@ launch.module.controller('UsersController', [
 			currentPage: 1,
 			currentSort: 'firstName',
 			currentSortDirection: 'ASC',
-			onPageChange: function(page, form) {
-				$scope.selectUser(null, null, form);
+			onPageChange: function (page, form) {
+				if (!$.inArray($scope.selectedUser, $scope.pagedUsers[$scope.pagination.currentPage - 1])) {
+					$scope.selectUser(null, null, form);
+				}
 
 				// IF WE WANT TO PAGE FROM THE SERVER, ENTER THAT CODE AND
 				// REMOVE THE getPagedUsers FUNCTION BELOW. ALSO, WE'LL NEED
@@ -183,21 +221,8 @@ launch.module.controller('UsersController', [
 
 					if (isNew) {
 						self.loadUsers({
-							success: function(users) {
-								var index = null;
-								var user = $.grep(users, function(u, i) {
-									if (r.id === u.id) {
-										index = i;
-										return true;
-									}
-
-									return false;
-								});
-
-								if (user.length === 1) {
-									$scope.pagination.currentPage = parseInt(index / $scope.pagination.pageSize) + 1;
-									$scope.selectUser(user[0], index, form);
-								}
+							success: function () {
+								self.adjustPage(r.id, form);
 							}
 						});
 					} else if ($scope.selectedIndex >= 0) {
