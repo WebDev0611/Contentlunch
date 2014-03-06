@@ -2,6 +2,8 @@ launch.module.controller('UsersController', [
 	'$scope', '$location', '$filter', '$modal', 'UserService', 'RoleService', 'NotificationService', function ($scope, $location, $filter, $modal, userService, roleService, notificationService) {
 		var self = this;
 
+		self.forceDirty = false;
+
 		$scope.users = [];
 		$scope.roles = [];
 		$scope.filteredUsers = [];
@@ -11,7 +13,7 @@ launch.module.controller('UsersController', [
 
 		$scope.search = {
 			searchTerm: null,
-			searchTermMinLength: 1,
+			searchTermMinLength: 3,
 			userStatus: 'active',
 			toggleStatus: function(status) {
 				this.userStatus = status;
@@ -37,7 +39,7 @@ launch.module.controller('UsersController', [
 
 		$scope.pagination = {
 			totalItems: 0,
-			pageSize: 2,
+			pageSize: 10,
 			currentPage: 1,
 			currentSort: 'firstName',
 			currentSortDirection: 'ASC',
@@ -81,32 +83,34 @@ launch.module.controller('UsersController', [
 			return (user.id === $scope.selectedUser.id);
 		};
 
-		$scope.enterNewUser = function() {
+		$scope.enterNewUser = function(form) {
+			form.$setPristine();
+			self.forceDirty = false;
 			$scope.selectedIndex = -1;
 			$scope.selectedUser = userService.getNewUser();
 		};
 
-		$scope.selectUser = function(user, i) {
+		$scope.selectUser = function(user, i, form) {
 			if (!user || $scope.selectedUser === user) {
-				self.reset();
+				self.reset(form);
 			} else {
 				$scope.selectedIndex = ((($scope.pagination.currentPage - 1) * $scope.pagination.pageSize) + i);
 				$scope.selectedUser = user;
 			}
 		};
 
-		$scope.cancelEdit = function(isDirty) {
-			if (isDirty) {
+		$scope.cancelEdit = function(form) {
+			if (form.$dirty) {
 				$modal.open({
 					templateUrl: 'form-dirty.html',
 					controller: [
 						'$scope', '$modalInstance', function(scope, instance) {
 							scope.save = function() {
-								$scope.saveUser();
+								$scope.saveUser(form);
 								instance.close();
 							};
 							scope.cancel = function() {
-								self.discardChanges();
+								self.discardChanges(form);
 								instance.dismiss('cancel');
 							};
 						}
@@ -116,14 +120,17 @@ launch.module.controller('UsersController', [
 				return;
 			}
 
-			self.discardChanges();
+			self.discardChanges(form);
 		};
 
-		$scope.saveUser = function() {
+		$scope.saveUser = function (form) {
 			if (!$scope.selectedUser) {
-				self.reset();
+				self.reset(form);
 				return;
 			}
+
+			self.forceDirty = true;
+			form.$setDirty();
 
 			var msg = $scope.selectedUser.validateAll();
 
@@ -156,16 +163,26 @@ launch.module.controller('UsersController', [
 			});
 		};
 
-		$scope.errorMessage = function(property) {
+		$scope.errorMessage = function (property, control) {
+			if (!control || !control.$dirty) {
+				return false;
+			}
+
 			return (!$scope.selectedUser) ? null : $scope.selectedUser.validateProperty(property);
 		};
 
-		$scope.errorState = function(property) {
-			if (!!$scope.selectedUser) {
-				return !launch.utils.isBlank($scope.errorMessage(property));
+		$scope.errorState = function (property, control) {
+			if (!control || !$scope.selectedUser) {
+				return false;
 			}
 
-			return false;
+			if (self.forceDirty) {
+				control.$dirty = true;
+			}
+
+			control.$invalid = !launch.utils.isBlank($scope.selectedUser.validateProperty(property));
+
+			return (control.$dirty && control.$invalid);
 		};
 
 		$scope.getStates = function() {
@@ -409,8 +426,8 @@ launch.module.controller('UsersController', [
 			return [];
 		};
 
-		self.discardChanges = function() {
-			self.reset();
+		self.discardChanges = function(form) {
+			self.reset(form);
 
 			$scope.users = userService.query(null, {
 				success: function(users) {
@@ -419,9 +436,11 @@ launch.module.controller('UsersController', [
 			});
 		};
 
-		self.reset = function() {
+		self.reset = function(form) {
 			$scope.selectedIndex = null;
 			$scope.selectedUser = null;
+			form.$setPristine();
+			self.forceDirty = false;
 		};
 	}
 ]);
