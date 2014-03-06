@@ -11,7 +11,7 @@ launch.module.factory('UserService', function($resource) {
 					users.push(map.fromDto(user));
 				});
 
-				users.sort(function (a, b) {
+				users.sort(function(a, b) {
 					var firstA = launch.utils.isBlank(a.firstName) ? '' : a.firstName.toUpperCase();
 					var firstB = launch.utils.isBlank(b.firstName) ? '' : b.firstName.toUpperCase();
 					var lastA = launch.utils.isBlank(a.lastName) ? '' : a.lastName.toUpperCase();
@@ -74,7 +74,7 @@ launch.module.factory('UserService', function($resource) {
 
 			return user;
 		},
-		toDto: function (user) {
+		toDto: function(user) {
 			var dto = {
 				id: user.id,
 				userName: user.userName,
@@ -123,7 +123,7 @@ launch.module.factory('UserService', function($resource) {
 
 			return resource.get(params, success, error);
 		},
-		update: function (user, callback) {
+		update: function(user, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 

@@ -5,15 +5,20 @@ launch.module.controller('UsersController', [
 		self.forceDirty = false;
 
 		self.loadUsers = function (callback) {
+			$scope.isBusy = true;
+
 			$scope.users = userService.query(null, {
 				success: function (users) {
+					$scope.isBusy = false;
 					$scope.search.applyFilter(true);
 
 					if (!!callback && $.isFunction(callback.success)) {
 						callback.success(users);
 					}
 				},
-				error: function(r) {
+				error: function (r) {
+					$scope.isBusy = false;
+
 					if (!!callback && $.isFunction(callback.error)) {
 						callback.error(r);
 					}
@@ -37,6 +42,7 @@ launch.module.controller('UsersController', [
 		$scope.roles = [];
 		$scope.filteredUsers = [];
 		$scope.pagedUsers = [];
+		$scope.isBusy = false;
 		$scope.selectedIndex = null;
 		$scope.selectedUser = null;
 
@@ -167,15 +173,19 @@ launch.module.controller('UsersController', [
 
 			var method = isNew ? userService.add : userService.update;
 
+			$scope.isBusy = true;
+
 			method($scope.selectedUser, {
 				success: function (r) {
+					$scope.isBusy = false;
+
 					notificationService.success('Success!', 'You have successfully saved user ' + r.id + '!');
 
 					if (isNew) {
 						self.loadUsers({
-							success: function (users) {
+							success: function(users) {
 								var index = null;
-								var user = $.grep(users, function (u, i) {
+								var user = $.grep(users, function(u, i) {
 									if (r.id === u.id) {
 										index = i;
 										return true;
@@ -190,14 +200,14 @@ launch.module.controller('UsersController', [
 								}
 							}
 						});
-					}
-
-					if ($scope.selectedIndex >= 0) {
+					} else if ($scope.selectedIndex >= 0) {
 						$scope.users[$scope.selectedIndex] = r;
 						$scope.search.applyFilter(true);
 					}
 				},
 				error: function (r) {
+					$scope.isBusy = false;
+
 					var err = (!launch.utils.isBlank(r.message)) ? r.message : null;
 					var msg = 'Looks like we\'ve encountered an error trying to save this user.';
 
