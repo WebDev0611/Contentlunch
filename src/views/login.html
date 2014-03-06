@@ -11,15 +11,15 @@
 	
 	<div class="error" ng-show="!!flash" ng-bind="flash"></div>
 
-	<div class="control-and-label">
-		<div class="error" ng-show="!!emailError" ng-bind="emailError"></div>
-		<input id="email" name="email" type="text" ng-model="user.email" ng-change="validateLogin(user)" placeholder="Email Address" ng-keypress="login($event, user)" />
+	<div class="form-group" ng-class="{ 'has-error': !!emailError }">
+		<span class="error-message" error-message message="emailError"></span>
+		<input id="email" name="email" type="text" class="form-control" placeholder="Email Address" ng-model="user.email" ng-change="validateLogin(user)" ng-keypress="login($event, user)" />
 	</div>
-	<div class="control-and-label">
-		<div class="error" ng-show="!!passwordError" ng-bind="passwordError"></div>
-		<input id="password" name="password" type="password" ng-model="user.password" ng-change="validateLogin(user)" placeholder="Password" ng-keypress="login($event, user)" />
+	<div class="form-group" ng-class="{ 'has-error': !!passwordError }">
+		<span class="error-message" error-message message="passwordError"></span>
+		<input id="password" name="password" type="password" class="form-control" placeholder="Password" ng-model="user.password" ng-change="validateLogin(user)" ng-keypress="login($event, user)" />
 	</div>
-	<div class="control-and-label">
+	<div class="form-group">
 		<input id="remember" name="remember" type="checkbox" ng-model="user.remember" />
 		<label for="remember">Remember Me</label>
 	</div>
