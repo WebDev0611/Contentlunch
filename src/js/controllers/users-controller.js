@@ -4,6 +4,35 @@ launch.module.controller('UsersController', [
 
 		self.forceDirty = false;
 
+		self.loadUsers = function (callback) {
+			$scope.users = userService.query(null, {
+				success: function (users) {
+					$scope.search.applyFilter(true);
+
+					if (!!callback && $.isFunction(callback.success)) {
+						callback.success(users);
+					}
+				},
+				error: function(r) {
+					if (!!callback && $.isFunction(callback.error)) {
+						callback.error(r);
+					}
+				}
+			});
+		};
+
+		self.discardChanges = function (form) {
+			self.reset(form);
+			self.loadUsers();
+		};
+
+		self.reset = function (form) {
+			$scope.selectedIndex = null;
+			$scope.selectedUser = null;
+			form.$setPristine();
+			self.forceDirty = false;
+		};
+
 		$scope.users = [];
 		$scope.roles = [];
 		$scope.filteredUsers = [];
@@ -39,12 +68,12 @@ launch.module.controller('UsersController', [
 
 		$scope.pagination = {
 			totalItems: 0,
-			pageSize: 10,
+			pageSize: 3,
 			currentPage: 1,
 			currentSort: 'firstName',
 			currentSortDirection: 'ASC',
-			onPageChange: function(page) {
-				$scope.selectUser();
+			onPageChange: function(page, form) {
+				$scope.selectUser(null, null, form);
 
 				// IF WE WANT TO PAGE FROM THE SERVER, ENTER THAT CODE AND
 				// REMOVE THE getPagedUsers FUNCTION BELOW. ALSO, WE'LL NEED
@@ -67,11 +96,7 @@ launch.module.controller('UsersController', [
 			}
 		};
 
-		$scope.users = userService.query(null, {
-			success: function(users) {
-				$scope.search.applyFilter(true);
-			}
-		});
+		self.loadUsers();
 
 		$scope.roles = roleService.query();
 
@@ -133,17 +158,39 @@ launch.module.controller('UsersController', [
 			form.$setDirty();
 
 			var msg = $scope.selectedUser.validateAll();
+			var isNew = launch.utils.isBlank($scope.selectedUser.id);
 
 			if (!launch.utils.isBlank(msg)) {
 				notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
 				return;
 			}
 
-			var method = launch.utils.isBlank($scope.selectedUser.id) ? userService.add : userService.update;
+			var method = isNew ? userService.add : userService.update;
 
 			method($scope.selectedUser, {
 				success: function (r) {
 					notificationService.success('Success!', 'You have successfully saved user ' + r.id + '!');
+
+					if (isNew) {
+						self.loadUsers({
+							success: function (users) {
+								var index = null;
+								var user = $.grep(users, function (u, i) {
+									if (r.id === u.id) {
+										index = i;
+										return true;
+									}
+
+									return false;
+								});
+
+								if (user.length === 1) {
+									$scope.pagination.currentPage = parseInt(index / $scope.pagination.pageSize) + 1;
+									$scope.selectUser(user[0], index, form);
+								}
+							}
+						});
+					}
 
 					if ($scope.selectedIndex >= 0) {
 						$scope.users[$scope.selectedIndex] = r;
@@ -424,23 +471,6 @@ launch.module.controller('UsersController', [
 			}
 
 			return [];
-		};
-
-		self.discardChanges = function(form) {
-			self.reset(form);
-
-			$scope.users = userService.query(null, {
-				success: function(users) {
-					$scope.search.applyFilter(false);
-				}
-			});
-		};
-
-		self.reset = function(form) {
-			$scope.selectedIndex = null;
-			$scope.selectedUser = null;
-			form.$setPristine();
-			self.forceDirty = false;
 		};
 	}
 ]);
