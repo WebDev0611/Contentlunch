@@ -1,7 +1,7 @@
 ﻿<div class="view users">
 	<div class="col-md-3 left-pane">
 		<div class="btn-group">
-			<button class="btn btn-default btn-create-user" ng-click="enterNewUser()">
+			<button class="btn btn-default btn-create-user" ng-click="enterNewUser(editUser)">
 				<span class="glyphicon glyphicon-user"></span>
 				CREATE NEW USER
 			</button>
@@ -23,11 +23,11 @@
 		</div>
 
 		<ul class="users-list">
-			<li ng-repeat="user in pagedUsers[pagination.currentPage - 1]" ng-click="selectUser(user, $index)" ng-class="{ selected: isSelectedUser(user) }">
+			<li ng-repeat="user in pagedUsers[pagination.currentPage - 1]" ng-click="selectUser(user, $index, editUser)" ng-class="{ selected: isSelectedUser(user) }">
 				<div class="user-image" ng-style="{ 'background-image': user.imageUrl() }"></div>
 				<div class="user-info">
 					<span class="user-name">{{ user.formatName() }}</span><br/>
-					{{ user.roles[0].roleName }}
+					{{ user.role.roleName }}
 				</div>
 			</li>
 		</ul>
@@ -46,40 +46,46 @@
 		</div>
 	</div>
 	<div class="col-md-9 right-pane">
-		<form name="editUser" novalidate="novalidate">
-			<div class="user-image" ng-show="!!selectedUser" ng-style="{ 'background-image': selectedUser.imageUrl() }"></div>
-			<div class="user-editor" ng-show="!!selectedUser">
+		<form name="editUser" novalidate="novalidate" ng-show="!!selectedUser">
+			<div class="user-image" ng-style="{ 'background-image': selectedUser.imageUrl() }"></div>
+			<div class="user-editor">
 				<div class="control-group">
-					<div class="form-group" ng-class="{ 'has-error': errorState('firstName') }">
+					<div class="form-group" ng-class="{ 'has-error': errorState('firstName', editUser.txtFirstName) }">
 						<label class="control-label" for="txtFirstName">
 							First Name
-							<span class="error-message" error-message message="errorMessage('firstName')"></span>
+							<span class="error-message" error-message message="errorMessage('firstName', editUser.txtFirstName)"></span>
 						</label>
 						<input type="text" id="txtFirstName" name="txtFirstName" class="form-control" ng-model="selectedUser.firstName" />
 					</div>
-					<div class="form-group" ng-class="{ 'has-error': errorState('lastName') }">
+					<div class="form-group" ng-class="{ 'has-error': errorState('lastName', editUser.txtLastName) }">
 						<label class="control-label" for="txtLastName">
 							Last Name
-							<span class="error-message" error-message message="errorMessage('lastName')"></span>
+							<span class="error-message" error-message message="errorMessage('lastName', editUser.txtLastName)"></span>
 						</label>
 						<input type="text" id="txtLastName" name="txtLastName" class="form-control" ng-model="selectedUser.lastName" />
 					</div>
-					<div class="form-group">
-						<label class="control-label" for="txtTitle">Title</label>
+					<div class="form-group" ng-class="{ 'has-error': errorState('title', editUser.txtTitle) }">
+						<label class="control-label" for="txtTitle">
+							Title
+							<span class="error-message" error-message message="errorMessage('title', editUser.txtTitle)"></span>
+						</label>
 						<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="selectedUser.title" />
 					</div>
 				</div>
 
 				<div class="control-group">
-					<div class="form-group" ng-class="{ 'has-error': errorState('email') }">
+					<div class="form-group" ng-class="{ 'has-error': errorState('email', editUser.txtEmail) }">
 						<label class="control-label" for="txtEmail">
 							Email
-							<span class="error-message" error-message message="errorMessage('email')"></span>
+							<span class="error-message" error-message message="errorMessage('email', editUser.txtEmail)"></span>
 						</label>
-						<input type="text" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedUser.email" />
+						<input type="email" required="required" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedUser.email" />
 					</div>
-					<div class="form-group">
-						<label class="control-label" for="txtPhoneNumber">Phone Number</label>
+					<div class="form-group" ng-class="{ 'has-error': errorState('phoneNumber', editUser.txtPhoneNumber) }">
+						<label class="control-label" for="txtPhoneNumber">
+							Phone
+							<span class="error-message" error-message message="errorMessage('phoneNumber', editUser.txtPhoneNumber)"></span>
+						</label>
 						<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="selectedUser.phoneNumber" />
 					</div>
 				</div>
@@ -116,31 +122,28 @@
 				</div>
 
 				<div class="control-group">
-					<div class="form-group">
-						<label class="control-label" for="selStatus">Status</label>
+					<div class="form-group" ng-class="{ 'has-error': errorState('active', editUser.selStatus) }">
+						<label class="control-label" for="selStatus">
+							Status
+							<span class="error-message" error-message message="errorMessage('active', editUser.selStatus)"></span>
+						</label>
 						<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedUser.active">
 							<option value="active">Active</option>
 							<option value="inactive">Inactive</option>
 						</select>
 					</div>
-					<div class="form-group">
-						<label class="control-label" for="selRole">Role</label>
-						<select id="selRole" name="selRole" class="form-control" ng-model="selectedUser.roles[0].roleName">
-							<option value="Admin">Admin</option>
-							<option value="Site Admin">Site Admin</option>
-							<option value="Content Creator">Content Creator</option>
-							<option value="Manager">Manager</option>
-							<option value="Director">Director</option>
-							<option value="C-Level">C-Level</option>
-							<option value="Editor">Editor</option>
-							<option value="Client">Client</option>
-						</select>
+					<div class="form-group" ng-class="{ 'has-error': errorState('role', editUser.selRole) }">
+						<label class="control-label" for="selRole">
+							Role
+							<span class="error-message" error-message message="errorMessage('role', editUser.selRole)"></span>
+						</label>
+						<select id="selRole" name="selRole" class="form-control" ng-model="selectedUser.role" ng-options="r.roleName for r in roles track by r.roleId"></select>
 					</div>
 				</div>
 			
 				<div class="control-group btn-toolbar">
-					<button type="button" class="btn btn-default" ng-click="saveUser()">Save</button>
-					<button type="button" class="btn btn-default" ng-click="cancelEdit(editUser.$dirty)">Cancel</button>
+					<button type="button" class="btn btn-default" ng-click="saveUser(editUser)">Save</button>
+					<button type="button" class="btn btn-default" ng-click="cancelEdit(editUser)">Cancel</button>
 				</div>
 			</div>
 		</form>

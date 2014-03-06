@@ -210,6 +210,14 @@ header {
 	margin: 16px 0;
 
 	&.has-error {
+		.error-message {
+			color: #ff0000;
+		}
+
+		.form-control{
+			border-color: #ff0000;
+		}
+
 		label {
 			.error-message {
 				float: right;
@@ -298,7 +306,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 	input[type="text"], input[type="password"] {
 		color: #000000;
-		margin-bottom: 16px;
 		width: 100%;
 	}
 
