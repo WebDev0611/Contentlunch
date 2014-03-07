@@ -20,28 +20,28 @@ launch.module.factory('AuthService', function($resource, $sanitize, SessionServi
 				email: $sanitize(username),
 				password: $sanitize(password),
 				remember: remember
-			}, function(resource) {
+			}, function(r) {
 				var user = {
-					id: resource.id,
-					confirmed: resource.confirmed,
-					created_at: resource.created_at,
-					email: resource.email,
-					first_name: resource.first_name,
-					last_name: resource.last_name,
-					updated_at: resource.updated_at,
-					username: resource.username
+					id: parseInt(r.id),
+					confirmed: r.confirmed,
+					created_at: r.created_at,
+					email: r.email,
+					first_name: r.first_name,
+					last_name: r.last_name,
+					updated_at: r.updated_at,
+					username: r.username
 				};
 
 				cacheSession(user);
 
 				if (!!callbacks && $.isFunction(callbacks.success)) {
-					callbacks.success(resource);
+					callbacks.success(r);
 				}
-			}, function(resource) {
-				loginError(resource);
+			}, function(r) {
+				loginError(r);
 
 				if (!!callbacks && $.isFunction(callbacks.error)) {
-					callbacks.error(resource);
+					callbacks.error(r);
 				}
 			});
 

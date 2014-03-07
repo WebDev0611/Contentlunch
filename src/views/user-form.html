@@ -1,0 +1,117 @@
+﻿<form name="editUser" class="user-editor" novalidate="novalidate">
+	<div class="user-image" ng-style="{ 'background-image': selectedUser.imageUrl() }"></div>
+	<div class="user-editor">
+		<div class="control-group">
+			<div class="form-group" ng-class="{ 'has-error': errorState('firstName', editUser.txtFirstName) }">
+				<label class="control-label" for="txtFirstName">
+					First Name
+					<span class="error-message" error-message message="errorMessage('firstName', editUser.txtFirstName)"></span>
+				</label>
+				<input type="text" id="txtFirstName" name="txtFirstName" class="form-control" ng-model="selectedUser.firstName" />
+			</div>
+			<div class="form-group" ng-class="{ 'has-error': errorState('lastName', editUser.txtLastName) }">
+				<label class="control-label" for="txtLastName">
+					Last Name
+					<span class="error-message" error-message message="errorMessage('lastName', editUser.txtLastName)"></span>
+				</label>
+				<input type="text" id="txtLastName" name="txtLastName" class="form-control" ng-model="selectedUser.lastName" />
+			</div>
+			<div class="form-group" ng-class="{ 'has-error': errorState('title', editUser.txtTitle) }">
+				<label class="control-label" for="txtTitle">
+					Title
+					<span class="error-message" error-message message="errorMessage('title', editUser.txtTitle)"></span>
+				</label>
+				<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="selectedUser.title" ng-disabled="selfEditing" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div class="form-group" ng-class="{ 'has-error': errorState('email', editUser.txtEmail) }">
+				<label class="control-label" for="txtEmail">
+					Email
+					<span class="error-message" error-message message="errorMessage('email', editUser.txtEmail)"></span>
+				</label>
+				<input type="text" required="required" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedUser.email" />
+			</div>
+			<div class="form-group" ng-class="{ 'has-error': errorState('phoneNumber', editUser.txtPhoneNumber) }">
+				<label class="control-label" for="txtPhoneNumber">
+					Phone
+					<span class="error-message" error-message message="errorMessage('phoneNumber', editUser.txtPhoneNumber)"></span>
+				</label>
+				<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="selectedUser.phoneNumber" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div class="form-group">
+				<label class="control-label" for="txtAddress1">Address 1</label>
+				<input type="text" id="txtAddress1" name="txtAddress1" class="form-control" ng-model="selectedUser.address1" />
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="txtAddress2">Address 2</label>
+				<input type="text" id="txtAddress2" name="txtAddress2" class="form-control" ng-model="selectedUser.address2" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div class="form-group">
+				<label class="control-label" for="txtCity">City</label>
+				<input type="text" id="txtCity" name="txtCity" class="form-control" ng-model="selectedUser.city" />
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="selCountry">Country</label>
+				<select id="selCountry" name="selCountry" class="form-control" ng-model="selectedUser.country">
+					<option value="Australia">Australia</option>
+					<option value="Canada">Canada</option>
+					<option value="UK">UK</option>
+					<option value="USA">USA</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="selState">State</label>
+				<select id="selState" name="selState" class="form-control" ng-model="selectedUser.state" ng-options="s.name for s in getStates() track by s.value"></select>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div class="form-group" ng-class="{ 'has-error': errorState('active', editUser.selStatus) }">
+				<label class="control-label" for="selStatus">
+					Status
+					<span class="error-message" error-message message="errorMessage('active', editUser.selStatus)"></span>
+				</label>
+				<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedUser.active" ng-disabled="selfEditing">
+					<option value="active">Active</option>
+					<option value="inactive">Inactive</option>
+				</select>
+			</div>
+			<div class="form-group" ng-class="{ 'has-error': errorState('role', editUser.selRole) }">
+				<label class="control-label" for="selRole">
+					Role
+					<span class="error-message" error-message message="errorMessage('role', editUser.selRole)"></span>
+				</label>
+				<select id="selRole" name="selRole" class="form-control" ng-model="selectedUser.role" ng-options="r.roleName for r in roles track by r.roleId" ng-disabled="selfEditing"></select>
+			</div>
+		</div>
+		
+		<div class="form-group" ng-show="selfEditing">
+			<a href="#">Reset Password</a>
+		</div>
+
+		<div class="control-group btn-toolbar">
+			<button type="button" class="btn btn-default ladda-button" ng-click="saveUser(editUser)" data-style="zoom-in" ladda-button="isSaving">
+				<span class="ladda-label">Save</span>
+			</button>
+			<button type="button" class="btn btn-default" ng-click="cancelEdit(editUser)">Cancel</button>
+		</div>
+	</div>
+</form>
+
+<script type="text/ng-template" id="form-dirty.html">
+	<div class="modal-body">
+		You have not saved your changes. Are you sure you want to cancel?
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-default" ng-click="save()">Save Changes</button>
+		<button class="btn btn-default" ng-click="cancel()">Discard Changes</button>
+	</div>
+</script>

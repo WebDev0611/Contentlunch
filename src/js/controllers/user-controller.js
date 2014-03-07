@@ -1,15 +1,29 @@
 
 launch.module.controller('UserController', [
-	'$scope', '$location', 'UserService', 'AuthService', function($scope, $location, UserService, AuthService) {
-		$scope.user = { };
-		$scope.serverUser = { };
+	'$scope', '$location', 'UserService', 'AuthService', function($scope, $location, userService, authService) {
+		var self = this;
 
-		var info = AuthService.userInfo();
+		self.init = function() {
+			$scope.refreshMethod();
+		};
 
-		$scope.user = UserService.get({ id: info.id });
+		$scope.user = null;
+		$scope.serverUser = null;
 
-		AuthService.getCurrentUser(function (user) {
-			$scope.serverUser = user;
-		});
+		$scope.refreshMethod = function () {
+			var info = authService.userInfo();
+
+			$scope.user = userService.get({ id: info.id });
+
+			authService.getCurrentUser(function (user) {
+				$scope.serverUser = user;
+			});
+		};
+
+		$scope.afterSaveSuccess = function (r, form) {
+
+		};
+
+		self.init();
 	}
 ]);

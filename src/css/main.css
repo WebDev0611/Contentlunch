@@ -422,9 +422,71 @@ span[class*=" icon-"].dark {
   color: #ffffff;
 }
 .users .right-pane {
+  /*padding: 16px;*/
+}
+.my-account .left-pane {
+  position: relative;
+}
+.my-account .left-pane .btn-group {
+  margin-bottom: 12px;
+  width: 100%;
+}
+.my-account .left-pane .btn-group .btn-create-user {
+  background-color: #000000;
+  color: #ffffff;
+  width: 100%;
+}
+.my-account .left-pane .btn-group .btn-create-user .glyphicon {
+  margin-right: 8px;
+}
+.my-account .left-pane .btn-group.btn-group-user-filter .btn.active {
+  background-color: #000000;
+  color: #ffffff;
+}
+.my-account .left-pane hr {
+  border-color: #000000;
+  margin-top: 10px;
+}
+.my-account .left-pane ul.users-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.my-account .left-pane ul.users-list li {
+  cursor: pointer;
+  padding: 8px;
+  position: relative;
+}
+.my-account .left-pane ul.users-list li:hover,
+.my-account .left-pane ul.users-list li.selected {
+  background-color: #eeeeee;
+}
+.my-account .left-pane ul.users-list li .user-info {
+  margin-left: 52px;
+  font-size: 8pt;
+}
+.my-account .left-pane ul.users-list li .user-info .user-name {
+  font-size: 12pt;
+}
+.my-account .left-pane .users-pager ul.pagination {
+  display: block;
+}
+.my-account .left-pane .users-pager ul.pagination li a {
+  background-color: transparent;
+  border-color: #000000;
+  border-radius: 0 !important;
+  color: #000000;
+  cursor: pointer;
+  margin: 0 4px;
+}
+.my-account .left-pane .users-pager ul.pagination li.active a {
+  background-color: #000000;
+  color: #ffffff;
+}
+.user-editor {
   padding: 16px;
 }
-.users .right-pane .user-image {
+.user-editor .user-image {
   background-size: 96px;
   -moz-background-size: 96px;
   -o-background-size: 96px;
@@ -433,21 +495,26 @@ span[class*=" icon-"].dark {
   height: 96px;
   width: 96px;
 }
-.users .right-pane .user-editor {
+.user-editor .user-editor {
   margin-left: 128px;
 }
-.users .right-pane .user-editor .control-group {
+.user-editor .user-editor .control-group {
   margin: 0 8px 8px 0;
 }
-.users .right-pane .user-editor .control-group .form-group {
+.user-editor .user-editor .control-group .form-group {
   display: inline-block;
   margin: 0 0 0 8px;
   width: 20em;
 }
-.users .right-pane .user-editor .control-group .btn-default {
+.user-editor .user-editor .control-group .btn {
+  font-size: 14px;
+  min-width: 150px;
+  padding: 6px 12px;
+}
+.user-editor .user-editor .control-group .btn.btn-default {
   background-color: #000000;
   color: #ffffff;
 }
-.users .right-pane .user-editor .control-group.btn-toolbar {
+.user-editor .user-editor .control-group.btn-toolbar {
   margin: 16px 0;
 }
