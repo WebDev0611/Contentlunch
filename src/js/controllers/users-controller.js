@@ -4,28 +4,91 @@ launch.module.controller('UsersController', [
 
 		self.forceDirty = false;
 
+		self.loadUsers = function (callback) {
+			$scope.isBusy = true;
+
+			$scope.users = userService.query(null, {
+				success: function (users) {
+					$scope.isBusy = false;
+					$scope.search.applyFilter(true);
+
+					if (!!callback && $.isFunction(callback.success)) {
+						callback.success(users);
+					}
+				},
+				error: function (r) {
+					$scope.isBusy = false;
+
+					if (!!callback && $.isFunction(callback.error)) {
+						callback.error(r);
+					}
+				}
+			});
+		};
+
+		self.discardChanges = function (form) {
+			self.reset(form);
+			self.loadUsers();
+		};
+
+		self.reset = function (form) {
+			$scope.selectedIndex = null;
+			$scope.selectedUser = null;
+
+			self.forceDirty = false;
+
+			if (!!form) {
+				form.$setPristine();
+			}
+		};
+
+		self.adjustPage = function(userId, form) {
+			var index = null;
+			var user = $.grep($scope.users, function (u, i) {
+				if (userId === u.id) {
+					index = i;
+					return true;
+				}
+
+				return false;
+			});
+
+			if (user.length === 1) {
+				$scope.pagination.currentPage = parseInt(index / $scope.pagination.pageSize) + 1;
+
+				if ($scope.selectedUser.id !== user[0].id) {
+					$scope.selectUser(user[0], index, form);
+				}
+			}
+		};
+
 		$scope.users = [];
 		$scope.roles = [];
 		$scope.filteredUsers = [];
 		$scope.pagedUsers = [];
+		$scope.isBusy = false;
 		$scope.selectedIndex = null;
 		$scope.selectedUser = null;
 
 		$scope.search = {
 			searchTerm: null,
-			searchTermMinLength: 3,
+			searchTermMinLength: 1,
 			userStatus: 'active',
 			toggleStatus: function(status) {
 				this.userStatus = status;
 				this.applyFilter(true);
 			},
 			applyFilter: function(reset) {
-				$scope.filteredUsers = $filter('filter')($scope.users, function(user) {
-					if (!launch.utils.isBlank($scope.search.searchTerm) && $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
-						return (launch.utils.isBlank($scope.search.searchTerm) ? true : user.matchSearchTerm($scope.search.searchTerm));
+				$scope.filteredUsers = $filter('filter')($scope.users, function (user) {
+					if ($scope.search.userStatus === 'all' || $scope.search.userStatus === user.active) {
+						if (!launch.utils.isBlank($scope.search.searchTerm) && $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
+							return (launch.utils.isBlank($scope.search.searchTerm) ? true : user.matchSearchTerm($scope.search.searchTerm));
+						} else {
+							return true;
+						}
+					} else {
+						return false;
 					}
-
-					return ($scope.search.userStatus === 'all' || $scope.search.userStatus === user.active);
 				});
 
 				if (reset === true) {
@@ -34,17 +97,27 @@ launch.module.controller('UsersController', [
 
 				$scope.pagination.totalItems = $scope.filteredUsers.length;
 				$scope.pagination.groupToPages();
+
+				if (!!$scope.selectedUser) {
+					if ($.inArray($scope.selectedUser, $scope.filteredUsers) >= 0) {
+						self.adjustPage($scope.selectedUser.id, null);
+					} else {
+						self.reset();
+					}
+				}
 			}
 		};
 
 		$scope.pagination = {
 			totalItems: 0,
-			pageSize: 10,
+			pageSize: 3,
 			currentPage: 1,
 			currentSort: 'firstName',
 			currentSortDirection: 'ASC',
-			onPageChange: function(page) {
-				$scope.selectUser();
+			onPageChange: function (page, form) {
+				if (!$.inArray($scope.selectedUser, $scope.pagedUsers[$scope.pagination.currentPage - 1])) {
+					$scope.selectUser(null, null, form);
+				}
 
 				// IF WE WANT TO PAGE FROM THE SERVER, ENTER THAT CODE AND
 				// REMOVE THE getPagedUsers FUNCTION BELOW. ALSO, WE'LL NEED
@@ -67,11 +140,7 @@ launch.module.controller('UsersController', [
 			}
 		};
 
-		$scope.users = userService.query(null, {
-			success: function(users) {
-				$scope.search.applyFilter(true);
-			}
-		});
+		self.loadUsers();
 
 		$scope.roles = roleService.query();
 
@@ -133,24 +202,37 @@ launch.module.controller('UsersController', [
 			form.$setDirty();
 
 			var msg = $scope.selectedUser.validateAll();
+			var isNew = launch.utils.isBlank($scope.selectedUser.id);
 
 			if (!launch.utils.isBlank(msg)) {
 				notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
 				return;
 			}
 
-			var method = launch.utils.isBlank($scope.selectedUser.id) ? userService.add : userService.update;
+			var method = isNew ? userService.add : userService.update;
+
+			$scope.isBusy = true;
 
 			method($scope.selectedUser, {
 				success: function (r) {
+					$scope.isBusy = false;
+
 					notificationService.success('Success!', 'You have successfully saved user ' + r.id + '!');
 
-					if ($scope.selectedIndex >= 0) {
+					if (isNew) {
+						self.loadUsers({
+							success: function () {
+								self.adjustPage(r.id, form);
+							}
+						});
+					} else if ($scope.selectedIndex >= 0) {
 						$scope.users[$scope.selectedIndex] = r;
 						$scope.search.applyFilter(true);
 					}
 				},
 				error: function (r) {
+					$scope.isBusy = false;
+
 					var err = (!launch.utils.isBlank(r.message)) ? r.message : null;
 					var msg = 'Looks like we\'ve encountered an error trying to save this user.';
 
@@ -424,23 +506,6 @@ launch.module.controller('UsersController', [
 			}
 
 			return [];
-		};
-
-		self.discardChanges = function(form) {
-			self.reset(form);
-
-			$scope.users = userService.query(null, {
-				success: function(users) {
-					$scope.search.applyFilter(false);
-				}
-			});
-		};
-
-		self.reset = function(form) {
-			$scope.selectedIndex = null;
-			$scope.selectedUser = null;
-			form.$setPristine();
-			self.forceDirty = false;
 		};
 	}
 ]);

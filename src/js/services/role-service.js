@@ -12,12 +12,10 @@ launch.module.factory('RoleService', function ($resource) {
 				});
 
 				roles.sort(function (a, b) {
-					if (launch.utils.isBlank(a.roleName) && launch.utils.isBlank(b.roleName) &&
-						launch.utils.isBlank(a.roleId) && launch.utils.isBlank(b.roleId)) {
-						return 0;
-					}
+					var roleA = launch.utils.isBlank(a.roleName) ? '' : a.roleName.toUpperCase();
+					var roleB = launch.utils.isBlank(b.roleName) ? '' : b.roleName.toUpperCase();
 
-					if (a.roleName === b.roleName) {
+					if (roleA === roleB) {
 						if (a.roleId === b.roleId) {
 							return 0;
 						} else if (a.roleId < b.roleId) {
@@ -26,7 +24,7 @@ launch.module.factory('RoleService', function ($resource) {
 							return 1;
 						}
 					} else {
-						if (a.roleName < b.roleName) {
+						if (roleA < roleB) {
 							return -1;
 						} else {
 							return 1;

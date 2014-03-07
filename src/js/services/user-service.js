@@ -12,23 +12,21 @@ launch.module.factory('UserService', function($resource) {
 				});
 
 				users.sort(function(a, b) {
-					if (launch.utils.isBlank(a.lastName) && launch.utils.isBlank(b.lastName) &&
-						launch.utils.isBlank(a.firstName) && launch.utils.isBlank(b.firstName)) {
-						return 0;
-					}
+					var firstA = launch.utils.isBlank(a.firstName) ? '' : a.firstName.toUpperCase();
+					var firstB = launch.utils.isBlank(b.firstName) ? '' : b.firstName.toUpperCase();
+					var lastA = launch.utils.isBlank(a.lastName) ? '' : a.lastName.toUpperCase();
+					var lastB = launch.utils.isBlank(b.lastName) ? '' : b.lastName.toUpperCase();
 
-					if (a.lastName === b.lastName) {
-						if (launch.utils.isBlank(a.firstName) && launch.utils.isBlank(b.firstName)) {
+					if (lastA === lastB) {
+						if (firstA === firstB) {
 							return 0;
-						} else if (a.firstName === b.firstName) {
-							return 0;
-						} else if (a.firstName < b.firstName) {
+						} else if (firstA < firstB) {
 							return -1;
 						} else {
 							return 1;
 						}
 					} else {
-						if (a.lastName < b.lastName) {
+						if (lastA < lastB) {
 							return -1;
 						} else {
 							return 1;
@@ -53,7 +51,7 @@ launch.module.factory('UserService', function($resource) {
 				roles.push(new launch.Role(r.id, r.name));
 			});
 
-			user.id = dto.id;
+			user.id = parseInt(dto.id);
 			user.userName = dto.userName;
 			user.firstName = dto.first_name;
 			user.lastName = dto.last_name;
@@ -76,7 +74,7 @@ launch.module.factory('UserService', function($resource) {
 
 			return user;
 		},
-		toDto: function (user) {
+		toDto: function(user) {
 			var dto = {
 				id: user.id,
 				userName: user.userName,
@@ -125,7 +123,7 @@ launch.module.factory('UserService', function($resource) {
 
 			return resource.get(params, success, error);
 		},
-		update: function (user, callback) {
+		update: function(user, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
@@ -134,6 +132,9 @@ launch.module.factory('UserService', function($resource) {
 		add: function(user, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+// TODO: DELETE THIS LINE ONCE THE SERVER CREATES THE PASSWORDS!
+user.password = user.passwordConfirmation = 'welc0me';
 
 			return resource.insert(null, user, success, error);
 		},
