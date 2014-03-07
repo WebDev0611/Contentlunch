@@ -44,7 +44,9 @@ gulp.task('map-bootstrap', function () {
 
 gulp.task('bootstrap-components-css', function () {
 	return gulp.src([
-			'./bower_components/pnotify/jquery.pnotify.default.css'
+			'./bower_components/pnotify/jquery.pnotify.default.css',
+			'./bower_components/ladda/dist/ladda.min.css',
+			'./bower_components/ladda/dist/spin.min.css'
 	])
 		.pipe(concat('bootstrap-components.css'))
 		.pipe(gulp.dest('public/assets/css'))

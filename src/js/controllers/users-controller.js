@@ -4,12 +4,16 @@ launch.module.controller('UsersController', [
 
 		self.forceDirty = false;
 
+		self.init = function() {
+			self.loadUsers(true);
+		};
+
 		self.loadUsers = function(reset, callback) {
-			$scope.isBusy = true;
+			$scope.isLoading = true;
 
 			$scope.users = userService.query(null, {
 				success: function(users) {
-					$scope.isBusy = false;
+					$scope.isLoading = false;
 					$scope.search.applyFilter(reset);
 
 					if (!!callback && $.isFunction(callback.success)) {
@@ -17,7 +21,7 @@ launch.module.controller('UsersController', [
 					}
 				},
 				error: function(r) {
-					$scope.isBusy = false;
+					$scope.isLoading = false;
 
 					if (!!callback && $.isFunction(callback.error)) {
 						callback.error(r);
@@ -84,7 +88,8 @@ launch.module.controller('UsersController', [
 		$scope.roles = [];
 		$scope.filteredUsers = [];
 		$scope.pagedUsers = [];
-		$scope.isBusy = false;
+		$scope.isLoading = false;
+		$scope.isSaving = false;
 		$scope.selectedIndex = null;
 		$scope.selectedUser = null;
 
@@ -134,6 +139,7 @@ launch.module.controller('UsersController', [
 			currentSortDirection: 'ASC',
 			onPageChange: function(page, form) {
 				if (!self.userExists($scope.selectedUser, $scope.pagedUsers[page - 1])) {
+					this.currentPage = 1;
 					$scope.selectUser(null, null, form);
 				}
 
@@ -157,8 +163,6 @@ launch.module.controller('UsersController', [
 				}
 			}
 		};
-
-		self.loadUsers(true);
 
 		$scope.roles = roleService.query();
 
@@ -229,11 +233,11 @@ launch.module.controller('UsersController', [
 
 			var method = isNew ? userService.add : userService.update;
 
-			$scope.isBusy = true;
+			$scope.isSaving = true;
 
 			method($scope.selectedUser, {
 				success: function(r) {
-					$scope.isBusy = false;
+					$scope.isSaving = false;
 
 					notificationService.success('Success!', 'You have successfully saved user ' + r.id + '!');
 
@@ -244,7 +248,7 @@ launch.module.controller('UsersController', [
 					});
 				},
 				error: function(r) {
-					$scope.isBusy = false;
+					$scope.isSaving = false;
 
 					var err = (!launch.utils.isBlank(r.message)) ? r.message : null;
 					var msg = 'Looks like we\'ve encountered an error trying to save this user.';
@@ -520,5 +524,7 @@ launch.module.controller('UsersController', [
 
 			return [];
 		};
+
+		self.init();
 	}
 ]);
