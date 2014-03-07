@@ -1,5 +1,11 @@
 ﻿<form name="editUser" class="user-editor" novalidate="novalidate">
-	<div class="user-image" ng-style="{ 'background-image': selectedUser.imageUrl() }"></div>
+	<div class="user-image-upload">
+		<div class="user-image" ng-style="{ 'background-image': selectedUser.imageUrl() }"></div>
+		<button type="button" class="btn btn-default ladda-button" onclick="$('#filPhoto').click()" data-style="zoom-in" ladda-button="isSaving">
+			<span class="ladda-label">Upload Photo</span>
+		</button>
+		<input type="file" id="filPhoto" file-upload on-select-file="uploadPhoto" />
+	</div>
 	<div class="user-editor">
 		<div class="control-group">
 			<div class="form-group" ng-class="{ 'has-error': errorState('firstName', editUser.txtFirstName) }">

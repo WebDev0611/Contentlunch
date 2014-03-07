@@ -15,6 +15,7 @@
 		};
 
 		scope.roles = [];
+		scope.photoFile = null;
 		scope.isLoading = false;
 		scope.isSaving = false;
 
@@ -87,6 +88,10 @@
 					NotificationService.error('Whoops!', errMsg);
 				}
 			});
+		};
+
+		scope.uploadPhoto = function(files) {
+			
 		};
 
 		scope.errorMessage = function (property, control) {

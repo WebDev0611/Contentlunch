@@ -1,5 +1,4 @@
-﻿
-launch.module.directive('errorMessage', function($compile, $templateCache) {
+﻿launch.module.directive('errorMessage', function($compile, $templateCache) {
 	return {
 		restrict: 'A',
 		scope: {

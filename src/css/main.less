@@ -363,8 +363,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 	display: inline-block;
 	height: 40px;
 	width: 40px;
-	left: 8px;
-	position: absolute;
 }
 
 .users {
@@ -414,90 +412,9 @@ span[class^="icon-"], span[class*=" icon-"] {
 					background-color: #eeeeee;
 				}
 
-				.user-info {
-					margin-left: 52px;
-					font-size: 8pt;
-
-					.user-name {
-						font-size: 12pt;
-					}
-				}
-			}
-		}
-
-		.users-pager {
-			ul.pagination {
-				display: block;
-
-				li {
-					a {
-						background-color: transparent;
-						border-color: @text-color;
-						border-radius: 0 !important;
-						color: @text-color;
-						cursor: pointer;
-						margin: 0 4px;
-					}
-
-					&.active a {
-						background-color: @text-color;
-						color: #ffffff;
-					}
-				}
-			}
-		}
-	}
-
-	.right-pane {
-		/*padding: 16px;*/
-	}
-}
-
-.my-account {
-	.left-pane {
-		position: relative;
-
-		.btn-group {
-			margin-bottom: 12px;
-			width: 100%;
-
-			.btn-create-user {
-				background-color: #000000;
-				color: #ffffff;
-				width: 100%;
-
-				.glyphicon {
-					margin-right: 8px;
-				}
-			}
-
-			&.btn-group-user-filter {
-				.btn {
-					&.active {
-						background-color: #000000;
-						color: #ffffff;
-					}
-				}
-			}
-		}
-
-		hr {
-			border-color: #000000;
-			margin-top: 10px;
-		}
-
-		ul.users-list {
-			list-style: none;
-			margin: 0;
-			padding: 0;
-
-			li {
-				cursor: pointer;
-				padding: 8px;
-				position: relative;
-
-				&:hover, &.selected {
-					background-color: #eeeeee;
+				.user-image {
+					left: 8px;
+					position: absolute;
 				}
 
 				.user-info {
@@ -538,14 +455,42 @@ span[class^="icon-"], span[class*=" icon-"] {
 .user-editor {
 	padding: 16px;
 
-	.user-image {
-		background-size: 96px;
-		-moz-background-size: 96px;
-		-o-background-size: 96px;
-		border: solid 3px #ffffff;
-		left: 16px;
-		height: 96px;
-		width: 96px;
+	.btn {
+		font-size: 14px;
+		min-width: 120px;
+		padding: 6px 12px;
+
+		&.btn-default {
+			background-color: #000000;
+			color: #ffffff;
+		}
+	}
+
+	.user-image-upload {
+		/*position: absolute;
+		left: 0;*/
+		float: left;
+		text-align: center;
+		width: 120px;
+
+		.user-image {
+			background-size: 96px;
+			-moz-background-size: 96px;
+			-o-background-size: 96px;
+			border: solid 3px #ffffff;
+			display: block;
+			height: 96px;
+			margin: auto;
+			width: 96px;
+		}
+
+		button {
+			margin-top: 16px;
+		}
+
+		input[type="file"] {
+			display: none;
+		}
 	}
 
 	.user-editor {
@@ -558,17 +503,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 				display: inline-block;
 				margin: 0 0 0 8px;
 				width: 20em;
-			}
-
-			.btn {
-				font-size: 14px;
-				min-width: 150px;
-				padding: 6px 12px;
-
-				&.btn-default {
-					background-color: #000000;
-					color: #ffffff;
-				}
 			}
 
 			&.btn-toolbar {

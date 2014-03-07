@@ -1,4 +1,3 @@
-
 launch.module.controller('UserController', [
 	'$scope', '$location', 'UserService', 'AuthService', function($scope, $location, userService, authService) {
 		var self = this;

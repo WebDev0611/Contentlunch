@@ -359,8 +359,6 @@ span[class*=" icon-"].dark {
   display: inline-block;
   height: 40px;
   width: 40px;
-  left: 8px;
-  position: absolute;
 }
 .users .left-pane {
   position: relative;
@@ -399,6 +397,10 @@ span[class*=" icon-"].dark {
 .users .left-pane ul.users-list li.selected {
   background-color: #eeeeee;
 }
+.users .left-pane ul.users-list li .user-image {
+  left: 8px;
+  position: absolute;
+}
 .users .left-pane ul.users-list li .user-info {
   margin-left: 52px;
   font-size: 8pt;
@@ -421,79 +423,40 @@ span[class*=" icon-"].dark {
   background-color: #000000;
   color: #ffffff;
 }
-.users .right-pane {
-  /*padding: 16px;*/
-}
-.my-account .left-pane {
-  position: relative;
-}
-.my-account .left-pane .btn-group {
-  margin-bottom: 12px;
-  width: 100%;
-}
-.my-account .left-pane .btn-group .btn-create-user {
-  background-color: #000000;
-  color: #ffffff;
-  width: 100%;
-}
-.my-account .left-pane .btn-group .btn-create-user .glyphicon {
-  margin-right: 8px;
-}
-.my-account .left-pane .btn-group.btn-group-user-filter .btn.active {
-  background-color: #000000;
-  color: #ffffff;
-}
-.my-account .left-pane hr {
-  border-color: #000000;
-  margin-top: 10px;
-}
-.my-account .left-pane ul.users-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.my-account .left-pane ul.users-list li {
-  cursor: pointer;
-  padding: 8px;
-  position: relative;
-}
-.my-account .left-pane ul.users-list li:hover,
-.my-account .left-pane ul.users-list li.selected {
-  background-color: #eeeeee;
-}
-.my-account .left-pane ul.users-list li .user-info {
-  margin-left: 52px;
-  font-size: 8pt;
-}
-.my-account .left-pane ul.users-list li .user-info .user-name {
-  font-size: 12pt;
-}
-.my-account .left-pane .users-pager ul.pagination {
-  display: block;
-}
-.my-account .left-pane .users-pager ul.pagination li a {
-  background-color: transparent;
-  border-color: #000000;
-  border-radius: 0 !important;
-  color: #000000;
-  cursor: pointer;
-  margin: 0 4px;
-}
-.my-account .left-pane .users-pager ul.pagination li.active a {
-  background-color: #000000;
-  color: #ffffff;
-}
 .user-editor {
   padding: 16px;
 }
-.user-editor .user-image {
+.user-editor .btn {
+  font-size: 14px;
+  min-width: 120px;
+  padding: 6px 12px;
+}
+.user-editor .btn.btn-default {
+  background-color: #000000;
+  color: #ffffff;
+}
+.user-editor .user-image-upload {
+  /*position: absolute;
+		left: 0;*/
+  float: left;
+  text-align: center;
+  width: 120px;
+}
+.user-editor .user-image-upload .user-image {
   background-size: 96px;
   -moz-background-size: 96px;
   -o-background-size: 96px;
   border: solid 3px #ffffff;
-  left: 16px;
+  display: block;
   height: 96px;
+  margin: auto;
   width: 96px;
+}
+.user-editor .user-image-upload button {
+  margin-top: 16px;
+}
+.user-editor .user-image-upload input[type="file"] {
+  display: none;
 }
 .user-editor .user-editor {
   margin-left: 128px;
@@ -505,15 +468,6 @@ span[class*=" icon-"].dark {
   display: inline-block;
   margin: 0 0 0 8px;
   width: 20em;
-}
-.user-editor .user-editor .control-group .btn {
-  font-size: 14px;
-  min-width: 150px;
-  padding: 6px 12px;
-}
-.user-editor .user-editor .control-group .btn.btn-default {
-  background-color: #000000;
-  color: #ffffff;
 }
 .user-editor .user-editor .control-group.btn-toolbar {
   margin: 16px 0;
