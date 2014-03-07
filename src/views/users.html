@@ -142,7 +142,7 @@
 				</div>
 			
 				<div class="control-group btn-toolbar">
-					<button type="button" class="btn btn-default" ng-click="saveUser(editUser)">Save</button>
+					<button type="button" class="btn btn-default" ng-click="saveUser(editUser)" ng-class="{ 'ladda-button': isBusy }">Save</button>
 					<button type="button" class="btn btn-default" ng-click="cancelEdit(editUser)">Cancel</button>
 				</div>
 			</div>
