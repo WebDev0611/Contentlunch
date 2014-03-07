@@ -108,7 +108,8 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
     'Zizaco\Confide\ConfideServiceProvider',
-    'Zizaco\Entrust\EntrustServiceProvider'
+    'Zizaco\Entrust\EntrustServiceProvider',
+    'Andrew13\Cabinet\CabinetServiceProvider',
 
 	),
 
@@ -178,6 +179,7 @@ return array(
 
     'Confide' => 'Zizaco\Confide\ConfideFacade',
     'Entrust' => 'Zizaco\Entrust\EntrustFacade',
+    'Cabinet' => 'Andrew13\Cabinet\CabinetFacade',
 
 	),
 

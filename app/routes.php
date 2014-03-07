@@ -10,6 +10,7 @@ Route::get('{any}', function()
 	return View::make('master');
 });
 
+
 // Homepage route
 // @todo : Not sure what to do with this yet
 Route::get('/', function()
@@ -59,6 +60,7 @@ Route::group(array('prefix' => 'api'), function()
 	Route::resource('user', 'UserController', array(
 		'only' => array('index', 'store', 'show', 'update', 'destroy')
 	));
+	Route::post('/user/{id}/image', 'UserController@postProfileImage');
 	
 	Route::get('test', function()
 	{

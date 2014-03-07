@@ -32,6 +32,11 @@ class User extends ConfideUser {
   	return $this->belongsToMany('Account')->withTimestamps();
   }
 
+  public function image()
+  {
+    return $this->hasOne('Upload', 'id', 'image');
+  }
+
   /**
    * Save roles to this user
    * @param  array $roles Role ids

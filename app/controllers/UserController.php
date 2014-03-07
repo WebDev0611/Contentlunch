@@ -11,6 +11,7 @@ class UserController extends BaseController {
 	{
 		$return = array();
 		$query = User::with('roles');
+		$query->with('image');
 		$users = $query->get()->toArray();
 		foreach ($users as &$user) {
 			if ($user['roles']) {
@@ -70,9 +71,9 @@ class UserController extends BaseController {
 
 	public function show($id)
 	{
-		$user = User::find($id);
+		$user = User::with('image')->with('roles')->find($id);
 		$return = $user->toArray();
-		$return['roles'] = $user->getRoles();
+		//$return['roles'] = $user->getRoles();
 		if ($user) {
 			return Response::json($return);
 		}
@@ -121,6 +122,40 @@ class UserController extends BaseController {
 		}
 		// 	App::abort(401);
 		return Response::json(array('message' => "Couldn't delete user"), 401);
+	}
+
+	public function postProfileImage($id)
+	{
+		$user = User::find($id);
+		$file = Input::file('file');
+		$upload = new Upload;
+		try {
+			$upload->process($file);
+		} catch (Exception $e) {
+			Log::error($e);
+			return Response::json(array(
+				'message' => "Couldn't upload file",
+				'errors' => $e->getMessage()
+			), 400);
+		}
+		if ($upload->id) {
+			// Upload succeeded, attach it to user
+			
+			// @todo: Figure out why this errors and fix it
+			/*
+			$upload->user_id = $id;
+			$upload->save();
+			// */
+		
+			$user->image = $upload->id;
+			$user->updateUniques();
+			return $this->show($user->id);
+			return $upload->toArray();
+		}
+		return Response::json(array(
+			'message' => "Couldn't upload file",
+			'errors' => "Error"
+		), 400);
 	}
 
 }
