@@ -21,7 +21,7 @@
 					Title
 					<span class="error-message" error-message message="errorMessage('title', editUser.txtTitle)"></span>
 				</label>
-				<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="selectedUser.title" />
+				<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="selectedUser.title" ng-disabled="selfEditing" />
 			</div>
 		</div>
 
@@ -79,7 +79,7 @@
 					Status
 					<span class="error-message" error-message message="errorMessage('active', editUser.selStatus)"></span>
 				</label>
-				<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedUser.active">
+				<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedUser.active" ng-disabled="selfEditing">
 					<option value="active">Active</option>
 					<option value="inactive">Inactive</option>
 				</select>
@@ -89,10 +89,14 @@
 					Role
 					<span class="error-message" error-message message="errorMessage('role', editUser.selRole)"></span>
 				</label>
-				<select id="selRole" name="selRole" class="form-control" ng-model="selectedUser.role" ng-options="r.roleName for r in roles track by r.roleId"></select>
+				<select id="selRole" name="selRole" class="form-control" ng-model="selectedUser.role" ng-options="r.roleName for r in roles track by r.roleId" ng-disabled="selfEditing"></select>
 			</div>
 		</div>
-			
+		
+		<div class="form-group" ng-show="selfEditing">
+			<a href="#">Reset Password</a>
+		</div>
+
 		<div class="control-group btn-toolbar">
 			<button type="button" class="btn btn-default ladda-button" ng-click="saveUser(editUser)" data-style="zoom-in" ladda-button="isSaving">
 				<span class="ladda-label">Save</span>

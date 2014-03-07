@@ -1,10 +1,13 @@
 launch.module.controller('UsersController', [
-	'$scope', '$location', '$filter', '$modal', 'UserService', 'RoleService', 'NotificationService', function($scope, $location, $filter, $modal, userService, roleService, notificationService) {
+	'$scope', '$location', '$filter', '$modal', 'AuthService', 'UserService', 'RoleService', 'NotificationService', function ($scope, $location, $filter, $modal, authService, userService, roleService, notificationService) {
 		var self = this;
+
+		self.loggedInUser = null;
 
 		self.init = function() {
 			$scope.loadUsers(true);
-			$scope.roles = roleService.query();
+
+			self.loggedInUser = authService.userInfo();
 		};
 
 		self.reset = function(form) {
@@ -55,13 +58,20 @@ launch.module.controller('UsersController', [
 		};
 
 		$scope.users = [];
-		$scope.roles = [];
 		$scope.filteredUsers = [];
 		$scope.pagedUsers = [];
 		$scope.isLoading = false;
 		$scope.isSaving = false;
 		$scope.selectedIndex = null;
 		$scope.selectedUser = null;
+
+		$scope.selfEditing = function() {
+			if (!!$scope.selectedUser) {
+				return $scope.selectedUser.id === self.loggedInUser.id;
+			}
+
+			return false;
+		};
 
 		$scope.loadUsers = function (reset, callback) {
 			$scope.isLoading = true;

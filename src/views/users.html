@@ -46,6 +46,6 @@
 		</div>
 	</div>
 	<div class="col-md-9 right-pane">
-		<div ng-show="!!selectedUser" ng-cloak user-form selected-user="selectedUser" refresh-method="refreshMethod" after-save-success="afterSaveSuccess" self-editing="false"></div>
+		<div ng-show="!!selectedUser" ng-cloak user-form selected-user="selectedUser" refresh-method="refreshMethod" after-save-success="afterSaveSuccess" self-editing="selfEditing()"></div>
 	</div>
 </div>
