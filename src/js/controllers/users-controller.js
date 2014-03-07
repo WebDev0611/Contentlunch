@@ -1,14 +1,14 @@
 launch.module.controller('UsersController', [
-	'$scope', '$location', '$filter', '$modal', 'UserService', 'RoleService', 'NotificationService', function ($scope, $location, $filter, $modal, userService, roleService, notificationService) {
+	'$scope', '$location', '$filter', '$modal', 'UserService', 'RoleService', 'NotificationService', function($scope, $location, $filter, $modal, userService, roleService, notificationService) {
 		var self = this;
 
 		self.forceDirty = false;
 
-		self.loadUsers = function (reset, callback) {
+		self.loadUsers = function(reset, callback) {
 			$scope.isBusy = true;
 
 			$scope.users = userService.query(null, {
-				success: function (users) {
+				success: function(users) {
 					$scope.isBusy = false;
 					$scope.search.applyFilter(reset);
 
@@ -16,7 +16,7 @@ launch.module.controller('UsersController', [
 						callback.success(users);
 					}
 				},
-				error: function (r) {
+				error: function(r) {
 					$scope.isBusy = false;
 
 					if (!!callback && $.isFunction(callback.error)) {
@@ -26,12 +26,12 @@ launch.module.controller('UsersController', [
 			});
 		};
 
-		self.discardChanges = function (form) {
+		self.discardChanges = function(form) {
 			self.reset(form);
 			self.loadUsers(true);
 		};
 
-		self.reset = function (form) {
+		self.reset = function(form) {
 			$scope.selectedIndex = null;
 			$scope.selectedUser = null;
 
@@ -42,9 +42,13 @@ launch.module.controller('UsersController', [
 			}
 		};
 
-		self.adjustPage = function(userId, form) {
+		self.adjustPage = function (userId, form) {
+			if (!$scope.selectedUser) {
+				return;
+			}
+
 			var index = null;
-			var user = $.grep($scope.users, function (u, i) {
+			var user = $.grep($scope.users, function(u, i) {
 				if (userId === u.id) {
 					index = i;
 					return true;
@@ -56,7 +60,7 @@ launch.module.controller('UsersController', [
 			if (user.length === 1) {
 				$scope.pagination.currentPage = parseInt(index / $scope.pagination.pageSize) + 1;
 
-				if (!$scope.selectedUser || $scope.selectedUser.id !== user[0].id) {
+				if ($scope.selectedUser.id !== user[0].id) {
 					$scope.selectUser(user[0], index, form);
 				}
 			}
@@ -93,7 +97,7 @@ launch.module.controller('UsersController', [
 				this.applyFilter(true);
 			},
 			applyFilter: function(reset) {
-				$scope.filteredUsers = $filter('filter')($scope.users, function (user) {
+				$scope.filteredUsers = $filter('filter')($scope.users, function(user) {
 					if ($scope.search.userStatus === 'all' || $scope.search.userStatus === user.active) {
 						if (!launch.utils.isBlank($scope.search.searchTerm) && $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
 							return (launch.utils.isBlank($scope.search.searchTerm) ? true : user.matchSearchTerm($scope.search.searchTerm));
@@ -128,7 +132,7 @@ launch.module.controller('UsersController', [
 			currentPage: 1,
 			currentSort: 'firstName',
 			currentSortDirection: 'ASC',
-			onPageChange: function (page, form) {
+			onPageChange: function(page, form) {
 				if (!self.userExists($scope.selectedUser, $scope.pagedUsers[page - 1])) {
 					$scope.selectUser(null, null, form);
 				}
@@ -206,7 +210,7 @@ launch.module.controller('UsersController', [
 			self.discardChanges(form);
 		};
 
-		$scope.saveUser = function (form) {
+		$scope.saveUser = function(form) {
 			if (!$scope.selectedUser) {
 				self.reset(form);
 				return;
@@ -228,29 +232,18 @@ launch.module.controller('UsersController', [
 			$scope.isBusy = true;
 
 			method($scope.selectedUser, {
-				success: function (r) {
+				success: function(r) {
 					$scope.isBusy = false;
 
 					notificationService.success('Success!', 'You have successfully saved user ' + r.id + '!');
 
 					self.loadUsers(false, {
-						success: function () {
+						success: function() {
 							self.adjustPage(r.id, form);
 						}
 					});
-
-					//if (isNew) {
-					//	self.loadUsers({
-					//		success: function () {
-					//			self.adjustPage(r.id, form);
-					//		}
-					//	});
-					//} else if ($scope.selectedIndex >= 0) {
-					//	$scope.users[$scope.selectedIndex] = r;
-					//	$scope.search.applyFilter(false);
-					//}
 				},
-				error: function (r) {
+				error: function(r) {
 					$scope.isBusy = false;
 
 					var err = (!launch.utils.isBlank(r.message)) ? r.message : null;
@@ -265,7 +258,7 @@ launch.module.controller('UsersController', [
 			});
 		};
 
-		$scope.errorMessage = function (property, control) {
+		$scope.errorMessage = function(property, control) {
 			if (!control || !control.$dirty) {
 				return false;
 			}
@@ -273,7 +266,7 @@ launch.module.controller('UsersController', [
 			return (!$scope.selectedUser) ? null : $scope.selectedUser.validateProperty(property);
 		};
 
-		$scope.errorState = function (property, control) {
+		$scope.errorState = function(property, control) {
 			if (!control || !$scope.selectedUser) {
 				return false;
 			}
