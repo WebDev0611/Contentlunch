@@ -62,7 +62,7 @@ launch.module.factory('UserService', function($resource) {
 			user.address1 = dto.address;
 			user.address2 = dto.address_2;
 			user.city = dto.city;
-			user.country = 'USA';
+			user.country = dto.country;
 			user.state = { value: dto.state, name: null };
 			user.phoneNumber = dto.phone;
 			user.title = dto.title;
@@ -88,6 +88,7 @@ launch.module.factory('UserService', function($resource) {
 				address_2: user.address2,
 				city: user.city,
 				state: (!!user.state) ? user.state.value : null,
+				country: user.country,
 				phone: user.phoneNumber,
 				title: user.title,
 				status: (user.active === 'active') ? 1 : 0,

@@ -449,44 +449,130 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 
 	.right-pane {
-		padding: 16px;
+		/*padding: 16px;*/
+	}
+}
 
-		.user-image {
-			background-size: 96px;
-			-moz-background-size: 96px;
-			-o-background-size: 96px;
-			border: solid 3px #ffffff;
-			left: 16px;
-			height: 96px;
-			width: 96px;
-		}
+.my-account {
+	.left-pane {
+		position: relative;
 
-		.user-editor {
-			margin-left: 128px;
+		.btn-group {
+			margin-bottom: 12px;
+			width: 100%;
 
-			.control-group {
-				margin: 0 8px 8px 0;
+			.btn-create-user {
+				background-color: #000000;
+				color: #ffffff;
+				width: 100%;
 
-				.form-group {
-					display: inline-block;
-					margin: 0 0 0 8px;
-					width: 20em;
+				.glyphicon {
+					margin-right: 8px;
 				}
+			}
 
+			&.btn-group-user-filter {
 				.btn {
-					font-size: 14px;
-					min-width: 150px;
-					padding: 6px 12px;
-
-					&.btn-default {
+					&.active {
 						background-color: #000000;
 						color: #ffffff;
 					}
 				}
+			}
+		}
 
-				&.btn-toolbar {
-					margin: 16px 0;
+		hr {
+			border-color: #000000;
+			margin-top: 10px;
+		}
+
+		ul.users-list {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+
+			li {
+				cursor: pointer;
+				padding: 8px;
+				position: relative;
+
+				&:hover, &.selected {
+					background-color: #eeeeee;
 				}
+
+				.user-info {
+					margin-left: 52px;
+					font-size: 8pt;
+
+					.user-name {
+						font-size: 12pt;
+					}
+				}
+			}
+		}
+
+		.users-pager {
+			ul.pagination {
+				display: block;
+
+				li {
+					a {
+						background-color: transparent;
+						border-color: @text-color;
+						border-radius: 0 !important;
+						color: @text-color;
+						cursor: pointer;
+						margin: 0 4px;
+					}
+
+					&.active a {
+						background-color: @text-color;
+						color: #ffffff;
+					}
+				}
+			}
+		}
+	}
+}
+
+.user-editor {
+	padding: 16px;
+
+	.user-image {
+		background-size: 96px;
+		-moz-background-size: 96px;
+		-o-background-size: 96px;
+		border: solid 3px #ffffff;
+		left: 16px;
+		height: 96px;
+		width: 96px;
+	}
+
+	.user-editor {
+		margin-left: 128px;
+
+		.control-group {
+			margin: 0 8px 8px 0;
+
+			.form-group {
+				display: inline-block;
+				margin: 0 0 0 8px;
+				width: 20em;
+			}
+
+			.btn {
+				font-size: 14px;
+				min-width: 150px;
+				padding: 6px 12px;
+
+				&.btn-default {
+					background-color: #000000;
+					color: #ffffff;
+				}
+			}
+
+			&.btn-toolbar {
+				margin: 16px 0;
 			}
 		}
 	}

@@ -1,10 +1,6 @@
-
-<h1>User Page</h1>
-
-{{ user || json }}
-
-<p>{{ $user.email }}</p>
-
-<p>User from server:</p>
-
-{{ serverUser || json }}
+<div class="view my-account">
+	<div class="col-md-3 left-pane"></div>
+	<div class="col-md-9 right-pane">
+		<div ng-cloak user-form selected-user="user" refresh-method="refreshMethod" after-save-success="afterSaveSuccess" self-editing="true"></div>
+	</div>
+</div>
