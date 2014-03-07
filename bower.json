@@ -21,6 +21,7 @@
     "angular-sanitize": "~1.2.13",
     "bootstrap-ui": "~0.10.0",
     "angular-bootstrap": "~0.10.0",
-    "pnotify": "157999ce168fdc1a06d2a9a93b59d3111d78999e"
+    "pnotify": "157999ce168fdc1a06d2a9a93b59d3111d78999e",
+    "ladda": "~0.9.2"
   }
 }
