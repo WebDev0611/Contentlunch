@@ -51,17 +51,18 @@ class UserIntegrationTest extends TestCase {
 	{
 		// Setup test roles
 		$this->setupTestRoles();
-		// Create a new user
+		// User to create
 		$data = $this->getTestUsers(1);
-		// Setup password
-		$data['password_confirmation'] = $data['password'] = 'password';
+		// No password will be sent, the system should store user as unconfirmed and inactive
+		// and send them a confirmation email to set thier own password
+		// Unset fields that shouldn't be passed
+		unset($data['password'], $data['password_confirmation'], 
+			$data['id'], $data['created_at'], $data['updated_at'], $data['confirmed']);
 		// Add role
 		$data['roles'] = array(array(
 			'id' => 1,
 			'name' => 'Admin'
 		));
-		// Don't need to post username, timestamps
-		unset($data['username'], $data['created_at'], $data['updated_at']);
 		$response = $this->call('POST', 'api/user', $data);
 		$this->assertResponseOk();
 		$user = json_decode($response->getContent());
@@ -71,6 +72,10 @@ class UserIntegrationTest extends TestCase {
 			'id' => 1,
 			'name' => 'Admin'
 		));
+		// User should be unconfirmed
+		$expect['confirmed'] = 0;
+		// User should be inactive
+		$expect['status'] = 0;
 		$this->assertUserFields($expect, $user);
 	}
 
