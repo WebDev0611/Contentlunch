@@ -4,7 +4,7 @@
 		<button type="button" class="btn btn-default ladda-button" onclick="$('#filPhoto').click()" data-style="zoom-in" ladda-button="isSaving">
 			<span class="ladda-label">Upload Photo</span>
 		</button>
-		<input type="file" id="filPhoto" file-upload on-select-file="uploadPhoto" />
+		<input type="file" id="filPhoto" accept="{{ photoFileTypes.join(',') }}" file-upload on-select-file="uploadPhoto" />
 	</div>
 	<div class="user-editor">
 		<div class="control-group">

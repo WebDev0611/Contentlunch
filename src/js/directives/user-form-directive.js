@@ -14,11 +14,24 @@
 			}
 		};
 
+		self.validatePhotoFile = function(file) {
+			if (!$.inArray(file.type, scope.photoFileTypes)) {
+				NotificationService.error('Invalid File!', 'The file you selected is not supported. You may only upload JPG, PNG, GIF, or BMP images.');
+				return false;
+			} else if (file.size > 5000000) {
+				NotificationService.error('Invalid File!', 'The file you selected is too big. You may only upload images that are 5MB or less.');
+				return false;
+			}
+
+			return true;
+		};
+
 		scope.roles = [];
 		scope.photoFile = null;
 		scope.isLoading = false;
 		scope.isSaving = false;
 		scope.creatingNew = false;
+		scope.photoFileTypes = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp'];
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
@@ -121,12 +134,20 @@
 		};
 
 		scope.uploadPhoto = function (files) {
-			angular.forEach(files, function(f, i) {
-				UserService.savePhoto(scope.selectedUser, f, {
-					success: function(r) { },
-					error: function(r) { }
+			if ($.isArray(files) && files.length === 1) {
+				return false;
+			}
+
+			if (self.validatePhotoFile(files[0])) {
+				UserService.savePhoto(scope.selectedUser, files[0], {
+					success: function (r) { },
+					error: function (r) { }
 				});
-			});
+
+				return true;
+			}
+
+			return false;
 		};
 
 		scope.errorMessage = function (property, control) {

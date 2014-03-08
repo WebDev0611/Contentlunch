@@ -4,7 +4,9 @@
 	self.link = function (scope, element, attrs) {
 		element.bind('change', function (event) {
 			if ($.isFunction(scope.onSelectFile)) {
-				scope.onSelectFile(event.target.files);
+				if (!scope.onSelectFile(event.target.files)) {
+					$(element).replaceWith(element = $(element).clone(true, true));
+				}
 			}
 		});
 	};
