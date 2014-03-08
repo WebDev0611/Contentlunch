@@ -1,4 +1,3 @@
-
 launch.module.factory('UserService', function($resource) {
 	var map = {
 		parseResponse: function(r, getHeaders) {
@@ -147,7 +146,6 @@ launch.module.factory('UserService', function($resource) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			
 		},
 		getNewUser: function() {
 			return new launch.User();

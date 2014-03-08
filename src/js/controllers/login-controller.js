@@ -1,10 +1,8 @@
 launch.module.controller('LoginController', [
 	'$scope', '$sanitize', '$location', 'AuthService', 'NotificationService', function ($scope, $sanitize, $location, authService, notificationService) {
-		$scope.title = 'This is the login controller';
-		$scope.user = { };
+		$scope.user = null;
 		$scope.emailError = null;
 		$scope.passwordError = null;
-		$scope.user = { };
 
 		authService.logout();
 

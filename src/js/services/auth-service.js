@@ -1,4 +1,3 @@
-
 launch.module.factory('AuthService', function($resource, $sanitize, SessionService) {
 	var cacheSession = function(user) {
 		SessionService.set('authenticated', true);
@@ -10,49 +9,44 @@ launch.module.factory('AuthService', function($resource, $sanitize, SessionServi
 		SessionService.unset('user');
 	};
 
-	var loginError = function(response) {
-
-	};
-
 	return {
-		login: function(username, password, remember, callbacks) {
-			var login = $resource('/api/auth/').save({
-				email: $sanitize(username),
-				password: $sanitize(password),
-				remember: remember
-			}, function(r) {
-				var user = {
-					id: parseInt(r.id),
-					confirmed: r.confirmed,
-					created_at: r.created_at,
-					email: r.email,
-					first_name: r.first_name,
-					last_name: r.last_name,
-					updated_at: r.updated_at,
-					username: r.username
-				};
+		login: function(username, password, remember, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-				cacheSession(user);
+			return $resource('/api/auth/').save({
+					email: $sanitize(username),
+					password: $sanitize(password),
+					remember: remember
+				},
+				function(r) {
+					var user = {
+						id: parseInt(r.id),
+						confirmed: r.confirmed,
+						created_at: r.created_at,
+						email: r.email,
+						first_name: r.first_name,
+						last_name: r.last_name,
+						updated_at: r.updated_at,
+						username: r.username
+					};
 
-				if (!!callbacks && $.isFunction(callbacks.success)) {
-					callbacks.success(r);
-				}
-			}, function(r) {
-				loginError(r);
+					cacheSession(user);
 
-				if (!!callbacks && $.isFunction(callbacks.error)) {
-					callbacks.error(r);
-				}
-			});
-
-			return login;
+					if ($.isFunction(success)) {
+						success(r);
+					}
+				},
+				function(r) {
+					if ($.isFunction(error)) {
+						error(r);
+					}
+				});
 		},
 		logout: function() {
-			var logout = $resource('/api/auth/logout').get(function(r) {
+			return $resource('/api/auth/logout').get(function(r) {
 				uncacheSession();
 			});
-
-			return logout;
 		},
 		isLoggedIn: function() {
 			return Boolean(SessionService.get('authenticated'));
