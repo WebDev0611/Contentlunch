@@ -75,5 +75,21 @@
 		}
 
 		notificationService.error(title, msg);
+	},
+
+	convertFileToByteArray: function(file, onload) {
+		var reader = new FileReader();
+
+		// Closure to capture the file information.
+		if ($.isFunction(onload)) {
+			reader.onload = (function() {
+				return function(e) {
+					onload(e.target.result.substring(e.target.result.indexOf(',') + 1));
+				};
+			})(file);
+		}
+
+		// Read in the file as a data URL.
+		reader.readAsDataURL(file);
 	}
 };

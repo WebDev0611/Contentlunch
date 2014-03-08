@@ -108,6 +108,7 @@ launch.module.factory('UserService', function($resource) {
 		query: { method: 'GET', isArray: true, transformResponse: map.parseResponse },
 		update: { method: 'PUT', transformRequest: map.toDto, transformResponse: map.parseResponse },
 		insert: { method: 'POST', transformRequest: map.toDto, transformResponse: map.parseResponse },
+		savePhoto: { method: 'POST' },
 		delete: { method: 'DELETE' }
 	});
 
@@ -146,6 +147,15 @@ launch.module.factory('UserService', function($resource) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
+			launch.utils.convertFileToByteArray(file, function (f) {
+				var payload = {
+					file: f,
+					contentType: file.type,
+					contentEncoding: 'base64'
+				};
+
+				return resource.savePhoto({ id: user.id }, payload, success, error);
+			});
 		},
 		getNewUser: function() {
 			return new launch.User();
