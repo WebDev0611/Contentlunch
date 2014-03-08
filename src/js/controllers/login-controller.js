@@ -1,5 +1,5 @@
 launch.module.controller('LoginController', [
-	'$scope', '$sanitize', '$location', 'AuthService', function($scope, $sanitize, $location, authService) {
+	'$scope', '$sanitize', '$location', 'AuthService', 'NotificationService', function ($scope, $sanitize, $location, authService, notificationService) {
 		$scope.title = 'This is the login controller';
 		$scope.user = { };
 		$scope.emailError = null;
@@ -37,11 +37,10 @@ launch.module.controller('LoginController', [
 
 			authService.login($scope.user.email, $scope.user.password, $scope.user.remember, {
 				success: function(r) {
-					$scope.flash = null;
 					$location.path('/');
 				},
 				error: function(r) {
-					$scope.flash = r.data.flash;
+					launch.utils.handleAjaxErrorResponse(r, notificationService);
 				}
 			});
 		};

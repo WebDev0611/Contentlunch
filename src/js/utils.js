@@ -52,16 +52,21 @@
 	handleAjaxErrorResponse: function(response, notificationService) {
 		var err = (!launch.utils.isBlank(response.message)) ? response.message : null;
 		var msg = 'Looks like we\'ve encountered an error.';
+		var title = 'Whoops!';
 
-		if (launch.utils.isBlank(err) && !!response.data && !!response.data.error) {
-			err = '';
+		if (launch.utils.isBlank(err) && !!response.data) {
+			if (!launch.utils.isBlank(response.data.flash)) {
+				msg = response.data.flash;
+			} else if (!!response.data.error) {
+				err = '';
 
-			if (!launch.utils.isBlank(response.data.error.message)) { err += '\n\n Message: ' + response.data.error.message; }
+				if (!launch.utils.isBlank(response.data.error.message)) { err += '\n\nMessage: ' + response.data.error.message; }
 
-			if (launch.config.DEBUG_MODE) {
-				if (!launch.utils.isBlank(response.data.error.type)) { err += '\n\n Type: ' + response.data.error.type; }
-				if (!launch.utils.isBlank(response.data.error.file)) { err += '\n\nFile: ' + response.data.error.file; }
-				if (!launch.utils.isBlank(response.data.error.line)) { err += '\n\nLine: ' + response.data.error.line; }
+				if (launch.config.DEBUG_MODE) {
+					if (!launch.utils.isBlank(response.data.error.type)) { err += '\n\nType: ' + response.data.error.type; }
+					if (!launch.utils.isBlank(response.data.error.file)) { err += '\n\nFile: ' + response.data.error.file; }
+					if (!launch.utils.isBlank(response.data.error.line)) { err += '\n\nLine: ' + response.data.error.line; }
+				}
 			}
 		}
 
@@ -69,6 +74,6 @@
 			msg += ' Here is more information:' + err;
 		}
 
-		notificationService.error('Whoops!', msg);
+		notificationService.error(title, msg);
 	}
 };
