@@ -107,17 +107,28 @@
 			<button type="button" class="btn btn-default ladda-button" ng-click="saveUser(editUser)" data-style="zoom-in" ladda-button="isSaving">
 				<span class="ladda-label">Save</span>
 			</button>
-			<button type="button" class="btn btn-default" ng-click="cancelEdit(editUser)">Cancel</button>
+			<button type="button" class="btn btn-default" ng-click="cancelEdit(editUser)" ng-show="!!creatingNew">Cancel</button>
+			<button type="button" class="btn btn-default" ng-click="deleteUser(editUser)" ng-show="!creatingNew && !selfEditing">Delete</button>
 		</div>
 	</div>
 </form>
 
-<script type="text/ng-template" id="form-dirty.html">
+<script type="text/ng-template" id="confirm-cancel.html">
 	<div class="modal-body">
 		You have not saved your changes. Are you sure you want to cancel?
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-default" ng-click="save()">Save Changes</button>
 		<button class="btn btn-default" ng-click="cancel()">Discard Changes</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="confirm-delete.html">
+	<div class="modal-body">
+		Are you sure you want to delete this user?
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-default" ng-click="delete()">Delete</button>
+		<button class="btn btn-default" ng-click="cancel()">Cancel</button>
 	</div>
 </script>

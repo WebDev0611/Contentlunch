@@ -74,6 +74,9 @@
 
 				$.pnotify.defaults.styling = "bootstrap3";
 				$.pnotify.defaults.history = false;
+
+				// TODO: FIGURE OUT IF WE CAN SET THIS FROM THE SERVER!!!
+				launch.config.DEBUG_MODE = true;
 			}
 		]);
 

@@ -175,7 +175,7 @@ launch.module.controller('UsersController', [
 		};
 
 		$scope.enterNewUser = function(form) {
-			form.$setPristine();
+			//form.$setPristine();
 			$scope.selectedIndex = -1;
 			$scope.selectedUser = userService.getNewUser();
 		};

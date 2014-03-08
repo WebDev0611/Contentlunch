@@ -18,11 +18,12 @@
 		scope.photoFile = null;
 		scope.isLoading = false;
 		scope.isSaving = false;
+		scope.creatingNew = false;
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
 				$modal.open({
-					templateUrl: 'form-dirty.html',
+					templateUrl: 'confirm-cancel.html',
 					controller: [
 						'$scope', '$modalInstance', function(scp, instance) {
 							scp.save = function () {
@@ -78,20 +79,54 @@
 				error: function (r) {
 					scope.isSaving = false;
 
-					var err = (!launch.utils.isBlank(r.message)) ? r.message : null;
-					var errMsg = 'Looks like we\'ve encountered an error trying to save this user.';
-
-					if (!launch.utils.isBlank(err)) {
-						errMsg += ' Here is more information:\n\n' + err;
-					}
-
-					NotificationService.error('Whoops!', errMsg);
+					launch.utils.handleAjaxErrorResponse(r, NotificationService);
 				}
 			});
 		};
 
-		scope.uploadPhoto = function(files) {
-			
+		scope.deleteUser = function(form) {
+			$modal.open({
+				templateUrl: 'confirm-delete.html',
+				controller: [
+					'$scope', '$modalInstance', function (scp, instance) {
+						scp.delete = function () {
+							scope.isSaving = true;
+
+							UserService.delete(scope.selectedUser, {
+								success: function(r) {
+									scope.isSaving = false;
+
+									var successMsg = 'You have successfully deleted ' + r.username + '!';
+
+									NotificationService.success('Success!', successMsg);
+
+									if ($.isFunction(scope.afterSaveSuccess)) {
+										scope.afterSaveSuccess(r, form);
+									}
+								},
+								error: function(r) {
+									scope.isSaving = false;
+
+									launch.utils.handleAjaxErrorResponse(r, NotificationService);
+								}
+							});
+							instance.close();
+						};
+						scp.cancel = function () {
+							instance.dismiss('cancel');
+						};
+					}
+				]
+			});
+		};
+
+		scope.uploadPhoto = function (files) {
+			angular.forEach(files, function(f, i) {
+				UserService.savePhoto(scope.selectedUser, f, {
+					success: function(r) { },
+					error: function(r) { }
+				});
+			});
 		};
 
 		scope.errorMessage = function (property, control) {
@@ -356,6 +391,10 @@
 
 			return [];
 		};
+
+		scope.$watch(scope.selectedUser, function (user) {
+			scope.creatingNew = (!!user && !launch.utils.isBlank(user.id));
+		});
 
 		self.init();
 	};

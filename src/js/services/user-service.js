@@ -108,7 +108,8 @@ launch.module.factory('UserService', function($resource) {
 		get: { method: 'GET', transformResponse: map.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: map.parseResponse },
 		update: { method: 'PUT', transformRequest: map.toDto, transformResponse: map.parseResponse },
-		insert: { method: 'POST', transformRequest: map.toDto, transformResponse: map.parseResponse }
+		insert: { method: 'POST', transformRequest: map.toDto, transformResponse: map.parseResponse },
+		delete: { method: 'DELETE' }
 	});
 
 	return {
@@ -134,10 +135,19 @@ launch.module.factory('UserService', function($resource) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-// TODO: DELETE THIS LINE ONCE THE SERVER CREATES THE PASSWORDS!
-user.password = user.passwordConfirmation = 'welc0me';
-
 			return resource.insert(null, user, success, error);
+		},
+		delete: function(user, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return resource.delete({ id: user.id }, user, success, error);
+		},
+		savePhoto: function(user, file, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			
 		},
 		getNewUser: function() {
 			return new launch.User();
