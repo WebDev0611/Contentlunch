@@ -26,6 +26,26 @@
     <footer></footer>
 
     <script type="text/javascript" src="/assets/js/build.js"></script>
-    <script type="text/javascript" src="/assets/js/app.js"></script>
+	<script type="text/javascript" src="/assets/js/app.js"></script>
+
+    <script type="text/ng-template" id="confirm-cancel.html">
+	    <div class="modal-body">
+		    You have not saved your changes. Are you sure you want to cancel?
+	    </div>
+	    <div class="modal-footer">
+		    <button class="btn btn-default" ng-click="save()">Save Changes</button>
+		    <button class="btn btn-default" ng-click="cancel()">Discard Changes</button>
+	    </div>
+    </script>
+
+    <script type="text/ng-template" id="confirm-delete.html">
+	    <div class="modal-body">
+		    Are you sure you want to delete this {{ deleteType }}?
+	    </div>
+	    <div class="modal-footer">
+		    <button class="btn btn-default" ng-click="delete()">Delete</button>
+		    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+	    </div>
+    </script>
 </body>
 </html>

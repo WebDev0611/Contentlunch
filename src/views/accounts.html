@@ -1,8 +1,49 @@
+<div class="view accounts">
+	<div class="col-md-3 left-pane">
+		<div class="btn-group">
+			<button class="btn btn-default btn-create" ng-click="enterNewAccount()">
+				<span class="glyphicon glyphicon-account"></span>
+				CREATE NEW ACCOUNT
+			</button>
+		</div>
 
-<h3 ng-bind="title"></h3>
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter(true)" />
+			<span class="input-group-addon">
+				<span class="glyphicon glyphicon-search"></span>
+			</span>
+		</div>
+		
+		<hr/>
 
-<ul>
-  <li ng-repeat="account in accounts">
-    {{ account.id }} - {{ account.title }}
-  </li>
-</ul>
+		<div class="btn-group btn-group-justified btn-group-filter">
+			<a class="btn btn-default" ng-class="{ active: search.accountStatus === 'active' }" ng-click="search.toggleStatus('active')">Active</a>
+			<a class="btn btn-default" ng-class="{ active: search.accountStatus === 'inactive' }" ng-click="search.toggleStatus('inactive')">Inactive</a>
+			<a class="btn btn-default" ng-class="{ active: search.accountStatus === 'all' }" ng-click="search.toggleStatus('all')">All</a>
+		</div>
+
+		<ul class="items-list">
+			<li ng-repeat="account in pagedAccounts[pagination.currentPage - 1]" ng-click="selectAccount(account, $index, editAccount)" ng-class="{ selected: isSelectedAccount(account) }">
+				<div class="item-info">
+					<span class="item-title">{{ account.title }}</span>
+				</div>
+			</li>
+		</ul>
+		
+		<div class="pager" ng-show="pagination.showPager() === true">
+			<hr/>
+
+			<pagination
+				total-items="pagination.totalItems"
+				items-per-page="pagination.pageSize"
+				page="pagination.currentPage"
+				on-select-page="pagination.onPageChange(page, editUser)"
+				direction-links="false"
+				max-size="6">
+			</pagination>
+		</div>
+	</div>
+	<div class="col-md-9 right-pane">
+		<div ng-show="!!selectedAccount" ng-cloak account-form selected-account="selectedAccount" refresh-method="refreshMethod" after-save-success="afterSaveSuccess" self-editing="selfEditing()"></div>
+	</div>
+</div>

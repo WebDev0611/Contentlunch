@@ -1,7 +1,7 @@
 ﻿<div class="view users">
 	<div class="col-md-3 left-pane">
 		<div class="btn-group">
-			<button class="btn btn-default btn-create-user" ng-click="enterNewUser(editUser)">
+			<button class="btn btn-default btn-create" ng-click="enterNewUser()">
 				<span class="glyphicon glyphicon-user"></span>
 				CREATE NEW USER
 			</button>
@@ -16,23 +16,23 @@
 		
 		<hr/>
 
-		<div class="btn-group btn-group-justified btn-group-user-filter">
+		<div class="btn-group btn-group-justified btn-group-filter">
 			<a class="btn btn-default" ng-class="{ active: search.userStatus === 'active' }" ng-click="search.toggleStatus('active')">Active</a>
 			<a class="btn btn-default" ng-class="{ active: search.userStatus === 'inactive' }" ng-click="search.toggleStatus('inactive')">Inactive</a>
 			<a class="btn btn-default" ng-class="{ active: search.userStatus === 'all' }" ng-click="search.toggleStatus('all')">All</a>
 		</div>
 
-		<ul class="users-list">
+		<ul class="items-list">
 			<li ng-repeat="user in pagedUsers[pagination.currentPage - 1]" ng-click="selectUser(user, $index, editUser)" ng-class="{ selected: isSelectedUser(user) }">
-				<div class="user-image" ng-style="{ 'background-image': user.imageUrl() }"></div>
-				<div class="user-info">
-					<span class="user-name">{{ user.formatName() }}</span><br/>
+				<div class="user-image item-image" ng-style="{ 'background-image': user.imageUrl() }"></div>
+				<div class="item-info">
+					<span class="item-title">{{ user.formatName() }}</span><br/>
 					{{ user.role.roleName }}
 				</div>
 			</li>
 		</ul>
 		
-		<div class="users-pager" ng-show="pagination.showPager() === true">
+		<div class="pager" ng-show="pagination.showPager() === true">
 			<hr/>
 
 			<pagination

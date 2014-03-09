@@ -365,7 +365,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	width: 40px;
 }
 
-.users {
+.users, .accounts {
 	.left-pane {
 		position: relative;
 
@@ -373,7 +373,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 			margin-bottom: 12px;
 			width: 100%;
 
-			.btn-create-user {
+			.btn-create {
 				background-color: #000000;
 				color: #ffffff;
 				width: 100%;
@@ -383,7 +383,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 				}
 			}
 
-			&.btn-group-user-filter {
+			&.btn-group-filter {
 				.btn {
 					&.active {
 						background-color: #000000;
@@ -398,7 +398,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 			margin-top: 10px;
 		}
 
-		ul.users-list {
+		ul.items-list {
 			list-style: none;
 			margin: 0;
 			padding: 0;
@@ -412,23 +412,22 @@ span[class^="icon-"], span[class*=" icon-"] {
 					background-color: #eeeeee;
 				}
 
-				.user-image {
-					left: 8px;
-					position: absolute;
+				.item-image {
+					float: left;
+					margin-right: 16px;
 				}
 
-				.user-info {
-					margin-left: 52px;
+				.item-info {
 					font-size: 8pt;
 
-					.user-name {
+					.item-title {
 						font-size: 12pt;
 					}
 				}
 			}
 		}
 
-		.users-pager {
+		.pager {
 			ul.pagination {
 				display: block;
 
@@ -452,7 +451,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.user-editor {
+.user-editor, .account-editor {
 	padding: 16px;
 
 	.btn {
@@ -467,8 +466,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 
 	.user-image-upload {
-		/*position: absolute;
-		left: 0;*/
 		float: left;
 		text-align: center;
 		width: 120px;
@@ -495,19 +492,24 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 	.user-editor {
 		margin-left: 128px;
+	}
 
-		.control-group {
-			margin: 0 8px 8px 0;
+	.control-group {
+		margin: 0 8px 8px 0;
 
-			.form-group {
-				display: inline-block;
-				margin: 0 0 0 8px;
-				width: 20em;
-			}
-
-			&.btn-toolbar {
-				margin: 16px 0;
-			}
+		.form-group {
+			display: inline-block;
+			margin: 0 0 0 8px;
+			width: 20em;
 		}
+
+		&.btn-toolbar {
+			margin: 16px 0;
+		}
+	}
+
+	h2 {
+		border-bottom: solid 1px #000000;
+		padding-bottom: 16px;
 	}
 }

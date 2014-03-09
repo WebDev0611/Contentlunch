@@ -5,9 +5,31 @@ launch.module.controller('UsersController', [
 		self.loggedInUser = null;
 
 		self.init = function() {
-			$scope.loadUsers(true);
+			self.loadUsers(true);
 
 			self.loggedInUser = authService.userInfo();
+		};
+
+		self.loadUsers = function (reset, callback) {
+			$scope.isLoading = true;
+
+			$scope.users = userService.query(null, {
+				success: function (users) {
+					$scope.isLoading = false;
+					$scope.search.applyFilter(reset);
+
+					if (!!callback && $.isFunction(callback.success)) {
+						callback.success(users);
+					}
+				},
+				error: function (r) {
+					$scope.isLoading = false;
+
+					if (!!callback && $.isFunction(callback.error)) {
+						callback.error(r);
+					}
+				}
+			});
 		};
 
 		self.reset = function(form) {
@@ -71,28 +93,6 @@ launch.module.controller('UsersController', [
 			}
 
 			return false;
-		};
-
-		$scope.loadUsers = function (reset, callback) {
-			$scope.isLoading = true;
-
-			$scope.users = userService.query(null, {
-				success: function (users) {
-					$scope.isLoading = false;
-					$scope.search.applyFilter(reset);
-
-					if (!!callback && $.isFunction(callback.success)) {
-						callback.success(users);
-					}
-				},
-				error: function (r) {
-					$scope.isLoading = false;
-
-					if (!!callback && $.isFunction(callback.error)) {
-						callback.error(r);
-					}
-				}
-			});
 		};
 
 		$scope.search = {
@@ -174,8 +174,7 @@ launch.module.controller('UsersController', [
 			return (user.id === $scope.selectedUser.id);
 		};
 
-		$scope.enterNewUser = function(form) {
-			//form.$setPristine();
+		$scope.enterNewUser = function() {
 			$scope.selectedIndex = -1;
 			$scope.selectedUser = userService.getNewUser();
 		};
@@ -193,7 +192,7 @@ launch.module.controller('UsersController', [
 			var userId = $scope.selectedUser.id;
 
 			self.reset(form);
-			$scope.loadUsers(true, {
+			self.loadUsers(true, {
 				success: function() {
 					var index = null;
 					var user = $.grep($scope.users, function(u, i) {
@@ -214,7 +213,7 @@ launch.module.controller('UsersController', [
 		};
 
 		$scope.afterSaveSuccess = function(r, form) {
-			$scope.loadUsers(false, {
+			self.loadUsers(false, {
 				success: function () {
 					self.adjustPage(r.id, form);
 				}

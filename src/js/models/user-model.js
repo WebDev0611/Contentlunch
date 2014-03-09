@@ -76,32 +76,5 @@
 		}
 	};
 
-	self.validateAll = function() {
-		var properties = Object.keys(this);
-		var msgs = [];
-
-		for (var i = 0; i < properties.length; i++) {
-			var msg = this.validateProperty(properties[i]);
-
-			if (!launch.utils.isBlank(msg)) {
-				msgs.push(msg);
-			}
-		}
-
-		return msgs.length > 0 ? msgs : null;
-	};
-
-	self.validate = function() {
-		var properties = Object.keys(this);
-
-		for (var i = 0; i < properties.length; i++) {
-			if (!launch.utils.isBlank(this.validateProperty(properties[i]))) {
-				return false;
-			}
-		}
-
-		return true;
-	};
-
 	return self;
 };

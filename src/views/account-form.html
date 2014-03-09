@@ -1,0 +1,173 @@
+﻿<form name="editAccount" class="account-editor" novalidate="novalidate">
+	<h2>Account Settings</h2>
+
+	<div class="control-group">
+		<div class="form-group" ng-class="{ 'has-error': errorState('title', editAccount.txtAccountName) }">
+			<label class="control-label" for="txtAccountName">
+				Account Name
+				<span class="error-message" error-message message="errorMessage('title', editAccount.txtAccountName)"></span>
+			</label>
+			<input type="text" id="txtAccountName" name="txtAccountName" class="form-control" ng-model="selectedAccount.title" />
+		</div>
+		<div class="form-group" ng-class="{ 'has-error': errorState('active', editAccount.selStatus) }">
+			<label class="control-label" for="selStatus">
+				Status
+				<span class="error-message" error-message message="errorMessage('active', editAccount.selStatus)"></span>
+			</label>
+			<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedAccount.active" ng-disabled="selfEditing">
+				<option value="active">Active</option>
+				<option value="inactive">Inactive</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<div class="form-group">
+			<label class="control-label" for="txtAddress1">Address 1</label>
+			<input type="text" id="txtAddress1" name="txtAddress1" class="form-control" ng-model="selectedAccount.address1" />
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="txtAddress2">Address 2</label>
+			<input type="text" id="txtAddress2" name="txtAddress2" class="form-control" ng-model="selectedAccount.address2" />
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="txtCity">City</label>
+			<input type="text" id="txtCity" name="txtCity" class="form-control" ng-model="selectedAccount.city" />
+		</div>
+	</div>
+
+	<div class="control-group">
+		<div class="form-group">
+			<label class="control-label" for="selCountry">Country</label>
+			<select id="selCountry" name="selCountry" class="form-control" ng-model="selectedAccount.country">
+				<option value="Australia">Australia</option>
+				<option value="Canada">Canada</option>
+				<option value="UK">UK</option>
+				<option value="USA">USA</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="selState">State</label>
+			<select id="selState" name="selState" class="form-control" ng-model="selectedAccount.state" ng-options="s.name for s in getStates(false) track by s.value"></select>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="txtPostalCode">Postal Code</label>
+			<input type="text" id="txtPostalCode" name="txtPostalCode" class="form-control" ng-model="selectedAccount.postalCode" />
+		</div>
+	</div>
+
+	<div class="control-group">
+		<div class="form-group" ng-class="{ 'has-error': errorState('email', editAccount.txtEmail) }">
+			<label class="control-label" for="txtEmail">
+				Email
+				<span class="error-message" error-message message="errorMessage('email', editAccount.txtEmail)"></span>
+			</label>
+			<input type="text" required="required" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedAccount.email" />
+		</div>
+		<div class="form-group" ng-class="{ 'has-error': errorState('phoneNumber', editAccount.txtPhoneNumber) }">
+			<label class="control-label" for="txtPhoneNumber">
+				Phone
+				<span class="error-message" error-message message="errorMessage('phoneNumber', editAccount.txtPhoneNumber)"></span>
+			</label>
+			<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="selectedAccount.phoneNumber" />
+		</div>
+	</div>
+
+	<h2>Subscription Level</h2>
+
+	<div class="control-group">
+		<div class="checkbox">
+			<label class="control-label" for="chkAutoRenew">
+				<input type="checkbox" id="chkAutoRenew" />
+				Account Auto Renew
+			</label>
+		</div>
+	</div>
+	
+	<h2>Credit Card Info</h2>
+
+	<div class="control-group">
+		<div class="form-group">
+			<label class="control-label" for="txtNameOnCard">Name on Card</label>
+			<input type="text" id="txtNameOnCard" name="txtNameOnCard" class="form-control" ng-model="selectedAccount.creditCard.nameOnCard" />
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="txtCardNumber">Card Number</label>
+			<input type="text" id="txtCardNumber" name="txtCardNumber" class="form-control" ng-model="selectedAccount.creditCard.cardNumber" />
+		</div>
+	</div>
+
+	<div class="control-group">
+		<div class="form-group">
+			<label class="control-label" for="txtCVCNumber">CVC</label>
+			<input type="text" id="txtCVCNumber" name="txtCVCNumber" class="form-control" ng-model="selectedAccount.creditCard.cvc" />
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="selExpirationMonth">Expir. Month</label>
+			<select id="selExpirationMonth" name="selExpirationMonth" class="form-control" ng-model="selectedAccount.creditCard.expirationDateMonth">
+				<option value="1">Jan</option>
+				<option value="2">Feb</option>
+				<option value="3">Mar</option>
+				<option value="4">Apr</option>
+				<option value="5">May</option>
+				<option value="6">Jun</option>
+				<option value="7">Jul</option>
+				<option value="8">Aug</option>
+				<option value="9">Sep</option>
+				<option value="10">Oct</option>
+				<option value="11">Nov</option>
+				<option value="12">Dec</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="selExpirationYear">Expir. Year</label>
+			<select id="selExpirationYear" name="selExpirationYear" class="form-control" ng-model="selectedAccount.creditCard.expirationDateYear"></select>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<div class="form-group">
+			<label class="control-label" for="txtCCAddress1">Address 1</label>
+			<input type="text" id="txtCCAddress1" name="txtCCAddress1" class="form-control" ng-model="selectedAccount.creditCard.address1" />
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="txtCCAddress2">Address 2</label>
+			<input type="text" id="txtCCAddress2" name="txtCCAddress2" class="form-control" ng-model="selectedAccount.creditCard.address2" />
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<div class="form-group">
+			<label class="control-label" for="txtCCCity">City</label>
+			<input type="text" id="txtCCCity" name="txtCCCity" class="form-control" ng-model="selectedAccount.creditCard.city" />
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="selCCCountry">Country</label>
+			<select id="selCCCountry" name="selCCCountry" class="form-control" ng-model="selectedAccount.creditCard.country">
+				<option value="Australia">Australia</option>
+				<option value="Canada">Canada</option>
+				<option value="UK">UK</option>
+				<option value="USA">USA</option>
+			</select>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<div class="form-group">
+			<label class="control-label" for="selCCState">State</label>
+			<select id="selCCState" name="selCCState" class="form-control" ng-model="selectedAccount.creditCard.state" ng-options="s.name for s in getStates(true) track by s.value"></select>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="txtCCPostalCode">Postal Code</label>
+			<input type="text" id="txtCCPostalCode" name="txtCCPostalCode" class="form-control" ng-model="selectedAccount.creditCard.postalCode" />
+		</div>
+	</div>
+
+	<div class="control-group btn-toolbar">
+		<button type="button" class="btn btn-default ladda-button" ng-click="saveAccount(editAccount)" data-style="zoom-in" ladda-button="isSaving">
+			<span class="ladda-label">Save</span>
+		</button>
+		<button type="button" class="btn btn-default" ng-click="cancelEdit(editAccount)" ng-show="!!creatingNew">Cancel</button>
+		<button type="button" class="btn btn-default" ng-click="deleteAccount(editAccount)" ng-show="!creatingNew && !selfEditing">Delete</button>
+	</div>
+</form>
