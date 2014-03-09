@@ -140,8 +140,12 @@
 
 			if (self.validatePhotoFile(files[0])) {
 				UserService.savePhoto(scope.selectedUser, files[0], {
-					success: function (r) { },
-					error: function (r) { }
+					success: function(r) {
+						
+					},
+					error: function(r) {
+						
+					}
 				});
 
 				return true;

@@ -1,4 +1,4 @@
-launch.module.factory('UserService', function($resource) {
+launch.module.factory('UserService', function($resource, $http) {
 	var map = {
 		parseResponse: function(r, getHeaders) {
 			var dto = JSON.parse(r);
@@ -103,12 +103,12 @@ launch.module.factory('UserService', function($resource) {
 		}
 	};
 
-	var resource = $resource('/api/user/:id', { id: '@id' }, {
+	var resource = $resource('/api/user/:id/:image', { id: '@id', image: '@image' }, {
 		get: { method: 'GET', transformResponse: map.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: map.parseResponse },
 		update: { method: 'PUT', transformRequest: map.toDto, transformResponse: map.parseResponse },
 		insert: { method: 'POST', transformRequest: map.toDto, transformResponse: map.parseResponse },
-		savePhoto: { method: 'POST' },
+		//savePhoto: { method: 'POST' },
 		delete: { method: 'DELETE' }
 	});
 
@@ -147,14 +147,25 @@ launch.module.factory('UserService', function($resource) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			launch.utils.convertFileToByteArray(file, function (f) {
-				var payload = {
-					file: f,
-					contentType: file.type,
-					contentEncoding: 'base64'
-				};
+			launch.utils.convertFileToByteArray(file, function(f) {
+				//	var payload = {
+				//		file: f,
+				//		contentType: file.type,
+				//		contentEncoding: 'base64'
+				//	};
 
-				return resource.savePhoto({ id: user.id }, payload, success, error);
+				//	return resource.savePhoto({ id: user.id, image: 'image' }, payload.file, success, error);
+
+				var formData = new FormData();
+
+				formData.append('file', f);
+
+				$http.post('/api/user/' + user.id + '/image/', formData, {
+						headers: { 'Content-Type': undefined },
+						transformRequest: angular.identity
+					})
+					.success(success)
+					.error(error);
 			});
 		},
 		getNewUser: function() {
