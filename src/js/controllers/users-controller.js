@@ -141,7 +141,7 @@ launch.module.controller('UsersController', [
 			currentSortDirection: 'ASC',
 			onPageChange: function(page, form) {
 				if (!self.userExists($scope.selectedUser, $scope.pagedUsers[page - 1])) {
-					this.currentPage = 1;
+					this.currentPage = (!!$scope.selectedUser) ? 1 : page;
 					$scope.selectUser(null, null, form);
 				}
 
