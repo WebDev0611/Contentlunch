@@ -1,9 +1,13 @@
 launch.module.controller('AccountsController', [
-	'$scope', '$filter', 'AccountService', function ($scope, $filter, accountService) {
+	'$scope', '$filter', 'AuthService', 'AccountService', function ($scope, $filter, authService, accountService) {
 		var self = this;
+
+		self.loggedInUser = null;
 
 		self.init = function() {
 			self.loadAccounts(true);
+
+			self.loggedInUser = authService.userInfo();
 		};
 
 		self.loadAccounts = function (reset, callback) {
@@ -84,6 +88,12 @@ launch.module.controller('AccountsController', [
 		$scope.selectedAccount = null;
 
 		$scope.selfEditing = function () {
+			if (!!$scope.selectedAccount && $.isArray(self.loggedInUser.accounts)) {
+				return $.grep(self.loggedInUser.accounts, function(a, i) {
+					return a.id === $scope.selectedAccount.id;
+				}).length > 0;
+			}
+
 			return false;
 		};
 
