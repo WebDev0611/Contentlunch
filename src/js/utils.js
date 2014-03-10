@@ -315,6 +315,7 @@
 						{ value: 'M6', name: 'Wrexham' },
 						{ value: 'M7', name: 'York' }
 					];
+				case 'US':
 				case 'USA':
 					return [
 						{ value: 'AL', name: 'Alabama' },
