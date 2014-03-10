@@ -19,6 +19,8 @@
 		scope.isLoading = false;
 		scope.isSaving = false;
 		scope.creatingNew = false;
+		scope.isUploading = false;
+		scope.percentComplete = 0;
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
@@ -121,9 +123,11 @@
 			});
 		};
 
-		scope.uploadPhoto = function (files, form) {
+		scope.uploadPhoto = function (files, form, control) {
 			if ($.isArray(files) && files.length !== 1) {
 				NotificationService.error('Invalid File!', 'Please make sure to select only one file for upload at a time.');
+				$(control).replaceWith(control = $(control).clone(true, true));
+				return;
 			}
 
 			var file = $.isArray(files) ? files[0] : files;
@@ -131,11 +135,16 @@
 
 			if (!launch.utils.isBlank(msg)) {
 				NotificationService.error('Invalid File!', msg);
+				$(control).replaceWith(control = $(control).clone(true, true));
+				return;
 			}
 
+			scope.isUploading = true;
+
 			UserService.savePhoto(scope.selectedUser, file, {
-				success: function(r) {
-					console.log(r);
+				success: function (r) {
+					scope.isUploading = false;
+					scope.percentComplete = 0;
 
 					NotificationService.success('Success!', 'You have successfully uploaded your photo!');
 
@@ -144,16 +153,21 @@
 					if ($.isFunction(scope.afterSaveSuccess)) {
 						scope.afterSaveSuccess(r, form);
 					}
+
+					$(control).replaceWith(control = $(control).clone(true, true));
 				},
 				error: function(r) {
+					scope.isUploading = false;
+					scope.percentComplete = 0;
+
 					console.log(r);
 
 					launch.utils.handleAjaxErrorResponse(r, NotificationService);
+
+					$(control).replaceWith(control = $(control).clone(true, true));
 				},
 				progress: function (e) {
-					console.log('percent: ' + parseInt(100.0 * e.loaded / e.total));
-
-					// TODO: INSERT PROGRESS INDICATOR STUFF HERE!
+					scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
 				}
 			});
 		};

@@ -469,7 +469,7 @@ span[class*=" icon-"].dark {
 }
 .user-editor .user-image-upload button,
 .account-editor .user-image-upload button {
-  margin-top: 16px;
+  margin: 16px 0;
 }
 .user-editor .user-image-upload input[type="file"],
 .account-editor .user-image-upload input[type="file"] {
