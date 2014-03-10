@@ -172,7 +172,8 @@ launch.module.controller('AccountsController', [
 		};
 
 		$scope.enterNewAccount = function() {
-			
+			$scope.selectedIndex = -1;
+			$scope.selectedAccount = accountService.getNewAccount();
 		};
 
 		$scope.selfEditing = function() {

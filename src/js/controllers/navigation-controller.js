@@ -1,15 +1,9 @@
 ﻿launch.module.controller('NavigationController', [
-		'$scope', '$location', '$compile', 'AuthService', function($scope, $location, $compile, authService) {
-			$scope.title = 'This is the Navigation controller';
-			$scope.menu = [];
-			$scope.user = { };
-			$scope.activeMenu = 'home';
-			$scope.showNav = authService.isLoggedIn;
-			$scope.adminMenu = [];
-			$scope.userMenu = [];
+		'$scope', '$location', '$compile', 'AuthService', function ($scope, $location, $compile, authService) {
+			var self = this;
 
-			$scope.init = function() {
-				$scope.menu = getNavigationItems();
+			self.init = function () {
+				$scope.menu = self.getNavigationItems();
 				$scope.user = authService.userInfo();
 
 				$scope.adminMenu = [
@@ -22,35 +16,11 @@
 					{ text: 'My Account', cssClass: 'glyphicon-user', url: '/user' },
 					{ text: 'Logout', cssClass: 'glyphicon-log-out', url: '/login' }
 				];
+
+				$scope.$on('$routeChangeSuccess', self.detectRoute);
 			};
 
-			$scope.navigate = function(url) {
-				$location.url(angular.lowercase(url));
-			};
-
-			$scope.imagePath = function(item) {
-				return '/assets/images/' + angular.lowercase(item.title) + '.svg';
-			};
-
-			$scope.formatUserName = function() {
-				var user = $scope.user;
-
-				if (!user) {
-					return null;
-				}
-
-				if (!launch.utils.isBlank(user.first_name) && !launch.utils.isBlank(user.last_name)) {
-					return user.first_name + ' ' + user.last_name;
-				}
-
-				return null;
-			};
-
-			$scope.formatMenuTitle = function(title) {
-				return angular.uppercase(title);
-			};
-
-			function getNavigationItems() {
+			self.getNavigationItems = function() {
 				var items = [];
 
 				if (authService.isLoggedIn() === true) {
@@ -64,9 +34,9 @@
 				}
 
 				return items;
-			}
+			};
 
-			function detectRoute() {
+			self.detectRoute = function() {
 				angular.forEach($scope.menu, function(item) {
 					if (item.url === '/') {
 						item.active = ($location.path() === '/') ? 'active' : '';
@@ -78,9 +48,29 @@
 						launch.activeMenu = $scope.activeMenu = angular.lowercase(item.title);
 					}
 				});
-			}
+			};
 
-			$scope.$on('$routeChangeSuccess', detectRoute);
+			$scope.title = 'This is the Navigation controller';
+			$scope.menu = [];
+			$scope.user = { };
+			$scope.activeMenu = 'home';
+			$scope.showNav = authService.isLoggedIn;
+			$scope.adminMenu = [];
+			$scope.userMenu = [];
+
+			$scope.navigate = function(url) {
+				$location.url(angular.lowercase(url));
+			};
+
+			$scope.imagePath = function(item) {
+				return '/assets/images/' + angular.lowercase(item.title) + '.svg';
+			};
+
+			$scope.formatMenuTitle = function(title) {
+				return angular.uppercase(title);
+			};
+
+			self.init();
 		}
 	])
 	.directive('navigationTemplate', function() {
