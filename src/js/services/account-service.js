@@ -121,6 +121,9 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return resource.delete({ id: account.id }, account, success, error);
+		},
+		getNewAccount: function() {
+			return new launch.Account();
 		}
 	};
 });

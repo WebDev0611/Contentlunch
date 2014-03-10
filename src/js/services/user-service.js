@@ -170,6 +170,34 @@ launch.module.factory('UserService', function($resource, $http) {
 		},
 		getNewUser: function() {
 			return new launch.User();
+		},
+		mapUserFromDto: function(dto) {
+			return map.fromDto(dto);
+		},
+		setUserFromCache: function (cachedUser) {
+			var user = new launch.User();
+
+			user.id = cachedUser.id;
+			user.userName = cachedUser.userName;
+			user.firstName = cachedUser.firstName;
+			user.lastName = cachedUser.lastName;
+			user.email = cachedUser.email;
+			user.created = cachedUser.created;
+			user.updated = cachedUser.updated;
+			user.confirmed = cachedUser.confirmed;
+			user.address1 = cachedUser.address1;
+			user.address2 = cachedUser.address2;
+			user.city = cachedUser.city;
+			user.country = cachedUser.country;
+			user.state = cachedUser.state;
+			user.phoneNumber = cachedUser.phoneNumber;
+			user.title = cachedUser.title;
+			user.active = cachedUser.active;
+			user.image = cachedUser.image;
+			user.role = cachedUser.role;
+			user.roles = cachedUser.roles;
+
+			return user;
 		}
 	};
 });
