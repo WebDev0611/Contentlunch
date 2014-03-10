@@ -7,7 +7,7 @@
  */
 class UserIntegrationTest extends TestCase {
 
-	public function testIndexListsUsers() 
+	public function testIndexListsUsers()
 	{
 		// Get a listing of all the users in the system
 		// Setup test users
@@ -56,7 +56,7 @@ class UserIntegrationTest extends TestCase {
 		// No password will be sent, the system should store user as unconfirmed and inactive
 		// and send them a confirmation email to set thier own password
 		// Unset fields that shouldn't be passed
-		unset($data['password'], $data['password_confirmation'], 
+		unset($data['password'], $data['password_confirmation'],
 			$data['id'], $data['created_at'], $data['updated_at'], $data['confirmed']);
 		// Add role
 		$data['roles'] = array(array(
@@ -76,6 +76,8 @@ class UserIntegrationTest extends TestCase {
 		$expect['confirmed'] = 0;
 		// User should be inactive
 		$expect['status'] = 0;
+		// Empty account for now
+		$expect['accounts'] = array();
 		$this->assertUserFields($expect, $user);
 	}
 

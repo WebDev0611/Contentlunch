@@ -103,18 +103,18 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
       1 => array(
         'id' => 1, 'username' => 'test@mail.net', 'email' => 'test@mail.net',
         'password' => Hash::make('password'), 'created_at' => $this->now, 'updated_at' => $this->now,
-        'first_name' => 'First', 'last_name' => 'Last', 'confirmed' => 1, 
+        'first_name' => 'First', 'last_name' => 'Last', 'confirmed' => 1,
         'address' => '123 First Dr', 'address_2' => 'Apt K123', 'city' => 'Spokane', 'state' => 'WA',
         'phone' => '5091231234', 'status' => 1,
-        'confirmation_code' => 12345
+        'confirmation_code' => 12345, 'country' => 'US'
       ),
       2 => array(
         'id' => 2, 'username' => 'test2@mail.net', 'email' => 'test2@mail.net',
         'password' => Hash::make('password'), 'created_at' => $this->now, 'updated_at' => $this->now,
-        'first_name' => 'First2', 'last_name' => 'Last2', 'confirmed' => 1, 
+        'first_name' => 'First2', 'last_name' => 'Last2', 'confirmed' => 1,
         'address' => '91919 E Main st.', 'address_2' => 'Suite 5132', 'city' => 'Spangle', 'state' => 'OH',
         'phone' => '2069193818', 'status' => 1,
-        'confirmation_code' => 54321
+        'confirmation_code' => 54321, 'country' => 'Canada'
       )
     );
     if ($id) {
@@ -224,13 +224,30 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     $this->assertEquals($expect['state'], $user->state, $err .' ->state');
     $this->assertEquals($expect['phone'], $user->phone, $err .' ->phone');
     $this->assertEquals($expect['status'], $user->status, $err .' ->status');
+    $this->assertEquals($expect['country'], $user->country, $err .' ->country');
     // Make sure certain fields aren't set
     $this->assertObjectNotHasAttribute('password', $user, $err ." ->password shouldn't be set.");
     $this->assertObjectNotHasAttribute('password_confirmation', $user, $err ." ->password_confirmation shouldn't be set.");
     $this->assertObjectNotHasAttribute('confirmation_code', $user, $err ." ->confirmation_code shouldn't be set.");
 
-    $roles = empty($expect['roles']) ? array(): (object) $expect['roles'];
-    $this->assertEquals($roles, $user->roles, $err .' ->roles');
+    $roles = array();
+    if ( ! empty($expect['roles'])) {
+      foreach ($expect['roles'] as $key => $role) {
+        $this->assertEquals($role['id'], $user->roles[$key]->id);
+      }
+    }
+    //$this->assertEquals($roles, $user->roles, $err .' ->roles');
+
+    // Should have an accounts property
+    $this->assertObjectHasAttribute('accounts', $user);
+    /*
+    $accounts = array();
+    if ( ! empty($expect['accounts'])) {
+      foreach ($expect['accounts'] as $account) {
+        $accounts[] = (object) $account;
+      }
+    }
+    $this->assertEquals($accounts, $user->accounts, $err .' ->accounts');*/
   }
 
 }

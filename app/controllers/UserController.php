@@ -11,7 +11,8 @@ class UserController extends BaseController {
 	{
 		$return = array();
 		$query = User::with('roles');
-		$query->with('image');
+		$query->with('image')
+			->with('accounts');
 		$users = $query->get()->toArray();
 		foreach ($users as &$user) {
 			if ($user['roles']) {
@@ -52,9 +53,10 @@ class UserController extends BaseController {
     {
     	// Save roles
     	$user->saveRoles(Input::get('roles'));
-    	$return = $user->toArray();
+    	return $this->show($user->id);
+    	/*$return = $user->toArray();
     	$return['roles'] = $user->getRoles();
-    	return Response::json($return, 200);
+    	return Response::json($return, 200);*/
     }
     else
     {
@@ -71,7 +73,10 @@ class UserController extends BaseController {
 
 	public function show($id)
 	{
-		$user = User::with('image')->with('roles')->find($id);
+		$user = User::with('image')
+			->with('roles')
+			->with('accounts')
+			->find($id);
 		$return = $user->toArray();
 		//$return['roles'] = $user->getRoles();
 		if ($user) {
@@ -83,7 +88,7 @@ class UserController extends BaseController {
 	public function update($id)
 	{
 		$user = User::find($id);
-		
+
 		if (Input::get('email')) {
 			$user->username = Input::get('email');
 		}
@@ -104,9 +109,7 @@ class UserController extends BaseController {
 			if (Input::get('roles')) {
 				$user->saveRoles(Input::get('roles'));
 			}
-			$ret = $user->toArray();
-			$ret['roles'] = $user->getRoles();
-			return Response::json($ret, 200);
+			return $this->show($user->id);
 		}
 		return Response::json(array(
 			'message' => "Couldn't update user",
@@ -140,17 +143,16 @@ class UserController extends BaseController {
 		}
 		if ($upload->id) {
 			// Upload succeeded, attach it to user
-			
+
 			// @todo: Figure out why this errors and fix it
 			/*
 			$upload->user_id = $id;
 			$upload->save();
 			// */
-		
+
 			$user->image = $upload->id;
 			$user->updateUniques();
 			return $this->show($user->id);
-			return $upload->toArray();
 		}
 		return Response::json(array(
 			'message' => "Couldn't upload file",

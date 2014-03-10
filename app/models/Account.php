@@ -15,21 +15,21 @@ class Account extends Ardent {
 
 	/**
 	 * The database table used by the model.
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $table = 'accounts';
 
 	/**
 	 * The attributes excluded from the model's JSON form.
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $hidden = array();
 
 	/**
 	 * Specifies the columns that can be mass assigned
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $fillable = array('title', 'active');
@@ -58,7 +58,7 @@ class Account extends Ardent {
 	}
 
 	public function getUsers() {
-		return $this->users()->with('roles')->get();
+		return $this->users()->with('roles')->with('accounts')->get();
 	}
 
 }
