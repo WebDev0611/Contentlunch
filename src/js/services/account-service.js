@@ -46,7 +46,7 @@
 			account.address1 = dto.address;
 			account.address2 = dto.address_2;
 			account.city = dto.city;
-			account.state = dto.state;
+			account.state = { value: dto.state, name: null };
 			//account.postalCode = null;
 			//account.country = null;
 			//account.email = null;
