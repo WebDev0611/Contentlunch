@@ -38,7 +38,7 @@
 
 				return null;
 			case 'phonenumber':
-				return launch.utils.isBlank(this.title) ? 'Title is required.' : null;
+				return launch.utils.isBlank(this.phoneNumber) ? 'Phone Number is required.' : null;
 			case 'address1':
 				return launch.utils.isBlank(this.address1) ? 'Address 1 is required.' : null;
 			case 'city':

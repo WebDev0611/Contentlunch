@@ -25,7 +25,7 @@
 		<div class="form-group" ng-class="{ 'has-error': errorState('address1', editAccount.txtAddress1) }">
 			<label class="control-label" for="txtAddress1">
 				Address 1
-				<span class="error-message" error-message message="errorMessage('address1', editAccount.address1)"></span>
+				<span class="error-message" error-message message="errorMessage('address1', editAccount.txtAddress1)"></span>
 			</label>
 			<input type="text" id="txtAddress1" name="txtAddress1" class="form-control" ng-model="selectedAccount.address1" />
 		</div>
@@ -33,8 +33,11 @@
 			<label class="control-label" for="txtAddress2">Address 2</label>
 			<input type="text" id="txtAddress2" name="txtAddress2" class="form-control" ng-model="selectedAccount.address2" />
 		</div>
-		<div class="form-group">
-			<label class="control-label" for="txtCity">City</label>
+		<div class="form-group" ng-class="{ 'has-error': errorState('city', editAccount.txtCity) }">
+			<label class="control-label" for="txtCity">
+				City
+				<span class="error-message" error-message message="errorMessage('city', editAccount.txtCity)"></span>
+			</label>
 			<input type="text" id="txtCity" name="txtCity" class="form-control" ng-model="selectedAccount.city" />
 		</div>
 	</div>
@@ -43,7 +46,7 @@
 		<div class="form-group" ng-class="{ 'has-error': errorState('country', editAccount.selCountry) }">
 			<label class="control-label" for="selCountry">
 				Country
-				<span class="error-message" error-message message="errorMessage('country', editAccount.country)"></span>
+				<span class="error-message" error-message message="errorMessage('country', editAccount.selCountry)"></span>
 			</label>
 			<select id="selCountry" name="selCountry" class="form-control" ng-model="selectedAccount.country">
 				<option value="Australia">Australia</option>
@@ -55,14 +58,14 @@
 		<div class="form-group" ng-class="{ 'has-error': errorState('state', editAccount.selState) }">
 			<label class="control-label" for="selState">
 				State
-				<span class="error-message" error-message message="errorMessage('state', editAccount.state)"></span>
+				<span class="error-message" error-message message="errorMessage('state', editAccount.selState)"></span>
 			</label>
 			<select id="selState" name="selState" class="form-control" ng-model="selectedAccount.state" ng-options="s.name for s in getStates(false) track by s.value"></select>
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': errorState('postalCode', editAccount.txtPostalCode) }">
 			<label class="control-label" for="txtPostalCode">
 				Postal Code
-				<span class="error-message" error-message message="errorMessage('postalCode', editAccount.postalCode)"></span>
+				<span class="error-message" error-message message="errorMessage('postalCode', editAccount.txtPostalCode)"></span>
 			</label>
 			<input type="text" id="txtPostalCode" name="txtPostalCode" class="form-control" ng-model="selectedAccount.postalCode" />
 		</div>
