@@ -34,7 +34,8 @@
 <script type="text/ng-template" id="popover-menu.html">
 	<ul class="admin-menu">
 		<li ng-repeat="item in currentMenu" ng-click="navigate(item.url)">
-			<span class="glyphicon" ng-class="item.cssClass"></span>
+			<span class="user-image item-image" ng-style="{ 'background-image': item.image }" ng-show="!!item.image"></span>
+			<span class="glyphicon" ng-class="item.cssClass" ng-show="!item.image"></span>
 			{{ item.text }}
 		</li>
 	</ul>

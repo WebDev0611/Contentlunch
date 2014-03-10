@@ -13,8 +13,8 @@
 				];
 
 				$scope.userMenu = [
-					{ text: 'My Account', cssClass: 'glyphicon-user', url: '/user' },
-					{ text: 'Logout', cssClass: 'glyphicon-log-out', url: '/login' }
+					{ text: 'My Account', cssClass: 'glyphicon-user', url: '/user', image: $scope.user.imageUrl() },
+					{ text: 'Logout', cssClass: 'glyphicon-log-out', url: '/login', image: null }
 				];
 
 				$scope.$on('$routeChangeSuccess', self.detectRoute);
