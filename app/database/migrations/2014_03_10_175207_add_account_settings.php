@@ -32,7 +32,7 @@ class AddAccountSettings extends Migration {
 	public function down()
 	{
 		// Remove fields
-		Schema::table('users', function($table) {
+		Schema::table('accounts', function($table) {
 			$table->dropColumn('name');
 			$table->dropColumn('address');
 			$table->dropColumn('address_2');
