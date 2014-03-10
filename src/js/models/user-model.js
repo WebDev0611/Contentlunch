@@ -19,6 +19,7 @@
 	self.active = 'active';
 	self.image = null;
 	self.role = null;
+	self.accounts = [];
 	self.roles = [];
 
 	self.formatName = function() {
