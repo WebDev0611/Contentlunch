@@ -42,43 +42,43 @@
 		};
 
 		scope.saveAccount = function(form) {
-			//if (!scope.selectedAccount || (!scope.selectedAccount.$resolved && scope.selfEditing)) {
-			//	return;
-			//}
+			if (!scope.selectedAccount || (!scope.selectedAccount.$resolved && scope.selfEditing)) {
+				return;
+			}
 
-			//self.forceDirty = true;
-			//form.$setDirty();
+			self.forceDirty = true;
+			form.$setDirty();
 
-			//var msg = launch.utils.validateAll(scope.selectedAccount);
-			//var isNew = launch.utils.isBlank(scope.selectedAccount.id);
+			var msg = launch.utils.validateAll(scope.selectedAccount);
+			var isNew = launch.utils.isBlank(scope.selectedAccount.id);
 
-			//if (!launch.utils.isBlank(msg)) {
-			//	NotificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
-			//	return;
-			//}
+			if (!launch.utils.isBlank(msg)) {
+				NotificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
+				return;
+			}
 
-			//var method = isNew ? AccountService.add : AccountService.update;
+			var method = isNew ? AccountService.add : AccountService.update;
 
-			//scope.isSaving = true;
+			scope.isSaving = true;
 
-			//method(scope.selectedAccount, {
-			//	success: function(r) {
-			//		scope.isSaving = false;
+			method(scope.selectedAccount, {
+				success: function(r) {
+					scope.isSaving = false;
 
-			//		var successMsg = 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.title + '\'s') + ' account settings!';
+					var successMsg = 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.title + '\'s') + ' account settings!';
 
-			//		NotificationService.success('Success!', successMsg);
+					NotificationService.success('Success!', successMsg);
 
-			//		if ($.isFunction(scope.afterSaveSuccess)) {
-			//			scope.afterSaveSuccess(r, form);
-			//		}
-			//	},
-			//	error: function(r) {
-			//		scope.isSaving = false;
+					if ($.isFunction(scope.afterSaveSuccess)) {
+						scope.afterSaveSuccess(r, form);
+					}
+				},
+				error: function(r) {
+					scope.isSaving = false;
 
-			//		launch.utils.handleAjaxErrorResponse(r, NotificationService);
-			//	}
-			//});
+					launch.utils.handleAjaxErrorResponse(r, NotificationService);
+				}
+			});
 		};
 
 		scope.deleteAccount = function(form) {

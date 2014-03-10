@@ -102,7 +102,7 @@
 	},
 
 	validateAll: function(obj) {
-		if (!$.isObject(obj) || !obj.validateProperty) {
+		if (!obj || !obj.validateProperty) {
 			return null;
 		}
 
@@ -121,7 +121,7 @@
 	},
 
 	validate: function(obj) {
-		if (!$.isObject(obj) || !obj.validateProperty) {
+		if (!obj || !obj.validateProperty) {
 			return true;
 		}
 

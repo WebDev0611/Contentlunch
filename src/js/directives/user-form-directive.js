@@ -19,6 +19,8 @@
 		scope.isLoading = false;
 		scope.isSaving = false;
 		scope.creatingNew = false;
+		scope.isUploading = false;
+		scope.percentComplete = 0;
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
@@ -121,9 +123,11 @@
 			});
 		};
 
-		scope.uploadPhoto = function (files) {
+		scope.uploadPhoto = function (files, form, control) {
 			if ($.isArray(files) && files.length !== 1) {
 				NotificationService.error('Invalid File!', 'Please make sure to select only one file for upload at a time.');
+				$(control).replaceWith(control = $(control).clone(true, true));
+				return;
 			}
 
 			var file = $.isArray(files) ? files[0] : files;
@@ -131,19 +135,39 @@
 
 			if (!launch.utils.isBlank(msg)) {
 				NotificationService.error('Invalid File!', msg);
+				$(control).replaceWith(control = $(control).clone(true, true));
+				return;
 			}
 
-			UserService.savePhoto(scope.selectedUser, file, {
-				success: function(r) {
-					NotificationService.success('Invalid File!', 'You have successfully uploaded your photo!');
+			scope.isUploading = true;
 
-					// TODO: REFRESH THE USER TO SHOW THE NEW PHOTO!
+			UserService.savePhoto(scope.selectedUser, file, {
+				success: function (r) {
+					scope.isUploading = false;
+					scope.percentComplete = 0;
+
+					NotificationService.success('Success!', 'You have successfully uploaded your photo!');
+
+					scope.selectedUser = UserService.mapUserFromDto(r);
+
+					if ($.isFunction(scope.afterSaveSuccess)) {
+						scope.afterSaveSuccess(r, form);
+					}
+
+					$(control).replaceWith(control = $(control).clone(true, true));
 				},
 				error: function(r) {
+					scope.isUploading = false;
+					scope.percentComplete = 0;
+
+					console.log(r);
+
 					launch.utils.handleAjaxErrorResponse(r, NotificationService);
+
+					$(control).replaceWith(control = $(control).clone(true, true));
 				},
-				progress: function(e) {
-					// TODO: INSERT PROGRESS INDICATOR STUFF HERE!
+				progress: function (e) {
+					scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
 				}
 			});
 		};

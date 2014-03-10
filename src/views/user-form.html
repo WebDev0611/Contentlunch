@@ -4,7 +4,10 @@
 		<button type="button" class="btn btn-default ladda-button" onclick="$('#filPhoto').click()" data-style="zoom-in" ladda-button="isSaving">
 			<span class="ladda-label">Upload Photo</span>
 		</button>
-		<input type="file" id="filPhoto" accept="{{ launch.config.USER_PHOTO_FILE_TYPES.join(',') }}" file-upload on-select-file="uploadPhoto" ng-file-select="uploadPhoto($files)" />
+		<input type="file" id="filPhoto" accept="{{ launch.config.USER_PHOTO_FILE_TYPES.join(',') }}" ng-file-select="uploadPhoto($files, editUser, editUser.filPhoto)" />
+		<progressbar class="progress-striped active" value="percentComplete" ng-show="isUploading">
+            <span>{{ percentComplete }}%</span>
+        </progressbar>  
 	</div>
 	<div class="user-editor">
 		<div class="control-group">

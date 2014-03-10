@@ -350,10 +350,10 @@ span[class*=" icon-"].dark {
 .user-image {
   background: #000000 url("../images/user.svg") no-repeat;
   background-position-x: center;
-  background-position-y: top;
-  background-size: 40px;
-  -moz-background-size: 40px;
-  -o-background-size: 40px;
+  background-position-y: center;
+  background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
   border: solid 2px #ffffff;
   border-radius: 50%;
   display: inline-block;
@@ -461,9 +461,6 @@ span[class*=" icon-"].dark {
 }
 .user-editor .user-image-upload .user-image,
 .account-editor .user-image-upload .user-image {
-  background-size: 96px;
-  -moz-background-size: 96px;
-  -o-background-size: 96px;
   border: solid 3px #ffffff;
   display: block;
   height: 96px;
@@ -472,7 +469,7 @@ span[class*=" icon-"].dark {
 }
 .user-editor .user-image-upload button,
 .account-editor .user-image-upload button {
-  margin-top: 16px;
+  margin: 16px 0;
 }
 .user-editor .user-image-upload input[type="file"],
 .account-editor .user-image-upload input[type="file"] {
