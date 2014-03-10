@@ -124,6 +124,9 @@
 		},
 		getNewAccount: function() {
 			return new launch.Account();
+		},
+		mapAccountFromDto: function(dto) {
+			return map.fromDto(dto);
 		}
 	};
 });

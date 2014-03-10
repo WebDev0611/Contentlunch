@@ -1,4 +1,4 @@
-launch.module.factory('UserService', function($resource, $http, $upload) {
+launch.module.factory('UserService', function($resource, $http, $upload, AccountService) {
 	var map = {
 		parseResponse: function(r, getHeaders) {
 			var dto = JSON.parse(r);
@@ -68,6 +68,11 @@ launch.module.factory('UserService', function($resource, $http, $upload) {
 			user.username = dto.username;
 			user.active = (parseInt(dto.status) === 1) ? 'active' : 'inactive';
 			user.role = (roles.length > 0) ? roles[0] : null;
+			user.accounts = [];
+
+			angular.forEach(dto.accounts, function(a, i) {
+				user.accounts.push(AccountService.mapAccountFromDto(a));
+			});
 
 			//user.image = '/assets/images/testing-user-image.png';
 
@@ -144,9 +149,6 @@ launch.module.factory('UserService', function($resource, $http, $upload) {
 			return resource.delete({ id: user.id }, user, success, error);
 		},
 		savePhoto: function(user, file, callback) {
-			//var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
-			//var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
-
 			$upload.upload({
 				url: '/api/user/' + user.id + '/image/',
 				method: 'POST',
@@ -171,6 +173,9 @@ launch.module.factory('UserService', function($resource, $http, $upload) {
 					callback.error({ data: data, status: status, headers: headers, config: config });
 				}
 			});
+
+			//var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			//var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			//launch.utils.convertFileToByteArray(file, function(f) {
 			//	//	var payload = {
