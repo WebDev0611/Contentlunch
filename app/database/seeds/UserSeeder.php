@@ -25,6 +25,7 @@ class UserSeeder extends Seeder {
       $user->first_name = 'Test';
       $user->last_name = $roles[0];
       $user->confirmed = 1;
+      $user->status = 1;
       $user->updateUniques();
       // Add user's roles
       $role = Role::find_by_name($roles[0]);
