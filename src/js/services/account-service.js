@@ -74,11 +74,12 @@
 			var dto = {
 				id: account.id,
 				title: account.title,
+				name: account.title,
 				active: (account.active === 'active') ? 1 : 0,
 				address: account.address1,
 				address_2: account.address2,
 				city: account.city,
-				state: account.state,
+				state: (!!account.state) ? account.state.value : null,
 				phone: account.phoneNumber,
 				subscription: account.autoRenew ? 1 : 0,
 				created_at: account.created,
