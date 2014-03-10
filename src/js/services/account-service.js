@@ -43,30 +43,30 @@
 			account.id = parseInt(dto.id);
 			account.title = dto.title;
 			account.active = (parseInt(dto.active) === 1) ? 'active' : 'inactive';
-			//self.address1 = null;
-			//self.address2 = null;
-			//self.city = null;
-			//self.state = null;
-			//self.postalCode = null;
-			//self.country = null;
-			//self.email = null;
-			//self.phoneNumber = null;
-			//self.autoRenew = false;
+			account.address1 = dto.address;
+			account.address2 = dto.address_2;
+			account.city = dto.city;
+			account.state = dto.state;
+			//account.postalCode = null;
+			//account.country = null;
+			//account.email = null;
+			account.phoneNumber = dto.phone;
+			account.autoRenew = (parseInt(dto.subscription) === 1);
 			account.created = dto.created_at;
 			account.updated = dto.updated_at;
 
-			self.creditCard = new launch.CreditCard();
-			//self.creditCard.cardNumber = null;
-			//self.creditCard.nameOnCard = null;
-			//self.creditCard.cvc = null;
-			//self.creditCard.expirationDateMonth = null;
-			//self.creditCard.expirationDateYear = null;
-			//self.creditCard.address1 = null;
-			//self.creditCard.address2 = null;
-			//self.creditCard.city = null;
-			//self.creditCard.country = null;
-			//self.creditCard.state = null;
-			//self.creditCard.postalCode = null;
+			account.creditCard = new launch.CreditCard();
+			//account.creditCard.cardNumber = null;
+			//account.creditCard.nameOnCard = null;
+			//account.creditCard.cvc = null;
+			//account.creditCard.expirationDateMonth = null;
+			//account.creditCard.expirationDateYear = null;
+			//account.creditCard.address1 = null;
+			//account.creditCard.address2 = null;
+			//account.creditCard.city = null;
+			//account.creditCard.country = null;
+			//account.creditCard.state = null;
+			//account.creditCard.postalCode = null;
 
 			return account;
 		},
@@ -75,6 +75,12 @@
 				id: account.id,
 				title: account.title,
 				active: (account.active === 'active') ? 1 : 0,
+				address: account.address1,
+				address_2: account.address2,
+				city: account.city,
+				state: account.state,
+				phone: account.phoneNumber,
+				subscription: account.autoRenew ? 1 : 0,
 				created_at: account.created,
 				updated_at: account.updated
 			};

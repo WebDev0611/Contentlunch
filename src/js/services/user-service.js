@@ -150,7 +150,7 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 		},
 		savePhoto: function(user, file, callback) {
 			$upload.upload({
-				url: '/api/user/' + user.id + '/image/',
+				url: '/api/user/' + user.id + '/image',
 				method: 'POST',
 				data: null,
 				file: file

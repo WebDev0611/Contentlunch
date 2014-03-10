@@ -135,7 +135,7 @@
 
 			UserService.savePhoto(scope.selectedUser, file, {
 				success: function(r) {
-					NotificationService.success('Invalid File!', 'You have successfully uploaded your photo!');
+					NotificationService.success('Success!', 'You have successfully uploaded your photo!');
 
 					// TODO: REFRESH THE USER TO SHOW THE NEW PHOTO!
 				},
