@@ -121,7 +121,7 @@
 			});
 		};
 
-		scope.uploadPhoto = function (files) {
+		scope.uploadPhoto = function (files, form) {
 			if ($.isArray(files) && files.length !== 1) {
 				NotificationService.error('Invalid File!', 'Please make sure to select only one file for upload at a time.');
 			}
@@ -135,14 +135,24 @@
 
 			UserService.savePhoto(scope.selectedUser, file, {
 				success: function(r) {
+					console.log(r);
+
 					NotificationService.success('Success!', 'You have successfully uploaded your photo!');
 
-					// TODO: REFRESH THE USER TO SHOW THE NEW PHOTO!
+					scope.selectedUser = UserService.mapUserFromDto(r);
+
+					if ($.isFunction(scope.afterSaveSuccess)) {
+						scope.afterSaveSuccess(r, form);
+					}
 				},
 				error: function(r) {
+					console.log(r);
+
 					launch.utils.handleAjaxErrorResponse(r, NotificationService);
 				},
-				progress: function(e) {
+				progress: function (e) {
+					console.log('percent: ' + parseInt(100.0 * e.loaded / e.total));
+
 					// TODO: INSERT PROGRESS INDICATOR STUFF HERE!
 				}
 			});

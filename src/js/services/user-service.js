@@ -74,7 +74,17 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 				user.accounts.push(AccountService.mapAccountFromDto(a));
 			});
 
-			//user.image = '/assets/images/testing-user-image.png';
+			if (!!dto.image) {
+				var path = dto.image.path;
+
+				if (launch.utils.startsWith(path, '/public')) {
+					path = path.substring(7);
+				}
+
+				user.image = path + '' + dto.image.filename;
+			} else {
+				user.image = null;
+			}
 
 			return user;
 		},
@@ -113,7 +123,6 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 		query: { method: 'GET', isArray: true, transformResponse: map.parseResponse },
 		update: { method: 'PUT', transformRequest: map.toDto, transformResponse: map.parseResponse },
 		insert: { method: 'POST', transformRequest: map.toDto, transformResponse: map.parseResponse },
-		//savePhoto: { method: 'POST' },
 		delete: { method: 'DELETE' }
 	});
 
@@ -155,48 +164,18 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 				data: null,
 				file: file
 			}).progress(function (evt) {
-				console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-
 				if (!!callback && $.isFunction(callback.progress)) {
 					callback.progress(evt);
 				}
 			}).success(function (data, status, headers, config) {
-				console.log(data);
-
 				if ((!!callback && $.isFunction(callback.success))) {
 					callback.success(data);
 				}
 			}).error(function (data, status, headers, config) {
-				console.log(data);
-
 				if (!!callback && $.isFunction(callback.error)) {
 					callback.error({ data: data, status: status, headers: headers, config: config });
 				}
 			});
-
-			//var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
-			//var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
-
-			//launch.utils.convertFileToByteArray(file, function(f) {
-			//	//	var payload = {
-			//	//		file: f,
-			//	//		contentType: file.type,
-			//	//		contentEncoding: 'base64'
-			//	//	};
-
-			//	//	return resource.savePhoto({ id: user.id, image: 'image' }, payload.file, success, error);
-
-			//	var formData = new FormData();
-
-			//	formData.append('file', f);
-
-			//	$http.post('/api/user/' + user.id + '/image/', formData, {
-			//			headers: { 'Content-Type': undefined, 'Content-Encoding': 'base64' },
-			//			transformRequest: angular.identity
-			//		})
-			//		.success(success)
-			//		.error(error);
-			//});
 		},
 		getNewUser: function() {
 			return new launch.User();
