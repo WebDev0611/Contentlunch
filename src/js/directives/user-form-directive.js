@@ -1,4 +1,4 @@
-﻿launch.module.directive('userForm', function ($modal, RoleService, UserService, NotificationService) {
+﻿launch.module.directive('userForm', function ($modal, $upload, RoleService, UserService, NotificationService) {
 	var link = function (scope, element, attrs) {
 		var self = this;
 
@@ -14,24 +14,11 @@
 			}
 		};
 
-		self.validatePhotoFile = function(file) {
-			if (!$.inArray(file.type, scope.photoFileTypes)) {
-				NotificationService.error('Invalid File!', 'The file you selected is not supported. You may only upload JPG, PNG, GIF, or BMP images.');
-				return false;
-			} else if (file.size > 5000000) {
-				NotificationService.error('Invalid File!', 'The file you selected is too big. You may only upload images that are 5MB or less.');
-				return false;
-			}
-
-			return true;
-		};
-
 		scope.roles = [];
 		scope.photoFile = null;
 		scope.isLoading = false;
 		scope.isSaving = false;
 		scope.creatingNew = false;
-		scope.photoFileTypes = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp'];
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
@@ -135,24 +122,30 @@
 		};
 
 		scope.uploadPhoto = function (files) {
-			if ($.isArray(files) && files.length === 1) {
-				return false;
+			if ($.isArray(files) && files.length !== 1) {
+				NotificationService.error('Invalid File!', 'Please make sure to select only one file for upload at a time.');
 			}
 
-			if (self.validatePhotoFile(files[0])) {
-				UserService.savePhoto(scope.selectedUser, files[0], {
-					success: function(r) {
-						
-					},
-					error: function(r) {
-						
-					}
-				});
+			var file = $.isArray(files) ? files[0] : files;
+			var msg = UserService.validatePhotoFile(file);
 
-				return true;
+			if (!launch.utils.isBlank(msg)) {
+				NotificationService.error('Invalid File!', msg);
 			}
 
-			return false;
+			UserService.savePhoto(scope.selectedUser, file, {
+				success: function(r) {
+					NotificationService.success('Invalid File!', 'You have successfully uploaded your photo!');
+
+					// TODO: REFRESH THE USER TO SHOW THE NEW PHOTO!
+				},
+				error: function(r) {
+					launch.utils.handleAjaxErrorResponse(r, NotificationService);
+				},
+				progress: function(e) {
+					// TODO: INSERT PROGRESS INDICATOR STUFF HERE!
+				}
+			});
 		};
 
 		scope.errorMessage = function (property, control) {

@@ -3,7 +3,7 @@
 
 	launch = window.launch || (window.launch = { });
 	launch.activeMenu = null;
-	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap']);
+	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload']);
 
 	launch.module.config([
 			'$routeProvider', '$locationProvider', '$resourceProvider', '$tooltipProvider', function($routeProvider, $locationProvider, $resource, $tooltipProvider) {
