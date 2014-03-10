@@ -26,7 +26,7 @@
 	};
 
 	self.validateProperty = function(property) {
-		switch (property) {
+		switch (property.toLowerCase()) {
 			case 'title':
 				return launch.utils.isBlank(this.title) ? 'Title is required.' : null;
 			case 'email':
@@ -37,8 +37,18 @@
 				}
 
 				return null;
-			case 'phoneNumber':
-				return launch.utils.isBlank(this.title) ? 'Title is required.' : null;
+			case 'phonenumber':
+				return launch.utils.isBlank(this.phoneNumber) ? 'Phone Number is required.' : null;
+			case 'address1':
+				return launch.utils.isBlank(this.address1) ? 'Address 1 is required.' : null;
+			case 'city':
+				return launch.utils.isBlank(this.city) ? 'City is required.' : null;
+			case 'state':
+				return launch.utils.isBlank(this.state) ? 'State is required.' : null;
+			case 'postalcode':
+				return launch.utils.isBlank(this.postalCode) ? 'Postal Code is required.' : null;
+			case 'country':
+				return launch.utils.isBlank(this.country) ? 'Country is required.' : null;
 			case 'active':
 				return launch.utils.isBlank(this.active) ? 'Active Status is required.' : null;
 			default:
