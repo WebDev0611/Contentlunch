@@ -15,6 +15,9 @@ class AccountSeeder extends Seeder {
     $account->state = 'WA';
     $account->phone = '866-991-6883';
     $account->subscription = 1;
+    $account->country = 'US';
+    $account->zipcode = '98005';
+    $account->email = 'info@surgeforward.com';
 		$account->save();
 	}
 

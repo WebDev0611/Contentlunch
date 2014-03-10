@@ -58,7 +58,10 @@ class AccountIntegrationTest extends TestCase {
 			'city' => 'New York',
 			'state' => 'NY',
 			'phone' => '123-321-1231',
-			'subscription' => 3
+			'subscription' => 3,
+			'country' => 'US',
+			'zipcode' => '99912',
+			'email' => 'foo@bar.com'
 		);
 		$expect = array_merge($this->getTestAccounts(1), $changes);
 		$response = $this->call('PUT', 'api/account/'. $expect['id'], $changes);

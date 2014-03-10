@@ -137,6 +137,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         'state' => 'WA',
         'phone' => '891-232-3113',
         'subscription' => 2,
+        'country' => 'US',
+        'zipcode' => '99128',
+        'email' => 'test@surge.com',
         'created_at' => $this->now,
         'updated_at' => $this->now
       ),
@@ -151,6 +154,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         'state' => 'WA',
         'phone' => '891-111-3113',
         'subscription' => 5,
+        'country' => 'US',
+        'zipcode' => '99133',
+        'email' => 'test2@surge.com',
         'created_at' => $this->now,
         'updated_at' => $this->now
       )
@@ -203,6 +209,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     $this->assertEquals($expect['state'], $account->state, $err .' ->state');
     $this->assertEquals($expect['phone'], $account->phone, $err .' ->phone');
     $this->assertEquals($expect['subscription'], $account->subscription, $err .' ->subscription');
+    $this->assertEquals($expect['country'], $account->country, $err .' ->country');
+    $this->assertEquals($expect['zipcode'], $account->zipcode, $err .' ->zipcode');
+    $this->assertEquals($expect['email'], $account->email, $err .' ->email');
     $this->assertNotEmpty($account->created_at, $err .' ->created_at');
     $this->assertNotEmpty($account->updated_at, $err .' ->updated_at');
   }
