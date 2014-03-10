@@ -205,6 +205,23 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 			user.image = cachedUser.image;
 			user.role = cachedUser.role;
 			user.roles = cachedUser.roles;
+			user.accounts = [];
+
+			angular.forEach(cachedUser.accounts, function (a, i) {
+				user.accounts.push(AccountService.mapAccountFromDto(a));
+			});
+
+			if (!!cachedUser.image) {
+				var path = cachedUser.image.path;
+
+				if (launch.utils.startsWith(path, '/public')) {
+					path = path.substring(7);
+				}
+
+				user.image = path + '' + cachedUser.image.filename;
+			} else {
+				user.image = null;
+			}
 
 			return user;
 		},
