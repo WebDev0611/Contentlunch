@@ -47,7 +47,7 @@
 		};
 
 		scope.saveUser = function (form) {
-			if (!scope.selectedUser || (!scope.selectedUser.$resolved && scope.selfEditing)) {
+			if (!scope.selectedUser || scope.selectedUser.$resolved === false) {
 				return;
 			}
 

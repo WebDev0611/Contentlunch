@@ -141,6 +141,43 @@
 		},
 		mapAccountFromDto: function(dto) {
 			return map.fromDto(dto);
+		},
+		setAccountFromCache: function(cachedAccount) {
+			var account = new launch.Account();
+
+			account.id = parseInt(cachedAccount.id);
+			account.title = account.name = cachedAccount.title;
+			account.active = cachedAccount.active;
+			account.address1 = cachedAccount.address1;
+			account.address2 = cachedAccount.address2;
+			account.city = cachedAccount.city;
+			account.state = cachedAccount.state;
+			account.postalCode = cachedAccount.postalCode;
+			account.country = cachedAccount.country;
+			account.email = cachedAccount.email;
+			account.phoneNumber = cachedAccount.phoneNumber;
+			account.autoRenew = cachedAccount.autoRenew;
+			account.created = cachedAccount.created;
+			account.updated = cachedAccount.updated;
+
+			account.creditCard = new launch.CreditCard();
+			//account.creditCard.cardNumber = null;
+			//account.creditCard.nameOnCard = null;
+			//account.creditCard.cvc = null;
+			//account.creditCard.expirationDateMonth = null;
+			//account.creditCard.expirationDateYear = null;
+			//account.creditCard.address1 = null;
+			//account.creditCard.address2 = null;
+			//account.creditCard.city = null;
+			//account.creditCard.country = null;
+			//account.creditCard.state = null;
+			//account.creditCard.postalCode = null;
+
+			if (account.country === 'US') {
+				account.country = 'USA';
+			}
+
+			return account;
 		}
 	};
 });

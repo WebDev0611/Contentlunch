@@ -118,7 +118,7 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 		}
 	};
 
-	var resource = $resource('/api/user/:id/:image', { id: '@id', image: '@image' }, {
+	var resource = $resource('/api/user/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: map.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: map.parseResponse },
 		update: { method: 'PUT', transformRequest: map.toDto, transformResponse: map.parseResponse },
@@ -209,7 +209,7 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 
 			// TODO: MIGHT NEED TO PARSE THE ACCOUNTS IN A SPECIAL WAY!
 			angular.forEach(cachedUser.accounts, function (a, i) {
-				user.accounts.push(AccountService.mapAccountFromDto(a));
+				user.accounts.push(AccountService.setAccountFromCache(a));
 			});
 
 			return user;

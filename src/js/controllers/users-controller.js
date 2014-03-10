@@ -1,5 +1,5 @@
 launch.module.controller('UsersController', [
-	'$scope', '$location', '$filter', '$modal', 'AuthService', 'UserService', 'RoleService', 'NotificationService', function ($scope, $location, $filter, $modal, authService, userService, roleService, notificationService) {
+	'$scope', '$location', '$filter', '$modal', 'AuthService', 'UserService', 'RoleService', 'NotificationService', 'SessionService', function ($scope, $location, $filter, $modal, authService, userService, roleService, notificationService, sessionService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -212,7 +212,11 @@ launch.module.controller('UsersController', [
 			});
 		};
 
-		$scope.afterSaveSuccess = function(r, form) {
+		$scope.afterSaveSuccess = function (r, form) {
+			if ($scope.selfEditing()) {
+				sessionService.set('user', JSON.stringify(userService.mapUserFromDto(r)));
+			}
+
 			self.loadUsers(false, {
 				success: function () {
 					self.adjustPage(r.id, form);
