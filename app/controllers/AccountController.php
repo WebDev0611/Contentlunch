@@ -13,7 +13,7 @@ class AccountController extends BaseController {
 		$account = new Account;
 		if ($account->save())
 		{
-			return Response::json($account->toArray(), 200);
+			return $this->show($account->id);
 		}
 		return Response::json(array(
 			'errors' => $account->errors()->toArray()
@@ -30,7 +30,7 @@ class AccountController extends BaseController {
 		$account = Account::find($id);
 		if ($account->updateUniques())
 		{
-			return Response::json($account->toArray(), 200);
+			return $this->show($account->id);
 		}
 		return Response::json(array(
 			'errors' => $account->errors()->toArray()

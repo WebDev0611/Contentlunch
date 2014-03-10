@@ -130,6 +130,13 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         'id' => 1,
         'title' => 'Surge',
         'active' => 1,
+        'name' => 'SurgeForward',
+        'address' => '123 S Main',
+        'address_2' => 'St. 104',
+        'city' => 'Seattle',
+        'state' => 'WA',
+        'phone' => '891-232-3113',
+        'subscription' => 2,
         'created_at' => $this->now,
         'updated_at' => $this->now
       ),
@@ -137,6 +144,13 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         'id' => 2,
         'title' => 'Test Account',
         'active' => 0,
+        'name' => 'Testing',
+        'address' => '321 S Main',
+        'address_2' => 'St. 101',
+        'city' => 'Spokane',
+        'state' => 'WA',
+        'phone' => '891-111-3113',
+        'subscription' => 5,
         'created_at' => $this->now,
         'updated_at' => $this->now
       )
@@ -182,6 +196,13 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     $this->assertEquals($expect['id'], $account->id, $err .' ->id');
     $this->assertEquals($expect['title'], $account->title, $err .' ->title');
     $this->assertEquals($expect['active'], $account->active, $err .' ->active');
+    $this->assertEquals($expect['name'], $account->name, $err .' ->name');
+    $this->assertEquals($expect['address'], $account->address, $err .' ->address');
+    $this->assertEquals($expect['address_2'], $account->address_2, $err .' ->address_2');
+    $this->assertEquals($expect['city'], $account->city, $err .' ->city');
+    $this->assertEquals($expect['state'], $account->state, $err .' ->state');
+    $this->assertEquals($expect['phone'], $account->phone, $err .' ->phone');
+    $this->assertEquals($expect['subscription'], $account->subscription, $err .' ->subscription');
     $this->assertNotEmpty($account->created_at, $err .' ->created_at');
     $this->assertNotEmpty($account->updated_at, $err .' ->updated_at');
   }

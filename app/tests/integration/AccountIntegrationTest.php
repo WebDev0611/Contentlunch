@@ -7,7 +7,7 @@
  */
 class AccountIntegrationTest extends TestCase {
 
-	public function testIndex() 
+	public function testIndex()
 	{
 		$this->setupTestAccounts();
 		$response = $this->call('GET', 'api/account');
@@ -21,10 +21,7 @@ class AccountIntegrationTest extends TestCase {
 	public function testStore()
 	{
 		$expect = $this->getTestAccounts(1);
-		$response = $this->call('POST', 'api/account', array(
-			'title' => $expect['title'],
-			'active' => $expect['active']
-		));
+		$response = $this->call('POST', 'api/account', $expect);
 		$account = json_decode($response->getContent());
 		$this->assertAccountFields($expect, $account);
 	}
@@ -54,7 +51,14 @@ class AccountIntegrationTest extends TestCase {
 		$this->setupTestAccounts();
 		$changes = array(
 			'title' => 'Foobar',
-			'active' => 0
+			'active' => 0,
+			'address' => '49494 S 1st',
+			'address_2' => 'Ste. 999',
+			'name' => 'Foobar Consulting',
+			'city' => 'New York',
+			'state' => 'NY',
+			'phone' => '123-321-1231',
+			'subscription' => 3
 		);
 		$expect = array_merge($this->getTestAccounts(1), $changes);
 		$response = $this->call('PUT', 'api/account/'. $expect['id'], $changes);
