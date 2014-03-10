@@ -14,9 +14,9 @@ class AddAccountSettings2 extends Migration {
   {
     // Add more settings fields to accounts
     Schema::table('accounts', function($table) {
-      $table->string('country')->default('');
-      $table->string('zipcode')->default('');
-      $table->string('email')->default('');
+      $table->string('country')->nullable();
+      $table->string('zipcode')->nullable();
+      $table->string('email')->nullable();
     });
   }
 

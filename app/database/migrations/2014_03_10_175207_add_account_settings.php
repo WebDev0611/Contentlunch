@@ -14,12 +14,12 @@ class AddAccountSettings extends Migration {
 	{
 		// Add fields to account table
 		Schema::table('accounts', function($table) {
-			$table->string('name')->default('');
-			$table->string('address')->default('');
-			$table->string('address_2')->default('');
-			$table->string('city')->default('');
-			$table->string('state')->default('');
-			$table->string('phone')->default('');
+			$table->string('name')->nullable();
+			$table->string('address')->nullable();
+			$table->string('address_2')->nullable();
+			$table->string('city')->nullable();
+			$table->string('state')->nullable();
+			$table->string('phone')->nullable();
 			$table->integer('subscription')->default(0);
 		});
 	}
