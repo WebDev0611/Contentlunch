@@ -72,6 +72,8 @@ gulp.task('scripts', function() {
 	gulp.src([
 			'./bower_components/jquery/dist/jquery.js',
 			'./bower_components/bootstrap/dist/js/bootstrap.js',
+			'./bower_components/ng-file-upload/angular-file-upload-html5-shim.js',
+			'./bower_components/ng-file-upload/angular-file-upload-shim.js',
 			'./bower_components/angular/angular.js',
 			'./bower_components/angular-route/angular-route.js',
 			'./bower_components/angular-resource/angular-resource.js',
@@ -79,7 +81,8 @@ gulp.task('scripts', function() {
 			'./bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
 			'./bower_components/pnotify/jquery.pnotify.js',
 			'./bower_components/ladda/js/spin.js',
-			'./bower_components/ladda/js/ladda.js'
+			'./bower_components/ladda/js/ladda.js',
+			'./bower_components/ng-file-upload/angular-file-upload.js'
 		])
 		.pipe(concat('build.js'))
 		.pipe(gulp.dest('./public/assets/js'));

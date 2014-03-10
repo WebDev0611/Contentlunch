@@ -1,4 +1,4 @@
-launch.module.factory('UserService', function($resource, $http) {
+launch.module.factory('UserService', function($resource, $http, $upload) {
 	var map = {
 		parseResponse: function(r, getHeaders) {
 			var dto = JSON.parse(r);
@@ -144,29 +144,54 @@ launch.module.factory('UserService', function($resource, $http) {
 			return resource.delete({ id: user.id }, user, success, error);
 		},
 		savePhoto: function(user, file, callback) {
-			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
-			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+			//var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			//var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			launch.utils.convertFileToByteArray(file, function(f) {
-				//	var payload = {
-				//		file: f,
-				//		contentType: file.type,
-				//		contentEncoding: 'base64'
-				//	};
+			$upload.upload({
+				url: '/api/user/' + user.id + '/image/',
+				method: 'POST',
+				data: null,
+				file: file
+			}).progress(function (evt) {
+				console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
 
-				//	return resource.savePhoto({ id: user.id, image: 'image' }, payload.file, success, error);
+				if (!!callback && $.isFunction(callback.progress)) {
+					callback.progress(evt);
+				}
+			}).success(function (data, status, headers, config) {
+				console.log(data);
 
-				var formData = new FormData();
+				if ((!!callback && $.isFunction(callback.success))) {
+					callback.success(data);
+				}
+			}).error(function (data, status, headers, config) {
+				console.log(data);
 
-				formData.append('file', f);
-
-				$http.post('/api/user/' + user.id + '/image/', formData, {
-						headers: { 'Content-Type': undefined },
-						transformRequest: angular.identity
-					})
-					.success(success)
-					.error(error);
+				if (!!callback && $.isFunction(callback.error)) {
+					callback.error({ data: data, status: status, headers: headers, config: config });
+				}
 			});
+
+			//launch.utils.convertFileToByteArray(file, function(f) {
+			//	//	var payload = {
+			//	//		file: f,
+			//	//		contentType: file.type,
+			//	//		contentEncoding: 'base64'
+			//	//	};
+
+			//	//	return resource.savePhoto({ id: user.id, image: 'image' }, payload.file, success, error);
+
+			//	var formData = new FormData();
+
+			//	formData.append('file', f);
+
+			//	$http.post('/api/user/' + user.id + '/image/', formData, {
+			//			headers: { 'Content-Type': undefined, 'Content-Encoding': 'base64' },
+			//			transformRequest: angular.identity
+			//		})
+			//		.success(success)
+			//		.error(error);
+			//});
 		},
 		getNewUser: function() {
 			return new launch.User();
@@ -174,7 +199,7 @@ launch.module.factory('UserService', function($resource, $http) {
 		mapUserFromDto: function(dto) {
 			return map.fromDto(dto);
 		},
-		setUserFromCache: function (cachedUser) {
+		setUserFromCache: function(cachedUser) {
 			var user = new launch.User();
 
 			user.id = cachedUser.id;
@@ -198,6 +223,15 @@ launch.module.factory('UserService', function($resource, $http) {
 			user.roles = cachedUser.roles;
 
 			return user;
+		},
+		validatePhotoFile: function(file) {
+			if (!$.inArray(file.type, launch.config.USER_PHOTO_FILE_TYPES)) {
+				return 'The file you selected is not supported. You may only upload JPG, PNG, GIF, or BMP images.';
+			} else if (file.size > 5000000) {
+				return 'The file you selected is too big. You may only upload images that are 5MB or less.';
+			}
+
+			return null;
 		}
 	};
 });
