@@ -34,8 +34,12 @@ launch.module.controller('LoginController', [
 			}
 
 			authService.login($scope.user.email, $scope.user.password, $scope.user.remember, {
-				success: function(r) {
-					$location.path('/');
+				success: function (u) {
+					if (u.role.isGlobalAdmin()) {
+						$location.path('/users');
+					} else {
+						$location.path('/');
+					}
 				},
 				error: function(r) {
 					launch.utils.handleAjaxErrorResponse(r, notificationService);

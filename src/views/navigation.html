@@ -1,7 +1,7 @@
-﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-if="showNav()">
+﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-if="showNav">
 	<div class="navbar-collapse collapse" role="navigation">
 		<ul class="nav navbar-nav">
-			<li ng-class="[item.title, item.active]" ng-repeat="item in menu" ng-click="navigate(item.url)">
+			<li ng-class="[item.title, item.active]" ng-repeat="item in mainMenu" ng-click="navigate(item.url)">
 				<div class="dark">
 					<img ng-src="{{ imagePath(item) }}" />
 					{{ formatMenuTitle(item.title) }}
@@ -19,7 +19,7 @@
 		</button>
 		<a href="/" class="navbar-brand">ContentLaunch</a>
 	</div>-->
-	<div class="login-info" ng-if="showNav()">
+	<div class="login-info">
 		<div class="popover-menu admin-menu" menu-popover menu-items="adminMenu" data-placement="bottom" data-trigger="hover" data-menu="true">
 			<span class="glyphicon glyphicon-cog"></span>
 			Admin Settings

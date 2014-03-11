@@ -11,6 +11,10 @@ launch.module.factory('AuthService', function($resource, $sanitize, SessionServi
 		SessionService.unset(SessionService.ACCOUNT_KEY);
 	};
 
+	var resource = $resource('/api/auth', null, {
+		fetchCurrentUser: { method: 'GET', transformResponse: UserService.mapUserFromDto }
+	});
+
 	return {
 		login: function(username, password, remember, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -27,7 +31,7 @@ launch.module.factory('AuthService', function($resource, $sanitize, SessionServi
 					cacheSession(user);
 
 					if ($.isFunction(success)) {
-						success(r);
+						success(user);
 					}
 				},
 				function(r) {
@@ -59,7 +63,12 @@ launch.module.factory('AuthService', function($resource, $sanitize, SessionServi
 			return AccountService.setAccountFromCache(JSON.parse(SessionService.get(SessionService.ACCOUNT_KEY)));
 		},
 		fetchCurrentUser: function(callback) {
-			return $resource('/api/auth').get(callback);
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return resource.fetchCurrentUser(null, success, error);
+
+			//return $resource('/api/auth').get(null, success, error);
 		}
 	};
 });

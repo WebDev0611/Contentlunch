@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/favicon.ico">
 </head>
 <body>
-	<header ng-controller="NavigationController" ng-cloak navigation-template></header>
+	<header ng-cloak navigation-template></header>
 	
     <div class="main-content" ng-view></div>
 

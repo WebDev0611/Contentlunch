@@ -62,8 +62,8 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 			user.title = dto.title;
 			user.userName = dto.username;
 			user.active = (parseInt(dto.status) === 1) ? 'active' : 'inactive';
-			user.accounts = $.map(dto.accounts, function (a, i) { return AccountService.mapAccountFromDto(a); });
-			user.roles = $.map(dto.roles, function (r, i) { return new launch.Role(r.id, r.name); });
+			user.accounts = ($.isArray(dto.accounts)) ? $.map(dto.accounts, function(a, i) { return AccountService.mapAccountFromDto(a); }) : [];
+			user.roles = ($.isArray(dto.roles)) ? $.map(dto.roles, function (r, i) { return new launch.Role(r.id, r.name); }) : [];
 			user.role = (user.roles.length > 0) ? user.roles[0] : null;
 
 			if (!!dto.image) {
@@ -172,7 +172,11 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 		getNewUser: function() {
 			return new launch.User();
 		},
-		mapUserFromDto: function(dto) {
+		mapUserFromDto: function (dto) {
+			if (typeof dto === 'string') {
+				return map.parseResponse(dto);
+			}
+
 			return map.fromDto(dto);
 		},
 		setUserFromCache: function(cachedUser) {
