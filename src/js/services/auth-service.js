@@ -67,8 +67,6 @@ launch.module.factory('AuthService', function($resource, $sanitize, SessionServi
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return resource.fetchCurrentUser(null, success, error);
-
-			//return $resource('/api/auth').get(null, success, error);
 		}
 	};
 });

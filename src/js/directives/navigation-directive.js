@@ -7,7 +7,7 @@
 			scope.$on('$routeChangeSuccess', self.detectRoute);
 		};
 
-		self.getNavigationItems = function(loggedIn) {
+		self.getNavigationItems = function() {
 			if (!scope.user) {
 				$location.path('/login');
 				return;
@@ -19,29 +19,27 @@
 			var adminMenuItems = [];
 			var userMenuItems = [];
 
-			if (loggedIn === true) {
-				if (!isGlobalAdmin) {
-					mainNavItems.push({ title: 'home', url: '/', active: 'active' });
-					mainNavItems.push({ title: 'consult', url: '/consult', active: '' });
-					mainNavItems.push({ title: 'create', url: '/create', active: '' });
-					mainNavItems.push({ title: 'collaborate', url: '/collaborate', active: '' });
-					mainNavItems.push({ title: 'calendar', url: '/calendar', active: '' });
-					mainNavItems.push({ title: 'launch', url: '/launch', active: '' });
-					mainNavItems.push({ title: 'measure', url: '/measure', active: '' });
+			if (!isGlobalAdmin) {
+				mainNavItems.push({ title: 'home', url: '/', active: 'active' });
+				mainNavItems.push({ title: 'consult', url: '/consult', active: '' });
+				mainNavItems.push({ title: 'create', url: '/create', active: '' });
+				mainNavItems.push({ title: 'collaborate', url: '/collaborate', active: '' });
+				mainNavItems.push({ title: 'calendar', url: '/calendar', active: '' });
+				mainNavItems.push({ title: 'launch', url: '/launch', active: '' });
+				mainNavItems.push({ title: 'measure', url: '/measure', active: '' });
 
-					adminMenuItems.push({ text: 'Account Settings', cssClass: 'glyphicon-cog', url: '/account' });
-					adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
-					adminMenuItems.push({ text: 'User Roles', cssClass: 'glyphicon-lock', url: '/roles' });
-				} else {
-					mainNavItems.push({ title: 'accounts', url: '/accounts', active: '' });
-					mainNavItems.push({ title: 'subscription', url: '/subscription', active: '' });
+				adminMenuItems.push({ text: 'Account Settings', cssClass: 'glyphicon-cog', url: '/account' });
+				adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
+				adminMenuItems.push({ text: 'User Roles', cssClass: 'glyphicon-lock', url: '/roles' });
+			} else {
+				mainNavItems.push({ title: 'accounts', url: '/accounts', active: '' });
+				mainNavItems.push({ title: 'subscription', url: '/subscription', active: '' });
 
-					adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
-				}
-
-				userMenuItems.push({ text: 'My Account', cssClass: 'glyphicon-user', url: '/user', image: imageUrl });
-				userMenuItems.push({ text: 'Logout', cssClass: 'glyphicon-log-out', url: '/login', image: null });
+				adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
 			}
+
+			userMenuItems.push({ text: 'My Account', cssClass: 'glyphicon-user', url: '/user', image: imageUrl });
+			userMenuItems.push({ text: 'Logout', cssClass: 'glyphicon-log-out', url: '/login', image: null });
 
 			scope.mainMenu = mainNavItems;
 			scope.adminMenu = adminMenuItems;
@@ -63,42 +61,31 @@
 				}
 			});
 
-
 			if (forceLogout) {
 				scope.showNav = false;
-			} else {
+				scope.use = null;
+			} else if (!scope.user) {
 				self.getLoggedInUser();
+			} else {
+				scope.showNav = true;
+				self.getNavigationItems();
 			}
-
-			//if (AuthService.isLoggedIn() && !forceLogout) {
-			//	scope.showNav = true;
-			//} else {
-			//	scope.showNav = false;
-			//}
-
-			//if (!!scope.user && scope.user.$resolved) {
-			//	self.getNavigationItems(scope.showNav);
-			//} else {
-			//}
-
-			//self.getNavigationItems(scope.showNav);
 		};
 
 		self.getLoggedInUser = function() {
 			scope.user = AuthService.fetchCurrentUser({
-				success: function () {
+				success: function(user) {
 					scope.showNav = AuthService.isLoggedIn();
-					self.getNavigationItems(scope.showNav);
+					self.getNavigationItems();
 				}
 			});
 		};
 
-		scope.title = 'This is the Navigation controller';
+		scope.user = null;
 		scope.mainMenu = [];
-		scope.user = { };
-		scope.activeMenu = 'home';
 		scope.adminMenu = [];
 		scope.userMenu = [];
+		scope.activeMenu = 'home';
 
 		scope.navigate = function(url) {
 			$location.url(angular.lowercase(url));
