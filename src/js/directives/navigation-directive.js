@@ -3,7 +3,6 @@
 		var self = this;
 
 		self.init = function() {
-			//self.getLoggedInUser();
 			scope.$on('$routeChangeSuccess', self.detectRoute);
 		};
 
