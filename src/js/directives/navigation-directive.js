@@ -3,7 +3,7 @@
 		var self = this;
 
 		self.init = function() {
-			self.getLoggedInUser();
+			//self.getLoggedInUser();
 			scope.$on('$routeChangeSuccess', self.detectRoute);
 		};
 
@@ -59,7 +59,7 @@
 
 			if (forceLogout) {
 				scope.showNav = false;
-				scope.use = null;
+				scope.user = null;
 			} else if (!scope.user) {
 				self.getLoggedInUser();
 			} else {
