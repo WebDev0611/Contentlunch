@@ -44,22 +44,18 @@
 			scope.mainMenu = mainNavItems;
 			scope.adminMenu = adminMenuItems;
 			scope.userMenu = userMenuItems;
-		};
 
-		self.detectRoute = function () {
-			var forceLogout = $location.path() === '/login';
-
-			angular.forEach(scope.mainMenu, function(item) {
+			angular.forEach(scope.mainMenu, function (item) {
 				if (item.url === '/') {
 					item.active = ($location.path() === '/') ? 'active' : '';
 				} else {
 					item.active = $location.path().match(new RegExp(item.url)) ? 'active' : '';
 				}
-
-				if (!launch.utils.isBlank(item.active)) {
-					launch.activeMenu = scope.activeMenu = angular.lowercase(item.title);
-				}
 			});
+		};
+
+		self.detectRoute = function () {
+			var forceLogout = $location.path() === '/login';
 
 			if (forceLogout) {
 				scope.showNav = false;
@@ -85,7 +81,6 @@
 		scope.mainMenu = [];
 		scope.adminMenu = [];
 		scope.userMenu = [];
-		scope.activeMenu = 'home';
 
 		scope.navigate = function(url) {
 			$location.url(angular.lowercase(url));
