@@ -214,7 +214,7 @@ launch.module.controller('UsersController', [
 
 		$scope.afterSaveSuccess = function (r, form) {
 			if ($scope.selfEditing()) {
-				sessionService.set('user', JSON.stringify(userService.mapUserFromDto(r)));
+				sessionService.set(sessionService.USER_KEY, userService.mapUserFromDto(r));
 			}
 
 			self.loadUsers(false, {

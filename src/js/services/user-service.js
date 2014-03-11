@@ -44,11 +44,6 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 		},
 		fromDto: function(dto) {
 			var user = new launch.User();
-			var roles = [];
-
-			angular.forEach(dto.roles, function(r, i) {
-				roles.push(new launch.Role(r.id, r.name));
-			});
 
 			user.id = parseInt(dto.id);
 			user.userName = dto.userName;
@@ -67,12 +62,9 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 			user.title = dto.title;
 			user.username = dto.username;
 			user.active = (parseInt(dto.status) === 1) ? 'active' : 'inactive';
-			user.role = (roles.length > 0) ? roles[0] : null;
-			user.accounts = [];
-
-			angular.forEach(dto.accounts, function(a, i) {
-				user.accounts.push(AccountService.mapAccountFromDto(a));
-			});
+			user.accounts = $.map(dto.accounts, function (a, i) { return AccountService.mapAccountFromDto(a); });
+			user.roles = $.map(dto.roles, function (r, i) { return new launch.Role(r.id, r.name); });
+			user.role = (user.roles.length > 0) ? user.roles[0] : null;
 
 			if (!!dto.image) {
 				var path = dto.image.path;
@@ -203,14 +195,9 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 			user.title = cachedUser.title;
 			user.active = cachedUser.active;
 			user.image = cachedUser.image;
-			user.role = cachedUser.role;
-			user.roles = cachedUser.roles;
-			user.accounts = [];
-
-			// TODO: MIGHT NEED TO PARSE THE ACCOUNTS IN A SPECIAL WAY!
-			angular.forEach(cachedUser.accounts, function (a, i) {
-				user.accounts.push(AccountService.setAccountFromCache(a));
-			});
+			user.role = new launch.Role(cachedUser.role.roleId, cachedUser.role.roleName);
+			user.roles = $.map(cachedUser.roles, function(r, i) { return new launch.Role(r.roleId, r.roleName); });
+			user.accounts = $.map(cachedUser.accounts, function(a, i) { return AccountService.setAccountFromCache(a); });
 
 			return user;
 		},

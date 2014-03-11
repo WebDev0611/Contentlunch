@@ -1,12 +1,12 @@
 launch.module.factory('AuthService', function($resource, $sanitize, SessionService, UserService) {
 	var cacheSession = function(user) {
-		SessionService.set('authenticated', true);
-		SessionService.set('user', JSON.stringify(user));
+		SessionService.set(SessionService.AUTHENTICATED_KEY, true);
+		SessionService.set(SessionService.USER_KEY, user);
 	};
 
 	var uncacheSession = function() {
-		SessionService.unset('authenticated');
-		SessionService.unset('user');
+		SessionService.unset(SessionService.AUTHENTICATED_KEY);
+		SessionService.unset(SessionService.USER_KEY);
 	};
 
 	return {
@@ -40,14 +40,14 @@ launch.module.factory('AuthService', function($resource, $sanitize, SessionServi
 			});
 		},
 		isLoggedIn: function() {
-			return Boolean(SessionService.get('authenticated'));
+			return Boolean(SessionService.get(SessionService.AUTHENTICATED_KEY));
 		},
 		userInfo: function() {
 			if (!this.isLoggedIn()) {
 				return { };
 			}
 
-			return UserService.setUserFromCache(JSON.parse(SessionService.get('user')));
+			return UserService.setUserFromCache(JSON.parse(SessionService.get(SessionService.USER_KEY)));
 		},
 		getCurrentUser: function(callback) {
 			return $resource('/api/auth').get(callback);

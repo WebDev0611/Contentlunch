@@ -3,37 +3,52 @@
 			var self = this;
 
 			self.init = function () {
-				$scope.menu = self.getNavigationItems();
 				$scope.user = authService.userInfo();
 
-				$scope.adminMenu = [
-					{ text: 'Account Settings', cssClass: 'glyphicon-cog', url: '/accounts' },
-					{ text: 'Users', cssClass: 'glyphicon-user', url: '/users' },
-					{ text: 'User Roles', cssClass: 'glyphicon-lock', url: '/roles' }
-				];
-
-				$scope.userMenu = [
-					{ text: 'My Account', cssClass: 'glyphicon-user', url: '/user', image: $scope.user.imageUrl() },
-					{ text: 'Logout', cssClass: 'glyphicon-log-out', url: '/login', image: null }
-				];
+				self.getNavigationItems();
 
 				$scope.$on('$routeChangeSuccess', self.detectRoute);
 			};
 
-			self.getNavigationItems = function() {
-				var items = [];
-
-				if (authService.isLoggedIn() === true) {
-					items.push({ title: 'home', url: '/', active: 'active' });
-					items.push({ title: 'consult', url: '/consult', active: '' });
-					items.push({ title: 'create', url: '/create', active: '' });
-					items.push({ title: 'collaborate', url: '/collaborate', active: '' });
-					items.push({ title: 'calendar', url: '/calendar', active: '' });
-					items.push({ title: 'launch', url: '/launch', active: '' });
-					items.push({ title: 'measure', url: '/measure', active: '' });
+			self.getNavigationItems = function () {
+				if (!$scope.user) {
+					$location.path('/login');
+					return;
 				}
 
-				return items;
+				var imageUrl = ($.isFunction($scope.user.imageUrl)) ? $scope.user.imageUrl() : null;
+				var isGlobalAdmin = (!!$scope.user.role && $.isFunction($scope.user.role.isGlobalAdmin)) ? $scope.user.role.isGlobalAdmin() : null;
+				var mainNavItems = [];
+				var adminMenuItems = [];
+				var userMenuItems = [];
+
+				if (authService.isLoggedIn() === true) {
+					if (!isGlobalAdmin) {
+						mainNavItems.push({ title: 'home', url: '/', active: 'active' });
+						mainNavItems.push({ title: 'consult', url: '/consult', active: '' });
+						mainNavItems.push({ title: 'create', url: '/create', active: '' });
+						mainNavItems.push({ title: 'collaborate', url: '/collaborate', active: '' });
+						mainNavItems.push({ title: 'calendar', url: '/calendar', active: '' });
+						mainNavItems.push({ title: 'launch', url: '/launch', active: '' });
+						mainNavItems.push({ title: 'measure', url: '/measure', active: '' });
+
+						adminMenuItems.push({ text: 'Account Settings', cssClass: 'glyphicon-cog', url: '/account' });
+						adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
+						adminMenuItems.push({ text: 'User Roles', cssClass: 'glyphicon-lock', url: '/roles' });
+					} else {
+						mainNavItems.push({ title: 'accounts', url: '/accounts', active: '' });
+						mainNavItems.push({ title: 'subscription', url: '/subscription', active: '' });
+
+						adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
+					}
+
+					userMenuItems.push({ text: 'My Account', cssClass: 'glyphicon-user', url: '/user', image: imageUrl });
+					userMenuItems.push({ text: 'Logout', cssClass: 'glyphicon-log-out', url: '/login', image: null });
+				}
+
+				$scope.menu = mainNavItems;
+				$scope.adminMenu = adminMenuItems;
+				$scope.userMenu = userMenuItems;
 			};
 
 			self.detectRoute = function() {

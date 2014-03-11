@@ -17,9 +17,9 @@
 						controller: 'LoginController',
 						templateUrl: '/assets/views/login.html'
 					})
-					.when('/accounts', {
-						controller: 'AccountsController',
-						templateUrl: '/assets/views/accounts.html'
+					.when('/account', {
+						controller: 'AccountController',
+						templateUrl: '/assets/views/account.html'
 					})
 					.when('/user', {
 						controller: 'UserController',
@@ -56,6 +56,14 @@
 					.when('/measure', {
 						controller: 'MeasureController',
 						templateUrl: '/assets/views/measure.html'
+					})
+					.when('/accounts', {
+						controller: 'AccountsController',
+						templateUrl: '/assets/views/accounts.html'
+					})
+					.when('/subscription', {
+						controller: 'SubscriptionController',
+						templateUrl: '/assets/views/subscription.html'
 					})
 					.otherwise({
 						redirectTo: '/'

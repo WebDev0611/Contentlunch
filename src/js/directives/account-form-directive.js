@@ -42,7 +42,7 @@
 		};
 
 		scope.saveAccount = function(form) {
-			if (!scope.selectedAccount || (!scope.selectedAccount.$resolved && scope.selfEditing)) {
+			if (!scope.selectedAccount || scope.selectedAccount.$resolved === false) {
 				return;
 			}
 
