@@ -1,6 +1,7 @@
 ﻿launch.module.factory('SessionService', function() {
 	return {
 		USER_KEY: 'USER_KEY',
+		ACCOUNT_KEY: 'ACCOUNT_KEY',
 		AUTHENTICATED_KEY: 'AUTHENTICATED_KEY',
 		get: function(key) {
 			return sessionStorage.getItem(key);

@@ -60,7 +60,7 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 			user.state = { value: dto.state, name: null };
 			user.phoneNumber = dto.phone;
 			user.title = dto.title;
-			user.username = dto.username;
+			user.userName = dto.username;
 			user.active = (parseInt(dto.status) === 1) ? 'active' : 'inactive';
 			user.accounts = $.map(dto.accounts, function (a, i) { return AccountService.mapAccountFromDto(a); });
 			user.roles = $.map(dto.roles, function (r, i) { return new launch.Role(r.id, r.name); });
@@ -161,7 +161,7 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 				}
 			}).success(function (data, status, headers, config) {
 				if ((!!callback && $.isFunction(callback.success))) {
-					callback.success(data);
+					callback.success(map.fromDto(data));
 				}
 			}).error(function (data, status, headers, config) {
 				if (!!callback && $.isFunction(callback.error)) {

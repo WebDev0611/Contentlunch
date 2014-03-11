@@ -212,14 +212,16 @@ launch.module.controller('UsersController', [
 			});
 		};
 
-		$scope.afterSaveSuccess = function (r, form) {
+		$scope.afterSaveSuccess = function (user, form) {
+			$scope.selectedUser = user;
+
 			if ($scope.selfEditing()) {
-				sessionService.set(sessionService.USER_KEY, userService.mapUserFromDto(r));
+				sessionService.set(sessionService.USER_KEY, user);
 			}
 
 			self.loadUsers(false, {
 				success: function () {
-					self.adjustPage(r.id, form);
+					self.adjustPage(user.id, form);
 				}
 			});
 		};

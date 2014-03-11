@@ -1,12 +1,14 @@
-launch.module.factory('AuthService', function($resource, $sanitize, SessionService, UserService) {
+launch.module.factory('AuthService', function($resource, $sanitize, SessionService, UserService, AccountService) {
 	var cacheSession = function(user) {
 		SessionService.set(SessionService.AUTHENTICATED_KEY, true);
 		SessionService.set(SessionService.USER_KEY, user);
+		SessionService.set(SessionService.ACCOUNT_KEY, user.accounts[0]);
 	};
 
 	var uncacheSession = function() {
 		SessionService.unset(SessionService.AUTHENTICATED_KEY);
 		SessionService.unset(SessionService.USER_KEY);
+		SessionService.unset(SessionService.ACCOUNT_KEY);
 	};
 
 	return {
@@ -49,7 +51,14 @@ launch.module.factory('AuthService', function($resource, $sanitize, SessionServi
 
 			return UserService.setUserFromCache(JSON.parse(SessionService.get(SessionService.USER_KEY)));
 		},
-		getCurrentUser: function(callback) {
+		accountInfo: function() {
+			if (!this.isLoggedIn()) {
+				return {};
+			}
+
+			return AccountService.setAccountFromCache(JSON.parse(SessionService.get(SessionService.ACCOUNT_KEY)));
+		},
+		fetchCurrentUser: function(callback) {
 			return $resource('/api/auth').get(callback);
 		}
 	};

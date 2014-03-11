@@ -142,16 +142,16 @@
 			scope.isUploading = true;
 
 			UserService.savePhoto(scope.selectedUser, file, {
-				success: function (r) {
+				success: function (user) {
 					scope.isUploading = false;
 					scope.percentComplete = 0;
 
 					NotificationService.success('Success!', 'You have successfully uploaded your photo!');
 
-					scope.selectedUser = UserService.mapUserFromDto(r);
+					scope.selectedUser = user;
 
 					if ($.isFunction(scope.afterSaveSuccess)) {
-						scope.afterSaveSuccess(r, form);
+						scope.afterSaveSuccess(user, form);
 					}
 
 					$(control).replaceWith(control = $(control).clone(true, true));
