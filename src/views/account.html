@@ -1,21 +1,8 @@
 <div class="view accounts">
 	<div class="col-md-3 left-pane">
-		<ul class="items-list">
-			<li ng-repeat="setting in settings" ng-click="toggleSetting(setting)" ng-class="{ selected: (setting === selectedSetting) }">
-				{{ setting.title }}
-			</li>
-		</ul>
+		<div account-left-pane selected-setting="'account'"></div>
 	</div>
 	<div class="col-md-9 right-pane">
-		<div ng-show="selectedSetting.id === 'account'" ng-cloak account-form selected-account="selectedAccount" refresh-method="refreshMethod" after-save-success="afterSaveSuccess" self-editing="true"></div>
-		<div ng-show="selectedSetting.id === 'connections'" ng-cloak content-connections selected-account="selectedAccount"></div>
-
-		<div ng-show="selectedSetting.id === 'content'">
-			<h2>Content Settings</h2>
-		</div>
-
-		<div ng-show="selectedSetting.id === 'seo'">
-			<h2>SEO Settings</h2>
-		</div>
+		<div ng-cloak account-form selected-account="selectedAccount" refresh-method="refreshMethod" after-save-success="afterSaveSuccess" self-editing="true"></div>
 	</div>
 </div>

@@ -20,6 +20,10 @@
 						controller: 'AccountController',
 						templateUrl: '/assets/views/account.html'
 					})
+					.when('/account/connections', {
+						controller: 'ContentConnectionsController',
+						templateUrl: '/assets/views/content-connections.html'
+					})
 					.when('/user', {
 						controller: 'UserController',
 						templateUrl: '/assets/views/user.html'
