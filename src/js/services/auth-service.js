@@ -1,13 +1,25 @@
-launch.module.factory('AuthService', function($resource, $sanitize, SessionService, UserService) {
-	var cacheSession = function(user) {
-		SessionService.set('authenticated', true);
-		SessionService.set('user', JSON.stringify(user));
+launch.module.factory('AuthService', function ($resource, $sanitize, SessionService) {
+	var self = this;
+
+	// WE CANNOT PASS IN A ModelMapperService BECAUSE IT WOULD CAUSE A CIRCULAR DEPENDENCY.
+	// INSTEAD, CREATE OUR OWN INSTANCE OF THE ModelMapper CLASS.
+	self.modelMapper = new launch.ModelMapper(this);
+
+	self.cacheSession = function (user) {
+		SessionService.set(SessionService.AUTHENTICATED_KEY, true);
+		SessionService.set(SessionService.USER_KEY, user);
+		SessionService.set(SessionService.ACCOUNT_KEY, user.accounts[0]);
 	};
 
-	var uncacheSession = function() {
-		SessionService.unset('authenticated');
-		SessionService.unset('user');
+	self.uncacheSession = function () {
+		SessionService.unset(SessionService.AUTHENTICATED_KEY);
+		SessionService.unset(SessionService.USER_KEY);
+		SessionService.unset(SessionService.ACCOUNT_KEY);
 	};
+
+	self.resource = $resource('/api/auth', null, {
+		fetchCurrentUser: { method: 'GET', transformResponse: self.modelMapper.user.parseResponse }
+	});
 
 	return {
 		login: function(username, password, remember, callback) {
@@ -19,13 +31,13 @@ launch.module.factory('AuthService', function($resource, $sanitize, SessionServi
 					password: $sanitize(password),
 					remember: remember
 				},
-				function (r) {
-					var user = UserService.mapUserFromDto(r);
+				function(r) {
+					var user = self.modelMapper.user.fromDto(r);
 
-					cacheSession(user);
+					self.cacheSession(user);
 
 					if ($.isFunction(success)) {
-						success(r);
+						success(user);
 					}
 				},
 				function(r) {
@@ -36,21 +48,31 @@ launch.module.factory('AuthService', function($resource, $sanitize, SessionServi
 		},
 		logout: function() {
 			return $resource('/api/auth/logout').get(function(r) {
-				uncacheSession();
+				self.uncacheSession();
 			});
 		},
 		isLoggedIn: function() {
-			return Boolean(SessionService.get('authenticated'));
+			return Boolean(SessionService.get(SessionService.AUTHENTICATED_KEY));
 		},
 		userInfo: function() {
 			if (!this.isLoggedIn()) {
 				return { };
 			}
 
-			return UserService.setUserFromCache(JSON.parse(SessionService.get('user')));
+			return self.modelMapper.user.fromCache(JSON.parse(SessionService.get(SessionService.USER_KEY)));
 		},
-		getCurrentUser: function(callback) {
-			return $resource('/api/auth').get(callback);
+		accountInfo: function() {
+			if (!this.isLoggedIn()) {
+				return { };
+			}
+
+			return self.modelMapper.account.fromCache(JSON.parse(SessionService.get(SessionService.ACCOUNT_KEY)));
+		},
+		fetchCurrentUser: function(callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return self.resource.fetchCurrentUser(null, success, error);
 		}
 	};
 });

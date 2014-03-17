@@ -3,6 +3,7 @@ launch.module.controller('LoginController', [
 		$scope.user = null;
 		$scope.emailError = null;
 		$scope.passwordError = null;
+		$scope.isSaving = false;
 
 		authService.logout();
 
@@ -33,11 +34,21 @@ launch.module.controller('LoginController', [
 				return;
 			}
 
+			$scope.isSaving = true;
+
 			authService.login($scope.user.email, $scope.user.password, $scope.user.remember, {
-				success: function(r) {
-					$location.path('/');
+				success: function (u) {
+					$scope.isSaving = false;
+
+					if (u.role.isGlobalAdmin()) {
+						$location.path('/accounts');
+					} else {
+						$location.path('/');
+					}
 				},
-				error: function(r) {
+				error: function (r) {
+					$scope.isSaving = false;
+
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
 				}
 			});

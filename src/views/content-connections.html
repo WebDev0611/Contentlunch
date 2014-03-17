@@ -1,0 +1,14 @@
+﻿<h2>Content Connections</h2>
+			
+<div class="control-group btn-toolbar">
+	<button type="button" class="btn btn-default ladda-button" ng-click="addConnection()" data-style="zoom-in" ladda-button="isSaving">
+		<span class="ladda-label">New Connection</span>
+	</button>
+	
+	<div class="connection-list">
+		<div class="row" ng-repeat="connection in connections">
+			<div class="col-md-4"><span class="{{ connection.connectionType + '-icon' }}"></span> {{ connection.name }}</div>
+			<div class="col-md-8"><a href="{{ connection.url }}">{{ connection.url }}</a></div>
+		</div>
+	</div>
+</div>

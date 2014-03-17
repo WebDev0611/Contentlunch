@@ -1,5 +1,5 @@
 launch.module.controller('UsersController', [
-	'$scope', '$location', '$filter', '$modal', 'AuthService', 'UserService', 'RoleService', 'NotificationService', function ($scope, $location, $filter, $modal, authService, userService, roleService, notificationService) {
+	'$scope', '$location', '$filter', '$modal', 'AuthService', 'UserService', 'RoleService', 'NotificationService', 'SessionService', function ($scope, $location, $filter, $modal, authService, userService, roleService, notificationService, sessionService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -212,10 +212,16 @@ launch.module.controller('UsersController', [
 			});
 		};
 
-		$scope.afterSaveSuccess = function(r, form) {
+		$scope.afterSaveSuccess = function (user, form) {
+			$scope.selectedUser = user;
+
+			if ($scope.selfEditing()) {
+				sessionService.set(sessionService.USER_KEY, user);
+			}
+
 			self.loadUsers(false, {
 				success: function () {
-					self.adjustPage(r.id, form);
+					self.adjustPage(user.id, form);
 				}
 			});
 		};

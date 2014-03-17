@@ -1,9 +1,13 @@
 launch.module.controller('AccountsController', [
-	'$scope', '$filter', 'AccountService', function ($scope, $filter, accountService) {
+	'$scope', '$filter', 'AuthService', 'AccountService', function ($scope, $filter, authService, accountService) {
 		var self = this;
+
+		self.loggedInUser = null;
 
 		self.init = function() {
 			self.loadAccounts(true);
+
+			self.loggedInUser = authService.userInfo();
 		};
 
 		self.loadAccounts = function (reset, callback) {
@@ -82,6 +86,16 @@ launch.module.controller('AccountsController', [
 		$scope.isSaving = false;
 		$scope.selectedIndex = null;
 		$scope.selectedAccount = null;
+
+		$scope.selfEditing = function () {
+			if (!!$scope.selectedAccount && $.isArray(self.loggedInUser.accounts)) {
+				return $.grep(self.loggedInUser.accounts, function(a, i) {
+					return a.id === $scope.selectedAccount.id;
+				}).length > 0;
+			}
+
+			return false;
+		};
 
 		$scope.search = {
 			searchTerm: null,
@@ -162,6 +176,11 @@ launch.module.controller('AccountsController', [
 			return (account.id === $scope.selectedAccount.id);
 		};
 
+		$scope.enterNewAccount = function () {
+			$scope.selectedIndex = -1;
+			$scope.selectedAccount = accountService.getNewAccount();
+		};
+
 		$scope.selectAccount = function (account, i, form) {
 			if (!account || $scope.selectedAccount === account) {
 				self.reset(form);
@@ -171,13 +190,36 @@ launch.module.controller('AccountsController', [
 			}
 		};
 
-		$scope.enterNewAccount = function() {
-			$scope.selectedIndex = -1;
-			$scope.selectedAccount = accountService.getNewAccount();
+		$scope.refreshMethod = function (form) {
+			var accountId = $scope.selectedAccount.id;
+
+			self.reset(form);
+			self.loadAccounts(true, {
+				success: function () {
+					var index = null;
+					var account = $.grep($scope.accounts, function (u, i) {
+						if (u.id === accountId) {
+							index = i;
+							return true;
+						}
+
+						return false;
+					});
+
+					if (account.length === 1) {
+						$scope.selectAccount(account[0], index, form);
+						self.adjustPage(accountId, form);
+					}
+				}
+			});
 		};
 
-		$scope.selfEditing = function() {
-			return false;
+		$scope.afterSaveSuccess = function (r, form) {
+			self.loadAccounts(false, {
+				success: function () {
+					self.adjustPage(r.id, form);
+				}
+			});
 		};
 
 		self.init();

@@ -42,7 +42,7 @@
 		};
 
 		scope.saveAccount = function(form) {
-			if (!scope.selectedAccount || (!scope.selectedAccount.$resolved && scope.selfEditing)) {
+			if (!scope.selectedAccount || scope.selectedAccount.$resolved === false) {
 				return;
 			}
 
@@ -88,26 +88,26 @@
 					'$scope', '$modalInstance', function (scp, instance) {
 						scp.deleteType = 'account';
 						scp.delete = function() {
-							//scope.isSaving = true;
+							scope.isSaving = true;
 
-							//AccountService.delete(scope.selectedAccount, {
-							//	success: function(r) {
-							//		scope.isSaving = false;
+							AccountService.delete(scope.selectedAccount, {
+								success: function(r) {
+									scope.isSaving = false;
 
-							//		var successMsg = 'You have successfully deleted ' + r.title + '!';
+									var successMsg = 'You have successfully deleted ' + r.title + '!';
 
-							//		NotificationService.success('Success!', successMsg);
+									NotificationService.success('Success!', successMsg);
 
-							//		if ($.isFunction(scope.afterSaveSuccess)) {
-							//			scope.afterSaveSuccess(r, form);
-							//		}
-							//	},
-							//	error: function(r) {
-							//		scope.isSaving = false;
+									if ($.isFunction(scope.afterSaveSuccess)) {
+										scope.afterSaveSuccess(r, form);
+									}
+								},
+								error: function(r) {
+									scope.isSaving = false;
 
-							//		launch.utils.handleAjaxErrorResponse(r, NotificationService);
-							//	}
-							//});
+									launch.utils.handleAjaxErrorResponse(r, NotificationService);
+								}
+							});
 							instance.close();
 						};
 						scp.cancel = function() {
@@ -152,6 +152,14 @@
 			}
 
 			return [];
+		};
+
+		scope.impersonateAccount = function() {
+			NotificationService.info('Warning!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+		};
+
+		scope.resendAccountCreationEmail = function() {
+			NotificationService.info('Warning!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
 		};
 
 		scope.$watch(scope.selectedAccount, function(account) {

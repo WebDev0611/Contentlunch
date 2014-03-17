@@ -62,6 +62,9 @@
   border-color: #cccccc;
   box-shadow: none;
 }
+.progress {
+  background-color: #444444;
+}
 html,
 body {
   height: 100%;
@@ -160,6 +163,24 @@ header .navbar ul.nav li.measure .dark {
 header .navbar ul.nav li.measure .top-arrow {
   border-top-color: #afe43f;
 }
+header .navbar ul.nav li.accounts {
+  background-color: #1797e1;
+}
+header .navbar ul.nav li.accounts .dark {
+  background-color: #10699d;
+}
+header .navbar ul.nav li.accounts .top-arrow {
+  background-color: #1797e1;
+}
+header .navbar ul.nav li.subscription {
+  background-color: #39e4fd;
+}
+header .navbar ul.nav li.subscription .dark {
+  background-color: #2badc0;
+}
+header .navbar ul.nav li.subscription .top-arrow {
+  background-color: #39e4fd;
+}
 header .navbar ul.nav li .top-arrow {
   position: absolute;
   display: none;
@@ -213,9 +234,22 @@ header .login-info .popover-menu .admin-menu {
 header .login-info .popover-menu .admin-menu li {
   margin: 0;
   padding: 8px;
+  vertical-align: middle;
 }
 header .login-info .popover-menu .admin-menu li:hover {
   background-color: #cccccc;
+}
+header .login-info .popover-menu .admin-menu li .user-image {
+  height: 24px;
+  width: 24px;
+  vertical-align: middle;
+}
+header .login-info .popover-menu .admin-menu li .item-image {
+  margin: 0;
+}
+header .login-info .popover-menu .admin-menu li .glyphicon {
+  display: inline-block;
+  margin-right: 8px;
 }
 .main-content {
   max-width: 100%;
@@ -339,8 +373,25 @@ span[class*=" icon-"].dark {
 .right-pane {
   background-color: #f2f0ec;
   height: 100%;
-  padding: 8px;
   overflow: auto;
+  padding: 16px;
+}
+.right-pane h2 {
+  border-bottom: solid 1px #000000;
+  margin: 20px 0 20px 0;
+  padding-bottom: 8px;
+}
+.right-pane h2:first-child {
+  margin: 0 0 20px 0;
+}
+.right-pane .btn {
+  font-size: 14px;
+  min-width: 120px;
+  padding: 6px 12px;
+}
+.right-pane .btn.btn-default {
+  background-color: #000000;
+  color: #ffffff;
 }
 .view {
   height: 100%;
@@ -438,21 +489,6 @@ span[class*=" icon-"].dark {
   background-color: #000000;
   color: #ffffff;
 }
-.user-editor,
-.account-editor {
-  padding: 16px;
-}
-.user-editor .btn,
-.account-editor .btn {
-  font-size: 14px;
-  min-width: 120px;
-  padding: 6px 12px;
-}
-.user-editor .btn.btn-default,
-.account-editor .btn.btn-default {
-  background-color: #000000;
-  color: #ffffff;
-}
 .user-editor .user-image-upload,
 .account-editor .user-image-upload {
   float: left;
@@ -493,8 +529,11 @@ span[class*=" icon-"].dark {
 .account-editor .control-group.btn-toolbar {
   margin: 16px 0;
 }
-.user-editor h2,
-.account-editor h2 {
+.connection-list {
+  border-top: solid 1px #000000;
+  margin: 16px 0;
+}
+.connection-list .row {
   border-bottom: solid 1px #000000;
-  padding-bottom: 16px;
+  padding: 8px;
 }

@@ -125,6 +125,30 @@ header {
 					}
 				}
 
+				&.accounts {
+					background-color: @accountsColor;
+
+					.dark {
+						background-color: @accountsColorDark;
+					}
+
+					.top-arrow {
+						background-color: @accountsColor;
+					}
+				}
+
+				&.subscription {
+					background-color: @subscriptionColor;
+
+					.dark {
+						background-color: @subscriptionColorDark;
+					}
+
+					.top-arrow {
+						background-color: @subscriptionColor;
+					}
+				}
+
 				.top-arrow {
 					position: absolute;
 					display: none;
@@ -182,9 +206,25 @@ header {
 				li {
 					margin: 0;
 					padding: 8px;
+					vertical-align: middle;
 
 					&:hover {
 						background-color: #cccccc;
+					}
+
+					.user-image {
+						height: 24px;
+						width: 24px;
+						vertical-align: middle;
+					}
+
+					.item-image {
+						margin: 0;
+					}
+
+					.glyphicon {
+						display: inline-block;
+						margin-right: 8px;
 					}
 				}
 			}
@@ -341,8 +381,30 @@ span[class^="icon-"], span[class*=" icon-"] {
 .right-pane {
 	background-color: @rightPaneColor;
 	height: 100%;
-	padding: 8px;
 	overflow: auto;
+
+	padding: 16px;
+
+	h2 {
+		border-bottom: solid 1px #000000;
+		margin: 20px 0 20px 0;
+		padding-bottom: 8px;
+
+		&:first-child{
+			margin: 0 0 20px 0;
+		}
+	}
+
+	.btn {
+		font-size: 14px;
+		min-width: 120px;
+		padding: 6px 12px;
+
+		&.btn-default {
+			background-color: #000000;
+			color: #ffffff;
+		}
+	}
 }
 
 .view {
@@ -452,19 +514,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 }
 
 .user-editor, .account-editor {
-	padding: 16px;
-
-	.btn {
-		font-size: 14px;
-		min-width: 120px;
-		padding: 6px 12px;
-
-		&.btn-default {
-			background-color: #000000;
-			color: #ffffff;
-		}
-	}
-
 	.user-image-upload {
 		float: left;
 		text-align: center;
@@ -504,9 +553,14 @@ span[class^="icon-"], span[class*=" icon-"] {
 			margin: 16px 0;
 		}
 	}
+}
 
-	h2 {
+.connection-list {
+	border-top: solid 1px #000000;
+	margin: 16px 0;
+
+	.row {
 		border-bottom: solid 1px #000000;
-		padding-bottom: 16px;
+		padding: 8px;
 	}
 }

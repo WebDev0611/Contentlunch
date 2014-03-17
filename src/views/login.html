@@ -24,7 +24,9 @@
 		<label for="remember">Remember Me</label>
 	</div>
 
-	<button type="button" class="btn btn-default" ng-click="login($event, user)">Login</button>
+	<button type="button" class="btn btn-default ladda-button" ng-click="login($event, user)" data-style="zoom-in" ladda-button="isSaving">
+		<span class="ladda-label">Login</span>
+	</button>
 	
 	<div>
 		<a href="#">Forgot Password</a>

@@ -1,107 +1,9 @@
-﻿launch.module.factory('AccountService', function ($resource, $http) {
-	var map = {
-		parseResponse: function(r, getHeaders) {
-			var dto = JSON.parse(r);
-
-			if ($.isArray(dto)) {
-				var accounts = [];
-
-				angular.forEach(dto, function (account, index) {
-					accounts.push(map.fromDto(account));
-				});
-
-				accounts.sort(function (a, b) {
-					if (a.title === b.title) {
-						if (a.id === b.id) {
-							return 0;
-						} else if (a.id < b.id) {
-							return -1;
-						} else {
-							return 1;
-						}
-					} else {
-						if (a.title < b.title) {
-							return -1;
-						} else {
-							return 1;
-						}
-					}
-				});
-
-				return accounts;
-			}
-
-			if ($.isPlainObject(dto)) {
-				return map.fromDto(dto);
-			}
-
-			return null;
-		},
-		fromDto: function(dto) {
-			var account = new launch.Account();
-			
-			account.id = parseInt(dto.id);
-			account.title = account.name = dto.title;
-			account.active = (parseInt(dto.active) === 1) ? 'active' : 'inactive';
-			account.address1 = dto.address;
-			account.address2 = dto.address_2;
-			account.city = dto.city;
-			account.state = { value: dto.state, name: null };
-			account.postalCode = dto.zipcode;
-			account.country = dto.country;
-			account.email = dto.email;
-			account.phoneNumber = dto.phone;
-			account.autoRenew = (parseInt(dto.subscription) === 1);
-			account.created = dto.created_at;
-			account.updated = dto.updated_at;
-
-			account.creditCard = new launch.CreditCard();
-			//account.creditCard.cardNumber = null;
-			//account.creditCard.nameOnCard = null;
-			//account.creditCard.cvc = null;
-			//account.creditCard.expirationDateMonth = null;
-			//account.creditCard.expirationDateYear = null;
-			//account.creditCard.address1 = null;
-			//account.creditCard.address2 = null;
-			//account.creditCard.city = null;
-			//account.creditCard.country = null;
-			//account.creditCard.state = null;
-			//account.creditCard.postalCode = null;
-
-			if (account.country === 'US') {
-				account.country = 'USA';
-			}
-
-			return account;
-		},
-		toDto: function(account) {
-			var dto = {
-				id: account.id,
-				title: account.title,
-				name: account.title,
-				active: (account.active === 'active') ? 1 : 0,
-				address: account.address1,
-				address_2: account.address2,
-				city: account.city,
-				state: (!!account.state) ? account.state.value : null,
-				zipcode: account.postalCode,
-				country: account.country,
-				email: account.email,
-				phone: account.phoneNumber,
-				subscription: account.autoRenew ? 1 : 0,
-				created_at: account.created,
-				updated_at: account.updated
-			};
-
-			return JSON.stringify(dto);
-		}
-	};
-
+﻿launch.module.factory('AccountService', function ($resource, $http, ModelMapperService) {
 	var resource = $resource('/api/account/:id', { id: '@id' }, {
-		get: { method: 'GET', transformResponse: map.parseResponse },
-		query: { method: 'GET', isArray: true, transformResponse: map.parseResponse },
-		update: { method: 'PUT', transformRequest: map.toDto, transformResponse: map.parseResponse },
-		insert: { method: 'POST', transformRequest: map.toDto, transformResponse: map.parseResponse },
+		get: { method: 'GET', transformResponse: ModelMapperService.account.parseResponse },
+		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.account.parseResponse },
+		update: { method: 'PUT', transformRequest: ModelMapperService.account.toDto, transformResponse: ModelMapperService.account.parseResponse },
+		insert: { method: 'POST', transformRequest: ModelMapperService.account.toDto, transformResponse: ModelMapperService.account.parseResponse },
 		delete: { method: 'DELETE' }
 	});
 
@@ -138,9 +40,6 @@
 		},
 		getNewAccount: function() {
 			return new launch.Account();
-		},
-		mapAccountFromDto: function(dto) {
-			return map.fromDto(dto);
 		}
 	};
 });

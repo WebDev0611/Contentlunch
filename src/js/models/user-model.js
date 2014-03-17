@@ -40,7 +40,9 @@
 
 	self.matchSearchTerm = function(term) {
 		if (launch.utils.startsWith(self.userName, term) || launch.utils.startsWith(self.firstName, term) ||
-			launch.utils.startsWith(self.lastName, term) || launch.utils.startsWith(self.email, term)) {
+			launch.utils.startsWith(self.lastName, term) || launch.utils.startsWith(self.email, term) ||
+			launch.utils.startsWith(self.city, term) || launch.utils.startsWith(self.state.name, term) ||
+			launch.utils.startsWith(self.state.value, term)) {
 			return true;
 		}
 
@@ -75,6 +77,14 @@
 			default:
 				return null;
 		}
+	};
+
+	self.isGlobalAdmin = function() {
+		if (!!self.role && self.role) {
+			return self.role.isGlobalAdmin();
+		}
+
+		return false;
 	};
 
 	return self;
