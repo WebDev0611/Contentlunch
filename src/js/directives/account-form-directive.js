@@ -154,6 +154,14 @@
 			return [];
 		};
 
+		scope.impersonateAccount = function() {
+			NotificationService.info('Warning!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+		};
+
+		scope.resendAccountCreationEmail = function() {
+			NotificationService.info('Warning!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+		};
+
 		scope.$watch(scope.selectedAccount, function(account) {
 			scope.creatingNew = (!!account && !launch.utils.isBlank(account.id));
 		});

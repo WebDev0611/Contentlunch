@@ -376,5 +376,46 @@
 		}
 
 		return [];
+	},
+
+	formatDate: function(date) {
+		date = new Date(date);
+
+		var mo = date.getMonth() + 1;
+		var dt = date.getDate();
+		var yr = date.getFullYear();
+
+		return launch.utils.pad(mo, 2, '0') + '/' + launch.utils.pad(dt, 2, '0') + '/' + yr;
+	},
+
+	formatDateTime: function(date) {
+		date = new Date(date);
+
+		var dateString = formatDate(date);
+		var hr = date.getHours();
+		var mi = date.getMinutes();
+		var ap = hr > 11 ? 'PM' : 'AM';
+
+		if (hr > 12) {
+			hr = hr - 12;
+		} else if (hr === 0) {
+			hr = 12;
+		}
+
+		return dateString + ' ' + launch.utils.pad(hr, 2, '0') + ':' + launch.utils.pad(mi, 2, '0') + ' ' + ap;
+	},
+
+	sortByDate: function(a, b) {
+		var aDate = new Date(a);
+		var bDate = new Date(b);
+
+		return ((aDate < bDate) ? 1 : ((aDate > bDate) ? -1 : 0));
+	},
+
+	pad: function(val, size, padChar) {
+		var str = new String(val);
+		var pc = new String(padChar);
+
+		return str.length < size ? launch.utils.pad(pc + str, size) : str;
 	}
 };

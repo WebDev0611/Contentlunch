@@ -185,6 +185,10 @@
 			account.created = dto.created_at;
 			account.updated = dto.updated_at;
 
+			// TODO: THESE NEED TO BE ADDED TO THE DB AND API. WILL NEED TO CHANGE toDto METHOD AS WELL!
+			account.numberOfUsers = 10;
+			account.accountExpirationDate = new Date();
+
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;
 			//account.creditCard.nameOnCard = null;
@@ -239,6 +243,8 @@
 			account.country = cachedAccount.country;
 			account.email = cachedAccount.email;
 			account.phoneNumber = cachedAccount.phoneNumber;
+			account.numberOfUsers = cachedAccount.numberOfUsers;
+			account.accountExpirationDate = cachedAccount.accountExpirationDate;
 			account.autoRenew = cachedAccount.autoRenew;
 			account.created = cachedAccount.created;
 			account.updated = cachedAccount.updated;

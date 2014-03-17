@@ -41,7 +41,7 @@ launch.module.controller('LoginController', [
 					$scope.isSaving = false;
 
 					if (u.role.isGlobalAdmin()) {
-						$location.path('/users');
+						$location.path('/accounts');
 					} else {
 						$location.path('/');
 					}
