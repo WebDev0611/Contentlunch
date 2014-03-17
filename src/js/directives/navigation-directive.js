@@ -2,7 +2,8 @@
 	var link = function(scope, element, attrs) {
 		var self = this;
 
-		self.init = function() {
+		self.init = function () {
+			self.getLoggedInUser();
 			scope.$on('$routeChangeSuccess', self.detectRoute);
 		};
 
@@ -67,10 +68,11 @@
 			}
 		};
 
-		self.getLoggedInUser = function() {
+		self.getLoggedInUser = function () {
+			scope.showNav = AuthService.isLoggedIn();
+			scope.user = AuthService.userInfo();
 			scope.user = AuthService.fetchCurrentUser({
-				success: function(user) {
-					scope.showNav = AuthService.isLoggedIn();
+				success: function (user) {
 					self.getNavigationItems();
 				}
 			});

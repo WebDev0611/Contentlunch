@@ -1,18 +1,24 @@
-launch.module.factory('AuthService', function($resource, $sanitize, SessionService, UserService, AccountService) {
-	var cacheSession = function(user) {
+launch.module.factory('AuthService', function ($resource, $sanitize, SessionService) {
+	var self = this;
+
+	// WE CANNOT PASS IN A ModelMapperService BECAUSE IT WOULD CAUSE A CIRCULAR DEPENDENCY.
+	// INSTEAD, CREATE OUR OWN INSTANCE OF THE ModelMapper CLASS.
+	self.modelMapper = new launch.ModelMapper(this);
+
+	self.cacheSession = function (user) {
 		SessionService.set(SessionService.AUTHENTICATED_KEY, true);
 		SessionService.set(SessionService.USER_KEY, user);
 		SessionService.set(SessionService.ACCOUNT_KEY, user.accounts[0]);
 	};
 
-	var uncacheSession = function() {
+	self.uncacheSession = function () {
 		SessionService.unset(SessionService.AUTHENTICATED_KEY);
 		SessionService.unset(SessionService.USER_KEY);
 		SessionService.unset(SessionService.ACCOUNT_KEY);
 	};
 
-	var resource = $resource('/api/auth', null, {
-		fetchCurrentUser: { method: 'GET', transformResponse: UserService.mapUserFromDto }
+	self.resource = $resource('/api/auth', null, {
+		fetchCurrentUser: { method: 'GET', transformResponse: self.modelMapper.user.parseResponse }
 	});
 
 	return {
@@ -25,10 +31,10 @@ launch.module.factory('AuthService', function($resource, $sanitize, SessionServi
 					password: $sanitize(password),
 					remember: remember
 				},
-				function (r) {
-					var user = UserService.mapUserFromDto(r);
+				function(r) {
+					var user = self.modelMapper.user.fromDto(r);
 
-					cacheSession(user);
+					self.cacheSession(user);
 
 					if ($.isFunction(success)) {
 						success(user);
@@ -42,7 +48,7 @@ launch.module.factory('AuthService', function($resource, $sanitize, SessionServi
 		},
 		logout: function() {
 			return $resource('/api/auth/logout').get(function(r) {
-				uncacheSession();
+				self.uncacheSession();
 			});
 		},
 		isLoggedIn: function() {
@@ -53,20 +59,20 @@ launch.module.factory('AuthService', function($resource, $sanitize, SessionServi
 				return { };
 			}
 
-			return UserService.setUserFromCache(JSON.parse(SessionService.get(SessionService.USER_KEY)));
+			return self.modelMapper.user.fromCache(JSON.parse(SessionService.get(SessionService.USER_KEY)));
 		},
 		accountInfo: function() {
 			if (!this.isLoggedIn()) {
-				return {};
+				return { };
 			}
 
-			return AccountService.setAccountFromCache(JSON.parse(SessionService.get(SessionService.ACCOUNT_KEY)));
+			return self.modelMapper.account.fromCache(JSON.parse(SessionService.get(SessionService.ACCOUNT_KEY)));
 		},
 		fetchCurrentUser: function(callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return resource.fetchCurrentUser(null, success, error);
+			return self.resource.fetchCurrentUser(null, success, error);
 		}
 	};
 });

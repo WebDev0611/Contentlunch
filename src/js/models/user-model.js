@@ -77,5 +77,13 @@
 		}
 	};
 
+	self.isGlobalAdmin = function() {
+		if (!!self.role && self.role) {
+			return self.role.isGlobalAdmin();
+		}
+
+		return false;
+	};
+
 	return self;
 };

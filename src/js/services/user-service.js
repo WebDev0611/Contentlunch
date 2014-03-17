@@ -1,120 +1,9 @@
-launch.module.factory('UserService', function($resource, $http, $upload, AccountService) {
-	var map = {
-		parseResponse: function(r, getHeaders) {
-			var dto = JSON.parse(r);
-
-			if ($.isArray(dto)) {
-				var users = [];
-
-				angular.forEach(dto, function(user, index) {
-					users.push(map.fromDto(user));
-				});
-
-				users.sort(function(a, b) {
-					var firstA = launch.utils.isBlank(a.firstName) ? '' : a.firstName.toUpperCase();
-					var firstB = launch.utils.isBlank(b.firstName) ? '' : b.firstName.toUpperCase();
-					var lastA = launch.utils.isBlank(a.lastName) ? '' : a.lastName.toUpperCase();
-					var lastB = launch.utils.isBlank(b.lastName) ? '' : b.lastName.toUpperCase();
-
-					if (lastA === lastB) {
-						if (firstA === firstB) {
-							return 0;
-						} else if (firstA < firstB) {
-							return -1;
-						} else {
-							return 1;
-						}
-					} else {
-						if (lastA < lastB) {
-							return -1;
-						} else {
-							return 1;
-						}
-					}
-				});
-
-				return users;
-			}
-
-			if ($.isPlainObject(dto)) {
-				return map.fromDto(dto);
-			}
-
-			return null;
-		},
-		fromDto: function(dto) {
-			var user = new launch.User();
-
-			user.id = parseInt(dto.id);
-			user.userName = dto.userName;
-			user.firstName = dto.first_name;
-			user.lastName = dto.last_name;
-			user.email = dto.email;
-			user.created = dto.created_at;
-			user.updated = dto.updated_at;
-			user.confirmed = dto.confirmed;
-			user.address1 = dto.address;
-			user.address2 = dto.address_2;
-			user.city = dto.city;
-			user.country = dto.country;
-			user.state = { value: dto.state, name: null };
-			user.phoneNumber = dto.phone;
-			user.title = dto.title;
-			user.userName = dto.username;
-			user.active = (parseInt(dto.status) === 1) ? 'active' : 'inactive';
-			user.accounts = ($.isArray(dto.accounts)) ? $.map(dto.accounts, function(a, i) { return AccountService.mapAccountFromDto(a); }) : [];
-			user.roles = ($.isArray(dto.roles)) ? $.map(dto.roles, function (r, i) { return new launch.Role(r.id, r.name); }) : [];
-			user.role = (user.roles.length > 0) ? user.roles[0] : null;
-
-			if (!!dto.image) {
-				var path = dto.image.path;
-
-				if (launch.utils.startsWith(path, '/public')) {
-					path = path.substring(7);
-				}
-
-				user.image = path + '' + dto.image.filename;
-			} else {
-				user.image = null;
-			}
-
-			return user;
-		},
-		toDto: function(user) {
-			var dto = {
-				id: user.id,
-				userName: user.userName,
-				first_name: user.firstName,
-				last_name: user.lastName,
-				email: user.email,
-				created_at: user.created,
-				updated_at: user.updated,
-				confirmed: user.confirmed,
-				address: user.address1,
-				address_2: user.address2,
-				city: user.city,
-				state: (!!user.state) ? user.state.value : null,
-				country: user.country,
-				phone: user.phoneNumber,
-				title: user.title,
-				status: (user.active === 'active') ? 1 : 0,
-				roles: [{ id: user.role.roleId, name: user.role.roleName }]
-			};
-
-			if (!launch.utils.isBlank(user.password) && !launch.utils.isBlank(user.passwordConfirmation)) {
-				dto.password = user.password;
-				dto.password_confirmation = user.passwordConfirmation;
-			}
-
-			return JSON.stringify(dto);
-		}
-	};
-
+launch.module.factory('UserService', function ($resource, $http, $upload, AccountService, ModelMapperService) {
 	var resource = $resource('/api/user/:id', { id: '@id' }, {
-		get: { method: 'GET', transformResponse: map.parseResponse },
-		query: { method: 'GET', isArray: true, transformResponse: map.parseResponse },
-		update: { method: 'PUT', transformRequest: map.toDto, transformResponse: map.parseResponse },
-		insert: { method: 'POST', transformRequest: map.toDto, transformResponse: map.parseResponse },
+		get: { method: 'GET', transformResponse: ModelMapperService.user.parseResponse },
+		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
+		update: { method: 'PUT', transformRequest: ModelMapperService.user.toDto, transformResponse: ModelMapperService.user.parseResponse },
+		insert: { method: 'POST', transformRequest: ModelMapperService.user.toDto, transformResponse: ModelMapperService.user.parseResponse },
 		delete: { method: 'DELETE' }
 	});
 
@@ -161,7 +50,7 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 				}
 			}).success(function (data, status, headers, config) {
 				if ((!!callback && $.isFunction(callback.success))) {
-					callback.success(map.fromDto(data));
+					callback.success(ModelMapperService.user.fromDto(data));
 				}
 			}).error(function (data, status, headers, config) {
 				if (!!callback && $.isFunction(callback.error)) {
@@ -174,38 +63,12 @@ launch.module.factory('UserService', function($resource, $http, $upload, Account
 		},
 		mapUserFromDto: function (dto) {
 			if (typeof dto === 'string') {
-				return map.parseResponse(dto);
+				return ModelMapperService.user.parseResponse(dto);
 			}
 
-			return map.fromDto(dto);
+			return ModelMapperService.user.fromDto(dto);
 		},
-		setUserFromCache: function(cachedUser) {
-			var user = new launch.User();
-
-			user.id = cachedUser.id;
-			user.userName = cachedUser.userName;
-			user.firstName = cachedUser.firstName;
-			user.lastName = cachedUser.lastName;
-			user.email = cachedUser.email;
-			user.created = cachedUser.created;
-			user.updated = cachedUser.updated;
-			user.confirmed = cachedUser.confirmed;
-			user.address1 = cachedUser.address1;
-			user.address2 = cachedUser.address2;
-			user.city = cachedUser.city;
-			user.country = cachedUser.country;
-			user.state = cachedUser.state;
-			user.phoneNumber = cachedUser.phoneNumber;
-			user.title = cachedUser.title;
-			user.active = cachedUser.active;
-			user.image = cachedUser.image;
-			user.role = new launch.Role(cachedUser.role.roleId, cachedUser.role.roleName);
-			user.roles = $.map(cachedUser.roles, function(r, i) { return new launch.Role(r.roleId, r.roleName); });
-			user.accounts = $.map(cachedUser.accounts, function(a, i) { return AccountService.setAccountFromCache(a); });
-
-			return user;
-		},
-		validatePhotoFile: function(file) {
+		validatePhotoFile: function (file) {
 			if (!$.inArray(file.type, launch.config.USER_PHOTO_FILE_TYPES)) {
 				return 'The file you selected is not supported. You may only upload JPG, PNG, GIF, or BMP images.';
 			} else if (file.size > 5000000) {
