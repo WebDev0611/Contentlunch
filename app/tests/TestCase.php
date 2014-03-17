@@ -141,7 +141,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         'zipcode' => '99128',
         'email' => 'test@surge.com',
         'created_at' => $this->now,
-        'updated_at' => $this->now
+        'updated_at' => $this->now,
+        'expiration_date' => strtotime('+30 days')
       ),
       2 => array(
         'id' => 2,
@@ -158,7 +159,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         'zipcode' => '99133',
         'email' => 'test2@surge.com',
         'created_at' => $this->now,
-        'updated_at' => $this->now
+        'updated_at' => $this->now,
+        'expiration_date' => strtotime('-30 days')
       )
     );
     if ($id) {
@@ -214,6 +216,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     $this->assertEquals($expect['email'], $account->email, $err .' ->email');
     $this->assertNotEmpty($account->created_at, $err .' ->created_at');
     $this->assertNotEmpty($account->updated_at, $err .' ->updated_at');
+    $this->assertNotEmpty($account->expiration_date, $err .' ->expiration_date');
   }
 
   /**

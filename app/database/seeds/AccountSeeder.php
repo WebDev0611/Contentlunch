@@ -5,6 +5,7 @@ class AccountSeeder extends Seeder {
 	public function run()
 	{
 		$now = date('Y-m-d H:i:s');
+    $expiration = date('Y-m-d H:i:s', strtotime('+30 days'));
 		$account = new Account;
 		$account->title = 'Surge';
 		$account->active = true;
@@ -18,6 +19,7 @@ class AccountSeeder extends Seeder {
     $account->country = 'US';
     $account->zipcode = '98005';
     $account->email = 'info@surgeforward.com';
+    $account->expiration_date = $expiration;
 		$account->save();
 	}
 
