@@ -373,8 +373,25 @@ span[class*=" icon-"].dark {
 .right-pane {
   background-color: #f2f0ec;
   height: 100%;
-  padding: 8px;
   overflow: auto;
+  padding: 16px;
+}
+.right-pane h2 {
+  border-bottom: solid 1px #000000;
+  margin: 20px 0 20px 0;
+  padding-bottom: 8px;
+}
+.right-pane h2:first-child {
+  margin: 0 0 20px 0;
+}
+.right-pane .btn {
+  font-size: 14px;
+  min-width: 120px;
+  padding: 6px 12px;
+}
+.right-pane .btn.btn-default {
+  background-color: #000000;
+  color: #ffffff;
 }
 .view {
   height: 100%;
@@ -472,21 +489,6 @@ span[class*=" icon-"].dark {
   background-color: #000000;
   color: #ffffff;
 }
-.user-editor,
-.account-editor {
-  padding: 16px;
-}
-.user-editor .btn,
-.account-editor .btn {
-  font-size: 14px;
-  min-width: 120px;
-  padding: 6px 12px;
-}
-.user-editor .btn.btn-default,
-.account-editor .btn.btn-default {
-  background-color: #000000;
-  color: #ffffff;
-}
 .user-editor .user-image-upload,
 .account-editor .user-image-upload {
   float: left;
@@ -527,8 +529,11 @@ span[class*=" icon-"].dark {
 .account-editor .control-group.btn-toolbar {
   margin: 16px 0;
 }
-.user-editor h2,
-.account-editor h2 {
+.connection-list {
+  border-top: solid 1px #000000;
+  margin: 16px 0;
+}
+.connection-list .row {
   border-bottom: solid 1px #000000;
-  padding-bottom: 16px;
+  padding: 8px;
 }

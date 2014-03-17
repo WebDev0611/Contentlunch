@@ -8,17 +8,14 @@
 	</div>
 	<div class="col-md-9 right-pane">
 		<div ng-show="selectedSetting.id === 'account'" ng-cloak account-form selected-account="selectedAccount" refresh-method="refreshMethod" after-save-success="afterSaveSuccess" self-editing="true"></div>
-
-		<div ng-show="selectedSetting.id === 'connections'">
-			CONTENT CONNECTIONS
-		</div>
+		<div ng-show="selectedSetting.id === 'connections'" ng-cloak content-connections selected-account="selectedAccount"></div>
 
 		<div ng-show="selectedSetting.id === 'content'">
-			CONTENT SETTINGS
+			<h2>Content Settings</h2>
 		</div>
 
 		<div ng-show="selectedSetting.id === 'seo'">
-			SEO SETTINGS
+			<h2>SEO Settings</h2>
 		</div>
 	</div>
 </div>
