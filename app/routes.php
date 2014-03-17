@@ -1,22 +1,4 @@
 <?php
-/**
- * If nothing else matches, pass this route along to let
- * angular handle the route.
- * Return the master layout view
- * @todo : Add an authentication filter?
- */
-Route::get('{any}', function()
-{
-	return View::make('master');
-});
-
-
-// Homepage route
-// @todo : Not sure what to do with this yet
-Route::get('/', function()
-{
-	return View::make('master');
-});
 
 // Confide routes
 
@@ -61,7 +43,7 @@ Route::group(array('prefix' => 'api'), function()
 		'only' => array('index', 'store', 'show', 'update', 'destroy')
 	));
 	Route::post('/user/{id}/image', 'UserController@postProfileImage');
-	
+
 	Route::get('test', function()
 	{
 		return array(
@@ -72,3 +54,14 @@ Route::group(array('prefix' => 'api'), function()
 	});
 
 });
+
+
+/**
+ * Catchall route.
+ * Any routes that aren't already matched by laravel should
+ * be passed on to angular's routing.
+ */
+Route::any('{all}', function()
+{
+	return View::make('master');
+})->where('all', '.*');
