@@ -14,7 +14,7 @@ class AccountsAddExpirationDate extends Migration {
 	{
 		// Add expiration date
     Schema::table('accounts', function ($table) {
-      $table->timestamp('expiration_date')->default('0000-00-00 00:00:00');
+      $table->timestamp('expiration_date')->nullable();
     });
 	}
 
