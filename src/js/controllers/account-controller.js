@@ -4,17 +4,7 @@ launch.module.controller('AccountController', [
 
 		self.init = function () {
 			$scope.refreshMethod();
-
-			$scope.settings.push({ id: 'account', title: 'Account Settings' });
-			$scope.settings.push({ id: 'connections', title: 'Content Connections' });
-			$scope.settings.push({ id: 'content', title: 'Content Settings' });
-			$scope.settings.push({ id: 'seo', title: 'SEO Settings' });
-
-			$scope.selectedSetting = $scope.settings[0];
 		};
-
-		$scope.settings = [];
-		$scope.selectedSetting = null;
 
 		$scope.selectedAccount = null;
 
@@ -36,10 +26,6 @@ launch.module.controller('AccountController', [
 
 			sessionService.set(sessionService.USER_KEY, loggedInUser);
 			sessionService.set(sessionService.ACCOUNT_KEY, account);
-		};
-
-		$scope.toggleSetting = function(setting) {
-			$scope.selectedSetting = setting;
 		};
 
 		self.init();
