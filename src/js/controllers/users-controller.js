@@ -31,7 +31,8 @@ launch.module.controller('UsersController', [
 			$scope.isLoading = true;
 
 			if (self.loggedInUser.isGlobalAdmin()) {
-				$scope.users = userService.query(callback);
+				//$scope.users = userService.query(callback);
+				$scope.users = userService.getByRole(self.loggedInUser.roles, callback);
 			} else {
 				$scope.users = userService.getForAccount(self.loggedInUser.account.id, callback);
 			}

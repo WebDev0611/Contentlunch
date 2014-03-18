@@ -24,6 +24,35 @@ launch.module.factory('UserService', function ($resource, $http, $upload, Accoun
 
 			return accountUsers.get({ id: id }, success, error);
 		},
+		getByRole: function(roles, callback) {
+			if (!roles) {
+				return this.query(callback);
+			}
+
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+			var queryString = '';
+
+			if ($.isArray(roles)) {
+				angular.forEach(roles, function(r, i) {
+					if (queryString.length === 0) {
+						queryString += '?';
+					} else {
+						queryString += '&';
+					}
+
+					queryString += 'roles[]=' + r.roleId;
+				});
+			} else {
+				queryString += '?roles[]=' + roles.roleId;
+			}
+
+			var usersCall = $resource('/api/user' + queryString, null, {
+				get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse }
+			});
+
+			return usersCall.get(null, success, error);
+		},
 		get: function(id, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
