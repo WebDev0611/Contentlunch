@@ -143,6 +143,25 @@ class UserIntegrationTest extends TestCase {
 		$this->assertUserFields($expect, $user);
 	}
 
+	public function testChangePassword()
+	{
+		$this->setupTestUsers();
+		$expect = $this->getTestUsers(1);
+		$response = $this->call('PUT', 'api/user/'. $expect['id'], array(
+			'password' => 'changed',
+			'password_confirmation' => 'changed'
+		));
+		$user = json_decode($response->getContent());
+		$this->assertUserFields($expect, $user);
+		$response = $this->call('POST', '/api/auth', array(
+			'email' => $expect['email'],
+			'password' => 'changed'
+		));
+		$response = $this->call('GET', '/api/auth');
+		$user = json_decode($response->getContent());
+		$this->assertEquals($expect['email'], $user->email);
+	}
+
 	public function testDestroy()
 	{
 		// @todo: Implement soft delete?
