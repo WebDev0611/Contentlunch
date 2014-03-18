@@ -23,8 +23,6 @@ class AccountIntegrationTest extends TestCase {
 		$expect = $this->getTestAccounts(1);
 		$response = $this->call('POST', 'api/account', $expect);
 		$account = json_decode($response->getContent());
-		// Can't change licenses through this call
-		$expect['licenses'] = 0;
 		$this->assertAccountFields($expect, $account);
 	}
 

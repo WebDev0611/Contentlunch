@@ -33,16 +33,11 @@ class Account extends Ardent {
 	 * @var array
 	 */
 	protected $fillable = array('title', 'active', 'address', 'address_2', 'name', 'city',
-		'state', 'phone', 'subscription', 'country', 'zipcode', 'email');
+		'state', 'phone', 'subscription', 'country', 'zipcode', 'email', 'licenses');
 
 	protected function getDateFormat()
   {
     return 'Y-m-d H:i:s';
-  }
-
-  public static function zfind($id)
-  {
-  	return parent::find('accounts.'. $id);
   }
 
 	/**
