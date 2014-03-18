@@ -1,4 +1,4 @@
-﻿launch.module.directive('userForm', function ($modal, $upload, RoleService, UserService, NotificationService) {
+﻿launch.module.directive('userForm', function ($modal, $upload, AuthService, RoleService, UserService, NotificationService) {
 	var link = function (scope, element, attrs) {
 		var self = this;
 
@@ -200,6 +200,69 @@
 			}
 
 			return [];
+		};
+
+		scope.resetPassword = function() {
+			$modal.open({
+				windowClass: 'round-corner-dialog',
+				templateUrl: '/assets/views/reset-password.html',
+				controller: [
+					'$scope', '$modalInstance', function (scp, instance) {
+						scp.currentPassword = null;
+						scp.newPassword = null;
+						scp.confirmPassword = null;
+						scp.isSaving = false;
+
+						scp.passwordError = null;
+						scp.newPasswordError = null;
+						scp.confirmPasswordError = null;
+
+						scp.changePassword = function (e) {
+							if (e.type === 'keypress' && e.charCode !== 13) {
+								return;
+							}
+
+							scp.currentPassword = this.currentPassword;
+							scp.newPassword = this.newPassword;
+							scp.confirmPassword = this.confirmPassword;
+
+							// TODO: ADD RULES FOR PASSWORD COMPLEXITY HERE!!!
+							scp.passwordError = launch.utils.isBlank(scp.currentPassword) ? 'Current Password is required.' : null;
+							scp.newPasswordError = launch.utils.isBlank(scp.newPassword) ? 'New Password is required.' : null;
+							scp.confirmPasswordError = launch.utils.isBlank(scp.confirmPassword) ? 'Confirm Password is required.' : ((scp.newPassword !== scp.confirmPassword) ? 'Passwords do not match.' : null);
+
+							if (launch.utils.isBlank(scp.passwordError) && launch.utils.isBlank(scp.newPasswordError) && launch.utils.isBlank(scp.confirmPasswordError)) {
+								AuthService.login(scope.selectedUser.userName, scp.currentPassword, false, {
+									success: function(r) {
+										scope.selectedUser.password = scp.newPassword;
+										scope.selectedUser.passwordConfirmation = scp.confirmPassword;
+
+										UserService.update(scope.selectedUser, {
+											success: function (res) {
+												NotificationService.success('Success!', 'You have successfully changed your password!');
+												instance.close();
+											},
+											error: function(res) {
+												launch.utils.handleAjaxErrorResponse(res, NotificationService);
+											}
+										});
+									},
+									error: function(r) {
+										if (r.status === 401) {
+											scp.passwordError = r.data.flash;
+										} else {
+											launch.utils.handleAjaxErrorResponse(r, NotificationService);
+										}
+									}
+								});
+							}
+						};
+						scp.cancel = function () {
+							instance.dismiss('cancel');
+						};
+					}
+				]
+			});
 		};
 
 		scope.$watch(scope.selectedUser, function (user) {

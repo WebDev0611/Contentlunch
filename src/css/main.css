@@ -319,37 +319,46 @@ span[class*=" icon-"].dark {
 .icon-launch {
   background-image: url(/assets/images/launch.svg);
 }
-#login-form {
+.round-corner-dialog .modal-dialog .modal-content {
+  border-radius: 45px;
+}
+#login-form,
+#change-password-form {
   background-color: #10699d;
   border-radius: 40px;
   color: #ffffff;
-  margin: auto;
   padding: 20px;
-  width: 350px;
 }
-#login-form .header {
+#login-form .header,
+#change-password-form .header {
   font-family: 'Lato-Light';
   font-size: 20px;
   margin: 16px;
   text-align: center;
 }
-#login-form .header .content {
+#login-form .header .content,
+#change-password-form .header .content {
   font-family: 'Lato-Light';
   vertical-align: top;
 }
-#login-form .header .launch {
+#login-form .header .launch,
+#change-password-form .header .launch {
   font-family: 'Lato-Black';
   vertical-align: top;
 }
 #login-form input[type="text"],
-#login-form input[type="password"] {
+#change-password-form input[type="text"],
+#login-form input[type="password"],
+#change-password-form input[type="password"] {
   color: #000000;
   width: 100%;
 }
-#login-form a {
+#login-form a,
+#change-password-form a {
   color: #ffffff;
 }
-#login-form button {
+#login-form button,
+#change-password-form button {
   background-color: #000000;
   border: 0;
   color: #ffffff;
@@ -357,12 +366,20 @@ span[class*=" icon-"].dark {
   margin: 0 0 16px 0;
   width: 100%;
 }
-#login-form .icon-launch {
+#login-form .icon-launch,
+#change-password-form .icon-launch {
   -moz-background-size: 40px;
   -o-background-size: 40px;
   background-size: 40px;
   height: 40px;
   width: 40px;
+}
+#login-form {
+  margin: auto;
+  width: 350px;
+}
+#change-password-form button {
+  padding: 8px;
 }
 .left-pane {
   background-color: #c4bfb5;

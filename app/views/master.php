@@ -38,7 +38,7 @@
 	    </div>
     </script>
 
-    <script type="text/ng-template" id="confirm-delete.html">
+	<script type="text/ng-template" id="confirm-delete.html">
 	    <div class="modal-body">
 		    Are you sure you want to delete this {{ deleteType }}?
 	    </div>
