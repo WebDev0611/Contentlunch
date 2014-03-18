@@ -29,7 +29,7 @@ class UserController extends BaseController {
 				$user['roles'] = $roles;
 			}
 		}
-		return Response::json($users, 200);
+		return $users;
 	}
 
 	/**
@@ -57,9 +57,6 @@ class UserController extends BaseController {
     	// Save roles
     	$user->saveRoles(Input::get('roles'));
     	return $this->show($user->id);
-    	/*$return = $user->toArray();
-    	$return['roles'] = $user->getRoles();
-    	return Response::json($return, 200);*/
     }
     else
     {
@@ -67,10 +64,6 @@ class UserController extends BaseController {
         $error = $user->errors()->all(':message');
 
         return Response::json(array('error' => $error), 401);
-
-        return Redirect::action('UserController@create')
-            ->withInput(Input::except('password'))
-            ->with( 'error', $error );
     }
 	}
 

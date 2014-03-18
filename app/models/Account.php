@@ -74,7 +74,7 @@ class Account extends Ardent {
 	}
 
 	public function getUsers() {
-		return $this->users()->with('roles')->with('accounts')->get();
+		return $this->users()->with('roles')->with('accounts')->with('image')->get();
 	}
 
 }
