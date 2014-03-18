@@ -9,35 +9,12 @@ class AuthController extends BaseController {
      * @return [type] [description]
      */
     public function show_current()
-    {   
+    {
         if ($user = Confide::user()) {
             $ctrl = new UserController;
             return $ctrl->callAction('show', array($user->id));
         }
         return Response::json(array('username' => 'guest'));
-    }
-
-    public function store()
-    {
-       
-    }
-
-    /**
-     * Displays the login form
-     *
-     */
-    public function login()
-    {
-        if( Confide::user() )
-        {
-            // If user is logged, redirect to internal 
-            // page, change it to '/admin', '/dashboard' or something
-            return Redirect::to('/');
-        }
-        else
-        {
-            return View::make(Config::get('confide::login_form'));
-        }
     }
 
     /**
@@ -57,7 +34,7 @@ class AuthController extends BaseController {
         // with the second parameter as true.
         // logAttempt will check if the 'email' perhaps is the username.
         // Get the value from the config file instead of changing the controller
-        if ( Confide::logAttempt( $input, Config::get('confide::signup_confirm') ) ) 
+        if ( Confide::logAttempt( $input, Config::get('confide::signup_confirm') ) )
         {
             // Redirect the user to the URL they were trying to access before
             // caught by the authentication filter IE Redirect::guest('user/login').
@@ -90,10 +67,6 @@ class AuthController extends BaseController {
             return Response::json(array(
                 'flash' => $err_msg
             ), 401);
-
-                        return Redirect::action('AuthController@login')
-                            ->withInput(Input::except('password'))
-                ->with( 'error', $err_msg );
         }
     }
 
@@ -102,29 +75,19 @@ class AuthController extends BaseController {
      *
      * @param  string  $code
      */
-    public function confirm( $code )
+    public function do_confirm()
     {
+        $code = Input::get('code');
         if ( Confide::confirm( $code ) )
         {
             $notice_msg = Lang::get('confide::confide.alerts.confirmation');
-                        return Redirect::action('AuthController@login')
-                            ->with( 'notice', $notice_msg );
+            return array('message' => $notice_msg);
         }
         else
         {
             $error_msg = Lang::get('confide::confide.alerts.wrong_confirmation');
-                        return Redirect::action('AuthController@login')
-                            ->with( 'error', $error_msg );
+            return Response::json(array('error' => $error_msg), 401);
         }
-    }
-
-    /**
-     * Displays the forgot password form
-     *
-     */
-    public function forgot_password()
-    {
-        return View::make(Config::get('confide::forgot_password_form'));
     }
 
     /**
@@ -136,26 +99,13 @@ class AuthController extends BaseController {
         if( Confide::forgotPassword( Input::get( 'email' ) ) )
         {
             $notice_msg = Lang::get('confide::confide.alerts.password_forgot');
-                        return Redirect::action('AuthController@login')
-                            ->with( 'notice', $notice_msg );
+            return array('message' => $notice_msg);
         }
         else
         {
             $error_msg = Lang::get('confide::confide.alerts.wrong_password_forgot');
-                        return Redirect::action('AuthController@forgot_password')
-                            ->withInput()
-                ->with( 'error', $error_msg );
+            return Response::json(array('error' => $error_msg), 401);
         }
-    }
-
-    /**
-     * Shows the change password form with the given token
-     *
-     */
-    public function reset_password( $token )
-    {
-        return View::make(Config::get('confide::reset_password_form'))
-                ->with('token', $token);
     }
 
     /**
@@ -165,24 +115,21 @@ class AuthController extends BaseController {
     public function do_reset_password()
     {
         $input = array(
-            'token'=>Input::get( 'token' ),
-            'password'=>Input::get( 'password' ),
-            'password_confirmation'=>Input::get( 'password_confirmation' ),
+            'token' => Input::get( 'token' ),
+            'password' => Input::get( 'password' ),
+            'password_confirmation' => Input::get( 'password_confirmation' ),
         );
 
         // By passing an array with the token, password and confirmation
         if( Confide::resetPassword( $input ) )
         {
             $notice_msg = Lang::get('confide::confide.alerts.password_reset');
-                        return Redirect::action('AuthController@login')
-                            ->with( 'notice', $notice_msg );
+            return array('message' => $notice_msg);
         }
         else
         {
             $error_msg = Lang::get('confide::confide.alerts.wrong_password_reset');
-                        return Redirect::action('AuthController@reset_password', array('token'=>$input['token']))
-                            ->withInput()
-                ->with( 'error', $error_msg );
+            return Response::json(array('error' => $error_msg), 401);
         }
     }
 

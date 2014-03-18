@@ -3,10 +3,7 @@
 // Confide routes
 
 Route::get( 'user/confirm/{code}',         'AuthController@confirm');
-Route::get( 'user/forgot_password',        'AuthController@forgot_password');
-Route::post('user/forgot_password',        'AuthController@do_forgot_password');
-Route::get( 'user/reset_password/{token}', 'AuthController@reset_password');
-Route::post('user/reset_password',         'AuthController@do_reset_password');
+//Route::get( 'user/reset/{token}', 'AuthController@reset_password');
 
 
 /**
@@ -33,6 +30,12 @@ Route::group(array('prefix' => 'api'), function()
 		Route::get('/', 'AuthController@show_current');
 		// Logout
 		Route::get('/logout', 'AuthController@logout');
+		// Forgot password, sends reset email
+		Route::post('/forgot_password', 'AuthController@do_forgot_password');
+		// Resets user's password, requires a token from forgot_password
+		Route::post('/reset_password', 'AuthController@do_reset_password');
+		// Confirm user's account with confirmation code
+		Route::post('/confirm', 'AuthController@do_confirm');
 	});
 
 	Route::resource('role', 'RoleController', array(
