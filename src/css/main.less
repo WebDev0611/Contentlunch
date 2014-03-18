@@ -319,13 +319,19 @@ span[class^="icon-"], span[class*=" icon-"] {
 	background-image: url(/assets/images/launch.svg);
 }
 
-#login-form {
+.round-corner-dialog {
+	.modal-dialog {
+		.modal-content {
+			border-radius: 45px;
+		}
+	}
+}
+
+#login-form, #change-password-form {
 	background-color: @homeColorDark;
 	border-radius: 40px;
 	color: #ffffff;
-	margin: auto;
 	padding: 20px;
-	width: 350px;
 
 	.header {
 		font-family: 'Lato-Light';
@@ -368,6 +374,17 @@ span[class^="icon-"], span[class*=" icon-"] {
 		background-size: 40px;
 		height: 40px;
 		width: 40px;
+	}
+}
+
+#login-form {
+	margin: auto;
+	width: 350px;
+}
+
+#change-password-form {
+	button {
+		padding: 8px;
 	}
 }
 

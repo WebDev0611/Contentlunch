@@ -48,6 +48,18 @@ launch.module.factory('UserService', function ($resource, $http, $upload, Accoun
 
 			return users.delete({ id: user.id }, user, success, error);
 		},
+		forgotPassword: function (user, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+
+		},
+		resetPassword: function (token, password, confirm, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+
+		},
 		getNewUser: function () {
 			return new launch.User();
 		},
