@@ -170,7 +170,7 @@ header .navbar ul.nav li.accounts .dark {
   background-color: #10699d;
 }
 header .navbar ul.nav li.accounts .top-arrow {
-  background-color: #1797e1;
+  border-top-color: #1797e1;
 }
 header .navbar ul.nav li.subscription {
   background-color: #39e4fd;
@@ -179,7 +179,7 @@ header .navbar ul.nav li.subscription .dark {
   background-color: #2badc0;
 }
 header .navbar ul.nav li.subscription .top-arrow {
-  background-color: #39e4fd;
+  border-top-color: #39e4fd;
 }
 header .navbar ul.nav li .top-arrow {
   position: absolute;
