@@ -1,21 +1,167 @@
-﻿launch.ModelMapper = function (authService) {
+﻿launch.ModelMapper = function (authService, notificationService) {
 	var self = this;
+
+	self.account = {
+		parseResponse: function (r, getHeaders) {
+			var dto = JSON.parse(r);
+
+			if (!!dto.error) {
+				launch.utils.handleAjaxErrorResponse(dto.error, notificationService);
+				return null;
+			}
+
+			if ($.isArray(dto)) {
+				var accounts = [];
+
+				angular.forEach(dto, function (account, index) {
+					accounts.push(self.account.fromDto(account));
+				});
+
+				accounts.sort(self.account.sort);
+
+				return accounts;
+			}
+
+			if ($.isPlainObject(dto)) {
+				return self.account.fromDto(dto);
+			}
+
+			return null;
+		},
+		fromDto: function (dto) {
+			var account = new launch.Account();
+
+			account.id = parseInt(dto.id);
+			account.title = account.name = dto.title;
+			account.active = (parseInt(dto.active) === 1) ? 'active' : 'inactive';
+			account.address1 = dto.address;
+			account.address2 = dto.address_2;
+			account.city = dto.city;
+			account.state = { value: dto.state, name: null };
+			account.postalCode = dto.zipcode;
+			account.country = dto.country;
+			account.email = dto.email;
+			account.phoneNumber = dto.phone;
+			account.autoRenew = (parseInt(dto.subscription) === 1);
+			account.created = dto.created_at;
+			account.updated = dto.updated_at;
+
+			// TODO: THESE NEED TO BE ADDED TO THE DB AND API. WILL NEED TO CHANGE toDto METHOD AS WELL!
+			account.numberOfUsers = 10;
+			account.accountExpirationDate = new Date();
+
+			account.creditCard = new launch.CreditCard();
+			//account.creditCard.cardNumber = null;
+			//account.creditCard.nameOnCard = null;
+			//account.creditCard.cvc = null;
+			//account.creditCard.expirationDateMonth = null;
+			//account.creditCard.expirationDateYear = null;
+			//account.creditCard.address1 = null;
+			//account.creditCard.address2 = null;
+			//account.creditCard.city = null;
+			//account.creditCard.country = null;
+			//account.creditCard.state = null;
+			//account.creditCard.postalCode = null;
+
+			if (account.country === 'US') {
+				account.country = 'USA';
+			}
+
+			return account;
+		},
+		toDto: function (account) {
+			var dto = {
+				id: account.id,
+				title: account.title,
+				name: account.title,
+				active: (account.active === 'active') ? 1 : 0,
+				address: account.address1,
+				address_2: account.address2,
+				city: account.city,
+				state: (!!account.state) ? account.state.value : null,
+				zipcode: account.postalCode,
+				country: account.country,
+				email: account.email,
+				phone: account.phoneNumber,
+				subscription: account.autoRenew ? 1 : 0,
+				created_at: account.created,
+				updated_at: account.updated
+			};
+
+			return JSON.stringify(dto);
+		},
+		fromCache: function (cachedAccount) {
+			var account = new launch.Account();
+
+			account.id = parseInt(cachedAccount.id);
+			account.title = account.name = cachedAccount.title;
+			account.active = cachedAccount.active;
+			account.address1 = cachedAccount.address1;
+			account.address2 = cachedAccount.address2;
+			account.city = cachedAccount.city;
+			account.state = cachedAccount.state;
+			account.postalCode = cachedAccount.postalCode;
+			account.country = cachedAccount.country;
+			account.email = cachedAccount.email;
+			account.phoneNumber = cachedAccount.phoneNumber;
+			account.numberOfUsers = cachedAccount.numberOfUsers;
+			account.accountExpirationDate = cachedAccount.accountExpirationDate;
+			account.autoRenew = cachedAccount.autoRenew;
+			account.created = cachedAccount.created;
+			account.updated = cachedAccount.updated;
+
+			account.creditCard = new launch.CreditCard();
+			//account.creditCard.cardNumber = null;
+			//account.creditCard.nameOnCard = null;
+			//account.creditCard.cvc = null;
+			//account.creditCard.expirationDateMonth = null;
+			//account.creditCard.expirationDateYear = null;
+			//account.creditCard.address1 = null;
+			//account.creditCard.address2 = null;
+			//account.creditCard.city = null;
+			//account.creditCard.country = null;
+			//account.creditCard.state = null;
+			//account.creditCard.postalCode = null;
+
+			if (account.country === 'US') {
+				account.country = 'USA';
+			}
+
+			return account;
+		},
+		sort: function (a, b) {
+			if (a.title === b.title) {
+				if (a.id === b.id) {
+					return 0;
+				} else if (a.id < b.id) {
+					return -1;
+				} else {
+					return 1;
+				}
+			} else {
+				if (a.title < b.title) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+		}
+	};
 
 	self.user = {
 		parseResponse: function(r, getHeaders) {
 			var dto = JSON.parse(r);
 
+			if (!!dto.error) {
+				launch.utils.handleAjaxErrorResponse(dto.error, notificationService);
+				return null;
+			}
+
 			if ($.isArray(dto)) {
 				var users = [];
-				var currentUser = authService.userInfo();
-				var isGlobalAdmin = (!!currentUser) ? currentUser.isGlobalAdmin() : false;
 
-				angular.forEach(dto, function(u, index) {
-					var user = self.user.fromDto(u);
-
-					if (user.isGlobalAdmin() === isGlobalAdmin) {
-						users.push(user);
-					}
+				angular.forEach(dto, function (u, index) {
+					users.push(self.user.fromDto(u));
 				});
 
 				users.sort(self.user.sort);
@@ -50,7 +196,8 @@
 			user.userName = dto.username;
 			user.active = (parseInt(dto.status) === 1) ? 'active' : 'inactive';
 			user.accounts = ($.isArray(dto.accounts)) ? $.map(dto.accounts, function(a, i) { return self.account.fromDto(a); }) : [];
-			user.roles = ($.isArray(dto.roles)) ? $.map(dto.roles, function(r, i) { return new launch.Role(r.id, r.name); }) : [];
+			user.account = (user.accounts.length > 0) ? user.accounts[0] : null;
+			user.roles = ($.isArray(dto.roles)) ? $.map(dto.roles, function (r, i) { return new launch.Role(r.id, r.name); }) : [];
 			user.role = (user.roles.length > 0) ? user.roles[0] : null;
 
 			if (!!dto.image) {
@@ -117,7 +264,8 @@
 			user.image = cachedUser.image;
 			user.role = new launch.Role(cachedUser.role.roleId, cachedUser.role.roleName);
 			user.roles = $.map(cachedUser.roles, function(r, i) { return new launch.Role(r.roleId, r.roleName); });
-			user.accounts = $.map(cachedUser.accounts, function(a, i) { return self.account.fromCache(a); });
+			user.accounts = $.map(cachedUser.accounts, function (a, i) { return self.account.fromCache(a); });
+			user.account = (user.accounts.length > 0) ? user.accounts[0] : null;
 
 			return user;
 		},
@@ -145,151 +293,14 @@
 		}
 	};
 
-	self.account = {
-		parseResponse: function(r, getHeaders) {
-			var dto = JSON.parse(r);
-
-			if ($.isArray(dto)) {
-				var accounts = [];
-
-				angular.forEach(dto, function(account, index) {
-					accounts.push(self.account.fromDto(account));
-				});
-
-				accounts.sort(self.account.sort);
-
-				return accounts;
-			}
-
-			if ($.isPlainObject(dto)) {
-				return self.account.fromDto(dto);
-			}
-
-			return null;
-		},
-		fromDto: function(dto) {
-			var account = new launch.Account();
-
-			account.id = parseInt(dto.id);
-			account.title = account.name = dto.title;
-			account.active = (parseInt(dto.active) === 1) ? 'active' : 'inactive';
-			account.address1 = dto.address;
-			account.address2 = dto.address_2;
-			account.city = dto.city;
-			account.state = { value: dto.state, name: null };
-			account.postalCode = dto.zipcode;
-			account.country = dto.country;
-			account.email = dto.email;
-			account.phoneNumber = dto.phone;
-			account.autoRenew = (parseInt(dto.subscription) === 1);
-			account.created = dto.created_at;
-			account.updated = dto.updated_at;
-
-			// TODO: THESE NEED TO BE ADDED TO THE DB AND API. WILL NEED TO CHANGE toDto METHOD AS WELL!
-			account.numberOfUsers = 10;
-			account.accountExpirationDate = new Date();
-
-			account.creditCard = new launch.CreditCard();
-			//account.creditCard.cardNumber = null;
-			//account.creditCard.nameOnCard = null;
-			//account.creditCard.cvc = null;
-			//account.creditCard.expirationDateMonth = null;
-			//account.creditCard.expirationDateYear = null;
-			//account.creditCard.address1 = null;
-			//account.creditCard.address2 = null;
-			//account.creditCard.city = null;
-			//account.creditCard.country = null;
-			//account.creditCard.state = null;
-			//account.creditCard.postalCode = null;
-
-			if (account.country === 'US') {
-				account.country = 'USA';
-			}
-
-			return account;
-		},
-		toDto: function(account) {
-			var dto = {
-				id: account.id,
-				title: account.title,
-				name: account.title,
-				active: (account.active === 'active') ? 1 : 0,
-				address: account.address1,
-				address_2: account.address2,
-				city: account.city,
-				state: (!!account.state) ? account.state.value : null,
-				zipcode: account.postalCode,
-				country: account.country,
-				email: account.email,
-				phone: account.phoneNumber,
-				subscription: account.autoRenew ? 1 : 0,
-				created_at: account.created,
-				updated_at: account.updated
-			};
-
-			return JSON.stringify(dto);
-		},
-		fromCache: function(cachedAccount) {
-			var account = new launch.Account();
-
-			account.id = parseInt(cachedAccount.id);
-			account.title = account.name = cachedAccount.title;
-			account.active = cachedAccount.active;
-			account.address1 = cachedAccount.address1;
-			account.address2 = cachedAccount.address2;
-			account.city = cachedAccount.city;
-			account.state = cachedAccount.state;
-			account.postalCode = cachedAccount.postalCode;
-			account.country = cachedAccount.country;
-			account.email = cachedAccount.email;
-			account.phoneNumber = cachedAccount.phoneNumber;
-			account.numberOfUsers = cachedAccount.numberOfUsers;
-			account.accountExpirationDate = cachedAccount.accountExpirationDate;
-			account.autoRenew = cachedAccount.autoRenew;
-			account.created = cachedAccount.created;
-			account.updated = cachedAccount.updated;
-
-			account.creditCard = new launch.CreditCard();
-			//account.creditCard.cardNumber = null;
-			//account.creditCard.nameOnCard = null;
-			//account.creditCard.cvc = null;
-			//account.creditCard.expirationDateMonth = null;
-			//account.creditCard.expirationDateYear = null;
-			//account.creditCard.address1 = null;
-			//account.creditCard.address2 = null;
-			//account.creditCard.city = null;
-			//account.creditCard.country = null;
-			//account.creditCard.state = null;
-			//account.creditCard.postalCode = null;
-
-			if (account.country === 'US') {
-				account.country = 'USA';
-			}
-
-			return account;
-		},
-		sort: function(a, b) {
-			if (a.title === b.title) {
-				if (a.id === b.id) {
-					return 0;
-				} else if (a.id < b.id) {
-					return -1;
-				} else {
-					return 1;
-				}
-			} else {
-				if (a.title < b.title) {
-					return -1;
-				} else {
-					return 1;
-				}
-			}
-		}
-	};
-
 	self.role = {
 		parseResponse: function(r, getHeaders) {
 			var dto = JSON.parse(r);
+
+			if (!!dto.error) {
+				launch.utils.handleAjaxErrorResponse(dto.error, notificationService);
+				return null;
+			}
 
 			if ($.isArray(dto)) {
 				var roles = [];
@@ -356,6 +367,6 @@
 	return self;
 };
 
-launch.module.factory('ModelMapperService', function (AuthService) {
-	return new launch.ModelMapper(AuthService);
+launch.module.factory('ModelMapperService', function (AuthService, NotificationService) {
+	return new launch.ModelMapper(AuthService, NotificationService);
 });

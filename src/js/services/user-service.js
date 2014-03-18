@@ -8,17 +8,17 @@ launch.module.factory('UserService', function ($resource, $http, $upload, Accoun
 	});
 
 	return {
-		query: function(params, callback) {
+		query: function(callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return resource.query(params, success, error);
+			return resource.query(null, success, error);
 		},
-		get: function(params, callback) {
+		get: function(id, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return resource.get(params, success, error);
+			return resource.get({ id: id }, success, error);
 		},
 		update: function(user, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -38,7 +38,10 @@ launch.module.factory('UserService', function ($resource, $http, $upload, Accoun
 
 			return resource.delete({ id: user.id }, user, success, error);
 		},
-		savePhoto: function(user, file, callback) {
+		getNewUser: function () {
+			return new launch.User();
+		},
+		savePhoto: function (user, file, callback) {
 			$upload.upload({
 				url: '/api/user/' + user.id + '/image',
 				method: 'POST',
@@ -57,16 +60,6 @@ launch.module.factory('UserService', function ($resource, $http, $upload, Accoun
 					callback.error({ data: data, status: status, headers: headers, config: config });
 				}
 			});
-		},
-		getNewUser: function() {
-			return new launch.User();
-		},
-		mapUserFromDto: function (dto) {
-			if (typeof dto === 'string') {
-				return ModelMapperService.user.parseResponse(dto);
-			}
-
-			return ModelMapperService.user.fromDto(dto);
 		},
 		validatePhotoFile: function (file) {
 			if (!$.inArray(file.type, launch.config.USER_PHOTO_FILE_TYPES)) {

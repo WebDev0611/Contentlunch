@@ -1,35 +1,40 @@
 launch.module.controller('UsersController', [
-	'$scope', '$location', '$filter', '$modal', 'AuthService', 'UserService', 'RoleService', 'NotificationService', 'SessionService', function ($scope, $location, $filter, $modal, authService, userService, roleService, notificationService, sessionService) {
+	'$scope', '$location', '$filter', '$modal', 'AuthService', 'UserService', 'AccountService', 'RoleService', 'NotificationService', 'SessionService', function ($scope, $location, $filter, $modal, authService, userService, accountService, roleService, notificationService, sessionService) {
 		var self = this;
 
 		self.loggedInUser = null;
 
 		self.init = function() {
-			self.loadUsers(true);
-
 			self.loggedInUser = authService.userInfo();
+			self.loadUsers(true);
 		};
 
-		self.loadUsers = function (reset, callback) {
+		self.loadUsers = function (reset, cb) {
 			$scope.isLoading = true;
 
-			$scope.users = userService.query(null, {
-				success: function (users) {
+			var callback = {
+				success: function(users) {
 					$scope.isLoading = false;
 					$scope.search.applyFilter(reset);
 
-					if (!!callback && $.isFunction(callback.success)) {
-						callback.success(users);
+					if (!!cb && $.isFunction(cb.success)) {
+						cb.success(users);
 					}
 				},
-				error: function (r) {
+				error: function(r) {
 					$scope.isLoading = false;
 
-					if (!!callback && $.isFunction(callback.error)) {
-						callback.error(r);
+					if (!!cb && $.isFunction(cb.error)) {
+						cb.error(r);
 					}
 				}
-			});
+			};
+
+			if (self.loggedInUser.isGlobalAdmin()) {
+				$scope.users = userService.query(callback);
+			} else {
+				$scope.users = accountService.getUsers(self.loggedInUser.account.id, callback);
+			}
 		};
 
 		self.reset = function(form) {
