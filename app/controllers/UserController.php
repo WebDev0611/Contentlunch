@@ -10,9 +10,12 @@ class UserController extends BaseController {
 	public function index()
 	{
 		$return = array();
-		$query = User::with('roles');
-		$query->with('image')
+		$query = User::with('roles')
+			->with('image')
 			->with('accounts');
+		if (Input::get('roles')) {
+			$query->roles(Input::get('roles'));
+		}
 		$users = $query->get()->toArray();
 		foreach ($users as &$user) {
 			if ($user['roles']) {

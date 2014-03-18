@@ -47,6 +47,45 @@ class UserIntegrationTest extends TestCase {
 		$this->assertUserFields($expect, $users[1]);
 	}
 
+	public function testIndexWithRoleParams()
+	{
+		// Should support limiting by role
+		$this->setupTestUsers();
+		$this->setupTestRoles();
+		// Give user 1 admin and editor role
+		// Give user 2 editor role
+		$this->setupAttachUserToRole(1, 1);
+		$this->setupAttachUserToRole(1, 2);
+		$this->setupAttachUserToRole(2, 2);
+		$expect = $this->getTestUsers();
+		$expect[1]['roles'] = array(array(
+			'id' => 1,
+			'name' => 'Admin',
+		), array(
+			'id' => 2,
+			'name' => 'Editor'
+		));
+		$expect[2]['roles'] = array(array(
+			'id' => 2,
+			'name' => 'Editor'
+		));
+		// Get users with admin role
+		$response = $this->call('GET', '/api/user', array(
+			'roles' => array(1)
+		));
+		$users = json_decode($response->getContent());
+		$this->assertCount(1, $users);
+		$this->assertUserFields($expect[1], $users[0]);
+		// Get users with admin or editor role
+		$response = $this->call('GET', '/api/user', array(
+			'roles' => array(1, 2)
+		));
+		$users = json_decode($response->getContent());
+		$this->assertCount(2, $users);
+		$this->assertUserFields($expect[1], $users[0]);
+		$this->assertUserFields($expect[2], $users[1]);
+	}
+
 	public function testStoreNewUser()
 	{
 		// Setup test roles

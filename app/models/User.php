@@ -12,8 +12,9 @@ class User extends ConfideUser {
 
   protected $hidden = array('password', 'password_confirmation', 'confirmation_code');
 
-  protected $fillable = array('email', 'first_name', 'last_name', 'confirmed', 'password', 
+  protected $fillable = array('email', 'first_name', 'last_name', 'confirmed', 'password',
     'address', 'address_2', 'city', 'state', 'phone', 'title', 'status', 'country');
+
   protected $guarded = array('id');
 
   public static $rules = array(
@@ -30,6 +31,11 @@ class User extends ConfideUser {
   public function accounts()
   {
   	return $this->belongsToMany('Account')->withTimestamps();
+  }
+
+  public function zroles()
+  {
+    return $this->belongsToMany('Role', 'assigned_roles', 'id', 'user_id');
   }
 
   public function image()
@@ -77,6 +83,21 @@ class User extends ConfideUser {
       $query->where('accounts.id', $id);
     }));
     return $query->accounts()->where('id', $id);
+  }
+
+  /**
+   * Limit the query to users with assigned roles
+   * @param  object $query
+   * @param  array $roles Role ids to filter by
+   * @return object $query
+   */
+  public function scopeRoles($query, $roles) {
+    return $query->whereExists(function ($q) use ($roles) {
+      $q->select(DB::raw(1))
+        ->from('assigned_roles')
+        ->whereIn('role_id', $roles)
+        ->whereRaw('assigned_roles.user_id = users.id');
+    });
   }
 
 }
