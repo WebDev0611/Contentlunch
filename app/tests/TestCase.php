@@ -216,7 +216,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     $this->assertEquals($expect['email'], $account->email, $err .' ->email');
     $this->assertNotEmpty($account->created_at, $err .' ->created_at');
     $this->assertNotEmpty($account->updated_at, $err .' ->updated_at');
-    $this->assertNotEmpty($account->expiration_date, $err .' ->expiration_date');
+    $this->assertObjectHasAttribute('expiration_date', $account, $err .' ->expiration_date');
+    $count_users = DB::table('account_user')
+      ->select(DB::raw("COUNT(*) as countusers"))
+      ->where('account_id', $expect['id'])
+      ->pluck('countusers');
+    $this->assertEquals($count_users, $account->count_users);
   }
 
   /**

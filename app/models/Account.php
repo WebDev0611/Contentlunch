@@ -40,6 +40,11 @@ class Account extends Ardent {
     return 'Y-m-d H:i:s';
   }
 
+  public static function zfind($id)
+  {
+  	return parent::find('accounts.'. $id);
+  }
+
 	/**
 	 * Define relationship to another model.
 	 * An Account has many User(s).
@@ -47,6 +52,17 @@ class Account extends Ardent {
 	public function users()
 	{
 		return $this->belongsToMany('User')->withTimestamps();
+	}
+
+	public function scopeCountusers($query)
+	{
+		return $query
+			->leftJoin('account_user', 'accounts.id', '=', 'account_user.account_id')
+			->groupBy('accounts.id')
+			->addSelect(array(
+				'accounts.*',
+				DB::raw("COUNT(account_user.user_id) AS count_users")
+			));
 	}
 
 	/**

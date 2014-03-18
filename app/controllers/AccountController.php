@@ -4,8 +4,7 @@ class AccountController extends BaseController {
 
 	public function index()
 	{
-		$accounts = Account::all();
-		return Response::json($accounts->toArray(), 200);
+		return Account::countusers()->get();
 	}
 
 	public function store()
@@ -22,7 +21,7 @@ class AccountController extends BaseController {
 
 	public function show($id)
 	{
-		return Account::find($id);
+		return Account::countusers()->where('accounts.id', $id)->first();
 	}
 
 	public function update($id)
