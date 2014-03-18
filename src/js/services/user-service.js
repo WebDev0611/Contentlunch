@@ -1,5 +1,5 @@
 launch.module.factory('UserService', function ($resource, $http, $upload, AccountService, ModelMapperService) {
-	var resource = $resource('/api/user/:id', { id: '@id' }, {
+	var users = $resource('/api/user/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.user.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
 		update: { method: 'PUT', transformRequest: ModelMapperService.user.toDto, transformResponse: ModelMapperService.user.parseResponse },
@@ -7,38 +7,51 @@ launch.module.factory('UserService', function ($resource, $http, $upload, Accoun
 		delete: { method: 'DELETE' }
 	});
 
+	var accountUsers = $resource('/api/account/:id/users', { id: '@id' }, {
+		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse }
+	});
+
 	return {
-		query: function(params, callback) {
+		query: function(callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return resource.query(params, success, error);
+			return users.query(null, success, error);
 		},
-		get: function(params, callback) {
+		getForAccount: function(id, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return resource.get(params, success, error);
+			return accountUsers.get({ id: id }, success, error);
+		},
+		get: function(id, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return users.get({ id: id }, success, error);
 		},
 		update: function(user, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return resource.update({ id: user.id }, user, success, error);
+			return users.update({ id: user.id }, user, success, error);
 		},
 		add: function(user, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return resource.insert(null, user, success, error);
+			return users.insert(null, user, success, error);
 		},
 		delete: function(user, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return resource.delete({ id: user.id }, user, success, error);
+			return users.delete({ id: user.id }, user, success, error);
 		},
-		savePhoto: function(user, file, callback) {
+		getNewUser: function () {
+			return new launch.User();
+		},
+		savePhoto: function (user, file, callback) {
 			$upload.upload({
 				url: '/api/user/' + user.id + '/image',
 				method: 'POST',
@@ -57,16 +70,6 @@ launch.module.factory('UserService', function ($resource, $http, $upload, Accoun
 					callback.error({ data: data, status: status, headers: headers, config: config });
 				}
 			});
-		},
-		getNewUser: function() {
-			return new launch.User();
-		},
-		mapUserFromDto: function (dto) {
-			if (typeof dto === 'string') {
-				return ModelMapperService.user.parseResponse(dto);
-			}
-
-			return ModelMapperService.user.fromDto(dto);
 		},
 		validatePhotoFile: function (file) {
 			if (!$.inArray(file.type, launch.config.USER_PHOTO_FILE_TYPES)) {

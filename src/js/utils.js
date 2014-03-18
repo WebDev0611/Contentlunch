@@ -51,31 +51,34 @@
 
 	handleAjaxErrorResponse: function(response, notificationService) {
 		var err = (!launch.utils.isBlank(response.message)) ? response.message : null;
+		var type = (!launch.utils.isBlank(response.type)) ? response.type : null;
+		var file = (!launch.utils.isBlank(response.file)) ? response.file : null;
+		var line = (!launch.utils.isBlank(response.line)) ? response.line : null;
 		var msg = 'Looks like we\'ve encountered an error.';
 		var title = 'Whoops!';
 
-		if (launch.utils.isBlank(err) && !!response.data) {
-			if (!launch.utils.isBlank(response.data.flash)) {
-				msg = response.data.flash;
+		if (launch.utils.isBlank(err)) {
+			if (!!response.data) {
+				err = (!launch.utils.isBlank(response.data.message)) ? response.data.message : null;
+				type = (!launch.utils.isBlank(response.data.type)) ? response.data.type : null;
+				file = (!launch.utils.isBlank(response.data.file)) ? response.data.file : null;
+				line = (!launch.utils.isBlank(response.data.line)) ? response.data.line : null;
 			} else if (!!response.data.error) {
-				err = '';
-
-				if (!launch.utils.isBlank(response.data.error.message)) {
-					err += '\n\nMessage: ' + response.data.error.message;
-				}
-
-				if (launch.config.DEBUG_MODE) {
-					if (!launch.utils.isBlank(response.data.error.type)) {
-						err += '\n\nType: ' + response.data.error.type;
-					}
-					if (!launch.utils.isBlank(response.data.error.file)) {
-						err += '\n\nFile: ' + response.data.error.file;
-					}
-					if (!launch.utils.isBlank(response.data.error.line)) {
-						err += '\n\nLine: ' + response.data.error.line;
-					}
-				}
+				err = (!launch.utils.isBlank(response.data.error.message)) ? response.data.error.message : null;
+				type = (!launch.utils.isBlank(response.data.error.type)) ? response.data.error.type : null;
+				file = (!launch.utils.isBlank(response.data.error.file)) ? response.data.error.file : null;
+				line = (!launch.utils.isBlank(response.data.error.line)) ? response.data.error.line : null;
 			}
+		}
+
+		if (!launch.utils.isBlank(err)) {
+			err = '\n\nMessage: ' + err;
+		}
+
+		if (launch.config.DEBUG_MODE) {
+			if (!launch.utils.isBlank(type)) { err += '\n\nType: ' + type; }
+			if (!launch.utils.isBlank(file)) { err += '\n\nFile: ' + file; }
+			if (!launch.utils.isBlank(line)) { err += '\n\nLine: ' + line; }
 		}
 
 		if (!launch.utils.isBlank(err)) {
