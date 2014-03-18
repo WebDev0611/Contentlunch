@@ -7,10 +7,6 @@
 		delete: { method: 'DELETE' }
 	});
 
-	var accountUsers = $resource('/api/account/:id/users', { id: '@id' }, {
-		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse }
-	});
-
 	return {
 		query: function (callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -44,12 +40,6 @@
 		},
 		getNewAccount: function() {
 			return new launch.Account();
-		},
-		getUsers: function (id, callback) {
-			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
-			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
-
-			return accountUsers.get({ id: id }, success, error);
 		}
 	};
 });

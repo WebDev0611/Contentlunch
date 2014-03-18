@@ -1,5 +1,5 @@
 launch.module.controller('UsersController', [
-	'$scope', '$location', '$filter', '$modal', 'AuthService', 'UserService', 'AccountService', 'RoleService', 'NotificationService', 'SessionService', function ($scope, $location, $filter, $modal, authService, userService, accountService, roleService, notificationService, sessionService) {
+	'$scope', '$location', '$filter', '$modal', 'AuthService', 'UserService', 'RoleService', 'NotificationService', 'SessionService', function ($scope, $location, $filter, $modal, authService, userService, roleService, notificationService, sessionService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -10,8 +10,6 @@ launch.module.controller('UsersController', [
 		};
 
 		self.loadUsers = function (reset, cb) {
-			$scope.isLoading = true;
-
 			var callback = {
 				success: function(users) {
 					$scope.isLoading = false;
@@ -30,10 +28,12 @@ launch.module.controller('UsersController', [
 				}
 			};
 
+			$scope.isLoading = true;
+
 			if (self.loggedInUser.isGlobalAdmin()) {
 				$scope.users = userService.query(callback);
 			} else {
-				$scope.users = accountService.getUsers(self.loggedInUser.account.id, callback);
+				$scope.users = userService.getForAccount(self.loggedInUser.account.id, callback);
 			}
 		};
 

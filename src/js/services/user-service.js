@@ -1,5 +1,5 @@
 launch.module.factory('UserService', function ($resource, $http, $upload, AccountService, ModelMapperService) {
-	var resource = $resource('/api/user/:id', { id: '@id' }, {
+	var users = $resource('/api/user/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.user.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
 		update: { method: 'PUT', transformRequest: ModelMapperService.user.toDto, transformResponse: ModelMapperService.user.parseResponse },
@@ -7,36 +7,46 @@ launch.module.factory('UserService', function ($resource, $http, $upload, Accoun
 		delete: { method: 'DELETE' }
 	});
 
+	var accountUsers = $resource('/api/account/:id/users', { id: '@id' }, {
+		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse }
+	});
+
 	return {
 		query: function(callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return resource.query(null, success, error);
+			return users.query(null, success, error);
+		},
+		getForAccount: function(id, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return accountUsers.get({ id: id }, success, error);
 		},
 		get: function(id, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return resource.get({ id: id }, success, error);
+			return users.get({ id: id }, success, error);
 		},
 		update: function(user, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return resource.update({ id: user.id }, user, success, error);
+			return users.update({ id: user.id }, user, success, error);
 		},
 		add: function(user, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return resource.insert(null, user, success, error);
+			return users.insert(null, user, success, error);
 		},
 		delete: function(user, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return resource.delete({ id: user.id }, user, success, error);
+			return users.delete({ id: user.id }, user, success, error);
 		},
 		getNewUser: function () {
 			return new launch.User();
