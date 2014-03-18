@@ -20,6 +20,7 @@ class AccountSeeder extends Seeder {
     $account->zipcode = '98005';
     $account->email = 'info@surgeforward.com';
     $account->expiration_date = $expiration;
+    $account->licenses = 20;
 		$account->save();
 	}
 

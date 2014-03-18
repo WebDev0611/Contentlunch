@@ -56,13 +56,17 @@ class Account extends Ardent {
 
 	public function scopeCountusers($query)
 	{
-		return $query
-			->leftJoin('account_user', 'accounts.id', '=', 'account_user.account_id')
-			->groupBy('accounts.id')
-			->addSelect(array(
-				'accounts.*',
-				DB::raw("COUNT(account_user.user_id) AS count_users")
-			));
+
+		return $query->leftJoin(
+			DB::raw("(SELECT account_id, COUNT(*) AS count_users FROM account_user GROUP BY account_id) usercount"),
+			function ($join) {
+				$join->on('accounts.id', '=', 'usercount.account_id');
+			}
+		)
+		->select(array(
+			'accounts.*',
+			'usercount.count_users'
+		));
 	}
 
 	/**
