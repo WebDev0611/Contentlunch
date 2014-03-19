@@ -2,8 +2,8 @@
 	var accounts = $resource('/api/account/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.account.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.account.parseResponse },
-		update: { method: 'PUT', transformRequest: ModelMapperService.account.toDto, transformResponse: ModelMapperService.account.parseResponse },
-		insert: { method: 'POST', transformRequest: ModelMapperService.account.toDto, transformResponse: ModelMapperService.account.parseResponse },
+		update: { method: 'PUT', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
+		insert: { method: 'POST', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
 		delete: { method: 'DELETE' }
 	});
 
@@ -37,6 +37,20 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return accounts.delete({ id: account.id }, account, success, error);
+		},
+		addUser: function (accountId, userId, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+			var resource = $resource('/api/account/:id/add_user', { id: '@id' }, {
+				insert: {
+					method: 'POST',
+					transformRequest: function (uid) {
+						return JSON.stringify({ user_id: uid });
+					}
+				}
+			});
+
+			return resource.insert({ id: accountId }, userId, success, error);
 		},
 		getNewAccount: function() {
 			return new launch.Account();

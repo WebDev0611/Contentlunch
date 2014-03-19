@@ -28,6 +28,9 @@
 
 			return null;
 		},
+		formatRequest: function(account) {
+			return JSON.stringify(self.account.toDto(account));
+		},
 		fromDto: function (dto) {
 			var account = new launch.Account();
 
@@ -88,7 +91,7 @@
 				updated_at: account.updated
 			};
 
-			return JSON.stringify(dto);
+			return dto;
 		},
 		fromCache: function (cachedAccount) {
 			var account = new launch.Account();
@@ -175,7 +178,10 @@
 
 			return null;
 		},
-		fromDto: function(dto) {
+		formatRequest: function (user) {
+			return JSON.stringify(self.user.toDto(user));
+		},
+		fromDto: function (dto) {
 			var user = new launch.User();
 
 			user.id = parseInt(dto.id);
@@ -232,7 +238,8 @@
 				phone: user.phoneNumber,
 				title: user.title,
 				status: (user.active === 'active') ? 1 : 0,
-				roles: [{ id: user.role.roleId, name: user.role.roleName }]
+				accounts: $.map(user.accounts, function (a, i) { return self.account.toDto(a); }),
+				roles: $.map(user.roles, function (r, i) { return self.role.toDto(r); })
 			};
 
 			if (!launch.utils.isBlank(user.password) && !launch.utils.isBlank(user.passwordConfirmation)) {
@@ -240,7 +247,7 @@
 				dto.password_confirmation = user.passwordConfirmation;
 			}
 
-			return JSON.stringify(dto);
+			return dto;
 		},
 		fromCache: function(cachedUser) {
 			var user = new launch.User();
@@ -326,7 +333,10 @@
 
 			return null;
 		},
-		fromDto: function(dto) {
+		formatRequest: function (role) {
+			return JSON.stringify(self.role.toDto(role));
+		},
+		fromDto: function (dto) {
 			var role = new launch.Role(dto.id, dto.name);
 
 			role.created = dto.created_at;
@@ -337,7 +347,7 @@
 		toDto: function(role) {
 			return {
 				id: role.roleId,
-				name: roleName,
+				name: role.roleName,
 				created_at: role.created,
 				updated_at: role.updated
 			};
