@@ -13,8 +13,8 @@ launch.module.controller('AccountsController', [
 		self.loadAccounts = function (reset, callback) {
 			$scope.isLoading = true;
 
-			$scope.accounts = accountService.query(null, {
-				success: function (accounts) {
+			$scope.accounts = accountService.query({
+				success: function(accounts) {
 					$scope.isLoading = false;
 					$scope.search.applyFilter(reset);
 
@@ -22,7 +22,7 @@ launch.module.controller('AccountsController', [
 						callback.success(accounts);
 					}
 				},
-				error: function (r) {
+				error: function(r) {
 					$scope.isLoading = false;
 
 					if (!!callback && $.isFunction(callback.error)) {

@@ -21,7 +21,7 @@
 			<a class="btn btn-default" ng-class="{ active: search.accountStatus === 'inactive' }" ng-click="search.toggleStatus('inactive')">Inactive</a>
 			<a class="btn btn-default" ng-class="{ active: search.accountStatus === 'all' }" ng-click="search.toggleStatus('all')">All</a>
 		</div>
-
+		
 		<ul class="items-list">
 			<li ng-repeat="account in pagedAccounts[pagination.currentPage - 1]" ng-click="selectAccount(account, $index, editAccount)" ng-class="{ selected: isSelectedAccount(account) }">
 				<div class="item-info">

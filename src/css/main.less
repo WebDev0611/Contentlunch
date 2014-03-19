@@ -562,7 +562,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 		.form-group {
 			display: inline-block;
-			margin: 0 0 0 8px;
+			margin: 0 8px 0 0;
 			width: 20em;
 		}
 
@@ -579,5 +579,71 @@ span[class^="icon-"], span[class*=" icon-"] {
 	.row {
 		border-bottom: solid 1px #000000;
 		padding: 8px;
+	}
+}
+
+.tier-components {
+	.tier-tiles {
+		background-color: #999999;
+		border-radius: 40px;
+		float: left;
+		margin: 0 20px 0 0;
+		padding: 16px 8px;
+		text-align: center;
+		height: 280px;
+		width: 180px;
+
+		.title {
+			font-family: 'Lato Black';
+			font-size: 18pt;
+		}
+
+		.tile {
+			border-radius: 10px;
+			color: #ffffff;
+			display: inline-block;
+			font-size: 6pt;
+			margin: 4px;
+			padding: 8px 0;
+			height: 60px;
+			width: 60px;
+
+			img {
+				height: 30px;
+				margin: 0 0 4px 0;
+			}
+
+			&.consult {
+				background-color: @subscriptionColorDark;
+			}
+
+			&.create {
+				background-color: @createColorDark;
+			}
+
+			&.collaborate {
+				background-color: @collaborateColorDark;
+			}
+
+			&.calendar {
+				background-color: @calendarColorDark;
+			}
+
+			&.launch {
+				background-color: @launchColorDark;
+			}
+
+			&.measure {
+				background-color: @meaureColorDark;
+			}
+
+			&.disabled {
+				opacity: 0.4;
+			}
+		}
+	}
+
+	.tier-info {
+		margin: 16px;
 	}
 }

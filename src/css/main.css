@@ -539,7 +539,7 @@ span[class*=" icon-"].dark {
 .user-editor .control-group .form-group,
 .account-editor .control-group .form-group {
   display: inline-block;
-  margin: 0 0 0 8px;
+  margin: 0 8px 0 0;
   width: 20em;
 }
 .user-editor .control-group.btn-toolbar,
@@ -553,4 +553,56 @@ span[class*=" icon-"].dark {
 .connection-list .row {
   border-bottom: solid 1px #000000;
   padding: 8px;
+}
+.tier-components .tier-tiles {
+  background-color: #999999;
+  border-radius: 40px;
+  float: left;
+  margin: 0 20px 0 0;
+  padding: 16px 8px;
+  text-align: center;
+  height: 280px;
+  width: 180px;
+}
+.tier-components .tier-tiles .title {
+  font-family: 'Lato Black';
+  font-size: 18pt;
+}
+.tier-components .tier-tiles .tile {
+  border-radius: 10px;
+  color: #ffffff;
+  display: inline-block;
+  font-size: 6pt;
+  margin: 4px;
+  padding: 8px 0;
+  height: 60px;
+  width: 60px;
+}
+.tier-components .tier-tiles .tile img {
+  height: 30px;
+  margin: 0 0 4px 0;
+}
+.tier-components .tier-tiles .tile.consult {
+  background-color: #2badc0;
+}
+.tier-components .tier-tiles .tile.create {
+  background-color: #d99a03;
+}
+.tier-components .tier-tiles .tile.collaborate {
+  background-color: #c24502;
+}
+.tier-components .tier-tiles .tile.calendar {
+  background-color: #93124c;
+}
+.tier-components .tier-tiles .tile.launch {
+  background-color: #532752;
+}
+.tier-components .tier-tiles .tile.measure {
+  background-color: #8eb933;
+}
+.tier-components .tier-tiles .tile.disabled {
+  opacity: 0.4;
+}
+.tier-components .tier-info {
+  margin: 16px;
 }

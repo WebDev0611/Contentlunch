@@ -422,5 +422,13 @@
 		var pc = new String(padChar);
 
 		return str.length < size ? launch.utils.pad(pc + str, size) : str;
+	},
+
+	formatCurrency: function(amount) {
+		if (launch.utils.isBlank(amount) || isNaN(amount)) {
+			return '$0.00';
+		}
+
+		return '$' + parseFloat(amount).toFixed(2);
 	}
 };

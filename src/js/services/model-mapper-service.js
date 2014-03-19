@@ -45,12 +45,17 @@
 			account.country = dto.country;
 			account.email = dto.email;
 			account.phoneNumber = dto.phone;
-			account.autoRenew = (parseInt(dto.subscription) === 1);
 			account.created = dto.created_at;
 			account.updated = dto.updated_at;
 
+			account.autoRenew = true;
+			account.monthlyPayment = true;
+
+			account.subscription = new launch.Subscription(dto.subscription, account.autoRenew, account.monthlyPayment);
+
 			// TODO: THESE NEED TO BE ADDED TO THE DB AND API. WILL NEED TO CHANGE toDto METHOD AS WELL!
-			account.numberOfUsers = 10;
+			account.pricePerMonth = account.subscription.pricePerMonth;
+			account.numberLicenses = account.subscription.numberLicenses;
 			account.accountExpirationDate = new Date();
 
 			account.creditCard = new launch.CreditCard();
@@ -65,6 +70,11 @@
 			//account.creditCard.country = null;
 			//account.creditCard.state = null;
 			//account.creditCard.postalCode = null;
+
+			account.bankAccount = new launch.BankAccount();
+			//account.bankAccount.bankName = null;
+			//account.bankAccount.routingNumber = null;
+			//account.bankAccount.accountNumber = null;
 
 			if (account.country === 'US') {
 				account.country = 'USA';
@@ -86,7 +96,7 @@
 				country: account.country,
 				email: account.email,
 				phone: account.phoneNumber,
-				subscription: account.autoRenew ? 1 : 0,
+				subscription: parseInt(account.subscription),
 				created_at: account.created,
 				updated_at: account.updated
 			};
@@ -107,11 +117,16 @@
 			account.country = cachedAccount.country;
 			account.email = cachedAccount.email;
 			account.phoneNumber = cachedAccount.phoneNumber;
-			account.numberOfUsers = cachedAccount.numberOfUsers;
 			account.accountExpirationDate = cachedAccount.accountExpirationDate;
-			account.autoRenew = cachedAccount.autoRenew;
 			account.created = cachedAccount.created;
 			account.updated = cachedAccount.updated;
+
+			account.monthlyPayment = cachedAccount.monthlyPayment;
+			account.autoRenew = cachedAccount.autoRenew;
+
+			account.subscription = new launch.Subscription(cachedAccount.subscription.id, account.autoRenew, account.monthlyPayment);
+			account.pricePerMonth = account.subscription.pricePerMonth;
+			account.numberLicenses = account.subscription.numberLicenses;
 
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;

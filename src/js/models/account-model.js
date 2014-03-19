@@ -12,9 +12,12 @@
 	self.country = null;
 	self.email = null;
 	self.phoneNumber = null;
-	self.numberOfUsers = null;
+	self.subscription = null;
+	self.numberLicenses = null;
 	self.accountExpirationDate = null;
 	self.autoRenew = false;
+	self.monthlyPayment = true;
+	self.pricePerMonth = null;
 	self.creditCard = null;
 	self.created = null;
 	self.updated = null;
@@ -56,14 +59,14 @@
 				return launch.utils.isBlank(this.country) ? 'Country is required.' : null;
 			case 'active':
 				return launch.utils.isBlank(this.active) ? 'Active Status is required.' : null;
-			case 'numberofusers':
-				if (launch.utils.isBlank(this.numberOfUsers) || isNaN(this.numberOfUsers)) {
+			case 'numberLicenses':
+				if (launch.utils.isBlank(this.numberLicenses) || isNaN(this.numberLicenses)) {
 					return 'Number of Users must be a number.';
-				} else if (parseInt(this.numberOfUsers) <= 0) {
+				} else if (parseInt(this.numberLicenses) <= 0) {
 					return 'Number of Users must be greater than zero.';
 				}
 
-				this.numberOfUsers = parseInt(this.numberOfUsers);
+				this.numberLicenses = parseInt(this.numberLicenses);
 
 				return null;
 			default:
@@ -75,5 +78,5 @@
 		return launch.utils.formatDate(self.accountExpirationDate);
 	};
 
-	return this;
+	return self;
 };

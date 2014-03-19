@@ -4,9 +4,6 @@
 
 		self.forceDirty = false;
 
-		self.init = function() {
-		};
-
 		self.discardChanges = function(form) {
 			if ($.isFunction(scope.refreshMethod)) {
 				scope.refreshMethod(form);
@@ -162,11 +159,13 @@
 			NotificationService.info('Warning!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
 		};
 
-		scope.$watch(scope.selectedAccount, function(account) {
+		scope.toggleSubscription = function() {
+			scope.selectedAccount.subscription = new launch.Subscription(scope.selectedAccount.subscription.id, scope.selectedAccount.subscription.monthlyPayment, scope.selectedAccount.subscription.autoRenew);
+		};
+
+		scope.$watch(function(account) {
 			scope.creatingNew = (!!account && !launch.utils.isBlank(account.id));
 		});
-
-		self.init();
 	};
 
 	return {
