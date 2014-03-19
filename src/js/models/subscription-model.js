@@ -1,4 +1,4 @@
-﻿launch.Subscription = function(id, monthly, autoRenew) {
+﻿launch.Subscription = function(id, yearly, autoRenew) {
 	var self = this;
 	var price = 0;
 
@@ -9,14 +9,14 @@
 	self.id = parseInt(id);
 
 	self.numberLicenses = (self.id === 1 ? 5 : (self.id === 2 ? 10 : 20));
-	self.monthlyPayment = (monthly === true) ? true : false;
+	self.yearlyPayment = (yearly === true) ? true : false;
 	self.autoRenew = (autoRenew === true) ? true : false;
 	self.training = true;
 	self.features = (self.id === 1 ? [] : (self.id === 2 ? ['API', 'Premium Support'] : ['API', 'Premium Support', 'Custom Reporting', 'Advanced Security']));
 
 	price = (self.id === 1 ? 300 : (self.id === 2 ? 500 : 700));
 
-	if (!self.monthlyPayment) {
+	if (self.yearlyPayment === true) {
 		price = (price * 0.9);
 	}
 

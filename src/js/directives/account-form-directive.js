@@ -160,7 +160,7 @@
 		};
 
 		scope.toggleSubscription = function() {
-			scope.selectedAccount.subscription = new launch.Subscription(scope.selectedAccount.subscription.id, scope.selectedAccount.subscription.monthlyPayment, scope.selectedAccount.subscription.autoRenew);
+			scope.selectedAccount.subscription = new launch.Subscription(scope.selectedAccount.subscription.id, scope.selectedAccount.subscription.yearlyPayment, scope.selectedAccount.subscription.autoRenew);
 		};
 
 		scope.$watch(function(account) {

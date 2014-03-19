@@ -49,14 +49,16 @@
 			account.updated = dto.updated_at;
 
 			account.autoRenew = true;
-			account.monthlyPayment = true;
+			account.yearlyPayment = false;
 
-			account.subscription = new launch.Subscription(dto.subscription, account.autoRenew, account.monthlyPayment);
+			account.subscription = new launch.Subscription(dto.subscription, account.yearlyPayment, account.autoRenew);
 
 			// TODO: THESE NEED TO BE ADDED TO THE DB AND API. WILL NEED TO CHANGE toDto METHOD AS WELL!
 			account.pricePerMonth = account.subscription.pricePerMonth;
 			account.numberLicenses = account.subscription.numberLicenses;
 			account.accountExpirationDate = new Date();
+
+			account.paymentType = 'creditcard';
 
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;
@@ -96,7 +98,7 @@
 				country: account.country,
 				email: account.email,
 				phone: account.phoneNumber,
-				subscription: parseInt(account.subscription),
+				subscription: parseInt(account.subscription.id),
 				created_at: account.created,
 				updated_at: account.updated
 			};
@@ -121,12 +123,14 @@
 			account.created = cachedAccount.created;
 			account.updated = cachedAccount.updated;
 
-			account.monthlyPayment = cachedAccount.monthlyPayment;
+			account.yearlyPayment = cachedAccount.yearlyPayment;
 			account.autoRenew = cachedAccount.autoRenew;
 
-			account.subscription = new launch.Subscription(cachedAccount.subscription.id, account.autoRenew, account.monthlyPayment);
+			account.subscription = new launch.Subscription(cachedAccount.subscription.id, account.autoRenew, account.yearlyPayment);
 			account.pricePerMonth = account.subscription.pricePerMonth;
 			account.numberLicenses = account.subscription.numberLicenses;
+
+			account.paymentType = cachedAccount.paymentType;
 
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;
@@ -140,6 +144,11 @@
 			//account.creditCard.country = null;
 			//account.creditCard.state = null;
 			//account.creditCard.postalCode = null;
+
+			account.bankAccount = new launch.BankAccount();
+			//account.bankAccount.bankName = null;
+			//account.bankAccount.routingNumber = null;
+			//account.bankAccount.accountNumber = null;
 
 			if (account.country === 'US') {
 				account.country = 'USA';

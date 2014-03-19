@@ -12,13 +12,15 @@
 	self.country = null;
 	self.email = null;
 	self.phoneNumber = null;
-	self.subscription = null;
+	self.subscription = new launch.Subscription(1, false, false);
 	self.numberLicenses = null;
 	self.accountExpirationDate = null;
 	self.autoRenew = false;
-	self.monthlyPayment = true;
+	self.yearlyPayment = true;
 	self.pricePerMonth = null;
+	self.paymentType = 'creditcard';
 	self.creditCard = null;
+	self.bankAccount = null;
 	self.created = null;
 	self.updated = null;
 

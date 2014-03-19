@@ -94,7 +94,7 @@
 		</div>
 	</div>
 
-	<h2>Subscription Level</h2>
+	<h2>Subscription Info</h2>
 	
 	<div class="row">
 		<div class="col-md-6">
@@ -113,8 +113,8 @@
 			</div>
 			
 			<div class="control-group">
-				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radMonthly" ng-value="true" ng-model="selectedAccount.subscription.monthlyPayment" ng-change="toggleSubscription()" />Monthly Payment</label>
-				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radYearly" ng-value="false" ng-model="selectedAccount.subscription.monthlyPayment" ng-change="toggleSubscription()" />Yearly Payment (10% discount)</label>
+				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radMonthly" ng-value="false" ng-model="selectedAccount.subscription.yearlyPayment" ng-change="toggleSubscription()" />Monthly Payment</label>
+				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radYearly" ng-value="true" ng-model="selectedAccount.subscription.yearlyPayment" ng-change="toggleSubscription()" />Yearly Payment (10% discount)</label>
 			</div>
 
 			<div class="control-group">
@@ -146,82 +146,109 @@
 		</div>
 	</div>
 
-	<h2>Credit Card Info</h2>
+	<h2>Payment Info</h2>
+	
+	<div class="control-group">
+		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radCreditCard" ng-value="'creditcard'" ng-model="selectedAccount.paymentType" />Credit Card</label>
+		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radACH" ng-value="'ach'" ng-model="selectedAccount.paymentType" />ACH</label>
+	</div>
+	
+	<div ng-show="selectedAccount.paymentType === 'creditcard'">
+		<div class="control-group">
+			<div class="form-group">
+				<label class="control-label" for="txtNameOnCard">Name on Card</label>
+				<input type="text" id="txtNameOnCard" name="txtNameOnCard" class="form-control" ng-model="selectedAccount.creditCard.nameOnCard" />
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="txtCardNumber">Card Number</label>
+				<input type="text" id="txtCardNumber" name="txtCardNumber" class="form-control" ng-model="selectedAccount.creditCard.cardNumber" />
+			</div>
+		</div>
 
-	<div class="control-group">
-		<div class="form-group">
-			<label class="control-label" for="txtNameOnCard">Name on Card</label>
-			<input type="text" id="txtNameOnCard" name="txtNameOnCard" class="form-control" ng-model="selectedAccount.creditCard.nameOnCard" />
+		<div class="control-group">
+			<div class="form-group">
+				<label class="control-label" for="txtCVCNumber">CVC</label>
+				<input type="text" id="txtCVCNumber" name="txtCVCNumber" class="form-control" ng-model="selectedAccount.creditCard.cvc" />
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="selExpirationMonth">Expir. Month</label>
+				<select id="selExpirationMonth" name="selExpirationMonth" class="form-control" ng-model="selectedAccount.creditCard.expirationDateMonth">
+					<option value="1">Jan</option>
+					<option value="2">Feb</option>
+					<option value="3">Mar</option>
+					<option value="4">Apr</option>
+					<option value="5">May</option>
+					<option value="6">Jun</option>
+					<option value="7">Jul</option>
+					<option value="8">Aug</option>
+					<option value="9">Sep</option>
+					<option value="10">Oct</option>
+					<option value="11">Nov</option>
+					<option value="12">Dec</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="selExpirationYear">Expir. Year</label>
+				<select id="selExpirationYear" name="selExpirationYear" class="form-control" ng-model="selectedAccount.creditCard.expirationDateYear"></select>
+			</div>
 		</div>
-		<div class="form-group">
-			<label class="control-label" for="txtCardNumber">Card Number</label>
-			<input type="text" id="txtCardNumber" name="txtCardNumber" class="form-control" ng-model="selectedAccount.creditCard.cardNumber" />
+	
+		<div class="control-group">
+			<div class="form-group">
+				<label class="control-label" for="txtCCAddress1">Address 1</label>
+				<input type="text" id="txtCCAddress1" name="txtCCAddress1" class="form-control" ng-model="selectedAccount.creditCard.address1" />
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="txtCCAddress2">Address 2</label>
+				<input type="text" id="txtCCAddress2" name="txtCCAddress2" class="form-control" ng-model="selectedAccount.creditCard.address2" />
+			</div>
 		</div>
-	</div>
-
-	<div class="control-group">
-		<div class="form-group">
-			<label class="control-label" for="txtCVCNumber">CVC</label>
-			<input type="text" id="txtCVCNumber" name="txtCVCNumber" class="form-control" ng-model="selectedAccount.creditCard.cvc" />
+	
+		<div class="control-group">
+			<div class="form-group">
+				<label class="control-label" for="txtCCCity">City</label>
+				<input type="text" id="txtCCCity" name="txtCCCity" class="form-control" ng-model="selectedAccount.creditCard.city" />
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="selCCCountry">Country</label>
+				<select id="selCCCountry" name="selCCCountry" class="form-control" ng-model="selectedAccount.creditCard.country">
+					<option value="Australia">Australia</option>
+					<option value="Canada">Canada</option>
+					<option value="UK">UK</option>
+					<option value="USA">USA</option>
+				</select>
+			</div>
 		</div>
-		<div class="form-group">
-			<label class="control-label" for="selExpirationMonth">Expir. Month</label>
-			<select id="selExpirationMonth" name="selExpirationMonth" class="form-control" ng-model="selectedAccount.creditCard.expirationDateMonth">
-				<option value="1">Jan</option>
-				<option value="2">Feb</option>
-				<option value="3">Mar</option>
-				<option value="4">Apr</option>
-				<option value="5">May</option>
-				<option value="6">Jun</option>
-				<option value="7">Jul</option>
-				<option value="8">Aug</option>
-				<option value="9">Sep</option>
-				<option value="10">Oct</option>
-				<option value="11">Nov</option>
-				<option value="12">Dec</option>
-			</select>
-		</div>
-		<div class="form-group">
-			<label class="control-label" for="selExpirationYear">Expir. Year</label>
-			<select id="selExpirationYear" name="selExpirationYear" class="form-control" ng-model="selectedAccount.creditCard.expirationDateYear"></select>
+	
+		<div class="control-group">
+			<div class="form-group">
+				<label class="control-label" for="selCCState">State</label>
+				<select id="selCCState" name="selCCState" class="form-control" ng-model="selectedAccount.creditCard.state" ng-options="s.name for s in getStates(true) track by s.value"></select>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="txtCCPostalCode">Postal Code</label>
+				<input type="text" id="txtCCPostalCode" name="txtCCPostalCode" class="form-control" ng-model="selectedAccount.creditCard.postalCode" />
+			</div>
 		</div>
 	</div>
 	
-	<div class="control-group">
-		<div class="form-group">
-			<label class="control-label" for="txtCCAddress1">Address 1</label>
-			<input type="text" id="txtCCAddress1" name="txtCCAddress1" class="form-control" ng-model="selectedAccount.creditCard.address1" />
+	<div ng-show="selectedAccount.paymentType === 'ach'">
+		<div class="control-group">
+			<div class="form-group">
+				<label class="control-label" for="txtBankName">Bank Name</label>
+				<input type="text" id="txtBankName" name="txtBankName" class="form-control" ng-model="selectedAccount.bankAccount.bankName" />
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="txtRoutingNumber">Routing Number</label>
+				<input type="text" id="txtRoutingNumber" name="txtRoutingNumber" class="form-control" ng-model="selectedAccount.bankAccount.routingNumber" />
+			</div>
 		</div>
-		<div class="form-group">
-			<label class="control-label" for="txtCCAddress2">Address 2</label>
-			<input type="text" id="txtCCAddress2" name="txtCCAddress2" class="form-control" ng-model="selectedAccount.creditCard.address2" />
-		</div>
-	</div>
-	
-	<div class="control-group">
-		<div class="form-group">
-			<label class="control-label" for="txtCCCity">City</label>
-			<input type="text" id="txtCCCity" name="txtCCCity" class="form-control" ng-model="selectedAccount.creditCard.city" />
-		</div>
-		<div class="form-group">
-			<label class="control-label" for="selCCCountry">Country</label>
-			<select id="selCCCountry" name="selCCCountry" class="form-control" ng-model="selectedAccount.creditCard.country">
-				<option value="Australia">Australia</option>
-				<option value="Canada">Canada</option>
-				<option value="UK">UK</option>
-				<option value="USA">USA</option>
-			</select>
-		</div>
-	</div>
-	
-	<div class="control-group">
-		<div class="form-group">
-			<label class="control-label" for="selCCState">State</label>
-			<select id="selCCState" name="selCCState" class="form-control" ng-model="selectedAccount.creditCard.state" ng-options="s.name for s in getStates(true) track by s.value"></select>
-		</div>
-		<div class="form-group">
-			<label class="control-label" for="txtCCPostalCode">Postal Code</label>
-			<input type="text" id="txtCCPostalCode" name="txtCCPostalCode" class="form-control" ng-model="selectedAccount.creditCard.postalCode" />
+		
+		<div class="control-group">
+			<div class="form-group">
+				<label class="control-label" for="txtAccountNumber">Account Number</label>
+				<input type="text" id="txtAccountNumber" name="txtAccountNumber" class="form-control" ng-model="selectedAccount.bankAccount.accountNumber" />
+			</div>
 		</div>
 	</div>
 
