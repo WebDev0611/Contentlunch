@@ -2,7 +2,7 @@
 	var resource = $resource('/api/role/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.role.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.role.parseResponse },
-		update: { method: 'PUT', transformRequest: ModelMapperService.role.toDto, transformResponse: ModelMapperService.role.parseResponse }
+		update: { method: 'PUT', transformRequest: ModelMapperService.role.formatRequest, transformResponse: ModelMapperService.role.parseResponse }
 	});
 
 	return {

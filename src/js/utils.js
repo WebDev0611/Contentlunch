@@ -59,15 +59,17 @@
 
 		if (launch.utils.isBlank(err)) {
 			if (!!response.data) {
-				err = (!launch.utils.isBlank(response.data.message)) ? response.data.message : null;
-				type = (!launch.utils.isBlank(response.data.type)) ? response.data.type : null;
-				file = (!launch.utils.isBlank(response.data.file)) ? response.data.file : null;
-				line = (!launch.utils.isBlank(response.data.line)) ? response.data.line : null;
-			} else if (!!response.data.error) {
-				err = (!launch.utils.isBlank(response.data.error.message)) ? response.data.error.message : null;
-				type = (!launch.utils.isBlank(response.data.error.type)) ? response.data.error.type : null;
-				file = (!launch.utils.isBlank(response.data.error.file)) ? response.data.error.file : null;
-				line = (!launch.utils.isBlank(response.data.error.line)) ? response.data.error.line : null;
+				if (!!response.data.error) {
+					err = (!launch.utils.isBlank(response.data.error.message)) ? response.data.error.message : null;
+					type = (!launch.utils.isBlank(response.data.error.type)) ? response.data.error.type : null;
+					file = (!launch.utils.isBlank(response.data.error.file)) ? response.data.error.file : null;
+					line = (!launch.utils.isBlank(response.data.error.line)) ? response.data.error.line : null;
+				} else {
+					err = (!launch.utils.isBlank(response.data.message)) ? response.data.message : null;
+					type = (!launch.utils.isBlank(response.data.type)) ? response.data.type : null;
+					file = (!launch.utils.isBlank(response.data.file)) ? response.data.file : null;
+					line = (!launch.utils.isBlank(response.data.line)) ? response.data.line : null;
+				}
 			}
 		}
 

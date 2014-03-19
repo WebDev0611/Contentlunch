@@ -2,8 +2,8 @@ launch.module.factory('UserService', function ($resource, $http, $upload, Accoun
 	var users = $resource('/api/user/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.user.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
-		update: { method: 'PUT', transformRequest: ModelMapperService.user.toDto, transformResponse: ModelMapperService.user.parseResponse },
-		insert: { method: 'POST', transformRequest: ModelMapperService.user.toDto, transformResponse: ModelMapperService.user.parseResponse },
+		update: { method: 'PUT', transformRequest: ModelMapperService.user.formatRequest, transformResponse: ModelMapperService.user.parseResponse },
+		insert: { method: 'POST', transformRequest: ModelMapperService.user.formatRequest, transformResponse: ModelMapperService.user.parseResponse },
 		delete: { method: 'DELETE' }
 	});
 

@@ -1,10 +1,12 @@
-﻿launch.module.directive('userForm', function ($modal, $upload, AuthService, RoleService, UserService, NotificationService) {
+﻿launch.module.directive('userForm', function ($modal, $upload, AuthService, RoleService, UserService, AccountService, NotificationService) {
 	var link = function (scope, element, attrs) {
 		var self = this;
 
+		self.loggedInUser = null;
 		self.forceDirty = false;
 
-		self.init = function() {
+		self.init = function () {
+			self.loggedInUser = AuthService.userInfo();
 			scope.roles = RoleService.query();
 		};
 
@@ -63,14 +65,11 @@
 			}
 
 			var method = isNew ? UserService.add : UserService.update;
-
-			scope.isSaving = true;
-
-			method(scope.selectedUser, {
+			var callback = {
 				success: function (r) {
 					scope.isSaving = false;
 
-					var successMsg = 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.username + '\'s') + ' user settings!';
+					var successMsg = isNew ? 'You have successfully created ' + r.formatName() + '\'s account.' : 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.formatName() + '\'s') + ' user settings!';
 
 					NotificationService.success('Success!', successMsg);
 
@@ -82,6 +81,34 @@
 					scope.isSaving = false;
 
 					launch.utils.handleAjaxErrorResponse(r, NotificationService);
+				}
+			};
+
+			if (isNew) {
+				scope.selectedUser.account = self.loggedInUser.account;
+				scope.selectedUser.accounts.push(scope.selectedUser.account);
+				scope.selectedUser.roles.push(scope.selectedUser.role);
+			}
+
+			scope.isSaving = true;
+
+			method(scope.selectedUser, {
+				success: function(r) {
+					if (!!scope.selectedUser.account) {
+						AccountService.addUser(scope.selectedUser.account.id, r.id, {
+							success: function(rs) {
+								callback.success(r);
+							},
+							error: function(rs) {
+								callback.error(rs);
+							}
+						});
+					} else {
+						callback.success(r);
+					}
+				},
+				error: function(r) {
+					callback.error(r);
 				}
 			});
 		};
@@ -99,7 +126,7 @@
 								success: function(r) {
 									scope.isSaving = false;
 
-									var successMsg = 'You have successfully deleted ' + r.username + '!';
+									var successMsg = 'You have successfully deleted ' + scope.selectedUser.formatName() + '!';
 
 									NotificationService.success('Success!', successMsg);
 
@@ -177,11 +204,11 @@
 				return false;
 			}
 
-			return (!scope.selectedUser || (!scope.selectedUser.$resolved && scope.selfEditing)) ? null : scope.selectedUser.validateProperty(property);
+			return (!scope.selectedUser || !$.isFunction(scope.selectedUser.formatName) || (!scope.selectedUser.$resolved && scope.selfEditing)) ? null : scope.selectedUser.validateProperty(property);
 		};
 
 		scope.errorState = function (property, control) {
-			if (!control || !scope.selectedUser || (!scope.selectedUser.$resolved && scope.selfEditing)) {
+			if (!control || !scope.selectedUser || !$.isFunction(scope.selectedUser.formatName)|| (!scope.selectedUser.$resolved && scope.selfEditing)) {
 				return false;
 			}
 
