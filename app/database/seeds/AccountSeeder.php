@@ -15,13 +15,22 @@ class AccountSeeder extends Seeder {
     $account->city = 'Bellevue';
     $account->state = 'WA';
     $account->phone = '866-991-6883';
-    $account->subscription = 1;
     $account->country = 'US';
     $account->zipcode = '98005';
     $account->email = 'info@surgeforward.com';
-    $account->expiration_date = $expiration;
-    $account->licenses = 20;
 		$account->save();
+
+    $sub = new Subscription;
+    $sub->account_id = $account->id;
+    $sub->auto_renew = true;
+    $sub->expiration_date = $expiration;
+    $sub->licenses = 20;
+    $sub->payment_type = 'CC';
+    $sub->subscription = 1;  
+    $sub->token = 12345;
+    $sub->yearly_payment = false;
+    $sub->save();
+
 	}
 
 }

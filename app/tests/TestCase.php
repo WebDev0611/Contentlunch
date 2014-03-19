@@ -143,7 +143,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         'licenses' => 20,
         'created_at' => $this->now,
         'updated_at' => $this->now,
-        'expiration_date' => strtotime('+30 days')
+        'expiration_date' => strtotime('+30 days'),
+        'auto_renew' => true,
+        'yearly_payment' => true,
+        'payment_type' => 'CC',
+        'token' => '1123312312313'
       ),
       2 => array(
         'id' => 2,
@@ -162,7 +166,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         'licenses' => 0,
         'created_at' => $this->now,
         'updated_at' => $this->now,
-        'expiration_date' => strtotime('-30 days')
+        'expiration_date' => strtotime('-30 days'),
+        'auto_renew' => false,
+        'yearly_payment' => false,
+        'payment_type' => 'ACH',
+        'token' => '1123313'
       )
     );
     if ($id) {
@@ -217,6 +225,10 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     $this->assertEquals($expect['zipcode'], $account->zipcode, $err .' ->zipcode');
     $this->assertEquals($expect['email'], $account->email, $err .' ->email');
     $this->assertEquals($expect['licenses'], $account->licenses, $err .' ->licenses');
+    $this->assertEquals($expect['auto_renew'], $account->auto_renew, $err .' ->auto_renew');
+    $this->assertEquals($expect['yearly_payment'], $account->yearly_payment, $err .' ->yearly_payment');
+    $this->assertEquals($expect['payment_type'], $account->payment_type, $err .' ->payment_type');
+    $this->assertEquals($expect['token'], $account->token, $err .' ->token');
     $this->assertNotEmpty($account->created_at, $err .' ->created_at');
     $this->assertNotEmpty($account->updated_at, $err .' ->updated_at');
     $this->assertObjectHasAttribute('expiration_date', $account, $err .' ->expiration_date');

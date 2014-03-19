@@ -33,11 +33,17 @@ class Account extends Ardent {
 	 * @var array
 	 */
 	protected $fillable = array('title', 'active', 'address', 'address_2', 'name', 'city',
-		'state', 'phone', 'subscription', 'country', 'zipcode', 'email', 'licenses');
+		'state', 'phone', 'subscription', 'country', 'zipcode', 'email', 'licenses',
+		'auto_renew', 'yearly_payment', 'payment_type', 'token');
 
 	protected function getDateFormat()
   {
     return 'Y-m-d H:i:s';
+  }
+
+  public function subscription()
+  {
+  	return $this->hasOne('Subscription', 'account_id', 'id');
   }
 
 	/**
