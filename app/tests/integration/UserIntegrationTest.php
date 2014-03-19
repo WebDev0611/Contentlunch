@@ -201,19 +201,21 @@ class UserIntegrationTest extends TestCase {
 		$this->assertEquals($expect['email'], $user->email);
 	}
 
-	public function testDestroy()
+	public function testDestroyWithSoftDeletes()
 	{
-		// @todo: Implement soft delete?
 		$this->setupTestUsers();
 		$this->setupTestRoles();
 		$this->setupAttachUserToRole(1, 1);
 		$response = $this->call('DELETE', 'api/user/1');
 		$this->assertResponseOk();
 		$response = json_decode($response->getContent());
-		// @todo: Determine a common response to use here
 		$this->assertEquals('OK', $response->success);
-		$id = DB::table('users')->where('id', 1)->pluck('id');
-		$this->assertEmpty($id);
+		// User just deleted shouldn't be in query lists
+		$response = $this->call('GET', '/api/user');
+		$users = json_decode($response->getContent());
+		foreach ($users as $user) {
+			$this->assertNotEquals($user->id, 1);
+		}
 	}
 
 }

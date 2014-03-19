@@ -23,6 +23,8 @@ class User extends ConfideUser {
     'password' => 'required|between:4,11|confirmed'
   );
 
+  protected $softDelete = true;
+
   protected function getDateFormat()
   {
     return 'Y-m-d H:i:s';
