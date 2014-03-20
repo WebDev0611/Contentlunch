@@ -4,9 +4,7 @@ class AccountController extends BaseController {
 
 	public function index()
 	{
-		return Account::countusers()->with(array('subscription' => function ($query) {
-			$query->orderBy('id', 'desc');
-		}))->get();
+		return Account::countusers()->get();
 	}
 
 	public function store()

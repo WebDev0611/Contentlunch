@@ -23,7 +23,7 @@ Route::group(array('prefix' => 'api'), function()
 
 	Route::get('account/{id}/users', 'AccountController@get_users');
 
-	//Route::get('account/{id}/subscription', 'SubscriptionController@get_subscription');
+	Route::get('account/{id}/subscription', 'SubscriptionController@get_subscription');
 	Route::post('account/{id}/subscription', 'SubscriptionController@post_subscription');
 
 	Route::group(array('prefix' => 'auth'), function() {

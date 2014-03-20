@@ -77,6 +77,10 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     ));
   }
 
+  protected function setupAttachAccountSubs($account_id, $sub_id) {
+
+  }
+
   /**
    * Test data for roles
    */
@@ -179,6 +183,25 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
       return $accounts[$id];
     }
     return $accounts;
+  }
+
+  protected function getTestSubscriptions() {
+    $subs = array(
+      1 => array(
+        'id' => 1,
+        'account_id' => 1,
+        'auto_renew' => 1,
+        'subscription_date' => $this->now,
+        'licenses' => 20,
+        'payment_type' => 'CC',
+        'subscription' => 1,
+        'token' => '4321',
+        'yearly_payment' => 0,
+        'created_at' => $this->now,
+        'updated_at' => $this->now
+      )
+    );
+    return $subs;
   }
 
 
