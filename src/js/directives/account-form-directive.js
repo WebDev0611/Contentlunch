@@ -181,7 +181,7 @@
 						scp.cancelButtonText = 'Don\'t Cancel';
 						scp.onOk = function () {
 							scope.isSaving = true;
-							scope.selectedAccount.active = 'inactive';
+							scope.selectedAccount.active = false;
 
 							AccountService.update(scope.selectedAccount, {
 								success: function(r) {

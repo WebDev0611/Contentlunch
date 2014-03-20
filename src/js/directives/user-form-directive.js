@@ -95,8 +95,8 @@
 			scope.isSaving = true;
 
 			method(scope.selectedUser, {
-				success: function(r) {
-					if (!!scope.selectedUser.account) {
+				success: function (r) {
+					if (isNew && !!scope.selectedUser.account) {
 						AccountService.addUser(scope.selectedUser.account.id, r.id, {
 							success: function(rs) {
 								callback.success(r);

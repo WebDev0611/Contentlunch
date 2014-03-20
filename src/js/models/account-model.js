@@ -3,7 +3,7 @@
 
 	self.id = null;
 	self.title = null;
-	self.active = 'active';
+	self.active = true;
 	self.address1 = null;
 	self.address2 = null;
 	self.city = null;
@@ -56,7 +56,10 @@
 			case 'country':
 				return launch.utils.isBlank(this.country) ? 'Country is required.' : null;
 			case 'active':
-				return launch.utils.isBlank(this.active) ? 'Active Status is required.' : null;
+				if (typeof this.active !== 'boolean') {
+					this.active = (this.active === 1 || this.active === '1' || this.active.toLowerCase() === 'true');
+				}
+				return (this.active === true || this.active === false) ? null : 'Active Status is required.';
 			case 'numberLicenses':
 				if (launch.utils.isBlank(this.numberLicenses) || isNaN(this.numberLicenses)) {
 					return 'Number of Users must be a number.';
