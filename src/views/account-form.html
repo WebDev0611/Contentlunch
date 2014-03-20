@@ -104,7 +104,7 @@
 						Subscription Level
 						<span class="error-message" error-message message="errorMessage('subscription', editAccount.selSubscription)"></span>
 					</label>
-					<select id="selSubscription" name="selSubscription" class="form-control" ng-model="selectedAccount.subscription.id" ng-change="toggleSubscription()">
+					<select id="selSubscription" name="selSubscription" class="form-control" ng-model="selectedAccount.subscription.id" ng-change="selectedAccount.subscription.changeTier()">
 						<option value="1">Tier 1</option>
 						<option value="2">Tier 2</option>
 						<option value="3">Tier 3</option>
@@ -113,8 +113,8 @@
 			</div>
 			
 			<div class="control-group">
-				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radMonthly" ng-value="false" ng-model="selectedAccount.subscription.yearlyPayment" ng-change="toggleSubscription()" />Monthly Payment</label>
-				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radYearly" ng-value="true" ng-model="selectedAccount.subscription.yearlyPayment" ng-change="toggleSubscription()" />Yearly Payment (10% discount)</label>
+				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radMonthly" ng-value="false" ng-model="selectedAccount.subscription.yearlyPayment" ng-change="selectedAccount.subscription.changePaymentPeriod()" />Monthly Payment</label>
+				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radYearly" ng-value="true" ng-model="selectedAccount.subscription.yearlyPayment" ng-change="selectedAccount.subscription.changePaymentPeriod()" />Yearly Payment (10% discount)</label>
 			</div>
 
 			<div class="control-group">
@@ -127,7 +127,7 @@
 			</div>
 			
 			<div class="control-group">
-				Account Renew/Expiration Date: <span ng-bind="selectedAccount.formattedExpirationDate()"></span>
+				Account Renew/Expiration Date: <span ng-bind="selectedAccount.subscription.formattedExpirationDate()"></span>
 			</div>
 			
 			<div class="control-group">
@@ -149,11 +149,11 @@
 	<h2>Payment Info</h2>
 	
 	<div class="control-group">
-		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radCreditCard" ng-value="'creditcard'" ng-model="selectedAccount.paymentType" />Credit Card</label>
-		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radACH" ng-value="'ach'" ng-model="selectedAccount.paymentType" />ACH</label>
+		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radCreditCard" ng-value="'CC'" ng-model="selectedAccount.subscription.paymentType" />Credit Card</label>
+		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radACH" ng-value="'ACH'" ng-model="selectedAccount.subscription.paymentType" />ACH</label>
 	</div>
 	
-	<div ng-show="selectedAccount.paymentType === 'creditcard'">
+	<div ng-show="selectedAccount.subscription.paymentType === 'CC'">
 		<div class="control-group">
 			<div class="form-group">
 				<label class="control-label" for="txtNameOnCard">Name on Card</label>
@@ -232,7 +232,7 @@
 		</div>
 	</div>
 	
-	<div ng-show="selectedAccount.paymentType === 'ach'">
+	<div ng-show="selectedAccount.subscription.paymentType === 'ACH'">
 		<div class="control-group">
 			<div class="form-group">
 				<label class="control-label" for="txtBankName">Bank Name</label>

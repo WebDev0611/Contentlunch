@@ -1,35 +1,56 @@
-﻿launch.Subscription = function(id, yearly, autoRenew) {
+﻿launch.Subscription = function(id) {
 	var self = this;
-	var price = 0;
 
 	if (!id || isNaN(id) || id <= 0 || id > 3) {
 		return null;
 	}
 
 	self.id = parseInt(id);
-
-	self.numberLicenses = (self.id === 1 ? 5 : (self.id === 2 ? 10 : 20));
-	self.yearlyPayment = (yearly === true) ? true : false;
-	self.autoRenew = (autoRenew === true) ? true : false;
+	self.autoRenew = false;
+	self.expirationDate = null;
+	self.paymentType = null;
 	self.training = true;
-	self.features = (self.id === 1 ? [] : (self.id === 2 ? ['API', 'Premium Support'] : ['API', 'Premium Support', 'Custom Reporting', 'Advanced Security']));
 
-	price = (self.id === 1 ? 300 : (self.id === 2 ? 500 : 700));
+	self.created = null;
+	self.updated = null;
 
-	if (self.yearlyPayment === true) {
-		price = (price * 0.9);
-	}
+	self.formattedExpirationDate = function () {
+		return launch.utils.formatDate(self.expirationDate);
+	};
 
-	self.pricePerMonth = launch.utils.formatCurrency(price);
+	self.changeTier = function () {
+		if (typeof self.id === 'string') {
+			self.id = parseInt(self.id);
+		}
 
-	self.components = [
-		{ name: 'create', title: 'CREATE', active: true },
-		{ name: 'calendar', title: 'CALENDAR', active: true },
-		{ name: 'launch', title: 'LAUNCH', active: true },
-		{ name: 'measure', title: 'MEASURE', active: true },
-		{ name: 'collaborate', title: 'COLLABORATE', active: self.id >= 2 },
-		{ name: 'consult', title: 'CONSULT', active: self.id >= 3 }
-	];
+		self.features = (self.id === 1 ? [] : (self.id === 2 ? ['API', 'Premium Support'] : ['API', 'Premium Support', 'Custom Reporting', 'Advanced Security']));
+		self.numberLicenses = (self.id === 1 ? 5 : (self.id === 2 ? 10 : 20));
+
+		self.components = [
+			{ name: 'create', title: 'CREATE', active: true },
+			{ name: 'calendar', title: 'CALENDAR', active: true },
+			{ name: 'launch', title: 'LAUNCH', active: true },
+			{ name: 'measure', title: 'MEASURE', active: true },
+			{ name: 'collaborate', title: 'COLLABORATE', active: self.id >= 2 },
+			{ name: 'consult', title: 'CONSULT', active: self.id >= 3 }
+		];
+
+		return self.changePaymentPeriod();
+	};
+
+	self.changePaymentPeriod = function() {
+		var price = (self.id === 1 ? 300 : (self.id === 2 ? 500 : 700));
+
+		if (self.yearlyPayment === true) {
+			price = (price * 0.9);
+		}
+
+		self.pricePerMonth = launch.utils.formatCurrency(price);
+
+		return self;
+	};
+
+	self = self.changeTier();
 
 	return self;
 };

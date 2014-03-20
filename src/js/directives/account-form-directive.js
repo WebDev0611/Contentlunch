@@ -159,10 +159,6 @@
 			NotificationService.info('Warning!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
 		};
 
-		scope.toggleSubscription = function() {
-			scope.selectedAccount.subscription = new launch.Subscription(scope.selectedAccount.subscription.id, scope.selectedAccount.subscription.yearlyPayment, scope.selectedAccount.subscription.autoRenew);
-		};
-
 		scope.$watch(function(account) {
 			scope.creatingNew = (!!account && !launch.utils.isBlank(account.id));
 		});
