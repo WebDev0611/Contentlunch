@@ -9,7 +9,15 @@ launch.module.controller('AccountController', [
 		$scope.selectedAccount = null;
 
 		$scope.refreshMethod = function() {
-			$scope.selectedAccount = authService.accountInfo();
+			var tempAccount = authService.accountInfo();
+
+			// Get the latest version of the account from the database.
+			$scope.selectedAccount = accountService.get(tempAccount.id, {
+				success: function (account) {
+					sessionService.set(sessionService.ACCOUNT_KEY, $scope.selectedAccount);
+				}
+			});
+
 
 			if (!$scope.selectedAccount) {
 				$location.path('/login');

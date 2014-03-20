@@ -12,19 +12,21 @@
 
 		scope.isLoading = false;
 		scope.isSaving = false;
-		scope.creatingNew = false;
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
 				$modal.open({
-					templateUrl: 'confirm-cancel.html',
+					templateUrl: 'confirm.html',
 					controller: [
 						'$scope', '$modalInstance', function(scp, instance) {
-							scp.save = function() {
+							scp.message = 'You have not saved your changes. Are you sure you want to cancel?';
+							scp.okButtonText = 'Save Changes';
+							scp.cancelButtonText = 'Discard Changes';
+							scp.onOk = function () {
 								scope.saveAccount(form);
 								instance.close();
 							};
-							scp.cancel = function() {
+							scp.onCancel = function () {
 								self.discardChanges(form);
 								instance.dismiss('cancel');
 							};
@@ -84,11 +86,13 @@
 
 		scope.deleteAccount = function(form) {
 			$modal.open({
-				templateUrl: 'confirm-delete.html',
+				templateUrl: 'confirm.html',
 				controller: [
 					'$scope', '$modalInstance', function (scp, instance) {
-						scp.deleteType = 'account';
-						scp.delete = function() {
+						scp.message = 'Are you sure you want to delete this account?';
+						scp.okButtonText = 'Delete';
+						scp.cancelButtonText = 'Cancel';
+						scp.onOk = function () {
 							scope.isSaving = true;
 
 							AccountService.delete(scope.selectedAccount, {
@@ -111,7 +115,7 @@
 							});
 							instance.close();
 						};
-						scp.cancel = function() {
+						scp.onCancel = function () {
 							instance.dismiss('cancel');
 						};
 					}
@@ -163,9 +167,41 @@
 			NotificationService.info('Warning!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
 		};
 
-		scope.$watch(function(account) {
-			scope.creatingNew = (!!account && !launch.utils.isBlank(account.id));
-		});
+		scope.renewAccount = function() {
+			NotificationService.info('WARNING!', 'This has not yet been implemented!');
+		};
+
+		scope.cancelAccount = function() {
+			$modal.open({
+				templateUrl: 'confirm.html',
+				controller: [
+					'$scope', '$modalInstance', function (scp, instance) {
+						scp.message = 'Are you sure you want to Cancel your account? This will close your account and prevent all access.';
+						scp.okButtonText = 'Yes, Cancel';
+						scp.cancelButtonText = 'Don\'t Cancel';
+						scp.onOk = function () {
+							scope.isSaving = true;
+							scope.selectedAccount.active = 'inactive';
+
+							AccountService.update(scope.selectedAccount, {
+								success: function(r) {
+									scope.isSaving = false;
+								},
+								error: function (r) {
+									scope.isSaving = false;
+
+									launch.utils.handleAjaxErrorResponse(r, NotificationService);
+								}
+							});
+							instance.close();
+						};
+						scp.onCancel = function () {
+							instance.dismiss('cancel');
+						};
+					}
+				]
+			});
+		};
 	};
 
 	return {
@@ -174,7 +210,8 @@
 			selectedAccount: '=selectedAccount',
 			refreshMethod: '=refreshMethod',
 			afterSaveSuccess: '=afterSaveSuccess',
-			selfEditing: '=selfEditing'
+			selfEditing: '=selfEditing',
+			creatingNew: '=creatingNew'
 		},
 		templateUrl: '/assets/views/account-form.html'
 	};

@@ -49,14 +49,18 @@
 			account.created = dto.created_at;
 			account.updated = dto.updated_at;
 
-			account.subscription = new launch.Subscription(dto.subscription.subscription);
-			account.subscription.autoRenew = (parseInt(dto.subscription.auto_renew) === 1);
-			account.subscription.expirationDate = new Date(dto.subscription.expiration_date);
-			account.subscription.numberLicenses = parseInt(dto.subscription.licenses);
-			account.subscription.paymentType = dto.subscription.payment_type;
-			account.subscription.yearlyPayment = (parseInt(dto.subscription.yearly_payment) === 1);
-			account.subscription.created = new Date(dto.subscription.created_at);
-			account.subscription.updated = new Date(dto.subscription.updated_at);
+			if (!!dto.subscription) {
+				account.subscription = new launch.Subscription(dto.subscription.subscription);
+				account.subscription.autoRenew = (parseInt(dto.subscription.auto_renew) === 1);
+				account.subscription.expirationDate = new Date(dto.subscription.expiration_date);
+				account.subscription.numberLicenses = parseInt(dto.subscription.licenses);
+				account.subscription.paymentType = dto.subscription.payment_type;
+				account.subscription.yearlyPayment = (parseInt(dto.subscription.yearly_payment) === 1);
+				account.subscription.created = new Date(dto.subscription.created_at);
+				account.subscription.updated = new Date(dto.subscription.updated_at);
+			} else {
+				account.subscription = null;
+			}
 
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;
@@ -96,10 +100,11 @@
 				country: account.country,
 				email: account.email,
 				phone: account.phoneNumber,
-				subscription: parseInt(account.subscription.id),
 				created_at: account.created,
 				updated_at: account.updated
 			};
+
+			// TODO: HOW DO WE HANDLE SETTING THE ACCOUNT'S SUBSCRIPTION?
 
 			return dto;
 		},
@@ -120,14 +125,16 @@
 			account.created = cachedAccount.created;
 			account.updated = cachedAccount.updated;
 
-			account.subscription = new launch.Subscription(cachedAccount.subscription.id);
-			account.subscription.autoRenew = cachedAccount.subscription.autoRenew;
-			account.subscription.expirationDate = new Date(cachedAccount.subscription.expirationDate);
-			account.subscription.numberLicenses = parseInt(cachedAccount.subscription.numberLicenses);
-			account.subscription.paymentType = cachedAccount.subscription.paymentType;
-			account.subscription.yearlyPayment = cachedAccount.subscription.yearlyPayment;
-			account.subscription.created = new Date(cachedAccount.subscription.created);
-			account.subscription.updated = new Date(cachedAccount.subscription.updated);
+			if (!!cachedAccount.subscription) {
+				account.subscription = new launch.Subscription(cachedAccount.subscription.id);
+				account.subscription.autoRenew = cachedAccount.subscription.autoRenew;
+				account.subscription.expirationDate = new Date(cachedAccount.subscription.expirationDate);
+				account.subscription.numberLicenses = parseInt(cachedAccount.subscription.numberLicenses);
+				account.subscription.paymentType = cachedAccount.subscription.paymentType;
+				account.subscription.yearlyPayment = cachedAccount.subscription.yearlyPayment;
+				account.subscription.created = new Date(cachedAccount.subscription.created);
+				account.subscription.updated = new Date(cachedAccount.subscription.updated);
+			}
 
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;

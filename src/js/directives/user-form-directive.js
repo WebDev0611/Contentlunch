@@ -20,21 +20,23 @@
 		scope.photoFile = null;
 		scope.isLoading = false;
 		scope.isSaving = false;
-		scope.creatingNew = false;
 		scope.isUploading = false;
 		scope.percentComplete = 0;
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
 				$modal.open({
-					templateUrl: 'confirm-cancel.html',
+					templateUrl: 'confirm.html',
 					controller: [
 						'$scope', '$modalInstance', function(scp, instance) {
-							scp.save = function () {
+							scp.message = 'You have not saved your changes. Are you sure you want to cancel?';
+							scp.okButtonText = 'Save Changes';
+							scp.cancelButtonText = 'Discard Changes';
+							scp.onOk = function () {
 								scope.saveUser(form);
 								instance.close();
 							};
-							scp.cancel = function () {
+							scp.onCancel = function () {
 								self.discardChanges(form);
 								instance.dismiss('cancel');
 							};
@@ -115,11 +117,13 @@
 
 		scope.deleteUser = function(form) {
 			$modal.open({
-				templateUrl: 'confirm-delete.html',
+				templateUrl: 'confirm.html',
 				controller: [
 					'$scope', '$modalInstance', function (scp, instance) {
-						scp.deleteType = 'user';
-						scp.delete = function () {
+						scp.message = 'Are you sure you want to delete this user?';
+						scp.okButtonText = 'Delete';
+						scp.cancelButtonText = 'Cancel';
+						scp.onOk = function () {
 							scope.isSaving = true;
 
 							UserService.delete(scope.selectedUser, {
@@ -142,7 +146,7 @@
 							});
 							instance.close();
 						};
-						scp.cancel = function () {
+						scp.onCancel = function () {
 							instance.dismiss('cancel');
 						};
 					}
@@ -292,10 +296,6 @@
 			});
 		};
 
-		scope.$watch(scope.selectedUser, function (user) {
-			scope.creatingNew = (!!user && !launch.utils.isBlank(user.id));
-		});
-
 		self.init();
 	};
 
@@ -305,7 +305,8 @@
 			selectedUser: '=selectedUser',
 			refreshMethod: '=refreshMethod',
 			afterSaveSuccess: '=afterSaveSuccess',
-			selfEditing: '=selfEditing'
+			selfEditing: '=selfEditing',
+			creatingNew: '=creatingNew'
 		},
 		templateUrl: '/assets/views/user-form.html'
 	};

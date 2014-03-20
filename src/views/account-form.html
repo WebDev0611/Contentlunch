@@ -131,12 +131,17 @@
 			</div>
 			
 			<div class="control-group">
-				<div class="form-group" ng-class="{ 'has-error': errorState('numberLicenses', editAccount.txtMaxNumUsers) }">
+				<div class="form-group" ng-class="{ 'has-error': errorState('numberLicenses', editAccount.txtMaxNumUsers) }" ng-hide="selfEditing">
 					<label class="control-label" for="txtMaxNumUsers">
 						Max # of Users
 						<span class="error-message" error-message message="errorMessage('numberLicenses', editAccount.txtMaxNumUsers)"></span>
 					</label>
 					<input type="text" required="required" id="txtMaxNumUsers" name="txtMaxNumUsers" class="form-control" ng-model="selectedAccount.subscription.numberLicenses" ng-disabled="selfEditing" />
+				</div>
+				
+				<div ng-show="selfEditing">
+					<button type="button" class="btn btn-default" ng-show="!selectedAccount.subscription.autoRenew" ng-click="renewAccount()">Renew Account</button>
+					<button type="button" class="btn btn-default" ng-click="cancelAccount()">Cancel Account</button>
 				</div>
 			</div>
 		</div>
