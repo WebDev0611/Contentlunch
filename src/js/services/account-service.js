@@ -52,8 +52,14 @@
 
 			return resource.insert({ id: accountId }, userId, success, error);
 		},
-		getNewAccount: function() {
-			return new launch.Account();
+		getNewAccount: function () {
+			var account = new launch.Account();
+
+			account.creditCard = new launch.CreditCard();
+			account.bankAccount = new launch.BankAccount();
+			account.subscription = new launch.Subscription(1);
+
+			return account;
 		}
 	};
 });

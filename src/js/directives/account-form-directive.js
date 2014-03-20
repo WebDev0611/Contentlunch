@@ -59,7 +59,11 @@
 			scope.isSaving = true;
 
 			method(scope.selectedAccount, {
-				success: function(r) {
+				success: function (r) {
+					if (isNew) {
+						// TODO: WE NEED TO MAKE A CALL TO SAVE THE SUBSCRIPTION FOR THE ACCOUNT AS WELL!
+					}
+
 					scope.isSaving = false;
 
 					var successMsg = 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.title + '\'s') + ' account settings!';

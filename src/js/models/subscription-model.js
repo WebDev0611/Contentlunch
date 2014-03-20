@@ -8,14 +8,15 @@
 	self.id = parseInt(id);
 	self.autoRenew = false;
 	self.expirationDate = null;
-	self.paymentType = null;
+	self.paymentType = 'CC';
 	self.training = true;
+	self.yearlyPayment = false;
 
 	self.created = null;
 	self.updated = null;
 
 	self.formattedExpirationDate = function () {
-		return launch.utils.formatDate(self.expirationDate);
+		return launch.utils.isBlank(self.expirationDate) ? null : launch.utils.formatDate(self.expirationDate);
 	};
 
 	self.changeTier = function () {
