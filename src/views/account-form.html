@@ -14,7 +14,6 @@
 				Status
 				<span class="error-message" error-message message="errorMessage('active', editAccount.selStatus)"></span>
 			</label>
-			<span ng-bind="selectedAccount.active"></span>
 			<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedAccount.active" ng-disabled="selfEditing">
 				<option value="true" ng-selected="selectedAccount.active === true">Active</option>
 				<option value="false" ng-selected="selectedAccount.active !== true">Inactive</option>
