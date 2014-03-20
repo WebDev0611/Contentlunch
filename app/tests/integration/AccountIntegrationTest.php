@@ -125,4 +125,10 @@ class AccountIntegrationTest extends TestCase {
 		$this->assertUserFields($expect, $users[1]);
 	}
 
+	public function testGetAccountSubscriptions()
+	{
+		$this->setupTestAccounts();
+		$response = $this->call('GET', '/api/account/'. $account->id .'/subscription');
+	}
+
 }
