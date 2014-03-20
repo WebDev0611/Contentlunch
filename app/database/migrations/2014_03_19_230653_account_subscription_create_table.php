@@ -12,12 +12,6 @@ class AccountSubscriptionCreateTable extends Migration {
 	 */
 	public function up()
 	{
-    // Drop subscription columns from account table
-    Schema::table('accounts', function ($table) {
-      $table->dropColumn('expiration_date');
-      $table->dropColumn('licenses');
-      $table->dropColumn('subscription');
-    });
 		// Create table for account subscriptions
     Schema::create('account_subscription', function ($table) {
       $table->increments('id');
@@ -41,12 +35,6 @@ class AccountSubscriptionCreateTable extends Migration {
 	public function down()
 	{
 		Schema::drop('account_subscription');
-    // Readd subscription columns to accounts
-    Schema::table('accounts', function ($table) {
-      $table->timestamp('expiration_date')->nullable();
-      $table->integer('licenses')->default(0);
-      $table->integer('subscription')->default(0);
-    });
 	}
 
 }

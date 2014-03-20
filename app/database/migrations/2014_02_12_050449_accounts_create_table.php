@@ -16,8 +16,17 @@ class SetupAccountsTable extends Migration {
 		Schema::create('accounts', function($table)
 		{
 			$table->increments('id')->unsigned();
-			$table->string('title')->unique();
 			$table->boolean('active')->default(false);
+			$table->string('name')->nullable();
+			$table->string('title')->unique();
+			$table->string('address')->nullable();
+			$table->string('address_2')->nullable();
+			$table->string('city')->nullable();
+			$table->string('state')->nullable();
+			$table->string('country')->nullable();
+      $table->string('zipcode')->nullable();
+      $table->string('email')->nullable();
+			$table->string('phone')->nullable();
 			$table->timestamps();
 		});
 
