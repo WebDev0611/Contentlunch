@@ -58,7 +58,6 @@ class AccountIntegrationTest extends TestCase {
 			'city' => 'New York',
 			'state' => 'NY',
 			'phone' => '123-321-1231',
-			'subscription' => 3,
 			'country' => 'US',
 			'zipcode' => '99912',
 			'email' => 'foo@bar.com'

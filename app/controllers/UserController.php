@@ -17,6 +17,7 @@ class UserController extends BaseController {
 			$query->roles(Input::get('roles'));
 		}
 		$users = $query->get()->toArray();
+		// @todo: How to limit columns returned with eloquent relationships?
 		foreach ($users as &$user) {
 			if ($user['roles']) {
 				$roles = array();
@@ -27,6 +28,16 @@ class UserController extends BaseController {
 					);
 				}
 				$user['roles'] = $roles;
+			}
+			if ($user['accounts']) {
+				$accounts = array();
+				foreach ($user['accounts'] as $account) {
+					$accounts[] = array(
+						'id' => $account['id'],
+						'name' => $account['name']
+					);
+				}
+				$user['accounts'] = $accounts;
 			}
 		}
 		return $users;

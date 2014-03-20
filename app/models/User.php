@@ -79,6 +79,10 @@ class User extends ConfideUser {
     return $ret;
   }
 
+  public function scopeWithAccounts($query) {
+
+  }
+
   public function scopeAccount($query, $id) {
     return $query->with('accounts')->where('accounts.id', $id);
     return $query->with(array('accounts' => function($query) use ($id) {

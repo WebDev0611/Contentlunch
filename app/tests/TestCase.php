@@ -136,18 +136,19 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         'city' => 'Seattle',
         'state' => 'WA',
         'phone' => '891-232-3113',
-        'subscription' => 2,
+        //'subscription' => 2,
         'country' => 'US',
         'zipcode' => '99128',
         'email' => 'test@surge.com',
-        'licenses' => 20,
+        //'licenses' => 20,
         'created_at' => $this->now,
         'updated_at' => $this->now,
-        'expiration_date' => strtotime('+30 days'),
+        /*'expiration_date' => strtotime('+30 days'),
         'auto_renew' => true,
         'yearly_payment' => true,
         'payment_type' => 'CC',
         'token' => '1123312312313'
+        */
       ),
       2 => array(
         'id' => 2,
@@ -159,18 +160,19 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         'city' => 'Spokane',
         'state' => 'WA',
         'phone' => '891-111-3113',
-        'subscription' => 5,
+        //'subscription' => 5,
         'country' => 'US',
         'zipcode' => '99133',
         'email' => 'test2@surge.com',
-        'licenses' => 0,
+        //'licenses' => 0,
         'created_at' => $this->now,
         'updated_at' => $this->now,
-        'expiration_date' => strtotime('-30 days'),
+        /*'expiration_date' => strtotime('-30 days'),
         'auto_renew' => false,
         'yearly_payment' => false,
         'payment_type' => 'ACH',
         'token' => '1123313'
+        */
       )
     );
     if ($id) {
@@ -220,18 +222,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     $this->assertEquals($expect['city'], $account->city, $err .' ->city');
     $this->assertEquals($expect['state'], $account->state, $err .' ->state');
     $this->assertEquals($expect['phone'], $account->phone, $err .' ->phone');
-    $this->assertEquals($expect['subscription'], $account->subscription, $err .' ->subscription');
     $this->assertEquals($expect['country'], $account->country, $err .' ->country');
     $this->assertEquals($expect['zipcode'], $account->zipcode, $err .' ->zipcode');
     $this->assertEquals($expect['email'], $account->email, $err .' ->email');
-    $this->assertEquals($expect['licenses'], $account->licenses, $err .' ->licenses');
-    $this->assertEquals($expect['auto_renew'], $account->auto_renew, $err .' ->auto_renew');
-    $this->assertEquals($expect['yearly_payment'], $account->yearly_payment, $err .' ->yearly_payment');
-    $this->assertEquals($expect['payment_type'], $account->payment_type, $err .' ->payment_type');
-    $this->assertEquals($expect['token'], $account->token, $err .' ->token');
     $this->assertNotEmpty($account->created_at, $err .' ->created_at');
     $this->assertNotEmpty($account->updated_at, $err .' ->updated_at');
-    $this->assertObjectHasAttribute('expiration_date', $account, $err .' ->expiration_date');
     $count_users = DB::table('account_user')
       ->select(DB::raw("COUNT(*) as countusers"))
       ->where('account_id', $expect['id'])
