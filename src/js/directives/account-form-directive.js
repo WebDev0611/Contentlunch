@@ -62,8 +62,9 @@
 
 			method(scope.selectedAccount, {
 				success: function (r) {
-					if (isNew) {
-						// TODO: WE NEED TO MAKE A CALL TO SAVE THE SUBSCRIPTION FOR THE ACCOUNT AS WELL!
+					if (isNew && !!scope.selectedAccount.subscription) {
+						// Now save the subscription along with the new account.
+						AccountService.addSubscription(r.id, scope.selectedAccount.subscription);
 					}
 
 					scope.isSaving = false;
@@ -128,11 +129,11 @@
 				return false;
 			}
 
-			return (!scope.selectedAccount || (!scope.selectedAccount.$resolved && scope.selfEditing)) ? null : scope.selectedAccount.validateProperty(property);
+			return (!scope.selectedAccount || scope.selectedAccount.$resolved === false) ? null : scope.selectedAccount.validateProperty(property);
 		};
 
 		scope.errorState = function(property, control) {
-			if (!control || !scope.selectedAccount || (!scope.selectedAccount.$resolved && scope.selfEditing)) {
+			if (!control || !scope.selectedAccount || scope.selectedAccount.$resolved === false) {
 				return false;
 			}
 

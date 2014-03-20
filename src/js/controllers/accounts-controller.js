@@ -183,10 +183,11 @@ launch.module.controller('AccountsController', [
 
 		$scope.selectAccount = function (account, i, form) {
 			if (!account || $scope.selectedAccount === account) {
+				$scope.selectedAccount = null;
 				self.reset(form);
 			} else {
 				$scope.selectedIndex = ((($scope.pagination.currentPage - 1) * $scope.pagination.pageSize) + i);
-				$scope.selectedAccount = account;
+				$scope.selectedAccount = accountService.get(account.id);
 			}
 		};
 

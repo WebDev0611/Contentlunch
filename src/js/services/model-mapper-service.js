@@ -3,6 +3,10 @@
 
 	self.account = {
 		parseResponse: function (r, getHeaders) {
+			if (launch.utils.isBlank(r)) {
+				return null;
+			}
+
 			var dto = JSON.parse(r);
 
 			if (!!dto.error) {
@@ -32,6 +36,10 @@
 			return JSON.stringify(self.account.toDto(account));
 		},
 		fromDto: function (dto) {
+			if (!dto) {
+				return null;
+			}
+
 			var account = new launch.Account();
 
 			account.id = parseInt(dto.id);
@@ -49,18 +57,7 @@
 			account.created = dto.created_at;
 			account.updated = dto.updated_at;
 
-			if (!!dto.subscription) {
-				account.subscription = new launch.Subscription(dto.subscription.subscription);
-				account.subscription.autoRenew = (parseInt(dto.subscription.auto_renew) === 1);
-				account.subscription.expirationDate = new Date(dto.subscription.expiration_date);
-				account.subscription.numberLicenses = parseInt(dto.subscription.licenses);
-				account.subscription.paymentType = dto.subscription.payment_type;
-				account.subscription.yearlyPayment = (parseInt(dto.subscription.yearly_payment) === 1);
-				account.subscription.created = new Date(dto.subscription.created_at);
-				account.subscription.updated = new Date(dto.subscription.updated_at);
-			} else {
-				account.subscription = null;
-			}
+			account.subscription = self.subscription.fromDto(dto.subscription);
 
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;
@@ -109,6 +106,10 @@
 			return dto;
 		},
 		fromCache: function (cachedAccount) {
+			if (!cachedAccount) {
+				return null;
+			}
+
 			var account = new launch.Account();
 
 			account.id = parseInt(cachedAccount.id);
@@ -125,16 +126,7 @@
 			account.created = cachedAccount.created;
 			account.updated = cachedAccount.updated;
 
-			if (!!cachedAccount.subscription) {
-				account.subscription = new launch.Subscription(cachedAccount.subscription.id);
-				account.subscription.autoRenew = cachedAccount.subscription.autoRenew;
-				account.subscription.expirationDate = new Date(cachedAccount.subscription.expirationDate);
-				account.subscription.numberLicenses = parseInt(cachedAccount.subscription.numberLicenses);
-				account.subscription.paymentType = cachedAccount.subscription.paymentType;
-				account.subscription.yearlyPayment = cachedAccount.subscription.yearlyPayment;
-				account.subscription.created = new Date(cachedAccount.subscription.created);
-				account.subscription.updated = new Date(cachedAccount.subscription.updated);
-			}
+			account.subscription = self.subscription.fromCache(cachedAccount.subscription);
 
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;
@@ -181,6 +173,10 @@
 
 	self.user = {
 		parseResponse: function(r, getHeaders) {
+			if (launch.utils.isBlank(r)) {
+				return null;
+			}
+
 			var dto = JSON.parse(r);
 
 			if (!!dto.error) {
@@ -210,6 +206,10 @@
 			return JSON.stringify(self.user.toDto(user));
 		},
 		fromDto: function (dto) {
+			if (!dto) {
+				return null;
+			}
+
 			var user = new launch.User();
 
 			user.id = parseInt(dto.id);
@@ -278,6 +278,10 @@
 			return dto;
 		},
 		fromCache: function(cachedUser) {
+			if (!cachedUser) {
+				return null;
+			}
+
 			var user = new launch.User();
 
 			user.id = cachedUser.id;
@@ -330,6 +334,10 @@
 
 	self.role = {
 		parseResponse: function(r, getHeaders) {
+			if (launch.utils.isBlank(r)) {
+				return null;
+			}
+
 			var dto = JSON.parse(r);
 
 			if (!!dto.error) {
@@ -365,6 +373,10 @@
 			return JSON.stringify(self.role.toDto(role));
 		},
 		fromDto: function (dto) {
+			if (!dto) {
+				return null;
+			}
+
 			var role = new launch.Role(dto.id, dto.name);
 
 			role.created = dto.created_at;
@@ -399,6 +411,88 @@
 					return 1;
 				}
 			}
+		}
+	};
+
+	self.subscription = {
+		parseResponse: function(r, getHeaders) {
+			if (launch.utils.isBlank(r)) {
+				return null;
+			}
+
+			var dto = JSON.parse(r);
+
+			if (!!dto.error) {
+				launch.utils.handleAjaxErrorResponse(dto.error, notificationService);
+				return null;
+			}
+
+			if ($.isArray(dto)) {
+				var subscriptions = [];
+
+				angular.forEach(dto, function (s, index) {
+					subscriptions.push(self.subscription.fromDto(s));
+				});
+
+				subscriptions.sort(self.subscription.sort);
+
+				return subscriptions;
+			}
+
+			if ($.isPlainObject(dto)) {
+				return self.subscription.fromDto(dto);
+			}
+
+			return null;
+		},
+		formatRequest: function(subscription) {
+			return JSON.stringify(self.subscription.toDto(subscription));
+		},
+		fromDto: function (dto) {
+			if (!dto) {
+				return null;
+			}
+
+			var subscription = new launch.Subscription(dto.subscription);
+
+			subscription.id = parseInt(dto.id);
+			subscription.autoRenew = parseInt(dto.auto_renew) === 1 ? true : false;
+			subscription.expirationDate = new Date(dto.expiration_date);
+			subscription.numberLicenses = parseInt(dto.licenses);
+			subscription.paymentType = dto.payment_type;
+			subscription.yearlyPayment = parseInt(dto.yearly_payment) === 1 ? true : false;
+			subscription.created = new Date(dto.created_at);
+			subscription.updated = new Date(dto.updated_at);
+
+			return subscription;
+		},
+		toDto: function(subscription) {
+			return {
+				id: subscription.id,
+				auto_renew: (subscription.autoRenew === true ? 1 : 0),
+				expiration_date: subscription.expirationDate,
+				licenses: subscription.numberLicenses,
+				payment_type: subscription.paymentType,
+				yearly_payment: (subscription.yearlyPayment === true ? 1 : 0),
+				subscription: subscription.subscriptionLevel
+			};
+		},
+		fromCache: function(cachedSubscription) {
+			if (!cachedSubscription) {
+				return null;
+			}
+
+			var subscription = new launch.Subscription(cachedSubscription.subscriptionLevel);
+			subscription.id = cachedSubscription.id;
+			subscription.autoRenew = cachedSubscription.autoRenew;
+			subscription.expirationDate = new Date(cachedSubscription.expirationDate);
+			subscription.numberLicenses = parseInt(cachedSubscription.numberLicenses);
+			subscription.paymentType = cachedSubscription.paymentType;
+			subscription.yearlyPayment = cachedSubscription.yearlyPayment;
+			subscription.created = new Date(cachedSubscription.created);
+			subscription.updated = new Date(cachedSubscription.updated);
+
+			return subscription;
 		}
 	};
 

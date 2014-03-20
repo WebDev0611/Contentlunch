@@ -104,7 +104,7 @@
 						Subscription Level
 						<span class="error-message" error-message message="errorMessage('subscription', editAccount.selSubscription)"></span>
 					</label>
-					<select id="selSubscription" name="selSubscription" class="form-control" ng-model="selectedAccount.subscription.id" ng-change="selectedAccount.subscription.changeTier()">
+					<select id="selSubscription" name="selSubscription" class="form-control" ng-model="selectedAccount.subscription.subscriptionLevel" ng-change="selectedAccount.subscription.changeTier()">
 						<option value="1">Tier 1</option>
 						<option value="2">Tier 2</option>
 						<option value="3">Tier 3</option>
