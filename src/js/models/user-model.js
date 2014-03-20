@@ -16,7 +16,7 @@
 	self.state = null;
 	self.phoneNumber = null;
 	self.title = null;
-	self.active = 'active';
+	self.active = true;
 	self.image = null;
 	self.role = null;
 	self.account = null;
@@ -72,7 +72,10 @@
 			case 'phoneNumber':
 				return launch.utils.isBlank(this.phoneNumber) ? 'Phone is required.' : null;
 			case 'active':
-				return launch.utils.isBlank(this.active) ? 'Active Status is required.' : null;
+				if (typeof this.active !== 'boolean') {
+					this.active = (this.active === 1 || this.active === '1' || this.active.toLowerCase() === 'true');
+				}
+				return (this.active === true || this.active === false) ? null : 'Active Status is required.';
 			case 'role':
 				return (!this.role || launch.utils.isBlank(this.role.roleName)) ? 'Role is required.' : null;
 			default:

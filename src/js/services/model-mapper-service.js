@@ -36,7 +36,7 @@
 
 			account.id = parseInt(dto.id);
 			account.title = account.name = dto.title;
-			account.active = (parseInt(dto.active) === 1) ? 'active' : 'inactive';
+			account.active = (parseInt(dto.active) === 1) ? true : false;
 			account.address1 = dto.address;
 			account.address2 = dto.address_2;
 			account.city = dto.city;
@@ -91,7 +91,7 @@
 				id: account.id,
 				title: account.title,
 				name: account.title,
-				active: (account.active === 'active') ? 1 : 0,
+				active: (account.active === true) ? 1 : 0,
 				address: account.address1,
 				address_2: account.address2,
 				city: account.city,
@@ -228,7 +228,7 @@
 			user.phoneNumber = dto.phone;
 			user.title = dto.title;
 			user.userName = dto.username;
-			user.active = (parseInt(dto.status) === 1) ? 'active' : 'inactive';
+			user.active = (parseInt(dto.status) === 1) ? true : false;
 			user.accounts = ($.isArray(dto.accounts)) ? $.map(dto.accounts, function(a, i) { return self.account.fromDto(a); }) : [];
 			user.account = (user.accounts.length > 0) ? user.accounts[0] : null;
 			user.roles = ($.isArray(dto.roles)) ? $.map(dto.roles, function (r, i) { return new launch.Role(r.id, r.name); }) : [];
@@ -265,7 +265,7 @@
 				country: user.country,
 				phone: user.phoneNumber,
 				title: user.title,
-				status: (user.active === 'active') ? 1 : 0,
+				status: (user.active === true) ? 1 : 0,
 				accounts: $.map(user.accounts, function (a, i) { return self.account.toDto(a); }),
 				roles: $.map(user.roles, function (r, i) { return self.role.toDto(r); })
 			};

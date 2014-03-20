@@ -30,7 +30,7 @@
 					Title
 					<span class="error-message" error-message message="errorMessage('title', editUser.txtTitle)"></span>
 				</label>
-				<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="selectedUser.title" ng-disabled="selfEditing" />
+				<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="selectedUser.title" />
 			</div>
 		</div>
 
@@ -89,8 +89,8 @@
 					<span class="error-message" error-message message="errorMessage('active', editUser.selStatus)"></span>
 				</label>
 				<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedUser.active" ng-disabled="selfEditing">
-					<option value="active">Active</option>
-					<option value="inactive">Inactive</option>
+					<option value="true" ng-selected="selectedUser.active === true">Active</option>
+					<option value="false" ng-selected="selectedUser.active !== true">Inactive</option>
 				</select>
 			</div>
 			<div class="form-group" ng-class="{ 'has-error': errorState('role', editUser.selRole) }">

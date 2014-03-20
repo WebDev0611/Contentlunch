@@ -107,7 +107,7 @@ launch.module.controller('AccountsController', [
 			},
 			applyFilter: function(reset) {
 				$scope.filteredAccounts = $filter('filter')($scope.accounts, function(account) {
-					if ($scope.search.accountStatus === 'all' || $scope.search.accountStatus === account.active) {
+					if ($scope.search.accountStatus === 'all' || ($scope.search.accountStatus === 'active' && account.active) || ($scope.search.accountStatus === 'inactive' && !account.active)) {
 						if (!launch.utils.isBlank($scope.search.searchTerm) && $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
 							return (launch.utils.isBlank($scope.search.searchTerm) ? true : account.matchSearchTerm($scope.search.searchTerm));
 						} else {

@@ -110,7 +110,7 @@ launch.module.controller('UsersController', [
 			},
 			applyFilter: function(reset) {
 				$scope.filteredUsers = $filter('filter')($scope.users, function(user) {
-					if ($scope.search.userStatus === 'all' || $scope.search.userStatus === user.active) {
+					if ($scope.search.userStatus === 'all' || ($scope.search.userStatus === 'active' && user.active) || $scope.search.userStatus === 'inactive' && !user.active) {
 						if (!launch.utils.isBlank($scope.search.searchTerm) && $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
 							return (launch.utils.isBlank($scope.search.searchTerm) ? true : user.matchSearchTerm($scope.search.searchTerm));
 						} else {
