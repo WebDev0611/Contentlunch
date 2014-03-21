@@ -6,8 +6,8 @@
 		</button>
 		<input type="file" id="filPhoto" accept="{{ launch.config.USER_PHOTO_FILE_TYPES.join(',') }}" ng-file-select="uploadPhoto($files, editUser, editUser.filPhoto)" />
 		<progressbar class="progress-striped active" value="percentComplete" ng-show="isUploading">
-            <span>{{ percentComplete }}%</span>
-        </progressbar>  
+			<span>{{ percentComplete }}%</span>
+		</progressbar>  
 	</div>
 	<div class="user-editor">
 		<div class="control-group">

@@ -1,4 +1,4 @@
-﻿launch.module.directive('userForm', function ($modal, $upload, AuthService, RoleService, UserService, AccountService, NotificationService) {
+﻿launch.module.directive('userForm', function ($modal, $upload, AuthService, RoleService, UserService, AccountService, NotificationService, SessionService) {
 	var link = function (scope, element, attrs) {
 		var self = this;
 
@@ -96,6 +96,10 @@
 
 			method(scope.selectedUser, {
 				success: function (r) {
+					if (scope.selfEditing) {
+						SessionService.set(SessionService.USER_KEY, scope.selectedUser);
+					}
+
 					if (isNew && !!scope.selectedUser.account) {
 						AccountService.addUser(scope.selectedUser.account.id, r.id, {
 							success: function(rs) {
@@ -166,7 +170,7 @@
 
 			if (!launch.utils.isBlank(msg)) {
 				NotificationService.error('Invalid File!', msg);
-				$(control).replaceWith(control = $(control).clone(true, true));
+				$(control).replaceWith($(control).clone(true, true));
 				return;
 			}
 
@@ -180,6 +184,10 @@
 					NotificationService.success('Success!', 'You have successfully uploaded your photo!');
 
 					scope.selectedUser = user;
+
+					if (scope.selfEditing) {
+						SessionService.set(SessionService.USER_KEY, scope.selectedUser);
+					}
 
 					if ($.isFunction(scope.afterSaveSuccess)) {
 						scope.afterSaveSuccess(user, form);
