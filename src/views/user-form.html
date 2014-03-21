@@ -11,21 +11,21 @@
 	</div>
 	<div class="user-editor">
 		<div class="control-group">
-			<div class="form-group" ng-class="{ 'has-error': errorState('firstName', editUser.txtFirstName) }">
+			<div class="form-group" ng-class="{ 'has-error': hasError('firstName', editUser.txtFirstName) }">
 				<label class="control-label" for="txtFirstName">
 					First Name
 					<span class="error-message" error-message message="errorMessage('firstName', editUser.txtFirstName)"></span>
 				</label>
 				<input type="text" id="txtFirstName" name="txtFirstName" class="form-control" ng-model="selectedUser.firstName" />
 			</div>
-			<div class="form-group" ng-class="{ 'has-error': errorState('lastName', editUser.txtLastName) }">
+			<div class="form-group" ng-class="{ 'has-error': hasError('lastName', editUser.txtLastName) }">
 				<label class="control-label" for="txtLastName">
 					Last Name
 					<span class="error-message" error-message message="errorMessage('lastName', editUser.txtLastName)"></span>
 				</label>
 				<input type="text" id="txtLastName" name="txtLastName" class="form-control" ng-model="selectedUser.lastName" />
 			</div>
-			<div class="form-group" ng-class="{ 'has-error': errorState('title', editUser.txtTitle) }">
+			<div class="form-group" ng-class="{ 'has-error': hasError('title', editUser.txtTitle) }">
 				<label class="control-label" for="txtTitle">
 					Title
 					<span class="error-message" error-message message="errorMessage('title', editUser.txtTitle)"></span>
@@ -35,14 +35,14 @@
 		</div>
 
 		<div class="control-group">
-			<div class="form-group" ng-class="{ 'has-error': errorState('email', editUser.txtEmail) }">
+			<div class="form-group" ng-class="{ 'has-error': hasError('email', editUser.txtEmail) }">
 				<label class="control-label" for="txtEmail">
 					Email
 					<span class="error-message" error-message message="errorMessage('email', editUser.txtEmail)"></span>
 				</label>
 				<input type="text" required="required" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedUser.email" />
 			</div>
-			<div class="form-group" ng-class="{ 'has-error': errorState('phoneNumber', editUser.txtPhoneNumber) }">
+			<div class="form-group" ng-class="{ 'has-error': hasError('phoneNumber', editUser.txtPhoneNumber) }">
 				<label class="control-label" for="txtPhoneNumber">
 					Phone
 					<span class="error-message" error-message message="errorMessage('phoneNumber', editUser.txtPhoneNumber)"></span>
@@ -83,7 +83,7 @@
 		</div>
 
 		<div class="control-group">
-			<div class="form-group" ng-class="{ 'has-error': errorState('active', editUser.selStatus) }">
+			<div class="form-group" ng-class="{ 'has-error': hasError('active', editUser.selStatus) }">
 				<label class="control-label" for="selStatus">
 					Status
 					<span class="error-message" error-message message="errorMessage('active', editUser.selStatus)"></span>
@@ -93,7 +93,7 @@
 					<option value="false" ng-selected="selectedUser.active !== true">Inactive</option>
 				</select>
 			</div>
-			<div class="form-group" ng-class="{ 'has-error': errorState('role', editUser.selRole) }">
+			<div class="form-group" ng-class="{ 'has-error': hasError('role', editUser.selRole) }">
 				<label class="control-label" for="selRole">
 					Role
 					<span class="error-message" error-message message="errorMessage('role', editUser.selRole)"></span>

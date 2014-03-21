@@ -56,6 +56,18 @@ gulp.task('bootstrap-components-css', function () {
 		.pipe(livereload(server));
 });
 
+gulp.task('styles-angular-ui', function () {
+	return gulp.src([
+		'./bower_components/angular-ui/build/angular-ui.css'
+	])
+	.pipe(concat('angular-ui.css'))
+	.pipe(gulp.dest('public/assets/css'))
+	.pipe(rename({ suffix: '.min' }))
+	.pipe(minifycss())
+	.pipe(gulp.dest('public/assets/css'))
+	.pipe(livereload(server));
+});
+
 gulp.task('less', function () {
 	return gulp.src(['src/css/main.less'])
 		.pipe(less({
@@ -78,6 +90,7 @@ gulp.task('scripts', function() {
 			'./bower_components/angular-route/angular-route.js',
 			'./bower_components/angular-resource/angular-resource.js',
 			'./bower_components/angular-sanitize/angular-sanitize.js',
+			'./bower_components/angular-ui/build/angular-ui.js',
 			'./bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
 			'./bower_components/pnotify/jquery.pnotify.js',
 			'./bower_components/ladda/js/spin.js',
@@ -162,5 +175,5 @@ gulp.task('watch', function() {
 
 // Run clean task first as dependency
 gulp.task('default', ['clean'], function () {
-	gulp.start('styles-bootstrap', 'map-bootstrap', 'bootstrap-components-css', 'less', 'scripts', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff');
+	gulp.start('styles-bootstrap', 'map-bootstrap', 'bootstrap-components-css', 'styles-angular-ui', 'less', 'scripts', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff');
 });

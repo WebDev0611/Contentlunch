@@ -12,6 +12,8 @@
 
 		scope.isLoading = false;
 		scope.isSaving = false;
+		scope.hasError = function(property, control) { return launch.utils.isPropertyValid(scope.selectedAccount, property, control); };
+		scope.errorMessage = function(property, control) { return launch.utils.getPropertyErrorMessage(scope.selectedAccount, property, control); };
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
@@ -122,28 +124,6 @@
 					}
 				]
 			});
-		};
-
-		scope.errorMessage = function(property, control) {
-			if (!control || !control.$dirty) {
-				return false;
-			}
-
-			return (!scope.selectedAccount || scope.selectedAccount.$resolved === false) ? null : scope.selectedAccount.validateProperty(property);
-		};
-
-		scope.errorState = function(property, control) {
-			if (!control || !scope.selectedAccount || scope.selectedAccount.$resolved === false) {
-				return false;
-			}
-
-			if (self.forceDirty) {
-				control.$dirty = true;
-			}
-
-			control.$invalid = !launch.utils.isBlank(scope.selectedAccount.validateProperty(property));
-
-			return (control.$dirty && control.$invalid);
 		};
 
 		scope.getStates = function (forCreditCard) {

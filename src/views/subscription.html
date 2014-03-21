@@ -1,1 +1,74 @@
-﻿<div ng-bind="title"></div>
+﻿<div class="view subscriptions">
+	<div class="col-md-3 left-pane">
+	</div>
+	<div class="col-md-9 right-pane">
+		<div class="subscription-list tier-components">
+			<div style="display: inline-block;" ng-repeat="subscription in subscriptions">
+				<div tier-tiles selected-subscription="subscription"></div>
+				<form name="tierForm" class="tier-form">
+					<div class="control-group">
+						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'pricePerMonth', tierForm.txtPricePerMonth) }">
+							<label class="control-label" for="txtPricePerMonth">
+								Price / Month
+								<span class="error-message" error-message message="errorMessage(subscription, 'pricePerMonth', tierForm.txtPricePerMonth)"></span>
+							</label>
+							<div class="input-group">
+								<span class="input-group-addon">$</span>
+								<input type="text" required="required" id="txtPricePerMonth" name="txtPricePerMonth" class="form-control" ng-model="subscription.pricePerMonth" />
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'annualDiscount', tierForm.txtAnnualDiscount) }">
+							<label class="control-label" for="txtAnnualDiscount">
+								Annual Discount
+								<span class="error-message" error-message message="errorMessage(subscription, 'annualDiscount', tierForm.txtAnnualDiscount)"></span>
+							</label>
+							<div class="input-group">
+								<span class="input-group-addon">%</span>
+								<input type="text" required="required" id="txtAnnualDiscount" name="txtAnnualDiscount" class="form-control" ng-model="subscription.annualDiscount" />
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'numberLicenses', tierForm.txtMaxNumberOfUsers) }">
+							<label class="control-label" for="txtMaxNumberOfUsers">
+								Max # of Users
+								<span class="error-message" error-message message="errorMessage(subscription, 'numberLicenses', tierForm.txtMaxNumberOfUsers)"></span>
+							</label>
+							<input type="text" required="required" id="txtMaxNumberOfUsers" name="txtMaxNumberOfUsers" class="form-control" ng-model="subscription.numberLicenses" />
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="form-group">
+							<label class="control-label" for="selTrainingIncluded">
+								Training
+								<span class="error-message"></span>
+							</label>
+							<select required="required" id="selTrainingIncluded" name="selTrainingIncluded" class="form-control" ng-model="subscription.training">
+								<option value="true" ng-selected="subscription.training">Included</option>
+								<option value="false" ng-selected="!subscription.training">Not Included</option>
+							</select>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="form-group">
+							<label class="control-label" for="txtAdditionalFeatures">
+								Additional Features
+								<span class="error-message"></span>
+							</label>
+							<textarea id="txtAdditionalFeatures" name="txtAdditionalFeatures" class="form-control" rows="3" ng-model="subscription.features"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div class="control-group btn-toolbar">
+			<button type="button" class="btn btn-default ladda-button" ng-click="save()" data-style="zoom-in" ladda-button="isSaving">
+				<span class="ladda-label">Save</span>
+			</button>
+			<button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+		</div>
+	</div>
+</div>

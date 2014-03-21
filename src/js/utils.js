@@ -430,5 +430,27 @@
 		}
 
 		return '$' + parseFloat(amount).toFixed(2);
+	},
+
+	getPropertyErrorMessage: function (model, property, control) {
+		if (!control || !control.$dirty) {
+			return false;
+		}
+
+		return (!model || model.$resolved === false) ? null : model.validateProperty(property);
+	},
+
+	isPropertyValid: function(model, property, control) {
+		if (!control || !model || model.$resolved === false) {
+			return false;
+		}
+
+		if (self.forceDirty) {
+			control.$dirty = true;
+		}
+
+		control.$invalid = !launch.utils.isBlank(model.validateProperty(property));
+
+		return (control.$dirty && control.$invalid);
 	}
 };

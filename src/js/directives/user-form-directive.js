@@ -22,6 +22,8 @@
 		scope.isSaving = false;
 		scope.isUploading = false;
 		scope.percentComplete = 0;
+		scope.hasError = function (property, control) { return launch.utils.isPropertyValid(scope.selectedUser, property, control); };
+		scope.errorMessage = function (property, control) { return launch.utils.getPropertyErrorMessage(scope.selectedUser, property, control); };
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
@@ -209,28 +211,6 @@
 					scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
 				}
 			});
-		};
-
-		scope.errorMessage = function (property, control) {
-			if (!control || !control.$dirty) {
-				return false;
-			}
-
-			return (!scope.selectedUser || !$.isFunction(scope.selectedUser.formatName) || (!scope.selectedUser.$resolved && scope.selfEditing)) ? null : scope.selectedUser.validateProperty(property);
-		};
-
-		scope.errorState = function (property, control) {
-			if (!control || !scope.selectedUser || !$.isFunction(scope.selectedUser.formatName)|| (!scope.selectedUser.$resolved && scope.selfEditing)) {
-				return false;
-			}
-
-			if (self.forceDirty) {
-				control.$dirty = true;
-			}
-
-			control.$invalid = !launch.utils.isBlank(scope.selectedUser.validateProperty(property));
-
-			return (control.$dirty && control.$invalid);
 		};
 
 		scope.getStates = function () {

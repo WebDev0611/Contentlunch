@@ -568,7 +568,7 @@ span[class*=" icon-"].dark {
 .tier-components .tier-tiles {
   background-color: #999999;
   border-radius: 40px;
-  float: left;
+  display: inline-block;
   margin: 0 20px 0 0;
   padding: 16px 8px;
   text-align: center;
@@ -615,5 +615,22 @@ span[class*=" icon-"].dark {
   opacity: 0.4;
 }
 .tier-components .tier-info {
+  display: inline-block;
   margin: 16px;
+  max-width: 300px;
+  vertical-align: top;
+}
+.tier-components .tier-form {
+  max-width: 240px;
+  padding: 8px;
+  text-align: left;
+}
+.subscriptions .right-pane {
+  text-align: center;
+}
+.subscriptions .right-pane .tier-components {
+  margin: 30px;
+}
+.subscriptions .right-pane .tier-components .tier-tiles {
+  margin: 0 30px;
 }

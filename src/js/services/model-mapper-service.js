@@ -464,9 +464,11 @@
 			subscription.created = new Date(dto.created_at);
 			subscription.updated = new Date(dto.updated_at);
 
+			subscription.changeTier();
+
 			return subscription;
 		},
-		toDto: function(subscription) {
+		toDto: function (subscription) {
 			return {
 				id: subscription.id,
 				auto_renew: (subscription.autoRenew === true ? 1 : 0),
@@ -491,6 +493,8 @@
 			subscription.yearlyPayment = cachedSubscription.yearlyPayment;
 			subscription.created = new Date(cachedSubscription.created);
 			subscription.updated = new Date(cachedSubscription.updated);
+
+			subscription.changeTier();
 
 			return subscription;
 		}
