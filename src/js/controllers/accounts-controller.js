@@ -182,7 +182,7 @@ launch.module.controller('AccountsController', [
 		};
 
 		$scope.selectAccount = function (account, i, form) {
-			if (!account || $scope.selectedAccount === account) {
+			if (!account || (!!$scope.selectedAccount && $scope.selectedAccount.id === account.id)) {
 				$scope.selectedAccount = null;
 				self.reset(form);
 			} else {

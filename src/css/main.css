@@ -257,7 +257,7 @@ header .login-info .popover-menu .admin-menu li .glyphicon {
   bottom: 0;
   left: 0;
   right: 0;
-  top: 97px;
+  top: 100px;
 }
 .error {
   color: #ff0000;
@@ -391,10 +391,21 @@ span[class*=" icon-"].dark {
   background-color: #f2f0ec;
   height: 100%;
   overflow: auto;
+  padding: 0;
+  position: relative;
+}
+.right-pane .right-pane-header {
+  background-color: #ffffff;
+  border-bottom: solid 12px #f7f6f3;
+  padding: 8px 16px;
+}
+.right-pane .right-pane-content {
+  overflow: auto;
   padding: 16px;
 }
 .right-pane h2 {
   border-bottom: solid 1px #000000;
+  font-family: 'Lato Black';
   margin: 20px 0 20px 0;
   padding-bottom: 8px;
 }

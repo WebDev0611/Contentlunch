@@ -45,6 +45,7 @@
 		</div>
 	</div>
 	<div class="col-md-9 right-pane">
-		<div ng-show="!!selectedAccount" ng-cloak account-form selected-account="selectedAccount" refresh-method="refreshMethod" after-save-success="afterSaveSuccess" self-editing="selfEditing()" creating-new="(isNaN(selectedAccount.id) || selectedAccount.id <= 0)"></div>
+		<h2 class="right-pane-header" ng-show="!!selectedAccount">Account Settings</h2>
+		<div class="right-pane-content" ng-show="!!selectedAccount" ng-cloak account-form selected-account="selectedAccount" refresh-method="refreshMethod" after-save-success="afterSaveSuccess" self-editing="selfEditing()" creating-new="(isNaN(selectedAccount.id) || selectedAccount.id <= 0)"></div>
 	</div>
 </div>
