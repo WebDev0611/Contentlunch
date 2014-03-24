@@ -8,6 +8,8 @@ class Subscription extends Ardent {
 
   protected $fillable = array('features');
 
+  protected $primaryKey = 'id';
+
   protected function getDateFormat()
   {
     return 'Y-m-d H:i:s';

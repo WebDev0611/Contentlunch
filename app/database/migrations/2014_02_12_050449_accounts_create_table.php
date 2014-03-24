@@ -27,6 +27,11 @@ class AccountsCreateTable extends Migration {
       $table->string('zipcode')->nullable();
       $table->string('email')->nullable();
 			$table->string('phone')->nullable();
+      $table->boolean('auto_renew')->default(false);
+      $table->timestamp('expiration_date')->nullable();
+      $table->string('payment_type', 6)->nullable();
+      $table->string('token')->nullable();
+      $table->boolean('yearly_payment')->default(false);
 			$table->timestamps();
 		});
 

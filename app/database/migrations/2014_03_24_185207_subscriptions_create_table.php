@@ -14,7 +14,7 @@ class SubscriptionsCreateTable extends Migration {
 	{
 		// Create subscriptions table
     Schema::create('subscriptions', function ($table) {
-      $table->integer('id');
+      $table->increments('id');
       $table->integer('licenses');
       $table->integer('monthly_price');
       $table->integer('annual_discount');

@@ -18,17 +18,19 @@ class AccountSeeder extends Seeder {
     $account->country = 'US';
     $account->zipcode = '98005';
     $account->email = 'info@surgeforward.com';
+    $account->auto_renew = true;
+    $account->expiration_date = $expiration;
+    $account->payment_type = 'CC';
+    $account->token = 12345;
+    $account->yearly_payment = false;
 		$account->save();
+
+    $sub_id = Subscription::first()->pluck('id');
 
     $sub = new AccountSubscription;
     $sub->account_id = $account->id;
-    $sub->auto_renew = true;
-    $sub->expiration_date = $expiration;
-    $sub->licenses = 20;
-    $sub->payment_type = 'CC';
-    $sub->subscription_id = 1;  
-    $sub->token = 12345;
-    $sub->yearly_payment = false;
+    $sub->subscription_id = $sub_id;
+    $sub->licenses = 45;
     $sub->save();
 
 	}
