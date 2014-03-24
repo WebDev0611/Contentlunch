@@ -1,5 +1,4 @@
-﻿
-launch.module.directive('menuPopover', function($compile, $location, $templateCache) {
+﻿launch.module.directive('menuPopover', function($compile, $location, $templateCache) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -61,37 +60,6 @@ launch.module.directive('menuPopover', function($compile, $location, $templateCa
 			} else {
 				$(element).popover(options);
 			}
-		}
-	};
-});
-
-launch.module.directive('errorPopover', function($compile, $templateCache) {
-	return {
-		restrict: 'A',
-		scope: {
-			errorMessage: '=errorMessage'
-		},
-		link: function(scope, element, attrs) {
-			var options = {
-				content: null,
-				placement: element.data('placement') || 'top',
-				trigger: 'manual',
-				html: true,
-				delay: { hide: 250 },
-				container: element
-			};
-
-			scope.$watch('errorMessage', function (errorMessage) {
-				if (!launch.utils.isBlank(errorMessage)) {
-					options.content = errorMessage;
-
-					$(element).popover(options);
-					$(element).popover('show');
-				} else {
-					$(element).popover('hide');
-					$(element).popover('destroy');
-				}
-			});
 		}
 	};
 });

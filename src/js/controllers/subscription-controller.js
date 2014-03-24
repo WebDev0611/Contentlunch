@@ -26,6 +26,12 @@
 			notificationService.info('WARNING!', 'This is not yet implemeneted!');
 		};
 
+		$scope.formatPricePerMonth = function (subscription) {
+			if (!isNaN(subscription.pricePerMonth)) {
+				subscription.pricePerMonth = parseFloat(subscription.pricePerMonth).toFixed(2);
+			}
+		};
+
 		self.init();
 	}
 ]);

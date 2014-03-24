@@ -12,8 +12,8 @@
 
 		scope.isLoading = false;
 		scope.isSaving = false;
-		scope.hasError = function(property, control) { return launch.utils.isPropertyValid(scope.selectedAccount, property, control); };
-		scope.errorMessage = function(property, control) { return launch.utils.getPropertyErrorMessage(scope.selectedAccount, property, control); };
+		scope.hasError = launch.utils.isPropertyValid;
+		scope.errorMessage = launch.utils.getPropertyErrorMessage;
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {

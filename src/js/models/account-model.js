@@ -13,7 +13,6 @@
 	self.email = null;
 	self.phoneNumber = null;
 	self.subscription = null;
-	self.numberLicenses = null;
 	self.creditCard = null;
 	self.bankAccount = null;
 	self.userCount = 0;
@@ -60,16 +59,6 @@
 					this.active = (this.active === 1 || this.active === '1' || this.active.toLowerCase() === 'true');
 				}
 				return (this.active === true || this.active === false) ? null : 'Active Status is required.';
-			case 'numberLicenses':
-				if (launch.utils.isBlank(this.numberLicenses) || isNaN(this.numberLicenses)) {
-					return 'Number of Users must be a number.';
-				} else if (parseInt(this.numberLicenses) <= 0) {
-					return 'Number of Users must be greater than zero.';
-				}
-
-				this.numberLicenses = parseInt(this.numberLicenses);
-
-				return null;
 			default:
 				return null;
 		}
