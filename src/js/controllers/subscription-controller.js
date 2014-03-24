@@ -1,14 +1,9 @@
 ﻿launch.module.controller('SubscriptionController', [
-	'$scope', '$location', 'NotificationService', function ($scope, $location, notificationService) {
+	'$scope', '$location', 'AccountService', 'NotificationService', function ($scope, $location, accountService, notificationService) {
 		var self = this;
 
 		self.init = function () {
-			// TODO: GET SUBSCRIPTIONS FROM API!
-			var tier1 = new launch.Subscription(1);
-			var tier2 = new launch.Subscription(2);
-			var tier3 = new launch.Subscription(3);
-
-			$scope.subscriptions = [tier1, tier2, tier3];
+			$scope.subscriptions = accountService.getSubscriptions();
 		};
 
 		$scope.subscriptions = [];
