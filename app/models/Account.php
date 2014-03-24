@@ -41,9 +41,9 @@ class Account extends Ardent {
     return 'Y-m-d H:i:s';
   }
 
-  public function subscription()
+  public function accountSubscription()
   {
-  	return $this->hasOne('Subscription', 'account_id', 'id');
+  	return $this->hasOne('AccountSubscription', 'account_id', 'id');
   }
 
 	/**

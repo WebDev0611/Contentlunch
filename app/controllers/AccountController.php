@@ -21,7 +21,7 @@ class AccountController extends BaseController {
 
 	public function show($id)
 	{
-		return Account::countusers()->with('subscription')->where('accounts.id', $id)->first();
+		return Account::countusers()->with('accountSubscription')->where('accounts.id', $id)->first();
 	}
 
 	public function update($id)

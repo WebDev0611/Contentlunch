@@ -2,28 +2,30 @@
 
 class SubscriptionController extends BaseController {
 
+  public function index()
+  {
+    return Subscription::all();
+  }
+
   public function show($id)
   {
-    //return Account
+    return Subscription::find($id);
   }
 
-  public function get_subscription($id)
+  public function update($id)
   {
-    return Account::find($id)->subscription()->orderBy('id', 'desc')->first();
-  }
-
-  public function post_subscription($id)
-  {
-    $sub = new Subscription;
-    $sub->account_id = $id;
-    $sub->auto_renew = Input::get('auto_renew');
+    $sub = Subscription::find($id);
     $sub->licenses = Input::get('licenses');
-    $sub->payment_type = Input::get('payment_type');
-    $sub->subscription = Input::get('subscription');
-    $sub->token = Input::get('token');
-    $sub->yearly_payment = Input::get('yearly_payment');
-    $sub->save();
-    return $sub;
+    $sub->monthly_price = Input::get('monthly_price');
+    $sub->annual_discount = Input::get('annual_discount');
+    $sub->training = Input::get('training');
+    $sub->features = Input::get('features');
+    if ($sub->save()) {
+      return $this->show($sub->id);
+    }
+    return Response::json(array(
+      'errors' => $sub->errors()->toArray()
+    ), 401);
   }
 
 }

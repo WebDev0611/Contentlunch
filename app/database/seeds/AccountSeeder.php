@@ -20,13 +20,13 @@ class AccountSeeder extends Seeder {
     $account->email = 'info@surgeforward.com';
 		$account->save();
 
-    $sub = new Subscription;
+    $sub = new AccountSubscription;
     $sub->account_id = $account->id;
     $sub->auto_renew = true;
     $sub->expiration_date = $expiration;
     $sub->licenses = 20;
     $sub->payment_type = 'CC';
-    $sub->subscription = 1;  
+    $sub->subscription_id = 1;  
     $sub->token = 12345;
     $sub->yearly_payment = false;
     $sub->save();

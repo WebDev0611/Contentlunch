@@ -4,7 +4,9 @@ use LaravelBook\Ardent\Ardent;
 
 class Subscription extends Ardent {
 
-  protected $table = 'account_subscription';
+  protected $table = 'subscriptions';
+
+  protected $fillable = array('features');
 
   protected function getDateFormat()
   {

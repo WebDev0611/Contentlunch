@@ -14,7 +14,8 @@
     "laravelbook/ardent": "dev-master",
     "zizaco/confide": "dev-master",
     "zizaco/entrust": "dev-master",
-    "andrew13/cabinet": "dev-master"
+    "andrew13/cabinet": "dev-master",
+    "summerstreet/woodling": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
