@@ -9,12 +9,18 @@ class SubscriptionController extends BaseController {
 
   public function show($id)
   {
-    return Subscription::find($id);
+    if ($subscription = Subscription::find($id)) {
+      return $subscription;
+    }
+    return $this->responseError("Record not found");
   }
 
   public function update($id)
   {
     $sub = Subscription::find($id);
+    if ( ! $sub) {
+      return $this->responseError("Record not found");
+    }
     $sub->licenses = Input::get('licenses');
     $sub->monthly_price = Input::get('monthly_price');
     $sub->annual_discount = Input::get('annual_discount');
@@ -23,9 +29,7 @@ class SubscriptionController extends BaseController {
     if ($sub->save()) {
       return $this->show($sub->id);
     }
-    return Response::json(array(
-      'errors' => $sub->errors()->toArray()
-    ), 401);
+    return $this->responseError($sub->errors()->toArray());
   }
 
 }

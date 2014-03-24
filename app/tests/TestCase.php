@@ -228,6 +228,21 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     Mail::pretend(true);
   }
 
+  protected function assertResponse($response, $fail = false)
+  {
+    // Is correct http status?
+    $status = $fail ? 400 : 200;
+    $this->assertEquals($status, $response->getStatusCode(), "Response: ". $response->getContent());
+    // Response is json?
+    $data = json_decode($response->getContent());
+    $this->assertNotEmpty($data, "Response was not JSON");
+    // Fail responses should contain error(s)
+    if ($fail) {
+      $this->assertTrue( ! empty($data->errors) || ! empty($data->error), "Fail response should contain error(s). Response: ". print_r($data, 1));
+    }
+    return $data;
+  }
+
   /**
    * Assertion helper, check valid fields and match test data for accounts
    * @param  array $expect Expected account
@@ -322,6 +337,17 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
       }
     }
     $this->assertEquals($accounts, $user->accounts, $err .' ->accounts');*/
+  }
+
+  protected function assertSubscription($expect, $sub)
+  {
+    // Fields that should match
+    $match = array(
+      'id', 'licenses', 'monthly_price', 'annual_discount', 'training', 'features'
+    );
+    foreach ($match as $field) {
+      $this->assertEquals($expect->$field, $sub->$field, "Subscription field $field doesn't match");
+    }
   }
 
 }
