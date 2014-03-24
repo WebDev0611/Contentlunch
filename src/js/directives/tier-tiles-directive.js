@@ -1,4 +1,4 @@
-﻿launch.module.directive('tierComponents', function () {
+﻿launch.module.directive('tierTiles', function () {
 	var link = function (scope, element, attrs) {
 		scope.imageSource = function (component) {
 			if (!!component && !launch.utils.isBlank(component.name)) {
@@ -11,9 +11,10 @@
 
 	return {
 		link: link,
+		restrict: 'AE',
 		scope: {
 			selectedSubscription: '=selectedSubscription'
 		},
-		templateUrl: '/assets/views/tier-components.html'
+		templateUrl: '/assets/views/tier-tiles.html'
 	};
 });

@@ -12,6 +12,8 @@
 
 		scope.isLoading = false;
 		scope.isSaving = false;
+		scope.hasError = function(property, control) { return launch.utils.isPropertyValid(scope.selectedAccount, property, control); };
+		scope.errorMessage = function(property, control) { return launch.utils.getPropertyErrorMessage(scope.selectedAccount, property, control); };
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
@@ -62,8 +64,9 @@
 
 			method(scope.selectedAccount, {
 				success: function (r) {
-					if (isNew) {
-						// TODO: WE NEED TO MAKE A CALL TO SAVE THE SUBSCRIPTION FOR THE ACCOUNT AS WELL!
+					if (isNew && !!scope.selectedAccount.subscription) {
+						// Now save the subscription along with the new account.
+						AccountService.addSubscription(r.id, scope.selectedAccount.subscription);
 					}
 
 					scope.isSaving = false;
@@ -121,28 +124,6 @@
 					}
 				]
 			});
-		};
-
-		scope.errorMessage = function(property, control) {
-			if (!control || !control.$dirty) {
-				return false;
-			}
-
-			return (!scope.selectedAccount || (!scope.selectedAccount.$resolved && scope.selfEditing)) ? null : scope.selectedAccount.validateProperty(property);
-		};
-
-		scope.errorState = function(property, control) {
-			if (!control || !scope.selectedAccount || (!scope.selectedAccount.$resolved && scope.selfEditing)) {
-				return false;
-			}
-
-			if (self.forceDirty) {
-				control.$dirty = true;
-			}
-
-			control.$invalid = !launch.utils.isBlank(scope.selectedAccount.validateProperty(property));
-
-			return (control.$dirty && control.$invalid);
 		};
 
 		scope.getStates = function (forCreditCard) {

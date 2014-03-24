@@ -1,0 +1,7 @@
+﻿<div class="tier-tiles">
+	<div class="title">Tier {{ selectedSubscription.subscriptionLevel }}</div>
+	<div class="tile {{ component.name }}" ng-repeat="component in selectedSubscription.components" ng-class="{ disabled: !component.active }">
+		<img ng-src="{{ imageSource(component) }}" />
+		{{ component.title }}
+	</div>
+</div>

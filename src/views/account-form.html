@@ -1,15 +1,13 @@
 ﻿<form name="editAccount" class="account-editor" novalidate="novalidate">
-	<h2>Account Settings</h2>
-
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': errorState('title', editAccount.txtAccountName) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError('title', editAccount.txtAccountName) }">
 			<label class="control-label" for="txtAccountName">
 				Account Name
 				<span class="error-message" error-message message="errorMessage('title', editAccount.txtAccountName)"></span>
 			</label>
 			<input type="text" id="txtAccountName" name="txtAccountName" class="form-control" ng-model="selectedAccount.title" />
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': errorState('active', editAccount.selStatus) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError('active', editAccount.selStatus) }">
 			<label class="control-label" for="selStatus">
 				Status
 				<span class="error-message" error-message message="errorMessage('active', editAccount.selStatus)"></span>
@@ -25,7 +23,7 @@
 	</div>
 
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': errorState('address1', editAccount.txtAddress1) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError('address1', editAccount.txtAddress1) }">
 			<label class="control-label" for="txtAddress1">
 				Address 1
 				<span class="error-message" error-message message="errorMessage('address1', editAccount.txtAddress1)"></span>
@@ -36,7 +34,7 @@
 			<label class="control-label" for="txtAddress2">Address 2</label>
 			<input type="text" id="txtAddress2" name="txtAddress2" class="form-control" ng-model="selectedAccount.address2" />
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': errorState('city', editAccount.txtCity) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError('city', editAccount.txtCity) }">
 			<label class="control-label" for="txtCity">
 				City
 				<span class="error-message" error-message message="errorMessage('city', editAccount.txtCity)"></span>
@@ -46,7 +44,7 @@
 	</div>
 
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': errorState('country', editAccount.selCountry) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError('country', editAccount.selCountry) }">
 			<label class="control-label" for="selCountry">
 				Country
 				<span class="error-message" error-message message="errorMessage('country', editAccount.selCountry)"></span>
@@ -58,14 +56,14 @@
 				<option value="USA">USA</option>
 			</select>
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': errorState('state', editAccount.selState) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError('state', editAccount.selState) }">
 			<label class="control-label" for="selState">
 				State
 				<span class="error-message" error-message message="errorMessage('state', editAccount.selState)"></span>
 			</label>
 			<select id="selState" name="selState" class="form-control" ng-model="selectedAccount.state" ng-options="s.name for s in getStates(false) track by s.value"></select>
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': errorState('postalCode', editAccount.txtPostalCode) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError('postalCode', editAccount.txtPostalCode) }">
 			<label class="control-label" for="txtPostalCode">
 				Postal Code
 				<span class="error-message" error-message message="errorMessage('postalCode', editAccount.txtPostalCode)"></span>
@@ -75,14 +73,14 @@
 	</div>
 
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': errorState('email', editAccount.txtEmail) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError('email', editAccount.txtEmail) }">
 			<label class="control-label" for="txtEmail">
 				Email
 				<span class="error-message" error-message message="errorMessage('email', editAccount.txtEmail)"></span>
 			</label>
 			<input type="text" required="required" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedAccount.email" />
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': errorState('phoneNumber', editAccount.txtPhoneNumber) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError('phoneNumber', editAccount.txtPhoneNumber) }">
 			<label class="control-label" for="txtPhoneNumber">
 				Phone
 				<span class="error-message" error-message message="errorMessage('phoneNumber', editAccount.txtPhoneNumber)"></span>
@@ -99,12 +97,12 @@
 	<div class="row">
 		<div class="col-md-6">
 			<div class="control-group">
-				<div class="form-group" ng-class="{ 'has-error': errorState('subscription', editAccount.selSubscription) }">
+				<div class="form-group" ng-class="{ 'has-error': hasError('subscription', editAccount.selSubscription) }">
 					<label class="control-label" for="selSubscription">
 						Subscription Level
 						<span class="error-message" error-message message="errorMessage('subscription', editAccount.selSubscription)"></span>
 					</label>
-					<select id="selSubscription" name="selSubscription" class="form-control" ng-model="selectedAccount.subscription.id" ng-change="selectedAccount.subscription.changeTier()">
+					<select id="selSubscription" name="selSubscription" class="form-control" ng-model="selectedAccount.subscription.subscriptionLevel" ng-change="selectedAccount.subscription.changeTier()">
 						<option value="1">Tier 1</option>
 						<option value="2">Tier 2</option>
 						<option value="3">Tier 3</option>
@@ -131,7 +129,7 @@
 			</div>
 			
 			<div class="control-group">
-				<div class="form-group" ng-class="{ 'has-error': errorState('numberLicenses', editAccount.txtMaxNumUsers) }" ng-hide="selfEditing">
+				<div class="form-group" ng-class="{ 'has-error': hasError('numberLicenses', editAccount.txtMaxNumUsers) }" ng-hide="selfEditing">
 					<label class="control-label" for="txtMaxNumUsers">
 						Max # of Users
 						<span class="error-message" error-message message="errorMessage('numberLicenses', editAccount.txtMaxNumUsers)"></span>
@@ -147,7 +145,16 @@
 		</div>
 
 		<div class="col-md-6">
-			<div tier-components selected-subscription="selectedAccount.subscription"></div>
+			<div class="tier-components">
+				<div style="display: inline-block;" tier-tiles selected-subscription="selectedAccount.subscription"></div>
+
+				<div class="tier-info">
+					<div>Price / Month: $<span ng-bind="selectedAccount.subscription.pricePerMonth"></span></div>
+					<div>Max # Users: <span ng-bind="selectedAccount.subscription.numberLicenses"></span></div>
+					<div>Training: <span ng-bind="(selectedAccount.subscription.training === true ? 'Included' : 'Not Included')"></span></div>
+					<div>Additional Features: <span ng-bind="selectedAccount.subscription.features"></span></div>
+				</div>
+			</div>
 		</div>
 	</div>
 

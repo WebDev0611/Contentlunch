@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap-components.css" />
+	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap-components.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/angular-ui.css" />
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->

@@ -4,7 +4,13 @@
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.account.parseResponse },
 		update: { method: 'PUT', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
 		insert: { method: 'POST', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
-		delete: { method: 'DELETE' }
+		delete: { method: 'DELETE' },
+		getSubscription: { method: 'GET' }
+	});
+
+	var subscriptions = $resource('/api/account/:id/subscription', { id: '@id' }, {
+		get: { method: 'GET', transformResponse: ModelMapperService.subscription.parseResponse },
+		save: { method: 'POST', transformRequest: ModelMapperService.subscription.formatRequest }
 	});
 
 	return {
@@ -18,7 +24,15 @@
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return accounts.get({ id: id }, success, error);
+			var account = accounts.get({ id: id }, success, error);
+
+			account.$promise.then(function (acct) {
+				if (!acct.subscription) {
+					acct.subscription = subscriptions.get({ id: acct.id }, null, error);
+				}
+			});
+
+			return account;
 		},
 		update: function (account, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -51,6 +65,12 @@
 			});
 
 			return resource.insert({ id: accountId }, userId, success, error);
+		},
+		addSubscription: function(accountId, subscription, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			subscriptions.save({ id: accountId }, subscription, success, error);
 		},
 		getNewAccount: function () {
 			var account = new launch.Account();

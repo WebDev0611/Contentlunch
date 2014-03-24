@@ -18,6 +18,7 @@ launch.module.factory('AuthService', function ($resource, $sanitize, SessionServ
 	};
 
 	self.resource = $resource('/api/auth', null, {
+		login: { method: 'POST' },
 		fetchCurrentUser: { method: 'GET', transformResponse: self.modelMapper.user.parseResponse }
 	});
 
@@ -26,7 +27,7 @@ launch.module.factory('AuthService', function ($resource, $sanitize, SessionServ
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return $resource('/api/auth/').save({
+			return self.resource.login({
 					email: $sanitize(username),
 					password: $sanitize(password),
 					remember: remember
