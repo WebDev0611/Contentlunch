@@ -4,6 +4,12 @@ class SubscriptionSeeder extends Seeder {
 
   public function run()
   {
+    // Allows to set explicit ID values in sqlserver
+    // Catch exception for non sqlserver
+    try {
+      DB::statement("SET IDENTITY_INSERT subscriptions ON");
+    } catch (Exception $e) {
+    }
     $sub = new Subscription;
     $sub->id = 1;
     $sub->licenses = 5;
