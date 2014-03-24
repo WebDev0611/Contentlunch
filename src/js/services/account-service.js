@@ -8,8 +8,13 @@
 		getSubscription: { method: 'GET' }
 	});
 
-	var subscriptions = $resource('/api/account/:id/subscription', { id: '@id' }, {
+	var accountSubscriptions = $resource('/api/account/:id/subscription', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.subscription.parseResponse },
+		save: { method: 'POST', transformRequest: ModelMapperService.subscription.formatRequest }
+	});
+
+	var subscriptions = $resource('/api/subscription', null, {
+		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.subscription.parseResponse },
 		save: { method: 'POST', transformRequest: ModelMapperService.subscription.formatRequest }
 	});
 
@@ -28,7 +33,7 @@
 
 			account.$promise.then(function (acct) {
 				if (!acct.subscription) {
-					acct.subscription = subscriptions.get({ id: acct.id }, null, error);
+					acct.subscription = accountSubscriptions.get({ id: acct.id }, null, error);
 				}
 			});
 
@@ -66,11 +71,23 @@
 
 			return resource.insert({ id: accountId }, userId, success, error);
 		},
-		addSubscription: function(accountId, subscription, callback) {
+		updateAccountSubscription: function (accountId, subscription, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			subscriptions.save({ id: accountId }, subscription, success, error);
+			accountSubscriptions.save({ id: accountId }, subscription, success, error);
+		},
+		getSubscriptions: function(callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return subscriptions.get(null, success, error);
+		},
+		saveSubscription: function(subscription, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return subscriptions.get(null, subscription, success, error);
 		},
 		getNewAccount: function () {
 			var account = new launch.Account();

@@ -453,7 +453,8 @@
 				return null;
 			}
 
-			var subscription = new launch.Subscription(dto.subscription);
+			var id = (!!dto.subscription_id) ? dto.subscription_id : dto.id;
+			var subscription = new launch.Subscription(id);
 
 			subscription.id = parseInt(dto.id);
 			subscription.autoRenew = parseInt(dto.auto_renew) === 1 ? true : false;

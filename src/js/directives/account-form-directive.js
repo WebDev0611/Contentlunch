@@ -66,7 +66,7 @@
 				success: function (r) {
 					if (isNew && !!scope.selectedAccount.subscription) {
 						// Now save the subscription along with the new account.
-						AccountService.addSubscription(r.id, scope.selectedAccount.subscription);
+						AccountService.updateAccountSubscription(r.id, scope.selectedAccount.subscription);
 					}
 
 					scope.isSaving = false;
