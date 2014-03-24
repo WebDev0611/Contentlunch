@@ -275,6 +275,22 @@ header .login-info .popover-menu .admin-menu li .glyphicon {
 .form-group.has-error label .error-message {
   float: right;
 }
+.popover {
+  z-index: 1100;
+}
+.popover .popover-content .error-message,
+.popover .popover-title .error-message {
+  color: #ff0000;
+}
+.popover .popover-title {
+  position: relative;
+}
+.popover .popover-title .glyphicon-remove {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
 label {
   display: inline;
   font-family: 'Lato-Bold';
@@ -551,11 +567,14 @@ span[class*=" icon-"].dark {
 .account-editor .control-group .form-group {
   display: inline-block;
   margin: 0 8px 0 0;
-  width: 20em;
+  min-width: 20em;
 }
 .user-editor .control-group.btn-toolbar,
 .account-editor .control-group.btn-toolbar {
   margin: 16px 0;
+}
+.user-editor {
+  margin: 75px 25px;
 }
 .connection-list {
   border-top: solid 1px #000000;

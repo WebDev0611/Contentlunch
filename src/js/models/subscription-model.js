@@ -50,6 +50,9 @@
 
 		if (self.yearlyPayment === true && parseInt(self.annualDiscount) > 0) {
 			price = (price * (1 - (self.annualDiscount / 100)));
+		} else {
+			// Monthly payments require that auto-renew is on.
+			self.autoRenew = true;
 		}
 
 		self.pricePerMonth = parseFloat(price).toFixed(2);

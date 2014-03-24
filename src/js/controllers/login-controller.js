@@ -1,6 +1,6 @@
 launch.module.controller('LoginController', [
 	'$scope', '$sanitize', '$location', 'AuthService', 'NotificationService', function ($scope, $sanitize, $location, authService, notificationService) {
-		$scope.user = null;
+		$scope.user = { email: null, password: null };
 		$scope.emailError = null;
 		$scope.passwordError = null;
 		$scope.isSaving = false;
