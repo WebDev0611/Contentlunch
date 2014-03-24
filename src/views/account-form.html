@@ -1,18 +1,14 @@
 ﻿<form name="editAccount" class="account-editor" novalidate="novalidate">
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': hasError('title', editAccount.txtAccountName) }">
-			<label class="control-label" for="txtAccountName">
-				Account Name
-				<span class="error-message" error-message message="errorMessage('title', editAccount.txtAccountName)"></span>
-			</label>
-			<input type="text" id="txtAccountName" name="txtAccountName" class="form-control" ng-model="selectedAccount.title" />
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'title', editAccount.txtAccountName) }">
+			<label class="control-label" for="txtAccountName">Account Name</label>
+			<input type="text" id="txtAccountName" name="txtAccountName" class="form-control" ng-model="selectedAccount.title"
+					error-message message="errorMessage(selectedAccount, 'title', editAccount.txtAccountName)" />
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': hasError('active', editAccount.selStatus) }">
-			<label class="control-label" for="selStatus">
-				Status
-				<span class="error-message" error-message message="errorMessage('active', editAccount.selStatus)"></span>
-			</label>
-			<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedAccount.active" ng-disabled="selfEditing">
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'active', editAccount.selStatus) }">
+			<label class="control-label" for="selStatus">Status</label>
+			<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedAccount.active" ng-disabled="selfEditing"
+					error-message message="errorMessage(selectedAccount, 'active', editAccount.selStatus)">
 				<option value="true" ng-selected="selectedAccount.active === true">Active</option>
 				<option value="false" ng-selected="selectedAccount.active !== true">Inactive</option>
 			</select>
@@ -23,69 +19,55 @@
 	</div>
 
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': hasError('address1', editAccount.txtAddress1) }">
-			<label class="control-label" for="txtAddress1">
-				Address 1
-				<span class="error-message" error-message message="errorMessage('address1', editAccount.txtAddress1)"></span>
-			</label>
-			<input type="text" id="txtAddress1" name="txtAddress1" class="form-control" ng-model="selectedAccount.address1" />
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'address1', editAccount.txtAddress1) }">
+			<label class="control-label" for="txtAddress1">Address 1</label>
+			<input type="text" id="txtAddress1" name="txtAddress1" class="form-control" ng-model="selectedAccount.address1"
+					error-message message="errorMessage(selectedAccount, 'address1', editAccount.txtAddress1)" />
 		</div>
 		<div class="form-group">
 			<label class="control-label" for="txtAddress2">Address 2</label>
 			<input type="text" id="txtAddress2" name="txtAddress2" class="form-control" ng-model="selectedAccount.address2" />
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': hasError('city', editAccount.txtCity) }">
-			<label class="control-label" for="txtCity">
-				City
-				<span class="error-message" error-message message="errorMessage('city', editAccount.txtCity)"></span>
-			</label>
-			<input type="text" id="txtCity" name="txtCity" class="form-control" ng-model="selectedAccount.city" />
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'city', editAccount.txtCity) }">
+			<label class="control-label" for="txtCity">City</label>
+			<input type="text" id="txtCity" name="txtCity" class="form-control" ng-model="selectedAccount.city"
+					error-message message="errorMessage(selectedAccount, 'city', editAccount.txtCity)" />
 		</div>
 	</div>
 
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': hasError('country', editAccount.selCountry) }">
-			<label class="control-label" for="selCountry">
-				Country
-				<span class="error-message" error-message message="errorMessage('country', editAccount.selCountry)"></span>
-			</label>
-			<select id="selCountry" name="selCountry" class="form-control" ng-model="selectedAccount.country">
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'country', editAccount.selCountry) }">
+			<label class="control-label" for="selCountry">Country</label>
+			<select id="selCountry" name="selCountry" class="form-control" ng-model="selectedAccount.country"
+					error-message message="errorMessage(selectedAccount, 'country', editAccount.selCountry)">
 				<option value="Australia">Australia</option>
 				<option value="Canada">Canada</option>
 				<option value="UK">UK</option>
 				<option value="USA">USA</option>
 			</select>
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': hasError('state', editAccount.selState) }">
-			<label class="control-label" for="selState">
-				State
-				<span class="error-message" error-message message="errorMessage('state', editAccount.selState)"></span>
-			</label>
-			<select id="selState" name="selState" class="form-control" ng-model="selectedAccount.state" ng-options="s.name for s in getStates(false) track by s.value"></select>
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'state', editAccount.selState) }">
+			<label class="control-label" for="selState">State</label>
+			<select id="selState" name="selState" class="form-control" ng-model="selectedAccount.state" ng-options="s.name for s in getStates(false) track by s.value"
+					error-message message="errorMessage(selectedAccount, 'state', editAccount.selState)"></select>
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': hasError('postalCode', editAccount.txtPostalCode) }">
-			<label class="control-label" for="txtPostalCode">
-				Postal Code
-				<span class="error-message" error-message message="errorMessage('postalCode', editAccount.txtPostalCode)"></span>
-			</label>
-			<input type="text" id="txtPostalCode" name="txtPostalCode" class="form-control" ng-model="selectedAccount.postalCode" />
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'postalCode', editAccount.txtPostalCode) }">
+			<label class="control-label" for="txtPostalCode">Postal Code</label>
+			<input type="text" id="txtPostalCode" name="txtPostalCode" class="form-control" ng-model="selectedAccount.postalCode"
+					error-message message="errorMessage(selectedAccount, 'postalCode', editAccount.txtPostalCode)" />
 		</div>
 	</div>
 
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': hasError('email', editAccount.txtEmail) }">
-			<label class="control-label" for="txtEmail">
-				Email
-				<span class="error-message" error-message message="errorMessage('email', editAccount.txtEmail)"></span>
-			</label>
-			<input type="text" required="required" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedAccount.email" />
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'email', editAccount.txtEmail) }">
+			<label class="control-label" for="txtEmail">Email</label>
+			<input type="text" required="required" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedAccount.email"
+					error-message message="errorMessage(selectedAccount, 'email', editAccount.txtEmail)" />
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': hasError('phoneNumber', editAccount.txtPhoneNumber) }">
-			<label class="control-label" for="txtPhoneNumber">
-				Phone
-				<span class="error-message" error-message message="errorMessage('phoneNumber', editAccount.txtPhoneNumber)"></span>
-			</label>
-			<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="selectedAccount.phoneNumber" />
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'phoneNumber', editAccount.txtPhoneNumber) }">
+			<label class="control-label" for="txtPhoneNumber">Phone</label>
+			<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="selectedAccount.phoneNumber"
+					error-message message="errorMessage(selectedAccount, 'phoneNumber', editAccount.txtPhoneNumber)" />
 		</div>
 		<div class="form-group" ng-hide="selfEditing">
 			<a href="#" ng-click="resendAccountCreationEmail()">Resend Account Creation Email</a>
@@ -97,12 +79,11 @@
 	<div class="row">
 		<div class="col-md-6">
 			<div class="control-group">
-				<div class="form-group" ng-class="{ 'has-error': hasError('subscription', editAccount.selSubscription) }">
-					<label class="control-label" for="selSubscription">
-						Subscription Level
-						<span class="error-message" error-message message="errorMessage('subscription', editAccount.selSubscription)"></span>
-					</label>
-					<select id="selSubscription" name="selSubscription" class="form-control" ng-model="selectedAccount.subscription.subscriptionLevel" ng-change="selectedAccount.subscription.changeTier()">
+				<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.subscription, 'subscription', editAccount.selSubscription) }">
+					<label class="control-label" for="selSubscription">Subscription Level</label>
+					<select id="selSubscription" name="selSubscription" class="form-control"
+							ng-model="selectedAccount.subscription.subscriptionLevel" ng-change="selectedAccount.subscription.changeTier()"
+							error-message message="errorMessage(selectedAccount.subscription, 'subscription', editAccount.selSubscription)">
 						<option value="1">Tier 1</option>
 						<option value="2">Tier 2</option>
 						<option value="3">Tier 3</option>
@@ -118,7 +99,7 @@
 			<div class="control-group">
 				<div class="checkbox">
 					<label class="control-label" for="chkAutoRenew">
-						<input type="checkbox" id="chkAutoRenew" ng-model="selectedAccount.subscription.autoRenew" ng-change="toggleSubscription()" />
+						<input type="checkbox" id="chkAutoRenew" ng-model="selectedAccount.subscription.autoRenew" ng-disabled="!selectedAccount.subscription.yearlyPayment" ng-change="toggleSubscription()" />
 						Account Auto Renew
 					</label>
 				</div>
@@ -129,12 +110,11 @@
 			</div>
 			
 			<div class="control-group">
-				<div class="form-group" ng-class="{ 'has-error': hasError('numberLicenses', editAccount.txtMaxNumUsers) }" ng-hide="selfEditing">
-					<label class="control-label" for="txtMaxNumUsers">
-						Max # of Users
-						<span class="error-message" error-message message="errorMessage('numberLicenses', editAccount.txtMaxNumUsers)"></span>
-					</label>
-					<input type="text" required="required" id="txtMaxNumUsers" name="txtMaxNumUsers" class="form-control" ng-model="selectedAccount.subscription.numberLicenses" ng-disabled="selfEditing" />
+				<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.subscription, 'numberLicenses', editAccount.txtMaxNumUsers) }" ng-hide="selfEditing">
+					<label class="control-label" for="txtMaxNumUsers">Max # of Users</label>
+					<input type="text" required="required" id="txtMaxNumUsers" name="txtMaxNumUsers" class="form-control"
+							ng-model="selectedAccount.subscription.numberLicenses" ng-disabled="selfEditing"
+							error-message message="errorMessage(selectedAccount.subscription, 'numberLicenses', editAccount.txtMaxNumUsers)" />
 				</div>
 				
 				<div ng-show="selfEditing">

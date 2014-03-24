@@ -8,35 +8,30 @@
 				<form name="tierForm" class="tier-form">
 					<div class="control-group">
 						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'pricePerMonth', tierForm.txtPricePerMonth) }">
-							<label class="control-label" for="txtPricePerMonth">
-								Price / Month
-								<span class="error-message" error-message message="errorMessage(subscription, 'pricePerMonth', tierForm.txtPricePerMonth)"></span>
-							</label>
+							<label class="control-label" for="txtPricePerMonth">Price / Month</label>
 							<div class="input-group">
 								<span class="input-group-addon">$</span>
-								<input type="text" required="required" id="txtPricePerMonth" name="txtPricePerMonth" class="form-control" ng-model="subscription.pricePerMonth" />
+								<input type="text" required="required" id="txtPricePerMonth" name="txtPricePerMonth" class="form-control"
+										ng-model="subscription.pricePerMonth" ng-blur="formatPricePerMonth(subscription)"
+										error-message message="errorMessage(subscription, 'pricePerMonth', tierForm.txtPricePerMonth)" />
 							</div>
 						</div>
 					</div>
 					<div class="control-group">
 						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'annualDiscount', tierForm.txtAnnualDiscount) }">
-							<label class="control-label" for="txtAnnualDiscount">
-								Annual Discount
-								<span class="error-message" error-message message="errorMessage(subscription, 'annualDiscount', tierForm.txtAnnualDiscount)"></span>
-							</label>
+							<label class="control-label" for="txtAnnualDiscount">Annual Discount</label>
 							<div class="input-group">
 								<span class="input-group-addon">%</span>
-								<input type="text" required="required" id="txtAnnualDiscount" name="txtAnnualDiscount" class="form-control" ng-model="subscription.annualDiscount" />
+								<input type="text" required="required" id="txtAnnualDiscount" name="txtAnnualDiscount" class="form-control" ng-model="subscription.annualDiscount"
+										error-message message="errorMessage(subscription, 'annualDiscount', tierForm.txtAnnualDiscount)" />
 							</div>
 						</div>
 					</div>
 					<div class="control-group">
 						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'numberLicenses', tierForm.txtMaxNumberOfUsers) }">
-							<label class="control-label" for="txtMaxNumberOfUsers">
-								Max # of Users
-								<span class="error-message" error-message message="errorMessage(subscription, 'numberLicenses', tierForm.txtMaxNumberOfUsers)"></span>
-							</label>
-							<input type="text" required="required" id="txtMaxNumberOfUsers" name="txtMaxNumberOfUsers" class="form-control" ng-model="subscription.numberLicenses" />
+							<label class="control-label" for="txtMaxNumberOfUsers">Max # of Users</label>
+							<input type="text" required="required" id="txtMaxNumberOfUsers" name="txtMaxNumberOfUsers" class="form-control" ng-model="subscription.numberLicenses"
+									error-message message="errorMessage(subscription, 'numberLicenses', tierForm.txtMaxNumberOfUsers)" />
 						</div>
 					</div>
 					<div class="control-group">
