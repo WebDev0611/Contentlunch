@@ -77,16 +77,16 @@ class AuthController extends BaseController {
      */
     public function do_confirm()
     {
-        $code = Input::get('code');
-        if ( Confide::confirm( $code ) )
+        if (Confide::confirm( Input::get('codez') ) )
         {
-            $notice_msg = Lang::get('confide::confide.alerts.confirmation');
-            return array('message' => $notice_msg);
+            $user = User::where('confirmation_code', Input::get('code'))->first();
+            Auth::login($user);
+            return $this->show_current();
         }
         else
         {
             $error_msg = Lang::get('confide::confide.alerts.wrong_confirmation');
-            return Response::json(array('error' => $error_msg), 401);
+            return $this->responseError($error_msg);
         }
     }
 

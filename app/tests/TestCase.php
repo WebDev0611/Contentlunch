@@ -339,6 +339,42 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     $this->assertEquals($accounts, $user->accounts, $err .' ->accounts');*/
   }
 
+  protected function assertAccount($expect, $account)
+  {
+    // Fields that should match
+    $match = array(
+      'id', 'title', 'active', 'name', 'address', 'address_2',
+      'city', 'state', 'phone', 'country', 'zipcode', 'email',
+      'auto_renew', 'payment_type', 'yearly_payment'
+    );
+    foreach ($match as $field) {
+      $this->assertEquals($expect->$field, $account->$field, "Account field $field doesn't match.");
+    }
+    // Fields that shouldn't be set in the api response
+    $notSet = array(
+      'token'
+    );
+    foreach ($notSet as $field) {
+      $this->assertObjectNotHasAttribute($field, $account);
+    }
+    // Fields that should be set
+    $set = array(
+      'created_at', 'updated_at', //'expiration_date'
+    );
+    foreach ($set as $field) {
+      $this->assertNotEmpty($account->$field, "Account field $field should not be empty");
+    }
+    // Count of users attached to account
+    $count_users = DB::table('account_user')
+      ->select(DB::raw("COUNT(*) as countusers"))
+      ->where('account_id', $expect->id)
+      ->pluck('countusers');
+    if ( ! $count_users) {
+      $count_users = null;
+    }
+    $this->assertEquals($count_users, $account->count_users);
+  }
+
   protected function assertSubscription($expect, $sub)
   {
     // Fields that should match
@@ -346,8 +382,39 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
       'id', 'licenses', 'monthly_price', 'annual_discount', 'training', 'features'
     );
     foreach ($match as $field) {
-      $this->assertEquals($expect->$field, $sub->$field, "Subscription field $field doesn't match");
+      $this->assertEquals($expect->$field, $sub->$field, "Subscription field $field doesn't match.");
     }
+  }
+
+  protected function assertUser($expect, $user)
+  {
+    // Fields that should match
+    $match = array(
+      'id', 'username', 'email', 'first_name', 'last_name',
+      'confirmed', 'address', 'address_2', 'city', 'state',
+      'phone', 'status', 'country'
+    );
+    foreach ($match as $field) {
+      $this->assertEquals($expect->$field, $user->$field, "User field $field doesn't match.");
+    }
+    // Fields that shouldn't be set in the api response
+    $notSet = array(
+      'password', 'password_confirmation', 'confirmation_code'
+    );
+    foreach ($notSet as $field) {
+      $this->assertObjectNotHasAttribute($field, $user);
+    }
+    // Fields that should be set
+    $set = array(
+      'created_at', 'updated_at'
+    );
+    foreach ($set as $field) {
+      $this->assertNotEmpty($user->$field, "User field $field should not be empty");
+    }
+    // Should have an accounts property
+    $this->assertObjectHasAttribute('accounts', $user);
+    // Should have an roles property
+    $this->assertObjectHasAttribute('roles', $user);
   }
 
 }

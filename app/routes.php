@@ -2,7 +2,7 @@
 
 // Confide routes
 
-Route::get( 'user/confirm/{code}',         'AuthController@confirm');
+//Route::get( 'user/confirm/{code}',         'AuthController@do_confirm');
 //Route::get( 'user/reset/{token}', 'AuthController@reset_password');
 
 
