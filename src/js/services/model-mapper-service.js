@@ -466,6 +466,7 @@
 			}
 
 			var id = (!!dto.subscription_id) ? dto.subscription_id : dto.id;
+			// TODO: REPLACE THIS WITH "subscription_level" ONCE IT COMES OUT OF THE API!!!
 			var subscription = new launch.Subscription(id);
 
 			subscription.id = parseInt(dto.id);
