@@ -25,12 +25,16 @@ class AccountSeeder extends Seeder {
     $account->yearly_payment = false;
 		$account->save();
 
-    $sub_id = Subscription::first()->pluck('id');
+    $subscription = Subscription::first();
 
     $sub = new AccountSubscription;
     $sub->account_id = $account->id;
-    $sub->subscription_id = $sub_id;
-    $sub->licenses = 45;
+    $sub->subscription_id = $subscription->id;
+    $sub->licenses = $subscription->licenses;
+    $sub->monthly_price = $subscription->monthly_price;
+    $sub->annual_discount = $subscription->annual_discount;
+    $sub->training = $subscription->training;
+    $sub->features = $subscription->features;
     $sub->save();
 
 	}
