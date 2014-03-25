@@ -31,6 +31,7 @@ $app = new Illuminate\Foundation\Application;
 $env = $app->detectEnvironment(function() {
   $hosts = array(
     'test.contentlaunch.surgeforward.com' => 'test',
+    'staging.contentlaunch.surgeforward.com' => 'staging',
     'contentlaunch.com' => 'prod'
   );
  
