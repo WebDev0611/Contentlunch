@@ -62,19 +62,18 @@
 			form.$setDirty();
 
 			var msg = launch.utils.validateAll(scope.selectedUser);
-			var isNew = launch.utils.isBlank(scope.selectedUser.id);
 
 			if (!launch.utils.isBlank(msg)) {
 				NotificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
 				return;
 			}
 
-			var method = isNew ? UserService.add : UserService.update;
+			var method = scope.isNewUser ? UserService.add : UserService.update;
 			var callback = {
 				success: function (r) {
 					scope.isSaving = false;
 
-					var successMsg = isNew ? 'You have successfully created ' + r.formatName() + '\'s account.' : 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.formatName() + '\'s') + ' user settings!';
+					var successMsg = scope.isNewUser ? 'You have successfully created ' + r.formatName() + '\'s account.' : 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.formatName() + '\'s') + ' user settings!';
 
 					NotificationService.success('Success!', successMsg);
 
@@ -89,7 +88,7 @@
 				}
 			};
 
-			if (isNew) {
+			if (scope.isNewUser) {
 				scope.selectedUser.account = self.loggedInUser.account;
 				scope.selectedUser.accounts.push(scope.selectedUser.account);
 				scope.selectedUser.roles.push(scope.selectedUser.role);
@@ -103,7 +102,7 @@
 						SessionService.set(SessionService.USER_KEY, scope.selectedUser);
 					}
 
-					if (isNew && !!scope.selectedUser.account) {
+					if (scope.isNewUser && !!scope.selectedUser.account) {
 						AccountService.addUser(scope.selectedUser.account.id, r.id, {
 							success: function(rs) {
 								callback.success(r);
