@@ -110,12 +110,6 @@
 				updated_at: account.updated
 			};
 
-			account.autoRenew = parseInt(dto.auto_renew) === 1 ? true : false;
-			account.expirationDate = new Date(dto.expiration_date);
-			account.paymentType = dto.payment_type;
-			account.yearlyPayment = parseInt(dto.yearly_payment) === 1 ? true : false;
-
-
 			return dto;
 		},
 		fromCache: function (cachedAccount) {
