@@ -12,7 +12,7 @@
 							<div class="input-group">
 								<span class="input-group-addon">$</span>
 								<input type="text" required="required" id="txtPricePerMonth" name="txtPricePerMonth" class="form-control"
-										ng-model="subscription.pricePerMonth" ng-blur="formatPricePerMonth(subscription)"
+										ng-model="subscription.pricePerMonth" ng-blur="subscription.formatPricePerMonth(false)"
 										error-message message="errorMessage(subscription, 'pricePerMonth', tierForm.txtPricePerMonth)" />
 							</div>
 						</div>

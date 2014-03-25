@@ -48,7 +48,8 @@
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'state', editAccount.selState) }">
 			<label class="control-label" for="selState">State</label>
-			<select id="selState" name="selState" class="form-control" ng-model="selectedAccount.state" ng-options="s.name for s in getStates(false) track by s.value"
+			<select id="selState" name="selState" class="form-control"
+					ng-model="selectedAccount.state" ng-options="s.name for s in getStates(false) track by s.value"
 					error-message message="errorMessage(selectedAccount, 'state', editAccount.selState)"></select>
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'postalCode', editAccount.txtPostalCode) }">
@@ -82,33 +83,30 @@
 				<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.subscription, 'subscription', editAccount.selSubscription) }">
 					<label class="control-label" for="selSubscription">Subscription Level</label>
 					<select id="selSubscription" name="selSubscription" class="form-control"
-							ng-model="selectedAccount.subscription.subscriptionLevel" ng-change="selectedAccount.subscription.changeTier()"
+							ng-model="selectedAccount.subscription" ng-change="changeTier()" ng-options="s.getName() for s in subscriptions track by s.subscriptionLevel"
 							error-message message="errorMessage(selectedAccount.subscription, 'subscription', editAccount.selSubscription)">
-						<option value="1">Tier 1</option>
-						<option value="2">Tier 2</option>
-						<option value="3">Tier 3</option>
 					</select>
 				</div>
 			</div>
-			
+
 			<div class="control-group">
-				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radMonthly" ng-value="false" ng-model="selectedAccount.subscription.yearlyPayment" ng-change="selectedAccount.subscription.changePaymentPeriod()" />Monthly Payment</label>
-				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radYearly" ng-value="true" ng-model="selectedAccount.subscription.yearlyPayment" ng-change="selectedAccount.subscription.changePaymentPeriod()" />Yearly Payment (10% discount)</label>
+				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radMonthly" ng-value="false" ng-model="selectedAccount.yearlyPayment" ng-change="changePaymentPeriod()" />Monthly Payment</label>
+				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radYearly" ng-value="true" ng-model="selectedAccount.yearlyPayment" ng-change="changePaymentPeriod()" />Yearly Payment (<span>{{ selectedAccount.subscription.annualDiscount }}</span>% discount)</label>
 			</div>
 
 			<div class="control-group">
 				<div class="checkbox">
 					<label class="control-label" for="chkAutoRenew">
-						<input type="checkbox" id="chkAutoRenew" ng-model="selectedAccount.subscription.autoRenew" ng-disabled="!selectedAccount.subscription.yearlyPayment" ng-change="toggleSubscription()" />
+						<input type="checkbox" id="chkAutoRenew" ng-model="selectedAccount.autoRenew" ng-disabled="!selectedAccount.yearlyPayment" />
 						Account Auto Renew
 					</label>
 				</div>
 			</div>
-			
+
 			<div class="control-group">
-				Account Renew/Expiration Date: <span ng-bind="selectedAccount.subscription.formattedExpirationDate()"></span>
+				Account Renew/Expiration Date: <span ng-bind="selectedAccount.formattedExpirationDate()"></span>
 			</div>
-			
+
 			<div class="control-group">
 				<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.subscription, 'numberLicenses', editAccount.txtMaxNumUsers) }" ng-hide="selfEditing">
 					<label class="control-label" for="txtMaxNumUsers">Max # of Users</label>
@@ -118,7 +116,7 @@
 				</div>
 				
 				<div ng-show="selfEditing">
-					<button type="button" class="btn btn-default" ng-show="!selectedAccount.subscription.autoRenew" ng-click="renewAccount()">Renew Account</button>
+					<button type="button" class="btn btn-default" ng-show="!selectedAccount.autoRenew" ng-click="renewAccount()">Renew Account</button>
 					<button type="button" class="btn btn-default" ng-click="cancelAccount()">Cancel Account</button>
 				</div>
 			</div>
@@ -129,7 +127,7 @@
 				<div style="display: inline-block;" tier-tiles selected-subscription="selectedAccount.subscription"></div>
 
 				<div class="tier-info">
-					<div>Price / Month: $<span ng-bind="selectedAccount.subscription.pricePerMonth"></span></div>
+					<div>Price / Month: $<span ng-bind="selectedAccount.subscription.formatPricePerMonth(selectedAccount.yearlyPayment)"></span></div>
 					<div>Max # Users: <span ng-bind="selectedAccount.subscription.numberLicenses"></span></div>
 					<div>Training: <span ng-bind="(selectedAccount.subscription.training === true ? 'Included' : 'Not Included')"></span></div>
 					<div>Additional Features: <span ng-bind="selectedAccount.subscription.features"></span></div>
@@ -141,11 +139,11 @@
 	<h2>Payment Info</h2>
 	
 	<div class="control-group">
-		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radCreditCard" ng-value="'CC'" ng-model="selectedAccount.subscription.paymentType" />Credit Card</label>
-		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radACH" ng-value="'ACH'" ng-model="selectedAccount.subscription.paymentType" />ACH</label>
+		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radCreditCard" ng-value="'CC'" ng-model="selectedAccount.paymentType" />Credit Card</label>
+		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radACH" ng-value="'ACH'" ng-model="selectedAccount.paymentType" />ACH</label>
 	</div>
 	
-	<div ng-show="selectedAccount.subscription.paymentType === 'CC'">
+	<div ng-show="selectedAccount.paymentType === 'CC'">
 		<div class="control-group">
 			<div class="form-group">
 				<label class="control-label" for="txtNameOnCard">Name on Card</label>
@@ -224,7 +222,7 @@
 		</div>
 	</div>
 	
-	<div ng-show="selectedAccount.subscription.paymentType === 'ACH'">
+	<div ng-show="selectedAccount.paymentType === 'ACH'">
 		<div class="control-group">
 			<div class="form-group">
 				<label class="control-label" for="txtBankName">Bank Name</label>

@@ -218,6 +218,7 @@ launch.module.controller('AccountsController', [
 		$scope.afterSaveSuccess = function (r, form) {
 			self.loadAccounts(false, {
 				success: function () {
+					$scope.selectedAccount = accountService.get(r.id);
 					self.adjustPage(r.id, form);
 				}
 			});

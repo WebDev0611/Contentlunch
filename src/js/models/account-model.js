@@ -16,6 +16,12 @@
 	self.creditCard = null;
 	self.bankAccount = null;
 	self.userCount = 0;
+
+	self.autoRenew = false;
+	self.expirationDate = null;
+	self.paymentType = 'CC';
+	self.yearlyPayment = false;
+
 	self.created = null;
 	self.updated = null;
 
@@ -27,6 +33,10 @@
 		}
 
 		return false;
+	};
+
+	self.formattedExpirationDate = function () {
+		return launch.utils.isBlank(self.expirationDate) ? null : launch.utils.formatDate(self.expirationDate);
 	};
 
 	self.validateProperty = function(property) {
