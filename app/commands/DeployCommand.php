@@ -37,6 +37,7 @@ class DeployCommand extends Command {
 	 */
 	public function fire()
 	{
+    echo "Running deploy:test command";
     $token = 'qoOqob0jl9uXbXkkcaClq8wAdlabxNndQfm96LS';
     $room = 3091332;
 //    $hipchat = new HipChat\HipChat($token);
