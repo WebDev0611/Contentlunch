@@ -2,9 +2,9 @@
 
 use LaravelBook\Ardent\Ardent;
 
-class Subscription extends Ardent {
+class AccountUser extends Ardent {
 
-  protected $table = 'subscriptions';
+  protected $table = 'account_user';
 
   protected function getDateFormat()
   {

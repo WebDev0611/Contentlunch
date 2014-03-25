@@ -1,134 +1,76 @@
 <?php
 
-/**
- * Integration test for Accounts
- * Runs tests against a sqllite database to make sure apis
- * are interacting with the database correctly and returning correct responses
- */
+use Woodling\Woodling;
+
 class AccountIntegrationTest extends TestCase {
 
-	public function testIndex()
+	public function testGetAllAccounts()
 	{
-		$this->setupTestAccounts();
-		$response = $this->call('GET', 'api/account');
-		$this->assertResponseOk();
-		$accounts = json_decode($response->getContent());
-		$expect = $this->getTestAccounts();
-		$this->assertAccountFields($expect[1], $accounts[0]);
-		$this->assertAccountFields($expect[1], $accounts[0]);
-	}
-
-	public function testStore()
-	{
-		$expect = $this->getTestAccounts(1);
-		$response = $this->call('POST', 'api/account', $expect);
-		$account = json_decode($response->getContent());
-		$this->assertAccountFields($expect, $account);
-	}
-
-	public function testStoreFailValidationReturnsError()
-	{
-		$response = $this->call('POST', 'api/account', array(
-			'title' => '123', // Title should be longer
-		));
-		$return = json_decode($response->getContent());
-		$this->assertResponseStatus(401);
-		$this->assertNotEmpty($return->errors->title);
-	}
-
-	public function testShow()
-	{
-		$this->setupTestAccounts();
-		$expect = $this->getTestAccounts(1);
-		$response = $this->call('GET', 'api/account/'. $expect['id']);
-		$this->assertResponseOk();
-		$account = json_decode($response->getContent());
-		$this->assertAccountFields($expect, $account);
-	}
-
-	public function testUpdate()
-	{
-		$this->setupTestAccounts();
-		$changes = array(
-			'title' => 'Foobar',
-			'active' => 0,
-			'address' => '49494 S 1st',
-			'address_2' => 'Ste. 999',
-			'name' => 'Foobar Consulting',
-			'city' => 'New York',
-			'state' => 'NY',
-			'phone' => '123-321-1231',
-			'country' => 'US',
-			'zipcode' => '99912',
-			'email' => 'foo@bar.com'
-		);
-		$expect = array_merge($this->getTestAccounts(1), $changes);
-		$response = $this->call('PUT', 'api/account/'. $expect['id'], $changes);
-		$this->assertResponseOk();
-		$account = json_decode($response->getContent());
-		$this->assertAccountFields($expect, $account);
-	}
-
-	public function testUpdateFailValidationReturnsError()
-	{
-		$this->setupTestAccounts();
-		$expect = $this->getTestAccounts(1);
-		$response = $this->call('PUT', 'api/account/'. $expect['id'], array('title' => '123'));
-		$return = json_decode($response->getContent());
-		$this->assertResponseStatus(401);
-		$this->assertNotEmpty($return->errors->title);
-	}
-
-	public function testDestroy()
-	{
-		// @todo: Implement soft delete?
-		$this->setupTestAccounts();
-		$expect = $this->getTestAccounts(1);
-		$response = $this->call('DELETE', 'api/account/'. $expect['id']);
-		$this->assertResponseOk();
-		$response = json_decode($response->getContent());
-		// @todo: Determine a common response to use here
-		$this->assertEquals('OK', $response->success);
-		$id = DB::table('accounts')->where('id', $expect['id'])->pluck('id');
-		$this->assertEmpty($id);
-	}
-
-	public function testAddUserToAccount()
-	{
-		$this->setupTestUsers();
-		$this->setupTestAccounts();
-		$account = $this->getTestAccounts(1);
-		$user = $this->getTestUsers(1);
-		$response = $this->call('POST', 'api/account/'. $account['id'] .'/add_user', array(
-			'user_id' => $user['id']
-		));
-		$this->assertResponseOk();
-	}
-
-	public function testGetAccountUsers()
-	{
-		$this->setupTestUsers();
-		$this->setupTestAccounts();
-		$account = $this->getTestAccounts(1);
-		$account = Account::find($account['id']);
-		$users = $this->getTestUsers();
-		foreach ($users as $user) {
-			$account->add_user($user['id']);
+		$accounts = Woodling::savedList('Account', 3);
+		$response = $this->call('GET', '/api/account');
+		$data = $this->assertResponse($response);
+		foreach ($accounts as $key => $account) {
+			$this->assertAccount($account, $data[$key]);
 		}
-		$response = $this->call('GET', 'api/account/'. $account->id .'/users');
-		$users = json_decode($response->getContent());
-		$expect = $this->getTestUsers(1);
-		$expect['roles'] = array();
-		$this->assertUserFields($expect, $users[0]);
-		$expect = $this->getTestUsers(2);
-		$expect['roles'] = array();
-		$this->assertUserFields($expect, $users[1]);
 	}
 
-	public function testGetAccountSubscriptions()
+	public function testCreateNewAccount()
 	{
-		//$this->setupTestAccounts();
-		//$response = $this->call('GET', '/api/account/'. $account->id .'/subscription');
+		$account = Woodling::retrieve('Account');
+		$response = $this->call('POST', '/api/account', $account->toArray());
+		$data = $this->assertResponse($response);
+		$account->id = $data->id;
+		$this->assertAccount($account, $data);
+	}
+
+	public function testCreateNewAccountFailValidationReturnsError()
+	{
+		$account = Woodling::retrieve('Account');
+		// Title is required
+		$account->title = '';
+		$response = $this->call('POST', '/api/account', $account->toArray());
+		$data = $this->assertResponse($response, true);
+		$this->assertContains('required', $data->errors[0]);
+	}
+
+	public function testGetAccountRecord()
+	{
+		$accounts = Woodling::savedList('Account', 3);
+		$response = $this->call('GET', '/api/account/'. $accounts[0]->id);
+		$data = $this->assertResponse($response);
+		$this->assertAccount($accounts[0], $data);
+	}
+
+	public function testUpdateAccountReturnsAccountObject()
+	{
+		$account = Woodling::saved('Account');
+		$changed = Woodling::retrieve('Account', array(
+			'id' => $account->id
+		));
+		$response = $this->call('PUT', '/api/account/'. $account->id, $changed->toArray());
+		$data = $this->assertResponse($response);
+		$this->assertAccount($changed, $data);
+	}
+
+	public function testUpdateAccountFailValidationReturnsError()
+	{
+		$accounts = Woodling::savedList('Account', 3);
+		$changes = Woodling::retrieve('Account', array(
+			// Titles should be unique
+			'title' => $accounts[0]->title
+		));
+		$response = $this->call('PUT', '/api/account/'. $accounts[1]->id, $changes->toArray());
+		$data = $this->assertResponse($response, true);
+		$this->assertContains('taken', $data->errors[0]);
+	}
+
+	public function testDeleteAccount()
+	{
+		$account = Woodling::saved('Account');
+		$response = $this->call('DELETE', '/api/account/'. $account->id);
+		$data = $this->assertResponse($response);
+		$id = DB::table('accounts')->where('id', $account->id)->pluck('id');
+		$this->assertEmpty($id);
 	}
 
 }

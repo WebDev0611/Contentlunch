@@ -19,9 +19,8 @@ Route::group(array('prefix' => 'api'), function()
 		'only' => array('index', 'store', 'show', 'update', 'destroy')
 	));
 
-	Route::post('account/{id}/add_user', 'AccountController@add_user');
-
-	Route::get('account/{id}/users', 'AccountController@get_users');
+	Route::post('account/{id}/add_user', 'AccountUserController@store');
+	Route::get('account/{id}/users', 'AccountUserController@show');
 
 
 	Route::get('account/{id}/subscription', 'AccountSubscriptionController@get_subscription');

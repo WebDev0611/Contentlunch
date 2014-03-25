@@ -2,11 +2,6 @@
 
 class AccountSubscriptionController extends BaseController {
 
-  public function show($id)
-  {
-    //return Account
-  }
-
   public function get_subscription($id)
   {
     return Account::find($id)->accountSubscription()->orderBy('id', 'desc')->first();
@@ -16,14 +11,16 @@ class AccountSubscriptionController extends BaseController {
   {
     $sub = new AccountSubscription;
     $sub->account_id = $id;
-    $sub->auto_renew = Input::get('auto_renew');
+    $sub->subscription_id = Input::get('subscription_id');
     $sub->licenses = Input::get('licenses');
-    $sub->payment_type = Input::get('payment_type');
-    $sub->subscription_id = Input::get('subscription');
-    $sub->token = Input::get('token');
-    $sub->yearly_payment = Input::get('yearly_payment');
-    $sub->save();
-    return $sub;
+    $sub->monthly_price = Input::get('monthly_price');
+    $sub->annual_discount = Input::get('annual_discount');
+    $sub->training = Input::get('training');
+    $sub->features = Input::get('features');
+    if ($sub->save()) {
+      return $this->get_subscription($id);
+    }
+    return $this->errorResponse($sub->errors()->toArray());
   }
 
 }

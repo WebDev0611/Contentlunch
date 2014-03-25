@@ -25,15 +25,17 @@ class Account extends Ardent {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array();
+	protected $hidden = array('token');
 
 	/**
 	 * Specifies the columns that can be mass assigned
 	 *
 	 * @var array
 	 */
-	protected $fillable = array('title', 'active', 'address', 'address_2', 'name', 'city',
-		'state', 'phone', 'country', 'zipcode', 'email');
+	protected $fillable = array(
+		'title', 'active', 'address', 'address_2', 'name', 'city',
+		'state', 'phone', 'country', 'zipcode', 'email', 'auto_renew',
+		'payment_type', 'token', 'yearly_payment');
 
 	protected function getDateFormat()
   {

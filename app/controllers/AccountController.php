@@ -14,9 +14,7 @@ class AccountController extends BaseController {
 		{
 			return $this->show($account->id);
 		}
-		return Response::json(array(
-			'errors' => $account->errors()->toArray()
-			), 401);
+		return $this->responseError($account->errors()->all(':message'));
 	}
 
 	public function show($id)
@@ -31,9 +29,7 @@ class AccountController extends BaseController {
 		{
 			return $this->show($account->id);
 		}
-		return Response::json(array(
-			'errors' => $account->errors()->toArray()
-			), 401);
+		return $this->responseError($account->errors()->all(':message'));
 	}
 
 	public function destroy($id)
@@ -42,19 +38,7 @@ class AccountController extends BaseController {
 		if ($account && $account->delete()) {
 			return Response::json(array('success' => 'OK'), 200);
 		}
-		return Response::json(array('message' => "Couldn't delete account"), 401);
-	}
-
-	public function add_user($id) {
-		$account = Account::find($id);
-		$account->add_user(Input::get('user_id'));
-		return array('message' => 'OK');
-	}
-
-	public function get_users($id)
-	{
-		$account = Account::find($id);
-		return $account->getUsers();
+		return $this->responseError("Couldn't delete account");
 	}
 
 }
