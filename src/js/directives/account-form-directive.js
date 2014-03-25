@@ -18,6 +18,7 @@
 		scope.isLoading = false;
 		scope.isSaving = false;
 		scope.hasError = launch.utils.isPropertyValid;
+		scope.isNewAccount = false;
 		scope.errorMessage = launch.utils.getPropertyErrorMessage;
 		scope.subscriptions = [];
 
@@ -57,20 +58,19 @@
 			form.$setDirty();
 
 			var msg = launch.utils.validateAll(scope.selectedAccount);
-			var isNew = launch.utils.isBlank(scope.selectedAccount.id);
 
 			if (!launch.utils.isBlank(msg)) {
 				NotificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
 				return;
 			}
 
-			var method = isNew ? AccountService.add : AccountService.update;
+			var method = scope.isNewAccount ? AccountService.add : AccountService.update;
 
 			scope.isSaving = true;
 
 			method(scope.selectedAccount, {
 				success: function (r) {
-					if (isNew || (scope.selectedAccount.subscription.subscriptionLevel !== self.originalSubscription.subscriptionLevel)) {
+					if (scope.isNewAccount || (scope.selectedAccount.subscription.subscriptionLevel !== self.originalSubscription.subscriptionLevel)) {
 						// Now save the subscription along with the new account.
 						AccountService.updateAccountSubscription(r.id, scope.selectedAccount.subscription);
 					}
@@ -212,7 +212,15 @@
 		};
 
 		scope.$watch('selectedAccount', function () {
+			if (!scope.selectedAccount || launch.utils.isBlank(scope.selectedAccount.id) || scope.selectedAccount.id <= 0) {
+				scope.isNewAccount = true;
+			} else {
+				scope.isNewAccount = false;
+			}
+
 			if (!!scope.selectedAccount && !self.originalSubscription) {
+
+
 				var setSubscription = function (acct) {
 					if (!!acct.subscription) {
 						if ($.isFunction(acct.subscription.validateProperty)) {
