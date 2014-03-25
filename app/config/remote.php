@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'default' => 'production',
+	'default' => 'test',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -27,6 +27,16 @@ return array(
 	*/
 
 	'connections' => array(
+
+    'test' => array(
+      'host'      => '10.254.2.21',
+      'username'  => 'webdeploy',
+      'password'  => 'pQtALjnc6gPKL6mqDvAe',
+      'key'       => '',
+      'keyphrase' => '',
+      'root'      => '/www/contentlaunch/',
+    ),
+
 
 		'production' => array(
 			'host'      => '',
