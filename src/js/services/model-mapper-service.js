@@ -102,11 +102,19 @@
 				country: account.country,
 				email: account.email,
 				phone: account.phoneNumber,
+				auto_renew: (account.autoRenew === true) ? 1 : 0,
+				expiration_date: account.expirationDate,
+				payment_type: account.paymentType,
+				yearly_payment: (account.yearlyPayment === true) ? 1 : 0,
 				created_at: account.created,
 				updated_at: account.updated
 			};
 
-			// TODO: HOW DO WE HANDLE SETTING THE ACCOUNT'S SUBSCRIPTION?
+			account.autoRenew = parseInt(dto.auto_renew) === 1 ? true : false;
+			account.expirationDate = new Date(dto.expiration_date);
+			account.paymentType = dto.payment_type;
+			account.yearlyPayment = parseInt(dto.yearly_payment) === 1 ? true : false;
+
 
 			return dto;
 		},

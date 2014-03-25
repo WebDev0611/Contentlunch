@@ -215,7 +215,7 @@
 			if (!!scope.selectedAccount && !self.originalSubscription) {
 				var setSubscription = function (acct) {
 					if (!!acct.subscription) {
-						if (acct.subscription.$resolved === true) {
+						if ($.isFunction(acct.subscription.validateProperty)) {
 							self.originalSubscription = angular.copy(acct.subscription);
 						} else if (acct.subscription.$promise) {
 							acct.subscription.$promise.then(function(s) {
