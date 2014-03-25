@@ -73,6 +73,10 @@
 			scope.user = AuthService.userInfo();
 			scope.user = AuthService.fetchCurrentUser({
 				success: function (user) {
+					if (!user.id) {
+						$location.path('/login');
+					}
+
 					self.getNavigationItems();
 				}
 			});
