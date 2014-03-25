@@ -21,6 +21,7 @@
 		scope.isLoading = false;
 		scope.isSaving = false;
 		scope.isUploading = false;
+		scope.isNewUser = false;
 		scope.percentComplete = 0;
 		scope.hasError = function (property, control) { return launch.utils.isPropertyValid(scope.selectedUser, property, control); };
 		scope.errorMessage = function (property, control) { return launch.utils.getPropertyErrorMessage(scope.selectedUser, property, control); };
@@ -283,6 +284,14 @@
 				]
 			});
 		};
+
+		scope.$watch('selectedUser', function(user) {
+			if (!scope.selectedUser || launch.utils.isBlank(scope.selectedUser.id) || scope.selectedUser.id <= 0) {
+				scope.isNewUser = true;
+			} else {
+				scope.isNewUser = false;
+			}
+		});
 
 		self.init();
 	};

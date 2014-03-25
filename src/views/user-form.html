@@ -1,7 +1,7 @@
 ﻿<form name="editUser" class="user-editor" novalidate="novalidate">
 	<div class="user-image-upload">
 		<div class="user-image" ng-style="{ 'background-image': selectedUser.imageUrl() }" ng-file-drop="uploadPhoto($files)"></div>
-		<button type="button" class="btn btn-default ladda-button" onclick="$('#filPhoto').click()" data-style="zoom-in" ladda-button="isSaving">
+		<button type="button" class="btn btn-default ladda-button" onclick="$('#filPhoto').click()" data-style="zoom-in" ladda-button="isSaving" ng-disabled="isNewUser">
 			<span class="ladda-label">Upload Photo</span>
 		</button>
 		<input type="file" id="filPhoto" accept="{{ launch.config.USER_PHOTO_FILE_TYPES.join(',') }}" ng-file-select="uploadPhoto($files, editUser, editUser.filPhoto)" />
