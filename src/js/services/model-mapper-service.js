@@ -57,7 +57,12 @@
 			account.created = dto.created_at;
 			account.updated = dto.updated_at;
 
-			account.subscription = self.subscription.fromDto(dto.subscription);
+			account.subscription = self.subscription.fromDto(dto.account_subscription);
+
+			account.autoRenew = parseInt(dto.auto_renew) === 1 ? true : false;
+			account.expirationDate = new Date(dto.expiration_date);
+			account.paymentType = dto.payment_type;
+			account.yearlyPayment = parseInt(dto.yearly_payment) === 1 ? true : false;
 
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;
@@ -127,6 +132,11 @@
 			account.updated = cachedAccount.updated;
 
 			account.subscription = self.subscription.fromCache(cachedAccount.subscription);
+
+			account.autoRenew = cachedAccount.autoRenew;
+			account.expirationDate = new Date(cachedAccount.expirationDate);
+			account.paymentType = cachedAccount.paymentType;
+			account.yearlyPayment = account.yearlyPayment;
 
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;
@@ -457,26 +467,25 @@
 			var subscription = new launch.Subscription(id);
 
 			subscription.id = parseInt(dto.id);
-			subscription.autoRenew = parseInt(dto.auto_renew) === 1 ? true : false;
-			subscription.expirationDate = new Date(dto.expiration_date);
 			subscription.numberLicenses = parseInt(dto.licenses);
-			subscription.paymentType = dto.payment_type;
-			subscription.yearlyPayment = parseInt(dto.yearly_payment) === 1 ? true : false;
+			subscription.pricePerMonth = parseFloat(dto.monthly_price);
+			subscription.training = parseInt(dto.training) === 1 ? true : false;
+			subscription.annualDiscount = parseFloat(dto.annual_discount);
+			subscription.features = dto.features;
 			subscription.created = new Date(dto.created_at);
 			subscription.updated = new Date(dto.updated_at);
-
-			subscription.changeTier();
 
 			return subscription;
 		},
 		toDto: function (subscription) {
 			return {
+				subscription_id: subscription.id,
 				id: subscription.id,
-				auto_renew: (subscription.autoRenew === true ? 1 : 0),
-				expiration_date: subscription.expirationDate,
 				licenses: subscription.numberLicenses,
-				payment_type: subscription.paymentType,
-				yearly_payment: (subscription.yearlyPayment === true ? 1 : 0),
+				monthly_price: subscription.pricePerMonth,
+				training: subscription.training,
+				annual_discount: subscription.annualDiscount,
+				features: subscription.features,
 				subscription: subscription.subscriptionLevel
 			};
 		},
@@ -486,16 +495,15 @@
 			}
 
 			var subscription = new launch.Subscription(cachedSubscription.subscriptionLevel);
+
 			subscription.id = cachedSubscription.id;
-			subscription.autoRenew = cachedSubscription.autoRenew;
-			subscription.expirationDate = new Date(cachedSubscription.expirationDate);
 			subscription.numberLicenses = parseInt(cachedSubscription.numberLicenses);
-			subscription.paymentType = cachedSubscription.paymentType;
-			subscription.yearlyPayment = cachedSubscription.yearlyPayment;
+			subscription.pricePerMonth = cachedSubscription.pricePerMonth;
+			subscription.training = cachedSubscription.training;
+			subscription.annualDiscount = cachedSubscription.annualDiscount;
+			subscription.features = cachedSubscription.features;
 			subscription.created = new Date(cachedSubscription.created);
 			subscription.updated = new Date(cachedSubscription.updated);
-
-			subscription.changeTier();
 
 			return subscription;
 		}

@@ -13,9 +13,10 @@
 		save: { method: 'POST', transformRequest: ModelMapperService.subscription.formatRequest }
 	});
 
-	var subscriptions = $resource('/api/subscription', null, {
-		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.subscription.parseResponse },
-		save: { method: 'POST', transformRequest: ModelMapperService.subscription.formatRequest }
+	var subscriptions = $resource('/api/subscription/:id', { id: '@id' }, {
+		get: { method: 'GET', transformResponse: ModelMapperService.subscription.parseResponse },
+		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.subscription.parseResponse },
+		save: { method: 'PUT', transformRequest: ModelMapperService.subscription.formatRequest }
 	});
 
 	return {
@@ -81,13 +82,19 @@
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return subscriptions.get(null, success, error);
+			return subscriptions.query(null, success, error);
+		},
+		getSubscription: function(id, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return subscriptions.get({ id: id }, success, error);
 		},
 		saveSubscription: function(subscription, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return subscriptions.get(null, subscription, success, error);
+			return subscriptions.save(null, subscription, success, error);
 		},
 		getNewAccount: function () {
 			var account = new launch.Account();

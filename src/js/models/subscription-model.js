@@ -1,63 +1,38 @@
 ﻿launch.Subscription = function(level) {
 	var self = this;
 
-	if (!level || isNaN(level) || level <= 0 || level > 3) {
-		return null;
-	}
+	// TODO: NEED TO GET SUBSCRIPTION LEVEL FROM THE API!!!
+	//if (!level || isNaN(level) || level <= 0 || level > 3) {
+	//	return null;
+	//}
 
 	self.id = null;
 	self.subscriptionLevel = parseInt(level);
-	self.autoRenew = false;
-	self.expirationDate = null;
-	self.paymentType = 'CC';
-	self.training = true;
-	self.yearlyPayment = false;
-	self.numberLicenses = 5;
+	self.numberLicenses = 0;
 	self.pricePerMonth = 0;
-	self.annualDiscount = 10;
-
+	self.annualDiscount = 0;
+	self.training = true;
+	self.features = null;
 	self.created = null;
 	self.updated = null;
 
-	self.formattedExpirationDate = function () {
-		return launch.utils.isBlank(self.expirationDate) ? null : launch.utils.formatDate(self.expirationDate);
-	};
+	self.components = [
+		{ name: 'create', title: 'CREATE', active: true },
+		{ name: 'calendar', title: 'CALENDAR', active: true },
+		{ name: 'launch', title: 'LAUNCH', active: true },
+		{ name: 'measure', title: 'MEASURE', active: true },
+		{ name: 'collaborate', title: 'COLLABORATE', active: self.subscriptionLevel >= 2 },
+		{ name: 'consult', title: 'CONSULT', active: self.subscriptionLevel >= 3 }
+	];
 
-	self.changeTier = function () {
-		if (typeof self.subscriptionLevel === 'string') {
-			self.subscriptionLevel = parseInt(self.subscriptionLevel);
-		}
+	self.formatPricePerMonth = function (yearlyPayment) {
+		var price = isNaN(self.pricePerMonth) ? 0 : parseFloat(self.pricePerMonth);
 
-		self.numberLicenses = (self.subscriptionLevel === 1 ? 5 : (self.subscriptionLevel === 2 ? 10 : 20));
-		self.annualDiscount = 10;
-
-		self.features = (self.subscriptionLevel === 1 ? null : (self.subscriptionLevel === 2 ? 'API, Premium Support' : 'API, Premium Support, Custom Reporting, Advanced Security'));
-
-		self.components = [
-			{ name: 'create', title: 'CREATE', active: true },
-			{ name: 'calendar', title: 'CALENDAR', active: true },
-			{ name: 'launch', title: 'LAUNCH', active: true },
-			{ name: 'measure', title: 'MEASURE', active: true },
-			{ name: 'collaborate', title: 'COLLABORATE', active: self.subscriptionLevel >= 2 },
-			{ name: 'consult', title: 'CONSULT', active: self.subscriptionLevel >= 3 }
-		];
-
-		return self.changePaymentPeriod();
-	};
-
-	self.changePaymentPeriod = function() {
-		var price = (self.subscriptionLevel === 1 ? 300 : (self.subscriptionLevel === 2 ? 500 : 700));
-
-		if (self.yearlyPayment === true && parseInt(self.annualDiscount) > 0) {
+		if (yearlyPayment === true && parseInt(self.annualDiscount) > 0) {
 			price = (price * (1 - (self.annualDiscount / 100)));
-		} else {
-			// Monthly payments require that auto-renew is on.
-			self.autoRenew = true;
 		}
 
-		self.pricePerMonth = parseFloat(price).toFixed(2);
-
-		return self;
+		return parseFloat(price).toFixed(2);
 	};
 
 	self.validateProperty = function(property) {
@@ -97,7 +72,9 @@
 		}
 	};
 
-	self = self.changeTier();
+	self.getName = function() {
+		return 'Tier ' + self.subscriptionLevel;
+	};
 
 	return self;
 };

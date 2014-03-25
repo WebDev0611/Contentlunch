@@ -11,20 +11,22 @@
 		$scope.hasError = launch.utils.isPropertyValid;
 		$scope.errorMessage = launch.utils.getPropertyErrorMessage;
 
-		$scope.save = function () {
-			// TODO: SAVE SUBSCRIPTIONS TO API!
-			notificationService.info('WARNING!', 'This is not yet implemeneted!');
+		$scope.save = function() {
+			angular.forEach($scope.subscriptions, function(s, i) {
+				accountService.saveSubscription(s, {
+					success: function(r) {
+						notificationService.success('Success!', 'Successfully saved ' + s.getName() + '!');
+					},
+					error: function(r) {
+						launch.utils.handleAjaxErrorResponse(r, notificationService);
+					}
+				});
+			});
 		};
 
 		$scope.cancel = function () {
 			// TODO: WHAT TO DO WHEN WE CANCEL?
 			notificationService.info('WARNING!', 'This is not yet implemeneted!');
-		};
-
-		$scope.formatPricePerMonth = function (subscription) {
-			if (!isNaN(subscription.pricePerMonth)) {
-				subscription.pricePerMonth = parseFloat(subscription.pricePerMonth).toFixed(2);
-			}
 		};
 
 		self.init();

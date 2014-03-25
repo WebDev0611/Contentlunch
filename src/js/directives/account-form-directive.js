@@ -3,6 +3,11 @@
 		var self = this;
 
 		self.forceDirty = false;
+		self.originalSubscription = null;
+
+		self.init = function() {
+			scope.subscriptions = AccountService.getSubscriptions();
+		};
 
 		self.discardChanges = function(form) {
 			if ($.isFunction(scope.refreshMethod)) {
@@ -14,6 +19,7 @@
 		scope.isSaving = false;
 		scope.hasError = launch.utils.isPropertyValid;
 		scope.errorMessage = launch.utils.getPropertyErrorMessage;
+		scope.subscriptions = [];
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
@@ -64,7 +70,7 @@
 
 			method(scope.selectedAccount, {
 				success: function (r) {
-					if (isNew && !!scope.selectedAccount.subscription) {
+					if (isNew || (scope.selectedAccount.subscription.subscriptionLevel !== self.originalSubscription.subscriptionLevel)) {
 						// Now save the subscription along with the new account.
 						AccountService.updateAccountSubscription(r.id, scope.selectedAccount.subscription);
 					}
@@ -183,6 +189,51 @@
 				]
 			});
 		};
+
+		scope.changeTier = function () {
+			AccountService.getSubscription(parseInt(scope.selectedAccount.subscription.id), {
+				success: function(s) {
+					if (!!self.originalSubscription && s.subscriptionLevel === parseInt(self.originalSubscription.subscriptionLevel)) {
+						scope.selectedAccount.subscription = angular.copy(self.originalSubscription);
+					} else {
+						scope.selectedAccount.subscription = s;
+					}
+
+					scope.changePaymentPeriod();
+				}
+			});
+		};
+
+		scope.changePaymentPeriod = function () {
+			if (scope.selectedAccount.yearlyPayment !== true) {
+				// Monthly payments require that auto-renew is on.
+				scope.selectedAccount.autoRenew = true;
+			}
+		};
+
+		scope.$watch('selectedAccount', function () {
+			if (!!scope.selectedAccount && !self.originalSubscription) {
+				var setSubscription = function (acct) {
+					if (!!acct.subscription) {
+						if (acct.subscription.$resolved === true) {
+							self.originalSubscription = angular.copy(acct.subscription);
+						} else if (acct.subscription.$promise) {
+							acct.subscription.$promise.then(function(s) {
+								setSubscription(acct);
+							});
+						}
+					}
+				};
+
+				if (scope.selectedAccount.$resolved === true) {
+					setSubscription(scope.selectedAccount);
+				} else if (scope.selectedAccount.$promise) {
+					scope.selectedAccount.$promise.then(setSubscription);
+				}
+			}
+		});
+
+		self.init();
 	};
 
 	return {
