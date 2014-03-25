@@ -20,10 +20,11 @@ class BaseController extends Controller {
    * @param  array  $data Data to json encode
    * @return json Response
    */
-  protected function responseError($data)
+  protected function responseError($data, $status = null)
   {
     $data = (array) $data;
-    return Response::json(array('errors' => $data), 400);
+    $status = $status ? $status : 400;
+    return Response::json(array('errors' => $data), $status);
   }
 
 }

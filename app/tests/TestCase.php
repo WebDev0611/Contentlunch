@@ -30,9 +30,14 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
   protected function setupCleanTables()
   {
     DB::table('assigned_roles')->delete();
+    DB::table('password_reminders')->delete();
+    DB::table('account_user');
+    DB::table('account_subscription');
+    DB::table('uploads')->delete();
     DB::table('users')->delete();
     DB::table('roles')->delete();
     DB::table('accounts')->delete();
+    DB::table('subscriptions')->delete();
   }
 
   /**
@@ -228,10 +233,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     Mail::pretend(true);
   }
 
-  protected function assertResponse($response, $fail = false)
+  protected function assertResponse($response, $fail = false, $status = null)
   {
     // Is correct http status?
-    $status = $fail ? 400 : 200;
+    if ( ! $status) {
+      $status = $fail ? 400 : 200;
+    }
     $this->assertEquals($status, $response->getStatusCode(), "Response: ". $response->getContent());
     // Response is json?
     $data = json_decode($response->getContent());
@@ -374,6 +381,20 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     }
     $this->assertEquals($count_users, $account->count_users);
   }
+
+  protected function assertRole($expect, $role)
+  {
+    // Fields that should match
+    $equals = array(
+      'id', 'name'
+    );
+    foreach ($equals as $field) {
+      if (empty($role->$field) || ($expect[$field] != $role->$field)) {
+        $this->assertEquals($expect[$field], $role->$field, "Role field $field doesn't match");
+      }
+    }
+  }
+
 
   protected function assertSubscription($expect, $sub)
   {

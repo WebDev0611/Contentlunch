@@ -14,37 +14,38 @@ class RoleController extends BaseController {
 		{
 			return $role;
 		}
-		return Response::json(array(
-			'message' => "Couldn't store new role",
-			'errors' => $role->errors()->toArray()
-			), 401);
+		return $this->responseError($role->errors()->all(':message'));
 	}
 
 	public function show($id)
 	{
-		return Role::find($id);
+		$role = Role::find($id);
+		if ($role) {
+			return $role;
+		}
+		return $this->responseError("Role not found.");
 	}
 
 	public function update($id)
 	{
 		$role = Role::find($id);
+		if ( ! $role) {
+			return $this->responseError("Role not found.");
+		}
 		if ($role->updateUniques())
 		{
 			return $role;
 		}
-		return Response::json(array(
-			'message' => "Couldn't update role",
-			'errors' => $role->errors()->toArray()
-		), 401);
+		return $this->responseError($role->errors()->all(':message'));
 	}
 
 	public function destroy($id)
 	{
 		$role = Role::find($id);
 		if ($role->delete()) {
-			return Response::json(array('success' => 'OK'), 200);
+			return array('success' => 'OK');
 		}
-		return Response::json(array('message' => "Couldn't delete role"), 401);
+		return $this->responseError("Couldn't delete role.");
 	}
 
 }

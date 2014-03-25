@@ -73,5 +73,11 @@ Route::group(array('prefix' => 'api'), function()
  */
 Route::any('{all}', function()
 {
+	// If route starts with api and the route wasn't matched, return an error response
+  if (Request::is('api/*')) {
+    return Response::json(array(
+      'error' => 'Unknown route: '. Request::path()
+    ), 400);
+  }
 	return View::make('master');
 })->where('all', '.*');

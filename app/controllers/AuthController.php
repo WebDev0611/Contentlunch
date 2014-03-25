@@ -64,9 +64,7 @@ class AuthController extends BaseController {
             {
                 $err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
             }
-            return Response::json(array(
-                'flash' => $err_msg
-            ), 401);
+            return $this->responseError($err_msg, 401);
         }
     }
 
@@ -77,9 +75,10 @@ class AuthController extends BaseController {
      */
     public function do_confirm()
     {
-        if (Confide::confirm( Input::get('codez') ) )
+        $code = Input::get('code');
+        if (Confide::confirm($code))
         {
-            $user = User::where('confirmation_code', Input::get('code'))->first();
+            $user = User::where('confirmation_code', $code)->first();
             Auth::login($user);
             return $this->show_current();
         }
@@ -104,7 +103,7 @@ class AuthController extends BaseController {
         else
         {
             $error_msg = Lang::get('confide::confide.alerts.wrong_password_forgot');
-            return Response::json(array('error' => $error_msg), 401);
+            return $this->responseError($error_msg);
         }
     }
 
@@ -129,7 +128,7 @@ class AuthController extends BaseController {
         else
         {
             $error_msg = Lang::get('confide::confide.alerts.wrong_password_reset');
-            return Response::json(array('error' => $error_msg), 401);
+            return $this->responseError($error_msg);
         }
     }
 
@@ -140,9 +139,7 @@ class AuthController extends BaseController {
     public function logout()
     {
         Confide::logout();
-        return Response::json(array(
-            'flash' => 'Logged out'
-        ), 200);
+        return array('success' => 'OK');
     }
 
 }

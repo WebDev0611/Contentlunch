@@ -4,7 +4,7 @@ use Woodling\Woodling;
 
 Woodling::seed('User', function ($blueprint) {
   $blueprint->sequence('username', function ($i) {
-    return 'username_'. $i;
+    return 'email_'. $i .'@mail.net';
   });
   $blueprint->sequence('email', function ($i) {
     return 'email_'. $i .'@mail.net';

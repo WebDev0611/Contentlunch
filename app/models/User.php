@@ -13,6 +13,7 @@ class User extends ConfideUser {
   protected $hidden = array('password', 'password_confirmation', 'confirmation_code');
 
   protected $fillable = array('email', 'first_name', 'last_name', 'confirmed', 'password',
+    'password_confirmation',
     'address', 'address_2', 'city', 'state', 'phone', 'title', 'status', 'country');
 
   protected $guarded = array('id');
@@ -20,7 +21,8 @@ class User extends ConfideUser {
   public static $rules = array(
     'username' => 'unique:users,username',
     'email' => 'required|email',
-    'password' => 'required|between:4,11|confirmed'
+    'password' => 'required|between:4,20|confirmed',
+    'password_confirmation' => 'min:4'
   );
 
   protected $softDelete = true;

@@ -71,10 +71,7 @@ class UserController extends BaseController {
     }
     else
     {
-        // Get validation errors (see Ardent package)
-        $error = $user->errors()->all(':message');
-
-        return Response::json(array('error' => $error), 401);
+      return $this->responseError($user->errors()->all(':message'));
     }
 	}
 
@@ -84,17 +81,19 @@ class UserController extends BaseController {
 			->with('roles')
 			->with('accounts')
 			->find($id);
-		$return = $user->toArray();
-		//$return['roles'] = $user->getRoles();
 		if ($user) {
-			return Response::json($return);
+			return $user;
 		}
-		return Response::json(array('flash' => 'User not found'));
+		return $this->responseError("User not found.");
 	}
 
 	public function update($id)
 	{
 		$user = User::find($id);
+
+		if ( ! $user) {
+			return $this->responseError("User not found.");
+		}
 
 		if (Input::get('email')) {
 			$user->username = Input::get('email');
@@ -118,20 +117,16 @@ class UserController extends BaseController {
 			}
 			return $this->show($user->id);
 		}
-		return Response::json(array(
-			'message' => "Couldn't update user",
-			'errors' => $user->errors()
-			), 401);
+		return $this->responseError($user->errors()->all(':message'));
 	}
 
 	public function destroy($id)
 	{
 		$user = User::find($id);
 		if ($user->delete()) {
-			return Response::json(array('success' => 'OK'), 200);
+			return array('success' => 'OK');
 		}
-		// 	App::abort(401);
-		return Response::json(array('message' => "Couldn't delete user"), 401);
+		return $this->responseError("Couldn't delete user");
 	}
 
 	public function postProfileImage($id)
