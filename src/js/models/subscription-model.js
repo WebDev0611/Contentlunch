@@ -16,14 +16,7 @@
 	self.created = null;
 	self.updated = null;
 
-	self.components = [
-		{ name: 'create', title: 'CREATE', active: true },
-		{ name: 'calendar', title: 'CALENDAR', active: true },
-		{ name: 'launch', title: 'LAUNCH', active: true },
-		{ name: 'measure', title: 'MEASURE', active: true },
-		{ name: 'collaborate', title: 'COLLABORATE', active: self.subscriptionLevel >= 2 },
-		{ name: 'consult', title: 'CONSULT', active: self.subscriptionLevel >= 3 }
-	];
+	self.components = [];
 
 	self.formatPricePerMonth = function (yearlyPayment) {
 		var price = isNaN(self.pricePerMonth) ? 0 : parseFloat(self.pricePerMonth);
