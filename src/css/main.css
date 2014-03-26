@@ -373,6 +373,15 @@ span[class*=" icon-"].dark {
 #change-password-form a {
   color: #ffffff;
 }
+#login-form .btn-toolbar,
+#change-password-form .btn-toolbar {
+  text-align: center;
+}
+#login-form .btn-toolbar .btn,
+#change-password-form .btn-toolbar .btn {
+  margin: 4px;
+  padding: 4px 40px;
+}
 #login-form button,
 #change-password-form button {
   background-color: #000000;
@@ -380,6 +389,10 @@ span[class*=" icon-"].dark {
   color: #ffffff;
   font-family: 'Lato-Bold';
   margin: 0 0 16px 0;
+  padding: 4px;
+}
+#login-form button.full-width,
+#change-password-form button.full-width {
   width: 100%;
 }
 #login-form .icon-launch,

@@ -380,13 +380,26 @@ span[class^="icon-"], span[class*=" icon-"] {
 		color: #ffffff;
 	}
 
+	.btn-toolbar {
+		text-align: center;
+
+		.btn {
+			margin: 4px;
+			padding: 4px 40px;
+		}
+	}
+
 	button {
 		background-color: #000000;
 		border: 0;
 		color: #ffffff;
 		font-family: 'Lato-Bold';
 		margin: 0 0 16px 0;
-		width: 100%;
+		padding: 4px;
+
+		&.full-width {
+			width: 100%;
+		}
 	}
 
 	.icon-launch {

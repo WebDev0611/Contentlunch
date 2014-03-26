@@ -28,10 +28,10 @@
 						controller: 'UserController',
 						templateUrl: '/assets/views/user.html'
 					})
-          .when('/user/confirm/:code', {
-            controller: 'ConfirmController',
-            templateUrl: '/assets/views/reset-password.html'
-          })
+					.when('/user/confirm/:code', {
+						controller: 'ConfirmController',
+						templateUrl: '/assets/views/reset-password.html'
+					})
 					.when('/users', {
 						controller: 'UsersController',
 						templateUrl: '/assets/views/users.html'
@@ -82,9 +82,9 @@
 				$rootScope.$on('$routeChangeStart', function(event, next, current) {
 					if ($location.path() === '/login') {
 						authService.logout();
-          } else if ($location.path() === '/reset') {
-            
-          } else if ($location.path().indexOf('/user/confirm') === 0) {
+					} else if ($location.path() === '/reset') {
+
+					} else if ($location.path().indexOf('/user/confirm') === 0) {
 
 					} else if (!authService.isLoggedIn()) {
 						$location.path('/login');

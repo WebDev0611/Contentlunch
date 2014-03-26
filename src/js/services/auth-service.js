@@ -84,6 +84,16 @@ launch.module.factory('AuthService', function($location, $resource, $sanitize, S
 				}
 			}, error);
 		},
+		forgotPassword: function(email, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			var method = $resource('/api/auth/forgot_password', null, {
+				reset: { method: 'POST' }
+			});
+
+			return method.reset({ email: email }, success, error);
+		},
 		confirm: $resource('/api/auth/confirm')
 	};
 });
