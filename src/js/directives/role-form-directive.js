@@ -14,6 +14,7 @@
 		scope.isSaving = false;
 		scope.hasError = launch.utils.isPropertyValid;
 		scope.isNewRole = false;
+		scope.isBuiltIn = false;
 		scope.errorMessage = launch.utils.getPropertyErrorMessage;
 
 		scope.cancelEdit = function (form) {
@@ -87,7 +88,7 @@
 				templateUrl: 'confirm.html',
 				controller: [
 					'$scope', '$modalInstance', function (scp, instance) {
-						scp.message = 'Are you sure you want to delete this role?';
+						scp.message = 'Are you sure you want to delete this User Role?';
 						scp.okButtonText = 'Delete';
 						scp.cancelButtonText = 'Cancel';
 						scp.onOk = function () {
@@ -97,7 +98,7 @@
 								success: function (r) {
 									scope.isSaving = false;
 
-									var successMsg = 'You have successfully deleted ' + r.title + '!';
+									var successMsg = 'You have successfully deleted the User Role "' + scope.selectedRole.name + '"!';
 
 									NotificationService.success('Success!', successMsg);
 
@@ -127,6 +128,8 @@
 			} else {
 				scope.isNewRole = false;
 			}
+
+			scope.isBuiltIn = (!!scope.selectedRole && $.isFunction(scope.selectedRole.isBuiltIn)) ? scope.selectedRole.isBuiltIn() : false;
 		});
 	}
 

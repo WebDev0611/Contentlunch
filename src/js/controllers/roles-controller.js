@@ -9,7 +9,7 @@ launch.module.controller('RolesController', [
 		self.loadRoles = function (reset, callback) {
 			$scope.isLoading = true;
 
-			$scope.roles = roleService.query(null, {
+			$scope.roles = roleService.query({
 				success: function (roles) {
 					$scope.isLoading = false;
 					$scope.search.applyFilter(reset);
@@ -204,8 +204,12 @@ launch.module.controller('RolesController', [
 		$scope.afterSaveSuccess = function (r, form) {
 			self.loadRoles(false, {
 				success: function () {
-					$scope.selectedRole = roleService.get(r.id);
-					self.adjustPage(r.id, form);
+					if (!!r.id) {
+						$scope.selectedRole = roleService.get(r.id);
+						self.adjustPage(r.id, form);
+					} else {
+						$scope.selectedRole = null;
+					}
 				}
 			});
 		};

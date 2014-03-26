@@ -16,6 +16,16 @@
 		{ module: 'Measure', view: true, edit: true, execute: true }
 	];
 
+	// TODO: CHANGE THIS FUNCTION TO BETTER IDENTIFY A BUILT-IN ROLE!!
+	self.isBuiltIn = function() {
+		if (self.name === 'Admin' || self.name === 'Site Admin' || self.name === 'Content Creator' || self.name === 'Manager' ||
+			self.name === 'Director' || self.name === 'C-Level' || self.name === 'Editor' || self.name === 'Client') {
+			return true;
+		}
+
+		return false;
+	};
+
 	self.isGlobalAdmin = function() {
 		return (!launch.utils.isBlank(self.name) && self.name.toUpperCase() === 'ADMIN');
 	};

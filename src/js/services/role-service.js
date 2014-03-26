@@ -8,11 +8,11 @@
 	});
 
 	return {
-		query: function(params, callback) {
+		query: function(callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return roles.query(params, success, error);
+			return roles.query(null, success, error);
 		},
 		get: function(id, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -31,6 +31,12 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return roles.insert({ id: '' }, role, success, error);
+		},
+		delete: function(role, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return roles.delete({ id: role.id }, role, success, error);
 		},
 		getNewRole: function() {
 			return new launch.Role();
