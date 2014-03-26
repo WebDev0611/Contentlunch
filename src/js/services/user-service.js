@@ -41,10 +41,10 @@ launch.module.factory('UserService', function ($resource, $http, $upload, Accoun
 						queryString += '&';
 					}
 
-					queryString += 'roles[]=' + r.roleId;
+					queryString += 'roles[]=' + r.id;
 				});
 			} else {
-				queryString += '?roles[]=' + roles.roleId;
+				queryString += '?roles[]=' + roles.id;
 			}
 
 			var usersCall = $resource('/api/user' + queryString, null, {

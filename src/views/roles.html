@@ -1,1 +1,49 @@
-﻿<h3 ng-bind="title"></h3>
+﻿<div class="view roles">
+	<div class="col-md-3 left-pane">
+		<div class="btn-group">
+			<button class="btn btn-default btn-create" ng-click="enterNewRole()">
+				<span class="glyphicon glyphicon-user"></span>
+				CREATE NEW ROLE
+			</button>
+		</div>
+
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter(true)" />
+			<span class="input-group-addon">
+				<span class="glyphicon glyphicon-search"></span>
+			</span>
+		</div>
+		
+		<hr/>
+
+		<div class="btn-group btn-group-justified btn-group-filter">
+			<a class="btn btn-default" ng-class="{ active: search.roleStatus === 'active' }" ng-click="search.toggleStatus('active')">Active</a>
+			<a class="btn btn-default" ng-class="{ active: search.roleStatus === 'inactive' }" ng-click="search.toggleStatus('inactive')">Inactive</a>
+			<a class="btn btn-default" ng-class="{ active: search.roleStatus === 'all' }" ng-click="search.toggleStatus('all')">All</a>
+		</div>
+		
+		<ul class="items-list">
+			<li ng-repeat="role in pagedRoles[pagination.currentPage - 1]" ng-click="selectRole(role, $index, editRole)" ng-class="{ selected: isSelectedRole(role) }">
+				<div class="item-info">
+					<span class="item-title">{{ role.name }}</span>
+				</div>
+			</li>
+		</ul>
+		
+		<div class="pager" ng-show="pagination.showPager() === true">
+			<hr/>
+
+			<pagination
+				total-items="pagination.totalItems"
+				items-per-page="pagination.pageSize"
+				page="pagination.currentPage"
+				on-select-page="pagination.onPageChange(page, editUser)"
+				direction-links="false"
+				max-size="6">
+			</pagination>
+		</div>
+	</div>
+	<div class="col-md-9 right-pane">
+		<div class="right-pane-content" ng-show="!!selectedRole" ng-cloak role-form selected-role="selectedRole" refresh-method="refreshMethod" after-save-success="afterSaveSuccess" self-editing="selfEditing()" creating-new="(isNaN(selectedRole.id) || selectedRole.id <= 0)"></div>
+	</div>
+</div>

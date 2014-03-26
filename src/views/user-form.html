@@ -84,7 +84,7 @@
 			<div class="form-group" ng-class="{ 'has-error': hasError('role', editUser.selRole) }">
 				<label class="control-label" for="selRole">Role</label>
 				<select id="selRole" name="selRole" class="form-control"
-						ng-model="selectedUser.role" ng-options="r.roleName for r in roles track by r.roleId" ng-disabled="selfEditing"
+						ng-model="selectedUser.role" ng-options="r.name for r in roles track by r.id" ng-disabled="selfEditing"
 						error-message message="errorMessage('role', editUser.selRole)"></select>
 			</div>
 		</div>

@@ -456,71 +456,86 @@ span[class*=" icon-"].dark {
   width: 40px;
 }
 .users .left-pane,
-.accounts .left-pane {
+.accounts .left-pane,
+.roles .left-pane {
   position: relative;
 }
 .users .left-pane .btn-group,
-.accounts .left-pane .btn-group {
+.accounts .left-pane .btn-group,
+.roles .left-pane .btn-group {
   margin-bottom: 12px;
   width: 100%;
 }
 .users .left-pane .btn-group .btn-create,
-.accounts .left-pane .btn-group .btn-create {
+.accounts .left-pane .btn-group .btn-create,
+.roles .left-pane .btn-group .btn-create {
   background-color: #000000;
   color: #ffffff;
   width: 100%;
 }
 .users .left-pane .btn-group .btn-create .glyphicon,
-.accounts .left-pane .btn-group .btn-create .glyphicon {
+.accounts .left-pane .btn-group .btn-create .glyphicon,
+.roles .left-pane .btn-group .btn-create .glyphicon {
   margin-right: 8px;
 }
 .users .left-pane .btn-group.btn-group-filter .btn.active,
-.accounts .left-pane .btn-group.btn-group-filter .btn.active {
+.accounts .left-pane .btn-group.btn-group-filter .btn.active,
+.roles .left-pane .btn-group.btn-group-filter .btn.active {
   background-color: #000000;
   color: #ffffff;
 }
 .users .left-pane hr,
-.accounts .left-pane hr {
+.accounts .left-pane hr,
+.roles .left-pane hr {
   border-color: #000000;
   margin-top: 10px;
 }
 .users .left-pane ul.items-list,
-.accounts .left-pane ul.items-list {
+.accounts .left-pane ul.items-list,
+.roles .left-pane ul.items-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 .users .left-pane ul.items-list li,
-.accounts .left-pane ul.items-list li {
+.accounts .left-pane ul.items-list li,
+.roles .left-pane ul.items-list li {
   cursor: pointer;
   padding: 8px;
   position: relative;
 }
 .users .left-pane ul.items-list li:hover,
 .accounts .left-pane ul.items-list li:hover,
+.roles .left-pane ul.items-list li:hover,
 .users .left-pane ul.items-list li.selected,
-.accounts .left-pane ul.items-list li.selected {
+.accounts .left-pane ul.items-list li.selected,
+.roles .left-pane ul.items-list li.selected {
   background-color: #eeeeee;
 }
 .users .left-pane ul.items-list li .item-image,
-.accounts .left-pane ul.items-list li .item-image {
+.accounts .left-pane ul.items-list li .item-image,
+.roles .left-pane ul.items-list li .item-image {
   float: left;
   margin-right: 16px;
 }
 .users .left-pane ul.items-list li .item-info,
-.accounts .left-pane ul.items-list li .item-info {
+.accounts .left-pane ul.items-list li .item-info,
+.roles .left-pane ul.items-list li .item-info {
   font-size: 8pt;
 }
 .users .left-pane ul.items-list li .item-info .item-title,
-.accounts .left-pane ul.items-list li .item-info .item-title {
+.accounts .left-pane ul.items-list li .item-info .item-title,
+.roles .left-pane ul.items-list li .item-info .item-title {
   font-size: 12pt;
 }
 .users .left-pane .pager ul.pagination,
-.accounts .left-pane .pager ul.pagination {
+.accounts .left-pane .pager ul.pagination,
+.roles .left-pane .pager ul.pagination {
   display: block;
 }
 .users .left-pane .pager ul.pagination li a,
-.accounts .left-pane .pager ul.pagination li a {
+.accounts .left-pane .pager ul.pagination li a,
+.roles .left-pane .pager ul.pagination li a {
   background-color: transparent;
   border-color: #000000;
   border-radius: 0 !important;
@@ -529,18 +544,21 @@ span[class*=" icon-"].dark {
   margin: 0 4px;
 }
 .users .left-pane .pager ul.pagination li.active a,
-.accounts .left-pane .pager ul.pagination li.active a {
+.accounts .left-pane .pager ul.pagination li.active a,
+.roles .left-pane .pager ul.pagination li.active a {
   background-color: #000000;
   color: #ffffff;
 }
 .user-editor .user-image-upload,
-.account-editor .user-image-upload {
+.account-editor .user-image-upload,
+.role-editor .user-image-upload {
   float: left;
   text-align: center;
   width: 120px;
 }
 .user-editor .user-image-upload .user-image,
-.account-editor .user-image-upload .user-image {
+.account-editor .user-image-upload .user-image,
+.role-editor .user-image-upload .user-image {
   border: solid 3px #ffffff;
   display: block;
   height: 96px;
@@ -548,29 +566,35 @@ span[class*=" icon-"].dark {
   width: 96px;
 }
 .user-editor .user-image-upload button,
-.account-editor .user-image-upload button {
+.account-editor .user-image-upload button,
+.role-editor .user-image-upload button {
   margin: 16px 0;
 }
 .user-editor .user-image-upload input[type="file"],
-.account-editor .user-image-upload input[type="file"] {
+.account-editor .user-image-upload input[type="file"],
+.role-editor .user-image-upload input[type="file"] {
   display: none;
 }
 .user-editor .user-editor,
-.account-editor .user-editor {
+.account-editor .user-editor,
+.role-editor .user-editor {
   margin-left: 128px;
 }
 .user-editor .control-group,
-.account-editor .control-group {
+.account-editor .control-group,
+.role-editor .control-group {
   margin: 0 8px 8px 0;
 }
 .user-editor .control-group .form-group,
-.account-editor .control-group .form-group {
+.account-editor .control-group .form-group,
+.role-editor .control-group .form-group {
   display: inline-block;
   margin: 0 8px 0 0;
   min-width: 20em;
 }
 .user-editor .control-group.btn-toolbar,
-.account-editor .control-group.btn-toolbar {
+.account-editor .control-group.btn-toolbar,
+.role-editor .control-group.btn-toolbar {
   margin: 16px 0;
 }
 .user-editor {
