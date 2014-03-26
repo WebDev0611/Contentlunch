@@ -69,6 +69,10 @@
 					this.active = (this.active === 1 || this.active === '1' || this.active.toLowerCase() === 'true');
 				}
 				return (this.active === true || this.active === false) ? null : 'Active Status is required.';
+			case 'subscription':
+				if (!this.subscription) {
+					return 'Subscription is required.';
+				}
 			default:
 				return null;
 		}

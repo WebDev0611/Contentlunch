@@ -101,7 +101,7 @@
 
 			account.creditCard = new launch.CreditCard();
 			account.bankAccount = new launch.BankAccount();
-			account.subscription = new launch.Subscription(1);
+			account.subscription = null;
 
 			return account;
 		}

@@ -125,22 +125,6 @@
 		return msgs.length > 0 ? msgs : null;
 	},
 
-	validate: function(obj) {
-		if (!obj || !obj.validateProperty) {
-			return true;
-		}
-
-		var properties = Object.keys(obj);
-
-		for (var i = 0; i < properties.length; i++) {
-			if (!launch.utils.isBlank(this.validateProperty(properties[i]))) {
-				return false;
-			}
-		}
-
-		return true;
-	},
-
 	getStates: function(country) {
 		if (!launch.utils.isBlank(country)) {
 			switch (country.toUpperCase()) {

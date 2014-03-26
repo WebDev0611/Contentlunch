@@ -398,6 +398,16 @@
 			role.created = dto.created_at;
 			role.updated = dto.updated_at;
 
+			// TODO: SET THE PRIVILEGES CORRECTLY FROM THE API WHEN IT'S READY!!
+			role.privileges = [
+				{ module: 'Consult', view: true, edit: true, execute: true },
+				{ module: 'Create', view: true, edit: true, execute: true },
+				{ module: 'Collaborate', view: true, edit: true, execute: true },
+				{ module: 'Calendar', view: true, edit: true, execute: true },
+				{ module: 'Launch', view: true, edit: true, execute: true },
+				{ module: 'Measure', view: true, edit: true, execute: true }
+			];
+
 			return role;
 		},
 		fromCache: function(cachedRole) {
@@ -408,6 +418,8 @@
 			role.name = cachedRole.name;
 			role.created = cachedRole.created;
 			role.updated = cachedRole.updated;
+
+			role.privileges = cachedRole.privileges;
 
 			return role;
 		},
@@ -492,6 +504,16 @@
 			subscription.features = dto.features;
 			subscription.created = new Date(dto.created_at);
 			subscription.updated = new Date(dto.updated_at);
+
+			// TODO: SET THE COMPONENTS CORRECTLY FROM THE API WHEN IT'S READY!!
+			subscription.components = [
+				{ name: 'create', title: 'CREATE', active: true },
+				{ name: 'calendar', title: 'CALENDAR', active: true },
+				{ name: 'launch', title: 'LAUNCH', active: true },
+				{ name: 'measure', title: 'MEASURE', active: true },
+				{ name: 'collaborate', title: 'COLLABORATE', active: self.subscriptionLevel >= 2 },
+				{ name: 'consult', title: 'CONSULT', active: self.subscriptionLevel >= 3 }
+			];
 
 			return subscription;
 		},

@@ -7,14 +7,7 @@
 	self.created = null;
 	self.updated = null;
 
-	self.privileges = [
-		{ module: 'Consult', view: true, edit: true, execute: true },
-		{ module: 'Create', view: true, edit: true, execute: true },
-		{ module: 'Collaborate', view: true, edit: true, execute: true },
-		{ module: 'Calendar', view: true, edit: true, execute: true },
-		{ module: 'Launch', view: true, edit: true, execute: true },
-		{ module: 'Measure', view: true, edit: true, execute: true }
-	];
+	self.privileges = [];
 
 	// TODO: CHANGE THIS FUNCTION TO BETTER IDENTIFY A BUILT-IN ROLE!!
 	self.isBuiltIn = function() {
