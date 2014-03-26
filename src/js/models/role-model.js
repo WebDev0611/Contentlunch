@@ -7,16 +7,21 @@
 	self.created = null;
 	self.updated = null;
 
+	self.privileges = [
+		{ module: 'Consult', view: true, edit: true, execute: true },
+		{ module: 'Create', view: true, edit: true, execute: true },
+		{ module: 'Collaborate', view: true, edit: true, execute: true },
+		{ module: 'Calendar', view: true, edit: true, execute: true },
+		{ module: 'Launch', view: true, edit: true, execute: true },
+		{ module: 'Measure', view: true, edit: true, execute: true }
+	];
+
 	self.isGlobalAdmin = function() {
 		return (!launch.utils.isBlank(self.name) && self.name.toUpperCase() === 'ADMIN');
 	};
 
 	self.matchSearchTerm = function (term) {
-		if (launch.utils.startsWith(self.name, term)) {
-			return true;
-		}
-
-		return false;
+		return launch.utils.startsWith(self.name, term);
 	};
 
 	self.validateProperty = function (property) {

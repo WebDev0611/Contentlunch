@@ -712,3 +712,44 @@ span[class^="icon-"], span[class*=" icon-"] {
 		}
 	}
 }
+
+.role-editor {
+	table.privileges-list {
+		min-width: 600px;
+
+		tr {
+			border-bottom: solid 1px #000000;
+
+			td, th {
+				text-align: center;
+
+				.checkbox {
+					margin: 10px 0;
+
+					input[type="checkbox"] {
+						float: none;
+						transform: scale(1.5,1.5);
+						-webkit-transform: scale(1.5,1.5);
+						-moz-transform: scale(1.5,1.5);
+						-o-transform: scale(1.5,1.5);
+						-ms-transform: scale(1.5,1.5);
+					}
+				}
+
+				&.left {
+					text-align: left;
+				}
+
+				&.check-column{
+					min-width: 100px;
+				}
+			}
+
+			&.dark{
+				td{
+					background-color: #E6E4E0;
+				}
+			}
+		}
+	}
+}

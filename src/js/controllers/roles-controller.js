@@ -173,7 +173,7 @@ launch.module.controller('RolesController', [
 				self.reset(form);
 			} else {
 				$scope.selectedIndex = ((($scope.pagination.currentPage - 1) * $scope.pagination.pageSize) + i);
-				$scope.selectedRole = roleService.get(role.id);
+				$scope.selectedRole = role;
 			}
 		};
 

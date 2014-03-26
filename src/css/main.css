@@ -677,3 +677,37 @@ span[class*=" icon-"].dark {
 .subscriptions .right-pane .tier-components .tier-tiles {
   margin: 0 30px;
 }
+.role-editor table.privileges-list {
+  min-width: 600px;
+}
+.role-editor table.privileges-list tr {
+  border-bottom: solid 1px #000000;
+}
+.role-editor table.privileges-list tr td,
+.role-editor table.privileges-list tr th {
+  text-align: center;
+}
+.role-editor table.privileges-list tr td .checkbox,
+.role-editor table.privileges-list tr th .checkbox {
+  margin: 10px 0;
+}
+.role-editor table.privileges-list tr td .checkbox input[type="checkbox"],
+.role-editor table.privileges-list tr th .checkbox input[type="checkbox"] {
+  float: none;
+  transform: scale(1.5, 1.5);
+  -webkit-transform: scale(1.5, 1.5);
+  -moz-transform: scale(1.5, 1.5);
+  -o-transform: scale(1.5, 1.5);
+  -ms-transform: scale(1.5, 1.5);
+}
+.role-editor table.privileges-list tr td.left,
+.role-editor table.privileges-list tr th.left {
+  text-align: left;
+}
+.role-editor table.privileges-list tr td.check-column,
+.role-editor table.privileges-list tr th.check-column {
+  min-width: 100px;
+}
+.role-editor table.privileges-list tr.dark td {
+  background-color: #E6E4E0;
+}
