@@ -11,7 +11,7 @@ class AccountSubscriptionController extends BaseController {
   {
     $sub = new AccountSubscription;
     $sub->account_id = $id;
-    $sub->subscription_id = Input::get('subscription_id');
+    $sub->subscription_level = Input::get('subscription_level');
     $sub->licenses = Input::get('licenses');
     $sub->monthly_price = Input::get('monthly_price');
     $sub->annual_discount = Input::get('annual_discount');

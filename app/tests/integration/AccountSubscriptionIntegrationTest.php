@@ -9,8 +9,7 @@ class AccountSubscriptionIntegrationTest extends TestCase {
     $account = Woodling::saved('Account');
     $subscription = Woodling::saved('Subscription');
     $subscriptions = Woodling::savedList('AccountSubscription', 5, array(
-      'account_id' => $account->id,
-      'subscription_id' => $subscription->id
+      'account_id' => $account->id
     ));
     $response = $this->call('GET', '/api/account/'. $account->id .'/subscription');
     $data = $this->assertResponse($response);
@@ -22,8 +21,7 @@ class AccountSubscriptionIntegrationTest extends TestCase {
     $account = Woodling::saved('Account');
     $subscription = Woodling::saved('Subscription');
     $accountSub = Woodling::retrieve('AccountSubscription', array(
-      'account_id' => $account->id,
-      'subscription_id' => $subscription->id
+      'account_id' => $account->id
     ));
     $response = $this->call('POST', '/api/account/'. $account->id .'/subscription', $accountSub->toArray());
     $data = $this->assertResponse($response);

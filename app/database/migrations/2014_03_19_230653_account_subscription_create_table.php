@@ -16,8 +16,8 @@ class AccountSubscriptionCreateTable extends Migration {
     Schema::create('account_subscription', function ($table) {
       $table->increments('id');
       $table->integer('account_id');
-      $table->integer('subscription_id')->default(0);
-      $table->integer('licenses')->default(0);
+      $table->integer('subscription_level')->default(1);
+      $table->integer('licenses')->nullable();
       $table->integer('monthly_price')->nullable();
       $table->integer('annual_discount')->nullable();
       $table->integer('training')->nullable();

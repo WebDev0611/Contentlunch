@@ -29,7 +29,7 @@ class AccountSeeder extends Seeder {
 
     $sub = new AccountSubscription;
     $sub->account_id = $account->id;
-    $sub->subscription_id = $subscription->id;
+    $sub->subscription_level = 1;
     $sub->licenses = $subscription->licenses;
     $sub->monthly_price = $subscription->monthly_price;
     $sub->annual_discount = $subscription->annual_discount;

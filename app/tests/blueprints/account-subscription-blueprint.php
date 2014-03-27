@@ -8,7 +8,7 @@ Woodling::seed('AccountSubscription', function ($blueprint) {
   $blueprint->annual_discount = 10;
   $blueprint->training = 1;
   $blueprint->features = 'Features!';
+  $blueprint->subscription_level = rand(1, 3);
   // Should be set in overrides
-  $blueprint->subscription_id = null;
   $blueprint->account_id = null;
 });
