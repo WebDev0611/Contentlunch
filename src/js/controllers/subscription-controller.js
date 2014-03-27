@@ -12,7 +12,24 @@
 		$scope.hasError = launch.utils.isPropertyValid;
 		$scope.errorMessage = launch.utils.getPropertyErrorMessage;
 
-		$scope.save = function() {
+		$scope.save = function (form) {
+			$scope.forceDirty = true;
+
+			var msg = [];
+
+			angular.forEach($scope.subscriptions, function(s, i) {
+				var errs = launch.utils.validateAll(s, s.getName() + ':');
+
+				if (!launch.utils.isBlank(errs)) {
+					msg.push(errs);
+				}
+			});
+
+			if (msg.length > 0) {
+				notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
+				return;
+			}
+
 			angular.forEach($scope.subscriptions, function(s, i) {
 				accountService.saveSubscription(s, {
 					success: function(r) {

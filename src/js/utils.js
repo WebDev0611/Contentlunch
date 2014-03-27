@@ -106,7 +106,7 @@
 		reader.readAsDataURL(file);
 	},
 
-	validateAll: function(obj) {
+	validateAll: function(obj, itemPrefix) {
 		if (!obj || !obj.validateProperty) {
 			return null;
 		}
@@ -118,7 +118,11 @@
 			var msg = obj.validateProperty(properties[i]);
 
 			if (!launch.utils.isBlank(msg)) {
-				msgs.push(msg);
+				if (!launch.utils.isBlank(itemPrefix)) {
+					msgs.push(itemPrefix + ' ' + msg);
+				} else {
+					msgs.push(msg);
+				}
 			}
 		}
 
