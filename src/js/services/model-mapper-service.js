@@ -526,6 +526,7 @@
 				training: subscription.training,
 				annual_discount: subscription.annualDiscount,
 				features: subscription.features,
+				// TODO: ONE OF THE NEXT TWO PROPERTIES IS NOT NEEDED...PROBABLY "level"!!
 				subscription_level: subscription.subscriptionLevel,
 				level: subscription.subscriptionLevel
 			};

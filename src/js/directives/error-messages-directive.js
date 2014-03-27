@@ -6,7 +6,21 @@
 		},
 		link: function (scope, element, attrs) {
 			scope.$watch('message', function (msg) {
-				var id = ((!!$(element)[0].id) ? $(element)[0].id : $(element)[0].name) + '_msg';
+				var control = null;
+				var index = launch.utils.isBlank(element.data('index')) ? '' : element.data('index');
+
+				if (element[0].tagName === 'INPUT' || element[0].tagName === 'SELECT' || element[0].tagName === 'TEXTAREA') {
+					control = $(element)[0];
+				} else {
+					var controls = $(element).children('input');
+
+					if (controls.length === 0) { controls = $(element).children('select'); }
+					if (controls.length === 0) { controls = $(element).children('textarea'); }
+
+					control = controls[0];
+				}
+
+				var id = ((!!control.id) ? control.id : control.name) + '_msg' + index;
 
 				$('#' + id).remove();
 

@@ -2,15 +2,15 @@
 	isBlank: function(str) {
 		var i;
 
-		if (!!str) {
-			if (typeof str === 'number' || typeof str === 'boolean' || typeof str === 'object' || typeof str === 'function') {
-				return false;
-			}
+		if (str === null || str === undefined || str === NaN) {
+			return true;
+		} else if (typeof str === 'number' || typeof str === 'boolean' || typeof str === 'object' || typeof str === 'function' || $.isArray(str)) {
+			return false;
+		}
 
-			for (i = 0; i < str.length; i++) {
-				if (str.charCodeAt(i) >= 33) {
-					return false;
-				}
+		for (i = 0; i < str.length; i++) {
+			if (str.charCodeAt(i) >= 33) {
+				return false;
 			}
 		}
 
@@ -422,7 +422,7 @@
 
 	getPropertyErrorMessage: function (model, property, control) {
 		if (!control || !control.$dirty) {
-			return false;
+			return null;
 		}
 
 		return (!model || model.$resolved === false) ? null : model.validateProperty(property);
