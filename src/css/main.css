@@ -373,6 +373,15 @@ span[class*=" icon-"].dark {
 #change-password-form a {
   color: #ffffff;
 }
+#login-form .btn-toolbar,
+#change-password-form .btn-toolbar {
+  text-align: center;
+}
+#login-form .btn-toolbar .btn,
+#change-password-form .btn-toolbar .btn {
+  margin: 4px;
+  padding: 4px 40px;
+}
 #login-form button,
 #change-password-form button {
   background-color: #000000;
@@ -380,6 +389,10 @@ span[class*=" icon-"].dark {
   color: #ffffff;
   font-family: 'Lato-Bold';
   margin: 0 0 16px 0;
+  padding: 4px;
+}
+#login-form button.full-width,
+#change-password-form button.full-width {
   width: 100%;
 }
 #login-form .icon-launch,
@@ -456,71 +469,86 @@ span[class*=" icon-"].dark {
   width: 40px;
 }
 .users .left-pane,
-.accounts .left-pane {
+.accounts .left-pane,
+.roles .left-pane {
   position: relative;
 }
 .users .left-pane .btn-group,
-.accounts .left-pane .btn-group {
+.accounts .left-pane .btn-group,
+.roles .left-pane .btn-group {
   margin-bottom: 12px;
   width: 100%;
 }
 .users .left-pane .btn-group .btn-create,
-.accounts .left-pane .btn-group .btn-create {
+.accounts .left-pane .btn-group .btn-create,
+.roles .left-pane .btn-group .btn-create {
   background-color: #000000;
   color: #ffffff;
   width: 100%;
 }
 .users .left-pane .btn-group .btn-create .glyphicon,
-.accounts .left-pane .btn-group .btn-create .glyphicon {
+.accounts .left-pane .btn-group .btn-create .glyphicon,
+.roles .left-pane .btn-group .btn-create .glyphicon {
   margin-right: 8px;
 }
 .users .left-pane .btn-group.btn-group-filter .btn.active,
-.accounts .left-pane .btn-group.btn-group-filter .btn.active {
+.accounts .left-pane .btn-group.btn-group-filter .btn.active,
+.roles .left-pane .btn-group.btn-group-filter .btn.active {
   background-color: #000000;
   color: #ffffff;
 }
 .users .left-pane hr,
-.accounts .left-pane hr {
+.accounts .left-pane hr,
+.roles .left-pane hr {
   border-color: #000000;
   margin-top: 10px;
 }
 .users .left-pane ul.items-list,
-.accounts .left-pane ul.items-list {
+.accounts .left-pane ul.items-list,
+.roles .left-pane ul.items-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 .users .left-pane ul.items-list li,
-.accounts .left-pane ul.items-list li {
+.accounts .left-pane ul.items-list li,
+.roles .left-pane ul.items-list li {
   cursor: pointer;
   padding: 8px;
   position: relative;
 }
 .users .left-pane ul.items-list li:hover,
 .accounts .left-pane ul.items-list li:hover,
+.roles .left-pane ul.items-list li:hover,
 .users .left-pane ul.items-list li.selected,
-.accounts .left-pane ul.items-list li.selected {
+.accounts .left-pane ul.items-list li.selected,
+.roles .left-pane ul.items-list li.selected {
   background-color: #eeeeee;
 }
 .users .left-pane ul.items-list li .item-image,
-.accounts .left-pane ul.items-list li .item-image {
+.accounts .left-pane ul.items-list li .item-image,
+.roles .left-pane ul.items-list li .item-image {
   float: left;
   margin-right: 16px;
 }
 .users .left-pane ul.items-list li .item-info,
-.accounts .left-pane ul.items-list li .item-info {
+.accounts .left-pane ul.items-list li .item-info,
+.roles .left-pane ul.items-list li .item-info {
   font-size: 8pt;
 }
 .users .left-pane ul.items-list li .item-info .item-title,
-.accounts .left-pane ul.items-list li .item-info .item-title {
+.accounts .left-pane ul.items-list li .item-info .item-title,
+.roles .left-pane ul.items-list li .item-info .item-title {
   font-size: 12pt;
 }
 .users .left-pane .pager ul.pagination,
-.accounts .left-pane .pager ul.pagination {
+.accounts .left-pane .pager ul.pagination,
+.roles .left-pane .pager ul.pagination {
   display: block;
 }
 .users .left-pane .pager ul.pagination li a,
-.accounts .left-pane .pager ul.pagination li a {
+.accounts .left-pane .pager ul.pagination li a,
+.roles .left-pane .pager ul.pagination li a {
   background-color: transparent;
   border-color: #000000;
   border-radius: 0 !important;
@@ -529,18 +557,21 @@ span[class*=" icon-"].dark {
   margin: 0 4px;
 }
 .users .left-pane .pager ul.pagination li.active a,
-.accounts .left-pane .pager ul.pagination li.active a {
+.accounts .left-pane .pager ul.pagination li.active a,
+.roles .left-pane .pager ul.pagination li.active a {
   background-color: #000000;
   color: #ffffff;
 }
 .user-editor .user-image-upload,
-.account-editor .user-image-upload {
+.account-editor .user-image-upload,
+.role-editor .user-image-upload {
   float: left;
   text-align: center;
   width: 120px;
 }
 .user-editor .user-image-upload .user-image,
-.account-editor .user-image-upload .user-image {
+.account-editor .user-image-upload .user-image,
+.role-editor .user-image-upload .user-image {
   border: solid 3px #ffffff;
   display: block;
   height: 96px;
@@ -548,29 +579,35 @@ span[class*=" icon-"].dark {
   width: 96px;
 }
 .user-editor .user-image-upload button,
-.account-editor .user-image-upload button {
+.account-editor .user-image-upload button,
+.role-editor .user-image-upload button {
   margin: 16px 0;
 }
 .user-editor .user-image-upload input[type="file"],
-.account-editor .user-image-upload input[type="file"] {
+.account-editor .user-image-upload input[type="file"],
+.role-editor .user-image-upload input[type="file"] {
   display: none;
 }
 .user-editor .user-editor,
-.account-editor .user-editor {
+.account-editor .user-editor,
+.role-editor .user-editor {
   margin-left: 128px;
 }
 .user-editor .control-group,
-.account-editor .control-group {
+.account-editor .control-group,
+.role-editor .control-group {
   margin: 0 8px 8px 0;
 }
 .user-editor .control-group .form-group,
-.account-editor .control-group .form-group {
+.account-editor .control-group .form-group,
+.role-editor .control-group .form-group {
   display: inline-block;
   margin: 0 8px 0 0;
   min-width: 20em;
 }
 .user-editor .control-group.btn-toolbar,
-.account-editor .control-group.btn-toolbar {
+.account-editor .control-group.btn-toolbar,
+.role-editor .control-group.btn-toolbar {
   margin: 16px 0;
 }
 .user-editor {
@@ -583,6 +620,10 @@ span[class*=" icon-"].dark {
 .connection-list .row {
   border-bottom: solid 1px #000000;
   padding: 8px;
+}
+.tier-components .tier-tile-container {
+  display: inline-block;
+  vertical-align: top;
 }
 .tier-components .tier-tiles {
   background-color: #999999;
@@ -635,9 +676,34 @@ span[class*=" icon-"].dark {
 }
 .tier-components .tier-info {
   display: inline-block;
-  margin: 16px;
-  max-width: 300px;
+  padding: 0 16px;
   vertical-align: top;
+}
+.tier-components .tier-info .tier-info-list {
+  list-style: none;
+  margin-bottom: 16px;
+  max-width: 300px;
+  padding: 0;
+}
+.tier-components .tier-info .tier-info-list li {
+  white-space: nowrap;
+}
+.tier-components .tier-info .tier-info-list li div {
+  display: inline-block;
+  font-size: 12pt;
+  margin: 4px;
+  vertical-align: top;
+  white-space: normal;
+}
+.tier-components .tier-info .tier-info-list li div.tier-info-label {
+  width: 150px;
+}
+.tier-components .tier-info .tier-info-list li div.tier-info-data {
+  font-family: 'Lato Black';
+}
+.tier-components .tier-info .btn {
+  display: block;
+  margin: auto;
 }
 .tier-components .tier-form {
   max-width: 240px;
@@ -652,4 +718,74 @@ span[class*=" icon-"].dark {
 }
 .subscriptions .right-pane .tier-components .tier-tiles {
   margin: 0 30px;
+}
+.role-editor table.privileges-list {
+  min-width: 600px;
+}
+.role-editor table.privileges-list tr {
+  border-bottom: solid 1px #000000;
+}
+.role-editor table.privileges-list tr td,
+.role-editor table.privileges-list tr th {
+  text-align: center;
+}
+.role-editor table.privileges-list tr td .checkbox,
+.role-editor table.privileges-list tr th .checkbox {
+  margin: 10px 0;
+}
+.role-editor table.privileges-list tr td .checkbox input[type="checkbox"],
+.role-editor table.privileges-list tr th .checkbox input[type="checkbox"] {
+  float: none;
+  transform: scale(1.5, 1.5);
+  -webkit-transform: scale(1.5, 1.5);
+  -moz-transform: scale(1.5, 1.5);
+  -o-transform: scale(1.5, 1.5);
+  -ms-transform: scale(1.5, 1.5);
+}
+.role-editor table.privileges-list tr td.left,
+.role-editor table.privileges-list tr th.left {
+  text-align: left;
+}
+.role-editor table.privileges-list tr td.check-column,
+.role-editor table.privileges-list tr th.check-column {
+  min-width: 100px;
+}
+.role-editor table.privileges-list tr.dark td {
+  background-color: #E6E4E0;
+}
+.tier-info-dialog .modal-dialog {
+  min-width: 650px;
+}
+.tier-modal {
+  padding: 24px;
+}
+.tier-modal h4 {
+  font-family: 'Lato Black';
+  text-align: center;
+}
+.tier-modal p {
+  margin: 0 50px;
+}
+.tier-modal .tier-components {
+  margin: 16px 0;
+  text-align: center;
+}
+.tier-modal .tier-components .tier-tile-container {
+  max-width: 200px;
+  text-align: left;
+}
+.tier-modal .tier-components .tier-tile-container ul {
+  /*list-style: square;*/
+  margin-top: 16px;
+}
+.tier-modal .tier-components .tier-tile-container ul li {
+  font-size: 12pt;
+  font-family: 'Lato Black';
+}
+.tier-modal .control-group {
+  text-align: center;
+}
+.tier-modal .control-group .btn {
+  background-color: #000000;
+  color: #ffffff;
 }

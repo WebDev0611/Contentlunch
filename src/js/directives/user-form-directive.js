@@ -3,7 +3,6 @@
 		var self = this;
 
 		self.loggedInUser = null;
-		self.forceDirty = false;
 
 		self.init = function () {
 			self.loggedInUser = AuthService.userInfo();
@@ -17,12 +16,14 @@
 		};
 
 		scope.roles = [];
+		scope.forceDirty = false;
 		scope.photoFile = null;
 		scope.isLoading = false;
 		scope.isSaving = false;
 		scope.isUploading = false;
+		scope.isNewUser = false;
 		scope.percentComplete = 0;
-		scope.hasError = function (property, control) { return launch.utils.isPropertyValid(scope.selectedUser, property, control); };
+		scope.hasError = function (property, control) { return launch.utils.isPropertyValid(scope.selectedUser, property, control, scope.forceDirty); };
 		scope.errorMessage = function (property, control) { return launch.utils.getPropertyErrorMessage(scope.selectedUser, property, control); };
 
 		scope.cancelEdit = function(form) {
@@ -57,23 +58,22 @@
 				return;
 			}
 
-			self.forceDirty = true;
+			scope.forceDirty = true;
 			form.$setDirty();
 
 			var msg = launch.utils.validateAll(scope.selectedUser);
-			var isNew = launch.utils.isBlank(scope.selectedUser.id);
 
 			if (!launch.utils.isBlank(msg)) {
 				NotificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
 				return;
 			}
 
-			var method = isNew ? UserService.add : UserService.update;
+			var method = scope.isNewUser ? UserService.add : UserService.update;
 			var callback = {
 				success: function (r) {
 					scope.isSaving = false;
 
-					var successMsg = isNew ? 'You have successfully created ' + r.formatName() + '\'s account.' : 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.formatName() + '\'s') + ' user settings!';
+					var successMsg = scope.isNewUser ? 'You have successfully created ' + r.formatName() + '\'s account.' : 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.formatName() + '\'s') + ' user settings!';
 
 					NotificationService.success('Success!', successMsg);
 
@@ -88,7 +88,7 @@
 				}
 			};
 
-			if (isNew) {
+			if (scope.isNewUser) {
 				scope.selectedUser.account = self.loggedInUser.account;
 				scope.selectedUser.accounts.push(scope.selectedUser.account);
 				scope.selectedUser.roles.push(scope.selectedUser.role);
@@ -102,7 +102,7 @@
 						SessionService.set(SessionService.USER_KEY, scope.selectedUser);
 					}
 
-					if (isNew && !!scope.selectedUser.account) {
+					if (scope.isNewUser && !!scope.selectedUser.account) {
 						AccountService.addUser(scope.selectedUser.account.id, r.id, {
 							success: function(rs) {
 								callback.success(r);
@@ -283,6 +283,14 @@
 				]
 			});
 		};
+
+		scope.$watch('selectedUser', function(user) {
+			if (!scope.selectedUser || launch.utils.isBlank(scope.selectedUser.id) || scope.selectedUser.id <= 0) {
+				scope.isNewUser = true;
+			} else {
+				scope.isNewUser = false;
+			}
+		});
 
 		self.init();
 	};

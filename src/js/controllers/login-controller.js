@@ -1,11 +1,17 @@
 launch.module.controller('LoginController', [
 	'$scope', '$sanitize', '$location', 'AuthService', 'NotificationService', function ($scope, $sanitize, $location, authService, notificationService) {
+		var self = this;
+
+		self.init = function() {
+			authService.logout();
+			$scope.toggleMode();
+		};
+
 		$scope.user = { email: null, password: null };
 		$scope.emailError = null;
 		$scope.passwordError = null;
 		$scope.isSaving = false;
-
-		authService.logout();
+		$scope.mode = null;
 
 		$scope.validateLogin = function(user) {
 			if (launch.utils.isBlank(user.email)) {
@@ -53,5 +59,26 @@ launch.module.controller('LoginController', [
 				}
 			});
 		};
+
+		$scope.toggleMode = function(mode) {
+			$scope.mode = launch.utils.isBlank(mode) ? 'Login' : mode;
+		};
+
+		$scope.retreievePassword = function(e, user) {
+			if (e.type === 'keypress' && e.charCode !== 13) {
+				return;
+			}
+
+			authService.forgotPassword(user.email, {
+				success: function(r) {
+					notificationService.info('Message Sent!', r.message);
+				},
+				error: function(r) {
+					launch.utils.handleAjaxErrorResponse(r, notificationService);
+				}
+			});
+		};
+
+		self.init();
 	}
 ]);

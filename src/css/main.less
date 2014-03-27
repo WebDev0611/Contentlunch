@@ -380,13 +380,26 @@ span[class^="icon-"], span[class*=" icon-"] {
 		color: #ffffff;
 	}
 
+	.btn-toolbar {
+		text-align: center;
+
+		.btn {
+			margin: 4px;
+			padding: 4px 40px;
+		}
+	}
+
 	button {
 		background-color: #000000;
 		border: 0;
 		color: #ffffff;
 		font-family: 'Lato-Bold';
 		margin: 0 0 16px 0;
-		width: 100%;
+		padding: 4px;
+
+		&.full-width {
+			width: 100%;
+		}
 	}
 
 	.icon-launch {
@@ -477,7 +490,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	width: 40px;
 }
 
-.users, .accounts {
+.users, .accounts, .roles {
 	.left-pane {
 		position: relative;
 
@@ -563,7 +576,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.user-editor, .account-editor {
+.user-editor, .account-editor, .role-editor {
 	.user-image-upload {
 		float: left;
 		text-align: center;
@@ -620,6 +633,11 @@ span[class^="icon-"], span[class*=" icon-"] {
 }
 
 .tier-components {
+	.tier-tile-container {
+		display: inline-block;
+		vertical-align: top;
+	}
+
 	.tier-tiles {
 		background-color: #999999;
 		border-radius: 40px;
@@ -682,19 +700,46 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 	.tier-info {
 		display: inline-block;
-		margin: 16px;
-		max-width: 300px;
+		padding: 0 16px;
 		vertical-align: top;
+
+		.tier-info-list {
+			list-style: none;
+			margin-bottom: 16px;
+			max-width: 300px;
+			padding: 0;
+
+			li {
+				white-space: nowrap;
+
+				div {
+					display: inline-block;
+					font-size: 12pt;
+					margin: 4px;
+					vertical-align: top;
+					white-space: normal;
+
+					&.tier-info-label {
+						width: 150px;
+					}
+
+					&.tier-info-data {
+						font-family: 'Lato Black';
+					}
+				}
+			}
+		}
+
+		.btn {
+			display: block;
+			margin: auto;
+		}
 	}
 
 	.tier-form {
 		max-width: 240px;
 		padding: 8px;
 		text-align: left;
-
-		.input-group {
-			
-		}
 	}
 }
 
@@ -709,6 +754,94 @@ span[class^="icon-"], span[class*=" icon-"] {
 			.tier-tiles{
 				margin: 0 30px;
 			}
+		}
+	}
+}
+
+.role-editor {
+	table.privileges-list {
+		min-width: 600px;
+
+		tr {
+			border-bottom: solid 1px #000000;
+
+			td, th {
+				text-align: center;
+
+				.checkbox {
+					margin: 10px 0;
+
+					input[type="checkbox"] {
+						float: none;
+						transform: scale(1.5,1.5);
+						-webkit-transform: scale(1.5,1.5);
+						-moz-transform: scale(1.5,1.5);
+						-o-transform: scale(1.5,1.5);
+						-ms-transform: scale(1.5,1.5);
+					}
+				}
+
+				&.left {
+					text-align: left;
+				}
+
+				&.check-column{
+					min-width: 100px;
+				}
+			}
+
+			&.dark{
+				td{
+					background-color: #E6E4E0;
+				}
+			}
+		}
+	}
+}
+
+.tier-info-dialog {
+	.modal-dialog {
+		min-width: 650px;
+	}
+}
+.tier-modal {
+	padding: 24px;
+
+	h4 {
+		font-family: 'Lato Black';
+		text-align: center;
+	}
+
+	p {
+		margin: 0 50px;
+	}
+
+	.tier-components {
+		margin: 16px 0;
+		text-align: center;
+
+		.tier-tile-container {
+			max-width: 200px;
+			text-align: left;
+
+			ul {
+				/*list-style: square;*/
+				margin-top: 16px;
+
+				li {
+					font-size: 12pt;
+					font-family: 'Lato Black';
+				}
+			}
+		}
+	}
+
+	.control-group {
+		text-align: center;
+
+		.btn {
+			background-color: #000000;
+			color: #ffffff;
 		}
 	}
 }

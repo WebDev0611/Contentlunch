@@ -191,8 +191,8 @@ launch.module.controller('AccountsController', [
 			}
 		};
 
-		$scope.refreshMethod = function (form) {
-			var accountId = $scope.selectedAccount.id;
+		$scope.refreshMethod = function (form, selectedAccount) {
+			var accountId = (!!selectedAccount) ? selectedAccount.id : null;
 
 			self.reset(form);
 			self.loadAccounts(true, {

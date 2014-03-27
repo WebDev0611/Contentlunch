@@ -1,4 +1,4 @@
-launch.module.factory('UserService', function ($resource, $http, $upload, AccountService, ModelMapperService) {
+launch.module.factory('UserService', function ($resource, $upload, AccountService, ModelMapperService) {
 	var users = $resource('/api/user/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.user.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
@@ -41,10 +41,10 @@ launch.module.factory('UserService', function ($resource, $http, $upload, Accoun
 						queryString += '&';
 					}
 
-					queryString += 'roles[]=' + r.roleId;
+					queryString += 'roles[]=' + r.id;
 				});
 			} else {
-				queryString += '?roles[]=' + roles.roleId;
+				queryString += '?roles[]=' + roles.id;
 			}
 
 			var usersCall = $resource('/api/user' + queryString, null, {

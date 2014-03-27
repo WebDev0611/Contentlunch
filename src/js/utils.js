@@ -106,7 +106,7 @@
 		reader.readAsDataURL(file);
 	},
 
-	validateAll: function(obj) {
+	validateAll: function(obj, itemPrefix) {
 		if (!obj || !obj.validateProperty) {
 			return null;
 		}
@@ -118,27 +118,15 @@
 			var msg = obj.validateProperty(properties[i]);
 
 			if (!launch.utils.isBlank(msg)) {
-				msgs.push(msg);
+				if (!launch.utils.isBlank(itemPrefix)) {
+					msgs.push(itemPrefix + ' ' + msg);
+				} else {
+					msgs.push(msg);
+				}
 			}
 		}
 
 		return msgs.length > 0 ? msgs : null;
-	},
-
-	validate: function(obj) {
-		if (!obj || !obj.validateProperty) {
-			return true;
-		}
-
-		var properties = Object.keys(obj);
-
-		for (var i = 0; i < properties.length; i++) {
-			if (!launch.utils.isBlank(this.validateProperty(properties[i]))) {
-				return false;
-			}
-		}
-
-		return true;
 	},
 
 	getStates: function(country) {
@@ -440,12 +428,12 @@
 		return (!model || model.$resolved === false) ? null : model.validateProperty(property);
 	},
 
-	isPropertyValid: function(model, property, control) {
+	isPropertyValid: function(model, property, control, forceDirty) {
 		if (!control || !model || model.$resolved === false) {
 			return false;
 		}
 
-		if (self.forceDirty) {
+		if (forceDirty) {
 			control.$dirty = true;
 		}
 

@@ -1,4 +1,4 @@
-﻿launch.module.factory('AccountService', function ($resource, $http, ModelMapperService) {
+﻿launch.module.factory('AccountService', function ($resource, ModelMapperService) {
 	var accounts = $resource('/api/account/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.account.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.account.parseResponse },
@@ -101,7 +101,7 @@
 
 			account.creditCard = new launch.CreditCard();
 			account.bankAccount = new launch.BankAccount();
-			account.subscription = new launch.Subscription(1);
+			account.subscription = null;
 
 			return account;
 		}

@@ -1,17 +1,17 @@
-launch.module.factory('AuthService', function ($resource, $sanitize, SessionService) {
+launch.module.factory('AuthService', function($location, $resource, $sanitize, SessionService) {
 	var self = this;
 
 	// WE CANNOT PASS IN A ModelMapperService BECAUSE IT WOULD CAUSE A CIRCULAR DEPENDENCY.
 	// INSTEAD, CREATE OUR OWN INSTANCE OF THE ModelMapper CLASS.
 	self.modelMapper = new launch.ModelMapper(this);
 
-	self.cacheSession = function (user) {
+	self.cacheSession = function(user) {
 		SessionService.set(SessionService.AUTHENTICATED_KEY, true);
 		SessionService.set(SessionService.USER_KEY, user);
 		SessionService.set(SessionService.ACCOUNT_KEY, user.accounts[0]);
 	};
 
-	self.uncacheSession = function () {
+	self.uncacheSession = function() {
 		SessionService.unset(SessionService.AUTHENTICATED_KEY);
 		SessionService.unset(SessionService.USER_KEY);
 		SessionService.unset(SessionService.ACCOUNT_KEY);
@@ -73,8 +73,27 @@ launch.module.factory('AuthService', function ($resource, $sanitize, SessionServ
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return self.resource.fetchCurrentUser(null, success, error);
+			return self.resource.fetchCurrentUser(null, function (r) {
+				if (!r.id) {
+					$location.path('/login');
+					return;
+				}
+
+				if ($.isFunction(success)) {
+					success(r);
+				}
+			}, error);
 		},
-    confirm: $resource('/api/auth/confirm')
+		forgotPassword: function(email, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			var method = $resource('/api/auth/forgot_password', null, {
+				reset: { method: 'POST' }
+			});
+
+			return method.reset({ email: email }, success, error);
+		},
+		confirm: $resource('/api/auth/confirm')
 	};
 });

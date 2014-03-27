@@ -1,4 +1,3 @@
-
 <form id="login-form">
 	<div class="header">
 		<div>
@@ -6,31 +5,57 @@
 			<span class="content">CONTENT</span>
 			<span class="launch">LAUNCH</span>
 		</div>
-		<div>Login</div>
+		<div>{{ mode }}</div>
 	</div>
 	
 	<div class="error" ng-show="!!flash" ng-bind="flash"></div>
-
-	<div class="form-group" ng-class="{ 'has-error': !!emailError }">
-		<input id="email" name="email" type="text" class="form-control" placeholder="Email Address" ng-model="user.email"
-				ng-change="validateLogin(user)" ng-keypress="login($event, user)"
-				error-message message="emailError" />
-	</div>
-	<div class="form-group" ng-class="{ 'has-error': !!passwordError }">
-		<input id="password" name="password" type="password" class="form-control" placeholder="Password"
-			ng-model="user.password" ng-change="validateLogin(user)" ng-keypress="login($event, user)"
-				error-message message="passwordError" />
-	</div>
-	<div class="form-group">
-		<input id="remember" name="remember" type="checkbox" ng-model="user.remember" />
-		<label for="remember">Remember Me</label>
-	</div>
-
-	<button type="button" class="btn btn-default ladda-button" ng-click="login($event, user)" data-style="zoom-in" ladda-button="isSaving">
-		<span class="ladda-label">Login</span>
-	</button>
 	
-	<div>
-		<a href="#">Forgot Password</a>
+	<div ng-show="mode === 'Login'">
+		<div class="form-group" ng-class="{ 'has-error': !!emailError }">
+			<input id="email" name="email" type="text" class="form-control" placeholder="Email Address" ng-model="user.email"
+					ng-change="validateLogin(user)" ng-keypress="login($event, user)"
+					error-message message="emailError" />
+		</div>
+
+		<div class="form-group" ng-class="{ 'has-error': !!passwordError }">
+			<input id="password" name="password" type="password" class="form-control" placeholder="Password"
+					ng-model="user.password" ng-change="validateLogin(user)" ng-keypress="login($event, user)"
+					error-message message="passwordError" />
+		</div>
+
+		<div class="form-group">
+			<input id="remember" name="remember" type="checkbox" ng-model="user.remember" />
+			<label for="remember">Remember Me</label>
+		</div>
+
+		<button type="button" class="btn btn-default ladda-button full-width" ng-click="login($event, user)" data-style="zoom-in" ladda-button="isSaving">
+			<span class="ladda-label">Login</span>
+		</button>
+	
+		<div>
+			<a href="#" ng-click="toggleMode('Forgot Password')">Forgot Password</a>
+		</div>
+	</div>
+	
+	<div ng-show="mode === 'Forgot Password'">
+		<div class="form-group" ng-class="{ 'has-error': !!emailError }">
+			<input id="email_forgot" name="email_forgot" type="text" class="form-control" placeholder="Email Address" ng-model="user.email"
+					ng-change="validateLogin(user)" ng-keypress="retreievePassword($event, user)"
+					error-message message="emailError" />
+		</div>
+		
+		<p>
+			Enter the email address used to create your account.
+			<a href="#">I don't know it.</a>
+		</p>
+		
+		<div class="control-group btn-toolbar">
+			<button type="button" class="btn btn-default ladda-button" ng-click="retreievePassword($event, user)" data-style="zoom-in" ladda-button="isSaving">
+				<span class="ladda-label">Submit</span>
+			</button>
+			<button type="button" class="btn btn-default ladda-button" ng-click="toggleMode('Login')">
+				<span class="ladda-label">Cancel</span>
+			</button>
+		</div>
 	</div>
 </form>

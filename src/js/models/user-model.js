@@ -77,7 +77,7 @@
 				}
 				return (this.active === true || this.active === false) ? null : 'Active Status is required.';
 			case 'role':
-				return (!this.role || launch.utils.isBlank(this.role.roleName)) ? 'Role is required.' : null;
+				return (!this.role || launch.utils.isBlank(this.role.name)) ? 'Role is required.' : null;
 			default:
 				return null;
 		}

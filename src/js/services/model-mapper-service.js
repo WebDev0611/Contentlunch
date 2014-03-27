@@ -243,7 +243,7 @@
 			user.active = (parseInt(dto.status) === 1) ? true : false;
 			user.accounts = ($.isArray(dto.accounts)) ? $.map(dto.accounts, function(a, i) { return self.account.fromDto(a); }) : [];
 			user.account = (user.accounts.length > 0) ? user.accounts[0] : null;
-			user.roles = ($.isArray(dto.roles)) ? $.map(dto.roles, function (r, i) { return new launch.Role(r.id, r.name); }) : [];
+			user.roles = ($.isArray(dto.roles)) ? $.map(dto.roles, function (r, i) { return self.role.fromDto(r); }) : [];
 			user.role = (user.roles.length > 0) ? user.roles[0] : null;
 
 			if (!!dto.image) {
@@ -313,8 +313,8 @@
 			user.title = cachedUser.title;
 			user.active = cachedUser.active;
 			user.image = cachedUser.image;
-			user.role = new launch.Role(cachedUser.role.roleId, cachedUser.role.roleName);
-			user.roles = $.map(cachedUser.roles, function(r, i) { return new launch.Role(r.roleId, r.roleName); });
+			user.roles = $.map(cachedUser.roles, function(r, i) { return self.role.fromCache(r); });
+			user.role = (user.roles.length > 0) ? user.roles[0] : null;
 			user.accounts = $.map(cachedUser.accounts, function (a, i) { return self.account.fromCache(a); });
 			user.account = (user.accounts.length > 0) ? user.accounts[0] : null;
 
@@ -389,29 +389,56 @@
 				return null;
 			}
 
-			var role = new launch.Role(dto.id, dto.name);
+			var role = new launch.Role();
 
+			// TODO: SET ACTIVE STATUS FROM DTO WHEN THIS IS ADDED TO THE API!
+			role.active = true;
+			role.id = parseInt(dto.id);
+			role.name = dto.name;
 			role.created = dto.created_at;
 			role.updated = dto.updated_at;
+
+			// TODO: SET THE PRIVILEGES CORRECTLY FROM THE API WHEN IT'S READY!!
+			role.privileges = [
+				{ module: 'Consult', view: true, edit: true, execute: true },
+				{ module: 'Create', view: true, edit: true, execute: true },
+				{ module: 'Collaborate', view: true, edit: true, execute: true },
+				{ module: 'Calendar', view: true, edit: true, execute: true },
+				{ module: 'Launch', view: true, edit: true, execute: true },
+				{ module: 'Measure', view: true, edit: true, execute: true }
+			];
+
+			return role;
+		},
+		fromCache: function(cachedRole) {
+			var role = new launch.Role();
+
+			role.active = cachedRole.active;
+			role.id = cachedRole.id;
+			role.name = cachedRole.name;
+			role.created = cachedRole.created;
+			role.updated = cachedRole.updated;
+
+			role.privileges = cachedRole.privileges;
 
 			return role;
 		},
 		toDto: function(role) {
 			return {
-				id: role.roleId,
-				name: role.roleName,
+				id: role.id,
+				name: role.name,
 				created_at: role.created,
 				updated_at: role.updated
 			};
 		},
 		sort: function(a, b) {
-			var roleA = launch.utils.isBlank(a.roleName) ? '' : a.roleName.toUpperCase();
-			var roleB = launch.utils.isBlank(b.roleName) ? '' : b.roleName.toUpperCase();
+			var roleA = launch.utils.isBlank(a.name) ? '' : a.name.toUpperCase();
+			var roleB = launch.utils.isBlank(b.name) ? '' : b.name.toUpperCase();
 
 			if (roleA === roleB) {
-				if (a.roleId === b.roleId) {
+				if (a.id === b.id) {
 					return 0;
-				} else if (a.roleId < b.roleId) {
+				} else if (a.id < b.id) {
 					return -1;
 				} else {
 					return 1;
@@ -478,6 +505,16 @@
 			subscription.created = new Date(dto.created_at);
 			subscription.updated = new Date(dto.updated_at);
 
+			// TODO: SET THE COMPONENTS CORRECTLY FROM THE API WHEN IT'S READY!!
+			subscription.components = [
+				{ name: 'create', title: 'CREATE', active: true },
+				{ name: 'calendar', title: 'CALENDAR', active: true },
+				{ name: 'launch', title: 'LAUNCH', active: true },
+				{ name: 'measure', title: 'MEASURE', active: true },
+				{ name: 'collaborate', title: 'COLLABORATE', active: subscription.subscriptionLevel >= 2 },
+				{ name: 'consult', title: 'CONSULT', active: subscription.subscriptionLevel >= 3 }
+			];
+
 			return subscription;
 		},
 		toDto: function (subscription) {
@@ -507,6 +544,7 @@
 			subscription.features = cachedSubscription.features;
 			subscription.created = new Date(cachedSubscription.created);
 			subscription.updated = new Date(cachedSubscription.updated);
+			subscription.components = cachedSubscription.components;
 
 			return subscription;
 		}
