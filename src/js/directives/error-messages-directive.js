@@ -11,6 +11,7 @@
 				$('#' + id).remove();
 
 				if (!launch.utils.isBlank(msg)) {
+					// TODO: NEED TO FIND IF ELEMENT HAS A PARENT WITH CLASS 'input-group' AND IF SO, INSERT THE MESSAGE BELOW BEFORE THAT ELEMENT INSTEAD OF THE CONTROL!!
 					$(element).before('<div id="' + id + '" class="error-message"><span class="glyphicon glyphicon-warning-sign"></span> <span>' + msg + '</span></div>');
 				}
 			});
