@@ -1,11 +1,11 @@
 ﻿<form name="editRole" class="role-editor" novalidate="novalidate">
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': hasError(selectedRole, 'name', editRole.txtRoleName) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedRole, 'name', editRole.txtRoleName, forceDirty) }">
 			<label class="control-label" for="txtRoleName">User Role Name</label>
 			<input type="text" id="txtRoleName" name="txtRoleName" class="form-control" ng-model="selectedRole.name" ng-disabled="isBuiltIn"
 					error-message message="errorMessage(selectedRole, 'name', editRole.txtRoleName)" />
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': hasError(selectedRole, 'active', editRole.selStatus) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedRole, 'active', editRole.selStatus, forceDirty) }">
 			<label class="control-label" for="selStatus">Status</label>
 			<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedRole.active" ng-disabled="isBuiltIn"
 					error-message message="errorMessage(selectedRole, 'active', editRole.selStatus)">

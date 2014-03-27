@@ -621,6 +621,10 @@ span[class*=" icon-"].dark {
   border-bottom: solid 1px #000000;
   padding: 8px;
 }
+.tier-components .tier-tile-container {
+  display: inline-block;
+  vertical-align: top;
+}
 .tier-components .tier-tiles {
   background-color: #999999;
   border-radius: 40px;
@@ -672,9 +676,34 @@ span[class*=" icon-"].dark {
 }
 .tier-components .tier-info {
   display: inline-block;
-  margin: 16px;
-  max-width: 300px;
+  padding: 0 16px;
   vertical-align: top;
+}
+.tier-components .tier-info .tier-info-list {
+  list-style: none;
+  margin-bottom: 16px;
+  max-width: 300px;
+  padding: 0;
+}
+.tier-components .tier-info .tier-info-list li {
+  white-space: nowrap;
+}
+.tier-components .tier-info .tier-info-list li div {
+  display: inline-block;
+  font-size: 12pt;
+  margin: 4px;
+  vertical-align: top;
+  white-space: normal;
+}
+.tier-components .tier-info .tier-info-list li div.tier-info-label {
+  width: 150px;
+}
+.tier-components .tier-info .tier-info-list li div.tier-info-data {
+  font-family: 'Lato Black';
+}
+.tier-components .tier-info .btn {
+  display: block;
+  margin: auto;
 }
 .tier-components .tier-form {
   max-width: 240px;
@@ -723,4 +752,40 @@ span[class*=" icon-"].dark {
 }
 .role-editor table.privileges-list tr.dark td {
   background-color: #E6E4E0;
+}
+.tier-info-dialog .modal-dialog {
+  min-width: 650px;
+}
+.tier-modal {
+  padding: 24px;
+}
+.tier-modal h4 {
+  font-family: 'Lato Black';
+  text-align: center;
+}
+.tier-modal p {
+  margin: 0 50px;
+}
+.tier-modal .tier-components {
+  margin: 16px 0;
+  text-align: center;
+}
+.tier-modal .tier-components .tier-tile-container {
+  max-width: 200px;
+  text-align: left;
+}
+.tier-modal .tier-components .tier-tile-container ul {
+  /*list-style: square;*/
+  margin-top: 16px;
+}
+.tier-modal .tier-components .tier-tile-container ul li {
+  font-size: 12pt;
+  font-family: 'Lato Black';
+}
+.tier-modal .control-group {
+  text-align: center;
+}
+.tier-modal .control-group .btn {
+  background-color: #000000;
+  color: #ffffff;
 }

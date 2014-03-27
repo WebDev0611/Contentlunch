@@ -3,7 +3,6 @@
 		var self = this;
 
 		self.loggedInUser = null;
-		self.forceDirty = false;
 
 		self.init = function () {
 			self.loggedInUser = AuthService.userInfo();
@@ -17,13 +16,14 @@
 		};
 
 		scope.roles = [];
+		scope.forceDirty = false;
 		scope.photoFile = null;
 		scope.isLoading = false;
 		scope.isSaving = false;
 		scope.isUploading = false;
 		scope.isNewUser = false;
 		scope.percentComplete = 0;
-		scope.hasError = function (property, control) { return launch.utils.isPropertyValid(scope.selectedUser, property, control); };
+		scope.hasError = function (property, control) { return launch.utils.isPropertyValid(scope.selectedUser, property, control, scope.forceDirty); };
 		scope.errorMessage = function (property, control) { return launch.utils.getPropertyErrorMessage(scope.selectedUser, property, control); };
 
 		scope.cancelEdit = function(form) {
@@ -58,7 +58,7 @@
 				return;
 			}
 
-			self.forceDirty = true;
+			scope.forceDirty = true;
 			form.$setDirty();
 
 			var msg = launch.utils.validateAll(scope.selectedUser);

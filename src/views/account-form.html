@@ -1,11 +1,11 @@
 ﻿<form name="editAccount" class="account-editor" novalidate="novalidate">
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'title', editAccount.txtAccountName) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'title', editAccount.txtAccountName, forceDirty) }">
 			<label class="control-label" for="txtAccountName">Account Name</label>
 			<input type="text" id="txtAccountName" name="txtAccountName" class="form-control" ng-model="selectedAccount.title"
 					error-message message="errorMessage(selectedAccount, 'title', editAccount.txtAccountName)" />
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'active', editAccount.selStatus) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'active', editAccount.selStatus, forceDirty) }">
 			<label class="control-label" for="selStatus">Status</label>
 			<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedAccount.active" ng-disabled="selfEditing"
 					error-message message="errorMessage(selectedAccount, 'active', editAccount.selStatus)">
@@ -19,7 +19,7 @@
 	</div>
 
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'address1', editAccount.txtAddress1) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'address1', editAccount.txtAddress1, forceDirty) }">
 			<label class="control-label" for="txtAddress1">Address 1</label>
 			<input type="text" id="txtAddress1" name="txtAddress1" class="form-control" ng-model="selectedAccount.address1"
 					error-message message="errorMessage(selectedAccount, 'address1', editAccount.txtAddress1)" />
@@ -28,7 +28,7 @@
 			<label class="control-label" for="txtAddress2">Address 2</label>
 			<input type="text" id="txtAddress2" name="txtAddress2" class="form-control" ng-model="selectedAccount.address2" />
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'city', editAccount.txtCity) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'city', editAccount.txtCity, forceDirty) }">
 			<label class="control-label" for="txtCity">City</label>
 			<input type="text" id="txtCity" name="txtCity" class="form-control" ng-model="selectedAccount.city"
 					error-message message="errorMessage(selectedAccount, 'city', editAccount.txtCity)" />
@@ -36,7 +36,7 @@
 	</div>
 
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'country', editAccount.selCountry) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'country', editAccount.selCountry, forceDirty) }">
 			<label class="control-label" for="selCountry">Country</label>
 			<select id="selCountry" name="selCountry" class="form-control" ng-model="selectedAccount.country"
 					error-message message="errorMessage(selectedAccount, 'country', editAccount.selCountry)">
@@ -46,13 +46,13 @@
 				<option value="USA">USA</option>
 			</select>
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'state', editAccount.selState) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'state', editAccount.selState, forceDirty) }">
 			<label class="control-label" for="selState">State</label>
 			<select id="selState" name="selState" class="form-control"
 					ng-model="selectedAccount.state" ng-options="s.name for s in getStates(false) track by s.value"
 					error-message message="errorMessage(selectedAccount, 'state', editAccount.selState)"></select>
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'postalCode', editAccount.txtPostalCode) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'postalCode', editAccount.txtPostalCode, forceDirty) }">
 			<label class="control-label" for="txtPostalCode">Postal Code</label>
 			<input type="text" id="txtPostalCode" name="txtPostalCode" class="form-control" ng-model="selectedAccount.postalCode"
 					error-message message="errorMessage(selectedAccount, 'postalCode', editAccount.txtPostalCode)" />
@@ -60,12 +60,12 @@
 	</div>
 
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'email', editAccount.txtEmail) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'email', editAccount.txtEmail, forceDirty) }">
 			<label class="control-label" for="txtEmail">Email</label>
 			<input type="text" required="required" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedAccount.email"
 					error-message message="errorMessage(selectedAccount, 'email', editAccount.txtEmail)" />
 		</div>
-		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'phoneNumber', editAccount.txtPhoneNumber) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'phoneNumber', editAccount.txtPhoneNumber, forceDirty) }">
 			<label class="control-label" for="txtPhoneNumber">Phone</label>
 			<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="selectedAccount.phoneNumber"
 					error-message message="errorMessage(selectedAccount, 'phoneNumber', editAccount.txtPhoneNumber)" />
@@ -79,8 +79,8 @@
 	
 	<div class="row">
 		<div class="col-md-6">
-			<div class="control-group">
-				<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'subscription', editAccount.selSubscription) }">
+			<div class="control-group" ng-show="!selfEditing">
+				<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'subscription', editAccount.selSubscription, forceDirty) }">
 					<label class="control-label" for="selSubscription">Subscription Level</label>
 					<select id="selSubscription" name="selSubscription" class="form-control"
 							ng-model="selectedAccount.subscription" ng-change="changeTier()" ng-options="s.getName() for s in subscriptions track by s.subscriptionLevel"
@@ -108,7 +108,7 @@
 			</div>
 
 			<div class="control-group">
-				<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.subscription, 'numberLicenses', editAccount.txtMaxNumUsers) }" ng-hide="selfEditing">
+				<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.subscription, 'numberLicenses', editAccount.txtMaxNumUsers, forceDirty) }" ng-hide="selfEditing">
 					<label class="control-label" for="txtMaxNumUsers">Max # of Users</label>
 					<input type="text" required="required" id="txtMaxNumUsers" name="txtMaxNumUsers" class="form-control"
 							ng-model="selectedAccount.subscription.numberLicenses" ng-disabled="selfEditing"
@@ -125,12 +125,28 @@
 		<div class="col-md-6">
 			<div class="tier-components">
 				<div style="display: inline-block;" tier-tiles selected-subscription="selectedAccount.subscription"></div>
-
+				
 				<div class="tier-info">
-					<div>Price / Month: $<span ng-bind="selectedAccount.subscription.formatPricePerMonth(selectedAccount.yearlyPayment)"></span></div>
-					<div>Max # Users: <span ng-bind="selectedAccount.subscription.numberLicenses"></span></div>
-					<div>Training: <span ng-bind="(selectedAccount.subscription.training === true ? 'Included' : 'Not Included')"></span></div>
-					<div>Additional Features: <span ng-bind="selectedAccount.subscription.features"></span></div>
+					<ul class="tier-info-list">
+						<li>
+							<div class="tier-info-label">Price / Month:</div>
+							<div class="tier-info-data">${{ selectedAccount.subscription.formatPricePerMonth(selectedAccount.yearlyPayment) }}</div>
+						</li>
+						<li>
+							<div class="tier-info-label">Max # Users:</div>
+							<div class="tier-info-data">{{ selectedAccount.subscription.numberLicenses }}</div>
+						</li>
+						<li>
+							<div class="tier-info-label">Training:</div>
+							<div class="tier-info-data">{{ (selectedAccount.subscription.training === true ? 'Included' : 'Not Included') }}</div>
+						</li>
+						<li>
+							<div class="tier-info-label">Additional Features:</div>
+							<div class="tier-info-data">{{ selectedAccount.subscription.features }}</div>
+						</li>
+					</ul>
+				
+					<button type="button" class="btn btn-default" ng-click="compareTiers()" ng-show="selfEditing">Compare Tiers</button>
 				</div>
 			</div>
 		</div>
@@ -246,7 +262,7 @@
 		<button type="button" class="btn btn-default ladda-button" ng-click="saveAccount(editAccount)" data-style="zoom-in" ladda-button="isSaving">
 			<span class="ladda-label">Save</span>
 		</button>
-		<button type="button" class="btn btn-default" ng-click="cancelEdit(editAccount)" ng-show="!!creatingNew">Cancel</button>
+		<button type="button" class="btn btn-default" ng-click="cancelEdit(editAccount)" ng-show="!selfEditing">Cancel</button>
 		<button type="button" class="btn btn-default" ng-click="deleteAccount(editAccount)" ng-show="!creatingNew && !selfEditing">Delete</button>
 	</div>
 </form>

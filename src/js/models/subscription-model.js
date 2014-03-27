@@ -65,8 +65,21 @@
 		}
 	};
 
-	self.getName = function() {
-		return 'Tier ' + self.subscriptionLevel;
+	self.getName = function(prefix, suffix) {
+		var name = 'Tier ' + self.subscriptionLevel;
+		var spacer = '';
+
+		if (!launch.utils.isBlank(prefix)) {
+			spacer = launch.utils.isValidPattern(prefix, /\s+$/) ? '' : ' ';
+			name = prefix + spacer + name;
+		}
+
+		if (!launch.utils.isBlank(suffix)) {
+			spacer = launch.utils.isValidPattern(suffix, /^\s+/) ? '' : ' ';
+			name = name + spacer + suffix;
+		}
+
+		return name;
 	};
 
 	return self;

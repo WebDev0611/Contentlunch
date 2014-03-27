@@ -2,14 +2,13 @@
 	var link = function(scope, element, attrs) {
 		var self = this;
 
-		self.forceDirty = false;
-
 		self.discardChanges = function (form) {
 			if ($.isFunction(scope.refreshMethod)) {
 				scope.refreshMethod(form);
 			}
 		};
 
+		scope.forceDirty = false;
 		scope.isLoading = false;
 		scope.isSaving = false;
 		scope.hasError = launch.utils.isPropertyValid;
@@ -49,7 +48,7 @@
 				return;
 			}
 
-			self.forceDirty = true;
+			scope.forceDirty = true;
 			form.$setDirty();
 
 			var msg = launch.utils.validateAll(scope.selectedRole);

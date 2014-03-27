@@ -6,6 +6,7 @@
 			$scope.subscriptions = accountService.getSubscriptions();
 		};
 
+		$scope.forceDirty = false;
 		$scope.subscriptions = [];
 		$scope.isSaving = false;
 		$scope.hasError = launch.utils.isPropertyValid;

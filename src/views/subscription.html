@@ -2,12 +2,12 @@
 	<div class="col-md-3 left-pane">
 	</div>
 	<div class="col-md-9 right-pane">
-		<div class="subscription-list tier-components">
-			<div style="display: inline-block;" ng-repeat="subscription in subscriptions">
+		<div class="tier-components">
+			<div class="tier-tile-container" ng-repeat="subscription in subscriptions">
 				<div tier-tiles selected-subscription="subscription"></div>
 				<form name="tierForm" class="tier-form">
 					<div class="control-group">
-						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'pricePerMonth', tierForm.txtPricePerMonth) }">
+						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'pricePerMonth', tierForm.txtPricePerMonth, forceDirty) }">
 							<label class="control-label" for="txtPricePerMonth">Price / Month</label>
 							<div class="input-group">
 								<span class="input-group-addon">$</span>
@@ -18,7 +18,7 @@
 						</div>
 					</div>
 					<div class="control-group">
-						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'annualDiscount', tierForm.txtAnnualDiscount) }">
+						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'annualDiscount', tierForm.txtAnnualDiscount, forceDirty) }">
 							<label class="control-label" for="txtAnnualDiscount">Annual Discount</label>
 							<div class="input-group">
 								<span class="input-group-addon">%</span>
@@ -28,7 +28,7 @@
 						</div>
 					</div>
 					<div class="control-group">
-						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'numberLicenses', tierForm.txtMaxNumberOfUsers) }">
+						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'numberLicenses', tierForm.txtMaxNumberOfUsers, forceDirty) }">
 							<label class="control-label" for="txtMaxNumberOfUsers">Max # of Users</label>
 							<input type="text" required="required" id="txtMaxNumberOfUsers" name="txtMaxNumberOfUsers" class="form-control" ng-model="subscription.numberLicenses"
 									error-message message="errorMessage(subscription, 'numberLicenses', tierForm.txtMaxNumberOfUsers)" />

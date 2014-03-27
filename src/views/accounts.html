@@ -25,7 +25,7 @@
 		<ul class="items-list">
 			<li ng-repeat="account in pagedAccounts[pagination.currentPage - 1]" ng-click="selectAccount(account, $index, editAccount)" ng-class="{ selected: isSelectedAccount(account) }">
 				<div class="item-info">
-					<span class="item-title">{{ account.title }}</span><br/>
+					<span class="item-title">{{ account.title }}{{ account.subscription.getName(' -') }}</span><br/>
 					{{ account.city }}, {{ account.state.value }}
 				</div>
 			</li>

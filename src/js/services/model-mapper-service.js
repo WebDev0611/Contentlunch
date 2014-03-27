@@ -511,8 +511,8 @@
 				{ name: 'calendar', title: 'CALENDAR', active: true },
 				{ name: 'launch', title: 'LAUNCH', active: true },
 				{ name: 'measure', title: 'MEASURE', active: true },
-				{ name: 'collaborate', title: 'COLLABORATE', active: self.subscriptionLevel >= 2 },
-				{ name: 'consult', title: 'CONSULT', active: self.subscriptionLevel >= 3 }
+				{ name: 'collaborate', title: 'COLLABORATE', active: subscription.subscriptionLevel >= 2 },
+				{ name: 'consult', title: 'CONSULT', active: subscription.subscriptionLevel >= 3 }
 			];
 
 			return subscription;
@@ -544,6 +544,7 @@
 			subscription.features = cachedSubscription.features;
 			subscription.created = new Date(cachedSubscription.created);
 			subscription.updated = new Date(cachedSubscription.updated);
+			subscription.components = cachedSubscription.components;
 
 			return subscription;
 		}

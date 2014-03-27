@@ -1,20 +1,22 @@
-﻿launch.module.directive('accountForm', function ($modal, AccountService, NotificationService) {
+﻿launch.module.directive('accountForm', function ($modal, AuthService, AccountService, NotificationService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 
-		self.forceDirty = false;
+		self.loggedInUser = null;
 		self.originalSubscription = null;
 
 		self.init = function() {
+			self.loggedInUser = AuthService.userInfo();
 			scope.subscriptions = AccountService.getSubscriptions();
 		};
 
-		self.discardChanges = function(form) {
+		self.discardChanges = function(form, keepSelected) {
 			if ($.isFunction(scope.refreshMethod)) {
-				scope.refreshMethod(form);
+				scope.refreshMethod(form, (keepSelected ? scope.selectedAccount : null));
 			}
 		};
 
+		scope.forceDirty = false;
 		scope.isLoading = false;
 		scope.isSaving = false;
 		scope.hasError = launch.utils.isPropertyValid;
@@ -36,7 +38,7 @@
 								instance.close();
 							};
 							scp.onCancel = function () {
-								self.discardChanges(form);
+								self.discardChanges(form, true);
 								instance.dismiss('cancel');
 							};
 						}
@@ -46,7 +48,7 @@
 				return;
 			}
 
-			self.discardChanges(form);
+			self.discardChanges(form, false);
 		};
 
 		scope.saveAccount = function(form) {
@@ -54,7 +56,7 @@
 				return;
 			}
 
-			self.forceDirty = true;
+			scope.forceDirty = true;
 			form.$setDirty();
 
 			var msg = launch.utils.validateAll(scope.selectedAccount);
@@ -211,8 +213,87 @@
 			}
 		};
 
+		scope.compareTiers = function() {
+			$modal.open({
+				templateUrl: '/assets/views/tier-info.html',
+				windowClass: 'tier-info-dialog',
+				controller: [
+					'$scope', '$modalInstance', function (scp, instance) {
+						scp.subscriptions = AccountService.getSubscriptions();
+						scp.mode = 'compare';
+						scp.buttonText = 'Request Update';
+						scp.forceDirty = false;
+						scp.message = {
+							company: null,
+							name: self.loggedInUser.formatName(),
+							email: self.loggedInUser.email,
+							phone: self.loggedInUser.phoneNumber,
+							details: null,
+							validateProperty: function(property) {
+								if (launch.utils.isBlank(property)) {
+									return null;
+								}
+
+								switch (property.toLowerCase()) {
+									case 'company':
+										return launch.utils.isBlank(scp.message.company) ? 'Company is required' : null;
+									case 'name':
+										return launch.utils.isBlank(scp.message.name) ? 'Name is required' : null;
+									case 'email':
+										if (launch.utils.isBlank(scp.message.email)) {
+											return 'Email Address is required.';
+										} else if (!launch.utils.isValidEmail(scp.message.email)) {
+											return 'Please enter a valid Email Address.';
+										}
+
+										return null;
+									case 'phone':
+										return launch.utils.isBlank(scp.message.phone) ? 'Phone Number is required' : null;
+									case 'details':
+										return launch.utils.isBlank(scp.message.details) ? 'Details are required' : null;
+									default:
+										return null;
+								}
+							}
+						};
+						scp.hasError = function (property, control) {
+							return launch.utils.isPropertyValid(scp.message, property, control, scp.forceDirty);
+						};
+						scp.errorMessage = function (property, control) {
+							return launch.utils.getPropertyErrorMessage(scp.message, property, control);
+						};
+						scp.cancel = function () {
+							if (scp.mode === 'compare') {
+								instance.dismiss('cancel');
+							} else {
+								scp.mode = 'compare';
+							}
+						};
+						scp.toggleMode = function (form) {
+							if (scp.mode === 'request') {
+								scp.forceDirty = true;
+								form.$setDirty();
+
+								var msg = launch.utils.validateAll(scp.message);
+
+								if (!launch.utils.isBlank(msg)) {
+									NotificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
+									return;
+								}
+
+								NotificationService.info('Warning!!', 'This has not yet been implemeneted!');
+							} else {
+								scp.mode = 'request';
+								scp.buttonText = 'Send';
+							}
+						};
+					}
+				]
+			});
+		};
+
 		scope.$watch('selectedAccount', function () {
-			if (!scope.selectedAccount || launch.utils.isBlank(scope.selectedAccount.id) || scope.selectedAccount.id <= 0) {
+			if (!scope.selfEditing && (!scope.selectedAccount || launch.utils.isBlank(scope.selectedAccount.id) || scope.selectedAccount.id <= 0)) {
 				scope.isNewAccount = true;
 			} else {
 				scope.isNewAccount = false;

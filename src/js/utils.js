@@ -424,12 +424,12 @@
 		return (!model || model.$resolved === false) ? null : model.validateProperty(property);
 	},
 
-	isPropertyValid: function(model, property, control) {
+	isPropertyValid: function(model, property, control, forceDirty) {
 		if (!control || !model || model.$resolved === false) {
 			return false;
 		}
 
-		if (self.forceDirty) {
+		if (forceDirty) {
 			control.$dirty = true;
 		}
 
