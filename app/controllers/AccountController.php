@@ -4,7 +4,7 @@ class AccountController extends BaseController {
 
 	public function index()
 	{
-		return Account::countusers()->get();
+		return Account::countusers()->with('accountSubscription')->get();
 	}
 
 	public function store()

@@ -29,4 +29,32 @@ class AccountSubscriptionIntegrationTest extends TestCase {
     $this->assertSubscription($accountSub, $data);
   }
 
+  public function testGetAccountSubscriptionsFromAccountCall()
+  {
+    $accounts = Woodling::savedList('Account', 3);
+    $subscriptions = array();
+    foreach ($accounts as $account) {
+      $subscriptions[] = Woodling::saved('AccountSubscription', array(
+        'account_id' => $account->id
+      ));
+    }
+    $response = $this->call('GET', '/api/account');
+    $data = $this->assertResponse($response);
+    foreach ($accounts as $key => $account) {
+      $this->assertAccount($account, $data[$key]);
+      $this->assertSubscription($subscriptions[$key], $account->account_subscription);
+    }
+  }
+
+  public function testGetAccountSubscriptionFromAccountCall()
+  {
+    $account = Woodling::saved('Account');
+    $subscription = Woodling::saved('AccountSubscription', array(
+      'account_id' => $account->id
+    ));
+    $response = $this->call('GET', '/api/account/'. $account->id);
+    $data = $this->assertResponse($response);
+    $this->assertSubscription($subscription, $account->account_subscription);
+  }
+
 }
