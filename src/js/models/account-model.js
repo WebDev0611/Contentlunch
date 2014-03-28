@@ -25,6 +25,10 @@
 	self.created = null;
 	self.updated = null;
 
+	self.formattedExpirationDate = function () {
+		return launch.utils.isBlank(self.expirationDate) ? null : launch.utils.formatDate(self.expirationDate);
+	};
+
 	self.matchSearchTerm = function(term) {
 		if (launch.utils.startsWith(self.title, term) || launch.utils.startsWith(self.email, term) ||
 			launch.utils.startsWith(self.city, term) || launch.utils.startsWith(self.state.name, term) ||
@@ -33,10 +37,6 @@
 		}
 
 		return false;
-	};
-
-	self.formattedExpirationDate = function () {
-		return launch.utils.isBlank(self.expirationDate) ? null : launch.utils.formatDate(self.expirationDate);
 	};
 
 	self.validateProperty = function(property) {

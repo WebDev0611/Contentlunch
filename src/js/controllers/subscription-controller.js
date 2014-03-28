@@ -43,8 +43,7 @@
 		};
 
 		$scope.cancel = function () {
-			// TODO: WHAT TO DO WHEN WE CANCEL?
-			notificationService.info('WARNING!', 'This is not yet implemeneted!');
+			$scope.subscriptions = accountService.getSubscriptions();
 		};
 
 		self.init();
