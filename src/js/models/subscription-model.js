@@ -1,10 +1,9 @@
 ﻿launch.Subscription = function(level) {
 	var self = this;
 
-	// TODO: NEED TO GET SUBSCRIPTION LEVEL FROM THE API!!!
-	//if (!level || isNaN(level) || level <= 0 || level > 3) {
-	//	return null;
-	//}
+	if (!level || isNaN(level) || level <= 0 || level > 3) {
+		return null;
+	}
 
 	self.id = null;
 	self.subscriptionLevel = parseInt(level);

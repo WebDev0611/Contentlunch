@@ -492,9 +492,9 @@
 				return null;
 			}
 
-			var id = (!!dto.subscription_id) ? dto.subscription_id : dto.id;
-			// TODO: REPLACE THIS WITH "subscription_level" ONCE IT COMES OUT OF THE API!!!
-			var subscription = new launch.Subscription(id);
+			// TODO: FIX THIS WHEN THE API IS FIXED!! SHOULD ALWAYS COME OUT AS "dto.subscription_level"
+			var level = (!!dto.subscription_level) ? dto.subscription_level : dto.level;
+			var subscription = new launch.Subscription(parseInt(level));
 
 			subscription.id = parseInt(dto.id);
 			subscription.numberLicenses = parseInt(dto.licenses);
@@ -526,7 +526,9 @@
 				training: subscription.training,
 				annual_discount: subscription.annualDiscount,
 				features: subscription.features,
-				subscription: subscription.subscriptionLevel
+				// TODO: ONE OF THE NEXT TWO PROPERTIES IS NOT NEEDED...PROBABLY "level"!!
+				subscription_level: subscription.subscriptionLevel,
+				level: subscription.subscriptionLevel
 			};
 		},
 		fromCache: function(cachedSubscription) {
