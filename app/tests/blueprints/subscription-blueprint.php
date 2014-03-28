@@ -6,7 +6,7 @@ Woodling::seed('Subscription', function ($blueprint) {
   $blueprint->sequence('id', function ($i) {
     return $i;
   });
-  $blueprint->sequence('level', function ($i) {
+  $blueprint->sequence('subscription_level', function ($i) {
     return $i;
   });
   $blueprint->licenses = rand(0, 10);
