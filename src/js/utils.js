@@ -49,6 +49,29 @@
 		return this.isValidPattern(s, launch.config.EMAIL_ADDRESS_REGEX);
 	},
 
+	isValidPassword: function(p) {
+		if (typeof p !== 'string' || launch.utils.isBlank(p)) {
+			return 'Password must be a string. It is invalid to use a type of ' + typeof p + ' as a password.';
+		}
+
+		if (p.length < launch.config.MIN_PASSWORD_LENGTH) {
+			return 'Password must be at least ' + launch.config.MIN_PASSWORD_LENGTH + ' characters in length.';
+		}
+
+		if (launch.utils.isValidPattern(p, /\s/)) {
+			return 'Password cannot contain whitespace including spaces, tabs, or newline characters.';
+		}
+
+		var criteriaCount = 0;
+
+		if (launch.utils.isValidPattern(p, /[A-Z]/)) { criteriaCount++; }
+		if (launch.utils.isValidPattern(p, /[a-z]/)) { criteriaCount++; }
+		if (launch.utils.isValidPattern(p, /[0-9]/)) { criteriaCount++; }
+		if (launch.utils.isValidPattern(p, /\W/)) { criteriaCount++; }
+
+		return (criteriaCount >= 3) ? null : 'Password must contain at least three of the following: lower-case letter, upper-case letter, number, symbol.';
+	},
+
 	handleAjaxErrorResponse: function(response, notificationService) {
 		var err = (!launch.utils.isBlank(response.message)) ? response.message : null;
 		var type = (!launch.utils.isBlank(response.type)) ? response.type : null;

@@ -245,9 +245,8 @@
 							scp.newPassword = this.newPassword;
 							scp.confirmPassword = this.confirmPassword;
 
-							// TODO: ADD RULES FOR PASSWORD COMPLEXITY HERE!!!
 							scp.passwordError = launch.utils.isBlank(scp.currentPassword) ? 'Current Password is required.' : null;
-							scp.newPasswordError = launch.utils.isBlank(scp.newPassword) ? 'New Password is required.' : null;
+							scp.newPasswordError = launch.utils.isBlank(scp.newPassword) ? 'New Password is required.' : launch.utils.isValidPassword(scp.newPassword);
 							scp.confirmPasswordError = launch.utils.isBlank(scp.confirmPassword) ? 'Confirm Password is required.' : ((scp.newPassword !== scp.confirmPassword) ? 'Passwords do not match.' : null);
 
 							if (launch.utils.isBlank(scp.passwordError) && launch.utils.isBlank(scp.newPasswordError) && launch.utils.isBlank(scp.confirmPasswordError)) {
