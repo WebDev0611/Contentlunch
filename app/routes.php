@@ -1,11 +1,5 @@
 <?php
 
-// Confide routes
-
-//Route::get( 'user/confirm/{code}',         'AuthController@do_confirm');
-//Route::get( 'user/reset/{token}', 'AuthController@reset_password');
-
-
 /**
  * API calls, prefixed with /api
  * Should return json responses
@@ -25,6 +19,8 @@ Route::group(array('prefix' => 'api'), function()
 
 	Route::get('account/{id}/subscription', 'AccountSubscriptionController@get_subscription');
 	Route::post('account/{id}/subscription', 'AccountSubscriptionController@post_subscription');
+
+	Route::post('account/{id}/resend_creation_email', 'AccountController@resend_creation_email');
 
 	Route::group(array('prefix' => 'auth'), function() {
 		// Attempt to login a user
@@ -62,6 +58,10 @@ Route::group(array('prefix' => 'api'), function()
 			array('id' => 3, 'title' => 'test 3')
 		);
 	});
+
+});
+
+Route::get('deploy/{environment}/{token}', function ($environment, $token) {
 
 });
 

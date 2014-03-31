@@ -67,6 +67,11 @@ class UserController extends BaseController {
     {
     	// Save roles
     	$user->saveRoles(Input::get('roles'));
+    	$data = array('user' => $user);
+    	// Send confirmation email
+    	Mail::send('emails.auth.confirm', $data, function ($message) use ($user) {
+				$message->to($user->email)->subject('Account Confirmation');
+			});
     	return $this->show($user->id);
     }
     else
