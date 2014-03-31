@@ -129,7 +129,8 @@ class UserIntegrationTest extends TestCase {
 	public function testConfirmUserWithConfirmationCode()
 	{
 		$user = Woodling::saved('User', array(
-			'confirmed' => 0
+			'confirmed' => 0,
+			'status' => 0
 		));
 		$code = DB::table('users')->where('id', $user->id)->pluck('confirmation_code');
 		$response = $this->call('POST', '/api/auth/confirm', array(
@@ -138,6 +139,9 @@ class UserIntegrationTest extends TestCase {
 		$data = $this->assertResponse($response);
 		$confirmed = DB::table('users')->where('id', $user->id)->pluck('confirmed');
 		$this->assertEquals(1, $confirmed);
+		// User should be set to active
+		$status = DB::table('users')->where('id', $user->id)->pluck('status');
+		$this->assertEquals(1, $status);
 	}
 
 	public function testConfirmUserWithInvalidConfirmationCode()

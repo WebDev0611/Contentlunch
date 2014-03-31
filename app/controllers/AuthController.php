@@ -84,6 +84,9 @@ class AuthController extends BaseController {
         if (Confide::confirm($code))
         {
             $user = User::where('confirmation_code', $code)->first();
+            // Set user to active
+            $user->status = 1;
+            $user->updateUniques();
             Auth::login($user);
             return $this->show_current();
         }
