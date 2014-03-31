@@ -44,6 +44,11 @@ class AuthController extends BaseController {
             //
             //$id = User::where('email', $input['email'])->pluck('id');
             $user = Confide::user();
+            // Don't let inactive users login
+            if ( ! $user->status) {
+                Confide::logout();
+                return $this->responseError("Account is inactive.", 401);
+            }
             $ctrl = new UserController;
             return $ctrl->callAction('show', array($user->id));
         }

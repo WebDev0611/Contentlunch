@@ -65,4 +65,17 @@ class AuthIntegrationTest extends TestCase {
 		$this->assertEquals('guest', $data->username);
 	}
 
+	public function testInactiveUserCannotLogin()
+	{
+		$user = Woodling::saved('User', array(
+			'status' => 0
+		));
+		$response = $this->call('POST', '/api/auth', array(
+			'email' => $user->email,
+			'password' => 'password'
+		));
+		$data = $this->assertResponse($response, true, 401);
+		$this->assertContains('inactive', $data->errors[0]);
+	}
+
 }
