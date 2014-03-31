@@ -41,6 +41,7 @@
 			}
 
 			var account = new launch.Account();
+			var state = launch.utils.getState(dto.country, dto.state);
 
 			account.id = parseInt(dto.id);
 			account.title = account.name = dto.title;
@@ -48,7 +49,7 @@
 			account.address1 = dto.address;
 			account.address2 = dto.address_2;
 			account.city = dto.city;
-			account.state = { value: dto.state, name: null };
+			account.state = (!!state) ? state : { value: dto.state, name: null };
 			account.postalCode = dto.zipcode;
 			account.country = dto.country;
 			account.email = dto.email;
@@ -223,6 +224,7 @@
 			}
 
 			var user = new launch.User();
+			var state = launch.utils.getState(dto.country, dto.state);
 
 			user.id = parseInt(dto.id);
 			user.userName = dto.userName;
@@ -236,7 +238,7 @@
 			user.address2 = dto.address_2;
 			user.city = dto.city;
 			user.country = dto.country;
-			user.state = { value: dto.state, name: null };
+			user.state = (!!state) ? state : { value: dto.state, name: null };
 			user.phoneNumber = dto.phone;
 			user.title = dto.title;
 			user.userName = dto.username;

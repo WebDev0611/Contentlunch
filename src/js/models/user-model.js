@@ -40,10 +40,11 @@
 	};
 
 	self.matchSearchTerm = function(term) {
-		if (launch.utils.startsWith(self.userName, term) || launch.utils.startsWith(self.firstName, term) ||
-			launch.utils.startsWith(self.lastName, term) || launch.utils.startsWith(self.email, term) ||
-			launch.utils.startsWith(self.city, term) || launch.utils.startsWith(self.state.name, term) ||
-			launch.utils.startsWith(self.state.value, term)) {
+		if (launch.utils.startsWith(self.userName, term) || launch.utils.startsWith(self.email, term) ||
+			launch.utils.startsWith(self.firstName, term) || launch.utils.startsWith(self.lastName, term) ||
+			launch.utils.startsWith(self.title, term) || launch.utils.startsWith(self.city, term) ||
+			launch.utils.startsWith(self.state.value, term) || launch.utils.startsWith(self.state.name, term) ||
+			(!!self.role && launch.utils.startsWith(self.role.name, term))) {
 			return true;
 		}
 

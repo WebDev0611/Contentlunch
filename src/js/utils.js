@@ -49,7 +49,7 @@
 		return this.isValidPattern(s, launch.config.EMAIL_ADDRESS_REGEX);
 	},
 
-	isValidPassword: function(p) {
+	validatePassword: function(p) {
 		if (typeof p !== 'string' || launch.utils.isBlank(p)) {
 			return 'Password must be a string. It is invalid to use a type of ' + typeof p + ' as a password.';
 		}
@@ -392,6 +392,13 @@
 		}
 
 		return [];
+	},
+
+	getState: function(country, stateCode) {
+		var states = launch.utils.getStates(country);
+		var state = $.grep(states, function (s, i) { return (s.value.toLowerCase() === stateCode.toLowerCase()); });
+
+		return (state.length === 1) ? state[0] : null;
 	},
 
 	formatDate: function(date) {
