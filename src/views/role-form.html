@@ -42,25 +42,6 @@
 		</accordion-group>
 	</accordion>
 
-	<!--	<table class="privileges-list">
-		<thead>
-			<tr>
-				<th class="left">Access Location</th>
-				<th class="check-column">View</th>
-				<th class="check-column">Edit</th>
-				<th class="check-column">Execute</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="privilege in selectedRole.privileges" ng-class-odd="'dark'">
-				<td class="left">{{ privilege.module }}</td>
-				<td class="check-column"><div class="checkbox"><input type="checkbox" ng-checked="privilege.view" ng-disabled="isBuiltIn" /></div></td>
-				<td class="check-column"><div class="checkbox"><input type="checkbox" ng-checked="privilege.edit" ng-disabled="isBuiltIn" /></div></td>
-				<td class="check-column"><div class="checkbox"><input type="checkbox" ng-checked="privilege.execute" ng-disabled="isBuiltIn" /></div></td>
-			</tr>
-		</tbody>
-	</table>-->
-
 	<div class="control-group btn-toolbar">
 		<button type="button" class="btn btn-default ladda-button" ng-click="saveRole(editRole)" data-style="zoom-in" ladda-button="isSaving">
 			<span class="ladda-label">Save</span>

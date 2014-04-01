@@ -2,7 +2,7 @@
 	isBlank: function(str) {
 		var i;
 
-		if (str === null || str === undefined || str === NaN) {
+		if (str === null || str === undefined || (typeof str === 'number' && isNaN(str))) {
 			return true;
 		} else if (typeof str === 'number' || typeof str === 'boolean' || typeof str === 'object' || typeof str === 'function' || $.isArray(str)) {
 			return false;
