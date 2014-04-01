@@ -208,7 +208,9 @@
 		};
 
 		scope.resendAccountCreationEmail = function() {
-			NotificationService.info('Warning!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+			AccountService.resendCreationEmail.save({ id: scope.selectedAccount.id }, function () {
+				NotificationService.info('Success', 'Account creation email sent.');
+			});
 		};
 
 		scope.renewAccount = function() {

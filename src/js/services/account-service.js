@@ -104,6 +104,7 @@
 			account.subscription = null;
 
 			return account;
-		}
+		},
+		resendCreationEmail: $resource('/api/account/:id/resend_creation_email', { id: '@id' })
 	};
 });
