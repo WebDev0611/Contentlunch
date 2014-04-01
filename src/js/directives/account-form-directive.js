@@ -80,7 +80,7 @@
 					console.log(response);
 					if (response.status_code === 201) {
 						// Save tokenized id on the server
-						scope.selectedAccount.token = response.cards[0].id;
+						scope.selectedAccount.token = response.cards[0].href;
 						scope.doSaveAccount(form);
 					} else {
 						var errors = [];
@@ -101,15 +101,15 @@
 					routing_number: scope.selectedAccount.bankAccount.routingNumber
 				}, function (response) {
 					console.log(response);
-					if (response.status === 201) {
+					if (response.status_code === 201) {
 						// Save tokenized id on the server
-						scope.selectedAccount.token = response.bank_accounts[0].id;
+						scope.selectedAccount.token = response.bank_accounts[0].href;
 						scope.doSaveAccount(form);
 					} else {
 						var errors = [];
-						for (prop in response.error.extras) {
-							errors.push(response.error.extras[prop]);
-						}
+						angular.forEach(response.errors, function (val) {
+							errors.push(val.description);
+						});
 						NotificationService.error('Error!', 'There was a problem saving the account info:\n\n' + errors.join('\n'));
 						return;
 					}
@@ -353,8 +353,6 @@
 			} else {
 				scope.isNewAccount = false;
 			}
-
-			console.log(scope.selectedAccount);
 
 			if (!!scope.selectedAccount && !self.originalSubscription) {
 
