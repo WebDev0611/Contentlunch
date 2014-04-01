@@ -15,7 +15,34 @@
 		</div>
 	</div>
 	
-	<table class="privileges-list">
+	<accordion close-others="true">
+		<accordion-group ng-repeat="module in selectedRole.modules" is-open="isopen">
+			<accordion-heading>
+				<i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
+				{{ module.name }}
+			</accordion-heading>
+			<table class="privileges-list">
+				<thead>
+					<tr>
+						<th class="left">Module</th>
+						<th class="check-column">View</th>
+						<th class="check-column">Edit</th>
+						<th class="check-column">Execute</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="privilege in module.privileges" ng-class-odd="'dark'">
+						<td class="left">{{ privilege.name }}</td>
+						<td class="check-column"><div class="checkbox"><input type="checkbox" ng-checked="privilege.view" ng-disabled="isBuiltIn" /></div></td>
+						<td class="check-column"><div class="checkbox"><input type="checkbox" ng-checked="privilege.edit" ng-disabled="isBuiltIn" /></div></td>
+						<td class="check-column"><div class="checkbox"><input type="checkbox" ng-checked="privilege.execute" ng-disabled="isBuiltIn" /></div></td>
+					</tr>
+				</tbody>
+			</table>
+		</accordion-group>
+	</accordion>
+
+	<!--	<table class="privileges-list">
 		<thead>
 			<tr>
 				<th class="left">Access Location</th>
@@ -32,7 +59,7 @@
 				<td class="check-column"><div class="checkbox"><input type="checkbox" ng-checked="privilege.execute" ng-disabled="isBuiltIn" /></div></td>
 			</tr>
 		</tbody>
-	</table>
+	</table>-->
 
 	<div class="control-group btn-toolbar">
 		<button type="button" class="btn btn-default ladda-button" ng-click="saveRole(editRole)" data-style="zoom-in" ladda-button="isSaving">

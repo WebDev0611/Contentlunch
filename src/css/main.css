@@ -410,6 +410,13 @@ span[class*=" icon-"].dark {
 #change-password-form button {
   padding: 8px;
 }
+.confirm-user {
+  margin: auto;
+  width: 400px;
+}
+.confirm-user #change-password-form button {
+  width: 100%;
+}
 .left-pane {
   background-color: #c4bfb5;
   height: 100%;
@@ -719,22 +726,41 @@ span[class*=" icon-"].dark {
 .subscriptions .right-pane .tier-components .tier-tiles {
   margin: 0 30px;
 }
-.role-editor table.privileges-list {
-  min-width: 600px;
+.role-editor .panel-group .panel .panel-heading {
+  background-color: #000000;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0px;
 }
-.role-editor table.privileges-list tr {
+.role-editor .panel-group .panel .panel-heading a {
+  display: inline-block;
+  padding: 12px;
+  width: 100%;
+}
+.role-editor .panel-group .panel .panel-heading a:hover {
+  text-decoration: none;
+}
+.role-editor .panel-group .panel .panel-collapse .panel-body {
+  max-height: 320px;
+  overflow: auto;
+  padding: 16px 0;
+}
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list {
+  width: 100%;
+}
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr {
   border-bottom: solid 1px #000000;
 }
-.role-editor table.privileges-list tr td,
-.role-editor table.privileges-list tr th {
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr td,
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr th {
   text-align: center;
 }
-.role-editor table.privileges-list tr td .checkbox,
-.role-editor table.privileges-list tr th .checkbox {
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr td .checkbox,
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr th .checkbox {
   margin: 10px 0;
 }
-.role-editor table.privileges-list tr td .checkbox input[type="checkbox"],
-.role-editor table.privileges-list tr th .checkbox input[type="checkbox"] {
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr td .checkbox input[type="checkbox"],
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr th .checkbox input[type="checkbox"] {
   float: none;
   transform: scale(1.5, 1.5);
   -webkit-transform: scale(1.5, 1.5);
@@ -742,15 +768,16 @@ span[class*=" icon-"].dark {
   -o-transform: scale(1.5, 1.5);
   -ms-transform: scale(1.5, 1.5);
 }
-.role-editor table.privileges-list tr td.left,
-.role-editor table.privileges-list tr th.left {
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr td.left,
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr th.left {
+  padding: 0 16px;
   text-align: left;
 }
-.role-editor table.privileges-list tr td.check-column,
-.role-editor table.privileges-list tr th.check-column {
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr td.check-column,
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr th.check-column {
   min-width: 100px;
 }
-.role-editor table.privileges-list tr.dark td {
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr.dark td {
   background-color: #E6E4E0;
 }
 .tier-info-dialog .modal-dialog {
@@ -775,7 +802,6 @@ span[class*=" icon-"].dark {
   text-align: left;
 }
 .tier-modal .tier-components .tier-tile-container ul {
-  /*list-style: square;*/
   margin-top: 16px;
 }
 .tier-modal .tier-components .tier-tile-container ul li {

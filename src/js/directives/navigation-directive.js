@@ -8,10 +8,12 @@
 		};
 
 		self.getNavigationItems = function() {
-			if (!scope.user) {
-				$location.path('/login');
+			if (!scope.user || !$.isFunction(scope.user.validateProperty)) {
+				scope.showNav = false;
 				return;
 			}
+
+			scope.showNav = true;
 
 			var imageUrl = ($.isFunction(scope.user.imageUrl)) ? scope.user.imageUrl() : null;
 			var isGlobalAdmin = (!!scope.user.role && $.isFunction(scope.user.role.isGlobalAdmin)) ? scope.user.role.isGlobalAdmin() : false;
@@ -63,7 +65,6 @@
 			} else if (!scope.user) {
 				self.getLoggedInUser();
 			} else {
-				scope.showNav = true;
 				self.getNavigationItems();
 			}
 		};
@@ -73,12 +74,17 @@
 			scope.user = AuthService.userInfo();
 			scope.user = AuthService.fetchCurrentUser({
 				success: function (user) {
+					if ($location.path().indexOf('/user/confirm') === 0) {
+						return;
+					}
+
 					self.getNavigationItems();
 				}
 			});
 		};
 
 		scope.user = null;
+		scope.showNav = false;
 		scope.mainMenu = [];
 		scope.adminMenu = [];
 		scope.userMenu = [];

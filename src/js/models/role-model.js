@@ -8,6 +8,7 @@
 	self.updated = null;
 
 	self.privileges = [];
+	self.modules = [];
 
 	// TODO: CHANGE THIS FUNCTION TO BETTER IDENTIFY A BUILT-IN ROLE!!
 	self.isBuiltIn = function() {
