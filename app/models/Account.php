@@ -25,7 +25,7 @@ class Account extends Ardent {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('token');
+	protected $hidden = array();
 
 	/**
 	 * Specifies the columns that can be mass assigned

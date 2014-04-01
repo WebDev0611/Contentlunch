@@ -64,6 +64,8 @@
 			account.expirationDate = new Date(dto.expiration_date);
 			account.paymentType = dto.payment_type;
 			account.yearlyPayment = parseInt(dto.yearly_payment) === 1 ? true : false;
+			account.hasToken = dto.hasToken;
+			account.tokenizedType = dto.payment_type;
 
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;
@@ -107,9 +109,14 @@
 				expiration_date: account.expirationDate,
 				payment_type: account.paymentType,
 				yearly_payment: (account.yearlyPayment === true) ? 1 : 0,
+				hasToken: account.hasToken,
 				created_at: account.created,
 				updated_at: account.updated
 			};
+
+			if (account.token) {
+				dto.token = account.token;
+			}
 
 			return dto;
 		},
@@ -140,6 +147,7 @@
 			account.expirationDate = new Date(cachedAccount.expirationDate);
 			account.paymentType = cachedAccount.paymentType;
 			account.yearlyPayment = account.yearlyPayment;
+			account.hasToken = cachedAccount.hasToken;
 
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;

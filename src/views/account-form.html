@@ -76,7 +76,7 @@
 	</div>
 
 	<h2>Subscription Info</h2>
-	
+
 	<div class="row">
 		<div class="col-md-6">
 			<div class="control-group" ng-show="!selfEditing">
@@ -114,7 +114,7 @@
 							ng-model="selectedAccount.subscription.numberLicenses" ng-disabled="selfEditing"
 							error-message message="errorMessage(selectedAccount.subscription, 'numberLicenses', editAccount.txtMaxNumUsers)" />
 				</div>
-				
+
 				<div ng-show="selfEditing">
 					<button type="button" class="btn btn-default" ng-show="!selectedAccount.autoRenew" ng-click="renewAccount()">Renew Account</button>
 					<button type="button" class="btn btn-default" ng-click="cancelAccount()">Cancel Account</button>
@@ -125,7 +125,7 @@
 		<div class="col-md-6">
 			<div class="tier-components">
 				<div style="display: inline-block;" tier-tiles selected-subscription="selectedAccount.subscription"></div>
-				
+
 				<div class="tier-info">
 					<ul class="tier-info-list">
 						<li>
@@ -145,7 +145,7 @@
 							<div class="tier-info-data">{{ selectedAccount.subscription.features }}</div>
 						</li>
 					</ul>
-				
+
 					<button type="button" class="btn btn-default" ng-click="compareTiers()" ng-show="selfEditing">Compare Tiers</button>
 				</div>
 			</div>
@@ -153,12 +153,16 @@
 	</div>
 
 	<h2>Payment Info</h2>
-	
+
+	<div ng-if="selectedAccount.hasToken">
+		<p>Stored payment type: {{ selectedAccount.tokenizedType }}</p>
+	</div>
+
 	<div class="control-group">
 		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radCreditCard" ng-value="'CC'" ng-model="selectedAccount.paymentType" />Credit Card</label>
 		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radACH" ng-value="'ACH'" ng-model="selectedAccount.paymentType" />ACH</label>
 	</div>
-	
+
 	<div ng-show="selectedAccount.paymentType === 'CC'">
 		<div class="control-group">
 			<div class="form-group">
@@ -195,10 +199,19 @@
 			</div>
 			<div class="form-group">
 				<label class="control-label" for="selExpirationYear">Expir. Year</label>
-				<select id="selExpirationYear" name="selExpirationYear" class="form-control" ng-model="selectedAccount.creditCard.expirationDateYear"></select>
+				<select id="selExpirationYear" name="selExpirationYear" class="form-control" ng-model="selectedAccount.creditCard.expirationDateYear">
+					<option value="2014">2014</option>
+					<option value="2015">2015</option>
+					<option value="2016">2016</option>
+					<option value="2017">2017</option>
+					<option value="2018">2018</option>
+					<option value="2019">2019</option>
+					<option value="2020">2020</option>
+					<option value="2021">2021</option>
+				</select>
 			</div>
 		</div>
-	
+
 		<div class="control-group">
 			<div class="form-group">
 				<label class="control-label" for="txtCCAddress1">Address 1</label>
@@ -209,7 +222,7 @@
 				<input type="text" id="txtCCAddress2" name="txtCCAddress2" class="form-control" ng-model="selectedAccount.creditCard.address2" />
 			</div>
 		</div>
-	
+
 		<div class="control-group">
 			<div class="form-group">
 				<label class="control-label" for="txtCCCity">City</label>
@@ -225,7 +238,7 @@
 				</select>
 			</div>
 		</div>
-	
+
 		<div class="control-group">
 			<div class="form-group">
 				<label class="control-label" for="selCCState">State</label>
@@ -237,7 +250,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div ng-show="selectedAccount.paymentType === 'ACH'">
 		<div class="control-group">
 			<div class="form-group">
@@ -249,7 +262,7 @@
 				<input type="text" id="txtRoutingNumber" name="txtRoutingNumber" class="form-control" ng-model="selectedAccount.bankAccount.routingNumber" />
 			</div>
 		</div>
-		
+
 		<div class="control-group">
 			<div class="form-group">
 				<label class="control-label" for="txtAccountNumber">Account Number</label>

@@ -21,6 +21,7 @@
 	self.expirationDate = null;
 	self.paymentType = 'CC';
 	self.yearlyPayment = false;
+	self.hasToken = false;
 
 	self.created = null;
 	self.updated = null;

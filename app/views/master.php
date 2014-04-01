@@ -21,13 +21,15 @@
 </head>
 <body>
 	<header ng-cloak navigation-template></header>
-	
+
     <div class="main-content" ng-view></div>
 
     <footer></footer>
 
     <script type="text/javascript" src="/assets/js/build.js"></script>
+    <script type="text/javascript" src="https://js.balancedpayments.com/1.1.11/balanced.js"></script>
 	<script type="text/javascript" src="/assets/js/app.js"></script>
+
 
 	<script type="text/ng-template" id="confirm.html">
 		<div class="modal-body" ng-bind="message"></div>

@@ -18,7 +18,6 @@ launch.module.controller('AccountController', [
 				}
 			});
 
-
 			if (!$scope.selectedAccount) {
 				$location.path('/login');
 				return;

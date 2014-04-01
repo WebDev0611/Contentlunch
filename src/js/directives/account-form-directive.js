@@ -1,4 +1,4 @@
-﻿launch.module.directive('accountForm', function ($modal, AuthService, AccountService, NotificationService) {
+﻿launch.module.directive('accountForm', function ($modal, $window, AuthService, AccountService, NotificationService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 
@@ -51,7 +51,7 @@
 			self.discardChanges(form, false);
 		};
 
-		scope.saveAccount = function(form) {
+		scope.saveAccount = function (form) {
 			if (!scope.selectedAccount || scope.selectedAccount.$resolved === false) {
 				return;
 			}
@@ -65,6 +65,61 @@
 				NotificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
 				return;
 			}
+
+			// Attempt to save payment info first
+			if (scope.selectedAccount.paymentType == 'CC'
+				&& scope.selectedAccount.creditCard.cardNumber) {
+				console.log('tokenize cc', scope.selectedAccount.creditCard);
+				$window.balanced.card.create({
+					name: scope.selectedAccount.creditCard.nameOnCard,
+					number: scope.selectedAccount.creditCard.cardNumber,
+					expiration_month: scope.selectedAccount.creditCard.expirationDateMonth,
+					expiration_year: scope.selectedAccount.creditCard.expirationDateYear,
+					security_code: scope.selectedAccount.creditCard.cvc
+				}, function (response) {
+					console.log(response);
+					if (response.status_code === 201) {
+						// Save tokenized id on the server
+						scope.selectedAccount.token = response.cards[0].id;
+						scope.doSaveAccount(form);
+					} else {
+						var errors = [];
+						angular.forEach(response.errors, function (val) {
+							errors.push(val.description);
+						});
+						NotificationService.error('Error!', 'There was a problem saving the card info:\n\n' + errors('\n'));
+						return;
+					}
+				});
+			} else if (scope.selectedAccount.paymentType == 'ACH'
+				&& scope.selectedAccount.bankAccount.accountNumber) {
+				console.log('tokenize account', scope.selectedAccount.bankAccount);
+
+				$window.balanced.bankAccount.create({
+					name: scope.selectedAccount.bankAccount.bankName,
+					account_number: scope.selectedAccount.bankAccount.accountNumber,
+					routing_number: scope.selectedAccount.bankAccount.routingNumber
+				}, function (response) {
+					console.log(response);
+					if (response.status === 201) {
+						// Save tokenized id on the server
+						scope.selectedAccount.token = response.bank_accounts[0].id;
+						scope.doSaveAccount(form);
+					} else {
+						var errors = [];
+						for (prop in response.error.extras) {
+							errors.push(response.error.extras[prop]);
+						}
+						NotificationService.error('Error!', 'There was a problem saving the account info:\n\n' + errors.join('\n'));
+						return;
+					}
+				});
+			} else {
+				scope.doSaveAccount(form);
+			}
+		};
+
+		scope.doSaveAccount = function(form) {
 
 			var method = scope.isNewAccount ? AccountService.add : AccountService.update;
 
@@ -299,8 +354,9 @@
 				scope.isNewAccount = false;
 			}
 
-			if (!!scope.selectedAccount && !self.originalSubscription) {
+			console.log(scope.selectedAccount);
 
+			if (!!scope.selectedAccount && !self.originalSubscription) {
 
 				var setSubscription = function (acct) {
 					if (!!acct.subscription) {
@@ -320,7 +376,7 @@
 					scope.selectedAccount.$promise.then(setSubscription);
 				}
 			}
-		});
+		}, true);
 
 		self.init();
 	};
