@@ -70,6 +70,7 @@
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;
 			//account.creditCard.nameOnCard = null;
+			//account.creditCard.cardType = null;
 			//account.creditCard.cvc = null;
 			//account.creditCard.expirationDateMonth = null;
 			//account.creditCard.expirationDateYear = null;
@@ -152,6 +153,7 @@
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;
 			//account.creditCard.nameOnCard = null;
+			//account.creditCard.cardType = null;
 			//account.creditCard.cvc = null;
 			//account.creditCard.expirationDateMonth = null;
 			//account.creditCard.expirationDateYear = null;

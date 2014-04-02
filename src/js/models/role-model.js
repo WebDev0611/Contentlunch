@@ -20,6 +20,7 @@
 		return false;
 	};
 
+	// TODO: CHANGE THIS FUNCTION TO BETTER IDENTIFY THE GLOBAL ADMIN ROLE!!
 	self.isGlobalAdmin = function() {
 		return (!launch.utils.isBlank(self.name) && self.name.toUpperCase() === 'ADMIN');
 	};

@@ -170,6 +170,15 @@
 				<input type="text" id="txtNameOnCard" name="txtNameOnCard" class="form-control" ng-model="selectedAccount.creditCard.nameOnCard" />
 			</div>
 			<div class="form-group">
+				<label class="control-label" for="selCardType">Card Type</label>
+				<select id="selCardType" name="selCardType" class="form-control" ng-model="selectedAccount.creditCard.cardType">
+					<option value="VISA">Visa</option>
+					<option value="MASTERCARD">MasterCard</option>
+					<option value="AMEX">American Express</option>
+					<option value="DISCOVER">Discover</option>
+				</select>
+			</div>
+			<div class="form-group">
 				<label class="control-label" for="txtCardNumber">Card Number</label>
 				<input type="text" id="txtCardNumber" name="txtCardNumber" class="form-control" ng-model="selectedAccount.creditCard.cardNumber" />
 			</div>
@@ -199,51 +208,12 @@
 			</div>
 			<div class="form-group">
 				<label class="control-label" for="selExpirationYear">Expir. Year</label>
-				<select id="selExpirationYear" name="selExpirationYear" class="form-control" ng-model="selectedAccount.creditCard.expirationDateYear">
-					<option value="2014">2014</option>
-					<option value="2015">2015</option>
-					<option value="2016">2016</option>
-					<option value="2017">2017</option>
-					<option value="2018">2018</option>
-					<option value="2019">2019</option>
-					<option value="2020">2020</option>
-					<option value="2021">2021</option>
-				</select>
+				<select id="selExpirationYear" name="selExpirationYear" class="form-control"
+					ng-model="selectedAccount.creditCard.expirationDateYear" ng-options="year for year in years"></select>
 			</div>
 		</div>
 
 		<div class="control-group">
-			<div class="form-group">
-				<label class="control-label" for="txtCCAddress1">Address 1</label>
-				<input type="text" id="txtCCAddress1" name="txtCCAddress1" class="form-control" ng-model="selectedAccount.creditCard.address1" />
-			</div>
-			<div class="form-group">
-				<label class="control-label" for="txtCCAddress2">Address 2</label>
-				<input type="text" id="txtCCAddress2" name="txtCCAddress2" class="form-control" ng-model="selectedAccount.creditCard.address2" />
-			</div>
-		</div>
-
-		<div class="control-group">
-			<div class="form-group">
-				<label class="control-label" for="txtCCCity">City</label>
-				<input type="text" id="txtCCCity" name="txtCCCity" class="form-control" ng-model="selectedAccount.creditCard.city" />
-			</div>
-			<div class="form-group">
-				<label class="control-label" for="selCCCountry">Country</label>
-				<select id="selCCCountry" name="selCCCountry" class="form-control" ng-model="selectedAccount.creditCard.country">
-					<option value="Australia">Australia</option>
-					<option value="Canada">Canada</option>
-					<option value="UK">UK</option>
-					<option value="USA">USA</option>
-				</select>
-			</div>
-		</div>
-
-		<div class="control-group">
-			<div class="form-group">
-				<label class="control-label" for="selCCState">State</label>
-				<select id="selCCState" name="selCCState" class="form-control" ng-model="selectedAccount.creditCard.state" ng-options="s.name for s in getStates(true) track by s.value"></select>
-			</div>
 			<div class="form-group">
 				<label class="control-label" for="txtCCPostalCode">Postal Code</label>
 				<input type="text" id="txtCCPostalCode" name="txtCCPostalCode" class="form-control" ng-model="selectedAccount.creditCard.postalCode" />
