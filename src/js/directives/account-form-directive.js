@@ -87,7 +87,7 @@
 						angular.forEach(response.errors, function (val) {
 							errors.push(val.description);
 						});
-						NotificationService.error('Error!', 'There was a problem saving the card info:\n\n' + errors('\n'));
+						NotificationService.error('Error!', 'There was a problem saving the card info:\n\n' + errors.join('\n'));
 						return;
 					}
 				});
@@ -203,18 +203,20 @@
 			return [];
 		};
 
-		scope.impersonateAccount = function() {
-			NotificationService.info('Warning!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+		scope.impersonateAccount = function () {
+			// TODO: IMPLEMENT THE ABILITY TO IMPERSONATE A SITE ADMIN FOR AN ACCOUNT!!
+			NotificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
 		};
 
 		scope.resendAccountCreationEmail = function() {
 			AccountService.resendCreationEmail.save({ id: scope.selectedAccount.id }, function () {
-				NotificationService.info('Success', 'Account creation email sent.');
+				NotificationService.success('Success', 'Account creation email sent.');
 			});
 		};
 
-		scope.renewAccount = function() {
-			NotificationService.info('WARNING!', 'This has not yet been implemented!');
+		scope.renewAccount = function () {
+			// TODO: IMPLEMENT THE ABILITY TO RENEW AN ACCOUNT!!
+			NotificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
 		};
 
 		scope.cancelAccount = function() {
@@ -338,7 +340,8 @@
 									return;
 								}
 
-								NotificationService.info('Warning!!', 'This has not yet been implemeneted!');
+								// TODO: IMPLEMENT EMAIL TO REQUEST CHANGE TO SUBSCRIPTION LEVEL!!
+								NotificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
 							} else {
 								scp.mode = 'request';
 								scp.buttonText = 'Send';
