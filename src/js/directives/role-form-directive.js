@@ -66,7 +66,7 @@
 				success: function (r) {
 					scope.isSaving = false;
 
-					var successMsg = 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.title + '\'s') + ' role settings!';
+					var successMsg = 'You have successfully saved the role ' + r.name + '!';
 
 					NotificationService.success('Success!', successMsg);
 
