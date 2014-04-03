@@ -21,7 +21,7 @@
 			} else if (setting.id === 'connections') {
 				$location.path('/account/connections');
 			} else if (setting.id === 'content') {
-				$location.path('/account/content');
+				$location.path('/account/content-settings');
 			} else if (setting.id === 'seo') {
 				$location.path('/account/seo');
 			}

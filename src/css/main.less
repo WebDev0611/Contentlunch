@@ -501,7 +501,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	width: 40px;
 }
 
-.users, .accounts, .roles {
+.users, .accounts, .roles, .content-settings {
 	.left-pane {
 		position: relative;
 
@@ -587,7 +587,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.user-editor, .account-editor, .role-editor {
+.user-editor, .account-editor, .role-editor, .content-settings-editor {
 	.user-image-upload {
 		float: left;
 		text-align: center;
@@ -884,6 +884,37 @@ span[class^="icon-"], span[class*=" icon-"] {
 		.btn {
 			background-color: #000000;
 			color: #ffffff;
+		}
+	}
+}
+
+.content-settings-editor {
+	padding: 0 16px;
+	
+	.btn-new-persona{
+		float: right;
+	}
+
+	table.persona-table {
+		width: 100%;
+
+		tr {
+			border-bottom: solid 1px #000000;
+
+			td, th {
+				padding: 8px;
+				text-align: left;
+			}
+
+			td {
+				font-size: 8pt;
+			}
+
+			&.dark {
+				td {
+					background-color: #E6E4E0;
+				}
+			}
 		}
 	}
 }

@@ -19,7 +19,8 @@
 
 	startsWith: function(s1, s2) {
 		if (!this.isBlank(s1) && !this.isBlank(s2)) {
-			return (s1.toLowerCase().match('^' + s2.toLowerCase()) !== null);
+			//return (s1.toLowerCase().match(/^/ + s2.toLowerCase()) !== null);
+			return s1.toLowerCase().indexOf(s2.toLowerCase()) === 0;
 		}
 
 		return false;
@@ -31,6 +32,16 @@
 		}
 
 		return false;
+	},
+
+	truncateAfter: function(str, len) {
+		if (isBlank(str)) {
+			return '';
+		} else if (str.length > len) {
+			return str.substring(0, len - 1) + '...';
+		}
+
+		return str;
 	},
 
 	isValidPattern: function(s, pattern) {
