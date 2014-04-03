@@ -679,6 +679,7 @@ span[class*=" icon-"].dark {
   background-color: #8eb933;
 }
 .tier-components .tier-tiles .tile.disabled {
+  background-color: #999999;
   opacity: 0.4;
 }
 .tier-components .tier-info {

@@ -85,6 +85,7 @@
 			scope.forceDirty = true;
 			form.$setDirty();
 
+			// TODO: REQUIRE CREDIT CARD OR BANK ACCOUNT INFO WHEN CREATING A NEW ACCOUNT!!
 			var msg = launch.utils.validateAll(scope.selectedAccount);
 
 			if (!launch.utils.isBlank(msg)) {
@@ -103,7 +104,6 @@
 		};
 
 		scope.doSaveAccount = function(form) {
-
 			var method = scope.isNewAccount ? AccountService.add : AccountService.update;
 
 			scope.isSaving = true;
