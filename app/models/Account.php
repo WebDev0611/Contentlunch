@@ -47,6 +47,11 @@ class Account extends Ardent {
   	return $this->hasOne('AccountSubscription', 'account_id', 'id');
   }
 
+  public function modules()
+  {
+  	return $this->belongsToMany('Module');
+  }
+
 	/**
 	 * Define relationship to another model.
 	 * An Account has many User(s).

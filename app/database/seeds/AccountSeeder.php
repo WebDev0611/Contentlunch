@@ -25,6 +25,12 @@ class AccountSeeder extends Seeder {
     $account->yearly_payment = false;
 		$account->save();
 
+    // Give access to all modules
+    $modules = Module::all();
+    foreach ($modules as $module) {
+      $account->modules()->save($module);
+    }
+
     $subscription = Subscription::first();
 
     $sub = new AccountSubscription;

@@ -15,14 +15,15 @@ class DatabaseSeeder extends Seeder {
 		// so delete data first starting with relation tables
     DB::table('account_user')->delete();
     DB::table('assigned_roles')->delete();
+    DB::table('account_module')->delete();
     DB::table('account_subscription')->delete();
     DB::table('subscriptions')->delete();
-//    DB::table('modules')->delete();
+    DB::table('modules')->delete();
     DB::table('accounts')->delete();
     DB::table('roles')->delete();
     DB::table('users')->delete();
 
-//    $this->call('ModuleSeeder');
+    $this->call('ModuleSeeder');
     $this->call('SubscriptionSeeder');
     $this->call('AccountSeeder');
 		$this->call('RoleSeeder');

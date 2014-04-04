@@ -4,7 +4,10 @@ class AccountController extends BaseController {
 
 	public function index()
 	{
-		$accounts = Account::countusers()->with('accountSubscription')->get();
+		$accounts = Account::countusers()
+			->with('accountSubscription')
+			->with('modules')
+			->get();
 		foreach ($accounts as $account) {
 			if ($account->token) {
 				$account->hasToken = true;
@@ -35,7 +38,11 @@ class AccountController extends BaseController {
 
 	public function show($id)
 	{
-		$account = Account::countusers()->with('accountSubscription')->where('accounts.id', $id)->first();
+		$account = Account::countusers()
+			->with('accountSubscription')
+			->with('modules')
+			->where('accounts.id', $id)
+			->first();
 		if ($account->token) {
 			$account->hasToken = true;
 		} else {
