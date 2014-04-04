@@ -26,6 +26,9 @@
     "ng-file-upload": "~1.2.8",
     "angular-ui": "~0.4.0",
     "bootstrap-wysiwyg": "*",
-    "jquery.hotkeys": "*"
+    "jquery.hotkeys": "*",
+    "textAngular": "~1.2.0",
+    "font-awesome": "~4.0.3",
+    "tinymce": "~4.0.21"
   }
 }

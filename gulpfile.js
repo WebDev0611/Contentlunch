@@ -46,7 +46,8 @@ gulp.task('bootstrap-components-css', function () {
 	return gulp.src([
 			'./bower_components/pnotify/jquery.pnotify.default.css',
 			'./bower_components/ladda/dist/ladda.min.css',
-			'./bower_components/ladda/dist/spin.min.css'
+			'./bower_components/ladda/dist/spin.min.css',
+			'./bower_components/font-awesome/css/font-awesome.css'
 	])
 		.pipe(concat('bootstrap-components.css'))
 		.pipe(gulp.dest('public/assets/css'))
@@ -80,6 +81,49 @@ gulp.task('less', function () {
 		.pipe(livereload(server));
 });
 
+gulp.task('tinymce-scripts', function() {
+	gulp.src(['./bower_components/tinymce/js/tinymce/**/*.js'])
+		.pipe(gulp.dest('./public/assets/js'))
+		.pipe(livereload(server));
+});
+
+gulp.task('tinymce-css', function () {
+	gulp.src([
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/skin.min.css',
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/content.min.css'
+	])
+		.pipe(gulp.dest('./public/assets/js/skins/lightgray'))
+		.pipe(livereload(server));
+});
+
+gulp.task('tinymce-fonts', function () {
+	gulp.src([
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.svg',
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.eot',
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.ttf',
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.woff',
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.eot',
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.svg',
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.eot',
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.ttf',
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.woff',
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.eot'
+	])
+		.pipe(gulp.dest('./public/assets/js/skins/lightgray/fonts'))
+		.pipe(livereload(server));
+});
+
+gulp.task('tinymce-images', function () {
+	gulp.src([
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/img/anchor.gif',
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/img/loader.gif',
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/img/object.gif',
+			'./bower_components/tinymce/js/tinymce/skins/lightgray/img/trans.gif'
+	])
+		.pipe(gulp.dest('./public/assets/js/skins/lightgray/img'))
+		.pipe(livereload(server));
+});
+
 gulp.task('scripts', function() {
 	gulp.src([
 			'./bower_components/jquery/dist/jquery.js',
@@ -96,6 +140,7 @@ gulp.task('scripts', function() {
 			'./bower_components/ladda/js/spin.js',
 			'./bower_components/ladda/js/ladda.js',
 			'./bower_components/ng-file-upload/angular-file-upload.js'
+			//'./bower_components/textAngular/textAngular.js'
 		])
 		.pipe(concat('build.js'))
 		.pipe(gulp.dest('./public/assets/js'));
@@ -107,15 +152,19 @@ gulp.task('scripts', function() {
 		.pipe(livereload(server));
 });
 
-gulp.task('fonts-eot', function () {
-	return gulp.src(['./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot',
-			'./src/fonts/**/*.eot'])
+gulp.task('fonts-eot', function() {
+	return gulp.src([
+			'./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot',
+			'./bower_components/font-awesome/fonts/fontawesome-webfont.eot',
+			'./src/fonts/**/*.eot'
+		])
 		.pipe(gulp.dest('./public/assets/fonts'))
 		.pipe(livereload(server));
 });
 
 gulp.task('fonts-svg', function () {
 	return gulp.src(['./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg',
+			'./bower_components/font-awesome/fonts/fontawesome-webfont.svg',
 			'./src/fonts/**/*.svg'])
 		.pipe(gulp.dest('./public/assets/fonts'))
 		.pipe(livereload(server));
@@ -123,6 +172,7 @@ gulp.task('fonts-svg', function () {
 
 gulp.task('fonts-ttf', function () {
 	return gulp.src(['./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf',
+			'./bower_components/font-awesome/fonts/fontawesome-webfont.ttf',
 			'./src/fonts/**/*.ttf'])
 		.pipe(gulp.dest('./public/assets/fonts'))
 		.pipe(livereload(server));
@@ -130,6 +180,7 @@ gulp.task('fonts-ttf', function () {
 
 gulp.task('fonts-woff', function () {
 	return gulp.src(['./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff',
+			'./bower_components/font-awesome/fonts/fontawesome-webfont.woff',
 			'./src/fonts/**/*.woff'])
 		.pipe(gulp.dest('./public/assets/fonts'))
 		.pipe(livereload(server));
@@ -175,5 +226,5 @@ gulp.task('watch', function() {
 
 // Run clean task first as dependency
 gulp.task('default', ['clean'], function () {
-	gulp.start('styles-bootstrap', 'map-bootstrap', 'bootstrap-components-css', 'styles-angular-ui', 'less', 'scripts', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff');
+	gulp.start('styles-bootstrap', 'map-bootstrap', 'bootstrap-components-css', 'styles-angular-ui', 'tinymce-css', 'tinymce-fonts', 'tinymce-images', 'less', 'tinymce-scripts', 'scripts', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff');
 });

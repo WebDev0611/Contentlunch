@@ -114,8 +114,8 @@
 							ng-model="selectedAccount.subscription.numberLicenses" ng-disabled="selfEditing"
 							error-message message="errorMessage(selectedAccount.subscription, 'numberLicenses', editAccount.txtMaxNumUsers)" />
 				</div>
-
-				<div ng-show="selfEditing">
+				
+				<div class="control-group btn-group" ng-show="selfEditing">
 					<button type="button" class="btn btn-default" ng-show="!selectedAccount.autoRenew" ng-click="renewAccount()">Renew Account</button>
 					<button type="button" class="btn btn-default" ng-click="cancelAccount()">Cancel Account</button>
 				</div>
@@ -145,8 +145,10 @@
 							<div class="tier-info-data">{{ selectedAccount.subscription.features }}</div>
 						</li>
 					</ul>
-
-					<button type="button" class="btn btn-default" ng-click="compareTiers()" ng-show="selfEditing">Compare Tiers</button>
+					
+					<div class="control-group btn-group">
+						<button type="button" class="btn btn-default" ng-click="compareTiers()" ng-show="selfEditing">Compare Tiers</button>
+					</div>
 				</div>
 			</div>
 		</div>

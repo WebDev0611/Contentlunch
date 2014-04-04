@@ -19,7 +19,6 @@
 
 	startsWith: function(s1, s2) {
 		if (!this.isBlank(s1) && !this.isBlank(s2)) {
-			//return (s1.toLowerCase().match(/^/ + s2.toLowerCase()) !== null);
 			return s1.toLowerCase().indexOf(s2.toLowerCase()) === 0;
 		}
 

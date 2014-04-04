@@ -46,12 +46,14 @@
 			<h2>Company Publishing Guidelines</h2>
 			<p>Enter Company publishing guidelines here. These will be available for users as they are creating Ideas and Content.</p>
 			
-			<textarea id="txtPublishingGuidelines" name="txtPublishingGuidelines" ng-model="contentSettings.publishingGuidelines" style="width: 90%; height: 200px;"></textarea>
+			<textarea id="txtPublishingGuidelines" rich-text-editor ng-model="contentSettings.publishingGuidelines"></textarea>
 			
 			<h2>Personas</h2>
 			<div>
 				These Personas and stages will be used in content and can be changed as needed.
-				<button type="button" class="btn btn-default btn-new-persona" ng-click="">New Persona</button>
+				<div class="control-group btn-group btn-new-persona">
+					<button type="button" class="btn btn-default" ng-click="">New Persona</button>
+				</div>
 			</div>
 			
 

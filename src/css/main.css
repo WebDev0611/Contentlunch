@@ -448,12 +448,12 @@ span[class*=" icon-"].dark {
 .right-pane h2:first-child {
   margin: 0 0 20px 0;
 }
-.right-pane .btn {
+.right-pane .control-group .btn {
   font-size: 14px;
   min-width: 120px;
   padding: 6px 12px;
 }
-.right-pane .btn.btn-default {
+.right-pane .control-group .btn.btn-default {
   background-color: #000000;
   color: #ffffff;
 }
