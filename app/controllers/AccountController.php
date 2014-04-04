@@ -12,6 +12,7 @@ class AccountController extends BaseController {
 				$account->hasToken = false;
 			}
 			unset($account->token);
+			$account->payment_info = unserialize($account->payment_info);
 		}
 		return $accounts;
 	}
@@ -19,6 +20,9 @@ class AccountController extends BaseController {
 	public function store()
 	{
 		$account = new Account;
+		if (Input::has('payment_info')) {
+			$account->payment_info = serialize(Input::get('payment_info'));
+		}
 		if ($account->save())
 		{
 			$user = $this->createSiteAdminUser($account);
@@ -38,12 +42,16 @@ class AccountController extends BaseController {
 			$account->hasToken = false;
 		}
 		unset($account->token);
+		$account->payment_info = unserialize($account->payment_info);
 		return $account;
 	}
 
 	public function update($id)
 	{
 		$account = Account::find($id);
+		if (Input::has('payment_info')) {
+			$account->payment_info = serialize(Input::get('payment_info'));
+		}
 		if ($account->updateUniques())
 		{
 			return $this->show($account->id);

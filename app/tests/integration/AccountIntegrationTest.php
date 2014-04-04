@@ -16,11 +16,22 @@ class AccountIntegrationTest extends TestCase {
 
 	public function testCreateNewAccount()
 	{
-		$account = Woodling::retrieve('Account');
+		// Hacky... save the site admin role for the new account user
+		Woodling::saved('Role', array(
+			'name' => 'Site Admin'
+		));
+		$account = Woodling::retrieve('Account', array(
+			'payment_info' => array(
+				'name' => 'Foobar',
+				'last4' => 1234
+			)
+		));
 		$response = $this->call('POST', '/api/account', $account->toArray());
 		$data = $this->assertResponse($response);
 		$account->id = $data->id;
 		$this->assertAccount($account, $data);
+		$this->assertEquals('Foobar', $data->payment_info->name);
+		$this->assertEquals('1234', $data->payment_info->last4);
 	}
 
 	public function testCreateNewAccountFailValidationReturnsError()
@@ -45,11 +56,17 @@ class AccountIntegrationTest extends TestCase {
 	{
 		$account = Woodling::saved('Account');
 		$changed = Woodling::retrieve('Account', array(
-			'id' => $account->id
+			'id' => $account->id,
+			'payment_info' => array(
+				'name' => 'Foobar',
+				'last4' => 1234,
+			)
 		));
 		$response = $this->call('PUT', '/api/account/'. $account->id, $changed->toArray());
 		$data = $this->assertResponse($response);
 		$this->assertAccount($changed, $data);
+		$this->assertEquals('Foobar', $data->payment_info->name);
+		$this->assertEquals('1234', $data->payment_info->last4);
 	}
 
 	public function testUpdateAccountFailValidationReturnsError()
