@@ -71,7 +71,7 @@ launch.module.controller('LoginController', [
 
 			authService.forgotPassword(user.email, {
 				success: function(r) {
-					notificationService.info('Message Sent!', r.message);
+					notificationService.success('Message Sent!', r.message);
 				},
 				error: function(r) {
 					launch.utils.handleAjaxErrorResponse(r, notificationService);

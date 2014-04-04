@@ -410,6 +410,13 @@ span[class*=" icon-"].dark {
 #change-password-form button {
   padding: 8px;
 }
+.confirm-user {
+  margin: auto;
+  width: 400px;
+}
+.confirm-user #change-password-form button {
+  width: 100%;
+}
 .left-pane {
   background-color: #c4bfb5;
   height: 100%;
@@ -441,12 +448,12 @@ span[class*=" icon-"].dark {
 .right-pane h2:first-child {
   margin: 0 0 20px 0;
 }
-.right-pane .btn {
+.right-pane .control-group .btn {
   font-size: 14px;
   min-width: 120px;
   padding: 6px 12px;
 }
-.right-pane .btn.btn-default {
+.right-pane .control-group .btn.btn-default {
   background-color: #000000;
   color: #ffffff;
 }
@@ -470,49 +477,57 @@ span[class*=" icon-"].dark {
 }
 .users .left-pane,
 .accounts .left-pane,
-.roles .left-pane {
+.roles .left-pane,
+.content-settings .left-pane {
   position: relative;
 }
 .users .left-pane .btn-group,
 .accounts .left-pane .btn-group,
-.roles .left-pane .btn-group {
+.roles .left-pane .btn-group,
+.content-settings .left-pane .btn-group {
   margin-bottom: 12px;
   width: 100%;
 }
 .users .left-pane .btn-group .btn-create,
 .accounts .left-pane .btn-group .btn-create,
-.roles .left-pane .btn-group .btn-create {
+.roles .left-pane .btn-group .btn-create,
+.content-settings .left-pane .btn-group .btn-create {
   background-color: #000000;
   color: #ffffff;
   width: 100%;
 }
 .users .left-pane .btn-group .btn-create .glyphicon,
 .accounts .left-pane .btn-group .btn-create .glyphicon,
-.roles .left-pane .btn-group .btn-create .glyphicon {
+.roles .left-pane .btn-group .btn-create .glyphicon,
+.content-settings .left-pane .btn-group .btn-create .glyphicon {
   margin-right: 8px;
 }
 .users .left-pane .btn-group.btn-group-filter .btn.active,
 .accounts .left-pane .btn-group.btn-group-filter .btn.active,
-.roles .left-pane .btn-group.btn-group-filter .btn.active {
+.roles .left-pane .btn-group.btn-group-filter .btn.active,
+.content-settings .left-pane .btn-group.btn-group-filter .btn.active {
   background-color: #000000;
   color: #ffffff;
 }
 .users .left-pane hr,
 .accounts .left-pane hr,
-.roles .left-pane hr {
+.roles .left-pane hr,
+.content-settings .left-pane hr {
   border-color: #000000;
   margin-top: 10px;
 }
 .users .left-pane ul.items-list,
 .accounts .left-pane ul.items-list,
-.roles .left-pane ul.items-list {
+.roles .left-pane ul.items-list,
+.content-settings .left-pane ul.items-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 .users .left-pane ul.items-list li,
 .accounts .left-pane ul.items-list li,
-.roles .left-pane ul.items-list li {
+.roles .left-pane ul.items-list li,
+.content-settings .left-pane ul.items-list li {
   cursor: pointer;
   padding: 8px;
   position: relative;
@@ -520,35 +535,42 @@ span[class*=" icon-"].dark {
 .users .left-pane ul.items-list li:hover,
 .accounts .left-pane ul.items-list li:hover,
 .roles .left-pane ul.items-list li:hover,
+.content-settings .left-pane ul.items-list li:hover,
 .users .left-pane ul.items-list li.selected,
 .accounts .left-pane ul.items-list li.selected,
-.roles .left-pane ul.items-list li.selected {
+.roles .left-pane ul.items-list li.selected,
+.content-settings .left-pane ul.items-list li.selected {
   background-color: #eeeeee;
 }
 .users .left-pane ul.items-list li .item-image,
 .accounts .left-pane ul.items-list li .item-image,
-.roles .left-pane ul.items-list li .item-image {
+.roles .left-pane ul.items-list li .item-image,
+.content-settings .left-pane ul.items-list li .item-image {
   float: left;
   margin-right: 16px;
 }
 .users .left-pane ul.items-list li .item-info,
 .accounts .left-pane ul.items-list li .item-info,
-.roles .left-pane ul.items-list li .item-info {
+.roles .left-pane ul.items-list li .item-info,
+.content-settings .left-pane ul.items-list li .item-info {
   font-size: 8pt;
 }
 .users .left-pane ul.items-list li .item-info .item-title,
 .accounts .left-pane ul.items-list li .item-info .item-title,
-.roles .left-pane ul.items-list li .item-info .item-title {
+.roles .left-pane ul.items-list li .item-info .item-title,
+.content-settings .left-pane ul.items-list li .item-info .item-title {
   font-size: 12pt;
 }
 .users .left-pane .pager ul.pagination,
 .accounts .left-pane .pager ul.pagination,
-.roles .left-pane .pager ul.pagination {
+.roles .left-pane .pager ul.pagination,
+.content-settings .left-pane .pager ul.pagination {
   display: block;
 }
 .users .left-pane .pager ul.pagination li a,
 .accounts .left-pane .pager ul.pagination li a,
-.roles .left-pane .pager ul.pagination li a {
+.roles .left-pane .pager ul.pagination li a,
+.content-settings .left-pane .pager ul.pagination li a {
   background-color: transparent;
   border-color: #000000;
   border-radius: 0 !important;
@@ -558,20 +580,23 @@ span[class*=" icon-"].dark {
 }
 .users .left-pane .pager ul.pagination li.active a,
 .accounts .left-pane .pager ul.pagination li.active a,
-.roles .left-pane .pager ul.pagination li.active a {
+.roles .left-pane .pager ul.pagination li.active a,
+.content-settings .left-pane .pager ul.pagination li.active a {
   background-color: #000000;
   color: #ffffff;
 }
 .user-editor .user-image-upload,
 .account-editor .user-image-upload,
-.role-editor .user-image-upload {
+.role-editor .user-image-upload,
+.content-settings-editor .user-image-upload {
   float: left;
   text-align: center;
   width: 120px;
 }
 .user-editor .user-image-upload .user-image,
 .account-editor .user-image-upload .user-image,
-.role-editor .user-image-upload .user-image {
+.role-editor .user-image-upload .user-image,
+.content-settings-editor .user-image-upload .user-image {
   border: solid 3px #ffffff;
   display: block;
   height: 96px;
@@ -580,34 +605,40 @@ span[class*=" icon-"].dark {
 }
 .user-editor .user-image-upload button,
 .account-editor .user-image-upload button,
-.role-editor .user-image-upload button {
+.role-editor .user-image-upload button,
+.content-settings-editor .user-image-upload button {
   margin: 16px 0;
 }
 .user-editor .user-image-upload input[type="file"],
 .account-editor .user-image-upload input[type="file"],
-.role-editor .user-image-upload input[type="file"] {
+.role-editor .user-image-upload input[type="file"],
+.content-settings-editor .user-image-upload input[type="file"] {
   display: none;
 }
 .user-editor .user-editor,
 .account-editor .user-editor,
-.role-editor .user-editor {
+.role-editor .user-editor,
+.content-settings-editor .user-editor {
   margin-left: 128px;
 }
 .user-editor .control-group,
 .account-editor .control-group,
-.role-editor .control-group {
+.role-editor .control-group,
+.content-settings-editor .control-group {
   margin: 0 8px 8px 0;
 }
 .user-editor .control-group .form-group,
 .account-editor .control-group .form-group,
-.role-editor .control-group .form-group {
+.role-editor .control-group .form-group,
+.content-settings-editor .control-group .form-group {
   display: inline-block;
   margin: 0 8px 0 0;
   min-width: 20em;
 }
 .user-editor .control-group.btn-toolbar,
 .account-editor .control-group.btn-toolbar,
-.role-editor .control-group.btn-toolbar {
+.role-editor .control-group.btn-toolbar,
+.content-settings-editor .control-group.btn-toolbar {
   margin: 16px 0;
 }
 .user-editor {
@@ -672,6 +703,7 @@ span[class*=" icon-"].dark {
   background-color: #8eb933;
 }
 .tier-components .tier-tiles .tile.disabled {
+  background-color: #999999;
   opacity: 0.4;
 }
 .tier-components .tier-info {
@@ -719,22 +751,41 @@ span[class*=" icon-"].dark {
 .subscriptions .right-pane .tier-components .tier-tiles {
   margin: 0 30px;
 }
-.role-editor table.privileges-list {
-  min-width: 600px;
+.role-editor .panel-group .panel .panel-heading {
+  background-color: #000000;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0px;
 }
-.role-editor table.privileges-list tr {
+.role-editor .panel-group .panel .panel-heading a {
+  display: inline-block;
+  padding: 12px;
+  width: 100%;
+}
+.role-editor .panel-group .panel .panel-heading a:hover {
+  text-decoration: none;
+}
+.role-editor .panel-group .panel .panel-collapse .panel-body {
+  max-height: 320px;
+  overflow: auto;
+  padding: 16px 0;
+}
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list {
+  width: 100%;
+}
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr {
   border-bottom: solid 1px #000000;
 }
-.role-editor table.privileges-list tr td,
-.role-editor table.privileges-list tr th {
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr td,
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr th {
   text-align: center;
 }
-.role-editor table.privileges-list tr td .checkbox,
-.role-editor table.privileges-list tr th .checkbox {
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr td .checkbox,
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr th .checkbox {
   margin: 10px 0;
 }
-.role-editor table.privileges-list tr td .checkbox input[type="checkbox"],
-.role-editor table.privileges-list tr th .checkbox input[type="checkbox"] {
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr td .checkbox input[type="checkbox"],
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr th .checkbox input[type="checkbox"] {
   float: none;
   transform: scale(1.5, 1.5);
   -webkit-transform: scale(1.5, 1.5);
@@ -742,15 +793,16 @@ span[class*=" icon-"].dark {
   -o-transform: scale(1.5, 1.5);
   -ms-transform: scale(1.5, 1.5);
 }
-.role-editor table.privileges-list tr td.left,
-.role-editor table.privileges-list tr th.left {
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr td.left,
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr th.left {
+  padding: 0 16px;
   text-align: left;
 }
-.role-editor table.privileges-list tr td.check-column,
-.role-editor table.privileges-list tr th.check-column {
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr td.check-column,
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr th.check-column {
   min-width: 100px;
 }
-.role-editor table.privileges-list tr.dark td {
+.role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr.dark td {
   background-color: #E6E4E0;
 }
 .tier-info-dialog .modal-dialog {
@@ -775,7 +827,6 @@ span[class*=" icon-"].dark {
   text-align: left;
 }
 .tier-modal .tier-components .tier-tile-container ul {
-  /*list-style: square;*/
   margin-top: 16px;
 }
 .tier-modal .tier-components .tier-tile-container ul li {
@@ -788,4 +839,27 @@ span[class*=" icon-"].dark {
 .tier-modal .control-group .btn {
   background-color: #000000;
   color: #ffffff;
+}
+.content-settings-editor {
+  padding: 0 16px;
+}
+.content-settings-editor .btn-new-persona {
+  float: right;
+}
+.content-settings-editor table.persona-table {
+  width: 100%;
+}
+.content-settings-editor table.persona-table tr {
+  border-bottom: solid 1px #000000;
+}
+.content-settings-editor table.persona-table tr td,
+.content-settings-editor table.persona-table tr th {
+  padding: 8px;
+  text-align: left;
+}
+.content-settings-editor table.persona-table tr td {
+  font-size: 8pt;
+}
+.content-settings-editor table.persona-table tr.dark td {
+  background-color: #E6E4E0;
 }

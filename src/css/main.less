@@ -422,6 +422,17 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
+.confirm-user {
+	margin: auto;
+	width: 400px;
+
+	#change-password-form {
+		button {
+			width: 100%;
+		}
+	}
+}
+
 .left-pane {
 	background-color: @leftPaneColor;
 	height: 100%;
@@ -458,14 +469,16 @@ span[class^="icon-"], span[class*=" icon-"] {
 		}
 	}
 
-	.btn {
-		font-size: 14px;
-		min-width: 120px;
-		padding: 6px 12px;
+	.control-group {
+		.btn {
+			font-size: 14px;
+			min-width: 120px;
+			padding: 6px 12px;
 
-		&.btn-default {
-			background-color: #000000;
-			color: #ffffff;
+			&.btn-default {
+				background-color: #000000;
+				color: #ffffff;
+			}
 		}
 	}
 }
@@ -490,7 +503,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	width: 40px;
 }
 
-.users, .accounts, .roles {
+.users, .accounts, .roles, .content-settings {
 	.left-pane {
 		position: relative;
 
@@ -576,7 +589,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.user-editor, .account-editor, .role-editor {
+.user-editor, .account-editor, .role-editor, .content-settings-editor {
 	.user-image-upload {
 		float: left;
 		text-align: center;
@@ -693,6 +706,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 
 			&.disabled {
+				background-color: #999999;
 				opacity: 0.4;
 			}
 		}
@@ -759,40 +773,70 @@ span[class^="icon-"], span[class*=" icon-"] {
 }
 
 .role-editor {
-	table.privileges-list {
-		min-width: 600px;
+	.panel-group {
+		.panel {
+			.panel-heading {
+				background-color: #000000;
+				color: #ffffff;
+				cursor: pointer;
+				padding: 0px;
 
-		tr {
-			border-bottom: solid 1px #000000;
+				a {
+					display: inline-block;
+					padding: 12px;
+					width: 100%;
 
-			td, th {
-				text-align: center;
-
-				.checkbox {
-					margin: 10px 0;
-
-					input[type="checkbox"] {
-						float: none;
-						transform: scale(1.5,1.5);
-						-webkit-transform: scale(1.5,1.5);
-						-moz-transform: scale(1.5,1.5);
-						-o-transform: scale(1.5,1.5);
-						-ms-transform: scale(1.5,1.5);
+					&:hover {
+						text-decoration: none;
 					}
-				}
-
-				&.left {
-					text-align: left;
-				}
-
-				&.check-column{
-					min-width: 100px;
 				}
 			}
 
-			&.dark{
-				td{
-					background-color: #E6E4E0;
+			.panel-collapse {
+				.panel-body {
+					max-height: 320px;
+					overflow: auto;
+					padding: 16px 0;
+
+					table.privileges-list {
+						width: 100%;
+
+						tr {
+							border-bottom: solid 1px #000000;
+
+							td, th {
+								text-align: center;
+
+								.checkbox {
+									margin: 10px 0;
+
+									input[type="checkbox"] {
+										float: none;
+										transform: scale(1.5,1.5);
+										-webkit-transform: scale(1.5,1.5);
+										-moz-transform: scale(1.5,1.5);
+										-o-transform: scale(1.5,1.5);
+										-ms-transform: scale(1.5,1.5);
+									}
+								}
+
+								&.left {
+									padding: 0 16px;
+									text-align: left;
+								}
+
+								&.check-column {
+									min-width: 100px;
+								}
+							}
+
+							&.dark {
+								td {
+									background-color: #E6E4E0;
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -804,6 +848,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 		min-width: 650px;
 	}
 }
+
 .tier-modal {
 	padding: 24px;
 
@@ -825,7 +870,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 			text-align: left;
 
 			ul {
-				/*list-style: square;*/
 				margin-top: 16px;
 
 				li {
@@ -842,6 +886,37 @@ span[class^="icon-"], span[class*=" icon-"] {
 		.btn {
 			background-color: #000000;
 			color: #ffffff;
+		}
+	}
+}
+
+.content-settings-editor {
+	padding: 0 16px;
+	
+	.btn-new-persona{
+		float: right;
+	}
+
+	table.persona-table {
+		width: 100%;
+
+		tr {
+			border-bottom: solid 1px #000000;
+
+			td, th {
+				padding: 8px;
+				text-align: left;
+			}
+
+			td {
+				font-size: 8pt;
+			}
+
+			&.dark {
+				td {
+					background-color: #E6E4E0;
+				}
+			}
 		}
 	}
 }

@@ -17,9 +17,13 @@ launch.module.factory('AuthService', function($location, $resource, $sanitize, S
 		SessionService.unset(SessionService.ACCOUNT_KEY);
 	};
 
-	self.resource = $resource('/api/auth', null, {
+	self.authenticate = $resource('/api/auth', null, {
 		login: { method: 'POST' },
 		fetchCurrentUser: { method: 'GET', transformResponse: self.modelMapper.user.parseResponse }
+	});
+
+	self.confirm = $resource('/api/auth/confirm', null, {
+		confirm: { method: 'POST', transformResponse: self.modelMapper.user.parseResponse }
 	});
 
 	return {
@@ -27,7 +31,7 @@ launch.module.factory('AuthService', function($location, $resource, $sanitize, S
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return self.resource.login({
+			return self.authenticate.login({
 					email: $sanitize(username),
 					password: $sanitize(password),
 					remember: remember
@@ -73,9 +77,8 @@ launch.module.factory('AuthService', function($location, $resource, $sanitize, S
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return self.resource.fetchCurrentUser(null, function (r) {
+			return self.authenticate.fetchCurrentUser(null, function (r) {
 				if (!r.id) {
-					$location.path('/login');
 					return;
 				}
 
@@ -94,6 +97,11 @@ launch.module.factory('AuthService', function($location, $resource, $sanitize, S
 
 			return method.reset({ email: email }, success, error);
 		},
-		confirm: $resource('/api/auth/confirm')
+		confirm: function(code, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return self.confirm.confirm(null, { code: code }, success, error);
+		}
 	};
 });

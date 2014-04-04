@@ -46,6 +46,12 @@
 			$scope.subscriptions = accountService.getSubscriptions();
 		};
 
+		$scope.toggleActive = function (e, subscription) {
+			if (!!subscription) {
+				subscription.active = !subscription.active;
+			}
+		};
+
 		self.init();
 	}
 ]);

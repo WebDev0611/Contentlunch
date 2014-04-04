@@ -1,4 +1,4 @@
-﻿launch.module.directive('accountForm', function ($modal, $window, AuthService, AccountService, NotificationService) {
+﻿launch.module.directive('accountForm', function ($modal, $window, AuthService, AccountService, PaymentService, NotificationService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 
@@ -8,11 +8,36 @@
 		self.init = function() {
 			self.loggedInUser = AuthService.userInfo();
 			scope.subscriptions = AccountService.getSubscriptions();
+
+			var year = (new Date()).getFullYear();
+
+			for (var i = 0; i < 10; i++) {
+				scope.years.push(year + i);
+			}
 		};
 
 		self.discardChanges = function(form, keepSelected) {
 			if ($.isFunction(scope.refreshMethod)) {
 				scope.refreshMethod(form, (keepSelected ? scope.selectedAccount : null));
+			}
+		};
+
+		self.paymentResponseHandler = function(r) {
+			console.log(r);
+
+			var msg = (scope.selectedAccount.paymentType === 'CC') ? 'card' : 'account';
+
+			if (r.status_code === 201) {
+				// Save tokenized id on the server
+				scope.selectedAccount.token = r.cards[0].href;
+				scope.doSaveAccount();
+			} else {
+				var errors = [];
+				angular.forEach(r.errors, function(val) {
+					errors.push(val.description);
+				});
+				NotificationService.error('Error!', 'There was a problem saving the ' + msg + ' info:\n\n' + errors.join('\n'));
+				return;
 			}
 		};
 
@@ -23,6 +48,7 @@
 		scope.isNewAccount = false;
 		scope.errorMessage = launch.utils.getPropertyErrorMessage;
 		scope.subscriptions = [];
+		scope.years = [];
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
@@ -59,6 +85,7 @@
 			scope.forceDirty = true;
 			form.$setDirty();
 
+			// TODO: REQUIRE CREDIT CARD OR BANK ACCOUNT INFO WHEN CREATING A NEW ACCOUNT!!
 			var msg = launch.utils.validateAll(scope.selectedAccount);
 
 			if (!launch.utils.isBlank(msg)) {
@@ -67,60 +94,16 @@
 			}
 
 			// Attempt to save payment info first
-			if (scope.selectedAccount.paymentType == 'CC'
-				&& scope.selectedAccount.creditCard.cardNumber) {
-				console.log('tokenize cc', scope.selectedAccount.creditCard);
-				$window.balanced.card.create({
-					name: scope.selectedAccount.creditCard.nameOnCard,
-					number: scope.selectedAccount.creditCard.cardNumber,
-					expiration_month: scope.selectedAccount.creditCard.expirationDateMonth,
-					expiration_year: scope.selectedAccount.creditCard.expirationDateYear,
-					security_code: scope.selectedAccount.creditCard.cvc
-				}, function (response) {
-					console.log(response);
-					if (response.status_code === 201) {
-						// Save tokenized id on the server
-						scope.selectedAccount.token = response.cards[0].href;
-						scope.doSaveAccount(form);
-					} else {
-						var errors = [];
-						angular.forEach(response.errors, function (val) {
-							errors.push(val.description);
-						});
-						NotificationService.error('Error!', 'There was a problem saving the card info:\n\n' + errors('\n'));
-						return;
-					}
-				});
-			} else if (scope.selectedAccount.paymentType == 'ACH'
-				&& scope.selectedAccount.bankAccount.accountNumber) {
-				console.log('tokenize account', scope.selectedAccount.bankAccount);
-
-				$window.balanced.bankAccount.create({
-					name: scope.selectedAccount.bankAccount.bankName,
-					account_number: scope.selectedAccount.bankAccount.accountNumber,
-					routing_number: scope.selectedAccount.bankAccount.routingNumber
-				}, function (response) {
-					console.log(response);
-					if (response.status_code === 201) {
-						// Save tokenized id on the server
-						scope.selectedAccount.token = response.bank_accounts[0].href;
-						scope.doSaveAccount(form);
-					} else {
-						var errors = [];
-						angular.forEach(response.errors, function (val) {
-							errors.push(val.description);
-						});
-						NotificationService.error('Error!', 'There was a problem saving the account info:\n\n' + errors.join('\n'));
-						return;
-					}
-				});
+			if (scope.selectedAccount.paymentType == 'CC' && !launch.utils.isBlank(scope.selectedAccount.creditCard.cardNumber)) {
+				PaymentService.saveCreditCard(scope.selectedAccount.creditCard, function (r) { self.paymentResponseHandler(r, form); });
+			} else if (scope.selectedAccount.paymentType == 'ACH' && !launch.utils.isBlank(scope.selectedAccount.bankAccount.accountNumber)) {
+				PaymentService.saveBankAccount(scope.selectedAccount.bankAccount, function (r) { self.paymentResponseHandler(r, form); });
 			} else {
 				scope.doSaveAccount(form);
 			}
 		};
 
 		scope.doSaveAccount = function(form) {
-
 			var method = scope.isNewAccount ? AccountService.add : AccountService.update;
 
 			scope.isSaving = true;
@@ -203,18 +186,20 @@
 			return [];
 		};
 
-		scope.impersonateAccount = function() {
-			NotificationService.info('Warning!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+		scope.impersonateAccount = function () {
+			// TODO: IMPLEMENT THE ABILITY TO IMPERSONATE A SITE ADMIN FOR AN ACCOUNT!!
+			NotificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
 		};
 
 		scope.resendAccountCreationEmail = function() {
 			AccountService.resendCreationEmail.save({ id: scope.selectedAccount.id }, function () {
-				NotificationService.info('Success', 'Account creation email sent.');
+				NotificationService.success('Success', 'Account creation email sent.');
 			});
 		};
 
-		scope.renewAccount = function() {
-			NotificationService.info('WARNING!', 'This has not yet been implemented!');
+		scope.renewAccount = function () {
+			// TODO: IMPLEMENT THE ABILITY TO RENEW AN ACCOUNT!!
+			NotificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
 		};
 
 		scope.cancelAccount = function() {
@@ -338,7 +323,8 @@
 									return;
 								}
 
-								NotificationService.info('Warning!!', 'This has not yet been implemeneted!');
+								// TODO: IMPLEMENT EMAIL TO REQUEST CHANGE TO SUBSCRIPTION LEVEL!!
+								NotificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
 							} else {
 								scp.mode = 'request';
 								scp.buttonText = 'Send';

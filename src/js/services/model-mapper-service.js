@@ -70,6 +70,7 @@
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;
 			//account.creditCard.nameOnCard = null;
+			//account.creditCard.cardType = null;
 			//account.creditCard.cvc = null;
 			//account.creditCard.expirationDateMonth = null;
 			//account.creditCard.expirationDateYear = null;
@@ -152,6 +153,7 @@
 			account.creditCard = new launch.CreditCard();
 			//account.creditCard.cardNumber = null;
 			//account.creditCard.nameOnCard = null;
+			//account.creditCard.cardType = null;
 			//account.creditCard.cvc = null;
 			//account.creditCard.expirationDateMonth = null;
 			//account.creditCard.expirationDateYear = null;
@@ -354,72 +356,144 @@
 		}
 	};
 
-	self.role = {
-		parseResponse: function(r, getHeaders) {
-			if (launch.utils.isBlank(r)) {
+		self.role = {
+			parseResponse: function(r, getHeaders) {
+				if (launch.utils.isBlank(r)) {
+					return null;
+				}
+
+				var dto = JSON.parse(r);
+
+				if (!!dto.error) {
+					launch.utils.handleAjaxErrorResponse(dto.error, notificationService);
+					return null;
+				}
+
+				if ($.isArray(dto)) {
+					var roles = [];
+					var user = authService.userInfo();
+					var isGlobalAdmin = (!!user) ? user.isGlobalAdmin() : false;
+
+					angular.forEach(dto, function(r, index) {
+						var role = self.role.fromDto(r);
+
+						if (isGlobalAdmin === role.isGlobalAdmin()) {
+							roles.push(role);
+						}
+					});
+
+					roles.sort(self.role.sort);
+
+					return roles;
+				}
+
+				if ($.isPlainObject(dto)) {
+					return self.role.fromDto(dto);
+				}
+
 				return null;
-			}
+			},
+			formatRequest: function(role) {
+				return JSON.stringify(self.role.toDto(role));
+			},
+			fromDto: function(dto) {
+				if (!dto) {
+					return null;
+				}
 
-			var dto = JSON.parse(r);
+				var role = new launch.Role();
 
-			if (!!dto.error) {
-				launch.utils.handleAjaxErrorResponse(dto.error, notificationService);
-				return null;
-			}
+				// TODO: SET ACTIVE STATUS FROM DTO WHEN THIS IS ADDED TO THE API!
+				role.active = true;
+				role.id = parseInt(dto.id);
+				role.name = dto.name;
+				role.created = dto.created_at;
+				role.updated = dto.updated_at;
 
-			if ($.isArray(dto)) {
-				var roles = [];
-				var user = authService.userInfo();
-				var isGlobalAdmin = (!!user) ? user.isGlobalAdmin() : false;
+				// TODO: SET THE PRIVILEGES CORRECTLY FROM THE API WHEN IT'S READY!!
+				role.privileges = [
+					{ module: 'Consult', view: true, edit: true, execute: true },
+					{ module: 'Create', view: true, edit: true, execute: true },
+					{ module: 'Collaborate', view: true, edit: true, execute: true },
+					{ module: 'Calendar', view: true, edit: true, execute: true },
+					{ module: 'Launch', view: true, edit: true, execute: true },
+					{ module: 'Measure', view: true, edit: true, execute: true }
+				];
 
-				angular.forEach(dto, function(r, index) {
-					var role = self.role.fromDto(r);
-
-					if (isGlobalAdmin === role.isGlobalAdmin()) {
-						roles.push(role);
+				// TODO: SET THE MODULES CORRECTLY FROM THE API WHEN IT'S READY!!
+				role.modules = [
+					{
+						name: 'Home',
+						mainNav: true,
+						privileges: []
+					},
+					{
+						name: 'Consult',
+						mainNav: true,
+						privileges: []
+					},
+					{
+						name: 'Create',
+						mainNav: true,
+						privileges: [
+							{ name: 'Create Section 1', view: true, edit: true, execute: true },
+							{ name: 'Create Section 2', view: true, edit: true, execute: true },
+							{ name: 'Create Section 3', view: true, edit: true, execute: true }
+						]
+					},
+					{
+						name: 'Collaborate',
+						mainNav: true,
+						privileges: [
+							{ name: 'Collaborate Section 1', view: true, edit: true, execute: true },
+							{ name: 'Collaborate Section 2', view: true, edit: true, execute: true },
+							{ name: 'Collaborate Section 3', view: true, edit: true, execute: true }
+						]
+					},
+					{
+						name: 'Calendar',
+						mainNav: true,
+						privileges: [
+							{ name: 'Calendar Section 1', view: true, edit: true, execute: true },
+							{ name: 'Calendar Section 2', view: true, edit: true, execute: true },
+							{ name: 'Calendar Section 3', view: true, edit: true, execute: true }
+						]
+					},
+					{
+						name: 'Launch',
+						mainNav: true,
+						privileges: [
+							{ name: 'Launch Section 1', view: true, edit: true, execute: true },
+							{ name: 'Launch Section 2', view: true, edit: true, execute: true },
+							{ name: 'Launch Section 3', view: true, edit: true, execute: true }
+						]
+					},
+					{
+						name: 'Measure',
+						mainNav: true,
+						privileges: [
+							{ name: 'Measure Section 1', view: true, edit: true, execute: true },
+							{ name: 'Measure Section 2', view: true, edit: true, execute: true },
+							{ name: 'Measure Section 3', view: true, edit: true, execute: true }
+						]
+					},
+					{
+						name: 'Admin/Settings',
+						mainNav: false,
+						privileges: [
+							{ name: 'Account Settings', view: true, edit: true, execute: true },
+							{ name: 'Content Connections', view: true, edit: true, execute: true },
+							{ name: 'Content Settings', view: true, edit: true, execute: true },
+							{ name: 'SEO Settings', view: true, edit: true, execute: true },
+							{ name: 'Styles/Branding', view: true, edit: true, execute: true },
+							{ name: 'Buyer Personas', view: true, edit: true, execute: true },
+							{ name: 'Manage API/Plugins', view: true, edit: true, execute: true }
+						]
 					}
-				});
+				];
 
-				roles.sort(self.role.sort);
-
-				return roles;
-			}
-
-			if ($.isPlainObject(dto)) {
-				return self.role.fromDto(dto);
-			}
-
-			return null;
-		},
-		formatRequest: function (role) {
-			return JSON.stringify(self.role.toDto(role));
-		},
-		fromDto: function (dto) {
-			if (!dto) {
-				return null;
-			}
-
-			var role = new launch.Role();
-
-			// TODO: SET ACTIVE STATUS FROM DTO WHEN THIS IS ADDED TO THE API!
-			role.active = true;
-			role.id = parseInt(dto.id);
-			role.name = dto.name;
-			role.created = dto.created_at;
-			role.updated = dto.updated_at;
-
-			// TODO: SET THE PRIVILEGES CORRECTLY FROM THE API WHEN IT'S READY!!
-			role.privileges = [
-				{ module: 'Consult', view: true, edit: true, execute: true },
-				{ module: 'Create', view: true, edit: true, execute: true },
-				{ module: 'Collaborate', view: true, edit: true, execute: true },
-				{ module: 'Calendar', view: true, edit: true, execute: true },
-				{ module: 'Launch', view: true, edit: true, execute: true },
-				{ module: 'Measure', view: true, edit: true, execute: true }
-			];
-
-			return role;
-		},
+				return role;
+			},
 		fromCache: function(cachedRole) {
 			var role = new launch.Role();
 
@@ -430,6 +504,7 @@
 			role.updated = cachedRole.updated;
 
 			role.privileges = cachedRole.privileges;
+			role.modules = cachedRole.modules;
 
 			return role;
 		},

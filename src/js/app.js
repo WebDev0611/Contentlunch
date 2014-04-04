@@ -24,6 +24,10 @@
 						controller: 'ContentConnectionsController',
 						templateUrl: '/assets/views/content-connections.html'
 					})
+					.when('/account/content-settings', {
+						controller: 'ContentSettingsController',
+						templateUrl: '/assets/views/content-settings.html'
+					})
 					.when('/user', {
 						controller: 'UserController',
 						templateUrl: '/assets/views/user.html'

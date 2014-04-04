@@ -13,7 +13,8 @@
 		link: link,
 		restrict: 'AE',
 		scope: {
-			selectedSubscription: '=selectedSubscription'
+			selectedSubscription: '=selectedSubscription',
+			tileOnClick: '=tileOnClick'
 		},
 		templateUrl: '/assets/views/tier-tiles.html'
 	};

@@ -4,7 +4,7 @@
 	<div class="col-md-9 right-pane">
 		<div class="tier-components">
 			<div class="tier-tile-container" ng-repeat="subscription in subscriptions">
-				<div tier-tiles selected-subscription="subscription"></div>
+				<div tier-tiles selected-subscription="subscription" tile-on-click="toggleActive"></div>
 				<form name="tierForm" class="tier-form">
 					<div class="control-group">
 						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'pricePerMonth', tierForm.txtPricePerMonth, forceDirty) }">

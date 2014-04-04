@@ -1,0 +1,87 @@
+﻿<div class="view content-settings">
+	<div class="col-md-3 left-pane">
+		<div account-left-pane selected-setting="'content'"></div>
+	</div>
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header">Content Settings</h2>
+		
+		<form name="editContentSettings" class="content-settings-editor" novalidate="novalidate">
+			<div class="control-group">
+				<div class="form-group" ng-class="{ 'has-error': hasError(contentSettings, 'useCms', editContentSettings.selUseCMS, forceDirty) }">
+					<label class="control-label" for="selUseCMS">Use CMS</label>
+					<select type="text" id="selUseCMS" name="selUseCMS" class="form-control" ng-model="contentSettings.useCms"
+							error-message message="errorMessage(contentSettings, 'useCms', editContentSettings.selUseCMS)">
+						<option value="Company News">Company News</option>
+						<option value="How Tos">How Tos</option>
+						<option value="Interview">Interview</option>
+						<option value="Lists">Lists</option>
+						<option value="Product Review">Product Review</option>
+						<option value="Tools">Tools</option>
+						<option value="Uncategorized">Uncategorized</option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<div class="form-group checkbox">
+					<input type="checkbox" id="chkIncludeAuthorName" name="chkIncludeAuthorName" ng-model="contentSettings.includeAuthorName" />
+					<label for="chkIncludeAuthorName">Include Author's Name into Content</label>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="form-group checkbox">
+					<input type="checkbox" id="chkAllowPublishDateEdit" name="chkAllowPublishDateEdit" ng-model="contentSettings.allowPublishDateEdit" />
+					<label for="chkAllowPublishDateEdit">Allow Publish Date to be Edited</label>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="form-group checkbox">
+					<input type="checkbox" id="chkUseKeywordTags" name="chkUseKeywordTags" ng-model="contentSettings.useKeywordTags" />
+					<label for="chkUseKeywordTags">Use Keyword Tags</label>
+				</div>
+			</div>
+			
+			<h2>Company Publishing Guidelines</h2>
+			<p>Enter Company publishing guidelines here. These will be available for users as they are creating Ideas and Content.</p>
+			
+			<textarea id="txtPublishingGuidelines" rich-text-editor ng-model="contentSettings.publishingGuidelines"></textarea>
+			
+			<h2>Personas</h2>
+			<div>
+				These Personas and stages will be used in content and can be changed as needed.
+				<div class="control-group btn-group btn-new-persona">
+					<button type="button" class="btn btn-default" ng-click="">New Persona</button>
+				</div>
+			</div>
+			
+
+			<table class="persona-table">
+				<thead>
+					<tr>
+						<th ng-repeat="property in personaProperties">{{ property }}</th>
+						<th>
+							<a href="#" onclick="$('#txtNewPersonaProperty').show()">New+</a>
+							<input type="text" id="txtNewPersonaProperty" name="txtNewPersonaProperty" ng-keypress="addNewPersonaProperty($event)" style="display: none;" />
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="persona in contentSettings.personas" ng-class-odd="'dark'">
+						<td ng-repeat="property in personaProperties">{{ persona[property] }}</td>
+						<td>&nbsp;</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<!--<div class="control-group btn-toolbar">
+				<button type="button" class="btn btn-default ladda-button" ng-click="" data-style="zoom-in" ladda-button="isSaving">
+					<span class="ladda-label">Save</span>
+				</button>
+				<button type="button" class="btn btn-default" ng-click="">Cancel</button>
+				<button type="button" class="btn btn-default" ng-click="">Delete</button>
+			</div>-->
+		</form>
+	</div>
+</div>
