@@ -18,6 +18,26 @@ class AccountSubscriptionController extends BaseController {
     $sub->training = Input::get('training');
     $sub->features = Input::get('features');
     if ($sub->save()) {
+      // Based on the subscription level, assign modules to the account
+      switch ($sub->subscription_level) {
+        case 1:
+          $names = array('create', 'calendar', 'launch', 'measure');
+        break;
+        case 2:
+          $names = array('create', 'calendar', 'launch', 'measure', 'collaborate');
+        break;
+        case 3:
+          $names = array('create', 'calendar', 'launch', 'measure', 'collaborate', 'consult');
+        break;
+      }
+      $modules = Module::whereIn('name', $names)->get();
+      $syncModules = array();
+      foreach ($modules as $module) {
+        $syncModules[] = $module->id;
+      }
+      $account = Account::find($sub->account_id);
+      $account->modules()->sync($syncModules);
+      $account->updateUniques();
       return $this->get_subscription($id);
     }
     return $this->errorResponse($sub->errors()->toArray());
