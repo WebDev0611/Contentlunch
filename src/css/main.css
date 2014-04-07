@@ -846,6 +846,9 @@ span[class*=" icon-"].dark {
 .content-settings-editor .btn-new-persona {
   float: right;
 }
+.content-settings-editor #txtPublishingGuidelines {
+  min-height: 300px;
+}
 .content-settings-editor table.persona-table {
   width: 100%;
 }
