@@ -85,28 +85,30 @@
 				if (this.paymentType === 'CC') {
 					if (!this.creditCard) { return 'Credit Card or Bank Account information is required.'; }
 
+					if (!this.id || parseInt(this.id <= 0)) {
+						if (launch.utils.isValidPattern(this.creditCard.cardNumber, /\*/)) {
+							return 'Please enter a valid Credit Card number.';
+						}
+					}
+
 					return launch.utils.validateAll(this.creditCard);
 				}
 
 				if (this.paymentType === 'ACH') {
 					if (!this.bankAccount) { return 'Credit Card or Bank Account information is required.'; }
 
-					if (launch.utils.isValidPattern(this.bankAccount.accountNumber, /\*/)) {
-						return null;
-					} else {
-						return launch.utils.validateAll(this.bankAccount);
+					if (!this.id || parseInt(this.id <= 0)) {
+						if (launch.utils.isValidPattern(this.bankAccount.accountNumber, /\*/)) {
+							return 'Please enter a valid Bank Account number.';
+						}
 					}
+
+					return launch.utils.validateAll(this.bankAccount);
 				}
 
 				return 'Unknown Payment Type. Payment type must be Credit Card or ACH.';
 			default:
 				return null;
-		}
-	};
-
-	self.validateNewAccount = function() {
-		if (!self.creditCard && !self.bankAccount) {
-			return '';
 		}
 	};
 
