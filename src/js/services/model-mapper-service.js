@@ -133,7 +133,7 @@
 
 			if (!!account.creditCard && !launch.utils.isValidPattern(account.creditCard.cardNumber, /\*/)) {
 				dto.payment_info = {
-					card_number: account.creditCard.cardNumber,
+					card_number: '************' + account.creditCard.cardNumber.substr(12),
 					name_on_card: account.creditCard.nameOnCard,
 					card_type: account.creditCard.cardType,
 					cvc: account.creditCard.cvc,
@@ -145,7 +145,7 @@
 				dto.payment_info = {
 					bank_name: account.bankAccount.bankName,
 					routing_number: account.bankAccount.routingNumber,
-					account_number: account.bankAccount.accountNumber
+					account_number: '************' + account.bankAccount.accountNumber.substr(12)
 				};
 			}
 
