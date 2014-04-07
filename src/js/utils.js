@@ -150,7 +150,15 @@
 		for (var i = 0; i < properties.length; i++) {
 			var msg = obj.validateProperty(properties[i]);
 
-			if (!launch.utils.isBlank(msg)) {
+			if ($.isArray(msg)) {
+				angular.forEach(msg, function(m, i) {
+					if (!launch.utils.isBlank(itemPrefix)) {
+						msgs.push(itemPrefix + ' ' + m);
+					} else {
+						msgs.push(m);
+					}
+				});
+			} else if (!launch.utils.isBlank(msg)) {
 				if (!launch.utils.isBlank(itemPrefix)) {
 					msgs.push(itemPrefix + ' ' + msg);
 				} else {

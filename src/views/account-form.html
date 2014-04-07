@@ -167,33 +167,38 @@
 
 	<div ng-show="selectedAccount.paymentType === 'CC'">
 		<div class="control-group">
-			<div class="form-group">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'nameOnCard', editAccount.txtNameOnCard, forceDirty) }">
 				<label class="control-label" for="txtNameOnCard">Name on Card</label>
-				<input type="text" id="txtNameOnCard" name="txtNameOnCard" class="form-control" ng-model="selectedAccount.creditCard.nameOnCard" />
+				<input type="text" id="txtNameOnCard" name="txtNameOnCard" class="form-control" ng-model="selectedAccount.creditCard.nameOnCard"
+					error-message message="errorMessage(selectedAccount.creditCard, 'nameOnCard', editAccount.txtNameOnCard)" />
 			</div>
-			<div class="form-group">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'cardType', editAccount.selCardType, forceDirty) }">
 				<label class="control-label" for="selCardType">Card Type</label>
-				<select id="selCardType" name="selCardType" class="form-control" ng-model="selectedAccount.creditCard.cardType">
+				<select id="selCardType" name="selCardType" class="form-control" ng-model="selectedAccount.creditCard.cardType"
+					error-message message="errorMessage(selectedAccount.creditCard, 'cardType', editAccount.selCardType)">
 					<option value="VISA">Visa</option>
 					<option value="MASTERCARD">MasterCard</option>
 					<option value="AMEX">American Express</option>
 					<option value="DISCOVER">Discover</option>
 				</select>
 			</div>
-			<div class="form-group">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'cardNumber', editAccount.txtCardNumber, forceDirty) }">
 				<label class="control-label" for="txtCardNumber">Card Number</label>
-				<input type="text" id="txtCardNumber" name="txtCardNumber" class="form-control" ng-model="selectedAccount.creditCard.cardNumber" />
+				<input type="text" id="txtCardNumber" name="txtCardNumber" class="form-control" ng-model="selectedAccount.creditCard.cardNumber"
+					error-message message="errorMessage(selectedAccount.creditCard, 'cardNumber', editAccount.txtCardNumber)" />
 			</div>
 		</div>
 
 		<div class="control-group">
-			<div class="form-group">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'cvc', editAccount.txtCVCNumber, forceDirty) }">
 				<label class="control-label" for="txtCVCNumber">CVC</label>
-				<input type="text" id="txtCVCNumber" name="txtCVCNumber" class="form-control" ng-model="selectedAccount.creditCard.cvc" />
+				<input type="text" id="txtCVCNumber" name="txtCVCNumber" class="form-control" ng-model="selectedAccount.creditCard.cvc"
+					error-message message="errorMessage(selectedAccount.creditCard, 'cvc', editAccount.txtCVCNumber)" />
 			</div>
-			<div class="form-group">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'expirationDateMonth', editAccount.selExpirationMonth, forceDirty) }">
 				<label class="control-label" for="selExpirationMonth">Expir. Month</label>
-				<select id="selExpirationMonth" name="selExpirationMonth" class="form-control" ng-model="selectedAccount.creditCard.expirationDateMonth">
+				<select id="selExpirationMonth" name="selExpirationMonth" class="form-control" ng-model="selectedAccount.creditCard.expirationDateMonth"
+					error-message message="errorMessage(selectedAccount.creditCard, 'expirationDateMonth', editAccount.selExpirationMonth)">
 					<option value="1">Jan</option>
 					<option value="2">Feb</option>
 					<option value="3">Mar</option>
@@ -208,17 +213,19 @@
 					<option value="12">Dec</option>
 				</select>
 			</div>
-			<div class="form-group">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'expirationDateYear', editAccount.selExpirationYear, forceDirty) }">
 				<label class="control-label" for="selExpirationYear">Expir. Year</label>
 				<select id="selExpirationYear" name="selExpirationYear" class="form-control"
-					ng-model="selectedAccount.creditCard.expirationDateYear" ng-options="year for year in years"></select>
+					ng-model="selectedAccount.creditCard.expirationDateYear" ng-options="year for year in years"
+					error-message message="errorMessage(selectedAccount.creditCard, 'expirationDateYear', editAccount.selExpirationYear)"></select>
 			</div>
 		</div>
 
 		<div class="control-group">
-			<div class="form-group">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'postalCode', editAccount.txtCCPostalCode, forceDirty) }">
 				<label class="control-label" for="txtCCPostalCode">Postal Code</label>
-				<input type="text" id="txtCCPostalCode" name="txtCCPostalCode" class="form-control" ng-model="selectedAccount.creditCard.postalCode" />
+				<input type="text" id="txtCCPostalCode" name="txtCCPostalCode" class="form-control" ng-model="selectedAccount.creditCard.postalCode"
+					error-message message="errorMessage(selectedAccount.creditCard, 'postalCode', editAccount.txtCCPostalCode)" />
 			</div>
 		</div>
 	</div>

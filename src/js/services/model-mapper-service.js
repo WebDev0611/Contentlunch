@@ -67,24 +67,23 @@
 			account.hasToken = dto.hasToken;
 			account.tokenizedType = dto.payment_type;
 
-			account.creditCard = new launch.CreditCard();
-			//account.creditCard.cardNumber = null;
-			//account.creditCard.nameOnCard = null;
-			//account.creditCard.cardType = null;
-			//account.creditCard.cvc = null;
-			//account.creditCard.expirationDateMonth = null;
-			//account.creditCard.expirationDateYear = null;
-			//account.creditCard.address1 = null;
-			//account.creditCard.address2 = null;
-			//account.creditCard.city = null;
-			//account.creditCard.country = null;
-			//account.creditCard.state = null;
-			//account.creditCard.postalCode = null;
-
-			account.bankAccount = new launch.BankAccount();
-			//account.bankAccount.bankName = null;
-			//account.bankAccount.routingNumber = null;
-			//account.bankAccount.accountNumber = null;
+			if (!!dto.payment_info) {
+				if (!launch.utils.isBlank(dto.payment_info.card_number)) {
+					account.creditCard = new launch.CreditCard();
+					account.creditCard.cardNumber = dto.payment_info.card_number;
+					account.creditCard.nameOnCard = dto.payment_info.name_on_card;
+					account.creditCard.cardType = dto.payment_info.card_type;
+					account.creditCard.cvc = dto.payment_info.cvc;
+					account.creditCard.expirationDateMonth = dto.payment_info.expiration_date_month;
+					account.creditCard.expirationDateYear = dto.payment_info.expiration_date_year;
+					account.creditCard.postalCode = dto.payment_info.postal_code;
+				} else if (!launch.utils.isBlank(dto.payment_info.bank_name)) {
+					account.bankAccount = new launch.BankAccount();
+					account.bankAccount.bankName = dto.payment_info.bank_name;
+					account.bankAccount.routingNumber = dto.payment_info.routing_number;
+					account.bankAccount.accountNumber = dto.payment_info.account_number;
+				}
+			}
 
 			if (account.country === 'US') {
 				account.country = 'USA';
@@ -114,6 +113,24 @@
 				created_at: account.created,
 				updated_at: account.updated
 			};
+
+			if (!!account.creditCard && !launch.utils.isValidPattern(account.creditCard.cardNumber, /\*/)) {
+				dto.payment_info = {
+					card_number: account.creditCard.cardNumber,
+					name_on_card: account.creditCard.nameOnCard,
+					card_type: account.creditCard.cardType,
+					cvc: account.creditCard.cvc,
+					expiration_date_month: account.creditCard.expirationDateMonth,
+					expiration_date_year: account.creditCard.expirationDateYear,
+					postal_code: account.creditCard.postalCode,
+				};
+			} else if (!!account.bankAccount && !launch.utils.isValidPattern(account.bankAccount.accountNumber, /\*/)) {
+				dto.payment_info = {
+					bank_name: account.bankAccount.bankName,
+					routing_number: account.bankAccount.routingNumber,
+					account_number: account.bankAccount.accountNumber
+				};
+			}
 
 			if (account.token) {
 				dto.token = account.token;

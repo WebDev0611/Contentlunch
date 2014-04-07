@@ -32,11 +32,16 @@
 				scope.selectedAccount.token = r.cards[0].href;
 				scope.doSaveAccount();
 			} else {
+				scope.isSaving = false;
+
 				var errors = [];
-				angular.forEach(r.errors, function(val) {
+
+				angular.forEach(r.errors, function (val) {
 					errors.push(val.description);
 				});
+
 				NotificationService.error('Error!', 'There was a problem saving the ' + msg + ' info:\n\n' + errors.join('\n'));
+
 				return;
 			}
 		};
@@ -93,10 +98,12 @@
 				return;
 			}
 
+			scope.isSaving = true;
+
 			// Attempt to save payment info first
-			if (scope.selectedAccount.paymentType == 'CC' && !launch.utils.isBlank(scope.selectedAccount.creditCard.cardNumber)) {
+			if (scope.selectedAccount.paymentType == 'CC' && !launch.utils.isBlank(scope.selectedAccount.creditCard.cardNumber) && !launch.utils.isValidPattern(scope.selectedAccount.creditCard.cardNumber, /\*/)) {
 				PaymentService.saveCreditCard(scope.selectedAccount.creditCard, function (r) { self.paymentResponseHandler(r, form); });
-			} else if (scope.selectedAccount.paymentType == 'ACH' && !launch.utils.isBlank(scope.selectedAccount.bankAccount.accountNumber)) {
+			} else if (scope.selectedAccount.paymentType == 'ACH' && !launch.utils.isBlank(scope.selectedAccount.bankAccount.accountNumber) && !launch.utils.isValidPattern(scope.selectedAccount.bankAccount.accountNumber, /\*/)) {
 				PaymentService.saveBankAccount(scope.selectedAccount.bankAccount, function (r) { self.paymentResponseHandler(r, form); });
 			} else {
 				scope.doSaveAccount(form);
@@ -110,12 +117,12 @@
 
 			method(scope.selectedAccount, {
 				success: function (r) {
+					scope.isSaving = false;
+
 					if (scope.isNewAccount || (scope.selectedAccount.subscription.subscriptionLevel !== self.originalSubscription.subscriptionLevel)) {
 						// Now save the subscription along with the new account.
 						AccountService.updateAccountSubscription(r.id, scope.selectedAccount.subscription);
 					}
-
-					scope.isSaving = false;
 
 					var successMsg = 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.title + '\'s') + ' account settings!';
 
