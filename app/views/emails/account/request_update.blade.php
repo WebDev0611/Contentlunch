@@ -5,16 +5,12 @@
 	</head>
 	<body>
 		<p>
-      A request for an Account Update has been made for {{ $account->name }} on {{ $send_date }} at {{ $send_time }}
+      A request for an Account Update has been made by {{ $name }} for {{ $company_name }} on {{ $send_date }} at {{ $send_time }}
     </p>
-    <p>
-      {{ $account->name }}
-    </p>
-    <p>
-      {{ $account->email }}
-    </p>
-    <p>
-      {{ $account->phone }}
-    </p>
+    <p>{{ $company_name }}</p>
+    <p>{{ $name }}</p>
+    <p>{{ $email }}</p>
+    <p>{{ $phone }}</p>
+    <p>{{ $details }}</p>
 	</body>
 </html>

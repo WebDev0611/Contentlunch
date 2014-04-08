@@ -330,8 +330,10 @@
 									return;
 								}
 
-								// TODO: IMPLEMENT EMAIL TO REQUEST CHANGE TO SUBSCRIPTION LEVEL!!
-								NotificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+								AccountService.requestUpdate.save(scp.message, function () {
+									NotificationService.success('Success', 'Your request has been sent.');
+								});
+
 							} else {
 								scp.mode = 'request';
 								scp.buttonText = 'Send';

@@ -3,7 +3,7 @@
 		<h4>Welcome</h4>
 		<p>Here you can see the differences between each of the Tier levels and request an update to your account.</p>
 	</div>
-	
+
 	<div ng-show="mode === 'compare'">
 		<div class="tier-components">
 			<div class="tier-tile-container" ng-repeat="subscription in subscriptions">
@@ -24,25 +24,25 @@
 			<input type="text" required="required" id="txtRequestCompanyName" name="txtRequestCompanyName" class="form-control" ng-model="message.company"
 				error-message message="errorMessage('company', requestUpdate.txtRequestCompanyName)" />
 		</div>
-		
+
 		<div class="form-group" ng-class="{ 'has-error': hasError('name', requestUpdate.txtRequestName) }">
 			<label class="control-label" for="txtRequestName">Name</label>
 			<input type="text" required="required" id="txtRequestName" name="txtRequestName" class="form-control" ng-model="message.name"
 				error-message message="errorMessage('name', requestUpdate.txtRequestName)" />
 		</div>
-		
+
 		<div class="form-group" ng-class="{ 'has-error': hasError('email', requestUpdate.txtRequestEmail) }">
 			<label class="control-label" for="txtRequestEmail">Email Address</label>
 			<input type="text" required="required" id="txtRequestEmail" name="txtRequestEmail" class="form-control" ng-model="message.email"
 				error-message message="errorMessage('email', requestUpdate.txtRequestEmail)" />
 		</div>
-		
+
 		<div class="form-group" ng-class="{ 'has-error': hasError('phone', requestUpdate.txtRequestPhone) }">
 			<label class="control-label" for="txtRequestPhone">Phone Number</label>
 			<input type="text" required="required" id="txtRequestPhone" name="txtRequestPhone" class="form-control" ng-model="message.phone"
 				error-message message="errorMessage('phone', requestUpdate.txtRequestPhone)" />
 		</div>
-		
+
 		<div class="form-group" ng-class="{ 'has-error': hasError('details', requestUpdate.txtRequestDetails) }">
 			<label class="control-label" for="txtRequestDetails">Details</label>
 			<textarea required="required" id="txtRequestDetails" name="txtRequestDetails" class="form-control" rows="7" ng-model="message.details"

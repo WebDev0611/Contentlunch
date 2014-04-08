@@ -105,6 +105,7 @@
 
 			return account;
 		},
-		resendCreationEmail: $resource('/api/account/:id/resend_creation_email', { id: '@id' })
+		resendCreationEmail: $resource('/api/account/:id/resend_creation_email', { id: '@id' }),
+		requestUpdate: $resource('/api/account/request_update')
 	};
 });

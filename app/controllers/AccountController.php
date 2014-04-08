@@ -91,16 +91,22 @@ class AccountController extends BaseController {
 		return array('success' => 'OK');
 	}
 
-	public function request_update_email($id)
+	public function request_update_email()
 	{
-		$account = Account::find($id);
 		$data = array(
-			'account' => $account,
+			'company_name' => Input::get('company'),
+			'name' => Input::get('name'),
+			'email' => Input::get('email'),
+			'phone' => Input::get('phone'),
+			'details' => Input::get('details'),
 			'send_date' => date('M/d/Y'),
 			'send_time' => date('h:i:s'),
 		);
-		Mail::send('emails.account.request_update', $data, function ($message) use ($account) {
-			$message->to('jkuchynka@surgeforward.com')->subject('Account Update Request - '. $account->name);
+		Mail::send('emails.account.request_update', $data, function ($message) {
+			$message
+				->to('jkuchynka@surgeforward.com')
+				->from(Input::get('email'))
+				->subject('Account Update Request - '. Input::get('company'));
 		});
 	}
 

@@ -9,6 +9,8 @@
 Route::group(array('prefix' => 'api'), function()
 {
 
+	Route::post('account/request_update', 'AccountController@request_update_email');
+
 	Route::resource('account', 'AccountController', array(
 		'only' => array('index', 'store', 'show', 'update', 'destroy')
 	));
@@ -22,7 +24,7 @@ Route::group(array('prefix' => 'api'), function()
 
 	Route::post('account/{id}/resend_creation_email', 'AccountController@resend_creation_email');
 
-	Route::post('account/{id}/request_update', 'AccountController@request_update_email');
+
 
 	Route::group(array('prefix' => 'auth'), function() {
 		// Attempt to login a user
