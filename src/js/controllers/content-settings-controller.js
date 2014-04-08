@@ -5,6 +5,7 @@
 		self.init = function() {
 			$scope.contentSettings = new launch.ContentSettings();
 			$scope.personaProperties = (!!$scope.contentSettings) ? $scope.contentSettings.getPersonaProperties() : [];
+			$scope.contentTypes = launch.config.CONTENT_TYPES;
 		};
 
 		$scope.contentSettings = null;
