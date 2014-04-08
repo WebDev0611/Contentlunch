@@ -60,6 +60,23 @@
 
 			account.subscription = self.subscription.fromDto(dto.account_subscription);
 
+			if (!!dto.modules) {
+				account.subscription.components = $.map(dto.modules, function (m) {
+					var module = self.module.fromDto(m);
+
+					// TODO: REMOVE THIS STUFF ONCE THE "active" FLAG COMES FROM THE API!!
+					if (module.name === 'collaborate') {
+						module.active = account.subscription.subscriptionLevel >= 2;
+					} else if (module.name === 'consult') {
+						module.active = account.subscription.subscriptionLevel >= 3;
+					} else {
+						module.active = true;
+					}
+
+					return module;
+				});
+			}
+
 			account.autoRenew = parseInt(dto.auto_renew) === 1 ? true : false;
 			account.expirationDate = new Date(dto.expiration_date);
 			account.paymentType = dto.payment_type;
@@ -67,24 +84,23 @@
 			account.hasToken = dto.hasToken;
 			account.tokenizedType = dto.payment_type;
 
-			account.creditCard = new launch.CreditCard();
-			//account.creditCard.cardNumber = null;
-			//account.creditCard.nameOnCard = null;
-			//account.creditCard.cardType = null;
-			//account.creditCard.cvc = null;
-			//account.creditCard.expirationDateMonth = null;
-			//account.creditCard.expirationDateYear = null;
-			//account.creditCard.address1 = null;
-			//account.creditCard.address2 = null;
-			//account.creditCard.city = null;
-			//account.creditCard.country = null;
-			//account.creditCard.state = null;
-			//account.creditCard.postalCode = null;
-
-			account.bankAccount = new launch.BankAccount();
-			//account.bankAccount.bankName = null;
-			//account.bankAccount.routingNumber = null;
-			//account.bankAccount.accountNumber = null;
+			if (!!dto.payment_info) {
+				if (!launch.utils.isBlank(dto.payment_info.card_number)) {
+					account.creditCard = new launch.CreditCard();
+					account.creditCard.cardNumber = dto.payment_info.card_number;
+					account.creditCard.nameOnCard = dto.payment_info.name_on_card;
+					account.creditCard.cardType = dto.payment_info.card_type;
+					account.creditCard.cvc = dto.payment_info.cvc;
+					account.creditCard.expirationDateMonth = dto.payment_info.expiration_date_month;
+					account.creditCard.expirationDateYear = dto.payment_info.expiration_date_year;
+					account.creditCard.postalCode = dto.payment_info.postal_code;
+				} else if (!launch.utils.isBlank(dto.payment_info.bank_name)) {
+					account.bankAccount = new launch.BankAccount();
+					account.bankAccount.bankName = dto.payment_info.bank_name;
+					account.bankAccount.routingNumber = dto.payment_info.routing_number;
+					account.bankAccount.accountNumber = dto.payment_info.account_number;
+				}
+			}
 
 			if (account.country === 'US') {
 				account.country = 'USA';
@@ -114,6 +130,24 @@
 				created_at: account.created,
 				updated_at: account.updated
 			};
+
+			if (!!account.creditCard && !launch.utils.isValidPattern(account.creditCard.cardNumber, /\*/)) {
+				dto.payment_info = {
+					card_number: '************' + account.creditCard.cardNumber.substr(12),
+					name_on_card: account.creditCard.nameOnCard,
+					card_type: account.creditCard.cardType,
+					cvc: account.creditCard.cvc,
+					expiration_date_month: account.creditCard.expirationDateMonth,
+					expiration_date_year: account.creditCard.expirationDateYear,
+					postal_code: account.creditCard.postalCode,
+				};
+			} else if (!!account.bankAccount && !launch.utils.isValidPattern(account.bankAccount.accountNumber, /\*/)) {
+				dto.payment_info = {
+					bank_name: account.bankAccount.bankName,
+					routing_number: account.bankAccount.routingNumber,
+					account_number: '************' + account.bankAccount.accountNumber.substr(12)
+				};
+			}
 
 			if (account.token) {
 				dto.token = account.token;
@@ -410,16 +444,6 @@
 				role.created = dto.created_at;
 				role.updated = dto.updated_at;
 
-				// TODO: SET THE PRIVILEGES CORRECTLY FROM THE API WHEN IT'S READY!!
-				role.privileges = [
-					{ module: 'Consult', view: true, edit: true, execute: true },
-					{ module: 'Create', view: true, edit: true, execute: true },
-					{ module: 'Collaborate', view: true, edit: true, execute: true },
-					{ module: 'Calendar', view: true, edit: true, execute: true },
-					{ module: 'Launch', view: true, edit: true, execute: true },
-					{ module: 'Measure', view: true, edit: true, execute: true }
-				];
-
 				// TODO: SET THE MODULES CORRECTLY FROM THE API WHEN IT'S READY!!
 				role.modules = [
 					{
@@ -589,6 +613,8 @@
 			subscription.updated = new Date(dto.updated_at);
 
 			// TODO: SET THE COMPONENTS CORRECTLY FROM THE API WHEN IT'S READY!!
+			//			THIS IS ALREADY DONE WHEN GETTING MODULES FOR AN ACCOUNT (EXCEPT FOR THE "active" FLAG).
+			//			STILL NEEDS TO BE DONE WHEN GETTING COMPONENTS FOR A SUBSCRIPTION AND FOR A USER ROLE.
 			subscription.components = [
 				{ name: 'create', title: 'CREATE', active: true },
 				{ name: 'calendar', title: 'CALENDAR', active: true },
@@ -630,6 +656,51 @@
 			subscription.components = cachedSubscription.components;
 
 			return subscription;
+		}
+	};
+
+	self.module = {
+		fromDto: function(dto) {
+			if (!dto) {
+				return null;
+			}
+
+			var module = new launch.Module();
+
+			module.id = parseInt(dto.id);
+			self.active = parseInt(dto.active) === 1;
+			module.name = dto.name;
+			module.title = dto.title;
+			module.created = new Date(dto.created_at);
+			module.updated = new Date(dto.updated_at);
+
+			return module;
+		},
+		toDto: function(module) {
+			return {
+				id: parseInt(module.id),
+				active: (module.active === true) ? 1 : 0,
+				name: module.name,
+				title: module.title,
+				created: module.created_at,
+				updated: module.updated_at
+			};
+		},
+		fromCache: function(cachedModule) {
+			if (!cachedModule) {
+				return null;
+			}
+
+			var module = new launch.Module();
+
+			module.id = parseInt(cachedModule.id);
+			self.active = cachedModule.active;
+			module.name = cachedModule.name;
+			module.title = cachedModule.title;
+			module.created = new Date(cachedModule.created_at);
+			module.updated = new Date(cachedModule.updated_at);
+
+			return module;
 		}
 	};
 

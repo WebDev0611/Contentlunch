@@ -72,14 +72,41 @@
 			case 'country':
 				return launch.utils.isBlank(this.country) ? 'Country is required.' : null;
 			case 'active':
-				if (typeof this.active !== 'boolean') {
-					this.active = (this.active === 1 || this.active === '1' || this.active.toLowerCase() === 'true');
-				}
+				if (typeof this.active !== 'boolean') { this.active = (this.active === 1 || this.active === '1' || this.active.toLowerCase() === 'true'); }
+
 				return (this.active === true || this.active === false) ? null : 'Active Status is required.';
 			case 'subscription':
-				if (!this.subscription) {
-					return 'Subscription is required.';
+				return (!this.subscription) ? 'Subscription is required.' : null;
+			case 'paymenttype':
+				if (launch.utils.isBlank(this.paymentType)) {
+					return 'Payment Type is required.';
 				}
+
+				if (this.paymentType === 'CC') {
+					if (!this.creditCard) { return 'Credit Card or Bank Account information is required.'; }
+
+					if (!this.id || parseInt(this.id <= 0)) {
+						if (launch.utils.isValidPattern(this.creditCard.cardNumber, /\*/)) {
+							return 'Please enter a valid Credit Card number.';
+						}
+					}
+
+					return launch.utils.validateAll(this.creditCard);
+				}
+
+				if (this.paymentType === 'ACH') {
+					if (!this.bankAccount) { return 'Credit Card or Bank Account information is required.'; }
+
+					if (!this.id || parseInt(this.id <= 0)) {
+						if (launch.utils.isValidPattern(this.bankAccount.accountNumber, /\*/)) {
+							return 'Please enter a valid Bank Account number.';
+						}
+					}
+
+					return launch.utils.validateAll(this.bankAccount);
+				}
+
+				return 'Unknown Payment Type. Payment type must be Credit Card or ACH.';
 			default:
 				return null;
 		}
