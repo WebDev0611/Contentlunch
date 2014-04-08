@@ -4,13 +4,19 @@ class RoleSeeder extends Seeder {
 
 	public function run()
 	{
-		// Create the roles we know we will need
-		$roles = array('Admin', 'Site Admin', 'Content Creator', 'Manager', 'Director', 'C-Level', 'Editor', 'Client');
-		foreach ($roles as $roleName) {
-			$role = new Role;
-			$role->name = $roleName;
-			$role->save();
-		} 
+    // Create 2 builtin roles: Global Admin, Site Admin
+    $role = new Role;
+    $role->display_name = 'Global Admin';
+    $role->name = 'global_admin';
+    $role->global = 1;
+    $role->save();
+
+    $role = new Role;
+    $role->display_name = 'Site Admin';
+    $role->name = 'site_admin';
+    $role->global = 1;
+    $role->save();
+    
 	}
 
 }

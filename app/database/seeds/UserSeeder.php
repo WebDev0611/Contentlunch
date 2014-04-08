@@ -6,14 +6,12 @@ class UserSeeder extends Seeder {
   {
     // Create users
     $users = array(
-      'admin' => array('Admin'),
-      'siteadmin' => array('Site Admin'),
-      'contentcreator' => array('Content Creator'),
-      'manager' => array('Manager'),
-      'director' => array('Director'),
-      'clevel' => array('C-Level'),
-      'editor' => array('Editor'),
-      'client' => array('Client'),
+      'admin' => array('global_admin'),
+      'siteadmin' => array('site_admin'),
+      'contentcreator' => array('creator'),
+      'manager' => array('manager'),
+      'editor' => array('editor'),
+      'client' => array('client'),
     );
     $now = date('Y-m-d H:i:s');
     $account = Account::where('title', '=', 'Surge')->first();
@@ -31,7 +29,7 @@ class UserSeeder extends Seeder {
       $role = Role::find_by_name($roles[0]);
       $user->attachRole($role);
       // Add user to surge test account, unless global admin
-      if ($roles[0] != 'Admin') {
+      if ($roles[0] != 'global_admin') {
         $user->accounts()->attach($account);
       }
     }

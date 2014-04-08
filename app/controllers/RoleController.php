@@ -42,6 +42,10 @@ class RoleController extends BaseController {
 	public function destroy($id)
 	{
 		$role = Role::find($id);
+		// Don't delete global roles
+		if ($role->global) {
+			return $this->responseError("Can't delete global role.", 401);
+		}
 		if ($role->delete()) {
 			return array('success' => 'OK');
 		}

@@ -78,4 +78,13 @@ class RoleIntegrationTest extends TestCase {
 		$this->assertEmpty($id);
 	}
 
+	public function testDeleteGlobalRoleReturnError()
+	{
+		$role = Woodling::saved('Role', array(
+			'global' => 1
+		));
+		$response = $this->call('DELETE', '/api/role/'. $role->id);
+		$data = $this->assertResponse($response, true, 401);
+	}
+
 }

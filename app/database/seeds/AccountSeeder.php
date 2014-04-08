@@ -31,17 +31,46 @@ class AccountSeeder extends Seeder {
       $account->modules()->save($module);
     }
 
-    $subscription = Subscription::first();
-
+    // Save account's subscription
+    $subscription = Subscription::where('subscription_level', 3)->first();
     $sub = new AccountSubscription;
     $sub->account_id = $account->id;
-    $sub->subscription_level = 1;
+    $sub->subscription_level = 3;
     $sub->licenses = $subscription->licenses;
     $sub->monthly_price = $subscription->monthly_price;
     $sub->annual_discount = $subscription->annual_discount;
     $sub->training = $subscription->training;
     $sub->features = $subscription->features;
     $sub->save();
+
+    // Create some account specific roles
+    $role = new Role;
+    $role->name = 'manager';
+    $role->display_name = 'Manager / Director';
+    $role->global = false;
+    $role->account_id = $account->id;
+    $role->save();
+
+    $role = new Role;
+    $role->name = 'creator';
+    $role->display_name = 'Creator / Author';
+    $role->global = false;
+    $role->account_id = $account->id;
+    $role->save();
+
+    $role = new Role;
+    $role->name = 'client';
+    $role->display_name = 'Client';
+    $role->global = false;
+    $role->account_id = $account->id;
+    $role->save();
+
+    $role = new Role;
+    $role->name = 'editor';
+    $role->display_name = 'Editor';
+    $role->global = false;
+    $role->account_id = $account->id;
+    $role->save();
 
 	}
 
