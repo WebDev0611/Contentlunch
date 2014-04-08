@@ -3,6 +3,9 @@
 
 	self.id = parseInt(id);
 	self.name = name;
+	self.displayName = null;
+	self.isGlobalAdmin = false;
+	self.accountId = 0;
 	self.active = true;
 	self.created = null;
 	self.updated = null;
@@ -12,17 +15,12 @@
 
 	// TODO: CHANGE THIS FUNCTION TO BETTER IDENTIFY A BUILT-IN ROLE!!
 	self.isBuiltIn = function() {
-		if (self.name === 'Admin' || self.name === 'Site Admin' || self.name === 'Content Creator' || self.name === 'Manager' ||
-			self.name === 'Director' || self.name === 'C-Level' || self.name === 'Editor' || self.name === 'Client') {
+		if (self.name === 'manager' || self.name === 'creator' || self.name === 'client' ||
+			self.name === 'editor' || self.name === 'global_admin' || self.name === 'site_admin') {
 			return true;
 		}
 
 		return false;
-	};
-
-	// TODO: CHANGE THIS FUNCTION TO BETTER IDENTIFY THE GLOBAL ADMIN ROLE!!
-	self.isGlobalAdmin = function() {
-		return (!launch.utils.isBlank(self.name) && self.name.toUpperCase() === 'ADMIN');
 	};
 
 	self.matchSearchTerm = function (term) {
@@ -33,6 +31,8 @@
 		switch (property.toLowerCase()) {
 			case 'name':
 				return launch.utils.isBlank(this.name) ? 'User Role Name is required.' : null;
+			case 'displayname':
+				return launch.utils.isBlank(this.displayName) ? 'User Role Name is required.' : null;
 			case 'active':
 				if (typeof this.active !== 'boolean') {
 					this.active = (this.active === 1 || this.active === '1' || this.active.toLowerCase() === 'true');

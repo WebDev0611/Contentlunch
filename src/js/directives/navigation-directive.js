@@ -16,7 +16,7 @@
 			scope.showNav = true;
 
 			var imageUrl = ($.isFunction(scope.user.imageUrl)) ? scope.user.imageUrl() : null;
-			var isGlobalAdmin = (!!scope.user.role && $.isFunction(scope.user.role.isGlobalAdmin)) ? scope.user.role.isGlobalAdmin() : false;
+			var isGlobalAdmin = (scope.user.role.isGlobalAdmin === true) ? true : false;
 			var mainNavItems = [];
 			var adminMenuItems = [];
 			var userMenuItems = [];

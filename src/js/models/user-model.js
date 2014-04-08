@@ -18,9 +18,9 @@
 	self.title = null;
 	self.active = true;
 	self.image = null;
-	self.role = null;
 	self.account = null;
 	self.accounts = [];
+	self.role = null;
 	self.roles = [];
 
 	self.formatName = function() {
@@ -82,14 +82,6 @@
 			default:
 				return null;
 		}
-	};
-
-	self.isGlobalAdmin = function() {
-		if (!!self.role && self.role) {
-			return self.role.isGlobalAdmin();
-		}
-
-		return false;
 	};
 
 	return self;

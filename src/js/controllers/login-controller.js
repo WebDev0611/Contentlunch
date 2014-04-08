@@ -43,10 +43,10 @@ launch.module.controller('LoginController', [
 			$scope.isSaving = true;
 
 			authService.login($scope.user.email, $scope.user.password, $scope.user.remember, {
-				success: function (u) {
+				success: function(u) {
 					$scope.isSaving = false;
 
-					if (u.role.isGlobalAdmin()) {
+					if (u.role.isGlobalAdmin === true) {
 						$location.path('/accounts');
 					} else {
 						$location.path('/');

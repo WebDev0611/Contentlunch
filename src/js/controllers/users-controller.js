@@ -9,7 +9,7 @@ launch.module.controller('UsersController', [
 			self.loadUsers(true);
 		};
 
-		self.loadUsers = function (reset, cb) {
+		self.loadUsers = function(reset, cb) {
 			var callback = {
 				success: function(users) {
 					$scope.isLoading = false;
@@ -30,7 +30,7 @@ launch.module.controller('UsersController', [
 
 			$scope.isLoading = true;
 
-			if (self.loggedInUser.isGlobalAdmin()) {
+			if (self.loggedInUser.role.isGlobalAdmin === true) {
 				$scope.users = userService.getByRole(self.loggedInUser.roles, callback);
 			} else {
 				$scope.users = userService.getForAccount(self.loggedInUser.account.id, callback);
