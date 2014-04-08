@@ -131,7 +131,7 @@
 				updated_at: account.updated
 			};
 
-			if (!!account.creditCard && !launch.utils.isValidPattern(account.creditCard.cardNumber, /\*/)) {
+			if (!!account.creditCard && !launch.utils.isBlank(account.creditCard.cardNumber) && !launch.utils.isValidPattern(account.creditCard.cardNumber, /\*/)) {
 				dto.payment_info = {
 					card_number: '************' + account.creditCard.cardNumber.substr(12),
 					name_on_card: account.creditCard.nameOnCard,
@@ -141,7 +141,7 @@
 					expiration_date_year: account.creditCard.expirationDateYear,
 					postal_code: account.creditCard.postalCode,
 				};
-			} else if (!!account.bankAccount && !launch.utils.isValidPattern(account.bankAccount.accountNumber, /\*/)) {
+			} else if (!!account.bankAccount && !launch.utils.isBlank(account.bankAccount.accountNumber) && !launch.utils.isValidPattern(account.bankAccount.accountNumber, /\*/)) {
 				dto.payment_info = {
 					bank_name: account.bankAccount.bankName,
 					routing_number: account.bankAccount.routingNumber,
