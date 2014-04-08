@@ -29,6 +29,8 @@
     "jquery.hotkeys": "*",
     "textAngular": "~1.2.0",
     "font-awesome": "~4.0.3",
-    "tinymce": "~4.0.21"
+    "tinymce": "~4.0.21",
+    "dragtable": "git://github.com/akottr/dragtable#~2.0.10",
+    "jquery-ui": "~1.10.4"
   }
 }
