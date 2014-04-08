@@ -60,8 +60,8 @@
 
 			account.subscription = self.subscription.fromDto(dto.account_subscription);
 
-			if (!!dto.modules) {
-				account.subscription.components = $.map(dto.modules, function (m) {
+			if ($.isArray(dto.modules) && dto.modules.length > 0) {
+				account.subscription.components = $.map(dto.modules, function(m) {
 					var module = self.module.fromDto(m);
 
 					// TODO: REMOVE THIS STUFF ONCE THE "active" FLAG COMES FROM THE API!!
