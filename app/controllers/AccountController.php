@@ -91,6 +91,19 @@ class AccountController extends BaseController {
 		return array('success' => 'OK');
 	}
 
+	public function request_update_email($id)
+	{
+		$account = Account::find($id);
+		$data = array(
+			'account' => $account,
+			'send_date' => date('M/d/Y'),
+			'send_time' => date('h:i:s'),
+		);
+		Mail::send('emails.account.request_update', $data, function ($message) use ($account) {
+			$message->to('jkuchynka@surgeforward.com')->subject('Account Update Request - '. $account->name);
+		});
+	}
+
 	protected function createSiteAdminUser($account)
 	{
 		// When creating a new account, an email must be attached
