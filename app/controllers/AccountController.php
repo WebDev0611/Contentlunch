@@ -124,7 +124,7 @@ class AccountController extends BaseController {
 		// Attach user to account
 		$user->accounts()->attach($account);
 		// Attach site admin role
-  	$role = Role::find_by_name('Site Admin');
+  	$role = Role::find_by_name('site_admin');
   	$user->attachRole($role);
   	return $user;
 	}
