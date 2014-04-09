@@ -457,6 +457,15 @@ span[class*=" icon-"].dark {
   background-color: #000000;
   color: #ffffff;
 }
+.right-pane .control-group .btn.btn-default.multiselect {
+  background-color: #ffffff !important;
+  border-color: #cccccc !important;
+  color: #333333 !important;
+}
+.right-pane .control-group .btn.btn-default.multiselect:hover {
+  background-color: #ebebeb !important;
+  border-color: #adadad !important;
+}
 .view {
   height: 100%;
   margin: 0;
@@ -862,6 +871,14 @@ span[class*=" icon-"].dark {
 }
 .content-settings-editor table.persona-table tr td {
   font-size: 8pt;
+}
+.content-settings-editor table.persona-table tr td.edit-row {
+  font-size: 16pt;
+  min-width: 75px;
+}
+.content-settings-editor table.persona-table tr td.edit-row .fa {
+  cursor: pointer;
+  margin: 0 4px;
 }
 .content-settings-editor table.persona-table tr.dark td {
   background-color: #E6E4E0;

@@ -47,7 +47,8 @@ gulp.task('bootstrap-components-css', function () {
 			'./bower_components/pnotify/jquery.pnotify.default.css',
 			'./bower_components/ladda/dist/ladda.min.css',
 			'./bower_components/ladda/dist/spin.min.css',
-			'./bower_components/font-awesome/css/font-awesome.css'
+			'./bower_components/font-awesome/css/font-awesome.css',
+			'./bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css'
 	])
 		.pipe(concat('bootstrap-components.css'))
 		.pipe(gulp.dest('public/assets/css'))
@@ -139,8 +140,8 @@ gulp.task('scripts', function() {
 			'./bower_components/pnotify/jquery.pnotify.js',
 			'./bower_components/ladda/js/spin.js',
 			'./bower_components/ladda/js/ladda.js',
-			'./bower_components/ng-file-upload/angular-file-upload.js'
-			//'./bower_components/textAngular/textAngular.js'
+			'./bower_components/ng-file-upload/angular-file-upload.js',
+			'./bower_components/bootstrap-multiselect/js/bootstrap-multiselect.js'
 		])
 		.pipe(concat('build.js'))
 		.pipe(gulp.dest('./public/assets/js'));

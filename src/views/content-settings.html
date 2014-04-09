@@ -7,26 +7,13 @@
 		
 		<form name="editContentSettings" class="content-settings-editor" novalidate="novalidate">
 			<div class="control-group">
-				<div class="form-group" ng-class="{ 'has-error': hasError(contentSettings, 'useCms', editContentSettings.selUseCMS, forceDirty) }">
-					<label class="control-label" for="selUseCMS">Use CMS</label>
-					<select type="text" id="selUseCMS" name="selUseCMS" class="form-control" ng-model="contentSettings.useCms"
-							error-message message="errorMessage(contentSettings, 'useCms', editContentSettings.selUseCMS)">
-						<option value="Company News">Company News</option>
-						<option value="How Tos">How Tos</option>
-						<option value="Interview">Interview</option>
-						<option value="Lists">Lists</option>
-						<option value="Product Review">Product Review</option>
-						<option value="Tools">Tools</option>
-						<option value="Uncategorized">Uncategorized</option>
-					</select>
-				</div>
-			</div>
-			
-			<div class="control-group">
 				<div class="form-group checkbox">
 					<input type="checkbox" id="chkIncludeAuthorName" name="chkIncludeAuthorName" ng-model="contentSettings.includeAuthorName" />
 					<label for="chkIncludeAuthorName">Include Author's Name into Content</label>
 				</div>
+
+				<div class="form-group" multi-select-dropdown control-label="'Apply To:'" multiple="true" control-name="'selAuthorNameApplyTo'"
+					list-items="contentTypes" model="contentSettings.authorNameContentTypes" disabled="!editContentSettings.chkIncludeAuthorName.$viewValue"></div>
 			</div>
 
 			<div class="control-group">
@@ -34,6 +21,9 @@
 					<input type="checkbox" id="chkAllowPublishDateEdit" name="chkAllowPublishDateEdit" ng-model="contentSettings.allowPublishDateEdit" />
 					<label for="chkAllowPublishDateEdit">Allow Publish Date to be Edited</label>
 				</div>
+				
+				<div class="form-group" multi-select-dropdown control-label="'Apply To:'" multiple="true" control-name="'selPublishDateApplyTo'"
+					list-items="contentTypes" model="contentSettings.publishDateContentTypes" disabled="!editContentSettings.chkAllowPublishDateEdit.$viewValue"></div>
 			</div>
 
 			<div class="control-group">
@@ -41,6 +31,9 @@
 					<input type="checkbox" id="chkUseKeywordTags" name="chkUseKeywordTags" ng-model="contentSettings.useKeywordTags" />
 					<label for="chkUseKeywordTags">Use Keyword Tags</label>
 				</div>
+				
+				<div class="form-group" multi-select-dropdown control-label="'Apply To:'" multiple="true" control-name="'selKeywordTagsApplyTo'"
+					list-items="contentTypes" model="contentSettings.keywordTagsContentTypes" disabled="!editContentSettings.chkUseKeywordTags.$viewValue"></div>
 			</div>
 			
 			<h2>Company Publishing Guidelines</h2>
@@ -52,7 +45,7 @@
 			<div>
 				These Personas and stages will be used in content and can be changed as needed.
 				<div class="control-group btn-group btn-new-persona">
-					<button type="button" class="btn btn-default" ng-click="">New Persona</button>
+					<button type="button" class="btn btn-default" ng-click="addNewPersona()">New Persona</button>
 				</div>
 			</div>
 			
@@ -60,7 +53,7 @@
 			<table class="persona-table">
 				<thead>
 					<tr>
-						<th ng-repeat="property in personaProperties">{{ property }}</th>
+						<th ng-repeat="property in contentSettings.personaProperties" contenteditable on-change="editPersonaProperty" ng-model="contentSettings.personaProperties[$index]"></th>
 						<th>
 							<a href="#" onclick="$('#txtNewPersonaProperty').show()">New+</a>
 							<input type="text" id="txtNewPersonaProperty" name="txtNewPersonaProperty" ng-keypress="addNewPersonaProperty($event)" style="display: none;" />
@@ -69,11 +62,26 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="persona in contentSettings.personas" ng-class-odd="'dark'">
-						<td ng-repeat="property in personaProperties">{{ persona[property] }}</td>
-						<td>&nbsp;</td>
+						<td ng-if="persona.editing === false" ng-repeat="property in contentSettings.personaProperties">{{ persona.properties[$index].value }}</td>
+						<td ng-if="persona.editing === true" ng-repeat="property in contentSettings.personaProperties">
+							<input type="text" ng-model="persona.properties[$index].value" />
+						</td>
+						<td class="edit-row">
+							<span class="fa fa-edit" ng-show="persona.editing === false" ng-click="persona.editing = true"></span>
+							<span class="fa fa-save" ng-show="persona.editing === true" ng-click="saveContentSettings(); persona.editing = false"></span>
+							<span class="fa fa-trash-o" ng-show="persona.editing === false" ng-click="contentSettings.deletePersona($index)"></span>
+							<span class="fa fa-undo" ng-show="persona.editing === true" ng-click="refreshContentSettings()"></span>
+						</td>
 					</tr>
 				</tbody>
 			</table>
+			
+			&nbsp;<br/>
+			&nbsp;<br/>
+			&nbsp;<br/>
+			&nbsp;<br/>
+			&nbsp;<br/>
+			&nbsp;<br/>
 
 			<!--<div class="control-group btn-toolbar">
 				<button type="button" class="btn btn-default ladda-button" ng-click="" data-style="zoom-in" ladda-button="isSaving">
