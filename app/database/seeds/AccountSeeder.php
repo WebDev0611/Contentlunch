@@ -43,33 +43,29 @@ class AccountSeeder extends Seeder {
     $sub->features = $subscription->features;
     $sub->save();
 
-    // Create some account specific roles
-    $role = new Role;
-    $role->name = 'manager';
-    $role->display_name = 'Manager / Director';
-    $role->global = false;
-    $role->account_id = $account->id;
-    $role->save();
+    // Attach builtin roles
+    $roles = Role::where('builtin', 1)->where('account_id', NULL)->get();
+    foreach ($roles as $bRole) {
+        $role = new AccountRole;
+        $role->account_id = $account->id;
+        $role->name = $bRole->name;
+        $role->display_name = $bRole->display_name;
+        $role->status = 1;
+        $role->global = 0;
+        $role->builtin = 1;
+        $role->deletable = 0;
+        $role->save();
+    }
 
-    $role = new Role;
-    $role->name = 'creator';
-    $role->display_name = 'Creator / Author';
-    $role->global = false;
+    // Custom role
+    $role = new AccountRole;
     $role->account_id = $account->id;
-    $role->save();
-
-    $role = new Role;
-    $role->name = 'client';
-    $role->display_name = 'Client';
-    $role->global = false;
-    $role->account_id = $account->id;
-    $role->save();
-
-    $role = new Role;
-    $role->name = 'editor';
-    $role->display_name = 'Editor';
-    $role->global = false;
-    $role->account_id = $account->id;
+    $role->name = 'custom';
+    $role->display_name = 'Custom';
+    $role->status = 1;
+    $role->global = 0;
+    $role->builtin = 0;
+    $role->deletable = 1;
     $role->save();
 
 	}

@@ -29,7 +29,7 @@ class AccountController extends BaseController {
 		if ($account->save())
 		{
 			// Attach builtin roles, they can't be deleted
-			$roles = Role::where('builtin', 1)->get();
+			$roles = Role::where('builtin', 1)->where('account_id', NULL)->get();
 			foreach ($roles as $bRole) {
 				$role = new AccountRole;
 				$role->account_id = $account->id;

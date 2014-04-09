@@ -25,8 +25,8 @@ class DatabaseSeeder extends Seeder {
 
     $this->call('ModuleSeeder');
     $this->call('SubscriptionSeeder');
-    $this->call('AccountSeeder');
 		$this->call('RoleSeeder');
+    $this->call('AccountSeeder');
 
 		// User seeder depends on other seeds (roles, accounts), so should run last
 		$this->call('UserSeeder');
