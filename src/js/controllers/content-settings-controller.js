@@ -22,11 +22,29 @@
 			control.hide();
 		};
 
-		$scope.editPersonaProperty = function(value) {
-			// TODO: SAVE TO API AFTER A CHANGE TO THE PERSONA PROPERTIES!
+		$scope.addNewPersona = function () {
+			var properties = [];
+
+			for (var i = 0; i < $scope.contentSettings.personaProperties.length; i++) {
+				properties.push({ index: i, value: null });
+			}
+
+			$scope.contentSettings.personas.push({
+				editing: true,
+				properties: properties
+			});
 		};
 
-		$scope.refreshContentSettings = function() {
+		$scope.saveContentSettings = function() {
+			// TODO: SAVE TO API AFTER A CHANGE TO THE CONTENT SETTINGS!!
+		};
+
+		$scope.editPersonaProperty = function(value) {
+			// TODO: SAVE TO API AFTER A CHANGE TO THE PERSONA PROPERTIES!!
+		};
+
+		$scope.refreshContentSettings = function () {
+			// TODO: LOAD THIS FROM THE API ONCE IT'S IN PLACE!!
 			$scope.contentSettings = new launch.ContentSettings();
 		};
 

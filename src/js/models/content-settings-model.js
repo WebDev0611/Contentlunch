@@ -72,17 +72,5 @@
 		self.personas.splice(index, 1);
 	};
 
-	self.addPersona = function(properties) {
-		if (!$.isArray(properties)) {
-			return;
-		}
-
-		var persona = { properties: [], editing: true };
-
-		for (var i = 0; i < properties.length; i++) {
-			persona.properties.push({ index: i, value: properties[i] });
-		}
-	};
-
 	return self;
 };
