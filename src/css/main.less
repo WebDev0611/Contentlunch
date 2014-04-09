@@ -348,6 +348,15 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
+.content-editable {
+	padding: 4px;
+
+	&:empty:not(:focus):before {
+		opacity: 0.4;
+		content: attr(data-placeholder);
+	}
+}
+
 #login-form, #change-password-form {
 	background-color: @homeColorDark;
 	border-radius: 40px;
@@ -913,6 +922,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 
 	table.persona-table {
+		margin-bottom: 50px;
 		width: 100%;
 
 		tr {
@@ -928,10 +938,11 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 				&.edit-row {
 					font-size: 16pt;
-					min-width: 75px;
+					max-width: 34px;
 
 					.fa {
 						cursor: pointer;
+						float: right;
 						margin: 0 4px;
 					}
 				}

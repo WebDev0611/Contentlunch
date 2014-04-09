@@ -53,35 +53,24 @@
 			<table class="persona-table">
 				<thead>
 					<tr>
-						<th ng-repeat="property in contentSettings.personaProperties" contenteditable on-change="editPersonaProperty" ng-model="contentSettings.personaProperties[$index]"></th>
-						<th>
-							<a href="#" onclick="$('#txtNewPersonaProperty').show()">New+</a>
-							<input type="text" id="txtNewPersonaProperty" name="txtNewPersonaProperty" ng-keypress="addNewPersonaProperty($event)" style="display: none;" />
+						<th ng-repeat="property in contentSettings.personaProperties">
+							<span ng-show="property !== 'Name'" class="content-editable" contenteditable on-change="editPersonaProperty" ng-model="contentSettings.personaProperties[$index]" place-holder="titlePlaceholder"></span>
+							<span ng-show="property === 'Name'">{{ contentSettings.personaProperties[$index] }}</span>
 						</th>
+						<th>&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="persona in contentSettings.personas" ng-class-odd="'dark'">
-						<td ng-if="persona.editing === false" ng-repeat="property in contentSettings.personaProperties">{{ persona.properties[$index].value }}</td>
-						<td ng-if="persona.editing === true" ng-repeat="property in contentSettings.personaProperties">
-							<input type="text" ng-model="persona.properties[$index].value" />
+						<td ng-repeat="property in contentSettings.personaProperties">
+							<span class="content-editable" contenteditable on-change="editPersonaValue" ng-model="persona.properties[$index].value" place-holder="itemPlaceholder"></span>
 						</td>
 						<td class="edit-row">
-							<span class="fa fa-edit" ng-show="persona.editing === false" ng-click="persona.editing = true"></span>
-							<span class="fa fa-save" ng-show="persona.editing === true" ng-click="saveContentSettings(); persona.editing = false"></span>
-							<span class="fa fa-trash-o" ng-show="persona.editing === false" ng-click="contentSettings.deletePersona($index)"></span>
-							<span class="fa fa-undo" ng-show="persona.editing === true" ng-click="refreshContentSettings()"></span>
+							<span class="fa fa-trash-o" ng-click="contentSettings.deletePersona($index)"></span>
 						</td>
 					</tr>
 				</tbody>
 			</table>
-			
-			&nbsp;<br/>
-			&nbsp;<br/>
-			&nbsp;<br/>
-			&nbsp;<br/>
-			&nbsp;<br/>
-			&nbsp;<br/>
 
 			<!--<div class="control-group btn-toolbar">
 				<button type="button" class="btn btn-default ladda-button" ng-click="" data-style="zoom-in" ladda-button="isSaving">
