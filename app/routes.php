@@ -18,7 +18,6 @@ Route::group(array('prefix' => 'api'), function()
 	Route::post('account/{id}/add_user', 'AccountUserController@store');
 	Route::get('account/{id}/users', 'AccountUserController@show');
 
-
 	Route::get('account/{id}/subscription', 'AccountSubscriptionController@get_subscription');
 	Route::post('account/{id}/subscription', 'AccountSubscriptionController@post_subscription');
 

@@ -69,11 +69,21 @@ class AccountController extends BaseController {
 	public function update($id)
 	{
 		$account = Account::find($id);
+		// Check for changing active status. If going from 1 to 0, the account
+		// is getting cancelled, and an email will need to be sent
+		// Wait until after save
+		$send_cancellation_email = false;
+		if ($account->active == 1 && Input::has('active') && Input::get('active') == 0) {
+			$send_cancellation_email = true;
+		}
 		if (Input::has('payment_info')) {
 			$account->payment_info = serialize(Input::get('payment_info'));
 		}
 		if ($account->updateUniques())
 		{
+			if ($send_cancellation_email) {
+				$this->send_cancellation_email($account);
+			}
 			return $this->show($account->id);
 		}
 		return $this->responseError($account->errors()->all(':message'));
@@ -120,6 +130,17 @@ class AccountController extends BaseController {
 				->to('jkuchynka@surgeforward.com')
 				->from(Input::get('email'))
 				->subject('Account Update Request - '. Input::get('company'));
+		});
+	}
+
+	public function send_cancellation_email($account)
+	{
+		// Send cancellation email
+		Mail::send('emails.account.cancellation', array(), function ($message) use ($account) {
+			$message
+				->to($account->email)
+				->from('jkuchynka@surgeforward.com', 'Content Launch Support')
+				->subject('Content Launch Account Cancellation');
 		});
 	}
 
