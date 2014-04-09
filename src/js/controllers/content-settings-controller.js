@@ -8,38 +8,22 @@
 		};
 
 		$scope.contentSettings = null;
-
-		$scope.addNewPersonaProperty = function(e) {
-			if (e.type === 'keypress' && e.charCode !== 13) {
-				return;
-			}
-
-			var control = $(e.target);
-
-			$scope.contentSettings.addPersonaProperty(control.val());
-
-			control.val(null);
-			control.hide();
-		};
+		$scope.titlePlaceholder = 'Enter a Title';
+		$scope.itemPlaceholder = 'Enter Some Text';
 
 		$scope.addNewPersona = function () {
-			var properties = [];
-
-			for (var i = 0; i < $scope.contentSettings.personaProperties.length; i++) {
-				properties.push({ index: i, value: null });
-			}
-
-			$scope.contentSettings.personas.push({
-				editing: true,
-				properties: properties
-			});
+			$scope.contentSettings.addEmptyPerona();
 		};
 
 		$scope.saveContentSettings = function() {
 			// TODO: SAVE TO API AFTER A CHANGE TO THE CONTENT SETTINGS!!
 		};
 
-		$scope.editPersonaProperty = function(value) {
+		$scope.editPersonaProperty = function (value) {
+			// TODO: SAVE TO API AFTER A CHANGE TO THE PERSONA PROPERTIES!!
+		};
+
+		$scope.editPersonaValue = function (value) {
 			// TODO: SAVE TO API AFTER A CHANGE TO THE PERSONA PROPERTIES!!
 		};
 
