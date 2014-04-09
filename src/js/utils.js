@@ -79,7 +79,7 @@
 		if (launch.utils.isValidPattern(p, /[0-9]/)) { criteriaCount++; }
 		if (launch.utils.isValidPattern(p, /\W/)) { criteriaCount++; }
 
-		return (criteriaCount >= 3) ? null : 'Password must contain at least three of the following: lower-case letter, upper-case letter, number, symbol.';
+		return (criteriaCount >= 2) ? null : 'Password must contain at least two of the following: lower-case letter, upper-case letter, number, symbol.';
 	},
 
 	handleAjaxErrorResponse: function(response, notificationService) {
