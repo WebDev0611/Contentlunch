@@ -1,11 +1,13 @@
 ﻿launch.module.directive('richTextEditor', function($compile, $location, $templateCache) {
 	var link = function (scope, element, attrs, ngModel) {
+		var id = '#' + element.attr('id');
+
 		tinymce.init({
-			selector: '#' + element.attr('id'),
+			selector: id,
 			plugins: [
-                'advlist autolink link image lists charmap print preview anchor',
-                'searchreplace wordcount visualblocks visualchars code media',
-                'table contextmenu emoticons textcolor paste'
+				'advlist autolink link image lists charmap print preview anchor',
+				'searchreplace wordcount visualblocks visualchars code media',
+				'table contextmenu emoticons textcolor paste'
 			],
 
 			// FONT TOOLBAR
@@ -19,6 +21,10 @@
 
 			menubar: false,
 			toolbar_items_size: 'small'
+		});
+
+		element.on('$destroy', function() {
+			tinymce.remove(id);
 		});
 	};
 

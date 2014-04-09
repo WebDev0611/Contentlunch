@@ -25,6 +25,10 @@
 			control.hide();
 		};
 
+		$scope.disableControl = function(disabled, control) {
+			
+		};
+
 		self.init();
 	}
 ]);

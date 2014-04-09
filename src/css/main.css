@@ -65,6 +65,14 @@
 .progress {
   background-color: #444444;
 }
+/*.multiselect {
+	background-color: #ffffff !important;
+	color: #333333 !important;
+
+	&:hover {
+		background-color: #ffffff !important;
+	}
+}*/
 html,
 body {
   height: 100%;
@@ -456,6 +464,15 @@ span[class*=" icon-"].dark {
 .right-pane .control-group .btn.btn-default {
   background-color: #000000;
   color: #ffffff;
+}
+.right-pane .control-group .btn.btn-default.multiselect {
+  background-color: #ffffff !important;
+  border-color: #cccccc !important;
+  color: #333333 !important;
+}
+.right-pane .control-group .btn.btn-default.multiselect:hover {
+  background-color: #ebebeb !important;
+  border-color: #adadad !important;
 }
 .view {
   height: 100%;
