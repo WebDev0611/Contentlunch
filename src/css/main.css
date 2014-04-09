@@ -65,14 +65,6 @@
 .progress {
   background-color: #444444;
 }
-/*.multiselect {
-	background-color: #ffffff !important;
-	color: #333333 !important;
-
-	&:hover {
-		background-color: #ffffff !important;
-	}
-}*/
 html,
 body {
   height: 100%;
@@ -879,6 +871,14 @@ span[class*=" icon-"].dark {
 }
 .content-settings-editor table.persona-table tr td {
   font-size: 8pt;
+}
+.content-settings-editor table.persona-table tr td.edit-row {
+  font-size: 16pt;
+  min-width: 75px;
+}
+.content-settings-editor table.persona-table tr td.edit-row .fa {
+  cursor: pointer;
+  margin: 0 4px;
 }
 .content-settings-editor table.persona-table tr.dark td {
   background-color: #E6E4E0;
