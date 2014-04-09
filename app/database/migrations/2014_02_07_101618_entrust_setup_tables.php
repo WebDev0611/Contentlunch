@@ -15,7 +15,7 @@ class EntrustSetupTables extends Migration {
         Schema::create('roles', function($table)
         {
             $table->increments('id')->unsigned();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('display_name');
             $table->boolean('global')->default(false);
             $table->boolean('deletable')->default(false);

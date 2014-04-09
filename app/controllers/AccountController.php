@@ -28,6 +28,19 @@ class AccountController extends BaseController {
 		}
 		if ($account->save())
 		{
+			// Attach builtin roles, they can't be deleted
+			$roles = Role::where('builtin', 1)->get();
+			foreach ($roles as $bRole) {
+				$role = new AccountRole;
+				$role->account_id = $account->id;
+				$role->name = $bRole->name;
+				$role->display_name = $bRole->display_name;
+				$role->status = 1;
+				$role->global = 0;
+				$role->builtin = 1;
+				$role->deletable = 0;
+				$role->save();
+			}
 			$user = $this->createSiteAdminUser($account);
     	// Send account creation email
     	$this->resend_creation_email($account->id);

@@ -25,6 +25,9 @@
           <file>./app/tests/integration/AccountUserIntegrationTest.php</file>
           <file>./app/tests/integration/AccountSubscriptionIntegrationTest.php</file>
         </testsuite>
+        <testsuite name="AccountRole">
+          <file>./app/tests/integration/AccountRoleIntegrationTest.php</file>
+        </testsuite>
         <testsuite name="Role">
           <file>./app/tests/integration/RoleIntegrationTest.php</file>
         </testsuite>

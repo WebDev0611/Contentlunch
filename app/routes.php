@@ -24,7 +24,10 @@ Route::group(array('prefix' => 'api'), function()
 
 	Route::post('account/{id}/resend_creation_email', 'AccountController@resend_creation_email');
 
-
+	Route::get('account/{id}/roles', 'AccountRoleController@index');
+	Route::post('account/{id}/roles', 'AccountRoleController@store');
+	Route::put('account/{id}/roles/{roleid}', 'AccountRoleController@update');
+	Route::delete('account/{id}/roles/{roleid}', 'AccountRoleController@destroy');
 
 	Route::group(array('prefix' => 'auth'), function() {
 		// Attempt to login a user
@@ -41,8 +44,9 @@ Route::group(array('prefix' => 'api'), function()
 		Route::post('/confirm', 'AuthController@do_confirm');
 	});
 
+	// No store or destroy route, these roles should already be seeded and nondeletable
 	Route::resource('role', 'RoleController', array(
-		'only' => array('index', 'store', 'show', 'update', 'destroy')
+		'only' => array('index', 'show', 'update')
 	));
 
 	Route::resource('subscription', 'SubscriptionController', array(
