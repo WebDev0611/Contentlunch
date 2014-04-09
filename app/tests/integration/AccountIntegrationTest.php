@@ -16,9 +16,8 @@ class AccountIntegrationTest extends TestCase {
 
 	public function testCreateNewAccount()
 	{
-		// Hacky... save the site admin role for the new account user
-		Woodling::saved('Role', array(
-			'name' => 'Site Admin'
+		Artisan::call('db:seed', array(
+			'--class' => 'RoleSeeder'
 		));
 		$account = Woodling::retrieve('Account', array(
 			'payment_info' => array(

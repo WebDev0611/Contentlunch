@@ -7,16 +7,6 @@ class RoleController extends BaseController {
 		return Role::all();
 	}
 
-	public function store()
-	{
-		$role = new Role;
-		if ($role->save())
-		{
-			return $role;
-		}
-		return $this->responseError($role->errors()->all(':message'));
-	}
-
 	public function show($id)
 	{
 		$role = Role::find($id);
@@ -29,6 +19,8 @@ class RoleController extends BaseController {
 	public function update($id)
 	{
 		$role = Role::find($id);
+		$role->display_name = Input::get('display_name');
+		$role->status = Input::get('status');
 		if ( ! $role) {
 			return $this->responseError("Role not found.");
 		}
@@ -37,19 +29,6 @@ class RoleController extends BaseController {
 			return $role;
 		}
 		return $this->responseError($role->errors()->all(':message'));
-	}
-
-	public function destroy($id)
-	{
-		$role = Role::find($id);
-		// Don't delete global roles
-		if ($role->global) {
-			return $this->responseError("Can't delete global role.", 401);
-		}
-		if ($role->delete()) {
-			return array('success' => 'OK');
-		}
-		return $this->responseError("Couldn't delete role.");
 	}
 
 }

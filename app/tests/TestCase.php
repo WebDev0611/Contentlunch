@@ -386,12 +386,19 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
   {
     // Fields that should match
     $equals = array(
-      'id', 'name'
+      'id', 'display_name', 'global', 'deletable', 'builtin', 'status'
     );
     foreach ($equals as $field) {
       if (empty($role->$field) || ($expect[$field] != $role->$field)) {
         $this->assertEquals($expect[$field], $role->$field, "Role field $field doesn't match");
       }
+    }
+    // Fields that should be set
+    $set = array(
+      'name'
+    );
+    foreach ($set as $field) {
+      $this->assertNotEmpty($role->$field);
     }
   }
 

@@ -5,21 +5,20 @@ use Zizaco\Entrust\EntrustRole;
 class Role extends EntrustRole
 {
 
-	public $forceEntityHydrationFromInput = true;
+	public $forceEntityHydrationFromInput = false;
 
-	public $autoHydrateEntityFromInput = true;
-
-	protected $fillable = array(
-		'name'
-	);
+	public $autoHydrateEntityFromInput = false;
 
 	public static $rules = array(
-		'name' => 'required|unique:roles'
+		// Check for uniques where account_id IS NULL, so that
+		// this applies only to built in roles
+		'name' => 'required|unique:roles,name,NULL,id,account_id,NULL',
+		'display_name' => 'required|unique:roles,display_name,NULL,id,account_id,NULL'
 	);
 
 	/**
 	 * Get a role model by name
-	 * 
+	 *
 	 * @param  string $name
 	 * @return object
 	 */

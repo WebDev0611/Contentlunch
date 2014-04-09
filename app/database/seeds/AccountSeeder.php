@@ -32,7 +32,7 @@ class AccountSeeder extends Seeder {
     }
 
     // Save account's subscription
-    $subscription = Subscription::where('subscription_level', 3)->first();
+    $subscription = Subscription::where('subscription_level', 1)->first();
     $sub = new AccountSubscription;
     $sub->account_id = $account->id;
     $sub->subscription_level = 3;

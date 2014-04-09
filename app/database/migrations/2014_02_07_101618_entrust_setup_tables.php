@@ -16,6 +16,12 @@ class EntrustSetupTables extends Migration {
         {
             $table->increments('id')->unsigned();
             $table->string('name')->unique();
+            $table->string('display_name');
+            $table->boolean('global')->default(false);
+            $table->boolean('deletable')->default(false);
+            $table->boolean('builtin')->default(false);
+            $table->integer('status')->default(1);
+            $table->integer('account_id')->nullable();
             $table->timestamps();
         });
 
