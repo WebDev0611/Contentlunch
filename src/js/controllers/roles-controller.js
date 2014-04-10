@@ -1,15 +1,18 @@
 launch.module.controller('RolesController', [
-	'$scope', '$filter', 'RoleService', function ($scope, $filter, roleService) {
+	'$scope', '$filter', 'RoleService', 'AuthService', function ($scope, $filter, roleService, authService) {
 		var self = this;
 
 		self.init = function () {
+			var loggedInUser = authService.userInfo();
+
+			self.accountId = loggedInUser.account.id;
 			self.loadRoles(true);
 		};
 
 		self.loadRoles = function (reset, callback) {
 			$scope.isLoading = true;
 
-			$scope.roles = roleService.query({
+			$scope.roles = roleService.query(self.accountId, {
 				success: function (roles) {
 					$scope.isLoading = false;
 					$scope.search.applyFilter(reset);
@@ -163,8 +166,10 @@ launch.module.controller('RolesController', [
 		};
 
 		$scope.enterNewRole = function () {
+			var loggedInUser = authService.userInfo();
+
 			$scope.selectedIndex = -1;
-			$scope.selectedRole = roleService.getNewRole();
+			$scope.selectedRole = roleService.getNewRole(self.accountId);
 		};
 
 		$scope.selectRole = function (role, i, form) {
