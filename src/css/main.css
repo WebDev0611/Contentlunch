@@ -338,6 +338,13 @@ span[class*=" icon-"].dark {
 .round-corner-dialog .modal-dialog .modal-content {
   border-radius: 45px;
 }
+.content-editable {
+  padding: 4px;
+}
+.content-editable:empty:not(:focus):before {
+  opacity: 0.4;
+  content: attr(data-placeholder);
+}
 #login-form,
 #change-password-form {
   background-color: #10699d;
@@ -859,6 +866,7 @@ span[class*=" icon-"].dark {
   min-height: 300px;
 }
 .content-settings-editor table.persona-table {
+  margin-bottom: 50px;
   width: 100%;
 }
 .content-settings-editor table.persona-table tr {
@@ -874,10 +882,11 @@ span[class*=" icon-"].dark {
 }
 .content-settings-editor table.persona-table tr td.edit-row {
   font-size: 16pt;
-  min-width: 75px;
+  max-width: 34px;
 }
 .content-settings-editor table.persona-table tr td.edit-row .fa {
   cursor: pointer;
+  float: right;
   margin: 0 4px;
 }
 .content-settings-editor table.persona-table tr.dark td {
