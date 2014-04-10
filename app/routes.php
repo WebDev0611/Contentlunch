@@ -41,6 +41,8 @@ Route::group(array('prefix' => 'api'), function()
 		Route::post('/reset_password', 'AuthController@do_reset_password');
 		// Confirm user's account with confirmation code
 		Route::post('/confirm', 'AuthController@do_confirm');
+		// Impersonate as a user
+		Route::post('impersonate', 'AuthController@impersonate');
 	});
 
 	// No store or destroy route, these roles should already be seeded and nondeletable
@@ -56,6 +58,8 @@ Route::group(array('prefix' => 'api'), function()
 		'only' => array('index', 'store', 'show', 'update', 'destroy')
 	));
 	Route::post('/user/{id}/image', 'UserController@postProfileImage');
+
+	Route::get('impersonate/{id}', 'AdminController@impersonate');
 
 	Route::get('test', function()
 	{

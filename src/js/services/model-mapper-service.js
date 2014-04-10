@@ -41,7 +41,7 @@
 			}
 
 			var account = new launch.Account();
-			var state = launch.utils.getState(dto.country, dto.state);
+			var state = $.isPlainObject(dto.state) ? dto.state : launch.utils.getState(dto.country, dto.state);
 
 			account.id = parseInt(dto.id);
 			account.title = account.name = dto.title;
@@ -291,6 +291,10 @@
 			user.account = (user.accounts.length > 0) ? user.accounts[0] : null;
 			user.roles = ($.isArray(dto.roles)) ? $.map(dto.roles, function (r, i) { return self.role.fromDto(r); }) : [];
 			user.role = (user.roles.length > 0) ? user.roles[0] : null;
+
+			if (dto.impersonating) {
+				user.impersonating = true;
+			}
 
 			if (!!dto.image) {
 				var path = dto.image.path;

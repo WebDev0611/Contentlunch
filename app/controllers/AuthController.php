@@ -150,4 +150,35 @@ class AuthController extends BaseController {
         return array('success' => 'OK');
     }
 
+    /**
+     * Impersonate as a user
+     */
+    public function impersonate()
+    {
+        if (Input::has('account_id')) {
+            $id = Input::get('account_id');
+            // Store a reference to current logged in user so we
+            // can switch back
+            $currentUser = Confide::user();
+            $account = Account::find($id);
+            // Find the site admin user for this account
+            $siteAdminUser = $account->getSiteAdminUser();
+            if ($currentUser && $siteAdminUser) {
+              Auth::login($siteAdminUser);
+              Session::put('impersonate_from', $currentUser->id);
+              $ctrl = new UserController;
+              return $ctrl->callAction('show', array($siteAdminUser->id));
+            }
+        } elseif (Input::get('reset')) {
+            $from = Session::get('impersonate_from');
+            if ($from) {
+                $user = User::find($from);
+                Auth::login($user);
+                $ctrl = new UserController;
+                return $ctrl->callAction('show', array($user->id));
+            }
+        }
+        return $this->responseError("Access denied.", 401);
+    }
+
 }

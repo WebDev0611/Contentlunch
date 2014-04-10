@@ -1,4 +1,4 @@
-﻿launch.module.directive('accountForm', function ($modal, $window, AuthService, AccountService, PaymentService, NotificationService) {
+﻿launch.module.directive('accountForm', function ($modal, $window, $location, AuthService, AccountService, PaymentService, NotificationService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 
@@ -194,8 +194,7 @@
 		};
 
 		scope.impersonateAccount = function () {
-			// TODO: IMPLEMENT THE ABILITY TO IMPERSONATE A SITE ADMIN FOR AN ACCOUNT!!
-			NotificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+			AuthService.impersonate(scope.selectedAccount.id);
 		};
 
 		scope.resendAccountCreationEmail = function() {

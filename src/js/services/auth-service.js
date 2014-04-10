@@ -1,4 +1,4 @@
-launch.module.factory('AuthService', function($location, $resource, $sanitize, SessionService) {
+launch.module.factory('AuthService', function($window, $location, $resource, $sanitize, SessionService) {
 	var self = this;
 
 	// WE CANNOT PASS IN A ModelMapperService BECAUSE IT WOULD CAUSE A CIRCULAR DEPENDENCY.
@@ -24,6 +24,10 @@ launch.module.factory('AuthService', function($location, $resource, $sanitize, S
 
 	self.confirm = $resource('/api/auth/confirm', null, {
 		confirm: { method: 'POST', transformResponse: self.modelMapper.user.parseResponse }
+	});
+
+	self.impersonate = $resource('/api/auth/impersonate', null, {
+		save: { method: 'POST', transformResponse: self.modelMapper.user.parseResponse }
 	});
 
 	return {
@@ -102,6 +106,23 @@ launch.module.factory('AuthService', function($location, $resource, $sanitize, S
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return self.confirm.confirm(null, { code: code }, success, error);
+		},
+		impersonate: function (accountID) {
+			self.impersonate.save({ account_id: accountID },
+				function (r) {
+					self.uncacheSession();
+					var user = self.modelMapper.user.fromDto(r);
+					self.cacheSession(user);
+					$window.location.href = '/';
+				});
+		},
+		impersonateReset: function () {
+			self.impersonate.save({ reset: 'true' }, function (r) {
+				self.uncacheSession();
+				var user = self.modelMapper.user.fromDto(r);
+				self.cacheSession(user);
+				$window.location.href = '/';
+			});
 		}
 	};
 });

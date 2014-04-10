@@ -42,6 +42,9 @@
 
 			userMenuItems.push({ text: 'My Account', cssClass: 'glyphicon-user', url: '/user', image: imageUrl });
 			userMenuItems.push({ text: 'Logout', cssClass: 'glyphicon-log-out', url: '/login', image: null });
+			if (scope.user.impersonating) {
+				userMenuItems.push({ text: 'Switch Back', cssClass: 'glyphicon-log-out', url: '/impersonate/reset', image: null });
+			}
 
 			scope.mainMenu = mainNavItems;
 			scope.adminMenu = adminMenuItems;
@@ -90,6 +93,10 @@
 		scope.userMenu = [];
 
 		scope.navigate = function(url) {
+			if (url == '/impersonate/reset') {
+				AuthService.impersonateReset();
+				return;
+			}
 			$location.url(angular.lowercase(url));
 		};
 

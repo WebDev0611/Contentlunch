@@ -87,6 +87,9 @@ class UserController extends BaseController {
 			->with('accounts')
 			->find($id);
 		if ($user) {
+			if (Session::get('impersonate_from') && Session::get('impersonate_from') != $id) {
+				$user->impersonating = true;
+			}
 			return $user;
 		}
 		return $this->responseError("User not found.");

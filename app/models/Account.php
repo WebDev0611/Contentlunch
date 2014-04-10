@@ -85,8 +85,30 @@ class Account extends Ardent {
 		$this->users()->attach($id);
 	}
 
-	public function getUsers() {
+	public function getUsers()
+	{
 		return $this->users()->with('roles')->with('accounts')->with('image')->get();
+	}
+
+	/**
+	 * Get the site admin user for the account (should be 1)
+	 * @return object $user
+	 */
+	public function getSiteAdminUser()
+	{
+    $users = $this->getUsers();
+    if ( ! $users) {
+    	return;
+    }
+    foreach ($users as $user) {
+      if ($user->roles) {
+        foreach ($user->roles as $role) {
+          if ($role->name == 'site_admin') {
+            return $user;
+          }
+        }
+      }
+    }
 	}
 
 }
