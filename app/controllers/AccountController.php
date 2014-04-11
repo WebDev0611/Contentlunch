@@ -40,6 +40,15 @@ class AccountController extends BaseController {
 				$role->builtin = 1;
 				$role->deletable = 0;
 				$role->save();
+				// Copy default role permissions to newly created role
+				$perms = $bRole->perms()->get();
+				if ($perms) {
+					$attach = array();
+					foreach ($perms as $perm) {
+						$attach[] = $perm->id;
+					}
+					$role->perms()->sync($attach);
+				}
 			}
 			$user = $this->createSiteAdminUser($account);
     	// Send account creation email

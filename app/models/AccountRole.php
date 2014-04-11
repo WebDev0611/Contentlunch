@@ -28,6 +28,18 @@ class AccountRole extends EntrustRole
 		return parent::validate($rules, $customMessages);
 	}
 
+	public function delete()
+	{
+		// Delete related permissions
+		DB::table('permission_role')->where('role_id', $this->id)->delete();
+		return parent::delete();
+	}
+
+	public function perms()
+	{
+		return $this->belongsToMany('Permission', 'permission_role', 'role_id', 'permission_id');
+	}
+
 	/**
 	 * Get a role model by name
 	 *

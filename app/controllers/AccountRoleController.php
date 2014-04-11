@@ -8,8 +8,62 @@ class AccountRoleController extends BaseController {
    */
   public function index($id)
   {
-    $roles = AccountRole::where('account_id', $id)->get();
+    $permissions = Permission::all();
+    $roles = AccountRole::where('account_id', $id)->with('perms')->get();
+    if ($roles) {
+      foreach ($roles as $role) {
+        $rolePerms = array();
+        // Attach each permission with access of "true" or "false"
+        foreach ($permissions as $permission) {
+          $access = 0;
+          if ($role->perms) {
+            foreach ($role->perms as $rolePerm) {
+              if ($rolePerm->id == $permission->id) {
+                $access = 1;
+                break;
+              }
+            }
+          }
+          $rolePerms[] = array(
+            'name' => $permission->name,
+            'display_name' => $permission->display_name,
+            'access' => $access
+          );
+        }
+        $role->permissions = $rolePerms;
+        unset($role->perms);
+      }
+    }
     return $roles;
+  }
+
+  public function show($id)
+  {
+    $permissions = Permission::all();
+    $role = AccountRole::with('perms')->find($id);
+    if ($role) {
+      $rolePerms = array();
+      foreach ($permissions as $permission) {
+        $access = false;
+        if ($role->perms) {
+          foreach ($role->perms as $rolePerm) {
+            if ($rolePerm->id == $permission->id) {
+              $access = true;
+              break;
+            }
+          }
+        }
+        $rolePerms[] = array(
+          'name' => $permission->name,
+          'display_name' => $permission->display_name,
+          'access' => $access
+        );
+      }
+      $role->permissions = $rolePerms;
+      unset($role->perms);
+      return $role;
+    }
+    return $this->responseError("Role not found");
   }
 
   public function store($id)
@@ -23,7 +77,8 @@ class AccountRoleController extends BaseController {
     $role->builtin = 0;
     $role->deletable = 1;
     if ($role->save()) {
-      return $role;
+      $this->sync_permissions($role, Input::get('permissions'));
+      return $this->show($id);
     }
     return $this->responseError($role->errors()->all(':message'));
   }
@@ -34,9 +89,25 @@ class AccountRoleController extends BaseController {
     $role->display_name = Input::get('display_name');
     $role->status = Input::get('status');
     if ($role->updateUniques()) {
-      return $role;
+      $this->sync_permissions($role, Input::get('permissions'));
+      return $this->show($role->id);
     }
     return $this->responseError($role->errors()->all(':message'));
+  }
+
+  protected function sync_permissions($role, $permissions = array())
+  {
+    $syncPerms = array();
+    if ($permissions) {
+      foreach ($permissions as $permission) {
+        // Lookup by name
+        if ($permission->access) {
+          $permModel = Permission::find_by_name($permission->name);
+          $syncPerms[] = $permModel->id;
+        }
+      }
+    }
+    $role->perms()->sync($syncPerms);
   }
 
   public function destroy($accountId, $roleId)
