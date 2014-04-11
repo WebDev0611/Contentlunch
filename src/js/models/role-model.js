@@ -5,6 +5,8 @@
 	self.name = name;
 	self.displayName = null;
 	self.isGlobalAdmin = false;
+	self.isBuiltIn = false;
+	self.isDeletable = false;
 	self.accountId = 0;
 	self.active = true;
 	self.created = null;
@@ -29,8 +31,6 @@
 
 	self.validateProperty = function (property) {
 		switch (property.toLowerCase()) {
-			case 'name':
-				return launch.utils.isBlank(this.name) ? 'User Role Name is required.' : null;
 			case 'displayname':
 				return launch.utils.isBlank(this.displayName) ? 'User Role Name is required.' : null;
 			case 'active':

@@ -441,13 +441,13 @@
 
 			var role = new launch.Role();
 
-			// TODO: SET ACTIVE STATUS FROM DTO WHEN THIS IS ADDED TO THE API!
-			role.active = true;
 			role.id = parseInt(dto.id);
 			role.name = dto.name;
 			role.displayName = dto.display_name;
-			//role.isGlobalAdmin = parseInt(dto.global) === 1 ? true : false;
-			role.isGlobalAdmin = (role.name === 'global_admin');
+			role.active = parseInt(dto.status) === 1 ? true : false;
+			role.isGlobalAdmin = parseInt(dto.global) === 1 ? true : false;
+			role.isBuiltIn = parseInt(dto.builtin) === 1 ? true : false;
+			role.isDeletable = parseInt(dto.deletable) === 1 ? true : false;
 			role.accountId = parseInt(dto.account_id);
 			role.created = new Date(dto.created_at);
 			role.updated = new Date(dto.updated_at);
@@ -543,17 +543,25 @@
 
 			return role;
 		},
-		toDto: function(role) {
-			return {
+		toDto: function (role) {
+			var dto = {
 				id: role.id,
-				active: (role.active === true) ? 1 : 0,
 				name: role.name,
 				display_name: role.displayName,
+				status: (role.active === true) ? 1 : 0,
 				global: (role.isGlobalAdmin === true) ? 1 : 0,
+				builtin: (role.isBuiltIn === true) ? 1 : 0,
+				deletable: (role.isDeletable === true) ? 1 : 0,
 				account_id: role.accountId,
 				created_at: role.created,
 				updated_at: role.updated
 			};
+
+			if (launch.utils.isBlank(dto.name)) {
+				dto.name = dto.display_name.replace(/[\s~`!@#\$%\^&\*\(\)-\+=\{\}\[\]\|\\;:'",\.<>\?\/]/g, '_');
+			}
+
+			return dto;
 		},
 		sort: function(a, b) {
 			var roleA = launch.utils.isBlank(a.name) ? '' : a.name.toUpperCase();

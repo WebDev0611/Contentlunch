@@ -13,7 +13,6 @@
 		scope.isSaving = false;
 		scope.hasError = launch.utils.isPropertyValid;
 		scope.isNewRole = false;
-		scope.isBuiltIn = false;
 		scope.errorMessage = launch.utils.getPropertyErrorMessage;
 
 		scope.cancelEdit = function (form) {
@@ -127,8 +126,6 @@
 			} else {
 				scope.isNewRole = false;
 			}
-
-			scope.isBuiltIn = (!!scope.selectedRole && $.isFunction(scope.selectedRole.isBuiltIn)) ? scope.selectedRole.isBuiltIn() : false;
 		});
 	}
 
