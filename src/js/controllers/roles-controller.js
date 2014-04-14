@@ -166,8 +166,6 @@ launch.module.controller('RolesController', [
 		};
 
 		$scope.enterNewRole = function () {
-			var loggedInUser = authService.userInfo();
-
 			$scope.selectedIndex = -1;
 			$scope.selectedRole = roleService.getNewRole(self.accountId);
 		};

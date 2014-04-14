@@ -15,16 +15,6 @@
 	self.privileges = [];
 	self.modules = [];
 
-	// TODO: CHANGE THIS FUNCTION TO BETTER IDENTIFY A BUILT-IN ROLE!!
-	self.isBuiltIn = function() {
-		if (self.name === 'manager' || self.name === 'creator' || self.name === 'client' ||
-			self.name === 'editor' || self.name === 'global_admin' || self.name === 'site_admin') {
-			return true;
-		}
-
-		return false;
-	};
-
 	self.matchSearchTerm = function (term) {
 		return launch.utils.startsWith(self.name, term);
 	};
@@ -42,6 +32,18 @@
 				return null;
 		}
 	};
+
+	return self;
+};
+
+launch.Privilege = function() {
+	var self = this;
+
+	self.name = null;
+	self.displayName = null;
+	self.module = null;
+	self.accessType = null;
+	self.access = false;
 
 	return self;
 };
