@@ -452,126 +452,66 @@
 			role.created = new Date(dto.created_at);
 			role.updated = new Date(dto.updated_at);
 
-			role.privileges = [];
-
 			if ($.isArray(dto.permissions)) {
-				var privs = $.map(dto.permissions, self.privilege.fromDto).sort(self.privilege.sort);
-				var homeModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'home'; });
-				var consultModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'consult'; });
-				var createModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'create'; });
-				var collaborateModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'collaborate'; });
-				var calendarModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'calendar'; });
-				var launchModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'launch'; });
-				var measureModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'measure'; });
-				var adminModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'admin'; });
+				var readPrivs = [];
+				var execPrivs = [];
+				var mergePrivs = function (module) {
+					var read = $.grep(readPrivs, function(p) { return (p.module === module); });
+					var exec = $.grep(execPrivs, function (p) { return (p.module === module); });
 
-				role.privileges = [
+					return $.merge(read, exec).sort(self.privilege.sort);
+				};
+
+				$.each(dto.permissions, function (i, p) {
+					if (p.type === 'view') {
+						var viewPrivilege = self.privilege.fromDto(p);
+						var editPrivilege = $.grep(dto.permissions, function (ep) { return ep.name === p.name.replace('view', 'edit'); });
+
+						if (editPrivilege.length === 1 && parseInt(editPrivilege[0].access) === 1) {
+							viewPrivilege.edit = true;
+						}
+
+						readPrivs.push(viewPrivilege);
+					} else if (p.type === 'execute') {
+						execPrivs.push(self.privilege.fromDto(p));
+					}
+				});
+
+				role.modules = [
 					{
 						name: 'Home',
-						privileges: homeModule
+						privileges: mergePrivs('home')
 					},
 					{
 						name: 'Consult',
-						privileges: consultModule
+						privileges: mergePrivs('consult')
 					},
 					{
 						name: 'Create',
-						privileges: createModule
+						privileges: mergePrivs('create')
 					},
 					{
 						name: 'Collaborate',
-						privileges: collaborateModule
+						privileges: mergePrivs('collaborate')
 					},
 					{
 						name: 'Calendar',
-						privileges: calendarModule
+						privileges: mergePrivs('calendar')
 					},
 					{
 						name: 'Launch',
-						privileges: launchModule
+						privileges: mergePrivs('launch')
 					},
 					{
 						name: 'Measure',
-						privileges: measureModule
+						privileges: mergePrivs('measure')
 					},
 					{
 						name: 'Admin/Settings',
-						privileges: adminModule
+						privileges: mergePrivs('settings')
 					}
 				];
 			}
-
-			// TODO: SET THE MODULES CORRECTLY FROM THE API WHEN IT'S READY!!
-			role.modules = [
-				{
-					name: 'Home',
-					mainNav: true,
-					privileges: []
-				},
-				{
-					name: 'Consult',
-					mainNav: true,
-					privileges: []
-				},
-				{
-					name: 'Create',
-					mainNav: true,
-					privileges: [
-						{ name: 'Create Section 1', view: true, edit: true, execute: true },
-						{ name: 'Create Section 2', view: true, edit: true, execute: true },
-						{ name: 'Create Section 3', view: true, edit: true, execute: true }
-					]
-				},
-				{
-					name: 'Collaborate',
-					mainNav: true,
-					privileges: [
-						{ name: 'Collaborate Section 1', view: true, edit: true, execute: true },
-						{ name: 'Collaborate Section 2', view: true, edit: true, execute: true },
-						{ name: 'Collaborate Section 3', view: true, edit: true, execute: true }
-					]
-				},
-				{
-					name: 'Calendar',
-					mainNav: true,
-					privileges: [
-						{ name: 'Calendar Section 1', view: true, edit: true, execute: true },
-						{ name: 'Calendar Section 2', view: true, edit: true, execute: true },
-						{ name: 'Calendar Section 3', view: true, edit: true, execute: true }
-					]
-				},
-				{
-					name: 'Launch',
-					mainNav: true,
-					privileges: [
-						{ name: 'Launch Section 1', view: true, edit: true, execute: true },
-						{ name: 'Launch Section 2', view: true, edit: true, execute: true },
-						{ name: 'Launch Section 3', view: true, edit: true, execute: true }
-					]
-				},
-				{
-					name: 'Measure',
-					mainNav: true,
-					privileges: [
-						{ name: 'Measure Section 1', view: true, edit: true, execute: true },
-						{ name: 'Measure Section 2', view: true, edit: true, execute: true },
-						{ name: 'Measure Section 3', view: true, edit: true, execute: true }
-					]
-				},
-				{
-					name: 'Admin/Settings',
-					mainNav: false,
-					privileges: [
-						{ name: 'Account Settings', view: true, edit: true, execute: true },
-						{ name: 'Content Connections', view: true, edit: true, execute: true },
-						{ name: 'Content Settings', view: true, edit: true, execute: true },
-						{ name: 'SEO Settings', view: true, edit: true, execute: true },
-						{ name: 'Styles/Branding', view: true, edit: true, execute: true },
-						{ name: 'Buyer Personas', view: true, edit: true, execute: true },
-						{ name: 'Manage API/Plugins', view: true, edit: true, execute: true }
-					]
-				}
-			];
 
 			return role;
 		},
@@ -597,18 +537,41 @@
 				id: role.id,
 				name: role.name,
 				display_name: role.displayName,
-				status: (role.active === true) ? 1 : 0,
 				global: (role.isGlobalAdmin === true) ? 1 : 0,
-				builtin: (role.isBuiltIn === true) ? 1 : 0,
 				deletable: (role.isDeletable === true) ? 1 : 0,
+				builtin: (role.isBuiltIn === true) ? 1 : 0,
+				status: (role.active === true) ? 1 : 0,
 				account_id: role.accountId,
 				created_at: role.created,
-				updated_at: role.updated
+				updated_at: role.updated,
+				permissions: []
 			};
 
 			if (launch.utils.isBlank(dto.name)) {
 				dto.name = dto.display_name.replace(/[\s~`!@#\$%\^&\*\(\)-\+=\{\}\[\]\|\\;:'",\.<>\?\/]/g, '_');
 			}
+
+			$.each(role.modules, function (i, m) {
+				var view = $.grep(m.privileges, function (p) { return (p.accessType != 'execute'); });
+				var edit = $.grep(m.privileges, function (p) { return (p.accessType != 'execute'); });
+				var exec = $.grep(m.privileges, function (p) { return (p.accessType == 'execute'); });
+
+				//if (view.length > 0) {
+				//	$.merge(dto.permissions, $.map(view, function (p) { return self.privilege.toDto(p, 'view'); }));
+				//}
+
+				//if (edit.length > 0) {
+				//	$.merge(dto.permissions, $.map(edit, function (p) { return self.privilege.toDto(p, 'edit', p.name.replace('_view_', '_edit_')); }));
+				//}
+
+				//if (exec.length > 0) {
+				//	$.merge(dto.permissions, $.map(exec, function (p) { return self.privilege.toDto(p, 'execute'); }));
+				//}
+
+				$.merge(dto.permissions, $.map(view, function (p) { return self.privilege.toDto(p, 'view'); }));
+				$.merge(dto.permissions, $.map(edit, function (p) { return self.privilege.toDto(p, 'edit', p.name.replace('_view_', '_edit_')); }));
+				$.merge(dto.permissions, $.map(exec, function (p) { return self.privilege.toDto(p, 'execute'); }));
+			});
 
 			return dto;
 		},
@@ -779,13 +742,37 @@
 	self.privilege = {
 		fromDto: function(dto) {
 			var privilege = new launch.Privilege();
+			var accessType = dto.type.toLowerCase();
 
 			privilege.name = dto.name;
 			privilege.displayName = dto.display_name;
-			privilege.module = dto.name.substr(0, dto.name.indexOf('_'));
-			privilege.access = parseInt(dto.access) === 1 ? true : false;
+			privilege.module = dto.module;
+
+			privilege.accessType = (accessType === 'execute') ? 'execute' : null;
+			privilege.view = (accessType === 'view' && parseInt(dto.access) === 1);
+			privilege.edit = (accessType === 'edit' && parseInt(dto.access) === 1);
+			privilege.execute = (accessType === 'execute' && parseInt(dto.access) === 1);
 
 			return privilege;
+		},
+		toDto: function (privilege, accessType, name) {
+			var dto = {
+				name: launch.utils.isBlank(name) ? privilege.name : name,
+				display_name: privilege.displayName,
+				access: (((accessType === 'view' && privilege.view) || (accessType === 'edit' && privilege.edit) || (accessType === 'execute' && privilege.execute)) ? 1 : 0),
+				module: privilege.module,
+				type: accessType
+			};
+
+			//if (accessType === 'view') {
+			//	dto.access = privilege.view;
+			//} else if (accessType === 'edit') {
+			//	dto.access = privilege.edit;
+			//} else if (accessType === 'execute') {
+			//	dto.access = privilege.execute;
+			//}
+
+			return dto;
 		},
 		sort: function (a, b) {
 			if (!a && !b) {
@@ -796,8 +783,8 @@
 				return -1;
 			}
 
-			var privA = launch.utils.isBlank(a.name) ? '' : a.name.toLowerCase();
-			var privB = launch.utils.isBlank(b.name) ? '' : b.name.toLowerCase();
+			var privA = launch.utils.isBlank(a.displayName) ? '' : a.displayName.toLowerCase();
+			var privB = launch.utils.isBlank(b.displayName) ? '' : b.displayName.toLowerCase();
 
 			if (privA === privB) {
 				return 0;

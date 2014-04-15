@@ -65,7 +65,7 @@
 				success: function (r) {
 					scope.isSaving = false;
 
-					var successMsg = 'You have successfully saved the role ' + r.name + '!';
+					var successMsg = 'You have successfully saved the role ' + r.displayName + '!';
 
 					NotificationService.success('Success!', successMsg);
 
