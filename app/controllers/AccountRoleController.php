@@ -110,8 +110,8 @@ class AccountRoleController extends BaseController {
     if ($permissions) {
       foreach ($permissions as $permission) {
         // Lookup by name
-        if ($permission->access) {
-          $permModel = Permission::find_by_name($permission->name);
+        if ($permission['access']) {
+          $permModel = Permission::find_by_name($permission['name']);
           $syncPerms[] = $permModel->id;
         }
       }
