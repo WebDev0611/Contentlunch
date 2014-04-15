@@ -23,9 +23,9 @@ class AccountRoleIntegrationTest extends TestCase {
     // Should show all permissions with access set to true if the role has
     // permission enabled
     $perms = array(
-      0 => (object) array('name' => $perms[0]->name, 'display_name' => $perms[0]->display_name, 'access' => true),
-      1 => (object) array('name' => $perms[1]->name, 'display_name' => $perms[1]->display_name, 'access' => true),
-      2 => (object) array('name' => $perms[2]->name, 'display_name' => $perms[2]->display_name, 'access' => true),
+      0 => (object) array('name' => $perms[0]->name, 'display_name' => $perms[0]->display_name, 'access' => true, 'module' => $perms[0]->module, 'type' => $perms[0]->type),
+      1 => (object) array('name' => $perms[1]->name, 'display_name' => $perms[1]->display_name, 'access' => true, 'module' => $perms[1]->module, 'type' => $perms[1]->type),
+      2 => (object) array('name' => $perms[2]->name, 'display_name' => $perms[2]->display_name, 'access' => true, 'module' => $perms[2]->module, 'type' => $perms[2]->type),
       );
     $this->assertEquals($perms, $data[0]->permissions);
     // 2nd role should have first permission
@@ -55,8 +55,8 @@ class AccountRoleIntegrationTest extends TestCase {
     $role->id = $data->id;
     $this->assertRole($role, $data);
     $expected = array(
-      (object) array('name' => $permissions[0]->name, 'display_name' => $permissions[0]->display_name, 'access' => true),
-      (object) array('name' => $permissions[1]->name, 'display_name' => $permissions[1]->display_name, 'access' => false),
+      (object) array('name' => $permissions[0]->name, 'display_name' => $permissions[0]->display_name, 'access' => true, 'module' => $permissions[0]->module, 'type' => $permissions[0]->type),
+      (object) array('name' => $permissions[1]->name, 'display_name' => $permissions[1]->display_name, 'access' => false, 'module' => $permissions[1]->module, 'type' => $permissions[1]->type),
     );
     $this->assertEquals($expected, $data->permissions);
   }
@@ -122,8 +122,8 @@ class AccountRoleIntegrationTest extends TestCase {
     $data = $this->assertResponse($response);
     $this->assertRole($role, $data);
     $expected = array(
-      (object) array('name' => $permissions[0]->name, 'display_name' => $permissions[0]->display_name, 'access' => 1),
-      (object) array('name' => $permissions[1]->name, 'display_name' => $permissions[1]->display_name, 'access' => 0),
+      (object) array('name' => $permissions[0]->name, 'display_name' => $permissions[0]->display_name, 'access' => 1, 'module' => $permissions[0]->module, 'type' => $permissions[0]->type),
+      (object) array('name' => $permissions[1]->name, 'display_name' => $permissions[1]->display_name, 'access' => 0, 'module' => $permissions[1]->module, 'type' => $permissions[1]->type),
     );
     $this->assertEquals($expected, $data->permissions);
   }
@@ -211,37 +211,53 @@ class AccountRoleIntegrationTest extends TestCase {
     $expect = array( (object) array(
       'name' => $perms[0]->name,
       'display_name' => $perms[0]->display_name,
-      'access' => 1
+      'access' => 1,
+      'module' => $perms[0]->module,
+      'type' => $perms[0]->type
     ), (object) array(
       'name' => $perms[1]->name,
       'display_name' => $perms[1]->display_name,
-      'access' => 1
+      'access' => 1,
+      'module' => $perms[1]->module,
+      'type' => $perms[1]->type
     ), (object) array(
       'name' => $perms[2]->name,
       'display_name' => $perms[2]->display_name,
-      'access' => 0
+      'access' => 0,
+      'module' => $perms[2]->module,
+      'type' => $perms[2]->type
     ), (object) array(
       'name' => $perms[3]->name,
       'display_name' => $perms[3]->display_name,
-      'access' => 0
+      'access' => 0,
+      'module' => $perms[3]->module,
+      'type' => $perms[3]->type
     ));
     $this->assertEquals($expect, $data[0]->permissions);
     $expect = array( (object) array(
       'name' => $perms[0]->name,
       'display_name' => $perms[0]->display_name,
-      'access' => 0
+      'access' => 0,
+      'module' => $perms[0]->module,
+      'type' => $perms[0]->type
     ), (object) array(
       'name' => $perms[1]->name,
       'display_name' => $perms[1]->display_name,
-      'access' => 0
+      'access' => 0,
+      'module' => $perms[1]->module,
+      'type' => $perms[1]->type
     ), (object) array(
       'name' => $perms[2]->name,
       'display_name' => $perms[2]->display_name,
-      'access' => 1
+      'access' => 1,
+      'module' => $perms[2]->module,
+      'type' => $perms[2]->type
     ), (object) array(
       'name' => $perms[3]->name,
       'display_name' => $perms[3]->display_name,
-      'access' => 1
+      'access' => 1,
+      'module' => $perms[3]->module,
+      'type' => $perms[3]->type
     ));
     $this->assertEquals($expect, $data[1]->permissions);
   }

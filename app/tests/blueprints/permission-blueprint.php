@@ -9,4 +9,6 @@ Woodling::seed('Permission', function ($blueprint) {
   $blueprint->sequence('display_name', function ($i) {
     return 'Permission '. $i;
   });
+  $blueprint->module = 'Module';
+  $blueprint->type = 'view';
 });

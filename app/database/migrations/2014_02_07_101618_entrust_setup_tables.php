@@ -41,6 +41,8 @@ class EntrustSetupTables extends Migration {
             $table->increments('id')->unsigned();
             $table->string('name');
             $table->string('display_name');
+            $table->string('module');
+            $table->string('type');
             $table->timestamps();
         });
 

@@ -158,9 +158,13 @@ class PermissionSeeder extends Seeder {
 
     foreach ($permissions as $permission) {
       list($name, $display_name, $assignRoles) = $permission;
+      $parts = explode('_', $name);
+      list($module, $type) = $parts;
       $p = new Permission;
       $p->name = $name;
       $p->display_name = $display_name;
+      $p->module = $module;
+      $p->type = $type;
       $p->save();
       // Attach this permission to roles
       if ($assignRoles) {

@@ -27,7 +27,9 @@ class AccountRoleController extends BaseController {
           $rolePerms[] = array(
             'name' => $permission->name,
             'display_name' => $permission->display_name,
-            'access' => $access
+            'access' => $access,
+            'module' => $permission->module,
+            'type' => $permission->type
           );
         }
         $role->permissions = $rolePerms;
@@ -56,7 +58,9 @@ class AccountRoleController extends BaseController {
         $rolePerms[] = array(
           'name' => $permission->name,
           'display_name' => $permission->display_name,
-          'access' => $access
+          'access' => $access,
+          'module' => $permission->module,
+          'type' => $permission->type
         );
       }
       $role->permissions = $rolePerms;
