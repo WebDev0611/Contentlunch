@@ -32,10 +32,16 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="privilege in module.privileges" ng-class-odd="'dark'">
-						<td class="left">{{ privilege.name }}</td>
-						<td class="check-column"><div class="checkbox"><input type="checkbox" ng-checked="privilege.view" ng-disabled="selectedRole.isBuiltIn" /></div></td>
-						<td class="check-column"><div class="checkbox"><input type="checkbox" ng-checked="privilege.edit" ng-disabled="selectedRole.isBuiltIn" /></div></td>
-						<td class="check-column"><div class="checkbox"><input type="checkbox" ng-checked="privilege.execute" ng-disabled="selectedRole.isBuiltIn" /></div></td>
+						<td class="left">{{ privilege.displayName }}</td>
+						<td class="check-column">
+							<div class="checkbox"><input type="checkbox" ng-model="privilege.view" ng-disabled="selectedRole.isBuiltIn" ng-show="privilege.accessType !== 'execute'" /></div>
+						</td>
+						<td class="check-column">
+							<div class="checkbox"><input type="checkbox" ng-model="privilege.edit" ng-disabled="selectedRole.isBuiltIn" ng-show="privilege.accessType !== 'execute'" /></div>
+						</td>
+						<td class="check-column">
+							<div class="checkbox"><input type="checkbox" ng-model="privilege.execute" ng-disabled="selectedRole.isBuiltIn" ng-show="privilege.accessType === 'execute'" /></div>
+						</td>
 					</tr>
 				</tbody>
 			</table>

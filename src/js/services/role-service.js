@@ -22,11 +22,11 @@
 
 			return accountRoles.query({ accountId: accountId, id: '' }, success, error);
 		},
-		get: function(id, callback) {
+		get: function(id, accountId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return accountRoles.get({ accountId: role.accountId, id: id }, success, error);
+			return roles.get({ id: id }, success, error);
 		},
 		update: function(role, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;

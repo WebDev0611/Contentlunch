@@ -208,7 +208,7 @@ launch.module.controller('RolesController', [
 			self.loadRoles(false, {
 				success: function () {
 					if (!!r.id) {
-						$scope.selectedRole = roleService.get(r.id);
+						$scope.selectedRole = roleService.get(r.id, self.accountId);
 						self.adjustPage(r.id, form);
 					} else {
 						$scope.selectedRole = null;
