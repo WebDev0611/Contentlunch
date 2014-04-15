@@ -452,6 +452,55 @@
 			role.created = new Date(dto.created_at);
 			role.updated = new Date(dto.updated_at);
 
+			role.privileges = [];
+
+			if ($.isArray(dto.permissions)) {
+				var privs = $.map(dto.permissions, self.privilege.fromDto).sort(self.privilege.sort);
+				var homeModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'home'; });
+				var consultModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'consult'; });
+				var createModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'create'; });
+				var collaborateModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'collaborate'; });
+				var calendarModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'calendar'; });
+				var launchModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'launch'; });
+				var measureModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'measure'; });
+				var adminModule = $.grep(privs, function (p) { return p.module.toLowerCase() === 'admin'; });
+
+				role.privileges = [
+					{
+						name: 'Home',
+						privileges: homeModule
+					},
+					{
+						name: 'Consult',
+						privileges: consultModule
+					},
+					{
+						name: 'Create',
+						privileges: createModule
+					},
+					{
+						name: 'Collaborate',
+						privileges: collaborateModule
+					},
+					{
+						name: 'Calendar',
+						privileges: calendarModule
+					},
+					{
+						name: 'Launch',
+						privileges: launchModule
+					},
+					{
+						name: 'Measure',
+						privileges: measureModule
+					},
+					{
+						name: 'Admin/Settings',
+						privileges: adminModule
+					}
+				];
+			}
+
 			// TODO: SET THE MODULES CORRECTLY FROM THE API WHEN IT'S READY!!
 			role.modules = [
 				{
@@ -543,7 +592,7 @@
 
 			return role;
 		},
-		toDto: function (role) {
+		toDto: function(role) {
 			var dto = {
 				id: role.id,
 				name: role.name,
@@ -724,6 +773,69 @@
 			module.updated = new Date(cachedModule.updated_at);
 
 			return module;
+		}
+	};
+
+	self.privilege = {
+		fromDto: function(dto) {
+			var privilege = new launch.Privilege();
+
+			privilege.name = dto.name;
+			privilege.displayName = dto.display_name;
+			privilege.module = dto.name.substr(0, dto.name.indexOf('_'));
+			privilege.access = parseInt(dto.access) === 1 ? true : false;
+
+			return privilege;
+		},
+		sort: function (a, b) {
+			if (!a && !b) {
+				return 0;
+			} else if (!a && !!b) {
+				return 1;
+			} else if (!!a && !b) {
+				return -1;
+			}
+
+			var privA = launch.utils.isBlank(a.name) ? '' : a.name.toLowerCase();
+			var privB = launch.utils.isBlank(b.name) ? '' : b.name.toLowerCase();
+
+			if (privA === privB) {
+				return 0;
+			}
+
+			var moduleA = a.module.toLowerCase();
+			var moduleB = b.module.toLowerCase();
+
+			if (moduleA === moduleB) {
+				if (privA < privB) {
+					return -1;
+				} else {
+					return 1;
+				}
+			} else {
+				if (moduleA === 'home') { return -1; }
+				if (moduleB === 'home') { return 1; }
+				if (moduleA === 'consult') { return -1; }
+				if (moduleB === 'consult') { return 1; }
+				if (moduleA === 'create') { return -1; }
+				if (moduleB === 'create') { return 1; }
+				if (moduleA === 'collaborate') { return -1; }
+				if (moduleB === 'collaborate') { return 1; }
+				if (moduleA === 'calendar') { return -1; }
+				if (moduleB === 'calendar') { return 1; }
+				if (moduleA === 'launch') { return -1; }
+				if (moduleB === 'launch') { return 1; }
+				if (moduleA === 'measure') { return -1; }
+				if (moduleB === 'measure') { return 1; }
+				if (moduleA === 'admin') { return -1; }
+				if (moduleB === 'admin') { return 1; }
+
+				if (moduleA < moduleB) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
 		}
 	};
 

@@ -412,7 +412,11 @@
 		return [];
 	},
 
-	getState: function(country, stateCode) {
+	getState: function (country, stateCode) {
+		if ($.isPlainObject(stateCode) && !launch.utils.isBlank(stateCode.name) && !launch.utils.isBlank(stateCode.value)) {
+			return stateCode;
+		}
+
 		var states = launch.utils.getStates(country);
 		var state = $.grep(states, function (s, i) { return (s.value.toLowerCase() === stateCode.toLowerCase()); });
 
