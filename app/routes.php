@@ -25,6 +25,7 @@ Route::group(array('prefix' => 'api'), function()
 
 	Route::get('account/{id}/roles', 'AccountRoleController@index');
 	Route::post('account/{id}/roles', 'AccountRoleController@store');
+	Route::get('account/{id}/roles/{roleid}', 'AccountRoleController@showRole');
 	Route::put('account/{id}/roles/{roleid}', 'AccountRoleController@update');
 	Route::delete('account/{id}/roles/{roleid}', 'AccountRoleController@destroy');
 

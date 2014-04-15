@@ -70,6 +70,11 @@ class AccountRoleController extends BaseController {
     return $this->responseError("Role not found");
   }
 
+  public function showRole($account_id, $role_id)
+  {
+    return $this->show($role_id);
+  }
+
   public function store($id)
   {
     $role = new AccountRole;
