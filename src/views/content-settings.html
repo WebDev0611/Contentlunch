@@ -11,9 +11,13 @@
 					<input type="checkbox" id="chkIncludeAuthorName" name="chkIncludeAuthorName" ng-model="contentSettings.includeAuthorName" />
 					<label for="chkIncludeAuthorName">Include Author's Name into Content</label>
 				</div>
-
-				<div class="form-group" multi-select-dropdown control-label="'Apply To:'" multiple="true" control-name="'selAuthorNameApplyTo'"
-					list-items="contentTypes" model="contentSettings.authorNameContentTypes" disabled="!editContentSettings.chkIncludeAuthorName.$viewValue"></div>
+				
+				<div class="form-group">
+					<label for="selAuthorNameApplyTo">Apply To:</label>
+					<select id="selAuthorNameApplyTo" name="selAuthorNameApplyTo" class="chosen-select" multiple="multiple"
+							chosen ng-options="ct for ct in contentTypes" ng-model="contentSettings.authorNameContentTypes"
+							data-placeholder="Select Content Types"></select>
+				</div>
 			</div>
 
 			<div class="control-group">
@@ -22,8 +26,12 @@
 					<label for="chkAllowPublishDateEdit">Allow Publish Date to be Edited</label>
 				</div>
 				
-				<div class="form-group" multi-select-dropdown control-label="'Apply To:'" multiple="true" control-name="'selPublishDateApplyTo'"
-					list-items="contentTypes" model="contentSettings.publishDateContentTypes" disabled="!editContentSettings.chkAllowPublishDateEdit.$viewValue"></div>
+				<div class="form-group">
+					<label for="selPublishDateApplyTo">Apply To:</label>
+					<select id="selPublishDateApplyTo" name="selPublishDateApplyTo" class="chosen-select" multiple="multiple"
+							chosen ng-options="ct for ct in contentTypes" ng-model="contentSettings.publishDateContentTypes"
+							data-placeholder="Select Content Types"></select>
+				</div>
 			</div>
 
 			<div class="control-group">
@@ -31,9 +39,13 @@
 					<input type="checkbox" id="chkUseKeywordTags" name="chkUseKeywordTags" ng-model="contentSettings.useKeywordTags" />
 					<label for="chkUseKeywordTags">Use Keyword Tags</label>
 				</div>
-				
-				<div class="form-group" multi-select-dropdown control-label="'Apply To:'" multiple="true" control-name="'selKeywordTagsApplyTo'"
-					list-items="contentTypes" model="contentSettings.keywordTagsContentTypes" disabled="!editContentSettings.chkUseKeywordTags.$viewValue"></div>
+
+				<div class="form-group">
+					<label for="selKeywordTagsApplyTo">Apply To:</label>
+					<select id="selKeywordTagsApplyTo" name="selKeywordTagsApplyTo" class="chosen-select" multiple="multiple"
+							chosen ng-options="ct for ct in contentTypes" ng-model="contentSettings.keywordTagsContentTypes"
+							data-placeholder="Select Content Types"></select>
+				</div>
 			</div>
 			
 			<h2>Company Publishing Guidelines</h2>

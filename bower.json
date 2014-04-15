@@ -32,6 +32,7 @@
     "tinymce": "~4.0.21",
     "dragtable": "git://github.com/akottr/dragtable#~2.0.10",
     "jquery-ui": "~1.10.4",
-    "bootstrap-multiselect": "~0.9.4"
+    "bootstrap-multiselect": "~0.9.4",
+    "angular-chosen-localytics": "~1.0.6"
   }
 }

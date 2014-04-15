@@ -556,18 +556,6 @@
 				var edit = $.grep(m.privileges, function (p) { return (p.accessType != 'execute'); });
 				var exec = $.grep(m.privileges, function (p) { return (p.accessType == 'execute'); });
 
-				//if (view.length > 0) {
-				//	$.merge(dto.permissions, $.map(view, function (p) { return self.privilege.toDto(p, 'view'); }));
-				//}
-
-				//if (edit.length > 0) {
-				//	$.merge(dto.permissions, $.map(edit, function (p) { return self.privilege.toDto(p, 'edit', p.name.replace('_view_', '_edit_')); }));
-				//}
-
-				//if (exec.length > 0) {
-				//	$.merge(dto.permissions, $.map(exec, function (p) { return self.privilege.toDto(p, 'execute'); }));
-				//}
-
 				$.merge(dto.permissions, $.map(view, function (p) { return self.privilege.toDto(p, 'view'); }));
 				$.merge(dto.permissions, $.map(edit, function (p) { return self.privilege.toDto(p, 'edit', p.name.replace('_view_', '_edit_')); }));
 				$.merge(dto.permissions, $.map(exec, function (p) { return self.privilege.toDto(p, 'execute'); }));
@@ -763,14 +751,6 @@
 				module: privilege.module,
 				type: accessType
 			};
-
-			//if (accessType === 'view') {
-			//	dto.access = privilege.view;
-			//} else if (accessType === 'edit') {
-			//	dto.access = privilege.edit;
-			//} else if (accessType === 'execute') {
-			//	dto.access = privilege.execute;
-			//}
 
 			return dto;
 		},

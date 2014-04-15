@@ -48,7 +48,8 @@ gulp.task('bootstrap-components-css', function () {
 			'./bower_components/ladda/dist/ladda.min.css',
 			'./bower_components/ladda/dist/spin.min.css',
 			'./bower_components/font-awesome/css/font-awesome.css',
-			'./bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css'
+			'./bower_components/chosen/chosen.css',
+			'./bower_components/angular-chosen-localytics/chosen-spinner.css'
 	])
 		.pipe(concat('bootstrap-components.css'))
 		.pipe(gulp.dest('public/assets/css'))
@@ -128,6 +129,7 @@ gulp.task('tinymce-images', function () {
 gulp.task('scripts', function() {
 	gulp.src([
 			'./bower_components/jquery/dist/jquery.js',
+			'./bower_components/chosen/chosen.jquery.js',
 			'./bower_components/bootstrap/dist/js/bootstrap.js',
 			'./bower_components/ng-file-upload/angular-file-upload-html5-shim.js',
 			'./bower_components/ng-file-upload/angular-file-upload-shim.js',
@@ -141,7 +143,7 @@ gulp.task('scripts', function() {
 			'./bower_components/ladda/js/spin.js',
 			'./bower_components/ladda/js/ladda.js',
 			'./bower_components/ng-file-upload/angular-file-upload.js',
-			'./bower_components/bootstrap-multiselect/js/bootstrap-multiselect.js'
+			'./bower_components/angular-chosen-localytics/chosen.js'
 		])
 		.pipe(concat('build.js'))
 		.pipe(gulp.dest('./public/assets/js'));
@@ -195,7 +197,12 @@ gulp.task('views', function () {
 });
 
 gulp.task('images', function() {
-	return gulp.src('src/images/**/*')
+	return gulp.src([
+			'src/images/**/*',
+			'./bower_components/angular-chosen-localytics/spinner.gif',
+			'./bower_components/chosen/chosen-sprite.png',
+			'./bower_components/chosen/chosen-sprite@2x.png'
+		])
 		.pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
 		.pipe(gulp.dest('public/assets/images'))
 		.pipe(livereload(server));

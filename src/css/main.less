@@ -254,7 +254,7 @@ header {
 			color: #ff0000;
 		}
 
-		.form-control{
+		.form-control {
 			border-color: #ff0000;
 		}
 
@@ -263,6 +263,10 @@ header {
 				float: right;
 			}
 		}
+	}
+
+	.chosen-select {
+		width: 100%;
 	}
 }
 
@@ -951,6 +955,18 @@ span[class^="icon-"], span[class*=" icon-"] {
 			&.dark {
 				td {
 					background-color: #E6E4E0;
+				}
+			}
+		}
+	}
+}
+
+.chosen-container {
+	&.chosen-container-multi {
+		.chosen-choices {
+			.search-choice {
+				.search-choice-close {
+					background-image: url(/assets/images/chosen-sprite.png);
 				}
 			}
 		}
