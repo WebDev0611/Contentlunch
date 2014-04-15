@@ -82,7 +82,7 @@ class AccountRoleController extends BaseController {
     $role->deletable = 1;
     if ($role->save()) {
       $this->sync_permissions($role, Input::get('permissions'));
-      return $this->show($id);
+      return $this->show($role->id);
     }
     return $this->responseError($role->errors()->all(':message'));
   }
