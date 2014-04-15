@@ -45,6 +45,10 @@ Route::group(array('prefix' => 'api'), function()
 		Route::post('impersonate', 'AuthController@impersonate');
 	});
 
+	Route::resource('permission', 'PermissionController', array(
+		'only' => array('index')
+	));
+
 	// No store or destroy route, these roles should already be seeded and nondeletable
 	Route::resource('role', 'RoleController', array(
 		'only' => array('index', 'show', 'update')
