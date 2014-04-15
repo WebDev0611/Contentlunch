@@ -1,4 +1,5 @@
-﻿launch.module.directive('multiSelectDropdown', function ($window) {
+﻿// TODO: WE CAN PROBABLY DELETE THIS, AS WE'VE REPLACED IT WITH ANGULAR-CHOSEN!!
+launch.module.directive('multiSelectDropdown', function ($window) {
 	var link = function(scope, element, attrs) {
 		var select = $(element).children('select');
 		var multiselect = null;

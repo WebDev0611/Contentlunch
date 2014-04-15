@@ -275,6 +275,9 @@ header .login-info .popover-menu .admin-menu li .glyphicon {
 .form-group.has-error label .error-message {
   float: right;
 }
+.form-group .chosen-select {
+  width: 100%;
+}
 .popover {
   z-index: 1100;
 }
@@ -891,4 +894,7 @@ span[class*=" icon-"].dark {
 }
 .content-settings-editor table.persona-table tr.dark td {
   background-color: #E6E4E0;
+}
+.chosen-container.chosen-container-multi .chosen-choices .search-choice .search-choice-close {
+  background-image: url(/assets/images/chosen-sprite.png);
 }

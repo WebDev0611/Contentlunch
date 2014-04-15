@@ -2,7 +2,7 @@
 	'use strict';
 
 	launch = window.launch || (window.launch = { });
-	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload']);
+	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'localytics.directives']);
 
 	launch.module.config([
 			'$routeProvider', '$locationProvider', '$resourceProvider', '$tooltipProvider', function($routeProvider, $locationProvider, $resource, $tooltipProvider) {

@@ -38,13 +38,10 @@
 launch.Privilege = function() {
 	var self = this;
 
-	//self.id = null;
 	self.name = null;
 	self.displayName = null;
 	self.module = null;
 	self.accessType = null;
-	//self.accessType = null;
-	//self.access = false;
 
 	self.view = false;
 	self.edit = false;
