@@ -6,5 +6,7 @@
 	CONTENT_TYPES: [
 		'Audio', 'Blog Post', 'Case Study', 'Ebook', 'Email', 'Facebook Post', 'Google Drive',
 		'Landing Page', 'LinkedIn', 'Photo', 'Salesforce Asset', 'Twitter', 'Video', 'Whitepaper'
-	]
+	],
+	LINKEDIN_API_KEY: '757vbb06ghwe32',
+	LINKEDIN_API_SECRET: 'V9iMuEFHlfImfOJ0'
 };

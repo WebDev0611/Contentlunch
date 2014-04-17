@@ -504,6 +504,32 @@ span[class^="icon-"], span[class*=" icon-"] {
 				}
 			}
 		}
+
+		&.content-connection-button-bar {
+			.form-group {
+				margin: 0;
+				max-width: 300px;
+			}
+
+			.btn-group {
+				max-width: 300px;
+
+				.btn-default {
+					background-color: #ebebeb;
+					color: #333333;
+
+					&.active {
+						background-color: #000000;
+						color: #ffffff;
+					}
+				}
+			}
+
+			.add-connection {
+				float: right;
+				margin-right: 100px;
+			}
+		}
 	}
 }
 
