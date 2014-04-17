@@ -18,6 +18,14 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
   public function setUp()
   {
     parent::setUp();
+    $models = array();
+    $files = File::glob(app_path() .'/models/*.php');
+    foreach ($files as $file) {
+      $class = basename($file, '.php');
+      // Reset event listeners and re-register them
+      call_user_func(array($class, 'flushEventListeners'));
+      call_user_func(array($class, 'boot'));
+    }
     $this->prepareForTests();
     // Start off clean
     $this->setupCleanTables();

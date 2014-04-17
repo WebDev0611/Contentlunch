@@ -44,13 +44,14 @@ class AccountRoleIntegrationTest extends TestCase {
       'account_id' => $account->id
     ));
     $permissions = Woodling::savedList('Permission', 2);
+    $data = $role->toArray();
     // Save this role with the first permission
-    $role->permissions = array(array(
+    $data['permissions'] = array(array(
       'name' => $permissions[0]->name,
       'display_name' => $permissions[1]->name,
       'access' => true
     ));
-    $response = $this->call('POST', '/api/account/'. $account->id .'/roles', $role->toArray());
+    $response = $this->call('POST', '/api/account/'. $account->id .'/roles', $data);
     $data = $this->assertResponse($response);
     $role->id = $data->id;
     $this->assertRole($role, $data);
@@ -106,8 +107,10 @@ class AccountRoleIntegrationTest extends TestCase {
       $syncPerms[] = $permission->id;
     }
     $role->perms()->sync($syncPerms);
-    // Update this role with the first permission
-    $role->permissions = array(array(
+    // Update display name
+    $role->display_name = 'Changed Role Name';
+    $data = $role->toArray();
+    $data['permissions'] = array(array(
       'name' => $permissions[0]->name,
       'display_name' => $permissions[0]->display_name,
       'access' => 1
@@ -116,9 +119,7 @@ class AccountRoleIntegrationTest extends TestCase {
       'display_name' => $permissions[1]->display_name,
       'access' => 0
     ));
-    // Update display name
-    $role->display_name = 'Changed Role Name';
-    $response = $this->call('PUT', '/api/account/'. $account->id .'/roles/'. $role->id, $role->toArray());
+    $response = $this->call('PUT', '/api/account/'. $account->id .'/roles/'. $role->id, $data);
     $data = $this->assertResponse($response);
     $this->assertRole($role, $data);
     $expected = array(
