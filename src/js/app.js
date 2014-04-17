@@ -5,7 +5,7 @@
 	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'localytics.directives']);
 
 	launch.module.config([
-			'$routeProvider', '$locationProvider', '$resourceProvider', '$tooltipProvider', function($routeProvider, $locationProvider, $resource, $tooltipProvider) {
+			'$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
 				$locationProvider.html5Mode(true);
 				$routeProvider
 					.when('/', {
@@ -79,11 +79,35 @@
 					.otherwise({
 						redirectTo: '/'
 					});
+
+				var interceptor = [
+					'$location', '$q', function($location, $q) {
+						var success = function(r) {
+							return r;
+						}
+
+						var error = function(r) {
+							if (r.status === 401) {
+								// TODO: OPEN DIALOG HERE!!
+								$location.path('/login');
+								return $q.reject(r);
+							} else {
+								return $q.reject(r);
+							}
+						}
+
+						return function(promise) {
+							return promise.then(success, error);
+						}
+					}
+				];
+
+				$httpProvider.responseInterceptors.push(interceptor);
 			}
 		])
 		.run([
 			'$rootScope', '$location', 'UserService', 'AuthService', function($rootScope, $location, userService, authService) {
-				$rootScope.$on('$routeChangeStart', function(event, next, current) {
+				$rootScope.$on('$routeChangeStart', function (event, next, current) {
 					if ($location.path() === '/login') {
 						authService.logout();
 					} else if ($location.path() === '/reset') {
