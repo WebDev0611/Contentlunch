@@ -31,7 +31,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 	});
 
 	return {
-		login: function(username, password, remember, callback) {
+		login: function (username, password, remember, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
@@ -40,7 +40,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 					password: $sanitize(password),
 					remember: remember
 				},
-				function(r) {
+				function (r) {
 					var user = self.modelMapper.user.fromDto(r);
 
 					self.cacheSession(user);
@@ -107,8 +107,8 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 
 			return self.confirm.confirm(null, { code: code }, success, error);
 		},
-		impersonate: function (accountID) {
-			self.impersonate.save({ account_id: accountID },
+		impersonate: function (accountId) {
+			self.impersonate.save({ account_id: accountId },
 				function (r) {
 					self.uncacheSession();
 					var user = self.modelMapper.user.fromDto(r);

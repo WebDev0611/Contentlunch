@@ -22,6 +22,7 @@
 			var userMenuItems = [];
 
 			if (!isGlobalAdmin) {
+				// TODO: ADD THESE BASED ON THE ACCOUNT SUBSCRIPTION LEVEL AND THE USER'S PRIVILEGES!!
 				mainNavItems.push({ title: 'home', url: '/', active: 'active' });
 				mainNavItems.push({ title: 'consult', url: '/consult', active: '' });
 				mainNavItems.push({ title: 'create', url: '/create', active: '' });
@@ -42,6 +43,7 @@
 
 			userMenuItems.push({ text: 'My Account', cssClass: 'glyphicon-user', url: '/user', image: imageUrl });
 			userMenuItems.push({ text: 'Logout', cssClass: 'glyphicon-log-out', url: '/login', image: null });
+
 			if (scope.user.impersonating) {
 				userMenuItems.push({ text: 'Switch Back', cssClass: 'glyphicon-log-out', url: '/impersonate/reset', image: null });
 			}
@@ -74,7 +76,7 @@
 
 		self.getLoggedInUser = function () {
 			scope.showNav = AuthService.isLoggedIn();
-			scope.user = AuthService.userInfo();
+			self.subscription = null;
 			scope.user = AuthService.fetchCurrentUser({
 				success: function (user) {
 					if ($location.path().indexOf('/user/confirm') === 0) {

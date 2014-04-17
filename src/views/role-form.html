@@ -19,7 +19,7 @@
 		<accordion-group ng-repeat="module in selectedRole.modules" is-open="isopen">
 			<accordion-heading>
 				<i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
-				{{ module.name }}
+				{{ module.title }}
 			</accordion-heading>
 			<table class="privileges-list">
 				<thead>

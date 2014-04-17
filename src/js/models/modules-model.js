@@ -3,10 +3,11 @@
 
 	self.id = null;
 	self.active = false;
-	self.name = 0;
+	self.name = null;
 	self.title = null;
 	self.created = null;
 	self.updated = null;
+	self.privileges = null;
 
 	return self;
 };

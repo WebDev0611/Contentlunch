@@ -344,6 +344,10 @@
 				return null;
 			}
 
+			if (!$.isPlainObject(cachedUser)) {
+				cachedUser = JSON.parse(cachedUser);
+			}
+
 			var user = new launch.User();
 
 			user.id = cachedUser.id;
@@ -477,40 +481,72 @@
 					}
 				});
 
-				role.modules = [
-					{
-						name: 'Home',
-						privileges: mergePrivs('home')
-					},
-					{
-						name: 'Consult',
-						privileges: mergePrivs('consult')
-					},
-					{
-						name: 'Create',
-						privileges: mergePrivs('create')
-					},
-					{
-						name: 'Collaborate',
-						privileges: mergePrivs('collaborate')
-					},
-					{
-						name: 'Calendar',
-						privileges: mergePrivs('calendar')
-					},
-					{
-						name: 'Launch',
-						privileges: mergePrivs('launch')
-					},
-					{
-						name: 'Measure',
-						privileges: mergePrivs('measure')
-					},
-					{
-						name: 'Admin/Settings',
-						privileges: mergePrivs('settings')
-					}
-				];
+				var home = new launch.Module();
+				var consult = new launch.Module();
+				var create = new launch.Module();
+				var collaborate = new launch.Module();
+				var calendar = new launch.Module();
+				var launchModule = new launch.Module();
+				var measure = new launch.Module();
+				var settings = new launch.Module();
+
+				home.name = 'home';
+				home.active = true;
+				home.title = 'Home';
+				home.created = null;
+				home.updated = null;
+				home.privileges = mergePrivs('home');
+
+				consult.name = 'consult';
+				consult.active = false;
+				consult.title = 'Consult';
+				consult.created = null;
+				consult.updated = null;
+				consult.privileges = mergePrivs('consult');
+
+				create.name = 'create';
+				create.active = false;
+				create.title = 'Create';
+				create.created = null;
+				create.updated = null;
+				create.privileges = mergePrivs('create');
+
+				collaborate.name = 'collaborate';
+				collaborate.active = false;
+				collaborate.title = 'Collaborate';
+				collaborate.created = null;
+				collaborate.updated = null;
+				collaborate.privileges = mergePrivs('collaborate');
+
+				calendar.name = 'calendar';
+				calendar.active = false;
+				calendar.title = 'Calendar';
+				calendar.created = null;
+				calendar.updated = null;
+				calendar.privileges = mergePrivs('calendar');
+
+				launchModule.name = 'launch';
+				launchModule.active = false;
+				launchModule.title = 'Launch';
+				launchModule.created = null;
+				launchModule.updated = null;
+				launchModule.privileges = mergePrivs('launch');
+
+				measure.name = 'measure';
+				measure.active = false;
+				measure.title = 'Measure';
+				measure.created = null;
+				measure.updated = null;
+				measure.privileges = mergePrivs('measure');
+
+				settings.name = 'settings';
+				settings.active = false;
+				settings.title = 'Admin/Settings';
+				settings.created = null;
+				settings.updated = null;
+				settings.privileges = mergePrivs('settings');
+
+				role.modules = [home, consult, create, collaborate, calendar, launchModule, measure, settings];
 			}
 
 			return role;
@@ -526,9 +562,13 @@
 			role.accountId = cachedRole.accountId;
 			role.created = cachedRole.created;
 			role.updated = cachedRole.updated;
+			role.modules = [];
 
-			role.privileges = cachedRole.privileges;
-			role.modules = cachedRole.modules;
+			$.each(cachedRole.modules, function (i, m) {
+				var module = new launch.Module();
+
+				role.modules.push({ name: m.name, privileges: $.map(m, self.privilege.fromCache) });
+			});
 
 			return role;
 		},
@@ -740,6 +780,20 @@
 			privilege.view = (accessType === 'view' && parseInt(dto.access) === 1);
 			privilege.edit = (accessType === 'edit' && parseInt(dto.access) === 1);
 			privilege.execute = (accessType === 'execute' && parseInt(dto.access) === 1);
+
+			return privilege;
+		},
+		fromCache: function(cachedPrivilege) {
+			var privilege = new launch.Privilege();
+
+			privilege.name = cachedPrivilege.name;
+			privilege.displayName = cachedPrivilege.displayName;
+			privilege.module = cachedPrivilege.module;
+			privilege.accessType = cachedPrivilege.accessType;
+
+			privilege.view = (cachedPrivilege.view == true);
+			privilege.edit = (cachedPrivilege.edit == true);
+			privilege.execute = (cachedPrivilege.execute == true);
 
 			return privilege;
 		},

@@ -1,4 +1,4 @@
-﻿launch.module.factory('AccountService', function ($resource, ModelMapperService) {
+﻿launch.module.factory('AccountService', function ($resource, ModelMapperService, SessionService) {
 	var accounts = $resource('/api/account/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.account.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.account.parseResponse },
@@ -32,9 +32,19 @@
 
 			var account = accounts.get({ id: id }, success, error);
 
-			account.$promise.then(function (acct) {
+			account.$promise.then(function(acct) {
+				var loggedInUser = ModelMapperService.user.fromCache(SessionService.get(SessionService.USER_KEY));
+
 				if (!acct.subscription) {
-					acct.subscription = accountSubscriptions.get({ id: acct.id }, null, error);
+					acct.subscription = accountSubscriptions.get({ id: acct.id }, function(subscription) {
+						if (!loggedInUser.isGlobalAdmin) {
+							SessionService.set(SessionService.ACCOUNT_KEY, acct);
+						}
+					}, error);
+				} else {
+					if (!loggedInUser.isGlobalAdmin) {
+						SessionService.set(SessionService.ACCOUNT_KEY, acct);
+					}
 				}
 			});
 

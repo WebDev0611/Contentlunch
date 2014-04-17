@@ -31,7 +31,7 @@ launch.module.controller('LoginController', [
 			return (launch.utils.isBlank($scope.emailError) && launch.utils.isBlank($scope.passwordError));
 		};
 
-		$scope.login = function (e, user) {
+		$scope.login = function(e, user) {
 			if (e.type === 'keypress' && e.charCode !== 13) {
 				return;
 			}
@@ -52,9 +52,7 @@ launch.module.controller('LoginController', [
 						$location.path('/');
 					}
 				},
-				error: function (r) {
-					$scope.isSaving = false;
-
+				error: function(r) {
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
 				}
 			});
