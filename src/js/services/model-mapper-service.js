@@ -9,9 +9,8 @@
 
 			var dto = JSON.parse(r);
 
-			if (!!dto.error) {
-				launch.utils.handleAjaxErrorResponse(dto.error, notificationService);
-				return null;
+			if (!!dto.error || !!dto.errors) {
+				return dto;
 			}
 
 			if ($.isArray(dto)) {
@@ -236,9 +235,8 @@
 
 			var dto = JSON.parse(r);
 
-			if (!!dto.error) {
-				launch.utils.handleAjaxErrorResponse(dto.error, notificationService);
-				return null;
+			if (!!dto.error || !!dto.errors) {
+				return dto;
 			}
 
 			if ($.isArray(dto)) {
@@ -406,9 +404,8 @@
 
 			var dto = JSON.parse(r);
 
-			if (!!dto.error) {
-				launch.utils.handleAjaxErrorResponse(dto.error, notificationService);
-				return null;
+			if (!!dto.error || !!dto.errors) {
+				return dto;
 			}
 
 			if ($.isArray(dto)) {
@@ -633,9 +630,8 @@
 
 			var dto = JSON.parse(r);
 
-			if (!!dto.error) {
-				launch.utils.handleAjaxErrorResponse(dto.error, notificationService);
-				return null;
+			if (!!dto.error || !!dto.errors) {
+				return dto;
 			}
 
 			if ($.isArray(dto)) {
@@ -726,6 +722,10 @@
 		fromDto: function(dto) {
 			if (!dto) {
 				return null;
+			}
+
+			if (!!dto.error || !!dto.errors) {
+				return dto;
 			}
 
 			var module = new launch.Module();

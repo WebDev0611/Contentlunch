@@ -74,15 +74,23 @@
 
 		var criteriaCount = 0;
 
-		if (launch.utils.isValidPattern(p, /[A-Z]/)) { criteriaCount++; }
-		if (launch.utils.isValidPattern(p, /[a-z]/)) { criteriaCount++; }
-		if (launch.utils.isValidPattern(p, /[0-9]/)) { criteriaCount++; }
-		if (launch.utils.isValidPattern(p, /\W/)) { criteriaCount++; }
+		if (launch.utils.isValidPattern(p, /[A-Z]/)) {
+			criteriaCount++;
+		}
+		if (launch.utils.isValidPattern(p, /[a-z]/)) {
+			criteriaCount++;
+		}
+		if (launch.utils.isValidPattern(p, /[0-9]/)) {
+			criteriaCount++;
+		}
+		if (launch.utils.isValidPattern(p, /\W/)) {
+			criteriaCount++;
+		}
 
 		return (criteriaCount >= 2) ? null : 'Password must contain at least two of the following: lower-case letter, upper-case letter, number, symbol.';
 	},
 
-	handleAjaxErrorResponse: function(response, notificationService) {
+	handleAjaxErrorResponse: function (response, notificationService) {
 		var err = (!launch.utils.isBlank(response.message)) ? response.message : null;
 		var type = (!launch.utils.isBlank(response.type)) ? response.type : null;
 		var file = (!launch.utils.isBlank(response.file)) ? response.file : null;
@@ -97,6 +105,12 @@
 					type = (!launch.utils.isBlank(response.data.error.type)) ? response.data.error.type : null;
 					file = (!launch.utils.isBlank(response.data.error.file)) ? response.data.error.file : null;
 					line = (!launch.utils.isBlank(response.data.error.line)) ? response.data.error.line : null;
+				} else if ($.isArray(response.data.errors)) {
+					err = '';
+
+					$.each(response.data.errors, function (i, e) {
+						err += e + '\n\n';
+					});
 				} else {
 					err = (!launch.utils.isBlank(response.data.message)) ? response.data.message : null;
 					type = (!launch.utils.isBlank(response.data.type)) ? response.data.type : null;
@@ -111,9 +125,15 @@
 		}
 
 		if (launch.config.DEBUG_MODE) {
-			if (!launch.utils.isBlank(type)) { err += '\n\nType: ' + type; }
-			if (!launch.utils.isBlank(file)) { err += '\n\nFile: ' + file; }
-			if (!launch.utils.isBlank(line)) { err += '\n\nLine: ' + line; }
+			if (!launch.utils.isBlank(type)) {
+				err += '\n\nType: ' + type;
+			}
+			if (!launch.utils.isBlank(file)) {
+				err += '\n\nFile: ' + file;
+			}
+			if (!launch.utils.isBlank(line)) {
+				err += '\n\nLine: ' + line;
+			}
 		}
 
 		if (!launch.utils.isBlank(err)) {
@@ -412,13 +432,13 @@
 		return [];
 	},
 
-	getState: function (country, stateCode) {
+	getState: function(country, stateCode) {
 		if ($.isPlainObject(stateCode) && !launch.utils.isBlank(stateCode.name) && !launch.utils.isBlank(stateCode.value)) {
 			return stateCode;
 		}
 
 		var states = launch.utils.getStates(country);
-		var state = $.grep(states, function (s, i) { return (s.value.toLowerCase() === stateCode.toLowerCase()); });
+		var state = $.grep(states, function(s, i) { return (s.value.toLowerCase() === stateCode.toLowerCase()); });
 
 		return (state.length === 1) ? state[0] : null;
 	},
@@ -472,7 +492,7 @@
 		return '$' + parseFloat(amount).toFixed(2);
 	},
 
-	getPropertyErrorMessage: function (model, property, control) {
+	getPropertyErrorMessage: function(model, property, control) {
 		if (!control || !control.$dirty) {
 			return null;
 		}
@@ -492,5 +512,13 @@
 		control.$invalid = !launch.utils.isBlank(model.validateProperty(property));
 
 		return (control.$dirty && control.$invalid);
+	},
+
+	newGuid: function() {
+		var fourHex = function() {
+			return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+		};
+
+		return fourHex() + fourHex() + '-' + fourHex() + '-' + fourHex() + '-' + fourHex() + '-' + fourHex() + fourHex() + fourHex();
 	}
 };
