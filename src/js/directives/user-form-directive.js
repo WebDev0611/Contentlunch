@@ -6,7 +6,7 @@
 
 		self.init = function () {
 			self.loggedInUser = AuthService.userInfo();
-			scope.roles = RoleService.query();
+			scope.roles = RoleService.query(self.loggedInUser.account.id);
 		};
 
 		self.discardChanges = function (form) {

@@ -83,6 +83,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 
 			return self.authenticate.fetchCurrentUser(null, function (r) {
 				if (!r.id) {
+					$location.path('/login');
 					return;
 				}
 

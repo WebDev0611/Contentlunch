@@ -476,6 +476,25 @@ span[class*=" icon-"].dark {
   background-color: #ebebeb !important;
   border-color: #adadad !important;
 }
+.right-pane .control-group.content-connection-button-bar .form-group {
+  margin: 0;
+  max-width: 300px;
+}
+.right-pane .control-group.content-connection-button-bar .btn-group {
+  max-width: 300px;
+}
+.right-pane .control-group.content-connection-button-bar .btn-group .btn-default {
+  background-color: #ebebeb;
+  color: #333333;
+}
+.right-pane .control-group.content-connection-button-bar .btn-group .btn-default.active {
+  background-color: #000000;
+  color: #ffffff;
+}
+.right-pane .control-group.content-connection-button-bar .add-connection {
+  float: right;
+  margin-right: 100px;
+}
 .view {
   height: 100%;
   margin: 0;

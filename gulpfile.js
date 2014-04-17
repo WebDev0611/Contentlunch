@@ -189,6 +189,12 @@ gulp.task('fonts-woff', function () {
 		.pipe(livereload(server));
 });
 
+gulp.task('fonts-otf', function () {
+	return gulp.src(['./bower_components/font-awesome/fonts/FontAwesome.otf'])
+		.pipe(gulp.dest('./public/assets/fonts'))
+		.pipe(livereload(server));
+});
+
 gulp.task('views', function () {
 	return gulp.src('src/views/**/*.html')
 	//	.pipe(embedlr())
@@ -234,5 +240,5 @@ gulp.task('watch', function() {
 
 // Run clean task first as dependency
 gulp.task('default', ['clean'], function () {
-	gulp.start('styles-bootstrap', 'map-bootstrap', 'bootstrap-components-css', 'styles-angular-ui', 'tinymce-css', 'tinymce-fonts', 'tinymce-images', 'less', 'tinymce-scripts', 'scripts', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff');
+	gulp.start('styles-bootstrap', 'map-bootstrap', 'bootstrap-components-css', 'styles-angular-ui', 'tinymce-css', 'tinymce-fonts', 'tinymce-images', 'less', 'tinymce-scripts', 'scripts', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff', 'fonts-otf');
 });
