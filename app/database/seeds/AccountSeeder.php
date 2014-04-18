@@ -80,44 +80,123 @@ class AccountSeeder extends Seeder {
         // Save content settings
         $settings = new AccountContentSettings;
         $settings->account_id = $account->id;
-        $settings->include_name = array('audio' => 1, 'ebook' => 1,
-            'google_drive' => 1, 'photo' => 1, 'video' => 1);
-        $settings->allow_edit_date = array('blog_post' => 1, 'email' => 1,
-            'landing_page' => 1, 'twitter' => 1, 'whitepaper' => 1);
-        $settings->keyword_tags = array('case_study' => 1, 'facebook_post' => 1,
-            'linkedin' => 1, 'salesforce_asset' => 1);
+        $settings->include_name = array(
+            'enabled' => 1,
+            'content_types' => array(
+                'audio', 'ebook', 'google_drive', 'photo', 'video'
+            )
+        );
+        $settings->allow_edit_date = array(
+            'enabled' => 1,
+            'content_types' => array(
+                'blog_post', 'email', 'landing_page', 'twitter', 'whitepaper'
+            )
+        );
+        $settings->keyword_tags = array(
+            'enabled' => 1,
+            'content_types' => array(
+                'case_study', 'facebook_post', 'linkedin', 'salesforce_asset'
+            )
+        );
         $settings->publishing_guidelines = 'Publishing guidelines here';
+        $settings->persona_columns = array('suspects', 'prospects', 'leads', 'opportunities', 'custom');
         $settings->personas = array(
             array(
                 'name' => 'CMO',
-                'suspects' => 'Description of how a CMO acts at the Suspect Stage Description of how a CMO acts at the Suspect Stage',
-                'prospects' => 'Description of how a CMO acts at the Prospects Stage Description of how a CMO acts at the Prospects Stage',
-                'lead' => 'Description of how a CMO acts at the Lead Stage Description of how a CMO acts at the Lead Stage',
-                'opportunities' => 'Description of how a CMO acts at the Opportunities Stage Description of how a CMO acts at the Opportunities Stage',
+                'columns' => array(
+                    'Description of how a CMO acts at the Suspect Stage Description of how a CMO acts at the Suspect Stage',
+                    'Description of how a CMO acts at the Prospects Stage Description of how a CMO acts at the Prospects Stage',
+                    'Description of how a CMO acts at the Lead Stage Description of how a CMO acts at the Lead Stage',
+                    'Description of how a CMO acts at the Opportunities Stage Description of how a CMO acts at the Opportunities Stage',
+                    'Custom description'
+                )
             ),
             array(
                 'name' => 'VP Sales',
-                'suspects' => 'Description of how a VP Sales acts at the Suspect Stage Description of how a VP Sales acts at the Suspect Stage',
-                'prospects' => 'Description of how a VP Sales acts at the Prospects Stage Description of how a VP Sales acts at the Prospects Stage',
-                'lead' => 'Description of how a VP Sales acts at the Lead Stage Description of how a VP Sales acts at the Lead Stage',
-                'opportunities' => 'Description of how a VP Sales acts at the Opportunities Stage Description of how a VP Sales acts at the Opportunities Stage',
+                'columns' => array(
+                    'Description of how a VP Sales acts at the Suspect Stage Description of how a VP Sales acts at the Suspect Stage',
+                    'Description of how a VP Sales acts at the Prospects Stage Description of how a VP Sales acts at the Prospects Stage',
+                    'Description of how a VP Sales acts at the Lead Stage Description of how a VP Sales acts at the Lead Stage',
+                    'Description of how a VP Sales acts at the Opportunities Stage Description of how a VP Sales acts at the Opportunities Stage',
+                    'Custom description'
+                )
             ),
             array(
                 'name' => 'Sales Rep',
-                'suspects' => 'Description of how a Sales Rep acts at the Suspect Stage Description of how a Sales Rep acts at the Suspect Stage',
-                'prospects' => 'Description of how a Sales Rep acts at the Prospects Stage Description of how a Sales Rep acts at the Prospects Stage',
-                'lead' => 'Description of how a Sales Rep acts at the Lead Stage Description of how a Sales Rep acts at the Lead Stage',
-                'opportunities' => 'Description of how a Sales Rep acts at the Opportunities Stage Description of how a Sales Rep acts at the Opportunities Stage',
+                'columns' => array(
+                    'Description of how a Sales Rep acts at the Suspect Stage Description of how a Sales Rep acts at the Suspect Stage',
+                    'Description of how a Sales Rep acts at the Prospects Stage Description of how a Sales Rep acts at the Prospects Stage',
+                    'Description of how a Sales Rep acts at the Lead Stage Description of how a Sales Rep acts at the Lead Stage',
+                    'Description of how a Sales Rep acts at the Opportunities Stage Description of how a Sales Rep acts at the Opportunities Stage',
+                    'Custom description'
+                )
             ),
             array(
                 'name' => 'Product Manager',
-                'suspects' => 'Description of how a Product Manager acts at the Suspect Stage Description of how a Product Manager acts at the Suspect Stage',
-                'prospects' => 'Description of how a Product Manager acts at the Prospects Stage Description of how a Product Manager acts at the Prospects Stage',
-                'lead' => 'Description of how a Product Manager acts at the Lead Stage Description of how a Product Manager acts at the Lead Stage',
-                'opportunities' => 'Description of how a Product Manager acts at the Opportunities Stage Description of how a Product Manager acts at the Opportunities Stage'
+                'columns' => array(
+                    'Description of how a Product Manager acts at the Suspect Stage Description of how a Product Manager acts at the Suspect Stage',
+                    'Description of how a Product Manager acts at the Prospects Stage Description of how a Product Manager acts at the Prospects Stage',
+                    'Description of how a Product Manager acts at the Lead Stage Description of how a Product Manager acts at the Lead Stage',
+                    'Description of how a Product Manager acts at the Opportunities Stage Description of how a Product Manager acts at the Opportunities Stage',
+                    'Custom description'
+                )
             )
         );
         $settings->save();
+
+        // Save SEO connections
+        $connection = new AccountConnection;
+        $connection->account_id = $account->id;
+        $connection->type = 'seo';
+        $connection->name = 'SEO Ultimate';
+        $connection->status = 1;
+        $connection->settings = array(
+            'apikey' => '123asdf',
+            'url' => 'http://seoultimate.com'
+        );
+        $connection->save();
+        $connection = new AccountConnection;
+        $connection->account_id = $account->id;
+        $connection->type = 'seo';
+        $connection->name = 'Sales Machine';
+        $connection->status = 1;
+        $connection->settings = array(
+            'apikey' => '123asdfasd',
+            'url' => 'http://seomachine.com'
+        );
+        $connection->save();
+
+        // Save content connections
+        $connection = new AccountConnection;
+        $connection->account_id = $account->id;
+        $connection->type = 'content';
+        $connection->name = 'Hubspot';
+        $connection->status = 1;
+        $connection->settings = array(
+            'apikey' => '123asdf',
+            'url' => 'http://surge.hubspot.com'
+        );
+        $connection->save();
+        $connection = new AccountConnection;
+        $connection->account_id = $account->id;
+        $connection->type = 'content';
+        $connection->name = 'Linkedin';
+        $connection->status = 1;
+        $connection->settings = array(
+            'apikey' => '123asdf',
+            'url' => 'http://linkedin.com/surge'
+        );
+        $connection->save();
+        $connection = new AccountConnection;
+        $connection->account_id = $account->id;
+        $connection->type = 'content';
+        $connection->name = 'Wordpress';
+        $connection->status = 1;
+        $connection->settings = array(
+            'apikey' => '123asdf',
+            'url' => 'http://wordpress.com/surge'
+        );
+        $connection->save();
 	}
 
 }

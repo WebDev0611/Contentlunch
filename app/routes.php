@@ -18,6 +18,11 @@ Route::group(array('prefix' => 'api'), function()
 	Route::post('account/{id}/add_user', 'AccountUserController@store');
 	Route::get('account/{id}/users', 'AccountUserController@show');
 
+	Route::get('account/{id}/connections', 'AccountConnectionsController@get_connections');
+	Route::post('account/{id}/connections', 'AccountConnectionsController@post_connection');
+	Route::put('account/{id}/connections/{connection_id}', 'AccountConnectionsController@put_connection');
+	Route::delete('account/{id}/connections/{connection_id}', 'AccountConnectionsController@delete_connection');
+
 	Route::get('account/{id}/content-settings', 'AccountContentSettingsController@get_settings');
 	Route::put('account/{id}/content-settings', 'AccountContentSettingsController@save_settings');
 

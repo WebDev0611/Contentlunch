@@ -31,6 +31,9 @@
         <testsuite name="AccountRole">
           <file>./app/tests/integration/AccountRoleIntegrationTest.php</file>
         </testsuite>
+        <testsuite name="AccountConnections">
+          <file>./app/tests/integration/AccountConnectionsIntegrationTest.php</file>
+        </testsuite>
         <testsuite name="Role">
           <file>./app/tests/integration/RoleIntegrationTest.php</file>
         </testsuite>
