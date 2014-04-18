@@ -5,7 +5,11 @@ launch.module.controller('LoginController', [
 		self.init = function() {
 			authService.logout();
 			$scope.toggleMode();
+
+			self.redirect = launch.utils.isBlank($location.search()['path']) ? null : $location.search()['path'];
 		};
+
+		self.redirect = null;
 
 		$scope.user = { email: null, password: null };
 		$scope.emailError = null;
@@ -49,7 +53,7 @@ launch.module.controller('LoginController', [
 					if (u.role.isGlobalAdmin === true) {
 						$location.path('/accounts');
 					} else {
-						$location.path('/');
+						$location.path(launch.utils.isBlank(self.redirect) ? '/' : self.redirect).search({ });
 					}
 				},
 				error: function(r) {
