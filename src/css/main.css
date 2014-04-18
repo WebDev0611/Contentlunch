@@ -317,6 +317,9 @@ span[class^="icon-"].dark,
 span[class*=" icon-"].dark {
   color: #000000;
 }
+[contenteditable] {
+  padding: 4px;
+}
 .icon-home {
   background-image: url(/assets/images/home.svg);
 }
@@ -494,6 +497,10 @@ span[class*=" icon-"].dark {
 .right-pane .control-group.content-connection-button-bar .add-connection {
   float: right;
   margin-right: 100px;
+}
+.right-pane .control-group.content-connection-button-bar .add-connection .btn {
+  background-color: #000000;
+  color: #ffffff;
 }
 .view {
   height: 100%;
@@ -682,13 +689,23 @@ span[class*=" icon-"].dark {
 .user-editor {
   margin: 75px 25px;
 }
+.toggle {
+  cursor: pointer;
+}
 .connection-list {
-  border-top: solid 1px #000000;
   margin: 16px 0;
 }
 .connection-list .row {
   border-bottom: solid 1px #000000;
+  margin: 0;
   padding: 8px;
+}
+.connection-list .row > div.header {
+  font-weight: bold;
+}
+.connection-list .row > div .fa {
+  margin-right: 8px;
+  width: 16px;
 }
 .tier-components .tier-tile-container {
   display: inline-block;

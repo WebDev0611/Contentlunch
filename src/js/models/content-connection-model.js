@@ -6,6 +6,12 @@
 	self.active = true;
 	self.connectionType = null;
 	self.url = null;
+	self.created = null;
+	self.updated = null;
+
+	self.activeStatus = function() {
+		return self.active === true ? 'Active' : 'Inactive';
+	};
 
 	self.matchSearchTerm = function (term) {
 		return launch.utils.startsWith(self.name, term) || launch.utils.startsWith(self.connectionType, term);

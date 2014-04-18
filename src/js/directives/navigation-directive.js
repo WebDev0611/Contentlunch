@@ -52,7 +52,7 @@
 			scope.adminMenu = adminMenuItems;
 			scope.userMenu = userMenuItems;
 
-			angular.forEach(scope.mainMenu, function (item) {
+			$.each(scope.mainMenu, function(i, item) {
 				if (item.url === '/') {
 					item.active = ($location.path() === '/') ? 'active' : '';
 				} else {

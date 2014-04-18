@@ -83,7 +83,7 @@
 
 				var interceptor = [
 					'$location', '$q', function($location, $q) {
-						var success = function(r) {
+						var success = function (r) {
 							return r;
 						}
 

@@ -13,40 +13,39 @@
 						<span class="glyphicon glyphicon-search"></span>
 					</span>
 				</div>
-				
+
 				<div class="btn-group btn-group-justified btn-group-filter">
 					<a class="btn btn-default" ng-class="{ active: search.connectionStatus === 'active' }" ng-click="search.toggleStatus('active')">Active</a>
 					<a class="btn btn-default" ng-class="{ active: search.connectionStatus === 'inactive' }" ng-click="search.toggleStatus('inactive')">Inactive</a>
 					<a class="btn btn-default" ng-class="{ active: search.connectionStatus === 'all' }" ng-click="search.toggleStatus('all')">All</a>
 				</div>
-				
+
 				<div class="btn-group add-connection">
 					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 						New Connection
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-						<!--<li><a href="#"><span class="fa fa-hubspot"></span> Hubspot</a></li>
-							<li><a href="#"><span class="fa fa-linkedin"></span> LinkedIn</a></li>
-							<li><a href="#"><span class="fa fa-wordpress"></span> Wordpress</a></li>-->
 						<li ng-repeat="provider in providers" ng-click="addConnection(provider)">
-							<a href="#"><span class="{{ 'fa fa-' + provider.toLowerCase() }}"></span> {{ provider }}</a>
+							<a href="#"><span class="{{ 'fa fa-' + provider.toLowerCase() }}"></span>{{ provider }}</a>
 						</li>
 					</ul>
 				</div>
-				
-				<!--<button type="button" class="btn btn-default ladda-button add-connection" ng-click="addConnection()" data-style="zoom-in" ladda-button="isSaving">
-					<span class="ladda-label">New Connection</span>
-				</button>-->
 			</div>
 
 			<div class="connection-list">
+				<div class="row">
+					<div class="col-md-4 header">Name</div>
+					<div class="col-md-6 header">URL</div>
+					<div class="col-md-2 header">Status</div>
+				</div>
 				<div class="row" ng-repeat="connection in filteredConnections">
 					<div class="col-md-4">
 						<span class="{{ 'fa fa-' + connection.connectionType }}"></span>
-						{{ connection.name }}
+						<span contenteditable ng-model="connection.name" on-change="editConnectionName"></span>
 					</div>
-					<div class="col-md-8"><a href="{{ connection.url }}">{{ connection.url }}</a></div>
+					<div class="col-md-6"><a href="{{ connection.url }}">{{ connection.url }}</a></div>
+					<div class="col-md-2"><span class="toggle" ng-click="toggleActiveStatus(connection)">{{ connection.activeStatus() }}</span></div>
 				</div>
 			</div>
 		</div>
