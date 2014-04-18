@@ -10,11 +10,6 @@ launch.module.controller('UserController', [
 
 		$scope.refreshMethod = function () {
 			$scope.user = authService.userInfo();
-
-			if (!$scope.user) {
-				$location.path('/login');
-				return;
-			}
 		};
 
 		$scope.afterSaveSuccess = function (user, form) {

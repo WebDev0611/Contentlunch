@@ -5,8 +5,9 @@
 	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'localytics.directives']);
 
 	launch.module.config([
-			'$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
+			'$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 				$locationProvider.html5Mode(true);
+
 				$routeProvider
 					.when('/', {
 						controller: 'HomeController',
@@ -106,8 +107,19 @@
 			}
 		])
 		.run([
-			'$rootScope', '$location', 'UserService', 'AuthService', function($rootScope, $location, userService, authService) {
+			'$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService', function ($rootScope, $location, userService, authService, notificationService) {
+				var path = $location.path();
+
+				authService.fetchCurrentUser({
+					success: function (r) {
+						if (!r.id && $location.path() !== '/login') {
+							$location.path('/login').search('path', path);
+						}
+					}
+				});
+
 				$rootScope.$on('$routeChangeStart', function (event, next, current) {
+					// TODO: VALIDATE THAT THE USER IS ALLOWED TO VIEW THE PAGE THEY ARE REQUESTING!! IF NOT, SHOW A WARNING OR ERROR AND REDIRECT TO HOME!!
 					if ($location.path() === '/login') {
 						authService.logout();
 					} else if ($location.path() === '/reset') {
@@ -115,7 +127,7 @@
 					} else if ($location.path().indexOf('/user/confirm') === 0) {
 
 					} else if (!authService.isLoggedIn()) {
-						$location.path('/login');
+						$location.path('/login').search('path', path);
 					}
 				});
 

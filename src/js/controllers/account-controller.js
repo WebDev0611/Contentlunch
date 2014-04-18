@@ -17,11 +17,6 @@ launch.module.controller('AccountController', [
 					sessionService.set(sessionService.ACCOUNT_KEY, $scope.selectedAccount);
 				}
 			});
-
-			if (!$scope.selectedAccount) {
-				$location.path('/login');
-				return;
-			}
 		};
 
 		$scope.afterSaveSuccess = function (account, form) {
