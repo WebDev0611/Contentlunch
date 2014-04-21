@@ -2,9 +2,11 @@
 	var self = this;
 
 	self.id = null;
+	self.accountId = null;
 	self.name = null;
 	self.active = true;
 	self.connectionType = null;
+	self.connectionSettings = null;
 	self.url = null;
 	self.created = null;
 	self.updated = null;

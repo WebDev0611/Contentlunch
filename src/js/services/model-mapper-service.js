@@ -991,10 +991,24 @@
 		fromDto: function(dto) {
 			var connection = new launch.ContentConnection();
 
+			connection.id = parseInt(dto.id);
+			connection.accountId = parseInt(dto.account_id);
+			connection.name = dto.name;
+			connection.active = (parseInt(dto.status) === 1) ? true : false;
+			connection.connectionType = dto.type;
+			connection.connectionSettings = dto.settings;
+			connection.created = new Date(dto.created_at);
+			connection.updated = new Date(dto.updated_at);
+
 			return connection;
 		},
 		toDto: function(connection) {
-			return{ };
+			return{
+				id: connection.id,
+				account_id: connection.accountId,
+				name: connection.name,
+				status: (connection.active === true) ? 1 : 0
+			};
 		},
 		sort: function(a, b) {
 			if (!a && !b) {

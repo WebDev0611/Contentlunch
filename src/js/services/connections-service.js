@@ -1,17 +1,25 @@
-﻿launch.module.factory('ContentConnectionService', function ($resource, ModelMapperService) {
-	var connections = $resource('/api/account/:accountId/content_connections/:id', { accountId: '@accountId', id: '@id' }, {
+﻿launch.module.factory('ConnectionsService', function ($resource, ModelMapperService) {
+	var contentConnections = $resource('/api/account/{accountId}/connections/{id}?type=content', { accountId: '@accountId', id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.contentConnection.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.contentConnection.parseResponse },
 		update: { method: 'PUT', transformRequest: ModelMapperService.contentConnection.formatRequest, transformResponse: ModelMapperService.contentConnection.parseResponse },
-		insert: { method: 'POST', transformRequest: ModelMapperService.contentConnection.formatRequest, transformResponse: ModelMapperService.contentConnection.parseResponse }
+		insert: { method: 'POST', transformRequest: ModelMapperService.contentConnection.formatRequest, transformResponse: ModelMapperService.contentConnection.parseResponse },
+		delete: { method: 'DELETE' }
 	});
 
+	//var seoConnections = $resource('/api/account/{accountId}/connections/{id}?type=seo', { accountId: '@accountId', id: '@id' }, {
+	//	get: { method: 'GET', transformResponse: ModelMapperService.seoConnection.parseResponse },
+	//	query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.seoConnection.parseResponse }
+	//});
+
 	return {
-		query: function(accountId, callback) {
+		queryContentConnections: function (accountId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			// TODO: LOAD THE CONNECTIONS FROM THE API!!
+			//contentConnections.query({ accountId: accountId }, success, error);
+
 			var facebook = new launch.ContentConnection();
 			var twitter = new launch.ContentConnection();
 			var google = new launch.ContentConnection();
@@ -64,23 +72,41 @@
 
 			return contentConnections;
 		},
-		get: function(accountId, id, callback) {
+		getContentConnection: function (accountId, id, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-
+			contentConnections.get({ accountId: accountId, id: id }, success, error);
 		},
-		update: function (connection, callback) {
+		updateContentConnection: function (connection, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			
+			contentConnections.update({ accountId: accountId, id: id }, connection, success, error);
 		},
-		add: function (connection, callback) {
+		addContentConnection: function (connection, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			
-		}
+			contentConnections.insert({ accountId: accountId }, connection, success, error);
+		},
+		deleteContentConnection: function (connection, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			contentConnections.delete({ accountId: accountId, id: id }, connection, success, error);
+		},
+		//querySeoConnections: function (accountId, callback) {
+		//	var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+		//	var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+		//	seoConnections.query({ accountId: accountId }, success, error);
+		//},
+		//getSeoConnection: function (accountId, id, callback) {
+		//	var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+		//	var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+		//	seoConnections.get({ accountId: accountId, id: id }, success, error);
+		//}
 	};
 });

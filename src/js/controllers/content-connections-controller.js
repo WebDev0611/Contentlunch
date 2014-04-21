@@ -1,5 +1,5 @@
 ﻿launch.module.controller('ContentConnectionsController', [
-	'$scope', '$filter', '$location', 'AuthService', 'AccountService', 'UserService', 'NotificationService', 'ContentConnectionService', function ($scope, $filter, $location, authService, accountService, userService, notificationService, contentConnectionService) {
+	'$scope', '$filter', '$location', 'AuthService', 'AccountService', 'UserService', 'NotificationService', 'ConnectionService', function ($scope, $filter, $location, authService, accountService, userService, notificationService, connectionService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -8,7 +8,7 @@
 			self.loggedInUser = authService.userInfo();
 			$scope.isLoading = true;
 
-			$scope.connections = contentConnectionService.query(self.loggedInUser.account.id, {
+			$scope.connections = connectionService.queryContentConnections(self.loggedInUser.account.id, {
 				// TODO: UNCOMMENT THIS WHEN THE CONNECTIONS COME FROM THE API!!
 				//success: function (r) {
 				//	$scope.isLoading = false;
