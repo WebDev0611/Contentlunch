@@ -1,47 +1,27 @@
 ﻿launch.module.controller('ContentConnectionsController', [
-	'$scope', '$filter', '$location', 'AuthService', 'AccountService', 'UserService', 'NotificationService', 'SessionService', function ($scope, $filter, $location, authService, accountService, userService, notificationService, sessionService) {
+	'$scope', '$filter', '$location', 'AuthService', 'AccountService', 'UserService', 'NotificationService', 'ContentConnectionService', function ($scope, $filter, $location, authService, accountService, userService, notificationService, contentConnectionService) {
 		var self = this;
 
+		self.loggedInUser = null;
+
 		self.loadConnections = function () {
-			// TODO: LOAD THE CONNECTIONS FROM THE API!!
-			var facebook = new launch.ContentConnection();
-			var twitter = new launch.ContentConnection();
-			var google = new launch.ContentConnection();
-			var blogspot = new launch.ContentConnection();
-			var linkedin = new launch.ContentConnection();
+			self.loggedInUser = authService.userInfo();
+			$scope.isLoading = true;
 
-			facebook.id = 1;
-			facebook.name = 'Some Facebook Account';
-			facebook.url = 'http://www.facebook.com/';
-			facebook.connectionType = 'facebook';
+			$scope.connections = contentConnectionService.query(self.loggedInUser.account.id, {
+				// TODO: UNCOMMENT THIS WHEN THE CONNECTIONS COME FROM THE API!!
+				//success: function (r) {
+				//	$scope.isLoading = false;
+				//	$scope.search.applyFilter();
+				//},
+				//error: function(r) {
+				//	$scope.isLoading = false;
 
-			twitter.id = 2;
-			twitter.name = 'Some Twitter Account';
-			twitter.url = 'http://www.twitter.com/';
-			twitter.connectionType = 'twitter';
+				//	launch.utils.handleAjaxErrorResponse(r, notificationService);
+				//}
+			});
 
-			google.id = 3;
-			google.name = 'Some Google+ Account';
-			google.url = 'http://plus.google.com/';
-			google.connectionType = 'google-plus';
-
-			blogspot.id = 4;
-			blogspot.name = 'Some Blogspot Account';
-			blogspot.url = 'http://www.blogspot.com/';
-			blogspot.connectionType = 'blogspot';
-
-			linkedin.id = 1;
-			linkedin.name = 'Some LinkedIn Account';
-			linkedin.url = 'http://www.linkedin.com/';
-			linkedin.connectionType = 'linkedin';
-
-			$scope.connections.push(facebook);
-			$scope.connections.push(twitter);
-			$scope.connections.push(google);
-			$scope.connections.push(blogspot);
-			$scope.connections.push(linkedin);
-
-			$scope.search.applyFilter(false);
+			$scope.search.applyFilter();
 		};
 
 		self.loadProviders = function() {
@@ -55,6 +35,7 @@
 
 		$scope.providers = [];
 		$scope.connections = [];
+		$scope.isLoading = false;
 		$scope.isSaving = false;
 
 		$scope.search = {
@@ -78,6 +59,12 @@
 					}
 				});
 			}
+		};
+
+		$scope.toggleActiveStatus = function (connection) {
+			connection.active = !connection.active;
+
+			$scope.search.applyFilter(true);
 		};
 
 		$scope.addConnection = function (provider) {

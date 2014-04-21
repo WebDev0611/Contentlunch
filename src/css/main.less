@@ -316,6 +316,10 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
+[contenteditable] {
+	padding: 4px;
+}
+
 .icon-home {
 	background-image: url(/assets/images/home.svg);
 }
@@ -528,6 +532,11 @@ span[class^="icon-"], span[class*=" icon-"] {
 			.add-connection {
 				float: right;
 				margin-right: 100px;
+
+				.btn {
+					background-color: #000000;
+					color: #ffffff;
+				}
 			}
 		}
 	}
@@ -685,13 +694,28 @@ span[class^="icon-"], span[class*=" icon-"] {
 	margin: 75px 25px;
 }
 
+.toggle {
+	cursor: pointer;
+}
+
 .connection-list {
-	border-top: solid 1px #000000;
 	margin: 16px 0;
 
 	.row {
 		border-bottom: solid 1px #000000;
+		margin: 0;
 		padding: 8px;
+
+		>div {
+			&.header {
+				font-weight: bold;
+			}
+
+			.fa {
+				margin-right: 8px;
+				width: 16px;
+			}
+		}
 	}
 }
 
@@ -988,11 +1012,18 @@ span[class^="icon-"], span[class*=" icon-"] {
 }
 
 .chosen-container {
+
 	&.chosen-container-multi {
 		.chosen-choices {
 			.search-choice {
 				.search-choice-close {
 					background-image: url(/assets/images/chosen-sprite.png);
+				}
+			}
+
+			.search-field {
+				input[type="text"] {
+					height: auto !important;
 				}
 			}
 		}

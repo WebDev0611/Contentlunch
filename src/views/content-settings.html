@@ -16,7 +16,7 @@
 					<label for="selAuthorNameApplyTo">Apply To:</label>
 					<select id="selAuthorNameApplyTo" name="selAuthorNameApplyTo" class="chosen-select" multiple="multiple"
 							chosen ng-options="ct for ct in contentTypes" ng-model="contentSettings.authorNameContentTypes"
-							data-placeholder="Select Content Types"></select>
+							ng-disabled="!contentSettings.includeAuthorName" data-placeholder="Select Content Types"></select>
 				</div>
 			</div>
 
@@ -30,7 +30,7 @@
 					<label for="selPublishDateApplyTo">Apply To:</label>
 					<select id="selPublishDateApplyTo" name="selPublishDateApplyTo" class="chosen-select" multiple="multiple"
 							chosen ng-options="ct for ct in contentTypes" ng-model="contentSettings.publishDateContentTypes"
-							data-placeholder="Select Content Types"></select>
+							ng-disabled="!contentSettings.allowPublishDateEdit" data-placeholder="Select Content Types"></select>
 				</div>
 			</div>
 
@@ -44,7 +44,7 @@
 					<label for="selKeywordTagsApplyTo">Apply To:</label>
 					<select id="selKeywordTagsApplyTo" name="selKeywordTagsApplyTo" class="chosen-select" multiple="multiple"
 							chosen ng-options="ct for ct in contentTypes" ng-model="contentSettings.keywordTagsContentTypes"
-							data-placeholder="Select Content Types"></select>
+							ng-disabled="!contentSettings.useKeywordTags" data-placeholder="Select Content Types"></select>
 				</div>
 			</div>
 			
