@@ -1,4 +1,4 @@
-﻿launch.module.factory('ConnectionsService', function ($resource, ModelMapperService) {
+﻿launch.module.factory('ConnectionService', function ($resource, ModelMapperService) {
 	var contentConnections = $resource('/api/account/{accountId}/connections/{id}?type=content', { accountId: '@accountId', id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.contentConnection.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.contentConnection.parseResponse },
