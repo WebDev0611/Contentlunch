@@ -38,6 +38,10 @@
 			// TODO: SAVE TO API AFTER A CHANGE TO THE PERSONA PROPERTIES!!
 		};
 
+		$scope.testHtml = function (item, element, context) {
+			return '<span class="' + launch.utils.getContentTypeIconClass(item.text) + '"></span> <span>' + item.text + '</span>';
+		};
+
 		self.init();
 	}
 ]);

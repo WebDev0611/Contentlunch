@@ -520,5 +520,46 @@
 		};
 
 		return fourHex() + fourHex() + '-' + fourHex() + '-' + fourHex() + '-' + fourHex() + '-' + fourHex() + fourHex() + fourHex();
+	},
+
+	getContentTypeIconClass: function (contentType) {
+		if (launch.utils.isBlank(contentType)) {
+			return null;
+		}
+
+		switch (contentType.toLowerCase()) {
+			case 'audio':
+				return 'fa fa-volume-up';
+			case 'blog post':
+				return 'fa fa-facebook';
+			case 'fa fa-file-text-o':
+				return 'fa fa-facebook';
+			case 'case study':
+				return 'fa fa-briefcase';
+			case 'ebook':
+				return 'fa fa-book';
+			case 'email':
+				return 'fa fa-envelope';
+			case 'facebook post':
+				return 'fa fa-facebook';
+			case 'google drive':
+				return 'fa fa-google-plus';
+			//case 'landing page':
+			//	return 'fa fa-';
+			case 'linkedin':
+				return 'fa fa-linkedin';
+			case 'photo':
+				return 'fa fa-picture-o';
+			//case 'salesforce asset':
+			//	return 'fa fa-';
+			case 'twitter':
+				return 'fa fa-twitter';
+			case 'video':
+				return 'fa fa-video-camera';
+			//case 'whitepaper':
+			//	return 'fa fa-';
+			default:
+				return 'fa fa-question';
+		}
 	}
 };
