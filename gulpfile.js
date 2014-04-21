@@ -48,8 +48,7 @@ gulp.task('bootstrap-components-css', function () {
 			'./bower_components/ladda/dist/ladda.min.css',
 			'./bower_components/ladda/dist/spin.min.css',
 			'./bower_components/font-awesome/css/font-awesome.css',
-			'./bower_components/chosen/chosen.css',
-			'./bower_components/angular-chosen-localytics/chosen-spinner.css'
+			'./bower_components/select2/select2.css'
 	])
 		.pipe(concat('bootstrap-components.css'))
 		.pipe(gulp.dest('public/assets/css'))
@@ -129,8 +128,8 @@ gulp.task('tinymce-images', function () {
 gulp.task('scripts', function() {
 	gulp.src([
 			'./bower_components/jquery/dist/jquery.js',
-			'./bower_components/chosen/chosen.jquery.js',
 			'./bower_components/bootstrap/dist/js/bootstrap.js',
+			'./bower_components/select2/select2.js',
 			'./bower_components/ng-file-upload/angular-file-upload-html5-shim.js',
 			'./bower_components/ng-file-upload/angular-file-upload-shim.js',
 			'./bower_components/angular/angular.js',
@@ -143,7 +142,7 @@ gulp.task('scripts', function() {
 			'./bower_components/ladda/js/spin.js',
 			'./bower_components/ladda/js/ladda.js',
 			'./bower_components/ng-file-upload/angular-file-upload.js',
-			'./bower_components/angular-chosen-localytics/chosen.js'
+			'./bower_components/angular-ui-select2/src/select2.js'
 		])
 		.pipe(concat('build.js'))
 		.pipe(gulp.dest('./public/assets/js'));
@@ -205,9 +204,9 @@ gulp.task('views', function () {
 gulp.task('images', function() {
 	return gulp.src([
 			'src/images/**/*',
-			'./bower_components/angular-chosen-localytics/spinner.gif',
-			'./bower_components/chosen/chosen-sprite.png',
-			'./bower_components/chosen/chosen-sprite@2x.png'
+			'./bower_components/select2/select2.png',
+			'./bower_components/select2/select2-spinner.gif',
+			'./bower_components/select2/select2x2.png'
 		])
 		.pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
 		.pipe(gulp.dest('public/assets/images'))
