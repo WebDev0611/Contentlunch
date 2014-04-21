@@ -1,4 +1,4 @@
-﻿// TODO: WE CAN PROBABLY DELETE THIS, AS WE'VE REPLACED IT WITH ANGULAR-CHOSEN!!
+﻿// TODO: WE CAN PROBABLY DELETE THIS, AS WE'VE REPLACED IT WITH ANGULAR-SELECT2!!
 launch.module.directive('multiSelectDropdown', function ($window) {
 	var link = function(scope, element, attrs) {
 		var select = $(element).children('select');

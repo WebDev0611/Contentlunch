@@ -1,8 +1,8 @@
-﻿launch.ModelMapper = function (authService, notificationService) {
+﻿launch.ModelMapper = function(authService, notificationService) {
 	var self = this;
 
 	self.account = {
-		parseResponse: function (r, getHeaders) {
+		parseResponse: function(r, getHeaders) {
 			if (launch.utils.isBlank(r)) {
 				return null;
 			}
@@ -16,7 +16,7 @@
 			if ($.isArray(dto)) {
 				var accounts = [];
 
-				angular.forEach(dto, function (account, index) {
+				$.each(dto, function(index, account) {
 					accounts.push(self.account.fromDto(account));
 				});
 
@@ -34,7 +34,7 @@
 		formatRequest: function(account) {
 			return JSON.stringify(self.account.toDto(account));
 		},
-		fromDto: function (dto) {
+		fromDto: function(dto) {
 			if (!dto) {
 				return null;
 			}
@@ -107,7 +107,7 @@
 
 			return account;
 		},
-		toDto: function (account) {
+		toDto: function(account) {
 			var dto = {
 				id: account.id,
 				title: account.title,
@@ -154,7 +154,7 @@
 
 			return dto;
 		},
-		fromCache: function (cachedAccount) {
+		fromCache: function(cachedAccount) {
 			if (!cachedAccount) {
 				return null;
 			}
@@ -208,7 +208,7 @@
 
 			return account;
 		},
-		sort: function (a, b) {
+		sort: function(a, b) {
 			if (a.title === b.title) {
 				if (a.id === b.id) {
 					return 0;
@@ -242,7 +242,7 @@
 			if ($.isArray(dto)) {
 				var users = [];
 
-				angular.forEach(dto, function (u, index) {
+				$.each(dto, function (index, u) {
 					users.push(self.user.fromDto(u));
 				});
 
@@ -257,10 +257,10 @@
 
 			return null;
 		},
-		formatRequest: function (user) {
+		formatRequest: function(user) {
 			return JSON.stringify(self.user.toDto(user));
 		},
-		fromDto: function (dto) {
+		fromDto: function(dto) {
 			if (!dto) {
 				return null;
 			}
@@ -287,7 +287,7 @@
 			user.active = (parseInt(dto.status) === 1) ? true : false;
 			user.accounts = ($.isArray(dto.accounts)) ? $.map(dto.accounts, function(a, i) { return self.account.fromDto(a); }) : [];
 			user.account = (user.accounts.length > 0) ? user.accounts[0] : null;
-			user.roles = ($.isArray(dto.roles)) ? $.map(dto.roles, function (r, i) { return self.role.fromDto(r); }) : [];
+			user.roles = ($.isArray(dto.roles)) ? $.map(dto.roles, function(r, i) { return self.role.fromDto(r); }) : [];
 			user.role = (user.roles.length > 0) ? user.roles[0] : null;
 
 			if (dto.impersonating) {
@@ -326,8 +326,8 @@
 				phone: user.phoneNumber,
 				title: user.title,
 				status: (user.active === true) ? 1 : 0,
-				accounts: $.map(user.accounts, function (a, i) { return self.account.toDto(a); }),
-				roles: $.map(user.roles, function (r, i) { return self.role.toDto(r); })
+				accounts: $.map(user.accounts, function(a, i) { return self.account.toDto(a); }),
+				roles: $.map(user.roles, function(r, i) { return self.role.toDto(r); })
 			};
 
 			if (!launch.utils.isBlank(user.password) && !launch.utils.isBlank(user.passwordConfirmation)) {
@@ -367,7 +367,7 @@
 			user.image = cachedUser.image;
 			user.roles = $.map(cachedUser.roles, function(r, i) { return self.role.fromCache(r); });
 			user.role = (user.roles.length > 0) ? user.roles[0] : null;
-			user.accounts = $.map(cachedUser.accounts, function (a, i) { return self.account.fromCache(a); });
+			user.accounts = $.map(cachedUser.accounts, function(a, i) { return self.account.fromCache(a); });
 			user.account = (user.accounts.length > 0) ? user.accounts[0] : null;
 
 			return user;
@@ -413,8 +413,8 @@
 				var user = authService.userInfo();
 				var isGlobalAdmin = (!!user && user.role.isGlobalAdmin === true) ? true : false;
 
-				angular.forEach(dto, function(r, index) {
-					var role = self.role.fromDto(r);
+				$.each(dto, function (index, rl) {
+					var role = self.role.fromDto(rl);
 
 					if (isGlobalAdmin === role.isGlobalAdmin) {
 						roles.push(role);
@@ -456,17 +456,17 @@
 			if ($.isArray(dto.permissions)) {
 				var readPrivs = [];
 				var execPrivs = [];
-				var mergePrivs = function (module) {
+				var mergePrivs = function(module) {
 					var read = $.grep(readPrivs, function(p) { return (p.module === module); });
-					var exec = $.grep(execPrivs, function (p) { return (p.module === module); });
+					var exec = $.grep(execPrivs, function(p) { return (p.module === module); });
 
 					return $.merge(read, exec).sort(self.privilege.sort);
 				};
 
-				$.each(dto.permissions, function (i, p) {
+				$.each(dto.permissions, function(i, p) {
 					if (p.type === 'view') {
 						var viewPrivilege = self.privilege.fromDto(p);
-						var editPrivilege = $.grep(dto.permissions, function (ep) { return ep.name === p.name.replace('view', 'edit'); });
+						var editPrivilege = $.grep(dto.permissions, function(ep) { return ep.name === p.name.replace('view', 'edit'); });
 
 						if (editPrivilege.length === 1 && parseInt(editPrivilege[0].access) === 1) {
 							viewPrivilege.edit = true;
@@ -561,7 +561,7 @@
 			role.updated = cachedRole.updated;
 			role.modules = [];
 
-			$.each(cachedRole.modules, function (i, m) {
+			$.each(cachedRole.modules, function(i, m) {
 				var module = new launch.Module();
 
 				role.modules.push({ name: m.name, privileges: $.map(m, self.privilege.fromCache) });
@@ -588,14 +588,14 @@
 				dto.name = dto.display_name.replace(/[\s~`!@#\$%\^&\*\(\)-\+=\{\}\[\]\|\\;:'",\.<>\?\/]/g, '_');
 			}
 
-			$.each(role.modules, function (i, m) {
-				var view = $.grep(m.privileges, function (p) { return (p.accessType != 'execute'); });
-				var edit = $.grep(m.privileges, function (p) { return (p.accessType != 'execute'); });
-				var exec = $.grep(m.privileges, function (p) { return (p.accessType == 'execute'); });
+			$.each(role.modules, function(i, m) {
+				var view = $.grep(m.privileges, function(p) { return (p.accessType != 'execute'); });
+				var edit = $.grep(m.privileges, function(p) { return (p.accessType != 'execute'); });
+				var exec = $.grep(m.privileges, function(p) { return (p.accessType == 'execute'); });
 
-				$.merge(dto.permissions, $.map(view, function (p) { return self.privilege.toDto(p, 'view'); }));
-				$.merge(dto.permissions, $.map(edit, function (p) { return self.privilege.toDto(p, 'edit', p.name.replace('_view_', '_edit_')); }));
-				$.merge(dto.permissions, $.map(exec, function (p) { return self.privilege.toDto(p, 'execute'); }));
+				$.merge(dto.permissions, $.map(view, function(p) { return self.privilege.toDto(p, 'view'); }));
+				$.merge(dto.permissions, $.map(edit, function(p) { return self.privilege.toDto(p, 'edit', p.name.replace('_view_', '_edit_')); }));
+				$.merge(dto.permissions, $.map(exec, function(p) { return self.privilege.toDto(p, 'execute'); }));
 			});
 
 			return dto;
@@ -637,7 +637,7 @@
 			if ($.isArray(dto)) {
 				var subscriptions = [];
 
-				angular.forEach(dto, function (s, index) {
+				$.each(dto, function (index, s) {
 					subscriptions.push(self.subscription.fromDto(s));
 				});
 
@@ -655,7 +655,7 @@
 		formatRequest: function(subscription) {
 			return JSON.stringify(self.subscription.toDto(subscription));
 		},
-		fromDto: function (dto) {
+		fromDto: function(dto) {
 			if (!dto) {
 				return null;
 			}
@@ -685,7 +685,7 @@
 
 			return subscription;
 		},
-		toDto: function (subscription) {
+		toDto: function(subscription) {
 			return {
 				subscription_id: subscription.id,
 				id: subscription.id,
@@ -797,7 +797,7 @@
 
 			return privilege;
 		},
-		toDto: function (privilege, accessType, name) {
+		toDto: function(privilege, accessType, name) {
 			var dto = {
 				name: launch.utils.isBlank(name) ? privilege.name : name,
 				display_name: privilege.displayName,
@@ -808,7 +808,7 @@
 
 			return dto;
 		},
-		sort: function (a, b) {
+		sort: function(a, b) {
 			if (!a && !b) {
 				return 0;
 			} else if (!a && !!b) {
@@ -834,24 +834,207 @@
 					return 1;
 				}
 			} else {
-				if (moduleA === 'home') { return -1; }
-				if (moduleB === 'home') { return 1; }
-				if (moduleA === 'consult') { return -1; }
-				if (moduleB === 'consult') { return 1; }
-				if (moduleA === 'create') { return -1; }
-				if (moduleB === 'create') { return 1; }
-				if (moduleA === 'collaborate') { return -1; }
-				if (moduleB === 'collaborate') { return 1; }
-				if (moduleA === 'calendar') { return -1; }
-				if (moduleB === 'calendar') { return 1; }
-				if (moduleA === 'launch') { return -1; }
-				if (moduleB === 'launch') { return 1; }
-				if (moduleA === 'measure') { return -1; }
-				if (moduleB === 'measure') { return 1; }
-				if (moduleA === 'admin') { return -1; }
-				if (moduleB === 'admin') { return 1; }
+				if (moduleA === 'home') {
+					return -1;
+				}
+				if (moduleB === 'home') {
+					return 1;
+				}
+				if (moduleA === 'consult') {
+					return -1;
+				}
+				if (moduleB === 'consult') {
+					return 1;
+				}
+				if (moduleA === 'create') {
+					return -1;
+				}
+				if (moduleB === 'create') {
+					return 1;
+				}
+				if (moduleA === 'collaborate') {
+					return -1;
+				}
+				if (moduleB === 'collaborate') {
+					return 1;
+				}
+				if (moduleA === 'calendar') {
+					return -1;
+				}
+				if (moduleB === 'calendar') {
+					return 1;
+				}
+				if (moduleA === 'launch') {
+					return -1;
+				}
+				if (moduleB === 'launch') {
+					return 1;
+				}
+				if (moduleA === 'measure') {
+					return -1;
+				}
+				if (moduleB === 'measure') {
+					return 1;
+				}
+				if (moduleA === 'admin') {
+					return -1;
+				}
+				if (moduleB === 'admin') {
+					return 1;
+				}
 
 				if (moduleA < moduleB) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+		}
+	};
+
+	self.contentSettings = {
+		parseResponse: function (r, getHeaders) {
+			if (launch.utils.isBlank(r)) {
+				return null;
+			}
+
+			var dto = JSON.parse(r);
+
+			if (!!dto.error || !!dto.errors) {
+				return dto;
+			}
+
+			if ($.isArray(dto)) {
+				var settings = [];
+
+				$.each(dto, function (index, s) {
+					settings.push(self.contentSettings.fromDto(s));
+				});
+
+				settings.sort(self.contentConnection.sort);
+
+				return settings;
+			}
+
+			if ($.isPlainObject(dto)) {
+				return self.contentSettings.fromDto(dto);
+			}
+
+			return null;
+		},
+		formatRequest: function (settings) {
+			return JSON.stringify(self.contentSettings.toDto(settings));
+		},
+		fromDto: function(dto) {
+			var settings = new launch.ContentSettings();
+
+			settings.id = parseInt(dto.id);
+			settings.accountId = parseInt(dto.account_id);
+
+			settings.includeAuthorName = parseInt(dto.include_name) === 1 ? true : false;
+			settings.authorNameContentTypes = null;
+			settings.allowPublishDateEdit = parseInt(dto.allow_edit_date) === 1 ? true : false;
+			settings.publishDateContentTypes = null;
+			settings.useKeywordTags = parseInt(dto.keyword_tags) === 1 ? true : false;
+			settings.keywordTagsContentTypes = null;
+			settings.publishingGuidelines = dto.publishing_guidelines;
+
+			settings.personaProperties = ['Name', 'Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5'];
+			settings.personas = [];
+
+			settings.created = new Date(dto.created_at);
+			settings.updated = new Date(dto.updated_at);
+
+			return settings;
+		},
+		toDto: function(settings) {
+			return {
+				
+			};
+		},
+		sort: function(a, b) { }
+	};
+
+	self.contentConnection = {
+		parseResponse: function(r, getHeaders) {
+			if (launch.utils.isBlank(r)) {
+				return null;
+			}
+
+			var dto = JSON.parse(r);
+
+			if (!!dto.error || !!dto.errors) {
+				return dto;
+			}
+
+			if ($.isArray(dto)) {
+				var connections = [];
+
+				$.each(dto, function(index, connection) {
+					connections.push(self.contentConnection.fromDto(connection));
+				});
+
+				connections.sort(self.contentConnection.sort);
+
+				return connections;
+			}
+
+			if ($.isPlainObject(dto)) {
+				return self.contentConnection.fromDto(dto);
+			}
+
+			return null;
+		},
+		formatRequest: function(connection) {
+			return JSON.stringify(self.contentConnection.toDto(connection));
+		},
+		fromDto: function(dto) {
+			var connection = new launch.ContentConnection();
+
+			connection.id = parseInt(dto.id);
+			connection.accountId = parseInt(dto.account_id);
+			connection.name = dto.name;
+			connection.active = (parseInt(dto.status) === 1) ? true : false;
+			connection.connectionType = dto.type;
+			connection.connectionSettings = dto.settings;
+			connection.created = new Date(dto.created_at);
+			connection.updated = new Date(dto.updated_at);
+
+			return connection;
+		},
+		toDto: function(connection) {
+			return{
+				id: connection.id,
+				account_id: connection.accountId,
+				name: connection.name,
+				status: (connection.active === true) ? 1 : 0
+			};
+		},
+		sort: function(a, b) {
+			if (!a && !b) {
+				return 0;
+			} else if (!a && !!b) {
+				return 1;
+			} else if (!!a && !b) {
+				return -1;
+			}
+
+			if (a.name === b.name) {
+				if (a.connectionType === b.connectionType) {
+					if (a.id === b.id) {
+						return 0;
+					} else if (a.id < b.id) {
+						return -1;
+					} else {
+						return 1;
+					}
+				} else if (a.connectionType < b.connectionType) {
+					return -1;
+				} else {
+					return 1;
+				}
+			} else {
+				if (a.name < b.name) {
 					return -1;
 				} else {
 					return 1;
