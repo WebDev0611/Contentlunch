@@ -13,7 +13,7 @@ class AccountContentSettingsIntegrationTest extends TestCase {
     // Fields that should match
     $match = array(
       'account_id', 'include_name', 'allow_edit_date', 'keyword_tags',
-      'publishing_guidelines', 'personas'
+      'publishing_guidelines', 'persona_columns', 'personas'
     );
     foreach ($match as $field) {
       if (is_object($account->$field)) {

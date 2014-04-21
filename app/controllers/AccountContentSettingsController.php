@@ -22,6 +22,7 @@ class AccountContentSettingsController extends BaseController {
     $settings->allow_edit_date = Input::get('allow_edit_date');
     $settings->keyword_tags = Input::get('keyword_tags');
     $settings->publishing_guidelines = Input::get('publishing_guidelines');
+    $settings->persona_columns = Input::get('persona_columns');
     $settings->personas = Input::get('personas');
     if ($settings->save()) {
       return $this->get_settings($id);

@@ -20,6 +20,7 @@ Woodling::seed('AccountContentSettings', function ($blueprint) {
   $blueprint->include_name = $rand_array();
   $blueprint->allow_edit_date = $rand_array();
   $blueprint->keyword_tags = $rand_array();
+  $blueprint->persona_columns = array('enabled' => 1, 'content_types' => array('case_study', 'blog_post'));
   $blueprint->personas = $rand_array();
   $blueprint->publishing_guidelines = "Lorum ipsum";
   // Should be overriden

@@ -6,7 +6,7 @@ class AccountContentSettings extends Ardent {
 
   protected $table = 'account_content_settings';
 
-  protected $serialize = array('include_name', 'allow_edit_date', 'keyword_tags', 'personas');
+  protected $serialize = array('include_name', 'allow_edit_date', 'keyword_tags', 'persona_columns', 'personas');
 
   public static $rules = array(
     'account_id' => 'required'
