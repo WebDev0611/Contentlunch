@@ -904,18 +904,6 @@
 				return dto;
 			}
 
-			if ($.isArray(dto)) {
-				var settings = [];
-
-				$.each(dto, function (index, s) {
-					settings.push(self.contentSettings.fromDto(s));
-				});
-
-				settings.sort(self.contentConnection.sort);
-
-				return settings;
-			}
-
 			if ($.isPlainObject(dto)) {
 				return self.contentSettings.fromDto(dto);
 			}
@@ -983,8 +971,7 @@
 				created_at: settings.created,
 				updated_at: settings.updated
 			};
-		},
-		sort: function(a, b) { }
+		}
 	};
 
 	self.contentConnection = {
