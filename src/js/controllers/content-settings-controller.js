@@ -3,10 +3,23 @@
 		var self = this;
 
 		self.loggedInUser = null;
+		self.isDirty = false;
 
-		self.init = function () {
+		self.init = function() {
 			self.loggedInUser = authService.userInfo();
 
+			self.refreshContentSettings();
+
+			$scope.contentTypes = launch.config.CONTENT_TYPES;
+
+			$scope.$on('$locationChangeStart', function (e, newLocation, oldLocation) {
+				if (self.isDirty === true) {
+					self.updateContentSettings();
+				}
+			});
+		};
+
+		self.refreshContentSettings = function() {
 			$scope.contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
 				success: function(r) {
 				},
@@ -14,32 +27,39 @@
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
 				}
 			});
+		};
 
-			$scope.contentTypes = launch.config.CONTENT_TYPES;
+		self.updateContentSettings = function() {
+			contentSettingsService.update($scope.contentSettings, {
+				success: function (r) {
+					notificationService.success('Success!!', 'Successfully saved Content Settings!');
+				},
+				error: function (r) {
+					launch.utils.handleAjaxErrorResponse(r, notificationService);
+				}
+			});
 		};
 
 		$scope.contentSettings = null;
 		$scope.titlePlaceholder = 'Enter a Title';
 		$scope.itemPlaceholder = 'Enter Some Text';
+		$scope.textEditorSettings = launch.config.TINY_MCE_SETTINGS;
+
+		$scope.setDirty = function() {
+			self.isDirty = true;
+		};
 
 		$scope.addNewPersona = function () {
 			$scope.contentSettings.addEmptyPerona();
 		};
 
-		$scope.saveContentSettings = function() {
-			// TODO: SAVE TO API AFTER A CHANGE TO THE CONTENT SETTINGS!!
+		$scope.deletePersona = function(index) {
+			$scope.contentSettings.deletePersona(index);
+			self.isDirty = true;
 		};
 
-		$scope.editPersonaProperty = function (value) {
-			// TODO: SAVE TO API AFTER A CHANGE TO THE PERSONA PROPERTIES!!
-		};
-
-		$scope.editPersonaValue = function (value) {
-			// TODO: SAVE TO API AFTER A CHANGE TO THE PERSONA PROPERTIES!!
-		};
-
-		$scope.testHtml = function (item, element, context) {
-			return '<span class="' + launch.utils.getContentTypeIconClass(item.text) + '"></span> <span>' + item.text + '</span>';
+		$scope.formatContentTypeItem = function (item, element, context) {
+			return '<span class="' + launch.utils.getContentTypeIconClass(item.id) + '"></span> <span>' + item.text + '</span>';
 		};
 
 		self.init();

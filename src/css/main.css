@@ -916,6 +916,15 @@ span[class*=" icon-"].dark {
   padding: 8px;
   text-align: left;
 }
+.content-settings-editor table.persona-table tr td.long-content,
+.content-settings-editor table.persona-table tr th.long-content {
+  padding: 4px;
+}
+.content-settings-editor table.persona-table tr td.long-content > div,
+.content-settings-editor table.persona-table tr th.long-content > div {
+  min-width: 130px;
+  max-width: 200px;
+}
 .content-settings-editor table.persona-table tr td {
   font-size: 8pt;
 }

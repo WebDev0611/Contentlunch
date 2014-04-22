@@ -8,56 +8,59 @@
 		<form name="editContentSettings" class="content-settings-editor" novalidate="novalidate">
 			<div class="control-group">
 				<div class="form-group checkbox">
-					<input type="checkbox" id="chkIncludeAuthorName" name="chkIncludeAuthorName" ng-model="contentSettings.includeAuthorName" />
+					<input type="checkbox" id="chkIncludeAuthorName" name="chkIncludeAuthorName" ng-model="contentSettings.includeAuthorName" ng-change="setDirty()" />
 					<label for="chkIncludeAuthorName">Include Author's Name into Content</label>
 				</div>
 				
 				<div class="form-group">
 					<label for="selAuthorNameApplyTo">Apply To:</label>
 					<select id="selAuthorNameApplyTo" name="selAuthorNameApplyTo" class="multi-select" multiple="multiple"
-						ui-select2="{ formatResult: testHtml, formatSelection: testHtml }" ng-model="contentSettings.authorNameContentTypes" ng-disabled="!contentSettings.includeAuthorName"
+						ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="contentSettings.authorNameContentTypes"
+						ng-disabled="!contentSettings.includeAuthorName" ng-change="setDirty()"
 						data-placeholder="Select Content Types">
-						<option ng-repeat="ct in contentTypes" value="{{ ct }}">{{ ct }}</option>
+						<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
 					</select>
 				</div>
 			</div>
 
 			<div class="control-group">
 				<div class="form-group checkbox">
-					<input type="checkbox" id="chkAllowPublishDateEdit" name="chkAllowPublishDateEdit" ng-model="contentSettings.allowPublishDateEdit" />
+					<input type="checkbox" id="chkAllowPublishDateEdit" name="chkAllowPublishDateEdit" ng-model="contentSettings.allowPublishDateEdit" ng-change="setDirty()" />
 					<label for="chkAllowPublishDateEdit">Allow Publish Date to be Edited</label>
 				</div>
 				
 				<div class="form-group">
 					<label for="selPublishDateApplyTo">Apply To:</label>
 					<select id="selPublishDateApplyTo" name="selPublishDateApplyTo" class="multi-select" multiple="multiple"
-							ui-select2 ng-model="contentSettings.publishDateContentTypes" ng-disabled="!contentSettings.allowPublishDateEdit"
-							data-placeholder="Select Content Types">
-						<option ng-repeat="ct in contentTypes" value="{{ ct }}">{{ ct }}</option>
+						ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="contentSettings.publishDateContentTypes"
+						ng-disabled="!contentSettings.allowPublishDateEdit" ng-change="setDirty()"
+						data-placeholder="Select Content Types">
+						<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
 					</select>
 				</div>
 			</div>
 
 			<div class="control-group">
 				<div class="form-group checkbox">
-					<input type="checkbox" id="chkUseKeywordTags" name="chkUseKeywordTags" ng-model="contentSettings.useKeywordTags" />
+					<input type="checkbox" id="chkUseKeywordTags" name="chkUseKeywordTags" ng-model="contentSettings.useKeywordTags" ng-change="setDirty()" />
 					<label for="chkUseKeywordTags">Use Keyword Tags</label>
 				</div>
 
 				<div class="form-group">
 					<label for="selKeywordTagsApplyTo">Apply To:</label>
 					<select id="selKeywordTagsApplyTo" name="selKeywordTagsApplyTo" class="multi-select" multiple="multiple"
-						ui-select2 ng-model="contentSettings.keywordTagsContentTypes" ng-disabled="!contentSettings.useKeywordTags"
+						ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="contentSettings.keywordTagsContentTypes"
+						ng-disabled="!contentSettings.useKeywordTags" ng-change="setDirty()"
 						data-placeholder="Select Content Types">
-						<option ng-repeat="ct in contentTypes" value="{{ ct }}">{{ ct }}</option>
+						<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
 					</select>
 				</div>
 			</div>
 			
 			<h2>Company Publishing Guidelines</h2>
 			<p>Enter Company publishing guidelines here. These will be available for users as they are creating Ideas and Content.</p>
-			
-			<textarea id="txtPublishingGuidelines" rich-text-editor ng-model="contentSettings.publishingGuidelines"></textarea>
+
+			<textarea id="txtPublishingGuidelines" rich-text-editor ng-model="contentSettings.publishingGuidelines" ng-change="setDirty()"></textarea>
 			
 			<h2>Personas</h2>
 			<div>
@@ -71,20 +74,23 @@
 			<table class="persona-table">
 				<thead>
 					<tr>
+						<th>Name</th>
 						<th ng-repeat="property in contentSettings.personaProperties">
-							<span ng-show="property !== 'Name'" class="content-editable" contenteditable on-change="editPersonaProperty" ng-model="contentSettings.personaProperties[$index]" place-holder="titlePlaceholder"></span>
-							<span ng-show="property === 'Name'">{{ contentSettings.personaProperties[$index] }}</span>
+							<span class="content-editable" contenteditable on-change="setDirty" ng-model="contentSettings.personaProperties[$index]" place-holder="titlePlaceholder"></span>
 						</th>
 						<th>&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="persona in contentSettings.personas" ng-class-odd="'dark'">
-						<td ng-repeat="property in contentSettings.personaProperties">
-							<span class="content-editable" contenteditable on-change="editPersonaValue" ng-model="persona.properties[$index].value" place-holder="itemPlaceholder"></span>
+						<td>
+							<div class="content-editable" contenteditable on-change="setDirty" ng-model="persona.name" place-holder="itemPlaceholder"></div>
+						</td>
+						<td ng-repeat="property in contentSettings.personaProperties" class="long-content">
+							<div class="content-editable" contenteditable on-change="setDirty" ng-model="persona.properties[$index]" place-holder="itemPlaceholder"></div>
 						</td>
 						<td class="edit-row">
-							<span class="fa fa-trash-o" ng-click="contentSettings.deletePersona($index)"></span>
+							<span class="fa fa-trash-o" ng-click="deletePersona($index)"></span>
 						</td>
 					</tr>
 				</tbody>

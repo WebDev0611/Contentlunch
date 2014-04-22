@@ -90,6 +90,27 @@
 		return (criteriaCount >= 2) ? null : 'Password must contain at least two of the following: lower-case letter, upper-case letter, number, symbol.';
 	},
 
+	titleCase: function(str) {
+		var newString = '';
+
+		if (!(this.isBlank(str))) {
+			var stringArray = str.toLowerCase().split(/\s+/);
+			var lastWordIndex = stringArray.length - 1;
+
+			for (var i = 0; i < stringArray.length; i++) {
+				if (!this.isBlank(stringArray[i])) {
+					newString += stringArray[i].substring(0, 1).toUpperCase() + stringArray[i].substring(1);
+				}
+
+				if (i < lastWordIndex) {
+					newString += ' ';
+				}
+			}
+		}
+
+		return newString;
+	},
+
 	handleAjaxErrorResponse: function (response, notificationService) {
 		var err = (!launch.utils.isBlank(response.message)) ? response.message : null;
 		var type = (!launch.utils.isBlank(response.type)) ? response.type : null;
@@ -530,27 +551,27 @@
 		switch (contentType.toLowerCase()) {
 			case 'audio':
 				return 'fa fa-volume-up';
-			case 'blog post':
+			case 'blog_post':
 				return 'fa fa-facebook';
 			case 'fa fa-file-text-o':
 				return 'fa fa-facebook';
-			case 'case study':
+			case 'case_study':
 				return 'fa fa-briefcase';
 			case 'ebook':
 				return 'fa fa-book';
 			case 'email':
 				return 'fa fa-envelope';
-			case 'facebook post':
+			case 'facebook_post':
 				return 'fa fa-facebook';
-			case 'google drive':
+			case 'google_drive':
 				return 'fa fa-google-plus';
-			//case 'landing page':
+			//case 'landing_page':
 			//	return 'fa fa-';
 			case 'linkedin':
 				return 'fa fa-linkedin';
 			case 'photo':
 				return 'fa fa-picture-o';
-			//case 'salesforce asset':
+			//case 'salesforce_asset':
 			//	return 'fa fa-';
 			case 'twitter':
 				return 'fa fa-twitter';

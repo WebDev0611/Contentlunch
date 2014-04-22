@@ -29,10 +29,6 @@
 		});
 	};
 
-	self.editPersonaProperty = function(name, index) {
-		self.personaProperties[index] = name;
-	};
-
 	self.deletePersona = function(index) {
 		self.personas.splice(index, 1);
 	};

@@ -931,16 +931,39 @@
 			settings.id = parseInt(dto.id);
 			settings.accountId = parseInt(dto.account_id);
 
-			settings.includeAuthorName = parseInt(dto.include_name) === 1 ? true : false;
-			settings.authorNameContentTypes = null;
-			settings.allowPublishDateEdit = parseInt(dto.allow_edit_date) === 1 ? true : false;
-			settings.publishDateContentTypes = null;
-			settings.useKeywordTags = parseInt(dto.keyword_tags) === 1 ? true : false;
-			settings.keywordTagsContentTypes = null;
+			if ($.isPlainObject(dto.include_name)) {
+				settings.includeAuthorName = parseInt(dto.include_name.enabled) === 1 ? true : false;
+				settings.authorNameContentTypes = dto.include_name.content_types;
+			} else {
+				settings.includeAuthorName = false;
+				settings.authorNameContentTypes = [];
+			}
+
+			if ($.isPlainObject(dto.allow_edit_date)) {
+				settings.allowPublishDateEdit = parseInt(dto.allow_edit_date.enabled) === 1 ? true : false;
+				settings.publishDateContentTypes = dto.allow_edit_date.content_types;
+			} else {
+				settings.allowPublishDateEdit = false;
+				settings.publishDateContentTypes = [];
+			}
+
+			if ($.isPlainObject(dto.keyword_tags)) {
+				settings.useKeywordTags = parseInt(dto.keyword_tags.enabled) === 1 ? true : false;
+				settings.keywordTagsContentTypes = dto.keyword_tags.content_types;
+			} else {
+				settings.useKeywordTags = false;
+				settings.keywordTagsContentTypes = [];
+			}
+
 			settings.publishingGuidelines = dto.publishing_guidelines;
 
-			settings.personaProperties = ['Name', 'Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5'];
-			settings.personas = [];
+			settings.personaProperties = $.map(dto.persona_columns, function (p) { return launch.utils.titleCase(p); });
+			settings.personas = $.map(dto.personas, function (p) {
+				return {
+					name: p.name,
+					properties: p.columns
+				};
+			});
 
 			settings.created = new Date(dto.created_at);
 			settings.updated = new Date(dto.updated_at);
@@ -949,7 +972,16 @@
 		},
 		toDto: function(settings) {
 			return {
-				
+				id: settings.id,
+				account_id: settings.accountId,
+				include_name: { enabled: settings.includeAuthorName ? 1 : 0, content_types: settings.authorNameContentTypes },
+				allow_edit_date: { enabled: settings.allowPublishDateEdit ? 1 : 0, content_types: settings.publishDateContentTypes },
+				keyword_tags: { enabled: settings.useKeywordTags ? 1 : 0, content_types: settings.keywordTagsContentTypes },
+				publishing_guidelines: settings.publishingGuidelines,
+				persona_columns: $.map(settings.personaProperties, function(p) { return p.toLowerCase(); }),
+				personas: $.map(settings.personas, function(p) { return { name: p.name, columns: p.properties } }),
+				created_at: settings.created,
+				updated_at: settings.updated
 			};
 		},
 		sort: function(a, b) { }
