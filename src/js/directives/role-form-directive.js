@@ -96,7 +96,7 @@
 								success: function (r) {
 									scope.isSaving = false;
 
-									var successMsg = 'You have successfully deleted the User Role "' + scope.selectedRole.name + '"!';
+									var successMsg = 'You have successfully deleted the User Role "' + scope.selectedRole.displayName + '"!';
 
 									NotificationService.success('Success!', successMsg);
 
@@ -117,6 +117,44 @@
 						};
 					}
 				]
+			});
+		};
+
+		scope.duplicateRole = function (form) {
+			if (scope.selectedRole.isGlobalAdmin) {
+				NotificationService.error('Error!!', 'You cannot duplicate the Global Admin role.');
+				return;
+			}
+
+			$modal.open({
+				templateUrl: 'duplicate-role.html',
+				controller: ['$scope', '$modalInstance', function (scp, instance) {
+					scp.newRoleName = 'Copy of ' + scope.selectedRole.displayName;
+					scp.onOk = function (name) {
+						var role = new launch.Role();
+
+						role.name = name.toLowerCase().replace(/\s/g, '_');
+						role.displayName = name;
+						role.active = scope.selectedRole.active;
+						role.isGlobalAdmin = false;
+						role.isBuiltIn = true;
+						role.isDeletable = true;
+						role.accountId = parseInt(scope.selectedRole.accountId);
+						role.modules = scope.selectedRole.modules;
+						role.created = new Date(scope.selectedRole.created);
+						role.updated = new Date(scope.selectedRole.updated);
+
+						scope.isNewRole = true;
+						scope.selectedRole = role;
+
+						scope.saveRole(form);
+
+						instance.close();
+					};
+					scp.onCancel = function() {
+						instance.dismiss('cancel');
+					};
+				}]
 			});
 		};
 

@@ -860,6 +860,10 @@ span[class*=" icon-"].dark {
 .role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list tr.dark td {
   background-color: #E6E4E0;
 }
+.role-editor .btn-duplicate-role {
+  float: right;
+  margin-top: 20px;
+}
 .tier-info-dialog .modal-dialog {
   min-width: 650px;
 }
@@ -897,6 +901,12 @@ span[class*=" icon-"].dark {
 }
 .content-settings-editor {
   padding: 0 16px;
+}
+.content-settings-editor .control-group .form-group {
+  vertical-align: top;
+}
+.content-settings-editor .control-group .form-group label {
+  vertical-align: top;
 }
 .content-settings-editor .btn-new-persona {
   float: right;
