@@ -86,6 +86,20 @@ class UserController extends BaseController {
 			->with('roles')
 			->with('accounts')
 			->find($id);
+		if ($user->accounts) {
+			$account = Account::find($user->accounts[0]->id)->first();
+			$modules = $account->modules;
+			$user->modules = $modules->toArray();
+		}
+		if ($user->roles) {
+			$role = Role::find($user->roles[0]->id);
+			// Site admin has all permissions
+			if ($role->name == 'site_admin') {
+				$user->permissions = Permission::all()->toArray();
+			} else {
+				$user->permissions = $role->perms->toArray();
+			}
+		}
 		if ($user) {
 			if (Session::get('impersonate_from') && Session::get('impersonate_from') != $id) {
 				$user->impersonating = true;
