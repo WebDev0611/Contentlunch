@@ -25,7 +25,7 @@
 		};
 
 		self.loadProviders = function() {
-			$scope.providers = ['Hubspot', 'LinkedIn', 'Wordpress'];
+			$scope.providers = launch.config.CONNECTION_PROVIDERS;
 		};
 
 		self.init = function () {
@@ -67,22 +67,34 @@
 			$scope.search.applyFilter(true);
 		};
 
-		$scope.addConnection = function (provider) {
-			// TODO: IMPLEMENT THE ABILITY TO ADD CONTENT CONNECTIONS!
+		$scope.addConnection = function(provider) {
+			var url = null;
 
+			// TODO: IMPLEMENT THE ABILITY TO ADD CONTENT CONNECTIONS!
 			switch (provider.toUpperCase()) {
 				case 'LINKEDIN':
-					var url = 'https://www.linkedin.com/uas/oauth2/authorization?response_type=code' + 
+					var url = 'https://www.linkedin.com/uas/oauth2/authorization?response_type=code' +
 						'&client_id=' + launch.config.LINKEDIN_API_KEY +
 						//'&scope=r_basicprofile r_emailaddress r_contactinfo rw_nus rw_groups rw_company_admin' +
 						'&state=' + launch.utils.newGuid() +
 						'&redirect_uri=http://local.contentlaunch.com/account/connections';
-
-					window.location = url;
 					break;
-				default:
-					notificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!\n\nNOT READY TO ADD A ' + provider.toUpperCase() + ' CONNECTION YET!!');
+				case 'HUBSPOT':
+					var url = 'https://app.hubspot.com/auth/authenticate/?client_id=' + launch.config.HUBSPOT_API_KEY +
+						'&portalId=' + '175282' + // TODO: HOW DO WE USE THIS PORTAL ID???
+						'&redirect_uri=http://local.contentlaunch.com/account/connections';
+					break;
 			}
+
+			if (!launch.utils.isBlank(url)) {
+				window.location = url;
+			} else {
+				notificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!\n\nNOT READY TO ADD A ' + provider.toUpperCase() + ' CONNECTION YET!!');
+			}
+		};
+
+		$scope.icon = function(provider) {
+			return launch.utils.getConnectionProviderIconClass(provider.toLowerCase());
 		};
 
 		self.init();

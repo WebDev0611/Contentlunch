@@ -130,6 +130,7 @@ gulp.task('scripts', function() {
 			'./bower_components/jquery/dist/jquery.js',
 			'./bower_components/bootstrap/dist/js/bootstrap.js',
 			'./bower_components/select2/select2.js',
+			'./bower_components/jquery.dotdotdot/src/js/jquery.dotdotdot.js',
 			'./bower_components/ng-file-upload/angular-file-upload-html5-shim.js',
 			'./bower_components/ng-file-upload/angular-file-upload-shim.js',
 			'./bower_components/angular/angular.js',
@@ -138,11 +139,12 @@ gulp.task('scripts', function() {
 			'./bower_components/angular-sanitize/angular-sanitize.js',
 			'./bower_components/angular-ui/build/angular-ui.js',
 			'./bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+			'./bower_components/angular-ui-select2/src/select2.js',
+			'./bower_components/angular-ui-tinymce/src/tinymce.js',
 			'./bower_components/pnotify/jquery.pnotify.js',
 			'./bower_components/ladda/js/spin.js',
 			'./bower_components/ladda/js/ladda.js',
-			'./bower_components/ng-file-upload/angular-file-upload.js',
-			'./bower_components/angular-ui-select2/src/select2.js'
+			'./bower_components/ng-file-upload/angular-file-upload.js'
 		])
 		.pipe(concat('build.js'))
 		.pipe(gulp.dest('./public/assets/js'));

@@ -4,9 +4,47 @@
 	MIN_PASSWORD_LENGTH: 8,
 	EMAIL_ADDRESS_REGEX: /^([a-zA-Z0-9_!#%='`\-\.\$~\&\*\+\-\/\?\^\{\|\}]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/,
 	CONTENT_TYPES: [
-		'Audio', 'Blog Post', 'Case Study', 'Ebook', 'Email', 'Facebook Post', 'Google Drive',
-		'Landing Page', 'LinkedIn', 'Photo', 'Salesforce Asset', 'Twitter', 'Video', 'Whitepaper'
+		{ name: 'audio', title: 'Audio' },
+		{ name: 'blog_post', title: 'Blog Post' },
+		{ name: 'case_study', title: 'Case Study' },
+		{ name: 'ebook', title: 'Ebook' },
+		{ name: 'email', title: 'Email' },
+		{ name: 'facebook_post', title: 'Facebook Post' },
+		{ name: 'google_drive', title: 'Google Drive' },
+		{ name: 'landing_page', title: 'Landing Page' },
+		{ name: 'linkedin', title: 'LinkedIn' },
+		{ name: 'photo', title: 'Photo' },
+		{ name: 'salesforce_asset', title: 'Salesforce Asset' },
+		{ name: 'twitter', title: 'Twitter' },
+		{ name: 'video', title: 'Video' },
+		{ name: 'whitepaper', title: 'Whitepaper' }
 	],
-	LINKEDIN_API_KEY: '757vbb06ghwe32',
-	LINKEDIN_API_SECRET: 'V9iMuEFHlfImfOJ0'
+	CONNECTION_PROVIDERS: [
+		{ name: 'hubspot', title: 'Hubspot' },
+		{ name: 'linkedin', title: 'LinkedIn' },
+		{ name: 'wordpress', title: 'Wordpress' }
+	],
+	HUBSPOT_API_KEY: 'b5badda1-cb0e-11e3-bd85-131c19601838',
+	HUBSPOT_API_SECRET: '13aeed7d-b469-4a15-81a5-7d0058036075',
+	LINKEDIN_API_KEY: '75v9b2qqxfhxrf',
+	LINKEDIN_API_SECRET: 'EpLWyw4wv73LyW57',
+	TINY_MCE_SETTINGS: {
+		plugins: [
+			'advlist autolink link image lists charmap print preview anchor',
+			'searchreplace wordcount visualblocks visualchars code media',
+			'table contextmenu emoticons textcolor paste'
+		],
+
+		// FONT TOOLBAR
+		toolbar1: 'fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | link unlink anchor image media code | subscript superscript | charmap emoticons',
+
+		// PARAGRAPH TOOLBAR
+		toolbar2: 'formatselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | table | removeformat | visualchars visualblocks',
+
+		// DOCUMENT TOOLBAR
+		toolbar3: 'cut copy paste | undo redo | searchreplace | preview print',
+
+		menubar: false,
+		toolbar_items_size: 'small'
+	}
 };

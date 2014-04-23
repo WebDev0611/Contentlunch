@@ -1,33 +1,30 @@
 ﻿launch.module.directive('richTextEditor', function ($window, $compile, $location, $templateCache) {
 	var link = function(scope, element, attrs, ngModel) {
 		var id = '#' + element.attr('id');
+		var settings = launch.config.TINY_MCE_SETTINGS;
+		var updateView = function() {
+			ngModel.$setViewValue(element.val());
+
+			if (!scope.$root.$$phase) {
+				scope.$apply();
+			}
+		};
+
+		settings.selector = id;
+		settings.setup = function(ed) {
+			ed.on('Change', function(e) {
+				ed.save();
+				updateView();
+			});
+		};
 
 		$window.setTimeout(function() {
-			tinymce.init({
-				selector: id,
-				plugins: [
-					'advlist autolink link image lists charmap print preview anchor',
-					'searchreplace wordcount visualblocks visualchars code media',
-					'table contextmenu emoticons textcolor paste'
-				],
-
-				// FONT TOOLBAR
-				toolbar1: 'fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | link unlink anchor image media code | subscript superscript | charmap emoticons',
-
-				// PARAGRAPH TOOLBAR
-				toolbar2: 'formatselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | table | removeformat | visualchars visualblocks',
-
-				// DOCUMENT TOOLBAR
-				toolbar3: 'cut copy paste | undo redo | searchreplace | preview print',
-
-				menubar: false,
-				toolbar_items_size: 'small'
-			});
+			tinymce.init(settings);
 
 			element.on('$destroy', function() {
 				tinymce.remove(id);
 			});
-		}, 0);
+		}, 150);
 	};
 
 	return {
