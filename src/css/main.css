@@ -65,6 +65,85 @@
 .progress {
   background-color: #444444;
 }
+.cl-icon {
+  background-repeat: no-repeat;
+  -moz-background-size: contain;
+  background-size: contain;
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  text-align: center;
+  vertical-align: text-bottom;
+}
+.cl-icon.fa {
+  background: none;
+  font-size: 12pt;
+  height: auto;
+}
+.cl-icon-med {
+  height: 24px;
+  width: 24px;
+}
+.cl-icon-large {
+  height: 48px;
+  width: 48px;
+}
+.cl-icon-x-large {
+  height: 96px;
+  width: 96px;
+}
+.cl-icon-suspects,
+.cl-icon-personas-0 {
+  background-image: url(/assets/images/announcement.svg);
+}
+.cl-icon-prospects,
+.cl-icon-personas-1 {
+  background-image: url(/assets/images/filter.svg);
+}
+.cl-icon-leads,
+.cl-icon-personas-2 {
+  background-image: url(/assets/images/target.svg);
+}
+.cl-icon-opportunities,
+.cl-icon-personas-3 {
+  background-image: url(/assets/images/coin.svg);
+}
+.cl-icon-blogspot {
+  background-image: url(/assets/images/blogger.svg);
+}
+.cl-icon-curata {
+  /* MISSING ICON!!! */
+  background-image: url(/assets/images/curata.svg);
+}
+.cl-icon-google {
+  background-image: url(/assets/images/google.svg);
+}
+.cl-icon-hubspot {
+  /* MISSING ICON!!! */
+  background-image: url(/assets/images/hubspot.svg);
+}
+.cl-icon-papershare {
+  /* MISSING ICON!!! */
+  background-image: url(/assets/images/papershare.svg);
+}
+.cl-icon-salesforce {
+  /* MISSING ICON!!! */
+  background-image: url(/assets/images/salesforce.svg);
+}
+.cl-icon-slideshare {
+  /* MISSING ICON!!! */
+  background-image: url(/assets/images/slideshare.svg);
+}
+.cl-icon-soundcloud {
+  background-image: url(/assets/images/soundcloud.svg);
+}
+.cl-icon-trapit {
+  /* MISSING ICON!!! */
+  background-image: url(/assets/images/trapit.svg);
+}
+.cl-icon-wordpress {
+  background-image: url(/assets/images/wordpress.svg);
+}
 html,
 body {
   height: 100%;
@@ -80,6 +159,13 @@ header {
 }
 header .navbar {
   border: 0;
+}
+header .navbar .navbar-collapse .logo {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  height: 60px;
+  width: 350px;
 }
 header .navbar ul.nav li {
   cursor: pointer;
@@ -251,6 +337,22 @@ header .login-info .popover-menu .admin-menu li .glyphicon {
   display: inline-block;
   margin-right: 8px;
 }
+.logo,
+.logo-white,
+.logo-white-text {
+  background-repeat: no-repeat;
+  -moz-background-size: contain;
+  background-size: contain;
+}
+.logo {
+  background-image: url(/assets/images/logo.png);
+}
+.logo-white {
+  background-image: url(/assets/images/logo-white.png);
+}
+.logo-white-text {
+  background-image: url(/assets/images/logo-white-text.png);
+}
 .main-content {
   max-width: 100%;
   position: absolute;
@@ -419,6 +521,9 @@ span[class*=" icon-"].dark {
 #login-form {
   margin: auto;
   width: 350px;
+}
+#login-form .header .logo-white {
+  height: 50px;
 }
 #change-password-form button {
   padding: 8px;
@@ -703,10 +808,6 @@ span[class*=" icon-"].dark {
 .connection-list .row > div.header {
   font-weight: bold;
 }
-.connection-list .row > div .fa {
-  margin-right: 8px;
-  width: 16px;
-}
 .tier-components .tier-tile-container {
   display: inline-block;
   vertical-align: top;
@@ -925,6 +1026,10 @@ span[class*=" icon-"].dark {
 .content-settings-editor table.persona-table tr th {
   padding: 8px;
   text-align: left;
+}
+.content-settings-editor table.persona-table tr td > span,
+.content-settings-editor table.persona-table tr th > span {
+  vertical-align: middle;
 }
 .content-settings-editor table.persona-table tr td.long-content,
 .content-settings-editor table.persona-table tr th.long-content {

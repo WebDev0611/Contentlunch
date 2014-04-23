@@ -26,8 +26,12 @@
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-						<li ng-repeat="provider in providers" ng-click="addConnection(provider)">
-							<a href="#"><span class="{{ 'fa fa-' + provider.toLowerCase() }}"></span>{{ provider }}</a>
+						<li ng-repeat="provider in providers" ng-click="addConnection(provider.name)">
+							<a href="#">
+								<span class="{{ 'cl-icon ' + icon(provider.name) }}"></span>
+								{{ provider.title }}
+
+							</a>
 						</li>
 					</ul>
 				</div>
@@ -41,7 +45,7 @@
 				</div>
 				<div class="row" ng-repeat="connection in filteredConnections">
 					<div class="col-md-4">
-						<span class="{{ 'fa fa-' + connection.connectionType }}"></span>
+						<span class="{{ 'cl-icon ' + icon(connection.connectionType) }}"></span>
 						<span contenteditable ng-model="connection.name" on-change="editConnectionName"></span>
 					</div>
 					<div class="col-md-6"><a href="{{ connection.url }}" target="_blank">{{ connection.url }}</a></div>

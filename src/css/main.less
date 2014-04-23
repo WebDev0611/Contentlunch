@@ -1,6 +1,7 @@
 @import 'variables.less';
 @import 'mixins.less';
 @import 'bootstrap-overrides.less';
+@import 'icons.less';
 
 html, body {
 	height: 100%;
@@ -19,6 +20,16 @@ header {
 
 	.navbar {
 		border: 0;
+
+		.navbar-collapse {
+			.logo {
+				position: absolute;
+				right: 10px;
+				top: 10px;
+				height: 60px;
+				width: 350px;
+			}
+		}
 
 		ul.nav {
 			li {
@@ -232,6 +243,24 @@ header {
 	}
 }
 
+.logo, .logo-white, .logo-white-text{
+	background-repeat: no-repeat;
+	-moz-background-size: contain;
+	background-size: contain;
+}
+
+.logo {
+	background-image: url(/assets/images/logo.png);
+}
+
+.logo-white {
+	background-image: url(/assets/images/logo-white.png);
+}
+
+.logo-white-text {
+	background-image: url(/assets/images/logo-white-text.png);
+}
+
 .main-content {
 	max-width: 100%;
 	position: absolute;
@@ -431,6 +460,12 @@ span[class^="icon-"], span[class*=" icon-"] {
 #login-form {
 	margin: auto;
 	width: 350px;
+
+	.header {
+		.logo-white {
+			height: 50px;
+		}
+	}
 }
 
 #change-password-form {
@@ -709,11 +744,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 		>div {
 			&.header {
 				font-weight: bold;
-			}
-
-			.fa {
-				margin-right: 8px;
-				width: 16px;
 			}
 		}
 	}
@@ -1000,6 +1030,10 @@ span[class^="icon-"], span[class*=" icon-"] {
 			td, th {
 				padding: 8px;
 				text-align: left;
+
+				> span{
+					vertical-align: middle;
+				}
 
 				&.long-content {
 					padding: 4px;

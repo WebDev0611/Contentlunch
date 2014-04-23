@@ -25,7 +25,7 @@
 		};
 
 		self.loadProviders = function() {
-			$scope.providers = ['Hubspot', 'LinkedIn', 'Wordpress'];
+			$scope.providers = launch.config.CONNECTION_PROVIDERS;
 		};
 
 		self.init = function () {
@@ -83,6 +83,10 @@
 				default:
 					notificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!\n\nNOT READY TO ADD A ' + provider.toUpperCase() + ' CONNECTION YET!!');
 			}
+		};
+
+		$scope.icon = function(provider) {
+			return launch.utils.getConnectionProviderIconClass(provider.toLowerCase());
 		};
 
 		self.init();

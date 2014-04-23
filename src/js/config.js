@@ -19,6 +19,11 @@
 		{ name: 'video', title: 'Video' },
 		{ name: 'whitepaper', title: 'Whitepaper' }
 	],
+	CONNECTION_PROVIDERS: [
+		{ name: 'hubspot', title: 'Hubspot' },
+		{ name: 'linkedin', title: 'LinkedIn' },
+		{ name: 'wordpress', title: 'Wordpress' }
+	],
 	LINKEDIN_API_KEY: '757vbb06ghwe32',
 	LINKEDIN_API_SECRET: 'V9iMuEFHlfImfOJ0',
 	TINY_MCE_SETTINGS: {

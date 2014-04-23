@@ -76,6 +76,7 @@
 					<tr>
 						<th>Name</th>
 						<th ng-repeat="property in contentSettings.personaProperties">
+							<span ng-class="'cl-icon-personas-' + $index" class="cl-icon cl-icon-med"></span>
 							<span class="content-editable" contenteditable on-change="setDirty" ng-model="contentSettings.personaProperties[$index]" place-holder="titlePlaceholder"></span>
 						</th>
 						<th>&nbsp;</th>

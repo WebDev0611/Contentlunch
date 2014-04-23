@@ -551,6 +551,41 @@
 		sel.addRange(range);
 	},
 
+	getConnectionProviderIconClass: function(provider) {
+		if (launch.utils.isBlank(provider)) {
+			return null;
+		}
+
+		switch (provider.toLowerCase()) {
+			case 'blogspot':
+				return 'cl-icon-blogspot';
+			case 'dropbox':
+				return 'fa fa-dropbox';
+			case 'facebook':
+				return 'fa fa-facebook';
+			case 'google':
+				return 'cl-icon-google';
+			case 'google-plus':
+				return 'fa fa-google-plus';
+			//case 'hubspot':
+			//	return '';
+			case 'linkedin':
+				return 'fa fa-linkedin';
+			case 'soundcloud':
+				return 'cl-icon-soundcloud';
+			case 'tumblr':
+				return 'fa fa-tumblr';
+			case 'twitter':
+				return 'fa fa-twitter';
+			case 'wordpress':
+				return 'cl-icon-wordpress';
+			case 'youtube':
+				return 'cl-icon-youtube';
+			default:
+				return 'fa fa-question';
+		}
+	},
+
 	getContentTypeIconClass: function (contentType) {
 		if (launch.utils.isBlank(contentType)) {
 			return null;
