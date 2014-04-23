@@ -567,16 +567,24 @@
 				return 'cl-icon-google';
 			case 'google-plus':
 				return 'fa fa-google-plus';
-			//case 'hubspot':
-			//	return '';
+			case 'hubspot':
+				return 'cl-icon-papershare';
 			case 'linkedin':
 				return 'fa fa-linkedin';
+			case 'papershare':
+				return 'cl-icon-papershare';
+			case 'salesforce':
+				return 'cl-icon-salesforce';
+			case 'slideshare':
+				return 'cl-icon-slideshare';
 			case 'soundcloud':
 				return 'cl-icon-soundcloud';
 			case 'tumblr':
 				return 'fa fa-tumblr';
 			case 'twitter':
 				return 'fa fa-twitter';
+			case 'trapit':
+				return 'cl-icon-trapit';
 			case 'wordpress':
 				return 'cl-icon-wordpress';
 			case 'youtube':
