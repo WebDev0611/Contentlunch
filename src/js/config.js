@@ -24,8 +24,10 @@
 		{ name: 'linkedin', title: 'LinkedIn' },
 		{ name: 'wordpress', title: 'Wordpress' }
 	],
-	LINKEDIN_API_KEY: '757vbb06ghwe32',
-	LINKEDIN_API_SECRET: 'V9iMuEFHlfImfOJ0',
+	HUBSPOT_API_KEY: 'b5badda1-cb0e-11e3-bd85-131c19601838',
+	HUBSPOT_API_SECRET: '13aeed7d-b469-4a15-81a5-7d0058036075',
+	LINKEDIN_API_KEY: '75v9b2qqxfhxrf',
+	LINKEDIN_API_SECRET: 'EpLWyw4wv73LyW57',
 	TINY_MCE_SETTINGS: {
 		plugins: [
 			'advlist autolink link image lists charmap print preview anchor',

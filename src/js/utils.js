@@ -568,7 +568,7 @@
 			case 'google-plus':
 				return 'fa fa-google-plus';
 			case 'hubspot':
-				return 'cl-icon-papershare';
+				return 'cl-icon-hubspot';
 			case 'linkedin':
 				return 'fa fa-linkedin';
 			case 'papershare':
