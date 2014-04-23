@@ -49,34 +49,28 @@
   background-image: url(/assets/images/blogger.svg);
 }
 .cl-icon-curata {
-  /* MISSING ICON!!! */
-  background-image: url(/assets/images/curata.svg);
+  background-image: url(/assets/images/curata.png);
 }
 .cl-icon-google {
   background-image: url(/assets/images/google.svg);
 }
 .cl-icon-hubspot {
-  /* MISSING ICON!!! */
-  background-image: url(/assets/images/hubspot.svg);
+  background-image: url(/assets/images/hubspot.png);
 }
 .cl-icon-papershare {
-  /* MISSING ICON!!! */
-  background-image: url(/assets/images/papershare.svg);
+  background-image: url(/assets/images/papershare.png);
 }
 .cl-icon-salesforce {
-  /* MISSING ICON!!! */
   background-image: url(/assets/images/salesforce.svg);
 }
 .cl-icon-slideshare {
-  /* MISSING ICON!!! */
-  background-image: url(/assets/images/slideshare.svg);
+  background-image: url(/assets/images/slideshare.png);
 }
 .cl-icon-soundcloud {
   background-image: url(/assets/images/soundcloud.svg);
 }
 .cl-icon-trapit {
-  /* MISSING ICON!!! */
-  background-image: url(/assets/images/trapit.svg);
+  background-image: url(/assets/images/trapit.png);
 }
 .cl-icon-wordpress {
   background-image: url(/assets/images/wordpress.svg);
