@@ -56,7 +56,9 @@ launch.module.controller('LoginController', [
 						$location.path(launch.utils.isBlank(self.redirect) ? '/' : self.redirect).search({ });
 					}
 				},
-				error: function(r) {
+				error: function (r) {
+					$scope.isSaving = false;
+
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
 				}
 			});

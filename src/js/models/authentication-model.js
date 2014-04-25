@@ -19,5 +19,25 @@
 		return (($.grep(self.modules, function(m) { return m.name === module; })).length > 0);
 	};
 
+	self.hasPrivilege = function(priv) {
+		for (var i = 0; i < self.modules.length; i++) {
+			var length = 0;
+
+			length = ($.grep(self.modules[i].privileges, function (p) {
+				if ($.isArray(priv)) {
+					return $.inArray(priv, p.name);
+				} else {
+					return p.name === priv;
+				}
+			})).length;
+
+			if (length > 0) {
+				return true;
+			}
+		}
+
+		return false;
+	};
+
 	return self;
 };

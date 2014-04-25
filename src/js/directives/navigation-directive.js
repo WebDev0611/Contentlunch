@@ -37,8 +37,14 @@
 
 				if (scope.user.hasModuleAccess('settings')) {
 					adminMenuItems.push({ text: 'Account Settings', cssClass: 'glyphicon-cog', url: '/account' });
-					adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
-					adminMenuItems.push({ text: 'User Roles', cssClass: 'glyphicon-lock', url: '/roles' });
+
+					if (scope.user.hasPrivilege(['settings_edit_profiles', 'settings_view_profiles', 'settings_execute_users'])) {
+						adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
+					}
+
+					if (scope.user.hasPrivilege(['settings_edit_roles', 'settings_view_roles', 'settings_execute_roles'])) {
+						adminMenuItems.push({ text: 'User Roles', cssClass: 'glyphicon-lock', url: '/roles' });
+					}
 				}
 			} else {
 				mainNavItems.push({ title: 'accounts', url: '/accounts', active: '' });

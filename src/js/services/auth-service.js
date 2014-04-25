@@ -3,7 +3,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 
 	// WE CANNOT PASS IN A ModelMapperService BECAUSE IT WOULD CAUSE A CIRCULAR DEPENDENCY.
 	// INSTEAD, CREATE OUR OWN INSTANCE OF THE ModelMapper CLASS.
-	self.modelMapper = new launch.ModelMapper(this);
+	self.modelMapper = new launch.ModelMapper($location, this);
 
 	self.cacheSession = function(user) {
 		SessionService.set(SessionService.AUTHENTICATED_KEY, true);
@@ -49,11 +49,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 						success(user);
 					}
 				},
-				function(r) {
-					if ($.isFunction(error)) {
-						error(r);
-					}
-				});
+				error);
 		},
 		logout: function() {
 			return $resource('/api/auth/logout').get(function(r) {

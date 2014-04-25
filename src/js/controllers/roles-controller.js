@@ -2,11 +2,16 @@ launch.module.controller('RolesController', [
 	'$scope', '$filter', 'RoleService', 'AuthService', function ($scope, $filter, roleService, authService) {
 		var self = this;
 
-		self.init = function () {
-			var loggedInUser = authService.userInfo();
+		self.loggedInUser = null;
 
-			self.accountId = loggedInUser.account.id;
+		self.init = function () {
+			self.loggedInUser = authService.userInfo();
+
+			self.accountId = self.loggedInUser.account.id;
 			self.loadRoles(true);
+
+			$scope.showNewRole = self.loggedInUser.hasPrivilege('settings_execute_roles');
+			$scope.showRoles = self.loggedInUser.hasPrivilege(['settings_view_roles', 'settings_edit_roles']);
 		};
 
 		self.loadRoles = function (reset, callback) {
@@ -85,6 +90,8 @@ launch.module.controller('RolesController', [
 		$scope.isSaving = false;
 		$scope.selectedIndex = null;
 		$scope.selectedRole = null;
+		$scope.showNewRole = false;
+		$scope.showRoles = false;
 
 		$scope.search = {
 			searchTerm: null,

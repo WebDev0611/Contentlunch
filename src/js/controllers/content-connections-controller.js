@@ -8,6 +8,9 @@
 			self.loggedInUser = authService.userInfo();
 			$scope.isLoading = true;
 
+			$scope.canEditConnection = self.loggedInUser.hasPrivilege('settings_edit_connections');
+			$scope.canCreateConnection = self.loggedInUser.hasPrivilege('settings_execute_connections');
+
 			$scope.connections = connectionService.queryContentConnections(self.loggedInUser.account.id, {
 				// TODO: UNCOMMENT THIS WHEN THE CONNECTIONS COME FROM THE API!!
 				//success: function (r) {
@@ -37,6 +40,8 @@
 		$scope.connections = [];
 		$scope.isLoading = false;
 		$scope.isSaving = false;
+		$scope.canEditConnection = false;
+		$scope.canCreateConnection = false;
 
 		$scope.search = {
 			searchTerm: null,
@@ -62,6 +67,10 @@
 		};
 
 		$scope.toggleActiveStatus = function (connection) {
+			if (!$scope.canEditConnection) {
+				return;
+			}
+
 			connection.active = !connection.active;
 
 			$scope.search.applyFilter(true);

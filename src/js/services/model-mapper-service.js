@@ -1,4 +1,4 @@
-﻿launch.ModelMapper = function(authService, notificationService) {
+﻿launch.ModelMapper = function($location, authService, notificationService) {
 	var self = this;
 
 	self.auth = {
@@ -19,7 +19,11 @@
 
 			return null;
 		},
-		fromDto: function (dto) {
+		fromDto: function(dto) {
+			if (launch.utils.isBlank(dto.id)) {
+				return null;
+			}
+
 			var user = self.user.fromDto(dto);
 			var auth = new launch.Authentication();
 
@@ -43,6 +47,10 @@
 				}), function(p) {
 					return self.privilege.fromDto(p);
 				});
+
+				if (module.privileges.length === 0) {
+					return null;
+				}
 
 				return module;
 			});
@@ -1136,6 +1144,6 @@
 	return self;
 };
 
-launch.module.factory('ModelMapperService', function (AuthService, NotificationService) {
-	return new launch.ModelMapper(AuthService, NotificationService);
+launch.module.factory('ModelMapperService', function ($location, AuthService, NotificationService) {
+	return new launch.ModelMapper($location, AuthService, NotificationService);
 });

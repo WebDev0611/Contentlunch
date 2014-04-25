@@ -7,8 +7,9 @@
 
 		self.init = function() {
 			self.loggedInUser = authService.userInfo();
-
 			self.refreshContentSettings();
+
+			$scope.canEditPersonas = self.loggedInUser.hasPrivilege('settings_edit_personas');
 
 			$scope.contentTypes = launch.config.CONTENT_TYPES;
 
@@ -43,6 +44,7 @@
 		$scope.titlePlaceholder = 'Enter a Title';
 		$scope.itemPlaceholder = 'Enter Some Text';
 		$scope.textEditorSettings = launch.config.TINY_MCE_SETTINGS;
+		$scope.canEditPersonas = false;
 
 		$scope.updateContentSettings = function (refresh, onAfterSave) {
 			$scope.isSaving = true;

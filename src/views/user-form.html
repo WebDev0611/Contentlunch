@@ -1,7 +1,7 @@
 ﻿<form name="editUser" class="user-editor" novalidate="novalidate">
 	<div class="user-image-upload">
 		<div class="user-image" ng-style="{ 'background-image': selectedUser.imageUrl() }" ng-file-drop="uploadPhoto($files)"></div>
-		<div class="control-group btn-group">
+		<div class="control-group btn-group" ng-show="canEditUser">
 			<button type="button" class="btn btn-default ladda-button" onclick="$('#filPhoto').click()" data-style="zoom-in" ladda-button="isSaving" ng-disabled="isNewUser">
 				<span class="ladda-label">Upload Photo</span>
 			</button>
@@ -95,7 +95,7 @@
 			<a href="#" ng-click="resetPassword()">Reset Password</a>
 		</div>
 
-		<div class="control-group btn-toolbar">
+		<div class="control-group btn-toolbar" ng-show="canEditUser">
 			<button type="button" class="btn btn-default ladda-button" ng-click="saveUser(editUser)" data-style="zoom-in" ladda-button="isSaving">
 				<span class="ladda-label">Save</span>
 			</button>
