@@ -24,6 +24,18 @@
 		{ name: 'linkedin', title: 'LinkedIn' },
 		{ name: 'wordpress', title: 'Wordpress' }
 	],
+	SEO_PROVIDERS: [
+		{ name: 'inbound_writer', title: 'Inbound Writer Integration' },
+		{ name: 'yoast', title: 'Yoast' },
+		{ name: 'all_in_one_seo', title: 'All in One SEO' },
+		{ name: 'genesis_theme_seo', title: 'Genesis Theme SEO' },
+		{ name: 'seo-ultimate', title: 'SEO Ultimate' },
+		{ name: 'sales_power', title: 'Sales Power' },
+		{ name: 'sales_machine', title: 'Sales Machine' },
+		{ name: 'nsm_better_meta', title: 'NSM Better Meta' },
+		{ name: 'lg_better_meta', title: 'LG Better Meta' },
+		{ name: 'metatag_drupal', title: 'Metatag (Drupal)' }
+	],
 	HUBSPOT_API_KEY: 'b5badda1-cb0e-11e3-bd85-131c19601838',
 	HUBSPOT_API_SECRET: '13aeed7d-b469-4a15-81a5-7d0058036075',
 	LINKEDIN_API_KEY: '75v9b2qqxfhxrf',

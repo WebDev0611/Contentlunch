@@ -108,38 +108,36 @@
 .cl-icon-personas-3 {
   background-image: url(/assets/images/coin.svg);
 }
+.cl-icon-custom,
+.cl-icon-personas-4 {
+  background-image: url(/assets/images/cl-wave.png);
+}
 .cl-icon-blogspot {
   background-image: url(/assets/images/blogger.svg);
 }
 .cl-icon-curata {
-  /* MISSING ICON!!! */
-  background-image: url(/assets/images/curata.svg);
+  background-image: url(/assets/images/curata.png);
 }
 .cl-icon-google {
   background-image: url(/assets/images/google.svg);
 }
 .cl-icon-hubspot {
-  /* MISSING ICON!!! */
-  background-image: url(/assets/images/hubspot.svg);
+  background-image: url(/assets/images/hubspot.png);
 }
 .cl-icon-papershare {
-  /* MISSING ICON!!! */
-  background-image: url(/assets/images/papershare.svg);
+  background-image: url(/assets/images/papershare.png);
 }
 .cl-icon-salesforce {
-  /* MISSING ICON!!! */
   background-image: url(/assets/images/salesforce.svg);
 }
 .cl-icon-slideshare {
-  /* MISSING ICON!!! */
-  background-image: url(/assets/images/slideshare.svg);
+  background-image: url(/assets/images/slideshare.png);
 }
 .cl-icon-soundcloud {
   background-image: url(/assets/images/soundcloud.svg);
 }
 .cl-icon-trapit {
-  /* MISSING ICON!!! */
-  background-image: url(/assets/images/trapit.svg);
+  background-image: url(/assets/images/trapit.png);
 }
 .cl-icon-wordpress {
   background-image: url(/assets/images/wordpress.svg);
@@ -557,13 +555,15 @@ span[class*=" icon-"].dark {
   overflow: auto;
   padding: 16px;
 }
-.right-pane h2 {
+.right-pane h2,
+.right-pane hr {
   border-bottom: solid 1px #000000;
   font-family: 'Lato Black';
   margin: 20px 0 20px 0;
   padding-bottom: 8px;
 }
-.right-pane h2:first-child {
+.right-pane h2:first-child,
+.right-pane hr:first-child {
   margin: 0 0 20px 0;
 }
 .right-pane .control-group .btn {
@@ -628,20 +628,23 @@ span[class*=" icon-"].dark {
 .users .left-pane,
 .accounts .left-pane,
 .roles .left-pane,
-.content-settings .left-pane {
+.content-settings .left-pane,
+.seo-settings .left-pane {
   position: relative;
 }
 .users .left-pane .btn-group,
 .accounts .left-pane .btn-group,
 .roles .left-pane .btn-group,
-.content-settings .left-pane .btn-group {
+.content-settings .left-pane .btn-group,
+.seo-settings .left-pane .btn-group {
   margin-bottom: 12px;
   width: 100%;
 }
 .users .left-pane .btn-group .btn-create,
 .accounts .left-pane .btn-group .btn-create,
 .roles .left-pane .btn-group .btn-create,
-.content-settings .left-pane .btn-group .btn-create {
+.content-settings .left-pane .btn-group .btn-create,
+.seo-settings .left-pane .btn-group .btn-create {
   background-color: #000000;
   color: #ffffff;
   width: 100%;
@@ -649,27 +652,31 @@ span[class*=" icon-"].dark {
 .users .left-pane .btn-group .btn-create .glyphicon,
 .accounts .left-pane .btn-group .btn-create .glyphicon,
 .roles .left-pane .btn-group .btn-create .glyphicon,
-.content-settings .left-pane .btn-group .btn-create .glyphicon {
+.content-settings .left-pane .btn-group .btn-create .glyphicon,
+.seo-settings .left-pane .btn-group .btn-create .glyphicon {
   margin-right: 8px;
 }
 .users .left-pane .btn-group.btn-group-filter .btn.active,
 .accounts .left-pane .btn-group.btn-group-filter .btn.active,
 .roles .left-pane .btn-group.btn-group-filter .btn.active,
-.content-settings .left-pane .btn-group.btn-group-filter .btn.active {
+.content-settings .left-pane .btn-group.btn-group-filter .btn.active,
+.seo-settings .left-pane .btn-group.btn-group-filter .btn.active {
   background-color: #000000;
   color: #ffffff;
 }
 .users .left-pane hr,
 .accounts .left-pane hr,
 .roles .left-pane hr,
-.content-settings .left-pane hr {
+.content-settings .left-pane hr,
+.seo-settings .left-pane hr {
   border-color: #000000;
   margin-top: 10px;
 }
 .users .left-pane ul.items-list,
 .accounts .left-pane ul.items-list,
 .roles .left-pane ul.items-list,
-.content-settings .left-pane ul.items-list {
+.content-settings .left-pane ul.items-list,
+.seo-settings .left-pane ul.items-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -677,7 +684,8 @@ span[class*=" icon-"].dark {
 .users .left-pane ul.items-list li,
 .accounts .left-pane ul.items-list li,
 .roles .left-pane ul.items-list li,
-.content-settings .left-pane ul.items-list li {
+.content-settings .left-pane ul.items-list li,
+.seo-settings .left-pane ul.items-list li {
   cursor: pointer;
   padding: 8px;
   position: relative;
@@ -686,41 +694,48 @@ span[class*=" icon-"].dark {
 .accounts .left-pane ul.items-list li:hover,
 .roles .left-pane ul.items-list li:hover,
 .content-settings .left-pane ul.items-list li:hover,
+.seo-settings .left-pane ul.items-list li:hover,
 .users .left-pane ul.items-list li.selected,
 .accounts .left-pane ul.items-list li.selected,
 .roles .left-pane ul.items-list li.selected,
-.content-settings .left-pane ul.items-list li.selected {
+.content-settings .left-pane ul.items-list li.selected,
+.seo-settings .left-pane ul.items-list li.selected {
   background-color: #eeeeee;
 }
 .users .left-pane ul.items-list li .item-image,
 .accounts .left-pane ul.items-list li .item-image,
 .roles .left-pane ul.items-list li .item-image,
-.content-settings .left-pane ul.items-list li .item-image {
+.content-settings .left-pane ul.items-list li .item-image,
+.seo-settings .left-pane ul.items-list li .item-image {
   float: left;
   margin-right: 16px;
 }
 .users .left-pane ul.items-list li .item-info,
 .accounts .left-pane ul.items-list li .item-info,
 .roles .left-pane ul.items-list li .item-info,
-.content-settings .left-pane ul.items-list li .item-info {
+.content-settings .left-pane ul.items-list li .item-info,
+.seo-settings .left-pane ul.items-list li .item-info {
   font-size: 8pt;
 }
 .users .left-pane ul.items-list li .item-info .item-title,
 .accounts .left-pane ul.items-list li .item-info .item-title,
 .roles .left-pane ul.items-list li .item-info .item-title,
-.content-settings .left-pane ul.items-list li .item-info .item-title {
+.content-settings .left-pane ul.items-list li .item-info .item-title,
+.seo-settings .left-pane ul.items-list li .item-info .item-title {
   font-size: 12pt;
 }
 .users .left-pane .pager ul.pagination,
 .accounts .left-pane .pager ul.pagination,
 .roles .left-pane .pager ul.pagination,
-.content-settings .left-pane .pager ul.pagination {
+.content-settings .left-pane .pager ul.pagination,
+.seo-settings .left-pane .pager ul.pagination {
   display: block;
 }
 .users .left-pane .pager ul.pagination li a,
 .accounts .left-pane .pager ul.pagination li a,
 .roles .left-pane .pager ul.pagination li a,
-.content-settings .left-pane .pager ul.pagination li a {
+.content-settings .left-pane .pager ul.pagination li a,
+.seo-settings .left-pane .pager ul.pagination li a {
   background-color: transparent;
   border-color: #000000;
   border-radius: 0 !important;
@@ -731,14 +746,16 @@ span[class*=" icon-"].dark {
 .users .left-pane .pager ul.pagination li.active a,
 .accounts .left-pane .pager ul.pagination li.active a,
 .roles .left-pane .pager ul.pagination li.active a,
-.content-settings .left-pane .pager ul.pagination li.active a {
+.content-settings .left-pane .pager ul.pagination li.active a,
+.seo-settings .left-pane .pager ul.pagination li.active a {
   background-color: #000000;
   color: #ffffff;
 }
 .user-editor .user-image-upload,
 .account-editor .user-image-upload,
 .role-editor .user-image-upload,
-.content-settings-editor .user-image-upload {
+.content-settings-editor .user-image-upload,
+.seo-settings-editor .user-image-upload {
   float: left;
   text-align: center;
   width: 120px;
@@ -746,7 +763,8 @@ span[class*=" icon-"].dark {
 .user-editor .user-image-upload .user-image,
 .account-editor .user-image-upload .user-image,
 .role-editor .user-image-upload .user-image,
-.content-settings-editor .user-image-upload .user-image {
+.content-settings-editor .user-image-upload .user-image,
+.seo-settings-editor .user-image-upload .user-image {
   border: solid 3px #ffffff;
   display: block;
   height: 96px;
@@ -756,31 +774,36 @@ span[class*=" icon-"].dark {
 .user-editor .user-image-upload button,
 .account-editor .user-image-upload button,
 .role-editor .user-image-upload button,
-.content-settings-editor .user-image-upload button {
+.content-settings-editor .user-image-upload button,
+.seo-settings-editor .user-image-upload button {
   margin: 16px 0;
 }
 .user-editor .user-image-upload input[type="file"],
 .account-editor .user-image-upload input[type="file"],
 .role-editor .user-image-upload input[type="file"],
-.content-settings-editor .user-image-upload input[type="file"] {
+.content-settings-editor .user-image-upload input[type="file"],
+.seo-settings-editor .user-image-upload input[type="file"] {
   display: none;
 }
 .user-editor .user-editor,
 .account-editor .user-editor,
 .role-editor .user-editor,
-.content-settings-editor .user-editor {
+.content-settings-editor .user-editor,
+.seo-settings-editor .user-editor {
   margin-left: 128px;
 }
 .user-editor .control-group,
 .account-editor .control-group,
 .role-editor .control-group,
-.content-settings-editor .control-group {
+.content-settings-editor .control-group,
+.seo-settings-editor .control-group {
   margin: 0 8px 8px 0;
 }
 .user-editor .control-group .form-group,
 .account-editor .control-group .form-group,
 .role-editor .control-group .form-group,
-.content-settings-editor .control-group .form-group {
+.content-settings-editor .control-group .form-group,
+.seo-settings-editor .control-group .form-group {
   display: inline-block;
   margin: 0 8px 0 0;
   min-width: 20em;
@@ -788,7 +811,8 @@ span[class*=" icon-"].dark {
 .user-editor .control-group.btn-toolbar,
 .account-editor .control-group.btn-toolbar,
 .role-editor .control-group.btn-toolbar,
-.content-settings-editor .control-group.btn-toolbar {
+.content-settings-editor .control-group.btn-toolbar,
+.seo-settings-editor .control-group.btn-toolbar {
   margin: 16px 0;
 }
 .user-editor {
@@ -1000,59 +1024,78 @@ span[class*=" icon-"].dark {
   background-color: #000000;
   color: #ffffff;
 }
-.content-settings-editor {
+.content-settings-editor,
+.seo-settings-editor {
   padding: 0 16px;
 }
-.content-settings-editor .control-group .form-group {
+.content-settings-editor .control-group .form-group,
+.seo-settings-editor .control-group .form-group {
   vertical-align: top;
 }
-.content-settings-editor .control-group .form-group label {
+.content-settings-editor .control-group .form-group label,
+.seo-settings-editor .control-group .form-group label {
   vertical-align: top;
 }
-.content-settings-editor .btn-new-persona {
+.content-settings-editor .btn-new-persona,
+.seo-settings-editor .btn-new-persona {
   float: right;
 }
-.content-settings-editor #txtPublishingGuidelines {
+.content-settings-editor #txtPublishingGuidelines,
+.seo-settings-editor #txtPublishingGuidelines {
   min-height: 300px;
 }
-.content-settings-editor table.persona-table {
+.content-settings-editor table.persona-table,
+.seo-settings-editor table.persona-table {
   margin-bottom: 50px;
   width: 100%;
 }
-.content-settings-editor table.persona-table tr {
+.content-settings-editor table.persona-table tr,
+.seo-settings-editor table.persona-table tr {
   border-bottom: solid 1px #000000;
 }
 .content-settings-editor table.persona-table tr td,
-.content-settings-editor table.persona-table tr th {
+.seo-settings-editor table.persona-table tr td,
+.content-settings-editor table.persona-table tr th,
+.seo-settings-editor table.persona-table tr th {
   padding: 8px;
   text-align: left;
 }
 .content-settings-editor table.persona-table tr td > span,
-.content-settings-editor table.persona-table tr th > span {
+.seo-settings-editor table.persona-table tr td > span,
+.content-settings-editor table.persona-table tr th > span,
+.seo-settings-editor table.persona-table tr th > span {
   vertical-align: middle;
 }
 .content-settings-editor table.persona-table tr td.long-content,
-.content-settings-editor table.persona-table tr th.long-content {
+.seo-settings-editor table.persona-table tr td.long-content,
+.content-settings-editor table.persona-table tr th.long-content,
+.seo-settings-editor table.persona-table tr th.long-content {
   padding: 4px;
 }
 .content-settings-editor table.persona-table tr td.long-content > div,
-.content-settings-editor table.persona-table tr th.long-content > div {
+.seo-settings-editor table.persona-table tr td.long-content > div,
+.content-settings-editor table.persona-table tr th.long-content > div,
+.seo-settings-editor table.persona-table tr th.long-content > div {
   min-width: 130px;
   max-width: 200px;
 }
-.content-settings-editor table.persona-table tr td {
+.content-settings-editor table.persona-table tr td,
+.seo-settings-editor table.persona-table tr td {
   font-size: 8pt;
 }
-.content-settings-editor table.persona-table tr td.edit-row {
+.content-settings-editor table.persona-table tr td.edit-row,
+.seo-settings-editor table.persona-table tr td.edit-row {
   font-size: 16pt;
   max-width: 34px;
 }
-.content-settings-editor table.persona-table tr td.edit-row .fa {
+.content-settings-editor table.persona-table tr td.edit-row .fa,
+.seo-settings-editor table.persona-table tr td.edit-row .fa {
   cursor: pointer;
   float: right;
   margin: 0 4px;
 }
-.content-settings-editor table.persona-table tr.dark td {
+.content-settings-editor table.persona-table tr.dark td,
+.seo-settings-editor table.persona-table tr.dark td {
   background-color: #E6E4E0;
 }
 .select2-container {

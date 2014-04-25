@@ -1,5 +1,5 @@
 ﻿launch.module.factory('ConnectionService', function ($resource, ModelMapperService) {
-	var contentConnections = $resource('/api/account/{accountId}/connections/{id}?type=content', { accountId: '@accountId', id: '@id' }, {
+	var contentConnections = $resource('/api/account/:accountId/connections/:id?type=content', { accountId: '@accountId', id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.contentConnection.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.contentConnection.parseResponse },
 		update: { method: 'PUT', transformRequest: ModelMapperService.contentConnection.formatRequest, transformResponse: ModelMapperService.contentConnection.parseResponse },
@@ -7,10 +7,10 @@
 		delete: { method: 'DELETE' }
 	});
 
-	//var seoConnections = $resource('/api/account/{accountId}/connections/{id}?type=seo', { accountId: '@accountId', id: '@id' }, {
-	//	get: { method: 'GET', transformResponse: ModelMapperService.seoConnection.parseResponse },
-	//	query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.seoConnection.parseResponse }
-	//});
+	var seoConnections = $resource('/api/account/:accountId/connections/:id?type=seo', { accountId: '@accountId', id: '@id' }, {
+		get: { method: 'GET', transformResponse: ModelMapperService.seoConnection.parseResponse },
+		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.seoConnection.parseResponse }
+	});
 
 	return {
 		queryContentConnections: function (accountId, callback) {
@@ -96,17 +96,17 @@
 
 			contentConnections.delete({ accountId: accountId, id: id }, connection, success, error);
 		},
-		//querySeoConnections: function (accountId, callback) {
-		//	var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
-		//	var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+		querySeoConnections: function (accountId, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-		//	seoConnections.query({ accountId: accountId }, success, error);
-		//},
-		//getSeoConnection: function (accountId, id, callback) {
-		//	var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
-		//	var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+			seoConnections.query({ accountId: accountId }, success, error);
+		},
+		getSeoConnection: function (accountId, id, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-		//	seoConnections.get({ accountId: accountId, id: id }, success, error);
-		//}
+			seoConnections.get({ accountId: accountId, id: id }, success, error);
+		}
 	};
 });
