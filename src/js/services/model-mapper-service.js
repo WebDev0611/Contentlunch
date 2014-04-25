@@ -1,6 +1,75 @@
 ﻿launch.ModelMapper = function(authService, notificationService) {
 	var self = this;
 
+	self.auth = {
+		parseResponse: function (r, getHeaders) {
+			if (launch.utils.isBlank(r)) {
+				return null;
+			}
+
+			var dto = JSON.parse(r);
+
+			if (!!dto.error || !!dto.errors) {
+				return dto;
+			}
+
+			if ($.isPlainObject(dto)) {
+				return self.auth.fromDto(dto);
+			}
+
+			return null;
+		},
+		fromDto: function (dto) {
+			var user = self.user.fromDto(dto);
+			var auth = new launch.Authentication();
+
+			auth.id = user.id;
+			auth.displayName = user.formatName();
+			auth.email = user.email;
+			auth.phoneNumber = user.phoneNumber;
+			auth.confirmed = user.confirmed;
+			auth.active = user.active;
+			auth.image = user.image;
+			auth.account = user.account;
+			auth.role = user.role;
+			auth.created = user.created;
+			auth.updated = user.updated;
+
+			auth.modules = $.map(dto.modules, function(m) {
+				var module = self.module.fromDto(m);
+
+				module.privileges = $.map($.grep(dto.permissions, function(p) {
+					return p.module.toLowerCase() === module.name;
+				}), function(p) {
+					return self.privilege.fromDto(p);
+				});
+
+				return module;
+			});
+
+			return auth;
+		},
+		fromCache: function(cachedAuth) {
+			var auth = new launch.Authentication();
+
+			auth.id = cachedAuth.id;
+			auth.displayName = cachedAuth.displayName;
+			auth.email = cachedAuth.email;
+			self.phoneNumber = cachedAuth.phoneNumber;
+			auth.confirmed = cachedAuth.confirmed;
+			auth.active = cachedAuth.active;
+			auth.image = cachedAuth.image;
+			auth.account = cachedAuth.account;
+			auth.role = cachedAuth.role;
+			auth.created = cachedAuth.created;
+			auth.updated = cachedAuth.updated;
+
+			auth.modules = cachedAuth.modules;
+
+			return auth;
+		}
+	};
+
 	self.account = {
 		parseResponse: function(r, getHeaders) {
 			if (launch.utils.isBlank(r)) {
@@ -273,8 +342,8 @@
 			user.firstName = dto.first_name;
 			user.lastName = dto.last_name;
 			user.email = dto.email;
-			user.created = dto.created_at;
-			user.updated = dto.updated_at;
+			user.created = new Date(dto.created_at);
+			user.updated = new Date(dto.updated_at);
 			user.confirmed = dto.confirmed;
 			user.address1 = dto.address;
 			user.address2 = dto.address_2;
@@ -734,6 +803,7 @@
 			self.active = parseInt(dto.active) === 1;
 			module.name = dto.name;
 			module.title = dto.title;
+			module.isSubscribable = dto.subscribable == true;
 			module.created = new Date(dto.created_at);
 			module.updated = new Date(dto.updated_at);
 
@@ -745,6 +815,7 @@
 				active: (module.active === true) ? 1 : 0,
 				name: module.name,
 				title: module.title,
+				subscribable: module.isSubscribable,
 				created: module.created_at,
 				updated: module.updated_at
 			};

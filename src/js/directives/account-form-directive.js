@@ -273,7 +273,7 @@
 						scp.forceDirty = false;
 						scp.message = {
 							company: null,
-							name: self.loggedInUser.formatName(),
+							name: self.loggedInUser.displayName,
 							email: self.loggedInUser.email,
 							phone: self.loggedInUser.phoneNumber,
 							details: null,
