@@ -65,6 +65,21 @@
 .progress {
   background-color: #444444;
 }
+.panel-group .panel .panel-heading {
+  cursor: pointer;
+  padding: 0px;
+}
+.panel-group .panel .panel-heading a {
+  display: inline-block;
+  padding: 12px;
+  width: 100%;
+}
+.panel-group .panel .panel-heading a:hover {
+  text-decoration: none;
+}
+.panel-group .panel .panel-heading .panel-title .fa {
+  min-width: 1em;
+}
 .cl-icon {
   background-repeat: no-repeat;
   -moz-background-size: contain;
@@ -629,14 +644,16 @@ span[class*=" icon-"].dark {
 .accounts .left-pane,
 .roles .left-pane,
 .content-settings .left-pane,
-.seo-settings .left-pane {
+.seo-settings .left-pane,
+.create .left-pane {
   position: relative;
 }
 .users .left-pane .btn-group,
 .accounts .left-pane .btn-group,
 .roles .left-pane .btn-group,
 .content-settings .left-pane .btn-group,
-.seo-settings .left-pane .btn-group {
+.seo-settings .left-pane .btn-group,
+.create .left-pane .btn-group {
   margin-bottom: 12px;
   width: 100%;
 }
@@ -644,7 +661,8 @@ span[class*=" icon-"].dark {
 .accounts .left-pane .btn-group .btn-create,
 .roles .left-pane .btn-group .btn-create,
 .content-settings .left-pane .btn-group .btn-create,
-.seo-settings .left-pane .btn-group .btn-create {
+.seo-settings .left-pane .btn-group .btn-create,
+.create .left-pane .btn-group .btn-create {
   background-color: #000000;
   color: #ffffff;
   width: 100%;
@@ -653,14 +671,16 @@ span[class*=" icon-"].dark {
 .accounts .left-pane .btn-group .btn-create .glyphicon,
 .roles .left-pane .btn-group .btn-create .glyphicon,
 .content-settings .left-pane .btn-group .btn-create .glyphicon,
-.seo-settings .left-pane .btn-group .btn-create .glyphicon {
+.seo-settings .left-pane .btn-group .btn-create .glyphicon,
+.create .left-pane .btn-group .btn-create .glyphicon {
   margin-right: 8px;
 }
 .users .left-pane .btn-group.btn-group-filter .btn.active,
 .accounts .left-pane .btn-group.btn-group-filter .btn.active,
 .roles .left-pane .btn-group.btn-group-filter .btn.active,
 .content-settings .left-pane .btn-group.btn-group-filter .btn.active,
-.seo-settings .left-pane .btn-group.btn-group-filter .btn.active {
+.seo-settings .left-pane .btn-group.btn-group-filter .btn.active,
+.create .left-pane .btn-group.btn-group-filter .btn.active {
   background-color: #000000;
   color: #ffffff;
 }
@@ -668,7 +688,8 @@ span[class*=" icon-"].dark {
 .accounts .left-pane hr,
 .roles .left-pane hr,
 .content-settings .left-pane hr,
-.seo-settings .left-pane hr {
+.seo-settings .left-pane hr,
+.create .left-pane hr {
   border-color: #000000;
   margin-top: 10px;
 }
@@ -676,7 +697,8 @@ span[class*=" icon-"].dark {
 .accounts .left-pane ul.items-list,
 .roles .left-pane ul.items-list,
 .content-settings .left-pane ul.items-list,
-.seo-settings .left-pane ul.items-list {
+.seo-settings .left-pane ul.items-list,
+.create .left-pane ul.items-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -685,7 +707,8 @@ span[class*=" icon-"].dark {
 .accounts .left-pane ul.items-list li,
 .roles .left-pane ul.items-list li,
 .content-settings .left-pane ul.items-list li,
-.seo-settings .left-pane ul.items-list li {
+.seo-settings .left-pane ul.items-list li,
+.create .left-pane ul.items-list li {
   cursor: pointer;
   padding: 8px;
   position: relative;
@@ -695,18 +718,21 @@ span[class*=" icon-"].dark {
 .roles .left-pane ul.items-list li:hover,
 .content-settings .left-pane ul.items-list li:hover,
 .seo-settings .left-pane ul.items-list li:hover,
+.create .left-pane ul.items-list li:hover,
 .users .left-pane ul.items-list li.selected,
 .accounts .left-pane ul.items-list li.selected,
 .roles .left-pane ul.items-list li.selected,
 .content-settings .left-pane ul.items-list li.selected,
-.seo-settings .left-pane ul.items-list li.selected {
+.seo-settings .left-pane ul.items-list li.selected,
+.create .left-pane ul.items-list li.selected {
   background-color: #eeeeee;
 }
 .users .left-pane ul.items-list li .item-image,
 .accounts .left-pane ul.items-list li .item-image,
 .roles .left-pane ul.items-list li .item-image,
 .content-settings .left-pane ul.items-list li .item-image,
-.seo-settings .left-pane ul.items-list li .item-image {
+.seo-settings .left-pane ul.items-list li .item-image,
+.create .left-pane ul.items-list li .item-image {
   float: left;
   margin-right: 16px;
 }
@@ -714,28 +740,32 @@ span[class*=" icon-"].dark {
 .accounts .left-pane ul.items-list li .item-info,
 .roles .left-pane ul.items-list li .item-info,
 .content-settings .left-pane ul.items-list li .item-info,
-.seo-settings .left-pane ul.items-list li .item-info {
+.seo-settings .left-pane ul.items-list li .item-info,
+.create .left-pane ul.items-list li .item-info {
   font-size: 8pt;
 }
 .users .left-pane ul.items-list li .item-info .item-title,
 .accounts .left-pane ul.items-list li .item-info .item-title,
 .roles .left-pane ul.items-list li .item-info .item-title,
 .content-settings .left-pane ul.items-list li .item-info .item-title,
-.seo-settings .left-pane ul.items-list li .item-info .item-title {
+.seo-settings .left-pane ul.items-list li .item-info .item-title,
+.create .left-pane ul.items-list li .item-info .item-title {
   font-size: 12pt;
 }
 .users .left-pane .pager ul.pagination,
 .accounts .left-pane .pager ul.pagination,
 .roles .left-pane .pager ul.pagination,
 .content-settings .left-pane .pager ul.pagination,
-.seo-settings .left-pane .pager ul.pagination {
+.seo-settings .left-pane .pager ul.pagination,
+.create .left-pane .pager ul.pagination {
   display: block;
 }
 .users .left-pane .pager ul.pagination li a,
 .accounts .left-pane .pager ul.pagination li a,
 .roles .left-pane .pager ul.pagination li a,
 .content-settings .left-pane .pager ul.pagination li a,
-.seo-settings .left-pane .pager ul.pagination li a {
+.seo-settings .left-pane .pager ul.pagination li a,
+.create .left-pane .pager ul.pagination li a {
   background-color: transparent;
   border-color: #000000;
   border-radius: 0 !important;
@@ -747,7 +777,8 @@ span[class*=" icon-"].dark {
 .accounts .left-pane .pager ul.pagination li.active a,
 .roles .left-pane .pager ul.pagination li.active a,
 .content-settings .left-pane .pager ul.pagination li.active a,
-.seo-settings .left-pane .pager ul.pagination li.active a {
+.seo-settings .left-pane .pager ul.pagination li.active a,
+.create .left-pane .pager ul.pagination li.active a {
   background-color: #000000;
   color: #ffffff;
 }
@@ -934,16 +965,6 @@ span[class*=" icon-"].dark {
 .role-editor .panel-group .panel .panel-heading {
   background-color: #000000;
   color: #ffffff;
-  cursor: pointer;
-  padding: 0px;
-}
-.role-editor .panel-group .panel .panel-heading a {
-  display: inline-block;
-  padding: 12px;
-  width: 100%;
-}
-.role-editor .panel-group .panel .panel-heading a:hover {
-  text-decoration: none;
 }
 .role-editor .panel-group .panel .panel-collapse .panel-body {
   max-height: 320px;
@@ -1098,6 +1119,35 @@ span[class*=" icon-"].dark {
 .seo-settings-editor table.persona-table tr.dark td {
   background-color: #E6E4E0;
 }
+.create .left-pane .filter-panel {
+  background-color: #ffb503;
+  color: #ffffff;
+  margin: 12px 0;
+  padding: 4px;
+  border-radius: 4px;
+}
+.create .left-pane .btn-group {
+  margin-top: 12px;
+}
+.create .left-pane .panel-group .panel {
+  background-color: transparent;
+  border: none !important;
+}
+.create .left-pane .panel-group .panel .panel-heading {
+  background-color: transparent;
+  border-bottom: solid 1px #000000;
+}
+.create .left-pane .panel-group .panel .panel-collapse {
+  border: none !important;
+}
+.create .left-pane .panel-group .panel .panel-collapse .panel-body {
+  border: none !important;
+}
+.create .right-pane .right-pane-header {
+  background-color: #ffb503;
+  border-bottom-color: #F1DDAF;
+  color: #ffffff;
+}
 .select2-container {
   max-width: 400px;
   min-width: 400px;
@@ -1107,4 +1157,15 @@ span[class*=" icon-"].dark {
 }
 .select2-container.select2-container .select2-choices .select2-search-field input[type="text"] {
   height: auto !important;
+}
+.link-button-container {
+  text-align: center;
+}
+.link-button-container .link-button {
+  color: #000000;
+  display: inline-block;
+  padding: 4px;
+}
+.link-button-container .link-button:hover {
+  text-decoration: none;
 }

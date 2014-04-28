@@ -1,1 +1,85 @@
-﻿<div ng-bind="title"></div>
+﻿<div class="view create">
+	<div class="col-md-3 left-pane">
+		<div class="btn-group">
+			<button class="btn btn-default btn-create">
+				CREATE NEW
+			</button>
+		</div>
+
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter(true)" />
+			<span class="input-group-addon">
+				<span class="glyphicon glyphicon-search"></span>
+			</span>
+		</div>
+		
+		<div class="filter-panel">
+			Filters
+		</div>
+
+		<div class="btn-group btn-group-justified btn-group-filter">
+			<a class="btn btn-default" ng-class="{ active: search.myTasks === true }" ng-click="search.toggleStatus('active')">My Tasks</a>
+			<a class="btn btn-default" ng-class="{ active: search.myTasks === false }" ng-click="search.toggleStatus('all')">All Tasks</a>
+		</div>
+
+		<accordion close-others="false">
+			<accordion-group is-open="content_type_is_open">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': content_type_is_open, 'fa-caret-right': !content_type_is_open}"></i>
+					Content Type
+				</accordion-heading>
+				<div>
+					<select id="selContentType" name="selContentType" class="multi-select" multiple="multiple"
+						ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="search.contentTypes"
+						ng-change="" data-placeholder="Select Content Types">
+						<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
+					</select>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="mileston_is_open">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': mileston_is_open, 'fa-caret-right': !mileston_is_open}"></i>
+					Milestone
+				</accordion-heading>
+				<div>
+					MILESTONE DROP-DOWN HERE
+				</div>
+			</accordion-group>
+			<accordion-group is-open="buying_stage_is_open">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': buying_stage_is_open, 'fa-caret-right': !buying_stage_is_open}"></i>
+					Buying Stage
+				</accordion-heading>
+				<div>
+					BUYING STAGE DROP-DOWN HERE
+				</div>
+			</accordion-group>
+			<accordion-group is-open="campaign_is_open">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': campaign_is_open, 'fa-caret-right': !campaign_is_open}"></i>
+					Campaign
+				</accordion-heading>
+				<div>
+					CAMPAIGN DROP-DOWN HERE
+				</div>
+			</accordion-group>
+			<accordion-group is-open="content_creator_is_open">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': content_creator_is_open, 'fa-caret-right': !content_creator_is_open}"></i>
+					Content Creator
+				</accordion-heading>
+				<div>
+					CONTENT CREATOR DROP-DOWN HERE
+				</div>
+			</accordion-group>
+		</accordion>
+		
+		<div class="link-button-container">
+			<a class="link-button" href="#">Save as default filters</a> |
+			<a class="link-button" href="#">Clear Filters</a>
+		</div>
+	</div>
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header">Create</h2>
+	</div>
+</div>
