@@ -1105,7 +1105,9 @@
 				id: connection.id,
 				account_id: connection.accountId,
 				name: connection.name,
-				status: (connection.active === true) ? 1 : 0
+				status: (connection.active === true) ? 1 : 0,
+				settings: connection.connectionSettings,
+				type: connection.connectionType
 			};
 		},
 		sort: function(a, b) {

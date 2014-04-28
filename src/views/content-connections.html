@@ -46,10 +46,10 @@
 				<div class="row" ng-repeat="connection in filteredConnections">
 					<div class="col-md-4">
 						<span class="{{ 'cl-icon ' + icon(connection.connectionType) }}"></span>
-						<span contenteditable ng-model="connection.name" on-change="editConnectionName" ng-show="canEditConnection"></span>
+						<span contenteditable ng-model="connection.name" on-change="editConnectionName" ng-show="canEditConnection" ng-focus="selectConnection(connection)"></span>
 						<span ng-show="!canEditConnection" ng-bind="connection.name"></span>
 					</div>
-					<div class="col-md-6"><a href="{{ connection.url }}" target="_blank">{{ connection.url }}</a></div>
+					<div class="col-md-6"><a href="{{ connection.connectionSettings.url }}" target="_blank">{{ connection.connectionSettings.url }}</a></div>
 					<div class="col-md-2"><span class="toggle" ng-click="toggleActiveStatus(connection)">{{ connection.activeStatus() }}</span></div>
 				</div>
 			</div>
