@@ -38,6 +38,10 @@ class AccountSubscriptionController extends BaseController {
       $account = Account::find($sub->account_id);
       $account->modules()->sync($syncModules);
       $account->updateUniques();
+      // Attempt to do subscription charge
+      // Will only do the charge if new account or matches expiration date rule
+      $balancedAccount = new Launch\Balanced($account);
+      $balancedAccount->chargeAccount();
       return $this->get_subscription($id);
     }
     return $this->errorResponse($sub->errors()->toArray());

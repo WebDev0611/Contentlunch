@@ -15,6 +15,7 @@ class AccountsAddPaymentInfo extends Migration {
 		// Add column for storing payment details
     Schema::table('accounts', function ($table) {
       $table->string('payment_info')->nullable();
+      $table->string('balanced_info')->nullable();
     });
 	}
 
@@ -27,6 +28,7 @@ class AccountsAddPaymentInfo extends Migration {
 	{
 		Schema::table('accounts', function ($table) {
       $table->dropColumn('payment_info');
+      $table->dropColumn('balanced_info');
     });
 	}
 

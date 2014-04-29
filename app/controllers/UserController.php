@@ -86,7 +86,7 @@ class UserController extends BaseController {
 			->with('roles')
 			->with('accounts')
 			->find($id);
-		if ($user->accounts) {
+		if (isset($user->accounts[0])) {
 			$account = Account::find($user->accounts[0]->id)->first();
 			$modules = $account->modules;
 			$modules = $modules->toArray();
@@ -96,7 +96,7 @@ class UserController extends BaseController {
 			$modules[] = array('name' => 'settings', 'title' => 'Settings', 'subscribable' => false);
 			$user->modules = $modules;
 		}
-		if ($user->roles) {
+		if (isset($user->roles[0])) {
 			$role = Role::find($user->roles[0]->id);
 			// Site admin has all permissions
 			if ($role->name == 'site_admin') {

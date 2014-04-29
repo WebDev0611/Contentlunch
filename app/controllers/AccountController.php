@@ -153,6 +153,53 @@ class AccountController extends BaseController {
 		});
 	}
 
+	public function charge_account($id)
+	{
+
+		$balancedAccount = new Launch\Balanced($id);
+		//$balanced->getCustomerInfo();
+		$balancedAccount->getPayment();
+		return;
+
+		Httpful\Bootstrap::init();
+		RESTful\Bootstrap::init();
+		Balanced\Bootstrap::init();
+		$account = Account::find($id);
+		if ( ! $account->token) {
+			return;
+		}
+		// If no expiration date yet, charge the account
+		Balanced\Settings::$api_key = Config::get('app.balanced.api_key_secret');
+		$payment_info = unserialize($account->payment_info);
+		$balanced_info = unserialize($account->balanced_info);
+		// Create a customer if it doesn't already exist
+		if ( ! isset($balanced_info['customer_uri'])) {
+			$customer = new Balanced\Customer(array(
+				'name' => $account->name,
+				'email' => $account->email
+			));
+			$customer->save();
+			$balanced_info['customer_uri'] = $customer->href;
+			$account->balanced_info = serialize($balanced_info);
+			$account->updateUniques();
+		} else {
+			$customer = Balanced\Customer::get($balanced_info['customer_uri']);
+		}
+		// Account token is the stored uri for credit card / bank account
+		$card = Balanced\Card::get($account->token);
+		// Associate to customer if it's not already
+		if (empty($card->links->customer)) {
+			$card->associateToCustomer($customer);
+		}
+
+		$ret = $card->debits->create(array(
+			'amount' => 5000,
+			'appears_on_statement_as' => 'contentlaunch.com for account '. $account->name,
+			'description' => 'Some descriptive text for the debit in the dashboard'
+		));
+
+	}
+
 	protected function createSiteAdminUser($account)
 	{
 		// When creating a new account, an email must be attached

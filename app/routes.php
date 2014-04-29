@@ -74,14 +74,7 @@ Route::group(array('prefix' => 'api'), function()
 
 	Route::get('impersonate/{id}', 'AdminController@impersonate');
 
-	Route::get('test', function()
-	{
-		return array(
-			array('id' => 1, 'title' => 'test 1'),
-			array('id' => 2, 'title' => 'test 2'),
-			array('id' => 3, 'title' => 'test 3')
-		);
-	});
+	Route::get('test-charge/{id}', 'AccountController@charge_account');
 
 });
 

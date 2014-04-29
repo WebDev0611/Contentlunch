@@ -25,7 +25,7 @@ class Account extends Ardent {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array();
+	protected $hidden = array('balanced_info');
 
 	/**
 	 * Specifies the columns that can be mass assigned
@@ -40,6 +40,22 @@ class Account extends Ardent {
 	protected function getDateFormat()
   {
     return 'Y-m-d H:i:s';
+  }
+
+  protected function beforeSave()
+  {
+  	// If any "customer" info changes, update it in balanced
+  	if ($this->isDirty('title')) {
+  		$balancedAccount = new Launch\Balanced($this);
+  		// This will sync the customer details with balanced
+  		$balancedAccount->syncCustomer();
+  	}
+  	// If the token has changed, we are saving a new credit card or bank account
+  	if ($this->isDirty('token')) {
+  		$balancedAccount = new Launch\Balanced($this);
+  		// This will sync the payment details with balanced
+  		$balancedAccount->syncPayment();
+  	}
   }
 
   public function accountSubscription()

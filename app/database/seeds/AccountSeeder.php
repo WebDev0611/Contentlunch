@@ -17,7 +17,7 @@ class AccountSeeder extends Seeder {
         $account->phone = '866-991-6883';
         $account->country = 'US';
         $account->zipcode = '98005';
-        $account->email = 'info@surgeforward.com';
+        $account->email = 'jkuchynka+surge@surgeforward.com';
         $account->auto_renew = true;
         $account->expiration_date = $expiration;
         $account->payment_type = 'CC';
