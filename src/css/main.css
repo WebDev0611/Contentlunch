@@ -1148,6 +1148,22 @@ span[class*=" icon-"].dark {
   border-bottom-color: #F1DDAF;
   color: #ffffff;
 }
+.create .right-pane .create-header {
+  margin: 0 16px;
+}
+.create .right-pane .create-header > * {
+  display: inline-block;
+  margin: 0 16px;
+  vertical-align: middle;
+}
+.create .right-pane .create-header > * .control-label,
+.create .right-pane .create-header > * .form-control {
+  display: inline;
+}
+.create .right-pane .create-header .btn-group .btn.active {
+  background-color: #000000;
+  color: #ffffff;
+}
 .select2-container {
   max-width: 400px;
   min-width: 400px;

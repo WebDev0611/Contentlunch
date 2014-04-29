@@ -7,7 +7,7 @@
 		</div>
 
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter(true)" />
+			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter()" />
 			<span class="input-group-addon">
 				<span class="glyphicon glyphicon-search"></span>
 			</span>
@@ -31,7 +31,7 @@
 				<div>
 					<select id="selContentType" name="selContentType" class="multi-select" multiple="multiple"
 						ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="search.contentTypes"
-						ng-change="" data-placeholder="Select Content Types">
+						ng-change="search.applyFilter()" data-placeholder="Select Content Types">
 						<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
 					</select>
 				</div>
@@ -42,7 +42,14 @@
 					Milestone
 				</accordion-heading>
 				<div>
-					MILESTONE DROP-DOWN HERE
+					<select id="selMilestone" name="selMilestone" class="multi-select" multiple="multiple"
+						ui-select2 ng-model="search.milestones" ng-change="search.applyFilter()" data-placeholder="Select Milestones">
+						<option value="concept">Concept</option>
+						<option value="created">Created</option>
+						<option value="approved">Approved</option>
+						<option value="launched">Launched</option>
+						<option value="archived">Archived</option>
+					</select>
 				</div>
 			</accordion-group>
 			<accordion-group is-open="buying_stage_is_open">
@@ -51,7 +58,10 @@
 					Buying Stage
 				</accordion-heading>
 				<div>
-					BUYING STAGE DROP-DOWN HERE
+					<select id="selBuyingStage" name="selBuyingStage" class="multi-select" multiple="multiple"
+						ui-select2 ng-model="search.buyingStages" ng-change="search.applyFilter()" data-placeholder="Select Buying Stages">
+						<option ng-repeat="bs in buyingStages" value="{{ bs }}">{{ bs }}</option>
+					</select>
 				</div>
 			</accordion-group>
 			<accordion-group is-open="campaign_is_open">
@@ -60,7 +70,10 @@
 					Campaign
 				</accordion-heading>
 				<div>
-					CAMPAIGN DROP-DOWN HERE
+					<select id="selCampaign" name="selCampaign" class="multi-select" multiple="multiple"
+						ui-select2 ng-model="search.campaigns" ng-change="search.applyFilter()" data-placeholder="Select Campaign">
+						<option ng-repeat="c in campaigns" value=""></option>
+					</select>
 				</div>
 			</accordion-group>
 			<accordion-group is-open="content_creator_is_open">
@@ -69,17 +82,51 @@
 					Content Creator
 				</accordion-heading>
 				<div>
-					CONTENT CREATOR DROP-DOWN HERE
+					<select id="selCreator" name="selCreator" class="multi-select" multiple="multiple"
+						ui-select2 ng-model="search.users" ng-change="search.applyFilter()" data-placeholder="Select Creator">
+						<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
+					</select>
 				</div>
 			</accordion-group>
 		</accordion>
 		
 		<div class="link-button-container">
-			<a class="link-button" href="#">Save as default filters</a> |
-			<a class="link-button" href="#">Clear Filters</a>
+			<a class="link-button" href="#" ng-click="">Save as default filters</a> |
+			<a class="link-button" href="#" ng-click="search.clearFilter()">Clear Filters</a>
 		</div>
 	</div>
 	<div class="col-md-9 right-pane">
 		<h2 class="right-pane-header">Create</h2>
+		
+		<div class="create-header">
+			<h3>Content</h3>
+
+			<div class="btn-group">
+				<button class="btn btn-default" ng-class="{ active: search.contentStage === 'content' }" ng-click="search.toggleContentStage('content')">Content</button>
+				<button class="btn btn-default" ng-class="{ active: search.contentStage === 'concepts' }" ng-click="search.toggleContentStage('concepts')">Concepts</button>
+				<button class="btn btn-default" ng-class="{ active: search.contentStage === 'archived' }" ng-click="search.toggleContentStage('archived')">Archived</button>
+			</div>
+
+			<div class="form-group form-inline">
+				<label class="control-label" for="selPageSize">Items per page:</label>
+				<select class="form-control" id="selPageSize" name="selPageSize" ng-model="pagination.pageSize">
+					<option value="10">10</option>
+					<option value="20">20</option>
+					<option value="50">50</option>
+					<option value="100">100</option>
+				</select>
+			</div>
+			
+			<div ng-show="pagination.totalItems > 0">
+				<pagination
+					total-items="pagination.totalItems"
+					items-per-page="pagination.pageSize"
+					page="pagination.currentPage"
+					on-select-page="pagination.onPageChange(page, editUser)"
+					direction-links="false"
+					max-size="6">
+				</pagination>
+			</div>
+		</div>
 	</div>
 </div>

@@ -1098,6 +1098,29 @@ span[class^="icon-"], span[class*=" icon-"] {
 			border-bottom-color: #F1DDAF;
 			color: #ffffff;
 		}
+
+		.create-header {
+			margin: 0 16px;
+
+			>* {
+				display: inline-block;
+				margin: 0 16px;
+				vertical-align: middle;
+
+				.control-label, .form-control {
+					display: inline;
+				}
+			}
+
+			.btn-group {
+				.btn {
+					&.active {
+						background-color: #000000;
+						color: #ffffff;
+					}
+				}
+			}
+		}
 	}
 }
 
