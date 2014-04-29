@@ -21,13 +21,13 @@
 		<a href="/" class="navbar-brand">ContentLaunch</a>
 	</div>-->
 	<div class="login-info">
-		<div class="popover-menu admin-menu" menu-popover menu-items="adminMenu" data-placement="bottom" data-trigger="hover" data-menu="true">
+		<div class="popover-menu admin-menu" menu-popover menu-items="adminMenu" data-placement="bottom" data-trigger="hover" data-menu="true" ng-show="adminMenu.length > 0">
 			<span class="glyphicon glyphicon-cog"></span>
 			Admin Settings
 		</div>
 		<div class="popover-menu user-menu" menu-popover menu-items="userMenu" data-placement="bottom" data-trigger="hover" data-menu="true">
 			<span class="glyphicon glyphicon-user"></span>
-			{{ user.formatName() }}
+			{{ user.displayName }}
 		</div>
 	</div>
 </nav>

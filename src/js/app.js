@@ -29,6 +29,10 @@
 						controller: 'ContentSettingsController',
 						templateUrl: '/assets/views/content-settings.html'
 					})
+					.when('/account/seo', {
+						controller: 'SeoSettingsController',
+						templateUrl: '/assets/views/seo-settings.html'
+					})
 					.when('/user', {
 						controller: 'UserController',
 						templateUrl: '/assets/views/user.html'

@@ -8,17 +8,19 @@
 			self.loggedInUser = authService.userInfo();
 			$scope.isLoading = true;
 
-			$scope.connections = connectionService.queryContentConnections(self.loggedInUser.account.id, {
-				// TODO: UNCOMMENT THIS WHEN THE CONNECTIONS COME FROM THE API!!
-				//success: function (r) {
-				//	$scope.isLoading = false;
-				//	$scope.search.applyFilter();
-				//},
-				//error: function(r) {
-				//	$scope.isLoading = false;
+			$scope.canEditConnection = self.loggedInUser.hasPrivilege('settings_edit_connections');
+			$scope.canCreateConnection = self.loggedInUser.hasPrivilege('settings_execute_connections');
 
-				//	launch.utils.handleAjaxErrorResponse(r, notificationService);
-				//}
+			$scope.connections = connectionService.queryContentConnections(self.loggedInUser.account.id, {
+				success: function (r) {
+					$scope.isLoading = false;
+					$scope.search.applyFilter();
+				},
+				error: function(r) {
+					$scope.isLoading = false;
+
+					launch.utils.handleAjaxErrorResponse(r, notificationService);
+				}
 			});
 
 			$scope.search.applyFilter();
@@ -26,6 +28,32 @@
 
 		self.loadProviders = function() {
 			$scope.providers = launch.config.CONNECTION_PROVIDERS;
+		};
+
+		self.saveContentConnection = function (connection, callback) {
+			var msg = launch.utils.validateAll(connection);
+
+			if (!launch.utils.isBlank(msg)) {
+				notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
+				return;
+			}
+
+			connectionService.updateContentConnection(connection, {
+				success: function (r) {
+					self.loadConnections();
+
+					if (!!callback && $.isFunction(callback.success)) {
+						callback.success(r);
+					}
+				},
+				error: function (r) {
+					launch.utils.handleAjaxErrorResponse(r, notificationService);
+
+					if (!!callback && $.isFunction(callback.error)) {
+						callback.error(r);
+					}
+				}
+			});
 		};
 
 		self.init = function () {
@@ -37,6 +65,9 @@
 		$scope.connections = [];
 		$scope.isLoading = false;
 		$scope.isSaving = false;
+		$scope.canEditConnection = false;
+		$scope.canCreateConnection = false;
+		$scope.selectedConnection = null;
 
 		$scope.search = {
 			searchTerm: null,
@@ -62,9 +93,34 @@
 		};
 
 		$scope.toggleActiveStatus = function (connection) {
+			if (!$scope.canEditConnection) {
+				return;
+			}
+
 			connection.active = !connection.active;
 
+			self.saveContentConnection(connection);
+
 			$scope.search.applyFilter(true);
+		};
+
+		$scope.editConnectionName = function(newName) {
+			if (!$scope.selectedConnection) {
+				return;
+			}
+
+			self.saveContentConnection($scope.selectedConnection, {
+				success: function(r) {
+					$scope.selectedConnection = null;
+				},
+				error: function (r) {
+					$scope.selectedConnection = null;
+				}
+			});
+		};
+
+		$scope.selectConnection = function(connection) {
+			$scope.selectedConnection = connection;
 		};
 
 		$scope.addConnection = function(provider) {

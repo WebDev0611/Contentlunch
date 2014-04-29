@@ -1,48 +1,50 @@
 ﻿<div class="view users">
 	<div class="col-md-3 left-pane">
-		<div class="btn-group">
+		<div class="btn-group" ng-show="showNewUser">
 			<button class="btn btn-default btn-create" ng-click="enterNewUser()">
 				<span class="glyphicon glyphicon-user"></span>
 				CREATE NEW USER
 			</button>
 		</div>
-
-		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter(true)" />
-			<span class="input-group-addon">
-				<span class="glyphicon glyphicon-search"></span>
-			</span>
-		</div>
 		
-		<hr/>
-
-		<div class="btn-group btn-group-justified btn-group-filter">
-			<a class="btn btn-default" ng-class="{ active: search.userStatus === 'active' }" ng-click="search.toggleStatus('active')">Active</a>
-			<a class="btn btn-default" ng-class="{ active: search.userStatus === 'inactive' }" ng-click="search.toggleStatus('inactive')">Inactive</a>
-			<a class="btn btn-default" ng-class="{ active: search.userStatus === 'all' }" ng-click="search.toggleStatus('all')">All</a>
-		</div>
-
-		<ul class="items-list">
-			<li ng-repeat="user in pagedUsers[pagination.currentPage - 1]" ng-click="selectUser(user, $index, editUser)" ng-class="{ selected: isSelectedUser(user) }">
-				<div class="user-image item-image" ng-style="{ 'background-image': user.imageUrl() }"></div>
-				<div class="item-info">
-					<span class="item-title">{{ user.formatName() }}</span><br/>
-					{{ user.role.name }}
-				</div>
-			</li>
-		</ul>
+		<div ng-show="showUsers">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter(true)" />
+				<span class="input-group-addon">
+					<span class="glyphicon glyphicon-search"></span>
+				</span>
+			</div>
 		
-		<div class="pager" ng-show="pagination.showPager() === true">
 			<hr/>
 
-			<pagination
-				total-items="pagination.totalItems"
-				items-per-page="pagination.pageSize"
-				page="pagination.currentPage"
-				on-select-page="pagination.onPageChange(page, editUser)"
-				direction-links="false"
-				max-size="6">
-			</pagination>
+			<div class="btn-group btn-group-justified btn-group-filter">
+				<a class="btn btn-default" ng-class="{ active: search.userStatus === 'active' }" ng-click="search.toggleStatus('active')">Active</a>
+				<a class="btn btn-default" ng-class="{ active: search.userStatus === 'inactive' }" ng-click="search.toggleStatus('inactive')">Inactive</a>
+				<a class="btn btn-default" ng-class="{ active: search.userStatus === 'all' }" ng-click="search.toggleStatus('all')">All</a>
+			</div>
+
+			<ul class="items-list">
+				<li ng-repeat="user in pagedUsers[pagination.currentPage - 1]" ng-click="selectUser(user, $index, editUser)" ng-class="{ selected: isSelectedUser(user) }">
+					<div class="user-image item-image" ng-style="{ 'background-image': user.imageUrl() }"></div>
+					<div class="item-info">
+						<span class="item-title">{{ user.formatName() }}</span><br/>
+						{{ user.role.name }}
+					</div>
+				</li>
+			</ul>
+		
+			<div class="pager" ng-show="pagination.showPager() === true">
+				<hr/>
+
+				<pagination
+					total-items="pagination.totalItems"
+					items-per-page="pagination.pageSize"
+					page="pagination.currentPage"
+					on-select-page="pagination.onPageChange(page, editUser)"
+					direction-links="false"
+					max-size="6">
+				</pagination>
+			</div>
 		</div>
 	</div>
 	<div class="col-md-9 right-pane">

@@ -22,6 +22,7 @@
 		scope.isSaving = false;
 		scope.isUploading = false;
 		scope.isNewUser = false;
+		scope.canEditUser = false;
 		scope.percentComplete = 0;
 		scope.hasError = function (property, control) { return launch.utils.isPropertyValid(scope.selectedUser, property, control, scope.forceDirty); };
 		scope.errorMessage = function (property, control) { return launch.utils.getPropertyErrorMessage(scope.selectedUser, property, control); };
@@ -289,6 +290,8 @@
 			} else {
 				scope.isNewUser = false;
 			}
+
+			scope.canEditUser = (self.loggedInUser.hasPrivilege('settings_edit_profiles') || scope.selfEditing);
 		});
 
 		self.init();

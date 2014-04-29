@@ -1,0 +1,39 @@
+﻿<div class="view seo-settings">
+	<div class="col-md-3 left-pane">
+		<div account-left-pane selected-setting="'seo'"></div>
+	</div>
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header">SEO Settings</h2>
+		
+		<form name="editAccount" class="seo-settings-editor" novalidate="novalidate">
+			<p>
+				If your site uses a SEO plugin, please select it from the list. This will let Content Launch send HTML, titles and meta
+				descriptions to your CMS.
+			</p>
+		
+			<div class="row">
+				<div class="col-md-3">
+					Content Launch supports the following plugins:
+				</div>
+				<div class="col-md-9" style="font-weight: bold;">
+					Inbound Writer Integration, Yoast, All in One SEO, Genesis Theme SEO, SEO Ultimate, Sales Power, Sales Machine, NSM Better Meta, LG Better Meta, Metatag (Drupal)
+				</div>
+			</div>
+			
+			<hr/>
+			
+			<div class="row">
+				<div class="col-md-3" style="text-align: right; font-size: 16pt; font-family: Lato-Black">
+					Select Plugin:
+				</div>
+				<div class="col-md-9">
+					<div class="control-group">
+						<div class="form-group">
+							<div seo-dropdown></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -65,11 +65,10 @@
 			<h2>Personas/Buying Stage</h2>
 			<div>
 				These Personas and stages will be used in content and can be changed as needed.
-				<div class="control-group btn-group btn-new-persona">
+				<div class="control-group btn-group btn-new-persona" ng-show="canEditPersonas">
 					<button type="button" class="btn btn-default" ng-click="addNewPersona()">New Persona</button>
 				</div>
 			</div>
-			
 
 			<table class="persona-table">
 				<thead>
@@ -77,20 +76,23 @@
 						<th>Name</th>
 						<th ng-repeat="property in contentSettings.personaProperties">
 							<span ng-class="'cl-icon-personas-' + $index" class="cl-icon cl-icon-med"></span>
-							<span class="content-editable" contenteditable on-change="setDirty" ng-model="contentSettings.personaProperties[$index]" place-holder="titlePlaceholder"></span>
+							<span class="content-editable" contenteditable on-change="setDirty" ng-model="contentSettings.personaProperties[$index]" place-holder="titlePlaceholder" ng-show="canEditPersonas"></span>
+							<span ng-show="!canEditPersonas" ng-bind="contentSettings.personaProperties[$index]"></span>
 						</th>
-						<th>&nbsp;</th>
+						<th ng-show="canEditPersonas">&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="persona in contentSettings.personas" ng-class-odd="'dark'">
 						<td>
-							<div class="content-editable" contenteditable on-change="setDirty" ng-model="persona.name" place-holder="itemPlaceholder"></div>
+							<div class="content-editable" contenteditable on-change="setDirty" ng-model="persona.name" place-holder="itemPlaceholder" ng-show="canEditPersonas"></div>
+							<span ng-show="!canEditPersonas" ng-bind="persona.name"></span>
 						</td>
 						<td ng-repeat="property in contentSettings.personaProperties" class="long-content">
-							<div class="content-editable" contenteditable on-change="setDirty" ng-model="persona.properties[$index]" place-holder="itemPlaceholder"></div>
+							<div class="content-editable" contenteditable on-change="setDirty" ng-model="persona.properties[$index]" place-holder="itemPlaceholder" ng-show="canEditPersonas"></div>
+							<span ng-show="!canEditPersonas" ng-bind="persona.properties[$index]"></span>
 						</td>
-						<td class="edit-row">
+						<td class="edit-row" ng-show="canEditPersonas">
 							<span class="fa fa-trash-o" ng-click="deletePersona($index)"></span>
 						</td>
 					</tr>

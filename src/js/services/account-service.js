@@ -33,7 +33,7 @@
 			var account = accounts.get({ id: id }, success, error);
 
 			account.$promise.then(function(acct) {
-				var loggedInUser = ModelMapperService.user.fromCache(SessionService.get(SessionService.USER_KEY));
+				var loggedInUser = ModelMapperService.auth.fromCache(SessionService.get(SessionService.USER_KEY));
 
 				if (!acct.subscription) {
 					acct.subscription = accountSubscriptions.get({ id: acct.id }, function(subscription) {

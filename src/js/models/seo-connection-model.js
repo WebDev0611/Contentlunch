@@ -1,12 +1,12 @@
-﻿launch.Module = function() {
+﻿launch.SeoConnection = function () {
 	var self = this;
 
 	self.id = null;
+	self.accountId = null;
 	self.active = false;
 	self.name = null;
-	self.title = null;
-	self.privileges = null;
-	self.isSubscribable = null;
+	self.connectionType = null;
+	self.connectionSettings = null;
 	self.created = null;
 	self.updated = null;
 

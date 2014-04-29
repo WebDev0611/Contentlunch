@@ -8,7 +8,7 @@
 		};
 
 		self.getNavigationItems = function() {
-			if (!scope.user || !$.isFunction(scope.user.validateProperty)) {
+			if (!scope.user || !scope.user.$resolved) {
 				scope.showNav = false;
 				return;
 			}
@@ -22,18 +22,30 @@
 			var userMenuItems = [];
 
 			if (!isGlobalAdmin) {
-				// TODO: ADD THESE BASED ON THE ACCOUNT SUBSCRIPTION LEVEL AND THE USER'S PRIVILEGES!!
-				mainNavItems.push({ title: 'home', url: '/', active: 'active' });
-				mainNavItems.push({ title: 'consult', url: '/consult', active: '' });
-				mainNavItems.push({ title: 'create', url: '/create', active: '' });
-				mainNavItems.push({ title: 'collaborate', url: '/collaborate', active: '' });
-				mainNavItems.push({ title: 'calendar', url: '/calendar', active: '' });
-				mainNavItems.push({ title: 'launch', url: '/launch', active: '' });
-				mainNavItems.push({ title: 'measure', url: '/measure', active: '' });
+				mainNavItems = $.map($.grep(scope.user.modules, function(m) {
+					return m.isSubscribable;
+				}), function(m) {
+					return {
+						title: m.name,
+						url: '/' + m.name,
+						active: ''
 
-				adminMenuItems.push({ text: 'Account Settings', cssClass: 'glyphicon-cog', url: '/account' });
-				adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
-				adminMenuItems.push({ text: 'User Roles', cssClass: 'glyphicon-lock', url: '/roles' });
+					};
+				});
+
+				mainNavItems.splice(0, 0, { title: 'home', url: '/', active: 'active' });
+
+				if (scope.user.hasModuleAccess('settings')) {
+					adminMenuItems.push({ text: 'Account Settings', cssClass: 'glyphicon-cog', url: '/account' });
+
+					if (scope.user.hasPrivilege(['settings_edit_profiles', 'settings_view_profiles', 'settings_execute_users'])) {
+						adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
+					}
+
+					if (scope.user.hasPrivilege(['settings_edit_roles', 'settings_view_roles', 'settings_execute_roles'])) {
+						adminMenuItems.push({ text: 'User Roles', cssClass: 'glyphicon-lock', url: '/roles' });
+					}
+				}
 			} else {
 				mainNavItems.push({ title: 'accounts', url: '/accounts', active: '' });
 				mainNavItems.push({ title: 'subscription', url: '/subscription', active: '' });
@@ -99,6 +111,7 @@
 				AuthService.impersonateReset();
 				return;
 			}
+
 			$location.url(angular.lowercase(url));
 		};
 

@@ -3,12 +3,12 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 
 	// WE CANNOT PASS IN A ModelMapperService BECAUSE IT WOULD CAUSE A CIRCULAR DEPENDENCY.
 	// INSTEAD, CREATE OUR OWN INSTANCE OF THE ModelMapper CLASS.
-	self.modelMapper = new launch.ModelMapper(this);
+	self.modelMapper = new launch.ModelMapper($location, this);
 
 	self.cacheSession = function(user) {
 		SessionService.set(SessionService.AUTHENTICATED_KEY, true);
 		SessionService.set(SessionService.USER_KEY, user);
-		SessionService.set(SessionService.ACCOUNT_KEY, user.accounts[0]);
+		SessionService.set(SessionService.ACCOUNT_KEY, user.account);
 	};
 
 	self.uncacheSession = function() {
@@ -19,7 +19,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 
 	self.authenticate = $resource('/api/auth', null, {
 		login: { method: 'POST' },
-		fetchCurrentUser: { method: 'GET', transformResponse: self.modelMapper.user.parseResponse }
+		fetchCurrentUser: { method: 'GET', transformResponse: self.modelMapper.auth.parseResponse }
 	});
 
 	self.confirm = $resource('/api/auth/confirm', null, {
@@ -41,7 +41,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 					remember: remember
 				},
 				function (r) {
-					var user = self.modelMapper.user.fromDto(r);
+					var user = self.modelMapper.auth.fromDto(r);
 
 					self.cacheSession(user);
 
@@ -49,11 +49,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 						success(user);
 					}
 				},
-				function(r) {
-					if ($.isFunction(error)) {
-						error(r);
-					}
-				});
+				error);
 		},
 		logout: function() {
 			return $resource('/api/auth/logout').get(function(r) {
@@ -68,7 +64,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 				return { };
 			}
 
-			return self.modelMapper.user.fromCache(JSON.parse(SessionService.get(SessionService.USER_KEY)));
+			return self.modelMapper.auth.fromCache(JSON.parse(SessionService.get(SessionService.USER_KEY)));
 		},
 		accountInfo: function() {
 			if (!this.isLoggedIn()) {

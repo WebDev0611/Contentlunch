@@ -510,7 +510,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 		padding: 16px;
 	}
 
-	h2 {
+	h2, hr {
 		border-bottom: solid 1px #000000;
 		font-family: 'Lato Black';
 		margin: 20px 0 20px 0;
@@ -597,7 +597,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	width: 40px;
 }
 
-.users, .accounts, .roles, .content-settings {
+.users, .accounts, .roles, .content-settings, .seo-settings, .create {
 	.left-pane {
 		position: relative;
 
@@ -683,7 +683,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.user-editor, .account-editor, .role-editor, .content-settings-editor {
+.user-editor, .account-editor, .role-editor, .content-settings-editor, .seo-settings-editor {
 	.user-image-upload {
 		float: left;
 		text-align: center;
@@ -882,18 +882,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 			.panel-heading {
 				background-color: #000000;
 				color: #ffffff;
-				cursor: pointer;
-				padding: 0px;
-
-				a {
-					display: inline-block;
-					padding: 12px;
-					width: 100%;
-
-					&:hover {
-						text-decoration: none;
-					}
-				}
 			}
 
 			.panel-collapse {
@@ -999,7 +987,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.content-settings-editor {
+.content-settings-editor, .seo-settings-editor {
 	padding: 0 16px;
 
 	.control-group {
@@ -1069,6 +1057,50 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
+.create {
+	.left-pane {
+		.filter-panel {
+			background-color: @createColor;
+			color: #ffffff;
+			margin: 12px 0;
+			padding: 4px;
+			border-radius: 4px;
+		}
+
+		.btn-group {
+			margin-top: 12px;
+		}
+
+		.panel-group {
+			.panel {
+				background-color: transparent;
+				border: none !important;
+
+				.panel-heading {
+					background-color: transparent;
+					border-bottom: solid 1px #000000;
+				}
+
+				.panel-collapse {
+					border: none !important;
+
+					.panel-body {
+						border: none !important;
+					}
+				}
+			}
+		}
+	}
+
+	.right-pane {
+		.right-pane-header {
+			background-color: @createColor;
+			border-bottom-color: #F1DDAF;
+			color: #ffffff;
+		}
+	}
+}
+
 .select2-container {
 	max-width: 400px;
 	min-width: 400px;
@@ -1086,6 +1118,20 @@ span[class^="icon-"], span[class*=" icon-"] {
 					height: auto !important;
 				}
 			}
+		}
+	}
+}
+
+.link-button-container {
+	text-align: center;
+
+	.link-button {
+		color: #000000;
+		display: inline-block;
+		padding: 4px;
+
+		&:hover{
+			text-decoration: none;
 		}
 	}
 }

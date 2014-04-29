@@ -1,6 +1,15 @@
-﻿launch.module.directive('roleForm', function ($modal, RoleService, NotificationService) {
+﻿launch.module.directive('roleForm', function ($modal, AuthService, RoleService, NotificationService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
+
+		self.loggedInUser = null;
+
+		self.init = function () {
+			self.loggedInUser = AuthService.userInfo();
+
+			scope.canEditRole = (self.loggedInUser.hasPrivilege('settings_edit_roles'));
+			scope.canCreateRole = self.loggedInUser.hasPrivilege('settings_execute_roles');
+		};
 
 		self.discardChanges = function (form) {
 			if ($.isFunction(scope.refreshMethod)) {
@@ -13,6 +22,8 @@
 		scope.isSaving = false;
 		scope.hasError = launch.utils.isPropertyValid;
 		scope.isNewRole = false;
+		scope.canEditRole = false;
+		scope.canCreateRole = false;
 		scope.errorMessage = launch.utils.getPropertyErrorMessage;
 
 		scope.cancelEdit = function (form) {
@@ -165,6 +176,8 @@
 				scope.isNewRole = false;
 			}
 		});
+
+		self.init();
 	}
 
 	return {

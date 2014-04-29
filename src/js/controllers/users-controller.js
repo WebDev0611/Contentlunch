@@ -7,6 +7,9 @@ launch.module.controller('UsersController', [
 		self.init = function() {
 			self.loggedInUser = authService.userInfo();
 			self.loadUsers(true);
+
+			$scope.showNewUser = self.loggedInUser.hasPrivilege('settings_execute_users');
+			$scope.showUsers = self.loggedInUser.hasPrivilege(['settings_view_profiles', 'settings_edit_profiles']);
 		};
 
 		self.loadUsers = function(reset, cb) {
@@ -91,6 +94,8 @@ launch.module.controller('UsersController', [
 		$scope.isSaving = false;
 		$scope.selectedIndex = null;
 		$scope.selectedUser = null;
+		$scope.showNewUser = false;
+		$scope.showUsers = false;
 
 		$scope.selfEditing = function() {
 			if (!!$scope.selectedUser) {
