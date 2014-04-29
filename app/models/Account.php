@@ -44,17 +44,19 @@ class Account extends Ardent {
 
   protected function beforeSave()
   {
-  	// If any "customer" info changes, update it in balanced
-  	if ($this->isDirty('title')) {
-  		$balancedAccount = new Launch\Balanced($this);
-  		// This will sync the customer details with balanced
-  		$balancedAccount->syncCustomer();
-  	}
-  	// If the token has changed, we are saving a new credit card or bank account
-  	if ($this->isDirty('token')) {
-  		$balancedAccount = new Launch\Balanced($this);
-  		// This will sync the payment details with balanced
-  		$balancedAccount->syncPayment();
+  	if ( ! app()->env == 'testing') {
+	  	// If any "customer" info changes, update it in balanced
+	  	if ($this->isDirty('title')) {
+	  		$balancedAccount = new Launch\Balanced($this);
+	  		// This will sync the customer details with balanced
+	  		$balancedAccount->syncCustomer();
+	  	}
+	  	// If the token has changed, we are saving a new credit card or bank account
+	  	if ($this->isDirty('token')) {
+	  		$balancedAccount = new Launch\Balanced($this);
+	  		// This will sync the payment details with balanced
+	  		$balancedAccount->syncPayment();
+	  	}
   	}
   }
 

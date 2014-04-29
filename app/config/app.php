@@ -183,4 +183,8 @@ return array(
 
 	),
 
+	'balanced' => array(
+		'api_key_secret' => 'ak-test-2b1tOVFkmQZkf4colkOw6BIPfeCMBBJg4'
+	)
+
 );
