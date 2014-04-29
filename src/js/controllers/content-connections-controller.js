@@ -1,10 +1,10 @@
 ﻿launch.module.controller('ContentConnectionsController', [
-	'$scope', '$filter', '$location', 'AuthService', 'AccountService', 'UserService', 'NotificationService', 'ConnectionService', function ($scope, $filter, $location, authService, accountService, userService, notificationService, connectionService) {
+	'$scope', '$filter', '$location', 'AuthService', 'AccountService', 'UserService', 'NotificationService', 'ConnectionService', function($scope, $filter, $location, authService, accountService, userService, notificationService, connectionService) {
 		var self = this;
 
 		self.loggedInUser = null;
 
-		self.loadConnections = function () {
+		self.loadConnections = function() {
 			self.loggedInUser = authService.userInfo();
 			$scope.isLoading = true;
 
@@ -12,7 +12,7 @@
 			$scope.canCreateConnection = self.loggedInUser.hasPrivilege('settings_execute_connections');
 
 			$scope.connections = connectionService.queryContentConnections(self.loggedInUser.account.id, {
-				success: function (r) {
+				success: function(r) {
 					$scope.isLoading = false;
 					$scope.search.applyFilter();
 				},
@@ -30,7 +30,7 @@
 			$scope.providers = launch.config.CONNECTION_PROVIDERS;
 		};
 
-		self.saveContentConnection = function (connection, callback) {
+		self.saveContentConnection = function(connection, callback) {
 			var msg = launch.utils.validateAll(connection);
 
 			if (!launch.utils.isBlank(msg)) {
@@ -39,14 +39,14 @@
 			}
 
 			connectionService.updateContentConnection(connection, {
-				success: function (r) {
+				success: function(r) {
 					self.loadConnections();
 
 					if (!!callback && $.isFunction(callback.success)) {
 						callback.success(r);
 					}
 				},
-				error: function (r) {
+				error: function(r) {
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
 
 					if (!!callback && $.isFunction(callback.error)) {
@@ -56,7 +56,7 @@
 			});
 		};
 
-		self.init = function () {
+		self.init = function() {
 			self.loadProviders();
 			self.loadConnections();
 		};
@@ -73,12 +73,12 @@
 			searchTerm: null,
 			searchTermMinLength: 1,
 			connectionStatus: 'all',
-			toggleStatus: function (status) {
+			toggleStatus: function(status) {
 				this.connectionStatus = status;
 				this.applyFilter(true);
 			},
-			applyFilter: function (reset) {
-				$scope.filteredConnections = $filter('filter')($scope.connections, function (connection) {
+			applyFilter: function(reset) {
+				$scope.filteredConnections = $filter('filter')($scope.connections, function(connection) {
 					if ($scope.search.connectionStatus === 'all' || ($scope.search.connectionStatus === 'active' && connection.active) || ($scope.search.connectionStatus === 'inactive' && !connection.active)) {
 						if (!launch.utils.isBlank($scope.search.searchTerm) && $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
 							return (launch.utils.isBlank($scope.search.searchTerm) ? true : connection.matchSearchTerm($scope.search.searchTerm));
@@ -92,7 +92,7 @@
 			}
 		};
 
-		$scope.toggleActiveStatus = function (connection) {
+		$scope.toggleActiveStatus = function(connection) {
 			if (!$scope.canEditConnection) {
 				return;
 			}
@@ -113,7 +113,7 @@
 				success: function(r) {
 					$scope.selectedConnection = null;
 				},
-				error: function (r) {
+				error: function(r) {
 					$scope.selectedConnection = null;
 				}
 			});
@@ -129,16 +129,20 @@
 			// TODO: IMPLEMENT THE ABILITY TO ADD CONTENT CONNECTIONS!
 			switch (provider.toUpperCase()) {
 				case 'LINKEDIN':
-					var url = 'https://www.linkedin.com/uas/oauth2/authorization?response_type=code' +
+					url = 'https://www.linkedin.com/uas/oauth2/authorization?response_type=code' +
 						'&client_id=' + launch.config.LINKEDIN_API_KEY +
 						//'&scope=r_basicprofile r_emailaddress r_contactinfo rw_nus rw_groups rw_company_admin' +
 						'&state=' + launch.utils.newGuid() +
-						'&redirect_uri=http://local.contentlaunch.com/account/connections';
+						'&redirect_uri=' + encodeURI('http://local.contentlaunch.com/account/connections');
 					break;
 				case 'HUBSPOT':
-					var url = 'https://app.hubspot.com/auth/authenticate/?client_id=' + launch.config.HUBSPOT_API_KEY +
+					url = 'https://app.hubspot.com/auth/authenticate/?client_id=' + launch.config.HUBSPOT_API_KEY +
 						'&portalId=' + '175282' + // TODO: HOW DO WE USE THIS PORTAL ID???
-						'&redirect_uri=http://local.contentlaunch.com/account/connections';
+						'&redirect_uri=' + encodeURI('http://local.contentlaunch.com/account/connections');
+					break;
+				case 'WORDPRESS':
+					url = 'https://public-api.wordpress.com/oauth2/authorize?client_id=' + launch.config.WORDPRESS_API_KEY +
+						'&redirect_uri=' + encodeURIComponent('http://local.contentlaunch.com/account/connections') + '&response_type=code';
 					break;
 			}
 

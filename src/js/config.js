@@ -40,6 +40,8 @@
 	HUBSPOT_API_SECRET: '13aeed7d-b469-4a15-81a5-7d0058036075',
 	LINKEDIN_API_KEY: '75v9b2qqxfhxrf',
 	LINKEDIN_API_SECRET: 'EpLWyw4wv73LyW57',
+	WORDPRESS_API_KEY: '34902',
+	WORDPRESS_API_SECRET: 'enngUSOLGj7kZCb6hbNH7vk3CgUjoi3pdBMX3Rkckqmx6tJGdujLCyTSCnRNt5ld',
 	TINY_MCE_SETTINGS: {
 		plugins: [
 			'advlist autolink link image lists charmap print preview anchor',
