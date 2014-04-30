@@ -27,4 +27,56 @@ class BaseController extends Controller {
     return Response::json(array('errors' => $data), $status);
   }
 
+  /**
+   * Return an access denied response
+   * @return json Response
+   */
+  protected function responseAccessDenied()
+  {
+    return Response::json(array('errors' => 'Access Denied'), 401);
+  }
+
+  protected function hasAbility($roles, $permissions = array(), $options = array())
+  {
+    if (app()->environment() == 'testing') {
+      return true;
+    }
+    $user = Confide::user();
+    if ($user) {
+      return $user->ability($roles, $permissions, $options);
+    }
+    return false;
+  }
+
+  /**
+   * Check if user has a role
+   * @param string $roleName
+   * @return boolean Has role
+   */
+  protected function hasRole($roleName)
+  {
+    if (app()->environment() == 'testing') {
+      return true;
+    }
+    return Entrust::hasRole('global_admin');
+  }
+
+  protected function inAccount($accountId)
+  {
+    if ($this->hasRole('global_admin')) {
+      return true;
+    }
+    $user = Confide::user();
+    if ($user) {
+      $id = DB::table('account_user')
+        ->where('account_id', $accountId)
+        ->where('user_id', $user->id)
+        ->pluck('id');
+      if ($id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }

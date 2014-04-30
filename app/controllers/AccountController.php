@@ -4,6 +4,10 @@ class AccountController extends BaseController {
 
 	public function index()
 	{
+		// Restrict to global admins
+		if ( ! $this->hasRole('global_admin')) {
+			return $this->responseAccessDenied();
+		}
 		$accounts = Account::countusers()
 			->with('accountSubscription')
 			->with('modules')
@@ -22,6 +26,10 @@ class AccountController extends BaseController {
 
 	public function store()
 	{
+		// Restrict to global admins
+		if ( ! $this->hasRole('global_admin')) {
+			return $this->responseAccessDenied();
+		}
 		$account = new Account;
 		if (Input::has('payment_info')) {
 			$account->payment_info = serialize(Input::get('payment_info'));
@@ -60,6 +68,10 @@ class AccountController extends BaseController {
 
 	public function show($id)
 	{
+		// Restrict to global admins or user is connected to account
+		if ( ! $this->inAccount($id)) {
+			return $this->responseAccessDenied();
+		}
 		$account = Account::countusers()
 			->with('accountSubscription')
 			->with('modules')
@@ -77,6 +89,14 @@ class AccountController extends BaseController {
 
 	public function update($id)
 	{
+		// Restrict to global admins and site admins
+		if ( ! $this->hasAbility(array('global_admin', 'site_admin'))) {
+			return $this->responseAccessDenied();
+		}
+		// Restrict to user connected to account
+		if ( ! $this->inAccount($id)) {
+			return $this->responseAccessDenied();
+		}
 		$account = Account::find($id);
 		// Check for changing active status. If going from 1 to 0, the account
 		// is getting cancelled, and an email will need to be sent
@@ -100,6 +120,14 @@ class AccountController extends BaseController {
 
 	public function destroy($id)
 	{
+		// Restrict to global admins and site admins
+		if ( ! $this->hasAbility(array('global_admin', 'site_admin'))) {
+			return $this->responseAccessDenied();
+		}
+		// Restrict to user is connected to account
+		if ( ! $this->inAccount($id)) {
+			return $this->responseAccessDenied();
+		}
 		$account = Account::find($id);
 		if ($account && $account->delete()) {
 			return Response::json(array('success' => 'OK'), 200);
@@ -109,6 +137,10 @@ class AccountController extends BaseController {
 
 	public function resend_creation_email($id)
 	{
+		// Restrict to global admins
+		if ( ! $this->hasRole('global_admin')) {
+			return $this->responseAccessDenied();
+		}
 		$account = Account::find($id);
 		$user = User::where('email', $account->email)->first();
 		$token = $user->confirmation_code;
@@ -125,6 +157,10 @@ class AccountController extends BaseController {
 
 	public function request_update_email()
 	{
+		// Restrict to site admins
+		if ( ! $this->hasRole('site_admin')) {
+			return $this->responseAccessDenied();
+		}
 		$data = array(
 			'company_name' => Input::get('company'),
 			'name' => Input::get('name'),

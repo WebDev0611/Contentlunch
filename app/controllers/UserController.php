@@ -86,6 +86,9 @@ class UserController extends BaseController {
 			->with('roles')
 			->with('accounts')
 			->find($id);
+		if ( ! $user) {
+			return $this->responseError("User not found.");
+		}
 		if (isset($user->accounts[0])) {
 			$account = Account::find($user->accounts[0]->id)->first();
 			$modules = $account->modules;
@@ -113,7 +116,6 @@ class UserController extends BaseController {
 			}
 			return $user;
 		}
-		return $this->responseError("User not found.");
 	}
 
 	public function update($id)

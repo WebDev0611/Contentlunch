@@ -64,6 +64,7 @@ Route::group(array('prefix' => 'api'), function()
 	));
 
 	Route::resource('subscription', 'SubscriptionController', array(
+		'before' => 'global_adminasdf',
 		'only' => array('index', 'show', 'update')
 	));
 
@@ -73,12 +74,6 @@ Route::group(array('prefix' => 'api'), function()
 	Route::post('/user/{id}/image', 'UserController@postProfileImage');
 
 	Route::get('impersonate/{id}', 'AdminController@impersonate');
-
-	Route::get('test-charge/{id}', 'AccountController@charge_account');
-
-});
-
-Route::get('deploy/{environment}/{token}', function ($environment, $token) {
 
 });
 
