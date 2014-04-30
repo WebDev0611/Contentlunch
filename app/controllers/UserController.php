@@ -95,6 +95,8 @@ class UserController extends BaseController {
 			}
 			$modules[] = array('name' => 'settings', 'title' => 'Settings', 'subscribable' => false);
 			$user->modules = $modules;
+		} else {
+			$user->modules = array();
 		}
 		if (isset($user->roles[0])) {
 			$role = Role::find($user->roles[0]->id);
