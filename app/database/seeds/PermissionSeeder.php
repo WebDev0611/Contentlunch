@@ -150,11 +150,14 @@ class PermissionSeeder extends Seeder {
         array('editor'))
     );
 
-    $allRoles = Role::where('builtin', 1)->where('account_id', NULL)->get();
+    $allRoles = Role::where('builtin', 1)
+      ->where('account_id', NULL)
+      ->get();
     $roles = array();
     foreach ($allRoles as $role) {
       $roles[$role->name] = $role;
     }
+    $roles['site_admin'] = Role::where('name', 'site_admin')->first();
 
     foreach ($permissions as $permission) {
       list($name, $display_name, $assignRoles) = $permission;
@@ -172,6 +175,8 @@ class PermissionSeeder extends Seeder {
           $roles[$roleName]->perms()->attach($p->id);
         }
       }
+      // Give all permissions to site_admin
+      $roles['site_admin']->perms()->attach($p->id);
     }
   }
 

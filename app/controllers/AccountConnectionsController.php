@@ -4,6 +4,10 @@ class AccountConnectionsController extends BaseController {
 
   public function get_connections($account_id)
   {
+    // Restrict user is in account
+    if ( ! $this->inAccount($account_id)) {
+      return $this->responseAccessDenied();
+    }
     $query = AccountConnection::where('account_id', $account_id);
     if (Input::get('type')) {
       $query->where('type', Input::get('type'));
@@ -13,6 +17,10 @@ class AccountConnectionsController extends BaseController {
 
   public function post_connection($account_id)
   {
+    // Restrict user is in account
+    if ( ! $this->inAccount($account_id)) {
+      return $this->responseAccessDenied();
+    }
     $connection = new AccountConnection;
     $connection->account_id = $account_id;
     $connection->name = Input::get('name');
@@ -27,6 +35,10 @@ class AccountConnectionsController extends BaseController {
 
   public function put_connection($account_id, $connection_id)
   {
+    // Restrict user is in account
+    if ( ! $this->inAccount($account_id)) {
+      return $this->responseAccessDenied();
+    }
     $connection = AccountConnection::find($connection_id);
     $connection->name = Input::get('name');
     $connection->status = Input::get('status');
@@ -45,6 +57,10 @@ class AccountConnectionsController extends BaseController {
 
   public function delete_connection($account_id, $connection_id)
   {
+    // Restrict user is in account
+    if ( ! $this->inAccount($account_id)) {
+      return $this->responseAccessDenied();
+    }
     $connection = AccountConnection::find($connection_id);
     if ($connection->delete()) {
       return array('status' => 'OK');

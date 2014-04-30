@@ -4,11 +4,19 @@ class AccountSubscriptionController extends BaseController {
 
   public function get_subscription($id)
   {
+    // Restrict user is in account
+    if ( ! $this->inAccount($id)) {
+      return $this->responseAccessDenied();
+    }
     return Account::find($id)->accountSubscription()->orderBy('id', 'desc')->first();
   }
 
   public function post_subscription($id)
   {
+    // Restrict user is in account
+    if ( ! $this->inAccount($id)) {
+      return $this->responseAccessDenied();
+    }
     $sub = new AccountSubscription;
     $sub->account_id = $id;
     $sub->subscription_level = Input::get('subscription_level');

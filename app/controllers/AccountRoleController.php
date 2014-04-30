@@ -8,6 +8,10 @@ class AccountRoleController extends BaseController {
    */
   public function index($id)
   {
+    // Restrict user is in account
+    if ( ! $this->inAccount($id)) {
+      return $this->responseAccessDenied();
+    }
     $permissions = Permission::all();
     $roles = AccountRole::where('account_id', $id)->with('perms')->get();
     if ($roles) {
@@ -77,6 +81,10 @@ class AccountRoleController extends BaseController {
 
   public function store($id)
   {
+    // Restrict user is in account
+    if ( ! $this->inAccount($id)) {
+      return $this->responseAccessDenied();
+    }
     $role = new AccountRole;
     $role->account_id = $id;
     $role->name = strtolower(str_replace(' ', '_', Input::get('display_name')));
@@ -94,6 +102,10 @@ class AccountRoleController extends BaseController {
 
   public function update($accountId, $roleId)
   {
+    // Restrict user is in account
+    if ( ! $this->inAccount($accountId)) {
+      return $this->responseAccessDenied();
+    }
     $role = AccountRole::find($roleId);
     $role->display_name = Input::get('display_name');
     $role->status = Input::get('status');
@@ -121,6 +133,10 @@ class AccountRoleController extends BaseController {
 
   public function destroy($accountId, $roleId)
   {
+    // Restrict user is in account
+    if ( ! $this->inAccount($accountId)) {
+      return $this->responseAccessDenied();
+    }
     $role = AccountRole::find($roleId);
     // Don't delete non deletable roles
     if ( ! $role->deletable) {

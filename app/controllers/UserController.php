@@ -50,6 +50,10 @@ class UserController extends BaseController {
 	 */
 	public function store()
 	{
+		// Restrict to create_new_user permission
+		if ( ! $this->hasAbility(array(), array('settings_execute_users'))) {
+			return $this->responseAccessDenied();
+		}
 		$user = new User;
     $user->username = Input::get('email');
     // Taken from ConfideUser. Ardent purges this field
@@ -120,6 +124,11 @@ class UserController extends BaseController {
 
 	public function update($id)
 	{
+		// Restrict to execute users permission
+		// @todo: restrict user is in same account
+		if ( ! $this->hasAbility(array(), array('settings_execute_users'))) {
+			return $this->responseAccessDenied();
+		}
 		$user = User::find($id);
 
 		if ( ! $user) {
@@ -153,6 +162,11 @@ class UserController extends BaseController {
 
 	public function destroy($id)
 	{
+		// Restrict to user execute permission
+		// @todo: restrict user is in same account
+		if ( ! $this->hasAbility(array(), array('settings_execute_users'))) {
+			return $this->responseAccessDenied();
+		}
 		$user = User::find($id);
 		if ($user->delete()) {
 			return array('success' => 'OK');

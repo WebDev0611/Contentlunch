@@ -18,6 +18,10 @@ class RoleController extends BaseController {
 
 	public function update($id)
 	{
+		// Restrict to global admins
+		if ( ! $this->hasRole('global_admin')) {
+			return $this->responseAccessDenied();
+		}
 		$role = Role::find($id);
 		$role->display_name = Input::get('display_name');
 		$role->status = Input::get('status');

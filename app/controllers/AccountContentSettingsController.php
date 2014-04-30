@@ -4,11 +4,19 @@ class AccountContentSettingsController extends BaseController {
 
   public function get_settings($id)
   {
+    // Restrict user is in account
+    if ( ! $this->inAccount($id)) {
+      return $this->responseAccessDenied();
+    }
     return AccountContentSettings::where('account_id', $id)->first();
   }
 
   public function save_settings($id)
   {
+    // Restrict user is in account
+    if ( ! $this->inAccount($id)) {
+      return $this->responseAccessDenied();
+    }
     $account = Account::find($id);
     if ( ! $account) {
       return $this->responseError("Invalid account id");

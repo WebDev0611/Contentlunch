@@ -36,9 +36,16 @@ class BaseController extends Controller {
     return Response::json(array('errors' => 'Access Denied'), 401);
   }
 
+  /**
+   * Check if user has ability
+   * @return boolean Can access
+   */
   protected function hasAbility($roles, $permissions = array(), $options = array())
   {
     if (app()->environment() == 'testing') {
+      return true;
+    }
+    if ($this->hasRole('global_admin')) {
       return true;
     }
     $user = Confide::user();
@@ -58,7 +65,10 @@ class BaseController extends Controller {
     if (app()->environment() == 'testing') {
       return true;
     }
-    return Entrust::hasRole('global_admin');
+    if ($this->hasRole('global_admin')) {
+      return true;
+    }
+    return Entrust::hasRole($roleName);
   }
 
   protected function inAccount($accountId)
