@@ -149,6 +149,7 @@ class AccountSeeder extends Seeder {
         $connection->account_id = $account->id;
         $connection->type = 'seo';
         $connection->name = 'SEO Ultimate';
+        $connection->provider = 'seo-ultimate';
         $connection->status = 1;
         $connection->settings = array(
             'apikey' => '123asdf',
@@ -159,6 +160,7 @@ class AccountSeeder extends Seeder {
         $connection->account_id = $account->id;
         $connection->type = 'seo';
         $connection->name = 'Sales Machine';
+        $connection->provider = 'sales-machine';
         $connection->status = 1;
         $connection->settings = array(
             'apikey' => '123asdfasd',
@@ -171,6 +173,7 @@ class AccountSeeder extends Seeder {
         $connection->account_id = $account->id;
         $connection->type = 'content';
         $connection->name = 'Hubspot';
+        $connection->provider = 'hubspot';
         $connection->status = 1;
         $connection->settings = array(
             'apikey' => '123asdf',
@@ -181,6 +184,7 @@ class AccountSeeder extends Seeder {
         $connection->account_id = $account->id;
         $connection->type = 'content';
         $connection->name = 'Linkedin';
+        $connection->provider = 'linkedin';
         $connection->status = 1;
         $connection->settings = array(
             'apikey' => '123asdf',
@@ -191,6 +195,7 @@ class AccountSeeder extends Seeder {
         $connection->account_id = $account->id;
         $connection->type = 'content';
         $connection->name = 'Wordpress';
+        $connection->provider = 'wordpress';
         $connection->status = 1;
         $connection->settings = array(
             'apikey' => '123asdf',
