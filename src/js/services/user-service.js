@@ -34,7 +34,7 @@ launch.module.factory('UserService', function ($resource, $upload, AccountServic
 			var queryString = '';
 
 			if ($.isArray(roles)) {
-				angular.forEach(roles, function(r, i) {
+				$.each(roles, function(i, r) {
 					if (queryString.length === 0) {
 						queryString += '?';
 					} else {
