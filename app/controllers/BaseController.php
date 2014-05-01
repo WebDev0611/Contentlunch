@@ -65,7 +65,7 @@ class BaseController extends Controller {
     if (app()->environment() == 'testing') {
       return true;
     }
-    if ($this->hasRole('global_admin')) {
+    if (Entrust::hasRole('global_admin')) {
       return true;
     }
     return Entrust::hasRole($roleName);
