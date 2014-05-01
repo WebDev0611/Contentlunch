@@ -1164,6 +1164,34 @@ span[class*=" icon-"].dark {
   background-color: #000000;
   color: #ffffff;
 }
+.create .right-pane table.create-table {
+  margin: 16px;
+  width: 100%;
+}
+.create .right-pane table.create-table tr {
+  border-bottom: solid 1px #000000;
+}
+.create .right-pane table.create-table tr td,
+.create .right-pane table.create-table tr th {
+  padding: 8px;
+  text-align: left;
+}
+.create .right-pane table.create-table tr td > span,
+.create .right-pane table.create-table tr th > span {
+  vertical-align: middle;
+}
+.create .right-pane table.create-table tr td.long-content,
+.create .right-pane table.create-table tr th.long-content {
+  padding: 4px;
+}
+.create .right-pane table.create-table tr td.long-content > div,
+.create .right-pane table.create-table tr th.long-content > div {
+  min-width: 130px;
+  max-width: 200px;
+}
+.create .right-pane table.create-table tr.dark td {
+  background-color: #E6E4E0;
+}
 .select2-container {
   max-width: 400px;
   min-width: 400px;
