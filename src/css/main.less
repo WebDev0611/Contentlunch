@@ -1121,6 +1121,40 @@ span[class^="icon-"], span[class*=" icon-"] {
 				}
 			}
 		}
+
+		table.create-table {
+			margin: 16px;
+			width: 100%;
+
+					tr {
+			border-bottom: solid 1px #000000;
+
+			td, th {
+				padding: 8px;
+				text-align: left;
+
+				> span{
+					vertical-align: middle;
+				}
+
+				&.long-content {
+					padding: 4px;
+
+					> div {
+						min-width: 130px;
+						max-width: 200px;
+					}
+				}
+			}
+
+			&.dark {
+				td {
+					background-color: #E6E4E0;
+				}
+			}
+		}
+
+		}
 	}
 }
 

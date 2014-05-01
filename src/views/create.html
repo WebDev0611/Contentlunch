@@ -128,5 +128,31 @@
 				</pagination>
 			</div>
 		</div>
+		
+		<table class="create-table">
+			<thead>
+				<tr>
+					<th>Campaign</th>
+					<th>Title</th>
+					<th>Author</th>
+					<th>Persona</th>
+					<th>Buying Stage</th>
+					<th>Current Step</th>
+					<th>Next Step</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="c in content" ng-class-odd="'dark'">
+					<td>{{ 'CAMPAIGN ICON' }}</td>
+					<td>{{ c.title }}</td>
+					<td>{{ c.author.name }}</td>
+					<td>{{ c.persona }}</td>
+					<td>{{ c.buyingStage }}</td>
+					<td>{{ c.currentStep }}</td>
+					<td>{{ c.nextStep }}</td>
+				</tr>
+			</tbody>
+			<tfoot></tfoot>
+		</table>
 	</div>
 </div>
