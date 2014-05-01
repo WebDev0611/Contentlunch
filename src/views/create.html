@@ -18,8 +18,8 @@
 		</div>
 
 		<div class="btn-group btn-group-justified btn-group-filter">
-			<a class="btn btn-default" ng-class="{ active: search.myTasks === true }" ng-click="search.toggleStatus('active')">My Tasks</a>
-			<a class="btn btn-default" ng-class="{ active: search.myTasks === false }" ng-click="search.toggleStatus('all')">All Tasks</a>
+			<a class="btn btn-default" ng-class="{ active: search.myTasks === true }" ng-click="search.toggleMyTasks()">My Tasks</a>
+			<a class="btn btn-default" ng-class="{ active: search.myTasks === false }" ng-click="search.toggleMyTasks()">All Tasks</a>
 		</div>
 
 		<accordion close-others="false">
@@ -45,10 +45,10 @@
 					<select id="selMilestone" name="selMilestone" class="multi-select" multiple="multiple"
 						ui-select2 ng-model="search.milestones" ng-change="search.applyFilter()" data-placeholder="Select Milestones">
 						<option value="concept">Concept</option>
-						<option value="created">Created</option>
-						<option value="approved">Approved</option>
-						<option value="launched">Launched</option>
-						<option value="archived">Archived</option>
+						<option value="create">Created</option>
+						<option value="approve">Approved</option>
+						<option value="launch">Launched</option>
+						<option value="archive">Archived</option>
 					</select>
 				</div>
 			</accordion-group>
@@ -60,7 +60,7 @@
 				<div>
 					<select id="selBuyingStage" name="selBuyingStage" class="multi-select" multiple="multiple"
 						ui-select2 ng-model="search.buyingStages" ng-change="search.applyFilter()" data-placeholder="Select Buying Stages">
-						<option ng-repeat="bs in buyingStages" value="{{ bs }}">{{ bs }}</option>
+						<option ng-repeat="bs in buyingStages" value="{{ bs.id }}">{{ bs.name }}</option>
 					</select>
 				</div>
 			</accordion-group>
@@ -109,7 +109,8 @@
 
 			<div class="form-group form-inline">
 				<label class="control-label" for="selPageSize">Items per page:</label>
-				<select class="form-control" id="selPageSize" name="selPageSize" ng-model="pagination.pageSize">
+				<select class="form-control" id="selPageSize" name="selPageSize" ng-model="pagination.pageSize" ng-change="pagination.groupToPages()">
+					<option value="5">5</option>
 					<option value="10">10</option>
 					<option value="20">20</option>
 					<option value="50">50</option>
@@ -117,14 +118,18 @@
 				</select>
 			</div>
 			
-			<div ng-show="pagination.totalItems > 0">
+			<div>
+				{{ pagination.getPageIndicator() }}
+			</div>
+
+			<div class="create-pager" ng-show="pagination.totalItems > pagination.pageSize">
 				<pagination
 					total-items="pagination.totalItems"
 					items-per-page="pagination.pageSize"
 					page="pagination.currentPage"
 					on-select-page="pagination.onPageChange(page, editUser)"
-					direction-links="false"
-					max-size="6">
+					direction-links="true"
+					max-size="0">
 				</pagination>
 			</div>
 		</div>
@@ -143,10 +148,10 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="c in content" ng-class-odd="'dark'">
+					<tr ng-repeat="c in pagedContent[pagination.currentPage - 1]" ng-class-odd="'dark'">
 						<td><div class="campaign-dot campaign-dot-small" ng-class="'campaign-dot-' + c.campaign.index"></div></td>
 						<td>
-							<span class="cl-icon" ng-class="formatContentTypeItem(c)"></span>
+							<span class="cl-icon" ng-class="formatContentTypeIcon(c)"></span>
 							{{ c.title }}
 						</td>
 						<td>
