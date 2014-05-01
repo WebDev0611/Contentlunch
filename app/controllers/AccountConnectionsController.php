@@ -26,6 +26,7 @@ class AccountConnectionsController extends BaseController {
     $connection->name = Input::get('name');
     $connection->status = Input::get('status');
     $connection->type = Input::get('type');
+    $connection->provider = Input::get('provider');
     $connection->settings = Input::get('settings');
     if ($connection->save()) {
       return $this->show($connection->id);
@@ -43,6 +44,7 @@ class AccountConnectionsController extends BaseController {
     $connection->name = Input::get('name');
     $connection->status = Input::get('status');
     $connection->type = Input::get('type');
+    $connection->provider = Input::get('provider');
     $connection->settings = Input::get('settings');
     if ($connection->updateUniques()) {
       return $this->show($connection->id);

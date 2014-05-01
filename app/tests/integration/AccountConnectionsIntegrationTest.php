@@ -11,7 +11,7 @@ class AccountConnectionsIntegrationTest extends TestCase {
       $expected = (object) $expected;
     }
     foreach ([
-      'account_id', 'name', 'status', 'type', 'settings'
+      'account_id', 'name', 'status', 'type', 'settings', 'provider'
     ] as $field) {
       if (is_object($connection->$field)) {
         $connection->$field = (array) $connection->$field;
@@ -72,6 +72,7 @@ class AccountConnectionsIntegrationTest extends TestCase {
     $connection->name = 'Foobar';
     $connection->status = 0;
     $connection->type = 'content';
+    $connection->provider = 'linkedin';
     $connection->settings = array('url' => 'http://foobar.net');
     $response = $this->call('PUT', '/api/account/'. $account->id .'/connections/'. $connection->id, $connection->toArray());
     $data = $this->assertResponse($response);
