@@ -22,7 +22,14 @@
 			$scope.campaigns = null;
 			$scope.users = userService.query();
 
-			$scope.content = contentService.query(null);
+			$scope.content = contentService.query(null, {
+				success: function(r) {
+					
+				},
+				error: function(r) {
+					launch.utils.handleAjaxErrorResponse(r, notificationService);
+				}
+			});
 		};
 
 		$scope.contentTypes = null;
@@ -69,7 +76,30 @@
 		};
 
 		$scope.formatContentTypeItem = function (item, element, context) {
-			return '<span class="' + launch.utils.getContentTypeIconClass(item.id) + '"></span> <span>' + item.text + '</span>';
+			return launch.utils.getContentTypeIconClass(item.contentType);
+		};
+
+		$scope.formatWorkflowItem = function(item) {
+			return launch.utils.getWorkflowIconCssClass(item.currentStep.name);
+		};
+
+		$scope.formatWorkflowTitle = function(item) {
+			return launch.utils.titleCase(item.name);
+		};
+
+		$scope.formatDate = function (date) {
+			return launch.utils.formatDate(date);
+		};
+
+		$scope.highlightDate = function(date) {
+			var dt = (new Date(date)).getTime();
+			var today = (new Date(launch.utils.formatDate(new Date()))).getTime();
+
+			if ((today - dt) < 172800000) {
+				return true;
+			}
+
+			return false;
 		};
 
 		self.init();

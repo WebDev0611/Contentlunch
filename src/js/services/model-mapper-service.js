@@ -1271,6 +1271,7 @@
 
 			content.id = parseInt(dto.id);
 			content.title = dto.title;
+			content.campaign = dto.campaign;
 			content.contentType = dto.contentType;
 			content.author = dto.author;
 			content.persona = dto.persona;

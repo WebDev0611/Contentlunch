@@ -3,6 +3,7 @@
 
 	self.id = null;
 	self.title = null;
+	self.campaign = null;
 	self.contentType = null;
 	self.author = null;
 	self.persona = null;

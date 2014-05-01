@@ -129,30 +129,49 @@
 			</div>
 		</div>
 		
-		<table class="create-table">
-			<thead>
-				<tr>
-					<th>Campaign</th>
-					<th>Title</th>
-					<th>Author</th>
-					<th>Persona</th>
-					<th>Buying Stage</th>
-					<th>Current Step</th>
-					<th>Next Step</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="c in content" ng-class-odd="'dark'">
-					<td>{{ 'CAMPAIGN ICON' }}</td>
-					<td>{{ c.title }}</td>
-					<td>{{ c.author.name }}</td>
-					<td>{{ c.persona }}</td>
-					<td>{{ c.buyingStage }}</td>
-					<td>{{ c.currentStep }}</td>
-					<td>{{ c.nextStep }}</td>
-				</tr>
-			</tbody>
-			<tfoot></tfoot>
-		</table>
+		<div class="create-table-container">
+			<table class="create-table">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<th>Title</th>
+						<th>Author</th>
+						<th>Persona</th>
+						<th>Buying Stage</th>
+						<th>Current Step</th>
+						<th>Next Step</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="c in content" ng-class-odd="'dark'">
+						<td><div class="campaign-dot campaign-dot-small" ng-class="'campaign-dot-' + c.campaign.index"></div></td>
+						<td>
+							<span class="cl-icon" ng-class="formatContentTypeItem(c)"></span>
+							{{ c.title }}
+						</td>
+						<td>
+							<span class="user-image" ng-style="{ 'background-image': c.author.image }"></span>
+							{{ c.author.name }}
+						</td>
+						<td>{{ c.persona }}</td>
+						<td><span class="cl-icon" ng-class="'cl-icon-personas-' + c.buyingStage"></span></td>
+						<td>
+							<span class="cl-icon cl-icon-workflow" ng-class="formatWorkflowItem(c)"></span>
+							<div class="workflow-info">
+								<div>{{ formatWorkflowTitle(c.currentStep) }}</div>
+								<div class="small-text">{{ formatDate(c.currentStep.date) }}</div>
+							</div>
+						</td>
+						<td>
+							<div class="workflow-info">
+								<a href="#">{{ formatWorkflowTitle(c.nextStep) }}</a>
+								<div class="small-text" ng-class="{ error: highlightDate(c.nextStep.date) }">Due: {{ formatDate(c.nextStep.date) }}</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot></tfoot>
+			</table>
+		</div>
 	</div>
 </div>

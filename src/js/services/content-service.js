@@ -16,20 +16,20 @@
 
 			//TODO: POPULATE CONTENT FROM API!!
 			return $.map([
-				{ title: 'Sample Audio', contentType: 'audio', author: { id: 2, name: 'Test	site_admin' }, persona: 'CMO', buyingStage: 1, currentStep: '', nextStep: '' },
-				{ title: 'Sample Blog Post', contentType: 'blog_post', author: { id: 3, name: 'Test	creator' }, persona: 'VP Sales', buyingStage: 2, currentStep: '', nextStep: '' },
-				{ title: 'Sample Case Study', contentType: 'case_study', author: { id: 4, name: 'Test	manager' }, persona: 'Sales Rep', buyingStage: 3, currentStep: '', nextStep: '' },
-				{ title: 'Sample eBook', contentType: 'ebook', author: { id: 5, name: 'Test	editor' }, persona: 'Product Manager', buyingStage: 4, currentStep: '', nextStep: '' },
-				{ title: 'Sample eMail', contentType: 'email', author: { id: 6, name: 'Test	client' }, persona: 'CMO', buyingStage: 5, currentStep: '', nextStep: '' },
-				{ title: 'Sample Facebook Post', contentType: 'facebook_post', author: { id: 2, name: 'Test	site_admin' }, persona: 'VP Sales', buyingStage: 1, currentStep: '', nextStep: '' },
-				{ title: 'Sample Google Drive', contentType: 'google_drive', author: { id: 3, name: 'Test	creator' }, persona: 'Sales Rep', buyingStage: 2, currentStep: '', nextStep: '' },
-				{ title: 'Sample Landing Page', contentType: 'landing_page', author: { id: 4, name: 'Test	manager' }, persona: 'Product Manager', buyingStage: 3, currentStep: '', nextStep: '' },
-				{ title: 'Sample LinkedIn', contentType: 'linkedin', author: { id: 5, name: 'Test	editor' }, persona: 'CMO', buyingStage: 4, currentStep: '', nextStep: '' },
-				{ title: 'Sample Photo', contentType: 'photo', author: { id: 6, name: 'Test	client' }, persona: 'VP Sales', buyingStage: 5, currentStep: '', nextStep: '' },
-				{ title: 'Sample Salesforce Asset', contentType: 'salesforce_asset', author: { id: 2, name: 'Test	site_admin' }, persona: 'Sales Rep', buyingStage: 1, currentStep: '', nextStep: '' },
-				{ title: 'Sample Twitter', contentType: 'twitter', author: { id: 3, name: 'Test	creator' }, persona: 'Product Manager', buyingStage: 2, currentStep: '', nextStep: '' },
-				{ title: 'Sample Video', contentType: 'video', author: { id: 4, name: 'Test	manager' }, persona: 'CMO', buyingStage: 3, currentStep: '', nextStep: '' },
-				{ title: 'Sample Whitepaper', contentType: 'whitepaper', author: { id: 5, name: 'Test	editor' }, persona: 'VP Sales', buyingStage: 4, currentStep: '', nextStep: '' }
+				{ title: 'Sample Audio', campaign: { index: 1 }, contentType: 'audio', author: { id: 2, name: 'Test site_admin', image: 'url(\'http://local.contentlaunch.com/packages/andrew13/cabinet/uploads/2014/05/01/GOPR0013%20(640x480).jpg\')' }, persona: 'CMO', buyingStage: 0, currentStep: { name: 'concept', date: new Date() }, nextStep: { name: 'create', date: new Date() } },
+				{ title: 'Sample Blog Post', campaign: { index: 15 }, contentType: 'blog_post', author: { id: 3, name: 'Test	creator', image: null }, persona: 'VP Sales', buyingStage: 1, currentStep: { name: 'create', date: new Date() }, nextStep: { name: 'edit', date: new Date() } },
+				{ title: 'Sample Case Study', campaign: { index: 2 }, contentType: 'case_study', author: { id: 4, name: 'Test	manager', image: null }, persona: 'Sales Rep', buyingStage: 2, currentStep: { name: 'edit', date: new Date() }, nextStep: { name: 'approve', date: new Date() } },
+				{ title: 'Sample eBook', campaign: { index: 14 }, contentType: 'ebook', author: { id: 5, name: 'Test	editor', image: null }, persona: 'Product Manager', buyingStage: 3, currentStep: { name: 'approve', date: new Date() }, nextStep: { name: 'launch', date: new Date() } },
+				{ title: 'Sample eMail', campaign: { index: 3 }, contentType: 'email', author: { id: 6, name: 'Test	client', image: null }, persona: 'CMO', buyingStage: 4, currentStep: { name: 'launch', date: new Date() }, nextStep: { name: 'promote', date: new Date() } },
+				{ title: 'Sample Facebook Post', campaign: { index: 13 }, contentType: 'facebook_post', author: { id: 2, name: 'Test site_admin', image: 'url(\'http://local.contentlaunch.com/packages/andrew13/cabinet/uploads/2014/05/01/GOPR0013%20(640x480).jpg\')' }, persona: 'VP Sales', buyingStage: 0, currentStep: { name: 'promote', date: new Date() }, nextStep: { name: 'archive', date: new Date() } },
+				{ title: 'Sample Google Drive', campaign: { index: 4 }, contentType: 'google_drive', author: { id: 3, name: 'Test	creator', image: null }, persona: 'Sales Rep', buyingStage: 1, currentStep: { name: 'archive', date: new Date() }, nextStep: { name: '', date: new Date() } },
+				{ title: 'Sample Landing Page', campaign: { index: 12 }, contentType: 'landing_page', author: { id: 4, name: 'Test	manager', image: null }, persona: 'Product Manager', buyingStage: 2, currentStep: { name: 'concept', date: new Date() }, nextStep: { name: 'create', date: new Date() } },
+				{ title: 'Sample LinkedIn', campaign: { index: 5 }, contentType: 'linkedin', author: { id: 5, name: 'Test	editor', image: null }, persona: 'CMO', buyingStage: 3, currentStep: { name: 'create', date: new Date() }, nextStep: { name: 'edit', date: new Date() } },
+				{ title: 'Sample Photo', campaign: { index: 11 }, contentType: 'photo', author: { id: 6, name: 'Test	client', image: null }, persona: 'VP Sales', buyingStage: 4, currentStep: { name: 'edit', date: new Date() }, nextStep: { name: 'approve', date: new Date() } },
+				{ title: 'Sample Salesforce Asset', campaign: { index: 6 }, contentType: 'salesforce_asset', author: { id: 2, name: 'Test ite_admin', image: 'url(\'http://local.contentlaunch.com/packages/andrew13/cabinet/uploads/2014/05/01/GOPR0013%20(640x480).jpg\')' }, persona: 'Sales Rep', buyingStage: 0, currentStep: { name: 'approve', date: new Date() }, nextStep: { name: 'launch', date: new Date() } },
+				{ title: 'Sample Twitter', campaign: { index: 10 }, contentType: 'twitter', author: { id: 3, name: 'Test	creator', image: null }, persona: 'Product Manager', buyingStage: 1, currentStep: { name: 'launch', date: new Date() }, nextStep: { name: 'promote', date: new Date() } },
+				{ title: 'Sample Video', campaign: { index: 7 }, contentType: 'video', author: { id: 4, name: 'Test	manager', image: null }, persona: 'CMO', buyingStage: 2, currentStep: { name: 'promote', date: new Date() }, nextStep: { name: 'archive', date: new Date() } },
+				{ title: 'Sample Whitepaper', campaign: { index: 9 }, contentType: 'whitepaper', author: { id: 5, name: 'Test	editor', image: null }, persona: 'VP Sales', buyingStage: 3, currentStep: { name: 'archive', date: new Date() }, nextStep: { name: '', date: new Date() } }
 			], function(c, i) {
 				return ModelMapperService.content.fromDto(c);
 			});

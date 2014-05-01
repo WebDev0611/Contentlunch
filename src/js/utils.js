@@ -192,7 +192,7 @@
 			var msg = obj.validateProperty(properties[i]);
 
 			if ($.isArray(msg)) {
-				angular.forEach(msg, function(m, i) {
+				$.each(msg, function(m, i) {
 					if (!launch.utils.isBlank(itemPrefix)) {
 						msgs.push(itemPrefix + ' ' + m);
 					} else {
@@ -630,6 +630,31 @@
 				return 'fa fa-video-camera';
 			//case 'whitepaper':
 			//	return 'fa fa-';
+			default:
+				return 'fa fa-question';
+		}
+	},
+
+	getWorkflowIconCssClass: function(stage) {
+		if (launch.utils.isBlank(stage)) {
+			return null;
+		}
+
+		switch (stage.toLowerCase()) {
+			case 'concept':
+				return 'cl-icon-workflow-concept';
+			case 'create':
+				return 'fa fa-magic';
+			case 'edit':
+				return 'fa fa-edit';
+			case 'approve':
+				return 'fa fa-thumbs-o-up';
+			case 'launch':
+				return 'fa fa-rocket';
+			case 'promote':
+				return 'fa fa-sitemap';
+			case 'archive':
+				return 'fa fa-archive';
 			default:
 				return 'fa fa-question';
 		}
