@@ -62,6 +62,10 @@ Route::group(array('prefix' => 'api'), function()
 		Route::post('impersonate', 'AuthController@impersonate');
 	});
 
+	Route::resource('content-types', 'ContentTypeController', array(
+		'only' => array('index')
+	));
+
 	Route::resource('permission', 'PermissionController', array(
 		'only' => array('index')
 	));
