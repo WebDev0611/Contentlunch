@@ -54,6 +54,10 @@ Route::group(array('prefix' => 'api'), function()
 		Route::post('impersonate', 'AuthController@impersonate');
 	});
 
+	Route::resource('content', 'ContentController', array(
+		'only' => array('index', 'store', 'show', 'update', 'destroy')
+	));
+
 	Route::resource('permission', 'PermissionController', array(
 		'only' => array('index')
 	));
@@ -64,7 +68,6 @@ Route::group(array('prefix' => 'api'), function()
 	));
 
 	Route::resource('subscription', 'SubscriptionController', array(
-		'before' => 'global_adminasdf',
 		'only' => array('index', 'show', 'update')
 	));
 
