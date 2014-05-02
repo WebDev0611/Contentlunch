@@ -6,6 +6,27 @@ class Content extends Ardent {
 
   protected $table = 'content';
 
+  public $autoHydrateEntityFromInput = true;
+
+  public $forceEntityHydrationFromInput = true;
+
+  protected $fillable = array(
+    'title', 'account_id', 'connection_id', 'content_type_id',
+    'user_id', 'buying_stage', 'persona', 'campaign_id',
+    'secondary_buying_stage', 'secondary_persona'
+  );
+
+  public static $rules = array(
+    'title' => 'required',
+    'account_id' => 'required',
+    'connection_id' => 'required',
+    'content_type_id' => 'required',
+    'user_id' => 'required',
+    'buying_stage' => 'required',
+    'persona' => 'required',
+    'campaign_id' => 'required'
+  );
+
   public function campaign()
   {
     return $this->belongsTo('Campaign');
