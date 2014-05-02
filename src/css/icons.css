@@ -1,3 +1,24 @@
+.icon-home {
+  background-image: url(/assets/images/home.svg);
+}
+.icon-consult {
+  background-image: url(/assets/images/consult.svg);
+}
+.icon-create {
+  background-image: url(/assets/images/create.svg);
+}
+.icon-collaborate {
+  background-image: url(/assets/images/collaborate.svg);
+}
+.icon-calendar {
+  background-image: url(/assets/images/calendar.svg);
+}
+.icon-measure {
+  background-image: url(/assets/images/measure.svg);
+}
+.icon-launch {
+  background-image: url(/assets/images/launch.svg);
+}
 .cl-icon {
   background-repeat: no-repeat;
   -moz-background-size: contain;
@@ -74,4 +95,25 @@
 }
 .cl-icon-wordpress {
   background-image: url(/assets/images/wordpress.svg);
+}
+.cl-icon-workflow-concept {
+  background-image: url(/assets/images/brain.svg);
+}
+.cl-icon-workflow-create {
+  background-image: url(/assets/images/wand.svg);
+}
+.cl-icon-workflow-edit {
+  background-image: url(/assets/images/edit.svg);
+}
+.cl-icon-workflow-approve {
+  background-image: url(/assets/images/thumbs-up.svg);
+}
+.cl-icon-workflow-launch {
+  background-image: url(/assets/images/launch.svg);
+}
+.cl-icon-workflow-promote {
+  background-image: url(/assets/images/share.svg);
+}
+.cl-icon-workflow-archive {
+  background-image: url(/assets/images/launch.svg);
 }

@@ -17,7 +17,7 @@
 
 			var msg = [];
 
-			angular.forEach($scope.subscriptions, function(s, i) {
+			$.each($scope.subscriptions, function (s, i) {
 				var errs = launch.utils.validateAll(s, s.getName() + ':');
 
 				if (!launch.utils.isBlank(errs)) {
@@ -30,7 +30,7 @@
 				return;
 			}
 
-			angular.forEach($scope.subscriptions, function(s, i) {
+			$.each($scope.subscriptions, function (s, i) {
 				accountService.saveSubscription(s, {
 					success: function(r) {
 						notificationService.success('Success!', 'Successfully saved ' + s.getName() + '!');

@@ -1231,6 +1231,60 @@
 		}
 	};
 
+	self.content = {
+		parseResponse: function(r, getHeaders) {
+			if (launch.utils.isBlank(r)) {
+				return null;
+			}
+
+			var dto = JSON.parse(r);
+
+			if (!!dto.error || !!dto.errors) {
+				return dto;
+			}
+
+			if ($.isArray(dto)) {
+				var contents = [];
+
+				$.each(dto, function (index, account) {
+					contents.push(self.content.fromDto(account));
+				});
+
+				return contents;
+			}
+
+			if ($.isPlainObject(dto)) {
+				return self.content.fromDto(dto);
+			}
+
+			return null;
+		},
+		formatRequest: function(content) {
+			return JSON.stringify(self.content.toDto(content));
+		},
+		fromDto: function(dto) {
+			//if (launch.utils.isBlank(dto.id)) {
+			//	return null;
+			//}
+
+			var content = new launch.Content();
+
+			content.id = parseInt(dto.id);
+			content.title = dto.title;
+			content.campaign = dto.campaign;
+			content.contentType = dto.contentType;
+			content.author = dto.author;
+			content.persona = dto.persona;
+			content.buyingStage = dto.buyingStage;
+			content.currentStep = dto.currentStep;
+			content.nextStep = dto.nextStep;
+
+
+			return content;
+		},
+		toDto: function (content) { }
+	};
+
 	return self;
 };
 

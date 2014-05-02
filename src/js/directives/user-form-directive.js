@@ -6,7 +6,6 @@
 
 		self.init = function () {
 			self.loggedInUser = AuthService.userInfo();
-			scope.roles = RoleService.query(self.loggedInUser.account.id);
 		};
 
 		self.discardChanges = function (form) {
@@ -285,13 +284,31 @@
 		};
 
 		scope.$watch('selectedUser', function(user) {
-			if (!scope.selectedUser || launch.utils.isBlank(scope.selectedUser.id) || scope.selectedUser.id <= 0) {
+			if (!scope.selfEditing && (!scope.selectedUser || launch.utils.isBlank(scope.selectedUser.id) || scope.selectedUser.id <= 0)) {
 				scope.isNewUser = true;
 			} else {
 				scope.isNewUser = false;
 			}
 
-			scope.canEditUser = (self.loggedInUser.hasPrivilege('settings_edit_profiles') || scope.selfEditing);
+			scope.canEditUser = (scope.selfEditing || self.loggedInUser.hasPrivilege('settings_edit_profiles'));
+
+			if (!!scope.selectedUser) {
+				var setRoles = function () {
+					if (!self.loggedInUser.role.isGlobalAdmin) {
+						scope.roles = RoleService.query(self.loggedInUser.account.id);
+					} else {
+						scope.roles = scope.selectedUser.roles;
+					}
+				};
+
+				if (scope.selectedUser.$resolved) {
+					setRoles();
+				} else {
+					scope.selectedUser.$promise.then(function (u) {
+						setRoles();
+					});
+				}
+			}
 		});
 
 		self.init();

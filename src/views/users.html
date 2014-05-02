@@ -22,7 +22,7 @@
 				<a class="btn btn-default" ng-class="{ active: search.userStatus === 'inactive' }" ng-click="search.toggleStatus('inactive')">Inactive</a>
 				<a class="btn btn-default" ng-class="{ active: search.userStatus === 'all' }" ng-click="search.toggleStatus('all')">All</a>
 			</div>
-
+			
 			<ul class="items-list">
 				<li ng-repeat="user in pagedUsers[pagination.currentPage - 1]" ng-click="selectUser(user, $index, editUser)" ng-class="{ selected: isSelectedUser(user) }">
 					<div class="user-image item-image" ng-style="{ 'background-image': user.imageUrl() }"></div>

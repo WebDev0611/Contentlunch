@@ -1,5 +1,5 @@
 ﻿launch.module.controller('CreateController', [
-	'$scope', '$location', 'AuthService', 'UserService', 'ContentSettingsService', 'NotificationService', function ($scope, $location, authService, userService, contentSettingsService, notificationService) {
+	'$scope', '$filter', '$location', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'NotificationService', function ($scope, $filter, $location, authService, userService, contentSettingsService, contentService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -11,7 +11,9 @@
 
 			var contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
 				success: function(r) {
-					$scope.buyingStages = contentSettings.personaProperties;
+					$scope.buyingStages = $.map(contentSettings.personaProperties, function(bs, i) {
+						return { name: bs, id: i + 1 };
+					});
 				},
 				error: function(r) {
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -22,36 +24,50 @@
 			$scope.campaigns = null;
 			$scope.users = userService.query();
 
-			//TODO: POPULATE CONTENT FROM API!!
-			$scope.content = [
-				{ title: 'Sample Audio', contentType: 'audio', author: { id: 2, name: 'Test	site_admin' }, persona: 'CMO', buyingStage: 1, currentStep: '', nextStep: '' },
-				{ title: 'Sample Blog Post', contentType: 'blog_post', author: { id: 3, name: 'Test	creator' }, persona: 'VP Sales', buyingStage: 2, currentStep: '', nextStep: '' },
-				{ title: 'Sample Case Study', contentType: 'case_study', author: { id: 4, name: 'Test	manager' }, persona: 'Sales Rep', buyingStage: 3, currentStep: '', nextStep: '' },
-				{ title: 'Sample eBook', contentType: 'ebook', author: { id: 5, name: 'Test	editor' }, persona: 'Product Manager', buyingStage: 4, currentStep: '', nextStep: '' },
-				{ title: 'Sample eMail', contentType: 'email', author: { id: 6, name: 'Test	client' }, persona: 'CMO', buyingStage: 5, currentStep: '', nextStep: '' },
-				{ title: 'Sample Facebook Post', contentType: 'facebook_post', author: { id: 2, name: 'Test	site_admin' }, persona: 'VP Sales', buyingStage: 1, currentStep: '', nextStep: '' },
-				{ title: 'Sample Google Drive', contentType: 'google_drive', author: { id: 3, name: 'Test	creator' }, persona: 'Sales Rep', buyingStage: 2, currentStep: '', nextStep: '' },
-				{ title: 'Sample Landing Page', contentType: 'landing_page', author: { id: 4, name: 'Test	manager' }, persona: 'Product Manager', buyingStage: 3, currentStep: '', nextStep: '' },
-				{ title: 'Sample LinkedIn', contentType: 'linkedin', author: { id: 5, name: 'Test	editor' }, persona: 'CMO', buyingStage: 4, currentStep: '', nextStep: '' },
-				{ title: 'Sample Photo', contentType: 'photo', author: { id: 6, name: 'Test	client' }, persona: 'VP Sales', buyingStage: 5, currentStep: '', nextStep: '' },
-				{ title: 'Sample Salesforce Asset', contentType: 'salesforce_asset', author: { id: 2, name: 'Test	site_admin' }, persona: 'Sales Rep', buyingStage: 1, currentStep: '', nextStep: '' },
-				{ title: 'Sample Twitter', contentType: 'twitter', author: { id: 3, name: 'Test	creator' }, persona: 'Product Manager', buyingStage: 2, currentStep: '', nextStep: '' },
-				{ title: 'Sample Video', contentType: 'video', author: { id: 4, name: 'Test	manager' }, persona: 'CMO', buyingStage: 3, currentStep: '', nextStep: '' },
-				{ title: 'Sample Whitepaper', contentType: 'whitepaper', author: { id: 5, name: 'Test	editor' }, persona: 'VP Sales', buyingStage: 4, currentStep: '', nextStep: '' }
-			];
+			$scope.content = contentService.query(self.loggedInUser.account.id, null, {
+				success: function(r) {
+					$scope.search.applyFilter();
+				},
+				error: function(r) {
+					launch.utils.handleAjaxErrorResponse(r, notificationService);
+				}
+			});
 		};
 
 		$scope.contentTypes = null;
 		$scope.buyingStages = null;
 		$scope.campaigns = null;
 		$scope.users = null;
+		$scope.content = null;
+		$scope.filteredContent = null;
+		$scope.pagedContent = null;
 
 		$scope.pagination = {
 			totalItems: 0,
-			pageSize: 10,
+			pageSize: 5,
 			currentPage: 1,
 			onPageChange: function(page) {
-				
+			},
+			groupToPages: function() {
+				$scope.pagedContent = [];
+
+				for (var i = 0; i < $scope.filteredContent.length; i++) {
+					if (i % $scope.pagination.pageSize === 0) {
+						$scope.pagedContent[Math.floor(i / $scope.pagination.pageSize)] = [$scope.filteredContent[i]];
+					} else {
+						$scope.pagedContent[Math.floor(i / $scope.pagination.pageSize)].push($scope.filteredContent[i]);
+					}
+				}
+			},
+			getPageIndicator: function() {
+				var start = ((($scope.pagination.currentPage - 1) * $scope.pagination.pageSize) + 1);
+				var end = ($scope.pagination.currentPage * $scope.pagination.pageSize);
+
+				if (end > $scope.pagination.totalItems) {
+					end = $scope.pagination.totalItems;
+				}
+
+				return start + ' to ' + end + ' of ' + $scope.pagination.totalItems;
 			}
 		};
 
@@ -65,8 +81,60 @@
 			campaigns: null,
 			users: null,
 			contentStage: 'content',
-			applyFilter: function () {
-				// TODO: APPLY FILTER!!
+			applyFilter: function (reset) {
+				$scope.filteredContent = $filter('filter')($scope.content, function (content) {
+					if ($scope.search.contentStage === 'content' && (content.currentStep.name === 'concept' || content.currentStep.name === 'archive')) {
+						return false;
+					} else if ($scope.search.contentStage === 'concepts' && content.currentStep.name !== 'concept') {
+						return false;
+					} else if ($scope.search.contentStage === 'archived' && content.currentStep.name !== 'archive') {
+						return false;
+					}
+
+					if ($scope.search.myTasks && content.author.id !== self.loggedInUser.id) {
+						return false;
+					}
+
+					if ($.isArray($scope.search.contentTypes) && $scope.search.contentTypes.length > 0) {
+						if ($.inArray(content.contentType, $scope.search.contentTypes) < 0) {
+							return false;
+						}
+					}
+
+					if ($.isArray($scope.search.milestones) && $scope.search.milestones.length > 0) {
+						if ($.inArray(content.currentStep.name, $scope.search.milestones) < 0) {
+							return false;
+						}
+					}
+
+					if ($.isArray($scope.search.buyingStages) && $scope.search.buyingStages.length > 0) {
+						if ($.inArray(content.buyingStage.toString(), $scope.search.buyingStages) < 0) {
+							return false;
+						}
+					}
+
+					if ($.isArray($scope.search.campaigns) && $scope.search.campaigns.length > 0) {
+						if ($.inArray(content.campaign.id, $scope.search.campaigns) < 0) {
+							return false;
+						}
+					}
+
+					if ($.isArray($scope.search.users) && $scope.search.users.length > 0) {
+						// TODO: FIX THIS!! IT WON'T WORK AS IS!!
+						if ($.inArray(content.author.id, $scope.search.users) < 0) {
+							return false;
+						}
+					}
+
+					return true;
+				});
+
+				if (reset === true) {
+					$scope.pagination.currentPage = 1;
+				}
+
+				$scope.pagination.totalItems = $scope.filteredContent.length;
+				$scope.pagination.groupToPages();
 			},
 			clearFilter: function() {
 				this.searchTerm = null;
@@ -81,11 +149,43 @@
 			toggleContentStage: function(stage) {
 				this.contentStage = stage;
 				this.applyFilter();
+			},
+			toggleMyTasks: function() {
+				$scope.search.myTasks = !$scope.search.myTasks;
+
+				$scope.search.applyFilter();
 			}
 		};
 
 		$scope.formatContentTypeItem = function (item, element, context) {
 			return '<span class="' + launch.utils.getContentTypeIconClass(item.id) + '"></span> <span>' + item.text + '</span>';
+		};
+
+		$scope.formatWorkflowItem = function(item) {
+			return launch.utils.getWorkflowIconCssClass(item.currentStep.name);
+		};
+
+		$scope.formatWorkflowTitle = function(item) {
+			return launch.utils.titleCase(item.name);
+		};
+
+		$scope.formatContentTypeIcon = function (item) {
+			return launch.utils.getContentTypeIconClass(item.contentType);
+		};
+
+		$scope.formatDate = function (date) {
+			return launch.utils.formatDate(date);
+		};
+
+		$scope.highlightDate = function(date) {
+			var dt = (new Date(date)).getTime();
+			var today = (new Date(launch.utils.formatDate(new Date()))).getTime();
+
+			if ((today - dt) < 172800000) {
+				return true;
+			}
+
+			return false;
 		};
 
 		self.init();

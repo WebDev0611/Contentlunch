@@ -80,6 +80,27 @@
 .panel-group .panel .panel-heading .panel-title .fa {
   min-width: 1em;
 }
+.icon-home {
+  background-image: url(/assets/images/home.svg);
+}
+.icon-consult {
+  background-image: url(/assets/images/consult.svg);
+}
+.icon-create {
+  background-image: url(/assets/images/create.svg);
+}
+.icon-collaborate {
+  background-image: url(/assets/images/collaborate.svg);
+}
+.icon-calendar {
+  background-image: url(/assets/images/calendar.svg);
+}
+.icon-measure {
+  background-image: url(/assets/images/measure.svg);
+}
+.icon-launch {
+  background-image: url(/assets/images/launch.svg);
+}
 .cl-icon {
   background-repeat: no-repeat;
   -moz-background-size: contain;
@@ -156,6 +177,27 @@
 }
 .cl-icon-wordpress {
   background-image: url(/assets/images/wordpress.svg);
+}
+.cl-icon-workflow-concept {
+  background-image: url(/assets/images/brain.svg);
+}
+.cl-icon-workflow-create {
+  background-image: url(/assets/images/wand.svg);
+}
+.cl-icon-workflow-edit {
+  background-image: url(/assets/images/edit.svg);
+}
+.cl-icon-workflow-approve {
+  background-image: url(/assets/images/thumbs-up.svg);
+}
+.cl-icon-workflow-launch {
+  background-image: url(/assets/images/launch.svg);
+}
+.cl-icon-workflow-promote {
+  background-image: url(/assets/images/share.svg);
+}
+.cl-icon-workflow-archive {
+  background-image: url(/assets/images/launch.svg);
 }
 html,
 body {
@@ -350,6 +392,9 @@ header .login-info .popover-menu .admin-menu li .glyphicon {
   display: inline-block;
   margin-right: 8px;
 }
+.small-text {
+  font-size: 8pt;
+}
 .logo,
 .logo-white,
 .logo-white-text {
@@ -434,27 +479,6 @@ span[class*=" icon-"].dark {
 }
 [contenteditable] {
   padding: 4px;
-}
-.icon-home {
-  background-image: url(/assets/images/home.svg);
-}
-.icon-consult {
-  background-image: url(/assets/images/consult.svg);
-}
-.icon-create {
-  background-image: url(/assets/images/create.svg);
-}
-.icon-collaborate {
-  background-image: url(/assets/images/collaborate.svg);
-}
-.icon-calendar {
-  background-image: url(/assets/images/calendar.svg);
-}
-.icon-measure {
-  background-image: url(/assets/images/measure.svg);
-}
-.icon-launch {
-  background-image: url(/assets/images/launch.svg);
 }
 .round-corner-dialog .modal-dialog .modal-content {
   border-radius: 45px;
@@ -1164,6 +1188,61 @@ span[class*=" icon-"].dark {
   background-color: #000000;
   color: #ffffff;
 }
+.create .right-pane .create-table-container {
+  margin: 16px;
+}
+.create .right-pane .create-table-container table.create-table {
+  width: 100%;
+}
+.create .right-pane .create-table-container table.create-table tr {
+  border-bottom: solid 1px #000000;
+}
+.create .right-pane .create-table-container table.create-table tr td,
+.create .right-pane .create-table-container table.create-table tr th {
+  padding: 8px;
+  position: relative;
+  text-align: left;
+}
+.create .right-pane .create-table-container table.create-table tr td > span,
+.create .right-pane .create-table-container table.create-table tr th > span {
+  vertical-align: middle;
+}
+.create .right-pane .create-table-container table.create-table tr td .user-image,
+.create .right-pane .create-table-container table.create-table tr th .user-image {
+  border-color: #ffb503;
+  height: 24px;
+  width: 24px;
+}
+.create .right-pane .create-table-container table.create-table tr td .cl-icon,
+.create .right-pane .create-table-container table.create-table tr th .cl-icon {
+  color: #000000;
+}
+.create .right-pane .create-table-container table.create-table tr td .cl-icon-workflow,
+.create .right-pane .create-table-container table.create-table tr th .cl-icon-workflow {
+  display: inline-block;
+  font-size: 20pt;
+  float: left;
+  margin: 4px 8px;
+  height: 32px;
+  width: 32px;
+  vertical-align: middle;
+}
+.create .right-pane .create-table-container table.create-table tr td .workflow-info,
+.create .right-pane .create-table-container table.create-table tr th .workflow-info {
+  margin-left: 32px;
+}
+.create .right-pane .create-table-container table.create-table tr td .workflow-info a,
+.create .right-pane .create-table-container table.create-table tr th .workflow-info a {
+  font-weight: bold;
+  text-decoration: underline;
+}
+.create .right-pane .create-table-container table.create-table tr td .workflow-info .error,
+.create .right-pane .create-table-container table.create-table tr th .workflow-info .error {
+  font-weight: normal;
+}
+.create .right-pane .create-table-container table.create-table tr.dark td {
+  background-color: #E6E4E0;
+}
 .select2-container {
   max-width: 400px;
   min-width: 400px;
@@ -1184,4 +1263,60 @@ span[class*=" icon-"].dark {
 }
 .link-button-container .link-button:hover {
   text-decoration: none;
+}
+.campaign-dot {
+  border-radius: 50%;
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  vertical-align: middle;
+}
+.campaign-dot.campaign-dot-small {
+  height: 12px;
+  width: 12px;
+}
+.campaign-dot.campaign-dot-1 {
+  background-color: #660033;
+}
+.campaign-dot.campaign-dot-2 {
+  background-color: #CC9900;
+}
+.campaign-dot.campaign-dot-3 {
+  background-color: #99CCFF;
+}
+.campaign-dot.campaign-dot-4 {
+  background-color: #990000;
+}
+.campaign-dot.campaign-dot-5 {
+  background-color: #FFFF66;
+}
+.campaign-dot.campaign-dot-6 {
+  background-color: #003366;
+}
+.campaign-dot.campaign-dot-7 {
+  background-color: #CC3300;
+}
+.campaign-dot.campaign-dot-8 {
+  background-color: #CCFF33;
+}
+.campaign-dot.campaign-dot-9 {
+  background-color: #666699;
+}
+.campaign-dot.campaign-dot-10 {
+  background-color: #FF6600;
+}
+.campaign-dot.campaign-dot-11 {
+  background-color: #99CC00;
+}
+.campaign-dot.campaign-dot-12 {
+  background-color: #6666FF;
+}
+.campaign-dot.campaign-dot-13 {
+  background-color: #FF9933;
+}
+.campaign-dot.campaign-dot-14 {
+  background-color: #00CC66;
+}
+.campaign-dot.campaign-dot-15 {
+  background-color: #CC0099;
 }

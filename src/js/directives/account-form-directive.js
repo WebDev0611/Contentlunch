@@ -36,7 +36,7 @@
 
 				var errors = [];
 
-				angular.forEach(r.errors, function (val) {
+				$.each(r.errors, function (val) {
 					errors.push(val.description);
 				});
 
