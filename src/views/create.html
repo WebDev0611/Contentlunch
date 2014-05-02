@@ -30,8 +30,8 @@
 				</accordion-heading>
 				<div>
 					<select id="selContentType" name="selContentType" class="multi-select" multiple="multiple"
-						ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="search.contentTypes"
-						ng-change="search.applyFilter()" data-placeholder="Select Content Types">
+							ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="search.contentTypes"
+							ng-change="search.applyFilter()" data-placeholder="Select Content Types">
 						<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
 					</select>
 				</div>
@@ -43,7 +43,7 @@
 				</accordion-heading>
 				<div>
 					<select id="selMilestone" name="selMilestone" class="multi-select" multiple="multiple"
-						ui-select2 ng-model="search.milestones" ng-change="search.applyFilter()" data-placeholder="Select Milestones">
+							ui-select2 ng-model="search.milestones" ng-change="search.applyFilter()" data-placeholder="Select Milestones">
 						<option value="concept">Concept</option>
 						<option value="create">Created</option>
 						<option value="approve">Approved</option>
@@ -59,7 +59,7 @@
 				</accordion-heading>
 				<div>
 					<select id="selBuyingStage" name="selBuyingStage" class="multi-select" multiple="multiple"
-						ui-select2 ng-model="search.buyingStages" ng-change="search.applyFilter()" data-placeholder="Select Buying Stages">
+							ui-select2 ng-model="search.buyingStages" ng-change="search.applyFilter()" data-placeholder="Select Buying Stages">
 						<option ng-repeat="bs in buyingStages" value="{{ bs.id }}">{{ bs.name }}</option>
 					</select>
 				</div>
@@ -71,7 +71,7 @@
 				</accordion-heading>
 				<div>
 					<select id="selCampaign" name="selCampaign" class="multi-select" multiple="multiple"
-						ui-select2 ng-model="search.campaigns" ng-change="search.applyFilter()" data-placeholder="Select Campaign">
+							ui-select2 ng-model="search.campaigns" ng-change="search.applyFilter()" data-placeholder="Select Campaign">
 						<option ng-repeat="c in campaigns" value=""></option>
 					</select>
 				</div>
@@ -83,7 +83,7 @@
 				</accordion-heading>
 				<div>
 					<select id="selCreator" name="selCreator" class="multi-select" multiple="multiple"
-						ui-select2 ng-model="search.users" ng-change="search.applyFilter()" data-placeholder="Select Creator">
+							ui-select2 ng-model="search.users" ng-change="search.applyFilter()" data-placeholder="Select Creator">
 						<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
 					</select>
 				</div>
@@ -118,7 +118,7 @@
 				</select>
 			</div>
 			
-			<div>
+			<div style="width: 100px; text-align: center;">
 				{{ pagination.getPageIndicator() }}
 			</div>
 
@@ -180,3 +180,10 @@
 		</div>
 	</div>
 </div>
+
+<script id="template/pagination/pagination.html" type="text/ng-template">
+	<div class="pagination">
+		<button type="button" class="btn btn-default fa fa-caret-left" ng-click="selectPage(page - 1)" ng-disabled="(page === 1)"></button>
+		<button type="button" class="btn btn-default fa fa-caret-right" ng-click="selectPage(page + 1)" ng-disabled="(page === pages.length)"></button>
+	</div>
+</script>

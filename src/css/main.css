@@ -1188,6 +1188,12 @@ span[class*=" icon-"].dark {
   background-color: #000000;
   color: #ffffff;
 }
+.create .right-pane .create-header .create-pager .pagination {
+  margin: 0;
+}
+.create .right-pane .create-header .create-pager .pagination .btn {
+  font-size: 15pt;
+}
 .create .right-pane .create-table-container {
   margin: 16px;
 }

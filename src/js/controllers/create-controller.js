@@ -46,6 +46,7 @@
 			totalItems: 0,
 			pageSize: 5,
 			currentPage: 1,
+			maxPage: 0,
 			onPageChange: function(page) {
 			},
 			groupToPages: function() {
@@ -58,6 +59,8 @@
 						$scope.pagedContent[Math.floor(i / $scope.pagination.pageSize)].push($scope.filteredContent[i]);
 					}
 				}
+
+				$scope.pagination.maxPage = $scope.pagedContent.length;
 			},
 			getPageIndicator: function() {
 				var start = ((($scope.pagination.currentPage - 1) * $scope.pagination.pageSize) + 1);
