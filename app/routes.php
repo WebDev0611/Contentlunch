@@ -22,6 +22,10 @@ Route::group(array('prefix' => 'api'), function()
 		'only' => array('index', 'store', 'show', 'update', 'destroy')
 	));
 
+	Route::resource('account/{id}/content', 'ContentController', array(
+		'only' => array('index', 'store', 'show', 'update', 'destroy')
+	));
+
 	Route::get('account/{id}/connections', 'AccountConnectionsController@get_connections');
 	Route::post('account/{id}/connections', 'AccountConnectionsController@post_connection');
 	Route::put('account/{id}/connections/{connection_id}', 'AccountConnectionsController@put_connection');
@@ -57,10 +61,6 @@ Route::group(array('prefix' => 'api'), function()
 		// Impersonate as a user
 		Route::post('impersonate', 'AuthController@impersonate');
 	});
-
-	Route::resource('content', 'ContentController', array(
-		'only' => array('index', 'store', 'show', 'update', 'destroy')
-	));
 
 	Route::resource('permission', 'PermissionController', array(
 		'only' => array('index')
