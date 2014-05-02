@@ -71,8 +71,8 @@ class CampaignSeeder extends DatabaseSeeder {
       $campaign->status = 1;
       $typeID = CampaignType::where('key', $data[1])->pluck('id');
       $campaign->campaign_type_id = $typeID;
-      $campaign->start_date = date('y-m-d H:i:s', strtotime($data[2]));
-      $campaign->end_date = date('y-m-d H:i:s', strtotime($data[3]));
+      $campaign->start_date = date('Y-m-d H:i:s', strtotime($data[2]));
+      $campaign->end_date = date('Y-m-d H:i:s', strtotime($data[3]));
       $campaign->is_recurring = $data[4];
       $campaign->description = $data[5];
       $campaign->goals = "These are the goals we need to accomplish for this campaign";
