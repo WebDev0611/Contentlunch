@@ -53,6 +53,7 @@ class CampaignsCreateTable extends Migration {
 		Schema::create('campaigns', function ($table) {
 			$table->increments('id');
 			$table->integer('account_id');
+			$table->integer('user_id');
 			$table->string('title');
 			$table->integer('status');
 			$table->integer('campaign_type_id');

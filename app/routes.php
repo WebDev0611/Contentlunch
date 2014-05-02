@@ -18,6 +18,10 @@ Route::group(array('prefix' => 'api'), function()
 	Route::post('account/{id}/add_user', 'AccountUserController@store');
 	Route::get('account/{id}/users', 'AccountUserController@show');
 
+	Route::resource('account/{id}/campaigns', 'CampaignController', array(
+		'only' => array('index', 'store', 'show', 'update', 'destroy')
+	));
+
 	Route::get('account/{id}/connections', 'AccountConnectionsController@get_connections');
 	Route::post('account/{id}/connections', 'AccountConnectionsController@post_connection');
 	Route::put('account/{id}/connections/{connection_id}', 'AccountConnectionsController@put_connection');
