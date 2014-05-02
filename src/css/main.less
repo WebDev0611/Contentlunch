@@ -223,12 +223,6 @@ header {
 						background-color: #cccccc;
 					}
 
-					.user-image {
-						height: 24px;
-						width: 24px;
-						vertical-align: middle;
-					}
-
 					.item-image {
 						margin: 0;
 					}
@@ -571,6 +565,12 @@ span[class^="icon-"], span[class*=" icon-"] {
 	display: inline-block;
 	height: 40px;
 	width: 40px;
+	vertical-align: middle;
+}
+
+.user-image-small {
+	height: 24px;
+	width: 24px;
 }
 
 .users, .accounts, .roles, .content-settings, .seo-settings, .create {
@@ -584,7 +584,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 			.btn-create {
 				background-color: #000000;
 				color: #ffffff;
-				width: 100%;
 
 				.glyphicon {
 					margin-right: 8px;
@@ -654,6 +653,16 @@ span[class^="icon-"], span[class*=" icon-"] {
 						color: #ffffff;
 					}
 				}
+			}
+		}
+	}
+}
+
+.users, .accounts, .roles, .content-settings, .seo-settings {
+	.left-pane {
+		.btn-group {
+			.btn-create {
+				width: 100%;
 			}
 		}
 	}
@@ -1097,7 +1106,29 @@ span[class^="icon-"], span[class*=" icon-"] {
 				}
 			}
 
-			.create-pager {
+			.create-download {
+				.btn {
+					font-size: 15pt;
+				}
+			}
+
+			.create-paging-controls {
+				float: right;
+
+				>* {
+					display: inline-block;
+					margin: 0 16px;
+				}
+
+				.create-pager {
+					.pagination {
+						margin: 0;
+
+						.btn {
+							font-size: 15pt;
+						}
+					}
+				}
 			}
 		}
 
@@ -1121,8 +1152,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 						.user-image {
 							border-color: @createColor;
-							height: 24px;
-							width: 24px;
 						}
 
 						.cl-icon {

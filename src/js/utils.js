@@ -642,7 +642,7 @@
 
 		switch (stage.toLowerCase()) {
 			case 'concept':
-				return 'cl-icon-workflow-concept';
+				return 'cl-icon cl-icon-workflow-concept';
 			case 'create':
 				return 'fa fa-magic';
 			case 'edit':

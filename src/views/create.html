@@ -1,9 +1,12 @@
 ﻿<div class="view create">
 	<div class="col-md-3 left-pane">
-		<div class="btn-group">
-			<button class="btn btn-default btn-create">
-				CREATE NEW
-			</button>
+		<div class="btn-group btn-group-justified">
+			<div class="btn-group">
+				<button class="btn btn-default btn-create" ng-click="createConcept()">NEW CONCEPT</button>
+			</div>
+			<div class="btn-group">
+				<button class="btn btn-default btn-create" ng-click="createContent()">NEW CONTENT</button>
+			</div>
 		</div>
 
 		<div class="input-group">
@@ -30,8 +33,8 @@
 				</accordion-heading>
 				<div>
 					<select id="selContentType" name="selContentType" class="multi-select" multiple="multiple"
-						ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="search.contentTypes"
-						ng-change="search.applyFilter()" data-placeholder="Select Content Types">
+							ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="search.contentTypes"
+							ng-change="search.applyFilter()" data-placeholder="Select Content Types">
 						<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
 					</select>
 				</div>
@@ -43,12 +46,9 @@
 				</accordion-heading>
 				<div>
 					<select id="selMilestone" name="selMilestone" class="multi-select" multiple="multiple"
-						ui-select2 ng-model="search.milestones" ng-change="search.applyFilter()" data-placeholder="Select Milestones">
-						<option value="concept">Concept</option>
-						<option value="create">Created</option>
-						<option value="approve">Approved</option>
-						<option value="launch">Launched</option>
-						<option value="archive">Archived</option>
+							ui-select2="{ formatResult: formatMilestoneItem, formatSelection: formatMilestoneItem }" ng-model="search.milestones"
+							ng-change="search.applyFilter()" data-placeholder="Select Milestones">
+						<option ng-repeat="m in milestones" value="{{ m.name }}">{{ m.title }}</option>
 					</select>
 				</div>
 			</accordion-group>
@@ -59,7 +59,8 @@
 				</accordion-heading>
 				<div>
 					<select id="selBuyingStage" name="selBuyingStage" class="multi-select" multiple="multiple"
-						ui-select2 ng-model="search.buyingStages" ng-change="search.applyFilter()" data-placeholder="Select Buying Stages">
+							ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem }" ng-model="search.buyingStages"
+							ng-change="search.applyFilter()" data-placeholder="Select Buying Stages">
 						<option ng-repeat="bs in buyingStages" value="{{ bs.id }}">{{ bs.name }}</option>
 					</select>
 				</div>
@@ -71,7 +72,8 @@
 				</accordion-heading>
 				<div>
 					<select id="selCampaign" name="selCampaign" class="multi-select" multiple="multiple"
-						ui-select2 ng-model="search.campaigns" ng-change="search.applyFilter()" data-placeholder="Select Campaign">
+							ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem }" ng-model="search.campaigns"
+							ng-change="search.applyFilter()" data-placeholder="Select Campaign">
 						<option ng-repeat="c in campaigns" value=""></option>
 					</select>
 				</div>
@@ -83,7 +85,8 @@
 				</accordion-heading>
 				<div>
 					<select id="selCreator" name="selCreator" class="multi-select" multiple="multiple"
-						ui-select2 ng-model="search.users" ng-change="search.applyFilter()" data-placeholder="Select Creator">
+							ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem }" ng-model="search.users"
+							ng-change="search.applyFilter()" data-placeholder="Select Creator">
 						<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
 					</select>
 				</div>
@@ -91,7 +94,7 @@
 		</accordion>
 		
 		<div class="link-button-container">
-			<a class="link-button" href="#" ng-click="">Save as default filters</a> |
+			<a class="link-button" href="#" ng-click="saveFilter()">Save as default filters</a> |
 			<a class="link-button" href="#" ng-click="search.clearFilter()">Clear Filters</a>
 		</div>
 	</div>
@@ -106,31 +109,37 @@
 				<button class="btn btn-default" ng-class="{ active: search.contentStage === 'concepts' }" ng-click="search.toggleContentStage('concepts')">Concepts</button>
 				<button class="btn btn-default" ng-class="{ active: search.contentStage === 'archived' }" ng-click="search.toggleContentStage('archived')">Archived</button>
 			</div>
-
-			<div class="form-group form-inline">
-				<label class="control-label" for="selPageSize">Items per page:</label>
-				<select class="form-control" id="selPageSize" name="selPageSize" ng-model="pagination.pageSize" ng-change="pagination.groupToPages()">
-					<option value="5">5</option>
-					<option value="10">10</option>
-					<option value="20">20</option>
-					<option value="50">50</option>
-					<option value="100">100</option>
-				</select>
-			</div>
 			
-			<div>
-				{{ pagination.getPageIndicator() }}
+			<div class="create-download">
+				<button type="button" class="btn btn-default fa fa-download" ng-click="download()"></button>
 			</div>
 
-			<div class="create-pager" ng-show="pagination.totalItems > pagination.pageSize">
-				<pagination
-					total-items="pagination.totalItems"
-					items-per-page="pagination.pageSize"
-					page="pagination.currentPage"
-					on-select-page="pagination.onPageChange(page, editUser)"
-					direction-links="true"
-					max-size="0">
-				</pagination>
+			<div class="create-paging-controls">
+				<div class="form-group form-inline">
+					<label class="control-label" for="selPageSize">Items per page:</label>
+					<select class="form-control" id="selPageSize" name="selPageSize" ng-model="pagination.pageSize" ng-change="pagination.groupToPages()">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+					</select>
+				</div>
+
+				<div style="width: 100px; text-align: center;">
+					{{ pagination.getPageIndicator() }}
+				</div>
+
+				<div class="create-pager" ng-show="pagination.totalItems > pagination.pageSize">
+					<pagination
+						total-items="pagination.totalItems"
+						items-per-page="pagination.pageSize"
+						page="pagination.currentPage"
+						on-select-page="pagination.onPageChange(page, editUser)"
+						direction-links="true"
+						max-size="0">
+					</pagination>
+				</div>
 			</div>
 		</div>
 		
@@ -155,7 +164,7 @@
 							{{ c.title }}
 						</td>
 						<td>
-							<span class="user-image" ng-style="{ 'background-image': c.author.image }"></span>
+							<span class="user-image user-image-small" ng-style="{ 'background-image': c.author.image }"></span>
 							{{ c.author.name }}
 						</td>
 						<td>{{ c.persona }}</td>
@@ -180,3 +189,10 @@
 		</div>
 	</div>
 </div>
+
+<script id="template/pagination/pagination.html" type="text/ng-template">
+	<div class="pagination">
+		<button type="button" class="btn btn-default fa fa-caret-left" ng-click="selectPage(page - 1)" ng-disabled="(page === 1)"></button>
+		<button type="button" class="btn btn-default fa fa-caret-right" ng-click="selectPage(page + 1)" ng-disabled="(page === pages.length)"></button>
+	</div>
+</script>
