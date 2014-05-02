@@ -380,11 +380,6 @@ header .login-info .popover-menu .admin-menu li {
 header .login-info .popover-menu .admin-menu li:hover {
   background-color: #cccccc;
 }
-header .login-info .popover-menu .admin-menu li .user-image {
-  height: 24px;
-  width: 24px;
-  vertical-align: middle;
-}
 header .login-info .popover-menu .admin-menu li .item-image {
   margin: 0;
 }
@@ -663,6 +658,11 @@ span[class*=" icon-"].dark {
   display: inline-block;
   height: 40px;
   width: 40px;
+  vertical-align: middle;
+}
+.user-image-small {
+  height: 24px;
+  width: 24px;
 }
 .users .left-pane,
 .accounts .left-pane,
@@ -689,7 +689,6 @@ span[class*=" icon-"].dark {
 .create .left-pane .btn-group .btn-create {
   background-color: #000000;
   color: #ffffff;
-  width: 100%;
 }
 .users .left-pane .btn-group .btn-create .glyphicon,
 .accounts .left-pane .btn-group .btn-create .glyphicon,
@@ -805,6 +804,13 @@ span[class*=" icon-"].dark {
 .create .left-pane .pager ul.pagination li.active a {
   background-color: #000000;
   color: #ffffff;
+}
+.users .left-pane .btn-group .btn-create,
+.accounts .left-pane .btn-group .btn-create,
+.roles .left-pane .btn-group .btn-create,
+.content-settings .left-pane .btn-group .btn-create,
+.seo-settings .left-pane .btn-group .btn-create {
+  width: 100%;
 }
 .user-editor .user-image-upload,
 .account-editor .user-image-upload,
@@ -1188,10 +1194,20 @@ span[class*=" icon-"].dark {
   background-color: #000000;
   color: #ffffff;
 }
-.create .right-pane .create-header .create-pager .pagination {
+.create .right-pane .create-header .create-download .btn {
+  font-size: 15pt;
+}
+.create .right-pane .create-header .create-paging-controls {
+  float: right;
+}
+.create .right-pane .create-header .create-paging-controls > * {
+  display: inline-block;
+  margin: 0 16px;
+}
+.create .right-pane .create-header .create-paging-controls .create-pager .pagination {
   margin: 0;
 }
-.create .right-pane .create-header .create-pager .pagination .btn {
+.create .right-pane .create-header .create-paging-controls .create-pager .pagination .btn {
   font-size: 15pt;
 }
 .create .right-pane .create-table-container {
@@ -1216,8 +1232,6 @@ span[class*=" icon-"].dark {
 .create .right-pane .create-table-container table.create-table tr td .user-image,
 .create .right-pane .create-table-container table.create-table tr th .user-image {
   border-color: #ffb503;
-  height: 24px;
-  width: 24px;
 }
 .create .right-pane .create-table-container table.create-table tr td .cl-icon,
 .create .right-pane .create-table-container table.create-table tr th .cl-icon {

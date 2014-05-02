@@ -15,9 +15,8 @@
 				<div class="form-group">
 					<label for="selAuthorNameApplyTo">Apply To:</label>
 					<select id="selAuthorNameApplyTo" name="selAuthorNameApplyTo" class="multi-select" multiple="multiple"
-						ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="contentSettings.authorNameContentTypes"
-						ng-disabled="!contentSettings.includeAuthorName" ng-change="setDirty()"
-						data-placeholder="Select Content Types">
+							ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="contentSettings.authorNameContentTypes"
+							ng-disabled="!contentSettings.includeAuthorName" ng-change="setDirty()" data-placeholder="Select Content Types">
 						<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
 					</select>
 				</div>

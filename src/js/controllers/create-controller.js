@@ -7,6 +7,13 @@
 		self.init = function () {
 			self.loggedInUser = authService.userInfo();
 
+			$scope.milestones = [
+				{ name: 'concept', title: 'Concept' },
+				{ name: 'create', title: 'Created' },
+				{ name: 'approve', title: 'Approved' },
+				{ name: 'launch', title: 'Launched' },
+				{ name: 'archive', title: 'Archived' }
+			];
 			$scope.contentTypes = launch.config.CONTENT_TYPES;
 
 			var contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
@@ -22,7 +29,7 @@
 
 			//TODO: POPULATE CAMPAIGNS FROM API!!
 			$scope.campaigns = null;
-			$scope.users = userService.query();
+			$scope.users = userService.getForAccount(self.loggedInUser.account.id);
 
 			$scope.content = contentService.query(self.loggedInUser.account.id, null, {
 				success: function(r) {
@@ -34,6 +41,7 @@
 			});
 		};
 
+		$scope.milestones = null;
 		$scope.contentTypes = null;
 		$scope.buyingStages = null;
 		$scope.campaigns = null;
@@ -164,6 +172,25 @@
 			return '<span class="' + launch.utils.getContentTypeIconClass(item.id) + '"></span> <span>' + item.text + '</span>';
 		};
 
+		$scope.formatMilestoneItem = function (item, element, context) {
+			return '<span class="' + launch.utils.getWorkflowIconCssClass(item.id) + '"></span> <span>' + item.text + '</span>';
+		};
+
+		$scope.formatBuyingStageItem = function (item, element, context) {
+			return '<span class="cl-icon cl-icon-personas-' + item.id + '"></span> <span>' + item.text + '</span>';
+		};
+
+		$scope.formatCampaignItem = function (item, element, context) {
+			return '<span class="campaign-dot campaign-dot-' + item.id + '"></span> <span>' + item.text + '</span>';
+		};
+
+		$scope.formatUserItem = function (item, element, context) {
+			var user = $.grep($scope.users, function(u, i) { return u.id === parseInt(item.id); });
+			var style = (user.length === 1 && !launch.utils.isBlank(user[0].image)) ? ' style="background-image: ' + user[0].imageUrl() + '"' : '';
+
+			return '<span class="user-image user-image-small"' + style + '></span> <span>' + item.text + '</span>';
+		};
+
 		$scope.formatWorkflowItem = function(item) {
 			return launch.utils.getWorkflowIconCssClass(item.currentStep.name);
 		};
@@ -189,6 +216,22 @@
 			}
 
 			return false;
+		};
+
+		$scope.createConcept = function () {
+			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
+		};
+
+		$scope.createContent = function () {
+			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
+		};
+
+		$scope.saveFilter = function() {
+			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
+		};
+
+		$scope.download = function() {
+			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
 		};
 
 		self.init();
