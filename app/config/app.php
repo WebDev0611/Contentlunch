@@ -183,8 +183,14 @@ return array(
 
 	),
 
-	'balanced' => array(
+	'balanced' => [
 		'api_key_secret' => 'ak-test-2b1tOVFkmQZkf4colkOw6BIPfeCMBBJg4'
-	)
+	],
+	'connections' => [
+		'linkedin' => [
+			'api_key' => '75v9b2qqxfhxrf',
+			'api_secret' => 'EpLWyw4wv73LyW57'
+		]
+	],
 
 );

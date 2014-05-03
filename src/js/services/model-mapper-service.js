@@ -1091,12 +1091,15 @@
 
 			connection.id = parseInt(dto.id);
 			connection.accountId = parseInt(dto.account_id);
+			connection.connectionId = parseInt(dto.connection_id);
 			connection.name = dto.name;
 			connection.active = (parseInt(dto.status) === 1) ? true : false;
-			connection.connectionType = dto.type;
+			connection.connectionType = dto.connection_type;
 			connection.connectionSettings = dto.settings;
 			connection.created = new Date(dto.created_at);
 			connection.updated = new Date(dto.updated_at);
+			connection.connectionName = dto.connection_name;
+			connection.provider = dto.connection_provider;
 
 			return connection;
 		},
@@ -1104,10 +1107,13 @@
 			return{
 				id: connection.id,
 				account_id: connection.accountId,
+				connection_id: connection.connectionId,
 				name: connection.name,
 				status: (connection.active === true) ? 1 : 0,
 				settings: connection.connectionSettings,
-				type: connection.connectionType
+				connection_type: connection.connectionType,
+				connection_name: connection.connectionName,
+				connection_provider: connection.provider
 			};
 		},
 		sort: function(a, b) {

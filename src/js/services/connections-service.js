@@ -13,6 +13,7 @@
 	});
 
 	return {
+		providers: $resource('/api/connections'),
 		queryContentConnections: function (accountId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
@@ -26,6 +27,7 @@
 			return contentConnections.get({ accountId: accountId, id: id }, success, error);
 		},
 		updateContentConnection: function (connection, callback) {
+			console.log(connection);
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 

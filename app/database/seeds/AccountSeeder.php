@@ -144,64 +144,19 @@ class AccountSeeder extends Seeder {
         );
         $settings->save();
 
-        // Save SEO connections
-        $connection = new AccountConnection;
-        $connection->account_id = $account->id;
-        $connection->type = 'seo';
-        $connection->name = 'SEO Ultimate';
-        $connection->provider = 'seo-ultimate';
-        $connection->status = 1;
-        $connection->settings = array(
-            'apikey' => '123asdf',
-            'url' => 'http://seoultimate.com'
-        );
-        $connection->save();
-        $connection = new AccountConnection;
-        $connection->account_id = $account->id;
-        $connection->type = 'seo';
-        $connection->name = 'Sales Machine';
-        $connection->provider = 'sales-machine';
-        $connection->status = 1;
-        $connection->settings = array(
-            'apikey' => '123asdfasd',
-            'url' => 'http://seomachine.com'
-        );
-        $connection->save();
-
-        // Save content connections
-        $connection = new AccountConnection;
-        $connection->account_id = $account->id;
-        $connection->type = 'content';
-        $connection->name = 'Hubspot';
-        $connection->provider = 'hubspot';
-        $connection->status = 1;
-        $connection->settings = array(
-            'apikey' => '123asdf',
-            'url' => 'http://surge.hubspot.com'
-        );
-        $connection->save();
-        $connection = new AccountConnection;
-        $connection->account_id = $account->id;
-        $connection->type = 'content';
-        $connection->name = 'Linkedin';
-        $connection->provider = 'linkedin';
-        $connection->status = 1;
-        $connection->settings = array(
-            'apikey' => '123asdf',
-            'url' => 'http://linkedin.com/surge'
-        );
-        $connection->save();
-        $connection = new AccountConnection;
-        $connection->account_id = $account->id;
-        $connection->type = 'content';
-        $connection->name = 'Wordpress';
-        $connection->provider = 'wordpress';
-        $connection->status = 1;
-        $connection->settings = array(
-            'apikey' => '123asdf',
-            'url' => 'http://wordpress.com/surge'
-        );
-        $connection->save();
+        // Attach every connection to the Surge account
+        /*
+        $connections = Connection::all();
+        foreach ($connections as $connection) {
+            $connect = new AccountConnection;
+            $connect->account_id = $account->id;
+            $connect->connection_id = $connection->id;
+            $connect->name = $connection->name;
+            $connect->status = 1;
+            $connect->settings = [];
+            $connect->save();
+        }
+        */
 	}
 
 }

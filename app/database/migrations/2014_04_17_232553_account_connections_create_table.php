@@ -14,11 +14,11 @@ class AccountConnectionsCreateTable extends Migration {
 	{
 		// Create table for storing account's connections
 		Schema::create('account_connections', function ($table) {
-			$table->increments('id')->unsigned();
-			$table->integer('account_id')->references('id')->on('accounts');
+			$table->increments('id');
+			$table->integer('account_id');
+			$table->integer('connection_id');
 			$table->string('name');
 			$table->integer('status');
-			$table->string('type');
 			$table->text('settings');
 			$table->timestamps();
 		});

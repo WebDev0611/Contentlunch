@@ -26,10 +26,10 @@
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-						<li ng-repeat="provider in providers" ng-click="addConnection(provider.name)">
+						<li ng-repeat="provider in providers" ng-click="addConnection(provider.id)">
 							<a href="#">
 								<span class="{{ 'cl-icon ' + icon(provider.name) }}"></span>
-								{{ provider.title }}
+								{{ provider.name }}
 
 							</a>
 						</li>
@@ -45,11 +45,11 @@
 				</div>
 				<div class="row" ng-repeat="connection in filteredConnections">
 					<div class="col-md-4">
-						<span class="{{ 'cl-icon ' + icon(connection.connectionType) }}"></span>
+						<span class="{{ 'cl-icon ' + icon(connection.provider) }}"></span>
 						<span contenteditable ng-model="connection.name" on-change="editConnectionName" ng-show="canEditConnection" ng-focus="selectConnection(connection)"></span>
 						<span ng-show="!canEditConnection" ng-bind="connection.name"></span>
 					</div>
-					<div class="col-md-6"><a href="{{ connection.connectionSettings.url }}" target="_blank">{{ connection.connectionSettings.url }}</a></div>
+					<div class="col-md-6"><a href="{{ connection.settings.url }}" target="_blank">{{ connection.settings.url }}</a></div>
 					<div class="col-md-2"><span class="toggle" ng-click="toggleActiveStatus(connection)">{{ connection.activeStatus() }}</span></div>
 				</div>
 			</div>
