@@ -11,3 +11,7 @@ node_modules
 public
 app/storage
 npm-debug.log
+
+# ignore local configurations
+app/config/local/
+*.sublime-workspace
