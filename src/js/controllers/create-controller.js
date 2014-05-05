@@ -228,10 +228,12 @@
 
 		$scope.createConcept = function () {
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
+			//$location.path('/create/concept/create');
 		};
 
 		$scope.createContent = function () {
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
+			//$location.path('/create/content/create');
 		};
 
 		$scope.saveFilter = function() {
@@ -239,6 +241,10 @@
 		};
 
 		$scope.download = function() {
+			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
+		};
+
+		$scope.handleNextStep = function(content) {
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
 		};
 

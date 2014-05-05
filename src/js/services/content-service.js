@@ -1,5 +1,5 @@
 ﻿launch.module.factory('ContentService', function($resource, ModelMapperService) {
-	var contentResource = $resource('/api/content/:id', { id: '@id' }, {
+	var contentResource = $resource('/api/account/:accountId/content/:id', { accountId: '@accountId', id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.content.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.content.parseResponse },
 		update: { method: 'PUT', transformRequest: ModelMapperService.content.formatRequest, transformResponse: ModelMapperService.content.parseResponse },

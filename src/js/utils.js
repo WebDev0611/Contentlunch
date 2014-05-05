@@ -192,7 +192,7 @@
 			var msg = obj.validateProperty(properties[i]);
 
 			if ($.isArray(msg)) {
-				$.each(msg, function(m, i) {
+				$.each(msg, function(i, m) {
 					if (!launch.utils.isBlank(itemPrefix)) {
 						msgs.push(itemPrefix + ' ' + m);
 					} else {
@@ -622,7 +622,6 @@
 			//case 'landing-page':
 			//	return 'fa fa-';
 			case 'linkedin-update':
-			case 'linkedin':
 				return 'fa fa-linkedin';
 			case 'photo':
 				return 'fa fa-picture-o';
@@ -636,7 +635,8 @@
 				return 'fa fa-twitter';
 			case 'video':
 				return 'fa fa-video-camera';
-			case 'website-page':
+			//case 'website-page':
+			//	return 'fa fa-';
 			//case 'whitepaper':
 			//	return 'fa fa-';
 			//case 'workflow-email':
