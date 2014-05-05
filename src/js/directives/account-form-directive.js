@@ -90,7 +90,6 @@
 			scope.forceDirty = true;
 			form.$setDirty();
 
-			// TODO: REQUIRE CREDIT CARD OR BANK ACCOUNT INFO WHEN CREATING A NEW ACCOUNT!!
 			var msg = launch.utils.validateAll(scope.selectedAccount);
 
 			if (!launch.utils.isBlank(msg)) {
@@ -343,7 +342,21 @@
 			});
 		};
 
-		scope.$watch('selectedAccount', function () {
+		scope.$watch('selectedAccount', function (newAccount, oldAccount) {
+			if (!!oldAccount && (oldAccount.$resolved === true || oldAccount.id === null)) {
+				if (!newAccount || newAccount.id === null || (newAccount.$resolved && newAccount.id !== oldAccount.id)) {
+					self.originalSubscription = null;
+				} else if (newAccount.$resolved && newAccount.id !== oldAccount.id) {
+					self.originalSubscription = null;
+				} else if (!!newAccount.$promise) {
+					newAccount.$promise.then(function (a) {
+						if (a.id !== oldAccount.id) {
+							self.originalSubscription = null;
+						}
+					});
+				}
+			}
+
 			if (!scope.selfEditing && (!scope.selectedAccount || launch.utils.isBlank(scope.selectedAccount.id) || scope.selectedAccount.id <= 0)) {
 				scope.isNewAccount = true;
 			} else {
@@ -351,7 +364,6 @@
 			}
 
 			if (!!scope.selectedAccount && !self.originalSubscription) {
-
 				var setSubscription = function (acct) {
 					if (!!acct.subscription) {
 						if ($.isFunction(acct.subscription.validateProperty)) {
