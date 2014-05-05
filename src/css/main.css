@@ -154,8 +154,11 @@
 .cl-icon-curata {
   background-image: url(/assets/images/curata.png);
 }
-.cl-icon-google {
+.cl-icon-google-plus {
   background-image: url(/assets/images/google.svg);
+}
+.cl-icon-google-drive {
+  background-image: url(/assets/images/google-drive.svg);
 }
 .cl-icon-hubspot {
   background-image: url(/assets/images/hubspot.png);
@@ -182,22 +185,22 @@
   background-image: url(/assets/images/brain.svg);
 }
 .cl-icon-workflow-create {
-  background-image: url(/assets/images/wand.svg);
+  background-image: url(/assets/images/create-black.png);
 }
 .cl-icon-workflow-edit {
-  background-image: url(/assets/images/edit.svg);
+  background-image: url(/assets/images/edit.png);
 }
 .cl-icon-workflow-approve {
-  background-image: url(/assets/images/thumbs-up.svg);
+  background-image: url(/assets/images/thumbs-up.png);
 }
 .cl-icon-workflow-launch {
-  background-image: url(/assets/images/launch.svg);
+  background-image: url(/assets/images/launch-black.png);
 }
 .cl-icon-workflow-promote {
   background-image: url(/assets/images/share.svg);
 }
 .cl-icon-workflow-archive {
-  background-image: url(/assets/images/launch.svg);
+  background-image: url(/assets/images/archive.svg);
 }
 html,
 body {
@@ -1232,19 +1235,21 @@ span[class*=" icon-"].dark {
 .create .right-pane .create-table-container table.create-table tr td .user-image,
 .create .right-pane .create-table-container table.create-table tr th .user-image {
   border-color: #ffb503;
+  height: 32px;
+  width: 32px;
 }
 .create .right-pane .create-table-container table.create-table tr td .cl-icon,
 .create .right-pane .create-table-container table.create-table tr th .cl-icon {
   color: #000000;
+  font-size: 20pt;
+  height: 32px;
+  width: 32px;
 }
 .create .right-pane .create-table-container table.create-table tr td .cl-icon-workflow,
 .create .right-pane .create-table-container table.create-table tr th .cl-icon-workflow {
   display: inline-block;
-  font-size: 20pt;
   float: left;
   margin: 4px 8px;
-  height: 32px;
-  width: 32px;
   vertical-align: middle;
 }
 .create .right-pane .create-table-container table.create-table tr td .workflow-info,

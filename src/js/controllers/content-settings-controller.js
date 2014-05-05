@@ -1,5 +1,5 @@
 ﻿launch.module.controller('ContentSettingsController', [
-	'$scope', '$location', '$modal', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'NotificationService', function ($scope, $location, $modal, authService, accountService, userService, contentSettingsService, notificationService) {
+	'$scope', '$location', '$modal', 'AuthService', 'AccountService', 'UserService', 'ContentService', 'ContentSettingsService', 'NotificationService', function ($scope, $location, $modal, authService, accountService, userService, contentService, contentSettingsService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -11,7 +11,14 @@
 
 			$scope.canEditPersonas = self.loggedInUser.hasPrivilege('settings_edit_personas');
 
-			$scope.contentTypes = launch.config.CONTENT_TYPES;
+			$scope.contentTypes = contentService.getContentTypes({
+				success: function (r) {
+
+				},
+				error: function (r) {
+					launch.utils.handleAjaxErrorResponse(r, notificationService);
+				}
+			});
 
 			$scope.$on('$locationChangeStart', function(e, next, current) {
 				if (self.isDirty === true) {

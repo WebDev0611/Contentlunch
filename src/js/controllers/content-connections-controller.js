@@ -125,8 +125,8 @@
 			$scope.selectedConnection = connection;
 		};
 
-		$scope.addConnection = function(providerID) {
-			window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=' + providerID;
+		$scope.addConnection = function(providerId) {
+			window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=' + providerId;
 		};
 
 		$scope.icon = function(provider) {

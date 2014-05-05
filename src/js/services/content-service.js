@@ -7,6 +7,10 @@
 		delete: { method: 'DELETE' }
 	});
 
+	var contentType = $resource('/api/content-types', null, {
+		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.contentType.parseResponse }
+	});
+
 	return {
 		query: function(accountId, params, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -62,6 +66,12 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return contentResource.delete({ accountId: accountId, id: content.id }, success, error);
+		},
+		getContentTypes: function(callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return contentType.get(null, success, error);
 		}
 	};
 });

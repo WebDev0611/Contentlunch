@@ -14,7 +14,15 @@
 				{ name: 'launch', title: 'Launched' },
 				{ name: 'archive', title: 'Archived' }
 			];
-			$scope.contentTypes = launch.config.CONTENT_TYPES;
+
+			$scope.contentTypes = contentService.getContentTypes({
+				success: function(r) {
+					
+				},
+				error: function(r) {
+					launch.utils.handleAjaxErrorResponse(r, notificationService);
+				}
+			});
 
 			var contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
 				success: function(r) {
