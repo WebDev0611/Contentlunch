@@ -145,7 +145,7 @@ class AccountSeeder extends Seeder {
         $settings->save();
 
         // Attach every connection to the Surge account
-        /*
+
         $connections = Connection::all();
         foreach ($connections as $connection) {
             $connect = new AccountConnection;
@@ -156,7 +156,7 @@ class AccountSeeder extends Seeder {
             $connect->settings = [];
             $connect->save();
         }
-        */
+
 	}
 
 }
