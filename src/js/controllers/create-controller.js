@@ -224,13 +224,11 @@
 		};
 
 		$scope.createConcept = function () {
-			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
-			//$location.path('/create/concept/create');
+			$location.path('/create/concept/create');
 		};
 
 		$scope.createContent = function () {
-			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
-			//$location.path('/create/content/create');
+			$location.path('/create/content/create');
 		};
 
 		$scope.saveFilter = function() {
@@ -241,8 +239,41 @@
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
 		};
 
-		$scope.handleNextStep = function(content) {
-			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
+		$scope.handleNextStep = function (content) {
+			if (!content || !content.nextStep || launch.utils.isBlank(content.nextStep.name)) {
+				notificationService.error('INVALID NEXT STEP', 'WHAT DO WE DO HERE?');
+				return;
+			}
+
+			switch (content.nextStep.name.toLowerCase()) {
+				case 'create':
+					$location.path('create/concept/edit/' + content.id);
+					break;
+				case 'edit':
+					$location.path('create/content/edit/' + content.id);
+					break;
+				case 'approve':
+					// TODO: IMPLEMENT APPROVE STEP!!
+					notificationService.info('NOT IMPLEMENTED!', 'THIS FEATURE IS NOT YET IMPLEMENTED!');
+					break;
+				case 'launch':
+					$location.path('create/content/launch/' + content.id);
+					break;
+				case 'promote':
+					$location.path('create/content/promote/' + content.id);
+					break;
+				case 'archive':
+					// TODO: IMPLEMENT ARCHIVE STEP!!
+					notificationService.info('NOT IMPLEMENTED!', 'THIS FEATURE IS NOT YET IMPLEMENTED!');
+					break;
+				case 'restore':
+					// TODO: IMPLEMENT RESTORE STEP!!
+					notificationService.info('NOT IMPLEMENTED!', 'THIS FEATURE IS NOT YET IMPLEMENTED!');
+					break;
+				default:
+					notificationService.info('Unknown Workflow Step', 'The workflow step "' + content.nextStep.name + '" is not valid.');
+					break;
+			}
 		};
 
 		self.init();
