@@ -192,7 +192,7 @@
 			var msg = obj.validateProperty(properties[i]);
 
 			if ($.isArray(msg)) {
-				$.each(msg, function(m, i) {
+				$.each(msg, function(i, m) {
 					if (!launch.utils.isBlank(itemPrefix)) {
 						msgs.push(itemPrefix + ' ' + m);
 					} else {
@@ -564,7 +564,7 @@
 			case 'facebook':
 				return 'fa fa-facebook';
 			case 'google':
-				return 'cl-icon-google';
+				return 'cl-icon-google-plus';
 			case 'google-plus':
 				return 'fa fa-google-plus';
 			case 'hubspot':
@@ -600,35 +600,46 @@
 		}
 
 		switch (contentType.toLowerCase()) {
-			case 'audio':
+			case 'audio-recording':
 				return 'fa fa-volume-up';
-			case 'blog_post':
+			case 'blog-post':
 				return 'fa fa-facebook';
-			case 'fa fa-file-text-o':
-				return 'fa fa-facebook';
-			case 'case_study':
+			case 'casestudy':
 				return 'fa fa-briefcase';
 			case 'ebook':
 				return 'fa fa-book';
 			case 'email':
 				return 'fa fa-envelope';
-			case 'facebook_post':
+			case 'facebook-post':
 				return 'fa fa-facebook';
-			case 'google_drive':
-				return 'fa fa-google-plus';
-			//case 'landing_page':
+			//case 'feature-article':
 			//	return 'fa fa-';
-			case 'linkedin':
+			case 'google-drive-doc':
+				return 'cl-icon cl-icon-google-drive';
+			case 'google-plus-update':
+				return 'fa fa-google-plus';
+			case 'newsletter':
+			//case 'landing-page':
+			//	return 'fa fa-';
+			case 'linkedin-update':
 				return 'fa fa-linkedin';
 			case 'photo':
 				return 'fa fa-picture-o';
-			//case 'salesforce_asset':
+			//case 'salesforce-asset':
 			//	return 'fa fa-';
-			case 'twitter':
+			//case 'sales-letter':
+			//	return 'fa fa-';
+			//case 'sellsheet-content':
+			//	return 'fa fa-';
+			case 'tweet':
 				return 'fa fa-twitter';
 			case 'video':
 				return 'fa fa-video-camera';
+			//case 'website-page':
+			//	return 'fa fa-';
 			//case 'whitepaper':
+			//	return 'fa fa-';
+			//case 'workflow-email':
 			//	return 'fa fa-';
 			default:
 				return 'fa fa-question';
@@ -644,17 +655,17 @@
 			case 'concept':
 				return 'cl-icon cl-icon-workflow-concept';
 			case 'create':
-				return 'fa fa-magic';
+				return 'cl-icon cl-icon-workflow-create';
 			case 'edit':
-				return 'fa fa-edit';
+				return 'cl-icon cl-icon-workflow-edit';
 			case 'approve':
-				return 'fa fa-thumbs-o-up';
+				return 'cl-icon cl-icon-workflow-approve';
 			case 'launch':
-				return 'fa fa-rocket';
+				return 'cl-icon cl-icon-workflow-launch';
 			case 'promote':
-				return 'fa fa-sitemap';
+				return 'cl-icon cl-icon-workflow-promote';
 			case 'archive':
-				return 'fa fa-archive';
+				return 'cl-icon cl-icon-workflow-archive';
 			default:
 				return 'fa fa-question';
 		}

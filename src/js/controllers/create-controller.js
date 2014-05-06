@@ -14,7 +14,15 @@
 				{ name: 'launch', title: 'Launched' },
 				{ name: 'archive', title: 'Archived' }
 			];
-			$scope.contentTypes = launch.config.CONTENT_TYPES;
+
+			$scope.contentTypes = contentService.getContentTypes({
+				success: function(r) {
+					
+				},
+				error: function(r) {
+					launch.utils.handleAjaxErrorResponse(r, notificationService);
+				}
+			});
 
 			var contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
 				success: function(r) {
@@ -220,10 +228,12 @@
 
 		$scope.createConcept = function () {
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
+			//$location.path('/create/concept/create');
 		};
 
 		$scope.createContent = function () {
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
+			//$location.path('/create/content/create');
 		};
 
 		$scope.saveFilter = function() {
@@ -231,6 +241,10 @@
 		};
 
 		$scope.download = function() {
+			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
+		};
+
+		$scope.handleNextStep = function(content) {
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
 		};
 

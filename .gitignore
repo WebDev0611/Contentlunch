@@ -9,3 +9,7 @@ composer.lock
 .env.php
 .DS_Store
 Thumbs.db
+
+# ignore local configurations
+app/config/local/
+*.sublime-workspace

@@ -1252,8 +1252,8 @@
 			if ($.isArray(dto)) {
 				var contents = [];
 
-				$.each(dto, function (index, account) {
-					contents.push(self.content.fromDto(account));
+				$.each(dto, function (index, content) {
+					contents.push(self.content.fromDto(content));
 				});
 
 				return contents;
@@ -1289,6 +1289,45 @@
 			return content;
 		},
 		toDto: function (content) { }
+	};
+
+	self.contentType = {
+		parseResponse: function(r, getHeaders) {
+			if (launch.utils.isBlank(r)) {
+				return null;
+			}
+
+			var dto = JSON.parse(r);
+
+			if (!!dto.error || !!dto.errors) {
+				return dto;
+			}
+
+			if ($.isArray(dto)) {
+				var contentTypes = [];
+
+				$.each(dto, function (index, contentType) {
+					contentTypes.push(self.contentType.fromDto(contentType));
+				});
+
+				return contentTypes;
+			}
+
+			if ($.isPlainObject(dto)) {
+				return self.contentType.fromDto(dto);
+			}
+
+			return null;
+		},
+		fromDto: function(dto) {
+			var contentType = new launch.ContentType();
+
+			contentType.id = parseInt(dto.id);
+			contentType.name = dto.key;
+			contentType.title = dto.name;
+
+			return contentType;
+		}
 	};
 
 	return self;

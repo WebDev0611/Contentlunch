@@ -232,20 +232,23 @@
 
 	<div ng-show="selectedAccount.paymentType === 'ACH'">
 		<div class="control-group">
-			<div class="form-group">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.bankAccount, 'bankName', editAccount.txtBankName, forceDirty) }">
 				<label class="control-label" for="txtBankName">Bank Name</label>
-				<input type="text" id="txtBankName" name="txtBankName" class="form-control" ng-model="selectedAccount.bankAccount.bankName" />
+				<input type="text" id="txtBankName" name="txtBankName" class="form-control" ng-model="selectedAccount.bankAccount.bankName"
+					error-message message="errorMessage(selectedAccount.bankAccount, 'bankName', editAccount.txtBankName)" />
 			</div>
-			<div class="form-group">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.bankAccount, 'routingNumber', editAccount.txtRoutingNumber, forceDirty) }">
 				<label class="control-label" for="txtRoutingNumber">Routing Number</label>
-				<input type="text" id="txtRoutingNumber" name="txtRoutingNumber" class="form-control" ng-model="selectedAccount.bankAccount.routingNumber" />
+				<input type="text" id="txtRoutingNumber" name="txtRoutingNumber" class="form-control" ng-model="selectedAccount.bankAccount.routingNumber"
+					error-message message="errorMessage(selectedAccount.bankAccount, 'routingNumber', editAccount.txtRoutingNumber)" />
 			</div>
 		</div>
 
 		<div class="control-group">
-			<div class="form-group">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.bankAccount, 'accountNumber', editAccount.txtAccountNumber, forceDirty) }">
 				<label class="control-label" for="txtAccountNumber">Account Number</label>
-				<input type="text" id="txtAccountNumber" name="txtAccountNumber" class="form-control" ng-model="selectedAccount.bankAccount.accountNumber" />
+				<input type="text" id="txtAccountNumber" name="txtAccountNumber" class="form-control" ng-model="selectedAccount.bankAccount.accountNumber"
+					error-message message="errorMessage(selectedAccount.bankAccount, 'accountNumber', editAccount.txtAccountNumber)" />
 			</div>
 		</div>
 	</div>
