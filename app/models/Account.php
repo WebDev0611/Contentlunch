@@ -44,7 +44,7 @@ class Account extends Ardent {
 
   protected function beforeSave()
   {
-  	if ( ! app()->env == 'testing') {
+  	if (app()->env != 'testing') {
 	  	// If any "customer" info changes, update it in balanced
 	  	if ($this->isDirty('title')) {
 	  		$balancedAccount = new Launch\Balanced($this);

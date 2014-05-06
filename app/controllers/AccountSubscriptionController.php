@@ -48,7 +48,7 @@ class AccountSubscriptionController extends BaseController {
       $account->updateUniques();
       // Attempt to do subscription charge
       // Will only do the charge if new account or matches expiration date rule
-      if ( ! app()->env == 'testing') {
+      if (app()->env != 'testing') {
         $balancedAccount = new Launch\Balanced($account);
         $balancedAccount->chargeAccount();
       }

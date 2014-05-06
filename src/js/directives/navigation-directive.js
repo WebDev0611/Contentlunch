@@ -16,12 +16,17 @@
 			scope.showNav = true;
 
 			var imageUrl = ($.isFunction(scope.user.imageUrl)) ? scope.user.imageUrl() : null;
-			var isGlobalAdmin = (scope.user.role.isGlobalAdmin === true) ? true : false;
+			var isGlobalAdmin;
+			if ( ! scope.user.id) {
+				isGlobalAdmin = false;
+			} else {
+				isGlobalAdmin = (scope.user.role.isGlobalAdmin === true) ? true : false;
+			}
 			var mainNavItems = [];
 			var adminMenuItems = [];
 			var userMenuItems = [];
 
-			if (!isGlobalAdmin) {
+			if (scope.user.id && !isGlobalAdmin) {
 				mainNavItems = $.map($.grep(scope.user.modules, function(m) {
 					return m.isSubscribable;
 				}), function(m) {
