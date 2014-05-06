@@ -57,6 +57,34 @@
 						controller: 'CreateController',
 						templateUrl: '/assets/views/create.html'
 					})
+					.when('/create/concept/create', {
+						controller: 'CreateConceptController',
+						templateUrl: '/assets/views/concept-form.html'
+					})
+					.when('/create/concept/edit/:conceptId', {
+						controller: 'ConceptController',
+						templateUrl: '/assets/views/concept-form.html'
+					})
+					.when('/create/content/create', {
+						controller: 'CreateContentController',
+						templateUrl: '/assets/views/content-form.html'
+					})
+					.when('/create/content/edit/:contentId', {
+						controller: 'ContentController',
+						templateUrl: '/assets/views/content-form.html'
+					})
+					.when('/create/content/view/:contentId', {
+						controller: 'ContentController',
+						templateUrl: '/assets/views/content-view.html'
+					})
+					.when('/create/content/launch/:contentId', {
+						controller: 'ContentController',
+						templateUrl: '/assets/views/content-launch.html'
+					})
+					.when('/create/content/promote/:contentId', {
+						controller: 'ContentController',
+						templateUrl: '/assets/views/content-promote.html'
+					})
 					.when('/collaborate', {
 						controller: 'CollaborateController',
 						templateUrl: '/assets/views/collaborate.html'
