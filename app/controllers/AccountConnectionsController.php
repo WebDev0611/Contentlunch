@@ -31,7 +31,7 @@ class AccountConnectionsController extends BaseController {
     // Will be different based on environment
     switch (app()->environment()) {
       case 'staging':
-        $redirectURL = 'http://staging.contentlaunch.surgeforwad.com/api/add-connection';
+        $redirectURL = 'http://staging.contentlaunch.surgeforward.com/api/add-connection';
       break;
       default:
         $redirectURL = 'http://local.contentlaunch.com/api/add-connection';
