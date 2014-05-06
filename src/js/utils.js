@@ -603,9 +603,11 @@
 			case 'audio-recording':
 				return 'fa fa-volume-up';
 			case 'blog-post':
-				return 'fa fa-facebook';
+				return 'cl-icon cl-icon-content-type-blog-post';
 			case 'casestudy':
-				return 'fa fa-briefcase';
+			case 'case_study':
+			case 'case-study':
+				return 'cl-icon cl-icon-content-type-casestudy';
 			case 'ebook':
 				return 'fa fa-book';
 			case 'email':
@@ -637,8 +639,8 @@
 				return 'fa fa-video-camera';
 			//case 'website-page':
 			//	return 'fa fa-';
-			//case 'whitepaper':
-			//	return 'fa fa-';
+			case 'whitepaper':
+				return 'cl-icon cl-icon-content-type-whitepaper';
 			//case 'workflow-email':
 			//	return 'fa fa-';
 			default:
