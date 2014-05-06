@@ -27,7 +27,7 @@
 			var contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
 				success: function(r) {
 					$scope.buyingStages = $.map(contentSettings.personaProperties, function(bs, i) {
-						return { name: bs, id: i + 1 };
+						return { name: bs, id: i };
 					});
 				},
 				error: function(r) {
@@ -139,10 +139,7 @@
 					}
 
 					if ($.isArray($scope.search.users) && $scope.search.users.length > 0) {
-						// TODO: FIX THIS!! IT WON'T WORK AS IS!!
-						if ($.inArray(content.author.id, $scope.search.users) < 0) {
-							return false;
-						}
+						return ($.grep($scope.search.users, function(uid) { return parseInt(uid) === content.author.id; }).length > 0);
 					}
 
 					return true;
