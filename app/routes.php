@@ -26,10 +26,11 @@ Route::group(array('prefix' => 'api'), function()
 		'only' => array('index', 'store', 'show', 'update', 'destroy')
 	));
 
+	Route::get('add-connection', 'AccountConnectionsController@addConnection');
 	Route::resource('account/{id}/connections', 'AccountConnectionsController', [
 		'only' => ['index', 'create', 'show', 'update', 'destroy']
 	]);
-	Route::get('account/{accountID}/add-connection/{connectionID}', 'AccountConnectionsController@addConnection');
+	//Route::get('account/{accountID}/add-connection/{connectionID}', 'AccountConnectionsController@addConnection');
 
 	Route::get('account/{id}/content-settings', 'AccountContentSettingsController@get_settings');
 	Route::put('account/{id}/content-settings', 'AccountContentSettingsController@save_settings');

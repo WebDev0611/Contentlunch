@@ -25,7 +25,18 @@ class AccountConnectionsController extends BaseController {
       return $this->responseError("Unable to find connection");
     }
     // Url the provider will redirect back to
-    $redirectURL = 'http://local.contentlaunch.com/api/account/'. $accountID .'/add-connection/'. $connection->id;
+    // Set the connection type in the SESSION
+    Session::set('connection_id', $connection->id);
+    Session::set('account_id', $accountID);
+    // Will be different based on environment
+    switch (app()->environment()) {
+      case 'staging':
+        $redirectURL = 'http://staging.contentlaunch.surgeforwad.com/api/add-connection';
+      break;
+      default:
+        $redirectURL = 'http://local.contentlaunch.com/api/add-connection';
+    }
+
     switch ($connection->provider) {
       case 'linkedin':
         $params = [
@@ -56,8 +67,10 @@ class AccountConnectionsController extends BaseController {
    * Store the access code associated with the connection
    * Redirect to /account/connections
    */
-  public function addConnection($accountID, $connectionID)
+  public function addConnection()
   {
+    $accountID = Session::get('account_id');
+    $connectionID = Session::get('connection_id');
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
