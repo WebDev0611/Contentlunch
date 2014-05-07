@@ -181,6 +181,8 @@ class EntrustSetupTables extends Migration {
     $adminPermission = new Permission;
     $adminPermission->name = 'adminster_contentlaunch';
     $adminPermission->display_name = 'Administer ContentLaunch';
+    $adminPermission->module = 'admin';
+    $adminPermission->type = 'execute';
     $adminPermission->save();
 
     // Give global admin adminster_contentlaunch permission
