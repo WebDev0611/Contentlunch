@@ -46,6 +46,8 @@ class ConfideSetupUsersTable extends Migration {
     $user = new User([
       'username' => 'admin@test.com',
       'email' => 'admin@test.com',
+      'password' => 'launch123',
+      'password_confirmation' => 'launch123',
       'first_name' => 'Admin', 
       'last_name' => 'Istrator', 
       'address' => '123 SW 321', 
@@ -58,7 +60,7 @@ class ConfideSetupUsersTable extends Migration {
       'status' => 1
     ]);
     $user->save();
-    print "Admin super user: ". $user->username . " created";
+    echo "Created Admin super user: ". $user->username . PHP_EOL;
   }
 
   /**

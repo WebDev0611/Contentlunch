@@ -41,8 +41,9 @@ class ModulesCreateTable extends Migration {
       $module->name = $row[0];
       $module->title = $row[1];
       $module->save();
+      echo 'Created module: '. $module->name . PHP_EOL;
     }
-    
+
 	}
 
 	/**

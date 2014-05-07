@@ -37,7 +37,8 @@ class DatabaseSeeder extends Seeder {
     // Don't delete intial roles
     DB::table('roles')->whereNotNull('account_id')->delete();
     
-    DB::table('users')->delete();
+    // Don't delete global admin
+    DB::table('users')->where('username', '<>', 'admin@test.com')->delete();
 
 
     $this->call('AccountSeeder');

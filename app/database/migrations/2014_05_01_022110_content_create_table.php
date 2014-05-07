@@ -64,6 +64,7 @@ class ContentCreateTable extends Migration {
       $type->key = $key;
       $type->name = $name;
       $type->save();
+      echo 'Created content type: '. $type->key .': '. $type->name . PHP_EOL;
     }
 
 		Schema::create('content_tags', function ($table) {

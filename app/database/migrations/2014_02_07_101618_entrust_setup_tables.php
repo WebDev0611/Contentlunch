@@ -56,7 +56,7 @@ class EntrustSetupTables extends Migration {
       $table->foreign('role_id')->references('id')->on('roles');
     });
 
-    // Create builtin roles: Global Admin, Site Admin
+    // Create builtin roles: Global Admin, Site Admin, etc...
     $roles = [];
     foreach ([
       ['global_admin', 'Global Admin', true, false, false, 1],
@@ -75,6 +75,7 @@ class EntrustSetupTables extends Migration {
       $role->status = $row[5];
       $role->save();
       $roles[$row[0]] = $role;
+      echo "Created Builtin role: ". $role->name . PHP_EOL;
     }
 
     // Add application permissions
@@ -207,6 +208,8 @@ class EntrustSetupTables extends Migration {
       // Give all permissions to site_admin
       $roles['site_admin']->perms()->attach($p->id);
     }
+
+    echo 'Created permissions'. PHP_EOL;
 
   }
 

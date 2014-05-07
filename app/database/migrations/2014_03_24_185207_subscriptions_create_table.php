@@ -39,6 +39,7 @@ class SubscriptionsCreateTable extends Migration {
       $sub->training = $row[4];
       $sub->features = $row[5];
       $sub->save();
+      echo 'Created subscription: '. $sub->subscription_level . PHP_EOL;
     }
 	}
 

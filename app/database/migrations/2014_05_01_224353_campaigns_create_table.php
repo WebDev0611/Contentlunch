@@ -39,6 +39,7 @@ class CampaignsCreateTable extends Migration {
 			$type->key = $key;
 			$type->name = $name;
 			$type->save();
+      echo 'Created Campaign type: '. $type->key .': '. $type->name . PHP_EOL;
     }
 
     // Create campaign tags table
