@@ -8,7 +8,7 @@ class CampaignSeeder extends DatabaseSeeder {
     $account = Account::where('title', 'Surge')->first();
 
     // Get users to assign as authors
-    $user1 = User::where('username', 'contentcreator@test.com')->first();
+    $user1 = User::where('username', 'creator@test.com')->first();
     $user2 = User::where('username', 'manager@test.com')->first();
     $user3 = User::where('username', 'editor@test.com')->first();
 
@@ -83,6 +83,7 @@ class CampaignSeeder extends DatabaseSeeder {
         $ctag->campaign_id = $campaign->id;
         $ctag->save();
       }
+      $this->command->info('Created campaign for Surge account: '. $campaign->title);
     }
   }
 

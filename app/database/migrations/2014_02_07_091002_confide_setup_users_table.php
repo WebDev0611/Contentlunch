@@ -41,6 +41,24 @@ class ConfideSetupUsersTable extends Migration {
       $t->string('token');
       $t->timestamp('created_at');
     });
+
+    // Insert the admin super user
+    $user = new User([
+      'username' => 'admin@test.com',
+      'email' => 'admin@test.com',
+      'first_name' => 'Admin', 
+      'last_name' => 'Istrator', 
+      'address' => '123 SW 321', 
+      'city' => 'Spokane', 
+      'state' => 'WA', 
+      'country' => 'US', 
+      'phone' => '5096901018', 
+      'title' => 'Admin',
+      'confirmed' => true,
+      'status' => 1
+    ]);
+    $user->save();
+    print "Admin super user: ". $user->username . " created";
   }
 
   /**

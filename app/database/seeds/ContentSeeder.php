@@ -9,7 +9,7 @@ class ContentSeeder extends DatabaseSeeder {
     $account = Account::where('title', 'Surge')->first();
 
     // Get users to assign as authors
-    $user1 = User::where('username', 'contentcreator@test.com')->first();
+    $user1 = User::where('username', 'creator@test.com')->first();
     $user2 = User::where('username', 'manager@test.com')->first();
     $user3 = User::where('username', 'editor@test.com')->first();
 
@@ -133,6 +133,8 @@ what you think."],
         $related->save();
       }
       $relatedContent = $content->id;
+
+      $this->command->info('Created content for Surge account: '. $content->title);
     }
 
   }
