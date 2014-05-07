@@ -213,6 +213,11 @@ class EntrustSetupTables extends Migration {
 
     echo 'Created permissions'. PHP_EOL;
 
+    // Give global admin role to super user
+    $user = User::where('username', 'admin@test.com')->first();
+    $user->attachRole($roles['global_admin']);
+    echo 'Attached global_admin role to super user'. PHP_EOL;
+
   }
 
   /**

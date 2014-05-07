@@ -93,6 +93,7 @@ class UserController extends BaseController {
 		if ( ! $user) {
 			return $this->responseError("User not found.");
 		}
+    $user->modules = [];
 		if (isset($user->accounts[0])) {
 			$account = Account::find($user->accounts[0]->id)->first();
 			$modules = $account->modules;
@@ -100,10 +101,10 @@ class UserController extends BaseController {
 			foreach ($modules as &$module) {
 				$module['subscribable'] = true;
 			}
-			$modules[] = array('name' => 'settings', 'title' => 'Settings', 'subscribable' => false);
+			$modules[] = ['name' => 'settings', 'title' => 'Settings', 'subscribable' => false];
 			$user->modules = $modules;
 		} else {
-			$user->modules = array();
+			$user->modules = [];
 		}
 		if (isset($user->roles[0])) {
 			$role = Role::find($user->roles[0]->id);
