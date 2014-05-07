@@ -42,14 +42,16 @@
 			auth.modules = $.map(dto.modules, function(m) {
 				var module = self.module.fromDto(m);
 
-				module.privileges = $.map($.grep(dto.permissions, function(p) {
-					return p.module.toLowerCase() === module.name;
-				}), function(p) {
-					return self.privilege.fromDto(p);
-				});
+				if (!!dto.permissions) {
+					module.privileges = $.map($.grep(dto.permissions, function (p) {
+						return p.module.toLowerCase() === module.name;
+					}), function (p) {
+						return self.privilege.fromDto(p);
+					});
 
-				if (module.privileges.length === 0) {
-					return null;
+					if (module.privileges.length === 0) {
+						return null;
+					}
 				}
 
 				return module;
