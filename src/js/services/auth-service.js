@@ -18,7 +18,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 	};
 
 	self.authenticate = $resource('/api/auth', null, {
-		login: { method: 'POST' },
+		login: { method: 'POST', transformResponse: self.modelMapper.auth.parseResponse },
 		fetchCurrentUser: { method: 'GET', transformResponse: self.modelMapper.auth.parseResponse }
 	});
 

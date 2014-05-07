@@ -202,6 +202,15 @@
 .cl-icon-workflow-archive {
   background-image: url(/assets/images/archive.svg);
 }
+.cl-icon-content-type-blog-post {
+  background-image: url(/assets/images/blogger.svg);
+}
+.cl-icon-content-type-casestudy {
+  background-image: url(/assets/images/casestudy.svg);
+}
+.cl-icon-content-type-whitepaper {
+  background-image: url(/assets/images/whitepaper.svg);
+}
 html,
 body {
   height: 100%;
@@ -1181,6 +1190,9 @@ span[class*=" icon-"].dark {
   border-bottom-color: #F1DDAF;
   color: #ffffff;
 }
+.create .right-pane .right-pane-header .cl-icon {
+  color: #ffffff;
+}
 .create .right-pane .create-header {
   margin: 0 16px;
 }
@@ -1267,6 +1279,10 @@ span[class*=" icon-"].dark {
 }
 .create .right-pane .create-table-container table.create-table tr.dark td {
   background-color: #E6E4E0;
+}
+.create .right-pane > .view,
+.create .right-pane > .panel {
+  margin: 0 16px 16px 16px;
 }
 .select2-container {
   max-width: 400px;

@@ -480,6 +480,8 @@ span[class^="icon-"], span[class*=" icon-"] {
 		padding: 16px;
 	}
 
+	.right-pane-sub-header{}
+
 	h2, hr {
 		border-bottom: solid 1px #000000;
 		font-family: 'Lato Black';
@@ -1082,6 +1084,10 @@ span[class^="icon-"], span[class*=" icon-"] {
 			background-color: @createColor;
 			border-bottom-color: #F1DDAF;
 			color: #ffffff;
+
+			.cl-icon {
+				color: #ffffff;
+			}
 		}
 
 		.create-header {
@@ -1191,6 +1197,10 @@ span[class^="icon-"], span[class*=" icon-"] {
 					}
 				}
 			}
+		}
+
+		> .view, > .panel {
+			margin: 0 16px 16px 16px;
 		}
 	}
 }

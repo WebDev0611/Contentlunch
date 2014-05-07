@@ -58,20 +58,20 @@
 						templateUrl: '/assets/views/create.html'
 					})
 					.when('/create/concept/create', {
-						controller: 'CreateConceptController',
-						templateUrl: '/assets/views/concept-form.html'
+						controller: 'ConceptController',
+						templateUrl: '/assets/views/concept.html'
 					})
 					.when('/create/concept/edit/:conceptId', {
 						controller: 'ConceptController',
-						templateUrl: '/assets/views/concept-form.html'
+						templateUrl: '/assets/views/concept.html'
 					})
 					.when('/create/content/create', {
-						controller: 'CreateContentController',
-						templateUrl: '/assets/views/content-form.html'
+						controller: 'ContentController',
+						templateUrl: '/assets/views/content.html'
 					})
 					.when('/create/content/edit/:contentId', {
 						controller: 'ContentController',
-						templateUrl: '/assets/views/content-form.html'
+						templateUrl: '/assets/views/content.html'
 					})
 					.when('/create/content/view/:contentId', {
 						controller: 'ContentController',
@@ -152,6 +152,7 @@
 
 				$rootScope.$on('$routeChangeStart', function (event, next, current) {
 					// TODO: VALIDATE THAT THE USER IS ALLOWED TO VIEW THE PAGE THEY ARE REQUESTING!! IF NOT, SHOW A WARNING OR ERROR AND REDIRECT TO HOME!!
+					//			THIS MAY BE BETTER TO DO IN EACH CONTROLLER, HOWEVER?
 					if ($location.path() === '/login') {
 						authService.logout();
 					} else if ($location.path() === '/reset') {
