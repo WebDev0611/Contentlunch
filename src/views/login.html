@@ -24,7 +24,7 @@
 			<label for="remember">Remember Me</label>
 		</div>
 
-		<button type="button" class="btn btn-default ladda-button full-width" ng-click="login($event, user)" data-style="zoom-in" ladda-button="isSaving">
+		<button type="submit" class="btn btn-default ladda-button full-width" ng-click="login($event, user)" data-style="zoom-in" ladda-button="isSaving">
 			<span class="ladda-label">Login</span>
 		</button>
 	
@@ -46,7 +46,7 @@
 		</p>
 		
 		<div class="control-group btn-toolbar">
-			<button type="button" class="btn btn-default ladda-button" ng-click="retreievePassword($event, user)" data-style="zoom-in" ladda-button="isSaving">
+			<button type="submit" class="btn btn-default ladda-button" ng-click="retreievePassword($event, user)" data-style="zoom-in" ladda-button="isSaving">
 				<span class="ladda-label">Submit</span>
 			</button>
 			<button type="button" class="btn btn-default ladda-button" ng-click="toggleMode('Login')">
