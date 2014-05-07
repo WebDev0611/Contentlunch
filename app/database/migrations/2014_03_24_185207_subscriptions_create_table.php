@@ -23,6 +23,23 @@ class SubscriptionsCreateTable extends Migration {
       $table->text('features');
       $table->timestamps();
     });
+
+    // Insert subscriptions for the application
+    $data = [
+      [1, 5, 300, 10, 1, 'None'],
+      [2, 10, 500, 10, 1, 'API, Premium Support'],
+      [3, 20, 700, 10, 1, 'API, Premium Support, Custom Reporting, Advanced Security']
+    ];
+    foreach ($data as $row) {
+      $sub = new Subscription;
+      $sub->subscription_level = $row[0];
+      $sub->licenses = $row[1];
+      $sub->monthly_price = $row[2];
+      $sub->annual_discount = $row[3];
+      $sub->training = $row[4];
+      $sub->features = $row[5];
+      $sub->save();
+    }
 	}
 
 	/**

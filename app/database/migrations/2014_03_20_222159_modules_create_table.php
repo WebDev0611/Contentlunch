@@ -26,6 +26,23 @@ class ModulesCreateTable extends Migration {
       $table->integer('account_id')->references('id')->on('account');
       $table->integer('module_id')->references('id')->on('modules');
     });
+
+    // Insert application's modules
+    $data = [
+      ['create', 'CREATE'],
+      ['calendar', 'CALENDAR'],
+      ['launch', 'LAUNCH'],
+      ['measure', 'MEASURE'],
+      ['collaborate', 'COLLABORATE'],
+      ['consult', 'CONSULT']
+    ];
+    foreach ($data as $row) {
+      $module = new Module;
+      $module->name = $row[0];
+      $module->title = $row[1];
+      $module->save();
+    }
+    
 	}
 
 	/**
