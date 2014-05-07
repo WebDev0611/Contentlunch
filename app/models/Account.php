@@ -9,33 +9,24 @@ class Account extends Ardent {
 	// Hydrates from input whenver validation is called
 	public $forceEntityHydrationFromInput = true;
 
-	public static $rules = array(
+	public static $rules = [
 		'title' => 'required|min:5|unique:accounts'
-	);
+	];
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
 	protected $table = 'accounts';
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = array('balanced_info');
+	protected $hidden = ['balanced_info'];
 
 	/**
 	 * Specifies the columns that can be mass assigned
 	 *
 	 * @var array
 	 */
-	protected $fillable = array(
+	protected $fillable = [
 		'title', 'active', 'address', 'address_2', 'name', 'city',
 		'state', 'phone', 'country', 'zipcode', 'email', 'auto_renew',
-		'payment_type', 'token', 'yearly_payment');
+		'payment_type', 'token', 'yearly_payment'
+  ];
 
 	protected function getDateFormat()
   {
@@ -46,17 +37,21 @@ class Account extends Ardent {
   {
   	if (app()->env != 'testing') {
 	  	// If any "customer" info changes, update it in balanced
-	  	if ($this->isDirty('title')) {
-	  		$balancedAccount = new Launch\Balanced($this);
-	  		// This will sync the customer details with balanced
-	  		$balancedAccount->syncCustomer();
-	  	}
-	  	// If the token has changed, we are saving a new credit card or bank account
-	  	if ($this->isDirty('token')) {
-	  		$balancedAccount = new Launch\Balanced($this);
-	  		// This will sync the payment details with balanced
-	  		$balancedAccount->syncPayment();
-	  	}
+      try {
+  	  	if ($this->isDirty('title')) {
+  	  		$balancedAccount = new Launch\Balanced($this);
+  	  		// This will sync the customer details with balanced
+  	  		$balancedAccount->syncCustomer();
+  	  	}
+  	  	// If the token has changed, we are saving a new credit card or bank account
+  	  	if ($this->isDirty('token')) {
+  	  		$balancedAccount = new Launch\Balanced($this);
+  	  		// This will sync the payment details with balanced
+  	  		$balancedAccount->syncPayment();
+  	  	}
+      } catch (\Exception $e) {
+        
+      }
   	}
   }
 
