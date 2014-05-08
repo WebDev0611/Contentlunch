@@ -41,7 +41,9 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 					remember: remember
 				},
 				function (r) {
-					var user = self.modelMapper.auth.fromDto(r);
+          // I think this has already been ran through fromDto
+					// var user = self.modelMapper.auth.fromDto(r);
+          var user = r;
 
 					self.cacheSession(user);
 
@@ -78,6 +80,11 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return self.authenticate.fetchCurrentUser(null, function (r) {
+        
+        if (r.id) {
+          self.cacheSession(r);
+        }
+
 				if ($.isFunction(success)) {
 					success(r);
 				}

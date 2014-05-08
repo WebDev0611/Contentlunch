@@ -23,7 +23,6 @@
 			if (launch.utils.isBlank(dto.id)) {
 				return null;
 			}
-
 			var user = self.user.fromDto(dto);
 			var auth = new launch.Authentication();
 
