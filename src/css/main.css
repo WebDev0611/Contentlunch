@@ -187,6 +187,9 @@
 .cl-icon-workflow-create {
   background-image: url(/assets/images/create-black.png);
 }
+.cl-icon-workflow-create.cl-icon-white {
+  background-image: url(/assets/images/create.svg);
+}
 .cl-icon-workflow-edit {
   background-image: url(/assets/images/edit.png);
 }
@@ -442,8 +445,24 @@ header .login-info .popover-menu .admin-menu li .glyphicon {
 .form-group.has-error label .error-message {
   float: right;
 }
-.form-group .multi-select {
+.form-group .multi-select,
+.form-group .select2-container {
   width: 100%;
+}
+.form-group .select2-container {
+  display: block;
+  min-width: 0;
+  max-width: none;
+  width: auto;
+}
+.form-group .select2-container .select2-choice {
+  height: 34px;
+}
+.form-group .select2-container .select2-choice .select2-chosen {
+  height: 100%;
+}
+.form-group .select2-container .select2-choice .select2-chosen > * {
+  vertical-align: middle;
 }
 .popover {
   z-index: 1100;
@@ -502,7 +521,8 @@ span[class*=" icon-"].dark {
   background-color: #10699d;
   border-radius: 40px;
   color: #ffffff;
-  padding: 20px;
+  padding: 20px 40px;
+  height: 360px;
 }
 #login-form .header,
 #change-password-form .header {
@@ -539,11 +559,11 @@ span[class*=" icon-"].dark {
 #login-form .btn-toolbar .btn,
 #change-password-form .btn-toolbar .btn {
   margin: 4px;
-  padding: 4px 40px;
+  padding: 4px 33px;
 }
 #login-form button,
 #change-password-form button {
-  background-color: #000000;
+  background-color: #333333;
   border: 0;
   color: #ffffff;
   font-family: 'Lato-Bold';
@@ -675,6 +695,10 @@ span[class*=" icon-"].dark {
 .user-image-small {
   height: 24px;
   width: 24px;
+}
+.user-image-medium {
+  height: 36px;
+  width: 36px;
 }
 .users .left-pane,
 .accounts .left-pane,
@@ -828,7 +852,8 @@ span[class*=" icon-"].dark {
 .account-editor .user-image-upload,
 .role-editor .user-image-upload,
 .content-settings-editor .user-image-upload,
-.seo-settings-editor .user-image-upload {
+.seo-settings-editor .user-image-upload,
+.concept-editor .user-image-upload {
   float: left;
   text-align: center;
   width: 120px;
@@ -837,7 +862,8 @@ span[class*=" icon-"].dark {
 .account-editor .user-image-upload .user-image,
 .role-editor .user-image-upload .user-image,
 .content-settings-editor .user-image-upload .user-image,
-.seo-settings-editor .user-image-upload .user-image {
+.seo-settings-editor .user-image-upload .user-image,
+.concept-editor .user-image-upload .user-image {
   border: solid 3px #ffffff;
   display: block;
   height: 96px;
@@ -848,35 +874,40 @@ span[class*=" icon-"].dark {
 .account-editor .user-image-upload button,
 .role-editor .user-image-upload button,
 .content-settings-editor .user-image-upload button,
-.seo-settings-editor .user-image-upload button {
+.seo-settings-editor .user-image-upload button,
+.concept-editor .user-image-upload button {
   margin: 16px 0;
 }
 .user-editor .user-image-upload input[type="file"],
 .account-editor .user-image-upload input[type="file"],
 .role-editor .user-image-upload input[type="file"],
 .content-settings-editor .user-image-upload input[type="file"],
-.seo-settings-editor .user-image-upload input[type="file"] {
+.seo-settings-editor .user-image-upload input[type="file"],
+.concept-editor .user-image-upload input[type="file"] {
   display: none;
 }
 .user-editor .user-editor,
 .account-editor .user-editor,
 .role-editor .user-editor,
 .content-settings-editor .user-editor,
-.seo-settings-editor .user-editor {
+.seo-settings-editor .user-editor,
+.concept-editor .user-editor {
   margin-left: 128px;
 }
 .user-editor .control-group,
 .account-editor .control-group,
 .role-editor .control-group,
 .content-settings-editor .control-group,
-.seo-settings-editor .control-group {
+.seo-settings-editor .control-group,
+.concept-editor .control-group {
   margin: 0 8px 8px 0;
 }
 .user-editor .control-group .form-group,
 .account-editor .control-group .form-group,
 .role-editor .control-group .form-group,
 .content-settings-editor .control-group .form-group,
-.seo-settings-editor .control-group .form-group {
+.seo-settings-editor .control-group .form-group,
+.concept-editor .control-group .form-group {
   display: inline-block;
   margin: 0 8px 0 0;
   min-width: 20em;
@@ -885,7 +916,8 @@ span[class*=" icon-"].dark {
 .account-editor .control-group.btn-toolbar,
 .role-editor .control-group.btn-toolbar,
 .content-settings-editor .control-group.btn-toolbar,
-.seo-settings-editor .control-group.btn-toolbar {
+.seo-settings-editor .control-group.btn-toolbar,
+.concept-editor .control-group.btn-toolbar {
   margin: 16px 0;
 }
 .user-editor {
@@ -1284,6 +1316,45 @@ span[class*=" icon-"].dark {
 .create .right-pane > .panel {
   margin: 0 16px 16px 16px;
 }
+.create .right-pane .concept-editor {
+  margin: 20px 0;
+}
+.create .right-pane .concept-container .form-group {
+  max-width: 300px;
+  vertical-align: bottom;
+}
+.create .right-pane .concept-container .btn-create {
+  background-color: #ffb503;
+  color: #ffffff;
+}
+.create .right-pane .discussion-panel {
+  margin: 0 15px;
+}
+.create .right-pane .panel-collaborators .panel-footer {
+  background-color: #E4E4E4;
+}
+.create .right-pane .panel-collaborators .panel-footer .btn-add-collaborator {
+  border-radius: 50%;
+  background-color: #000000;
+  color: #ffffff;
+  height: 32px;
+  width: 32px;
+  padding: 0;
+}
+.create .right-pane .panel .panel-heading {
+  background-color: #000000;
+  color: #ffffff;
+  font-weight: bold;
+}
+.create .right-pane .panel .panel-body {
+  background-color: #E4E4E4;
+}
+.create .right-pane .panel.panel-user-info {
+  font-weight: bold;
+  min-width: 200px;
+  padding: 4px;
+  vertical-align: middle;
+}
 .select2-container {
   max-width: 400px;
   min-width: 400px;
@@ -1360,4 +1431,8 @@ span[class*=" icon-"].dark {
 }
 .campaign-dot.campaign-dot-15 {
   background-color: #CC0099;
+}
+.dont-know-link {
+  text-decoration: underline;
+  margin-left: 10px;
 }

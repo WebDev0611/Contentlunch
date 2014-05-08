@@ -111,7 +111,7 @@
 		return newString;
 	},
 
-	handleAjaxErrorResponse: function (response, notificationService) {
+	handleAjaxErrorResponse: function(response, notificationService) {
 		var err = (!launch.utils.isBlank(response.message)) ? response.message : null;
 		var type = (!launch.utils.isBlank(response.type)) ? response.type : null;
 		var file = (!launch.utils.isBlank(response.file)) ? response.file : null;
@@ -129,7 +129,7 @@
 				} else if ($.isArray(response.data.errors)) {
 					err = '';
 
-					$.each(response.data.errors, function (i, e) {
+					$.each(response.data.errors, function(i, e) {
 						err += e + '\n\n';
 					});
 				} else {
@@ -594,7 +594,7 @@
 		}
 	},
 
-	getContentTypeIconClass: function (contentType) {
+	getContentTypeIconClass: function(contentType) {
 		if (launch.utils.isBlank(contentType)) {
 			return null;
 		}

@@ -29,24 +29,6 @@
 
 	self.validateProperty = function (property) {
 		switch (property.toLowerCase()) {
-			//case 'phonenumber':
-			//	return launch.utils.isBlank(this.phoneNumber) ? 'Phone Number is required.' : null;
-			//case 'address1':
-			//	return launch.utils.isBlank(this.address1) ? 'Address 1 is required.' : null;
-			//case 'city':
-			//	return launch.utils.isBlank(this.city) ? 'City is required.' : null;
-			//case 'state':
-			//	return launch.utils.isBlank(this.state) ? 'State is required.' : null;
-			//case 'postalcode':
-			//	return launch.utils.isBlank(this.postalCode) ? 'Postal Code is required.' : null;
-			//case 'country':
-			//	return launch.utils.isBlank(this.country) ? 'Country is required.' : null;
-			//case 'active':
-			//	if (typeof this.active !== 'boolean') { this.active = (this.active === 1 || this.active === '1' || this.active.toLowerCase() === 'true'); }
-
-			//	return (this.active === true || this.active === false) ? null : 'Active Status is required.';
-			//case 'subscription':
-			//	return (!this.subscription) ? 'Subscription is required.' : null;
 			default:
 				return null;
 		}

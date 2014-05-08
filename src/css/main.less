@@ -292,8 +292,27 @@ header {
 		}
 	}
 
-	.multi-select {
+	.multi-select, .select2-container {
 		width: 100%;
+	}
+
+	.select2-container {
+		display: block;
+		min-width: 0;
+		max-width: none;
+		width: auto;
+
+		.select2-choice {
+			height: 34px;
+
+			.select2-chosen {
+				height: 100%;
+
+				>* {
+					vertical-align: middle;
+				}
+			}
+		}
 	}
 }
 
@@ -576,6 +595,11 @@ span[class^="icon-"], span[class*=" icon-"] {
 	width: 24px;
 }
 
+.user-image-medium {
+	height: 36px;
+	width: 36px;
+}
+
 .users, .accounts, .roles, .content-settings, .seo-settings, .create {
 	.left-pane {
 		position: relative;
@@ -671,7 +695,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.user-editor, .account-editor, .role-editor, .content-settings-editor, .seo-settings-editor {
+.user-editor, .account-editor, .role-editor, .content-settings-editor, .seo-settings-editor, .concept-editor {
 	.user-image-upload {
 		float: left;
 		text-align: center;
@@ -1202,6 +1226,60 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 		> .view, > .panel {
 			margin: 0 16px 16px 16px;
+		}
+
+		.concept-editor {
+			margin: 20px 0;
+		}
+
+		.concept-container {
+			.form-group{
+				max-width: 300px;
+				vertical-align: bottom;
+			}
+
+			.btn-create {
+				background-color: @createColor;
+				color: #ffffff;
+			}
+		}
+
+		.discussion-panel {
+			margin: 0 15px;
+		}
+
+		.panel-collaborators {
+			.panel-footer {
+				background-color: #E4E4E4;
+
+				.btn-add-collaborator {
+					border-radius: 50%;
+					background-color: #000000;
+					color: #ffffff;
+					height: 32px;
+					width: 32px;
+					padding: 0;
+				}
+			}
+		}
+
+		.panel {
+			.panel-heading {
+				background-color: #000000;
+				color: #ffffff;
+				font-weight: bold;
+			}
+
+			.panel-body {
+				background-color: #E4E4E4;
+			}
+
+			&.panel-user-info {
+				font-weight: bold;
+				min-width: 200px;
+				padding: 4px;
+				vertical-align: middle;
+			}
 		}
 	}
 }

@@ -31,7 +31,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 	});
 
 	return {
-		login: function (username, password, remember, callback) {
+		login: function(username, password, remember, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
@@ -40,10 +40,10 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 					password: $sanitize(password),
 					remember: remember
 				},
-				function (r) {
-          // I think this has already been ran through fromDto
+				function(r) {
+					// I think this has already been ran through fromDto
 					// var user = self.modelMapper.auth.fromDto(r);
-          var user = r;
+					var user = r;
 
 					self.cacheSession(user);
 
@@ -79,11 +79,11 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return self.authenticate.fetchCurrentUser(null, function (r) {
-        
-        if (r.id) {
-          self.cacheSession(r);
-        }
+			return self.authenticate.fetchCurrentUser(null, function(r) {
+
+				if (r.id) {
+					self.cacheSession(r);
+				}
 
 				if ($.isFunction(success)) {
 					success(r);
@@ -110,17 +110,17 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 
 			return self.confirm.confirm(null, { code: code }, success, error);
 		},
-		impersonate: function (accountId) {
+		impersonate: function(accountId) {
 			self.impersonate.save({ account_id: accountId },
-				function (r) {
+				function(r) {
 					self.uncacheSession();
 					var user = self.modelMapper.user.fromDto(r);
 					self.cacheSession(user);
 					$window.location.href = '/';
 				});
 		},
-		impersonateReset: function () {
-			self.impersonate.save({ reset: 'true' }, function (r) {
+		impersonateReset: function() {
+			self.impersonate.save({ reset: 'true' }, function(r) {
 				self.uncacheSession();
 				var user = self.modelMapper.user.fromDto(r);
 				self.cacheSession(user);
