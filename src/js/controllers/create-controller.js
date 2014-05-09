@@ -39,14 +39,29 @@
 			$scope.campaigns = null;
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id);
 
-			$scope.content = contentService.query(self.loggedInUser.account.id, null, {
-				success: function(r) {
-					$scope.search.applyFilter();
-				},
-				error: function(r) {
-					launch.utils.handleAjaxErrorResponse(r, notificationService);
-				}
-			});
+			self.loadContent();
+		};
+
+		self.loadContent = function() {
+			if ($scope.search.contentStage === 'content') {
+				$scope.content = contentService.query(self.loggedInUser.account.id, null, {
+					success: function (r) {
+						$scope.search.applyFilter();
+					},
+					error: function (r) {
+						launch.utils.handleAjaxErrorResponse(r, notificationService);
+					}
+				});
+			} else if ($scope.search.contentStage === 'concept') {
+				$scope.content = contentService.query(self.loggedInUser.account.id, null, {
+					success: function (r) {
+						$scope.search.applyFilter();
+					},
+					error: function (r) {
+						launch.utils.handleAjaxErrorResponse(r, notificationService);
+					}
+				});
+			}
 		};
 
 		$scope.milestones = null;
@@ -223,12 +238,23 @@
 			return false;
 		};
 
-		$scope.createConcept = function () {
-			$location.path('/create/concept/create');
-		};
+		$scope.createNew = function (createType) {
+			if (launch.utils.isBlank(createType)) {
+				return;
+			}
 
-		$scope.createContent = function () {
-			$location.path('/create/content/create');
+			switch (createType.toLowerCase()) {
+				case 'content-concept':
+					$location.path('/create/concept/create/content');
+					return;
+				case 'campaign-concept':
+					$location.path('/create/concept/create/campaign');
+					return;
+				case 'content':
+					$location.path('/create/content/create');
+					return;
+				default:
+			}
 		};
 
 		$scope.saveFilter = function() {
@@ -247,7 +273,7 @@
 
 			switch (content.nextStep.name.toLowerCase()) {
 				case 'create':
-					$location.path('create/concept/edit/' + content.id);
+					$location.path('create/concept/edit/content/' + content.id);
 					break;
 				case 'edit':
 					$location.path('create/content/edit/' + content.id);

@@ -3,6 +3,7 @@
 
 	self.id = null;
 	self.title = null;
+	self.conceptType = null;
 	self.contentType = null;
 	self.description = null;
 	self.campaign = null;
@@ -13,12 +14,14 @@
 		switch (property.toLowerCase()) {
 			case 'title':
 				return launch.utils.isBlank(this.title) ? 'Title is required.' : null;
+			case 'concepttype':
+				return launch.utils.isBlank(this.conceptType) ? 'Concept Type is required.' : null;
 			case 'contenttype':
-				return launch.utils.isBlank(this.title) ? 'Content Type is required.' : null;
+				return launch.utils.isBlank(this.contentType) ? 'Content Type is required.' : null;
 			case 'description':
-				return launch.utils.isBlank(this.title) ? 'Description is required.' : null;
+				return launch.utils.isBlank(this.description) ? 'Description is required.' : null;
 			case 'creator':
-				return launch.utils.isBlank(this.title) ? 'Creator is required.' : null;
+				return launch.utils.isBlank(this.creator) ? 'Creator is required.' : null;
 			default:
 				return null;
 		}

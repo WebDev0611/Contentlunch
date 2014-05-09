@@ -1,0 +1,99 @@
+﻿<div class="view create">
+	<div class="col-md-3 left-pane"></div>
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header">Create</h2>
+		
+		<form name="editConcept" novalidate="novalidate">
+			<div class="concept-editor row">
+				<div class="col-md-9">
+					<h2>
+						Create Content Concept
+						<span class="cl-icon cl-icon-large cl-icon-workflow-concept"></span>
+					</h2>
+				
+					<div class="concept-container">
+						<div class="control-group">
+							<div class="form-group" ng-class="{ 'has-error': hasError(concept, 'title', editConcept.txtConceptName, forceDirty) }">
+								<label class="control-label" for="txtConceptName">Working Title</label>
+								<input type="text" name="txtConceptName" id="txtConceptName" class="form-control" ng-model="concept.title"
+										error-message message="errorMessage(concept, 'title', editConcept.txtConceptName)" />
+							</div>
+
+							<div class="form-group" ng-class="{ 'has-error': hasError(concept, 'contentType', editConcept.selContentType, forceDirty) }">
+								<label class="control-label" for="selContentType">Content Type</label>
+								{{ concept.contentType }}
+								<select name="selContentType" id="selContentType"
+										ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem, selectOnBlur: true }" ng-model="concept.contentType"
+										data-placeholder="Select Content Type" error-message message="errorMessage(concept, 'contentType', editConcept.selContentType)">
+									<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<div class="form-group">
+								<label class="control-label" for="selCampaign">Campaign</label>
+								<select name="selCampaign" id="selCampaign"
+										ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, selectOnBlur: true }" ng-model="concept.campaign.id"
+										data-placeholder="Select Campaign">
+									<option ng-repeat="c in campaigns" value="{{ c.id }}">{{ c.name }}</option>
+								</select>
+							</div>
+
+							<div class="form-group" ng-class="{ 'has-error': hasError(concept, 'creator.id', editConcept.selCreator, forceDirty) }">
+								<label class="control-label" for="selCreator">Content Creator</label>
+								<select name="selCreator" id="selCreator"
+										ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="concept.creator.id"
+										data-placeholder="Select Content Creator" error-message message="errorMessage(concept, 'creator.id', editConcept.selCreator)">
+									<option ng-repeat="u in users" value="{{ u.id }}" ng-selected="u.id === concept.creator.id">{{ u.formatName() }}</option>
+								</select>
+							</div>
+						</div>
+					
+						<div class="control-group">
+							<label class="control-label" for="txtConceptDesc">Description</label>
+							<textarea id="txtConceptDesc" rich-text-editor ng-model="concept.description"></textarea>
+						</div>
+
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="">Save</button>
+					
+						<button type="button" class="btn btn-lg btn-collaborate" ng-click="" ng-show="showCollaborate">
+							<span class="cl-icon cl-icon-white cl-icon-med cl-icon-workflow-collaborate"></span>
+							View in Collaborate
+						</button>
+					
+						<button type="button" class="btn btn-lg btn-create" ng-hide="isNewConcept">
+							<span class="cl-icon cl-icon-white cl-icon-med cl-icon-workflow-create"></span>
+							Convert to Content
+						</button>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="panel panel-default panel-collaborators">
+						<div class="panel-heading">Collaborators</div>
+						<div class="panel-body">
+							<ul class="concept-collaborators">
+								<li ng-repeat="c in concept.collaborators">
+									<span class="user-image user-image-medium" ng-style="{ 'background-image': c.image }"></span>
+									{{ c.name }}
+								</li>
+							</ul>
+						</div>
+						<div class="panel-footer">
+							<button type="button" class="btn btn-default btn-add-collaborator">
+								<span class="fa fa-plus"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+			<div class="panel panel-default discussion-panel">
+				<div class="panel-heading">Discussion</div>
+				<div class="panel-body">
+					Panel content
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

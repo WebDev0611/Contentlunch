@@ -57,13 +57,21 @@
 						controller: 'CreateController',
 						templateUrl: '/assets/views/create.html'
 					})
-					.when('/create/concept/create', {
-						controller: 'ConceptController',
-						templateUrl: '/assets/views/concept.html'
+					.when('/create/concept/create/content', {
+						controller: 'ContentConceptController',
+						templateUrl: '/assets/views/content-concept.html'
 					})
-					.when('/create/concept/edit/:conceptId', {
-						controller: 'ConceptController',
-						templateUrl: '/assets/views/concept.html'
+					.when('/create/concept/create/campaign', {
+						controller: 'CampaignConceptController',
+						templateUrl: '/assets/views/campaign-concept.html'
+					})
+					.when('/create/concept/edit/content/:conceptId', {
+						controller: 'ContentConceptController',
+						templateUrl: '/assets/views/content-concept.html'
+					})
+					.when('/create/concept/edit/campaign/:conceptId', {
+						controller: 'CampaignConceptController',
+						templateUrl: '/assets/views/campaign-concept.html'
 					})
 					.when('/create/content/create', {
 						controller: 'ContentController',

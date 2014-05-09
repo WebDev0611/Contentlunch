@@ -3,6 +3,8 @@
 		USER_KEY: 'USER_KEY',
 		ACCOUNT_KEY: 'ACCOUNT_KEY',
 		AUTHENTICATED_KEY: 'AUTHENTICATED_KEY',
+		CONTENT_TYPES_KEY: 'CONTENT_TYPES_KEY',
+		ACCOUNT_USERS_KEY: 'ACCOUNT_USERS_KEY',
 		get: function(key) {
 			return sessionStorage.getItem(key);
 		},

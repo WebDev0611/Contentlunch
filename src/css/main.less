@@ -305,8 +305,9 @@ header {
 		.select2-choice {
 			height: 34px;
 
-			.select2-chosen {
+			.select2-chosen, .select2-arrow {
 				height: 100%;
+				line-height: 28px;
 
 				>* {
 					vertical-align: middle;
@@ -1081,6 +1082,25 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 		.btn-group {
 			margin-top: 12px;
+
+			&.add-content {
+				.btn, ul {
+					width: 100%;
+				}
+
+				.btn {
+					background-color: #000000;
+					color: #ffffff;
+					position: relative;
+
+					.caret {
+						display: inline-block;
+						position: absolute;
+						right: 16px;
+						top: 16px;
+					}
+				}
+			}
 		}
 
 		.panel-group {
@@ -1233,14 +1253,9 @@ span[class^="icon-"], span[class*=" icon-"] {
 		}
 
 		.concept-container {
-			.form-group{
+			.form-group {
 				max-width: 300px;
 				vertical-align: bottom;
-			}
-
-			.btn-create {
-				background-color: @createColor;
-				color: #ffffff;
 			}
 		}
 
@@ -1281,6 +1296,11 @@ span[class^="icon-"], span[class*=" icon-"] {
 				vertical-align: middle;
 			}
 		}
+
+		.btn-black {
+			background-color: #000000;
+			color: #ffffff;
+		}
 	}
 }
 
@@ -1299,6 +1319,14 @@ span[class^="icon-"], span[class*=" icon-"] {
 			.select2-search-field {
 				input[type="text"] {
 					height: auto !important;
+				}
+			}
+		}
+
+		.select2-choice {
+			.select2-arrow {
+				b {
+					background: url(/assets/images/select2.png) no-repeat 0 4px;
 				}
 			}
 		}
@@ -1395,4 +1423,14 @@ span[class^="icon-"], span[class*=" icon-"] {
 .dont-know-link {
   text-decoration: underline;
   margin-left: 10px;
+}
+
+.btn-create {
+	background-color: @createColor;
+	color: #ffffff;
+}
+
+.btn-collaborate {
+	background-color: @collaborateColor;
+	color: #ffffff;
 }

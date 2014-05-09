@@ -123,6 +123,9 @@
 .cl-icon-workflow-archive {
   background-image: url(/assets/images/archive.svg);
 }
+.cl-icon-workflow-collaborate {
+  background-image: url(/assets/images/collaborate.svg);
+}
 .cl-icon-content-type-blog-post {
   background-image: url(/assets/images/blogger.svg);
 }
