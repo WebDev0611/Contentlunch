@@ -41,6 +41,11 @@ return [
     'secret' => 'EpLWyw4wv73LyW57',
     'scope' => ['r_basicprofile']
   ],
+  'salesforce' => [
+    'key' => '3MVG9xOCXq4ID1uGOu_IgyQS3vy6F.y8t87aMawqYJRUJPhv1n1efppn5h4B0_ZxPDFf8WPoEdq9gWVj4W0rp',
+    'secret' => '8067118373531747124',
+    'scope' => ['api']
+  ],
   'wordpress' => [
     'key' => '34902',
     'secret' => 'enngUSOLGj7kZCb6hbNH7vk3CgUjoi3pdBMX3Rkckqmx6tJGdujLCyTSCnRNt5ld',

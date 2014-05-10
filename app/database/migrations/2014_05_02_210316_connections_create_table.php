@@ -27,6 +27,7 @@ class ConnectionsCreateTable extends Migration {
       ['Google +', 'google', 'content'],
 			['Hubspot', 'hubspot', 'content'],
 			['Linkedin', 'linkedin', 'content'],
+      ['Salesforce', 'salesforce', 'content'],
 			['Wordpress', 'wordpress', 'content'],
 			['SEO Ultimate', 'seo-ultimate', 'seo'],
 			['Sales Machine', 'sales-machine', 'seo']

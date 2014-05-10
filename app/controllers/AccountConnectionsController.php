@@ -37,6 +37,7 @@ class AccountConnectionsController extends BaseController {
     $storage = new OAuthSession;
     $serviceFactory = new ServiceFactory;
     $serviceFactory->registerService('wordpress', 'WordpressService');
+    $serviceFactory->registerService('salesforce', 'SalesforceService');
     $service = $serviceFactory->createService($provider, $credentials, $storage, $serviceConfig['scope']);
     return $service;
   }
