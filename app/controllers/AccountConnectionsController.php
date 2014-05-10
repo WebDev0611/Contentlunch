@@ -1,11 +1,6 @@
 <?php
 
-use OAuth\Common\Consumer\Credentials;
-use OAuth\Common\Http\Client\StreamClient;
-use OAuth\Common\Storage\Session as OAuthSession;
-use OAuth\ServiceFactory;
-use OAuth\OAuth2\Service\Linkedin;
-use Launch\OAuth\Service\Wordpress;
+use Launch\OAuth\Service\ServiceFactory;
 
 class AccountConnectionsController extends BaseController {
 
@@ -15,31 +10,6 @@ class AccountConnectionsController extends BaseController {
       return $this->responseAccessDenied();
     }
     return AccountConnection::doQuery($accountID, Input::get('type'));
-  }
-
-  protected function setupOAuthService($provider)
-  {
-    // Will be different based on environment
-    switch (app()->environment()) {
-      case 'staging':
-        $redirectURL = 'http://staging.contentlaunch.surgeforward.com/api/add-connection';
-      break;
-      default:
-        $redirectURL = 'http://localhost:8080/api/add-connection';
-        //$redirectURL = 'http://local.contentlaunch.com/api/add-connection';
-    }
-    $serviceConfig = Config::get('services.'. $provider);
-    $credentials = new Credentials(
-      $serviceConfig['key'],
-      $serviceConfig['secret'],
-      $redirectURL
-    );
-    $storage = new OAuthSession;
-    $serviceFactory = new ServiceFactory;
-    $serviceFactory->registerService('wordpress', 'WordpressService');
-    $serviceFactory->registerService('salesforce', 'SalesforceService');
-    $service = $serviceFactory->createService($provider, $credentials, $storage, $serviceConfig['scope']);
-    return $service;
   }
 
   /**
@@ -56,10 +26,10 @@ class AccountConnectionsController extends BaseController {
       return $this->responseError("Unable to find connection");
     }
     // Set the connection type in the SESSION
-    Session::set('connection_id', $connection->id);
-    Session::set('account_id', $accountID);
-    $service = $this->setupOAuthService($connection->provider);
-    return Redirect::away( (string) $service->getAuthorizationUri());
+    Session::put('connection_id', $connection->id);
+    Session::put('account_id', $accountID);
+    $service = new ServiceFactory($connection->provider);
+    return Redirect::away($service->getAuthorizationUri());
   }
 
   /**
@@ -79,14 +49,8 @@ class AccountConnectionsController extends BaseController {
     if ( ! $connection) {
       return $this->responseError("Unable to find connection");
     }
-    $service = $this->setupOAuthService($connection->provider);
-    $settings = [];
-    switch ($connection->provider) {
-      default:
-        $settings = Input::all();
-        $state = Input::has('state') ? Input::get('state') : null;
-        $settings['token'] = $service->requestAccessToken(Input::get('code'), $state);
-    }
+    $service = new ServiceFactory($connection->provider);
+    $settings = $service->getCallbackData();
     $connect = new AccountConnection;
     $connect->account_id = $accountID;
     $connect->connection_id = $connectionID;
