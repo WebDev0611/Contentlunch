@@ -1,5 +1,12 @@
 <?php
 
+use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Http\Client\StreamClient;
+use OAuth\Common\Storage\Session as OAuthSession;
+use OAuth\ServiceFactory;
+use OAuth\OAuth2\Service\Linkedin;
+use Launch\OAuth\Service\Wordpress;
+
 class AccountConnectionsController extends BaseController {
 
   public function index($accountID)
@@ -8,6 +15,29 @@ class AccountConnectionsController extends BaseController {
       return $this->responseAccessDenied();
     }
     return AccountConnection::doQuery($accountID, Input::get('type'));
+  }
+
+  protected function setupOAuthService($provider)
+  {
+    // Will be different based on environment
+    switch (app()->environment()) {
+      case 'staging':
+        $redirectURL = 'http://staging.contentlaunch.surgeforward.com/api/add-connection';
+      break;
+      default:
+        $redirectURL = 'http://local.contentlaunch.com/api/add-connection';
+    }
+    $serviceConfig = Config::get('services.'. $provider);
+    $credentials = new Credentials(
+      $serviceConfig['key'],
+      $serviceConfig['secret'],
+      $redirectURL
+    );
+    $storage = new OAuthSession;
+    $serviceFactory = new ServiceFactory;
+    $serviceFactory->registerService('wordpress', 'WordpressService');
+    $service = $serviceFactory->createService($provider, $credentials, $storage, $serviceConfig['scope']);
+    return $service;
   }
 
   /**
@@ -19,46 +49,15 @@ class AccountConnectionsController extends BaseController {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    // Which connection are we adding?
     $connection = Connection::find(Input::get('connection_id'));
     if ( ! $connection) {
       return $this->responseError("Unable to find connection");
     }
-    // Url the provider will redirect back to
     // Set the connection type in the SESSION
     Session::set('connection_id', $connection->id);
     Session::set('account_id', $accountID);
-    // Will be different based on environment
-    switch (app()->environment()) {
-      case 'staging':
-        $redirectURL = 'http://staging.contentlaunch.surgeforward.com/api/add-connection';
-      break;
-      default:
-        $redirectURL = 'http://local.contentlaunch.com/api/add-connection';
-    }
-
-    switch ($connection->provider) {
-      case 'linkedin':
-        $params = [
-          'response_type' => 'code',
-          'client_id' => Config::get('app.connections.linkedin.api_key'),
-          'state' => uniqid(),
-          'redirect_uri' => $redirectURL
-        ];
-        $url = 'https://www.linkedin.com/uas/oauth2/authorization?'. http_build_query($params);
-        return Redirect::to($url);
-      break;
-    }
-    /*
-    case 'HUBSPOT':
-          url = 'https://app.hubspot.com/auth/authenticate/?client_id=' + launch.config.HUBSPOT_API_KEY +
-            '&portalId=' + '175282' + // TODO: HOW DO WE USE THIS PORTAL ID???
-            '&redirect_uri=' + encodeURI('http://local.contentlaunch.cself.loggedInUser.account.idom/account/connections');
-          break;
-        case 'WORDPRESS':
-          url = 'https://public-api.wordpress.com/oauth2/authorize?client_id=' + launch.config.WORDPRESS_API_KEY +
-            '&redirect_uri=' + encodeURIComponent('http://local.contentlaunch.com/account/connections') + '&response_type=code';
-    */
+    $service = $this->setupOAuthService($connection->provider);
+    header("Location: ". $service->getAuthorizationUri());
   }
 
   /**
@@ -78,12 +77,13 @@ class AccountConnectionsController extends BaseController {
     if ( ! $connection) {
       return $this->responseError("Unable to find connection");
     }
+    $service = $this->setupOAuthService($connection->provider);
     $settings = [];
     switch ($connection->provider) {
-      case 'linkedin':
-        $settings['code'] = Input::get('code');
-        $settings['state'] = Input::get('state');
-      break;
+      default:
+        $settings = Input::all();
+        $state = Input::has('state') ? Input::get('state') : null;
+        $settings['token'] = $service->requestAccessToken(Input::get('code'), $state);
     }
     $connect = new AccountConnection;
     $connect->account_id = $accountID;
@@ -94,7 +94,7 @@ class AccountConnectionsController extends BaseController {
     if ($connect->save()) {
       return Redirect::to('/account/connections');
     }
-    return array('Error saving connection');
+    return ['Error saving connection'];
   }
 
   public function show($accountID, $accountConnectID)
@@ -124,7 +124,7 @@ class AccountConnectionsController extends BaseController {
     }
     $connection = AccountConnection::find($accountConnectID);
     if ($connection->delete()) {
-      return array('status' => 'OK');
+      return ['status' => 'OK'];
     }
     return $this->responseError("Unable to delete connection");
   }

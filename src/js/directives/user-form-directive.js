@@ -6,6 +6,11 @@
 
 		self.init = function () {
 			self.loggedInUser = AuthService.userInfo();
+      if (!self.loggedInUser.role.isGlobalAdmin) {
+        scope.roles = RoleService.query(self.loggedInUser.account.id);
+      } else {
+        scope.roles = RoleService.query();
+      }
 		};
 
 		self.discardChanges = function (form) {
@@ -292,23 +297,6 @@
 
 			scope.canEditUser = (scope.selfEditing || self.loggedInUser.hasPrivilege('settings_edit_profiles'));
 
-			if (!!scope.selectedUser) {
-				var setRoles = function () {
-					if (!self.loggedInUser.role.isGlobalAdmin) {
-						scope.roles = RoleService.query(self.loggedInUser.account.id);
-					} else {
-						scope.roles = scope.selectedUser.roles;
-					}
-				};
-
-				if (scope.selectedUser.$resolved) {
-					setRoles();
-				} else {
-					scope.selectedUser.$promise.then(function (u) {
-						setRoles();
-					});
-				}
-			}
 		});
 
 		self.init();

@@ -71,6 +71,16 @@ class BaseController extends Controller {
     return Entrust::hasRole($roleName);
   }
 
+  protected function hasPermission($permission)
+  {
+    $user = Confide::user();
+    $user = User::with('roles')->find($user->id);
+    if ($user) {
+      return $user->can($permission);
+    }
+    return false;
+  }
+
   protected function inAccount($accountId)
   {
     if ($this->hasRole('global_admin')) {

@@ -22,6 +22,7 @@ class ConnectionsCreateTable extends Migration {
 
 		// Add connections
 		foreach ([
+      ['Facebook', 'facebook', 'content'],
 			['Hubspot', 'hubspot', 'content'],
 			['Linkedin', 'linkedin', 'content'],
 			['Wordpress', 'wordpress', 'content'],

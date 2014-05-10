@@ -16,6 +16,11 @@ class Role extends EntrustRole
 		'display_name' => 'required|unique:roles,display_name,NULL,id,account_id,NULL'
 	);
 
+  public function perms()
+  {
+    return $this->belongsToMany('Permission');
+  }
+
 	/**
 	 * Get a role model by name
 	 *

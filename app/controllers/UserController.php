@@ -51,7 +51,8 @@ class UserController extends BaseController {
 	public function store()
 	{
 		// Restrict to create_new_user permission
-		if ( ! $this->hasAbility(array(), array('settings_execute_users'))) {
+		if ( ! $this->hasPermission('settings_execute_users')) {
+      return 'user not has ability';
 			return $this->responseAccessDenied();
 		}
 		$user = new User;
@@ -106,6 +107,7 @@ class UserController extends BaseController {
 		} else {
 			$user->modules = [];
 		}
+    
 		if (isset($user->roles[0])) {
 			$role = Role::find($user->roles[0]->id);
 			// Site admin has all permissions

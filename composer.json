@@ -16,7 +16,8 @@
     "zizaco/entrust": "dev-master",
     "andrew13/cabinet": "dev-master",
     "summerstreet/woodling": "dev-master",
-    "balanced/balanced": "1.x"
+    "balanced/balanced": "1.x",
+    "lusitanian/oauth": "~0.3"
 	},
 	"autoload": {
 		"classmap": [

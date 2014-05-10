@@ -4,6 +4,7 @@
 	MIN_PASSWORD_LENGTH: 8,
 	EMAIL_ADDRESS_REGEX: /^([a-zA-Z0-9_!#%='`\-\.\$~\&\*\+\-\/\?\^\{\|\}]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/,
 	CONNECTION_PROVIDERS: [
+    { name: 'facebook', title: 'Facebook' },
 		{ name: 'hubspot', title: 'Hubspot' },
 		{ name: 'linkedin', title: 'LinkedIn' },
 		{ name: 'wordpress', title: 'Wordpress' }
