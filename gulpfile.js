@@ -241,5 +241,5 @@ gulp.task('watch', function() {
 
 // Run clean task first as dependency
 gulp.task('default', ['clean'], function () {
-	gulp.start('styles-bootstrap', 'map-bootstrap', 'bootstrap-components-css', 'styles-angular-ui', 'tinymce-css', 'tinymce-fonts', 'tinymce-images', 'less', 'tinymce-scripts', 'scripts', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff', 'fonts-otf');
+	gulp.start('styles-bootstrap', 'map-bootstrap', 'bootstrap-components-css', 'styles-angular-ui', 'tinymce-scripts', 'tinymce-css', 'tinymce-fonts', 'tinymce-images', 'less', 'tinymce-scripts', 'scripts', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff', 'fonts-otf');
 });

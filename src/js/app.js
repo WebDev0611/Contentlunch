@@ -57,13 +57,21 @@
 						controller: 'CreateController',
 						templateUrl: '/assets/views/create.html'
 					})
-					.when('/create/concept/create', {
-						controller: 'ConceptController',
-						templateUrl: '/assets/views/concept.html'
+					.when('/create/concept/create/content', {
+						controller: 'ContentConceptController',
+						templateUrl: '/assets/views/content-concept.html'
 					})
-					.when('/create/concept/edit/:conceptId', {
-						controller: 'ConceptController',
-						templateUrl: '/assets/views/concept.html'
+					.when('/create/concept/create/campaign', {
+						controller: 'CampaignConceptController',
+						templateUrl: '/assets/views/campaign-concept.html'
+					})
+					.when('/create/concept/edit/content/:conceptId', {
+						controller: 'ContentConceptController',
+						templateUrl: '/assets/views/content-concept.html'
+					})
+					.when('/create/concept/edit/campaign/:conceptId', {
+						controller: 'CampaignConceptController',
+						templateUrl: '/assets/views/campaign-concept.html'
 					})
 					.when('/create/content/create', {
 						controller: 'ContentController',
@@ -115,7 +123,7 @@
 
 				var interceptor = [
 					'$location', '$q', function($location, $q) {
-						var success = function (r) {
+						var success = function(r) {
 							return r;
 						}
 
@@ -139,16 +147,16 @@
 			}
 		])
 		.run([
-			'$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService', function ($rootScope, $location, userService, authService, notificationService) {
+			'$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService', function($rootScope, $location, userService, authService, notificationService) {
 				var path = $location.path();
 
-        var fetchCurrentUser = function (r) {
-          if (!r.id && $location.path() !== '/login') {
-            $location.path('/login').search('path', path);
-          }
-        };
+				var fetchCurrentUser = function(r) {
+					if (!r.id && $location.path() !== '/login') {
+						$location.path('/login').search('path', path);
+					}
+				};
 
-				$rootScope.$on('$routeChangeStart', function (event, next, current) {
+				$rootScope.$on('$routeChangeStart', function(event, next, current) {
 					// TODO: VALIDATE THAT THE USER IS ALLOWED TO VIEW THE PAGE THEY ARE REQUESTING!! IF NOT, SHOW A WARNING OR ERROR AND REDIRECT TO HOME!!
 					//			THIS MAY BE BETTER TO DO IN EACH CONTROLLER, HOWEVER?
 					if ($location.path() === '/login') {
@@ -158,9 +166,9 @@
 					} else if ($location.path().indexOf('/user/confirm') === 0) {
 
 					} else if (!authService.isLoggedIn()) {
-            authService.fetchCurrentUser({
-              success: fetchCurrentUser
-            });
+						authService.fetchCurrentUser({
+							success: fetchCurrentUser
+						});
 					}
 				});
 

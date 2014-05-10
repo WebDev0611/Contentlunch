@@ -105,6 +105,9 @@
 .cl-icon-workflow-create {
   background-image: url(/assets/images/create-black.png);
 }
+.cl-icon-workflow-create.cl-icon-white {
+  background-image: url(/assets/images/create.svg);
+}
 .cl-icon-workflow-edit {
   background-image: url(/assets/images/edit.png);
 }
@@ -119,6 +122,9 @@
 }
 .cl-icon-workflow-archive {
   background-image: url(/assets/images/archive.svg);
+}
+.cl-icon-workflow-collaborate {
+  background-image: url(/assets/images/collaborate.svg);
 }
 .cl-icon-content-type-blog-post {
   background-image: url(/assets/images/blogger.svg);

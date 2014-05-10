@@ -1,4 +1,4 @@
-launch.module.factory('UserService', function ($resource, $upload, AccountService, ModelMapperService) {
+launch.module.factory('UserService', function ($resource, $upload, AccountService, ModelMapperService, SessionService) {
 	var users = $resource('/api/user/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.user.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
@@ -18,11 +18,29 @@ launch.module.factory('UserService', function ($resource, $upload, AccountServic
 
 			return users.query(null, success, error);
 		},
-		getForAccount: function(id, callback) {
+		getForAccount: function(id, callback, forceRefresh) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+			var accountUserItems = null;
 
-			return accountUsers.get({ id: id }, success, error);
+			if (!forceRefresh) {
+				accountUserItems = SessionService.get(SessionService.ACCOUNT_USERS_KEY);
+
+				if (!launch.utils.isBlank(accountUserItems)) {
+					accountUserItems = JSON.parse(accountUserItems);
+
+					return $.map(accountUserItems, function (u) {
+						return ModelMapperService.user.fromCache(u);
+					});
+				}
+			}
+
+			accountUserItems = accountUsers.get({ id: id }, function (r) {
+				SessionService.set(SessionService.ACCOUNT_USERS_KEY, JSON.stringify(accountUserItems));
+				success(r);
+			}, error);
+
+			return accountUserItems;
 		},
 		getByRole: function(roles, callback) {
 			if (!roles) {

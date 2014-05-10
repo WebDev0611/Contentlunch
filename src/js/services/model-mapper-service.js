@@ -1279,6 +1279,7 @@
 
 			content.id = parseInt(dto.id);
 			content.title = dto.title;
+			content.description = dto.description;
 			content.campaign = dto.campaign;
 			content.contentType = dto.contentType;
 			content.author = dto.author;
@@ -1291,6 +1292,62 @@
 			return content;
 		},
 		toDto: function (content) { }
+	};
+
+	self.concept = {
+		parseResponse: function (r, getHeaders) {
+			if (launch.utils.isBlank(r)) {
+				return null;
+			}
+
+			var dto = JSON.parse(r);
+
+			if (!!dto.error || !!dto.errors) {
+				return dto;
+			}
+
+			if ($.isArray(dto)) {
+				var concepts = [];
+
+				$.each(dto, function (index, concept) {
+					concepts.push(self.concept.fromDto(concept));
+				});
+
+				return concepts;
+			}
+
+			if ($.isPlainObject(dto)) {
+				return self.concept.fromDto(dto);
+			}
+
+			return null;
+		},
+		formatRequest: function (concept) {
+			return JSON.stringify(self.concept.toDto(concept));
+		},
+		fromDto: function (dto) {
+			//if (launch.utils.isBlank(dto.id)) {
+			//	return null;
+			//}
+
+			var concept = new launch.Concept();
+
+			concept.id = parseInt(dto.id);
+			concept.title = dto.title;
+			concept.conceptType = dto.conceptType;
+			concept.contentType = dto.contentType;
+			concept.description = dto.description;
+			concept.campaign = dto.campaign;
+			concept.creator = {
+				id: dto.author.id,
+				name: dto.author.name,
+				image: dto.author.image
+			};
+			concept.collaborators = dto.collaborators;
+
+			return concept;
+		},
+		toDto: function (concept) { }
 	};
 
 	self.contentType = {
