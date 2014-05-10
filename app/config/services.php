@@ -1,6 +1,24 @@
 <?php
 
+
+
+/*
+  case 'HUBSPOT':
+          url = 'https://app.hubspot.com/auth/authenticate/?client_id=' + launch.config.HUBSPOT_API_KEY +
+            '&portalId=' + '175282' + // TODO: HOW DO WE USE THIS PORTAL ID???
+            '&redirect_uri=' + encodeURI('http://local.contentlaunch.cself.loggedInUser.account.idom/account/connections');
+          break;
+        case 'WORDPRESS':
+          url = 'https://public-api.wordpress.com/oauth2/authorize?client_id=' + launch.config.WORDPRESS_API_KEY +
+            '&redirect_uri=' + encodeURIComponent('http://local.contentlaunch.com/account/connections') + '&response_type=code';
+*/
+
 return [
+  'dropbox' => [
+    'key' => '379fuhe952gx0ho',
+    'secret' => '56b7243xrr4ww6u',
+    'scope' => []
+  ],
   'facebook' => [
     'key' => '207404499314444',
     'secret' => 'aa020dedfa881a0938ad157e48045c2b',
@@ -23,14 +41,3 @@ return [
     'scope' => [],
   ]
 ];
-
-/*
-  case 'HUBSPOT':
-          url = 'https://app.hubspot.com/auth/authenticate/?client_id=' + launch.config.HUBSPOT_API_KEY +
-            '&portalId=' + '175282' + // TODO: HOW DO WE USE THIS PORTAL ID???
-            '&redirect_uri=' + encodeURI('http://local.contentlaunch.cself.loggedInUser.account.idom/account/connections');
-          break;
-        case 'WORDPRESS':
-          url = 'https://public-api.wordpress.com/oauth2/authorize?client_id=' + launch.config.WORDPRESS_API_KEY +
-            '&redirect_uri=' + encodeURIComponent('http://local.contentlaunch.com/account/connections') + '&response_type=code';
-*/

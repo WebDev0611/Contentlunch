@@ -25,7 +25,8 @@ class AccountConnectionsController extends BaseController {
         $redirectURL = 'http://staging.contentlaunch.surgeforward.com/api/add-connection';
       break;
       default:
-        $redirectURL = 'http://local.contentlaunch.com/api/add-connection';
+        $redirectURL = 'http://localhost:8080/api/add-connection';
+        //$redirectURL = 'http://local.contentlaunch.com/api/add-connection';
     }
     $serviceConfig = Config::get('services.'. $provider);
     $credentials = new Credentials(
@@ -57,7 +58,7 @@ class AccountConnectionsController extends BaseController {
     Session::set('connection_id', $connection->id);
     Session::set('account_id', $accountID);
     $service = $this->setupOAuthService($connection->provider);
-    header("Location: ". $service->getAuthorizationUri());
+    return Redirect::away( (string) $service->getAuthorizationUri());
   }
 
   /**

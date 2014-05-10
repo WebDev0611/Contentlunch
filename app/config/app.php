@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -78,7 +78,7 @@ return array(
 	|
 	*/
 
-	'providers' => array(
+	'providers' => [
 
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
@@ -111,7 +111,7 @@ return array(
     'Zizaco\Entrust\EntrustServiceProvider',
     'Andrew13\Cabinet\CabinetServiceProvider',
 
-	),
+	],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -137,7 +137,7 @@ return array(
 	|
 	*/
 
-	'aliases' => array(
+	'aliases' => [
 
 		'App'             => 'Illuminate\Support\Facades\App',
 		'Artisan'         => 'Illuminate\Support\Facades\Artisan',
@@ -183,10 +183,10 @@ return array(
 
     'WordpressService' => 'Launch\OAuth\Service\Wordpress',
 
-	),
+	],
 
 	'balanced' => [
 		'api_key_secret' => 'ak-test-2b1tOVFkmQZkf4colkOw6BIPfeCMBBJg4'
 	]
   
-);
+];
