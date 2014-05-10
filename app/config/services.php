@@ -19,11 +19,17 @@ return [
     'secret' => '56b7243xrr4ww6u',
     'scope' => []
   ],
+  // https://developers.facebook.com/docs/facebook-login/permissions/v2.0
   'facebook' => [
     'key' => '207404499314444',
     'secret' => 'aa020dedfa881a0938ad157e48045c2b',
-    // https://developers.facebook.com/docs/facebook-login/permissions/v2.0
     'scope' => ['email'],
+  ],
+  // https://developers.google.com/+/api/oauth
+  'google' => [
+    'key' => '105997751893-s34v4dmp7rauav72146qigpg94jnu83a.apps.googleusercontent.com',
+    'secret' => 'qSM5V2SgkYx2iUMJy0oBDo_w',
+    'scope' => ['userinfo_email', 'userinfo_profile']
   ],
   'hubspot' => [
     'key' => 'b5badda1-cb0e-11e3-bd85-131c19601838',
