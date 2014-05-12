@@ -477,7 +477,7 @@
 	formatDateTime: function(date) {
 		date = new Date(date);
 
-		var dateString = formatDate(date);
+		var dateString = launch.utils.formatDate(date);
 		var hr = date.getHours();
 		var mi = date.getMinutes();
 		var ap = hr > 11 ? 'PM' : 'AM';

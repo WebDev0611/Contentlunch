@@ -1344,6 +1344,7 @@
 				image: dto.author.image
 			};
 			concept.collaborators = dto.collaborators;
+			concept.discussion = $.map(dto.content_comments, self.comment.fromDto);
 
 			return concept;
 		},
@@ -1386,6 +1387,28 @@
 			contentType.title = dto.name;
 
 			return contentType;
+		}
+	};
+
+	self.comment = {
+		fromDto: function(dto) {
+			var comment = new launch.Comment();
+
+			comment.id = parseInt(dto.id);
+			comment.commentor = {
+				id: parseInt(dto.user.id),
+				name: dto.user.name,
+				image: dto.user.image
+			};
+			comment.comment = dto.comment;
+			comment.commentDate = launch.utils.formatDateTime(dto.timestamp);
+			comment.contentId = parseInt(dto.content_id);
+			comment.contentType = null;
+
+			return comment;
+		},
+		toDto: function(comment) {
+			
 		}
 	};
 

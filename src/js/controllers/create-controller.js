@@ -202,6 +202,10 @@
 			return '<span class="user-image user-image-small"' + style + '></span> <span>' + item.text + '</span>';
 		};
 
+		$scope.formatWorkflowTitle = function(item) {
+			return launch.utils.titleCase(item.name);
+		};
+
 		$scope.formatDate = function (date) {
 			return launch.utils.formatDate(date);
 		};
