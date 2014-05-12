@@ -7,7 +7,9 @@
 			<div class="concept-editor row">
 				<div class="col-md-9">
 					<h2>
-						Create Content Concept
+						<span ng-show="isNewConcept">Create</span>
+						<span ng-hide="isNewConcept">Edit</span>
+						Concept
 						<span class="cl-icon cl-icon-large cl-icon-workflow-concept"></span>
 					</h2>
 				
@@ -40,60 +42,40 @@
 								</select>
 							</div>
 
-							<div class="form-group" ng-class="{ 'has-error': hasError(concept, 'creator.id', editConcept.selCreator, forceDirty) }">
+							<div class="form-group" ng-class="{ 'has-error': hasError(concept, 'creator', editConcept.selCreator, forceDirty) }">
 								<label class="control-label" for="selCreator">Content Creator</label>
 								<select name="selCreator" id="selCreator"
 										ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="concept.creator.id"
-										data-placeholder="Select Content Creator" error-message message="errorMessage(concept, 'creator.id', editConcept.selCreator)">
-									<option ng-repeat="u in users" value="{{ u.id }}" ng-selected="u.id === concept.creator.id">{{ u.formatName() }}</option>
+										data-placeholder="Select Content Creator" error-message message="errorMessage(concept, 'creator', editConcept.selCreator)">
+									<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
 								</select>
 							</div>
 						</div>
 					
-						<div class="control-group">
+						<div class="control-group" ng-class="{ 'has-error': hasError(concept, 'description', editConcept.txtConceptDesc, forceDirty) }">
 							<label class="control-label" for="txtConceptDesc">Description</label>
-							<textarea id="txtConceptDesc" rich-text-editor ng-model="concept.description"></textarea>
+							<textarea name="txtConceptDesc" id="txtConceptDesc" rich-text-editor ng-model="concept.description"
+								error-message message="errorMessage(concept, 'description', editConcept.txtConceptDesc)"></textarea>
 						</div>
 
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="">Save</button>
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveConcept()">Save</button>
 					
-						<button type="button" class="btn btn-lg btn-collaborate" ng-click="" ng-show="showCollaborate">
+						<button type="button" class="btn btn-lg btn-collaborate" ng-click="viewInCollaborate()" ng-show="showCollaborate">
 							<span class="cl-icon cl-icon-white cl-icon-med cl-icon-workflow-collaborate"></span>
 							View in Collaborate
 						</button>
 					
-						<button type="button" class="btn btn-lg btn-create" ng-hide="isNewConcept">
+						<button type="button" class="btn btn-lg btn-create" ng-click="convertConcept()" ng-hide="isNewConcept">
 							<span class="cl-icon cl-icon-white cl-icon-med cl-icon-workflow-create"></span>
 							Convert to Content
 						</button>
 					</div>
 				</div>
-				<div class="col-md-3">
-					<div class="panel panel-default panel-collaborators">
-						<div class="panel-heading">Collaborators</div>
-						<div class="panel-body">
-							<ul class="concept-collaborators">
-								<li ng-repeat="c in concept.collaborators">
-									<span class="user-image user-image-medium" ng-style="{ 'background-image': c.image }"></span>
-									{{ c.name }}
-								</li>
-							</ul>
-						</div>
-						<div class="panel-footer">
-							<button type="button" class="btn btn-default btn-add-collaborator">
-								<span class="fa fa-plus"></span>
-							</button>
-						</div>
-					</div>
+				<div class="col-md-3" collaborator-sidebar collaborators="concept.collaborators" users="users">
 				</div>
 			</div>
-		
-			<div class="panel panel-default discussion-panel">
-				<div class="panel-heading">Discussion</div>
-				<div class="panel-body">
-					Panel content
-				</div>
-			</div>
+
+			<div ng-hide="isNewConcept" discussion-panel discussion="concept.discussion" item-id="concept.id" item-type="concept.conceptType"></div>
 		</form>
 	</div>
 </div>

@@ -1,0 +1,18 @@
+﻿<div class="panel panel-default discussion-panel">
+	<div class="panel-heading">Discussion</div>
+	<div class="panel-body">
+		<div class="row" ng-repeat="c in discussion">
+			<div class="col-md-2">
+				<span class="user-image user-image-small" ng-style="{ 'background-image': c.commentor.image }"></span>
+				{{ c.commentor.name }}
+			</div>
+			<div class="col-md-8 well">{{ c.comment }}</div>
+			<div class="col-md-2">{{ c.commentDate }}</div>
+		</div>
+	</div>
+	<div class="panel-footer">
+		<textarea rows="3" ng-model="newComment"></textarea>
+		
+		<button type="button" class="btn btn-black btn-default" ng-click="addComment()">Send</button>
+	</div>
+</div>

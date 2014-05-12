@@ -273,24 +273,24 @@ header {
 	font-weight: bold;
 }
 
+.error-message {
+	color: #ff0000;
+}
+
+.has-error {
+	.form-control, .select2-container .select2-choice, .mce-panel {
+		border-color: #ff0000;
+	}
+}
+
+label {
+	.error-message {
+		float: right;
+	}
+}
+
 .form-group {
 	margin: 16px 0;
-
-	&.has-error {
-		.error-message {
-			color: #ff0000;
-		}
-
-		.form-control {
-			border-color: #ff0000;
-		}
-
-		label {
-			.error-message {
-				float: right;
-			}
-		}
-	}
 
 	.multi-select, .select2-container {
 		width: 100%;
@@ -1125,6 +1125,10 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 
 	.right-pane {
+		.user-image {
+			border-color: @createColor;
+		}
+
 		.right-pane-header {
 			background-color: @createColor;
 			border-bottom-color: #F1DDAF;
@@ -1261,6 +1265,30 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 		.discussion-panel {
 			margin: 0 15px;
+
+			.panel-footer {
+				background-color: #D7D7D7;
+				position: relative;
+				text-align: center;
+
+				textarea {
+					min-width: 300px;
+					width: 60%;
+				}
+
+				.btn {
+					position: absolute;
+					right: 50px;
+					top: 30px;
+				}
+			}
+
+			.panel-body{
+				.row{
+					border-bottom: dotted 3px #D7D7D7;
+					margin: 8px 16px;
+				}
+			}
 		}
 
 		.panel-collaborators {
@@ -1279,6 +1307,8 @@ span[class^="icon-"], span[class*=" icon-"] {
 		}
 
 		.panel {
+			background-color: #E4E4E4;
+
 			.panel-heading {
 				background-color: #000000;
 				color: #ffffff;
@@ -1287,6 +1317,23 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 			.panel-body {
 				background-color: #E4E4E4;
+
+				ul.concept-collaborators {
+					list-style: none;
+					margin: 16px 0;
+					padding: 0;
+
+					li {
+						position: relative;
+
+						.fa-trash-o {
+							cursor: pointer;
+							position: absolute;
+							right: 0;
+							top: 8px;
+						}
+					}
+				}
 			}
 
 			&.panel-user-info {

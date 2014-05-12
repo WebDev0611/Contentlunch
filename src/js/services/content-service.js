@@ -62,19 +62,19 @@
 
 			return (content.length === 1) ? content[0] : null;
 		},
-		update: function (content, callback) {
+		update: function (accountId, content, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return contentResource.update({ accountId: accountId, id: content.id }, content, success, error);
 		},
-		add: function (content, callback) {
+		add: function (accountId, content, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return contentResource.insert({ accountId: accountId }, success, error);
 		},
-		delete: function (content, callback) {
+		delete: function (accountId, content, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 

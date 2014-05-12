@@ -477,7 +477,7 @@
 	formatDateTime: function(date) {
 		date = new Date(date);
 
-		var dateString = formatDate(date);
+		var dateString = launch.utils.formatDate(date);
 		var hr = date.getHours();
 		var mi = date.getMinutes();
 		var ap = hr > 11 ? 'PM' : 'AM';
@@ -599,7 +599,9 @@
 			return null;
 		}
 
-		switch (contentType.toLowerCase()) {
+		var ct = (!launch.utils.isBlank(contentType.contentType)) ? contentType.contentType.toLowerCase() : contentType.toLowerCase();
+
+		switch (ct) {
 			case 'audio-recording':
 				return 'fa fa-volume-up';
 			case 'blog-post':
@@ -653,7 +655,9 @@
 			return null;
 		}
 
-		switch (stage.toLowerCase()) {
+		var cs = (!!stage.currentStep && !launch.utils.isBlank(stage.currentStep.name)) ? stage.currentStep.name.toLowerCase() : stage.toLowerCase();
+
+		switch (cs) {
 			case 'concept':
 				return 'cl-icon cl-icon-workflow-concept';
 			case 'create':
@@ -671,5 +675,21 @@
 			default:
 				return 'fa fa-question';
 		}
+	},
+
+	formatContentTypeItem: function(item, element, context) {
+		return '<span class="' + launch.utils.getContentTypeIconClass(item.id) + '"></span> <span>' + item.text + '</span>';
+	},
+
+	formatCampaignItem: function(item, element, context) {
+		return '<span class="campaign-dot campaign-dot-' + item.id + '"></span> <span>' + item.text + '</span>';
+	},
+
+	formatBuyingStageItem: function(item, element, context) {
+		return '<span class="cl-icon cl-icon-personas-' + item.id + '"></span> <span>' + item.text + '</span>';
+	},
+
+	formatMilestoneItem: function (item, element, context) {
+		return '<span class="' + launch.utils.getWorkflowIconCssClass(item.id) + '"></span> <span>' + item.text + '</span>';
 	}
 };
