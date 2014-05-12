@@ -1,5 +1,4 @@
 ﻿launch.module.directive('collaboratorSidebar', function ($modal, $window, $location) {
-
 	return {
 		templateUrl: '/assets/views/colloborator-sidebar.html',
 		scope: {
@@ -32,7 +31,6 @@
 					return c.id !== collaborator.id;
 				});
 			};
-
 		}
 	};
 });
