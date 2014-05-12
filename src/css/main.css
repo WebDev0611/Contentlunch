@@ -436,17 +436,19 @@ header .login-info .popover-menu .admin-menu li .glyphicon {
   color: #ff0000;
   font-weight: bold;
 }
-.form-group {
-  margin: 16px 0;
-}
-.form-group.has-error .error-message {
+.error-message {
   color: #ff0000;
 }
-.form-group.has-error .form-control {
+.has-error .form-control,
+.has-error .select2-container .select2-choice,
+.has-error .mce-panel {
   border-color: #ff0000;
 }
-.form-group.has-error label .error-message {
+label .error-message {
   float: right;
+}
+.form-group {
+  margin: 16px 0;
 }
 .form-group .multi-select,
 .form-group .select2-container {
@@ -1238,6 +1240,9 @@ span[class*=" icon-"].dark {
 .create .left-pane .panel-group .panel .panel-collapse .panel-body {
   border: none !important;
 }
+.create .right-pane .user-image {
+  border-color: #ffb503;
+}
 .create .right-pane .right-pane-header {
   background-color: #ffb503;
   border-bottom-color: #F1DDAF;
@@ -1365,6 +1370,20 @@ span[class*=" icon-"].dark {
 }
 .create .right-pane .panel .panel-body {
   background-color: #E4E4E4;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators {
+  list-style: none;
+  margin: 16px 0;
+  padding: 0;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li {
+  position: relative;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 8px;
 }
 .create .right-pane .panel.panel-user-info {
   font-weight: bold;

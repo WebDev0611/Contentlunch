@@ -273,24 +273,24 @@ header {
 	font-weight: bold;
 }
 
+.error-message {
+	color: #ff0000;
+}
+
+.has-error {
+	.form-control, .select2-container .select2-choice, .mce-panel {
+		border-color: #ff0000;
+	}
+}
+
+label {
+	.error-message {
+		float: right;
+	}
+}
+
 .form-group {
 	margin: 16px 0;
-
-	&.has-error {
-		.error-message {
-			color: #ff0000;
-		}
-
-		.form-control {
-			border-color: #ff0000;
-		}
-
-		label {
-			.error-message {
-				float: right;
-			}
-		}
-	}
 
 	.multi-select, .select2-container {
 		width: 100%;
@@ -1125,6 +1125,10 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 
 	.right-pane {
+		.user-image{
+			border-color: @createColor;
+		}
+
 		.right-pane-header {
 			background-color: @createColor;
 			border-bottom-color: #F1DDAF;
@@ -1287,6 +1291,23 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 			.panel-body {
 				background-color: #E4E4E4;
+
+				ul.concept-collaborators {
+					list-style: none;
+					margin: 16px 0;
+					padding: 0;
+
+					li {
+						position: relative;
+
+						.fa-trash-o {
+							cursor: pointer;
+							position: absolute;
+							right: 0;
+							top: 8px;
+						}
+					}
+				}
 			}
 
 			&.panel-user-info {

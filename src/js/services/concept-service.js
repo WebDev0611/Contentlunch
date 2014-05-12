@@ -9,20 +9,20 @@
 
 //TODO: GET RID OF THIS AND POPULATE CONCEPTS FROM API!!
 	var concepts = $.map([
-		{ id: 1, title: 'Audio Concept', campaign: { id: 0, index: 1 }, contentType: 'audio-recording', author: { id: 14, name: 'Pam Beasley', image: 'url(\'http://local.contentlaunch.com/packages/andrew13/cabinet/uploads/2014/05/01/GOPR0013%20(640x480).jpg\')' }, description: 'Sample audio recordig description', collaborators: [] },
-		{ id: 2, title: 'Blog Post Concept', campaign: { id: 0, index: 15 }, contentType: 'blog-post', author: { id: 15, name: 'Jim Halpert', image: null }, description: 'Sample blog post description', collaborators: [] },
-		{ id: 3, title: 'Case Study Concept', campaign: { id: 0, index: 2 }, contentType: 'case-study', author: { id: 16, name: 'Dwight Schrute', image: null }, description: 'Sample case study description', collaborators: [] },
-		{ id: 4, title: 'eBook Concept', campaign: { id: 0, index: 14 }, contentType: 'ebook', author: { id: 12, name: 'Site Admin', image: null }, description: 'Sample ebook description', collaborators: [] },
-		{ id: 5, title: 'eMail Concept', campaign: { id: 0, index: 3 }, contentType: 'email', author: { id: 13, name: 'Michael Scott', image: null }, description: 'Sample email description', collaborators: [] },
-		{ id: 6, title: 'Facebook Post Concept', campaign: { id: 0, index: 13 }, contentType: 'facebook-post', author: { id: 14, name: 'Pam Beasley', image: 'url(\'http://local.contentlaunch.com/packages/andrew13/cabinet/uploads/2014/05/01/GOPR0013%20(640x480).jpg\')' }, description: 'Sample Facebook post description', collaborators: [] },
-		{ id: 7, title: 'Google Drive Concept', campaign: { id: 0, index: 4 }, contentType: 'google-drive', author: { id: 15, name: 'Jim Halpert', image: null }, description: 'Sample  description', collaborators: [] },
-		{ id: 8, title: 'Landing Page Concept', campaign: { id: 0, index: 12 }, contentType: 'landing-page', author: { id: 16, name: 'Dwight Schrute', image: null }, description: 'Sample landing page description.', collaborators: [] },
-		{ id: 9, title: 'LinkedIn Concept', campaign: { id: 0, index: 5 }, contentType: 'linkedin-update', author: { id: 12, name: 'Site Admin', image: null }, description: 'Sample LinkedIn description.', collaborators: [] },
-		{ id: 10, title: 'Photo Concept', campaign: { id: 0, index: 11 }, contentType: 'photo', author: { id: 13, name: 'Michael Scott', image: null }, description: 'Sample photo description.', collaborators: [] },
-		{ id: 11, title: 'Salesforce Asset Concept', campaign: { id: 0, index: 6 }, contentType: 'salesforce-asset', author: { id: 14, name: 'Pam Beasley', image: 'url(\'http://local.contentlaunch.com/packages/andrew13/cabinet/uploads/2014/05/01/GOPR0013%20(640x480).jpg\')' }, description: 'Sample Salesforce asset description.', collaborators: [] },
-		{ id: 12, title: 'Twitter Concept', campaign: { id: 0, index: 10 }, contentType: 'tweet', author: { id: 15, name: 'Jim Halpert', image: null }, description: 'Sample Twitter description.', collaborators: [] },
-		{ id: 13, title: 'Video Concept', campaign: { id: 0, index: 7 }, contentType: 'video', author: { id: 16, name: 'Dwight Schrute', image: null }, description: 'Sample video description.', collaborators: [] },
-		{ id: 14, title: 'Whitepaper Concept', campaign: { id: 0, index: 9 }, contentType: 'whitepaper', author: { id: 12, name: 'Site Admin', image: null }, description: 'Sample whitepaper description.', collaborators: [] }
+		{ id: 1, title: 'Audio Concept', campaign: { id: 0, index: 1 }, contentType: 'audio-recording', author: { id: 14, name: 'Pam Beasley', image: 'url(\'http://local.contentlaunch.com/packages/andrew13/cabinet/uploads/2014/05/01/GOPR0013%20(640x480).jpg\')' }, description: 'Sample audio recordig description', collaborators: [], concept_type: 'content' },
+		{ id: 2, title: 'Blog Post Concept', campaign: { id: 0, index: 15 }, contentType: 'blog-post', author: { id: 15, name: 'Jim Halpert', image: null }, description: 'Sample blog post description', collaborators: [], concept_type: 'content' },
+		{ id: 3, title: 'Case Study Concept', campaign: { id: 0, index: 2 }, contentType: 'case-study', author: { id: 16, name: 'Dwight Schrute', image: null }, description: 'Sample case study description', collaborators: [], concept_type: 'content' },
+		{ id: 4, title: 'eBook Concept', campaign: { id: 0, index: 14 }, contentType: 'ebook', author: { id: 12, name: 'Site Admin', image: null }, description: 'Sample ebook description', collaborators: [], concept_type: 'content' },
+		{ id: 5, title: 'eMail Concept', campaign: { id: 0, index: 3 }, contentType: 'email', author: { id: 13, name: 'Michael Scott', image: null }, description: 'Sample email description', collaborators: [], concept_type: 'content' },
+		{ id: 6, title: 'Facebook Post Concept', campaign: { id: 0, index: 13 }, contentType: 'facebook-post', author: { id: 14, name: 'Pam Beasley', image: 'url(\'http://local.contentlaunch.com/packages/andrew13/cabinet/uploads/2014/05/01/GOPR0013%20(640x480).jpg\')' }, description: 'Sample Facebook post description', collaborators: [], concept_type: 'content' },
+		{ id: 7, title: 'Google Drive Concept', campaign: { id: 0, index: 4 }, contentType: 'google-drive', author: { id: 15, name: 'Jim Halpert', image: null }, description: 'Sample  description', collaborators: [], concept_type: 'content' },
+		{ id: 8, title: 'Landing Page Concept', campaign: { id: 0, index: 12 }, contentType: 'landing-page', author: { id: 16, name: 'Dwight Schrute', image: null }, description: 'Sample landing page description.', collaborators: [], concept_type: 'content' },
+		{ id: 9, title: 'LinkedIn Concept', campaign: { id: 0, index: 5 }, contentType: 'linkedin-update', author: { id: 12, name: 'Site Admin', image: null }, description: 'Sample LinkedIn description.', collaborators: [], concept_type: 'content' },
+		{ id: 10, title: 'Photo Concept', campaign: { id: 0, index: 11 }, contentType: 'photo', author: { id: 13, name: 'Michael Scott', image: null }, description: 'Sample photo description.', collaborators: [], concept_type: 'content' },
+		{ id: 11, title: 'Salesforce Asset Concept', campaign: { id: 0, index: 6 }, contentType: 'salesforce-asset', author: { id: 14, name: 'Pam Beasley', image: 'url(\'http://local.contentlaunch.com/packages/andrew13/cabinet/uploads/2014/05/01/GOPR0013%20(640x480).jpg\')' }, description: 'Sample Salesforce asset description.', collaborators: [], concept_type: 'content' },
+		{ id: 12, title: 'Twitter Concept', campaign: { id: 0, index: 10 }, contentType: 'tweet', author: { id: 15, name: 'Jim Halpert', image: null }, description: 'Sample Twitter description.', collaborators: [], concept_type: 'content' },
+		{ id: 13, title: 'Video Concept', campaign: { id: 0, index: 7 }, contentType: 'video', author: { id: 16, name: 'Dwight Schrute', image: null }, description: 'Sample video description.', collaborators: [], concept_type: 'content' },
+		{ id: 14, title: 'Whitepaper Concept', campaign: { id: 0, index: 9 }, contentType: 'whitepaper', author: { id: 12, name: 'Site Admin', image: null }, description: 'Sample whitepaper description.', collaborators: [], concept_type: 'content' }
 	], function(c, i) {
 		return ModelMapperService.concept.fromDto(c);
 	});
@@ -58,19 +58,19 @@
 
 			return (concept.length === 1) ? concept[0] : null;
 		},
-		update: function(concept, callback) {
+		update: function (accountId, concept, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return conceptResource.update({ accountId: accountId, id: concept.id }, concept, success, error);
 		},
-		add: function(concept, callback) {
+		add: function (accountId, concept, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return conceptResource.insert({ accountId: accountId }, success, error);
 		},
-		delete: function(concept, callback) {
+		delete: function (accountId, concept, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
@@ -84,6 +84,7 @@
 				name: user.displayName,
 				image: user.imageUrl()
 			}
+			concept.collaborators = [];
 
 			return concept;
 		},

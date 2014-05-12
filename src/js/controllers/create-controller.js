@@ -73,6 +73,13 @@
 		$scope.filteredContent = null;
 		$scope.pagedContent = null;
 
+		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
+		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
+		$scope.formatBuyingStageItem = launch.utils.formatBuyingStageItem;
+		$scope.formatMilestoneItem = launch.utils.formatMilestoneItem;
+		$scope.formatWorkflowItem = launch.utils.getWorkflowIconCssClass;
+		$scope.formatContentTypeIcon = launch.utils.getContentTypeIconClass;
+		
 		$scope.pagination = {
 			totalItems: 0,
 			pageSize: 5,
@@ -188,39 +195,11 @@
 			}
 		};
 
-		$scope.formatContentTypeItem = function (item, element, context) {
-			return '<span class="' + launch.utils.getContentTypeIconClass(item.id) + '"></span> <span>' + item.text + '</span>';
-		};
-
-		$scope.formatMilestoneItem = function (item, element, context) {
-			return '<span class="' + launch.utils.getWorkflowIconCssClass(item.id) + '"></span> <span>' + item.text + '</span>';
-		};
-
-		$scope.formatBuyingStageItem = function (item, element, context) {
-			return '<span class="cl-icon cl-icon-personas-' + item.id + '"></span> <span>' + item.text + '</span>';
-		};
-
-		$scope.formatCampaignItem = function (item, element, context) {
-			return '<span class="campaign-dot campaign-dot-' + item.id + '"></span> <span>' + item.text + '</span>';
-		};
-
 		$scope.formatUserItem = function (item, element, context) {
 			var user = $.grep($scope.users, function(u, i) { return u.id === parseInt(item.id); });
 			var style = (user.length === 1 && !launch.utils.isBlank(user[0].image)) ? ' style="background-image: ' + user[0].imageUrl() + '"' : '';
 
 			return '<span class="user-image user-image-small"' + style + '></span> <span>' + item.text + '</span>';
-		};
-
-		$scope.formatWorkflowItem = function(item) {
-			return launch.utils.getWorkflowIconCssClass(item.currentStep.name);
-		};
-
-		$scope.formatWorkflowTitle = function(item) {
-			return launch.utils.titleCase(item.name);
-		};
-
-		$scope.formatContentTypeIcon = function (item) {
-			return launch.utils.getContentTypeIconClass(item.contentType);
 		};
 
 		$scope.formatDate = function (date) {

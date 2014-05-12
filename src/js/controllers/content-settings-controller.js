@@ -52,6 +52,7 @@
 		$scope.itemPlaceholder = 'Enter Some Text';
 		$scope.textEditorSettings = launch.config.TINY_MCE_SETTINGS;
 		$scope.canEditPersonas = false;
+		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 
 		$scope.updateContentSettings = function (refresh, onAfterSave) {
 			$scope.isSaving = true;
@@ -114,10 +115,6 @@
 					]
 				});
 			}
-		};
-
-		$scope.formatContentTypeItem = function (item, element, context) {
-			return '<span class="' + launch.utils.getContentTypeIconClass(item.id) + '"></span> <span>' + item.text + '</span>';
 		};
 
 		self.init();

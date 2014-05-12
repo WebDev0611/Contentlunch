@@ -21,7 +21,7 @@
 			case 'description':
 				return launch.utils.isBlank(this.description) ? 'Description is required.' : null;
 			case 'creator':
-				return launch.utils.isBlank(this.creator) ? 'Creator is required.' : null;
+				return (!this.creator || launch.utils.isBlank(this.creator.id)) ? 'Creator is required.' : null;
 			default:
 				return null;
 		}

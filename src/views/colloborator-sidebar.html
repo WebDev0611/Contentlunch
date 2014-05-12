@@ -1,0 +1,17 @@
+﻿<div class="panel panel-default panel-collaborators">
+	<div class="panel-heading">Collaborators</div>
+	<div class="panel-body">
+		<select name="selAddCollaborator" id="selAddCollaborator" class="form-control" ng-change="addCollaborator()" ng-model="newCollaborator">
+			<option value="0">--Add Collaborator--</option>
+			<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
+		</select>
+
+		<ul class="concept-collaborators">
+			<li ng-repeat="c in collaborators">
+				<span class="user-image user-image-medium" ng-style="{ 'background-image': c.image }"></span>
+				{{ c.name }}
+				<span class="fa fa-trash-o" ng-click="removeCollaborator(c)"></span>
+			</li>
+		</ul>
+	</div>
+</div>

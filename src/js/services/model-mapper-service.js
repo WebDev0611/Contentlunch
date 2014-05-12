@@ -1334,7 +1334,7 @@
 
 			concept.id = parseInt(dto.id);
 			concept.title = dto.title;
-			concept.conceptType = dto.conceptType;
+			concept.conceptType = dto.concept_type;
 			concept.contentType = dto.contentType;
 			concept.description = dto.description;
 			concept.campaign = dto.campaign;
