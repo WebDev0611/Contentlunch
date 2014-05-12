@@ -61,8 +61,8 @@ class Content extends Ardent {
   {
     return DB::table('content')
       ->where('content.account_id', '=', $account_id)
-      ->join('campaigns', 'content.campaign_id', '=', 'campaigns.id')
-      ->join('account_connections AS connections', 'content.connection_id', '=', 'connections.id')
+      ->leftJoin('campaigns', 'content.campaign_id', '=', 'campaigns.id')
+      ->leftJoin('account_connections AS connections', 'content.connection_id', '=', 'connections.id')
       ->join('users', 'users.id', '=', 'content.user_id')
       ->leftJoin('uploads', 'users.id', '=', 'uploads.user_id')
       ->get(array(
@@ -73,7 +73,7 @@ class Content extends Ardent {
         'content.campaign_id',
         'campaigns.title AS campaign_title',
         'content.connection_id',
-        'connections.provider AS connection_provider',
+        'connections.name AS connection_name',
         'content.user_id',
         'users.username AS user_username',
         'uploads.filename AS user_image'
