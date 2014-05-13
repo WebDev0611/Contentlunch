@@ -42,6 +42,11 @@ class Content extends Ardent {
     return $this->hasMany('ContentComment', 'content_id', 'id');
   }
 
+  public function content_type()
+  {
+    return $this->belongsTo('ContentType');
+  }
+
   public function account_connections()
   {
     return $this->belongsToMany('AccountConnection', 'content_account_connections', 'content_id', 'account_connection_id')
