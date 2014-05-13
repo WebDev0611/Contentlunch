@@ -29,14 +29,15 @@ class DatabaseSeeder extends Seeder {
     $superUserID = User::where('username', 'admin@test.com')->pluck('id');
     $adminRoleID = Role::where('name', 'global_admin')->pluck('id');
     DB::table('assigned_roles')->where('user_id', '<>', $superUserID)->delete();
-    
+
     DB::table('account_content_settings')->delete();
     DB::table('account_connections')->delete();
     DB::table('account_module')->delete();
     DB::table('account_subscription')->delete();
     
-    // Don't delete global_admin's permissions
-    DB::table('permission_role')->where('role_id', '<>', $adminRoleID)->delete();
+    // Don't delete permissions for builtin roles
+    $roleIDs = Role::whereNull('account_id')->lists('id');
+    DB::table('permission_role')->whereNotIn('role_id', $roleIDs)->delete();
     
     DB::table('accounts')->delete();
     

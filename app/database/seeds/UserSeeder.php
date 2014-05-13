@@ -86,7 +86,7 @@ class UserSeeder extends Seeder {
       $user->status = 1;
       $user->updateUniques();
       // Add user's roles
-      $role = Role::find_by_name($row['role']);
+      $role = Role::where('name', $row['role'])->where('account_id', $account->id)->first();
       $user->attachRole($role);
       // Add user to surge test account
       $user->accounts()->attach($account);
