@@ -2,7 +2,7 @@
 <html lang="en" ng-app="launch">
 <head>
     <meta charset="utf-8" />
-    <title>Pop</title>
+    <title>Content Launch</title>
     <meta name="keywords" content="Content Launch" />
     <meta name="description" content="Content Launch" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,6 +25,12 @@
     <div class="main-content" ng-view></div>
 
     <footer></footer>
+
+    <?php if (Config::get('app.debug')): ?>
+      <script type="text/javascript">
+      var launchDebug = true;
+      </script>
+    <?php endif; ?>
 
     <script type="text/javascript" src="/assets/js/build.js"></script>
     <script type="text/javascript" src="https://js.balancedpayments.com/1.1.11/balanced.js"></script>
