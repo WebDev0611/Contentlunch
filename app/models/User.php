@@ -16,7 +16,7 @@ class User extends ConfideUser {
     'password_confirmation',
     'address', 'address_2', 'city', 'state', 'phone', 'title', 'status', 'country');
 
-  protected $guarded = array('id');
+  protected $guarded = array('id', 'remember_token');
 
   public static $rules = array(
     'username' => 'required|unique:users,username',

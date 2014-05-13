@@ -20,4 +20,9 @@ class ContentComment extends Ardent {
     'comment' => 'required'
   ];
 
+  public function user()
+  {
+    return $this->belongsTo('User');
+  }
+
 }

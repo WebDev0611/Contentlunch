@@ -39,7 +39,7 @@ class Content extends Ardent {
 
   public function comments()
   {
-    return $this->hasMany('ContentComment', 'content_id', 'id');
+    return $this->hasMany('ContentComment', 'content_id', 'id')->with('user');
   }
 
   public function content_type()
