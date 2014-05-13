@@ -35,7 +35,14 @@ class ContentController extends BaseController {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    $content = Content::find($id);
+    $content = Content::with('campaign')
+      ->with('collaborators')
+      ->with('comments')
+      ->with('account_connections')
+      ->with('related')
+      ->with('tags')
+      ->with('user')
+      ->find($id);
     return $content;
   }
 

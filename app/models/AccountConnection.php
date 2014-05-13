@@ -38,6 +38,11 @@ class AccountConnection extends Ardent {
     return $values;
   }
 
+  public function connection()
+  {
+    return $this->belongsTo('Connection');
+  }
+
   public static function doQuery($accountID, $type = null)
   {
     $query = DB::table('account_connections')
