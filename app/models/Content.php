@@ -76,6 +76,7 @@ class Content extends Ardent {
       ->leftJoin('campaigns', 'content.campaign_id', '=', 'campaigns.id')
       ->leftJoin('content_account_connections', 'content.id', '=', 'content_account_connections.content_id')
       ->leftJoin('account_connections', 'content_account_connections.account_connection_id', '=', 'account_connections.id')
+      ->leftJoin('content_types', 'content.content_type_id', '=', 'content_types.id')
       ->join('users', 'users.id', '=', 'content.user_id')
       ->leftJoin('uploads', 'users.id', '=', 'uploads.user_id')
       ->get([
@@ -86,6 +87,9 @@ class Content extends Ardent {
         'content.campaign_id',
         'content.status',
         'content.archived',
+        'content_types.id AS content_type_id',
+        'content_types.key AS content_type_key',
+        'content_types.name AS content_type_name',
         'campaigns.title AS campaign_title',
         'account_connections.connection_id',
         'account_connections.name AS connection_name',
