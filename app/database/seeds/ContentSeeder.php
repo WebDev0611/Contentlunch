@@ -20,11 +20,11 @@ class ContentSeeder extends DatabaseSeeder {
     $campaigns = Campaign::where('account_id', $account->id)->get();
 
     // Create seeded content
+    // 1st content
     $content = new Content([
       'title' => 'Social Hierarchies of the Schoolyard',
       'body' => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.",
       'account_id' => $account->id,
-      'connection_id' => $connection->id,
       'content_type_id' => ContentType::where('key', 'blog-post')->pluck('id'),
       'user_id' => $user1->id,
       'buying_stage' => 'suspects',
@@ -36,6 +36,8 @@ class ContentSeeder extends DatabaseSeeder {
       'concept' => 'Concept description for social hierarchies'
     ]);
     $content->save();
+    // Attach connection
+    $content->connections()->attach($connection->id);
 
     // Attach content tags
     $tag = new ContentTag([
@@ -79,7 +81,6 @@ what you think."
       'title' => 'Untitled',
       'body' => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.",
       'account_id' => $account->id,
-      'connection_id' => $connection->id,
       'content_type_id' => ContentType::where('key', 'ebook')->pluck('id'),
       'user_id' => $user2->id,
       'buying_stage' => 'prospects',
@@ -91,6 +92,10 @@ what you think."
       'concept' => 'Concept description for Untitled'
     ]);
     $content->save();
+    // Attach connection
+    $content->connections()->attach($connection->id);
+    // Attach related content
+    $content->related()->attach($prevContent->id);
 
     // Attach content tags
     $tag = new ContentTag([
@@ -103,12 +108,6 @@ what you think."
       'tag' => 'Prospects'
     ]);
     $tag->save();
-
-    // Attach related content
-    $related = new ContentRelated([
-      'content_id' => $content->id,
-      'related_content_id' => $prevContent->id      
-    ]);
 
     // Attach comments
     $comment = new ContentComment([
@@ -126,7 +125,6 @@ what you think."
       'title' => 'Content Marketing in Mexico',
       'body' => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.",
       'account_id' => $account->id,
-      'connection_id' => $connection->id,
       'content_type_id' => ContentType::where('key', 'newsletter')->pluck('id'),
       'user_id' => $user3->id,
       'buying_stage' => 'leads',
@@ -138,6 +136,10 @@ what you think."
       'concept' => 'Concept description for Content marketing in Mexico'
     ]);
     $content->save();
+    // Attach connection
+    $content->connections()->attach($connection->id);
+    // Attach related content
+    $content->related()->attach($prevContent->id);
 
     // Attach content tags
     $tag = new ContentTag([
@@ -156,12 +158,6 @@ what you think."
     ]);
     $tag->save();
 
-    // Attach related content
-    $related = new ContentRelated([
-      'content_id' => $content->id,
-      'related_content_id' => $prevContent->id      
-    ]);
-
     // Attach comments
     $comment = new ContentComment([
       'user_id' => $user3->id,
@@ -178,7 +174,6 @@ what you think."
       'title' => 'Selling Paper',
       'body' => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.",
       'account_id' => $account->id,
-      'connection_id' => $connection->id,
       'content_type_id' => ContentType::where('key', 'sales-letter')->pluck('id'),
       'user_id' => $user2->id,
       'buying_stage' => 'opportunities',
@@ -190,6 +185,10 @@ what you think."
       'concept' => 'Concept description for Selling paper'
     ]);
     $content->save();
+    // Attach connection
+    $content->connections()->attach($connection->id);
+    // Attach related content
+    $content->related()->attach($prevContent->id);
 
     // Attach content tags
     $tag = new ContentTag([
@@ -202,12 +201,6 @@ what you think."
       'tag' => 'Selling'
     ]);
     $tag->save();
-
-    // Attach related content
-    $related = new ContentRelated([
-      'content_id' => $content->id,
-      'related_content_id' => $prevContent->id      
-    ]);
 
     // Attach comments
     $comment = new ContentComment([
@@ -231,7 +224,6 @@ what you think."
       'title' => 'Increasing Revenue',
       'body' => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.",
       'account_id' => $account->id,
-      'connection_id' => $connection->id,
       'content_type_id' => ContentType::where('key', 'tweet')->pluck('id'),
       'user_id' => $user1->id,
       'buying_stage' => 'prospects',
@@ -244,6 +236,10 @@ what you think."
       'concept' => 'Concept description for Selling paper'
     ]);
     $content->save();
+    // Attach connection
+    $content->connections()->attach($connection->id);
+    // Attach related content
+    $content->related()->attach($prevContent->id);
 
     // Attach content tags
     $tag = new ContentTag([
@@ -261,12 +257,6 @@ what you think."
       'tag' => 'Selling'
     ]);
     $tag->save();
-
-    // Attach related content
-    $related = new ContentRelated([
-      'content_id' => $content->id,
-      'related_content_id' => $prevContent->id      
-    ]);
 
     // Attach comments
     $comment = new ContentComment([

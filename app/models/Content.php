@@ -20,7 +20,6 @@ class Content extends Ardent {
   public static $rules = [
     'title' => 'required',
     'account_id' => 'required',
-    'connection_id' => 'required',
     'content_type_id' => 'required',
     'user_id' => 'required',
     'buying_stage' => 'required',
@@ -38,14 +37,14 @@ class Content extends Ardent {
     return $this->belongsToMany('ContentComment');
   }
 
-  public function connection()
+  public function connections()
   {
-    return $this->belongsTo('AccountConnection', 'connection_id');
+    return $this->belongsToMany('AccountConnection', 'content_account_connections', 'content_id', 'account_connection_id')->withTimestamps();
   }
 
   public function related()
   {
-    return $this->belongsToMany('ContentRelated');
+    return $this->belongsToMany('Content', 'content_related', 'content_id', 'related_content_id')->withTimestamps();
   }
 
   public function tags()

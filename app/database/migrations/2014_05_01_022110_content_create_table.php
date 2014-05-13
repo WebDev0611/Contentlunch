@@ -18,7 +18,6 @@ class ContentCreateTable extends Migration {
 			$table->string('title');
 			$table->text('body');
 			$table->integer('account_id');
-			$table->integer('connection_id');
 			$table->integer('content_type_id');
 			$table->integer('user_id');
 			$table->string('buying_stage');
@@ -26,6 +25,9 @@ class ContentCreateTable extends Migration {
 			$table->integer('campaign_id');
 			$table->string('secondary_buying_stage');
 			$table->string('secondary_persona');
+      $table->text('concept')->nullable();
+      $table->integer('status')->default(0);
+      $table->boolean('archived')->default(false);
 			$table->timestamps();
 		});
 
@@ -88,6 +90,13 @@ class ContentCreateTable extends Migration {
 			$table->text('comment');
 			$table->timestamps();
 		});
+
+    Schema::create('content_account_connections', function ($table) {
+      $table->increments('id');
+      $table->integer('content_id');
+      $table->integer('account_connection_id');
+      $table->timestamps();
+    });
 	}
 
 	/**
@@ -102,6 +111,7 @@ class ContentCreateTable extends Migration {
 		Schema::drop('content_tags');
 		Schema::drop('content_related');
 		Schema::drop('content_comments');
+    Schema::drop('content_account_connections');
 		Schema::drop('content');
 	}
 
