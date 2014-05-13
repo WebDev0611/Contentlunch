@@ -11,7 +11,16 @@ class ContentController extends BaseController {
     if ( ! $this->inAccount($account->id)) {
       return $this->responseAccessDenied();
     }
-    return Content::doQuery($account->id);
+    return Content::with('campaign')
+      ->with('collaborators')
+      ->with('comments')
+      ->with('content_type')
+      ->with('account_connections')
+      ->with('related')
+      ->with('tags')
+      ->with('user')
+      ->where('account_id', $account->id)
+      ->get();
   }
 
   public function store($accountID)
