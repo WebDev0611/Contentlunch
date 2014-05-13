@@ -38,7 +38,7 @@ class ContentController extends BaseController {
     $contentType = Input::get('content_type');
     $content->content_type_id = $contentType['id'];
     if ($content->save()) {
-      return $this->show($content->id);
+      return $this->show($accountID, $content->id);
     }
     return $this->responseError($content->errors()->all(':message'));
   }
@@ -71,7 +71,7 @@ class ContentController extends BaseController {
     $contentType = Input::get('content_type');
     $content->content_type_id = $contentType['id'];
     if ($content->updateUniques()) {
-      return $this->show($content->id);
+      return $this->show($accountID, $content->id);
     }
     return $this->responseError($content->errors()->all(':message'));
   }
