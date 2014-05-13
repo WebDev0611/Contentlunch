@@ -33,6 +33,10 @@ class ContentController extends BaseController {
       return $this->responseAccessDenied();
     }
     $content = new Content;
+    $user = Input::get('user');
+    $content->user_id = $user['id'];
+    $contentType = Input::get('content_type');
+    $content->content_type_id = $contentType['id'];
     if ($content->save()) {
       return $this->show($content->id);
     }
@@ -62,6 +66,10 @@ class ContentController extends BaseController {
       return $this->responseAccessDenied();
     }
     $content = Content::find($id);
+    $user = Input::get('user');
+    $content->user_id = $user['id'];
+    $contentType = Input::get('content_type');
+    $content->content_type_id = $contentType['id'];
     if ($content->updateUniques()) {
       return $this->show($content->id);
     }
