@@ -404,8 +404,8 @@
 				phone: user.phoneNumber,
 				title: user.title,
 				status: (user.active === true) ? 1 : 0,
-				accounts: $.map(user.accounts, function(a, i) { return self.account.toDto(a); }),
-				roles: $.map(user.roles, function(r, i) { return self.role.toDto(r); })
+				accounts: ($.isArray(user.accounts)) ? $.map(user.accounts, function(a, i) { return self.account.toDto(a); }) : null,
+				roles: $.isArray(user.roles) ? $.map(user.roles, function(r, i) { return self.role.toDto(r); }) : null
 			};
 
 			if (!launch.utils.isBlank(user.password) && !launch.utils.isBlank(user.passwordConfirmation)) {
@@ -1254,7 +1254,7 @@
 			if ($.isArray(dto)) {
 				var contents = [];
 
-				$.each(dto, function (index, content) {
+				$.each(dto, function(index, content) {
 					contents.push(self.content.fromDto(content));
 				});
 
@@ -1271,27 +1271,103 @@
 			return JSON.stringify(self.content.toDto(content));
 		},
 		fromDto: function(dto) {
-			//if (launch.utils.isBlank(dto.id)) {
-			//	return null;
-			//}
+			if (launch.utils.isBlank(dto.id)) {
+				return null;
+			}
 
 			var content = new launch.Content();
 
 			content.id = parseInt(dto.id);
-			content.title = dto.title;
-			content.description = dto.description;
-			content.campaign = dto.campaign;
-			content.contentType = dto.contentType;
-			content.author = dto.author;
-			content.persona = dto.persona;
-			content.buyingStage = dto.buyingStage;
-			content.currentStep = dto.currentStep;
-			content.nextStep = dto.nextStep;
+			content.accountId = parseInt(dto.account_id);
 
+			content.title = dto.title;
+			content.body = dto.body;
+
+			if (!!dto.content_type) {
+				content.contentType = self.contentType.fromDto(dto.content_type);
+			} else {
+				content.contentType = new launch.ContentType();
+				content.contentType.id = parseInt(dto.content_type_id);
+				content.contentType.name = dto.content_type_key;
+				content.contentType.title = dto.content_type_name;
+			}
+
+			content.persona = dto.persona;
+			content.secondaryPersona = dto.secondary_persona;
+			content.buyingStage = dto.buying_stage;
+			content.secondaryBuyingStage = dto.secondary_buying_stage;
+
+			//content.connection = {
+			//	id: parseInt(dto.connection_id),
+			//	name: dto.connection_name
+			//};
+
+			content.campaign = {
+				id: parseInt(dto.campaign_id),
+				title: dto.campaign_title
+			};
+
+			if (!!dto.user_id) {
+				content.author = new launch.User();
+				content.author.id = parseInt(dto.user_id);
+				content.author.userName = dto.user_username;
+				content.author.image = dto.user_image;
+			} else {
+				content.author = self.user.fromDto(dto.user);
+			}
+
+			content.concept = dto.concept;
+			content.status = parseInt(dto.status);
+			content.archived = (parseInt(dto.archived) === 1);
+			content.dueDate = launch.utils.isBlank(dto.due_date) ? null : new Date(dto.due_date);
+			content.created = launch.utils.isBlank(dto.created_at) ? null : new Date(dto.created_at);
+			content.updated = launch.utils.isBlank(dto.updated_at) ? null : new Date(dto.updated_at);
+
+			content.collaborators = ($.isArray(dto.collaborators)) ? $.map(dto.collaborators, self.user.fromDto) : null;
+			content.comments = ($.isArray(dto.comments)) ? $.map(dto.comments, self.comment.fromDto) : null;
+			content.accountConnections = ($.isArray(dto.account_connections)) ? $.map(dto.account_connections, self.contentConnection.fromDto) : null;
+
+			content.related = null;
+			content.tags = null;
+
+			// TODO: REMOVE THIS WHEN IT COMES FROM THE API!!
+			if (isNaN(content.status)) { content.status = 1; }
 
 			return content;
 		},
-		toDto: function (content) { }
+		toDto: function(content) {
+			var dto = {
+				id: content.id,
+				account_id: content.accountId,
+				title: content.title,
+				body: content.body,
+				content_type: self.contentType.toDto(content.contentType),
+				persona: content.persona,
+				secondary_persona: content.secondaryPersona,
+				buying_stage: content.buyingStage,
+				secondardy_buying_stage: content.secondaryBuyingStage,
+				user: self.user.toDto(content.author),
+				concept: content.concept,
+				status: content.status,
+				archived: (content.archived === true) ? 1 : 0,
+				created_at: content.created,
+				updated_at: content.updated
+			};
+
+			if (!!content.campaign) {
+				dto.campaign_id = content.campaign.id;
+				dto.campaign_title = content.campaign.title;
+			}
+
+			dto.collaborators = $.isArray(content.collaborators) ? $.map(content.collaborators, self.user.toDto) : null;
+			dto.comments = $.isArray(content.comments) ? $.map(content.comments, self.comment.toDto) : null;
+			dto.account_connections = $.isArray(content.accountConnections) ? $.map(content.accountConnections, self.contentConnection.toDto) : null;
+
+			dto.related = null;
+			dto.tags = null;
+
+			return dto;
+		}
 	};
 
 	self.concept = {
@@ -1379,7 +1455,11 @@
 
 			return null;
 		},
-		fromDto: function(dto) {
+		fromDto: function (dto) {
+			if (!dto) {
+				return null;
+			}
+
 			var contentType = new launch.ContentType();
 
 			contentType.id = parseInt(dto.id);
@@ -1387,28 +1467,47 @@
 			contentType.title = dto.name;
 
 			return contentType;
+		},
+		toDto: function(contentType) {
+			return {
+				id: contentType.id,
+				key: contentType.name,
+				name: contentType.title
+			};
 		}
 	};
 
 	self.comment = {
 		fromDto: function(dto) {
+			if (!dto) {
+				return null;
+			}
+
 			var comment = new launch.Comment();
 
 			comment.id = parseInt(dto.id);
-			comment.commentor = {
-				id: parseInt(dto.user.id),
-				name: dto.user.name,
-				image: dto.user.image
-			};
-			comment.comment = dto.comment;
-			comment.commentDate = launch.utils.formatDateTime(dto.timestamp);
 			comment.contentId = parseInt(dto.content_id);
-			comment.contentType = null;
+			comment.comment = dto.comment;
+			comment.created = new Date(dto.created_at);
+			comment.updated = new Date(dto.updated_at);
+
+			comment.commentor = {
+				id: parseInt(dto.user_id),
+				name: dto.user_name,
+				image: dto.user_image
+			};
 
 			return comment;
 		},
 		toDto: function(comment) {
-			
+			return {
+				id: comment.id,
+				content_id: comment.contentId,
+				comment: comment.comment,
+				user_id: comment.commentor.id,
+				created_at: comment.created,
+				updated_at: comment.updated
+			};
 		}
 	};
 

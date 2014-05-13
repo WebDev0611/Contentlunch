@@ -118,8 +118,12 @@
 						templateUrl: '/assets/views/subscription.html'
 					})
 					.otherwise({
-						redirectTo: '/'
-					});
+						redirectTo: function (params, path, search) {
+							console.log('Invalid route: ' + path);
+
+							return '/';
+						}
+				});
 
 				var interceptor = [
 					'$location', '$q', function($location, $q) {

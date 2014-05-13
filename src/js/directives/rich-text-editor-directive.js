@@ -24,7 +24,7 @@
 			element.on('$destroy', function() {
 				tinymce.remove(id);
 			});
-		}, 150);
+		}, 250);
 	};
 
 	return {
