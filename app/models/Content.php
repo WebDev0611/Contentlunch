@@ -21,10 +21,7 @@ class Content extends Ardent {
     'title' => 'required',
     'account_id' => 'required',
     'content_type_id' => 'required',
-    'user_id' => 'required',
-    'buying_stage' => 'required',
-    'persona' => 'required',
-    'campaign_id' => 'required'
+    'user_id' => 'required'
   ];
 
   public function campaign()
