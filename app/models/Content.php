@@ -10,13 +10,14 @@ class Content extends Ardent {
 
   public $forceEntityHydrationFromInput = true;
 
-  protected $fillable = array(
-    'title', 'account_id', 'connection_id', 'content_type_id',
+  protected $fillable = [
+    'title', 'body', 'account_id', 'connection_id', 'content_type_id',
     'user_id', 'buying_stage', 'persona', 'campaign_id',
-    'secondary_buying_stage', 'secondary_persona'
-  );
+    'secondary_buying_stage', 'secondary_persona', 'status',
+    'archived', 'concept'
+  ];
 
-  public static $rules = array(
+  public static $rules = [
     'title' => 'required',
     'account_id' => 'required',
     'connection_id' => 'required',
@@ -25,7 +26,7 @@ class Content extends Ardent {
     'buying_stage' => 'required',
     'persona' => 'required',
     'campaign_id' => 'required'
-  );
+  ];
 
   public function campaign()
   {
@@ -65,7 +66,7 @@ class Content extends Ardent {
       ->leftJoin('account_connections AS connections', 'content.connection_id', '=', 'connections.id')
       ->join('users', 'users.id', '=', 'content.user_id')
       ->leftJoin('uploads', 'users.id', '=', 'uploads.user_id')
-      ->get(array(
+      ->get([
         'content.id',
         'content.title',
         'content.persona',
@@ -77,7 +78,7 @@ class Content extends Ardent {
         'content.user_id',
         'users.username AS user_username',
         'uploads.filename AS user_image'
-      ));
+      ]);
   }
 
 }
