@@ -84,6 +84,8 @@ class Content extends Ardent {
         'content.persona',
         'content.buying_stage',
         'content.campaign_id',
+        'content.status',
+        'content.archived',
         'campaigns.title AS campaign_title',
         'account_connections.connection_id',
         'account_connections.name AS connection_name',
