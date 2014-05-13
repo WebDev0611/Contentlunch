@@ -32,9 +32,14 @@ class Content extends Ardent {
     return $this->belongsTo('Campaign');
   }
 
+  public function collaborators()
+  {
+    return $this->belongsToMany('User', 'content_collaborators', 'content_id', 'user_id')->withTimestamps();
+  }
+
   public function comments()
   {
-    return $this->belongsToMany('ContentComment');
+    return $this->hasMany('ContentComment', 'content_id', 'id');
   }
 
   public function connections()
@@ -49,7 +54,7 @@ class Content extends Ardent {
 
   public function tags()
   {
-    return $this->belongsToMany('ContentTag');
+    return $this->hasMany('ContentTag', 'content_id', 'id');
   }
 
   public function user()

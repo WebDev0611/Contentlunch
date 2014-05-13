@@ -83,6 +83,13 @@ class ContentCreateTable extends Migration {
 			$table->timestamps();
 		});
 
+    Schema::create('content_collaborators', function ($table) {
+      $table->increments('id');
+      $table->integer('content_id');
+      $table->integer('user_id');
+      $table->timestamps();
+    });
+
 		Schema::create('content_comments', function ($table) {
 			$table->increments('id');
 			$table->integer('user_id');
@@ -110,6 +117,7 @@ class ContentCreateTable extends Migration {
 		Schema::drop('content_types');
 		Schema::drop('content_tags');
 		Schema::drop('content_related');
+    Schema::drop('content_collaborators');
 		Schema::drop('content_comments');
     Schema::drop('content_account_connections');
 		Schema::drop('content');

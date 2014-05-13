@@ -38,41 +38,23 @@ class ContentSeeder extends DatabaseSeeder {
     $content->save();
     // Attach connection
     $content->connections()->attach($connection->id);
-
+    // Attach collaborators
+    $content->collaborators()->sync([$user2->id, $user3->id]);
     // Attach content tags
-    $tag = new ContentTag([
-      'content_id' => $content->id,
-      'tag' => 'Schoolyard'
-    ]);
-    $tag->save();
-    $tag = new ContentTag([
-      'content_id' => $content->id,
-      'tag' => 'Social'
-    ]);
-    $tag->save();
-
+    $content->tags()->save(new ContentTag(['tag' => 'Schoolyard']));
+    $content->tags()->save(new ContentTag(['tag' => 'Social']));
     // Attach comments
-    $comment = new ContentComment([
-      'user_id' => $user1->id,
-      'content_id' => $content->id,
+    $content->comments()->save(new ContentComment(['user_id' => $user1->id,
       'comment' => "I'm doing a little bit of research on this topic before I start writing ."
-    ]);
-    $comment->save();
-    $comment = new ContentComment([
-      'user_id' => $user2->id,
-      'content_id' => $content->id,
+    ]));
+    $content->comments()->save(new ContentComment(['user_id' => $user2->id,
       'comment' => "Okay, please to not hesitate to call me. I was looking  at the other business models while trying to
 get ready for my speech and ran across this site:   www.princefamilypaper.com ---   Let me know
 what you think."
-    ]);
-    $comment->save();
-    $comment = new ContentComment([
-      'user_id' => $user1->id,
-      'content_id' => $content->id,
+    ]));
+    $content->comments()->save(new ContentComment(['user_id' => $user1->id,
       'comment' => "That  is extremely enlightening. Thanks Dwight!"
-    ]);
-    $comment->save();
-
+    ]));
     $this->command->info('Created content for Surge account: '. $content->title);
 
     // 2nd content
@@ -96,27 +78,14 @@ what you think."
     $content->connections()->attach($connection->id);
     // Attach related content
     $content->related()->attach($prevContent->id);
-
+    // Attach collaborators
+    $content->collaborators()->sync([$user1->id, $user3->id]);
     // Attach content tags
-    $tag = new ContentTag([
-      'content_id' => $content->id,
-      'tag' => 'Ebook'
-    ]);
-    $tag->save();
-    $tag = new ContentTag([
-      'content_id' => $content->id,
-      'tag' => 'Prospects'
-    ]);
-    $tag->save();
-
+    $content->tags()->save(new ContentTag(['tag' => 'Ebook']));
+    $content->tags()->save(new ContentTag(['tag' => 'Prospects']));
     // Attach comments
-    $comment = new ContentComment([
-      'user_id' => $user3->id,
-      'content_id' => $content->id,
-      'comment' => "Correct the spelling in this post"
-    ]);
-    $comment->save();
-
+    $content->comments()->save(new ContentComment(['user_id' => $user3->id,
+      'comment' => "Correct the spelling in this post"]));
     $this->command->info('Created content for Surge account: '. $content->title);
 
     // 3rd content
@@ -140,32 +109,14 @@ what you think."
     $content->connections()->attach($connection->id);
     // Attach related content
     $content->related()->attach($prevContent->id);
-
+    // Attach collaborators
+    $content->collaborators()->sync([$user1->id, $user2->id]);
     // Attach content tags
-    $tag = new ContentTag([
-      'content_id' => $content->id,
-      'tag' => 'Marketing'
-    ]);
-    $tag->save();
-    $tag = new ContentTag([
-      'content_id' => $content->id,
-      'tag' => 'Mexico'
-    ]);
-    $tag->save();
-    $tag = new ContentTag([
-      'content_id' => $content->id,
-      'tag' => 'Newsletter'
-    ]);
-    $tag->save();
-
+    $content->tags()->save(new ContentTag(['tag' => 'Marketing']));
+    $content->tags()->save(new ContentTag(['tag' => 'Mexico']));
+    $content->tags()->save(new ContentTag(['tag' => 'Newsletter']));
     // Attach comments
-    $comment = new ContentComment([
-      'user_id' => $user3->id,
-      'content_id' => $content->id,
-      'comment' => "Looking for input"
-    ]);
-    $comment->save();
-
+    $content->comments()->save(new ContentComment(['user_id' => $user3->id, 'comment' => "Looking for input"]));
     $this->command->info('Created content for Surge account: '. $content->title);
 
     // 4th content
@@ -189,33 +140,14 @@ what you think."
     $content->connections()->attach($connection->id);
     // Attach related content
     $content->related()->attach($prevContent->id);
-
+    // Attach collaborators
+    $content->collaborators()->sync([$user1->id, $user3->id]);
     // Attach content tags
-    $tag = new ContentTag([
-      'content_id' => $content->id,
-      'tag' => 'Paper'
-    ]);
-    $tag->save();
-    $tag = new ContentTag([
-      'content_id' => $content->id,
-      'tag' => 'Selling'
-    ]);
-    $tag->save();
-
+    $content->tags()->save(new ContentTag(['tag' => 'Paper']));
+    $content->tags()->save(new ContentTag(['tag' => 'Selling']));
     // Attach comments
-    $comment = new ContentComment([
-      'user_id' => $user1->id,
-      'content_id' => $content->id,
-      'comment' => "Loving it so far, keep up the good work!"
-    ]);
-    $comment->save();
-    $comment = new ContentComment([
-      'user_id' => $user1->id,
-      'content_id' => $content->id,
-      'comment' => "Thanks!"
-    ]);
-    $comment->save();
-
+    $content->comments()->save(new ContentComment(['user_id' => $user1->id, 'comment' => "Loving it so far, keep up the good work!"]));
+    $content->comments()->save(new ContentComment(['user_id' => $user1->id, 'comment' => "Thanks!"]));
     $this->command->info('Created content for Surge account: '. $content->title);
 
     // 5th content
@@ -240,32 +172,14 @@ what you think."
     $content->connections()->attach($connection->id);
     // Attach related content
     $content->related()->attach($prevContent->id);
-
+    // Attach collaborators
+    $content->collaborators()->sync([$user2->id, $user3->id]);
     // Attach content tags
-    $tag = new ContentTag([
-      'content_id' => $content->id,
-      'tag' => 'Revenue'
-    ]);
-    $tag->save();
-    $tag = new ContentTag([
-      'content_id' => $content->id,
-      'tag' => 'Prospects'
-    ]);
-    $tag->save();
-    $tag = new ContentTag([
-      'content_id' => $content->id,
-      'tag' => 'Selling'
-    ]);
-    $tag->save();
-
+    $content->tags()->save(new ContentTag(['tag' => 'Revenue']));
+    $content->tags()->save(new ContentTag(['tag' => 'Prospects']));
+    $content->tags()->save(new ContentTag(['tag' => 'Selling']));
     // Attach comments
-    $comment = new ContentComment([
-      'user_id' => $user2->id,
-      'content_id' => $content->id,
-      'comment' => "Please do some more research on this topic"
-    ]);
-    $comment->save();
-
+    $content->comments()->save(new ContentComment(['user_id' => $user2->id, 'comment' => "Please do some more research on this topic"]));
     $this->command->info('Created content for Surge account: '. $content->title);
 
   }
