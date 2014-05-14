@@ -12,7 +12,7 @@ class Content extends Ardent {
 
   protected $fillable = [
     'title', 'body', 'account_id', 'connection_id',
-    'user_id', 'buying_stage', 'persona', 'campaign_id',
+    'buying_stage', 'persona',
     'secondary_buying_stage', 'secondary_persona', 'status',
     'archived', 'concept'
   ];
