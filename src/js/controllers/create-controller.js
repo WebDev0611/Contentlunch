@@ -8,11 +8,9 @@
 			self.loggedInUser = authService.userInfo();
 
 			$scope.milestones = [
-				//{ name: 'concept', title: 'Concept' },
 				{ name: 'create', title: 'Created' },
 				{ name: 'approve', title: 'Approved' },
-				{ name: 'launch', title: 'Launched' },
-				//{ name: 'archive', title: 'Archived' }
+				{ name: 'launch', title: 'Launched' }
 			];
 
 			$scope.contentTypes = contentService.getContentTypes({
@@ -43,25 +41,14 @@
 		};
 
 		self.loadContent = function() {
-			if ($scope.search.contentStage === 'content') {
-				$scope.content = contentService.query(self.loggedInUser.account.id, null, {
-					success: function (r) {
-						$scope.search.applyFilter();
-					},
-					error: function (r) {
-						launch.utils.handleAjaxErrorResponse(r, notificationService);
-					}
-				});
-			} else if ($scope.search.contentStage === 'concept') {
-				$scope.content = contentService.query(self.loggedInUser.account.id, null, {
-					success: function (r) {
-						$scope.search.applyFilter();
-					},
-					error: function (r) {
-						launch.utils.handleAjaxErrorResponse(r, notificationService);
-					}
-				});
-			}
+			$scope.content = contentService.query(self.loggedInUser.account.id, null, {
+				success: function (r) {
+					$scope.search.applyFilter();
+				},
+				error: function (r) {
+					launch.utils.handleAjaxErrorResponse(r, notificationService);
+				}
+			});
 		};
 
 		$scope.milestones = null;
@@ -138,7 +125,7 @@
 					}
 
 					if ($.isArray($scope.search.contentTypes) && $scope.search.contentTypes.length > 0) {
-						if ($.inArray(content.contentType, $scope.search.contentTypes) < 0) {
+						if ($.inArray(content.contentType.name, $scope.search.contentTypes) < 0) {
 							return false;
 						}
 					}

@@ -1307,13 +1307,13 @@
 				title: dto.campaign_title
 			};
 
-			if (!!dto.user_id) {
+			if (!!dto.user) {
+				content.author = self.user.fromDto(dto.user);
+			} else {
 				content.author = new launch.User();
 				content.author.id = parseInt(dto.user_id);
 				content.author.userName = dto.user_username;
 				content.author.image = dto.user_image;
-			} else {
-				content.author = self.user.fromDto(dto.user);
 			}
 
 			content.concept = dto.concept;

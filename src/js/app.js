@@ -65,11 +65,11 @@
 						controller: 'CampaignConceptController',
 						templateUrl: '/assets/views/campaign-concept.html'
 					})
-					.when('/create/concept/edit/content/:conceptId', {
+					.when('/create/concept/edit/content/:contentId', {
 						controller: 'ContentConceptController',
 						templateUrl: '/assets/views/content-concept.html'
 					})
-					.when('/create/concept/edit/campaign/:conceptId', {
+					.when('/create/concept/edit/campaign/:campaignId', {
 						controller: 'CampaignConceptController',
 						templateUrl: '/assets/views/campaign-concept.html'
 					})
