@@ -31,13 +31,13 @@
 		}
 
 		self.refreshConcept = function() {
-			var conceptId = parseInt($routeParams.conceptId);
+			var contentId = parseInt($routeParams.contentId);
 
-			if (isNaN(conceptId)) {
-				$scope.concept = contentService.getNewContentConcept(self.loggedInUser);
+			if (isNaN(contentId)) {
+				$scope.content = contentService.getNewContentConcept(self.loggedInUser);
 				$scope.isNewConcept = true;
 			} else {
-				$scope.concept = contentService.get(self.loggedInUser.account.id, conceptId, {
+				$scope.content = contentService.get(self.loggedInUser.account.id, contentId, {
 					success: function (r) {
 
 					},
@@ -54,7 +54,7 @@
 		$scope.forceDirty = false;
 		$scope.isSaving = false;
 
-		$scope.concept = null;
+		$scope.content = null;
 		$scope.contentTypes = null;
 		$scope.campaigns = null;
 		$scope.users = null;
@@ -73,13 +73,13 @@
 		};
 
 		$scope.saveConcept = function() {
-			if (!$scope.concept || $scope.concept.$resolved === false) {
+			if (!$scope.content || $scope.content.$resolved === false) {
 				return;
 			}
 
 			$scope.forceDirty = true;
 
-			var msg = launch.utils.validateAll($scope.concept);
+			var msg = launch.utils.validateAll($scope.content);
 
 			if (!launch.utils.isBlank(msg)) {
 				notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
@@ -90,7 +90,7 @@
 
 			$scope.isSaving = true;
 
-			method(self.loggedInUser.account.id, $scope.concept, {
+			method(self.loggedInUser.account.id, $scope.content, {
 				success: function(r) {
 					$scope.isSaving = false;
 
@@ -120,21 +120,21 @@
 		};
 
 		$scope.updateContentType = function() {
-			var contentTypeName = $scope.concept.contentType.name;
+			var contentTypeName = $scope.content.contentType.name;
 			var contentType = $.grep($scope.contentTypes, function(ct) { return ct.name === contentTypeName; });
 
-			$scope.concept.contentType = contentType[0];
+			$scope.content.contentType = contentType[0];
 		};
 
 		$scope.updateAuthor = function () {
-			var userId = parseInt($scope.concept.author.id);
+			var userId = parseInt($scope.content.author.id);
 			var user = $.grep($scope.users, function (u) { return u.id === userId; });
 
-			$scope.concept.author = user[0];
+			$scope.content.author = user[0];
 		};
 
 		$scope.updateCampaign = function () {
-			var campaignId = parseInt($scope.concept.campaignId);
+			var campaignId = parseInt($scope.content.campaignId);
 			var campaign = $.grep($scope.campaigns, function (u) { return u.id === campaignId; });
 
 			$scope.campaignId = campaign[0].id;

@@ -11,14 +11,6 @@
 
 			self.init = function() { };
 
-			if (launch.utils.isBlank(scope.itemId)) {
-				throw 'Must specify itemId!';
-			}
-
-			if (launch.utils.isBlank(scope.itemType)) {
-				throw 'Must specify itemType!';
-			}
-
 			var loggedInUser = AuthService.userInfo();
 
 			scope.newComment = null;
