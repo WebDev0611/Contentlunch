@@ -181,6 +181,21 @@
 
 				// TODO: FIGURE OUT IF WE CAN SET THIS FROM THE SERVER!!!
 				launch.config.DEBUG_MODE = true;
+
+				// Generic Template-wide helpers
+				// -------------------------
+				$rootScope.addRow = function (array, item) {
+					array.push(item);
+				};
+
+				// byId is opt OUT
+				$rootScope.removeRow = function (array, index, byId) {
+					if (byId !== false) {
+						index = _.indexById(array, index);
+					}
+					console.log(index, byId);
+					if (index !== -1) array.splice(index, 1);
+				};
 			}
 		]);
 
@@ -188,5 +203,26 @@
 		return function(input, start) {
 			return input.splice(parseInt(start));
 		};
+	});
+
+	_.mixin({
+	    mapObject: _.compose(_.object, _.map),
+	    findById: function(items, id) {
+	        return _.find(items, function (item) {
+	            return item.id == id;
+	        });
+	    },
+	    indexById: function (array, id) {
+	    	var index = -1;
+
+	    	// we could use 2 underscore functions to do this, but
+	    	// then it would have to loop through everything twice
+	    	var exists = _.any(array, function (item) {
+	    	    index++;
+	    	    return item.id == id;
+	    	});
+
+	    	return exists ? index : -1;
+	    }
 	});
 })(window, angular);
