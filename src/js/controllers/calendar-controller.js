@@ -1,6 +1,6 @@
 ﻿launch.module.controller('CalendarController',
-        ['$scope', '$location', '$timeout',
-function ($scope,   $location,   $timeout) {
+        ['$scope', '$location', '$timeout', '$modal',
+function ($scope,   $location,   $timeout,   $modal) {
     $scope.title = 'This is the calendar page controller';
     $scope.calendarConfig  = {
         editable: true,
@@ -34,6 +34,30 @@ function ($scope,   $location,   $timeout) {
             textColor: 'whitesmoke'
         }
     ];
+
+    // Events
+    // -------------------------
+    $scope.newTask = function () {
+        $modal.open({
+            // set by script template in calendar.html
+            templateUrl: 'assets/views/calendar/task-modal.html',
+            size: 'lg',
+            controller: ['$scope', '$modalInstance',
+            function      (scope,    modalInstance) {
+                scope.task = {
+                    assignees: [{}]
+                };
+
+                scope.onOk = function () {
+                    modalInstance.close();
+                };
+                scope.onCancel = function() {
+                    modalInstance.dismiss('cancel');
+                };
+            }]
+
+        });
+    };
 
 
     // Calendar Functions

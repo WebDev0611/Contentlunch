@@ -1379,6 +1379,46 @@ span[class^="icon-"], span[class*=" icon-"] {
 		color: white;
 		background: lighten(black, 20%);
 	}
+
+	&:focus {
+		color: white;
+	}
+
+	&:active {
+		color: #ccc;
+	}
+}
+
+table.structural {
+	width: 100%;
+	th, td {
+		padding-right: 20px;
+		&:last-child {
+			padding-right: 0;
+		}
+	}
+
+	&.small-headers {
+		th {
+			font-size: 10px;
+		}
+	}
+
+	tbody td {
+		padding-bottom: 15px;
+	}
+}
+
+.align-center {
+	text-align: center;
+}
+
+.icon-danger {
+	color: #d9534f;
+}
+
+[ng-click]:not(.modal) {
+	cursor: pointer;
 }
 
 .accordion-blend {
