@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Launch\Migration;
 
 class AccountsAddPaymentInfo extends Migration {
 

@@ -40,5 +40,8 @@
         <testsuite name="Subscription">
           <file>./app/tests/integration/SubscriptionIntegrationTest.php</file>
         </testsuite>
+        <testsuite name="Content">
+          <file>./app/tests/integration/ContentIntegrationTest.php</file>
+        </testsuite>
     </testsuites>
 </phpunit>

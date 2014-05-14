@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Launch\Migration;
 
 class CampaignsCreateTable extends Migration {
 
@@ -39,7 +39,7 @@ class CampaignsCreateTable extends Migration {
 			$type->key = $key;
 			$type->name = $name;
 			$type->save();
-      echo 'Created Campaign type: '. $type->key .': '. $type->name . PHP_EOL;
+      $this->note('Created Campaign type: '. $type->key .': '. $type->name);
     }
 
     // Create campaign tags table

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Launch\Migration;
 
 class SubscriptionsCreateTable extends Migration {
 
@@ -39,7 +39,7 @@ class SubscriptionsCreateTable extends Migration {
       $sub->training = $row[4];
       $sub->features = $row[5];
       $sub->save();
-      echo 'Created subscription: '. $sub->subscription_level . PHP_EOL;
+      $this->note('Created subscription: '. $sub->subscription_level);
     }
 	}
 

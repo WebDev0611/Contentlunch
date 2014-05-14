@@ -1,5 +1,5 @@
 <?php
-use Illuminate\Database\Migrations\Migration;
+use Launch\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class EntrustSetupTables extends Migration {
@@ -75,7 +75,7 @@ class EntrustSetupTables extends Migration {
       $role->status = $row[5];
       $role->save();
       $roles[$row[0]] = $role;
-      echo "Created Builtin role: ". $role->name . PHP_EOL;
+      $this->note("Created Builtin role: ". $role->name);
     }
 
     // Add application permissions
@@ -211,12 +211,12 @@ class EntrustSetupTables extends Migration {
       $roles['site_admin']->perms()->attach($p->id);
     }
 
-    echo 'Created permissions'. PHP_EOL;
+    $this->note('Created permissions');
 
     // Give global admin role to super user
     $user = User::where('username', 'admin@test.com')->first();
     $user->attachRole($roles['global_admin']);
-    echo 'Attached global_admin role to super user'. PHP_EOL;
+    $this->note('Attached global_admin role to super user');
 
   }
 

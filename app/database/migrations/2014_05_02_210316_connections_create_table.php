@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Launch\Migration;
 
 class ConnectionsCreateTable extends Migration {
 
@@ -38,7 +38,7 @@ class ConnectionsCreateTable extends Migration {
 			$connection->provider = $data[1];
 			$connection->type = $data[2];
 			$connection->save();
-      echo 'Created connection type: '. $connection->provider . ': '. $connection->name . PHP_EOL;
+      $this->note('Created connection type: '. $connection->provider . ': '. $connection->name);
 		}
 	}
 

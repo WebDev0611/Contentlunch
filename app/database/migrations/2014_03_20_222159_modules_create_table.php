@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Launch\Migration;
 
 class ModulesCreateTable extends Migration {
 
@@ -41,7 +41,7 @@ class ModulesCreateTable extends Migration {
       $module->name = $row[0];
       $module->title = $row[1];
       $module->save();
-      echo 'Created module: '. $module->name . PHP_EOL;
+      $this->note('Created module: '. $module->name);
     }
 
 	}

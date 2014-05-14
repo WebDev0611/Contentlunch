@@ -1,5 +1,5 @@
 <?php
-use Illuminate\Database\Migrations\Migration;
+use Launch\Migration;
 
 class ConfideSetupUsersTable extends Migration {
 
@@ -60,7 +60,7 @@ class ConfideSetupUsersTable extends Migration {
       'status' => 1
     ]);
     $user->save();
-    echo "Created Admin super user: ". $user->username . PHP_EOL;
+    $this->note("Created Admin super user: ". $user->username);
   }
 
   /**

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Launch\Migration;
 
 class ContentCreateTable extends Migration {
 
@@ -66,7 +66,7 @@ class ContentCreateTable extends Migration {
       $type->key = $key;
       $type->name = $name;
       $type->save();
-      echo 'Created content type: '. $type->key .': '. $type->name . PHP_EOL;
+      $this->note('Created content type: '. $type->key .': '. $type->name);
     }
 
 		Schema::create('content_tags', function ($table) {
