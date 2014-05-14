@@ -1,1 +1,103 @@
-﻿<div ng-bind="title"></div>
+﻿<div class="view calendar">
+	<div class="col-md-3 left-pane">
+		<button class="btn full-width small-nudge-down btn-inverse add-content">Create New Task</button>
+		<button class="btn full-width small-nudge-down btn-inverse add-content">Create New Campaign</button>
+
+		<div class="input-group small-nudge-down">
+			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter()" />
+			<span class="input-group-addon">
+				<span class="glyphicon glyphicon-search"></span>
+			</span>
+		</div>
+
+		<div class="filter-panel">
+			Filters
+		</div>
+
+		<div class="btn-group small-nudge-down btn-group-justified btn-group-filter" ng-init="tasksFilter = 'my'">
+			<a class="btn btn-default" ng-class="{ active: tasksFilter == 'my'  }" ng-click="tasksFilter = 'my' ">My Tasks</a>
+			<a class="btn btn-default" ng-class="{ active: tasksFilter == 'all' }" ng-click="tasksFilter = 'all'">All Tasks</a>
+		</div>
+
+		<!-- TODO: put this in a re-usable template?? -->
+		<accordion close-others="false" class="accordion-blend">
+			<accordion-group is-open="content_type_is_open">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': content_type_is_open, 'fa-caret-right': !content_type_is_open}"></i>
+					Content Type
+				</accordion-heading>
+				<div>
+					<select id="selContentType" name="selContentType" class="multi-select" multiple="multiple"
+							ui-select2="{ width: '300px', formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="search.contentTypes"
+							ng-change="search.applyFilter()" data-placeholder="Select Content Types">
+						<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
+					</select>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="mileston_is_open">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': mileston_is_open, 'fa-caret-right': !mileston_is_open}"></i>
+					Milestone
+				</accordion-heading>
+				<div>
+					<select id="selMilestone" name="selMilestone" class="multi-select" multiple="multiple"
+							ui-select2="{ width: '300px', formatResult: formatMilestoneItem, formatSelection: formatMilestoneItem }" ng-model="search.milestones"
+							ng-change="search.applyFilter()" data-placeholder="Select Milestones">
+						<option ng-repeat="m in milestones" value="{{ m.name }}">{{ m.title }}</option>
+					</select>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="buying_stage_is_open">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': buying_stage_is_open, 'fa-caret-right': !buying_stage_is_open}"></i>
+					Buying Stage
+				</accordion-heading>
+				<div>
+					<select id="selBuyingStage" name="selBuyingStage" class="multi-select" multiple="multiple"
+							ui-select2="{ width: '300px', formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem }" ng-model="search.buyingStages"
+							ng-change="search.applyFilter()" data-placeholder="Select Buying Stages">
+						<option ng-repeat="bs in buyingStages" value="{{ bs.id }}">{{ bs.name }}</option>
+					</select>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="campaign_is_open">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': campaign_is_open, 'fa-caret-right': !campaign_is_open}"></i>
+					Campaign
+				</accordion-heading>
+				<div>
+					<select id="selCampaign" name="selCampaign" class="multi-select" multiple="multiple"
+							ui-select2="{ width: '300px', formatResult: formatCampaignItem, formatSelection: formatCampaignItem }" ng-model="search.campaigns"
+							ng-change="search.applyFilter()" data-placeholder="Select Campaign">
+						<option ng-repeat="c in campaigns" value=""></option>
+					</select>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="content_creator_is_open">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': content_creator_is_open, 'fa-caret-right': !content_creator_is_open}"></i>
+					Content Creator
+				</accordion-heading>
+				<div>
+					<select id="selCreator" name="selCreator" class="multi-select" multiple="multiple"
+							ui-select2="{ width: '300px', formatResult: formatUserItem, formatSelection: formatUserItem }" ng-model="search.users"
+							ng-change="search.applyFilter()" data-placeholder="Select Creator">
+						<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
+					</select>
+				</div>
+			</accordion-group>
+		</accordion>
+
+		<div class="link-button-container">
+			<a class="link-button" href="#" ng-click="saveFilter()">Save as default filters</a> |
+			<a class="link-button" href="#" ng-click="search.clearFilter()">Clear Filters</a>
+		</div>
+	</div>
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header">Calendar</h2>
+
+		<div class="squeeze-20">
+			<div ui-calendar="calendarConfig" ng-model="calendarSources" calendar="calendar"></div>
+		</div>
+	</div>
+</div>
