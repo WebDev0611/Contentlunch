@@ -17,6 +17,12 @@ Woodling::seed('Content', function ($blueprint) {
   $blueprint->archived = 0;
 });
 
+Woodling::seed('ContentComment', function ($blueprint) {
+  $blueprint->sequence('comment', function ($i) {
+    return 'Comment foo bar '. $i;
+  });
+});
+
 Woodling::seed('ContentTag', function ($blueprint) {
   $blueprint->sequence('tag', function ($i) {
     return 'Content tag '. $i;

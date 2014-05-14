@@ -4,6 +4,8 @@ use Woodling\Woodling;
 
 class ContentIntegrationTest extends TestCase {
 
+  protected $testAccount, $testCampaign, $testCampaignType, $testContent, $testContentType, $testUser;
+
   public function assertContent($expected, $content)
   {
     foreach ([
@@ -13,6 +15,35 @@ class ContentIntegrationTest extends TestCase {
     ] as $field) {
       $this->assertEquals($expected->$field, $content->$field, 'Field: '. $field .' is not equal');
     }
+  }
+
+  public function assertContentComment($expected, $comment)
+  {
+    foreach ([
+      'user_id', 'content_id', 'comment'
+    ] as $field) {
+      $this->assertEquals($expected->$field, $comment->$field, 'Field: '. $field .' is not equal');
+    }
+  }
+
+  protected function setupContent()
+  {
+    // Setup data needed for content
+    $this->testAccount = Woodling::saved('Account');
+    $this->testUser = Woodling::saved('User');
+    $this->testCampaignType = Woodling::saved('CampaignType');
+    $this->testCampaign = Woodling::saved('Campaign', [
+      'account_id' => $this->testAccount->id,
+      'user_id' => $this->testUser->id,
+      'campaign_type_id' => $this->testCampaignType->id
+    ]);
+    $this->testContentType = Woodling::saved('ContentType');
+    $this->testContent = Woodling::saved('Content', [
+      'user_id' => $this->testUser->id,
+      'account_id' => $this->testAccount->id,
+      'content_type_id' => $this->testContentType->id,
+      'campaign_id' => $this->testCampaign->id,
+    ]);
   }
   
   public function testIndex()
@@ -210,26 +241,40 @@ class ContentIntegrationTest extends TestCase {
 
   public function testDestroy()
   {
-    // Setup data needed for content
-    $account = Woodling::saved('Account');
-    $user = Woodling::saved('User');
-    $campaignType = Woodling::saved('CampaignType');
-    $campaign = Woodling::saved('Campaign', [
-      'account_id' => $account->id,
-      'user_id' => $user->id,
-      'campaign_type_id' => $campaignType->id
-    ]);
-    $type = Woodling::saved('ContentType');
-
-    // Content to delete
-    $content = Woodling::saved('Content', [
-      'user_id' => $user->id,
-      'account_id' => $account->id,
-      'content_type_id' => $type->id,
-      'campaign_id' => $campaign->id,
-    ]);
-    $response = $this->call('DELETE', '/api/account/'. $account->id .'/content/'. $content->id);
+    $this->setupContent();
+    $response = $this->call('DELETE', '/api/account/'. $this->testAccount->id .'/content/'. $this->testContent->id);
     $data = $this->assertResponse($response);
+  }
+
+  public function testCommentsIndex()
+  {
+    $this->setupContent();
+    // Save comments on test content
+    $comments = Woodling::savedList('ContentComment', 3, [
+      'user_id' => $this->testUser->id,
+      'content_id' => $this->testContent->id
+    ]);
+    $response = $this->call('GET', '/api/account/'. $this->testAccount->id .'/content/'. $this->testContent->id .'/comments');
+    $data = $this->assertResponse($response);
+    $this->assertContentComment($comments[0], $data[0]);
+    $this->assertContentComment($comments[1], $data[1]);
+    $this->assertContentComment($comments[2], $data[2]);
+  }
+
+  public function testCommentsStore()
+  {
+    $this->setupContent();
+    $comment = Woodling::retrieve('ContentComment', [
+      'user_id' => $this->testUser->id,
+      'content_id' => $this->testContent->id
+    ]);
+    // Add comment to content through api
+    $response = $this->call('POST', '/api/account/'. $this->testAccount->id .'/content/'. $this->testContent->id .'/comments', $comment->toArray());
+    $data = $this->assertResponse($response);
+    // Make index call on content
+    $response = $this->call('GET', '/api/account/'. $this->testAccount->id .'/content/'. $this->testContent->id .'/comments');
+    $data = $this->assertResponse($response);
+    $this->assertContentComment($comment, $data[0]);
   }
 
 }

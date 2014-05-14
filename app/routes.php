@@ -6,25 +6,28 @@
  * @todo : Add authentication filter
  * @todo : Determine consistent response structure
  */
-Route::group(array('prefix' => 'api'), function()
+Route::group(['prefix' => 'api'], function()
 {
 
 	Route::post('account/request_update', 'AccountController@request_update_email');
 
-	Route::resource('account', 'AccountController', array(
-		'only' => array('index', 'store', 'show', 'update', 'destroy')
-	));
+	Route::resource('account', 'AccountController', [
+		'only' => ['index', 'store', 'show', 'update', 'destroy']
+	]);
 
 	Route::post('account/{id}/add_user', 'AccountUserController@store');
 	Route::get('account/{id}/users', 'AccountUserController@show');
 
-	Route::resource('account/{id}/campaigns', 'CampaignController', array(
-		'only' => array('index', 'store', 'show', 'update', 'destroy')
-	));
+	Route::resource('account/{id}/campaigns', 'CampaignController', [
+		'only' => ['index', 'store', 'show', 'update', 'destroy']
+	]);
 
-	Route::resource('account/{id}/content', 'ContentController', array(
-		'only' => array('index', 'store', 'show', 'update', 'destroy')
-	));
+	Route::resource('account/{id}/content', 'ContentController', [
+		'only' => ['index', 'store', 'show', 'update', 'destroy']
+	]);
+  Route::resource('account/{id}/content/{contentid}/comments', 'AccountContentCommentsController', [
+    'only' => ['index', 'store']
+  ]);
 
 	Route::get('add-connection', 'AccountConnectionsController@addConnection');
 	Route::resource('account/{id}/connections', 'AccountConnectionsController', [
@@ -46,7 +49,7 @@ Route::group(array('prefix' => 'api'), function()
 	Route::put('account/{id}/roles/{roleid}', 'AccountRoleController@update');
 	Route::delete('account/{id}/roles/{roleid}', 'AccountRoleController@destroy');
 
-	Route::group(array('prefix' => 'auth'), function() {
+	Route::group(['prefix' => 'auth'], function() {
 		// Attempt to login a user
 		Route::post('/', 'AuthController@do_login');
 		// Gets the currently logged in user, or guest
@@ -63,30 +66,30 @@ Route::group(array('prefix' => 'api'), function()
 		Route::post('impersonate', 'AuthController@impersonate');
 	});
 
-	Route::resource('connections', 'ConnectionController', array(
-		'only' => array('index')
-	));
+	Route::resource('connections', 'ConnectionController', [
+		'only' => ['index']
+	]);
 
-	Route::resource('content-types', 'ContentTypeController', array(
-		'only' => array('index')
-	));
+	Route::resource('content-types', 'ContentTypeController', [
+		'only' => ['index']
+	]);
 
-	Route::resource('permission', 'PermissionController', array(
-		'only' => array('index')
-	));
+	Route::resource('permission', 'PermissionController', [
+		'only' => ['index']
+	]);
 
 	// No store or destroy route, these roles should already be seeded and nondeletable
-	Route::resource('role', 'RoleController', array(
-		'only' => array('index', 'show', 'update')
-	));
+	Route::resource('role', 'RoleController', [
+		'only' => ['index', 'show', 'update']
+	]);
 
-	Route::resource('subscription', 'SubscriptionController', array(
-		'only' => array('index', 'show', 'update')
-	));
+	Route::resource('subscription', 'SubscriptionController', [
+		'only' => ['index', 'show', 'update']
+	]);
 
-	Route::resource('user', 'UserController', array(
-		'only' => array('index', 'store', 'show', 'update', 'destroy')
-	));
+	Route::resource('user', 'UserController', [
+		'only' => ['index', 'store', 'show', 'update', 'destroy']
+	]);
 	Route::post('/user/{id}/image', 'UserController@postProfileImage');
 
 	Route::get('impersonate/{id}', 'AdminController@impersonate');
@@ -103,9 +106,9 @@ Route::any('{all}', function()
 {
 	// If route starts with api and the route wasn't matched, return an error response
   if (Request::is('api/*')) {
-    return Response::json(array(
+    return Response::json([
       'error' => 'Unknown route: '. Request::path()
-    ), 400);
+    ], 400);
   }
 	return View::make('master');
 })->where('all', '.*');
