@@ -277,4 +277,40 @@ class ContentIntegrationTest extends TestCase {
     $this->assertContentComment($comment, $data[0]);
   }
 
+  public function testCollaboratorsIndex()
+  {
+    $this->setupContent();
+    // Add collaborators to content
+    $user1 = Woodling::saved('User');
+    $user2 = Woodling::saved('User');
+    $this->testContent->collaborators()->attach($user1->id);
+    $this->testContent->collaborators()->attach($user2->id);
+    $response = $this->call('GET', '/api/account/'. $this->testAccount->id .'/content/'. $this->testContent->id .'/collaborators');
+    $data = $this->assertResponse($response);
+    $this->assertEquals($user1->id, $data[0]->id);
+    $this->assertEquals($user2->id, $data[1]->id);
+  }
+
+  public function testCollaboratorsStore()
+  {
+    $this->setupContent();
+    // Collaborator to add to content
+    $user1 = Woodling::saved('User');
+    $params = ['user_id' => $user1->id];
+    $response = $this->call('POST', '/api/account/'. $this->testAccount->id .'/content/'. $this->testContent->id .'/collaborators', $params);
+    $data = $this->assertResponse($response);
+    $this->assertEquals($user1->id, $data[0]->id);
+  }
+
+  public function testCollaboratorsDestroy()
+  {
+    $this->setupContent();
+    // Add collaborator to content
+    $user1 = Woodling::saved('User');
+    $this->testContent->collaborators()->attach($user1->id);
+    $response = $this->call('DELETE', '/api/account/'. $this->testAccount->id .'/content/'. $this->testContent->id .'/collaborators/'. $user1->id);
+    $data = $this->assertResponse($response);
+    $this->assertEquals([], $data);
+  }
+
 }
