@@ -2,7 +2,7 @@
 	'use strict';
 
 	launch = window.launch || (window.launch = { });
-	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2']);
+	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2', 'ui.calendar']);
 
 	launch.module.config([
 			'$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
@@ -118,8 +118,12 @@
 						templateUrl: '/assets/views/subscription.html'
 					})
 					.otherwise({
-						redirectTo: '/'
-					});
+						redirectTo: function (params, path, search) {
+							console.log('Invalid route: ' + path);
+
+							return '/';
+						}
+				});
 
 				var interceptor = [
 					'$location', '$q', function($location, $q) {

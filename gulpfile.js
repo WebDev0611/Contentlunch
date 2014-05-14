@@ -48,7 +48,7 @@ gulp.task('bootstrap-components-css', function () {
 			'./bower_components/ladda/dist/ladda.min.css',
 			'./bower_components/ladda/dist/spin.min.css',
 			'./bower_components/font-awesome/css/font-awesome.css',
-			'./bower_components/select2/select2.css'
+			'./bower_components/select2/select2.css',
 	])
 		.pipe(concat('bootstrap-components.css'))
 		.pipe(gulp.dest('public/assets/css'))
@@ -60,7 +60,8 @@ gulp.task('bootstrap-components-css', function () {
 
 gulp.task('styles-angular-ui', function () {
 	return gulp.src([
-		'./bower_components/angular-ui/build/angular-ui.css'
+		'./bower_components/angular-ui/build/angular-ui.css',
+		'./bower_components/fullcalendar/fullcalendar.css',
 	])
 	.pipe(concat('angular-ui.css'))
 	.pipe(gulp.dest('public/assets/css'))
@@ -127,7 +128,9 @@ gulp.task('tinymce-images', function () {
 
 gulp.task('scripts', function() {
 	gulp.src([
+			'./bower_components/lodash/dist/lodash.js',
 			'./bower_components/jquery/dist/jquery.js',
+			'./bower_components/jquery-ui/ui/jquery-ui.js',
 			'./bower_components/bootstrap/dist/js/bootstrap.js',
 			'./bower_components/select2/select2.js',
 			'./bower_components/jquery.dotdotdot/src/js/jquery.dotdotdot.js',
@@ -144,7 +147,10 @@ gulp.task('scripts', function() {
 			'./bower_components/pnotify/jquery.pnotify.js',
 			'./bower_components/ladda/js/spin.js',
 			'./bower_components/ladda/js/ladda.js',
-			'./bower_components/ng-file-upload/angular-file-upload.js'
+			'./bower_components/ng-file-upload/angular-file-upload.js',
+			'./bower_components/angular-ui-calendar/src/calendar.js',
+			'./bower_components/fullcalendar/fullcalendar.js',
+			// './bower_components/fullcalendar/gcal.js', // only needed if we do gcal integration
 		])
 		.pipe(concat('build.js'))
 		.pipe(gulp.dest('./public/assets/js'));

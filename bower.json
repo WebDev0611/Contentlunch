@@ -37,6 +37,8 @@
     "select2": "~3.4.6",
     "angular-ui-select2": "~0.0.5",
     "jquery.dotdotdot": "~1.6.14",
-    "angular-ui-tinymce": "~0.0.5"
+    "angular-ui-tinymce": "~0.0.5",
+    "angular-ui-calendar": "~0.8.1",
+    "lodash": "~2.4.1"
   }
 }

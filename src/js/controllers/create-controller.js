@@ -8,11 +8,11 @@
 			self.loggedInUser = authService.userInfo();
 
 			$scope.milestones = [
-				{ name: 'concept', title: 'Concept' },
+				//{ name: 'concept', title: 'Concept' },
 				{ name: 'create', title: 'Created' },
 				{ name: 'approve', title: 'Approved' },
 				{ name: 'launch', title: 'Launched' },
-				{ name: 'archive', title: 'Archived' }
+				//{ name: 'archive', title: 'Archived' }
 			];
 
 			$scope.contentTypes = contentService.getContentTypes({
@@ -79,7 +79,8 @@
 		$scope.formatMilestoneItem = launch.utils.formatMilestoneItem;
 		$scope.formatWorkflowItem = launch.utils.getWorkflowIconCssClass;
 		$scope.formatContentTypeIcon = launch.utils.getContentTypeIconClass;
-		
+		$scope.formatDate = launch.utils.formatDate;
+
 		$scope.pagination = {
 			totalItems: 0,
 			pageSize: 5,
@@ -124,11 +125,11 @@
 			contentStage: 'content',
 			applyFilter: function (reset) {
 				$scope.filteredContent = $filter('filter')($scope.content, function (content) {
-					if ($scope.search.contentStage === 'content' && (content.currentStep.name === 'concept' || content.currentStep.name === 'archive')) {
+					if ($scope.search.contentStage === 'content' && (content.currentStep() === 'concept' || content.currentStep() === 'archive')) {
 						return false;
-					} else if ($scope.search.contentStage === 'concepts' && content.currentStep.name !== 'concept') {
+					} else if ($scope.search.contentStage === 'concepts' && content.currentStep() !== 'concept') {
 						return false;
-					} else if ($scope.search.contentStage === 'archived' && content.currentStep.name !== 'archive') {
+					} else if ($scope.search.contentStage === 'archived' && content.currentStep() !== 'archive') {
 						return false;
 					}
 
@@ -143,7 +144,7 @@
 					}
 
 					if ($.isArray($scope.search.milestones) && $scope.search.milestones.length > 0) {
-						if ($.inArray(content.currentStep.name, $scope.search.milestones) < 0) {
+						if ($.inArray(content.currentStep(), $scope.search.milestones) < 0) {
 							return false;
 						}
 					}
@@ -203,11 +204,7 @@
 		};
 
 		$scope.formatWorkflowTitle = function(item) {
-			return launch.utils.titleCase(item.name);
-		};
-
-		$scope.formatDate = function (date) {
-			return launch.utils.formatDate(date);
+			return launch.utils.titleCase(item);
 		};
 
 		$scope.highlightDate = function(date) {
@@ -249,12 +246,12 @@
 		};
 
 		$scope.handleNextStep = function (content) {
-			if (!content || !content.nextStep || launch.utils.isBlank(content.nextStep.name)) {
+			if (!content || launch.utils.isBlank(content.nextStep())) {
 				notificationService.error('INVALID NEXT STEP', 'WHAT DO WE DO HERE?');
 				return;
 			}
 
-			switch (content.nextStep.name.toLowerCase()) {
+			switch (content.nextStep().toLowerCase()) {
 				case 'create':
 					$location.path('create/concept/edit/content/' + content.id);
 					break;
@@ -280,7 +277,7 @@
 					notificationService.info('NOT IMPLEMENTED!', 'THIS FEATURE IS NOT YET IMPLEMENTED!');
 					break;
 				default:
-					notificationService.info('Unknown Workflow Step', 'The workflow step "' + content.nextStep.name + '" is not valid.');
+					notificationService.info('Unknown Workflow Step', 'The workflow step "' + content.nextStep() + '" is not valid.');
 					break;
 			}
 		};

@@ -4,9 +4,9 @@
 	self.id = null;
 	self.commentor = null;
 	self.comment = null;
-	self.commentDate = null;
+	self.created = null;
+	self.updated = null;
 	self.contentId = null;
-	self.contentType = null;
 
 	self.validateProperty = function (property) {
 		switch (property.toLowerCase()) {
