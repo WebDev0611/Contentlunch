@@ -1,23 +1,41 @@
 ﻿launch.ModelMapper = function($location, authService, notificationService) {
 	var self = this;
 
+	self.parseResponse = function (r, getHeaders, fromDto, sort) {
+		if (launch.utils.isBlank(r) || !$.isFunction(fromDto)) {
+			return null;
+		}
+
+		var dto = JSON.parse(r);
+
+		if (!!dto.error || !!dto.errors) {
+			return dto;
+		}
+
+		if ($.isArray(dto)) {
+			var items = [];
+
+			$.each(dto, function (index, item) {
+				items.push(fromDto(item));
+			});
+
+			if ($.isFunction(sort)) {
+				items.sort(sort);
+			}
+
+			return items;
+		}
+
+		if ($.isPlainObject(dto)) {
+			return fromDto(dto);
+		}
+
+		return null;
+	};
+
 	self.auth = {
 		parseResponse: function (r, getHeaders) {
-			if (launch.utils.isBlank(r)) {
-				return null;
-			}
-
-			var dto = JSON.parse(r);
-
-			if (!!dto.error || !!dto.errors) {
-				return dto;
-			}
-
-			if ($.isPlainObject(dto)) {
-				return self.auth.fromDto(dto);
-			}
-
-			return null;
+			return self.parseResponse(r, getHeaders, self.auth.fromDto);
 		},
 		fromDto: function(dto) {
 			if (launch.utils.isBlank(dto.id)) {
@@ -81,33 +99,7 @@
 
 	self.account = {
 		parseResponse: function(r, getHeaders) {
-			if (launch.utils.isBlank(r)) {
-				return null;
-			}
-
-			var dto = JSON.parse(r);
-
-			if (!!dto.error || !!dto.errors) {
-				return dto;
-			}
-
-			if ($.isArray(dto)) {
-				var accounts = [];
-
-				$.each(dto, function(index, account) {
-					accounts.push(self.account.fromDto(account));
-				});
-
-				accounts.sort(self.account.sort);
-
-				return accounts;
-			}
-
-			if ($.isPlainObject(dto)) {
-				return self.account.fromDto(dto);
-			}
-
-			return null;
+			return self.parseResponse(r, getHeaders, self.account.fromDto, self.account.sort);
 		},
 		formatRequest: function(account) {
 			return JSON.stringify(self.account.toDto(account));
@@ -307,33 +299,7 @@
 
 	self.user = {
 		parseResponse: function(r, getHeaders) {
-			if (launch.utils.isBlank(r)) {
-				return null;
-			}
-
-			var dto = JSON.parse(r);
-
-			if (!!dto.error || !!dto.errors) {
-				return dto;
-			}
-
-			if ($.isArray(dto)) {
-				var users = [];
-
-				$.each(dto, function (index, u) {
-					users.push(self.user.fromDto(u));
-				});
-
-				users.sort(self.user.sort);
-
-				return users;
-			}
-
-			if ($.isPlainObject(dto)) {
-				return self.user.fromDto(dto);
-			}
-
-			return null;
+			return self.parseResponse(r, getHeaders, self.user.fromDto, self.user.sort);
 		},
 		formatRequest: function(user) {
 			return JSON.stringify(self.user.toDto(user));
@@ -476,39 +442,7 @@
 
 	self.role = {
 		parseResponse: function(r, getHeaders) {
-			if (launch.utils.isBlank(r)) {
-				return null;
-			}
-
-			var dto = JSON.parse(r);
-
-			if (!!dto.error || !!dto.errors) {
-				return dto;
-			}
-
-			if ($.isArray(dto)) {
-				var roles = [];
-				var user = authService.userInfo();
-				var isGlobalAdmin = (!!user && user.role.isGlobalAdmin === true) ? true : false;
-
-				$.each(dto, function (index, rl) {
-					var role = self.role.fromDto(rl);
-
-					if (isGlobalAdmin === role.isGlobalAdmin) {
-						roles.push(role);
-					}
-				});
-
-				roles.sort(self.role.sort);
-
-				return roles;
-			}
-
-			if ($.isPlainObject(dto)) {
-				return self.role.fromDto(dto);
-			}
-
-			return null;
+			return self.parseResponse(r, getHeaders, self.role.fromDto, self.role.sort);
 		},
 		formatRequest: function(role) {
 			return JSON.stringify(self.role.toDto(role));
@@ -703,33 +637,7 @@
 
 	self.subscription = {
 		parseResponse: function(r, getHeaders) {
-			if (launch.utils.isBlank(r)) {
-				return null;
-			}
-
-			var dto = JSON.parse(r);
-
-			if (!!dto.error || !!dto.errors) {
-				return dto;
-			}
-
-			if ($.isArray(dto)) {
-				var subscriptions = [];
-
-				$.each(dto, function (index, s) {
-					subscriptions.push(self.subscription.fromDto(s));
-				});
-
-				subscriptions.sort(self.subscription.sort);
-
-				return subscriptions;
-			}
-
-			if ($.isPlainObject(dto)) {
-				return self.subscription.fromDto(dto);
-			}
-
-			return null;
+			return self.parseResponse(r, getHeaders, self.subscription.fromDto, self.subscription.sort);
 		},
 		formatRequest: function(subscription) {
 			return JSON.stringify(self.subscription.toDto(subscription));
@@ -975,21 +883,7 @@
 
 	self.contentSettings = {
 		parseResponse: function (r, getHeaders) {
-			if (launch.utils.isBlank(r)) {
-				return null;
-			}
-
-			var dto = JSON.parse(r);
-
-			if (!!dto.error || !!dto.errors) {
-				return dto;
-			}
-
-			if ($.isPlainObject(dto)) {
-				return self.contentSettings.fromDto(dto);
-			}
-
-			return null;
+			return self.parseResponse(r, getHeaders, self.contentSettings.fromDto);
 		},
 		formatRequest: function (settings) {
 			return JSON.stringify(self.contentSettings.toDto(settings));
@@ -1057,33 +951,7 @@
 
 	self.contentConnection = {
 		parseResponse: function(r, getHeaders) {
-			if (launch.utils.isBlank(r)) {
-				return null;
-			}
-
-			var dto = JSON.parse(r);
-
-			if (!!dto.error || !!dto.errors) {
-				return dto;
-			}
-
-			if ($.isArray(dto)) {
-				var connections = [];
-
-				$.each(dto, function(index, connection) {
-					connections.push(self.contentConnection.fromDto(connection));
-				});
-
-				connections.sort(self.contentConnection.sort);
-
-				return connections;
-			}
-
-			if ($.isPlainObject(dto)) {
-				return self.contentConnection.fromDto(dto);
-			}
-
-			return null;
+			return self.parseResponse(r, getHeaders, self.contentConnection.fromDto, self.contentConnection.sort);
 		},
 		formatRequest: function(connection) {
 			return JSON.stringify(self.contentConnection.toDto(connection));
@@ -1153,33 +1021,7 @@
 
 	self.seoConnection = {
 		parseResponse: function (r, getHeaders) {
-			if (launch.utils.isBlank(r)) {
-				return null;
-			}
-
-			var dto = JSON.parse(r);
-
-			if (!!dto.error || !!dto.errors) {
-				return dto;
-			}
-
-			if ($.isArray(dto)) {
-				var connections = [];
-
-				$.each(dto, function (index, connection) {
-					connections.push(self.seoConnection.fromDto(connection));
-				});
-
-				connections.sort(self.seoConnection.sort);
-
-				return connections;
-			}
-
-			if ($.isPlainObject(dto)) {
-				return self.seoConnection.fromDto(dto);
-			}
-
-			return null;
+			return self.parseResponse(r, getHeaders, self.seoConnection.fromDto, self.seoConnection.sort);
 		},
 		formatRequest: function (connection) {
 			return JSON.stringify(self.seoConnection.toDto(connection));
@@ -1240,32 +1082,8 @@
 	};
 
 	self.content = {
-		parseResponse: function(r, getHeaders) {
-			if (launch.utils.isBlank(r)) {
-				return null;
-			}
-
-			var dto = JSON.parse(r);
-
-			if (!!dto.error || !!dto.errors) {
-				return dto;
-			}
-
-			if ($.isArray(dto)) {
-				var contents = [];
-
-				$.each(dto, function(index, content) {
-					contents.push(self.content.fromDto(content));
-				});
-
-				return contents;
-			}
-
-			if ($.isPlainObject(dto)) {
-				return self.content.fromDto(dto);
-			}
-
-			return null;
+		parseResponse: function (r, getHeaders) {
+			return self.parseResponse(r, getHeaders, self.content.fromDto);
 		},
 		formatRequest: function(content) {
 			return JSON.stringify(self.content.toDto(content));
@@ -1372,31 +1190,7 @@
 
 	self.contentType = {
 		parseResponse: function(r, getHeaders) {
-			if (launch.utils.isBlank(r)) {
-				return null;
-			}
-
-			var dto = JSON.parse(r);
-
-			if (!!dto.error || !!dto.errors) {
-				return dto;
-			}
-
-			if ($.isArray(dto)) {
-				var contentTypes = [];
-
-				$.each(dto, function (index, contentType) {
-					contentTypes.push(self.contentType.fromDto(contentType));
-				});
-
-				return contentTypes;
-			}
-
-			if ($.isPlainObject(dto)) {
-				return self.contentType.fromDto(dto);
-			}
-
-			return null;
+			return self.parseResponse(r, getHeaders, self.contentType.fromDto);
 		},
 		fromDto: function (dto) {
 			if (!dto) {
@@ -1421,7 +1215,13 @@
 	};
 
 	self.comment = {
-		fromDto: function(dto) {
+		parseResponse: function (r, getHeaders) {
+			return self.parseResponse(r, getHeaders, self.comment.fromDto);
+		},
+		formatRequest: function (comment) {
+			return JSON.stringify(self.comment.toDto(comment));
+		},
+		fromDto: function (dto) {
 			if (!dto) {
 				return null;
 			}
@@ -1429,28 +1229,38 @@
 			var comment = new launch.Comment();
 
 			comment.id = parseInt(dto.id);
-			comment.contentId = parseInt(dto.content_id);
+			comment.itemId = parseInt(dto.content_id);
 			comment.comment = dto.comment;
+			comment.commentor = self.user.fromDto(dto.user);
 			comment.created = new Date(dto.created_at);
 			comment.updated = new Date(dto.updated_at);
-
-			comment.commentor = {
-				id: parseInt(dto.user_id),
-				name: dto.user_name,
-				image: dto.user_image
-			};
 
 			return comment;
 		},
 		toDto: function(comment) {
 			return {
 				id: comment.id,
-				content_id: comment.contentId,
+				content_id: comment.itemId,
 				comment: comment.comment,
 				user_id: comment.commentor.id,
 				created_at: comment.created,
 				updated_at: comment.updated
 			};
+		}
+	};
+
+	self.campaign = {
+		parseResponse: function(r, getHeaders) {
+			return self.parseResponse(r, getHeaders, self.campaign.fromDto);
+		},
+		formatRequest: function (campaign) {
+			return JSON.stringify(self.campaign.toDto(campaign));
+		},
+		fromDto: function (dto) {
+			return { };
+		},
+		toDto: function(campaign) {
+			return { };
 		}
 	};
 
