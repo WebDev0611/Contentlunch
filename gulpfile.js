@@ -144,6 +144,7 @@ gulp.task('scripts', function() {
 			'./bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
 			'./bower_components/angular-ui-select2/src/select2.js',
 			'./bower_components/angular-ui-tinymce/src/tinymce.js',
+			'./bower_components/momentjs/min/moment-with-langs.js',
 			'./bower_components/pnotify/jquery.pnotify.js',
 			'./bower_components/ladda/js/spin.js',
 			'./bower_components/ladda/js/ladda.js',
