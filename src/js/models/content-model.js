@@ -69,7 +69,9 @@
 		}
 	};
 
-	self.matchSearchTerm = function(term) {
+	self.matchSearchTerm = function (term) {
+		// TODO: IMPLEMENT THIS METHOD TO MATCH A CONTENT ITEM'S SEARCH TERM!!
+
 		//if (launch.utils.startsWith(self.title, term) || launch.utils.startsWith(self.email, term) ||
 		//	launch.utils.startsWith(self.city, term) ||
 		//	launch.utils.startsWith(self.state.name, term) || launch.utils.startsWith(self.state.value, term)) {

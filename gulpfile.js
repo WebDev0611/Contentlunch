@@ -129,7 +129,7 @@ gulp.task('tinymce-images', function () {
 gulp.task('scripts', function() {
 	gulp.src([
 			'./bower_components/lodash/dist/lodash.js',
-			'./bower_components/jquery/dist/jquery.js',
+			'./bower_components/jquery/jquery.js',
 			'./bower_components/jquery-ui/ui/jquery-ui.js',
 			'./bower_components/bootstrap/dist/js/bootstrap.js',
 			'./bower_components/select2/select2.js',
@@ -144,6 +144,7 @@ gulp.task('scripts', function() {
 			'./bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
 			'./bower_components/angular-ui-select2/src/select2.js',
 			'./bower_components/angular-ui-tinymce/src/tinymce.js',
+			'./bower_components/momentjs/min/moment-with-langs.js',
 			'./bower_components/pnotify/jquery.pnotify.js',
 			'./bower_components/ladda/js/spin.js',
 			'./bower_components/ladda/js/ladda.js',

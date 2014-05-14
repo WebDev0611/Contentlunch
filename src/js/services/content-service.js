@@ -7,6 +7,19 @@
 		delete: { method: 'DELETE' }
 	});
 
+	var contentComments = $resource('/api/account/:accountId/content/:contentId/comments', { accountId: '@accountId', id: '@contentId' }, {
+		get: { method: 'GET', transformResponse: ModelMapperService.comment.parseResponse },
+		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.comment.parseResponse },
+		insert: { method: 'POST', transformRequest: ModelMapperService.comment.formatRequest, transformResponse: ModelMapperService.comment.parseResponse }
+	});
+
+	var contentCollaborators = $resource('/api/account/:accountId/content/:contentId/collaborators', { accountId: '@accountId', id: '@contentId' }, {
+		get: { method: 'GET', transformResponse: ModelMapperService.user.parseResponse },
+		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
+		insert: { method: 'POST', transformRequest: ModelMapperService.user.formatRequest, transformResponse: ModelMapperService.user.parseResponse },
+		delete: { method: 'DELETE' }
+	});
+
 	var contentType = $resource('/api/content-types', null, {
 		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.contentType.parseResponse }
 	});
@@ -41,6 +54,48 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return contentResource.delete({ accountId: accountId, id: content.id }, success, error);
+		},
+		getComment: function (accountId, contentId, id, params, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return contentComments.get({ accountId: accountId, contentId: contentId, id: id }, success, error);
+		},
+		queryComments: function (accountId, contentId, params, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return contentComments.query({ accountId: accountId, contentId: contentId }, success, error);
+		},
+		insertComment: function(accountId, comment, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return contentComments.insert({ accountId: accountId, contentId: comment.itemId }, comment, success, error);
+		},
+		getCollaborator: function (accountId, contentId, id, params, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return contentCollaborators.get({ accountId: accountId, contentId: contentId, id: id }, success, error);
+		},
+		queryCollaborators: function (accountId, contentId, params, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return contentCollaborators.query({ accountId: accountId, contentId: contentId }, success, error);
+		},
+		insertCollaborator: function (accountId, contentId, collaborator, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return contentCollaborators.insert({ accountId: accountId, contentId: contentId }, collaborator, success, error);
+		},
+		deleteCollaborator: function (accountId, contentId, id, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return contentCollaborators.delete({ accountId: accountId, contentId: contentId, id: id }, success, error);
 		},
 		getContentTypes: function (callback, forceRefresh) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;

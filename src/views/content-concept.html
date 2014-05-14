@@ -2,7 +2,7 @@
 	<div class="col-md-3 left-pane"></div>
 	<div class="col-md-9 right-pane">
 		<h2 class="right-pane-header">Create</h2>
-		
+
 		<form name="editConcept" novalidate="novalidate">
 			<div class="concept-editor row">
 				<div class="col-md-9">
@@ -15,17 +15,17 @@
 				
 					<div class="concept-container">
 						<div class="control-group">
-							<div class="form-group" ng-class="{ 'has-error': hasError(concept, 'title', editConcept.txtConceptName, forceDirty) }">
+							<div class="form-group" ng-class="{ 'has-error': hasError(content, 'title', editConcept.txtConceptName, forceDirty) }">
 								<label class="control-label" for="txtConceptName">Working Title</label>
-								<input type="text" name="txtConceptName" id="txtConceptName" class="form-control" ng-model="concept.title"
-										error-message message="errorMessage(concept, 'title', editConcept.txtConceptName)" />
+								<input type="text" name="txtConceptName" id="txtConceptName" class="form-control" ng-model="content.title"
+										error-message message="errorMessage(content, 'title', editConcept.txtConceptName)" />
 							</div>
 
-							<div class="form-group" ng-class="{ 'has-error': hasError(concept, 'contentType.name', editConcept.selContentType, forceDirty) }">
+							<div class="form-group" ng-class="{ 'has-error': hasError(content, 'contentType.name', editConcept.selContentType, forceDirty) }">
 								<label class="control-label" for="selContentType">Content Type</label>
 								<select name="selContentType" id="selContentType"
-										ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem, selectOnBlur: true }" ng-model="concept.contentType.name"
-										data-placeholder="Select Content Type" error-message message="errorMessage(concept, 'contentType.name', editConcept.selContentType)" ng-change="updateContentType()">
+										ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem, selectOnBlur: true }" ng-model="content.contentType.name"
+										data-placeholder="Select Content Type" error-message message="errorMessage(content, 'contentType.name', editConcept.selContentType)" ng-change="updateContentType()">
 									<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
 								</select>
 							</div>
@@ -35,26 +35,26 @@
 							<div class="form-group">
 								<label class="control-label" for="selCampaign">Campaign</label>
 								<select name="selCampaign" id="selCampaign"
-										ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, selectOnBlur: true }" ng-model="concept.campaign.id"
+										ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, selectOnBlur: true }" ng-model="content.campaign.id"
 										data-placeholder="Select Campaign" ng-change="updateCampaign()">
 									<option ng-repeat="c in campaigns" value="{{ c.id }}">{{ c.name }}</option>
 								</select>
 							</div>
 
-							<div class="form-group" ng-class="{ 'has-error': hasError(concept, 'author', editConcept.selCreator, forceDirty) }">
+							<div class="form-group" ng-class="{ 'has-error': hasError(content, 'author', editConcept.selCreator, forceDirty) }">
 								<label class="control-label" for="selCreator">Content Creator</label>
 								<select name="selCreator" id="selCreator"
-										ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="concept.author.id"
-										data-placeholder="Select Content Creator" error-message message="errorMessage(concept, 'author', editConcept.selCreator)" ng-change="updateAuthor()">
+										ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="content.author.id"
+										data-placeholder="Select Content Creator" error-message message="errorMessage(content, 'author', editConcept.selCreator)" ng-change="updateAuthor()">
 									<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
 								</select>
 							</div>
 						</div>
 					
-						<div class="control-group" ng-class="{ 'has-error': hasError(concept, 'body', editConcept.txtConceptDesc, forceDirty) }">
+						<div class="control-group" ng-class="{ 'has-error': hasError(content, 'body', editConcept.txtConceptDesc, forceDirty) }">
 							<label class="control-label" for="txtConceptDesc">Description</label>
-							<textarea name="txtConceptDesc" id="txtConceptDesc" rich-text-editor ng-model="concept.body"
-								error-message message="errorMessage(concept, 'body', editConcept.txtConceptDesc)">{{ concept.body }}</textarea>
+							<textarea name="txtConceptDesc" id="txtConceptDesc" rich-text-editor ng-model="content.body"
+								error-message message="errorMessage(content, 'body', editConcept.txtConceptDesc)">{{ content.body }}</textarea>
 						</div>
 
 						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveConcept()">Save</button>
@@ -70,11 +70,11 @@
 						</button>
 					</div>
 				</div>
-				<div class="col-md-3" collaborator-sidebar collaborators="concept.collaborators" users="users">
+				<div class="col-md-3" collaborator-sidebar collaborators="content.collaborators" users="users" item-id="content.id" item-type="'content'">
 				</div>
 			</div>
 
-			<div ng-hide="isNewConcept" discussion-panel discussion="concept.discussion" item-id="concept.id" item-type="concept.conceptType"></div>
+			<div ng-hide="isNewConcept" discussion-panel discussion="content.comments" item-id="content.id" item-type="'content'"></div>
 		</form>
 	</div>
 </div>

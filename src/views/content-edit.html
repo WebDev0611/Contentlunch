@@ -1,0 +1,83 @@
+﻿<div class="view create">
+	<div class="col-md-3 left-pane"></div>
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header">Create</h2>
+		
+		<div class="concept-editor row">
+			<div class="col-md-9">
+				<div class="create-content-header row">
+					<div class="content-workflow col-md-6">
+						<div class="content-workflow-item" ng-class="{ 'inactive': (content.status < 1) }">
+							<span class="cl-icon cl-icon-white cl-icon-workflow-create"></span>
+						</div>
+						<div class="content-workflow-item" ng-class="{ 'inactive': (content.status < 2) }">
+							<span class="cl-icon cl-icon-white cl-icon-workflow-edit"></span>
+						</div>
+						<div class="content-workflow-item" ng-class="{ 'inactive': (content.status < 4) }">
+							<span class="cl-icon cl-icon-white cl-icon-workflow-launch"></span>
+						</div>
+						<div class="content-workflow-item" ng-class="{ 'inactive': (content.status < 5) }">
+							<span class="cl-icon cl-icon-white cl-icon-workflow-promote"></span>
+						</div>
+			
+						<div class="content-workflow-connector-1" ng-class="{ 'inactive': (content.status < 1) }"></div>
+						<div class="content-workflow-connector-2" ng-class="{ 'inactive': (content.status < 2) }"></div>
+						<div class="content-workflow-connector-3" ng-class="{ 'inactive': (content.status < 4) }"></div>
+					</div>
+		
+					<div class="col-md-6">
+						<h3>Concept</h3>
+						<i>{{ content.concept }}</i>
+					</div>
+				</div>
+					
+				<h2>Create Content</h2>
+
+				<form name="editContent" novalidate="novalidate">
+					<div class="control-group" ng-class="{ 'has-error': hasError(content, 'title', editContent.txtContentName, forceDirty) }">
+						<label class="control-label" for="txtContentName">Content Title</label>
+						<input type="text" name="txtContentName" id="txtContentName" class="form-control" ng-model="content.title"
+								error-message message="errorMessage(content, 'title', editContent.txtContentName)" />
+					</div>
+					
+					<div class="control-group">
+						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'contentType.name', editContent.selContentType, forceDirty) }">
+							<label class="control-label" for="selContentType">Content Type</label>
+							<select name="selContentType" id="selContentType"
+									ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem, selectOnBlur: true }" ng-model="content.contentType.name"
+									data-placeholder="Select Content Type" error-message message="errorMessage(content, 'contentType.name', editContent.selContentType)" ng-change="updateContentType()">
+								<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
+							</select>
+						</div>
+
+						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'author', editContent.selContentConnection, forceDirty) }">
+							<label class="control-label" for="selContentConnection">Content Connection</label>
+							<select name="selContentConnection" id="selContentConnection"
+									ui-select2="{ formatResult: formatContentConnectionItem, formatSelection: formatContentConnectionItem, selectOnBlur: true }" ng-model="content.author.id"
+									data-placeholder="Select Content Connection" error-message message="errorMessage(content, 'author', editContent.selContentConnection)" ng-change="updateAuthor()">
+								<option ng-repeat="cc in contentConnections" value="{{ cc.id }}">{{ cc.name }}</option>
+							</select>
+						</div>
+
+						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'author', editContent.selAuthor, forceDirty) }">
+							<label class="control-label" for="selCreator">Content Creator</label>
+							<select name="selAuthor" id="selAuthor"
+									ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="content.author.id"
+									data-placeholder="Select Content Creator" error-message message="errorMessage(content, 'author', editContent.selAuthor)" ng-change="updateAuthor()">
+								<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="control-group" ng-class="{ 'has-error': hasError(content, 'body', editContent.txtContentDesc, forceDirty) }">
+						<textarea name="txtContentDesc" id="txtContentDesc" rich-text-editor ng-model="content.body"
+							error-message message="errorMessage(content, 'body', editContent.txtContentDesc)">{{ content.body }}</textarea>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-3" collaborator-sidebar collaborators="content.collaborators" users="users" item-id="content.id" item-type="'content'"></div>
+		</div>
+
+		<div ng-hide="isNewContent" discussion-panel discussion="content.comments" item-id="content.id" item-type="'content'"></div>
+	</div>
+</div>

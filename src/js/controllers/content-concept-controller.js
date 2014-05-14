@@ -1,8 +1,17 @@
 ﻿launch.module.controller('ContentConceptController', [
-	'$scope', '$routeParams', '$filter', '$location', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'NotificationService', function ($scope, $routeParams, $filter, $location, authService, userService, contentSettingsService, contentService, notificationService) {
+	'$scope', '$routeParams', '$filter', '$location', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'CampaignService', 'NotificationService', function ($scope, $routeParams, $filter, $location, authService, userService, contentSettingsService, contentService, campaignService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
+
+		self.ajaxHandler = {
+			success: function (r) {
+
+			},
+			error: function (r) {
+				launch.utils.handleAjaxErrorResponse(r, notificationService);
+			}
+		};
 
 		self.init = function () {
 			self.loggedInUser = authService.userInfo();
@@ -10,34 +19,19 @@
 
 			$scope.showCollaborate = (!$scope.isNewConcept && self.loggedInUser.hasModuleAccess('collaborate'));
 
-			$scope.contentTypes = contentService.getContentTypes({
-				success: function (r) {
-				},
-				error: function (r) {
-					launch.utils.handleAjaxErrorResponse(r, notificationService);
-				}
-			});
-
-			//TODO: POPULATE CAMPAIGNS FROM API!!
-			$scope.campaigns = null;
-			$scope.users = userService.getForAccount(self.loggedInUser.account.id, {
-				success: function (r) {
-
-				},
-				error: function (r) {
-					launch.utils.handleAjaxErrorResponse(r, notificationService);
-				}
-			});
+			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
+			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
+			$scope.users = userService.getForAccount(self.loggedInUser.account.id, self.ajaxHandler);
 		}
 
 		self.refreshConcept = function() {
-			var conceptId = parseInt($routeParams.conceptId);
+			var contentId = parseInt($routeParams.contentId);
 
-			if (isNaN(conceptId)) {
-				$scope.concept = contentService.getNewContentConcept(self.loggedInUser);
+			if (isNaN(contentId)) {
+				$scope.content = contentService.getNewContentConcept(self.loggedInUser);
 				$scope.isNewConcept = true;
 			} else {
-				$scope.concept = contentService.get(self.loggedInUser.account.id, conceptId, {
+				$scope.content = contentService.get(self.loggedInUser.account.id, contentId, {
 					success: function (r) {
 
 					},
@@ -54,7 +48,7 @@
 		$scope.forceDirty = false;
 		$scope.isSaving = false;
 
-		$scope.concept = null;
+		$scope.content = null;
 		$scope.contentTypes = null;
 		$scope.campaigns = null;
 		$scope.users = null;
@@ -73,13 +67,13 @@
 		};
 
 		$scope.saveConcept = function() {
-			if (!$scope.concept || $scope.concept.$resolved === false) {
+			if (!$scope.content || $scope.content.$resolved === false) {
 				return;
 			}
 
 			$scope.forceDirty = true;
 
-			var msg = launch.utils.validateAll($scope.concept);
+			var msg = launch.utils.validateAll($scope.content);
 
 			if (!launch.utils.isBlank(msg)) {
 				notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
@@ -90,7 +84,7 @@
 
 			$scope.isSaving = true;
 
-			method(self.loggedInUser.account.id, $scope.concept, {
+			method(self.loggedInUser.account.id, $scope.content, {
 				success: function(r) {
 					$scope.isSaving = false;
 
@@ -111,30 +105,41 @@
 			});
 		};
 
-		$scope.viewInCollaborate = function() {
-			notificationService.info('WARNING!', 'THIS IS NOT YET IMPLEMENTED!!');
+		$scope.viewInCollaborate = function () {
+			// TODO: CREATE ROUTE TO COLLOBORATING ON A CONTENT ITEM AND TAKE THE USER TO THAT ROUTE HERE!!
+			notificationService.info('WARNING!', 'THIS IS NOT YET IMPLEMENTED!! WE NEED TO CREATE THE ROUTE TO THIS PAGE!!');
 		};
 
 		$scope.convertConcept = function() {
-			notificationService.info('WARNING!', 'THIS IS NOT YET IMPLEMENTED!!');
+			$scope.content.status = 2;
+			$scope.content.concept = $scope.content.body;
+
+			contentService.update(self.loggedInUser.account.id, $scope.content, {
+				success: function(r) {
+					$location.path('/create/concept/edit/content/' + $scope.content.id);
+				},
+				error: function(r) {
+					launch.utils.handleAjaxErrorResponse(r, notificationService);
+				}
+			});
 		};
 
 		$scope.updateContentType = function() {
-			var contentTypeName = $scope.concept.contentType.name;
+			var contentTypeName = $scope.content.contentType.name;
 			var contentType = $.grep($scope.contentTypes, function(ct) { return ct.name === contentTypeName; });
 
-			$scope.concept.contentType = contentType[0];
+			$scope.content.contentType = contentType[0];
 		};
 
 		$scope.updateAuthor = function () {
-			var userId = parseInt($scope.concept.author.id);
+			var userId = parseInt($scope.content.author.id);
 			var user = $.grep($scope.users, function (u) { return u.id === userId; });
 
-			$scope.concept.author = user[0];
+			$scope.content.author = user[0];
 		};
 
 		$scope.updateCampaign = function () {
-			var campaignId = parseInt($scope.concept.campaignId);
+			var campaignId = parseInt($scope.content.campaignId);
 			var campaign = $.grep($scope.campaigns, function (u) { return u.id === campaignId; });
 
 			$scope.campaignId = campaign[0].id;

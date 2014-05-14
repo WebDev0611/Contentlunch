@@ -2,11 +2,15 @@
 	var self = this;
 
 	self.id = null;
-	self.commentor = null;
+	self.itemId = null;
 	self.comment = null;
+	self.commentor = null;
 	self.created = null;
 	self.updated = null;
-	self.contentId = null;
+
+	self.commentDate = function () {
+		return launch.utils.formatDateTime(self.updated);
+	};
 
 	self.validateProperty = function (property) {
 		switch (property.toLowerCase()) {

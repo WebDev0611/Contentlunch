@@ -469,30 +469,15 @@
 			return '';
 		}
 
-		date = new Date(date);
-
-		var mo = date.getMonth() + 1;
-		var dt = date.getDate();
-		var yr = date.getFullYear();
-
-		return launch.utils.pad(mo, 2, '0') + '/' + launch.utils.pad(dt, 2, '0') + '/' + yr;
+		return moment(new Date(date)).local().format('MM/DD/YYYY');
 	},
 
 	formatDateTime: function(date) {
-		date = new Date(date);
-
-		var dateString = launch.utils.formatDate(date);
-		var hr = date.getHours();
-		var mi = date.getMinutes();
-		var ap = hr > 11 ? 'PM' : 'AM';
-
-		if (hr > 12) {
-			hr = hr - 12;
-		} else if (hr === 0) {
-			hr = 12;
+		if (launch.utils.isBlank(date) || (Object.prototype.toString.call(date) === '[object Date]') && isNaN(date.getTime())) {
+			return '';
 		}
 
-		return dateString + ' ' + launch.utils.pad(hr, 2, '0') + ':' + launch.utils.pad(mi, 2, '0') + ' ' + ap;
+		return moment(new Date(date)).local().format('MM/DD/YYYY hh:mm:ss A');
 	},
 
 	sortByDate: function(a, b) {
@@ -695,5 +680,9 @@
 
 	formatMilestoneItem: function (item, element, context) {
 		return '<span class="' + launch.utils.getWorkflowIconCssClass(item.id) + '"></span> <span>' + item.text + '</span>';
+	},
+
+	formatContentConnectionItem: function(item, element, context) {
+		return '<span class="cl-icon ' + launch.utils.getConnectionProviderIconClass(item.text.toLowerCase()) + '"></span> <span>' + item.text + '</span>';
 	}
 };
