@@ -121,7 +121,11 @@ class ContentController extends BaseController {
       }
       
       // Remove any tags that weren't present in Input
-      ContentTag::where('content_id', $content->id)->whereNotIn('id', $updateIDs)->delete();
+      $query = ContentTag::where('content_id', $content->id);
+      if ($updateIDs) {
+        $query->whereNotIn('id', $updateIDs);
+      }
+      $query->delete();
 
       // Sync account connections
       $connections = Input::get('account_connections');
