@@ -25,6 +25,11 @@ Route::group(['prefix' => 'api'], function()
 	Route::resource('account/{id}/content', 'ContentController', [
 		'only' => ['index', 'store', 'show', 'update', 'destroy']
 	]);
+
+  Route::resource('account/{id}/content/{contentid}/collaborators', 'AccountContentCollaboratorsController', [
+    'only' => ['index', 'store', 'destroy']
+  ]);
+
   Route::resource('account/{id}/content/{contentid}/comments', 'AccountContentCommentsController', [
     'only' => ['index', 'store']
   ]);

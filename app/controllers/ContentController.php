@@ -12,8 +12,6 @@ class ContentController extends BaseController {
       return $this->responseAccessDenied();
     }
     return Content::with('campaign')
-      ->with('collaborators')
-      ->with('comments')
       ->with('content_type')
       ->with('account_connections')
       ->with('related')
@@ -74,8 +72,6 @@ class ContentController extends BaseController {
       return $this->responseAccessDenied();
     }
     $content = Content::with('campaign')
-      ->with('collaborators')
-      ->with('comments')
       ->with('content_type')
       ->with('account_connections')
       ->with('related')
@@ -98,7 +94,7 @@ class ContentController extends BaseController {
     $content->user_id = $user['id'];
 
     // Update content type
-    $contentType = Input::get('type');
+    $contentType = Input::get('content_type');
     $content->content_type_id = $contentType['id'];
 
     // Update campaign

@@ -680,5 +680,9 @@
 
 	formatMilestoneItem: function (item, element, context) {
 		return '<span class="' + launch.utils.getWorkflowIconCssClass(item.id) + '"></span> <span>' + item.text + '</span>';
+	},
+
+	formatContentConnectionItem: function(item, element, context) {
+		return '<span class="cl-icon ' + launch.utils.getConnectionProviderIconClass(item.text.toLowerCase()) + '"></span> <span>' + item.text + '</span>';
 	}
 };

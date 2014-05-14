@@ -1283,8 +1283,8 @@ span[class^="icon-"], span[class*=" icon-"] {
 				}
 			}
 
-			.panel-body{
-				.row{
+			.panel-body {
+				.row {
 					border-bottom: dotted 3px #D7D7D7;
 					margin: 8px 16px;
 				}
@@ -1347,6 +1347,70 @@ span[class^="icon-"], span[class*=" icon-"] {
 		.btn-black {
 			background-color: #000000;
 			color: #ffffff;
+		}
+
+		.content-workflow {
+			padding: 0;
+			position: relative;
+
+			.content-workflow-item {
+				background-color: #000000;
+				border-radius: 50%;
+				display: inline-block;
+				margin: 0 16px;
+				padding: 4px;
+				position: relative;
+				height: 48px;
+				width: 48px;
+
+				.cl-icon {
+					position: absolute;
+					left: 8px;
+					top: 8px;
+					height: 32px;
+					width: 32px;
+				}
+
+				&.inactive {
+					background-color: #cccccc;
+
+					.cl-icon {
+						opacity: 0.2;
+					}
+				}
+			}
+
+			.content-workflow-connector-1, .content-workflow-connector-2, .content-workflow-connector-3 {
+				border-bottom: solid 12px #000000;
+				position: absolute;
+				top: 18px;
+				width: 38px;
+
+				&.inactive {
+					border-bottom: dotted 6px #cccccc;
+					top: 20px;
+				}
+			}
+
+			.content-workflow-connector-1 {
+				left: 62px;
+			}
+
+			.content-workflow-connector-2 {
+				left: 146px;
+			}
+
+			.content-workflow-connector-3 {
+				left: 230px;
+			}
+		}
+
+		.create-content-header {
+			margin: 0;
+
+			h3{
+				margin: 0;
+			}
 		}
 	}
 }
