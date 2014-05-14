@@ -199,8 +199,11 @@
 .cl-icon-workflow-launch {
   background-image: url(/assets/images/launch-black.png);
 }
+.cl-icon-workflow-launch.cl-icon-white {
+  background-image: url(/assets/images/launch.svg);
+}
 .cl-icon-workflow-promote {
-  background-image: url(/assets/images/share.svg);
+  background-image: url(/assets/images/promote.png);
 }
 .cl-icon-workflow-archive {
   background-image: url(/assets/images/archive.svg);
@@ -1245,7 +1248,7 @@ span[class*=" icon-"].dark {
 }
 .create .right-pane .right-pane-header {
   background-color: #ffb503;
-  border-bottom-color: #F1DDAF;
+  border-bottom-color: #ffe29c;
   color: #ffffff;
 }
 .create .right-pane .right-pane-header .cl-icon {
@@ -1416,6 +1419,104 @@ span[class*=" icon-"].dark {
   background-color: #000000;
   color: #ffffff;
 }
+.create .right-pane .content-workflow {
+  padding: 0;
+  position: relative;
+}
+.create .right-pane .content-workflow .content-workflow-item {
+  background-color: #000000;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 16px;
+  padding: 4px;
+  position: relative;
+  height: 48px;
+  width: 48px;
+}
+.create .right-pane .content-workflow .content-workflow-item .cl-icon {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  height: 32px;
+  width: 32px;
+}
+.create .right-pane .content-workflow .content-workflow-item.inactive {
+  background-color: #cccccc;
+}
+.create .right-pane .content-workflow .content-workflow-item.inactive .cl-icon {
+  opacity: 0.2;
+}
+.create .right-pane .content-workflow .content-workflow-connector-1,
+.create .right-pane .content-workflow .content-workflow-connector-2,
+.create .right-pane .content-workflow .content-workflow-connector-3 {
+  border-bottom: solid 12px #000000;
+  position: absolute;
+  top: 18px;
+  width: 38px;
+}
+.create .right-pane .content-workflow .content-workflow-connector-1.inactive,
+.create .right-pane .content-workflow .content-workflow-connector-2.inactive,
+.create .right-pane .content-workflow .content-workflow-connector-3.inactive {
+  border-bottom: dotted 6px #cccccc;
+  top: 20px;
+}
+.create .right-pane .content-workflow .content-workflow-connector-1 {
+  left: 62px;
+}
+.create .right-pane .content-workflow .content-workflow-connector-2 {
+  left: 146px;
+}
+.create .right-pane .content-workflow .content-workflow-connector-3 {
+  left: 230px;
+}
+.create .right-pane .create-content-header {
+  margin: 0;
+}
+.create .right-pane .create-content-header h3 {
+  margin: 0;
+}
+.calendar .right-pane-header {
+  background-color: #ba1760;
+  border-bottom-color: #ef7baf;
+  color: white;
+}
+.calendar .filter-panel {
+  padding: 6px 12px;
+  background-color: #ba1760;
+  color: white;
+  margin-bottom: 8px;
+}
+.full-width {
+  width: 100%;
+}
+.btn-inverse {
+  background: black;
+  color: white;
+}
+.btn-inverse:hover {
+  color: white;
+  background: #333333;
+}
+.accordion-blend .panel-group .panel + .panel {
+  margin: 0;
+}
+.accordion-blend .panel-group .panel {
+  background-color: transparent;
+  border: none !important;
+}
+.accordion-blend .panel-group .panel .panel-collapse .panel-body {
+  border: none !important;
+}
+.accordion-blend .panel-group .panel-heading {
+  background-color: transparent;
+  border-bottom: solid 1px #000000;
+}
+.small-nudge-down {
+  margin-bottom: 8px;
+}
+.squeeze-20 {
+  padding: 0 20px;
+}
 .select2-container {
   max-width: 400px;
   min-width: 400px;
@@ -1507,4 +1608,11 @@ span[class*=" icon-"].dark {
 .btn-collaborate {
   background-color: #ff5b02;
   color: #ffffff;
+}
+.fc-border-separate {
+  background: white;
+}
+.fc-header-title h2 {
+  margin: 0 !important;
+  border-bottom: none !important;
 }

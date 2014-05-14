@@ -1,5 +1,5 @@
 ﻿launch.module.factory('CampaignService', function($resource, ModelMapperService) {
-	var campaignResource = $resource('/api/account/:accountId/campaign/:id', { accountId: '@accountId', id: '@id' }, {
+	var campaignResource = $resource('/api/account/:accountId/campaigns/:id', { accountId: '@accountId', id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.campaign.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.campaign.parseResponse },
 		update: { method: 'PUT', transformRequest: ModelMapperService.campaign.formatRequest, transformResponse: ModelMapperService.campaign.parseResponse },
@@ -7,13 +7,13 @@
 		delete: { method: 'DELETE' }
 	});
 
-	var campaignComments = $resource('/api/account/:accountId/campaign/:campaignId/comments', { accountId: '@accountId', id: '@campaignId' }, {
+	var campaignComments = $resource('/api/account/:accountId/campaigns/:campaignId/comments', { accountId: '@accountId', id: '@campaignId' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.comment.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.comment.parseResponse },
 		insert: { method: 'POST', transformRequest: ModelMapperService.comment.formatRequest, transformResponse: ModelMapperService.comment.parseResponse }
 	});
 
-	var campaignCollaborators = $resource('/api/account/:accountId/campaign/:campaignId/collaborators', { accountId: '@accountId', id: '@campaignId' }, {
+	var campaignCollaborators = $resource('/api/account/:accountId/campaigns/:campaignId/collaborators', { accountId: '@accountId', id: '@campaignId' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.user.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
 		insert: { method: 'POST', transformRequest: ModelMapperService.user.formatRequest, transformResponse: ModelMapperService.user.parseResponse },

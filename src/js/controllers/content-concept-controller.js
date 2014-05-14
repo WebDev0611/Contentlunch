@@ -1,8 +1,17 @@
 ﻿launch.module.controller('ContentConceptController', [
-	'$scope', '$routeParams', '$filter', '$location', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'NotificationService', function ($scope, $routeParams, $filter, $location, authService, userService, contentSettingsService, contentService, notificationService) {
+	'$scope', '$routeParams', '$filter', '$location', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'CampaignService', 'NotificationService', function ($scope, $routeParams, $filter, $location, authService, userService, contentSettingsService, contentService, campaignService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
+
+		self.ajaxHandler = {
+			success: function (r) {
+
+			},
+			error: function (r) {
+				launch.utils.handleAjaxErrorResponse(r, notificationService);
+			}
+		};
 
 		self.init = function () {
 			self.loggedInUser = authService.userInfo();
@@ -10,24 +19,9 @@
 
 			$scope.showCollaborate = (!$scope.isNewConcept && self.loggedInUser.hasModuleAccess('collaborate'));
 
-			$scope.contentTypes = contentService.getContentTypes({
-				success: function (r) {
-				},
-				error: function (r) {
-					launch.utils.handleAjaxErrorResponse(r, notificationService);
-				}
-			});
-
-			//TODO: POPULATE CAMPAIGNS FROM API!!
-			$scope.campaigns = null;
-			$scope.users = userService.getForAccount(self.loggedInUser.account.id, {
-				success: function (r) {
-
-				},
-				error: function (r) {
-					launch.utils.handleAjaxErrorResponse(r, notificationService);
-				}
-			});
+			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
+			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
+			$scope.users = userService.getForAccount(self.loggedInUser.account.id, self.ajaxHandler);
 		}
 
 		self.refreshConcept = function() {
@@ -111,12 +105,23 @@
 			});
 		};
 
-		$scope.viewInCollaborate = function() {
-			notificationService.info('WARNING!', 'THIS IS NOT YET IMPLEMENTED!!');
+		$scope.viewInCollaborate = function () {
+			// TODO: CREATE ROUTE TO COLLOBORATING ON A CONTENT ITEM AND TAKE THE USER TO THAT ROUTE HERE!!
+			notificationService.info('WARNING!', 'THIS IS NOT YET IMPLEMENTED!! WE NEED TO CREATE THE ROUTE TO THIS PAGE!!');
 		};
 
 		$scope.convertConcept = function() {
-			notificationService.info('WARNING!', 'THIS IS NOT YET IMPLEMENTED!!');
+			$scope.content.status = 2;
+			$scope.content.concept = $scope.content.body;
+
+			contentService.update(self.loggedInUser.account.id, $scope.content, {
+				success: function(r) {
+					$location.path('/create/concept/edit/content/' + $scope.content.id);
+				},
+				error: function(r) {
+					launch.utils.handleAjaxErrorResponse(r, notificationService);
+				}
+			});
 		};
 
 		$scope.updateContentType = function() {
