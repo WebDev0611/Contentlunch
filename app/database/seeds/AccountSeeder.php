@@ -50,7 +50,7 @@ class AccountSeeder extends Seeder {
     $this->command->info('Created Surge account subscription');
 
     // Attach builtin roles
-    $roles = Role::where('builtin', 1)->where('account_id', NULL)->get();
+    $roles = Role::whereNull('account_id')->where('name', '<>', 'global_admin')->get();
     foreach ($roles as $bRole) {
         $role = new AccountRole;
         $role->account_id = $account->id;

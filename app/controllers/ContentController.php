@@ -11,7 +11,16 @@ class ContentController extends BaseController {
     if ( ! $this->inAccount($account->id)) {
       return $this->responseAccessDenied();
     }
-    return Content::doQuery($account->id);
+    return Content::with('campaign')
+      ->with('collaborators')
+      ->with('comments')
+      ->with('content_type')
+      ->with('account_connections')
+      ->with('related')
+      ->with('tags')
+      ->with('user')
+      ->where('account_id', $account->id)
+      ->get();
   }
 
   public function store($accountID)
@@ -24,8 +33,12 @@ class ContentController extends BaseController {
       return $this->responseAccessDenied();
     }
     $content = new Content;
+    $user = Input::get('user');
+    $content->user_id = $user['id'];
+    $contentType = Input::get('content_type');
+    $content->content_type_id = $contentType['id'];
     if ($content->save()) {
-      return $this->show($content->id);
+      return $this->show($accountID, $content->id);
     }
     return $this->responseError($content->errors()->all(':message'));
   }
@@ -53,8 +66,12 @@ class ContentController extends BaseController {
       return $this->responseAccessDenied();
     }
     $content = Content::find($id);
+    $user = Input::get('user');
+    $content->user_id = $user['id'];
+    $contentType = Input::get('content_type');
+    $content->content_type_id = $contentType['id'];
     if ($content->updateUniques()) {
-      return $this->show($content->id);
+      return $this->show($accountID, $content->id);
     }
     return $this->responseError($content->errors()->all(':message'));
   }

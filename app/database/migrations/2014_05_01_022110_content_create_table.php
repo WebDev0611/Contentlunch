@@ -20,11 +20,11 @@ class ContentCreateTable extends Migration {
 			$table->integer('account_id');
 			$table->integer('content_type_id');
 			$table->integer('user_id');
-			$table->string('buying_stage');
-			$table->string('persona');
-			$table->integer('campaign_id');
-			$table->string('secondary_buying_stage');
-			$table->string('secondary_persona');
+			$table->string('buying_stage')->nullable();
+			$table->string('persona')->nullable();
+			$table->integer('campaign_id')->nullable();
+			$table->string('secondary_buying_stage')->nullable();
+			$table->string('secondary_persona')->nullable();
       $table->text('concept')->nullable();
       $table->integer('status')->default(0);
       $table->boolean('archived')->default(false);

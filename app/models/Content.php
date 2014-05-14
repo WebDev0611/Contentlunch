@@ -21,10 +21,7 @@ class Content extends Ardent {
     'title' => 'required',
     'account_id' => 'required',
     'content_type_id' => 'required',
-    'user_id' => 'required',
-    'buying_stage' => 'required',
-    'persona' => 'required',
-    'campaign_id' => 'required'
+    'user_id' => 'required'
   ];
 
   public function campaign()
@@ -67,36 +64,6 @@ class Content extends Ardent {
   public function user()
   {
     return $this->belongsTo('User');
-  }
-
-  public static function doQuery($account_id)
-  {
-    return DB::table('content')
-      ->where('content.account_id', '=', $account_id)
-      ->leftJoin('campaigns', 'content.campaign_id', '=', 'campaigns.id')
-      ->leftJoin('content_account_connections', 'content.id', '=', 'content_account_connections.content_id')
-      ->leftJoin('account_connections', 'content_account_connections.account_connection_id', '=', 'account_connections.id')
-      ->leftJoin('content_types', 'content.content_type_id', '=', 'content_types.id')
-      ->join('users', 'users.id', '=', 'content.user_id')
-      ->leftJoin('uploads', 'users.id', '=', 'uploads.user_id')
-      ->get([
-        'content.id',
-        'content.title',
-        'content.persona',
-        'content.buying_stage',
-        'content.campaign_id',
-        'content.status',
-        'content.archived',
-        'content_types.id AS content_type_id',
-        'content_types.key AS content_type_key',
-        'content_types.name AS content_type_name',
-        'campaigns.title AS campaign_title',
-        'account_connections.connection_id',
-        'account_connections.name AS connection_name',
-        'content.user_id',
-        'users.username AS user_username',
-        'uploads.filename AS user_image'
-      ]);
   }
 
 }

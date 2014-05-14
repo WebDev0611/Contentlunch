@@ -53,7 +53,9 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 				},
 				error);
 		},
-		logout: function() {
+		logout: function () {
+			SessionService.clear();
+
 			return $resource('/api/auth/logout').get(function(r) {
 				self.uncacheSession();
 			});

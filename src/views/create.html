@@ -11,17 +11,6 @@
 				<li ng-click="createNew('content')"><a href="#">Content</a></li>
 			</ul>
 		</div>
-		<!--<div class="btn-group btn-group-justified">
-				<div class="btn-group">
-					<button class="btn btn-default btn-create" ng-click="createConcept('content')">NEW CONTENT CONCEPT</button>
-				</div>
-				<div class="btn-group">
-					<button class="btn btn-default btn-create" ng-click="createConcept('campaign')">NEW CAMPAIGN CONCEPT</button>
-				</div>
-				<div class="btn-group">
-					<button class="btn btn-default btn-create" ng-click="createContent()">NEW CONTENT</button>
-				</div>
-			</div>-->
 
 		<div class="input-group">
 			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter()" />
@@ -40,7 +29,7 @@
 		</div>
 
 		<accordion close-others="false">
-			<accordion-group is-open="content_type_is_open">
+			<accordion-group is-open="content_type_is_open" ng-show="search.contentStage === 'content'">
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': content_type_is_open, 'fa-caret-right': !content_type_is_open}"></i>
 					Content Type
@@ -53,7 +42,7 @@
 					</select>
 				</div>
 			</accordion-group>
-			<accordion-group is-open="mileston_is_open">
+			<accordion-group is-open="mileston_is_open" ng-show="search.contentStage === 'content'">
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': mileston_is_open, 'fa-caret-right': !mileston_is_open}"></i>
 					Milestone
@@ -66,7 +55,7 @@
 					</select>
 				</div>
 			</accordion-group>
-			<accordion-group is-open="buying_stage_is_open">
+			<accordion-group is-open="buying_stage_is_open" ng-show="search.contentStage === 'content'">
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': buying_stage_is_open, 'fa-caret-right': !buying_stage_is_open}"></i>
 					Buying Stage
@@ -79,7 +68,7 @@
 					</select>
 				</div>
 			</accordion-group>
-			<accordion-group is-open="campaign_is_open">
+			<accordion-group is-open="campaign_is_open" ng-show="search.contentStage === 'content'">
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': campaign_is_open, 'fa-caret-right': !campaign_is_open}"></i>
 					Campaign
@@ -174,26 +163,26 @@
 					<tr ng-repeat="c in pagedContent[pagination.currentPage - 1]" ng-class-odd="'dark'">
 						<td><div class="campaign-dot campaign-dot-small" ng-class="'campaign-dot-' + c.campaign.index"></div></td>
 						<td>
-							<span class="cl-icon" ng-class="formatContentTypeIcon(c)"></span>
+							<span class="cl-icon" ng-class="formatContentTypeIcon(c.contentType.name)"></span>
 							{{ c.title }}
 						</td>
 						<td>
 							<span class="user-image user-image-small" ng-style="{ 'background-image': c.author.image }"></span>
-							{{ c.author.name }}
+							{{ c.author.formatName() }}
 						</td>
 						<td>{{ c.persona }}</td>
 						<td><span class="cl-icon" ng-class="'cl-icon-personas-' + c.buyingStage"></span></td>
 						<td>
-							<span class="cl-icon cl-icon-workflow" ng-class="formatWorkflowItem(c)"></span>
+							<span class="cl-icon cl-icon-workflow" ng-class="formatWorkflowItem(c.currentStep())"></span>
 							<div class="workflow-info">
-								<div>{{ formatWorkflowTitle(c.currentStep) }}</div>
-								<div class="small-text">{{ formatDate(c.currentStep.date) }}</div>
+								<div>{{ formatWorkflowTitle(c.currentStep()) }}</div>
+								<div class="small-text">{{ formatDate(c.updated) }}</div>
 							</div>
 						</td>
 						<td>
 							<div class="workflow-info">
-								<a href="#" ng-click="handleNextStep(c)">{{ formatWorkflowTitle(c.nextStep) }}</a>
-								<div class="small-text" ng-class="{ error: highlightDate(c.nextStep.date) }">Due: {{ formatDate(c.nextStep.date) }}</div>
+								<a href="#" ng-click="handleNextStep(c)">{{ formatWorkflowTitle(c.nextStep()) }}</a>
+								<div class="small-text" ng-class="{ error: highlightDate(c.dueDate) }">Due: {{ formatDate(c.dueDate) }}</div>
 							</div>
 						</td>
 					</tr>

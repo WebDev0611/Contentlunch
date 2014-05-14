@@ -13,6 +13,13 @@
 		},
 		unset: function(key) {
 			return sessionStorage.removeItem(key);
+		},
+		clear: function() {
+			this.unset(this.USER_KEY);
+			this.unset(this.ACCOUNT_KEY);
+			this.unset(this.AUTHENTICATED_KEY);
+			this.unset(this.CONTENT_TYPES_KEY);
+			this.unset(this.ACCOUNT_USERS_KEY);
 		}
 	};
 });

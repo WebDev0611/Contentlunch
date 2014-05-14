@@ -464,7 +464,11 @@
 		return (state.length === 1) ? state[0] : null;
 	},
 
-	formatDate: function(date) {
+	formatDate: function (date) {
+		if (launch.utils.isBlank(date) || (Object.prototype.toString.call(date) === '[object Date]') && isNaN(date.getTime())) {
+			return '';
+		}
+
 		date = new Date(date);
 
 		var mo = date.getMonth() + 1;
@@ -655,7 +659,7 @@
 			return null;
 		}
 
-		var cs = (!!stage.currentStep && !launch.utils.isBlank(stage.currentStep.name)) ? stage.currentStep.name.toLowerCase() : stage.toLowerCase();
+		var cs = (!!stage.currentStep && !launch.utils.isBlank(stage.currentStep())) ? stage.currentStep().toLowerCase() : stage.toLowerCase();
 
 		switch (cs) {
 			case 'concept':

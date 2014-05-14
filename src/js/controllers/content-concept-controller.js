@@ -1,5 +1,5 @@
 ﻿launch.module.controller('ContentConceptController', [
-	'$scope', '$routeParams', '$filter', '$location', 'AuthService', 'UserService', 'ContentSettingsService', 'ConceptService', 'ContentService', 'NotificationService', function ($scope, $routeParams, $filter, $location, authService, userService, contentSettingsService, conceptService, contentService, notificationService) {
+	'$scope', '$routeParams', '$filter', '$location', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'NotificationService', function ($scope, $routeParams, $filter, $location, authService, userService, contentSettingsService, contentService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -34,10 +34,10 @@
 			var conceptId = parseInt($routeParams.conceptId);
 
 			if (isNaN(conceptId)) {
-				$scope.concept = conceptService.getNewContentConcept(self.loggedInUser);
+				$scope.concept = contentService.getNewContentConcept(self.loggedInUser);
 				$scope.isNewConcept = true;
 			} else {
-				$scope.concept = conceptService.get(self.loggedInUser.account.id, conceptId, {
+				$scope.concept = contentService.get(self.loggedInUser.account.id, conceptId, {
 					success: function (r) {
 
 					},
@@ -86,7 +86,7 @@
 				return;
 			}
 
-			var method = $scope.isNewConcept ? conceptService.add : conceptService.update;
+			var method = $scope.isNewConcept ? contentService.add : contentService.update;
 
 			$scope.isSaving = true;
 
@@ -117,6 +117,27 @@
 
 		$scope.convertConcept = function() {
 			notificationService.info('WARNING!', 'THIS IS NOT YET IMPLEMENTED!!');
+		};
+
+		$scope.updateContentType = function() {
+			var contentTypeName = $scope.concept.contentType.name;
+			var contentType = $.grep($scope.contentTypes, function(ct) { return ct.name === contentTypeName; });
+
+			$scope.concept.contentType = contentType[0];
+		};
+
+		$scope.updateAuthor = function () {
+			var userId = parseInt($scope.concept.author.id);
+			var user = $.grep($scope.users, function (u) { return u.id === userId; });
+
+			$scope.concept.author = user[0];
+		};
+
+		$scope.updateCampaign = function () {
+			var campaignId = parseInt($scope.concept.campaignId);
+			var campaign = $.grep($scope.campaigns, function (u) { return u.id === campaignId; });
+
+			$scope.campaignId = campaign[0].id;
 		};
 
 		self.init();
