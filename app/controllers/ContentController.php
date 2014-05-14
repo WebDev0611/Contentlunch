@@ -98,7 +98,7 @@ class ContentController extends BaseController {
     $content->user_id = $user['id'];
 
     // Update content type
-    $contentType = Input::get('type');
+    $contentType = Input::get('content_type');
     $content->content_type_id = $contentType['id'];
 
     // Update campaign

@@ -188,7 +188,7 @@ class ContentIntegrationTest extends TestCase {
     
     // Update content type
     $type = Woodling::saved('ContentType');
-    $data['type'] = $type->toArray();
+    $data['content_type'] = $type->toArray();
 
     // Update campaign
     $campaign = Woodling::saved('Campaign', [
