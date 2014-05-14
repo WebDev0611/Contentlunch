@@ -137,6 +137,17 @@ class ContentIntegrationTest extends TestCase {
       $content->related()->attach($relatedContent->id);
     }
 
+    // Update data direct on content, this will be asserted
+    $content->title = 'Updated title';
+    $content->body = 'Updated body';
+    $content->buying_stage = 3;
+    $content->persona = 'New persona';
+    $content->secondary_buying_stage = 4;
+    $content->secondary_persona = 'New secondary persona';
+    $content->concept = 'New concept';
+    $content->status = $content->status + 1;
+    $content->archived = ! $content->archived;
+
     // Setup data to PUT on the server
     $data = $content->toArray();
     
@@ -195,6 +206,30 @@ class ContentIntegrationTest extends TestCase {
     $this->assertEquals($accountConnections[1]->id, $data->account_connections[1]->id);
     $this->assertEquals($related[0]->id, $data->related[0]->id);
     $this->assertEquals($related[1]->id, $data->related[1]->id);
+  }
+
+  public function testDestroy()
+  {
+    // Setup data needed for content
+    $account = Woodling::saved('Account');
+    $user = Woodling::saved('User');
+    $campaignType = Woodling::saved('CampaignType');
+    $campaign = Woodling::saved('Campaign', [
+      'account_id' => $account->id,
+      'user_id' => $user->id,
+      'campaign_type_id' => $campaignType->id
+    ]);
+    $type = Woodling::saved('ContentType');
+
+    // Content to delete
+    $content = Woodling::saved('Content', [
+      'user_id' => $user->id,
+      'account_id' => $account->id,
+      'content_type_id' => $type->id,
+      'campaign_id' => $campaign->id,
+    ]);
+    $response = $this->call('DELETE', '/api/account/'. $account->id .'/content/'. $content->id);
+    $data = $this->assertResponse($response);
   }
 
 }
