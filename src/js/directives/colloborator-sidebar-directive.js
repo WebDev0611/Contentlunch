@@ -2,7 +2,6 @@
 	return {
 		templateUrl: '/assets/views/colloborator-sidebar.html',
 		scope: {
-			collaborators: '=collaborators',
 			users: '=users',
 			itemId: '=itemId',
 			itemType: '=itemType',
@@ -15,6 +14,16 @@
 			self.init = function() {
 				self.loggedInUser = AuthService.userInfo();
 				self.service = (scope.itemType.toLowerCase() === 'campaign') ? CampaignService : ContentService;
+			};
+
+			self.refreshCollaborators = function () {
+				scope.collaborators = self.service.queryCollaborators(self.loggedInUser.account.id, scope.itemId, null, {
+					success: function (r) {
+					},
+					error: function (r) {
+						launch.utils.handleAjaxErrorResponse(r, NotificationService);
+					}
+				});
 			};
 
 			self.validateScope = function() {
@@ -31,6 +40,7 @@
 				return true;
 			};
 
+			scope.collaborators = null;
 			scope.newCollaborator = 0;
 
 			scope.addCollaborator = function () {
@@ -38,44 +48,44 @@
 					return;
 				}
 
-				// TODO: HOOK THIS UP TO THE API INSTEAD OF SIMPLY ADDING THE ITEM TO THE ARRAY!!
-				var user = $.grep(scope.users, function(u, i) {
-					return u.id === parseInt(scope.newCollaborator);
-				});
-
-				if (user.length === 1 && $.grep(scope.collaborators, function(c, i) { return c.id === user[0].id; }).length === 0) {
-					var collaborator = {
-						id: user[0].id,
-						name: user[0].formatName(),
-						image: user[0].imageUrl()
-					};
-
-					scope.collaborators.push(collaborator);
-
-					if ($.isFunction(scope.addCollaboratorCallback)) {
-						scope.addCollaboratorCallback();
+				scope.collaborators = self.service.insertCollaborator(self.loggedInUser.account.id, scope.itemId, parseInt(scope.newCollaborator), {
+					success: function (r) {
+						if ($.isFunction(scope.addCollaboratorCallback)) {
+							scope.addCollaboratorCallback();
+						}
+					},
+					error: function(r) {
+						launch.utils.handleAjaxErrorResponse(r, NotificationService);
 					}
-				}
+				});
 
 				scope.newCollaborator = 0;
 			};
 
-			scope.removeCollaborator = function(collaborator) {
+			scope.removeCollaborator = function (collaborator) {
 				if (!self.validateScope()) {
 					return;
 				}
 
-				// TODO: HOOK THIS UP TO THE API INSTEAD OF SIMPLY REMOVING THE ITEM FROM THE ARRAY!!
-				scope.collaborators = $.grep(scope.collaborators, function(c, i) {
-					return c.id !== collaborator.id;
+				scope.collaborators = self.service.deleteCollaborator(self.loggedInUser.account.id, parseInt(scope.itemId), collaborator.id, {
+					success: function(r) {
+						if ($.isFunction(scope.removeCollaboratorCallback)) {
+							scope.removeCollaboratorCallback(collaborator);
+						}
+					},
+					error: function (r) {
+						launch.utils.handleAjaxErrorResponse(r, NotificationService);
+					}
 				});
-
-				if ($.isFunction(scope.removeCollaboratorCallback)) {
-					scope.removeCollaboratorCallback(collaborator);
-				}
 			};
 
 			self.init();
+
+			scope.$watch('itemId', function() {
+				if (!launch.utils.isBlank(scope.itemId)) {
+					self.refreshCollaborators();
+				}
+			});
 		}
 	};
 });

@@ -2,7 +2,6 @@
 	return {
 		templateUrl: '/assets/views/discussion-panel.html',
 		scope: {
-			discussion: '=discussion',
 			itemId: '=itemId',
 			itemType: '=itemType',
 			addCommentCallback: '=addCommentCallback'
@@ -12,22 +11,41 @@
 
 			self.init = function() {
 				self.loggedInUser = AuthService.userInfo();
+				self.service = (scope.itemType.toLowerCase() === 'campaign') ? CampaignService : ContentService;
 			};
 
-			scope.newComment = null;
+			self.refreshComments = function() {
+				scope.comments = self.service.queryComments(self.loggedInUser.account.id, scope.itemId, null, {
+					success: function(r) {
+					},
+					error: function(r) {
+						launch.utils.handleAjaxErrorResponse(r, NotificationService);
+					}
+				});
+			};
 
-			scope.addComment = function () {
+			self.validateScope = function () {
 				if (launch.utils.isBlank(scope.itemType) || (scope.itemType.toLowerCase() !== 'content' && scope.itemType.toLowerCase() !== 'campaign')) {
-					NotificationService.error('Error!!', 'Cannot attach a comment to a ' + scope.itemType + '!');
-					return;
+					NotificationService.error('Error!!', 'Cannot add a comment to a ' + scope.itemType + '!');
+					return false;
 				}
 
 				if (launch.utils.isBlank(scope.itemId) || isNaN(scope.itemId)) {
 					NotificationService.error('Error!!', 'Invalid ' + scope.itemType + ' ID.');
+					return false;
+				}
+
+				return true;
+			};
+
+			scope.comments = null;
+			scope.newComment = null;
+
+			scope.addComment = function () {
+				if (!self.validateScope()) {
 					return;
 				}
 
-				var service = (scope.itemType.toLowerCase() === 'campaign') ? CampaignService : ContentService;
 				var comment = new launch.Comment();
 
 				comment.id = null;
@@ -47,14 +65,13 @@
 					return;
 				}
 
-				// TODO: INSTEAD OF SIMPLY ADDING THE COMMENT, POST TO THE API AND REFRESH THE DISCUSSION!!
-				service.insertComment(self.loggedInUser.account.id, comment, {
-					success: function(r) {
-						scope.discussion = service.queryComments(self.loggedInUser.account.id, scope.itemId, {
-							error: function (r1) {
-								launch.utils.handleAjaxErrorResponse(r1, NotificationService);
-							}
-						});
+				self.service.insertComment(self.loggedInUser.account.id, comment, {
+					success: function (r) {
+						self.refreshComments();
+
+						if ($.isFunction(scope.addCommentCallback)) {
+							scope.addCommentCallback(comment);
+						}
 					},
 					error: function(r) {
 						launch.utils.handleAjaxErrorResponse(r, NotificationService);
@@ -62,13 +79,15 @@
 				});
 
 				scope.newComment = null;
-
-				if ($.isFunction(scope.addCommentCallback)) {
-					scope.addCommentCallback(comment);
-				}
 			};
 
 			self.init();
+
+			scope.$watch('itemId', function() {
+				if (!launch.utils.isBlank(scope.itemId)) {
+					self.refreshComments();
+				}
+			});
 		}
 	};
 });
