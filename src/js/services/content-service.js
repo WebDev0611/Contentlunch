@@ -117,6 +117,19 @@
 
 			return contentTypes;
 		},
+		getNewContent: function(user) {
+			var content = new launch.Content();
+
+			content.accountId = user.account.id;
+			content.author = user;
+			content.status = 1;
+			content.collaborators = [];
+			content.comments = [];
+			content.accountConnections = [];
+			content.contentType = {};
+
+			return content;
+		},
 		getNewContentConcept: function (user) {
 			var content = new launch.Content();
 

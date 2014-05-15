@@ -447,11 +447,21 @@ header .login-info .popover-menu .admin-menu li .glyphicon {
 .has-error .mce-panel {
   border-color: #ff0000;
 }
+label {
+  display: inline;
+  font-family: 'Lato-Bold';
+  margin: 0;
+}
+label span {
+  font-family: 'Lato';
+  font-weight: normal;
+}
 label .error-message {
   float: right;
 }
 .form-group {
   margin: 16px 0;
+  padding: 0 !important;
 }
 .form-group .multi-select,
 .form-group .select2-container {
@@ -490,15 +500,6 @@ label .error-message {
   position: absolute;
   right: 10px;
   top: 10px;
-}
-label {
-  display: inline;
-  font-family: 'Lato-Bold';
-  margin: 0;
-}
-label span {
-  font-family: 'Lato';
-  font-weight: normal;
 }
 span[class^="icon-"],
 span[class*=" icon-"] {
@@ -864,7 +865,8 @@ span[class*=" icon-"].dark {
 .role-editor .user-image-upload,
 .content-settings-editor .user-image-upload,
 .seo-settings-editor .user-image-upload,
-.concept-editor .user-image-upload {
+.concept-editor .user-image-upload,
+.content-editor .user-image-upload {
   float: left;
   text-align: center;
   width: 120px;
@@ -874,7 +876,8 @@ span[class*=" icon-"].dark {
 .role-editor .user-image-upload .user-image,
 .content-settings-editor .user-image-upload .user-image,
 .seo-settings-editor .user-image-upload .user-image,
-.concept-editor .user-image-upload .user-image {
+.concept-editor .user-image-upload .user-image,
+.content-editor .user-image-upload .user-image {
   border: solid 3px #ffffff;
   display: block;
   height: 96px;
@@ -886,7 +889,8 @@ span[class*=" icon-"].dark {
 .role-editor .user-image-upload button,
 .content-settings-editor .user-image-upload button,
 .seo-settings-editor .user-image-upload button,
-.concept-editor .user-image-upload button {
+.concept-editor .user-image-upload button,
+.content-editor .user-image-upload button {
   margin: 16px 0;
 }
 .user-editor .user-image-upload input[type="file"],
@@ -894,7 +898,8 @@ span[class*=" icon-"].dark {
 .role-editor .user-image-upload input[type="file"],
 .content-settings-editor .user-image-upload input[type="file"],
 .seo-settings-editor .user-image-upload input[type="file"],
-.concept-editor .user-image-upload input[type="file"] {
+.concept-editor .user-image-upload input[type="file"],
+.content-editor .user-image-upload input[type="file"] {
   display: none;
 }
 .user-editor .user-editor,
@@ -902,7 +907,8 @@ span[class*=" icon-"].dark {
 .role-editor .user-editor,
 .content-settings-editor .user-editor,
 .seo-settings-editor .user-editor,
-.concept-editor .user-editor {
+.concept-editor .user-editor,
+.content-editor .user-editor {
   margin-left: 128px;
 }
 .user-editor .control-group,
@@ -910,7 +916,8 @@ span[class*=" icon-"].dark {
 .role-editor .control-group,
 .content-settings-editor .control-group,
 .seo-settings-editor .control-group,
-.concept-editor .control-group {
+.concept-editor .control-group,
+.content-editor .control-group {
   margin: 0 8px 8px 0;
 }
 .user-editor .control-group .form-group,
@@ -918,17 +925,28 @@ span[class*=" icon-"].dark {
 .role-editor .control-group .form-group,
 .content-settings-editor .control-group .form-group,
 .seo-settings-editor .control-group .form-group,
-.concept-editor .control-group .form-group {
+.concept-editor .control-group .form-group,
+.content-editor .control-group .form-group {
   display: inline-block;
   margin: 0 8px 0 0;
   min-width: 20em;
+}
+.user-editor .control-group .form-group.form-group-wide,
+.account-editor .control-group .form-group.form-group-wide,
+.role-editor .control-group .form-group.form-group-wide,
+.content-settings-editor .control-group .form-group.form-group-wide,
+.seo-settings-editor .control-group .form-group.form-group-wide,
+.concept-editor .control-group .form-group.form-group-wide,
+.content-editor .control-group .form-group.form-group-wide {
+  min-width: 30em;
 }
 .user-editor .control-group.btn-toolbar,
 .account-editor .control-group.btn-toolbar,
 .role-editor .control-group.btn-toolbar,
 .content-settings-editor .control-group.btn-toolbar,
 .seo-settings-editor .control-group.btn-toolbar,
-.concept-editor .control-group.btn-toolbar {
+.concept-editor .control-group.btn-toolbar,
+.content-editor .control-group.btn-toolbar {
   margin: 16px 0;
 }
 .user-editor {
@@ -1345,7 +1363,8 @@ span[class*=" icon-"].dark {
 .create .right-pane > .panel {
   margin: 0 16px 16px 16px;
 }
-.create .right-pane .concept-editor {
+.create .right-pane .concept-editor,
+.create .right-pane .content-editor {
   margin: 20px 0;
 }
 .create .right-pane .concept-container .form-group {
@@ -1497,6 +1516,38 @@ span[class*=" icon-"].dark {
   color: white;
   background: #333333;
 }
+.btn-inverse:focus {
+  color: white;
+}
+.btn-inverse:active {
+  color: #ccc;
+}
+table.structural {
+  width: 100%;
+}
+table.structural th,
+table.structural td {
+  padding-right: 20px;
+}
+table.structural th:last-child,
+table.structural td:last-child {
+  padding-right: 0;
+}
+table.structural.small-headers th {
+  font-size: 10px;
+}
+table.structural tbody td {
+  padding-bottom: 15px;
+}
+.align-center {
+  text-align: center;
+}
+.icon-danger {
+  color: #d9534f;
+}
+[ng-click]:not(.modal) {
+  cursor: pointer;
+}
 .accordion-blend .panel-group .panel + .panel {
   margin: 0;
 }
@@ -1529,6 +1580,12 @@ span[class*=" icon-"].dark {
 }
 .select2-container.select2-container .select2-choice .select2-arrow b {
   background: url(/assets/images/select2.png) no-repeat 0 4px;
+}
+.select2-container.select2-container .select2-choice abbr {
+  background-image: url(/assets/images/select2.png);
+}
+.select2-search-choice-close {
+  background-image: url(/assets/images/select2.png);
 }
 .link-button-container {
   text-align: center;

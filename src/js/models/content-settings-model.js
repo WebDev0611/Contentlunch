@@ -16,6 +16,12 @@
 	self.personaProperties = ['Name', 'Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5'];
 	self.personas = [];
 
+	self.buyingStages = function() {
+		return $.grep(self.personaProperties, function(pp, i) {
+			return (!launch.utils.isBlank(pp) && pp.toLowerCase() !== 'name');
+		});
+	};
+
 	self.addEmptyPerona = function() {
 		var properties = [];
 
