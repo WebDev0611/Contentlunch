@@ -17,8 +17,11 @@ class DatabaseSeeder extends Seeder {
     DB::table('content_tags')->delete();
     DB::table('content_comments')->delete();
     DB::table('content_related')->delete();
+    DB::table('content_collaborators')->delete();
+    DB::table('content_account_connections')->delete();
     DB::table('content')->delete();
 
+    DB::table('campaign_collaborators')->delete();
     DB::table('campaign_tags')->delete();
     DB::table('campaigns')->delete();
 
