@@ -11,7 +11,10 @@ class CampaignController extends BaseController {
     if ( ! $this->inAccount($account->id)) {
       return $this->responseAccessDenied();
     }
-    return Campaign::doQuery($account->id);
+    return Campaign::where('account_id', $account->id)
+      ->with('tags')
+      ->with('collaborators')
+      ->get();
   }
 
   public function store($accountID)
@@ -35,7 +38,9 @@ class CampaignController extends BaseController {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    $campaign = Campaign::with('tags')->find($id);
+    $campaign = Campaign::with('tags')
+      ->with('collaborators')
+      ->find($id);
     return $campaign;
   }
 
