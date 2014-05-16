@@ -27,8 +27,8 @@ class CampaignController extends BaseController {
       return $this->responseAccessDenied();
     }
     $campaign = new Campaign;
-    if ($campaign->store()) {
-      return $this->show($campaign->id);
+    if ($campaign->save()) {
+      return $this->show($accountID, $campaign->id);
     }
     return $this->responseError($campaign->errors()->all(':message'));
   }
@@ -51,7 +51,7 @@ class CampaignController extends BaseController {
     }
     $campaign = Campaign::find($id);
     if ($campaign->updateUniques()) {
-      return $this->show($campaign->id);
+      return $this->show($accountID, $campaign->id);
     }
     return $this->responseError($campaign->errors()->all(':message'));
   }

@@ -43,5 +43,8 @@
         <testsuite name="Content">
           <file>./app/tests/integration/ContentIntegrationTest.php</file>
         </testsuite>
+        <testsuite name="Campaign">
+          <file>./app/tests/integration/CampaignIntegrationTest.php</file>
+        </testsuite>
     </testsuites>
 </phpunit>
