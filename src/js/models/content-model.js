@@ -23,7 +23,7 @@
 	self.comments = null;
 	self.contentType = null;
 	self.accountConnections = null;
-	self.related = null;
+	self.relatedContent = null;
 	self.tags = null;
 	self.user = null;
 
