@@ -249,8 +249,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     }
     $this->assertEquals($status, $response->getStatusCode(), "Response: ". $response->getContent());
     // Response is json?
+    $s = $response->getContent();
+    
     $data = json_decode($response->getContent());
-    //$this->assertTrue(is_array($data), "Response was not JSON");
+    if ( ! (is_array($data) && empty($data))) {
+      $this->assertNotEmpty($data, "Response was not JSON");
+    }
     // Fail responses should contain error(s)
     if ($fail) {
       $this->assertTrue( ! empty($data->errors) || ! empty($data->error), "Fail response should contain error(s). Response: ". print_r($data, 1));
