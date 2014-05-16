@@ -3,7 +3,7 @@
 	<div class="col-md-9 right-pane">
 		<h2 class="right-pane-header">Create</h2>
 		
-		<div class="concept-editor row">
+		<div class="content-editor row">
 			<div class="col-md-9">
 				<div class="create-content-header row">
 					<div class="content-workflow col-md-6">
@@ -34,18 +34,25 @@
 				<h2>Create Content</h2>
 
 				<form name="editContent" novalidate="novalidate">
-					<div class="control-group" ng-class="{ 'has-error': hasError(content, 'title', editContent.txtContentName, forceDirty) }">
-						<label class="control-label" for="txtContentName">Content Title</label>
-						<input type="text" name="txtContentName" id="txtContentName" class="form-control" ng-model="content.title"
-								error-message message="errorMessage(content, 'title', editContent.txtContentName)" />
+					<div class="control-group">
+						<div class="form-group form-group-wide" ng-class="{ 'has-error': hasError(content, 'title', editContent.txtContentName, forceDirty) }">
+							<label class="control-label" for="txtContentName">Content Title</label>
+							<input type="text" name="txtContentName" id="txtContentName" class="form-control" ng-model="content.title"
+									error-message message="errorMessage(content, 'title', editContent.txtContentName)" />
+						</div>
+						<div class="form-group">
+							&nbsp;<br/>
+							<a href="#" ng-click="showPublishingGuidelines()">Publishing Guidelines</a>
+						</div>
 					</div>
 					
 					<div class="control-group">
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'contentType.name', editContent.selContentType, forceDirty) }">
 							<label class="control-label" for="selContentType">Content Type</label>
-							<select name="selContentType" id="selContentType"
+							<select name="selContentType" id="selContentType" ng-disabled="!isNewContent"
 									ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem, selectOnBlur: true }" ng-model="content.contentType.name"
 									data-placeholder="Select Content Type" error-message message="errorMessage(content, 'contentType.name', editContent.selContentType)" ng-change="updateContentType()">
+								<option value=""></option>
 								<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
 							</select>
 						</div>
@@ -55,6 +62,7 @@
 							<select name="selContentConnection" id="selContentConnection"
 									ui-select2="{ formatResult: formatContentConnectionItem, formatSelection: formatContentConnectionItem, selectOnBlur: true }" ng-model="content.author.id"
 									data-placeholder="Select Content Connection" error-message message="errorMessage(content, 'author', editContent.selContentConnection)" ng-change="updateAuthor()">
+								<option value=""></option>
 								<option ng-repeat="cc in contentConnections" value="{{ cc.id }}">{{ cc.name }}</option>
 							</select>
 						</div>
@@ -64,6 +72,7 @@
 							<select name="selAuthor" id="selAuthor"
 									ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="content.author.id"
 									data-placeholder="Select Content Creator" error-message message="errorMessage(content, 'author', editContent.selAuthor)" ng-change="updateAuthor()">
+								<option value=""></option>
 								<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
 							</select>
 						</div>
@@ -71,13 +80,98 @@
 
 					<div class="control-group" ng-class="{ 'has-error': hasError(content, 'body', editContent.txtContentDesc, forceDirty) }">
 						<textarea name="txtContentDesc" id="txtContentDesc" rich-text-editor ng-model="content.body"
-							error-message message="errorMessage(content, 'body', editContent.txtContentDesc)">{{ content.body }}</textarea>
+								error-message message="errorMessage(content, 'body', editContent.txtContentDesc)">{{ content.body }}</textarea>
+					</div>
+
+					<div class="control-group">
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="">Add a File</button>
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="analyzeContent()">Analyze my Content</button>
+					</div>
+
+					<div class="control-group">
+						<div class="form-group">
+							<label for="txtTags">Tags</label> (separate by comma)
+							<textarea name="txtTags" id="txtTags" class="form-control" ng-model="content.tags"></textarea>
+						</div>
+
+						<div class="form-group">
+							<label for="txtRelatedContent">Related Content</label> (separate by comma)
+							<textarea name="txtRelatedContent" id="txtRelatedContent" class="form-control" ng-model="content.relatedContent"></textarea>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'buyingStage', editContent.selBuyingStage, forceDirty) }">
+							<label for="selBuyingStage">Buying Stage</label>
+							<select name="selBuyingStage" id="selBuyingStage"
+									ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem, selectOnBlur: true }" ng-model="content.buyingStage"
+									data-placeholder="Select Buying Stage" error-message message="errorMessage(content, 'buyingStage', editContent.selBuyingStage)">
+								<option value=""></option>
+								<option ng-repeat="bs in buyingStages" value="{{ $index }}">{{ bs }}</option>
+							</select>
+						</div>
+
+						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'persona', editContent.selPersona, forceDirty) }">
+							<label for="selPersona">Persona</label>
+							<select name="selPersona" id="selPersona"
+									ui-select2="{ selectOnBlur: true }" ng-model="content.persona"
+									data-placeholder="Select Persona" error-message message="errorMessage(content, 'persona', editContent.selPersona)">
+								<option value=""></option>
+								<option ng-repeat="p in contentSettings.personas" value="{{ p.name }}">{{ p.name }}</option>
+							</select>
+						</div>
+
+						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'campaign', editContent.selCampaign, forceDirty) }">
+							<label for="selCampaign">Campaign</label>
+							<select name="selCampaign" id="selCampaign"
+									ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, selectOnBlur: true }" ng-model="content.campaign"
+									data-placeholder="Select Campaign" error-message message="errorMessage(content, 'campaign', editContent.selCampaign)">
+								<option value=""></option>
+								<option ng-repeat="c in campaigns" value="{{ ct.id }}">{{ ct.name }}</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<div class="form-group">
+							<label for="selSecondaryBuyingStage">Secondary Buying Stage</label>
+							<select name="selSecondaryBuyingStage" id="selSecondaryBuyingStage"
+									ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem, allowClear: true }" ng-model="content.secondaryBuyingStage"
+									data-placeholder="Select Secondary Buying Stage">
+								<option value=""></option>
+								<option ng-repeat="bs in buyingStages" value="{{ $index }}">{{ bs }}</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="selSecondaryPersona">Secondary Persona</label>
+							<select name="selSecondaryPersona" id="selSecondaryPersona"
+									ui-select2="{ allowClear: true }" ng-model="content.secondaryPersona" data-placeholder="Select Secondary Persona">
+								<option value=""></option>
+								<option ng-repeat="p in contentSettings.personas" value="{{ p.name }}">{{ p.name }}</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveContent()">Save</button>
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitForEditing()">Submit for Editing</button>
 					</div>
 				</form>
 			</div>
-			<div class="col-md-3" collaborator-sidebar collaborators="content.collaborators" users="users" item-id="content.id" item-type="'content'"></div>
+			<div class="col-md-3" collaborator-sidebar collaborators="content.collaborators" users="users" item-id="content.id" item-type="'content'" ng-hide="isNewContent"></div>
 		</div>
 
-		<div ng-hide="isNewContent" discussion-panel discussion="content.comments" item-id="content.id" item-type="'content'"></div>
+		<div ng-hide="isNewContent" discussion-panel discussion="content.comments" item-id="content.id" item-type="'content'" ng-hide="isNewContent"></div>
 	</div>
 </div>
+
+<script type="text/ng-template" id="publishing-guidelines.html">
+	<div class="modal-header">Publishing Guidelines</div>
+	<div class="modal-body">
+		{{ publishingGuidelines }}
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="ok()">OK</button>
+	</div>
+</script>

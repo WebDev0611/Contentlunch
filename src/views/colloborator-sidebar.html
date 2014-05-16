@@ -8,8 +8,8 @@
 
 		<ul class="concept-collaborators">
 			<li ng-repeat="c in collaborators">
-				<span class="user-image user-image-medium" ng-style="{ 'background-image': c.image }"></span>
-				{{ c.name }}
+				<span class="user-image user-image-medium" ng-style="{ 'background-image': c.imageUrl() }"></span>
+				{{ c.formatName() }}
 				<span class="fa fa-trash-o" ng-click="removeCollaborator(c)"></span>
 			</li>
 		</ul>

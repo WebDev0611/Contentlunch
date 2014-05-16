@@ -1145,8 +1145,12 @@
 			content.comments = ($.isArray(dto.comments)) ? $.map(dto.comments, self.comment.fromDto) : null;
 			content.accountConnections = ($.isArray(dto.account_connections)) ? $.map(dto.account_connections, self.contentConnection.fromDto) : null;
 
-			content.related = null;
-			content.tags = null;
+			//content.relatedContent = dto.related.join(',');
+			//content.tags = dto.tags.join(',');
+
+			content.tags = $.map(dto.tags, function(t, i) {
+				return t.tag;
+			});
 
 			// TODO: REMOVE THIS WHEN IT COMES FROM THE API!!
 			if (isNaN(content.status)) { content.status = 1; }
@@ -1181,8 +1185,8 @@
 			dto.comments = $.isArray(content.comments) ? $.map(content.comments, self.comment.toDto) : null;
 			dto.account_connections = $.isArray(content.accountConnections) ? $.map(content.accountConnections, self.contentConnection.toDto) : null;
 
-			dto.related = null;
-			dto.tags = null;
+			dto.related = content.relatedContent.split(',');
+			dto.tags = content.tags.split(',');
 
 			return dto;
 		}

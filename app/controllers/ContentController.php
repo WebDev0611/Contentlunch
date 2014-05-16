@@ -34,10 +34,14 @@ class ContentController extends BaseController {
     $content->account_id = $accountID;
     $user = Input::get('user');
     $content->user_id = $user['id'];
-    $contentType = Input::get('content_type');
-    $content->content_type_id = $contentType['id'];
-    $campaign = Input::get('campaign');
-    $content->campaign_id = $campaign['id'];
+    if (Input::has('content_type')) {
+      $contentType = Input::get('content_type');
+      $content->content_type_id = $contentType['id'];
+    }
+    if (Input::has('campaign')) {
+      $campaign = Input::get('campaign');
+      $content->campaign_id = $campaign['id'];
+    }
     if ($content->save()) {
       // Attach new tags
       $tags = Input::get('tags');
@@ -94,12 +98,16 @@ class ContentController extends BaseController {
     $content->user_id = $user['id'];
 
     // Update content type
-    $contentType = Input::get('content_type');
-    $content->content_type_id = $contentType['id'];
+    if (Input::has('content_type')) {
+      $contentType = Input::get('content_type');
+      $content->content_type_id = $contentType['id'];
+    }
 
     // Update campaign
-    $campaign = Input::get('campaign');
-    $content->campaign_id = $campaign['id'];
+    if (Input::has('campaign')) {
+      $campaign = Input::get('campaign');
+      $content->campaign_id = $campaign['id'];
+    }
 
     if ($content->updateUniques()) {
       
@@ -121,7 +129,11 @@ class ContentController extends BaseController {
       }
       
       // Remove any tags that weren't present in Input
-      ContentTag::where('content_id', $content->id)->whereNotIn('id', $updateIDs)->delete();
+      $query = ContentTag::where('content_id', $content->id);
+      if ($updateIDs) {
+        $query->whereNotIn('id', $updateIDs);
+      }
+      $query->delete();
 
       // Sync account connections
       $connections = Input::get('account_connections');

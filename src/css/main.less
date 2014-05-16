@@ -284,6 +284,15 @@ header {
 }
 
 label {
+	display: inline;
+	font-family: 'Lato-Bold';
+	margin: 0;
+
+	span {
+		font-family: 'Lato';
+		font-weight: normal;
+	}
+
 	.error-message {
 		float: right;
 	}
@@ -291,6 +300,7 @@ label {
 
 .form-group {
 	margin: 16px 0;
+	padding: 0 !important;
 
 	.multi-select, .select2-container {
 		width: 100%;
@@ -335,17 +345,6 @@ label {
 			right: 10px;
 			top: 10px;
 		}
-	}
-}
-
-label {
-	display: inline;
-	font-family: 'Lato-Bold';
-	margin: 0;
-
-	span {
-		font-family: 'Lato';
-		font-weight: normal;
 	}
 }
 
@@ -696,7 +695,8 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.user-editor, .account-editor, .role-editor, .content-settings-editor, .seo-settings-editor, .concept-editor {
+.user-editor, .account-editor, .role-editor, .content-settings-editor, .seo-settings-editor,
+.concept-editor, .content-editor {
 	.user-image-upload {
 		float: left;
 		text-align: center;
@@ -730,6 +730,10 @@ span[class^="icon-"], span[class*=" icon-"] {
 			display: inline-block;
 			margin: 0 8px 0 0;
 			min-width: 20em;
+
+			&.form-group-wide {
+				min-width: 30em;
+			}
 		}
 
 		&.btn-toolbar {
@@ -1252,7 +1256,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 			margin: 0 16px 16px 16px;
 		}
 
-		.concept-editor {
+		.concept-editor, .content-editor {
 			margin: 20px 0;
 		}
 
@@ -1540,8 +1544,16 @@ table.structural {
 					background: url(/assets/images/select2.png) no-repeat 0 4px;
 				}
 			}
+
+			abbr {
+				background-image: url(/assets/images/select2.png);
+			}
 		}
 	}
+}
+
+.select2-search-choice-close {
+	background-image: url(/assets/images/select2.png);
 }
 
 .link-button-container {

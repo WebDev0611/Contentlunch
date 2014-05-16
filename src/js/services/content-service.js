@@ -13,11 +13,11 @@
 		insert: { method: 'POST', transformRequest: ModelMapperService.comment.formatRequest, transformResponse: ModelMapperService.comment.parseResponse }
 	});
 
-	var contentCollaborators = $resource('/api/account/:accountId/content/:contentId/collaborators', { accountId: '@accountId', id: '@contentId' }, {
+	var contentCollaborators = $resource('/api/account/:accountId/content/:contentId/collaborators/:userId', { accountId: '@accountId', contentId: '@contentId', userId: '@userId' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.user.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
-		insert: { method: 'POST', transformRequest: ModelMapperService.user.formatRequest, transformResponse: ModelMapperService.user.parseResponse },
-		delete: { method: 'DELETE' }
+		insert: { method: 'POST', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
+		delete: { method: 'DELETE', isArray: true, transformResponse: ModelMapperService.user.parseResponse }
 	});
 
 	var contentType = $resource('/api/content-types', null, {
@@ -73,11 +73,11 @@
 
 			return contentComments.insert({ accountId: accountId, contentId: comment.itemId }, comment, success, error);
 		},
-		getCollaborator: function (accountId, contentId, id, params, callback) {
+		getCollaborator: function (accountId, contentId, userId, params, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return contentCollaborators.get({ accountId: accountId, contentId: contentId, id: id }, success, error);
+			return contentCollaborators.get({ accountId: accountId, contentId: contentId, userId: userId }, success, error);
 		},
 		queryCollaborators: function (accountId, contentId, params, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -85,17 +85,17 @@
 
 			return contentCollaborators.query({ accountId: accountId, contentId: contentId }, success, error);
 		},
-		insertCollaborator: function (accountId, contentId, collaborator, callback) {
+		insertCollaborator: function (accountId, contentId, userId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return contentCollaborators.insert({ accountId: accountId, contentId: contentId }, collaborator, success, error);
+			return contentCollaborators.insert({ accountId: accountId, contentId: contentId }, { user_id: userId }, success, error);
 		},
-		deleteCollaborator: function (accountId, contentId, id, callback) {
+		deleteCollaborator: function (accountId, contentId, userId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return contentCollaborators.delete({ accountId: accountId, contentId: contentId, id: id }, success, error);
+			return contentCollaborators.delete({ accountId: accountId, contentId: contentId, userId: userId }, success, error);
 		},
 		getContentTypes: function (callback, forceRefresh) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -116,6 +116,19 @@
 			}, error);
 
 			return contentTypes;
+		},
+		getNewContent: function(user) {
+			var content = new launch.Content();
+
+			content.accountId = user.account.id;
+			content.author = user;
+			content.status = 1;
+			content.collaborators = [];
+			content.comments = [];
+			content.accountConnections = [];
+			content.contentType = {};
+
+			return content;
 		},
 		getNewContentConcept: function (user) {
 			var content = new launch.Content();
