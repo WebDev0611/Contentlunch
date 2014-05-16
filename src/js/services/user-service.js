@@ -37,7 +37,10 @@ launch.module.factory('UserService', function ($resource, $upload, AccountServic
 
 			accountUserItems = accountUsers.get({ id: id }, function (r) {
 				SessionService.set(SessionService.ACCOUNT_USERS_KEY, JSON.stringify(accountUserItems));
-				success(r);
+
+				if (!!success) {
+					success(r);
+				}
 			}, error);
 
 			return accountUserItems;

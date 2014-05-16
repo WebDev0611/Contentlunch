@@ -1677,3 +1677,101 @@ table.structural {
 		&:extend(.btn);
 	}
 }
+
+.calendar-node {
+	background: white;
+	margin: 2px;
+	padding: 2px;
+	color: black;
+	height: calc(100% - 5px);
+
+	&:after {
+		clear: both;
+	}
+
+	&-title {
+		line-height: 12px;
+	}
+
+	&-connection-icon {
+		float: left;
+		margin: 3px 8px 0 0;
+
+		img {
+			display: block;
+			width: 24px;
+			vertical-align: middle;
+		}
+	}
+
+	&-status {
+		img {
+			display: inline-block;
+			width: 16px;
+			vertical-align: middle;
+			margin-right: 5px;
+		}
+	}
+
+	&-colorification {
+		display: inline-block;
+		height: 16px;
+		width: 16px;
+		border-radius: 50%;
+		vertical-align: middle;
+	}
+}
+
+.calendar-node-popover {
+	min-width: 240px;
+	font-size: 12px;
+	line-height: 16px;
+
+	strong {
+		font-size: 14px;
+		line-height: 18px;
+	}
+
+	&-title {
+		float: left;
+	}
+
+	&-date {
+		float: right;
+	}
+
+	img, &-colorification {
+		display: inline-block;
+		width: 24px;
+		vertical-align: middle;
+		margin-right: 8px;
+	}
+
+	&-colorification {
+		height: 24px;
+		border-radius: 50%;
+	}
+
+	.structural {
+		td {
+			vertical-align: middle;
+			padding-right: 0;
+			&:first-child {
+				width: 24px;
+			}
+			&:last-child {
+				padding-left: 5px;
+			}
+		}
+	}
+}
+
+hr.simple-divider {
+	height: 1px;
+	background: #ccc;
+	width: auto;
+	display: block;
+	border: 0 none;
+	margin: 20px 0;
+	padding: 0;
+}

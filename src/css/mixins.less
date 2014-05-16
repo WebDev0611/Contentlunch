@@ -42,3 +42,7 @@
 	left: ((@width - @arrowWidth) / 2);
 	top: @height;
 }
+
+.group:before, .group:after { content:""; display:table; }
+.group:after { clear:both; }
+.group { zoom:1; }

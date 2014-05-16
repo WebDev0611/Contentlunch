@@ -2,30 +2,33 @@
 	var self = this;
 
 	self.id = null;
-	self.title = null;
-	self.body = null;
 	self.accountId = null;
-	self.userId = null;
+	//self.userId = null;
+	self.author = null;
+	self.title = null;
+	self.contentType = null;
+	self.body = null;
+	self.concept = null;
+
+	self.accountConnections = null;
+	self.accountConnection = null;
+
 	self.buyingStage = null;
 	self.persona = null;
-	self.campaignId = null;
+	self.campaign = null;
 	self.secondaryBuyingStage = null;
 	self.secondaryPersona = null;
-	self.concept = null;
+
 	self.status = null;
 	self.archived = null;
 	self.dueDate = null;
 	self.created = null;
 	self.updated = null;
 
-	self.campaign = null;
 	self.collaborators = null;
 	self.comments = null;
-	self.contentType = null;
-	self.accountConnections = null;
 	self.relatedContent = null;
 	self.tags = null;
-	self.user = null;
 
 	self.currentStep = function() {
 		if (self.archived === true) {
@@ -95,8 +98,14 @@
 				return launch.utils.isBlank(this.contentType) ? 'Content Type is required.' : null;
 			case 'body':
 				return launch.utils.isBlank(this.body) ? 'Description is required.' : null;
-			case 'creator':
-				return (!this.creator || launch.utils.isBlank(this.creator.id)) ? 'Creator is required.' : null;
+			case 'author':
+				return (!this.author || launch.utils.isBlank(this.author.id)) ? 'Author is required.' : null;
+			case 'buyingstage':
+				return (this.status > 0 && launch.utils.isBlank(this.buyingStage)) ? 'Buying Stage is required.' : null;
+			case 'persona':
+				return (this.status > 0 && launch.utils.isBlank(this.persona)) ? 'Persona is required.' : null;
+			case 'campaign':
+				return (!this.campaign || launch.utils.isBlank(this.campaign.id)) ? 'Campaign is required.' : null;
 			default:
 				return null;
 		}

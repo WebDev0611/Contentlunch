@@ -57,16 +57,6 @@
 							</select>
 						</div>
 
-						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'author', editContent.selContentConnection, forceDirty) }">
-							<label class="control-label" for="selContentConnection">Content Connection</label>
-							<select name="selContentConnection" id="selContentConnection"
-									ui-select2="{ formatResult: formatContentConnectionItem, formatSelection: formatContentConnectionItem, selectOnBlur: true }" ng-model="content.author.id"
-									data-placeholder="Select Content Connection" error-message message="errorMessage(content, 'author', editContent.selContentConnection)" ng-change="updateAuthor()">
-								<option value=""></option>
-								<option ng-repeat="cc in contentConnections" value="{{ cc.id }}">{{ cc.name }}</option>
-							</select>
-						</div>
-
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'author', editContent.selAuthor, forceDirty) }">
 							<label class="control-label" for="selCreator">Content Creator</label>
 							<select name="selAuthor" id="selAuthor"
@@ -78,6 +68,17 @@
 						</div>
 					</div>
 
+					<div class="control-group">
+						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'accountConnections', editContent.selContentConnections, forceDirty) }">
+							<label class="control-label" for="selContentConnections">Content Connections</label>{{contentConnectionIds}}
+							<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple"
+									ui-select2="{ formatResult: formatContentConnectionItem, formatSelection: formatContentConnectionItem, selectOnBlur: true }" ng-model="contentConnectionIds"
+									data-placeholder="Select Content Connection" error-message message="errorMessage(content, 'accountConnections', editContent.selContentConnections)">
+								<option ng-repeat="cc in contentConnections" value="{{ cc.id }}">{{ cc.name }}</option>
+							</select>
+						</div>
+					</div>
+
 					<div class="control-group" ng-class="{ 'has-error': hasError(content, 'body', editContent.txtContentDesc, forceDirty) }">
 						<textarea name="txtContentDesc" id="txtContentDesc" rich-text-editor ng-model="content.body"
 								error-message message="errorMessage(content, 'body', editContent.txtContentDesc)">{{ content.body }}</textarea>
@@ -85,7 +86,7 @@
 
 					<div class="control-group">
 						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="">Add a File</button>
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="analyzeContent()">Analyze my Content</button>
+						<!--<button type="button" class="btn btn-lg btn-black btn-default" ng-click="analyzeContent()">Analyze my Content</button>-->
 					</div>
 
 					<div class="control-group">
@@ -124,10 +125,10 @@
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'campaign', editContent.selCampaign, forceDirty) }">
 							<label for="selCampaign">Campaign</label>
 							<select name="selCampaign" id="selCampaign"
-									ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, selectOnBlur: true }" ng-model="content.campaign"
-									data-placeholder="Select Campaign" error-message message="errorMessage(content, 'campaign', editContent.selCampaign)">
+									ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, selectOnBlur: true }" ng-model="content.campaign.id"
+									data-placeholder="Select Campaign" error-message message="errorMessage(content, 'campaign', editContent.selCampaign)" ng-change="updateCampaign()">
 								<option value=""></option>
-								<option ng-repeat="c in campaigns" value="{{ ct.id }}">{{ ct.name }}</option>
+								<option ng-repeat="c in campaigns" value="{{ c.id }}">{{ c.title }}</option>
 							</select>
 						</div>
 					</div>

@@ -1115,11 +1115,6 @@
 			content.buyingStage = dto.buying_stage;
 			content.secondaryBuyingStage = dto.secondary_buying_stage;
 
-			//content.connection = {
-			//	id: parseInt(dto.connection_id),
-			//	name: dto.connection_name
-			//};
-
 			content.campaign = {
 				id: parseInt(dto.campaign_id),
 				title: dto.campaign_title
@@ -1146,7 +1141,6 @@
 			content.accountConnections = ($.isArray(dto.account_connections)) ? $.map(dto.account_connections, self.contentConnection.fromDto) : null;
 
 			//content.relatedContent = dto.related.join(',');
-			//content.tags = dto.tags.join(',');
 
 			content.tags = $.map(dto.tags, function(t, i) {
 				return t.tag;
@@ -1177,16 +1171,18 @@
 			};
 
 			if (!!content.campaign) {
-				dto.campaign_id = content.campaign.id;
-				dto.campaign_title = content.campaign.title;
+				dto.campaign = {
+					id: content.campaign.id,
+					title: content.campaign.title
+				};
 			}
 
 			dto.collaborators = $.isArray(content.collaborators) ? $.map(content.collaborators, self.user.toDto) : null;
 			dto.comments = $.isArray(content.comments) ? $.map(content.comments, self.comment.toDto) : null;
 			dto.account_connections = $.isArray(content.accountConnections) ? $.map(content.accountConnections, self.contentConnection.toDto) : null;
-
-			dto.related = content.relatedContent.split(',');
-			dto.tags = content.tags.split(',');
+			
+			dto.related = $.isArray(content.relatedContent) ? content.relatedContent.split(',') : null;
+			dto.tags = $.isArray(content.tags) ? $.map(content.tags, function(t) { return { tag: t }; }) : null;
 
 			return dto;
 		}
@@ -1261,7 +1257,32 @@
 			return JSON.stringify(self.campaign.toDto(campaign));
 		},
 		fromDto: function (dto) {
-			return { };
+			var campaign = new launch.Campaign();
+
+			campaign.id = parseInt(dto.id);
+			campaign.title = dto.title;
+			campaign.description = dto.description;
+			campaign.goals = dto.goals;
+			campaign.campaignType = {
+				id: parseInt(dto.campaign_type_id),
+				key: dto.campaign_type_key,
+				name: dto.campaign_type_name
+			};
+
+			campaign.startDate = new Date(dto.start_date);
+			campaign.endDate = new Date(dto.end_date);
+			campaign.isRecurring = (parseInt(dto.is_recurring) === 1) ? true : false;
+
+			campaign.user = new launch.User();
+			campaign.user.id = parseInt(dto.user_id);
+			campaign.user.userName = dto.user_name;
+			campaign.user.image = dto.user_image;
+
+			campaign.tags = $.map(dto.campaign_tags, function (t, i) {
+				return t.tag;
+			});
+
+			return campaign;
 		},
 		toDto: function(campaign) {
 			return { };
