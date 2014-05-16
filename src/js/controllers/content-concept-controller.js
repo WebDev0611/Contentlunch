@@ -139,10 +139,10 @@
 		};
 
 		$scope.updateCampaign = function () {
-			var campaignId = parseInt($scope.content.campaignId);
+			var campaignId = parseInt($scope.content.campaign.id);
 			var campaign = $.grep($scope.campaigns, function (u) { return u.id === campaignId; });
 
-			$scope.campaignId = campaign[0].id;
+			$scope.content.campaign = campaign[0];
 		};
 
 		self.init();

@@ -39,7 +39,7 @@
 										ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, selectOnBlur: true }" ng-model="content.campaign.id"
 										data-placeholder="Select Campaign" ng-change="updateCampaign()">
 									<option value=""></option>
-									<option ng-repeat="c in campaigns" value="{{ c.id }}">{{ c.name }}</option>
+									<option ng-repeat="c in campaigns" value="{{ c.id }}">{{ c.title }}</option>
 								</select>
 							</div>
 
