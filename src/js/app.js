@@ -205,6 +205,8 @@
 		};
 	});
 
+	// handlebars/angular style interpolation: {{ name }}
+	_.templateSettings.interpolate = /\{\{ +(.+?) +\}\}/g;
 	_.mixin({
 	    mapObject: _.compose(_.object, _.map),
 	    findById: function(items, id) {
