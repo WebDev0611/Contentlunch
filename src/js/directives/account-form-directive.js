@@ -329,6 +329,7 @@
 								}
 
 								AccountService.requestUpdate.save(scp.message, function () {
+                  instance.dismiss('cancel');
 									NotificationService.success('Success', 'Your request has been sent.');
 								});
 

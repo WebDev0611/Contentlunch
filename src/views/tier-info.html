@@ -51,7 +51,8 @@
 	</form>
 
 	<div class="control-group btn-toolbar">
-		<button type="button" class="btn btn-default" ng-click="toggleMode(requestUpdate)">Request Update</button>
-		<button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+	  <button type="button" class="btn btn-default" ng-click="toggleMode(requestUpdate)" ng-show="mode === 'compare'">Request Update</button>
+    <button type="button" class="btn btn-default" ng-click="toggleMode(requestUpdate)" ng-show="mode === 'request'">Send</button>
+	  <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
 	</div>
 </div>
