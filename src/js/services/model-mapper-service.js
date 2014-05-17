@@ -77,6 +77,7 @@
 			return auth;
 		},
 		fromCache: function(cachedAuth) {
+
 			var auth = new launch.Authentication();
 
 			auth.id = cachedAuth.id;
