@@ -1678,12 +1678,19 @@ table.structural {
 	}
 }
 
+.calendar-task {
+	height: 40px;
+	border-left-width: 2px !important;
+	border-right-width: 2px !important;
+	border-top-width: 2px !important;
+	border-bottom-width: 2px !important;
+}
+
 .calendar-node {
 	background: white;
-	margin: 2px;
 	padding: 2px;
 	color: black;
-	height: calc(100% - 5px);
+	height: 100%;
 
 	&:after {
 		clear: both;
@@ -1691,6 +1698,10 @@ table.structural {
 
 	&-title {
 		line-height: 12px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		height: 12px;
+		white-space: nowrap;
 	}
 
 	&-connection-icon {
@@ -1719,6 +1730,12 @@ table.structural {
 		width: 16px;
 		border-radius: 50%;
 		vertical-align: middle;
+	}
+}
+
+.fc-view-year {
+	td {
+		width: (100% / 6) !important;
 	}
 }
 
