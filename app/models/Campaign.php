@@ -13,7 +13,7 @@ class Campaign extends Ardent {
   protected $fillable = [
     'account_id', 'user_id', 'title', 'status', 'campaign_type_id',
     'start_date', 'end_date', 'is_recurring', 'description',
-    'goals'
+    'goals', 'concept'
   ];
 
   public static $rules = [

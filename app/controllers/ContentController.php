@@ -11,14 +11,17 @@ class ContentController extends BaseController {
     if ( ! $this->inAccount($account->id)) {
       return $this->responseAccessDenied();
     }
-    return Content::with('campaign')
+    $query = Content::with('campaign')
       ->with('content_type')
       ->with('account_connections')
       ->with('related')
       ->with('tags')
       ->with('user')
-      ->where('account_id', $account->id)
-      ->get();
+      ->where('account_id', $account->id);
+    if (Input::has('campaign_id')) {
+      $query->where('campaign_id', Input::get('campaign_id'));
+    }
+    return $query->get();
   }
 
   public function store($accountID)

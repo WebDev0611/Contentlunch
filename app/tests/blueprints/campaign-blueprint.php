@@ -9,9 +9,11 @@ Woodling::seed('Campaign', function ($blueprint) {
   $blueprint->status = 1;
   $blueprint->start_date = time();
   $blueprint->end_date = strtotime('+1 month');
-  $blueprint->is_recurring = false;
+  $blueprint->is_recurring = 0;
   $blueprint->description = 'Description lorem ipsum';
   $blueprint->goals = 'Goals lorem ipsum';
+  $blueprint->concept = 'Concept lorem ipsum';
+  $blueprint->color = '#990000';
 });
 
 Woodling::seed('CampaignType', function ($blueprint) {
