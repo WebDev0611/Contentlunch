@@ -4,6 +4,7 @@ launch.module.controller('CalendarController',
 function ($scope,   $location,   $timeout,   $modal,   $interpolate,   $http) {
     $scope.title = 'This is the calendar page controller';
     $scope.calendarConfig  = {
+        defaultView: 'year',
         editable: false,
         header:{
             left: 'year,month,agendaWeek',
@@ -42,7 +43,7 @@ function ($scope,   $location,   $timeout,   $modal,   $interpolate,   $http) {
                     connectionIcon: 'blogger.svg',
                     stageIcon: 'edit.png',
                     circleColor: '#9999ff',
-                    start: '2014-05-09T11:00:00',
+                    start: '2014-05-01T11:00:00',
                     type: 'task',
                     color: 'blue',
                     // end: '2014-05-09T14:30:00Z',
@@ -105,7 +106,7 @@ function ($scope,   $location,   $timeout,   $modal,   $interpolate,   $http) {
                 {
                     title: 'Campaign 2',
                     description: 'This be the description',
-                    start: '2014-05-12',
+                    start: '2014-05-01',
                     end: '2014-05-25',
                     type:'campaign',
                     allDay: true
