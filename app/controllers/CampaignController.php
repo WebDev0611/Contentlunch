@@ -28,6 +28,7 @@ class CampaignController extends BaseController {
     }
     $campaign = new Campaign;
     if ($campaign->save()) {
+      
       // Attach new tags
       $tags = Input::get('tags');
       if ($tags) {
@@ -36,6 +37,15 @@ class CampaignController extends BaseController {
           $campaign->tags()->save($campaignTag);
         }
       }
+
+      // Attach collaborators
+      $collabs = Input::get('collaborators');
+      if ($collabs) {
+        foreach ($collabs as $collab) {
+          $campaign->collaborators()->attach($collab['id']);
+        }
+      }
+
       return $this->show($accountID, $campaign->id);
     }
     return $this->responseError($campaign->errors()->all(':message'));
@@ -59,6 +69,7 @@ class CampaignController extends BaseController {
     }
     $campaign = Campaign::find($id);
     if ($campaign->updateUniques()) {
+
       // Sync tags
       $updateTags = Input::get('tags');
       $updateIDs = [];
@@ -82,6 +93,16 @@ class CampaignController extends BaseController {
         $query->whereNotIn('id', $updateIDs);
       }
       $query->delete();
+
+      // Sync collaborators
+      $collabIDs = [];
+      $collabs = Input::get('collaborators');
+      if ($collabs) {
+        foreach ($collabs as $collab) {
+          $collabIDs[] = $collab['id'];
+        }
+      }
+      $campaign->collaborators()->sync($collabIDs);
 
       return $this->show($accountID, $campaign->id);
     }

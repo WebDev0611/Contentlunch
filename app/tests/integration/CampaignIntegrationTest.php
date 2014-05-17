@@ -44,6 +44,8 @@ class CampaignIntegrationTest extends TestCase {
   public function testPost()
   {
     $this->setupData();
+    // Collaborators
+    $users = Woodling::savedList('User', 2);
     // Campaign to create
     $campaign = Woodling::retrieve('Campaign', [
       'account_id' => $this->testAccount->id,
@@ -52,27 +54,43 @@ class CampaignIntegrationTest extends TestCase {
       'tags' => [
         ['tag' => 'Tag 1'],
         ['tag' => 'Tag 2']
+      ],
+      'collaborators' => [
+        $users[0]->toArray(),
+        $users[1]->toArray()
       ]
     ]);
     
     $response = $this->call('POST', '/api/account/'. $this->testAccount->id .'/campaigns', $campaign->toArray());
     $data = $this->assertResponse($response);
     $this->assertCampaign($campaign, $data);
+    // Make sure tags were attached
     $this->assertEquals('Tag 1', $data->tags[0]->tag);
+    $this->assertEquals('Tag 2', $data->tags[1]->tag);
+    // Make sure collaborators were attached
+    $this->assertEquals($users[0]->id, $data->collaborators[0]->id);
+    $this->assertEquals($users[1]->id, $data->collaborators[1]->id);
   }
 
   public function testUpdate()
   {
     $this->setupData();
+    // Collaborators
+    $users = Woodling::savedList('User', 2);
     // Campaign to update
     $campaign = Woodling::saved('Campaign', [
       'account_id' => $this->testAccount->id,
       'user_id' => $this->testUser->id,
       'campaign_type_id' => $this->testCampaignType->id,
     ]);
+    
     // Attach tags
     $campaign->tags()->save(new CampaignTag(['tag' => 'Tag 1']));
     $campaign->tags()->save(new CampaignTag(['tag' => 'Tag 2']));
+    
+    // Attach collaborators
+    $campaign->collaborators()->sync([$users[0]->id, $users[1]->id]);
+
     // Change data
     $campaign->title = 'New title';
     $campaign->status = 0;
@@ -84,12 +102,19 @@ class CampaignIntegrationTest extends TestCase {
       ['tag' => 'Updated tag 1'],
       ['tag' => 'Updated tag 2']
     ];
+    $updatedUser = Woodling::saved('User');
+    $campaign->collaborators = [
+      $updatedUser->toArray()
+    ];
+
     $response = $this->call('PUT', '/api/account/'. $this->testAccount->id .'/campaigns/'. $campaign->id, $campaign->toArray());
     $data = $this->assertResponse($response);
     $this->assertCampaign($campaign, $data);
     // Make sure new tags were attached
     $this->assertEquals('Updated tag 1', $data->tags[0]->tag);
     $this->assertEquals('Updated tag 2', $data->tags[1]->tag);
+    // Make sure there is only the updated collaborator
+    $this->assertEquals($updatedUser->id, $data->collaborators[0]->id);
   }
 
   public function testDelete()
