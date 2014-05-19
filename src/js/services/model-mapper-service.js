@@ -83,7 +83,7 @@
 			auth.id = cachedAuth.id;
 			auth.displayName = cachedAuth.displayName;
 			auth.email = cachedAuth.email;
-			self.phoneNumber = cachedAuth.phoneNumber;
+			auth.phoneNumber = cachedAuth.phoneNumber;
 			auth.confirmed = cachedAuth.confirmed;
 			auth.active = cachedAuth.active;
 			auth.image = cachedAuth.image;

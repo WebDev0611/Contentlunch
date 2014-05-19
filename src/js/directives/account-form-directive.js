@@ -274,7 +274,7 @@
 							company: self.loggedInUser.account.name,
 							name: self.loggedInUser.displayName,
 							email: self.loggedInUser.email,
-              // @todo: This is not getting set correctly?
+							// @todo: This is not getting set correctly?
 							phone: self.loggedInUser.phoneNumber,
 							details: null,
 							validateProperty: function(property) {
