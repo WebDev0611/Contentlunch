@@ -24,7 +24,9 @@
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
 				success: function (r) {
-					$scope.buyingStages = $scope.contentSettings.buyingStages();
+					if ($.isArray($scope.contentSettings.personaProperties)) {
+						$scope.buyingStages = $scope.contentSettings.buyingStages();
+					}
 				},
 				error: self.ajaxHandler.error
 			});

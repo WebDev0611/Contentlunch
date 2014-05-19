@@ -23,10 +23,12 @@
 			});
 
 			var contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
-				success: function(r) {
-					$scope.buyingStages = $.map(contentSettings.personaProperties, function(bs, i) {
-						return { name: bs, id: i };
-					});
+				success: function (r) {
+					if ($.isArray(contentSettings.personaProperties)) {
+						$scope.buyingStages = $.map(contentSettings.personaProperties, function (bs, i) {
+							return { name: bs, id: i };
+						});
+					}
 				},
 				error: function(r) {
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
