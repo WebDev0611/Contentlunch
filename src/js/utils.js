@@ -666,12 +666,28 @@
 		}
 	},
 
+	getCampaignIndex: function(id) {
+		var index = 0;
+
+		if (!isNaN(id)) {
+			id = parseInt(id);
+
+			if (id <= 15) {
+				index = id;
+			} else {
+				index = ((id % 15) + 1);
+			}
+		}
+
+		return index + 1;
+	},
+
 	formatContentTypeItem: function(item, element, context) {
 		return '<span class="' + launch.utils.getContentTypeIconClass(item.id) + '"></span> <span>' + item.text + '</span>';
 	},
 
-	formatCampaignItem: function(item, element, context) {
-		return '<span class="campaign-dot campaign-dot-' + item.id + '"></span> <span>' + item.text + '</span>';
+	formatCampaignItem: function (item, element, context) {
+		return '<span class="campaign-dot campaign-dot-' + launch.utils.getCampaignIndex(item.id) + '"></span> <span>' + item.text + '</span>';
 	},
 
 	formatBuyingStageItem: function(item, element, context) {

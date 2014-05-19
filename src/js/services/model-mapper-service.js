@@ -1116,10 +1116,13 @@
 			content.buyingStage = dto.buying_stage;
 			content.secondaryBuyingStage = dto.secondary_buying_stage;
 
-			content.campaign = {
-				id: parseInt(dto.campaign_id),
-				title: dto.campaign_title
-			};
+			if (!!dto.campaign) {
+				content.campaign = self.campaign.fromDto(dto.campaign);
+			} else {
+				content.campaign = new launch.Campaign();
+				content.campaign.id = parseInt(dto.campaign_id);
+				content.campaign.title = dto.campaign_title;
+			}
 
 			if (!!dto.user) {
 				content.author = self.user.fromDto(dto.user);
@@ -1143,9 +1146,11 @@
 
 			//content.relatedContent = dto.related.join(',');
 
-			content.tags = $.map(dto.tags, function(t, i) {
-				return t.tag;
-			});
+			if ($.isArray(dto.tags)) {
+				content.tags = $.map(dto.tags, function (t, i) {
+					return t.tag;
+				});
+			}
 
 			// TODO: REMOVE THIS WHEN IT COMES FROM THE API!!
 			if (isNaN(content.status)) { content.status = 1; }
@@ -1268,7 +1273,7 @@
 		},
 		fromDto: function (dto) {
 			var campaign = new launch.Campaign();
-
+			
 			campaign.id = parseInt(dto.id);
 			campaign.title = dto.title;
 			campaign.description = dto.description;
@@ -1288,9 +1293,11 @@
 			campaign.user.userName = dto.user_name;
 			campaign.user.image = dto.user_image;
 
-			campaign.tags = $.map(dto.tags, function (t, i) {
-				return t.tag;
-			});
+			if ($.isArray(dto.tags)) {
+				campaign.tags = $.map(dto.tags, function(t, i) {
+					return t.tag;
+				});
+			}
 
 			return campaign;
 		},

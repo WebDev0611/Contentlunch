@@ -77,7 +77,7 @@
 					<select id="selCampaign" name="selCampaign" class="multi-select" multiple="multiple"
 							ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem }" ng-model="search.campaigns"
 							ng-change="search.applyFilter()" data-placeholder="Select Campaign">
-						<option ng-repeat="c in campaigns" value=""></option>
+						<option ng-repeat="c in campaigns" value="{{ c.id }}">{{ c.title }}</option>
 					</select>
 				</div>
 			</accordion-group>
@@ -161,7 +161,7 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="c in pagedContent[pagination.currentPage - 1]" ng-class-odd="'dark'">
-						<td><div class="campaign-dot campaign-dot-small" ng-class="'campaign-dot-' + c.campaign.index"></div></td>
+						<td><div class="campaign-dot campaign-dot-small" ng-class="'campaign-dot-' + c.campaign.index()"></div></td>
 						<td>
 							<span class="cl-icon" ng-class="formatContentTypeIcon(c.contentType.name)"></span>
 							{{ c.title }}

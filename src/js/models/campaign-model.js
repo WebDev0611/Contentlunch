@@ -14,5 +14,19 @@
 
 	self.user = null;
 
+	self.index = function () {
+		var index = 0;
+
+		if (!isNaN(self.id)) {
+			if (self.id <= 15) {
+				index = self.id;
+			} else {
+				index = ((self.id % 15) + 1);
+			}
+		}
+
+		return index + 1;
+	};
+
 	return self;
 };
