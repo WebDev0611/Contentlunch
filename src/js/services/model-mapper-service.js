@@ -1279,7 +1279,7 @@
 			campaign.user.userName = dto.user_name;
 			campaign.user.image = dto.user_image;
 
-			campaign.tags = $.map(dto.campaign_tags, function (t, i) {
+			campaign.tags = $.map(dto.tags, function (t, i) {
 				return t.tag;
 			});
 

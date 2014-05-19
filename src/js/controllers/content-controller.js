@@ -36,9 +36,17 @@
 				$scope.content = contentService.getNewContent(self.loggedInUser);
 				$scope.isNewContent = true;
 			} else {
+				// NEED TO PAUSE HERE DUE TO A RACE SITUATION BETWEEN TRYING TO FETCH CONTENT CONNECTIONS
+				// AND THE CONTENT ITEM. THE SELECT2 DROP-DOWN NEEDS TO GET ITS OPTIONS IN PLACE BEFORE WE
+				// SET THE MODEL FOR THE CONTROL. COMPLETE HACK DUE TO LIMITATIONS OF THE CONTROL.
+				if (!$scope.contentConnections || !$scope.contentConnections.$resolved) {
+					window.setTimeout(self.refreshContent, 200);
+					return;
+				}
+
 				$scope.content = contentService.get(self.loggedInUser.account.id, contentId, {
 					success: function (r) {
-						$scope.contentConnectionIds = $.map($scope.content.accountConnections, function(cc) { return cc.id.toString(); });
+						$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -50,7 +58,7 @@
 
 		self.updateContentConnection = function() {
 			var contentConnectionIds = $.map($scope.contentConnectionIds, function (id) { return parseInt(id); });
-			var contentConnections = $.grep($scope.contentConnections, function(cc) { return $.inArray(cc.id, contentConnectionIds) >= 0; });
+			var contentConnections = $.grep($scope.contentConnections, function (cc) { return $.inArray(cc.id, contentConnectionIds) >= 0; });
 
 			$scope.content.accountConnections = contentConnections;
 		};
