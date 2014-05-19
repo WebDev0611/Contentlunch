@@ -106,7 +106,7 @@
 				contentTypes = SessionService.get(SessionService.CONTENT_TYPES_KEY);
 
 				if (!launch.utils.isBlank(contentTypes)) {
-					return JSON.parse(contentTypes);
+					return $.map(JSON.parse(contentTypes), ModelMapperService.contentType.fromCache);
 				}
 			}
 
@@ -126,7 +126,7 @@
 			content.collaborators = [];
 			content.comments = [];
 			content.accountConnections = [];
-			content.contentType = {};
+			content.contentType = new launch.ContentType();
 
 			return content;
 		},

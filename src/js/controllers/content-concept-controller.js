@@ -116,7 +116,7 @@
 
 			contentService.update(self.loggedInUser.account.id, $scope.content, {
 				success: function(r) {
-					$location.path('/create/concept/edit/content/' + $scope.content.id);
+					$location.path('/create/content/edit/' + $scope.content.id);
 				},
 				error: function(r) {
 					launch.utils.handleAjaxErrorResponse(r, notificationService);

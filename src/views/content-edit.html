@@ -27,7 +27,7 @@
 		
 					<div class="col-md-6">
 						<h3>Concept</h3>
-						<i>{{ content.concept }}</i>
+						<i ng-bind-html="content.concept"></i>
 					</div>
 				</div>
 					
@@ -79,14 +79,20 @@
 						</div>
 					</div>
 
-					<div class="control-group" ng-class="{ 'has-error': hasError(content, 'body', editContent.txtContentDesc, forceDirty) }">
+					<div class="control-group" ng-show="showRichTextEditor" ng-class="{ 'has-error': hasError(content, 'body', editContent.txtContentDesc, forceDirty) }">
 						<textarea name="txtContentDesc" id="txtContentDesc" rich-text-editor ng-model="content.body"
 								error-message message="errorMessage(content, 'body', editContent.txtContentDesc)">{{ content.body }}</textarea>
 					</div>
 
-					<div class="control-group">
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="">Add a File</button>
-						<!--<button type="button" class="btn btn-lg btn-black btn-default" ng-click="analyzeContent()">Analyze my Content</button>-->
+					<div class="control-group" ng-show="showAddFileButton">
+						<button type="button" class="btn btn-lg btn-black btn-default ladda-button" onclick="$('#filContentFile').click()" data-style="zoom-in" ladda-button="isSaving" ng-disabled="isNewContent">
+							Add a File
+						</button>
+		
+						<input type="file" id="filContentFile" ng-file-select="uploadContentFile($files, editContent, editContent.filContentFile)" />
+						<progressbar class="progress-striped active" value="percentComplete" ng-show="isUploading">
+							<span>{{ percentComplete }}%</span>
+						</progressbar>
 					</div>
 
 					<div class="control-group">
@@ -105,7 +111,7 @@
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'buyingStage', editContent.selBuyingStage, forceDirty) }">
 							<label for="selBuyingStage">Buying Stage</label>
 							<select name="selBuyingStage" id="selBuyingStage"
-									ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem, selectOnBlur: true }" ng-model="content.buyingStage"
+									ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem, allowClear: true }" ng-model="content.buyingStage"
 									data-placeholder="Select Buying Stage" error-message message="errorMessage(content, 'buyingStage', editContent.selBuyingStage)">
 								<option value=""></option>
 								<option ng-repeat="bs in buyingStages" value="{{ $index }}">{{ bs }}</option>
@@ -115,7 +121,7 @@
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'persona', editContent.selPersona, forceDirty) }">
 							<label for="selPersona">Persona</label>
 							<select name="selPersona" id="selPersona"
-									ui-select2="{ selectOnBlur: true }" ng-model="content.persona"
+									ui-select2="{ allowClear: true }" ng-model="content.persona"
 									data-placeholder="Select Persona" error-message message="errorMessage(content, 'persona', editContent.selPersona)">
 								<option value=""></option>
 								<option ng-repeat="p in contentSettings.personas" value="{{ p.name }}">{{ p.name }}</option>
@@ -125,7 +131,7 @@
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'campaign', editContent.selCampaign, forceDirty) }">
 							<label for="selCampaign">Campaign</label>
 							<select name="selCampaign" id="selCampaign"
-									ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, selectOnBlur: true }" ng-model="content.campaign.id"
+									ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, allowClear: true }" ng-model="content.campaign.id"
 									data-placeholder="Select Campaign" error-message message="errorMessage(content, 'campaign', editContent.selCampaign)" ng-change="updateCampaign()">
 								<option value=""></option>
 								<option ng-repeat="c in campaigns" value="{{ c.id }}">{{ c.title }}</option>

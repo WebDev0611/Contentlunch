@@ -3,6 +3,7 @@
 		var self = this;
 
 		self.loggedInUser = null;
+		self.replaceFile = false;
 
 		self.ajaxHandler = {
 			success: function (r) {
@@ -46,6 +47,9 @@
 
 				$scope.content = contentService.get(self.loggedInUser.account.id, contentId, {
 					success: function (r) {
+						$scope.showRichTextEditor = $scope.content.contentType.allowText();
+						$scope.showAddFileButton = $scope.content.contentType.allowFile();
+
 						$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
 					},
 					error: function (r) {
@@ -73,6 +77,10 @@
 		$scope.isNewContent = true;
 		$scope.forceDirty = false;
 		$scope.contentConnectionIds = null;
+		$scope.showRichTextEditor = false;
+		$scope.showAddFileButton = false;
+		$scope.isUploading = false;
+		$scope.percentComplete = 0;
 
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
@@ -104,7 +112,7 @@
 			notificationService.info('WARNING!', 'THIS IS NOT YET IMPLEMENTED!!');
 		};
 
-		$scope.saveContent = function () {
+		$scope.saveContent = function (callback) {
 			if (!$scope.content || $scope.content.$resolved === false) {
 				return;
 			}
@@ -115,47 +123,83 @@
 
 			if (!launch.utils.isBlank(msg)) {
 				notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
+
+				if (!!callback && $.isFunction(callback.error)) {
+					callback.error();
+				}
+
 				return;
 			}
 
 			var method = $scope.isNewContent ? contentService.add : contentService.update;
+			var success = function(r) {
+				$scope.isSaving = false;
+				$scope.isUploading = false;
+
+				var successMsg = $scope.isNewContent ? 'Successfully created new "' + $scope.content.title + '"!' : 'Successfully updated "' + $scope.content.title + '"';
+
+				notificationService.success('Success!', successMsg);
+
+				if (!!callback && $.isFunction(callback.success)) {
+					callback.success(r);
+				}
+
+				if ($scope.isNewContent) {
+					$location.path('/create/content/edit/' + r.id);
+				} else {
+					self.refreshContent();
+				}
+			};
 
 			$scope.isSaving = true;
 
-			//$scope.content.accountConnections = $.map($scope.content.accountConnections, function(cc) { return JSON.parse(cc); });
-			//$scope.content.accountConnections = $.grep($scope.contentConnections, function(cc) { return $.inArray(cc.id, $scope.contentConnectionIds) >= 0; });
 			self.updateContentConnection();
 
 			method(self.loggedInUser.account.id, $scope.content, {
 				success: function (r) {
-					$scope.isSaving = false;
+					if (self.replaceFile) {
+						$scope.isUploading = true;
 
-					var successMsg = $scope.isNewContent ? 'Successfully created new ' + $scope.content.contentType.name + '!' : 'Successfully updated ' + $scope.content.contentType.name + '!';
-
-					notificationService.success('Success!', successMsg);
-
-					if ($scope.isNewContent) {
-						$location.path('/create/content/edit/' + r.id);
+						//TODO: UPLOAD FILE HERE!
+						window.setTimeout(function() {
+							success(r);
+						}, 500);
 					} else {
-						self.refreshContent();
+						success(r);
 					}
 				},
 				error: function (r) {
 					$scope.isSaving = false;
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
+
+					if (!!callback && $.isFunction(callback.error)) {
+						callback.error(r);
+					}
 				}
 			});
 		};
 
-		$scope.submitForEditing = function() {
-			notificationService.info('WARNING!', 'THIS IS NOT YET IMPLEMENTED!!');
+		$scope.submitForEditing = function () {
+			// TODO: VALIDATE THAT ALL TASKS ARE COMPLETE BEFORE CONTINUING!!
+			var oldStatus = $scope.content.status;
+
+			$scope.content.status = 3;
+
+			$scope.saveContent({
+				error: function() {
+					$scope.content.status = oldStatus;
+				}
+			});
 		};
 
-		$scope.updateContentType = function () {
+		$scope.updateContentType = function() {
 			var contentTypeName = $scope.content.contentType.name;
-			var contentType = $.grep($scope.contentTypes, function (ct) { return ct.name === contentTypeName; });
+			var contentType = $.grep($scope.contentTypes, function(ct) { return ct.name === contentTypeName; });
 
-			$scope.content.contentType = contentType[0];
+			$.extend($scope.content.contentType, contentType[0]);
+
+			$scope.showRichTextEditor = $scope.content.contentType.allowText();
+			$scope.showAddFileButton = $scope.content.contentType.allowFile();
 		};
 
 		$scope.updateAuthor = function () {
@@ -170,6 +214,25 @@
 			var campaign = $.grep($scope.campaigns, function (u) { return u.id === campaignId; });
 
 			$scope.content.campaign = campaign[0];
+		};
+
+		$scope.uploadContentFile = function(files, form, control) {
+			if ($.isArray(files) && files.length !== 1) {
+				notificationService.error('Invalid File!', 'Please make sure to select only one file for upload at a time.');
+				$(control).replaceWith($(control).clone(true, true));
+				return;
+			}
+
+			var file = $.isArray(files) ? files[0] : files;
+			var msg = $scope.content.validateContentFile(file);
+
+			if (!launch.utils.isBlank(msg)) {
+				notificationService.error('Invalid File!', msg);
+				$(control).replaceWith($(control).clone(true, true));
+				return;
+			}
+
+			self.replaceFile = true;
 		};
 
 		self.init();

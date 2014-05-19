@@ -243,11 +243,8 @@
 					$location.path('create/concept/edit/content/' + content.id);
 					break;
 				case 'edit':
-					$location.path('create/content/edit/' + content.id);
-					break;
 				case 'approve':
-					// TODO: IMPLEMENT APPROVE STEP!!
-					notificationService.info('NOT IMPLEMENTED!', 'THIS FEATURE IS NOT YET IMPLEMENTED!');
+					$location.path('create/content/edit/' + content.id);
 					break;
 				case 'launch':
 					$location.path('create/content/launch/' + content.id);

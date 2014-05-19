@@ -1206,6 +1206,15 @@
 
 			return contentType;
 		},
+		fromCache: function(cachedContentType) {
+			var contentType = new launch.ContentType();
+
+			contentType.id = cachedContentType.id;
+			contentType.name = cachedContentType.name;
+			contentType.title = cachedContentType.title;
+
+			return contentType;
+		},
 		toDto: function(contentType) {
 			return {
 				id: contentType.id,
