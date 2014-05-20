@@ -55,6 +55,7 @@
 			auth.role = user.role;
 			auth.created = user.created;
 			auth.updated = user.updated;
+      auth.impersonating = user.impersonating;
 
 			auth.modules = $.map(dto.modules, function(m) {
 				var module = self.module.fromDto(m);
@@ -91,6 +92,7 @@
 			auth.role = cachedAuth.role;
 			auth.created = cachedAuth.created;
 			auth.updated = cachedAuth.updated;
+      auth.impersonating = cachedAuth.impersonating;
 
 			auth.modules = cachedAuth.modules;
 

@@ -152,6 +152,7 @@ class AuthController extends BaseController {
   {
     User::$rules = [];
     Confide::logout();
+    Session::put('impersonate_from', false);
     return ['success' => 'OK'];
   }
 
