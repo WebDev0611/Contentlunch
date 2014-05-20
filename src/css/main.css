@@ -421,6 +421,7 @@ header .login-info .popover-menu .admin-menu li .glyphicon {
 }
 .small-text {
   font-size: 8pt;
+  font-weight: normal;
 }
 .logo,
 .logo-white,
@@ -1524,6 +1525,56 @@ span[class*=" icon-"].dark {
   background-color: #ba1760;
   color: white;
   margin-bottom: 8px;
+}
+.files-list .files-list-header {
+  margin: 24px 0 !important;
+}
+.files-list .files-list-header .btn {
+  float: right;
+  padding: 6px 12px;
+  vertical-align: text-top;
+}
+.files-list .files-list-header input[type="file"] {
+  display: none;
+}
+.files-list .files-list-items {
+  list-style: none;
+  padding: 0;
+}
+.files-list .files-list-items .files-list-item {
+  background-color: #d7d7d7;
+  border-radius: 10px;
+  display: inline-block;
+  margin: 8px;
+  padding: 4px;
+  position: relative;
+  height: 100px;
+  width: 300px;
+}
+.files-list .files-list-items .files-list-item .files-list-item-icon,
+.files-list .files-list-items .files-list-item .files-list-item-title,
+.files-list .files-list-items .files-list-item .files-list-item-author {
+  border: solid 1px #000000;
+  display: inline-block;
+  position: absolute;
+}
+.files-list .files-list-items .files-list-item .files-list-item-icon {
+  left: 4px;
+  top: 4px;
+  height: 92px;
+  width: 75px;
+}
+.files-list .files-list-items .files-list-item .files-list-item-title,
+.files-list .files-list-items .files-list-item .files-list-item-author {
+  height: 44px;
+  left: 80px;
+  width: 212px;
+}
+.files-list .files-list-items .files-list-item .files-list-item-title {
+  top: 4px;
+}
+.files-list .files-list-items .files-list-item .files-list-item-author {
+  top: 52px;
 }
 .full-width {
   width: 100%;

@@ -28,19 +28,14 @@ class ServiceFactory {
     $this->provider = $provider;
     $this->config = Config::get('services.'. $this->provider);
     // Will be different based on environment
-    /*
+    
     switch (app()->environment()) {
       case 'staging':
         $redirectURL = 'http://staging.contentlaunch.surgeforward.com/api/add-connection';
       break;
       default:
-        if ($provider == 'twitter')
-        $redirectURL = 'http://localhost:8080/api/add-connection';
-
-        //$redirectURL = 'http://local.contentlaunch.com/api/add-connection';
+        $redirectURL = $this->config['callback_domain'] .'/api/add-connection';   
     }
-    */
-    $redirectURL = $this->config['callback_domain'] .'/api/add-connection';
     $credentials = new Credentials(
       $this->config['key'],
       $this->config['secret'],

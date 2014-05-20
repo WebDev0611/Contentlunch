@@ -33,7 +33,8 @@
 			} else {
 				$scope.content = contentService.get(self.loggedInUser.account.id, contentId, {
 					success: function (r) {
-
+						// TODO: GET ATTACHMENTS FROM API!!
+						$scope.conceptAttachments = [1, 2, 3, 4, 5];
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -49,6 +50,7 @@
 		$scope.isSaving = false;
 
 		$scope.content = null;
+		$scope.conceptAttachments = null;
 		$scope.contentTypes = null;
 		$scope.campaigns = null;
 		$scope.users = null;

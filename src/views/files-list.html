@@ -1,0 +1,31 @@
+﻿<form name="filesListForm" novalidate="novalidate">
+	<h2 class="files-list-header">
+		Files
+		<i class="fa" ng-class="{'fa-caret-down': isCollapsed, 'fa-caret-right': !isCollapsed}" ng-click="isCollapsed = !isCollapsed"></i>
+
+		<button type="button" class="btn btn-black btn-default ladda-button" onclick="$('#filAttachment').click()" data-style="zoom-in" ladda-button="isSaving" ng-disabled="isDisabled">
+			Add a File
+		</button>
+		
+		<span class="small-text">{{fileCount}}</span>
+
+		<input type="file" id="filAttachment" ng-file-select="uploadAttachment($files, filesListForm, filesListForm.filContentFile)" />
+		<progressbar class="progress-striped active" value="percentComplete" ng-show="isUploading">
+			<span>{{ percentComplete }}%</span>
+		</progressbar>
+	</h2>
+	
+	<div collapse="isCollapsed">
+		<ul class="files-list-items" ng-show="showFilesList">
+			<li class="files-list-item" ng-repeat="f in filesList">
+				<div class="files-list-item-icon">ICON</div>
+				<div class="files-list-item-title">TITLE</div>
+				<div class="files-list-item-author">AUTHOR</div>
+			</li>
+		</ul>
+
+		<div ng-show="!showFilesList">
+			No Files
+		</div>
+	</div>
+</form>
