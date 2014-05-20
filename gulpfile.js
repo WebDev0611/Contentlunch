@@ -83,6 +83,18 @@ gulp.task('less', function () {
 		.pipe(livereload(server));
 });
 
+gulp.task('tinymce', function () {
+  var dir = './bower_components/tinymce/';
+  gulp.src([
+    dir + 'tinymce.min.js', 
+    dir + 'plugins/**/*', 
+    dir + 'skins/**/*', 
+    dir + 'themes/**/*'
+  ], { base: dir })
+    .pipe(gulp.dest('./public/assets/js/tinymce'))
+    .pipe(livereload(server));
+});
+
 gulp.task('tinymce-scripts', function() {
 	gulp.src(['./bower_components/tinymce/js/tinymce/**/*.js'])
 		.pipe(gulp.dest('./public/assets/js'))
@@ -248,5 +260,5 @@ gulp.task('watch', function() {
 
 // Run clean task first as dependency
 gulp.task('default', ['clean'], function () {
-	gulp.start('styles-bootstrap', 'map-bootstrap', 'bootstrap-components-css', 'styles-angular-ui', 'tinymce-scripts', 'tinymce-css', 'tinymce-fonts', 'tinymce-images', 'less', 'tinymce-scripts', 'scripts', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff', 'fonts-otf');
+	gulp.start('styles-bootstrap', 'map-bootstrap', 'bootstrap-components-css', 'styles-angular-ui', 'less', 'tinymce', 'scripts', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff', 'fonts-otf');
 });

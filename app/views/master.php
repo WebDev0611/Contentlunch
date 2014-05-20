@@ -35,7 +35,7 @@
     <script type="text/javascript" src="/assets/js/build.js"></script>
     <script type="text/javascript" src="https://js.balancedpayments.com/1.1.11/balanced.js"></script>
 	<script type="text/javascript" src="/assets/js/app.js"></script>
-    <script type="text/javascript" src="/assets/js/tinymce.js"></script>
+    <script type="text/javascript" src="/assets/js/tinymce/tinymce.min.js"></script>
 
 
 	<script type="text/ng-template" id="confirm.html">
