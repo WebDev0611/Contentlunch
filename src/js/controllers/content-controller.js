@@ -70,6 +70,7 @@
 		};
 
 		$scope.content = null;
+		$scope.contentAttachments = [1, 2, 3, 4, 5];
 		$scope.contentTypes = null;
 		$scope.contentSettings = null;
 		$scope.contentConnections = null;

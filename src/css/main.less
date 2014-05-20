@@ -239,6 +239,7 @@ header {
 
 .small-text {
 	font-size: 8pt;
+	font-weight: normal;
 }
 
 .logo, .logo-white, .logo-white-text{
@@ -1435,6 +1436,65 @@ span[class^="icon-"], span[class*=" icon-"] {
 		background-color: @calendarColor;
 		color: white;
 		margin-bottom: 8px;
+	}
+}
+
+.files-list {
+	.files-list-header {
+		margin: 24px 0 !important;
+
+		.btn {
+			float: right;
+			padding: 6px 12px;
+			vertical-align: text-top;
+		}
+
+		input[type="file"] {
+			display: none;
+		}
+	}
+
+	.files-list-items {
+		list-style: none;
+		padding: 0;
+
+		.files-list-item {
+			background-color: #d7d7d7;
+			border-radius: 10px;
+			display: inline-block;
+			margin: 8px;
+			padding: 4px;
+			position: relative;
+			height: 100px;
+			width: 300px;
+
+			.files-list-item-icon, .files-list-item-title, .files-list-item-author {
+				border: solid 1px #000000;
+				display: inline-block;
+				position: absolute;
+			}
+
+			.files-list-item-icon {
+				left: 4px;
+				top: 4px;
+				height: 92px;
+				width: 75px;
+			}
+
+			.files-list-item-title, .files-list-item-author {
+				height: 44px;
+				left: 80px;
+				width: 212px;
+			}
+
+			.files-list-item-title {
+				top: 4px;
+			}
+
+			.files-list-item-author {
+				top: 52px;
+			}
+		}
 	}
 }
 
