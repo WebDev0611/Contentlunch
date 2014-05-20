@@ -134,7 +134,7 @@ launch.module.factory('UserService', function ($resource, $upload, AccountServic
 			});
 		},
 		validatePhotoFile: function (file) {
-			if (!$.inArray(file.type, launch.config.USER_PHOTO_FILE_TYPES)) {
+			if ($.inArray(file.type, launch.config.USER_PHOTO_FILE_TYPES) < 0) {
 				return 'The file you selected is not supported. You may only upload JPG, PNG, GIF, or BMP images.';
 			} else if (file.size > 5000000) {
 				return 'The file you selected is too big. You may only upload images that are 5MB or less.';

@@ -101,14 +101,29 @@
 			case 'author':
 				return (!this.author || launch.utils.isBlank(this.author.id)) ? 'Author is required.' : null;
 			case 'buyingstage':
-				return (this.status > 0 && launch.utils.isBlank(this.buyingStage)) ? 'Buying Stage is required.' : null;
+				return (this.status >= 3 && launch.utils.isBlank(this.buyingStage)) ? 'Buying Stage is required.' : null;
 			case 'persona':
-				return (this.status > 0 && launch.utils.isBlank(this.persona)) ? 'Persona is required.' : null;
+				return (this.status >= 3 && launch.utils.isBlank(this.persona)) ? 'Persona is required.' : null;
+			case 'accountconnections':
+				return (this.status >= 3 && (!$.isArray(this.accountConnections) || this.accountConnections.length === 0)) ? 'One or more Content Connections is required.' : null;
 			case 'campaign':
 				return (!this.campaign || launch.utils.isBlank(this.campaign.id)) ? 'Campaign is required.' : null;
 			default:
 				return null;
 		}
+	};
+
+	self.validateContentFile = function (file) {
+		// TODO: ADD FILE TYPE VALIDATION HERE!!
+		var supportedFiles = launch.config.USER_PHOTO_FILE_TYPES;
+
+		//if ($.inArray(file.type, supportedFiles) < 0) {
+		//	return 'The file you selected is not supported. You may only upload JPG, PNG, GIF, or BMP images.';
+		//} else if (file.size > 5000000) {
+		//	return 'The file you selected is too big. You may only upload files that are 5MB or less.';
+		//}
+
+		return null;
 	};
 
 	return self;

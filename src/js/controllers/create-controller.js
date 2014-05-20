@@ -1,8 +1,17 @@
 ﻿launch.module.controller('CreateController', [
-	'$scope', '$filter', '$location', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'NotificationService', function ($scope, $filter, $location, authService, userService, contentSettingsService, contentService, notificationService) {
+	'$scope', '$filter', '$location', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'CampaignService', 'NotificationService', function ($scope, $filter, $location, authService, userService, contentSettingsService, contentService, campaignService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
+
+		self.ajaxHandler = {
+			success: function (r) {
+
+			},
+			error: function (r) {
+				launch.utils.handleAjaxErrorResponse(r, notificationService);
+			}
+		};
 
 		self.init = function () {
 			self.loggedInUser = authService.userInfo();
@@ -13,29 +22,22 @@
 				{ name: 'launch', title: 'Launched' }
 			];
 
-			$scope.contentTypes = contentService.getContentTypes({
-				success: function(r) {
-					
-				},
-				error: function(r) {
-					launch.utils.handleAjaxErrorResponse(r, notificationService);
-				}
-			});
-
 			var contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
-				success: function(r) {
-					$scope.buyingStages = $.map(contentSettings.personaProperties, function(bs, i) {
-						return { name: bs, id: i };
-					});
+				success: function (r) {
+					if ($.isArray(contentSettings.personaProperties)) {
+						$scope.buyingStages = $.map(contentSettings.personaProperties, function (bs, i) {
+							return { name: bs, id: i };
+						});
+					}
 				},
 				error: function(r) {
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
 				}
 			});
 
-			//TODO: POPULATE CAMPAIGNS FROM API!!
-			$scope.campaigns = null;
-			$scope.users = userService.getForAccount(self.loggedInUser.account.id);
+			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
+			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
+			$scope.users = userService.getForAccount(self.loggedInUser.account.id, self.ajaxHandler);
 
 			self.loadContent();
 		};
@@ -137,13 +139,17 @@
 					}
 
 					if ($.isArray($scope.search.buyingStages) && $scope.search.buyingStages.length > 0) {
-						if ($.inArray(content.buyingStage.toString(), $scope.search.buyingStages) < 0) {
+						var buyingStage = launch.utils.isBlank(content.buyingStage) ? '' : content.buyingStage.toString();
+
+						if ($.inArray(buyingStage, $scope.search.buyingStages) < 0) {
 							return false;
 						}
 					}
 
 					if ($.isArray($scope.search.campaigns) && $scope.search.campaigns.length > 0) {
-						if ($.inArray(content.campaign.id, $scope.search.campaigns) < 0) {
+						var campaignId = launch.utils.isBlank(content.campaign.id) ? '' : content.campaign.id.toString();
+
+						if ($.inArray(campaignId, $scope.search.campaigns) < 0) {
 							return false;
 						}
 					}
@@ -243,11 +249,8 @@
 					$location.path('create/concept/edit/content/' + content.id);
 					break;
 				case 'edit':
-					$location.path('create/content/edit/' + content.id);
-					break;
 				case 'approve':
-					// TODO: IMPLEMENT APPROVE STEP!!
-					notificationService.info('NOT IMPLEMENTED!', 'THIS FEATURE IS NOT YET IMPLEMENTED!');
+					$location.path('create/content/edit/' + content.id);
 					break;
 				case 'launch':
 					$location.path('create/content/launch/' + content.id);
