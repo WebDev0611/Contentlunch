@@ -49,6 +49,7 @@
 		$scope.isSaving = false;
 
 		$scope.content = null;
+		$scope.conceptAttachments = [1,2,3,4,5];
 		$scope.contentTypes = null;
 		$scope.campaigns = null;
 		$scope.users = null;

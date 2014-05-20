@@ -3,7 +3,6 @@
 
 	self.id = null;
 	self.accountId = null;
-	//self.userId = null;
 	self.author = null;
 	self.title = null;
 	self.contentType = null;
