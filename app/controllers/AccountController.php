@@ -152,6 +152,7 @@ class AccountController extends BaseController {
 		Mail::send('emails.account.creation', $data, function ($message) use ($account) {
 			$message->to($account->email)->subject('Account Created');
 		});
+
 		return array('success' => 'OK');
 	}
 
@@ -256,7 +257,7 @@ class AccountController extends BaseController {
 		// Attach user to account
 		$user->accounts()->attach($account);
 		// Attach site admin role
-  	$role = Role::find_by_name('site_admin');
+    $role = Role::where('name', 'site_admin')->where('account_id', $account->id)->first();
   	$user->attachRole($role);
   	return $user;
 	}
