@@ -50,6 +50,7 @@ class AccountConnection extends Ardent {
     if ($type) {
       $query->where('connections.type', $type);
     }
+    $query->where('account_connections.account_id', $accountID);
     $connections = $query->get([
       'account_connections.id',
       'account_connections.name',
