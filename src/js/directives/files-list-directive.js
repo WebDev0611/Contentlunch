@@ -27,7 +27,7 @@
 
 		};
 
-		scope.$watch('files', function () {
+		scope.$watch('filesList', function () {
 			if (!$.isArray(scope.filesList)) {
 				scope.filesList = [];
 			}

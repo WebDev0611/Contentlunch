@@ -53,6 +53,9 @@
 						$scope.showAddFileButton = $scope.content.contentType.allowFile();
 
 						$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
+
+						// TODO: GET ATTACHMENTS FROM API!!
+						$scope.contentAttachments = [1, 2, 3, 4, 5];
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -70,7 +73,7 @@
 		};
 
 		$scope.content = null;
-		$scope.contentAttachments = [1, 2, 3, 4, 5];
+		$scope.contentAttachments = null;
 		$scope.contentTypes = null;
 		$scope.contentSettings = null;
 		$scope.contentConnections = null;
