@@ -52,6 +52,11 @@ class User extends ConfideUser {
   	return $this->belongsToMany('Account')->withTimestamps();
   }
 
+  public function tasks()
+  {
+    return $this->hasMany('ContentTask', 'user_id', 'id');
+  }
+
   public function zroles()
   {
     return $this->belongsToMany('Role', 'assigned_roles', 'id', 'user_id');

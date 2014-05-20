@@ -84,6 +84,7 @@ class ContentController extends BaseController {
       ->with('related')
       ->with('tags')
       ->with('user')
+      ->with('task_groups')
       ->find($id);
     return $content;
   }

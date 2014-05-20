@@ -182,6 +182,13 @@ what you think."
     $content->comments()->save(new ContentComment(['user_id' => $user2->id, 'comment' => "Please do some more research on this topic"]));
     $this->command->info('Created content for Surge account: '. $content->title);
 
+    foreach ($content->task_groups()->get() as $task_group) {
+      $task_group->tasks()->save(new ContentTask([
+        'name' => 'Test Task ' . $task_group->status,
+        'due_date' => $task_group->due_date,
+        'user_id' => $user1->id,
+      ]));
+    }
   }
 
 }

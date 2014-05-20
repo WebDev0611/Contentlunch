@@ -9,22 +9,22 @@
 Route::group(['prefix' => 'api'], function()
 {
 
-	Route::post('account/request_update', 'AccountController@request_update_email');
+  Route::post('account/request_update', 'AccountController@request_update_email');
 
-	Route::resource('account', 'AccountController', [
-		'only' => ['index', 'store', 'show', 'update', 'destroy']
-	]);
+  Route::resource('account', 'AccountController', [
+    'only' => ['index', 'store', 'show', 'update', 'destroy']
+  ]);
 
-	Route::post('account/{id}/add_user', 'AccountUserController@store');
-	Route::get('account/{id}/users', 'AccountUserController@show');
+  Route::post('account/{id}/add_user', 'AccountUserController@store');
+  Route::get('account/{id}/users', 'AccountUserController@show');
 
-	Route::resource('account/{id}/campaigns', 'CampaignController', [
-		'only' => ['index', 'store', 'show', 'update', 'destroy']
-	]);
+  Route::resource('account/{id}/campaigns', 'CampaignController', [
+    'only' => ['index', 'store', 'show', 'update', 'destroy']
+  ]);
 
-	Route::resource('account/{id}/content', 'ContentController', [
-		'only' => ['index', 'store', 'show', 'update', 'destroy']
-	]);
+  Route::resource('account/{id}/content', 'ContentController', [
+    'only' => ['index', 'store', 'show', 'update', 'destroy']
+  ]);
 
   Route::resource('account/{id}/content/{contentid}/collaborators', 'AccountContentCollaboratorsController', [
     'only' => ['index', 'store', 'destroy']
@@ -34,71 +34,76 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store']
   ]);
 
-	Route::get('add-connection', 'AccountConnectionsController@addConnection');
-	Route::resource('account/{id}/connections', 'AccountConnectionsController', [
-		'only' => ['index', 'create', 'show', 'update', 'destroy']
-	]);
-	//Route::get('account/{accountID}/add-connection/{connectionID}', 'AccountConnectionsController@addConnection');
+  Route::get('add-connection', 'AccountConnectionsController@addConnection');
+  Route::resource('account/{id}/connections', 'AccountConnectionsController', [
+    'only' => ['index', 'create', 'show', 'update', 'destroy']
+  ]);
+  //Route::get('account/{accountID}/add-connection/{connectionID}', 'AccountConnectionsController@addConnection');
 
-	Route::get('account/{id}/content-settings', 'AccountContentSettingsController@get_settings');
-	Route::put('account/{id}/content-settings', 'AccountContentSettingsController@save_settings');
+  Route::get('account/{id}/content-settings', 'AccountContentSettingsController@get_settings');
+  Route::put('account/{id}/content-settings', 'AccountContentSettingsController@save_settings');
 
-	Route::get('account/{id}/subscription', 'AccountSubscriptionController@get_subscription');
-	Route::post('account/{id}/subscription', 'AccountSubscriptionController@post_subscription');
+  Route::get('account/{id}/subscription', 'AccountSubscriptionController@get_subscription');
+  Route::post('account/{id}/subscription', 'AccountSubscriptionController@post_subscription');
 
-	Route::post('account/{id}/resend_creation_email', 'AccountController@resend_creation_email');
+  Route::post('account/{id}/resend_creation_email', 'AccountController@resend_creation_email');
 
-	Route::get('account/{id}/roles', 'AccountRoleController@index');
-	Route::post('account/{id}/roles', 'AccountRoleController@store');
-	Route::get('account/{id}/roles/{roleid}', 'AccountRoleController@showRole');
-	Route::put('account/{id}/roles/{roleid}', 'AccountRoleController@update');
-	Route::delete('account/{id}/roles/{roleid}', 'AccountRoleController@destroy');
+  Route::get('account/{id}/roles', 'AccountRoleController@index');
+  Route::post('account/{id}/roles', 'AccountRoleController@store');
+  Route::get('account/{id}/roles/{roleid}', 'AccountRoleController@showRole');
+  Route::put('account/{id}/roles/{roleid}', 'AccountRoleController@update');
+  Route::delete('account/{id}/roles/{roleid}', 'AccountRoleController@destroy');
 
-	Route::group(['prefix' => 'auth'], function() {
-		// Attempt to login a user
-		Route::post('/', 'AuthController@do_login');
-		// Gets the currently logged in user, or guest
-		Route::get('/', 'AuthController@show_current');
-		// Logout
-		Route::get('/logout', 'AuthController@logout');
-		// Forgot password, sends reset email
-		Route::post('/forgot_password', 'AuthController@do_forgot_password');
-		// Resets user's password, requires a token from forgot_password
-		Route::post('/reset_password', 'AuthController@do_reset_password');
-		// Confirm user's account with confirmation code
-		Route::post('/confirm', 'AuthController@do_confirm');
-		// Impersonate as a user
-		Route::post('impersonate', 'AuthController@impersonate');
-	});
+  Route::group(['prefix' => 'auth'], function() {
+    // Attempt to login a user
+    Route::post('/', 'AuthController@do_login');
+    // Gets the currently logged in user, or guest
+    Route::get('/', 'AuthController@show_current');
+    // Logout
+    Route::get('/logout', 'AuthController@logout');
+    // Forgot password, sends reset email
+    Route::post('/forgot_password', 'AuthController@do_forgot_password');
+    // Resets user's password, requires a token from forgot_password
+    Route::post('/reset_password', 'AuthController@do_reset_password');
+    // Confirm user's account with confirmation code
+    Route::post('/confirm', 'AuthController@do_confirm');
+    // Impersonate as a user
+    Route::post('impersonate', 'AuthController@impersonate');
+  });
 
-	Route::resource('connections', 'ConnectionController', [
-		'only' => ['index']
-	]);
+  Route::resource('connections', 'ConnectionController', [
+    'only' => ['index']
+  ]);
 
-	Route::resource('content-types', 'ContentTypeController', [
-		'only' => ['index']
-	]);
+  Route::resource('content-types', 'ContentTypeController', [
+    'only' => ['index']
+  ]);
 
-	Route::resource('permission', 'PermissionController', [
-		'only' => ['index']
-	]);
+  Route::resource('permission', 'PermissionController', [
+    'only' => ['index']
+  ]);
 
-	// No store or destroy route, these roles should already be seeded and nondeletable
-	Route::resource('role', 'RoleController', [
-		'only' => ['index', 'show', 'update']
-	]);
+  // No store or destroy route, these roles should already be seeded and nondeletable
+  Route::resource('role', 'RoleController', [
+    'only' => ['index', 'show', 'update']
+  ]);
 
-	Route::resource('subscription', 'SubscriptionController', [
-		'only' => ['index', 'show', 'update']
-	]);
+  Route::resource('subscription', 'SubscriptionController', [
+    'only' => ['index', 'show', 'update']
+  ]);
 
-	Route::resource('user', 'UserController', [
-		'only' => ['index', 'store', 'show', 'update', 'destroy']
-	]);
-	Route::post('/user/{id}/image', 'UserController@postProfileImage');
+  Route::resource('user', 'UserController', [
+    'only' => ['index', 'store', 'show', 'update', 'destroy']
+  ]);
+  Route::post('/user/{id}/image', 'UserController@postProfileImage');
 
-	Route::get('impersonate/{id}', 'AdminController@impersonate');
+  Route::get('impersonate/{id}', 'AdminController@impersonate');
 
+  Route::get   ('account/{accountId}/content/{contentId}/task-group',               'ContentTaskGroupController@index'  );
+  Route::put   ('account/{accountId}/content/{contentId}/task-group/{taskGroupId}', 'ContentTaskGroupController@update' );
+  // Route::post  ('account/{accountId}/content/{contentId}/task-group',               'ContentTaskGroupController@store'  );
+  // Route::get   ('account/{accountId}/content/{contentId}/task-group/{taskGroupId}', 'ContentTaskGroupController@show'   );
+  // Route::delete('account/{accountId}/content/{contentId}/task-group/{taskGroupId}', 'ContentTaskGroupController@destroy');
 });
 
 
@@ -109,11 +114,11 @@ Route::group(['prefix' => 'api'], function()
  */
 Route::any('{all}', function()
 {
-	// If route starts with api and the route wasn't matched, return an error response
+  // If route starts with api and the route wasn't matched, return an error response
   if (Request::is('api/*')) {
     return Response::json([
       'error' => 'Unknown route: '. Request::path()
     ], 400);
   }
-	return View::make('master');
+  return View::make('master');
 })->where('all', '.*');

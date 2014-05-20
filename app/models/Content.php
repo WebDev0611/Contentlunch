@@ -44,6 +44,11 @@ class Content extends Ardent {
     return $this->belongsTo('ContentType');
   }
 
+  public function task_groups()
+  {
+    return $this->hasMany('ContentTaskGroup', 'content_id', 'id')->with('tasks');
+  }
+
   public function account_connections()
   {
     return $this->belongsToMany('AccountConnection', 'content_account_connections', 'content_id', 'account_connection_id')
@@ -64,6 +69,24 @@ class Content extends Ardent {
   public function user()
   {
     return $this->belongsTo('User');
+  }
+
+  public static function boot()
+  {
+    parent::boot();
+
+    static::created(function ($content) {
+      // every content has 4 (and only 4) task groups (one for each status/step)
+      for ($i=1; $i <= 4 ; $i++) { 
+        $task_group = new ContentTaskGroup();
+        $task_group->status = $i;
+        $task_group->due_date = date('Y-m-d', time() + 60 * 60 * 24 * 7 * $i);
+        $task_group->content_id = $content->id;
+        $content->task_groups()->save($task_group);
+      }
+
+      return $content;
+    });
   }
 
 }
