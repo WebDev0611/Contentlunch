@@ -8,8 +8,11 @@ class ContentTask extends Ardent {
 
     public $forceEntityHydrationFromInput = true;
 
-    protected $fillable = [
-        'content_id'
+    public static $rules = [
+        'due_date'              => 'required',
+        'name'                  => 'required',
+        'user_id'               => 'required',
+        'content_task_group_id' => 'required',
     ];
 
     public function content()

@@ -22,7 +22,7 @@ class CreateContentTasksTable extends Migration {
 
         Schema::create('content_tasks', function ($table) {
             $table->increments('id');
-            $table->boolean('is_complete'); // ->default(0);
+            $table->boolean('is_complete');
             $table->date('due_date');
             $table->string('name');
             $table->integer('user_id');

@@ -12,11 +12,11 @@ class ContentTaskGroup extends Ardent {
         'content_id'
     ];
 
-    // public static $rules = [
-    //     'content_id' => 'required',
-    //     'status'     => 'required',
-    //     'due_date'   => 'required',
-    // ];
+    public static $rules = [
+        'content_id' => 'required',
+        'status'     => 'required',
+        'due_date'   => 'required',
+    ];
 
     public function content()
     {
