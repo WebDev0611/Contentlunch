@@ -4,10 +4,9 @@ launch.module.controller('CalendarController',
 function ($scope,   $location,   $timeout,   $modal,   $interpolate,   $http) {
     $scope.title = 'This is the calendar page controller';
     $scope.calendarConfig  = {
-        defaultView: 'year',
         editable: false,
         header:{
-            left: 'year,month,agendaWeek',
+            left: 'month,agendaWeek',
             center: 'title',
             right: 'prev,next today'
         },
@@ -33,7 +32,7 @@ function ($scope,   $location,   $timeout,   $modal,   $interpolate,   $http) {
         }
     };
 
-    // world blows up without this
+    // world blows up without this, but this is all just stubbed data that will go away
     $scope.calendarSources = [
         {
             events: [
