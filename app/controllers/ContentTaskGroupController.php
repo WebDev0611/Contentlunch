@@ -33,10 +33,29 @@ class ContentTaskGroupController extends BaseController {
             return $this->responseError($taskGroup->errors()->all(':message'));
         }
 
+        $taskCheck = [];
+        $currentTasks = ContentTask::where('content_task_group_id', $taskGroup->id)->get();
+        foreach ($currentTasks as $task) {
+            $taskCheck[$task->id] = false;
+        }
+
         $errors = [];
         foreach ($input['tasks'] as $index => $t) {
-            if (@$t['id']) $task = ContentTask::find($t['id']);
-            else $task = new ContentTask();
+            if (@$t['id']) {
+                $task = ContentTask::find($t['id']);
+
+                // user maybe tried to change ID?
+                if (is_null($task)) {
+                    $task = new ContentTask();
+                    unset($t['id']);
+                } else {
+                    // protect task from being deleted
+                    $taskCheck[$t['id']] = true;
+                }
+            } else { 
+                $task = new ContentTask();
+            }
+
             $task->fill($t);
             $success = $taskGroup->tasks()->save($task);
 
@@ -48,6 +67,15 @@ class ContentTaskGroupController extends BaseController {
                 }
             }
         }
+
+        // delete any tasks that existed before and don't exist now
+        $deleteTaskIds = [];
+        foreach ($taskCheck as $id => $deleteTask) {
+            if (!$deleteTask) {
+                $deleteTaskIds[] = $id;
+            }
+        }
+        ContentTask::destroy($deleteTaskIds);
 
         if (!empty($errors)) {
             return $this->responseError($errors);
