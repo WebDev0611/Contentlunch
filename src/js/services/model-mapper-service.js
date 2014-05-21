@@ -1146,16 +1146,16 @@
 			content.comments = ($.isArray(dto.comments)) ? $.map(dto.comments, self.comment.fromDto) : null;
 			content.accountConnections = ($.isArray(dto.account_connections)) ? $.map(dto.account_connections, self.contentConnection.fromDto) : null;
 
+			// TODO: PARSE RELATED CONTENT!!
 			//content.relatedContent = dto.related.join(',');
 
 			if ($.isArray(dto.tags)) {
-				content.tags = $.map(dto.tags, function (t, i) {
-					return t.tag;
-				});
+				content.tags = $.map(dto.tags, function(t, i) { return t.tag; });
 			}
 
-			// TODO: REMOVE THIS WHEN IT COMES FROM THE API!!
-			if (isNaN(content.status)) { content.status = 1; }
+			if ($.isArray(dto.task_groups)) {
+				content.taskGroups = $.map(dto.task_groups, self.taskGroups.fromDto);
+			}
 
 			return content;
 		},
@@ -1305,6 +1305,69 @@
 		},
 		toDto: function(campaign) {
 			return { };
+		}
+	};
+
+	self.taskGroups = {
+		parseResponse: function (r, getHeaders) {
+			return self.parseResponse(r, getHeaders, self.taskGroups.fromDto);
+		},
+		formatRequest: function (taskGroup) {
+			return JSON.stringify(self.taskGroups.toDto(taskGroup));
+		},
+		fromDto: function (dto) {
+			var taskGroup = new launch.TaskGroup();
+
+			taskGroup.id = parseInt(dto.id);
+			taskGroup.contentId = parseInt(dto.content_id);
+			taskGroup.status = parseInt(dto.status);
+			taskGroup.dueDate = new Date(dto.due_date);
+			taskGroup.completeDate = launch.utils.isBlank(dto.date_complete) ? null : new Date(dto.date_complete);
+			taskGroup.tasks = $.isArray(dto.tasks) ? $.map(dto.tasks, self.task.fromDto): null;
+			taskGroup.created = new Date(dto.created_at);
+			taskGroup.updated = new Date(dto.updated_at);
+
+			return taskGroup;
+		},
+		toDto: function(taskGroup) {
+			return {
+				id: taskGroup.id,
+				content_id: taskGroup.contentId,
+				status: taskGroup.status,
+				due_date: taskGroup.dueDate,
+				tasks: $.isArray(taskGroup.tasks) ? $.map(taskGroup.tasks, self.task.toDto) : null,
+				created_at: taskGroup.created,
+				updated_at: taskGroup.updated
+			};
+		}
+	};
+
+	self.task = {
+		fromDto: function (dto) {
+			var task = new launch.Task();
+
+			task.id = parseInt(dto.id);
+			task.name = dto.name;
+			task.isComplete = (parseInt(dto.is_complete) === 1) ? true : false;
+			task.dueDate = new Date(dto.due_date);
+			task.userId = parseInt(dto.user_id);
+			task.taskGroupId = parseInt(dto.content_task_group_id);
+			task.created = new Date(dto.created_at);
+			task.updated = new Date(dto.updated_at);
+
+			return task;
+		},
+		toDto: function(task) {
+			return {
+				id: task.id,
+				name: task.name,
+				is_complete: (task.isComplete) ? 1 : 0,
+				due_date: task.dueDate,
+				user_id: task.userId,
+				content_task_group_id: task.taskGroupId,
+				created_at: task.created,
+				updated_at: task.updated
+			};
 		}
 	};
 

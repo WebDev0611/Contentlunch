@@ -248,7 +248,7 @@
 				case 'create':
 					$location.path('create/concept/edit/content/' + content.id);
 					break;
-				case 'edit':
+				case 'review':
 				case 'approve':
 					$location.path('create/content/edit/' + content.id);
 					break;

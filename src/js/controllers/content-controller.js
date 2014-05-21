@@ -1,9 +1,10 @@
 ﻿launch.module.controller('ContentController', [
-	'$scope', '$routeParams', '$filter', '$location', '$modal', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'NotificationService', function ($scope, $routeParams, $filter, $location, $modal, authService, userService, contentSettingsService, contentService, connectionService, campaignService, notificationService) {
+	'$scope', '$routeParams', '$filter', '$location', '$modal', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', function ($scope, $routeParams, $filter, $location, $modal, authService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
 		self.replaceFile = false;
+		self.contentId = null;
 
 		self.ajaxHandler = {
 			success: function (r) {
@@ -33,9 +34,9 @@
 		}
 
 		self.refreshContent = function () {
-			var contentId = parseInt($routeParams.contentId);
+			self.contentId = parseInt($routeParams.contentId);
 
-			if (isNaN(contentId)) {
+			if (isNaN(self.contentId)) {
 				$scope.content = contentService.getNewContent(self.loggedInUser);
 				$scope.isNewContent = true;
 			} else {
@@ -47,7 +48,7 @@
 					return;
 				}
 
-				$scope.content = contentService.get(self.loggedInUser.account.id, contentId, {
+				$scope.content = contentService.get(self.loggedInUser.account.id, self.contentId, {
 					success: function (r) {
 						$scope.showRichTextEditor = $scope.content.contentType.allowText();
 						$scope.showAddFileButton = $scope.content.contentType.allowFile();
@@ -63,6 +64,10 @@
 				});
 				$scope.isNewContent = false;
 			}
+		};
+
+		self.refreshTasks = function () {
+			$scope.content.taskGroups = taskService.queryContentTasks(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
 		};
 
 		self.updateContentConnection = function() {
@@ -87,6 +92,7 @@
 		$scope.showAddFileButton = false;
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;
+		$scope.defaultTaskGroup = null;
 
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
@@ -239,6 +245,122 @@
 			}
 
 			self.replaceFile = true;
+		};
+
+		$scope.openCalendar = function(opened, e) {
+			e.stopImmediatePropagation();
+
+			return !opened;
+		};
+
+		$scope.taskGroupIsActive = function(taskGroup) {
+			return $scope.content.status <= taskGroup.status;
+		};
+
+		$scope.canEditTask = function (taskGroup) {
+			if (!$scope.taskGroupIsActive(taskGroup)) {
+				return false;
+			}
+
+			if (!self.loggedInUser.hasPrivilege('create_execute_content_own') && self.loggedInUser.id !== $scope.content.author.id &&
+				!self.loggedInUser.hasPrivilege('create_edit_content_other')) {
+				return false;
+			}
+
+			return true;
+		};
+
+		$scope.getUserName = function(id) {
+			var user = launch.utils.getUserById($scope.users, id);
+
+			return (!!user) ? user.formatName() : null;
+		};
+
+		$scope.saveTaskGroup = function (taskGroup, task) {
+			if (!!task && launch.utils.isBlank(task.id)) {
+				taskGroup.tasks.push(task);
+			}
+
+			var msg = launch.utils.validateAll(taskGroup);
+
+			if (!launch.utils.isBlank(msg)) {
+				notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
+				return;
+			}
+
+			taskGroup = taskService.saveContentTasks(self.loggedInUser.account.id, taskGroup, {
+				success: function (r) {
+					notificationService.success('Success!', ((!!task) ? 'Successfully modified task, "' + task.name + '"!' : 'Successfully modified "' + taskGroup.name() + '" task group!'));
+				},
+				error: function(r) {
+					self.ajaxHandler.error(r);
+				}
+			});
+		};
+
+		$scope.editTask = function(taskGroup, task, e) {
+			if ($scope.taskGroupIsActive(taskGroup)) {
+				if (!task) {
+					task = new launch.Task();
+					task.taskGroupId = taskGroup.id;
+					task.dueDate = new Date();
+				}
+
+				$modal.open({
+					templateUrl: 'create-task.html',
+					controller: [
+						'$scope', '$modalInstance', function (scope, instance) {
+							scope.task = task;
+
+							scope.users = $scope.users;
+							scope.openCalendar = $scope.openCalendar;
+							scope.formatUserItem = $scope.formatUserItem;
+
+							scope.cancel = function () {
+								instance.dismiss('cancel');
+							};
+
+							scope.save = function() {
+								var msg = launch.utils.validateAll(scope.task);
+
+								if (!launch.utils.isBlank(msg)) {
+									notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
+									return;
+								}
+
+								if (scope.task.dueDate > taskGroup.dueDate) {
+									$modal.open({
+										templateUrl: 'confirm.html',
+										controller: [
+											'$scope', '$modalInstance', function (scp, inst) {
+												scp.message = 'A Task\'s Due Date cannot be after the Task Group\'s Due Date. Do you want to extend the Task Group\'s Due Date?';
+												scp.okButtonText = 'Yes';
+												scp.cancelButtonText = 'No';
+												scp.onOk = function () {
+													taskGroup.dueDate = task.dueDate;
+													inst.close();
+													instance.close();
+													$scope.saveTaskGroup(taskGroup, task);
+												};
+												scp.onCancel = function () {
+													inst.dismiss('cancel');
+												};
+											}
+										]
+									});
+
+									return;
+								}
+
+								$scope.saveTaskGroup(taskGroup, task);
+								instance.close();
+							};
+						}
+					]
+				});
+			}
+
+			e.stopImmediatePropagation();
 		};
 
 		self.init();
