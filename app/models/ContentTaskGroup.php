@@ -9,6 +9,7 @@ class ContentTaskGroup extends Ardent {
 
     protected $guarded = [
         'id',
+        'status',
         'content_id',
         'created_at',
         'updated_at',
