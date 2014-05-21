@@ -41,7 +41,7 @@ class ContentTaskGroupController extends BaseController {
 
         $errors = [];
         foreach ($input['tasks'] as $index => $t) {
-            if (@$t['id']) {
+            if (!empty($t['id'])) {
                 $task = ContentTask::find($t['id']);
 
                 // user maybe tried to change ID?
@@ -75,7 +75,9 @@ class ContentTaskGroupController extends BaseController {
                 $deleteTaskIds[] = $id;
             }
         }
-        ContentTask::destroy($deleteTaskIds);
+        if (!empty($deleteTaskIds)) {
+            ContentTask::destroy($deleteTaskIds);
+        }
 
         if (!empty($errors)) {
             return $this->responseError($errors);

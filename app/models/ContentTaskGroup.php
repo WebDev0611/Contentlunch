@@ -8,6 +8,7 @@ class ContentTaskGroup extends Ardent {
     public $forceEntityHydrationFromInput = false;
 
     protected $guarded = [
+        'id',
         'content_id',
         'created_at',
         'updated_at',
