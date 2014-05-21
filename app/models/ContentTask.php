@@ -4,10 +4,14 @@ use LaravelBook\Ardent\Ardent;
 
 class ContentTask extends Ardent {
 
-    public $autoHydrateEntityFromInput = true;
+    public $autoHydrateEntityFromInput = false;
+    public $forceEntityHydrationFromInput = false;
 
-    public $forceEntityHydrationFromInput = true;
-
+    protected $guarded = [
+        'task_group_id',
+        'created_at',
+        'updated_at',
+    ];
     public static $rules = [
         'due_date'              => 'required',
         'name'                  => 'required',

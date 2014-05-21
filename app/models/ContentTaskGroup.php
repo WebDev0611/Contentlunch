@@ -4,12 +4,14 @@ use LaravelBook\Ardent\Ardent;
 
 class ContentTaskGroup extends Ardent {
 
-    public $autoHydrateEntityFromInput = true;
+    public $autoHydrateEntityFromInput = false;
+    public $forceEntityHydrationFromInput = false;
 
-    public $forceEntityHydrationFromInput = true;
-
-    protected $fillable = [
-        'content_id'
+    protected $guarded = [
+        'content_id',
+        'created_at',
+        'updated_at',
+        'tasks',
     ];
 
     public static $rules = [
@@ -27,4 +29,5 @@ class ContentTaskGroup extends Ardent {
     {
         return $this->hasMany('ContentTask');
     }
+
 }

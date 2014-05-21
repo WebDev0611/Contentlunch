@@ -11,16 +11,49 @@ class ContentTaskGroupController extends BaseController {
             ->get();
     }
 
-    // public function store($contentId)
-    // {
-    //     // TODO: permissions
+    public function update($accountId, $contentId)
+    {
+        // TODO: permissions
 
-    //     $tasks = new ContentTask;
+        $input = Input::all();
+        $id = @$input['id'];
 
-    //     if (!$tasks->save())
-    //         return $this->responseError($tasks->errors()->all(':message'));
+        $taskGroup = ContentTaskGroup::find($id);
+        
+        // handling no TaskGroup with that ID (or no ID)
+        if (is_null($taskGroup)) {
+            return $this->responseError("No Content Task Group with the ID '{$id}'");
+        }
 
-    //     return $this->show($tasks->id);
-    // }
+        // fill out or $taskGroup with input (guards against tasks)
+        $taskGroup->fill($input);
+        $taskGroup->content_id = $contentId;
+
+        if (!$taskGroup->save()) {
+            return $this->responseError($taskGroup->errors()->all(':message'));
+        }
+
+        $errors = [];
+        foreach ($input['tasks'] as $index => $t) {
+            if (@$t['id']) $task = ContentTask::find($t['id']);
+            else $task = new ContentTask();
+            $task->fill($t);
+            $success = $taskGroup->tasks()->save($task);
+
+            // try to save what we can... but still mark errors
+            if (!$success) {
+                foreach ($task->errors()->all(':message') as $error) {
+                    $i = $index + 1;
+                    $errors[] = "Task [$i] - $error";
+                }
+            }
+        }
+
+        if (!empty($errors)) {
+            return $this->responseError($errors);
+        }
+
+        return ContentTaskGroup::with('tasks')->find($taskGroup->id);
+    }
 
 }
