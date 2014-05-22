@@ -91,6 +91,9 @@
 .panel-group .panel .panel-heading .panel-title .fa {
   min-width: 1em;
 }
+[datepicker-popup-wrap] {
+  padding: 8px;
+}
 .icon-home {
   background-image: url(/assets/images/home.svg);
 }
@@ -201,7 +204,7 @@
 .cl-icon-workflow-create.cl-icon-white {
   background-image: url(/assets/images/create.svg);
 }
-.cl-icon-workflow-edit {
+.cl-icon-workflow-review {
   background-image: url(/assets/images/edit.png);
 }
 .cl-icon-workflow-approve {
@@ -1243,12 +1246,15 @@ span[class*=" icon-"].dark {
 .seo-settings-editor table.persona-table tr.dark td {
   background-color: #E6E4E0;
 }
-.create .left-pane .filter-panel {
+.create .left-pane .filter-panel,
+.create .left-pane .tasks-header {
   background-color: #ffb503;
+  border-radius: 4px;
   color: #ffffff;
+  font-family: 'Lato Black';
+  font-size: 14pt;
   margin: 12px 0;
   padding: 4px;
-  border-radius: 4px;
 }
 .create .left-pane .btn-group {
   margin-top: 12px;
@@ -1281,6 +1287,74 @@ span[class*=" icon-"].dark {
 }
 .create .left-pane .panel-group .panel .panel-collapse .panel-body {
   border: none !important;
+}
+.create .left-pane .task-group .task-group-header {
+  background-color: #e4e4e4;
+  border-radius: 4px;
+  font-weight: bold;
+  margin: 8px 0;
+  padding: 8px;
+  position: relative;
+}
+.create .left-pane .task-group .task-group-header .task-group-header-date,
+.create .left-pane .task-group .task-group-header .fa-plus-circle {
+  display: inline-block;
+  position: absolute;
+}
+.create .left-pane .task-group .task-group-header .task-group-header-date {
+  font-size: 8pt;
+  font-weight: normal;
+  right: 48px;
+  top: 10px;
+}
+.create .left-pane .task-group .task-group-header .task-group-header-date .fa-calendar {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 12pt;
+  margin: 0 0 0 8px;
+}
+.create .left-pane .task-group .task-group-header .fa-plus-circle {
+  color: #999999;
+  font-size: 16pt;
+  right: 8px;
+  top: 8px;
+}
+.create .left-pane .task-group .task-group-header .fa-plus-circle.active {
+  color: #000000;
+  cursor: pointer;
+}
+.create .left-pane .task-group .task-group-header.active {
+  background-color: #000000;
+  color: #ffffff;
+}
+.create .left-pane .task-group .task-group-header.active .fa-plus-circle.active {
+  color: #ffffff;
+}
+.create .left-pane .task-group .task-group-list {
+  list-style: none;
+  padding: 0;
+}
+.create .left-pane .task-group .task-group-list .task-group-task.disabled {
+  opacity: 0.6;
+}
+.create .left-pane .task-group .task-group-list .task-group-task .checkbox label {
+  font-family: Lato;
+  font-weight: normal;
+}
+.create .left-pane .task-group .task-group-list .task-group-task .checkbox input[type="checkbox"] {
+  height: 20px;
+  width: 20px;
+  margin: 8px 8px 0 0;
+}
+.create .left-pane .task-group .task-group-list .task-group-task .checkbox a {
+  color: #000000;
+  text-decoration: underline;
+}
+.create .left-pane .task-group .panel-group .panel .panel-heading {
+  border: none;
+}
+.create .left-pane .task-group .panel-group .panel .panel-heading .panel-title .accordion-toggle {
+  padding: 0;
 }
 .create .right-pane .user-image {
   border-color: #ffb503;

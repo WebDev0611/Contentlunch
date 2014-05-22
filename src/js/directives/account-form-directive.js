@@ -29,7 +29,11 @@
 
 			if (r.status_code === 201) {
 				// Save tokenized id on the server
-				scope.selectedAccount.token = r.cards[0].href;
+        if (scope.selectedAccount.paymentType === 'CC') {
+				  scope.selectedAccount.token = r.cards[0].href;
+        } else {
+          scope.selectedAccount.token = r.bank_accounts[0].href;
+        }
 				scope.doSaveAccount();
 			} else {
 				scope.isSaving = false;
