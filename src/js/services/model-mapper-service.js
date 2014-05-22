@@ -156,6 +156,8 @@
 			account.hasToken = dto.hasToken;
 			account.tokenizedType = dto.payment_type;
 
+      account.creditCard = new launch.CreditCard();
+      account.bankAccount = new launch.BankAccount();
 			if (!!dto.payment_info) {
 				if (!launch.utils.isBlank(dto.payment_info.card_number)) {
 					account.creditCard = new launch.CreditCard();
