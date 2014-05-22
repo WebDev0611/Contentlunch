@@ -58,6 +58,12 @@ return [
     'scope' => ['api'],
     'callback_domain' => 'http://localhost:8080'
   ],
+  'soundcloud' => [
+    'key' => 'd37263dd5600d9b0b1764dd914883364',
+    'secret' => '11bda186d51299bb2f45d3d79a75ddf3',
+    'scope' => [],
+    'callback_domain' => 'http://launch.localhost'
+  ],
   'tumblr' => [
     'key' => 'xf6LPNMJ5CVWg5FISpqlSpUDft3jVSR4FpYuB8VzMqi6gIZoWc',
     'secret' => 'NLDlgqG3uovGzDBkDKpeqn42QL0oChQcFwjA0gKIDdbYwbvBne',

@@ -25,10 +25,16 @@ class ServiceFactory {
 
   public function __construct($provider)
   {
-    $this->provider = $provider;
-    $this->config = Config::get('services.'. $this->provider);
-    // Will be different based on environment
+    $this->config = Config::get('services.'. $provider);
+    switch ($provider) {
+      case 'soundcloud':
+        $this->provider = 'soundCloud';
+      break;
+      default:
+        $this->provider = $provider;
+    }
     
+    // Will be different based on environment
     switch (app()->environment()) {
       case 'staging':
         $redirectURL = 'http://staging.contentlaunch.surgeforward.com/api/add-connection';
@@ -54,7 +60,12 @@ class ServiceFactory {
       break;
       default:
         // OAuth2
-        $this->service = $serviceFactory->createService($this->provider, $credentials, $this->storage, $this->config['scope']);
+        $scope = $this->config['scope'];
+        if ($scope) {
+          $this->service = $serviceFactory->createService($this->provider, $credentials, $this->storage, $this->config['scope']);  
+        } else {
+          $this->service = $serviceFactory->createService($this->provider, $credentials, $this->storage);
+        }
     }
   }
 
