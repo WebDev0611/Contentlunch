@@ -1,43 +1,6 @@
 ﻿<div class="view create">
 	<div class="col-md-3 left-pane">
-		<div class="tasks-header">
-			Tasks
-		</div>
-		
-		<accordion close-others="false" class="task-group">
-			<accordion-group is-open="(content.status == tg.status)" ng-repeat="tg in content.taskGroups">
-				<accordion-heading>
-					<div class="task-group-header" ng-class="{ active: content.status >= tg.status }">
-						<i class="fa" ng-class="{'fa-caret-down': (content.status == tg.status), 'fa-caret-right': !(content.status == tg.status)}"></i>
-						{{ tg.name() }}
-				
-						<span class="fa fa-plus-circle" ng-class="{ active: taskGroupIsActive(tg) }" ng-click="editTask(tg, null, $event)"></span>
-						<span class="task-group-header-date" ng-show="!taskGroupIsActive(tg)">Completed: {{ tg.formattedCompleteDate() }}</span>
-						<span class="task-group-header-date" ng-show="taskGroupIsActive(tg)" ng-class="{ error: tg.isOverdue(content.status) }">
-							Due: {{ tg.formattedDueDate() }}
-							<span class="fa fa-calendar" datepicker-popup="MM/dd/yyyy" is-open="opened" datepicker-append-to-body="true" show-weeks="false" show-button-bar="false"
-								ng-model="tg.dueDate" ng-click="opened = openCalendar(opened, $event)" ng-change="saveTaskGroup(tg)"></span>
-						</span>
-					</div>
-				</accordion-heading>
-				<ul class="task-group-list">
-					<li class="task-group-task" ng-repeat="t in tg.tasks" ng-class="{ disabled: t.isComplete }">
-					<div class="checkbox">
-						<label>
-							<input type="checkbox" ng-model="t.isComplete" ng-disabled="!canEditTask(tg)" ng-change="saveTaskGroup(tg, t)" />
-							{{ t.name }} - 
-							<span ng-class="{ error: t.isOverdue() }">Due: {{ t.formattedDueDate() }}</span>
-						</label>
-						<div>
-							<a ng-click="editTask(tg, t, $event)">
-								Assigned to {{ getUserName(t.userId) }}
-							</a>
-						</div>
-					</div>
-					</li>
-				</ul>
-			</accordion-group>
-		</accordion>
+		<div task-list task-groups="content.taskGroups" parent-status="content.status" users="users" ng-hide="isNewContent"></div>
 	</div>
 	<div class="col-md-9 right-pane">
 		<h2 class="right-pane-header">Create</h2>
@@ -221,43 +184,5 @@
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-primary" ng-click="ok()">OK</button>
-	</div>
-</script>
-
-<script type="text/ng-template" id="create-task.html">
-	<div class="modal-header">Edit Task</div>
-	<div class="modal-body">
-		<form name="editTask" novalidate="novalidate">
-			<div class="control-group">
-				<div class="form-group">
-					<label for="txtTaskName">Task Name</label>
-					<input id="txtTaskName" name="txtTaskName" type="text" class="form-control" ng-model="task.name" />
-				</div>
-
-				<div class="form-group">
-					<label for="selTaskAssignedTo">Assigned To</label>
-					<select id="selTaskAssignedTo" name="selTaskAssignedTo" type="text"ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="task.userId"
-							data-placeholder="Select Assignee">
-						<option value=""></option>
-						<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
-					</select>
-				</div>
-
-				<div class="form-group">
-					<label for="txtTaskDueDate">Due Date</label>
-					<div class="input-group">
-						<input id="txtTaskDueDate" name="txtTaskDueDate" type="text" class="form-control" ng-model="task.dueDate" value="{{ task.dueDate }}"
-							datepicker-popup="MM/dd/yyyy" is-open="opened" show-weeks="false" show-button-bar="false" />
-						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="opened = openCalendar(opened, $event)"><i class="fa fa-calendar"></i></button>
-						</span>
-					</div>
-				</div>
-			</div>
-		</form>
-	</div>
-	<div class="modal-footer">
-		<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
-		<button class="btn btn-primary" ng-click="save()">Save</button>
 	</div>
 </script>
