@@ -101,17 +101,14 @@
 				return launch.utils.isBlank(this.body) ? 'Description is required.' : null;
 			case 'author':
 				return (!this.author || launch.utils.isBlank(this.author.id)) ? 'Author is required.' : null;
-			case 'buyingstage':
-				//return (this.status >= 1 && launch.utils.isBlank(this.buyingStage)) ? 'Buying Stage is required.' : null;
-				return null;
-			case 'persona':
-				//return (this.status >= 1 && launch.utils.isBlank(this.persona)) ? 'Persona is required.' : null;
-				return null;
+			//case 'buyingstage':
+			//	return (this.status >= 1 && launch.utils.isBlank(this.buyingStage)) ? 'Buying Stage is required.' : null;
+			//case 'persona':
+			//	return (this.status >= 1 && launch.utils.isBlank(this.persona)) ? 'Persona is required.' : null;
 			case 'accountconnections':
 				return (this.status >= 1 && (!$.isArray(this.accountConnections) || this.accountConnections.length === 0)) ? 'One or more Content Connections is required.' : null;
-			case 'campaign':
-				//return (!this.campaign || launch.utils.isBlank(this.campaign.id)) ? 'Campaign is required.' : null;
-				return null;
+			//case 'campaign':
+			//	return (!this.campaign || launch.utils.isBlank(this.campaign.id)) ? 'Campaign is required.' : null;
 			default:
 				return null;
 		}
