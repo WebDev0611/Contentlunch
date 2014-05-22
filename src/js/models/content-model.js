@@ -29,6 +29,8 @@
 	self.relatedContent = null;
 	self.tags = null;
 
+	self.taskGroups = null;
+
 	self.currentStep = function() {
 		if (self.archived === true) {
 			return 'archive';
@@ -40,11 +42,11 @@
 			case 1:
 				return 'create';
 			case 2:
-				return 'edit';
+				return 'review';
 			case 3:
-				return 'approve';
-			case 4:
 				return 'launch';
+			case 4:
+				return 'promote';
 			default:
 				return null;
 		}
@@ -59,7 +61,7 @@
 			case 0:
 				return 'create';
 			case 1:
-				return 'edit';
+				return 'review';
 			case 2:
 				return 'approve';
 			case 3:

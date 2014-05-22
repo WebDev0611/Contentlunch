@@ -464,7 +464,7 @@
 		return (state.length === 1) ? state[0] : null;
 	},
 
-	formatDate: function (date) {
+	formatDate: function(date) {
 		if (launch.utils.isBlank(date) || (Object.prototype.toString.call(date) === '[object Date]') && isNaN(date.getTime())) {
 			return '';
 		}
@@ -478,6 +478,10 @@
 		}
 
 		return moment(new Date(date)).local().format('MM/DD/YYYY hh:mm:ss A');
+	},
+
+	isValidDate: function(date) {
+		return moment(date).isValid();
 	},
 
 	sortByDate: function(a, b) {
@@ -652,7 +656,7 @@
 			case 'create':
 				return 'cl-icon cl-icon-workflow-create';
 			case 'edit':
-				return 'cl-icon cl-icon-workflow-edit';
+				return 'cl-icon cl-icon-workflow-review';
 			case 'approve':
 				return 'cl-icon cl-icon-workflow-approve';
 			case 'launch':
@@ -686,7 +690,7 @@
 		return '<span class="' + launch.utils.getContentTypeIconClass(item.id) + '"></span> <span>' + item.text + '</span>';
 	},
 
-	formatCampaignItem: function (item, element, context) {
+	formatCampaignItem: function(item, element, context) {
 		return '<span class="campaign-dot campaign-dot-' + launch.utils.getCampaignIndex(item.id) + '"></span> <span>' + item.text + '</span>';
 	},
 
@@ -694,11 +698,21 @@
 		return '<span class="cl-icon cl-icon-personas-' + item.id + '"></span> <span>' + item.text + '</span>';
 	},
 
-	formatMilestoneItem: function (item, element, context) {
+	formatMilestoneItem: function(item, element, context) {
 		return '<span class="' + launch.utils.getWorkflowIconCssClass(item.id) + '"></span> <span>' + item.text + '</span>';
 	},
 
 	formatContentConnectionItem: function(item, element, context) {
 		return '<span class="cl-icon ' + launch.utils.getConnectionProviderIconClass(item.text.toLowerCase()) + '"></span> <span>' + item.text + '</span>';
+	},
+
+	getUserById: function(users, id) {
+		if (!$.isArray(users) || users.length === 0 || launch.utils.isBlank(id)) {
+			return null;
+		}
+
+		var user = $.grep(users, function (u) { return u.id === id; });
+
+		return (user.length === 1) ? user[0] : null;
 	}
 };

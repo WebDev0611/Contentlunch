@@ -20,3 +20,6 @@
 .panel-group .panel .panel-heading .panel-title .fa {
   min-width: 1em;
 }
+[datepicker-popup-wrap] {
+  padding: 8px;
+}

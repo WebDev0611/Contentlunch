@@ -3,12 +3,6 @@
 	USER_PHOTO_FILE_TYPES: ['image/gif', 'image/png', 'image/jpeg', 'image/bmp'],
 	MIN_PASSWORD_LENGTH: 8,
 	EMAIL_ADDRESS_REGEX: /^([a-zA-Z0-9_!#%='`\-\.\$~\&\*\+\-\/\?\^\{\|\}]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/,
-	CONNECTION_PROVIDERS: [
-    { name: 'facebook', title: 'Facebook' },
-		{ name: 'hubspot', title: 'Hubspot' },
-		{ name: 'linkedin', title: 'LinkedIn' },
-		{ name: 'wordpress', title: 'Wordpress' }
-	],
 	SEO_PROVIDERS: [
 		{ name: 'inbound_writer', title: 'Inbound Writer Integration' },
 		{ name: 'yoast', title: 'Yoast' },
@@ -21,12 +15,6 @@
 		{ name: 'lg_better_meta', title: 'LG Better Meta' },
 		{ name: 'metatag_drupal', title: 'Metatag (Drupal)' }
 	],
-	HUBSPOT_API_KEY: 'b5badda1-cb0e-11e3-bd85-131c19601838',
-	HUBSPOT_API_SECRET: '13aeed7d-b469-4a15-81a5-7d0058036075',
-	LINKEDIN_API_KEY: '75v9b2qqxfhxrf',
-	LINKEDIN_API_SECRET: 'EpLWyw4wv73LyW57',
-	WORDPRESS_API_KEY: '34902',
-	WORDPRESS_API_SECRET: 'enngUSOLGj7kZCb6hbNH7vk3CgUjoi3pdBMX3Rkckqmx6tJGdujLCyTSCnRNt5ld',
 	TINY_MCE_SETTINGS: {
 		plugins: [
 			'advlist autolink link image lists charmap print preview anchor',
