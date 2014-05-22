@@ -58,6 +58,12 @@ return [
     'scope' => ['api'],
     'callback_domain' => 'http://localhost:8080'
   ],
+  'tumblr' => [
+    'key' => 'xf6LPNMJ5CVWg5FISpqlSpUDft3jVSR4FpYuB8VzMqi6gIZoWc',
+    'secret' => 'NLDlgqG3uovGzDBkDKpeqn42QL0oChQcFwjA0gKIDdbYwbvBne',
+    'scope' => [],
+    'callback_domain' => 'http://launch.localhost'
+  ],
   'twitter' => [
     'key' => 'E6YObyKe5gqycy1vJslG9dl7s',
     'secret' => 'L6nB51eQxiIyRy6cOnlGvCXoKPRnQNzb4lQQJvNw0zeW5uLp40',

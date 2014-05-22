@@ -47,6 +47,7 @@ class ServiceFactory {
     $serviceFactory->registerService('salesforce', 'SalesforceService');
     $serviceFactory->registerService('hubspot', 'HubspotService');
     switch ($this->provider) {
+      case 'tumblr':
       case 'twitter':
         // OAuth1
         $this->service = $serviceFactory->createService($this->provider, $credentials, $this->storage);
@@ -60,6 +61,7 @@ class ServiceFactory {
   public function getAuthorizationUri()
   {
     switch ($this->provider) {
+      case 'tumblr':
       case 'twitter':
         $token = $this->service->requestRequestToken();
         return (string) $this->service->getAuthorizationUri([
@@ -78,6 +80,10 @@ class ServiceFactory {
     }
     $data = $input;
     switch ($this->provider) {
+      case 'tumblr':
+        $token = $this->storage->retrieveAccessToken('Tumblr');
+        $data['token'] = $this->service->requestAccessToken($input['oauth_token'], $input['oauth_verifier'], $token->getRequestTokenSecret());
+      break;
       case 'twitter':
         // OAuth1
         $token = $this->storage->retrieveAccessToken('Twitter');
