@@ -45,6 +45,7 @@ class ServiceFactory {
     $serviceFactory = new OAuthServiceFactory;
     $serviceFactory->registerService('wordpress', 'WordpressService');
     $serviceFactory->registerService('salesforce', 'SalesforceService');
+    $serviceFactory->registerService('hubspot', 'HubspotService');
     switch ($this->provider) {
       case 'twitter':
         // OAuth1
@@ -84,6 +85,9 @@ class ServiceFactory {
       break;
       case 'google':
         $data['token'] = $this->service->requestAccessToken($input['code']);
+      break;
+      case 'hubspot':
+        $data['token'] = $input['access_token'];
       break;
       default:
         // OAuth2

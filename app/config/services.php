@@ -41,8 +41,10 @@ return [
   'hubspot' => [
     'key' => 'b5badda1-cb0e-11e3-bd85-131c19601838',
     'secret' => '13aeed7d-b469-4a15-81a5-7d0058036075',
-    'scope' => [],
-    'callback_domain' => 'http://local.contentlaunch.com'
+    // @todo: Do we need to ask the user to enter their portal id?
+    'portalId' => '175282', // Content launch portal id
+    'scope' => ['blog-rw', 'offline'],
+    'callback_domain' => 'http://launch.localhost'
   ],
   'linkedin' => [
     'key' => '75v9b2qqxfhxrf',
