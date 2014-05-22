@@ -54,6 +54,7 @@
 						$scope.showAddFileButton = $scope.content.contentType.allowFile();
 
 						$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
+						$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
 
 						// TODO: GET ATTACHMENTS FROM API!!
 						$scope.contentAttachments = [1, 2, 3, 4, 5];
@@ -84,6 +85,7 @@
 		$scope.isNewContent = true;
 		$scope.forceDirty = false;
 		$scope.contentConnectionIds = null;
+		$scope.contentTags = null;
 		$scope.showRichTextEditor = false;
 		$scope.showAddFileButton = false;
 		$scope.isUploading = false;
@@ -189,6 +191,38 @@
 
 		$scope.submitForEditing = function () {
 			// TODO: VALIDATE THAT ALL TASKS ARE COMPLETE BEFORE CONTINUING!!
+			var msg = '';
+
+			if ($.isArray($scope.content.taskGroups) && $scope.content.taskGroups.length > 0) {
+				for (var i = 0; i < $scope.content.taskGroups.length; i++) {
+					if ($scope.content.taskGroups[i].status > $scope.content.status) {
+						continue;
+					}
+
+					var tasks = $.grep($scope.content.taskGroups[i].tasks, function (t) { return !t.isComplete; });
+					var isOldStage = ($scope.content.taskGroups[i].status < $scope.content.status);
+
+					if (tasks.length > 0) {
+						$.each(tasks, function (j, t) {
+							if (isOldStage) {
+								t.isComplete = true;
+							} else {
+								msg += t.name + '\n';
+							}
+						});
+
+						if (isOldStage) {
+							taskService.saveContentTasks(self.loggedInUser.account.id, $scope.content.taskGroups[i], self.ajaxHandler);
+						}
+					}
+				}
+			}
+
+			if (!launch.utils.isBlank(msg)) {
+				notificationService.error('Error!', 'Please make sure all tasks are complete. The following tasks are outstanding:\n\n' + msg);
+				return;
+			}
+
 			var oldStatus = $scope.content.status;
 
 			$scope.content.status = 3;
@@ -242,6 +276,18 @@
 
 			self.replaceFile = true;
 		};
+
+		$scope.$watch('contentTags', function () {
+			if (!$scope.content || !$scope.content.$resolved) {
+				return;
+			}
+
+			if (launch.utils.isBlank($scope.contentTags)) {
+				$scope.content.tags = null;
+			} else {
+				$scope.content.tags = $scope.contentTags.split(',');
+			}
+		});
 
 		self.init();
 	}

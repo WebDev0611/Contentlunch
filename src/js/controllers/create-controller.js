@@ -112,6 +112,11 @@
 			campaigns: null,
 			users: null,
 			contentStage: 'content',
+			changeSearchTerm: function() {
+				if (launch.utils.isBlank($scope.search.searchTerm) || $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
+					$scope.search.applyFilter();
+				}
+			},
 			applyFilter: function (reset) {
 				$scope.filteredContent = $filter('filter')($scope.content, function (content) {
 					if ($scope.search.contentStage === 'content' && (content.currentStep() === 'concept' || content.currentStep() === 'archive')) {
@@ -158,7 +163,7 @@
 						return ($.grep($scope.search.users, function(uid) { return parseInt(uid) === content.author.id; }).length > 0);
 					}
 
-					return true;
+					return (launch.utils.isBlank($scope.search.searchTerm) ? true : content.matchSearchTerm($scope.search.searchTerm));
 				});
 
 				if (reset === true) {
@@ -240,7 +245,7 @@
 
 		$scope.handleNextStep = function (content) {
 			if (!content || launch.utils.isBlank(content.nextStep())) {
-				notificationService.error('INVALID NEXT STEP', 'WHAT DO WE DO HERE?');
+				notificationService.info('Unknown Workflow Step', 'The workflow step "' + content.nextStep() + '" is not valid.');
 				return;
 			}
 
@@ -248,26 +253,27 @@
 				case 'create':
 					$location.path('create/concept/edit/content/' + content.id);
 					break;
-				case 'review':
-				case 'approve':
-					$location.path('create/content/edit/' + content.id);
-					break;
-				case 'launch':
-					$location.path('create/content/launch/' + content.id);
-					break;
-				case 'promote':
-					$location.path('create/content/promote/' + content.id);
-					break;
-				case 'archive':
-					// TODO: IMPLEMENT ARCHIVE STEP!!
-					notificationService.info('NOT IMPLEMENTED!', 'THIS FEATURE IS NOT YET IMPLEMENTED!');
-					break;
-				case 'restore':
-					// TODO: IMPLEMENT RESTORE STEP!!
-					notificationService.info('NOT IMPLEMENTED!', 'THIS FEATURE IS NOT YET IMPLEMENTED!');
-					break;
+				//case 'review':
+				//case 'approve':
+				//	$location.path('create/content/edit/' + content.id);
+				//	break;
+				//case 'launch':
+				//	$location.path('create/content/launch/' + content.id);
+				//	break;
+				//case 'promote':
+				//	$location.path('create/content/promote/' + content.id);
+				//	break;
+				//case 'archive':
+				//	// TODO: IMPLEMENT ARCHIVE STEP!!
+				//	notificationService.info('NOT IMPLEMENTED!', 'THIS FEATURE IS NOT YET IMPLEMENTED!');
+				//	break;
+				//case 'restore':
+				//	// TODO: IMPLEMENT RESTORE STEP!!
+				//	notificationService.info('NOT IMPLEMENTED!', 'THIS FEATURE IS NOT YET IMPLEMENTED!');
+				//	break;
 				default:
-					notificationService.info('Unknown Workflow Step', 'The workflow step "' + content.nextStep() + '" is not valid.');
+					$location.path('create/content/edit/' + content.id);
+					//notificationService.info('Unknown Workflow Step', 'The workflow step "' + content.nextStep() + '" is not valid.');
 					break;
 			}
 		};
