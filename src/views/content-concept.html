@@ -36,7 +36,7 @@
 							<div class="form-group">
 								<label class="control-label" for="selCampaign">Campaign</label>
 								<select name="selCampaign" id="selCampaign"
-										ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, selectOnBlur: true }" ng-model="content.campaign.id"
+										ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, allowClear: true }" ng-model="content.campaign.id"
 										data-placeholder="Select Campaign" ng-change="updateCampaign()">
 									<option value=""></option>
 									<option ng-repeat="c in campaigns" value="{{ c.id }}">{{ c.title }}</option>
@@ -75,8 +75,7 @@
 						<div files-list="conceptAttachments"></div>
 					</div>
 				</div>
-				<div class="col-md-3" collaborator-sidebar users="users" item-id="content.id" item-type="'content'">
-				</div>
+				<div class="col-md-3" collaborator-sidebar users="users" item-id="content.id" item-type="'content'" ng-hide="isNewConcept"></div>
 			</div>
 
 			<div ng-hide="isNewConcept" discussion-panel item-id="content.id" item-type="'content'"></div>
