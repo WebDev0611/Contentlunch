@@ -25,13 +25,19 @@ class ServiceFactory {
 
   public function __construct($provider)
   {
-    $this->config = Config::get('services.'. $provider);
     switch ($provider) {
       case 'soundcloud':
         $this->provider = 'soundCloud';
+        $this->config = Config::get('services.soundcloud');
+      break;
+      case 'youtube':
+        // Youtube = google
+        $this->provider = 'google';
+        $this->config = Config::get('services.google');
       break;
       default:
         $this->provider = $provider;
+        $this->config = Config::get('services.'. $provider);
     }
     
     // Will be different based on environment
