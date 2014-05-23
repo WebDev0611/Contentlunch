@@ -95,7 +95,11 @@
 					})
 					.when('/collaborate', {
 						controller: 'CollaborateController',
-						templateUrl: '/assets/views/collaborate.html'
+						templateUrl: '/assets/views/collaborate/list.html'
+					})
+					.when('/collaborate/:collaborateId', {
+						controller: 'CollaborateController',
+						templateUrl: '/assets/views/collaborate/single.html'
 					})
 					.when('/calendar', {
 						controller: 'CalendarController',

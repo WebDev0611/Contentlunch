@@ -1,0 +1,116 @@
+﻿<div class="collaborate view full-width-view">
+    <h2 class="module-header">Collaborate</h2>
+    <div class="container">
+        <div class="section-header">
+            <h3>Concepts</h3>
+            
+            <div class="btn-group" ng-init="view = 'grid'">
+                <button class="btn btn-default" ng-class="{ active: view === 'list' }" ng-click="view = 'list'">
+                    List View
+                </button>
+                <button class="btn btn-default" ng-class="{ active: view === 'grid' }" ng-click="view = 'grid'">
+                    Grid View
+                </button>
+            </div>
+
+            <div class="paging-controls">
+                <div class="form-group form-inline">
+                    <label class="control-label" for="selPageSize">Items per page:</label>
+                    <select class="form-control" id="selPageSize" name="selPageSize" ng-model="pagination.pageSize">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+
+                <div style="width: 100px; text-align: center;">
+                    {{ (pagination.currentPage - 1) * pagination.pageSize + 1 }} 
+                    to {{ pagination.currentPage * pagination.pageSize | min:content.length }}
+                    of {{ content.length }}
+                </div>
+
+                <div class="pager" ng-show="content.length > pagination.pageSize">
+                    <pagination 
+                        total-items="content.length"
+                        items-per-page="pagination.pageSize"
+                        page="pagination.currentPage"
+                        direction-links="true"
+                        max-size="0">
+                    </pagination>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container" ng-show="view == 'list'">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>Working Title</th>
+                        <th>Type</th>
+                        <th>Internal Collaborators</th>
+                        <th>Guest Collaborators</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in content | paginate:pagination.currentPage:pagination.pageSize track by item.id" ng-class-odd="'dark'">
+                        <td>{{ item.icon }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.type }}</td>
+                        <td>
+                            <ng-pluralize count="item.internalCollaborators" offset="2"
+                                when="{'0': 'Nobody is collaborating.',
+                                       '1': '{{item.internalCollaborators[0].firstName}} {{item.internalCollaborators[0].lastName}} is collaborating.',
+                                       '2': '{{item.internalCollaborators[0].firstName}} {{item.internalCollaborators[0].lastName}} and {{item.internalCollaborators[1].firstName}} {{item.internalCollaborators[1].lastName}} are collaborating.',
+                                       'one': '{{item.internalCollaborators[0].firstName}} {{item.internalCollaborators[0].lastName}}, {{item.internalCollaborators[1].firstName}} {{item.internalCollaborators[1].lastName}} and one other person are collaborating.',
+                                       'other': '{{item.internalCollaborators[0].firstName}} {{item.internalCollaborators[0].lastName}}, {{item.internalCollaborators[1].firstName}} {{item.internalCollaborators[1].lastName}} and {} other people are collaborating.'}">
+                            </ng-pluralize>
+                        </td>
+                        <td>{{ item.guestCollaborators[0].firstName }} {{ item.guestCollaborators[0].lastName }}</td>
+                        <td>
+                            <a href="/collaborate/{{ item.id }}" class="btn btn-inverse">Manage Collaborators</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="grid-container break-3" ng-show="view == 'grid'">
+            <div class="grid-cell" ng-repeat="item in content | paginate:pagination.currentPage:pagination.pageSize track by item.id">
+                <div class="grid-cell-lining">
+                    <h4>{{ item.title }}</h4>
+                    <p>{{ item.description }}</p>
+
+                    <div class="sub-section-heading full-width">Internal Collaborators</div>
+                    <div class="nudge-down collaborators">
+                        <div ng-repeat="collab in item.internalCollaborators" class="internal-collaborator user-avatar">
+                            <span class="user-image" style="background-image: url('../images/user.svg'")></span>
+                            <div class="user-name">
+                                {{ collab.firstName }}
+                                {{ collab.lastName }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sub-section-heading full-width">Guest Collaborators</div>
+                    <div class="nudge-down collaborators">
+                        <div ng-repeat="collab in item.guestCollaborators" class="guest-collaborator user-avatar">
+                            <span class="user-image" style="background-image: url('../images/user.svg'")></span>
+                            <div class="user-name">
+                                {{ collab.firstName }}
+                                {{ collab.lastName }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="align-center">
+                        <a href="/collaborate/{{ item.id }}" class="btn btn-inverse">Manage Collaborators</a>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

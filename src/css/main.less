@@ -1537,6 +1537,125 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
+.full-width-view {
+	background: #f2f0ec;
+}
+
+.module-header {
+	background-color: #ffffff;
+	border-bottom: solid 12px @rightPaneHeaderMarginColor;
+	padding: 8px 16px;
+	margin: 0 0 24px;
+}
+
+.collaborate {
+
+	.module-header {
+		background-color: @collaborateColor;
+		border-bottom-color: lighten(@collaborateColor, 30%);
+		color: white;		
+	}
+}
+
+.section-header {
+	margin: 0 16px;
+
+	> * {
+		display: inline-block;
+		margin: 0 16px;
+		vertical-align: middle;
+
+		.control-label, .form-control {
+			display: inline;
+		}
+	}
+
+	.btn-group {
+		.btn {
+			&.active {
+				background-color: #000000;
+				color: #ffffff;
+			}
+		}
+	}
+
+	.paging-controls {
+		float: right;
+
+		> * {
+			display: inline-block;
+			margin: 0 16px;
+		}
+
+		.pager {
+			.pagination {
+				margin: 0;
+
+				.btn {
+					font-size: 15pt;
+				}
+			}
+
+			li > a {
+				border-radius: 0;
+			}
+		}
+	}
+}
+
+.grid-container {
+	padding-top: 30px;
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	justify-content: center; //space-between;
+
+	.grid-cell {
+		background: #e4e4e4;
+		flex: 1 0 310px;
+		margin-bottom: 30px;
+		margin: 0 10px 20px;
+	}
+
+	.grid-cell-lining {
+		padding: 10px;
+	}
+}
+
+.sub-section-heading {
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	border-radius: 4px;
+	background: black;
+	color: white;
+	margin-bottom: 12px;
+}
+
+.nudge-down {
+	margin-bottom: 1em;
+}
+
+.user-avatar {
+	display: inline-block;
+	margin: 0 .5em;
+	text-align: center;
+	width: 75px;
+	.user-name {
+		margin: 5px 0 10px;
+	}
+}
+
+.collaborators {
+	text-align: center;
+}
+
 .files-list {
 	.files-list-header {
 		margin: 24px 0 !important;
@@ -1641,6 +1760,14 @@ table.structural {
 
 .align-center {
 	text-align: center;
+}
+.align-right {
+	text-align: right;
+}
+.underline {
+	margin-bottom: 1em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid black;
 }
 
 .icon-danger {
