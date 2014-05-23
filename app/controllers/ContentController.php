@@ -182,6 +182,16 @@ class ContentController extends BaseController {
       }
       $content->related()->sync($relatedIDs);
 
+      // Sync uploads
+      if (Input::has('uploads')) {
+        $uploads = Input::get('uploads');
+        $ids = [];
+        foreach ($uploads as $upload) {
+          $ids[] = $upload['id'];
+        }
+        $content->uploads()->sync($ids);
+      }
+
       return $this->show($accountID, $content->id);
     }
     return $this->responseError($content->errors()->all(':message'));

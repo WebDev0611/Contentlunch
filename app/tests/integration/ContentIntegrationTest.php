@@ -357,4 +357,63 @@ class ContentIntegrationTest extends TestCase {
     $this->assertEquals($uploads[1]->id, $data->upload->id);
   }
 
+  public function testUploadsStore()
+  {
+    $this->setupContent();
+    // Uploads to save with new content
+    $uploads = Woodling::savedList('Upload', 3, [
+      'user_id' => $this->testUser->id,
+      'account_id' => $this->testAccount->id
+    ]);
+    // Create new content
+    $content = Woodling::retrieve('Content', [
+      'user' => $this->testUser->toArray(),
+      'content_type' => $this->testContentType->toArray(),
+      'uploads' => [
+        $uploads[0]->toArray(),
+        $uploads[1]->toArray(),
+        $uploads[2]->toArray()
+      ]
+    ]);
+    $response = $this->call('POST', '/api/account/'. $this->testAccount->id .'/content', $content->toArray());
+    $data = $this->assertResponse($response);
+    $this->assertEquals($uploads[0]->id, $data->uploads[0]->id);
+    $this->assertEquals($uploads[1]->id, $data->uploads[1]->id);
+    $this->assertEquals($uploads[2]->id, $data->uploads[2]->id);
+  }
+
+  public function testUploadsUpdate()
+  {
+    $this->setupContent();
+    // Uploads to attach to content
+    $uploads = Woodling::savedList('Upload', 4, [
+      'user_id' => $this->testUser->id,
+      'account_id' => $this->testAccount->id
+    ]);
+    // Content to update
+    $content = Woodling::saved('Content', [
+      'account_id' => $this->testAccount->id,
+      'user_id' => $this->testUser->id,
+      'content_type_id' => $this->testContentType->id,
+    ]);
+    // Attach initial uploads
+    $content->uploads()->sync([
+      $uploads[0]->id,
+      $uploads[1]->id
+    ]);
+    $response = $this->call('PUT', '/api/account/'. $this->testAccount->id .'/content/'. $content->id, [
+      // Change uploads that should be attached
+      'uploads' => [
+        $uploads[1]->toArray(),
+        $uploads[2]->toArray(),
+        $uploads[3]->toArray()
+      ]
+    ]);
+    $data = $this->assertResponse($response);
+    // Uploads should be updated
+    $this->assertEquals($uploads[1]->id, $data->uploads[0]->id);
+    $this->assertEquals($uploads[2]->id, $data->uploads[1]->id);
+    $this->assertEquals($uploads[3]->id, $data->uploads[2]->id);
+  }
+
 }

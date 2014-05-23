@@ -8,7 +8,7 @@ class Content extends Ardent {
 
   public $autoHydrateEntityFromInput = true;
 
-  //public $forceEntityHydrationFromInput = true;
+  public $forceEntityHydrationFromInput = true;
 
   protected $fillable = [
     'title', 'body', 'account_id', 'connection_id',
