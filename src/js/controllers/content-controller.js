@@ -86,12 +86,14 @@
 		$scope.forceDirty = false;
 		$scope.contentConnectionIds = null;
 		$scope.contentTags = null;
-		$scope.showRichTextEditor = false;
-		$scope.showAddFileButton = false;
+		$scope.showRichTextEditor = true;
+		$scope.showAddFileButton = true;
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;
 		$scope.defaultTaskGroup = null;
 
+		$scope.hasError = launch.utils.isPropertyValid;
+		$scope.errorMessage = launch.utils.getPropertyErrorMessage;
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
 		$scope.formatContentConnectionItem = launch.utils.formatContentConnectionItem;
@@ -190,7 +192,6 @@
 		};
 
 		$scope.submitForEditing = function () {
-			// TODO: VALIDATE THAT ALL TASKS ARE COMPLETE BEFORE CONTINUING!!
 			var msg = '';
 
 			if ($.isArray($scope.content.taskGroups) && $scope.content.taskGroups.length > 0) {
