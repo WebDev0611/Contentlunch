@@ -15,6 +15,7 @@ var gulp = require('gulp'),
 		livereload = require('gulp-livereload'),
 		lr = require('tiny-lr'),
 		embedlr = require('gulp-embedlr'),
+		autoprefixer = require('gulp-autoprefixer'),
 		server = lr();
 var gutil = require('gulp-util');
 
@@ -76,6 +77,7 @@ gulp.task('less', function () {
 		.pipe(less({
 			paths: [path.join(__dirname, 'less', 'includes')]
 		}))
+		.pipe(autoprefixer())
 		.pipe(gulp.dest('public/assets/css'))
 		.pipe(rename({ suffix: '.min' }))
 		.pipe(minifycss())
