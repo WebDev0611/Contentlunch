@@ -6,4 +6,9 @@ class Upload extends CabinetUpload {
 
   protected $softDelete = true;
 
+  public function account()
+  {
+    return $this->belongsTo('Account');
+  }
+
 }

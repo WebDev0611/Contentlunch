@@ -42,7 +42,7 @@ class ConnectionsAddContentConnections extends Migration {
 	public function down()
 	{
 		foreach ($this->connections as $data) {
-      $connection = Connection::find('provider', $data[1]);
+      $connection = Connection::where('provider', $data[1])->first();
       $connection->delete();
     }
 	}
