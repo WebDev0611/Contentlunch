@@ -45,6 +45,10 @@ class ContentController extends BaseController {
       $campaign = Input::get('campaign');
       $content->campaign_id = $campaign['id'];
     }
+    if (Input::has('upload')) {
+      $upload = Input::get('upload');
+      $content->upload_id = $upload['id'];
+    }
     if ($content->save()) {
       // Attach new tags
       $tags = Input::get('tags');
@@ -68,6 +72,13 @@ class ContentController extends BaseController {
           $content->related()->attach($relatedContent['id']);
         }
       }
+      // Attach uploads
+      $uploads = Input::get('uploads');
+      if ($uploads) {
+        foreach ($uploads as $upload) {
+          $content->uploads()->attach($upload['id']);
+        }
+      }
       return $this->show($accountID, $content->id);
     }
     return $this->responseError($content->errors()->all(':message'));
@@ -85,7 +96,11 @@ class ContentController extends BaseController {
       ->with('tags')
       ->with('user')
       ->with('task_groups')
+      ->with('upload')
+      ->with('uploads')
       ->find($id);
+    //$queries = DB::getQueryLog();
+    //print_r($queries);
     return $content;
   }
 
@@ -98,8 +113,10 @@ class ContentController extends BaseController {
     $content->account_id = $accountID;
 
     // Update user from user object
-    $user = Input::get('user');
-    $content->user_id = $user['id'];
+    if (Input::has('user')) {
+      $user = Input::get('user');
+      $content->user_id = $user['id'];
+    }
 
     // Update content type
     if (Input::has('content_type')) {
@@ -111,6 +128,12 @@ class ContentController extends BaseController {
     if (Input::has('campaign')) {
       $campaign = Input::get('campaign');
       $content->campaign_id = $campaign['id'];
+    }
+
+    // Update main upload file
+    if (Input::has('upload')) {
+      $upload = Input::get('upload');
+      $content->upload_id = $upload['id'];
     }
 
     if ($content->updateUniques()) {

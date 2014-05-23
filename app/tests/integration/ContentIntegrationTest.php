@@ -317,4 +317,44 @@ class ContentIntegrationTest extends TestCase {
     */
   }
 
+  public function testUploadStore()
+  {
+    $this->setupContent();
+    // Upload to save with new content
+    $upload = Woodling::saved('Upload', [
+      'user_id' => $this->testUser->id,
+      'account_id' => $this->testAccount->id
+    ]);
+    // Create new content
+    $content = Woodling::retrieve('Content', [
+      'user' => $this->testUser->toArray(),
+      'upload' => $upload->toArray(),
+      'content_type' => $this->testContentType->toArray(),
+    ]);
+    $response = $this->call('POST', '/api/account/'. $this->testAccount->id .'/content', $content->toArray());
+    $data = $this->assertResponse($response);
+    $this->assertEquals($upload->id, $data->upload->id);
+  }
+
+  public function testUploadUpdate()
+  {
+    $this->setupContent();
+    // Uploads to attach to content
+    $uploads = Woodling::savedList('Upload', 2, [
+      'user_id' => $this->testUser->id,
+      'account_id' => $this->testAccount->id
+    ]);
+    // Content to update
+    $content = Woodling::saved('Content', [
+      'account_id' => $this->testAccount->id,
+      'user_id' => $this->testUser->id,
+      'upload_id' => $uploads[0]->id,
+      'content_type_id' => $this->testContentType->id,
+    ]);
+    $response = $this->call('PUT', '/api/account/'. $this->testAccount->id .'/content/'. $content->id, ['upload' => $uploads[1]->toArray()]);
+    $data = $this->assertResponse($response);
+    // Main upload should have updated
+    $this->assertEquals($uploads[1]->id, $data->upload->id);
+  }
+
 }

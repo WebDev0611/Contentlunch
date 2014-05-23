@@ -8,7 +8,7 @@ class Content extends Ardent {
 
   public $autoHydrateEntityFromInput = true;
 
-  public $forceEntityHydrationFromInput = true;
+  //public $forceEntityHydrationFromInput = true;
 
   protected $fillable = [
     'title', 'body', 'account_id', 'connection_id',
@@ -42,6 +42,22 @@ class Content extends Ardent {
   public function content_type()
   {
     return $this->belongsTo('ContentType');
+  }
+
+  /**
+   * This is the main file that corresponds to the content type
+   */
+  public function upload()
+  {
+    return $this->hasOne('Upload', 'id', 'upload_id');
+  }
+
+  /**
+   * These are extra files attached to the content
+   */
+  public function uploads()
+  {
+    return $this->belongsToMany('Upload', 'content_uploads', 'content_id', 'upload_id')->withTimestamps();
   }
 
   public function task_groups()
