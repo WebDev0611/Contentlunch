@@ -97,7 +97,7 @@
 						controller: 'CollaborateController',
 						templateUrl: '/assets/views/collaborate/list.html'
 					})
-					.when('/collaborate/:collaborateId', {
+					.when('/collaborate/:conceptType/:id', {
 						controller: 'CollaborateController',
 						templateUrl: '/assets/views/collaborate/single.html'
 					})

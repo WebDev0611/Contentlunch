@@ -4,7 +4,7 @@
         <div class="section-header">
             <h3>Concepts</h3>
             
-            <div class="btn-group" ng-init="view = 'grid'">
+            <div class="btn-group" ng-init="view = 'list'">
                 <button class="btn btn-default" ng-class="{ active: view === 'list' }" ng-click="view = 'list'">
                     List View
                 </button>
@@ -27,13 +27,13 @@
 
                 <div style="width: 100px; text-align: center;">
                     {{ (pagination.currentPage - 1) * pagination.pageSize + 1 }} 
-                    to {{ pagination.currentPage * pagination.pageSize | min:content.length }}
-                    of {{ content.length }}
+                    to {{ pagination.currentPage * pagination.pageSize | min:list.length }}
+                    of {{ list.length }}
                 </div>
 
-                <div class="pager" ng-show="content.length > pagination.pageSize">
+                <div class="pager" ng-show="list.length > pagination.pageSize">
                     <pagination 
-                        total-items="content.length"
+                        total-items="list.length"
                         items-per-page="pagination.pageSize"
                         page="pagination.currentPage"
                         direction-links="true"
@@ -56,11 +56,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="item in content | paginate:pagination.currentPage:pagination.pageSize track by item.id" ng-class-odd="'dark'">
-                        <td>{{ item.icon }}</td>
-                        <td>{{ item.title }}</td>
-                        <td>{{ item.type }}</td>
-                        <td>
+                    <tr ng-repeat="item in list | paginate:pagination.currentPage:pagination.pageSize track by item.id" ng-class-odd="'dark'">
+                        <td class="align-middle"><span class="cl-icon cl-icon-med cl-icon-workflow-concept"></span></td>
+                        <td class="align-middle">{{ item.title }}</td>
+                        <td class="align-middle">{{ item.type }}</td>
+                        <td class="align-middle">
                             <ng-pluralize count="item.internalCollaborators" offset="2"
                                 when="{'0': 'Nobody is collaborating.',
                                        '1': '{{item.internalCollaborators[0].firstName}} {{item.internalCollaborators[0].lastName}} is collaborating.',
@@ -69,9 +69,9 @@
                                        'other': '{{item.internalCollaborators[0].firstName}} {{item.internalCollaborators[0].lastName}}, {{item.internalCollaborators[1].firstName}} {{item.internalCollaborators[1].lastName}} and {} other people are collaborating.'}">
                             </ng-pluralize>
                         </td>
-                        <td>{{ item.guestCollaborators[0].firstName }} {{ item.guestCollaborators[0].lastName }}</td>
-                        <td>
-                            <a href="/collaborate/{{ item.id }}" class="btn btn-inverse">Manage Collaborators</a>
+                        <td class="align-middle">{{ item.guestCollaborators[0].firstName }} {{ item.guestCollaborators[0].lastName }}</td>
+                        <td class="align-middle">
+                            <a href="/collaborate/{{ item.type_slug }}/{{ item.id }}" class="btn btn-inverse">Manage Collaborators</a>
                         </td>
                     </tr>
                 </tbody>
@@ -79,35 +79,35 @@
         </div>
 
         <div class="grid-container break-3" ng-show="view == 'grid'">
-            <div class="grid-cell" ng-repeat="item in content | paginate:pagination.currentPage:pagination.pageSize track by item.id">
+            <div class="grid-cell" ng-repeat="item in list | paginate:pagination.currentPage:pagination.pageSize track by item.id">
                 <div class="grid-cell-lining">
                     <h4>{{ item.title }}</h4>
-                    <p>{{ item.description }}</p>
+                    <p>{{ item.concept }}</p>
 
                     <div class="sub-section-heading full-width">Internal Collaborators</div>
                     <div class="nudge-down collaborators">
-                        <div ng-repeat="collab in item.internalCollaborators" class="internal-collaborator user-avatar">
-                            <span class="user-image" style="background-image: url('../images/user.svg'")></span>
-                            <div class="user-name">
-                                {{ collab.firstName }}
-                                {{ collab.lastName }}
+                        <div ng-repeat="collab in item.internalCollaborators" class="internal-collaborator cl-badge cl-badge-row">
+                            <span class="cl-badge-image" style="background-image: url('{{ collab.image | imagePathFromObject }}')")></span>
+                            <div class="cl-badge-caption">
+                                {{ collab.first_name }}
+                                {{ collab.last_name }}
                             </div>
                         </div>
                     </div>
 
                     <div class="sub-section-heading full-width">Guest Collaborators</div>
                     <div class="nudge-down collaborators">
-                        <div ng-repeat="collab in item.guestCollaborators" class="guest-collaborator user-avatar">
-                            <span class="user-image" style="background-image: url('../images/user.svg'")></span>
-                            <div class="user-name">
-                                {{ collab.firstName }}
-                                {{ collab.lastName }}
+                        <div ng-repeat="collab in item.guestCollaborators" class="guest-collaborator cl-badge cl-badge-row">
+                            <span class="cl-badge-image" style="background-image: url('{{ collab.image | imagePathFromObject }}')")></span>
+                            <div class="cl-badge-caption">
+                                {{ collab.first_name }}
+                                {{ collab.last_name }}
                             </div>
                         </div>
                     </div>
 
                     <div class="align-center">
-                        <a href="/collaborate/{{ item.id }}" class="btn btn-inverse">Manage Collaborators</a>                        
+                        <a href="/collaborate/{{ item.type_slug }}/{{ item.id }}" class="btn btn-inverse">Manage Collaborators</a>                        
                     </div>
                 </div>
             </div>

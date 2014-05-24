@@ -1,0 +1,34 @@
+<form role="form">
+    <div class="modal-header">
+        Invite to Collaborate
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>To</label>
+            <div>
+                <span ng-hide="message.length">
+                    No Recipients
+                </span>
+                {{ message.to.join(', ')}}
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Subject</label>
+            <input type="text" class="form-control" ng-model="message.subject"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Message</label>
+            <textarea rows="5" class="form-control" ng-model="message.body"></textarea>
+            <p class="help-block">{{ 140 - message.body.length }} characters</p>
+        </div>
+
+        <p class="align-center">
+            This message will  be sent to the chosen {{ guestsVia }} Connections<br>
+            along with a link to become a collaborator
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" ng-click="$dismiss()">Go Back</button>
+        <button class="btn btn-primary" ng-click="$close(message)">Send</button>
+    </div>
+</form>

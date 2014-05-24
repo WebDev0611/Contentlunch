@@ -9,6 +9,7 @@ composer.lock
 .env.php
 .DS_Store
 Thumbs.db
+uploads/
 
 # ignore local configurations
 app/config/local/

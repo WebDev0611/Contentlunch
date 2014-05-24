@@ -1,43 +1,92 @@
 ﻿launch.module.controller('CollaborateController', 
-        ['$scope', '$location', 
-function ($scope,   $location) {
+        ['$scope', '$rootScope', '$location', 'Restangular', '$q', 'AuthService', '$filter', '$routeParams', '$modal', 
+function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,   $filter,   $routeParams,   $modal) {
 	$scope.pagination = {
         pageSize: 5,
         currentPage: 1,
     };
 
-    var fakeData = {
-        icon: 'head',
-        type: 'Content',
-        title: "I'm the title!",
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tuo vero id quidem, inquam, arbitratu. Rationis enim perfectio est virtus.',
-        internalCollaborators: {
-            firstName: 'Bob',
-            lastName: 'Kurtz'
-        },
-        guestCollaborators: {
-            firstName: 'George',
-            lastName: 'Mauer'
-        }
+    // Get & Setup Our Data
+    // -------------------------
+    var user = AuthService.userInfo();
+
+    var Account = Restangular.one('account', user.account.id);
+    var requests = {
+        users: Account.all('users').getList(),
     };
 
-    $scope.content = _.map(_.range(1, 30), function (i) {
-        var clone = _.clone(fakeData);
-        clone.id = i;
-        clone.title += ' ' + i;
-        clone.internalCollaborators = _.map(_.range(1, _.random(2, 7)), function (i) { 
-            var clone = _.clone(fakeData.internalCollaborators);
-            clone.id = i;
-            return clone;
+    // sharing controllers since "list" is so simple
+    if ($routeParams.id) {
+        requests.selected = Account.one($routeParams.conceptType, $routeParams.id).get().then(function (selected) {
+            // TODO: figure out how we're differentiating collaborators. but for now...
+            selected.internalCollaborators = selected.collaborators;
+            return selected;
         });
-        clone.guestCollaborators    = _.map(_.range(1, _.random(2, 7)), function (i) { 
-            var clone = _.clone(fakeData.guestCollaborators);
-            clone.id = i;
-            return clone;
+    } else {
+        requests.list = $q.all({
+            Content  : Account.all( 'content' ).getList({ status: 0 }),
+            Campaign : Account.all('campaigns').getList({ status: 0 }),
+        }).then(function (responses) {
+            // merge lists and set the type & type_slug
+            var response = _.reduce(responses, function (list, sublist, type) {
+                _.each(sublist, function (item) {
+                    item.type = type;
+                    item.type_slug = type === 'Content' ? 'content' : 'campaigns';
+                    // TODO: figure out how we're differentiating collaborators. but for now...
+                    item.internalCollaborators = item.collaborators;
+                    return list.push(item);
+                });
+                return list;
+            }, []);
+
+            return response; // _.sortBy(response, 'title');
         });
-        return clone;
+    }
+
+    $q.all(requests).then(function (responses) {
+        angular.extend($scope, responses);
+        console.log(_.mapObject(responses, function (response, key) {
+            return [key, response.plain ? response.plain() : response];
+        }));
     });
 
-    $scope.selected = $scope.content[0];
-    console.log($scope.content);
+    // Actions
+    // -------------------------
+    $scope.addInternalCollaborator = function (collaboratorToAdd) {
+        $scope.showAddInternal = false;
+        if (!_.isArray($scope.selected.internalCollaborators)) 
+            $scope.selected.internalCollaborators = [];
+
+        $scope.selected.all('collaborators').post({ 
+            user_id: collaboratorToAdd.id 
+        }).then(function () {
+            $scope.selected.internalCollaborators.push(collaboratorToAdd);
+        });
+    };
+
+    $scope.removeInternalCollaborator = function (collab) {
+        $scope.selected.one('collaborators', collab.id).remove().then(function () {
+            $rootScope.removeRow($scope.selected.internalCollaborators, collab.id);
+        });
+    };
+
+    $scope.openInviteModal = function () {
+        $modal.open({
+            templateUrl: '/assets/views/collaborate/invite-modal.html',
+            size: 'lg'
+        }).result.then(function (message) {
+            console.log(message);
+        });
+    };
+
+
+    // Helpers
+    // -------------------------
+    $scope.formatUserItem = function (item, element, context) {
+        if (!item.text) return element.attr('placeholder');
+        var user = _.findById($scope.users, item.id)[0] || {};
+        var style = ' style="background-image: url(\'' + $filter('imagePathFromObject')(user.image) + '\')"';
+
+        return '<span class="user-image user-image-small"' + style + '></span> <span>' + item.text + '</span>';
+    };
 }]);

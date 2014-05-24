@@ -40,7 +40,8 @@
     "angular-ui-tinymce": "~0.0.5",
     "angular-ui-calendar": "~0.8.1",
     "lodash": "~2.4.1",
-    "momentjs": "~2.6.0"
+    "momentjs": "~2.6.0",
+    "restangular": "~1.4.0"
   },
   "resolutions": {
     "tinymce": "~4.0.21"

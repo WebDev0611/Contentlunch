@@ -8,11 +8,10 @@ html, body {
 }
 
 body {
-  background: @background-color;
-  color: @text-color;
-  font-family: Lato, sans-serif;
-  min-height: 100%;
-
+    background: @background-color;
+    color: @text-color;
+    font-family: Lato, sans-serif;
+    min-height: 100%;
 }
 
 header {
@@ -1539,6 +1538,8 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 .full-width-view {
 	background: #f2f0ec;
+	min-height: 100%;
+	height: auto;
 }
 
 .module-header {
@@ -1549,7 +1550,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 }
 
 .collaborate {
-
 	.module-header {
 		background-color: @collaborateColor;
 		border-bottom-color: lighten(@collaborateColor, 30%);
@@ -1642,13 +1642,55 @@ span[class^="icon-"], span[class*=" icon-"] {
 	margin-bottom: 1em;
 }
 
-.user-avatar {
-	display: inline-block;
+
+
+.cl-badge {
 	margin: 0 .5em;
-	text-align: center;
-	width: 75px;
-	.user-name {
+
+	.cl-badge-image {
+		background: #000000 url("../images/user.svg") no-repeat center center;
+		background-size: cover;
+		border: solid 2px #ffffff;
+		border-radius: 50%;
+		display: inline-block;
+		height: 40px;
+		width: 40px;
+		vertical-align: middle;
+
+		&.cl-badge-image-small {
+			height: 30px;
+			width: 30px;
+		}
+	}
+
+	.cl-badge-caption {
 		margin: 5px 0 10px;
+	}
+
+	&.cl-badge-row {
+		display: inline-block;
+		text-align: center;
+		width: 75px;
+	}
+
+	&.cl-badge-horizontal {
+		margin: 0 0 0.5em;
+
+		.cl-badge-image {
+			display: inline-block;
+			vertical-align: middle;
+			margin: 0 0.5em 0 0;
+		}
+
+		.cl-badge-caption {
+			display: inline-block;
+			vertical-align: middle;
+			margin: 5px 0;
+		}
+
+		.fa {
+			line-height: 35px;
+		}
 	}
 }
 
@@ -1764,10 +1806,31 @@ table.structural {
 .align-right {
 	text-align: right;
 }
+.align-middle {
+	vertical-align: middle !important;
+}
+
 .underline {
 	margin-bottom: 1em;
 	padding-bottom: 1em;
 	border-bottom: 1px solid black;
+}
+
+.panel {
+	border: 0 none;
+	background-color: #e4e4e4;
+}
+
+.panel-inverse > .panel-heading {
+	color: white;
+	background-color: black;
+	border-color: black;
+}
+
+.well {
+	background: #e4e4e4;
+	border: 0 none;
+	box-shadow: none;
 }
 
 .icon-danger {
@@ -1939,12 +2002,29 @@ table.structural {
 
 .btn-create {
 	background-color: @createColor;
-	color: #ffffff;
+	color: white;
+
+	&:hover {
+		color: white;
+		background-color: darken(@createColor, 5%);
+	}
 }
 
 .btn-collaborate {
 	background-color: @collaborateColor;
-	color: #ffffff;
+	color: white;
+
+	&:hover {
+		color: white;
+		background-color: darken(@collaborateColor, 5%);
+	}
+}
+
+.btn {
+	img {
+		max-height: 20px;
+		margin-right: 5px;
+	}
 }
 
 // Full Calendar Styles

@@ -11,10 +11,16 @@ class CampaignController extends BaseController {
     if ( ! $this->inAccount($account->id)) {
       return $this->responseAccessDenied();
     }
-    return Campaign::where('account_id', $account->id)
+    $query = Campaign::where('account_id', $account->id)
       ->with('tags')
-      ->with('collaborators')
-      ->get();
+      ->with('collaborators');
+
+    // uncomment when we're ready to filter by status
+    // if (Input::has('status')) {
+    //   $query->where('status', Input::get('status'));
+    // }
+
+    $query->get();
   }
 
   public function store($accountID)

@@ -171,8 +171,8 @@ gulp.task('scripts', function() {
 		.pipe(concat('build.js'))
 		.pipe(gulp.dest('./public/assets/js'));
 	return gulp.src(['src/js/app.js', 'src/js/**/*.js'])
-		.pipe(jshint('.jshintrc'))
-		.pipe(jshint.reporter('jshint-stylish'))
+		// .pipe(jshint('.jshintrc'))
+		// .pipe(jshint.reporter('jshint-stylish'))
 		.pipe(concat('app.js'))
 		.pipe(gulp.dest('./public/assets/js'))
 		.pipe(livereload(server));
