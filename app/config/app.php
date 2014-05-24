@@ -182,6 +182,7 @@ return [
     'Cabinet' => 'Andrew13\Cabinet\CabinetFacade',
 
     'WordpressService' => 'Launch\OAuth\Service\Wordpress',
+    'HubspotService' => 'Launch\OAuth\Service\Hubspot',
     'SalesforceService' => 'Launch\OAuth\Service\Salesforce',
 
 	],

@@ -6,41 +6,32 @@ launch.module.controller('LoginController', [
 			authService.logout();
 			$scope.toggleMode();
 
+			$scope.user = new launch.Authentication();
+
 			self.redirect = launch.utils.isBlank($location.search()['path']) ? null : $location.search()['path'];
 		};
 
 		self.redirect = null;
 
-		$scope.user = { email: null, password: null };
-		$scope.emailError = null;
-		$scope.passwordError = null;
+		$scope.user = null;
+		$scope.hasError = launch.utils.isPropertyValid;
+		$scope.errorMessage = launch.utils.getPropertyErrorMessage;
+		$scope.forceDirty = false;
 		$scope.isSaving = false;
 		$scope.mode = null;
-
-		$scope.validateLogin = function(user) {
-			if (launch.utils.isBlank(user.email)) {
-				$scope.emailError = 'Please enter your email address.';
-			} else if (!launch.utils.isValidEmail(user.email)) {
-				$scope.emailError = 'Please enter a valid email address.';
-			} else {
-				$scope.emailError = null;
-			}
-
-			if (launch.utils.isBlank(user.password)) {
-				$scope.passwordError = 'Please enter your password.';
-			} else {
-				$scope.passwordError = null;
-			}
-
-			return (launch.utils.isBlank($scope.emailError) && launch.utils.isBlank($scope.passwordError));
-		};
 
 		$scope.login = function(e, user) {
 			if (e.type === 'keypress' && e.charCode !== 13) {
 				return;
 			}
 
-			if (!$scope.validateLogin(user)) {
+			$scope.forceDirty = true;
+
+			var msg = launch.utils.validateAll($scope.user);
+
+			if (!launch.utils.isBlank(msg)) {
+				notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
+
 				return;
 			}
 

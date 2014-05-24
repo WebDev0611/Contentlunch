@@ -54,6 +54,10 @@ Route::group(['prefix' => 'api'], function()
   Route::put('account/{id}/roles/{roleid}', 'AccountRoleController@update');
   Route::delete('account/{id}/roles/{roleid}', 'AccountRoleController@destroy');
 
+  Route::resource('account/{id}/uploads', 'UploadController', [
+    'only' => ['store', 'show', 'destroy']
+  ]);
+
   Route::group(['prefix' => 'auth'], function() {
     // Attempt to login a user
     Route::post('/', 'AuthController@do_login');

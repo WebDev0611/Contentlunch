@@ -1,5 +1,6 @@
 ﻿launch.Content = function() {
 	var self = this;
+	var lowerCaseTags = null;
 
 	self.id = null;
 	self.accountId = null;
@@ -74,19 +75,21 @@
 	};
 
 	self.matchSearchTerm = function (term) {
-		// TODO: IMPLEMENT THIS METHOD TO MATCH A CONTENT ITEM'S SEARCH TERM!!
+		if (launch.utils.isBlank(term)) {
+			return true;
+		}
 
-		//if (launch.utils.startsWith(self.title, term) || launch.utils.startsWith(self.email, term) ||
-		//	launch.utils.startsWith(self.city, term) ||
-		//	launch.utils.startsWith(self.state.name, term) || launch.utils.startsWith(self.state.value, term)) {
-		//	return true;
-		//}
+		if (launch.utils.isValidPattern(self.title, term) || launch.utils.isValidPattern(self.body, term) || launch.utils.isValidPattern(self.concept, term)) {
+			return true;
+		}
 
-		//if (!!self.subscription) {
-		//	var level = !isNaN(term) ? term : term.replace(/^tier /, '').replace(/^tier/, '').replace(/^tie/, '').replace(/^ti/, '').replace(/^t/, '');
+		if (!lowerCaseTags) {
+			lowerCaseTags = $.map(self.tags, function (t) { return t.toLowerCase(); });
+		}
 
-		//	return self.subscription.subscriptionLevel === parseInt(level);
-		//}
+		if ($.isArray(lowerCaseTags) && lowerCaseTags.length > 0 && $.inArray(term.toLowerCase(), lowerCaseTags) >= 0) {
+			return true;
+		}
 
 		return false;
 	};
@@ -94,21 +97,21 @@
 	self.validateProperty = function (property) {
 		switch (property.toLowerCase()) {
 			case 'title':
-				return launch.utils.isBlank(this.title) ? 'Title is required.' : null;
+				return launch.utils.isBlank(self.title) ? 'Title is required.' : null;
 			case 'contenttype':
-				return launch.utils.isBlank(this.contentType) ? 'Content Type is required.' : null;
+				return launch.utils.isBlank(self.contentType) ? 'Content Type is required.' : null;
 			case 'body':
-				return launch.utils.isBlank(this.body) ? 'Description is required.' : null;
+				return launch.utils.isBlank(self.body) ? 'Description is required.' : null;
 			case 'author':
-				return (!this.author || launch.utils.isBlank(this.author.id)) ? 'Author is required.' : null;
-			case 'buyingstage':
-				return (this.status >= 3 && launch.utils.isBlank(this.buyingStage)) ? 'Buying Stage is required.' : null;
-			case 'persona':
-				return (this.status >= 3 && launch.utils.isBlank(this.persona)) ? 'Persona is required.' : null;
+				return (!self.author || launch.utils.isBlank(self.author.id)) ? 'Author is required.' : null;
+			//case 'buyingstage':
+				//	return (self.status >= 1 && launch.utils.isBlank(self.buyingStage)) ? 'Buying Stage is required.' : null;
+			//case 'persona':
+				//	return (self.status >= 1 && launch.utils.isBlank(self.persona)) ? 'Persona is required.' : null;
 			case 'accountconnections':
-				return (this.status >= 3 && (!$.isArray(this.accountConnections) || this.accountConnections.length === 0)) ? 'One or more Content Connections is required.' : null;
-			case 'campaign':
-				return (!this.campaign || launch.utils.isBlank(this.campaign.id)) ? 'Campaign is required.' : null;
+				return (self.status >= 1 && (!$.isArray(self.accountConnections) || self.accountConnections.length === 0)) ? 'One or more Content Connections is required.' : null;
+			//case 'campaign':
+				//	return (!self.campaign || launch.utils.isBlank(self.campaign.id)) ? 'Campaign is required.' : null;
 			default:
 				return null;
 		}

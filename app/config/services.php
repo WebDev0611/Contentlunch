@@ -41,8 +41,10 @@ return [
   'hubspot' => [
     'key' => 'b5badda1-cb0e-11e3-bd85-131c19601838',
     'secret' => '13aeed7d-b469-4a15-81a5-7d0058036075',
-    'scope' => [],
-    'callback_domain' => 'http://local.contentlaunch.com'
+    // @todo: Do we need to ask the user to enter their portal id?
+    'portalId' => '175282', // Content launch portal id
+    'scope' => ['blog-rw', 'offline'],
+    'callback_domain' => 'http://launch.localhost'
   ],
   'linkedin' => [
     'key' => '75v9b2qqxfhxrf',
@@ -55,6 +57,18 @@ return [
     'secret' => '8067118373531747124',
     'scope' => ['api'],
     'callback_domain' => 'http://localhost:8080'
+  ],
+  'soundcloud' => [
+    'key' => 'd37263dd5600d9b0b1764dd914883364',
+    'secret' => '11bda186d51299bb2f45d3d79a75ddf3',
+    'scope' => [],
+    'callback_domain' => 'http://launch.localhost'
+  ],
+  'tumblr' => [
+    'key' => 'xf6LPNMJ5CVWg5FISpqlSpUDft3jVSR4FpYuB8VzMqi6gIZoWc',
+    'secret' => 'NLDlgqG3uovGzDBkDKpeqn42QL0oChQcFwjA0gKIDdbYwbvBne',
+    'scope' => [],
+    'callback_domain' => 'http://launch.localhost'
   ],
   'twitter' => [
     'key' => 'E6YObyKe5gqycy1vJslG9dl7s',

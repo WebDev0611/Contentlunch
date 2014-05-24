@@ -25,10 +25,22 @@ class ServiceFactory {
 
   public function __construct($provider)
   {
-    $this->provider = $provider;
-    $this->config = Config::get('services.'. $this->provider);
-    // Will be different based on environment
+    switch ($provider) {
+      case 'soundcloud':
+        $this->provider = 'soundCloud';
+        $this->config = Config::get('services.soundcloud');
+      break;
+      case 'youtube':
+        // Youtube = google
+        $this->provider = 'google';
+        $this->config = Config::get('services.google');
+      break;
+      default:
+        $this->provider = $provider;
+        $this->config = Config::get('services.'. $provider);
+    }
     
+    // Will be different based on environment
     switch (app()->environment()) {
       case 'staging':
         $redirectURL = 'http://staging.contentlaunch.surgeforward.com/api/add-connection';
@@ -45,20 +57,28 @@ class ServiceFactory {
     $serviceFactory = new OAuthServiceFactory;
     $serviceFactory->registerService('wordpress', 'WordpressService');
     $serviceFactory->registerService('salesforce', 'SalesforceService');
+    $serviceFactory->registerService('hubspot', 'HubspotService');
     switch ($this->provider) {
+      case 'tumblr':
       case 'twitter':
         // OAuth1
         $this->service = $serviceFactory->createService($this->provider, $credentials, $this->storage);
       break;
       default:
         // OAuth2
-        $this->service = $serviceFactory->createService($this->provider, $credentials, $this->storage, $this->config['scope']);
+        $scope = $this->config['scope'];
+        if ($scope) {
+          $this->service = $serviceFactory->createService($this->provider, $credentials, $this->storage, $this->config['scope']);  
+        } else {
+          $this->service = $serviceFactory->createService($this->provider, $credentials, $this->storage);
+        }
     }
   }
 
   public function getAuthorizationUri()
   {
     switch ($this->provider) {
+      case 'tumblr':
       case 'twitter':
         $token = $this->service->requestRequestToken();
         return (string) $this->service->getAuthorizationUri([
@@ -77,6 +97,10 @@ class ServiceFactory {
     }
     $data = $input;
     switch ($this->provider) {
+      case 'tumblr':
+        $token = $this->storage->retrieveAccessToken('Tumblr');
+        $data['token'] = $this->service->requestAccessToken($input['oauth_token'], $input['oauth_verifier'], $token->getRequestTokenSecret());
+      break;
       case 'twitter':
         // OAuth1
         $token = $this->storage->retrieveAccessToken('Twitter');
@@ -84,6 +108,9 @@ class ServiceFactory {
       break;
       case 'google':
         $data['token'] = $this->service->requestAccessToken($input['code']);
+      break;
+      case 'hubspot':
+        $data['token'] = $input['access_token'];
       break;
       default:
         // OAuth2
