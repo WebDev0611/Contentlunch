@@ -2,10 +2,10 @@
 	'use strict';
 
 	launch = window.launch || (window.launch = { });
-	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2', 'ui.calendar']);
+	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2', 'ui.calendar', 'restangular']);
 
 	launch.module.config([
-			'$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
+			'$routeProvider', '$locationProvider', '$httpProvider', 'RestangularProvider', function($routeProvider, $locationProvider, $httpProvider, RestangularProvider) {
 				$locationProvider.html5Mode(true);
 
 				$routeProvider
@@ -129,6 +129,8 @@
 						}
 				});
 
+				RestangularProvider.setBaseUrl('/api');
+
 				var interceptor = [
 					'$location', '$q', function($location, $q) {
 						var success = function(r) {
@@ -197,7 +199,6 @@
 					if (byId !== false) {
 						index = _.indexById(array, index);
 					}
-					console.log(index, byId);
 					if (index !== -1) array.splice(index, 1);
 				};
 			}
