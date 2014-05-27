@@ -1612,7 +1612,9 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 	.grid-cell {
 		background: #e4e4e4;
-		flex: 1 0 310px;
+		// autoprefixer doesn't seem to support shorthand `flex:`
+		flex-grow: 1;
+		flex-basis: 310px;
 		margin-bottom: 30px;
 		margin: 0 10px 20px;
 	}
