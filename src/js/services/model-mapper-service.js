@@ -1115,6 +1115,14 @@
 				content.contentType.title = dto.content_type_name;
 			}
 
+			if (!!dto.upload) {
+				content.contentFile = self.uploadFile.fromDto(dto.upload);
+			}
+
+			if (!!dto.uploads) {
+				content.attachments = $.map(dto.uploads, self.uploadFile.fromDto);
+			}
+
 			content.persona = dto.persona;
 			content.secondaryPersona = dto.secondary_persona;
 			content.buyingStage = dto.buying_stage;
@@ -1179,6 +1187,14 @@
 				created_at: content.created,
 				updated_at: content.updated
 			};
+
+			if (!!content.contentFile && !launch.utils.isBlank(content.contentFile.id)) {
+				dto.upload = self.uploadFile.toDto(content.contentFile);
+			}
+
+			if ($.isArray(content.attachments) && content.attachments.length > 0) {
+				dto.uploads = $.map(content.attachments, self.uploadFile.toDto);
+			}
 
 			if (!!content.campaign) {
 				dto.campaign = {
@@ -1369,6 +1385,46 @@
 				content_task_group_id: task.taskGroupId,
 				created_at: task.created,
 				updated_at: task.updated
+			};
+		}
+	};
+
+	self.uploadFile = {
+		parseResponse: function (r, getHeaders) {
+			return self.parseResponse(r, getHeaders, self.uploadFile.fromDto);
+		},
+		fromDto: function (dto) {
+			var uploadFile = new launch.UploadFile();
+
+			uploadFile.id = parseInt(dto.id);
+			uploadFile.accountId = parseInt(dto.account_id);
+			uploadFile.userId = isNaN(dto.user_id) ? null : parseInt(dto.user_id);
+			uploadFile.parentId = isNaN(dto.parent_id) ? null : parseInt(dto.parent_id);
+			uploadFile.extension = dto.extension;
+			uploadFile.fileName = dto.filename;
+			uploadFile.mimeType = dto.mimetype;
+			uploadFile.path = dto.path;
+			uploadFile.size = parseInt(dto.size);
+			uploadFile.created = new Date(dto.created_at);
+			uploadFile.updated = new Date(dto.updated_at);
+			uploadFile.deleted = launch.utils.isBlank(dto.deleted_at) ? null : new Date(dto.deleted_at);
+
+			return uploadFile;
+		},
+		toDto: function(uploadFile) {
+			return {
+				id: uploadFile.id,
+				account_id: uploadFile.accountId,
+				user_id: uploadFile.userId,
+				parent_id: uploadFile.parentId,
+				extension: uploadFile.extension,
+				filename: uploadFile.fileName,
+				mimetype: uploadFile.mimeType,
+				path: uploadFile.path,
+				size: uploadFile.size,
+				created_at: uploadFile.created,
+				updated_at: uploadFile.updated,
+				deleted_at: uploadFile.deleted
 			};
 		}
 	};
