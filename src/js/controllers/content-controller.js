@@ -1,10 +1,11 @@
 ﻿launch.module.controller('ContentController', [
-	'$scope', '$routeParams', '$filter', '$location', '$modal', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', function ($scope, $routeParams, $filter, $location, $modal, authService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService) {
+	'$scope', '$routeParams', '$filter', '$location', '$modal', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', function ($scope, $routeParams, $filter, $location, $modal, authService, accountService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
 		self.replaceFile = false;
 		self.contentId = null;
+		self.uploadFile = null;
 
 		self.ajaxHandler = {
 			success: function (r) {
@@ -45,6 +46,7 @@
 				// SET THE MODEL FOR THE CONTROL. COMPLETE HACK DUE TO LIMITATIONS OF THE CONTROL.
 				if (!$scope.contentConnections || !$scope.contentConnections.$resolved) {
 					window.setTimeout(self.refreshContent, 200);
+					$scope.content = null;
 					return;
 				}
 
@@ -74,6 +76,41 @@
 			$scope.content.accountConnections = contentConnections;
 		};
 
+		self.handleSaveContent = function (callback) {
+			var method = $scope.isNewContent ? contentService.add : contentService.update;
+
+			$scope.isSaving = true;
+
+			method(self.loggedInUser.account.id, $scope.content, {
+				success: function (r) {
+					$scope.isSaving = false;
+					$scope.isUploading = false;
+
+					var successMsg = $scope.isNewContent ? 'Successfully created new "' + $scope.content.title + '"!' : 'Successfully updated "' + $scope.content.title + '"';
+
+					notificationService.success('Success!', successMsg);
+
+					if (!!callback && $.isFunction(callback.success)) {
+						callback.success(r);
+					}
+
+					if ($scope.isNewContent) {
+						$location.path('/create/content/edit/' + r.id);
+					} else {
+						self.refreshContent();
+					}
+				},
+				error: function (r) {
+					$scope.isSaving = false;
+					launch.utils.handleAjaxErrorResponse(r, notificationService);
+
+					if (!!callback && $.isFunction(callback.error)) {
+						callback.error(r);
+					}
+				}
+			});
+		};
+
 		$scope.content = null;
 		$scope.contentAttachments = null;
 		$scope.contentTypes = null;
@@ -87,7 +124,7 @@
 		$scope.contentConnectionIds = null;
 		$scope.contentTags = null;
 		$scope.showRichTextEditor = true;
-		$scope.showAddFileButton = true;
+		$scope.showAddFileButton = false;
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;
 		$scope.defaultTaskGroup = null;
@@ -131,6 +168,8 @@
 
 			$scope.forceDirty = true;
 
+			self.updateContentConnection();
+
 			var msg = launch.utils.validateAll($scope.content);
 
 			if (!launch.utils.isBlank(msg)) {
@@ -143,58 +182,31 @@
 				return;
 			}
 
-			var method = $scope.isNewContent ? contentService.add : contentService.update;
-			var success = function(r) {
-				$scope.isSaving = false;
-				$scope.isUploading = false;
+			if (self.replaceFile && !!self.uploadFile) {
+				var responseHandler = {
+					success: function (r) {
+						$scope.content.contentFile = r;
+						self.handleSaveContent(callback);
+					},
+					error: function (r) {
+						launch.utils.handleAjaxErrorResponse(r, notificationService);
+					}
+				};
 
-				var successMsg = $scope.isNewContent ? 'Successfully created new "' + $scope.content.title + '"!' : 'Successfully updated "' + $scope.content.title + '"';
-
-				notificationService.success('Success!', successMsg);
-
-				if (!!callback && $.isFunction(callback.success)) {
-					callback.success(r);
-				}
-
-				if ($scope.isNewContent) {
-					$location.path('/create/content/edit/' + r.id);
+				if ($scope.isNewContent || !self.contentFile || launch.utils.isBlank(self.contentFile.id)) {
+					accountService.addFile(self.loggedInUser.account.id, self.uploadFile, responseHandler);
 				} else {
-					self.refreshContent();
+					accountService.updateFile(self.loggedInUser.account.id, self.contentFile.id, self.uploadFile, responseHandler);
 				}
-			};
-
-			$scope.isSaving = true;
-
-			self.updateContentConnection();
-
-			method(self.loggedInUser.account.id, $scope.content, {
-				success: function (r) {
-					if (self.replaceFile) {
-						$scope.isUploading = true;
-
-						//TODO: UPLOAD FILE HERE!
-						window.setTimeout(function() {
-							success(r);
-						}, 500);
-					} else {
-						success(r);
-					}
-				},
-				error: function (r) {
-					$scope.isSaving = false;
-					launch.utils.handleAjaxErrorResponse(r, notificationService);
-
-					if (!!callback && $.isFunction(callback.error)) {
-						callback.error(r);
-					}
-				}
-			});
+			} else {
+				self.handleSaveContent(callback);
+			}
 		};
 
 		$scope.submitForEditing = function () {
-			var msg = '';
+			var msg = (self.replaceFile) ? 'You have specified a new file to upload. Please save your changes before changing the status of the content.' : '';
 
-			if ($.isArray($scope.content.taskGroups) && $scope.content.taskGroups.length > 0) {
+			if (launch.utils.isBlank(msg) && $.isArray($scope.content.taskGroups) && $scope.content.taskGroups.length > 0) {
 				for (var i = 0; i < $scope.content.taskGroups.length; i++) {
 					if ($scope.content.taskGroups[i].status > $scope.content.status) {
 						continue;
@@ -259,7 +271,9 @@
 			$scope.content.campaign = campaign[0];
 		};
 
-		$scope.uploadContentFile = function(files, form, control) {
+		$scope.uploadContentFile = function (files, form, control) {
+			self.uploadFile = null;
+
 			if ($.isArray(files) && files.length !== 1) {
 				notificationService.error('Invalid File!', 'Please make sure to select only one file for upload at a time.');
 				$(control).replaceWith($(control).clone(true, true));
@@ -276,6 +290,7 @@
 			}
 
 			self.replaceFile = true;
+			self.uploadFile = file;
 		};
 
 		$scope.$watch('contentTags', function () {

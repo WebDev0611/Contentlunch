@@ -511,11 +511,11 @@
 			return null;
 		}
 
-		return (!model || model.$resolved === false) ? null : model.validateProperty(property);
+		return (!model || !model.$resolved) ? null : model.validateProperty(property);
 	},
 
 	isPropertyValid: function(model, property, control, forceDirty) {
-		if (!control || !model || model.$resolved === false) {
+		if (!control || !model || !model.$resolved) {
 			return false;
 		}
 
