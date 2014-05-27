@@ -1190,10 +1190,14 @@
 
 			if (!!content.contentFile && !launch.utils.isBlank(content.contentFile.id)) {
 				dto.upload = self.uploadFile.toDto(content.contentFile);
+			} else {
+				dto.upload = null;
 			}
 
 			if ($.isArray(content.attachments) && content.attachments.length > 0) {
 				dto.uploads = $.map(content.attachments, self.uploadFile.toDto);
+			} else {
+				dto.uploads = null;
 			}
 
 			if (!!content.campaign) {
@@ -1408,6 +1412,14 @@
 			uploadFile.created = new Date(dto.created_at);
 			uploadFile.updated = new Date(dto.updated_at);
 			uploadFile.deleted = launch.utils.isBlank(dto.deleted_at) ? null : new Date(dto.deleted_at);
+
+			var path = dto.path;
+
+			if (launch.utils.startsWith(path, '/public')) {
+				path = path.substring(7);
+			}
+
+			uploadFile.path = path + '' + uploadFile.fileName;
 
 			return uploadFile;
 		},

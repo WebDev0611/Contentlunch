@@ -1,4 +1,4 @@
-﻿launch.module.directive('filesList', function($modal, $window, $location, AuthService, NotificationService) {
+﻿launch.module.directive('filesList', function($modal, $window, $location, AuthService, AccountService, NotificationService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 
@@ -25,6 +25,44 @@
 
 			var file = $.isArray(files) ? files[0] : files;
 
+			AccountService.addFile(self.loggedInUser.account.id, file, {
+				success: function(r) {
+					scope.filesList.push(r);
+
+					scope.fileCount = scope.filesList.length;
+					scope.showFilesList = true;
+
+					if ($.isFunction(scope.afterSaveSuccess)) {
+						scope.afterSaveSuccess(r);
+					}
+				},
+				error: function(r) {
+					launch.utils.handleAjaxErrorResponse(r, NotificationService);
+				}
+			});
+		};
+
+		scope.getUserInfo = function (userId) {
+			var user = launch.utils.getUserById(scope.users, userId);
+
+			return (!!user) ? user.formatName() : null;
+		};
+
+		scope.getUserImage = function (userId) {
+			var user = launch.utils.getUserById(scope.users, userId);
+
+			return (!!user) ? user.imageUrl() : null;
+		};
+
+		scope.downloadFile = function (uploadFile) {
+			// TODO: DO WE DOWNLOAD OR VIEW THE FILE?
+			NotificationService.info('WARNING!!', 'FILE VIEW/DOWNLOAD NOT YET IMPLEMENTED!');
+		};
+
+		scope.editAttachment = function (uploadFile, e) {
+			NotificationService.info('WARNING!!', 'EDIT FILE NOT YET IMPLEMENTED!');
+
+			e.stopImmediatePropagation();
 		};
 
 		scope.$watch('filesList', function () {
@@ -49,7 +87,8 @@
 		scope: {
 			afterSaveSuccess: '=afterSaveSuccess',
 			filesList: '=filesList',
-			isDisabled: '=isDisabled'
+			isDisabled: '=isDisabled',
+			users: '=users'
 		},
 		templateUrl: '/assets/views/files-list.html'
 	}
