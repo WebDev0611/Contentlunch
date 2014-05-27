@@ -81,13 +81,20 @@
 						</div>
 					</div>
 
-					<div class="control-group" ng-show="showRichTextEditor" ng-class="{ 'has-error': hasError(content, 'body', editContent.txtContentDesc, forceDirty) }">
-						<textarea name="txtContentDesc" id="txtContentDesc" rich-text-editor ng-model="content.body"
-								error-message message="errorMessage(content, 'body', editContent.txtContentDesc)">{{ content.body }}</textarea>
-					</div>
-
 					<div class="control-group" ng-show="showAddFileButton">
-						<button type="button" class="btn btn-lg btn-black btn-default ladda-button" onclick="$('#filContentFile').click()" data-style="zoom-in" ladda-button="isSaving">
+						<div class="content-file-view" ng-show="!!content.contentFile">
+							<button type="button" class="btn btn-lg btn-black btn-default ladda-button" onclick="$('#filContentFile').click()" data-style="zoom-in" ladda-button="isSaving">
+								Replace File
+							</button>
+
+							Content File: 
+							<span class="cl-icon" ng-class="'cl-icon-file-' + content.contentFile.fileType()"></span>
+							<a href="{{ content.contentFile.path }}" target="_new">{{ content.contentFile.fileName }}</a>
+							
+							<span class="fa fa-trash-o" ng-click="deleteContentFile()"></span>
+						</div>
+
+						<button type="button" class="btn btn-lg btn-black btn-default ladda-button" onclick="$('#filContentFile').click()" data-style="zoom-in" ladda-button="isSaving" ng-show="!content.contentFile">
 							Add a File
 						</button>
 		
@@ -95,6 +102,11 @@
 						<progressbar class="progress-striped active" value="percentComplete" ng-show="isUploading">
 							<span>{{ percentComplete }}%</span>
 						</progressbar>
+					</div>
+
+					<div class="control-group" ng-show="showRichTextEditor" ng-class="{ 'has-error': hasError(content, 'body', editContent.txtContentDesc, forceDirty) }">
+						<textarea name="txtContentDesc" id="txtContentDesc" rich-text-editor ng-model="content.body"
+								error-message message="errorMessage(content, 'body', editContent.txtContentDesc)">{{ content.body }}</textarea>
 					</div>
 
 					<div class="control-group">
@@ -167,13 +179,14 @@
 						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitForEditing()">Submit for Editing</button>
 					</div>
 					
-					<div files-list="contentAttachments"></div>
+					<div files-list="contentAttachments" users="users"></div>
 				</form>
 			</div>
 			<div class="col-md-3" collaborator-sidebar collaborators="content.collaborators" users="users" item-id="content.id" item-type="'content'" ng-hide="isNewContent"></div>
 		</div>
-
-		<div ng-hide="isNewContent" discussion-panel discussion="content.comments" item-id="content.id" item-type="'content'" ng-hide="isNewContent"></div>
+		<div class="row">
+			<div class="col-md-12" ng-hide="isNewContent" discussion-panel discussion="content.comments" item-id="content.id" item-type="'content'" ng-hide="isNewContent"></div>
+		</div>
 	</div>
 </div>
 

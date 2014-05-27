@@ -1,4 +1,4 @@
-﻿launch.module.directive('filesList', function($modal, $window, $location, AuthService, NotificationService) {
+﻿launch.module.directive('filesList', function($modal, $window, $location, AuthService, AccountService, NotificationService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 
@@ -25,6 +25,24 @@
 
 			var file = $.isArray(files) ? files[0] : files;
 
+			AccountService.addFile(self.loggedInUser.account.id, file, {
+				success: function(r) {
+					
+				},
+				error: function(r) {
+					launch.utils.handleAjaxErrorResponse(r, NotificationService);
+				}
+			});
+		};
+
+		scope.getUserInfo = function(userId) {
+			if (!$.isArray(scope.users) || scope.users.length === 0) {
+				return null;
+			}
+
+			var user = $.grep(scope.users, function (u) { return u.id === parseInt(userId); });
+
+			return (user.length === 1) ? user[0].formatName() : null;
 		};
 
 		scope.$watch('filesList', function () {
@@ -49,7 +67,8 @@
 		scope: {
 			afterSaveSuccess: '=afterSaveSuccess',
 			filesList: '=filesList',
-			isDisabled: '=isDisabled'
+			isDisabled: '=isDisabled',
+			users: '=users'
 		},
 		templateUrl: '/assets/views/files-list.html'
 	}

@@ -19,8 +19,8 @@
 		<ul class="files-list-items" ng-show="showFilesList">
 			<li class="files-list-item" ng-repeat="f in filesList">
 				<div class="files-list-item-icon">ICON</div>
-				<div class="files-list-item-title">TITLE</div>
-				<div class="files-list-item-author">AUTHOR</div>
+				<div class="files-list-item-title">f.fileName</div>
+				<div class="files-list-item-author">{{ getUserInfo(f.userId) }}</div>
 			</li>
 		</ul>
 

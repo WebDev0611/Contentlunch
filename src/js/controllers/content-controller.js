@@ -36,6 +36,8 @@
 
 		self.refreshContent = function () {
 			self.contentId = parseInt($routeParams.contentId);
+			self.replaceFile = false;
+			self.uploadFile = null;
 
 			if (isNaN(self.contentId)) {
 				$scope.content = contentService.getNewContent(self.loggedInUser);
@@ -58,8 +60,8 @@
 						$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
 						$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
 
-						// TODO: GET ATTACHMENTS FROM API!!
-						$scope.contentAttachments = [1, 2, 3, 4, 5];
+						// TODO: DO WE NEED TO GET ATTACHMENTS FROM THE API??
+						$scope.contentAttachments = $scope.content.attachments;
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -109,6 +111,25 @@
 					}
 				}
 			});
+		};
+
+		self.handleUploadFile = function (callback) {
+			var responseHandler = {
+				success: function (r) {
+					$scope.content.contentFile = r;
+					self.handleSaveContent(callback);
+				},
+				error: self.ajaxHandler.error
+			};
+
+			if ($scope.isNewContent || !self.contentFile || launch.utils.isBlank(self.contentFile.id)) {
+				accountService.addFile(self.loggedInUser.account.id, self.uploadFile, responseHandler);
+			} else {
+				accountService.updateFile(self.loggedInUser.account.id, self.contentFile.id, self.uploadFile, responseHandler);
+			}
+
+			self.replaceFile = false;
+			self.uploadFile = null;
 		};
 
 		$scope.content = null;
@@ -182,22 +203,41 @@
 				return;
 			}
 
-			if (self.replaceFile && !!self.uploadFile) {
-				var responseHandler = {
-					success: function (r) {
-						$scope.content.contentFile = r;
-						self.handleSaveContent(callback);
+			// If there is already a file associated with this content:
+			//		1: Upload new file
+			//		2: Save the content
+			//		3: Delete the old file
+			if (!!$scope.content.contentFile && self.replaceFile && !!self.uploadFile) {
+				var oldFileId = $scope.content.contentFile.id;
+				var newCallback = {
+					success: function(r) {
+						accountService.deleteFile(self.loggedInUser.account.id, oldFileId, {
+							success: function(r1) {
+								if (!!callback && $.isFunction(callback.success)) {
+									callback.success(r1);
+								}
+							},
+							error: function (r1) {
+								if (!!callback && $.isFunction(callback.error)) {
+									callback.error(r1);
+								} else {
+									self.ajaxHandler.error(r1);
+								}
+							}
+						});
 					},
-					error: function (r) {
-						launch.utils.handleAjaxErrorResponse(r, notificationService);
+					error: function(r) {
+						if (!!callback && $.isFunction(callback.error)) {
+							callback.error(r);
+						} else {
+							self.ajaxHandler.error(r);
+						}
 					}
 				};
 
-				if ($scope.isNewContent || !self.contentFile || launch.utils.isBlank(self.contentFile.id)) {
-					accountService.addFile(self.loggedInUser.account.id, self.uploadFile, responseHandler);
-				} else {
-					accountService.updateFile(self.loggedInUser.account.id, self.contentFile.id, self.uploadFile, responseHandler);
-				}
+				self.handleUploadFile(newCallback);
+			} else if (self.replaceFile && !!self.uploadFile) {
+				self.handleUploadFile(callback);
 			} else {
 				self.handleSaveContent(callback);
 			}
@@ -291,6 +331,36 @@
 
 			self.replaceFile = true;
 			self.uploadFile = file;
+		};
+
+		$scope.deleteContentFile = function() {
+			$modal.open({
+				templateUrl: 'confirm.html',
+				controller: [
+					'$scope', '$modalInstance', function (scope, instance) {
+						scope.message = 'Are you sure you want to delete this file?';
+						scope.okButtonText = 'Delete';
+						scope.cancelButtonText = 'Cancel';
+						scope.onOk = function () {
+							var oldFileId = $scope.content.contentFile.id;
+
+							$scope.content.contentFile = null;
+
+							$scope.saveContent({
+								success: function() {
+									accountService.deleteFile(self.loggedInUser.account.id, oldFileId);
+								},
+								error: self.ajaxHandler.error
+							});
+
+							instance.close();
+						};
+						scope.onCancel = function () {
+							instance.dismiss('cancel');
+						};
+					}
+				]
+			});
 		};
 
 		$scope.$watch('contentTags', function () {
