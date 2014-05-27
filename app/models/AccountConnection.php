@@ -43,12 +43,17 @@ class AccountConnection extends Ardent {
     return $this->belongsTo('Connection');
   }
 
-  public static function doQuery($accountID, $type = null)
+  public static function doQuery($accountID, $type = null, $provider = null)
   {
     $query = DB::table('account_connections')
       ->join('connections', 'account_connections.connection_id', '=', 'connections.id');
     if ($type) {
       $query->where('connections.type', $type);
+    }
+    if ($provider) {
+      // $provider can either be a string or any array
+      if (is_array($provider)) $query->whereIn('connections.provider', $provider);
+      else $query->where('connections.provider', $provider);
     }
     $query->where('account_connections.account_id', $accountID);
     $connections = $query->get([

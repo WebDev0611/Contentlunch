@@ -22,6 +22,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
             selected.internalCollaborators = selected.collaborators;
             return selected;
         });
+        requests.connections = Account.all('connections').getList({ 'provider[]': ['linkedin', 'twitter'] });
     } else {
         requests.list = $q.all({
             Content  : Account.all( 'content' ).getList({ status: 0 }),
@@ -75,7 +76,12 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
             templateUrl: '/assets/views/collaborate/invite-modal.html',
             size: 'lg'
         }).result.then(function (message) {
-            console.log(message);
+            message.users = [];
+            return $scope.selected.post('invite', message);
+        }).then(function (response) {
+            console.log(response);
+        }, function (err) {
+            console.error(err);
         });
     };
 

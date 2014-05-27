@@ -9,7 +9,7 @@ class AccountConnectionsController extends BaseController {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    return AccountConnection::doQuery($accountID, Input::get('type'));
+    return AccountConnection::doQuery($accountID, Input::get('type'), Input::get('provider'));
   }
 
   /**
