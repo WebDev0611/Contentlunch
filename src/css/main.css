@@ -1794,8 +1794,9 @@ span[class*=" icon-"].dark {
 .files-list .files-list-items .files-list-item {
   background-color: #d7d7d7;
   border-radius: 10px;
+  cursor: pointer;
   display: inline-block;
-  margin: 8px;
+  margin: 0 8px 8px 8px;
   padding: 4px;
   position: relative;
   height: 100px;
@@ -1804,27 +1805,41 @@ span[class*=" icon-"].dark {
 .files-list .files-list-items .files-list-item .files-list-item-icon,
 .files-list .files-list-items .files-list-item .files-list-item-title,
 .files-list .files-list-items .files-list-item .files-list-item-author {
-  border: solid 1px #000000;
   display: inline-block;
   position: absolute;
 }
 .files-list .files-list-items .files-list-item .files-list-item-icon {
-  left: 4px;
+  left: 8px;
   top: 4px;
+}
+.files-list .files-list-items .files-list-item .files-list-item-icon .cl-icon {
   height: 92px;
-  width: 75px;
+  width: 92px;
 }
 .files-list .files-list-items .files-list-item .files-list-item-title,
 .files-list .files-list-items .files-list-item .files-list-item-author {
+  font-size: 8pt;
   height: 44px;
-  left: 80px;
-  width: 212px;
+  left: 104px;
+  width: 188px;
 }
 .files-list .files-list-items .files-list-item .files-list-item-title {
   top: 4px;
 }
+.files-list .files-list-items .files-list-item .files-list-item-title .fa-edit {
+  float: right;
+  font-size: 16px;
+}
 .files-list .files-list-items .files-list-item .files-list-item-author {
   top: 52px;
+}
+.files-list .files-list-items .files-list-item .files-list-item-author span {
+  display: inline-block;
+  vertical-align: middle;
+}
+.files-list .files-list-items .files-list-item .files-list-item-author span.files-list-item-author-name {
+  text-align: left;
+  width: 100px;
 }
 .full-width {
   width: 100%;

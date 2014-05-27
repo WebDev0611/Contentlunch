@@ -179,7 +179,7 @@
 						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitForEditing()">Submit for Editing</button>
 					</div>
 					
-					<div files-list="contentAttachments" users="users"></div>
+					<div files-list="content.attachments" after-save-success="addAttachment" users="users" ng-hide="isNewContent"></div>
 				</form>
 			</div>
 			<div class="col-md-3" collaborator-sidebar collaborators="content.collaborators" users="users" item-id="content.id" item-type="'content'" ng-hide="isNewContent"></div>

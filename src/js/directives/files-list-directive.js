@@ -27,7 +27,14 @@
 
 			AccountService.addFile(self.loggedInUser.account.id, file, {
 				success: function(r) {
-					
+					scope.filesList.push(r);
+
+					scope.fileCount = scope.filesList.length;
+					scope.showFilesList = true;
+
+					if ($.isFunction(scope.afterSaveSuccess)) {
+						scope.afterSaveSuccess(r);
+					}
 				},
 				error: function(r) {
 					launch.utils.handleAjaxErrorResponse(r, NotificationService);
@@ -35,14 +42,27 @@
 			});
 		};
 
-		scope.getUserInfo = function(userId) {
-			if (!$.isArray(scope.users) || scope.users.length === 0) {
-				return null;
-			}
+		scope.getUserInfo = function (userId) {
+			var user = launch.utils.getUserById(scope.users, userId);
 
-			var user = $.grep(scope.users, function (u) { return u.id === parseInt(userId); });
+			return (!!user) ? user.formatName() : null;
+		};
 
-			return (user.length === 1) ? user[0].formatName() : null;
+		scope.getUserImage = function (userId) {
+			var user = launch.utils.getUserById(scope.users, userId);
+
+			return (!!user) ? user.imageUrl() : null;
+		};
+
+		scope.downloadFile = function (uploadFile) {
+			// TODO: DO WE DOWNLOAD OR VIEW THE FILE?
+			NotificationService.info('WARNING!!', 'FILE VIEW/DOWNLOAD NOT YET IMPLEMENTED!');
+		};
+
+		scope.editAttachment = function (uploadFile, e) {
+			NotificationService.info('WARNING!!', 'EDIT FILE NOT YET IMPLEMENTED!');
+
+			e.stopImmediatePropagation();
 		};
 
 		scope.$watch('filesList', function () {

@@ -17,10 +17,21 @@
 	
 	<div collapse="isCollapsed">
 		<ul class="files-list-items" ng-show="showFilesList">
-			<li class="files-list-item" ng-repeat="f in filesList">
-				<div class="files-list-item-icon">ICON</div>
-				<div class="files-list-item-title">f.fileName</div>
-				<div class="files-list-item-author">{{ getUserInfo(f.userId) }}</div>
+			<li class="files-list-item" ng-repeat="f in filesList" ng-click="downloadFile(f)">
+				<div class="files-list-item-icon">
+					<span class="cl-icon" ng-class="'cl-icon-file-' + f.fileType()"></span>
+				</div>
+				<div class="files-list-item-title">
+					<span class="fa fa-edit" ng-click="editAttachment(f, $event)"></span>
+					{{ f.fileName }}
+				</div>
+				<div class="files-list-item-author">
+					<span class="user-image user-image-medium" ng-style="{ 'background-image': getUserImage(f.userId) }"></span>
+					<span class="files-list-item-author-name">
+						Uploaded by<br/>
+						<b>{{ getUserInfo(f.userId) }}</b>
+					</span>
+				</div>
 			</li>
 		</ul>
 

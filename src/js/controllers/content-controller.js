@@ -61,7 +61,7 @@
 						$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
 
 						// TODO: DO WE NEED TO GET ATTACHMENTS FROM THE API??
-						$scope.contentAttachments = $scope.content.attachments;
+						//$scope.contentAttachments = $scope.content.attachments;
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -133,7 +133,7 @@
 		};
 
 		$scope.content = null;
-		$scope.contentAttachments = null;
+		//$scope.contentAttachments = null;
 		$scope.contentTypes = null;
 		$scope.contentSettings = null;
 		$scope.contentConnections = null;
@@ -361,6 +361,10 @@
 					}
 				]
 			});
+		};
+
+		$scope.addAttachment = function(uploadFile) {
+			
 		};
 
 		$scope.$watch('contentTags', function () {
