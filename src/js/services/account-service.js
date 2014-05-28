@@ -117,11 +117,13 @@
 		},
 		resendCreationEmail: $resource('/api/account/:id/resend_creation_email', { id: '@id' }),
 		requestUpdate: $resource('/api/account/request_update'),
-		addFile: function (accountId, file, callback) {
+		addFile: function (accountId, file, description, callback) {
+			var data = { description: launch.utils.isBlank(description) ? null : description };
+
 			$upload.upload({
 				url: '/api/account/' + accountId + '/uploads',
 				method: 'POST',
-				data: null,
+				data: data,
 				file: file
 			}).progress(function (e) {
 				if (!!callback && $.isFunction(callback.progress)) {
@@ -137,11 +139,13 @@
 				}
 			});
 		},
-		updateFile: function (accountId, id, file, callback) {
+		updateFile: function (accountId, id, file, description, callback) {
+			var data = { description: launch.utils.isBlank(description) ? null : description };
+
 			$upload.upload({
 				url: '/api/account/' + accountId + '/uploads/' + id,
 				method: 'PUT',
-				data: null,
+				data: data,
 				file: file
 			}).progress(function (e) {
 				if (!!callback && $.isFunction(callback.progress)) {

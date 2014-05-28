@@ -123,9 +123,9 @@
 			};
 
 			if ($scope.isNewContent || !self.contentFile || launch.utils.isBlank(self.contentFile.id)) {
-				accountService.addFile(self.loggedInUser.account.id, self.uploadFile, responseHandler);
+				accountService.addFile(self.loggedInUser.account.id, self.uploadFile, null, responseHandler);
 			} else {
-				accountService.updateFile(self.loggedInUser.account.id, self.contentFile.id, self.uploadFile, responseHandler);
+				accountService.updateFile(self.loggedInUser.account.id, self.contentFile.id, self.uploadFile, null, responseHandler);
 			}
 
 			self.replaceFile = false;

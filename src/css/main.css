@@ -664,6 +664,23 @@ span[class*=" icon-"].dark {
 .confirm-user #change-password-form button {
   width: 100%;
 }
+.file-list-browse-controls {
+  cursor: pointer;
+}
+.file-list-browse-controls input[type="file"] {
+  display: none;
+}
+.file-list-browse-controls .selected-file {
+  display: inline-block;
+  margin-right: 24px;
+  text-align: center;
+  vertical-align: middle;
+}
+.file-list-browse-controls .btn-black {
+  background-color: #000000;
+  color: #ffffff;
+  vertical-align: middle;
+}
 .left-pane {
   background-color: #c4bfb5;
   height: 100%;
@@ -1579,6 +1596,10 @@ span[class*=" icon-"].dark {
   padding: 4px;
   vertical-align: middle;
 }
+.create .right-pane .btn .fa {
+  display: inline-block;
+  margin-right: 8px;
+}
 .create .right-pane .btn-black {
   background-color: #000000;
   color: #ffffff;
@@ -1707,7 +1728,8 @@ span[class*=" icon-"].dark {
 }
 .grid-container .grid-cell {
   background: #e4e4e4;
-  flex: 1 0 310px;
+  flex-grow: 1;
+  flex-basis: 310px;
   margin-bottom: 30px;
   margin: 0 10px 20px;
 }
@@ -1826,9 +1848,11 @@ span[class*=" icon-"].dark {
 .files-list .files-list-items .files-list-item .files-list-item-title {
   top: 4px;
 }
-.files-list .files-list-items .files-list-item .files-list-item-title .fa-edit {
+.files-list .files-list-items .files-list-item .files-list-item-title .fa {
+  display: inline-block;
   float: right;
   font-size: 16px;
+  margin-left: 4px;
 }
 .files-list .files-list-items .files-list-item .files-list-item-author {
   top: 52px;
