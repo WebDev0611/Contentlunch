@@ -1,6 +1,7 @@
 <?php
 
 use Launch\OAuth\Service\ServiceFactory;
+use Launch\Connections\API\ConnectionConnector;
 
 class AccountConnectionsController extends BaseController {
 
@@ -68,7 +69,7 @@ class AccountConnectionsController extends BaseController {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    return AccountConnection::find($accountConnectID);
+    return AccountConnection::with('connection')->find($accountConnectID);
   }
 
   public function update($accountID, $accountConnectID)
@@ -93,6 +94,41 @@ class AccountConnectionsController extends BaseController {
       return ['status' => 'OK'];
     }
     return $this->responseError("Unable to delete connection");
+  }
+
+  public function actionRouter($accountId, $connectionId, $action)
+  {
+    if (method_exists($this, $action)) return $this->{$action}($accountId, $connectionId);
+  }
+
+  private function friends($accountId, $connectionId)
+  {
+    if (!$this->inAccount($accountId)) {
+      return $this->responseAccessDenied();
+    }
+
+    if (!Request::isMethod('get')) return $this->responseError('friends action only accepts GET requests');
+
+    $connectionData = $this->show($accountId, $connectionId);
+    $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
+    return $connectionApi->getFriends(0, 250);
+  }
+
+  private function message($accountId, $connectionId)
+  {
+    if (!$this->inAccount($accountId)) {
+      return $this->responseAccessDenied();
+    }
+
+    if (!Request::isMethod('post')) return $this->responseError('message action only accepts POST requests');
+
+    $ids     = Input::get('ids');
+    $message = Input::get('message');
+
+    $connectionData = $this->show($accountId, $connectionId);
+    $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
+
+    return $connectionApi->sendDirectMessage($ids, $message);
   }
 
 }

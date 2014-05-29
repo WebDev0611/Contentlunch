@@ -166,6 +166,7 @@ gulp.task('scripts', function() {
 			'./bower_components/angular-ui-calendar/src/calendar.js',
 			'./bower_components/fullcalendar/fullcalendar.js',
 			'./bower_components/restangular/dist/restangular.js',
+			'./bower_components/checklist-model/checklist-model.js',
 			// './bower_components/fullcalendar/gcal.js', // only needed if we do gcal integration
 		])
 		.pipe(concat('build.js'))

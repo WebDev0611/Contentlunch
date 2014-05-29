@@ -71,17 +71,51 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
         });
     };
 
-    $scope.openInviteModal = function () {
+    $scope.openInviteModal = function (connection) {
+        if (!connection.recipientsIds || !connection.recipientsIds.length) return;
+        
         $modal.open({
             templateUrl: '/assets/views/collaborate/invite-modal.html',
             size: 'lg'
         }).result.then(function (message) {
-            message.users = [];
-            return $scope.selected.post('invite', message);
+            return connection.all('message').post({
+                ids: connection.recipientsIds,
+                message: message
+            });
         }).then(function (response) {
             console.log(response);
         }, function (err) {
             console.error(err);
+        });
+    };
+
+    $scope.toggleAccordion = function (connection) {
+        if (!connection.accordionOpen) return;
+
+        connection.getList('friends').then(function (friends) {
+            // if we need to do this sort of thing anywhere else,
+            // we should wrap this in its own service
+            if (connection.connection_provider == 'linkedin') {
+                connection.friends = _(friends.plain()).map(function (friend) {
+                    connection.friendsHeaders = ['Name', 'Position', 'Industry'];
+                    
+                    var arr = [
+                        friend.firstName + ' ' + friend.lastName,
+                        friend.headline,
+                        friend.industry
+                    ];
+
+                    arr.id = friend.id;
+
+                    return arr;
+                }).reject(function (friend) { 
+                    return friend.id == 'private'; 
+                }).value();
+            } else { // it's twitter
+                connection.friends = _.map(friends.plain(), function (friend) {
+                    return friend;
+                });
+            }
         });
     };
 
