@@ -1,16 +1,20 @@
 {
-	"name": "laravel/laravel",
-	"description": "The Laravel Framework.",
-	"keywords": ["framework", "laravel"],
-	"license": "MIT",
+  "name": "laravel/laravel",
+  "description": "The Laravel Framework.",
+  "keywords": ["framework", "laravel"],
+  "license": "MIT",
   "repositories": [
     {
       "type": "vcs",
       "url": "https://github.com/jbizzay/cabinet"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/surgeforward/LinkedIn-API-client.git"
     }
   ],
-	"require": {
-		"laravel/framework": "4.1.*",
+  "require": {
+    "laravel/framework": "4.1.*",
     "laravelbook/ardent": "dev-master",
     "zizaco/confide": "dev-master",
     "zizaco/entrust": "dev-master",
@@ -19,7 +23,9 @@
     "balanced/balanced": "1.x",
     "lusitanian/oauth": "~0.3",
     "doctrine/dbal": "~2.3",
-    "webignition/internet-media-type": "dev-master"
+    "webignition/internet-media-type": "dev-master",
+    "happyr/linkedin-api-client": "dev-jsonify",
+    "thujohn/twitter": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
@@ -30,23 +36,23 @@
 			"app/database/seeds",
 			"app/tests/TestCase.php",
       "app/libraries"
-		]
-	},
-	"scripts": {
-		"post-install-cmd": [
-			"php artisan clear-compiled",
-			"php artisan optimize"
-		],
-		"post-update-cmd": [
-			"php artisan clear-compiled",
-			"php artisan optimize"
-		],
-		"post-create-project-cmd": [
-			"php artisan key:generate"
-		]
-	},
-	"config": {
-		"preferred-install": "dist"
-	},
-	"minimum-stability": "stable"
+    ]
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "php artisan clear-compiled",
+      "php artisan optimize"
+    ],
+    "post-update-cmd": [
+      "php artisan clear-compiled",
+      "php artisan optimize"
+    ],
+    "post-create-project-cmd": [
+      "php artisan key:generate"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "minimum-stability": "stable"
 }

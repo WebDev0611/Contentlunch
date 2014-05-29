@@ -39,6 +39,7 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'create', 'show', 'update', 'destroy']
   ]);
   //Route::get('account/{accountID}/add-connection/{connectionID}', 'AccountConnectionsController@addConnection');
+  Route::any('account/{id}/connections/{connectionId}/{action}', 'AccountConnectionsController@actionRouter');
 
   Route::get('account/{id}/content-settings', 'AccountContentSettingsController@get_settings');
   Route::put('account/{id}/content-settings', 'AccountContentSettingsController@save_settings');

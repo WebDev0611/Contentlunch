@@ -2,25 +2,33 @@
 	<h2 class="files-list-header">
 		Files
 		<i class="fa" ng-class="{'fa-caret-down': isCollapsed, 'fa-caret-right': !isCollapsed}" ng-click="isCollapsed = !isCollapsed"></i>
+		
+		{{ fileCount }}
 
-		<button type="button" class="btn btn-black btn-default ladda-button" onclick="$('#filAttachment').click()" data-style="zoom-in" ladda-button="isSaving" ng-disabled="isDisabled">
+		<button ng-click="editAttachment(null, $event)" type="button" class="btn btn-black btn-default" ng-disabled="isDisabled || (filesList.length >= 10)">
+			<span class="fa fa-paperclip"></span>
 			Add a File
 		</button>
-		
-		<span class="small-text">{{fileCount}}</span>
-
-		<input type="file" id="filAttachment" ng-file-select="uploadAttachment($files, filesListForm, filesListForm.filContentFile)" />
-		<progressbar class="progress-striped active" value="percentComplete" ng-show="isUploading">
-			<span>{{ percentComplete }}%</span>
-		</progressbar>
 	</h2>
 	
 	<div collapse="isCollapsed">
 		<ul class="files-list-items" ng-show="showFilesList">
-			<li class="files-list-item" ng-repeat="f in filesList">
-				<div class="files-list-item-icon">ICON</div>
-				<div class="files-list-item-title">TITLE</div>
-				<div class="files-list-item-author">AUTHOR</div>
+			<li class="files-list-item" ng-repeat="f in filesList" ng-click="downloadFile(f)">
+				<div class="files-list-item-icon">
+					<span class="cl-icon" ng-class="f.fileType()"></span>
+				</div>
+				<div class="files-list-item-title">
+					<span class="fa fa-trash-o" ng-click="deleteAttachment(f, $event)"></span>
+					<span class="fa fa-edit" ng-click="editAttachment(f, $event)"></span>
+					{{ f.description }}
+				</div>
+				<div class="files-list-item-author">
+					<span class="user-image user-image-medium" ng-style="{ 'background-image': getUserImage(f.userId) }"></span>
+					<span class="files-list-item-author-name">
+						Uploaded by<br/>
+						<b>{{ getUserInfo(f.userId) }}</b>
+					</span>
+				</div>
 			</li>
 		</ul>
 
@@ -29,3 +37,35 @@
 		</div>
 	</div>
 </form>
+
+<script type="text/ng-template" id="edit-attachment.html">
+	<div class="modal-header">Choose a File</div>
+	<div class="modal-body">
+		<form name="fileSelectForm" novalidate="novalidate">
+			<div class="control-group">
+				<div class="form-group file-list-browse-controls">
+					<div class="selected-file" ng-show="!!fileName" onclick="$('#filAttachment').click()">
+						<span class="cl-icon cl-icon-x-large" ng-class="fileType"></span><br />
+						<span class="small-text">{{ fileName }}</span>
+					</div>
+
+					<button type="button" class="btn btn-black btn-default" onclick="$('#filAttachment').click()" ng-show="!fileName">
+						Browse
+					</button>
+
+					<input type="file" id="filAttachment" ng-file-select="getAttachment($files, fileSelectForm, fileSelectForm.filAttachment)" />
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="form-group">
+					<label class="control-label" for="txtAttachmentDescription">Content Title</label>
+					<textarea name="txtAttachmentDescription" id="txtAttachmentDescription" class="form-control" rows="5" ng-model="$parent.description"></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="ok()">Save</button>
+		<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+	</div>
+</script>

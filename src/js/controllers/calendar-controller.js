@@ -120,7 +120,6 @@ function ($scope,   $location,   $timeout,   $modal,   $interpolate,   $http) {
     // -------------------------
     $scope.newTask = function () {
         $modal.open({
-            // set by script template in calendar.html
             templateUrl: 'assets/views/calendar/task-modal.html',
             size: 'lg',
             controller: ['$scope', '$modalInstance',

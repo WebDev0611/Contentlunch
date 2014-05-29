@@ -4,6 +4,7 @@
 	self.id = null;
 	self.displayName = null;
 	self.email = null;
+	self.password = null;
 	self.phoneNumber = null;
 	self.confirmed = false;
 	self.active = true;
@@ -37,6 +38,27 @@
 		}
 
 		return false;
+	};
+
+	self.validateProperty = function(property) {
+		if (launch.utils.isBlank(property)) {
+			return true;
+		}
+
+		switch (property.toLowerCase()) {
+			case 'email':
+				if (launch.utils.isBlank(self.email)) {
+					return 'Please enter your email address.';
+				} else if (!launch.utils.isValidEmail(self.email)) {
+					return 'Please enter a valid email address.';
+				}
+
+				return null;
+			case 'password':
+				return launch.utils.isBlank(self.password) ? 'Please enter your password.' : null;
+			default:
+				return null;
+		}
 	};
 
 	return self;

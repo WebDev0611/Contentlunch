@@ -17,10 +17,15 @@ class ContentController extends BaseController {
       ->with('related')
       ->with('tags')
       ->with('user')
+      ->with('collaborators')
       ->where('account_id', $account->id);
     if (Input::has('campaign_id')) {
       $query->where('campaign_id', Input::get('campaign_id'));
     }
+    // uncomment when we're ready to filter by status
+    // if (Input::has('status')) {
+    //   $query->where('status', Input::get('status'));
+    // }
     return $query->get();
   }
 
@@ -95,6 +100,7 @@ class ContentController extends BaseController {
       ->with('related')
       ->with('tags')
       ->with('user')
+      ->with('collaborators')
       ->with('task_groups')
       ->with('upload')
       ->with('uploads')

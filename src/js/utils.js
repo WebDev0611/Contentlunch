@@ -511,11 +511,11 @@
 			return null;
 		}
 
-		return (!model || model.$resolved === false) ? null : model.validateProperty(property);
+		return (!model || !model.$resolved) ? null : model.validateProperty(property);
 	},
 
 	isPropertyValid: function(model, property, control, forceDirty) {
-		if (!control || !model || model.$resolved === false) {
+		if (!control || !model || !model.$resolved) {
 			return false;
 		}
 
@@ -714,5 +714,43 @@
 		var user = $.grep(users, function (u) { return u.id === id; });
 
 		return (user.length === 1) ? user[0] : null;
+	},
+
+	getFileTypeCssClass: function(fileExtension) {
+		if (launch.utils.isBlank(fileExtension)) {
+			return null;
+		}
+
+		switch (fileExtension.toLowerCase()) {
+			case 'jpg':
+			case 'gif':
+			case 'tif':
+			case 'tiff':
+			case 'png':
+			case 'jpeg':
+				return 'cl-icon-file-image';
+			case 'avi':
+			case 'mp4':
+			case 'mov':
+				return 'cl-icon-file-video';
+			case 'wav':
+			case 'mp3':
+			case 'wma':
+				return 'cl-icon-file-audio';
+			case 'pdf':
+				return 'cl-icon-file-pdf';
+			case 'doc':
+			case 'docx':
+				return 'cl-icon-file-ms-word';
+			case 'xls':
+			case 'xlsx':
+				return 'cl-icon-file-ms-excel';
+			case 'ppt':
+			case 'pptx':
+				return 'cl-icon-file-ms-powerpoint';
+			default:
+				return null;
+		}
+
 	}
 };

@@ -9,6 +9,8 @@
 	self.contentType = null;
 	self.body = null;
 	self.concept = null;
+	self.contentFile = null;
+	self.attachments = null;
 
 	self.accountConnections = null;
 	self.accountConnection = null;

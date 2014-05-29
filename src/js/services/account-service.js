@@ -1,4 +1,4 @@
-﻿launch.module.factory('AccountService', function ($resource, ModelMapperService, SessionService) {
+﻿launch.module.factory('AccountService', function($resource, $upload, ModelMapperService, SessionService) {
 	var accounts = $resource('/api/account/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.account.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.account.parseResponse },
@@ -20,13 +20,13 @@
 	});
 
 	return {
-		query: function (callback) {
+		query: function(callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return accounts.query(null, success, error);
 		},
-		get: function (id, callback) {
+		get: function(id, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
@@ -50,31 +50,31 @@
 
 			return account;
 		},
-		update: function (account, callback) {
+		update: function(account, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return accounts.update({ id: account.id }, account, success, error);
 		},
-		add: function (account, callback) {
+		add: function(account, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return accounts.insert(null, account, success, error);
 		},
-		delete: function (account, callback) {
+		delete: function(account, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return accounts.delete({ id: account.id }, account, success, error);
 		},
-		addUser: function (accountId, userId, callback) {
+		addUser: function(accountId, userId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 			var resource = $resource('/api/account/:id/add_user', { id: '@id' }, {
 				insert: {
 					method: 'POST',
-					transformRequest: function (uid) {
+					transformRequest: function(uid) {
 						return JSON.stringify({ user_id: uid });
 					}
 				}
@@ -82,7 +82,7 @@
 
 			return resource.insert({ id: accountId }, userId, success, error);
 		},
-		updateAccountSubscription: function (accountId, subscription, callback) {
+		updateAccountSubscription: function(accountId, subscription, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
@@ -106,7 +106,7 @@
 
 			return subscriptions.save(null, subscription, success, error);
 		},
-		getNewAccount: function () {
+		getNewAccount: function() {
 			var account = new launch.Account();
 
 			account.creditCard = new launch.CreditCard();
@@ -116,6 +116,69 @@
 			return account;
 		},
 		resendCreationEmail: $resource('/api/account/:id/resend_creation_email', { id: '@id' }),
-		requestUpdate: $resource('/api/account/request_update')
+		requestUpdate: $resource('/api/account/request_update'),
+		addFile: function (accountId, file, description, callback) {
+			var data = { description: launch.utils.isBlank(description) ? null : description };
+
+			$upload.upload({
+				url: '/api/account/' + accountId + '/uploads',
+				method: 'POST',
+				data: data,
+				file: file
+			}).progress(function (e) {
+				if (!!callback && $.isFunction(callback.progress)) {
+					callback.progress(e);
+				}
+			}).success(function (data, status, headers, config) {
+				if ((!!callback && $.isFunction(callback.success))) {
+					callback.success(ModelMapperService.uploadFile.fromDto(data));
+				}
+			}).error(function (data, status, headers, config) {
+				if (!!callback && $.isFunction(callback.error)) {
+					callback.error({ data: data, status: status, headers: headers, config: config });
+				}
+			});
+		},
+		updateFile: function (accountId, id, file, description, callback) {
+			var data = { description: launch.utils.isBlank(description) ? null : description };
+
+			$upload.upload({
+				url: '/api/account/' + accountId + '/uploads/' + id,
+				method: 'PUT',
+				data: data,
+				file: file
+			}).progress(function (e) {
+				if (!!callback && $.isFunction(callback.progress)) {
+					callback.progress(e);
+				}
+			}).success(function (data, status, headers, config) {
+				if ((!!callback && $.isFunction(callback.success))) {
+					callback.success(ModelMapperService.uploadFile.fromDto(data));
+				}
+			}).error(function (data, status, headers, config) {
+				if (!!callback && $.isFunction(callback.error)) {
+					callback.error({ data: data, status: status, headers: headers, config: config });
+				}
+			});
+		},
+		deleteFile: function (accountId, id, callback) {
+			$upload.upload({
+				url: '/api/account/' + accountId + '/uploads/' + id,
+				method: 'DELETE',
+				data: null
+			}).progress(function (e) {
+				if (!!callback && $.isFunction(callback.progress)) {
+					callback.progress(e);
+				}
+			}).success(function (data, status, headers, config) {
+				if ((!!callback && $.isFunction(callback.success))) {
+					callback.success(ModelMapperService.uploadFile.fromDto(data));
+				}
+			}).error(function (data, status, headers, config) {
+				if (!!callback && $.isFunction(callback.error)) {
+					callback.error({ data: data, status: status, headers: headers, config: config });
+				}
+			});
+		}
 	};
 });

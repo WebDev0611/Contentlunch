@@ -23,3 +23,8 @@
 [datepicker-popup-wrap] {
   padding: 8px;
 }
+.ladda-button {
+  font-family: Lato;
+  font-size: 14px;
+  font-weight: normal;
+}
