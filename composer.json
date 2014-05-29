@@ -7,6 +7,10 @@
     {
       "type": "vcs",
       "url": "https://github.com/jbizzay/cabinet"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/surgeforward/LinkedIn-API-client.git"
     }
   ],
   "require": {
@@ -19,7 +23,7 @@
     "balanced/balanced": "1.x",
     "lusitanian/oauth": "~0.3",
     "doctrine/dbal": "~2.3",
-    "happyr/linkedin-api-client": "dev-master"
+    "happyr/linkedin-api-client": "dev-jsonify"
   },
   "autoload": {
     "classmap": [
