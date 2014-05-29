@@ -55,7 +55,7 @@ Route::group(['prefix' => 'api'], function()
   Route::delete('account/{id}/roles/{roleid}', 'AccountRoleController@destroy');
 
   Route::resource('account/{id}/uploads', 'UploadController', [
-    'only' => ['store', 'show', 'destroy']
+    'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
   Route::group(['prefix' => 'auth'], function() {
