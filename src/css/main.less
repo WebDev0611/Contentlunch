@@ -475,6 +475,27 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
+.file-list-browse-controls{
+	cursor: pointer;
+
+	input[type="file"]{
+		display: none;
+	}
+
+	.selected-file{
+		display: inline-block;
+		margin-right: 24px;
+		text-align:center;
+		vertical-align: middle;
+	}
+
+	.btn-black{
+		background-color: #000000;
+		color: #ffffff;
+		vertical-align: middle;
+	}
+}
+
 .left-pane {
 	background-color: @leftPaneColor;
 	height: 100%;
@@ -1468,6 +1489,13 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 		}
 
+		.btn {
+			.fa {
+				display: inline-block;
+				margin-right: 8px;
+			}
+		}
+
 		.btn-black {
 			background-color: #000000;
 			color: #ffffff;
@@ -1773,9 +1801,11 @@ span[class^="icon-"], span[class*=" icon-"] {
 			.files-list-item-title {
 				top: 4px;
 
-				.fa-edit{
+				.fa {
+					display: inline-block;
 					float: right;
 					font-size: 16px;
+					margin-left: 4px;
 				}
 			}
 

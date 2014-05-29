@@ -84,17 +84,19 @@
 					<div class="control-group" ng-show="showAddFileButton">
 						<div class="content-file-view" ng-show="!!content.contentFile">
 							<button type="button" class="btn btn-lg btn-black btn-default ladda-button" onclick="$('#filContentFile').click()" data-style="zoom-in" ladda-button="isSaving">
+								<span class="fa fa-paperclip"></span>
 								Replace File
 							</button>
 
 							Content File: 
-							<span class="cl-icon" ng-class="'cl-icon-file-' + content.contentFile.fileType()"></span>
+							<span class="cl-icon" ng-class="content.contentFile.fileType()"></span>
 							<a href="{{ content.contentFile.path }}" target="_new">{{ content.contentFile.fileName }}</a>
 							
 							<span class="fa fa-trash-o" ng-click="deleteContentFile()"></span>
 						</div>
 
 						<button type="button" class="btn btn-lg btn-black btn-default ladda-button" onclick="$('#filContentFile').click()" data-style="zoom-in" ladda-button="isSaving" ng-show="!content.contentFile">
+							<span class="fa fa-paperclip"></span>
 							Add a File
 						</button>
 		
@@ -179,7 +181,7 @@
 						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitForEditing()">Submit for Editing</button>
 					</div>
 					
-					<div files-list="content.attachments" after-save-success="addAttachment" users="users" ng-hide="isNewContent"></div>
+					<div files-list="content.attachments" after-add-file-success="addAttachment" users="users" ng-hide="isNewContent"></div>
 				</form>
 			</div>
 			<div class="col-md-3" collaborator-sidebar collaborators="content.collaborators" users="users" item-id="content.id" item-type="'content'" ng-hide="isNewContent"></div>
