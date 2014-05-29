@@ -1,6 +1,7 @@
 <?php
 
 use LaravelBook\Ardent\Ardent;
+use webignition\InternetMediaType\Parser\TypeParser;
 
 class Content extends Ardent {
 
@@ -23,6 +24,37 @@ class Content extends Ardent {
     'content_type_id' => 'required',
     'user_id' => 'required'
   ];
+
+  /**
+   * Override ardent's validate method and add our own custom validation for content type / upload type
+   * @return boolean True if valid, false if validation fails
+   */
+  public function validate(array $rules = [], array $customMessages = [])
+  {
+    // Based on the content type, make sure the main upload file is a valid type
+    if ( ! empty($this->content_type_id) && ! empty($this->upload_id)) {
+      $contentType = $this->content_type()->first();
+      $upload = $this->upload()->first();
+
+      // Get the internet media type for the upload
+      $parser = new TypeParser;
+      $type = $parser->parse($upload->mimetype);
+
+      // Setup types to accept for content types
+      $valid = [
+        'audio-recording' => ['audio'],
+        'photo' => ['image'],
+        'video' => ['video'],
+      ];
+      if (isset($valid[$contentType->key])) {
+        if ( ! in_array($type, $valid[$contentType->key])) {
+          $this->validationErrors->add('upload', 'Invalid upload type: '. $type .' for content type: '. $contentType->name);
+          return false;
+        }
+      }
+    }
+    return parent::validate($rules, $customMessages);
+  }
 
   public function campaign()
   {
@@ -103,6 +135,12 @@ class Content extends Ardent {
 
       return $content;
     });
+/*
+    static::validating(function ($content) {
+      $content->setAttribute('errors', [['upload' => 'Invalid upload file type']]);
+      return false;
+    });
+    */
   }
 
 }
