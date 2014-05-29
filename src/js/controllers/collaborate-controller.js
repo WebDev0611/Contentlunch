@@ -113,7 +113,17 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                 }).value();
             } else { // it's twitter
                 connection.friends = _.map(friends.plain(), function (friend) {
-                    return friend;
+                    connection.friendsHeaders = ['Name', 'Geography', 'Username'];
+                    
+                    var arr = [
+                        friend.name,
+                        friend.location,
+                        '@' + friend.screen_name
+                    ];
+
+                    arr.id = friend.id;
+
+                    return arr;
                 });
             }
         });

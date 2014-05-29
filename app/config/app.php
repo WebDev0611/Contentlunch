@@ -111,6 +111,7 @@ return [
     'Zizaco\Entrust\EntrustServiceProvider',
     'Andrew13\Cabinet\CabinetServiceProvider',
 
+    'Thujohn\Twitter\TwitterServiceProvider',
   ],
 
   /*
@@ -185,6 +186,7 @@ return [
     'HubspotService' => 'Launch\OAuth\Service\Hubspot',
     'SalesforceService' => 'Launch\OAuth\Service\Salesforce',
 
+    'Twitter' => 'Thujohn\Twitter\TwitterFacade',
   ],
 
   'balanced' => [
