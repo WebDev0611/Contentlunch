@@ -16,32 +16,6 @@
 		scope.isCollapsed = false;
 		scope.fileCount = null;
 
-		scope.uploadAttachment = function (files, form, control) {
-			if ($.isArray(files) && files.length !== 1) {
-				NotificationService.error('Invalid File!', 'Please make sure to select only one file for upload at a time.');
-				$(control).replaceWith($(control).clone(true, true));
-				return;
-			}
-
-			var file = $.isArray(files) ? files[0] : files;
-
-			AccountService.addFile(self.loggedInUser.account.id, file, null, {
-				success: function(r) {
-					scope.filesList.push(r);
-
-					scope.fileCount = scope.filesList.length;
-					scope.showFilesList = true;
-
-					if ($.isFunction(scope.afterSaveSuccess)) {
-						scope.afterSaveSuccess(r);
-					}
-				},
-				error: function(r) {
-					launch.utils.handleAjaxErrorResponse(r, NotificationService);
-				}
-			});
-		};
-
 		scope.getUserInfo = function (userId) {
 			var user = launch.utils.getUserById(scope.users, userId);
 
@@ -96,8 +70,8 @@
 									scope.fileCount = scope.filesList.length;
 									scope.showFilesList = true;
 
-									if ($.isFunction(scope.afterSaveSuccess)) {
-										scope.afterSaveSuccess(r);
+									if ($.isFunction(scope.afterAddFileSuccess)) {
+										scope.afterAddFileSuccess(r);
 									}
 
 									scp.description = null;
@@ -137,9 +111,36 @@
 			e.stopImmediatePropagation();
 		};
 
-		scope.deleteAttachment = function(uploadFile, e) {
-			// TODO: ADD DELETE ATTACHMENT CODE!!
-			NotificationService.info('WARNING!!', 'DELETE FILE NOT YET IMPLEMENTED!');
+		scope.deleteAttachment = function (uploadFile, e) {
+			$modal.open({
+				templateUrl: 'confirm.html',
+				controller: [
+					'$scope', '$modalInstance', function(scp, instance) {
+						scp.message = 'Are you sure you want to delete this file?';
+						scp.okButtonText = 'Delete';
+						scp.cancelButtonText = 'Cancel';
+						scp.onOk = function () {
+							AccountService.deleteFile(self.loggedInUser.account.id, uploadFile.id, {
+								success: function (r) {
+									var newList = $.grep(scope.filesList, function (f) { return f.id !== uploadFile.id; });
+
+									scope.filesList = newList;
+
+									if ($.isFunction(scope.afterRemoveFileSuccess)) {
+										scope.afterRemoveFileSuccess(r);
+									}
+								},
+								error: self.ajaxHandler.error
+							});
+
+							instance.close();
+						};
+						scp.onCancel = function () {
+							instance.dismiss('cancel');
+						};
+					}
+				]
+			});
 
 			e.stopImmediatePropagation();
 		};
@@ -164,7 +165,8 @@
 	return {
 		link: link,
 		scope: {
-			afterSaveSuccess: '=afterSaveSuccess',
+			afterAddFileSuccess: '=afterAddFileSuccess',
+			afterRemoveFileSuccess: '=afterRemoveFileSuccess',
 			filesList: '=filesList',
 			isDisabled: '=isDisabled',
 			users: '=users'

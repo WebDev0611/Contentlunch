@@ -3,7 +3,9 @@
 		Files
 		<i class="fa" ng-class="{'fa-caret-down': isCollapsed, 'fa-caret-right': !isCollapsed}" ng-click="isCollapsed = !isCollapsed"></i>
 		
-		<button ng-click="editAttachment(null, $event)" type="button" class="btn btn-black btn-default" ng-disabled="isDisabled">
+		{{ fileCount }}
+
+		<button ng-click="editAttachment(null, $event)" type="button" class="btn btn-black btn-default" ng-disabled="isDisabled || (filesList.length >= 10)">
 			<span class="fa fa-paperclip"></span>
 			Add a File
 		</button>
@@ -18,7 +20,7 @@
 				<div class="files-list-item-title">
 					<span class="fa fa-trash-o" ng-click="deleteAttachment(f, $event)"></span>
 					<span class="fa fa-edit" ng-click="editAttachment(f, $event)"></span>
-					{{ f.fileName }}
+					{{ f.description }}
 				</div>
 				<div class="files-list-item-author">
 					<span class="user-image user-image-medium" ng-style="{ 'background-image': getUserImage(f.userId) }"></span>
@@ -35,8 +37,6 @@
 		</div>
 	</div>
 </form>
-
-
 
 <script type="text/ng-template" id="edit-attachment.html">
 	<div class="modal-header">Choose a File</div>

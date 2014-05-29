@@ -1413,6 +1413,9 @@
 			uploadFile.updated = new Date(dto.updated_at);
 			uploadFile.deleted = launch.utils.isBlank(dto.deleted_at) ? null : new Date(dto.deleted_at);
 
+			// TODO: SET DESCRIPTION HERE!!
+			uploadFile.description = dto.filename;
+
 			var path = dto.path;
 
 			if (launch.utils.startsWith(path, '/public')) {
