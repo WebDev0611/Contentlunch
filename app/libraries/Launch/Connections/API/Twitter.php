@@ -66,6 +66,7 @@ class TwitterAPI implements Connection
      */
     public function sendDirectMessage(array $ids, array $message)
     {
+        $results = [];
         foreach ($ids as $id) {
             /**
              * Parameters :
@@ -78,9 +79,11 @@ class TwitterAPI implements Connection
                 'text'    => $message['body'],
                 'format'  => 'array'
             ]);
+
+            $results[$id] = empty($result['errors']);
         }
 
-        return $this->processResult($result);
+        return $this->processResult($results);
     }
 
     private function processResult($result)

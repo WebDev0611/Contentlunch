@@ -1,6 +1,6 @@
 ﻿launch.module.controller('CollaborateController', 
-        ['$scope', '$rootScope', '$location', 'Restangular', '$q', 'AuthService', '$filter', '$routeParams', '$modal', 
-function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,   $filter,   $routeParams,   $modal) {
+        ['$scope', '$rootScope', '$location', 'Restangular', '$q', 'AuthService', '$filter', '$routeParams', '$modal', 'NotificationService', 
+function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,   $filter,   $routeParams,   $modal,   notify) {
 	$scope.pagination = {
         pageSize: 5,
         currentPage: 1,
@@ -72,7 +72,10 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     };
 
     $scope.openInviteModal = function (connection) {
-        if (!connection.recipientsIds || !connection.recipientsIds.length) return;
+        if (!connection.recipientsIds || !connection.recipientsIds.length) {
+            notify.notify('Please choose at least one recepient.');
+            return;
+        }
         
         $modal.open({
             templateUrl: '/assets/views/collaborate/invite-modal.html',
@@ -92,6 +95,8 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     $scope.toggleAccordion = function (connection) {
         if (!connection.accordionOpen) return;
 
+        connection.spinner = true;
+
         connection.getList('friends').then(function (friends) {
             // if we need to do this sort of thing anywhere else,
             // we should wrap this in its own service
@@ -100,7 +105,8 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                     connection.friendsHeaders = ['Name', 'Position', 'Industry'];
                     
                     var arr = [
-                        friend.firstName + ' ' + friend.lastName,
+                        '<a href="' + friend.publicProfileUrl + '" target="_blank">' + 
+                            friend.firstName + ' ' + friend.lastName + '</a>',
                         friend.headline,
                         friend.industry
                     ];
@@ -108,7 +114,10 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                     arr.id = friend.id;
 
                     return arr;
-                }).reject(function (friend) { 
+                }).reject(function (friend) {
+                    // people can choose not to share their profile and they
+                    // will have an ID of "private" which not only breaks
+                    // our ng-repeat, but we can't send them a DM anyway
                     return friend.id == 'private'; 
                 }).value();
             } else { // it's twitter
@@ -118,7 +127,8 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                     var arr = [
                         friend.name,
                         friend.location,
-                        '@' + friend.screen_name
+                        '<a href="https://twitter.com/' + friend.screen_name + 
+                            '" target="_blank">@' + friend.screen_name + '</a>'
                     ];
 
                     arr.id = friend.id;
@@ -126,6 +136,11 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                     return arr;
                 });
             }
+        }, function (err) {
+            console.error(err);
+            notify.error('There was an error getting your followers/connections.');
+        }).then(function () {
+            connection.spinner = false;
         });
     };
 
