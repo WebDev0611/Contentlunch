@@ -27,7 +27,8 @@
 			var userMenuItems = [];
 
 			if (scope.user.id && !isGlobalAdmin) {
-				mainNavItems = $.map($.grep(scope.user.modules, function(m) {
+        
+				navItems = $.map($.grep(scope.user.modules, function(m) {
 					return m.isSubscribable;
 				}), function(m) {
 					return {
@@ -37,6 +38,16 @@
 
 					};
 				});
+        // Sort main navigation items
+        var sort = ['consult', 'create', 'collaborate', 'calendar', 'launch', 'measure'];
+        var mainNavItems = [];
+        angular.forEach(sort, function (value) {
+          angular.forEach(navItems, function (navValue) {
+            if (value == navValue.title) {
+              mainNavItems.push(navValue);
+            }
+          });
+        });
 
 				mainNavItems.splice(0, 0, { title: 'home', url: '/', active: 'active' });
 

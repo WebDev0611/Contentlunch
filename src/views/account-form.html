@@ -91,7 +91,7 @@
 
 			<div class="control-group">
 				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radMonthly" ng-value="false" ng-model="selectedAccount.yearlyPayment" ng-change="changePaymentPeriod()" />Monthly Payment</label>
-				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radYearly" ng-value="true" ng-model="selectedAccount.yearlyPayment" ng-change="changePaymentPeriod()" />Yearly Payment (<span>{{ selectedAccount.subscription.annualDiscount }}</span>% discount)</label>
+				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radYearly" ng-value="true" ng-model="selectedAccount.yearlyPayment" ng-change="changePaymentPeriod()" />Annual Payment (<span>{{ selectedAccount.subscription.annualDiscount }}</span>% discount)</label>
 			</div>
 
 			<div class="control-group">

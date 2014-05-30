@@ -133,18 +133,9 @@
 			account.subscription = self.subscription.fromDto(dto.account_subscription);
 
 			if ($.isArray(dto.modules) && dto.modules.length > 0) {
+
 				account.subscription.components = $.map(dto.modules, function(m) {
 					var module = self.module.fromDto(m);
-
-					// TODO: REMOVE THIS STUFF ONCE THE "active" FLAG COMES FROM THE API!!
-					if (module.name === 'collaborate') {
-						module.active = account.subscription.subscriptionLevel >= 2;
-					} else if (module.name === 'consult') {
-						module.active = account.subscription.subscriptionLevel >= 3;
-					} else {
-						module.active = true;
-					}
-
 					return module;
 				});
 			}
@@ -670,11 +661,14 @@
 				{ name: 'create', title: 'CREATE', active: true },
 				{ name: 'calendar', title: 'CALENDAR', active: true },
 				{ name: 'launch', title: 'LAUNCH', active: true },
-				{ name: 'measure', title: 'MEASURE', active: true },
-				{ name: 'collaborate', title: 'COLLABORATE', active: subscription.subscriptionLevel >= 2 },
-				{ name: 'consult', title: 'CONSULT', active: subscription.subscriptionLevel >= 3 }
-			];
-
+				{ name: 'measure', title: 'MEASURE', active: true }
+      ];
+      if (subscription.subscriptionLevel >= 2) {
+        subscription.components.push({ name: 'collaborate', title: 'COLLABORATE', active: true });
+      }
+      if (subscription.subscriptionLevel >= 3) {
+        subscription.components.push({ name: 'consult', title: 'CONSULT', active: true });
+      }
 			return subscription;
 		},
 		toDto: function(subscription) {
