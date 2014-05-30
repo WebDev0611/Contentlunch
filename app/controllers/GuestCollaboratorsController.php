@@ -1,6 +1,6 @@
 <?php
 
-class AccountContentGuestCollaboratorsController extends BaseController {
+class GuestCollaboratorsController extends BaseController {
 
     public function index($accountID, $contentID)
     {
@@ -8,6 +8,6 @@ class AccountContentGuestCollaboratorsController extends BaseController {
             return $this->responseAccessDenied();
         }
 
-        return [];
+        return GuestCollaborator::where('content_id', $contentID);
     }
 }
