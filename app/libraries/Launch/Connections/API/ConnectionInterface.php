@@ -19,17 +19,16 @@ interface Connection
     /**
      * Post the provided content to the connections
      * @param  string $content The content to publish
-     * @return `true` if successful. Should throw error on failure
      * @return Response        200 on success, an error from ConnectionConnector::responseError on failure
      */
     public function postContent($content);
 
     /**
      * Send a direct message to the IDs passed in with the provided message data
-     * @param  array  $ids     Array of IDs of recipients
-     * @param  array  $message Array of message details [subject, body]
-     * @return `true` if successful. Should throw error on failure
+     * @param  array  $ids       Array of IDs of recipients
+     * @param  array  $message   Array of message details [subject, body]
+     * @param  int    $contentID ID of the content to associate the guest with
      * @return Response        200 on success, an error from ConnectionConnector::responseError on failure
      */
-    public function sendDirectMessage(array $ids, array $message);
+    public function sendDirectMessage(array $ids, array $message, $contentID);
 }

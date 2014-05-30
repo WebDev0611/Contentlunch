@@ -1,6 +1,7 @@
 <?php namespace Launch\Connections\API;
 
 use Illuminate\Support\Facades\Response;
+use Models\GuestCollaborator;
 
 class ConnectionConnector
 {
@@ -34,5 +35,10 @@ class ConnectionConnector
         if (!$error) $error = 'Unknown error.';
 
         return Response::json(['errors' => [$error]], $status);
+    }
+
+    static function createGuestCollaborator($guest)
+    {
+        GuestCollaborator::create($guest);
     }
 }

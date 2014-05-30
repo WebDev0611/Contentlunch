@@ -1,6 +1,6 @@
 ﻿launch.module.controller('CollaborateController', 
-        ['$scope', '$rootScope', '$location', 'Restangular', '$q', 'AuthService', '$filter', '$routeParams', '$modal', 
-function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,   $filter,   $routeParams,   $modal) {
+        ['$scope', '$rootScope', '$location', 'Restangular', '$q', 'AuthService', '$filter', '$routeParams', '$modal', 'guestCollaborators', 'NotificationService', 
+function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,   $filter,   $routeParams,   $modal,   guestCollaborators,   notify) {
 	$scope.pagination = {
         pageSize: 5,
         currentPage: 1,
@@ -10,19 +10,21 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     // -------------------------
     var user = AuthService.userInfo();
 
-    var Account = Restangular.one('account', user.account.id);
+    var Account = Restangular.one('account', user.account.id), Collab;
     var requests = {
         users: Account.all('users').getList(),
     };
 
     // sharing controllers since "list" is so simple
     if ($routeParams.id) {
-        requests.selected = Account.one($routeParams.conceptType, $routeParams.id).get().then(function (selected) {
+        Collab = Account.one($routeParams.conceptType, $routeParams.id);
+        requests.selected = Collab.get().then(function (selected) {
             // TODO: figure out how we're differentiating collaborators. but for now...
             selected.internalCollaborators = selected.collaborators;
             return selected;
         });
         requests.connections = Account.all('connections').getList({ 'provider[]': ['linkedin', 'twitter'] });
+        requests.guestCollaborators = Collab.all('guest-collaborators').getList();
     } else {
         requests.list = $q.all({
             Content  : Account.all( 'content' ).getList({ status: 0 }),
@@ -72,15 +74,21 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     };
 
     $scope.openInviteModal = function (connection) {
-        if (!connection.recipientsIds || !connection.recipientsIds.length) return;
+        if (!connection.recipients || !connection.recipients.length) {
+            notify.notify('Please choose at least one recepient.');
+            return;
+        }
         
         $modal.open({
             templateUrl: '/assets/views/collaborate/invite-modal.html',
             size: 'lg'
         }).result.then(function (message) {
             return connection.all('message').post({
-                ids: connection.recipientsIds,
-                message: message
+                friends:   _.mapObject(connection.recipients, function (recip) {
+                    return [recip.id, recip.name];
+                }),
+                message:   message,
+                contentId: $routeParams.id
             });
         }).then(function (response) {
             console.log(response);
@@ -92,40 +100,17 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     $scope.toggleAccordion = function (connection) {
         if (!connection.accordionOpen) return;
 
+        connection.spinner = true;
+
         connection.getList('friends').then(function (friends) {
-            // if we need to do this sort of thing anywhere else,
-            // we should wrap this in its own service
-            if (connection.connection_provider == 'linkedin') {
-                connection.friends = _(friends.plain()).map(function (friend) {
-                    connection.friendsHeaders = ['Name', 'Position', 'Industry'];
-                    
-                    var arr = [
-                        friend.firstName + ' ' + friend.lastName,
-                        friend.headline,
-                        friend.industry
-                    ];
-
-                    arr.id = friend.id;
-
-                    return arr;
-                }).reject(function (friend) { 
-                    return friend.id == 'private'; 
-                }).value();
-            } else { // it's twitter
-                connection.friends = _.map(friends.plain(), function (friend) {
-                    connection.friendsHeaders = ['Name', 'Geography', 'Username'];
-                    
-                    var arr = [
-                        friend.name,
-                        friend.location,
-                        '@' + friend.screen_name
-                    ];
-
-                    arr.id = friend.id;
-
-                    return arr;
-                });
-            }
+            // this attaches connection.friends and connections.friendsHeaders
+            // and formats the data and fields as needed to work with the template
+            guestCollaborators.parseFriends(connection, friends);
+        }, function (err) {
+            console.error(err);
+            notify.error('There was an error getting your followers/connections.');
+        }).then(function () {
+            connection.spinner = false;
         });
     };
 
