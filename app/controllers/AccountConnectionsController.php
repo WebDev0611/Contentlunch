@@ -96,39 +96,40 @@ class AccountConnectionsController extends BaseController {
     return $this->responseError("Unable to delete connection");
   }
 
-  public function actionRouter($accountId, $connectionId, $action)
+  public function actionRouter($accountID, $connectionID, $action)
   {
-    if (method_exists($this, $action)) return $this->{$action}($accountId, $connectionId);
+    if (method_exists($this, $action)) return $this->{$action}($accountID, $connectionID);
   }
 
-  private function friends($accountId, $connectionId)
+  private function friends($accountID, $connectionID)
   {
-    if (!$this->inAccount($accountId)) {
+    if (!$this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
 
     if (!Request::isMethod('get')) return $this->responseError('friends action only accepts GET requests');
 
-    $connectionData = $this->show($accountId, $connectionId);
+    $connectionData = $this->show($accountID, $connectionID);
     $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
     return $connectionApi->getFriends(0, 250);
   }
 
-  private function message($accountId, $connectionId)
+  private function message($accountID, $connectionID)
   {
-    if (!$this->inAccount($accountId)) {
+    if (!$this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
 
     if (!Request::isMethod('post')) return $this->responseError('message action only accepts POST requests');
 
-    $ids     = Input::get('ids');
-    $message = Input::get('message');
+    $friends   = Input::get('friends');
+    $message   = Input::get('message');
+    $contentID = Input::get('contentId');
 
-    $connectionData = $this->show($accountId, $connectionId);
+    $connectionData = $this->show($accountID, $connectionID);
     $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
 
-    return $connectionApi->sendDirectMessage($ids, $message);
+    return $connectionApi->sendDirectMessage($friends, $message, $contentID);
   }
 
 }

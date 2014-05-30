@@ -12,6 +12,7 @@ class TwitterAPI implements Connection
      * @var Twitter
      */
     private $twitter;
+    private $accountConnection;
 
     /**
      * Do whatever setup we need to set up the SDK to make
@@ -19,7 +20,8 @@ class TwitterAPI implements Connection
      * @param array $accountConnection Settings passed from the database
      */
     public function __construct(array $accountConnection)
-    {
+    {   
+        $this->accountConnection = $accountConnection;
         $config = Config::get('services.twitter');
 
         $this->twitter = new Twitter([
@@ -60,14 +62,15 @@ class TwitterAPI implements Connection
 
     /**
      * Send a direct message to the IDs passed in with the provided message data
-     * @param  array  $ids     Array of IDs of recipients
-     * @param  array  $message Array of message details [subject, body]
+     * @param  array  $ids       Array of IDs of recipients
+     * @param  array  $message   Array of message details [subject, body]
+     * @param  int    $contentID ID of the content to associate the guest with
      * @return Response        200 on success, an error from ConnectionConnector::responseError on failure
      */
-    public function sendDirectMessage(array $ids, array $message)
+    public function sendDirectMessage(array $friends, array $message, $contentID)
     {
         $results = [];
-        foreach ($ids as $id) {
+        foreach ($friends as $id => $name) {
             /**
              * Parameters :
              * - user_id
@@ -78,6 +81,13 @@ class TwitterAPI implements Connection
                 'user_id' => $id,
                 'text'    => $message['body'],
                 'format'  => 'array'
+            ]);
+
+            ConnectionConnector::createGuestCollaborator([
+                'connection_user_id' => $id,
+                'name'               => $name,
+                'connection_id'      => $this->accountConnection['connection_id'],
+                'content_id'         => $contentID,
             ]);
 
             $results[$id] = empty($result['errors']);

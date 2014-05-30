@@ -12,6 +12,7 @@ class LinkedInAPI implements Connection
      * @var LinkedIn
      */
     private $linkedIn;
+    private $accountConnection;
 
     /**
      * Do whatever setup we need to set up the SDK to make
@@ -20,6 +21,8 @@ class LinkedInAPI implements Connection
      */
     public function __construct(array $accountConnection)
     {
+        $this->accountConnection = $accountConnection;
+
         // $config = Config::get('services.linkedin');
         // $this->linkedIn = new LinkedIn($config['key'], $config['secret']);
 
@@ -52,11 +55,12 @@ class LinkedInAPI implements Connection
 
     /**
      * Send a direct message to the IDs passed in with the provided message data
-     * @param  array  $ids     Array of IDs of recipients
-     * @param  array  $message Array of message details [subject, body]
+     * @param  array  $ids       Array of IDs of recipients
+     * @param  array  $message   Array of message details [subject, body]
+     * @param  int    $contentID ID of the content to associate the guest with
      * @return Response        200 on success, an error from ConnectionConnector::responseError on failure
      */
-    public function sendDirectMessage(array $ids, array $message)
+    public function sendDirectMessage(array $friends, array $message, $contentID)
     {
         $payload = [
             "recipients" => [
@@ -66,12 +70,19 @@ class LinkedInAPI implements Connection
             "body"    => $message['body']
         ];
 
-        foreach ($ids as $id) {
+        foreach ($friends as $id => $name) {
             $payload['recipients']['values'][] = [
                 "person" => [
                     "_path" => "/people/id={$id}",
                 ]
             ];
+
+            ConnectionConnector::createGuestCollaborator([
+                'connection_user_id' => $id,
+                'name'               => $name,
+                'connection_id'      => $this->accountConnection['connection_id'],
+                'content_id'         => $contentID,
+            ]);
         }
 
         $result = $this->linkedIn->api('v1/people/~/mailbox', [], 'POST', $payload);

@@ -30,7 +30,11 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'destroy']
   ]);
 
-  Route::resource('account/{id}/content/{contentid}/comments', 'AccountContentCommentsController', [
+  Route::resource('account/{id}/content/{contentid}/guest-collaborators', 'AccountContentGuestCollaboratorsController', [
+    'only' => ['index', 'destroy']
+  ]);
+
+  Route::resource('account/{accountID}/content/{contentID}/comments', 'AccountContentCommentsController', [
     'only' => ['index', 'store']
   ]);
 

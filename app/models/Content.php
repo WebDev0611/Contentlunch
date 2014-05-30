@@ -97,6 +97,11 @@ class Content extends Ardent {
     return $this->hasMany('ContentTaskGroup', 'content_id', 'id')->with('tasks');
   }
 
+  public function guest_collaborators()
+  {
+    return $this->hasMany('GuestCollaborator', 'content_id', 'id');
+  }
+
   public function account_connections()
   {
     return $this->belongsToMany('AccountConnection', 'content_account_connections', 'content_id', 'account_connection_id')

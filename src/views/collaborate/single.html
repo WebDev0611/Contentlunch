@@ -107,7 +107,7 @@
                                 <tbody>
                                     <tr ng-repeat="friend in connection.friends | paginate:pagination.currentPage:pagination.pageSize track by friend.id" ng-class-odd="'dark'">
                                         <td>
-                                            <input type="checkbox" checklist-model="connection.recipientsIds" checklist-value="friend.id">
+                                            <input type="checkbox" checklist-model="connection.recipients" checklist-value="{ id: friend.id, name: friend[0] }">
                                         </td>
                                         <td ng-bind-html="friend[0]"></td>
                                         <td ng-bind-html="friend[1]"></td>
