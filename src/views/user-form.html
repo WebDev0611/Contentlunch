@@ -26,7 +26,7 @@
 			<div class="form-group" ng-class="{ 'has-error': hasError('title', editUser.txtTitle) }">
 				<label class="control-label" for="txtTitle">Title</label>
 				<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="selectedUser.title"
-						error-message message="errorMessage('title', editUser.txtTitle)" />
+						error-message message="errorMessage('title', editUser.txtTitle)" ng-disabled="selfEditing" />
 			</div>
 		</div>
 
