@@ -4,6 +4,9 @@ class RoleController extends BaseController {
 
 	public function index()
 	{
+    if (Input::get('global')) {
+      return Role::where('global', Input::get('global'))->get();
+    }
 		return Role::all();
 	}
 

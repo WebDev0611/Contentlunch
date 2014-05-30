@@ -1,4 +1,4 @@
-﻿launch.module.directive('userForm', function ($modal, $upload, AuthService, RoleService, UserService, AccountService, NotificationService, SessionService) {
+launch.module.directive('userForm', function ($modal, $upload, AuthService, RoleService, UserService, AccountService, NotificationService, SessionService) {
 	var link = function (scope, element, attrs) {
 		var self = this;
 
@@ -95,7 +95,9 @@
 
 			if (scope.isNewUser) {
 				scope.selectedUser.account = self.loggedInUser.account;
-				scope.selectedUser.accounts.push(scope.selectedUser.account);
+        if (scope.selectedUser.account) {
+				  scope.selectedUser.accounts.push(scope.selectedUser.account);
+        }
 				scope.selectedUser.roles.push(scope.selectedUser.role);
 			}
 
@@ -295,8 +297,7 @@
 				scope.isNewUser = false;
 			}
 
-			scope.canEditUser = (scope.selfEditing || self.loggedInUser.hasPrivilege('settings_edit_profiles'));
-
+			scope.canEditUser = (scope.selfEditing || self.loggedInUser.hasPrivilege('settings_edit_profiles') || self.loggedInUser.hasPrivilege('adminster_contentlaunch'));
 		});
 
 		self.init();

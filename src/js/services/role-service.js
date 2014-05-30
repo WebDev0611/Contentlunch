@@ -7,7 +7,7 @@
 		delete: { method: 'DELETE' }
 	});
 
-	var accountRoles = $resource('/api/account/:accountId/roles/:id', { accountId: '@accountId', id: '@id' }, {
+	var accountRoles = $resource('/api/account/:accountId/roles/:id', { accountId: '@accountId', id: '@id'}, {
 		get: { method: 'GET', transformResponse: ModelMapperService.role.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.role.parseResponse },
 		update: { method: 'PUT', transformRequest: ModelMapperService.role.formatRequest, transformResponse: ModelMapperService.role.parseResponse },
@@ -20,6 +20,9 @@
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
+      if ( ! accountId) {
+        return roles.query({ global: 1 }, success, error);
+      }
 			return accountRoles.query({ accountId: accountId, id: '' }, success, error);
 		},
 		get: function(id, accountId, callback) {

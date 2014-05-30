@@ -51,8 +51,7 @@ class UserController extends BaseController {
 	public function store()
 	{
 		// Restrict to create_new_user permission
-		if ( ! $this->hasPermission('settings_execute_users')) {
-      return 'user not has ability';
+		if ( ! $this->hasPermission('settings_execute_users') && ! $this->hasPermission('adminster_contentlaunch')) {
 			return $this->responseAccessDenied();
 		}
 		$user = new User;
@@ -113,6 +112,10 @@ class UserController extends BaseController {
 			// Site admin has all permissions
 			if ($role->name == 'site_admin') {
 				$user->permissions = Permission::all()->toArray();
+      } elseif ($role->name == 'global_admin') {
+        $user->permissions = $role->perms->toArray();
+        $modules = [['name' => 'admin', 'title' => 'Admin', 'subscribable' => false]];
+        $user->modules = $modules;
 			} else {
 				$user->permissions = $role->perms->toArray();
 			}
