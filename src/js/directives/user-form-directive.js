@@ -222,6 +222,9 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 
 		scope.getStates = function () {
 			if (!!scope.selectedUser && !!scope.selectedUser.country) {
+        if (scope.selectedUser.country == 'Australia' || scope.selectedUser.country == 'UK') {
+          return [];
+        }
 				return launch.utils.getStates(scope.selectedUser.country);
 			}
 
