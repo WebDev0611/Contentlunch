@@ -75,7 +75,7 @@
 		</div>
 
 		<div class="control-group">
-			<div class="form-group" ng-class="{ 'has-error': hasError('active', editUser.selStatus) }">
+			<div class="form-group" ng-class="{ 'has-error': hasError('active', editUser.selStatus) }" ng-show="!isNewUser">
 				<label class="control-label" for="selStatus">Status</label>
 				<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedUser.active" ng-disabled="selfEditing"
 						error-message message="errorMessage('active', editUser.selStatus)">
