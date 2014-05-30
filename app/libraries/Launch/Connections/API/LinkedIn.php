@@ -62,19 +62,21 @@ class LinkedInAPI implements Connection
      */
     public function sendDirectMessage(array $friends, array $message, $contentID)
     {
-        $payload = [
-            "recipients" => [
-                "values" => []
-            ],
-            "subject" => $message['subject'],
-            "body"    => $message['body']
-        ];
-
+        $results = [];
         foreach ($friends as $id => $name) {
-            $payload['recipients']['values'][] = [
-                "person" => [
-                    "_path" => "/people/id={$id}",
-                ]
+            $accessCode = ConnectionConnector::makeAccessCode($id);
+            $link       = ConnectionConnector::makeShareLink($accessCode);
+
+            $payload = [
+                "recipients" => [
+                    "values" => [
+                        "person" => [
+                            "_path" => "/people/id={$id}",
+                        ]
+                    ]
+                ],
+                "subject" => $message['subject'],
+                "body"    => "{$message['body']}\n\n{$link}"
             ];
 
             ConnectionConnector::createGuestCollaborator([
@@ -82,14 +84,21 @@ class LinkedInAPI implements Connection
                 'name'               => $name,
                 'connection_id'      => $this->accountConnection['connection_id'],
                 'content_id'         => $contentID,
+                'access_code'        => $accessCode,
             ]);
+
+            $result = $this->linkedIn->api('v1/people/~/mailbox', [], 'POST', $payload);
+            $results[$id] = empty($result['errors']);
         }
 
-        $result = $this->linkedIn->api('v1/people/~/mailbox', [], 'POST', $payload);
-
-        return $this->processResult($result);
+        return $this->processResult($results);
     }
 
+    /**
+     * Handle responses for this particular API
+     * @param  array    $result  result from an API call
+     * @return Response
+     */
     private function processResult($result)
     {
         if (!empty($result['error'])) return ConnectionConnector::responseError(@$result['message'], @$result['status']);

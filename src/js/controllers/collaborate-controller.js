@@ -81,7 +81,24 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
         
         $modal.open({
             templateUrl: '/assets/views/collaborate/invite-modal.html',
-            size: 'lg'
+            size: 'lg',
+            controller: ['$scope', 'recipients', 'link', 'provider', function (_scope, recipients, link, provider) {
+                console.log(recipients, link, provider);
+                _scope.recipients = recipients;
+                _scope.provider = provider;
+                _scope.linkLength = (link || {}).len || 0;
+                if (provider == 'twitter') _scope.linkLength += 2; // 2 newlines
+            }],
+            resolve: { 
+                recipients: function () { return connection.recipients; },
+                provider: function () { return connection.connection_provider; },
+                link: connection.connection_provider == 'twitter' ?
+                        connection.one('twitter-link-length').get().then(function (link) {
+                            console.log(link);
+                            return link;
+                        }) :
+                        function () { return { len: 0 }; }
+            }
         }).result.then(function (message) {
             return connection.all('message').post({
                 friends:   _.mapObject(connection.recipients, function (recip) {
@@ -91,6 +108,21 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                 contentId: $routeParams.id
             });
         }).then(function (response) {
+            response = response.plain();
+            var allGood = _.all(_.values(response));
+
+            if (allGood) {
+                notify.success('Messages sent!');
+            } else {
+                var failedNames = _(response).map(function (success, id) {
+                    return success || _.findById(connection.recipients, id).name;
+                }).reject(function (item) {
+                    return item === true;
+                }).value();
+
+                notify.error('All messages succeeded except for: ' + failedNames.join(', '));
+            }
+
             console.log(response);
         }, function (err) {
             console.error(err);

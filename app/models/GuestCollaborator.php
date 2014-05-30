@@ -15,6 +15,7 @@ class GuestCollaborator extends Ardent {
 
     public static $rules = [
         'connection_user_id' => 'required',
+        'access_code'        => 'required',
         'name'               => 'required',
         'connection_id'      => 'required',
         'content_id'         => 'required',
