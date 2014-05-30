@@ -86,9 +86,25 @@
 			$scope.contentSettings.addEmptyPerona();
 		};
 
-		$scope.deletePersona = function(index) {
-			$scope.contentSettings.deletePersona(index);
-			self.isDirty = true;
+		$scope.deletePersona = function (index) {
+      $modal.open({
+        templateUrl: 'confirm.html',
+        controller: [
+          '$scope', '$modalInstance', function (scp, instance) {
+            scp.message = 'Are you sure want to delete this persona?';
+            scp.okButtonText = 'Delete';
+            scp.cancelButtonText = 'Cancel';
+            scp.onOk = function () {
+              $scope.contentSettings.deletePersona(index);
+              self.isDirty = true;
+              instance.close(); 
+            };
+            scp.onCancel = function() {
+              instance.dismiss('cancel');
+            };
+          }
+        ]
+      })
 		};
 
 		$scope.confirmCancel = function (isFromUi, onAfterSave) {
