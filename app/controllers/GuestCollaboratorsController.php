@@ -8,6 +8,6 @@ class GuestCollaboratorsController extends BaseController {
             return $this->responseAccessDenied();
         }
 
-        return GuestCollaborator::where('content_id', $contentID);
+        return GuestCollaborator::where('content_id', $contentID)->get();
     }
 }

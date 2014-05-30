@@ -1,8 +1,10 @@
-<?php namespace Models;
+<?php
 
 use LaravelBook\Ardent\Ardent;
 
 class GuestCollaborator extends Ardent {
+
+    protected $table = 'guest_collaborators';
 
     public $autoHydrateEntityFromInput = false;
     public $forceEntityHydrationFromInput = false;
