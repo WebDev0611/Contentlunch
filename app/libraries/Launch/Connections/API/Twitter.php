@@ -71,15 +71,12 @@ class TwitterAPI implements Connection
     {
         $results = [];
         foreach ($friends as $id => $name) {
-            /**
-             * Parameters :
-             * - user_id
-             * - screen_name
-             * - text
-             */
+            $accessCode = ConnectionConnector::makeAccessCode($id);
+            $link       = ConnectionConnector::makeShareLink($accessCode);
+
             $result = $this->twitter->postDm([
                 'user_id' => $id,
-                'text'    => $message['body'],
+                'text'    => "{$message['body']}\n\n{$link}",
                 'format'  => 'array'
             ]);
 
@@ -88,6 +85,7 @@ class TwitterAPI implements Connection
                 'name'               => $name,
                 'connection_id'      => $this->accountConnection['connection_id'],
                 'content_id'         => $contentID,
+                'access_code'        => $accessCode,
             ]);
 
             $results[$id] = empty($result['errors']);
@@ -96,6 +94,23 @@ class TwitterAPI implements Connection
         return $this->processResult($results);
     }
 
+    /**
+     * The t.co link shortener link length gets longer over time.
+     * We want to remove the current length of the link from the max
+     * length of a Twitter DM, and this allows us to know that length.
+     * @return array ['len' => INTEGER] where INTEGER is the length the link is going to be in the DM
+     */
+    public function getLinkLength()
+    {
+        $result = $this->twitter->getHelpConfiguration(['format' => 'array']);
+        return $this->processResult(@$result['short_url_length_https'] ? ['len' => $result['short_url_length_https']] : $result);
+    }
+
+    /**
+     * Handle responses for this particular API
+     * @param  array    $result  result from an API call
+     * @return Response
+     */
     private function processResult($result)
     {
         if (!empty($result['errors'])) return ConnectionConnector::responseError(@$result['errors'][0]);

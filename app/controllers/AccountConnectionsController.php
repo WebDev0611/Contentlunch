@@ -98,6 +98,10 @@ class AccountConnectionsController extends BaseController {
 
   public function actionRouter($accountID, $connectionID, $action)
   {
+    // turn dash-cash into camelCase
+    $action = str_replace(' ', '', ucwords(str_replace('-', ' ', $action)));
+    $action[0] = strtolower($action[0]);
+
     if (method_exists($this, $action)) return $this->{$action}($accountID, $connectionID);
   }
 
@@ -130,6 +134,23 @@ class AccountConnectionsController extends BaseController {
     $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
 
     return $connectionApi->sendDirectMessage($friends, $message, $contentID);
+  }
+
+  // only applies to Twitter. returns length of t.co link shortener
+  private function twitterLinkLength($accountID, $connectionID)
+  {
+    if (!$this->inAccount($accountID)) {
+      return $this->responseAccessDenied();
+    }
+
+    if (!Request::isMethod('get')) return $this->responseError('twitter-link-length action only accepts POST requests');
+
+    $connectionData = $this->show($accountID, $connectionID);
+    if ($connectionData->connection->provider != 'twitter') return $this->responseError('twitter-link-length is only valid if the provider is twitter');
+
+    $twitter = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
+
+    return $twitter->getLinkLength();
   }
 
 }
