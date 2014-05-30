@@ -26,13 +26,22 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
-  Route::resource('account/{id}/content/{contentid}/collaborators', 'AccountContentCollaboratorsController', [
+  // when it comes to collaborators, they can be attached to both campaigns and content
+  Route::resource('account/{id}/content/{contentid}/collaborators', 'CollaboratorsController', [
+    'only' => ['index', 'store', 'destroy']
+  ]);
+  Route::resource('account/{id}/campaign/{campaignid}/collaborators', 'CollaboratorsController', [
     'only' => ['index', 'store', 'destroy']
   ]);
 
-  Route::resource('account/{id}/content/{contentid}/guest-collaborators', 'AccountContentGuestCollaboratorsController', [
+  // when it comes to guest collaborators, they can be attached to both campaigns and content
+  Route::resource('account/{id}/content/{contentid}/guest-collaborators', 'GuestCollaboratorsController', [
     'only' => ['index', 'destroy']
   ]);
+  Route::resource('account/{id}/campaign/{campaignid}/guest-collaborators', 'GuestCollaboratorsController', [
+    'only' => ['index', 'destroy']
+  ]);
+
 
   Route::resource('account/{accountID}/content/{contentID}/comments', 'AccountContentCommentsController', [
     'only' => ['index', 'store']

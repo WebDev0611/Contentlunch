@@ -1,6 +1,6 @@
 <?php
 
-class AccountContentCollaboratorsController extends BaseController {
+class CollaboratorsController extends BaseController {
   
   public function index($accountID, $contentID)
   {
