@@ -1,6 +1,6 @@
 launch.module.factory('ModuleService', function ($resource) {
 
-  var resource = $resource('/api/modules', {
+  var resource = $resource('/api/modules', {}, {
     query: {
       method: 'GET',
       isArray: true
