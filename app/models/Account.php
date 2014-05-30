@@ -55,9 +55,12 @@ class Account extends Ardent {
   	}
   }
 
+  /**
+   * Return the newest subscription record
+   */
   public function accountSubscription()
   {
-  	return $this->hasOne('AccountSubscription', 'account_id', 'id');
+  	return $this->hasOne('AccountSubscription', 'account_id', 'id')->orderBy('id', 'desc');
   }
 
   public function modules()

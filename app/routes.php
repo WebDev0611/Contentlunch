@@ -84,6 +84,10 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index']
   ]);
 
+  Route::resource('modules', 'ModuleController', [
+    'only' => ['index']
+  ]);
+
   Route::resource('permission', 'PermissionController', [
     'only' => ['index']
   ]);
