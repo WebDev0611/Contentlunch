@@ -17,6 +17,8 @@ class Account extends Ardent {
 
 	protected $hidden = ['balanced_info'];
 
+  protected $softDelete = true;
+
 	/**
 	 * Specifies the columns that can be mass assigned
 	 *

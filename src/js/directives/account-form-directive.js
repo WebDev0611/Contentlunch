@@ -158,7 +158,7 @@
 								success: function(r) {
 									scope.isSaving = false;
 
-									var successMsg = 'You have successfully deleted ' + r.title + '!';
+									var successMsg = 'You have successfully deleted ' + scope.selectedAccount.title + '!';
 
 									NotificationService.success('Success!', successMsg);
 
