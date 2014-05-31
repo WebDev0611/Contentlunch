@@ -61,7 +61,7 @@
 			
 			<h2>Personas/Buying Stage</h2>
 			<div>
-				These Personas and stages will be used in content and can be changed as needed.
+				These Personas and Buying Stages will be used in content and can be changed as needed.
 				<div class="control-group btn-group btn-new-persona" ng-show="canEditPersonas">
 					<button type="button" class="btn btn-default" ng-click="addNewPersona()">New Persona</button>
 				</div>
@@ -73,7 +73,7 @@
 						<th>Name</th>
 						<th ng-repeat="property in contentSettings.personaProperties">
 							<span ng-class="'cl-icon-personas-' + $index" class="cl-icon cl-icon-med"></span>
-							<span class="content-editable" contenteditable on-change="setDirty" ng-model="contentSettings.personaProperties[$index]" place-holder="titlePlaceholder" ng-show="canEditPersonas"></span>
+							<span class="content-editable" contenteditable on-change="setDirty" ng-model="contentSettings.personaProperties[$index]" place-holder="titlePlaceholder" ng-show="canEditPersonas" onkeypress="return (this.innerText.length <= 20)"></span>
 							<span ng-show="!canEditPersonas" ng-bind="contentSettings.personaProperties[$index]"></span>
 						</th>
 						<th ng-show="canEditPersonas">&nbsp;</th>
