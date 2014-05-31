@@ -9,6 +9,11 @@ launch.module.controller('LoginController', [
 			$scope.user = new launch.Authentication();
 
 			self.redirect = launch.utils.isBlank($location.search()['path']) ? null : $location.search()['path'];
+      var search = $location.search();
+      if (search.link == 'expired') {
+        $scope.mode = 'Forgot Password';
+        $scope.headerMessage = 'Oops! That link is expired. Please complete the password reset form again.';
+      }
 		};
 
 		self.redirect = null;
@@ -57,6 +62,7 @@ launch.module.controller('LoginController', [
 
 		$scope.toggleMode = function(mode) {
 			$scope.mode = launch.utils.isBlank(mode) ? 'Login' : mode;
+      $scope.headerMessage = null;
 		};
 
 		$scope.retreievePassword = function(e, user) {

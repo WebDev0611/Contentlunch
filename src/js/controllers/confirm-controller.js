@@ -9,8 +9,8 @@ launch.module.controller('ConfirmController', [
 					$scope.selectedUser = r;
 				},
 				error: function (r) {
-					$scope.isDisabled = true;
-					launch.utils.handleAjaxErrorResponse(r, notificationService);
+          $location.path('/login');
+          $location.search('link', 'expired');
 				}
 			});
 		};
