@@ -16,6 +16,12 @@
 			}
 		};
 
+
+    scope.activeOptions = [
+      { key: true, name: 'Active' },
+      { key: false, name: 'Inactive' }
+    ];
+
 		self.discardChanges = function(form, keepSelected) {
 			if ($.isFunction(scope.refreshMethod)) {
 				scope.refreshMethod(form, (keepSelected ? scope.selectedAccount : null));

@@ -8,9 +8,7 @@
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'active', editAccount.selStatus, forceDirty) }">
 			<label class="control-label" for="selStatus">Status</label>
 			<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedAccount.active" ng-disabled="selfEditing"
-					error-message message="errorMessage(selectedAccount, 'active', editAccount.selStatus)">
-				<option value="true" ng-selected="selectedAccount.active === true">Active</option>
-				<option value="false" ng-selected="selectedAccount.active !== true">Inactive</option>
+					error-message message="errorMessage(selectedAccount, 'active', editAccount.selStatus)" ng-options="value.key as value.name for value in activeOptions">
 			</select>
 		</div>
 		<div class="form-group" ng-hide="selfEditing">
