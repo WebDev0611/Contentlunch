@@ -89,7 +89,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table">
+                            <table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>&nbsp;</th>
@@ -105,14 +105,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="friend in connection.friends | paginate:pagination.currentPage:pagination.pageSize track by friend.id" ng-class-odd="'dark'">
+                                    <tr ng-class="{ 'disabled-row': invited[friend.id] }" ng-repeat="friend in setViewable(connection.friends, hideSentRequests) | paginate:pagination.currentPage:pagination.pageSize track by friend.id" ng-class-odd="'dark'">
                                         <td>
-                                            <input type="checkbox" checklist-model="connection.recipients" checklist-value="{ id: friend.id, name: friend[0] }">
+                                            <input ng-hide="invited[friend.id]" type="checkbox" id="friend_{{ friend.id }}" checklist-model="connection.recipients" checklist-value="{ id: friend.id, name: friend[0] }">
                                         </td>
                                         <td ng-bind-html="friend[0]"></td>
                                         <td ng-bind-html="friend[1]"></td>
                                         <td ng-bind-html="friend[2]"></td>
-                                        <td>request sent?</td>
+                                        <td>
+                                            <span ng-show="invited[friend.id]">
+                                                Request Sent
+                                            </span>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>   
@@ -162,12 +166,13 @@
                         Guest Collaborators
                     </div>
                     <div class="panel-body">
-                        <div ng-repeat="collab in selected.guestCollaborators" class="guest-collaborator cl-badge cl-badge-horizontal">
+                        <div ng-repeat="collab in guestCollaborators" class="guest-collaborator cl-badge cl-badge-horizontal">
                             <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ collab.image | imagePathFromObject }}')"></span>
                             <div class="cl-badge-caption">
-                                {{ collab.first_name }}
-                                {{ collab.last_name }}
+                                {{ collab.name }}
                             </div>
+
+                            <span class="fa fa-trash-o pull-right" ng-click="removeGuestCollaborator(collab)"></span>
                         </div>
                     </div>
                 </div> 

@@ -15,6 +15,12 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
         users: Account.all('users').getList(),
     };
 
+    $scope.invited = {};
+    Restangular.extendModel('guest-collaborators', function (model) {
+        $scope.invited[model.connection_user_id] = true;
+        return model;
+    });
+
     // sharing controllers since "list" is so simple
     if ($routeParams.id) {
         Collab = Account.one($routeParams.conceptType, $routeParams.id);
@@ -73,7 +79,15 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
         });
     };
 
+    $scope.removeGuestCollaborator = function (collab) {
+        collab.remove().then(function () {
+            delete $scope.invited[collab.connection_user_id];
+            $rootScope.removeRow($scope.guestCollaborators, collab.id);
+        });
+    };
+
     $scope.openInviteModal = function (connection) {
+        console.log(connection.recipients);
         if (!connection.recipients || !connection.recipients.length) {
             notify.notify('Please choose at least one recepient.');
             return;
@@ -99,7 +113,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                         }) :
                         function () { return { len: 0 }; }
             }
-        }).result.then(function (message) {
+        }, angular.noop).result.then(function (message) {
             return connection.all('message').post({
                 friends:   _.mapObject(connection.recipients, function (recip) {
                     return [recip.id, recip.name];
@@ -107,7 +121,10 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                 message:   message,
                 contentId: $routeParams.id
             });
-        }).then(function (response) {
+        }, angular.noop).then(function (response) {
+            connection.recipients = [];
+            if (!angular.isDefined(response)) return;
+
             response = response.plain();
             var allGood = _.all(_.values(response));
 
@@ -123,8 +140,12 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                 notify.error('All messages succeeded except for: ' + failedNames.join(', '));
             }
 
-            console.log(response);
-        }, function (err) {
+            return Collab.all('guest-collaborators').getList();
+        }).then(function (guests) {
+            if (!angular.isDefined(guests)) return;
+
+            $scope.guestCollaborators = guests;
+        }).catch(function (err) {
             console.error(err);
         });
     };
@@ -149,6 +170,13 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
 
     // Helpers
     // -------------------------
+    $scope.setViewable = function(friends, hideInvited) {
+        if (!hideInvited) return friends;
+        return _.reject(friends, function (friend) {
+            return $scope.invited[friend.id];
+        });
+    };
+
     $scope.formatUserItem = function (item, element, context) {
         if (!item.text) return element.attr('placeholder');
         var user = _.findById($scope.users, item.id)[0] || {};
