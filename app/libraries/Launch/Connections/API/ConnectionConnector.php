@@ -1,7 +1,7 @@
 <?php namespace Launch\Connections\API;
 
 use Illuminate\Support\Facades\Response;
-use Models\GuestCollaborator;
+use GuestCollaborator;
 
 class ConnectionConnector
 {

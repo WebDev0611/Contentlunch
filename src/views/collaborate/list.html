@@ -100,8 +100,7 @@
                         <div ng-repeat="collab in item.guestCollaborators" class="guest-collaborator cl-badge cl-badge-row">
                             <span class="cl-badge-image" style="background-image: url('{{ collab.image | imagePathFromObject }}')")></span>
                             <div class="cl-badge-caption">
-                                {{ collab.first_name }}
-                                {{ collab.last_name }}
+                                {{ collab.name }}
                             </div>
                         </div>
                     </div>
