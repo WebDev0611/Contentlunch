@@ -92,7 +92,7 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>&nbsp;</th>
+                                        <th width="28px">&nbsp;</th>
                                         <th width="200px">{{ connection.friendsHeaders[0] }}</th>
                                         <th>{{ connection.friendsHeaders[1] }}</th>
                                         <th width="174px">{{ connection.friendsHeaders[2] }}</th>
@@ -123,6 +123,59 @@
 
                             <div class="form-group">
                                 <button class="btn btn-inverse" ng-click="openInviteModal(connection)">Invite Selected</button>
+                            </div>
+
+                            <div ng-show="connection.connection_provider == 'linkedin'">
+                                <h3>LinkedIn Groups</h3>
+                                <div class="section-header">
+                                    <div class="paging-controls">
+                                        <div class="form-group form-inline">
+                                            <label class="control-label" for="selPageSize2">Items per page:</label>
+                                            <select class="form-control" id="selPageSize2" name="selPageSize2" ng-model="pagination2.pageSize">
+                                                <option value="5">5</option>
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                        </div>
+
+                                        <div style="width: 100px; text-align: center;">
+                                            {{ (pagination2.currentPage - 1) * pagination2.pageSize + 1 }} 
+                                            to {{ pagination2.currentPage * pagination2.pageSize | min:connection.groups.length }}
+                                            of {{ connection.groups.length }}
+                                        </div>
+
+                                        <div class="pager" ng-show="connection.groups.length > pagination2.pageSize">
+                                            <pagination 
+                                                total-items="connection.groups.length"
+                                                items-per-page="pagination2.pageSize"
+                                                page="pagination2.currentPage"
+                                                direction-links="true"
+                                                max-size="0">
+                                            </pagination>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Group Name</th>
+                                            <th width="174px">
+                                                <label>
+                                                    <input type="checkbox" ng-model="hideSentRequests">
+                                                    Hide Sent Requests
+                                                </label>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="group in connection.groups | paginate:pagination2.currentPage:pagination2.pageSize track by group.id">
+                                            <td class="align-middle">{{ group.name }}</td>
+                                            <td><button ng-click="openInviteModal(connection, group)" class="btn btn-inverse">Send Message to Group</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>                                
                             </div>
                         </div>
                         <spinner spin-if="connection.spinner"></spinner> 
@@ -167,9 +220,10 @@
                     </div>
                     <div class="panel-body">
                         <div ng-repeat="collab in guestCollaborators" class="guest-collaborator cl-badge cl-badge-horizontal">
-                            <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ collab.image | imagePathFromObject }}')"></span>
+                            <span class="cl-badge-image cl-badge-image-small fa fa-{{ collab.connection.provider }}" style="background-image: none;"></span>
                             <div class="cl-badge-caption">
                                 {{ collab.name }}
+                                <div style="margin-top:-7px;"><small ng-hide="collab.accepted">Awaiting Reply</small></div>
                             </div>
 
                             <span class="fa fa-trash-o pull-right" ng-click="removeGuestCollaborator(collab)"></span>

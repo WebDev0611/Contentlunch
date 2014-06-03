@@ -22,6 +22,11 @@ class BaseController extends Controller {
    */
   protected function responseError($data, $status = null)
   {
+    return self::staticResponseError($data, $status);
+  }
+
+  static function staticResponseError($data, $status = null)
+  {
     $data = (array) $data;
     $status = $status ? $status : 400;
     return Response::json(array('errors' => $data), $status);

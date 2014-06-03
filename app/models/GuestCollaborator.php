@@ -32,4 +32,24 @@ class GuestCollaborator extends Ardent {
     {
         return $this->belongsTo('connection');
     }
+
+    public function beforeSave()
+    {
+        if (is_array($this->settings)) {
+            $this->settings = serialize($this->settings);
+        }
+        return true;
+    }
+
+    public function toArray()
+    {
+        $values = parent::toArray();
+        // we may be choosing not to select settings
+        if (empty($values['settings'])) return $values;
+
+        if (!is_array($values['settings'])) {
+            $values['settings'] = unserialize($values['settings']);
+        }
+        return $values;
+    }
 }

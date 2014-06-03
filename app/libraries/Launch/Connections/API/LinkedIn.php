@@ -94,6 +94,53 @@ class LinkedInAPI implements Connection
         return $this->processResult($results);
     }
 
+    public function getGroups($page = 0, $perPage = 1000)
+    {
+        $result = $this->linkedIn->api('v1/people/~/group-memberships', ['count' => $perPage, 'start' => $page]);
+        return $this->processResult($result);
+    }
+
+    public function sendMessageToGroup($group, $message, $contentID)
+    {
+        $accessCode = ConnectionConnector::makeAccessCode($group['id']);
+        $link       = ConnectionConnector::makeShareLink($accessCode);
+
+        $payload = [
+            'title'   => $message['subject'],
+            'summary' => $message['body'],
+            'content' => [
+                'title'        => $message['subject'],
+                'description'  => $message['body'],
+                'submittedUrl' => $link
+            ]
+        ];
+
+        // <post>
+        //     <title>New Group Discussion</title>
+        //     <summary>What does everyone think about platform development?</summary>
+        //     <content>
+        //         <submitted-url>http://developer.linkedin.com/forum</submitted-url>
+        //         <submitted-image-url>http:/www.example.com/linkedin.png</submitted-image-url>
+        //         <title>Build the Professional Web with LinkedIn</title>
+        //         <description>A great resource for finding documentation and answers related to developing on the LinkedIn Platform</description>
+        //     </content>
+        // </post>
+
+        $result = $this->linkedIn->api("v1/groups/{$group['id']}/posts", [], 'POST', $payload);
+
+        if (empty($result['error']) && !isset($result['errorCode'])) ConnectionConnector::createGuestCollaborator([
+            'connection_user_id' => $group['id'],
+            'name'               => $group['name'],
+            'connection_id'      => $this->accountConnection['connection_id'],
+            'content_id'         => $contentID,
+            'access_code'        => $accessCode,
+            'type'               => 'group',
+        ]);
+
+        $result['values'] = [$group['id'] => empty($result['error']) && !isset($result['errorCode'])];
+        return $this->processResult($result);
+    }
+
     /**
      * Handle responses for this particular API
      * @param  array    $result  result from an API call
@@ -101,7 +148,7 @@ class LinkedInAPI implements Connection
      */
     private function processResult($result)
     {
-        if (!empty($result['error'])) return ConnectionConnector::responseError(@$result['message'], @$result['status']);
+        if (!empty($result['error']) || isset($result['errorCode'])) return ConnectionConnector::responseError(@$result['message'], @$result['status']);
         return @$result['values'] ? $result['values'] : $result;
     }
 }

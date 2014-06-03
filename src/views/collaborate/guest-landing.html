@@ -1,0 +1,15 @@
+<div class="collaborate view full-width-view">
+    <h2 class="module-header">Collaborate</h2>
+    <div class="container">
+        <p>
+            <strong>{{ guest.name }}</strong>, you have been invited by 
+            <strong>{{ guest.content.user.first_name }} {{ guest.content.user.last_name }}</strong>
+            to collaborate on his concept, <strong>{{ guest.content.title }}</strong>.            
+        </p>
+        <p>
+            {{ guest.content.user.first_name }} has invited you via {{ guest.connection.name }}, you'll 
+            have to sign in via that service before you can collaborate:
+        </p>
+        <a target="_self" ng-href="/api/guest-collaborators/{{ guest.id }}/link-account" class="btn btn-inverse">Sign in with {{ guest.connection.name }}</a>
+    </div>
+</div>

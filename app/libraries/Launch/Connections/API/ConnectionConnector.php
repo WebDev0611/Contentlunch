@@ -83,7 +83,7 @@ class ConnectionConnector
      */
     static function makeAccessCode($id)
     {
-        return uniqid($id);
+        return uniqid($id, true);
     }
 
     /**

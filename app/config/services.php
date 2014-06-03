@@ -49,7 +49,7 @@ return [
   'linkedin' => [
     'key' => '75v9b2qqxfhxrf',
     'secret' => 'EpLWyw4wv73LyW57',
-    'scope' => ['r_basicprofile', 'r_network', 'w_messages'],
+    'scope' => ['r_basicprofile', 'r_network', 'w_messages', 'r_fullprofile', 'rw_groups'],
     'callback_domain' => 'http://local.contentlaunch.com'
   ],
   'salesforce' => [
