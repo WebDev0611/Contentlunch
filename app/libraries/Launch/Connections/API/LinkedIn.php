@@ -109,12 +109,7 @@ class LinkedInAPI implements Connection
 
         $payload = [
             'title'   => $message['subject'],
-            'summary' => $message['body'],
-            'content' => [
-                'title'        => $message['subject'],
-                'description'  => $message['body'],
-                'submittedUrl' => $link,
-            ]
+            'summary' => "{$message['body']}\n\n{$link}"
         ];
 
         // <post>
@@ -150,7 +145,7 @@ class LinkedInAPI implements Connection
      */
     private function processResult($result)
     {
-        if (!empty($result['error']) || isset($result['errorCode'])) return ConnectionConnector::responseError(@$result['message'], @$result['status']);
+        if (!empty($result['error']) || isset($result['errorCode'])) return ConnectionConnector::responseError(@$result['message'], @$result['status'], $result);
         return @$result['values'] ? $result['values'] : $result;
     }
 }

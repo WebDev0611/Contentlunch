@@ -46,7 +46,7 @@ angular.module('launch')
                 return {
                     id: group.group.id,
                     name: group.group.name
-                }
+                };
             });
         }
     };

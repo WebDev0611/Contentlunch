@@ -159,6 +159,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
 
             $scope.guestCollaborators = guests;
         }).catch(function (err) {
+            notify.error(((err.data || {}).errors || []).join('<br>') || err.data || err);
             console.error(err);
         });
     };

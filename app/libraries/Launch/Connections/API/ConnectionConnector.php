@@ -48,7 +48,7 @@ class ConnectionConnector
      *                         400s so the user isn't logged out of the ContentLaunch system
      * @return json
      */
-    static function responseError($error = 'Unknown error.', $status = 400)
+    static function responseError($error = 'Unknown error.', $status = 400, $originalResponse = [])
     {
         // a 401 will log the user out of CL. We don't want a 401 from
         // a connection to log out our user out of the CL system!
@@ -56,7 +56,7 @@ class ConnectionConnector
 
         if (!$error) $error = 'Unknown error.';
 
-        return Response::json(['errors' => [$error]], $status);
+        return Response::json(['errors' => [$error], 'response' => $originalResponse], $status);
     }
 
     /**

@@ -223,7 +223,10 @@
                             <span class="cl-badge-image cl-badge-image-small fa fa-{{ collab.connection.provider }}" style="background-image: none;"></span>
                             <div class="cl-badge-caption">
                                 {{ collab.name }}
-                                <div ng-hide="collab.accepted" style="margin-top:-7px;"><small>Awaiting Reply</small></div>
+                                <div ng-hide="collab.accepted" style="margin-top:-7px;">
+                                    <small ng-hide="collab.type == 'group'">Awaiting Reply</small>
+                                    <small ng-show="collab.type == 'group'">Posted to Group</small>
+                                </div>
                             </div>
 
                             <span class="fa fa-trash-o pull-right" ng-click="removeGuestCollaborator(collab)"></span>
