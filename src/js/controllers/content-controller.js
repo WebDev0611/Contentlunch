@@ -71,11 +71,13 @@
 			}
 		};
 
-		self.updateContentConnection = function() {
-			var contentConnectionIds = $.map($scope.contentConnectionIds, function (id) { return parseInt(id); });
-			var contentConnections = $.grep($scope.contentConnections, function (cc) { return $.inArray(cc.id, contentConnectionIds) >= 0; });
+		self.updateContentConnection = function () {
+			if ($.isArray($scope.contentConnectionIds)) {
+				var contentConnectionIds = $.map($scope.contentConnectionIds, function (id) { return parseInt(id); });
+				var contentConnections = $.grep($scope.contentConnections, function (cc) { return $.inArray(cc.id, contentConnectionIds) >= 0; });
 
-			$scope.content.accountConnections = contentConnections;
+				$scope.content.accountConnections = contentConnections;
+			}
 		};
 
 		self.handleSaveContent = function (callback) {
@@ -133,7 +135,6 @@
 		};
 
 		$scope.content = null;
-		//$scope.contentAttachments = null;
 		$scope.contentTypes = null;
 		$scope.contentSettings = null;
 		$scope.contentConnections = null;

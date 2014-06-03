@@ -1149,8 +1149,6 @@ span[class*=" icon-"].dark {
   color: #ffffff;
 }
 .role-editor .panel-group .panel .panel-collapse .panel-body {
-  max-height: 320px;
-  overflow: auto;
   padding: 16px 0;
 }
 .role-editor .panel-group .panel .panel-collapse .panel-body table.privileges-list {
@@ -1444,7 +1442,8 @@ span[class*=" icon-"].dark {
   background-color: #000000;
   color: #ffffff;
 }
-.create .right-pane .create-header .create-download .btn {
+.create .right-pane .create-header .create-download .btn,
+.create .right-pane .create-header .create-delete .btn {
   font-size: 15pt;
 }
 .create .right-pane .create-header .create-paging-controls {
@@ -1474,6 +1473,10 @@ span[class*=" icon-"].dark {
   padding: 8px;
   position: relative;
   text-align: left;
+}
+.create .right-pane .create-table-container table.create-table tr td.small-cell,
+.create .right-pane .create-table-container table.create-table tr th.small-cell {
+  width: 50px;
 }
 .create .right-pane .create-table-container table.create-table tr td > span,
 .create .right-pane .create-table-container table.create-table tr th > span {
@@ -1511,6 +1514,11 @@ span[class*=" icon-"].dark {
 .create .right-pane .create-table-container table.create-table tr td .workflow-info .error,
 .create .right-pane .create-table-container table.create-table tr th .workflow-info .error {
   font-weight: normal;
+}
+.create .right-pane .create-table-container table.create-table tr td input[type="checkbox"].form-control,
+.create .right-pane .create-table-container table.create-table tr th input[type="checkbox"].form-control {
+  height: 20px;
+  width: 20px;
 }
 .create .right-pane .create-table-container table.create-table tr.dark td {
   background-color: #E6E4E0;
@@ -1709,6 +1717,7 @@ span[class*=" icon-"].dark {
 .section-header .paging-controls > * {
   display: inline-block;
   margin: 0 16px;
+  vertical-align: middle;
 }
 .section-header .paging-controls .pager .pagination {
   margin: 0;
@@ -1754,6 +1763,9 @@ span[class*=" icon-"].dark {
 .nudge-down {
   margin-bottom: 1em;
 }
+.large-nudge-down {
+  margin-bottom: 2em;
+}
 .cl-badge {
   margin: 0 .5em;
 }
@@ -1786,6 +1798,15 @@ span[class*=" icon-"].dark {
   display: inline-block;
   vertical-align: middle;
   margin: 0 0.5em 0 0;
+}
+.cl-badge.cl-badge-horizontal .cl-badge-image.fa {
+  color: #f2f0ec;
+  text-align: center;
+}
+.cl-badge.cl-badge-horizontal .cl-badge-image.fa:before {
+  font-size: 22px;
+  display: inline-block;
+  margin-top: -4px;
 }
 .cl-badge.cl-badge-horizontal .cl-badge-caption {
   display: inline-block;
@@ -1899,6 +1920,16 @@ table.structural.small-headers th {
 table.structural tbody td {
   padding-bottom: 15px;
 }
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+  background-color: #e6e4e0;
+}
+.disabled-row {
+  color: #aaa;
+}
+.disabled-row a {
+  color: #8fa4bb;
+}
 .align-center {
   text-align: center;
 }
@@ -1946,6 +1977,19 @@ table.structural tbody td {
 .accordion-blend .panel-group .panel-heading {
   background-color: transparent;
   border-bottom: solid 1px #000000;
+}
+.accordion-header {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #555;
+}
+.accordion-header i {
+  display: inline-block;
+  width: 16px;
+}
+.accordion-body {
+  padding: 10px;
+  margin-bottom: 10px;
 }
 .small-nudge-down {
   margin-bottom: 8px;
@@ -2162,4 +2206,23 @@ hr.simple-divider {
   border: 0 none;
   margin: 20px 0;
   padding: 0;
+}
+.slide-toggle.ng-hide {
+  display: block !important;
+}
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  float: none;
+  margin: 0;
+  margin-right: 0;
+  display: inline-block;
+}
+.header-message {
+  background: #80ABC3;
+  color: #fff;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 10px;
 }
