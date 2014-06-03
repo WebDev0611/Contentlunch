@@ -80,15 +80,17 @@ class TwitterAPI implements Connection
                 'format'  => 'array'
             ]);
 
-            ConnectionConnector::createGuestCollaborator([
-                'connection_user_id' => $id,
-                'name'               => $name,
-                'connection_id'      => $this->accountConnection['connection_id'],
-                'content_id'         => $contentID,
-                'access_code'        => $accessCode,
-            ]);
-
             $results[$id] = empty($result['errors']);
+
+            if ($results[$id]) {
+                ConnectionConnector::createGuestCollaborator([
+                    'connection_user_id' => $id,
+                    'name'               => $name,
+                    'connection_id'      => $this->accountConnection['connection_id'],
+                    'content_id'         => $contentID,
+                    'access_code'        => $accessCode,
+                ]);
+            }
         }
 
         return $this->processResult($results);

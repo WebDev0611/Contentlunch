@@ -19,7 +19,7 @@ class ServiceFactory {
 
   protected $provider;
 
-  protected $service;
+  public $service;
 
   protected $storage;
 

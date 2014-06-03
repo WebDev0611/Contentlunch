@@ -78,9 +78,12 @@ class GuestCollaboratorsController extends BaseController {
         $service = new ServiceFactory($connection->provider);
         $settings = $service->getCallbackData();
 
-        // TODO see if we need to do something different for LinkedIn
-        if ($settings['token']
-                ->getExtraParams()['user_id'] !== $guest->connection_user_id) {
+        $connectionUserId = self::extractUserId($settings['token'], $service, $connection->provider);
+        if (!$connectionUserId) {
+            return self::staticResponseError("Could not extract user ID from provider: {$provider}");
+        }
+
+        if ($connectionUserId !== $guest->connection_user_id) {
             return self::staticResponseError('Account used in invitation does not match that user. Please lot in with the account associated with ' . $guest->name);
         }
 
@@ -89,5 +92,20 @@ class GuestCollaboratorsController extends BaseController {
         $guest->save();
 
         return Redirect::to('/content/' . $guest->content_id);
+    }
+
+    static function extractUserId($token, $service, $provider)
+    {
+        switch ($provider) {
+            case 'twitter':
+                // yay Twitter for being simple
+                return $token->getExtraParams()['user_id'];
+            case 'linkedin':
+                $result = $service->service->request('/people/~:(id)?format=json');
+                return json_decode($result, true)['id'];
+            
+            default:
+                return false;
+        }
     }
 }
