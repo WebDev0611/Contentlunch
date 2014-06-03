@@ -52,4 +52,13 @@ class GuestCollaborator extends Ardent {
         }
         return $values;
     }
+
+    public function cloneMe()
+    {
+        $class = get_called_class();
+        $clone = new $class($this->toArray());
+        unset($clone->id);
+        $clone->exists = false;
+        return $clone;
+    }
 }

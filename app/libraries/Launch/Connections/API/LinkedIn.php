@@ -38,7 +38,7 @@ class LinkedInAPI implements Connection
      */
     public function getFriends($page = 0, $perPage = 1000)
     {
-        $result = $this->linkedIn->api('v1/people/~/connections:(id,headline,first-name,last-name,industry,public-profile-url)', ['count' => $perPage, 'start' => $page]);
+        $result = $this->linkedIn->api('v1/people/~/connections:(id,headline,first-name,last-name,industry,public-profile-url)'); //, ['count' => $perPage, 'start' => $page]);
         return $this->processResult($result);
     }
 
@@ -69,26 +69,28 @@ class LinkedInAPI implements Connection
 
             $payload = [
                 "recipients" => [
-                    "values" => [
+                    "values" => [[
                         "person" => [
                             "_path" => "/people/id={$id}",
                         ]
-                    ]
+                    ]]
                 ],
                 "subject" => $message['subject'],
                 "body"    => "{$message['body']}\n\n{$link}"
             ];
 
-            ConnectionConnector::createGuestCollaborator([
-                'connection_user_id' => $id,
-                'name'               => $name,
-                'connection_id'      => $this->accountConnection['connection_id'],
-                'content_id'         => $contentID,
-                'access_code'        => $accessCode,
-            ]);
-
             $result = $this->linkedIn->api('v1/people/~/mailbox', [], 'POST', $payload);
-            $results[$id] = empty($result['errors']);
+            $results[$id] = empty($result['error']) && !isset($result['errorCode']);
+
+            if ($results[$id]) {
+                ConnectionConnector::createGuestCollaborator([
+                    'connection_user_id' => $id,
+                    'name'               => $name,
+                    'connection_id'      => $this->accountConnection['connection_id'],
+                    'content_id'         => $contentID,
+                    'access_code'        => $accessCode,
+                ]);
+            }
         }
 
         return $this->processResult($results);
@@ -96,7 +98,7 @@ class LinkedInAPI implements Connection
 
     public function getGroups($page = 0, $perPage = 1000)
     {
-        $result = $this->linkedIn->api('v1/people/~/group-memberships', ['count' => $perPage, 'start' => $page]);
+        $result = $this->linkedIn->api('v1/people/~/group-memberships'); // ['count' => $perPage, 'start' => $page]);
         return $this->processResult($result);
     }
 
@@ -107,12 +109,7 @@ class LinkedInAPI implements Connection
 
         $payload = [
             'title'   => $message['subject'],
-            'summary' => $message['body'],
-            'content' => [
-                'title'        => $message['subject'],
-                'description'  => $message['body'],
-                'submittedUrl' => $link
-            ]
+            'summary' => "{$message['body']}\n\n{$link}"
         ];
 
         // <post>
@@ -148,7 +145,7 @@ class LinkedInAPI implements Connection
      */
     private function processResult($result)
     {
-        if (!empty($result['error']) || isset($result['errorCode'])) return ConnectionConnector::responseError(@$result['message'], @$result['status']);
+        if (!empty($result['error']) || isset($result['errorCode'])) return ConnectionConnector::responseError(@$result['message'], @$result['status'], $result);
         return @$result['values'] ? $result['values'] : $result;
     }
 }

@@ -50,6 +50,7 @@ class AccountConnectionsController extends BaseController {
     if ($action) {
       switch($action) {
         case 'finish_guest': return GuestCollaboratorsController::finishGuest(); break;
+        case 'finish_group': return GuestCollaboratorsController::finishGroup(); break;
       }
     }
 
