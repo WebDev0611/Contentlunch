@@ -42,6 +42,9 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'destroy']
   ]);
 
+  // we need a route to get a single Guest Collaborator without being logged in (i.e. no account/content/campaign ID)
+  Route::get('guest-collaborators/{accessCode}', 'GuestCollaboratorsController@show');
+  Route::get('guest-collaborators/{guestID}/link-account', 'GuestCollaboratorsController@linkAccount');
 
   Route::resource('account/{accountID}/content/{contentID}/comments', 'AccountContentCommentsController', [
     'only' => ['index', 'store']

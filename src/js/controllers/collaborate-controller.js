@@ -1,10 +1,12 @@
 ﻿launch.module.controller('CollaborateController', 
         ['$scope', '$rootScope', '$location', 'Restangular', '$q', 'AuthService', '$filter', '$routeParams', '$modal', 'guestCollaborators', 'NotificationService', 
 function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,   $filter,   $routeParams,   $modal,   guestCollaborators,   notify) {
-	$scope.pagination = {
+    $scope.pagination = {
         pageSize: 5,
         currentPage: 1,
     };
+    $scope.pagination2 = angular.copy($scope.pagination);
+
 
     // Get & Setup Our Data
     // -------------------------
@@ -86,26 +88,35 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
         });
     };
 
-    $scope.openInviteModal = function (connection) {
+    $scope.openInviteModal = function (connection, group) {
         console.log(connection.recipients);
-        if (!connection.recipients || !connection.recipients.length) {
-            notify.notify('Please choose at least one recepient.');
-            return;
+        var recipients;
+        if (group) {
+            recipients = [group];
+        } else {
+            if (!connection.recipients || !connection.recipients.length) {
+                notify.notify('Please choose at least one recepient.');
+                return;
+            }    
+            recipients = connection.recipients;
         }
         
         $modal.open({
             templateUrl: '/assets/views/collaborate/invite-modal.html',
             size: 'lg',
-            controller: ['$scope', 'recipients', 'link', 'provider', function (_scope, recipients, link, provider) {
+            controller: ['$scope', 'recipients', 'link', 'provider', 'isGroup', 
+                function (_scope,   recipients,   link,   provider,   isGroup) {
                 console.log(recipients, link, provider);
                 _scope.recipients = recipients;
                 _scope.provider = provider;
+                _scope.isGroup = isGroup;
                 _scope.linkLength = (link || {}).len || 0;
                 if (provider == 'twitter') _scope.linkLength += 2; // 2 newlines
             }],
             resolve: { 
-                recipients: function () { return connection.recipients; },
+                recipients: function () { return recipients; },
                 provider: function () { return connection.connection_provider; },
+                isGroup: function () { return !!group; },
                 link: connection.connection_provider == 'twitter' ?
                         connection.one('twitter-link-length').get().then(function (link) {
                             console.log(link);
@@ -113,14 +124,17 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                         }) :
                         function () { return { len: 0 }; }
             }
+        // the angular.noop here should make it so our catch doesn't catch this if it errors
         }, angular.noop).result.then(function (message) {
-            return connection.all('message').post({
+            return connection.all('message' + (group ? '-group' : '')).post({
                 friends:   _.mapObject(connection.recipients, function (recip) {
                     return [recip.id, recip.name];
                 }),
+                group: group,
                 message:   message,
                 contentId: $routeParams.id
             });
+        // the angular.noop here should make it so our catch doesn't catch this if it errors
         }, angular.noop).then(function (response) {
             connection.recipients = [];
             if (!angular.isDefined(response)) return;
@@ -155,10 +169,15 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
 
         connection.spinner = true;
 
-        connection.getList('friends').then(function (friends) {
+        $q.all({
+            friends: connection.getList('friends'),
+            groups: connection.connection_provider == 'linkedin' ? connection.getList('groups') : false
+        }).then(function (responses) {
             // this attaches connection.friends and connections.friendsHeaders
-            // and formats the data and fields as needed to work with the template
-            guestCollaborators.parseFriends(connection, friends);
+            // and formats the data and fields as needed to work with the template.
+            // it also does some stuff for LinkedIn groups (but not for Twitter)
+            guestCollaborators.parseFriends(connection, responses.friends);
+            if (responses.groups) guestCollaborators.parseGroups(connection, responses.groups);
         }, function (err) {
             console.error(err);
             notify.error('There was an error getting your followers/connections.');

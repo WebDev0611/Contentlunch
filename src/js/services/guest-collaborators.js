@@ -39,6 +39,15 @@ angular.module('launch')
                     return arr;
                 });
             }
+        },
+        parseGroups: function (connection, groups) {
+            if (!groups) return;
+            connection.groups = _.map(groups, function (group) {
+                return {
+                    id: group.group.id,
+                    name: group.group.name
+                }
+            });
         }
     };
 }]);

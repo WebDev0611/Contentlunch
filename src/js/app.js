@@ -15,7 +15,8 @@
 					})
 					.when('/login', {
 						controller: 'LoginController',
-						templateUrl: '/assets/views/login.html'
+						templateUrl: '/assets/views/login.html',
+						allowAnon: true
 					})
 					.when('/account', {
 						controller: 'AccountController',
@@ -97,6 +98,11 @@
 						controller: 'CollaborateController',
 						templateUrl: '/assets/views/collaborate/list.html'
 					})
+					.when('/collaborate/guest/:accessCode', {
+						controller: 'GuestCollaboratorController',
+						templateUrl: '/assets/views/collaborate/guest-landing.html',
+						allowAnon: true
+					})
 					.when('/collaborate/:conceptType/:id', {
 						controller: 'CollaborateController',
 						templateUrl: '/assets/views/collaborate/single.html'
@@ -171,11 +177,9 @@
 					//			THIS MAY BE BETTER TO DO IN EACH CONTROLLER, HOWEVER?
 					if ($location.path() === '/login') {
 						authService.logout();
-					} else if ($location.path() === '/reset') {
-
-					} else if ($location.path().indexOf('/user/confirm') === 0) {
-
-					} else if (!authService.isLoggedIn()) {
+					} else if (!next.allowAnon && !authService.isLoggedIn()) {
+						// if you want a page to be allowed access anonymously,
+						// set the flag "allowAnon" to true in the route defintion
 						authService.fetchCurrentUser({
 							success: fetchCurrentUser
 						});
