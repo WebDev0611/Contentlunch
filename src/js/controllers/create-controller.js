@@ -39,6 +39,9 @@
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, self.ajaxHandler);
 
+			// TODO: WE NEED A PRIVILEGE THAT ALLOWS A USER TO DELETE CONTENT!!
+			//$scope.canDelete = self.loggedInUser.hasPrivilege('');
+
 			self.loadContent();
 		};
 
@@ -61,6 +64,7 @@
 		$scope.content = null;
 		$scope.filteredContent = null;
 		$scope.pagedContent = null;
+		$scope.canDelete = false;
 
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
@@ -183,8 +187,19 @@
 
 				this.applyFilter();
 			},
-			toggleContentStage: function(stage) {
+			toggleContentStage: function (stage) {
+				this.searchTerm = null;
+				this.myTasks = false;
+				this.contentTypes = null;
+				this.milestones = null;
+				this.buyingStages = null;
+				this.campaigns = null;
+				this.users = null;
+				
 				this.contentStage = stage;
+
+				$.each($scope.content, function(i, c) { c.isSelected = false; });
+
 				this.applyFilter();
 			},
 			toggleMyTasks: function() {
@@ -241,6 +256,24 @@
 
 		$scope.download = function() {
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
+		};
+
+		$scope.deleteSelected = function () {
+			if ($scope.search.contentStage === 'content') {
+				return;
+			}
+
+			var itemsToDelete = $.grep($scope.content, function (c) { return c.isSelected; });
+
+			$.each(itemsToDelete, function(i, c) {
+				contentService.delete(self.loggedInUser.account.id, c, {
+					success: function(r) {
+						$scope.content = $.grep($scope.content, function(ct) { return ct.id !== c.id; });
+						$scope.search.applyFilter(false);
+					},
+					error: self.ajaxHandler.error
+				});
+			});
 		};
 
 		$scope.handleNextStep = function (content) {

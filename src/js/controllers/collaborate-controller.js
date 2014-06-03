@@ -89,7 +89,6 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     };
 
     $scope.openInviteModal = function (connection, group) {
-        console.log(connection.recipients);
         var recipients;
         if (group) {
             recipients = [group];
@@ -97,7 +96,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
             if (!connection.recipients || !connection.recipients.length) {
                 notify.notify('Please choose at least one recepient.');
                 return;
-            }    
+            }
             recipients = connection.recipients;
         }
         
@@ -160,6 +159,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
 
             $scope.guestCollaborators = guests;
         }).catch(function (err) {
+            notify.error(((err.data || {}).errors || []).join('<br>') || err.data || err);
             console.error(err);
         });
     };

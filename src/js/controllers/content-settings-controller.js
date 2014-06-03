@@ -1,5 +1,5 @@
 ﻿launch.module.controller('ContentSettingsController', [
-	'$scope', '$location', '$modal', 'AuthService', 'AccountService', 'UserService', 'ContentService', 'ContentSettingsService', 'NotificationService', function ($scope, $location, $modal, authService, accountService, userService, contentService, contentSettingsService, notificationService) {
+	'$scope', '$location', '$modal', 'AuthService', 'AccountService', 'UserService', 'ContentService', 'ContentSettingsService', 'NotificationService', function($scope, $location, $modal, authService, accountService, userService, contentService, contentSettingsService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -12,10 +12,10 @@
 			$scope.canEditPersonas = self.loggedInUser.hasPrivilege('settings_edit_personas');
 
 			$scope.contentTypes = contentService.getContentTypes({
-				success: function (r) {
+				success: function(r) {
 
 				},
-				error: function (r) {
+				error: function(r) {
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
 				}
 			});
@@ -31,9 +31,9 @@
 			});
 		};
 
-		self.refreshContentSettings = function (onAfterSave) {
+		self.refreshContentSettings = function(onAfterSave) {
 			$scope.contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
-				success: function (r) {
+				success: function(r) {
 					self.isDirty = false;
 
 					if ($.isFunction(onAfterSave)) {
@@ -54,11 +54,11 @@
 		$scope.canEditPersonas = false;
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 
-		$scope.updateContentSettings = function (refresh, onAfterSave) {
+		$scope.updateContentSettings = function(refresh, onAfterSave) {
 			$scope.isSaving = true;
 
 			contentSettingsService.update($scope.contentSettings, {
-				success: function (r) {
+				success: function(r) {
 					$scope.isSaving = false;
 					self.isDirty = false;
 					notificationService.success('Success!!', 'Successfully saved Content Settings!');
@@ -71,7 +71,7 @@
 						onAfterSave();
 					}
 				},
-				error: function (r) {
+				error: function(r) {
 					$scope.isSaving = false;
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
 				}
@@ -82,32 +82,32 @@
 			self.isDirty = true;
 		};
 
-		$scope.addNewPersona = function () {
+		$scope.addNewPersona = function() {
 			$scope.contentSettings.addEmptyPerona();
 		};
 
-		$scope.deletePersona = function (index) {
-      $modal.open({
-        templateUrl: 'confirm.html',
-        controller: [
-          '$scope', '$modalInstance', function (scp, instance) {
-            scp.message = 'Are you sure want to delete this persona?';
-            scp.okButtonText = 'Delete';
-            scp.cancelButtonText = 'Cancel';
-            scp.onOk = function () {
-              $scope.contentSettings.deletePersona(index);
-              self.isDirty = true;
-              instance.close(); 
-            };
-            scp.onCancel = function() {
-              instance.dismiss('cancel');
-            };
-          }
-        ]
-      })
+		$scope.deletePersona = function(index) {
+			$modal.open({
+				templateUrl: 'confirm.html',
+				controller: [
+					'$scope', '$modalInstance', function(scp, instance) {
+						scp.message = 'Are you sure want to delete this persona?';
+						scp.okButtonText = 'Delete';
+						scp.cancelButtonText = 'Cancel';
+						scp.onOk = function() {
+							$scope.contentSettings.deletePersona(index);
+							self.isDirty = true;
+							instance.close();
+						};
+						scp.onCancel = function() {
+							instance.dismiss('cancel');
+						};
+					}
+				]
+			})
 		};
 
-		$scope.confirmCancel = function (isFromUi, onAfterSave) {
+		$scope.confirmCancel = function(isFromUi, onAfterSave) {
 			if (self.isDirty) {
 				$modal.open({
 					templateUrl: 'confirm.html',
@@ -116,7 +116,7 @@
 							scp.message = 'You have not saved your changes. Do you you want to discard your changes?';
 							scp.okButtonText = isFromUi ? 'Cancel' : 'Save Changes';
 							scp.cancelButtonText = 'Discard Changes';
-							scp.onOk = function () {
+							scp.onOk = function() {
 								if (!isFromUi) {
 									$scope.updateContentSettings(true, onAfterSave);
 								}
