@@ -130,8 +130,24 @@ class GuestCollaboratorsController extends BaseController {
     {
         switch ($provider) {
             case 'linkedin':
-                $result = $service->service->request("/groups/{$groupId}:(id)?format=json");
-                return !!@json_decode($result, true)['id'];
+                $result = $service->service->request("/groups/{$groupId}:(id,relation-to-viewer:(membership-state,available-actions))?format=json");
+                $result = json_decode($result, true);
+                $membershipCode = $result['relationToViewer']['membershipState']['code'];
+                return in_array($membershipCode, [
+                    // should be one of these 8 options:
+                    
+                    // these 4 should not be allowed
+                    // 'blocked'
+                    // 'non-member'
+                    // 'awaiting-confirmation'
+                    // 'awaiting-parent-group-confirmation'
+
+                    // these 4 should be allowed
+                    'member',
+                    'moderator',
+                    'manager',
+                    'owner',
+                ]);
             
             default:
                 return false;
