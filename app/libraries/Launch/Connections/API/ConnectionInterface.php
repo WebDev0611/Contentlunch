@@ -30,5 +30,5 @@ interface Connection
      * @param  int    $contentID ID of the content to associate the guest with
      * @return Response        200 on success, an error from ConnectionConnector::responseError on failure
      */
-    public function sendDirectMessage(array $ids, array $message, $contentID);
+    public function sendDirectMessage(array $friends, array $message, $contentID, $contentType);
 }

@@ -60,7 +60,7 @@ class LinkedInAPI implements Connection
      * @param  int    $contentID ID of the content to associate the guest with
      * @return Response        200 on success, an error from ConnectionConnector::responseError on failure
      */
-    public function sendDirectMessage(array $friends, array $message, $contentID)
+    public function sendDirectMessage(array $friends, array $message, $contentID, $contentType)
     {
         $results = [];
         foreach ($friends as $id => $name) {
@@ -130,6 +130,7 @@ class LinkedInAPI implements Connection
             'name'               => $group['name'],
             'connection_id'      => $this->accountConnection['connection_id'],
             'content_id'         => $contentID,
+            'content_type'       => $contentType,
             'access_code'        => $accessCode,
             'type'               => 'group',
         ]);

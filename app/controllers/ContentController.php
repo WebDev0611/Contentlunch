@@ -91,7 +91,8 @@ class ContentController extends BaseController {
 
   public function show($accountID, $id)
   {
-    if ( ! $this->inAccount($accountID)) {
+    $hasGuestAccess = GuestCollaborator::guestCanViewContent($id);
+    if (!$hasGuestAccess && !$this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
     $content = Content::with('campaign')

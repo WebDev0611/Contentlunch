@@ -80,7 +80,8 @@
 					})
 					.when('/create/content/edit/:contentId', {
 						controller: 'ContentController',
-						templateUrl: '/assets/views/content-edit.html'
+						templateUrl: '/assets/views/content-edit.html',
+						allowAnon: true
 					})
 					.when('/create/content/view/:contentId', {
 						controller: 'ContentController',

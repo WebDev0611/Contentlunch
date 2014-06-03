@@ -21,6 +21,7 @@ class GuestCollaborator extends Ardent {
         'name'               => 'required',
         'connection_id'      => 'required',
         'content_id'         => 'required',
+        'content_type'       => 'required',
     ];
 
     public function content()
@@ -60,5 +61,16 @@ class GuestCollaborator extends Ardent {
         unset($clone->id);
         $clone->exists = false;
         return $clone;
+    }
+
+    public function canViewContent($contentID)
+    {
+        return self::guestCanViewContent($contentID, $this);
+    }
+
+    static function guestCanViewContent($contentID, $guest = false)
+    {
+        if (!$guest) $guest = Session::get('guest');
+        return $guest && $guest->content_id == $contentID;
     }
 }

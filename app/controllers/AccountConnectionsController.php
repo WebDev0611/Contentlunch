@@ -147,14 +147,15 @@ class AccountConnectionsController extends BaseController {
 
     if (!Request::isMethod('post')) return $this->responseError('message action only accepts POST requests');
 
-    $friends   = Input::get('friends');
-    $message   = Input::get('message');
-    $contentID = Input::get('contentId');
+    $friends     = Input::get('friends');
+    $message     = Input::get('message');
+    $contentID   = Input::get('contentId');
+    $contentType = Input::get('contentType');
 
     $connectionData = $this->show($accountID, $connectionID);
     $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
 
-    return $connectionApi->sendDirectMessage($friends, $message, $contentID);
+    return $connectionApi->sendDirectMessage($friends, $message, $contentID, $contentType);
   }
 
   // only applies to Twitter. returns length of t.co link shortener

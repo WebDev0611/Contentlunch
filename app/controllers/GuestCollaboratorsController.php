@@ -4,16 +4,18 @@ use Launch\OAuth\Service\ServiceFactory;
 
 class GuestCollaboratorsController extends BaseController {
 
-    public function index($accountID, $contentID)
+    public function index($accountID, $contentType, $contentID)
     {
         if (!$this->inAccount($accountID)) {
             return $this->responseAccessDenied();
         }
 
-        return GuestCollaborator::where('content_id', $contentID)->with('connection')->get();
+        return GuestCollaborator::where('content_id', $contentID)
+            ->where('content_type', $contentType)
+            ->with('connection')->get();
     }
 
-    public function destroy($accountID, $contentID, $guestID)
+    public function destroy($accountID, $contentType, $contentID, $guestID)
     {
         if (!$this->inAccount($accountID)) {
             return $this->responseAccessDenied();
@@ -71,7 +73,9 @@ class GuestCollaboratorsController extends BaseController {
         $guest->accepted = true;
         $guest->save();
 
-        return Redirect::to('/content/' . $guest->content_id);
+        Session::put('guest', $guest);
+
+        return Redirect::to('/create/content/edit/' . $guest->content_id);
     }
 
     static function finishGroup()
@@ -95,7 +99,9 @@ class GuestCollaboratorsController extends BaseController {
 
         $guest->save();
 
-        return Redirect::to('/content/' . $guest->content_id);
+        Session::put('guest', $guest);
+
+        return Redirect::to('/create/content/edit/' . $guest->content_id);
     }
 
     static function getUsersName($service, $provider)
@@ -135,7 +141,7 @@ class GuestCollaboratorsController extends BaseController {
                 $membershipCode = $result['relationToViewer']['membershipState']['code'];
                 return in_array($membershipCode, [
                     // should be one of these 8 options:
-                    
+
                     // these 4 should not be allowed
                     // 'blocked'
                     // 'non-member'
