@@ -88,6 +88,7 @@ class LinkedInAPI implements Connection
                     'name'               => $name,
                     'connection_id'      => $this->accountConnection['connection_id'],
                     'content_id'         => $contentID,
+                    'content_type'       => $contentType,
                     'access_code'        => $accessCode,
                 ]);
             }
@@ -102,7 +103,7 @@ class LinkedInAPI implements Connection
         return $this->processResult($result);
     }
 
-    public function sendMessageToGroup($group, $message, $contentID)
+    public function sendMessageToGroup($group, $message, $contentID, $contentType)
     {
         $accessCode = ConnectionConnector::makeAccessCode($group['id']);
         $link       = ConnectionConnector::makeShareLink($accessCode);

@@ -150,7 +150,7 @@ class AccountConnectionsController extends BaseController {
     $friends     = Input::get('friends');
     $message     = Input::get('message');
     $contentID   = Input::get('contentId');
-    $contentType = Input::get('contentType');
+    $contentType = rtrim(Input::get('contentType'), 's');
 
     $connectionData = $this->show($accountID, $connectionID);
     $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
@@ -210,9 +210,10 @@ class AccountConnectionsController extends BaseController {
     $group     = Input::get('group');
     $message   = Input::get('message');
     $contentID = Input::get('contentId');
+    $contentType = rtrim(Input::get('contentType'), 's');
 
     $linkedIn = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
 
-    return $linkedIn->sendMessageToGroup($group, $message, $contentID);
+    return $linkedIn->sendMessageToGroup($group, $message, $contentID, $contentType);
   }
 }

@@ -2,7 +2,7 @@
         ['$scope', '$rootScope', '$location', 'Restangular', '$q', 'AuthService', '$filter', '$routeParams', '$modal', 'guestCollaborators', 'NotificationService', 
 function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,   $filter,   $routeParams,   $modal,   guestCollaborators,   notify) {
     $scope.pagination = {
-        pageSize: 5,
+        pageSize: 10,
         currentPage: 1,
     };
     $scope.pagination2 = angular.copy($scope.pagination);
@@ -43,7 +43,6 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                 _.each(sublist, function (item) {
                     item.type = type;
                     item.type_slug = type === 'Content' ? 'content' : 'campaigns';
-                    // TODO: figure out how we're differentiating collaborators. but for now...
                     item.internalCollaborators = item.collaborators;
                     return list.push(item);
                 });
@@ -110,7 +109,14 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                 _scope.provider = provider;
                 _scope.isGroup = isGroup;
                 _scope.linkLength = (link || {}).len || 0;
-                if (provider == 'twitter') _scope.linkLength += 2; // 2 newlines
+                if (provider == 'twitter') {
+                    _scope.linkLength += 2; // 2 newlines
+
+                    if (_scope.linkLength == 2) {
+                        // then something went wrong with our request. assume link length is 25
+                        _scope.linkLength += 25;
+                    }
+                }
             }],
             resolve: { 
                 recipients: function () { return recipients; },
@@ -131,7 +137,8 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                 }),
                 group: group,
                 message:   message,
-                contentId: $routeParams.id
+                contentId: $routeParams.id,
+                contentType: $routeParams.conceptType
             });
         // the angular.noop here should make it so our catch doesn't catch this if it errors
         }, angular.noop).then(function (response) {
