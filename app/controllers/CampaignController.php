@@ -20,7 +20,7 @@ class CampaignController extends BaseController {
     //   $query->where('status', Input::get('status'));
     // }
 
-    $query->get();
+    return $query->get();
   }
 
   public function store($accountID)

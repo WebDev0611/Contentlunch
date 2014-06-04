@@ -11,8 +11,21 @@ class GuestCollaboratorsController extends BaseController {
         }
 
         return GuestCollaborator::where('content_id', $contentID)
-            ->where('content_type', $contentType)
+            ->where('content_type', rtrim($contentType, 's'))
             ->with('connection')->get();
+    }
+
+    public function me()
+    {
+        $guest = Session::get('guest');
+        if (!$guest) {
+            return $this->responseError('Guest is not logged on.', 401);
+        }
+
+        return GuestCollaborator::where('id', $guest->id)
+            ->with('connection')
+            ->with('content.account')
+            ->first();
     }
 
     public function destroy($accountID, $contentType, $contentID, $guestID)
@@ -66,7 +79,7 @@ class GuestCollaboratorsController extends BaseController {
         list($guest, $service, $settings, $connectionUserId, $provider) = self::checkRequest();
 
         if ($connectionUserId !== $guest->connection_user_id) {
-            return self::staticResponseError('Account used in invitation does not match that user. Please lot in with the account associated with ' . $guest->name);
+            return self::staticResponseError('Account used in invitation does not match that user. Please log in with the account associated with ' . $guest->name);
         }
 
         $guest->settings = $settings;

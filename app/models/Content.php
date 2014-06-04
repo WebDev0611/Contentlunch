@@ -102,6 +102,11 @@ class Content extends Ardent {
     return $this->hasMany('GuestCollaborator', 'content_id', 'id');
   }
 
+  public function account()
+  {
+    return $this->belongsTo('Account');
+  }
+
   public function account_connections()
   {
     return $this->belongsToMany('AccountConnection', 'content_account_connections', 'content_id', 'account_connection_id')
@@ -133,7 +138,7 @@ class Content extends Ardent {
       for ($i=1; $i <= 4 ; $i++) { 
         $task_group = new ContentTaskGroup();
         $task_group->status = $i;
-        $task_group->due_date = date('Y-m-d', time() + 60 * 60 * 24 * 7 * $i);
+        $task_group->due_date = date('Y-m-d', time() + 60 * 60 * 24 * 7 * ($i + 1));
         $task_group->content_id = $content->id;
         $content->task_groups()->save($task_group);
       }
