@@ -51,7 +51,7 @@
 				scope.collaborators = self.service.insertCollaborator(self.loggedInUser.account.id, scope.itemId, parseInt(scope.newCollaborator), {
 					success: function (r) {
 						if ($.isFunction(scope.addCollaboratorCallback)) {
-							scope.addCollaboratorCallback();
+							scope.addCollaboratorCallback(r);
 						}
 					},
 					error: function(r) {
@@ -70,7 +70,7 @@
 				scope.collaborators = self.service.deleteCollaborator(self.loggedInUser.account.id, parseInt(scope.itemId), collaborator.id, {
 					success: function(r) {
 						if ($.isFunction(scope.removeCollaboratorCallback)) {
-							scope.removeCollaboratorCallback(collaborator);
+							scope.removeCollaboratorCallback(r);
 						}
 					},
 					error: function (r) {

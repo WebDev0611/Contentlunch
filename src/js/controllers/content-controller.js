@@ -22,7 +22,12 @@
 
 			$scope.contentConnections = connectionService.queryContentConnections(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
-			$scope.users = userService.getForAccount(self.loggedInUser.account.id, self.ajaxHandler);
+			$scope.users = userService.getForAccount(self.loggedInUser.account.id, {
+				success: function() {
+					$scope.filterCollaborators();
+				},
+				error: self.ajaxHandler.error
+			});
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
 				success: function (r) {
@@ -59,9 +64,6 @@
 
 						$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
 						$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
-
-						// TODO: DO WE NEED TO GET ATTACHMENTS FROM THE API??
-						//$scope.contentAttachments = $scope.content.attachments;
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -150,6 +152,8 @@
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;
 		$scope.defaultTaskGroup = null;
+		$scope.taskUsers = null;
+		$scope.collaborators = null;
 
 		$scope.hasError = launch.utils.isPropertyValid;
 		$scope.errorMessage = launch.utils.getPropertyErrorMessage;
@@ -367,6 +371,40 @@
 		$scope.addAttachment = function(uploadFile) {
 			
 		};
+
+		$scope.filterTaskAssignees = function (collaborators) {
+			if (!$scope.content) {
+				return;
+			}
+
+			$scope.taskUsers = $.grep($scope.users, function (u) {
+				if (u.id === self.loggedInUser.id) {
+					return true;
+				}
+
+				if ($.isArray(collaborators) && collaborators.length > 0) {
+					if ($.grep(collaborators, function (c) { return c.id === u.id; }).length > 0) {
+						return true;
+					}
+				}
+
+				return false;
+			});
+		};
+
+		$scope.filterCollaborators = function() {
+			if (!$scope.content || !$scope.content.author) {
+				return;
+			}
+
+			$scope.collaborators = $.grep($scope.users, function(u) {
+				return u.id !== $scope.content.author.id;
+			});
+		};
+
+		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
+
+		$scope.$watch('content.author', $scope.filterCollaborators);
 
 		$scope.$watch('contentTags', function () {
 			if (!$scope.content || !$scope.content.$resolved) {

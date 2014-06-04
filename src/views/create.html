@@ -1,14 +1,14 @@
 ﻿<div class="view create">
 	<div class="col-md-3 left-pane">
-		<div class="btn-group add-content">
+		<div class="btn-group add-content" ng-show="canCreateContentConcept || canCreateCampaignConcept || canCreateContent">
 			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 				NEW...
 				<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" role="menu">
-				<li ng-click="createNew('content-concept')"><a href="#">Content Concept</a></li>
-				<li ng-click="createNew('campaign-concept')"><a href="#">Campaign Concept</a></li>
-				<li ng-click="createNew('content')"><a href="#">Content</a></li>
+				<li ng-click="createNew('content-concept')" ng-show="canCreateContentConcept"><a href="#">Content Concept</a></li>
+				<li ng-click="createNew('campaign-concept')" ng-show="canCreateCampaignConcept"><a href="#">Campaign Concept</a></li>
+				<li ng-click="createNew('content')" nt-show="canCreateContent"><a href="#">Content</a></li>
 			</ul>
 		</div>
 
@@ -107,18 +107,18 @@
 		<div class="create-header">
 			<h3>Content</h3>
 			
-			<div class="btn-group">
-				<button class="btn btn-default" ng-class="{ active: search.contentStage === 'content' }" ng-click="search.toggleContentStage('content')">Content</button>
-				<button class="btn btn-default" ng-class="{ active: search.contentStage === 'concepts' }" ng-click="search.toggleContentStage('concepts')">Concepts</button>
-				<button class="btn btn-default" ng-class="{ active: search.contentStage === 'archived' }" ng-click="search.toggleContentStage('archived')">Archived</button>
+			<div class="btn-group" ng-show="canViewContent">
+				<button class="btn btn-default" ng-class="{ active: search.contentStage === 'content' }" ng-click="search.toggleContentStage('content')" ng-show="canViewContent">Content</button>
+				<button class="btn btn-default" ng-class="{ active: search.contentStage === 'concepts' }" ng-click="search.toggleContentStage('concepts')" ng-show="canViewConcepts">Concepts</button>
+				<button class="btn btn-default" ng-class="{ active: search.contentStage === 'archived' }" ng-click="search.toggleContentStage('archived')" ng-show="canViewContent">Archived</button>
 			</div>
 			
-			<div class="create-delete">
-				<button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteSelected()"></button>
-			</div>
-
 			<div class="create-download">
 				<button type="button" class="btn btn-default fa fa-download" ng-click="download()"></button>
+			</div>
+
+			<div class="create-delete" ng-show="canDelete && search.contentStage !== 'content'">
+				<button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteSelected()"></button>
 			</div>
 
 			<div class="create-paging-controls">
@@ -187,7 +187,8 @@
 						</td>
 						<td>
 							<div class="workflow-info">
-								<a href="#" ng-click="handleNextStep(c)">{{ formatWorkflowTitle(c.nextStep()) }}</a>
+								<a href="#" ng-click="handleNextStep(c)" ng-show="canEditContent(c)">{{ formatWorkflowTitle(c.nextStep()) }}</a>
+								<span ng-show="!canEditContent(c)">{{ formatWorkflowTitle(c.nextStep()) }}</span>
 								<!--<div class="small-text" ng-class="{ error: highlightDate(c.dueDate) }">Due: {{ formatDate(c.dueDate) }}</div>-->
 							</div>
 						</td>
