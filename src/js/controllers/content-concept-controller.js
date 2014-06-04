@@ -31,15 +31,7 @@
 				$scope.content = contentService.getNewContentConcept(self.loggedInUser);
 				$scope.isNewConcept = true;
 			} else {
-				$scope.content = contentService.get(self.loggedInUser.account.id, contentId, {
-					success: function (r) {
-						// TODO: GET ATTACHMENTS FROM API!!
-						$scope.conceptAttachments = [1, 2, 3, 4, 5];
-					},
-					error: function (r) {
-						launch.utils.handleAjaxErrorResponse(r, notificationService);
-					}
-				});
+				$scope.content = contentService.get(self.loggedInUser.account.id, contentId, self.ajaxHandler);
 				$scope.isNewConcept = false;
 			}
 		};
@@ -50,7 +42,6 @@
 		$scope.isSaving = false;
 
 		$scope.content = null;
-		$scope.conceptAttachments = null;
 		$scope.contentTypes = null;
 		$scope.campaigns = null;
 		$scope.users = null;
@@ -108,8 +99,7 @@
 		};
 
 		$scope.viewInCollaborate = function () {
-			// TODO: CREATE ROUTE TO COLLOBORATING ON A CONTENT ITEM AND TAKE THE USER TO THAT ROUTE HERE!!
-			notificationService.info('WARNING!', 'THIS IS NOT YET IMPLEMENTED!! WE NEED TO CREATE THE ROUTE TO THIS PAGE!!');
+			$location.path('/collaborate/content/' + $scope.content.id);
 		};
 
 		$scope.convertConcept = function() {

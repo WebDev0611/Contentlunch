@@ -59,9 +59,6 @@
 
 						$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
 						$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
-
-						// TODO: DO WE NEED TO GET ATTACHMENTS FROM THE API??
-						//$scope.contentAttachments = $scope.content.attachments;
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);

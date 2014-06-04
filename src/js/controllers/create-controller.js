@@ -1,5 +1,5 @@
 ﻿launch.module.controller('CreateController', [
-	'$scope', '$filter', '$location', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'CampaignService', 'NotificationService', function ($scope, $filter, $location, authService, userService, contentSettingsService, contentService, campaignService, notificationService) {
+	'$scope', '$filter', '$location', '$modal', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'CampaignService', 'NotificationService', function ($scope, $filter, $location, $modal, authService, userService, contentSettingsService, contentService, campaignService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -15,6 +15,27 @@
 
 		self.init = function () {
 			self.loggedInUser = authService.userInfo();
+
+			$scope.canViewConcepts = self.loggedInUser.hasPrivilege(['create_view_ideas_other', 'create_execute_ideas_own']);
+			$scope.canViewContent = self.loggedInUser.hasPrivilege(['create_execute_content_own', 'create_view_content_other_unapproved', 'create_view_content_other']);
+			$scope.canCreateContentConcept = self.loggedInUser.hasPrivilege('create_execute_ideas_own');
+			$scope.canCreateCampaignConcept = self.loggedInUser.hasPrivilege('calendar_execute_campaigns_own');
+			$scope.canCreateContent = self.loggedInUser.hasPrivilege('create_execute_content_own');
+			$scope.editConceptSelf = self.loggedInUser.hasPrivilege('create_execute_ideas_own');
+			$scope.editConceptOthers = self.loggedInUser.hasPrivilege('create_edit_ideas_other');
+			$scope.editContentSelf = self.loggedInUser.hasPrivilege('create_execute_content_own');
+			$scope.editContentOthers = self.loggedInUser.hasPrivilege(['create_edit_content_other', 'create_edit_content_other_unapproved']);
+
+			// TODO: WE NEED A PRIVILEGE THAT ALLOWS A USER TO DELETE CONTENT!!
+			$scope.canDelete = true;//self.loggedInUser.hasPrivilege('');
+
+			if (!$scope.canViewConcepts && !$scope.canViewContent) {
+				$location.path('/');
+			}
+
+			if (!$scope.canViewContent) {
+				$scope.search.contentStage = 'concepts';
+			}
 
 			$scope.milestones = [
 				{ name: 'create', title: 'Created' },
@@ -39,9 +60,6 @@
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, self.ajaxHandler);
 
-			// TODO: WE NEED A PRIVILEGE THAT ALLOWS A USER TO DELETE CONTENT!!
-			//$scope.canDelete = self.loggedInUser.hasPrivilege('');
-
 			self.loadContent();
 		};
 
@@ -56,6 +74,41 @@
 			});
 		};
 
+		self.verifyArchive = function(content, isArchived) {
+			var verb = isArchived ? 'restore' : 'archive';
+
+			if (!$scope.canEditContent(content)) {
+				notificationService.error('Error!', 'You do not have sufficient privileges to ' + verb + ' content. Please contact your administrator for more information.');
+				return;
+			}
+
+			$modal.open({
+				templateUrl: 'confirm.html',
+				controller: [
+					'$scope', '$modalInstance', function (scope, instance) {
+						scope.message = 'Are you sure you want to ' + verb + ' this content?';
+						scope.okButtonText = launch.utils.titleCase(verb);
+						scope.cancelButtonText = 'Cancel';
+						scope.onOk = function () {
+							content.archived = !isArchived;
+
+							contentService.update(self.loggedInUser.account.id, content, {
+								success: function(r) {
+									self.loadContent();
+								},
+								error: self.ajaxHandler.error
+							});
+
+							instance.close();
+						};
+						scope.onCancel = function () {
+							instance.dismiss('cancel');
+						};
+					}
+				]
+			});
+		};
+
 		$scope.milestones = null;
 		$scope.contentTypes = null;
 		$scope.buyingStages = null;
@@ -64,6 +117,16 @@
 		$scope.content = null;
 		$scope.filteredContent = null;
 		$scope.pagedContent = null;
+
+		$scope.canViewContent = false;
+		$scope.canViewConcepts = false;
+		$scope.canCreateContentConcept = false;
+		$scope.canCreateCampaignConcept = false;
+		$scope.canCreateContent = false;
+		$scope.editContentSelf = false;
+		$scope.editContentOthers = false;
+		$scope.editConceptSelf = false;
+		$scope.editConceptOthers = false;
 		$scope.canDelete = false;
 
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
@@ -121,8 +184,8 @@
 					$scope.search.applyFilter();
 				}
 			},
-			applyFilter: function (reset) {
-				$scope.filteredContent = $filter('filter')($scope.content, function (content) {
+			applyFilter: function(reset) {
+				$scope.filteredContent = $filter('filter')($scope.content, function(content) {
 					if ($scope.search.contentStage === 'content' && (content.currentStep() === 'concept' || content.currentStep() === 'archive')) {
 						return false;
 					} else if ($scope.search.contentStage === 'concepts' && content.currentStep() !== 'concept') {
@@ -187,7 +250,7 @@
 
 				this.applyFilter();
 			},
-			toggleContentStage: function (stage) {
+			toggleContentStage: function(stage) {
 				this.searchTerm = null;
 				this.myTasks = false;
 				this.contentTypes = null;
@@ -195,7 +258,7 @@
 				this.buyingStages = null;
 				this.campaigns = null;
 				this.users = null;
-				
+
 				this.contentStage = stage;
 
 				$.each($scope.content, function(i, c) { c.isSelected = false; });
@@ -296,18 +359,26 @@
 				//case 'promote':
 				//	$location.path('create/content/promote/' + content.id);
 				//	break;
-				//case 'archive':
-				//	// TODO: IMPLEMENT ARCHIVE STEP!!
-				//	notificationService.info('NOT IMPLEMENTED!', 'THIS FEATURE IS NOT YET IMPLEMENTED!');
-				//	break;
-				//case 'restore':
-				//	// TODO: IMPLEMENT RESTORE STEP!!
-				//	notificationService.info('NOT IMPLEMENTED!', 'THIS FEATURE IS NOT YET IMPLEMENTED!');
-				//	break;
+				case 'archive':
+				case 'restore':
+					self.verifyArchive(content, content.archived);
+					break;
 				default:
 					$location.path('create/content/edit/' + content.id);
 					//notificationService.info('Unknown Workflow Step', 'The workflow step "' + content.nextStep() + '" is not valid.');
 					break;
+			}
+		};
+
+		$scope.canEditContent = function(content) {
+			if (!content || !content.author) {
+				return false;
+			}
+
+			if (content.author.id === self.loggedInUser.id) {
+				return content.status === 0 ? $scope.editConceptSelf : $scope.editContentSelf;
+			} else {
+				return content.status === 0 ? $scope.editConceptOthers : $scope.editContentOthers;
 			}
 		};
 
