@@ -37,9 +37,9 @@ class AccountContentSettings extends Ardent {
     return $values;
   }
 
-  protected function getDateFormat()
-  {
-    return 'Y-m-d H:i:s';
-  }
+  //protected function getDateFormat()
+  //{
+  //  return 'Y-m-d H:i:s';
+  //}
 
 }

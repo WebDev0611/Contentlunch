@@ -42,10 +42,10 @@ class User extends ConfideUser {
     return 'remember_token';
   }
 
-  protected function getDateFormat()
-  {
-    return 'Y-m-d H:i:s';
-  }
+  //protected function getDateFormat()
+  //{
+  //  return 'Y-m-d H:i:s';
+  //}
 
   public function accounts()
   {

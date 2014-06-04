@@ -31,6 +31,7 @@
 	self.comments = null;
 	self.relatedContent = null;
 	self.tags = null;
+	self.isSelected = false;
 
 	self.taskGroups = null;
 

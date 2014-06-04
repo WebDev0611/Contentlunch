@@ -30,10 +30,10 @@ class Account extends Ardent {
 		'payment_type', 'token', 'yearly_payment'
   ];
 
-	protected function getDateFormat()
-  {
-    return 'Y-m-d H:i:s';
-  }
+	//protected function getDateFormat()
+ // {
+ //   return 'Y-m-d H:i:s';
+ // }
 
   protected function beforeSave()
   {

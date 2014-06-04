@@ -55,7 +55,9 @@
 							}
 
 							if (launch.utils.isBlank(scp.description)) {
-								msg += 'Please enter a description.\n';
+								msg += 'Please enter a Content Title.\n';
+							} else if (scp.description.length > 60) {
+								msg += 'Please limit the Content Title to 60 characters or less.\n';
 							}
 
 							if (!launch.utils.isBlank(msg)) {
