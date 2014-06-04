@@ -35,10 +35,7 @@ Route::group(['prefix' => 'api'], function()
   ]);
 
   // when it comes to guest collaborators, they can be attached to both campaigns and content
-  Route::resource('account/{id}/content/{contentid}/guest-collaborators', 'GuestCollaboratorsController', [
-    'only' => ['index', 'destroy']
-  ]);
-  Route::resource('account/{id}/campaign/{campaignid}/guest-collaborators', 'GuestCollaboratorsController', [
+  Route::resource('account/{accountID}/{contentType}/{contentID}/guest-collaborators', 'GuestCollaboratorsController', [
     'only' => ['index', 'destroy']
   ]);
 

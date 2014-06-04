@@ -33,6 +33,8 @@ class AuthController extends BaseController {
     // Ugly hack to get remember_token past Ardent validation
     // Should be done for logout too
     User::$rules = [];
+    
+    Session::forget('guest');
 
     // If you wish to only allow login from confirmed users, call logAttempt
     // with the second parameter as true.
@@ -151,6 +153,7 @@ class AuthController extends BaseController {
   public function logout()
   {
     User::$rules = [];
+    Session::forget('guest');
     Confide::logout();
     Session::put('impersonate_from', false);
     return ['success' => 'OK'];
