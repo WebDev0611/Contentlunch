@@ -64,8 +64,10 @@
 							//TODO: WHAT PRIVILEGES DO WE CHECK FOR PROMOTE?
 						}
 
-						$scope.canSubmitContent = false;
+						// TODO: VERIFY RULES FOR SUBMITTING CONTENT FOR APPROVAL!!
+						$scope.canSubmitContent = ($scope.content.author.id === self.loggedInUser.id || self.loggedInUser.hasPrivilege('create_edit_content_other_unapproved'));
 						$scope.canApproveContent = self.loggedInUser.hasPrivilege('collaborate_execute_approve');
+						$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
 						$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
 
 						$scope.showRichTextEditor = $scope.content.contentType.allowText();
@@ -175,6 +177,7 @@
 		$scope.canEditContent = false;
 		$scope.canSubmitContent = false;
 		$scope.canApproveContent = false;
+		$scope.canLaunchContent = false;
 		$scope.canDiscussContent = false;
 
 		$scope.formatUserItem = function (item, element, context) {
