@@ -45,6 +45,14 @@
 
 			scope.addCollaborator = function () {
 				if (!self.validateScope()) {
+					scope.newCollaborator = 0;
+					return;
+				}
+
+				scope.newCollaborator = parseInt(scope.newCollaborator);
+
+				if ($.isArray(scope.collaborators) && $.grep(scope.collaborators, function (c) { return c.id === scope.newCollaborator; }).length > 0) {
+					scope.newCollaborator = 0;
 					return;
 				}
 

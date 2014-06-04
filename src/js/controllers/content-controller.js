@@ -22,12 +22,7 @@
 
 			$scope.contentConnections = connectionService.queryContentConnections(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
-			$scope.users = userService.getForAccount(self.loggedInUser.account.id, {
-				success: function() {
-					$scope.filterCollaborators();
-				},
-				error: self.ajaxHandler.error
-			});
+			$scope.users = userService.getForAccount(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
 				success: function (r) {
