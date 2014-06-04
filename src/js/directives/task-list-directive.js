@@ -15,7 +15,16 @@
 
 		self.init = function () {
 			self.loggedInUser = AuthService.userInfo();
+
+			scope.canCreateTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks');
+			scope.canAssignTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks');
+			scope.canEditTasksOthers = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_complete');
 		};
+
+		scope.canCreateTasks = false;
+		scope.canAssignTasks = false;
+		scope.canEditTasksOthers = false;
+
 
 		scope.openCalendar = function (opened, e) {
 			e.stopImmediatePropagation();
@@ -27,24 +36,28 @@
 			return (scope.parentStatus <= taskGroup.status);
 		};
 
-		scope.canEditTask = function (taskGroup) {
+		scope.canEditTask = function (taskGroup, task) {
 			if (!scope.taskGroupIsActive(taskGroup)) {
 				return false;
 			}
 
-			// TODO: FIGURE OUT PRIVILEGES HERE!!
-			//if (!self.loggedInUser.hasPrivilege('create_execute_content_own') && self.loggedInUser.id !== $scope.content.author.id &&
-			//	!self.loggedInUser.hasPrivilege('create_edit_content_other')) {
-			//	return false;
-			//}
-
-			return true;
+			return (!!task && self.loggedInUser.id !== task.userId) ? scope.canEditTasksOthers : true;
 		};
 
 		scope.getUserName = function (id) {
 			var user = launch.utils.getUserById(scope.users, id);
 
 			return (!!user) ? user.formatName() : null;
+		};
+
+		scope.toggleTaskActiveStatus = function (taskGroup, task) {
+			if (task.userId !== self.loggedInUser.id && !scope.canEditTasksOthers) {
+				NotificationService.error('Error!', 'You do not have sufficient privileges to edit a task assigned to someone else. Please contact your administrator for more information.');
+				task.isComplete = !task.isComplete;
+				return;
+			}
+
+			scope.saveTaskGroup(taskGroup, task);
 		};
 
 		scope.saveTaskGroup = function (taskGroup, task) {
@@ -70,11 +83,11 @@
 		};
 
 		scope.editTask = function (taskGroup, task, e) {
-			if (scope.taskGroupIsActive(taskGroup)) {
+			if (scope.canEditTask(taskGroup, task)) {
 				if (!task) {
 					task = new launch.Task();
 					task.taskGroupId = taskGroup.id;
-					task.dueDate = new Date();
+					task.dueDate = new Date(taskGroup.dueDate);
 					task.isComplete = false;
 				}
 
@@ -145,6 +158,7 @@
 		scope: {
 			taskGroups: '=taskGroups',
 			parentStatus: '=parentStatus',
+			authorId: '=authorId',
 			users: '=users'
 		},
 		templateUrl: '/assets/views/task-list.html'

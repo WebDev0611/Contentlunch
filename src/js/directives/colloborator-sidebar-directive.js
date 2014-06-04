@@ -13,6 +13,9 @@
 
 			self.init = function() {
 				self.loggedInUser = AuthService.userInfo();
+
+				scope.canModifyCollaborators = self.loggedInUser.hasPrivilege('collaborate_execute_sendcontent');
+
 				self.service = (scope.itemType.toLowerCase() === 'campaign') ? CampaignService : ContentService;
 			};
 
@@ -26,7 +29,12 @@
 				});
 			};
 
-			self.validateScope = function() {
+			self.validateScope = function () {
+				if (!scope.canModifyCollaborators) {
+					NotificationService.error('Error!!', 'You do not have sufficient privileges to add or remove collaborators. Please contact your administrator for more information.');
+					return false;
+				}
+
 				if (launch.utils.isBlank(scope.itemType) || (scope.itemType.toLowerCase() !== 'content' && scope.itemType.toLowerCase() !== 'campaign')) {
 					NotificationService.error('Error!!', 'Cannot add a colloborator to a ' + scope.itemType + '!');
 					return false;
@@ -42,6 +50,7 @@
 
 			scope.collaborators = null;
 			scope.newCollaborator = 0;
+			scope.canModifyCollaborators = false;
 
 			scope.addCollaborator = function () {
 				if (!self.validateScope()) {

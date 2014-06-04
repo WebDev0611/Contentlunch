@@ -9,7 +9,7 @@
 				<i class="fa" ng-class="{'fa-caret-down': (parentStatus == tg.status), 'fa-caret-right': !(parentStatus == tg.status)}"></i>
 				{{ tg.name() }}
 				
-				<span class="fa fa-plus-circle" ng-class="{ active: taskGroupIsActive(tg) }" ng-click="editTask(tg, null, $event)"></span>
+				<span class="fa fa-plus-circle" ng-class="{ active: taskGroupIsActive(tg) }" ng-click="editTask(tg, null, $event)" ng-show="canCreateTasks"></span>
 				<span class="task-group-header-date" ng-show="!taskGroupIsActive(tg)">Completed: {{ tg.formattedCompleteDate() }}</span>
 				<span class="task-group-header-date" ng-show="taskGroupIsActive(tg)" ng-class="{ error: tg.isOverdue(parentStatus) }">
 					Due: {{ tg.formattedDueDate() }}
@@ -22,14 +22,12 @@
 			<li class="task-group-task" ng-repeat="t in tg.tasks" ng-class="{ disabled: t.isComplete }">
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" ng-model="t.isComplete" ng-disabled="!canEditTask(tg)" ng-change="saveTaskGroup(tg, t)" />
-					{{ t.name }} - 
-					<span ng-class="{ error: t.isOverdue() }">Due: {{ t.formattedDueDate() }}</span>
+					<input type="checkbox" ng-model="t.isComplete" ng-disabled="!canEditTask(tg, t)" ng-change="toggleTaskActiveStatus(tg, t)" />
+					{{ t.name }} - <span ng-class="{ error: t.isOverdue() }">Due: {{ t.formattedDueDate() }}</span>
 				</label>
 				<div>
-					<a ng-click="editTask(tg, t, $event)">
-						Assigned to {{ getUserName(t.userId) }}
-					</a>
+					<a ng-click="editTask(tg, t, $event)" ng-show="canAssignTasks">Assigned to {{ getUserName(t.userId) }}</a>
+					<span ng-hide="canAssignTasks">Assigned to {{ getUserName(t.userId) }}</span>
 				</div>
 			</div>
 			</li>

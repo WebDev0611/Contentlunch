@@ -54,6 +54,20 @@
 
 				$scope.content = contentService.get(self.loggedInUser.account.id, self.contentId, {
 					success: function (r) {
+						if ($scope.content.status <= 3) {
+							$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_view_content_other_unapproved', 'create_view_content_other']);
+							$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_edit_content_other_unapproved', 'create_edit_content_other']);
+						} else if ($scope.content.status === 3) {
+							$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_view_content_other');
+							$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
+						} else {
+							//TODO: WHAT PRIVILEGES DO WE CHECK FOR PROMOTE?
+						}
+
+						$scope.canSubmitContent = false;
+						$scope.canApproveContent = self.loggedInUser.hasPrivilege('collaborate_execute_approve');
+						$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
+
 						$scope.showRichTextEditor = $scope.content.contentType.allowText();
 						$scope.showAddFileButton = $scope.content.contentType.allowFile();
 
@@ -157,6 +171,12 @@
 		$scope.formatContentConnectionItem = launch.utils.formatContentConnectionItem;
 		$scope.formatBuyingStageItem = launch.utils.formatBuyingStageItem;
 
+		$scope.canViewContent = false;
+		$scope.canEditContent = false;
+		$scope.canSubmitContent = false;
+		$scope.canApproveContent = false;
+		$scope.canDiscussContent = false;
+
 		$scope.formatUserItem = function (item, element, context) {
 			var user = $.grep($scope.users, function (u, i) { return u.id === parseInt(item.id); });
 			var style = (user.length === 1 && !launch.utils.isBlank(user[0].image)) ? ' style="background-image: ' + user[0].imageUrl() + '"' : '';
@@ -243,7 +263,32 @@
 			}
 		};
 
-		$scope.submitForEditing = function () {
+		$scope.submitContent = function () {
+			if (!$scope.canSubmitContent) {
+				var action = null;
+
+				switch ($scope.content.status) {
+					case 0:
+						action = 'convert a concept to content';
+						break;
+					case 1:
+						action = 'submit content for approval';
+						break;
+					case 2:
+						action = 'approve content';
+						break;
+					case 3:
+						action = 'launch content';
+						break;
+					case 4:
+						action = 'promote content';
+						break;
+				}
+
+				notificationService.error('Error!', 'You do not have sufficient privileges to ' + action + ' content. Please contact your administrator for more information.');
+				return;
+			}
+
 			var msg = (self.replaceFile) ? 'You have specified a new file to upload. Please save your changes before changing the status of the content.' : '';
 
 			if (launch.utils.isBlank(msg) && $.isArray($scope.content.taskGroups) && $scope.content.taskGroups.length > 0) {
@@ -278,7 +323,7 @@
 
 			var oldStatus = $scope.content.status;
 
-			$scope.content.status = 3;
+			$scope.content.status = oldStatus + 1;
 
 			$scope.saveContent({
 				error: function() {
@@ -395,6 +440,27 @@
 			$scope.collaborators = $.grep($scope.users, function(u) {
 				return u.id !== $scope.content.author.id;
 			});
+		};
+
+		$scope.getNextStepText = function() {
+			if (!$scope.content || !$scope.content.$resolved) {
+				return null;
+			}
+
+			switch ($scope.content.status) {
+				case 0:
+					return 'Convert to Content';
+				case 1:
+					return 'Submit for Review';
+				case 2:
+					return 'Approve';
+				case 3:
+					return 'Launch';
+				case 4:
+					return 'Promote';
+				default:
+					return null;
+			}
 		};
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
