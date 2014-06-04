@@ -13,7 +13,13 @@ class UploadsDescriptionNullable extends Migration {
 	public function up()
 	{
 		Schema::table('uploads', function ($table) {
-      DB::unprepared("ALTER TABLE `uploads` MODIFY COLUMN `description` text NULL");
+      $db = Config::get('database.default');
+      echo ' DB TYPE: '. $db .' ';
+      if ($db == 'sqlserv') {
+        DB::unprepared("ALTER TABLE [uploads] ALTER COLUMN [description] text NULL");
+      } else {
+        DB::unprepared("ALTER TABLE `uploads` MODIFY COLUMN `description` text NULL");
+      }
     });
 	}
 
@@ -25,7 +31,12 @@ class UploadsDescriptionNullable extends Migration {
 	public function down()
 	{
 		Schema::table('uploads', function ($table) {
-      DB::unprepared("ALTER TABLE `uploads` MODIFY COLUMN `description` text NOT NULL");
+      $db = Config::get('database.default');
+      if ($db == 'sqlserv') {
+        DB::unprepared("ALTER TABLE [uploads] ALTER COLUMN [description] text NOT NULL");
+      } else {
+        DB::unprepared("ALTER TABLE `uploads` MODIFY COLUMN `description` text NOT NULL");
+      }
     });
 	}
 
