@@ -15,6 +15,19 @@ class GuestCollaboratorsController extends BaseController {
             ->with('connection')->get();
     }
 
+    public function me()
+    {
+        $guest = Session::get('guest');
+        if (!$guest) {
+            return $this->responseError('Guest is not logged on.', 401);
+        }
+
+        return GuestCollaborator::where('id', $guest->id)
+            ->with('connection')
+            ->with('content.account')
+            ->first();
+    }
+
     public function destroy($accountID, $contentType, $contentID, $guestID)
     {
         if (!$this->inAccount($accountID)) {
