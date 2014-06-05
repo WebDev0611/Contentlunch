@@ -12,7 +12,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     // -------------------------
     var user = AuthService.userInfo();
 
-    var Account = Restangular.one('account', user.account.id), Collab;
+    var Account = Restangular.one('account', user.account.id)
     var requests = {
         users: Account.all('users').getList(),
     };
@@ -24,6 +24,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     });
 
     // sharing controllers since "list" is so simple
+    var Collab;
     if ($routeParams.id) {
         Collab = Account.one($routeParams.conceptType, $routeParams.id);
         requests.selected = Collab.get().then(function (selected) {

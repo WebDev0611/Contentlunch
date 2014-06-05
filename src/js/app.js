@@ -112,6 +112,10 @@
 						controller: 'CalendarController',
 						templateUrl: '/assets/views/calendar.html'
 					})
+					.when('/calendar/campaigns/:campaignId', {
+						controller: 'CampaignController',
+						templateUrl: '/assets/views/calendar/campaign.html'
+					})
 					.when('/launch', {
 						controller: 'LaunchController',
 						templateUrl: '/assets/views/launch.html'
