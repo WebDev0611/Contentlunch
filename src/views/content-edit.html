@@ -1,6 +1,6 @@
 ﻿<div class="view create">
 	<div class="col-md-3 left-pane">
-		<div task-list task-groups="content.taskGroups" parent-status="content.status" users="taskUsers" ng-hide="isNewContent"></div>
+		<div task-list task-groups="content.taskGroups" parent-status="content.status" author-id="content.author.id" users="taskUsers" ng-hide="isNewContent"></div>
 	</div>
 	<div class="col-md-9 right-pane">
 		<h2 class="right-pane-header">Create</h2>
@@ -177,15 +177,15 @@
 					</div>
 
 					<div class="control-group">
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveContent()">Save</button>
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitForEditing()">Submit for Editing</button>
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveContent()" ng-show="canEditContent">Save</button>
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitContent()" ng-show="canSubmitContent">{{ getNextStepText() }}</button>
 					</div>
 					
 					<div files-list="content.attachments" after-add-file-success="addAttachment" users="collaborators" ng-hide="isNewContent"></div>
 				</form>
 			</div>
-			<div class="col-md-3" collaborator-sidebar collaborators="content.collaborators" users="collaborators" item-id="content.id" item-type="'content'"
-				add-collaborator-callback="filterTaskAssignees" remove-collaborator-callback="filterTaskAssignees" ng-hide="isNewContent"></div>
+			<div class="col-md-3" collaborator-sidebar collaborators="content.collaborators" users="collaborators" item-id="content.id" item-type="'content'" ng-hide="isNewContent"
+				add-collaborator-callback="filterTaskAssignees" remove-collaborator-callback="filterTaskAssignees"></div>
 		</div>
 		<div class="row">
 			<div class="col-md-12" ng-hide="isNewContent" discussion-panel discussion="content.comments" item-id="content.id" item-type="'content'" ng-hide="isNewContent"></div>
