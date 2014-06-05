@@ -159,6 +159,18 @@ header {
 					}
 				}
 
+        &.library {
+          background-color: @subscriptionColor;
+
+          .dark {
+            background-color: @subscriptionColorDark;
+          }
+
+          .top-arrow {
+            border-top-color: @subscriptionColor;
+          }
+        }
+
 				.top-arrow {
 					position: absolute;
 					display: none;
@@ -621,7 +633,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	width: 36px;
 }
 
-.users, .accounts, .roles, .content-settings, .seo-settings, .create {
+.users, .accounts, .roles, .content-settings, .seo-settings, .create, .admin-library {
 	.left-pane {
 		position: relative;
 
@@ -706,7 +718,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.users, .accounts, .roles, .content-settings, .seo-settings {
+.users, .accounts, .roles, .content-settings, .seo-settings, .admin-library {
 	.left-pane {
 		.btn-group {
 			.btn-create {
@@ -2301,4 +2313,86 @@ hr.simple-divider {
   text-align: center;
   font-size: 16px;
   margin-bottom: 10px;
+}
+
+.files-list {
+  list-style: none;
+  padding: 0;
+
+  li {
+    padding-left: 0;
+    padding-right: 30px;
+  }
+
+  .file-preview {
+    position: relative;
+    background: #D7D7D7;
+    padding: 5px 10px 15px 10px;
+    margin: 20px 0;
+    border-radius: 8px;
+
+    .row {
+      margin-top: 15px;
+    }
+
+    .edit {
+      position: absolute;
+      top: 1px;
+      right: 2px;
+      font-size: 10px;
+      font-weight: bold;
+      text-align: center;
+      .fa {
+        font-size: 20px;
+      }
+    }
+
+    .cl-icon {
+      height: 50px;
+      width: 50px;
+      float: left;
+      margin-right: 25px;
+      margin-top: -5px;
+    }
+
+    .description {
+      padding-right: 25px;
+      padding-top: 5px;
+      font-size: 13px;
+    }
+
+    .filename {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .info, .user {
+      font-size: 11px;
+      overflow: hidden;
+    }
+
+    .name {
+      font-weight: bold;
+    }
+
+    .user {
+      .user-image {
+        border-color: #2BADC0;
+        float: left;
+        margin-right: 5px;
+      }
+    }
+  }
+}
+
+.admin-library {
+  .right-pane {
+    padding: 65px 20px;
+
+    > h3 {
+      margin: 0 0 20px 0;
+      border-bottom: solid 1px #000000;
+      padding-bottom: 8px;
+    }
+  }
 }

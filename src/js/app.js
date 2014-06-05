@@ -54,6 +54,10 @@
 						controller: 'ConsultController',
 						templateUrl: '/assets/views/consult.html'
 					})
+          .when('/consult/library', {
+            controller: 'ConsultAdminLibraryController',
+            templateUrl: '/assets/views/consult/admin-library.html'
+          })
 					.when('/create', {
 						controller: 'CreateController',
 						templateUrl: '/assets/views/create.html'

@@ -11,4 +11,9 @@ class Upload extends CabinetUpload {
     return $this->belongsTo('Account');
   }
 
+  public function libraries()
+  {
+    return $this->belongsToMany('Library', 'library_uploads')->withTimestamps();
+  }
+
 }

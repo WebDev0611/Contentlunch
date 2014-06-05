@@ -1,0 +1,18 @@
+<div class="view admin-library">
+  
+  <div class="col-md-3 left-pane">
+    <div class="btn-group">
+      <button class="btn btn-default btn-create" ng-click="addFile()">
+        ADD FILE
+      </button>
+    </div>
+  </div>
+
+  <div class="col-md-9 right-pane">
+    <h3>Library &gt; Global Content Launch Files</h3>
+    <ul class="files-list">
+      <li ng-repeat="file in files" file-preview="file" class="col-md-4"></li>
+    </ul>
+  </div>
+
+</div>

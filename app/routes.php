@@ -97,6 +97,11 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index']
   ]);
 
+  Route::resource('library', 'LibraryController', [
+    'only' => ['index', 'store', 'show', 'destroy', 'storeUpload']
+  ]);
+  Route::post('library/{id}/uploads', 'LibraryController@storeUpload');
+
   Route::resource('modules', 'ModuleController', [
     'only' => ['index']
   ]);

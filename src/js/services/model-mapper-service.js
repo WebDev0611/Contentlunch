@@ -1408,7 +1408,7 @@
 			uploadFile.deleted = launch.utils.isBlank(dto.deleted_at) ? null : new Date(dto.deleted_at);
 
 			// TODO: SET DESCRIPTION HERE!!
-			uploadFile.description = dto.filename;
+			uploadFile.description = dto.description;
 
 			var path = dto.path;
 
