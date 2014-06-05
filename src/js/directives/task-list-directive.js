@@ -19,11 +19,14 @@
 			scope.canCreateTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks');
 			scope.canAssignTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks');
 			scope.canEditTasksOthers = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_complete');
+			// TODO: WHAT'S THE RIGHT PRIVILEGE FOR THIS??
+			scope.canDeleteTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_complete');
 		};
 
 		scope.canCreateTasks = false;
 		scope.canAssignTasks = false;
 		scope.canEditTasksOthers = false;
+		scope.canDeleteTasks = false;
 
 
 		scope.openCalendar = function (opened, e) {
@@ -148,6 +151,40 @@
 			}
 
 			e.stopImmediatePropagation();
+		};
+
+		scope.deleteTask = function(taskGroup, task) {
+			if (!scope.canDeleteTasks) {
+				NotificationService.error('Error!', 'You do not have sufficient privileges to delete a task. Please contact your administrator for more information.');
+				return;
+			}
+
+			var handleDelete = function() {
+				taskGroup.tasks = $.grep(taskGroup.tasks, function (t) { return t.id !== task.id; });
+				scope.saveTaskGroup(taskGroup, null);
+			};
+
+			if (task.isComplete) {
+				$modal.open({
+					templateUrl: 'confirm.html',
+					controller: [
+						'$scope', '$modalInstance', function (scp, instance) {
+							scp.message = 'This task has already been marked as complete. Are you sure you want to delete this task?';
+							scp.okButtonText = 'Delete';
+							scp.cancelButtonText = 'Cancel';
+							scp.onOk = function () {
+								handleDelete();
+								instance.close();
+							};
+							scp.onCancel = function () {
+								instance.dismiss('cancel');
+							};
+						}
+					]
+				});
+			} else {
+				handleDelete();
+			}
 		};
 
 		self.init();

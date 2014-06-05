@@ -18,8 +18,8 @@
 					<span class="cl-icon" ng-class="f.fileType()"></span>
 				</div>
 				<div class="files-list-item-title">
-					<span class="fa fa-trash-o" ng-click="deleteAttachment(f, $event)"></span>
-					<span class="fa fa-edit" ng-click="editAttachment(f, $event)"></span>
+					<span class="fa fa-trash-o" ng-click="deleteAttachment(f, $event)" ng-hide="isDisabled"></span>
+					<span class="fa fa-edit" ng-click="editAttachment(f, $event)" ng-hide="isDisabled"></span>
 					{{ f.description }}
 				</div>
 				<div class="files-list-item-author">

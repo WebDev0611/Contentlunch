@@ -20,6 +20,11 @@
 		delete: { method: 'DELETE', isArray: true, transformResponse: ModelMapperService.user.parseResponse }
 	});
 
+	var contentTaskGroups = $resource('/api/account/:accountId/content/:contentId/task-group', { accountId: '@accountId', contentId: '@contentId' }, {
+		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.taskGroups.parseResponse },
+		update: { method: 'PUT', transformRequest: ModelMapperService.taskGroups.formatRequest, transformResponse: ModelMapperService.taskGroups.parseResponse }
+	});
+
 	var contentType = $resource('/api/content-types', null, {
 		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.contentType.parseResponse }
 	});
@@ -96,6 +101,18 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return contentCollaborators.delete({ accountId: accountId, contentId: contentId, userId: userId }, success, error);
+		},
+		getTaskGroups: function (accountId, contentId, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return contentTaskGroups.get({ accountId: accountId, contentId: contentId }, success, error);
+		},
+		updateTaskGroups: function (accountId, contentId, taskGroups, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return contentTaskGroups.update({ accountId: accountId, contentId: contentId }, taskGroups, success, error);
 		},
 		getContentTypes: function (callback, forceRefresh) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;

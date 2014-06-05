@@ -1175,7 +1175,7 @@
 				persona: content.persona,
 				secondary_persona: content.secondaryPersona,
 				buying_stage: content.buyingStage,
-				secondardy_buying_stage: content.secondaryBuyingStage,
+				secondary_buying_stage: content.secondaryBuyingStage,
 				user: self.user.toDto(content.author),
 				concept: content.concept,
 				status: content.status,
@@ -1400,6 +1400,7 @@
 			uploadFile.accountId = parseInt(dto.account_id);
 			uploadFile.userId = isNaN(dto.user_id) ? null : parseInt(dto.user_id);
 			uploadFile.parentId = isNaN(dto.parent_id) ? null : parseInt(dto.parent_id);
+			uploadFile.description = dto.description;
 			uploadFile.extension = dto.extension;
 			uploadFile.fileName = dto.filename;
 			uploadFile.mimeType = dto.mimetype;
@@ -1408,9 +1409,6 @@
 			uploadFile.created = new Date(dto.created_at);
 			uploadFile.updated = new Date(dto.updated_at);
 			uploadFile.deleted = launch.utils.isBlank(dto.deleted_at) ? null : new Date(dto.deleted_at);
-
-			// TODO: SET DESCRIPTION HERE!!
-			uploadFile.description = dto.filename;
 
 			var path = dto.path;
 
