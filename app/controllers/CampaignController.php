@@ -64,6 +64,7 @@ class CampaignController extends BaseController {
     }
     $campaign = Campaign::with('tags')
       ->with('collaborators')
+      ->with('campaign_type')
       ->find($id);
     return $campaign;
   }

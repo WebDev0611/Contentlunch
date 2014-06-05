@@ -98,6 +98,10 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index']
   ]);
 
+  Route::resource('campaign-types', 'CampaignTypeController', [
+    'only' => ['index']
+  ]);
+
   Route::resource('modules', 'ModuleController', [
     'only' => ['index']
   ]);

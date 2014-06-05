@@ -60,6 +60,11 @@ class Campaign extends Ardent {
     return $this->belongsToMany('User', 'campaign_collaborators', 'campaign_id', 'user_id')->withTimestamps();
   }
 
+  public function campaign_type()
+  {
+    return $this->belongsTo('CampaignType');
+  }
+
   public function tags()
   {
     return $this->hasMany('CampaignTag');

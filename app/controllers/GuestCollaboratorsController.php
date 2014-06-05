@@ -156,10 +156,10 @@ class GuestCollaboratorsController extends BaseController {
                     // should be one of these 8 options:
 
                     // these 4 should not be allowed
-                    // 'blocked'
-                    // 'non-member'
-                    // 'awaiting-confirmation'
-                    // 'awaiting-parent-group-confirmation'
+                    // 'blocked',
+                    // 'non-member',
+                    // 'awaiting-confirmation',
+                    // 'awaiting-parent-group-confirmation',
 
                     // these 4 should be allowed
                     'member',
