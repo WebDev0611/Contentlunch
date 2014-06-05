@@ -72,7 +72,7 @@
 							Convert to Content
 						</button>
 						
-						<div files-list="content.attachments"></div>
+						<div files-list="content.attachments" after-add-file-success="addAttachment" users="users" ng-hide="isNewConcept"></div>
 					</div>
 				</div>
 				<div class="col-md-3" collaborator-sidebar users="users" item-id="content.id" item-type="'content'" ng-hide="isNewConcept"></div>

@@ -35,9 +35,9 @@
 			case 2:
 				return 'Review';
 			case 3:
-				return 'Approve';
-			case 4:
 				return 'Launch';
+			case 4:
+				return 'Promote';
 			default:
 				return null;
 		}

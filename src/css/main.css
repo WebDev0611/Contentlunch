@@ -129,7 +129,8 @@
 .icon-measure {
   background-image: url(/assets/images/measure.svg);
 }
-.icon-launch {
+.icon-launch,
+.cl-icon-launch {
   background-image: url(/assets/images/launch.svg);
 }
 .cl-icon {
@@ -1403,6 +1404,10 @@ span[class*=" icon-"].dark {
   color: #000000;
   text-decoration: underline;
 }
+.create .left-pane .task-group .task-group-list .task-group-task .checkbox .fa-trash-o {
+  cursor: pointer;
+  float: right;
+}
 .create .left-pane .task-group .panel-group .panel .panel-heading {
   border: none;
 }
@@ -1668,6 +1673,45 @@ span[class*=" icon-"].dark {
 .create .right-pane .create-content-header h3 {
   margin: 0;
 }
+.create .right-pane .content-approved-header {
+  color: #10699d;
+  font-size: 16pt;
+  font-weight: bold;
+}
+.create .right-pane .content-approved-header .fa {
+  color: #000000;
+  display: inline-block;
+  margin: 0 0 16px 12px;
+}
+.create .right-pane .content-preview {
+  background-color: #e4e4e4;
+  padding: 16px;
+  width: 100%;
+}
+.create .right-pane .content-preview h4 {
+  font-family: 'Lato Black';
+  margin: 4px 0;
+}
+.create .right-pane .content-preview .control-group {
+  height: 46px;
+  margin: 0;
+  position: relative;
+}
+.create .right-pane .content-preview .control-group .btn-launch {
+  background-color: #10699d;
+  color: #ffffff;
+  font-size: 12pt;
+  font-weight: bold;
+  position: absolute;
+  right: 8px;
+}
+.create .right-pane .content-preview .control-group .btn-launch span {
+  vertical-align: middle;
+}
+.create .right-pane .content-preview .control-group .btn-launch span.cl-icon-launch {
+  height: 30px;
+  width: 30px;
+}
 .calendar .right-pane-header {
   background-color: #ba1760;
   border-bottom-color: #ef7baf;
@@ -1790,6 +1834,7 @@ span[class*=" icon-"].dark {
   display: inline-block;
   text-align: center;
   width: 75px;
+  vertical-align: top;
 }
 .cl-badge.cl-badge-horizontal {
   margin: 0 0 0.5em;

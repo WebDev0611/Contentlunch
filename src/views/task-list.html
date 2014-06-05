@@ -25,6 +25,7 @@
 					<input type="checkbox" ng-model="t.isComplete" ng-disabled="!canEditTask(tg, t)" ng-change="toggleTaskActiveStatus(tg, t)" />
 					{{ t.name }} - <span ng-class="{ error: t.isOverdue() }">Due: {{ t.formattedDueDate() }}</span>
 				</label>
+				<span class="fa fa-trash-o" ng-click="deleteTask(tg, t)" ng-show="canDeleteTasks"></span>
 				<div>
 					<a ng-click="editTask(tg, t, $event)" ng-show="canAssignTasks">Assigned to {{ getUserName(t.userId) }}</a>
 					<span ng-hide="canAssignTasks">Assigned to {{ getUserName(t.userId) }}</span>

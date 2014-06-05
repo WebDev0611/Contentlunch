@@ -54,6 +54,10 @@
 
 				$scope.content = contentService.get(self.loggedInUser.account.id, self.contentId, {
 					success: function (r) {
+						// TODO: MAKE SURE THAT ONLY THE CONTENT CREATOR, COLLABORATORS, AND APPROPRIATELY PRIVILEGED USERS CAN ACCESS THIS CONTENT!
+						// TODO: WHAT PRIVILEGES ALLOW A NON-COLLABORATOR TO ACCESS A CONTENT ITEM?
+
+
 						if ($scope.content.status <= 3) {
 							$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_view_content_other_unapproved', 'create_view_content_other']);
 							$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_edit_content_other_unapproved', 'create_edit_content_other']);
@@ -75,6 +79,8 @@
 
 						$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
 						$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
+
+						$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = ($scope.content.status >= 3);
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -156,6 +162,7 @@
 		$scope.buyingStages = null;
 		$scope.isNewContent = true;
 		$scope.forceDirty = false;
+		$scope.isReadOnly = false;
 		$scope.contentConnectionIds = null;
 		$scope.contentTags = null;
 		$scope.showRichTextEditor = true;
@@ -179,6 +186,9 @@
 		$scope.canApproveContent = false;
 		$scope.canLaunchContent = false;
 		$scope.canDiscussContent = false;
+
+		$scope.collboratorsIsDisabled = false;
+		$scope.attachmentsIsDisabled = false;
 
 		$scope.formatUserItem = function (item, element, context) {
 			var user = $.grep($scope.users, function (u, i) { return u.id === parseInt(item.id); });
@@ -412,7 +422,9 @@
 		};
 
 		$scope.addAttachment = function(uploadFile) {
-			
+			if (!!$scope.content && !launch.utils.isBlank($scope.content.id)) {
+				$scope.saveContent();
+			}
 		};
 
 		$scope.filterTaskAssignees = function (collaborators) {
@@ -464,6 +476,14 @@
 				default:
 					return null;
 			}
+		};
+
+		$scope.launchContent = function() {
+			if (!$scope.canLaunchContent) {
+				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
+			}
+
+			notificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
 		};
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);

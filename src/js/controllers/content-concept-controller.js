@@ -137,6 +137,12 @@
 			$scope.content.campaign = campaign[0];
 		};
 
+		$scope.addAttachment = function (uploadFile) {
+			if (!!$scope.content && !launch.utils.isBlank($scope.content.id)) {
+				$scope.saveConcept();
+			}
+		};
+
 		self.init();
 	}
 ]);
