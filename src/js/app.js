@@ -80,8 +80,7 @@
 					})
 					.when('/create/content/edit/:contentId', {
 						controller: 'ContentController',
-						templateUrl: '/assets/views/content-edit.html',
-						allowAnon: true
+						templateUrl: '/assets/views/content-edit.html'
 					})
 					.when('/create/content/view/:contentId', {
 						controller: 'ContentController',
@@ -102,6 +101,16 @@
 					.when('/collaborate/guest/:accessCode', {
 						controller: 'GuestCollaboratorController',
 						templateUrl: '/assets/views/collaborate/guest-landing.html',
+						allowAnon: true
+					})
+					.when('/collaborate/guest/content/:contentId', {
+						controller: 'GuestCampaignController',
+						templateUrl: '/assets/views/collaborate/edit-content.html',
+						allowAnon: true
+					})
+					.when('/collaborate/guest/campaign/:campaignId', {
+						controller: 'GuestContentController',
+						templateUrl: '/assets/views/collaborate/edit-campaign.html',
 						allowAnon: true
 					})
 					.when('/collaborate/:conceptType/:id', {

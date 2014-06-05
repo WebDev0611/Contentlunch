@@ -88,7 +88,7 @@ class GuestCollaboratorsController extends BaseController {
 
         Session::put('guest', $guest);
 
-        return Redirect::to('/create/content/edit/' . $guest->content_id);
+        return Redirect::to("/collaborate/guest/{$guest->content_type}/{$guest->content_id}");
     }
 
     static function finishGroup()

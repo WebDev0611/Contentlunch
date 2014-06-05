@@ -12,7 +12,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     // -------------------------
     var user = AuthService.userInfo();
 
-    var Account = Restangular.one('account', user.account.id)
+    var Account = Restangular.one('account', user.account.id);
     var requests = {
         users: Account.all('users').getList(),
     };
