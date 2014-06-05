@@ -1,5 +1,5 @@
 angular.module('launch')
-.module.controller('GuestCampaignController', 
+.controller('GuestCampaignController', 
         ['$scope', '$routeParams', 
 function ($scope,   $routeParams) {
     // $routeParams.campaignId;
