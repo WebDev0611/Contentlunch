@@ -18,6 +18,7 @@ class ContentController extends BaseController {
       ->with('tags')
       ->with('user')
       ->with('collaborators')
+      ->with('guest_collaborators')
       ->where('account_id', $account->id);
     if (Input::has('campaign_id')) {
       $query->where('campaign_id', Input::get('campaign_id'));

@@ -28,8 +28,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     if ($routeParams.id) {
         Collab = Account.one($routeParams.conceptType, $routeParams.id);
         requests.selected = Collab.get().then(function (selected) {
-            // TODO: figure out how we're differentiating collaborators. but for now...
-            selected.internalCollaborators = selected.collaborators;
+            selected.internal_collaborators = selected.collaborators;
             return selected;
         });
         requests.connections = Account.all('connections').getList({ 'provider[]': ['linkedin', 'twitter'] });
@@ -44,7 +43,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                 _.each(sublist, function (item) {
                     item.type = type;
                     item.type_slug = type === 'Content' ? 'content' : 'campaigns';
-                    item.internalCollaborators = item.collaborators;
+                    item.internal_collaborators = item.collaborators;
                     return list.push(item);
                 });
                 return list;
@@ -65,19 +64,19 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     // -------------------------
     $scope.addInternalCollaborator = function (collaboratorToAdd) {
         $scope.showAddInternal = false;
-        if (!_.isArray($scope.selected.internalCollaborators)) 
-            $scope.selected.internalCollaborators = [];
+        if (!_.isArray($scope.selected.internal_collaborators)) 
+            $scope.selected.internal_collaborators = [];
 
         $scope.selected.all('collaborators').post({ 
             user_id: collaboratorToAdd.id 
         }).then(function () {
-            $scope.selected.internalCollaborators.push(collaboratorToAdd);
+            $scope.selected.internal_collaborators.push(collaboratorToAdd);
         });
     };
 
     $scope.removeInternalCollaborator = function (collab) {
         $scope.selected.one('collaborators', collab.id).remove().then(function () {
-            $rootScope.removeRow($scope.selected.internalCollaborators, collab.id);
+            $rootScope.removeRow($scope.selected.internal_collaborators, collab.id);
         });
     };
 

@@ -13,6 +13,7 @@ class CampaignController extends BaseController {
     }
     $query = Campaign::where('account_id', $account->id)
       ->with('tags')
+      ->with('guest_collaborators')
       ->with('collaborators');
 
     // uncomment when we're ready to filter by status

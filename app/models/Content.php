@@ -99,7 +99,7 @@ class Content extends Ardent {
 
   public function guest_collaborators()
   {
-    return $this->hasMany('GuestCollaborator', 'content_id', 'id');
+    return $this->hasMany('GuestCollaborator', 'content_id', 'id')->where('content_type', 'content');
   }
 
   public function account()
