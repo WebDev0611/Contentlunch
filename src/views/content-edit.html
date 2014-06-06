@@ -224,25 +224,25 @@
 	</div>
 </script>
 
-<script type="text/ng-template" id="select-approver.html">
-	<div class="modal-header">Select Content Approver</div>
+<script type="text/ng-template" id="select-user-to-complete.html">
+	<div class="modal-header">Select User</div>
 	<div class="modal-body">
 		<div class="control-group">
-			<p>You must assign someone with approval privileges to approve this item when it is complete. They will be assigned an "Approve" task.</p>
+			<p>You must assign someone with the necessary privileges to {{ taskName }} this item when it is complete. They will be assigned a task to {{ taskName }} this item.</p>
 			<div class="form-group">
-				<label for="selApprover">Content Approver</label>
+				<label for="selUserToAct">User</label>
 				(items with a <span class="fa fa-check-circle"></span> are collaborators for this item)
-				<select id="selApprover" name="selApprover" ng-model="approverId" ng-change="selectApprover(approverId)"
+				<select id="selUserToAct" name="selUserToAct" ng-model="userToCompleteId" ng-change="selectUserToComplete(userToCompleteId)"
 					ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true, allowClear: true }"
-					data-placeholder="Select Content Approver">
+					data-placeholder="Select User">
 					<option value=""></option>
-					<option ng-repeat="a in approvers" value="{{ a.id }}">{{ a.formatName() }}</option>
+					<option ng-repeat="a in userPool" value="{{ a.id }}">{{ a.formatName() }}</option>
 				</select>
 			</div>
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-primary" ng-click="save()">Select Approver</button>
+		<button class="btn btn-primary" ng-click="save()">Select User</button>
 		<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
 	</div>
 

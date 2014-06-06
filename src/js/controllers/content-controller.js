@@ -166,19 +166,42 @@
 		};
 
 		self.approveContent = function () {
-			if (self.loggedInUser.hasPrivilege('collaborate_execute_approve')) {
+			if ($scope.canApproveContent) {
 				self.handleSubmitContent();
 				return;
 			}
 
+			self.showSelectApproverDialog('approve', 'approver', 'collaborate_execute_approve');
+		};
+
+		self.launchContent = function () {
+			if ($scope.canLaunchContent) {
+				self.handleSubmitContent();
+				return;
+			}
+
+			self.showSelectApproverDialog('launch', 'launcher', 'launch_execute_content_other');
+		};
+
+		self.promoteContent = function () {
+			if (!$scope.canPromoteContent) {
+				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
+			}
+
+			notificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+		};
+
+		self.showSelectApproverDialog = function(taskName, actor, privilegeName) {
 			$modal.open({
-				templateUrl: 'select-approver.html',
+				templateUrl: 'select-user-to-complete.html',
 				controller: [
 					'$scope', '$modalInstance', function (scope, instance) {
-						scope.approver = null;
-						scope.approverId = null;
+						scope.taskName = taskName;
+						scope.actor = actor;
+						scope.userToComplete = null;
+						scope.userToCompleteId = null;
 						// TODO: THIS IS NOT WORKING IN THE API!!
-						scope.approvers = userService.getForAccount(self.loggedInUser.account.id, { permission: 'collaborate_execute_approve' }, self.ajaxHandler, true);
+						scope.userPool = userService.getForAccount(self.loggedInUser.account.id, { permission: privilegeName }, self.ajaxHandler, true);
 
 						scope.formatUserItem = function (item, element, context) {
 							var collaborator = $.grep($scope.content.collaborators, function (c, i) { return c.id === parseInt(item.id); });
@@ -191,18 +214,18 @@
 							return html + '<span class="fa fa-check-circle" style="display: inline-block; margin-left: 8px;"></span>';
 						};
 
-						scope.selectApprover = function(id) {
-							scope.approver = $.grep(scope.approvers, function(a) { return a.id === parseInt(id); })[0];
+						scope.selectUserToComplete = function (id) {
+							scope.userToComplete = $.grep(scope.userPool, function (a) { return a.id === parseInt(id); })[0];
 						};
 
 						scope.save = function () {
-							if (!scope.approver) {
-								notificationService.error('Error!', 'Please select a content approver.');
+							if (!scope.userToComplete) {
+								notificationService.error('Error!', 'Please select a content ' + actor + '.');
 								return;
 							}
 
-							if ($.grep($scope.content.collaborators, function (c) { return (c.id === scope.approver.id); }).length === 0) {
-								contentService.insertCollaborator(self.loggedInUser.account.id, $scope.content.id, scope.approver.id, self.ajaxHandler);
+							if ($.grep($scope.content.collaborators, function (c) { return (c.id === scope.userToComplete.id); }).length === 0) {
+								contentService.insertCollaborator(self.loggedInUser.account.id, $scope.content.id, scope.userToComplete.id, self.ajaxHandler);
 							}
 
 							var taskGroup = $.grep($scope.content.taskGroups, function (tg) { return tg.status === $scope.content.status; });
@@ -214,17 +237,17 @@
 
 							var task = new launch.Task();
 
-							task.name = 'Approve Content';
+							task.name = launch.utils.titleCase(taskName) + ' Content';
 							task.isComplete = false;
 							task.dueDate = new Date();
-							task.userId = scope.approver.id;
+							task.userId = scope.userToComplete.id;
 							task.taskGroupId = taskGroup[0].id;
 							task.dueDate.setDate((task.dueDate).getDate() + 2);
 
 							taskGroup[0].tasks.push(task);
 
 							taskService.saveContentTasks(self.loggedInUser.account.id, taskGroup[0], {
-								success: function(r) {
+								success: function (r) {
 									instance.close();
 								},
 								error: self.ajaxHandler.error
@@ -237,22 +260,7 @@
 					}
 				]
 			});
-		};
 
-		self.launchContent = function () {
-			if (!$scope.canLaunchContent) {
-				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
-			}
-
-			notificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
-		};
-
-		self.promoteContent = function () {
-			if (!$scope.canPromoteContent) {
-				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
-			}
-
-			notificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
 		};
 
 		self.handleSubmitContent = function() {
