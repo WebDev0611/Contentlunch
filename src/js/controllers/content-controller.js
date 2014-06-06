@@ -88,6 +88,7 @@
 
 						$scope.showRichTextEditor = $scope.content.contentType.allowText();
 						$scope.showAddFileButton = $scope.content.contentType.allowFile();
+						$scope.showExport = $scope.content.contentType.allowExport() && $scope.content.status >= 3;
 
 						$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
 						$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
@@ -290,6 +291,7 @@
 		$scope.contentTags = null;
 		$scope.showRichTextEditor = true;
 		$scope.showAddFileButton = false;
+		$scope.showExport = false;
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;
 		$scope.defaultTaskGroup = null;

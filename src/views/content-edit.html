@@ -202,8 +202,12 @@
 					<div files-list="content.attachments" after-add-file-success="addAttachment" users="taskUsers" ng-hide="isNewContent" is-disabled="attachmentsIsDisabled"></div>
 				</form>
 			</div>
-			<div class="col-md-3" collaborator-sidebar collaborators="content.collaborators" users="collaborators" item-id="content.id" item-type="'content'" ng-hide="isNewContent"
-				add-collaborator-callback="filterTaskAssignees" remove-collaborator-callback="filterTaskAssignees" is-disabled="collboratorsIsDisabled"></div>
+			<div class="col-md-3" ng-hide="isNewContent">
+				<div collaborator-sidebar collaborators="content.collaborators" users="collaborators" item-id="content.id" item-type="'content'"
+					add-collaborator-callback="filterTaskAssignees" remove-collaborator-callback="filterTaskAssignees" is-disabled="collboratorsIsDisabled"></div>
+				
+				<div ng-show="showExport">PLACEHOLDER FOR EXPORT</div>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12" ng-hide="isNewContent" discussion-panel discussion="content.comments" item-id="content.id" item-type="'content'" ng-hide="isNewContent"></div>
