@@ -5,7 +5,8 @@
 	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2', 'ui.calendar', 'restangular', 'checklist-model']);
 
 	launch.module.config([
-			'$routeProvider', '$locationProvider', '$httpProvider', 'RestangularProvider', function($routeProvider, $locationProvider, $httpProvider, RestangularProvider) {
+					'$routeProvider', '$locationProvider', '$httpProvider', 'RestangularProvider', 
+			function($routeProvider,   $locationProvider,   $httpProvider,   RestangularProvider) {
 				$locationProvider.html5Mode(true);
 
 				$routeProvider
@@ -177,7 +178,8 @@
 			}
 		])
 		.run([
-			'$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService', function($rootScope, $location, userService, authService, notificationService) {
+					'$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService', 
+			function($rootScope,   $location,   userService,   authService,   notificationService) {
 				var path = $location.path();
 
 				var fetchCurrentUser = function(r) {
@@ -218,6 +220,14 @@
 						index = _.indexById(array, index);
 					}
 					if (index !== -1) array.splice(index, 1);
+				};
+
+				$rootScope.globalErrorHandler = function (err) {
+					var errorMessage = (err.data || {});
+					errorMessage = errorMessage.errors || errorMessage.error;
+					if (angular.isArray(errorMessage)) errorMessage = errorMessage.join('<br>');
+					notificationService.error(errorMessage || err.data || err || 'Unknown Error.');
+					console.error(err);
 				};
 			}
 		]);

@@ -165,10 +165,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
             if (!angular.isDefined(guests)) return;
 
             $scope.guestCollaborators = guests;
-        }).catch(function (err) {
-            notify.error(((err.data || {}).errors || []).join('<br>') || err.data || err);
-            console.error(err);
-        });
+        }).catch($rootScope.globalErrorHandler);
     };
 
     $scope.toggleAccordion = function (connection) {

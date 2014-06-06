@@ -1,6 +1,6 @@
 launch.module.controller('CampaignController',
-        ['$scope', 'AuthService', '$routeParams', '$filter', '$q', 'Restangular',
-function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular) {
+        ['$scope', 'AuthService', '$routeParams', '$filter', '$q', 'Restangular', '$location', '$rootScope', 'NotificationService', 
+function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,   $location,   $rootScope,   notify) {
     var user     = AuthService.userInfo();
     var Account  = Restangular.one('account', user.account.id);
     var Campaign = Account.all('campaigns');
@@ -13,16 +13,33 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular)
         users: Account.all('users').getList()
     }).then(function (responses) {
         angular.extend($scope, responses);
-    });
+        if (!$scope.campaign) {
+            notify.error('Campaign does not exist');
+            $scope.cancelCampaign();
+        }
+    }).catch($rootScope.globalErrorHandler);
 
     // Actions
     // -------------------------
     $scope.saveCampaign = function (campaign) {
         (campaign.isNew ? Campaign.post(campaign) : campaign.put()).then(function (campaign) {
             $scope.campaign = campaign;
-        });
+        }).catch($rootScope.globalErrorHandler);
     };
 
+    $scope.deleteCampaign = function (campaign) {
+        if (campaign.isNew) return $scope.cancelCampaign();
+        campaign.remove().then(function () {
+            notify.success('Campaign deleted');
+            $scope.cancelCampaign();
+        }).catch($rootScope.globalErrorHandler);
+    };
+
+    $scope.cancelCampaign = function () {
+        $location.path('/calendar');
+    };
+
+    // Collaborator Actions //
     $scope.addInternalCollaborator = function (collaboratorToAdd) {
         $scope.showAddInternal = false;
         if (!_.isArray($scope.selected.internal_collaborators)) 
