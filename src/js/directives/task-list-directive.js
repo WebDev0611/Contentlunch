@@ -48,7 +48,7 @@
 		};
 
 		scope.getUserName = function (id) {
-			var user = launch.utils.getUserById(scope.users, id);
+			var user = launch.utils.getUserById(scope.users, parseInt(id));
 
 			return (!!user) ? user.formatName() : null;
 		};
@@ -63,7 +63,7 @@
 			scope.saveTaskGroup(taskGroup, task);
 		};
 
-		scope.saveTaskGroup = function (taskGroup, task) {
+		scope.saveTaskGroup = function (taskGroup, task, callback) {
 			if (!!task && launch.utils.isBlank(task.id)) {
 				taskGroup.tasks.push(task);
 			}
@@ -78,9 +78,17 @@
 			taskGroup = TaskService.saveContentTasks(self.loggedInUser.account.id, taskGroup, {
 				success: function (r) {
 					NotificationService.success('Success!', ((!!task) ? 'Successfully modified task, "' + task.name + '"!' : 'Successfully modified "' + taskGroup.name() + '" task group!'));
+
+					if (!!callback && $.isFunction(callback.success)) {
+						callback.success(r);
+					}
 				},
 				error: function (r) {
 					self.ajaxHandler.error(r);
+
+					if (!!callback && $.isFunction(callback.error)) {
+						callback.error(r);
+					}
 				}
 			});
 		};
@@ -109,7 +117,7 @@
 									instance.dismiss('cancel');
 								};
 
-								scope1.save = function () {
+								scope1.save = function (createAnother) {
 									var msg = launch.utils.validateAll(scope1.task);
 
 									if (!launch.utils.isBlank(msg)) {
@@ -141,8 +149,18 @@
 										return;
 									}
 
-									scope.saveTaskGroup(taskGroup, task);
-									instance.close();
+									scope.saveTaskGroup(taskGroup, task, {
+										success: function() {
+											if (createAnother) {
+												scope1.task = task = new launch.Task();
+												scope1.task.taskGroupId = taskGroup.id;
+												scope1.task.dueDate = new Date(taskGroup.dueDate);
+												scope1.task.isComplete = false;
+											} else {
+												instance.close();
+											}
+										}
+									});
 								};
 							}
 						]

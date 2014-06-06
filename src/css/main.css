@@ -501,6 +501,9 @@ header .login-info .popover-menu .admin-menu li .glyphicon {
 .has-error .mce-panel {
   border-color: #ff0000;
 }
+.unauthorized-message {
+  padding: 16px;
+}
 label {
   display: inline;
   font-family: 'Lato-Bold';
@@ -1431,103 +1434,6 @@ span[class*=" icon-"].dark {
 .create .right-pane .right-pane-header .cl-icon {
   color: #ffffff;
 }
-.create .right-pane .create-header {
-  margin: 0 16px;
-}
-.create .right-pane .create-header > * {
-  display: inline-block;
-  margin: 0 16px;
-  vertical-align: middle;
-}
-.create .right-pane .create-header > * .control-label,
-.create .right-pane .create-header > * .form-control {
-  display: inline;
-}
-.create .right-pane .create-header .btn-group .btn.active {
-  background-color: #000000;
-  color: #ffffff;
-}
-.create .right-pane .create-header .create-download .btn,
-.create .right-pane .create-header .create-delete .btn {
-  font-size: 15pt;
-}
-.create .right-pane .create-header .create-paging-controls {
-  float: right;
-}
-.create .right-pane .create-header .create-paging-controls > * {
-  display: inline-block;
-  margin: 0 16px;
-}
-.create .right-pane .create-header .create-paging-controls .create-pager .pagination {
-  margin: 0;
-}
-.create .right-pane .create-header .create-paging-controls .create-pager .pagination .btn {
-  font-size: 15pt;
-}
-.create .right-pane .create-table-container {
-  margin: 16px;
-}
-.create .right-pane .create-table-container table.create-table {
-  width: 100%;
-}
-.create .right-pane .create-table-container table.create-table tr {
-  border-bottom: solid 1px #000000;
-}
-.create .right-pane .create-table-container table.create-table tr td,
-.create .right-pane .create-table-container table.create-table tr th {
-  padding: 8px;
-  position: relative;
-  text-align: left;
-}
-.create .right-pane .create-table-container table.create-table tr td.small-cell,
-.create .right-pane .create-table-container table.create-table tr th.small-cell {
-  width: 50px;
-}
-.create .right-pane .create-table-container table.create-table tr td > span,
-.create .right-pane .create-table-container table.create-table tr th > span {
-  vertical-align: middle;
-}
-.create .right-pane .create-table-container table.create-table tr td .user-image,
-.create .right-pane .create-table-container table.create-table tr th .user-image {
-  border-color: #ffb503;
-  height: 32px;
-  width: 32px;
-}
-.create .right-pane .create-table-container table.create-table tr td .cl-icon,
-.create .right-pane .create-table-container table.create-table tr th .cl-icon {
-  color: #000000;
-  font-size: 20pt;
-  height: 32px;
-  width: 32px;
-}
-.create .right-pane .create-table-container table.create-table tr td .cl-icon-workflow,
-.create .right-pane .create-table-container table.create-table tr th .cl-icon-workflow {
-  display: inline-block;
-  float: left;
-  margin: 4px 8px;
-  vertical-align: middle;
-}
-.create .right-pane .create-table-container table.create-table tr td .workflow-info,
-.create .right-pane .create-table-container table.create-table tr th .workflow-info {
-  margin-left: 32px;
-}
-.create .right-pane .create-table-container table.create-table tr td .workflow-info a,
-.create .right-pane .create-table-container table.create-table tr th .workflow-info a {
-  font-weight: bold;
-  text-decoration: underline;
-}
-.create .right-pane .create-table-container table.create-table tr td .workflow-info .error,
-.create .right-pane .create-table-container table.create-table tr th .workflow-info .error {
-  font-weight: normal;
-}
-.create .right-pane .create-table-container table.create-table tr td input[type="checkbox"].form-control,
-.create .right-pane .create-table-container table.create-table tr th input[type="checkbox"].form-control {
-  height: 20px;
-  width: 20px;
-}
-.create .right-pane .create-table-container table.create-table tr.dark td {
-  background-color: #E6E4E0;
-}
 .create .right-pane > .view,
 .create .right-pane > .panel {
   margin: 0 16px 16px 16px;
@@ -1712,6 +1618,103 @@ span[class*=" icon-"].dark {
   height: 30px;
   width: 30px;
 }
+.create-header {
+  margin: 0 16px;
+}
+.create-header > * {
+  display: inline-block;
+  margin: 0 16px;
+  vertical-align: middle;
+}
+.create-header > * .control-label,
+.create-header > * .form-control {
+  display: inline;
+}
+.create-header .btn-group .btn.active {
+  background-color: #000000;
+  color: #ffffff;
+}
+.create-header .create-download .btn,
+.create-header .create-delete .btn {
+  font-size: 15pt;
+}
+.create-header .create-paging-controls {
+  float: right;
+}
+.create-header .create-paging-controls > * {
+  display: inline-block;
+  margin: 0 16px;
+}
+.create-header .create-paging-controls .create-pager .pagination {
+  margin: 0;
+}
+.create-header .create-paging-controls .create-pager .pagination .btn {
+  font-size: 15pt;
+}
+.create-table-container {
+  margin: 16px;
+}
+.create-table-container table.create-table {
+  width: 100%;
+}
+.create-table-container table.create-table tr {
+  border-bottom: solid 1px #000000;
+}
+.create-table-container table.create-table tr td,
+.create-table-container table.create-table tr th {
+  padding: 8px;
+  position: relative;
+  text-align: left;
+}
+.create-table-container table.create-table tr td.small-cell,
+.create-table-container table.create-table tr th.small-cell {
+  width: 50px;
+}
+.create-table-container table.create-table tr td > span,
+.create-table-container table.create-table tr th > span {
+  vertical-align: middle;
+}
+.create-table-container table.create-table tr td .user-image,
+.create-table-container table.create-table tr th .user-image {
+  border-color: #ffb503;
+  height: 32px;
+  width: 32px;
+}
+.create-table-container table.create-table tr td .cl-icon,
+.create-table-container table.create-table tr th .cl-icon {
+  color: #000000;
+  font-size: 20pt;
+  height: 32px;
+  width: 32px;
+}
+.create-table-container table.create-table tr td .cl-icon-workflow,
+.create-table-container table.create-table tr th .cl-icon-workflow {
+  display: inline-block;
+  float: left;
+  margin: 4px 8px;
+  vertical-align: middle;
+}
+.create-table-container table.create-table tr td .workflow-info,
+.create-table-container table.create-table tr th .workflow-info {
+  margin-left: 32px;
+}
+.create-table-container table.create-table tr td .workflow-info a,
+.create-table-container table.create-table tr th .workflow-info a {
+  font-weight: bold;
+  text-decoration: underline;
+}
+.create-table-container table.create-table tr td .workflow-info .error,
+.create-table-container table.create-table tr th .workflow-info .error {
+  font-weight: normal;
+}
+.create-table-container table.create-table tr td input[type="checkbox"].form-control,
+.create-table-container table.create-table tr th input[type="checkbox"].form-control {
+  height: 20px;
+  width: 20px;
+}
+.create-table-container table.create-table tr.dark td {
+  background-color: #E6E4E0;
+}
 .calendar .right-pane-header {
   background-color: #ba1760;
   border-bottom-color: #ef7baf;
@@ -1803,6 +1806,9 @@ span[class*=" icon-"].dark {
   background: black;
   color: white;
   margin-bottom: 12px;
+}
+.no-margin {
+  margin: 0 !important;
 }
 .nudge-down {
   margin-bottom: 1em;
@@ -1984,6 +1990,12 @@ table.structural tbody td {
 .align-middle {
   vertical-align: middle !important;
 }
+.align-top {
+  vertical-align: top !important;
+}
+.align-bottom {
+  vertical-align: bottom !important;
+}
 .underline {
   margin-bottom: 1em;
   padding-bottom: 1em;
@@ -2005,6 +2017,14 @@ table.structural tbody td {
 }
 .icon-danger {
   color: #d9534f;
+}
+.wheel-of-color {
+  width: 70px;
+  height: 70px;
+  display: inline-block;
+  border: 2px solid #717171;
+  background-color: white;
+  border-radius: 50%;
 }
 [ng-click]:not(.modal) {
   cursor: pointer;
@@ -2270,4 +2290,7 @@ hr.simple-divider {
   text-align: center;
   font-size: 16px;
   margin-bottom: 10px;
+}
+.filter-slection-counter {
+  float: right;
 }

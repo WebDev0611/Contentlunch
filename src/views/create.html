@@ -33,6 +33,8 @@
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': content_type_is_open, 'fa-caret-right': !content_type_is_open}"></i>
 					Content Type
+					<span class="filter-slection-counter" ng-show="search.contentTypes.length > 0">(showing {{ search.contentTypes.length }} of {{ contentTypes.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.contentTypes.length === 0">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selContentType" name="selContentType" class="multi-select" multiple="multiple"
@@ -46,6 +48,8 @@
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': mileston_is_open, 'fa-caret-right': !mileston_is_open}"></i>
 					Milestone
+					<span class="filter-slection-counter" ng-show="search.milestones.length > 0">(showing {{ search.milestones.length }} of {{ milestones.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.milestones.length === 0">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selMilestone" name="selMilestone" class="multi-select" multiple="multiple"
@@ -59,6 +63,8 @@
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': buying_stage_is_open, 'fa-caret-right': !buying_stage_is_open}"></i>
 					Buying Stage
+					<span class="filter-slection-counter" ng-show="search.buyingStages.length > 0">(showing {{ search.buyingStages.length }} of {{ buyingStages.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.buyingStages.length === 0">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selBuyingStage" name="selBuyingStage" class="multi-select" multiple="multiple"
@@ -72,6 +78,8 @@
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': campaign_is_open, 'fa-caret-right': !campaign_is_open}"></i>
 					Campaign
+					<span class="filter-slection-counter" ng-show="search.campaigns.length > 0">(showing {{ search.campaigns.length }} of {{ campaigns.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.campaigns.length === 0">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selCampaign" name="selCampaign" class="multi-select" multiple="multiple"
@@ -85,6 +93,8 @@
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': content_creator_is_open, 'fa-caret-right': !content_creator_is_open}"></i>
 					Content Creator
+					<span class="filter-slection-counter" ng-show="search.users.length > 0">(showing {{ search.users.length }} of {{ users.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.users.length === 0">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selCreator" name="selCreator" class="multi-select" multiple="multiple"

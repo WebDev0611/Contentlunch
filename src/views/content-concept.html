@@ -1,6 +1,6 @@
 ﻿<div class="view create">
 	<div class="col-md-3 left-pane"></div>
-	<div class="col-md-9 right-pane">
+	<div class="col-md-9 right-pane" ng-show="isCollaborator">
 		<h2 class="right-pane-header">Create</h2>
 
 		<form name="editConcept" novalidate="novalidate">
@@ -57,28 +57,31 @@
 						<div class="control-group" ng-class="{ 'has-error': hasError(content, 'body', editConcept.txtConceptDesc, forceDirty) }">
 							<label class="control-label" for="txtConceptDesc">Description</label>
 							<textarea name="txtConceptDesc" id="txtConceptDesc" rich-text-editor ng-model="content.body"
-								error-message message="errorMessage(content, 'body', editConcept.txtConceptDesc)">{{ content.body }}</textarea>
+									error-message message="errorMessage(content, 'body', editConcept.txtConceptDesc)">{{ content.body }}</textarea>
 						</div>
 
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveConcept()">Save</button>
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveConcept()" ng-show="canEditContent">Save</button>
 					
 						<button type="button" class="btn btn-lg btn-collaborate" ng-click="viewInCollaborate()" ng-show="showCollaborate">
 							<span class="cl-icon cl-icon-white cl-icon-med cl-icon-workflow-collaborate"></span>
 							View in Collaborate
 						</button>
 					
-						<button type="button" class="btn btn-lg btn-create" ng-click="convertConcept()" ng-hide="isNewConcept">
+						<button type="button" class="btn btn-lg btn-create" ng-click="convertConcept()" ng-hide="isNewConcept || !canConvertConept">
 							<span class="cl-icon cl-icon-white cl-icon-med cl-icon-workflow-create"></span>
 							Convert to Content
 						</button>
 						
-						<div files-list="content.attachments" after-add-file-success="addAttachment" users="users" ng-hide="isNewConcept"></div>
+						<div files-list="content.attachments" after-add-file-success="addAttachment" users="users" is-disabled="!canEditContent" ng-hide="isNewConcept"></div>
 					</div>
 				</div>
-				<div class="col-md-3" collaborator-sidebar users="users" item-id="content.id" item-type="'content'" ng-hide="isNewConcept"></div>
+				<div class="col-md-3" collaborator-sidebar item-id="content.id" item-type="'content'" users="collaborators" is-disabled="!canEditContent" ng-hide="isNewConcept"></div>
 			</div>
 
 			<div ng-hide="isNewConcept" discussion-panel item-id="content.id" item-type="'content'"></div>
 		</form>
+	</div>
+	<div class="col-md-9 right-pane" ng-hide="isCollaborator">
+		<h3 class="unauthorized-message">You are unauthorized to view this concept.</h3>
 	</div>
 </div>

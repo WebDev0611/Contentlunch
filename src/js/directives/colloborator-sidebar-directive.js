@@ -46,7 +46,7 @@
 			};
 
 			self.validateScope = function () {
-				if (!scope.canModifyCollaborators) {
+				if (!scope.canModifyCollaborators || scope.isDisabled) {
 					NotificationService.error('Error!!', 'You do not have sufficient privileges to add or remove collaborators. Please contact your administrator for more information.');
 					return false;
 				}
@@ -117,6 +117,10 @@
 						launch.utils.handleAjaxErrorResponse(r, NotificationService);
 					}
 				});
+			};
+
+			scope.userIsCollaborator = function(collaborator) {
+				return (collaborator.id === self.loggedInUser.id);
 			};
 
 			self.init();

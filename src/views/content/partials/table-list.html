@@ -81,8 +81,7 @@
                 </td>
                 <td>
                     <div class="workflow-info">
-                        <a href="#" ng-click="handleNextStep(c)" ng-show="canEditContent(c)">{{ formatWorkflowTitle(c.nextStep()) }}</a>
-                        <span ng-show="!canEditContent(c)">{{ formatWorkflowTitle(c.nextStep()) }}</span>
+                        <a href="#" ng-click="handleNextStep(c)">{{ formatWorkflowTitle(c.nextStep()) }}</a>
                         <!--<div class="small-text" ng-class="{ error: highlightDate(c.dueDate) }">Due: {{ formatDate(c.dueDate) }}</div>-->
                     </div>
                 </td>

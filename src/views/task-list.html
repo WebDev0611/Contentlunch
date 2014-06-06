@@ -14,7 +14,7 @@
 				<span class="task-group-header-date" ng-show="taskGroupIsActive(tg)" ng-class="{ error: tg.isOverdue(parentStatus) }">
 					Due: {{ tg.formattedDueDate() }}
 					<span class="fa fa-calendar" datepicker-popup="MM/dd/yyyy" is-open="opened" datepicker-append-to-body="true" show-weeks="false" show-button-bar="false"
-						ng-model="tg.dueDate" ng-click="opened = openCalendar(opened, $event)" ng-change="saveTaskGroup(tg)"></span>
+						ng-model="tg.dueDate" ng-click="opened = openCalendar(opened, $event)" ng-change="saveTaskGroup(tg)" ng-show="canEditTasksOthers"></span>
 				</span>
 			</div>
 		</accordion-heading>
@@ -69,7 +69,8 @@
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-primary" ng-click="save()">Save</button>
+		<button class="btn btn-primary" ng-click="save(true)">Save and New</button>
+		<button class="btn btn-primary" ng-click="save(false)">Save and Close</button>
 		<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
 	</div>
 </script>

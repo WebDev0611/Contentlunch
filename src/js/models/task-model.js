@@ -97,7 +97,6 @@ launch.Task = function() {
 	self.name = null;
 	self.isComplete = false;
 
-	// TODO: DEFAULT TO TASK GROUP'S DUE DATE
 	self.dueDate = null;
 	self.completeDate = null;
 	self.userId = null;

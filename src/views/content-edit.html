@@ -1,8 +1,8 @@
 ﻿<div class="view create">
 	<div class="col-md-3 left-pane">
-		<div task-list task-groups="content.taskGroups" parent-status="content.status" author-id="content.author.id" users="taskUsers" ng-hide="isNewContent"></div>
+		<div task-list task-groups="content.taskGroups" parent-status="content.status" author-id="content.author.id" users="taskUsers" ng-hide="isNewContent || !isCollaborator"></div>
 	</div>
-	<div class="col-md-9 right-pane">
+	<div class="col-md-9 right-pane" ng-show="isCollaborator">
 		<h2 class="right-pane-header">Create</h2>
 
 		<div class="content-editor row">
@@ -122,7 +122,7 @@
 						<div ng-bind-html="content.body"></div>
 					
 						<div class="control-group">
-							<button type="button" class="btn btn-lg btn-default btn-launch" ng-click="launchContent()" ng-disabled="!canLaunchContent" ng-show="content.status === 3">
+							<button type="button" class="btn btn-lg btn-default btn-launch" ng-click="submitContent()" ng-disabled="!canLaunchContent" ng-show="content.status === 3">
 								<span class="cl-icon cl-icon-launch"></span>
 								<span>LAUNCH CONTENT</span>
 							</button>
@@ -195,8 +195,8 @@
 					</div>
 
 					<div class="control-group">
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveContent()" ng-show="canEditContent" ng-hide="isReadOnly">Save</button>
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitContent()" ng-show="canSubmitContent" ng-hide="isReadOnly">{{ getNextStepText() }}</button>
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveContent()" ng-show="canEditContent && !isReadOnly">Save</button>
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitContent()" ng-show="canSubmitContent && !isReadOnly">{{ getNextStepText() }}</button>
 					</div>
 					
 					<div files-list="content.attachments" after-add-file-success="addAttachment" users="taskUsers" ng-hide="isNewContent" is-disabled="attachmentsIsDisabled"></div>
@@ -209,6 +209,9 @@
 			<div class="col-md-12" ng-hide="isNewContent" discussion-panel discussion="content.comments" item-id="content.id" item-type="'content'" ng-hide="isNewContent"></div>
 		</div>
 	</div>
+	<div class="col-md-9 right-pane" ng-hide="isCollaborator">
+		<h3 class="unauthorized-message">You are unauthorized to view this content.</h3>
+	</div>
 </div>
 
 <script type="text/ng-template" id="publishing-guidelines.html">
@@ -219,4 +222,28 @@
 	<div class="modal-footer">
 		<button class="btn btn-primary" ng-click="ok()">OK</button>
 	</div>
+</script>
+
+<script type="text/ng-template" id="select-approver.html">
+	<div class="modal-header">Select Content Approver</div>
+	<div class="modal-body">
+		<div class="control-group">
+			<p>You must assign someone with approval privileges to approve this item when it is complete. They will be assigned an "Approve" task.</p>
+			<div class="form-group">
+				<label for="selApprover">Content Approver</label>
+				(items with a <span class="fa fa-check-circle"></span> are collaborators for this item)
+				<select id="selApprover" name="selApprover" ng-model="approverId" ng-change="selectApprover(approverId)"
+					ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true, allowClear: true }"
+					data-placeholder="Select Content Approver">
+					<option value=""></option>
+					<option ng-repeat="a in approvers" value="{{ a.id }}">{{ a.formatName() }}</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="save()">Select Approver</button>
+		<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+	</div>
+
 </script>
