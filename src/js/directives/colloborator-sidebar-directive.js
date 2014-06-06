@@ -5,6 +5,7 @@
 			users: '=users',
 			itemId: '=itemId',
 			itemType: '=itemType',
+			isDisabled: '=isDisabled',
 			addCollaboratorCallback: '=addCollaboratorCallback',
 			removeCollaboratorCallback: '=removeCollaboratorCallback'
 		},
@@ -22,6 +23,21 @@
 			self.refreshCollaborators = function () {
 				scope.collaborators = self.service.queryCollaborators(self.loggedInUser.account.id, scope.itemId, null, {
 					success: function (r) {
+					},
+					error: function (r) {
+						launch.utils.handleAjaxErrorResponse(r, NotificationService);
+					}
+				});
+			};
+
+			self.refreshTasks = function() {
+				var taskGroups = self.service.getTaskGroups(self.loggedInUser.account.id, scope.itemId, {
+					success: function(r) {
+						scope.tasks = [];
+
+						$.each(taskGroups, function(i, tg) {
+							$.merge(scope.tasks, tg.tasks);
+						});
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, NotificationService);
@@ -48,6 +64,8 @@
 				return true;
 			};
 
+			scope.item = null;
+			scope.tasks = null;
 			scope.collaborators = null;
 			scope.newCollaborator = 0;
 			scope.canModifyCollaborators = false;
@@ -84,6 +102,11 @@
 					return;
 				}
 
+				if ($.isArray(scope.tasks) && $.grep(scope.tasks, function (t) { return (!t.isComplete && t.userId === collaborator.id); }).length > 0) {
+					NotificationService.error('Error!!', 'There are tasks assigned to ' + collaborator.formatName() + '. You cannot delete a collaobrator that has been assigned tasks.');
+					return;
+				}
+
 				scope.collaborators = self.service.deleteCollaborator(self.loggedInUser.account.id, parseInt(scope.itemId), collaborator.id, {
 					success: function(r) {
 						if ($.isFunction(scope.removeCollaboratorCallback)) {
@@ -101,6 +124,7 @@
 			scope.$watch('itemId', function() {
 				if (!launch.utils.isBlank(scope.itemId)) {
 					self.refreshCollaborators();
+					self.refreshTasks();
 				}
 			});
 		}

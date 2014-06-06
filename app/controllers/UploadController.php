@@ -22,6 +22,9 @@ class UploadController extends BaseController {
     // @todo: Check user has permission to upload
     $file = Input::file('file');
     $upload = new Upload;
+    if (Input::has('description')) {
+      $upload->description = Input::get('description');
+    }
     // Associate upload with this account
     $upload->account()->associate($account);
     try {

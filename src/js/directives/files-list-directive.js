@@ -132,7 +132,9 @@
 										scope.afterRemoveFileSuccess(r);
 									}
 								},
-								error: self.ajaxHandler.error
+								error: function(r) {
+									launch.utils.handleAjaxErrorResponse(r, NotificationService);
+								}
 							});
 
 							instance.close();
