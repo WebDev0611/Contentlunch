@@ -29,7 +29,7 @@
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return contentResource.query({ accountId: accountId }, success, error);
+			return contentResource.query(_.merge({ accountId: accountId }, params), success, error);
 		},
 		get: function (accountId, id, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;

@@ -203,6 +203,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
         });
     };
 
+    // TODO: make this reusable
     $scope.formatUserItem = function (item, element, context) {
         if (!item.text) return element.attr('placeholder');
         var user = _.findById($scope.users, item.id)[0] || {};

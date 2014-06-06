@@ -64,7 +64,15 @@
 		};
 
 		self.loadContent = function() {
-			$scope.content = contentService.query(self.loggedInUser.account.id, null, {
+			var params = null;
+			// $scope.campaign may be inherited from parent controller
+			if ($scope.campaign) {
+				params = {
+					campaign_id: $scope.campaign.id
+				};
+			}
+
+			$scope.content = contentService.query(self.loggedInUser.account.id, params, {
 				success: function (r) {
 					$scope.search.applyFilter();
 				},
