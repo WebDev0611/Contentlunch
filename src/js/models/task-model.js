@@ -4,7 +4,7 @@
 	self.id = null;
 	self.contentId = null;
 	self.status = null;
-	self.dueDate = null; // TODO: DEFAULT TO STATUS TIMES 7 DAYS
+	self.dueDate = null;
 	self.completeDate = null;
 	self.tasks = null;
 	self.created = null;
@@ -31,18 +31,13 @@
 			case 0:
 				return 'Concept';
 			case 1:
-				// TODO: ONLY THE AUTHOR CAN EDIT CONTENT
 				return 'Create';
 			case 2:
-				// TODO: AUTHOR AND COLLOBORATORS AND MANAGER CAN EDIT CONTENT
 				return 'Review';
 			case 3:
-				// TODO: MANAGER APPROVES CONTENT
-				// TODO: WHEN YOU MOVE TO THE LAUNCH STAGE, CREATE A TASK FOR LAUNCHING THE CONTENT, DEFAULT ASSIGNED TO THE AUTHOR
-				return 'Approve';
-			case 4:
-				// TODO: AUTHOR OR MANAGER CAN LAUNCH CONTENT
 				return 'Launch';
+			case 4:
+				return 'Promote';
 			default:
 				return null;
 		}
@@ -102,8 +97,6 @@ launch.Task = function() {
 	self.name = null;
 	self.isComplete = false;
 
-	// TODO: DEFAULT TO TASK GROUP'S DUE DATE
-	// TODO: CANNOT BE GREATER THAN TASK GROUP'S DUE DATE; SHOW DIALOG ASKING IF WE SHOULD EXTEND THE TASK GROUP'S DUE DATE
 	self.dueDate = null;
 	self.completeDate = null;
 	self.userId = null;

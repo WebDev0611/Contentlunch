@@ -2,7 +2,7 @@
         ['$scope', '$rootScope', '$location', 'Restangular', '$q', 'AuthService', '$filter', '$routeParams', '$modal', 'guestCollaborators', 'NotificationService', 
 function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,   $filter,   $routeParams,   $modal,   guestCollaborators,   notify) {
     $scope.pagination = {
-        pageSize: 5,
+        pageSize: 10,
         currentPage: 1,
     };
     $scope.pagination2 = angular.copy($scope.pagination);
@@ -12,7 +12,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     // -------------------------
     var user = AuthService.userInfo();
 
-    var Account = Restangular.one('account', user.account.id), Collab;
+    var Account = Restangular.one('account', user.account.id);
     var requests = {
         users: Account.all('users').getList(),
     };
@@ -24,11 +24,11 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     });
 
     // sharing controllers since "list" is so simple
+    var Collab;
     if ($routeParams.id) {
         Collab = Account.one($routeParams.conceptType, $routeParams.id);
         requests.selected = Collab.get().then(function (selected) {
-            // TODO: figure out how we're differentiating collaborators. but for now...
-            selected.internalCollaborators = selected.collaborators;
+            selected.internal_collaborators = selected.collaborators;
             return selected;
         });
         requests.connections = Account.all('connections').getList({ 'provider[]': ['linkedin', 'twitter'] });
@@ -43,8 +43,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                 _.each(sublist, function (item) {
                     item.type = type;
                     item.type_slug = type === 'Content' ? 'content' : 'campaigns';
-                    // TODO: figure out how we're differentiating collaborators. but for now...
-                    item.internalCollaborators = item.collaborators;
+                    item.internal_collaborators = item.collaborators;
                     return list.push(item);
                 });
                 return list;
@@ -65,19 +64,19 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     // -------------------------
     $scope.addInternalCollaborator = function (collaboratorToAdd) {
         $scope.showAddInternal = false;
-        if (!_.isArray($scope.selected.internalCollaborators)) 
-            $scope.selected.internalCollaborators = [];
+        if (!_.isArray($scope.selected.internal_collaborators)) 
+            $scope.selected.internal_collaborators = [];
 
         $scope.selected.all('collaborators').post({ 
             user_id: collaboratorToAdd.id 
         }).then(function () {
-            $scope.selected.internalCollaborators.push(collaboratorToAdd);
+            $scope.selected.internal_collaborators.push(collaboratorToAdd);
         });
     };
 
     $scope.removeInternalCollaborator = function (collab) {
         $scope.selected.one('collaborators', collab.id).remove().then(function () {
-            $rootScope.removeRow($scope.selected.internalCollaborators, collab.id);
+            $rootScope.removeRow($scope.selected.internal_collaborators, collab.id);
         });
     };
 
@@ -110,7 +109,14 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                 _scope.provider = provider;
                 _scope.isGroup = isGroup;
                 _scope.linkLength = (link || {}).len || 0;
-                if (provider == 'twitter') _scope.linkLength += 2; // 2 newlines
+                if (provider == 'twitter') {
+                    _scope.linkLength += 2; // 2 newlines
+
+                    if (_scope.linkLength == 2) {
+                        // then something went wrong with our request. assume link length is 25
+                        _scope.linkLength += 25;
+                    }
+                }
             }],
             resolve: { 
                 recipients: function () { return recipients; },
@@ -131,7 +137,8 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                 }),
                 group: group,
                 message:   message,
-                contentId: $routeParams.id
+                contentId: $routeParams.id,
+                contentType: $routeParams.conceptType
             });
         // the angular.noop here should make it so our catch doesn't catch this if it errors
         }, angular.noop).then(function (response) {
@@ -158,10 +165,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
             if (!angular.isDefined(guests)) return;
 
             $scope.guestCollaborators = guests;
-        }).catch(function (err) {
-            notify.error(((err.data || {}).errors || []).join('<br>') || err.data || err);
-            console.error(err);
-        });
+        }).catch($rootScope.globalErrorHandler);
     };
 
     $scope.toggleAccordion = function (connection) {
@@ -196,6 +200,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
         });
     };
 
+    // TODO: make this reusable
     $scope.formatUserItem = function (item, element, context) {
         if (!item.text) return element.attr('placeholder');
         var user = _.findById($scope.users, item.id)[0] || {};

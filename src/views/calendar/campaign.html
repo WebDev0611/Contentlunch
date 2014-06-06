@@ -1,0 +1,191 @@
+<div class="view calendar">
+    <div class="col-md-3 left-pane">
+
+    </div>
+    <div class="col-md-9 right-pane">
+        <h2 class="right-pane-header">Calendar</h2>
+        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-9">
+                    <form ng-submit="saveCampaign(campaign)">
+                        <div class="row">
+                            <div class="col-xs-2" ng-show="campaign.color">
+                                <span class="wheel-of-color" style="background-color:{{ campaign.color }}"></span>
+                            </div>
+                            <div class="col-xs-10">
+                                <h4>Concept</h4>
+                                <p>{{ campaign.concept }}</p>
+                            </div>
+                        </div> <!-- .row -->
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" name="title" class="form-control" id="title" ng-model="campaign.title">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select name="status" class="form-control" id="status" 
+                                            ng-model="campaign.status">
+                                        <option value="0">Inactive</option>
+                                        <option value="1">Active</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="campaignType">Campaign Type</label>
+                                    <select name="campaignType" class="form-control" id="campaignType" 
+                                        ng-model="campaign.campaign_type"
+                                        ng-options="type as type.name for type in campaignTypes track by type.id">
+                                    </select>
+                                </div>
+                            </div>
+                        </div> <!-- .row -->
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="startDate">Start Date</label>
+                                    <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" type="text" name="startDate" class="form-control" id="startDate" ng-model="campaign.start_date">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="endDate">End Date</label>
+                                    <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" type="text" name="endDate" class="form-control" id="endDate" ng-model="campaign.end_date">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="recurring">Recurring</label>
+                                    <select name="recurring" class="form-control" id="recurring" 
+                                            ng-model="campaign.is_recurring">
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div> <!-- .row -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea rows="4" name="description" class="form-control" id="description" ng-model="campaign.description"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="campaignGoals">Campaign Goals</label>
+                                    <textarea rows="4" name="campaignGoals" class="form-control" id="campaignGoals" ng-model="campaign.goals"></textarea>
+                                </div>
+                            </div>
+                        </div> <!-- .row -->
+                        <div class="row">
+                        <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="file">Attach a File</label>
+                                    <input type="file" name="file" class="form-control" id="file" ng-model="file">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tags">Tags <small>(comma separated)</small></label>
+                                    <input type="text" list="tag" name="tags" class="form-control" id="tags" ng-model="campaign.tags">
+                                </div>
+                            </div>
+                        </div> <!-- .row -->
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-inverse">Save</button>
+                                    <button type="button" ng-click="deleteCampaign(campaign)" class="btn btn-inverse">Delete</button>
+                                    <button type="button" ng-click="cancelCampaign()" class="btn btn-inverse">Cancel</button>
+                                </div>
+                            </div>
+                        </div> <!-- .row -->
+                    </form>
+
+                    <!-- 
+                    <table class="table table-stripe">
+                        <thead>
+                            <tr>
+                                <th class="align-bottom">&nbsp;</th>
+                                <th class="align-bottom">Title</th>
+                                <th class="align-bottom">Author</th>
+                                <th class="align-bottom">Persona</th>
+                                <th class="align-bottom">Buying<br>Stage</th>
+                                <th class="align-bottom">Current Step</th>
+                                <th class="align-bottom">Next Step</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="content in campaign.content track by content.id">
+                                <td class="align-middle">
+                                    <span class="campaign-dot campaign-dot-small" style="background-color:{{ campaign.color }}"></span>
+                                </td>
+                                <td class="align-middle">{{ content.title }}</td>
+                                <td class="align-middle">
+                                    <div class="cl-badge cl-badge-horizontal no-margin">
+                                        <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ content.user.image | imagePathFromObject }}')"></span>
+                                        <div class="cl-badge-caption">
+                                            {{ content.user.first_name }}
+                                            {{ content.user.last_name }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle">{{ content.persona }}</td>
+                                <td class="align-middle align-center">
+                                    <span class="cl-icon"  ng-class="'cl-icon-personas-' + content.buying_stage"></span>
+                                </td>
+                                <td class="align-middle"></td>
+                                <td class="align-middle"></td>
+                            </tr>
+                        </tbody>
+                    </table> 
+                    -->
+
+                    <div ng-if="campaign" class="create-table-container" ng-controller="CreateController">
+                        <div ng-include="'/assets/views/content/partials/table-list.html'"></div>
+                    </div>
+
+                </div> <!-- .col-md-9 -->
+                <div class="col-md-3">
+                    <div class="panel panel-inverse">
+                        <div class="panel-heading">
+                            Owner
+                        </div>
+                        <div class="panel-body">
+                            <div ng-repeat="collab in campaign.collaborators" class="internal-collaborator cl-badge cl-badge-horizontal">
+                                <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ collab.image | imagePathFromObject }}')"></span>
+                                <div class="cl-badge-caption">
+                                    {{ collab.first_name }}
+                                    {{ collab.last_name }}
+                                </div>
+
+                                <span class="fa fa-trash-o pull-right" ng-click="removeInternalCollaborator(collab)"></span>
+                            </div>
+
+                            <div class="form-group" ng-show="showAddInternal">
+                                <select name="additionalCollaborator" id="additionalCollaborator"
+                                        ng-change="addInternalCollaborator(collaboratorToAdd)"
+                                        ng-model="collaboratorToAdd"
+                                        ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }"
+                                        placeholder="-- Add Collaborator --"
+                                        ng-options="u as (u.first_name + ' ' + u.last_name) for u in users | exclude:campaign.collaborators track by u.id"
+                                    >
+                                </select>
+                            </div>
+
+                            <span ng-hide="showAddInternal" ng-click="showAddInternal = true" class="glyphicon glyphicon-plus-sign"></span>
+                        </div>
+                    </div> <!-- .panel.panel-inverse -->
+                </div> <!-- .col-md-3 (sidebar) -->
+            </div> <!-- .row -->
+        </div> <!-- .container -->
+    </div>
+</div>

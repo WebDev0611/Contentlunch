@@ -8,9 +8,8 @@ launch.module.controller('UsersController', [
 			self.loggedInUser = authService.userInfo();
 			self.loadUsers(true);
 
-			// TODO: WE SHOULDN'T HAVE TO CHECK FOR GLOBAL ADMIN HERE. IT SHOULD COME AS A PRIVILEGE FROM THE API!!
-			$scope.showNewUser = self.loggedInUser.role.isGlobalAdmin || self.loggedInUser.hasPrivilege('settings_execute_users');
-			$scope.showUsers = self.loggedInUser.role.isGlobalAdmin || self.loggedInUser.hasPrivilege(['settings_view_profiles', 'settings_edit_profiles']);
+			$scope.showNewUser = self.loggedInUser.hasPrivilege('settings_execute_users');
+			$scope.showUsers = self.loggedInUser.hasPrivilege(['settings_view_profiles', 'settings_edit_profiles']);
 		};
 
 		self.loadUsers = function(reset, cb) {
@@ -37,7 +36,7 @@ launch.module.controller('UsersController', [
 			if (self.loggedInUser.role.isGlobalAdmin === true) {
 				$scope.users = userService.getByRole([self.loggedInUser.role], callback);
 			} else {
-				$scope.users = userService.getForAccount(self.loggedInUser.account.id, callback, true);
+				$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, callback, true);
 			}
 		};
 

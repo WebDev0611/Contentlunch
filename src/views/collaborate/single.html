@@ -189,7 +189,7 @@
                         Internal Collaborators
                     </div>
                     <div class="panel-body">
-                        <div ng-repeat="collab in selected.internalCollaborators" class="internal-collaborator cl-badge cl-badge-horizontal">
+                        <div ng-repeat="collab in selected.internal_collaborators" class="internal-collaborator cl-badge cl-badge-horizontal">
                             <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ collab.image | imagePathFromObject }}')"></span>
                             <div class="cl-badge-caption">
                                 {{ collab.first_name }}
@@ -205,7 +205,7 @@
                                     ng-model="collaboratorToAdd"
                                     ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }"
                                     placeholder="-- Add Collaborator --"
-                                    ng-options="u as (u.first_name + ' ' + u.last_name) for u in users | exclude:selected.internalCollaborators track by u.id"
+                                    ng-options="u as (u.first_name + ' ' + u.last_name) for u in users | exclude:selected.internal_collaborators track by u.id"
                                 >
                             </select>
                         </div>

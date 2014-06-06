@@ -22,7 +22,7 @@
 
 			$scope.contentConnections = connectionService.queryContentConnections(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
-			$scope.users = userService.getForAccount(self.loggedInUser.account.id, self.ajaxHandler);
+			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
 				success: function (r) {
@@ -54,14 +54,45 @@
 
 				$scope.content = contentService.get(self.loggedInUser.account.id, self.contentId, {
 					success: function (r) {
+						if ($scope.content.status === 0) {
+							$location.path('/create/concept/edit/content/' + $scope.content.id);
+							return;
+						}
+
+						$scope.isCollaborator = (self.loggedInUser.id === $scope.content.author.id ||
+							$.grep($scope.content.collaborators, function (c) { return c.id === self.loggedInUser.id; }).length > 0);
+
+						// TODO: REMOVE THIS WHEN THERE IS A PRIVILEGE TO VIEW ALL CONTENT!!
+						$scope.isCollaborator = true;
+
+						if (!$scope.isCollaborator) {
+							return;
+						}
+
+						if ($scope.content.status <= 3) {
+							$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_view_content_other_unapproved', 'create_view_content_other']);
+							$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_edit_content_other_unapproved', 'create_edit_content_other']);
+						} else if ($scope.content.status === 3) {
+							$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_view_content_other');
+							$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
+						} else {
+							//TODO: WHAT PRIVILEGES DO WE CHECK FOR PROMOTE?
+							$scope.canPromoteContent = true;
+						}
+
+						// TODO: VERIFY RULES FOR SUBMITTING CONTENT FOR APPROVAL!!
+						$scope.canSubmitContent = ($scope.content.author.id === self.loggedInUser.id || self.loggedInUser.hasPrivilege('create_edit_content_other_unapproved'));
+						$scope.canApproveContent = self.loggedInUser.hasPrivilege('collaborate_execute_approve');
+						$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
+						$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
+
 						$scope.showRichTextEditor = $scope.content.contentType.allowText();
 						$scope.showAddFileButton = $scope.content.contentType.allowFile();
 
 						$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
 						$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
 
-						// TODO: DO WE NEED TO GET ATTACHMENTS FROM THE API??
-						//$scope.contentAttachments = $scope.content.attachments;
+						$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = ($scope.content.status >= 3);
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -134,15 +165,119 @@
 			self.uploadFile = null;
 		};
 
+		self.approveContent = function () {
+			if (self.loggedInUser.hasPrivilege('collaborate_execute_approve')) {
+				self.handleSubmitContent();
+				return;
+			}
+
+			$modal.open({
+				templateUrl: 'select-approver.html',
+				controller: [
+					'$scope', '$modalInstance', function (scope, instance) {
+						scope.approver = null;
+						scope.approverId = null;
+						// TODO: THIS IS NOT WORKING IN THE API!!
+						scope.approvers = userService.getForAccount(self.loggedInUser.account.id, { permission: 'collaborate_execute_approve' }, self.ajaxHandler, true);
+
+						scope.formatUserItem = function (item, element, context) {
+							var collaborator = $.grep($scope.content.collaborators, function (c, i) { return c.id === parseInt(item.id); });
+							var html = $scope.formatUserItem(item, element, context);
+
+							if (collaborator.length === 0) {
+								return html;
+							}
+
+							return html + '<span class="fa fa-check-circle" style="display: inline-block; margin-left: 8px;"></span>';
+						};
+
+						scope.selectApprover = function(id) {
+							scope.approver = $.grep(scope.approvers, function(a) { return a.id === parseInt(id); })[0];
+						};
+
+						scope.save = function () {
+							if (!scope.approver) {
+								notificationService.error('Error!', 'Please select a content approver.');
+								return;
+							}
+
+							if ($.grep($scope.content.collaborators, function (c) { return (c.id === scope.approver.id); }).length === 0) {
+								contentService.insertCollaborator(self.loggedInUser.account.id, $scope.content.id, scope.approver.id, self.ajaxHandler);
+							}
+
+							var taskGroup = $.grep($scope.content.taskGroups, function (tg) { return tg.status === $scope.content.status; });
+
+							if (taskGroup.length != 1) {
+								notificationService.error('Error!', 'Unable to find task group for ' + $scope.content.currentStep() + ' stage.');
+								return;
+							}
+
+							var task = new launch.Task();
+
+							task.name = 'Approve Content';
+							task.isComplete = false;
+							task.dueDate = new Date();
+							task.userId = scope.approver.id;
+							task.taskGroupId = taskGroup[0].id;
+							task.dueDate.setDate((task.dueDate).getDate() + 2);
+
+							taskGroup[0].tasks.push(task);
+
+							taskService.saveContentTasks(self.loggedInUser.account.id, taskGroup[0], {
+								success: function(r) {
+									instance.close();
+								},
+								error: self.ajaxHandler.error
+							});
+						};
+
+						scope.cancel = function () {
+							instance.dismiss('cancel');
+						};
+					}
+				]
+			});
+		};
+
+		self.launchContent = function () {
+			if (!$scope.canLaunchContent) {
+				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
+			}
+
+			notificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+		};
+
+		self.promoteContent = function () {
+			if (!$scope.canPromoteContent) {
+				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
+			}
+
+			notificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+		};
+
+		self.handleSubmitContent = function() {
+			var oldStatus = $scope.content.status;
+
+			$scope.content.status = oldStatus + 1;
+
+			$scope.saveContent({
+				error: function () {
+					$scope.content.status = oldStatus;
+				}
+			});
+		};
+
 		$scope.content = null;
 		$scope.contentTypes = null;
 		$scope.contentSettings = null;
 		$scope.contentConnections = null;
 		$scope.campaigns = null;
 		$scope.users = null;
+		$scope.isCollaborator = true;
 		$scope.buyingStages = null;
 		$scope.isNewContent = true;
 		$scope.forceDirty = false;
+		$scope.isReadOnly = false;
 		$scope.contentConnectionIds = null;
 		$scope.contentTags = null;
 		$scope.showRichTextEditor = true;
@@ -150,6 +285,8 @@
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;
 		$scope.defaultTaskGroup = null;
+		$scope.taskUsers = null;
+		$scope.collaborators = null;
 
 		$scope.hasError = launch.utils.isPropertyValid;
 		$scope.errorMessage = launch.utils.getPropertyErrorMessage;
@@ -157,6 +294,17 @@
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
 		$scope.formatContentConnectionItem = launch.utils.formatContentConnectionItem;
 		$scope.formatBuyingStageItem = launch.utils.formatBuyingStageItem;
+
+		$scope.canViewContent = false;
+		$scope.canEditContent = false;
+		$scope.canSubmitContent = false;
+		$scope.canApproveContent = false;
+		$scope.canLaunchContent = false;
+		$scope.canPromoteContent = false;
+		$scope.canDiscussContent = false;
+
+		$scope.collboratorsIsDisabled = false;
+		$scope.attachmentsIsDisabled = false;
 
 		$scope.formatUserItem = function (item, element, context) {
 			var user = $.grep($scope.users, function (u, i) { return u.id === parseInt(item.id); });
@@ -244,7 +392,32 @@
 			}
 		};
 
-		$scope.submitForEditing = function () {
+		$scope.submitContent = function () {
+			if (!$scope.canSubmitContent) {
+				var action = null;
+
+				switch ($scope.content.status) {
+					case 0:
+						action = 'convert a concept to content';
+						break;
+					case 1:
+						action = 'submit content for approval';
+						break;
+					case 2:
+						action = 'approve content';
+						break;
+					case 3:
+						action = 'launch content';
+						break;
+					case 4:
+						action = 'promote content';
+						break;
+				}
+
+				notificationService.error('Error!', 'You do not have sufficient privileges to ' + action + ' content. Please contact your administrator for more information.');
+				return;
+			}
+
 			var msg = (self.replaceFile) ? 'You have specified a new file to upload. Please save your changes before changing the status of the content.' : '';
 
 			if (launch.utils.isBlank(msg) && $.isArray($scope.content.taskGroups) && $scope.content.taskGroups.length > 0) {
@@ -277,15 +450,15 @@
 				return;
 			}
 
-			var oldStatus = $scope.content.status;
-
-			$scope.content.status = 3;
-
-			$scope.saveContent({
-				error: function() {
-					$scope.content.status = oldStatus;
-				}
-			});
+			if ($scope.content.status === 2) {
+				self.approveContent();
+			} else if ($scope.content.status === 3) {
+				self.launchContent();
+			} else if ($scope.content.status === 4) {
+				self.promoteContent();
+			} else {
+				self.handleSubmitContent();
+			}
 		};
 
 		$scope.updateContentType = function() {
@@ -365,8 +538,65 @@
 		};
 
 		$scope.addAttachment = function(uploadFile) {
-			
+			if (!!$scope.content && !launch.utils.isBlank($scope.content.id)) {
+				$scope.saveContent();
+			}
 		};
+
+		$scope.filterTaskAssignees = function (collaborators) {
+			if (!$scope.content) {
+				return;
+			}
+
+			$scope.taskUsers = $.grep($scope.users, function (u) {
+				if (u.id === self.loggedInUser.id) {
+					return true;
+				}
+
+				if ($.isArray(collaborators) && collaborators.length > 0) {
+					if ($.grep(collaborators, function (c) { return c.id === u.id; }).length > 0) {
+						return true;
+					}
+				}
+
+				return false;
+			});
+		};
+
+		$scope.filterCollaborators = function() {
+			if (!$scope.content || !$scope.content.author) {
+				return;
+			}
+
+			$scope.collaborators = $.grep($scope.users, function(u) {
+				return u.id !== $scope.content.author.id;
+			});
+		};
+
+		$scope.getNextStepText = function() {
+			if (!$scope.content || !$scope.content.$resolved) {
+				return null;
+			}
+
+			switch ($scope.content.status) {
+				case 0:
+					return 'Convert to Content';
+				case 1:
+					return 'Submit for Review';
+				case 2:
+					return 'Approve';
+				case 3:
+					return 'Launch';
+				case 4:
+					return 'Promote';
+				default:
+					return null;
+			}
+		};
+
+		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
+
+		$scope.$watch('content.author', $scope.filterCollaborators);
 
 		$scope.$watch('contentTags', function () {
 			if (!$scope.content || !$scope.content.$resolved) {

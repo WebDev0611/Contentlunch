@@ -1,8 +1,8 @@
 ﻿<div class="view create">
 	<div class="col-md-3 left-pane">
-		<div task-list task-groups="content.taskGroups" parent-status="content.status" users="users" ng-hide="isNewContent"></div>
+		<div task-list task-groups="content.taskGroups" parent-status="content.status" author-id="content.author.id" users="taskUsers" ng-hide="isNewContent || !isCollaborator"></div>
 	</div>
-	<div class="col-md-9 right-pane">
+	<div class="col-md-9 right-pane" ng-show="isCollaborator">
 		<h2 class="right-pane-header">Create</h2>
 
 		<div class="content-editor row">
@@ -34,12 +34,17 @@
 				</div>
 					
 				<h2>Create Content</h2>
+				
+				<div class="content-approved-header" ng-show="isReadOnly">
+					Content is Approved
+					<span class="fa fa-thumbs-o-up"></span>
+				</div>
 
 				<form name="editContent" novalidate="novalidate">
 					<div class="control-group">
 						<div class="form-group form-group-wide" ng-class="{ 'has-error': hasError(content, 'title', editContent.txtContentName, forceDirty) }">
 							<label class="control-label" for="txtContentName">Content Title</label>
-							<input type="text" name="txtContentName" id="txtContentName" class="form-control" ng-model="content.title"
+							<input type="text" name="txtContentName" id="txtContentName" class="form-control" ng-model="content.title" ng-disabled="isReadOnly"
 									error-message message="errorMessage(content, 'title', editContent.txtContentName)" />
 						</div>
 						<div class="form-group">
@@ -51,7 +56,7 @@
 					<div class="control-group">
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'contentType.name', editContent.selContentType, forceDirty) }">
 							<label class="control-label" for="selContentType">Content Type</label>
-							<select name="selContentType" id="selContentType" ng-disabled="!isNewContent"
+							<select name="selContentType" id="selContentType" ng-disabled="!isNewContent || isReadOnly"
 									ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem, selectOnBlur: true }" ng-model="content.contentType.name"
 									data-placeholder="Select Content Type" error-message message="errorMessage(content, 'contentType.name', editContent.selContentType)" ng-change="updateContentType()">
 								<option value=""></option>
@@ -61,7 +66,7 @@
 
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'author', editContent.selAuthor, forceDirty) }">
 							<label class="control-label" for="selCreator">Content Creator</label>
-							<select name="selAuthor" id="selAuthor"
+							<select name="selAuthor" id="selAuthor" ng-disabled="isReadOnly"
 									ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="content.author.id"
 									data-placeholder="Select Content Creator" error-message message="errorMessage(content, 'author', editContent.selAuthor)" ng-change="updateAuthor()">
 								<option value=""></option>
@@ -73,7 +78,7 @@
 					<div class="control-group">
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'accountConnections', editContent.selContentConnections, forceDirty) }">
 							<label class="control-label" for="selContentConnections">Content Connections</label>
-							<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple"
+							<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple" ng-disabled="isReadOnly"
 									ui-select2="{ formatResult: formatContentConnectionItem, formatSelection: formatContentConnectionItem }" ng-model="contentConnectionIds"
 									data-placeholder="Select Content Connection" error-message message="errorMessage(content, 'accountConnections', editContent.selContentConnections)">
 								<option ng-repeat="cc in contentConnections" value="{{ cc.id }}">{{ cc.name }}</option>
@@ -83,7 +88,7 @@
 
 					<div class="control-group" ng-show="showAddFileButton">
 						<div class="content-file-view" ng-show="!!content.contentFile">
-							<button type="button" class="btn btn-lg btn-black btn-default ladda-button" onclick="$('#filContentFile').click()" data-style="zoom-in" ladda-button="isSaving">
+							<button type="button" class="btn btn-lg btn-black btn-default" onclick="$('#filContentFile').click()" ng-hide="isReadOnly">
 								<span class="fa fa-paperclip"></span>
 								Replace File
 							</button>
@@ -92,10 +97,10 @@
 							<span class="cl-icon" ng-class="content.contentFile.fileType()"></span>
 							<a href="{{ content.contentFile.path }}" target="_new">{{ content.contentFile.fileName }}</a>
 							
-							<span class="fa fa-trash-o" ng-click="deleteContentFile()"></span>
+							<span class="fa fa-trash-o" ng-click="deleteContentFile()" ng-hide="isReadOnly"></span>
 						</div>
 
-						<button type="button" class="btn btn-lg btn-black btn-default ladda-button" onclick="$('#filContentFile').click()" data-style="zoom-in" ladda-button="isSaving" ng-show="!content.contentFile">
+						<button type="button" class="btn btn-lg btn-black btn-default" onclick="$('#filContentFile').click()" ng-show="!content.contentFile && !isReadOnly">
 							<span class="fa fa-paperclip"></span>
 							Add a File
 						</button>
@@ -106,27 +111,40 @@
 						</progressbar>
 					</div>
 
-					<div class="control-group" ng-show="showRichTextEditor" ng-class="{ 'has-error': hasError(content, 'body', editContent.txtContentDesc, forceDirty) }">
+					<div class="control-group" ng-show="showRichTextEditor" ng-class="{ 'has-error': hasError(content, 'body', editContent.txtContentDesc, forceDirty) }" ng-hide="isReadOnly">
 						<textarea name="txtContentDesc" id="txtContentDesc" rich-text-editor ng-model="content.body"
-								error-message message="errorMessage(content, 'body', editContent.txtContentDesc)">{{ content.body }}</textarea>
+								error-message message="errorMessage(content, 'body', editContent.txtContentDesc)"></textarea>
+					</div>
+					
+					<div class="content-preview" ng-show="isReadOnly">
+						<h4>{{ content.title }}</h4>
+						
+						<div ng-bind-html="content.body"></div>
+					
+						<div class="control-group">
+							<button type="button" class="btn btn-lg btn-default btn-launch" ng-click="submitContent()" ng-disabled="!canLaunchContent" ng-show="content.status === 3">
+								<span class="cl-icon cl-icon-launch"></span>
+								<span>LAUNCH CONTENT</span>
+							</button>
+						</div>
 					</div>
 
 					<div class="control-group">
 						<div class="form-group">
 							<label for="txtTags">Tags</label> (separate by comma)
-							<textarea name="txtTags" id="txtTags" class="form-control" ng-model="contentTags"></textarea>
+							<textarea name="txtTags" id="txtTags" class="form-control" ng-model="contentTags" ng-disabled="isReadOnly"></textarea>
 						</div>
 
 						<div class="form-group">
 							<label for="txtRelatedContent">Related Content</label> (separate by comma)
-							<textarea name="txtRelatedContent" id="txtRelatedContent" class="form-control" ng-model="content.relatedContent"></textarea>
+							<textarea name="txtRelatedContent" id="txtRelatedContent" class="form-control" ng-model="content.relatedContent" ng-disabled="isReadOnly"></textarea>
 						</div>
 					</div>
 
 					<div class="control-group">
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'buyingStage', editContent.selBuyingStage, forceDirty) }">
 							<label for="selBuyingStage">Buying Stage</label>
-							<select name="selBuyingStage" id="selBuyingStage"
+							<select name="selBuyingStage" id="selBuyingStage" ng-disabled="isReadOnly"
 									ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem, allowClear: true }" ng-model="content.buyingStage"
 									data-placeholder="Select Buying Stage" error-message message="errorMessage(content, 'buyingStage', editContent.selBuyingStage)">
 								<option value=""></option>
@@ -136,7 +154,7 @@
 
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'persona', editContent.selPersona, forceDirty) }">
 							<label for="selPersona">Persona</label>
-							<select name="selPersona" id="selPersona"
+							<select name="selPersona" id="selPersona" ng-disabled="isReadOnly"
 									ui-select2="{ allowClear: true }" ng-model="content.persona"
 									data-placeholder="Select Persona" error-message message="errorMessage(content, 'persona', editContent.selPersona)">
 								<option value=""></option>
@@ -146,7 +164,7 @@
 
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'campaign', editContent.selCampaign, forceDirty) }">
 							<label for="selCampaign">Campaign</label>
-							<select name="selCampaign" id="selCampaign"
+							<select name="selCampaign" id="selCampaign" ng-disabled="isReadOnly"
 									ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, allowClear: true }" ng-model="content.campaign.id"
 									data-placeholder="Select Campaign" error-message message="errorMessage(content, 'campaign', editContent.selCampaign)" ng-change="updateCampaign()">
 								<option value=""></option>
@@ -158,7 +176,7 @@
 					<div class="control-group">
 						<div class="form-group">
 							<label for="selSecondaryBuyingStage">Secondary Buying Stage</label>
-							<select name="selSecondaryBuyingStage" id="selSecondaryBuyingStage"
+							<select name="selSecondaryBuyingStage" id="selSecondaryBuyingStage" ng-disabled="isReadOnly"
 									ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem, allowClear: true }" ng-model="content.secondaryBuyingStage"
 									data-placeholder="Select Secondary Buying Stage">
 								<option value=""></option>
@@ -168,7 +186,7 @@
 
 						<div class="form-group">
 							<label for="selSecondaryPersona">Secondary Persona</label>
-							<select name="selSecondaryPersona" id="selSecondaryPersona"
+							<select name="selSecondaryPersona" id="selSecondaryPersona" ng-disabled="isReadOnly"
 									ui-select2="{ allowClear: true }" ng-model="content.secondaryPersona" data-placeholder="Select Secondary Persona">
 								<option value=""></option>
 								<option ng-repeat="p in contentSettings.personas" value="{{ p.name }}">{{ p.name }}</option>
@@ -177,18 +195,22 @@
 					</div>
 
 					<div class="control-group">
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveContent()">Save</button>
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitForEditing()">Submit for Editing</button>
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveContent()" ng-show="canEditContent && !isReadOnly">Save</button>
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitContent()" ng-show="canSubmitContent && !isReadOnly">{{ getNextStepText() }}</button>
 					</div>
 					
-					<div files-list="content.attachments" after-add-file-success="addAttachment" users="users" ng-hide="isNewContent"></div>
+					<div files-list="content.attachments" after-add-file-success="addAttachment" users="taskUsers" ng-hide="isNewContent" is-disabled="attachmentsIsDisabled"></div>
 				</form>
 			</div>
-			<div class="col-md-3" collaborator-sidebar collaborators="content.collaborators" users="users" item-id="content.id" item-type="'content'" ng-hide="isNewContent"></div>
+			<div class="col-md-3" collaborator-sidebar collaborators="content.collaborators" users="collaborators" item-id="content.id" item-type="'content'" ng-hide="isNewContent"
+				add-collaborator-callback="filterTaskAssignees" remove-collaborator-callback="filterTaskAssignees" is-disabled="collboratorsIsDisabled"></div>
 		</div>
 		<div class="row">
 			<div class="col-md-12" ng-hide="isNewContent" discussion-panel discussion="content.comments" item-id="content.id" item-type="'content'" ng-hide="isNewContent"></div>
 		</div>
+	</div>
+	<div class="col-md-9 right-pane" ng-hide="isCollaborator">
+		<h3 class="unauthorized-message">You are unauthorized to view this content.</h3>
 	</div>
 </div>
 
@@ -200,4 +222,28 @@
 	<div class="modal-footer">
 		<button class="btn btn-primary" ng-click="ok()">OK</button>
 	</div>
+</script>
+
+<script type="text/ng-template" id="select-approver.html">
+	<div class="modal-header">Select Content Approver</div>
+	<div class="modal-body">
+		<div class="control-group">
+			<p>You must assign someone with approval privileges to approve this item when it is complete. They will be assigned an "Approve" task.</p>
+			<div class="form-group">
+				<label for="selApprover">Content Approver</label>
+				(items with a <span class="fa fa-check-circle"></span> are collaborators for this item)
+				<select id="selApprover" name="selApprover" ng-model="approverId" ng-change="selectApprover(approverId)"
+					ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true, allowClear: true }"
+					data-placeholder="Select Content Approver">
+					<option value=""></option>
+					<option ng-repeat="a in approvers" value="{{ a.id }}">{{ a.formatName() }}</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="save()">Select Approver</button>
+		<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+	</div>
+
 </script>

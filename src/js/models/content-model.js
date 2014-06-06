@@ -112,7 +112,7 @@
 			//case 'persona':
 				//	return (self.status >= 1 && launch.utils.isBlank(self.persona)) ? 'Persona is required.' : null;
 			case 'accountconnections':
-				return (self.status >= 1 && (!$.isArray(self.accountConnections) || self.accountConnections.length === 0)) ? 'One or more Content Connections is required.' : null;
+				return (self.status >= 1 && (!$.isArray(this.accountConnections) || this.accountConnections.length === 0)) ? 'One or more Content Connections is required.' : null;
 			//case 'campaign':
 				//	return (!self.campaign || launch.utils.isBlank(self.campaign.id)) ? 'Campaign is required.' : null;
 			default:

@@ -1,14 +1,14 @@
 ﻿<div class="view create">
 	<div class="col-md-3 left-pane">
-		<div class="btn-group add-content">
+		<div class="btn-group add-content" ng-show="canCreateContentConcept || canCreateCampaignConcept || canCreateContent">
 			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 				NEW...
 				<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" role="menu">
-				<li ng-click="createNew('content-concept')"><a href="#">Content Concept</a></li>
-				<li ng-click="createNew('campaign-concept')"><a href="#">Campaign Concept</a></li>
-				<li ng-click="createNew('content')"><a href="#">Content</a></li>
+				<li ng-click="createNew('content-concept')" ng-show="canCreateContentConcept"><a href="#">Content Concept</a></li>
+				<li ng-click="createNew('campaign-concept')" ng-show="canCreateCampaignConcept"><a href="#">Campaign Concept</a></li>
+				<li ng-click="createNew('content')" nt-show="canCreateContent"><a href="#">Content</a></li>
 			</ul>
 		</div>
 
@@ -33,6 +33,8 @@
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': content_type_is_open, 'fa-caret-right': !content_type_is_open}"></i>
 					Content Type
+					<span class="filter-slection-counter" ng-show="search.contentTypes.length > 0">(showing {{ search.contentTypes.length }} of {{ contentTypes.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.contentTypes.length === 0">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selContentType" name="selContentType" class="multi-select" multiple="multiple"
@@ -46,6 +48,8 @@
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': mileston_is_open, 'fa-caret-right': !mileston_is_open}"></i>
 					Milestone
+					<span class="filter-slection-counter" ng-show="search.milestones.length > 0">(showing {{ search.milestones.length }} of {{ milestones.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.milestones.length === 0">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selMilestone" name="selMilestone" class="multi-select" multiple="multiple"
@@ -59,6 +63,8 @@
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': buying_stage_is_open, 'fa-caret-right': !buying_stage_is_open}"></i>
 					Buying Stage
+					<span class="filter-slection-counter" ng-show="search.buyingStages.length > 0">(showing {{ search.buyingStages.length }} of {{ buyingStages.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.buyingStages.length === 0">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selBuyingStage" name="selBuyingStage" class="multi-select" multiple="multiple"
@@ -72,6 +78,8 @@
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': campaign_is_open, 'fa-caret-right': !campaign_is_open}"></i>
 					Campaign
+					<span class="filter-slection-counter" ng-show="search.campaigns.length > 0">(showing {{ search.campaigns.length }} of {{ campaigns.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.campaigns.length === 0">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selCampaign" name="selCampaign" class="multi-select" multiple="multiple"
@@ -85,6 +93,8 @@
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': content_creator_is_open, 'fa-caret-right': !content_creator_is_open}"></i>
 					Content Creator
+					<span class="filter-slection-counter" ng-show="search.users.length > 0">(showing {{ search.users.length }} of {{ users.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.users.length === 0">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selCreator" name="selCreator" class="multi-select" multiple="multiple"
@@ -104,98 +114,7 @@
 	<div class="col-md-9 right-pane">
 		<h2 class="right-pane-header">Create</h2>
 		
-		<div class="create-header">
-			<h3>Content</h3>
-			
-			<div class="btn-group">
-				<button class="btn btn-default" ng-class="{ active: search.contentStage === 'content' }" ng-click="search.toggleContentStage('content')">Content</button>
-				<button class="btn btn-default" ng-class="{ active: search.contentStage === 'concepts' }" ng-click="search.toggleContentStage('concepts')">Concepts</button>
-				<button class="btn btn-default" ng-class="{ active: search.contentStage === 'archived' }" ng-click="search.toggleContentStage('archived')">Archived</button>
-			</div>
-			
-			<div class="create-delete">
-				<button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteSelected()"></button>
-			</div>
-
-			<div class="create-download">
-				<button type="button" class="btn btn-default fa fa-download" ng-click="download()"></button>
-			</div>
-
-			<div class="create-paging-controls">
-				<div class="form-group form-inline">
-					<label class="control-label" for="selPageSize">Items per page:</label>
-					<select class="form-control" id="selPageSize" name="selPageSize" ng-model="pagination.pageSize" ng-change="pagination.groupToPages()">
-						<option value="5">5</option>
-						<option value="10">10</option>
-						<option value="20">20</option>
-						<option value="50">50</option>
-						<option value="100">100</option>
-					</select>
-				</div>
-
-				<div style="width: 100px; text-align: center;">
-					{{ pagination.getPageIndicator() }}
-				</div>
-
-				<div class="create-pager" ng-show="pagination.totalItems > pagination.pageSize">
-					<pagination
-						total-items="pagination.totalItems"
-						items-per-page="pagination.pageSize"
-						page="pagination.currentPage"
-						on-select-page="pagination.onPageChange(page, editUser)"
-						direction-links="true"
-						max-size="0">
-					</pagination>
-				</div>
-			</div>
-		</div>
-		
-		<div class="create-table-container">
-			<table class="create-table">
-				<thead>
-					<tr>
-						<th class="small-cell">&nbsp;</th>
-						<th class="small-cell" ng-hide="search.contentStage === 'content'">&nbsp;</th>
-						<th>Title</th>
-						<th>Author</th>
-						<th ng-hide="search.contentStage === 'concepts'">Persona</th>
-						<th ng-hide="search.contentStage === 'concepts'">Buying Stage</th>
-						<th ng-show="search.contentStage === 'content'">Current Step</th>
-						<th>Next Step</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="c in pagedContent[pagination.currentPage - 1]" ng-class-odd="'dark'">
-						<td class="small-cell"><div class="campaign-dot campaign-dot-small" ng-class="'campaign-dot-' + c.campaign.index()"></div></td>
-						<td class="small-cell" ng-hide="search.contentStage === 'content'"><input type="checkbox" class="form-control" ng-model="c.isSelected" /></td>
-						<td>
-							<span class="cl-icon" ng-class="formatContentTypeIcon(c.contentType.name)"></span>
-							{{ c.title }}
-						</td>
-						<td>
-							<span class="user-image user-image-small" ng-style="{ 'background-image': c.author.image }"></span>
-							{{ c.author.formatName() }}
-						</td>
-						<td ng-hide="search.contentStage === 'concepts'">{{ c.persona }}</td>
-						<td ng-hide="search.contentStage === 'concepts'"><span class="cl-icon" ng-class="'cl-icon-personas-' + c.buyingStage"></span></td>
-						<td ng-show="search.contentStage === 'content'">
-							<span class="cl-icon cl-icon-workflow" ng-class="formatWorkflowItem(c.currentStep())"></span>
-							<div class="workflow-info">
-								<div>{{ formatWorkflowTitle(c.currentStep()) }}</div>
-								<!--<div class="small-text">{{ formatDate(c.updated) }}</div>-->
-							</div>
-						</td>
-						<td>
-							<div class="workflow-info">
-								<a href="#" ng-click="handleNextStep(c)">{{ formatWorkflowTitle(c.nextStep()) }}</a>
-								<!--<div class="small-text" ng-class="{ error: highlightDate(c.dueDate) }">Due: {{ formatDate(c.dueDate) }}</div>-->
-							</div>
-						</td>
-					</tr>
-				</tbody>
-				<tfoot></tfoot>
-			</table>
-		</div>
+		<div ng-include="'/assets/views/content/partials/table-list.html'"></div>
 	</div>
 </div>
 

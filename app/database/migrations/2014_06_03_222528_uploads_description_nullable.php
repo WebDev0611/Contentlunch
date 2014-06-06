@@ -15,7 +15,7 @@ class UploadsDescriptionNullable extends Migration {
 		Schema::table('uploads', function ($table) {
       $db = Config::get('database.default');
       echo ' DB TYPE: '. $db .' ';
-      if ($db == 'sqlserv') {
+      if ($db == 'sqlsrv') {
         DB::unprepared("ALTER TABLE [uploads] ALTER COLUMN [description] text NULL");
       } else {
         DB::unprepared("ALTER TABLE `uploads` MODIFY COLUMN `description` text NULL");
@@ -32,7 +32,7 @@ class UploadsDescriptionNullable extends Migration {
 	{
 		Schema::table('uploads', function ($table) {
       $db = Config::get('database.default');
-      if ($db == 'sqlserv') {
+      if ($db == 'sqlsrv') {
         DB::unprepared("ALTER TABLE [uploads] ALTER COLUMN [description] text NOT NULL");
       } else {
         DB::unprepared("ALTER TABLE `uploads` MODIFY COLUMN `description` text NOT NULL");

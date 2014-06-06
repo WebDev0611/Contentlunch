@@ -21,7 +21,7 @@
 
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
-			$scope.users = userService.getForAccount(self.loggedInUser.account.id, self.ajaxHandler);
+			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
 		}
 
 		self.refreshConcept = function() {
@@ -32,13 +32,31 @@
 				$scope.isNewConcept = true;
 			} else {
 				$scope.content = contentService.get(self.loggedInUser.account.id, contentId, {
-					success: function (r) {
-						// TODO: GET ATTACHMENTS FROM API!!
-						$scope.conceptAttachments = [1, 2, 3, 4, 5];
+					success: function(r) {
+						if ($scope.content.status > 0) {
+							$location.path('/create/content/edit/' + $scope.content.id);
+							return;
+						}
+
+						$scope.isCollaborator = (self.loggedInUser.id === $scope.content.author.id ||
+							$.grep($scope.content.collaborators, function (c) { return c.id === self.loggedInUser.id; }).length > 0);
+
+						// TODO: REMOVE THIS WHEN THERE IS A PRIVILEGE TO VIEW ALL CONTENT!!
+						$scope.isCollaborator = true;
+
+						if (!$scope.isCollaborator) {
+							return;
+						}
+
+						if (self.loggedInUser.id === $scope.content.author.id) {
+							$scope.canConvertConept = self.loggedInUser.hasPrivilege('create_execute_convert_concept_own');
+							$scope.canEditContent = true;
+						} else {
+							$scope.canConvertConept = self.loggedInUser.hasPrivilege('create_execute_convert_concept_other');
+							$scope.canEditContent = self.loggedInUser.hasPrivilege('create_edit_ideas_other');
+						}
 					},
-					error: function (r) {
-						launch.utils.handleAjaxErrorResponse(r, notificationService);
-					}
+					error: self.ajaxHandler.error
 				});
 				$scope.isNewConcept = false;
 			}
@@ -50,13 +68,17 @@
 		$scope.isSaving = false;
 
 		$scope.content = null;
-		$scope.conceptAttachments = null;
 		$scope.contentTypes = null;
 		$scope.campaigns = null;
 		$scope.users = null;
+		$scope.collaborators = null;
+		$scope.isCollaborator = true;
 		$scope.isNewConcept = true;
 		$scope.isContentConcept = true;
+
+		$scope.canEditContent = true;
 		$scope.showCollaborate = false;
+		$scope.canConvertConept = false;
 
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
@@ -108,12 +130,11 @@
 		};
 
 		$scope.viewInCollaborate = function () {
-			// TODO: CREATE ROUTE TO COLLOBORATING ON A CONTENT ITEM AND TAKE THE USER TO THAT ROUTE HERE!!
-			notificationService.info('WARNING!', 'THIS IS NOT YET IMPLEMENTED!! WE NEED TO CREATE THE ROUTE TO THIS PAGE!!');
+			$location.path('/collaborate/content/' + $scope.content.id);
 		};
 
 		$scope.convertConcept = function() {
-			$scope.content.status = 2;
+			$scope.content.status = 1;
 			$scope.content.concept = $scope.content.body;
 
 			contentService.update(self.loggedInUser.account.id, $scope.content, {
@@ -146,6 +167,24 @@
 
 			$scope.content.campaign = campaign[0];
 		};
+
+		$scope.addAttachment = function (uploadFile) {
+			if (!!$scope.content && !launch.utils.isBlank($scope.content.id)) {
+				$scope.saveConcept();
+			}
+		};
+
+		$scope.filterCollaborators = function () {
+			if (!$scope.content || !$scope.content.author) {
+				return;
+			}
+
+			$scope.collaborators = $.grep($scope.users, function (u) {
+				return u.id !== $scope.content.author.id;
+			});
+		};
+
+		$scope.$watch('content.author', $scope.filterCollaborators);
 
 		self.init();
 	}

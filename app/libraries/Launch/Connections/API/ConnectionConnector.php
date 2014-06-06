@@ -73,7 +73,7 @@ class ConnectionConnector
     {
         // I was originally going to have some logic here, 
         // but it ended up needed to go into each API wrapper
-        GuestCollaborator::create($guest);
+        return GuestCollaborator::create($guest);
     }
 
     /**

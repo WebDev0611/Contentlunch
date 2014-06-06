@@ -1,7 +1,7 @@
 ﻿<div class="view calendar">
 	<div class="col-md-3 left-pane">
 		<button class="btn full-width small-nudge-down btn-inverse add-content" ng-click="newTask()">Create New Task</button>
-		<button class="btn full-width small-nudge-down btn-inverse add-content" ng-click="newCampaign()">Create New Campaign</button>
+		<a class="btn full-width small-nudge-down btn-inverse add-content" href="/calendar/campaigns/new">Create New Campaign</a>
 
 		<div class="input-group small-nudge-down">
 			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter()" />

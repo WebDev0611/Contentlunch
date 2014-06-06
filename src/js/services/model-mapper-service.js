@@ -1,7 +1,7 @@
 ﻿launch.ModelMapper = function($location, authService, notificationService) {
 	var self = this;
 
-	self.parseResponse = function (r, getHeaders, fromDto, sort) {
+	self.parseResponse = function(r, getHeaders, fromDto, sort) {
 		if (launch.utils.isBlank(r) || !$.isFunction(fromDto)) {
 			return null;
 		}
@@ -15,7 +15,7 @@
 		if ($.isArray(dto)) {
 			var items = [];
 
-			$.each(dto, function (index, item) {
+			$.each(dto, function(index, item) {
 				items.push(fromDto(item));
 			});
 
@@ -34,7 +34,7 @@
 	};
 
 	self.auth = {
-		parseResponse: function (r, getHeaders) {
+		parseResponse: function(r, getHeaders) {
 			return self.parseResponse(r, getHeaders, self.auth.fromDto);
 		},
 		fromDto: function(dto) {
@@ -55,15 +55,15 @@
 			auth.role = user.role;
 			auth.created = user.created;
 			auth.updated = user.updated;
-      auth.impersonating = user.impersonating;
+			auth.impersonating = user.impersonating;
 
 			auth.modules = $.map(dto.modules, function(m) {
 				var module = self.module.fromDto(m);
 
 				if (!!dto.permissions) {
-					module.privileges = $.map($.grep(dto.permissions, function (p) {
+					module.privileges = $.map($.grep(dto.permissions, function(p) {
 						return p.module.toLowerCase() === module.name;
-					}), function (p) {
+					}), function(p) {
 						return self.privilege.fromDto(p);
 					});
 
@@ -92,7 +92,7 @@
 			auth.role = cachedAuth.role;
 			auth.created = cachedAuth.created;
 			auth.updated = cachedAuth.updated;
-      auth.impersonating = cachedAuth.impersonating;
+			auth.impersonating = cachedAuth.impersonating;
 
 			auth.modules = cachedAuth.modules;
 
@@ -147,8 +147,8 @@
 			account.hasToken = dto.hasToken;
 			account.tokenizedType = dto.payment_type;
 
-      account.creditCard = new launch.CreditCard();
-      account.bankAccount = new launch.BankAccount();
+			account.creditCard = new launch.CreditCard();
+			account.bankAccount = new launch.BankAccount();
 			if (!!dto.payment_info) {
 				if (!launch.utils.isBlank(dto.payment_info.card_number)) {
 					account.creditCard = new launch.CreditCard();
@@ -662,13 +662,15 @@
 				{ name: 'calendar', title: 'CALENDAR', active: true },
 				{ name: 'launch', title: 'LAUNCH', active: true },
 				{ name: 'measure', title: 'MEASURE', active: true }
-      ];
-      if (subscription.subscriptionLevel >= 2) {
-        subscription.components.push({ name: 'collaborate', title: 'COLLABORATE', active: true });
-      }
-      if (subscription.subscriptionLevel >= 3) {
-        subscription.components.push({ name: 'consult', title: 'CONSULT', active: true });
-      }
+			];
+
+			if (subscription.subscriptionLevel >= 2) {
+				subscription.components.push({ name: 'collaborate', title: 'COLLABORATE', active: true });
+			}
+
+			if (subscription.subscriptionLevel >= 3) {
+				subscription.components.push({ name: 'consult', title: 'CONSULT', active: true });
+			}
 			return subscription;
 		},
 		toDto: function(subscription) {
@@ -881,10 +883,10 @@
 	};
 
 	self.contentSettings = {
-		parseResponse: function (r, getHeaders) {
+		parseResponse: function(r, getHeaders) {
 			return self.parseResponse(r, getHeaders, self.contentSettings.fromDto);
 		},
-		formatRequest: function (settings) {
+		formatRequest: function(settings) {
 			return JSON.stringify(self.contentSettings.toDto(settings));
 		},
 		fromDto: function(dto) {
@@ -919,8 +921,8 @@
 
 			settings.publishingGuidelines = dto.publishing_guidelines;
 
-			settings.personaProperties = $.map(dto.persona_columns, function (p) { return launch.utils.titleCase(p); });
-			settings.personas = $.map(dto.personas, function (p) {
+			settings.personaProperties = $.map(dto.persona_columns, function(p) { return launch.utils.titleCase(p); });
+			settings.personas = $.map(dto.personas, function(p) {
 				return {
 					name: p.name,
 					properties: p.columns
@@ -1019,13 +1021,13 @@
 	};
 
 	self.seoConnection = {
-		parseResponse: function (r, getHeaders) {
+		parseResponse: function(r, getHeaders) {
 			return self.parseResponse(r, getHeaders, self.seoConnection.fromDto, self.seoConnection.sort);
 		},
-		formatRequest: function (connection) {
+		formatRequest: function(connection) {
 			return JSON.stringify(self.seoConnection.toDto(connection));
 		},
-		fromDto: function (dto) {
+		fromDto: function(dto) {
 			var connection = new launch.SeoConnection();
 
 			connection.id = parseInt(dto.id);
@@ -1039,7 +1041,7 @@
 
 			return connection;
 		},
-		toDto: function (connection) {
+		toDto: function(connection) {
 			return {
 				id: connection.id,
 				account_id: connection.accountId,
@@ -1047,7 +1049,7 @@
 				status: (connection.active === true) ? 1 : 0
 			};
 		},
-		sort: function (a, b) {
+		sort: function(a, b) {
 			if (!a && !b) {
 				return 0;
 			} else if (!a && !!b) {
@@ -1081,7 +1083,7 @@
 	};
 
 	self.content = {
-		parseResponse: function (r, getHeaders) {
+		parseResponse: function(r, getHeaders) {
 			return self.parseResponse(r, getHeaders, self.content.fromDto);
 		},
 		formatRequest: function(content) {
@@ -1173,7 +1175,7 @@
 				persona: content.persona,
 				secondary_persona: content.secondaryPersona,
 				buying_stage: content.buyingStage,
-				secondardy_buying_stage: content.secondaryBuyingStage,
+				secondary_buying_stage: content.secondaryBuyingStage,
 				user: self.user.toDto(content.author),
 				concept: content.concept,
 				status: content.status,
@@ -1204,7 +1206,7 @@
 			dto.collaborators = $.isArray(content.collaborators) ? $.map(content.collaborators, self.user.toDto) : null;
 			dto.comments = $.isArray(content.comments) ? $.map(content.comments, self.comment.toDto) : null;
 			dto.account_connections = $.isArray(content.accountConnections) ? $.map(content.accountConnections, self.contentConnection.toDto) : null;
-			
+
 			dto.related = $.isArray(content.relatedContent) ? content.relatedContent.split(',') : null;
 			dto.tags = $.isArray(content.tags) ? $.map(content.tags, function(t) { return { tag: t }; }) : null;
 
@@ -1216,7 +1218,7 @@
 		parseResponse: function(r, getHeaders) {
 			return self.parseResponse(r, getHeaders, self.contentType.fromDto);
 		},
-		fromDto: function (dto) {
+		fromDto: function(dto) {
 			if (!dto) {
 				return null;
 			}
@@ -1248,13 +1250,13 @@
 	};
 
 	self.comment = {
-		parseResponse: function (r, getHeaders) {
+		parseResponse: function(r, getHeaders) {
 			return self.parseResponse(r, getHeaders, self.comment.fromDto);
 		},
-		formatRequest: function (comment) {
+		formatRequest: function(comment) {
 			return JSON.stringify(self.comment.toDto(comment));
 		},
-		fromDto: function (dto) {
+		fromDto: function(dto) {
 			if (!dto) {
 				return null;
 			}
@@ -1286,12 +1288,12 @@
 		parseResponse: function(r, getHeaders) {
 			return self.parseResponse(r, getHeaders, self.campaign.fromDto);
 		},
-		formatRequest: function (campaign) {
+		formatRequest: function(campaign) {
 			return JSON.stringify(self.campaign.toDto(campaign));
 		},
-		fromDto: function (dto) {
+		fromDto: function(dto) {
 			var campaign = new launch.Campaign();
-			
+
 			campaign.id = parseInt(dto.id);
 			campaign.title = dto.title;
 			campaign.description = dto.description;
@@ -1325,13 +1327,13 @@
 	};
 
 	self.taskGroups = {
-		parseResponse: function (r, getHeaders) {
+		parseResponse: function(r, getHeaders) {
 			return self.parseResponse(r, getHeaders, self.taskGroups.fromDto);
 		},
-		formatRequest: function (taskGroup) {
+		formatRequest: function(taskGroup) {
 			return JSON.stringify(self.taskGroups.toDto(taskGroup));
 		},
-		fromDto: function (dto) {
+		fromDto: function(dto) {
 			var taskGroup = new launch.TaskGroup();
 
 			taskGroup.id = parseInt(dto.id);
@@ -1339,7 +1341,7 @@
 			taskGroup.status = parseInt(dto.status);
 			taskGroup.dueDate = new Date(dto.due_date);
 			taskGroup.completeDate = launch.utils.isBlank(dto.date_complete) ? null : new Date(dto.date_complete);
-			taskGroup.tasks = $.isArray(dto.tasks) ? $.map(dto.tasks, self.task.fromDto): null;
+			taskGroup.tasks = $.isArray(dto.tasks) ? $.map(dto.tasks, self.task.fromDto) : null;
 			taskGroup.created = new Date(dto.created_at);
 			taskGroup.updated = new Date(dto.updated_at);
 
@@ -1359,7 +1361,7 @@
 	};
 
 	self.task = {
-		fromDto: function (dto) {
+		fromDto: function(dto) {
 			var task = new launch.Task();
 
 			task.id = parseInt(dto.id);
@@ -1388,16 +1390,17 @@
 	};
 
 	self.uploadFile = {
-		parseResponse: function (r, getHeaders) {
+		parseResponse: function(r, getHeaders) {
 			return self.parseResponse(r, getHeaders, self.uploadFile.fromDto);
 		},
-		fromDto: function (dto) {
+		fromDto: function(dto) {
 			var uploadFile = new launch.UploadFile();
 
 			uploadFile.id = parseInt(dto.id);
 			uploadFile.accountId = parseInt(dto.account_id);
 			uploadFile.userId = isNaN(dto.user_id) ? null : parseInt(dto.user_id);
 			uploadFile.parentId = isNaN(dto.parent_id) ? null : parseInt(dto.parent_id);
+			uploadFile.description = dto.description;
 			uploadFile.extension = dto.extension;
 			uploadFile.fileName = dto.filename;
 			uploadFile.mimeType = dto.mimetype;
@@ -1406,9 +1409,6 @@
 			uploadFile.created = new Date(dto.created_at);
 			uploadFile.updated = new Date(dto.updated_at);
 			uploadFile.deleted = launch.utils.isBlank(dto.deleted_at) ? null : new Date(dto.deleted_at);
-
-			// TODO: SET DESCRIPTION HERE!!
-			uploadFile.description = dto.description;
 
 			var path = dto.path;
 
@@ -1441,6 +1441,6 @@
 	return self;
 };
 
-launch.module.factory('ModelMapperService', function ($location, AuthService, NotificationService) {
+launch.module.factory('ModelMapperService', function($location, AuthService, NotificationService) {
 	return new launch.ModelMapper($location, AuthService, NotificationService);
 });

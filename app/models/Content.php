@@ -99,7 +99,12 @@ class Content extends Ardent {
 
   public function guest_collaborators()
   {
-    return $this->hasMany('GuestCollaborator', 'content_id', 'id');
+    return $this->hasMany('GuestCollaborator', 'content_id', 'id')->where('content_type', 'content');
+  }
+
+  public function account()
+  {
+    return $this->belongsTo('Account');
   }
 
   public function account_connections()
@@ -130,7 +135,7 @@ class Content extends Ardent {
 
     static::created(function ($content) {
       // every content has 4 (and only 4) task groups (one for each status/step)
-      for ($i=1; $i <= 4 ; $i++) { 
+      for ($i = 1; $i <= 4 ; $i++) { 
         $task_group = new ContentTaskGroup();
         $task_group->status = $i;
         $task_group->due_date = date('Y-m-d', time() + 60 * 60 * 24 * 7 * $i);

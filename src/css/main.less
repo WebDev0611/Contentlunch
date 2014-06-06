@@ -295,6 +295,10 @@ header {
 	}
 }
 
+.unauthorized-message {
+	padding: 16px;
+}
+
 label {
 	display: inline;
 	font-family: 'Lato-Bold';
@@ -1242,6 +1246,11 @@ span[class^="icon-"], span[class*=" icon-"] {
 							color: @text-color;
 							text-decoration: underline;
 						}
+
+						.fa-trash-o {
+							cursor: pointer;
+							float: right;
+						}
 					}
 				}
 			}
@@ -1282,124 +1291,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 			.cl-icon {
 				color: #ffffff;
-			}
-		}
-
-		.create-header {
-			margin: 0 16px;
-
-			>* {
-				display: inline-block;
-				margin: 0 16px;
-				vertical-align: middle;
-
-				.control-label, .form-control {
-					display: inline;
-				}
-			}
-
-			.btn-group {
-				.btn {
-					&.active {
-						background-color: #000000;
-						color: #ffffff;
-					}
-				}
-			}
-
-			.create-download, .create-delete {
-				.btn {
-					font-size: 15pt;
-				}
-			}
-
-			.create-paging-controls {
-				float: right;
-
-				>* {
-					display: inline-block;
-					margin: 0 16px;
-				}
-
-				.create-pager {
-					.pagination {
-						margin: 0;
-
-						.btn {
-							font-size: 15pt;
-						}
-					}
-				}
-			}
-		}
-
-		.create-table-container {
-			margin: 16px;
-
-			table.create-table {
-				width: 100%;
-
-				tr {
-					border-bottom: solid 1px #000000;
-
-					td, th {
-						padding: 8px;
-						position: relative;
-						text-align: left;
-
-						&.small-cell{
-							width: 50px;
-						}
-
-						> span {
-							vertical-align: middle;
-						}
-
-						.user-image {
-							border-color: @createColor;
-							height: 32px;
-							width: 32px;
-						}
-
-						.cl-icon {
-							color: #000000;
-							font-size: 20pt;
-							height: 32px;
-							width: 32px;
-						}
-
-						.cl-icon-workflow {
-							display: inline-block;
-							float: left;
-							margin: 4px 8px;
-							vertical-align: middle;
-						}
-
-						.workflow-info {
-							margin-left: 32px;
-
-							a {
-								font-weight: bold;
-								text-decoration: underline;
-							}
-
-							.error {
-								font-weight: normal;
-							}
-						}
-
-						input[type="checkbox"].form-control {
-							height: 20px;
-							width: 20px;
-						}
-					}
-
-					&.dark {
-						td {
-							background-color: #E6E4E0;
-						}
-					}
-				}
 			}
 		}
 
@@ -1584,6 +1475,171 @@ span[class^="icon-"], span[class*=" icon-"] {
 				margin: 0;
 			}
 		}
+
+		.content-approved-header {
+			color: @homeColorDark;
+			font-size: 16pt;
+			font-weight: bold;
+
+			.fa {
+				color: #000000;
+				display: inline-block;
+				margin: 0 0 16px 12px;
+			}
+		}
+
+		.content-preview {
+			background-color: #e4e4e4;
+			padding: 16px;
+			width: 100%;
+
+			h4 {
+				font-family: 'Lato Black';
+				margin: 4px 0;
+			}
+
+			.control-group {
+				height: 46px;
+				margin: 0;
+				position: relative;
+
+				.btn-launch {
+					background-color: @homeColorDark;
+					color: #ffffff;
+					font-size: 12pt;
+					font-weight: bold;
+					position: absolute;
+					right: 8px;
+
+					span {
+						vertical-align: middle;
+
+						&.cl-icon-launch {
+							height: 30px;
+							width: 30px;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+.create-header {
+	margin: 0 16px;
+
+	>* {
+		display: inline-block;
+		margin: 0 16px;
+		vertical-align: middle;
+
+		.control-label, .form-control {
+			display: inline;
+		}
+	}
+
+	.btn-group {
+		.btn {
+			&.active {
+				background-color: #000000;
+				color: #ffffff;
+			}
+		}
+	}
+
+	.create-download, .create-delete {
+		.btn {
+			font-size: 15pt;
+		}
+	}
+
+	.create-paging-controls {
+		float: right;
+
+		>* {
+			display: inline-block;
+			margin: 0 16px;
+		}
+
+		.create-pager {
+			.pagination {
+				margin: 0;
+
+				.btn {
+					font-size: 15pt;
+				}
+			}
+		}
+	}
+}
+
+.create-table-container {
+	margin: 16px;
+
+	table.create-table {
+		width: 100%;
+
+		tr {
+			border-bottom: solid 1px #000000;
+
+			td, th {
+				padding: 8px;
+				position: relative;
+				text-align: left;
+
+				&.small-cell{
+					width: 50px;
+				}
+
+				> span {
+					vertical-align: middle;
+				}
+
+				.user-image {
+					border-color: @createColor;
+					height: 32px;
+					width: 32px;
+				}
+
+				.cl-icon {
+					color: #000000;
+					font-size: 20pt;
+					height: 32px;
+					width: 32px;
+				}
+
+				.cl-icon-workflow {
+					display: inline-block;
+					float: left;
+					margin: 4px 8px;
+					vertical-align: middle;
+				}
+
+				.workflow-info {
+					margin-left: 32px;
+
+					a {
+						font-weight: bold;
+						text-decoration: underline;
+					}
+
+					.error {
+						font-weight: normal;
+					}
+				}
+
+				input[type="checkbox"].form-control {
+					height: 20px;
+					width: 20px;
+				}
+			}
+
+			&.dark {
+				td {
+					background-color: #E6E4E0;
+				}
+			}
+		}
 	}
 }
 
@@ -1707,6 +1763,9 @@ span[class^="icon-"], span[class*=" icon-"] {
 	margin-bottom: 12px;
 }
 
+.no-margin {
+	margin: 0 !important;
+}
 .nudge-down {
 	margin-bottom: 1em;
 }
@@ -1743,6 +1802,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 		display: inline-block;
 		text-align: center;
 		width: 75px;
+		vertical-align: top;
 	}
 
 	&.cl-badge-horizontal {
@@ -1924,6 +1984,12 @@ table.structural {
 .align-middle {
 	vertical-align: middle !important;
 }
+.align-top {
+	vertical-align: top !important;
+}
+.align-bottom {
+	vertical-align: bottom !important;
+}
 
 .underline {
 	margin-bottom: 1em;
@@ -1950,6 +2016,15 @@ table.structural {
 
 .icon-danger {
 	color: #d9534f;
+}
+
+.wheel-of-color {
+	width: 70px;
+	height: 70px;
+	display: inline-block;
+	border: 2px solid #717171;
+	background-color: white;
+	border-radius: 50%;
 }
 
 [ng-click]:not(.modal) {
@@ -2403,4 +2478,7 @@ hr.simple-divider {
     color: #ffffff;
     vertical-align: middle;
   }
+
+.filter-slection-counter{
+	float: right;
 }

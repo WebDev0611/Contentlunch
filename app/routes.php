@@ -38,6 +38,7 @@ Route::group(['prefix' => 'api'], function()
   Route::resource('account/{accountID}/{contentType}/{contentID}/guest-collaborators', 'GuestCollaboratorsController', [
     'only' => ['index', 'destroy']
   ]);
+  Route::get('guest-collaborators/me', 'GuestCollaboratorsController@me');
 
   // we need a route to get a single Guest Collaborator without being logged in (i.e. no account/content/campaign ID)
   Route::get('guest-collaborators/{accessCode}', 'GuestCollaboratorsController@show');
@@ -101,6 +102,10 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'show', 'destroy', 'storeUpload']
   ]);
   Route::post('library/{id}/uploads', 'LibraryController@storeUpload');
+
+  Route::resource('campaign-types', 'CampaignTypeController', [
+    'only' => ['index']
+  ]);
 
   Route::resource('modules', 'ModuleController', [
     'only' => ['index']

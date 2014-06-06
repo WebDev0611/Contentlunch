@@ -13,6 +13,7 @@ class CampaignController extends BaseController {
     }
     $query = Campaign::where('account_id', $account->id)
       ->with('tags')
+      ->with('guest_collaborators')
       ->with('collaborators');
 
     // uncomment when we're ready to filter by status
@@ -20,7 +21,7 @@ class CampaignController extends BaseController {
     //   $query->where('status', Input::get('status'));
     // }
 
-    $query->get();
+    return $query->get();
   }
 
   public function store($accountID)
@@ -64,6 +65,8 @@ class CampaignController extends BaseController {
     }
     $campaign = Campaign::with('tags')
       ->with('collaborators')
+      ->with('campaign_type')
+      ->with('content')
       ->find($id);
     return $campaign;
   }

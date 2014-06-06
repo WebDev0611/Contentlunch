@@ -5,7 +5,8 @@
 	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2', 'ui.calendar', 'restangular', 'checklist-model']);
 
 	launch.module.config([
-			'$routeProvider', '$locationProvider', '$httpProvider', 'RestangularProvider', function($routeProvider, $locationProvider, $httpProvider, RestangularProvider) {
+					'$routeProvider', '$locationProvider', '$httpProvider', 'RestangularProvider', 
+			function($routeProvider,   $locationProvider,   $httpProvider,   RestangularProvider) {
 				$locationProvider.html5Mode(true);
 
 				$routeProvider
@@ -84,8 +85,7 @@
 					})
 					.when('/create/content/edit/:contentId', {
 						controller: 'ContentController',
-						templateUrl: '/assets/views/content-edit.html',
-						allowAnon: true
+						templateUrl: '/assets/views/content-edit.html'
 					})
 					.when('/create/content/view/:contentId', {
 						controller: 'ContentController',
@@ -108,6 +108,16 @@
 						templateUrl: '/assets/views/collaborate/guest-landing.html',
 						allowAnon: true
 					})
+					.when('/collaborate/guest/content/:contentId', {
+						controller: 'GuestCampaignController',
+						templateUrl: '/assets/views/collaborate/edit-content.html',
+						allowAnon: true
+					})
+					.when('/collaborate/guest/campaign/:campaignId', {
+						controller: 'GuestContentController',
+						templateUrl: '/assets/views/collaborate/edit-campaign.html',
+						allowAnon: true
+					})
 					.when('/collaborate/:conceptType/:id', {
 						controller: 'CollaborateController',
 						templateUrl: '/assets/views/collaborate/single.html'
@@ -115,6 +125,10 @@
 					.when('/calendar', {
 						controller: 'CalendarController',
 						templateUrl: '/assets/views/calendar.html'
+					})
+					.when('/calendar/campaigns/:campaignId', {
+						controller: 'CampaignController',
+						templateUrl: '/assets/views/calendar/campaign.html'
 					})
 					.when('/launch', {
 						controller: 'LaunchController',
@@ -168,7 +182,8 @@
 			}
 		])
 		.run([
-			'$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService', function($rootScope, $location, userService, authService, notificationService) {
+					'$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService', 
+			function($rootScope,   $location,   userService,   authService,   notificationService) {
 				var path = $location.path();
 
 				var fetchCurrentUser = function(r) {
@@ -209,6 +224,14 @@
 						index = _.indexById(array, index);
 					}
 					if (index !== -1) array.splice(index, 1);
+				};
+
+				$rootScope.globalErrorHandler = function (err) {
+					var errorMessage = (err.data || {});
+					errorMessage = errorMessage.errors || errorMessage.error;
+					if (angular.isArray(errorMessage)) errorMessage = errorMessage.join('<br>');
+					notificationService.error(errorMessage || err.data || err || 'Unknown Error.');
+					console.error(err);
 				};
 			}
 		]);
