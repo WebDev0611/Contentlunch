@@ -26,7 +26,7 @@
 
 			length = ($.grep(self.modules[i].privileges, function (p) {
 				if ($.isArray(priv)) {
-					return $.inArray(priv, p.name);
+					return ($.inArray(p.name, priv) >= 0);
 				} else {
 					return p.name === priv;
 				}
