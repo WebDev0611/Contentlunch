@@ -5,10 +5,8 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
     var Account  = Restangular.one('account', user.account.id);
     var Campaign = Account.all('campaigns');
 
-    var campaignPromise = $routeParams.campaignId === 'new' ? { isNew: true } : Campaign.get($routeParams.campaignId);
-
     $q.all({
-        campaign: campaignPromise,
+        campaign: $routeParams.campaignId === 'new' ? newCampaign() : Campaign.get($routeParams.campaignId),
         campaignTypes: Restangular.all('campaign-types').getList(),
         users: Account.all('users').getList()
     }).then(function (responses) {
@@ -69,4 +67,12 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
         return '<span class="user-image user-image-small"' + style + '></span> <span>' + item.text + '</span>';
     };
 
+    function newCampaign() {
+        return {
+            isNew: true,
+            // start_date: moment().format(),
+            // end_date: moment().add('month', 1).format(),
+            // put any other defaults needed here
+        };
+    }
 }]);
