@@ -1,8 +1,8 @@
 ﻿<div class="view create">
 	<div class="col-md-3 left-pane">
-		<div task-list task-groups="content.taskGroups" parent-status="content.status" author-id="content.author.id" users="taskUsers" ng-hide="isNewContent"></div>
+		<div task-list task-groups="content.taskGroups" parent-status="content.status" author-id="content.author.id" users="taskUsers" ng-hide="isNewContent || !isCollaborator"></div>
 	</div>
-	<div class="col-md-9 right-pane">
+	<div class="col-md-9 right-pane" ng-show="isCollaborator">
 		<h2 class="right-pane-header">Create</h2>
 
 		<div class="content-editor row">
@@ -122,7 +122,7 @@
 						<div ng-bind-html="content.body"></div>
 					
 						<div class="control-group">
-							<button type="button" class="btn btn-lg btn-default btn-launch" ng-click="launchContent()" ng-disabled="!canLaunchContent" ng-show="content.status === 3">
+							<button type="button" class="btn btn-lg btn-default btn-launch" ng-click="submitContent()" ng-disabled="!canLaunchContent" ng-show="content.status === 3">
 								<span class="cl-icon cl-icon-launch"></span>
 								<span>LAUNCH CONTENT</span>
 							</button>
@@ -195,19 +195,26 @@
 					</div>
 
 					<div class="control-group">
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveContent()" ng-show="canEditContent" ng-hide="isReadOnly">Save</button>
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitContent()" ng-show="canSubmitContent" ng-hide="isReadOnly">{{ getNextStepText() }}</button>
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveContent()" ng-show="canEditContent && !isReadOnly">Save</button>
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitContent()" ng-show="canSubmitContent && !isReadOnly">{{ getNextStepText() }}</button>
 					</div>
 					
 					<div files-list="content.attachments" after-add-file-success="addAttachment" users="taskUsers" ng-hide="isNewContent" is-disabled="attachmentsIsDisabled"></div>
 				</form>
 			</div>
-			<div class="col-md-3" collaborator-sidebar collaborators="content.collaborators" users="collaborators" item-id="content.id" item-type="'content'" ng-hide="isNewContent"
-				add-collaborator-callback="filterTaskAssignees" remove-collaborator-callback="filterTaskAssignees" is-disabled="collboratorsIsDisabled"></div>
+			<div class="col-md-3" ng-hide="isNewContent">
+				<div collaborator-sidebar collaborators="content.collaborators" users="collaborators" item-id="content.id" item-type="'content'"
+					add-collaborator-callback="filterTaskAssignees" remove-collaborator-callback="filterTaskAssignees" is-disabled="collboratorsIsDisabled"></div>
+				
+				<div ng-show="showExport">PLACEHOLDER FOR EXPORT</div>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12" ng-hide="isNewContent" discussion-panel discussion="content.comments" item-id="content.id" item-type="'content'" ng-hide="isNewContent"></div>
 		</div>
+	</div>
+	<div class="col-md-9 right-pane" ng-hide="isCollaborator">
+		<h3 class="unauthorized-message">You are unauthorized to view this content.</h3>
 	</div>
 </div>
 
@@ -219,4 +226,28 @@
 	<div class="modal-footer">
 		<button class="btn btn-primary" ng-click="ok()">OK</button>
 	</div>
+</script>
+
+<script type="text/ng-template" id="select-user-to-complete.html">
+	<div class="modal-header">Select User</div>
+	<div class="modal-body">
+		<div class="control-group">
+			<p>You must assign someone with the necessary privileges to {{ taskName }} this item when it is complete. They will be assigned a task to {{ taskName }} this item.</p>
+			<div class="form-group">
+				<label for="selUserToAct">User</label>
+				(items with a <span class="fa fa-check-circle"></span> are collaborators for this item)
+				<select id="selUserToAct" name="selUserToAct" ng-model="userToCompleteId" ng-change="selectUserToComplete(userToCompleteId)"
+					ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true, allowClear: true }"
+					data-placeholder="Select User">
+					<option value=""></option>
+					<option ng-repeat="a in userPool" value="{{ a.id }}">{{ a.formatName() }}</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="save()">Select User</button>
+		<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+	</div>
+
 </script>

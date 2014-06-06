@@ -103,11 +103,6 @@ class Account extends Ardent {
 		$this->users()->attach($id);
 	}
 
-	public function getUsers()
-	{
-		return $this->users()->with('roles')->with('accounts')->with('image')->get();
-	}
-
 	/**
 	 * Get the site admin user for the account (should be 1)
 	 * @return object $user

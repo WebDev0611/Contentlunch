@@ -13,9 +13,23 @@ class UserController extends BaseController {
 		$query = User::with('roles')
 			->with('image')
 			->with('accounts');
+
+    if (Input::has('permission')) {
+      // User must have ALL passed permissions
+      $query->whereHas('roles', function ($q) {
+        $perms = explode(',', Input::get('permission'));
+        foreach ($perms as $p) {
+          $q->whereHas('perms', function ($q) use ($p) {
+            $q->where('permissions.name', trim($p));
+          });
+        }
+      }); 
+    }
+
 		if (Input::get('roles')) {
 			$query->roles(Input::get('roles'));
 		}
+
 		$users = $query->get()->toArray();
 		// @todo: How to limit columns returned with eloquent relationships?
 		foreach ($users as &$user) {
@@ -40,6 +54,11 @@ class UserController extends BaseController {
 				$user['accounts'] = $accounts;
 			}
 		}
+    /*
+    $queries = DB::getQueryLog();
+    $last_query = end($queries);
+    print_r($queries);
+    // */
 		return $users;
 	}
 
