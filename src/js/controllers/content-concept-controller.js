@@ -31,7 +31,33 @@
 				$scope.content = contentService.getNewContentConcept(self.loggedInUser);
 				$scope.isNewConcept = true;
 			} else {
-				$scope.content = contentService.get(self.loggedInUser.account.id, contentId, self.ajaxHandler);
+				$scope.content = contentService.get(self.loggedInUser.account.id, contentId, {
+					success: function(r) {
+						if ($scope.content.status > 0) {
+							$location.path('/create/content/edit/' + $scope.content.id);
+							return;
+						}
+
+						$scope.isCollaborator = (self.loggedInUser.id === $scope.content.author.id ||
+							$.grep($scope.content.collaborators, function (c) { return c.id === self.loggedInUser.id; }).length > 0);
+
+						// TODO: REMOVE THIS WHEN THERE IS A PRIVILEGE TO VIEW ALL CONTENT!!
+						$scope.isCollaborator = true;
+
+						if (!$scope.isCollaborator) {
+							return;
+						}
+
+						if (self.loggedInUser.id === $scope.content.author.id) {
+							$scope.canConvertConept = self.loggedInUser.hasPrivilege('create_execute_convert_concept_own');
+							$scope.canEditContent = true;
+						} else {
+							$scope.canConvertConept = self.loggedInUser.hasPrivilege('create_execute_convert_concept_other');
+							$scope.canEditContent = self.loggedInUser.hasPrivilege('create_edit_ideas_other');
+						}
+					},
+					error: self.ajaxHandler.error
+				});
 				$scope.isNewConcept = false;
 			}
 		};
@@ -45,9 +71,14 @@
 		$scope.contentTypes = null;
 		$scope.campaigns = null;
 		$scope.users = null;
+		$scope.collaborators = null;
+		$scope.isCollaborator = true;
 		$scope.isNewConcept = true;
 		$scope.isContentConcept = true;
+
+		$scope.canEditContent = true;
 		$scope.showCollaborate = false;
+		$scope.canConvertConept = false;
 
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
@@ -103,7 +134,7 @@
 		};
 
 		$scope.convertConcept = function() {
-			$scope.content.status = 2;
+			$scope.content.status = 1;
 			$scope.content.concept = $scope.content.body;
 
 			contentService.update(self.loggedInUser.account.id, $scope.content, {
@@ -142,6 +173,18 @@
 				$scope.saveConcept();
 			}
 		};
+
+		$scope.filterCollaborators = function () {
+			if (!$scope.content || !$scope.content.author) {
+				return;
+			}
+
+			$scope.collaborators = $.grep($scope.users, function (u) {
+				return u.id !== $scope.content.author.id;
+			});
+		};
+
+		$scope.$watch('content.author', $scope.filterCollaborators);
 
 		self.init();
 	}

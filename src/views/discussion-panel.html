@@ -1,7 +1,7 @@
-﻿<div class="panel panel-default discussion-panel">
-	<div class="panel-heading">Discussion</div>
+﻿<div class="panel panel-default discussion-panel" ng-show="canViewComments || canAddComments">
+	<div class="panel-heading">{{ (canViewComments ? 'Discussion' : 'Send Feedback') }}</div>
 	<div class="panel-body">
-		<div class="row" ng-repeat="c in comments">
+		<div class="row" ng-repeat="c in comments" ng-show="canViewComments">
 			<div class="col-md-2">
 				<span class="user-image user-image-small" ng-style="{ 'background-image': c.commentor.imageUrl() }"></span>
 				{{ c.commentor.formatName() }}
@@ -10,7 +10,7 @@
 			<div class="col-md-2">{{ c.commentDate() }}</div>
 		</div>
 	</div>
-	<div class="panel-footer">
+	<div class="panel-footer" ng-show="canAddComments">
 		<textarea rows="3" ng-model="newComment"></textarea>
 		
 		<button type="button" class="btn btn-black btn-default" ng-click="addComment()">Send</button>
