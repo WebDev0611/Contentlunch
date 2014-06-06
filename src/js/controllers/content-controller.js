@@ -22,7 +22,7 @@
 
 			$scope.contentConnections = connectionService.queryContentConnections(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
-			$scope.users = userService.getForAccount(self.loggedInUser.account.id, self.ajaxHandler);
+			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
 				success: function (r) {
@@ -177,10 +177,8 @@
 					'$scope', '$modalInstance', function (scope, instance) {
 						scope.approver = null;
 						scope.approverId = null;
-						// TODO: REPLACE THIS WITH API TO GET USERS WITH PRIVILEGE: collaborate_execute_approve
-						scope.approvers = $.grep($scope.users, function (u) {
-							return u.role.name === 'site_admin' || u.role.name === 'manager' || u.role.name === 'editor';
-						});
+						// TODO: THIS IS NOT WORKING IN THE API!!
+						scope.approvers = userService.getForAccount(self.loggedInUser.account.id, { permission: 'collaborate_execute_approve' }, self.ajaxHandler, true);
 
 						scope.formatUserItem = function (item, element, context) {
 							var collaborator = $.grep($scope.content.collaborators, function (c, i) { return c.id === parseInt(item.id); });

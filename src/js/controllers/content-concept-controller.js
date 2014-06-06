@@ -21,7 +21,7 @@
 
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
-			$scope.users = userService.getForAccount(self.loggedInUser.account.id, self.ajaxHandler);
+			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
 		}
 
 		self.refreshConcept = function() {

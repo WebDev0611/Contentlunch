@@ -12,13 +12,13 @@ launch.module.factory('UserService', function ($resource, $upload, AccountServic
 	});
 
 	return {
-		query: function(callback) {
+		query: function(params, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return users.query(null, success, error);
+			return users.query(params, success, error);
 		},
-		getForAccount: function(id, callback, forceRefresh) {
+		getForAccount: function(accountId, params, callback, forceRefresh) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 			var accountUserItems = null;
@@ -35,7 +35,7 @@ launch.module.factory('UserService', function ($resource, $upload, AccountServic
 				}
 			}
 
-			accountUserItems = accountUsers.get({ id: id }, function (r) {
+			accountUserItems = accountUsers.get(_.merge({ id: accountId }, params), function (r) {
 				SessionService.set(SessionService.ACCOUNT_USERS_KEY, JSON.stringify(accountUserItems));
 
 				if (!!success) {
