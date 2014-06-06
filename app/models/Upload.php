@@ -16,4 +16,14 @@ class Upload extends CabinetUpload {
     return $this->belongsToMany('Library', 'library_uploads')->withTimestamps();
   }
 
+  public function ratings()
+  {
+    return $this->hasMany('UploadRating', 'upload_id', 'id');
+  }
+
+  public function tags()
+  {
+    return $this->hasMany('UploadTag', 'upload_id', 'id');
+  }
+
 }

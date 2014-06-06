@@ -30,6 +30,20 @@ class LibrarySetup extends Migration {
       $table->timestamps();
     });
 
+    Schema::create('upload_ratings', function ($table) {
+      $table->increments('id');
+      $table->integer('upload_id')->references('id')->on('uploads')->onDelete('cascade');
+      $table->integer('rating');
+      $table->timestamps();
+    });
+
+    Schema::create('upload_tags', function ($table) {
+      $table->increments('id');
+      $table->integer('upload_id')->references('id')->on('uploads')->onDelete('cascade');
+      $table->string('tag');
+      $table->timestamps();
+    });
+
     // Add global library needed for global admin
     $user = User::first();
     $library = new Library([

@@ -15,6 +15,12 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
         $scope.file = {};
         $scope.uploadFile = new launch.UploadFile();
 
+        $scope.fileFolders = [
+          { key: '0', name: '(Default to the root folder)' }
+        ];
+
+        $scope.uploadFile.folder = '0';
+
         // User clicked browse and staged file for upload
         $scope.addFile = function (files, form, control) {
           console.log(files, form, control);
@@ -32,7 +38,8 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
         // Save file
         $scope.ok = function () {
           var data = {
-            description: $scope.uploadFile.description
+            description: $scope.uploadFile.description,
+            tags: $scope.uploadFile.tags
           };
           $upload.upload({
             url: '/api/library/1/uploads',
