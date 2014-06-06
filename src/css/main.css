@@ -2291,3 +2291,6 @@ hr.simple-divider {
   font-size: 16px;
   margin-bottom: 10px;
 }
+.filter-slection-counter {
+  float: right;
+}

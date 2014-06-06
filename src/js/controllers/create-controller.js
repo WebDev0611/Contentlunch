@@ -181,11 +181,11 @@
 			searchTerm: null,
 			searchTermMinLength: 1,
 			myTasks: false,
-			contentTypes: null,
-			milestones: null,
-			buyingStages: null,
-			campaigns: null,
-			users: null,
+			contentTypes: [],
+			milestones: [],
+			buyingStages: [],
+			campaigns: [],
+			users: [],
 			contentStage: 'content',
 			changeSearchTerm: function() {
 				if (launch.utils.isBlank($scope.search.searchTerm) || $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
