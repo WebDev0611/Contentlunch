@@ -69,10 +69,6 @@
 							return;
 						}
 
-						// TODO: MAKE SURE THAT ONLY THE CONTENT CREATOR, COLLABORATORS, AND APPROPRIATELY PRIVILEGED USERS CAN ACCESS THIS CONTENT!
-						// TODO: WHAT PRIVILEGES ALLOW A NON-COLLABORATOR TO ACCESS A CONTENT ITEM?
-
-
 						if ($scope.content.status <= 3) {
 							$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_view_content_other_unapproved', 'create_view_content_other']);
 							$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_edit_content_other_unapproved', 'create_edit_content_other']);
