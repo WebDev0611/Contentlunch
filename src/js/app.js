@@ -180,21 +180,21 @@
 						data.name = data.first_name + ' ' + data.last_name;
 
 					return _.mapObject(data, function (value, key) {
-						key = key.replace(/_(\w)/g, function (_, $1) {
+						key = (key + '').replace(/_(\w)/g, function (_, $1) {
 							return $1.toUpperCase();
 						});
 						if (_.isArray(value)) value = _.map(value, camelCaseize);
-						else if (_.isObject(value)) value = camelCaseize(value);
+						else if (_.isPlainObject(value)) value = camelCaseize(value);
 						return [key, value];
 					});
 				}
 				function snakeCaseize(data) {
 					return _.mapObject(data, function (value, key) {
-						key = key.replace(/([a-z])([A-Z0-9])/g, function (_, $1, $2) {
+						key = (key + '').replace(/([a-z])([A-Z0-9])/g, function (_, $1, $2) {
 							return $1 + '_' + $2.toLowerCase();
 						});
 						if (_.isArray(value)) value = _.map(value, snakeCaseize);
-						else if (_.isObject(value)) value = snakeCaseize(value);
+						else if (_.isPlainObject(value)) value = snakeCaseize(value);
 						return [key, value];
 					});
 				}

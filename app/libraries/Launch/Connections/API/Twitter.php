@@ -83,7 +83,7 @@ class TwitterAPI implements Connection
             $results[$id] = empty($result['errors']);
 
             if ($results[$id]) {
-                ConnectionConnector::createGuestCollaborator([
+                $result = ConnectionConnector::createGuestCollaborator([
                     'connection_user_id' => $id,
                     'name'               => $name,
                     'connection_id'      => $this->accountConnection['connection_id'],
@@ -91,6 +91,7 @@ class TwitterAPI implements Connection
                     'content_type'       => $contentType,
                     'access_code'        => $accessCode,
                 ]);
+                if (!$result) return $result;
             }
         }
 
