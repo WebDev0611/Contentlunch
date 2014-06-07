@@ -3,18 +3,18 @@
     <div class="container" ng-show="guest">
         <p ng-show="guest.type == 'individual'">
             <strong>{{ guest.name }}</strong>, you have been invited by 
-            <strong>{{ guest.content.user.first_name }} {{ guest.content.user.last_name }}</strong>
+            <strong>{{ guest.content.user.name }}</strong>
             to collaborate on their concept <strong>{{ guest.content.title }}</strong>.            
         </p>
 
         <p ng-show="guest.type == 'group'">
             As a member of the <strong>{{ guest.name }}</strong> group on LinkedIn, you have been invited by
-            <strong>{{ guest.content.user.first_name }} {{ guest.content.user.last_name }}</strong>
+            <strong>{{ guest.content.user.name }}</strong>
             to collaborate on their concept <strong>{{ guest.content.title }}</strong>.
         </p>
 
         <p>
-            As {{ guest.content.user.first_name }} has invited you via {{ guest.connection.name }}, you'll 
+            As {{ guest.content.user.firstName }} has invited you via {{ guest.connection.name }}, you'll 
             have to sign in via that service before you can collaborate:
         </p>
 

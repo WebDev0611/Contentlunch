@@ -152,6 +152,47 @@
 
 				RestangularProvider.setBaseUrl('/api');
 
+				RestangularProvider.addRequestInterceptor(function (data, operation, route, url) {
+					operation = operation.toUpperCase();
+					if (operation === 'GET' || operation === 'GETLIST' || operation === 'REMOVE' || operation === 'DELETE') return data;
+					var origData = angular.copy(origData);
+
+					try {
+						data = snakeCaseize(data);
+						return data;
+					} catch (err) {
+						console.error(err);
+						return origData;
+					}
+				});
+
+				RestangularProvider.addResponseInterceptor(function (data, operation, route, url) {
+					if (_.isArray(data)) return _.map(data, camelCaseize);
+					return camelCaseize(data);
+				});
+
+				// thank https://github.com/blakeembrey/change-case/
+				// for help on the case changing here
+				function camelCaseize(data) {
+					if (data.first_name && data.last_name) 
+						data.name = data.first_name + ' ' + data.last_name;
+
+					return _.mapObject(data, function (value, key) {
+						key = key.replace(/_(\w)/g, function (_, $1) {
+							return $1.toUpperCase();
+						});
+						return [key, value];
+					});
+				}
+				function snakeCaseize(data) {
+					return _.mapObject(data, function (value, key) {
+						key = key.replace(/([a-z])([A-Z0-9])/g, function (_, $1, $2) {
+							return $1 + '_' + $2.toLowerCase();
+						});
+						return [key, value];
+					});
+				}
+
 				var interceptor = [
 					'$location', '$q', function($location, $q) {
 						var success = function(r) {
@@ -190,7 +231,7 @@
 
 				$rootScope.$on('$routeChangeStart', function(event, next, current) {
 					// TODO: VALIDATE THAT THE USER IS ALLOWED TO VIEW THE PAGE THEY ARE REQUESTING!! IF NOT, SHOW A WARNING OR ERROR AND REDIRECT TO HOME!!
-					//			THIS MAY BE BETTER TO DO IN EACH CONTROLLER, HOWEVER?
+					//          THIS MAY BE BETTER TO DO IN EACH CONTROLLER, HOWEVER?
 					if ($location.path() === '/login') {
 						authService.logout();
 					} else if (!next.allowAnon && !authService.isLoggedIn()) {
@@ -241,23 +282,23 @@
 	// handlebars/angular style interpolation: {{ name }}
 	_.templateSettings.interpolate = /\{\{ +(.+?) +\}\}/g;
 	_.mixin({
-	    mapObject: _.compose(_.object, _.map),
-	    findById: function(items, id) {
-	        return _.find(items, function (item) {
-	            return item.id == id;
-	        });
-	    },
-	    indexById: function (array, id) {
-	    	var index = -1;
+		mapObject: _.compose(_.object, _.map),
+		findById: function(items, id) {
+			return _.find(items, function (item) {
+				return item.id == id;
+			});
+		},
+		indexById: function (array, id) {
+			var index = -1;
 
-	    	// we could use 2 underscore functions to do this, but
-	    	// then it would have to loop through everything twice
-	    	var exists = _.any(array, function (item) {
-	    	    index++;
-	    	    return item.id == id;
-	    	});
+			// we could use 2 underscore functions to do this, but
+			// then it would have to loop through everything twice
+			var exists = _.any(array, function (item) {
+				index++;
+				return item.id == id;
+			});
 
-	    	return exists ? index : -1;
-	    }
+			return exists ? index : -1;
+		}
 	});
 })(window, angular);

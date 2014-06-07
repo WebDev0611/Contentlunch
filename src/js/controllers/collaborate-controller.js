@@ -19,7 +19,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
 
     $scope.invited = {};
     Restangular.extendModel('guest-collaborators', function (model) {
-        $scope.invited[model.connection_user_id] = true;
+        $scope.invited[model.connectionUserId] = true;
         return model;
     });
 
@@ -28,7 +28,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     if ($routeParams.id) {
         Collab = Account.one($routeParams.conceptType, $routeParams.id);
         requests.selected = Collab.get().then(function (selected) {
-            selected.internal_collaborators = selected.collaborators;
+            selected.internalCollaborators = selected.collaborators;
             return selected;
         });
         requests.connections = Account.all('connections').getList({ 'provider[]': ['linkedin', 'twitter'] });
@@ -38,12 +38,12 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
             Content  : Account.all( 'content' ).getList({ status: 0 }),
             Campaign : Account.all('campaigns').getList({ status: 0 }),
         }).then(function (responses) {
-            // merge lists and set the type & type_slug
+            // merge lists and set the type & typeSlug
             var response = _.reduce(responses, function (list, sublist, type) {
                 _.each(sublist, function (item) {
                     item.type = type;
-                    item.type_slug = type === 'Content' ? 'content' : 'campaigns';
-                    item.internal_collaborators = item.collaborators;
+                    item.typeSlug = type === 'Content' ? 'content' : 'campaigns';
+                    item.internalCollaborators = item.collaborators;
                     return list.push(item);
                 });
                 return list;
@@ -64,25 +64,25 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     // -------------------------
     $scope.addInternalCollaborator = function (collaboratorToAdd) {
         $scope.showAddInternal = false;
-        if (!_.isArray($scope.selected.internal_collaborators)) 
-            $scope.selected.internal_collaborators = [];
+        if (!_.isArray($scope.selected.internalCollaborators)) 
+            $scope.selected.internalCollaborators = [];
 
         $scope.selected.all('collaborators').post({ 
-            user_id: collaboratorToAdd.id 
+            userId: collaboratorToAdd.id 
         }).then(function () {
-            $scope.selected.internal_collaborators.push(collaboratorToAdd);
+            $scope.selected.internalCollaborators.push(collaboratorToAdd);
         });
     };
 
     $scope.removeInternalCollaborator = function (collab) {
         $scope.selected.one('collaborators', collab.id).remove().then(function () {
-            $rootScope.removeRow($scope.selected.internal_collaborators, collab.id);
+            $rootScope.removeRow($scope.selected.internalCollaborators, collab.id);
         });
     };
 
     $scope.removeGuestCollaborator = function (collab) {
         collab.remove().then(function () {
-            delete $scope.invited[collab.connection_user_id];
+            delete $scope.invited[collab.connectionUserId];
             $rootScope.removeRow($scope.guestCollaborators, collab.id);
         });
     };
@@ -120,9 +120,9 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
             }],
             resolve: { 
                 recipients: function () { return recipients; },
-                provider: function () { return connection.connection_provider; },
+                provider: function () { return connection.connectionProvider; },
                 isGroup: function () { return !!group; },
-                link: connection.connection_provider == 'twitter' ?
+                link: connection.connectionProvider == 'twitter' ?
                         connection.one('twitter-link-length').get().then(function (link) {
                             console.log(link);
                             return link;
@@ -151,7 +151,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
             if (allGood) {
                 notify.success('Messages sent!');
             } else {
-                var failedNames = _(response).map(function (success, id) {
+                var failedNames = (response).map(function (success, id) {
                     return success || _.findById(connection.recipients, id).name;
                 }).reject(function (item) {
                     return item === true;
@@ -175,7 +175,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
 
         $q.all({
             friends: connection.getList('friends'),
-            groups: connection.connection_provider == 'linkedin' ? connection.getList('groups') : false
+            groups: connection.connectionProvider == 'linkedin' ? connection.getList('groups') : false
         }).then(function (responses) {
             // this attaches connection.friends and connections.friendsHeaders
             // and formats the data and fields as needed to work with the template.

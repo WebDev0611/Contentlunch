@@ -46,19 +46,19 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
     // Collaborator Actions //
     $scope.addInternalCollaborator = function (collaboratorToAdd) {
         $scope.showAddInternal = false;
-        if (!_.isArray($scope.selected.internal_collaborators)) 
-            $scope.selected.internal_collaborators = [];
+        if (!_.isArray($scope.selected.internalCollaborators)) 
+            $scope.selected.internalCollaborators = [];
 
         $scope.selected.all('collaborators').post({ 
-            user_id: collaboratorToAdd.id 
+            userId: collaboratorToAdd.id 
         }).then(function () {
-            $scope.selected.internal_collaborators.push(collaboratorToAdd);
+            $scope.selected.internalCollaborators.push(collaboratorToAdd);
         });
     };
 
     $scope.removeInternalCollaborator = function (collab) {
         $scope.selected.one('collaborators', collab.id).remove().then(function () {
-            $rootScope.removeRow($scope.selected.internal_collaborators, collab.id);
+            $rootScope.removeRow($scope.selected.internalCollaborators, collab.id);
         });
     };
 
@@ -75,7 +75,7 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
 
     // aw man, this kinda sucks
     $scope.shouldShow = function (column) {
-        if (!($scope.campaign || {}).campaign_type_id) return false;
+        if (!($scope.campaign || {}).campaignTypeId) return false;
 
         // 1  : Adertising Campaign
         // 2  : Branding Promotion
@@ -93,41 +93,41 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
 
         var validIds = [];
         switch (column) {
-            case 'speaker_name':
+            case 'speakerName':
                 validIds = [6,8,12,13];
             break;
             case 'host':
                 validIds = [12,13];
             break;
-            case 'photo_needed':
+            case 'photoNeeded':
                 validIds = [1,3,7];
             break;
-            case 'link_needed':
+            case 'linkNeeded':
                 validIds = [1,3,7];
             break;
-            case 'is_series':
+            case 'isSeries':
                 validIds = [1,3,6,7];
             break;
             case 'type':
                 validIds = [1,3];
             break;
-            case 'audio_link':
+            case 'audioLink':
                 validIds = [8];
             break;
             default:
                 console.error('Column not found: ' + column);
         }
 
-        return _.contains(validIds, $scope.campaign.campaign_type_id);
+        return _.contains(validIds, $scope.campaign.campaignTypeId);
     };
 
     function newCampaign() {
         return {
             isNew: true,
-            account_id: user.account.id,
+            accountId: user.account.id,
             collaborators: [user],
-            // start_date: moment().format(),
-            // end_date: moment().add('month', 1).format(),
+            // startDate: moment().format(),
+            // endDate: moment().add('month', 1).format(),
             // put any other defaults needed here
         };
     }

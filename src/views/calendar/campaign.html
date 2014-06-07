@@ -40,7 +40,7 @@
                                 <div class="form-group">
                                     <label for="campaignType">Campaign Type</label>
                                     <select name="campaignType" class="form-control" id="campaignType" 
-                                        ng-model="campaign.campaign_type_id"
+                                        ng-model="campaign.campaignTypeId"
                                         ng-options="type.id as type.name for type in campaignTypes">
                                     </select>
                                 </div>
@@ -50,27 +50,27 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="startDate">Start Date</label>
-                                    <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" type="text" name="startDate" class="form-control" id="startDate" ng-model="campaign.start_date">
+                                    <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" type="text" name="startDate" class="form-control" id="startDate" ng-model="campaign.startDate">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="endDate">End Date</label>
-                                    <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" type="text" name="endDate" class="form-control" id="endDate" ng-model="campaign.end_date">
+                                    <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" type="text" name="endDate" class="form-control" id="endDate" ng-model="campaign.endDate">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="recurring">Recurring</label>
                                     <select name="recurring" class="form-control" id="recurring" 
-                                            ng-model="campaign.is_recurring">
+                                            ng-model="campaign.isRecurring">
                                         <option value="0">No</option>
                                         <option value="1">Yes</option>
                                     </select>
                                 </div>
                             </div>
                         </div> <!-- .row -->
-                        <div class="row" ng-show="campaign.is_recurring">
+                        <div class="row" ng-show="campaign.isRecurring">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="repeat">Repeat</label>
@@ -168,10 +168,10 @@
                         </div> <!-- .row -->
 
                         <div class="row">
-                            <div class="col-md-6" ng-show="shouldShow('speaker_name')">
+                            <div class="col-md-6" ng-show="shouldShow('speakerName')">
                                 <div class="form-group">
-                                    <label for="speaker_name">Speaker Name</label>
-                                    <input type="text" name="speaker_name" class="form-control" id="speaker_name" ng-model="campaign.speaker_name">
+                                    <label for="speakerName">Speaker Name</label>
+                                    <input type="text" name="speakerName" class="form-control" id="speakerName" ng-model="campaign.speakerName">
                                 </div>
                             </div>
                             <div class="col-md-6" ng-show="shouldShow('host')">
@@ -183,26 +183,26 @@
                         </div> <!-- .row -->
 
                         <div class="row">
-                            <div class="col-md-4" ng-show="shouldShow('photo_needed')">
+                            <div class="col-md-4" ng-show="shouldShow('photoNeeded')">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="photo_needed" id="photo_needed" ng-model="campaign.photo_needed"> 
+                                        <input type="checkbox" name="photoNeeded" id="photoNeeded" ng-model="campaign.photoNeeded"> 
                                         Is Photo Needed?
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-4" ng-show="shouldShow('link_needed')">
+                            <div class="col-md-4" ng-show="shouldShow('linkNeeded')">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="link_needed" id="link_needed" ng-model="campaign.link_needed"> 
+                                        <input type="checkbox" name="linkNeeded" id="linkNeeded" ng-model="campaign.linkNeeded"> 
                                         Is Link Needed?
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-4" ng-show="shouldShow('is_series')">
+                            <div class="col-md-4" ng-show="shouldShow('isSeries')">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="is_series" id="is_series" ng-model="campaign.is_series"> 
+                                        <input type="checkbox" name="isSeries" id="isSeries" ng-model="campaign.isSeries"> 
                                         Is This a Series?
                                     </label>
                                 </div>
@@ -216,10 +216,10 @@
                                     <input type="text" name="type" class="form-control" id="type" ng-model="campaign.type">
                                 </div>
                             </div>
-                            <div class="col-md-6" ng-show="shouldShow('audio_link')">
+                            <div class="col-md-6" ng-show="shouldShow('audioLink')">
                                 <div class="form-group">
-                                    <label for="audio_link">Recorded Audio Link</label>
-                                    <input type="text" name="audio_link" class="form-control" id="audio_link" ng-model="campaign.audio_link">
+                                    <label for="audioLink">Recorded Audio Link</label>
+                                    <input type="text" name="audioLink" class="form-control" id="audioLink" ng-model="campaign.audioLink">
                                 </div>
                             </div>
                         </div>
@@ -258,14 +258,13 @@
                                     <div class="cl-badge cl-badge-horizontal no-margin">
                                         <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ content.user.image | imagePathFromObject }}')"></span>
                                         <div class="cl-badge-caption">
-                                            {{ content.user.first_name }}
-                                            {{ content.user.last_name }}
+                                            {{ content.user.name }}
                                         </div>
                                     </div>
                                 </td>
                                 <td class="align-middle">{{ content.persona }}</td>
                                 <td class="align-middle align-center">
-                                    <span class="cl-icon"  ng-class="'cl-icon-personas-' + content.buying_stage"></span>
+                                    <span class="cl-icon"  ng-class="'cl-icon-personas-' + content.buyingStage"></span>
                                 </td>
                                 <td class="align-middle"></td>
                                 <td class="align-middle"></td>
@@ -288,8 +287,7 @@
                             <div ng-repeat="collab in campaign.collaborators" class="internal-collaborator cl-badge cl-badge-horizontal">
                                 <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ collab.image | imagePathFromObject }}')"></span>
                                 <div class="cl-badge-caption">
-                                    {{ collab.first_name }}
-                                    {{ collab.last_name }}
+                                    {{ collab.name }}
                                 </div>
 
                                 <span class="fa fa-trash-o pull-right" ng-click="removeInternalCollaborator(collab)"></span>
@@ -301,7 +299,7 @@
                                         ng-model="collaboratorToAdd"
                                         ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }"
                                         placeholder="-- Add Collaborator --"
-                                        ng-options="u as (u.first_name + ' ' + u.last_name) for u in users | exclude:campaign.collaborators track by u.id"
+                                        ng-options="u as u.name for u in users | exclude:campaign.collaborators track by u.id"
                                     >
                                 </select>
                             </div>
