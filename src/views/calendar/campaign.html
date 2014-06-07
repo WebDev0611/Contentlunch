@@ -40,8 +40,8 @@
                                 <div class="form-group">
                                     <label for="campaignType">Campaign Type</label>
                                     <select name="campaignType" class="form-control" id="campaignType" 
-                                        ng-model="campaign.campaign_type"
-                                        ng-options="type as type.name for type in campaignTypes track by type.id">
+                                        ng-model="campaign.campaign_type_id"
+                                        ng-options="type.id as type.name for type in campaignTypes">
                                     </select>
                                 </div>
                             </div>
@@ -151,6 +151,78 @@
                                 </div>
                             </div>
                         </div> <!-- .row -->
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="contact">Contact</label>
+                                    <input type="text" name="contact" class="form-control" id="contact" ng-model="campaign.contact">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="partners">Partners</label>
+                                    <input type="text" name="partners" class="form-control" id="partners" ng-model="model.partners">
+                                </div>
+                            </div>
+                        </div> <!-- .row -->
+
+                        <div class="row">
+                            <div class="col-md-6" ng-show="shouldShow('speaker_name')">
+                                <div class="form-group">
+                                    <label for="speaker_name">Speaker Name</label>
+                                    <input type="text" name="speaker_name" class="form-control" id="speaker_name" ng-model="campaign.speaker_name">
+                                </div>
+                            </div>
+                            <div class="col-md-6" ng-show="shouldShow('host')">
+                                <div class="form-group">
+                                    <label for="host">Host</label>
+                                    <input type="text" name="host" class="form-control" id="host" ng-model="campaign.host">
+                                </div>
+                            </div>
+                        </div> <!-- .row -->
+
+                        <div class="row">
+                            <div class="col-md-4" ng-show="shouldShow('photo_needed')">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="photo_needed" id="photo_needed" ng-model="campaign.photo_needed"> 
+                                        Is Photo Needed?
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4" ng-show="shouldShow('link_needed')">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="link_needed" id="link_needed" ng-model="campaign.link_needed"> 
+                                        Is Link Needed?
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4" ng-show="shouldShow('is_series')">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="is_series" id="is_series" ng-model="campaign.is_series"> 
+                                        Is This a Series?
+                                    </label>
+                                </div>
+                            </div>
+                        </div> <!-- .row -->
+
+                        <div class="row">
+                            <div class="col-md-6" ng-show="shouldShow('type')">
+                                <div class="form-group">
+                                    <label for="type">Type</label>
+                                    <input type="text" name="type" class="form-control" id="type" ng-model="campaign.type">
+                                </div>
+                            </div>
+                            <div class="col-md-6" ng-show="shouldShow('audio_link')">
+                                <div class="form-group">
+                                    <label for="audio_link">Recorded Audio Link</label>
+                                    <input type="text" name="audio_link" class="form-control" id="audio_link" ng-model="campaign.audio_link">
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col-md-12">

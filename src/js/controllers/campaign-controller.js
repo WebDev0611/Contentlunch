@@ -21,7 +21,13 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
     // -------------------------
     $scope.saveCampaign = function (campaign) {
         (campaign.isNew ? Campaign.post(campaign) : campaign.put()).then(function (campaign) {
-            $scope.campaign = campaign;
+            var path = $location.path();
+            if (path.match(/new\/?$/)) {
+                path = path.replace(/new\/?$/, campaign.id);
+                $location.path(path);
+            } else {
+                $scope.campaign = campaign;
+            }
         }).catch($rootScope.globalErrorHandler);
     };
 
@@ -67,9 +73,59 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
         return '<span class="user-image user-image-small"' + style + '></span> <span>' + item.text + '</span>';
     };
 
+    // aw man, this kinda sucks
+    $scope.shouldShow = function (column) {
+        if (!($scope.campaign || {}).campaign_type_id) return false;
+
+        // 1  : Adertising Campaign
+        // 2  : Branding Promotion
+        // 3  : Content Marketing Campaign
+        // 4  : Customer Nuture
+        // 5  : Email Nuture Campaign
+        // 6  : Event (Non Trade Show)
+        // 7  : Partner Event
+        // 8  : Podcast Series
+        // 9  : Product Launch
+        // 10 : Sales Campaign
+        // 11 : Thought Leadership Series
+        // 12 : Trade Show Event
+        // 13 : Webinar
+
+        var validIds = [];
+        switch (column) {
+            case 'speaker_name':
+                validIds = [6,8,12,13];
+            break;
+            case 'host':
+                validIds = [12,13];
+            break;
+            case 'photo_needed':
+                validIds = [1,3,7];
+            break;
+            case 'link_needed':
+                validIds = [1,3,7];
+            break;
+            case 'is_series':
+                validIds = [1,3,6,7];
+            break;
+            case 'type':
+                validIds = [1,3];
+            break;
+            case 'audio_link':
+                validIds = [8];
+            break;
+            default:
+                console.error('Column not found: ' + column);
+        }
+
+        return _.contains(validIds, $scope.campaign.campaign_type_id);
+    };
+
     function newCampaign() {
         return {
             isNew: true,
+            account_id: user.account.id,
+            collaborators: [user],
             // start_date: moment().format(),
             // end_date: moment().add('month', 1).format(),
             // put any other defaults needed here
