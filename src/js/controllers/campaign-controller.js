@@ -14,6 +14,10 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
             return [key, response.plain ? response.plain() : response];
         }));
         angular.extend($scope, responses);
+        // when did ngModel with checkboxes get so strict?
+        $scope.campaign.photoNeeded = !!$scope.campaign.photoNeeded;
+        $scope.campaign.linkNeeded = !!$scope.campaign.linkNeeded;
+        $scope.campaign.isSeries = !!$scope.campaign.isSeries;
         if (!$scope.campaign) {
             notify.error('Campaign does not exist');
             $scope.cancelCampaign();
@@ -25,6 +29,7 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
     $scope.saveCampaign = function (campaign) {
         (campaign.isNew ? Campaigns.post(campaign) : campaign.put()).then(function (campaign) {
             var path = $location.path();
+            notify.success('Campaign saved');
             if (path.match(/new\/?$/)) {
                 path = path.replace(/new\/?$/, campaign.id);
                 $location.path(path);
