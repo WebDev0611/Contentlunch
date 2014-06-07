@@ -152,6 +152,13 @@
 
 				RestangularProvider.setBaseUrl('/api');
 
+				// take all the requests from the server and transform snake_case to camelCase
+				RestangularProvider.addResponseInterceptor(function (data, operation, route, url) {
+					if (_.isArray(data)) return _.map(data, camelCaseize);
+					return camelCaseize(data);
+				});
+
+				// take all the requests to the server (that have data) and convert snake_case back to camelCase
 				RestangularProvider.addRequestInterceptor(function (data, operation, route, url) {
 					operation = operation.toUpperCase();
 					if (operation === 'GET' || operation === 'GETLIST' || operation === 'REMOVE' || operation === 'DELETE') return data;
@@ -166,21 +173,18 @@
 					}
 				});
 
-				RestangularProvider.addResponseInterceptor(function (data, operation, route, url) {
-					if (_.isArray(data)) return _.map(data, camelCaseize);
-					return camelCaseize(data);
-				});
-
 				// thank https://github.com/blakeembrey/change-case/
 				// for help on the case changing here
 				function camelCaseize(data) {
-					if (data.first_name && data.last_name) 
+					if (data.first_name && data.last_name)
 						data.name = data.first_name + ' ' + data.last_name;
 
 					return _.mapObject(data, function (value, key) {
 						key = key.replace(/_(\w)/g, function (_, $1) {
 							return $1.toUpperCase();
 						});
+						if (_.isArray(value)) value = _.map(value, camelCaseize);
+						else if (_.isObject(value)) value = camelCaseize(value);
 						return [key, value];
 					});
 				}
@@ -189,6 +193,8 @@
 						key = key.replace(/([a-z])([A-Z0-9])/g, function (_, $1, $2) {
 							return $1 + '_' + $2.toLowerCase();
 						});
+						if (_.isArray(value)) value = _.map(value, snakeCaseize);
+						else if (_.isObject(value)) value = snakeCaseize(value);
 						return [key, value];
 					});
 				}

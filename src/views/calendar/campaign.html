@@ -281,21 +281,28 @@
                 <div class="col-md-3">
                     <div class="panel panel-inverse">
                         <div class="panel-heading">
-                            Owner
+                            Owner<span ng-hide="campaign.isNew">s</span>
                         </div>
                         <div class="panel-body">
+                            <div class="internal-collaborator cl-badge cl-badge-horizontal">
+                                <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ user.image | imagePathFromObject }}')"></span>
+                                <div class="cl-badge-caption">
+                                    {{ user.displayName }}
+                                </div>
+                            </div>
+
                             <div ng-repeat="collab in campaign.collaborators" class="internal-collaborator cl-badge cl-badge-horizontal">
                                 <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ collab.image | imagePathFromObject }}')"></span>
                                 <div class="cl-badge-caption">
                                     {{ collab.name }}
                                 </div>
 
-                                <span class="fa fa-trash-o pull-right" ng-click="removeInternalCollaborator(collab)"></span>
+                                <span class="fa fa-trash-o pull-right" ng-click="removeCollaborator(collab)"></span>
                             </div>
 
                             <div class="form-group" ng-show="showAddInternal">
                                 <select name="additionalCollaborator" id="additionalCollaborator"
-                                        ng-change="addInternalCollaborator(collaboratorToAdd)"
+                                        ng-change="addCollaborator(collaboratorToAdd)"
                                         ng-model="collaboratorToAdd"
                                         ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }"
                                         placeholder="-- Add Collaborator --"
@@ -304,7 +311,7 @@
                                 </select>
                             </div>
 
-                            <span ng-hide="showAddInternal" ng-click="showAddInternal = true" class="glyphicon glyphicon-plus-sign"></span>
+                            <span ng-hide="showAddInternal || campaign.isNew" ng-click="showAddInternal = true" class="glyphicon glyphicon-plus-sign"></span>
                         </div>
                     </div> <!-- .panel.panel-inverse -->
                 </div> <!-- .col-md-3 (sidebar) -->

@@ -1,15 +1,18 @@
 launch.module.controller('CampaignController',
         ['$scope', 'AuthService', '$routeParams', '$filter', '$q', 'Restangular', '$location', '$rootScope', 'NotificationService', 
 function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,   $location,   $rootScope,   notify) {
-    var user     = AuthService.userInfo();
-    var Account  = Restangular.one('account', user.account.id);
-    var Campaign = Account.all('campaigns');
+    var user = $scope.user = AuthService.userInfo();
+    var Account   = Restangular.one('account', user.account.id);
+    var Campaigns = Account.all('campaigns');
 
     $q.all({
-        campaign: $routeParams.campaignId === 'new' ? newCampaign() : Campaign.get($routeParams.campaignId),
+        campaign: $routeParams.campaignId === 'new' ? newCampaign() : Campaigns.get($routeParams.campaignId),
         campaignTypes: Restangular.all('campaign-types').getList(),
         users: Account.all('users').getList()
     }).then(function (responses) {
+        console.log(_.mapObject(responses, function (response, key) {
+            return [key, response.plain ? response.plain() : response];
+        }));
         angular.extend($scope, responses);
         if (!$scope.campaign) {
             notify.error('Campaign does not exist');
@@ -20,7 +23,7 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
     // Actions
     // -------------------------
     $scope.saveCampaign = function (campaign) {
-        (campaign.isNew ? Campaign.post(campaign) : campaign.put()).then(function (campaign) {
+        (campaign.isNew ? Campaigns.post(campaign) : campaign.put()).then(function (campaign) {
             var path = $location.path();
             if (path.match(/new\/?$/)) {
                 path = path.replace(/new\/?$/, campaign.id);
@@ -44,21 +47,21 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
     };
 
     // Collaborator Actions //
-    $scope.addInternalCollaborator = function (collaboratorToAdd) {
+    $scope.addCollaborator = function (collab) {
         $scope.showAddInternal = false;
-        if (!_.isArray($scope.selected.internalCollaborators)) 
-            $scope.selected.internalCollaborators = [];
+        if (!_.isArray($scope.campaign.collaborators)) 
+            $scope.campaign.collaborators = [];
 
-        $scope.selected.all('collaborators').post({ 
-            userId: collaboratorToAdd.id 
+        $scope.campaign.all('collaborators').post({ 
+            userId: collab.id 
         }).then(function () {
-            $scope.selected.internalCollaborators.push(collaboratorToAdd);
+            $scope.campaign.collaborators.push(collab);
         });
     };
 
-    $scope.removeInternalCollaborator = function (collab) {
-        $scope.selected.one('collaborators', collab.id).remove().then(function () {
-            $rootScope.removeRow($scope.selected.internalCollaborators, collab.id);
+    $scope.removeCollaborator = function (collab) {
+        $scope.campaign.one('collaborators', collab.id).remove().then(function () {
+            $rootScope.removeRow($scope.campaign.collaborators, collab.id);
         });
     };
 
@@ -125,7 +128,7 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
         return {
             isNew: true,
             accountId: user.account.id,
-            collaborators: [user],
+            userId: user.id,
             // startDate: moment().format(),
             // endDate: moment().add('month', 1).format(),
             // put any other defaults needed here
