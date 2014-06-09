@@ -7,7 +7,8 @@
 			itemType: '=itemType',
 			isDisabled: '=isDisabled',
 			addCollaboratorCallback: '=addCollaboratorCallback',
-			removeCollaboratorCallback: '=removeCollaboratorCallback'
+			removeCollaboratorCallback: '=removeCollaboratorCallback',
+			isCollaboratorFinished: '=isCollaboratorFinished'
 		},
 		link: function(scope, element, attrs) {
 			var self = this;
@@ -18,6 +19,8 @@
 				scope.canModifyCollaborators = self.loggedInUser.hasPrivilege('collaborate_execute_sendcontent');
 
 				self.service = (scope.itemType.toLowerCase() === 'campaign') ? CampaignService : ContentService;
+
+				scope.checkCollaborator = ($.isFunction(scope.isCollaboratorFinished)) ? scope.isCollaboratorFinished : function(c) { return false; };
 			};
 
 			self.refreshCollaborators = function () {

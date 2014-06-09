@@ -592,6 +592,24 @@
 			});
 		};
 
+		$scope.isCollaboratorFinished = function (collaborator) {
+			var collaboratorTasks = [];
+
+			$.each($scope.content.taskGroups, function(i, tg) {
+				if ($.isArray(tg.tasks) && tg.tasks.length > 0) {
+					var tasks = $.grep(tg.tasks, function(t) {
+						return t.userId === collaborator.id && !t.isComplete;
+					});
+
+					if (tasks.length > 0) {
+						collaboratorTasks.push(tasks);
+					}
+				}
+			});
+
+			return (collaboratorTasks.length === 0);
+		};
+
 		$scope.getNextStepText = function() {
 			if (!$scope.content || !$scope.content.$resolved) {
 				return null;
@@ -621,6 +639,10 @@
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
 
 		$scope.$watch('content.author', $scope.filterCollaborators);
+
+		$scope.$watch('content.taskGroups', function() {
+			$scope.filterCollaborators();
+		});
 
 		$scope.$watch('contentTags', function () {
 			if (!$scope.content || !$scope.content.$resolved) {

@@ -273,6 +273,30 @@
 .cl-icon-file-ms-powerpoint {
   background-image: url(/assets/images/file-powerpoint.svg);
 }
+.cl-banner-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  height: 40px;
+  margin: 16px 0;
+  min-width: 100%;
+  padding: 0 8px;
+}
+.cl-banner-container .cl-banner {
+  background-repeat: no-repeat;
+  -moz-background-size: contain;
+  background-size: contain;
+  display: inline-block;
+  height: 40px;
+  width: 110px;
+  vertical-align: text-bottom;
+}
+.cl-banner-container .cl-banner-hubspot {
+  background-image: url(/assets/images/hubspot-banner.png);
+}
+.cl-banner-container .cl-banner-act-on {
+  background-image: url(/assets/images/act-on-banner.png);
+}
 html,
 body {
   height: 100%;
@@ -1495,11 +1519,16 @@ span[class*=" icon-"].dark {
 .create .right-pane .panel .panel-body ul.concept-collaborators li {
   position: relative;
 }
-.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o {
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa {
   cursor: pointer;
   position: absolute;
-  right: 0;
   top: 8px;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o {
+  right: 0;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-thumbs-o-up {
+  right: 16px;
 }
 .create .right-pane .panel.panel-user-info {
   font-weight: bold;

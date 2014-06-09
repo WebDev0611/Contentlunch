@@ -23,11 +23,14 @@
 			scope.canDeleteTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_complete');
 		};
 
+		self.refreshTaskGroups = function(contentId) {
+			scope.taskGroups = TaskService.queryContentTasks(self.loggedInUser.account.id, contentId, self.ajaxHandler);
+		};
+
 		scope.canCreateTasks = false;
 		scope.canAssignTasks = false;
 		scope.canEditTasksOthers = false;
 		scope.canDeleteTasks = false;
-
 
 		scope.openCalendar = function (opened, e) {
 			e.stopImmediatePropagation();
@@ -78,6 +81,8 @@
 			taskGroup = TaskService.saveContentTasks(self.loggedInUser.account.id, taskGroup, {
 				success: function (r) {
 					NotificationService.success('Success!', ((!!task) ? 'Successfully modified task, "' + task.name + '"!' : 'Successfully modified "' + taskGroup.name() + '" task group!'));
+
+					self.refreshTaskGroups(taskGroup.contentId);
 
 					if (!!callback && $.isFunction(callback.success)) {
 						callback.success(r);
