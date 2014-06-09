@@ -62,7 +62,7 @@ class CampaignTaskController extends BaseController {
         }
 
         $task = CampaignTask::find($taskID);
-        if ($task->updateUniques()) {
+        if ($task->save()) {
             return $this->show($accountID, $campaignID, $task->id);
         }
 

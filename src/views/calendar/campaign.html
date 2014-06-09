@@ -1,6 +1,29 @@
 <div class="view calendar">
     <div class="col-md-3 left-pane">
         <button ng-hide="campaign.isNew" class="btn full-width small-nudge-down btn-inverse add-content" ng-click="newTask()">Create New Task</button>
+
+        <ul class="task-list">
+            <li class="task-task" ng-repeat="task in tasks" ng-class="{ disabled: task.isComplete }">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="task.isComplete" ng-change="toggleTaskComplete(task)">
+                        {{ task.name }} - 
+                        <span ng-hide="task.dateCompleted" ng-class="{ error: (task.dueDate | isOverdue) }">
+                            Due: {{ task.dueDate ? (task.dueDate | date) : 'N/A' }}
+                        </span>
+                        <span ng-show="task.dateCompleted">
+                            Completed: {{ task.dateCompleted | date }}
+                        </span>
+                    </label>
+                    <span class="fa fa-trash-o" ng-click="deleteTask(task)"></span>
+                    <span class="fa fa-pencil" ng-click="editTask(task)"></span>
+                    <div>
+                        <small>Assigned to {{ task.user.name }}</small>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
     </div>
     <div class="col-md-9 right-pane">
         <h2 class="right-pane-header">Calendar</h2>

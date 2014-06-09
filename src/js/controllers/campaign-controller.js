@@ -79,6 +79,23 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
         });
     };
 
+    $scope.editTask = function (task) {
+        campaignTasks.openModal($scope.tasks, task).then(function (tasks) {
+            if (tasks) $scope.tasks = tasks;
+        });
+    };
+
+    $scope.toggleTaskComplete = function (task) {
+        task.dateCompleted = task.isComplete ? moment().format('YYYY-MM-DD') : null;
+        task.put();
+    };
+
+    $scope.deleteTask = function (task) {
+        task.remove().then(function () {
+            _.remove($scope.tasks, task);
+        });
+    };
+
     // Helpers
     // -------------------------
     // TODO: make this more reusable

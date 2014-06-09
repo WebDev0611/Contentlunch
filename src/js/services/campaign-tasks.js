@@ -7,7 +7,7 @@ function ($modal,   Restangular,   AuthService) {
     var Account = Restangular.one('account', user.account.id);
 
     return {
-        openModal: function (tasks, showCampaignPicker) {
+        openModal: function (tasks, task, showCampaignPicker) {
             showCampaignPicker = !!showCampaignPicker;
 
             return $modal.open({
@@ -23,7 +23,7 @@ function ($modal,   Restangular,   AuthService) {
                     $scope.showCampaignPicker = showCampaignPicker;
                     $scope.campaigns = campaigns;
                     $scope.users = users;
-                    $scope.task = {};
+                    $scope.task = task ? Restangular.copy(task) : {};
                 }]
             }).result.then(function (task) {
                 return (task.id ? task.put() : tasks.post(task)).then(function (task) {

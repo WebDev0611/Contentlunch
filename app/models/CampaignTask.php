@@ -10,10 +10,14 @@ class CampaignTask extends Ardent {
 
     public $forceEntityHydrationFromInput = true;
 
-    protected $guarded = [
+    protected $fillable = [
         'id',
-        'created_at',
-        'updated_at',
+        'campaign_id',
+        'user_id',
+        'name',
+        'due_date',
+        'date_completed',
+        'is_complete',
     ];
 
     public static $rules = [
@@ -33,8 +37,4 @@ class CampaignTask extends Ardent {
         return $this->belongsTo('User');
     }
 
-    protected function beforeSave()
-    {
-        $this->due_date = date('Y-m-d', strtotime($this->due_date));
-    }
 }

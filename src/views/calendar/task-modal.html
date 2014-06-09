@@ -7,7 +7,7 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="campaignTitle">Campaign Title</label>
-                    <select class="form-control" name="campaignTitle" id="campaignTitle" ng-model="task.campaign_id" ng-options="c.id as c.title for c in campaigns">
+                    <select class="form-control" name="campaignTitle" id="campaignTitle" ng-model="task.campaignId" ng-options="c.id as c.title for c in campaigns">
                         <option value="">-- Campaign --</option>
                     </select>
                 </div>
@@ -31,12 +31,12 @@
                         <input name="name" class="form-control" type="text" ng-model="task.name">
                     </td>
                     <td>
-                        <select name="user" class="form-control" ng-options="u.id as u.name for u in users" ng-model="task.user_id">
+                        <select name="user" class="form-control" ng-options="u.id as u.name for u in users" ng-model="task.userId">
                             <option value="">-- Assignee --</option>
                         </select>
                     </td>
                     <td>
-                        <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" type="text" name="dueDate" class="form-control" id="dueDate" ng-model="task.dueDate">
+                        <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" name="dueDate" class="form-control" id="dueDate" ng-model="task.dueDate">
                     </td>
                 </tr>
             </tbody>

@@ -119,8 +119,8 @@ function ($scope,   $location,   $timeout,   campaignTasks,   $interpolate,   $h
     // Events
     // -------------------------
     $scope.newTask = function () {
-        campaignTasks.openModal($scope.campaignTasks, true).then(function (tasks) {
-            $scope.campaignTasks = tasks;
+        campaignTasks.openModal($scope.campaignTasks, {}, true).then(function (tasks) {
+            if (tasks) $scope.campaignTasks = tasks;
         });
     };
 
