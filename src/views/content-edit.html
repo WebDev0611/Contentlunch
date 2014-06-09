@@ -206,7 +206,15 @@
 				<div collaborator-sidebar collaborators="content.collaborators" users="collaborators" item-id="content.id" item-type="'content'"
 					add-collaborator-callback="filterTaskAssignees" remove-collaborator-callback="filterTaskAssignees" is-disabled="collboratorsIsDisabled"></div>
 				
-				<div ng-show="showExport">PLACEHOLDER FOR EXPORT</div>
+				<div ng-show="showExport">
+					<div style="font-weight: bold;">Export to</div>
+					<div class="cl-banner-container" ng-show="showExportHubspot" ng-click="exportContent('hubspot')">
+						<span class="cl-banner cl-banner-hubspot"></span>
+					</div>
+					<div class="cl-banner-container" ng-show="showExportActOn" ng-click="exportContent('act-on')">
+						<span class="cl-banner cl-banner-act-on"></span>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">

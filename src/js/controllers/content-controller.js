@@ -20,10 +20,17 @@
 			self.loggedInUser = authService.userInfo();
 			self.refreshContent();
 
-			$scope.contentConnections = connectionService.queryContentConnections(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
+			$scope.contentConnections = connectionService.queryContentConnections(self.loggedInUser.account.id, {
+				success: function (r) {
+					$scope.showExport = $.grep($scope.contentConnections, function (cc) { return cc.provider === 'hubspot' || cc.provider === 'act-on'; }).length > 0;
+					$scope.showExportHubspot = $.grep($scope.contentConnections, function (cc) { return cc.provider === 'hubspot'; }).length > 0;
+					$scope.showExportActOn = $.grep($scope.contentConnections, function (cc) { return cc.provider === 'act-on'; }).length > 0;
+				},
+				error: self.ajaxHandler.error
+			});
 			$scope.contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
 				success: function (r) {
 					if ($.isArray($scope.contentSettings.personaProperties)) {
@@ -292,6 +299,8 @@
 		$scope.showRichTextEditor = true;
 		$scope.showAddFileButton = false;
 		$scope.showExport = false;
+		$scope.showExportHubspot = false;
+		$scope.showExportActOn = false;
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;
 		$scope.defaultTaskGroup = null;
@@ -602,6 +611,11 @@
 				default:
 					return null;
 			}
+		};
+
+		$scope.exportContent = function(provider) {
+			// TODO: WHAT DOES IT MEAN TO EXPORT CONTENT TO HUBSPOT AND ACT-ON??
+			notificationService.info('WARNING!!', 'EXPORTING TO ' + provider.toUpperCase() + ' IS NOT YET IMPLEMENTED!!');
 		};
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);

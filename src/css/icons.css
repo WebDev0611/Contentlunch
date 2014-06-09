@@ -160,3 +160,27 @@
 .cl-icon-file-ms-powerpoint {
   background-image: url(/assets/images/file-powerpoint.svg);
 }
+.cl-banner-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  height: 40px;
+  margin: 16px 0;
+  min-width: 100%;
+  padding: 0 8px;
+}
+.cl-banner-container .cl-banner {
+  background-repeat: no-repeat;
+  -moz-background-size: contain;
+  background-size: contain;
+  display: inline-block;
+  height: 40px;
+  width: 110px;
+  vertical-align: text-bottom;
+}
+.cl-banner-container .cl-banner-hubspot {
+  background-image: url(/assets/images/hubspot-banner.png);
+}
+.cl-banner-container .cl-banner-act-on {
+  background-image: url(/assets/images/act-on-banner.png);
+}
