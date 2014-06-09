@@ -67,9 +67,9 @@
 			case 1:
 				return 'review';
 			case 2:
-				return 'approve';
-			case 3:
 				return 'launch';
+			case 3:
+				return 'promote';
 			case 4:
 				return 'archive';
 			default:

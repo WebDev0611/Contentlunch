@@ -124,7 +124,13 @@
 .cl-icon-workflow-promote {
   background-image: url(/assets/images/promote.png);
 }
+.cl-icon-workflow-promote.cl-icon-white {
+  background-image: url(/assets/images/promote.svg);
+}
 .cl-icon-workflow-archive {
+  background-image: url(/assets/images/archive.svg);
+}
+.cl-icon-workflow-archive.cl-icon-white {
   background-image: url(/assets/images/archive.svg);
 }
 .cl-icon-workflow-collaborate {

@@ -1462,15 +1462,34 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 		}
 
-		.content-approved-header {
-			color: @homeColorDark;
+		.content-approved-header, .content-launched-header {
 			font-size: 16pt;
 			font-weight: bold;
+			margin-bottom: 16px;
 
 			.fa {
 				color: #000000;
 				display: inline-block;
+
+				&.fa-check {
+					color: @homeColorDark;
+				}
+			}
+		}
+
+		.content-approved-header {
+			color: @homeColorDark;
+
+			.fa {
 				margin: 0 0 16px 12px;
+			}
+		}
+
+		.content-launched-header {
+			.fa {
+				display: inline-block;
+				font-size: 16pt;
+				margin: 0 4px;
 			}
 		}
 
@@ -1489,8 +1508,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 				margin: 0;
 				position: relative;
 
-				.btn-launch {
-					background-color: @homeColorDark;
+				.btn-launch, .btn-promote {
 					color: #ffffff;
 					font-size: 12pt;
 					font-weight: bold;
@@ -1505,6 +1523,14 @@ span[class^="icon-"], span[class*=" icon-"] {
 							width: 30px;
 						}
 					}
+				}
+
+				.btn-launch {
+					background-color: @homeColorDark;
+				}
+
+				.btn-promote {
+					background-color: @launchColor;
 				}
 			}
 		}
@@ -1573,11 +1599,12 @@ span[class^="icon-"], span[class*=" icon-"] {
 				position: relative;
 				text-align: left;
 
-				&.small-cell{
+				&.small-cell {
 					width: 50px;
 				}
 
-				> span {
+				> span, > a {
+					display: inline-block;
 					vertical-align: middle;
 				}
 
@@ -1595,23 +1622,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 				}
 
 				.cl-icon-workflow {
-					display: inline-block;
-					float: left;
 					margin: 4px 8px;
-					vertical-align: middle;
-				}
-
-				.workflow-info {
-					margin-left: 32px;
-
-					a {
-						font-weight: bold;
-						text-decoration: underline;
-					}
-
-					.error {
-						font-weight: normal;
-					}
 				}
 
 				input[type="checkbox"].form-control {
@@ -2356,6 +2367,16 @@ hr.simple-divider {
 
 .slide-toggle.ng-hide {
 	display: block !important;
+}
+
+.loading-spinner-container {
+	height: 100%;
+	width: 100%;
+	text-align: center;
+
+	.loading-spinner {
+		margin: 128px 0;
+	}
 }
 
 .loading-spinner {

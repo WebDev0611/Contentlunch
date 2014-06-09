@@ -93,6 +93,9 @@
 						$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
 						$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
 
+						// TODO: WHAT PRIVILEGES TO WE CHECK FOR RESTORE?
+						$scope.canRestoreContent = $scope.content.archived ? true : false;
+
 						$scope.showRichTextEditor = $scope.content.contentType.allowText();
 						$scope.showAddFileButton = $scope.content.contentType.allowFile();
 						$scope.showExport = $scope.content.contentType.allowExport() && $scope.content.status >= 3;
@@ -196,7 +199,7 @@
 				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
 			}
 
-			notificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+			$location.path('/launch/content/' + $scope.content.id);
 		};
 
 		self.showSelectApproverDialog = function(taskName, actor, privilegeName) {
@@ -312,6 +315,7 @@
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
 		$scope.formatContentConnectionItem = launch.utils.formatContentConnectionItem;
+		$scope.getConnectionProviderIconClass = launch.utils.getConnectionProviderIconClass;
 		$scope.formatBuyingStageItem = launch.utils.formatBuyingStageItem;
 
 		$scope.canViewContent = false;
@@ -320,6 +324,7 @@
 		$scope.canApproveContent = false;
 		$scope.canLaunchContent = false;
 		$scope.canPromoteContent = false;
+		$scope.canRestoreContent = false;
 		$scope.canDiscussContent = false;
 
 		$scope.collboratorsIsDisabled = false;
@@ -595,17 +600,19 @@
 		$scope.isCollaboratorFinished = function (collaborator) {
 			var collaboratorTasks = [];
 
-			$.each($scope.content.taskGroups, function(i, tg) {
-				if ($.isArray(tg.tasks) && tg.tasks.length > 0) {
-					var tasks = $.grep(tg.tasks, function(t) {
-						return t.userId === collaborator.id && !t.isComplete;
-					});
+			if (!!$scope.content && $.isArray($scope.content.taskGroups) && $scope.content.taskGroups.length > 0) {
+				$.each($scope.content.taskGroups, function (i, tg) {
+					if ($.isArray(tg.tasks) && tg.tasks.length > 0) {
+						var tasks = $.grep(tg.tasks, function (t) {
+							return t.userId === collaborator.id && !t.isComplete;
+						});
 
-					if (tasks.length > 0) {
-						collaboratorTasks.push(tasks);
+						if (tasks.length > 0) {
+							collaboratorTasks.push(tasks);
+						}
 					}
-				}
-			});
+				});
+			}
 
 			return (collaboratorTasks.length === 0);
 		};
@@ -634,6 +641,21 @@
 		$scope.exportContent = function(provider) {
 			// TODO: WHAT DOES IT MEAN TO EXPORT CONTENT TO HUBSPOT AND ACT-ON??
 			notificationService.info('WARNING!!', 'EXPORTING TO ' + provider.toUpperCase() + ' IS NOT YET IMPLEMENTED!!');
+		};
+
+		$scope.restoreContent = function() {
+			if (!$scope.content.archived) {
+				return;
+			}
+
+			if (!$scope.canRestoreContent) {
+				notificationService.error('Error!', 'You do not have sufficient privileges to restore archived content. Please contact your administrator for more information.');
+				return;
+			}
+
+			$scope.content.archived = false;
+
+			$scope.saveContent();
 		};
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
