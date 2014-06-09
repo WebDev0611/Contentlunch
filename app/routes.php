@@ -22,6 +22,10 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
+  Route::resource('account/{accountID}/campaigns/{campaignID}/tasks', 'CampaignTaskController', [
+    'only' => ['index', 'store', 'show', 'update', 'destroy']
+  ]);
+
   Route::resource('account/{id}/content', 'ContentController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);

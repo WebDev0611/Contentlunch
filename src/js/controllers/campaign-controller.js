@@ -1,14 +1,16 @@
 launch.module.controller('CampaignController',
-        ['$scope', 'AuthService', '$routeParams', '$filter', '$q', 'Restangular', '$location', '$rootScope', 'NotificationService', 
-function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,   $location,   $rootScope,   notify) {
+        ['$scope', 'AuthService', '$routeParams', '$filter', '$q', 'Restangular', '$location', '$rootScope', 'campaignTasks', 'NotificationService', 
+function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,   $location,   $rootScope,   campaignTasks,   notify) {
     var user = $scope.user = AuthService.userInfo();
     var Account   = Restangular.one('account', user.account.id);
     var Campaigns = Account.all('campaigns');
+    var Campaign  = Campaigns.one($routeParams.campaignId);
 
     $q.all({
-        campaign: $routeParams.campaignId === 'new' ? newCampaign() : Campaigns.get($routeParams.campaignId),
+        campaign: $routeParams.campaignId === 'new' ? newCampaign() : Campaign.get(),
         campaignTypes: Restangular.all('campaign-types').getList(),
-        users: Account.all('users').getList()
+        users: Account.all('users').getList(),
+        tasks: Campaign.getList('tasks')
     }).then(function (responses) {
         console.log(_.mapObject(responses, function (response, key) {
             return [key, response.plain ? response.plain() : response];
@@ -67,6 +69,13 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
     $scope.removeCollaborator = function (collab) {
         $scope.campaign.one('collaborators', collab.id).remove().then(function () {
             $rootScope.removeRow($scope.campaign.collaborators, collab.id);
+        });
+    };
+
+    // Task Actions //
+    $scope.newTask = function () {
+        campaignTasks.openModal($scope.tasks).then(function (tasks) {
+            $scope.tasks = tasks;
         });
     };
 

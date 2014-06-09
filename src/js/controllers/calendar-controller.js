@@ -1,7 +1,7 @@
 ﻿/* jshint multistr: true */
 launch.module.controller('CalendarController',
-        ['$scope', '$location', '$timeout', '$modal', '$interpolate', '$http',
-function ($scope,   $location,   $timeout,   $modal,   $interpolate,   $http) {
+        ['$scope', '$location', '$timeout', 'campaignTasks', '$interpolate', '$http',
+function ($scope,   $location,   $timeout,   campaignTasks,   $interpolate,   $http) {
     $scope.title = 'This is the calendar page controller';
     $scope.calendarConfig  = {
         editable: false,
@@ -119,23 +119,8 @@ function ($scope,   $location,   $timeout,   $modal,   $interpolate,   $http) {
     // Events
     // -------------------------
     $scope.newTask = function () {
-        $modal.open({
-            templateUrl: 'assets/views/calendar/task-modal.html',
-            size: 'lg',
-            controller: ['$scope', '$modalInstance',
-            function      (scope,    modalInstance) {
-                scope.task = {
-                    assignees: [{}]
-                };
-
-                scope.onOk = function () {
-                    modalInstance.close();
-                };
-                scope.onCancel = function() {
-                    modalInstance.dismiss('cancel');
-                };
-            }]
-
+        campaignTasks.openModal($scope.campaignTasks, true).then(function (tasks) {
+            $scope.campaignTasks = tasks;
         });
     };
 

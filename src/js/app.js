@@ -294,6 +294,16 @@
 				return item.id == id;
 			});
 		},
+		appendOrUpdate: function (array, item) {
+			var index = _.indexById(array, item.id);
+			
+			if (index !== -1) array[index] = angular.copy(item);
+			else array.push(angular.copy(item));
+		},
+		remove: function (array, item) {
+			var index = _.indexById(array, item.id);
+			if (index !== -1) array.splice(index, 1);
+		},
 		indexById: function (array, id) {
 			var index = -1;
 
