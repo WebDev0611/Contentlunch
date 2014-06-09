@@ -122,12 +122,11 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                 recipients: function () { return recipients; },
                 provider: function () { return connection.connectionProvider; },
                 isGroup: function () { return !!group; },
-                link: connection.connectionProvider == 'twitter' ?
-                        connection.one('twitter-link-length').get().then(function (link) {
-                            console.log(link);
-                            return link;
-                        }) :
-                        function () { return { len: 0 }; }
+                link: function () {
+                    return connection.connectionProvider == 'twitter' ?
+                        connection.one('twitter-link-length').get() :
+                        { len: 0 };
+                }
             }
         // the angular.noop here should make it so our catch doesn't catch this if it errors
         }, angular.noop).result.then(function (message) {
