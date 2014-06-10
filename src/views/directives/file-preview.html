@@ -1,7 +1,7 @@
 
 <div class="file-preview">
   
-  <div class="edit" ng-click="editFile()">
+  <div class="edit" ng-click="editFile(launchFile)">
     <div>EDIT</div>
     <div>
       <span class="fa fa-edit"></span>
@@ -16,7 +16,9 @@
   <div class="row">
 
     <div class="info col-sm-7">
-      <div class="filename">{{ launchFile.fileName }}</div>
+      <div class="filename">
+        <a ng-href="{{ launchFile.path }}" target="__blank">{{ launchFile.fileName }}</a>
+      </div>
       <div class="rating-views">
         <span class="rating">Rating here</span>
         <span class="views">85 Views</span>

@@ -4,7 +4,8 @@
 		<ul class="nav navbar-nav">
 			<li ng-class="[item.title, item.active]" ng-repeat="item in mainMenu" ng-click="navigate(item.url)">
 				<div class="dark">
-					<img ng-src="{{ imagePath(item) }}" />
+					
+          <span ng-include="imagePath(item)"></span>
 					{{ formatMenuTitle(item.title) }}
 				</div>
 				<div id="menu-arrow" class="top-arrow" ng-class="item.title"></div>

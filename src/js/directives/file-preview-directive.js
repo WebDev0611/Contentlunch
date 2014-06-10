@@ -9,9 +9,11 @@ launch.module.directive('filePreview', function (ModelMapperService) {
       scope.userImage = function () {
         return scope.user.image ? scope.user.image : '/images/user.svg';
       };
+
     },
     scope: {
-      file: '=filePreview'
+      file: '=filePreview',
+      editFile: '=editFile'
     },
     templateUrl: '/assets/views/directives/file-preview.html'
   };

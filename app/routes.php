@@ -99,9 +99,12 @@ Route::group(['prefix' => 'api'], function()
   ]);
 
   Route::resource('library', 'LibraryController', [
-    'only' => ['index', 'store', 'show', 'destroy', 'storeUpload']
+    'only' => ['index', 'store', 'show', 'update', 'destroy', 'storeUpload']
   ]);
-  Route::post('library/{id}/uploads', 'LibraryController@storeUpload');
+
+  Route::resource('library/{id}/uploads', 'LibraryUploadsController', [
+    'only' => ['index', 'store', 'update', 'destroy']
+  ]);
 
   Route::resource('campaign-types', 'CampaignTypeController', [
     'only' => ['index']

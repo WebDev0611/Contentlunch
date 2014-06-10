@@ -15,22 +15,22 @@ class Library extends Ardent {
   protected $table = 'libraries';
 
   protected $fillable = [
-    'name', 'user_id', 'account_id', 'global'
+    'name', 'user_id', 'account_id', 'global', 'description'
   ];
 
   public function account()
   {
-    return $this->hasOne('Account');
+    return $this->belongsTo('Account');
   }
 
   public function uploads()
   {
-    return $this->belongsToMany('Upload', 'library_uploads')->withTimestamps()->with('User');
+    return $this->belongsToMany('Upload', 'library_uploads')->withTimestamps();
   }
 
   public function user()
   {
-    return $this->hasOne('User');
+    return $this->belongsTo('User');
   }
 
 }

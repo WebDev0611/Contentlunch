@@ -45,10 +45,14 @@ header {
 					font-size: 6pt;
 					.inner-nav-width(@navWidth, @navPadding);
 
-					img {
+					img, svg {
 						height: 40px;
+            width: 40px;
 						margin: 0 0 4px 0;
 					}
+          svg path {
+            fill: #FFFFFF;
+          }
 				}
 
 				&.home {
@@ -168,6 +172,9 @@ header {
 
           .top-arrow {
             border-top-color: @subscriptionColor;
+          }
+          img path {
+            fill: #ffffff;
           }
         }
 
@@ -637,7 +644,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	width: 36px;
 }
 
-.users, .accounts, .roles, .content-settings, .seo-settings, .create, .admin-library {
+.users, .accounts, .roles, .content-settings, .seo-settings, .create, .admin-library, .consult {
 	.left-pane {
 		position: relative;
 
@@ -722,7 +729,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.users, .accounts, .roles, .content-settings, .seo-settings, .admin-library {
+.users, .accounts, .roles, .content-settings, .seo-settings, .admin-library, .consult {
 	.left-pane {
 		.btn-group {
 			.btn-create {
@@ -2399,7 +2406,7 @@ hr.simple-divider {
     padding-right: 30px;
   }
 
-  .file-preview {
+  .file-preview, .folder-preview {
     position: relative;
     background: #D7D7D7;
     padding: 5px 10px 15px 10px;
@@ -2422,7 +2429,7 @@ hr.simple-divider {
       }
     }
 
-    .cl-icon {
+    .cl-icon, .cl-icon svg {
       height: 50px;
       width: 50px;
       float: left;
@@ -2439,6 +2446,10 @@ hr.simple-divider {
     .filename {
       text-decoration: underline;
       cursor: pointer;
+      a {
+        color: #000000;
+        font-weight: bold;
+      }
     }
 
     .info, .user {
@@ -2472,13 +2483,76 @@ hr.simple-divider {
   }
 }
 
-.library-file-form {
+.library-file-form, .library-folder-form {
+  .buttons {
+    .btn-black {
+      margin: 0 10px;
+    }
+    text-align: center;
+  }
   .btn-black {
     background-color: #000000;
     color: #ffffff;
     vertical-align: middle;
+    border: none;
   }
+}
 
-.filter-slection-counter{
+.consult {
+  &.consult-landing .right-pane-header {
+    padding-left: 50px;
+  }
+  .right-pane-header {
+    color: #ffffff;
+    background-color: #2BADC0;
+    border-bottom-color: #8DCDD5;
+  }
+  .container {
+    padding-left: 0;
+  }
+  .subheader {
+    h3 {
+      border-bottom: 1px solid #000000;
+      padding-bottom: 10px;
+      margin-top: 0;
+    }
+  }
+  .landing-box {
+    text-align: center;
+    padding: 0 28px;
+    h3 {
+      border-bottom: 1px solid #000000;
+      padding-bottom: 10px;
+    }
+    .landing-icon {
+      svg {
+        width: 150px;
+        height: 150px;  
+      }
+      margin: 15px 0;
+    }
+    .text {
+      padding: 0 20px;
+      text-align: left;
+      font-style: italic;
+    }
+  }
+  .subtext {
+    font-style: italic;
+    margin: 85px auto 45px auto;
+    width: 40%;
+  }
+  .filter-panel {
+    background-color: #2BADC0;
+    border-radius: 4px;
+    color: #ffffff;
+    font-family: 'Lato Black';
+    font-size: 14pt;
+    margin: 12px 0;
+    padding: 4px;
+  }
+}
+
+.filter-slection-counter {
 	float: right;
 }

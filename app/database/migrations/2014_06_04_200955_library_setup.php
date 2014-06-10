@@ -19,6 +19,7 @@ class LibrarySetup extends Migration {
       $table->integer('account_id')->nullable()->references('id')->on('accounts')->onDelete('cascade');
       $table->boolean('global')->default(false);
       $table->string('name');
+      $table->text('description')->nullable();
       $table->integer('user_id')->references('id')->on('users')->onDelete('cascade');
       $table->timestamps();
     });
