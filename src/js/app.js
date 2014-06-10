@@ -4,6 +4,8 @@
 	launch = window.launch || (window.launch = { });
 	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2', 'ui.calendar', 'restangular', 'checklist-model']);
 
+	launch.module.value('contentStatuses', ['concept', 'create', 'review', 'launch', 'promote']);
+
 	launch.module.config([
 					'$routeProvider', '$locationProvider', '$httpProvider', 'RestangularProvider', 
 			function($routeProvider,   $locationProvider,   $httpProvider,   RestangularProvider) {

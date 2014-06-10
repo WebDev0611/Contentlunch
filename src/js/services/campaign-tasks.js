@@ -26,7 +26,8 @@ function ($modal,   Restangular,   AuthService) {
                     $scope.task = task ? Restangular.copy(task) : {};
                 }]
             }).result.then(function (task) {
-                return (task.id ? task.put() : tasks.post(task)).then(function (task) {
+                var Tasks = tasks.post ? tasks : Account.one('campaigns', task.campaignId).all('tasks');
+                return (task.id ? task.put() : Tasks.post(task)).then(function (task) {
                     _.appendOrUpdate(tasks, task);
                     return tasks;
                 });

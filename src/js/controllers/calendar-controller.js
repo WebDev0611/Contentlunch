@@ -1,7 +1,7 @@
 ﻿/* jshint multistr: true */
 launch.module.controller('CalendarController',
-        ['$scope', '$location', '$timeout', 'campaignTasks', '$interpolate', '$http',
-function ($scope,   $location,   $timeout,   campaignTasks,   $interpolate,   $http) {
+        ['$scope', 'AuthService', '$timeout', 'campaignTasks', '$interpolate', '$http', '$q', 'contentStatuses', 'Restangular',
+function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   $http,   $q,   contentStatuses,   Restangular) {
     $scope.title = 'This is the calendar page controller';
     $scope.calendarConfig  = {
         editable: false,
@@ -32,96 +32,72 @@ function ($scope,   $location,   $timeout,   campaignTasks,   $interpolate,   $h
         }
     };
 
-    // world blows up without this, but this is all just stubbed data that will go away
-    $scope.calendarSources = [
-        {
-            events: [
-                {
-                    title: 'Unweildly Long Name That Hopefully is Longer Than Most Names we Encounter',
-                    description: 'This be the description',
-                    connectionIcon: 'blogger.svg',
-                    stageIcon: 'edit.png',
-                    circleColor: '#9999ff',
-                    start: '2014-05-01T11:00:00',
+    var user = AuthService.userInfo();
+    var Account = Restangular.one('account', user.account.id);
+    $q.all({
+        campaigns: Account.getList('campaigns'),
+        content: Account.getList('content'),
+        // that's CONTENT tasks to you, boooooiii
+        tasks: Account.getList('content-tasks'),
+    }).then(function (responses) {
+        var tasksByContent = _.groupBy(responses.tasks, 'contentId');
+
+        $scope.calendarSources = [];
+
+        _.each(tasksByContent, function (tasks, contentId) {
+            var content = _.findById(responses.content, contentId);
+            var color = (content.campaign || {}).color || randomColor();
+
+            var events = _.map(tasks, function (task) {
+                return _.merge(task, {
+                    title: task.name,
+                    description: '', // not used...?
+                    contentTypeIconClass: launch.utils.getContentTypeIconClass(content.contentType.key),
+                    workflowIconCssClass: launch.utils.getWorkflowIconCssClass(contentStatuses[task.status]),
+                    stage: contentStatuses[task.status],
+                    circleColor: color,
+                    start: task.dueDate,
                     type: 'task',
-                    color: 'blue',
-                    // end: '2014-05-09T14:30:00Z',
-                    allDay: false // will make the time show
-                },
-                {
-                    title: 'Banana2',
-                    description: 'This be the description',
-                    connectionIcon: 'blogger2.svg',
-                    stageIcon: 'edit.png',
-                    circleColor: '#ffcccc',
-                    start: '2014-05-16T14:30:00',
-                    type: 'task',
-                    allDay: false // will make the time show
-                },
-                {
-                    title: 'Banana2-2',
-                    description: 'This be the description',
-                    connectionIcon: 'blogger2.svg',
-                    stageIcon: 'edit.png',
-                    circleColor: '#ffcccc',
-                    start: '2014-05-16T10:30:00',
-                    type: 'task',
-                    allDay: false // will make the time show
-                },
-                {
-                    title: 'Banana2-3',
-                    description: 'This be the description',
-                    connectionIcon: 'blogger2.svg',
-                    stageIcon: 'edit.png',
-                    circleColor: '#ffcccc',
-                    start: '2014-05-16T16:30:00',
-                    type: 'task',
-                    allDay: false // will make the time show
-                }
-            ],
-            className: 'calendar-task',
-            color: '#ba1760',
-            textColor: 'whitesmoke'
-        },
-        {
-            events: [
-                {
-                    title: 'Campaign',
-                    description: 'This be the description',
-                    connectionIcon: 'blogger2.svg',
-                    stageIcon: 'edit.png',
-                    circleColor: '#ffcccc',
-                    start: '2014-05-11',
-                    end: '2014-05-13',
+                    allDay: false, // will make the time show
+                    content: content
+                });
+            });
+
+            $scope.calendarSources.push({
+                events: events,
+                className: 'calendar-task',
+                color: color,
+                textColor: 'whitesmoke'
+            });
+        });
+
+        _.each(responses.campaigns, function (campaign) {
+            $scope.calendarSources.push({
+                events: [_.merge(campaign, {
+                    title: campaign.title,
+                    description: '', // not used
+                    start: campaign.startDate,
+                    end: campaign.endDate,
                     type:'campaign',
-                    allDay: true
-                }
-            ],
-            color: '#afe43f',
-            textColor: '#222'
-        },
-        {
-            events: [
-                {
-                    title: 'Campaign 2',
-                    description: 'This be the description',
-                    start: '2014-05-01',
-                    end: '2014-05-25',
-                    type:'campaign',
-                    allDay: true
-                }
-            ],
-            color: '#ffb503',
-            textColor: '#222'
-        }
-    ];
+                    allDay: true,
+                })],
+                color: campaign.color,
+                textColor: 'whitesmoke'
+            });
+
+        })
+    });
+
+    function randomColor() {
+        return '#'+Math.floor(Math.random()*16777215).toString(16);
+    }
 
     // Events
     // -------------------------
     $scope.newTask = function () {
-        campaignTasks.openModal($scope.campaignTasks, {}, true).then(function (tasks) {
-            if (tasks) $scope.campaignTasks = tasks;
-        });
+        // so... we don't actually even show campaign tasks on this page... 
+        // so no need to do any more than post, which is handled in the service
+        campaignTasks.openModal([], {}, true);
     };
 
 

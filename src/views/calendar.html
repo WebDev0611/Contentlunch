@@ -96,7 +96,7 @@
 	<div class="col-md-9 right-pane">
 		<h2 class="right-pane-header">Calendar</h2>
 
-		<div class="squeeze-20">
+		<div class="squeeze-20" ng-if="calendarSources">
 			<div ui-calendar="calendarConfig" ng-model="calendarSources" calendar="calendar"></div>
 		</div>
 	</div>

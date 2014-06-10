@@ -26,6 +26,9 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
+  Route::get('account/{accountID}/content-tasks', 'ContentTaskGroupController@getAllTasks');
+
+
   Route::resource('account/{id}/content', 'ContentController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
