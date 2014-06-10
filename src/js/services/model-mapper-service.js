@@ -972,6 +972,12 @@
 			connection.connectionName = dto.connection_name;
 			connection.provider = dto.connection_provider;
 
+			if (launch.utils.isBlank(connection.provider) && $.isPlainObject(dto.connection)) {
+				connection.provider = dto.connection.provider;
+				connection.connectionType = dto.connection.type;
+				connection.connectionName = dto.connection.name;
+			}
+
 			return connection;
 		},
 		toDto: function(connection) {

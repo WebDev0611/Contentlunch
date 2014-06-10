@@ -53,9 +53,9 @@
                 <th>Title</th>
                 <th>Author</th>
                 <th ng-hide="search.contentStage === 'concepts'">Persona</th>
-                <th ng-hide="search.contentStage === 'concepts'">Buying Stage</th>
-                <th ng-show="search.contentStage === 'content'">Current Step</th>
-                <th>Next Step</th>
+                <th style="text-align: center;" ng-hide="search.contentStage === 'concepts'">Buying Stage</th>
+                <th>Current Step</th>
+                <th ng-show="search.contentStage === 'content'">Next Step</th>
             </tr>
         </thead>
         <tbody>
@@ -71,19 +71,17 @@
                     {{ c.author.formatName() }}
                 </td>
                 <td ng-hide="search.contentStage === 'concepts'">{{ c.persona }}</td>
-                <td ng-hide="search.contentStage === 'concepts'"><span class="cl-icon" ng-class="'cl-icon-personas-' + c.buyingStage"></span></td>
-                <td ng-show="search.contentStage === 'content'">
-                    <span class="cl-icon cl-icon-workflow" ng-class="formatWorkflowItem(c.currentStep())"></span>
-                    <div class="workflow-info">
-                        <div>{{ formatWorkflowTitle(c.currentStep()) }}</div>
-                        <!--<div class="small-text">{{ formatDate(c.updated) }}</div>-->
-                    </div>
-                </td>
+                <td style="text-align: center;" ng-hide="search.contentStage === 'concepts'"><span class="cl-icon" ng-class="'cl-icon-personas-' + c.buyingStage"></span></td>
                 <td>
-                    <div class="workflow-info">
-                        <a href="#" ng-click="handleNextStep(c)">{{ formatWorkflowTitle(c.nextStep()) }}</a>
-                        <!--<div class="small-text" ng-class="{ error: highlightDate(c.dueDate) }">Due: {{ formatDate(c.dueDate) }}</div>-->
-                    </div>
+					<span class="cl-icon cl-icon-workflow" ng-class="formatWorkflowItem(c.currentStep())"></span>
+					<a href="#" ng-click="handleCurrentStep(c)">
+						<span ng-bind="formatWorkflowTitle(c.currentStep())"></span>
+					</a>
+                </td>
+                <td ng-show="search.contentStage === 'content'">
+					<a href="#" ng-click="handleNextStep(c)">
+						<span ng-bind="formatWorkflowTitle(c.nextStep())"></span>
+					</a>
                 </td>
             </tr>
         </tbody>

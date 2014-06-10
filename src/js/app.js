@@ -132,6 +132,14 @@
 						controller: 'LaunchController',
 						templateUrl: '/assets/views/launch.html'
 					})
+					.when('/launch/content/:contentId', {
+						controller: 'LaunchController',
+						templateUrl: '/assets/views/launch.html'
+					})
+					.when('/launch/campaign/:campaignId', {
+						controller: 'LaunchController',
+						templateUrl: '/assets/views/launch.html'
+					})
 					.when('/measure', {
 						controller: 'MeasureController',
 						templateUrl: '/assets/views/measure.html'
