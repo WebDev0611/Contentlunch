@@ -144,6 +144,7 @@
 			content.comments = [];
 			content.accountConnections = [];
 			content.contentType = new launch.ContentType();
+			content.$resolved = true;
 
 			return content;
 		},
@@ -156,7 +157,8 @@
 			content.collaborators = [];
 			content.comments = [];
 			content.accountConnections = [];
-			content.contentType = { };
+			content.contentType = {};
+			content.$resolved = true;
 
 			return content;
 		}

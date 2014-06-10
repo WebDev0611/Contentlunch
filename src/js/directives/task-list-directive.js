@@ -3,6 +3,8 @@
 		var self = this;
 
 		self.loggedInUser = null;
+		self.initialStateIsSet = false;
+		self.openTaskGroups = [];
 
 		self.ajaxHandler = {
 			success: function (r) {
@@ -24,7 +26,25 @@
 		};
 
 		self.refreshTaskGroups = function(contentId) {
-			scope.taskGroups = TaskService.queryContentTasks(self.loggedInUser.account.id, contentId, self.ajaxHandler);
+			scope.taskGroups = TaskService.queryContentTasks(self.loggedInUser.account.id, contentId, {
+				success: function(r) {
+					self.setOpenTaskGroups();
+				},
+				error: self.ajaxHandler.error
+			});
+		};
+
+		self.setOpenTaskGroups = function() {
+			if (!!scope.taskGroups && $.isArray(scope.taskGroups) && scope.taskGroups.length > 0) {
+				$.each(scope.taskGroups, function (i, tg) {
+					if ($.isArray(self.openTaskGroups) && self.openTaskGroups.length > 0) {
+						tg.isOpen = $.inArray(tg.id, self.openTaskGroups) >= 0;
+					} else if (scope.parentStatus === tg.status && !self.initialStateIsSet) {
+						tg.isOpen = true;
+						scope.toggleOpen(tg);
+					}
+				});
+			}
 		};
 
 		scope.canCreateTasks = false;
@@ -210,16 +230,18 @@
 			}
 		};
 
-		scope.$watch('taskGroups', function() {
-			if (!!scope.taskGroups && $.isArray(scope.taskGroups) && scope.taskGroups.length > 0 && !self.initialBinding) {
-				$.each(scope.taskGroups, function(i, tg) {
-					if (scope.parentStatus === tg.status) {
-						tg.isOpen = true;
-					}
-				});
+		scope.toggleOpen = function (taskGroup) {
+			var index = $.inArray(taskGroup.id, self.openTaskGroups);
 
-				self.initialBinding = true;
+			if (index < 0) {
+				self.openTaskGroups.push(taskGroup.id);
+			} else {
+				self.openTaskGroups.splice(index, 1);
 			}
+		};
+
+		scope.$watch('taskGroups', function() {
+			self.setOpenTaskGroups();
 		});
 
 		self.init();
