@@ -49,6 +49,7 @@
 			if (isNaN(self.contentId)) {
 				$scope.content = contentService.getNewContent(self.loggedInUser);
 				$scope.isNewContent = true;
+				self.setPrivileges();
 			} else {
 				// NEED TO PAUSE HERE DUE TO A RACE SITUATION BETWEEN TRYING TO FETCH CONTENT CONNECTIONS
 				// AND THE CONTENT ITEM. THE SELECT2 DROP-DOWN NEEDS TO GET ITS OPTIONS IN PLACE BEFORE WE
@@ -76,34 +77,7 @@
 							return;
 						}
 
-						if ($scope.content.status <= 3) {
-							$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_view_content_other_unapproved', 'create_view_content_other']);
-							$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_edit_content_other_unapproved', 'create_edit_content_other']);
-						} else if ($scope.content.status === 3) {
-							$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_view_content_other');
-							$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
-						} else {
-							//TODO: WHAT PRIVILEGES DO WE CHECK FOR PROMOTE?
-							$scope.canPromoteContent = true;
-						}
-
-						// TODO: VERIFY RULES FOR SUBMITTING CONTENT FOR APPROVAL!!
-						$scope.canSubmitContent = ($scope.content.author.id === self.loggedInUser.id || self.loggedInUser.hasPrivilege('create_edit_content_other_unapproved'));
-						$scope.canApproveContent = self.loggedInUser.hasPrivilege('collaborate_execute_approve');
-						$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
-						$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
-
-						// TODO: WHAT PRIVILEGES TO WE CHECK FOR RESTORE?
-						$scope.canRestoreContent = $scope.content.archived ? true : false;
-
-						$scope.showRichTextEditor = $scope.content.contentType.allowText();
-						$scope.showAddFileButton = $scope.content.contentType.allowFile();
-						$scope.showExport = $scope.content.contentType.allowExport() && $scope.content.status >= 3;
-
-						$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
-						$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
-
-						$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = ($scope.content.status >= 3);
+						self.setPrivileges();
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -111,6 +85,37 @@
 				});
 				$scope.isNewContent = false;
 			}
+		};
+
+		self.setPrivileges = function() {
+			if ($scope.content.status <= 3) {
+				$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_view_content_other_unapproved', 'create_view_content_other']);
+				$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_edit_content_other_unapproved', 'create_edit_content_other']);
+			} else if ($scope.content.status === 3) {
+				$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_view_content_other');
+				$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
+			} else {
+				//TODO: WHAT PRIVILEGES DO WE CHECK FOR PROMOTE?
+				$scope.canPromoteContent = true;
+			}
+
+			// TODO: VERIFY RULES FOR SUBMITTING CONTENT FOR APPROVAL!!
+			$scope.canSubmitContent = ($scope.content.author.id === self.loggedInUser.id || self.loggedInUser.hasPrivilege('create_edit_content_other_unapproved'));
+			$scope.canApproveContent = self.loggedInUser.hasPrivilege('collaborate_execute_approve');
+			$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
+			$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
+
+			// TODO: WHAT PRIVILEGES TO WE CHECK FOR RESTORE?
+			$scope.canRestoreContent = $scope.content.archived ? true : false;
+
+			$scope.showRichTextEditor = $scope.content.contentType.allowText();
+			$scope.showAddFileButton = $scope.content.contentType.allowFile();
+			$scope.showExport = $scope.content.contentType.allowExport() && $scope.content.status >= 3;
+
+			$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
+			$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
+
+			$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = ($scope.content.status >= 3);
 		};
 
 		self.updateContentConnection = function () {

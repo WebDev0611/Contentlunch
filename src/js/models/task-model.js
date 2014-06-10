@@ -4,6 +4,7 @@
 	self.id = null;
 	self.contentId = null;
 	self.status = null;
+	self.isComplete = false;
 	self.dueDate = null;
 	self.completeDate = null;
 	self.tasks = null;
@@ -23,7 +24,19 @@
 	};
 
 	self.formattedCompleteDate = function () {
-		return launch.utils.formatDate(self.completeDate);
+		var date = launch.utils.formatDate(self.completeDate);
+
+		if (launch.utils.isBlank(date) && $.isArray(self.tasks) && self.tasks.length > 0) {
+			$.each(self.tasks, function(i, t) {
+				if (!launch.utils.isBlank(t.completeDate) && (launch.utils.isBlank(date) || t.completeDate > date)) {
+					date = t.completeDate;
+				}
+			});
+
+			date = launch.utils.formatDate(date);
+		}
+
+		return date;
 	};
 
 	self.name = function () {

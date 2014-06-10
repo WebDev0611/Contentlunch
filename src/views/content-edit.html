@@ -212,7 +212,7 @@
 
 					<div class="control-group">
 						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveContent()" ng-show="canEditContent && !isReadOnly">Save</button>
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitContent()" ng-show="canSubmitContent && !isReadOnly">{{ getNextStepText() }}</button>
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitContent()" ng-show="canSubmitContent && !isReadOnly && !isNewContent">{{ getNextStepText() }}</button>
 					</div>
 					
 					<div files-list="content.attachments" after-add-file-success="addAttachment" users="taskUsers" ng-hide="isNewContent" is-disabled="attachmentsIsDisabled"></div>
