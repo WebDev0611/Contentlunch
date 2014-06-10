@@ -3,10 +3,10 @@
 </div>
 		
 <accordion close-others="false" class="task-group">
-	<accordion-group is-open="(parentStatus == tg.status)" ng-repeat="tg in taskGroups">
+	<accordion-group is-open="tg.isOpen" ng-repeat="tg in taskGroups">
 		<accordion-heading>
 			<div class="task-group-header" ng-class="{ active: parentStatus >= tg.status }">
-				<i class="fa" ng-class="{'fa-caret-down': (parentStatus == tg.status), 'fa-caret-right': !(parentStatus == tg.status)}"></i>
+				<i class="fa" ng-class="{ 'fa-caret-down': tg.isOpen, 'fa-caret-right': !tg.isOpen }"></i>
 				{{ tg.name() }}
 				
 				<span class="fa fa-plus-circle" ng-class="{ active: taskGroupIsActive(tg) }" ng-click="editTask(tg, null, $event)" ng-show="canCreateTasks"></span>

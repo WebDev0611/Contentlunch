@@ -210,6 +210,18 @@
 			}
 		};
 
+		scope.$watch('taskGroups', function() {
+			if (!!scope.taskGroups && $.isArray(scope.taskGroups) && scope.taskGroups.length > 0 && !self.initialBinding) {
+				$.each(scope.taskGroups, function(i, tg) {
+					if (scope.parentStatus === tg.status) {
+						tg.isOpen = true;
+					}
+				});
+
+				self.initialBinding = true;
+			}
+		});
+
 		self.init();
 	};
 
