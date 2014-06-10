@@ -70,8 +70,7 @@
 						$scope.isCollaborator = (self.loggedInUser.id === $scope.content.author.id ||
 							$.grep($scope.content.collaborators, function (c) { return c.id === self.loggedInUser.id; }).length > 0);
 
-						// TODO: REMOVE THIS WHEN THERE IS A PRIVILEGE TO VIEW ALL CONTENT!!
-						$scope.isCollaborator = true;
+						$scope.isCollaborator = ($scope.isCollaborator || self.loggedInUser.hasPrivilege('create_edit_content_other'));
 
 						if (!$scope.isCollaborator) {
 							return;
@@ -216,7 +215,6 @@
 						scope.actor = actor;
 						scope.userToComplete = null;
 						scope.userToCompleteId = null;
-						// TODO: THIS IS NOT WORKING IN THE API!!
 						scope.userPool = userService.getForAccount(self.loggedInUser.account.id, { permission: privilegeName }, self.ajaxHandler, true);
 
 						scope.formatUserItem = function (item, element, context) {

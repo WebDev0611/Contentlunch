@@ -81,12 +81,12 @@
 
 				if ($.isArray(this.tasks) && this.tasks.length > 0) {
 					$.each(this.tasks, function (i, t) {
-						var dateMsg = (t.dueDate > self.dueDate) ? 'Task ' + t.name + ' due date is later than ' + self.name() + ' due date.' : null;
+						//var dateMsg = (t.dueDate > self.dueDate) ? 'Task ' + t.name + ' due date is later than ' + self.name() + ' due date.' : null;
 						var subMsg = launch.utils.validateAll(t, 'Task ' + t.name + ' ');
 
-						if (!launch.utils.isBlank(dateMsg)) {
-							msg += dateMsg + '\n';
-						}
+						//if (!launch.utils.isBlank(dateMsg)) {
+						//	msg += dateMsg + '\n';
+						//}
 
 						if (!launch.utils.isBlank(subMsg)) {
 							msg += subMsg + '\n';

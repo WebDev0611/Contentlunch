@@ -18,8 +18,8 @@
 		self.init = function () {
 			self.loggedInUser = AuthService.userInfo();
 
-			scope.canCreateTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks');
-			scope.canAssignTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks');
+			scope.canCreateTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_collaborators');
+			scope.canAssignTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_collaborators');
 			scope.canEditTasksOthers = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_complete');
 			// TODO: WHAT'S THE RIGHT PRIVILEGE FOR THIS??
 			scope.canDeleteTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_complete');
