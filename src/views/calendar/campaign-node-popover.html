@@ -1,0 +1,26 @@
+<div class="calendar-node-popover">
+    <table class="structural">
+        <tbody>
+            <tr>
+                <td class="align-top">
+                    <span class="calendar-node-popover-colorification" style="background-image: url('{{ user.image | imagePathFromObject }}'); border: 2px solid black; background-size: cover"></span>
+                </td>
+                <td>{{ user.name }}</td>
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    <div class="small-nudge-down"><strong>{{ campaignType.name }}</strong></div>
+                    <div class="small-nudge-down">{{ description }}</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="fa fa-tag" style="font-size:24px"></span>
+                </td>
+                <td>{{ (tags | _:'flatten':'tag').join(', ') }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

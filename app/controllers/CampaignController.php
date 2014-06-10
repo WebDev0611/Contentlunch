@@ -13,6 +13,8 @@ class CampaignController extends BaseController {
     }
     $query = Campaign::where('account_id', $account->id)
       ->with('tags')
+      ->with('user')
+      ->with('campaign_type')
       ->with('guest_collaborators')
       ->with('collaborators');
 
@@ -64,6 +66,7 @@ class CampaignController extends BaseController {
       return $this->responseAccessDenied();
     }
     $campaign = Campaign::with('tags')
+      ->with('user')
       ->with('collaborators')
       ->with('campaign_type')
       ->with('content')

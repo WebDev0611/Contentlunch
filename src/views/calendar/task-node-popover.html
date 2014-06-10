@@ -23,7 +23,7 @@
                 <td>
                     <strong>{{ content.contentType.name }}</strong>
                     <div>
-                        {{ content.accountConnections[0].name }}
+                        {{ (content.accountConnections | _:'flatten':'name').join(', ') }}
                     </div>
                 </td>
             </tr>

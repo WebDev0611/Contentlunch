@@ -11,24 +11,38 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
             right: 'prev,next today'
         },
         eventRender: function (event, element, view) {
-            if (event.type != 'task') return;
-            element.hide();
-            $http.get('/assets/views/calendar/task-node.html', { cache: true }).then(function (response) {
-                element.html($interpolate(response.data)(event)).show();
-            });
-
-            $http.get('/assets/views/calendar/task-node-popover.html', { cache: true }).then(function (response) {
-                element.popover({
-                    html: true,
-                    content: $interpolate(response.data)(event),
-                    placement: 'left',
-                    container: 'body',
-                    title: $interpolate('<div class="group">\
-                                            <div class="calendar-node-popover-title">{{ title }}</div>\
-                                            <div class="calendar-node-popover-date">{{ start | date:"shortTime" }}</div>\
-                                         </div>')(event)
+            if (event.type == 'task') {
+                element.hide();
+                $http.get('/assets/views/calendar/task-node.html', { cache: true }).then(function (response) {
+                    element.html($interpolate(response.data)(event)).show();
                 });
-            });
+
+                $http.get('/assets/views/calendar/task-node-popover.html', { cache: true }).then(function (response) {
+                    element.popover({
+                        html: true,
+                        content: $interpolate(response.data)(event),
+                        placement: 'left',
+                        container: 'body',
+                        title: $interpolate('<div class="group">\
+                                                <div class="calendar-node-popover-title">{{ title }}</div>\
+                                                <div class="calendar-node-popover-date">{{ start | date:"shortTime" }}</div>\
+                                             </div>')(event)
+                    });
+                });
+            } else { // (event.type != 'task')
+                $http.get('/assets/views/calendar/campaign-node-popover.html', { cache: true }).then(function (response) {
+                    element.popover({
+                        html: true,
+                        content: $interpolate(response.data)(event),
+                        placement: 'left',
+                        container: 'body',
+                        title: $interpolate('<div class="group">\
+                                                <div class="calendar-node-popover-title-2"><strong>{{ title }}</strong></div>\
+                                                <div class="calendar-node-popover-date-2">{{ start | date:"mediumDate" }} - {{ end | date:"mediumDate" }}</div>\
+                                             </div>')(event)
+                    });
+                });
+            }
         }
     };
 
@@ -51,7 +65,6 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
             var events = _.map(tasks, function (task) {
                 return _.merge(task, {
                     title: task.name,
-                    description: '', // not used...?
                     contentTypeIconClass: launch.utils.getContentTypeIconClass(content.contentType.key),
                     workflowIconCssClass: launch.utils.getWorkflowIconCssClass(contentStatuses[task.status]),
                     stage: contentStatuses[task.status],
@@ -75,7 +88,6 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
             $scope.calendarSources.push({
                 events: [_.merge(campaign, {
                     title: campaign.title,
-                    description: '', // not used
                     start: campaign.startDate,
                     end: campaign.endDate,
                     type:'campaign',

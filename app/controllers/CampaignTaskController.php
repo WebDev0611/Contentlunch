@@ -14,6 +14,7 @@ class CampaignTaskController extends BaseController {
 
         return CampaignTask::with('campaign')
             ->with('user')
+            ->where('campaign_id', $campaignID)
             ->get();
     }
 

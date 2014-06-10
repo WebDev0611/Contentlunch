@@ -3,7 +3,8 @@ angular.module('launch')
 .factory('guestCollaborators', [function () {
     return {
         parseFriends: function (connection, friends) {
-            if (connection.connection_provider == 'linkedin') {
+            console.log(connection.connectionProvider, connection);
+            if (connection.connectionProvider == 'linkedin') {
                 connection.friends = _(friends.plain()).map(function (friend) {
                     connection.friendsHeaders = ['Name', 'Position', 'Industry'];
                     

@@ -87,4 +87,9 @@ class Campaign extends Ardent {
     return $this->hasMany('CampaignTag');
   }
 
+  public function user()
+  {
+    return $this->belongsTo('User')->with('image');
+  }
+
 }
