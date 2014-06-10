@@ -237,6 +237,9 @@
 .cl-icon-workflow-promote {
   background-image: url(/assets/images/promote.png);
 }
+.cl-icon-workflow-promote.cl-icon-white {
+  background-image: url(/assets/images/promote.svg);
+}
 .cl-icon-workflow-archive {
   background-image: url(/assets/images/archive.svg);
 }
@@ -272,6 +275,30 @@
 }
 .cl-icon-file-ms-powerpoint {
   background-image: url(/assets/images/file-powerpoint.svg);
+}
+.cl-banner-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  height: 40px;
+  margin: 16px 0;
+  min-width: 100%;
+  padding: 0 8px;
+}
+.cl-banner-container .cl-banner {
+  background-repeat: no-repeat;
+  -moz-background-size: contain;
+  background-size: contain;
+  display: inline-block;
+  height: 40px;
+  width: 110px;
+  vertical-align: text-bottom;
+}
+.cl-banner-container .cl-banner-hubspot {
+  background-image: url(/assets/images/hubspot-banner.png);
+}
+.cl-banner-container .cl-banner-act-on {
+  background-image: url(/assets/images/act-on-banner.png);
 }
 html,
 body {
@@ -1476,14 +1503,6 @@ span[class*=" icon-"].dark {
 .create .right-pane .panel-collaborators .panel-footer {
   background-color: #E4E4E4;
 }
-.create .right-pane .panel-collaborators .panel-footer .btn-add-collaborator {
-  border-radius: 50%;
-  background-color: #000000;
-  color: #ffffff;
-  height: 32px;
-  width: 32px;
-  padding: 0;
-}
 .create .right-pane .panel {
   background-color: #E4E4E4;
 }
@@ -1503,11 +1522,16 @@ span[class*=" icon-"].dark {
 .create .right-pane .panel .panel-body ul.concept-collaborators li {
   position: relative;
 }
-.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o {
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa {
   cursor: pointer;
   position: absolute;
-  right: 0;
   top: 8px;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o {
+  right: 0;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-thumbs-o-up {
+  right: 16px;
 }
 .create .right-pane .panel.panel-user-info {
   font-weight: bold;
@@ -1579,15 +1603,31 @@ span[class*=" icon-"].dark {
 .create .right-pane .create-content-header h3 {
   margin: 0;
 }
-.create .right-pane .content-approved-header {
-  color: #10699d;
+.create .right-pane .content-approved-header,
+.create .right-pane .content-launched-header {
   font-size: 16pt;
   font-weight: bold;
+  margin-bottom: 16px;
 }
-.create .right-pane .content-approved-header .fa {
+.create .right-pane .content-approved-header .fa,
+.create .right-pane .content-launched-header .fa {
   color: #000000;
   display: inline-block;
+}
+.create .right-pane .content-approved-header .fa.fa-check,
+.create .right-pane .content-launched-header .fa.fa-check {
+  color: #10699d;
+}
+.create .right-pane .content-approved-header {
+  color: #10699d;
+}
+.create .right-pane .content-approved-header .fa {
   margin: 0 0 16px 12px;
+}
+.create .right-pane .content-launched-header .fa {
+  display: inline-block;
+  font-size: 16pt;
+  margin: 0 4px;
 }
 .create .right-pane .content-preview {
   background-color: #e4e4e4;
@@ -1603,20 +1643,28 @@ span[class*=" icon-"].dark {
   margin: 0;
   position: relative;
 }
-.create .right-pane .content-preview .control-group .btn-launch {
-  background-color: #10699d;
+.create .right-pane .content-preview .control-group .btn-launch,
+.create .right-pane .content-preview .control-group .btn-promote {
   color: #ffffff;
   font-size: 12pt;
   font-weight: bold;
   position: absolute;
   right: 8px;
 }
-.create .right-pane .content-preview .control-group .btn-launch span {
+.create .right-pane .content-preview .control-group .btn-launch span,
+.create .right-pane .content-preview .control-group .btn-promote span {
   vertical-align: middle;
 }
-.create .right-pane .content-preview .control-group .btn-launch span.cl-icon-launch {
+.create .right-pane .content-preview .control-group .btn-launch span.cl-icon-launch,
+.create .right-pane .content-preview .control-group .btn-promote span.cl-icon-launch {
   height: 30px;
   width: 30px;
+}
+.create .right-pane .content-preview .control-group .btn-launch {
+  background-color: #10699d;
+}
+.create .right-pane .content-preview .control-group .btn-promote {
+  background-color: #773876;
 }
 .create-header {
   margin: 0 16px;
@@ -1671,7 +1719,10 @@ span[class*=" icon-"].dark {
   width: 50px;
 }
 .create-table-container table.create-table tr td > span,
-.create-table-container table.create-table tr th > span {
+.create-table-container table.create-table tr th > span,
+.create-table-container table.create-table tr td > a,
+.create-table-container table.create-table tr th > a {
+  display: inline-block;
   vertical-align: middle;
 }
 .create-table-container table.create-table tr td .user-image,
@@ -1689,23 +1740,7 @@ span[class*=" icon-"].dark {
 }
 .create-table-container table.create-table tr td .cl-icon-workflow,
 .create-table-container table.create-table tr th .cl-icon-workflow {
-  display: inline-block;
-  float: left;
   margin: 4px 8px;
-  vertical-align: middle;
-}
-.create-table-container table.create-table tr td .workflow-info,
-.create-table-container table.create-table tr th .workflow-info {
-  margin-left: 32px;
-}
-.create-table-container table.create-table tr td .workflow-info a,
-.create-table-container table.create-table tr th .workflow-info a {
-  font-weight: bold;
-  text-decoration: underline;
-}
-.create-table-container table.create-table tr td .workflow-info .error,
-.create-table-container table.create-table tr th .workflow-info .error {
-  font-weight: normal;
 }
 .create-table-container table.create-table tr td input[type="checkbox"].form-control,
 .create-table-container table.create-table tr th input[type="checkbox"].form-control {
@@ -2274,6 +2309,14 @@ hr.simple-divider {
 }
 .slide-toggle.ng-hide {
   display: block !important;
+}
+.loading-spinner-container {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+.loading-spinner-container .loading-spinner {
+  margin: 128px 0;
 }
 .loading-spinner {
   width: 20px;

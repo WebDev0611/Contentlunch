@@ -27,7 +27,7 @@ angular.module('launch')
             var config = _.defaults((scope.config || {}), defaults);
 
             var spinner = new Spinner(config),
-                stoped = false;
+                stopped = false;
             spinner.spin(element[0]);
 
             scope.$watch('config', function (newValue, oldValue) {
@@ -35,7 +35,7 @@ angular.module('launch')
                     return;
                 spinner.stop();
                 spinner = new Spinner(newValue);
-                if (!stoped)
+                if (!stopped)
                     spinner.spin(element[0]);
             }, true);
 
@@ -43,10 +43,10 @@ angular.module('launch')
                 scope.$watch('spinif', function (newValue) {
                     if (newValue) {
                         spinner.spin(element[0]);
-                        stoped = false;
+                        stopped = false;
                     } else {
                         spinner.stop();
-                        stoped = true;
+                        stopped = true;
                     }
                 });
             }

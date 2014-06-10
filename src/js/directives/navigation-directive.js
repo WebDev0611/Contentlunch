@@ -1,8 +1,8 @@
-﻿launch.module.directive('navigationTemplate', function ($location, $compile, AuthService) {
+﻿launch.module.directive('navigationTemplate', function($location, $compile, AuthService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 
-		self.init = function () {
+		self.init = function() {
 			self.getLoggedInUser();
 			scope.$on('$routeChangeSuccess', self.detectRoute);
 		};
@@ -17,7 +17,7 @@
 
 			var imageUrl = ($.isFunction(scope.user.imageUrl)) ? scope.user.imageUrl() : null;
 			var isGlobalAdmin;
-			if ( ! scope.user.id) {
+			if (! scope.user.id) {
 				isGlobalAdmin = false;
 			} else {
 				isGlobalAdmin = (scope.user.role.isGlobalAdmin === true) ? true : false;
@@ -27,7 +27,7 @@
 			var userMenuItems = [];
 
 			if (scope.user.id && !isGlobalAdmin) {
-        
+
 				navItems = $.map($.grep(scope.user.modules, function(m) {
 					return m.isSubscribable;
 				}), function(m) {
@@ -38,27 +38,29 @@
 
 					};
 				});
-        // Sort main navigation items
-        var sort = ['consult', 'create', 'collaborate', 'calendar', 'launch', 'measure'];
-        var mainNavItems = [];
-        angular.forEach(sort, function (value) {
-          angular.forEach(navItems, function (navValue) {
-            if (value == navValue.title) {
-              mainNavItems.push(navValue);
-            }
-          });
-        });
+
+				// Sort main navigation items
+				var sort = ['consult', 'create', 'collaborate', 'calendar', 'launch', 'measure'];
+				$.each(sort, function (i, value) {
+					$.each(navItems, function (j, navValue) {
+						if (value == navValue.title) {
+							mainNavItems.push(navValue);
+						}
+					});
+				});
 
 				mainNavItems.splice(0, 0, { title: 'home', url: '/', active: 'active' });
 
 				if (scope.user.hasModuleAccess('settings')) {
-					adminMenuItems.push({ text: 'Account Settings', cssClass: 'glyphicon-cog', url: '/account' });
+					if (scope.user.hasPrivilege(['settings_edit_account_settings', 'settings_edit_content_settings', 'settings_edit_seo_settings'])) {
+						adminMenuItems.push({ text: 'Account Settings', cssClass: 'glyphicon-cog', url: '/account' });
+					}
 
-					if (scope.user.hasPrivilege(['settings_edit_profiles', 'settings_view_profiles', 'settings_execute_users'])) {
+					if (scope.user.hasPrivilege(['settings_edit_profiles', 'settings_execute_users'])) {
 						adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
 					}
 
-					if (scope.user.hasPrivilege(['settings_edit_roles', 'settings_view_roles', 'settings_execute_roles'])) {
+					if (scope.user.hasPrivilege(['settings_edit_roles', 'settings_execute_roles'])) {
 						adminMenuItems.push({ text: 'User Roles', cssClass: 'glyphicon-lock', url: '/roles' });
 					}
 				}
@@ -90,7 +92,7 @@
 			});
 		};
 
-		self.detectRoute = function () {
+		self.detectRoute = function() {
 			var forceLogout = $location.path() === '/login';
 
 			if (forceLogout) {
@@ -103,11 +105,11 @@
 			}
 		};
 
-		self.getLoggedInUser = function () {
+		self.getLoggedInUser = function() {
 			scope.showNav = AuthService.isLoggedIn();
 			self.subscription = null;
 			scope.user = AuthService.fetchCurrentUser({
-				success: function (user) {
+				success: function(user) {
 					if ($location.path().indexOf('/user/confirm') === 0) {
 						return;
 					}

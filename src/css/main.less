@@ -1357,15 +1357,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 		.panel-collaborators {
 			.panel-footer {
 				background-color: #E4E4E4;
-
-				.btn-add-collaborator {
-					border-radius: 50%;
-					background-color: #000000;
-					color: #ffffff;
-					height: 32px;
-					width: 32px;
-					padding: 0;
-				}
 			}
 		}
 
@@ -1389,11 +1380,18 @@ span[class^="icon-"], span[class*=" icon-"] {
 					li {
 						position: relative;
 
-						.fa-trash-o {
+						.fa {
 							cursor: pointer;
 							position: absolute;
-							right: 0;
 							top: 8px;
+						}
+
+						.fa-trash-o {
+							right: 0;
+						}
+
+						.fa-thumbs-o-up {
+							right: 16px;
 						}
 					}
 				}
@@ -1483,15 +1481,34 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 		}
 
-		.content-approved-header {
-			color: @homeColorDark;
+		.content-approved-header, .content-launched-header {
 			font-size: 16pt;
 			font-weight: bold;
+			margin-bottom: 16px;
 
 			.fa {
 				color: #000000;
 				display: inline-block;
+
+				&.fa-check {
+					color: @homeColorDark;
+				}
+			}
+		}
+
+		.content-approved-header {
+			color: @homeColorDark;
+
+			.fa {
 				margin: 0 0 16px 12px;
+			}
+		}
+
+		.content-launched-header {
+			.fa {
+				display: inline-block;
+				font-size: 16pt;
+				margin: 0 4px;
 			}
 		}
 
@@ -1510,8 +1527,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 				margin: 0;
 				position: relative;
 
-				.btn-launch {
-					background-color: @homeColorDark;
+				.btn-launch, .btn-promote {
 					color: #ffffff;
 					font-size: 12pt;
 					font-weight: bold;
@@ -1526,6 +1542,14 @@ span[class^="icon-"], span[class*=" icon-"] {
 							width: 30px;
 						}
 					}
+				}
+
+				.btn-launch {
+					background-color: @homeColorDark;
+				}
+
+				.btn-promote {
+					background-color: @launchColor;
 				}
 			}
 		}
@@ -1594,11 +1618,12 @@ span[class^="icon-"], span[class*=" icon-"] {
 				position: relative;
 				text-align: left;
 
-				&.small-cell{
+				&.small-cell {
 					width: 50px;
 				}
 
-				> span {
+				> span, > a {
+					display: inline-block;
 					vertical-align: middle;
 				}
 
@@ -1616,23 +1641,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 				}
 
 				.cl-icon-workflow {
-					display: inline-block;
-					float: left;
 					margin: 4px 8px;
-					vertical-align: middle;
-				}
-
-				.workflow-info {
-					margin-left: 32px;
-
-					a {
-						font-weight: bold;
-						text-decoration: underline;
-					}
-
-					.error {
-						font-weight: normal;
-					}
 				}
 
 				input[type="checkbox"].form-control {
@@ -1780,7 +1789,42 @@ span[class^="icon-"], span[class*=" icon-"] {
 	margin-bottom: 2em;
 }
 
+.task-list {
+	list-style: none;
+	padding: 0;
 
+	.task-task {
+		&.disabled {
+			opacity: 0.6;
+		}
+
+		.checkbox {
+			padding-left: 0;
+
+			input[type="checkbox"] {
+				height: 20px;
+				width: 20px;
+				margin: 8px 8px 0 0;
+			}
+
+			small {
+				display: block;
+				margin-top: -2px;
+			}
+
+			a {
+				color: @text-color;
+				text-decoration: underline;
+			}
+
+			.fa-trash-o, .fa-pencil {
+				cursor: pointer;
+				float: right;
+				margin-left: 8px;
+			}
+		}
+	}
+}
 
 .cl-badge {
 	margin: 0 .5em;
@@ -1952,7 +1996,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 table.structural {
 	width: 100%;
-	th, td {
+	> thead > tr > th, > tbody > tr > td {
 		padding-right: 20px;
 		&:last-child {
 			padding-right: 0;
@@ -1965,7 +2009,7 @@ table.structural {
 		}
 	}
 
-	tbody td {
+	> tbody > tr > td {
 		padding-bottom: 15px;
 	}
 }
@@ -2290,9 +2334,10 @@ table.structural {
 		float: left;
 		margin: 3px 8px 0 0;
 
-		img {
+		span {
 			display: block;
 			width: 24px;
+			font-size: 24px;
 			vertical-align: middle;
 		}
 	}
@@ -2313,6 +2358,10 @@ table.structural {
 		border-radius: 50%;
 		vertical-align: middle;
 	}
+}
+
+.connection-icon {
+	font-size: 24px;
 }
 
 .fc-view-year {
@@ -2352,7 +2401,7 @@ table.structural {
 	}
 
 	.structural {
-		td {
+		> tbody > tr > td {
 			vertical-align: middle;
 			padding-right: 0;
 			&:first-child {
@@ -2377,6 +2426,16 @@ hr.simple-divider {
 
 .slide-toggle.ng-hide {
 	display: block !important;
+}
+
+.loading-spinner-container {
+	height: 100%;
+	width: 100%;
+	text-align: center;
+
+	.loading-spinner {
+		margin: 128px 0;
+	}
 }
 
 .loading-spinner {

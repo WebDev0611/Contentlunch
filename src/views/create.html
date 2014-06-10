@@ -1,4 +1,4 @@
-﻿<div class="view create">
+﻿<div class="view create" ng-show="content.$resolved">
 	<div class="col-md-3 left-pane">
 		<div class="btn-group add-content" ng-show="canCreateContentConcept || canCreateCampaignConcept || canCreateContent">
 			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -116,6 +116,10 @@
 		
 		<div ng-include="'/assets/views/content/partials/table-list.html'"></div>
 	</div>
+</div>
+
+<div class="loading-spinner-container" ng-show="!content.$resolved">
+	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
 </div>
 
 <script id="template/pagination/pagination.html" type="text/ng-template">

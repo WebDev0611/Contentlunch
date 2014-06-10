@@ -126,7 +126,7 @@ class Content extends Ardent {
 
   public function user()
   {
-    return $this->belongsTo('User');
+    return $this->belongsTo('User')->with('image');
   }
 
   public static function boot()

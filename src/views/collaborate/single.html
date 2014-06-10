@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <strong>Content Type</strong><br>
-                            {{ selected.content_type.name }}
+                            {{ selected.contentType.name }}
                         </div>
                         <div class="col-sm-4">
                             <strong>Campaign</strong><br>
@@ -22,8 +22,7 @@
                         </div>
                         <div class="col-sm-4">
                             <strong>Concept Creator</strong><br>
-                            {{ selected.user.first_name }}
-                            {{ selected.user.last_name }}
+                            {{ selected.user.name }}
                         </div>
                     </div>
 
@@ -50,7 +49,7 @@
                     </div>
                 </div>
             
-                <div ng-repeat="connection in connections | filter: { connection_provider: guestsVia } track by connection.id">
+                <div ng-repeat="connection in connections | filter: { connectionProvider: guestsVia } track by connection.id">
                     <div class="accordion-header" ng-click="connection.accordionOpen = !connection.accordionOpen; toggleAccordion(connection)">
                         <i class="fa" ng-class="{ 'fa-caret-down': connection.accordionOpen, 'fa-caret-right': !connection.accordionOpen }"></i>
                         {{ connection.name }} 
@@ -107,7 +106,7 @@
                                 <tbody>
                                     <tr ng-class="{ 'disabled-row': invited[friend.id] }" ng-repeat="friend in setViewable(connection.friends, hideSentRequests) | paginate:pagination.currentPage:pagination.pageSize track by friend.id" ng-class-odd="'dark'">
                                         <td>
-                                            <input ng-hide="invited[friend.id]" type="checkbox" id="friend_{{ friend.id }}" checklist-model="connection.recipients" checklist-value="{ id: friend.id, name: friend[0] }">
+                                            <input ng-hide="invited[friend.id]" type="checkbox" id="friend{{ friend.id }}" checklist-model="connection.recipients" checklist-value="{ id: friend.id, name: friend[0] }">
                                         </td>
                                         <td ng-bind-html="friend[0]"></td>
                                         <td ng-bind-html="friend[1]"></td>
@@ -125,7 +124,7 @@
                                 <button class="btn btn-inverse" ng-click="openInviteModal(connection)">Invite Selected</button>
                             </div>
 
-                            <div ng-show="connection.connection_provider == 'linkedin'">
+                            <div ng-show="connection.connectionProvider == 'linkedin'">
                                 <h3>LinkedIn Groups</h3>
                                 <div class="section-header">
                                     <div class="paging-controls">
@@ -189,11 +188,10 @@
                         Internal Collaborators
                     </div>
                     <div class="panel-body">
-                        <div ng-repeat="collab in selected.internal_collaborators" class="internal-collaborator cl-badge cl-badge-horizontal">
+                        <div ng-repeat="collab in selected.internalCollaborators" class="internal-collaborator cl-badge cl-badge-horizontal">
                             <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ collab.image | imagePathFromObject }}')"></span>
                             <div class="cl-badge-caption">
-                                {{ collab.first_name }}
-                                {{ collab.last_name }}
+                                {{ collab.name }}
                             </div>
 
                             <span class="fa fa-trash-o pull-right" ng-click="removeInternalCollaborator(collab)"></span>
@@ -205,7 +203,7 @@
                                     ng-model="collaboratorToAdd"
                                     ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }"
                                     placeholder="-- Add Collaborator --"
-                                    ng-options="u as (u.first_name + ' ' + u.last_name) for u in users | exclude:selected.internal_collaborators track by u.id"
+                                    ng-options="u as u.name for u in users | exclude:selected.internalCollaborators track by u.id"
                                 >
                             </select>
                         </div>

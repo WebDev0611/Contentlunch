@@ -1,4 +1,4 @@
-﻿<div class="view create">
+﻿<div class="view create" ng-show="!!content && content.$resolved">
 	<div class="col-md-3 left-pane">
 		<div task-list task-groups="content.taskGroups" parent-status="content.status" author-id="content.author.id" users="taskUsers" ng-hide="isNewContent || !isCollaborator"></div>
 	</div>
@@ -15,16 +15,16 @@
 						<div class="content-workflow-item" ng-class="{ 'inactive': (content.status < 2) }">
 							<span class="cl-icon cl-icon-white cl-icon-workflow-review"></span>
 						</div>
-						<div class="content-workflow-item" ng-class="{ 'inactive': (content.status < 4) }">
+						<div class="content-workflow-item" ng-class="{ 'inactive': (content.status < 3) }">
 							<span class="cl-icon cl-icon-white cl-icon-workflow-launch"></span>
 						</div>
-						<div class="content-workflow-item" ng-class="{ 'inactive': (content.status < 5) }">
+						<div class="content-workflow-item" ng-class="{ 'inactive': (content.status < 4) }">
 							<span class="cl-icon cl-icon-white cl-icon-workflow-promote"></span>
 						</div>
 			
 						<div class="content-workflow-connector-1" ng-class="{ 'inactive': (content.status < 1) }"></div>
 						<div class="content-workflow-connector-2" ng-class="{ 'inactive': (content.status < 2) }"></div>
-						<div class="content-workflow-connector-3" ng-class="{ 'inactive': (content.status < 4) }"></div>
+						<div class="content-workflow-connector-3" ng-class="{ 'inactive': (content.status < 3) }"></div>
 					</div>
 		
 					<div class="col-md-6">
@@ -34,10 +34,26 @@
 				</div>
 					
 				<h2>Create Content</h2>
-				
-				<div class="content-approved-header" ng-show="isReadOnly">
+
+				<div class="content-approved-header" ng-show="content.status === 3 && !content.archived">
 					Content is Approved
 					<span class="fa fa-thumbs-o-up"></span>
+				</div>
+
+				<div class="content-launched-header" ng-show="content.status === 4 && !content.archived">
+					<div ng-repeat="cc in content.accountConnections">
+						<span class="fa fa-check"></span>
+						Posted to
+						<span ng-class="getConnectionProviderIconClass(cc.provider)"></span>
+						{{ cc.name }}
+					</div>
+				</div>
+
+				<div class="content-approved-header" ng-show="content.archived">
+					<button type="button" class="btn btn-lg btn-default btn-black" ng-click="restoreContent()" ng-disabled="!canRestoreContent">
+						<!--<span class="cl-icon cl-icon-white cl-icon-workflow-archive"></span>-->
+						Restore Content to Active
+					</button>
 				</div>
 
 				<form name="editContent" novalidate="novalidate">
@@ -121,10 +137,10 @@
 						
 						<div ng-bind-html="content.body"></div>
 					
-						<div class="control-group">
-							<button type="button" class="btn btn-lg btn-default btn-launch" ng-click="submitContent()" ng-disabled="!canLaunchContent" ng-show="content.status === 3">
-								<span class="cl-icon cl-icon-launch"></span>
-								<span>LAUNCH CONTENT</span>
+						<div class="control-group" ng-show="content.status >= 3 && !content.archived">
+							<button type="button" class="btn btn-lg btn-default" ng-class="'btn-' + content.currentStep()" ng-click="submitContent()" ng-disabled="(content.status === 4 && !canPromoteContent) || (content.status === 3 && !canLaunchContent)">
+								<span class="cl-icon cl-icon-white" ng-class="'cl-icon-workflow-' + content.currentStep()"></span>
+								<span ng-show="!content.archived">{{ content.currentStep().toUpperCase() }} CONTENT</span>
 							</button>
 						</div>
 					</div>
@@ -196,14 +212,27 @@
 
 					<div class="control-group">
 						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveContent()" ng-show="canEditContent && !isReadOnly">Save</button>
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitContent()" ng-show="canSubmitContent && !isReadOnly">{{ getNextStepText() }}</button>
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitContent()" ng-show="canSubmitContent && !isReadOnly && !isNewContent">{{ getNextStepText() }}</button>
 					</div>
 					
 					<div files-list="content.attachments" after-add-file-success="addAttachment" users="taskUsers" ng-hide="isNewContent" is-disabled="attachmentsIsDisabled"></div>
 				</form>
 			</div>
-			<div class="col-md-3" collaborator-sidebar collaborators="content.collaborators" users="collaborators" item-id="content.id" item-type="'content'" ng-hide="isNewContent"
-				add-collaborator-callback="filterTaskAssignees" remove-collaborator-callback="filterTaskAssignees" is-disabled="collboratorsIsDisabled"></div>
+			<div class="col-md-3" ng-hide="isNewContent">
+				<div collaborator-sidebar collaborators="content.collaborators" users="collaborators" item-id="content.id" item-type="'content'"
+					add-collaborator-callback="filterTaskAssignees" remove-collaborator-callback="filterTaskAssignees" is-disabled="collboratorsIsDisabled"
+					is-collaborator-finished="isCollaboratorFinished"></div>
+				
+				<div ng-show="showExport">
+					<div style="font-weight: bold;">Export to</div>
+					<div class="cl-banner-container" ng-show="showExportHubspot" ng-click="exportContent('hubspot')">
+						<span class="cl-banner cl-banner-hubspot"></span>
+					</div>
+					<div class="cl-banner-container" ng-show="showExportActOn" ng-click="exportContent('act-on')">
+						<span class="cl-banner cl-banner-act-on"></span>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12" ng-hide="isNewContent" discussion-panel discussion="content.comments" item-id="content.id" item-type="'content'" ng-hide="isNewContent"></div>
@@ -212,6 +241,10 @@
 	<div class="col-md-9 right-pane" ng-hide="isCollaborator">
 		<h3 class="unauthorized-message">You are unauthorized to view this content.</h3>
 	</div>
+</div>
+
+<div class="loading-spinner-container" ng-show="!content.$resolved">
+	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
 </div>
 
 <script type="text/ng-template" id="publishing-guidelines.html">
@@ -224,25 +257,25 @@
 	</div>
 </script>
 
-<script type="text/ng-template" id="select-approver.html">
-	<div class="modal-header">Select Content Approver</div>
+<script type="text/ng-template" id="select-user-to-complete.html">
+	<div class="modal-header">Select User</div>
 	<div class="modal-body">
 		<div class="control-group">
-			<p>You must assign someone with approval privileges to approve this item when it is complete. They will be assigned an "Approve" task.</p>
+			<p>You must assign someone with the necessary privileges to {{ taskName }} this item when it is complete. They will be assigned a task to {{ taskName }} this item.</p>
 			<div class="form-group">
-				<label for="selApprover">Content Approver</label>
+				<label for="selUserToAct">User</label>
 				(items with a <span class="fa fa-check-circle"></span> are collaborators for this item)
-				<select id="selApprover" name="selApprover" ng-model="approverId" ng-change="selectApprover(approverId)"
+				<select id="selUserToAct" name="selUserToAct" ng-model="userToCompleteId" ng-change="selectUserToComplete(userToCompleteId)"
 					ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true, allowClear: true }"
-					data-placeholder="Select Content Approver">
+					data-placeholder="Select User">
 					<option value=""></option>
-					<option ng-repeat="a in approvers" value="{{ a.id }}">{{ a.formatName() }}</option>
+					<option ng-repeat="a in userPool" value="{{ a.id }}">{{ a.formatName() }}</option>
 				</select>
 			</div>
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-primary" ng-click="save()">Select Approver</button>
+		<button class="btn btn-primary" ng-click="save()">Select User</button>
 		<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
 	</div>
 

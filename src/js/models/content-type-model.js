@@ -82,5 +82,16 @@
 		return false;
 	};
 
+	self.allowExport = function () {
+		switch (self.name) {
+			case 'blog-post':
+			case 'email':
+			case 'landing-page':
+				return true;
+		}
+
+		return false;
+	};
+
 	return self;
 };

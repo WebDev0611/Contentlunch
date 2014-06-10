@@ -1,21 +1,15 @@
 <form role="form">
     <div class="modal-header">Task Editor</div>
     <div class="modal-body">
-        Tasks associated with a campaign act as a checklist, but don't appear on the marketing calendar.
+        <p>Tasks associated with a campaign act as a checklist, but don't appear on the marketing calendar.</p>
 
-        <div class="row">
-            <div class="col-sm-8">
+        <div class="row" ng-show="showCampaignPicker">
+            <div class="col-sm-12">
                 <div class="form-group">
                     <label for="campaignTitle">Campaign Title</label>
-                    <select class="form-control" name="campaignTitle" id="campaignTitle" ng-model="task.campaignTitle">
-                        <option>NYC TRADE</option>
+                    <select class="form-control" name="campaignTitle" id="campaignTitle" ng-model="task.campaignId" ng-options="c.id as c.title for c in campaigns">
+                        <option value="">-- Campaign --</option>
                     </select>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label for="dueBy">Due by</label>
-                    <input class="form-control" id="dueBy" name="dueBy" type="date" ng-model="task.dueBy">
                 </div>
             </div>
         </div>
@@ -25,35 +19,31 @@
                     <th width="50px">Complete</th>
                     <th>Task Name</th>
                     <th>Assigned to</th>
-                    <th width="16px">&nbsp;</th>
+                    <th>Due Date</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="assignee in task.assignees">
+                <tr>
                     <td class="align-center">
-                        <input type="checkbox">
+                        <input name="isComplete" type="checkbox" ng-model="task.isComplete">
                     </td>
                     <td>
-                        <input class="form-control" type="text">
+                        <input name="name" class="form-control" type="text" ng-model="task.name">
                     </td>
                     <td>
-                        <select class="form-control"></select>
+                        <select name="user" class="form-control" ng-options="u.id as u.name for u in users" ng-model="task.userId">
+                            <option value="">-- Assignee --</option>
+                        </select>
                     </td>
                     <td>
-                        <span ng-click="removeRow(task.assignees, $index, false)" class="icon-danger glyphicon glyphicon-trash"></span>
+                        <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" name="dueDate" class="form-control" id="dueDate" ng-model="task.dueDate">
                     </td>
                 </tr>
             </tbody>
-            <tfoot>
-                <td class="align-center">
-                    <span ng-click="addRow(task.assignees, {}, false)" class="glyphicon glyphicon-plus-sign"></span>
-                </td>
-                <td colspan="3">&nbsp;</td>
-            </tfoot>
         </table>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="onOk()">Save and Close</button>
-        <button class="btn btn-default" ng-click="onCancel()">Cancel</button>
+        <button class="btn btn-primary" ng-click="$close(task)">Save and Close</button>
+        <button class="btn btn-default" ng-click="$dismiss()">Cancel</button>
     </div>
 </form>

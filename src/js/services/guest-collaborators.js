@@ -30,8 +30,8 @@ angular.module('launch')
                     var arr = [
                         friend.name,
                         friend.location,
-                        '<a href="https://twitter.com/' + friend.screen_name + 
-                            '" target="_blank">@' + friend.screen_name + '</a>'
+                        '<a href="https://twitter.com/' + friend.screenName + 
+                            '" target="_blank">@' + friend.screenName + '</a>'
                     ];
 
                     arr.id = friend.id;

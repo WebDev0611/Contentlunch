@@ -3,10 +3,10 @@
 </div>
 		
 <accordion close-others="false" class="task-group">
-	<accordion-group is-open="(parentStatus == tg.status)" ng-repeat="tg in taskGroups">
+	<accordion-group is-open="tg.isOpen" ng-repeat="tg in taskGroups">
 		<accordion-heading>
-			<div class="task-group-header" ng-class="{ active: parentStatus >= tg.status }">
-				<i class="fa" ng-class="{'fa-caret-down': (parentStatus == tg.status), 'fa-caret-right': !(parentStatus == tg.status)}"></i>
+			<div class="task-group-header" ng-class="{ active: parentStatus >= tg.status }" ng-click="toggleOpen(tg)">
+				<i class="fa" ng-class="{ 'fa-caret-down': tg.isOpen, 'fa-caret-right': !tg.isOpen }"></i>
 				{{ tg.name() }}
 				
 				<span class="fa fa-plus-circle" ng-class="{ active: taskGroupIsActive(tg) }" ng-click="editTask(tg, null, $event)" ng-show="canCreateTasks"></span>
@@ -25,7 +25,7 @@
 					<input type="checkbox" ng-model="t.isComplete" ng-disabled="!canEditTask(tg, t)" ng-change="toggleTaskActiveStatus(tg, t)" />
 					{{ t.name }} - <span ng-class="{ error: t.isOverdue() }">Due: {{ t.formattedDueDate() }}</span>
 				</label>
-				<span class="fa fa-trash-o" ng-click="deleteTask(tg, t)" ng-show="canDeleteTasks"></span>
+				<span class="fa fa-trash-o" ng-click="deleteTask(tg, t)" ng-show="canDeleteTasks && parentStatus <= tg.status"></span>
 				<div>
 					<a ng-click="editTask(tg, t, $event)" ng-show="canAssignTasks">Assigned to {{ getUserName(t.userId) }}</a>
 					<span ng-hide="canAssignTasks">Assigned to {{ getUserName(t.userId) }}</span>

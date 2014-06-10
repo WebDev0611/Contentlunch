@@ -13,7 +13,9 @@ class Campaign extends Ardent {
   protected $fillable = [
     'account_id', 'user_id', 'title', 'status', 'campaign_type_id',
     'start_date', 'end_date', 'is_recurring', 'description',
-    'goals', 'concept'
+    'goals', 'concept', 'contact', 'partners', 'speaker_name',
+    'host', 'type', 'audio_link', 'photo_needed', 'link_needed',
+    'is_series',
   ];
 
   public static $rules = [
@@ -63,6 +65,11 @@ class Campaign extends Ardent {
   public function content()
   {
     return $this->hasMany('Content')->with('User');
+  }
+
+  public function tasks()
+  {
+    return $this->hasMany('CampaignTask');
   }
 
   public function guest_collaborators()

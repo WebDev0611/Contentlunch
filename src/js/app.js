@@ -4,6 +4,8 @@
 	launch = window.launch || (window.launch = { });
 	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2', 'ui.calendar', 'restangular', 'checklist-model']);
 
+	launch.module.value('contentStatuses', ['concept', 'create', 'review', 'launch', 'promote']);
+
 	launch.module.config([
 					'$routeProvider', '$locationProvider', '$httpProvider', 'RestangularProvider', 
 			function($routeProvider,   $locationProvider,   $httpProvider,   RestangularProvider) {
@@ -138,6 +140,14 @@
 						controller: 'LaunchController',
 						templateUrl: '/assets/views/launch.html'
 					})
+					.when('/launch/content/:contentId', {
+						controller: 'LaunchController',
+						templateUrl: '/assets/views/launch.html'
+					})
+					.when('/launch/campaign/:campaignId', {
+						controller: 'LaunchController',
+						templateUrl: '/assets/views/launch.html'
+					})
 					.when('/measure', {
 						controller: 'MeasureController',
 						templateUrl: '/assets/views/measure.html'
@@ -159,6 +169,53 @@
 				});
 
 				RestangularProvider.setBaseUrl('/api');
+
+				// take all the requests from the server and transform snake_case to camelCase
+				RestangularProvider.addResponseInterceptor(function (data, operation, route, url) {
+					if (_.isArray(data)) return _.map(data, camelCaseize);
+					return camelCaseize(data);
+				});
+
+				// take all the requests to the server (that have data) and convert snake_case back to camelCase
+				RestangularProvider.addRequestInterceptor(function (data, operation, route, url) {
+					operation = operation.toUpperCase();
+					if (operation === 'GET' || operation === 'GETLIST' || operation === 'REMOVE' || operation === 'DELETE') return data;
+					var origData = angular.copy(origData);
+
+					try {
+						data = snakeCaseize(data);
+						return data;
+					} catch (err) {
+						console.error(err);
+						return origData;
+					}
+				});
+
+				// thank https://github.com/blakeembrey/change-case/
+				// for help on the case changing here
+				function camelCaseize(data) {
+					if (data.first_name && data.last_name)
+						data.name = data.first_name + ' ' + data.last_name;
+
+					return _.mapObject(data, function (value, key) {
+						key = (key + '').replace(/_(\w)/g, function (_, $1) {
+							return $1.toUpperCase();
+						});
+						if (_.isArray(value)) value = _.map(value, camelCaseize);
+						else if (_.isPlainObject(value)) value = camelCaseize(value);
+						return [key, value];
+					});
+				}
+				function snakeCaseize(data) {
+					return _.mapObject(data, function (value, key) {
+						key = (key + '').replace(/([a-z])([A-Z0-9])/g, function (_, $1, $2) {
+							return $1 + '_' + $2.toLowerCase();
+						});
+						if (_.isArray(value)) value = _.map(value, snakeCaseize);
+						else if (_.isPlainObject(value)) value = snakeCaseize(value);
+						return [key, value];
+					});
+				}
 
 				var interceptor = [
 					'$location', '$q', function($location, $q) {
@@ -198,7 +255,7 @@
 
 				$rootScope.$on('$routeChangeStart', function(event, next, current) {
 					// TODO: VALIDATE THAT THE USER IS ALLOWED TO VIEW THE PAGE THEY ARE REQUESTING!! IF NOT, SHOW A WARNING OR ERROR AND REDIRECT TO HOME!!
-					//			THIS MAY BE BETTER TO DO IN EACH CONTROLLER, HOWEVER?
+					//          THIS MAY BE BETTER TO DO IN EACH CONTROLLER, HOWEVER?
 					if ($location.path() === '/login') {
 						authService.logout();
 					} else if (!next.allowAnon && !authService.isLoggedIn()) {
@@ -249,23 +306,33 @@
 	// handlebars/angular style interpolation: {{ name }}
 	_.templateSettings.interpolate = /\{\{ +(.+?) +\}\}/g;
 	_.mixin({
-	    mapObject: _.compose(_.object, _.map),
-	    findById: function(items, id) {
-	        return _.find(items, function (item) {
-	            return item.id == id;
-	        });
-	    },
-	    indexById: function (array, id) {
-	    	var index = -1;
+		mapObject: _.compose(_.object, _.map),
+		findById: function(items, id) {
+			return _.find(items, function (item) {
+				return item.id == id;
+			});
+		},
+		appendOrUpdate: function (array, item) {
+			var index = _.indexById(array, item.id);
+			
+			if (index !== -1) array[index] = angular.copy(item);
+			else array.push(angular.copy(item));
+		},
+		remove: function (array, item) {
+			var index = _.indexById(array, item.id);
+			if (index !== -1) array.splice(index, 1);
+		},
+		indexById: function (array, id) {
+			var index = -1;
 
-	    	// we could use 2 underscore functions to do this, but
-	    	// then it would have to loop through everything twice
-	    	var exists = _.any(array, function (item) {
-	    	    index++;
-	    	    return item.id == id;
-	    	});
+			// we could use 2 underscore functions to do this, but
+			// then it would have to loop through everything twice
+			var exists = _.any(array, function (item) {
+				index++;
+				return item.id == id;
+			});
 
-	    	return exists ? index : -1;
-	    }
+			return exists ? index : -1;
+		}
 	});
 })(window, angular);

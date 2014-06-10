@@ -1,26 +1,30 @@
 <div class="calendar-node-popover">
     <div class="small-nudge-down">
-        <img src="/assets/images/{{ stageIcon }}" alt="stage-icon">
-        <strong>Final Editing</strong>
+        <span class="stage-icon {{ workflowIconCssClass }}"></span>
+        <strong>{{ stage | titleCase }}</strong>
     </div>
 
     <div><strong>Assigned to</strong></div>
-    <div>Michael Scott &ndash; Complete</div>
-    <div>Jim Halpert &ndash; Pending</div>
-    <div>Pam Beasley &ndash; Pending</div>
+    <div>
+        {{ user.name }} 
+        &mdash;
+        {{ isComplete ? 'Completed' : 'Pending' }}
+    </div>
 
     <hr class="simple-divider">
 
-    <h3>Content Name</h3>
+    <h3>{{ content.title }}</h3>
     <table class="structural">
         <tbody>
             <tr>
                 <td>
-                    <img src="/assets/images/{{ connectionIcon }}" alt="connection-icon">
+                    <span class="connection-icon {{ contentTypeIconClass }}"></span>
                 </td>
                 <td>
-                    <strong>Facebook Post</strong><br>
-                    Dwight's Facebook
+                    <strong>{{ content.contentType.name }}</strong>
+                    <div>
+                        {{ content.accountConnections[0].name }}
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -28,15 +32,15 @@
                     <span class="calendar-node-popover-colorification" style="background-color:{{ circleColor }}"></span>
                 </td>
                 <td>
-                    <strong>NYC Trade</strong>
+                    <strong>{{ content.campaign.title }}</strong>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <span class="calendar-node-popover-colorification" style="background-color: black"></span>
+                    <span class="calendar-node-popover-colorification" style="background-image: url('{{ content.user.image | imagePathFromObject }}'); border: 2px solid black; background-size: cover"></span>
                 </td>
                 <td>
-                    Dwigt Schrute
+                    {{ content.user.name }}
                 </td>
             </tr>
         </tbody>

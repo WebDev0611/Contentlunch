@@ -2,46 +2,55 @@
 
 class CollaboratorsController extends BaseController {
   
-  public function index($accountID, $contentID)
+  public function index($accountID, $collabType, $modelID)
   {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    $content = Content::find($contentID);
-    if ( ! $content) {
-      return $this->responseError("Content not found");
+    $campaign = $this->getModel($collabType, $modelID);
+    if ( ! $campaign) {
+      return $this->responseError("{$collabType} not found");
     }
-    return $content->collaborators;
+    return $campaign->collaborators;
   }
 
-  public function store($accountID, $contentID)
+  public function store($accountID, $collabType, $modelID)
   {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    $content = Content::find($contentID);
-    if ( ! $content) {
-      return $this->responseError("Content not found");
+    $model = $this->getModel($collabType, $modelID);
+    if ( ! $model) {
+      return $this->responseError("{$collabType} not found");
     }
     $user = User::find(Input::get('user_id'));
     if ( ! $user) {
       return $this->responseError("User not found");
     }
-    $content->collaborators()->attach($user->id);
-    return $this->index($accountID, $contentID);
+    $model->collaborators()->attach($user->id);
+    return $this->index($accountID, $collabType, $modelID);
   }
 
-  public function destroy($accountID, $contentID, $userID)
+  public function destroy($accountID, $collabType, $modelID, $userID)
   {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    $content = Content::find($contentID);
-    if ( ! $content) {
-      return $this->responseError("Content not found");
+    $campaign = $this->getModel($collabType, $modelID);
+    if ( ! $campaign) {
+
     }
-    $content->collaborators()->detach($userID);
-    return $this->index($accountID, $contentID);
+    $campaign->collaborators()->detach($userID);
+    return $this->index($accountID, $collabType, $modelID);
   }
 
+  public function getModel($collabType, $modelID) {
+    if ($collabType == 'content') {
+      return Content::find($modelID);
+    } else if ($collabType == 'campaigns') {
+      return Campaign::find($modelID);
+    }
+
+    return false;
+  }
 }

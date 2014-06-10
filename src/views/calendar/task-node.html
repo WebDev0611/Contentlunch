@@ -1,11 +1,11 @@
 <div class="calendar-node">
     <div class="calendar-node-connection-icon">
-        <img src="/assets/images/{{ connectionIcon }}" alt="connection-icon">
+        <span class="connection-icon {{ contentTypeIconClass }}"></span>
     </div>
     <div class="calendar-node-info">
         <div class="calendar-node-title">{{ title }}</div>
         <div class="calendar-node-status">
-            <img src="/assets/images/{{ stageIcon }}" alt="stage-icon">
+            <span class="stage-icon {{ workflowIconCssClass }}"></span>
             <span class="calendar-node-colorification" style="background-color:{{ circleColor }}"></span>
         </div>
     </div>

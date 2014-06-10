@@ -1,5 +1,28 @@
 <div class="view calendar">
     <div class="col-md-3 left-pane">
+        <button ng-hide="campaign.isNew" class="btn full-width small-nudge-down btn-inverse add-content" ng-click="newTask()">Create New Task</button>
+
+        <ul class="task-list">
+            <li class="task-task" ng-repeat="task in tasks" ng-class="{ disabled: task.isComplete }">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" check-int ng-model="task.isComplete" ng-change="toggleTaskComplete(task)">
+                        {{ task.name }} - 
+                        <span ng-hide="task.dateCompleted" ng-class="{ error: (task.dueDate | isOverdue) }">
+                            Due: {{ task.dueDate ? (task.dueDate | date) : 'N/A' }}
+                        </span>
+                        <span ng-show="task.dateCompleted">
+                            Completed: {{ task.dateCompleted | date }}
+                        </span>
+                    </label>
+                    <span class="fa fa-trash-o" ng-click="deleteTask(task)"></span>
+                    <span class="fa fa-pencil" ng-click="editTask(task)"></span>
+                    <div>
+                        <small>Assigned to {{ task.user.name }}</small>
+                    </div>
+                </div>
+            </li>
+        </ul>
 
     </div>
     <div class="col-md-9 right-pane">
@@ -40,8 +63,8 @@
                                 <div class="form-group">
                                     <label for="campaignType">Campaign Type</label>
                                     <select name="campaignType" class="form-control" id="campaignType" 
-                                        ng-model="campaign.campaign_type"
-                                        ng-options="type as type.name for type in campaignTypes track by type.id">
+                                        ng-model="campaign.campaignTypeId"
+                                        ng-options="type.id as type.name for type in campaignTypes">
                                     </select>
                                 </div>
                             </div>
@@ -50,22 +73,75 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="startDate">Start Date</label>
-                                    <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" type="text" name="startDate" class="form-control" id="startDate" ng-model="campaign.start_date">
+                                    <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" type="text" name="startDate" class="form-control" id="startDate" ng-model="campaign.startDate">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="endDate">End Date</label>
-                                    <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" type="text" name="endDate" class="form-control" id="endDate" ng-model="campaign.end_date">
+                                    <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" type="text" name="endDate" class="form-control" id="endDate" ng-model="campaign.endDate">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="recurring">Recurring</label>
                                     <select name="recurring" class="form-control" id="recurring" 
-                                            ng-model="campaign.is_recurring">
+                                            ng-model="campaign.isRecurring">
                                         <option value="0">No</option>
                                         <option value="1">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div> <!-- .row -->
+                        <div class="row" ng-show="campaign.isRecurring">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="repeat">Repeat</label>
+                                    <select name="repeat" class="form-control" id="repeat" ng-model="schedule.repeat">
+                                        <option value="daily">Daily</option>
+                                        <option value="weekly">Weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4" ng-if="schedule.repeat == 'daily'">
+                                <div class="form-group">
+                                    <label for="every">Every</label>
+                                    <select class="multi-select" multiple="multiple" ui-select2 name="every" class="form-control" id="every" ng-model="schedule.every">
+                                        <option value="sun">Sun</option>
+                                        <option value="mon">Mon</option>
+                                        <option value="tues">Tues</option>
+                                        <option value="wed">Wed</option>
+                                        <option value="thurs">Thurs</option>
+                                        <option value="fri">Fri</option>
+                                        <option value="sat">Sat</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4" ng-if="schedule.repeat == 'weekly'">
+                                <div class="form-group">
+                                    <label for="every">Every</label>
+                                    <select class="multi-select" multiple="multiple" ui-select2 name="every" class="form-control" id="every" ng-model="schedule.every">
+                                        <option>1 weeks</option>
+                                        <option>2 weeks</option>
+                                        <option>3 weeks</option>
+                                        <option>4 weeks</option>
+                                        <option>5 weeks</option>
+                                        <option>6 weeks</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4" ng-if="schedule.repeat == 'monthly'">
+                                <div class="form-group">
+                                    <label for="every">Every</label>
+                                    <select class="multi-select" multiple="multiple" ui-select2 name="every" class="form-control" id="every" ng-model="schedule.every">
+                                        <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                                        <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+                                        <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
+                                        <option>16</option><option>17</option><option>18</option><option>19</option><option>20</option>
+                                        <option>21</option><option>22</option><option>23</option><option>24</option><option>25</option>
+                                        <option>26</option><option>27</option><option>28</option><option>29</option><option>30</option>
+                                        <option>31</option>
                                     </select>
                                 </div>
                             </div>
@@ -100,10 +176,82 @@
                         </div> <!-- .row -->
 
                         <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="contact">Contact</label>
+                                    <input type="text" name="contact" class="form-control" id="contact" ng-model="campaign.contact">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="partners">Partners</label>
+                                    <input type="text" name="partners" class="form-control" id="partners" ng-model="campaign.partners">
+                                </div>
+                            </div>
+                        </div> <!-- .row -->
+
+                        <div class="row">
+                            <div class="col-md-6" ng-show="shouldShow('speakerName')">
+                                <div class="form-group">
+                                    <label for="speakerName">Speaker Name</label>
+                                    <input type="text" name="speakerName" class="form-control" id="speakerName" ng-model="campaign.speakerName">
+                                </div>
+                            </div>
+                            <div class="col-md-6" ng-show="shouldShow('host')">
+                                <div class="form-group">
+                                    <label for="host">Host</label>
+                                    <input type="text" name="host" class="form-control" id="host" ng-model="campaign.host">
+                                </div>
+                            </div>
+                        </div> <!-- .row -->
+
+                        <div class="row">
+                            <div class="col-md-4" ng-show="shouldShow('photoNeeded')">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="photoNeeded" id="photoNeeded" ng-model="campaign.photoNeeded"> 
+                                        Is Photo Needed?
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4" ng-show="shouldShow('linkNeeded')">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="linkNeeded" id="linkNeeded" ng-model="campaign.linkNeeded"> 
+                                        Is Link Needed?
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4" ng-show="shouldShow('isSeries')">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="isSeries" id="isSeries" ng-model="campaign.isSeries"> 
+                                        Is This a Series?
+                                    </label>
+                                </div>
+                            </div>
+                        </div> <!-- .row -->
+
+                        <div class="row">
+                            <div class="col-md-6" ng-show="shouldShow('type')">
+                                <div class="form-group">
+                                    <label for="type">Type</label>
+                                    <input type="text" name="type" class="form-control" id="type" ng-model="campaign.type">
+                                </div>
+                            </div>
+                            <div class="col-md-6" ng-show="shouldShow('audioLink')">
+                                <div class="form-group">
+                                    <label for="audioLink">Recorded Audio Link</label>
+                                    <input type="text" name="audioLink" class="form-control" id="audioLink" ng-model="campaign.audioLink">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-inverse">Save</button>
-                                    <button type="button" ng-click="deleteCampaign(campaign)" class="btn btn-inverse">Delete</button>
+                                    <button type="button" ng-hide="campaign.isNew" ng-click="deleteCampaign(campaign)" class="btn btn-inverse">Delete</button>
                                     <button type="button" ng-click="cancelCampaign()" class="btn btn-inverse">Cancel</button>
                                 </div>
                             </div>
@@ -133,14 +281,13 @@
                                     <div class="cl-badge cl-badge-horizontal no-margin">
                                         <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ content.user.image | imagePathFromObject }}')"></span>
                                         <div class="cl-badge-caption">
-                                            {{ content.user.first_name }}
-                                            {{ content.user.last_name }}
+                                            {{ content.user.name }}
                                         </div>
                                     </div>
                                 </td>
                                 <td class="align-middle">{{ content.persona }}</td>
                                 <td class="align-middle align-center">
-                                    <span class="cl-icon"  ng-class="'cl-icon-personas-' + content.buying_stage"></span>
+                                    <span class="cl-icon"  ng-class="'cl-icon-personas-' + content.buyingStage"></span>
                                 </td>
                                 <td class="align-middle"></td>
                                 <td class="align-middle"></td>
@@ -149,7 +296,7 @@
                     </table> 
                     -->
 
-                    <div ng-if="campaign" class="create-table-container" ng-controller="CreateController">
+                    <div ng-if="campaign && !campaign.isNew" class="create-table-container" ng-controller="CreateController">
                         <div ng-include="'/assets/views/content/partials/table-list.html'"></div>
                     </div>
 
@@ -157,31 +304,37 @@
                 <div class="col-md-3">
                     <div class="panel panel-inverse">
                         <div class="panel-heading">
-                            Owner
+                            Owner<span ng-hide="campaign.isNew">s</span>
                         </div>
                         <div class="panel-body">
+                            <div class="internal-collaborator cl-badge cl-badge-horizontal">
+                                <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ user.image | imagePathFromObject }}')"></span>
+                                <div class="cl-badge-caption">
+                                    {{ user.displayName }}
+                                </div>
+                            </div>
+
                             <div ng-repeat="collab in campaign.collaborators" class="internal-collaborator cl-badge cl-badge-horizontal">
                                 <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ collab.image | imagePathFromObject }}')"></span>
                                 <div class="cl-badge-caption">
-                                    {{ collab.first_name }}
-                                    {{ collab.last_name }}
+                                    {{ collab.name }}
                                 </div>
 
-                                <span class="fa fa-trash-o pull-right" ng-click="removeInternalCollaborator(collab)"></span>
+                                <span class="fa fa-trash-o pull-right" ng-click="removeCollaborator(collab)"></span>
                             </div>
 
                             <div class="form-group" ng-show="showAddInternal">
                                 <select name="additionalCollaborator" id="additionalCollaborator"
-                                        ng-change="addInternalCollaborator(collaboratorToAdd)"
+                                        ng-change="addCollaborator(collaboratorToAdd)"
                                         ng-model="collaboratorToAdd"
                                         ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }"
                                         placeholder="-- Add Collaborator --"
-                                        ng-options="u as (u.first_name + ' ' + u.last_name) for u in users | exclude:campaign.collaborators track by u.id"
+                                        ng-options="u as u.name for u in users | exclude:campaign.collaborators track by u.id"
                                     >
                                 </select>
                             </div>
 
-                            <span ng-hide="showAddInternal" ng-click="showAddInternal = true" class="glyphicon glyphicon-plus-sign"></span>
+                            <span ng-hide="showAddInternal || campaign.isNew" ng-click="showAddInternal = true" class="glyphicon glyphicon-plus-sign"></span>
                         </div>
                     </div> <!-- .panel.panel-inverse -->
                 </div> <!-- .col-md-3 (sidebar) -->

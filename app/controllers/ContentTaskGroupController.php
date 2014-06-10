@@ -1,17 +1,24 @@
 <?php
 
 class ContentTaskGroupController extends BaseController {
+    
+    // returns a list of ALL tasks (not task groups) regardless of content
+    // (this is used in the calendar)
+    public function getAllTasks($accountID) 
+    {
+        return ContentTask::join('content_task_groups as ctg', 'ctg.id', '=', 'content_task_group_id')->with('user')->get();
+    }
 
-    public function index($accountId, $contentId)
+    public function index($accountID, $contentID)
     {
         // TODO: permissions
 
-        return ContentTaskGroup::where('content_id', $contentId)
+        return ContentTaskGroup::where('content_id', $contentID)
             ->with('tasks')
             ->get();
     }
 
-    public function update($accountId, $contentId)
+    public function update($accountID, $contentID)
     {
         // TODO: permissions
 
@@ -27,7 +34,7 @@ class ContentTaskGroupController extends BaseController {
 
         // fill out or $taskGroup with input (guards against tasks)
         $taskGroup->fill($input);
-        $taskGroup->content_id = $contentId;
+        $taskGroup->content_id = $contentID;
 
         if (!$taskGroup->save()) {
             return $this->responseError($taskGroup->errors()->all(':message'));
@@ -69,14 +76,14 @@ class ContentTaskGroupController extends BaseController {
         }
 
         // delete any tasks that existed before and don't exist now
-        $deleteTaskIds = [];
+        $deleteTaskIDs = [];
         foreach ($taskCheck as $id => $deleteTask) {
             if (!$deleteTask) {
-                $deleteTaskIds[] = $id;
+                $deleteTaskIDs[] = $id;
             }
         }
-        if (!empty($deleteTaskIds)) {
-            ContentTask::destroy($deleteTaskIds);
+        if (!empty($deleteTaskIDs)) {
+            ContentTask::destroy($deleteTaskIDs);
         }
 
         if (!empty($errors)) {

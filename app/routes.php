@@ -22,15 +22,20 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
+  Route::resource('account/{accountID}/campaigns/{campaignID}/tasks', 'CampaignTaskController', [
+    'only' => ['index', 'store', 'show', 'update', 'destroy']
+  ]);
+
+  Route::get('account/{accountID}/content-tasks', 'ContentTaskGroupController@getAllTasks');
+
+
   Route::resource('account/{id}/content', 'ContentController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
   // when it comes to collaborators, they can be attached to both campaigns and content
-  Route::resource('account/{id}/content/{contentid}/collaborators', 'CollaboratorsController', [
-    'only' => ['index', 'store', 'destroy']
-  ]);
-  Route::resource('account/{id}/campaign/{campaignid}/collaborators', 'CollaboratorsController', [
+  // collabType can be content or campaigns only (enforced in the controller)
+  Route::resource('account/{accountid}/{collabType}/{id}/collaborators', 'CollaboratorsController', [
     'only' => ['index', 'store', 'destroy']
   ]);
 

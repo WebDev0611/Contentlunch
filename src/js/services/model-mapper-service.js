@@ -972,6 +972,12 @@
 			connection.connectionName = dto.connection_name;
 			connection.provider = dto.connection_provider;
 
+			if (launch.utils.isBlank(connection.provider) && $.isPlainObject(dto.connection)) {
+				connection.provider = dto.connection.provider;
+				connection.connectionType = dto.connection.type;
+				connection.connectionName = dto.connection.name;
+			}
+
 			return connection;
 		},
 		toDto: function(connection) {
@@ -1339,6 +1345,7 @@
 			taskGroup.id = parseInt(dto.id);
 			taskGroup.contentId = parseInt(dto.content_id);
 			taskGroup.status = parseInt(dto.status);
+			taskGroup.isComplete = (parseInt(dto.is_complete) === 1) ? true : false;
 			taskGroup.dueDate = new Date(dto.due_date);
 			taskGroup.completeDate = launch.utils.isBlank(dto.date_complete) ? null : new Date(dto.date_complete);
 			taskGroup.tasks = $.isArray(dto.tasks) ? $.map(dto.tasks, self.task.fromDto) : null;
@@ -1352,6 +1359,8 @@
 				id: taskGroup.id,
 				content_id: taskGroup.contentId,
 				status: taskGroup.status,
+				is_complete: (taskGroup.isComplete) ? 1 : 0,
+				date_completed: taskGroup.completeDate,
 				due_date: taskGroup.dueDate,
 				tasks: $.isArray(taskGroup.tasks) ? $.map(taskGroup.tasks, self.task.toDto) : null,
 				created_at: taskGroup.created,
@@ -1367,7 +1376,8 @@
 			task.id = parseInt(dto.id);
 			task.name = dto.name;
 			task.isComplete = (parseInt(dto.is_complete) === 1) ? true : false;
-			task.dueDate = new Date(dto.due_date);
+			task.completeDate = launch.utils.isBlank(dto.date_completed) ? null : new Date(dto.date_completed);
+			task.dueDate = launch.utils.isBlank(dto.due_date) ? null : new Date(dto.due_date);
 			task.userId = parseInt(dto.user_id);
 			task.taskGroupId = parseInt(dto.content_task_group_id);
 			task.created = new Date(dto.created_at);
@@ -1380,6 +1390,7 @@
 				id: task.id,
 				name: task.name,
 				is_complete: (task.isComplete) ? 1 : 0,
+				date_completed: task.completeDate,
 				due_date: task.dueDate,
 				user_id: task.userId,
 				content_task_group_id: task.taskGroupId,

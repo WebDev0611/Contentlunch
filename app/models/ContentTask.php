@@ -25,7 +25,7 @@ class ContentTask extends Ardent {
         return $this->belongsTo('TaskGroup');
     }
 
-    public function assignee()
+    public function user()
     {
         return $this->belongsTo('User');
     }

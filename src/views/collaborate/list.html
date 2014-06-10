@@ -61,24 +61,24 @@
                         <td class="align-middle">{{ item.title }}</td>
                         <td class="align-middle">{{ item.type }}</td>
                         <td class="align-middle">
-                            <ng-pluralize count="item.internal_collaborators.length" offset="2"
+                            <ng-pluralize count="item.internalCollaborators.length" offset="2"
                                 when="{ 0: 'No collaborators',
-                                        1: '{{item.internal_collaborators[0].first_name}} {{item.internal_collaborators[0].last_name}}',
-                                        2: '{{item.internal_collaborators[0].first_name}} {{item.internal_collaborators[0].last_name}} and {{item.internal_collaborators[1].first_name}} {{item.internal_collaborators[1].last_name}}',
-                                        one: '{{item.internal_collaborators[0].first_name}} {{item.internal_collaborators[0].last_name}}, {{item.internal_collaborators[1].first_name}} {{item.internal_collaborators[1].last_name}} and one other person',
-                                        other: '{{item.internal_collaborators[0].first_name}} {{item.internal_collaborators[0].last_name}}, {{item.internal_collaborators[1].first_name}} {{item.internal_collaborators[1].last_name}} and {} other people' }">
+                                        1: '{{item.internalCollaborators[0].name}}',
+                                        2: '{{item.internalCollaborators[0].name}} and {{item.internalCollaborators[1].name}}',
+                                        one: '{{item.internalCollaborators[0].name}}, {{item.internalCollaborators[1].name}} and one other person',
+                                        other: '{{item.internalCollaborators[0].name}}, {{item.internalCollaborators[1].name}} and {} other people' }">
                             </ng-pluralize>
                         </td>
                         <td class="align-middle">
-                            <ng-pluralize count="item.guest_collaborators.length" offset="1"
+                            <ng-pluralize count="item.guestCollaborators.length" offset="1"
                                 when="{ 0: 'No collaborators',
-                                        1: '{{item.guest_collaborators[0].name}}',
-                                        one: '{{item.guest_collaborators[0].name}} and one other person',
-                                        other: '{{item.guest_collaborators[0].name}} and {} other people' }">
+                                        1: '{{item.guestCollaborators[0].name}}',
+                                        one: '{{item.guestCollaborators[0].name}} and one other person',
+                                        other: '{{item.guestCollaborators[0].name}} and {} other people' }">
                             </ng-pluralize>
                         </td>
                         <td class="align-middle">
-                            <a href="/collaborate/{{ item.type_slug }}/{{ item.id }}" class="btn btn-inverse">Manage Collaborators</a>
+                            <a href="/collaborate/{{ item.typeSlug }}/{{ item.id }}" class="btn btn-inverse">Manage Collaborators</a>
                         </td>
                     </tr>
                 </tbody>
@@ -93,18 +93,17 @@
 
                     <div class="sub-section-heading full-width">Internal Collaborators</div>
                     <div class="nudge-down collaborators">
-                        <div ng-repeat="collab in item.internal_collaborators" class="internal-collaborator cl-badge cl-badge-row">
+                        <div ng-repeat="collab in item.internalCollaborators" class="internal-collaborator cl-badge cl-badge-row">
                             <span class="cl-badge-image" style="background-image: url('{{ collab.image | imagePathFromObject }}')")></span>
                             <div class="cl-badge-caption">
-                                {{ collab.first_name }}
-                                {{ collab.last_name }}
+                                {{ collab.name }}
                             </div>
                         </div>
                     </div>
 
                     <div class="sub-section-heading full-width">Guest Collaborators</div>
                     <div class="nudge-down collaborators">
-                        <div ng-repeat="collab in item.guest_collaborators" class="guest-collaborator cl-badge cl-badge-row">
+                        <div ng-repeat="collab in item.guestCollaborators" class="guest-collaborator cl-badge cl-badge-row">
                             <span class="cl-badge-image fa fa-{{ collab.connection.provider }}" style="background-image: none;"></span>
                             <div class="cl-badge-caption">
                                 {{ collab.name }}
@@ -113,7 +112,7 @@
                     </div>
 
                     <div class="align-center">
-                        <a href="/collaborate/{{ item.type_slug }}/{{ item.id }}" class="btn btn-inverse">Manage Collaborators</a>                        
+                        <a href="/collaborate/{{ item.typeSlug }}/{{ item.id }}" class="btn btn-inverse">Manage Collaborators</a>                        
                     </div>
                 </div>
             </div>
