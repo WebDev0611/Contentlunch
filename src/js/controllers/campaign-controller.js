@@ -4,22 +4,15 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
     var user = $scope.user = AuthService.userInfo();
     var Account   = Restangular.one('account', user.account.id);
     var Campaigns = Account.all('campaigns');
-    var Campaign  = Campaigns.one($routeParams.campaignId);
 
     $q.all({
-        campaign: $routeParams.campaignId === 'new' ? newCampaign() : Campaign.get(),
+        campaign: $routeParams.campaignId === 'new' ? newCampaign() : Campaigns.get($routeParams.campaignId),
         campaignTypes: Restangular.all('campaign-types').getList(),
         users: Account.all('users').getList(),
-        tasks: Campaign.getList('tasks')
+        tasks: Campaigns.one($routeParams.campaignId).getList('tasks')
     }).then(function (responses) {
-        console.log(_.mapObject(responses, function (response, key) {
-            return [key, response.plain ? response.plain() : response];
-        }));
         angular.extend($scope, responses);
-        // when did ngModel with checkboxes get so strict?
-        $scope.campaign.photoNeeded = !!$scope.campaign.photoNeeded;
-        $scope.campaign.linkNeeded = !!$scope.campaign.linkNeeded;
-        $scope.campaign.isSeries = !!$scope.campaign.isSeries;
+
         if (!$scope.campaign) {
             notify.error('Campaign does not exist');
             $scope.cancelCampaign();

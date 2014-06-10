@@ -97,7 +97,7 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
                 textColor: 'whitesmoke'
             });
 
-        })
+        });
     });
 
     function randomColor() {

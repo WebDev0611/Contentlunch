@@ -73,13 +73,13 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="startDate">Start Date</label>
-                                    <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" type="text" name="startDate" class="form-control" id="startDate" ng-model="campaign.startDate">
+                                    <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" name="startDate" class="form-control" id="startDate" ng-model="campaign.startDate">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="endDate">End Date</label>
-                                    <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" type="text" name="endDate" class="form-control" id="endDate" ng-model="campaign.endDate">
+                                    <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" name="endDate" class="form-control" id="endDate" ng-model="campaign.endDate">
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -209,7 +209,7 @@
                             <div class="col-md-4" ng-show="shouldShow('photoNeeded')">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="photoNeeded" id="photoNeeded" ng-model="campaign.photoNeeded"> 
+                                        <input type="checkbox" name="photoNeeded" id="photoNeeded" check-int ng-model="campaign.photoNeeded"> 
                                         Is Photo Needed?
                                     </label>
                                 </div>
@@ -217,7 +217,7 @@
                             <div class="col-md-4" ng-show="shouldShow('linkNeeded')">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="linkNeeded" id="linkNeeded" ng-model="campaign.linkNeeded"> 
+                                        <input type="checkbox" name="linkNeeded" id="linkNeeded" check-int ng-model="campaign.linkNeeded"> 
                                         Is Link Needed?
                                     </label>
                                 </div>
@@ -225,7 +225,7 @@
                             <div class="col-md-4" ng-show="shouldShow('isSeries')">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="isSeries" id="isSeries" ng-model="campaign.isSeries"> 
+                                        <input type="checkbox" name="isSeries" id="isSeries" check-int ng-model="campaign.isSeries"> 
                                         Is This a Series?
                                     </label>
                                 </div>
@@ -257,49 +257,6 @@
                             </div>
                         </div> <!-- .row -->
                     </form>
-
-                    <!-- 
-                    <table class="table table-stripe">
-                        <thead>
-                            <tr>
-                                <th class="align-bottom">&nbsp;</th>
-                                <th class="align-bottom">Title</th>
-                                <th class="align-bottom">Author</th>
-                                <th class="align-bottom">Persona</th>
-                                <th class="align-bottom">Buying<br>Stage</th>
-                                <th class="align-bottom">Current Step</th>
-                                <th class="align-bottom">Next Step</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="content in campaign.content track by content.id">
-                                <td class="align-middle">
-                                    <span class="campaign-dot campaign-dot-small" style="background-color:{{ campaign.color }}"></span>
-                                </td>
-                                <td class="align-middle">{{ content.title }}</td>
-                                <td class="align-middle">
-                                    <div class="cl-badge cl-badge-horizontal no-margin">
-                                        <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ content.user.image | imagePathFromObject }}')"></span>
-                                        <div class="cl-badge-caption">
-                                            {{ content.user.name }}
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle">{{ content.persona }}</td>
-                                <td class="align-middle align-center">
-                                    <span class="cl-icon"  ng-class="'cl-icon-personas-' + content.buyingStage"></span>
-                                </td>
-                                <td class="align-middle"></td>
-                                <td class="align-middle"></td>
-                            </tr>
-                        </tbody>
-                    </table> 
-                    -->
-
-                    <div ng-if="campaign && !campaign.isNew" class="create-table-container" ng-controller="CreateController">
-                        <div ng-include="'/assets/views/content/partials/table-list.html'"></div>
-                    </div>
-
                 </div> <!-- .col-md-9 -->
                 <div class="col-md-3">
                     <div class="panel panel-inverse">
@@ -339,6 +296,11 @@
                     </div> <!-- .panel.panel-inverse -->
                 </div> <!-- .col-md-3 (sidebar) -->
             </div> <!-- .row -->
+
+            <div ng-if="campaign && !campaign.isNew" class="create-table-container" ng-controller="CreateController">
+                <div ng-include="'/assets/views/content/partials/table-list.html'"></div>
+            </div>
+
         </div> <!-- .container -->
     </div>
 </div>

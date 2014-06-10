@@ -25,8 +25,15 @@ class Campaign extends Ardent {
     'campaign_type_id' => 'required',
     'start_date' => 'required',
     'end_date' => 'required',
-    'description' => 'required'
+    'description' => 'required',
+    'is_recurring' => 'required'
   ];
+
+  protected function beforeCreate()
+  {
+    // removed from spec 6/10/14: http://cs.mavrx.io/3DoG
+    // return CampaignTaskController::createDefaultTasks($this);
+  }
 
   protected function beforeSave()
   {
