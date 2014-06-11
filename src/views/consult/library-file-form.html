@@ -1,0 +1,55 @@
+
+<div class="library-file-form">
+  <div class="modal-header">File Information</div>
+  <div class="modal-body">
+
+    <form name="fileSelectForm" novalidate="novalidate">
+    
+      <div class="form-group">
+
+        <label>File</label>
+
+        <div class="selected-file" ng-show="!!fileName" onclick="$('#filAttachment').click()">
+          <span class="cl-icon cl-icon-x-large" ng-class="fileType"></span>
+          <br />
+          <span class="small-text">{{ fileName }}</span>
+        </div>
+
+        <div>
+          <button type="button" class="btn btn-black btn-default" onclick="$('#filAttachment').click()" ng-show="!fileName">Browse</button>
+          <input type="file" id="filAttachment" ng-file-select="addFile($files, fileSelectForm, fileSelectForm.filAttachment)" style="display: none" />
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" class="form-control" rows="3" ng-model="uploadFile.description"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="folder">File Folder</label>
+        <div>
+          <select id="folder" ng-model="uploadFile.folder" required ng-options="folder.key as folder.name for folder in fileFolders"></select>
+        </div>
+      </div>
+    
+      <div class="form-group">
+        <label for="tags">Tags (separate by comma)</label>
+        <input type="text" id="tags" class="form-control" ng-model="uploadFile.tags" />
+      </div>
+
+      <div class="form-group">
+        Rating
+      </div>
+
+      <div class="buttons clearfix">
+        <button class="btn btn-primary btn-black" ng-click="ok()">Save and Close</button>
+        <button class="btn btn-warning btn-black" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-warning btn-black" ng-click="delete()" ng-show="mode == 'edit'">Delete</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>

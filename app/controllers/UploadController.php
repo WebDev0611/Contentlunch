@@ -46,7 +46,7 @@ class UploadController extends BaseController {
     if ( ! $account || ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    $upload = Upload::find($uploadID);
+    $upload = Upload::with('libraries')->find($uploadID);
     return $upload;
   }
 
@@ -63,6 +63,15 @@ class UploadController extends BaseController {
     }
     if (Input::has('description')) {
       $upload->description = Input::get('description');
+    }
+    if (Input::has('libraries')) {
+      $libraryIDs = [];
+      if (Input::get('libraries')) {
+        foreach (Input::get('libraries') as $library) {
+          $libraryIDs[] = $library['id'];
+        }
+      }
+      $upload->libraries()->sync($libraryIDs);
     }
     if ($upload->update()) {
       return $this->show($accountID, $uploadID);

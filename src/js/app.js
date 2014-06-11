@@ -55,8 +55,16 @@
 					})
 					.when('/consult', {
 						controller: 'ConsultController',
-						templateUrl: '/assets/views/consult.html'
+						templateUrl: '/assets/views/consult/consult-landing.html'
 					})
+          .when('/consult/admin-library', {
+            controller: 'ConsultAdminLibraryController',
+            templateUrl: '/assets/views/consult/admin-library.html'
+          })
+          .when('/consult/library', {
+            controller: 'ConsultLibraryController',
+            templateUrl: '/assets/views/consult/library.html'
+          })
 					.when('/create', {
 						controller: 'CreateController',
 						templateUrl: '/assets/views/create.html'
