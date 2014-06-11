@@ -1,7 +1,7 @@
 
 <div class="file-preview">
   
-  <div class="edit" ng-click="editFile(launchFile)">
+  <div class="edit" ng-click="editFile(launchFile)" ng-show="canEditFile(launchFile)">
     <div>EDIT</div>
     <div>
       <span class="fa fa-edit"></span>
