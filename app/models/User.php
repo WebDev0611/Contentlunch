@@ -49,7 +49,7 @@ class User extends ConfideUser {
 
   public function accounts()
   {
-  	return $this->belongsToMany('Account', 'account_user', 'user_id', 'id')->withTimestamps();
+  	return $this->belongsToMany('Account', 'account_user', 'user_id', 'account_id')->withTimestamps();
   }
 
   public function content_tasks()

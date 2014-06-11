@@ -13,7 +13,8 @@ launch.module.directive('filePreview', function (ModelMapperService) {
     },
     scope: {
       file: '=filePreview',
-      editFile: '=editFile'
+      editFile: '=editFile',
+      canEditFile: '=canEditFile'
     },
     templateUrl: '/assets/views/directives/file-preview.html'
   };

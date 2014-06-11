@@ -26,6 +26,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
       $scope.files = response;
     });
   };
+  // Show root by default
   $scope.showRoot();
 
   // Show a specific folder (just files)
@@ -216,6 +217,20 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
       }
     });
 
+  };
+
+  $scope.canEditFolder = function (folder) {
+    if (folder.global == '1') {
+      return false;
+    }
+    return true;
+  };
+
+  $scope.canEditFile = function (file) {
+    if ($scope.selectedFolder.global == '0') {
+      return true;
+    }
+    return false;
   };
 
   $scope.search = {
