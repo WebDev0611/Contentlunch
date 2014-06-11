@@ -89,7 +89,7 @@ class UserSeeder extends Seeder {
       $role = Role::where('name', $row['role'])->where('account_id', $account->id)->first();
       $user->attachRole($role);
       // Add user to surge test account
-      $user->accounts()->attach($account);
+      $user->accounts()->attach($account->id);
       $this->command->info('Added user to Surge account: '. $user->username);
     }
   }
