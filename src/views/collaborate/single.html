@@ -92,9 +92,21 @@
                                 <thead>
                                     <tr>
                                         <th width="28px">&nbsp;</th>
-                                        <th width="200px">{{ connection.friendsHeaders[0] }}</th>
-                                        <th>{{ connection.friendsHeaders[1] }}</th>
-                                        <th width="174px">{{ connection.friendsHeaders[2] }}</th>
+                                        <th width="200px">
+                                            <div sort-by="0" sort-var="sortOrder">
+                                                {{ connection.friendsHeaders[0] }}
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div sort-by="1" sort-var="sortOrder">
+                                                {{ connection.friendsHeaders[1] }}
+                                            </div>
+                                        </th>
+                                        <th width="174px">
+                                            <div sort-by="2" sort-var="sortOrder">
+                                                {{ connection.friendsHeaders[2] }}
+                                            </div>
+                                        </th>
                                         <th width="174px">
                                             <label>
                                                 <input type="checkbox" ng-model="hideSentRequests">
@@ -104,7 +116,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-class="{ 'disabled-row': invited[friend.id] }" ng-repeat="friend in setViewable(connection.friends, hideSentRequests) | paginate:pagination.currentPage:pagination.pageSize track by friend.id" ng-class-odd="'dark'">
+                                    <tr ng-class="{ 'disabled-row': invited[friend.id] }" ng-repeat="friend in setViewable(connection.friends, hideSentRequests) | orderBy:sortOrder | paginate:pagination.currentPage:pagination.pageSize track by friend.id" ng-class-odd="'dark'">
                                         <td>
                                             <input ng-hide="invited[friend.id]" type="checkbox" id="friend{{ friend.id }}" checklist-model="connection.recipients" checklist-value="{ id: friend.id, name: friend[0] }">
                                         </td>
