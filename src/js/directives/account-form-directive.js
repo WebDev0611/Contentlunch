@@ -191,10 +191,16 @@
 		scope.getStates = function (forCreditCard) {
 			if (forCreditCard) {
 				if (!!scope.selectedAccount && !!scope.selectedAccount.country && !!scope.selectedAccount.creditCard) {
+          if (scope.selectedAccount.creditCard.country == 'Australia' || scope.selectedAccount.creditCard.country == 'UK') {
+            return [];
+          }
 					return launch.utils.getStates(scope.selectedAccount.creditCard.country);
 				}
 			} else {
 				if (!!scope.selectedAccount && !!scope.selectedAccount.country) {
+          if (scope.selectedAccount.country == 'Australia' || scope.selectedAccount.country == 'UK') {
+            return [];
+          }
 					return launch.utils.getStates(scope.selectedAccount.country);
 				}
 			}

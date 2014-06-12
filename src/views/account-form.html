@@ -45,10 +45,10 @@
 			</select>
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'state', editAccount.selState, forceDirty) }">
-			<label class="control-label" for="selState">State</label>
+			<label class="control-label" for="selState">State/Prov</label>
 			<select id="selState" name="selState" class="form-control"
 					ng-model="selectedAccount.state" ng-options="s.name for s in getStates(false) track by s.value"
-					error-message message="errorMessage(selectedAccount, 'state', editAccount.selState)"></select>
+					error-message message="errorMessage(selectedAccount, 'state', editAccount.selState)" ng-disabled="selectedAccount.country == 'Australia' || selectedAccount.country == 'UK'"></select>
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'postalCode', editAccount.txtPostalCode, forceDirty) }">
 			<label class="control-label" for="txtPostalCode">Postal Code</label>
