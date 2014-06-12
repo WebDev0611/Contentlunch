@@ -249,32 +249,32 @@
 				$scope.pagination.groupToPages();
 			},
 			clearFilter: function() {
-				this.searchTerm = null;
-				this.contentTypes = null;
-				this.milestones = null;
-				this.buyingStages = null;
-				this.campaigns = null;
-				this.users = null;
+				$scope.search.searchTerm = null;
+				$scope.search.contentTypes = [];
+				$scope.search.milestones = [];
+				$scope.search.buyingStages = [];
+				$scope.search.campaigns = [];
+				$scope.search.users = [];
 
-				this.applyFilter();
+				$scope.search.applyFilter();
 			},
 			toggleContentStage: function(stage) {
-				this.searchTerm = null;
-				this.myTasks = false;
-				this.contentTypes = null;
-				this.milestones = null;
-				this.buyingStages = null;
-				this.campaigns = null;
-				this.users = null;
+				$scope.search.searchTerm = null;
+				$scope.search.myTasks = false;
+				$scope.search.contentTypes = null;
+				$scope.search.milestones = null;
+				$scope.search.buyingStages = null;
+				$scope.search.campaigns = null;
+				$scope.search.users = null;
 
-				this.contentStage = stage;
+				$scope.search.contentStage = stage;
 
 				$.each($scope.content, function(i, c) { c.isSelected = false; });
 
 				this.applyFilter();
 			},
-			toggleMyTasks: function() {
-				$scope.search.myTasks = !$scope.search.myTasks;
+			toggleMyTasks: function(mine) {
+				$scope.search.myTasks = !!mine;
 
 				$scope.search.applyFilter();
 			}
@@ -321,11 +321,13 @@
 			}
 		};
 
-		$scope.saveFilter = function() {
+		$scope.saveFilter = function () {
+			// TODO: WE NEED A WAY OF SAVING DEFAULT FILTERS!!
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
 		};
 
-		$scope.download = function() {
+		$scope.download = function () {
+			// TODO: WE NEED A WAY OF DOWNLOADING THE CURRENT DATA!!
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
 		};
 

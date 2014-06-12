@@ -57,14 +57,22 @@
 						controller: 'ConsultController',
 						templateUrl: '/assets/views/consult/consult-landing.html'
 					})
-          .when('/consult/admin-library', {
-            controller: 'ConsultAdminLibraryController',
-            templateUrl: '/assets/views/consult/admin-library.html'
-          })
-          .when('/consult/library', {
-            controller: 'ConsultLibraryController',
-            templateUrl: '/assets/views/consult/library.html'
-          })
+					.when('/consult/admin-library', {
+						controller: 'ConsultAdminLibraryController',
+						templateUrl: '/assets/views/consult/admin-library.html'
+					})
+					.when('/consult/library', {
+						controller: 'ConsultLibraryController',
+						templateUrl: '/assets/views/consult/library.html'
+					})
+					.when('/consult/conference', {
+						controller: 'ConsultConferenceController',
+						templateUrl: '/assets/views/consult/conference-list.html'
+					})
+					.when('/consult/conference/:conferenceId', {
+						controller: 'ConsultConferenceController',
+						templateUrl: '/assets/views/consult/conference-view.html'
+					})
 					.when('/create', {
 						controller: 'CreateController',
 						templateUrl: '/assets/views/create.html'
@@ -161,12 +169,12 @@
 						templateUrl: '/assets/views/subscription.html'
 					})
 					.otherwise({
-						redirectTo: function (params, path, search) {
+						redirectTo: function(params, path, search) {
 							console.log('Invalid route: ' + path);
 
 							return '/';
 						}
-				});
+					});
 
 				RestangularProvider.setBaseUrl('/api');
 

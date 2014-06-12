@@ -243,6 +243,9 @@
 .cl-icon-workflow-archive {
   background-image: url(/assets/images/archive.svg);
 }
+.cl-icon-workflow-archive.cl-icon-white {
+  background-image: url(/assets/images/archive.svg);
+}
 .cl-icon-workflow-collaborate {
   background-image: url(/assets/images/collaborate.svg);
 }
@@ -338,9 +341,14 @@ header .navbar ul.nav li .dark {
   width: 72px;
   padding: 8px;
 }
-header .navbar ul.nav li .dark img {
+header .navbar ul.nav li .dark img,
+header .navbar ul.nav li .dark svg {
   height: 40px;
+  width: 40px;
   margin: 0 0 4px 0;
+}
+header .navbar ul.nav li .dark svg path {
+  fill: #FFFFFF;
 }
 header .navbar ul.nav li.home {
   background-color: #1797e1;
@@ -422,6 +430,18 @@ header .navbar ul.nav li.subscription .dark {
 }
 header .navbar ul.nav li.subscription .top-arrow {
   border-top-color: #39e4fd;
+}
+header .navbar ul.nav li.library {
+  background-color: #39e4fd;
+}
+header .navbar ul.nav li.library .dark {
+  background-color: #2badc0;
+}
+header .navbar ul.nav li.library .top-arrow {
+  border-top-color: #39e4fd;
+}
+header .navbar ul.nav li.library img path {
+  fill: #ffffff;
 }
 header .navbar ul.nav li .top-arrow {
   position: absolute;
@@ -818,7 +838,9 @@ span[class*=" icon-"].dark {
 .roles .left-pane,
 .content-settings .left-pane,
 .seo-settings .left-pane,
-.create .left-pane {
+.create .left-pane,
+.admin-library .left-pane,
+.consult .left-pane {
   position: relative;
 }
 .users .left-pane .btn-group,
@@ -826,7 +848,9 @@ span[class*=" icon-"].dark {
 .roles .left-pane .btn-group,
 .content-settings .left-pane .btn-group,
 .seo-settings .left-pane .btn-group,
-.create .left-pane .btn-group {
+.create .left-pane .btn-group,
+.admin-library .left-pane .btn-group,
+.consult .left-pane .btn-group {
   margin-bottom: 12px;
   width: 100%;
 }
@@ -835,7 +859,9 @@ span[class*=" icon-"].dark {
 .roles .left-pane .btn-group .btn-create,
 .content-settings .left-pane .btn-group .btn-create,
 .seo-settings .left-pane .btn-group .btn-create,
-.create .left-pane .btn-group .btn-create {
+.create .left-pane .btn-group .btn-create,
+.admin-library .left-pane .btn-group .btn-create,
+.consult .left-pane .btn-group .btn-create {
   background-color: #000000;
   color: #ffffff;
 }
@@ -844,7 +870,9 @@ span[class*=" icon-"].dark {
 .roles .left-pane .btn-group .btn-create .glyphicon,
 .content-settings .left-pane .btn-group .btn-create .glyphicon,
 .seo-settings .left-pane .btn-group .btn-create .glyphicon,
-.create .left-pane .btn-group .btn-create .glyphicon {
+.create .left-pane .btn-group .btn-create .glyphicon,
+.admin-library .left-pane .btn-group .btn-create .glyphicon,
+.consult .left-pane .btn-group .btn-create .glyphicon {
   margin-right: 8px;
 }
 .users .left-pane .btn-group.btn-group-filter .btn.active,
@@ -852,7 +880,9 @@ span[class*=" icon-"].dark {
 .roles .left-pane .btn-group.btn-group-filter .btn.active,
 .content-settings .left-pane .btn-group.btn-group-filter .btn.active,
 .seo-settings .left-pane .btn-group.btn-group-filter .btn.active,
-.create .left-pane .btn-group.btn-group-filter .btn.active {
+.create .left-pane .btn-group.btn-group-filter .btn.active,
+.admin-library .left-pane .btn-group.btn-group-filter .btn.active,
+.consult .left-pane .btn-group.btn-group-filter .btn.active {
   background-color: #000000;
   color: #ffffff;
 }
@@ -861,7 +891,9 @@ span[class*=" icon-"].dark {
 .roles .left-pane hr,
 .content-settings .left-pane hr,
 .seo-settings .left-pane hr,
-.create .left-pane hr {
+.create .left-pane hr,
+.admin-library .left-pane hr,
+.consult .left-pane hr {
   border-color: #000000;
   margin-top: 10px;
 }
@@ -870,7 +902,9 @@ span[class*=" icon-"].dark {
 .roles .left-pane ul.items-list,
 .content-settings .left-pane ul.items-list,
 .seo-settings .left-pane ul.items-list,
-.create .left-pane ul.items-list {
+.create .left-pane ul.items-list,
+.admin-library .left-pane ul.items-list,
+.consult .left-pane ul.items-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -880,7 +914,9 @@ span[class*=" icon-"].dark {
 .roles .left-pane ul.items-list li,
 .content-settings .left-pane ul.items-list li,
 .seo-settings .left-pane ul.items-list li,
-.create .left-pane ul.items-list li {
+.create .left-pane ul.items-list li,
+.admin-library .left-pane ul.items-list li,
+.consult .left-pane ul.items-list li {
   cursor: pointer;
   padding: 8px;
   position: relative;
@@ -891,12 +927,16 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list li:hover,
 .seo-settings .left-pane ul.items-list li:hover,
 .create .left-pane ul.items-list li:hover,
+.admin-library .left-pane ul.items-list li:hover,
+.consult .left-pane ul.items-list li:hover,
 .users .left-pane ul.items-list li.selected,
 .accounts .left-pane ul.items-list li.selected,
 .roles .left-pane ul.items-list li.selected,
 .content-settings .left-pane ul.items-list li.selected,
 .seo-settings .left-pane ul.items-list li.selected,
-.create .left-pane ul.items-list li.selected {
+.create .left-pane ul.items-list li.selected,
+.admin-library .left-pane ul.items-list li.selected,
+.consult .left-pane ul.items-list li.selected {
   background-color: #eeeeee;
 }
 .users .left-pane ul.items-list li .item-image,
@@ -904,7 +944,9 @@ span[class*=" icon-"].dark {
 .roles .left-pane ul.items-list li .item-image,
 .content-settings .left-pane ul.items-list li .item-image,
 .seo-settings .left-pane ul.items-list li .item-image,
-.create .left-pane ul.items-list li .item-image {
+.create .left-pane ul.items-list li .item-image,
+.admin-library .left-pane ul.items-list li .item-image,
+.consult .left-pane ul.items-list li .item-image {
   float: left;
   margin-right: 16px;
 }
@@ -913,7 +955,9 @@ span[class*=" icon-"].dark {
 .roles .left-pane ul.items-list li .item-info,
 .content-settings .left-pane ul.items-list li .item-info,
 .seo-settings .left-pane ul.items-list li .item-info,
-.create .left-pane ul.items-list li .item-info {
+.create .left-pane ul.items-list li .item-info,
+.admin-library .left-pane ul.items-list li .item-info,
+.consult .left-pane ul.items-list li .item-info {
   font-size: 8pt;
 }
 .users .left-pane ul.items-list li .item-info .item-title,
@@ -921,7 +965,9 @@ span[class*=" icon-"].dark {
 .roles .left-pane ul.items-list li .item-info .item-title,
 .content-settings .left-pane ul.items-list li .item-info .item-title,
 .seo-settings .left-pane ul.items-list li .item-info .item-title,
-.create .left-pane ul.items-list li .item-info .item-title {
+.create .left-pane ul.items-list li .item-info .item-title,
+.admin-library .left-pane ul.items-list li .item-info .item-title,
+.consult .left-pane ul.items-list li .item-info .item-title {
   font-size: 12pt;
 }
 .users .left-pane .pager ul.pagination,
@@ -929,7 +975,9 @@ span[class*=" icon-"].dark {
 .roles .left-pane .pager ul.pagination,
 .content-settings .left-pane .pager ul.pagination,
 .seo-settings .left-pane .pager ul.pagination,
-.create .left-pane .pager ul.pagination {
+.create .left-pane .pager ul.pagination,
+.admin-library .left-pane .pager ul.pagination,
+.consult .left-pane .pager ul.pagination {
   display: block;
 }
 .users .left-pane .pager ul.pagination li a,
@@ -937,7 +985,9 @@ span[class*=" icon-"].dark {
 .roles .left-pane .pager ul.pagination li a,
 .content-settings .left-pane .pager ul.pagination li a,
 .seo-settings .left-pane .pager ul.pagination li a,
-.create .left-pane .pager ul.pagination li a {
+.create .left-pane .pager ul.pagination li a,
+.admin-library .left-pane .pager ul.pagination li a,
+.consult .left-pane .pager ul.pagination li a {
   background-color: transparent;
   border-color: #000000;
   border-radius: 0 !important;
@@ -950,7 +1000,9 @@ span[class*=" icon-"].dark {
 .roles .left-pane .pager ul.pagination li.active a,
 .content-settings .left-pane .pager ul.pagination li.active a,
 .seo-settings .left-pane .pager ul.pagination li.active a,
-.create .left-pane .pager ul.pagination li.active a {
+.create .left-pane .pager ul.pagination li.active a,
+.admin-library .left-pane .pager ul.pagination li.active a,
+.consult .left-pane .pager ul.pagination li.active a {
   background-color: #000000;
   color: #ffffff;
 }
@@ -958,7 +1010,9 @@ span[class*=" icon-"].dark {
 .accounts .left-pane .btn-group .btn-create,
 .roles .left-pane .btn-group .btn-create,
 .content-settings .left-pane .btn-group .btn-create,
-.seo-settings .left-pane .btn-group .btn-create {
+.seo-settings .left-pane .btn-group .btn-create,
+.admin-library .left-pane .btn-group .btn-create,
+.consult .left-pane .btn-group .btn-create {
   width: 100%;
 }
 .user-editor .user-image-upload,
@@ -1444,6 +1498,10 @@ span[class*=" icon-"].dark {
 .create .left-pane .task-group .panel-group .panel .panel-heading .panel-title .accordion-toggle {
   padding: 0;
 }
+.create .left-pane .select2-container {
+  min-width: 100%;
+  width: 100%;
+}
 .create .right-pane .row {
   margin: 20px 0;
 }
@@ -1851,6 +1909,35 @@ span[class*=" icon-"].dark {
 .large-nudge-down {
   margin-bottom: 2em;
 }
+.task-list {
+  list-style: none;
+  padding: 0;
+}
+.task-list .task-task.disabled {
+  opacity: 0.6;
+}
+.task-list .task-task .checkbox {
+  padding-left: 0;
+}
+.task-list .task-task .checkbox input[type="checkbox"] {
+  height: 20px;
+  width: 20px;
+  margin: 8px 8px 0 0;
+}
+.task-list .task-task .checkbox small {
+  display: block;
+  margin-top: -2px;
+}
+.task-list .task-task .checkbox a {
+  color: #000000;
+  text-decoration: underline;
+}
+.task-list .task-task .checkbox .fa-trash-o,
+.task-list .task-task .checkbox .fa-pencil {
+  cursor: pointer;
+  float: right;
+  margin-left: 8px;
+}
 .cl-badge {
   margin: 0 .5em;
 }
@@ -1992,18 +2079,18 @@ span[class*=" icon-"].dark {
 table.structural {
   width: 100%;
 }
-table.structural th,
-table.structural td {
+table.structural > thead > tr > th,
+table.structural > tbody > tr > td {
   padding-right: 20px;
 }
-table.structural th:last-child,
-table.structural td:last-child {
+table.structural > thead > tr > th:last-child,
+table.structural > tbody > tr > td:last-child {
   padding-right: 0;
 }
 table.structural.small-headers th {
   font-size: 10px;
 }
-table.structural tbody td {
+table.structural > tbody > tr > td {
   padding-bottom: 15px;
 }
 .table-striped > tbody > tr:nth-child(odd) > td,
@@ -2241,9 +2328,10 @@ table.structural tbody td {
   float: left;
   margin: 3px 8px 0 0;
 }
-.calendar-node-connection-icon img {
+.calendar-node-connection-icon span {
   display: block;
   width: 24px;
+  font-size: 24px;
   vertical-align: middle;
 }
 .calendar-node-status img {
@@ -2259,8 +2347,8 @@ table.structural tbody td {
   border-radius: 50%;
   vertical-align: middle;
 }
-.fc-view-year td {
-  width: 16.66666667% !important;
+.connection-icon {
+  font-size: 24px;
 }
 .calendar-node-popover {
   min-width: 240px;
@@ -2288,14 +2376,14 @@ table.structural tbody td {
   height: 24px;
   border-radius: 50%;
 }
-.calendar-node-popover .structural td {
+.calendar-node-popover .structural > tbody > tr > td {
   vertical-align: middle;
   padding-right: 0;
 }
-.calendar-node-popover .structural td:first-child {
+.calendar-node-popover .structural > tbody > tr > td:first-child {
   width: 24px;
 }
-.calendar-node-popover .structural td:last-child {
+.calendar-node-popover .structural > tbody > tr > td:last-child {
   padding-left: 5px;
 }
 hr.simple-divider {
@@ -2333,6 +2421,155 @@ hr.simple-divider {
   text-align: center;
   font-size: 16px;
   margin-bottom: 10px;
+}
+.files-list {
+  list-style: none;
+  padding: 0;
+}
+.files-list li {
+  padding-left: 0;
+  padding-right: 30px;
+}
+.files-list .file-preview,
+.files-list .folder-preview {
+  position: relative;
+  background: #D7D7D7;
+  padding: 5px 10px 15px 10px;
+  margin: 20px 0;
+  border-radius: 8px;
+}
+.files-list .file-preview .row,
+.files-list .folder-preview .row {
+  margin-top: 15px;
+}
+.files-list .file-preview .edit,
+.files-list .folder-preview .edit {
+  position: absolute;
+  top: 1px;
+  right: 2px;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+.files-list .file-preview .edit .fa,
+.files-list .folder-preview .edit .fa {
+  font-size: 20px;
+}
+.files-list .file-preview .cl-icon,
+.files-list .folder-preview .cl-icon,
+.files-list .file-preview .cl-icon svg,
+.files-list .folder-preview .cl-icon svg {
+  height: 50px;
+  width: 50px;
+  float: left;
+  margin-right: 25px;
+  margin-top: -5px;
+}
+.files-list .file-preview .description,
+.files-list .folder-preview .description {
+  padding-right: 25px;
+  padding-top: 5px;
+  font-size: 13px;
+}
+.files-list .file-preview .filename,
+.files-list .folder-preview .filename {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.files-list .file-preview .filename a,
+.files-list .folder-preview .filename a {
+  color: #000000;
+  font-weight: bold;
+}
+.files-list .file-preview .info,
+.files-list .folder-preview .info,
+.files-list .file-preview .user,
+.files-list .folder-preview .user {
+  font-size: 11px;
+  overflow: hidden;
+}
+.files-list .file-preview .name,
+.files-list .folder-preview .name {
+  font-weight: bold;
+}
+.files-list .file-preview .user .user-image,
+.files-list .folder-preview .user .user-image {
+  border-color: #2BADC0;
+  float: left;
+  margin-right: 5px;
+}
+.admin-library .right-pane {
+  padding: 65px 20px;
+}
+.admin-library .right-pane > h3 {
+  margin: 0 0 20px 0;
+  border-bottom: solid 1px #000000;
+  padding-bottom: 8px;
+}
+.library-file-form .buttons,
+.library-folder-form .buttons {
+  text-align: center;
+}
+.library-file-form .buttons .btn-black,
+.library-folder-form .buttons .btn-black {
+  margin: 0 10px;
+}
+.library-file-form .btn-black,
+.library-folder-form .btn-black {
+  background-color: #000000;
+  color: #ffffff;
+  vertical-align: middle;
+  border: none;
+}
+.consult.consult-landing .right-pane-header {
+  padding-left: 50px;
+}
+.consult .right-pane-header {
+  color: #ffffff;
+  background-color: #2BADC0;
+  border-bottom-color: #8DCDD5;
+}
+.consult .container {
+  padding-left: 0;
+}
+.consult .subheader h3 {
+  border-bottom: 1px solid #000000;
+  padding-bottom: 10px;
+  margin-top: 0;
+}
+.consult .landing-box {
+  text-align: center;
+  padding: 0 28px;
+}
+.consult .landing-box h3 {
+  border-bottom: 1px solid #000000;
+  padding-bottom: 10px;
+}
+.consult .landing-box .landing-icon {
+  margin: 15px 0;
+}
+.consult .landing-box .landing-icon svg {
+  width: 150px;
+  height: 150px;
+}
+.consult .landing-box .text {
+  padding: 0 20px;
+  text-align: left;
+  font-style: italic;
+}
+.consult .subtext {
+  font-style: italic;
+  margin: 85px auto 45px auto;
+  width: 40%;
+}
+.consult .filter-panel {
+  background-color: #2BADC0;
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: 'Lato Black';
+  font-size: 14pt;
+  margin: 12px 0;
+  padding: 4px;
 }
 .filter-slection-counter {
   float: right;
