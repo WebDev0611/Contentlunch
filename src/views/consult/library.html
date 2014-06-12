@@ -1,0 +1,58 @@
+<div class="view consult">
+  <div class="col-md-3 left-pane">
+    <div class="btn-group">
+      <button class="btn btn-default btn-create" ng-click="addFile()">
+        ADD FILE
+      </button>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-default btn-create" ng-click="addFolder()">
+        ADD FOLDER
+      </button>
+    </div>
+
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter(true)" />
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-search"></span>
+      </span>
+    </div>
+    
+    <div class="filter-panel">
+      Filters
+    </div>
+
+    <accordion close-others="false">
+      <accordion-group is-open="document_type_is_open">
+        <accordion-heading>
+          <i class="fa" ng-class="{'fa-caret-down': document_type_is_open, 'fa-caret-right': !document_type_is_open}"></i>
+          Document Type
+          <span class="filter-slection-counter" ng-show="search.documentTypes.length > 0">(showing {{ search.documentTypes.length }} of {{ documentTypes.length }})</span>
+          <span class="filter-slection-counter" ng-show="search.documentTypes.length === 0">(showing all)</span>
+        </accordion-heading>
+        <div>
+          <select id="selDocumentType" name="selDocumentType" class="multi-select" multiple="multiple"
+              ui-select2="{ formatResult: formatDocumentTypeItem, formatSelection: formatDocumentTypeItem }" ng-model="search.documentTypes"
+              ng-change="search.applyFilter()" data-placeholder="Select Document Types">
+            <option ng-repeat="ct in documentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
+          </select>
+        </div>
+      </accordion-group>
+    </accordion>
+
+    
+  </div>
+  <div class="col-md-9 right-pane">
+    <h2 class="right-pane-header">Consult</h2>
+    <div class="container">
+      <div class="subheader">
+        <h3><a ng-click="showRoot()" href="#">Library</a><span ng-show="selectedFolder"> &gt; {{ selectedFolder.name }}</span></h3>
+      </div>
+      <ul class="files-list">
+        <li ng-repeat="folder in folders" folder-preview="folder" show-folder="showFolder" show-root="showRoot" can-edit-folder="canEditFolder" class="col-md-4"></li>
+        <li ng-repeat="file in files" file-preview="file" edit-file="editFile" can-edit-file="canEditFile" class="col-md-4"></li>
+      </ul>
+    </div>
+  </div>
+</div>

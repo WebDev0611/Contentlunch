@@ -67,6 +67,7 @@
 			} else {
 				mainNavItems.push({ title: 'accounts', url: '/accounts', active: '' });
 				mainNavItems.push({ title: 'subscription', url: '/subscription', active: '' });
+        mainNavItems.push({ title: 'library', url: '/consult/admin-library', active: '' });
 
 				adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
 			}

@@ -1,0 +1,32 @@
+
+<div class="folder-preview">
+  
+  <div class="edit" ng-click="editFolder()" ng-show="canEditFolder(folder)">
+    <div>EDIT</div>
+    <div>
+      <span class="fa fa-edit"></span>
+    </div>
+  </div>
+
+  <div class="description clearfix">
+    <span class="cl-icon" ng-include="'/assets/images/folder-open.svg'"></span>
+    {{ folder.description }}
+  </div>
+
+  <div class="row">
+
+    <div class="info col-sm-7">
+      <div class="filename">
+        <a ng-click="showFolder(folder)" href="#">{{ folder.name }}</a>
+      </div>
+    </div>
+
+    <div class="user col-sm-5">
+      <div class="user-image item-image" ng-style="{ 'background-image': user.imageUrl() }"></div>
+      <div class="name">{{ user.formatName() }}</div>
+      <div class="date">{{ folder.updated | date: 'shortDate' }}</div>
+    </div>
+
+  </div>
+  
+</div>

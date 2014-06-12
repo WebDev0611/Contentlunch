@@ -1,0 +1,28 @@
+
+<div class="library-folder-form">
+  <div class="modal-header">Folder Information</div>
+  <div class="modal-body">
+
+    <form>
+    
+      <div class="form-group">
+        <label for="name">Folder Name</label>
+        <input type="text" id="name" class="form-control" ng-model="folder.name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" id="description" class="form-control" ng-model="folder.description" required />
+      </div>
+
+      <div class="buttons clearfix">
+        <button class="btn btn-primary btn-black" ng-click="ok()">Save and Close</button>
+        <button class="btn btn-warning btn-black" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-warning btn-black" ng-click="delete()" ng-show="mode == 'edit'">Delete</button>
+      </div>
+
+    </form>
+
+  </div>
+  
+</div>

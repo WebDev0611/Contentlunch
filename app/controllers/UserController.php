@@ -29,6 +29,7 @@ class UserController extends BaseController {
 		if (Input::get('roles')) {
 			$query->roles(Input::get('roles'));
 		}
+    return $query->get();
 
 		$users = $query->get()->toArray();
 		// @todo: How to limit columns returned with eloquent relationships?
