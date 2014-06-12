@@ -1,6 +1,6 @@
 launch.module.controller('CampaignController',
-        ['$scope', 'AuthService', '$routeParams', '$filter', '$q', 'Restangular', '$location', '$rootScope', 'campaignTasks', 'NotificationService', 
-function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,   $location,   $rootScope,   campaignTasks,   notify) {
+        ['$scope', 'AuthService', '$routeParams', '$filter', '$q', '$upload', 'Restangular', '$location', '$rootScope', 'campaignTasks', 'NotificationService', 
+function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   Restangular,   $location,   $rootScope,   campaignTasks,   notify) {
     var user = $scope.user = AuthService.userInfo();
     var Account   = Restangular.one('account', user.account.id);
     var Campaigns = Account.all('campaigns');
@@ -9,9 +9,13 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
         campaign: $routeParams.campaignId === 'new' ? newCampaign() : Campaigns.get($routeParams.campaignId),
         campaignTypes: Restangular.all('campaign-types').getList(),
         users: Account.all('users').getList(),
-        tasks: Campaigns.one($routeParams.campaignId).getList('tasks')
+        tasks: Campaigns.one($routeParams.campaignId).getList('tasks'),
+        files: Campaigns.one($routeParams.campaignId).getList('uploads')
     }).then(function (responses) {
         angular.extend($scope, responses);
+        console.log(_.mapObject(responses, function (response, key) {
+            return [key, response.plain ? response.plain() : response];
+        }));
 
         if (!$scope.campaign) {
             notify.error('Campaign does not exist');
@@ -86,6 +90,29 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   Restangular,
     $scope.deleteTask = function (task) {
         task.remove().then(function () {
             _.remove($scope.tasks, task);
+        });
+    };
+
+    // File Actions //
+    $scope.selectFiles = function ($files) {
+        _.each($files, function (file) {
+            $upload.upload({
+                url: $scope.campaign.all('uploads').getRestangularUrl(),
+                method: 'POST',
+                // data: data,
+                file: file
+            }).progress(function (event) {
+                console.log('percent: ' + parseInt(100.0 * event.loaded / event.total));
+            }).success(function (file) {
+                _.appendOrUpdate($scope.files, file);
+            });
+            //.error(...)
+        });
+    };
+
+    $scope.deleteFile = function (file) {
+        $scope.campaign.one('uploads', file.id).remove().then(function () {
+            _.remove($scope.files, file);
         });
     };
 

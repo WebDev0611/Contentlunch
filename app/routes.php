@@ -26,6 +26,11 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
+  Route::resource('account/{accountID}/campaigns/{campaignID}/uploads', 'CampaignUploadController', [
+    'only' => ['index', 'store', 'destroy']
+  ]);
+
+
   Route::get('account/{accountID}/content-tasks', 'ContentTaskGroupController@getAllTasks');
 
 

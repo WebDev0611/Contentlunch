@@ -161,10 +161,15 @@
                             </div>
                         </div> <!-- .row -->
                         <div class="row">
-                        <div class="col-md-6">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="file">Attach a File</label>
-                                    <input type="file" name="file" class="form-control" id="file" ng-model="file">
+                                    <input ng-file-select="selectFiles($files)" multiple type="file" name="file" id="file">
+                                </div>
+
+                                <div ng-repeat="file in files">
+                                    <span class="fa fa-trash-o pull-right" ng-click="deleteFile(file)"></span>
+                                    <a ng-href="{{ file | imagePathFromObject }}" target="_blank">{{ file.filename }}</a>
                                 </div>
                             </div>
                             <div class="col-md-6">
