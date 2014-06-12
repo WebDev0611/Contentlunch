@@ -249,14 +249,14 @@
 				$scope.pagination.groupToPages();
 			},
 			clearFilter: function() {
-				this.searchTerm = null;
-				this.contentTypes = null;
-				this.milestones = null;
-				this.buyingStages = null;
-				this.campaigns = null;
-				this.users = null;
+				$scope.search.searchTerm = null;
+				$scope.search.contentTypes = [];
+				$scope.search.milestones = [];
+				$scope.search.buyingStages = [];
+				$scope.search.campaigns = [];
+				$scope.search.users = [];
 
-				this.applyFilter();
+				$scope.search.applyFilter();
 			},
 			toggleContentStage: function(stage) {
 				$scope.search.searchTerm = null;
