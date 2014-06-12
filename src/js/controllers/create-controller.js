@@ -321,11 +321,13 @@
 			}
 		};
 
-		$scope.saveFilter = function() {
+		$scope.saveFilter = function () {
+			// TODO: WE NEED A WAY OF SAVING DEFAULT FILTERS!!
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
 		};
 
-		$scope.download = function() {
+		$scope.download = function () {
+			// TODO: WE NEED A WAY OF DOWNLOADING THE CURRENT DATA!!
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
 		};
 
