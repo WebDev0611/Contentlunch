@@ -259,22 +259,22 @@
 				this.applyFilter();
 			},
 			toggleContentStage: function(stage) {
-				this.searchTerm = null;
-				this.myTasks = false;
-				this.contentTypes = null;
-				this.milestones = null;
-				this.buyingStages = null;
-				this.campaigns = null;
-				this.users = null;
+				$scope.search.searchTerm = null;
+				$scope.search.myTasks = false;
+				$scope.search.contentTypes = null;
+				$scope.search.milestones = null;
+				$scope.search.buyingStages = null;
+				$scope.search.campaigns = null;
+				$scope.search.users = null;
 
-				this.contentStage = stage;
+				$scope.search.contentStage = stage;
 
 				$.each($scope.content, function(i, c) { c.isSelected = false; });
 
 				this.applyFilter();
 			},
-			toggleMyTasks: function() {
-				$scope.search.myTasks = !$scope.search.myTasks;
+			toggleMyTasks: function(mine) {
+				$scope.search.myTasks = !!mine;
 
 				$scope.search.applyFilter();
 			}

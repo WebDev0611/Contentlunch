@@ -24,8 +24,8 @@
 		</div>
 
 		<div class="btn-group btn-group-justified btn-group-filter">
-			<a class="btn btn-default" ng-class="{ active: search.myTasks === true }" ng-click="search.toggleMyTasks()">My Tasks</a>
-			<a class="btn btn-default" ng-class="{ active: search.myTasks === false }" ng-click="search.toggleMyTasks()">All Tasks</a>
+			<a class="btn btn-default" ng-class="{ active: search.myTasks === true }" ng-click="search.toggleMyTasks(true)">My Tasks</a>
+			<a class="btn btn-default" ng-class="{ active: search.myTasks === false }" ng-click="search.toggleMyTasks(false)">All Tasks</a>
 		</div>
 
 		<accordion close-others="false">
