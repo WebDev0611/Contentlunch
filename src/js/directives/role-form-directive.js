@@ -26,6 +26,11 @@
 		scope.canCreateRole = false;
 		scope.errorMessage = launch.utils.getPropertyErrorMessage;
 
+    scope.activeOptions = [
+      { key: true, name: 'Active' },
+      { key: false, name: 'Inactive' }
+    ];
+
 		scope.cancelEdit = function (form) {
 			if (form.$dirty) {
 				$modal.open({

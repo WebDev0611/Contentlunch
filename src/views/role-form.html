@@ -8,9 +8,7 @@
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedRole, 'active', editRole.selStatus, forceDirty) }">
 			<label class="control-label" for="selStatus">Status</label>
 			<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedRole.active" ng-disabled="selectedRole.isBuiltIn || !canEditRole"
-					error-message message="errorMessage(selectedRole, 'active', editRole.selStatus)">
-				<option value="true" ng-selected="selectedRole.active === true">Active</option>
-				<option value="false" ng-selected="selectedRole.active !== true">Inactive</option>
+					error-message message="errorMessage(selectedRole, 'active', editRole.selStatus)" ng-options="value.key as value.name for value in activeOptions">
 			</select>
 		</div>
 		
