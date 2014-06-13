@@ -370,6 +370,10 @@
 				roles: $.isArray(user.roles) ? $.map(user.roles, function(r, i) { return self.role.toDto(r); }) : null
 			};
 
+			if ((!$.isArray(dto.roles) || dto.roles.length === 0) && !!user.role) {
+				dto.roles = [self.role.toDto(user.role)];
+			}
+
 			if (!launch.utils.isBlank(user.password) && !launch.utils.isBlank(user.passwordConfirmation)) {
 				dto.password = user.password;
 				dto.password_confirmation = user.passwordConfirmation;
