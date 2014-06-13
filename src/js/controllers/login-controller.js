@@ -1,5 +1,5 @@
 launch.module.controller('LoginController', [
-	'$scope', '$sanitize', '$location', 'AuthService', 'NotificationService', function ($scope, $sanitize, $location, authService, notificationService) {
+	'$scope', '$sanitize', '$location', 'AuthService', 'NotificationService', function($scope, $sanitize, $location, authService, notificationService) {
 		var self = this;
 
 		self.init = function() {
@@ -9,15 +9,20 @@ launch.module.controller('LoginController', [
 			$scope.user = new launch.Authentication();
 
 			self.redirect = launch.utils.isBlank($location.search()['path']) ? null : $location.search()['path'];
-      var search = $location.search();
-      if (search.link == 'expired') {
-        $scope.mode = 'Forgot Password';
-        $scope.headerMessage = 'Oops! That link is expired. Please complete the password reset form again.';
-      }
+
+			var search = $location.search();
+
+			if (search.link == 'expired') {
+				$scope.mode = 'Forgot Password';
+				$scope.headerMessage = 'Oops! That link is expired. Please complete the password reset form again.';
+			}
+
+			$scope.isLoaded = true;
 		};
 
 		self.redirect = null;
 
+		$scope.isLoaded = false;
 		$scope.user = null;
 		$scope.hasError = launch.utils.isPropertyValid;
 		$scope.errorMessage = launch.utils.getPropertyErrorMessage;
@@ -52,7 +57,7 @@ launch.module.controller('LoginController', [
 						$location.path(launch.utils.isBlank(self.redirect) ? '/' : self.redirect).search({ });
 					}
 				},
-				error: function (r) {
+				error: function(r) {
 					$scope.isSaving = false;
 
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -62,7 +67,7 @@ launch.module.controller('LoginController', [
 
 		$scope.toggleMode = function(mode) {
 			$scope.mode = launch.utils.isBlank(mode) ? 'Login' : mode;
-      $scope.headerMessage = null;
+			$scope.headerMessage = null;
 		};
 
 		$scope.retreievePassword = function(e, user) {

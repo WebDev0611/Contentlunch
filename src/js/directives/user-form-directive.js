@@ -237,6 +237,7 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 				templateUrl: '/assets/views/reset-password.html',
 				controller: [
 					'$scope', '$modalInstance', function (scp, instance) {
+						scp.isLoaded = true;
 						scp.currentPassword = null;
 						scp.newPassword = null;
 						scp.confirmPassword = null;

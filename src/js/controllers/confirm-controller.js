@@ -1,20 +1,22 @@
 launch.module.controller('ConfirmController', [
-	'$scope', '$location', '$route', '$routeParams', 'AuthService', 'UserService', 'NotificationService', function ($scope, $location, $route, $routeParams, authService, userService, notificationService) {
+	'$scope', '$location', '$route', '$routeParams', 'AuthService', 'UserService', 'NotificationService', function($scope, $location, $route, $routeParams, authService, userService, notificationService) {
 		var self = this;
 
-		self.init = function () {
+		self.init = function() {
 			authService.confirm($route.current.params.code, {
-				success: function (r) {
+				success: function(r) {
 					$scope.isDisabled = false;
 					$scope.selectedUser = r;
+					$scope.isLoaded = true;
 				},
-				error: function (r) {
-          $location.path('/login');
-          $location.search('link', 'expired');
+				error: function(r) {
+					$location.path('/login');
+					$location.search('link', 'expired');
 				}
 			});
 		};
 
+		$scope.isLoaded = false;
 		$scope.newPassword = null;
 		$scope.confirmPassword = null;
 		$scope.isSaving = false;
@@ -38,7 +40,7 @@ launch.module.controller('ConfirmController', [
 				$scope.isSaving = true;
 
 				userService.update($scope.selectedUser, {
-					success: function (r) {
+					success: function(r) {
 						$scope.isSaving = false;
 						notificationService.success('Success!', 'You have successfully changed your password!');
 
@@ -49,7 +51,7 @@ launch.module.controller('ConfirmController', [
 							error: function(res) { }
 						});
 					},
-					error: function (r) {
+					error: function(r) {
 						$scope.isSaving = false;
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
 					}
