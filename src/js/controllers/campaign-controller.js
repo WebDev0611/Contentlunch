@@ -14,6 +14,13 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
     }).then(function (responses) {
         angular.extend($scope, responses);
 
+        // help the UI with a few permission things
+        if (user.id == $scope.campaign.userId) {
+            $scope.canEdit = user.hasPrivilege('calendar_execute_campaigns_own');
+        } else {
+            $scope.canEdit = user.hasPrivilege('calendar_edit_campaigns_other');
+        }
+
         if (!$scope.campaign) {
             notify.error('Campaign does not exist');
             $scope.cancelCampaign();

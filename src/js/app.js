@@ -275,6 +275,11 @@
 					}
 				});
 
+				$rootScope.$on('$routeChangeSuccess', function(event, next, current) {
+					// Bootstrap popovers aren't going away causing issues
+					$('.popover').remove();
+				});
+
 				$.pnotify.defaults.styling = "bootstrap3";
 				$.pnotify.defaults.history = false;
 

@@ -1,8 +1,22 @@
-﻿/* jshint multistr: true */
+/* jshint multistr: true */
 launch.module.controller('CalendarController',
         ['$scope', 'AuthService', '$timeout', 'campaignTasks', '$interpolate', '$http', '$q', 'contentStatuses', 'Restangular',
 function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   $http,   $q,   contentStatuses,   Restangular) {
-    $scope.title = 'This is the calendar page controller';
+
+    // different permissions
+    // calendar_execute_campaigns_own
+    // calendar_view_campaigns_other
+    // calendar_edit_campaigns_other
+    // calendar_execute_schedule
+    // calendar_view_archive
+    // calendar_execute_archive
+    // calendar_execute_export
+
+    var user = $scope.user = AuthService.userInfo();
+    $scope.canCreate = user.hasPrivilege('calendar_execute_campaigns_own');
+    $scope.canExport = user.hasPrivilege('calendar_execute_export');
+    // $scope.canCreateTask = user.hasPrivilege('calendar_execute_schedule');
+
     $scope.calendarConfig  = {
         editable: false,
         header:{
@@ -10,13 +24,22 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
             center: 'title',
             right: 'prev,next today'
         },
+        // @note that in all of these $interpolate functions,
+        // the it will render stuff in {{ }}, but it is NOT a
+        // full $compile and won't render stuff like ngRepeat
         eventRender: function (event, element, view) {
             if (event.type == 'task') {
                 element.hide();
+
+                // this re-styles the tasks items on the 
+                // calendar to match the spec
                 $http.get('/assets/views/calendar/task-node.html', { cache: true }).then(function (response) {
                     element.html($interpolate(response.data)(event)).show();
                 });
 
+                // this is how we attached a click event to
+                // the task items in the calendar using
+                // BS popover and an external template
                 $http.get('/assets/views/calendar/task-node-popover.html', { cache: true }).then(function (response) {
                     element.popover({
                         html: true,
@@ -30,6 +53,9 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
                     });
                 });
             } else { // (event.type != 'task')
+                // this is how we attached a click event to
+                // the campaign items in the calendar using
+                // BS popover and an external template
                 $http.get('/assets/views/calendar/campaign-node-popover.html', { cache: true }).then(function (response) {
                     element.popover({
                         html: true,
@@ -37,7 +63,7 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
                         placement: 'left',
                         container: 'body',
                         title: $interpolate('<div class="group">\
-                                                <div class="calendar-node-popover-title-2"><strong>{{ title }}</strong></div>\
+                                                <div class="calendar-node-popover-title-2"><a href="/calendar/campaigns/{{ id }}">{{ title }}</a></div>\
                                                 <div class="calendar-node-popover-date-2">{{ start | date:"mediumDate" }} - {{ end | date:"mediumDate" }}</div>\
                                              </div>')(event)
                     });
@@ -46,7 +72,6 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
         }
     };
 
-    var user = AuthService.userInfo();
     var Account = Restangular.one('account', user.account.id);
     $q.all({
         campaigns: Account.getList('campaigns'),
@@ -56,6 +81,7 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
     }).then(function (responses) {
         var tasksByContent = _.groupBy(responses.tasks, 'contentId');
 
+        $scope.campaigns = responses.campaigns;
         $scope.calendarSources = [];
 
         _.each(tasksByContent, function (tasks, contentId) {
@@ -101,7 +127,7 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
     });
 
     function randomColor() {
-        return '#'+Math.floor(Math.random()*16777215).toString(16);
+        return '#' + Math.floor(Math.random() * 16777215).toString(16);
     }
 
     // Events
@@ -113,18 +139,12 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
     };
 
 
+    // Helpers
+    // -------------------------
+
+
     // Calendar Functions
     // -------------------------
-    function onDayClick() {
-        console.log('day click');
-    }
-    function onEventDrop() {
-        console.log('day click');
-    }
-    function onEventResize() {
-        console.log('day click');
-    }
-
     // this really could be handled better :-(
     // this doesn't even really work if we have lots of tasks in the same day
     // var autoSetCalendarHeight = function () {
