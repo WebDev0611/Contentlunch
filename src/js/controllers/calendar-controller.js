@@ -141,6 +141,10 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
 
     // Helpers
     // -------------------------
+    $scope.pagination = {
+        pageSize: 10,
+        currentPage: 1,
+    };
 
 
     // Calendar Functions

@@ -98,6 +98,13 @@
 		<h2 class="right-pane-header">Calendar</h2>
 
 		<div class="squeeze-20" ng-if="calendarSources">
+			<div class="nudge-down">
+				<button type="button" class="btn btn-default fa fa-download pull-right" ng-click="export()"></button>
+				<button class="btn btn-inverse" ng-click="showCampaignList = !showCampaignList">{{ showCampaignList ? 'Hide' : 'View' }} List of Campaigns</button>		
+				<div ng-show="showCampaignList">
+					<div ng-include="'/assets/views/calendar/campaign-list.html'"></div>
+				</div>
+			</div>
 			<div ui-calendar="calendarConfig" ng-model="calendarSources" calendar="calendar"></div>
 		</div>
 	</div>
