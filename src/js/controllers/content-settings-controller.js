@@ -7,9 +7,14 @@
 
 		self.init = function() {
 			self.loggedInUser = authService.userInfo();
-			self.refreshContentSettings();
 
-			$scope.canEditPersonas = self.loggedInUser.hasPrivilege('settings_edit_personas');
+			$scope.canEditContentSettings = self.loggedInUser.hasPrivilege('settings_edit_content_settings');
+
+			if (!$scope.canEditContentSettings) {
+				return;
+			}
+
+			self.refreshContentSettings();
 
 			$scope.contentTypes = contentService.getContentTypes({
 				success: function(r) {
@@ -51,7 +56,7 @@
 		$scope.titlePlaceholder = 'Enter a Title';
 		$scope.itemPlaceholder = 'Enter Some Text';
 		$scope.textEditorSettings = launch.config.TINY_MCE_SETTINGS;
-		$scope.canEditPersonas = false;
+		$scope.canEditContentSettings = false;
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 
 		$scope.updateContentSettings = function(refresh, onAfterSave) {
@@ -83,7 +88,7 @@
 		};
 
 		$scope.addNewPersona = function() {
-			$scope.contentSettings.addEmptyPerona();
+			$scope.contentSettings.addEmptyPerona(0);
 		};
 
 		$scope.deletePersona = function(index) {
