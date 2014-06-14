@@ -130,7 +130,7 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
         return '#' + Math.floor(Math.random() * 16777215).toString(16);
     }
 
-    // Events
+    // Actions
     // -------------------------
     $scope.newTask = function () {
         // so... we don't actually even show campaign tasks on this page... 

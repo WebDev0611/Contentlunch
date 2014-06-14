@@ -222,4 +222,63 @@ class CampaignController extends BaseController {
     }
   }
 
+  public function download_csv($accountID)
+  {
+    $campaigns = $this->index($accountID);
+
+    // better way to test this?
+    if (get_class($campaigns) != 'Illuminate\Database\Eloquent\Collection') {
+      // then $campaigns is an error
+      return $campaigns;
+    }
+
+    $filename = date('Y-m-d') . ' Campaigns.csv';
+    
+    $data = [];
+    foreach ($campaigns as $campaign) {
+      $data[] = $this->flatten_array($campaign->toArray());
+    }
+
+    if (empty($data)) {
+      die('No data to export.');
+    }
+
+    $firstRow = array_keys($data[0]);
+    array_unshift($data, $firstRow);
+
+    header("Content-type: text/csv");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header("Content-Disposition: attachment; filename = \"$filename\"");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+
+    $outstream = fopen("php://output", 'w');
+
+    function _outputCSV(&$vals, $key, $filehandler) {
+        fputcsv($filehandler, $vals);
+    }
+    array_walk($data, '_outputCSV', $outstream);
+
+    fclose($outstream);
+
+    // exit; // don't want the rest of the page to download, just the CSV!
+  }
+
+  protected function flatten_array($array, $masterArray = [], $prependKey = '')
+  {
+    foreach ($array as $key => $value) {
+      if (is_array($value)) {
+        // decided we didn't need the nested data
+        continue;
+        // $append = $this->flatten_array($value, $masterArray, "{$prependKey}{$key}_"); 
+        // $masterArray = array_merge($masterArray, $append);
+      } else {
+        if (!preg_match('/_(?:id|at)$/', $key)) {
+          $masterArray[$prependKey . $key] = $value;
+        }
+      }
+    }
+
+    return $masterArray;
+  }
 }
