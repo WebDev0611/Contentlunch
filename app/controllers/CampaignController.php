@@ -19,10 +19,9 @@ class CampaignController extends BaseController {
       ->with('guest_collaborators')
       ->with('collaborators');
 
-    // uncomment when we're ready to filter by status
-    // if (Input::has('status')) {
-    //   $query->where('status', Input::get('status'));
-    // }
+    if (Input::has('status')) {
+      $query->where('status', Input::get('status'));
+    }
 
     $user = Confide::User();
     if(!$this->hasAbility([], ['calendar_view_campaigns_other'])) {
