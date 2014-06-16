@@ -250,7 +250,7 @@
 <script type="text/ng-template" id="publishing-guidelines.html">
 	<div class="modal-header">Publishing Guidelines</div>
 	<div class="modal-body">
-		{{ publishingGuidelines }}
+		<div ng-bind-html="publishingGuidelines"></div>
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-primary" ng-click="ok()">OK</button>
