@@ -1162,8 +1162,7 @@
 			content.comments = ($.isArray(dto.comments)) ? $.map(dto.comments, self.comment.fromDto) : null;
 			content.accountConnections = ($.isArray(dto.account_connections)) ? $.map(dto.account_connections, self.contentConnection.fromDto) : null;
 
-			// TODO: PARSE RELATED CONTENT!!
-			//content.relatedContent = dto.related.join(',');
+			content.relatedContent = dto.related.join(',');
 
 			if ($.isArray(dto.tags)) {
 				content.tags = $.map(dto.tags, function(t, i) { return t.tag; });
