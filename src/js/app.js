@@ -335,6 +335,10 @@
 			var index = _.indexById(array, item.id);
 			if (index !== -1) array.splice(index, 1);
 		},
+		stripTags: function(str){
+		    if (!str) return '';
+		    return ('' + str).replace(/<\/?[^>]+>/g, '');
+		},
 		indexById: function (array, id) {
 			var index = -1;
 

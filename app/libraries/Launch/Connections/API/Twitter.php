@@ -80,9 +80,9 @@ class TwitterAPI implements Connection
                 'format'  => 'array'
             ]);
 
-            $results[$id] = empty($result['errors']);
+            $results[$id]['success'] = empty($result['errors']);
 
-            if ($results[$id]) {
+            if ($results[$id]['success']) {
                 $result = ConnectionConnector::createGuestCollaborator([
                     'connection_user_id' => $id,
                     'name'               => $name,
@@ -93,6 +93,8 @@ class TwitterAPI implements Connection
                 ]);
                 if (!$result) return $result;
             }
+
+            $results[$id]['raw'] = $result;
         }
 
         return $this->processResult($results);
