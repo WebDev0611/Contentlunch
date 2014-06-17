@@ -94,7 +94,7 @@
 					<div class="control-group">
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'accountConnections', editContent.selContentConnections, forceDirty) }">
 							<label class="control-label" for="selContentConnections">Content Connections</label>
-							<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple" ng-disabled="isReadOnly"
+							<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple" ng-disabled="isReadOnly" ng-change="updateContentConnection()"
 									ui-select2="{ formatResult: formatContentConnectionItem, formatSelection: formatContentConnectionItem }" ng-model="contentConnectionIds"
 									data-placeholder="Select Content Connection" error-message message="errorMessage(content, 'accountConnections', editContent.selContentConnections)">
 								<option ng-repeat="cc in contentConnections" value="{{ cc.id }}">{{ cc.name }}</option>

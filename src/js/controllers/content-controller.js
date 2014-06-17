@@ -125,6 +125,7 @@
 				$scope.content.accountConnections = contentConnections;
 			}
 		};
+		$scope.updateContentConnection = self.updateContentConnection;
 
 		self.handleSaveContent = function (callback) {
 			var method = $scope.isNewContent ? contentService.add : contentService.update;
