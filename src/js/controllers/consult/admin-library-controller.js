@@ -69,7 +69,17 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
 
         $scope.file = {};
         $scope.uploadFile = file;
+        $scope.fileName = file.fileName;
+
+        $scope.fileType = launch.utils.getFileTypeCssClass(file.fileName.substring(file.fileName.lastIndexOf('.') + 1));
+        
         $scope.mode = 'edit';
+
+        if ($.isArray($scope.uploadFile.tags)) {
+          $scope.uploadFile.tags = _.map($scope.uploadFile.tags, function (tag) {
+            return tag.tag;
+          }).join();
+        }
 
         $scope.fileFolders = [
           { key: '0', name: '(Default to the root folder)' }
@@ -115,6 +125,10 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
         };
       }
     });
+  };
+
+  $scope.canEditFile = function (file) {
+    return true;
   };
 
 });
