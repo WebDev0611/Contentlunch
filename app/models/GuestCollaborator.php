@@ -26,12 +26,12 @@ class GuestCollaborator extends Ardent {
 
     public function content()
     {
-        return $this->belongsTo('content');
+        return $this->belongsTo('Content');
     }
 
     public function connection()
     {
-        return $this->belongsTo('connection');
+        return $this->belongsTo('Connection');
     }
 
     public function beforeSave()
