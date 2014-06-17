@@ -18,6 +18,7 @@ Route::group(['prefix' => 'api'], function()
   Route::post('account/{id}/add_user', 'AccountUserController@store');
   Route::get('account/{id}/users', 'AccountUserController@show');
 
+  Route::get('account/{accountID}/campaigns/export-csv', 'CampaignController@download_csv');
   Route::resource('account/{id}/campaigns', 'CampaignController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);

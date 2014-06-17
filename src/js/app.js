@@ -57,14 +57,22 @@
 						controller: 'ConsultController',
 						templateUrl: '/assets/views/consult/consult-landing.html'
 					})
-          .when('/consult/admin-library', {
-            controller: 'ConsultAdminLibraryController',
-            templateUrl: '/assets/views/consult/admin-library.html'
-          })
-          .when('/consult/library', {
-            controller: 'ConsultLibraryController',
-            templateUrl: '/assets/views/consult/library.html'
-          })
+					.when('/consult/admin-library', {
+						controller: 'ConsultAdminLibraryController',
+						templateUrl: '/assets/views/consult/admin-library.html'
+					})
+					.when('/consult/library', {
+						controller: 'ConsultLibraryController',
+						templateUrl: '/assets/views/consult/library.html'
+					})
+					.when('/consult/conference', {
+						controller: 'ConsultConferenceController',
+						templateUrl: '/assets/views/consult/conference-list.html'
+					})
+					.when('/consult/conference/:conferenceId', {
+						controller: 'ConsultConferenceController',
+						templateUrl: '/assets/views/consult/conference-view.html'
+					})
 					.when('/create', {
 						controller: 'CreateController',
 						templateUrl: '/assets/views/create.html'
@@ -161,12 +169,12 @@
 						templateUrl: '/assets/views/subscription.html'
 					})
 					.otherwise({
-						redirectTo: function (params, path, search) {
+						redirectTo: function(params, path, search) {
 							console.log('Invalid route: ' + path);
 
 							return '/';
 						}
-				});
+					});
 
 				RestangularProvider.setBaseUrl('/api');
 
@@ -221,7 +229,7 @@
 					'$location', '$q', function($location, $q) {
 						var success = function(r) {
 							return r;
-						}
+						};
 
 						var error = function(r) {
 							if (r.status === 401) {
@@ -231,11 +239,11 @@
 							} else {
 								return $q.reject(r);
 							}
-						}
+						};
 
 						return function(promise) {
 							return promise.then(success, error);
-						}
+						};
 					}
 				];
 
@@ -265,6 +273,11 @@
 							success: fetchCurrentUser
 						});
 					}
+				});
+
+				$rootScope.$on('$routeChangeSuccess', function(event, next, current) {
+					// Bootstrap popovers aren't going away causing issues
+					$('.popover').remove();
 				});
 
 				$.pnotify.defaults.styling = "bootstrap3";

@@ -1276,6 +1276,11 @@ span[class^="icon-"], span[class*=" icon-"] {
 				}
 			}
 		}
+
+		.select2-container{
+			min-width: 100%;
+			width: 100%;
+		}
 	}
 
 	.right-pane {
@@ -1647,6 +1652,13 @@ span[class^="icon-"], span[class*=" icon-"] {
 				input[type="checkbox"].form-control {
 					height: 20px;
 					width: 20px;
+				}
+			}
+
+			th {
+				.clickable-header {
+					cursor: pointer;
+					text-decoration: underline;
 				}
 			}
 
@@ -2645,4 +2657,46 @@ hr.simple-divider {
 
 .filter-slection-counter {
 	float: right;
+}
+
+[sort-by] {
+	cursor: pointer;
+	&:before {
+		margin-right: 3px;
+	}
+}
+
+.tiny-circle {
+	border-radius: 50%;
+	width: 8px;
+	height: 8px;
+	background-color: white;
+}
+
+.full-screen-modal {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 9999;
+	background-color: rgba(0,0,0, 0.5);
+
+	.loading-spinner {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		// margin-left: -50px;
+		// margin-top: -50px;
+	}
+
+	.message {	
+		position: absolute;
+		font-size: 36px;
+		color: white;
+		text-align: center;
+		top: 50%;
+		margin-top: 115px;
+		width: 100%;
+	}
 }

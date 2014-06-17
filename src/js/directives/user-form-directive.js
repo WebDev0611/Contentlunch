@@ -58,7 +58,7 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 			self.discardChanges(form);
 		};
 
-		scope.saveUser = function (form) {
+		scope.saveUser = function(form) {
 			if (!scope.selectedUser || scope.selectedUser.$resolved === false) {
 				return;
 			}
@@ -75,7 +75,7 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 
 			var method = scope.isNewUser ? UserService.add : UserService.update;
 			var callback = {
-				success: function (r) {
+				success: function(r) {
 					scope.isSaving = false;
 
 					var successMsg = scope.isNewUser ? 'You have successfully created ' + r.formatName() + '\'s account.' : 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.formatName() + '\'s') + ' user settings!';
@@ -86,7 +86,7 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 						scope.afterSaveSuccess(r, form);
 					}
 				},
-				error: function (r) {
+				error: function(r) {
 					scope.isSaving = false;
 
 					launch.utils.handleAjaxErrorResponse(r, NotificationService);
@@ -95,16 +95,16 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 
 			if (scope.isNewUser) {
 				scope.selectedUser.account = self.loggedInUser.account;
-        if (scope.selectedUser.account) {
-				  scope.selectedUser.accounts.push(scope.selectedUser.account);
-        }
+				if (scope.selectedUser.account) {
+					scope.selectedUser.accounts.push(scope.selectedUser.account);
+				}
 				scope.selectedUser.roles.push(scope.selectedUser.role);
 			}
 
 			scope.isSaving = true;
 
-			method(scope.selectedUser, {
-				success: function (r) {
+			scope.selectedUser = method(scope.selectedUser, {
+				success: function(r) {
 					if (scope.selfEditing) {
 						SessionService.set(SessionService.USER_KEY, scope.selectedUser);
 					}
@@ -237,6 +237,7 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 				templateUrl: '/assets/views/reset-password.html',
 				controller: [
 					'$scope', '$modalInstance', function (scp, instance) {
+						scp.isLoaded = true;
 						scp.currentPassword = null;
 						scp.newPassword = null;
 						scp.confirmPassword = null;

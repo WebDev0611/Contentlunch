@@ -57,7 +57,7 @@
 						<div class="control-group" ng-class="{ 'has-error': hasError(content, 'body', editConcept.txtConceptDesc, forceDirty) }">
 							<label class="control-label" for="txtConceptDesc">Description</label>
 							<textarea name="txtConceptDesc" id="txtConceptDesc" rich-text-editor ng-model="content.body"
-									error-message message="errorMessage(content, 'body', editConcept.txtConceptDesc)">{{ content.body }}</textarea>
+									error-message message="errorMessage(content, 'body', editConcept.txtConceptDesc)"></textarea>
 						</div>
 
 						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveConcept()" ng-show="canEditContent">Save</button>

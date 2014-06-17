@@ -9,6 +9,7 @@ var gulp = require('gulp'),
 		clean = require('gulp-clean'),
 		less = require('gulp-less'),
 		path = require('path'),
+		//concat = require('gulp-concat-sourcemap'),
 		concat = require('gulp-concat'),
 		notify = require('gulp-notify'),
 		cache = require('gulp-cache'),
@@ -170,11 +171,19 @@ gulp.task('scripts', function() {
 			// './bower_components/fullcalendar/gcal.js', // only needed if we do gcal integration
 		])
 		.pipe(concat('build.js'))
+		//.pipe(concat('build.js', {
+		//	// sourceRoot: '/assets/src',
+		//	sourcesContent: true
+		//})).on('error', gutil.log)
 		.pipe(gulp.dest('./public/assets/js'));
 	return gulp.src(['src/js/app.js', 'src/js/**/*.js'])
 		// .pipe(jshint('.jshintrc'))
 		// .pipe(jshint.reporter('jshint-stylish'))
 		.pipe(concat('app.js'))
+		//.pipe(concat('app.js', {
+		//	// sourceRoot: '/assets/src',
+		//	sourcesContent: true
+		//})).on('error', gutil.log)
 		.pipe(gulp.dest('./public/assets/js'))
 		.pipe(livereload(server));
 });

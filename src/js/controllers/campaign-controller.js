@@ -13,9 +13,13 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
         files: Campaigns.one($routeParams.campaignId).getList('uploads')
     }).then(function (responses) {
         angular.extend($scope, responses);
-        console.log(_.mapObject(responses, function (response, key) {
-            return [key, response.plain ? response.plain() : response];
-        }));
+
+        // help the UI with a few permission things
+        if (user.id == $scope.campaign.userId) {
+            $scope.canEdit = user.hasPrivilege('calendar_execute_campaigns_own');
+        } else {
+            $scope.canEdit = user.hasPrivilege('calendar_edit_campaigns_other');
+        }
 
         if (!$scope.campaign) {
             notify.error('Campaign does not exist');

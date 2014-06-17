@@ -73,7 +73,8 @@
 			}
 
 			$scope.content = contentService.query(self.loggedInUser.account.id, params, {
-				success: function(r) {
+				success: function (r) {
+					$scope.applySort();
 					$scope.search.applyFilter();
 				},
 				error: function(r) {
@@ -147,6 +148,8 @@
 
 		$scope.pagination = {
 			totalItems: 0,
+			currentSort: 'title',
+			currentSortDirection: null,
 			pageSize: 5,
 			currentPage: 1,
 			maxPage: 0,
@@ -249,32 +252,32 @@
 				$scope.pagination.groupToPages();
 			},
 			clearFilter: function() {
-				this.searchTerm = null;
-				this.contentTypes = null;
-				this.milestones = null;
-				this.buyingStages = null;
-				this.campaigns = null;
-				this.users = null;
+				$scope.search.searchTerm = null;
+				$scope.search.contentTypes = [];
+				$scope.search.milestones = [];
+				$scope.search.buyingStages = [];
+				$scope.search.campaigns = [];
+				$scope.search.users = [];
 
-				this.applyFilter();
+				$scope.search.applyFilter();
 			},
 			toggleContentStage: function(stage) {
-				this.searchTerm = null;
-				this.myTasks = false;
-				this.contentTypes = null;
-				this.milestones = null;
-				this.buyingStages = null;
-				this.campaigns = null;
-				this.users = null;
+				$scope.search.searchTerm = null;
+				$scope.search.myTasks = false;
+				$scope.search.contentTypes = null;
+				$scope.search.milestones = null;
+				$scope.search.buyingStages = null;
+				$scope.search.campaigns = null;
+				$scope.search.users = null;
 
-				this.contentStage = stage;
+				$scope.search.contentStage = stage;
 
 				$.each($scope.content, function(i, c) { c.isSelected = false; });
 
 				this.applyFilter();
 			},
-			toggleMyTasks: function() {
-				$scope.search.myTasks = !$scope.search.myTasks;
+			toggleMyTasks: function(mine) {
+				$scope.search.myTasks = !!mine;
 
 				$scope.search.applyFilter();
 			}
@@ -321,11 +324,13 @@
 			}
 		};
 
-		$scope.saveFilter = function() {
+		$scope.saveFilter = function () {
+			// TODO: WE NEED A WAY OF SAVING DEFAULT FILTERS!!
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
 		};
 
-		$scope.download = function() {
+		$scope.download = function () {
+			// TODO: WE NEED A WAY OF DOWNLOADING THE CURRENT DATA!!
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
 		};
 
@@ -431,6 +436,120 @@
 			} else {
 				return content.status === 0 ? $scope.editConceptOthers : $scope.editContentOthers;
 			}
+		};
+
+		$scope.applySort = function (sort) {
+			console.log('ENTERING APPLY SORT!');
+			if (launch.utils.isBlank(sort)) {
+				sort = launch.utils.isBlank($scope.pagination.currentSort) ? 'title' : $scope.pagination.currentSort;
+			} else {
+				sort = sort.toLowerCase();
+			}
+
+			if ($scope.pagination.currentSort === sort) {
+				$scope.pagination.currentSortDirection = ($scope.pagination.currentSortDirection === 'asc' ? 'desc' : 'asc');
+			} else {
+				$scope.pagination.currentSort = sort;
+				$scope.pagination.currentSortDirection = 'asc';
+			}
+
+			if (!$.isArray($scope.content) || $scope.content.length === 0 || !$scope.content.$resolved) {
+				return;
+			}
+
+			$scope.content.sort(function(a, b) {
+				if (!a && !b) { return 0; }
+				if (!!a && !b) { return -1; }
+				if (!a && !!b) { return 1; }
+
+				if (a.id === b.id) {
+					return 0;
+				}
+
+				if ($scope.pagination.currentSort === 'title') {
+					if (launch.utils.isBlank(a.title) && launch.utils.isBlank(b.title)) { return 0; }
+					if (!launch.utils.isBlank(a.title) && launch.utils.isBlank(b.title)) { return -1; }
+					if (launch.utils.isBlank(a.title) && !launch.utils.isBlank(b.title)) { return 1; }
+
+					if (a.title.toLowerCase() === b.title.toLowerCase()) {
+						return 0;
+					}
+
+					if ($scope.pagination.currentSortDirection === 'asc') {
+						return (a.title.toLowerCase() < b.title.toLowerCase()) ? -1 : 1;
+					} else {
+						return (a.title.toLowerCase() > b.title.toLowerCase()) ? -1 : 1;
+					}
+				}
+
+				if ($scope.pagination.currentSort === 'author') {
+					if (!a.author && !b.author) { return 0; }
+					if (!!a.author && !b.author) { return -1; }
+					if (!a.author && !!b.author) { return 1; }
+
+					if (a.author.id === b.author.id) {
+						return 0;
+					}
+
+					if (a.author.formatName().toLowerCase() === b.author.formatName().toLowerCase()) {
+						return (a.author.id < b.author.id) ? -1 : 1;
+					}
+
+					if ($scope.pagination.currentSortDirection === 'asc') {
+						return (a.author.formatName().toLowerCase() < b.author.formatName().toLowerCase()) ? -1 : 1;
+					} else {
+						return (a.author.formatName().toLowerCase() > b.author.formatName().toLowerCase()) ? -1 : 1;
+					}
+				}
+
+				if ($scope.pagination.currentSort === 'persona') {
+					if (launch.utils.isBlank(a.persona) && launch.utils.isBlank(b.persona)) { return 0; }
+					if (!launch.utils.isBlank(a.persona) && launch.utils.isBlank(b.persona)) { return -1; }
+					if (launch.utils.isBlank(a.persona) && !launch.utils.isBlank(b.persona)) { return 1; }
+
+					if (a.persona.toLowerCase() === b.persona.toLowerCase()) {
+						return 0;
+					}
+
+					if ($scope.pagination.currentSortDirection === 'asc') {
+						return (a.persona.toLowerCase() < b.persona.toLowerCase()) ? -1 : 1;
+					} else {
+						return (a.persona.toLowerCase() > b.persona.toLowerCase()) ? -1 : 1;
+					}
+				}
+
+				if ($scope.pagination.currentSort === 'buyingstage') {
+					if (launch.utils.isBlank(a.buyingStage) && launch.utils.isBlank(b.buyingStage)) { return 0; }
+					if (!launch.utils.isBlank(a.buyingStage) && launch.utils.isBlank(b.buyingStage)) { return -1; }
+					if (launch.utils.isBlank(a.buyingStage) && !launch.utils.isBlank(b.buyingStage)) { return 1; }
+
+					if (a.buyingStage.toLowerCase() === b.buyingStage.toLowerCase()) {
+						return 0;
+					}
+
+					if ($scope.pagination.currentSortDirection === 'asc') {
+						return (a.buyingStage.toLowerCase() < b.buyingStage.toLowerCase()) ? -1 : 1;
+					} else {
+						return (a.buyingStage.toLowerCase() > b.buyingStage.toLowerCase()) ? -1 : 1;
+					}
+				}
+
+				if ($scope.pagination.currentSort === 'currentstep' || $scope.pagination.currentSort === 'nextstep') {
+					if (a.status === b.status) {
+						return 0;
+					}
+
+					if ($scope.pagination.currentSortDirection === 'asc') {
+						return (a.status < b.status) ? -1 : 1;
+					} else {
+						return (a.status > b.status) ? -1 : 1;
+					}
+				}
+
+				return 0;
+			});
+
+			$scope.search.applyFilter(false);
 		};
 
 		self.init();

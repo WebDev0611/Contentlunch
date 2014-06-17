@@ -1,6 +1,6 @@
 <div ng-show="mode === 'Forgot Password' && headerMessage" ng-bind="headerMessage" class="header-message"></div>
 
-<form id="login-form" name="loginForm">
+<form id="login-form" name="loginForm" ng-show="isLoaded">
 	<div class="header">
 		<div class="logo-white"></div>
 		<div>{{ mode }}</div>

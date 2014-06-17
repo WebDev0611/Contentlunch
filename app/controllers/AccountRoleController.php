@@ -14,6 +14,13 @@ class AccountRoleController extends BaseController {
     }
     $permissions = Permission::all();
     $roles = AccountRole::where('account_id', $id)->with('perms')->get();
+    $modules = Account::find($id)->modules;
+    foreach ($modules as $module) {
+      $moduleNames[] = $module->name;
+    }
+    $moduleNames[] = 'home';
+    $moduleNames[] = 'admin';
+    $moduleNames[] = 'settings';
     if ($roles) {
       foreach ($roles as $role) {
         $rolePerms = array();
@@ -28,13 +35,16 @@ class AccountRoleController extends BaseController {
               }
             }
           }
-          $rolePerms[] = array(
-            'name' => $permission->name,
-            'display_name' => $permission->display_name,
-            'access' => $access,
-            'module' => $permission->module,
-            'type' => $permission->type
-          );
+          // Only return permission if account has access to the module
+          if (in_array($permission->module, $moduleNames)) {
+            $rolePerms[] = array(
+              'name' => $permission->name,
+              'display_name' => $permission->display_name,
+              'access' => $access,
+              'module' => $permission->module,
+              'type' => $permission->type
+            );
+          }
         }
         $role->permissions = $rolePerms;
         unset($role->perms);

@@ -1,7 +1,8 @@
-﻿<div class="view calendar">
+<div class="view calendar">
 	<div class="col-md-3 left-pane">
-		<button class="btn full-width small-nudge-down btn-inverse add-content" ng-click="newTask()">Create New Task</button>
-		<a class="btn full-width small-nudge-down btn-inverse add-content" href="/calendar/campaigns/new">Create New Campaign</a>
+
+		<!-- <button class="btn full-width small-nudge-down btn-inverse add-content" ng-click="newTask()">Create New Task</button> -->
+		<a ng-show="canCreate" class="btn full-width small-nudge-down btn-inverse add-content" href="/calendar/campaigns/new">Create New Campaign</a>
 
 		<div class="input-group small-nudge-down">
 			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter()" />
@@ -97,6 +98,13 @@
 		<h2 class="right-pane-header">Calendar</h2>
 
 		<div class="squeeze-20" ng-if="calendarSources">
+			<div class="nudge-down">
+				<a ng-show="canExport" class="btn btn-default fa fa-download pull-right" target="_blank" href="/api/account/{{ user.account.id }}/campaigns/export-csv"></a>
+				<button class="btn btn-inverse" ng-click="showCampaignList = !showCampaignList">{{ showCampaignList ? 'Hide' : 'View' }} List of Campaigns</button>		
+				<div ng-show="showCampaignList">
+					<div ng-include="'/assets/views/calendar/campaign-list.html'"></div>
+				</div>
+			</div>
 			<div ui-calendar="calendarConfig" ng-model="calendarSources" calendar="calendar"></div>
 		</div>
 	</div>
