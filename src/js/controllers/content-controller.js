@@ -165,12 +165,17 @@
 		self.handleUploadFile = function (callback) {
 			var responseHandler = {
 				success: function (r) {
+					$scope.showFullScreenModal = false;
 					$scope.content.contentFile = r;
 					self.handleSaveContent(callback);
 				},
-				error: self.ajaxHandler.error
+				error: function (err) {
+					$scope.showFullScreenModal = false;
+					self.ajaxHandler.error(err);
+				}
 			};
 
+			$scope.showFullScreenModal = true;
 			if ($scope.isNewContent || !self.contentFile || launch.utils.isBlank(self.contentFile.id)) {
 				accountService.addFile(self.loggedInUser.account.id, self.uploadFile, null, responseHandler);
 			} else {
@@ -514,6 +519,7 @@
 		};
 
 		$scope.uploadContentFile = function (files, form, control) {
+			console.log(files);
 			self.uploadFile = null;
 
 			if ($.isArray(files) && files.length !== 1) {
@@ -533,6 +539,7 @@
 
 			self.replaceFile = true;
 			self.uploadFile = file;
+			console.log(self.uploadFile);
 		};
 
 		$scope.deleteContentFile = function() {
