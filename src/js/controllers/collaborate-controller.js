@@ -133,8 +133,8 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
         // the angular.noop here should make it so our catch doesn't catch this if it errors
         }, angular.noop).result.then(function (message) {
             return connection.all('message' + (group ? '-group' : '')).post({
-                friends:   _.mapObject(connection.recipients, function (recip) {
-                    return [recip.id, _.stripTags(recip.name)];
+                friends:   _.map(connection.recipients, function (recip) {
+                    return { id: recip.id, name: _.stripTags(recip.name) };
                 }),
                 group: group,
                 message: message,
@@ -151,7 +151,8 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
             if (allGood) {
                 notify.success('Messages sent!');
             } else {
-                var failedNames = _(response).map(function (result, id) {
+                var failedNames = _(response).map(function (result) {
+                    var id = result.id;
                     return result.success || (_.findById(connection.recipients, id) || {}).name;
                 }).reject(function (item) {
                     return item === true;
