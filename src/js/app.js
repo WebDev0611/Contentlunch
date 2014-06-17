@@ -256,7 +256,8 @@
 				var path = $location.path();
 
 				var fetchCurrentUser = function(r) {
-					if (!r.id && $location.path() !== '/login') {
+					if (!r.id && $location.path() !== '/login' && $location.path().indexOf('/user/confirm') !== 0) {
+            console.log('redirecting to login');
 						$location.path('/login').search('path', path);
 					}
 				};
