@@ -328,7 +328,7 @@ header .navbar .navbar-collapse .logo {
 }
 header .navbar ul.nav li {
   cursor: pointer;
-  height: 80px;
+  height: auto;
   padding: 4px;
   text-align: center;
   vertical-align: middle;
@@ -455,7 +455,7 @@ header .navbar ul.nav li .top-arrow {
   border-top-width: 10px;
   border-bottom-width: 0;
   left: 16px;
-  top: 80px;
+  top: auto;
 }
 header .navbar ul.nav li.active .top-arrow,
 header .navbar ul.nav li:hover .top-arrow {
@@ -1533,6 +1533,11 @@ span[class*=" icon-"].dark {
 .create .right-pane .content-file-view .fa {
   margin-left: 8px;
 }
+.create .right-pane .content-file-view .content-file-view-file {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 16px;
+}
 .create .right-pane .concept-container .form-group {
   max-width: 300px;
   vertical-align: bottom;
@@ -2441,6 +2446,7 @@ hr.simple-divider {
   padding: 5px 10px 15px 10px;
   margin: 20px 0;
   border-radius: 8px;
+  height: 145px;
 }
 .files-list .file-preview .row,
 .files-list .folder-preview .row {
@@ -2496,6 +2502,10 @@ hr.simple-divider {
 .files-list .folder-preview .name {
   font-weight: bold;
 }
+.files-list .file-preview .tags span,
+.files-list .folder-preview .tags span {
+  margin-right: 3px;
+}
 .files-list .file-preview .user .user-image,
 .files-list .folder-preview .user .user-image {
   border-color: #2BADC0;
@@ -2527,6 +2537,24 @@ hr.simple-divider {
 }
 .consult.consult-landing .right-pane-header {
   padding-left: 50px;
+}
+.consult .left-pane .select2-container {
+  min-width: 100%;
+  width: 100%;
+}
+.consult .panel-group .panel {
+  background-color: transparent;
+  border: none !important;
+}
+.consult .panel-group .panel .panel-heading {
+  background-color: transparent;
+  border-bottom: solid 1px #000000;
+}
+.consult .panel-group .panel .panel-collapse {
+  border: none !important;
+}
+.consult .panel-group .panel .panel-collapse .panel-body {
+  border: none !important;
 }
 .consult .right-pane-header {
   color: #ffffff;
@@ -2589,4 +2617,31 @@ hr.simple-divider {
   width: 8px;
   height: 8px;
   background-color: white;
+}
+.full-screen-modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.full-screen-modal .loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+.full-screen-modal .message {
+  position: absolute;
+  font-size: 36px;
+  color: white;
+  text-align: center;
+  top: 50%;
+  margin-top: 115px;
+  width: 100%;
+}
+.file-dialog img,
+.file-dialog video {
+  max-width: 100%;
 }

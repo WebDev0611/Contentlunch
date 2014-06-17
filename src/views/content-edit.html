@@ -109,10 +109,12 @@
 								Replace File
 							</button>
 
-							Content File: 
-							<span class="cl-icon" ng-class="content.contentFile.fileType()"></span>
-							<a href="{{ content.contentFile.path }}" target="_new">{{ content.contentFile.fileName }}</a>
-							
+							<div class="content-file-view-file" ng-click="viewFile(content.contentFile)">
+								<span class="cl-icon" ng-class="content.contentFile.fileType()"></span>
+								{{ content.contentFile.fileName }}
+							</div>
+
+							<span class="fa fa-download" ng-click="downloadFile(content.contentFile)" ng-show="showDownloadContentFile"></span>
 							<span class="fa fa-trash-o" ng-click="deleteContentFile()" ng-hide="isReadOnly"></span>
 						</div>
 
