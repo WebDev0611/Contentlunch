@@ -23,10 +23,9 @@ class ContentController extends BaseController {
     if (Input::has('campaign_id')) {
       $query->where('campaign_id', Input::get('campaign_id'));
     }
-    // uncomment when we're ready to filter by status
-    // if (Input::has('status')) {
-    //   $query->where('status', Input::get('status'));
-    // }
+    if (Input::has('status')) {
+      $query->where('status', Input::get('status'));
+    }
     return $query->get();
   }
 

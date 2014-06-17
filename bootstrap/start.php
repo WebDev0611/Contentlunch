@@ -42,7 +42,6 @@ $env = $app->detectEnvironment(function() {
      ) {
     return 'test';
   }
-  
   if (isset($_SERVER['SERVER_NAME']) && isset($hosts[$_SERVER['SERVER_NAME']])) {
     return $hosts[$_SERVER['SERVER_NAME']];
   }

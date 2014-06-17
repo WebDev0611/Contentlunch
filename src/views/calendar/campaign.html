@@ -31,7 +31,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-9">
-                    <form ng-submit="saveCampaign(campaign)">
+                    <form ng-submit="canEdit && saveCampaign(campaign)">
                         <div class="row">
                             <div class="col-xs-2" ng-show="campaign.color">
                                 <span class="wheel-of-color" style="background-color:{{ campaign.color }}"></span>
@@ -255,7 +255,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-inverse">Save</button>
+                                    <button ng-show="canEdit" type="submit" class="btn btn-inverse">Save</button>
                                     <button type="button" ng-hide="campaign.isNew" ng-click="deleteCampaign(campaign)" class="btn btn-inverse">Delete</button>
                                     <button type="button" ng-click="cancelCampaign()" class="btn btn-inverse">Cancel</button>
                                 </div>

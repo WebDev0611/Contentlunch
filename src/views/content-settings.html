@@ -2,10 +2,10 @@
 	<div class="col-md-3 left-pane">
 		<div account-left-pane selected-setting="'content'"></div>
 	</div>
-	<div class="col-md-9 right-pane">
+	<div class="col-md-9 right-pane" ng-show="contentSettings.$resolved">
 		<h2 class="right-pane-header">Content Settings</h2>
 		
-		<form name="editContentSettings" class="content-settings-editor" novalidate="novalidate">
+		<form name="editContentSettings" class="content-settings-editor" novalidate="novalidate" ng-show="canEditContentSettings">
 			<div class="control-group">
 				<div class="form-group">
 					<input type="checkbox" id="chkIncludeAuthorName" name="chkIncludeAuthorName" ng-model="contentSettings.includeAuthorName" ng-change="setDirty()" />
@@ -61,8 +61,9 @@
 			
 			<h2>Personas/Buying Stage</h2>
 			<div>
-				These Personas and Buying Stages will be used in content and can be changed as needed.
-				<div class="control-group btn-group btn-new-persona" ng-show="canEditPersonas">
+				These Personas and Buying Stages will be used in content and can be changed as needed. Click on any of the items in the table below to edit them.
+
+				<div class="control-group btn-group btn-new-persona">
 					<button type="button" class="btn btn-default" ng-click="addNewPersona()">New Persona</button>
 				</div>
 			</div>
@@ -73,23 +74,20 @@
 						<th>Name</th>
 						<th ng-repeat="property in contentSettings.personaProperties">
 							<span ng-class="'cl-icon-personas-' + $index" class="cl-icon cl-icon-med"></span>
-							<span class="content-editable" contenteditable on-change="setDirty" ng-model="contentSettings.personaProperties[$index]" place-holder="titlePlaceholder" ng-show="canEditPersonas" onkeypress="return (this.innerText.length <= 20)"></span>
-							<span ng-show="!canEditPersonas" ng-bind="contentSettings.personaProperties[$index]"></span>
+							<span class="content-editable" contenteditable on-change="setDirty" ng-model="contentSettings.personaProperties[$index]" place-holder="titlePlaceholder" onkeypress="return (this.innerText.length <= 20)"></span>
 						</th>
-						<th ng-show="canEditPersonas">&nbsp;</th>
+						<th>&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="persona in contentSettings.personas" ng-class-odd="'dark'">
 						<td>
-							<div class="content-editable" contenteditable on-change="setDirty" ng-model="persona.name" place-holder="itemPlaceholder" ng-show="canEditPersonas"></div>
-							<span ng-show="!canEditPersonas" ng-bind="persona.name"></span>
+							<div class="content-editable" contenteditable on-change="setDirty" ng-model="persona.name" place-holder="itemPlaceholder"></div>
 						</td>
 						<td ng-repeat="property in contentSettings.personaProperties" class="long-content">
-							<div class="content-editable" contenteditable on-change="setDirty" ng-model="persona.properties[$index]" place-holder="itemPlaceholder" ng-show="canEditPersonas"></div>
-							<span ng-show="!canEditPersonas" ng-bind="persona.properties[$index]"></span>
+							<div class="content-editable" contenteditable on-change="setDirty" ng-model="persona.properties[$index]" place-holder="itemPlaceholder"></div>
 						</td>
-						<td class="edit-row" ng-show="canEditPersonas">
+						<td class="edit-row">
 							<span class="fa fa-trash-o" ng-click="deletePersona($index)"></span>
 						</td>
 					</tr>
@@ -103,5 +101,13 @@
 				<button type="button" class="btn btn-default" ng-click="confirmCancel(true)">Cancel</button>
 			</div>
 		</form>
+	</div>
+
+	<div ng-hide="canEditContentSettings">
+		You do not have privileges to edit content settings.
+	</div>
+
+	<div class="loading-spinner-container" ng-hide="contentSettings.$resolved || !canEditContentSettings">
+		<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
 	</div>
 </div>

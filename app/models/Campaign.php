@@ -15,7 +15,7 @@ class Campaign extends Ardent {
     'start_date', 'end_date', 'is_recurring', 'description',
     'goals', 'concept', 'contact', 'partners', 'speaker_name',
     'host', 'type', 'audio_link', 'photo_needed', 'link_needed',
-    'is_series',
+    'is_series', 'recurring_id',
   ];
 
   public static $rules = [

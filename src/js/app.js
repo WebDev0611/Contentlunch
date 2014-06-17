@@ -229,7 +229,7 @@
 					'$location', '$q', function($location, $q) {
 						var success = function(r) {
 							return r;
-						}
+						};
 
 						var error = function(r) {
 							if (r.status === 401) {
@@ -239,11 +239,11 @@
 							} else {
 								return $q.reject(r);
 							}
-						}
+						};
 
 						return function(promise) {
 							return promise.then(success, error);
-						}
+						};
 					}
 				];
 
@@ -273,6 +273,11 @@
 							success: fetchCurrentUser
 						});
 					}
+				});
+
+				$rootScope.$on('$routeChangeSuccess', function(event, next, current) {
+					// Bootstrap popovers aren't going away causing issues
+					$('.popover').remove();
 				});
 
 				$.pnotify.defaults.styling = "bootstrap3";

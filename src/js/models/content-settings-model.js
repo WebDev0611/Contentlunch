@@ -22,7 +22,7 @@
 		});
 	};
 
-	self.addEmptyPerona = function() {
+	self.addEmptyPerona = function(index) {
 		var properties = [];
 
 		for (var i = 0; i < self.personaProperties.length; i++) {
@@ -30,9 +30,19 @@
 			properties.push({ index: i, value: text });
 		}
 
-		self.personas.push({
-			properties: properties
-		});
+		index = parseInt(index);
+
+		if (isNaN(index) || index >= self.personas.length || index < 0) {
+			self.personas.push({
+				properties: properties
+			});
+
+		} else {
+			self.personas.splice(index, 0, {
+				properties: properties
+			});
+
+		}
 	};
 
 	self.deletePersona = function(index) {

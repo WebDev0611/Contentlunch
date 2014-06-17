@@ -1805,6 +1805,10 @@ span[class*=" icon-"].dark {
   height: 20px;
   width: 20px;
 }
+.create-table-container table.create-table tr th .clickable-header {
+  cursor: pointer;
+  text-decoration: underline;
+}
 .create-table-container table.create-table tr.dark td {
   background-color: #E6E4E0;
 }
@@ -2573,4 +2577,16 @@ hr.simple-divider {
 }
 .filter-slection-counter {
   float: right;
+}
+[sort-by] {
+  cursor: pointer;
+}
+[sort-by]:before {
+  margin-right: 3px;
+}
+.tiny-circle {
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  background-color: white;
 }

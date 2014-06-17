@@ -133,8 +133,9 @@ class UserController extends BaseController {
 			if ($role->name == 'site_admin') {
 				$user->permissions = Permission::all()->toArray();
       } elseif ($role->name == 'global_admin') {
-        $user->permissions = $role->perms->toArray();
-        $modules = [['name' => 'admin', 'title' => 'Admin', 'subscribable' => false]];
+        //$user->permissions = $role->perms->toArray();
+        $user->permissions = Permission::all()->toArray();
+        $modules = [['name' => 'admin', 'title' => 'Admin', 'subscribable' => false], ['name' => 'settings', 'title' => 'Settings', 'subscribable' => false]];
         $user->modules = $modules;
 			} else {
 				$user->permissions = $role->perms->toArray();
