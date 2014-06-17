@@ -3,12 +3,13 @@
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'title', editAccount.txtAccountName, forceDirty) }">
 			<label class="control-label" for="txtAccountName">Account Name</label>
 			<input type="text" id="txtAccountName" name="txtAccountName" class="form-control" ng-model="selectedAccount.title"
-					error-message message="errorMessage(selectedAccount, 'title', editAccount.txtAccountName)" />
+					error-message error-message-item="selectedAccount" error-message-property="'title'" error-message-control="editAccount.txtAccountName" />
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'active', editAccount.selStatus, forceDirty) }">
 			<label class="control-label" for="selStatus">Status</label>
 			<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedAccount.active" ng-disabled="selfEditing"
-					error-message message="errorMessage(selectedAccount, 'active', editAccount.selStatus)" ng-options="value.key as value.name for value in activeOptions">
+					error-message error-message-item="selectedAccount" error-message-property="'active'" error-message-control="editAccount.selStatus"
+					ng-options="value.key as value.name for value in activeOptions">
 			</select>
 		</div>
 		<div class="form-group" ng-hide="selfEditing">
@@ -20,7 +21,7 @@
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'address1', editAccount.txtAddress1, forceDirty) }">
 			<label class="control-label" for="txtAddress1">Address 1</label>
 			<input type="text" id="txtAddress1" name="txtAddress1" class="form-control" ng-model="selectedAccount.address1"
-					error-message message="errorMessage(selectedAccount, 'address1', editAccount.txtAddress1)" />
+					error-message error-message-item="selectedAccount" error-message-property="'address1'" error-message-control="editAccount.txtAddress1" />
 		</div>
 		<div class="form-group">
 			<label class="control-label" for="txtAddress2">Address 2</label>
@@ -29,7 +30,7 @@
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'city', editAccount.txtCity, forceDirty) }">
 			<label class="control-label" for="txtCity">City</label>
 			<input type="text" id="txtCity" name="txtCity" class="form-control" ng-model="selectedAccount.city"
-					error-message message="errorMessage(selectedAccount, 'city', editAccount.txtCity)" />
+					error-message error-message-item="selectedAccount" error-message-property="'city'" error-message-control="editAccount.txtCity" />
 		</div>
 	</div>
 
@@ -37,7 +38,7 @@
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'country', editAccount.selCountry, forceDirty) }">
 			<label class="control-label" for="selCountry">Country</label>
 			<select id="selCountry" name="selCountry" class="form-control" ng-model="selectedAccount.country"
-					error-message message="errorMessage(selectedAccount, 'country', editAccount.selCountry)">
+					error-message error-message-item="selectedAccount" error-message-property="'country'" error-message-control="editAccount.selCountry">
 				<option value="Australia">Australia</option>
 				<option value="Canada">Canada</option>
 				<option value="UK">UK</option>
@@ -48,12 +49,13 @@
 			<label class="control-label" for="selState">State/Prov</label>
 			<select id="selState" name="selState" class="form-control"
 					ng-model="selectedAccount.state" ng-options="s.name for s in getStates(false) track by s.value"
-					error-message message="errorMessage(selectedAccount, 'state', editAccount.selState)" ng-disabled="selectedAccount.country == 'Australia' || selectedAccount.country == 'UK'"></select>
+					error-message error-message-item="selectedAccount" error-message-property="'state'" error-message-control="editAccount.selState"
+					ng-disabled="selectedAccount.country == 'Australia' || selectedAccount.country == 'UK'"></select>
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'postalCode', editAccount.txtPostalCode, forceDirty) }">
 			<label class="control-label" for="txtPostalCode">Postal Code</label>
 			<input type="text" id="txtPostalCode" name="txtPostalCode" class="form-control" ng-model="selectedAccount.postalCode"
-					error-message message="errorMessage(selectedAccount, 'postalCode', editAccount.txtPostalCode)" />
+					error-message error-message-item="selectedAccount" error-message-property="'postalCode'" error-message-control="editAccount.txtPostalCode" />
 		</div>
 	</div>
 
@@ -61,12 +63,12 @@
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'email', editAccount.txtEmail, forceDirty) }">
 			<label class="control-label" for="txtEmail">Email</label>
 			<input type="text" required="required" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedAccount.email"
-					error-message message="errorMessage(selectedAccount, 'email', editAccount.txtEmail)" />
+					error-message error-message-item="selectedAccount" error-message-property="'email'" error-message-control="editAccount.txtEmail" />
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'phoneNumber', editAccount.txtPhoneNumber, forceDirty) }">
 			<label class="control-label" for="txtPhoneNumber">Phone</label>
 			<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="selectedAccount.phoneNumber"
-					error-message message="errorMessage(selectedAccount, 'phoneNumber', editAccount.txtPhoneNumber)" />
+					error-message error-message-item="selectedAccount" error-message-property="'phoneNumber'" error-message-control="editAccount.txtPhoneNumber" />
 		</div>
 		<div class="form-group" ng-hide="selfEditing">
 			<a href="#" ng-click="resendAccountCreationEmail()">Resend Account Creation Email</a>
@@ -82,7 +84,7 @@
 					<label class="control-label" for="selSubscription">Subscription Level</label>
 					<select id="selSubscription" name="selSubscription" class="form-control"
 							ng-model="selectedAccount.subscription" ng-change="changeTier()" ng-options="s.getName() for s in subscriptions track by s.subscriptionLevel"
-							error-message message="errorMessage(selectedAccount, 'subscription', editAccount.selSubscription)">
+							error-message error-message-item="selectedAccount" error-message-property="'subscription'" error-message-control="editAccount.selSubscription">
 					</select>
 				</div>
 			</div>
@@ -110,7 +112,7 @@
 					<label class="control-label" for="txtMaxNumUsers">Max # of Users</label>
 					<input type="text" required="required" id="txtMaxNumUsers" name="txtMaxNumUsers" class="form-control"
 							ng-model="selectedAccount.subscription.numberLicenses" ng-disabled="selfEditing"
-							error-message message="errorMessage(selectedAccount.subscription, 'numberLicenses', editAccount.txtMaxNumUsers)" />
+							error-message error-message-item="selectedAccount.subscription" error-message-property="'numberLicenses'" error-message-control="editAccount.txtMaxNumUsers" />
 				</div>
 				
 				<div class="control-group btn-group" ng-show="selfEditing">
@@ -168,12 +170,12 @@
 			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'nameOnCard', editAccount.txtNameOnCard, forceDirty) }">
 				<label class="control-label" for="txtNameOnCard">Name on Card</label>
 				<input type="text" id="txtNameOnCard" name="txtNameOnCard" class="form-control" ng-model="selectedAccount.creditCard.nameOnCard"
-					error-message message="errorMessage(selectedAccount.creditCard, 'nameOnCard', editAccount.txtNameOnCard)" />
+					error-message error-message-item="selectedAccount.creditCard" error-message-property="'nameOnCard'" error-message-control="editAccount.txtNameOnCard" />
 			</div>
 			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'cardType', editAccount.selCardType, forceDirty) }">
 				<label class="control-label" for="selCardType">Card Type</label>
 				<select id="selCardType" name="selCardType" class="form-control" ng-model="selectedAccount.creditCard.cardType"
-					error-message message="errorMessage(selectedAccount.creditCard, 'cardType', editAccount.selCardType)">
+					error-message error-message-item="selectedAccount.creditCard" error-message-property="'cardType'" error-message-control="editAccount.selCardType">
 					<option value="VISA">Visa</option>
 					<option value="MASTERCARD">MasterCard</option>
 					<option value="AMEX">American Express</option>
@@ -183,7 +185,7 @@
 			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'cardNumber', editAccount.txtCardNumber, forceDirty) }">
 				<label class="control-label" for="txtCardNumber">Card Number</label>
 				<input type="text" id="txtCardNumber" name="txtCardNumber" class="form-control" ng-model="selectedAccount.creditCard.cardNumber"
-					error-message message="errorMessage(selectedAccount.creditCard, 'cardNumber', editAccount.txtCardNumber)" />
+					error-message error-message-item="selectedAccount.creditCard" error-message-property="'cardNumber'" error-message-control="editAccount.txtCardNumber" />
 			</div>
 		</div>
 
@@ -191,12 +193,12 @@
 			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'cvc', editAccount.txtCVCNumber, forceDirty) }">
 				<label class="control-label" for="txtCVCNumber">CVC</label>
 				<input type="text" id="txtCVCNumber" name="txtCVCNumber" class="form-control" ng-model="selectedAccount.creditCard.cvc"
-					error-message message="errorMessage(selectedAccount.creditCard, 'cvc', editAccount.txtCVCNumber)" />
+					error-message error-message-item="selectedAccount.creditCard" error-message-property="'cvc'" error-message-control="editAccount.txtCVCNumber" />
 			</div>
 			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'expirationDateMonth', editAccount.selExpirationMonth, forceDirty) }">
 				<label class="control-label" for="selExpirationMonth">Expir. Month</label>
 				<select id="selExpirationMonth" name="selExpirationMonth" class="form-control" ng-model="selectedAccount.creditCard.expirationDateMonth"
-					error-message message="errorMessage(selectedAccount.creditCard, 'expirationDateMonth', editAccount.selExpirationMonth)">
+					error-message error-message-item="selectedAccount.creditCard" error-message-property="'expirationDateMonth'" error-message-control="editAccount.selExpirationMonth">
 					<option value="1">Jan</option>
 					<option value="2">Feb</option>
 					<option value="3">Mar</option>
@@ -215,7 +217,7 @@
 				<label class="control-label" for="selExpirationYear">Expir. Year</label>
 				<select id="selExpirationYear" name="selExpirationYear" class="form-control"
 					ng-model="selectedAccount.creditCard.expirationDateYear" ng-options="year for year in years"
-					error-message message="errorMessage(selectedAccount.creditCard, 'expirationDateYear', editAccount.selExpirationYear)"></select>
+					error-message error-message-item="selectedAccount.creditCard" error-message-property="'expirationDateYear'" error-message-control="editAccount.selExpirationYear"></select>
 			</div>
 		</div>
 
@@ -223,7 +225,7 @@
 			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'postalCode', editAccount.txtCCPostalCode, forceDirty) }">
 				<label class="control-label" for="txtCCPostalCode">Postal Code</label>
 				<input type="text" id="txtCCPostalCode" name="txtCCPostalCode" class="form-control" ng-model="selectedAccount.creditCard.postalCode"
-					error-message message="errorMessage(selectedAccount.creditCard, 'postalCode', editAccount.txtCCPostalCode)" />
+					error-message error-message-item="selectedAccount.creditCard" error-message-property="'postalCode'" error-message-control="editAccount.txtCCPostalCode" />
 			</div>
 		</div>
 	</div>
@@ -233,12 +235,12 @@
 			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.bankAccount, 'bankName', editAccount.txtBankName, forceDirty) }">
 				<label class="control-label" for="txtBankName">Bank Name</label>
 				<input type="text" id="txtBankName" name="txtBankName" class="form-control" ng-model="selectedAccount.bankAccount.bankName"
-					error-message message="errorMessage(selectedAccount.bankAccount, 'bankName', editAccount.txtBankName)" />
+					error-message error-message-item="selectedAccount.bankAccount" error-message-property="'bankName'" error-message-control="editAccount.txtBankName" />
 			</div>
 			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.bankAccount, 'routingNumber', editAccount.txtRoutingNumber, forceDirty) }">
 				<label class="control-label" for="txtRoutingNumber">Routing Number</label>
 				<input type="text" id="txtRoutingNumber" name="txtRoutingNumber" class="form-control" ng-model="selectedAccount.bankAccount.routingNumber"
-					error-message message="errorMessage(selectedAccount.bankAccount, 'routingNumber', editAccount.txtRoutingNumber)" />
+					error-message error-message-item="selectedAccount.bankAccount" error-message-property="'routingNumber'" error-message-control="editAccount.txtRoutingNumber" />
 			</div>
 		</div>
 
@@ -246,7 +248,7 @@
 			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.bankAccount, 'accountNumber', editAccount.txtAccountNumber, forceDirty) }">
 				<label class="control-label" for="txtAccountNumber">Account Number</label>
 				<input type="text" id="txtAccountNumber" name="txtAccountNumber" class="form-control" ng-model="selectedAccount.bankAccount.accountNumber"
-					error-message message="errorMessage(selectedAccount.bankAccount, 'accountNumber', editAccount.txtAccountNumber)" />
+					error-message error-message-item="selectedAccount.bankAccount" error-message-property="'accountNumber'" error-message-control="editAccount.txtAccountNumber" />
 			</div>
 		</div>
 	</div>

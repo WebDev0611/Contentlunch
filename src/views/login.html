@@ -11,12 +11,12 @@
 	<div ng-show="mode === 'Login'">
 		<div class="form-group" ng-class="{ 'has-error': hasError(user, 'email', loginForm.txtEmail, forceDirty) }">
 			<input id="txtEmail" name="txtEmail" type="text" class="form-control" placeholder="Email Address" ng-model="user.email"
-					ng-keypress="login($event, user)" error-message message="errorMessage(user, 'email', loginForm.txtEmail, forceDirty)" />
+					ng-keypress="login($event, user)" error-message error-message-item="user" error-message-property="'email'" error-message-control="loginForm.txtEmail" />
 		</div>
 
 		<div class="form-group" ng-class="{ 'has-error': hasError(user, 'password', loginForm.txtPassword, forceDirty) }">
 			<input id="txtPassword" name="txtPassword" type="password" class="form-control" placeholder="Password" ng-model="user.password"
-					ng-keypress="login($event, user)" error-message message="errorMessage(user, 'password', loginForm.txtPassword, forceDirty)" />
+					ng-keypress="login($event, user)" error-message error-message-item="user" error-message-property="'password'" error-message-control="loginForm.txtPassword" />
 		</div>
 
 		<div class="form-group">
@@ -36,7 +36,7 @@
 	<div ng-show="mode === 'Forgot Password'">
 		<div class="form-group" ng-class="{ 'has-error': hasError(user, 'email', loginForm.txtEmailForgot, forceDirty) }">
 			<input id="txtEmailForgot" name="txtEmailForgot" type="text" class="form-control" placeholder="Email Address" ng-model="user.email"
-					ng-keypress="retreievePassword($event, user)" error-message message="errorMessage(user, 'email', loginForm.txtEmailForgot, forceDirty)" />
+					ng-keypress="retreievePassword($event, user)" error-message error-message-item="user" error-message-property="'email'" error-message-control="loginForm.txtEmailForgot" />
 		</div>
 		
 		<p>
