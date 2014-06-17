@@ -63,7 +63,10 @@ class LinkedInAPI implements Connection
     public function sendDirectMessage(array $friends, array $message, $contentID, $contentType)
     {
         $results = [];
-        foreach ($friends as $id => $name) {
+        foreach ($friends as $friend) {
+            $id = $friend['id'];
+            $name = $friend['name'];
+            
             $accessCode = ConnectionConnector::makeAccessCode($id);
             $link       = ConnectionConnector::makeShareLink($accessCode);
 
@@ -93,6 +96,7 @@ class LinkedInAPI implements Connection
                 ]);
             }
 
+            $results[$id]['id']  = $id;
             $results[$id]['raw'] = $result;
         }
 
@@ -144,9 +148,10 @@ class LinkedInAPI implements Connection
             $group['id'] => [
                 'success' => empty($result['error']) && !isset($result['errorCode']),
                 'raw' => $result,
+                'id' => $group['id'],
             ],
         ];
-        
+
         return $this->processResult($result);
     }
 

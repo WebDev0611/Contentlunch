@@ -110,22 +110,13 @@
 			$scope.showRichTextEditor = $scope.content.contentType.allowText();
 			$scope.showAddFileButton = $scope.content.contentType.allowFile();
 			$scope.showExport = $scope.content.contentType.allowExport() && $scope.content.status >= 3;
+			$scope.showDownloadContentFile = (!!$scope.content.contentFile && ($scope.content.contentFile.isImage() || $scope.content.contentFile.isVideo() || $scope.content.contentFile.isAudio()));
 
 			$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
 			$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
 
 			$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = ($scope.content.status >= 3);
 		};
-
-		self.updateContentConnection = function () {
-			if ($.isArray($scope.contentConnectionIds)) {
-				var contentConnectionIds = $.map($scope.contentConnectionIds, function (id) { return parseInt(id); });
-				var contentConnections = $.grep($scope.contentConnections, function (cc) { return $.inArray(cc.id, contentConnectionIds) >= 0; });
-
-				$scope.content.accountConnections = contentConnections;
-			}
-		};
-		$scope.updateContentConnection = self.updateContentConnection;
 
 		self.handleSaveContent = function (callback) {
 			var method = $scope.isNewContent ? contentService.add : contentService.update;
@@ -280,7 +271,6 @@
 					}
 				]
 			});
-
 		};
 
 		self.handleSubmitContent = function() {
@@ -313,6 +303,7 @@
 		$scope.showExport = false;
 		$scope.showExportHubspot = false;
 		$scope.showExportActOn = false;
+		$scope.showDownloadContentFile = false;
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;
 		$scope.defaultTaskGroup = null;
@@ -360,10 +351,6 @@
 			});
 		};
 
-		$scope.analyzeContent = function() {
-			notificationService.info('WARNING!', 'THIS IS NOT YET IMPLEMENTED!!');
-		};
-
 		$scope.saveContent = function (callback) {
 			if (!$scope.content || $scope.content.$resolved === false) {
 				return;
@@ -371,7 +358,7 @@
 
 			$scope.forceDirty = true;
 
-			self.updateContentConnection();
+			$scope.updateContentConnection();
 
 			var msg = launch.utils.validateAll($scope.content);
 
@@ -491,6 +478,15 @@
 				self.promoteContent();
 			} else {
 				self.handleSubmitContent();
+			}
+		};
+
+		$scope.updateContentConnection = function () {
+			if ($.isArray($scope.contentConnectionIds)) {
+				var contentConnectionIds = $.map($scope.contentConnectionIds, function (id) { return parseInt(id); });
+				var contentConnections = $.grep($scope.contentConnections, function (cc) { return $.inArray(cc.id, contentConnectionIds) >= 0; });
+
+				$scope.content.accountConnections = contentConnections;
 			}
 		};
 
@@ -667,6 +663,40 @@
 			$scope.content.archived = false;
 
 			$scope.saveContent();
+		};
+
+		$scope.downloadFile = function(file) {
+			// TODO: IMPLEMENT DOWNLOADING OF FILES!!
+			notificationService.info('WARNING!', 'FILE DOWNLOADING IS NOT YET IMPLEMENTED!!');
+		};
+
+		$scope.viewFile = function(file) {
+			if (!file || launch.utils.isBlank(file.path)) {
+				return;
+			}
+
+			if (file.isImage() || file.isVideo() || file.isAudio()) {
+				$modal.open({
+					templateUrl: '/assets/views/dialogs/view-file-dialog.html',
+					size: 'lg',
+					controller: [
+						'$scope', '$modalInstance', function (scope, instance) {
+							scope.title = file.fileName;
+							scope.path = file.path;
+							scope.mimeType = file.mimeType;
+							scope.isImage = file.isImage();
+							scope.isVideo = file.isVideo();
+							scope.isAudio = file.isAudio();
+
+							scope.ok = function () {
+								instance.dismiss('cancel');
+							};
+						}
+					]
+				});
+			} else {
+				window.open(file.path, 'view_file_' + file.id);
+			}
 		};
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
