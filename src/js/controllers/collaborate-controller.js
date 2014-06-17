@@ -96,15 +96,17 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                 notify.notify('Please choose at least one recepient.');
                 return;
             }
-            recipients = connection.recipients;
+            recipients = _.map(connection.recipients, function (recip) {
+                recip.name = _.stripTags(recip.name);
+                return recip;
+            });
         }
         
         $modal.open({
             templateUrl: '/assets/views/collaborate/invite-modal.html',
-            size: 'lg',
+            // size: 'lg',
             controller: ['$scope', 'recipients', 'link', 'provider', 'isGroup', 
                 function (_scope,   recipients,   link,   provider,   isGroup) {
-                console.log(recipients, link, provider);
                 _scope.recipients = recipients;
                 _scope.provider = provider;
                 _scope.isGroup = isGroup;
@@ -132,32 +134,39 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
         }, angular.noop).result.then(function (message) {
             return connection.all('message' + (group ? '-group' : '')).post({
                 friends:   _.mapObject(connection.recipients, function (recip) {
-                    return [recip.id, recip.name];
+                    return [recip.id, _.stripTags(recip.name)];
                 }),
                 group: group,
-                message:   message,
+                message: message,
                 contentId: $routeParams.id,
                 contentType: $routeParams.conceptType
             });
         // the angular.noop here should make it so our catch doesn't catch this if it errors
         }, angular.noop).then(function (response) {
-            connection.recipients = [];
             if (!angular.isDefined(response)) return;
 
             response = response.plain();
-            var allGood = _.all(_.values(response));
+            var allGood = _.all(_.pluck(response, 'success'));
 
             if (allGood) {
                 notify.success('Messages sent!');
             } else {
-                var failedNames = (response).map(function (success, id) {
-                    return success || _.findById(connection.recipients, id).name;
+                var failedNames = _(response).map(function (result, id) {
+                    return result.success || (_.findById(connection.recipients, id) || {}).name;
                 }).reject(function (item) {
                     return item === true;
                 }).value();
 
-                notify.error('All messages succeeded except for: ' + failedNames.join(', '));
+                if (failedNames.length === connection.recipients.length) {
+                    notify.error('All messages failed');
+                } else {
+                    notify.error('All messages succeeded except for: ' + failedNames.join(', '));
+                }
+
+                console.error(response);
             }
+
+            connection.recipients = [];
 
             return Collab.all('guest-collaborators').getList();
         }).then(function (guests) {
