@@ -34,7 +34,15 @@ $env = $app->detectEnvironment(function() {
     'staging.contentlaunch.surgeforward.com' => 'staging',
     'contentlaunch.com' => 'prod'
   );
- 
+
+  if (isset($_SERVER['SERVER_NAME']) 
+        && $_SERVER['SERVER_NAME'] == 'local.contentlaunch.com' 
+        && isset($_SERVER['SERVER_ADDR']) 
+        && $_SERVER['SERVER_ADDR'] == '10.254.2.21'
+     ) {
+    return 'test';
+  }
+  
   if (isset($_SERVER['SERVER_NAME']) && isset($hosts[$_SERVER['SERVER_NAME']])) {
     return $hosts[$_SERVER['SERVER_NAME']];
   }
