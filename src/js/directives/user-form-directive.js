@@ -31,6 +31,11 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 		scope.hasError = function (property, control) { return launch.utils.isPropertyValid(scope.selectedUser, property, control, scope.forceDirty); };
 		scope.errorMessage = function (property, control) { return launch.utils.getPropertyErrorMessage(scope.selectedUser, property, control); };
 
+    scope.activeOptions = [
+      { key: true, name: 'Active' },
+      { key: false, name: 'Inactive' }
+    ];
+
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
 				$modal.open({
@@ -95,6 +100,7 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 
 			if (scope.isNewUser) {
 				scope.selectedUser.account = self.loggedInUser.account;
+        scope.attachAccount = scope.selectedUser.account;
 				if (scope.selectedUser.account) {
 					scope.selectedUser.accounts.push(scope.selectedUser.account);
 				}
@@ -108,9 +114,8 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 					if (scope.selfEditing) {
 						SessionService.set(SessionService.USER_KEY, scope.selectedUser);
 					}
-
-					if (scope.isNewUser && !!scope.selectedUser.account) {
-						AccountService.addUser(scope.selectedUser.account.id, r.id, {
+					if (scope.isNewUser && !!scope.attachAccount) {
+						AccountService.addUser(scope.attachAccount.id, r.id, {
 							success: function(rs) {
 								callback.success(r);
 							},

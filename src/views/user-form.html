@@ -78,9 +78,7 @@
 			<div class="form-group" ng-class="{ 'has-error': hasError('active', editUser.selStatus) }" ng-show="!isNewUser">
 				<label class="control-label" for="selStatus">Status</label>
 				<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedUser.active" ng-disabled="selfEditing"
-						error-message message="errorMessage('active', editUser.selStatus)">
-					<option value="true" ng-selected="selectedUser.active === true">Active</option>
-					<option value="false" ng-selected="selectedUser.active !== true">Inactive</option>
+						error-message message="errorMessage('active', editUser.selStatus)" ng-options="value.key as value.name for value in activeOptions">
 				</select>
 			</div>
 			<div class="form-group" ng-class="{ 'has-error': hasError('role', editUser.selRole) }">

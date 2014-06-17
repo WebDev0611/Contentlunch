@@ -42,7 +42,6 @@ class AccountUserController extends BaseController {
         }
       }); 
     }
-
     return $query->get();
   }
 
