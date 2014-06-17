@@ -128,17 +128,25 @@ class LinkedInAPI implements Connection
 
         $result = $this->linkedIn->api("v1/groups/{$group['id']}/posts", [], 'POST', $payload);
 
-        if (empty($result['error']) && !isset($result['errorCode'])) ConnectionConnector::createGuestCollaborator([
-            'connection_user_id' => $group['id'],
-            'name'               => $group['name'],
-            'connection_id'      => $this->accountConnection['connection_id'],
-            'content_id'         => $contentID,
-            'content_type'       => $contentType,
-            'access_code'        => $accessCode,
-            'type'               => 'group',
-        ]);
+        if (empty($result['error']) && !isset($result['errorCode'])) {
+            ConnectionConnector::createGuestCollaborator([
+                'connection_user_id' => $group['id'],
+                'name'               => $group['name'],
+                'connection_id'      => $this->accountConnection['connection_id'],
+                'content_id'         => $contentID,
+                'content_type'       => $contentType,
+                'access_code'        => $accessCode,
+                'type'               => 'group',
+            ]);
+        }
 
-        $result['values'] = [$group['id'] => empty($result['error']) && !isset($result['errorCode'])];
+        $result['values'] = [
+            $group['id'] => [
+                'success' => empty($result['error']) && !isset($result['errorCode']),
+                'raw' => $result,
+            ],
+        ];
+        
         return $this->processResult($result);
     }
 
