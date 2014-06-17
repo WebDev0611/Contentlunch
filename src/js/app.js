@@ -229,7 +229,7 @@
 					'$location', '$q', function($location, $q) {
 						var success = function(r) {
 							return r;
-						}
+						};
 
 						var error = function(r) {
 							if (r.status === 401) {
@@ -239,11 +239,11 @@
 							} else {
 								return $q.reject(r);
 							}
-						}
+						};
 
 						return function(promise) {
 							return promise.then(success, error);
-						}
+						};
 					}
 				];
 
