@@ -706,6 +706,14 @@
 		return '<span class="cl-icon ' + launch.utils.getConnectionProviderIconClass(item.text.toLowerCase()) + '"></span> <span>' + item.text + '</span>';
 	},
 
+  formatDocumentTypeItem: function (item, element, context) {
+    return '<span class="cl-icon ' + launch.utils.getFileTypeCssClass(item.id) + '"></span> <span>' + item.text + '</span>';
+  },
+
+  formatDocumentUploaderItem: function (item, element, context) {
+    return '<span class="cl-icon"></span> <span>' + item.text + '</span>';
+  },
+
 	getUserById: function(users, id) {
 		if (!$.isArray(users) || users.length === 0 || launch.utils.isBlank(id)) {
 			return null;
@@ -728,22 +736,27 @@
 			case 'tiff':
 			case 'png':
 			case 'jpeg':
+      case 'image':
 				return 'cl-icon-file-image';
 			case 'avi':
 			case 'mp4':
 			case 'mov':
+      case 'video':
 				return 'cl-icon-file-video';
 			case 'wav':
 			case 'mp3':
 			case 'wma':
+      case 'audio':
 				return 'cl-icon-file-audio';
 			case 'pdf':
 				return 'cl-icon-file-pdf';
 			case 'doc':
 			case 'docx':
+      case 'document':
 				return 'cl-icon-file-ms-word';
 			case 'xls':
 			case 'xlsx':
+      case 'spreadsheet':
 				return 'cl-icon-file-ms-excel';
 			case 'ppt':
 			case 'pptx':

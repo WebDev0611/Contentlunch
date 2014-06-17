@@ -3,17 +3,20 @@
 class LibraryController extends BaseController {
   
   /**
-   * Returns a list of libraries (folders)
+   * Returns a list of libraries (folders) and their uploads
    */
   public function index()
   {
-    $query = Library::with('account')
-      ->with('user.image');
-    // Limit to global library and the account the current user belongs to
     $user = Confide::user();
     if ( ! $user) {
       return $this->responseAccessDenied();
     }
+    $query = Library::with('account')
+      ->with('user.image')
+      ->with('uploads')
+      ->with('uploads.user')
+      ->with('uploads.tags');
+    // Limit to global library and the account the current user belongs to
     $accounts = $user->accounts;
     foreach ($accounts as $account) {
       $accountID = $account->id;
@@ -27,7 +30,14 @@ class LibraryController extends BaseController {
     } else {
       $query->where('global', true);
     }
-    return $query->get();
+    $results = $query->get();
+    // Add root uploads
+    $results = $results->toArray();
+    $results[] = [
+      'id' => 'root',
+      'uploads' => []
+    ];
+    return $results;
   }
 
   /**
@@ -75,6 +85,9 @@ class LibraryController extends BaseController {
   public function update($id)
   {
     $library = Library::find($id);
+    if ( ! $library || ! $library->account->id || ! $this->inAccount($library->account->id)) {
+      return $this->responseAccessDenied();
+    }
     if ($library->updateUniques()) {
       return $this->show($id);
     }
@@ -84,6 +97,9 @@ class LibraryController extends BaseController {
   public function destroy($id)
   {
     $library = Library::find($id);
+    if ( ! $library || ! $library->account->id || ! $this->inAccount($library->account->id)) {
+      return $this->responseAccessDenied();
+    }
     if ($library->delete()) {
       return ['success' => 'OK'];
     }

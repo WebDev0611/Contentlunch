@@ -1,8 +1,13 @@
-launch.module.controller('ConsultLibraryController', function ($scope, $modal, LibraryService) {
+launch.module.controller('ConsultLibraryController', function ($scope, $modal, LibraryService, AccountService, AuthService, UserService) {
 
+  // Data from server
+  $scope.data = [];
+  // Folders shown in current view
   $scope.folders = [];
+  // Files shown in current view
   $scope.files = [];
-  $scope.selectedFolder = null;
+  // Currently selected folder
+  $scope.selectedFolder = null; 
 
   var self = $scope;
 
@@ -12,31 +17,49 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
   $scope.formatDocumentTypeItem = launch.utils.formatDocumentTypeItem;
   $scope.formatDocumentUploaderItem = launch.utils.formatDocumentUploaderItem;
 
-  // Show the root folder of the library (folders and root files)
-  $scope.showRoot = function () {
-    $scope.selectedFolder = null;
+  // Show a specific folder
+  $scope.showFolder = function (id) {
     $scope.folders = [];
     $scope.files = [];
-    // Get folders (global and account specific)
-    LibraryService.Libraries.query({}, function (response) {
-      $scope.folders = response;
+    $scope.selectedFolder = _.find($scope.data, function (folder) {
+      return folder.id == id;
     });
-    // Get files in root folder (account specific)
-    LibraryService.Uploads.query({ id: 'root' }, function (response) {
-      $scope.files = response;
+    // Show uploads of current folder
+    $scope.files = $scope.selectedFolder.uploads;
+    // If root of library, show folders, but not root folder
+    if (id == 'root') {
+      $scope.folders = _.select($scope.data, function (folder) {
+        return folder.id != 'root';
+      });
+    }
+  };
+
+  $scope.init = function (initFolder) {
+    // Get all libraries and uploads
+    LibraryService.Libraries.query({}, function (response) {
+      $scope.data = response;
+      // Show library
+      $scope.showFolder(initFolder);
     });
   };
-  // Show root by default
-  $scope.showRoot();
+  // Default to showing root of library
+  $scope.init('root');
 
-  // Show a specific folder (just files)
-  $scope.showFolder = function (folder) {
-    $scope.selectedFolder = folder;
-    $scope.folders = [];
-    $scope.files = [];
-    LibraryService.Uploads.query({ id: folder.id }, function (response) {
-      $scope.files = response;
+  // Get available folders to save files to
+  $scope.getFolderOptions = function () {
+    var fileFolders = [
+      { key: 'root', name: '(Default to the root folder)' }
+    ];
+    angular.forEach($scope.data, function (folder) {
+      // Not global or root
+      if (folder.id != 'root' && folder.global != '1') {
+        fileFolders.push({
+          key: folder.id,
+          name: folder.name
+        });
+      }
     });
+    return fileFolders;
   };
 
   // Upload a file
@@ -51,25 +74,14 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
         $scope.file = {};
         $scope.folders = [];
         $scope.uploadFile = new launch.UploadFile();
+        $scope.uploadFile.tags = '';
 
-        $scope.fileFolders = [
-          { key: 'root', name: '(Default to the root folder)' }
-        ];
-
-        // Get folders (only account specific)
-        LibraryService.Libraries.query({ global: 0 }, function (response) {
-          $scope.folders = response;
-          // Add each folder to the select folder element
-          angular.forEach(response, function (value, key) {
-            $scope.fileFolders.push({
-              key: value.id,
-              name: value.name
-            });
-          });
-          // Default to currently open folder
+        // Setup available folders to save file to
+        $scope.fileFolders = parentScope.getFolderOptions();
+        // Default to currently open folder
+        if (parentScope.selectedFolder) {
           $scope.uploadFile.folder = parentScope.selectedFolder.id;
-        });
-
+        }
         // User clicked browse and staged file for upload
         $scope.addFile = function (files, form, control) {
           $scope.file = $.isArray(files) ? files[0] : files;
@@ -95,15 +107,11 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
             file: $scope.file
           }).success(function (response) {
             // Reload view with folder that file was saved to
-            var showFolder;
-            angular.forEach($scope.folders, function (value, key) {
-              if (value.id == $scope.uploadFile.folder) {
-                showFolder = value;
-              }
-            });
-            parentScope.showFolder(showFolder);
+            parentScope.init($scope.uploadFile.folder);
             NotificationService.success('Success!', 'File: ' + response.filename + ' saved.');
             $modalInstance.dismiss();
+          }).error(function (response) {
+            NotificationService.error('Error', "Please fix the following problems: \n" + response.errors.join("\n"));
           });
         };
       }
@@ -123,23 +131,19 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
         $scope.uploadFile = file;
         $scope.mode = 'edit';
 
-        $scope.fileFolders = [
-          { key: 'root', name: '(Default to the root folder)' }
-        ];
+        $scope.fileType = launch.utils.getFileTypeCssClass(file.fileName.substring(file.fileName.lastIndexOf('.') + 1));
 
-        // Get folders (only account specific)
-        LibraryService.Libraries.query({ global: 0 }, function (response) {
-          $scope.folders = response;
-          // Add each folder to the select folder element
-          angular.forEach(response, function (value, key) {
-            $scope.fileFolders.push({
-              key: value.id,
-              name: value.name
-            });
-          });
-          // Default to currently open folder
-          $scope.uploadFile.folder = parentScope.selectedFolder.id;
-        });
+        $scope.fileFolders = parentScope.getFolderOptions();
+        // Default to currently open folder
+        $scope.uploadFile.folder = parentScope.selectedFolder.id;
+
+        if ($.isArray($scope.uploadFile.tags)) {
+          $scope.uploadFile.tags = _.map($scope.uploadFile.tags, function (tag) {
+            return tag.tag;
+          }).join();
+        }
+
+        $scope.fileName = $scope.uploadFile.fileName;
 
         // User clicked browse and staged file for upload
         $scope.addFile = function (files, form, control) {
@@ -162,26 +166,21 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
           $upload.upload({
             url: '/api/library/' + $scope.uploadFile.folder + '/uploads/' + $scope.uploadFile.id + '?description=' + $scope.uploadFile.description +'&tags='+ $scope.uploadFile.tags,
             method: 'PUT'
-            //data: data,
-            //file: $scope.file
           }).success(function (response) {
             // Reload view with folder that file was saved to
-            var showFolder;
-            angular.forEach($scope.folders, function (value, key) {
-              if (value.id == $scope.uploadFile.folder) {
-                showFolder = value;
-              }
-            });
-            parentScope.showFolder(showFolder);
+            parentScope.init($scope.uploadFile.folder);
             NotificationService.success('Success!', 'File: ' + response.filename + ' saved.');
             $modalInstance.dismiss();
+          }).error(function (response) {
+            NotificationService.error('Error', "Please fix the following problems: \n" + response.errors.join("\n"));
           });
         };
 
         // Delete file
         $scope.delete = function () {
           LibraryService.Uploads.delete({ id: parentScope.selectedFolder.id, uploadid: $scope.uploadFile.id }, function (response) {
-            parentScope.showFolder(parentScope.selectedFolder);
+            // Reload view with folder that file was saved to
+            parentScope.init($scope.uploadFile.folder);
             $modalInstance.dismiss();
             NotificationService.success('Success!', 'File: ' + $scope.uploadFile.fileName + ' deleted');
           }, function (response) {
@@ -208,7 +207,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
 
         $scope.ok = function () {
           LibraryService.Libraries.save($scope.folder, function (response) {
-            parentScope.showFolder(response);
+            parentScope.init(response.id);
             $modalInstance.dismiss();
           }, function (response) {
             NotificationService.error('Error!', 'Please fix the following problems:\n\n' + response.errors.join('\n'));
@@ -227,6 +226,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
   };
 
   $scope.canEditFile = function (file) {
+    return false;
     if ($scope.selectedFolder.global == '0') {
       return true;
     }
@@ -234,48 +234,127 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
   };
 
   $scope.search = {
-      searchTerm: null,
-      searchTermMinLength: 1,
-      documentTypes: [],
-      documentUploaders: [],
-      changeSearchTerm: function() {
-        if (launch.utils.isBlank($scope.search.searchTerm) || $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
-          $scope.search.applyFilter();
-        }
-      },
-      applyFilter: function(reset) {
-        $scope.filteredFiles = $filter('filter')($scope.files, function(file) {
-
-          if ($.isArray($scope.search.documentTypes) && $scope.search.documentTypes.length > 0) {
-            if ($.inArray(content.documentType.name, $scope.search.documentTypes) < 0) {
-              return false;
-            }
-          }
-
-          if ($.isArray($scope.search.documentUploaders) && $scope.search.documentUploaders.length > 0) {
-            return ($.grep($scope.search.documentUploaders, function(uid) { return parseInt(uid) === file.user.id; }).length > 0);
-          }
-
-          return (launch.utils.isBlank($scope.search.searchTerm) ? true : content.matchSearchTerm($scope.search.searchTerm));
-        });
-
-        if (reset === true) {
-          $scope.pagination.currentPage = 1;
-        }
-
-        $scope.pagination.totalItems = $scope.filteredContent.length;
-        $scope.pagination.groupToPages();
-      },
-      clearFilter: function() {
-        this.searchTerm = null;
-        this.contentTypes = null;
-        this.milestones = null;
-        this.buyingStages = null;
-        this.campaigns = null;
-        this.users = null;
-
-        this.applyFilter();
+    init: function () {
+      // Get all users in account
+      var account = AuthService.accountInfo();
+      $scope.search.documentUploaderOptions = UserService.getForAccount(account.id, null, null, true);
+    },
+    searchTerm: null,
+    searchTermMinLength: 1,
+    documentTypes: [],
+    documentTypeOptions: [
+      { key: 'audio', name: 'Audio'},
+      { key: 'document', name: 'Document'},
+      { key: 'folder', name: 'Folder'},
+      { key: 'image', name: 'Images'},
+      { key: 'pdf', name: 'PDF'},
+      { key: 'ppt', name: 'Powerpoint'},
+      { key: 'spreadsheet', name: 'Spreadsheet'},
+      { key: 'video', name: 'Video'},
+      { key: 'other', name: 'Other'}
+    ],
+    documentUploaders: [],
+    documentUploaderOptions: [],
+    changeSearchTerm: function() {
+      if (launch.utils.isBlank($scope.search.searchTerm) || $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
+        $scope.search.applyFilter();
       }
-    };
+    },
+    applyFilter: function(reset) {
+      // When any search terms are present, don't show folders
+      $scope.folders = [];
+      $scope.selectedFolder = null;
+      // Gather all uploads
+      var allFiles = [];
+      _.forEach($scope.data, function (folder) {
+        allFiles = _.union(allFiles, folder.uploads);
+      });
+      // Filter by: search term, document type, document uploader
+      $scope.files = _.filter(allFiles, function (file) {
+        // Check search term against filename, description and tags
+        if (  ! launch.utils.isBlank($scope.search.searchTerm) &&
+              ! _.contains(file.filename, $scope.search.searchTerm) &&
+              ! _.contains(file.description, $scope.search.searchTerm) &&
+              ! _.contains(_.map(file.tags, function (tag) { return tag.tag; }).join(), $scope.search.searchTerm)) {
+          return false;
+        }
+        // Check document types against file (or filter)
+        if ($.isArray($scope.search.documentTypes) && $scope.search.documentTypes.length > 0) {
+          // Classify file type to match document types options
+          // audio, document, image, pdf, ppt, spreadsheet, video, other
+          var fileType = 'other';
+          switch (file.media_type) {
+            case 'text':
+              fileType = 'document';
+            break;
+            case 'application':
+              // Check extension
+              switch (file.extension.toLowerCase()) {
+                case 'pdf':
+                  fileType = 'pdf';
+                break;
+                case 'pot':
+                case 'potm':
+                case 'potx':
+                case 'pps':
+                case 'ppsm':
+                case 'ppsx':
+                case 'ppt':
+                case 'pptm':
+                case 'pptx':
+                  fileType = 'ppt';
+                break;
+                case '123':
+                case 'accdb':
+                case 'accde':
+                case 'accdr':
+                case 'accdt':
+                case 'nb':
+                case 'numbers':
+                case 'ods':
+                case 'ots':
+                case 'sdc':
+                case 'xl':
+                case 'xlr':
+                case 'xls':
+                case 'xlsb':
+                case 'xlsm':
+                case 'xlsx':
+                case 'xlt':
+                case 'xltm':
+                case 'xltx':
+                case 'xlw':
+                  fileType = 'spreadsheet';
+                break;
+                default:
+                  fileType = 'document';
+              }
+            break;
+            case 'audio':
+              fileType = 'audio';
+            break;
+            case 'image':
+              fileType = 'image';
+            break;
+            case 'video':
+              fileType = 'video';
+            break;
+          }
+          return _.contains($scope.search.documentTypes, fileType);
+        }
+        // Check document uploader
+        if ($.isArray($scope.search.documentUploaders) && $scope.search.documentUploaders.length > 0) {
+          return _.contains($scope.search.documentUploaders, file.user.id);
+        }
+      });
+    },
+    clearFilter: function() {
+      this.searchTerm = null;
+      this.documentTypes = null;
+      this.documentUploaders = null;
+      this.applyFilter();
+    }
+  };
+  $scope.search.init();
 
 });
