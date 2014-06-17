@@ -102,7 +102,7 @@
 			case 'title':
 				return launch.utils.isBlank(self.title) ? 'Title is required.' : null;
 			case 'contenttype':
-				return launch.utils.isBlank(self.contentType) ? 'Content Type is required.' : null;
+				return (!self.contentType || launch.utils.isBlank(self.contentType.name)) ? 'Content Type is required.' : null;
 			case 'body':
 				return launch.utils.isBlank(self.body) ? 'Description is required.' : null;
 			case 'author':

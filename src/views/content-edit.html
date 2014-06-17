@@ -61,7 +61,7 @@
 						<div class="form-group form-group-wide" ng-class="{ 'has-error': hasError(content, 'title', editContent.txtContentName, forceDirty) }">
 							<label class="control-label" for="txtContentName">Content Title</label>
 							<input type="text" name="txtContentName" id="txtContentName" class="form-control" ng-model="content.title" ng-disabled="isReadOnly"
-									error-message message="errorMessage(content, 'title', editContent.txtContentName)" />
+									error-message error-message-item="content" error-message-property="'title'" error-message-control="editContent.txtContentName" />
 						</div>
 						<div class="form-group">
 							&nbsp;<br/>
@@ -70,11 +70,12 @@
 					</div>
 					
 					<div class="control-group">
-						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'contentType.name', editContent.selContentType, forceDirty) }">
+						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'contentType', editContent.selContentType, forceDirty) }">
 							<label class="control-label" for="selContentType">Content Type</label>
 							<select name="selContentType" id="selContentType" ng-disabled="!isNewContent || isReadOnly"
 									ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem, selectOnBlur: true }" ng-model="content.contentType.name"
-									data-placeholder="Select Content Type" error-message message="errorMessage(content, 'contentType.name', editContent.selContentType)" ng-change="updateContentType()">
+									data-placeholder="Select Content Type" ng-change="updateContentType()"
+									error-message error-message-item="content" error-message-property="'contentType'" error-message-control="editContent.selContentType">
 								<option value=""></option>
 								<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
 							</select>
@@ -84,7 +85,8 @@
 							<label class="control-label" for="selCreator">Content Creator</label>
 							<select name="selAuthor" id="selAuthor" ng-disabled="isReadOnly"
 									ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="content.author.id"
-									data-placeholder="Select Content Creator" error-message message="errorMessage(content, 'author', editContent.selAuthor)" ng-change="updateAuthor()">
+									data-placeholder="Select Content Creator" ng-change="updateAuthor()"
+									error-message error-message-item="content" error-message-property="'author'" error-message-control="editContent.selAuthor">
 								<option value=""></option>
 								<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
 							</select>
@@ -95,8 +97,8 @@
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'accountConnections', editContent.selContentConnections, forceDirty) }">
 							<label class="control-label" for="selContentConnections">Content Connections</label>
 							<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple" ng-disabled="isReadOnly" ng-change="updateContentConnection()"
-									ui-select2="{ formatResult: formatContentConnectionItem, formatSelection: formatContentConnectionItem }" ng-model="contentConnectionIds"
-									data-placeholder="Select Content Connection" error-message message="errorMessage(content, 'accountConnections', editContent.selContentConnections)">
+									ui-select2="{ formatResult: formatContentConnectionItem, formatSelection: formatContentConnectionItem }" ng-model="contentConnectionIds" data-placeholder="Select Content Connection"
+									error-message error-message-item="content" error-message-property="'accountConnections'" error-message-control="editContent.selContentConnections">
 								<option ng-repeat="cc in contentConnections" value="{{ cc.id }}">{{ cc.name }}</option>
 							</select>
 						</div>
@@ -131,7 +133,7 @@
 
 					<div class="control-group" ng-show="showRichTextEditor" ng-class="{ 'has-error': hasError(content, 'body', editContent.txtContentDesc, forceDirty) }" ng-hide="isReadOnly">
 						<textarea name="txtContentDesc" id="txtContentDesc" rich-text-editor ng-model="content.body"
-								error-message message="errorMessage(content, 'body', editContent.txtContentDesc)"></textarea>
+								error-message error-message-item="content" error-message-property="'body'" error-message-control="editContent.txtContentDesc"></textarea>
 					</div>
 					
 					<div class="content-preview" ng-show="isReadOnly">
@@ -163,8 +165,8 @@
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'buyingStage', editContent.selBuyingStage, forceDirty) }">
 							<label for="selBuyingStage">Buying Stage</label>
 							<select name="selBuyingStage" id="selBuyingStage" ng-disabled="isReadOnly"
-									ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem, allowClear: true }" ng-model="content.buyingStage"
-									data-placeholder="Select Buying Stage" error-message message="errorMessage(content, 'buyingStage', editContent.selBuyingStage)">
+									ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem, allowClear: true }" ng-model="content.buyingStage" data-placeholder="Select Buying Stage"
+									error-message error-message-item="content" error-message-property="'buyingStage'" error-message-control="editContent.selBuyingStage">
 								<option value=""></option>
 								<option ng-repeat="bs in buyingStages" value="{{ $index }}">{{ bs }}</option>
 							</select>
@@ -173,8 +175,8 @@
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'persona', editContent.selPersona, forceDirty) }">
 							<label for="selPersona">Persona</label>
 							<select name="selPersona" id="selPersona" ng-disabled="isReadOnly"
-									ui-select2="{ allowClear: true }" ng-model="content.persona"
-									data-placeholder="Select Persona" error-message message="errorMessage(content, 'persona', editContent.selPersona)">
+									ui-select2="{ allowClear: true }" ng-model="content.persona" data-placeholder="Select Persona"
+									error-message error-message-item="content" error-message-property="'persona'" error-message-control="editContent.selPersona">
 								<option value=""></option>
 								<option ng-repeat="p in contentSettings.personas" value="{{ p.name }}">{{ p.name }}</option>
 							</select>
@@ -184,7 +186,8 @@
 							<label for="selCampaign">Campaign</label>
 							<select name="selCampaign" id="selCampaign" ng-disabled="isReadOnly"
 									ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, allowClear: true }" ng-model="content.campaign.id"
-									data-placeholder="Select Campaign" error-message message="errorMessage(content, 'campaign', editContent.selCampaign)" ng-change="updateCampaign()">
+									data-placeholder="Select Campaign" ng-change="updateCampaign()"
+									error-message error-message-item="content" error-message-property="'campaign'" error-message-control="editContent.selCampaign">
 								<option value=""></option>
 								<option ng-repeat="c in campaigns" value="{{ c.id }}">{{ c.title }}</option>
 							</select>
