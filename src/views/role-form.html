@@ -16,7 +16,7 @@
 	</div>
 	
 	<accordion close-others="true">
-		<accordion-group ng-repeat="module in selectedRole.modules" is-open="isopen">
+		<accordion-group ng-repeat="module in selectedRole.modules" is-open="isopen" ng-show="module.privileges">
 			<accordion-heading>
 				<i class="fa" ng-class="{'fa-caret-down': isopen, 'fa-caret-right': !isopen}"></i>
 				{{ module.title }}
