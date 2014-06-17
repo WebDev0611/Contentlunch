@@ -58,13 +58,17 @@
       </accordion-group>
     </accordion>
 
+    <div class="link-button-container">
+      <a class="link-button" href="#" ng-click="search.saveFilter()">Save as default filters</a> |
+      <a class="link-button" href="#" ng-click="search.clearFilter()">Clear Filters</a>
+    </div>
     
   </div>
   <div class="col-md-9 right-pane">
     <h2 class="right-pane-header">Consult</h2>
     <div class="container">
       <div class="subheader">
-        <h3><a ng-click="showFolder('root')" href="#">Library</a><span ng-show="selectedFolder"> &gt; {{ selectedFolder.name }}</span></h3>
+        <h3><a ng-click="showFolder('root')" href="#">Library</a><span ng-show="selectedFolder && selectedFolder.id != 'root'"> &gt; {{ selectedFolder.name }}</span><span ng-show="search.activeSearch()"> &gt; Search</span></h3>
       </div>
       <ul class="files-list">
         <li ng-repeat="folder in folders" folder-preview="folder" show-folder="showFolder" can-edit-folder="canEditFolder" class="col-md-4"></li>

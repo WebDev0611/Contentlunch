@@ -1,4 +1,4 @@
-launch.module.controller('ConsultLibraryController', function ($scope, $modal, LibraryService, AccountService, AuthService, UserService) {
+launch.module.controller('ConsultLibraryController', function ($scope, $modal, LibraryService, AccountService, AuthService, UserService, NotificationService) {
 
   // Data from server
   $scope.data = [];
@@ -19,6 +19,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
 
   // Show a specific folder
   $scope.showFolder = function (id) {
+    $scope.search.clear();
     $scope.folders = [];
     $scope.files = [];
     $scope.selectedFolder = _.find($scope.data, function (folder) {
@@ -226,8 +227,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
   };
 
   $scope.canEditFile = function (file) {
-    return false;
-    if ($scope.selectedFolder.global == '0') {
+    if (file.accountId) {
       return true;
     }
     return false;
@@ -255,6 +255,12 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
     ],
     documentUploaders: [],
     documentUploaderOptions: [],
+    activeSearch: function () {
+      if (this.searchTerm || this.documentTypes.length || this.documentUploaders.length) {
+        return true;
+      }
+      return false;
+    },
     changeSearchTerm: function() {
       if (launch.utils.isBlank($scope.search.searchTerm) || $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
         $scope.search.applyFilter();
@@ -271,13 +277,20 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
       });
       // Filter by: search term, document type, document uploader
       $scope.files = _.filter(allFiles, function (file) {
+        var match = true;
         // Check search term against filename, description and tags
-        if (  ! launch.utils.isBlank($scope.search.searchTerm) &&
-              ! _.contains(file.filename, $scope.search.searchTerm) &&
-              ! _.contains(file.description, $scope.search.searchTerm) &&
-              ! _.contains(_.map(file.tags, function (tag) { return tag.tag; }).join(), $scope.search.searchTerm)) {
-          return false;
+        if (  ! launch.utils.isBlank($scope.search.searchTerm)) {
+          var target = file.filename + ' ' + file.description + ' ' + _.map(file.tags, function (tag) { return tag.tag; }).join();
+          if (target.toLowerCase().indexOf($scope.search.searchTerm.toLowerCase()) != -1) {
+            match = true;
+          } else {
+            match = false;
+          }
         }
+        return match;
+      });
+      // Filter by: document type, document uploader
+      $scope.files = _.filter($scope.files, function (file) {
         // Check document types against file (or filter)
         if ($.isArray($scope.search.documentTypes) && $scope.search.documentTypes.length > 0) {
           // Classify file type to match document types options
@@ -340,19 +353,31 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
               fileType = 'video';
             break;
           }
-          return _.contains($scope.search.documentTypes, fileType);
+          if ( ! _.contains($scope.search.documentTypes, fileType)) {
+            return false;
+          }
         }
-        // Check document uploader
+        // Check document uploader (or filter)
         if ($.isArray($scope.search.documentUploaders) && $scope.search.documentUploaders.length > 0) {
-          return _.contains($scope.search.documentUploaders, file.user.id);
+          if ( ! _.contains($scope.search.documentUploaders, file.user.id)) {
+            return false;
+          }
         }
+        return true;
       });
     },
-    clearFilter: function() {
+    clear: function() {
       this.searchTerm = null;
-      this.documentTypes = null;
-      this.documentUploaders = null;
+      this.documentTypes = [];
+      this.documentUploaders = [];
       this.applyFilter();
+    },
+    clearFilter: function () {
+      this.clear();
+      $scope.showFolder('root');
+    },
+    saveFilter: function() {
+      NotificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
     }
   };
   $scope.search.init();
