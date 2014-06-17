@@ -104,7 +104,6 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
             size: 'lg',
             controller: ['$scope', 'recipients', 'link', 'provider', 'isGroup', 
                 function (_scope,   recipients,   link,   provider,   isGroup) {
-                console.log(recipients, link, provider);
                 _scope.recipients = recipients;
                 _scope.provider = provider;
                 _scope.isGroup = isGroup;
@@ -150,7 +149,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
             if (allGood) {
                 notify.success('Messages sent!');
             } else {
-                var failedNames = (response).map(function (success, id) {
+                var failedNames = _(response).map(function (success, id) {
                     return success || _.findById(connection.recipients, id).name;
                 }).reject(function (item) {
                     return item === true;
