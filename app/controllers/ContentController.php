@@ -98,6 +98,7 @@ class ContentController extends BaseController {
     $content = Content::with('campaign')
       ->with('content_type')
       ->with('account_connections')
+      ->with('activities')
       ->with('related')
       ->with('tags')
       ->with('user')
