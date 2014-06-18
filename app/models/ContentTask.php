@@ -22,7 +22,7 @@ class ContentTask extends Ardent {
 
     public function content()
     {
-        return $this->belongsTo('TaskGroup');
+        return $this->belongsTo('ContentTaskGroup', 'content_task_group_id');
     }
 
     public function user()
