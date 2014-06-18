@@ -11,6 +11,11 @@ class LibraryUploadsController extends BaseController {
       $library = Library::where('global', true)->first();
     } else {
       $library = Library::find($libraryID);
+      // Does user belong to account?
+      if ( ! $library || ! $library->account || ! $this->inAccount($library->account->id)) {
+        return $this->responseAccessDenied();
+      }
+      $library = Library::find($libraryID);
     }
     $query = $library
       ->uploads()
@@ -24,18 +29,31 @@ class LibraryUploadsController extends BaseController {
    */
   public function store($libraryID)
   {
+    $user = Confide::user();
+    $accounts = $user->accounts;
+    $accountID = null;
+    if ($accounts) {
+      foreach ($accounts as $account) {
+        $accountID = $account->id;
+      }
+    }
+    if ($libraryID != 'root') {
+      echo $libraryID;
+      dd('here');
+      $library = Library::find($libraryID);
+      // Does user belong to account?
+      if ( ! $library || ! $library->account || ! $this->inAccount($library->account->id)) {
+        return $this->responseAccessDenied();
+      }
+    }
     $file = Input::file('file');
     if (empty($file)) {
       return $this->responseError("File is required");
     }
     $upload = new Upload;
-    $user = Confide::user();
     $upload->user_id = $user->id;
     $upload->description = Input::get('description');
-    $accounts = $user->accounts;
-    foreach ($accounts as $account) {
-      $upload->account_id = $account->id;
-    }
+    $upload->account_id = $accountID;
     try {
       $upload->process($file);
     } catch (Exception $e) {
@@ -43,10 +61,18 @@ class LibraryUploadsController extends BaseController {
       return $this->responseError($e->getMessage());
     }
     if ($upload->id) {
-      // Attach to library
-      if ($libraryID != 'root') {
+      // If uploading to root library, store a record in library_uploads
+      // with library_id of 0
+      if ($libraryID == 'root') {
+        DB::table('library_uploads')->insert([
+          'upload_id' => $upload->id,
+          'library_id' => 0
+        ]);
+      } else {
+        // Attach to library
         $upload->libraries()->sync([$libraryID]);
       }
+      
       // Attach tags
       $tags = explode(',', Input::get('tags'));
       if ($tags) {
@@ -55,6 +81,9 @@ class LibraryUploadsController extends BaseController {
           $upload->tags()->save($uploadTag);
         }
       }
+      if ($libraryID == 'root') {
+        return ['success' => 'OK'];
+      }
       return $this->show($libraryID, $upload->id);
     }
     return $this->responseError($upload->errors()->all(':message'));
@@ -62,12 +91,22 @@ class LibraryUploadsController extends BaseController {
 
   public function show($libraryID, $uploadID)
   {
+    $library = Library::find($libraryID);
+    // Does user belong to account?
+    if ( ! $library || ! $library->account || ! $this->inAccount($library->account->id)) {
+      return $this->responseAccessDenied();
+    }
     $upload = Upload::with('user.image')->find($uploadID);
     return $upload;
   }
 
   public function update($libraryID, $uploadID)
   {
+    $library = Library::find($libraryID);
+    // Does user belong to account?
+    if ( ! $library || ! $library->account || ! $this->inAccount($library->account->id)) {
+      return $this->responseAccessDenied();
+    }
     $upload = Upload::find($uploadID);
     $upload->description = Input::get('description');
     if ($upload->update()) {
@@ -98,6 +137,11 @@ class LibraryUploadsController extends BaseController {
 
   public function destroy($libraryID, $uploadID)
   {
+    $library = Library::find($libraryID);
+    // Does user belong to account?
+    if ( ! $library || ! $library->account || ! $this->inAccount($library->account->id)) {
+      return $this->responseAccessDenied();
+    }
     $upload = Upload::find($uploadID);
     if ($upload->delete()) {
       return ['success' => 'ok'];

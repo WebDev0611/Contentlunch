@@ -25,8 +25,9 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
     $scope.selectedFolder = _.find($scope.data, function (folder) {
       return folder.id == id;
     });
-    // Show uploads of current folder
+
     $scope.files = $scope.selectedFolder.uploads;
+    
     // If root of library, show folders, but not root folder
     if (id == 'root') {
       $scope.folders = _.select($scope.data, function (folder) {

@@ -33,9 +33,12 @@ class LibraryController extends BaseController {
     $results = $query->get();
     // Add root uploads
     $results = $results->toArray();
+    $rootUploads = Upload::with('user')->with('tags')->join('library_uploads', function ($join) {
+      $join->on('uploads.id', '=', 'library_uploads.id');
+    })->where('library_uploads.library_id', 0)->get();
     $results[] = [
       'id' => 'root',
-      'uploads' => []
+      'uploads' => $rootUploads->toArray()
     ];
     return $results;
   }
