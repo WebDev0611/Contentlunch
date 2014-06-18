@@ -24,6 +24,7 @@ class CreateForumThreadsTable extends Migration {
             $table->string('name');
             $table->string('description');
             $table->string('tags')->nullable();
+            $table->integer('views')->unsigned()->default(0);
 
             $table->timestamps();
         });
