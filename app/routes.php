@@ -146,8 +146,18 @@ Route::group(['prefix' => 'api'], function()
 
   Route::get('impersonate/{id}', 'AdminController@impersonate');
 
-  Route::get('account/{accountId}/content/{contentId}/task-group',               'ContentTaskGroupController@index'  );
-  Route::put('account/{accountId}/content/{contentId}/task-group/{taskGroupId}', 'ContentTaskGroupController@update' );
+  Route::resource('account/{accountID}/content/{contentID}/task-group', 'ContentTaskGroupController', [
+    'only' => ['index', 'update']
+  ]);
+
+  Route::resource('account/{accountID}/forum-thread', 'ForumThreadController', [
+    'only' => ['index', 'store', 'show', 'update', 'destroy']
+  ]);
+
+  Route::resource('account/{accountID}/forum-thread/{threadID}/reply', 'ForumThreadReplyController', [
+    'only' => ['index', 'store', 'update']
+  ]);
+
 });
 
 

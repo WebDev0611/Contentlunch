@@ -4,9 +4,7 @@ angular.module('launch')
     return {
         scope: { sort: '=sortVar', predicate: '@sortBy' },
         link: function (scope, elem, attrs) {
-            console.log('test');
             elem.click(function () {
-                console.log('click');
                 scope.$apply(function () {
                     if (scope.sort == scope.predicate) {
                         scope.sort = reverseOrder(scope.sort);
