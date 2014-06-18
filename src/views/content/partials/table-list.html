@@ -8,7 +8,7 @@
     </div>
     
     <div class="create-download">
-        <button type="button" class="btn btn-default fa fa-download" ng-click="download()"></button>
+        <a class="btn btn-default fa fa-download" target="_blank" href="/api/account/{{ user.account.id }}/content/export-csv"></a>
     </div>
 
     <div class="create-delete" ng-show="canDelete && search.contentStage !== 'content'">
