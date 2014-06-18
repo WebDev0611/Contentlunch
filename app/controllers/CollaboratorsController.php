@@ -28,6 +28,16 @@ class CollaboratorsController extends BaseController {
       return $this->responseError("User not found");
     }
     $model->collaborators()->attach($user->id);
+    // Store an activity log that a collaborator is being added
+    if ($collabType == 'content') {
+      $currentUser = Confide::user();
+      $activity = new ContentActivity([
+        'user_id' => $currentUser->id,
+        'content_id' => $model->id,
+        'activity' => "Added ". strtoupper($user->first_name .' '. $user->last_name) ." as a collaborator"
+      ]);
+      $activity->save();
+    }
     return $this->index($accountID, $collabType, $modelID);
   }
 
@@ -36,11 +46,22 @@ class CollaboratorsController extends BaseController {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    $campaign = $this->getModel($collabType, $modelID);
-    if ( ! $campaign) {
+    $model = $this->getModel($collabType, $modelID);
+    if ( ! $model) {
 
     }
-    $campaign->collaborators()->detach($userID);
+    $model->collaborators()->detach($userID);
+    // Store an activity log that a collaborator is being removed
+    if ($collabType == 'content') {
+      $currentUser = Confide::user();
+      $user = User::find($userID);
+      $activity = new ContentActivity([
+        'user_id' => $currentUser->id,
+        'content_id' => $model->id,
+        'activity' => "Removed ". strtoupper($user->first_name .' '. $user->last_name) ." as a collaborator"
+      ]);
+      $activity->save();
+    }
     return $this->index($accountID, $collabType, $modelID);
   }
 
