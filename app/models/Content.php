@@ -56,6 +56,11 @@ class Content extends Ardent {
     return parent::validate($rules, $customMessages);
   }
 
+  public function activities()
+  {
+    return $this->hasMany('ContentActivity');
+  }
+
   public function campaign()
   {
     return $this->belongsTo('Campaign');
@@ -144,6 +149,56 @@ class Content extends Ardent {
       }
 
       return $content;
+    });
+
+    static::updated(function ($content) {
+      // Get properties that were changed
+      $dirty = $content->getDirty();
+      if ($dirty) {
+        $user = Confide::user();
+        foreach ($dirty as $key => $newValue) {
+          $activity = null;
+          $origValue = $content->getOriginal($key);
+          switch ($key) {
+            // Archived?
+            case 'archived':
+              if ($newValue) {
+                $activity = 'Archived';
+              }
+            break;
+            case 'body':
+              $activity = 'Edited content';
+            break;
+            // If status changed, log as an activity
+            case 'status':
+              if ($origValue == 0 && $newValue == 1) {
+                $activity = 'Converted Concept to Content';
+              } elseif ($newValue == 2) {
+                $activity = 'Submitted for Review';
+              } elseif ($newValue == 3) {
+                $activity = 'Approved';
+              } elseif ($newValue == 4) {
+                $activity = 'Launched';
+              } elseif ($newValue == 5) {
+                $activity = 'Promoted';
+              }
+            break;
+            // Author changed?
+            case 'user_id':
+              $author = User::find($newValue);
+              $activity = 'Assigned '. strtoupper($author->first_name .' '. $author->last_name) .' as the Author';
+            break;
+          }
+          if ( ! empty($activity)) {
+            $activity = new ContentActivity([
+              'user_id' => $user->id,
+              'content_id' => $content->id,
+              'activity' => $activity
+            ]);
+            $activity->save();
+          }
+        }
+      }
     });
 /*
     static::validating(function ($content) {

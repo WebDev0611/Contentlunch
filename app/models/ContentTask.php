@@ -22,11 +22,29 @@ class ContentTask extends Ardent {
 
     public function content()
     {
-        return $this->belongsTo('TaskGroup');
+        return $this->belongsTo('ContentTaskGroup', 'content_task_group_id');
     }
 
     public function user()
     {
         return $this->belongsTo('User');
+    }
+
+    public static function boot()
+    {
+      parent::boot();
+
+      static::created(function ($task) {
+        // Store an activity log for the content
+        $user = Confide::user();
+        $assignedUser = User::find($task->user_id);
+        $contentID = $task->content->content_id;
+        $activity = new ContentActivity([
+          'user_id' => $user->id,
+          'content_id' => $contentID,
+          'activity' => "Assigned 1 task to ". strtoupper($assignedUser->first_name .' '. $assignedUser->last_name)
+        ]);
+        $activity->save();
+      });
     }
 }

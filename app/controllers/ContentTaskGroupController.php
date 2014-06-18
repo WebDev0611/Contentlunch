@@ -23,6 +23,7 @@ class ContentTaskGroupController extends BaseController {
         // TODO: permissions
 
         $input = Input::all();
+        
         $id = @$input['id'];
 
         $taskGroup = ContentTaskGroup::find($id);
