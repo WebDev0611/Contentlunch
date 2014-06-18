@@ -1,0 +1,21 @@
+﻿<div class="modal-header">{{ title }}</div>
+<div class="modal-body">
+	<div class="file-dialog" ng-show="isImage">
+		<a href="{{ path }}" target="_new">
+			<img src="{{ path }}" alt="{{ title }}" />
+		</a>
+	</div>
+	<div class="file-dialog" ng-show="isVideo">
+		<video controls="controls" preload="preload" autoplay="autoplay">
+			<source src="{{ path }}" type="{{ mimeType }}" />
+		</video>
+	</div>
+	<div class="file-dialog" ng-show="isAduio">
+		<audio controls="controls" preload="preload" autoplay="autoplay">
+			<source src="{{ path }}" type="{{ mimeType }}" />
+		</audio>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="ok()">OK</button>
+</div>

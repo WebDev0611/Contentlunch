@@ -70,7 +70,10 @@ class TwitterAPI implements Connection
     public function sendDirectMessage(array $friends, array $message, $contentID, $contentType)
     {
         $results = [];
-        foreach ($friends as $id => $name) {
+        foreach ($friends as $friend) {
+            $id = $friend['id'];
+            $name = $friend['name'];
+            
             $accessCode = ConnectionConnector::makeAccessCode($id);
             $link       = ConnectionConnector::makeShareLink($accessCode);
 
@@ -80,9 +83,9 @@ class TwitterAPI implements Connection
                 'format'  => 'array'
             ]);
 
-            $results[$id] = empty($result['errors']);
+            $results[$id]['success'] = empty($result['errors']);
 
-            if ($results[$id]) {
+            if ($results[$id]['success']) {
                 $result = ConnectionConnector::createGuestCollaborator([
                     'connection_user_id' => $id,
                     'name'               => $name,
@@ -93,6 +96,9 @@ class TwitterAPI implements Connection
                 ]);
                 if (!$result) return $result;
             }
+
+            $results[$id]['id']  = $id;
+            $results[$id]['raw'] = $result;
         }
 
         return $this->processResult($results);

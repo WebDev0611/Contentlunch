@@ -28,9 +28,51 @@
 			return (!!user) ? user.imageUrl() : null;
 		};
 
-		scope.downloadFile = function (uploadFile) {
-			// TODO: DO WE DOWNLOAD OR VIEW THE FILE?
-			NotificationService.info('WARNING!!', 'FILE VIEW/DOWNLOAD NOT YET IMPLEMENTED!');
+		scope.showDownloadFile = function(file) {
+			if (!!file) {
+				if (file.isImage() || file.isVideo() || file.isAudio()) {
+					return true;
+				}
+			}
+
+			return false;
+		};
+
+		scope.viewFile = function(file) {
+			if (!file || launch.utils.isBlank(file.path)) {
+				return;
+			}
+
+			if (file.isImage() || file.isVideo() || file.isAudio()) {
+				$modal.open({
+					templateUrl: '/assets/views/dialogs/view-file-dialog.html',
+					size: 'lg',
+					controller: [
+						'$scope', '$modalInstance', function (scp, instance) {
+							scp.title = file.fileName;
+							scp.path = file.path;
+							scp.mimeType = file.mimeType;
+							scp.isImage = file.isImage();
+							scp.isVideo = file.isVideo();
+							scp.isAudio = file.isAudio();
+
+							scp.ok = function () {
+								instance.dismiss('cancel');
+							};
+						}
+					]
+				});
+			} else {
+				$window.open(file.path, 'view_file_' + file.id);
+			}
+
+		};
+
+		scope.downloadFile = function (file, e) {
+			// TODO: IMPLEMENT DOWNLOADING OF FILES!!
+			NotificationService.info('WARNING!', 'FILE DOWNLOADING IS NOT YET IMPLEMENTED!!');
+
+			e.stopImmediatePropagation();
 		};
 
 		scope.editAttachment = function (uploadFile, e) {

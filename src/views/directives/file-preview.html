@@ -23,6 +23,9 @@
         <span class="rating">Rating here</span>
         <span class="views">85 Views</span>
       </div>
+      <div class="tags">
+        <span ng-repeat="tag in file.tags">{{ tag.tag }}</span>
+      </div>
     </div>
 
     <div class="user col-sm-5">

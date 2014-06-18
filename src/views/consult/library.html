@@ -28,29 +28,50 @@
         <accordion-heading>
           <i class="fa" ng-class="{'fa-caret-down': document_type_is_open, 'fa-caret-right': !document_type_is_open}"></i>
           Document Type
-          <span class="filter-slection-counter" ng-show="search.documentTypes.length > 0">(showing {{ search.documentTypes.length }} of {{ documentTypes.length }})</span>
+          <span class="filter-slection-counter" ng-show="search.documentTypes.length > 0">(showing {{ search.documentTypes.length }} of {{ search.documentTypeOptions.length }})</span>
           <span class="filter-slection-counter" ng-show="search.documentTypes.length === 0">(showing all)</span>
         </accordion-heading>
         <div>
           <select id="selDocumentType" name="selDocumentType" class="multi-select" multiple="multiple"
               ui-select2="{ formatResult: formatDocumentTypeItem, formatSelection: formatDocumentTypeItem }" ng-model="search.documentTypes"
               ng-change="search.applyFilter()" data-placeholder="Select Document Types">
-            <option ng-repeat="ct in documentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
+            <option ng-repeat="type in search.documentTypeOptions" value="{{ type.key }}">{{ type.name }}</option>
+          </select>
+        </div>
+      </accordion-group>
+    </accordion>
+    <accordion close-others="false">
+      <accordion-group is-open="document_uploader_is_open">
+        <accordion-heading>
+          <i class="fa" ng-class="{'fa-caret-down': document_uploader_is_open, 'fa-caret-right': !document_uploader_is_open}"></i>
+          Document Uploader
+          <span class="filter-slection-counter" ng-show="search.documentUploaders.length > 0">(showing {{ search.documentUploaders.length }} of {{ search.documentUploaderOptions.length }})</span>
+          <span class="filter-slection-counter" ng-show="search.documentUploaders.length === 0">(showing all)</span>
+        </accordion-heading>
+        <div>
+          <select id="selDocumentUploader" name="selDocumentUploader" class="multi-select" multiple="multiple"
+              ui-select2="{ formatResult: formatDocumentUploaderItem, formatSelection: formatDocumentUploaderItem }" ng-model="search.documentUploaders"
+              ng-change="search.applyFilter()" data-placeholder="Select Document Uploaders">
+            <option ng-repeat="user in search.documentUploaderOptions" value="{{ user.id }}">{{ user.formatName() }}</option>
           </select>
         </div>
       </accordion-group>
     </accordion>
 
+    <div class="link-button-container">
+      <a class="link-button" href="#" ng-click="search.saveFilter()">Save as default filters</a> |
+      <a class="link-button" href="#" ng-click="search.clearFilter()">Clear Filters</a>
+    </div>
     
   </div>
   <div class="col-md-9 right-pane">
     <h2 class="right-pane-header">Consult</h2>
     <div class="container">
       <div class="subheader">
-        <h3><a ng-click="showRoot()" href="#">Library</a><span ng-show="selectedFolder"> &gt; {{ selectedFolder.name }}</span></h3>
+        <h3><a ng-click="showFolder('root')" href="#">Library</a><span ng-show="selectedFolder && selectedFolder.id != 'root'"> &gt; {{ selectedFolder.name }}</span><span ng-show="search.activeSearch()"> &gt; Search</span></h3>
       </div>
       <ul class="files-list">
-        <li ng-repeat="folder in folders" folder-preview="folder" show-folder="showFolder" show-root="showRoot" can-edit-folder="canEditFolder" class="col-md-4"></li>
+        <li ng-repeat="folder in folders" folder-preview="folder" show-folder="showFolder" can-edit-folder="canEditFolder" class="col-md-4"></li>
         <li ng-repeat="file in files" file-preview="file" edit-file="editFile" can-edit-file="canEditFile" class="col-md-4"></li>
       </ul>
     </div>

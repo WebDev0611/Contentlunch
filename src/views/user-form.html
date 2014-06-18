@@ -13,33 +13,33 @@
 	</div>
 	<div class="user-editor">
 		<div class="control-group">
-			<div class="form-group" ng-class="{ 'has-error': hasError('firstName', editUser.txtFirstName) }">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedUser, 'firstName', editUser.txtFirstName) }">
 				<label class="control-label" for="txtFirstName">First Name</label>
 				<input type="text" id="txtFirstName" name="txtFirstName" class="form-control" ng-model="selectedUser.firstName"
-						error-message message="errorMessage('firstName', editUser.txtFirstName)" />
+						error-message error-message-item="selectedUser" error-message-property="'firstName'" error-message-control="editUser.txtFirstName" />
 			</div>
-			<div class="form-group" ng-class="{ 'has-error': hasError('lastName', editUser.txtLastName) }">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedUser, 'lastName', editUser.txtLastName) }">
 				<label class="control-label" for="txtLastName">Last Name</label>
 				<input type="text" id="txtLastName" name="txtLastName" class="form-control" ng-model="selectedUser.lastName"
-						error-message message="errorMessage('lastName', editUser.txtLastName)" />
+						error-message error-message-item="selectedUser" error-message-property="'lastName'" error-message-control="editUser.txtLastName" />
 			</div>
-			<div class="form-group" ng-class="{ 'has-error': hasError('title', editUser.txtTitle) }">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedUser, 'title', editUser.txtTitle) }">
 				<label class="control-label" for="txtTitle">Title</label>
 				<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="selectedUser.title"
-						error-message message="errorMessage('title', editUser.txtTitle)" ng-disabled="selfEditing" />
+						error-message error-message-item="selectedUser" error-message-property="'title'" error-message-control="editUser.txtTitle" />
 			</div>
 		</div>
 
 		<div class="control-group">
-			<div class="form-group" ng-class="{ 'has-error': hasError('email', editUser.txtEmail) }">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedUser, 'email', editUser.txtEmail) }">
 				<label class="control-label" for="txtEmail">Email</label>
 				<input type="text" required="required" id="txtEmail" name="txtEmail" class="form-control" ng-model="selectedUser.email"
-						error-message message="errorMessage('email', editUser.txtEmail)" />
+						error-message error-message-item="selectedUser" error-message-property="'email'" error-message-control="editUser.txtEmail" />
 			</div>
-			<div class="form-group" ng-class="{ 'has-error': hasError('phoneNumber', editUser.txtPhoneNumber) }">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedUser, 'phoneNumber', editUser.txtPhoneNumber) }">
 				<label class="control-label" for="txtPhoneNumber">Phone</label>
 				<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="selectedUser.phoneNumber"
-						error-message message="errorMessage('phoneNumber', editUser.txtPhoneNumber)" />
+						error-message error-message-item="selectedUser" error-message-property="'phoneNumber'" error-message-control="editUser.txtPhoneNumber" />
 			</div>
 		</div>
 
@@ -75,19 +75,17 @@
 		</div>
 
 		<div class="control-group">
-			<div class="form-group" ng-class="{ 'has-error': hasError('active', editUser.selStatus) }" ng-show="!isNewUser">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedUser, 'active', editUser.selStatus) }" ng-show="!isNewUser">
 				<label class="control-label" for="selStatus">Status</label>
 				<select id="selStatus" name="selStatus" class="form-control" ng-model="selectedUser.active" ng-disabled="selfEditing"
-						error-message message="errorMessage('active', editUser.selStatus)">
-					<option value="true" ng-selected="selectedUser.active === true">Active</option>
-					<option value="false" ng-selected="selectedUser.active !== true">Inactive</option>
+						error-message error-message-item="selectedUser" error-message-property="'active'" error-message-control="editUser.selStatus" ng-options="value.key as value.name for value in activeOptions">
 				</select>
 			</div>
-			<div class="form-group" ng-class="{ 'has-error': hasError('role', editUser.selRole) }">
+			<div class="form-group" ng-class="{ 'has-error': hasError(selectedUser, 'role', editUser.selRole) }">
 				<label class="control-label" for="selRole">Role</label>
 				<select id="selRole" name="selRole" class="form-control"
 						ng-model="selectedUser.role" ng-options="r.displayName for r in roles track by r.id" ng-disabled="selfEditing"
-						error-message message="errorMessage('role', editUser.selRole)"></select>
+						error-message error-message-item="selectedUser" error-message-property="'role'" error-message-control="editUser.selRole"></select>
 			</div>
 		</div>
 		

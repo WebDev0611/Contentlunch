@@ -1430,6 +1430,10 @@
 				path = path.substring(7);
 			}
 
+      if (dto.tags) {
+        uploadFile.tags = dto.tags;
+      }
+
 			uploadFile.path = path + '' + uploadFile.fileName;
 
 			return uploadFile;

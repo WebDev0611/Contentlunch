@@ -329,11 +329,6 @@
 			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
 		};
 
-		$scope.download = function () {
-			// TODO: WE NEED A WAY OF DOWNLOADING THE CURRENT DATA!!
-			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
-		};
-
 		$scope.deleteSelected = function() {
 			if ($scope.search.contentStage === 'content') {
 				return;

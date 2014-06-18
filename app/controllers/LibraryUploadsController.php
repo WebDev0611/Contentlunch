@@ -14,6 +14,7 @@ class LibraryUploadsController extends BaseController {
     }
     $query = $library
       ->uploads()
+      ->with('tags')
       ->with('user.image');
     return $query->get();
   }
@@ -24,6 +25,9 @@ class LibraryUploadsController extends BaseController {
   public function store($libraryID)
   {
     $file = Input::file('file');
+    if (empty($file)) {
+      return $this->responseError("File is required");
+    }
     $upload = new Upload;
     $user = Confide::user();
     $upload->user_id = $user->id;
@@ -40,7 +44,9 @@ class LibraryUploadsController extends BaseController {
     }
     if ($upload->id) {
       // Attach to library
-      $upload->libraries()->sync([$libraryID]);
+      if ($libraryID != 'root') {
+        $upload->libraries()->sync([$libraryID]);
+      }
       // Attach tags
       $tags = explode(',', Input::get('tags'));
       if ($tags) {
@@ -66,8 +72,18 @@ class LibraryUploadsController extends BaseController {
     $upload->description = Input::get('description');
     if ($upload->update()) {
       // Attach to library
-      $upload->libraries()->sync([$libraryID]);
+      if ($libraryID != 'root') {
+        $upload->libraries()->sync([$libraryID]);
+      } else {
+        $upload->libraries()->sync([]);
+      }
+
       // Attach tags
+      if ($upload->tags) {
+        foreach ($upload->tags as $tag) {
+          $tag->delete();
+        }
+      }
       $tags = explode(',', Input::get('tags'));
       if ($tags) {
         foreach ($tags as $tag) {

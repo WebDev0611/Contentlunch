@@ -256,7 +256,8 @@
 				var path = $location.path();
 
 				var fetchCurrentUser = function(r) {
-					if (!r.id && $location.path() !== '/login') {
+					if (!r.id && $location.path() !== '/login' && $location.path().indexOf('/user/confirm') !== 0) {
+            console.log('redirecting to login');
 						$location.path('/login').search('path', path);
 					}
 				};
@@ -334,6 +335,10 @@
 		remove: function (array, item) {
 			var index = _.indexById(array, item.id);
 			if (index !== -1) array.splice(index, 1);
+		},
+		stripTags: function(str){
+		    if (!str) return '';
+		    return ('' + str).replace(/<\/?[^>]+>/g, '');
 		},
 		indexById: function (array, id) {
 			var index = -1;

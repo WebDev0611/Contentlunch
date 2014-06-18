@@ -136,7 +136,7 @@
                                 <button class="btn btn-inverse" ng-click="openInviteModal(connection)">Invite Selected</button>
                             </div>
 
-                            <div ng-show="connection.connectionProvider == 'linkedin'">
+                            <div ng-show="connection.connectionProvider == 'linkedin' && connection.groups.length">
                                 <h3>LinkedIn Groups</h3>
                                 <div class="section-header">
                                     <div class="paging-controls">

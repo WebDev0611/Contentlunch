@@ -63,7 +63,10 @@ class LinkedInAPI implements Connection
     public function sendDirectMessage(array $friends, array $message, $contentID, $contentType)
     {
         $results = [];
-        foreach ($friends as $id => $name) {
+        foreach ($friends as $friend) {
+            $id = $friend['id'];
+            $name = $friend['name'];
+            
             $accessCode = ConnectionConnector::makeAccessCode($id);
             $link       = ConnectionConnector::makeShareLink($accessCode);
 
@@ -80,9 +83,9 @@ class LinkedInAPI implements Connection
             ];
 
             $result = $this->linkedIn->api('v1/people/~/mailbox', [], 'POST', $payload);
-            $results[$id] = empty($result['error']) && !isset($result['errorCode']);
+            $results[$id]['success'] = empty($result['error']) && !isset($result['errorCode']);
 
-            if ($results[$id]) {
+            if ($results[$id]['success']) {
                 ConnectionConnector::createGuestCollaborator([
                     'connection_user_id' => $id,
                     'name'               => $name,
@@ -92,6 +95,9 @@ class LinkedInAPI implements Connection
                     'access_code'        => $accessCode,
                 ]);
             }
+
+            $results[$id]['id']  = $id;
+            $results[$id]['raw'] = $result;
         }
 
         return $this->processResult($results);
@@ -126,17 +132,26 @@ class LinkedInAPI implements Connection
 
         $result = $this->linkedIn->api("v1/groups/{$group['id']}/posts", [], 'POST', $payload);
 
-        if (empty($result['error']) && !isset($result['errorCode'])) ConnectionConnector::createGuestCollaborator([
-            'connection_user_id' => $group['id'],
-            'name'               => $group['name'],
-            'connection_id'      => $this->accountConnection['connection_id'],
-            'content_id'         => $contentID,
-            'content_type'       => $contentType,
-            'access_code'        => $accessCode,
-            'type'               => 'group',
-        ]);
+        if (empty($result['error']) && !isset($result['errorCode'])) {
+            ConnectionConnector::createGuestCollaborator([
+                'connection_user_id' => $group['id'],
+                'name'               => $group['name'],
+                'connection_id'      => $this->accountConnection['connection_id'],
+                'content_id'         => $contentID,
+                'content_type'       => $contentType,
+                'access_code'        => $accessCode,
+                'type'               => 'group',
+            ]);
+        }
 
-        $result['values'] = [$group['id'] => empty($result['error']) && !isset($result['errorCode'])];
+        $result['values'] = [
+            $group['id'] => [
+                'success' => empty($result['error']) && !isset($result['errorCode']),
+                'raw' => $result,
+                'id' => $group['id'],
+            ],
+        ];
+
         return $this->processResult($result);
     }
 
@@ -148,6 +163,6 @@ class LinkedInAPI implements Connection
     private function processResult($result)
     {
         if (!empty($result['error']) || isset($result['errorCode'])) return ConnectionConnector::responseError(@$result['message'], @$result['status'], $result);
-        return @$result['values'] ? $result['values'] : $result;
+        return @$result['values'] ? $result['values'] : ((!@$result['values'] && @$result['_total'] === 0) ? [] : $result);
     }
 }

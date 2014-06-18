@@ -1,6 +1,7 @@
 <?php
 
 use Andrew13\Cabinet\CabinetUpload;
+use webignition\InternetMediaType\Parser\TypeParser;
 
 class Upload extends CabinetUpload {
 
@@ -24,6 +25,18 @@ class Upload extends CabinetUpload {
   public function tags()
   {
     return $this->hasMany('UploadTag', 'upload_id', 'id');
+  }
+
+  public static function boot()
+  {
+    parent::boot();
+
+    static::creating(function ($upload)
+    {
+      // Store internet media type
+      $parser = new TypeParser;
+      $upload->media_type = $parser->parse($upload->mimetype);
+    });
   }
 
 }

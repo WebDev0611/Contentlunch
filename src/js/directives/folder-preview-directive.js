@@ -50,7 +50,6 @@ launch.module.directive('folderPreview', function (ModelMapperService, $modal, L
     scope: {
       folder: '=folderPreview',
       showFolder: '=showFolder',
-      showRoot: '=showRoot',
       canEditFolder: '=canEditFolder'
     },
     templateUrl: '/assets/views/directives/folder-preview.html'
