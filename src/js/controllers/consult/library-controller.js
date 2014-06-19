@@ -174,7 +174,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
             NotificationService.success('Success!', 'File: ' + response.filename + ' saved.');
             $modalInstance.dismiss();
           }).error(function (response) {
-            NotificationService.error('Error', "Please fix the following problems: \n" + response.errors.join("\n"));
+            launch.utils.handleAjaxErrorResponse(response, NotificationService);
           });
         };
 
@@ -186,7 +186,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
             $modalInstance.dismiss();
             NotificationService.success('Success!', 'File: ' + $scope.uploadFile.fileName + ' deleted');
           }, function (response) {
-            NotificationService.error('Error!', 'Unable to delete file');
+            launch.utils.handleAjaxErrorResponse(response, NotificationService);
           });
         };
       }
@@ -219,7 +219,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
             parentScope.init(response.id);
             $modalInstance.dismiss();
           }, function (response) {
-            NotificationService.error('Error!', 'Please fix the following problems:\n\n' + response.errors.join('\n'));
+            launch.utils.handleAjaxErrorResponse(response, NotificationService);
           });
         };
       }
