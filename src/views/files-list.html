@@ -13,13 +13,14 @@
 	
 	<div collapse="isCollapsed">
 		<ul class="files-list-items" ng-show="showFilesList">
-			<li class="files-list-item" ng-repeat="f in filesList" ng-click="downloadFile(f)">
+			<li class="files-list-item" ng-repeat="f in filesList" ng-click="viewFile(f)">
 				<div class="files-list-item-icon">
 					<span class="cl-icon" ng-class="f.fileType()"></span>
 				</div>
 				<div class="files-list-item-title">
 					<span class="fa fa-trash-o" ng-click="deleteAttachment(f, $event)" ng-hide="isDisabled"></span>
 					<span class="fa fa-edit" ng-click="editAttachment(f, $event)" ng-hide="isDisabled"></span>
+					<span class="fa fa-download" ng-click="downloadFile(f, $event)" ng-show="showDownloadFile(f)"></span>
 					{{ f.description }}
 				</div>
 				<div class="files-list-item-author">

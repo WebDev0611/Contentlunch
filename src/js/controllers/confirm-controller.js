@@ -5,6 +5,7 @@ launch.module.controller('ConfirmController', [
 		self.init = function() {
 			authService.confirm($route.current.params.code, {
 				success: function(r) {
+          console.log('confirmed', r);
 					$scope.isDisabled = false;
 					$scope.selectedUser = r;
 					$scope.isLoaded = true;

@@ -1,5 +1,7 @@
 <?php
 
+use Launch\CSV;
+
 class ContentController extends BaseController {
 
   public function index($accountID)
@@ -98,6 +100,7 @@ class ContentController extends BaseController {
     $content = Content::with('campaign')
       ->with('content_type')
       ->with('account_connections')
+      ->with('activities')
       ->with('related')
       ->with('tags')
       ->with('user')
@@ -214,6 +217,22 @@ class ContentController extends BaseController {
       return array('success' => 'OK');
     }
     return $this->responseError("Couldn't delete content");
+  }
+
+  public function download_csv($accountID)
+  {
+    $content = $this->index($accountID);
+
+    // better way to test this?
+    if (get_class($content) != 'Illuminate\Database\Eloquent\Collection') {
+        // then $content is an error
+        return $content;
+    }
+
+    $filename = date('Y-m-d') . ' Content.csv';
+    $content = CSV::flatten_collection($content);
+
+    CSV::download_csv($content, $filename);
   }
 
 }

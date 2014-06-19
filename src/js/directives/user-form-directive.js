@@ -1,19 +1,20 @@
-launch.module.directive('userForm', function ($modal, $upload, AuthService, RoleService, UserService, AccountService, NotificationService, SessionService) {
-	var link = function (scope, element, attrs) {
+launch.module.directive('userForm', function($modal, $upload, AuthService, RoleService, UserService, AccountService, NotificationService, SessionService) {
+	var link = function(scope, element, attrs) {
 		var self = this;
 
 		self.loggedInUser = null;
 
-		self.init = function () {
+		self.init = function() {
 			self.loggedInUser = AuthService.userInfo();
-      if (!self.loggedInUser.role.isGlobalAdmin) {
-        scope.roles = RoleService.query(self.loggedInUser.account.id);
-      } else {
-        scope.roles = RoleService.query();
-      }
+
+			if (!self.loggedInUser.role.isGlobalAdmin) {
+				scope.roles = RoleService.query(self.loggedInUser.account.id);
+			} else {
+				scope.roles = RoleService.query();
+			}
 		};
 
-		self.discardChanges = function (form) {
+		self.discardChanges = function(form) {
 			if ($.isFunction(scope.refreshMethod)) {
 				scope.refreshMethod(form);
 			}
@@ -28,8 +29,13 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 		scope.isNewUser = false;
 		scope.canEditUser = false;
 		scope.percentComplete = 0;
-		scope.hasError = function (property, control) { return launch.utils.isPropertyValid(scope.selectedUser, property, control, scope.forceDirty); };
-		scope.errorMessage = function (property, control) { return launch.utils.getPropertyErrorMessage(scope.selectedUser, property, control); };
+		scope.hasError = launch.utils.isPropertyValid;
+		scope.errorMessage = launch.utils.getPropertyErrorMessage;
+
+    scope.activeOptions = [
+      { key: true, name: 'Active' },
+      { key: false, name: 'Inactive' }
+    ];
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
@@ -40,11 +46,11 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 							scp.message = 'You have not saved your changes. Are you sure you want to cancel?';
 							scp.okButtonText = 'Save Changes';
 							scp.cancelButtonText = 'Discard Changes';
-							scp.onOk = function () {
+							scp.onOk = function() {
 								scope.saveUser(form);
 								instance.close();
 							};
-							scp.onCancel = function () {
+							scp.onCancel = function() {
 								self.discardChanges(form);
 								instance.dismiss('cancel');
 							};
@@ -95,6 +101,7 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 
 			if (scope.isNewUser) {
 				scope.selectedUser.account = self.loggedInUser.account;
+        scope.attachAccount = scope.selectedUser.account;
 				if (scope.selectedUser.account) {
 					scope.selectedUser.accounts.push(scope.selectedUser.account);
 				}
@@ -108,9 +115,8 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 					if (scope.selfEditing) {
 						SessionService.set(SessionService.USER_KEY, scope.selectedUser);
 					}
-
-					if (scope.isNewUser && !!scope.selectedUser.account) {
-						AccountService.addUser(scope.selectedUser.account.id, r.id, {
+					if (scope.isNewUser && !!scope.attachAccount) {
+						AccountService.addUser(scope.attachAccount.id, r.id, {
 							success: function(rs) {
 								callback.success(r);
 							},
@@ -132,11 +138,11 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 			$modal.open({
 				templateUrl: 'confirm.html',
 				controller: [
-					'$scope', '$modalInstance', function (scp, instance) {
+					'$scope', '$modalInstance', function(scp, instance) {
 						scp.message = 'Are you sure you want to delete this user?';
 						scp.okButtonText = 'Delete';
 						scp.cancelButtonText = 'Cancel';
-						scp.onOk = function () {
+						scp.onOk = function() {
 							scope.isSaving = true;
 
 							UserService.delete(scope.selectedUser, {
@@ -159,7 +165,7 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 							});
 							instance.close();
 						};
-						scp.onCancel = function () {
+						scp.onCancel = function() {
 							instance.dismiss('cancel');
 						};
 					}
@@ -167,7 +173,7 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 			});
 		};
 
-		scope.uploadPhoto = function (files, form, control) {
+		scope.uploadPhoto = function(files, form, control) {
 			if ($.isArray(files) && files.length !== 1) {
 				NotificationService.error('Invalid File!', 'Please make sure to select only one file for upload at a time.');
 				$(control).replaceWith(control = $(control).clone(true, true));
@@ -186,7 +192,7 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 			scope.isUploading = true;
 
 			UserService.savePhoto(scope.selectedUser, file, {
-				success: function (user) {
+				success: function(user) {
 					scope.isUploading = false;
 					scope.percentComplete = 0;
 
@@ -214,17 +220,17 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 
 					$(control).replaceWith(control = $(control).clone(true, true));
 				},
-				progress: function (e) {
+				progress: function(e) {
 					scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
 				}
 			});
 		};
 
-		scope.getStates = function () {
+		scope.getStates = function() {
 			if (!!scope.selectedUser && !!scope.selectedUser.country) {
-        if (scope.selectedUser.country == 'Australia' || scope.selectedUser.country == 'UK') {
-          return [];
-        }
+				if (scope.selectedUser.country == 'Australia' || scope.selectedUser.country == 'UK') {
+					return [];
+				}
 				return launch.utils.getStates(scope.selectedUser.country);
 			}
 
@@ -236,38 +242,34 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 				windowClass: 'round-corner-dialog',
 				templateUrl: '/assets/views/reset-password.html',
 				controller: [
-					'$scope', '$modalInstance', function (scp, instance) {
+					'$scope', '$modalInstance', function(scp, instance) {
 						scp.isLoaded = true;
-						scp.currentPassword = null;
-						scp.newPassword = null;
-						scp.confirmPassword = null;
 						scp.isSaving = false;
+						scp.changePassword = {
+							currentPassword: null,
+							newPassword: null,
+							confirmPassword: null
+						};
 
-						scp.passwordError = null;
-						scp.newPasswordError = null;
-						scp.confirmPasswordError = null;
-
-						scp.changePassword = function (e) {
+						scp.changePassword = function(e) {
 							if (e.type === 'keypress' && e.charCode !== 13) {
 								return;
 							}
 
-							scp.currentPassword = this.currentPassword;
-							scp.newPassword = this.newPassword;
-							scp.confirmPassword = this.confirmPassword;
+							var msg = '';
 
-							scp.passwordError = launch.utils.isBlank(scp.currentPassword) ? 'Current Password is required.' : null;
-							scp.newPasswordError = launch.utils.isBlank(scp.newPassword) ? 'New Password is required.' : launch.utils.validatePassword(scp.newPassword);
-							scp.confirmPasswordError = launch.utils.isBlank(scp.confirmPassword) ? 'Confirm Password is required.' : ((scp.newPassword !== scp.confirmPassword) ? 'Passwords do not match.' : null);
+							msg += launch.utils.isBlank(scp.changePassword.currentPassword) ? 'Current Password is required.\n' : '';
+							msg += (launch.utils.isBlank(scp.changePassword.newPassword) ? 'New Password is required.' : launch.utils.validatePassword(scp.changePassword.newPassword)) + '\n';
+							msg += launch.utils.isBlank(scp.changePassword.confirmPassword) ? 'Confirm Password is required.\n' : ((scp.changePassword.newPassword !== scp.changePassword.confirmPassword) ? 'Passwords do not match.\n' : '');
 
-							if (launch.utils.isBlank(scp.passwordError) && launch.utils.isBlank(scp.newPasswordError) && launch.utils.isBlank(scp.confirmPasswordError)) {
-								AuthService.login(scope.selectedUser.userName, scp.currentPassword, false, {
+							if (launch.utils.isBlank(msg)) {
+								AuthService.login(scope.selectedUser.userName, scp.changePassword.currentPassword, false, {
 									success: function(r) {
-										scope.selectedUser.password = scp.newPassword;
-										scope.selectedUser.passwordConfirmation = scp.confirmPassword;
+										scope.selectedUser.password = scp.changePassword.newPassword;
+										scope.selectedUser.passwordConfirmation = scp.changePassword.confirmPassword;
 
 										UserService.update(scope.selectedUser, {
-											success: function (res) {
+											success: function(res) {
 												NotificationService.success('Success!', 'You have successfully changed your password!');
 												instance.close();
 											},
@@ -284,8 +286,11 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 										}
 									}
 								});
+							} else {
+								NotificationService.error('Error!', '' + msg);
 							}
 						};
+
 						scp.cancel = function () {
 							instance.dismiss('cancel');
 						};
@@ -302,7 +307,7 @@ launch.module.directive('userForm', function ($modal, $upload, AuthService, Role
 			}
 
 			scope.canEditUser = (scope.selfEditing || self.loggedInUser.hasPrivilege('settings_edit_profiles') || self.loggedInUser.hasPrivilege('adminster_contentlaunch'));
-		});
+		}, true);
 
 		self.init();
 	};

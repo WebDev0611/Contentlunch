@@ -39,13 +39,14 @@ class GuestCollaboratorsController extends BaseController {
 
     public function show($accessCode)
     {
-        $guest = GuestCollaborator::where('access_code', $accessCode)->with('connection')->with(['content' => function ($query) {
-            $query->select('id', 'title', 'concept', 'user_id')->with(['user' => function ($query) {
-                $query->select('first_name', 'last_name', 'id');
-            }]);
-        }])->first(['id', 'name', 'connection_user_id', 'access_code', 'connection_id', 'content_id', 'type']);
+        $guest = GuestCollaborator::where('access_code', $accessCode)->with('connection')->first(['id', 'name', 'connection_user_id', 'access_code', 'connection_id', 'content_id', 'type']);
 
-        if (!$guest) return Response::json(['message' => 'Access Denied'], 401);
+        if (empty($guest)) return Response::json(['message' => 'Access Denied'], 401);
+        $guest = $guest->toArray();
+
+        // withs were breaking stuff! so let's do it the old-fashioned way
+        $guest['content'] = Content::select('id', 'title', 'concept', 'user_id')->find($guest['content_id'])->toArray();
+        $guest['content']['user'] = User::select('first_name', 'last_name', 'id')->find($guest['content']['user_id'])->toArray();
 
         return $guest;
     }

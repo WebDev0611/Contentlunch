@@ -319,12 +319,8 @@
 								}
 							}
 						};
-						scp.hasError = function(property, control) {
-							return launch.utils.isPropertyValid(scp.message, property, control, scp.forceDirty);
-						};
-						scp.errorMessage = function(property, control) {
-							return launch.utils.getPropertyErrorMessage(scp.message, property, control);
-						};
+						scp.hasError = launch.utils.isPropertyValid;
+						scp.errorMessage = launch.utils.getPropertyErrorMessage;
 						scp.cancel = function() {
 							if (scp.mode === 'compare') {
 								instance.dismiss('cancel');

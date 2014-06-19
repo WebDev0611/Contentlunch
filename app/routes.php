@@ -35,6 +35,7 @@ Route::group(['prefix' => 'api'], function()
   Route::get('account/{accountID}/content-tasks', 'ContentTaskGroupController@getAllTasks');
 
 
+  Route::get('account/{accountID}/content/export-csv', 'ContentController@download_csv');
   Route::resource('account/{id}/content', 'ContentController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
@@ -148,11 +149,8 @@ Route::group(['prefix' => 'api'], function()
 
   Route::get('impersonate/{id}', 'AdminController@impersonate');
 
-  Route::get   ('account/{accountId}/content/{contentId}/task-group',               'ContentTaskGroupController@index'  );
-  Route::put   ('account/{accountId}/content/{contentId}/task-group/{taskGroupId}', 'ContentTaskGroupController@update' );
-  // Route::post  ('account/{accountId}/content/{contentId}/task-group',               'ContentTaskGroupController@store'  );
-  // Route::get   ('account/{accountId}/content/{contentId}/task-group/{taskGroupId}', 'ContentTaskGroupController@show'   );
-  // Route::delete('account/{accountId}/content/{contentId}/task-group/{taskGroupId}', 'ContentTaskGroupController@destroy');
+  Route::get('account/{accountId}/content/{contentId}/task-group',               'ContentTaskGroupController@index'  );
+  Route::put('account/{accountId}/content/{contentId}/task-group/{taskGroupId}', 'ContentTaskGroupController@update' );
 });
 
 

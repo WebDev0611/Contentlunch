@@ -153,9 +153,15 @@ class UserController extends BaseController {
 	{
 		// Restrict to execute users permission
 		// @todo: restrict user is in same account
-		if ( ! $this->hasAbility(array(), array('settings_execute_users'))) {
-			return $this->responseAccessDenied();
-		}
+    // Check if user is editing themself
+    $loggedInUser = Confide::user();
+    if ($loggedInUser && $loggedInUser->id == $id) {
+
+    } else {
+		  if ( ! $this->hasAbility(array(), array('settings_execute_users'))) {
+			 return $this->responseAccessDenied();
+		  }
+    }
 		$user = User::find($id);
 
 		if ( ! $user) {

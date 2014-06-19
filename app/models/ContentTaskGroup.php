@@ -7,6 +7,15 @@ class ContentTaskGroup extends Ardent {
     public $autoHydrateEntityFromInput = false;
     public $forceEntityHydrationFromInput = false;
 
+    protected $fillable = [
+      'due_date',
+      'date_completed',
+      'is_complete'
+    ];
+
+    // Trying $fillable instead of $guarded so extra
+    // inputs don't get set on the model (like the url path)
+    /*
     protected $guarded = [
         'id',
         'status',
@@ -15,6 +24,7 @@ class ContentTaskGroup extends Ardent {
         'updated_at',
         'tasks',
     ];
+    */
 
     public static $rules = [
         'content_id' => 'required',

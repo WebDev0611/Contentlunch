@@ -109,11 +109,7 @@ class Account extends Ardent {
 	 */
 	public function getSiteAdminUser()
 	{
-    $users = $this->getUsers();
-    if ( ! $users) {
-    	return;
-    }
-    foreach ($users as $user) {
+    foreach ($this->users as $user) {
       if ($user->roles) {
         foreach ($user->roles as $role) {
           if ($role->name == 'site_admin') {

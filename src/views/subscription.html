@@ -9,7 +9,7 @@
 					<div class="control-group">
 						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'pricePerMonth', tierForm.txtPricePerMonth, forceDirty) }">
 							<label class="control-label" for="txtPricePerMonth">Price / Month</label>
-							<div class="input-group" error-message message="errorMessage(subscription, 'pricePerMonth', tierForm.txtPricePerMonth)" data-index="{{ $index }}">
+							<div class="input-group" error-message error-message-item="subscription" error-message-property="'pricePerMonth'" error-message-control="tierForm.txtPricePerMonth" data-index="{{ $index }}">
 								<span class="input-group-addon">$</span>
 								<input type="text" required="required" id="txtPricePerMonth" name="txtPricePerMonth" class="form-control"
 										ng-model="subscription.pricePerMonth" ng-blur="subscription.formatPricePerMonth(false)" />
@@ -19,7 +19,7 @@
 					<div class="control-group">
 						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'annualDiscount', tierForm.txtAnnualDiscount, forceDirty) }">
 							<label class="control-label" for="txtAnnualDiscount">Annual Discount</label>
-							<div class="input-group" error-message message="errorMessage(subscription, 'annualDiscount', tierForm.txtAnnualDiscount)" data-index="{{ $index }}">
+							<div class="input-group" error-message error-message-item="subscription" error-message-property="'annualDiscount'" error-message-control="tierForm.txtAnnualDiscount" data-index="{{ $index }}">
 								<span class="input-group-addon">%</span>
 								<input type="text" required="required" id="txtAnnualDiscount" name="txtAnnualDiscount" class="form-control" ng-model="subscription.annualDiscount" />
 							</div>
@@ -29,7 +29,7 @@
 						<div class="form-group" ng-class="{ 'has-error': hasError(subscription, 'numberLicenses', tierForm.txtMaxNumberOfUsers, forceDirty) }">
 							<label class="control-label" for="txtMaxNumberOfUsers">Max # of Users</label>
 							<input type="text" required="required" id="txtMaxNumberOfUsers" name="txtMaxNumberOfUsers" class="form-control" ng-model="subscription.numberLicenses"
-									error-message message="errorMessage(subscription, 'numberLicenses', tierForm.txtMaxNumberOfUsers)" data-index="{{ $index }}" />
+									error-message error-message-item="subscription" error-message-property="'numberLicenses'" error-message-control="tierForm.txtMaxNumberOfUsers" data-index="{{ $index }}" />
 						</div>
 					</div>
 					<div class="control-group">
