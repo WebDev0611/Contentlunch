@@ -70,32 +70,35 @@ class LibraryController extends BaseController {
       }
 
       // Duplicate all the stuff from above so folder -> uploads match
-      $rootUploads = Upload::with('user')
-        ->with('tags')
-        ->with('user')
-        ->with('libraries')
-        // Get count of upload views (downloads)
-        ->with(['views' => function ($q) {
-          $q->select( DB::raw('COUNT(*) AS total'), 'upload_views.upload_id')
-            ->groupBy('upload_views.upload_id');
-        }])
-        ->with('ratings')
-         // Get average upload rating
-        ->with(['ratings' => function ($q) {
-          $q->select( DB::raw('AVG(upload_ratings.rating) AS rating'), 'upload_ratings.upload_id')
-            ->groupBy('upload_ratings.upload_id');
-        }])
-        // Get current user's rating
-        ->with(['userRating' => function ($q) use ($user) {
-          $q->where('user_id', $user->id);
-        }])
-        ->whereIn('uploads.id', $ids)
-        ->get();
-      
+      $rootUploadsArray = [];
+      if ($ids) {
+        $rootUploads = Upload::with('user')
+          ->with('tags')
+          ->with('user')
+          ->with('libraries')
+          // Get count of upload views (downloads)
+          ->with(['views' => function ($q) {
+            $q->select( DB::raw('COUNT(*) AS total'), 'upload_views.upload_id')
+              ->groupBy('upload_views.upload_id');
+          }])
+          ->with('ratings')
+           // Get average upload rating
+          ->with(['ratings' => function ($q) {
+            $q->select( DB::raw('AVG(upload_ratings.rating) AS rating'), 'upload_ratings.upload_id')
+              ->groupBy('upload_ratings.upload_id');
+          }])
+          // Get current user's rating
+          ->with(['userRating' => function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+          }])
+          ->whereIn('uploads.id', $ids)
+          ->get();
+        $rootUploadsArray = $rootUploads->toArray();
+      }
       // Mimick a folder record
       $results[] = [
         'id' => 'root',
-        'uploads' => $rootUploads->toArray()
+        'uploads' => $rootUploadsArray
       ];
     }
     return $results;

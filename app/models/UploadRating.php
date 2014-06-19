@@ -15,7 +15,7 @@ class UploadRating extends Ardent {
   ];
 
   public static $rules = [
-    'upload_id' => 'required|unique:upload_ratings,upload_id,id,user_id,id,null',
+    'upload_id' => 'required|unique_wiht:upload_ratings,user_id',
     'user_id' => 'required',
     'rating' => 'required'
   ];

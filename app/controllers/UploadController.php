@@ -153,7 +153,6 @@ class UploadController extends BaseController {
         'rating' => Input::get('rating')
       ]);
       $rating->save();
-      dd($rating->errors()->all(':message'));
     }
     return $rating;
   }

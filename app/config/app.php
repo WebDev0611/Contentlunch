@@ -112,6 +112,8 @@ return [
     'Andrew13\Cabinet\CabinetServiceProvider',
 
     'Thujohn\Twitter\TwitterServiceProvider',
+
+    'Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider',
   ],
 
   /*

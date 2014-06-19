@@ -11,7 +11,8 @@ class UploadView extends Ardent {
   ];
 
   public static $rules = [
-    'upload_id' => 'required|unique:upload_views,upload_id,user_id',
+    // Multiple columns unique rule (upload_id, user_id)
+    'upload_id' => 'required|unique_with:upload_views,user_id',
     'user_id' => 'required'
   ];
 
