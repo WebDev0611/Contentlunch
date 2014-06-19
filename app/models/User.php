@@ -73,16 +73,15 @@ class User extends ConfideUser {
   }
 
   // forum stuff
-  // public function forum_threads()
-  // {
-  //   return $this->hasMany('ForumThread');
-  // }
+  public function forum_threads()
+  {
+    return $this->hasMany('ForumThread');
+  }
 
-  // public function thread_replies()
-  // {
-  //   return $this->hasMany('ThreadReplies');
-  // }
-
+  public function thread_replies()
+  {
+    return $this->hasMany('ThreadReplies');
+  }
 
   /**
    * Save roles to this user

@@ -4,7 +4,7 @@ use LaravelBook\Ardent\Ardent;
 
 class ForumThreadReply extends Ardent {
 
-    protected $table = 'thread_replies';
+    protected $table = 'forum_thread_replies';
 
     public $autoHydrateEntityFromInput    = true;
     public $forceEntityHydrationFromInput = true;
@@ -23,12 +23,12 @@ class ForumThreadReply extends Ardent {
 
     public function thread()
     {
-        return $this->hasOne('Thread');
+        return $this->belongsTo('ForumThread');
     }
 
     public function user()
     {
-        return $this->hasOne('User')->with('image');
+        return $this->belongsTo('User')->with('image');
     }
 
 }
