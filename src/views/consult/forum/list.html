@@ -1,10 +1,46 @@
-Forum List
+<div class="view consult">
+    <div class="col-md-3 left-pane">
+        <button class="btn full-width small-nudge-down btn-inverse" ng-click="showNewThreadForm = true">
+            Create New Thread
+        </button>
+        
+        <input type="text" name="search" class="form-control" id="search" ng-model="model.search" placeholder="Search...">
+    </div> <!-- .left-pane -->
+    <div class="col-md-9 right-pane">
+        <h2 class="right-pane-header">Consult</h2>
 
-<button ng-click="createThread()">Create Fake Thread</button>
-
-
-<div ng-repeat="thread in threads track by thread.id">
-    <a href="/consult/forum/{{ thread.id }}">{{ thread.name }}</a>
-    <button ng-click="deleteThread(thread)">Delete</button>
-    <button ng-click="updateThread(thread)">Update</button>
+        <div class="container-fluid">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Started By</th>
+                        <th>Views</th>
+                        <th>Replies</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="thread in threads | orderBy:sortBy track by thread.id">
+                        <td class="align-middle">
+                            <a href="/consult/forum/{{ thread.id }}">{{ thread.name }}</a><br>
+                            <small><strong>Created: </strong> {{ thread.createdAt | moment:'MM/DD/YY' }}</small>
+                        </td>
+                        <td class="align-middle">{{ thread.description }}</td>
+                        <td class="align-middle">
+                            <div class="cl-badge cl-badge-horizontal no-margin">
+                                <span class="cl-badge-image" style="background-image: url('{{ thread.user.image | imagePathFromObject }}')")></span>
+                                <div class="cl-badge-caption no-margin">
+                                    <strong>{{ thread.user.name }}</strong><br>
+                                    {{ thread.account.name }}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="align-middle">{{ thread.views }}</td>
+                        <td class="align-middle">{{ thread.replyCount }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> <!-- .container -->
+    </div> <!-- .right-pane -->
 </div>
