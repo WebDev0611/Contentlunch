@@ -15,6 +15,7 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
         userId: user.id,
         description: 'This is the description',
         name: 'Test Thread',
+        body: 'Init',
     };
 
     $scope.createThread = function (thread) {

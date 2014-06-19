@@ -39,12 +39,15 @@ class ForumThreadController extends BaseController {
 
         if ($body = Input::get('body')) {
             $reply = new ForumThreadReply();
-            $reply->fill([
-                'forum_thread_id' => $thread->id,
-                'user_id'         => $thread->user_id,
-                'body'            => $body,
-            ]);
-            $reply->save();
+
+            $reply->forum_thread_id = $thread->id;
+            $reply->user_id         = $thread->user_id;
+            $reply->body            = $body;
+            $reply->account_id      = $thread->account_id;
+
+            if (!$reply->save()) {
+                return $this->responseError($reply->errors()->all(':message'));
+            }
 
             $thread->reply_count++;
         }
