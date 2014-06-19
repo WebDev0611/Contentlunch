@@ -3,11 +3,19 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
   $scope.files = [];
 
   $scope.init = function () {
-    LibraryService.Uploads.query({ id: 'global' }, function (response) {
-      $scope.files = response;
+    LibraryService.Libraries.query({}, function (response) {
+      console.log(response);
+      $scope.files = response[0].uploads;
     });
   }
   $scope.init();
+
+  // Rate a file
+  $scope.rateFile = function (fileID, rating) {
+    LibraryService.Rating.save({ id: fileID, rating: rating }, function (response) {
+      NotificationService.success('Success', 'Rating saved');
+    });
+  };
 
   $scope.addFile = function () {
 
@@ -102,7 +110,7 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
         // Save file
         $scope.ok = function () {
           $upload.upload({
-            url: '/api/library/1/uploads/' + $scope.uploadFile.id + '?description=' + $scope.uploadFile.description +'&tags='+ $scope.uploadFile.tags,
+            url: '/api/library/' + $scope.uploadFile.libraries[0].id + '/uploads/' + $scope.uploadFile.id + '?description=' + $scope.uploadFile.description +'&tags='+ $scope.uploadFile.tags,
             method: 'PUT'
             //data: data,
             //file: $scope.file
@@ -115,7 +123,7 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
 
         // Delete file
         $scope.delete = function () {
-          LibraryService.Uploads.delete({ id: 'global', uploadid: $scope.uploadFile.id }, function (response) {
+          LibraryService.Uploads.delete({ id: $scope.uploadFile.libraries[0].id, uploadid: $scope.uploadFile.id }, function (response) {
             $modalInstance.dismiss();
             NotificationService.success('Success!', 'File: ' + $scope.uploadFile.fileName + ' deleted');
             parentScope.init();

@@ -25,8 +25,9 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
     $scope.selectedFolder = _.find($scope.data, function (folder) {
       return folder.id == id;
     });
-    // Show uploads of current folder
+
     $scope.files = $scope.selectedFolder.uploads;
+    
     // If root of library, show folders, but not root folder
     if (id == 'root') {
       $scope.folders = _.select($scope.data, function (folder) {
@@ -165,7 +166,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
             tags: $scope.uploadFile.tags
           };
           $upload.upload({
-            url: '/api/library/' + $scope.uploadFile.folder + '/uploads/' + $scope.uploadFile.id + '?description=' + $scope.uploadFile.description +'&tags='+ $scope.uploadFile.tags,
+            url: '/api/library/' + $scope.uploadFile.folder + '/uploads/' + file.id + '?description=' + $scope.uploadFile.description +'&tags='+ $scope.uploadFile.tags,
             method: 'PUT'
           }).success(function (response) {
             // Reload view with folder that file was saved to
@@ -189,6 +190,13 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
           });
         };
       }
+    });
+  };
+
+  // Rate a file
+  $scope.rateFile = function (fileID, rating) {
+    LibraryService.Rating.save({ id: fileID, rating: rating }, function (response) {
+      NotificationService.success('Success', 'Rating saved');
     });
   };
 

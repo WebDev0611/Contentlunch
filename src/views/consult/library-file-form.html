@@ -17,7 +17,7 @@
 
         <div>
           <button type="button" class="btn btn-black btn-default" onclick="$('#filAttachment').click()" ng-show="!fileName">Browse</button>
-          <input type="file" id="filAttachment" ng-file-select="addFile($files, fileSelectForm, fileSelectForm.filAttachment)" style="display: none" />
+          <input type="file" id="filAttachment" ng-file-select="addFile($files, fileSelectForm, fileSelectForm.filAttachment)" style="display: none" ng-disabled="mode == 'edit'" />
         </div>
 
       </div>
@@ -37,10 +37,6 @@
       <div class="form-group">
         <label for="tags">Tags (separate by comma)</label>
         <input type="text" id="tags" class="form-control" ng-model="uploadFile.tags" />
-      </div>
-
-      <div class="form-group">
-        Rating
       </div>
 
       <div class="buttons clearfix">

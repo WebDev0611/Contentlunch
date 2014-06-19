@@ -22,9 +22,24 @@ class Upload extends CabinetUpload {
     return $this->hasMany('UploadRating', 'upload_id', 'id');
   }
 
+  public function userRating()
+  {
+    return $this->hasMany('UploadRating', 'upload_id', 'id');
+  }
+
   public function tags()
   {
     return $this->hasMany('UploadTag', 'upload_id', 'id');
+  }
+
+  public function views()
+  {
+    return $this->hasMany('UploadView', 'upload_id', 'id');
+  }
+
+  public function countViews()
+  {
+    return $this->hasMany('UploadView', 'upload_id', 'id')->count();
   }
 
   public static function boot()
