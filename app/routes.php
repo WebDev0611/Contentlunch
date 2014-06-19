@@ -139,6 +139,9 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'show', 'update']
   ]);
 
+  Route::get('uploads/{id}/download', 'UploadController@download');
+  Route::post('uploads/{id}/rating', 'UploadController@rating');
+
   Route::resource('user', 'UserController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);

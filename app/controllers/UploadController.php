@@ -97,4 +97,64 @@ class UploadController extends BaseController {
     return $this->responseError("Unable to delete file");
   }
 
+  /**
+   * Download an upload's file
+   */
+  public function download($uploadID)
+  {
+    // If upload belongs to account, make sure user has access
+    // account id is null for global uploads
+    $upload = Upload::find($uploadID);
+    if ( ! $upload) {
+      return $this->responseError("Not found");
+    }
+    if ($upload->account_id && ! $this->inAccount($upload->account_id)) {
+      return $this->responseAccessDenied();
+    }
+    // Store a viewed record
+    $user = Confide::user();
+    $viewed = new UploadView([
+      'upload_id' => $uploadID,
+      'user_id' => $user->id
+    ]);
+    // This won't save a new record with the same upload_id,user_id
+    // due to unique validation rule
+    $viewed->save();
+    // Return the file as a download
+    $path = base_path() . $upload->path . $upload->filename;
+    return Response::download($path);
+  }
+
+  /**
+   * Rate an upload
+   */
+  public function rating($uploadID)
+  {
+    // If upload belongs to account, make sure user has access
+    // account id is null for global uploads
+    $upload = Upload::find($uploadID);
+    if ( ! $upload) {
+      return $this->responseError("Not found");
+    }
+    if ($upload->account_id && ! $this->inAccount($upload->account_id)) {
+      return $this->responseAccessDenied();
+    }
+    $user = Confide::user();
+    // If rating exists, update the rating score
+    $rating = UploadRating::where('upload_id', $uploadID)
+      ->where('user_id', $user->id)->first();
+    if ($rating) {
+      $rating->rating = Input::get('rating');
+      $rating->updateUniques();
+    } else {
+      $rating = new UploadRating([
+        'upload_id' => $uploadID,
+        'user_id' => $user->id,
+        'rating' => Input::get('rating')
+      ]);
+      $rating->save();
+    }
+    return $rating;
+  }
+
 }

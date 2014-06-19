@@ -2,7 +2,7 @@ launch.module.directive('folderPreview', function (ModelMapperService, $modal, L
   
   return {
     link: function (scope, element, attrs) {
-      console.log(scope.folder);
+      
       scope.folder.updated = new Date(scope.folder.updated_at);
       scope.user = ModelMapperService.user.fromDto(scope.folder.user);
       scope.userImage = function () {

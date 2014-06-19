@@ -2446,11 +2446,11 @@ hr.simple-divider {
   padding: 5px 10px 15px 10px;
   margin: 20px 0;
   border-radius: 8px;
-  height: 145px;
+  height: 155px;
 }
 .files-list .file-preview .row,
 .files-list .folder-preview .row {
-  margin-top: 15px;
+  margin-top: 5px;
 }
 .files-list .file-preview .edit,
 .files-list .folder-preview .edit {
@@ -2502,6 +2502,10 @@ hr.simple-divider {
 .files-list .folder-preview .name {
   font-weight: bold;
 }
+.files-list .file-preview .tags,
+.files-list .folder-preview .tags {
+  font-style: italic;
+}
 .files-list .file-preview .tags span,
 .files-list .folder-preview .tags span {
   margin-right: 3px;
@@ -2511,6 +2515,18 @@ hr.simple-divider {
   border-color: #2BADC0;
   float: left;
   margin-right: 5px;
+}
+.files-list .file-preview .rating-views,
+.files-list .folder-preview .rating-views {
+  margin: 8px 0;
+}
+.files-list .file-preview .rating,
+.files-list .folder-preview .rating {
+  font-size: 16px;
+}
+.files-list .file-preview .views,
+.files-list .folder-preview .views {
+  margin-left: 10px;
 }
 .admin-library .right-pane {
   padding: 65px 20px;

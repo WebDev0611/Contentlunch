@@ -21,7 +21,8 @@
     "doctrine/dbal": "~2.3",
     "webignition/internet-media-type": "dev-master",
     "happyr/linkedin-api-client": "dev-master",
-    "thujohn/twitter": "dev-master"
+    "thujohn/twitter": "dev-master",
+    "felixkiss/uniquewith-validator": "1.1.*"
 	},
 	"autoload": {
 		"classmap": [

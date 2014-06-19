@@ -86,8 +86,8 @@
 		if (launch.utils.isValidPattern(p, /\W/)) {
 			criteriaCount++;
 		}
-
-		return (criteriaCount >= 2) ? null : 'Password must contain at least two of the following: lower-case letter, upper-case letter, number, symbol.';
+		
+		return (criteriaCount >= 2) ? '' : 'Password must contain at least two of the following: lower-case letter, upper-case letter, number, symbol.';
 	},
 
 	titleCase: function(str) {

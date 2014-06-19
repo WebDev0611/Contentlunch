@@ -1434,6 +1434,18 @@
         uploadFile.tags = dto.tags;
       }
 
+      if (dto.libraries) {
+        uploadFile.libraries = dto.libraries;
+      }
+
+      if (dto.ratings) {
+        uploadFile.ratings = dto.ratings;
+      }
+
+      if (dto.views) {
+        uploadFile.views = dto.views;
+      }
+
 			uploadFile.path = path + '' + uploadFile.fileName;
 
 			return uploadFile;

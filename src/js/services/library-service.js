@@ -12,8 +12,11 @@ launch.module.factory('LibraryService', function ($resource) {
     }
   });
 
+  var Rating = $resource('/api/uploads/:id/rating', { id: '@id' });
+
   return {
     Libraries: Libraries,
-    Uploads: Uploads
+    Uploads: Uploads,
+    Rating: Rating
   };
 });

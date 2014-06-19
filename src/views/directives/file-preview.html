@@ -17,11 +17,13 @@
 
     <div class="info col-sm-7">
       <div class="filename">
-        <a ng-href="{{ launchFile.path }}" target="__blank">{{ launchFile.fileName }}</a>
+        <a ng-href="/api/uploads/{{ launchFile.id }}/download" target="__blank">{{ launchFile.fileName }}</a>
       </div>
       <div class="rating-views">
-        <span class="rating">Rating here</span>
-        <span class="views">85 Views</span>
+        <span class="rating" tooltip-html-unsafe="{{ rating.tooltip() }}" tooltip-placement="right">
+          <rating ng-model="rating.rate" max="rating.max" readonly="rating.isReadonly" on-hover="rating.hover(value)" on-leave="overStar = null" ng-click="rateFile(launchFile.id, rating.rate)" value="rating.rate"></rating>
+        </span>
+        <span class="views">{{ views }} Views</span>
       </div>
       <div class="tags">
         <span ng-repeat="tag in file.tags">{{ tag.tag }}</span>

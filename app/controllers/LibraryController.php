@@ -4,6 +4,8 @@ class LibraryController extends BaseController {
   
   /**
    * Returns a list of libraries (folders) and their uploads
+   * Basically, this looks up the current user and returns 
+   * what they have access to... not exactly restful...
    */
   public function index()
   {
@@ -15,7 +17,21 @@ class LibraryController extends BaseController {
       ->with('user.image')
       ->with('uploads')
       ->with('uploads.user')
-      ->with('uploads.tags');
+      ->with('uploads.tags')
+      // Get count of upload views (downloads)
+      ->with(['uploads.views' => function ($q) {
+        $q->select( DB::raw('COUNT(*) AS total'), 'upload_views.upload_id')
+          ->groupBy('upload_views.upload_id');
+      }])
+      // Get average upload rating
+      ->with(['uploads.ratings' => function ($q) {
+        $q->select( DB::raw('AVG(upload_ratings.rating) AS rating'), 'upload_ratings.upload_id')
+          ->groupBy('upload_ratings.upload_id');
+      }])
+      // Get current user's rating
+      ->with(['uploads.userRating' => function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+      }]);
     // Limit to global library and the account the current user belongs to
     $accounts = $user->accounts;
     foreach ($accounts as $account) {
@@ -31,12 +47,60 @@ class LibraryController extends BaseController {
       $query->where('global', true);
     }
     $results = $query->get();
+    
     // Add root uploads
     $results = $results->toArray();
-    $results[] = [
-      'id' => 'root',
-      'uploads' => []
-    ];
+
+    // Can't figure out how to do this with one query... 
+    // Get upload ids for account that are attached to root library (library_uploads.library_id == 0)
+    if ( ! empty($accountID)) {
+      $uploads = DB::table('uploads')
+        ->join('library_uploads', function ($join) {
+          $join->on('uploads.id', '=', 'library_uploads.upload_id');
+          $join->where('library_uploads.library_id', '=', 0);
+        })
+        ->where('account_id', $accountID)
+        ->get(['uploads.id']);
+
+      $ids = [];
+      if ($uploads) {
+        foreach ($uploads as $upload) {
+          $ids[] = $upload->id;
+        }
+      }
+
+      // Duplicate all the stuff from above so folder -> uploads match
+      $rootUploadsArray = [];
+      if ($ids) {
+        $rootUploads = Upload::with('user')
+          ->with('tags')
+          ->with('user')
+          ->with('libraries')
+          // Get count of upload views (downloads)
+          ->with(['views' => function ($q) {
+            $q->select( DB::raw('COUNT(*) AS total'), 'upload_views.upload_id')
+              ->groupBy('upload_views.upload_id');
+          }])
+          ->with('ratings')
+           // Get average upload rating
+          ->with(['ratings' => function ($q) {
+            $q->select( DB::raw('AVG(upload_ratings.rating) AS rating'), 'upload_ratings.upload_id')
+              ->groupBy('upload_ratings.upload_id');
+          }])
+          // Get current user's rating
+          ->with(['userRating' => function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+          }])
+          ->whereIn('uploads.id', $ids)
+          ->get();
+        $rootUploadsArray = $rootUploads->toArray();
+      }
+      // Mimick a folder record
+      $results[] = [
+        'id' => 'root',
+        'uploads' => $rootUploadsArray
+      ];
+    }
     return $results;
   }
 

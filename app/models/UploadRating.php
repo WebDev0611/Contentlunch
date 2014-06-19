@@ -11,11 +11,12 @@ class UploadRating extends Ardent {
   public $forceEntityHydrationFromInput = true;
 
   protected $fillable = [
-    'upload_id', 'rating'
+    'upload_id', 'user_id', 'rating'
   ];
 
   public static $rules = [
-    'upload_id' => 'required',
+    'upload_id' => 'required|unique_wiht:upload_ratings,user_id',
+    'user_id' => 'required',
     'rating' => 'required'
   ];
 
