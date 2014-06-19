@@ -1,1 +1,9 @@
-Forum Thread
+Forum Thread Replies
+
+<button ng-click="createReply()">Create Fake Reply</button>
+
+<div ng-repeat="reply in replies track by reply.id">
+    <div ng-bind-html="reply.body"></div>
+    <button ng-click="deleteReply(reply)">Delete</button>
+    <button ng-click="updateReply(reply)">Update</button>
+</div>

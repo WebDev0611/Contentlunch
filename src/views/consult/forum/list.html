@@ -1,3 +1,10 @@
 Forum List
 
 <button ng-click="createThread()">Create Fake Thread</button>
+
+
+<div ng-repeat="thread in threads track by thread.id">
+    <a href="/consult/forum/{{ thread.id }}">{{ thread.name }}</a>
+    <button ng-click="deleteThread(thread)">Delete</button>
+    <button ng-click="updateThread(thread)">Update</button>
+</div>
