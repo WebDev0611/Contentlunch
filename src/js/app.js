@@ -69,6 +69,14 @@
 						controller: 'ConsultConferenceController',
 						templateUrl: '/assets/views/consult/conference-list.html'
 					})
+					.when('/consult/forum', {
+						controller: 'ForumController',
+						templateUrl: '/assets/views/consult/forum/list.html'
+					})
+					.when('/consult/forum/:threadId', {
+						controller: 'ForumThreadController',
+						templateUrl: '/assets/views/consult/forum/thread.html'
+					})
 					.when('/consult/conference/:conferenceId', {
 						controller: 'ConsultConferenceController',
 						templateUrl: '/assets/views/consult/conference-view.html'

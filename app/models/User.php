@@ -72,6 +72,17 @@ class User extends ConfideUser {
     return $this->hasOne('Upload', 'id', 'image');
   }
 
+  // forum stuff
+  public function forum_threads()
+  {
+    return $this->hasMany('ForumThread');
+  }
+
+  public function thread_replies()
+  {
+    return $this->hasMany('ThreadReplies');
+  }
+
   /**
    * Save roles to this user
    * @param  array $roles Role ids
