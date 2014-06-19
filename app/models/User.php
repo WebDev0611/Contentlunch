@@ -106,6 +106,20 @@ class User extends ConfideUser {
     return $ret;
   }
 
+  /**
+   * Get this user's account ID, should belong to one account
+   */
+  public function getAccountID()
+  {
+    $accounts = $this->accounts;
+    if ($accounts) {
+      foreach ($accounts as $account) {
+        return $account->id;
+      }
+    }
+    return null;
+  }
+
   public function scopeWithAccounts($query) {
 
   }
