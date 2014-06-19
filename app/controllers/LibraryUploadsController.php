@@ -65,12 +65,13 @@ class LibraryUploadsController extends BaseController {
     if ($upload->id) {
       // If uploading to root library, store a record in library_uploads
       // with library_id of 0
+      $date = new DateTime;
       if ($libraryID == 'root') {
         DB::table('library_uploads')->insert([
           'upload_id' => $upload->id,
           'library_id' => 0,
-          'created_at' => time(),
-          'updated_at' => time()
+          'created_at' => $date,
+          'updated_at' => $date
         ]);
       } else {
         // Attach to library
@@ -137,11 +138,12 @@ class LibraryUploadsController extends BaseController {
         $upload->libraries()->sync([$libraryID]);
       } else {
         DB::table('library_uploads')->where('upload_id', $upload->id)->delete();
+        $date = new DateTime;
         DB::table('library_uploads')->insert([
           'upload_id' => $upload->id,
           'library_id' => 0,
-          'created_at' => time(),
-          'updated_at' => time()
+          'created_at' => $date,
+          'updated_at' => $date
         ]);
       }
 
