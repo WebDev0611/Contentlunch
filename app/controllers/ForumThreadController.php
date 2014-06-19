@@ -23,6 +23,10 @@ class ForumThreadController extends BaseController {
             return $this->responseError('Thread not found', 404);
         }
 
+        // increment view count every time we request this resource
+        $thread->views++;
+        $thread->save();
+
         return $thread;
     }
 
@@ -70,7 +74,7 @@ class ForumThreadController extends BaseController {
         $thread = ForumThread::find($threadID);
 
         if ($thread->account_id != $accountID) {
-            return $this->responseError('Cannot change threads across accounts.');
+            return $this->responseError('Cannot update threads across accounts.');
         }
 
         if (!$thread->save()) {
@@ -89,10 +93,10 @@ class ForumThreadController extends BaseController {
         $thread = ForumThread::find($threadID);
 
         if ($thread->account_id != $accountID) {
-            return $this->responseError('Cannot change threads across accounts');
+            return $this->responseError('Cannot delete threads across accounts');
         }
 
-        if (!$thread->destroy()) {
+        if (!$thread->delete()) {
             return $this->responseError("Couldn't delete thread");
         }
 

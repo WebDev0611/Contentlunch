@@ -158,7 +158,7 @@ Route::group(['prefix' => 'api'], function()
   ]);
 
   Route::resource('account/{accountID}/forum-thread/{threadID}/reply', 'ForumThreadReplyController', [
-    'only' => ['index', 'store', 'update']
+    'only' => ['index', 'store', 'update', 'destroy']
   ]);
 
 });
