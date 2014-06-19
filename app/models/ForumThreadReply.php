@@ -28,7 +28,17 @@ class ForumThreadReply extends Ardent {
 
     public function user()
     {
-        return $this->belongsTo('User')->with('image');
+        // cut down on unnecessary fields
+        return $this->belongsTo('User')->select([
+            'users.id',
+            'email',
+            'first_name',
+            'last_name',
+            'image',
+            'title',
+        ])->with(['accounts' => function ($query) {
+            $query->select('accounts.id', 'name');
+        }])->with('image');
     }
 
 }

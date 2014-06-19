@@ -36,7 +36,17 @@ class ForumThread extends Ardent {
 
     public function user()
     {
-        return $this->belongsTo('User')->with('image');
+        // cut down on unnecessary fields
+        return $this->belongsTo('User')->select([
+            'users.id',
+            'email',
+            'first_name',
+            'last_name',
+            'image',
+            'title',
+        ])->with(['accounts' => function ($query) {
+            $query->select(['accounts.id', 'name']);
+        }])->with('image');
     }
 
     protected function beforeSave()
@@ -49,6 +59,7 @@ class ForumThread extends Ardent {
     public function toArray()
     {
         $values = parent::toArray();
+
         if (is_string(@$values['tags'])) {
             $values['tags'] = @json_decode($values, true);
         }
@@ -62,7 +73,6 @@ class ForumThread extends Ardent {
             } else {
                 $values['reply_count'] = 0;
             }
-            
         } else {
             $values['reply_count'] = @$values['reply_count']['reply_count'] ?: 0;
         }
