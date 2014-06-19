@@ -25,14 +25,13 @@ class ForumThread extends Ardent {
 
     public function replies()
     {
-        return $this->hasMany('ForumThreadReply')->with('user');
+        return $this->hasMany('ForumThreadReply')->with('user')->with('account');
     }
 
     public function reply_count()
     {
         return $this->hasOne('ForumThreadReply')->selectRaw('forum_thread_id, count(*) as reply_count')->groupBy('forum_thread_id');
     }
-
 
     public function user()
     {
@@ -44,9 +43,15 @@ class ForumThread extends Ardent {
             'last_name',
             'image',
             'title',
-        ])->with(['accounts' => function ($query) {
-            $query->select(['accounts.id', 'name']);
-        }])->with('image');
+        ])->with('image');
+    }
+
+    public function account()
+    {
+        return $this->belongsTo('Account')->select([
+            'id',
+            'name',
+        ]);
     }
 
     protected function beforeSave()

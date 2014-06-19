@@ -18,6 +18,7 @@ class ForumThreadReply extends Ardent {
     public static $rules = [
         'forum_thread_id' => 'required',
         'user_id'         => 'required',
+        'account_id'      => 'required',
         'body'            => 'required',
     ];
 
@@ -36,9 +37,15 @@ class ForumThreadReply extends Ardent {
             'last_name',
             'image',
             'title',
-        ])->with(['accounts' => function ($query) {
-            $query->select('accounts.id', 'name');
-        }])->with('image');
+        ])->with('image');
+    }
+
+    public function account()
+    {
+        return $this->belongsTo('Account')->select([
+            'id',
+            'name',
+        ]);
     }
 
 }

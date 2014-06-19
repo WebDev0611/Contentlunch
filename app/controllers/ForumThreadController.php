@@ -8,7 +8,7 @@ class ForumThreadController extends BaseController {
             return $response;
         }
 
-        return ForumThread::with('user')->with('reply_count')->get();
+        return ForumThread::with('reply_count')->with('user')->with('account')->get();
     }
 
     public function show($accountID, $threadID) 
@@ -17,7 +17,7 @@ class ForumThreadController extends BaseController {
             return $response;
         }
 
-        return ForumThread::with('user')->with('replies')->find($threadID);
+        return ForumThread::with('user')->with('replies')->with('account')->find($threadID);
     }
 
     public function store($accountID)
