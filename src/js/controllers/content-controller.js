@@ -666,8 +666,7 @@
 		};
 
 		$scope.downloadFile = function(file) {
-			// TODO: IMPLEMENT DOWNLOADING OF FILES!!
-			notificationService.info('WARNING!', 'FILE DOWNLOADING IS NOT YET IMPLEMENTED!!');
+			window.open('/api/uploads/' + file.id + '/download');
 		};
 
 		$scope.viewFile = function(file) {
