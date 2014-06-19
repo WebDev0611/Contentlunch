@@ -17,7 +17,13 @@ class ForumThreadController extends BaseController {
             return $response;
         }
 
-        return ForumThread::with('user')->with('replies')->with('account')->find($threadID);
+        $thread = ForumThread::with('user')->with('replies')->with('account')->find($threadID);
+
+        if (!$thread) {
+            return $this->responseError('Thread not found', 404);
+        }
+
+        return $thread;
     }
 
     public function store($accountID)
@@ -97,10 +103,10 @@ class ForumThreadController extends BaseController {
     {
         $account = Account::find($accountID);
         if (!$account) {
-          return $this->responseError("Invalid account");
+            return $this->responseError("Invalid account");
         }
         if (!$this->inAccount($account->id)) {
-          return $this->responseAccessDenied();
+            return $this->responseAccessDenied();
         }
 
         return true;
