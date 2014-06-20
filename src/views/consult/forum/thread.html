@@ -1,4 +1,4 @@
-<div class="view consult">
+<div class="view consult forum">
     <div class="col-md-3 left-pane">
         <a href="/consult/forum" class="btn full-width small-nudge-down btn-inverse">
             Back to Threads
@@ -71,9 +71,9 @@
                         </td>
                         <td>
                             <div ng-hide="isEditing && reply.isEditing" ng-bind-html="reply.body"></div>
-                            <form ng-submit="updateReply(currentReply)" ng-show="isEditing && reply.isEditing">
+                            <form ng-submit="updateReply(current.reply)" ng-show="isEditing && reply.isEditing">
                                 <div class="nudge-down">
-                                    <textarea rich-text-editor name="body" class="form-control" ng-model="currentReply.body"></textarea>
+                                    <textarea rich-text-editor name="body" class="form-control" ng-model="current.reply.body"></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-inverse">Save</button>
                                 <button type="button" class="btn btn-inverse" ng-click="cancelReply(reply)">Cancel</button>
@@ -81,6 +81,9 @@
                         </td>
                         <td width="20px">
                             <span ng-click="editReply(reply)" ng-show="reply.user.id == user.id && !isEditing" class="fa fa-pencil"></span>
+                        </td>
+                        <td width="20px" ng-show="user.role.isGlobalAdmin === true">
+                            <span class="fa fa-trash-o" ng-click="deleteReply(reply)"></span>
                         </td>
                     </tr>
                 </tbody>

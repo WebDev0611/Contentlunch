@@ -153,11 +153,11 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'update']
   ]);
 
-  Route::resource('account/{accountID}/forum-thread', 'ForumThreadController', [
+  Route::resource('forum-thread', 'ForumThreadController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
-  Route::resource('account/{accountID}/forum-thread/{threadID}/reply', 'ForumThreadReplyController', [
+  Route::resource('forum-thread/{threadID}/reply', 'ForumThreadReplyController', [
     'only' => ['index', 'store', 'update', 'destroy']
   ]);
 

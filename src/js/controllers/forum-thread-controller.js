@@ -4,7 +4,7 @@ function ($scope,   $rootScope,   AuthService,   $routeParams,   $q,   Restangul
     var user = $scope.user = AuthService.userInfo();
     $scope.user.name = $scope.user.displayName;
 
-    var Thread  = Restangular.one('account', user.account.id).one('forum-thread', $routeParams.threadId);
+    var Thread  = Restangular.one('forum-thread', $routeParams.threadId);
     var Replies = Thread.all('reply');
 
     $q.all({
@@ -22,8 +22,10 @@ function ($scope,   $rootScope,   AuthService,   $routeParams,   $q,   Restangul
     $scope.createReply = function (reply) {
         reply.forumThreadId = $routeParams.threadId;
         reply.userId = user.id;
+        reply.accountId = (user.account || {}).id;
 
         Replies.post(reply).then(function (newReply) {
+            reply.body = '';
             notify.success('Reply created');
             _.appendOrUpdate($scope.replies, newReply);
         }).catch($rootScope.globalErrorHandler);
@@ -39,20 +41,21 @@ function ($scope,   $rootScope,   AuthService,   $routeParams,   $q,   Restangul
     $scope.updateReply = function (reply) {
         Restangular.copy(reply).put().then(function (newReply) {
             $scope.isEditing = false; 
-            $scope.currentReply = {};
+            $scope.current.reply = {};
             notify.success('Reply updated');
             _.appendOrUpdate($scope.replies, newReply);
         }).catch($rootScope.globalErrorHandler);
     };
 
     $scope.isEditing = false; 
-    $scope.currentReply = {};
+    $scope.current = { reply: {} };
     $scope.editReply = function (reply) {
-        $scope.currentReply = Restangular.copy(reply);
+        $scope.current.reply = Restangular.copy(reply);
         reply.isEditing = $scope.isEditing = true;
     };
 
     $scope.cancelReply = function (reply) {
+        $scope.current.reply = {};
         reply.isEditing = $scope.isEditing = false;
     };
 
