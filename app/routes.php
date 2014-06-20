@@ -163,6 +163,8 @@ Route::group(['prefix' => 'api'], function()
 
 });
 
+Route::get('password/reset/{code}', 'AuthController@check_reset');
+
 
 /**
  * Catchall route.
