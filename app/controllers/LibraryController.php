@@ -16,6 +16,7 @@ class LibraryController extends BaseController {
     $query = Library::with('account')
       ->with('user.image')
       ->with('uploads')
+      ->with('uploads.libraries')
       ->with('uploads.user')
       ->with('uploads.tags')
       // Get count of upload views (downloads)

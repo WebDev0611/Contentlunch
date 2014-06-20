@@ -14,6 +14,7 @@
 	self.created = null;
 	self.updated = null;
 	self.deleted = null;
+  self.tags = null;
 
 	self.fileType = function () {
 		return launch.utils.getFileTypeCssClass(self.extension);

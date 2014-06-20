@@ -9,7 +9,8 @@ class Library extends Ardent {
 
   public static $rules = [
     'name' => 'required|min:5',
-    'user_id' => 'required'
+    'user_id' => 'required',
+    'description' => 'required'
   ];
 
   protected $table = 'libraries';
