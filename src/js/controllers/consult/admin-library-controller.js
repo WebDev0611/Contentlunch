@@ -27,6 +27,7 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
 
         $scope.file = {};
         $scope.uploadFile = new launch.UploadFile();
+        $scope.disableFolderSelect = true;
 
         $scope.fileFolders = [
           { key: '0', name: '(Default to the root folder)' }
@@ -78,6 +79,7 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
         $scope.file = {};
         $scope.uploadFile = file;
         $scope.fileName = file.fileName;
+        $scope.disableFolderSelect = true;
 
         $scope.fileType = launch.utils.getFileTypeCssClass(file.fileName.substring(file.fileName.lastIndexOf('.') + 1));
         

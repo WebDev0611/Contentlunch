@@ -77,6 +77,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
         $scope.folders = [];
         $scope.uploadFile = new launch.UploadFile();
         $scope.uploadFile.tags = '';
+        $scope.disableFolderSelect = false;
 
         // Setup available folders to save file to
         $scope.fileFolders = parentScope.getFolderOptions();
@@ -132,6 +133,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
         $scope.folders = [];
         $scope.uploadFile = file;
         $scope.mode = 'edit';
+        $scope.disableFolderSelect = false;
 
         $scope.fileType = launch.utils.getFileTypeCssClass(file.fileName.substring(file.fileName.lastIndexOf('.') + 1));
 
