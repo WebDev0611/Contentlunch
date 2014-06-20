@@ -195,8 +195,10 @@
 				// take all the requests to the server (that have data) and convert snake_case back to camelCase
 				RestangularProvider.addRequestInterceptor(function (data, operation, route, url) {
 					operation = operation.toUpperCase();
-					if (operation === 'GET' || operation === 'GETLIST' || operation === 'REMOVE' || operation === 'DELETE') return data;
-					var origData = angular.copy(origData);
+					if (operation === 'GET' || operation === 'GETLIST' || operation === 'REMOVE' || operation === 'DELETE') 
+						return data;
+
+					var origData = angular.copy(data);
 
 					try {
 						data = snakeCaseize(data);

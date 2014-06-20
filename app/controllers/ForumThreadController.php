@@ -43,9 +43,7 @@ class ForumThreadController extends BaseController {
             return $this->responseError($thread->errors()->all(':message'));
         }
 
-        $thread = ForumThread::with('user')->find($thread->id);
-
-        $thread->reply_count = 0;
+        $thread = ForumThread::with('user')->with('account')->find($thread->id);
 
         if ($body = Input::get('body')) {
             $reply = new ForumThreadReply();
@@ -59,7 +57,9 @@ class ForumThreadController extends BaseController {
                 return $this->responseError($reply->errors()->all(':message'));
             }
 
-            $thread->reply_count++;
+            $thread->reply_count = 1;
+        } else {
+            $thread->reply_count = 0;
         }
 
         return $thread;
@@ -72,10 +72,6 @@ class ForumThreadController extends BaseController {
         }
 
         $thread = ForumThread::find($threadID);
-
-        if ($thread->account_id != $accountID) {
-            return $this->responseError('Cannot update threads across accounts.');
-        }
 
         if (!$thread->save()) {
             return $this->responseError($thread->errors()->all(':message'));
@@ -91,10 +87,6 @@ class ForumThreadController extends BaseController {
         }
 
         $thread = ForumThread::find($threadID);
-
-        if ($thread->account_id != $accountID) {
-            return $this->responseError('Cannot delete threads across accounts');
-        }
 
         if (!$thread->delete()) {
             return $this->responseError("Couldn't delete thread");

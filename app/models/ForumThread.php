@@ -79,7 +79,7 @@ class ForumThread extends Ardent {
                 $values['reply_count'] = 0;
             }
         } else {
-            $values['reply_count'] = @$values['reply_count']['reply_count'] ?: 0;
+            $values['reply_count'] = @$values['reply_count']['reply_count'] ?: (@$values['reply_count'] ?: 0);
         }
 
         return $values;

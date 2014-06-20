@@ -2,6 +2,8 @@ launch.module.controller('ForumController',
         ['$scope', '$rootScope', 'AuthService', '$routeParams', '$q', 'Restangular', 'NotificationService', 
 function ($scope,   $rootScope,   AuthService,   $routeParams,   $q,   Restangular,   notify) {
     var user = $scope.user = AuthService.userInfo();
+    $scope.user.name = $scope.user.displayName;
+    $scope.showNewThreadForm = false;
 
     var Threads = Restangular.one('account', user.account.id).all('forum-thread');
 
@@ -19,6 +21,7 @@ function ($scope,   $rootScope,   AuthService,   $routeParams,   $q,   Restangul
         Threads.post(thread).then(function (thread) {
             notify.success('Thread created');
             _.appendOrUpdate($scope.threads, thread);
+            $scope.cancelThread();
         }).catch($rootScope.globalErrorHandler);
     };
 
@@ -34,5 +37,17 @@ function ($scope,   $rootScope,   AuthService,   $routeParams,   $q,   Restangul
             notify.success('Thread updated');
             _.appendOrUpdate($scope.threads, thread);
         }).catch($rootScope.globalErrorHandler);
+    };
+
+    $scope.cancelThread = function () {
+        $scope.thread = {};
+        $scope.showNewThreadForm = false;
+    };
+
+    // Helpers
+    // -------------------------
+    $scope.pagination = {
+        pageSize: 10,
+        currentPage: 1,
     };
 }]);
