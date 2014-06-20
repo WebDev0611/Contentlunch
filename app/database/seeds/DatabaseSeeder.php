@@ -53,6 +53,11 @@ class DatabaseSeeder extends Seeder {
 
     $this->call('AccountSeeder');
 		$this->call('UserSeeder');
+
+    // Login as siteadmin, so calls to Confide::user() work
+    $user = User::where('username', 'siteadmin@test.com')->first();
+    Auth::login($user);
+
     $this->call('CampaignSeeder');
     $this->call('ContentSeeder');
 	}
