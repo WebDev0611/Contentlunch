@@ -1,9 +1,117 @@
-Forum Thread Replies
+<div class="view consult">
+    <div class="col-md-3 left-pane">
+        <a href="/consult/forum" class="btn full-width small-nudge-down btn-inverse">
+            Back to Threads
+        </a>
+        
+        <input type="text" name="search" class="form-control" id="search" ng-model="search" placeholder="Search...">
+    </div> <!-- .left-pane -->
+    <div class="col-md-9 right-pane">
+        <h2 class="right-pane-header">Consult</h2>
 
-<button ng-click="createReply()">Create Fake Reply</button>
+        <div class="container-fluid" ng-hide="showNewReplyForm">
+            <div class="section-header nudge-down">
+                <h3>User Forum</h3>
+                
+                <div class="paging-controls">
+                    <div class="form-group form-inline">
+                        <label class="control-label" for="selPageSize">Items per page:</label>
+                        <select class="form-control" id="selPageSize" name="selPageSize" ng-model="pagination.pageSize">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
 
-<div ng-repeat="reply in replies track by reply.id">
-    <div ng-bind-html="reply.body"></div>
-    <button ng-click="deleteReply(reply)">Delete</button>
-    <button ng-click="updateReply(reply)">Update</button>
+                    <div style="width: 100px; text-align: center;">
+                        {{ (pagination.currentPage - 1) * pagination.pageSize + 1 }} 
+                        to {{ pagination.currentPage * pagination.pageSize | min:replies.length }}
+                        of {{ replies.length }}
+                    </div>
+
+                    <div class="pager" ng-show="replies.length > pagination.pageSize">
+                        <pagination 
+                            total-items="replies.length"
+                            items-per-page="pagination.pageSize"
+                            page="pagination.currentPage"
+                            direction-links="true"
+                            max-size="0">
+                        </pagination>
+                    </div>
+                </div>
+            </div> <!-- .section-header -->
+
+            <div class="header-bar">{{ thread.name }}</div>
+
+            <div class="group thread-meta">
+                <div class="pull-left">{{ thread.description }}</div>
+                <div class="pull-right" class="align-right">
+                    <span ng-show="thread.tags.length" class="fa fa-tag" style="font-size:24px"></span> 
+                    {{ thread.tags.join(', ') }}
+                </div>
+            </div>
+
+            <table class="table table-striped">
+                <tbody>
+                    <tr ng-repeat="reply in replies | filter:search | orderBy:'createdAt' track by reply.id">
+                        <td width="250px">
+                            <div class="cl-badge cl-badge-horizontal no-margin">
+                                <span class="cl-badge-image" style="background-image: url('{{ reply.user.image | imagePathFromObject }}')")></span>
+                                <div class="cl-badge-caption no-margin">
+                                    <strong>{{ reply.user.name }}</strong><br>
+                                    {{ reply.account.name }}<br>
+                                    <small>{{ reply.createdAt | moment:'MM/DD/YY h:mm a' }}</small>
+                                    <div ng-show="reply.createdAt != reply.updatedAt">
+                                        <small><strong>Updated:</strong> {{ reply.updatedAt | moment:'MM/DD/YY h:mm a' }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div ng-hide="isEditing && reply.isEditing" ng-bind-html="reply.body"></div>
+                            <form ng-submit="updateReply(currentReply)" ng-show="isEditing && reply.isEditing">
+                                <div class="nudge-down">
+                                    <textarea rich-text-editor name="body" class="form-control" ng-model="currentReply.body"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-inverse">Save</button>
+                                <button type="button" class="btn btn-inverse" ng-click="cancelReply(reply)">Cancel</button>
+                            </form>
+                        </td>
+                        <td width="20px">
+                            <span ng-click="editReply(reply)" ng-show="reply.user.id == user.id && !isEditing" class="fa fa-pencil"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> <!-- .container-fluid[ng-hide="showNewReplyForm"] -->
+
+        <form ng-submit="createReply(reply)" class="container-fluid">
+            <div class="well">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="cl-badge cl-badge-horizontal no-margin">
+                            <span class="cl-badge-image" style="background-image: url('{{ user.image | imagePathFromObject }}')")></span>
+                            <div class="cl-badge-caption no-margin">
+                                <strong>{{ user.name }}</strong><br>
+                                {{ user.account.name }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-9 nudge-down">
+                        <label for="body">Reply</label>
+                        <textarea rich-text-editor name="body" class="form-control" id="body" ng-model="reply.body"></textarea>
+                    </div>
+                </div> <!-- .row -->
+                <div class="row">
+                    <div class="pull-md-3 col-md-9">
+                        <button type="submit" class="btn btn-inverse">Save</button>
+                        <button type="button" class="btn btn-inverse" ng-click="cancelReply()">Cancel</button>
+                    </div>
+                </div>
+            </div> <!-- .well -->
+        </form>        
+    </div> <!-- .right-pane -->
 </div>

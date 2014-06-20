@@ -43,9 +43,7 @@ class ForumThreadController extends BaseController {
             return $this->responseError($thread->errors()->all(':message'));
         }
 
-        $thread = ForumThread::with('user')->find($thread->id);
-
-        $thread->reply_count = 0;
+        $thread = ForumThread::with('user')->with('account')->find($thread->id);
 
         if ($body = Input::get('body')) {
             $reply = new ForumThreadReply();
@@ -59,7 +57,9 @@ class ForumThreadController extends BaseController {
                 return $this->responseError($reply->errors()->all(':message'));
             }
 
-            $thread->reply_count++;
+            $thread->reply_count = 1;
+        } else {
+            $thread->reply_count = 0;
         }
 
         return $thread;

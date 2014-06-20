@@ -2,6 +2,8 @@
 
 class ForumThreadReplyController extends BaseController {
 
+    private $thread;
+
     public function index($accountID, $threadID)
     {
         if (($response = $this->validate($accountID, $threadID)) !== true) {
@@ -25,6 +27,9 @@ class ForumThreadReplyController extends BaseController {
         if (!$reply->save()) {
             return $this->responseError($reply->errors()->all(':message'));
         }
+
+        // update updatedAt timestamp
+        $this->thread->save();
 
         return ForumThreadReply::with('user')->with('account')->find($reply->id);
     }
@@ -83,10 +88,14 @@ class ForumThreadReplyController extends BaseController {
             return $this->responseAccessDenied();
         }
 
-        $thread = ForumThread::find($threadID);
-        if (!$thread) {
+        $this->thread = ForumThread::find($threadID);
+        if (!$this->thread) {
             return $this->responseError("Thread not found", 404);
         }
+        // when we do stuff to thread, let's NOT auto-fill
+        $this->thread->autoHydrateEntityFromInput    = false;
+        $this->thread->forceEntityHydrationFromInput = false;
+
 
         return true;
     }

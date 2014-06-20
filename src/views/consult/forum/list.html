@@ -1,15 +1,58 @@
 <div class="view consult">
     <div class="col-md-3 left-pane">
-        <button class="btn full-width small-nudge-down btn-inverse" ng-click="showNewThreadForm = true">
+        <button class="btn full-width small-nudge-down btn-inverse" ng-click="thread = {}; showNewThreadForm = true">
             Create New Thread
         </button>
         
-        <input type="text" name="search" class="form-control" id="search" ng-model="model.search" placeholder="Search...">
+        <input type="text" name="search" class="form-control" id="search" ng-model="search" placeholder="Search...">
     </div> <!-- .left-pane -->
     <div class="col-md-9 right-pane">
         <h2 class="right-pane-header">Consult</h2>
 
-        <div class="container-fluid">
+        <div class="container-fluid" ng-hide="showNewThreadForm">
+            <div class="section-header">
+                <h3>User Forum</h3>
+                
+                <div class="form-group form-inline" ng-init="sortBy = 'updatedAt'">
+                    <label class="control-label" for="sortBy">Sort by:</label>
+                    <select class="form-control" id="sortBy" ng-model="sortBy">
+                        <option value="updatedAt">Most Recent Reply</option>
+                        <option value="createdAt">Most Recently Created</option>
+                        <option value="views">Most Views</option>
+                        <option value="replyCount">Most Replies</option>
+                    </select>
+                </div>
+
+                <div class="paging-controls">
+                    <div class="form-group form-inline">
+                        <label class="control-label" for="selPageSize">Items per page:</label>
+                        <select class="form-control" id="selPageSize" name="selPageSize" ng-model="pagination.pageSize">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+
+                    <div style="width: 100px; text-align: center;">
+                        {{ (pagination.currentPage - 1) * pagination.pageSize + 1 }} 
+                        to {{ pagination.currentPage * pagination.pageSize | min:threads.length }}
+                        of {{ threads.length }}
+                    </div>
+
+                    <div class="pager" ng-show="threads.length > pagination.pageSize">
+                        <pagination 
+                            total-items="threads.length"
+                            items-per-page="pagination.pageSize"
+                            page="pagination.currentPage"
+                            direction-links="true"
+                            max-size="0">
+                        </pagination>
+                    </div>
+                </div>
+            </div> <!-- .section-header -->
+
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -21,7 +64,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="thread in threads | orderBy:sortBy track by thread.id">
+                    <tr ng-repeat="thread in threads | filter:search | orderBy:sortBy:true track by thread.id">
                         <td class="align-middle">
                             <a href="/consult/forum/{{ thread.id }}">{{ thread.name }}</a><br>
                             <small><strong>Created: </strong> {{ thread.createdAt | moment:'MM/DD/YY' }}</small>
@@ -41,6 +84,56 @@
                     </tr>
                 </tbody>
             </table>
-        </div> <!-- .container -->
+        </div> <!-- .container-fluid[ng-hide="showNewThreadForm"] -->
+
+        <form ng-submit="createThread(thread)" class="container-fluid" ng-show="showNewThreadForm">
+            <div class="nudge-down">
+                <h3 class="no-margin">User Forum</h3>
+            </div>
+
+            <div class="row nudge-down">
+                <div class="col-md-4">
+                    <label for="name">Thread Name</label>
+                    <input type="text" name="name" class="form-control" id="name" ng-model="thread.name">
+                </div>
+            </div> <!-- .row -->
+
+            <div class="row nudge-down">
+                <div class="col-md-8">
+                    <label for="description">Description</label>
+                    <input type="text" name="description" class="form-control" id="description" ng-model="thread.description">
+                </div>
+                <div class="col-md-4">
+                    <label for="tags">Tags <small>(Comma separated)</small></label>
+                    <input type="text" list name="tags" class="form-control" id="tags" ng-model="thread.tags">
+                </div>
+            </div> <!-- .row -->
+
+            <div class="well">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="cl-badge cl-badge-horizontal no-margin">
+                            <span class="cl-badge-image" style="background-image: url('{{ user.image | imagePathFromObject }}')")></span>
+                            <div class="cl-badge-caption no-margin">
+                                <strong>{{ user.name }}</strong><br>
+                                {{ user.account.name }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-9 nudge-down">
+                        <label for="body">Reply</label>
+                        <textarea rich-text-editor name="body" class="form-control" id="body" ng-model="thread.body"></textarea>
+                    </div>
+                </div> <!-- .row -->
+                <div class="row">
+                    <div class="pull-md-3 col-md-9">
+                        <button type="submit" class="btn btn-inverse">Save</button>
+                        <button type="button" class="btn btn-inverse" ng-click="cancelThread()">Cancel</button>
+                    </div>
+                </div>
+            </div> <!-- .well -->
+
+        </form> <!-- .container-fluid[ng-show="showNewThreadForm"] -->
     </div> <!-- .right-pane -->
 </div>
