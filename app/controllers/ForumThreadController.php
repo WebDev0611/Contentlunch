@@ -36,6 +36,10 @@ class ForumThreadController extends BaseController {
             return $response;
         }
 
+        if(!$this->hasAbility([], ['consult_execute_forum_create'])) {
+          return $this->responseError('You do not have permission to create campaigns', 401);
+        }
+
         $thread = new ForumThread();
         $thread->account_id = $accountID;
 
@@ -67,6 +71,9 @@ class ForumThreadController extends BaseController {
 
     public function update($accountID, $threadID)
     {
+        // disable update until we here otherwise
+        return $this->responseError('Cannot edit threads', 401);
+
         if (($response = $this->validateAccount($accountID)) !== true) {
             return $response;
         }
@@ -82,6 +89,11 @@ class ForumThreadController extends BaseController {
 
     public function destroy($accountID, $threadID) 
     {
+        if (!$this->hasRole('global_admin')) {
+            return $this->responseError('You do not have permission to delete threads', 401);   
+        }
+
+        // I guess not technically necessary if user is global admin?
         if (($response = $this->validateAccount($accountID)) !== true) {
             return $response;
         }

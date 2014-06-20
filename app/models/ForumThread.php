@@ -66,7 +66,7 @@ class ForumThread extends Ardent {
         $values = parent::toArray();
 
         if (is_string(@$values['tags'])) {
-            $values['tags'] = @json_decode($values, true);
+            $values['tags'] = @json_decode($values['tags'], true);
         }
         if (!@$values['tags']) {
             $values['tags'] = [];

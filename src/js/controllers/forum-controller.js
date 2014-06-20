@@ -5,6 +5,8 @@ function ($scope,   $rootScope,   AuthService,   $routeParams,   $q,   Restangul
     $scope.user.name = $scope.user.displayName;
     $scope.showNewThreadForm = false;
 
+    $scope.canCreate = user.hasPrivilege('consult_execute_forum_create');
+
     var Threads = Restangular.one('account', user.account.id).all('forum-thread');
 
     $q.all({

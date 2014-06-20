@@ -212,6 +212,9 @@
 				// thank https://github.com/blakeembrey/change-case/
 				// for help on the case changing here
 				function camelCaseize(data) {
+					if (!angular.isObject(data) && !angular.isArray(data)) 
+						return data;
+
 					if (data.first_name && data.last_name)
 						data.name = data.first_name + ' ' + data.last_name;
 
@@ -225,6 +228,9 @@
 					});
 				}
 				function snakeCaseize(data) {
+					if (!angular.isObject(data) && !angular.isArray(data)) 
+						return data;
+
 					return _.mapObject(data, function (value, key) {
 						key = (key + '').replace(/([a-z])([A-Z0-9])/g, function (_, $1, $2) {
 							return $1 + '_' + $2.toLowerCase();

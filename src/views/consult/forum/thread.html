@@ -48,14 +48,14 @@
             <div class="group thread-meta">
                 <div class="pull-left">{{ thread.description }}</div>
                 <div class="pull-right" class="align-right">
-                    <span ng-show="thread.tags.length" class="fa fa-tag" style="font-size:24px"></span> 
+                    <span ng-show="thread.tags.length" class="fa fa-tag align-middle" style="font-size:24px"></span> 
                     {{ thread.tags.join(', ') }}
                 </div>
             </div>
 
             <table class="table table-striped">
                 <tbody>
-                    <tr ng-repeat="reply in replies | filter:search | orderBy:'createdAt' track by reply.id">
+                    <tr ng-repeat="reply in replies | filter:search | orderBy:'createdAt' | paginate:pagination.currentPage:pagination.pageSize track by reply.id">
                         <td width="250px">
                             <div class="cl-badge cl-badge-horizontal no-margin">
                                 <span class="cl-badge-image" style="background-image: url('{{ reply.user.image | imagePathFromObject }}')")></span>
@@ -107,8 +107,7 @@
                 </div> <!-- .row -->
                 <div class="row">
                     <div class="pull-md-3 col-md-9">
-                        <button type="submit" class="btn btn-inverse">Save</button>
-                        <button type="button" class="btn btn-inverse" ng-click="cancelReply()">Cancel</button>
+                        <button type="submit" class="btn btn-inverse">Reply</button>
                     </div>
                 </div>
             </div> <!-- .well -->
