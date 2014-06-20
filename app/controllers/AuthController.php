@@ -87,20 +87,48 @@ class AuthController extends BaseController {
   public function do_confirm()
   {
     $code = Input::get('code');
-    if (Confide::confirm($code))
-    {
-      $user = User::where('confirmation_code', $code)->first();
-      // Set user to active
-      $user->status = 1;
+
+    $user = User::where('confirmation_code', $code)->first();
+    if ($user) {
+      
+      // Check if this code was generated within 24 hours
+      if ( (strtotime($user->updated_at) - strtotime('-24 hours')) > 0) {
+        if (Confide::confirm($code))
+        {
+          // Set user to active
+          $user->status = 1;
+          $user->updateUniques();
+          Auth::login($user);
+          return $this->show_current();
+        }
+      }
+    }
+    $error_msg = Lang::get('confide::confide.alerts.wrong_confirmation');
+    return $this->responseError($error_msg);
+  }
+
+  /**
+   * Check if this token is still valid
+   * Should be valid for 24 hours
+   */
+  public function check_reset($code)
+  {
+    $reset = DB::table('password_reminders')->where('token', $code)->first();
+    if ($reset) {
+      // Piggyback off confirm functionality since they 
+      // pretty much do the same thing
+      $user = User::where('email', $reset->email)->first();
+      // Confirm will check updated_at for 24 hours, so update that
+      $date = new DateTime;
+      $user->updated_at = $date;
       $user->updateUniques();
-      Auth::login($user);
-      return $this->show_current();
+      if (strtotime($reset->created_at) - strtotime('-24 hours') > 0) {
+        // Valid token, redirect to reset password
+        return Redirect::to('user/confirm/'. $user->confirmation_code);
+      }
     }
-    else
-    {
-      $error_msg = Lang::get('confide::confide.alerts.wrong_confirmation');
-      return $this->responseError($error_msg);
-    }
+    // Redirect to login with invalid link
+    return Redirect::to('login?link=expired');
   }
 
   /**

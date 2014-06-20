@@ -27,7 +27,7 @@
         <textarea id="description" class="form-control" rows="3" ng-model="uploadFile.description"></textarea>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" ng-hide="disableFolderSelect">
         <label for="folder">File Folder</label>
         <div>
           <select id="folder" ng-model="uploadFile.folder" required ng-options="folder.key as folder.name for folder in fileFolders"></select>

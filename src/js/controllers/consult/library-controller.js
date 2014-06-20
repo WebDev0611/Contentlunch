@@ -7,7 +7,9 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
   // Files shown in current view
   $scope.files = [];
   // Currently selected folder
-  $scope.selectedFolder = null; 
+  $scope.selectedFolder = null;
+  // If add folder button should show
+  $scope.disableAddFolder = false;
 
   var self = $scope;
 
@@ -26,13 +28,20 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
       return folder.id == id;
     });
 
-    $scope.files = $scope.selectedFolder.uploads;
+    if (typeof $scope.selectedFolder.uploads != 'undefined') {
+      $scope.files = $scope.selectedFolder.uploads;
+    } else {
+      $scope.files = [];
+    }
     
     // If root of library, show folders, but not root folder
     if (id == 'root') {
       $scope.folders = _.select($scope.data, function (folder) {
         return folder.id != 'root';
       });
+      $scope.disableAddFolder = false;
+    } else {
+      $scope.disableAddFolder = true;
     }
   };
 
@@ -77,6 +86,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
         $scope.folders = [];
         $scope.uploadFile = new launch.UploadFile();
         $scope.uploadFile.tags = '';
+        $scope.disableFolderSelect = false;
 
         // Setup available folders to save file to
         $scope.fileFolders = parentScope.getFolderOptions();
@@ -113,7 +123,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
             NotificationService.success('Success!', 'File: ' + response.filename + ' saved.');
             $modalInstance.dismiss();
           }).error(function (response) {
-            NotificationService.error('Error', "Please fix the following problems: \n" + response.errors.join("\n"));
+            launch.utils.handleAjaxErrorResponse(response, NotificationService);
           });
         };
       }
@@ -132,6 +142,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
         $scope.folders = [];
         $scope.uploadFile = file;
         $scope.mode = 'edit';
+        $scope.disableFolderSelect = false;
 
         $scope.fileType = launch.utils.getFileTypeCssClass(file.fileName.substring(file.fileName.lastIndexOf('.') + 1));
 
@@ -179,16 +190,37 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
         };
 
         // Delete file
-        $scope.delete = function () {
-          LibraryService.Uploads.delete({ id: parentScope.selectedFolder.id, uploadid: $scope.uploadFile.id }, function (response) {
-            // Reload view with folder that file was saved to
-            parentScope.init($scope.uploadFile.folder);
-            $modalInstance.dismiss();
-            NotificationService.success('Success!', 'File: ' + $scope.uploadFile.fileName + ' deleted');
-          }, function (response) {
-            launch.utils.handleAjaxErrorResponse(response, NotificationService);
+        $scope.delete = function () {  
+
+          $modal.open({
+            templateUrl: 'confirm.html',
+            controller: ['$scope', '$modalInstance', function (modalScope, instance) {
+              modalScope.message = 'Are you sure you want to delete this file?';
+              modalScope.okButtonText = 'Delete';
+              modalScope.cancelButtonText = 'Cancel';
+              modalScope.onOk = function () {
+                if ( ! $scope.uploadFile.libraries[0]) {
+                  libraryID = 'root';
+                } else {
+                  libraryID = $scope.uploadFile.libraries[0].id;
+                }
+                LibraryService.Uploads.delete({ id: libraryID, uploadid: $scope.uploadFile.id }, function (response) {
+                  NotificationService.success('Success!', 'File: ' + $scope.uploadFile.fileName + ' deleted');
+                  $modalInstance.close();
+                  parentScope.init(libraryID);
+                }, function (response) {
+                  launch.utils.handleAjaxErrorResponse(response, NotificationService);
+                });
+                instance.close();
+              };
+              modalScope.onCancel = function () {
+                instance.dismiss('cancel');
+              };
+            }]
           });
+
         };
+
       }
     });
   };
@@ -222,6 +254,60 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
             launch.utils.handleAjaxErrorResponse(response, NotificationService);
           });
         };
+      }
+    });
+
+  };
+
+  $scope.editFolder = function (folder) {
+    
+    var parentScope = $scope;
+
+    $modal.open({
+      templateUrl: '/assets/views/consult/library-folder-form.html',
+      controller: function ($scope, $window, $modalInstance, LibraryService, NotificationService) {
+        $scope.folder = folder;
+        $scope.mode = 'edit';
+
+        $scope.cancel = function () {
+          $modalInstance.dismiss('cancel');
+        };
+
+        $scope.ok = function () {
+          LibraryService.Libraries.update($scope.folder, function (response) {
+            parentScope.init($scope.folder.id);
+            $modalInstance.close();
+          }, function (response) {
+            launch.utils.handleAjaxErrorResponse(response, NotificationService);
+          });
+        };
+
+        $scope.delete = function () {
+
+          $modal.open({
+            templateUrl: 'confirm.html',
+            controller: ['$scope', '$modalInstance', function (modalScope, instance) {
+              modalScope.message = 'Are you sure you want to delete this folder?';
+              modalScope.okButtonText = 'Delete';
+              modalScope.cancelButtonText = 'Cancel';
+              modalScope.onOk = function () {
+                LibraryService.Libraries.delete({ id: $scope.folder.id }, function (response) {
+                  parentScope.init('root');
+                  $modalInstance.close();
+                  NotificationService.success('Success!', 'Folder: ' + $scope.folder.name + ' deleted');
+                }, function (response) {
+                  launch.utils.handleAjaxErrorResponse(response, NotificationService);
+                });
+                instance.close();
+              };
+              modalScope.onCancel = function () {
+                instance.dismiss('cancel');
+              };
+            }]
+          });
+
+        };
+
       }
     });
 

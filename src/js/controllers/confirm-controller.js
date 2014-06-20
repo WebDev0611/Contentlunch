@@ -5,7 +5,6 @@ launch.module.controller('ConfirmController', [
 		self.init = function() {
 			authService.confirm($route.current.params.code, {
 				success: function(r) {
-          console.log('confirmed', r);
 					$scope.isDisabled = false;
 					$scope.selectedUser = r;
 					$scope.isLoaded = true;
@@ -51,7 +50,9 @@ launch.module.controller('ConfirmController', [
 
 						authService.login($scope.selectedUser.userName, $scope.selectedUser.password, false, {
 							success: function () {
-								$location.path('/home');
+								$location.path('/');
+                // Completely reload everything
+                $route.reload();
 							},
 							error: function (res) { }
 						});

@@ -8,49 +8,13 @@ launch.module.directive('folderPreview', function (ModelMapperService, $modal, L
       scope.userImage = function () {
         return scope.user.image ? scope.user.image : '/images/user.svg';
       };
-      
-      scope.editFolder = function () {
-    
-        var parentScope = scope;
-
-        $modal.open({
-          templateUrl: '/assets/views/consult/library-folder-form.html',
-          controller: function ($scope, $window, $modalInstance, LibraryService, NotificationService) {
-            $scope.folder = scope.folder;
-            $scope.mode = 'edit';
-
-            $scope.cancel = function () {
-              $modalInstance.dismiss('cancel');
-            };
-
-            $scope.ok = function () {
-              LibraryService.Libraries.update($scope.folder, function (response) {
-                parentScope.showFolder(response);
-                $modalInstance.dismiss();
-              }, function (response) {
-                NotificationService.error('Error!', 'Please fix the following problems:\n\n' + response.errors.join('\n'));
-              });
-            };
-
-            $scope.delete = function () {
-              LibraryService.Libraries.delete({ id: $scope.folder.id }, function (response) {
-                parentScope.showRoot();
-                $modalInstance.dismiss();
-                NotificationService.success('Success!', 'Folder: ' + $scope.folder.name + ' deleted');
-              }, function (response) {
-                NotificationService.error('Error!', 'Unable to delete folder');
-              });
-            };
-          }
-        });
-
-      };
 
     },
     scope: {
       folder: '=folderPreview',
       showFolder: '=showFolder',
-      canEditFolder: '=canEditFolder'
+      canEditFolder: '=canEditFolder',
+      editFolder: '=editFolder'
     },
     templateUrl: '/assets/views/directives/folder-preview.html'
   };

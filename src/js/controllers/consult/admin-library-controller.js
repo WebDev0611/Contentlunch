@@ -27,6 +27,7 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
 
         $scope.file = {};
         $scope.uploadFile = new launch.UploadFile();
+        $scope.disableFolderSelect = true;
 
         $scope.fileFolders = [
           { key: '0', name: '(Default to the root folder)' }
@@ -78,6 +79,7 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
         $scope.file = {};
         $scope.uploadFile = file;
         $scope.fileName = file.fileName;
+        $scope.disableFolderSelect = true;
 
         $scope.fileType = launch.utils.getFileTypeCssClass(file.fileName.substring(file.fileName.lastIndexOf('.') + 1));
         
@@ -118,18 +120,36 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
             $modalInstance.dismiss();
             NotificationService.success('Success!', 'File: ' + $scope.uploadFile.fileName + ' updated');
             parentScope.init();
+          }).error(function (response) {
+            launch.utils.handleAjaxErrorResponse(response, NotificationService);
           });
         };
 
         // Delete file
-        $scope.delete = function () {
-          LibraryService.Uploads.delete({ id: $scope.uploadFile.libraries[0].id, uploadid: $scope.uploadFile.id }, function (response) {
-            $modalInstance.dismiss();
-            NotificationService.success('Success!', 'File: ' + $scope.uploadFile.fileName + ' deleted');
-            parentScope.init();
-          }, function (response) {
-            NotificationService.error('Error!', 'Unable to delete file');
+        $scope.delete = function () {  
+
+          $modal.open({
+            templateUrl: 'confirm.html',
+            controller: ['$scope', '$modalInstance', function (modalScope, instance) {
+              modalScope.message = 'Are you sure you want to delete this file?';
+              modalScope.okButtonText = 'Delete';
+              modalScope.cancelButtonText = 'Cancel';
+              modalScope.onOk = function () {
+                LibraryService.Uploads.delete({ id: $scope.uploadFile.libraries[0].id, uploadid: $scope.uploadFile.id }, function (response) {
+                  NotificationService.success('Success!', 'File: ' + $scope.uploadFile.fileName + ' deleted');
+                  $modalInstance.close();
+                  parentScope.init();
+                }, function (response) {
+                  launch.utils.handleAjaxErrorResponse(response, NotificationService);
+                });
+                instance.close();
+              };
+              modalScope.onCancel = function () {
+                instance.dismiss('cancel');
+              };
+            }]
           });
+
         };
       }
     });

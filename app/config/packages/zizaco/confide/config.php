@@ -70,8 +70,19 @@ return array(
     |
     */
 
-    'email_reset_password' =>       'confide::emails.passwordreset', // with $user and $token.
+//    'email_reset_password' =>       'confide::emails.passwordreset', // with $user and $token.
+    'email_reset_password' => 'emails.auth.reminder',
     'email_account_confirmation' => 'confide::emails.confirm', // with $user
+
+    // Reset email is using confide::confide.email.password_reset.subject, not sure
+    // how to override it, as this doesn't work
+    'confide' => [
+      'email' => [
+        'password_reset' => [
+          'subject' => 'Your Content Launch Password',
+        ]
+      ]
+    ],
 
     /*
     |--------------------------------------------------------------------------
