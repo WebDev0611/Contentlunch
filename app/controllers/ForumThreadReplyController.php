@@ -42,9 +42,6 @@ class ForumThreadReplyController extends BaseController {
 
         $reply = ForumThreadReply::find($replyID);
 
-        if ($reply->account_id != $accountID) {
-            return $this->responseError('Cannot update replies across accounts.');
-        }
         if ($reply->forum_thread_id != $threadID) {
             return $this->responseError('Cannot update replies across threads');
         }
@@ -64,9 +61,6 @@ class ForumThreadReplyController extends BaseController {
 
         $reply = ForumThreadReply::find($replyID);
 
-        if ($reply->account_id != $accountID) {
-            return $this->responseError('Cannot delete replies across accounts');
-        }
         if ($reply->forum_thread_id != $threadID) {
             return $this->responseError('Cannot delete replies across threads');
         }

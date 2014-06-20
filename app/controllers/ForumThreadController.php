@@ -73,10 +73,6 @@ class ForumThreadController extends BaseController {
 
         $thread = ForumThread::find($threadID);
 
-        if ($thread->account_id != $accountID) {
-            return $this->responseError('Cannot update threads across accounts.');
-        }
-
         if (!$thread->save()) {
             return $this->responseError($thread->errors()->all(':message'));
         }
@@ -91,10 +87,6 @@ class ForumThreadController extends BaseController {
         }
 
         $thread = ForumThread::find($threadID);
-
-        if ($thread->account_id != $accountID) {
-            return $this->responseError('Cannot delete threads across accounts');
-        }
 
         if (!$thread->delete()) {
             return $this->responseError("Couldn't delete thread");
