@@ -4,11 +4,19 @@ class ForumThreadController extends BaseController {
 
     public function index()
     {
+        if (($response = $this->validate()) !== true) {
+            return $response;
+        }
+
         return ForumThread::with('reply_count')->with('user')->with('account')->get();
     }
 
     public function show($threadID) 
     {
+        if (($response = $this->validate()) !== true) {
+            return $response;
+        }
+
         $thread = ForumThread::with('user')->with('replies')->with('account')->find($threadID);
 
         if (!$thread) {
@@ -24,6 +32,10 @@ class ForumThreadController extends BaseController {
 
     public function store()
     {
+        if (($response = $this->validate()) !== true) {
+            return $response;
+        }
+
         if(!$this->hasAbility([], ['consult_execute_forum_create'])) {
           return $this->responseError('You do not have permission to create campaigns', 401);
         }
@@ -58,6 +70,10 @@ class ForumThreadController extends BaseController {
 
     public function update($threadID)
     {
+        if (($response = $this->validate()) !== true) {
+            return $response;
+        }
+
         // disable update until we here otherwise
         return $this->responseError('Cannot edit threads', 401);
 
@@ -72,6 +88,10 @@ class ForumThreadController extends BaseController {
 
     public function destroy($threadID) 
     {
+        if (($response = $this->validate()) !== true) {
+            return $response;
+        }
+
         if (!$this->hasRole('global_admin')) {
             return $this->responseError('You do not have permission to delete threads', 401);   
         }
@@ -83,6 +103,19 @@ class ForumThreadController extends BaseController {
         }
 
         return array('success' => 'OK');
+    }
+
+    private function validate()
+    {
+        $user = Confide::user();
+        if (!$user) {
+            // they they aren't even logged in!
+            return $this->responseError('Not logged in', 401);
+        }
+
+        // @TODO return error if we don't have access to this module?
+
+        return true;
     }
 
 }

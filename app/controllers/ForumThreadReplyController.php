@@ -77,6 +77,14 @@ class ForumThreadReplyController extends BaseController {
 
     private function validate($threadID)
     {
+        $user = Confide::user();
+        if (!$user) {
+            // they they aren't even logged in!
+            return $this->responseError('Not logged in', 401);
+        }
+
+        // @TODO return error if we don't have access to this module?
+
         $this->thread = ForumThread::find($threadID);
         if (!$this->thread) {
             return $this->responseError("Thread not found", 404);
