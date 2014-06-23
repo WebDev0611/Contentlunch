@@ -119,8 +119,9 @@
 			$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
 			$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
 
-			// TODO: WHAT PRIVILEGES TO WE CHECK FOR RESTORE?
+			// TODO: WHAT PRIVILEGES TO WE CHECK FOR RESTORE AND ARCHIVE?
 			$scope.canRestoreContent = $scope.content.archived ? true : false;
+			$scope.canArchiveContent = $scope.content.archived ? false : true;
 
 			$scope.showRichTextEditor = $scope.content.contentType.allowText();
 			$scope.showAddFileButton = $scope.content.contentType.allowFile();
@@ -339,6 +340,7 @@
 		$scope.canApproveContent = false;
 		$scope.canLaunchContent = false;
 		$scope.canPromoteContent = false;
+		$scope.canArchiveContent = false;
 		$scope.canRestoreContent = false;
 		$scope.canDiscussContent = false;
 
@@ -729,7 +731,16 @@
 		};
 
 		$scope.archiveContent = function() {
-			$scope.content.archived = !$scope.content.archived;
+			if ($scope.content.archived) {
+				return;
+			}
+
+			if (!$scope.canArchiveContent) {
+				notificationService.error('Error!', 'You do not have sufficient privileges to archive content. Please contact your administrator for more information.');
+				return;
+			}
+
+			$scope.content.archived = true;
 			$scope.saveContent();
 		};
 
