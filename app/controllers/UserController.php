@@ -81,11 +81,10 @@ class UserController extends BaseController {
     // Password can't be null, set a random temp password
     $user->password = $user->password_confirmation = substr(uniqid(mt_rand(), true), 0, 8);
     // Make sure user is unconfirmed, inactive
-    // If status or confirmed exist in the request, ardent will try to hydrate from
+    // If confirmed exist in the request, ardent will try to hydrate from
     // those values, so just set those values in the request input
     $input = Request::all();
     $input['confirmed'] = 0;
-    $input['status'] = 0;
     Request::replace($input);
     if ( $user->save() )
     {
