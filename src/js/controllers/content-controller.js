@@ -728,6 +728,11 @@
 			}
 		};
 
+		$scope.archiveContent = function() {
+			$scope.content.archived = !$scope.content.archived;
+			$scope.saveContent();
+		};
+
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
 
 		$scope.$watch('content.author', $scope.filterCollaborators);
