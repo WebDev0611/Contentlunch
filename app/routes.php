@@ -40,6 +40,8 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
+  Route::get('account/{id}/content/{contentid}/activity', 'ContentController@showActivities');
+
   // when it comes to collaborators, they can be attached to both campaigns and content
   // collabType can be content or campaigns only (enforced in the controller)
   Route::resource('account/{accountid}/{collabType}/{id}/collaborators', 'CollaboratorsController', [
