@@ -8,7 +8,7 @@
 		};
 
 		self.getNavigationItems = function() {
-			if (!scope.user || !scope.user.$resolved) {
+			if (!scope.user.id || !scope.user.$resolved) {
 				scope.showNav = false;
 				return;
 			}

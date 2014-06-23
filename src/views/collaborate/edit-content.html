@@ -1,34 +1,27 @@
-<div class="view create">
+<div class="view create" ng-show="!isLoading">
 	<div class="col-md-3 left-pane"></div>
 	<div class="col-md-9 right-pane" ng-show="canViewContent">
 		<h2 class="right-pane-header">Create</h2>
-
 		<form name="editConcept" novalidate="novalidate">
 			<div class="concept-editor row">
 				<div class="col-md-9">
 					<h2>
-						<span ng-show="isNewConcept">Create</span>
-						<span ng-hide="isNewConcept">Edit</span>
-						Concept
+						Edit Concept
 						<span class="cl-icon cl-icon-large cl-icon-workflow-concept"></span>
 					</h2>
 				
 					<div class="concept-container">
 						<div class="control-group">
-							<div class="form-group" ng-class="{ 'has-error': hasError(content, 'title', editConcept.txtConceptName, forceDirty) }">
+							<div class="form-group">
 								<label class="control-label" for="txtConceptName">Working Title</label>
-								<input type="text" name="txtConceptName" id="txtConceptName" class="form-control" ng-model="content.title"
-										error-message error-message-item="content" error-message-property="'title'" error-message-control="editConcept.txtConceptName" />
+								<input type="text" name="txtConceptName" id="txtConceptName" class="form-control" ng-model="selectedItem.title" ng-disabled="true" />
 							</div>
 
-							<div class="form-group" ng-class="{ 'has-error': hasError(content, 'contentType', editConcept.selContentType, forceDirty) }">
+							<div class="form-group">
 								<label class="control-label" for="selContentType">Content Type</label>
-								<select name="selContentType" id="selContentType"
-										ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem, selectOnBlur: true }" ng-model="content.contentType.name"
-										data-placeholder="Select Content Type" ng-change="updateContentType()"
-										error-message error-message-item="content" error-message-property="'contentType'" error-message-control="editConcept.selContentType">
-									<option value=""></option>
-									<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
+								<select name="selContentType" id="selContentType" ng-disabled="true"
+										ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem, selectOnBlur: true }" ng-model="selectedItem.contentType.name">
+									<option value="{{ selectedItem.contentType.name }}">{{ selectedItem.contentType.title }}</option>
 								</select>
 							</div>
 						</div>
@@ -37,53 +30,55 @@
 							<div class="form-group">
 								<label class="control-label" for="selCampaign">Campaign</label>
 								<select name="selCampaign" id="selCampaign"
-										ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, allowClear: true }" ng-model="content.campaign.id"
-										data-placeholder="Select Campaign" ng-change="updateCampaign()">
-									<option value=""></option>
-									<option ng-repeat="c in campaigns" value="{{ c.id }}">{{ c.title }}</option>
+										ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, allowClear: true }" ng-model="selectedItem.campaign.id" ng-disabled="true">
+									<option value="{{ selectedItem.campaign.id }}">{{ selectedItem.campaign.title }}</option>
 								</select>
 							</div>
 
-							<div class="form-group" ng-class="{ 'has-error': hasError(content, 'author', editConcept.selCreator, forceDirty) }">
+							<div class="form-group">
 								<label class="control-label" for="selCreator">Content Creator</label>
 								<select name="selCreator" id="selCreator"
-										ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="content.author.id"
-										data-placeholder="Select Content Creator" ng-change="updateAuthor()"
-										error-message error-message-item="content" error-message-property="'author'" error-message-control="editConcept.selCreator">
-									<option value=""></option>
-									<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
+										ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="selectedItem.author.id" ng-disabled="true">
+									<option value="{{ selectedItem.author.id }}">{{ selectedItem.author.formatName() }}</option>
 								</select>
 							</div>
 						</div>
 					
-						<div class="control-group" ng-class="{ 'has-error': hasError(content, 'body', editConcept.txtConceptDesc, forceDirty) }">
+						<div class="control-group">
 							<label class="control-label" for="txtConceptDesc">Description</label>
-							<textarea name="txtConceptDesc" id="txtConceptDesc" rich-text-editor ng-model="content.body"
-									error-message error-message-item="content" error-message-property="'body'" error-message-control="editConcept.txtConceptDesc"></textarea>
+							<textarea name="txtConceptDesc" id="txtConceptDesc" rich-text-editor ng-model="selectedItem.body" disabled="disabled"></textarea>
 						</div>
-
-						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveConcept()" ng-show="canEditContent">Save</button>
-					
-						<button type="button" class="btn btn-lg btn-collaborate" ng-click="viewInCollaborate()" ng-show="showCollaborate">
-							<span class="cl-icon cl-icon-white cl-icon-med cl-icon-workflow-collaborate"></span>
-							View in Collaborate
-						</button>
-					
-						<button type="button" class="btn btn-lg btn-create" ng-click="convertConcept()" ng-hide="isNewConcept || !canConvertConept">
-							<span class="cl-icon cl-icon-white cl-icon-med cl-icon-workflow-create"></span>
-							Convert to Content
-						</button>
 						
-						<div files-list="content.attachments" after-add-file-success="addAttachment" users="users" is-disabled="!canEditContent" ng-hide="isNewConcept"></div>
+						<div files-list="selectedItem.attachments" after-add-file-success="addAttachment" users="users" is-disabled="true"></div>
 					</div>
 				</div>
-				<div class="col-md-3" collaborator-sidebar item-id="content.id" item-type="'content'" users="collaborators" is-disabled="!canEditContent" ng-hide="isNewConcept"></div>
 			</div>
 
-			<div ng-hide="isNewConcept" discussion-panel item-id="content.id" item-type="'content'"></div>
+			<div class="panel panel-default discussion-panel">
+				<div class="panel-heading">Discussion</div>
+				<div class="panel-body">
+					<div class="row" ng-repeat="c in comments">
+						<div class="col-md-2">
+							<span class="user-image user-image-small" ng-style="{ 'background-image': c.commentor.imageUrl() }"></span>
+							{{ c.commentor.formatName() }}
+						</div>
+						<div class="col-md-8 well">{{ c.comment }}</div>
+						<div class="col-md-2">{{ c.commentDate() }}</div>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<textarea rows="3" ng-model="newComment"></textarea>
+
+					<button type="button" class="btn btn-black btn-default" ng-click="addComment()">Send</button>
+				</div>
+			</div>
 		</form>
 	</div>
 	<div class="col-md-9 right-pane" ng-hide="canViewContent">
-		<h3 class="unauthorized-message">You are unauthorized to view this concept.</h3>
+		<h3 class="unauthorized-message">There are no items for you to view.</h3>
 	</div>
+</div>
+
+<div class="loading-spinner-container" ng-show="isLoading">
+	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
 </div>

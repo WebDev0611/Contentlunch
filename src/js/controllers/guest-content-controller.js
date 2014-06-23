@@ -1,37 +1,71 @@
 angular.module('launch').controller('GuestContentController', [
-	'$scope', '$routeParams', 'AuthService', 'ContentService', 'NotificationService', function ($scope, $routeParams, authService, contentService, notificationService) {
+	'$scope', '$routeParams', 'AuthService', 'ContentService', 'UserService', 'CampaignService', 'NotificationService', function ($scope, $routeParams, authService, contentService, userService, campaignService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
 		self.contentId = null;
 
-		self.init = function () {
-			self.loggedInUser = authService.userInfo();
-			self.refreshContent();
+		self.ajaxHandler = {
+			success: function (r) {
+
+			},
+			error: function (r) {
+				launch.utils.handleAjaxErrorResponse(r, notificationService);
+			}
 		};
 
-		self.refreshContent = function() {
-			self.contentId = parseInt($routeParams.contentId);
-
-			$scope.content = contentService.get(self.loggedInUser.account.id, self.contentId, {
+		self.init = function () {
+			self.loggedInUser = authService.fetchGuestCollaborator({
 				success: function (r) {
-					if ($scope.content.status !== 0 || ! self.validateUser()) {
-						$scope.canViewContent = false;
-						return;
+					self.contentId = parseInt($routeParams.contentId);
+
+					if ($.isArray(self.loggedInUser.content) && self.loggedInUser.content.length > 0) {
+						var item = $.grep(self.loggedInUser.content, function (c) { return c.id === self.contentId; });
+
+						if (item.length === 1) {
+							$scope.selectedItem = item[0];
+							$scope.canViewContent = true;
+							$scope.isLoading = false;
+						}
 					}
 				},
-				error: function (r) {
-					launch.utils.handleAjaxErrorResponse(r, notificationService);
-				}
+				error: self.ajaxHandler.error
 			});
 		};
 
-		self.validateUser = function() {
-			// TODO: VALIDATE THAT THE CURRENT USER IS ALLOWED TO ACCESS THIS CONENT ITEM!
-			return true;
+		$scope.allItems = null;
+		$scope.selectedItem = null;
+		$scope.comments = null;
+		$scope.newComment = null;
+
+		$scope.isLoading = true;
+		$scope.canViewContent = false;
+		$scope.showSelector = false;
+
+		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
+		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
+
+		$scope.formatUserItem = function (item, element, context) {
+			if (!!$scope.selectedItem && !!$scope.selectedItem.author) {
+				var imageHtml = '<span class="user-image user-image-small"' + $scope.selectedItem.author.imageUrl() + '></span>';
+				var textHtml = '<span class="user-name">' + $scope.selectedItem.author.formatName() + '</span>';
+
+				return imageHtml + ' ' + textHtml;
+			}
+
+			return null;
 		};
 
-		$scope.content = null;
-		$scope.canViewContent = true;
+		$scope.formatItem = function(item, element, context) {
+			if (launch.utils.startsWith(item.type, 'campaign')) {
+				return 'Campaign: ' + item.text;
+			}
+
+			return 'Content: ' + item.text;
+		};
+
+		$scope.addComment = function () { };
+
+		self.init();
 	}
 ]);
