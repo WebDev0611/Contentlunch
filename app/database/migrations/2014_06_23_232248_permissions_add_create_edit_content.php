@@ -4,11 +4,11 @@ use Illuminate\Database\Schema\Blueprint;
 //use Illuminate\Database\Migrations\Migration;
 use Launch\Migration;
 
-class PermissionsAddTeamLeaderSignoff extends Migration {
+class PermissionsAddCreateEditContent extends Migration {
 
   protected $permissions = [
-    ['create_execute_team_leader_signoff', 'Team Leader Signoff', 
-      ['site_admin', 'manager']],
+    ['create_edit_content_as_collaborator', 'Edit another user\'s content as a collaborator', 
+      ['site_admin', 'manager', 'creator', 'editor']]
   ];
 
 	/**
