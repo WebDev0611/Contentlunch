@@ -11,6 +11,8 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
   // If add folder button should show
   $scope.disableAddFolder = false;
 
+  $scope.loggedInUser = null;
+
   var self = $scope;
 
   $scope.documentTypes = [];
@@ -44,17 +46,6 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
       $scope.disableAddFolder = true;
     }
   };
-
-  $scope.init = function (initFolder) {
-    // Get all libraries and uploads
-    LibraryService.Libraries.query({}, function (response) {
-      $scope.data = response;
-      // Show library
-      $scope.showFolder(initFolder);
-    });
-  };
-  // Default to showing root of library
-  $scope.init('root');
 
   // Get available folders to save files to
   $scope.getFolderOptions = function () {
@@ -332,6 +323,15 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
       // Get all users in account
       var account = AuthService.accountInfo();
       $scope.search.documentUploaderOptions = UserService.getForAccount(account.id, null, null, true);
+      // Check for any user saved default filters
+      console.log($scope.loggedInUser.preferences);
+      if ($scope.loggedInUser.preferences.library) {
+        prefs = $scope.loggedInUser.preferences.library;
+        $scope.search.searchTerm = prefs.searchTerm;
+        this.documentTypes = prefs.documentTypes;
+        this.documentUploaders = prefs.documentUploaders;
+        $scope.search.applyFilter();
+      }
     },
     searchTerm: null,
     searchTermMinLength: 1,
@@ -461,6 +461,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
       });
     },
     clear: function() {
+      console.log('clear search');
       this.searchTerm = null;
       this.documentTypes = [];
       this.documentUploaders = [];
@@ -471,9 +472,36 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
       $scope.showFolder('root');
     },
     saveFilter: function() {
-      NotificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
+      UserService.savePreferences($scope.loggedInUser.id, 'library', {
+        searchTerm: $scope.search.searchTerm,
+        documentTypes: $scope.search.documentTypes,
+        documentUploaders: $scope.search.documentUploaders
+      }, {
+        success: function () {
+          NotificationService.success('Success', 'Library default filters saved.');
+        }
+      });
     }
   };
-  $scope.search.init();
-
+  $scope.init = function (initFolder) {
+    // Get all libraries and uploads
+    LibraryService.Libraries.query({}, function (response) {
+      $scope.data = response;
+      // Show library
+      $scope.showFolder(initFolder);
+      if ( ! $scope.initialized) {
+        // Need the most up to date record of the user on the server
+        AuthService.fetchCurrentUser({
+          success: function (user) {
+            $scope.loggedInUser = user;
+            $scope.search.init();
+            $scope.initialized = true;
+          }
+        });
+      }
+    });
+  };
+  // Default to showing root of library
+  $scope.initialized = false;
+  $scope.init('root');
 });

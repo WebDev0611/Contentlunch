@@ -57,6 +57,8 @@
 			auth.updated = user.updated;
 			auth.impersonating = user.impersonating;
 
+      auth.preferences = user.preferences;
+
 			auth.modules = $.map(dto.modules, function(m) {
 				var module = self.module.fromDto(m);
 
@@ -345,6 +347,8 @@
 			} else {
 				user.image = null;
 			}
+
+      user.preferences = dto.preferences;
 
 			return user;
 		},
@@ -1436,6 +1440,10 @@
 
       if (dto.libraries) {
         uploadFile.libraries = dto.libraries;
+      }
+
+      if (dto.pivot) {
+
       }
 
       if (dto.ratings) {

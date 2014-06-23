@@ -4,8 +4,12 @@ launch.module.factory('UserService', function ($resource, $upload, AccountServic
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
 		update: { method: 'PUT', transformRequest: ModelMapperService.user.formatRequest, transformResponse: ModelMapperService.user.parseResponse },
 		insert: { method: 'POST', transformRequest: ModelMapperService.user.formatRequest, transformResponse: ModelMapperService.user.parseResponse },
-		delete: { method: 'DELETE' }
+		delete: { method: 'DELETE' },
 	});
+
+  var preferences = $resource('/api/user/:id/preferences/:key', { id: '@id', key: '@key' }, {
+    insert: { method: 'POST' }
+  });
 
 	var accountUsers = $resource('/api/account/:id/users', { id: '@id' }, {
 		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse }
@@ -133,6 +137,11 @@ launch.module.factory('UserService', function ($resource, $upload, AccountServic
 				}
 			});
 		},
+    savePreferences: function (userID, key, savePreferences, callback) {
+      var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+      var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+      return preferences.insert({ id: userID, key: key }, { preferences: savePreferences }, success, error);
+    },
 		validatePhotoFile: function (file) {
 			if ($.inArray(file.type, launch.config.USER_PHOTO_FILE_TYPES) < 0) {
 				return 'The file you selected is not supported. You may only upload JPG, PNG, GIF, or BMP images.';
