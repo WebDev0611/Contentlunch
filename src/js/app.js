@@ -131,12 +131,12 @@
 						allowAnon: true
 					})
 					.when('/collaborate/guest/content/:contentId', {
-						controller: 'GuestCampaignController',
+						controller: 'GuestContentController',
 						templateUrl: '/assets/views/collaborate/edit-content.html',
 						allowAnon: true
 					})
 					.when('/collaborate/guest/campaign/:campaignId', {
-						controller: 'GuestContentController',
+						controller: 'GuestCampaignController',
 						templateUrl: '/assets/views/collaborate/edit-campaign.html',
 						allowAnon: true
 					})

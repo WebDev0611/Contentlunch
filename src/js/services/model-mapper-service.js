@@ -1491,6 +1491,38 @@
 		}
 	};
 
+	self.guestCollaborator = {
+		parseResponse: function (r, getHeaders) {
+			return self.parseResponse(r, getHeaders, self.guestCollaborator.fromDto);
+		},
+		fromDto: function (dto) {
+			var guestCollaborator = new launch.GuestCollaborator();
+
+			guestCollaborator.id = parseInt(dto.id);
+			guestCollaborator.accountId = parseInt(dto.account_id);
+			guestCollaborator.accepted = parseInt(dto.accepted === 1);
+			guestCollaborator.accessCode = dto.access_code;
+			guestCollaborator.connection = dto.connection;
+			guestCollaborator.connetionUserId = dto.connection_user_id;
+			guestCollaborator.name = dto.name;
+			guestCollaborator.connectionType = dto.type;
+			guestCollaborator.connetionSettings = dto.settings;
+			guestCollaborator.created = new Date(dto.created_at);
+			guestCollaborator.updated = new Date(dto.updated_at);
+
+			guestCollaborator.content = $.map(dto.content, function (c) {
+				return self.content.fromDto(c);
+			});
+
+			guestCollaborator.campaigns = $.map(dto.campaigns, function (c) {
+				return self.campaign.fromDto(c);
+			});
+
+
+			return guestCollaborator;
+		}
+	};
+
 	return self;
 };
 
