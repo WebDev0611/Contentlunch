@@ -11,13 +11,13 @@ class ForumThread extends Ardent {
 
     protected $fillable = [
         'user_id',
+        'account_id',
         'name',
         'description',
         'tags',
     ];
 
     public static $rules = [
-        'account_id'  => 'required',
         'user_id'     => 'required',
         'name'        => 'required',
         'description' => 'required',
@@ -66,7 +66,7 @@ class ForumThread extends Ardent {
         $values = parent::toArray();
 
         if (is_string(@$values['tags'])) {
-            $values['tags'] = @json_decode($values, true);
+            $values['tags'] = @json_decode($values['tags'], true);
         }
         if (!@$values['tags']) {
             $values['tags'] = [];

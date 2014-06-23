@@ -5,7 +5,9 @@ function ($scope,   $rootScope,   AuthService,   $routeParams,   $q,   Restangul
     $scope.user.name = $scope.user.displayName;
     $scope.showNewThreadForm = false;
 
-    var Threads = Restangular.one('account', user.account.id).all('forum-thread');
+    $scope.canCreate = user.hasPrivilege('consult_execute_forum_create');
+
+    var Threads = Restangular.all('forum-thread');
 
     $q.all({
         threads: Threads.getList(),
@@ -17,6 +19,7 @@ function ($scope,   $rootScope,   AuthService,   $routeParams,   $q,   Restangul
     // -------------------------
     $scope.createThread = function (thread) {
         thread.userId = user.id;
+        thread.accountId = (user.account || {}).id;
 
         Threads.post(thread).then(function (thread) {
             notify.success('Thread created');

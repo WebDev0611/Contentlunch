@@ -12,13 +12,13 @@ class ForumThreadReply extends Ardent {
     protected $fillable = [
         'forum_thread_id',
         'user_id',
+        'account_id',
         'body',
     ];
 
     public static $rules = [
         'forum_thread_id' => 'required',
         'user_id'         => 'required',
-        'account_id'      => 'required',
         'body'            => 'required',
     ];
 

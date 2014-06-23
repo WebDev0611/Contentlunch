@@ -2,18 +2,18 @@
 
 class ForumThreadController extends BaseController {
 
-    public function index($accountID)
+    public function index()
     {
-        if (($response = $this->validateAccount($accountID)) !== true) {
+        if (($response = $this->validate()) !== true) {
             return $response;
         }
 
         return ForumThread::with('reply_count')->with('user')->with('account')->get();
     }
 
-    public function show($accountID, $threadID) 
+    public function show($threadID) 
     {
-        if (($response = $this->validateAccount($accountID)) !== true) {
+        if (($response = $this->validate()) !== true) {
             return $response;
         }
 
@@ -30,14 +30,17 @@ class ForumThreadController extends BaseController {
         return $thread;
     }
 
-    public function store($accountID)
+    public function store()
     {
-        if (($response = $this->validateAccount($accountID)) !== true) {
+        if (($response = $this->validate()) !== true) {
             return $response;
         }
 
+        if(!$this->hasAbility([], ['consult_execute_forum_create'])) {
+          return $this->responseError('You do not have permission to create campaigns', 401);
+        }
+
         $thread = new ForumThread();
-        $thread->account_id = $accountID;
 
         if (!$thread->save()) {
             return $this->responseError($thread->errors()->all(':message'));
@@ -65,11 +68,14 @@ class ForumThreadController extends BaseController {
         return $thread;
     }
 
-    public function update($accountID, $threadID)
+    public function update($threadID)
     {
-        if (($response = $this->validateAccount($accountID)) !== true) {
+        if (($response = $this->validate()) !== true) {
             return $response;
         }
+
+        // disable update until we here otherwise
+        return $this->responseError('Cannot edit threads', 401);
 
         $thread = ForumThread::find($threadID);
 
@@ -80,10 +86,14 @@ class ForumThreadController extends BaseController {
         return ForumThread::with('user')->find($thread->id);
     }
 
-    public function destroy($accountID, $threadID) 
+    public function destroy($threadID) 
     {
-        if (($response = $this->validateAccount($accountID)) !== true) {
+        if (($response = $this->validate()) !== true) {
             return $response;
+        }
+
+        if (!$this->hasRole('global_admin')) {
+            return $this->responseError('You do not have permission to delete threads', 401);   
         }
 
         $thread = ForumThread::find($threadID);
@@ -95,15 +105,15 @@ class ForumThreadController extends BaseController {
         return array('success' => 'OK');
     }
 
-    private function validateAccount($accountID)
+    private function validate()
     {
-        $account = Account::find($accountID);
-        if (!$account) {
-            return $this->responseError("Invalid account");
+        $user = Confide::user();
+        if (!$user) {
+            // they they aren't even logged in!
+            return $this->responseError('Not logged in', 401);
         }
-        if (!$this->inAccount($account->id)) {
-            return $this->responseAccessDenied();
-        }
+
+        // @TODO return error if we don't have access to this module?
 
         return true;
     }

@@ -1,6 +1,6 @@
-<div class="view consult">
+<div class="view consult forum">
     <div class="col-md-3 left-pane">
-        <button class="btn full-width small-nudge-down btn-inverse" ng-click="thread = {}; showNewThreadForm = true">
+        <button ng-show="canCreate" class="btn full-width small-nudge-down btn-inverse" ng-click="thread = {}; showNewThreadForm = true">
             Create New Thread
         </button>
         
@@ -61,10 +61,11 @@
                         <th>Started By</th>
                         <th>Views</th>
                         <th>Replies</th>
+                        <th ng-show="user.role.isGlobalAdmin === true" width="20px">&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="thread in threads | filter:search | orderBy:sortBy:true track by thread.id">
+                    <tr ng-repeat="thread in threads | filter:search | orderBy:sortBy:true | paginate:pagination.currentPage:pagination.pageSize track by thread.id">
                         <td class="align-middle">
                             <a href="/consult/forum/{{ thread.id }}">{{ thread.name }}</a><br>
                             <small><strong>Created: </strong> {{ thread.createdAt | moment:'MM/DD/YY' }}</small>
@@ -81,10 +82,14 @@
                         </td>
                         <td class="align-middle">{{ thread.views }}</td>
                         <td class="align-middle">{{ thread.replyCount }}</td>
+                        <td class="align-middle" ng-show="user.role.isGlobalAdmin === true" width="20px">
+                            <span class="fa fa-trash-o" ng-click="deleteThread(thread)"></span>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div> <!-- .container-fluid[ng-hide="showNewThreadForm"] -->
+
 
         <form ng-submit="createThread(thread)" class="container-fluid" ng-show="showNewThreadForm">
             <div class="nudge-down">
