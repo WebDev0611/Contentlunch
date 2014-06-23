@@ -22,30 +22,34 @@ class GuestCollaboratorsController extends BaseController {
             return $this->responseError('Guest is not logged on.', 401);
         }
 
-        return GuestCollaborator::where('id', $guest->id)
-            ->with('connection')
+        $guest = GuestCollaborator::with('connection')
             ->with('content.account')
-            ->first();
-    }
-
-    public function concepts($connectionUserID)
-    {
-        // @TODO auth for guests?
+            ->find($guest->id)->toArray();
 
         // all of these guests will actually be the same person, but with access to different things
-        $guests = GuestCollaborator::where('connection_user_id', $connectionUserID)->get();
+        $guestsAccess = GuestCollaborator::where('connection_user_id', $guest['connection_user_id'])->get();
 
-        $return = ['content' => [], 'campaigns' => []];
-        foreach ($guests as $g) {
-            $guest = $g->toArray();
-            if ($guest['content_type'] == 'content') {
-                $return['content'][] = Content::find($guest['content_id'])->toArray();
+        $guest['content'] = [];
+        $guest['campaigns'] = [];
+        foreach ($guestsAccess as $g) {
+            $g = $g->toArray();
+            if ($g['content_type'] == 'content') {
+                $guest['content'][] = Content::with('comments')
+                    ->with('campaign')
+                    ->with('content_type')
+                    ->with('account_connections')
+                    ->with('related')
+                    ->with('tags')
+                    ->with('user')
+                    ->with('collaborators')
+                    ->with('guest_collaborators')
+                    ->find($g['content_id'])->toArray();
             } else { // type == 'campaign'
-                $return['campaigns'][] = Campaign::find($guest['content_id'])->toArray();
+                $guest['campaigns'][] = Campaign::find($g['content_id'])->toArray();
             }
         }
 
-        return $return;
+        return $guest;
     }
 
     public function destroy($accountID, $contentType, $contentID, $guestID)

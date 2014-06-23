@@ -49,7 +49,7 @@ class GuestCollaborator extends Ardent {
         if (empty($values['settings'])) return $values;
 
         if (!is_array($values['settings'])) {
-            $values['settings'] = unserialize($values['settings']);
+            $values['settings'] = @unserialize($values['settings']) ?: [];
         }
         return $values;
     }
