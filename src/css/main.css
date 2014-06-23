@@ -431,16 +431,20 @@ header .navbar ul.nav li.subscription .dark {
 header .navbar ul.nav li.subscription .top-arrow {
   border-top-color: #39e4fd;
 }
-header .navbar ul.nav li.library {
+header .navbar ul.nav li.library,
+header .navbar ul.nav li.forum {
   background-color: #39e4fd;
 }
-header .navbar ul.nav li.library .dark {
+header .navbar ul.nav li.library .dark,
+header .navbar ul.nav li.forum .dark {
   background-color: #2badc0;
 }
-header .navbar ul.nav li.library .top-arrow {
+header .navbar ul.nav li.library .top-arrow,
+header .navbar ul.nav li.forum .top-arrow {
   border-top-color: #39e4fd;
 }
-header .navbar ul.nav li.library img path {
+header .navbar ul.nav li.library img path,
+header .navbar ul.nav li.forum img path {
   fill: #ffffff;
 }
 header .navbar ul.nav li .top-arrow {
@@ -1502,6 +1506,36 @@ span[class*=" icon-"].dark {
   min-width: 100%;
   width: 100%;
 }
+.create .left-pane .panel-content-activity .panel-heading {
+  background-color: #000000;
+  color: #ffffff;
+  font-weight: bold;
+}
+.create .left-pane .panel-content-activity .panel-body {
+  background-color: #E4E4E4;
+}
+.create .left-pane .panel-content-activity .panel-body ul {
+  list-style: none;
+  padding: 0;
+}
+.create .left-pane .panel-content-activity .panel-body ul li {
+  border-bottom: dotted 2px #aaaaaa;
+  font-size: 8pt;
+  padding: 8px 4px;
+}
+.create .left-pane .panel-content-activity .panel-body ul li .user-image {
+  float: left;
+  margin-right: 4px;
+  height: 36px;
+  width: 36px;
+}
+.create .left-pane .panel-content-activity .panel-body ul li .user-name {
+  display: block;
+  font-weight: bold;
+}
+.create .left-pane .panel-content-activity .panel-body ul li .content-activity-date {
+  float: right;
+}
 .create .right-pane .row {
   margin: 20px 0;
 }
@@ -1827,6 +1861,14 @@ span[class*=" icon-"].dark {
   background-color: #ba1760;
   color: white;
   margin-bottom: 8px;
+}
+.header-bar {
+  padding: 6px 12px;
+  background-color: black;
+  color: white;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  line-height: 1.42857143;
 }
 .full-width-view {
   background: #f2f0ec;
@@ -2551,6 +2593,12 @@ hr.simple-divider {
   vertical-align: middle;
   border: none;
 }
+.view.forum .section-header {
+  margin: 0 0 16px;
+}
+.view.forum .section-header h3 {
+  margin: 0 16px 0 0;
+}
 .consult.consult-landing .right-pane-header {
   padding-left: 50px;
 }
@@ -2619,6 +2667,9 @@ hr.simple-divider {
   margin: 12px 0;
   padding: 4px;
 }
+.consult .cl-badge-image {
+  border-color: #2badc0;
+}
 .filter-slection-counter {
   float: right;
 }
@@ -2660,4 +2711,8 @@ hr.simple-divider {
 .file-dialog img,
 .file-dialog video {
   max-width: 100%;
+}
+.thread-meta {
+  padding: 10px;
+  font-size: 11px;
 }

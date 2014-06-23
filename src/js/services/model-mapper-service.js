@@ -1155,6 +1155,21 @@
 				content.author.image = dto.user_image;
 			}
 
+			if ($.isArray(dto.activities)) {
+				content.activity = $.map(dto.activities, function (a, i) {
+					var activity = new launch.ContentActivity();
+
+					activity.id = parseInt(a.id);
+					activity.contentId = parseInt(a.content_id);
+					activity.userId = parseInt(a.user_id);
+					activity.title = a.activity;
+					activity.created = new Date(a.created_at);
+					activity.updated = new Date(a.updated_at);
+
+					return activity;
+				});
+			}
+
 			content.concept = dto.concept;
 			content.status = parseInt(dto.status);
 			content.archived = (parseInt(dto.archived) === 1);

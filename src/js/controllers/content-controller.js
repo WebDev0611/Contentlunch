@@ -77,6 +77,8 @@
 						}
 
 						self.setPrivileges();
+
+						$scope.activity = $scope.content.activity;
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -86,16 +88,29 @@
 			}
 		};
 
+		self.refreshActivity = function () {
+			// TODO: CHANGE THIS TO GET ONLY THE CONTENT'S ACTIVITY WHEN THE API ROUTE IS IN PLACE!!
+			var content = contentService.get(self.loggedInUser.account.id, self.contentId, {
+				success: function(r) {
+					$scope.activity = content.activity;
+				},
+				error: self.ajaxHandler.error
+			});
+		};
+
 		self.setPrivileges = function() {
 			if ($scope.content.status <= 3) {
-				$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_view_content_other_unapproved', 'create_view_content_other']);
-				$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_edit_content_other_unapproved', 'create_edit_content_other']);
+				$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_view_content_other_unapproved', 'create_view_content_other', 'create_edit_content_as_collaborator']);
+				$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_edit_content_other_unapproved', 'create_edit_content_other', 'create_edit_content_as_collaborator']);
+				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = !$scope.canEditContent;
 			} else if ($scope.content.status === 3) {
 				$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_view_content_other');
 				$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
+				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = true;
 			} else {
 				//TODO: WHAT PRIVILEGES DO WE CHECK FOR PROMOTE?
 				$scope.canPromoteContent = true;
+				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = true;
 			}
 
 			// TODO: VERIFY RULES FOR SUBMITTING CONTENT FOR APPROVAL!!
@@ -114,8 +129,6 @@
 
 			$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
 			$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
-
-			$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = ($scope.content.status >= 3);
 		};
 
 		self.handleSaveContent = function (callback) {
@@ -291,6 +304,7 @@
 		$scope.contentConnections = null;
 		$scope.campaigns = null;
 		$scope.users = null;
+		$scope.activity = null;
 		$scope.isCollaborator = true;
 		$scope.buyingStages = null;
 		$scope.isNewContent = true;
@@ -317,6 +331,7 @@
 		$scope.formatContentConnectionItem = launch.utils.formatContentConnectionItem;
 		$scope.getConnectionProviderIconClass = launch.utils.getConnectionProviderIconClass;
 		$scope.formatBuyingStageItem = launch.utils.formatBuyingStageItem;
+		$scope.formatDate = launch.utils.formatDate;
 
 		$scope.canViewContent = false;
 		$scope.canEditContent = false;
@@ -331,10 +346,21 @@
 		$scope.attachmentsIsDisabled = false;
 
 		$scope.formatUserItem = function (item, element, context) {
-			var user = $.grep($scope.users, function (u, i) { return u.id === parseInt(item.id); });
+			return $scope.getUserImageHtml(item.id, item.text);
+		};
+
+		$scope.getUserImageHtml = function (userId, text) {
+			var user = $.grep($scope.users, function (u, i) { return u.id === parseInt(userId); });
 			var style = (user.length === 1 && !launch.utils.isBlank(user[0].image)) ? ' style="background-image: ' + user[0].imageUrl() + '"' : '';
 
-			return '<span class="user-image user-image-small"' + style + '></span> <span>' + item.text + '</span>';
+			if (launch.utils.isBlank(text) && user.length === 1) {
+				text = user[0].formatName();
+			}
+
+			var imageHtml = '<span class="user-image user-image-small"' + style + '></span>';
+			var textHtml = '<span class="user-name">' + (launch.utils.isBlank(text) ? '' : text) + '</span>';
+
+			return imageHtml + ' ' + textHtml;
 		};
 
 		$scope.showPublishingGuidelines = function() {
@@ -592,6 +618,8 @@
 
 				return false;
 			});
+
+			self.refreshActivity();
 		};
 
 		$scope.filterCollaborators = function() {
@@ -602,6 +630,8 @@
 			$scope.collaborators = $.grep($scope.users, function(u) {
 				return u.id !== $scope.content.author.id;
 			});
+
+			self.refreshActivity();
 		};
 
 		$scope.isCollaboratorFinished = function (collaborator) {
@@ -702,9 +732,7 @@
 
 		$scope.$watch('content.author', $scope.filterCollaborators);
 
-		$scope.$watch('content.taskGroups', function() {
-			$scope.filterCollaborators();
-		});
+		$scope.$watch('content.taskGroups', $scope.filterCollaborators);
 
 		$scope.$watch('contentTags', function () {
 			if (!$scope.content || !$scope.content.$resolved) {

@@ -11,6 +11,7 @@
 	self.concept = null;
 	self.contentFile = null;
 	self.attachments = null;
+	self.activity = null;
 
 	self.accountConnections = null;
 	self.accountConnection = null;

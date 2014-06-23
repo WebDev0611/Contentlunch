@@ -1277,9 +1277,48 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 		}
 
-		.select2-container{
+		.select2-container {
 			min-width: 100%;
 			width: 100%;
+		}
+
+		.panel-content-activity {
+			.panel-heading {
+				background-color: #000000;
+				color: #ffffff;
+				font-weight: bold;
+			}
+
+			.panel-body {
+				background-color: #E4E4E4;
+
+				ul {
+					list-style: none;
+					padding: 0;
+
+					li {
+						border-bottom: dotted 2px #aaaaaa;
+						font-size: 8pt;
+						padding: 8px 4px;
+
+						.user-image{
+							float: left;
+							margin-right: 4px;
+
+							.user-image-medium;
+						}
+
+						.user-name {
+							display: block;
+							font-weight: bold;
+						}
+
+						.content-activity-date{
+							float: right;
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -1323,7 +1362,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 				margin-left: 8px;
 			}
 
-			.content-file-view-file{
+			.content-file-view-file {
 				cursor: pointer;
 				display: inline-block;
 				padding: 0 16px;

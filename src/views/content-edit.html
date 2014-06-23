@@ -1,6 +1,19 @@
 ﻿<div class="view create" ng-show="!!content && content.$resolved">
 	<div class="col-md-3 left-pane">
 		<div task-list task-groups="content.taskGroups" parent-status="content.status" author-id="content.author.id" users="taskUsers" ng-hide="isNewContent || !isCollaborator"></div>
+		
+		<div class="panel panel-default panel-content-activity">
+			<div class="panel-heading">Activity</div>
+			<div class="panel-body">
+				<ul>
+					<li ng-repeat="a in activity">
+						<span ng-bind-html="getUserImageHtml(a.userId, null)"></span>
+						{{ a.title }}
+						<span class="content-activity-date">{{ formatDate(a.created) }}</span>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 	<div class="col-md-9 right-pane" ng-show="isCollaborator">
 		<h2 class="right-pane-header">Create</h2>
