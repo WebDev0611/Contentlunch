@@ -148,6 +148,7 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
   Route::post('/user/{id}/image', 'UserController@postProfileImage');
+  Route::post('/user/{id}/preferences/{key}', 'UserController@savePreferences');
 
   Route::get('impersonate/{id}', 'AdminController@impersonate');
 

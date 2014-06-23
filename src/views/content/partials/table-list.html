@@ -70,14 +70,10 @@
 					<span class="clickable-header" ng-click="applySort('currentStep')">Current Step</span>
 					<span class="fa" ng-show="pagination.currentSort === 'currentstep'" ng-class="'fa-sort-numeric-' + pagination.currentSortDirection"></span>
 				</th>
-				<th ng-show="search.contentStage === 'content'">
-					<span class="clickable-header" ng-click="applySort('nextStep')">Next Step</span>
-					<span class="fa" ng-show="pagination.currentSort === 'nextstep'" ng-class="'fa-sort-numeric-' + pagination.currentSortDirection"></span>
-				</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="c in pagedContent[pagination.currentPage - 1]" ng-class-odd="'dark'">
+			<tr ng-repeat="c in pagedContent[pagination.currentPage - 1]" ng-class-odd="'dark'" ng-click="handleCurrentStep(c)">
 				<td class="small-cell"><div class="campaign-dot campaign-dot-small" ng-class="'campaign-dot-' + c.campaign.index()"></div></td>
 				<td class="small-cell" ng-hide="search.contentStage === 'content'"><input type="checkbox" class="form-control" ng-model="c.isSelected" /></td>
 				<td>
@@ -92,14 +88,7 @@
 				<td style="text-align: center;" ng-hide="search.contentStage === 'concepts'"><span class="cl-icon" ng-class="'cl-icon-personas-' + c.buyingStage"></span></td>
 				<td>
 					<span class="cl-icon cl-icon-workflow" ng-class="formatWorkflowItem(c.currentStep())"></span>
-					<a href="#" ng-click="handleCurrentStep(c)">
-						<span ng-bind="formatWorkflowTitle(c.currentStep())"></span>
-					</a>
-				</td>
-				<td ng-show="search.contentStage === 'content'">
-					<a href="#" ng-click="handleNextStep(c)">
-						<span ng-bind="formatWorkflowTitle(c.nextStep())"></span>
-					</a>
+					<span ng-bind="formatWorkflowTitle(c.currentStep())"></span>
 				</td>
 			</tr>
 		</tbody>

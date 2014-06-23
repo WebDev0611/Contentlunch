@@ -81,11 +81,10 @@ class UserController extends BaseController {
     // Password can't be null, set a random temp password
     $user->password = $user->password_confirmation = substr(uniqid(mt_rand(), true), 0, 8);
     // Make sure user is unconfirmed, inactive
-    // If status or confirmed exist in the request, ardent will try to hydrate from
+    // If confirmed exist in the request, ardent will try to hydrate from
     // those values, so just set those values in the request input
     $input = Request::all();
     $input['confirmed'] = 0;
-    $input['status'] = 0;
     Request::replace($input);
     if ( $user->save() )
     {
@@ -141,6 +140,11 @@ class UserController extends BaseController {
 				$user->permissions = $role->perms->toArray();
 			}
 		}
+
+    if ( ! empty($user->preferences)) {
+      $user->preferences = unserialize($user->preferences);
+    }
+
 		if ($user) {
 			if (Session::get('impersonate_from') && Session::get('impersonate_from') != $id) {
 				$user->impersonating = true;
@@ -239,5 +243,35 @@ class UserController extends BaseController {
 			'errors' => "Error"
 		), 400);
 	}
+
+  public function savePreferences($userID, $key)
+  {
+    $user = User::find($userID);
+    $currentUser = Confide::user();
+    if ( ! $currentUser || ( $userID != $currentUser->id )) {
+      return $this->responseAccessDenied();
+    }
+    $prefs = [];
+    if ( ! empty($user->preferences)) {
+      $prefs = unserialize($user->preferences);
+    }
+    if (empty($prefs[$key])) {
+      $prefs[$key] = [];
+    }
+    $prefs[$key] = (array) Input::get('preferences');
+    // If these preferences are all empty, remove this key
+    $unset = true;
+    foreach ($prefs[$key] as $prefKey => $value) {
+      if ( ! empty($value)) {
+        $unset = false;
+      }
+    }
+    if ($unset) {
+      unset($prefs[$key]);
+    }
+    $user->preferences = serialize($prefs);
+    $user->updateUniques();
+    return ['success' => 'OK'];
+  }
 
 }
