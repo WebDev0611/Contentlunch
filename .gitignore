@@ -10,6 +10,8 @@ composer.lock
 .DS_Store
 Thumbs.db
 uploads/
+.vagrant/
+public/adminer/
 
 # ignore local configurations
 app/config/local/

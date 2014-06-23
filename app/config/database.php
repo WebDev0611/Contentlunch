@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'sqlsrv',
+	'default' => 'mysql',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
 			'database'  => 'contentlaunch',
-			'username'  => 'root',
-			'password'  => '',
+			'username'  => 'contentlaunch',
+			'password'  => 'launch123',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

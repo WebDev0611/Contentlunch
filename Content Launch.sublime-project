@@ -12,7 +12,9 @@
                 "bower_components", 
                 "node_modules",
                 "vendor",
-                "public"
+                "public",
+                ".vagrant",
+                "puphpet"
             ]
 		}
 	]
