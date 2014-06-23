@@ -56,6 +56,8 @@ Route::group(['prefix' => 'api'], function()
   Route::get('guest-collaborators/{accessCode}', 'GuestCollaboratorsController@show');
   Route::get('guest-collaborators/{guestID}/link-account', 'GuestCollaboratorsController@linkAccount');
 
+  Route::get('guest-collaborators/concepts/{connectionUserID}', 'GuestCollaboratorsController@concepts');
+
   Route::resource('account/{accountID}/content/{contentID}/comments', 'AccountContentCommentsController', [
     'only' => ['index', 'store']
   ]);

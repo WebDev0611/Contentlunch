@@ -28,6 +28,26 @@ class GuestCollaboratorsController extends BaseController {
             ->first();
     }
 
+    public function concepts($connectionUserID)
+    {
+        // @TODO auth for guests?
+
+        // all of these guests will actually be the same person, but with access to different things
+        $guests = GuestCollaborator::where('connection_user_id', $connectionUserID)->get();
+
+        $return = ['content' => [], 'campaigns' => []];
+        foreach ($guests as $g) {
+            $guest = $g->toArray();
+            if ($guest['content_type'] == 'content') {
+                $return['content'][] = Content::find($guest['content_id'])->toArray();
+            } else { // type == 'campaign'
+                $return['campaigns'][] = Campaign::find($guest['content_id'])->toArray();
+            }
+        }
+
+        return $return;
+    }
+
     public function destroy($accountID, $contentType, $contentID, $guestID)
     {
         if (!$this->inAccount($accountID)) {
