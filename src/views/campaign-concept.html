@@ -1,9 +1,59 @@
 ﻿<div class="view create">
 	<div class="col-md-3 left-pane"></div>
-	<div class="col-md-9 right-pane">
+	<div class="col-md-9 right-pane" ng-show="isCollaborator">
 		<h2 class="right-pane-header">Create</h2>
 		
-		<form name="editConcept">
+		<form name="editConcept" novalidate="novalidate">
+			<div class="concept-editor row">
+				<div class="col-md-9">
+					<h2>
+						<span ng-show="isNewConcept">Create</span>
+						<span ng-hide="isNewConcept">Edit</span>
+						Concept
+						<span class="cl-icon cl-icon-large cl-icon-workflow-concept"></span>
+					</h2>
+				
+					<div class="concept-container">
+						<div class="control-group">
+							<div class="form-group" ng-class="{ 'has-error': hasError(campaign, 'title', editConcept.txtConceptName, forceDirty) }">
+								<label class="control-label" for="txtConceptName">Working Title</label>
+								<input type="text" name="txtConceptName" id="txtConceptName" class="form-control" ng-model="campaign.title"
+										error-message error-message-item="campaign" error-message-property="'title'" error-message-control="editConcept.txtConceptName" />
+							</div>
+							
+							<div class="form-group" ng-class="{ 'has-error': hasError(campaign, 'user', editConcept.selCreator, forceDirty) }">
+								<label class="control-label" for="selCreator">Concept Creator</label>
+								<select name="selCreator" id="selCreator"
+										ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="campaign.user.id"
+										data-placeholder="Select Concept Creator" ng-change="updateCreator()"
+										error-message error-message-item="campaign" error-message-property="'user'" error-message-control="editConcept.selCreator">
+									<option value=""></option>
+									<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="control-group" ng-class="{ 'has-error': hasError(campaign, 'description', editConcept.txtConceptDesc, forceDirty) }">
+							<label class="control-label" for="txtConceptDesc">Description</label>
+							<textarea name="txtConceptDesc" id="txtConceptDesc" rich-text-editor ng-model="campaign.description"
+									error-message error-message-item="campaign" error-message-property="'description'" error-message-control="editConcept.txtConceptDesc"></textarea>
+						</div>
+
+						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveConcept()" ng-show="canEditCampaign">Save</button>
+					
+						<button type="button" class="btn btn-lg btn-create" ng-click="convertConcept()" ng-hide="isNewConcept || !canConvertConept">
+							<span class="cl-icon cl-icon-white cl-icon-med cl-icon-workflow-create"></span>
+							Convert to Campaign
+						</button>
+					</div>
+				</div>
+				<div class="col-md-3" collaborator-sidebar item-id="campaign.id" item-type="'campaign'" users="collaborators" is-disabled="!canEditCampaign" ng-hide="isNewConcept"></div>
+			</div>
+
+			<div ng-hide="isNewConcept" discussion-panel item-id="campaign.id" item-type="'campaign'"></div>
 		</form>
+	</div>
+	<div class="col-md-9 right-pane" ng-hide="isCollaborator">
+		<h3 class="unauthorized-message">You are unauthorized to view this concept.</h3>
 	</div>
 </div>
