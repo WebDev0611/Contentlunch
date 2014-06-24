@@ -4,8 +4,9 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
 
   $scope.init = function () {
     LibraryService.Libraries.query({}, function (response) {
-      console.log(response);
-      $scope.files = response[0].uploads;
+      if (response[0]) {
+        $scope.files = response[0].uploads;
+      }
     });
   }
   $scope.init();

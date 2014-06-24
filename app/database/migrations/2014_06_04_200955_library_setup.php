@@ -50,6 +50,7 @@ class LibrarySetup extends Migration {
     $library = new Library([
       'global' => true,
       'name' => 'Global Content Launch Files',
+      'description' => 'Global Content Launch Files',
       'user_id' => $user->id
     ]);
     $library->save();
