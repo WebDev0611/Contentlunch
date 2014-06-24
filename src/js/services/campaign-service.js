@@ -93,5 +93,15 @@
 
 			return campaignCollaborators.delete({ accountId: accountId, campaignId: campaignId, id: id }, success, error);
 		},
+		getNewCampaignConcept: function(user) {
+			var campaign = new launch.Campaign();
+
+			campaign.accountId = user.account.id;
+			campaign.user = user;
+			campaign.status = 0;
+			campaign.$resolved = true;
+
+			return campaign;
+		}
 	};
 });
