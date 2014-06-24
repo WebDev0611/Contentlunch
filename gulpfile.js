@@ -236,11 +236,18 @@ gulp.task('views', function () {
 });
 
 gulp.task('images', function() {
-	return gulp.src([
-			'src/images/**/*',
+	// select2 is looking in the css folder, so these are separate
+	gulp.src([
 			'./bower_components/select2/select2.png',
 			'./bower_components/select2/select2-spinner.gif',
 			'./bower_components/select2/select2x2.png'
+		])
+		.pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
+		.pipe(gulp.dest('public/assets/css'))
+		.pipe(livereload(server));
+
+	return gulp.src([
+			'src/images/**/*',
 		])
 		.pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
 		.pipe(gulp.dest('public/assets/images'))
