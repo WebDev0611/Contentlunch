@@ -1,6 +1,6 @@
 launch.module.controller('CalendarController',
-        ['$scope', 'AuthService', '$timeout', 'campaignTasks', '$q', 'calendar', 'Restangular',
-function ($scope,   AuthService,   $timeout,   campaignTasks,   $q,   calendar,   Restangular) {
+        ['$scope', 'AuthService', '$timeout', '$filter', 'UserService', 'campaignTasks', '$q', 'contentStatuses', 'calendar', 'Restangular', 'NotificationService',
+function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaignTasks,   $q,   contentStatuses,   calendar,   Restangular,   notify) {
 
     // different permissions
     // calendar_execute_campaigns_own
@@ -10,6 +10,7 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $q,   calendar, 
     // calendar_view_archive
     // calendar_execute_archive
     // calendar_execute_export
+
     $scope.calendar = {};
 
     var user = $scope.user = AuthService.userInfo();
@@ -37,6 +38,9 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $q,   calendar, 
         // that's CONTENT tasks to you, boooooiii
         tasks: Account.getList('content-tasks'),
         users: Account.getList('users'),
+        contentSettings: Account.customGET('content-settings'),
+        contentTypes: Restangular.all('content-types').getList(),
+        userAuth: Restangular.all('auth').customGET(),
     }).then(function (responses) {
         originalResponses = _.mapObject(responses, function (response, key) {
             return [key, response.plain ? response.plain() : response];
@@ -49,13 +53,36 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $q,   calendar, 
             task.content = contentObj[task.contentId];
             return task;
         });
+        originalResponses.campaigns = _.map(originalResponses.campaigns, function (campaign) {
+            campaign.campaignId = campaign.id;
+            return campaign;
+        });
 
         angular.extend($scope, angular.copy(originalResponses));
+        $scope.buyingStages = _.map(originalResponses.contentSettings.personaColumns, function (col, i) {
+            return {
+                // content.buyingStage is a string, so we need this 
+                // to be a string also for this filter to work
+                id: i + '',
+                name: launch.utils.titleCase(col)
+            };
+        });
+        $scope.milestones = _.map(contentStatuses, function (status, i) {
+            return {
+                id: i,
+                name: launch.utils.titleCase(status)
+            };
+        });
+
+        // using campaignList so that we always have them all in the dropdown
+        $scope.campaignList = angular.copy($scope.campaigns);
 
         eventize = calendar.eventize($scope, responses.content);
         eventize(responses.campaigns, responses.tasks);
 
         $scope.isLoaded = true;
+
+        $scope.filters = ((originalResponses.userAuth || {}).preferences || {}).calendar || {};
     });
 
     function randomColor() {
@@ -79,58 +106,89 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $q,   calendar, 
     };
 
     $scope.clearFilters = function () {
-        $scope.filters = {};
+        $scope.filters = { onlyMine: true };
     };
 
     $scope.saveFilters = function (filters) {
-        console.error('save filter NYI');
+        UserService.savePreferences(user.id, 'calendar', filters, {
+            success: function () {
+                notify.success('Success', 'Calendar default filters saved.');
+            }
+        });
     };
 
-    $scope.$watch('filters', function (filters) {
+    var filterDebouncer = _.debounce(function (filters) {
         $scope.campaigns = filterItems(originalResponses.campaigns);
-        $scope.tasks     = filterItems(originalResponses.tasks);
+        var tasks = originalResponses.tasks;
 
-        if (eventize) {
-            eventize($scope.campaigns, $scope.tasks);
+        // first filter out "my" tasks if needed
+        if ($scope.filters.onlyMine) {
+            tasks = _.filter(tasks, function (task) {
+                return task.userId == user.id;
+            });
         }
-    }, true);
+
+        $scope.tasks = filterItems(tasks);
+
+        if (eventize)
+            eventize($scope.campaigns, $scope.tasks);
+    }, 300);
+    $scope.$watch('filters', filterDebouncer, true);
 
     // :searchTerm
 
-    $scope.filters = {};
+    $scope.filters = { onlyMine: true };
     var searches = {
         contentTypes: 'contentTypeId',
         milestones: 'milestoneId',
-        buyingStages: 'buyingStageId',
+        buyingStages: 'buyingStage',
         campaigns: 'campaignId',
         users: 'userId'
     };
     function filterItems(items) {
-        return _.reduce(searches, function (filtered, modelKey, filterKey) {
+        items = _.reduce(searches, function (filtered, modelKey, filterKey) {
             var array = $scope.filters[filterKey];
             if (_.isEmpty(array)) return filtered;
             return _.filter(filtered, containFilter(modelKey, array));
-        }, items);               
+        }, items);
+
+        var searchTerm = $.trim(($scope.filters.searchTerm || '').toLowerCase());
+        if (!searchTerm) return items;
+
+        return $filter('filter')(items, function (value) {
+            var inResult = false;
+            if (value.name)  inResult = inResult || _.contains(value.name.toLowerCase(),  searchTerm);
+            if (value.title) inResult = inResult || _.contains(value.title.toLowerCase(), searchTerm);
+            if (value.tags)  inResult = inResult || _.any(value.tags, function(tag) { return _.contains((tag.tag || tag || '').toLowerCase(), searchTerm); });
+            if ((value.content || {}).tags) inResult = inResult || _.any(value.content.tags, function(tag) { return _.contains((tag.tag || tag || '').toLowerCase(), searchTerm); });
+
+            return inResult;
+        });
     }
 
     function containFilter(prop, array) {
         return function (item) {
+            // if we don't have that property for some reason, skip testing it
             if (!item.hasOwnProperty(prop) && !(item.content || {}).hasOwnProperty(prop)) return true;
+
+            // return if an item (or item's content) has that property in the selected stuff
             return (item.content && _.contains(array, item.content[prop])) || _.contains(array, item[prop]);
         };
     }
 
+    $scope.formatContentTypeItem = function(item, element, context) {
+        return '<span class="' + launch.utils.getContentTypeIconClass(item.text) + '"></span> <span>' + item.text + '</span>';
+    };
+    $scope.formatCampaignItem    = launch.utils.formatCampaignItem;
+    $scope.formatBuyingStageItem = launch.utils.formatBuyingStageItem;
+    $scope.formatMilestoneItem   = function(item, element, context) {
+        return '<span class="' + launch.utils.getWorkflowIconCssClass(item.text) + '"></span> <span>' + item.text + '</span>';
+    };
+    $scope.formatUserItem = function (item, element, context) {
+        if (!item.text) return element.attr('placeholder');
+        var user = _.findById($scope.users, item.id)[0] || {};
+        var style = ' style="background-image: url(\'' + $filter('imagePathFromObject')(user.image) + '\')"';
 
-    // Calendar Functions
-    // -------------------------
-    // this really could be handled better :-(
-    // this doesn't even really work if we have lots of tasks in the same day
-    // var autoSetCalendarHeight = function () {
-    //     $scope.calendar.fullCalendar('option', 'height', Math.max($scope.calendar.parent().parent().height() - 100, 450));
-    // };
-    // $timeout(autoSetCalendarHeight);
-    // var debouncedResize = _.debounce(function () {
-    //     $scope.$apply(autoSetCalendarHeight);
-    // }, 100);
-    // $(window).on('resize', debouncedResize);
+        return '<span class="user-image user-image-small"' + style + '></span> <span>' + item.text + '</span>';
+    };
 }]);

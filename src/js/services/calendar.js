@@ -83,8 +83,7 @@ function (contentStatuses,   $http,   $interpolate) {
                         className: 'calendar-task',
                         color: color,
                         textColor: 'whitesmoke'
-                    });    
-                    console.log(events[0], events);                    
+                    });                  
                 });
 
                 _.each(campaigns, function (campaign) {
