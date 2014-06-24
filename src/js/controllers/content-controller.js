@@ -23,14 +23,7 @@
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
-			$scope.contentConnections = connectionService.queryContentConnections(self.loggedInUser.account.id, {
-				success: function (r) {
-					$scope.showExport = $.grep($scope.contentConnections, function (cc) { return cc.provider === 'hubspot' || cc.provider === 'act-on'; }).length > 0;
-					$scope.showExportHubspot = $.grep($scope.contentConnections, function (cc) { return cc.provider === 'hubspot'; }).length > 0;
-					$scope.showExportActOn = $.grep($scope.contentConnections, function (cc) { return cc.provider === 'act-on'; }).length > 0;
-				},
-				error: self.ajaxHandler.error
-			});
+			$scope.contentConnections = connectionService.queryContentConnections(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
 				success: function (r) {
 					if ($.isArray($scope.contentSettings.personaProperties)) {
@@ -89,13 +82,7 @@
 		};
 
 		self.refreshActivity = function () {
-			// TODO: CHANGE THIS TO GET ONLY THE CONTENT'S ACTIVITY WHEN THE API ROUTE IS IN PLACE!!
-			var content = contentService.get(self.loggedInUser.account.id, self.contentId, {
-				success: function(r) {
-					$scope.activity = content.activity;
-				},
-				error: self.ajaxHandler.error
-			});
+			$scope.activity = contentService.getActivity(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
 		};
 
 		self.setPrivileges = function() {
@@ -108,7 +95,7 @@
 				$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
 				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = true;
 			} else {
-				//TODO: WHAT PRIVILEGES DO WE CHECK FOR PROMOTE?
+				// TODO: WHAT PRIVILEGES DO WE CHECK FOR PROMOTE?
 				$scope.canPromoteContent = true;
 				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = true;
 			}
@@ -119,13 +106,12 @@
 			$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
 			$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
 
-			// TODO: WHAT PRIVILEGES TO WE CHECK FOR RESTORE AND ARCHIVE?
+			// TODO: WHAT PRIVILEGES DO WE CHECK FOR RESTORE AND ARCHIVE?
 			$scope.canRestoreContent = $scope.content.archived ? true : false;
 			$scope.canArchiveContent = $scope.content.archived ? false : true;
 
 			$scope.showRichTextEditor = $scope.content.contentType.allowText();
 			$scope.showAddFileButton = $scope.content.contentType.allowFile();
-			$scope.showExport = $scope.content.contentType.allowExport() && $scope.content.status >= 3;
 			$scope.showDownloadContentFile = (!!$scope.content.contentFile && ($scope.content.contentFile.isImage() || $scope.content.contentFile.isVideo() || $scope.content.contentFile.isAudio()));
 
 			$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
@@ -315,9 +301,6 @@
 		$scope.contentTags = null;
 		$scope.showRichTextEditor = true;
 		$scope.showAddFileButton = false;
-		$scope.showExport = false;
-		$scope.showExportHubspot = false;
-		$scope.showExportActOn = false;
 		$scope.showDownloadContentFile = false;
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;
@@ -675,11 +658,6 @@
 				default:
 					return null;
 			}
-		};
-
-		$scope.exportContent = function(provider) {
-			// TODO: WHAT DOES IT MEAN TO EXPORT CONTENT TO HUBSPOT AND ACT-ON??
-			notificationService.info('WARNING!!', 'EXPORTING TO ' + provider.toUpperCase() + ' IS NOT YET IMPLEMENTED!!');
 		};
 
 		$scope.restoreContent = function() {

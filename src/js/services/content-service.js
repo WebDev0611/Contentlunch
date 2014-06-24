@@ -25,6 +25,10 @@
 		update: { method: 'PUT', transformRequest: ModelMapperService.taskGroups.formatRequest, transformResponse: ModelMapperService.taskGroups.parseResponse }
 	});
 
+	var contentActivity = $resource('/api/account/:accountId/content/:contentId/activity', { accountId: '@accountId', contentId: '@contentId' }, {
+		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.contentActivity.parseResponse }
+	});
+
 	var contentType = $resource('/api/content-types', null, {
 		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.contentType.parseResponse }
 	});
@@ -113,6 +117,12 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return contentTaskGroups.update({ accountId: accountId, contentId: contentId }, taskGroups, success, error);
+		},
+		getActivity: function(accountId, contentId, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return contentActivity.get({ accountId: accountId, contentId: contentId }, success, error);
 		},
 		getContentTypes: function (callback, forceRefresh) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
