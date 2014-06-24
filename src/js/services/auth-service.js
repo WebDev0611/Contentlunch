@@ -22,8 +22,12 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 		fetchCurrentUser: { method: 'GET', transformResponse: self.modelMapper.auth.parseResponse }
 	});
 
+	self.guestCollaborator = $resource('/api/guest-collaborators/me', null, {
+		get: { method: 'GET', transformResponse: self.modelMapper.guestCollaborator.parseResponse }
+	});
+
 	self.confirm = $resource('/api/auth/confirm', null, {
-		confirm: { method: 'POST', transformResponse: self.modelMapper.user.parseResponse }
+		confirm: { method: 'POST', transformResponse: self.modelMapper.auth.parseResponse }
 	});
 
 	self.impersonate = $resource('/api/auth/impersonate', null, {
@@ -82,6 +86,25 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return self.authenticate.fetchCurrentUser(null, function(r) {
+
+				if (r.id) {
+					self.cacheSession(r);
+				}
+
+				if ($.isFunction(success)) {
+					success(r);
+				}
+
+				if (!r.id) {
+					return;
+				}
+			}, error);
+		},
+		fetchGuestCollaborator: function(callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return self.guestCollaborator.get(null, function (r) {
 
 				if (r.id) {
 					self.cacheSession(r);

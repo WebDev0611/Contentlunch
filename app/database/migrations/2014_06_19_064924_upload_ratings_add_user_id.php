@@ -25,8 +25,8 @@ class UploadRatingsAddUserId extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropUnique('upload_ratings_upload_id_user_id');
     Schema::table('upload_ratings', function ($table) {
+      $table->dropUnique('upload_ratings_upload_id_user_id_unique');
       $table->dropColumn('user_id');
     });
 	}

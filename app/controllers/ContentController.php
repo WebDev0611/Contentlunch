@@ -114,6 +114,15 @@ class ContentController extends BaseController {
     return $content;
   }
 
+  public function showActivities($accountID, $id)
+  {
+    $hasGuestAccess = GuestCollaborator::guestCanViewContent($id);
+    if (!$hasGuestAccess && !$this->inAccount($accountID)) {
+      return $this->responseAccessDenied();
+    }
+    return Content::find($id)->activities;
+  }
+
   public function update($accountID, $id)
   {
     if ( ! $this->inAccount($accountID)) {
