@@ -1,7 +1,6 @@
-/* jshint multistr: true */
 launch.module.controller('CalendarController',
-        ['$scope', 'AuthService', '$timeout', 'campaignTasks', '$interpolate', '$http', '$q', 'contentStatuses', 'Restangular',
-function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   $http,   $q,   contentStatuses,   Restangular) {
+        ['$scope', 'AuthService', '$timeout', 'campaignTasks', '$q', 'calendar', 'Restangular',
+function ($scope,   AuthService,   $timeout,   campaignTasks,   $q,   calendar,   Restangular) {
 
     // different permissions
     // calendar_execute_campaigns_own
@@ -11,6 +10,7 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
     // calendar_view_archive
     // calendar_execute_archive
     // calendar_execute_export
+    $scope.calendar = {};
 
     var user = $scope.user = AuthService.userInfo();
     $scope.canCreate = user.hasPrivilege('calendar_execute_campaigns_own');
@@ -24,106 +24,38 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
             center: 'title',
             right: 'prev,next today'
         },
-        // @note that in all of these $interpolate functions,
-        // the it will render stuff in {{ }}, but it is NOT a
-        // full $compile and won't render stuff like ngRepeat
-        eventRender: function (event, element, view) {
-            if (event.type == 'task') {
-                element.hide();
-
-                // this re-styles the tasks items on the 
-                // calendar to match the spec
-                $http.get('/assets/views/calendar/task-node.html', { cache: true }).then(function (response) {
-                    element.html($interpolate(response.data)(event)).show();
-                });
-
-                // this is how we attached a click event to
-                // the task items in the calendar using
-                // BS popover and an external template
-                $http.get('/assets/views/calendar/task-node-popover.html', { cache: true }).then(function (response) {
-                    element.popover({
-                        html: true,
-                        content: $interpolate(response.data)(event),
-                        placement: 'left',
-                        container: 'body',
-                        title: $interpolate('<div class="group">\
-                                                <div class="calendar-node-popover-title">{{ title }}</div>\
-                                                <div class="calendar-node-popover-date">{{ start | date:"shortTime" }}</div>\
-                                             </div>')(event)
-                    });
-                });
-            } else { // (event.type != 'task')
-                // this is how we attached a click event to
-                // the campaign items in the calendar using
-                // BS popover and an external template
-                $http.get('/assets/views/calendar/campaign-node-popover.html', { cache: true }).then(function (response) {
-                    element.popover({
-                        html: true,
-                        content: $interpolate(response.data)(event),
-                        placement: 'left',
-                        container: 'body',
-                        title: $interpolate('<div class="group">\
-                                                <div class="calendar-node-popover-title-2"><a href="/calendar/campaigns/{{ id }}">{{ title }}</a></div>\
-                                                <div class="calendar-node-popover-date-2">{{ start | date:"mediumDate" }} - {{ end | date:"mediumDate" }}</div>\
-                                             </div>')(event)
-                    });
-                });
-            }
-        }
+        eventRender: calendar.eventRender
     };
 
     var Account = Restangular.one('account', user.account.id);
+    var originalResponses = {};
+    $scope.isLoaded = false;
+    var eventize;
     $q.all({
         campaigns: Account.getList('campaigns'),
         content: Account.getList('content'),
         // that's CONTENT tasks to you, boooooiii
         tasks: Account.getList('content-tasks'),
+        users: Account.getList('users'),
     }).then(function (responses) {
-        var tasksByContent = _.groupBy(responses.tasks, 'contentId');
-
-        $scope.campaigns = responses.campaigns;
-        $scope.calendarSources = [];
-
-        _.each(tasksByContent, function (tasks, contentId) {
-            var content = _.findById(responses.content, contentId);
-            var color = (content.campaign || {}).color || randomColor();
-
-            var events = _.map(tasks, function (task) {
-                return _.merge(task, {
-                    title: task.name,
-                    contentTypeIconClass: launch.utils.getContentTypeIconClass(content.contentType.key),
-                    workflowIconCssClass: launch.utils.getWorkflowIconCssClass(contentStatuses[task.status]),
-                    stage: contentStatuses[task.status],
-                    circleColor: color,
-                    start: task.dueDate,
-                    type: 'task',
-                    allDay: false, // will make the time show
-                    content: content
-                });
-            });
-
-            $scope.calendarSources.push({
-                events: events,
-                className: 'calendar-task',
-                color: color,
-                textColor: 'whitesmoke'
-            });
+        originalResponses = _.mapObject(responses, function (response, key) {
+            return [key, response.plain ? response.plain() : response];
         });
 
-        _.each(responses.campaigns, function (campaign) {
-            $scope.calendarSources.push({
-                events: [_.merge(campaign, {
-                    title: campaign.title,
-                    start: campaign.startDate,
-                    end: campaign.endDate,
-                    type:'campaign',
-                    allDay: true,
-                })],
-                color: campaign.color,
-                textColor: 'whitesmoke'
-            });
-
+        var contentObj = _.mapObject(originalResponses.content, function (content) {
+            return [content.id, content];
         });
+        originalResponses.tasks = _.map(originalResponses.tasks, function (task) {
+            task.content = contentObj[task.contentId];
+            return task;
+        });
+
+        angular.extend($scope, angular.copy(originalResponses));
+
+        eventize = calendar.eventize($scope, responses.content);
+        eventize(responses.campaigns, responses.tasks);
+
+        $scope.isLoaded = true;
     });
 
     function randomColor() {
@@ -145,6 +77,48 @@ function ($scope,   AuthService,   $timeout,   campaignTasks,   $interpolate,   
         pageSize: 10,
         currentPage: 1,
     };
+
+    $scope.clearFilters = function () {
+        $scope.filters = {};
+    };
+
+    $scope.saveFilters = function (filters) {
+        console.error('save filter NYI');
+    };
+
+    $scope.$watch('filters', function (filters) {
+        $scope.campaigns = filterItems(originalResponses.campaigns);
+        $scope.tasks     = filterItems(originalResponses.tasks);
+
+        if (eventize) {
+            eventize($scope.campaigns, $scope.tasks);
+        }
+    }, true);
+
+    // :searchTerm
+
+    $scope.filters = {};
+    var searches = {
+        contentTypes: 'contentTypeId',
+        milestones: 'milestoneId',
+        buyingStages: 'buyingStageId',
+        campaigns: 'campaignId',
+        users: 'userId'
+    };
+    function filterItems(items) {
+        return _.reduce(searches, function (filtered, modelKey, filterKey) {
+            var array = $scope.filters[filterKey];
+            if (_.isEmpty(array)) return filtered;
+            return _.filter(filtered, containFilter(modelKey, array));
+        }, items);               
+    }
+
+    function containFilter(prop, array) {
+        return function (item) {
+            if (!item.hasOwnProperty(prop) && !(item.content || {}).hasOwnProperty(prop)) return true;
+            return (item.content && _.contains(array, item.content[prop])) || _.contains(array, item[prop]);
+        };
+    }
 
 
     // Calendar Functions

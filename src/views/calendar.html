@@ -5,7 +5,7 @@
 		<a ng-show="canCreate" class="btn full-width small-nudge-down btn-inverse add-content" href="/calendar/campaigns/new">Create New Campaign</a>
 
 		<div class="input-group small-nudge-down">
-			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter()" />
+			<input type="text" class="form-control" placeholder="Search" ng-model="filters.searchTerm">
 			<span class="input-group-addon">
 				<span class="glyphicon glyphicon-search"></span>
 			</span>
@@ -20,31 +20,34 @@
 			<a class="btn btn-default" ng-class="{ active: tasksFilter == 'all' }" ng-click="tasksFilter = 'all'">All Tasks</a>
 		</div>
 
-		<!-- TODO: put this in a re-usable template?? -->
 		<accordion close-others="false" class="accordion-blend">
 			<accordion-group is-open="contentTypeIsOpen">
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': contentTypeIsOpen, 'fa-caret-right': !contentTypeIsOpen}"></i>
 					Content Type
+					<span class="filter-slection-counter" ng-show="filters.contentTypes.length > 0">(showing {{ filters.contentTypes.length }} of {{ contentTypes.length }})</span>
+					<span class="filter-slection-counter" ng-hide="filters.contentTypes.length">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selContentType" name="selContentType" class="multi-select" multiple="multiple"
-							ui-select2="{ width: '300px', formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="search.contentTypes"
-							ng-change="search.applyFilter()" data-placeholder="Select Content Types">
-						<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
+							ng-options="item.id as item.name for item in contentTypes"
+							ui-select2 faux-ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="filters.contentTypes"
+						 data-placeholder="Select Content Types">
 					</select>
 				</div>
 			</accordion-group>
-			<accordion-group is-open="milestonIsOpen">
+			<accordion-group is-open="milestoneIsOpen">
 				<accordion-heading>
-					<i class="fa" ng-class="{'fa-caret-down': milestonIsOpen, 'fa-caret-right': !milestonIsOpen}"></i>
+					<i class="fa" ng-class="{'fa-caret-down': milestoneIsOpen, 'fa-caret-right': !milestoneIsOpen}"></i>
 					Milestone
+					<span class="filter-slection-counter" ng-show="filters.milestones.length > 0">(showing {{ filters.milestones.length }} of {{ milestones.length }})</span>
+					<span class="filter-slection-counter" ng-hide="filters.milestones.length">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selMilestone" name="selMilestone" class="multi-select" multiple="multiple"
-							ui-select2="{ width: '300px', formatResult: formatMilestoneItem, formatSelection: formatMilestoneItem }" ng-model="search.milestones"
-							ng-change="search.applyFilter()" data-placeholder="Select Milestones">
-						<option ng-repeat="m in milestones" value="{{ m.name }}">{{ m.title }}</option>
+							ng-options="item.id as item.name for item in milestones"
+							ui-select2 faux-ui-select2="{ formatResult: formatMilestoneItem, formatSelection: formatMilestoneItem }" ng-model="filters.milestones"
+						 data-placeholder="Select Milestones">
 					</select>
 				</div>
 			</accordion-group>
@@ -52,12 +55,14 @@
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': buyingStageIsOpen, 'fa-caret-right': !buyingStageIsOpen}"></i>
 					Buying Stage
+					<span class="filter-slection-counter" ng-show="filters.buyingStages.length > 0">(showing {{ filters.buyingStages.length }} of {{ buyingStages.length }})</span>
+					<span class="filter-slection-counter" ng-hide="filters.buyingStages.length">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selBuyingStage" name="selBuyingStage" class="multi-select" multiple="multiple"
-							ui-select2="{ width: '300px', formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem }" ng-model="search.buyingStages"
-							ng-change="search.applyFilter()" data-placeholder="Select Buying Stages">
-						<option ng-repeat="bs in buyingStages" value="{{ bs.id }}">{{ bs.name }}</option>
+							ng-options="item.id as item.name for item in buyingStages"
+							ui-select2 faux-ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem }" ng-model="filters.buyingStages"
+						 data-placeholder="Select Buying Stages">
 					</select>
 				</div>
 			</accordion-group>
@@ -65,39 +70,43 @@
 				<accordion-heading>
 					<i class="fa" ng-class="{'fa-caret-down': campaignIsOpen, 'fa-caret-right': !campaignIsOpen}"></i>
 					Campaign
+					<span class="filter-slection-counter" ng-show="filters.campaigns.length > 0">(showing {{ filters.campaigns.length }} of {{ campaigns.length }})</span>
+					<span class="filter-slection-counter" ng-hide="filters.campaigns.length">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selCampaign" name="selCampaign" class="multi-select" multiple="multiple"
-							ui-select2="{ width: '300px', formatResult: formatCampaignItem, formatSelection: formatCampaignItem }" ng-model="search.campaigns"
-							ng-change="search.applyFilter()" data-placeholder="Select Campaign">
-						<option ng-repeat="c in campaigns" value=""></option>
+							ng-options="item.id as item.title for item in campaigns"
+							ui-select2 faux-ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem }" ng-model="filters.campaigns"
+						 data-placeholder="Select Campaign">
 					</select>
 				</div>
 			</accordion-group>
-			<accordion-group is-open="contentCreatorIsOpen">
+			<accordion-group is-open="creatorIsOpen">
 				<accordion-heading>
-					<i class="fa" ng-class="{'fa-caret-down': contentCreatorIsOpen, 'fa-caret-right': !contentCreatorIsOpen}"></i>
-					Content Creator
+					<i class="fa" ng-class="{'fa-caret-down': creatorIsOpen, 'fa-caret-right': !creatorIsOpen}"></i>
+					Creator
+					<span class="filter-slection-counter" ng-show="filters.users.length > 0">(showing {{ filters.users.length }} of {{ users.length }})</span>
+					<span class="filter-slection-counter" ng-hide="filters.users.length">(showing all)</span>
 				</accordion-heading>
 				<div>
 					<select id="selCreator" name="selCreator" class="multi-select" multiple="multiple"
-							ui-select2="{ width: '300px', formatResult: formatUserItem, formatSelection: formatUserItem }" ng-model="search.users"
-							ng-change="search.applyFilter()" data-placeholder="Select Creator">
-						<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
+							ng-options="item.id as item.name for item in users"
+							ui-select2 faux-ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem }" ng-model="filters.users"
+						 data-placeholder="Select Creator">
 					</select>
 				</div>
 			</accordion-group>
 		</accordion>
-
+		
 		<div class="link-button-container">
-			<a class="link-button" href="#" ng-click="saveFilter()">Save as default filters</a> |
-			<a class="link-button" href="#" ng-click="search.clearFilter()">Clear Filters</a>
+			<a class="link-button" ng-click="saveFilters(filters)">Save as default filters</a> |
+			<a class="link-button" ng-click="clearFilters()">Clear Filters</a>
 		</div>
 	</div>
 	<div class="col-md-9 right-pane">
 		<h2 class="right-pane-header">Calendar</h2>
 
-		<div class="squeeze-20" ng-if="calendarSources">
+		<div class="squeeze-20" ng-if="isLoaded">
 			<div class="nudge-down">
 				<a ng-show="canExport" class="btn btn-default fa fa-download pull-right" target="_blank" href="/api/account/{{ user.account.id }}/campaigns/export-csv"></a>
 				<button class="btn btn-inverse" ng-click="showCampaignList = !showCampaignList">{{ showCampaignList ? 'Hide' : 'View' }} List of Campaigns</button>		
