@@ -5,6 +5,7 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
     var Account   = Restangular.one('account', user.account.id);
     var Campaigns = Account.all('campaigns');
 
+    $scope.isLoaded = false;
     $q.all({
         campaign: $routeParams.campaignId === 'new' ? newCampaign() : Campaigns.get($routeParams.campaignId),
         campaignTypes: Restangular.all('campaign-types').getList(),
@@ -25,6 +26,8 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
             notify.error('Campaign does not exist');
             $scope.cancelCampaign();
         }
+
+        $scope.isLoaded = true;
     }).catch($rootScope.globalErrorHandler);
 
     // Actions

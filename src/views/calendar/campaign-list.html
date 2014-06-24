@@ -64,7 +64,11 @@
             <td>
                 <span class="tiny-circle" style="background-color: {{ campaign.color }}"></span>
             </td>
-            <td>{{ campaign.title }}</td>
+            <td>
+                <a href="/calendar/campaigns/{{ campaign.id }}">
+                    {{ campaign.title }}
+                </a>
+            </td>
             <td>{{ campaign.user.name }}</td>
             <td>{{ campaign.status ? 'Active' : 'Inactive' }}</td>
             <td>{{ campaign.startDate | moment:'MM/DD/YYYY' }} - {{ campaign.endDate | moment:'MM/DD/YYYY' }}</td>
