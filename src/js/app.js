@@ -95,11 +95,11 @@
 					})
 					.when('/create/concept/edit/content/:contentId', {
 						controller: 'ContentConceptController',
-						templateUrl: '/assets/views/content-concept.html'
+						templateUrl: '/assets/views/concept.html'
 					})
 					.when('/create/concept/edit/campaign/:campaignId', {
 						controller: 'CampaignConceptController',
-						templateUrl: '/assets/views/campaign-concept.html'
+						templateUrl: '/assets/views/concept.html'
 					})
 					.when('/create/content/create', {
 						controller: 'ContentController',
@@ -132,12 +132,12 @@
 					})
 					.when('/collaborate/guest/content/:contentId', {
 						controller: 'GuestContentController',
-						templateUrl: '/assets/views/collaborate/edit-content.html',
+						templateUrl: '/assets/views/collaborate/edit-concept.html',
 						allowAnon: true
 					})
 					.when('/collaborate/guest/campaign/:campaignId', {
 						controller: 'GuestCampaignController',
-						templateUrl: '/assets/views/collaborate/edit-campaign.html',
+						templateUrl: '/assets/views/collaborate/edit-concept.html',
 						allowAnon: true
 					})
 					.when('/collaborate/:conceptType/:id', {

@@ -1156,18 +1156,7 @@
 			}
 
 			if ($.isArray(dto.activities)) {
-				content.activity = $.map(dto.activities, function (a, i) {
-					var activity = new launch.ContentActivity();
-
-					activity.id = parseInt(a.id);
-					activity.contentId = parseInt(a.content_id);
-					activity.userId = parseInt(a.user_id);
-					activity.title = a.activity;
-					activity.created = new Date(a.created_at);
-					activity.updated = new Date(a.updated_at);
-
-					return activity;
-				});
+				content.activity = $.map(dto.activities, self.contentActivity.fromDto);
 			}
 
 			content.concept = dto.concept;
@@ -1239,6 +1228,24 @@
 			dto.tags = $.isArray(content.tags) ? $.map(content.tags, function(t) { return { tag: t }; }) : null;
 
 			return dto;
+		}
+	};
+
+	self.contentActivity = {
+		parseResponse: function(r, getHeaders) {
+			return self.parseResponse(r, getHeaders, self.contentActivity.fromDto);
+		},
+		fromDto: function(dto) {
+			var activity = new launch.ContentActivity();
+
+			activity.id = parseInt(dto.id);
+			activity.contentId = parseInt(dto.content_id);
+			activity.userId = parseInt(dto.user_id);
+			activity.title = dto.activity;
+			activity.created = new Date(dto.created_at);
+			activity.updated = new Date(dto.updated_at);
+
+			return activity;
 		}
 	};
 

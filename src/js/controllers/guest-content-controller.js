@@ -1,5 +1,5 @@
 angular.module('launch').controller('GuestContentController', [
-	'$scope', '$routeParams', 'AuthService', 'ContentService', 'UserService', 'CampaignService', 'NotificationService', function ($scope, $routeParams, authService, contentService, userService, campaignService, notificationService) {
+	'$scope', '$routeParams', '$location', 'AuthService', 'ContentService', 'UserService', 'CampaignService', 'NotificationService', function ($scope, $routeParams, $location, authService, contentService, userService, campaignService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -19,11 +19,20 @@ angular.module('launch').controller('GuestContentController', [
 				success: function (r) {
 					self.contentId = parseInt($routeParams.contentId);
 
+					$scope.allItems = [];
+
+					var content = $.map(self.loggedInUser.content, function (c) { return { id: 'content-' + c.id, itemId: c.id, title: 'Content: ' + c.title, type: 'Content' }; });
+					var campaigns = $.map(self.loggedInUser.campaigns, function (c) { return { id: 'campaing-' + c.id, itemId: c.id, title: 'Campaign: ' + c.title, type: 'Campaigns' }; });
+
+					$.merge($scope.allItems, content);
+					$.merge($scope.allItems, campaigns);
+
 					if ($.isArray(self.loggedInUser.content) && self.loggedInUser.content.length > 0) {
 						var item = $.grep(self.loggedInUser.content, function (c) { return c.id === self.contentId; });
 
 						if (item.length === 1) {
 							$scope.selectedItem = item[0];
+							$scope.selectedItemId = 'content-' + $scope.selectedItem.id;
 							$scope.canViewContent = true;
 							$scope.isLoading = false;
 						}
@@ -35,6 +44,7 @@ angular.module('launch').controller('GuestContentController', [
 
 		$scope.allItems = null;
 		$scope.selectedItem = null;
+		$scope.selectedItemId = null;
 		$scope.comments = null;
 		$scope.newComment = null;
 
@@ -65,6 +75,16 @@ angular.module('launch').controller('GuestContentController', [
 		};
 
 		$scope.addComment = function () { };
+
+		$scope.changeItem = function() {
+			var selectedItem = $.grep($scope.allItems, function(i) {
+				return i.id === $scope.selectedItemId;
+			});
+
+			if (selectedItem.length === 1) {
+				$location.path('/collaborate/guest/' + selectedItem[0].type.toLowerCase() + '/' + selectedItem[0].itemId);
+			}
+		};
 
 		self.init();
 	}
