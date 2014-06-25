@@ -12,6 +12,7 @@
 	self.created = null;
 	self.updated = null;
 	self.modules = [];
+	self.preferences = null;
 
 	self.hasImage = function () { return !launch.utils.isBlank(self.image); };
 	self.imageUrl = function () { return self.hasImage() ? 'url(\'' + self.image + '\')' : null; };

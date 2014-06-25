@@ -22,6 +22,7 @@
 	self.accounts = [];
 	self.role = null;
 	self.roles = [];
+	self.preferences = null;
 
 	self.formatName = function() {
 		if (!launch.utils.isBlank(self.firstName) && !launch.utils.isBlank(self.lastName)) {

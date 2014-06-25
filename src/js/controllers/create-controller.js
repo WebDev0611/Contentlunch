@@ -60,16 +60,46 @@
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
 
-			self.loadContent();
+			self.loadContent(true);
 		};
 
-		self.loadContent = function() {
+		self.loadContent = function (resetFilters) {
+			// NEED TO PAUSE HERE DUE TO A RACE SITUATION BETWEEN TRYING TO FETCH CAMPAIGNS
+			// AND THE CONTENT ITEM. THE SELECT2 DROP-DOWN NEEDS TO GET ITS OPTIONS IN PLACE BEFORE WE
+			// SET THE MODEL FOR THE CONTROL. COMPLETE HACK DUE TO LIMITATIONS OF THE CONTROL.
+			if (!$scope.campaigns || !$scope.campaigns.$resolved) {
+				window.setTimeout(function() { self.loadContent(resetFilters); }, 200);
+				$scope.content = null;
+				return;
+			}
+
 			var params = null;
 			// $scope.campaign may be inherited from parent controller
 			if ($scope.campaign) {
 				params = {
 					campaign_id: $scope.campaign.id
 				};
+			}
+
+			if (resetFilters) {
+				if (!!self.loggedInUser.preferences && !!self.loggedInUser.preferences.create) {
+					$scope.search.searchTerm = (launch.utils.isBlank(self.loggedInUser.preferences.create.searchTerm)) ? null : self.loggedInUser.preferences.create.searchTerm;
+					$scope.search.myTasks = (!!self.loggedInUser.preferences.create.myTasks) ? true : false;
+					$scope.search.contentTypes = $.isArray(self.loggedInUser.preferences.create.contentTypes) ? self.loggedInUser.preferences.create.contentTypes : [];
+					$scope.search.milestones = $.isArray(self.loggedInUser.preferences.create.milestones) ? self.loggedInUser.preferences.create.milestones : [];
+					$scope.search.buyingStages = $.isArray(self.loggedInUser.preferences.create.buyingStages) ? self.loggedInUser.preferences.create.buyingStages : [];
+					$scope.search.campaigns = $.isArray(self.loggedInUser.preferences.create.campaigns) ? self.loggedInUser.preferences.create.campaigns : [];
+					$scope.search.users = $.isArray(self.loggedInUser.preferences.create.users) ? self.loggedInUser.preferences.create.users : [];
+					$scope.search.contentStage = (launch.utils.isBlank(self.loggedInUser.preferences.create.contentStage)) ? 'content' : self.loggedInUser.preferences.create.contentStage;
+				} else {
+					$scope.search.clearFilter();
+				}
+
+				$scope.contentTypeOpen = $scope.search.contentTypes.length > 0;
+				$scope.milestoneOpen = $scope.search.milestones.length > 0;
+				$scope.buyingStageOpen = $scope.search.buyingStages.length > 0;
+				$scope.campaignOpen = $scope.search.campaigns.length > 0;
+				$scope.contentCreatorOpen = $scope.search.users.length > 0;
 			}
 
 			$scope.content = contentService.query(self.loggedInUser.account.id, params, {
@@ -146,6 +176,12 @@
 		$scope.formatContentTypeIcon = launch.utils.getContentTypeIconClass;
 		$scope.formatDate = launch.utils.formatDate;
 
+		$scope.contentTypeOpen = false;
+		$scope.milestoneOpen = false;
+		$scope.buyingStageOpen = false;
+		$scope.campaignOpen = false;
+		$scope.contentCreatorOpen = false;
+
 		$scope.pagination = {
 			totalItems: 0,
 			currentSort: 'title',
@@ -195,7 +231,11 @@
 					$scope.search.applyFilter();
 				}
 			},
-			applyFilter: function(reset) {
+			applyFilter: function (reset) {
+				if (!$scope.content || !$scope.content.$resolved) {
+					return;
+				}
+
 				$scope.filteredContent = $filter('filter')($scope.content, function(content) {
 					if ($scope.search.contentStage === 'content' && (content.currentStep() === 'concept' || content.currentStep() === 'archive')) {
 						return false;
@@ -325,8 +365,18 @@
 		};
 
 		$scope.saveFilter = function () {
-			// TODO: WE NEED A WAY OF SAVING DEFAULT FILTERS!!
-			notificationService.info('WARNING!!', 'THIS IS NOT YET IMPLEMENTED!');
+			userService.savePreferences(self.loggedInUser.id, 'create', $scope.search, {
+				success: function(r) {
+					notificationService.success('Success!', 'Create default filters saved!');
+					self.loggedInUser = authService.fetchCurrentUser({
+						success: function(r) {
+							
+						},
+						error: self.ajaxHandler.error
+					});
+				},
+				error: self.ajaxHandler.error
+			});
 		};
 
 		$scope.deleteSelected = function() {
