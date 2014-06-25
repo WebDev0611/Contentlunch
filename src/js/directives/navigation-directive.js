@@ -8,7 +8,7 @@
 		};
 
 		self.getNavigationItems = function() {
-			if (!scope.user.id || !scope.user.$resolved) {
+			if (!scope.user || !scope.user.id || !scope.user.$resolved) {
 				scope.showNav = false;
 				return;
 			}
@@ -16,19 +16,13 @@
 			scope.showNav = true;
 
 			var imageUrl = ($.isFunction(scope.user.imageUrl)) ? scope.user.imageUrl() : null;
-			var isGlobalAdmin;
-			if (! scope.user.id) {
-				isGlobalAdmin = false;
-			} else {
-				isGlobalAdmin = (scope.user.role.isGlobalAdmin === true) ? true : false;
-			}
+			var isGlobalAdmin = (scope.user.role.isGlobalAdmin === true) ? true : false;
 			var mainNavItems = [];
 			var adminMenuItems = [];
 			var userMenuItems = [];
 
 			if (scope.user.id && !isGlobalAdmin) {
-
-				navItems = $.map($.grep(scope.user.modules, function(m) {
+				var navItems = $.map($.grep(scope.user.modules, function(m) {
 					return m.isSubscribable;
 				}), function(m) {
 					return {
