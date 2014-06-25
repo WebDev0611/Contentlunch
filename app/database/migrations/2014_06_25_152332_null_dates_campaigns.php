@@ -47,4 +47,5 @@ class NullDatesCampaigns extends Migration {
             }
         });
     }
+    
 }
