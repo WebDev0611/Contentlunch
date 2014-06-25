@@ -33,9 +33,9 @@
 		</div>
 
 		<accordion close-others="false">
-			<accordion-group is-open="content_type_is_open">
+			<accordion-group is-open="contentTypeOpen">
 				<accordion-heading>
-					<i class="fa" ng-class="{'fa-caret-down': content_type_is_open, 'fa-caret-right': !content_type_is_open}"></i>
+					<i class="fa" ng-class="{'fa-caret-down': contentTypeOpen, 'fa-caret-right': !contentTypeOpen}"></i>
 					Content Type
 					<span class="filter-slection-counter" ng-show="search.contentTypes.length > 0">(showing {{ search.contentTypes.length }} of {{ contentTypes.length }})</span>
 					<span class="filter-slection-counter" ng-show="search.contentTypes.length === 0">(showing all)</span>
@@ -48,9 +48,9 @@
 					</select>
 				</div>
 			</accordion-group>
-			<accordion-group is-open="mileston_is_open" ng-show="search.contentStage === 'content'">
+			<accordion-group is-open="milestoneOpen" ng-show="search.contentStage === 'content'">
 				<accordion-heading>
-					<i class="fa" ng-class="{'fa-caret-down': mileston_is_open, 'fa-caret-right': !mileston_is_open}"></i>
+					<i class="fa" ng-class="{'fa-caret-down': milestoneOpen, 'fa-caret-right': !milestoneOpen}"></i>
 					Milestone
 					<span class="filter-slection-counter" ng-show="search.milestones.length > 0">(showing {{ search.milestones.length }} of {{ milestones.length }})</span>
 					<span class="filter-slection-counter" ng-show="search.milestones.length === 0">(showing all)</span>
@@ -63,9 +63,9 @@
 					</select>
 				</div>
 			</accordion-group>
-			<accordion-group is-open="buying_stage_is_open" ng-show="search.contentStage === 'content'">
+			<accordion-group is-open="buyingStageOpen" ng-show="search.contentStage === 'content'">
 				<accordion-heading>
-					<i class="fa" ng-class="{'fa-caret-down': buying_stage_is_open, 'fa-caret-right': !buying_stage_is_open}"></i>
+					<i class="fa" ng-class="{'fa-caret-down': buyingStageOpen, 'fa-caret-right': !buyingStageOpen}"></i>
 					Buying Stage
 					<span class="filter-slection-counter" ng-show="search.buyingStages.length > 0">(showing {{ search.buyingStages.length }} of {{ buyingStages.length }})</span>
 					<span class="filter-slection-counter" ng-show="search.buyingStages.length === 0">(showing all)</span>
@@ -78,9 +78,9 @@
 					</select>
 				</div>
 			</accordion-group>
-			<accordion-group is-open="campaign_is_open">
+			<accordion-group is-open="campaignOpen">
 				<accordion-heading>
-					<i class="fa" ng-class="{'fa-caret-down': campaign_is_open, 'fa-caret-right': !campaign_is_open}"></i>
+					<i class="fa" ng-class="{'fa-caret-down': campaignOpen, 'fa-caret-right': !campaignOpen}"></i>
 					Campaign
 					<span class="filter-slection-counter" ng-show="search.campaigns.length > 0">(showing {{ search.campaigns.length }} of {{ campaigns.length }})</span>
 					<span class="filter-slection-counter" ng-show="search.campaigns.length === 0">(showing all)</span>
@@ -93,9 +93,9 @@
 					</select>
 				</div>
 			</accordion-group>
-			<accordion-group is-open="content_creator_is_open">
+			<accordion-group is-open="contentCreatorOpen">
 				<accordion-heading>
-					<i class="fa" ng-class="{'fa-caret-down': content_creator_is_open, 'fa-caret-right': !content_creator_is_open}"></i>
+					<i class="fa" ng-class="{'fa-caret-down': contentCreatorOpen, 'fa-caret-right': !contentCreatorOpen}"></i>
 					Content Creator
 					<span class="filter-slection-counter" ng-show="search.users.length > 0">(showing {{ search.users.length }} of {{ users.length }})</span>
 					<span class="filter-slection-counter" ng-show="search.users.length === 0">(showing all)</span>

@@ -56,8 +56,7 @@
 			auth.created = user.created;
 			auth.updated = user.updated;
 			auth.impersonating = user.impersonating;
-
-      auth.preferences = user.preferences;
+			auth.preferences = user.preferences;
 
 			auth.modules = $.map(dto.modules, function(m) {
 				var module = self.module.fromDto(m);
@@ -95,6 +94,7 @@
 			auth.created = cachedAuth.created;
 			auth.updated = cachedAuth.updated;
 			auth.impersonating = cachedAuth.impersonating;
+			auth.preferences = cachedAuth.preferences;
 
 			auth.modules = cachedAuth.modules;
 
@@ -331,6 +331,7 @@
 			user.account = (user.accounts.length > 0) ? user.accounts[0] : null;
 			user.roles = ($.isArray(dto.roles)) ? $.map(dto.roles, function(r, i) { return self.role.fromDto(r); }) : [];
 			user.role = (user.roles.length > 0) ? user.roles[0] : null;
+			user.preferences = dto.preferences;
 
 			if (dto.impersonating) {
 				user.impersonating = true;
@@ -347,8 +348,6 @@
 			} else {
 				user.image = null;
 			}
-
-      user.preferences = dto.preferences;
 
 			return user;
 		},
@@ -417,6 +416,7 @@
 			user.role = (user.roles.length > 0) ? user.roles[0] : null;
 			user.accounts = $.map(cachedUser.accounts, function(a, i) { return self.account.fromCache(a); });
 			user.account = (user.accounts.length > 0) ? user.accounts[0] : null;
+			user.preferences = cachedUser.preferences;
 
 			return user;
 		},
@@ -1378,6 +1378,7 @@
 				id: campaign.id,
 				account_id: campaign.accountId,
 				user: self.user.toDto(campaign.user),
+				user_id: campaign.user.id,
 				is_active: campaign.isActive ? 1 : 0,
 				title: campaign.title,
 				description: campaign.description,

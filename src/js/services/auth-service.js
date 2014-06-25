@@ -86,7 +86,6 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return self.authenticate.fetchCurrentUser(null, function(r) {
-
 				if (r.id) {
 					self.cacheSession(r);
 				}
