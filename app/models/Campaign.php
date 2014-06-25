@@ -23,12 +23,20 @@ class Campaign extends Ardent {
     'title'            => 'required',
     'status'           => 'required',
     'is_active'        => 'required',
-    // 'campaign_type_id' => 'required',
-    // 'start_date'       => 'required',
-    // 'end_date'         => 'required',
+    'campaign_type_id' => 'required',
+    'start_date'       => 'required',
+    'end_date'         => 'required',
     'description'      => 'required',
     'is_recurring'     => 'required',
   ];
+
+  public function validate(array $rules = [], array $customMessages = []) {
+    if ($this->status == 0) {
+      // don't validate these rules is it's a concept (maybe should prepend "somtimes|"?)
+      unset($rules['start_date'], $rules['end_date'], $rules['campaign_type_id']);
+    }
+    return parent::validate($rules , $customMessages);
+  }
 
   protected function beforeCreate()
   {
