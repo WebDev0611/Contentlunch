@@ -4,6 +4,7 @@
 	self.id = null;
 	self.accountId = null;
 	self.user = null;
+	self.isActive = false;
 
 	self.title = null;
 	self.description = null;

@@ -1332,6 +1332,7 @@
 			campaign.id = parseInt(dto.id);
 			campaign.accountId = parseInt(dto.account_id);
 			campaign.user = self.user.fromDto(dto.user);
+			self.isActive = (parseInt(dto.is_active) === 1) ? true : false;
 
 			campaign.title = dto.title;
 			campaign.description = dto.description;
@@ -1377,6 +1378,7 @@
 				id: campaign.id,
 				account_id: campaign.accountId,
 				user: self.user.toDto(campaign.user),
+				is_active: campaign.isActive ? 1 : 0,
 				title: campaign.title,
 				description: campaign.description,
 				campaign_type: campaign.campaignType,

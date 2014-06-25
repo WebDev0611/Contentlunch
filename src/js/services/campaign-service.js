@@ -99,6 +99,7 @@
 			campaign.accountId = user.account.id;
 			campaign.user = user;
 			campaign.status = 0;
+			campaign.isActive = true;
 			campaign.$resolved = true;
 
 			return campaign;
