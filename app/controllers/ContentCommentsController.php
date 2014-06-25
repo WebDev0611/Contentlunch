@@ -1,6 +1,6 @@
 <?php
 
-class AccountContentCommentsController extends BaseController {
+class ContentCommentsController extends BaseController {
   
   public function index($accountID, $contentID)
   {

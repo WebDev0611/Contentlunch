@@ -25,4 +25,9 @@ class ContentComment extends Ardent {
     return $this->belongsTo('User');
   }
 
+  public function guest()
+  {
+    return $this->belongsTo('GuestCollaborator');
+  }
+
 }

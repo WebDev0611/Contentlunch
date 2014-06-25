@@ -167,6 +167,12 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="tags">Tags <small>(comma separated)</small></label>
+                                    <input type="text" list="tag" name="tags" class="form-control" id="tags" ng-model="campaign.tags">
+                                </div>
+                            </div>
+                            <div class="col-md-6" ng-show="campaign.id">
+                                <div class="form-group">
                                     <label for="file">Attach a File</label>
                                     <input ng-file-select="selectFiles($files)" multiple type="file" name="file" id="file">
                                 </div>
@@ -174,12 +180,6 @@
                                 <div ng-repeat="file in files">
                                     <span class="fa fa-trash-o pull-right" ng-click="deleteFile(file)"></span>
                                     <a ng-href="{{ file | imagePathFromObject }}" target="_blank">{{ file.filename }}</a>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="tags">Tags <small>(comma separated)</small></label>
-                                    <input type="text" list="tag" name="tags" class="form-control" id="tags" ng-model="campaign.tags">
                                 </div>
                             </div>
                         </div> <!-- .row -->

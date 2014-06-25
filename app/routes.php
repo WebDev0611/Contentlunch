@@ -60,7 +60,7 @@ Route::group(['prefix' => 'api'], function()
 
   Route::get('guest-collaborators/concepts/{connectionUserID}', 'GuestCollaboratorsController@concepts');
 
-  Route::resource('account/{accountID}/content/{contentID}/comments', 'AccountContentCommentsController', [
+  Route::resource('account/{accountID}/content/{contentID}/comments', 'ContentCommentsController', [
     'only' => ['index', 'store']
   ]);
 
