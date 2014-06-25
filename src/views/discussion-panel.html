@@ -2,9 +2,12 @@
 	<div class="panel-heading">{{ (canViewComments ? 'Discussion' : 'Send Feedback') }}</div>
 	<div class="panel-body">
 		<div class="row" ng-repeat="c in comments" ng-show="canViewComments">
-			<div class="col-md-2">
+			<div class="col-md-2" ng-hide="c.isGuestComment">
 				<span class="user-image user-image-small" ng-style="{ 'background-image': c.commentor.imageUrl() }"></span>
 				{{ c.commentor.formatName() }}
+			</div>
+			<div class="col-md-2" ng-show="c.isGuestComment">
+				{{ c.commentor.name }} [ {{ c.commentor.connectionType }} GUEST]
 			</div>
 			<div class="col-md-8 well">{{ c.comment }}</div>
 			<div class="col-md-2">{{ c.commentDate() }}</div>

@@ -9,17 +9,27 @@
 		link: function(scope, element, attrs) {
 			var self = this;
 
+			self.accountId = null;
+
 			self.init = function() {
 				self.loggedInUser = AuthService.userInfo();
 
-				scope.canAddComments = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
-				scope.canViewComments = self.loggedInUser.hasPrivilege('collaborate_view_feedback_review');
+				// TODO: SET ACCOUNT ID FOR GUEST COLLABORATORS APPROPRIATELY!!
+				self.accountId = (!!self.loggedInUser.account) ? self.loggedInUser.account.id: 1;
+
+				if (!!self.loggedInUser.modules) {
+					scope.canAddComments = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
+					scope.canViewComments = self.loggedInUser.hasPrivilege('collaborate_view_feedback_review');
+				} else {
+					scope.canAddComments = true;
+					scope.canViewComments = true;
+				}
 
 				self.service = (scope.itemType.toLowerCase() === 'campaign') ? CampaignService : ContentService;
 			};
 
 			self.refreshComments = function() {
-				scope.comments = self.service.queryComments(self.loggedInUser.account.id, scope.itemId, null, {
+				scope.comments = self.service.queryComments(self.accountId, scope.itemId, null, {
 					success: function (r) {
 						scope.comments = $.grep(scope.comments, function(c) {
 							if (scope.canViewComments) {
