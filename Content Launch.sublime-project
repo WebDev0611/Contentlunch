@@ -14,7 +14,7 @@
                 "vendor",
                 "public",
                 ".vagrant",
-                "puphpet"
+                "puphpet/*"
             ]
 		}
 	]

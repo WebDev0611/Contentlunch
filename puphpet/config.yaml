@@ -139,7 +139,7 @@ xdebug:
         xdebug.remote_enable: '1'
         xdebug.remote_handler: dbgp
         xdebug.remote_port: '9000'
-mysql:
+mariadb:
     install: '1'
     root_password: root
     adminer: '1'
@@ -152,3 +152,4 @@ mysql:
             user: contentlaunch
             password: launch123
             sql_file: ''
+    version: '5.5'
