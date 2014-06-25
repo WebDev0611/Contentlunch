@@ -31,6 +31,8 @@ class Campaign extends Ardent {
   ];
 
   public function validate(array $rules = [], array $customMessages = []) {
+    // merge any custom rules with our standard rules
+    $rules = array_merge(self::$rules, $rules);
     if ($this->status == 0) {
       // don't validate these rules is it's a concept (maybe should prepend "somtimes|"?)
       unset($rules['start_date'], $rules['end_date'], $rules['campaign_type_id']);
