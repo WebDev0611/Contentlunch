@@ -4,7 +4,8 @@ class ContentCommentsController extends BaseController {
   
   public function index($accountID, $contentID)
   {
-    if ( ! $this->inAccount($accountID)) {
+    $guest = Session::get('guest');
+    if (!$guest && !$this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
     $content = Content::find($contentID);
@@ -16,7 +17,8 @@ class ContentCommentsController extends BaseController {
 
   public function store($accountID, $contentID)
   {
-    if ( ! $this->inAccount($accountID)) {
+    $guest = Session::get('guest');
+    if (!$guest && !$this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
     $content = Content::find($contentID);
