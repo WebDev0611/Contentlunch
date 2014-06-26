@@ -12,6 +12,9 @@ vagrantfile-local:
                 3Vmw3TBKgJCX:
                     host: '1322'
                     guest: '22'
+                di298dfDjfdc:
+                    host: '2160'
+                    guest: '1080'
                 HPkiXNpa5rK2:
                     host: '1380'
                     guest: '80'
