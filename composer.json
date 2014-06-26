@@ -22,7 +22,8 @@
     "webignition/internet-media-type": "dev-master",
     "happyr/linkedin-api-client": "dev-master",
     "thujohn/twitter": "dev-master",
-    "felixkiss/uniquewith-validator": "1.1.*"
+    "felixkiss/uniquewith-validator": "1.1.*",
+    "way/generators": "2.*"
 	},
 	"autoload": {
 		"classmap": [

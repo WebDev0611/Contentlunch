@@ -14,6 +14,9 @@ class CreateBrainstormTable extends Migration {
     {
         Schema::create('brainstorms', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('content_id')->nullable();
+            $table->integer('campaign_id')->nullable();
+            $table->integer('account_id');
             $table->text('agenda'); // json array 
             $table->date('date');
             $table->time('time');

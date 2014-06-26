@@ -114,6 +114,8 @@ return [
     'Thujohn\Twitter\TwitterServiceProvider',
 
     'Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider',
+
+    'Way\Generators\GeneratorsServiceProvider',
   ],
 
   /*
