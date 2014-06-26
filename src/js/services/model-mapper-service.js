@@ -1301,21 +1301,38 @@
 			comment.id = parseInt(dto.id);
 			comment.itemId = parseInt(dto.content_id);
 			comment.comment = dto.comment;
-			comment.commentor = self.user.fromDto(dto.user);
 			comment.created = new Date(dto.created_at);
 			comment.updated = new Date(dto.updated_at);
 
+			if (!!dto.guest) {
+				comment.commentor = self.guestCollaborator(dto.guest);
+				comment.isGuestComment = true;
+			} else {
+				comment.isGuestComment = false;
+				comment.commentor = self.user.fromDto(dto.user);
+			}
+
+
 			return comment;
 		},
-		toDto: function(comment) {
-			return {
+		toDto: function (comment) {
+			var dto = {
 				id: comment.id,
 				content_id: comment.itemId,
 				comment: comment.comment,
-				user_id: comment.commentor.id,
 				created_at: comment.created,
 				updated_at: comment.updated
 			};
+
+			if (comment.isGuestComment) {
+				dto.guest_id = comment.commentor.id;
+				dto.user_id = null;
+			} else {
+				dto.user_id = comment.commentor.id;
+				dto.guest_id = null;
+			}
+
+			return dto;
 		}
 	};
 

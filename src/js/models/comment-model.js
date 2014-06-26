@@ -5,6 +5,7 @@
 	self.itemId = null;
 	self.comment = null;
 	self.commentor = null;
+	self.isGuestComment = false;
 	self.created = null;
 	self.updated = null;
 
