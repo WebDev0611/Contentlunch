@@ -3,9 +3,6 @@ angular.module('launch')
         ['$scope', '$rootScope', '$location', 'Restangular', '$q', 'AuthService', '$filter', '$routeParams', '$modal', 'guestCollaborators', 'NotificationService', 
 function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,   $filter,   $routeParams,   $modal,   guestCollaborators,   notify) {
     Restangular.one('guest-collaborators', $routeParams.accessCode).get().then(function (guest) {
-    	$scope.guest = guest;
-
-		// We need to cache the current guest collaborator user.
-    	AuthService.fetchGuestCollaborator();
+        $scope.guest = guest;
     });
 }]);
