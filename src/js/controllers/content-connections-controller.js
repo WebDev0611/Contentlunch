@@ -61,6 +61,10 @@
 		self.init = function() {
 			self.loadProviders();
 			self.loadConnections();
+
+			$("[contenteditable]").keypress(function(e) {
+				return e.which != 13;
+			});
 		};
 
 		$scope.providers = [];
@@ -121,8 +125,14 @@
 			});
 		};
 
-		$scope.selectConnection = function(connection) {
+		$scope.selectConnection = function(ev, connection) {
 			$scope.selectedConnection = connection;
+
+			$(ev.currentTarget).off('keypress');
+
+			$(ev.currentTarget).keypress(function (e) {
+				return e.which != 13;
+			});
 		};
 
 		$scope.addConnection = function(providerId) {
