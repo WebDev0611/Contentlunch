@@ -50,7 +50,7 @@
 				<div class="col-md-3" collaborator-sidebar item-id="campaign.id" item-type="'campaign'" users="collaborators" is-disabled="!canEditCampaign" ng-hide="isNewConcept"></div>
 			</div>
 
-			<div ng-hide="isNewConcept" discussion-panel item-id="campaign.id" item-type="'campaign'"></div>
+			<div ng-hide="isNewConcept" discussion-panel comments="comments" add-comment-callback="addComment"></div>
 		</form>
 	</div>
 	<div class="col-md-9 right-pane" ng-hide="isCollaborator">

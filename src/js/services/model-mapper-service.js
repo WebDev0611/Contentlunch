@@ -1305,7 +1305,7 @@
 			comment.updated = new Date(dto.updated_at);
 
 			if (!!dto.guest) {
-				comment.commentor = self.guestCollaborator(dto.guest);
+				comment.commentor = self.guestCollaborator.fromDto(dto.guest);
 				comment.isGuestComment = true;
 			} else {
 				comment.isGuestComment = false;
@@ -1585,13 +1585,17 @@
 			guestCollaborator.created = new Date(dto.created_at);
 			guestCollaborator.updated = new Date(dto.updated_at);
 
-			guestCollaborator.content = $.map(dto.content, function (c) {
-				return self.content.fromDto(c);
-			});
+			if ($.isArray(dto.content)) {
+				guestCollaborator.content = $.map(dto.content, function (c) {
+					return self.content.fromDto(c);
+				});
+			}
 
-			guestCollaborator.campaigns = $.map(dto.campaigns, function (c) {
-				return self.campaign.fromDto(c);
-			});
+			if ($.isArray(dto.campaigns)) {
+				guestCollaborator.campaigns = $.map(dto.campaigns, function (c) {
+					return self.campaign.fromDto(c);
+				});
+			}
 
 
 			return guestCollaborator;

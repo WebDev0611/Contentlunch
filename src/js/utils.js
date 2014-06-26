@@ -453,7 +453,11 @@
 		return [];
 	},
 
-	getState: function(country, stateCode) {
+	getState: function (country, stateCode) {
+		if (launch.utils.isBlank(stateCode)) {
+			return null;
+		}
+
 		if ($.isPlainObject(stateCode) && !launch.utils.isBlank(stateCode.name) && !launch.utils.isBlank(stateCode.value)) {
 			return stateCode;
 		}
@@ -766,5 +770,27 @@
 			default:
 				return null;
 		}
+	},
+
+	insertComment: function (message, id, user, service, notificationService, callback) {
+		var comment = new launch.Comment();
+
+		comment.id = null;
+		comment.comment = message;
+		comment.itemId = id;
+		comment.commentDate = launch.utils.formatDateTime(new Date());
+		comment.isGuestComment = !launch.utils.isBlank(user.accessCode);
+		comment.commentor = {
+			id: user.id
+		};
+
+		var msg = launch.utils.validateAll(comment);
+
+		if (!launch.utils.isBlank(msg)) {
+			notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
+			return;
+		}
+
+		service.insertComment((launch.utils.isBlank(user.accessCode) ? user.account.id : user.accountId), comment, callback);
 	}
 };

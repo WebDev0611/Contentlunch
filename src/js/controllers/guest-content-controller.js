@@ -35,11 +35,17 @@ angular.module('launch').controller('GuestContentController', [
 							$scope.selectedItemId = 'content-' + $scope.selectedItem.id;
 							$scope.canViewContent = true;
 							$scope.isLoading = false;
+
+							self.refreshComments();
 						}
 					}
 				},
 				error: self.ajaxHandler.error
 			});
+		};
+
+		self.refreshComments = function () {
+			$scope.comments = contentService.queryComments(self.loggedInUser.accountId, $scope.selectedItem.id, null, self.ajaxHandler);
 		};
 
 		$scope.allItems = null;
@@ -74,7 +80,14 @@ angular.module('launch').controller('GuestContentController', [
 			return 'Content: ' + item.text;
 		};
 
-		$scope.addComment = function () { };
+		$scope.addComment = function (message) {
+			launch.utils.insertComment(message, $scope.selectedItem.id, self.loggedInUser, contentService, notificationService, {
+				success: function(r) {
+					self.refreshComments();
+				},
+				error: self.ajaxHandler.error
+			});
+		};
 
 		$scope.changeItem = function() {
 			var selectedItem = $.grep($scope.allItems, function(i) {

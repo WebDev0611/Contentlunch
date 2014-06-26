@@ -1,4 +1,29 @@
 syntax: glob
+
+/bootstrap/compiled.php
+/vendor
+/node_modules
+/bower_components
+/public/assets
+composer.phar
+composer.lock
+.env.local.php
+.env.php
+.DS_Store
+Thumbs.db
+uploads/
+.vagrant/
+public/adminer/
+
+# each indiviual `vagrant up` will create ssh keys
+id_rsa*
+*.zsh*
+
+# ignore local configurations
+app/config/local/
+*.sublime-workspace
+
+
 *.csproj
 *.user
 bin

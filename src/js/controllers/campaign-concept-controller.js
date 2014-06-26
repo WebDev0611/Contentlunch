@@ -52,11 +52,17 @@
 							$scope.canConvertConept = self.loggedInUser.hasPrivilege('create_execute_convert_concept_other');
 							$scope.canEditCampaign = self.loggedInUser.hasPrivilege('create_edit_ideas_other');
 						}
+
+						self.refreshComments();
 					},
 					error: self.ajaxHandler.error
 				});
 				$scope.isNewConcept = false;
 			}
+		};
+
+		self.refreshComments = function () {
+			$scope.comments = campaignService.queryComments(self.loggedInUser.account.id, $scope.campaign.id, null, self.ajaxHandler);
 		};
 
 		$scope.hasError = launch.utils.isPropertyValid;
@@ -65,6 +71,7 @@
 		$scope.isSaving = false;
 
 		$scope.campaign = null;
+		$scope.comments = null;
 		$scope.users = null;
 		$scope.collaborators = null;
 		$scope.isCollaborator = true;
@@ -131,6 +138,15 @@
 				error: function (r) {
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
 				}
+			});
+		};
+
+		$scope.addComment = function (message) {
+			launch.utils.insertComment(message, $scope.campaign.id, self.loggedInUser, campaignService, notificationService, {
+				success: function (r) {
+					self.refreshComments();
+				},
+				error: self.ajaxHandler.error
 			});
 		};
 

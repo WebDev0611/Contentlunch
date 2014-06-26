@@ -72,6 +72,7 @@
 						self.setPrivileges();
 
 						$scope.activity = $scope.content.activity;
+						self.refreshComments();
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -79,6 +80,10 @@
 				});
 				$scope.isNewContent = false;
 			}
+		};
+
+		self.refreshComments = function () {
+			$scope.comments = contentService.queryComments(self.loggedInUser.account.id, $scope.content.id, null, self.ajaxHandler);
 		};
 
 		self.refreshActivity = function () {
@@ -286,6 +291,7 @@
 		};
 
 		$scope.content = null;
+		$scope.comments = null;
 		$scope.contentTypes = null;
 		$scope.contentSettings = null;
 		$scope.contentConnections = null;
@@ -720,6 +726,34 @@
 
 			$scope.content.archived = true;
 			$scope.saveContent();
+		};
+
+		$scope.addComment = function(message) {
+			var comment = new launch.Comment();
+
+			comment.id = null;
+			comment.comment = message;
+			comment.itemId = $scope.content.id;
+			comment.commentDate = launch.utils.formatDateTime(new Date());
+			comment.commentor = {
+				id: self.loggedInUser.id,
+				name: self.loggedInUser.displayName,
+				image: self.loggedInUser.imageUrl()
+			};
+
+			var msg = launch.utils.validateAll(comment);
+
+			if (!launch.utils.isBlank(msg)) {
+				notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
+				return;
+			}
+
+			$scope.content.comments = contentService.insertComment(self.loggedInUser.account.id, comment, {
+				success: function (r) {
+					self.refreshComments();
+				},
+				error: self.ajaxHandler.error
+			});
 		};
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
