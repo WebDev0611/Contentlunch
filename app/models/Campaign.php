@@ -15,7 +15,7 @@ class Campaign extends Ardent {
     'start_date', 'end_date', 'is_recurring', 'description',
     'goals', 'concept', 'contact', 'partners', 'speaker_name',
     'host', 'type', 'audio_link', 'photo_needed', 'link_needed',
-    'is_series', 'recurring_id', 'is_active',
+    'is_series', 'recurring_id', 'is_active', 'color'
   ];
 
   public static $rules = [
@@ -27,7 +27,6 @@ class Campaign extends Ardent {
     'start_date'       => 'required',
     'end_date'         => 'required',
     'description'      => 'required',
-    'is_recurring'     => 'required',
   ];
 
   public function validate(array $rules = [], array $customMessages = []) {

@@ -28,19 +28,22 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
         }
 
         $scope.isLoaded = true;
+
+        if ($location.search().duplicate) {
+            $scope.duplicateCampaign();
+        }
     }).catch($rootScope.globalErrorHandler);
 
     // Actions
     // -------------------------
     $scope.saveCampaign = function (campaign) {
-        (campaign.isNew ? Campaigns.post(campaign) : campaign.put()).then(function (campaign) {
+        (campaign.isNew ? Campaigns.post(campaign) : campaign.put()).then(function (camp) {
             var path = $location.path();
             notify.success('Campaign saved');
-            if (path.match(/new\/?$/)) {
-                path = path.replace(/new\/?$/, campaign.id);
-                $location.path(path);
+            if (campaign.isNew) {
+                $location.search({}).path('/calendar/campaigns/' + camp.id);
             } else {
-                $scope.campaign = campaign;
+                $scope.campaign = camp;
             }
         }).catch($rootScope.globalErrorHandler);
     };
@@ -55,6 +58,21 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
 
     $scope.cancelCampaign = function () {
         $location.path('/calendar');
+    };
+
+    $scope.duplicateCampaign = function () {
+        $location.search({ duplicate: true });
+
+        // do what we need to do to clone this campaign
+        delete $scope.campaign.id;
+        delete $scope.campaign.startDate;
+        delete $scope.campaign.endDate;
+
+        $scope.campaign.isNew = true;
+        $scope.campaign.title += ' (copy)';
+
+        $scope.tasks = [];
+        delete $scope.campaign.content;
     };
 
     // Collaborator Actions //

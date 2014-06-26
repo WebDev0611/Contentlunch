@@ -50,9 +50,9 @@ class CampaignController extends BaseController {
     $campaign = new Campaign;
     if ($campaign->save()) {
 
-      if ($campaign->is_recurring) {
-        $this->createRecurring($campaign);
-      }
+      // if ($campaign->is_recurring) {
+      //   $this->createRecurring($campaign);
+      // }
       
       // Attach new tags
       $tags = Input::get('tags');
@@ -113,17 +113,17 @@ class CampaignController extends BaseController {
 
     if ($campaign->updateUniques()) {
 
-      if ($campaign->is_recurring) {
-        if (Input::get('update_other_events')) {
-          $this->updateRecurring($campaign);
-        } else {
-          // if we're not updating others, this item is
-          // no longer part of that recurring group
-          $campaign->recurring_id = null;
-          $campaign->is_recurring = false;
-          $campaign->save();
-        }
-      }
+      // if ($campaign->is_recurring) {
+      //   if (Input::get('update_other_events')) {
+      //     $this->updateRecurring($campaign);
+      //   } else {
+      //     // if we're not updating others, this item is
+      //     // no longer part of that recurring group
+      //     $campaign->recurring_id = null;
+      //     $campaign->is_recurring = false;
+      //     $campaign->save();
+      //   }
+      // }
 
       // Sync tags
       $updateTags = Input::get('tags');
@@ -177,9 +177,9 @@ class CampaignController extends BaseController {
       return $this->responseError('You do no have permission to delete this campaign', 401);
     }
 
-    if ($campaign->is_recurring && Input::get('update_other_events')) {
-      $this->deleteRecurring($campaign);
-    }
+    // if ($campaign->is_recurring && Input::get('update_other_events')) {
+    //   $this->deleteRecurring($campaign);
+    // }
 
     if ($campaign->delete()) {
       return array('success' => 'OK');
@@ -187,41 +187,41 @@ class CampaignController extends BaseController {
     return $this->responseError("Couldn't delete campaign");
   }
 
-  protected function createRecurring($campaign)
-  {
-    $campaignArray = $campaign->toArray();
-    $campaigns = Campaign::where('recurring_id', $campaign->recurring_id)->get();
+  // protected function createRecurring($campaign)
+  // {
+  //   $campaignArray = $campaign->toArray();
+  //   $campaigns = Campaign::where('recurring_id', $campaign->recurring_id)->get();
 
-    // @TODO calculate when the campaign needs to repeat
-    $repeats = [];
-    foreach ($repeats as $repeat) {
-      $camp->fill($campaignArray);
-      $camp->start_date = $repeat['start_date'];
-      $camp->end_date   = $repeat['end_date'];
-      $camp->save();
-    }
-  }
+  //   // @TODO calculate when the campaign needs to repeat
+  //   $repeats = [];
+  //   foreach ($repeats as $repeat) {
+  //     $camp->fill($campaignArray);
+  //     $camp->start_date = $repeat['start_date'];
+  //     $camp->end_date   = $repeat['end_date'];
+  //     $camp->save();
+  //   }
+  // }
 
-  protected function updateRecurring($campaign)
-  {
-    $campaignArray = $campaign->toArray();
-    // don't update dates
-    unset($campaignArray['start_date'], $campaignArray['end_date']);
+  // protected function updateRecurring($campaign)
+  // {
+  //   $campaignArray = $campaign->toArray();
+  //   // don't update dates
+  //   unset($campaignArray['start_date'], $campaignArray['end_date']);
 
-    $campaigns = Campaign::where('recurring_id', $campaign->recurring_id)->get();
-    foreach ($campaign as $camp) {
-      $camp->fill($campaignArray);
-      $camp->save();
-    }
-  }
+  //   $campaigns = Campaign::where('recurring_id', $campaign->recurring_id)->get();
+  //   foreach ($campaign as $camp) {
+  //     $camp->fill($campaignArray);
+  //     $camp->save();
+  //   }
+  // }
 
-  protected function deleteRecurring($campaign)
-  {
-    $campaigns = Campaign::where('recurring_id', $campaign->recurring_id)->get();
-    foreach ($campaign as $camp) {
-      $camp->delete();
-    }
-  }
+  // protected function deleteRecurring($campaign)
+  // {
+  //   $campaigns = Campaign::where('recurring_id', $campaign->recurring_id)->get();
+  //   foreach ($campaign as $camp) {
+  //     $camp->delete();
+  //   }
+  // }
 
   public function download_csv($accountID)
   {
