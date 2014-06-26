@@ -453,7 +453,11 @@
 		return [];
 	},
 
-	getState: function(country, stateCode) {
+	getState: function (country, stateCode) {
+		if (launch.utils.isBlank(stateCode)) {
+			return null;
+		}
+
 		if ($.isPlainObject(stateCode) && !launch.utils.isBlank(stateCode.name) && !launch.utils.isBlank(stateCode.value)) {
 			return stateCode;
 		}
