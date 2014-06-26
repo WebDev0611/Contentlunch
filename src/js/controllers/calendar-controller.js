@@ -35,6 +35,7 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
     $q.all({
         campaigns: Account.getList('campaigns'),
         content: Account.getList('content'),
+        brainstorms: Account.getList('brainstorm'),
         // that's CONTENT tasks to you, boooooiii
         tasks: Account.getList('content-tasks'),
         users: Account.getList('users'),
@@ -78,16 +79,12 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
         $scope.campaignList = angular.copy($scope.campaigns);
 
         eventize = calendar.eventize($scope, responses.content);
-        eventize(responses.campaigns, responses.tasks);
+        eventize(responses.campaigns, responses.tasks, responses.brainstorms);
 
         $scope.isLoaded = true;
 
         $scope.filters = ((originalResponses.userAuth || {}).preferences || {}).calendar || {};
     });
-
-    function randomColor() {
-        return '#' + Math.floor(Math.random() * 16777215).toString(16);
-    }
 
     // Actions
     // -------------------------
@@ -121,7 +118,7 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
         $scope.campaigns = filterItems(originalResponses.campaigns);
         var tasks = originalResponses.tasks;
 
-        // first filter out "my" tasks if needed
+        // first filter for "my" tasks if needed
         if ($scope.filters.onlyMine) {
             tasks = _.filter(tasks, function (task) {
                 return task.userId == user.id;
@@ -130,8 +127,10 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
 
         $scope.tasks = filterItems(tasks);
 
+        $scope.brainstorms = filterItems(originalResponses.brainstorms);
+
         if (eventize)
-            eventize($scope.campaigns, $scope.tasks);
+            eventize($scope.campaigns, $scope.tasks, $scope.brainstorms);
     }, 300);
     $scope.$watch('filters', filterDebouncer, true);
 

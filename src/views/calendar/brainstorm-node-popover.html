@@ -1,0 +1,46 @@
+<div class="calendar-node-popover">
+    <table class="structural">
+        <tbody>
+            <tr>
+                <td>
+                    <img class="connection-icon" src="/assets/images/brain.svg">
+                </td>
+                <td>
+                    <strong>Concept</strong>
+                    <div>
+                        {{ content.concept || campaign.campaign }}
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr ng-show="collaborators.length > 0" class="simple-divider">
+
+    <div ng-show="collaborators.length > 0">
+        <strong>Collaborators</strong>
+        <div>
+            [collaborators]
+        </div>
+    </div>
+
+    <hr ng-show="credentials" class="simple-divider">
+
+    <div ng-show="credentials">
+        <strong>Meeting Credentials</strong>
+        <div>
+            {{ credentials }}
+        </div>
+    </div>
+
+    <hr ng-show="agenda.length > 0" class="simple-divider">
+
+    <div ng-show="agenda.length > 0">
+        <strong>Agenda</strong>
+        <div>
+            <ul class="list">
+                <li ng-repeat="item in agenda">{{ item }}</li>
+            </ul>
+        </div>
+    </div>
+</div>

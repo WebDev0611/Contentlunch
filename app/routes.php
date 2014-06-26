@@ -170,6 +170,8 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
+  Route::get('account/{accountID}/brainstorm', 'BrainstormController@all');
+
 });
 
 Route::get('password/reset/{code}', 'AuthController@check_reset');

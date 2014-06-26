@@ -5,6 +5,19 @@ class BrainstormController extends BaseController {
     protected $concept;
     protected $brainstorm;
 
+    public function all($accountID)
+    {
+        $account = Account::find($accountID);
+        if (!$account) {
+            return $this->responseError("Invalid account");
+        }
+        if (!$this->inAccount($account->id)) {
+            return $this->responseAccessDenied();
+        }
+
+        return Brainstorm::where("account_id", $accountID)->get();
+    }
+
     /**
      * Display a listing of the resource.
      * GET /api/account/:id/:(content|campaign)/:id/brainstorm

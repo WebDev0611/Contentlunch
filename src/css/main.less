@@ -2402,17 +2402,26 @@ table.structural {
 		text-overflow: ellipsis;
 		height: 12px;
 		white-space: nowrap;
+
+		&.double-line {
+			white-space: normal;
+			height: 24px;
+		}
 	}
 
 	&-connection-icon {
 		float: left;
 		margin: 3px 8px 0 0;
 
-		span {
+		span, img {
 			display: block;
 			width: 24px;
 			font-size: 24px;
 			vertical-align: middle;
+		}
+
+		img {
+			margin-top: -3px;
 		}
 	}
 
