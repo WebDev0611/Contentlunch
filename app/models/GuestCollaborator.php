@@ -21,6 +21,7 @@ class GuestCollaborator extends Ardent {
         'name'               => 'required',
         'connection_id'      => 'required',
         'content_id'         => 'required',
+        'account_id'         => 'required',
         'content_type'       => 'required',
     ];
 

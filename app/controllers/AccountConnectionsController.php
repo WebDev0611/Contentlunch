@@ -155,7 +155,7 @@ class AccountConnectionsController extends BaseController {
     $connectionData = $this->show($accountID, $connectionID);
     $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
 
-    return $connectionApi->sendDirectMessage($friends, $message, $contentID, $contentType);
+    return $connectionApi->sendDirectMessage($friends, $message, $contentID, $contentType, $accountID);
   }
 
   // only applies to Twitter. returns length of t.co link shortener
@@ -214,6 +214,6 @@ class AccountConnectionsController extends BaseController {
 
     $linkedIn = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
 
-    return $linkedIn->sendMessageToGroup($group, $message, $contentID, $contentType);
+    return $linkedIn->sendMessageToGroup($group, $message, $contentID, $contentType, $accountID);
   }
 }
