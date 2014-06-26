@@ -23,7 +23,8 @@
     "happyr/linkedin-api-client": "dev-master",
     "thujohn/twitter": "dev-master",
     "felixkiss/uniquewith-validator": "1.1.*",
-    "way/generators": "2.*"
+    "way/generators": "2.*",
+    "fzaninotto/faker": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
