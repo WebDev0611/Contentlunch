@@ -4,85 +4,88 @@ angular.module('launch')
 .factory('calendar', 
         ['contentStatuses', '$http', '$interpolate', '$compile', '$rootScope',
 function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
-    var eventRenderDebounce = _.debounce(function (event, element, view) {
-        if (event.type == 'task') {
-            element.hide();
+    var $elem, calendar;
+    return (calendar = {
+        // I know this should be a directive, but I was using ui-calendar and seeing
+        // MASSIVE performance issues and it was easiest just to change it to this
+        init: function (config) {
+            $elem = $('#js-cl-calendar');
+            $elem.fullCalendar(config);
+        },
 
-            // this re-styles the tasks items on the 
-            // calendar to match the spec
-            $http.get('/assets/views/calendar/task-node.html', { cache: true }).then(function (response) {
-                element.html($interpolate(response.data)(event)).show();
-            });
-
-            // this is how we attached a click event to
-            // the task items in the calendar using
-            // BS popover and an external template
-            $http.get('/assets/views/calendar/task-node-popover.html', { cache: true }).then(function (response) {
-                element.popover({
-                    html: true,
-                    content: $interpolate(response.data)(event),
-                    placement: 'left',
-                    container: 'body',
-                    title: $interpolate('<div class="group">\
-                                            <div class="calendar-node-popover-title">{{ title }}</div>\
-                                            <div class="calendar-node-popover-date">{{ start | date:"shortTime" }}</div>\
-                                         </div>')(event)
-                });
-            });
-        } else if (event.type == 'campaign') {
-            // this is how we attached a click event to
-            // the campaign items in the calendar using
-            // BS popover and an external template
-            $http.get('/assets/views/calendar/campaign-node-popover.html', { cache: true }).then(function (response) {
-                element.popover({
-                    html: true,
-                    content: $interpolate(response.data)(event),
-                    placement: 'left',
-                    container: 'body',
-                    title: $interpolate('<div class="group">\
-                                            <div class="calendar-node-popover-title-2"><a href="/calendar/campaigns/{{ id }}">{{ title }}</a></div>\
-                                            <div class="calendar-node-popover-date-2">{{ start | date:"mediumDate" }} - {{ end | date:"mediumDate" }}</div>\
-                                         </div>')(event)
-                });
-            });
-        } else if (event.type == 'brainstorm') {
-            element.hide();
-
-            // this re-styles the tasks items on the 
-            // calendar to match the spec
-            $http.get('/assets/views/calendar/brainstorm-node.html', { cache: true }).then(function (response) {
-                element.html($interpolate(response.data)(event)).show();
-            });
-
-            // this is how we attached a click event to
-            // the task items in the calendar using
-            // BS popover and an external template
-            var _scope = $rootScope.$new(true);
-            angular.extend(_scope, event);
-            console.log('test');
-            $http.get('/assets/views/calendar/brainstorm-node-popover.html', { cache: true }).then(function (response) {
-                element.popover({
-                    html: true,
-                    content: $compile(response.data)(_scope),
-                    placement: 'left',
-                    container: 'body',
-                    title: $interpolate('<div class="group">\
-                                            <div class="calendar-node-popover-title">{{ title }}</div>\
-                                            <div class="calendar-node-popover-date">{{ start | date:"shortTime" }}</div>\
-                                         </div>')(event)
-                });
-            });
-        } else {
-            console.error('Unrecognized event type: ' + event.type);
-        }
-    }, 300);
-
-    return {
         // @note that in all of these $interpolate functions,
         // the it will render stuff in {{ }}, but it is NOT a
         // full $compile and won't render stuff like ngRepeat
-        eventRender: function () {
-            console.log('test');
+        eventRender: function (event, element, view) {
+            if (event.type == 'task') {
+                element.hide();
+
+                // this re-styles the tasks items on the 
+                // calendar to match the spec
+                $http.get('/assets/views/calendar/task-node.html', { cache: true }).then(function (response) {
+                    element.html($interpolate(response.data)(event)).show();
+                });
+
+                // this is how we attached a click event to
+                // the task items in the calendar using
+                // BS popover and an external template
+                $http.get('/assets/views/calendar/task-node-popover.html', { cache: true }).then(function (response) {
+                    element.popover({
+                        html: true,
+                        content: $interpolate(response.data)(event),
+                        placement: 'left',
+                        container: 'body',
+                        title: $interpolate('<div class="group">\
+                                                <div class="calendar-node-popover-title">{{ title }}</div>\
+                                                <div class="calendar-node-popover-date">{{ start | date:"shortTime" }}</div>\
+                                             </div>')(event)
+                    });
+                });
+            } else if (event.type == 'campaign') {
+                // this is how we attached a click event to
+                // the campaign items in the calendar using
+                // BS popover and an external template
+                $http.get('/assets/views/calendar/campaign-node-popover.html', { cache: true }).then(function (response) {
+                    element.popover({
+                        html: true,
+                        content: $interpolate(response.data)(event),
+                        placement: 'left',
+                        container: 'body',
+                        title: $interpolate('<div class="group">\
+                                                <div class="calendar-node-popover-title-2"><a href="/calendar/campaigns/{{ id }}">{{ title }}</a></div>\
+                                                <div class="calendar-node-popover-date-2">{{ start | date:"mediumDate" }} - {{ end | date:"mediumDate" }}</div>\
+                                             </div>')(event)
+                    });
+                });
+            } else if (event.type == 'brainstorm') {
+                element.hide();
+
+                // this re-styles the tasks items on the 
+                // calendar to match the spec
+                $http.get('/assets/views/calendar/brainstorm-node.html', { cache: true }).then(function (response) {
+                    element.html($interpolate(response.data)(event)).show();
+                });
+
+                // this is how we attached a click event to
+                // the task items in the calendar using
+                // BS popover and an external template
+                var _scope = $rootScope.$new(true);
+                angular.extend(_scope, event);
+                $http.get('/assets/views/calendar/brainstorm-node-popover.html', { cache: true }).then(function (response) {
+                    element.popover({
+                        html: true,
+                        content: $compile(response.data)(_scope),
+                        placement: 'left',
+                        container: 'body',
+                        title: $interpolate('<div class="group">\
+                                                <div class="calendar-node-popover-title">{{ title }}</div>\
+                                                <div class="calendar-node-popover-date">{{ start | date:"shortTime" }}</div>\
+                                             </div>')(event)
+                    });
+                });
+            } else {
+                console.error('Unrecognized event type: ' + event.type);
+            }
         },
 
         eventize: function ($scope, contents) {
@@ -158,14 +161,14 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
                     });
                 });
 
-                if (!isFirstTime) {
+
                     // argh!
                     // update calendar with new event source(s)
-                    $('[ui-calendar]').fullCalendar('removeEvents');
+                    $elem.fullCalendar('removeEvents');
                     _.each($scope.calendarSources, function (source) {
-                        $('[ui-calendar]').fullCalendar('addEventSource', source);
+                        $elem.fullCalendar('addEventSource', source);
                     });
-                }
+
 
                 isFirstTime = false;
             };
@@ -174,5 +177,5 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
                 return '#' + Math.floor(Math.random() * 16777215).toString(16);
             }
         }
-    };
+    });
 }]);

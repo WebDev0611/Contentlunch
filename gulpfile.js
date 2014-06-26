@@ -164,7 +164,7 @@ gulp.task('scripts', function() {
 			'./bower_components/ladda/js/spin.js',
 			'./bower_components/ladda/js/ladda.js',
 			'./bower_components/ng-file-upload/angular-file-upload.js',
-			'./bower_components/angular-ui-calendar/src/calendar.js',
+			// './bower_components/angular-ui-calendar/src/calendar.js',
 			'./bower_components/fullcalendar/fullcalendar.js',
 			'./bower_components/restangular/dist/restangular.js',
 			'./bower_components/checklist-model/checklist-model.js',

@@ -18,7 +18,7 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
     $scope.canExport = user.hasPrivilege('calendar_execute_export');
     // $scope.canCreateTask = user.hasPrivilege('calendar_execute_schedule');
 
-    $scope.calendarConfig  = {
+    var calendarConfig  = {
         editable: false,
         header:{
             left: 'month,agendaWeek',
@@ -78,12 +78,15 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
         // using campaignList so that we always have them all in the dropdown
         $scope.campaignList = angular.copy($scope.campaigns);
 
-        eventize = calendar.eventize($scope, responses.content);
-        eventize(responses.campaigns, responses.tasks, responses.brainstorms);
-
         $scope.isLoaded = true;
 
         $scope.filters = ((originalResponses.userAuth || {}).preferences || {}).calendar || {};
+
+        $timeout(function () {
+            calendar.init(calendarConfig);
+            eventize = calendar.eventize($scope, responses.content);
+            eventize(responses.campaigns, responses.tasks, responses.brainstorms);
+        });
     });
 
     // Actions
