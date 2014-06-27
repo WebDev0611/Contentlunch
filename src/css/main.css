@@ -1119,6 +1119,9 @@ span[class*=" icon-"].dark {
 .content-editor .control-group input[type="file"] {
   display: none;
 }
+.accounts .right-pane .right-pane-content {
+  min-height: 600px;
+}
 .user-editor {
   margin: 75px 25px;
 }
