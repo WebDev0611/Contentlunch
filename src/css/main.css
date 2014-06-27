@@ -318,6 +318,8 @@ header {
 }
 header .navbar {
   border: 0;
+  height: 100px;
+  margin-bottom: 0;
 }
 header .navbar .navbar-collapse .logo {
   position: absolute;
@@ -1862,6 +1864,11 @@ span[class*=" icon-"].dark {
   color: white;
   margin-bottom: 8px;
 }
+.calendar .left-pane .select2-container {
+  max-width: auto;
+  min-width: 0;
+  width: 100%;
+}
 .header-bar {
   padding: 6px 12px;
   background-color: black;
@@ -2375,15 +2382,23 @@ table.structural > tbody > tr > td {
   height: 12px;
   white-space: nowrap;
 }
+.calendar-node-title.double-line {
+  white-space: normal;
+  height: 24px;
+}
 .calendar-node-connection-icon {
   float: left;
   margin: 3px 8px 0 0;
 }
-.calendar-node-connection-icon span {
+.calendar-node-connection-icon span,
+.calendar-node-connection-icon img {
   display: block;
   width: 24px;
   font-size: 24px;
   vertical-align: middle;
+}
+.calendar-node-connection-icon img {
+  margin-top: -3px;
 }
 .calendar-node-status img {
   display: inline-block;
@@ -2603,7 +2618,6 @@ hr.simple-divider {
   padding-left: 50px;
 }
 .consult .left-pane .select2-container {
-  min-width: 100%;
   width: 100%;
 }
 .consult .panel-group .panel {

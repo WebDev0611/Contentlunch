@@ -19,6 +19,8 @@ header {
 
 	.navbar {
 		border: 0;
+		height: 100px;
+		margin-bottom: 0;
 
 		.navbar-collapse {
 			.logo {
@@ -47,12 +49,13 @@ header {
 
 					img, svg {
 						height: 40px;
-            width: 40px;
+						width: 40px;
 						margin: 0 0 4px 0;
 					}
-          svg path {
-            fill: #FFFFFF;
-          }
+
+						svg path {
+							fill: #FFFFFF;
+						}
 				}
 
 				&.home {
@@ -163,20 +166,21 @@ header {
 					}
 				}
 
-        &.library, &.forum {
-          background-color: @subscriptionColor;
+				&.library, &.forum {
+					background-color: @subscriptionColor;
 
-          .dark {
-            background-color: @subscriptionColorDark;
-          }
+					.dark {
+						background-color: @subscriptionColorDark;
+					}
 
-          .top-arrow {
-            border-top-color: @subscriptionColor;
-          }
-          img path {
-            fill: #ffffff;
-          }
-        }
+					.top-arrow {
+						border-top-color: @subscriptionColor;
+					}
+
+					img path {
+						fill: #ffffff;
+					}
+				}
 
 				.top-arrow {
 					position: absolute;

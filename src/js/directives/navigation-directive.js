@@ -101,12 +101,15 @@
 		};
 
 		self.getLoggedInUser = function() {
-			scope.showNav = AuthService.isLoggedIn();
 			self.subscription = null;
 			scope.user = AuthService.fetchCurrentUser({
 				success: function(user) {
-					if ($location.path().indexOf('/user/confirm') === 0) {
+					if ($location.path().indexOf('/user/confirm') === 0 || $location.path().indexOf('/login') === 0 || $location.path().indexOf('/collaborate') === 0) {
 						return;
+					}
+
+					if (launch.utils.isBlank(scope.user.id)) {
+						$location.path('/login');
 					}
 
 					self.getNavigationItems();

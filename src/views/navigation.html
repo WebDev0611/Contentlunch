@@ -1,27 +1,18 @@
-﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-if="showNav">
+﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="navbar-collapse collapse" role="navigation">
 		<div class="logo hidden-sm"></div>
-		<ul class="nav navbar-nav">
+		<ul class="nav navbar-nav" ng-show="showNav">
 			<li ng-class="[item.title, item.active]" ng-repeat="item in mainMenu" ng-click="navigate(item.url)">
 				<div class="dark">
-					
-          <span ng-include="imagePath(item)"></span>
+					<span ng-include="imagePath(item)"></span>
 					{{ formatMenuTitle(item.title) }}
 				</div>
 				<div id="menu-arrow" class="top-arrow" ng-class="item.title"></div>
 			</li>
 		</ul>
 	</div>
-	<!--<div class="navbar-header">
-		<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-nav-items">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</button>
-		<a href="/" class="navbar-brand">ContentLaunch</a>
-	</div>-->
-	<div class="login-info">
+
+	<div class="login-info" ng-show="showNav">
 		<div class="popover-menu admin-menu" menu-popover menu-items="adminMenu" data-placement="bottom" data-trigger="hover" data-menu="true" ng-show="adminMenu.length > 0">
 			<span class="glyphicon glyphicon-cog"></span>
 			Admin Settings
