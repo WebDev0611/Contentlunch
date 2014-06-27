@@ -1,1 +1,122 @@
-﻿VIDEO CONFERENCE
+<div class="view conference consult">
+
+  <div class="row right-pane">
+
+    <h2 class="right-pane-header">Video Conference</h2>
+
+    <div class="col-lg-9 right-pane container">
+      
+      <div class="content">
+        With the Video Conference you can request consultation sessions with experts at Content Launch. Included in your company's subscription is up to 4 - 30 min. sessions per month with a Content Launch professional and a one time 15 min. session with Content Launch Pres. and CEO: Jon Wuebben. Additional sessions with Jon are available for $100 / session.
+
+        <ul class="sessions">
+          <li>Session with Content Launch Professionals: 30 min sessions, up to 4 / month</li>
+          <li>Session with Jon Wuebben: 15 min. sessions, 1 FREE, additional available for $100</li>
+        </ul>
+
+        To join a scheduled conference, you will receive a Google Hangouts invitation in your email when the Content Launch professional has begun the conference.  Click on the link provided in the email to join the conference.
+
+        <h3>My Conferences</h3>
+
+        <table class="table conferences-table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Date/Time</th>
+              <th>Replay Link</th>
+              <th>Consultant</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="conference in conferences" ng-class-odd="dark">
+              <td>{{ conference.description }}</td>
+              <td>
+                <span ng-if="conference.status == 0">Pending</span>
+                <span ng-if="conference.status == 1">Scheduled</span>
+                <span ng-if="conference.status == 2">Completed</span>
+              </td>
+              <td><b ng-if="conference.scheduled_date">{{ conference.scheduled_date | date:'shortDate' }}</b><br /><span ng-if="conference.scheduled_date">{{ conference.scheduled_date | date:'shortTime' }}</span></td>
+              <td><a ng-if="conference.replay_link" ng-href="{{ conference.replay_link }}">{{ conference.replay_link }}</a></td>
+              <td>{{ conference.consultant }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </div>
+
+    <div class="col-lg-3">
+
+      <div class="panel panel-inverse">
+        <div class="panel-heading">
+          Request Consultation
+        </div>
+
+        <div class="panel-body">
+          <form>
+
+            <div class="form-group">
+              <label for="description">Request Description</label>
+              <textarea id="description" ng-model="request.description" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="topic">Topic</label>
+              <select id="topic" ng-model="request.topic" class="form-control" ng-options="opt[0] as opt[1] for opt in topicOptions"></select>
+            </div>
+
+            <div class="form-group">
+              <label for="consultant">Consultant</label>
+              <select id="consultant" ng-model="request.consultant" class="form-control" ng-options="opt[0] as opt[1] for opt in consultantOptions()"></select>
+            </div>
+
+            <fieldset>
+              <legend>Schedule Option 1</legend>
+
+              <div class="form-group">
+                <label for="date_1">Date</label>
+                <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" name="date_1" class="form-control" id="date_1" ng-model="request.date_1">
+              </div>
+
+              <div class="form-group">
+                <label for="time1">Time</label>
+                 <timepicker ng-model="request.time1" hour-step="1" minute-step="15" show-meridian="true" class=""
+                 ></timepicker>
+              </div>
+
+            </fieldset>
+
+            <fieldset>
+              <legend>Schedule Option 2</legend>
+
+            <div class="form-group">
+              <label for="date_2">Date</label>
+              <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" name="date_2" class="form-control" id="date_2" ng-model="request.date_2">
+              </div>
+
+              <div class="form-group">
+                <label for="time1">Time</label>
+                 <timepicker ng-model="request.time2" hour-step="time.hstep" minute-step="time.mstep" show-meridian="true" class=""
+                 ></timepicker>
+              </div>
+            </fieldset>
+
+            <div class="form-group">
+              <label for="sooner">If meeting needs to be sooner or later than allowed.</label>
+              <textarea id="sooner" ng-model="request.sooner" class="form-control"></textarea>
+            </div>
+
+            <input type="submit" ng-click="sendRequest()" value="Send Request" class="btn btn-inverse" />
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

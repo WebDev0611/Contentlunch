@@ -70,6 +70,8 @@
 				mainNavItems.push({ title: 'library', url: '/consult/admin-library', active: '' });
 				mainNavItems.push({ title: 'forum', url: '/consult/forum', active: '' });
 
+        mainNavItems.push({ title: 'conference', url: '/consult/admin-conference', active: '', image: 'video' });
+
 				adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
 			}
 
@@ -136,7 +138,8 @@
 		};
 
 		scope.imagePath = function(item) {
-			return '/assets/images/' + angular.lowercase(item.title) + '.svg';
+      var filename = item.image ? item.image : item.title;
+			return '/assets/images/' + angular.lowercase(filename) + '.svg';
 		};
 
 		scope.formatMenuTitle = function(title) {
