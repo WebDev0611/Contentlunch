@@ -4,6 +4,7 @@
 
 <div ng-show="isLoaded" class="view calendar">
     <div class="col-md-3 left-pane">
+        <button ng-hide="campaign.isNew" class="btn full-width small-nudge-down btn-inverse add-content" ng-click="duplicateCampaign()">Duplicate Campaign</button>
         <button ng-hide="campaign.isNew" class="btn full-width small-nudge-down btn-inverse add-content" ng-click="newTask()">Create New Task</button>
 
         <ul class="task-list">
@@ -86,18 +87,8 @@
                                     <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" name="endDate" class="form-control" id="endDate" ng-model="campaign.endDate">
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="recurring">Recurring</label>
-                                    <select name="recurring" class="form-control" id="recurring" 
-                                            ng-model="campaign.isRecurring">
-                                        <option value="0">No</option>
-                                        <option value="1">Yes</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div> <!-- .row -->
-                        <div class="row" ng-show="campaign.isRecurring">
+                        <div class="row" ng-show="false && campaign.isRecurring">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="repeat">Repeat</label>

@@ -150,7 +150,8 @@
 					})
 					.when('/calendar/campaigns/:campaignId', {
 						controller: 'CampaignController',
-						templateUrl: '/assets/views/calendar/campaign.html'
+						templateUrl: '/assets/views/calendar/campaign.html',
+						reloadOnSearch: false
 					})
 					.when('/launch', {
 						controller: 'LaunchController',
