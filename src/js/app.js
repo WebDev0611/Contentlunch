@@ -65,6 +65,10 @@
 						controller: 'ConsultLibraryController',
 						templateUrl: '/assets/views/consult/library.html'
 					})
+          .when('/consult/admin-conference', {
+            controller: 'ConsultAdminConferenceController',
+            templateUrl: '/assets/views/consult/admin-conference.html'
+          })
 					.when('/consult/conference', {
 						controller: 'ConsultConferenceController',
 						templateUrl: '/assets/views/consult/conference-list.html'

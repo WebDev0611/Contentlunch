@@ -1,0 +1,62 @@
+
+<div class="conference-form">
+  <div class="modal-header">Video Conference</div>
+  <div class="modal-body">
+
+    <form class="row">
+
+      <div class="col-lg-8">
+
+        <div class="form-group">
+          <label for="description">Request Description</label>
+          <input type="text" id="description" ng-model="conference.description" class="form-control" />
+        </div>
+
+        <div class="row form-group">
+          <div class="col-lg-6">
+            <label for="topic">Topic</label>
+            <select id="topic" ng-model="conference.topic" ng-options="opt[0] as opt[1] for opt in topicOptions" class="form-control"></select>
+          </div>
+
+          <div class="col-lg-6">
+            <label for="scheduled_date">Date</label>
+            <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" class="form-control" id="scheduled_date" ng-model="conference.scheduled_date_date" />
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-lg-6">
+            <label for="consultant">Consultant</label>
+            <select id="consultant" ng-model="conference.consultant" ng-options="opt[0] as opt[1] for opt in consultantOptions()" class="form-control"></select>
+          </div>
+
+          <div class="col-lg-6">
+            <label for="scheduled_date_time">Time</label>
+            <timepicker ng-model="conference.scheduled_date_time" hour-step="1" minute-step="15" show-meridian="true" id="scheduled_date_time" class=""></timepicker>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="replay_link">Replay Link</label>
+          <input type="text" id="replay_link" ng-model="conference.replay_link" class="form-control" />
+        </div>
+
+        <div class="buttons clearfix">
+          <button class="btn btn-primary btn-black" ng-click="ok()">Save and Close</button>
+          <button class="btn btn-warning btn-black" ng-click="cancel()">Cancel</button>
+          <button class="btn btn-warning btn-black" ng-click="delete()" ng-show="mode == 'edit'">Delete</button>
+        </div>
+
+      </div>
+
+      <div class="col-lg-4">
+        <div class="form-group">
+          <label for="account">Account</label>
+          <select id="account" class="form-control" ng-model="conference.account_id" ng-options="opt[0] as opt[1] for opt in accountOptions"></select>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>

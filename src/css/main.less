@@ -166,8 +166,8 @@ header {
 					}
 				}
 
-				&.library, &.forum {
-					background-color: @subscriptionColor;
+        &.library, &.forum, &.conference {
+          background-color: @subscriptionColor;
 
 					.dark {
 						background-color: @subscriptionColorDark;
@@ -648,7 +648,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	width: 36px;
 }
 
-.users, .accounts, .roles, .content-settings, .seo-settings, .create, .admin-library, .consult {
+.users, .accounts, .roles, .content-settings, .seo-settings, .create, .admin-library, .consult, .admin-conference {
 	.left-pane {
 		position: relative;
 
@@ -733,7 +733,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.users, .accounts, .roles, .content-settings, .seo-settings, .admin-library, .consult {
+.users, .accounts, .roles, .content-settings, .seo-settings, .admin-library, .consult, .admin-conference {
 	.left-pane {
 		.btn-group {
 			.btn-create {
@@ -2764,6 +2764,25 @@ hr.simple-divider {
   }
 }
 
+.admin-conference {
+  .right-pane {
+    padding: 65px 20px;
+  }
+}
+
+.conference {
+  .right-pane-header {
+    padding-left: 40px;
+  }
+  .content {
+    padding: 0 60px;
+  }
+  .sessions {
+    margin: 20px 0;
+    padding-left: 0px;
+  }
+}
+
 .filter-slection-counter {
 	float: right;
 }
@@ -2810,6 +2829,12 @@ hr.simple-divider {
 	}
 }
 
+.modal-large {
+  .modal-dialog {
+    width: 850px;
+  }
+}
+
 .file-dialog {
 	img, video {
 		max-width: 100%;
@@ -2819,4 +2844,12 @@ hr.simple-divider {
 .thread-meta {
 	padding: 10px;
 	font-size: 11px;
+}
+
+.conference-form {
+  .btn-black{
+    background-color: #000000;
+    color: #ffffff;
+    vertical-align: middle;
+  }
 }

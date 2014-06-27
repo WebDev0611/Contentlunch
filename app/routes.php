@@ -71,6 +71,10 @@ Route::group(['prefix' => 'api'], function()
   //Route::get('account/{accountID}/add-connection/{connectionID}', 'AccountConnectionsController@addConnection');
   Route::any('account/{id}/connections/{connectionId}/{action}', 'AccountConnectionsController@actionRouter');
 
+  Route::resource('account/{id}/conferences', 'ConferencesController', [
+    'only' => ['index', 'store', 'show', 'update', 'destroy']
+  ]);
+
   Route::get('account/{id}/content-settings', 'AccountContentSettingsController@get_settings');
   Route::put('account/{id}/content-settings', 'AccountContentSettingsController@save_settings');
 
