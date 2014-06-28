@@ -150,7 +150,18 @@ class AccountRoleController extends BaseController {
     $role = AccountRole::find($roleId);
     // Don't delete non deletable roles
     if ( ! $role->deletable) {
-      return $this->responseError("Unable to delete this role.", 401);
+      return $this->responseError("Unable to delete this role.", 403);
+    }
+    // Don't delete role if there are users attached to it
+    $users = $role->users->toArray();
+    if ( ! empty($users)) {
+      // Return a list of users with this role
+      $names = [];
+      foreach ($users as $user) {
+        $names[] = $user['first_name'] .' '. $user['last_name'];
+      }
+      $userNames = implode(', ', $names);
+      return $this->responseError("This User Role cannot be deleted. These users are assigned this role: ". $userNames);
     }
     if ($role->delete()) {
       return array('success' => 'OK');

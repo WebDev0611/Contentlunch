@@ -40,6 +40,11 @@ class AccountRole extends EntrustRole
 		return $this->belongsToMany('Permission', 'permission_role', 'role_id', 'permission_id');
 	}
 
+  public function users()
+  {
+    return $this->belongsToMany('User', 'assigned_roles', 'role_id');
+  }
+
 	/**
 	 * Get a role model by name
 	 *
