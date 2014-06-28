@@ -105,8 +105,8 @@ launch.module.directive('userForm', function($modal, $upload, AuthService, RoleS
 				if (scope.selectedUser.account) {
 					scope.selectedUser.accounts.push(scope.selectedUser.account);
 				}
-				scope.selectedUser.roles.push(scope.selectedUser.role);
 			}
+      scope.selectedUser.roles = [scope.selectedUser.role];
 
 			scope.isSaving = true;
 
