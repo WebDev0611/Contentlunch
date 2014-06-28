@@ -12,8 +12,16 @@ class AccountUserController extends BaseController {
       return $this->responseAccessDenied();
     }
     $account = Account::find($id);
-    $account->add_user(Input::get('user_id'));
-    return array('message' => 'OK');
+    $users = $account->users;
+    if ($users) {
+      foreach ($users as $user) {
+        if ($user['id'] == Input::get('user_id')) {
+          return ['message' => 'OK'];
+        }
+      }
+    }
+    $account->users()->attach(Input::get('user_id'));
+    return ['message' => 'OK'];
   }
 
   /**

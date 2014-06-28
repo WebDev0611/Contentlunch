@@ -75,22 +75,38 @@ class UserController extends BaseController {
 			return $this->responseAccessDenied();
 		}
 		$user = new User;
+    // Check for soft deleted user, reinstate account
+    $user = User::withTrashed()
+      ->where('email', Input::get('email'))
+      ->first();
+    if ($user) {
+      $user->deleted_at = null;
+      $mode = 'update';
+    } else {
+      $user = new User;
+      $mode = 'create';
+    }
     $user->username = Input::get('email');
     // Taken from ConfideUser. Ardent purges this field
     $user->confirmation_code = md5( uniqid(mt_rand(), true) );
     // Password can't be null, set a random temp password
     $user->password = $user->password_confirmation = substr(uniqid(mt_rand(), true), 0, 8);
-    // Make sure user is unconfirmed, inactive
+    // Make sure user is unconfirmed
     // If confirmed exist in the request, ardent will try to hydrate from
     // those values, so just set those values in the request input
     $input = Request::all();
     $input['confirmed'] = 0;
     Request::replace($input);
-    if ( $user->save() )
+    if ($mode == 'update') {
+      $ret = $user->updateUniques();
+    } else {
+      $ret = $user->save();
+    }
+    if ($ret)
     {
     	// Save roles
     	$user->saveRoles(Input::get('roles'));
-    	$data = array('user' => $user);
+    	$data = ['user' => $user];
     	// Send confirmation email
     	Mail::send('emails.auth.confirm', $data, function ($message) use ($user) {
 				$message->to($user->email)->subject('Account Confirmation');
