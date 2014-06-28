@@ -114,7 +114,7 @@ class UserController extends BaseController {
 		}
     $user->modules = [];
 		if (isset($user->accounts[0])) {
-			$account = Account::find($user->accounts[0]->id)->first();
+			$account = Account::find($user->accounts[0]->id);
 			$modules = $account->modules;
 			$modules = $modules->toArray();
 			foreach ($modules as &$module) {
