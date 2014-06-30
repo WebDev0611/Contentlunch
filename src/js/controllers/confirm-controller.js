@@ -50,15 +50,6 @@ launch.module.controller('ConfirmController', [
 						notificationService.success('Success!', 'You have successfully changed your password!');
 
 						$route.path('/login');
-
-						//authService.login($scope.selectedUser.email, $scope.selectedUser.password, false, {
-						//	success: function() {
-						//		$location.path('/');
-						//		// Completely reload everything
-						//		$route.reload();
-						//	},
-						//	error: function(res) { }
-						//});
 					},
 					error: function(r) {
 						$scope.isSaving = false;
