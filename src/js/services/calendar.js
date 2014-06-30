@@ -156,6 +156,7 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
                             start: brainstorm.date + 'T' + brainstorm.time,
                             type:'brainstorm',
                         })],
+                        className: 'calendar-task',
                         color: randomColor(),
                         textColor: 'whitesmoke'
                     });
