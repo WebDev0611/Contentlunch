@@ -194,9 +194,9 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
     function toAdd(newEvents, currentEvents) {
         var difference = _.difference(_.pluck(newEvents, 'uniqId'), _.pluck(currentEvents, 'uniqId'));
         return _.map(difference, function (uniqId) {
-            var events = _.where(newEvents, { uniqId: uniqId });
-            var source = angular.copy(events[0].sourceOpts);
-            source.events = events;
+            var event = _.find(newEvents, { uniqId: uniqId });
+            var source = angular.copy(event.sourceOpts);
+            source.events = [event];
             return source;
         });
     }
