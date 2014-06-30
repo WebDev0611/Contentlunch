@@ -42,6 +42,18 @@
 		return launch.utils.getCampaignIndex(self.id);
 	};
 
+	self.isEnded = function() {
+		if (launch.utils.isValidDate(self.endDate)) {
+			return (self.endDate < (new Date()));
+		}
+
+		return false;
+	};
+
+	self.isSelectable = function() {
+		return (self.isActive && !self.isEnded());
+	};
+
 	self.validateProperty = function (property) {
 		switch (property.toLowerCase()) {
 			case 'title':
