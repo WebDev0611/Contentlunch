@@ -4,7 +4,7 @@ angular.module('launch')
 .factory('calendar', 
         ['contentStatuses', '$http', '$interpolate', '$compile', '$rootScope',
 function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
-    var $elem, calendar;
+    var $elem, calendar, currentEvents;
     return (calendar = {
         // I know this should be a directive, but I was using ui-calendar and seeing
         // MASSIVE performance issues and it was easiest just to change it to this
@@ -88,19 +88,20 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
             }
         },
 
-        eventize: function ($scope, contents) {
+        eventize: function (contents) {
             var isFirstTime = true;
             return function (campaigns, tasks, brainstorms) {
                 var tasksByContent = _.groupBy(tasks, 'contentId');
 
-                $scope.calendarSources = [];
+                var events = [];
 
                 _.each(tasksByContent, function (tasks, contentId) {
                     var content = _.findById(contents, contentId);
                     var color = (content.campaign || {}).color || randomColor();
 
-                    var events = _.map(tasks, function (task) {
-                        return _.merge(task, {
+                    _.each(tasks, function (task) {
+                        task = _.merge(task, {
+                            uniqId: 'task_' + task.id,
                             title: task.name,
                             contentTypeIconClass: launch.utils.getContentTypeIconClass(content.contentType.key),
                             workflowIconCssClass: launch.utils.getWorkflowIconCssClass(contentStatuses[task.status]),
@@ -109,31 +110,31 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
                             start: task.dueDate,
                             type: 'task',
                             allDay: false, // will make the time show
-                            content: content
+                            content: content,
+                            sourceOpts: {
+                                className: 'calendar-task',
+                                color: color,
+                                textColor: 'whitesmoke'
+                            }
                         });
-                    });
 
-                    $scope.calendarSources.push({
-                        // events: function (start, end, next) { next(events); },
-                        events: events,
-                        className: 'calendar-task',
-                        color: color,
-                        textColor: 'whitesmoke'
-                    });                  
+                        events.push(task);
+                    });
                 });
 
                 _.each(campaigns, function (campaign) {
-                    $scope.calendarSources.push({
-                        events: [_.merge(campaign, {
-                            title: campaign.title,
-                            start: campaign.startDate,
-                            end: campaign.endDate,
-                            type:'campaign',
-                            allDay: true,
-                        })],
-                        color: campaign.color,
-                        textColor: 'whitesmoke'
-                    });
+                    events.push(_.merge(campaign, {
+                        uniqId: 'campaign_' + campaign.id,
+                        title: campaign.title,
+                        start: campaign.startDate,
+                        end: campaign.endDate,
+                        type:'campaign',
+                        allDay: true,
+                        sourceOpts: {
+                            color: campaign.color,
+                            textColor: 'whitesmoke'
+                        }
+                    }));
                 });
 
                 _.each(brainstorms, function (brainstorm) {
@@ -150,32 +151,53 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
                             brainstorm.content = {};
                     }
 
-                    $scope.calendarSources.push({
-                        events: [_.merge(brainstorm, {
-                            title: 'Brainstorming Session',
-                            start: brainstorm.date + 'T' + brainstorm.time,
-                            type:'brainstorm',
-                        })],
-                        color: randomColor(),
-                        textColor: 'whitesmoke'
-                    });
+                    events.push(_.merge(brainstorm, {
+                        uniqId: 'brainstorm_' + brainstorm.id,
+                        title: 'Brainstorming Session',
+                        start: brainstorm.date + 'T' + brainstorm.time,
+                        type:'brainstorm',
+                        sourceOpts: {
+                            className: 'calendar-task',
+                            color: randomColor(),
+                            textColor: 'whitesmoke'
+                        }
+                    }));
                 });
 
+                var newEvents = events;
 
-                    // argh!
-                    // update calendar with new event source(s)
-                    $elem.fullCalendar('removeEvents');
-                    _.each($scope.calendarSources, function (source) {
-                        $elem.fullCalendar('addEventSource', source);
-                    });
+                var eventsToRemove = toRemove(newEvents, currentEvents);
+                $elem.fullCalendar('removeEvents', function (event) {
+                    return eventsToRemove[event.uniqId];
+                });
 
+                var sourcesToAdd = toAdd(newEvents, currentEvents);
+                _.each(sourcesToAdd, function (source) {
+                    $elem.fullCalendar('addEventSource', source);
+                });
 
+                currentEvents = newEvents;
                 isFirstTime = false;
             };
-
-            function randomColor() {
-                return '#' + Math.floor(Math.random() * 16777215).toString(16);
-            }
         }
     });
+
+    function randomColor() {
+        return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    }
+
+    function toRemove(newEvents, currentEvents) {
+        var difference = _.difference(_.pluck(currentEvents, 'uniqId'), _.pluck(newEvents, 'uniqId'));
+        return _.object(difference, difference);
+    }
+
+    function toAdd(newEvents, currentEvents) {
+        var difference = _.difference(_.pluck(newEvents, 'uniqId'), _.pluck(currentEvents, 'uniqId'));
+        return _.map(difference, function (uniqId) {
+            var events = _.where(newEvents, { uniqId: uniqId });
+            var source = angular.copy(events[0].sourceOpts);
+            source.events = events;
+            return source;
+        });
+    }
 }]);

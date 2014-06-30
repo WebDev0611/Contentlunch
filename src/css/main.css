@@ -2410,6 +2410,7 @@ table.structural > tbody > tr > td {
 .calendar-node-title.double-line {
   white-space: normal;
   height: 24px;
+  margin: 4px 0;
 }
 .calendar-node-connection-icon {
   float: left;
@@ -2421,9 +2422,6 @@ table.structural > tbody > tr > td {
   width: 24px;
   font-size: 24px;
   vertical-align: middle;
-}
-.calendar-node-connection-icon img {
-  margin-top: -3px;
 }
 .calendar-node-status img {
   display: inline-block;
