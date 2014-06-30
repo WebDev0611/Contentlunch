@@ -31,16 +31,16 @@
             {{ pagination.getPageIndicator() }}
         </div>
 
-        <div class="create-pager" ng-show="pagination.totalItems > pagination.pageSize">
-            <pagination
-                total-items="pagination.totalItems"
-                items-per-page="pagination.pageSize"
-                page="pagination.currentPage"
-                on-select-page="pagination.onPageChange(page, editUser)"
-                direction-links="true"
-                max-size="0">
-            </pagination>
-        </div>
+		<div class="create-pager" ng-show="pagination.totalItems > pagination.pageSize">
+			<pagination
+				total-items="pagination.totalItems"
+				items-per-page="pagination.pageSize"
+				page="pagination.currentPage"
+				on-select-page="pagination.onPageChange(page, editUser)"
+				direction-links="true"
+				max-size="0">
+			</pagination>
+		</div>
     </div>
 </div>
 

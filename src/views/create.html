@@ -128,7 +128,7 @@
 
 <script id="template/pagination/pagination.html" type="text/ng-template">
 	<div class="pagination">
-		<button type="button" class="btn btn-default fa fa-caret-left" ng-click="selectPage(page - 1)" ng-disabled="(page === 1)"></button>
-		<button type="button" class="btn btn-default fa fa-caret-right" ng-click="selectPage(page + 1)" ng-disabled="(page === pages.length)"></button>
+		<button type="button" class="btn btn-default fa" ng-repeat="page in pages" ng-click="selectPage(page.number)" ng-class="{ disabled: page.disabled, 'fa-caret-left': (page.text === 'Previous'), 'fa-caret-right': (page.text === 'Next') }">
+		</button>
 	</div>
 </script>
