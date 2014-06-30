@@ -84,7 +84,7 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
 
         $timeout(function () {
             calendar.init(calendarConfig);
-            eventize = calendar.eventize($scope, responses.content);
+            eventize = calendar.eventize(responses.content);
             eventize(responses.campaigns, responses.tasks, responses.brainstorms);
         });
     });
@@ -188,7 +188,7 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
     };
     $scope.formatUserItem = function (item, element, context) {
         if (!item.text) return element.attr('placeholder');
-        var user = _.findById($scope.users, item.id)[0] || {};
+        var user = (_.findById($scope.users, item.id) || [])[0] || {};
         var style = ' style="background-image: url(\'' + $filter('imagePathFromObject')(user.image) + '\')"';
 
         return '<span class="user-image user-image-small"' + style + '></span> <span>' + item.text + '</span>';
