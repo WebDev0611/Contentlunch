@@ -275,6 +275,19 @@
 			self.setOpenTaskGroups();
 		});
 
+		scope.$watch('parentStatus', function(newValue, oldValue) {
+			if ($.isArray(scope.taskGroups) && scope.taskGroups.length > 0 && !!oldValue) {
+				var taskGroup = $.grep(scope.taskGroups, function(tg) {
+					return tg.status === scope.parentStatus - 1;
+				});
+
+				if (taskGroup.length === 1) {
+					taskGroup[0].completeDate = new Date();
+					scope.saveTaskGroup(taskGroup[0]);
+				}
+			}
+		});
+
 		self.init();
 	};
 
