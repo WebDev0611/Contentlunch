@@ -704,7 +704,7 @@
 		return '<span class="cl-icon cl-icon-personas-' + item.id + '"></span> <span>' + item.text + '</span>';
 	},
 
-	formatMilestoneItem: function(item, element, context) {
+	formatStepItem: function(item, element, context) {
 		return '<span class="' + launch.utils.getWorkflowIconCssClass(item.id) + '"></span> <span>' + item.text + '</span>';
 	},
 

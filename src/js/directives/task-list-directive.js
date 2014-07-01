@@ -63,7 +63,7 @@
 		};
 
 		scope.canEditTask = function (taskGroup, task) {
-			if (!scope.taskGroupIsActive(taskGroup) || scope.parentStatus !== taskGroup.status) {
+			if (!scope.taskGroupIsActive(taskGroup)) {
 				return false;
 			}
 
@@ -96,6 +96,22 @@
 			scope.saveTaskGroup(taskGroup, task);
 		};
 
+		scope.changeTaskGroupDueDate = function (taskGroup, task) {
+			var msg = '';
+
+			$.each(taskGroup.tasks, function (i, t) {
+				msg += (t.dueDate > taskGroup.dueDate) ? 'Task ' + t.name + ' due date is later than ' + taskGroup.name() + ' due date.\n' : '';
+			});
+
+			if (!launch.utils.isBlank(msg)) {
+				NotificationService.error('Error!', msg);
+				self.refreshTaskGroups(taskGroup.contentId);
+				return;
+			}
+
+			scope.saveTaskGroup(taskGroup, task);
+		};
+
 		scope.saveTaskGroup = function (taskGroup, task, callback) {
 			if (!!task && launch.utils.isBlank(task.id)) {
 				taskGroup.tasks.push(task);
@@ -105,6 +121,7 @@
 
 			if (!launch.utils.isBlank(msg)) {
 				NotificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
+				self.refreshTaskGroups(taskGroup.contentId);
 				return;
 			}
 
@@ -149,6 +166,7 @@
 								scope1.formatUserItem = scope.formatUserItem;
 
 								scope1.cancel = function () {
+									self.refreshTaskGroups(taskGroup.contentId);
 									instance.dismiss('cancel');
 								};
 

@@ -2,7 +2,8 @@ launch.module.controller('ConfirmController', [
 	'$scope', '$location', '$route', '$routeParams', 'AuthService', 'UserService', 'NotificationService', function($scope, $location, $route, $routeParams, authService, userService, notificationService) {
 		var self = this;
 
-		self.init = function() {
+		self.init = function () {
+			authService.logout();
 			authService.confirm($route.current.params.code, {
 				success: function(r) {
 					$scope.isDisabled = false;
@@ -44,20 +45,13 @@ launch.module.controller('ConfirmController', [
 				$scope.isSaving = true;
 
 				userService.update($scope.selectedUser, {
-					success: function (r) {
+					success: function(r) {
 						$scope.isSaving = false;
 						notificationService.success('Success!', 'You have successfully changed your password!');
 
-						authService.login($scope.selectedUser.email, $scope.selectedUser.password, false, {
-							success: function () {
-								$location.path('/');
-                // Completely reload everything
-                $route.reload();
-							},
-							error: function (res) { }
-						});
+						$route.path('/login');
 					},
-					error: function (r) {
+					error: function(r) {
 						$scope.isSaving = false;
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
 					}

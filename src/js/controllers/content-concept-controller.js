@@ -20,8 +20,15 @@
 			$scope.showCollaborate = (!$scope.isNewConcept && self.loggedInUser.hasModuleAccess('collaborate'));
 
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
-			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
+			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, {
+				success: function (r) {
+					if ($scope.isNewConcept) {
+						self.filterCampaigns();
+					}
+				},
+				error: self.ajaxHandler.error
+			});
 		}
 
 		self.refreshConcept = function() {
@@ -56,6 +63,7 @@
 						}
 
 						self.refreshComments();
+						self.filterCampaigns();
 					},
 					error: self.ajaxHandler.error
 				});
@@ -65,6 +73,12 @@
 
 		self.refreshComments = function() {
 			$scope.comments = contentService.queryComments(self.loggedInUser.account.id, $scope.content.id, null, self.ajaxHandler);
+		};
+
+		self.filterCampaigns = function () {
+			$scope.campaigns = $.grep($scope.campaigns, function (c) {
+				return ((c.isActive && !c.isEnded()) || (!!$scope.content && !!$scope.content.campaign && c.id === $scope.content.campaign.id));
+			});
 		};
 
 		$scope.hasError = launch.utils.isPropertyValid;

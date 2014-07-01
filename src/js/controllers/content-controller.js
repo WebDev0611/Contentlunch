@@ -22,7 +22,14 @@
 
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
-			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, self.ajaxHandler);
+			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, {
+				success: function(r) {
+					if ($scope.isNewContent) {
+						self.filterCampaigns();
+					}
+				},
+				error: self.ajaxHandler.error
+			});
 			$scope.contentConnections = connectionService.queryContentConnections(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
 				success: function (r) {
@@ -44,6 +51,8 @@
 				$scope.isNewContent = true;
 				self.setPrivileges();
 			} else {
+				$scope.isNewContent = false;
+
 				// NEED TO PAUSE HERE DUE TO A RACE SITUATION BETWEEN TRYING TO FETCH CONTENT CONNECTIONS
 				// AND THE CONTENT ITEM. THE SELECT2 DROP-DOWN NEEDS TO GET ITS OPTIONS IN PLACE BEFORE WE
 				// SET THE MODEL FOR THE CONTROL. COMPLETE HACK DUE TO LIMITATIONS OF THE CONTROL.
@@ -72,13 +81,14 @@
 						self.setPrivileges();
 
 						$scope.activity = $scope.content.activity;
+
+						self.filterCampaigns();
 						self.refreshComments();
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
 					}
 				});
-				$scope.isNewContent = false;
 			}
 		};
 
@@ -87,7 +97,17 @@
 		};
 
 		self.refreshActivity = function () {
+			if ($scope.isNewContent) {
+				return;
+			}
+
 			$scope.activity = contentService.getActivity(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
+		};
+
+		self.filterCampaigns = function() {
+			$scope.campaigns = $.grep($scope.campaigns, function (c) {
+				return ((c.isActive && !c.isEnded()) || (!!$scope.content && !!$scope.content.campaign && c.id === $scope.content.campaign.id));
+			});
 		};
 
 		self.setPrivileges = function() {

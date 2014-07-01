@@ -63,8 +63,10 @@ class LibrarySetup extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('upload_library');
-    Schema::drop('library');
+		Schema::drop('library_uploads');
+		Schema::drop('upload_ratings');
+		Schema::drop('upload_tags');
+	   	Schema::drop('libraries');
 	}
 
 }

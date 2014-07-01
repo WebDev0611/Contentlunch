@@ -48,18 +48,18 @@
 					</select>
 				</div>
 			</accordion-group>
-			<accordion-group is-open="milestoneOpen" ng-show="search.contentStage === 'content'">
+			<accordion-group is-open="stepOpen" ng-show="search.contentStage === 'content'">
 				<accordion-heading>
-					<i class="fa" ng-class="{'fa-caret-down': milestoneOpen, 'fa-caret-right': !milestoneOpen}"></i>
-					Milestone
-					<span class="filter-slection-counter" ng-show="search.milestones.length > 0">(showing {{ search.milestones.length }} of {{ milestones.length }})</span>
-					<span class="filter-slection-counter" ng-show="search.milestones.length === 0">(showing all)</span>
+					<i class="fa" ng-class="{'fa-caret-down': stepOpen, 'fa-caret-right': !stepOpen}"></i>
+					Step
+					<span class="filter-slection-counter" ng-show="search.steps.length > 0">(showing {{ search.steps.length }} of {{ steps.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.steps.length === 0">(showing all)</span>
 				</accordion-heading>
 				<div>
-					<select id="selMilestone" name="selMilestone" class="multi-select" multiple="multiple"
-							ui-select2="{ formatResult: formatMilestoneItem, formatSelection: formatMilestoneItem }" ng-model="search.milestones"
-							ng-change="search.applyFilter()" data-placeholder="Select Milestones">
-						<option ng-repeat="m in milestones" value="{{ m.name }}">{{ m.title }}</option>
+					<select id="selStep" name="selStep" class="multi-select" multiple="multiple"
+							ui-select2="{ formatResult: formatStepItem, formatSelection: formatStepItem }" ng-model="search.steps"
+							ng-change="search.applyFilter()" data-placeholder="Select Steps">
+						<option ng-repeat="m in steps" value="{{ m.name }}">{{ m.title }}</option>
 					</select>
 				</div>
 			</accordion-group>
@@ -128,7 +128,7 @@
 
 <script id="template/pagination/pagination.html" type="text/ng-template">
 	<div class="pagination">
-		<button type="button" class="btn btn-default fa fa-caret-left" ng-click="selectPage(page - 1)" ng-disabled="(page === 1)"></button>
-		<button type="button" class="btn btn-default fa fa-caret-right" ng-click="selectPage(page + 1)" ng-disabled="(page === pages.length)"></button>
+		<button type="button" class="btn btn-default fa" ng-repeat="page in pages" ng-click="selectPage(page.number)" ng-class="{ disabled: page.disabled, 'fa-caret-left': (page.text === 'Previous'), 'fa-caret-right': (page.text === 'Next') }">
+		</button>
 	</div>
 </script>

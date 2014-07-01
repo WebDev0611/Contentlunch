@@ -324,7 +324,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
       var account = AuthService.accountInfo();
       $scope.search.documentUploaderOptions = UserService.getForAccount(account.id, null, null, true);
       // Check for any user saved default filters
-      if ($scope.loggedInUser.preferences.library) {
+      if ($scope.loggedInUser.preferences && $scope.loggedInUser.preferences.library) {
         prefs = $scope.loggedInUser.preferences.library;
         $scope.search.searchTerm = prefs.searchTerm;
         this.documentTypes = prefs.documentTypes;
