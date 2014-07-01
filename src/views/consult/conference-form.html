@@ -9,50 +9,61 @@
 
         <div class="form-group">
           <label for="description">Request Description</label>
-          <input type="text" id="description" ng-model="conference.description" class="form-control" />
+          <input type="text" id="description" ng-model="conference.description" class="form-control" ng-disabled="mode == 'view'" />
         </div>
 
         <div class="row form-group">
           <div class="col-lg-6">
             <label for="topic">Topic</label>
-            <select id="topic" ng-model="conference.topic" ng-options="opt[0] as opt[1] for opt in topicOptions" class="form-control"></select>
+            <select id="topic" ng-model="conference.topic" ng-options="opt[0] as opt[1] for opt in topicOptions" class="form-control" ng-disabled="mode == 'view'" ></select>
           </div>
 
           <div class="col-lg-6">
             <label for="scheduled_date">Date</label>
-            <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" class="form-control" id="scheduled_date" ng-model="conference.scheduled_date_date" />
+            <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" class="form-control" id="scheduled_date" ng-model="conference.scheduled_date_date" ng-disabled="mode == 'view'" />
           </div>
         </div>
 
         <div class="row form-group">
           <div class="col-lg-6">
             <label for="consultant">Consultant</label>
-            <select id="consultant" ng-model="conference.consultant" ng-options="opt[0] as opt[1] for opt in consultantOptions()" class="form-control"></select>
+            <select id="consultant" ng-model="conference.consultant" ng-options="opt[0] as opt[1] for opt in consultantOptions()" class="form-control" ng-disabled="mode == 'view'" ></select>
           </div>
 
           <div class="col-lg-6">
             <label for="scheduled_date_time">Time</label>
-            <timepicker ng-model="conference.scheduled_date_time" hour-step="1" minute-step="15" show-meridian="true" id="scheduled_date_time" class=""></timepicker>
+            <timepicker ng-model="conference.scheduled_date_time" hour-step="1" minute-step="15" show-meridian="true" id="scheduled_date_time" class="" ng-disabled="mode == 'view'"></timepicker>
           </div>
         </div>
 
         <div class="form-group">
           <label for="replay_link">Replay Link</label>
-          <input type="text" id="replay_link" ng-model="conference.replay_link" class="form-control" />
+          <input type="text" id="replay_link" ng-model="conference.replay_link" class="form-control" ng-disabled="mode == 'view'" />
         </div>
 
         <div class="buttons clearfix">
-          <button class="btn btn-primary btn-black" ng-click="ok()">Save and Close</button>
-          <button class="btn btn-warning btn-black" ng-click="cancel()">Cancel</button>
+          <button class="btn btn-primary btn-black" ng-click="ok()" ng-show="mode != 'view'">Save and Close</button>
+          <button class="btn btn-warning btn-black" ng-click="cancel()" ng-show="mode != 'view'">Cancel</button>
+          <button class="btn btn-warning btn-black" ng-click="close()" ng-show="mode == 'view'">Save and Close</button>
           <button class="btn btn-warning btn-black" ng-click="delete()" ng-show="mode == 'edit'">Delete</button>
         </div>
 
       </div>
 
       <div class="col-lg-4">
-        <div class="form-group">
+        <div class="form-group" ng-if="mode != 'view'">
           <label for="account">Account</label>
           <select id="account" class="form-control" ng-model="conference.account_id" ng-options="opt[0] as opt[1] for opt in accountOptions"></select>
+        </div>
+        
+        <div class="panel panel-inverse" ng-if="mode == 'view'">
+          <div class="panel-heading">Participants</div>
+          <div class="panel-body">
+            <div ng-repeat="user in users">
+              <span class="user-image item-image" ng-style="{ 'background-image': user.imageUrl() }"></span>
+              <span class="name">{{ user.formatName() }}</span>
+            </div>
+          </div>
         </div>
       </div>
 
