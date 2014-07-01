@@ -28,11 +28,22 @@ class ConferencesController extends BaseController {
     $conference->status = 0;
     $conference->account_id = $accountID;
     $conference->user_id = $user->id;
+    // Schedule date requests must > 3 days and < 2 weeks
+    $minDate = new \DateTime('+4 days');
+    $maxDate = new \DateTime('+13 days');
     if (Input::get('date_1') && Input::get('time_1')) {
-      $conference->date_1 = new \DateTime(Input::get('date_1') .' '. Input::get('time_1'));
+      $date = new \DateTime(Input::get('date_1') .' '. Input::get('time_1'));
+      if ($date < $minDate || $date > $maxDate) {
+        return $this->responseError("Invalid date: ". $date->format('m/d/Y H:i:s') ." Please select a date between ". $minDate->format('m/d/Y') .' and '. $maxDate->format('m/d/Y'));
+      }
+      $conference->date_1 = $date;
     }
     if (Input::get('date_2') && Input::get('time_2')) {
-      $conference->date_2 = new \DateTime(Input::get('date_2') .' '. Input::get('time_2'));
+      $date = new \DateTime(Input::get('date_2') .' '. Input::get('time_2'));
+      if ($date < $minDate || $date > $maxDate) {
+        return $this->responseError("Invalid date: ". $date->format('m/d/Y H:i:s') ." Please select a date between ". $minDate->format('m/d/Y') .' and '. $maxDate->format('m/d/Y'));
+      }
+      $conference->date_2 = $date;
     }
     if ($this->hasRole('global_admin')) {
       if (Input::get('scheduled_date') && Input::get('scheduled_time')) {

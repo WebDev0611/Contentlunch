@@ -40,6 +40,10 @@ launch.module.controller('ConsultConferenceController', function ($scope, $filte
 
   $scope.conferences = [];
 
+  // Schedule date requests must be > 3 days and < 2 weeks
+  $scope.minDate = moment().add('days', 4);
+  $scope.maxDate = moment().add('days', 13);
+
   $scope.init = function () {
     var current = new Date();
     current.setMinutes(0);

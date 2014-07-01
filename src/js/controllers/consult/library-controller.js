@@ -386,66 +386,9 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
       $scope.files = _.filter($scope.files, function (file) {
         // Check document types against file (or filter)
         if ($.isArray($scope.search.documentTypes) && $scope.search.documentTypes.length > 0) {
-          // Classify file type to match document types options
-          // audio, document, image, pdf, ppt, spreadsheet, video, other
-          var fileType = 'other';
-          switch (file.media_type) {
-            case 'text':
-              fileType = 'document';
-            break;
-            case 'application':
-              // Check extension
-              switch (file.extension.toLowerCase()) {
-                case 'pdf':
-                  fileType = 'pdf';
-                break;
-                case 'pot':
-                case 'potm':
-                case 'potx':
-                case 'pps':
-                case 'ppsm':
-                case 'ppsx':
-                case 'ppt':
-                case 'pptm':
-                case 'pptx':
-                  fileType = 'ppt';
-                break;
-                case '123':
-                case 'accdb':
-                case 'accde':
-                case 'accdr':
-                case 'accdt':
-                case 'nb':
-                case 'numbers':
-                case 'ods':
-                case 'ots':
-                case 'sdc':
-                case 'xl':
-                case 'xlr':
-                case 'xls':
-                case 'xlsb':
-                case 'xlsm':
-                case 'xlsx':
-                case 'xlt':
-                case 'xltm':
-                case 'xltx':
-                case 'xlw':
-                  fileType = 'spreadsheet';
-                break;
-                default:
-                  fileType = 'document';
-              }
-            break;
-            case 'audio':
-              fileType = 'audio';
-            break;
-            case 'image':
-              fileType = 'image';
-            break;
-            case 'video':
-              fileType = 'video';
-            break;
-          }
+          
+          var fileType = launch.utils.mediaTypeMap(file.media_type, file.extension);
+          
           if ( ! _.contains($scope.search.documentTypes, fileType)) {
             return false;
           }
