@@ -2,6 +2,8 @@ launch.module.directive('filePreview', function (ModelMapperService) {
   
   return {
     controller: function ($scope) {
+      $scope.fileType = launch.utils.mediaTypeMap($scope.file.media_type, $scope.file.extension);
+      $scope.iconClass = launch.utils.getFileTypeCssClass($scope.fileType);
       $scope.rating = {
         rate: ( !! $scope.file.ratings[0] ? $scope.file.ratings[0].rating : 0),
         max: 5,
