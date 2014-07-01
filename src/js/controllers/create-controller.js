@@ -105,7 +105,7 @@
 			$scope.content = contentService.query(self.loggedInUser.account.id, params, {
 				success: function (r) {
 					$scope.applySort();
-					$scope.search.applyFilter();
+					$scope.search.applyFilter(true);
 				},
 				error: function(r) {
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -213,6 +213,13 @@
 				}
 
 				return start + ' to ' + end + ' of ' + $scope.pagination.totalItems;
+			},
+			reset: function (sort) {
+				if (!launch.utils.isBlank(sort)) {
+					self.currentSort = sort;
+				}
+
+				$scope.pagination.currentPage = 1;
 			}
 		};
 
@@ -228,7 +235,7 @@
 			contentStage: 'content',
 			changeSearchTerm: function() {
 				if (launch.utils.isBlank($scope.search.searchTerm) || $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
-					$scope.search.applyFilter();
+					$scope.search.applyFilter(true);
 				}
 			},
 			applyFilter: function (reset) {
@@ -285,7 +292,7 @@
 				});
 
 				if (reset === true) {
-					$scope.pagination.currentPage = 1;
+					$scope.pagination.reset();
 				}
 
 				$scope.pagination.totalItems = $scope.filteredContent.length;
@@ -299,7 +306,7 @@
 				$scope.search.campaigns = [];
 				$scope.search.users = [];
 
-				$scope.search.applyFilter();
+				$scope.search.applyFilter(true);
 			},
 			toggleContentStage: function(stage) {
 				$scope.search.searchTerm = null;
@@ -312,14 +319,16 @@
 
 				$scope.search.contentStage = stage;
 
-				$.each($scope.content, function(i, c) { c.isSelected = false; });
+				$.each($scope.content, function (i, c) { c.isSelected = false; });
+
+				$scope.pagination.reset('title');
 
 				this.applyFilter();
 			},
 			toggleMyTasks: function(mine) {
 				$scope.search.myTasks = !!mine;
 
-				$scope.search.applyFilter();
+				$scope.search.applyFilter(true);
 			}
 		};
 
@@ -490,6 +499,8 @@
 			} else {
 				sort = sort.toLowerCase();
 			}
+
+			$scope.pagination.reset();
 
 			if ($scope.pagination.currentSort === sort) {
 				$scope.pagination.currentSortDirection = ($scope.pagination.currentSortDirection === 'asc' ? 'desc' : 'asc');

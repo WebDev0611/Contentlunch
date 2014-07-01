@@ -78,6 +78,10 @@
 		}
 	};
 
+	self.currentStepTitleCase = function() {
+		return launch.utils.titleCase(self.currentStep());
+	};
+
 	self.matchSearchTerm = function (term) {
 		if (launch.utils.isBlank(term)) {
 			return true;

@@ -434,19 +434,23 @@ header .navbar ul.nav li.subscription .top-arrow {
   border-top-color: #39e4fd;
 }
 header .navbar ul.nav li.library,
-header .navbar ul.nav li.forum {
+header .navbar ul.nav li.forum,
+header .navbar ul.nav li.conference {
   background-color: #39e4fd;
 }
 header .navbar ul.nav li.library .dark,
-header .navbar ul.nav li.forum .dark {
+header .navbar ul.nav li.forum .dark,
+header .navbar ul.nav li.conference .dark {
   background-color: #2badc0;
 }
 header .navbar ul.nav li.library .top-arrow,
-header .navbar ul.nav li.forum .top-arrow {
+header .navbar ul.nav li.forum .top-arrow,
+header .navbar ul.nav li.conference .top-arrow {
   border-top-color: #39e4fd;
 }
 header .navbar ul.nav li.library img path,
-header .navbar ul.nav li.forum img path {
+header .navbar ul.nav li.forum img path,
+header .navbar ul.nav li.conference img path {
   fill: #ffffff;
 }
 header .navbar ul.nav li .top-arrow {
@@ -846,7 +850,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane,
 .create .left-pane,
 .admin-library .left-pane,
-.consult .left-pane {
+.consult .left-pane,
+.admin-conference .left-pane {
   position: relative;
 }
 .users .left-pane .btn-group,
@@ -856,7 +861,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane .btn-group,
 .create .left-pane .btn-group,
 .admin-library .left-pane .btn-group,
-.consult .left-pane .btn-group {
+.consult .left-pane .btn-group,
+.admin-conference .left-pane .btn-group {
   margin-bottom: 12px;
   width: 100%;
 }
@@ -867,7 +873,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane .btn-group .btn-create,
 .create .left-pane .btn-group .btn-create,
 .admin-library .left-pane .btn-group .btn-create,
-.consult .left-pane .btn-group .btn-create {
+.consult .left-pane .btn-group .btn-create,
+.admin-conference .left-pane .btn-group .btn-create {
   background-color: #000000;
   color: #ffffff;
 }
@@ -878,7 +885,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane .btn-group .btn-create .glyphicon,
 .create .left-pane .btn-group .btn-create .glyphicon,
 .admin-library .left-pane .btn-group .btn-create .glyphicon,
-.consult .left-pane .btn-group .btn-create .glyphicon {
+.consult .left-pane .btn-group .btn-create .glyphicon,
+.admin-conference .left-pane .btn-group .btn-create .glyphicon {
   margin-right: 8px;
 }
 .users .left-pane .btn-group.btn-group-filter .btn.active,
@@ -888,7 +896,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane .btn-group.btn-group-filter .btn.active,
 .create .left-pane .btn-group.btn-group-filter .btn.active,
 .admin-library .left-pane .btn-group.btn-group-filter .btn.active,
-.consult .left-pane .btn-group.btn-group-filter .btn.active {
+.consult .left-pane .btn-group.btn-group-filter .btn.active,
+.admin-conference .left-pane .btn-group.btn-group-filter .btn.active {
   background-color: #000000;
   color: #ffffff;
 }
@@ -899,7 +908,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane hr,
 .create .left-pane hr,
 .admin-library .left-pane hr,
-.consult .left-pane hr {
+.consult .left-pane hr,
+.admin-conference .left-pane hr {
   border-color: #000000;
   margin-top: 10px;
 }
@@ -910,7 +920,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane ul.items-list,
 .create .left-pane ul.items-list,
 .admin-library .left-pane ul.items-list,
-.consult .left-pane ul.items-list {
+.consult .left-pane ul.items-list,
+.admin-conference .left-pane ul.items-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -922,7 +933,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane ul.items-list li,
 .create .left-pane ul.items-list li,
 .admin-library .left-pane ul.items-list li,
-.consult .left-pane ul.items-list li {
+.consult .left-pane ul.items-list li,
+.admin-conference .left-pane ul.items-list li {
   cursor: pointer;
   padding: 8px;
   position: relative;
@@ -935,6 +947,7 @@ span[class*=" icon-"].dark {
 .create .left-pane ul.items-list li:hover,
 .admin-library .left-pane ul.items-list li:hover,
 .consult .left-pane ul.items-list li:hover,
+.admin-conference .left-pane ul.items-list li:hover,
 .users .left-pane ul.items-list li.selected,
 .accounts .left-pane ul.items-list li.selected,
 .roles .left-pane ul.items-list li.selected,
@@ -942,7 +955,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane ul.items-list li.selected,
 .create .left-pane ul.items-list li.selected,
 .admin-library .left-pane ul.items-list li.selected,
-.consult .left-pane ul.items-list li.selected {
+.consult .left-pane ul.items-list li.selected,
+.admin-conference .left-pane ul.items-list li.selected {
   background-color: #eeeeee;
 }
 .users .left-pane ul.items-list li .item-image,
@@ -952,7 +966,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane ul.items-list li .item-image,
 .create .left-pane ul.items-list li .item-image,
 .admin-library .left-pane ul.items-list li .item-image,
-.consult .left-pane ul.items-list li .item-image {
+.consult .left-pane ul.items-list li .item-image,
+.admin-conference .left-pane ul.items-list li .item-image {
   float: left;
   margin-right: 16px;
 }
@@ -963,7 +978,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane ul.items-list li .item-info,
 .create .left-pane ul.items-list li .item-info,
 .admin-library .left-pane ul.items-list li .item-info,
-.consult .left-pane ul.items-list li .item-info {
+.consult .left-pane ul.items-list li .item-info,
+.admin-conference .left-pane ul.items-list li .item-info {
   font-size: 8pt;
 }
 .users .left-pane ul.items-list li .item-info .item-title,
@@ -973,7 +989,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane ul.items-list li .item-info .item-title,
 .create .left-pane ul.items-list li .item-info .item-title,
 .admin-library .left-pane ul.items-list li .item-info .item-title,
-.consult .left-pane ul.items-list li .item-info .item-title {
+.consult .left-pane ul.items-list li .item-info .item-title,
+.admin-conference .left-pane ul.items-list li .item-info .item-title {
   font-size: 12pt;
 }
 .users .left-pane .pager ul.pagination,
@@ -983,7 +1000,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane .pager ul.pagination,
 .create .left-pane .pager ul.pagination,
 .admin-library .left-pane .pager ul.pagination,
-.consult .left-pane .pager ul.pagination {
+.consult .left-pane .pager ul.pagination,
+.admin-conference .left-pane .pager ul.pagination {
   display: block;
 }
 .users .left-pane .pager ul.pagination li a,
@@ -993,7 +1011,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane .pager ul.pagination li a,
 .create .left-pane .pager ul.pagination li a,
 .admin-library .left-pane .pager ul.pagination li a,
-.consult .left-pane .pager ul.pagination li a {
+.consult .left-pane .pager ul.pagination li a,
+.admin-conference .left-pane .pager ul.pagination li a {
   background-color: transparent;
   border-color: #000000;
   border-radius: 0 !important;
@@ -1008,7 +1027,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane .pager ul.pagination li.active a,
 .create .left-pane .pager ul.pagination li.active a,
 .admin-library .left-pane .pager ul.pagination li.active a,
-.consult .left-pane .pager ul.pagination li.active a {
+.consult .left-pane .pager ul.pagination li.active a,
+.admin-conference .left-pane .pager ul.pagination li.active a {
   background-color: #000000;
   color: #ffffff;
 }
@@ -1018,7 +1038,8 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .btn-group .btn-create,
 .seo-settings .left-pane .btn-group .btn-create,
 .admin-library .left-pane .btn-group .btn-create,
-.consult .left-pane .btn-group .btn-create {
+.consult .left-pane .btn-group .btn-create,
+.admin-conference .left-pane .btn-group .btn-create {
   width: 100%;
 }
 .user-editor .user-image-upload,
@@ -1800,6 +1821,7 @@ span[class*=" icon-"].dark {
 }
 .create-header .create-paging-controls .create-pager .pagination .btn {
   font-size: 15pt;
+  margin: 0 4px;
 }
 .create-table-container {
   margin: 16px;
@@ -2388,6 +2410,7 @@ table.structural > tbody > tr > td {
 .calendar-node-title.double-line {
   white-space: normal;
   height: 24px;
+  margin: 4px 0;
 }
 .calendar-node-connection-icon {
   float: left;
@@ -2399,9 +2422,6 @@ table.structural > tbody > tr > td {
   width: 24px;
   font-size: 24px;
   vertical-align: middle;
-}
-.calendar-node-connection-icon img {
-  margin-top: -3px;
 }
 .calendar-node-status img {
   display: inline-block;
@@ -2687,6 +2707,19 @@ hr.simple-divider {
 .consult .cl-badge-image {
   border-color: #2badc0;
 }
+.admin-conference .right-pane {
+  padding: 65px 20px;
+}
+.conference .right-pane-header {
+  padding-left: 40px;
+}
+.conference .content {
+  padding: 0 60px;
+}
+.conference .sessions {
+  margin: 20px 0;
+  padding-left: 0px;
+}
 .filter-slection-counter {
   float: right;
 }
@@ -2725,6 +2758,9 @@ hr.simple-divider {
   margin-top: 115px;
   width: 100%;
 }
+.modal-large .modal-dialog {
+  width: 850px;
+}
 .file-dialog img,
 .file-dialog video {
   max-width: 100%;
@@ -2732,4 +2768,9 @@ hr.simple-divider {
 .thread-meta {
   padding: 10px;
   font-size: 11px;
+}
+.conference-form .btn-black {
+  background-color: #000000;
+  color: #ffffff;
+  vertical-align: middle;
 }
