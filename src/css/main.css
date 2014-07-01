@@ -111,6 +111,9 @@
   font-size: 14px;
   font-weight: normal;
 }
+.ui-pnotify-text {
+  overflow: auto;
+}
 .icon-home {
   background-image: url(/assets/images/home.svg);
 }
@@ -1655,6 +1658,26 @@ span[class*=" icon-"].dark {
 }
 .create .right-pane .panel .panel-body ul.concept-collaborators li .fa-thumbs-o-up {
   right: 16px;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .cl-icon,
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-envelope-o {
+  display: inline-block;
+  font-size: 24pt;
+  margin: 8px 16px 8px 0;
+  position: static;
+  vertical-align: middle;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply {
+  position: relative;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .fa-envelope-o {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .guest-collaborator-name {
+  margin-left: 48px;
+  vertical-align: top;
 }
 .create .right-pane .panel.panel-user-info {
   font-weight: bold;

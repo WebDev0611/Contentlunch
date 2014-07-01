@@ -64,6 +64,8 @@
 
 						self.refreshComments();
 						self.filterCampaigns();
+
+						$scope.guestCollaborators = contentService.queryGuestCollaborators(self.loggedInUser.account.id, contentId, null, self.ajaxHandler);
 					},
 					error: self.ajaxHandler.error
 				});
@@ -92,6 +94,7 @@
 		$scope.campaigns = null;
 		$scope.users = null;
 		$scope.collaborators = null;
+		$scope.guestCollaborators = null;
 		$scope.isCollaborator = true;
 		$scope.isNewConcept = true;
 		$scope.isContentConcept = true;

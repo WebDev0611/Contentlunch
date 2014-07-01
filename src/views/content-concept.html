@@ -78,6 +78,24 @@
 					</div>
 				</div>
 				<div class="col-md-3" collaborator-sidebar item-id="content.id" item-type="'content'" users="collaborators" is-disabled="!canEditContent" ng-hide="isNewConcept"></div>
+			
+				<div class="col-md-3" ng-hide="isNewContent">
+					<div class="panel panel-default panel-collaborators">
+						<div class="panel-heading">Guest Collaborators</div>
+						<div class="panel-body">
+							<div ng-repeat="collab in guestCollaborators" class="guest-collaborator cl-badge cl-badge-horizontal">
+								<span class="cl-badge-image cl-badge-image-small fa fa-{{ collab.connection.provider }}" style="background-image: none;"></span>
+								<div class="cl-badge-caption">
+									{{ collab.name }}
+									<div ng-hide="collab.accepted" style="margin-top:-7px;">
+										<small ng-hide="collab.type == 'group'">Awaiting Reply</small>
+										<small ng-show="collab.type == 'group'">Posted to Group</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 
 			<div ng-hide="isNewConcept" discussion-panel comments="comments" add-comment-callback="addComment"></div>
