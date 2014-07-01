@@ -63,7 +63,9 @@
 		};
 
 		scope.canEditTask = function (taskGroup, task) {
-			if (!scope.taskGroupIsActive(taskGroup) || scope.parentStatus !== taskGroup.status) {
+			if (!scope.taskGroupIsActive(taskGroup)) {
+				console.log('PARENT STATUS: ' + scope.parentStatus);
+				console.log('TASK GROUP STATUS: ' + taskGroup.status);
 				return false;
 			}
 
