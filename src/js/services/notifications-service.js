@@ -1,5 +1,4 @@
-﻿
-launch.module.factory('NotificationService', function() {
+﻿launch.module.factory('NotificationService', function() {
 	var self = this;
 
 	self.defaultTimeout = 4000;
@@ -8,6 +7,7 @@ launch.module.factory('NotificationService', function() {
 			return $.pnotify({
 				title: title,
 				text: msg,
+				width: '500px',
 				delay: parseInt(timeout) || self.defaultTimeout,
 				type: (launch.utils.isBlank(type) ? 'info' : type),
 				before_open: function(pnotify) {

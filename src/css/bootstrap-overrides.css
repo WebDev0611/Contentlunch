@@ -28,3 +28,6 @@
   font-size: 14px;
   font-weight: normal;
 }
+.ui-pnotify-text {
+  overflow: auto;
+}

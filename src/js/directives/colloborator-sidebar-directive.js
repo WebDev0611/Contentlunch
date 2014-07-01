@@ -33,7 +33,7 @@
 				});
 			};
 
-			self.refreshTasks = function() {
+			self.refreshTasks = function(callback) {
 				var taskGroups = self.service.getTaskGroups(self.loggedInUser.account.id, scope.itemId, {
 					success: function(r) {
 						scope.tasks = [];
@@ -41,6 +41,10 @@
 						$.each(taskGroups, function(i, tg) {
 							$.merge(scope.tasks, tg.tasks);
 						});
+
+						if (!!callback && $.isFunction(callback.success)) {
+							callback.success(r);
+						}
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, NotificationService);
@@ -74,50 +78,58 @@
 			scope.canModifyCollaborators = false;
 
 			scope.addCollaborator = function () {
-				if (!self.validateScope()) {
-					scope.newCollaborator = 0;
-					return;
-				}
-
-				scope.newCollaborator = parseInt(scope.newCollaborator);
-
-				if ($.isArray(scope.collaborators) && $.grep(scope.collaborators, function (c) { return c.id === scope.newCollaborator; }).length > 0) {
-					scope.newCollaborator = 0;
-					return;
-				}
-
-				scope.collaborators = self.service.insertCollaborator(self.loggedInUser.account.id, scope.itemId, parseInt(scope.newCollaborator), {
-					success: function (r) {
-						if ($.isFunction(scope.addCollaboratorCallback)) {
-							scope.addCollaboratorCallback(r);
+				self.refreshTasks({
+					success: function(r) {
+						if (!self.validateScope()) {
+							scope.newCollaborator = 0;
+							return;
 						}
-					},
-					error: function(r) {
-						launch.utils.handleAjaxErrorResponse(r, NotificationService);
+
+						scope.newCollaborator = parseInt(scope.newCollaborator);
+
+						if ($.isArray(scope.collaborators) && $.grep(scope.collaborators, function (c) { return c.id === scope.newCollaborator; }).length > 0) {
+							scope.newCollaborator = 0;
+							return;
+						}
+
+						scope.collaborators = self.service.insertCollaborator(self.loggedInUser.account.id, scope.itemId, parseInt(scope.newCollaborator), {
+							success: function (r) {
+								if ($.isFunction(scope.addCollaboratorCallback)) {
+									scope.addCollaboratorCallback(r);
+								}
+							},
+							error: function (r) {
+								launch.utils.handleAjaxErrorResponse(r, NotificationService);
+							}
+						});
+
+						scope.newCollaborator = 0;
 					}
 				});
-
-				scope.newCollaborator = 0;
 			};
 
-			scope.removeCollaborator = function (collaborator) {
-				if (!self.validateScope()) {
-					return;
-				}
-
-				if ($.isArray(scope.tasks) && $.grep(scope.tasks, function (t) { return (!t.isComplete && t.userId === collaborator.id); }).length > 0) {
-					NotificationService.error('Error!!', 'There are tasks assigned to ' + collaborator.formatName() + '. You cannot delete a collaobrator that has been assigned tasks.');
-					return;
-				}
-
-				scope.collaborators = self.service.deleteCollaborator(self.loggedInUser.account.id, parseInt(scope.itemId), collaborator.id, {
+			scope.removeCollaborator = function(collaborator) {
+				self.refreshTasks({
 					success: function(r) {
-						if ($.isFunction(scope.removeCollaboratorCallback)) {
-							scope.removeCollaboratorCallback(r);
+						if (!self.validateScope()) {
+							return;
 						}
-					},
-					error: function (r) {
-						launch.utils.handleAjaxErrorResponse(r, NotificationService);
+
+						if ($.isArray(scope.tasks) && $.grep(scope.tasks, function(t) { return (!t.isComplete && t.userId === collaborator.id); }).length > 0) {
+							NotificationService.error('Error!!', 'There are tasks assigned to ' + collaborator.formatName() + '. You cannot delete a collaobrator that has been assigned tasks.');
+							return;
+						}
+
+						scope.collaborators = self.service.deleteCollaborator(self.loggedInUser.account.id, parseInt(scope.itemId), collaborator.id, {
+							success: function(r) {
+								if ($.isFunction(scope.removeCollaboratorCallback)) {
+									scope.removeCollaboratorCallback(r);
+								}
+							},
+							error: function(r) {
+								launch.utils.handleAjaxErrorResponse(r, NotificationService);
+							}
+						});
 					}
 				});
 			};
