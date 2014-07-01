@@ -1444,7 +1444,7 @@
 			taskGroup.status = parseInt(dto.status);
 			taskGroup.isComplete = (parseInt(dto.is_complete) === 1) ? true : false;
 			taskGroup.dueDate = new Date(dto.due_date);
-			taskGroup.completeDate = launch.utils.isBlank(dto.date_complete) ? null : new Date(dto.date_complete);
+			taskGroup.completeDate = launch.utils.isBlank(dto.date_completed) ? null : new Date(dto.date_completed);
 			taskGroup.tasks = $.isArray(dto.tasks) ? $.map(dto.tasks, self.task.fromDto) : null;
 			taskGroup.created = new Date(dto.created_at);
 			taskGroup.updated = new Date(dto.updated_at);
