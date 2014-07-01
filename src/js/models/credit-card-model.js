@@ -17,7 +17,7 @@
 		switch (property.toLowerCase()) {
 			case 'cardnumber':
 				if (launch.utils.isBlank(this.cardNumber)) { return 'Card Number is required.'; }
-				if (isNaN(this.cardNumber) || this.cardNumber.length !== 16) { return 'Card Number must be a number with 16 digits.'; }
+				if (isNaN(this.cardNumber) || (this.cardType !== 'AMEX' && this.cardNumber.length !== 16) || (this.cardType === 'AMEX' && this.cardNumber.length !== 15)) { return 'Card Number must be a number with ' + (this.cardType === 'AMEX' ? '15' : '16') + ' digits.'; }
 
 				return null;
 			case 'nameoncard':
@@ -31,7 +31,8 @@
 				return null;
 			case 'cvc':
 				if (launch.utils.isBlank(this.cvc)) { return 'CVC is required.'; }
-				if (isNaN(this.cvc) || parseInt(this.cvc) < 100 || parseInt(this.cvc) > 999) { return 'CVC must be a number between 100 and 999.'; }
+				if (isNaN(this.cvc) || (this.cardType !== 'AMEX' && (parseInt(this.cvc) < 100 || parseInt(this.cvc) > 999)) 
+									|| (this.cardType === 'AMEX' && (parseInt(this.cvc) < 1000 || parseInt(this.cvc) > 9999))) { return 'CVC must be a number between ' + (this.cardType === 'AMEX' ? '1000 and 9999' : '100 and 999') + '.'; }
 
 				return null;
 			case 'expirationdatemonth':
