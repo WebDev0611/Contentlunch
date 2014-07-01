@@ -37,7 +37,7 @@
 				$scope.search.contentStage = 'concepts';
 			}
 
-			$scope.milestones = [
+			$scope.steps = [
 				{ name: 'create', title: 'Created' },
 				{ name: 'approve', title: 'Approved' },
 				{ name: 'launch', title: 'Launched' }
@@ -86,7 +86,7 @@
 					$scope.search.searchTerm = (launch.utils.isBlank(self.loggedInUser.preferences.create.searchTerm)) ? null : self.loggedInUser.preferences.create.searchTerm;
 					$scope.search.myTasks = (!!self.loggedInUser.preferences.create.myTasks) ? true : false;
 					$scope.search.contentTypes = $.isArray(self.loggedInUser.preferences.create.contentTypes) ? self.loggedInUser.preferences.create.contentTypes : [];
-					$scope.search.milestones = $.isArray(self.loggedInUser.preferences.create.milestones) ? self.loggedInUser.preferences.create.milestones : [];
+					$scope.search.steps = $.isArray(self.loggedInUser.preferences.create.steps) ? self.loggedInUser.preferences.create.steps : [];
 					$scope.search.buyingStages = $.isArray(self.loggedInUser.preferences.create.buyingStages) ? self.loggedInUser.preferences.create.buyingStages : [];
 					$scope.search.campaigns = $.isArray(self.loggedInUser.preferences.create.campaigns) ? self.loggedInUser.preferences.create.campaigns : [];
 					$scope.search.users = $.isArray(self.loggedInUser.preferences.create.users) ? self.loggedInUser.preferences.create.users : [];
@@ -96,7 +96,7 @@
 				}
 
 				$scope.contentTypeOpen = $scope.search.contentTypes.length > 0;
-				$scope.milestoneOpen = $scope.search.milestones.length > 0;
+				$scope.stepOpen = $scope.search.steps.length > 0;
 				$scope.buyingStageOpen = $scope.search.buyingStages.length > 0;
 				$scope.campaignOpen = $scope.search.campaigns.length > 0;
 				$scope.contentCreatorOpen = $scope.search.users.length > 0;
@@ -148,7 +148,7 @@
 			});
 		};
 
-		$scope.milestones = null;
+		$scope.steps = null;
 		$scope.contentTypes = null;
 		$scope.buyingStages = null;
 		$scope.campaigns = null;
@@ -171,13 +171,13 @@
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
 		$scope.formatBuyingStageItem = launch.utils.formatBuyingStageItem;
-		$scope.formatMilestoneItem = launch.utils.formatMilestoneItem;
+		$scope.formatStepItem = launch.utils.formatStepItem;
 		$scope.formatWorkflowItem = launch.utils.getWorkflowIconCssClass;
 		$scope.formatContentTypeIcon = launch.utils.getContentTypeIconClass;
 		$scope.formatDate = launch.utils.formatDate;
 
 		$scope.contentTypeOpen = false;
-		$scope.milestoneOpen = false;
+		$scope.stepOpen = false;
 		$scope.buyingStageOpen = false;
 		$scope.campaignOpen = false;
 		$scope.contentCreatorOpen = false;
@@ -228,7 +228,7 @@
 			searchTermMinLength: 1,
 			myTasks: false,
 			contentTypes: [],
-			milestones: [],
+			steps: [],
 			buyingStages: [],
 			campaigns: [],
 			users: [],
@@ -262,8 +262,8 @@
 						}
 					}
 
-					if ($.isArray($scope.search.milestones) && $scope.search.milestones.length > 0) {
-						if ($.inArray(content.currentStep(), $scope.search.milestones) < 0) {
+					if ($.isArray($scope.search.steps) && $scope.search.steps.length > 0) {
+						if ($.inArray(content.currentStep(), $scope.search.steps) < 0) {
 							return false;
 						}
 					}
@@ -301,7 +301,7 @@
 			clearFilter: function() {
 				$scope.search.searchTerm = null;
 				$scope.search.contentTypes = [];
-				$scope.search.milestones = [];
+				$scope.search.steps = [];
 				$scope.search.buyingStages = [];
 				$scope.search.campaigns = [];
 				$scope.search.users = [];
@@ -312,7 +312,7 @@
 				$scope.search.searchTerm = null;
 				$scope.search.myTasks = false;
 				$scope.search.contentTypes = null;
-				$scope.search.milestones = null;
+				$scope.search.steps = null;
 				$scope.search.buyingStages = null;
 				$scope.search.campaigns = null;
 				$scope.search.users = null;

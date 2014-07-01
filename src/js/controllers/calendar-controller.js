@@ -68,7 +68,7 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
                 name: launch.utils.titleCase(col)
             };
         });
-        $scope.milestones = _.map(contentStatuses, function (status, i) {
+        $scope.steps = _.map(contentStatuses, function (status, i) {
             return {
                 id: i,
                 name: launch.utils.titleCase(status)
@@ -142,7 +142,7 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
     $scope.filters = { onlyMine: true };
     var searches = {
         contentTypes: 'contentTypeId',
-        milestones: 'milestoneId',
+        steps: 'stepId',
         buyingStages: 'buyingStage',
         campaigns: 'campaignId',
         users: 'userId'
@@ -183,7 +183,7 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
     };
     $scope.formatCampaignItem    = launch.utils.formatCampaignItem;
     $scope.formatBuyingStageItem = launch.utils.formatBuyingStageItem;
-    $scope.formatMilestoneItem   = function(item, element, context) {
+    $scope.formatStepItem   = function(item, element, context) {
         return '<span class="' + launch.utils.getWorkflowIconCssClass(item.text) + '"></span> <span>' + item.text + '</span>';
     };
     $scope.formatUserItem = function (item, element, context) {

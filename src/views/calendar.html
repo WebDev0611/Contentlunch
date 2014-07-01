@@ -40,18 +40,18 @@
                     </select>
                 </div>
             </accordion-group>
-            <accordion-group is-open="milestoneIsOpen">
+            <accordion-group is-open="stepIsOpen">
                 <accordion-heading>
-                    <i class="fa" ng-class="{'fa-caret-down': milestoneIsOpen, 'fa-caret-right': !milestoneIsOpen}"></i>
-                    Milestone
-                    <span class="filter-slection-counter" ng-show="filters.milestones.length > 0">(showing {{ filters.milestones.length }} of {{ milestones.length }})</span>
-                    <span class="filter-slection-counter" ng-hide="filters.milestones.length">(showing all)</span>
+                    <i class="fa" ng-class="{'fa-caret-down': stepIsOpen, 'fa-caret-right': !stepIsOpen}"></i>
+                    Step
+                    <span class="filter-slection-counter" ng-show="filters.steps.length > 0">(showing {{ filters.steps.length }} of {{ steps.length }})</span>
+                    <span class="filter-slection-counter" ng-hide="filters.steps.length">(showing all)</span>
                 </accordion-heading>
                 <div>
-                    <select id="selMilestone" name="selMilestone" class="multi-select" multiple="multiple"
-                            ng-options="item.id as item.name for item in milestones"
-                            ui-select2="{ formatResult: formatMilestoneItem, formatSelection: formatMilestoneItem }" ng-model="filters.milestones"
-                         data-placeholder="Select Milestones">
+                    <select id="selStep" name="selStep" class="multi-select" multiple="multiple"
+                            ng-options="item.id as item.name for item in steps"
+                            ui-select2="{ formatResult: formatStepItem, formatSelection: formatStepItem }" ng-model="filters.steps"
+                         data-placeholder="Select Steps">
                     </select>
                 </div>
             </accordion-group>
