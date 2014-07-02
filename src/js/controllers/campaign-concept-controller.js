@@ -13,14 +13,14 @@
 			}
 		};
 
-		self.init = function () {
+		self.init = function() {
 			self.loggedInUser = authService.userInfo();
 			self.refreshConcept();
 
 			$scope.showCollaborate = (!$scope.isNewConcept && self.loggedInUser.hasModuleAccess('collaborate'));
 
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
-		}
+		};
 
 		self.refreshConcept = function () {
 			var campaignId = parseInt($routeParams.campaignId);
@@ -65,6 +65,16 @@
 
 		self.refreshComments = function () {
 			$scope.comments = campaignService.queryComments(self.loggedInUser.account.id, $scope.campaign.id, null, self.ajaxHandler);
+		};
+
+		self.filterCollaborators = function () {
+			if (!$scope.users || !$scope.campaign || !$scope.campaign.user) {
+				return;
+			}
+
+			$scope.collaborators = $.grep($scope.users, function (u) {
+				return u.id !== $scope.campaign.user.id;
+			});
 		};
 
 		$scope.hasError = launch.utils.isPropertyValid;
@@ -152,6 +162,10 @@
 				error: self.ajaxHandler.error
 			});
 		};
+
+		$scope.$watch('users', self.filterCollaborators);
+
+		$scope.$watch('campaign.user', self.filterCollaborators);
 
 		self.init();
 	}
