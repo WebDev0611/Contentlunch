@@ -7,6 +7,8 @@ function ($scope,   $rootScope,   AuthService,   $routeParams,   $q,   Restangul
     var Thread  = Restangular.one('forum-thread', $routeParams.threadId);
     var Replies = Thread.all('reply');
 
+    $scope.canCreate = user.hasPrivilege('consult_execute_forum_create');
+
     $q.all({
         replies : Replies.getList(),
         thread  : Thread.get(),
