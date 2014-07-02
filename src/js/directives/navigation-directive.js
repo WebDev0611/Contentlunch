@@ -35,8 +35,8 @@
 
 				// Sort main navigation items
 				var sort = ['consult', 'create', 'collaborate', 'calendar', 'launch', 'measure'];
-				$.each(sort, function (i, value) {
-					$.each(navItems, function (j, navValue) {
+				$.each(sort, function(i, value) {
+					$.each(navItems, function(j, navValue) {
 						if (value == navValue.title) {
 							mainNavItems.push(navValue);
 						}
@@ -64,7 +64,7 @@
 				mainNavItems.push({ title: 'library', url: '/consult/admin-library', active: '' });
 				mainNavItems.push({ title: 'forum', url: '/consult/forum', active: '' });
 
-        mainNavItems.push({ title: 'conference', url: '/consult/admin-conference', active: '', image: 'video' });
+				mainNavItems.push({ title: 'conference', url: '/consult/admin-conference', active: '', image: 'video' });
 
 				adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
 			}
@@ -106,7 +106,7 @@
 			self.subscription = null;
 			scope.user = AuthService.fetchCurrentUser({
 				success: function(user) {
-					if ($location.path().indexOf('/user/confirm') === 0 || $location.path().indexOf('/login') === 0 || $location.path().indexOf('/collaborate') === 0) {
+					if ($location.path().indexOf('/user/confirm') === 0 || $location.path().indexOf('/login') === 0 || $location.path().indexOf('/collaborate/guest') === 0) {
 						return;
 					}
 
@@ -135,7 +135,7 @@
 		};
 
 		scope.imagePath = function(item) {
-      var filename = item.image ? item.image : item.title;
+			var filename = item.image ? item.image : item.title;
 			return '/assets/images/' + angular.lowercase(filename) + '.svg';
 		};
 
