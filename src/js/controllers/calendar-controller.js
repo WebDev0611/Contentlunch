@@ -16,7 +16,9 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
     var user = $scope.user = AuthService.userInfo();
     $scope.canCreate = user.hasPrivilege('calendar_execute_campaigns_own');
     $scope.canExport = user.hasPrivilege('calendar_execute_export');
-    // $scope.canCreateTask = user.hasPrivilege('calendar_execute_schedule');
+	// $scope.canCreateTask = user.hasPrivilege('calendar_execute_schedule');
+
+    $scope.sortOrder = 'title';
 
     var calendarConfig  = {
         editable: false,
@@ -77,10 +79,11 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
 
         // using campaignList so that we always have them all in the dropdown
         $scope.campaignList = angular.copy($scope.campaigns);
+        $scope.campaignTableList = null;
 
         $scope.isLoaded = true;
 
-        $scope.filters = ((originalResponses.userAuth || {}).preferences || {}).calendar || {};
+        $scope.filters = ((originalResponses.userAuth || {}).preferences || {}).calendar || { onlyMine: false, conceptsOn: false };
 
         $timeout(function () {
             calendar.init(calendarConfig);
@@ -106,7 +109,7 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
     };
 
     $scope.clearFilters = function () {
-        $scope.filters = { onlyMine: true };
+    	$scope.filters = { onlyMine: false, conceptsOn: false };
     };
 
     $scope.saveFilters = function (filters) {
@@ -128,7 +131,13 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
             });
         }
 
-        $scope.tasks = filterItems(tasks);
+	    if (!!$scope.campaigns) {
+	    	$scope.campaignTableList = $.grep($scope.campaigns, function (c) {
+	    		return (($scope.filters.conceptsOn) ? parseInt(c.status) === 0 : parseInt(c.status) !== 0);
+	    	});
+	    }
+
+	    $scope.tasks = filterItems(tasks);
 
         $scope.brainstorms = filterItems(originalResponses.brainstorms);
 
@@ -139,7 +148,7 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
 
     // :searchTerm
 
-    $scope.filters = { onlyMine: true };
+    $scope.filters = { onlyMine: true, conceptsOn: false };
     var searches = {
         contentTypes: 'contentTypeId',
         steps: 'stepId',

@@ -115,9 +115,8 @@
 
 		<div class="squeeze-20" ng-if="isLoaded">
 			<div class="nudge-down">
-				<a ng-show="canExport" class="btn btn-default fa fa-download pull-right" target="_blank" href="/api/account/{{ user.account.id }}/campaigns/export-csv"></a>
 				<button class="btn btn-inverse" ng-click="showCampaignList = !showCampaignList">{{ showCampaignList ? 'Hide' : 'View' }} List of Campaigns</button>     
-				<div ng-show="showCampaignList">
+				<div class="calendar-table-container" ng-show="showCampaignList">
 					<div ng-include="'/assets/views/calendar/campaign-list.html'"></div>
 				</div>
 			</div>

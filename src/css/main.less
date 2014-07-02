@@ -1712,11 +1712,17 @@ span[class^="icon-"], span[class*=" icon-"] {
 	margin: 16px;
 
 	table.create-table {
+		tr {
+			border-bottom: solid 1px #000000;
+		}
+	}
+}
+
+.create-table-container, .calendar-table-container {
+	table.create-table, table.calendar-table {
 		width: 100%;
 
 		tr {
-			border-bottom: solid 1px #000000;
-
 			td, th {
 				padding: 8px;
 				position: relative;
@@ -1757,6 +1763,8 @@ span[class^="icon-"], span[class*=" icon-"] {
 			th {
 				.clickable-header {
 					cursor: pointer;
+					font-family: Lato;
+					font-weight: bold;
 					text-decoration: underline;
 				}
 			}
@@ -1789,7 +1797,13 @@ span[class^="icon-"], span[class*=" icon-"] {
 			max-width: auto;
 			min-width: 0;
 			width: 100%;
-		}		
+		}
+	}
+
+	.right-pane {
+		.calendar-table-container {
+			padding: 16px 0 0 0;
+		}
 	}
 }
 
@@ -1866,6 +1880,12 @@ span[class^="icon-"], span[class*=" icon-"] {
 			li > a {
 				border-radius: 0;
 			}
+		}
+	}
+
+	.calendar-download, .calendar-delete {
+		.btn {
+			font-size: 15pt;
 		}
 	}
 }
