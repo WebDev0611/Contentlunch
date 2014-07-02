@@ -2,7 +2,6 @@
 launch.module.controller('ConsultAdminConferenceController',
         ['$scope', '$filter', '$modal', 'AccountService', 'ConferenceService', 'ModelMapperService', 'NotificationService',
 function ($scope,   $filter,   $modal,   AccountService,   ConferenceService,   ModelMapperService,   NotificationService) {
-  $.getScript('https://apis.google.com/js/plusone.js');
   $scope.conferences = [];
 
   $scope.conferenceForm = function (conference) {
