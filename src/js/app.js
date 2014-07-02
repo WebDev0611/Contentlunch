@@ -89,11 +89,11 @@
 						controller: 'CreateController',
 						templateUrl: '/assets/views/create.html'
 					})
-					.when('/create/concept/create/content', {
+					.when('/create/concept/new/content', {
 						controller: 'ContentConceptController',
 						templateUrl: '/assets/views/content-concept.html'
 					})
-					.when('/create/concept/create/campaign', {
+					.when('/calendar/concept/new/campaign', {
 						controller: 'CampaignConceptController',
 						templateUrl: '/assets/views/campaign-concept.html'
 					})
@@ -105,7 +105,7 @@
 						controller: 'CampaignConceptController',
 						templateUrl: '/assets/views/campaign-concept.html'
 					})
-					.when('/create/content/create', {
+					.when('/create/content/new', {
 						controller: 'ContentController',
 						templateUrl: '/assets/views/content-edit.html'
 					})

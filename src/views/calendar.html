@@ -1,124 +1,131 @@
-<div class="loading-spinner-container" ng-hide="isLoaded">
-    <spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
+<div class="view calendar" ng-show="isLoaded">
+	<div class="col-md-3 left-pane">
+		<div class="btn-group add-content" ng-show="canCreate">
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+				NEW...
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="/calendar/concept/new/campaign">Campaign Concept</a></li>
+				<li><a href="/calendar/campaigns/new">Campaign</a></li>
+			</ul>
+		</div>
+
+		<div class="input-group small-nudge-down">
+			<input type="text" class="form-control" placeholder="Search" ng-model="filters.searchTerm">
+			<span class="input-group-addon">
+				<span class="glyphicon glyphicon-search"></span>
+			</span>
+		</div>
+
+		<div class="filter-panel">
+			Filters
+		</div>
+
+		<div class="btn-group small-nudge-down btn-group-justified btn-group-filter">
+			<a class="btn btn-default" ng-class="{ active: filters.onlyMine  }" ng-click="filters.onlyMine = true ">My Tasks</a>
+			<a class="btn btn-default" ng-class="{ active: !filters.onlyMine }" ng-click="filters.onlyMine = false">All Tasks</a>
+		</div>
+
+		<accordion close-others="false" class="accordion-blend">
+			<accordion-group is-open="contentTypeIsOpen">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': contentTypeIsOpen, 'fa-caret-right': !contentTypeIsOpen}"></i>
+					Content Type
+					<span class="filter-slection-counter" ng-show="filters.contentTypes.length > 0">(showing {{ filters.contentTypes.length }} of {{ contentTypes.length }})</span>
+					<span class="filter-slection-counter" ng-hide="filters.contentTypes.length">(showing all)</span>
+				</accordion-heading>
+				<div>
+					<select id="selContentType" name="selContentType" class="multi-select" multiple="multiple"
+							ng-options="item.id as item.name for item in contentTypes"
+							ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="filters.contentTypes"
+							data-placeholder="Select Content Types">
+					</select>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="stepIsOpen">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': stepIsOpen, 'fa-caret-right': !stepIsOpen}"></i>
+					Step
+					<span class="filter-slection-counter" ng-show="filters.steps.length > 0">(showing {{ filters.steps.length }} of {{ steps.length }})</span>
+					<span class="filter-slection-counter" ng-hide="filters.steps.length">(showing all)</span>
+				</accordion-heading>
+				<div>
+					<select id="selStep" name="selStep" class="multi-select" multiple="multiple"
+							ng-options="item.id as item.name for item in steps"
+							ui-select2="{ formatResult: formatStepItem, formatSelection: formatStepItem }" ng-model="filters.steps"
+							data-placeholder="Select Steps">
+					</select>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="buyingStageIsOpen">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': buyingStageIsOpen, 'fa-caret-right': !buyingStageIsOpen}"></i>
+					Buying Stage
+					<span class="filter-slection-counter" ng-show="filters.buyingStages.length > 0">(showing {{ filters.buyingStages.length }} of {{ buyingStages.length }})</span>
+					<span class="filter-slection-counter" ng-hide="filters.buyingStages.length">(showing all)</span>
+				</accordion-heading>
+				<div>
+					<select id="selBuyingStage" name="selBuyingStage" class="multi-select" multiple="multiple"
+							ng-options="item.id as item.name for item in buyingStages"
+							ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem }" ng-model="filters.buyingStages"
+							data-placeholder="Select Buying Stages">
+					</select>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="campaignIsOpen">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': campaignIsOpen, 'fa-caret-right': !campaignIsOpen}"></i>
+					Campaign
+					<span class="filter-slection-counter" ng-show="filters.campaigns.length > 0">(showing {{ filters.campaigns.length }} of {{ campaignList.length }})</span>
+					<span class="filter-slection-counter" ng-hide="filters.campaigns.length">(showing all)</span>
+				</accordion-heading>
+				<div>
+					<select id="selCampaign" name="selCampaign" class="multi-select" multiple="multiple"
+							ng-options="item.id as item.title for item in campaignList"
+							ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem }" ng-model="filters.campaigns"
+							data-placeholder="Select Campaign">
+					</select>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="creatorIsOpen">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': creatorIsOpen, 'fa-caret-right': !creatorIsOpen}"></i>
+					Creator
+					<span class="filter-slection-counter" ng-show="filters.users.length > 0">(showing {{ filters.users.length }} of {{ users.length }})</span>
+					<span class="filter-slection-counter" ng-hide="filters.users.length">(showing all)</span>
+				</accordion-heading>
+				<div>
+					<select id="selCreator" name="selCreator" class="multi-select" multiple="multiple"
+							ng-options="item.id as item.name for item in users"
+							ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem }" ng-model="filters.users"
+							data-placeholder="Select Creator">
+					</select>
+				</div>
+			</accordion-group>
+		</accordion>
+        
+		<div class="link-button-container">
+			<a class="link-button" ng-click="saveFilters(filters)">Save as default filters</a> |
+			<a class="link-button" ng-click="clearFilters()">Clear Filters</a>
+		</div>
+	</div>
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header">Calendar</h2>
+
+		<div class="squeeze-20" ng-if="isLoaded">
+			<div class="nudge-down">
+				<a ng-show="canExport" class="btn btn-default fa fa-download pull-right" target="_blank" href="/api/account/{{ user.account.id }}/campaigns/export-csv"></a>
+				<button class="btn btn-inverse" ng-click="showCampaignList = !showCampaignList">{{ showCampaignList ? 'Hide' : 'View' }} List of Campaigns</button>     
+				<div ng-show="showCampaignList">
+					<div ng-include="'/assets/views/calendar/campaign-list.html'"></div>
+				</div>
+			</div>
+			<div id="js-cl-calendar"></div>
+		</div>
+	</div>
 </div>
 
-<div ng-show="isLoaded" class="view calendar">
-    <div class="col-md-3 left-pane">
-
-        <!-- <button class="btn full-width small-nudge-down btn-inverse add-content" ng-click="newTask()">Create New Task</button> -->
-        <a ng-show="canCreate" class="btn full-width small-nudge-down btn-inverse add-content" href="/calendar/campaigns/new">Create New Campaign</a>
-
-        <div class="input-group small-nudge-down">
-            <input type="text" class="form-control" placeholder="Search" ng-model="filters.searchTerm">
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-search"></span>
-            </span>
-        </div>
-
-        <div class="filter-panel">
-            Filters
-        </div>
-
-        <div class="btn-group small-nudge-down btn-group-justified btn-group-filter">
-            <a class="btn btn-default" ng-class="{ active: filters.onlyMine  }" ng-click="filters.onlyMine = true ">My Tasks</a>
-            <a class="btn btn-default" ng-class="{ active: !filters.onlyMine }" ng-click="filters.onlyMine = false">All Tasks</a>
-        </div>
-
-        <accordion close-others="false" class="accordion-blend">
-            <accordion-group is-open="contentTypeIsOpen">
-                <accordion-heading>
-                    <i class="fa" ng-class="{'fa-caret-down': contentTypeIsOpen, 'fa-caret-right': !contentTypeIsOpen}"></i>
-                    Content Type
-                    <span class="filter-slection-counter" ng-show="filters.contentTypes.length > 0">(showing {{ filters.contentTypes.length }} of {{ contentTypes.length }})</span>
-                    <span class="filter-slection-counter" ng-hide="filters.contentTypes.length">(showing all)</span>
-                </accordion-heading>
-                <div>
-                    <select id="selContentType" name="selContentType" class="multi-select" multiple="multiple"
-                            ng-options="item.id as item.name for item in contentTypes"
-                            ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="filters.contentTypes"
-                         data-placeholder="Select Content Types">
-                    </select>
-                </div>
-            </accordion-group>
-            <accordion-group is-open="stepIsOpen">
-                <accordion-heading>
-                    <i class="fa" ng-class="{'fa-caret-down': stepIsOpen, 'fa-caret-right': !stepIsOpen}"></i>
-                    Step
-                    <span class="filter-slection-counter" ng-show="filters.steps.length > 0">(showing {{ filters.steps.length }} of {{ steps.length }})</span>
-                    <span class="filter-slection-counter" ng-hide="filters.steps.length">(showing all)</span>
-                </accordion-heading>
-                <div>
-                    <select id="selStep" name="selStep" class="multi-select" multiple="multiple"
-                            ng-options="item.id as item.name for item in steps"
-                            ui-select2="{ formatResult: formatStepItem, formatSelection: formatStepItem }" ng-model="filters.steps"
-                         data-placeholder="Select Steps">
-                    </select>
-                </div>
-            </accordion-group>
-            <accordion-group is-open="buyingStageIsOpen">
-                <accordion-heading>
-                    <i class="fa" ng-class="{'fa-caret-down': buyingStageIsOpen, 'fa-caret-right': !buyingStageIsOpen}"></i>
-                    Buying Stage
-                    <span class="filter-slection-counter" ng-show="filters.buyingStages.length > 0">(showing {{ filters.buyingStages.length }} of {{ buyingStages.length }})</span>
-                    <span class="filter-slection-counter" ng-hide="filters.buyingStages.length">(showing all)</span>
-                </accordion-heading>
-                <div>
-                    <select id="selBuyingStage" name="selBuyingStage" class="multi-select" multiple="multiple"
-                            ng-options="item.id as item.name for item in buyingStages"
-                            ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem }" ng-model="filters.buyingStages"
-                         data-placeholder="Select Buying Stages">
-                    </select>
-                </div>
-            </accordion-group>
-            <accordion-group is-open="campaignIsOpen">
-                <accordion-heading>
-                    <i class="fa" ng-class="{'fa-caret-down': campaignIsOpen, 'fa-caret-right': !campaignIsOpen}"></i>
-                    Campaign
-                    <span class="filter-slection-counter" ng-show="filters.campaigns.length > 0">(showing {{ filters.campaigns.length }} of {{ campaignList.length }})</span>
-                    <span class="filter-slection-counter" ng-hide="filters.campaigns.length">(showing all)</span>
-                </accordion-heading>
-                <div>
-                    <select id="selCampaign" name="selCampaign" class="multi-select" multiple="multiple"
-                            ng-options="item.id as item.title for item in campaignList"
-                            ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem }" ng-model="filters.campaigns"
-                         data-placeholder="Select Campaign">
-                    </select>
-                </div>
-            </accordion-group>
-            <accordion-group is-open="creatorIsOpen">
-                <accordion-heading>
-                    <i class="fa" ng-class="{'fa-caret-down': creatorIsOpen, 'fa-caret-right': !creatorIsOpen}"></i>
-                    Creator
-                    <span class="filter-slection-counter" ng-show="filters.users.length > 0">(showing {{ filters.users.length }} of {{ users.length }})</span>
-                    <span class="filter-slection-counter" ng-hide="filters.users.length">(showing all)</span>
-                </accordion-heading>
-                <div>
-                    <select id="selCreator" name="selCreator" class="multi-select" multiple="multiple"
-                            ng-options="item.id as item.name for item in users"
-                            ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem }" ng-model="filters.users"
-                         data-placeholder="Select Creator">
-                    </select>
-                </div>
-            </accordion-group>
-        </accordion>
-        
-        <div class="link-button-container">
-            <a class="link-button" ng-click="saveFilters(filters)">Save as default filters</a> |
-            <a class="link-button" ng-click="clearFilters()">Clear Filters</a>
-        </div>
-    </div>
-    <div class="col-md-9 right-pane">
-        <h2 class="right-pane-header">Calendar</h2>
-
-        <div class="squeeze-20" ng-if="isLoaded">
-            <div class="nudge-down">
-                <a ng-show="canExport" class="btn btn-default fa fa-download pull-right" target="_blank" href="/api/account/{{ user.account.id }}/campaigns/export-csv"></a>
-                <button class="btn btn-inverse" ng-click="showCampaignList = !showCampaignList">{{ showCampaignList ? 'Hide' : 'View' }} List of Campaigns</button>     
-                <div ng-show="showCampaignList">
-                    <div ng-include="'/assets/views/calendar/campaign-list.html'"></div>
-                </div>
-            </div>
-            <div id="js-cl-calendar"></div>
-        </div>
-    </div>
+<div class="loading-spinner-container" ng-hide="isLoaded">
+    <spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
 </div>

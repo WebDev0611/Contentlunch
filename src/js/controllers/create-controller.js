@@ -361,13 +361,13 @@
 
 			switch (createType.toLowerCase()) {
 				case 'content-concept':
-					$location.path('/create/concept/create/content');
+					$location.path('/create/concept/new/content');
 					return;
 				case 'campaign-concept':
-					$location.path('/create/concept/create/campaign');
+					$location.path('/create/concept/new/campaign');
 					return;
 				case 'content':
-					$location.path('/create/content/create');
+					$location.path('/create/content/new');
 					return;
 				default:
 			}

@@ -564,6 +564,10 @@ header .login-info .popover-menu .admin-menu li .glyphicon {
 .unauthorized-message {
   padding: 16px;
 }
+.btn-black {
+  background-color: #000000;
+  color: #ffffff;
+}
 label {
   display: inline;
   font-family: 'Lato-Bold';
@@ -852,6 +856,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane,
 .seo-settings .left-pane,
 .create .left-pane,
+.calendar .left-pane,
 .admin-library .left-pane,
 .consult .left-pane,
 .admin-conference .left-pane {
@@ -863,6 +868,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .btn-group,
 .seo-settings .left-pane .btn-group,
 .create .left-pane .btn-group,
+.calendar .left-pane .btn-group,
 .admin-library .left-pane .btn-group,
 .consult .left-pane .btn-group,
 .admin-conference .left-pane .btn-group {
@@ -875,6 +881,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .btn-group .btn-create,
 .seo-settings .left-pane .btn-group .btn-create,
 .create .left-pane .btn-group .btn-create,
+.calendar .left-pane .btn-group .btn-create,
 .admin-library .left-pane .btn-group .btn-create,
 .consult .left-pane .btn-group .btn-create,
 .admin-conference .left-pane .btn-group .btn-create {
@@ -887,6 +894,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .btn-group .btn-create .glyphicon,
 .seo-settings .left-pane .btn-group .btn-create .glyphicon,
 .create .left-pane .btn-group .btn-create .glyphicon,
+.calendar .left-pane .btn-group .btn-create .glyphicon,
 .admin-library .left-pane .btn-group .btn-create .glyphicon,
 .consult .left-pane .btn-group .btn-create .glyphicon,
 .admin-conference .left-pane .btn-group .btn-create .glyphicon {
@@ -898,6 +906,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .btn-group.btn-group-filter .btn.active,
 .seo-settings .left-pane .btn-group.btn-group-filter .btn.active,
 .create .left-pane .btn-group.btn-group-filter .btn.active,
+.calendar .left-pane .btn-group.btn-group-filter .btn.active,
 .admin-library .left-pane .btn-group.btn-group-filter .btn.active,
 .consult .left-pane .btn-group.btn-group-filter .btn.active,
 .admin-conference .left-pane .btn-group.btn-group-filter .btn.active {
@@ -910,6 +919,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane hr,
 .seo-settings .left-pane hr,
 .create .left-pane hr,
+.calendar .left-pane hr,
 .admin-library .left-pane hr,
 .consult .left-pane hr,
 .admin-conference .left-pane hr {
@@ -922,6 +932,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list,
 .seo-settings .left-pane ul.items-list,
 .create .left-pane ul.items-list,
+.calendar .left-pane ul.items-list,
 .admin-library .left-pane ul.items-list,
 .consult .left-pane ul.items-list,
 .admin-conference .left-pane ul.items-list {
@@ -935,6 +946,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list li,
 .seo-settings .left-pane ul.items-list li,
 .create .left-pane ul.items-list li,
+.calendar .left-pane ul.items-list li,
 .admin-library .left-pane ul.items-list li,
 .consult .left-pane ul.items-list li,
 .admin-conference .left-pane ul.items-list li {
@@ -948,6 +960,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list li:hover,
 .seo-settings .left-pane ul.items-list li:hover,
 .create .left-pane ul.items-list li:hover,
+.calendar .left-pane ul.items-list li:hover,
 .admin-library .left-pane ul.items-list li:hover,
 .consult .left-pane ul.items-list li:hover,
 .admin-conference .left-pane ul.items-list li:hover,
@@ -957,6 +970,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list li.selected,
 .seo-settings .left-pane ul.items-list li.selected,
 .create .left-pane ul.items-list li.selected,
+.calendar .left-pane ul.items-list li.selected,
 .admin-library .left-pane ul.items-list li.selected,
 .consult .left-pane ul.items-list li.selected,
 .admin-conference .left-pane ul.items-list li.selected {
@@ -968,6 +982,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list li .item-image,
 .seo-settings .left-pane ul.items-list li .item-image,
 .create .left-pane ul.items-list li .item-image,
+.calendar .left-pane ul.items-list li .item-image,
 .admin-library .left-pane ul.items-list li .item-image,
 .consult .left-pane ul.items-list li .item-image,
 .admin-conference .left-pane ul.items-list li .item-image {
@@ -980,6 +995,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list li .item-info,
 .seo-settings .left-pane ul.items-list li .item-info,
 .create .left-pane ul.items-list li .item-info,
+.calendar .left-pane ul.items-list li .item-info,
 .admin-library .left-pane ul.items-list li .item-info,
 .consult .left-pane ul.items-list li .item-info,
 .admin-conference .left-pane ul.items-list li .item-info {
@@ -991,6 +1007,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list li .item-info .item-title,
 .seo-settings .left-pane ul.items-list li .item-info .item-title,
 .create .left-pane ul.items-list li .item-info .item-title,
+.calendar .left-pane ul.items-list li .item-info .item-title,
 .admin-library .left-pane ul.items-list li .item-info .item-title,
 .consult .left-pane ul.items-list li .item-info .item-title,
 .admin-conference .left-pane ul.items-list li .item-info .item-title {
@@ -1002,6 +1019,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .pager ul.pagination,
 .seo-settings .left-pane .pager ul.pagination,
 .create .left-pane .pager ul.pagination,
+.calendar .left-pane .pager ul.pagination,
 .admin-library .left-pane .pager ul.pagination,
 .consult .left-pane .pager ul.pagination,
 .admin-conference .left-pane .pager ul.pagination {
@@ -1013,6 +1031,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .pager ul.pagination li a,
 .seo-settings .left-pane .pager ul.pagination li a,
 .create .left-pane .pager ul.pagination li a,
+.calendar .left-pane .pager ul.pagination li a,
 .admin-library .left-pane .pager ul.pagination li a,
 .consult .left-pane .pager ul.pagination li a,
 .admin-conference .left-pane .pager ul.pagination li a {
@@ -1029,6 +1048,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .pager ul.pagination li.active a,
 .seo-settings .left-pane .pager ul.pagination li.active a,
 .create .left-pane .pager ul.pagination li.active a,
+.calendar .left-pane .pager ul.pagination li.active a,
 .admin-library .left-pane .pager ul.pagination li.active a,
 .consult .left-pane .pager ul.pagination li.active a,
 .admin-conference .left-pane .pager ul.pagination li.active a {
@@ -1417,6 +1437,37 @@ span[class*=" icon-"].dark {
 .seo-settings-editor table.persona-table tr.dark td {
   background-color: #E6E4E0;
 }
+.create .left-pane .btn-group,
+.calendar .left-pane .btn-group {
+  margin-top: 12px;
+}
+.create .left-pane .btn-group.add-content .btn,
+.calendar .left-pane .btn-group.add-content .btn,
+.create .left-pane .btn-group.add-content ul,
+.calendar .left-pane .btn-group.add-content ul {
+  width: 100%;
+}
+.create .left-pane .btn-group.add-content .btn,
+.calendar .left-pane .btn-group.add-content .btn {
+  background-color: #000000;
+  color: #ffffff;
+  position: relative;
+}
+.create .left-pane .btn-group.add-content .btn .caret,
+.calendar .left-pane .btn-group.add-content .btn .caret {
+  display: inline-block;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+}
+.create .right-pane .row,
+.calendar .right-pane .row {
+  margin: 20px 0;
+}
+.create .right-pane .row .col-md-12,
+.calendar .right-pane .row .col-md-12 {
+  padding: 0;
+}
 .create .left-pane .filter-panel,
 .create .left-pane .tasks-header {
   background-color: #ffb503;
@@ -1426,24 +1477,6 @@ span[class*=" icon-"].dark {
   font-size: 14pt;
   margin: 12px 0;
   padding: 4px;
-}
-.create .left-pane .btn-group {
-  margin-top: 12px;
-}
-.create .left-pane .btn-group.add-content .btn,
-.create .left-pane .btn-group.add-content ul {
-  width: 100%;
-}
-.create .left-pane .btn-group.add-content .btn {
-  background-color: #000000;
-  color: #ffffff;
-  position: relative;
-}
-.create .left-pane .btn-group.add-content .btn .caret {
-  display: inline-block;
-  position: absolute;
-  right: 16px;
-  top: 16px;
 }
 .create .left-pane .panel-group .panel {
   background-color: transparent;
@@ -1688,10 +1721,6 @@ span[class*=" icon-"].dark {
 .create .right-pane .btn .fa {
   display: inline-block;
   margin-right: 8px;
-}
-.create .right-pane .btn-black {
-  background-color: #000000;
-  color: #ffffff;
 }
 .create .right-pane .content-workflow {
   padding: 0;

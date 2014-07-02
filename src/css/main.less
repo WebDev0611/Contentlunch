@@ -310,6 +310,11 @@ header {
 	padding: 16px;
 }
 
+.btn-black {
+	background-color: #000000;
+	color: #ffffff;
+}
+
 label {
 	display: inline;
 	font-family: 'Lato-Bold';
@@ -648,7 +653,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	width: 36px;
 }
 
-.users, .accounts, .roles, .content-settings, .seo-settings, .create, .admin-library, .consult, .admin-conference {
+.users, .accounts, .roles, .content-settings, .seo-settings, .create, .calendar, .admin-library, .consult, .admin-conference {
 	.left-pane {
 		position: relative;
 
@@ -1133,18 +1138,8 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.create {
+.create, .calendar {
 	.left-pane {
-		.filter-panel, .tasks-header {
-			background-color: @createColor;
-			border-radius: 4px;
-			color: #ffffff;
-			font-family: 'Lato Black';
-			font-size: 14pt;
-			margin: 12px 0;
-			padding: 4px;
-		}
-
 		.btn-group {
 			margin-top: 12px;
 
@@ -1166,6 +1161,30 @@ span[class^="icon-"], span[class*=" icon-"] {
 					}
 				}
 			}
+		}
+	}
+
+	.right-pane {
+		.row {
+			margin: 20px 0;
+
+			.col-md-12 {
+				padding: 0;
+			}
+		}
+	}
+}
+
+.create {
+	.left-pane {
+		.filter-panel, .tasks-header {
+			background-color: @createColor;
+			border-radius: 4px;
+			color: #ffffff;
+			font-family: 'Lato Black';
+			font-size: 14pt;
+			margin: 12px 0;
+			padding: 4px;
 		}
 
 		.panel-group {
@@ -1466,13 +1485,13 @@ span[class^="icon-"], span[class*=" icon-"] {
 						.awaiting-reply {
 							position: relative;
 
-							.fa-envelope-o{
+							.fa-envelope-o {
 								position: absolute;
 								left: 0;
 								top: 0;
 							}
 
-							.guest-collaborator-name{
+							.guest-collaborator-name {
 								margin-left: 48px;
 								vertical-align: top;
 							}
@@ -1494,11 +1513,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 				display: inline-block;
 				margin-right: 8px;
 			}
-		}
-
-		.btn-black {
-			background-color: #000000;
-			color: #ffffff;
 		}
 
 		.content-workflow {
