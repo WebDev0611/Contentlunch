@@ -20,6 +20,10 @@
 		delete: { method: 'DELETE' }
 	});
 
+	var campaignGuestCollaborators = $resource('/api/account/:accountId/campaign/:campaignId/guest-collaborators', { accountId: '@accountId', campaignId: '@campaignId' }, {
+		get: { method: 'GET', transformResponse: ModelMapperService.guestCollaborator.parseResponse }
+	});
+
 	return {
 		query: function(accountId, params, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -93,7 +97,13 @@
 
 			return campaignCollaborators.delete({ accountId: accountId, campaignId: campaignId, id: id }, success, error);
 		},
-		getNewCampaignConcept: function(user) {
+		queryGuestCollaborators: function (accountId, campaignId, params, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return campaignGuestCollaborators.query({ accountId: accountId, campaignId: campaignId }, success, error);
+		},
+		getNewCampaignConcept: function (user) {
 			var campaign = new launch.Campaign();
 
 			campaign.accountId = user.account.id;

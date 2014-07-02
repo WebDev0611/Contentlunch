@@ -30,7 +30,7 @@
           </thead>
           <tbody>
             <tr ng-repeat="conference in conferences" ng-class-odd="dark">
-              <td>{{ conference.description }}</td>
+              <td><a href="#" ng-click="conferenceDetail(conference)">{{ conference.description }}</a></td>
               <td>
                 <span ng-if="conference.status == 0">Pending</span>
                 <span ng-if="conference.status == 1">Scheduled</span>
