@@ -44,27 +44,27 @@
             <th width="10px">&nbsp;</th>
             <th>
                 <span sort-by="title" sort-var="sortOrder">
-                    Title
+					<span class="clickable-header">Title</span>
                 </span>
             </th>
             <th>
                 <span sort-by="user.firstName" sort-var="sortOrder">
-                    Creator
+                    <span class="clickable-header">Creator</span>
                 </span>
             </th>
             <th ng-show="filters.conceptsOn === false">
                 <span sort-by="status" sort-var="sortOrder">
-                    Status
+                    <span class="clickable-header">Status</span>
                 </span>
             </th>
             <th ng-show="filters.conceptsOn === false">
                 <span sort-by="startDate" sort-var="sortOrder">
-                    Start - End
+                    <span class="clickable-header">Start - End</span>
                 </span>
             </th>
             <th ng-show="filters.conceptsOn === false">
                 <span sort-by="campaignType.name" sort-var="sortOrder">
-                    Campaign Type
+                    <span class="clickable-header">Campaign Type</span>
                 </span>
             </th>
         </tr>
