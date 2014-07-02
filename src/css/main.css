@@ -568,6 +568,10 @@ header .login-info .popover-menu .admin-menu li .glyphicon {
   background-color: #000000;
   color: #ffffff;
 }
+.btn-black:hover {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
 label {
   display: inline;
   font-family: 'Lato-Bold';
@@ -884,7 +888,17 @@ span[class*=" icon-"].dark {
 .calendar .left-pane .btn-group .btn-create,
 .admin-library .left-pane .btn-group .btn-create,
 .consult .left-pane .btn-group .btn-create,
-.admin-conference .left-pane .btn-group .btn-create {
+.admin-conference .left-pane .btn-group .btn-create,
+.users .left-pane .btn-group .btn-calendar,
+.accounts .left-pane .btn-group .btn-calendar,
+.roles .left-pane .btn-group .btn-calendar,
+.content-settings .left-pane .btn-group .btn-calendar,
+.seo-settings .left-pane .btn-group .btn-calendar,
+.create .left-pane .btn-group .btn-calendar,
+.calendar .left-pane .btn-group .btn-calendar,
+.admin-library .left-pane .btn-group .btn-calendar,
+.consult .left-pane .btn-group .btn-calendar,
+.admin-conference .left-pane .btn-group .btn-calendar {
   background-color: #000000;
   color: #ffffff;
 }
@@ -897,7 +911,17 @@ span[class*=" icon-"].dark {
 .calendar .left-pane .btn-group .btn-create .glyphicon,
 .admin-library .left-pane .btn-group .btn-create .glyphicon,
 .consult .left-pane .btn-group .btn-create .glyphicon,
-.admin-conference .left-pane .btn-group .btn-create .glyphicon {
+.admin-conference .left-pane .btn-group .btn-create .glyphicon,
+.users .left-pane .btn-group .btn-calendar .glyphicon,
+.accounts .left-pane .btn-group .btn-calendar .glyphicon,
+.roles .left-pane .btn-group .btn-calendar .glyphicon,
+.content-settings .left-pane .btn-group .btn-calendar .glyphicon,
+.seo-settings .left-pane .btn-group .btn-calendar .glyphicon,
+.create .left-pane .btn-group .btn-calendar .glyphicon,
+.calendar .left-pane .btn-group .btn-calendar .glyphicon,
+.admin-library .left-pane .btn-group .btn-calendar .glyphicon,
+.consult .left-pane .btn-group .btn-calendar .glyphicon,
+.admin-conference .left-pane .btn-group .btn-calendar .glyphicon {
   margin-right: 8px;
 }
 .users .left-pane .btn-group.btn-group-filter .btn.active,
@@ -1468,6 +1492,116 @@ span[class*=" icon-"].dark {
 .calendar .right-pane .row .col-md-12 {
   padding: 0;
 }
+.create .right-pane .concept-container .form-group,
+.calendar .right-pane .concept-container .form-group {
+  max-width: 300px;
+  vertical-align: bottom;
+}
+.create .right-pane .discussion-panel,
+.calendar .right-pane .discussion-panel {
+  margin: 0 15px;
+}
+.create .right-pane .discussion-panel .panel-footer,
+.calendar .right-pane .discussion-panel .panel-footer {
+  background-color: #D7D7D7;
+  position: relative;
+  text-align: center;
+}
+.create .right-pane .discussion-panel .panel-footer textarea,
+.calendar .right-pane .discussion-panel .panel-footer textarea {
+  min-width: 300px;
+  width: 60%;
+}
+.create .right-pane .discussion-panel .panel-footer .btn,
+.calendar .right-pane .discussion-panel .panel-footer .btn {
+  position: absolute;
+  right: 50px;
+  top: 30px;
+}
+.create .right-pane .discussion-panel .panel-body .row,
+.calendar .right-pane .discussion-panel .panel-body .row {
+  border-bottom: dotted 3px #D7D7D7;
+  margin: 8px 16px;
+}
+.create .right-pane .panel-collaborators .panel-footer,
+.calendar .right-pane .panel-collaborators .panel-footer {
+  background-color: #E4E4E4;
+}
+.create .right-pane .panel,
+.calendar .right-pane .panel {
+  background-color: #E4E4E4;
+}
+.create .right-pane .panel .panel-heading,
+.calendar .right-pane .panel .panel-heading {
+  background-color: #000000;
+  color: #ffffff;
+  font-weight: bold;
+}
+.create .right-pane .panel .panel-body,
+.calendar .right-pane .panel .panel-body {
+  background-color: #E4E4E4;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators {
+  list-style: none;
+  margin: 16px 0;
+  padding: 0;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li {
+  position: relative;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa {
+  cursor: pointer;
+  position: absolute;
+  top: 8px;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o {
+  right: 0;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-thumbs-o-up,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa-thumbs-o-up {
+  right: 16px;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .cl-icon,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .cl-icon,
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-envelope-o,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa-envelope-o {
+  display: inline-block;
+  font-size: 24pt;
+  margin: 8px 16px 8px 0;
+  position: static;
+  vertical-align: middle;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply {
+  position: relative;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .fa-envelope-o,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .fa-envelope-o {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .guest-collaborator-name,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .guest-collaborator-name {
+  margin-left: 48px;
+  vertical-align: top;
+}
+.create .right-pane .panel.panel-user-info,
+.calendar .right-pane .panel.panel-user-info {
+  font-weight: bold;
+  min-width: 200px;
+  padding: 4px;
+  vertical-align: middle;
+}
+.create .right-pane .btn .fa,
+.calendar .right-pane .btn .fa {
+  display: inline-block;
+  margin-right: 8px;
+}
 .create .left-pane .filter-panel,
 .create .left-pane .tasks-header {
   background-color: #ffb503;
@@ -1633,94 +1767,6 @@ span[class*=" icon-"].dark {
   cursor: pointer;
   display: inline-block;
   padding: 0 16px;
-}
-.create .right-pane .concept-container .form-group {
-  max-width: 300px;
-  vertical-align: bottom;
-}
-.create .right-pane .discussion-panel {
-  margin: 0 15px;
-}
-.create .right-pane .discussion-panel .panel-footer {
-  background-color: #D7D7D7;
-  position: relative;
-  text-align: center;
-}
-.create .right-pane .discussion-panel .panel-footer textarea {
-  min-width: 300px;
-  width: 60%;
-}
-.create .right-pane .discussion-panel .panel-footer .btn {
-  position: absolute;
-  right: 50px;
-  top: 30px;
-}
-.create .right-pane .discussion-panel .panel-body .row {
-  border-bottom: dotted 3px #D7D7D7;
-  margin: 8px 16px;
-}
-.create .right-pane .panel-collaborators .panel-footer {
-  background-color: #E4E4E4;
-}
-.create .right-pane .panel {
-  background-color: #E4E4E4;
-}
-.create .right-pane .panel .panel-heading {
-  background-color: #000000;
-  color: #ffffff;
-  font-weight: bold;
-}
-.create .right-pane .panel .panel-body {
-  background-color: #E4E4E4;
-}
-.create .right-pane .panel .panel-body ul.concept-collaborators {
-  list-style: none;
-  margin: 16px 0;
-  padding: 0;
-}
-.create .right-pane .panel .panel-body ul.concept-collaborators li {
-  position: relative;
-}
-.create .right-pane .panel .panel-body ul.concept-collaborators li .fa {
-  cursor: pointer;
-  position: absolute;
-  top: 8px;
-}
-.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o {
-  right: 0;
-}
-.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-thumbs-o-up {
-  right: 16px;
-}
-.create .right-pane .panel .panel-body ul.concept-collaborators li .cl-icon,
-.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-envelope-o {
-  display: inline-block;
-  font-size: 24pt;
-  margin: 8px 16px 8px 0;
-  position: static;
-  vertical-align: middle;
-}
-.create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply {
-  position: relative;
-}
-.create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .fa-envelope-o {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-.create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .guest-collaborator-name {
-  margin-left: 48px;
-  vertical-align: top;
-}
-.create .right-pane .panel.panel-user-info {
-  font-weight: bold;
-  min-width: 200px;
-  padding: 4px;
-  vertical-align: middle;
-}
-.create .right-pane .btn .fa {
-  display: inline-block;
-  margin-right: 8px;
 }
 .create .right-pane .content-workflow {
   padding: 0;
@@ -2409,13 +2455,25 @@ table.structural > tbody > tr > td {
   text-decoration: underline;
   margin-left: 10px;
 }
-.btn-create {
-  background-color: #ffb503;
+.btn-create,
+.btn-calendar {
   color: white;
 }
-.btn-create:hover {
+.btn-create:hover,
+.btn-calendar:hover {
   color: white;
+}
+.btn-create {
+  background-color: #ffb503;
+}
+.btn-create:hover {
   background-color: #e9a400;
+}
+.btn-calendar {
+  background-color: #ba1760;
+}
+.btn-calendar:hover {
+  background-color: #a31454;
 }
 .btn-collaborate {
   background-color: #ff5b02;

@@ -118,7 +118,7 @@
 					notificationService.success('Success!', successMsg);
 
 					if ($scope.isNewConcept) {
-						$location.path('/create/concept/edit/campaign/' + r.id);
+						$location.path('/calendar/concept/edit/campaign/' + r.id);
 					} else {
 						self.refreshConcept();
 					}

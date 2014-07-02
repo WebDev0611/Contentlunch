@@ -101,7 +101,7 @@
 						controller: 'ContentConceptController',
 						templateUrl: '/assets/views/content-concept.html'
 					})
-					.when('/create/concept/edit/campaign/:campaignId', {
+					.when('/calendar/concept/edit/campaign/:campaignId', {
 						controller: 'CampaignConceptController',
 						templateUrl: '/assets/views/campaign-concept.html'
 					})
