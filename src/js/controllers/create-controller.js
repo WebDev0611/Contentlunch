@@ -354,25 +354,6 @@
 			return false;
 		};
 
-		$scope.createNew = function(createType) {
-			if (launch.utils.isBlank(createType)) {
-				return;
-			}
-
-			switch (createType.toLowerCase()) {
-				case 'content-concept':
-					$location.path('/create/concept/new/content');
-					return;
-				case 'campaign-concept':
-					$location.path('/create/concept/new/campaign');
-					return;
-				case 'content':
-					$location.path('/create/content/new');
-					return;
-				default:
-			}
-		};
-
 		$scope.saveFilter = function () {
 			userService.savePreferences(self.loggedInUser.id, 'create', $scope.search, {
 				success: function(r) {
