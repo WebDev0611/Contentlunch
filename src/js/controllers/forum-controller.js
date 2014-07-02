@@ -9,10 +9,12 @@ function ($scope,   $rootScope,   AuthService,   $routeParams,   $q,   Restangul
 
     var Threads = Restangular.all('forum-thread');
 
+    $scope.isLoaded = false;
     $q.all({
         threads: Threads.getList(),
     }).then(function (responses) {
         angular.extend($scope, responses);
+        $scope.isLoaded = true;
     }).catch($rootScope.globalErrorHandler);
 
     // Thread CRUD
