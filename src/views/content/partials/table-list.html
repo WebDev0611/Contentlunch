@@ -51,24 +51,24 @@
 				<th class="small-cell">&nbsp;</th>
 				<th class="small-cell" ng-hide="search.contentStage === 'content'">&nbsp;</th>
 				<th>
-					<span class="clickable-header" ng-click="applySort('title')">Title</span>
 					<span class="fa" ng-show="pagination.currentSort === 'title'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
+					<span class="clickable-header" ng-click="applySort('title')">Title</span>
 				</th>
 				<th>
-					<span class="clickable-header" ng-click="applySort('author')">Author</span>
 					<span class="fa" ng-show="pagination.currentSort === 'author'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
+					<span class="clickable-header" ng-click="applySort('author')">Author</span>
 				</th>
 				<th ng-hide="search.contentStage === 'concepts'">
-					<span class="clickable-header" ng-click="applySort('persona')">Persona</span>
 					<span class="fa" ng-show="pagination.currentSort === 'persona'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
+					<span class="clickable-header" ng-click="applySort('persona')">Persona</span>
 				</th>
 				<th style="text-align: center;" ng-hide="search.contentStage === 'concepts'">
-					<span class="clickable-header" ng-click="applySort('buyingStage')">Buying Stage</span>
 					<span class="fa" ng-show="pagination.currentSort === 'buyingstage'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
+					<span class="clickable-header" ng-click="applySort('buyingStage')">Buying Stage</span>
 				</th>
 				<th>
-					<span class="clickable-header" ng-click="applySort('currentStep')">Current Step</span>
 					<span class="fa" ng-show="pagination.currentSort === 'currentstep'" ng-class="'fa-sort-numeric-' + pagination.currentSortDirection"></span>
+					<span class="clickable-header" ng-click="applySort('currentStep')">Current Step</span>
 				</th>
 			</tr>
 		</thead>
