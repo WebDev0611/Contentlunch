@@ -1864,12 +1864,33 @@ span[class*=" icon-"].dark {
   margin: 0;
   position: relative;
 }
+.create .right-pane .content-preview .control-group .btn-launch-container {
+  float: right;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li {
+  padding: 8px;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li:hover {
+  background-color: #f5f5f5;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li > * {
+  display: inline-block;
+  vertical-align: top;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li a {
+  padding: 0;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li .form-control {
+  margin: 2px 0;
+  height: 16px;
+  width: 16px;
+}
 .create .right-pane .content-preview .control-group .btn-launch,
 .create .right-pane .content-preview .control-group .btn-promote {
   color: #ffffff;
+  float: right;
   font-size: 12pt;
   font-weight: bold;
-  position: absolute;
   right: 8px;
 }
 .create .right-pane .content-preview .control-group .btn-launch span,
