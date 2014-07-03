@@ -2,7 +2,7 @@
 	<div class="col-md-3 left-pane">
 		<div task-list task-groups="content.taskGroups" parent-status="content.status" author-id="content.author.id" users="taskUsers" ng-hide="isNewContent || !isCollaborator"></div>
 		
-		<div class="panel panel-default panel-content-activity">
+		<div class="panel panel-default panel-content-activity" ng-hide="isNewContent">
 			<div class="panel-heading">Activity</div>
 			<div class="panel-body">
 				<ul>

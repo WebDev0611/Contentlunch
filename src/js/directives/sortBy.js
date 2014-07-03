@@ -20,12 +20,12 @@ angular.module('launch')
                 var predicate = extractPredicate(sort);
                 if (predicate == scope.predicate) {
                     if (isReversed(sort)) {
-                        elem.removeClass('fa-caret-up').addClass('fa-caret-down');
+                    	elem.removeClass('fa-sort-alpha-asc').addClass('fa-sort-alpha-desc');
                     } else {
-                        elem.removeClass('fa-caret-down').addClass('fa-caret-up');
+                    	elem.removeClass('fa-sort-alpha-desc').addClass('fa-sort-alpha-asc');
                     }
                 } else {
-                    elem.removeClass('fa-caret-down fa-caret-up');
+                	elem.removeClass('fa-sort-alpha-desc fa-sort-alpha-asc');
                 }
             });
         }

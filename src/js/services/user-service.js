@@ -31,21 +31,21 @@ launch.module.factory('UserService', function($resource, $upload, AccountService
 				accountUserItems = SessionService.get(SessionService.ACCOUNT_USERS_KEY);
 
 				if (!launch.utils.isBlank(accountUserItems)) {
-					accountUserItems = JSON.parse(accountUserItems);
-
-					return $.map(accountUserItems, function(u) {
+					accountUserItems = $.map(JSON.parse(accountUserItems), function (u) {
 						return ModelMapperService.user.fromCache(u);
 					});
 				}
 			}
 
-			accountUserItems = accountUsers.get(_.merge({ id: accountId }, params), function(r) {
-				SessionService.set(SessionService.ACCOUNT_USERS_KEY, JSON.stringify(accountUserItems));
+			if (forceRefresh || !$.isArray(accountUserItems) || (!!accountUserItems && accountUserItems.length === 0)) {
+				accountUserItems = accountUsers.get(_.merge({ id: accountId }, params), function(r) {
+					SessionService.set(SessionService.ACCOUNT_USERS_KEY, JSON.stringify(accountUserItems));
 
-				if (!!success) {
-					success(r);
-				}
-			}, error);
+					if (!!success) {
+						success(r);
+					}
+				}, error);
+			}
 
 			return accountUserItems;
 		},

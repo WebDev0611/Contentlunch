@@ -1,7 +1,7 @@
-﻿<div class="view create">
+﻿<div class="view calendar">
 	<div class="col-md-3 left-pane"></div>
 	<div class="col-md-9 right-pane" ng-show="isCollaborator">
-		<h2 class="right-pane-header">Create</h2>
+		<h2 class="right-pane-header">Calendar</h2>
 		
 		<form name="editConcept" novalidate="novalidate">
 			<div class="concept-editor row">
@@ -9,7 +9,7 @@
 					<h2>
 						<span ng-show="isNewConcept">Create</span>
 						<span ng-hide="isNewConcept">Edit</span>
-						Concept
+						Campaign Concept
 						<span class="cl-icon cl-icon-large cl-icon-workflow-concept"></span>
 					</h2>
 				
@@ -41,7 +41,7 @@
 
 						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveConcept()" ng-show="canEditCampaign">Save</button>
 					
-						<button type="button" class="btn btn-lg btn-create" ng-click="convertConcept()" ng-hide="isNewConcept || !canConvertConept">
+						<button type="button" class="btn btn-lg btn-calendar" ng-click="convertConcept()" ng-hide="isNewConcept || !canConvertConept">
 							<span class="cl-icon cl-icon-white cl-icon-med cl-icon-workflow-create"></span>
 							Convert to Campaign
 						</button>
