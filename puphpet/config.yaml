@@ -41,7 +41,9 @@ vagrantfile-local:
             s7CyBx8zn7ar:
                 source: ./
                 target: /var/www
-                nfs: 'false'
+                sync_type: default
+                rsync:
+                    auto: 'false'
         usable_port_range: 2200..2250
     ssh:
         host: null
@@ -119,12 +121,12 @@ php:
     modules:
         php:
             - cli
+            - common
+            - curl
+            - gd
+            - imagick
             - intl
             - mcrypt
-            - curl
-            - imagick
-            - gd
-            - common
         pear: {  }
         pecl:
             - pecl_http
@@ -142,6 +144,8 @@ xdebug:
         xdebug.remote_enable: '1'
         xdebug.remote_handler: dbgp
         xdebug.remote_port: '9000'
+mysql:
+    install: 0
 mariadb:
     install: '1'
     root_password: root
@@ -156,3 +160,7 @@ mariadb:
             password: launch123
             sql_file: ''
     version: '5.5'
+redis:
+    install: '1'
+    settings:
+        conf_port: '6379'

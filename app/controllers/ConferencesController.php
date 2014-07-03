@@ -1,5 +1,7 @@
 <?php
 
+use \Launch\Scheduler\Scheduler;
+
 class ConferencesController extends BaseController {
   
   public function index($accountID)
@@ -104,6 +106,22 @@ class ConferencesController extends BaseController {
       return ['success' => 'OK'];
     }
     return $this->responseError("Couldn't delete conference");
+  }
+
+  public function test()
+  {
+    Scheduler::videoConferenceReminder(1);
+  }
+
+  // Scheduler Jobs
+  // -------------------------
+  public function emailReminder($data = [])
+  {
+    Log::info('Running emailReminder job.');
+
+    Mail::send('emails.conference.reminder', $data, function ($message) {
+      $message->to('cameronspear@gmail.com')->subject('Content Launch Conference Reminder');
+    });
   }
 
 }

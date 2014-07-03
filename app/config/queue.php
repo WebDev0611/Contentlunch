@@ -15,7 +15,7 @@ return array(
 	|
 	*/
 
-	'default' => 'sync',
+	'default' => 'resque',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -60,6 +60,9 @@ return array(
 			'queue'  => 'default',
 		),
 
+		'resque' => array(
+		    'driver' => 'resque'
+		)
 	),
 
 	/*
