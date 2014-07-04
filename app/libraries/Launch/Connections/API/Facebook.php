@@ -47,12 +47,13 @@ class FacebookAPI implements Connection
       $response['response'] = $post->asArray();
     } catch (FacebookRequestException $e) {
       $response['success'] = false;
-      $response['response']['data'] = $e->getResponse();
-      $response['response']['error'] = $e->getMessage();
+      $response['response'] = $e->getResponse();
+      $response['error'] = $e->getMessage();
     } catch (\Exception $e) {
       // Error 
       $response['success'] = false;
-      $response['response']['error'] = $e->getMessage();
+      $response['response'] = [];
+      $response['error'] = $e->getMessage();
     }
     return $response;
   }

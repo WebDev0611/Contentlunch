@@ -268,6 +268,9 @@ class ContentController extends BaseController {
       case 'facebook':
         $api = new Launch\Connections\API\FacebookAPI($accountConnection->toArray());
       break;
+      case 'twitter':
+        $api = new Launch\Connections\API\TwitterAPI($accountConnection->toArray());
+      break;
     }
     $response = $api->postContent($content);
     if ( ! isset($response['success']) || ! isset($response['response'])) {
@@ -280,8 +283,8 @@ class ContentController extends BaseController {
       'response' => serialize($response['response']),
     ]);
     $launch->save();
-    if ( ! empty($response['response']['error'])) {
-      return $this->responseError($response['response']['error']);
+    if ( ! empty($response['error'])) {
+      return $this->responseError($response['error']);
     }
     return $launch;
   }
