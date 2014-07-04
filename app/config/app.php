@@ -115,6 +115,8 @@ return [
 
     'Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider',
 
+    'Awellis13\Resque\ServiceProviders\ResqueServiceProvider',
+
     'Way\Generators\GeneratorsServiceProvider',
   ],
 

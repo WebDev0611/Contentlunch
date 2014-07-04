@@ -7,8 +7,8 @@
 	launch.module.value('contentStatuses', ['concept', 'create', 'review', 'launch', 'promote']);
 
 	launch.module.config([
-					'$routeProvider', '$locationProvider', '$httpProvider', 'RestangularProvider', 
-			function($routeProvider,   $locationProvider,   $httpProvider,   RestangularProvider) {
+			'$routeProvider', '$locationProvider', '$httpProvider', 'RestangularProvider',
+			function($routeProvider, $locationProvider, $httpProvider, RestangularProvider) {
 				$locationProvider.html5Mode(true);
 
 				$routeProvider
@@ -65,10 +65,10 @@
 						controller: 'ConsultLibraryController',
 						templateUrl: '/assets/views/consult/library.html'
 					})
-          .when('/consult/admin-conference', {
-            controller: 'ConsultAdminConferenceController',
-            templateUrl: '/assets/views/consult/admin-conference.html'
-          })
+					.when('/consult/admin-conference', {
+						controller: 'ConsultAdminConferenceController',
+						templateUrl: '/assets/views/consult/admin-conference.html'
+					})
 					.when('/consult/conference', {
 						controller: 'ConsultConferenceController',
 						templateUrl: '/assets/views/consult/conference-list.html'
@@ -89,11 +89,11 @@
 						controller: 'CreateController',
 						templateUrl: '/assets/views/create.html'
 					})
-					.when('/create/concept/create/content', {
+					.when('/create/concept/new/content', {
 						controller: 'ContentConceptController',
 						templateUrl: '/assets/views/content-concept.html'
 					})
-					.when('/create/concept/create/campaign', {
+					.when('/calendar/concept/new/campaign', {
 						controller: 'CampaignConceptController',
 						templateUrl: '/assets/views/campaign-concept.html'
 					})
@@ -101,11 +101,11 @@
 						controller: 'ContentConceptController',
 						templateUrl: '/assets/views/content-concept.html'
 					})
-					.when('/create/concept/edit/campaign/:campaignId', {
+					.when('/calendar/concept/edit/campaign/:campaignId', {
 						controller: 'CampaignConceptController',
 						templateUrl: '/assets/views/campaign-concept.html'
 					})
-					.when('/create/content/create', {
+					.when('/create/content/new', {
 						controller: 'ContentController',
 						templateUrl: '/assets/views/content-edit.html'
 					})
@@ -192,15 +192,15 @@
 				RestangularProvider.setBaseUrl('/api');
 
 				// take all the requests from the server and transform snake_case to camelCase
-				RestangularProvider.addResponseInterceptor(function (data, operation, route, url) {
+				RestangularProvider.addResponseInterceptor(function(data, operation, route, url) {
 					if (_.isArray(data)) return _.map(data, camelCaseize);
 					return camelCaseize(data);
 				});
 
 				// take all the requests to the server (that have data) and convert snake_case back to camelCase
-				RestangularProvider.addRequestInterceptor(function (data, operation, route, url) {
+				RestangularProvider.addRequestInterceptor(function(data, operation, route, url) {
 					operation = operation.toUpperCase();
-					if (operation === 'GET' || operation === 'GETLIST' || operation === 'REMOVE' || operation === 'DELETE') 
+					if (operation === 'GET' || operation === 'GETLIST' || operation === 'REMOVE' || operation === 'DELETE')
 						return data;
 
 					var origData = angular.copy(data);
@@ -217,14 +217,14 @@
 				// thank https://github.com/blakeembrey/change-case/
 				// for help on the case changing here
 				function camelCaseize(data) {
-					if (!angular.isObject(data) && !angular.isArray(data)) 
+					if (!angular.isObject(data) && !angular.isArray(data))
 						return data;
 
 					if (data.first_name && data.last_name)
 						data.name = data.first_name + ' ' + data.last_name;
 
-					return _.mapObject(data, function (value, key) {
-						key = (key + '').replace(/_(\w)/g, function (_, $1) {
+					return _.mapObject(data, function(value, key) {
+						key = (key + '').replace(/_(\w)/g, function(_, $1) {
 							return $1.toUpperCase();
 						});
 						if (_.isArray(value)) value = _.map(value, camelCaseize);
@@ -232,12 +232,13 @@
 						return [key, value];
 					});
 				}
+
 				function snakeCaseize(data) {
-					if (!angular.isObject(data) && !angular.isArray(data)) 
+					if (!angular.isObject(data) && !angular.isArray(data))
 						return data;
 
-					return _.mapObject(data, function (value, key) {
-						key = (key + '').replace(/([a-z])([A-Z0-9])/g, function (_, $1, $2) {
+					return _.mapObject(data, function(value, key) {
+						key = (key + '').replace(/([a-z])([A-Z0-9])/g, function(_, $1, $2) {
 							return $1 + '_' + $2.toLowerCase();
 						});
 						if (_.isArray(value)) value = _.map(value, snakeCaseize);
@@ -272,13 +273,13 @@
 			}
 		])
 		.run([
-					'$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService', 
-			function($rootScope,   $location,   userService,   authService,   notificationService) {
+			'$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService',
+			function($rootScope, $location, userService, authService, notificationService) {
 				var path = $location.path();
 
 				var fetchCurrentUser = function(r) {
 					if (!r.id && $location.path() !== '/login' && $location.path().indexOf('/user/confirm') !== 0) {
-            console.log('redirecting to login');
+						console.log('redirecting to login');
 						$location.path('/login').search('path', path);
 					}
 				};
@@ -310,20 +311,20 @@
 
 				// Generic Template-wide helpers
 				// -------------------------
-				$rootScope.addRow = function (array, item) {
+				$rootScope.addRow = function(array, item) {
 					array.push(item);
 				};
 
 				// byId is opt OUT
-				$rootScope.removeRow = function (array, index, byId) {
+				$rootScope.removeRow = function(array, index, byId) {
 					if (byId !== false) {
 						index = _.indexById(array, index);
 					}
 					if (index !== -1) array.splice(index, 1);
 				};
 
-				$rootScope.globalErrorHandler = function (err) {
-					var errorMessage = (err.data || {});
+				$rootScope.globalErrorHandler = function(err) {
+					var errorMessage = (err.data || { });
 					errorMessage = errorMessage.errors || errorMessage.error;
 					if (angular.isArray(errorMessage)) errorMessage = errorMessage.join('<br>');
 					notificationService.error(errorMessage || err.data || err || 'Unknown Error.');
@@ -343,30 +344,30 @@
 	_.mixin({
 		mapObject: _.compose(_.object, _.map),
 		findById: function(items, id) {
-			return _.find(items, function (item) {
+			return _.find(items, function(item) {
 				return item.id == id;
 			});
 		},
-		appendOrUpdate: function (array, item) {
+		appendOrUpdate: function(array, item) {
 			var index = _.indexById(array, item.id);
-			
+
 			if (index !== -1) array[index] = angular.copy(item);
 			else array.push(angular.copy(item));
 		},
-		remove: function (array, item) {
+		remove: function(array, item) {
 			var index = _.indexById(array, item.id);
 			if (index !== -1) array.splice(index, 1);
 		},
-		stripTags: function(str){
-		    if (!str) return '';
-		    return ('' + str).replace(/<\/?[^>]+>/g, '');
+		stripTags: function(str) {
+			if (!str) return '';
+			return ('' + str).replace(/<\/?[^>]+>/g, '');
 		},
-		indexById: function (array, id) {
+		indexById: function(array, id) {
 			var index = -1;
 
 			// we could use 2 underscore functions to do this, but
 			// then it would have to loop through everything twice
-			var exists = _.any(array, function (item) {
+			var exists = _.any(array, function(item) {
 				index++;
 				return item.id == id;
 			});

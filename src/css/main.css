@@ -111,6 +111,9 @@
   font-size: 14px;
   font-weight: normal;
 }
+.ui-pnotify-text {
+  overflow: auto;
+}
 .icon-home {
   background-image: url(/assets/images/home.svg);
 }
@@ -561,6 +564,14 @@ header .login-info .popover-menu .admin-menu li .glyphicon {
 .unauthorized-message {
   padding: 16px;
 }
+.btn-black {
+  background-color: #000000;
+  color: #ffffff;
+}
+.btn-black:hover {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
 label {
   display: inline;
   font-family: 'Lato-Bold';
@@ -849,6 +860,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane,
 .seo-settings .left-pane,
 .create .left-pane,
+.calendar .left-pane,
 .admin-library .left-pane,
 .consult .left-pane,
 .admin-conference .left-pane {
@@ -860,6 +872,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .btn-group,
 .seo-settings .left-pane .btn-group,
 .create .left-pane .btn-group,
+.calendar .left-pane .btn-group,
 .admin-library .left-pane .btn-group,
 .consult .left-pane .btn-group,
 .admin-conference .left-pane .btn-group {
@@ -872,9 +885,20 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .btn-group .btn-create,
 .seo-settings .left-pane .btn-group .btn-create,
 .create .left-pane .btn-group .btn-create,
+.calendar .left-pane .btn-group .btn-create,
 .admin-library .left-pane .btn-group .btn-create,
 .consult .left-pane .btn-group .btn-create,
-.admin-conference .left-pane .btn-group .btn-create {
+.admin-conference .left-pane .btn-group .btn-create,
+.users .left-pane .btn-group .btn-calendar,
+.accounts .left-pane .btn-group .btn-calendar,
+.roles .left-pane .btn-group .btn-calendar,
+.content-settings .left-pane .btn-group .btn-calendar,
+.seo-settings .left-pane .btn-group .btn-calendar,
+.create .left-pane .btn-group .btn-calendar,
+.calendar .left-pane .btn-group .btn-calendar,
+.admin-library .left-pane .btn-group .btn-calendar,
+.consult .left-pane .btn-group .btn-calendar,
+.admin-conference .left-pane .btn-group .btn-calendar {
   background-color: #000000;
   color: #ffffff;
 }
@@ -884,9 +908,20 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .btn-group .btn-create .glyphicon,
 .seo-settings .left-pane .btn-group .btn-create .glyphicon,
 .create .left-pane .btn-group .btn-create .glyphicon,
+.calendar .left-pane .btn-group .btn-create .glyphicon,
 .admin-library .left-pane .btn-group .btn-create .glyphicon,
 .consult .left-pane .btn-group .btn-create .glyphicon,
-.admin-conference .left-pane .btn-group .btn-create .glyphicon {
+.admin-conference .left-pane .btn-group .btn-create .glyphicon,
+.users .left-pane .btn-group .btn-calendar .glyphicon,
+.accounts .left-pane .btn-group .btn-calendar .glyphicon,
+.roles .left-pane .btn-group .btn-calendar .glyphicon,
+.content-settings .left-pane .btn-group .btn-calendar .glyphicon,
+.seo-settings .left-pane .btn-group .btn-calendar .glyphicon,
+.create .left-pane .btn-group .btn-calendar .glyphicon,
+.calendar .left-pane .btn-group .btn-calendar .glyphicon,
+.admin-library .left-pane .btn-group .btn-calendar .glyphicon,
+.consult .left-pane .btn-group .btn-calendar .glyphicon,
+.admin-conference .left-pane .btn-group .btn-calendar .glyphicon {
   margin-right: 8px;
 }
 .users .left-pane .btn-group.btn-group-filter .btn.active,
@@ -895,6 +930,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .btn-group.btn-group-filter .btn.active,
 .seo-settings .left-pane .btn-group.btn-group-filter .btn.active,
 .create .left-pane .btn-group.btn-group-filter .btn.active,
+.calendar .left-pane .btn-group.btn-group-filter .btn.active,
 .admin-library .left-pane .btn-group.btn-group-filter .btn.active,
 .consult .left-pane .btn-group.btn-group-filter .btn.active,
 .admin-conference .left-pane .btn-group.btn-group-filter .btn.active {
@@ -907,6 +943,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane hr,
 .seo-settings .left-pane hr,
 .create .left-pane hr,
+.calendar .left-pane hr,
 .admin-library .left-pane hr,
 .consult .left-pane hr,
 .admin-conference .left-pane hr {
@@ -919,6 +956,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list,
 .seo-settings .left-pane ul.items-list,
 .create .left-pane ul.items-list,
+.calendar .left-pane ul.items-list,
 .admin-library .left-pane ul.items-list,
 .consult .left-pane ul.items-list,
 .admin-conference .left-pane ul.items-list {
@@ -932,6 +970,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list li,
 .seo-settings .left-pane ul.items-list li,
 .create .left-pane ul.items-list li,
+.calendar .left-pane ul.items-list li,
 .admin-library .left-pane ul.items-list li,
 .consult .left-pane ul.items-list li,
 .admin-conference .left-pane ul.items-list li {
@@ -945,6 +984,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list li:hover,
 .seo-settings .left-pane ul.items-list li:hover,
 .create .left-pane ul.items-list li:hover,
+.calendar .left-pane ul.items-list li:hover,
 .admin-library .left-pane ul.items-list li:hover,
 .consult .left-pane ul.items-list li:hover,
 .admin-conference .left-pane ul.items-list li:hover,
@@ -954,6 +994,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list li.selected,
 .seo-settings .left-pane ul.items-list li.selected,
 .create .left-pane ul.items-list li.selected,
+.calendar .left-pane ul.items-list li.selected,
 .admin-library .left-pane ul.items-list li.selected,
 .consult .left-pane ul.items-list li.selected,
 .admin-conference .left-pane ul.items-list li.selected {
@@ -965,6 +1006,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list li .item-image,
 .seo-settings .left-pane ul.items-list li .item-image,
 .create .left-pane ul.items-list li .item-image,
+.calendar .left-pane ul.items-list li .item-image,
 .admin-library .left-pane ul.items-list li .item-image,
 .consult .left-pane ul.items-list li .item-image,
 .admin-conference .left-pane ul.items-list li .item-image {
@@ -977,6 +1019,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list li .item-info,
 .seo-settings .left-pane ul.items-list li .item-info,
 .create .left-pane ul.items-list li .item-info,
+.calendar .left-pane ul.items-list li .item-info,
 .admin-library .left-pane ul.items-list li .item-info,
 .consult .left-pane ul.items-list li .item-info,
 .admin-conference .left-pane ul.items-list li .item-info {
@@ -988,6 +1031,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane ul.items-list li .item-info .item-title,
 .seo-settings .left-pane ul.items-list li .item-info .item-title,
 .create .left-pane ul.items-list li .item-info .item-title,
+.calendar .left-pane ul.items-list li .item-info .item-title,
 .admin-library .left-pane ul.items-list li .item-info .item-title,
 .consult .left-pane ul.items-list li .item-info .item-title,
 .admin-conference .left-pane ul.items-list li .item-info .item-title {
@@ -999,6 +1043,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .pager ul.pagination,
 .seo-settings .left-pane .pager ul.pagination,
 .create .left-pane .pager ul.pagination,
+.calendar .left-pane .pager ul.pagination,
 .admin-library .left-pane .pager ul.pagination,
 .consult .left-pane .pager ul.pagination,
 .admin-conference .left-pane .pager ul.pagination {
@@ -1010,6 +1055,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .pager ul.pagination li a,
 .seo-settings .left-pane .pager ul.pagination li a,
 .create .left-pane .pager ul.pagination li a,
+.calendar .left-pane .pager ul.pagination li a,
 .admin-library .left-pane .pager ul.pagination li a,
 .consult .left-pane .pager ul.pagination li a,
 .admin-conference .left-pane .pager ul.pagination li a {
@@ -1026,6 +1072,7 @@ span[class*=" icon-"].dark {
 .content-settings .left-pane .pager ul.pagination li.active a,
 .seo-settings .left-pane .pager ul.pagination li.active a,
 .create .left-pane .pager ul.pagination li.active a,
+.calendar .left-pane .pager ul.pagination li.active a,
 .admin-library .left-pane .pager ul.pagination li.active a,
 .consult .left-pane .pager ul.pagination li.active a,
 .admin-conference .left-pane .pager ul.pagination li.active a {
@@ -1414,6 +1461,147 @@ span[class*=" icon-"].dark {
 .seo-settings-editor table.persona-table tr.dark td {
   background-color: #E6E4E0;
 }
+.create .left-pane .btn-group,
+.calendar .left-pane .btn-group {
+  margin-top: 12px;
+}
+.create .left-pane .btn-group.add-content .btn,
+.calendar .left-pane .btn-group.add-content .btn,
+.create .left-pane .btn-group.add-content ul,
+.calendar .left-pane .btn-group.add-content ul {
+  width: 100%;
+}
+.create .left-pane .btn-group.add-content .btn,
+.calendar .left-pane .btn-group.add-content .btn {
+  background-color: #000000;
+  color: #ffffff;
+  position: relative;
+}
+.create .left-pane .btn-group.add-content .btn .caret,
+.calendar .left-pane .btn-group.add-content .btn .caret {
+  display: inline-block;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+}
+.create .right-pane .row,
+.calendar .right-pane .row {
+  margin: 20px 0;
+}
+.create .right-pane .row .col-md-12,
+.calendar .right-pane .row .col-md-12 {
+  padding: 0;
+}
+.create .right-pane .concept-container .form-group,
+.calendar .right-pane .concept-container .form-group {
+  max-width: 300px;
+  vertical-align: bottom;
+}
+.create .right-pane .discussion-panel,
+.calendar .right-pane .discussion-panel {
+  margin: 0 15px;
+}
+.create .right-pane .discussion-panel .panel-footer,
+.calendar .right-pane .discussion-panel .panel-footer {
+  background-color: #D7D7D7;
+  position: relative;
+  text-align: center;
+}
+.create .right-pane .discussion-panel .panel-footer textarea,
+.calendar .right-pane .discussion-panel .panel-footer textarea {
+  min-width: 300px;
+  width: 60%;
+}
+.create .right-pane .discussion-panel .panel-footer .btn,
+.calendar .right-pane .discussion-panel .panel-footer .btn {
+  position: absolute;
+  right: 50px;
+  top: 30px;
+}
+.create .right-pane .discussion-panel .panel-body .row,
+.calendar .right-pane .discussion-panel .panel-body .row {
+  border-bottom: dotted 3px #D7D7D7;
+  margin: 8px 16px;
+}
+.create .right-pane .panel-collaborators .panel-footer,
+.calendar .right-pane .panel-collaborators .panel-footer {
+  background-color: #E4E4E4;
+}
+.create .right-pane .panel,
+.calendar .right-pane .panel {
+  background-color: #E4E4E4;
+}
+.create .right-pane .panel .panel-heading,
+.calendar .right-pane .panel .panel-heading {
+  background-color: #000000;
+  color: #ffffff;
+  font-weight: bold;
+}
+.create .right-pane .panel .panel-body,
+.calendar .right-pane .panel .panel-body {
+  background-color: #E4E4E4;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators {
+  list-style: none;
+  margin: 16px 0;
+  padding: 0;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li {
+  position: relative;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa {
+  cursor: pointer;
+  position: absolute;
+  top: 8px;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o {
+  right: 0;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-thumbs-o-up,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa-thumbs-o-up {
+  right: 16px;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .cl-icon,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .cl-icon,
+.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-envelope-o,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa-envelope-o {
+  display: inline-block;
+  font-size: 24pt;
+  margin: 8px 16px 8px 0;
+  position: static;
+  vertical-align: middle;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply {
+  position: relative;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .fa-envelope-o,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .fa-envelope-o {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .guest-collaborator-name,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .guest-collaborator-name {
+  margin-left: 48px;
+  vertical-align: top;
+}
+.create .right-pane .panel.panel-user-info,
+.calendar .right-pane .panel.panel-user-info {
+  font-weight: bold;
+  min-width: 200px;
+  padding: 4px;
+  vertical-align: middle;
+}
+.create .right-pane .btn .fa,
+.calendar .right-pane .btn .fa {
+  display: inline-block;
+  margin-right: 8px;
+}
 .create .left-pane .filter-panel,
 .create .left-pane .tasks-header {
   background-color: #ffb503;
@@ -1423,24 +1611,6 @@ span[class*=" icon-"].dark {
   font-size: 14pt;
   margin: 12px 0;
   padding: 4px;
-}
-.create .left-pane .btn-group {
-  margin-top: 12px;
-}
-.create .left-pane .btn-group.add-content .btn,
-.create .left-pane .btn-group.add-content ul {
-  width: 100%;
-}
-.create .left-pane .btn-group.add-content .btn {
-  background-color: #000000;
-  color: #ffffff;
-  position: relative;
-}
-.create .left-pane .btn-group.add-content .btn .caret {
-  display: inline-block;
-  position: absolute;
-  right: 16px;
-  top: 16px;
 }
 .create .left-pane .panel-group .panel {
   background-color: transparent;
@@ -1598,78 +1768,6 @@ span[class*=" icon-"].dark {
   display: inline-block;
   padding: 0 16px;
 }
-.create .right-pane .concept-container .form-group {
-  max-width: 300px;
-  vertical-align: bottom;
-}
-.create .right-pane .discussion-panel {
-  margin: 0 15px;
-}
-.create .right-pane .discussion-panel .panel-footer {
-  background-color: #D7D7D7;
-  position: relative;
-  text-align: center;
-}
-.create .right-pane .discussion-panel .panel-footer textarea {
-  min-width: 300px;
-  width: 60%;
-}
-.create .right-pane .discussion-panel .panel-footer .btn {
-  position: absolute;
-  right: 50px;
-  top: 30px;
-}
-.create .right-pane .discussion-panel .panel-body .row {
-  border-bottom: dotted 3px #D7D7D7;
-  margin: 8px 16px;
-}
-.create .right-pane .panel-collaborators .panel-footer {
-  background-color: #E4E4E4;
-}
-.create .right-pane .panel {
-  background-color: #E4E4E4;
-}
-.create .right-pane .panel .panel-heading {
-  background-color: #000000;
-  color: #ffffff;
-  font-weight: bold;
-}
-.create .right-pane .panel .panel-body {
-  background-color: #E4E4E4;
-}
-.create .right-pane .panel .panel-body ul.concept-collaborators {
-  list-style: none;
-  margin: 16px 0;
-  padding: 0;
-}
-.create .right-pane .panel .panel-body ul.concept-collaborators li {
-  position: relative;
-}
-.create .right-pane .panel .panel-body ul.concept-collaborators li .fa {
-  cursor: pointer;
-  position: absolute;
-  top: 8px;
-}
-.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o {
-  right: 0;
-}
-.create .right-pane .panel .panel-body ul.concept-collaborators li .fa-thumbs-o-up {
-  right: 16px;
-}
-.create .right-pane .panel.panel-user-info {
-  font-weight: bold;
-  min-width: 200px;
-  padding: 4px;
-  vertical-align: middle;
-}
-.create .right-pane .btn .fa {
-  display: inline-block;
-  margin-right: 8px;
-}
-.create .right-pane .btn-black {
-  background-color: #000000;
-  color: #ffffff;
-}
 .create .right-pane .content-workflow {
   padding: 0;
   position: relative;
@@ -1826,56 +1924,115 @@ span[class*=" icon-"].dark {
 .create-table-container {
   margin: 16px;
 }
-.create-table-container table.create-table {
-  width: 100%;
-}
 .create-table-container table.create-table tr {
   border-bottom: solid 1px #000000;
 }
+.create-table-container table.create-table,
+.calendar-table-container table.create-table,
+.create-table-container table.calendar-table,
+.calendar-table-container table.calendar-table {
+  width: 100%;
+}
 .create-table-container table.create-table tr td,
-.create-table-container table.create-table tr th {
+.calendar-table-container table.create-table tr td,
+.create-table-container table.calendar-table tr td,
+.calendar-table-container table.calendar-table tr td,
+.create-table-container table.create-table tr th,
+.calendar-table-container table.create-table tr th,
+.create-table-container table.calendar-table tr th,
+.calendar-table-container table.calendar-table tr th {
   padding: 8px;
   position: relative;
   text-align: left;
 }
 .create-table-container table.create-table tr td.small-cell,
-.create-table-container table.create-table tr th.small-cell {
+.calendar-table-container table.create-table tr td.small-cell,
+.create-table-container table.calendar-table tr td.small-cell,
+.calendar-table-container table.calendar-table tr td.small-cell,
+.create-table-container table.create-table tr th.small-cell,
+.calendar-table-container table.create-table tr th.small-cell,
+.create-table-container table.calendar-table tr th.small-cell,
+.calendar-table-container table.calendar-table tr th.small-cell {
   width: 50px;
 }
 .create-table-container table.create-table tr td > span,
+.calendar-table-container table.create-table tr td > span,
+.create-table-container table.calendar-table tr td > span,
+.calendar-table-container table.calendar-table tr td > span,
 .create-table-container table.create-table tr th > span,
+.calendar-table-container table.create-table tr th > span,
+.create-table-container table.calendar-table tr th > span,
+.calendar-table-container table.calendar-table tr th > span,
 .create-table-container table.create-table tr td > a,
-.create-table-container table.create-table tr th > a {
+.calendar-table-container table.create-table tr td > a,
+.create-table-container table.calendar-table tr td > a,
+.calendar-table-container table.calendar-table tr td > a,
+.create-table-container table.create-table tr th > a,
+.calendar-table-container table.create-table tr th > a,
+.create-table-container table.calendar-table tr th > a,
+.calendar-table-container table.calendar-table tr th > a {
   display: inline-block;
   vertical-align: middle;
 }
 .create-table-container table.create-table tr td .user-image,
-.create-table-container table.create-table tr th .user-image {
+.calendar-table-container table.create-table tr td .user-image,
+.create-table-container table.calendar-table tr td .user-image,
+.calendar-table-container table.calendar-table tr td .user-image,
+.create-table-container table.create-table tr th .user-image,
+.calendar-table-container table.create-table tr th .user-image,
+.create-table-container table.calendar-table tr th .user-image,
+.calendar-table-container table.calendar-table tr th .user-image {
   border-color: #ffb503;
   height: 32px;
   width: 32px;
 }
 .create-table-container table.create-table tr td .cl-icon,
-.create-table-container table.create-table tr th .cl-icon {
+.calendar-table-container table.create-table tr td .cl-icon,
+.create-table-container table.calendar-table tr td .cl-icon,
+.calendar-table-container table.calendar-table tr td .cl-icon,
+.create-table-container table.create-table tr th .cl-icon,
+.calendar-table-container table.create-table tr th .cl-icon,
+.create-table-container table.calendar-table tr th .cl-icon,
+.calendar-table-container table.calendar-table tr th .cl-icon {
   color: #000000;
   font-size: 20pt;
   height: 32px;
   width: 32px;
 }
 .create-table-container table.create-table tr td .cl-icon-workflow,
-.create-table-container table.create-table tr th .cl-icon-workflow {
+.calendar-table-container table.create-table tr td .cl-icon-workflow,
+.create-table-container table.calendar-table tr td .cl-icon-workflow,
+.calendar-table-container table.calendar-table tr td .cl-icon-workflow,
+.create-table-container table.create-table tr th .cl-icon-workflow,
+.calendar-table-container table.create-table tr th .cl-icon-workflow,
+.create-table-container table.calendar-table tr th .cl-icon-workflow,
+.calendar-table-container table.calendar-table tr th .cl-icon-workflow {
   margin: 4px 8px;
 }
 .create-table-container table.create-table tr td input[type="checkbox"].form-control,
-.create-table-container table.create-table tr th input[type="checkbox"].form-control {
+.calendar-table-container table.create-table tr td input[type="checkbox"].form-control,
+.create-table-container table.calendar-table tr td input[type="checkbox"].form-control,
+.calendar-table-container table.calendar-table tr td input[type="checkbox"].form-control,
+.create-table-container table.create-table tr th input[type="checkbox"].form-control,
+.calendar-table-container table.create-table tr th input[type="checkbox"].form-control,
+.create-table-container table.calendar-table tr th input[type="checkbox"].form-control,
+.calendar-table-container table.calendar-table tr th input[type="checkbox"].form-control {
   height: 20px;
   width: 20px;
 }
-.create-table-container table.create-table tr th .clickable-header {
+.create-table-container table.create-table tr th .clickable-header,
+.calendar-table-container table.create-table tr th .clickable-header,
+.create-table-container table.calendar-table tr th .clickable-header,
+.calendar-table-container table.calendar-table tr th .clickable-header {
   cursor: pointer;
+  font-family: Lato;
+  font-weight: bold;
   text-decoration: underline;
 }
-.create-table-container table.create-table tr.dark td {
+.create-table-container table.create-table tr.dark td,
+.calendar-table-container table.create-table tr.dark td,
+.create-table-container table.calendar-table tr.dark td,
+.calendar-table-container table.calendar-table tr.dark td {
   background-color: #E6E4E0;
 }
 .calendar .right-pane-header {
@@ -1893,6 +2050,9 @@ span[class*=" icon-"].dark {
   max-width: auto;
   min-width: 0;
   width: 100%;
+}
+.calendar .right-pane .calendar-table-container {
+  padding: 16px 0 0 0;
 }
 .header-bar {
   padding: 6px 12px;
@@ -1950,6 +2110,10 @@ span[class*=" icon-"].dark {
 }
 .section-header .paging-controls .pager li > a {
   border-radius: 0;
+}
+.section-header .calendar-download .btn,
+.section-header .calendar-delete .btn {
+  font-size: 15pt;
 }
 .grid-container {
   padding-top: 30px;
@@ -2357,13 +2521,25 @@ table.structural > tbody > tr > td {
   text-decoration: underline;
   margin-left: 10px;
 }
-.btn-create {
-  background-color: #ffb503;
+.btn-create,
+.btn-calendar {
   color: white;
 }
-.btn-create:hover {
+.btn-create:hover,
+.btn-calendar:hover {
   color: white;
+}
+.btn-create {
+  background-color: #ffb503;
+}
+.btn-create:hover {
   background-color: #e9a400;
+}
+.btn-calendar {
+  background-color: #ba1760;
+}
+.btn-calendar:hover {
+  background-color: #a31454;
 }
 .btn-collaborate {
   background-color: #ff5b02;

@@ -178,6 +178,8 @@ Route::group(['prefix' => 'api'], function()
 
   Route::get('account/{accountID}/brainstorm', 'BrainstormController@all');
 
+  Route::get('test', 'ConferencesController@test');
+
 });
 
 Route::get('password/reset/{code}', 'AuthController@check_reset');

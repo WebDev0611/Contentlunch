@@ -13,11 +13,16 @@
 		insert: { method: 'POST', transformRequest: ModelMapperService.comment.formatRequest, transformResponse: ModelMapperService.comment.parseResponse }
 	});
 
-	var campaignCollaborators = $resource('/api/account/:accountId/campaigns/:campaignId/collaborators', { accountId: '@accountId', id: '@campaignId' }, {
+	//var contentCollaborators = $resource('/api/account/:accountId/content/:contentId/collaborators/:userId', { accountId: '@accountId', contentId: '@contentId', userId: '@userId' }, {
+	var campaignCollaborators = $resource('/api/account/:accountId/campaigns/:campaignId/collaborators/:userId', { accountId: '@accountId', campaignId: '@campaignId', userId: '@userId' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.user.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
-		insert: { method: 'POST', transformRequest: ModelMapperService.user.formatRequest, transformResponse: ModelMapperService.user.parseResponse },
-		delete: { method: 'DELETE' }
+		insert: { method: 'POST', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
+		delete: { method: 'DELETE', isArray: true, transformResponse: ModelMapperService.user.parseResponse }
+	});
+
+	var campaignGuestCollaborators = $resource('/api/account/:accountId/campaign/:campaignId/guest-collaborators', { accountId: '@accountId', campaignId: '@campaignId' }, {
+		get: { method: 'GET', transformResponse: ModelMapperService.guestCollaborator.parseResponse }
 	});
 
 	return {
@@ -81,19 +86,25 @@
 
 			return campaignCollaborators.query({ accountId: accountId, campaignId: campaignId }, success, error);
 		},
-		insertCollaborator: function(accountId, campaignId, collaborator, callback) {
+		insertCollaborator: function (accountId, campaignId, userId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return campaignCollaborators.insert({ accountId: accountId, campaignId: campaignId }, collaborator, success, error);
+			return campaignCollaborators.insert({ accountId: accountId, campaignId: campaignId }, { user_id: userId }, success, error);
 		},
-		deleteCollaborator: function(accountId, campaignId, id, callback) {
+		deleteCollaborator: function (accountId, campaignId, userId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return campaignCollaborators.delete({ accountId: accountId, campaignId: campaignId, id: id }, success, error);
+			return campaignCollaborators.delete({ accountId: accountId, campaignId: campaignId, userId: userId }, success, error);
 		},
-		getNewCampaignConcept: function(user) {
+		queryGuestCollaborators: function (accountId, campaignId, params, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return campaignGuestCollaborators.query({ accountId: accountId, campaignId: campaignId }, success, error);
+		},
+		getNewCampaignConcept: function (user) {
 			var campaign = new launch.Campaign();
 
 			campaign.accountId = user.account.id;

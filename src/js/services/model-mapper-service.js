@@ -41,6 +41,7 @@
 			if (launch.utils.isBlank(dto.id)) {
 				return null;
 			}
+
 			var user = self.user.fromDto(dto);
 			var auth = new launch.Authentication();
 
@@ -775,9 +776,9 @@
 			privilege.module = dto.module;
 
 			privilege.accessType = (accessType === 'execute') ? 'execute' : null;
-			privilege.view = (accessType === 'view' && parseInt(dto.access) === 1);
-			privilege.edit = (accessType === 'edit' && parseInt(dto.access) === 1);
-			privilege.execute = (accessType === 'execute' && parseInt(dto.access) === 1);
+			privilege.view = (accessType === 'view');
+			privilege.edit = (accessType === 'edit');
+			privilege.execute = (accessType === 'execute');
 
 			return privilege;
 		},

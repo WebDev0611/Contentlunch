@@ -7,6 +7,10 @@
     {
       "type": "vcs",
       "url": "https://github.com/jbizzay/cabinet"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/surgeforward/laravel-resque.git"
     }
   ],
   "require": {
@@ -27,6 +31,9 @@
     "fzaninotto/faker": "dev-master",
     "facebook/php-sdk-v4": "4.0.9",
     "guzzlehttp/guzzle": "dev-master"
+    "chrisboulton/php-resque": "dev-master",
+    "chrisboulton/php-resque-scheduler": "dev-master",
+    "awellis13/laravel-resque": "dev-better-laravel"
 	},
 	"autoload": {
 		"classmap": [

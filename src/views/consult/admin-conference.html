@@ -35,7 +35,9 @@
             <span ng-if="conference.status == 2">Completed</span>
           </td>
           <td><b>{{ conference.scheduled_date | date:'shortDate' }}</b><br />{{ conference.scheduled_date | date:'shortTime' }}</td>
-          <td><a href="https://drive.google.com/_/yasdf">https://drive.google.com/_/yasdf</a></td>
+          <td>
+            <google-hangout invitees="[conference.user.email]">Start<google-hangout>
+          </td>
           <td>
             <div class="user-image item-image" ng-style="{ 'background-image': conference.launchUser.imageUrl() }"></div>
             <div class="name">{{ conference.launchUser.formatName() }}</div>

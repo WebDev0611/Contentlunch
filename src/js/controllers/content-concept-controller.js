@@ -64,6 +64,8 @@
 
 						self.refreshComments();
 						self.filterCampaigns();
+
+						$scope.guestCollaborators = contentService.queryGuestCollaborators(self.loggedInUser.account.id, contentId, null, self.ajaxHandler);
 					},
 					error: self.ajaxHandler.error
 				});
@@ -81,6 +83,16 @@
 			});
 		};
 
+		self.filterCollaborators = function () {
+			if (!$scope.content || !$scope.content.author) {
+				return;
+			}
+
+			$scope.collaborators = $.grep($scope.users, function (u) {
+				return u.id !== $scope.content.author.id;
+			});
+		};
+
 		$scope.hasError = launch.utils.isPropertyValid;
 		$scope.errorMessage = launch.utils.getPropertyErrorMessage;
 		$scope.forceDirty = false;
@@ -92,6 +104,7 @@
 		$scope.campaigns = null;
 		$scope.users = null;
 		$scope.collaborators = null;
+		$scope.guestCollaborators = null;
 		$scope.isCollaborator = true;
 		$scope.isNewConcept = true;
 		$scope.isContentConcept = true;
@@ -194,16 +207,6 @@
 			}
 		};
 
-		$scope.filterCollaborators = function () {
-			if (!$scope.content || !$scope.content.author) {
-				return;
-			}
-
-			$scope.collaborators = $.grep($scope.users, function (u) {
-				return u.id !== $scope.content.author.id;
-			});
-		};
-
 		$scope.addComment = function (message) {
 			launch.utils.insertComment(message, $scope.content.id, self.loggedInUser, contentService, notificationService, {
 				success: function (r) {
@@ -213,7 +216,7 @@
 			});
 		};
 
-		$scope.$watch('content.author', $scope.filterCollaborators);
+		$scope.$watch('content.author', self.filterCollaborators);
 
 		self.init();
 	}

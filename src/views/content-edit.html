@@ -2,7 +2,7 @@
 	<div class="col-md-3 left-pane">
 		<div task-list task-groups="content.taskGroups" parent-status="content.status" author-id="content.author.id" users="taskUsers" ng-hide="isNewContent || !isCollaborator"></div>
 		
-		<div class="panel panel-default panel-content-activity">
+		<div class="panel panel-default panel-content-activity" ng-hide="isNewContent">
 			<div class="panel-heading">Activity</div>
 			<div class="panel-body">
 				<ul>
@@ -108,7 +108,7 @@
 
 					<div class="control-group">
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'accountConnections', editContent.selContentConnections, forceDirty) }">
-							<label class="control-label" for="selContentConnections">Content Connections</label>
+							<label class="control-label" for="selContentConnections">Content Destinations</label>
 							<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple" ng-disabled="isReadOnly" ng-change="updateContentConnection()"
 									ui-select2="{ formatResult: formatContentConnectionItem, formatSelection: formatContentConnectionItem }" ng-model="contentConnectionIds" data-placeholder="Select Content Connection"
 									error-message error-message-item="content" error-message-property="'accountConnections'" error-message-control="editContent.selContentConnections">

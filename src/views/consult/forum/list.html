@@ -1,4 +1,8 @@
-<div class="view consult forum">
+<div class="loading-spinner-container" ng-hide="isLoaded">
+    <spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
+</div>
+
+<div ng-show="isLoaded" class="view consult forum">
     <div class="col-md-3 left-pane">
         <button ng-show="canCreate" class="btn full-width small-nudge-down btn-inverse" ng-click="thread = {}; showNewThreadForm = true">
             Create New Thread

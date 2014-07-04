@@ -37,7 +37,7 @@ class ForumThreadController extends BaseController {
         }
 
         if(!$this->hasAbility([], ['consult_execute_forum_create'])) {
-          return $this->responseError('You do not have permission to create campaigns', 401);
+            return $this->responseError('You do not have permission to create threads', 401);
         }
 
         $thread = new ForumThread();
