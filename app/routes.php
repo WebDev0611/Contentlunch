@@ -36,6 +36,8 @@ Route::group(['prefix' => 'api'], function()
 
 
   Route::get('account/{accountID}/content/export-csv', 'ContentController@download_csv');
+  // Launch a content connection
+  Route::post('account/{accountID}/content/{contentID}/launch/{accountConnectionID}', 'ContentController@launch');
   Route::resource('account/{id}/content', 'ContentController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);

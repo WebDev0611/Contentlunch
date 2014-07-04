@@ -244,4 +244,46 @@ class ContentController extends BaseController {
     CSV::download_csv($content, $filename);
   }
 
+  public function launch($accountID, $contentID, $accountConnectionID)
+  {
+    if ( ! $this->inAccount($accountID)) {
+      return $this->responseAccessDenied();
+    }
+    $content = Content::find($contentID);
+    if ($content && $content->account_id != $accountID) {
+      return $this->responseAccessDenied();
+    }
+    if ( ! $content) {
+      return $this->responseError("Content not found");
+    }
+    $accountConnection = $content
+      ->account_connections()
+      ->with('connection')
+      ->where('account_connections.id', $accountConnectionID)
+      ->first();
+    if ( ! $accountConnection) {
+      return $this->responseError("Account Connection not found");
+    }
+    switch ($accountConnection->connection->provider) {
+      case 'facebook':
+        $api = new Launch\Connections\API\FacebookAPI($accountConnection->toArray());
+      break;
+    }
+    $response = $api->postContent($content);
+    if ( ! isset($response['success']) || ! isset($response['response'])) {
+      throw new \Exception("Response from connection API must set success and response");
+    }
+    $launch = new LaunchResponse([
+      'content_id' => $content->id,
+      'account_connection_id' => $accountConnection->id,
+      'success' => $response['success'],
+      'response' => serialize($response['response']),
+    ]);
+    $launch->save();
+    if ( ! empty($response['response']['error'])) {
+      return $this->responseError($response['response']['error']);
+    }
+    return $launch;
+  }
+
 }

@@ -33,6 +33,8 @@
     "felixkiss/uniquewith-validator": "1.1.*",
     "way/generators": "2.*",
     "fzaninotto/faker": "dev-master",
+    "facebook/php-sdk-v4": "4.0.9",
+    "guzzlehttp/guzzle": "dev-master",
     "chrisboulton/php-resque": "dev-master",
     "chrisboulton/php-resque-scheduler": "dev-actually-works",
     "awellis13/laravel-resque": "dev-better-laravel"

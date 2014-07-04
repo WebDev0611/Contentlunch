@@ -58,6 +58,9 @@ return [
     'scope' => ['api'],
     'callback_domain' => 'http://localhost:8080'
   ],
+  'scribe' => [
+    'key' => 'scribe-524586291c334afe8d25cf4970150247',
+  ],
   'soundcloud' => [
     'key' => 'd37263dd5600d9b0b1764dd914883364',
     'secret' => '11bda186d51299bb2f45d3d79a75ddf3',
