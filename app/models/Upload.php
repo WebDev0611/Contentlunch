@@ -7,6 +7,14 @@ class Upload extends CabinetUpload {
 
   protected $softDelete = true;
 
+  /**
+   * Get the absolute url to the upload
+   */
+  public function getUrl()
+  {
+     return URL::asset(str_replace('/public/', '', $this->path) . $this->filename);
+  }
+
   public function account()
   {
     return $this->belongsTo('Account');

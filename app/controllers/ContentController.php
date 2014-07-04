@@ -266,12 +266,19 @@ class ContentController extends BaseController {
     }
     switch ($accountConnection->connection->provider) {
       case 'facebook':
-        $api = new Launch\Connections\API\FacebookAPI($accountConnection->toArray());
+        $class = 'FacebookAPI';;
+      break;
+      case 'linkedin':
+        $class = 'LinkedInAPI';
       break;
       case 'twitter':
-        $api = new Launch\Connections\API\TwitterAPI($accountConnection->toArray());
+        $class = 'TwitterAPI';
       break;
+      default:
+        return $this->responseError("Connection provider: ". $accountConnection->connection->provider ." not implemented yet.");
     }
+    $class = 'Launch\Connections\API\\'. $class;
+    $api = new $class($accountConnection->toArray());
     $response = $api->postContent($content);
     if ( ! isset($response['success']) || ! isset($response['response'])) {
       throw new \Exception("Response from connection API must set success and response");

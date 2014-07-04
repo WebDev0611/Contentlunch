@@ -37,7 +37,8 @@
     "guzzlehttp/guzzle": "dev-master",
     "chrisboulton/php-resque": "dev-master",
     "chrisboulton/php-resque-scheduler": "dev-actually-works",
-    "awellis13/laravel-resque": "dev-better-laravel"
+    "awellis13/laravel-resque": "dev-better-laravel",
+    "openlss/lib-array2xml": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
