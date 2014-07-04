@@ -11,6 +11,10 @@
     {
       "type": "vcs",
       "url": "https://github.com/surgeforward/laravel-resque.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/surgeforward/php-resque-scheduler.git"
     }
   ],
   "require": {
@@ -30,7 +34,7 @@
     "way/generators": "2.*",
     "fzaninotto/faker": "dev-master",
     "chrisboulton/php-resque": "dev-master",
-    "chrisboulton/php-resque-scheduler": "dev-master",
+    "chrisboulton/php-resque-scheduler": "dev-actually-works",
     "awellis13/laravel-resque": "dev-better-laravel"
 	},
 	"autoload": {
