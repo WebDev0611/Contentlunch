@@ -4,6 +4,7 @@
 	self.id = null;
 	self.name = null;
 	self.title = null;
+	self.baseType = null;
 
 	self.allowText = function () {
 		switch (self.name) {

@@ -106,10 +106,10 @@
 						</div>
 					</div>
 
-					<div class="control-group">
+					<div class="control-group" ng-if="!!contentConnections.length">
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'accountConnections', editContent.selContentConnections, forceDirty) }">
 							<label class="control-label" for="selContentConnections">Content Destinations</label>
-							<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple" ng-disabled="isReadOnly" ng-change="updateContentConnection()"
+							<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple" ng-disabled="isReadOnly" ng-change="updateContentConnection(contentConnectionIds)"
 									ui-select2="{ formatResult: formatContentConnectionItem, formatSelection: formatContentConnectionItem }" ng-model="contentConnectionIds" data-placeholder="Select Content Connection"
 									error-message error-message-item="content" error-message-property="'accountConnections'" error-message-control="editContent.selContentConnections">
 								<option ng-repeat="cc in contentConnections" value="{{ cc.id }}">{{ cc.name }}</option>
@@ -160,14 +160,14 @@
 								<span ng-show="!content.archived">PROMOTE CONTENT</span>
 							</button>
 
-							<div class="btn-group btn-launch-container" ng-show="(content.status >= 3 && canLaunchContent)">
-								<button type="button" class="btn btn-lg btn-default btn-launch dropdown-toggle" data-toggle="dropdown">
+							<div class="btn-group btn-launch-container dropdown" ng-show="(content.status >= 3 && canLaunchContent)">
+								<button type="button" class="btn btn-lg btn-default btn-launch dropdown-toggle">
 									<span class="cl-icon cl-icon-white cl-icon-workflow-launch"></span>
 									<span ng-show="!content.archived">LAUNCH CONTENT</span>
 									<span class="caret"></span>
 								</button>
-								<ul class="dropdown-menu" role="menu">
-									<li ng-repeat="connection in contentConnections" ng-click="launchContent(connection)">
+								<ul class="dropdown-menu" role="menu" ng-if="!!contentConnections.length">
+									<li ng-repeat="connection in contentConnections" ng-click="launchContent(connection)" ng-show="providerIsSupported(connection.provider)">
 										<input type="checkbox" class="form-control" ng-click="toggleSelectedConnections(connection, $event)" />
 										<a href="#">
 											<div>

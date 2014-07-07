@@ -22,6 +22,7 @@
 
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
+			$scope.contentConnections = connectionService.queryContentConnections(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, {
 				success: function(r) {
 					if ($scope.isNewContent) {
@@ -30,7 +31,6 @@
 				},
 				error: self.ajaxHandler.error
 			});
-			$scope.contentConnections = connectionService.queryContentConnections(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
 				success: function (r) {
 					if ($.isArray($scope.contentSettings.personaProperties)) {
@@ -52,15 +52,6 @@
 				self.setPrivileges();
 			} else {
 				$scope.isNewContent = false;
-
-				// NEED TO PAUSE HERE DUE TO A RACE SITUATION BETWEEN TRYING TO FETCH CONTENT CONNECTIONS
-				// AND THE CONTENT ITEM. THE SELECT2 DROP-DOWN NEEDS TO GET ITS OPTIONS IN PLACE BEFORE WE
-				// SET THE MODEL FOR THE CONTROL. COMPLETE HACK DUE TO LIMITATIONS OF THE CONTROL.
-				if (!$scope.contentConnections || !$scope.contentConnections.$resolved) {
-					window.setTimeout(self.refreshContent, 200);
-					$scope.content = null;
-					return;
-				}
 
 				$scope.content = contentService.get(self.loggedInUser.account.id, self.contentId, {
 					success: function (r) {
@@ -315,6 +306,7 @@
 		$scope.contentTypes = null;
 		$scope.contentSettings = null;
 		$scope.contentConnections = null;
+		$scope.allowedConnections = null;
 		$scope.campaigns = null;
 		$scope.users = null;
 		$scope.activity = null;
@@ -396,7 +388,7 @@
 
 			$scope.forceDirty = true;
 
-			$scope.updateContentConnection();
+			$scope.updateContentConnection($scope.contentConnectionIds);
 
 			var msg = launch.utils.validateAll($scope.content);
 
@@ -519,7 +511,9 @@
 			}
 		};
 
-		$scope.updateContentConnection = function () {
+		$scope.updateContentConnection = function (ids) {
+			$scope.contentConnectionIds = ids;
+
 			if ($.isArray($scope.contentConnectionIds)) {
 				var contentConnectionIds = $.map($scope.contentConnectionIds, function (id) { return parseInt(id); });
 				var contentConnections = $.grep($scope.contentConnections, function (cc) { return $.inArray(cc.id, contentConnectionIds) >= 0; });
@@ -779,6 +773,7 @@
 
 		$scope.launchContent = function(connection) {
 			console.log('Launching to ' + connection.name);
+			// TODO: IMPLEMENT CALL TO API TO LAUNCH!!
 		};
 
 		$scope.toggleSelectedConnections = function(connection, e) {
@@ -804,10 +799,43 @@
 			}
 
 			$.each($scope.selectedConnections, function(i, c) {
-				console.log('Launching to ' + c.name);
+				$scope.launchContent(c);
 			});
 
 			$scope.selectedConnections = [];
+		};
+
+		$scope.providerIsSupported = function(provider) {
+			if (!$scope.content || !$scope.content.contentType || launch.utils.isBlank($scope.content.contentType.baseType)) {
+				return false;
+			}
+
+			switch ($scope.content.contentType.baseType) {
+				case 'audio':
+					return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce' || provider === 'soundcloud');
+				case 'blog-post':
+					return (provider === 'wordpress' || provider === 'tumblr');
+				case 'document':
+					return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce');
+				case 'generic-file':
+					return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce');
+				case 'email':
+					return (provider === 'constant-contact');
+				case 'social-media-post':
+					if (provider === 'twitter') {
+						return (launch.utils.isBlank($scope.content.body) || $scope.content.body.length < 140);
+					}
+
+					return (provider === 'facebook' || provider === 'google' || provider === 'linkedin' || provider === 'twitter');
+				case 'long-html':
+					return (provider === 'drupal' || provider === 'joomla'|| provider === 'tumblr' || provider === 'wordpress');
+				case 'photo':
+					return (provider === 'dropbox' || provider === 'facebook' || provider === 'google' || provider === 'google-drive' ||  provider === 'linkedin' || provider === 'salesforce' ||provider === 'twitter');
+				case 'video':
+					return (provider === 'vimeo' || provider === 'youtube');
+				default:
+					return false;
+			}
 		};
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
