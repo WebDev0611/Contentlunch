@@ -154,7 +154,9 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
 
     // aw man, this kinda sucks
     $scope.shouldShow = function (column) {
-        if (!($scope.campaign || {}).campaignTypeId) return false;
+        var id = ($scope.campaign || {}).campaignTypeId;
+        if (!id) return false;
+        id = parseInt(id);
 
         // 1  : Adertising Campaign
         // 2  : Branding Promotion
