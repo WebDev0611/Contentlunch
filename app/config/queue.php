@@ -15,7 +15,7 @@ return array(
 	|
 	*/
 
-	'default' => 'resque',
+	'default' => 'beanstalkd',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -60,9 +60,6 @@ return array(
 			'queue'  => 'default',
 		),
 
-		'resque' => array(
-		    'driver' => 'resque'
-		)
 	),
 
 	/*

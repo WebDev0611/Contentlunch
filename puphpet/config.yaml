@@ -63,6 +63,7 @@ server:
         - zsh
         - nodejs
         - npm
+        - beanstalkd
     dot_files:
         -
             bash_aliases: null

@@ -115,13 +115,15 @@ class ConferencesController extends BaseController {
 
   // Scheduler Jobs
   // -------------------------
-  public function emailReminder($data = [])
+  public function emailReminder($job, $data = [])
   {
     Log::info('Running emailReminder job.');
 
     Mail::send('emails.conference.reminder', $data, function ($message) {
       $message->to('cameronspear@gmail.com')->subject('Content Launch Conference Reminder');
     });
+
+    $job->delete();
   }
 
 }
