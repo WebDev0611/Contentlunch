@@ -69,6 +69,7 @@ function ($scope,   $filter,   $modal,   AccountService,   ConferenceService,   
               $scope.ok = function () {
                 $scope.conference.scheduled_date = $filter('date')($scope.conference.scheduled_date_date, 'shortDate');
                 $scope.conference.scheduled_time = $filter('date')($scope.conference.scheduled_date_time, 'shortTime');
+                $scope.conference.scheduled_timezone = moment().format('ZZ');
       
                 if ($scope.mode == 'create') {
                   ConferenceService.Conferences.save($scope.conference, function (response) {

@@ -14,22 +14,22 @@ class UserController extends BaseController {
 			->with('image')
 			->with('accounts');
 
-    if (Input::has('permission')) {
-      // User must have ALL passed permissions
-      $query->whereHas('roles', function ($q) {
-        $perms = explode(',', Input::get('permission'));
-        foreach ($perms as $p) {
-          $q->whereHas('perms', function ($q) use ($p) {
-            $q->where('permissions.name', trim($p));
-          });
-        }
-      }); 
-    }
+	if (Input::has('permission')) {
+	  // User must have ALL passed permissions
+	  $query->whereHas('roles', function ($q) {
+		$perms = explode(',', Input::get('permission'));
+		foreach ($perms as $p) {
+		  $q->whereHas('perms', function ($q) use ($p) {
+			$q->where('permissions.name', trim($p));
+		  });
+		}
+	  }); 
+	}
 
 		if (Input::get('roles')) {
 			$query->roles(Input::get('roles'));
 		}
-    return $query->get();
+	return $query->get();
 
 		$users = $query->get()->toArray();
 		// @todo: How to limit columns returned with eloquent relationships?
@@ -55,11 +55,11 @@ class UserController extends BaseController {
 				$user['accounts'] = $accounts;
 			}
 		}
-    /*
-    $queries = DB::getQueryLog();
-    $last_query = end($queries);
-    print_r($queries);
-    // */
+	/*
+	$queries = DB::getQueryLog();
+	$last_query = end($queries);
+	print_r($queries);
+	// */
 		return $users;
 	}
 
@@ -75,48 +75,48 @@ class UserController extends BaseController {
 			return $this->responseAccessDenied();
 		}
 		$user = new User;
-    // Check for soft deleted user, reinstate account
-    $user = User::withTrashed()
-      ->where('email', Input::get('email'))
-      ->first();
-    if ($user) {
-      $user->deleted_at = null;
-      $mode = 'update';
-    } else {
-      $user = new User;
-      $mode = 'create';
-    }
-    $user->username = Input::get('email');
-    // Taken from ConfideUser. Ardent purges this field
-    $user->confirmation_code = md5( uniqid(mt_rand(), true) );
-    // Password can't be null, set a random temp password
-    $user->password = $user->password_confirmation = substr(uniqid(mt_rand(), true), 0, 8);
-    // Make sure user is unconfirmed
-    // If confirmed exist in the request, ardent will try to hydrate from
-    // those values, so just set those values in the request input
-    $input = Request::all();
-    $input['confirmed'] = 0;
-    Request::replace($input);
-    if ($mode == 'update') {
-      $ret = $user->updateUniques();
-    } else {
-      $ret = $user->save();
-    }
-    if ($ret)
-    {
-    	// Save roles
-    	$user->saveRoles(Input::get('roles'));
-    	$data = ['user' => $user];
-    	// Send confirmation email
-    	Mail::send('emails.auth.confirm', $data, function ($message) use ($user) {
+	// Check for soft deleted user, reinstate account
+	$user = User::withTrashed()
+	  ->where('email', Input::get('email'))
+	  ->first();
+	if ($user) {
+	  $user->deleted_at = null;
+	  $mode = 'update';
+	} else {
+	  $user = new User;
+	  $mode = 'create';
+	}
+	$user->username = Input::get('email');
+	// Taken from ConfideUser. Ardent purges this field
+	$user->confirmation_code = md5( uniqid(mt_rand(), true) );
+	// Password can't be null, set a random temp password
+	$user->password = $user->password_confirmation = substr(uniqid(mt_rand(), true), 0, 8);
+	// Make sure user is unconfirmed
+	// If confirmed exist in the request, ardent will try to hydrate from
+	// those values, so just set those values in the request input
+	$input = Request::all();
+	$input['confirmed'] = 0;
+	Request::replace($input);
+	if ($mode == 'update') {
+	  $ret = $user->updateUniques();
+	} else {
+	  $ret = $user->save();
+	}
+	if ($ret)
+	{
+		// Save roles
+		$user->saveRoles(Input::get('roles'));
+		$data = ['user' => $user];
+		// Send confirmation email
+		Mail::send('emails.auth.confirm', $data, function ($message) use ($user) {
 				$message->to($user->email)->subject('Account Confirmation');
 			});
-    	return $this->show($user->id);
-    }
-    else
-    {
-      return $this->responseError($user->errors()->all(':message'));
-    }
+		return $this->show($user->id);
+	}
+	else
+	{
+	  return $this->responseError($user->errors()->all(':message'));
+	}
 	}
 
 	public function show($id)
@@ -128,7 +128,7 @@ class UserController extends BaseController {
 		if ( ! $user) {
 			return $this->responseError("User not found.");
 		}
-    $user->modules = [];
+	$user->modules = [];
 		if (isset($user->accounts[0])) {
 			$account = Account::find($user->accounts[0]->id);
 			$modules = $account->modules;
@@ -141,25 +141,22 @@ class UserController extends BaseController {
 		} else {
 			$user->modules = [];
 		}
-    
+	
 		if (isset($user->roles[0])) {
 			$role = Role::find($user->roles[0]->id);
 			// Site admin has all permissions
-			if ($role->name == 'site_admin') {
+			if ($role->name == 'global_admin') {
 				$user->permissions = Permission::all()->toArray();
-      } elseif ($role->name == 'global_admin') {
-        //$user->permissions = $role->perms->toArray();
-        $user->permissions = Permission::all()->toArray();
-        $modules = [['name' => 'admin', 'title' => 'Admin', 'subscribable' => false], ['name' => 'settings', 'title' => 'Settings', 'subscribable' => false]];
-        $user->modules = $modules;
+				$modules = [['name' => 'admin', 'title' => 'Admin', 'subscribable' => false], ['name' => 'settings', 'title' => 'Settings', 'subscribable' => false]];
+				$user->modules = $modules;
 			} else {
 				$user->permissions = $role->perms->toArray();
 			}
 		}
 
-    if ( ! empty($user->preferences)) {
-      $user->preferences = unserialize($user->preferences);
-    }
+	if ( ! empty($user->preferences)) {
+	  $user->preferences = unserialize($user->preferences);
+	}
 
 		if ($user) {
 			if (Session::get('impersonate_from') && Session::get('impersonate_from') != $id) {
@@ -173,15 +170,15 @@ class UserController extends BaseController {
 	{
 		// Restrict to execute users permission
 		// @todo: restrict user is in same account
-    // Check if user is editing themself
-    $loggedInUser = Confide::user();
-    if ($loggedInUser && $loggedInUser->id == $id) {
+	// Check if user is editing themself
+	$loggedInUser = Confide::user();
+	if ($loggedInUser && $loggedInUser->id == $id) {
 
-    } else {
+	} else {
 		  if ( ! $this->hasAbility(array(), array('settings_execute_users'))) {
 			 return $this->responseAccessDenied();
 		  }
-    }
+	}
 		$user = User::find($id);
 
 		if ( ! $user) {
@@ -262,32 +259,32 @@ class UserController extends BaseController {
 
   public function savePreferences($userID, $key)
   {
-    $user = User::find($userID);
-    $currentUser = Confide::user();
-    if ( ! $currentUser || ( $userID != $currentUser->id )) {
-      return $this->responseAccessDenied();
-    }
-    $prefs = [];
-    if ( ! empty($user->preferences)) {
-      $prefs = unserialize($user->preferences);
-    }
-    if (empty($prefs[$key])) {
-      $prefs[$key] = [];
-    }
-    $prefs[$key] = (array) Input::get('preferences');
-    // If these preferences are all empty, remove this key
-    $unset = true;
-    foreach ($prefs[$key] as $prefKey => $value) {
-      if ( ! empty($value)) {
-        $unset = false;
-      }
-    }
-    if ($unset) {
-      unset($prefs[$key]);
-    }
-    $user->preferences = serialize($prefs);
-    $user->updateUniques();
-    return ['success' => 'OK'];
+	$user = User::find($userID);
+	$currentUser = Confide::user();
+	if ( ! $currentUser || ( $userID != $currentUser->id )) {
+	  return $this->responseAccessDenied();
+	}
+	$prefs = [];
+	if ( ! empty($user->preferences)) {
+	  $prefs = unserialize($user->preferences);
+	}
+	if (empty($prefs[$key])) {
+	  $prefs[$key] = [];
+	}
+	$prefs[$key] = (array) Input::get('preferences');
+	// If these preferences are all empty, remove this key
+	$unset = true;
+	foreach ($prefs[$key] as $prefKey => $value) {
+	  if ( ! empty($value)) {
+		$unset = false;
+	  }
+	}
+	if ($unset) {
+	  unset($prefs[$key]);
+	}
+	$user->preferences = serialize($prefs);
+	$user->updateUniques();
+	return ['success' => 'OK'];
   }
 
 }

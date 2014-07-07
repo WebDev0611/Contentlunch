@@ -55,6 +55,7 @@ class ConferencesController extends BaseController {
     }
 
     if ($conference->save()) {
+      Scheduler::videoConferenceReminder($conference);
       return $this->show($accountID, $conference->id);
     }
     return $this->responseError($conference->errors()->all(':message'));
@@ -91,6 +92,7 @@ class ConferencesController extends BaseController {
     }
 
     if ($conference->updateUniques()) {
+      Scheduler::videoConferenceReminder($conference);
       return $this->show($accountID, $conferenceID);
     }
     return $this->responseError($conference->errors()->all(':message'));
@@ -110,7 +112,7 @@ class ConferencesController extends BaseController {
 
   public function test()
   {
-    Scheduler::videoConferenceReminder(1);
+    Scheduler::videoConferenceReminder(Conference::find(1));
   }
 
   // Scheduler Jobs

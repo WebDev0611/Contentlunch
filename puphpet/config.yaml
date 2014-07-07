@@ -135,7 +135,7 @@ php:
         display_errors: On
         error_reporting: '-1'
         session.save_path: /var/lib/php/session
-    timezone: America/Los_Angeles
+    timezone: UTC
 xdebug:
     install: '1'
     settings:

@@ -27,4 +27,25 @@ class Conference extends Ardent {
     return $this->belongsTo('User')->with('image');
   }
 
+  protected function beforeSave()
+  {
+    if (is_array(@$this->tokens)) {
+      $this->tokens = json_encode($this->tokens);
+    }
+  }
+
+  public function toArray()
+  {
+    $values = parent::toArray();
+
+    if (is_string(@$values['tokens'])) {
+      $values['tokens'] = @json_decode($values['tokens'], true);
+    }
+    if (!@$values['tokens']) {
+      $values['tokens'] = [];
+    }
+
+    return $values;
+  }
+
 }
