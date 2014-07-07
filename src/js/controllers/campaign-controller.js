@@ -199,7 +199,7 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
                 console.error('Column not found: ' + column);
         }
 
-        return _.contains(validIds, $scope.campaign.campaignTypeId);
+        return _.contains(validIds, id);
     };
 
     function newCampaign() {
