@@ -333,6 +333,7 @@
 		$scope.defaultTaskGroup = null;
 		$scope.taskUsers = null;
 		$scope.collaborators = null;
+		$scope.selectedConnections = [];
 
 		$scope.hasError = launch.utils.isPropertyValid;
 		$scope.errorMessage = launch.utils.getPropertyErrorMessage;
@@ -774,6 +775,39 @@
 				},
 				error: self.ajaxHandler.error
 			});
+		};
+
+		$scope.launchContent = function(connection) {
+			console.log('Launching to ' + connection.name);
+		};
+
+		$scope.toggleSelectedConnections = function(connection, e) {
+			var checkbox = $(e.currentTarget);
+
+			if (checkbox.is(':checked')) {
+				if ($.grep($scope.selectedConnections, function (c) { return c.id === connection.id; }).length === 0) {
+					$scope.selectedConnections.push(connection);
+				}
+			} else {
+				$scope.selectedConnections = $.grep($scope.selectedConnections, function(c) {
+					return c.id !== connection.id;
+				});
+			}
+
+			e.stopImmediatePropagation();
+		};
+
+		$scope.launchSelected = function() {
+			if (!$.isArray($scope.selectedConnections) || $scope.selectedConnections.length === 0) {
+				notificationService.error('Error!', 'Please select one or more connections to which to launch the content.');
+				return;
+			}
+
+			$.each($scope.selectedConnections, function(i, c) {
+				console.log('Launching to ' + c.name);
+			});
+
+			$scope.selectedConnections = [];
 		};
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);

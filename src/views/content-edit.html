@@ -155,10 +155,35 @@
 						<div ng-bind-html="content.body"></div>
 					
 						<div class="control-group" ng-show="content.status >= 3 && !content.archived">
-							<button type="button" class="btn btn-lg btn-default" ng-class="'btn-' + content.currentStep()" ng-click="submitContent()" ng-disabled="(content.status === 4 && !canPromoteContent) || (content.status === 3 && !canLaunchContent)">
-								<span class="cl-icon cl-icon-white" ng-class="'cl-icon-workflow-' + content.currentStep()"></span>
-								<span ng-show="!content.archived">{{ content.currentStep().toUpperCase() }} CONTENT</span>
+							<button type="button" class="btn btn-lg btn-default btn-promote" ng-click="submitContent()" ng-show="(content.status === 4 && canPromoteContent)">
+								<span class="cl-icon cl-icon-white cl-icon-workflow-promote"></span>
+								<span ng-show="!content.archived">PROMOTE CONTENT</span>
 							</button>
+
+							<div class="btn-group btn-launch-container" ng-show="(content.status >= 3 && canLaunchContent)">
+								<button type="button" class="btn btn-lg btn-default btn-launch dropdown-toggle" data-toggle="dropdown">
+									<span class="cl-icon cl-icon-white cl-icon-workflow-launch"></span>
+									<span ng-show="!content.archived">LAUNCH CONTENT</span>
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li ng-repeat="connection in contentConnections" ng-click="launchContent(connection)">
+										<input type="checkbox" class="form-control" ng-click="toggleSelectedConnections(connection, $event)" />
+										<a href="#">
+											<div>
+												<span class="{{ 'cl-icon ' + getConnectionProviderIconClass(connection.name) }}"></span>
+												{{ connection.name }}
+											</div>
+										</a>
+									</li>
+									<li>
+										<button type="button" class="btn btn-lg btn-default btn-launch" ng-click="launchSelected()" ng-disabled="(!selectedConnections || selectedConnections.length === 0)">
+											<span class="cl-icon cl-icon-white cl-icon-workflow-launch"></span>
+											<span ng-show="!content.archived">LAUNCH SELECTED</span>
+										</button>
+									</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 

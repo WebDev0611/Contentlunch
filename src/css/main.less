@@ -1630,11 +1630,40 @@ span[class^="icon-"], span[class*=" icon-"] {
 				margin: 0;
 				position: relative;
 
+				.btn-launch-container {
+					float: right;
+
+					ul.dropdown-menu {
+						li {
+							padding: 8px;
+
+							&:hover{
+								background-color: #f5f5f5;
+							}
+
+							> * {
+								display: inline-block;
+								vertical-align: top;
+							}
+
+							a {
+								padding: 0;
+							}
+
+							.form-control {
+								margin: 2px 0;
+								height: 16px;
+								width: 16px;
+							}
+						}
+					}
+				}
+
 				.btn-launch, .btn-promote {
 					color: #ffffff;
+					float: right;
 					font-size: 12pt;
 					font-weight: bold;
-					position: absolute;
 					right: 8px;
 
 					span {
