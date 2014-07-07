@@ -1,11 +1,11 @@
-<div class="view create" ng-show="!isLoading">
+<div class="view calendar" ng-show="!isLoading">
 	<div class="col-md-3 left-pane">
 		<label for="selAllItems">Your Concepts</label>
 		<select id="selAllItems" name="selAllItems" class="form-control" ng-model="selectedItemId" ng-options="item.id as item.title for item in allItems" ng-change="changeItem()">
 		</select>
 	</div>
-	<div class="col-md-9 right-pane" ng-show="canViewContent">
-		<h2 class="right-pane-header">Create</h2>
+	<div class="col-md-9 right-pane" ng-show="canViewCampaign">
+		<h2 class="right-pane-header">Campaign</h2>
 		<form name="editConcept" novalidate="novalidate">
 			<div class="concept-editor row">
 				<div class="col-md-9">

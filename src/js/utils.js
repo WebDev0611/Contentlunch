@@ -587,7 +587,7 @@
 			case 'wordpress':
 				return 'cl-icon-wordpress';
 			case 'youtube':
-				return 'cl-icon-youtube';
+				return 'fa fa-youtube';
 			default:
 				return 'fa fa-question';
 		}
