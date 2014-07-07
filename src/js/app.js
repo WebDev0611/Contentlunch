@@ -193,8 +193,8 @@
 
 				// take all the requests from the server and transform snake_case to camelCase
 				RestangularProvider.addResponseInterceptor(function(data, operation, route, url) {
-					if (_.isArray(data)) return _.map(data, camelCaseize);
-					return camelCaseize(data);
+					if (_.isArray(data)) return _.map(data, toClient);
+					return toClient(data);
 				});
 
 				// take all the requests to the server (that have data) and convert snake_case back to camelCase
@@ -206,7 +206,7 @@
 					var origData = angular.copy(data);
 
 					try {
-						data = snakeCaseize(data);
+						data = toServer(data);
 						return data;
 					} catch (err) {
 						console.error(err);
@@ -216,33 +216,36 @@
 
 				// thank https://github.com/blakeembrey/change-case/
 				// for help on the case changing here
-				function camelCaseize(data) {
+				function toClient(data) {
 					if (!angular.isObject(data) && !angular.isArray(data))
 						return data;
 
+					// name shortcut
 					if (data.first_name && data.last_name)
 						data.name = data.first_name + ' ' + data.last_name;
 
 					return _.mapObject(data, function(value, key) {
+						// camelCaseize
 						key = (key + '').replace(/_(\w)/g, function(_, $1) {
 							return $1.toUpperCase();
 						});
-						if (_.isArray(value)) value = _.map(value, camelCaseize);
-						else if (_.isPlainObject(value)) value = camelCaseize(value);
+						if (_.isArray(value)) value = _.map(value, toClient);
+						else if (_.isPlainObject(value)) value = toClient(value);
 						return [key, value];
 					});
 				}
 
-				function snakeCaseize(data) {
+				function toServer(data) {
 					if (!angular.isObject(data) && !angular.isArray(data))
 						return data;
 
 					return _.mapObject(data, function(value, key) {
+						// snake_caseize
 						key = (key + '').replace(/([a-z])([A-Z0-9])/g, function(_, $1, $2) {
 							return $1 + '_' + $2.toLowerCase();
 						});
-						if (_.isArray(value)) value = _.map(value, snakeCaseize);
-						else if (_.isPlainObject(value)) value = snakeCaseize(value);
+						if (_.isArray(value)) value = _.map(value, toServer);
+						else if (_.isPlainObject(value)) value = toServer(value);
 						return [key, value];
 					});
 				}
