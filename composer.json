@@ -27,7 +27,8 @@
     "fzaninotto/faker": "dev-master",
     "facebook/php-sdk-v4": "4.0.9",
     "guzzlehttp/guzzle": "dev-master",
-    "pda/pheanstalk": "~2.0"
+    "pda/pheanstalk": "~2.0",
+    "openlss/lib-array2xml": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

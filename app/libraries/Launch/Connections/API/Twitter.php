@@ -51,12 +51,32 @@ class TwitterAPI implements Connection
 
     /**
      * Post the provided content to the connections
-     * @param  string $content The content to publish
-     * @return Response        200 on success, an error from ConnectionConnector::responseError on failure
+     * @param  object $content The content to publish
+     * @return Response
      */
     public function postContent($content)
     {
-        // remember the `'format' => 'array'` param
+      // Strip html tags
+      $message = strip_tags($content->body);
+      $response = $this->twitter->postTweet([
+        'status' => $message,
+        'format' => 'array'
+      ]);
+      if ( ! empty($response['errors'])) {
+        $errors = [];
+        foreach ($response['errors'] as $error) {
+          $errors[] = $error['message'];
+        }
+        return [
+          'success' => false,
+          'error' => implode(' ', $errors),
+          'response' => $response
+        ];
+      }
+      return [
+        'success' => true,
+        'response' => $response
+      ];
     }
 
 

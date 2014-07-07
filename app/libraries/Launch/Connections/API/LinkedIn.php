@@ -1,8 +1,10 @@
 <?php namespace Launch\Connections\API;
 
 use HappyR\LinkedIn\LinkedIn;
+use HappyR\LinkedIn\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Launch\Connections\API\ConnectionConnector;
+use LSS\Array2XML;
 
 class LinkedInAPI implements Connection
 {
@@ -45,11 +47,55 @@ class LinkedInAPI implements Connection
     /**
      * Post the provided content to the connections
      * @param  string $content The content to publish
-     * @return Response        200 on success, an error from ConnectionConnector::responseError on failure
+     * @return Response
+     * @see https://developer.linkedin.com/documents/share-api
      */
     public function postContent($content)
     {
+      // This only works with xml? Could not get json request to work here, linkedin always returns strange xml errors
+      // LinkedIn->api() doesn't allow passing xml
+      // @todo: submitted-url is required here... not sure what to pass in yet
+      // @todo: Investigate if network-activity api would be better to use here
+      $params = [
+        'comment' => strip_tags($content->body),
+        'content' => [
+          'title' => strip_tags($content->title),
+          'submitted-url' => 'http:://contentlaunch.com/'
+        ],
+        'visibility' => [
+          'code' => 'anyone'
+        ]
+      ];
+      // See if content main upload is an image and attach it
+      $upload = $content->upload()->first();
+      if ($upload && $upload->media_type == 'image') {
+        $params['content']['submitted-image-url'] = $upload->getUrl();
+      }
+      // Convert array to xml
+      $xml = Array2XML::createXML('share', $params);
+      $xml = $xml->saveXML();
+      $urlParams = [
+        'oauth2_access_token' => $this->linkedIn->getAccessToken(),
+        'format' => 'json'
+      ];
+      // generate an url
+      $url = $this->linkedIn->getUrlGenerator()->getUrl('api', '/v1/people/~/shares', $urlParams);
+      // $method that url
+      $request = new Request;
+      $result = $request->send($url, $xml, 'POST', 'xml');
+      $response = json_decode($result, true);
 
+      if (isset($response['errorCode'])) {
+        return [
+          'success' => false,
+          'error' => $response['message'],
+          'response' => $response
+        ];
+      }
+      return [
+        'success' => true,
+        'response' => $response
+      ];
     }
 
 
