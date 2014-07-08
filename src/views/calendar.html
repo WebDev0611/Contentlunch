@@ -37,9 +37,9 @@
 				</accordion-heading>
 				<div>
 					<select id="selContentType" name="selContentType" class="multi-select" multiple="multiple"
-							ng-options="item.id as item.name for item in contentTypes"
 							ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="filters.contentTypes"
 							data-placeholder="Select Content Types">
+						<option ng-repeat="item in contentTypes" value="{{ item.id }}">{{ item.name }}</option>
 					</select>
 				</div>
 			</accordion-group>
@@ -52,9 +52,9 @@
 				</accordion-heading>
 				<div>
 					<select id="selStep" name="selStep" class="multi-select" multiple="multiple"
-							ng-options="item.id as item.name for item in steps"
 							ui-select2="{ formatResult: formatStepItem, formatSelection: formatStepItem }" ng-model="filters.steps"
 							data-placeholder="Select Steps">
+						<option ng-repeat="item in steps" value="{{ item.id }}">{{ item.name }}</option>
 					</select>
 				</div>
 			</accordion-group>
@@ -67,9 +67,9 @@
 				</accordion-heading>
 				<div>
 					<select id="selBuyingStage" name="selBuyingStage" class="multi-select" multiple="multiple"
-							ng-options="item.id as item.name for item in buyingStages"
 							ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem }" ng-model="filters.buyingStages"
 							data-placeholder="Select Buying Stages">
+						<option ng-repeat="item in buyingStages" value="{{ item.id }}">{{ item.name }}</option>
 					</select>
 				</div>
 			</accordion-group>
@@ -82,9 +82,9 @@
 				</accordion-heading>
 				<div>
 					<select id="selCampaign" name="selCampaign" class="multi-select" multiple="multiple"
-							ng-options="item.id as item.title for item in campaignList"
 							ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem }" ng-model="filters.campaigns"
 							data-placeholder="Select Campaign">
+						<option ng-repeat="item in campaignList" value="{{ item.id }}">{{ item.title }}</option>
 					</select>
 				</div>
 			</accordion-group>
@@ -97,9 +97,9 @@
 				</accordion-heading>
 				<div>
 					<select id="selCreator" name="selCreator" class="multi-select" multiple="multiple"
-							ng-options="item.id as item.name for item in users"
 							ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem }" ng-model="filters.users"
 							data-placeholder="Select Creator">
+						<option ng-repeat="item in users" value="{{ item.id }}">{{ item.name }}</option>
 					</select>
 				</div>
 			</accordion-group>
