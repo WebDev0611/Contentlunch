@@ -225,10 +225,18 @@
 						data.name = data.first_name + ' ' + data.last_name;
 
 					return _.mapObject(data, function(value, key) {
-						// camelCaseize
+						// camelCaseize keys
 						key = (key + '').replace(/_(\w)/g, function(_, $1) {
 							return $1.toUpperCase();
 						});
+
+						// adjust dates for local timezone
+						if (key !== 'createdAt' && key !== 'updatedAt' && isDateString(value)) {
+							// console.debug(key, 'before local:', value);
+							value = moment.utc(value).local().format();
+							// console.debug(key, 'after local:', value);
+						}
+
 						if (_.isArray(value)) value = _.map(value, toClient);
 						else if (_.isPlainObject(value)) value = toClient(value);
 						return [key, value];
@@ -240,14 +248,28 @@
 						return data;
 
 					return _.mapObject(data, function(value, key) {
-						// snake_caseize
+						// adjust dates for UTC timezone
+						if (key !== 'createdAt' && key !== 'updatedAt' && isDateString(value)) {
+							// console.debug(key, 'before utc:', value);
+							value = moment(value).utc().format('YYYY-MM-DD HH:mm:ss');
+							// console.debug(key, 'after utc:', value);
+						}
+
+						// snake_caseize keys
 						key = (key + '').replace(/([a-z])([A-Z0-9])/g, function(_, $1, $2) {
 							return $1 + '_' + $2.toLowerCase();
 						});
+
 						if (_.isArray(value)) value = _.map(value, toServer);
 						else if (_.isPlainObject(value)) value = toServer(value);
 						return [key, value];
 					});
+				}
+
+				function isDateString(str) {
+					if (!_.isString(str)) return false;
+
+					return str.match(/^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}:\d{2})?(?:[-+]\d{2}:00)?$/);
 				}
 
 				var interceptor = [
