@@ -1,4 +1,4 @@
-﻿<div class="view calendar">
+﻿<div class="view calendar" ng-show="!!campaign && campaign.$resolved">
 	<div class="col-md-3 left-pane"></div>
 	<div class="col-md-9 right-pane" ng-show="isCollaborator">
 		<h2 class="right-pane-header">Calendar</h2>
@@ -74,4 +74,8 @@
 	<div class="col-md-9 right-pane" ng-hide="isCollaborator">
 		<h3 class="unauthorized-message">You are unauthorized to view this concept.</h3>
 	</div>
+</div>
+
+<div class="loading-spinner-container" ng-show="!campaign.$resolved">
+	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
 </div>

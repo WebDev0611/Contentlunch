@@ -1095,7 +1095,8 @@ span[class*=" icon-"].dark {
 .content-settings-editor .user-image-upload,
 .seo-settings-editor .user-image-upload,
 .concept-editor .user-image-upload,
-.content-editor .user-image-upload {
+.content-editor .user-image-upload,
+.campaign-editor .user-image-upload {
   float: left;
   text-align: center;
   width: 120px;
@@ -1106,7 +1107,8 @@ span[class*=" icon-"].dark {
 .content-settings-editor .user-image-upload .user-image,
 .seo-settings-editor .user-image-upload .user-image,
 .concept-editor .user-image-upload .user-image,
-.content-editor .user-image-upload .user-image {
+.content-editor .user-image-upload .user-image,
+.campaign-editor .user-image-upload .user-image {
   border: solid 3px #ffffff;
   display: block;
   height: 96px;
@@ -1119,7 +1121,8 @@ span[class*=" icon-"].dark {
 .content-settings-editor .user-image-upload button,
 .seo-settings-editor .user-image-upload button,
 .concept-editor .user-image-upload button,
-.content-editor .user-image-upload button {
+.content-editor .user-image-upload button,
+.campaign-editor .user-image-upload button {
   margin: 16px 0;
 }
 .user-editor .user-image-upload input[type="file"],
@@ -1128,7 +1131,8 @@ span[class*=" icon-"].dark {
 .content-settings-editor .user-image-upload input[type="file"],
 .seo-settings-editor .user-image-upload input[type="file"],
 .concept-editor .user-image-upload input[type="file"],
-.content-editor .user-image-upload input[type="file"] {
+.content-editor .user-image-upload input[type="file"],
+.campaign-editor .user-image-upload input[type="file"] {
   display: none;
 }
 .user-editor .user-editor,
@@ -1137,7 +1141,8 @@ span[class*=" icon-"].dark {
 .content-settings-editor .user-editor,
 .seo-settings-editor .user-editor,
 .concept-editor .user-editor,
-.content-editor .user-editor {
+.content-editor .user-editor,
+.campaign-editor .user-editor {
   margin-left: 128px;
 }
 .user-editor .control-group,
@@ -1146,7 +1151,8 @@ span[class*=" icon-"].dark {
 .content-settings-editor .control-group,
 .seo-settings-editor .control-group,
 .concept-editor .control-group,
-.content-editor .control-group {
+.content-editor .control-group,
+.campaign-editor .control-group {
   margin: 0 8px 8px 0;
 }
 .user-editor .control-group .form-group,
@@ -1155,7 +1161,8 @@ span[class*=" icon-"].dark {
 .content-settings-editor .control-group .form-group,
 .seo-settings-editor .control-group .form-group,
 .concept-editor .control-group .form-group,
-.content-editor .control-group .form-group {
+.content-editor .control-group .form-group,
+.campaign-editor .control-group .form-group {
   display: inline-block;
   margin: 0 8px 0 0;
   min-width: 20em;
@@ -1166,7 +1173,8 @@ span[class*=" icon-"].dark {
 .content-settings-editor .control-group .form-group.form-group-wide,
 .seo-settings-editor .control-group .form-group.form-group-wide,
 .concept-editor .control-group .form-group.form-group-wide,
-.content-editor .control-group .form-group.form-group-wide {
+.content-editor .control-group .form-group.form-group-wide,
+.campaign-editor .control-group .form-group.form-group-wide {
   min-width: 30em;
 }
 .user-editor .control-group.btn-toolbar,
@@ -1175,7 +1183,8 @@ span[class*=" icon-"].dark {
 .content-settings-editor .control-group.btn-toolbar,
 .seo-settings-editor .control-group.btn-toolbar,
 .concept-editor .control-group.btn-toolbar,
-.content-editor .control-group.btn-toolbar {
+.content-editor .control-group.btn-toolbar,
+.campaign-editor .control-group.btn-toolbar {
   margin: 16px 0;
 }
 .user-editor .control-group input[type="file"],
@@ -1184,7 +1193,8 @@ span[class*=" icon-"].dark {
 .content-settings-editor .control-group input[type="file"],
 .seo-settings-editor .control-group input[type="file"],
 .concept-editor .control-group input[type="file"],
-.content-editor .control-group input[type="file"] {
+.content-editor .control-group input[type="file"],
+.campaign-editor .control-group input[type="file"] {
   display: none;
 }
 .accounts .right-pane .right-pane-content {
@@ -1484,14 +1494,6 @@ span[class*=" icon-"].dark {
   right: 16px;
   top: 16px;
 }
-.create .right-pane .row,
-.calendar .right-pane .row {
-  margin: 20px 0;
-}
-.create .right-pane .row .col-md-12,
-.calendar .right-pane .row .col-md-12 {
-  padding: 0;
-}
 .create .right-pane .concept-container .form-group,
 .calendar .right-pane .concept-container .form-group {
   max-width: 300px;
@@ -1601,6 +1603,14 @@ span[class*=" icon-"].dark {
 .calendar .right-pane .btn .fa {
   display: inline-block;
   margin-right: 8px;
+}
+.create .right-pane .concept-editor,
+.calendar .right-pane .concept-editor,
+.create .right-pane .content-editor,
+.calendar .right-pane .content-editor,
+.create .right-pane .campaign-editor,
+.calendar .right-pane .campaign-editor {
+  margin: 20px 0;
 }
 .create .left-pane .filter-panel,
 .create .left-pane .tasks-header {
@@ -1752,10 +1762,6 @@ span[class*=" icon-"].dark {
 .create .right-pane > .view,
 .create .right-pane > .panel {
   margin: 0 16px 16px 16px;
-}
-.create .right-pane .concept-editor,
-.create .right-pane .content-editor {
-  margin: 20px 0;
 }
 .create .right-pane .content-file-view .cl-icon {
   margin-right: 4px;

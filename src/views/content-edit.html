@@ -106,7 +106,7 @@
 						</div>
 					</div>
 
-					<div class="control-group" ng-if="!!contentConnections.length">
+					<div class="control-group" ng-if="!!contentConnections.length && !!content.contentType.name">
 						<div class="form-group" ng-class="{ 'has-error': hasError(content, 'accountConnections', editContent.selContentConnections, forceDirty) }">
 							<label class="control-label" for="selContentConnections">Content Destinations</label>
 							<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple" ng-disabled="isReadOnly" ng-change="updateContentConnection(contentConnectionIds)"
