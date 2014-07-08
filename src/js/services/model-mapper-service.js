@@ -1317,6 +1317,7 @@
 			contentType.id = cachedContentType.id;
 			contentType.name = cachedContentType.name;
 			contentType.title = cachedContentType.title;
+			contentType.baseType = cachedContentType.baseType;
 
 			return contentType;
 		},

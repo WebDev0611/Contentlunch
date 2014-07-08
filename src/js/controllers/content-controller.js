@@ -844,6 +844,10 @@
 
 		$scope.$watch('content.taskGroups', $scope.filterCollaborators);
 
+		$scope.$watch('content.contentType.name', function () {
+			
+		});
+
 		$scope.$watch('contentTags', function () {
 			if (!$scope.content || !$scope.content.$resolved) {
 				return;

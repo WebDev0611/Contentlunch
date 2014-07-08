@@ -387,39 +387,18 @@
 			});
 		};
 
-		$scope.handleCurrentStep = function(content) {
-			if (!content || launch.utils.isBlank(content.nextStep())) {
-				notificationService.info('Unknown Workflow Step', 'The workflow step "' + content.currentStep() + '" is not valid.');
-				return;
-			}
-
+		$scope.editContent = function(content) {
 			if (!$scope.canEditContent(content)) {
 				notificationService.error('Error!', 'Your are unauthorized to view this item.');
 				return;
 			}
 
-			switch (content.currentStep().toLowerCase()) {
-				case 'create':
-					$location.path('create/concept/edit/content/' + content.id);
-					break;
-					//case 'review':
-					//case 'approve':
-					//	$location.path('create/content/edit/' + content.id);
-					//	break;
-					//case 'launch':
-					//	$location.path('create/content/launch/' + content.id);
-					//	break;
-					//case 'promote':
-					//	$location.path('create/content/promote/' + content.id);
-					//	break;
-				//case 'archive':
-				case 'restore':
-					self.verifyArchive(content, content.archived);
-					break;
-				default:
-					$location.path('create/content/edit/' + content.id);
-					//notificationService.info('Unknown Workflow Step', 'The workflow step "' + content.currentStep() + '" is not valid.');
-					break;
+			if (content, content.archived) {
+				self.verifyArchive(content, content.archived);
+			} else if (content.status === 0) {
+				$location.path('create/concept/edit/content/' + content.id);
+			} else {
+				$location.path('create/content/edit/' + content.id);
 			}
 		};
 

@@ -86,7 +86,7 @@
 		if (launch.utils.isValidPattern(p, /\W/)) {
 			criteriaCount++;
 		}
-		
+
 		return (criteriaCount >= 2) ? '' : 'Password must contain at least two of the following: lower-case letter, upper-case letter, number, symbol.';
 	},
 
@@ -453,7 +453,7 @@
 		return [];
 	},
 
-	getState: function (country, stateCode) {
+	getState: function(country, stateCode) {
 		if (launch.utils.isBlank(stateCode)) {
 			return null;
 		}
@@ -731,7 +731,7 @@
 	},
 
 	getFileTypeCssClass: function(fileExtension) {
-    console.log(fileExtension);
+		console.log(fileExtension);
 		if (launch.utils.isBlank(fileExtension)) {
 			return null;
 		}
@@ -747,8 +747,8 @@
 				return 'cl-icon-file-image';
 			case 'avi':
 			case 'mp4':
-      case 'mpg':
-      case 'wmv':
+			case 'mpg':
+			case 'wmv':
 			case 'mov':
 			case 'video':
 				return 'cl-icon-file-video';
@@ -775,72 +775,72 @@
 		}
 	},
 
-  // Classify file type to match document types options
-  // audio, document, image, pdf, ppt, spreadsheet, video, other
-  mediaTypeMap: function (media_type, extension) {
-    switch (media_type) {
-      case 'text':
-        fileType = 'document';
-      break;
-      case 'application':
-        // Check extension
-        switch (extension.toLowerCase()) {
-          case 'pdf':
-            fileType = 'pdf';
-          break;
-          case 'pot':
-          case 'potm':
-          case 'potx':
-          case 'pps':
-          case 'ppsm':
-          case 'ppsx':
-          case 'ppt':
-          case 'pptm':
-          case 'pptx':
-            fileType = 'ppt';
-          break;
-          case '123':
-          case 'accdb':
-          case 'accde':
-          case 'accdr':
-          case 'accdt':
-          case 'nb':
-          case 'numbers':
-          case 'ods':
-          case 'ots':
-          case 'sdc':
-          case 'xl':
-          case 'xlr':
-          case 'xls':
-          case 'xlsb':
-          case 'xlsm':
-          case 'xlsx':
-          case 'xlt':
-          case 'xltm':
-          case 'xltx':
-          case 'xlw':
-            fileType = 'spreadsheet';
-          break;
-          default:
-            fileType = 'document';
-        }
-      break;
-      case 'audio':
-        fileType = 'audio';
-      break;
-      case 'image':
-        fileType = 'image';
-      break;
-      case 'video':
-        fileType = 'video';
-      break;
-      default:
-        fileType = 'other';
-    }
-    return fileType;
-  },
+	// Classify file type to match document types options
+	// audio, document, image, pdf, ppt, spreadsheet, video, other
+	mediaTypeMap: function(media_type, extension) {
+		switch (media_type) {
+			case 'text':
+				fileType = 'document';
+				break;
+			case 'application':
+				// Check extension
+				switch (extension.toLowerCase()) {
+					case 'pdf':
+						fileType = 'pdf';
+						break;
+					case 'pot':
+					case 'potm':
+					case 'potx':
+					case 'pps':
+					case 'ppsm':
+					case 'ppsx':
+					case 'ppt':
+					case 'pptm':
+					case 'pptx':
+						fileType = 'ppt';
+						break;
+					case '123':
+					case 'accdb':
+					case 'accde':
+					case 'accdr':
+					case 'accdt':
+					case 'nb':
+					case 'numbers':
+					case 'ods':
+					case 'ots':
+					case 'sdc':
+					case 'xl':
+					case 'xlr':
+					case 'xls':
+					case 'xlsb':
+					case 'xlsm':
+					case 'xlsx':
+					case 'xlt':
+					case 'xltm':
+					case 'xltx':
+					case 'xlw':
+						fileType = 'spreadsheet';
+						break;
+					default:
+						fileType = 'document';
+				}
+				break;
+			case 'audio':
+				fileType = 'audio';
+				break;
+			case 'image':
+				fileType = 'image';
+				break;
+			case 'video':
+				fileType = 'video';
+				break;
+			default:
+				fileType = 'other';
+		}
+		return fileType;
+	},
 
-	insertComment: function (message, id, user, service, notificationService, callback) {
+	insertComment: function(message, id, user, service, notificationService, callback) {
 		var comment = new launch.Comment();
 
 		comment.id = null;
