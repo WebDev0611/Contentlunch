@@ -16,7 +16,7 @@ class CreateCampaignCommentsTable extends Migration {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
             $table->integer('guest_id')->unsigned()->nullable();
-            $table->integer('content_id')->unsigned();
+            $table->integer('campaign_id')->unsigned();
             $table->text('comment');
             $table->timestamps();
         });
