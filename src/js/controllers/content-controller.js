@@ -773,7 +773,13 @@
 
 		$scope.launchContent = function(connection) {
 			console.log('Launching to ' + connection.name);
-			// TODO: IMPLEMENT CALL TO API TO LAUNCH!!
+
+			contentService.launch(self.loggedInUser.account.id, $scope.content.id, connection.id, {
+				success: function(r) {
+					
+				},
+				error: self.ajaxHandler.error
+			});
 		};
 
 		$scope.toggleSelectedConnections = function(connection, e) {

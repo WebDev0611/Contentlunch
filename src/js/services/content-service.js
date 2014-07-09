@@ -37,6 +37,10 @@
 		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.contentType.parseResponse }
 	});
 
+	var contentLaunch = $resource('/api/account/:accountId/content/:contentId/launch/:accountConnectionId', { accountId: '@accountId', contentId: '@contentId', accountConnectionId: '@accountConnectionId' }, {
+		post: { method: 'POST' }
+	});
+
 	return {
 		query: function(accountId, params, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -67,6 +71,12 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return contentResource.delete({ accountId: accountId, id: content.id }, success, error);
+		},
+		launch: function (accountId, contentId, accountConnectionId, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return contentLaunch.post({ accountId: accountId, contentId: contentId, accountConnectionId: accountConnectionId }, null, success, error);
 		},
 		getComment: function (accountId, contentId, id, params, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
