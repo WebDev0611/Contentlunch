@@ -1,11 +1,14 @@
-<div class="view create" ng-show="!isLoading">
+<div class="view" ng-show="!isLoading" ng-class="{ create: selectedItemType === 'content', calendar: selectedItemType === 'campaign' }">
 	<div class="col-md-3 left-pane">
 		<label for="selAllItems">Your Concepts</label>
 		<select id="selAllItems" name="selAllItems" class="form-control" ng-model="selectedItemId" ng-options="item.id as item.title for item in allItems" ng-change="changeItem()">
 		</select>
 	</div>
-	<div class="col-md-9 right-pane" ng-show="canViewContent">
-		<h2 class="right-pane-header">Create</h2>
+	<div class="col-md-9 right-pane" ng-show="canViewItem">
+		<h2 class="right-pane-header">
+			<span ng-show="selectedItemType === 'content'">Content Concept</span>
+			<span ng-show="selectedItemType === 'campaign'">Campaign Concept</span>
+		</h2>
 		<form name="editConcept" novalidate="novalidate">
 			<div class="concept-editor row">
 				<div class="col-md-9">
@@ -21,7 +24,7 @@
 								<input type="text" name="txtConceptName" id="txtConceptName" class="form-control" ng-model="selectedItem.title" ng-disabled="true" />
 							</div>
 
-							<div class="form-group">
+							<div class="form-group" ng-show="selectedItemType === 'content'">
 								<label class="control-label" for="selContentType">Content Type</label>
 								<select name="selContentType" id="selContentType" ng-disabled="true"
 										ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem, selectOnBlur: true }" ng-model="selectedItem.contentType.name">
@@ -31,7 +34,7 @@
 						</div>
 
 						<div class="control-group">
-							<div class="form-group">
+							<div class="form-group" ng-show="selectedItemType === 'content'">
 								<label class="control-label" for="selCampaign">Campaign</label>
 								<select name="selCampaign" id="selCampaign"
 										ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, allowClear: true }" ng-model="selectedItem.campaign.id" ng-disabled="true">
@@ -40,7 +43,7 @@
 							</div>
 
 							<div class="form-group">
-								<label class="control-label" for="selCreator">Content Creator</label>
+								<label class="control-label" for="selCreator">Creator</label>
 								<select name="selCreator" id="selCreator"
 										ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="selectedItem.author.id" ng-disabled="true">
 									<option value="{{ selectedItem.author.id }}">{{ selectedItem.author.formatName() }}</option>
@@ -63,7 +66,7 @@
 			</div>
 		</form>
 	</div>
-	<div class="col-md-9 right-pane" ng-hide="canViewContent">
+	<div class="col-md-9 right-pane" ng-hide="canViewItem">
 		<h3 class="unauthorized-message">There are no items for you to view.</h3>
 	</div>
 </div>

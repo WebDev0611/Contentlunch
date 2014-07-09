@@ -728,7 +728,7 @@
 			var module = new launch.Module();
 
 			module.id = parseInt(dto.id);
-			self.active = parseInt(dto.active) === 1;
+			module.active = parseInt(dto.active) === 1;
 			module.name = dto.name;
 			module.title = dto.title;
 			module.isSubscribable = dto.subscribable == true;

@@ -22,7 +22,7 @@ angular.module('launch').controller('GuestContentController', [
 					$scope.allItems = [];
 
 					var content = $.map(self.loggedInUser.content, function (c) { return { id: 'content-' + c.id, itemId: c.id, title: 'Content: ' + c.title, type: 'Content' }; });
-					var campaigns = $.map(self.loggedInUser.campaigns, function (c) { return { id: 'campaing-' + c.id, itemId: c.id, title: 'Campaign: ' + c.title, type: 'Campaigns' }; });
+					var campaigns = $.map(self.loggedInUser.campaigns, function (c) { return { id: 'campaign-' + c.id, itemId: c.id, title: 'Campaign: ' + c.title, type: 'Campaign' }; });
 
 					$.merge($scope.allItems, content);
 					$.merge($scope.allItems, campaigns);
@@ -33,7 +33,7 @@ angular.module('launch').controller('GuestContentController', [
 						if (item.length === 1) {
 							$scope.selectedItem = item[0];
 							$scope.selectedItemId = 'content-' + $scope.selectedItem.id;
-							$scope.canViewContent = true;
+							$scope.canViewItem = true;
 							$scope.isLoading = false;
 
 							self.refreshComments();
@@ -50,12 +50,13 @@ angular.module('launch').controller('GuestContentController', [
 
 		$scope.allItems = null;
 		$scope.selectedItem = null;
+		$scope.selectedItemType = 'content';
 		$scope.selectedItemId = null;
 		$scope.comments = null;
 		$scope.newComment = null;
 
 		$scope.isLoading = true;
-		$scope.canViewContent = false;
+		$scope.canViewItem = false;
 		$scope.showSelector = false;
 
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
