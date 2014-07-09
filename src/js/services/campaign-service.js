@@ -7,13 +7,12 @@
 		delete: { method: 'DELETE' }
 	});
 
-	var campaignComments = $resource('/api/account/:accountId/campaigns/:campaignId/comments', { accountId: '@accountId', id: '@campaignId' }, {
+	var campaignComments = $resource('/api/account/:accountId/campaign/:campaignId/comments', { accountId: '@accountId', id: '@campaignId' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.comment.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.comment.parseResponse },
 		insert: { method: 'POST', transformRequest: ModelMapperService.comment.formatRequest, transformResponse: ModelMapperService.comment.parseResponse }
 	});
 
-	//var contentCollaborators = $resource('/api/account/:accountId/content/:contentId/collaborators/:userId', { accountId: '@accountId', contentId: '@contentId', userId: '@userId' }, {
 	var campaignCollaborators = $resource('/api/account/:accountId/campaigns/:campaignId/collaborators/:userId', { accountId: '@accountId', campaignId: '@campaignId', userId: '@userId' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.user.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
