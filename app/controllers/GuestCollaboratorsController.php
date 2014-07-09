@@ -45,7 +45,9 @@ class GuestCollaboratorsController extends BaseController {
                     ->with('guest_collaborators')
                     ->find($g['content_id'])->toArray();
             } else { // type == 'campaign'
-                $guest['campaigns'][] = Campaign::find($g['content_id'])->toArray();
+                $guest['campaigns'][] = Campaign::with('comments')
+                    ->with('user')
+                    ->find($g['content_id'])->toArray();
             }
         }
 
