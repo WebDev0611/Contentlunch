@@ -65,6 +65,10 @@ Route::group(['prefix' => 'api'], function()
   Route::resource('account/{accountID}/content/{contentID}/comments', 'ContentCommentsController', [
     'only' => ['index', 'store']
   ]);
+  Route::resource('account/{accountID}/campaign/{campaignID}/comments', 'CampaignCommentsController', [
+    'only' => ['index', 'store']
+  ]);
+
 
   Route::get('add-connection', 'AccountConnectionsController@addConnection');
   Route::resource('account/{id}/connections', 'AccountConnectionsController', [

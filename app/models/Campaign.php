@@ -84,6 +84,11 @@ class Campaign extends Ardent {
     return $this->hasMany('Content')->with('User');
   }
 
+  public function comments()
+  {
+    return $this->hasMany('CampaignComment', 'campaign_id', 'id')->with('user')->with('guest');
+  }
+
   public function tasks()
   {
     return $this->hasMany('CampaignTask');
