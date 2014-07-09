@@ -1,4 +1,4 @@
-﻿<div class="view create" ng-show="!!content && content.$resolved">
+﻿<div class="view create" ng-if="!!content && content.$resolved">
 	<div class="col-md-3 left-pane">
 		<div task-list task-groups="content.taskGroups" parent-status="content.status" author-id="content.author.id" users="taskUsers" ng-hide="isNewContent || !isCollaborator"></div>
 		
@@ -227,7 +227,7 @@
 									data-placeholder="Select Campaign" ng-change="updateCampaign()"
 									error-message error-message-item="content" error-message-property="'campaign'" error-message-control="editContent.selCampaign">
 								<option value=""></option>
-								<option ng-repeat="c in campaigns" value="{{ c.id }}">{{ c.title }}</option>
+								<option ng-repeat="c in campaigns" value="{{ c.id }}" data-color="{{ c.color }}">{{ c.title }}</option>
 							</select>
 						</div>
 					</div>
@@ -279,6 +279,10 @@
 
 <div class="loading-spinner-container" ng-show="!content.$resolved">
 	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
+</div>
+
+<div class="full-screen-modal" ng-show="isSaving">
+	<spinner spin="{ color: 'white', length: 50, width: 10, radius: 30 }"></spinner>
 </div>
 
 <div class="full-screen-modal" ng-show="showFullScreenModal">

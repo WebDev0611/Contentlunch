@@ -84,7 +84,7 @@
 					<select id="selCampaign" name="selCampaign" class="multi-select" multiple="multiple"
 							ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem }" ng-model="filters.campaigns"
 							data-placeholder="Select Campaign">
-						<option ng-repeat="item in campaignList" value="{{ item.id }}">{{ item.title }}</option>
+						<option ng-repeat="item in campaignList" value="{{ item.id }}" data-color="{{ item.color }}">{{ item.title }}</option>
 					</select>
 				</div>
 			</accordion-group>

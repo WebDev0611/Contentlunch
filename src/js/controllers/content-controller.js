@@ -24,7 +24,12 @@
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
 			$scope.contentConnections = connectionService.queryContentConnections(self.loggedInUser.account.id, self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, {
-				success: function(r) {
+				success: function (r) {
+					if ($scope.campaigns.length === 0 && r.length > 0) {
+						console.log('Why is $scope.campaigns not populated here??');
+						$scope.campaigns = r;
+					}
+
 					if ($scope.isNewContent) {
 						self.filterCampaigns();
 					}
@@ -320,6 +325,7 @@
 		$scope.showRichTextEditor = true;
 		$scope.showAddFileButton = false;
 		$scope.showDownloadContentFile = false;
+		$scope.isSaving = false;
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;
 		$scope.defaultTaskGroup = null;
@@ -401,6 +407,8 @@
 
 				return;
 			}
+
+			$scope.isSaving = true;
 
 			// If there is already a file associated with this content:
 			//		1: Upload new file

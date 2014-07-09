@@ -88,7 +88,7 @@
 					<select id="selCampaign" name="selCampaign" class="multi-select" multiple="multiple"
 							ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem }" ng-model="search.campaigns"
 							ng-change="search.applyFilter()" data-placeholder="Select Campaign">
-						<option ng-repeat="c in campaigns" value="{{ c.id }}">{{ c.title }}</option>
+						<option ng-repeat="c in campaigns" value="{{ c.id }}" data-color="{{ c.color }}">{{ c.title }}</option>
 					</select>
 				</div>
 			</accordion-group>

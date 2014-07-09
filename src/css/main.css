@@ -2499,51 +2499,6 @@ table.structural > tbody > tr > td {
   height: 12px;
   width: 12px;
 }
-.campaign-dot.campaign-dot-1 {
-  background-color: #660033;
-}
-.campaign-dot.campaign-dot-2 {
-  background-color: #CC9900;
-}
-.campaign-dot.campaign-dot-3 {
-  background-color: #99CCFF;
-}
-.campaign-dot.campaign-dot-4 {
-  background-color: #990000;
-}
-.campaign-dot.campaign-dot-5 {
-  background-color: #FFFF66;
-}
-.campaign-dot.campaign-dot-6 {
-  background-color: #003366;
-}
-.campaign-dot.campaign-dot-7 {
-  background-color: #CC3300;
-}
-.campaign-dot.campaign-dot-8 {
-  background-color: #CCFF33;
-}
-.campaign-dot.campaign-dot-9 {
-  background-color: #666699;
-}
-.campaign-dot.campaign-dot-10 {
-  background-color: #FF6600;
-}
-.campaign-dot.campaign-dot-11 {
-  background-color: #99CC00;
-}
-.campaign-dot.campaign-dot-12 {
-  background-color: #6666FF;
-}
-.campaign-dot.campaign-dot-13 {
-  background-color: #FF9933;
-}
-.campaign-dot.campaign-dot-14 {
-  background-color: #00CC66;
-}
-.campaign-dot.campaign-dot-15 {
-  background-color: #CC0099;
-}
 .dont-know-link {
   text-decoration: underline;
   margin-left: 10px;
