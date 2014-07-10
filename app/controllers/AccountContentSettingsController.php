@@ -8,7 +8,11 @@ class AccountContentSettingsController extends BaseController {
     if ( ! $this->inAccount($id)) {
       return $this->responseAccessDenied();
     }
-    return AccountContentSettings::where('account_id', $id)->first();
+
+    // without the Response::json stuff, if no records were matched, we'd get
+    // an empty response instead of the expected {}
+    $settings = AccountContentSettings::where('account_id', $id)->first();
+    return Response::json($settings);
   }
 
   public function save_settings($id)

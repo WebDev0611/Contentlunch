@@ -9,13 +9,13 @@ vagrantfile-local:
         network:
             private_network: 192.168.56.101
             forwarded_port:
-                3Vmw3TBKgJCX:
+                BixstmJWp8BG:
                     host: '1322'
                     guest: '22'
-                di298dfDjfdc:
+                vQuVZiPrjdpj:
                     host: '1080'
                     guest: '1080'
-                HPkiXNpa5rK2:
+                XVXqU6HcOtxu:
                     host: '1380'
                     guest: '80'
         provider:
@@ -38,7 +38,7 @@ vagrantfile-local:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            s7CyBx8zn7ar:
+            d0wc5aNbw3Ai:
                 source: ./
                 target: /var/www
                 sync_type: default
@@ -63,7 +63,6 @@ server:
         - zsh
         - nodejs
         - npm
-        - beanstalkd
     dot_files:
         -
             bash_aliases: null
@@ -85,7 +84,7 @@ apache:
     settings:
         user: www-data
         group: www-data
-        default_vhost: false
+        default_vhost: true
         manage_user: false
         manage_group: false
         sendfile: 0
@@ -93,7 +92,7 @@ apache:
         - php
         - rewrite
     vhosts:
-        9KshCr6vtFNW:
+        SLuFTaoFbOYr:
             servername: local.contentlaunch.dev
             serveraliases:
                 - local.contentlaunch.com
@@ -114,6 +113,23 @@ apache:
             ssl_certs_dir: ''
     mod_pagespeed: 0
     mod_spdy: 0
+nginx:
+    install: 0
+    vhosts:
+        ra0lOLdH2Hbm:
+            server_name: awesome.dev
+            server_aliases:
+                - www.awesome.dev
+            www_root: /var/www/awesome.dev
+            listen_port: '80'
+            index_files:
+                - index.html
+                - index.htm
+                - index.php
+            envvars:
+                - 'APP_ENV dev'
+            ssl_cert: ''
+            ssl_key: ''
 php:
     install: '1'
     version: '55'
@@ -145,14 +161,30 @@ xdebug:
         xdebug.remote_enable: '1'
         xdebug.remote_handler: dbgp
         xdebug.remote_port: '9000'
+drush:
+    install: 0
+    settings:
+        drush.tag_branch: 6.x
 mysql:
     install: 0
+    root_password: '123'
+    adminer: 0
+    databases: {  }
+postgresql:
+    install: 0
+    settings:
+        root_password: '123'
+        user_group: postgres
+        encoding: UTF8
+        version: '9.3'
+    databases: {  }
+    adminer: 0
 mariadb:
     install: '1'
     root_password: root
     adminer: '1'
     databases:
-        l6jB1z6bxupq:
+        JRIKgQNbsFsh:
             grant:
                 - ALL
             name: contentlaunch
@@ -161,7 +193,30 @@ mariadb:
             password: launch123
             sql_file: ''
     version: '5.5'
+mongodb:
+    install: 0
+    settings:
+        auth: 1
+        port: '27017'
+    databases: {  }
 redis:
     install: '1'
     settings:
         conf_port: '6379'
+beanstalkd:
+    install: '1'
+    settings:
+        listenaddress: 0.0.0.0
+        listenport: '11300'
+        maxjobsize: '65535'
+        maxconnections: '1024'
+        binlogdir: /var/lib/beanstalkd/binlog
+        binlogfsync: null
+        binlogsize: '10485760'
+    beanstalk_console: '1'
+    binlogdir: /var/lib/beanstalkd/binlog
+rabbitmq:
+    install: 0
+    settings:
+        port: '5672'
+
