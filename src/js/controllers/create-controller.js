@@ -38,9 +38,10 @@
 			}
 
 			$scope.steps = [
-				{ name: 'create', title: 'Created' },
-				{ name: 'approve', title: 'Approved' },
-				{ name: 'launch', title: 'Launched' }
+				{ name: 'create', title: 'Create' },
+				{ name: 'approve', title: 'Approve' },
+				{ name: 'launch', title: 'Launch' },
+				{ name: 'promote', title: 'Promote' }
 			];
 
 			var contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
