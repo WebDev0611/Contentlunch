@@ -38,10 +38,6 @@
 	self.created = null;
 	self.updated = null;
 
-	self.index = function () {
-		return launch.utils.getCampaignIndex(self.id);
-	};
-
 	self.isEnded = function() {
 		if (launch.utils.isValidDate(self.endDate)) {
 			return (self.endDate < (new Date()));
