@@ -215,9 +215,13 @@
 
 				return start + ' to ' + end + ' of ' + $scope.pagination.totalItems;
 			},
-			reset: function (sort) {
+			reset: function (sort, direction) {
 				if (!launch.utils.isBlank(sort)) {
-					self.currentSort = sort;
+					$scope.pagination.currentSort = sort;
+				}
+
+				if (!launch.utils.isBlank(direction)) {
+					$scope.pagination.currentSortDirection = (direction === 'desc' ? 'desc' : 'asc');
 				}
 
 				$scope.pagination.currentPage = 1;
@@ -322,7 +326,7 @@
 
 				$.each($scope.content, function (i, c) { c.isSelected = false; });
 
-				$scope.pagination.reset('title');
+				$scope.pagination.reset('title', 'asc');
 
 				this.applyFilter();
 			},
