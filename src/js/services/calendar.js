@@ -97,13 +97,14 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
 
                 _.each(tasksByContent, function (tasks, contentId) {
                     var content = _.findById(contents, contentId);
+                    if (!content) content = {};
                     var color = (content.campaign || {}).color || randomColor();
 
                     _.each(tasks, function (task) {
                         task = _.merge(task, {
                             uniqId: 'task_' + task.id,
                             title: task.name,
-                            contentTypeIconClass: launch.utils.getContentTypeIconClass(content.contentType.key),
+                            contentTypeIconClass: launch.utils.getContentTypeIconClass((content.contentType || {}).key),
                             workflowIconCssClass: launch.utils.getWorkflowIconCssClass(contentStatuses[task.status]),
                             stage: contentStatuses[task.status],
                             circleColor: color,
