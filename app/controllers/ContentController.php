@@ -249,7 +249,9 @@ class ContentController extends BaseController {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    $content = Content::find($contentID);
+    $content = Content::with('upload')
+      ->with('tags')
+      ->find($contentID);
     if ($content && $content->account_id != $accountID) {
       return $this->responseAccessDenied();
     }
@@ -270,6 +272,9 @@ class ContentController extends BaseController {
       break;
       case 'linkedin':
         $class = 'LinkedInAPI';
+      break;
+      case 'soundcloud':
+        $class = 'SoundcloudAPI';
       break;
       case 'twitter':
         $class = 'TwitterAPI';
