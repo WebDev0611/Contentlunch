@@ -1164,6 +1164,12 @@
 			content.status = parseInt(dto.status);
 			content.archived = (parseInt(dto.archived) === 1);
 			content.dueDate = launch.utils.isBlank(dto.due_date) ? null : new Date(dto.due_date);
+			content.convertDate = launch.utils.isBlank(dto.convert_date) ? null : new Date(dto.convert_date);
+			content.submitDate = launch.utils.isBlank(dto.submit_date) ? null : new Date(dto.submit_date);
+			content.approveDate = launch.utils.isBlank(dto.approve_date) ? null : new Date(dto.approve_date);
+			content.launchDate = launch.utils.isBlank(dto.launch_date) ? null : new Date(dto.launch_date);
+			content.promoteDate = launch.utils.isBlank(dto.promote_date) ? null : new Date(dto.promote_date);
+			content.archiveDate = launch.utils.isBlank(dto.archive_date) ? null : new Date(dto.archive_date);
 			content.created = launch.utils.isBlank(dto.created_at) ? null : new Date(dto.created_at);
 			content.updated = launch.utils.isBlank(dto.updated_at) ? null : new Date(dto.updated_at);
 
@@ -1198,6 +1204,12 @@
 				concept: content.concept,
 				status: content.status,
 				archived: (content.archived === true) ? 1 : 0,
+				convert_date: content.convertDate,
+				submit_date: content.submitDate,
+				approve_date: content.approveDate,
+				launch_date: content.launchDate,
+				promote_date: content.promoteDate,
+				archive_date: content.archiveDate,
 				created_at: content.created,
 				updated_at: content.updated
 			};
@@ -1226,7 +1238,7 @@
 			dto.account_connections = $.isArray(content.accountConnections) ? $.map(content.accountConnections, self.contentConnection.toDto) : null;
 
 			dto.related = $.isArray(content.relatedContent) ? content.relatedContent.split(',') : null;
-			dto.tags = $.isArray(content.tags) ? $.map(content.tags, function(t) { return { tag: t }; }) : null;
+			dto.tags = $.isArray(content.tags) ? $.map(content.tags, function (t) { return { tag: t }; }) : null;
 
 			return dto;
 		}
@@ -1264,50 +1276,7 @@
 			contentType.id = parseInt(dto.id);
 			contentType.name = dto.key;
 			contentType.title = dto.name;
-
-			// TODO: GET BASE_TYPE DIRECTLY FROM THE DATABASE!!
-			switch (dto.key) {
-				case 'audio-recording':
-					contentType.baseType = 'audio';
-					break;
-				case 'blog-post':
-					contentType.baseType = 'blog-post';
-					break;
-				case 'casestudy':
-				case 'feature-article':
-				case 'newsletter':
-				case 'sales-letter':
-				case 'sellsheet-content':
-				case 'whitepaper':
-					contentType.baseType = 'document';
-					break;
-				case 'ebook':
-				case 'google-drive-doc':
-				case 'salesforce-asset':
-					contentType.baseType = 'generic-file';
-					break;
-				case 'email':
-				case 'workflow-email':
-					contentType.baseType = 'email';
-					break;
-				case 'facebook-post':
-				case 'google-plus-update':
-				case 'linkedin-update':
-				case 'tweet':
-					contentType.baseType = 'social-media-post';
-					break;
-				case 'landing-page':
-				case 'website-page':
-					contentType.baseType = 'long-html';
-					break;
-				case 'photo':
-					contentType.baseType = 'photo';
-					break;
-				case 'video':
-					contentType.baseType = 'video';
-					break;
-				default:
-			}
+			contentType.baseType = dto.base_type;
 
 			return contentType;
 		},
