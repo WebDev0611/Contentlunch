@@ -5,6 +5,9 @@ angular.module('launch')
         ['contentStatuses', '$http', '$interpolate', '$compile', '$rootScope',
 function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
     var $elem, calendar, currentEvents;
+    $(document).on('click', '.popover-close', function () {
+        $(this).closest('.popover').popover('hide');
+    });
     return (calendar = {
         // I know this should be a directive, but I was using ui-calendar and seeing
         // MASSIVE performance issues and it was easiest just to change it to this
@@ -36,6 +39,7 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
                         placement: 'left',
                         container: 'body',
                         title: $interpolate('<div class="group">\
+                                                <div class="popover-close">&times;</div>\
                                                 <div class="calendar-node-popover-title">{{ title }}</div>\
                                                 <div class="calendar-node-popover-date">{{ start | date:"shortTime" }}</div>\
                                              </div>')(event)
@@ -52,6 +56,7 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
                         placement: 'left',
                         container: 'body',
                         title: $interpolate('<div class="group">\
+                                                <div class="popover-close">&times;</div>\
                                                 <div class="calendar-node-popover-title-2"><a href="/calendar/campaigns/{{ id }}">{{ title }}</a></div>\
                                                 <div class="calendar-node-popover-date-2">{{ start | date:"mediumDate" }} - {{ end | date:"mediumDate" }}</div>\
                                              </div>')(event)
@@ -78,6 +83,7 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
                         placement: 'left',
                         container: 'body',
                         title: $interpolate('<div class="group">\
+                                                <div class="popover-close">&times;</div>\
                                                 <div class="calendar-node-popover-title">{{ title }}</div>\
                                                 <div class="calendar-node-popover-date">{{ start | date:"shortTime" }}</div>\
                                              </div>')(event)
