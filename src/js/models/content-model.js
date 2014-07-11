@@ -25,6 +25,12 @@
 	self.status = null;
 	self.archived = null;
 	self.dueDate = null;
+	self.convertDate = null;
+	self.submitDate = null;
+	self.approveDate = null;
+	self.launchDate = null;
+	self.promoteDate = null;
+	self.archiveDate = null;
 	self.created = null;
 	self.updated = null;
 
