@@ -113,6 +113,7 @@ class UploadController extends BaseController {
     }
     // Store a viewed record
     $user = Confide::user();
+	if (! UploadView::where('upload_id', $uploadID)->where('user_id', $user->id)->pluck('id')) {
     $viewed = new UploadView([
       'upload_id' => $uploadID,
       'user_id' => $user->id
@@ -120,6 +121,7 @@ class UploadController extends BaseController {
     // This won't save a new record with the same upload_id,user_id
     // due to unique validation rule
     $viewed->save();
+	}
     // Return the file as a download
     $path = base_path() . $upload->path . $upload->filename;
     return Response::download($path);

@@ -37,7 +37,7 @@ class Scheduler {
             $tokens[] = Queue::later($when, 'ConferencesController@emailReminder', [
                 'globalAdmin' => $globalAdmin,
                 'conference' => $conference,
-            ]);
+            ], 'conference-reminders');
         }
 
         if (is_array($conference['tokens'])) {
