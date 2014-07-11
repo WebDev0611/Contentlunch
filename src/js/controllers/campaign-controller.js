@@ -97,19 +97,19 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
     // Task Actions //
     $scope.newTask = function () {
         campaignTasks.openModal($scope.tasks).then(function (tasks) {
-            $scope.tasks = tasks;
+            if (tasks) $scope.tasks = tasks;
             return $scope.campaign.getList('collaborators');
         }).then(function (collaborators) {
-            $scope.campaign.collaborators = collaborators;
+            if (collaborators) $scope.campaign.collaborators = collaborators;
         });
     };
 
     $scope.editTask = function (task) {
         campaignTasks.openModal($scope.tasks, task).then(function (tasks) {
-            if (tasks) $scope.tasks = tasks;
+            if (tasks) if (tasks) $scope.tasks = tasks;
             return $scope.campaign.getList('collaborators');
         }).then(function (collaborators) {
-            $scope.campaign.collaborators = collaborators;
+            if (collaborators) $scope.campaign.collaborators = collaborators;
         });
     };
 
