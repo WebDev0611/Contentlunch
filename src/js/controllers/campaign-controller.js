@@ -1,6 +1,6 @@
 launch.module.controller('CampaignController',
-        ['$scope', 'AuthService', '$routeParams', '$filter', '$q', '$upload', 'Restangular', '$location', '$rootScope', 'campaignTasks', 'NotificationService', 
-function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   Restangular,   $location,   $rootScope,   campaignTasks,   notify) {
+        ['$scope', 'AuthService', '$routeParams', '$filter', '$q', '$upload', '$modal', 'Restangular', '$location', '$rootScope', 'campaignTasks', 'NotificationService', 
+function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   $modal,   Restangular,   $location,   $rootScope,   campaignTasks,   notify) {
     var user = $scope.user = AuthService.userInfo();
     var Account   = Restangular.one('account', user.account.id);
     var Campaigns = Account.all('campaigns');
@@ -51,10 +51,26 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
 
     $scope.deleteCampaign = function (campaign) {
         if (campaign.isNew) return $scope.cancelCampaign();
-        campaign.remove().then(function () {
-            notify.success('Campaign deleted');
-            $scope.cancelCampaign();
-        }).catch($rootScope.globalErrorHandler);
+
+        $modal.open({
+            templateUrl: 'confirm.html',
+            controller: ['$scope', '$modalInstance', function (_scope, instance) {
+                    _scope.message = 'Are you sure want to delete this campaign?';
+                    _scope.okButtonText = 'Delete';
+                    _scope.cancelButtonText = 'Cancel';
+                    _scope.onOk = function() {
+                        campaign.remove().then(function () {
+                            notify.success('Campaign deleted');
+                            $scope.cancelCampaign();
+                            instance.close();
+                        }).catch($rootScope.globalErrorHandler);
+                    };
+                    _scope.onCancel = function() {
+                        instance.dismiss('cancel');
+                    };
+                }
+            ]
+        })
     };
 
     $scope.cancelCampaign = function () {
