@@ -46,8 +46,8 @@ class CampaignTaskController extends BaseController {
         $task = new CampaignTask;
         $task->campaign_id = $campaignID;
         if ($task->save()) {
-            // add task person to list of owners if they don't already exist
-            $this->addToCampaignOwners($accountID, $campaignID, $task->user_id);
+            // add task person to list of collaborators if they don't already exist
+            $this->addToCampaignCollaborators($accountID, $campaignID, $task->user_id);
             return $this->show($accountID, $campaignID, $task->id);
         }
 
@@ -66,8 +66,8 @@ class CampaignTaskController extends BaseController {
 
         $task = CampaignTask::find($taskID);
         if ($task->save()) {
-            // add task person to list of owners if they don't already exist
-            $this->addToCampaignOwners($accountID, $campaignID, $task->user_id);
+            // add task person to list of collaborators if they don't already exist
+            $this->addToCampaignCollaborators($accountID, $campaignID, $task->user_id);
             return $this->show($accountID, $campaignID, $task->id);
         }
 
@@ -137,7 +137,7 @@ class CampaignTaskController extends BaseController {
         return false;
     }
 
-    private function addToCampaignOwners($accountID, $campaignID, $userID)
+    private function addToCampaignCollaborators($accountID, $campaignID, $userID)
     {
         $ctrl = new CollaboratorsController();
         $ctrl->store($accountID, 'campaigns', $campaignID, $userID);
