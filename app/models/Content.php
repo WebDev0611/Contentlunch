@@ -163,6 +163,9 @@ class Content extends Ardent {
             // Archived?
             case 'archived':
               if ($newValue) {
+                DB::table('content')
+                  ->where('id', $content->id)
+                  ->update(['archive_date' => new \DateTime]);
                 $activity = 'Archived';
               }
             break;
@@ -170,16 +173,33 @@ class Content extends Ardent {
               $activity = 'Edited content';
             break;
             // If status changed, log as an activity
+            // Also store the date of the change on the content record
             case 'status':
               if ($origValue == 0 && $newValue == 1) {
+                DB::table('content')
+                  ->where('id', $content->id)
+                  ->update(['convert_date' => new \DateTime]);
                 $activity = 'Converted Concept to Content';
               } elseif ($newValue == 2) {
+                DB::table('content')
+                  ->where('id', $content->id)
+                  ->update(['submit_date' => new \DateTime]);
                 $activity = 'Submitted for Review';
               } elseif ($newValue == 3) {
+                DB::table('content')
+                  ->where('id', $content->id)
+                  ->update(['approval_date' => new \DateTime]);
                 $activity = 'Approved';
               } elseif ($newValue == 4) {
+                // Content has moved to the "Launch" phase
+                DB::table('content')
+                  ->where('id', $content->id)
+                  ->update(['launch_date' => new \DateTime]);
                 $activity = 'Launched';
               } elseif ($newValue == 5) {
+                DB::table('content')
+                  ->where('id', $content->id)
+                  ->update(['promote_date' => new \DateTime]);
                 $activity = 'Promoted';
               }
             break;

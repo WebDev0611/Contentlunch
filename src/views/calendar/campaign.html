@@ -11,7 +11,7 @@
             <li class="task-task" ng-repeat="task in tasks" ng-class="{ disabled: task.isComplete }">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" check-int ng-model="task.isComplete" ng-change="toggleTaskComplete(task)">
+                        <input type="checkbox" style="margin: 3px 0 0 -20px !important;" check-int ng-model="task.isComplete" ng-change="toggleTaskComplete(task)">
                         {{ task.name }} - 
                         <span ng-hide="task.dateCompleted" ng-class="{ error: (task.dueDate | isOverdue) }">
                             Due: {{ task.dueDate ? (task.dueDate | date) : 'N/A' }}
@@ -261,13 +261,14 @@
                 <div class="col-md-3">
                     <div class="panel panel-inverse">
                         <div class="panel-heading">
-                            Owner<span ng-hide="campaign.isNew">s</span>
+                            Collaborators
                         </div>
                         <div class="panel-body">
                             <div class="internal-collaborator cl-badge cl-badge-horizontal">
                                 <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ user.image | imagePathFromObject }}')"></span>
                                 <div class="cl-badge-caption">
-                                    {{ user.displayName }}
+                                    <strong>{{ campaign.isNew ? user.displayName : campaign.user.name }}</strong><br>
+                                    <small style="margin-top: -7px; display: block">Owner</small>
                                 </div>
                             </div>
 

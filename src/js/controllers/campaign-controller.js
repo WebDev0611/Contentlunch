@@ -1,6 +1,6 @@
 launch.module.controller('CampaignController',
-        ['$scope', 'AuthService', '$routeParams', '$filter', '$q', '$upload', 'Restangular', '$location', '$rootScope', 'campaignTasks', 'NotificationService', 
-function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   Restangular,   $location,   $rootScope,   campaignTasks,   notify) {
+        ['$scope', 'AuthService', '$routeParams', '$filter', '$q', '$upload', '$modal', 'Restangular', '$location', '$rootScope', 'campaignTasks', 'NotificationService', 
+function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   $modal,   Restangular,   $location,   $rootScope,   campaignTasks,   notify) {
     var user = $scope.user = AuthService.userInfo();
     var Account   = Restangular.one('account', user.account.id);
     var Campaigns = Account.all('campaigns');
@@ -37,6 +37,7 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
     // Actions
     // -------------------------
     $scope.saveCampaign = function (campaign) {
+        campaign.status = 1; // only concepts will have a non-1 status
         (campaign.isNew ? Campaigns.post(campaign) : campaign.put()).then(function (camp) {
             var path = $location.path();
             notify.success('Campaign saved');
@@ -50,10 +51,26 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
 
     $scope.deleteCampaign = function (campaign) {
         if (campaign.isNew) return $scope.cancelCampaign();
-        campaign.remove().then(function () {
-            notify.success('Campaign deleted');
-            $scope.cancelCampaign();
-        }).catch($rootScope.globalErrorHandler);
+
+        $modal.open({
+            templateUrl: 'confirm.html',
+            controller: ['$scope', '$modalInstance', function (_scope, instance) {
+                    _scope.message = 'Are you sure want to delete this campaign?';
+                    _scope.okButtonText = 'Delete';
+                    _scope.cancelButtonText = 'Cancel';
+                    _scope.onOk = function() {
+                        campaign.remove().then(function () {
+                            notify.success('Campaign deleted');
+                            $scope.cancelCampaign();
+                            instance.close();
+                        }).catch($rootScope.globalErrorHandler);
+                    };
+                    _scope.onCancel = function() {
+                        instance.dismiss('cancel');
+                    };
+                }
+            ]
+        })
     };
 
     $scope.cancelCampaign = function () {
@@ -97,13 +114,19 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
     // Task Actions //
     $scope.newTask = function () {
         campaignTasks.openModal($scope.tasks).then(function (tasks) {
-            $scope.tasks = tasks;
+            if (tasks) $scope.tasks = tasks;
+            return $scope.campaign.getList('collaborators');
+        }).then(function (collaborators) {
+            if (collaborators) $scope.campaign.collaborators = collaborators;
         });
     };
 
     $scope.editTask = function (task) {
         campaignTasks.openModal($scope.tasks, task).then(function (tasks) {
-            if (tasks) $scope.tasks = tasks;
+            if (tasks) if (tasks) $scope.tasks = tasks;
+            return $scope.campaign.getList('collaborators');
+        }).then(function (collaborators) {
+            if (collaborators) $scope.campaign.collaborators = collaborators;
         });
     };
 

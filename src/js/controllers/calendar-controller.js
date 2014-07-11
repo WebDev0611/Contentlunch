@@ -46,7 +46,7 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
         userAuth: Restangular.all('auth').customGET(),
     }).then(function (responses) {
         originalResponses = _.mapObject(responses, function (response, key) {
-            return [key, response.plain ? response.plain() : response];
+            return [key, (response || {}).plain ? response.plain() : response];
         });
 
         var contentObj = _.mapObject(originalResponses.content, function (content) {

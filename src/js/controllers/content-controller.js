@@ -827,21 +827,21 @@
 			switch ($scope.content.contentType.baseType) {
 				case 'audio':
 					return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce' || provider === 'soundcloud');
-				case 'blog-post':
+				case 'blog_post':
 					return (provider === 'wordpress' || provider === 'tumblr');
 				case 'document':
 					return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce');
-				case 'generic-file':
+				case 'generic_file':
 					return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce');
 				case 'email':
 					return (provider === 'constant-contact');
-				case 'social-media-post':
+				case 'social_media_post':
 					if (provider === 'twitter') {
 						return (launch.utils.isBlank($scope.content.body) || $scope.content.body.length < 140);
 					}
 
 					return (provider === 'facebook' || provider === 'google' || provider === 'linkedin' || provider === 'twitter');
-				case 'long-html':
+				case 'long_html':
 					return (provider === 'drupal' || provider === 'joomla'|| provider === 'tumblr' || provider === 'wordpress');
 				case 'photo':
 					return (provider === 'dropbox' || provider === 'facebook' || provider === 'google' || provider === 'google-drive' ||  provider === 'linkedin' || provider === 'salesforce' ||provider === 'twitter');

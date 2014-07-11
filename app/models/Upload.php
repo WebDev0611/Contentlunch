@@ -15,6 +15,14 @@ class Upload extends CabinetUpload {
      return URL::asset(str_replace('/public/', '', $this->path) . $this->filename);
   }
 
+  /**
+   * Get the absolute file path to the upload
+   */
+  public function getAbsPath()
+  {
+    return base_path() . $this->path . $this->filename;
+  }
+
   public function account()
   {
     return $this->belongsTo('Account');
