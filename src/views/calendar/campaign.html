@@ -261,13 +261,14 @@
                 <div class="col-md-3">
                     <div class="panel panel-inverse">
                         <div class="panel-heading">
-                            Owner<span ng-hide="campaign.isNew">s</span>
+                            Collaborators
                         </div>
                         <div class="panel-body">
                             <div class="internal-collaborator cl-badge cl-badge-horizontal">
                                 <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ user.image | imagePathFromObject }}')"></span>
                                 <div class="cl-badge-caption">
-                                    {{ campaign.isNew ? user.displayName : campaign.user.name }}
+                                    <strong>{{ campaign.isNew ? user.displayName : campaign.user.name }}</strong><br>
+                                    <small style="margin-top: -7px; display: block">Owner</small>
                                 </div>
                             </div>
 
