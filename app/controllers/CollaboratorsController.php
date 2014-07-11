@@ -7,14 +7,14 @@ class CollaboratorsController extends BaseController {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    $campaign = $this->getModel($collabType, $modelID);
-    if ( ! $campaign) {
+    $model = $this->getModel($collabType, $modelID);
+    if ( ! $model) {
       return $this->responseError("{$collabType} not found");
     }
-    return $campaign->collaborators;
+    return $model->collaborators;
   }
 
-  public function store($accountID, $collabType, $modelID)
+  public function store($accountID, $collabType, $modelID, $userID = false)
   {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
@@ -23,11 +23,26 @@ class CollaboratorsController extends BaseController {
     if ( ! $model) {
       return $this->responseError("{$collabType} not found");
     }
-    $user = User::find(Input::get('user_id'));
+    if (!$userID) {
+      $userID = Input::get('user_id');
+    }
+    $user = User::find($userID);
     if ( ! $user) {
       return $this->responseError("User not found");
     }
-    $model->collaborators()->attach($user->id);
+
+    // sync collaborators
+    $collabIDs = [];
+    $collabs = $model->collaborators;
+    foreach ($collabs as $collab) {
+      $collabIDs[] = $collab->id;
+    }
+    if ($userID != $model->user_id) {
+      $collabIDs[] = $userID;
+    }
+    array_unique($collabIDs);
+    $model->collaborators()->sync($collabIDs);
+
     // Store an activity log that a collaborator is being added
     if ($collabType == 'content') {
       $currentUser = Confide::user();
@@ -37,7 +52,8 @@ class CollaboratorsController extends BaseController {
         'activity' => "Added ". strtoupper($user->first_name .' '. $user->last_name) ." as a collaborator"
       ]);
       $activity->save();
-    }
+    }      
+
     return $this->index($accountID, $collabType, $modelID);
   }
 
