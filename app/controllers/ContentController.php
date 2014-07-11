@@ -267,8 +267,11 @@ class ContentController extends BaseController {
       return $this->responseError("Account Connection not found");
     }
     switch ($accountConnection->connection->provider) {
+      case 'dropbox':
+        $class = 'DropboxAPI';
+      break;
       case 'facebook':
-        $class = 'FacebookAPI';;
+        $class = 'FacebookAPI';
       break;
       case 'linkedin':
         $class = 'LinkedInAPI';

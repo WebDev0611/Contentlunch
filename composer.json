@@ -29,7 +29,8 @@
     "guzzlehttp/guzzle": "dev-master",
     "pda/pheanstalk": "~2.0",
     "openlss/lib-array2xml": "dev-master",
-    "ise/php-soundcloud": "3.0.1"
+    "ise/php-soundcloud": "3.0.1",
+    "dropbox/dropbox-sdk": "1.1.*"
 	},
 	"autoload": {
 		"classmap": [
