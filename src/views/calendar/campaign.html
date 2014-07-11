@@ -267,7 +267,7 @@
                             <div class="internal-collaborator cl-badge cl-badge-horizontal">
                                 <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ user.image | imagePathFromObject }}')"></span>
                                 <div class="cl-badge-caption">
-                                    {{ user.displayName }}
+                                    {{ campaign.isNew ? user.displayName : campaign.user.name }}
                                 </div>
                             </div>
 
