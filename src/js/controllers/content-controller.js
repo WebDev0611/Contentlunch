@@ -757,7 +757,7 @@
 			comment.id = null;
 			comment.comment = message;
 			comment.itemId = $scope.content.id;
-			comment.commentDate = launch.utils.formatDateTime(new Date());
+			comment.created = launch.utils.formatDateTime(new Date());
 			comment.commentor = {
 				id: self.loggedInUser.id,
 				name: self.loggedInUser.displayName,

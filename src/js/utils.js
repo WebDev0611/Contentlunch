@@ -468,6 +468,14 @@
 		return (state.length === 1) ? state[0] : null;
 	},
 
+	convertToUTCDateFromApi: function(stringDate) {
+		if (launch.utils.isBlank(stringDate) || (Object.prototype.toString.call(stringDate) === '[object Date]') && isNaN(stringDate.getTime())) {
+			return null;
+		}
+
+		return new Date(moment.utc(moment(stringDate).format('YYYY-MM-DD HH:mm:ss')).local().format('MM/DD/YYYY HH:mm:ss'));
+	},
+
 	formatDate: function(date) {
 		if (launch.utils.isBlank(date) || (Object.prototype.toString.call(date) === '[object Date]') && isNaN(date.getTime())) {
 			return '';
@@ -481,7 +489,7 @@
 			return '';
 		}
 
-		return moment(new Date(date)).local().format('MM/DD/YYYY hh:mm:ss A');
+		return moment(date).format('MM/DD/YYYY hh:mm:ss A');
 	},
 
 	isValidDate: function(date) {
@@ -830,7 +838,7 @@
 		comment.id = null;
 		comment.comment = message;
 		comment.itemId = id;
-		comment.commentDate = launch.utils.formatDateTime(new Date());
+		comment.created = launch.utils.formatDateTime(new Date());
 		comment.isGuestComment = !launch.utils.isBlank(user.accessCode);
 		comment.commentor = {
 			id: user.id

@@ -15,6 +15,8 @@
 
 				scope.newComment = null;
 			};
+
+			scope.formatDate = launch.utils.formatDate;
 		}
 	};
 });
