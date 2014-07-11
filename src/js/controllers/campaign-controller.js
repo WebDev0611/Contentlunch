@@ -37,6 +37,7 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   R
     // Actions
     // -------------------------
     $scope.saveCampaign = function (campaign) {
+        campaign.status = 1; // only concepts will have a non-1 status
         (campaign.isNew ? Campaigns.post(campaign) : campaign.put()).then(function (camp) {
             var path = $location.path();
             notify.success('Campaign saved');
