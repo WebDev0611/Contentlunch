@@ -157,17 +157,17 @@
 						templateUrl: '/assets/views/calendar/campaign.html',
 						reloadOnSearch: false
 					})
-					.when('/launch', {
-						controller: 'LaunchController',
-						templateUrl: '/assets/views/launch.html'
+					.when('/promote', {
+						controller: 'CreateController',
+						templateUrl: '/assets/views/promote/promote.html'
 					})
-					.when('/launch/content/:contentId', {
-						controller: 'LaunchController',
-						templateUrl: '/assets/views/launch.html'
+					.when('/promote/content/:contentId', {
+						controller: 'PromoteController',
+						templateUrl: '/assets/views/promote/promote-content.html'
 					})
-					.when('/launch/campaign/:campaignId', {
-						controller: 'LaunchController',
-						templateUrl: '/assets/views/launch.html'
+					.when('/promote/campaign/:campaignId', {
+						controller: 'PromoteController',
+						templateUrl: '/assets/views/promote/promote-campaign.html'
 					})
 					.when('/measure', {
 						controller: 'MeasureController',

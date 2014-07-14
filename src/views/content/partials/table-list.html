@@ -1,17 +1,20 @@
 <div class="create-header">
-    <h3>Content</h3>
+	<h3>
+		<span ng-show="isPromote">Promote</span>
+		Content
+	</h3>
     
-    <div class="btn-group" ng-show="canViewContent">
+    <div class="btn-group" ng-show="canViewContent && !isPromote">
         <button class="btn btn-default" ng-class="{ active: search.contentStage === 'content' }" ng-click="search.toggleContentStage('content')" ng-show="canViewContent">Content</button>
         <button class="btn btn-default" ng-class="{ active: search.contentStage === 'concepts' }" ng-click="search.toggleContentStage('concepts')" ng-show="canViewConcepts">Concepts</button>
         <button class="btn btn-default" ng-class="{ active: search.contentStage === 'archived' }" ng-click="search.toggleContentStage('archived')" ng-show="canViewContent">Archived</button>
     </div>
     
-    <div class="create-download">
+    <div class="create-download" ng-hide="isPromote">
         <a class="btn btn-default fa fa-download" target="_blank" href="/api/account/{{ user.account.id }}/content/export-csv"></a>
     </div>
 
-    <div class="create-delete" ng-show="canDelete && search.contentStage !== 'content'">
+    <div class="create-delete" ng-show="canDelete && search.contentStage !== 'content' && !isPromote">
         <button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteSelected()"></button>
     </div>
 
@@ -70,6 +73,9 @@
 					<span class="fa" ng-show="pagination.currentSort === 'currentstep'" ng-class="'fa-sort-numeric-' + pagination.currentSortDirection"></span>
 					<span class="clickable-header" ng-click="applySort('currentStep')">Current Step</span>
 				</th>
+				<th ng-show="isPromote">
+					<span>Promotion</span>
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -89,6 +95,9 @@
 				<td>
 					<span class="cl-icon cl-icon-workflow" ng-class="formatWorkflowItem(c.currentStep())"></span>
 					<span ng-bind="formatWorkflowTitle(c.currentStep())"></span>
+				</td>
+				<td ng-show="isPromote">
+					PROMOTE ICONS HERE
 				</td>
 			</tr>
 		</tbody>
