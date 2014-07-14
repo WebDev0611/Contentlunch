@@ -1334,6 +1334,87 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 		}
 	}
+
+	.right-pane {
+		.row {
+			margin: 20px 0;
+
+			.col-md-12 {
+				padding: 0;
+			}
+		}
+
+		.content-preview {
+			background-color: #e4e4e4;
+			padding: 16px;
+			width: 100%;
+
+			h4 {
+				font-family: 'Lato Black';
+				margin: 4px 0;
+			}
+
+			.control-group {
+				height: 46px;
+				margin: 0;
+				position: relative;
+
+				.btn-launch-container {
+					float: right;
+
+					ul.dropdown-menu {
+						li {
+							padding: 8px;
+
+							&:hover{
+								background-color: #f5f5f5;
+							}
+
+							> * {
+								display: inline-block;
+								vertical-align: top;
+							}
+
+							a {
+								padding: 0;
+							}
+
+							.form-control {
+								margin: 2px 0;
+								height: 16px;
+								width: 16px;
+							}
+						}
+					}
+				}
+
+				.btn-launch, .btn-promote {
+					color: #ffffff;
+					float: right;
+					font-size: 12pt;
+					font-weight: bold;
+					right: 8px;
+
+					span {
+						vertical-align: middle;
+
+						&.cl-icon-launch {
+							height: 30px;
+							width: 30px;
+						}
+					}
+				}
+
+				.btn-launch {
+					background-color: @homeColorDark;
+				}
+
+				.btn-promote {
+					background-color: @promoteColor;
+				}
+			}
+		}
+	}
 }
 
 .promote {
@@ -1642,77 +1723,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 				display: inline-block;
 				font-size: 16pt;
 				margin: 0 4px;
-			}
-		}
-
-		.content-preview {
-			background-color: #e4e4e4;
-			padding: 16px;
-			width: 100%;
-
-			h4 {
-				font-family: 'Lato Black';
-				margin: 4px 0;
-			}
-
-			.control-group {
-				height: 46px;
-				margin: 0;
-				position: relative;
-
-				.btn-launch-container {
-					float: right;
-
-					ul.dropdown-menu {
-						li {
-							padding: 8px;
-
-							&:hover{
-								background-color: #f5f5f5;
-							}
-
-							> * {
-								display: inline-block;
-								vertical-align: top;
-							}
-
-							a {
-								padding: 0;
-							}
-
-							.form-control {
-								margin: 2px 0;
-								height: 16px;
-								width: 16px;
-							}
-						}
-					}
-				}
-
-				.btn-launch, .btn-promote {
-					color: #ffffff;
-					float: right;
-					font-size: 12pt;
-					font-weight: bold;
-					right: 8px;
-
-					span {
-						vertical-align: middle;
-
-						&.cl-icon-launch {
-							height: 30px;
-							width: 30px;
-						}
-					}
-				}
-
-				.btn-launch {
-					background-color: @homeColorDark;
-				}
-
-				.btn-promote {
-					background-color: @promoteColor;
-				}
 			}
 		}
 	}

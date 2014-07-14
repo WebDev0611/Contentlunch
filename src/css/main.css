@@ -1699,6 +1699,89 @@ span[class*=" icon-"].dark {
 .promote .left-pane .panel-group .panel .panel-collapse .panel-body {
   border: none !important;
 }
+.create .right-pane .row,
+.promote .right-pane .row {
+  margin: 20px 0;
+}
+.create .right-pane .row .col-md-12,
+.promote .right-pane .row .col-md-12 {
+  padding: 0;
+}
+.create .right-pane .content-preview,
+.promote .right-pane .content-preview {
+  background-color: #e4e4e4;
+  padding: 16px;
+  width: 100%;
+}
+.create .right-pane .content-preview h4,
+.promote .right-pane .content-preview h4 {
+  font-family: 'Lato Black';
+  margin: 4px 0;
+}
+.create .right-pane .content-preview .control-group,
+.promote .right-pane .content-preview .control-group {
+  height: 46px;
+  margin: 0;
+  position: relative;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container,
+.promote .right-pane .content-preview .control-group .btn-launch-container {
+  float: right;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li,
+.promote .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li {
+  padding: 8px;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li:hover,
+.promote .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li:hover {
+  background-color: #f5f5f5;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li > *,
+.promote .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li > * {
+  display: inline-block;
+  vertical-align: top;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li a,
+.promote .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li a {
+  padding: 0;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li .form-control,
+.promote .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li .form-control {
+  margin: 2px 0;
+  height: 16px;
+  width: 16px;
+}
+.create .right-pane .content-preview .control-group .btn-launch,
+.promote .right-pane .content-preview .control-group .btn-launch,
+.create .right-pane .content-preview .control-group .btn-promote,
+.promote .right-pane .content-preview .control-group .btn-promote {
+  color: #ffffff;
+  float: right;
+  font-size: 12pt;
+  font-weight: bold;
+  right: 8px;
+}
+.create .right-pane .content-preview .control-group .btn-launch span,
+.promote .right-pane .content-preview .control-group .btn-launch span,
+.create .right-pane .content-preview .control-group .btn-promote span,
+.promote .right-pane .content-preview .control-group .btn-promote span {
+  vertical-align: middle;
+}
+.create .right-pane .content-preview .control-group .btn-launch span.cl-icon-launch,
+.promote .right-pane .content-preview .control-group .btn-launch span.cl-icon-launch,
+.create .right-pane .content-preview .control-group .btn-promote span.cl-icon-launch,
+.promote .right-pane .content-preview .control-group .btn-promote span.cl-icon-launch {
+  height: 30px;
+  width: 30px;
+}
+.create .right-pane .content-preview .control-group .btn-launch,
+.promote .right-pane .content-preview .control-group .btn-launch {
+  background-color: #10699d;
+}
+.create .right-pane .content-preview .control-group .btn-promote,
+.promote .right-pane .content-preview .control-group .btn-promote {
+  background-color: #773876;
+}
 .promote .left-pane .filter-panel,
 .promote .left-pane .tasks-header {
   background-color: #773876;
@@ -1934,64 +2017,6 @@ span[class*=" icon-"].dark {
   display: inline-block;
   font-size: 16pt;
   margin: 0 4px;
-}
-.create .right-pane .content-preview {
-  background-color: #e4e4e4;
-  padding: 16px;
-  width: 100%;
-}
-.create .right-pane .content-preview h4 {
-  font-family: 'Lato Black';
-  margin: 4px 0;
-}
-.create .right-pane .content-preview .control-group {
-  height: 46px;
-  margin: 0;
-  position: relative;
-}
-.create .right-pane .content-preview .control-group .btn-launch-container {
-  float: right;
-}
-.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li {
-  padding: 8px;
-}
-.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li:hover {
-  background-color: #f5f5f5;
-}
-.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li > * {
-  display: inline-block;
-  vertical-align: top;
-}
-.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li a {
-  padding: 0;
-}
-.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li .form-control {
-  margin: 2px 0;
-  height: 16px;
-  width: 16px;
-}
-.create .right-pane .content-preview .control-group .btn-launch,
-.create .right-pane .content-preview .control-group .btn-promote {
-  color: #ffffff;
-  float: right;
-  font-size: 12pt;
-  font-weight: bold;
-  right: 8px;
-}
-.create .right-pane .content-preview .control-group .btn-launch span,
-.create .right-pane .content-preview .control-group .btn-promote span {
-  vertical-align: middle;
-}
-.create .right-pane .content-preview .control-group .btn-launch span.cl-icon-launch,
-.create .right-pane .content-preview .control-group .btn-promote span.cl-icon-launch {
-  height: 30px;
-  width: 30px;
-}
-.create .right-pane .content-preview .control-group .btn-launch {
-  background-color: #10699d;
-}
-.create .right-pane .content-preview .control-group .btn-promote {
-  background-color: #773876;
 }
 .create-header {
   margin: 0 16px;

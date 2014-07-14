@@ -162,11 +162,11 @@
 						templateUrl: '/assets/views/promote/promote.html'
 					})
 					.when('/promote/content/:contentId', {
-						controller: 'PromoteController',
+						controller: 'PromoteContentController',
 						templateUrl: '/assets/views/promote/promote-content.html'
 					})
 					.when('/promote/campaign/:campaignId', {
-						controller: 'PromoteController',
+						controller: 'PromoteCampaignController',
 						templateUrl: '/assets/views/promote/promote-campaign.html'
 					})
 					.when('/measure', {

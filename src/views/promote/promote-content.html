@@ -1,1 +1,27 @@
-﻿PROMOTE CONTENT HERE!
+﻿<div class="view promote" ng-if="!!content && content.$resolved">
+	<div class="col-md-3 left-pane">
+		
+	</div>
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header">Promote</h2>
+
+		<div class="content-editor row">
+			<div class="col-md-9">
+				<h2>Promote Content</h2>
+
+				<div ng-include="'/assets/views/content/partials/content-form.html'"></div>
+			</div>
+			<div class="col-md-3">
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="loading-spinner-container" ng-show="!content.$resolved">
+	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
+</div>
+
+<div class="full-screen-modal" ng-show="isSaving">
+	<spinner spin="{ color: 'white', length: 50, width: 10, radius: 30 }"></spinner>
+</div>
