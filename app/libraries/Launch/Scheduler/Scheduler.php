@@ -48,6 +48,11 @@ class Scheduler {
         return $conferenceModel->save();
     }
 
+    /**
+     * Delete scheduled tasks before they occur.
+     * @param  string|int $token Token matching scheduled job you want to delete
+     * @return void
+     */
     public static function deleteByToken($token)
     {
         // there are situations where a job ID may not exist
