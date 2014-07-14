@@ -468,14 +468,6 @@
 		return (state.length === 1) ? state[0] : null;
 	},
 
-	convertToUTCDateFromApi: function(stringDate) {
-		if (launch.utils.isBlank(stringDate) || (Object.prototype.toString.call(stringDate) === '[object Date]') && isNaN(stringDate.getTime())) {
-			return null;
-		}
-
-		return new Date(moment.utc(moment(stringDate).format('YYYY-MM-DD HH:mm:ss')).local().format('MM/DD/YYYY HH:mm:ss'));
-	},
-
 	formatDate: function(date) {
 		if (launch.utils.isBlank(date) || (Object.prototype.toString.call(date) === '[object Date]') && isNaN(date.getTime())) {
 			return '';
