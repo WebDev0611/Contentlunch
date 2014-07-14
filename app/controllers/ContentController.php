@@ -279,6 +279,9 @@ class ContentController extends BaseController {
       case 'soundcloud':
         $class = 'SoundcloudAPI';
       break;
+      case 'tumblr':
+        $class = 'TumblrAPI';
+      break;
       case 'twitter':
         $class = 'TwitterAPI';
       break;
@@ -287,6 +290,7 @@ class ContentController extends BaseController {
     }
     $class = 'Launch\Connections\API\\'. $class;
     $api = new $class($accountConnection->toArray());
+    return $api->postContent($content);
     $response = $api->postContent($content);
     if ( ! isset($response['success']) || ! isset($response['response'])) {
       throw new \Exception("Response from connection API must set success and response");
