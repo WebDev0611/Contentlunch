@@ -13,7 +13,11 @@
 
 App::before(function($request)
 {
-	//
+    $timezone = $request->header('X-Timezone');
+
+    if (preg_match('/^[+-]\d{2}:\d{2}$/', $timezone)) {
+        DB::statement("SET time_zone='{$timezone}'");
+    }
 });
 
 

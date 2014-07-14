@@ -231,7 +231,7 @@
 						});
 
 						// adjust dates for local timezone
-						if (key !== 'createdAt' && key !== 'updatedAt' && isDateString(value)) {
+						if (isDateString(value)) {
 							// console.debug(key, 'before local:', value);
 							value = moment.utc(value).local().format();
 							// console.debug(key, 'after local:', value);
@@ -249,7 +249,7 @@
 
 					return _.mapObject(data, function(value, key) {
 						// adjust dates for UTC timezone
-						if (key !== 'createdAt' && key !== 'updatedAt' && isDateString(value)) {
+						if (isDateString(value)) {
 							// console.debug(key, 'before utc:', value);
 							value = moment(value).utc().format('YYYY-MM-DD HH:mm:ss');
 							// console.debug(key, 'after utc:', value);
@@ -267,6 +267,9 @@
 				}
 
 				function isDateString(str) {
+					// disable for now
+					return false;
+
 					if (!_.isString(str)) return false;
 
 					return str.match(/^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}:\d{2})?(?:[-+]\d{2}:00)?$/);
@@ -295,11 +298,13 @@
 				];
 
 				$httpProvider.responseInterceptors.push(interceptor);
+
+				$httpProvider.defaults.headers.common['X-Timezone'] = moment().format('Z');
 			}
 		])
 		.run([
-			'$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService',
-			function($rootScope, $location, userService, authService, notificationService) {
+					'$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService',
+			function($rootScope,   $location,   userService,   authService,   notificationService) {
 				var path = $location.path();
 
 				var fetchCurrentUser = function(r) {
