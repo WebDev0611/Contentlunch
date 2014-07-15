@@ -35,8 +35,8 @@ return [
   'google' => [
     'key' => '105997751893-s34v4dmp7rauav72146qigpg94jnu83a.apps.googleusercontent.com',
     'secret' => 'qSM5V2SgkYx2iUMJy0oBDo_w',
-    'scope' => ['userinfo_email', 'userinfo_profile'],
-    'callback_domain' => 'http://localhost:8080'
+    'scope' => ['userinfo_email', 'userinfo_profile', 'https://www.googleapis.com/auth/youtube'],
+    'callback_domain' => 'http://localhost:8000'
   ],
   'hubspot' => [
     'key' => 'b5badda1-cb0e-11e3-bd85-131c19601838',

@@ -166,6 +166,18 @@
 .cl-icon-file-ms-powerpoint {
   background-image: url(/assets/images/file-powerpoint.svg);
 }
+.cl-icon-promote-social {
+  background-image: url(/assets/images/social.svg);
+}
+.cl-icon-promote-automation {
+  background-image: url(/assets/images/automation.svg);
+}
+.cl-icon-promote-amplification {
+  background-image: url(/assets/images/amplify.svg);
+}
+.cl-icon-promote-intelligence {
+  background-image: url(/assets/images/intelligence.svg);
+}
 .cl-banner-container {
   background-color: #ffffff;
   border-radius: 8px;
@@ -175,7 +187,7 @@
   min-width: 100%;
   padding: 0 8px;
 }
-.cl-banner-container .cl-banner {
+.cl-banner {
   background-repeat: no-repeat;
   -moz-background-size: contain;
   background-size: contain;
@@ -184,9 +196,18 @@
   width: 110px;
   vertical-align: text-bottom;
 }
-.cl-banner-container .cl-banner-hubspot {
+.cl-banner-hubspot {
   background-image: url(/assets/images/hubspot-banner.png);
 }
-.cl-banner-container .cl-banner-act-on {
+.cl-banner-act-on {
   background-image: url(/assets/images/act-on-banner.png);
+}
+.cl-banner-hootsuite {
+  background-image: url(/assets/images/hootsuite-banner.png);
+}
+.cl-banner-outbrain {
+  background-image: url(/assets/images/outbrain-banner.png);
+}
+.cl-banner-papershare {
+  background-image: url(/assets/images/papershare-banner.png);
 }

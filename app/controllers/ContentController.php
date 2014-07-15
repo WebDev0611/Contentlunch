@@ -258,9 +258,9 @@ class ContentController extends BaseController {
     if ( ! $content) {
       return $this->responseError("Content not found");
     }
-    $accountConnection = $content
-      ->account_connections()
+    $accountConnection = AccountConnection::with('connection')
       ->with('connection')
+      ->where('account_connections.account_id', $accountID)
       ->where('account_connections.id', $accountConnectionID)
       ->first();
     if ( ! $accountConnection) {
@@ -285,12 +285,14 @@ class ContentController extends BaseController {
       case 'twitter':
         $class = 'TwitterAPI';
       break;
+      case 'youtube':
+        $class = 'YoutubeAPI';
+      break;
       default:
         return $this->responseError("Connection provider: ". $accountConnection->connection->provider ." not implemented yet.");
     }
     $class = 'Launch\Connections\API\\'. $class;
     $api = new $class($accountConnection->toArray());
-    return $api->postContent($content);
     $response = $api->postContent($content);
     if ( ! isset($response['success']) || ! isset($response['response'])) {
       throw new \Exception("Response from connection API must set success and response");
