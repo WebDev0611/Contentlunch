@@ -508,8 +508,15 @@ header .login-info .popover-menu .admin-menu {
 }
 header .login-info .popover-menu .admin-menu li {
   margin: 0;
+}
+header .login-info .popover-menu .admin-menu li a {
+  color: #000000;
+  display: inline-block;
   padding: 8px;
+  text-decoration: none;
   vertical-align: middle;
+  width: 100%;
+  height: 100%;
 }
 header .login-info .popover-menu .admin-menu li:hover {
   background-color: #cccccc;
