@@ -13,7 +13,7 @@
     "laravel/framework": "4.1.*",
     "laravelbook/ardent": "dev-master",
     "zizaco/confide": "3.2.x",
-    "zizaco/entrust": "dev-master",
+    "zizaco/entrust": "1.2.1",
     "andrew13/cabinet": "dev-master",
     "summerstreet/woodling": "dev-master",
     "balanced/balanced": "1.x",
@@ -32,7 +32,7 @@
     "ise/php-soundcloud": "3.0.1",
     "dropbox/dropbox-sdk": "1.1.*",
     "eher/oauth": "1.0.*",
-    "google/apiclient": "1.0.*@beta"
+    "google/apiclient": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
