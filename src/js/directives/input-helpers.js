@@ -12,6 +12,7 @@ angular.module('launch')
             // this allows any truthy value to be initally passed in
             // to the checkbox and it will still show up as checked
             scope.$watch(attrs.ngModel, function (val) {
+                if (val === '0') val = 0;
                 ngModel.$setViewValue(!!val);
                 ngModel.$render();
             });

@@ -16,6 +16,8 @@
 		self.init = function() {
 			self.loggedInUser = authService.userInfo();
 
+			$scope.isPromote = ($location.path() === '/promote');
+
 			$scope.canViewConcepts = self.loggedInUser.hasPrivilege(['create_view_ideas_other', 'create_execute_ideas_own']);
 			$scope.canViewContent = self.loggedInUser.hasPrivilege(['create_execute_content_own', 'create_view_content_other_unapproved', 'create_view_content_other']);
 			$scope.canCreateContentConcept = self.loggedInUser.hasPrivilege('create_execute_ideas_own');
@@ -25,6 +27,8 @@
 			$scope.editConceptOthers = self.loggedInUser.hasPrivilege('create_edit_ideas_other');
 			$scope.editContentSelf = self.loggedInUser.hasPrivilege('create_execute_content_own');
 			$scope.editContentOthers = self.loggedInUser.hasPrivilege(['create_edit_content_other', 'create_edit_content_other_unapproved']);
+			$scope.promoteContentSelf = self.loggedInUser.hasPrivilege('promote_content_own');
+			$scope.promoteContentOthers = self.loggedInUser.hasPrivilege('promote_content_other');
 
 			// TODO: WE NEED A PRIVILEGE THAT ALLOWS A USER TO DELETE CONTENT!!
 			$scope.canDelete = true; //self.loggedInUser.hasPrivilege('');
@@ -83,15 +87,21 @@
 			}
 
 			if (resetFilters) {
-				if (!!self.loggedInUser.preferences && !!self.loggedInUser.preferences.create) {
-					$scope.search.searchTerm = (launch.utils.isBlank(self.loggedInUser.preferences.create.searchTerm)) ? null : self.loggedInUser.preferences.create.searchTerm;
-					$scope.search.myTasks = (!!self.loggedInUser.preferences.create.myTasks) ? true : false;
-					$scope.search.contentTypes = $.isArray(self.loggedInUser.preferences.create.contentTypes) ? self.loggedInUser.preferences.create.contentTypes : [];
-					$scope.search.steps = $.isArray(self.loggedInUser.preferences.create.steps) ? self.loggedInUser.preferences.create.steps : [];
-					$scope.search.buyingStages = $.isArray(self.loggedInUser.preferences.create.buyingStages) ? self.loggedInUser.preferences.create.buyingStages : [];
-					$scope.search.campaigns = $.isArray(self.loggedInUser.preferences.create.campaigns) ? self.loggedInUser.preferences.create.campaigns : [];
-					$scope.search.users = $.isArray(self.loggedInUser.preferences.create.users) ? self.loggedInUser.preferences.create.users : [];
-					$scope.search.contentStage = (launch.utils.isBlank(self.loggedInUser.preferences.create.contentStage)) ? 'content' : self.loggedInUser.preferences.create.contentStage;
+				if (!!self.loggedInUser.preferences) {
+					var prefs = $scope.isPromote ? self.loggedInUser.preferences.promote : self.loggedInUser.preferences.create;
+
+					if (!!prefs) {
+						$scope.search.searchTerm = (launch.utils.isBlank(prefs.searchTerm)) ? null : prefs.searchTerm;
+						$scope.search.myTasks = (!!prefs.myTasks) ? true : false;
+						$scope.search.contentTypes = $.isArray(prefs.contentTypes) ? prefs.contentTypes : [];
+						$scope.search.steps = $.isArray(prefs.steps) ? prefs.steps : [];
+						$scope.search.buyingStages = $.isArray(prefs.buyingStages) ? prefs.buyingStages : [];
+						$scope.search.campaigns = $.isArray(prefs.campaigns) ? prefs.campaigns : [];
+						$scope.search.users = $.isArray(prefs.users) ? prefs.users : [];
+						$scope.search.contentStage = (launch.utils.isBlank(prefs.contentStage)) ? 'content' : prefs.contentStage;
+					} else {
+						$scope.search.clearFilter();
+					}
 				} else {
 					$scope.search.clearFilter();
 				}
@@ -157,6 +167,7 @@
 		$scope.content = null;
 		$scope.filteredContent = null;
 		$scope.pagedContent = null;
+		$scope.isPromote = false;
 
 		$scope.canViewContent = false;
 		$scope.canViewConcepts = false;
@@ -167,6 +178,8 @@
 		$scope.editContentOthers = false;
 		$scope.editConceptSelf = false;
 		$scope.editConceptOthers = false;
+		$scope.promoteContentSelf = false;
+		$scope.promoteContentOthers = false;
 		$scope.canDelete = false;
 
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
@@ -233,7 +246,7 @@
 			searchTermMinLength: 1,
 			myTasks: false,
 			contentTypes: [],
-			steps: [],
+			steps: $scope.isPromote ? ['promote'] : [],
 			buyingStages: [],
 			campaigns: [],
 			users: [],
@@ -306,7 +319,7 @@
 			clearFilter: function() {
 				$scope.search.searchTerm = null;
 				$scope.search.contentTypes = [];
-				$scope.search.steps = [];
+				$scope.search.steps = $scope.isPromote ? ['promote'] : [];
 				$scope.search.buyingStages = [];
 				$scope.search.campaigns = [];
 				$scope.search.users = [];
@@ -360,15 +373,12 @@
 		};
 
 		$scope.saveFilter = function () {
-			userService.savePreferences(self.loggedInUser.id, 'create', $scope.search, {
+			var page = $scope.isPromote ? 'promote' : 'create';
+
+			userService.savePreferences(self.loggedInUser.id, page, $scope.search, {
 				success: function(r) {
-					notificationService.success('Success!', 'Create default filters saved!');
-					self.loggedInUser = authService.fetchCurrentUser({
-						success: function(r) {
-							
-						},
-						error: self.ajaxHandler.error
-					});
+					notificationService.success('Success!', launch.utils.titleCase(page) + ' default filters saved!');
+					self.loggedInUser = authService.fetchCurrentUser(self.ajaxHandler);
 				},
 				error: self.ajaxHandler.error
 			});
@@ -392,18 +402,22 @@
 			});
 		};
 
-		$scope.editContent = function(content) {
+		$scope.editContent = function (content) {
 			if (!$scope.canEditContent(content)) {
 				notificationService.error('Error!', 'Your are unauthorized to view this item.');
 				return;
 			}
 
-			if (content, content.archived) {
-				self.verifyArchive(content, content.archived);
-			} else if (content.status === 0) {
-				$location.path('create/concept/edit/content/' + content.id);
+			if ($scope.isPromote) {
+				$location.path('promote/content/' + content.id);
 			} else {
-				$location.path('create/content/edit/' + content.id);
+				if (content, content.archived) {
+					self.verifyArchive(content, content.archived);
+				} else if (content.status === 0) {
+					$location.path('create/concept/edit/content/' + content.id);
+				} else {
+					$location.path('create/content/edit/' + content.id);
+				}
 			}
 		};
 
@@ -448,12 +462,15 @@
 				return false;
 			}
 
+			var hasSelfPrivilege = ($scope.isPromote) ? $scope.promoteContentSelf : content.status === 0 ? $scope.editConceptSelf : $scope.editContentSelf;
+			var hasOthersPrivilege = ($scope.isPromote) ? $scope.promoteContentOthers : content.status === 0 ? $scope.editConceptOthers : $scope.editContentOthers;
+
 			if (content.author.id === self.loggedInUser.id) {
-				return content.status === 0 ? $scope.editConceptSelf : $scope.editContentSelf;
+				return hasSelfPrivilege;
 			} else if ($.grep(content.collaborators, function(c) { return c.id === self.loggedInUser.id; }).length > 0) {
 				return true;
 			} else {
-				return content.status === 0 ? $scope.editConceptOthers : $scope.editContentOthers;
+				return hasOthersPrivilege;
 			}
 		};
 

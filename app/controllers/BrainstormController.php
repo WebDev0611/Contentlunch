@@ -66,7 +66,7 @@ class BrainstormController extends BaseController {
             return $this->responseError($this->brainstorm->errors()->all(':message'));
         }
 
-        return $this->show($this->brainstorm->id);
+        return $this->show($accountID, $conceptType, $conceptID, $this->brainstorm->id);
     }
 
     /**
@@ -86,7 +86,7 @@ class BrainstormController extends BaseController {
             return $this->responseError($this->brainstorm->errors()->all(':message'));
         }
 
-        return $this->show($this->brainstorm->id);
+        return $this->show($accountID, $conceptType, $conceptID, $this->brainstorm->id);
     }
 
     /**

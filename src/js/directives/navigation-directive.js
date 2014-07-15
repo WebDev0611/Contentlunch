@@ -34,7 +34,7 @@
 				});
 
 				// Sort main navigation items
-				var sort = ['consult', 'create', 'collaborate', 'calendar', 'launch', 'measure'];
+				var sort = ['consult', 'create', 'collaborate', 'calendar', 'promote', 'measure'];
 				$.each(sort, function(i, value) {
 					$.each(navItems, function(j, navValue) {
 						if (value == navValue.title) {

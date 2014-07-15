@@ -258,9 +258,9 @@ class ContentController extends BaseController {
     if ( ! $content) {
       return $this->responseError("Content not found");
     }
-    $accountConnection = $content
-      ->account_connections()
+    $accountConnection = AccountConnection::with('connection')
       ->with('connection')
+      ->where('account_connections.account_id', $accountID)
       ->where('account_connections.id', $accountConnectionID)
       ->first();
     if ( ! $accountConnection) {
@@ -279,8 +279,14 @@ class ContentController extends BaseController {
       case 'soundcloud':
         $class = 'SoundcloudAPI';
       break;
+      case 'tumblr':
+        $class = 'TumblrAPI';
+      break;
       case 'twitter':
         $class = 'TwitterAPI';
+      break;
+      case 'youtube':
+        $class = 'YoutubeAPI';
       break;
       default:
         return $this->responseError("Connection provider: ". $accountConnection->connection->provider ." not implemented yet.");

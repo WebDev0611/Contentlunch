@@ -144,7 +144,7 @@
 			}
 
 			account.autoRenew = parseInt(dto.auto_renew) === 1 ? true : false;
-			account.expirationDate = launch.utils.convertToUTCDateFromApi(dto.expiration_date);
+			account.expirationDate = new Date(dto.expiration_date);
 			account.paymentType = dto.payment_type;
 			account.yearlyPayment = parseInt(dto.yearly_payment) === 1 ? true : false;
 			account.hasToken = dto.hasToken;
@@ -247,7 +247,7 @@
 			account.subscription = self.subscription.fromCache(cachedAccount.subscription);
 
 			account.autoRenew = cachedAccount.autoRenew;
-			account.expirationDate = launch.utils.convertToUTCDateFromApi(cachedAccount.expirationDate);
+			account.expirationDate = new Date(cachedAccount.expirationDate);
 			account.paymentType = cachedAccount.paymentType;
 			account.yearlyPayment = account.yearlyPayment;
 			account.hasToken = cachedAccount.hasToken;
@@ -316,8 +316,8 @@
 			user.firstName = dto.first_name;
 			user.lastName = dto.last_name;
 			user.email = dto.email;
-			user.created = launch.utils.convertToUTCDateFromApi(dto.created_at);
-			user.updated = launch.utils.convertToUTCDateFromApi(dto.updated_at);
+			user.created = new Date(dto.created_at);
+			user.updated = new Date(dto.updated_at);
 			user.confirmed = dto.confirmed;
 			user.address1 = dto.address;
 			user.address2 = dto.address_2;
@@ -467,8 +467,8 @@
 			role.isBuiltIn = parseInt(dto.builtin) === 1 ? true : false;
 			role.isDeletable = parseInt(dto.deletable) === 1 ? true : false;
 			role.accountId = parseInt(dto.account_id);
-			role.created = launch.utils.convertToUTCDateFromApi(dto.created_at);
-			role.updated = launch.utils.convertToUTCDateFromApi(dto.updated_at);
+			role.created = new Date(dto.created_at);
+			role.updated = new Date(dto.updated_at);
 
 			if ($.isArray(dto.permissions)) {
 				var readPrivs = [];
@@ -540,12 +540,12 @@
 				calendar.updated = null;
 				calendar.privileges = mergePrivs('calendar');
 
-				launchModule.name = 'launch';
+				launchModule.name = 'promote';
 				launchModule.active = false;
-				launchModule.title = 'Launch';
+				launchModule.title = 'Promote';
 				launchModule.created = null;
 				launchModule.updated = null;
-				launchModule.privileges = mergePrivs('launch');
+				launchModule.privileges = mergePrivs('promote');
 
 				measure.name = 'measure';
 				measure.active = false;
@@ -660,8 +660,8 @@
 			subscription.training = parseInt(dto.training) === 1 ? true : false;
 			subscription.annualDiscount = parseFloat(dto.annual_discount);
 			subscription.features = dto.features;
-			subscription.created = launch.utils.convertToUTCDateFromApi(dto.created_at);
-			subscription.updated = launch.utils.convertToUTCDateFromApi(dto.updated_at);
+			subscription.created = new Date(dto.created_at);
+			subscription.updated = new Date(dto.updated_at);
 
 			// TODO: SET THE COMPONENTS CORRECTLY FROM THE API WHEN IT'S READY!!
 			//			THIS IS ALREADY DONE WHEN GETTING MODULES FOR AN ACCOUNT (EXCEPT FOR THE "active" FLAG).
@@ -669,7 +669,7 @@
 			subscription.components = [
 				{ name: 'create', title: 'CREATE', active: true },
 				{ name: 'calendar', title: 'CALENDAR', active: true },
-				{ name: 'launch', title: 'LAUNCH', active: true },
+				{ name: 'promote', title: 'PROMOTE', active: true },
 				{ name: 'measure', title: 'MEASURE', active: true }
 			];
 
@@ -707,8 +707,8 @@
 			subscription.training = cachedSubscription.training;
 			subscription.annualDiscount = cachedSubscription.annualDiscount;
 			subscription.features = cachedSubscription.features;
-			subscription.created = launch.utils.convertToUTCDateFromApi(cachedSubscription.created);
-			subscription.updated = launch.utils.convertToUTCDateFromApi(cachedSubscription.updated);
+			subscription.created = new Date(cachedSubscription.created);
+			subscription.updated = new Date(cachedSubscription.updated);
 			subscription.components = cachedSubscription.components;
 
 			return subscription;
@@ -732,8 +732,8 @@
 			module.name = dto.name;
 			module.title = dto.title;
 			module.isSubscribable = dto.subscribable == true;
-			module.created = launch.utils.convertToUTCDateFromApi(dto.created_at);
-			module.updated = launch.utils.convertToUTCDateFromApi(dto.updated_at);
+			module.created = new Date(dto.created_at);
+			module.updated = new Date(dto.updated_at);
 
 			return module;
 		},
@@ -759,8 +759,8 @@
 			self.active = cachedModule.active;
 			module.name = cachedModule.name;
 			module.title = cachedModule.title;
-			module.created = launch.utils.convertToUTCDateFromApi(cachedModule.created_at);
-			module.updated = launch.utils.convertToUTCDateFromApi(cachedModule.updated_at);
+			module.created = new Date(cachedModule.created_at);
+			module.updated = new Date(cachedModule.updated_at);
 
 			return module;
 		}
@@ -863,10 +863,10 @@
 				if (moduleB === 'calendar') {
 					return 1;
 				}
-				if (moduleA === 'launch') {
+				if (moduleA === 'promote') {
 					return -1;
 				}
-				if (moduleB === 'launch') {
+				if (moduleB === 'promote') {
 					return 1;
 				}
 				if (moduleA === 'measure') {
@@ -938,8 +938,8 @@
 				};
 			});
 
-			settings.created = launch.utils.convertToUTCDateFromApi(dto.created_at);
-			settings.updated = launch.utils.convertToUTCDateFromApi(dto.updated_at);
+			settings.created = new Date(dto.created_at);
+			settings.updated = new Date(dto.updated_at);
 
 			return settings;
 		},
@@ -976,8 +976,8 @@
 			connection.active = (parseInt(dto.status) === 1) ? true : false;
 			connection.connectionType = dto.connection_type;
 			connection.connectionSettings = dto.settings;
-			connection.created = launch.utils.convertToUTCDateFromApi(dto.created_at);
-			connection.updated = launch.utils.convertToUTCDateFromApi(dto.updated_at);
+			connection.created = new Date(dto.created_at);
+			connection.updated = new Date(dto.updated_at);
 			connection.connectionName = dto.connection_name;
 			connection.provider = dto.connection_provider;
 
@@ -1051,8 +1051,8 @@
 			connection.active = (parseInt(dto.status) === 1) ? true : false;
 			connection.connectionType = dto.type;
 			connection.connectionSettings = dto.settings;
-			connection.created = launch.utils.convertToUTCDateFromApi(dto.created_at);
-			connection.updated = launch.utils.convertToUTCDateFromApi(dto.updated_at);
+			connection.created = new Date(dto.created_at);
+			connection.updated = new Date(dto.updated_at);
 
 			return connection;
 		},
@@ -1163,15 +1163,15 @@
 			content.concept = dto.concept;
 			content.status = parseInt(dto.status);
 			content.archived = (parseInt(dto.archived) === 1);
-			content.dueDate = launch.utils.isBlank(dto.due_date) ? null : launch.utils.convertToUTCDateFromApi(dto.due_date);
-			content.convertDate = launch.utils.isBlank(dto.convert_date) ? null : launch.utils.convertToUTCDateFromApi(dto.convert_date);
-			content.submitDate = launch.utils.isBlank(dto.submit_date) ? null : launch.utils.convertToUTCDateFromApi(dto.submit_date);
-			content.approveDate = launch.utils.isBlank(dto.approve_date) ? null : launch.utils.convertToUTCDateFromApi(dto.approve_date);
-			content.launchDate = launch.utils.isBlank(dto.launch_date) ? null : launch.utils.convertToUTCDateFromApi(dto.launch_date);
-			content.promoteDate = launch.utils.isBlank(dto.promote_date) ? null : launch.utils.convertToUTCDateFromApi(dto.promote_date);
-			content.archiveDate = launch.utils.isBlank(dto.archive_date) ? null : launch.utils.convertToUTCDateFromApi(dto.archive_date);
-			content.created = launch.utils.isBlank(dto.created_at) ? null : launch.utils.convertToUTCDateFromApi(dto.created_at);
-			content.updated = launch.utils.isBlank(dto.updated_at) ? null : launch.utils.convertToUTCDateFromApi(dto.updated_at);
+			content.dueDate = launch.utils.isBlank(dto.due_date) ? null : new Date(dto.due_date);
+			content.convertDate = launch.utils.isBlank(dto.convert_date) ? null : new Date(dto.convert_date);
+			content.submitDate = launch.utils.isBlank(dto.submit_date) ? null : new Date(dto.submit_date);
+			content.approveDate = launch.utils.isBlank(dto.approve_date) ? null : new Date(dto.approve_date);
+			content.launchDate = launch.utils.isBlank(dto.launch_date) ? null : new Date(dto.launch_date);
+			content.promoteDate = launch.utils.isBlank(dto.promote_date) ? null : new Date(dto.promote_date);
+			content.archiveDate = launch.utils.isBlank(dto.archive_date) ? null : new Date(dto.archive_date);
+			content.created = launch.utils.isBlank(dto.created_at) ? null : new Date(dto.created_at);
+			content.updated = launch.utils.isBlank(dto.updated_at) ? null : new Date(dto.updated_at);
 
 			content.collaborators = ($.isArray(dto.collaborators)) ? $.map(dto.collaborators, self.user.fromDto) : null;
 			content.comments = ($.isArray(dto.comments)) ? $.map(dto.comments, self.comment.fromDto) : null;
@@ -1255,8 +1255,8 @@
 			activity.contentId = parseInt(dto.content_id);
 			activity.userId = parseInt(dto.user_id);
 			activity.title = dto.activity;
-			activity.created = launch.utils.convertToUTCDateFromApi(dto.created_at);
-			activity.updated = launch.utils.convertToUTCDateFromApi(dto.updated_at);
+			activity.created = new Date(dto.created_at);
+			activity.updated = new Date(dto.updated_at);
 
 			return activity;
 		}
@@ -1316,8 +1316,8 @@
 			comment.id = parseInt(dto.id);
 			comment.itemId = parseInt(dto.content_id);
 			comment.comment = dto.comment;
-			comment.created = launch.utils.convertToUTCDateFromApi(dto.created_at);
-			comment.updated = launch.utils.convertToUTCDateFromApi(dto.updated_at);
+			comment.created = new Date(dto.created_at);
+			comment.updated = new Date(dto.updated_at);
 
 			if (!!dto.guest) {
 				comment.commentor = self.guestCollaborator.fromDto(dto.guest);
@@ -1375,8 +1375,8 @@
 			campaign.goals = dto.goals;
 			campaign.color = dto.color;
 
-			campaign.startDate = launch.utils.isBlank(dto.start_date) ? null : launch.utils.convertToUTCDateFromApi(dto.start_date);
-			campaign.endDate = launch.utils.isBlank(dto.end_date) ? null : launch.utils.convertToUTCDateFromApi(dto.end_date);
+			campaign.startDate = launch.utils.isBlank(dto.start_date) ? null : new Date(dto.start_date);
+			campaign.endDate = launch.utils.isBlank(dto.end_date) ? null : new Date(dto.end_date);
 			campaign.isRecurring = (parseInt(dto.is_recurring) === 1) ? true : false;
 			campaign.isSeries = (parseInt(dto.is_series) === 1) ? true : false;
 			campaign.recurringId = parseInt(dto.recurring_id);
@@ -1400,8 +1400,8 @@
 				});
 			}
 
-			campaign.created = launch.utils.convertToUTCDateFromApi(dto.created_at);
-			campaign.updated = launch.utils.convertToUTCDateFromApi(dto.updated_at);
+			campaign.created = new Date(dto.created_at);
+			campaign.updated = new Date(dto.updated_at);
 
 			return campaign;
 		},
@@ -1458,11 +1458,11 @@
 			taskGroup.contentId = parseInt(dto.content_id);
 			taskGroup.status = parseInt(dto.status);
 			taskGroup.isComplete = (parseInt(dto.is_complete) === 1) ? true : false;
-			taskGroup.dueDate = launch.utils.convertToUTCDateFromApi(dto.due_date);
-			taskGroup.completeDate = launch.utils.isBlank(dto.date_completed) ? null : launch.utils.convertToUTCDateFromApi(dto.date_completed);
+			taskGroup.dueDate = new Date(dto.due_date);
+			taskGroup.completeDate = launch.utils.isBlank(dto.date_completed) ? null : new Date(dto.date_completed);
 			taskGroup.tasks = $.isArray(dto.tasks) ? $.map(dto.tasks, self.task.fromDto) : null;
-			taskGroup.created = launch.utils.convertToUTCDateFromApi(dto.created_at);
-			taskGroup.updated = launch.utils.convertToUTCDateFromApi(dto.updated_at);
+			taskGroup.created = new Date(dto.created_at);
+			taskGroup.updated = new Date(dto.updated_at);
 
 			return taskGroup;
 		},
@@ -1488,12 +1488,12 @@
 			task.id = parseInt(dto.id);
 			task.name = dto.name;
 			task.isComplete = (parseInt(dto.is_complete) === 1) ? true : false;
-			task.completeDate = launch.utils.isBlank(dto.date_completed) ? null : launch.utils.convertToUTCDateFromApi(dto.date_completed);
-			task.dueDate = launch.utils.isBlank(dto.due_date) ? null : launch.utils.convertToUTCDateFromApi(dto.due_date);
+			task.completeDate = launch.utils.isBlank(dto.date_completed) ? null : new Date(dto.date_completed);
+			task.dueDate = launch.utils.isBlank(dto.due_date) ? null : new Date(dto.due_date);
 			task.userId = parseInt(dto.user_id);
 			task.taskGroupId = parseInt(dto.content_task_group_id);
-			task.created = launch.utils.convertToUTCDateFromApi(dto.created_at);
-			task.updated = launch.utils.convertToUTCDateFromApi(dto.updated_at);
+			task.created = new Date(dto.created_at);
+			task.updated = new Date(dto.updated_at);
 
 			return task;
 		},
@@ -1529,9 +1529,9 @@
 			uploadFile.mimeType = dto.mimetype;
 			uploadFile.path = dto.path;
 			uploadFile.size = parseInt(dto.size);
-			uploadFile.created = launch.utils.convertToUTCDateFromApi(dto.created_at);
-			uploadFile.updated = launch.utils.convertToUTCDateFromApi(dto.updated_at);
-			uploadFile.deleted = launch.utils.isBlank(dto.deleted_at) ? null : launch.utils.convertToUTCDateFromApi(dto.deleted_at);
+			uploadFile.created = new Date(dto.created_at);
+			uploadFile.updated = new Date(dto.updated_at);
+			uploadFile.deleted = launch.utils.isBlank(dto.deleted_at) ? null : new Date(dto.deleted_at);
 
 			var path = dto.path;
 
@@ -1597,8 +1597,8 @@
 			guestCollaborator.name = dto.name;
 			guestCollaborator.connectionType = dto.type;
 			guestCollaborator.connetionSettings = dto.settings;
-			guestCollaborator.created = launch.utils.convertToUTCDateFromApi(dto.created_at);
-			guestCollaborator.updated = launch.utils.convertToUTCDateFromApi(dto.updated_at);
+			guestCollaborator.created = new Date(dto.created_at);
+			guestCollaborator.updated = new Date(dto.updated_at);
 
 			if ($.isArray(dto.content)) {
 				guestCollaborator.content = $.map(dto.content, function (c) {

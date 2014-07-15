@@ -16,8 +16,8 @@
   "require": {
     "laravel/framework": "4.1.*",
     "laravelbook/ardent": "dev-master as 2.4.0",
-    "zizaco/confide": "dev-master",
-    "zizaco/entrust": "dev-master",
+    "zizaco/confide": "3.2.x",
+    "zizaco/entrust": "1.2.1",
     "andrew13/cabinet": "dev-master",
     "summerstreet/woodling": "dev-master",
     "balanced/balanced": "1.x",
@@ -34,7 +34,9 @@
     "pda/pheanstalk": "~2.0",
     "openlss/lib-array2xml": "dev-master",
     "ise/php-soundcloud": "3.0.1",
-    "dropbox/dropbox-sdk": "1.1.*"
+    "dropbox/dropbox-sdk": "1.1.*",
+    "eher/oauth": "1.0.*",
+    "google/apiclient": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
@@ -63,5 +65,5 @@
   "config": {
     "preferred-install": "dist"
   },
-  "minimum-stability": "dev"
+  "minimum-stability": "stable"
 }

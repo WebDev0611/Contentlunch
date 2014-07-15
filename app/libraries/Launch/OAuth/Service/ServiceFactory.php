@@ -85,6 +85,11 @@ class ServiceFactory {
           'oauth_token' => $token->getRequestToken()
         ]);
       break;
+      case 'google': // youtube, g+, google docs
+        // Request offline access token
+        // @see https://developers.google.com/accounts/docs/OAuth2WebServer#offline
+        return (string) $this->service->getAuthorizationUri(['access_type' => 'offline']);
+      break;
       default:
         return (string) $this->service->getAuthorizationUri();
     }

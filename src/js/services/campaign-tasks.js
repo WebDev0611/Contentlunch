@@ -23,7 +23,7 @@ function ($modal,   Restangular,   AuthService) {
                     $scope.showCampaignPicker = showCampaignPicker;
                     $scope.campaigns = campaigns;
                     $scope.users = users;
-                    $scope.task = task ? Restangular.copy(task) : {};
+                    $scope.task = task ? Restangular.copy(task) : { isComplete: false };
                 }]
             }).result.then(function (task) {
                 var Tasks = tasks.post ? tasks : Account.one('campaigns', task.campaignId).all('tasks');

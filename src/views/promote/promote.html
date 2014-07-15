@@ -1,0 +1,106 @@
+﻿<div class="view promote" ng-show="content.$resolved">
+	<div class="col-md-3 left-pane">
+		<div class="btn-group">
+			<button class="btn btn-default btn-create">
+				UPLOAD CONTENT
+			</button>
+		</div>
+
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.changeSearchTerm()" />
+			<span class="input-group-addon">
+				<span class="glyphicon glyphicon-search"></span>
+			</span>
+		</div>
+		
+		<div class="filter-panel">
+			Filters
+		</div>
+
+		<div class="btn-group btn-group-justified btn-group-filter">
+			<a class="btn btn-default" ng-class="{ active: search.myTasks === true }" ng-click="search.toggleMyTasks(true)">
+				My {{ (search.contentStage === 'concepts' ? 'Concepts' : 'Content') }}
+			</a>
+			<a class="btn btn-default" ng-class="{ active: search.myTasks === false }" ng-click="search.toggleMyTasks(false)">
+				All {{ (search.contentStage === 'concepts' ? 'Concepts' : 'Content') }}
+			</a>
+		</div>
+
+		<accordion close-others="false">
+			<accordion-group is-open="contentTypeOpen">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': contentTypeOpen, 'fa-caret-right': !contentTypeOpen}"></i>
+					Content Type
+					<span class="filter-slection-counter" ng-show="search.contentTypes.length > 0">(showing {{ search.contentTypes.length }} of {{ contentTypes.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.contentTypes.length === 0">(showing all)</span>
+				</accordion-heading>
+				<div>
+					<select id="selContentType" name="selContentType" class="multi-select" multiple="multiple"
+							ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem }" ng-model="search.contentTypes"
+							ng-change="search.applyFilter()" data-placeholder="Select Content Types">
+						<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
+					</select>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="buyingStageOpen" ng-show="search.contentStage === 'content'">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': buyingStageOpen, 'fa-caret-right': !buyingStageOpen}"></i>
+					Buying Stage
+					<span class="filter-slection-counter" ng-show="search.buyingStages.length > 0">(showing {{ search.buyingStages.length }} of {{ buyingStages.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.buyingStages.length === 0">(showing all)</span>
+				</accordion-heading>
+				<div>
+					<select id="selBuyingStage" name="selBuyingStage" class="multi-select" multiple="multiple"
+							ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem }" ng-model="search.buyingStages"
+							ng-change="search.applyFilter()" data-placeholder="Select Buying Stages">
+						<option ng-repeat="bs in buyingStages" value="{{ bs.id }}">{{ bs.name }}</option>
+					</select>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="campaignOpen">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': campaignOpen, 'fa-caret-right': !campaignOpen}"></i>
+					Campaign
+					<span class="filter-slection-counter" ng-show="search.campaigns.length > 0">(showing {{ search.campaigns.length }} of {{ campaigns.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.campaigns.length === 0">(showing all)</span>
+				</accordion-heading>
+				<div>
+					<select id="selCampaign" name="selCampaign" class="multi-select" multiple="multiple"
+							ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem }" ng-model="search.campaigns"
+							ng-change="search.applyFilter()" data-placeholder="Select Campaign">
+						<option ng-repeat="c in campaigns" value="{{ c.id }}" data-color="{{ c.color }}">{{ c.title }}</option>
+					</select>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="contentCreatorOpen">
+				<accordion-heading>
+					<i class="fa" ng-class="{'fa-caret-down': contentCreatorOpen, 'fa-caret-right': !contentCreatorOpen}"></i>
+					Creator
+					<span class="filter-slection-counter" ng-show="search.users.length > 0">(showing {{ search.users.length }} of {{ users.length }})</span>
+					<span class="filter-slection-counter" ng-show="search.users.length === 0">(showing all)</span>
+				</accordion-heading>
+				<div>
+					<select id="selCreator" name="selCreator" class="multi-select" multiple="multiple"
+							ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem }" ng-model="search.users"
+							ng-change="search.applyFilter()" data-placeholder="Select Creator">
+						<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
+					</select>
+				</div>
+			</accordion-group>
+		</accordion>
+		
+		<div class="link-button-container">
+			<a class="link-button" href="#" ng-click="saveFilter()">Save as default filters</a> |
+			<a class="link-button" href="#" ng-click="search.clearFilter()">Clear Filters</a>
+		</div>
+	</div>
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header">Promote</h2>
+		
+		<div ng-include="'/assets/views/content/partials/table-list.html'"></div>
+	</div>
+</div>
+
+<div class="loading-spinner-container" ng-show="!content.$resolved">
+	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
+</div>
