@@ -176,6 +176,10 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'update', 'destroy']
   ]);
 
+  Route::resource('account/{accountID}/discussion', 'AccountDiscussionController', [
+    'only' => ['index', 'store']
+  ]);
+
   Route::resource('account/{accountID}/{conceptType}/{conceptID}/brainstorm', 'BrainstormController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
