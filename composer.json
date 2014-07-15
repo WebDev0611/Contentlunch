@@ -7,11 +7,15 @@
     {
       "type": "vcs",
       "url": "https://github.com/jbizzay/cabinet"
-    }
+    },
+	{
+	  "type": "vcs",
+	  "url": "https://github.com/Zizaco/ardent.git"
+	}
   ],
   "require": {
     "laravel/framework": "4.1.*",
-    "laravelbook/ardent": "dev-master",
+    "laravelbook/ardent": "dev-master as 2.4.0",
     "zizaco/confide": "dev-master",
     "zizaco/entrust": "dev-master",
     "andrew13/cabinet": "dev-master",
@@ -59,5 +63,5 @@
   "config": {
     "preferred-install": "dist"
   },
-  "minimum-stability": "stable"
+  "minimum-stability": "dev"
 }
