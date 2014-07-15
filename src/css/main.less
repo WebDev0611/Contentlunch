@@ -118,15 +118,15 @@ header {
 					}
 				}
 
-				&.launch {
-					background-color: @launchColor;
+				&.promote {
+					background-color: @promoteColor;
 
 					.dark {
-						background-color: @launchColorDark;
+						background-color: @promoteColorDark;
 					}
 
 					.top-arrow {
-						border-top-color: @launchColor;
+						border-top-color: @promoteColor;
 					}
 				}
 
@@ -166,8 +166,8 @@ header {
 					}
 				}
 
-        &.library, &.forum, &.conference {
-          background-color: @subscriptionColor;
+				&.library, &.forum, &.conference {
+					background-color: @subscriptionColor;
 
 					.dark {
 						background-color: @subscriptionColorDark;
@@ -669,7 +669,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	width: 36px;
 }
 
-.users, .accounts, .roles, .content-settings, .seo-settings, .create, .calendar, .admin-library, .consult, .admin-conference {
+.users, .accounts, .roles, .content-settings, .seo-settings, .create, .calendar, .admin-library, .consult, .admin-conference, .promote {
 	.left-pane {
 		position: relative;
 
@@ -754,7 +754,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.users, .accounts, .roles, .content-settings, .seo-settings, .admin-library, .consult, .admin-conference {
+.users, .accounts, .roles, .content-settings, .seo-settings, .admin-library, .consult, .admin-conference, .promote {
 	.left-pane {
 		.btn-group {
 			.btn-create {
@@ -899,8 +899,8 @@ span[class^="icon-"], span[class*=" icon-"] {
 				background-color: @calendarColorDark;
 			}
 
-			&.launch {
-				background-color: @launchColorDark;
+			&.promote {
+				background-color: @promoteColorDark;
 			}
 
 			&.measure {
@@ -1154,7 +1154,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.create, .calendar {
+.create, .calendar, .promote {
 	.left-pane {
 		.btn-group {
 			margin-top: 12px;
@@ -1303,10 +1303,9 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.create {
+.create, .promote {
 	.left-pane {
 		.filter-panel, .tasks-header {
-			background-color: @createColor;
 			border-radius: 4px;
 			color: #ffffff;
 			font-family: 'Lato Black';
@@ -1333,6 +1332,115 @@ span[class^="icon-"], span[class*=" icon-"] {
 					}
 				}
 			}
+		}
+	}
+
+	.right-pane {
+		.row {
+			margin: 20px 0;
+
+			.col-md-12 {
+				padding: 0;
+			}
+		}
+
+		.content-preview {
+			background-color: #e4e4e4;
+			padding: 16px;
+			width: 100%;
+
+			h4 {
+				font-family: 'Lato Black';
+				margin: 4px 0;
+			}
+
+			.control-group {
+				height: 46px;
+				margin: 0;
+				position: relative;
+
+				.btn-launch-container {
+					float: right;
+
+					ul.dropdown-menu {
+						li {
+							padding: 8px;
+
+							&:hover{
+								background-color: #f5f5f5;
+							}
+
+							> * {
+								display: inline-block;
+								vertical-align: top;
+							}
+
+							a {
+								padding: 0;
+							}
+
+							.form-control {
+								margin: 2px 0;
+								height: 16px;
+								width: 16px;
+							}
+						}
+					}
+				}
+
+				.btn-launch, .btn-promote {
+					color: #ffffff;
+					float: right;
+					font-size: 12pt;
+					font-weight: bold;
+					right: 8px;
+
+					span {
+						vertical-align: middle;
+
+						&.cl-icon-launch {
+							height: 30px;
+							width: 30px;
+						}
+					}
+				}
+
+				.btn-launch {
+					background-color: @homeColorDark;
+				}
+
+				.btn-promote {
+					background-color: @promoteColor;
+				}
+			}
+		}
+	}
+}
+
+.promote {
+	.left-pane {
+		.filter-panel, .tasks-header {
+			background-color: @promoteColor;
+		}
+	}
+
+	.right-pane{
+		.right-pane-header {
+			background-color: @promoteColor;
+			border-bottom-color: lighten(@promoteColor, 30%);
+			color: #ffffff;
+
+			.cl-icon {
+				color: #ffffff;
+			}
+		}
+	}
+}
+
+.create {
+	.left-pane {
+		.filter-panel, .tasks-header {
+			background-color: @createColor;
 		}
 
 		.task-group {
@@ -1615,77 +1723,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 				display: inline-block;
 				font-size: 16pt;
 				margin: 0 4px;
-			}
-		}
-
-		.content-preview {
-			background-color: #e4e4e4;
-			padding: 16px;
-			width: 100%;
-
-			h4 {
-				font-family: 'Lato Black';
-				margin: 4px 0;
-			}
-
-			.control-group {
-				height: 46px;
-				margin: 0;
-				position: relative;
-
-				.btn-launch-container {
-					float: right;
-
-					ul.dropdown-menu {
-						li {
-							padding: 8px;
-
-							&:hover{
-								background-color: #f5f5f5;
-							}
-
-							> * {
-								display: inline-block;
-								vertical-align: top;
-							}
-
-							a {
-								padding: 0;
-							}
-
-							.form-control {
-								margin: 2px 0;
-								height: 16px;
-								width: 16px;
-							}
-						}
-					}
-				}
-
-				.btn-launch, .btn-promote {
-					color: #ffffff;
-					float: right;
-					font-size: 12pt;
-					font-weight: bold;
-					right: 8px;
-
-					span {
-						vertical-align: middle;
-
-						&.cl-icon-launch {
-							height: 30px;
-							width: 30px;
-						}
-					}
-				}
-
-				.btn-launch {
-					background-color: @homeColorDark;
-				}
-
-				.btn-promote {
-					background-color: @launchColor;
-				}
 			}
 		}
 	}

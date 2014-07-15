@@ -117,7 +117,7 @@
 				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = true;
 			} else {
 				// TODO: WHAT PRIVILEGES DO WE CHECK FOR PROMOTE?
-				$scope.canPromoteContent = true;
+				$scope.canPromoteContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('promote_content_own') : self.loggedInUser.hasPrivilege('promote_content_other');
 				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = true;
 			}
 
@@ -333,6 +333,7 @@
 		$scope.collaborators = null;
 		$scope.selectedConnections = [];
 
+		$scope.isPromote = false;
 		$scope.hasError = launch.utils.isPropertyValid;
 		$scope.errorMessage = launch.utils.getPropertyErrorMessage;
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
@@ -820,36 +821,7 @@
 		};
 
 		$scope.providerIsSupported = function(provider) {
-			if (!$scope.content || !$scope.content.contentType || launch.utils.isBlank($scope.content.contentType.baseType)) {
-				return false;
-			}
-
-			switch ($scope.content.contentType.baseType) {
-				case 'audio':
-					return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce' || provider === 'soundcloud');
-				case 'blog_post':
-					return (provider === 'wordpress' || provider === 'tumblr');
-				case 'document':
-					return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce');
-				case 'generic_file':
-					return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce');
-				case 'email':
-					return (provider === 'constant-contact');
-				case 'social_media_post':
-					if (provider === 'twitter') {
-						return (launch.utils.isBlank($scope.content.body) || $scope.content.body.length < 140);
-					}
-
-					return (provider === 'facebook' || provider === 'google' || provider === 'linkedin' || provider === 'twitter');
-				case 'long_html':
-					return (provider === 'drupal' || provider === 'joomla'|| provider === 'tumblr' || provider === 'wordpress');
-				case 'photo':
-					return (provider === 'dropbox' || provider === 'facebook' || provider === 'google' || provider === 'google-drive' ||  provider === 'linkedin' || provider === 'salesforce' ||provider === 'twitter');
-				case 'video':
-					return (provider === 'vimeo' || provider === 'youtube');
-				default:
-					return false;
-			}
+			return launch.utils.providerIsSupportsContentType(provider, $scope.content);
 		};
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
@@ -857,10 +829,6 @@
 		$scope.$watch('content.author', $scope.filterCollaborators);
 
 		$scope.$watch('content.taskGroups', $scope.filterCollaborators);
-
-		$scope.$watch('content.contentType.name', function () {
-			
-		});
 
 		$scope.$watch('contentTags', function () {
 			if (!$scope.content || !$scope.content.$resolved) {

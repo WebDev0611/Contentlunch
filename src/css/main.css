@@ -400,13 +400,13 @@ header .navbar ul.nav li.calendar .dark {
 header .navbar ul.nav li.calendar .top-arrow {
   border-top-color: #ba1760;
 }
-header .navbar ul.nav li.launch {
+header .navbar ul.nav li.promote {
   background-color: #773876;
 }
-header .navbar ul.nav li.launch .dark {
+header .navbar ul.nav li.promote .dark {
   background-color: #532752;
 }
-header .navbar ul.nav li.launch .top-arrow {
+header .navbar ul.nav li.promote .top-arrow {
   border-top-color: #773876;
 }
 header .navbar ul.nav li.measure {
@@ -625,6 +625,15 @@ label .error-message {
   position: absolute;
   right: 10px;
   top: 10px;
+}
+.popover .popover-close {
+  font-size: 24px;
+  float: right;
+  margin: -1px -3px 0 6px;
+  cursor: pointer;
+}
+.popover .popover-close:hover {
+  color: #660033;
 }
 span[class^="icon-"],
 span[class*=" icon-"] {
@@ -863,7 +872,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane,
 .admin-library .left-pane,
 .consult .left-pane,
-.admin-conference .left-pane {
+.admin-conference .left-pane,
+.promote .left-pane {
   position: relative;
 }
 .users .left-pane .btn-group,
@@ -875,7 +885,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane .btn-group,
 .admin-library .left-pane .btn-group,
 .consult .left-pane .btn-group,
-.admin-conference .left-pane .btn-group {
+.admin-conference .left-pane .btn-group,
+.promote .left-pane .btn-group {
   margin-bottom: 12px;
   width: 100%;
 }
@@ -889,6 +900,7 @@ span[class*=" icon-"].dark {
 .admin-library .left-pane .btn-group .btn-create,
 .consult .left-pane .btn-group .btn-create,
 .admin-conference .left-pane .btn-group .btn-create,
+.promote .left-pane .btn-group .btn-create,
 .users .left-pane .btn-group .btn-calendar,
 .accounts .left-pane .btn-group .btn-calendar,
 .roles .left-pane .btn-group .btn-calendar,
@@ -898,7 +910,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane .btn-group .btn-calendar,
 .admin-library .left-pane .btn-group .btn-calendar,
 .consult .left-pane .btn-group .btn-calendar,
-.admin-conference .left-pane .btn-group .btn-calendar {
+.admin-conference .left-pane .btn-group .btn-calendar,
+.promote .left-pane .btn-group .btn-calendar {
   background-color: #000000;
   color: #ffffff;
 }
@@ -912,6 +925,7 @@ span[class*=" icon-"].dark {
 .admin-library .left-pane .btn-group .btn-create .glyphicon,
 .consult .left-pane .btn-group .btn-create .glyphicon,
 .admin-conference .left-pane .btn-group .btn-create .glyphicon,
+.promote .left-pane .btn-group .btn-create .glyphicon,
 .users .left-pane .btn-group .btn-calendar .glyphicon,
 .accounts .left-pane .btn-group .btn-calendar .glyphicon,
 .roles .left-pane .btn-group .btn-calendar .glyphicon,
@@ -921,7 +935,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane .btn-group .btn-calendar .glyphicon,
 .admin-library .left-pane .btn-group .btn-calendar .glyphicon,
 .consult .left-pane .btn-group .btn-calendar .glyphicon,
-.admin-conference .left-pane .btn-group .btn-calendar .glyphicon {
+.admin-conference .left-pane .btn-group .btn-calendar .glyphicon,
+.promote .left-pane .btn-group .btn-calendar .glyphicon {
   margin-right: 8px;
 }
 .users .left-pane .btn-group.btn-group-filter .btn.active,
@@ -933,7 +948,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane .btn-group.btn-group-filter .btn.active,
 .admin-library .left-pane .btn-group.btn-group-filter .btn.active,
 .consult .left-pane .btn-group.btn-group-filter .btn.active,
-.admin-conference .left-pane .btn-group.btn-group-filter .btn.active {
+.admin-conference .left-pane .btn-group.btn-group-filter .btn.active,
+.promote .left-pane .btn-group.btn-group-filter .btn.active {
   background-color: #000000;
   color: #ffffff;
 }
@@ -946,7 +962,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane hr,
 .admin-library .left-pane hr,
 .consult .left-pane hr,
-.admin-conference .left-pane hr {
+.admin-conference .left-pane hr,
+.promote .left-pane hr {
   border-color: #000000;
   margin-top: 10px;
 }
@@ -959,7 +976,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane ul.items-list,
 .admin-library .left-pane ul.items-list,
 .consult .left-pane ul.items-list,
-.admin-conference .left-pane ul.items-list {
+.admin-conference .left-pane ul.items-list,
+.promote .left-pane ul.items-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -973,7 +991,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane ul.items-list li,
 .admin-library .left-pane ul.items-list li,
 .consult .left-pane ul.items-list li,
-.admin-conference .left-pane ul.items-list li {
+.admin-conference .left-pane ul.items-list li,
+.promote .left-pane ul.items-list li {
   cursor: pointer;
   padding: 8px;
   position: relative;
@@ -988,6 +1007,7 @@ span[class*=" icon-"].dark {
 .admin-library .left-pane ul.items-list li:hover,
 .consult .left-pane ul.items-list li:hover,
 .admin-conference .left-pane ul.items-list li:hover,
+.promote .left-pane ul.items-list li:hover,
 .users .left-pane ul.items-list li.selected,
 .accounts .left-pane ul.items-list li.selected,
 .roles .left-pane ul.items-list li.selected,
@@ -997,7 +1017,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane ul.items-list li.selected,
 .admin-library .left-pane ul.items-list li.selected,
 .consult .left-pane ul.items-list li.selected,
-.admin-conference .left-pane ul.items-list li.selected {
+.admin-conference .left-pane ul.items-list li.selected,
+.promote .left-pane ul.items-list li.selected {
   background-color: #eeeeee;
 }
 .users .left-pane ul.items-list li .item-image,
@@ -1009,7 +1030,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane ul.items-list li .item-image,
 .admin-library .left-pane ul.items-list li .item-image,
 .consult .left-pane ul.items-list li .item-image,
-.admin-conference .left-pane ul.items-list li .item-image {
+.admin-conference .left-pane ul.items-list li .item-image,
+.promote .left-pane ul.items-list li .item-image {
   float: left;
   margin-right: 16px;
 }
@@ -1022,7 +1044,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane ul.items-list li .item-info,
 .admin-library .left-pane ul.items-list li .item-info,
 .consult .left-pane ul.items-list li .item-info,
-.admin-conference .left-pane ul.items-list li .item-info {
+.admin-conference .left-pane ul.items-list li .item-info,
+.promote .left-pane ul.items-list li .item-info {
   font-size: 8pt;
 }
 .users .left-pane ul.items-list li .item-info .item-title,
@@ -1034,7 +1057,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane ul.items-list li .item-info .item-title,
 .admin-library .left-pane ul.items-list li .item-info .item-title,
 .consult .left-pane ul.items-list li .item-info .item-title,
-.admin-conference .left-pane ul.items-list li .item-info .item-title {
+.admin-conference .left-pane ul.items-list li .item-info .item-title,
+.promote .left-pane ul.items-list li .item-info .item-title {
   font-size: 12pt;
 }
 .users .left-pane .pager ul.pagination,
@@ -1046,7 +1070,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane .pager ul.pagination,
 .admin-library .left-pane .pager ul.pagination,
 .consult .left-pane .pager ul.pagination,
-.admin-conference .left-pane .pager ul.pagination {
+.admin-conference .left-pane .pager ul.pagination,
+.promote .left-pane .pager ul.pagination {
   display: block;
 }
 .users .left-pane .pager ul.pagination li a,
@@ -1058,7 +1083,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane .pager ul.pagination li a,
 .admin-library .left-pane .pager ul.pagination li a,
 .consult .left-pane .pager ul.pagination li a,
-.admin-conference .left-pane .pager ul.pagination li a {
+.admin-conference .left-pane .pager ul.pagination li a,
+.promote .left-pane .pager ul.pagination li a {
   background-color: transparent;
   border-color: #000000;
   border-radius: 0 !important;
@@ -1075,7 +1101,8 @@ span[class*=" icon-"].dark {
 .calendar .left-pane .pager ul.pagination li.active a,
 .admin-library .left-pane .pager ul.pagination li.active a,
 .consult .left-pane .pager ul.pagination li.active a,
-.admin-conference .left-pane .pager ul.pagination li.active a {
+.admin-conference .left-pane .pager ul.pagination li.active a,
+.promote .left-pane .pager ul.pagination li.active a {
   background-color: #000000;
   color: #ffffff;
 }
@@ -1086,7 +1113,8 @@ span[class*=" icon-"].dark {
 .seo-settings .left-pane .btn-group .btn-create,
 .admin-library .left-pane .btn-group .btn-create,
 .consult .left-pane .btn-group .btn-create,
-.admin-conference .left-pane .btn-group .btn-create {
+.admin-conference .left-pane .btn-group .btn-create,
+.promote .left-pane .btn-group .btn-create {
   width: 100%;
 }
 .user-editor .user-image-upload,
@@ -1261,7 +1289,7 @@ span[class*=" icon-"].dark {
 .tier-components .tier-tiles .tile.calendar {
   background-color: #93124c;
 }
-.tier-components .tier-tiles .tile.launch {
+.tier-components .tier-tiles .tile.promote {
   background-color: #532752;
 }
 .tier-components .tier-tiles .tile.measure {
@@ -1472,105 +1500,127 @@ span[class*=" icon-"].dark {
   background-color: #E6E4E0;
 }
 .create .left-pane .btn-group,
-.calendar .left-pane .btn-group {
+.calendar .left-pane .btn-group,
+.promote .left-pane .btn-group {
   margin-top: 12px;
 }
 .create .left-pane .btn-group.add-content .btn,
 .calendar .left-pane .btn-group.add-content .btn,
+.promote .left-pane .btn-group.add-content .btn,
 .create .left-pane .btn-group.add-content ul,
-.calendar .left-pane .btn-group.add-content ul {
+.calendar .left-pane .btn-group.add-content ul,
+.promote .left-pane .btn-group.add-content ul {
   width: 100%;
 }
 .create .left-pane .btn-group.add-content .btn,
-.calendar .left-pane .btn-group.add-content .btn {
+.calendar .left-pane .btn-group.add-content .btn,
+.promote .left-pane .btn-group.add-content .btn {
   background-color: #000000;
   color: #ffffff;
   position: relative;
 }
 .create .left-pane .btn-group.add-content .btn .caret,
-.calendar .left-pane .btn-group.add-content .btn .caret {
+.calendar .left-pane .btn-group.add-content .btn .caret,
+.promote .left-pane .btn-group.add-content .btn .caret {
   display: inline-block;
   position: absolute;
   right: 16px;
   top: 16px;
 }
 .create .right-pane .concept-container .form-group,
-.calendar .right-pane .concept-container .form-group {
+.calendar .right-pane .concept-container .form-group,
+.promote .right-pane .concept-container .form-group {
   max-width: 300px;
   vertical-align: bottom;
 }
 .create .right-pane .discussion-panel,
-.calendar .right-pane .discussion-panel {
+.calendar .right-pane .discussion-panel,
+.promote .right-pane .discussion-panel {
   margin: 0 15px;
 }
 .create .right-pane .discussion-panel .panel-footer,
-.calendar .right-pane .discussion-panel .panel-footer {
+.calendar .right-pane .discussion-panel .panel-footer,
+.promote .right-pane .discussion-panel .panel-footer {
   background-color: #D7D7D7;
   position: relative;
   text-align: center;
 }
 .create .right-pane .discussion-panel .panel-footer textarea,
-.calendar .right-pane .discussion-panel .panel-footer textarea {
+.calendar .right-pane .discussion-panel .panel-footer textarea,
+.promote .right-pane .discussion-panel .panel-footer textarea {
   min-width: 300px;
   width: 60%;
 }
 .create .right-pane .discussion-panel .panel-footer .btn,
-.calendar .right-pane .discussion-panel .panel-footer .btn {
+.calendar .right-pane .discussion-panel .panel-footer .btn,
+.promote .right-pane .discussion-panel .panel-footer .btn {
   position: absolute;
   right: 50px;
   top: 30px;
 }
 .create .right-pane .discussion-panel .panel-body .row,
-.calendar .right-pane .discussion-panel .panel-body .row {
+.calendar .right-pane .discussion-panel .panel-body .row,
+.promote .right-pane .discussion-panel .panel-body .row {
   border-bottom: dotted 3px #D7D7D7;
   margin: 8px 16px;
 }
 .create .right-pane .panel-collaborators .panel-footer,
-.calendar .right-pane .panel-collaborators .panel-footer {
+.calendar .right-pane .panel-collaborators .panel-footer,
+.promote .right-pane .panel-collaborators .panel-footer {
   background-color: #E4E4E4;
 }
 .create .right-pane .panel,
-.calendar .right-pane .panel {
+.calendar .right-pane .panel,
+.promote .right-pane .panel {
   background-color: #E4E4E4;
 }
 .create .right-pane .panel .panel-heading,
-.calendar .right-pane .panel .panel-heading {
+.calendar .right-pane .panel .panel-heading,
+.promote .right-pane .panel .panel-heading {
   background-color: #000000;
   color: #ffffff;
   font-weight: bold;
 }
 .create .right-pane .panel .panel-body,
-.calendar .right-pane .panel .panel-body {
+.calendar .right-pane .panel .panel-body,
+.promote .right-pane .panel .panel-body {
   background-color: #E4E4E4;
 }
 .create .right-pane .panel .panel-body ul.concept-collaborators,
-.calendar .right-pane .panel .panel-body ul.concept-collaborators {
+.calendar .right-pane .panel .panel-body ul.concept-collaborators,
+.promote .right-pane .panel .panel-body ul.concept-collaborators {
   list-style: none;
   margin: 16px 0;
   padding: 0;
 }
 .create .right-pane .panel .panel-body ul.concept-collaborators li,
-.calendar .right-pane .panel .panel-body ul.concept-collaborators li {
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li,
+.promote .right-pane .panel .panel-body ul.concept-collaborators li {
   position: relative;
 }
 .create .right-pane .panel .panel-body ul.concept-collaborators li .fa,
-.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa {
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa,
+.promote .right-pane .panel .panel-body ul.concept-collaborators li .fa {
   cursor: pointer;
   position: absolute;
   top: 8px;
 }
 .create .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o,
-.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o {
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o,
+.promote .right-pane .panel .panel-body ul.concept-collaborators li .fa-trash-o {
   right: 0;
 }
 .create .right-pane .panel .panel-body ul.concept-collaborators li .fa-thumbs-o-up,
-.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa-thumbs-o-up {
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa-thumbs-o-up,
+.promote .right-pane .panel .panel-body ul.concept-collaborators li .fa-thumbs-o-up {
   right: 16px;
 }
 .create .right-pane .panel .panel-body ul.concept-collaborators li .cl-icon,
 .calendar .right-pane .panel .panel-body ul.concept-collaborators li .cl-icon,
+.promote .right-pane .panel .panel-body ul.concept-collaborators li .cl-icon,
 .create .right-pane .panel .panel-body ul.concept-collaborators li .fa-envelope-o,
-.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa-envelope-o {
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .fa-envelope-o,
+.promote .right-pane .panel .panel-body ul.concept-collaborators li .fa-envelope-o {
   display: inline-block;
   font-size: 24pt;
   margin: 8px 16px 8px 0;
@@ -1578,43 +1628,52 @@ span[class*=" icon-"].dark {
   vertical-align: middle;
 }
 .create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply,
-.calendar .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply {
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply,
+.promote .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply {
   position: relative;
 }
 .create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .fa-envelope-o,
-.calendar .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .fa-envelope-o {
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .fa-envelope-o,
+.promote .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .fa-envelope-o {
   position: absolute;
   left: 0;
   top: 0;
 }
 .create .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .guest-collaborator-name,
-.calendar .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .guest-collaborator-name {
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .guest-collaborator-name,
+.promote .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .guest-collaborator-name {
   margin-left: 48px;
   vertical-align: top;
 }
 .create .right-pane .panel.panel-user-info,
-.calendar .right-pane .panel.panel-user-info {
+.calendar .right-pane .panel.panel-user-info,
+.promote .right-pane .panel.panel-user-info {
   font-weight: bold;
   min-width: 200px;
   padding: 4px;
   vertical-align: middle;
 }
 .create .right-pane .btn .fa,
-.calendar .right-pane .btn .fa {
+.calendar .right-pane .btn .fa,
+.promote .right-pane .btn .fa {
   display: inline-block;
   margin-right: 8px;
 }
 .create .right-pane .concept-editor,
 .calendar .right-pane .concept-editor,
+.promote .right-pane .concept-editor,
 .create .right-pane .content-editor,
 .calendar .right-pane .content-editor,
+.promote .right-pane .content-editor,
 .create .right-pane .campaign-editor,
-.calendar .right-pane .campaign-editor {
+.calendar .right-pane .campaign-editor,
+.promote .right-pane .campaign-editor {
   margin: 20px 0;
 }
 .create .left-pane .filter-panel,
-.create .left-pane .tasks-header {
-  background-color: #ffb503;
+.promote .left-pane .filter-panel,
+.create .left-pane .tasks-header,
+.promote .left-pane .tasks-header {
   border-radius: 4px;
   color: #ffffff;
   font-family: 'Lato Black';
@@ -1622,19 +1681,122 @@ span[class*=" icon-"].dark {
   margin: 12px 0;
   padding: 4px;
 }
-.create .left-pane .panel-group .panel {
+.create .left-pane .panel-group .panel,
+.promote .left-pane .panel-group .panel {
   background-color: transparent;
   border: none !important;
 }
-.create .left-pane .panel-group .panel .panel-heading {
+.create .left-pane .panel-group .panel .panel-heading,
+.promote .left-pane .panel-group .panel .panel-heading {
   background-color: transparent;
   border-bottom: solid 1px #000000;
 }
-.create .left-pane .panel-group .panel .panel-collapse {
+.create .left-pane .panel-group .panel .panel-collapse,
+.promote .left-pane .panel-group .panel .panel-collapse {
   border: none !important;
 }
-.create .left-pane .panel-group .panel .panel-collapse .panel-body {
+.create .left-pane .panel-group .panel .panel-collapse .panel-body,
+.promote .left-pane .panel-group .panel .panel-collapse .panel-body {
   border: none !important;
+}
+.create .right-pane .row,
+.promote .right-pane .row {
+  margin: 20px 0;
+}
+.create .right-pane .row .col-md-12,
+.promote .right-pane .row .col-md-12 {
+  padding: 0;
+}
+.create .right-pane .content-preview,
+.promote .right-pane .content-preview {
+  background-color: #e4e4e4;
+  padding: 16px;
+  width: 100%;
+}
+.create .right-pane .content-preview h4,
+.promote .right-pane .content-preview h4 {
+  font-family: 'Lato Black';
+  margin: 4px 0;
+}
+.create .right-pane .content-preview .control-group,
+.promote .right-pane .content-preview .control-group {
+  height: 46px;
+  margin: 0;
+  position: relative;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container,
+.promote .right-pane .content-preview .control-group .btn-launch-container {
+  float: right;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li,
+.promote .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li {
+  padding: 8px;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li:hover,
+.promote .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li:hover {
+  background-color: #f5f5f5;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li > *,
+.promote .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li > * {
+  display: inline-block;
+  vertical-align: top;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li a,
+.promote .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li a {
+  padding: 0;
+}
+.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li .form-control,
+.promote .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li .form-control {
+  margin: 2px 0;
+  height: 16px;
+  width: 16px;
+}
+.create .right-pane .content-preview .control-group .btn-launch,
+.promote .right-pane .content-preview .control-group .btn-launch,
+.create .right-pane .content-preview .control-group .btn-promote,
+.promote .right-pane .content-preview .control-group .btn-promote {
+  color: #ffffff;
+  float: right;
+  font-size: 12pt;
+  font-weight: bold;
+  right: 8px;
+}
+.create .right-pane .content-preview .control-group .btn-launch span,
+.promote .right-pane .content-preview .control-group .btn-launch span,
+.create .right-pane .content-preview .control-group .btn-promote span,
+.promote .right-pane .content-preview .control-group .btn-promote span {
+  vertical-align: middle;
+}
+.create .right-pane .content-preview .control-group .btn-launch span.cl-icon-launch,
+.promote .right-pane .content-preview .control-group .btn-launch span.cl-icon-launch,
+.create .right-pane .content-preview .control-group .btn-promote span.cl-icon-launch,
+.promote .right-pane .content-preview .control-group .btn-promote span.cl-icon-launch {
+  height: 30px;
+  width: 30px;
+}
+.create .right-pane .content-preview .control-group .btn-launch,
+.promote .right-pane .content-preview .control-group .btn-launch {
+  background-color: #10699d;
+}
+.create .right-pane .content-preview .control-group .btn-promote,
+.promote .right-pane .content-preview .control-group .btn-promote {
+  background-color: #773876;
+}
+.promote .left-pane .filter-panel,
+.promote .left-pane .tasks-header {
+  background-color: #773876;
+}
+.promote .right-pane .right-pane-header {
+  background-color: #773876;
+  border-bottom-color: #c583c4;
+  color: #ffffff;
+}
+.promote .right-pane .right-pane-header .cl-icon {
+  color: #ffffff;
+}
+.create .left-pane .filter-panel,
+.create .left-pane .tasks-header {
+  background-color: #ffb503;
 }
 .create .left-pane .task-group .task-group-header {
   background-color: #e4e4e4;
@@ -1855,64 +2017,6 @@ span[class*=" icon-"].dark {
   display: inline-block;
   font-size: 16pt;
   margin: 0 4px;
-}
-.create .right-pane .content-preview {
-  background-color: #e4e4e4;
-  padding: 16px;
-  width: 100%;
-}
-.create .right-pane .content-preview h4 {
-  font-family: 'Lato Black';
-  margin: 4px 0;
-}
-.create .right-pane .content-preview .control-group {
-  height: 46px;
-  margin: 0;
-  position: relative;
-}
-.create .right-pane .content-preview .control-group .btn-launch-container {
-  float: right;
-}
-.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li {
-  padding: 8px;
-}
-.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li:hover {
-  background-color: #f5f5f5;
-}
-.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li > * {
-  display: inline-block;
-  vertical-align: top;
-}
-.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li a {
-  padding: 0;
-}
-.create .right-pane .content-preview .control-group .btn-launch-container ul.dropdown-menu li .form-control {
-  margin: 2px 0;
-  height: 16px;
-  width: 16px;
-}
-.create .right-pane .content-preview .control-group .btn-launch,
-.create .right-pane .content-preview .control-group .btn-promote {
-  color: #ffffff;
-  float: right;
-  font-size: 12pt;
-  font-weight: bold;
-  right: 8px;
-}
-.create .right-pane .content-preview .control-group .btn-launch span,
-.create .right-pane .content-preview .control-group .btn-promote span {
-  vertical-align: middle;
-}
-.create .right-pane .content-preview .control-group .btn-launch span.cl-icon-launch,
-.create .right-pane .content-preview .control-group .btn-promote span.cl-icon-launch {
-  height: 30px;
-  width: 30px;
-}
-.create .right-pane .content-preview .control-group .btn-launch {
-  background-color: #10699d;
-}
-.create .right-pane .content-preview .control-group .btn-promote {
-  background-color: #773876;
 }
 .create-header {
   margin: 0 16px;

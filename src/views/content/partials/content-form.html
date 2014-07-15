@@ -1,0 +1,190 @@
+﻿<form name="editContent" novalidate="novalidate">
+	<div class="control-group">
+		<div class="form-group form-group-wide" ng-class="{ 'has-error': hasError(content, 'title', editContent.txtContentName, forceDirty) }">
+			<label class="control-label" for="txtContentName">Content Title</label>
+			<input type="text" name="txtContentName" id="txtContentName" class="form-control" ng-model="content.title" ng-disabled="isReadOnly"
+					error-message error-message-item="content" error-message-property="'title'" error-message-control="editContent.txtContentName" />
+		</div>
+		<div class="form-group">
+			&nbsp;<br/>
+			<a href="#" ng-click="showPublishingGuidelines()">Publishing Guidelines</a>
+		</div>
+	</div>
+					
+	<div class="control-group">
+		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'contentType', editContent.selContentType, forceDirty) }">
+			<label class="control-label" for="selContentType">Content Type</label>
+			<select name="selContentType" id="selContentType" ng-disabled="!isNewContent || isReadOnly"
+					ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem, selectOnBlur: true }" ng-model="content.contentType.name"
+					data-placeholder="Select Content Type" ng-change="updateContentType()"
+					error-message error-message-item="content" error-message-property="'contentType'" error-message-control="editContent.selContentType">
+				<option value=""></option>
+				<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
+			</select>
+		</div>
+
+		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'author', editContent.selAuthor, forceDirty) }">
+			<label class="control-label" for="selCreator">Content Creator</label>
+			<select name="selAuthor" id="selAuthor" ng-disabled="isReadOnly"
+					ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="content.author.id"
+					data-placeholder="Select Content Creator" ng-change="updateAuthor()"
+					error-message error-message-item="content" error-message-property="'author'" error-message-control="editContent.selAuthor">
+				<option value=""></option>
+				<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="control-group" ng-if="!!contentConnections.length && !!content.contentType.name">
+		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'accountConnections', editContent.selContentConnections, forceDirty) }">
+			<label class="control-label" for="selContentConnections">Content Destinations</label>
+			<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple" ng-disabled="isReadOnly" ng-change="updateContentConnection(contentConnectionIds)"
+					ui-select2="{ formatResult: formatContentConnectionItem, formatSelection: formatContentConnectionItem }" ng-model="contentConnectionIds" data-placeholder="Select Content Connection"
+					error-message error-message-item="content" error-message-property="'accountConnections'" error-message-control="editContent.selContentConnections">
+				<option ng-repeat="cc in contentConnections" value="{{ cc.id }}" ng-show="providerIsSupported(cc.provider)">{{ cc.name }}</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="control-group" ng-show="showAddFileButton">
+		<div class="content-file-view" ng-show="!!content.contentFile">
+			<button type="button" class="btn btn-lg btn-black btn-default" onclick="$('#filContentFile').click()" ng-hide="isReadOnly">
+				<span class="fa fa-paperclip"></span>
+				Replace File
+			</button>
+
+			<div class="content-file-view-file" ng-click="viewFile(content.contentFile)">
+				<span class="cl-icon" ng-class="content.contentFile.fileType()"></span>
+				{{ content.contentFile.fileName }}
+			</div>
+
+			<span class="fa fa-download" ng-click="downloadFile(content.contentFile)" ng-show="showDownloadContentFile"></span>
+			<span class="fa fa-trash-o" ng-click="deleteContentFile()" ng-hide="isReadOnly"></span>
+		</div>
+
+		<button type="button" class="btn btn-lg btn-black btn-default" onclick="$('#filContentFile').click()" ng-show="!content.contentFile && !isReadOnly">
+			<span class="fa fa-paperclip"></span>
+			Add a File
+		</button>
+		
+		<input type="file" id="filContentFile" ng-file-select="uploadContentFile($files, editContent, editContent.filContentFile)" />
+		<progressbar class="progress-striped active" value="percentComplete" ng-show="isUploading">
+			<span>{{ percentComplete }}%</span>
+		</progressbar>
+	</div>
+
+	<div class="control-group" ng-show="showRichTextEditor" ng-class="{ 'has-error': hasError(content, 'body', editContent.txtContentDesc, forceDirty) }" ng-hide="isReadOnly">
+		<textarea name="txtContentDesc" id="txtContentDesc" rich-text-editor ng-model="content.body"
+				error-message error-message-item="content" error-message-property="'body'" error-message-control="editContent.txtContentDesc"></textarea>
+	</div>
+					
+	<div class="content-preview" ng-show="isReadOnly">
+		<h4>{{ content.title }}</h4>
+						
+		<div ng-bind-html="content.body"></div>
+					
+		<div class="control-group" ng-show="content.status >= 3 && !content.archived">
+			<button type="button" class="btn btn-lg btn-default btn-promote" ng-click="submitContent()" ng-show="(content.status === 4 && canPromoteContent && !isPromote)">
+				<span class="cl-icon cl-icon-white cl-icon-workflow-promote"></span>
+				<span ng-show="!content.archived">PROMOTE CONTENT</span>
+			</button>
+
+			<div class="btn-group btn-launch-container dropdown" ng-show="(content.status >= 3 && canLaunchContent)">
+				<button type="button" class="btn btn-lg btn-default btn-launch dropdown-toggle">
+					<span class="cl-icon cl-icon-white cl-icon-workflow-launch"></span>
+					<span ng-show="!content.archived">LAUNCH CONTENT</span>
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu" ng-if="!!contentConnections.length">
+					<li ng-repeat="connection in contentConnections" ng-click="launchContent(connection)" ng-show="providerIsSupported(connection.provider)">
+						<input type="checkbox" class="form-control" ng-click="toggleSelectedConnections(connection, $event)" />
+						<a href="#">
+							<div>
+								<span class="{{ 'cl-icon ' + getConnectionProviderIconClass(connection.name) }}"></span>
+								{{ connection.name }}
+							</div>
+						</a>
+					</li>
+					<li>
+						<button type="button" class="btn btn-lg btn-default btn-launch" ng-click="launchSelected()" ng-disabled="(!selectedConnections || selectedConnections.length === 0)">
+							<span class="cl-icon cl-icon-white cl-icon-workflow-launch"></span>
+							<span ng-show="!content.archived">LAUNCH SELECTED</span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<div class="form-group">
+			<label for="txtTags">Tags</label> (separate by comma)
+			<textarea name="txtTags" id="txtTags" class="form-control" ng-model="contentTags" ng-disabled="isReadOnly"></textarea>
+		</div>
+
+		<div class="form-group">
+			<label for="txtRelatedContent">Related Content</label> (separate by comma)
+			<textarea name="txtRelatedContent" id="txtRelatedContent" class="form-control" ng-model="content.relatedContent" ng-disabled="isReadOnly"></textarea>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'buyingStage', editContent.selBuyingStage, forceDirty) }">
+			<label for="selBuyingStage">Buying Stage</label>
+			<select name="selBuyingStage" id="selBuyingStage" ng-disabled="isReadOnly"
+					ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem, allowClear: true }" ng-model="content.buyingStage" data-placeholder="Select Buying Stage"
+					error-message error-message-item="content" error-message-property="'buyingStage'" error-message-control="editContent.selBuyingStage">
+				<option value=""></option>
+				<option ng-repeat="bs in buyingStages" value="{{ $index }}">{{ bs }}</option>
+			</select>
+		</div>
+
+		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'persona', editContent.selPersona, forceDirty) }">
+			<label for="selPersona">Persona</label>
+			<select name="selPersona" id="selPersona" ng-disabled="isReadOnly"
+					ui-select2="{ allowClear: true }" ng-model="content.persona" data-placeholder="Select Persona"
+					error-message error-message-item="content" error-message-property="'persona'" error-message-control="editContent.selPersona">
+				<option value=""></option>
+				<option ng-repeat="p in contentSettings.personas" value="{{ p.name }}">{{ p.name }}</option>
+			</select>
+		</div>
+
+		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'campaign', editContent.selCampaign, forceDirty) }">
+			<label for="selCampaign">Campaign</label>
+			<select name="selCampaign" id="selCampaign" ng-disabled="isReadOnly"
+					ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, allowClear: true }" ng-model="content.campaign.id"
+					data-placeholder="Select Campaign" ng-change="updateCampaign()"
+					error-message error-message-item="content" error-message-property="'campaign'" error-message-control="editContent.selCampaign">
+				<option value=""></option>
+				<option ng-repeat="c in campaigns" value="{{ c.id }}" data-color="{{ c.color }}">{{ c.title }}</option>
+			</select>
+		</div>
+	</div>
+					
+	<div class="control-group">
+		<div class="form-group">
+			<label for="selSecondaryBuyingStage">Secondary Buying Stage</label>
+			<select name="selSecondaryBuyingStage" id="selSecondaryBuyingStage" ng-disabled="isReadOnly"
+					ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem, allowClear: true }" ng-model="content.secondaryBuyingStage"
+					data-placeholder="Select Secondary Buying Stage">
+				<option value=""></option>
+				<option ng-repeat="bs in buyingStages" value="{{ $index }}">{{ bs }}</option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label for="selSecondaryPersona">Secondary Persona</label>
+			<select name="selSecondaryPersona" id="selSecondaryPersona" ng-disabled="isReadOnly"
+					ui-select2="{ allowClear: true }" ng-model="content.secondaryPersona" data-placeholder="Select Secondary Persona">
+				<option value=""></option>
+				<option ng-repeat="p in contentSettings.personas" value="{{ p.name }}">{{ p.name }}</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveContent()" ng-show="canEditContent && !isReadOnly">Save</button>
+		<button type="button" class="btn btn-lg btn-black btn-default" ng-click="submitContent()" ng-show="canSubmitContent && !isReadOnly && !isNewContent">{{ getNextStepText() }}</button>
+		<button type="button" class="btn btn-lg btn-black btn-default" ng-click="archiveContent()" ng-show="content.status === 4 && !content.archived && canArchiveContent">Archive Content</button>
+	</div>
+</form>

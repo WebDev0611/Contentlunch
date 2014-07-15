@@ -844,5 +844,38 @@
 		}
 
 		service.insertComment((launch.utils.isBlank(user.accessCode) ? user.account.id : user.accountId), comment, callback);
+	},
+
+	providerIsSupportsContentType: function(provider, content) {
+		if (!content || !content.contentType || launch.utils.isBlank(content.contentType.baseType)) {
+			return false;
+		}
+
+		switch (content.contentType.baseType) {
+			case 'audio':
+				return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce' || provider === 'soundcloud');
+			case 'blog_post':
+				return (provider === 'wordpress' || provider === 'tumblr');
+			case 'document':
+				return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce');
+			case 'generic_file':
+				return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce');
+			case 'email':
+				return (provider === 'constant-contact');
+			case 'social_media_post':
+				if (provider === 'twitter') {
+					return (launch.utils.isBlank(content.body) || content.body.length < 140);
+				}
+
+				return (provider === 'facebook' || provider === 'google' || provider === 'linkedin' || provider === 'twitter');
+			case 'long_html':
+				return (provider === 'drupal' || provider === 'joomla' || provider === 'tumblr' || provider === 'wordpress');
+			case 'photo':
+				return (provider === 'dropbox' || provider === 'facebook' || provider === 'google' || provider === 'google-drive' || provider === 'linkedin' || provider === 'salesforce' || provider === 'twitter');
+			case 'video':
+				return (provider === 'vimeo' || provider === 'youtube');
+			default:
+				return false;
+		}
 	}
 };

@@ -540,12 +540,12 @@
 				calendar.updated = null;
 				calendar.privileges = mergePrivs('calendar');
 
-				launchModule.name = 'launch';
+				launchModule.name = 'promote';
 				launchModule.active = false;
-				launchModule.title = 'Launch';
+				launchModule.title = 'Promote';
 				launchModule.created = null;
 				launchModule.updated = null;
-				launchModule.privileges = mergePrivs('launch');
+				launchModule.privileges = mergePrivs('promote');
 
 				measure.name = 'measure';
 				measure.active = false;
@@ -669,7 +669,7 @@
 			subscription.components = [
 				{ name: 'create', title: 'CREATE', active: true },
 				{ name: 'calendar', title: 'CALENDAR', active: true },
-				{ name: 'launch', title: 'LAUNCH', active: true },
+				{ name: 'promote', title: 'PROMOTE', active: true },
 				{ name: 'measure', title: 'MEASURE', active: true }
 			];
 
@@ -863,10 +863,10 @@
 				if (moduleB === 'calendar') {
 					return 1;
 				}
-				if (moduleA === 'launch') {
+				if (moduleA === 'promote') {
 					return -1;
 				}
-				if (moduleB === 'launch') {
+				if (moduleB === 'promote') {
 					return 1;
 				}
 				if (moduleA === 'measure') {
