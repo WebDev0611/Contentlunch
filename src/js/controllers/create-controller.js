@@ -394,8 +394,8 @@
 			$.each(itemsToDelete, function(i, c) {
 				contentService.delete(self.loggedInUser.account.id, c, {
 					success: function(r) {
-						$scope.content = $.grep($scope.content, function(ct) { return ct.id !== c.id; });
-						$scope.search.applyFilter(false);
+                        self.loadContent();
+                        notificationService.success('Delete Successful', 'Concept "' + c.title + '" successfully deleted.');
 					},
 					error: self.ajaxHandler.error
 				});
