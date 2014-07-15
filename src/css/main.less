@@ -577,8 +577,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 		padding: 16px;
 	}
 
-	.right-pane-sub-header{}
-
 	h2, hr {
 		border-bottom: solid 1px #000000;
 		font-family: 'Lato Black';
@@ -827,6 +825,45 @@ span[class^="icon-"], span[class*=" icon-"] {
 	.right-pane {
 		.right-pane-content {
 			min-height: 600px;
+
+			.promote-connection-list {
+				margin: 0 16px;
+
+				> .row {
+					border-bottom: solid 1px #000000;
+					padding: 8px 0;
+
+					> * {
+						vertical-align: middle;
+					}
+
+					.promote-connection-type-container {
+						display: inline-block;
+						width: 250px;
+
+						.cl-icon {
+							margin-right: 16px;
+						}
+
+						.promote-connection-type {
+							font-size: 12pt;
+							font-weight: bold;
+						}
+					}
+
+					.row {
+						>* {
+							>* {
+								vertical-align: middle;
+							}
+						}
+
+						.btn {
+							float: right;
+						}
+					}
+				}
+			}
 		}
 	}
 }
