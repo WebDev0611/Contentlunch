@@ -62,22 +62,26 @@
     </div>
 
     <div class="center-content">        
-        <div class="dashboard-section">
-            <div class="pull-right subsection-header" style="margin-top: 8px;">Hide All</div>
+        <div class="dashboard-section" ng-show="announcements.length">
+            <div class="pull-right subsection-header" style="margin-top: 8px;"><a ng-click="hideAllAnnouncements()">Hide All</a></div>
             <h1 class="underline">Announcements</h1>
-            <table class="announcements" ng-show="announcements.length">
-                <tbody>
-                    <tr class="announcement" ng-repeat="announcement in announcements">
-                        <td>Logo</td>
-                        <td>Message</td>
-                        <td>Hide</td>
-                        <td>Date</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="system-wide-announcements">
+                <table ng-show="announcements.length">
+                    <tbody>
+                        <tr class="announcement" ng-repeat="announcement in announcements | orderBy:'createdAt':true">
+                            <td>
+                                <img src="/assets/images/logo.png" height="24" alt="ContentLaunch">
+                            </td>
+                            <td>{{ announcement.message }}</td>
+                            <td><a ng-click="hideAnnouncement(announcement.id)">Hide</a></td>
+                            <td>{{ announcement.createdAt | moment: 'MM/DD/YYYY' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-            <div ng-hide="announcements.length">
-                No new announcements.
+                <div ng-hide="announcements.length">
+                    No new announcements.
+                </div>
             </div>
         </div>
 

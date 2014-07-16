@@ -15,7 +15,13 @@ class AnnouncementsController extends \BaseController {
             return $this->responseError('Not logged in', 401);
         }
 
-        return Announcement::whereNotIn('id', $user->hidden_announcements)->get();
+        $user = $user->toArray();
+
+        if (count($user['hidden_announcements']) > 0) {
+            return Announcement::whereNotIn('id', $user['hidden_announcements'])->get();
+        } else {
+            return Announcement::all();
+        }
     }
 
     /**

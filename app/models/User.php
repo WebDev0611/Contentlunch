@@ -13,7 +13,7 @@ class User extends ConfideUser {
   protected $hidden = array('password', 'password_confirmation', 'confirmation_code');
 
   protected $fillable = array('username', 'email', 'first_name', 'last_name', 'confirmed', 'password',
-    'password_confirmation',
+    'password_confirmation', 'hidden_announcements',
     'address', 'address_2', 'city', 'state', 'phone', 'title', 'status', 'country');
 
   protected $guarded = array('id', 'remember_token');

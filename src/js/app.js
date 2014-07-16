@@ -389,6 +389,7 @@
 			else array.push(angular.copy(item));
 		},
 		remove: function(array, item) {
+			if (!item.id) item = { id: item };
 			var index = _.indexById(array, item.id);
 			if (index !== -1) array.splice(index, 1);
 		},
