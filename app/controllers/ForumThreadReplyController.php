@@ -72,7 +72,7 @@ class ForumThreadReplyController extends BaseController {
             return $this->responseError("Couldn't delete thread");
         }
 
-        return array('success' => 'OK');
+        return ['success' => 'OK'];
     }
 
     private function validate($threadID)

@@ -4,7 +4,7 @@ use LaravelBook\Ardent\Ardent;
 
 class AccountDiscussion extends Ardent {
     
-	public $autoHydrateEntityFromInput    = true;
+    public $autoHydrateEntityFromInput    = true;
     public $forceEntityHydrationFromInput = true;
 
     protected $fillable = [
