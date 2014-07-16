@@ -131,14 +131,14 @@ header {
 				}
 
 				&.measure {
-					background-color: @meaureColor;
+					background-color: @measureColor;
 
 					.dark {
-						background-color: @meaureColorDark;
+						background-color: @measureColorDark;
 					}
 
 					.top-arrow {
-						border-top-color: @meaureColor;
+						border-top-color: @measureColor;
 					}
 				}
 
@@ -238,8 +238,16 @@ header {
 
 				li {
 					margin: 0;
-					padding: 8px;
-					vertical-align: middle;
+
+					a {
+						color: #000000;
+						display: inline-block;
+						padding: 8px;
+						text-decoration: none;
+						vertical-align: middle;
+						width: 100%;
+						height: 100%;
+					}
 
 					&:hover {
 						background-color: #cccccc;
@@ -569,8 +577,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 		padding: 16px;
 	}
 
-	.right-pane-sub-header{}
-
 	h2, hr {
 		border-bottom: solid 1px #000000;
 		font-family: 'Lato Black';
@@ -819,6 +825,45 @@ span[class^="icon-"], span[class*=" icon-"] {
 	.right-pane {
 		.right-pane-content {
 			min-height: 600px;
+
+			.promote-connection-list {
+				margin: 0 16px;
+
+				> .row {
+					border-bottom: solid 1px #000000;
+					padding: 8px 0;
+
+					> * {
+						vertical-align: middle;
+					}
+
+					.promote-connection-type-container {
+						display: inline-block;
+						width: 250px;
+
+						.cl-icon {
+							margin-right: 16px;
+						}
+
+						.promote-connection-type {
+							font-size: 12pt;
+							font-weight: bold;
+						}
+					}
+
+					.row {
+						>* {
+							>* {
+								vertical-align: middle;
+							}
+						}
+
+						.btn {
+							float: right;
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -904,7 +949,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 
 			&.measure {
-				background-color: @meaureColorDark;
+				background-color: @measureColorDark;
 			}
 
 			&.disabled {
@@ -2933,5 +2978,51 @@ hr.simple-divider {
 		background-color: #000000;
 		color: #ffffff;
 		vertical-align: middle;
+	}
+}
+
+.fixed-dual-sidebars {
+	.left-sidebar {
+		float: left;
+		width: 260px;
+		padding: 10px
+	}
+
+	.right-sidebar {
+		float: right;
+		width: 260px;
+		padding: 10px;
+	}
+
+	.center-content {
+		width: 100%;
+		padding: 10px 270px;
+	}
+}
+
+.dashboard-section {
+	margin: 0 0 32px;
+
+	.underline {
+		font-size: 24px;
+		line-height: 28px;
+		margin: 0 0 10px;
+		padding: 0 0 10px;
+	}
+
+	.subsection-header {
+		display: inline-block;
+		vertical-align: bottom;
+	}
+}
+
+.btn-measure {
+	background-color: @measureColorDark;
+	color: white;
+}
+
+.clearfix-right {
+	&:after {
+		clear: right;
 	}
 }

@@ -43,7 +43,6 @@
 		};
 
 		$scope.content = null;
-		$scope.comments = null;
 		$scope.contentTypes = null;
 		$scope.contentSettings = null;
 		$scope.contentConnections = null;
@@ -56,48 +55,32 @@
 		$scope.isPromote = true;
 		$scope.isReadOnly = true;
 
-		$scope.launchContent = function (connection) {
-			console.log('Launching to ' + connection.name);
+		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
+		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
+		$scope.formatContentConnectionItem = launch.utils.formatContentConnectionItem;
+		$scope.getConnectionProviderIconClass = launch.utils.getConnectionProviderIconClass;
+		$scope.formatBuyingStageItem = launch.utils.formatBuyingStageItem;
 
-			contentService.launch(self.loggedInUser.account.id, $scope.content.id, connection.id, {
-				success: function (r) {
-
-				},
-				error: self.ajaxHandler.error
-			});
+		$scope.formatUserItem = function (item, element, context) {
+			return $scope.getUserImageHtml(item.id, item.text);
 		};
 
-		$scope.toggleSelectedConnections = function (connection, e) {
-			var checkbox = $(e.currentTarget);
+		$scope.getUserImageHtml = function (userId, text) {
+			var user = $.grep($scope.users, function (u, i) { return u.id === parseInt(userId); });
+			var style = (user.length === 1 && !launch.utils.isBlank(user[0].image)) ? ' style="background-image: ' + user[0].imageUrl() + '"' : '';
 
-			if (checkbox.is(':checked')) {
-				if ($.grep($scope.selectedConnections, function (c) { return c.id === connection.id; }).length === 0) {
-					$scope.selectedConnections.push(connection);
-				}
-			} else {
-				$scope.selectedConnections = $.grep($scope.selectedConnections, function (c) {
-					return c.id !== connection.id;
-				});
+			if (launch.utils.isBlank(text) && user.length === 1) {
+				text = user[0].formatName();
 			}
 
-			e.stopImmediatePropagation();
+			var imageHtml = '<span class="user-image user-image-small"' + style + '></span>';
+			var textHtml = '<span class="user-name">' + (launch.utils.isBlank(text) ? '' : text) + '</span>';
+
+			return imageHtml + ' ' + textHtml;
 		};
 
-		$scope.launchSelected = function () {
-			if (!$.isArray($scope.selectedConnections) || $scope.selectedConnections.length === 0) {
-				notificationService.error('Error!', 'Please select one or more connections to which to launch the content.');
-				return;
-			}
-
-			$.each($scope.selectedConnections, function (i, c) {
-				$scope.launchContent(c);
-			});
-
-			$scope.selectedConnections = [];
-		};
-
-		$scope.providerIsSupported = function (provider) {
-			return launch.utils.providerIsSupportsContentType(provider, $scope.content);
+		$scope.connectionIsSupported = function (connection) {
+			return launch.utils.connectionIsSupportsContentType(connection, $scope.content);
 		};
 
 		self.init();

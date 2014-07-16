@@ -1,10 +1,10 @@
-﻿launch.module.directive('accountLeftPane', function ($location, AuthService) {
+﻿launch.module.directive('accountLeftPane', function($location, AuthService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 
 		self.loggedInUser = null;
 
-		self.init = function () {
+		self.init = function() {
 			self.loggedInUser = AuthService.userInfo();
 
 			// TODO: NEED PRIVILEGES FOR EDITING ACCOUNT SETTINGS!!
@@ -16,18 +16,20 @@
 
 			// TODO: NEED PRIVILEGES FOR EDITING CONTENT SETTINGS!!
 			//if (self.loggedInUser.hasPrivilege(['settings_edit_personas', 'settings_view_personas'])) {
-				scope.settings.push({ id: 'content', title: 'Content Settings' });
+			scope.settings.push({ id: 'content', title: 'Content Settings' });
 			//}
 
 			// TODO: NEED PRIVILEGES FOR EDITING SEO SETTINGS!!
 			//if (self.loggedInUser.hasPrivilege([''])) {
-				scope.settings.push({ id: 'seo', title: 'SEO Settings' });
+			scope.settings.push({ id: 'seo', title: 'SEO Settings' });
 			//}
+
+			scope.settings.push({ id: 'promote', title: 'Promote Settings' });
 		};
 
 		scope.settings = [];
 
-		scope.toggleSetting = function (setting) {
+		scope.toggleSetting = function(setting) {
 			if (!setting) {
 				return;
 			}
@@ -40,6 +42,8 @@
 				$location.path('/account/content-settings');
 			} else if (setting.id === 'seo') {
 				$location.path('/account/seo');
+			} else if (setting.id === 'promote') {
+				$location.path('/account/promote');
 			}
 		};
 

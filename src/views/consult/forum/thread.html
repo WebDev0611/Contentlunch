@@ -29,7 +29,7 @@
                         </select>
                     </div>
 
-                    <div style="width: 100px; text-align: center;">
+                    <div style="width: 100px; text-align: center;" ng-show="replies.length">
                         {{ (pagination.currentPage - 1) * pagination.pageSize + 1 }} 
                         to {{ pagination.currentPage * pagination.pageSize | min:replies.length }}
                         of {{ replies.length }}

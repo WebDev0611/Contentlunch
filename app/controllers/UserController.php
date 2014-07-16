@@ -287,4 +287,56 @@ class UserController extends BaseController {
 	return ['success' => 'OK'];
   }
 
+  public function getAllTasks($userID)
+  {
+    $user = User::find($userID);
+    $currentUser = Confide::user();
+    if (!$currentUser || !$user || ($userID != $currentUser->id)) {
+      return $this->responseAccessDenied();
+    }
+
+    $campaignTasks = CampaignTask::where('user_id', $userID)->where('is_complete', false)->with(['campaign' => function ($query) {
+      $query->select('id', 'title');
+    }])->get()->toArray();
+    $contentTasks  =  ContentTask::where('user_id', $userID)->where('is_complete', false)->with(['task_group' => function ($query) {
+      $query->select('id', 'content_id')->with(['content' => function ($query) {
+        $query->select('id', 'title');
+      }]);
+    }])->get()->toArray();
+
+    $tasks = [];
+    foreach ($campaignTasks as $task) {
+      $task['id'] = 'campaign_' . $task['id'];
+      $tasks[] = $task;
+    }
+    foreach ($contentTasks as $task) {
+      $task['id'] = 'content_' . $task['id'];
+      $task['content'] = @$task['task_group']['content'];
+      unset($task['task_group']);
+      $tasks[] = $task;
+    }
+
+    return $tasks;
+  }
+
+  public function updateTask($userID, $specialTaskID)
+  {
+    try {
+      preg_match('/^(content|campaign)_(\d+)$/', $specialTaskID, $matches);
+      list(, $type, $id) = $matches;
+    } catch (Exception $e) {
+      return $this->responseAccessDenied();
+    }
+
+    if ($type == 'content') {
+      $task = ContentTask::find($id);
+    } else { // $type == 'campaign'
+      $task = CampaignTask::find($id);
+    }
+
+    $task->id = intval($id);
+    $task->save();
+
+    return $task;
+  }
 }
