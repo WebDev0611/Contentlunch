@@ -184,6 +184,19 @@ Route::group(['prefix' => 'api'], function()
 
   Route::get('test', 'ConferencesController@test');
 
+  // Dashboard
+  // -------------------------
+  Route::resource('account/{accountID}/discussion', 'AccountDiscussionController', [
+    'only' => ['index', 'store']
+  ]);
+
+  Route::get('user/{userID}/tasks', 'UserController@getAllTasks');
+  Route::put('user/{userID}/tasks/{specialTaskID}', 'UserController@updateTask');
+
+  Route::resource('announcements', 'AnnouncementsController', [
+    'only' => ['index', 'store', 'update', 'destroy']
+  ]);
+
 });
 
 Route::get('password/reset/{code}', 'AuthController@check_reset');

@@ -1,7 +1,220 @@
-<p>Welcome to Content Launch</p>
+<div class="loading-spinner-container" ng-hide="isLoaded">
+    <spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
+</div>
 
-<div ng-bind="title"></div>
+<div ng-show="isLoaded" class="fixed-dual-sidebars full-width-view">
+    <div class="left-sidebar">
+        <div class="panel panel-inverse">
+            <div class="panel-heading">My Tasks</div>
+            <div class="panel-body">
 
-<p>
-	<a href="/accounts">Accounts api test</a>
-</p>
+                <ul class="task-list">
+                    <li class="task-task" ng-repeat="task in tasks | orderBy:'dueDate'" ng-class="{ disabled: task.isComplete }">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" style="margin: 3px 0 0 -20px !important;" check-int ng-model="task.isComplete" disabled="disabled" ng-change="toggleTaskComplete(task)">
+                                <a href="{{ getTaskUrl(task) }}">{{ task.name }}</a>
+                            </label>
+                            <div>
+                                <small ng-hide="task.dateCompleted" ng-class="{ error: (task.dueDate | isOverdue) }">
+                                    <strong>Due:</strong> {{ task.dueDate ? (task.dueDate | date) : 'N/A' }}
+                                </small>
+                                <small ng-show="task.dateCompleted">
+                                    <strong>Completed:</strong> {{ task.dateCompleted | date }}
+                                </small>
+                            </div>
+                            <div>
+                                <small ng-show="task.content">
+                                    <strong>Content:</strong> {{ task.content.title }}
+                                </small>
+                                <small ng-show="task.campaign">
+                                    <strong>Campaign:</strong> {{ task.campaign.title }}
+                                </small>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-heading" style="background-color:#ba1760; color: white">Brainstorm Sessions</div>
+            <div class="panel-body">
+                
+            </div>
+        </div>
+
+    </div>
+
+    <div class="right-sidebar">
+        <div class="panel">
+            <div class="panel-heading" style="background-color:#2badc0; color: white">Content Strategy</div>
+            <div class="panel-body">
+                
+            </div>
+        </div>
+
+        <div class="panel panel-inverse panel-collaborators">
+            <div class="panel-heading">New Guest Collaborators</div>
+            <div class="panel-body">
+            </div>
+        </div>
+    </div>
+
+    <div class="center-content">        
+        <div class="dashboard-section">
+            <div class="pull-right subsection-header" style="margin-top: 8px;">Hide All</div>
+            <h1 class="underline">Announcements</h1>
+            <table class="announcements" ng-show="announcements.length">
+                <tbody>
+                    <tr class="announcement" ng-repeat="announcement in announcements">
+                        <td>Logo</td>
+                        <td>Message</td>
+                        <td>Hide</td>
+                        <td>Date</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div ng-hide="announcements.length">
+                No new announcements.
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+            <div class="notifications pull-right">
+                You have new Notifications &nbsp; 
+                <div class="btn-group">
+                    <button class="btn" ng-class="{ 'btn-default': !filters.activity.justMine, 'btn-inverse': filters.activity.justMine }" ng-click="filters.activity.justMine = true">My Activity</button>
+                    <button class="btn" ng-class="{ 'btn-default': filters.activity.justMine, 'btn-inverse': !filters.activity.justMine }" ng-click="filters.activity.justMine = false">All Activity</button>
+                </div>
+            </div>
+            <h1 class="underline">My Company</h1>
+
+            GRAPHS GO HERE<br><br><br>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="4">Top Performing Content</th>
+                        <th colspan="2">Content Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="align-middle">•</td>
+                        <td class="align-middle">Content Name</td>
+                        <td class="align-middle">Buying Stage?</td>
+                        <td class="align-middle">Status (i.e. Launched)</td>
+                        <td class="align-middle">Score</td>
+                        <td class="align-middle">
+                            <button class="btn btn-measure">Measure</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="dashboard-section">
+            <div class="panel panel-inverse panel-collaborators">
+                <div class="panel-heading">Discussion</div>
+                <div class="panel-body">
+                    <div class="section-header nudge-down clearfix clearfix-right">                    
+                        <div class="paging-controls">
+                            <div class="form-group form-inline">
+                                <label class="control-label" for="selPageSize">Items per page:</label>
+                                <select class="form-control" id="selPageSize" name="selPageSize" ng-model="pagination.pageSize">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+
+                            <div style="width: 100px; text-align: center;" ng-show="discussion.length">
+                                {{ (pagination.currentPage - 1) * pagination.pageSize + 1 }} 
+                                to {{ pagination.currentPage * pagination.pageSize | min:discussion.length }}
+                                of {{ discussion.length }}
+                            </div>
+
+                            <div class="pager" ng-show="discussion.length > pagination.pageSize">
+                                <pagination 
+                                    total-items="discussion.length"
+                                    items-per-page="pagination.pageSize"
+                                    page="pagination.currentPage"
+                                    direction-links="true"
+                                    max-size="0">
+                                </pagination>
+                            </div>
+                        </div>
+                    </div> <!-- .section-header -->
+
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr ng-repeat="reply in discussion | orderBy:'createdAt' | paginate:pagination.currentPage:pagination.pageSize track by reply.id">
+                                <td width="250px">
+                                    <div class="cl-badge cl-badge-horizontal no-margin">
+                                        <span class="cl-badge-image" style="background-image: url('{{ reply.user.image | imagePathFromObject }}')")></span>
+                                        <div class="cl-badge-caption no-margin">
+                                            <strong>{{ reply.user.name }}</strong><br>
+                                            <small>{{ reply.createdAt | moment:'MM/DD/YY h:mm a' }}</small>
+                                            <div ng-show="reply.createdAt != reply.updatedAt">
+                                                <small><strong>Updated:</strong> {{ reply.updatedAt | moment:'MM/DD/YY h:mm a' }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div ng-hide="isEditing && reply.isEditing" ng-bind-html="reply.body | nl2br"></div>
+<!-- 
+                                    <form ng-submit="updateReply(current.reply)" ng-show="isEditing && reply.isEditing">
+                                        <div class="nudge-down">
+                                            <textarea rich-text-editor name="body" class="form-control" ng-model="current.reply.body"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-inverse">Save</button>
+                                        <button type="button" class="btn btn-inverse" ng-click="cancelReply(reply)">Cancel</button>
+                                    </form>
+ -->
+                                </td>
+<!--
+                                <td width="20px">
+                                    <span ng-click="editReply(reply)" ng-show="reply.user.id == user.id && !isEditing" class="fa fa-pencil"></span>
+                                </td>
+                                <td width="20px" ng-show="user.role.isGlobalAdmin === true">
+                                    <span class="fa fa-trash-o" ng-click="deleteReply(reply)"></span>
+                                </td>
+-->
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <form ng-submit="createReply(reply)" class="container-fluid">
+                        <div class="well">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="cl-badge cl-badge-horizontal no-margin">
+                                        <span class="cl-badge-image" style="background-image: url('{{ user.image | imagePathFromObject }}')")></span>
+                                        <div class="cl-badge-caption no-margin">
+                                            <strong>{{ user.name }}</strong><br>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-9 nudge-down">
+                                    <label for="body">Add to the Discussion</label>
+                                    <textarea rows="6" name="body" class="form-control" id="body" ng-model="reply.body"></textarea>
+                                </div>
+                            </div> <!-- .row -->
+                            <div class="row">
+                                <div class="pull-md-3 col-md-9">
+                                    <button type="submit" class="btn btn-inverse">Reply</button>
+                                </div>
+                            </div>
+                        </div> <!-- .well -->
+                    </form>        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

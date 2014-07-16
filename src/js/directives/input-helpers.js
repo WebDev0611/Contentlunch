@@ -6,15 +6,16 @@ angular.module('launch')
     return {
         require: '?ngModel',
         priority: 1, // this needs to execute before Angular's
-        link: function (scope, elems, attrs, ngModel) {
+        link: function (scope, elem, attrs, ngModel) {
             if (!ngModel || attrs.type !== 'checkbox' || attrs.ngTrueValue) return;
+            var firstTime = true;
 
             // this allows any truthy value to be initally passed in
             // to the checkbox and it will still show up as checked
             scope.$watch(attrs.ngModel, function (val) {
                 if (val === '0') val = 0;
-                ngModel.$setViewValue(!!val);
-                ngModel.$render();
+
+                elem.prop('checked', !!val);
             });
         }
     };

@@ -1,0 +1,31 @@
+﻿<div class="view accounts">
+	<div class="col-md-3 left-pane">
+		<div account-left-pane selected-setting="'promote'"></div>
+	</div>
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header">Promote Settings</h2>
+		
+		<div class="right-pane-content">
+			<div class="promote-connection-list" ng-repeat="cat in categories">
+				<div class="row">
+					<div class="col-md-3 promote-connection-type-container">
+						<span class="cl-icon cl-icon-med cl-icon-promote-{{ cat.name }}"></span>
+						<span class="promote-connection-type">{{ cat.title }}</span>
+					</div>
+					<div class="col-md-9">
+						<div class="row" ng-repeat="connection in cat.connections">
+							<div class="col-md-7">
+								{{ cat.title }} through
+								<span class="cl-banner cl-banner-{{ connection.provider }}"></span>
+							</div>
+							<div class="col-md-5">
+								<button class="btn btn-black" ng-click="connect(connection.provider)" ng-hide="providerIsConnected(connection.provider)">Connect</button>
+								<button class="btn btn-black" ng-click="disconnect(connection.provider)" ng-show="providerIsConnected(connection.provider)">Disconnect</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

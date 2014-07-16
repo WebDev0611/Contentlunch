@@ -282,6 +282,18 @@
 .cl-icon-file-ms-powerpoint {
   background-image: url(/assets/images/file-powerpoint.svg);
 }
+.cl-icon-promote-social {
+  background-image: url(/assets/images/social.svg);
+}
+.cl-icon-promote-automation {
+  background-image: url(/assets/images/automation.svg);
+}
+.cl-icon-promote-amplification {
+  background-image: url(/assets/images/amplify.svg);
+}
+.cl-icon-promote-intelligence {
+  background-image: url(/assets/images/intelligence.svg);
+}
 .cl-banner-container {
   background-color: #ffffff;
   border-radius: 8px;
@@ -291,7 +303,7 @@
   min-width: 100%;
   padding: 0 8px;
 }
-.cl-banner-container .cl-banner {
+.cl-banner {
   background-repeat: no-repeat;
   -moz-background-size: contain;
   background-size: contain;
@@ -300,11 +312,20 @@
   width: 110px;
   vertical-align: text-bottom;
 }
-.cl-banner-container .cl-banner-hubspot {
+.cl-banner-hubspot {
   background-image: url(/assets/images/hubspot-banner.png);
 }
-.cl-banner-container .cl-banner-act-on {
+.cl-banner-act-on {
   background-image: url(/assets/images/act-on-banner.png);
+}
+.cl-banner-hootsuite {
+  background-image: url(/assets/images/hootsuite-banner.png);
+}
+.cl-banner-outbrain {
+  background-image: url(/assets/images/outbrain-banner.png);
+}
+.cl-banner-papershare {
+  background-image: url(/assets/images/papershare-banner.png);
 }
 html,
 body {
@@ -508,8 +529,15 @@ header .login-info .popover-menu .admin-menu {
 }
 header .login-info .popover-menu .admin-menu li {
   margin: 0;
+}
+header .login-info .popover-menu .admin-menu li a {
+  color: #000000;
+  display: inline-block;
   padding: 8px;
+  text-decoration: none;
   vertical-align: middle;
+  width: 100%;
+  height: 100%;
 }
 header .login-info .popover-menu .admin-menu li:hover {
   background-color: #cccccc;
@@ -1227,6 +1255,33 @@ span[class*=" icon-"].dark {
 }
 .accounts .right-pane .right-pane-content {
   min-height: 600px;
+}
+.accounts .right-pane .right-pane-content .promote-connection-list {
+  margin: 0 16px;
+}
+.accounts .right-pane .right-pane-content .promote-connection-list > .row {
+  border-bottom: solid 1px #000000;
+  padding: 8px 0;
+}
+.accounts .right-pane .right-pane-content .promote-connection-list > .row > * {
+  vertical-align: middle;
+}
+.accounts .right-pane .right-pane-content .promote-connection-list > .row .promote-connection-type-container {
+  display: inline-block;
+  width: 250px;
+}
+.accounts .right-pane .right-pane-content .promote-connection-list > .row .promote-connection-type-container .cl-icon {
+  margin-right: 16px;
+}
+.accounts .right-pane .right-pane-content .promote-connection-list > .row .promote-connection-type-container .promote-connection-type {
+  font-size: 12pt;
+  font-weight: bold;
+}
+.accounts .right-pane .right-pane-content .promote-connection-list > .row .row > * > * {
+  vertical-align: middle;
+}
+.accounts .right-pane .right-pane-content .promote-connection-list > .row .row .btn {
+  float: right;
 }
 .user-editor {
   margin: 75px 25px;

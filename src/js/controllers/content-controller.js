@@ -112,19 +112,17 @@
 				$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_edit_content_other_unapproved', 'create_edit_content_other', 'create_edit_content_as_collaborator']);
 				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = !$scope.canEditContent;
 			} else if ($scope.content.status === 3) {
-				$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_view_content_other');
-				$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
+				$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_launch_content_own') : self.loggedInUser.hasPrivilege('create_view_launch_content_other');
+				$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_launch_content_own') : self.loggedInUser.hasPrivilege('create_execute_launch_content_other');
 				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = true;
 			} else {
-				// TODO: WHAT PRIVILEGES DO WE CHECK FOR PROMOTE?
 				$scope.canPromoteContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('promote_content_own') : self.loggedInUser.hasPrivilege('promote_content_other');
 				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = true;
 			}
 
-			// TODO: VERIFY RULES FOR SUBMITTING CONTENT FOR APPROVAL!!
 			$scope.canSubmitContent = ($scope.content.author.id === self.loggedInUser.id || self.loggedInUser.hasPrivilege('create_edit_content_other_unapproved'));
 			$scope.canApproveContent = self.loggedInUser.hasPrivilege('collaborate_execute_approve');
-			$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
+			$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('create_execute_launch_content_own') : self.loggedInUser.hasPrivilege('create_execute_launch_content_other');
 			$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
 
 			// TODO: WHAT PRIVILEGES DO WE CHECK FOR RESTORE AND ARCHIVE?
@@ -221,7 +219,7 @@
 				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
 			}
 
-			$location.path('/launch/content/' + $scope.content.id);
+			$location.path('/promote/content/' + $scope.content.id);
 		};
 
 		self.showSelectApproverDialog = function(taskName, actor, privilegeName) {
@@ -780,48 +778,8 @@
 			});
 		};
 
-		$scope.launchContent = function(connection) {
-			console.log('Launching to ' + connection.name);
-
-			contentService.launch(self.loggedInUser.account.id, $scope.content.id, connection.id, {
-				success: function(r) {
-					
-				},
-				error: self.ajaxHandler.error
-			});
-		};
-
-		$scope.toggleSelectedConnections = function(connection, e) {
-			var checkbox = $(e.currentTarget);
-
-			if (checkbox.is(':checked')) {
-				if ($.grep($scope.selectedConnections, function (c) { return c.id === connection.id; }).length === 0) {
-					$scope.selectedConnections.push(connection);
-				}
-			} else {
-				$scope.selectedConnections = $.grep($scope.selectedConnections, function(c) {
-					return c.id !== connection.id;
-				});
-			}
-
-			e.stopImmediatePropagation();
-		};
-
-		$scope.launchSelected = function() {
-			if (!$.isArray($scope.selectedConnections) || $scope.selectedConnections.length === 0) {
-				notificationService.error('Error!', 'Please select one or more connections to which to launch the content.');
-				return;
-			}
-
-			$.each($scope.selectedConnections, function(i, c) {
-				$scope.launchContent(c);
-			});
-
-			$scope.selectedConnections = [];
-		};
-
-		$scope.providerIsSupported = function(provider) {
-			return launch.utils.providerIsSupportsContentType(provider, $scope.content);
+		$scope.connectionIsSupported = function (connection) {
+			return launch.utils.connectionIsSupportsContentType(connection, $scope.content);
 		};
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);

@@ -11,7 +11,6 @@ class CampaignTask extends Ardent {
     public $forceEntityHydrationFromInput = true;
 
     protected $fillable = [
-        'id',
         'campaign_id',
         'user_id',
         'name',

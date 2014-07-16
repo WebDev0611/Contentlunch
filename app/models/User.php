@@ -158,4 +158,25 @@ class User extends ConfideUser {
     });
   }
 
+  public function beforeSave($forced = false)
+  {
+    if (is_array(@$this->hidden_announcements)) {
+      $this->hidden_announcements = array_unique($this->hidden_announcements);
+      $this->hidden_announcements = json_encode($this->hidden_announcements);
+    }
+  }
+
+  public function toArray()
+  {
+    $values = parent::toArray();
+
+    if (is_string(@$values['hidden_announcements'])) {
+      $values['hidden_announcements'] = @json_decode($values['hidden_announcements'], true);
+    }
+    if (!@$values['hidden_announcements']) {
+      $values['hidden_announcements'] = [];
+    }
+
+    return $values;
+  }
 }

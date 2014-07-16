@@ -23,19 +23,23 @@
 					})
 					.when('/account', {
 						controller: 'AccountController',
-						templateUrl: '/assets/views/account.html'
+						templateUrl: '/assets/views/account/account.html'
 					})
 					.when('/account/connections', {
 						controller: 'ContentConnectionsController',
-						templateUrl: '/assets/views/content-connections.html'
+						templateUrl: '/assets/views/account/content-connections.html'
 					})
 					.when('/account/content-settings', {
 						controller: 'ContentSettingsController',
-						templateUrl: '/assets/views/content-settings.html'
+						templateUrl: '/assets/views/account/content-settings.html'
 					})
 					.when('/account/seo', {
 						controller: 'SeoSettingsController',
-						templateUrl: '/assets/views/seo-settings.html'
+						templateUrl: '/assets/views/account/seo-settings.html'
+					})
+					.when('/account/promote', {
+						controller: 'PromoteSettingsController',
+						templateUrl: '/assets/views/account/promote-settings.html'
 					})
 					.when('/user', {
 						controller: 'UserController',
@@ -175,7 +179,7 @@
 					})
 					.when('/accounts', {
 						controller: 'AccountsController',
-						templateUrl: '/assets/views/accounts.html'
+						templateUrl: '/assets/views/account/accounts.html'
 					})
 					.when('/subscription', {
 						controller: 'SubscriptionController',

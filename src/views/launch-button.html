@@ -1,0 +1,24 @@
+﻿<div class="btn-group btn-launch-container dropdown">
+	<button type="button" class="btn btn-lg btn-default btn-launch dropdown-toggle">
+		<span class="cl-icon cl-icon-white cl-icon-workflow-launch"></span>
+		<span ng-show="!content.archived">LAUNCH CONTENT</span>
+		<span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" role="menu" ng-if="!!contentConnections.length">
+		<li ng-repeat="connection in contentConnections" ng-click="launchContent(connection)" ng-show="connectionIsSupported(connection)">
+			<input type="checkbox" class="form-control" ng-click="toggleSelectedConnections(connection, $event)" />
+			<a href="#">
+				<div>
+					<span class="{{ 'cl-icon ' + getConnectionProviderIconClass(connection.name) }}"></span>
+					{{ connection.name }}
+				</div>
+			</a>
+		</li>
+		<li>
+			<button type="button" class="btn btn-lg btn-default btn-launch" ng-click="launchSelected()" ng-disabled="(!selectedConnections || selectedConnections.length === 0)">
+				<span class="cl-icon cl-icon-white cl-icon-workflow-launch"></span>
+				<span ng-show="!content.archived">LAUNCH SELECTED</span>
+			</button>
+		</li>
+	</ul>
+</div>
