@@ -10,27 +10,18 @@ class Brainstorm extends Ardent {
 
     protected $fillable = [
         'user_id',
-        'guest_id',
         'content_id',
         'campaign_id',
         'account_id',
         'agenda',
-        'date',
-        'time',
+        'datetime',
         'description',
         'credentials',
     ];
 
     public static $rules = [
         'user_id'     => 'required',
-        'guest_id'    => 'required',
-        'content_id'  => 'required',
-        'campaign_id' => 'required',
-        'account_id'  => 'required',
-        'agenda'      => 'required',
-        'date'        => 'required',
-        'time'        => 'required',
-        'description' => 'required',
+        'account_id'  => 'required'
     ];
 
     public function validate(array $rules = [], array $customMessages = []) 
@@ -44,14 +35,6 @@ class Brainstorm extends Ardent {
         }
         if ($this->content_id) {
             unset($rules['campaign_id']);
-        }
-
-        // only one or the other guest_id or user_id is required
-        if ($this->user_id) {
-            unset($rules['guest_id']);
-        }
-        if ($this->guest_id) {
-            unset($rules['user_id']);
         }
 
         return parent::validate($rules , $customMessages);

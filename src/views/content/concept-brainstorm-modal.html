@@ -1,0 +1,35 @@
+<form role="form">
+    <div class="modal-header">
+        {{message}}
+    </div>
+    <div class="modal-body">
+        <div class="col-md-6">
+            <div class="form-group">
+            <label>Date</label>
+            <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" class="form-control" ng-model="brainstorm.date" />
+        </div>
+        </div>
+        <div class="col-md-6">
+        <div class="form-group">
+            <label>Time</label>
+            <timepicker ng-model="brainstorm.datetime" hour-step="1" minute-step="15" show-meridian="true" class=""></timepicker>
+        </div>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea rows="5" class="form-control" ng-model="brainstorm.description"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Agenda</label>
+            <textarea rows="5" class="form-control" ng-model="brainstorm.agenda"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Credentials</label>
+            <textarea rows="5" class="form-control" ng-model="brainstorm.credentials"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" ng-click="$dismiss()">Go Back</button>
+        <button class="btn btn-primary" ng-click="schedule()">Send</button>
+    </div>
+</form>

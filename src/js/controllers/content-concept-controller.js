@@ -1,5 +1,6 @@
 ﻿launch.module.controller('ContentConceptController', [
-	'$scope', '$routeParams', '$filter', '$location', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'CampaignService', 'NotificationService', function ($scope, $routeParams, $filter, $location, authService, userService, contentSettingsService, contentService, campaignService, notificationService) {
+	'$scope', '$routeParams', '$filter', '$location', '$modal', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'CampaignService', 'NotificationService', 'AccountService',
+    function ($scope, $routeParams, $filter, $location, $modal, authService, userService, contentSettingsService, contentService, campaignService, notificationService, accountService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -92,6 +93,8 @@
 				return u.id !== $scope.content.author.id;
 			});
 		};
+
+
 
 		$scope.hasError = launch.utils.isPropertyValid;
 		$scope.errorMessage = launch.utils.getPropertyErrorMessage;
@@ -217,6 +220,28 @@
 		};
 
 		$scope.$watch('content.author', self.filterCollaborators);
+
+
+        $scope.showScheduleBrainstorm = function() {
+            $modal.open({
+                templateUrl: '/assets/views/content/concept-brainstorm-modal.html',
+                controller: [
+                    '$scope', '$modalInstance', function(scope, instance) {
+                        scope.brainstorm = accountService.getNewBrainstorm(self.loggedInUser.id, self.loggedInUser.account.id, 'content', $scope.content.id);
+                        scope.message = 'Schedule Brainstorm';
+                        scope.schedule = function() {
+                            accountService.addBrainstorm(scope.brainstorm, {
+                                success : function(r) {
+                                    notificationService.success('Success!', 'Your brainstorm has successfully been scheduled.');
+                                },
+                                error : self.ajaxHandler.error
+                            });
+                            instance.close();
+                        }
+                    }
+                ]
+            });
+        };
 
 		self.init();
 	}

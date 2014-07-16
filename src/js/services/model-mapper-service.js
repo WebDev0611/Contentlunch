@@ -1617,6 +1617,16 @@
 		}
 	};
 
+
+    self.brainstorm = {
+        parseResponse: function(r, getHeaders) {
+            return self.parseResponse(r, getHeaders, self.brainstorm.fromDto);
+        },
+        formatRequest: function(brainstorm) {
+            return JSON.stringify(brainstorm);
+        }
+    };
+
 	return self;
 };
 

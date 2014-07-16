@@ -19,6 +19,10 @@
 		save: { method: 'PUT', transformRequest: ModelMapperService.subscription.formatRequest }
 	});
 
+    var brainstorms = $resource('/api/account/:account_id/:content_type/:content_id/brainstorm', { account_id : '@account_id', content_type : '@content_type', content_id : '@content_id'}, {
+        insert: { method: 'POST', transformRequest: ModelMapperService.brainstorm.formatRequest, transformResponse: ModelMapperService.brainstorm.parseResponse }
+    });
+
 	return {
 		query: function(callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -115,6 +119,26 @@
 
 			return account;
 		},
+        getNewBrainstorm : function(user_id, account_id, content_type, concept_id) {
+            var brainstorm = new launch.Brainstorm();
+            brainstorm.user_id = user_id;
+            brainstorm.account_id = account_id;
+            brainstorm.content_type = content_type;
+            brainstorm.content_id = concept_id;
+            brainstorm.datetime = (new Date()).setMinutes(0);
+            return brainstorm;
+        },
+        addBrainstorm : function(brainstorm, callback) {
+            var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+            var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+
+            return brainstorms.insert({
+                account_id : brainstorm.account_id,
+                content_type : brainstorm.content_type,
+                content_id : brainstorm.content_id,
+            }, brainstorm, success, error);
+        },
 		resendCreationEmail: $resource('/api/account/:id/resend_creation_email', { id: '@id' }),
 		requestUpdate: $resource('/api/account/request_update'),
 		addFile: function (accountId, file, description, callback) {
