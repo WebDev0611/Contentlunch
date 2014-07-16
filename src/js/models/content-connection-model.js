@@ -6,6 +6,7 @@
 	self.name = null;
 	self.active = true;
 	self.connectionType = null;
+	self.connectionCategory = null;
 	self.connectionSettings = null;
 	self.url = null;
 	self.created = null;
