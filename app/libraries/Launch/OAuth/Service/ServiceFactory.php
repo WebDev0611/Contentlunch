@@ -43,7 +43,7 @@ class ServiceFactory {
     // Will be different based on environment
     switch (app()->environment()) {
       case 'staging':
-        $redirectURL = 'http://staging.contentlaunch.surgeforward.com/api/add-connection';
+        $redirectURL = 'https://staging.contentlaunch.surgeforward.com/api/add-connection';
       break;
       default:
         $redirectURL = $this->config['callback_domain'] .'/api/add-connection';   
