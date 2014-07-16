@@ -9,9 +9,11 @@ launch.module.controller('HomeController',
         // Restangular Models
         var Account = Restangular.one('account', $scope.user.account.id);
         var Discussion = Account.all('discussion');
+        var User = Restangular.one('user', $scope.user.id);
 
         $q.all({
             discussion: Discussion.getList(),
+            tasks: User.getList('tasks')
         }).then(function (responses) {
             angular.extend($scope, responses);
             $scope.isLoaded = true;
@@ -29,6 +31,21 @@ launch.module.controller('HomeController',
                 notify.success('Reply created');
                 _.appendOrUpdate($scope.discussion, newReply);
             }).catch($rootScope.globalErrorHandler);
+        };
+
+        // Tasks
+        // -------------------------
+        // $scope.toggleTaskComplete = function (task) {
+        //     task.dateCompleted = task.isComplete ? moment().format('YYYY-MM-DD') : null;
+        //     task.put();
+        // };
+
+        $scope.getTaskUrl = function (task) {
+            if (task.content) {
+                return '/create/content/edit/' + task.content.id;
+            } else {
+                return '/calendar/campaigns/' + task.campaign.id;
+            }
         };
 
 

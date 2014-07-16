@@ -176,10 +176,6 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'update', 'destroy']
   ]);
 
-  Route::resource('account/{accountID}/discussion', 'AccountDiscussionController', [
-    'only' => ['index', 'store']
-  ]);
-
   Route::resource('account/{accountID}/{conceptType}/{conceptID}/brainstorm', 'BrainstormController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
@@ -187,6 +183,15 @@ Route::group(['prefix' => 'api'], function()
   Route::get('account/{accountID}/brainstorm', 'BrainstormController@all');
 
   Route::get('test', 'ConferencesController@test');
+
+  // Dashboard
+  // -------------------------
+  Route::resource('account/{accountID}/discussion', 'AccountDiscussionController', [
+    'only' => ['index', 'store']
+  ]);
+
+  Route::get('user/{userID}/tasks', 'UserController@getAllTasks');
+  Route::put('user/{userID}/tasks/{specialTaskID}', 'UserController@updateTask');
 
 });
 

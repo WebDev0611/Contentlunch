@@ -9,22 +9,27 @@
             <div class="panel-body">
 
                 <ul class="task-list">
-                    <li class="task-task" ng-repeat="task in tasks" ng-class="{ disabled: task.isComplete }">
+                    <li class="task-task" ng-repeat="task in tasks | orderBy:'dueDate'" ng-class="{ disabled: task.isComplete }">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" style="margin: 3px 0 0 -20px !important;" check-int ng-model="task.isComplete" ng-change="toggleTaskComplete(task)">
-                                {{ task.name }} - 
-                                <span ng-hide="task.dateCompleted" ng-class="{ error: (task.dueDate | isOverdue) }">
-                                    Due: {{ task.dueDate ? (task.dueDate | date) : 'N/A' }}
-                                </span>
-                                <span ng-show="task.dateCompleted">
-                                    Completed: {{ task.dateCompleted | date }}
-                                </span>
+                                <input type="checkbox" style="margin: 3px 0 0 -20px !important;" check-int ng-model="task.isComplete" disabled="disabled" ng-change="toggleTaskComplete(task)">
+                                <a href="{{ getTaskUrl(task) }}">{{ task.name }}</a>
                             </label>
-                            <span class="fa fa-trash-o" ng-click="deleteTask(task)"></span>
-                            <span class="fa fa-pencil" ng-click="editTask(task)"></span>
                             <div>
-                                <small>Assigned to {{ task.user.name }}</small>
+                                <small ng-hide="task.dateCompleted" ng-class="{ error: (task.dueDate | isOverdue) }">
+                                    <strong>Due:</strong> {{ task.dueDate ? (task.dueDate | date) : 'N/A' }}
+                                </small>
+                                <small ng-show="task.dateCompleted">
+                                    <strong>Completed:</strong> {{ task.dateCompleted | date }}
+                                </small>
+                            </div>
+                            <div>
+                                <small ng-show="task.content">
+                                    <strong>Content:</strong> {{ task.content.title }}
+                                </small>
+                                <small ng-show="task.campaign">
+                                    <strong>Campaign:</strong> {{ task.campaign.title }}
+                                </small>
                             </div>
                         </div>
                     </li>
@@ -114,7 +119,7 @@
             <div class="panel panel-inverse panel-collaborators">
                 <div class="panel-heading">Discussion</div>
                 <div class="panel-body">
-                    <div class="section-header nudge-down clearfix">                    
+                    <div class="section-header nudge-down clearfix clearfix-right">                    
                         <div class="paging-controls">
                             <div class="form-group form-inline">
                                 <label class="control-label" for="selPageSize">Items per page:</label>
@@ -213,3 +218,5 @@
         </div>
     </div>
 </div>
+
+<pre>{{ tasks | json }}</pre>

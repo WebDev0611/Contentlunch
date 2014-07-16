@@ -70,7 +70,7 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   $
                     };
                 }
             ]
-        })
+        });
     };
 
     $scope.cancelCampaign = function () {
