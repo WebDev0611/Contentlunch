@@ -778,8 +778,8 @@
 			});
 		};
 
-		$scope.providerIsSupported = function(provider) {
-			return launch.utils.providerIsSupportsContentType(provider, $scope.content);
+		$scope.connectionIsSupported = function (connection) {
+			return launch.utils.connectionIsSupportsContentType(connection, $scope.content);
 		};
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);

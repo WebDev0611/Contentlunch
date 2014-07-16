@@ -5,7 +5,7 @@
 		<span class="caret"></span>
 	</button>
 	<ul class="dropdown-menu" role="menu" ng-if="!!contentConnections.length">
-		<li ng-repeat="connection in contentConnections" ng-click="launchContent(connection)" ng-show="providerIsSupported(connection.provider)">
+		<li ng-repeat="connection in contentConnections" ng-click="launchContent(connection)" ng-show="connectionIsSupported(connection)">
 			<input type="checkbox" class="form-control" ng-click="toggleSelectedConnections(connection, $event)" />
 			<a href="#">
 				<div>

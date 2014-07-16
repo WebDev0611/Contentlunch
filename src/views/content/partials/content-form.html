@@ -41,7 +41,7 @@
 			<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple" ng-disabled="isReadOnly" ng-change="updateContentConnection(contentConnectionIds)"
 					ui-select2="{ formatResult: formatContentConnectionItem, formatSelection: formatContentConnectionItem }" ng-model="contentConnectionIds" data-placeholder="Select Content Connection"
 					error-message error-message-item="content" error-message-property="'accountConnections'" error-message-control="editContent.selContentConnections">
-				<option ng-repeat="cc in contentConnections" value="{{ cc.id }}" ng-show="providerIsSupported(cc.provider)">{{ cc.name }}</option>
+				<option ng-repeat="cc in contentConnections" value="{{ cc.id }}" ng-show="connectionIsSupported(cc)">{{ cc.name }}</option>
 			</select>
 		</div>
 	</div>
