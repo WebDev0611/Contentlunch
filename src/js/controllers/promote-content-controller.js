@@ -38,7 +38,7 @@
 		};
 
 		self.setPrivileges = function() {
-			$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('launch_execute_content_own') : self.loggedInUser.hasPrivilege('launch_execute_content_other');
+			$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('create_execute_launch_content_own') : self.loggedInUser.hasPrivilege('create_execute_launch_content_other');
 			$scope.canPromoteContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('promote_content_own') : self.loggedInUser.hasPrivilege('promote_content_other');
 		};
 
