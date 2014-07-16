@@ -285,6 +285,9 @@ class ContentController extends BaseController {
       case 'twitter':
         $class = 'TwitterAPI';
       break;
+      case 'wordpress':
+        $class = 'WordpressAPI';
+      break;
       case 'youtube':
         $class = 'YoutubeAPI';
       break;

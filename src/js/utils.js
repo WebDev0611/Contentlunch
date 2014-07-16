@@ -846,34 +846,36 @@
 		service.insertComment((launch.utils.isBlank(user.accessCode) ? user.account.id : user.accountId), comment, callback);
 	},
 
-	providerIsSupportsContentType: function(provider, content) {
-		if (!content || !content.contentType || launch.utils.isBlank(content.contentType.baseType)) {
+	connectionIsSupportsContentType: function (connection, content) {
+		if (!content || !content.contentType || launch.utils.isBlank(content.contentType.baseType) ||
+			!connection || !connection.active || launch.utils.isBlank(connection.provider)) {
 			return false;
 		}
 
+
 		switch (content.contentType.baseType) {
 			case 'audio':
-				return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce' || provider === 'soundcloud');
+				return (connection.provider === 'dropbox' || connection.provider === 'google-drive' || connection.provider === 'salesforce' || connection.provider === 'soundcloud');
 			case 'blog_post':
-				return (provider === 'wordpress' || provider === 'tumblr');
+				return (connection.provider === 'wordpress' || connection.provider === 'tumblr');
 			case 'document':
-				return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce');
+				return (connection.provider === 'dropbox' || connection.provider === 'google-drive' || connection.provider === 'salesforce');
 			case 'generic_file':
-				return (provider === 'dropbox' || provider === 'google-drive' || provider === 'salesforce');
+				return (connection.provider === 'dropbox' || connection.provider === 'google-drive' || connection.provider === 'salesforce');
 			case 'email':
-				return (provider === 'constant-contact');
+				return (connection.provider === 'constant-contact');
 			case 'social_media_post':
-				if (provider === 'twitter') {
+				if (connection.provider === 'twitter') {
 					return (launch.utils.isBlank(content.body) || content.body.length < 140);
 				}
 
-				return (provider === 'facebook' || provider === 'google' || provider === 'linkedin' || provider === 'twitter');
+				return (connection.provider === 'facebook' || connection.provider === 'google' || connection.provider === 'linkedin' || connection.provider === 'twitter');
 			case 'long_html':
-				return (provider === 'drupal' || provider === 'joomla' || provider === 'tumblr' || provider === 'wordpress');
+				return (connection.provider === 'drupal' || connection.provider === 'joomla' || connection.provider === 'tumblr' || connection.provider === 'wordpress');
 			case 'photo':
-				return (provider === 'dropbox' || provider === 'facebook' || provider === 'google' || provider === 'google-drive' || provider === 'linkedin' || provider === 'salesforce' || provider === 'twitter');
+				return (connection.provider === 'dropbox' || connection.provider === 'facebook' || connection.provider === 'google' || connection.provider === 'google-drive' || connection.provider === 'linkedin' || connection.provider === 'salesforce' || connection.provider === 'twitter');
 			case 'video':
-				return (provider === 'vimeo' || provider === 'youtube');
+				return (connection.provider === 'vimeo' || connection.provider === 'youtube');
 			default:
 				return false;
 		}
