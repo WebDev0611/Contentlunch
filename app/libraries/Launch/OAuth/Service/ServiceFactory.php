@@ -9,6 +9,7 @@ use OAuth\Common\Storage\Session as OAuthSession;
 use OAuth\ServiceFactory as OAuthServiceFactory;
 use OAuth\OAuth2\Service\Linkedin;
 use Launch\OAuth\Service\Wordpress;
+use Launch\OAuth\Service\Acton;
 
 /**
  * Creates OAuth services
@@ -48,6 +49,7 @@ class ServiceFactory {
     );
     $this->storage = new OAuthSession;
     $serviceFactory = new OAuthServiceFactory;
+    $serviceFactory->registerService('acton', 'ActonService');
     $serviceFactory->registerService('wordpress', 'WordpressService');
     $serviceFactory->registerService('salesforce', 'SalesforceService');
     $serviceFactory->registerService('hubspot', 'HubspotService');
