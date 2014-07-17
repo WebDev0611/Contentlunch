@@ -960,13 +960,13 @@
 	};
 
 	self.contentConnection = {
-		parseResponse: function(r, getHeaders) {
+		parseResponse: function (r, getHeaders) {
 			return self.parseResponse(r, getHeaders, self.contentConnection.fromDto, self.contentConnection.sort);
 		},
-		formatRequest: function(connection) {
+		formatRequest: function (connection) {
 			return JSON.stringify(self.contentConnection.toDto(connection));
 		},
-		fromDto: function(dto) {
+		fromDto: function (dto) {
 			var connection = new launch.ContentConnection();
 
 			connection.id = parseInt(dto.id);
@@ -974,7 +974,7 @@
 			connection.connectionId = parseInt(dto.connection_id);
 			connection.name = dto.name;
 			connection.active = (parseInt(dto.status) === 1) ? true : false;
-			connection.connectionType = dto.connection_type;
+			connection.connectionType = 'content';
 			connection.connectionCategory = null; // TODO: SET THIS VALUE FROM THE API!!
 			connection.connectionSettings = dto.settings;
 			connection.created = new Date(dto.created_at);
@@ -990,8 +990,8 @@
 
 			return connection;
 		},
-		toDto: function(connection) {
-			return{
+		toDto: function (connection) {
+			return {
 				id: connection.id,
 				account_id: connection.accountId,
 				connection_id: connection.connectionId,
@@ -1003,7 +1003,84 @@
 				connection_provider: connection.provider
 			};
 		},
-		sort: function(a, b) {
+		sort: function (a, b) {
+			if (!a && !b) {
+				return 0;
+			} else if (!a && !!b) {
+				return 1;
+			} else if (!!a && !b) {
+				return -1;
+			}
+
+			if (a.name === b.name) {
+				if (a.connectionType === b.connectionType) {
+					if (a.id === b.id) {
+						return 0;
+					} else if (a.id < b.id) {
+						return -1;
+					} else {
+						return 1;
+					}
+				} else if (a.connectionType < b.connectionType) {
+					return -1;
+				} else {
+					return 1;
+				}
+			} else {
+				if (a.name < b.name) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+		}
+	};
+
+	self.promoteConnection = {
+		parseResponse: function (r, getHeaders) {
+			return self.parseResponse(r, getHeaders, self.promoteConnection.fromDto, self.promoteConnection.sort);
+		},
+		formatRequest: function (connection) {
+			return JSON.stringify(self.promoteConnection.toDto(connection));
+		},
+		fromDto: function (dto) {
+			var connection = new launch.PromoteConnection();
+
+			connection.id = parseInt(dto.id);
+			connection.accountId = parseInt(dto.account_id);
+			connection.connectionId = parseInt(dto.connection_id);
+			connection.name = dto.name;
+			connection.active = (parseInt(dto.status) === 1) ? true : false;
+			connection.connectionType = 'promote';
+			connection.connectionCategory = null; // TODO: SET THIS VALUE FROM THE API!!
+			connection.connectionSettings = dto.settings;
+			connection.created = new Date(dto.created_at);
+			connection.updated = new Date(dto.updated_at);
+			connection.connectionName = dto.connection_name;
+			connection.provider = dto.connection_provider;
+
+			if (launch.utils.isBlank(connection.provider) && $.isPlainObject(dto.connection)) {
+				connection.provider = dto.connection.provider;
+				connection.connectionType = dto.connection.type;
+				connection.connectionName = dto.connection.name;
+			}
+
+			return connection;
+		},
+		toDto: function (connection) {
+			return {
+				id: connection.id,
+				account_id: connection.accountId,
+				connection_id: connection.connectionId,
+				name: connection.name,
+				status: (connection.active === true) ? 1 : 0,
+				settings: connection.connectionSettings,
+				connection_type: connection.connectionType,
+				connection_name: connection.connectionName,
+				connection_provider: connection.provider
+			};
+		},
+		sort: function (a, b) {
 			if (!a && !b) {
 				return 0;
 			} else if (!a && !!b) {
@@ -1050,7 +1127,8 @@
 			connection.accountId = parseInt(dto.account_id);
 			connection.name = dto.name;
 			connection.active = (parseInt(dto.status) === 1) ? true : false;
-			connection.connectionType = dto.type;
+			connection.connectionType = 'seo';
+			connection.connectionCategory = null; // TODO: SET THIS VALUE FROM THE API!!
 			connection.connectionSettings = dto.settings;
 			connection.created = new Date(dto.created_at);
 			connection.updated = new Date(dto.updated_at);
