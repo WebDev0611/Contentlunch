@@ -40,14 +40,7 @@ class ServiceFactory {
         $this->config = Config::get('services.'. $provider);
     }
     
-    // Will be different based on environment
-    switch (app()->environment()) {
-      case 'staging':
-        $redirectURL = 'https://staging.contentlaunch.surgeforward.com/api/add-connection';
-      break;
-      default:
-        $redirectURL = $this->config['callback_domain'] .'/api/add-connection';   
-    }
+    $redirectURL = 'https://staging.contentlaunch.surgeforward.com/api/add-connection';
     $credentials = new Credentials(
       $this->config['key'],
       $this->config['secret'],
@@ -88,7 +81,10 @@ class ServiceFactory {
       case 'google': // youtube, g+, google docs
         // Request offline access token
         // @see https://developers.google.com/accounts/docs/OAuth2WebServer#offline
-        return (string) $this->service->getAuthorizationUri(['access_type' => 'offline']);
+        return (string) $this->service->getAuthorizationUri([
+          'access_type' => 'offline',
+          'approval_prompt' => 'force'
+        ]);
       break;
       default:
         return (string) $this->service->getAuthorizationUri();
