@@ -842,7 +842,7 @@
 		};
 
 		$scope.launchContent = function (connection) {
-			if ($scope.canLaunchContent) {
+			if (!$scope.canLaunchContent) {
 				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
 				return;
 			}
@@ -881,7 +881,7 @@
 		};
 
 		$scope.launchSelected = function () {
-			if ($scope.canLaunchContent) {
+			if (!$scope.canLaunchContent) {
 				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
 				return;
 			}
