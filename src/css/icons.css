@@ -86,8 +86,14 @@
 .cl-icon-google-drive {
   background-image: url(/assets/images/google-drive.svg);
 }
+.cl-icon-hootsuite {
+  background-image: url(/assets/images/hootsuite.png);
+}
 .cl-icon-hubspot {
   background-image: url(/assets/images/hubspot.png);
+}
+.cl-icon-outbrain {
+  background-image: url(/assets/images/outbrain.png);
 }
 .cl-icon-papershare {
   background-image: url(/assets/images/papershare.png);
