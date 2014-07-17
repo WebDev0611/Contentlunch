@@ -165,8 +165,12 @@
 						controller: 'CreateController',
 						templateUrl: '/assets/views/promote/promote.html'
 					})
+					.when('/promote/content/new', {
+						controller: 'ContentController',
+						templateUrl: '/assets/views/promote/promote-content.html'
+					})
 					.when('/promote/content/:contentId', {
-						controller: 'PromoteContentController',
+						controller: 'ContentController',
 						templateUrl: '/assets/views/promote/promote-content.html'
 					})
 					.when('/promote/campaign/:campaignId', {

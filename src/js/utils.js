@@ -568,8 +568,12 @@
 				return 'fa fa-google-plus';
 			case 'hubspot':
 				return 'cl-icon-hubspot';
+			case 'hootsuite':
+				return 'cl-icon-hootsuite';
 			case 'linkedin':
 				return 'fa fa-linkedin';
+			case 'outbrain':
+				return 'cl-icon-outbrain';
 			case 'papershare':
 				return 'cl-icon-papershare';
 			case 'salesforce':

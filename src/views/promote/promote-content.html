@@ -12,13 +12,22 @@
 				<div ng-include="'/assets/views/content/partials/content-form.html'"></div>
 			</div>
 			<div class="col-md-3">
-				
+				<div ng-show="canPromoteContent">
+					<button class="btn btn-default btn-promote-automation" ng-click="promoteContent('hubspot')" ng-show="connectionIsSupported(hubspotConnection)">
+						Send to
+						<span class="cl-banner cl-banner-hubspot"></span>
+					</button>
+					<button class="btn btn-default btn-promote-automation" ng-click="promoteContent('act-on')" ng-show="connectionIsSupported(actOnConnection)">
+						Send to
+						<span class="cl-banner cl-banner-act-on"></span>
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div class="loading-spinner-container" ng-show="!content.$resolved">
+<div class="loading-spinner-container" ng-show="!content || !content.$resolved">
 	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
 </div>
 

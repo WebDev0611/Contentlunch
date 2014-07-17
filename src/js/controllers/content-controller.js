@@ -23,6 +23,12 @@
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
 			$scope.contentConnections = connectionService.queryContentConnections(self.loggedInUser.account.id, self.ajaxHandler);
+			$scope.promoteConnections = connectionService.queryPromoteConnections(self.loggedInUser.account.id, {
+				success: function(r) {
+					self.getPromoteAutomationConnections();
+				},
+				error: self.ajaxHandler.error
+			});
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, {
 				success: function (r) {
 					if ($scope.campaigns.length === 0 && r.length > 0) {
@@ -44,6 +50,8 @@
 				},
 				error: self.ajaxHandler.error
 			});
+
+			self.getPromoteAutomationConnections(); // TODO: GET RID OF THIS CALL AFTER PROMOTE CONNECTIONS COME FROM THE API!!
 		}
 
 		self.refreshContent = function () {
@@ -54,9 +62,22 @@
 			if (isNaN(self.contentId)) {
 				$scope.content = contentService.getNewContent(self.loggedInUser);
 				$scope.isNewContent = true;
+
 				self.setPrivileges();
+
+				if ($location.path() === '/promote/content/new') {
+					$scope.content.status = 4;
+					// TODO: SET CONTENT TYPE HERE!!
+					$scope.isReadOnly = false;
+					$scope.showAddFileButton = true;
+					$scope.isPromote = true;
+				}
 			} else {
 				$scope.isNewContent = false;
+
+				if (launch.utils.isValidPattern($location.path(), /^\/promote\/content\/\d+$/)) {
+					$scope.isPromote = true;
+				}
 
 				$scope.content = contentService.get(self.loggedInUser.account.id, self.contentId, {
 					success: function (r) {
@@ -126,8 +147,8 @@
 			$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
 
 			// TODO: WHAT PRIVILEGES DO WE CHECK FOR RESTORE AND ARCHIVE?
-			$scope.canRestoreContent = $scope.content.archived ? true : false;
-			$scope.canArchiveContent = $scope.content.archived ? false : true;
+			$scope.canRestoreContent = $scope.content.archived ? !$scope.isPromote : false;
+			$scope.canArchiveContent = $scope.content.archived ? false : !$scope.isPromote;
 
 			$scope.showRichTextEditor = $scope.content.contentType.allowText();
 			$scope.showAddFileButton = $scope.content.contentType.allowFile();
@@ -194,6 +215,42 @@
 
 			self.replaceFile = false;
 			self.uploadFile = null;
+		};
+
+		self.validateTasks = function () {
+			var msg = '';
+
+			if ($.isArray($scope.content.taskGroups) && $scope.content.taskGroups.length > 0) {
+				for (var i = 0; i < $scope.content.taskGroups.length; i++) {
+					if ($scope.content.taskGroups[i].status > $scope.content.status) {
+						continue;
+					}
+
+					var tasks = $.grep($scope.content.taskGroups[i].tasks, function (t) { return !t.isComplete; });
+					var isOldStage = ($scope.content.taskGroups[i].status < $scope.content.status);
+
+					if (tasks.length > 0) {
+						$.each(tasks, function (j, t) {
+							if (isOldStage) {
+								t.isComplete = true;
+							} else {
+								msg += t.name + '\n';
+							}
+						});
+
+						if (isOldStage) {
+							taskService.saveContentTasks(self.loggedInUser.account.id, $scope.content.taskGroups[i], self.ajaxHandler);
+						}
+					}
+				}
+			}
+
+			if (!launch.utils.isBlank(msg)) {
+				notificationService.error('Error!', 'Please make sure all tasks are complete. The following tasks are outstanding:\n\n' + msg);
+				return false;
+			}
+
+			return true;
 		};
 
 		self.approveContent = function () {
@@ -304,12 +361,25 @@
 			});
 		};
 
+		self.getPromoteAutomationConnections = function () {
+			if (!!$scope.promoteConnections && $.isArray($scope.promoteConnections) && $scope.promoteConnections.length > 0) {
+				$scope.hubspotConnection = $.grep($scope.promoteConnections, function (c) { return c.provider === 'hubspot'; });
+				$scope.actOnConnection = $.grep($scope.promoteConnections, function (c) { return c.provider === 'act-on'; });
+
+				$scope.hubspotConnection = $scope.hubspotConnection.length === 1 ? $scope.hubspotConnection[0] : null;
+				$scope.actOnConnection = $scope.actOnConnection.length === 1 ? $scope.actOnConnection[0] : null;
+			}
+		};
+
 		$scope.content = null;
 		$scope.comments = null;
 		$scope.contentTypes = null;
 		$scope.contentSettings = null;
 		$scope.contentConnections = null;
+		$scope.promoteConnections = null;
 		$scope.allowedConnections = null;
+		$scope.hubspotConnection = null;
+		$scope.actOnConnection = null;
 		$scope.campaigns = null;
 		$scope.users = null;
 		$scope.activity = null;
@@ -374,7 +444,7 @@
 
 		$scope.showPublishingGuidelines = function() {
 			$modal.open({
-				templateUrl: 'publishing-guidelines.html',
+				templateUrl: '/assets/views/dialogs/publishing-guidelines.html',
 				controller: [
 					'$scope', '$modalInstance', function (scope, instance) {
 						scope.publishingGuidelines = $scope.contentSettings.publishingGuidelines;
@@ -477,36 +547,15 @@
 
 			var msg = (self.replaceFile) ? 'You have specified a new file to upload. Please save your changes before changing the status of the content.' : '';
 
-			if (launch.utils.isBlank(msg) && $.isArray($scope.content.taskGroups) && $scope.content.taskGroups.length > 0) {
-				for (var i = 0; i < $scope.content.taskGroups.length; i++) {
-					if ($scope.content.taskGroups[i].status > $scope.content.status) {
-						continue;
-					}
-
-					var tasks = $.grep($scope.content.taskGroups[i].tasks, function (t) { return !t.isComplete; });
-					var isOldStage = ($scope.content.taskGroups[i].status < $scope.content.status);
-
-					if (tasks.length > 0) {
-						$.each(tasks, function (j, t) {
-							if (isOldStage) {
-								t.isComplete = true;
-							} else {
-								msg += t.name + '\n';
-							}
-						});
-
-						if (isOldStage) {
-							taskService.saveContentTasks(self.loggedInUser.account.id, $scope.content.taskGroups[i], self.ajaxHandler);
-						}
-					}
-				}
-			}
-
 			if (!launch.utils.isBlank(msg)) {
-				notificationService.error('Error!', 'Please make sure all tasks are complete. The following tasks are outstanding:\n\n' + msg);
+				notificationService.error('Error!', msg);
 				return;
 			}
 
+			if (!self.validateTasks()) {
+				return;
+			}
+			
 			if ($scope.content.status === 2) {
 				self.approveContent();
 			} else if ($scope.content.status === 3) {
@@ -779,7 +828,78 @@
 		};
 
 		$scope.connectionIsSupported = function (connection) {
-			return launch.utils.connectionIsSupportsContentType(connection, $scope.content);
+			if (!connection) {
+				return false;
+			}
+
+			if (connection.connectionType === 'content') {
+				return launch.utils.connectionIsSupportsContentType(connection, $scope.content);
+			} else if (connection.connectionType === 'promote') {
+				return ($.grep($scope.promoteConnections, function (c) { return c.provider === connection.provider; }).length > 0);
+			}
+
+			return false;
+		};
+
+		$scope.launchContent = function (connection) {
+			if ($scope.canLaunchContent) {
+				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
+				return;
+			}
+
+			if (!self.validateTasks()) {
+				return;
+			}
+
+			contentService.launch(self.loggedInUser.account.id, $scope.content.id, connection.id, {
+				success: function (r) {
+					if ($scope.content.status <= 3) {
+						$scope.content.status = 4;
+						$scope.saveContent();
+					}
+
+					notificationService.success('Success!', 'Successfull launched to ' + connection.name + '!');
+				},
+				error: self.ajaxHandler.error
+			});
+		};
+
+		$scope.toggleSelectedConnections = function (connection, e) {
+			var checkbox = $(e.currentTarget);
+
+			if (checkbox.is(':checked')) {
+				if ($.grep($scope.selectedConnections, function (c) { return c.id === connection.id; }).length === 0) {
+					$scope.selectedConnections.push(connection);
+				}
+			} else {
+				$scope.selectedConnections = $.grep($scope.selectedConnections, function (c) {
+					return c.id !== connection.id;
+				});
+			}
+
+			e.stopImmediatePropagation();
+		};
+
+		$scope.launchSelected = function () {
+			if ($scope.canLaunchContent) {
+				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
+				return;
+			}
+
+			if (!self.validateTasks()) {
+				return;
+			}
+
+			if (!$.isArray($scope.selectedConnections) || $scope.selectedConnections.length === 0) {
+				notificationService.error('Error!', 'Please select one or more connections to which to launch the content.');
+				return;
+			}
+
+			$.each($scope.selectedConnections, function (i, c) {
+				$scope.launchContent(c);
+			});
+
+			$scope.selectedConnections = [];
 		};
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
