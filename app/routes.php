@@ -197,6 +197,8 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'update', 'destroy']
   ]);
 
+  Route::get('account/{accountID}/guest-collaborators', 'GuestCollaboratorsController@all');
+
 });
 
 Route::get('password/reset/{code}', 'AuthController@check_reset');

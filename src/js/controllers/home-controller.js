@@ -15,12 +15,14 @@ launch.module.controller('HomeController',
             discussion: Discussion.getList(),
             tasks: User.getList('tasks'),
             announcements: Announcements.getList(),
-            user: User.get()
+            user: User.get(),
+            guests: Account.all('guest-collaborators').getList({ limit: 5 }),
+            // contentStrategy: Account.customGET('content-strategy'),
+            brainstorms: Account.all('brainstorm').getList({ user: user.id })
         }).then(function (responses) {
             angular.extend($scope, responses);
             $scope.isLoaded = true;
         });
-
 
         // Discussion
         // -------------------------

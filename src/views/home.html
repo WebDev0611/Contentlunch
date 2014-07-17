@@ -8,7 +8,11 @@
             <div class="panel-heading">My Tasks</div>
             <div class="panel-body">
 
-                <ul class="task-list">
+                <div ng-hide="tasks.length">
+                    No outstanding tasks. Outstanding!
+                </div>
+
+                <ul class="task-list" ng-show="tasks.length">
                     <li class="task-task" ng-repeat="task in tasks | orderBy:'dueDate'" ng-class="{ disabled: task.isComplete }">
                         <div class="checkbox">
                             <label>
@@ -37,10 +41,12 @@
             </div>
         </div>
 
-        <div class="panel">
+        <div ng-show="brainstorms.length" class="panel">
             <div class="panel-heading" style="background-color:#ba1760; color: white">Brainstorm Sessions</div>
             <div class="panel-body">
-                
+                <p ng-repeat="brainstorm in brainstorms | orderBy:'createdAt'">
+                    <strong>Meeting Scheduled</strong> {{ brainstorm | moment: 'MM/DD/YY h:mm a' }}
+                </p>
             </div>
         </div>
 
@@ -50,13 +56,26 @@
         <div class="panel">
             <div class="panel-heading" style="background-color:#2badc0; color: white">Content Strategy</div>
             <div class="panel-body">
-                
+                <div ng-bind-html="contentStrategy"></div>
+
+                <div ng-show="!contentStrategy">
+                    No content strategy for you!
+                </div>
             </div>
         </div>
 
-        <div class="panel panel-inverse panel-collaborators">
+        <div ng-show="guests.length" class="panel panel-inverse panel-collaborators">
             <div class="panel-heading">New Guest Collaborators</div>
             <div class="panel-body">
+                <div ng-repeat="guest in guests" class="guest-collaborator cl-badge cl-badge-horizontal">
+                    <span class="cl-badge-image cl-badge-image-small fa fa-{{ guest.connection.provider }}" style="background-image: none;"></span>
+                    <div class="cl-badge-caption">
+                        {{ guest.name }}
+                        <div style="margin-top:-7px;">
+                            <small>{{ guest.connection.provider }}</small>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -74,7 +93,7 @@
                             </td>
                             <td>{{ announcement.message }}</td>
                             <td><a ng-click="hideAnnouncement(announcement.id)">Hide</a></td>
-                            <td>{{ announcement.createdAt | moment: 'MM/DD/YYYY' }}</td>
+                            <td>{{ announcement.createdAt | moment: 'MM/DD/YY' }}</td>
                         </tr>
                     </tbody>
                 </table>

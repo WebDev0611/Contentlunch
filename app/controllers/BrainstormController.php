@@ -15,7 +15,13 @@ class BrainstormController extends BaseController {
             return $this->responseAccessDenied();
         }
 
-        return Brainstorm::where("account_id", $accountID)->get();
+        $query = Brainstorm::where('account_id', $accountID);
+
+        if ($userID = Input::get('user')) {
+            $query->where('user_id', $userID);
+        }
+
+        return $query->get();
     }
 
     /**

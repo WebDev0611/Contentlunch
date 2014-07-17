@@ -4,6 +4,21 @@ use Launch\OAuth\Service\ServiceFactory;
 
 class GuestCollaboratorsController extends BaseController {
 
+    public function all($accountID)
+    {
+        if (!$this->inAccount($accountID)) {
+            return $this->responseAccessDenied();
+        }
+
+        $query = GuestCollaborator::with('connection');
+
+        if ($limit = Input::get('limit')) {
+            $query->limit($limit);
+        }
+
+        return $query->get();
+    }
+
     public function index($accountID, $contentType, $contentID)
     {
         if (!$this->inAccount($accountID)) {
