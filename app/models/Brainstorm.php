@@ -16,7 +16,6 @@ class Brainstorm extends Ardent {
         'agenda',
         'datetime',
         'description',
-        'credentials',
     ];
 
     public static $rules = [
@@ -54,6 +53,9 @@ class Brainstorm extends Ardent {
     {
         if (is_array(@$this->agenda)) {
             $this->agenda = json_encode($this->agenda);
+        }
+        if (is_numeric($this->datetime)) {
+            $this->datetime = date('Y-m-d H:i:s', $this->datetime);
         }
     }
 

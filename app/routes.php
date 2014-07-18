@@ -179,6 +179,7 @@ Route::group(['prefix' => 'api'], function()
   Route::resource('account/{accountID}/{conceptType}/{conceptID}/brainstorm', 'BrainstormController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
+    Route::post('account/{accountID}/{conceptType}/{conceptID}/brainstorm/{id}', 'BrainstormController@update');
 
   Route::get('account/{accountID}/brainstorm', 'BrainstormController@all');
 

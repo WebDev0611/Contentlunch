@@ -1261,6 +1261,24 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 		}
 
+        .panel-brainstorms {
+            .brainstorm {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                position: relative;
+                padding-right: 8px;
+                margin-bottom: 10px;
+                .description {
+                    text-decoration: underline;
+                }
+                .fa-trash-o {
+                    position: absolute;
+                    right: 0;
+                    top: 3px;
+                }
+            }
+        }
 		.panel-collaborators {
 			.panel-footer {
 				background-color: #E4E4E4;
@@ -2954,6 +2972,34 @@ hr.simple-divider {
 		margin-top: 115px;
 		width: 100%;
 	}
+}
+
+.modal-dialog {
+    .modal-brainstorm {
+        .agenda {
+            width: 33%;
+            display: inline-block;
+            vertical-align: top;
+            textarea {
+                height: 215px;
+                width: 180px;
+            }
+        }
+        .details {
+            width: 65%;
+            display: inline-block;
+            .date {
+                display: inline-block;
+                vertical-align: top;
+            }
+            .time {
+                display: inline-block;
+                vertical-align: top;
+                position: relative;
+                top: -14px;
+            }
+        }
+    }
 }
 
 .modal-large {

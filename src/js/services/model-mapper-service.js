@@ -1624,8 +1624,38 @@
             return self.parseResponse(r, getHeaders, self.brainstorm.fromDto);
         },
         formatRequest: function(brainstorm) {
-            return JSON.stringify(brainstorm);
-        }
+            var request = $.extend(true, {}, brainstorm);
+            if (request.date && request.time) {
+                var time = new Date(request.time);
+                request.datetime = request.date + ' ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();
+            }
+            return JSON.stringify(request);
+        },
+        fromDto: function(dto) {
+            var brainstorm = new launch.Brainstorm();
+
+            brainstorm.id = parseInt(dto.id);
+            brainstorm.user_id = dto.user_id;
+            brainstorm.content_id = dto.content_id;
+            brainstorm.campaign_id = dto.campaign_id;
+            brainstorm.account_id = dto.account_id;
+            brainstorm.agenda = dto.agenda;
+
+            // datepickerPopup directive formats into yyyy-mm-dd...
+            var dt = new Date(dto.datetime);
+            brainstorm.datetime = dt;
+            brainstorm.date = moment(dt).format('YYYY-MM-DD');
+            // ...while timepicker operations are done with Date objects
+            brainstorm.time = dt.getTime();
+
+            brainstorm.description = dto.description;
+            brainstorm.credentials = dto.credentials;
+            brainstorm.content_type = brainstorm.content_id ? 'content' : 'campaign';
+            brainstorm.created = new Date(dto.created_at);
+            brainstorm.updated = new Date(dto.updated_at);
+
+            return brainstorm;
+        },
     };
 
 	return self;
