@@ -14,6 +14,7 @@ class CreateMeasureLaunchedContentTable extends Migration {
     {
         Schema::create('measure_launched_content', function (Blueprint $table) {
             $table->increments('id');
+            $table->date('account_id')->unique();
             $table->date('date')->unique();
             $table->text('stats');
         });
