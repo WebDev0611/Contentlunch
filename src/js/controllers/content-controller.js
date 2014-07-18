@@ -393,6 +393,7 @@
 		$scope.showRichTextEditor = true;
 		$scope.showAddFileButton = false;
 		$scope.showDownloadContentFile = false;
+		$scope.showMetaInfo = false;
 		$scope.isSaving = false;
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;
@@ -586,6 +587,7 @@
 
 			$scope.showRichTextEditor = $scope.content.contentType.allowText();
 			$scope.showAddFileButton = $scope.content.contentType.allowFile();
+			$scope.showMetaInfo = $scope.content.contentType.allowMetaTags();
 		};
 
 		$scope.updateAuthor = function () {

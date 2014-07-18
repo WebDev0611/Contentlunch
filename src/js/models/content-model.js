@@ -38,6 +38,8 @@
 	self.comments = null;
 	self.relatedContent = null;
 	self.tags = null;
+	self.metaDescription = null;
+	self.metaKeywords = null;
 	self.isSelected = false;
 
 	self.taskGroups = null;

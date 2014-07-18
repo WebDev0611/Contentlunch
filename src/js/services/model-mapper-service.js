@@ -1262,6 +1262,9 @@
 				content.tags = $.map(dto.tags, function(t, i) { return t.tag; });
 			}
 
+			content.metaDescription = dto.meta_description;
+			content.metaKeywords = $.isArray(dto.meta_keywords) ? dto.meta_keywords.join(',') : null;
+
 			if ($.isArray(dto.task_groups)) {
 				content.taskGroups = $.map(dto.task_groups, self.taskGroups.fromDto);
 			}
@@ -1283,6 +1286,7 @@
 				concept: content.concept,
 				status: content.status,
 				archived: (content.archived === true) ? 1 : 0,
+				meta_description: content.metaDescription,
 				convert_date: content.convertDate,
 				submit_date: content.submitDate,
 				approve_date: content.approveDate,
@@ -1318,6 +1322,7 @@
 
 			dto.related = $.isArray(content.relatedContent) ? content.relatedContent.split(',') : null;
 			dto.tags = $.isArray(content.tags) ? $.map(content.tags, function (t) { return { tag: t }; }) : null;
+			dto.meta_keywords = $.isArray(content.metaKeywords) ? content.metaKeywords.split(',') : null;
 
 			return dto;
 		}
