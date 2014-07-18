@@ -18,7 +18,6 @@
 
 		self.init = function () {
 			self.loggedInUser = authService.userInfo();
-			self.refreshContent();
 
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
@@ -52,6 +51,7 @@
 			});
 
 			self.getPromoteAutomationConnections(); // TODO: GET RID OF THIS CALL AFTER PROMOTE CONNECTIONS COME FROM THE API!!
+			self.refreshContent();
 		}
 
 		self.refreshContent = function () {
@@ -67,10 +67,12 @@
 
 				if ($location.path() === '/promote/content/new') {
 					$scope.content.status = 4;
-					// TODO: SET CONTENT TYPE HERE!!
 					$scope.isReadOnly = false;
 					$scope.showAddFileButton = true;
 					$scope.isPromote = true;
+
+					$scope.content.contentType = $.grep($scope.contentTypes, function(ct) { return ct.name === 'direct-upload'; });
+					$scope.content.contentType = ($scope.content.contentType.length === 1) ? $scope.content.contentType[0] : null;
 				}
 			} else {
 				$scope.isNewContent = false;

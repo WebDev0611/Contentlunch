@@ -14,7 +14,7 @@
 	<div class="control-group">
 		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'contentType', editContent.selContentType, forceDirty) }">
 			<label class="control-label" for="selContentType">Content Type</label>
-			<select name="selContentType" id="selContentType" ng-disabled="!isNewContent || isReadOnly"
+			<select name="selContentType" id="selContentType" ng-disabled="!isNewContent || isReadOnly || (isNewContent && isPromote)"
 					ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem, selectOnBlur: true }" ng-model="content.contentType.name"
 					data-placeholder="Select Content Type" ng-change="updateContentType()"
 					error-message error-message-item="content" error-message-property="'contentType'" error-message-control="editContent.selContentType">
@@ -35,7 +35,7 @@
 		</div>
 	</div>
 
-	<div class="control-group" ng-if="!!contentConnections.length && !!content.contentType.name" ng-hide="isPromote && !isNewContent">
+	<div class="control-group" ng-if="!!contentConnections.length && !!content.contentType.name" ng-hide="isPromote && isNewContent">
 		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'accountConnections', editContent.selContentConnections, forceDirty) }">
 			<label class="control-label" for="selContentConnections">Content Destinations</label>
 			<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple" ng-disabled="isReadOnly" ng-change="updateContentConnection(contentConnectionIds)"
