@@ -29,7 +29,9 @@ class GuestCollaboratorsType extends Migration {
     {
         Schema::table('guest_collaborators', function (Blueprint $table) {
             $table->renameColumn('settings', 'token');
-            $table->dropColumn('type');
+
+            // $table->dropColumn('type') is an error... uggh
+            DB::statement('ALTER TABLE guest_collaborators DROP COLUMN type');
         });
     }
 

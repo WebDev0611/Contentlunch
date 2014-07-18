@@ -156,7 +156,7 @@ what you think."
       'title' => 'Increasing Revenue',
       'body' => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.",
       'account_id' => $account->id,
-      'content_type_id' => ContentType::where('key', 'tweet')->pluck('id'),
+      'content_type_id' => ContentType::where('key', 'email')->pluck('id'),
       'user_id' => $user1->id,
       'buying_stage' => '1',
       'persona' => 'vp sales',

@@ -38,6 +38,8 @@ class ContentTask extends Ardent {
         // Store an activity log for the content
         $user = Confide::user();
         $assignedUser = User::find($task->user_id);
+        // this was breaking seeding?
+        if (!$task->content) return true;
         $contentID = $task->content->content_id;
         $activity = new ContentActivity([
           'user_id' => $user->id,
