@@ -1701,8 +1701,7 @@
 		}
 	};
 
-
-    self.brainstorm = {
+	self.brainstorm = {
         parseResponse: function(r, getHeaders) {
             return self.parseResponse(r, getHeaders, self.brainstorm.fromDto);
         },
@@ -1739,7 +1738,24 @@
 
             return brainstorm;
         },
-    };
+	};
+
+	self.launchedContent = {
+		parseResponse: function (r, getHeaders) {
+			return self.parseResponse(r, getHeaders, self.launchedContent.fromDto);
+		},
+		fromDto: function(dto) {
+			var lc = new launch.LaunchedContent();
+
+			lc.id = parseInt(dto.id);
+			lc.contentId = parseInt(dto.content_id);
+			lc.userId = parseInt(dto.user_id);
+			lc.created = new Date(lc.created_at);
+			lc.updated = new Date(lc.updated_at);
+
+			return lc;
+		}
+	};
 
 	return self;
 };

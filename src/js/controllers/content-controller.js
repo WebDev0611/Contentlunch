@@ -101,6 +101,10 @@
 
 						self.filterCampaigns();
 						self.refreshComments();
+
+						if ($scope.content.status === 4) {
+							self.refreshLaunches();
+						}
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -119,6 +123,14 @@
 			}
 
 			$scope.activity = contentService.getActivity(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
+		};
+
+		self.refreshLaunches = function() {
+			if ($scope.isNewContent) {
+				return;
+			}
+
+			$scope.launches = contentService.getLaunches(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
 		};
 
 		self.filterCampaigns = function() {
@@ -383,6 +395,7 @@
 		$scope.campaigns = null;
 		$scope.users = null;
 		$scope.activity = null;
+		$scope.launches = null;
 		$scope.isCollaborator = true;
 		$scope.buyingStages = null;
 		$scope.isNewContent = true;
@@ -843,7 +856,7 @@
 			return false;
 		};
 
-		$scope.launchContent = function (connection) {
+		$scope.launchContent = function (connection, refresh) {
 			if (!$scope.canLaunchContent) {
 				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
 				return;
@@ -858,6 +871,10 @@
 					if ($scope.content.status <= 3) {
 						$scope.content.status = 4;
 						$scope.saveContent();
+					}
+
+					if (refresh) {
+						self.refreshLaunches();
 					}
 
 					notificationService.success('Success!', 'Successfull launched to ' + connection.name + '!');
@@ -898,7 +915,7 @@
 			}
 
 			$.each($scope.selectedConnections, function (i, c) {
-				$scope.launchContent(c);
+				$scope.launchContent(c, (i === $scope.selectedConnections.length - 1));
 			});
 
 			$scope.selectedConnections = [];

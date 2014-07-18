@@ -275,7 +275,11 @@
 			self.setOpenTaskGroups();
 		});
 
-		scope.$watch('parentStatus', function(newValue, oldValue) {
+		scope.$watch('parentStatus', function (newValue, oldValue) {
+			if (newValue === oldValue) {
+				return;
+			}
+
 			if ($.isArray(scope.taskGroups) && scope.taskGroups.length > 0 && !!oldValue) {
 				var taskGroup = $.grep(scope.taskGroups, function(tg) {
 					return tg.status === scope.parentStatus - 1;
