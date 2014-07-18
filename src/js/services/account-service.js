@@ -19,9 +19,14 @@
 		save: { method: 'PUT', transformRequest: ModelMapperService.subscription.formatRequest }
 	});
 
-    var brainstorms = $resource('/api/account/:account_id/:content_type/:content_id/brainstorm', { account_id : '@account_id', content_type : '@content_type', content_id : '@content_id'}, {
-        insert: { method: 'POST', transformRequest: ModelMapperService.brainstorm.formatRequest, transformResponse: ModelMapperService.brainstorm.parseResponse }
-    });
+    var brainstorms = $resource('/api/account/:account_id/:content_type/:content_id/brainstorm/:id',
+        { account_id : '@account_id', content_type : '@content_type', content_id : '@content_id', id : '@id'},
+        {
+            get: { method: 'GET', transformRequest: ModelMapperService.brainstorm.formatRequest, transformResponse: ModelMapperService.brainstorm.parseResponse, isArray: true },
+            insert: { method: 'POST', transformRequest: ModelMapperService.brainstorm.formatRequest, transformResponse: ModelMapperService.brainstorm.parseResponse },
+            delete: { method: 'DELETE' }
+        }
+    );
 
 	return {
 		query: function(callback) {
@@ -125,19 +130,45 @@
             brainstorm.account_id = account_id;
             brainstorm.content_type = content_type;
             brainstorm.content_id = concept_id;
-            brainstorm.datetime = (new Date()).setMinutes(0);
+            var now = new Date();
+            now.setSeconds(0);
+            now.setMilliseconds(0);
+            now.setMinutes(0);
+            brainstorm.datetime = now;
+            brainstorm.date = moment(now).format('YYYY-MM-DD');
+            brainstorm.time = now.getTime();
             return brainstorm;
         },
         addBrainstorm : function(brainstorm, callback) {
             var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
             var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-
             return brainstorms.insert({
                 account_id : brainstorm.account_id,
                 content_type : brainstorm.content_type,
-                content_id : brainstorm.content_id,
+                content_id : brainstorm.content_id
             }, brainstorm, success, error);
+        },
+        removeBrainstorm : function(brainstorm, callback) {
+            var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+            var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+            return brainstorms.delete({
+                account_id : brainstorm.account_id,
+                content_type : brainstorm.content_type,
+                content_id : brainstorm.content_id,
+                id : brainstorm.id
+            }, brainstorm, success, error);
+        },
+        getBrainstorms: function(accountId, contentType, contentId, callback) {
+            var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+            var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+            return brainstorms.get({
+                account_id : accountId,
+                content_type : contentType,
+                content_id : contentId
+            }, success, error);
         },
 		resendCreationEmail: $resource('/api/account/:id/resend_creation_email', { id: '@id' }),
 		requestUpdate: $resource('/api/account/request_update'),

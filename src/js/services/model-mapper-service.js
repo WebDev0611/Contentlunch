@@ -1262,6 +1262,9 @@
 				content.tags = $.map(dto.tags, function(t, i) { return t.tag; });
 			}
 
+			content.metaDescription = dto.meta_description;
+			content.metaKeywords = $.isArray(dto.meta_keywords) ? dto.meta_keywords.join(',') : null;
+
 			if ($.isArray(dto.task_groups)) {
 				content.taskGroups = $.map(dto.task_groups, self.taskGroups.fromDto);
 			}
@@ -1283,6 +1286,7 @@
 				concept: content.concept,
 				status: content.status,
 				archived: (content.archived === true) ? 1 : 0,
+				meta_description: content.metaDescription,
 				convert_date: content.convertDate,
 				submit_date: content.submitDate,
 				approve_date: content.approveDate,
@@ -1318,6 +1322,7 @@
 
 			dto.related = $.isArray(content.relatedContent) ? content.relatedContent.split(',') : null;
 			dto.tags = $.isArray(content.tags) ? $.map(content.tags, function (t) { return { tag: t }; }) : null;
+			dto.meta_keywords = $.isArray(content.metaKeywords) ? content.metaKeywords.split(',') : null;
 
 			return dto;
 		}
@@ -1343,7 +1348,7 @@
 
 	self.contentType = {
 		parseResponse: function(r, getHeaders) {
-			return self.parseResponse(r, getHeaders, self.contentType.fromDto);
+			return self.parseResponse(r, getHeaders, self.contentType.fromDto, self.contentType.sort);
 		},
 		fromDto: function(dto) {
 			if (!dto) {
@@ -1356,6 +1361,7 @@
 			contentType.name = dto.key;
 			contentType.title = dto.name;
 			contentType.baseType = dto.base_type;
+			contentType.isVisible = (parseInt(dto.visible) === 1);
 
 			return contentType;
 		},
@@ -1375,6 +1381,16 @@
 				key: contentType.name,
 				name: contentType.title
 			};
+		},
+		sort: function(a, b) {
+			if ((!a && !b) || (launch.utils.isBlank(a.title) && launch.utils.isBlank(b.title))) { return 0; }
+			if ((!a && !!b) || (launch.utils.isBlank(a.title) && !launch.utils.isBlank(b.title))) { return 1; }
+			if ((!!a && !b) || (!launch.utils.isBlank(a.title) && launch.utils.isBlank(b.title))) { return -1; }
+
+			if (a.title < b.title) { return -1; }
+			if (a.title > b.title) { return 1; }
+
+			return 0;
 		}
 	};
 
@@ -1618,25 +1634,21 @@
 				path = path.substring(7);
 			}
 
-      if (dto.tags) {
-        uploadFile.tags = dto.tags;
-      }
+			if (dto.tags) {
+				uploadFile.tags = dto.tags;
+			}
 
-      if (dto.libraries) {
-        uploadFile.libraries = dto.libraries;
-      }
+			if (dto.libraries) {
+				uploadFile.libraries = dto.libraries;
+			}
 
-      if (dto.pivot) {
+			if (dto.ratings) {
+				uploadFile.ratings = dto.ratings;
+			}
 
-      }
-
-      if (dto.ratings) {
-        uploadFile.ratings = dto.ratings;
-      }
-
-      if (dto.views) {
-        uploadFile.views = dto.views;
-      }
+			if (dto.views) {
+				uploadFile.views = dto.views;
+			}
 
 			uploadFile.path = path + '' + uploadFile.fileName;
 
@@ -1696,15 +1708,61 @@
 		}
 	};
 
-
-    self.brainstorm = {
+	self.brainstorm = {
         parseResponse: function(r, getHeaders) {
             return self.parseResponse(r, getHeaders, self.brainstorm.fromDto);
         },
         formatRequest: function(brainstorm) {
-            return JSON.stringify(brainstorm);
-        }
-    };
+            var request = $.extend(true, {}, brainstorm);
+            if (request.date && request.time) {
+                var time = new Date(request.time);
+                request.datetime = request.date + ' ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();
+            }
+            return JSON.stringify(request);
+        },
+        fromDto: function(dto) {
+            var brainstorm = new launch.Brainstorm();
+
+            brainstorm.id = parseInt(dto.id);
+            brainstorm.user_id = dto.user_id;
+            brainstorm.content_id = dto.content_id;
+            brainstorm.campaign_id = dto.campaign_id;
+            brainstorm.account_id = dto.account_id;
+            brainstorm.agenda = dto.agenda;
+
+            // datepickerPopup directive formats into yyyy-mm-dd...
+            var dt = new Date(dto.datetime);
+            brainstorm.datetime = dt;
+            brainstorm.date = moment(dt).format('YYYY-MM-DD');
+            // ...while timepicker operations are done with Date objects
+            brainstorm.time = dt.getTime();
+
+            brainstorm.description = dto.description;
+            brainstorm.credentials = dto.credentials;
+            brainstorm.content_type = brainstorm.content_id ? 'content' : 'campaign';
+            brainstorm.created = new Date(dto.created_at);
+            brainstorm.updated = new Date(dto.updated_at);
+
+            return brainstorm;
+        },
+	};
+
+	self.launchedContent = {
+		parseResponse: function (r, getHeaders) {
+			return self.parseResponse(r, getHeaders, self.launchedContent.fromDto);
+		},
+		fromDto: function(dto) {
+			var lc = new launch.LaunchedContent();
+
+			lc.id = parseInt(dto.id);
+			lc.contentId = parseInt(dto.content_id);
+			lc.userId = parseInt(dto.user_id);
+			lc.created = new Date(lc.created_at);
+			lc.updated = new Date(lc.updated_at);
+
+			return lc;
+		}
+	};
 
 	return self;
 };

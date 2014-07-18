@@ -14,7 +14,7 @@
 	<div class="control-group">
 		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'contentType', editContent.selContentType, forceDirty) }">
 			<label class="control-label" for="selContentType">Content Type</label>
-			<select name="selContentType" id="selContentType" ng-disabled="!isNewContent || isReadOnly"
+			<select name="selContentType" id="selContentType" ng-disabled="!isNewContent || isReadOnly || (isNewContent && isPromote)"
 					ui-select2="{ formatResult: formatContentTypeItem, formatSelection: formatContentTypeItem, selectOnBlur: true }" ng-model="content.contentType.name"
 					data-placeholder="Select Content Type" ng-change="updateContentType()"
 					error-message error-message-item="content" error-message-property="'contentType'" error-message-control="editContent.selContentType">
@@ -35,7 +35,7 @@
 		</div>
 	</div>
 
-	<div class="control-group" ng-if="!!contentConnections.length && !!content.contentType.name" ng-hide="isPromote && !isNewContent">
+	<div class="control-group" ng-if="!!contentConnections.length && !!content.contentType.name" ng-hide="isPromote && isNewContent">
 		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'accountConnections', editContent.selContentConnections, forceDirty) }">
 			<label class="control-label" for="selContentConnections">Content Destinations</label>
 			<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple" ng-disabled="isReadOnly" ng-change="updateContentConnection(contentConnectionIds)"
@@ -111,6 +111,15 @@
 					</a>
 				</li>
 			</ul>
+
+			<div class="content-launched-header">
+				<div ng-repeat="cc in content.accountConnections">
+					<span class="fa fa-check"></span>
+					Posted to
+					<span ng-class="getConnectionProviderIconClass(cc.provider)"></span>
+					{{ cc.name }}
+				</div>
+			</div>
 		</div>
 
 		<div class="dropdown">
@@ -120,7 +129,7 @@
 				<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" role="menu" ng-if="!!contentConnections.length">
-				<li ng-repeat="connection in contentConnections" ng-click="launchContent(connection)" ng-show="connectionIsSupported(connection)">
+				<li ng-repeat="connection in contentConnections" ng-click="launchContent(connection, true)" ng-show="connectionIsSupported(connection)">
 					<input type="checkbox" class="form-control" ng-click="toggleSelectedConnections(connection, $event)" />
 					<a href="#">
 						<div>
@@ -136,6 +145,18 @@
 					</button>
 				</li>
 			</ul>
+		</div>
+	</div>
+
+	<div class="control-group" ng-show="showMetaInfo">
+		<div class="form-group">
+			<label for="txtMetaDescription">Meta-Tag Description</label>
+			<textarea name="txtMetaDescription" id="txtMetaDescription" class="form-control" ng-model="content.metaDescription" ng-disabled="isReadOnly"></textarea>
+		</div>
+
+		<div class="form-group">
+			<label for="txtMetaKeywords">Meta-Tag Keywords</label> (separate by comma)
+			<textarea name="txtMetaKeywords" id="txtMetaKeywords" class="form-control" ng-model="content.metaKeywords" ng-disabled="isReadOnly"></textarea>
 		</div>
 	</div>
 

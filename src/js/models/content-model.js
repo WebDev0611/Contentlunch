@@ -38,6 +38,8 @@
 	self.comments = null;
 	self.relatedContent = null;
 	self.tags = null;
+	self.metaDescription = null;
+	self.metaKeywords = null;
 	self.isSelected = false;
 
 	self.taskGroups = null;
@@ -115,23 +117,39 @@
 			case 'contenttype':
 				return (!self.contentType || launch.utils.isBlank(self.contentType.name)) ? 'Content Type is required.' : null;
 			case 'body':
-				return launch.utils.isBlank(self.body) ? 'Description is required.' : null;
+				if (!self.contentType || launch.utils.isBlank(self.contentType.name)) {
+					return self.validateProperty('contenttype');
+				}
+
+				if (self.contentType.requireText()) {
+					return launch.utils.isBlank(self.body) ? 'Description is required.' : null;
+				}
 			case 'author':
 				return (!self.author || launch.utils.isBlank(self.author.id)) ? 'Author is required.' : null;
-			//case 'buyingstage':
-				//	return (self.status >= 1 && launch.utils.isBlank(self.buyingStage)) ? 'Buying Stage is required.' : null;
-			//case 'persona':
-				//	return (self.status >= 1 && launch.utils.isBlank(self.persona)) ? 'Persona is required.' : null;
-			//case 'accountconnections':
-			//	return (self.status >= 1 && (!$.isArray(this.accountConnections) || this.accountConnections.length === 0)) ? 'One or more Content Connections is required.' : null;
-			//case 'campaign':
-				//	return (!self.campaign || launch.utils.isBlank(self.campaign.id)) ? 'Campaign is required.' : null;
+			case 'contentfile':
+				if (!self.contentType || launch.utils.isBlank(self.contentType.name)) {
+					return self.validateProperty('contenttype');
+				}
+
+				return self.validateContentFile();
 			default:
 				return null;
 		}
 	};
 
 	self.validateContentFile = function (file) {
+		//if (self.contentType.requireFile()) {
+		//	if (!self.contentFile) {
+		//		return 'Content File is required.';
+		//	}
+		//} else if (!self.contentFile) {
+		//	return null;
+		//}
+
+		//if (launch.utils.isBlank(self.contentFile.id)) {
+		//	return 'Invalid Content File specified.';
+		//}
+
 		// TODO: ADD FILE TYPE VALIDATION HERE!!
 		var supportedFiles = launch.config.USER_PHOTO_FILE_TYPES;
 

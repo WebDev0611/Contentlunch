@@ -5,93 +5,33 @@
 	self.name = null;
 	self.title = null;
 	self.baseType = null;
+	self.isVisible = false;
 
 	self.allowText = function () {
-		switch (self.name) {
-			case 'blog-post':
-			case 'casestudy':
-			case 'ebook':
-			case 'email':
-			case 'facebook-post':
-			case 'feature-article':
-			case 'google-plus-update':
-			case 'newsletter':
-			case 'landing-page':
-			case 'linkedin-update':
-			case 'photo':
-			case 'sales-letter':
-			case 'sellsheet-content':
-			case 'tweet':
-			case 'video':
-			case 'website-page':
-			case 'whitepaper':
-			case 'workflow-email':
-				return true;
-		}
-
-		return false;
+		return (self.baseType === 'audio' || self.baseType === 'blog_post' || self.baseType === 'email' || self.baseType === 'long_html' ||
+				self.baseType === 'photo' || self.baseType === 'social_media_post' || self.baseType === 'video');
 	};
 
 	self.requireText = function () {
-		switch (self.name) {
-			case 'blog-post':
-			case 'casestudy':
-			case 'ebook':
-			case 'email':
-			case 'feature-article':
-			case 'newsletter':
-			case 'landing-page':
-			case 'sales-letter':
-			case 'sellsheet-content':
-			case 'website-page':
-			case 'whitepaper':
-			case 'workflow-email':
-				return true;
-		}
-
-		return false;
+		return  (self.baseType === 'blog_post' || self.baseType === 'email' || self.baseType === 'long_html' || self.baseType === 'social_media_post');
 	};
 
 	self.allowFile = function () {
-		switch (self.name) {
-			case 'audio-recording':
-			case 'email':
-			case 'facebook-post':
-			case 'google-drive-doc':
-			case 'google-plus-update':
-			case 'linkedin-update':
-			case 'photo':
-			case 'salesforce-asset':
-			case 'tweet':
-			case 'video':
-				return true;
-		}
-
-		return false;
+		return (self.baseType === 'attached_file' || self.baseType === 'audio' || self.baseType === 'document' || self.baseType === 'email' ||
+				self.baseType === 'photo' || self.baseType === 'social_media_post' || self.baseType === 'video');
 	};
 
 	self.requireFile = function () {
-		switch (self.name) {
-			case 'audio-recording':
-			case 'google-drive-doc':
-			case 'photo':
-			case 'salesforce-asset':
-			case 'video':
-				return true;
-		}
-
-		return false;
+		return (self.baseType === 'attached_file' || self.baseType === 'audio' || self.baseType === 'document' ||
+				self.baseType === 'photo' || self.baseType === 'video');
 	};
 
 	self.allowExport = function () {
-		switch (self.name) {
-			case 'blog-post':
-			case 'email':
-			case 'landing-page':
-				return true;
-		}
+		return (self.baseType === 'blog_post' || self.baseType === 'email' || self.baseType === 'long_html');
+	};
 
-		return false;
+	self.allowMetaTags = function () {
+		return (self.baseType === 'long_html' || self.baseType === 'blog_post');
 	};
 
 	return self;

@@ -613,9 +613,12 @@
 			case 'case_study':
 			case 'case-study':
 				return 'cl-icon cl-icon-content-type-casestudy';
+			case 'direct-upload':
+				return 'fa fa-upload';
 			case 'ebook':
 				return 'fa fa-book';
 			case 'email':
+			case 'workflow-email':
 				return 'fa fa-envelope';
 			case 'facebook-post':
 				return 'fa fa-facebook';
@@ -625,9 +628,10 @@
 				return 'cl-icon cl-icon-google-drive';
 			case 'google-plus-update':
 				return 'fa fa-google-plus';
-			case 'newsletter':
-			//case 'landing-page':
-			//	return 'fa fa-';
+			//case 'newsletter':
+			case 'landing-page':
+			case 'website-page':
+				return 'fa fa-code';
 			case 'linkedin-update':
 				return 'fa fa-linkedin';
 			case 'photo':
@@ -642,12 +646,8 @@
 				return 'fa fa-twitter';
 			case 'video':
 				return 'fa fa-video-camera';
-			//case 'website-page':
-			//	return 'fa fa-';
 			case 'whitepaper':
 				return 'cl-icon cl-icon-content-type-whitepaper';
-			//case 'workflow-email':
-			//	return 'fa fa-';
 			default:
 				return 'fa fa-question';
 		}

@@ -18,7 +18,6 @@
 
 		self.init = function () {
 			self.loggedInUser = authService.userInfo();
-			self.refreshContent();
 
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
@@ -52,6 +51,7 @@
 			});
 
 			self.getPromoteAutomationConnections(); // TODO: GET RID OF THIS CALL AFTER PROMOTE CONNECTIONS COME FROM THE API!!
+			self.refreshContent();
 		}
 
 		self.refreshContent = function () {
@@ -67,10 +67,12 @@
 
 				if ($location.path() === '/promote/content/new') {
 					$scope.content.status = 4;
-					// TODO: SET CONTENT TYPE HERE!!
 					$scope.isReadOnly = false;
 					$scope.showAddFileButton = true;
 					$scope.isPromote = true;
+
+					$scope.content.contentType = $.grep($scope.contentTypes, function(ct) { return ct.name === 'direct-upload'; });
+					$scope.content.contentType = ($scope.content.contentType.length === 1) ? $scope.content.contentType[0] : null;
 				}
 			} else {
 				$scope.isNewContent = false;
@@ -101,6 +103,10 @@
 
 						self.filterCampaigns();
 						self.refreshComments();
+
+						if ($scope.content.status === 4) {
+							self.refreshLaunches();
+						}
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, notificationService);
@@ -119,6 +125,14 @@
 			}
 
 			$scope.activity = contentService.getActivity(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
+		};
+
+		self.refreshLaunches = function() {
+			if ($scope.isNewContent) {
+				return;
+			}
+
+			$scope.launches = contentService.getLaunches(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
 		};
 
 		self.filterCampaigns = function() {
@@ -383,6 +397,7 @@
 		$scope.campaigns = null;
 		$scope.users = null;
 		$scope.activity = null;
+		$scope.launches = null;
 		$scope.isCollaborator = true;
 		$scope.buyingStages = null;
 		$scope.isNewContent = true;
@@ -393,6 +408,7 @@
 		$scope.showRichTextEditor = true;
 		$scope.showAddFileButton = false;
 		$scope.showDownloadContentFile = false;
+		$scope.showMetaInfo = false;
 		$scope.isSaving = false;
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;
@@ -586,6 +602,7 @@
 
 			$scope.showRichTextEditor = $scope.content.contentType.allowText();
 			$scope.showAddFileButton = $scope.content.contentType.allowFile();
+			$scope.showMetaInfo = $scope.content.contentType.allowMetaTags();
 		};
 
 		$scope.updateAuthor = function () {
@@ -841,7 +858,7 @@
 			return false;
 		};
 
-		$scope.launchContent = function (connection) {
+		$scope.launchContent = function (connection, refresh) {
 			if (!$scope.canLaunchContent) {
 				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
 				return;
@@ -856,6 +873,10 @@
 					if ($scope.content.status <= 3) {
 						$scope.content.status = 4;
 						$scope.saveContent();
+					}
+
+					if (refresh) {
+						self.refreshLaunches();
 					}
 
 					notificationService.success('Success!', 'Successfull launched to ' + connection.name + '!');
@@ -896,7 +917,7 @@
 			}
 
 			$.each($scope.selectedConnections, function (i, c) {
-				$scope.launchContent(c);
+				$scope.launchContent(c, (i === $scope.selectedConnections.length - 1));
 			});
 
 			$scope.selectedConnections = [];

@@ -38,6 +38,7 @@
 	});
 
 	var contentLaunch = $resource('/api/account/:accountId/content/:contentId/launch/:accountConnectionId', { accountId: '@accountId', contentId: '@contentId', accountConnectionId: '@accountConnectionId' }, {
+		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.launchedContent.parseResponse },
 		post: { method: 'POST' }
 	});
 
@@ -77,6 +78,15 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return contentLaunch.post({ accountId: accountId, contentId: contentId, accountConnectionId: accountConnectionId }, null, success, error);
+		},
+		getLaunches: function(accountId, contentId, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			// TODO: UNCOMMENT THIS WHEN IT'S AVAILABLE IN THE API!!
+			//return contentLaunch.get({ accountId: accountId, contentId: contentId }, success, error);
+
+			return [];
 		},
 		getComment: function (accountId, contentId, id, params, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;

@@ -98,10 +98,13 @@
 				</div>
 
                 <div class="col-md-3" ng-hide="isNewContent">
-                    <div class="panel panel-default panel-collaborators">
+                    <div class="panel panel-default panel-brainstorms">
                         <div class="panel-heading">Schedule Brainstorm</div>
                         <div class="panel-body">
-                            <div ng-repeat="collab in guestCollaborators" class="guest-collaborator cl-badge cl-badge-horizontal">
+                            <div ng-repeat="brainstorm in brainstorms">
+                                <div class="brainstorm" ng-click="showScheduleBrainstorm(brainstorm)">
+                                    <span class="description">{{ brainstorm.description }}</span> at {{ brainstorm.datetime | date:"MMM d, y h:mma" }} <span class="fa fa-trash-o" ng-click="removeBrainstorm(brainstorm); $event.stopPropagation()"></span>
+                                </div>
                             </div>
                             <span ng-click="showScheduleBrainstorm()"><span class="glyphicon glyphicon-plus-sign"></span> New Brainstorm</span>
                         </div>
