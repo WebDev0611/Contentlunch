@@ -53,15 +53,6 @@
 					<span class="fa fa-thumbs-o-up"></span>
 				</div>
 
-				<div class="content-launched-header" ng-show="content.status === 4 && !content.archived">
-					<div ng-repeat="cc in content.accountConnections">
-						<span class="fa fa-check"></span>
-						Posted to
-						<span ng-class="getConnectionProviderIconClass(cc.provider)"></span>
-						{{ cc.name }}
-					</div>
-				</div>
-
 				<div class="content-approved-header" ng-show="content.archived">
 					<button type="button" class="btn btn-lg btn-default btn-black" ng-click="restoreContent()" ng-disabled="!canRestoreContent">
 						<!--<span class="cl-icon cl-icon-white cl-icon-workflow-archive"></span>-->

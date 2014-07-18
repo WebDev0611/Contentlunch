@@ -111,6 +111,15 @@
 					</a>
 				</li>
 			</ul>
+
+			<div class="content-launched-header">
+				<div ng-repeat="cc in content.accountConnections">
+					<span class="fa fa-check"></span>
+					Posted to
+					<span ng-class="getConnectionProviderIconClass(cc.provider)"></span>
+					{{ cc.name }}
+				</div>
+			</div>
 		</div>
 
 		<div class="dropdown">
@@ -120,7 +129,7 @@
 				<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" role="menu" ng-if="!!contentConnections.length">
-				<li ng-repeat="connection in contentConnections" ng-click="launchContent(connection)" ng-show="connectionIsSupported(connection)">
+				<li ng-repeat="connection in contentConnections" ng-click="launchContent(connection, true)" ng-show="connectionIsSupported(connection)">
 					<input type="checkbox" class="form-control" ng-click="toggleSelectedConnections(connection, $event)" />
 					<a href="#">
 						<div>
