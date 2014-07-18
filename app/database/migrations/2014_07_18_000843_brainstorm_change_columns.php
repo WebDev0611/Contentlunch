@@ -16,10 +16,9 @@ class BrainstormChangeColumns extends Migration {
             $table->dropColumn('guest_id');
             $table->dropColumn('credentials');
 
-            $table->dropColumn('agenda');
-            $table->dropColumn('description');
-            $table->text('agenda')->nullable();
-            $table->text('description')->nullable();
+            DB::raw("ALTER TABLE brainstorms CHANGE COLUMN agenda agenda text NULL");
+            DB::raw("ALTER TABLE brainstorms CHANGE COLUMN description description text NULL");
+            
         });
 	}
 
@@ -33,10 +32,6 @@ class BrainstormChangeColumns extends Migration {
         Schema::table('brainstorms', function (Blueprint $table) {
             $table->integer('guest_id')->nullable();
             $table->text('credentials');
-            $table->dropColumn('agenda');
-            $table->dropColumn('description');
-            $table->text('agenda');
-            $table->text('description');
         });
 	}
 
