@@ -77,6 +77,17 @@
 				<div collaborator-sidebar collaborators="content.collaborators" users="collaborators" item-id="content.id" item-type="'content'"
 					add-collaborator-callback="filterTaskAssignees" remove-collaborator-callback="filterTaskAssignees" is-disabled="collboratorsIsDisabled"
 					is-collaborator-finished="isCollaboratorFinished"></div>
+				
+				<div ng-if="!isNewContent" ng-show="canPromoteContent">
+					<button class="btn btn-default btn-promote-automation" ng-click="promoteContent('hubspot')" ng-show="connectionIsSupported(hubspotConnection)">
+						Send to
+						<span class="cl-banner cl-banner-hubspot"></span>
+					</button>
+					<button class="btn btn-default btn-promote-automation" ng-click="promoteContent('act-on')" ng-show="connectionIsSupported(actOnConnection)">
+						Send to
+						<span class="cl-banner cl-banner-act-on"></span>
+					</button>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -102,16 +113,6 @@
 		Uploading File(s)...
 	</div>
 </div>
-
-<script type="text/ng-template" id="publishing-guidelines.html">
-	<div class="modal-header">Publishing Guidelines</div>
-	<div class="modal-body">
-		<div ng-bind-html="publishingGuidelines"></div>
-	</div>
-	<div class="modal-footer">
-		<button class="btn btn-primary" ng-click="ok()">OK</button>
-	</div>
-</script>
 
 <script type="text/ng-template" id="select-user-to-complete.html">
 	<div class="modal-header">Select User</div>

@@ -1,4 +1,4 @@
-﻿launch.ContentConnection = function() {
+﻿launch.PromoteConnection = function () {
 	var self = this;
 
 	self.id = null;
@@ -13,7 +13,7 @@
 	self.created = null;
 	self.updated = null;
 
-	self.activeStatus = function() {
+	self.activeStatus = function () {
 		return self.active === true ? 'Active' : 'Inactive';
 	};
 

@@ -16,18 +16,7 @@ App::before(function($request)
     $timezone = $request->header('X-Timezone');
 
     if (preg_match('/^[+-]\d{2}:\d{2}$/', $timezone)) {
-        // set MySQL timezone
-        DB::statement("SET time_zone='{$timezone}'");
-
-        // convert -07:00 to "Americas/Los_Angeles" etc
-        $offset = intval($timezone);
-        $tz = timezone_name_from_abbr(null, $offset * 3600, true);
-        if ($tz === false) $tz = timezone_name_from_abbr(null, $offset * 3600, false);
-
-        // set Laravel timezone
-        Config::set('app.timezone', $tz);
-        // set PHP timezone
-        date_default_timezone_set($tz);
+        \Launch\Scheduler\Timezone::set($timezone);
     }
 });
 

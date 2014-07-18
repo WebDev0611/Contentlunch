@@ -7,10 +7,10 @@ class Announcement extends Ardent {
     public $autoHydrateEntityFromInput    = true;
     public $forceEntityHydrationFromInput = true;
 
-    protected $fillable = [];
+    protected $fillable = ['message'];
 
     public static $rules = [
-        // 'title' => 'required'
+        'message' => 'required'
     ];
 
 }

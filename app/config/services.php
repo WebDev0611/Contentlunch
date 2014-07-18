@@ -18,6 +18,11 @@
 // The developer could edit his host file to point for example https://contentlaunch.com to his local instance
 // For now, the callback_domain is where the provider will redirect to
 return [
+  'acton' => [
+    'key' => 'rWSMXgnRNIvDe4BNl7bu0DKpdgAa',
+    'secret' => 'HjGxrBZkPLFk652EeIamVaAoBe8a',
+    'scope' => []
+  ],
   'dropbox' => [
     'key' => '379fuhe952gx0ho',
     'secret' => '56b7243xrr4ww6u',

@@ -183,7 +183,8 @@ Route::group(['prefix' => 'api'], function()
 
   Route::get('account/{accountID}/brainstorm', 'BrainstormController@all');
 
-  Route::get('test', 'ConferencesController@test');
+  Route::get('test', 'Measure@test');
+  Route::get('test2', 'Measure@contentCreated');
 
   // Dashboard
   // -------------------------
@@ -197,6 +198,8 @@ Route::group(['prefix' => 'api'], function()
   Route::resource('announcements', 'AnnouncementsController', [
     'only' => ['index', 'store', 'update', 'destroy']
   ]);
+
+  Route::get('account/{accountID}/guest-collaborators', 'GuestCollaboratorsController@all');
 
 });
 

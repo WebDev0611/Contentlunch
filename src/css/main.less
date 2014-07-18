@@ -642,6 +642,80 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 		}
 	}
+
+	.content-editor {
+		.toggle-module {
+			margin: 16px 0;
+
+			.dropdown {
+				display: inline-block;
+
+				ul.dropdown-menu {
+					li {
+						padding: 8px;
+
+						&:hover {
+							background-color: #f5f5f5;
+						}
+
+						> * {
+							display: inline-block;
+							vertical-align: top;
+						}
+
+						a {
+							padding: 0;
+						}
+
+						.form-control {
+							margin: 2px 0;
+							height: 16px;
+							width: 16px;
+						}
+					}
+				}
+			}
+
+			.btn-launch, .btn-promote, .btn-create {
+				color: #ffffff;
+				display: inline-block;
+				font-size: 12pt;
+				font-weight: bold;
+				right: 8px;
+
+				span {
+					vertical-align: middle;
+
+					&.cl-icon-launch {
+						height: 30px;
+						width: 30px;
+					}
+				}
+			}
+
+			.btn-launch {
+				background-color: @homeColorDark;
+			}
+
+			.btn-promote {
+				background-color: @promoteColor;
+			}
+
+			.btn-create {
+				background-color: @createColor;
+			}
+		}
+
+		.btn-promote-automation {
+			display: block;
+			font-weight: bold;
+			margin: 8px 0;
+
+			> *{
+				vertical-align: middle;
+			}
+		}
+	}
 }
 
 .view {
@@ -1421,60 +1495,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 				height: 46px;
 				margin: 0;
 				position: relative;
-
-				.btn-launch-container {
-					float: right;
-
-					ul.dropdown-menu {
-						li {
-							padding: 8px;
-
-							&:hover{
-								background-color: #f5f5f5;
-							}
-
-							> * {
-								display: inline-block;
-								vertical-align: top;
-							}
-
-							a {
-								padding: 0;
-							}
-
-							.form-control {
-								margin: 2px 0;
-								height: 16px;
-								width: 16px;
-							}
-						}
-					}
-				}
-
-				.btn-launch, .btn-promote {
-					color: #ffffff;
-					float: right;
-					font-size: 12pt;
-					font-weight: bold;
-					right: 8px;
-
-					span {
-						vertical-align: middle;
-
-						&.cl-icon-launch {
-							height: 30px;
-							width: 30px;
-						}
-					}
-				}
-
-				.btn-launch {
-					background-color: @homeColorDark;
-				}
-
-				.btn-promote {
-					background-color: @promoteColor;
-				}
 			}
 		}
 	}
@@ -3070,5 +3090,24 @@ hr.simple-divider {
 .clearfix-right {
 	&:after {
 		clear: right;
+	}
+}
+
+.system-wide-announcements {
+	background: #e4e4e4;
+	border-radius: 6px;
+	padding: 8px;
+
+	td {
+		vertical-align: top;
+		padding: 8px;
+	}
+
+	tr {
+		border-bottom: 2px dotted #ababab;
+
+		&:last-child {
+			border-bottom: 0;
+		}
 	}
 }

@@ -9,6 +9,7 @@ use OAuth\Common\Storage\Session as OAuthSession;
 use OAuth\ServiceFactory as OAuthServiceFactory;
 use OAuth\OAuth2\Service\Linkedin;
 use Launch\OAuth\Service\Wordpress;
+use Launch\OAuth\Service\Acton;
 
 /**
  * Creates OAuth services
@@ -40,14 +41,7 @@ class ServiceFactory {
         $this->config = Config::get('services.'. $provider);
     }
     
-    // Will be different based on environment
-    switch (app()->environment()) {
-      case 'staging':
-        $redirectURL = 'https://staging.contentlaunch.surgeforward.com/api/add-connection';
-      break;
-      default:
-        $redirectURL = $this->config['callback_domain'] .'/api/add-connection';   
-    }
+    $redirectURL = 'https://staging.contentlaunch.surgeforward.com/api/add-connection';
     $credentials = new Credentials(
       $this->config['key'],
       $this->config['secret'],
@@ -55,6 +49,7 @@ class ServiceFactory {
     );
     $this->storage = new OAuthSession;
     $serviceFactory = new OAuthServiceFactory;
+    $serviceFactory->registerService('acton', 'ActonService');
     $serviceFactory->registerService('wordpress', 'WordpressService');
     $serviceFactory->registerService('salesforce', 'SalesforceService');
     $serviceFactory->registerService('hubspot', 'HubspotService');
@@ -88,7 +83,10 @@ class ServiceFactory {
       case 'google': // youtube, g+, google docs
         // Request offline access token
         // @see https://developers.google.com/accounts/docs/OAuth2WebServer#offline
-        return (string) $this->service->getAuthorizationUri(['access_type' => 'offline']);
+        return (string) $this->service->getAuthorizationUri([
+          'access_type' => 'offline',
+          'approval_prompt' => 'force'
+        ]);
       break;
       default:
         return (string) $this->service->getAuthorizationUri();

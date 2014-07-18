@@ -186,9 +186,10 @@ return [
     'Entrust' => 'Zizaco\Entrust\EntrustFacade',
     'Cabinet' => 'Andrew13\Cabinet\CabinetFacade',
 
-    'WordpressService' => 'Launch\OAuth\Service\Wordpress',
+    'ActonService' => 'Launch\OAuth\Service\Acton',
     'HubspotService' => 'Launch\OAuth\Service\Hubspot',
     'SalesforceService' => 'Launch\OAuth\Service\Salesforce',
+    'WordpressService' => 'Launch\OAuth\Service\Wordpress',
 
     'Twitter' => 'Thujohn\Twitter\TwitterFacade',
   ],

@@ -165,8 +165,12 @@
 						controller: 'CreateController',
 						templateUrl: '/assets/views/promote/promote.html'
 					})
+					.when('/promote/content/new', {
+						controller: 'ContentController',
+						templateUrl: '/assets/views/promote/promote-content.html'
+					})
 					.when('/promote/content/:contentId', {
-						controller: 'PromoteContentController',
+						controller: 'ContentController',
 						templateUrl: '/assets/views/promote/promote-content.html'
 					})
 					.when('/promote/campaign/:campaignId', {
@@ -389,6 +393,7 @@
 			else array.push(angular.copy(item));
 		},
 		remove: function(array, item) {
+			if (!item.id) item = { id: item };
 			var index = _.indexById(array, item.id);
 			if (index !== -1) array.splice(index, 1);
 		},

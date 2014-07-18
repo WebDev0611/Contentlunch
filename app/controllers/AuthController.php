@@ -98,6 +98,7 @@ class AuthController extends BaseController {
           // Set user to active
           $user->status = 1;
           $user->updateUniques();
+          Session::forget('guest');
           Auth::login($user);
           return $this->show_current();
         }
