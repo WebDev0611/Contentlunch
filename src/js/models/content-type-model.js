@@ -5,6 +5,7 @@
 	self.name = null;
 	self.title = null;
 	self.baseType = null;
+	self.isVisible = false;
 
 	self.allowText = function () {
 		return (self.baseType === 'audio' || self.baseType === 'blog_post' || self.baseType === 'email' || self.baseType === 'long_html' ||

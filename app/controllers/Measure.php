@@ -11,9 +11,21 @@ class Measure extends BaseController {
         Scheduler::measureCreatedContent('2014-07-11');
     }
 
-    public function contentCreated()
+    public function createdContent()
     {
+        if ($startDate == Input::get('start_date')) {
+            return MeasureCreatedContent::where('date', '>=', substr($startDate, 0, 10))->get();
+        }
+
         return MeasureCreatedContent::all();
     }
 
+    public function launchedContent()
+    {
+        if ($startDate == Input::get('start_date')) {
+            return MeasureLaunchedContent::where('date', '>=', substr($startDate, 0, 10))->get();
+        }
+
+        return MeasureLaunchedContent::all();
+    }
 }

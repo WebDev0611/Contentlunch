@@ -1348,7 +1348,7 @@
 
 	self.contentType = {
 		parseResponse: function(r, getHeaders) {
-			return self.parseResponse(r, getHeaders, self.contentType.fromDto);
+			return self.parseResponse(r, getHeaders, self.contentType.fromDto, self.contentType.sort);
 		},
 		fromDto: function(dto) {
 			if (!dto) {
@@ -1361,6 +1361,7 @@
 			contentType.name = dto.key;
 			contentType.title = dto.name;
 			contentType.baseType = dto.base_type;
+			contentType.isVisible = (parseInt(dto.visible) === 1);
 
 			return contentType;
 		},
@@ -1380,6 +1381,16 @@
 				key: contentType.name,
 				name: contentType.title
 			};
+		},
+		sort: function(a, b) {
+			if ((!a && !b) || (launch.utils.isBlank(a.title) && launch.utils.isBlank(b.title))) { return 0; }
+			if ((!a && !!b) || (launch.utils.isBlank(a.title) && !launch.utils.isBlank(b.title))) { return 1; }
+			if ((!!a && !b) || (!launch.utils.isBlank(a.title) && launch.utils.isBlank(b.title))) { return -1; }
+
+			if (a.title < b.title) { return -1; }
+			if (a.title > b.title) { return 1; }
+
+			return 0;
 		}
 	};
 
@@ -1623,25 +1634,21 @@
 				path = path.substring(7);
 			}
 
-      if (dto.tags) {
-        uploadFile.tags = dto.tags;
-      }
+			if (dto.tags) {
+				uploadFile.tags = dto.tags;
+			}
 
-      if (dto.libraries) {
-        uploadFile.libraries = dto.libraries;
-      }
+			if (dto.libraries) {
+				uploadFile.libraries = dto.libraries;
+			}
 
-      if (dto.pivot) {
+			if (dto.ratings) {
+				uploadFile.ratings = dto.ratings;
+			}
 
-      }
-
-      if (dto.ratings) {
-        uploadFile.ratings = dto.ratings;
-      }
-
-      if (dto.views) {
-        uploadFile.views = dto.views;
-      }
+			if (dto.views) {
+				uploadFile.views = dto.views;
+			}
 
 			uploadFile.path = path + '' + uploadFile.fileName;
 

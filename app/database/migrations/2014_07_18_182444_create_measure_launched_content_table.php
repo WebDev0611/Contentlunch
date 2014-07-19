@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateMeasureCreatedContentTable extends Migration {
+class CreateMeasureLaunchedContentTable extends Migration {
 
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateMeasureCreatedContentTable extends Migration {
      */
     public function up()
     {
-        Schema::create('measure_created_content', function (Blueprint $table) {
+        Schema::create('measure_launched_content', function (Blueprint $table) {
             $table->increments('id');
             $table->date('account_id')->unique();
             $table->date('date')->unique();
@@ -28,7 +28,7 @@ class CreateMeasureCreatedContentTable extends Migration {
      */
     public function down()
     {
-        Schema::drop('measure_created_content');
+        Schema::drop('measure_launched_content');
     }
 
 }
