@@ -15,7 +15,7 @@ class Content extends Ardent {
     'title', 'body', 'account_id', 'connection_id',
     'buying_stage', 'persona',
     'secondary_buying_stage', 'secondary_persona', 'status',
-    'archived', 'concept'
+    'archived', 'concept', 'meta_description', 'meta_keywords'
   ];
 
   public static $rules = [
