@@ -15,7 +15,7 @@ class Content extends Ardent {
     'title', 'body', 'account_id', 'connection_id',
     'buying_stage', 'persona',
     'secondary_buying_stage', 'secondary_persona', 'status',
-    'archived', 'concept'
+    'archived', 'concept', 'meta_description', 'meta_keywords'
   ];
 
   public static $rules = [
@@ -49,6 +49,21 @@ class Content extends Ardent {
       if (isset($valid[$contentType->key])) {
         if ( ! in_array($type, $valid[$contentType->key])) {
           $this->validationErrors->add('upload', 'Invalid upload type: '. $type .' for content type: '. $contentType->name);
+          return false;
+        }
+      }
+    }
+    // Force direct uploads to be status of 4
+    // And upload_id must be present
+    if ( ! empty($this->content_type_id)) {
+      $type = ContentType::find($this->content_type_id);
+      if ($type->key == 'direct-upload') {
+        if ( ! $this->upload_id) {
+          $this->validationErrors->add('upload', 'Missing required upload_id for Direct Upload');
+          return false;
+        }
+        if ($this->status != 4) {
+          $this->validationErrors->add('status', 'Direct upload must be set to status of 4');
           return false;
         }
       }
