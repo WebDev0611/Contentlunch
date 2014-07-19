@@ -55,55 +55,23 @@ class Scheduler {
     public static function measureCreatedContent($date, $accountID)
     {
         $date = new Carbon($date);
+        Queue::later($date->endOfDay(), function () use ($date, $accountID) {
+            App::make('Measure')->measureCreatedContent($date, $accountID);
 
-        // @TODO get this from a config?
-        // For now, using PDT since all 3 devs are on the west coast
-        Timezone::set('-07:00');
-
-        $count = DB::raw('count(*) as count');
-        $query = Content::where('created_at', '>=', $date->copy()->startOfDay())
-                        ->where('created_at', '<', $date->copy()->endOfDay())
-                        ->where('status', '!=', 0);
-
-        $model = MeasureCreatedContent::firstOrNew(['date' => $date]);
-        $model->accountID = $accountID;
-
-        $stats = [];
-
-        $stats['by_user']         = with(clone $query)->select([$count, 'user_id'])->groupBy('user_id')->get()->toArray();
-        $stats['by_buying_stage'] = with(clone $query)->select([$count, 'buying_stage'])->groupBy('buying_stage')->get()->toArray();
-        $stats['by_content_type'] = with(clone $query)->select([$count, 'content_type_id'])->groupBy('content_type_id')->get()->toArray();
-
-        $model->stats = $stats;
-
-        $model->save();
+            // schedule for tomorrow
+            self::measureCreatedContent($date->tomorrow()->endOfDay(), $accountID);
+        });
     }
 
     public static function measureLaunchedContent($date, $accountID)
     {
         $date = new Carbon($date);
+        Queue::later($date->endOfDay(), function () use ($date, $accountID) {
+            App::make('Measure')->measureLaunchedContent($date, $accountID);
 
-        // @TODO get this from a config?
-        // For now, using PDT since all 3 devs are on the west coast
-        Timezone::set('-07:00');
-
-        $count = DB::raw('count(*) as count');
-        $query = Content::where('launch_date', '>=', $date->copy()->startOfDay())
-                        ->where('launch_date', '<', $date->copy()->endOfDay())
-                        ->where('status', '!=', 0);
-
-        $model = MeasureCreatedContent::firstOrNew(['date' => $date]);
-        $model->accountID = $accountID;
-
-        $stats = [];
-
-        $stats['by_user']         = with(clone $query)->select([$count, 'user_id'])->groupBy('user_id')->get()->toArray();
-        $stats['by_buying_stage'] = with(clone $query)->select([$count, 'buying_stage'])->groupBy('buying_stage')->get()->toArray();
-        $stats['by_content_type'] = with(clone $query)->select([$count, 'content_type_id'])->groupBy('content_type_id')->get()->toArray();
-
-        $model->stats = $stats;
-
-        $model->save();
+            // schedule for tomorrow
+            self::measureLaunchedContent($date->tomorrow()->endOfDay(), $accountID);
+        });
     }
 
     /**

@@ -95,8 +95,8 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
         },
 
         eventize: function (contents) {
-            var isFirstTime = true;
             return function (campaigns, tasks, brainstorms) {
+                console.log('campaigns.length', campaigns.length);
                 var tasksByContent = _.groupBy(tasks, 'contentId');
 
                 var events = [];
@@ -180,11 +180,11 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
 
                 var sourcesToAdd = toAdd(newEvents, currentEvents);
                 _.each(sourcesToAdd, function (source) {
+                    console.log($elem.length);
                     $elem.fullCalendar('addEventSource', source);
                 });
 
                 currentEvents = newEvents;
-                isFirstTime = false;
             };
         }
     });
