@@ -53,6 +53,21 @@ class Content extends Ardent {
         }
       }
     }
+    // Force direct uploads to be status of 4
+    // And upload_id must be present
+    if ( ! empty($this->content_type_id)) {
+      $type = ContentType::find($this->content_type_id);
+      if ($type->key == 'direct-upload') {
+        if ( ! $this->upload_id) {
+          $this->validationErrors->add('upload', 'Missing required upload_id for Direct Upload');
+          return false;
+        }
+        if ($this->status != 4) {
+          $this->validationErrors->add('status', 'Direct upload must be set to status of 4');
+          return false;
+        }
+      }
+    }
     return parent::validate($rules, $customMessages);
   }
 
