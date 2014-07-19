@@ -54,24 +54,30 @@ class Scheduler {
 
     public static function measureCreatedContent($date, $accountID)
     {
+        // @TODO configurable
+        Timezone::set('-07:00');
+
         $date = new Carbon($date);
         Queue::later($date->endOfDay(), function () use ($date, $accountID) {
             App::make('Measure')->measureCreatedContent($date, $accountID);
 
             // schedule for tomorrow
             self::measureCreatedContent($date->tomorrow()->endOfDay(), $accountID);
-        });
+        }, [$date->format('Y-m-d'), $accountID], 'measure-created-content');
     }
 
     public static function measureLaunchedContent($date, $accountID)
     {
+        // @TODO configurable
+        Timezone::set('-07:00');
+
         $date = new Carbon($date);
         Queue::later($date->endOfDay(), function () use ($date, $accountID) {
             App::make('Measure')->measureLaunchedContent($date, $accountID);
 
             // schedule for tomorrow
             self::measureLaunchedContent($date->tomorrow()->endOfDay(), $accountID);
-        });
+        }, [$date->format('Y-m-d'), $accountID], 'measure-launched-content');
     }
 
     /**

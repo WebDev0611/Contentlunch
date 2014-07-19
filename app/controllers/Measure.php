@@ -6,8 +6,8 @@ class Measure extends BaseController {
 
     public function test()
     {
-        Scheduler::measureCreatedContent('2014-07-19', 1);
-        Scheduler::measureLaunchedContent('2014-07-19', 1);
+        Scheduler::measureCreatedContent('2014-07-18', 1);
+        Scheduler::measureLaunchedContent('2014-07-18', 1);
     }
 
     public function createdContent()
