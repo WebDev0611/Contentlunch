@@ -38,8 +38,8 @@
 						templateUrl: '/assets/views/account/seo-settings.html'
 					})
 					.when('/account/promote', {
-						controller: 'PromoteSettingsController',
-						templateUrl: '/assets/views/account/promote-settings.html'
+						controller: 'PromoteConnectionsController',
+						templateUrl: '/assets/views/account/promote-connections.html'
 					})
 					.when('/user', {
 						controller: 'UserController',

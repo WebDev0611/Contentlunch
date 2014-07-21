@@ -218,7 +218,8 @@
 .cl-banner-hubspot {
   background-image: url(/assets/images/hubspot-banner.png);
 }
-.cl-banner-act-on {
+.cl-banner-act-on,
+.cl-banner-acton {
   background-image: url(/assets/images/act-on-banner.png);
 }
 .cl-banner-hootsuite {

@@ -1513,6 +1513,45 @@ span[class^="icon-"], span[class*=" icon-"] {
 				position: relative;
 			}
 		}
+
+		.create-content-header {
+			margin: 0;
+
+			h3 {
+				margin: 0;
+			}
+		}
+
+		.content-approved-header, .content-launched-header {
+			font-size: 16pt;
+			font-weight: bold;
+			margin: 16px 0;
+
+			.fa {
+				color: #000000;
+				display: inline-block;
+
+				&.fa-check {
+					color: @homeColorDark;
+				}
+			}
+		}
+
+		.content-approved-header {
+			color: @homeColorDark;
+
+			.fa {
+				margin: 0 0 16px 12px;
+			}
+		}
+
+		.content-launched-header {
+			.fa {
+				display: inline-block;
+				font-size: 16pt;
+				margin: 0 4px;
+			}
+		}
 	}
 }
 
@@ -1767,45 +1806,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 			.content-workflow-connector-3 {
 				left: 230px;
-			}
-		}
-
-		.create-content-header {
-			margin: 0;
-
-			h3 {
-				margin: 0;
-			}
-		}
-
-		.content-approved-header, .content-launched-header {
-			font-size: 16pt;
-			font-weight: bold;
-			margin-bottom: 16px;
-
-			.fa {
-				color: #000000;
-				display: inline-block;
-
-				&.fa-check {
-					color: @homeColorDark;
-				}
-			}
-		}
-
-		.content-approved-header {
-			color: @homeColorDark;
-
-			.fa {
-				margin: 0 0 16px 12px;
-			}
-		}
-
-		.content-launched-header {
-			.fa {
-				display: inline-block;
-				font-size: 16pt;
-				margin: 0 4px;
 			}
 		}
 	}

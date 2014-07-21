@@ -1896,6 +1896,49 @@ span[class*=" icon-"].dark {
   margin: 0;
   position: relative;
 }
+.create .right-pane .create-content-header,
+.promote .right-pane .create-content-header {
+  margin: 0;
+}
+.create .right-pane .create-content-header h3,
+.promote .right-pane .create-content-header h3 {
+  margin: 0;
+}
+.create .right-pane .content-approved-header,
+.promote .right-pane .content-approved-header,
+.create .right-pane .content-launched-header,
+.promote .right-pane .content-launched-header {
+  font-size: 16pt;
+  font-weight: bold;
+  margin: 16px 0;
+}
+.create .right-pane .content-approved-header .fa,
+.promote .right-pane .content-approved-header .fa,
+.create .right-pane .content-launched-header .fa,
+.promote .right-pane .content-launched-header .fa {
+  color: #000000;
+  display: inline-block;
+}
+.create .right-pane .content-approved-header .fa.fa-check,
+.promote .right-pane .content-approved-header .fa.fa-check,
+.create .right-pane .content-launched-header .fa.fa-check,
+.promote .right-pane .content-launched-header .fa.fa-check {
+  color: #10699d;
+}
+.create .right-pane .content-approved-header,
+.promote .right-pane .content-approved-header {
+  color: #10699d;
+}
+.create .right-pane .content-approved-header .fa,
+.promote .right-pane .content-approved-header .fa {
+  margin: 0 0 16px 12px;
+}
+.create .right-pane .content-launched-header .fa,
+.promote .right-pane .content-launched-header .fa {
+  display: inline-block;
+  font-size: 16pt;
+  margin: 0 4px;
+}
 .promote .left-pane .filter-panel,
 .promote .left-pane .tasks-header {
   background-color: #773876;
@@ -2088,38 +2131,6 @@ span[class*=" icon-"].dark {
 }
 .create .right-pane .content-workflow .content-workflow-connector-3 {
   left: 230px;
-}
-.create .right-pane .create-content-header {
-  margin: 0;
-}
-.create .right-pane .create-content-header h3 {
-  margin: 0;
-}
-.create .right-pane .content-approved-header,
-.create .right-pane .content-launched-header {
-  font-size: 16pt;
-  font-weight: bold;
-  margin-bottom: 16px;
-}
-.create .right-pane .content-approved-header .fa,
-.create .right-pane .content-launched-header .fa {
-  color: #000000;
-  display: inline-block;
-}
-.create .right-pane .content-approved-header .fa.fa-check,
-.create .right-pane .content-launched-header .fa.fa-check {
-  color: #10699d;
-}
-.create .right-pane .content-approved-header {
-  color: #10699d;
-}
-.create .right-pane .content-approved-header .fa {
-  margin: 0 0 16px 12px;
-}
-.create .right-pane .content-launched-header .fa {
-  display: inline-block;
-  font-size: 16pt;
-  margin: 0 4px;
 }
 .create-header {
   margin: 0 16px;

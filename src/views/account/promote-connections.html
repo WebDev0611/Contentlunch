@@ -13,14 +13,14 @@
 						<span class="promote-connection-type">{{ cat.title }}</span>
 					</div>
 					<div class="col-md-9">
-						<div class="row" ng-repeat="connection in cat.connections">
+						<div class="row" ng-repeat="p in cat.providers">
 							<div class="col-md-7">
 								{{ cat.title }} through
-								<span class="cl-banner cl-banner-{{ connection.provider }}"></span>
+								<span class="cl-banner cl-banner-{{ p.provider }}"></span>
 							</div>
 							<div class="col-md-5">
-								<button class="btn btn-black" ng-click="connect(connection.provider)" ng-hide="providerIsConnected(connection.provider)">Connect</button>
-								<button class="btn btn-black" ng-click="disconnect(connection.provider)" ng-show="providerIsConnected(connection.provider)">Disconnect</button>
+								<button class="btn btn-black" ng-click="connect(p)" ng-hide="providerIsConnected(p)">Connect</button>
+								<button class="btn btn-black" ng-click="disconnect(p)" ng-show="providerIsConnected(p)">Disconnect</button>
 							</div>
 						</div>
 					</div>

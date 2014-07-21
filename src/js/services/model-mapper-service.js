@@ -975,7 +975,6 @@
 			connection.name = dto.name;
 			connection.active = (parseInt(dto.status) === 1) ? true : false;
 			connection.connectionType = 'content';
-			connection.connectionCategory = null; // TODO: SET THIS VALUE FROM THE API!!
 			connection.connectionSettings = dto.settings;
 			connection.created = new Date(dto.created_at);
 			connection.updated = new Date(dto.updated_at);
@@ -986,6 +985,7 @@
 				connection.provider = dto.connection.provider;
 				connection.connectionType = dto.connection.type;
 				connection.connectionName = dto.connection.name;
+				connection.connectionCategory = dto.connection.category;
 			}
 
 			return connection;
@@ -1052,7 +1052,6 @@
 			connection.name = dto.name;
 			connection.active = (parseInt(dto.status) === 1) ? true : false;
 			connection.connectionType = 'promote';
-			connection.connectionCategory = null; // TODO: SET THIS VALUE FROM THE API!!
 			connection.connectionSettings = dto.settings;
 			connection.created = new Date(dto.created_at);
 			connection.updated = new Date(dto.updated_at);
@@ -1063,6 +1062,7 @@
 				connection.provider = dto.connection.provider;
 				connection.connectionType = dto.connection.type;
 				connection.connectionName = dto.connection.name;
+				connection.connectionCategory = dto.connection.category;
 			}
 
 			return connection;
