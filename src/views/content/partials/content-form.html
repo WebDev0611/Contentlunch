@@ -111,15 +111,6 @@
 					</a>
 				</li>
 			</ul>
-
-			<div class="content-launched-header">
-				<div ng-repeat="cc in content.accountConnections">
-					<span class="fa fa-check"></span>
-					Posted to
-					<span ng-class="getConnectionProviderIconClass(cc.provider)"></span>
-					{{ cc.name }}
-				</div>
-			</div>
 		</div>
 
 		<div class="dropdown">
@@ -145,6 +136,14 @@
 					</button>
 				</li>
 			</ul>
+		</div>
+		
+		<div class="content-launched-header">
+			<div ng-repeat="l in launches">
+				<span class="fa fa-check"></span>
+				<span ng-class="getConnectionProviderIconClass(l.provider)"></span>
+				Posted to {{ l.name }}
+			</div>
 		</div>
 	</div>
 

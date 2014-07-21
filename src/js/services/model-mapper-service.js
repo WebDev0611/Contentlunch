@@ -975,7 +975,6 @@
 			connection.name = dto.name;
 			connection.active = (parseInt(dto.status) === 1) ? true : false;
 			connection.connectionType = 'content';
-			connection.connectionCategory = null; // TODO: SET THIS VALUE FROM THE API!!
 			connection.connectionSettings = dto.settings;
 			connection.created = new Date(dto.created_at);
 			connection.updated = new Date(dto.updated_at);
@@ -986,6 +985,7 @@
 				connection.provider = dto.connection.provider;
 				connection.connectionType = dto.connection.type;
 				connection.connectionName = dto.connection.name;
+				connection.connectionCategory = dto.connection.category;
 			}
 
 			return connection;
@@ -1052,7 +1052,6 @@
 			connection.name = dto.name;
 			connection.active = (parseInt(dto.status) === 1) ? true : false;
 			connection.connectionType = 'promote';
-			connection.connectionCategory = null; // TODO: SET THIS VALUE FROM THE API!!
 			connection.connectionSettings = dto.settings;
 			connection.created = new Date(dto.created_at);
 			connection.updated = new Date(dto.updated_at);
@@ -1063,6 +1062,7 @@
 				connection.provider = dto.connection.provider;
 				connection.connectionType = dto.connection.type;
 				connection.connectionName = dto.connection.name;
+				connection.connectionCategory = dto.connection.category;
 			}
 
 			return connection;
@@ -1263,7 +1263,7 @@
 			}
 
 			content.metaDescription = dto.meta_description;
-			content.metaKeywords = $.isArray(dto.meta_keywords) ? dto.meta_keywords.join(',') : null;
+			content.metaKeywords = dto.meta_keywords;
 
 			if ($.isArray(dto.task_groups)) {
 				content.taskGroups = $.map(dto.task_groups, self.taskGroups.fromDto);
@@ -1287,6 +1287,7 @@
 				status: content.status,
 				archived: (content.archived === true) ? 1 : 0,
 				meta_description: content.metaDescription,
+				meta_keywords: content.metaKeywords,
 				convert_date: content.convertDate,
 				submit_date: content.submitDate,
 				approve_date: content.approveDate,
@@ -1322,7 +1323,6 @@
 
 			dto.related = $.isArray(content.relatedContent) ? content.relatedContent.split(',') : null;
 			dto.tags = $.isArray(content.tags) ? $.map(content.tags, function (t) { return { tag: t }; }) : null;
-			dto.meta_keywords = $.isArray(content.metaKeywords) ? content.metaKeywords.split(',') : null;
 
 			return dto;
 		}

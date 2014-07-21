@@ -711,9 +711,25 @@ span[class^="icon-"], span[class*=" icon-"] {
 			font-weight: bold;
 			margin: 8px 0;
 
-			> *{
+			> * {
 				vertical-align: middle;
 			}
+		}
+
+		.content-development-help-panel, .smart-shoot-panel {
+			border-radius: 8px;
+			padding: 16px;
+			text-align: center;
+			text-decoration: underline;
+		}
+
+		.content-development-help-panel{
+			color: #000000 !important;
+		}
+
+		.smart-shoot-panel {
+			background-color: #000000 !important;
+			color: #ffffff;
 		}
 	}
 }
@@ -1513,6 +1529,45 @@ span[class^="icon-"], span[class*=" icon-"] {
 				position: relative;
 			}
 		}
+
+		.create-content-header {
+			margin: 0;
+
+			h3 {
+				margin: 0;
+			}
+		}
+
+		.content-approved-header, .content-launched-header {
+			font-size: 16pt;
+			font-weight: bold;
+			margin: 16px 0;
+
+			.fa {
+				color: #000000;
+				display: inline-block;
+
+				&.fa-check {
+					color: @homeColorDark;
+				}
+			}
+		}
+
+		.content-approved-header {
+			color: @homeColorDark;
+
+			.fa {
+				margin: 0 0 16px 12px;
+			}
+		}
+
+		.content-launched-header {
+			.fa {
+				display: inline-block;
+				font-size: 16pt;
+				margin: 0 4px;
+			}
+		}
 	}
 }
 
@@ -1767,45 +1822,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 			.content-workflow-connector-3 {
 				left: 230px;
-			}
-		}
-
-		.create-content-header {
-			margin: 0;
-
-			h3 {
-				margin: 0;
-			}
-		}
-
-		.content-approved-header, .content-launched-header {
-			font-size: 16pt;
-			font-weight: bold;
-			margin-bottom: 16px;
-
-			.fa {
-				color: #000000;
-				display: inline-block;
-
-				&.fa-check {
-					color: @homeColorDark;
-				}
-			}
-		}
-
-		.content-approved-header {
-			color: @homeColorDark;
-
-			.fa {
-				margin: 0 0 16px 12px;
-			}
-		}
-
-		.content-launched-header {
-			.fa {
-				display: inline-block;
-				font-size: 16pt;
-				margin: 0 4px;
 			}
 		}
 	}
@@ -3001,8 +3017,19 @@ hr.simple-divider {
             display: inline-block;
             vertical-align: top;
             textarea {
-                height: 215px;
                 width: 180px;
+                height: auto;
+            }
+            .agenda-item {
+                position: relative;
+                .description {
+                    padding-right: 10px;
+                }
+                .fa-trash-o {
+                    position: absolute;
+                    right: 8px;
+                    top: 2px;
+                }
             }
         }
         .details {

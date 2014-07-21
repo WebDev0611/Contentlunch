@@ -132,7 +132,9 @@
 				return;
 			}
 
-			$scope.launches = contentService.getLaunches(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
+			// TODO: GET LAUNCHES FROM THE API ONCE IT'S READY!!
+			//$scope.launches = contentService.getLaunches(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
+			$scope.launches = $scope.content.accountConnections;
 		};
 
 		self.filterCampaigns = function() {
@@ -166,6 +168,7 @@
 
 			$scope.showRichTextEditor = $scope.content.contentType.allowText();
 			$scope.showAddFileButton = $scope.content.contentType.allowFile();
+			$scope.showMetaInfo = $scope.content.contentType.allowMetaTags();
 			$scope.showDownloadContentFile = (!!$scope.content.contentFile && ($scope.content.contentFile.isImage() || $scope.content.contentFile.isVideo() || $scope.content.contentFile.isAudio()));
 
 			$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
@@ -844,7 +847,7 @@
 			});
 		};
 
-		$scope.connectionIsSupported = function (connection) {
+		$scope.connectionIsSupported = function(connection) {
 			if (!connection) {
 				return false;
 			}
@@ -852,13 +855,13 @@
 			if (connection.connectionType === 'content') {
 				return launch.utils.connectionIsSupportsContentType(connection, $scope.content);
 			} else if (connection.connectionType === 'promote') {
-				return ($.grep($scope.promoteConnections, function (c) { return c.provider === connection.provider; }).length > 0);
+				return ($.grep($scope.promoteConnections, function(c) { return c.provider === connection.provider; }).length > 0);
 			}
 
 			return false;
 		};
 
-		$scope.launchContent = function (connection, refresh) {
+		$scope.launchContent = function(connection, refresh) {
 			if (!$scope.canLaunchContent) {
 				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
 				return;
@@ -869,13 +872,11 @@
 			}
 
 			contentService.launch(self.loggedInUser.account.id, $scope.content.id, connection.id, {
-				success: function (r) {
+				success: function(r) {
 					if ($scope.content.status <= 3) {
 						$scope.content.status = 4;
 						$scope.saveContent();
-					}
-
-					if (refresh) {
+					} else if (refresh) {
 						self.refreshLaunches();
 					}
 

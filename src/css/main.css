@@ -331,10 +331,17 @@
   width: 110px;
   vertical-align: text-bottom;
 }
+.cl-banner-large {
+  width: 160px;
+}
+.cl-banner-content-launch {
+  background-image: url(/assets/images/logo.png);
+}
 .cl-banner-hubspot {
   background-image: url(/assets/images/hubspot-banner.png);
 }
-.cl-banner-act-on {
+.cl-banner-act-on,
+.cl-banner-acton {
   background-image: url(/assets/images/act-on-banner.png);
 }
 .cl-banner-hootsuite {
@@ -345,6 +352,9 @@
 }
 .cl-banner-papershare {
   background-image: url(/assets/images/papershare-banner.png);
+}
+.cl-banner-smartshoot {
+  background-image: url(/assets/images/smart-shoot-banner.png);
 }
 /* #endregion */
 html,
@@ -944,6 +954,20 @@ span[class*=" icon-"].dark {
 }
 .right-pane .content-editor .btn-promote-automation > * {
   vertical-align: middle;
+}
+.right-pane .content-editor .content-development-help-panel,
+.right-pane .content-editor .smart-shoot-panel {
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  text-decoration: underline;
+}
+.right-pane .content-editor .content-development-help-panel {
+  color: #000000 !important;
+}
+.right-pane .content-editor .smart-shoot-panel {
+  background-color: #000000 !important;
+  color: #ffffff;
 }
 .view {
   height: 100%;
@@ -1896,6 +1920,49 @@ span[class*=" icon-"].dark {
   margin: 0;
   position: relative;
 }
+.create .right-pane .create-content-header,
+.promote .right-pane .create-content-header {
+  margin: 0;
+}
+.create .right-pane .create-content-header h3,
+.promote .right-pane .create-content-header h3 {
+  margin: 0;
+}
+.create .right-pane .content-approved-header,
+.promote .right-pane .content-approved-header,
+.create .right-pane .content-launched-header,
+.promote .right-pane .content-launched-header {
+  font-size: 16pt;
+  font-weight: bold;
+  margin: 16px 0;
+}
+.create .right-pane .content-approved-header .fa,
+.promote .right-pane .content-approved-header .fa,
+.create .right-pane .content-launched-header .fa,
+.promote .right-pane .content-launched-header .fa {
+  color: #000000;
+  display: inline-block;
+}
+.create .right-pane .content-approved-header .fa.fa-check,
+.promote .right-pane .content-approved-header .fa.fa-check,
+.create .right-pane .content-launched-header .fa.fa-check,
+.promote .right-pane .content-launched-header .fa.fa-check {
+  color: #10699d;
+}
+.create .right-pane .content-approved-header,
+.promote .right-pane .content-approved-header {
+  color: #10699d;
+}
+.create .right-pane .content-approved-header .fa,
+.promote .right-pane .content-approved-header .fa {
+  margin: 0 0 16px 12px;
+}
+.create .right-pane .content-launched-header .fa,
+.promote .right-pane .content-launched-header .fa {
+  display: inline-block;
+  font-size: 16pt;
+  margin: 0 4px;
+}
 .promote .left-pane .filter-panel,
 .promote .left-pane .tasks-header {
   background-color: #773876;
@@ -2088,38 +2155,6 @@ span[class*=" icon-"].dark {
 }
 .create .right-pane .content-workflow .content-workflow-connector-3 {
   left: 230px;
-}
-.create .right-pane .create-content-header {
-  margin: 0;
-}
-.create .right-pane .create-content-header h3 {
-  margin: 0;
-}
-.create .right-pane .content-approved-header,
-.create .right-pane .content-launched-header {
-  font-size: 16pt;
-  font-weight: bold;
-  margin-bottom: 16px;
-}
-.create .right-pane .content-approved-header .fa,
-.create .right-pane .content-launched-header .fa {
-  color: #000000;
-  display: inline-block;
-}
-.create .right-pane .content-approved-header .fa.fa-check,
-.create .right-pane .content-launched-header .fa.fa-check {
-  color: #10699d;
-}
-.create .right-pane .content-approved-header {
-  color: #10699d;
-}
-.create .right-pane .content-approved-header .fa {
-  margin: 0 0 16px 12px;
-}
-.create .right-pane .content-launched-header .fa {
-  display: inline-block;
-  font-size: 16pt;
-  margin: 0 4px;
 }
 .create-header {
   margin: 0 16px;
@@ -3129,8 +3164,19 @@ hr.simple-divider {
   vertical-align: top;
 }
 .modal-dialog .modal-brainstorm .agenda textarea {
-  height: 215px;
   width: 180px;
+  height: auto;
+}
+.modal-dialog .modal-brainstorm .agenda .agenda-item {
+  position: relative;
+}
+.modal-dialog .modal-brainstorm .agenda .agenda-item .description {
+  padding-right: 10px;
+}
+.modal-dialog .modal-brainstorm .agenda .agenda-item .fa-trash-o {
+  position: absolute;
+  right: 8px;
+  top: 2px;
 }
 .modal-dialog .modal-brainstorm .details {
   width: 65%;

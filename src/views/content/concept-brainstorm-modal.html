@@ -5,7 +5,14 @@
     <div class="modal-body">
         <div class="agenda">
             <label>Agenda</label>
-            <textarea rows="5" class="form-control" ng-model="brainstorm.agenda"></textarea>
+            <div ng-repeat="item in brainstorm.agenda">
+                <div class="agenda-item">
+                    <div class="description" ng-hide="editing" ng-click="editing = true">{{ item.description }}</div>
+                    <textarea type="text" ng-show="editing" ng-blur="editing = false" ng-model="item.description">{{ item.description }}</textarea>
+                    <span ng-hide="editing" class="fa fa-trash-o" ng-click="removeItem($index); $event.stopPropagation()"></span>
+                </div>
+            </div>
+            <div ng-click="addItem()"><span class="glyphicon glyphicon-plus-sign"></span> Add Item</div>
         </div>
         <div class="details">
             <div class="date">

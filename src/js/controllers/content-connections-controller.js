@@ -4,6 +4,15 @@
 
 		self.loggedInUser = null;
 
+		self.ajaxHandler = {
+			success: function (r) {
+
+			},
+			error: function (r) {
+				launch.utils.handleAjaxErrorResponse(r, notificationService);
+			}
+		};
+
 		self.loadConnections = function() {
 			self.loggedInUser = authService.userInfo();
 			$scope.isLoading = true;
@@ -24,12 +33,6 @@
 			});
 
 			$scope.search.applyFilter();
-		};
-
-		self.loadProviders = function() {
-			connectionService.providers.query({type: 'content'}, function (response) {
-				$scope.providers = response;
-			});
 		};
 
 		self.saveContentConnection = function(connection, callback) {
@@ -59,7 +62,8 @@
 		};
 
 		self.init = function() {
-			self.loadProviders();
+			$scope.providers = connectionService.getProviders('content', self.ajaxHandler);
+
 			self.loadConnections();
 
 			$("[contenteditable]").keypress(function(e) {
