@@ -103,7 +103,7 @@
                         <div class="panel-body">
                             <div ng-repeat="brainstorm in brainstorms">
                                 <div class="brainstorm" ng-click="showScheduleBrainstorm(brainstorm)">
-                                    <span class="description">{{ brainstorm.description }}</span> at {{ brainstorm.datetime | date:"MMM d, y h:mma" }} <span class="fa fa-trash-o" ng-click="removeBrainstorm(brainstorm); $event.stopPropagation()"></span>
+                                    <span class="description">{{ brainstorm.description }}</span> at {{ brainstorm.datetime | date:"MMM d, y h:mma" }}<span class="fa fa-trash-o" ng-click="removeBrainstorm(brainstorm); $event.stopPropagation()"></span>
                                 </div>
                             </div>
                             <span ng-click="showScheduleBrainstorm()"><span class="glyphicon glyphicon-plus-sign"></span> New Brainstorm</span>

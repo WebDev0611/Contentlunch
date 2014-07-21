@@ -69,6 +69,10 @@ launch.module.controller('HomeController',
             }
         };
 
+        $scope.getBrainstormUrl = function(brainstorm) {
+            return '/create/concept/edit/content/' + brainstorm.contentId;
+        }
+
 
         // Filters
         // -------------------------
