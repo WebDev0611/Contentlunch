@@ -3001,8 +3001,19 @@ hr.simple-divider {
             display: inline-block;
             vertical-align: top;
             textarea {
-                height: 215px;
                 width: 180px;
+                height: auto;
+            }
+            .agenda-item {
+                position: relative;
+                .description {
+                    padding-right: 10px;
+                }
+                .fa-trash-o {
+                    position: absolute;
+                    right: 8px;
+                    top: 2px;
+                }
             }
         }
         .details {
