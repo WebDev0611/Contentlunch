@@ -132,7 +132,9 @@
 				return;
 			}
 
-			$scope.launches = contentService.getLaunches(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
+			// TODO: GET LAUNCHES FROM THE API ONCE IT'S READY!!
+			//$scope.launches = contentService.getLaunches(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
+			$scope.launches = $scope.content.accountConnections;
 		};
 
 		self.filterCampaigns = function() {
