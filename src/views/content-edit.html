@@ -79,6 +79,22 @@
 						<span class="cl-banner cl-banner-act-on"></span>
 					</button>
 				</div>
+				
+				<a href="" ng-hide="content.status >= 3 || isNewContent || content.contentType.name === 'video'">
+					<div class="panel panel-default content-development-help-panel">
+						<div class="panel-body">
+							<span class="cl-banner cl-banner-large cl-banner-content-launch"></span><br/>
+							Need Help Developing Your Content?
+						</div>
+					</div>
+				</a>
+				
+				<a href="http://www.smartshoot.com/" target="_blank" ng-hide="content.status >= 3 || isNewContent || content.contentType.name !== 'video'">
+					<div class="panel panel-default smart-shoot-panel">
+						<span class="cl-banner cl-banner-large cl-banner-smartshoot"></span><br/>
+						Need Videographers?
+					</div>
+				</a>
 			</div>
 		</div>
 		<div class="row">

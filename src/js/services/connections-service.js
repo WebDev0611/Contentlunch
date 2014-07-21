@@ -31,6 +31,7 @@
 
 			return providers.get({ type: providerType }, success, error);
 		},
+
 		queryContentConnections: function (accountId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;

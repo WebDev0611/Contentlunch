@@ -331,10 +331,17 @@
   width: 110px;
   vertical-align: text-bottom;
 }
+.cl-banner-large {
+  width: 160px;
+}
+.cl-banner-content-launch {
+  background-image: url(/assets/images/logo.png);
+}
 .cl-banner-hubspot {
   background-image: url(/assets/images/hubspot-banner.png);
 }
-.cl-banner-act-on {
+.cl-banner-act-on,
+.cl-banner-acton {
   background-image: url(/assets/images/act-on-banner.png);
 }
 .cl-banner-hootsuite {
@@ -345,6 +352,9 @@
 }
 .cl-banner-papershare {
   background-image: url(/assets/images/papershare-banner.png);
+}
+.cl-banner-smartshoot {
+  background-image: url(/assets/images/smart-shoot-banner.png);
 }
 /* #endregion */
 html,
@@ -944,6 +954,20 @@ span[class*=" icon-"].dark {
 }
 .right-pane .content-editor .btn-promote-automation > * {
   vertical-align: middle;
+}
+.right-pane .content-editor .content-development-help-panel,
+.right-pane .content-editor .smart-shoot-panel {
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  text-decoration: underline;
+}
+.right-pane .content-editor .content-development-help-panel {
+  color: #000000 !important;
+}
+.right-pane .content-editor .smart-shoot-panel {
+  background-color: #000000 !important;
+  color: #ffffff;
 }
 .view {
   height: 100%;
@@ -3140,8 +3164,19 @@ hr.simple-divider {
   vertical-align: top;
 }
 .modal-dialog .modal-brainstorm .agenda textarea {
-  height: 215px;
   width: 180px;
+  height: auto;
+}
+.modal-dialog .modal-brainstorm .agenda .agenda-item {
+  position: relative;
+}
+.modal-dialog .modal-brainstorm .agenda .agenda-item .description {
+  padding-right: 10px;
+}
+.modal-dialog .modal-brainstorm .agenda .agenda-item .fa-trash-o {
+  position: absolute;
+  right: 8px;
+  top: 2px;
 }
 .modal-dialog .modal-brainstorm .details {
   width: 65%;
