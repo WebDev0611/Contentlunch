@@ -44,8 +44,8 @@
         <div ng-show="brainstorms.length" class="panel">
             <div class="panel-heading" style="background-color:#ba1760; color: white">Brainstorm Sessions</div>
             <div class="panel-body">
-                <p ng-repeat="brainstorm in brainstorms | orderBy:'createdAt'">
-                    <strong>Meeting Scheduled</strong> {{ brainstorm | moment: 'MM/DD/YY h:mm a' }}
+                <p ng-repeat="brainstorm in brainstorms | orderBy:'datetime'">
+                    <a href="{{ getBrainstormUrl(brainstorm) }} "><strong>{{ brainstorm.description }}</strong></a> {{ brainstorm.datetime | moment : 'MMM DD, YYYY h:mma' }}
                 </p>
             </div>
         </div>

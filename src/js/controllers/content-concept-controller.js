@@ -248,6 +248,12 @@
                                 error : self.ajaxHandler.error
                             });
                             instance.close();
+                        };
+                        scope.addItem = function() {
+                            scope.brainstorm.agenda.push({description: ''});
+                        };
+                        scope.removeItem = function(index) {
+                            scope.brainstorm.agenda.splice(index, 1);
                         }
                     }
                 ]
@@ -263,6 +269,7 @@
                 error : self.ajaxHandler.error
             });
         }
+
 
 		self.init();
 	}
