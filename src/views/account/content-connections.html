@@ -28,9 +28,8 @@
 					<ul class="dropdown-menu" role="menu">
 						<li ng-repeat="provider in providers" ng-click="addConnection(provider.id)">
 							<a href="#">
-								<span class="{{ 'cl-icon ' + icon(provider.name) }}"></span>
+								<span class="{{ icon(provider.provider) }}"></span>
 								{{ provider.name }}
-
 							</a>
 						</li>
 					</ul>
@@ -45,7 +44,7 @@
 				</div>
 				<div class="row" ng-repeat="connection in filteredConnections">
 					<div class="col-md-4">
-						<span class="{{ 'cl-icon ' + icon(connection.provider) }}"></span>
+						<span class="{{ icon(connection.provider) }}"></span>
 						<span contenteditable ng-model="connection.name" on-change="editConnectionName" ng-show="canEditConnection" ng-focus="selectConnection($event, connection)"></span>
 						<span ng-show="!canEditConnection" ng-bind="connection.name"></span>
 					</div>
