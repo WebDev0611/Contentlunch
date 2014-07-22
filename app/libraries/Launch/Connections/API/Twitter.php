@@ -4,32 +4,31 @@ use Illuminate\Support\Facades\Config;
 use Launch\Connections\API\ConnectionConnector;
 use Thujohn\Twitter\Twitter;
 
-class TwitterAPI implements Connection
+class TwitterAPI extends AbstractConnection
 {
-    /**
-     * A reference to the Twitter SDK we're using 
-     * that in initialized in __construct
-     * @var Twitter
-     */
-    private $twitter;
-    private $accountConnection;
 
-    /**
-     * Do whatever setup we need to set up the SDK to make
-     * connections to the API
-     * @param array $accountConnection Settings passed from the database
-     */
-    public function __construct(array $accountConnection)
-    {   
-        $this->accountConnection = $accountConnection;
-        $config = Config::get('services.twitter');
+    protected $configKey = 'services.twitter';
 
-        $this->twitter = new Twitter([
-            'consumer_key'    => $config['key'],
-            'consumer_secret' => $config['secret'],
-            'token'           => $accountConnection['settings']['token']->getAccessToken(),
-            'secret'          => $accountConnection['settings']['token']->getAccessTokenSecret(),
-        ]);
+    protected function getClient()
+    {
+      if ( ! $this->client) {
+        $token = $this->getAccessToken();
+        $secret = $this->getAccessTokenSecret();
+        if ($token && $secret) {
+          $this->client = new Twitter([
+            'consumer_key'    => $this->config['key'],
+            'consumer_secret' => $this->config['secret'],
+            'token'           => $token,
+            'secret'          => $secret,
+          ]);
+        }
+      }
+      return $this->client;
+    }
+
+    public function getIdentifier()
+    {
+      return null;
     }
 
     /**
@@ -38,7 +37,8 @@ class TwitterAPI implements Connection
      */
     public function getFriends($page = 0, $perPage = 1000)
     {
-        $result = $this->twitter->getFollowers([
+        $client = $this->getClient();
+        $result = $client->getFollowers([
             'count'       => $perPage,
             'format'      => 'array',
             'skip_status' => 1,
@@ -56,9 +56,10 @@ class TwitterAPI implements Connection
      */
     public function postContent($content)
     {
+      $client = $this->getClient();
       // Strip html tags
       $message = strip_tags($content->body);
-      $response = $this->twitter->postTweet([
+      $response = $client->postTweet([
         'status' => $message,
         'format' => 'array'
       ]);
@@ -89,6 +90,7 @@ class TwitterAPI implements Connection
      */
     public function sendDirectMessage(array $friends, array $message, $contentID, $contentType, $accountID)
     {
+        $client = $this->getClient();
         $results = [];
         foreach ($friends as $friend) {
             $id = $friend['id'];
@@ -97,7 +99,7 @@ class TwitterAPI implements Connection
             $accessCode = ConnectionConnector::makeAccessCode($id);
             $link       = ConnectionConnector::makeShareLink($accessCode);
 
-            $result = $this->twitter->postDm([
+            $result = $client->postDm([
                 'user_id' => $id,
                 'text'    => "{$message['body']}\n\n{$link}",
                 'format'  => 'array'
@@ -133,7 +135,8 @@ class TwitterAPI implements Connection
      */
     public function getLinkLength()
     {
-        $result = $this->twitter->getHelpConfiguration(['format' => 'array']);
+        $client = $this->getClient();
+        $result = $client->getHelpConfiguration(['format' => 'array']);
         return $this->processResult(@$result['short_url_length_https'] ? ['len' => $result['short_url_length_https']] : $result);
     }
 

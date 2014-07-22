@@ -7,33 +7,42 @@ use Dropbox\WriteMode;
 /**
  * @see https://www.dropbox.com/developers/core/start/php
  */
-class DropboxAPI implements Connection {
+class DropboxAPI extends AbstractConnection {
 
-  private $accountConnection;
-  private $config = [];
+  protected $configKey = 'services.dropbox';
 
-  protected $api;
-
-  public function __construct(array $accountConnection) 
+  protected function getClient()
   {
-    // Setup connection to the API (SDK ?)
-    $this->accountConnection = $accountConnection;
-    $this->config = Config::get('services.dropbox');
-    $this->api = new Client($accountConnection['settings']['token']->getAccessToken(), $this->config['key']);
+    if ( ! $this->client) {
+      $token = $this->getAccessToken();
+      $this->client = new Client($token, $this->config['key']);
+    }
+    return $this->client;
   }
 
   public function getAccountInfo()
   {
-    $response = $this->api->getAccountInfo();
-    print_r($response);
+    try {
+      $client = $this->getClient();
+    } catch (\Exception $e) {
+      return '';
+    }
+    if ($client) {
+      $response = $client->getAccountInfo();
+      return $response;
+    }
   }
 
   public function postContent($content)
   {
-    $response = ['success' => true, 'response' => []];
+    $response = ['success' => false, 'response' => []];
+    $client = $this->getClient();
+    if ( ! $client) {
+      return $apiResponseonse;
+    }
     try {
       $f = fopen($content->upload->getAbsPath(), 'rb');
-      $apiResponse = $this->api->uploadFile('/'. $content->upload['filename'], WriteMode::add(), $f);
+      $apiResponse = $client->uploadFile('/'. $content->upload['filename'], WriteMode::add(), $f);
       fclose($f);
       if ( ! $apiResponse) {
         throw new \Exception("Couldn't upload file");
@@ -49,14 +58,12 @@ class DropboxAPI implements Connection {
     return $response;
   }
 
-  public function getFriends($page = 0, $perPage = 1000) 
-  {
-    // Not needed ? 
-  }
-
-  public function sendDirectMessage(array $friends, array $message, $contentID, $contentType, $accountID) 
-  {
-    // Not needed ?
+  public function getIdentifier()
+  {  
+    $info = $this->getAccountInfo();
+    if ($info) {
+      return $info['display_name'] .' - '. $info['email'];
+    }
   }
 
 }

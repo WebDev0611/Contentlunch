@@ -4,52 +4,34 @@ use Illuminate\Support\Facades\Config;
 use Soundcloud\Service as SoundcloudSDK;
 use Soundcloud\Exception\InvalidHttpResponseCodeException;
 
-class SoundcloudAPI implements Connection
-{
+class SoundcloudAPI extends AbstractConnection {
   
-  private $accountConnection;
-  private $config = [];
-  // Soundcloud sdk instance
-  private $api;
+  protected $configKey = 'services.soundcloud';
 
-  protected static $client = null;
-
-  public function __construct(array $accountConnection) 
+  protected function getClient()
   {
-    // Setup connection to the API (SDK ?)
-    $this->accountConnection = $accountConnection;
-    $this->config = Config::get('services.soundcloud');
-    $this->api = new SoundcloudSDK($this->config['key'], $this->config['secret']);
-
-    $this->api->setAccessToken($accountConnection['settings']['token']->getAccessToken());
-/*
-    if ( ! static::$client) {
-      static::$client = new Client(array(
-        'defaults' => array(
-          'timeout' => 20,
-          'connect_timeout' => 2,
-          'allow_redirects' => array('max' => 2, 'strict' => false, 'referer' => true),
-          'headers' => array(
-            'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/31.0.1650.63 Chrome/31.0.1650.63 Safari/537.36'
-          )
-        )
-      ));
-    }*/
+    if ( ! $this->client) {
+      $this->client = new SoundcloudSDK($this->config['key'], $this->config['secret']);
+      $this->client->setAccessToken($this->getAccessToken());
+    }
+    return $this->client;
   }
 
-  public function getFriends($page = 0, $perPage = 1000) 
+  public function getIdentifier()
   {
-    // Not needed ? 
+    return null;
   }
 
   public function getMe()
   {
-    $response = $this->api->get('me');
-    print_r($response);
+    $client = $this->getClient();
+    $response = $client->get('me');
+    return $response;
   }
 
   public function postContent($content)
   {
+    $client = $this->getClient();
     $response = ['success' => true, 'response' => []];
     // Build the track
     $track = [
@@ -69,7 +51,7 @@ class SoundcloudAPI implements Connection
     $upload = '@/' . base_path() . $content->upload['path'] . $content->upload['filename'];
     $track['track[asset_data]'] = $upload;
     try {
-      $apiResponse = $this->api->post('tracks', $track);
+      $apiResponse = $client->post('tracks', $track);
       $response['success'] = true;
       $response['response'] = $apiResponse;
     }
@@ -84,10 +66,6 @@ class SoundcloudAPI implements Connection
       $response['error'] = $e->getMessage();
     }
     return $response;
-  }
-
-  public function sendDirectMessage(array $friends, array $message, $contentID, $contentType, $accountID) {
-    // Not needed ?
   }
 
 }

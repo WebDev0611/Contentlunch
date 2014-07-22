@@ -6,32 +6,37 @@ use GuzzleHttp\Client;
 /**
  * @see http://developer.wordpress.com/docs/api/
   */
-class WordpressAPI implements Connection {
+class WordpressAPI extends AbstractConnection {
 
-  private $accountConnection;
-  private $config = [];
+  protected $configKey = 'services.wordpress';
   
   protected $base_url = 'https://public-api.wordpress.com';
-  protected $client = null;
 
-  public function __construct(array $accountConnection)
+  protected function getClient()
   {
-    $this->accountConnection = $accountConnection;
-    $this->config = Config::get('services.wordpress');
-    $access_key = $this->accountConnection['settings']['token']->getAccessToken();
-    $this->client = new Client([
-      'base_url' => $this->base_url,
-      'defaults' => [
-        'headers' => [
-          'Authorization' => 'Bearer '. $access_key
+    if ( ! $this->client) {
+      $token = $this->getAccessToken();
+      $this->client = new Client([
+        'base_url' => $this->base_url,
+        'defaults' => [
+          'headers' => [
+            'Authorization' => 'Bearer '. $token
+          ]
         ]
-      ]
-    ]);
+      ]); 
+    }
+    return $this->client;
+  }
+
+  public function getIdentifier()
+  {
+    return null;
   }
 
   public function getMe()
   {
-    $response = $this->client->get('rest/v1/me');
+    $client = $this->getClient();
+    $response = $client->get('rest/v1/me');
     return $response->json();
   }
 
@@ -40,6 +45,7 @@ class WordpressAPI implements Connection {
    */
   public function postContent($content)
   {
+    $client = $this->getClient();
     $response = ['success' => false, 'response' => []];
     try {
       $me = $this->getMe();
@@ -49,9 +55,9 @@ class WordpressAPI implements Connection {
           $tags[] = trim($tag->tag);
         }
       }
-      $apiResponse = $this->client->post('rest/v1/sites/'. $me['token_site_id'] .'/posts/new', [
+      $apiResponse = $client->post('rest/v1/sites/'. $me['token_site_id'] .'/posts/new', [
         'headers' => [
-          'Authorization' => 'Bearer '.$this->accountConnection['settings']['token']->getAccessToken(),
+          'Authorization' => 'Bearer '. $this->getAccessToken(),
           'Content-Type' => 'application/x-www-form-urlencoded'
         ],
         'body' => [
@@ -68,16 +74,6 @@ class WordpressAPI implements Connection {
       $response['error'] = $e->getMessage();
     }
     return $response;
-  }
-
-  public function getFriends($page = 0, $perPage = 1000)
-  {
-    // Not needed ? 
-  }
-
-  public function sendDirectMessage(array $friends, array $message, $contentID, $contentType, $accountID)
-  {
-    // Not needed ?
   }
 
 }
