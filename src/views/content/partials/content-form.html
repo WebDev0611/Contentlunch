@@ -44,6 +44,13 @@
 				<option ng-repeat="cc in contentConnections" value="{{ cc.id }}" ng-show="connectionIsSupported(cc)">{{ cc.name }}</option>
 			</select>
 		</div>
+
+        <div class="form-group panel-scribe" ng-show="showMetaInfo">
+            <div class="btn-scribe cl-icon-scribe"></div>
+            <button type="button" class="btn btn-lg btn-default" ng-click="sendToScribe()">
+                Analyze Content
+            </button>
+        </div>
 	</div>
 
 	<div class="control-group" ng-show="showAddFileButton">
