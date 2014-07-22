@@ -114,7 +114,7 @@
   background-image: url(/assets/images/wordpress.svg);
 }
 /* #endregion */
-/* #region content types */
+/* #region workflow */
 .cl-icon-workflow-concept {
   background-image: url(/assets/images/brain.svg);
 }
@@ -151,6 +151,8 @@
 .cl-icon-workflow-collaborate {
   background-image: url(/assets/images/collaborate.svg);
 }
+/* #endregion */
+/* #region content types */
 .cl-icon-content-type-blog-post {
   background-image: url(/assets/images/blogger.svg);
 }
