@@ -959,13 +959,87 @@
 		}
 	};
 
-	self.contentConnection = {
+	self.connection = {
 		parseResponse: function (r, getHeaders) {
-			return self.parseResponse(r, getHeaders, self.contentConnection.fromDto, self.contentConnection.sort);
+			return self.parseResponse(r, getHeaders, self.connection.fromDto, self.connection.sort);
 		},
 		formatRequest: function (connection) {
-			return JSON.stringify(self.contentConnection.toDto(connection));
+			return JSON.stringify(self.connection.toDto(connection));
 		},
+		fromDto: function (dto) {
+			switch (dto.connection_provider) {
+				case 'acton':
+				case 'hubspot':
+				case 'hootsuite':
+				case 'outbrain':
+				case 'papershare':
+					return self.promoteConnection.fromDto(dto);
+				case 'all-in-one':
+				case 'scribe':
+				case 'yoast':
+					return self.seoConnection.fromDto(dto);
+				default:
+					return self.contentConnection.fromDto(dto);
+			}
+
+			// TODO: UNCOMMENT THIS WHEN WE GET connection_type FROM THE API!!
+			//if (dto.type === 'content') {
+			//	return self.contentConnection.fromDto(dto);
+			//} else if (dto.type === 'promote') {
+			//	return self.promoteConnection.fromDto(dto);
+			//} else if (dto.type === 'seo') {
+			//	return self.seoConnection.fromDto(dto);
+			//}
+
+			//throw 'Unknown connection type: ' + JSON.stringify(dto);
+		},
+		toDto: function(connection) {
+			return {
+				id: connection.id,
+				account_id: connection.accountId,
+				connection_id: connection.connectionId,
+				name: connection.name,
+				status: (connection.active === true) ? 1 : 0,
+				settings: connection.connectionSettings,
+				connection_type: connection.connectionType,
+				connection_name: connection.connectionName,
+				connection_provider: connection.provider
+			};
+		},
+		sort: function (a, b) {
+			if (!a && !b) {
+				return 0;
+			} else if (!a && !!b) {
+				return 1;
+			} else if (!!a && !b) {
+				return -1;
+			}
+
+			if (a.name === b.name) {
+				if (a.connectionType === b.connectionType) {
+					if (a.id === b.id) {
+						return 0;
+					} else if (a.id < b.id) {
+						return -1;
+					} else {
+						return 1;
+					}
+				} else if (a.connectionType < b.connectionType) {
+					return -1;
+				} else {
+					return 1;
+				}
+			} else {
+				if (a.name < b.name) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+		}
+	};
+
+	self.contentConnection = {
 		fromDto: function (dto) {
 			var connection = new launch.ContentConnection();
 
@@ -1002,47 +1076,10 @@
 				connection_name: connection.connectionName,
 				connection_provider: connection.provider
 			};
-		},
-		sort: function (a, b) {
-			if (!a && !b) {
-				return 0;
-			} else if (!a && !!b) {
-				return 1;
-			} else if (!!a && !b) {
-				return -1;
-			}
-
-			if (a.name === b.name) {
-				if (a.connectionType === b.connectionType) {
-					if (a.id === b.id) {
-						return 0;
-					} else if (a.id < b.id) {
-						return -1;
-					} else {
-						return 1;
-					}
-				} else if (a.connectionType < b.connectionType) {
-					return -1;
-				} else {
-					return 1;
-				}
-			} else {
-				if (a.name < b.name) {
-					return -1;
-				} else {
-					return 1;
-				}
-			}
 		}
 	};
 
 	self.promoteConnection = {
-		parseResponse: function (r, getHeaders) {
-			return self.parseResponse(r, getHeaders, self.promoteConnection.fromDto, self.promoteConnection.sort);
-		},
-		formatRequest: function (connection) {
-			return JSON.stringify(self.promoteConnection.toDto(connection));
-		},
 		fromDto: function (dto) {
 			var connection = new launch.PromoteConnection();
 
@@ -1079,47 +1116,10 @@
 				connection_name: connection.connectionName,
 				connection_provider: connection.provider
 			};
-		},
-		sort: function (a, b) {
-			if (!a && !b) {
-				return 0;
-			} else if (!a && !!b) {
-				return 1;
-			} else if (!!a && !b) {
-				return -1;
-			}
-
-			if (a.name === b.name) {
-				if (a.connectionType === b.connectionType) {
-					if (a.id === b.id) {
-						return 0;
-					} else if (a.id < b.id) {
-						return -1;
-					} else {
-						return 1;
-					}
-				} else if (a.connectionType < b.connectionType) {
-					return -1;
-				} else {
-					return 1;
-				}
-			} else {
-				if (a.name < b.name) {
-					return -1;
-				} else {
-					return 1;
-				}
-			}
 		}
 	};
 
 	self.seoConnection = {
-		parseResponse: function(r, getHeaders) {
-			return self.parseResponse(r, getHeaders, self.seoConnection.fromDto, self.seoConnection.sort);
-		},
-		formatRequest: function(connection) {
-			return JSON.stringify(self.seoConnection.toDto(connection));
-		},
 		fromDto: function(dto) {
 			var connection = new launch.SeoConnection();
 
@@ -1139,40 +1139,14 @@
 			return {
 				id: connection.id,
 				account_id: connection.accountId,
+				connection_id: connection.connectionId,
 				name: connection.name,
-				status: (connection.active === true) ? 1 : 0
+				status: (connection.active === true) ? 1 : 0,
+				settings: connection.connectionSettings,
+				connection_type: connection.connectionType,
+				connection_name: connection.connectionName,
+				connection_provider: connection.provider
 			};
-		},
-		sort: function(a, b) {
-			if (!a && !b) {
-				return 0;
-			} else if (!a && !!b) {
-				return 1;
-			} else if (!!a && !b) {
-				return -1;
-			}
-
-			if (a.name === b.name) {
-				if (a.connectionType === b.connectionType) {
-					if (a.id === b.id) {
-						return 0;
-					} else if (a.id < b.id) {
-						return -1;
-					} else {
-						return 1;
-					}
-				} else if (a.connectionType < b.connectionType) {
-					return -1;
-				} else {
-					return 1;
-				}
-			} else {
-				if (a.name < b.name) {
-					return -1;
-				} else {
-					return 1;
-				}
-			}
 		}
 	};
 
@@ -1254,7 +1228,7 @@
 
 			content.collaborators = ($.isArray(dto.collaborators)) ? $.map(dto.collaborators, self.user.fromDto) : null;
 			content.comments = ($.isArray(dto.comments)) ? $.map(dto.comments, self.comment.fromDto) : null;
-			content.accountConnections = ($.isArray(dto.account_connections)) ? $.map(dto.account_connections, self.contentConnection.fromDto) : null;
+			content.accountConnections = ($.isArray(dto.account_connections)) ? $.map(dto.account_connections, self.connection.fromDto) : null;
 
 			content.relatedContent = dto.related.join(',');
 
@@ -1319,7 +1293,7 @@
 
 			dto.collaborators = $.isArray(content.collaborators) ? $.map(content.collaborators, self.user.toDto) : null;
 			dto.comments = $.isArray(content.comments) ? $.map(content.comments, self.comment.toDto) : null;
-			dto.account_connections = $.isArray(content.accountConnections) ? $.map(content.accountConnections, self.contentConnection.toDto) : null;
+			dto.account_connections = $.isArray(content.accountConnections) ? $.map(content.accountConnections, self.connection.toDto) : null;
 
 			dto.related = $.isArray(content.relatedContent) ? content.relatedContent.split(',') : null;
 			dto.tags = $.isArray(content.tags) ? $.map(content.tags, function (t) { return { tag: t }; }) : null;
