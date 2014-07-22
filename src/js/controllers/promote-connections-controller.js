@@ -78,7 +78,7 @@
 				return false;
 			}
 
-			return $.grep($scope.connections, function (c) { return c.provider === provider.name; }).length > 0;
+			return $.grep($scope.connections, function (c) { return c.provider === provider.provider; }).length > 0;
 		};
 
 		$scope.connect = function (provider) {
@@ -86,7 +86,7 @@
 		};
 
 		$scope.disconnect = function (provider) {
-			var connection = $.grep($scope.connections, function (c) { return c.provider === provider.name; });
+			var connection = $.grep($scope.connections, function (c) { return c.provider === provider.provider; });
 
 			if (connection.length === 1) {
 				connectionService.deletePromoteConnection(connection[0], self.ajaxHandler);
