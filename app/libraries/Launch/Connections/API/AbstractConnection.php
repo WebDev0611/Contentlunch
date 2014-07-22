@@ -23,6 +23,9 @@ abstract class AbstractConnection {
     if (empty($this->accountConnection['settings']['token'])) {
       throw new \Exception("Invalid connection");
     }
+    if ( ! is_object($this->accountConnection['settings']['token'])) {
+      return;
+    }
     $token = $this->accountConnection['settings']['token']->getAccessToken();
     if ( ! $token) {
       throw new \Exception("Invalid connection");
@@ -41,6 +44,15 @@ abstract class AbstractConnection {
   abstract protected function getClient();
 
   abstract protected function getIdentifier();
+
+  /**
+   * Save connection identifer in the accountConnection record
+   */
+  protected function saveIdentifier($identifier)
+  {
+    $connection = AccountConnection::find($this->accountConnection['id']);
+    $settings = unserialize($connection->settings);
+  }
 
   abstract public function postContent($content);
 
