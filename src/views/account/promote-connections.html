@@ -5,7 +5,7 @@
 	<div class="col-md-9 right-pane">
 		<h2 class="right-pane-header">Promote Settings</h2>
 		
-		<div class="right-pane-content">
+		<div class="right-pane-content" ng-if="!!providers && !!connections">
 			<div class="promote-connection-list" ng-repeat="cat in categories">
 				<div class="row">
 					<div class="col-md-3 promote-connection-type-container">

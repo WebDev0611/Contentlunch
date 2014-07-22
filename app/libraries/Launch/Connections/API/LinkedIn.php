@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Config;
 use Launch\Connections\API\ConnectionConnector;
 use LSS\Array2XML;
 
-class LinkedInAPI implements Connection
+class LinkedInAPI extends AbstractConnection implements Connection
 {
     /**
      * A reference to the LinkedIn SDK we're using 
@@ -14,7 +14,8 @@ class LinkedInAPI implements Connection
      * @var LinkedIn
      */
     private $linkedIn;
-    private $accountConnection;
+
+    protected $configKey = 'services.linkedin';
 
     /**
      * Do whatever setup we need to set up the SDK to make
@@ -23,15 +24,23 @@ class LinkedInAPI implements Connection
      */
     public function __construct(array $accountConnection)
     {
-        $this->accountConnection = $accountConnection;
+        parent::__construct($accountConnection);
 
-        // $config = Config::get('services.linkedin');
-        // $this->linkedIn = new LinkedIn($config['key'], $config['secret']);
+        if ( ! empty($accountConnection['settings'])) {
 
-        // need to pass params to please the fn definition, but actual
-        // values are only needed if we are using oauth, I think...
-        $this->linkedIn = new LinkedIn(null, null);
-        $this->linkedIn->setAccessToken($accountConnection['settings']['token']->getAccessToken());
+          // $config = Config::get('services.linkedin');
+          // $this->linkedIn = new LinkedIn($config['key'], $config['secret']);
+
+          // need to pass params to please the fn definition, but actual
+          // values are only needed if we are using oauth, I think...
+          $this->linkedIn = new LinkedIn(null, null);
+          $this->linkedIn->setAccessToken($accountConnection['settings']['token']->getAccessToken());
+        }
+    }
+
+    protected function getClient()
+    {
+      return $this->linkedIn;
     }
 
     /**
@@ -42,6 +51,11 @@ class LinkedInAPI implements Connection
     {
         $result = $this->linkedIn->api('v1/people/~/connections:(id,headline,first-name,last-name,industry,public-profile-url)'); //, ['count' => $perPage, 'start' => $page]);
         return $this->processResult($result);
+    }
+
+    public function getIdentifier()
+    {
+      return null;
     }
 
     /**

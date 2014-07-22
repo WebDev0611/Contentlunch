@@ -40,6 +40,7 @@
 	self.tags = null;
 	self.metaDescription = null;
 	self.metaKeywords = null;
+	self.ecommercePlatform = null;
 	self.isSelected = false;
 
 	self.taskGroups = null;
@@ -128,10 +129,18 @@
 				return (!self.author || launch.utils.isBlank(self.author.id)) ? 'Author is required.' : null;
 			case 'contentfile':
 				if (!self.contentType || launch.utils.isBlank(self.contentType.name)) {
-					return self.validateProperty('contenttype');
+					return null;
 				}
 
 				return self.validateContentFile();
+			case 'ecommerceplatform':
+				if (!self.contentType || launch.utils.isBlank(self.contentType.name)) {
+					return null;
+				}
+
+				if (self.contentType.name === 'blog-post' && launch.utils.isBlank(self.ecommercePlatform)) {
+					return 'Ecommerce Platform is required for Product Description content types.';
+				}
 			default:
 				return null;
 		}

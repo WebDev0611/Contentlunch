@@ -3,36 +3,33 @@
 use Illuminate\Support\Facades\Config;
 use GuzzleHttp\Client;
 
-class TumblrAPI implements Connection {
+class TumblrAPI extends AbstractConnection {
 
-  private $accountConnection;
-  private $config = [];
-  private $baseUrl = 'http://api.tumblr.com';
-  private $client;
+  protected $baseUrl = 'http://api.tumblr.com';
+  protected $configKey = 'services.tumblr';
 
-  public function __construct(array $accountConnection)
+  protected function getClient()
   {
-    $this->accountConnection = $accountConnection;
-    $this->config = Config::get('services.tumblr');
+    if ( ! $this->client) {
+      $this->client = new Client([
+        'base_url' => $this->baseUrl,
+        'defaults' => [
+          'timeout' => 20,
+          'connect_timeout' => 2,
+          'allow_redirects' => ['max' => 3, 'strict' => false, 'referer' => true],
+          'headers' => [
+            'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/31.0.1650.63 Chrome/31.0.1650.63 Safari/537.36',
+            'Expect' => ''
+          ]
+        ]
+      ]);
+    }
+    return $this->client;
   }
 
-  public function setupClient($method, $path, $params = [], $headers = [])
+  public function getRequest($method, $path, $params = [], $headers = [])
   {
-    $this->client = new Client([
-      'base_url' => $this->baseUrl,
-      'defaults' => [
-        'timeout' => 20,
-        'connect_timeout' => 2,
-        'allow_redirects' => ['max' => 3, 'strict' => false, 'referer' => true],
-        'headers' => [
-          'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/31.0.1650.63 Chrome/31.0.1650.63 Safari/537.36',
-          'Expect' => ''
-        ]
-      ]
-    ]);
-    // Get the oauth signature to put in the request header
-    $token = $this->accountConnection['settings']['token'];
-
+    $client = $this->getClient();
     $consumer = new \Eher\OAuth\Consumer(
       // Consumer key
       $this->config['key'],
@@ -41,9 +38,9 @@ class TumblrAPI implements Connection {
     );
     $token = new \Eher\OAuth\Token(
       // Oauth token
-      $token->getAccessToken(),
+      $this->getAccessToken(),
       // Oauth secret
-      $token->getAccessTokenSecret()
+      $this->getAccessTokenSecret()
     );
     $oauth = \Eher\OAuth\Request::from_consumer_and_token(
       $consumer,
@@ -57,7 +54,7 @@ class TumblrAPI implements Connection {
     $authHeader = $oauth->to_header();
     $pieces = explode(' ', $authHeader, 2);
     $authString = $pieces[1];
-    $request = $this->client->createRequest($method, $this->baseUrl .'/'. $path, [
+    $request = $client->createRequest($method, $this->baseUrl .'/'. $path, [
       'headers' => [
         'Authorization' => $authString,
       ],
@@ -66,10 +63,16 @@ class TumblrAPI implements Connection {
     return $request;
   }
 
+  public function getIdentifier()
+  {
+    return null;
+  }
+
   public function getUserInfo()
   {
-    $request = $this->setupClient('GET', 'v2/user/info');
-    $response = $this->client->send($request);
+    $request = $this->getRequest('GET', 'v2/user/info');
+    $client = $this->getClient();
+    $response = $client->send($request);
     $info = $response->json();
     if ($info['meta']['msg'] == 'OK') {
       return $info['response'];
@@ -105,8 +108,9 @@ class TumblrAPI implements Connection {
 
     $response = ['success' => true, 'response' => []];
     try {
-      $request = $this->setupClient('POST', 'v2/blog/'. $name .'.tumblr.com/post', $params);
-      $apiResponse = $this->client->send($request);
+      $request = $this->getRequest('POST', 'v2/blog/'. $name .'.tumblr.com/post', $params);
+      $client = $this->getClient();
+      $apiResponse = $client->send($request);
       $response['response'] = $apiResponse->json();
     } catch (\Exception $e) {
       $response['success'] = false;
@@ -115,16 +119,6 @@ class TumblrAPI implements Connection {
       $response['error'] = $e->getMessage();
     }
     return $response;
-  }
-
-  public function getFriends($page = 0, $perPage = 1000)
-  {
-    // Not needed ? 
-  }
-
-  public function sendDirectMessage(array $friends, array $message, $contentID, $contentType, $accountID)
-  {
-    // Not needed ?
   }
 
 }

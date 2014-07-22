@@ -10,7 +10,34 @@ class AccountConnectionsController extends BaseController {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    return AccountConnection::doQuery($accountID, Input::get('type'), Input::get('provider'));
+    $connections = AccountConnection::doQuery($accountID, Input::get('type'), Input::get('provider'));
+    if ($connections) {
+      foreach ($connections as $connection) {
+        switch ($connection->connection_provider) {
+          case 'linkedin':
+            $className = 'LinkedInAPI';
+          break;
+          default:
+            $className = ucwords($connection->connection_provider) .'API';
+        }
+        $class = 'Launch\\Connections\\API\\' . $className;
+        $api = new $class((array) $connection);
+
+        // The connection identifier should be set when the 
+        // connection is created.
+        // This is just a fix to get identifiers
+        // for existing connections
+        if ( ! $connection->identifier && $api->isValid()) {
+          $connection->identifier = $api->getIdentifier();
+          DB::table('account_connections')
+            ->where('id', $connection->id)
+            ->update([
+              'identifier' => $connection->identifier
+            ]);
+        }
+      }
+    }
+    return $connections;
   }
 
   /**

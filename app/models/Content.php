@@ -53,17 +53,12 @@ class Content extends Ardent {
         }
       }
     }
-    // Force direct uploads to be status of 4
-    // And upload_id must be present
+    // For direct uploads, upload_id must be present
     if ( ! empty($this->content_type_id)) {
       $type = ContentType::find($this->content_type_id);
       if ($type->key == 'direct-upload') {
         if ( ! $this->upload_id) {
           $this->validationErrors->add('upload', 'Missing required upload_id for Direct Upload');
-          return false;
-        }
-        if ($this->status != 4) {
-          $this->validationErrors->add('status', 'Direct upload must be set to status of 4');
           return false;
         }
       }
@@ -164,6 +159,17 @@ class Content extends Ardent {
       }
 
       return $content;
+    });
+
+    static::saving(function ($content) {
+      // Force direct uploads to be status of 4
+      if ( ! empty($content->content_type_id)) {
+        $type = ContentType::find($content->content_type_id);
+        if ($type->key == 'direct-upload' && $content->status < 4) {
+          $content->status = 4;
+        }
+      }
+      return true;
     });
 
     static::updated(function ($content) {
