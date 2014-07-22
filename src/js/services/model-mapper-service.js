@@ -1091,6 +1091,8 @@
 			connection.updated = new Date(dto.updated_at);
 			connection.connectionName = dto.connection_name;
 			connection.provider = dto.connection_provider;
+      connection.identifier = dto.identifier;
+      connection.url = dto.url;
 
 			if (launch.utils.isBlank(connection.provider) && $.isPlainObject(dto.connection)) {
 				connection.provider = dto.connection.provider;

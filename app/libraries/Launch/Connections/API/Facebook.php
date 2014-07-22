@@ -32,11 +32,17 @@ class FacebookAPI extends AbstractConnection {
     return $data;
   }
 
+  public function getUrl()
+  {
+    $info = $this->getMe();
+    return $info->getProperty('link');
+  }
+
   public function getIdentifier()
   {
     $info = $this->getMe();
     if ($info) {
-      return $info->getName() .' - '. $info->getProperty('email');
+      return $info->getName();
     }
   }
 

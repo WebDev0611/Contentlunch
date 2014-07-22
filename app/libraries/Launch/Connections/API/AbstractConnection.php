@@ -45,6 +45,11 @@ abstract class AbstractConnection {
 
   abstract protected function getIdentifier();
 
+  public function getUrl()
+  {
+    return null;
+  }
+
   /**
    * Save connection identifer in the accountConnection record
    */

@@ -62,8 +62,13 @@ class DropboxAPI extends AbstractConnection {
   {  
     $info = $this->getAccountInfo();
     if ($info) {
-      return $info['display_name'] .' - '. $info['email'];
+      return $info['display_name'];
     }
+  }
+
+  public function getUrl()
+  {
+    return null;
   }
 
 }

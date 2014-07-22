@@ -36,6 +36,14 @@ class AccountConnectionsController extends BaseController {
                 'identifier' => $connection->identifier
               ]);
           }
+          if ( ! $connection->url && $api->isValid()) {
+            $connection->url = $api->getUrl();
+            DB::table('account_connections')
+              ->where('id', $connection->id)
+              ->update([
+                'url' => $connection->url
+              ]);
+          }
         }
       }
     }
@@ -128,7 +136,7 @@ class AccountConnectionsController extends BaseController {
 
   public function destroy($accountID, $accountConnectID)
   {
-    if ( ! $this->inAccount($account_id)) {
+    if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
     $connection = AccountConnection::find($accountConnectID);
