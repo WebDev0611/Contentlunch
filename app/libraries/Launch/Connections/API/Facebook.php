@@ -6,21 +6,22 @@ use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
 use Illuminate\Support\Facades\Config;
 
-class FacebookAPI implements Connection
-{
+class FacebookAPI extends AbstractConnection {
 
-  private $accountConnection;
-  private $fbConfig = [];
+  protected $configKey = 'services.facebook';
 
-  public function __construct(array $accountConnection) {
-    // Setup connection to the API (SDK ?)
-    $this->accountConnection = $accountConnection;
-    $this->fbConfig = Config::get('services.facebook');
-    FacebookSession::setDefaultApplication($this->fbConfig['key'], $this->fbConfig['secret']);
+  protected function getClient()
+  {
+    if ( ! $this->client) {
+      FacebookSession::setDefaultApplication($this->config['key'], $this->config['secret']);
+      $this->client = new FacebookSession($this->getAccessToken());
+    }
+    return $this->client;
   }
 
-  public function getFriends($page = 0, $perPage = 1000) {
-    // Not needed ? 
+  public function getIdentifier()
+  {
+    return null;
   }
 
   /**
@@ -34,7 +35,7 @@ class FacebookAPI implements Connection
   public function postContent($content) {
     // No html allowed here
     $message = strip_tags($content->body);
-    $session = new FacebookSession($this->accountConnection['settings']['token']->getAccessToken());
+    $session = $this->getClient();
     $response = ['success' => true, 'response' => []];
     try {
       // /me translates to user_id of the person or page_id of the page
@@ -56,10 +57,6 @@ class FacebookAPI implements Connection
       $response['error'] = $e->getMessage();
     }
     return $response;
-  }
-
-  public function sendDirectMessage(array $friends, array $message, $contentID, $contentType, $accountID) {
-    // Not needed ?
   }
 
 }
