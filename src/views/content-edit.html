@@ -69,16 +69,32 @@
 					add-collaborator-callback="filterTaskAssignees" remove-collaborator-callback="filterTaskAssignees" is-disabled="collboratorsIsDisabled"
 					is-collaborator-finished="isCollaboratorFinished"></div>
 				
-				<div ng-if="!isNewContent" ng-show="canPromoteContent">
-					<button class="btn btn-default btn-promote-automation" ng-click="promoteContent('hubspot')" ng-show="connectionIsSupported(hubspotConnection)">
+				<div ng-if="!isNewContent" ng-show="canLaunchContent">
+					<button class="btn btn-default btn-promote-automation" ng-click="launchContent(hubspotConnection, true)" ng-show="connectionIsSupported(hubspotConnection)">
 						Send to
 						<span class="cl-banner cl-banner-hubspot"></span>
 					</button>
-					<button class="btn btn-default btn-promote-automation" ng-click="promoteContent('act-on')" ng-show="connectionIsSupported(actOnConnection)">
+					<button class="btn btn-default btn-promote-automation" ng-click="launchContent(actOnConnection, true)" ng-show="connectionIsSupported(actOnConnection)">
 						Send to
 						<span class="cl-banner cl-banner-act-on"></span>
 					</button>
 				</div>
+				
+				<a href="" ng-hide="content.status >= 3 || isNewContent || content.contentType.name === 'video'">
+					<div class="panel panel-default content-development-help-panel">
+						<div class="panel-body">
+							<span class="cl-banner cl-banner-large cl-banner-content-launch"></span><br/>
+							Need Help Developing Your Content?
+						</div>
+					</div>
+				</a>
+				
+				<a href="http://www.smartshoot.com/" target="_blank" ng-hide="content.status >= 3 || isNewContent || content.contentType.name !== 'video'">
+					<div class="panel panel-default smart-shoot-panel">
+						<span class="cl-banner cl-banner-large cl-banner-smartshoot"></span><br/>
+						Need Videographers?
+					</div>
+				</a>
 			</div>
 		</div>
 		<div class="row">

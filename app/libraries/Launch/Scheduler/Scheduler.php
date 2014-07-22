@@ -5,6 +5,7 @@ use \Queue;
 use \Log;
 use \Exception;
 use \DB;
+use \App;
 
 use \User;
 use \Content;
@@ -54,30 +55,40 @@ class Scheduler {
 
     public static function measureCreatedContent($date, $accountID)
     {
+        Log::info('Queueing measureCreatedContent job');
         // @TODO configurable
         Timezone::set('-07:00');
 
         $date = new Carbon($date);
-        Queue::later($date->endOfDay(), function () use ($date, $accountID) {
+        Queue::later($date->endOfDay(), function ($job) use ($date, $accountID) {
+        // Queue::push(function ($job) use ($date, $accountID) {
+            Log::info('Running measureCreatedContent job');
             App::make('Measure')->measureCreatedContent($date, $accountID);
 
             // schedule for tomorrow
-            self::measureCreatedContent($date->tomorrow()->endOfDay(), $accountID);
-        }, [$date->format('Y-m-d'), $accountID], 'measure-created-content');
+            \Launch\Scheduler\Scheduler::measureCreatedContent($date->tomorrow()->endOfDay(), $accountID);
+
+            $job->delete();
+        }, [$date->format('Y-m-d'), $accountID]); //, 'measure-created-content');
     }
 
     public static function measureLaunchedContent($date, $accountID)
     {
+        Log::info('Queueing measureLaunchedContent job');
         // @TODO configurable
         Timezone::set('-07:00');
 
         $date = new Carbon($date);
-        Queue::later($date->endOfDay(), function () use ($date, $accountID) {
+        Queue::later($date->endOfDay(), function ($job) use ($date, $accountID) {
+        // Queue::push(function ($job) use ($date, $accountID) {
+            Log::info('Running measureLaunchedContent job');
             App::make('Measure')->measureLaunchedContent($date, $accountID);
 
             // schedule for tomorrow
-            self::measureLaunchedContent($date->tomorrow()->endOfDay(), $accountID);
-        }, [$date->format('Y-m-d'), $accountID], 'measure-launched-content');
+            \Launch\Scheduler\Scheduler::measureLaunchedContent($date->tomorrow()->endOfDay(), $accountID);
+
+            $job->delete();
+        }, [$date->format('Y-m-d'), $accountID]); //, 'measure-launched-content');
     }
 
     /**

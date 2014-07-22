@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Launch\Migration;
 
 class ConnectionsAddPromote extends Migration {
 
@@ -18,84 +18,15 @@ class ConnectionsAddPromote extends Migration {
     Schema::table('content_types', function ($table) {
       $table->boolean('visible')->default(true);
     });
-    $types = ContentType::all();
-    $list = require __DIR__ .'/../seeds/contentTypesList.php';
-
-    // Delete any content types from the database
-    // that don't exist in the list
-    foreach ($types as $type) {
-      $exists = false;
-      foreach ($list as $item) {
-        if ($item[1] == $type->key) {
-          $exists = true;
-        }
-      }
-      if ( ! $exists) {
-        $type->delete();
-      }
-    }
-
-    // Sync the database with the connections list
-    foreach ($list as $item) {
-      $type = ContentType::where('key', $item[1])->first();
-      $mode = 'update';
-      if ( ! $type) {
-        $mode = 'create';
-        $type = new ContentType;
-      }
-
-      $type->name = $item[0];
-      $type->key = $item[1];
-      $type->base_type = $item[2];
-      $type->visible = $item[3];
-
-      if ($mode == 'create') {
-        $type->save();
-      } else {
-        $type->updateUniques();
-      }
-    }
+    
+    $this->syncContentTypes();
 
     // Add category to connections table
     Schema::table('connections', function ($table) {
       $table->string('category');
     });
 
-    $connections = Connection::all();
-    $list = require __DIR__ .'/../seeds/connectionsList.php';
-    // Delete any connections from the database
-    // that don't exist in the list
-    foreach ($connections as $connection) {
-      $exists = false;
-      foreach ($list as $item) {
-        if ($item[1] == $connection->provider) {
-          $exists = true;
-        }
-      }
-      if ( ! $exists) {
-        $connection->delete();
-      }
-    }
-    // Sync the database with the connections list
-    foreach ($list as $item) {
-      $connection = Connection::where('provider', $item[1])->first();
-      $mode = 'update';
-      if ( ! $connection) {
-        $mode = 'create';
-        $connection = new Connection;
-      }
-
-      $connection->name = $item[0];
-      $connection->provider = $item[1];
-      $connection->type = $item[2];
-      $connection->category = $item[3];
-
-      if ($mode == 'create') {
-        $connection->save();
-      } else {
-        $connection->updateUniques();
-      }
-    }
+    $this->syncConnections();
   }
 
   /**

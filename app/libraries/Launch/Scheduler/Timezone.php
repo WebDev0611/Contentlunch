@@ -15,10 +15,10 @@ class Timezone
         // set MySQL timezone
         DB::statement("SET time_zone='{$timezone}'");
 
-        // convert -08:00 to "Americas/Los_Angeles" etc
-        // note that it may not be reliable to store the timezone ID because
+        // Convert -08:00 to "Americas/Los_Angeles" etc.
+        // Note that it may not be reliable to store the timezone ID because
         // of ambiguity thanks to DST. But it should work for the life of this
-        // request
+        // request, as long as it translates back to the passed-in timezone
         $offset = intval($timezone);
         $timezoneName = timezone_name_from_abbr(null, $offset * 3600, true);
         if ($timezoneName === false) $tz = timezone_name_from_abbr(null, $offset * 3600, false);

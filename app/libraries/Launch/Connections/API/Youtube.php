@@ -16,40 +16,48 @@ use Google_Http_MediaFileUpload;
  * @see https://github.com/google/google-api-php-client
  * Use master of this lib, as latest tag has error in media upload
  */
-class YoutubeAPI implements Connection {
+class YoutubeAPI extends AbstractConnection {
   
-  private $accountConnection;
-  private $config = [];
-  // Google client
-  private $googleClient;
+  protected $configKey = 'services.google';
+
   // Youtube service api
-  private $api;
+  protected $api = null;
 
-  public function __construct(array $accountConnection)
+  protected function getClient()
   {
-    $this->accountConnection = $accountConnection;
-    $this->config = Config::get('services.google');
+    if ( ! $this->client) {
+      // Setup google client
+      $this->client = new Google_Client;
+      $this->client->setClientId($this->config['key']);
+      $this->client->setClientSecret($this->config['secret']);
+      $this->client->setScopes('https://www.googleapis.com/auth/youtube');
 
-    // Setup google client
-    $this->googleClient = new Google_Client;
-    $this->googleClient->setClientId($this->config['key']);
-    $this->googleClient->setClientSecret($this->config['secret']);
-    $this->googleClient->setScopes('https://www.googleapis.com/auth/youtube');
+      // Use refresh token
+      try {
+        $token = $this->getRefreshToken();
+      } catch (\Exception $e) {
+        return;
+      }
 
-    // Use refresh token
-    $token = $this->getRefreshToken();
-    if ( ! $token) {
-      // @todo: Handle this better
-      throw new \Exception('Invalid token');
+      if ( ! $token) {
+        // @todo: Handle this better
+        throw new \Exception('Invalid token');
+      }
+      // Google lib expects token in this format
+      $token = json_encode([
+        'access_token' => $token,
+        'created' => time(),
+        'expires_in' => 3600
+      ]);
+      $this->client->setAccessToken($token);
+      $this->api = new Google_Service_YouTube($this->client);
     }
-    // Google lib expects token in this format
-    $token = json_encode([
-      'access_token' => $token,
-      'created' => time(),
-      'expires_in' => 3600
-    ]);
-    $this->googleClient->setAccessToken($token);
-    $this->api = new Google_Service_YouTube($this->googleClient);
+    return $this->client;
+  }
+
+  public function getIdentifier()
+  {
+    return null;
   }
 
   protected function getRefreshToken()
@@ -106,14 +114,14 @@ class YoutubeAPI implements Connection {
 
       // Setting the defer flag to true tells the client to return a request which can be called
       // with ->execute(); instead of making the API call immediately.
-      $this->googleClient->setDefer(true);
+      $this->client->setDefer(true);
 
       // Create a request for the API's videos.insert method to create and upload the video.
       $insertRequest = $this->api->videos->insert("status,snippet", $video);
 
       // Create a MediaFileUpload object for resumable uploads.
       $media = new Google_Http_MediaFileUpload(
-        $this->googleClient,
+        $this->client,
         $insertRequest,
         'video/*',
         null,
@@ -133,7 +141,7 @@ class YoutubeAPI implements Connection {
       fclose($handle);
 
       // If you want to make other calls after the file upload, set setDefer back to false
-      $this->googleClient->setDefer(false);
+      $this->client->setDefer(false);
 
       $response['success'] = true;
       $response['response'] = $status;
@@ -143,16 +151,6 @@ class YoutubeAPI implements Connection {
       $response['error'] = $e->getMessage();
     }
     return $response;
-  }
-
-  public function getFriends($page = 0, $perPage = 1000)
-  {
-    // Not needed ? 
-  }
-
-  public function sendDirectMessage(array $friends, array $message, $contentID, $contentType, $accountID)
-  {
-    // Not needed ?
   }
 
 }

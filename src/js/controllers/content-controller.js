@@ -194,7 +194,11 @@
 					}
 
 					if ($scope.isNewContent) {
-						$location.path('/create/content/edit/' + r.id);
+						if ($scope.isPromote) {
+							$location.path('/promote/content/' + r.id);
+						} else {
+							$location.path('/create/content/edit/' + r.id);
+						}
 					} else {
 						self.refreshContent();
 					}
