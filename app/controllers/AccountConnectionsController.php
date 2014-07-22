@@ -21,19 +21,21 @@ class AccountConnectionsController extends BaseController {
             $className = ucwords($connection->connection_provider) .'API';
         }
         $class = 'Launch\\Connections\\API\\' . $className;
-        $api = new $class((array) $connection);
+        if (class_exists($class)) {
+          $api = new $class((array) $connection);
 
-        // The connection identifier should be set when the 
-        // connection is created.
-        // This is just a fix to get identifiers
-        // for existing connections
-        if ( ! $connection->identifier && $api->isValid()) {
-          $connection->identifier = $api->getIdentifier();
-          DB::table('account_connections')
-            ->where('id', $connection->id)
-            ->update([
-              'identifier' => $connection->identifier
-            ]);
+          // The connection identifier should be set when the 
+          // connection is created.
+          // This is just a fix to get identifiers
+          // for existing connections
+          if ( ! $connection->identifier && $api->isValid()) {
+            $connection->identifier = $api->getIdentifier();
+            DB::table('account_connections')
+              ->where('id', $connection->id)
+              ->update([
+                'identifier' => $connection->identifier
+              ]);
+          }
         }
       }
     }
