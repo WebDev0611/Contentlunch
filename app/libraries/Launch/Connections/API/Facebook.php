@@ -6,6 +6,9 @@ use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
 use Illuminate\Support\Facades\Config;
 
+/**
+ * @see: https://developers.facebook.com/docs/graph-api/reference/v2.0/user/feed
+ */
 class FacebookAPI extends AbstractConnection {
 
   protected $configKey = 'services.facebook';
@@ -19,15 +22,28 @@ class FacebookAPI extends AbstractConnection {
     return $this->client;
   }
 
+  public function getMe()
+  {
+
+    $session = $this->getClient();
+    $data = (new FacebookRequest(
+      $session, 'GET', '/me'
+    ))->execute()->getGraphObject(GraphUser::className());
+    return $data;
+  }
+
   public function getIdentifier()
   {
-    return null;
+    $info = $this->getMe();
+    if ($info) {
+      return $info->getName() .' - '. $info->getProperty('email');
+    }
   }
 
   /**
    * Post content to the facebook connection as a status message
    * Strip html tags
-   * @see: https://developers.facebook.com/docs/graph-api/reference/v2.0/user/feed
+   *
    * @todo: Support for pages, groups
    * @todo: Add attachments?
    * @todo: Return response
