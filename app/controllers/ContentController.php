@@ -313,4 +313,20 @@ class ContentController extends BaseController {
     return $launch;
   }
 
+
+    public function analyze($accountID, $contentID) {
+        $scribeClass = 'Launch\Connections\API\\ScribeAPI';
+        $scribe = new $scribeClass();
+        $content = Content::where('account_id', $accountID)->where('id', $contentID)->first();
+        if (empty($content)) {
+            return $this->responseError('Content not found or insufficient permissions to access content.');
+        }
+        // TODO: remove hardcoded domain reference
+        $analysis = $scribe->contentAnalysis($content->title, $content->meta_description, $content->title, $content->body, 'http://contentlaunch.com');
+        if (!$analysis['success']) {
+            return $this->responseError($analysis['response']['message']);
+        }
+        return $analysis['response'];
+    }
+
 }

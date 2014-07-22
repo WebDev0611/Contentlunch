@@ -1,12 +1,11 @@
 <?php namespace Launch\Connections\API;
 
+use Illuminate\Support\Facades\Config;
+
 class ScribeAPI {
     private $_apiKey;
-    private $_accountConnection;
 
-    public function __construct(array $accountConnection) {
-        $this->_accountConnection = $accountConnection;
-
+    public function __construct() {
         $config = Config::get('services.scribe');
         $this->_apiKey = $config['key'];
     }
@@ -70,16 +69,16 @@ class ScribeAPI {
         return $this->_request($this->detailsURL(), 'POST', $params);
     }
 
-    public function contentAnalysis($htmlTitle, $htmlDescription, $htmlHeadline, $htmlBody, $domain, $targetedKeyword = null) {
+    public function contentAnalysis($htmlTitle, $htmlDescription, $htmlHeadline, $htmlBody, $domain = null, $targetedKeyword = null) {
         $params = array(
             'htmlTitle'       => urlencode($htmlTitle),
             'htmlDescription' => urlencode($htmlDescription),
             'htmlHeadline'    => urlencode($htmlHeadline),
-            'htmlBody'        => urlencode($htmlBody),
-            'domain'          => urlencode($domain)
+            'htmlBody'        => urlencode($htmlBody)
         );
 
         if ($targetedKeyword) $params['targetedKeyword'] = urlencode($targetedKeyword);
+        if ($domain) $params['domain'] = urlencode($domain);
 
         return $this->_request($this->contentAnalysisURL(), 'POST', $params);
     }

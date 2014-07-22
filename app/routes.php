@@ -201,6 +201,8 @@ Route::group(['prefix' => 'api'], function()
 
   Route::get('account/{accountID}/guest-collaborators', 'GuestCollaboratorsController@all');
 
+  Route::post('account/{accountID}/content/{contentID}/analyze', 'ContentController@analyze');
+
 });
 
 Route::get('password/reset/{code}', 'AuthController@check_reset');

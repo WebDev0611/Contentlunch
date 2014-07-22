@@ -194,7 +194,11 @@
 					}
 
 					if ($scope.isNewContent) {
-						$location.path('/create/content/edit/' + r.id);
+						if ($scope.isPromote) {
+							$location.path('/promote/content/' + r.id);
+						} else {
+							$location.path('/create/content/edit/' + r.id);
+						}
 					} else {
 						self.refreshContent();
 					}
@@ -923,6 +927,27 @@
 
 			$scope.selectedConnections = [];
 		};
+
+        $scope.sendToScribe = function() {
+            contentService.analyze(self.loggedInUser.account.id, $scope.content.id, {
+                success: function(r) {
+                    $modal.open({
+                        windowClass: 'modal-large',
+                        templateUrl: '/assets/views/content/scribe-analysis.html',
+                        controller: [
+                            '$scope', '$modalInstance', function (scope, instance) {
+                                scope.scribe = r;
+                                console.log(r);
+                            }
+                        ]
+                    });
+                },
+                error: self.ajaxHandler.error
+            });
+            //var response = JSON.parse('{"docScore":44,"docScoreE":["TitleLen","MetaCharLen","HyperLen","NoPKW"],"excludes":["requires some"],"fleschScore":"fairly difficult","keywords":[{"kwc":0.66,"kwd":0.19,"kwe":["KwET","KwEM","KwELF"],"kwf":1,"kwl":4,"kwlText":"Not Emphasized","kwo":"B","kwod":"To improve the ranking for this term, correct the copywriting and\/or document issues found.","kwp":"Very Low","kwr":1,"kws":9.5,"kwsv":35600,"text":"healthy relationship"},{"kwc":0.66,"kwd":0.19,"kwe":["KwET","KwEM","KwELF"],"kwf":1,"kwl":4,"kwlText":"Not Emphasized","kwo":"D","kwod":"You will need to do some work for this term, including improving your copywriting and writing more about this topic on your site.","kwp":"Very Low","kwr":3,"kws":3.01,"kwsv":24900,"text":"half hour"},{"kwc":1.66,"kwd":0.38,"kwe":["KwET","KwEM"],"kwf":2,"kwl":3,"kwlText":"Significant","kwo":"D","kwod":"You will need to do some work for this term, including improving your copywriting and writing more about this topic on your site.","kwp":"Very Low","kwr":4,"kws":0,"kwsv":194600,"text":"hot summer"},{"kwc":0.87,"kwd":0.19,"kwe":["KwET","KwEMP","KwELF"],"kwf":1,"kwl":4,"kwlText":"Not Emphasized","kwo":"D","kwod":"You will need to do some work for this term, including improving your copywriting and writing more about this topic on your site.","kwp":"Very Low","kwr":2,"kws":3.01,"kwsv":21300,"text":"these streets"}],"scribeScore":20,"tags":["side deals","these streets","suburban houses","hot summer","break ins","healthy relationship","blog posts","central airs","requires some","half hour","linguistics","orthography"]}');
+
+
+        }
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
 
