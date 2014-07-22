@@ -703,6 +703,7 @@
 			case 'create':
 				return 'cl-icon cl-icon-workflow-create';
 			case 'edit':
+			case 'review':
 				return 'cl-icon cl-icon-workflow-review';
 			case 'approve':
 				return 'cl-icon cl-icon-workflow-approve';
