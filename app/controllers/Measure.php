@@ -1,13 +1,31 @@
 <?php
 
 use Launch\Scheduler\Scheduler;
+use Launch\Scheduler\Timezone;
+use Carbon\Carbon;
 
 class Measure extends BaseController {
 
     public function test()
     {
-        Scheduler::measureCreatedContent('2014-07-18', 1);
-        Scheduler::measureLaunchedContent('2014-07-18', 1);
+        $date = Carbon::now()->subMonth(1);
+        $now = Carbon::now();
+
+        // do {
+        //     Scheduler::measureCreatedContent($date->format('Y-m-d'), 1);
+        //     Scheduler::measureLaunchedContent($date->format('Y-m-d'), 1);
+        //     $date->addDay(1);
+        // } while ($now->gte($date));
+
+        // Queue::push('Measure');
+
+        Scheduler::measureCreatedContent($now->format('Y-m-d'), 1);
+        Scheduler::measureLaunchedContent($now->format('Y-m-d'), 1);
+    }
+
+    public function fire()
+    {
+        Log::info('Testing the FIRE');
     }
 
     public function createdContent()
@@ -48,8 +66,8 @@ class Measure extends BaseController {
                         ->where('account_id', $accountID)
                         ->where('status', '!=', 0);
 
-        $model = MeasureCreatedContent::firstOrNew(['date' => $date]);
-        $model->accountID = $accountID;
+        $model = MeasureCreatedContent::firstOrNew(['date' => $date->format('Y-m-d')]);
+        $model->account_id = $accountID;
 
         $stats = [];
 
@@ -76,8 +94,8 @@ class Measure extends BaseController {
                         ->where('account_id', $accountID)
                         ->where('status', '!=', 0);
 
-        $model = MeasureCreatedContent::firstOrNew(['date' => $date]);
-        $model->accountID = $accountID;
+        $model = MeasureLaunchedContent::firstOrNew(['date' => $date->format('Y-m-d')]);
+        $model->account_id = $accountID;
 
         $stats = [];
 
