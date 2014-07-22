@@ -24,7 +24,6 @@ class FacebookAPI extends AbstractConnection {
 
   public function getMe()
   {
-
     $session = $this->getClient();
     $data = (new FacebookRequest(
       $session, 'GET', '/me'

@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Config;
 use Launch\Connections\API\ConnectionConnector;
 use LSS\Array2XML;
 
+/**
+ * @see https://github.com/HappyR/LinkedIn-API-client/
+ * @see https://developer.linkedin.com/core-concepts
+ */
 class LinkedInAPI extends AbstractConnection implements Connection
 {
     /**
@@ -40,7 +44,16 @@ class LinkedInAPI extends AbstractConnection implements Connection
 
     protected function getClient()
     {
-      return $this->linkedIn;
+      $client = new LinkedIn($this->config['key'], $this->config['secret']);
+      $client->setAccessToken($this->getAccessToken());
+      return $client;
+    }
+
+    public function getMe()
+    {
+      $client = $this->getClient();
+      $user = $client->api('v1/people/~:(firstName,lastName,picture-url,public-profile-url)');
+      return $user;
     }
 
     /**
@@ -55,7 +68,14 @@ class LinkedInAPI extends AbstractConnection implements Connection
 
     public function getIdentifier()
     {
-      return null;
+      $user = $this->getMe();
+      return $user['firstName'] .' '. $user['lastName'];
+    }
+
+    public function getUrl()
+    {
+      $user = $this->getMe();
+      return $user['publicProfileUrl'];
     }
 
     /**
