@@ -1,6 +1,6 @@
 ﻿launch.module.factory('ConnectionService', function ($resource, ModelMapperService) {
 	var providers = $resource('/api/connections', null, {
-		get: { method: 'GET', isArray: true }
+		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.connectionProvider.parseResponse }
 	});
 
 	var connections = $resource('/api/account/:accountId/connections/:id', { accountId: '@accountId', id: '@id' }, {
