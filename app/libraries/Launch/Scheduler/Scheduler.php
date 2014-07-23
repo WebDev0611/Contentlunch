@@ -91,6 +91,25 @@ class Scheduler {
         }, [$date->format('Y-m-d'), $accountID]); //, 'measure-launched-content');
     }
 
+    public static function measureTimingContent($date, $accountID)
+    {
+        Log::info('Queueing measureTimingContent job');
+        // @TODO configurable
+        Timezone::set('-07:00');
+
+        $date = new Carbon($date);
+        // Queue::later($date->endOfDay(), function ($job) use ($date, $accountID) {
+        Queue::push(function ($job) use ($date, $accountID) {
+            Log::info('Running measureTimingContent job');
+            App::make('Measure')->measureTimingContent($date, $accountID);
+
+            // schedule for tomorrow
+            \Launch\Scheduler\Scheduler::measureTimingContent($date->addMonth(1)->endOfDay(), $accountID);
+
+            $job->delete();
+        }, [$date->format('Y-m-d'), $accountID]); //, 'measure-timing-content');
+    }
+
     /**
      * Delete scheduled tasks before they occur.
      * @param  string|int $token Token matching scheduled job you want to delete
