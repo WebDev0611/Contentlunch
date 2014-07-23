@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Config;
 use Soundcloud\Service as SoundcloudSDK;
 use Soundcloud\Exception\InvalidHttpResponseCodeException;
 
+/**
+ * @see https://developers.soundcloud.com/docs/api/reference
+ */
 class SoundcloudAPI extends AbstractConnection {
   
   protected $configKey = 'services.soundcloud';
@@ -19,14 +22,21 @@ class SoundcloudAPI extends AbstractConnection {
 
   public function getIdentifier()
   {
-    return null;
+    $user = $this->getMe();
+    return $user->username;
+  }
+
+  public function getUrl()
+  {
+    $user = $this->getMe();
+    return $user->permalink_url;
   }
 
   public function getMe()
   {
     $client = $this->getClient();
     $response = $client->get('me');
-    return $response;
+    return json_decode($response);
   }
 
   public function postContent($content)
