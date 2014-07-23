@@ -167,6 +167,16 @@ class MeasureController extends BaseController {
             $concepts                  = with(clone $base)->where('status', '>=', 1)->whereNotNull('convert_date')->first();
             $model->converted_concepts = $all->count === 0 ? null : $concepts->count / $all->count;
 
+            $base                        = ContentTask::select($count)->where('user_id', $userID);
+            $all                         = with(clone $base)->first();
+            $completed                   = with(clone $base)->where('is_complete', 1)->where('date_completed', '<', 'due_date')->first();
+            $model->early_campaign_tasks = $all->count === 0 ? null : $completed->count / $all->count;
+
+            $base                        = CampaignTask::select($count)->where('user_id', $userID);
+            $all                         = with(clone $base)->first();
+            $completed                   = with(clone $base)->where('is_complete', 1)->where('date_completed', '<', 'due_date')->first();
+            $model->early_campaign_tasks = $all->count === 0 ? null : $completed->count / $all->count;
+
             $model->save();
         }
     }
