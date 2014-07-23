@@ -9,7 +9,7 @@ class MeasureController extends BaseController {
     public function test()
     {
         $now = Carbon::now();
-        Scheduler::measureTimingContent($now->format('Y-m-d'), 1);
+        Scheduler::measureUserEfficiency($now->format('Y-m-d'), 1);
 
         // $date = Carbon::now()->subMonth(1);
         // $now = Carbon::now();
@@ -137,6 +137,38 @@ class MeasureController extends BaseController {
         $model->stats = $stats;
 
         $model->save();
+    }
+
+    public function measureUserEfficiency($accountID)
+    {
+        $userIDs = User::select('users.id as id')
+                       ->join('account_user', 'users.id', '=', 'account_user.user_id')
+                       ->join('accounts', 'accounts.id', '=', 'account_user.account_id')
+                       ->where('account_id', $accountID)->lists('id');
+
+        $userIDs = array_unique($userIDs);
+        $count = DB::raw('COUNT(*) as count');
+
+        foreach ($userIDs as $userID) {
+            $model = UserEfficiency::firstOrNew(['user_id' => $userID]);
+
+            $base                           = ContentTask::select($count)->where('user_id', $userID);
+            $all                            = with(clone $base)->first();
+            $completed                      = with(clone $base)->where('is_complete', 1)->first();
+            $model->completed_content_tasks = $all->count === 0 ? null : $completed->count / $all->count;
+
+            $base                            = CampaignTask::select($count)->where('user_id', $userID);
+            $all                             = with(clone $base)->first();
+            $completed                       = with(clone $base)->where('is_complete', 1)->first();
+            $model->completed_campaign_tasks = $all->count === 0 ? null : $completed->count / $all->count;
+
+            $base                      = Content::select($count)->where('user_id', $userID);
+            $all                       = with(clone $base)->whereRaw('((status >= 1 AND convert_date IS NOT NULL) OR (status = 0))')->first();
+            $concepts                  = with(clone $base)->where('status', '>=', 1)->whereNotNull('convert_date')->first();
+            $model->converted_concepts = $all->count === 0 ? null : $concepts->count / $all->count;
+
+            $model->save();
+        }
     }
 
 }

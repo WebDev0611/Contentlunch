@@ -183,8 +183,8 @@ Route::group(['prefix' => 'api'], function()
 
   Route::get('account/{accountID}/brainstorm', 'BrainstormController@all');
 
-  Route::get('test', 'Measure@test');
-  Route::get('test2', 'Measure@contentCreated');
+  Route::get('test', 'MeasureController@test');
+  Route::get('test2', 'MeasureController@contentCreated');
 
   // Dashboard
   // -------------------------
