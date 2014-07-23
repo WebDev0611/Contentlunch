@@ -34,5 +34,9 @@
 		return (self.baseType === 'long_html' || self.baseType === 'blog_post');
 	};
 
+	self.canExportToAutomationProvider = function() {
+		return (self.baseType === 'long_html' || self.baseType === 'email' || self.baseType === 'blog_post');
+	};
+
 	return self;
 };
