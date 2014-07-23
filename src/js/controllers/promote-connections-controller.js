@@ -15,10 +15,10 @@
 
 		self.init = function () {
 			self.loggedInUser = authService.userInfo();
-			self.loadConnections();
+			self.refreshConnections();
 		};
 
-		self.loadConnections = function() {
+		self.refreshConnections = function() {
 			$scope.connections = connectionService.queryPromoteConnections(self.loggedInUser.account.id, {
 				success: function(r) {
 					$scope.providers = connectionService.getProviders('promote', {
@@ -89,7 +89,12 @@
 			var connection = $.grep($scope.connections, function (c) { return c.provider === provider.provider; });
 
 			if (connection.length === 1) {
-				connectionService.deletePromoteConnection(connection[0], self.ajaxHandler);
+				connectionService.deletePromoteConnection(connection[0], {
+					success: function(r) {
+						self.refreshConnections();
+					},
+					error: self.ajaxHandler.error
+				});
 			}
 		};
 

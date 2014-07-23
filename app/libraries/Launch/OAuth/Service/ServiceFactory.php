@@ -27,10 +27,10 @@ class ServiceFactory {
   public function __construct($provider)
   {
     switch ($provider) {
-      case 'soundcloud':
-        $this->provider = 'soundCloud';
-        $this->config = Config::get('services.soundcloud');
-      break;
+     // case 'soundcloud':
+        //$this->provider = 'soundCloud';
+        //$this->config = Config::get('services.soundcloud');
+      //break;
       case 'youtube':
         // Youtube = google
         $this->provider = 'google';
@@ -52,6 +52,7 @@ class ServiceFactory {
     $serviceFactory->registerService('acton', 'ActonService');
     $serviceFactory->registerService('wordpress', 'WordpressService');
     $serviceFactory->registerService('salesforce', 'SalesforceService');
+    $serviceFactory->registerService('soundcloud', 'SoundcloudService');
     $serviceFactory->registerService('hubspot', 'HubspotService');
     switch ($this->provider) {
       case 'tumblr':

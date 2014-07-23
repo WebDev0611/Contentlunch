@@ -21,19 +21,29 @@ class AccountConnectionsController extends BaseController {
             $className = ucwords($connection->connection_provider) .'API';
         }
         $class = 'Launch\\Connections\\API\\' . $className;
-        $api = new $class((array) $connection);
+        if (class_exists($class)) {
+          $api = new $class((array) $connection);
 
-        // The connection identifier should be set when the 
-        // connection is created.
-        // This is just a fix to get identifiers
-        // for existing connections
-        if ( ! $connection->identifier && $api->isValid()) {
-          $connection->identifier = $api->getIdentifier();
-          DB::table('account_connections')
-            ->where('id', $connection->id)
-            ->update([
-              'identifier' => $connection->identifier
-            ]);
+          // The connection identifier should be set when the 
+          // connection is created.
+          // This is just a fix to get identifiers
+          // for existing connections
+          if ( ! $connection->identifier && $api->isValid()) {
+            $connection->identifier = $api->getIdentifier();
+            DB::table('account_connections')
+              ->where('id', $connection->id)
+              ->update([
+                'identifier' => $connection->identifier
+              ]);
+          }
+          if ( ! $connection->url && $api->isValid()) {
+            $connection->url = $api->getUrl();
+            DB::table('account_connections')
+              ->where('id', $connection->id)
+              ->update([
+                'url' => $connection->url
+              ]);
+          }
         }
       }
     }
@@ -126,7 +136,7 @@ class AccountConnectionsController extends BaseController {
 
   public function destroy($accountID, $accountConnectID)
   {
-    if ( ! $this->inAccount($account_id)) {
+    if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
     $connection = AccountConnection::find($accountConnectID);
