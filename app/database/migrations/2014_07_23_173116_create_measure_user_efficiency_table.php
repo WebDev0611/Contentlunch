@@ -18,6 +18,8 @@ class CreateMeasureUserEfficiencyTable extends Migration {
             $table->decimal('converted_concepts', 4, 3)->nullable();
             $table->decimal('completed_content_tasks', 4, 3)->nullable();
             $table->decimal('completed_campaign_tasks', 4, 3)->nullable();
+            $table->decimal('early_campaign_tasks', 4, 3)->nullable();
+            $table->decimal('early_campaign_tasks', 4, 3)->nullable();
         });
     }
 
