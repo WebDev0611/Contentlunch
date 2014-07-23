@@ -45,6 +45,7 @@
 			</select>
 		</div>
 
+<<<<<<< HEAD
         <div class="form-group panel-scribe" ng-show="showMetaInfo && !isNewContent">
             <div class="btn-scribe cl-icon-scribe"></div>
             <button type="button" class="btn btn-lg btn-default" ng-click="sendToScribe()">
@@ -53,12 +54,23 @@
             <span spinner ng-show="analyzingContent"></span>
         </div>
 
+=======
+>>>>>>> 74cc2ecbab61672814eec0813e2ebc058aa21335
 		<div class="form-group" ng-show="content.contentType.name === 'product-description'" ng-class="{ 'has-error': hasError(content, 'ecommercePlatform', editContent.txtEcommercePlatform, forceDirty) }">
 			<label class="control-label" for="txtEcommercePlatform">Ecommerce Platform</label>
 			<input type="text" name="txtEcommercePlatform" id="txtEcommercePlatform" class="form-control" ng-model="content.ecommercePlatform" ng-disabled="isReadOnly"
 					error-message error-message-item="content" error-message-property="'ecommercePlatform'" error-message-control="editContent.txtEcommercePlatform" />
 		</div>
 
+<<<<<<< HEAD
+=======
+		<div class="form-group panel-scribe" ng-show="showMetaInfo">
+            <div class="btn-scribe cl-icon-scribe"></div>
+            <button type="button" class="btn btn-lg btn-default" ng-click="sendToScribe()">
+                Analyze Content
+            </button>
+        </div>
+>>>>>>> 74cc2ecbab61672814eec0813e2ebc058aa21335
 	</div>
 
 	<div class="control-group" ng-show="showAddFileButton">
@@ -177,7 +189,7 @@
 	<div class="control-group">
 		<div class="form-group">
 			<label for="txtTags">Tags</label> (separate by comma)
-			<textarea name="txtTags" id="txtTags" class="form-control" ng-model="contentTags" ng-disabled="isReadOnly"></textarea>
+			<textarea name="txtTags" id="txtTags" class="form-control" ng-model="contentTags" ng-disabled="isReadOnly" ng-change="updateTags(contentTags)"></textarea>
 		</div>
 
 		<div class="form-group">

@@ -138,7 +138,7 @@
 					return null;
 				}
 
-				if (self.contentType.name === 'blog-post' && launch.utils.isBlank(self.ecommercePlatform)) {
+				if (self.contentType.name === 'product-description' && launch.utils.isBlank(self.ecommercePlatform)) {
 					return 'Ecommerce Platform is required for Product Description content types.';
 				}
 			default:
