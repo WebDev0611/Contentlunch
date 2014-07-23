@@ -135,9 +135,6 @@
 
 		self.filterCampaigns = function() {
 			$scope.campaigns = $.grep($scope.campaigns, function(c) {
-                console.log('testing');
-                console.log(c.id);
-                console.log($scope.content.campaign.id);
 				return ((c.isActive && !c.isEnded()) || (!!$scope.content && !!$scope.content.campaign && c.id && c.id === $scope.content.campaign.id));
 			});
             console.log($scope.campaigns);
@@ -960,7 +957,6 @@
                         controller: [
                             '$scope', '$modalInstance', function (scope, instance) {
                                 scope.scribe = r;
-                                console.log(r);
                             }
                         ]
                     });
