@@ -217,6 +217,10 @@
 					if (!!callback && $.isFunction(callback.error)) {
 						callback.error(r);
 					}
+
+					if (!$scope.isNewContent) {
+						self.refreshContent();
+					}
 				}
 			});
 		};
