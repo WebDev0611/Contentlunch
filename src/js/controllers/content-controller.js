@@ -609,6 +609,11 @@
 			}
 		};
 
+		$scope.updateTags = function (tags) {
+			$scope.contentTags = launch.utils.isBlank(tags) ? null : tags;
+			$scope.content.tags = launch.utils.isBlank($scope.contentTags) ? null : $scope.contentTags.replace(', ', ',').split(',');
+		};
+
 		$scope.updateContentType = function() {
 			var contentTypeName = $scope.content.contentType.name;
 			var contentType = $.grep($scope.contentTypes, function(ct) { return ct.name === contentTypeName; });
@@ -961,18 +966,6 @@
 		$scope.$watch('content.author', $scope.filterCollaborators);
 
 		$scope.$watch('content.taskGroups', $scope.filterCollaborators);
-
-		$scope.$watch('contentTags', function() {
-			if (!$scope.content || !$scope.content.$resolved) {
-				return;
-			}
-
-			if (launch.utils.isBlank($scope.contentTags)) {
-				$scope.content.tags = null;
-			} else {
-				$scope.content.tags = $scope.contentTags.split(',');
-			}
-		});
 
 		self.init();
 	}
