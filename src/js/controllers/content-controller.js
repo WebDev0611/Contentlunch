@@ -35,9 +35,7 @@
 						$scope.campaigns = r;
 					}
 
-					if ($scope.isNewContent) {
-						self.filterCampaigns();
-					}
+                    self.filterCampaigns();
 				},
 				error: self.ajaxHandler.error
 			});
@@ -137,8 +135,12 @@
 
 		self.filterCampaigns = function() {
 			$scope.campaigns = $.grep($scope.campaigns, function(c) {
-				return ((c.isActive && !c.isEnded()) || (!!$scope.content && !!$scope.content.campaign && c.id === $scope.content.campaign.id));
+                console.log('testing');
+                console.log(c.id);
+                console.log($scope.content.campaign.id);
+				return ((c.isActive && !c.isEnded()) || (!!$scope.content && !!$scope.content.campaign && c.id && c.id === $scope.content.campaign.id));
 			});
+            console.log($scope.campaigns);
 		};
 
 		self.setPrivileges = function () {

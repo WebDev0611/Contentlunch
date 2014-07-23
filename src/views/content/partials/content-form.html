@@ -44,8 +44,6 @@
 				<option ng-repeat="cc in contentConnections" value="{{ cc.id }}" ng-show="connectionIsSupported(cc)">{{ cc.name }}</option>
 			</select>
 		</div>
-
-<<<<<<< HEAD
         <div class="form-group panel-scribe" ng-show="showMetaInfo && !isNewContent">
             <div class="btn-scribe cl-icon-scribe"></div>
             <button type="button" class="btn btn-lg btn-default" ng-click="sendToScribe()">
@@ -53,24 +51,11 @@
             </button>
             <span spinner ng-show="analyzingContent"></span>
         </div>
-
-=======
->>>>>>> 74cc2ecbab61672814eec0813e2ebc058aa21335
 		<div class="form-group" ng-show="content.contentType.name === 'product-description'" ng-class="{ 'has-error': hasError(content, 'ecommercePlatform', editContent.txtEcommercePlatform, forceDirty) }">
 			<label class="control-label" for="txtEcommercePlatform">Ecommerce Platform</label>
 			<input type="text" name="txtEcommercePlatform" id="txtEcommercePlatform" class="form-control" ng-model="content.ecommercePlatform" ng-disabled="isReadOnly"
 					error-message error-message-item="content" error-message-property="'ecommercePlatform'" error-message-control="editContent.txtEcommercePlatform" />
 		</div>
-
-<<<<<<< HEAD
-=======
-		<div class="form-group panel-scribe" ng-show="showMetaInfo">
-            <div class="btn-scribe cl-icon-scribe"></div>
-            <button type="button" class="btn btn-lg btn-default" ng-click="sendToScribe()">
-                Analyze Content
-            </button>
-        </div>
->>>>>>> 74cc2ecbab61672814eec0813e2ebc058aa21335
 	</div>
 
 	<div class="control-group" ng-show="showAddFileButton">
@@ -226,7 +211,7 @@
 					data-placeholder="Select Campaign" ng-change="updateCampaign()"
 					error-message error-message-item="content" error-message-property="'campaign'" error-message-control="editContent.selCampaign">
 				<option value=""></option>
-				<option ng-repeat="c in campaigns" value="{{ c.id }}" data-color="{{ c.color }}">{{ c.title }}</option>
+				<option ng-repeat="c in campaigns" value="{{ c.id }}" data-color="{{ c.color }}">{{ c.title + (!!c.isEnded() ? ' (Campaign Ended)' : '') }}</span></option>
 			</select>
 		</div>
 	</div>
