@@ -423,6 +423,7 @@
 		$scope.taskUsers = null;
 		$scope.collaborators = null;
 		$scope.selectedConnections = [];
+        $scope.analyzingContent = false;
 
 		$scope.isPromote = false;
 		$scope.hasError = launch.utils.isPropertyValid;
@@ -929,8 +930,11 @@
 		};
 
         $scope.sendToScribe = function() {
+            if ($scope.analyzingContent === true) return;
+            $scope.analyzingContent = true;
             contentService.analyze(self.loggedInUser.account.id, $scope.content.id, {
                 success: function(r) {
+                    $scope.analyzingContent = false;
                     $modal.open({
                         windowClass: 'modal-large',
                         templateUrl: '/assets/views/content/scribe-analysis.html',
