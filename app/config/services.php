@@ -33,7 +33,7 @@ return [
   'facebook' => [
     'key' => '207404499314444',
     'secret' => 'aa020dedfa881a0938ad157e48045c2b',
-    'scope' => ['email'],
+    'scope' => ['email', 'publish_actions'],
     'callback_domain' => 'http://local.contentlaunch.com'
   ],
   // https://developers.google.com/+/api/oauth
