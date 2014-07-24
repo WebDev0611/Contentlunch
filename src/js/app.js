@@ -5,6 +5,14 @@
 	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2', 'restangular', 'checklist-model']);
 
 	launch.module.value('contentStatuses', ['concept', 'create', 'review', 'launch', 'promote']);
+	launch.module.value('ecommercePlatforms', [
+			{ id: 'magento', name: 'Magento' },
+			{ id: 'volusion', name: 'Volusion' },
+			{ id: 'shopify', name: 'Shopify' },
+			{ id: 'woo-commerce', name: 'Woo Commerce' },
+			{ id: 'big-commerce', name: 'Big Commerce' },
+			{ id: 'other', name: 'Other' }
+	]);
 
 	launch.module.config([
 			'$routeProvider', '$locationProvider', '$httpProvider', 'RestangularProvider',

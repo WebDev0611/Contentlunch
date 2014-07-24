@@ -113,6 +113,9 @@
 .cl-icon-wordpress {
   background-image: url(/assets/images/wordpress.svg);
 }
+.cl-icon-scribe {
+  background-image: url(/assets/images/scribe.png);
+}
 /* #endregion */
 /* #region workflow */
 .cl-icon-workflow-concept {
@@ -182,6 +185,26 @@
 }
 .cl-icon-file-ms-powerpoint {
   background-image: url(/assets/images/file-powerpoint.svg);
+}
+.cl-icon-cart {
+  background-image: url(/assets/images/cart.png);
+}
+/* #endregion */
+/* #region ecommerce platforms */
+.cl-icon-ecommerce-magento {
+  background-image: url(/assets/images/magento.png);
+}
+.cl-icon-ecommerce-volusion {
+  background-image: url(/assets/images/volusion.png);
+}
+.cl-icon-ecommerce-shopify {
+  background-image: url(/assets/images/shopify.png);
+}
+.cl-icon-ecommerce-woo-commerce {
+  background-image: url(/assets/images/woo-commerce.png);
+}
+.cl-icon-ecommerce-big-commerce {
+  background-image: url(/assets/images/big-commerce.png);
 }
 /* #endregion */
 /* #region promote categories */
