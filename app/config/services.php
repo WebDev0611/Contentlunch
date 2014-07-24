@@ -89,5 +89,9 @@ return [
     'secret' => 'enngUSOLGj7kZCb6hbNH7vk3CgUjoi3pdBMX3Rkckqmx6tJGdujLCyTSCnRNt5ld',
     'scope' => [],
     'callback_domain' => 'http://local.contentlaunch.com'
+  ],
+  'traackr' => [
+    // we're not doing any auth with Traackr (yet), so all we need is the API key
+    'key' => '9bdcf55c7b277e26063a04d2dff577ba'
   ]
 ];

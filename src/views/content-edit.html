@@ -69,7 +69,7 @@
 					add-collaborator-callback="filterTaskAssignees" remove-collaborator-callback="filterTaskAssignees" is-disabled="collboratorsIsDisabled"
 					is-collaborator-finished="isCollaboratorFinished"></div>
 				
-				<div ng-if="!isNewContent" ng-show="canLaunchContent">
+				<div ng-if="!isNewContent" ng-show="showPromoteButtons">
 					<button class="btn btn-default btn-promote-automation" ng-click="launchContent(hubspotConnection, true)" ng-show="connectionIsSupported(hubspotConnection)">
 						Send to
 						<span class="cl-banner cl-banner-hubspot"></span>
