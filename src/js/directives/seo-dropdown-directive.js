@@ -4,7 +4,7 @@
 		scope: {
 			controlModel: '=controlModel'
 		},
-		templateUrl: '/assets/views/seo-dropdown.html',
+		templateUrl: '/assets/views/directives/seo-dropdown.html',
 		link: function(scope, element, attrs) {
 			scope.options = launch.config.SEO_PROVIDERS;
 		}

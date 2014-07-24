@@ -148,6 +148,6 @@
 
 	return {
 		link: link,
-		templateUrl: '/assets/views/navigation.html'
+		templateUrl: '/assets/views/directives/navigation.html'
 	};
 });
