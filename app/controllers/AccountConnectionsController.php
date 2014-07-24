@@ -109,7 +109,11 @@ class AccountConnectionsController extends BaseController {
     $connect->status = 1;
     $connect->settings = $settings;
     if ($connect->save()) {
-      return Redirect::to('/account/connections');
+        if ($connection->type == 'promote') {
+            return Redirect::to('/account/promote');
+        } else {
+            return Redirect::to('/account/connections');
+        }
     }
     return ['Error saving connection'];
   }
