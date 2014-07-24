@@ -5,6 +5,7 @@ use \Queue;
 use \Log;
 use \Exception;
 use \DB;
+use \App;
 
 use \User;
 use \Content;
@@ -54,30 +55,78 @@ class Scheduler {
 
     public static function measureCreatedContent($date, $accountID)
     {
+        Log::info('Queueing measureCreatedContent job');
         // @TODO configurable
         Timezone::set('-07:00');
 
         $date = new Carbon($date);
-        Queue::later($date->endOfDay(), function () use ($date, $accountID) {
-            App::make('Measure')->measureCreatedContent($date, $accountID);
+        Queue::later($date->endOfDay(), function ($job) use ($date, $accountID) {
+        // Queue::push(function ($job) use ($date, $accountID) {
+            Log::info('Running measureCreatedContent job');
+            App::make('MeasureController')->measureCreatedContent($date, $accountID);
 
             // schedule for tomorrow
-            self::measureCreatedContent($date->tomorrow()->endOfDay(), $accountID);
-        }, [$date->format('Y-m-d'), $accountID], 'measure-created-content');
+            \Launch\Scheduler\Scheduler::measureCreatedContent($date->tomorrow()->endOfDay(), $accountID);
+
+            $job->delete();
+        }, [$date->format('Y-m-d'), $accountID]); //, 'account-' . $accountID);
     }
 
     public static function measureLaunchedContent($date, $accountID)
     {
+        Log::info('Queueing measureLaunchedContent job');
         // @TODO configurable
         Timezone::set('-07:00');
 
         $date = new Carbon($date);
-        Queue::later($date->endOfDay(), function () use ($date, $accountID) {
-            App::make('Measure')->measureLaunchedContent($date, $accountID);
+        Queue::later($date->endOfDay(), function ($job) use ($date, $accountID) {
+        // Queue::push(function ($job) use ($date, $accountID) {
+            Log::info('Running measureLaunchedContent job');
+            App::make('MeasureController')->measureLaunchedContent($date, $accountID);
 
             // schedule for tomorrow
-            self::measureLaunchedContent($date->tomorrow()->endOfDay(), $accountID);
-        }, [$date->format('Y-m-d'), $accountID], 'measure-launched-content');
+            \Launch\Scheduler\Scheduler::measureLaunchedContent($date->tomorrow()->endOfDay(), $accountID);
+
+            $job->delete();
+        }, [$date->format('Y-m-d'), $accountID]); //, 'account-' . $accountID);
+    }
+
+    public static function measureTimingContent($date, $accountID)
+    {
+        Log::info('Queueing measureTimingContent job');
+        // @TODO configurable
+        Timezone::set('-07:00');
+
+        $date = new Carbon($date);
+        Queue::later($date->endOfDay(), function ($job) use ($date, $accountID) {
+        // Queue::push(function ($job) use ($date, $accountID) {
+            Log::info('Running measureTimingContent job');
+            App::make('MeasureController')->measureTimingContent($date, $accountID);
+
+            // schedule for tomorrow
+            \Launch\Scheduler\Scheduler::measureTimingContent($date->addMonth(1)->endOfDay(), $accountID);
+
+            $job->delete();
+        }, [$date->format('Y-m-d'), $accountID]); //, 'account-' . $accountID);
+    }
+
+    public static function measureUserEfficiency($date, $accountID)
+    {
+        Log::info('Queueing measureUserEfficiency job');
+        // @TODO configurable
+        Timezone::set('-07:00');
+
+        $date = new Carbon($date);
+        Queue::later($date->endOfDay(), function ($job) use ($date, $accountID) {
+        // Queue::push(function ($job) use ($date, $accountID) {
+            Log::info('Running measureUserEfficiency job');
+            App::make('MeasureController')->measureUserEfficiency($accountID);
+
+            // schedule for tomorrow
+            \Launch\Scheduler\Scheduler::measureUserEfficiency($date->tomorrow()->endOfDay(), $accountID);
+
+            $job->delete();
+        }, [$date->format('Y-m-d'), $accountID]); //, 'account-' . $accountID);
     }
 
     /**

@@ -42,6 +42,10 @@
 		post: { method: 'POST' }
 	});
 
+    var contentAnalyze = $resource('/api/account/:accountId/content/:contentId/analyze', { accountId: '@accountId', contentId: '@contentId' }, {
+        post: {method: 'POST'}
+    });
+
 	return {
 		query: function(accountId, params, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -201,6 +205,12 @@
 			content.$resolved = true;
 
 			return content;
-		}
+		},
+        analyze: function(accountId, contentId, callback) {
+            var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+            var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+            return contentAnalyze.post({ accountId: accountId, contentId: contentId }, success, error);
+        },
 	};
 });

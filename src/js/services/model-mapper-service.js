@@ -959,6 +959,43 @@
 		}
 	};
 
+	self.connectionProvider = {
+		parseResponse: function (r, getHeaders) {
+			return self.parseResponse(r, getHeaders, self.connectionProvider.fromDto, self.connectionProvider.sort);
+		},
+		fromDto: function (dto) {
+			var provider = new launch.ConnectionProvider();
+
+			provider.id = parseInt(dto.id);
+			provider.name = dto.name;
+			provider.provider = dto.provider;
+			provider.connectionType = dto.type;
+			provider.created = new Date(dto.created_at);
+			provider.updated = new Date(dto.updated_at);
+			provider.category = dto.category;
+
+			return provider;
+		},
+		sort: function(a, b) {
+			if (!a && !b) { return 0; }
+			if (!a && !!b) { return 1; }
+			if (!!a && !b) { return -1; }
+
+			if (a.name === b.name) {
+				if (a.provider === b.provider) {
+					if (a.id === b.id) { return 0; }
+					if (a.id < b.id) { return -1; }
+					
+					return 1;
+				}
+
+				return (a.provider < b.provider) ? -1 : 1;
+			} else {
+				return (a.name < b.name) ? -1 : 1;
+			}
+		}
+	};
+
 	self.connection = {
 		parseResponse: function (r, getHeaders) {
 			return self.parseResponse(r, getHeaders, self.connection.fromDto, self.connection.sort);
@@ -1054,6 +1091,8 @@
 			connection.updated = new Date(dto.updated_at);
 			connection.connectionName = dto.connection_name;
 			connection.provider = dto.connection_provider;
+      connection.identifier = dto.identifier;
+      connection.url = dto.url;
 
 			if (launch.utils.isBlank(connection.provider) && $.isPlainObject(dto.connection)) {
 				connection.provider = dto.connection.provider;
@@ -1239,6 +1278,10 @@
 			content.metaDescription = dto.meta_description;
 			content.metaKeywords = dto.meta_keywords;
 
+			if (content.contentType.name === 'product-description') {
+				content.ecommercePlatform = dto.ecommerce_platform;
+			}
+
 			if ($.isArray(dto.task_groups)) {
 				content.taskGroups = $.map(dto.task_groups, self.taskGroups.fromDto);
 			}
@@ -1268,6 +1311,7 @@
 				launch_date: content.launchDate,
 				promote_date: content.promoteDate,
 				archive_date: content.archiveDate,
+				ecommerce_platform: (content.contentType.name === 'product-description' ? content.ecommercePlatform : null),
 				created_at: content.created,
 				updated_at: content.updated
 			};

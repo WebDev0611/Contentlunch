@@ -1327,6 +1327,7 @@ span[class*=" icon-"].dark {
   display: inline-block;
   margin: 0 8px 0 0;
   min-width: 20em;
+  vertical-align: middle;
 }
 .user-editor .control-group .form-group.form-group-wide,
 .account-editor .control-group .form-group.form-group-wide,

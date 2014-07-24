@@ -69,7 +69,7 @@ return [
   'soundcloud' => [
     'key' => 'd37263dd5600d9b0b1764dd914883364',
     'secret' => '11bda186d51299bb2f45d3d79a75ddf3',
-    'scope' => [],
+    'scope' => ['non-expiring'],
     'callback_domain' => 'http://launch.localhost'
   ],
   'tumblr' => [
@@ -89,5 +89,9 @@ return [
     'secret' => 'enngUSOLGj7kZCb6hbNH7vk3CgUjoi3pdBMX3Rkckqmx6tJGdujLCyTSCnRNt5ld',
     'scope' => [],
     'callback_domain' => 'http://local.contentlaunch.com'
+  ],
+  'traackr' => [
+    // we're not doing any auth with Traackr (yet), so all we need is the API key
+    'key' => '9bdcf55c7b277e26063a04d2dff577ba'
   ]
 ];

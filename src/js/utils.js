@@ -556,40 +556,56 @@
 		}
 
 		switch (provider.toLowerCase()) {
+			case 'act-on':
+				return 'cl-icon cl-icon-act-on';
+			//case 'all-in-one':
+			//	return '';
+			case 'blogger':
 			case 'blogspot':
-				return 'cl-icon-blogspot';
+				return 'cl-icon cl-icon-blogspot';
 			case 'dropbox':
 				return 'fa fa-dropbox';
+			case 'drupal':
+				return 'fa fa-drupal';
 			case 'facebook':
 				return 'fa fa-facebook';
 			case 'google':
-				return 'cl-icon-google-plus';
 			case 'google-plus':
 				return 'fa fa-google-plus';
+			case 'google-drive':
+				return 'cl-icon cl-icon-google-drive';
 			case 'hubspot':
-				return 'cl-icon-hubspot';
+				return 'cl-icon cl-icon-hubspot';
 			case 'hootsuite':
-				return 'cl-icon-hootsuite';
+				return 'cl-icon cl-icon-hootsuite';
+			case 'joomla':
+				return 'fa fa-joomla';
 			case 'linkedin':
 				return 'fa fa-linkedin';
 			case 'outbrain':
-				return 'cl-icon-outbrain';
+				return 'cl-icon cl-icon-outbrain';
 			case 'papershare':
-				return 'cl-icon-papershare';
+				return 'cl-icon cl-icon-papershare';
 			case 'salesforce':
-				return 'cl-icon-salesforce';
+				return 'cl-icon cl-icon-salesforce';
+			//case 'scribe':
+			//	return '';
 			case 'slideshare':
-				return 'cl-icon-slideshare';
+				return 'cl-icon cl-icon-slideshare';
 			case 'soundcloud':
-				return 'cl-icon-soundcloud';
+				return 'cl-icon cl-icon-soundcloud';
+			case 'trapit':
+				return 'cl-icon cl-icon-trapit';
 			case 'tumblr':
 				return 'fa fa-tumblr';
 			case 'twitter':
 				return 'fa fa-twitter';
-			case 'trapit':
-				return 'cl-icon-trapit';
+			case 'vimeo':
+				return 'fa fa-vimeo-square';
 			case 'wordpress':
-				return 'cl-icon-wordpress';
+				return 'cl-icon cl-icon-wordpress';
+			//case 'yoast':
+			//	return '';
 			case 'youtube':
 				return 'fa fa-youtube';
 			default:
@@ -605,48 +621,71 @@
 		var ct = (!launch.utils.isBlank(contentType.contentType)) ? contentType.contentType.toLowerCase() : contentType.toLowerCase();
 
 		switch (ct) {
+			case 'audiorecording':
+			case 'audio_recording':
 			case 'audio-recording':
-				return 'fa fa-volume-up';
+				return 'fa fa-file-audio-o';
+			case 'blogpost':
+			case 'blog_post':
 			case 'blog-post':
 				return 'cl-icon cl-icon-content-type-blog-post';
 			case 'casestudy':
 			case 'case_study':
 			case 'case-study':
 				return 'cl-icon cl-icon-content-type-casestudy';
+			case 'directupload':
+			case 'direct_upload':
 			case 'direct-upload':
 				return 'fa fa-upload';
 			case 'ebook':
 				return 'fa fa-book';
 			case 'email':
+			case 'workflowemail':
+			case 'workflow_email':
 			case 'workflow-email':
 				return 'fa fa-envelope';
-			case 'facebook-post':
-				return 'fa fa-facebook';
-			//case 'feature-article':
-			//	return 'fa fa-';
-			case 'google-drive-doc':
-				return 'cl-icon cl-icon-google-drive';
-			case 'google-plus-update':
-				return 'fa fa-google-plus';
-			//case 'newsletter':
-			case 'landing-page':
-			case 'website-page':
-				return 'fa fa-code';
-			case 'linkedin-update':
-				return 'fa fa-linkedin';
+			case 'featurearticle':
+			case 'feature_article':
+			case 'feature-article':
+			case 'newsletter':
+			case 'news_letter':
+			case 'news-letter':
+				return 'fa fa-file-o';
+			case 'infographic':
+			case 'info_graphic':
+			case 'info-graphic':
 			case 'photo':
-				return 'fa fa-picture-o';
-			//case 'salesforce-asset':
-			//	return 'fa fa-';
-			//case 'sales-letter':
-			//	return 'fa fa-';
-			//case 'sellsheet-content':
-			//	return 'fa fa-';
-			case 'tweet':
-				return 'fa fa-twitter';
+				return 'fa fa-file-image-o';
+			case 'landingpage':
+			case 'landing_page':
+			case 'landing-page':
+			case 'websitepage':
+			case 'website_page':
+			case 'website-page':
+				return 'fa fa-file-code-o';
+			case 'product-description':
+				return 'cl-icon cl-icon-cart';
+			case 'salesletter':
+			case 'sales_letter':
+			case 'sales-letter':
+				return 'fa fa-file-text-o';
+			case 'sellsheetcontent':
+			case 'sellsheet_content':
+			case 'sellsheet-content':
+				return 'fa fa-file-excel-o';
+			case 'slidedeck':
+			case 'slide_deck':
+			case 'slide-deck':
+				return 'fa fa-file-powerpoint-o';
+			case 'socialmediapost':
+			case 'social_media_post':
+			case 'social-media-post':
+				return 'fa fa-share-alt';
 			case 'video':
-				return 'fa fa-video-camera';
+				return 'fa fa-file-video-o';
 			case 'whitepaper':
+			case 'white_paper':
+			case 'white-paper':
 				return 'cl-icon cl-icon-content-type-whitepaper';
 			default:
 				return 'fa fa-question';
@@ -666,6 +705,7 @@
 			case 'create':
 				return 'cl-icon cl-icon-workflow-create';
 			case 'edit':
+			case 'review':
 				return 'cl-icon cl-icon-workflow-review';
 			case 'approve':
 				return 'cl-icon cl-icon-workflow-approve';
@@ -675,6 +715,27 @@
 				return 'cl-icon cl-icon-workflow-promote';
 			case 'archive':
 				return 'cl-icon cl-icon-workflow-archive';
+			default:
+				return 'fa fa-question';
+		}
+	},
+
+	getEcommercePlatformIconCssClass: function(platform) {
+		if (launch.utils.isBlank(platform)) {
+			return null;
+		}
+
+		switch (platform) {
+			case 'magento':
+				return 'cl-icon-ecommerce-magento';
+			case 'volusion':
+				return 'cl-icon-ecommerce-volusion';
+			case 'shopify':
+				return 'cl-icon-ecommerce-shopify';
+			case 'woo-commerce':
+				return 'cl-icon-ecommerce-woo-commerce';
+			case 'big-commerce':
+				return 'cl-icon-ecommerce-big-commerce';
 			default:
 				return 'fa fa-question';
 		}
@@ -706,6 +767,10 @@
 
 	formatDocumentUploaderItem: function(item, element, context) {
 		return '<span class="cl-icon"></span> <span>' + item.text + '</span>';
+	},
+
+	formatEcommercePlatformItem: function(item, element, context) {
+		return '<span class="cl-icon ' + launch.utils.getEcommercePlatformIconCssClass(item.id.toLowerCase()) + '"></span> <span>' + item.text + '</span>';
 	},
 
 	getUserById: function(users, id) {

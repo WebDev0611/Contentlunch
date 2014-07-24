@@ -1,5 +1,5 @@
 ﻿launch.module.controller('ContentConnectionsController', [
-	'$scope', '$filter', '$location', 'AuthService', 'AccountService', 'UserService', 'NotificationService', 'ConnectionService', function($scope, $filter, $location, authService, accountService, userService, notificationService, connectionService) {
+	'$scope', '$filter', '$location', '$modal', 'AuthService', 'AccountService', 'UserService', 'NotificationService', 'ConnectionService', function($scope, $filter, $location, $modal, authService, accountService, userService, notificationService, connectionService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -142,6 +142,36 @@
 		$scope.addConnection = function(providerId) {
 			window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=' + providerId;
 		};
+
+    $scope.deleteConnection = function (connection) {
+      $modal.open({
+        templateUrl: 'confirm.html',
+        controller: ['$scope', '$modalInstance', function (
+          modalScope, instance) {
+          modalScope.identifier = connection.identifier + ' - ' + connection.connectionName;
+          modalScope.message = 'Are you sure you want to delete the connection? ' + modalScope.identifier;
+          modalScope.okButtonText = 'Delete';
+          modalScope.cancelButtonText = 'Cancel';
+          modalScope.onOk = function () {
+
+            connectionService.deleteContentConnection(
+              connection, {
+                success: function(r) {
+                  self.loadConnections();
+                  notificationService.success('Success!', 'Connection deleted: ' + modalScope.identifier);
+                  instance.close();
+                }
+              }
+            );
+
+          };
+          modalScope.onCancel = function () {
+            instance.dismiss('cancel');
+          };
+
+        }]
+      });
+    };
 
 		$scope.icon = function(provider) {
 			return launch.utils.getConnectionProviderIconClass(provider.toLowerCase());

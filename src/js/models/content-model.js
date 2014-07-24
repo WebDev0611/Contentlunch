@@ -40,6 +40,7 @@
 	self.tags = null;
 	self.metaDescription = null;
 	self.metaKeywords = null;
+	self.ecommercePlatform = null;
 	self.isSelected = false;
 
 	self.taskGroups = null;
@@ -113,25 +114,33 @@
 	self.validateProperty = function (property) {
 		switch (property.toLowerCase()) {
 			case 'title':
-				return launch.utils.isBlank(self.title) ? 'Title is required.' : null;
+				return launch.utils.isBlank(this.title) ? 'Title is required.' : null;
 			case 'contenttype':
-				return (!self.contentType || launch.utils.isBlank(self.contentType.name)) ? 'Content Type is required.' : null;
+				return (!this.contentType || launch.utils.isBlank(this.contentType.name)) ? 'Content Type is required.' : null;
 			case 'body':
-				if (!self.contentType || launch.utils.isBlank(self.contentType.name)) {
+				if (!this.contentType || launch.utils.isBlank(this.contentType.name)) {
 					return self.validateProperty('contenttype');
 				}
 
 				if (self.contentType.requireText()) {
-					return launch.utils.isBlank(self.body) ? 'Description is required.' : null;
+					return launch.utils.isBlank(this.body) ? 'Description is required.' : null;
 				}
 			case 'author':
-				return (!self.author || launch.utils.isBlank(self.author.id)) ? 'Author is required.' : null;
+				return (!this.author || launch.utils.isBlank(this.author.id)) ? 'Author is required.' : null;
 			case 'contentfile':
-				if (!self.contentType || launch.utils.isBlank(self.contentType.name)) {
-					return self.validateProperty('contenttype');
+				if (!this.contentType || launch.utils.isBlank(this.contentType.name)) {
+					return null;
 				}
 
 				return self.validateContentFile();
+			case 'ecommerceplatform':
+				if (!this.contentType || launch.utils.isBlank(this.contentType.name)) {
+					return null;
+				}
+
+				if (this.contentType.name === 'product-description' && launch.utils.isBlank(this.ecommercePlatform)) {
+					return 'Ecommerce Platform is required for Product Description content types.';
+				}
 			default:
 				return null;
 		}

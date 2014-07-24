@@ -62,6 +62,8 @@ class AccountConnection extends Ardent {
       'account_connections.status',
       'account_connections.created_at',
       'account_connections.updated_at',
+      'account_connections.identifier',
+      'account_connections.url',
       'account_connections.settings',
       'account_connections.account_id',
       'connections.id AS connection_id',

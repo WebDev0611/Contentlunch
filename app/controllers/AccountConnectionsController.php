@@ -10,7 +10,44 @@ class AccountConnectionsController extends BaseController {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    return AccountConnection::doQuery($accountID, Input::get('type'), Input::get('provider'));
+    $connections = AccountConnection::doQuery($accountID, Input::get('type'), Input::get('provider'));
+    if ($connections) {
+      foreach ($connections as $connection) {
+        switch ($connection->connection_provider) {
+          case 'linkedin':
+            $className = 'LinkedInAPI';
+          break;
+          default:
+            $className = ucwords($connection->connection_provider) .'API';
+        }
+        $class = 'Launch\\Connections\\API\\' . $className;
+        if (class_exists($class)) {
+          $api = new $class((array) $connection);
+
+          // The connection identifier should be set when the 
+          // connection is created.
+          // This is just a fix to get identifiers
+          // for existing connections
+          if ( ! $connection->identifier && $api->isValid()) {
+            $connection->identifier = $api->getIdentifier();
+            DB::table('account_connections')
+              ->where('id', $connection->id)
+              ->update([
+                'identifier' => $connection->identifier
+              ]);
+          }
+          if ( ! $connection->url && $api->isValid()) {
+            $connection->url = $api->getUrl();
+            DB::table('account_connections')
+              ->where('id', $connection->id)
+              ->update([
+                'url' => $connection->url
+              ]);
+          }
+        }
+      }
+    }
+    return $connections;
   }
 
   /**
@@ -72,7 +109,11 @@ class AccountConnectionsController extends BaseController {
     $connect->status = 1;
     $connect->settings = $settings;
     if ($connect->save()) {
-      return Redirect::to('/account/connections');
+        if ($connection->type == 'promote') {
+            return Redirect::to('/account/promote');
+        } else {
+            return Redirect::to('/account/connections');
+        }
     }
     return ['Error saving connection'];
   }
@@ -99,7 +140,7 @@ class AccountConnectionsController extends BaseController {
 
   public function destroy($accountID, $accountConnectID)
   {
-    if ( ! $this->inAccount($account_id)) {
+    if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
     $connection = AccountConnection::find($accountConnectID);

@@ -28,9 +28,8 @@
 					<ul class="dropdown-menu" role="menu">
 						<li ng-repeat="provider in providers" ng-click="addConnection(provider.id)">
 							<a href="#">
-								<span class="{{ 'cl-icon ' + icon(provider.name) }}"></span>
+								<span class="{{ icon(provider.provider) }}"></span>
 								{{ provider.name }}
-
 							</a>
 						</li>
 					</ul>
@@ -40,17 +39,32 @@
 			<div class="connection-list">
 				<div class="row">
 					<div class="col-md-4 header">Name</div>
-					<div class="col-md-6 header">URL</div>
+					<div class="col-md-4 header">URL</div>
 					<div class="col-md-2 header">Status</div>
+          <div class="col-md-2 header">Delete</div>
 				</div>
 				<div class="row" ng-repeat="connection in filteredConnections">
 					<div class="col-md-4">
-						<span class="{{ 'cl-icon ' + icon(connection.provider) }}"></span>
-						<span contenteditable ng-model="connection.name" on-change="editConnectionName" ng-show="canEditConnection" ng-focus="selectConnection($event, connection)"></span>
-						<span ng-show="!canEditConnection" ng-bind="connection.name"></span>
+            <div class="provider-icon">
+						  <span class="{{ icon(connection.provider) }}"></span>
+            </div>
+            <div class="identifier">
+						  <strong ng-bind="connection.identifier"></strong>
+              <span ng-bind="connection.connectionName" class="provider"></span>
+            </div>
+            <!--<span contenteditable ng-model="connection.name" on-change="editConnectionName" ng-show="canEditConnection" ng-focus="selectConnection($event, connection)"></span>
+						<span ng-show="!canEditConnection" ng-bind="connection.name"></span>-->
+            
 					</div>
-					<div class="col-md-6"><a href="{{ connection.settings.url }}" target="_blank">{{ connection.settings.url }}</a></div>
-					<div class="col-md-2"><span class="toggle" ng-click="toggleActiveStatus(connection)">{{ connection.activeStatus() }}</span></div>
+					<div class="col-md-4">
+            <a href="{{ connection.url }}" target="_blank">{{ connection.url }}</a>
+          </div>
+					<div class="col-md-2">
+            <span class="toggle" ng-click="toggleActiveStatus(connection)">{{ connection.activeStatus() }}</span>
+          </div>
+          <div class="col-md-2">
+            <span class="fa fa-trash-o" ng-show="canEditConnection" ng-click="deleteConnection(connection)"></span>
+          </div>
 				</div>
 			</div>
 		</div>

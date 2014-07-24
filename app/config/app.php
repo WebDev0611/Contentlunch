@@ -189,6 +189,7 @@ return [
     'ActonService' => 'Launch\OAuth\Service\Acton',
     'HubspotService' => 'Launch\OAuth\Service\Hubspot',
     'SalesforceService' => 'Launch\OAuth\Service\Salesforce',
+    'SoundcloudService' => 'Launch\OAuth\Service\Soundcloud',
     'WordpressService' => 'Launch\OAuth\Service\Wordpress',
 
     'Twitter' => 'Thujohn\Twitter\TwitterFacade',

@@ -1,5 +1,5 @@
 ﻿launch.module.controller('ContentController', [
-	'$scope', '$routeParams', '$filter', '$location', '$modal', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', function ($scope, $routeParams, $filter, $location, $modal, authService, accountService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService) {
+	'$scope', '$routeParams', '$filter', '$location', '$modal', 'ecommercePlatforms', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', function ($scope, $routeParams, $filter, $location, $modal, ecommercePlatforms, authService, accountService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -8,15 +8,15 @@
 		self.uploadFile = null;
 
 		self.ajaxHandler = {
-			success: function (r) {
+			success: function(r) {
 
 			},
-			error: function (r) {
+			error: function(r) {
 				launch.utils.handleAjaxErrorResponse(r, notificationService);
 			}
 		};
 
-		self.init = function () {
+		self.init = function() {
 			self.loggedInUser = authService.userInfo();
 
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
@@ -29,20 +29,18 @@
 				error: self.ajaxHandler.error
 			});
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, {
-				success: function (r) {
+				success: function(r) {
 					if ($scope.campaigns.length === 0 && r.length > 0) {
 						console.log('Why is $scope.campaigns not populated here??');
 						$scope.campaigns = r;
 					}
 
-					if ($scope.isNewContent) {
-						self.filterCampaigns();
-					}
+                    self.filterCampaigns();
 				},
 				error: self.ajaxHandler.error
 			});
 			$scope.contentSettings = contentSettingsService.get(self.loggedInUser.account.id, {
-				success: function (r) {
+				success: function(r) {
 					if ($.isArray($scope.contentSettings.personaProperties)) {
 						$scope.buyingStages = $scope.contentSettings.buyingStages();
 					}
@@ -54,7 +52,7 @@
 			self.refreshContent();
 		}
 
-		self.refreshContent = function () {
+		self.refreshContent = function() {
 			self.contentId = parseInt($routeParams.contentId);
 			self.replaceFile = false;
 			self.uploadFile = null;
@@ -82,14 +80,14 @@
 				}
 
 				$scope.content = contentService.get(self.loggedInUser.account.id, self.contentId, {
-					success: function (r) {
+					success: function(r) {
 						if ($scope.content.status === 0) {
 							$location.path('/create/concept/edit/content/' + $scope.content.id);
 							return;
 						}
 
 						$scope.isCollaborator = (self.loggedInUser.id === $scope.content.author.id ||
-							$.grep($scope.content.collaborators, function (c) { return c.id === self.loggedInUser.id; }).length > 0);
+							$.grep($scope.content.collaborators, function(c) { return c.id === self.loggedInUser.id; }).length > 0);
 
 						$scope.isCollaborator = ($scope.isCollaborator || self.loggedInUser.hasPrivilege('create_edit_content_other'));
 
@@ -108,18 +106,16 @@
 							self.refreshLaunches();
 						}
 					},
-					error: function (r) {
-						launch.utils.handleAjaxErrorResponse(r, notificationService);
-					}
+					error: self.ajaxHandler.error
 				});
 			}
 		};
 
-		self.refreshComments = function () {
+		self.refreshComments = function() {
 			$scope.comments = contentService.queryComments(self.loggedInUser.account.id, $scope.content.id, null, self.ajaxHandler);
 		};
 
-		self.refreshActivity = function () {
+		self.refreshActivity = function() {
 			if ($scope.isNewContent) {
 				return;
 			}
@@ -138,28 +134,34 @@
 		};
 
 		self.filterCampaigns = function() {
-			$scope.campaigns = $.grep($scope.campaigns, function (c) {
-				return ((c.isActive && !c.isEnded()) || (!!$scope.content && !!$scope.content.campaign && c.id === $scope.content.campaign.id));
+			$scope.campaigns = $.grep($scope.campaigns, function(c) {
+				return ((c.isActive && !c.isEnded()) || (!!$scope.content && !!$scope.content.campaign && c.id && c.id === $scope.content.campaign.id));
 			});
+            console.log($scope.campaigns);
 		};
 
-		self.setPrivileges = function() {
+		self.setPrivileges = function () {
+			if (!$scope.content || !$scope.content.author || !$scope.content.contentType) {
+				return;
+			}
+
 			if ($scope.content.status < 3) {
 				$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_view_content_other_unapproved', 'create_view_content_other', 'create_edit_content_as_collaborator']);
 				$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_edit_content_other_unapproved', 'create_edit_content_other', 'create_edit_content_as_collaborator']);
+				$scope.canApproveContent = self.loggedInUser.hasPrivilege('collaborate_execute_approve');
 				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = !$scope.canEditContent;
 			} else if ($scope.content.status === 3) {
 				$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_launch_content_own') : self.loggedInUser.hasPrivilege('create_view_launch_content_other');
 				$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_launch_content_own') : self.loggedInUser.hasPrivilege('create_execute_launch_content_other');
+				$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('create_execute_launch_content_own') : self.loggedInUser.hasPrivilege('create_execute_launch_content_other');
 				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = true;
 			} else {
+				$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('create_execute_launch_content_own') : self.loggedInUser.hasPrivilege('create_execute_launch_content_other');
 				$scope.canPromoteContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('promote_content_own') : self.loggedInUser.hasPrivilege('promote_content_other');
 				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = true;
 			}
 
 			$scope.canSubmitContent = ($scope.content.author.id === self.loggedInUser.id || self.loggedInUser.hasPrivilege('create_edit_content_other_unapproved'));
-			$scope.canApproveContent = self.loggedInUser.hasPrivilege('collaborate_execute_approve');
-			$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('create_execute_launch_content_own') : self.loggedInUser.hasPrivilege('create_execute_launch_content_other');
 			$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
 
 			// TODO: WHAT PRIVILEGES DO WE CHECK FOR RESTORE AND ARCHIVE?
@@ -171,17 +173,21 @@
 			$scope.showMetaInfo = $scope.content.contentType.allowMetaTags();
 			$scope.showDownloadContentFile = (!!$scope.content.contentFile && ($scope.content.contentFile.isImage() || $scope.content.contentFile.isVideo() || $scope.content.contentFile.isAudio()));
 
-			$scope.contentConnectionIds = $.map($scope.content.accountConnections, function (cc) { return parseInt(cc.id).toString(); });
+			$scope.contentConnectionIds = $.map($scope.content.accountConnections, function(cc) { return parseInt(cc.id).toString(); });
 			$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
+
+			if ($scope.canLaunchContent && $scope.content.contentType.canExportToAutomationProvider()) {
+				$scope.showPromoteButtons = true;
+			}
 		};
 
-		self.handleSaveContent = function (callback) {
+		self.handleSaveContent = function(callback) {
 			var method = $scope.isNewContent ? contentService.add : contentService.update;
 
 			$scope.isSaving = true;
 
 			method(self.loggedInUser.account.id, $scope.content, {
-				success: function (r) {
+				success: function(r) {
 					$scope.isSaving = false;
 					$scope.isUploading = false;
 
@@ -194,30 +200,38 @@
 					}
 
 					if ($scope.isNewContent) {
-						$location.path('/create/content/edit/' + r.id);
+						if ($scope.isPromote) {
+							$location.path('/promote/content/' + r.id);
+						} else {
+							$location.path('/create/content/edit/' + r.id);
+						}
 					} else {
 						self.refreshContent();
 					}
 				},
-				error: function (r) {
+				error: function(r) {
 					$scope.isSaving = false;
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
 
 					if (!!callback && $.isFunction(callback.error)) {
 						callback.error(r);
 					}
+
+					if (!$scope.isNewContent) {
+						self.refreshContent();
+					}
 				}
 			});
 		};
 
-		self.handleUploadFile = function (callback) {
+		self.handleUploadFile = function(callback) {
 			var responseHandler = {
-				success: function (r) {
+				success: function(r) {
 					$scope.showFullScreenModal = false;
 					$scope.content.contentFile = r;
 					self.handleSaveContent(callback);
 				},
-				error: function (err) {
+				error: function(err) {
 					$scope.showFullScreenModal = false;
 					self.ajaxHandler.error(err);
 				}
@@ -234,7 +248,7 @@
 			self.uploadFile = null;
 		};
 
-		self.validateTasks = function () {
+		self.validateTasks = function() {
 			var msg = '';
 
 			if ($.isArray($scope.content.taskGroups) && $scope.content.taskGroups.length > 0) {
@@ -243,11 +257,11 @@
 						continue;
 					}
 
-					var tasks = $.grep($scope.content.taskGroups[i].tasks, function (t) { return !t.isComplete; });
+					var tasks = $.grep($scope.content.taskGroups[i].tasks, function(t) { return !t.isComplete; });
 					var isOldStage = ($scope.content.taskGroups[i].status < $scope.content.status);
 
 					if (tasks.length > 0) {
-						$.each(tasks, function (j, t) {
+						$.each(tasks, function(j, t) {
 							if (isOldStage) {
 								t.isComplete = true;
 							} else {
@@ -270,7 +284,7 @@
 			return true;
 		};
 
-		self.approveContent = function () {
+		self.approveContent = function() {
 			if ($scope.canApproveContent) {
 				self.handleSubmitContent();
 				return;
@@ -279,7 +293,7 @@
 			self.showSelectApproverDialog('approve', 'approver', 'collaborate_execute_approve');
 		};
 
-		self.launchContent = function () {
+		self.launchContent = function() {
 			if ($scope.canLaunchContent) {
 				self.handleSubmitContent();
 				return;
@@ -288,7 +302,7 @@
 			self.showSelectApproverDialog('launch', 'launcher', 'launch_execute_content_other');
 		};
 
-		self.promoteContent = function () {
+		self.promoteContent = function() {
 			if (!$scope.canPromoteContent) {
 				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
 			}
@@ -300,15 +314,15 @@
 			$modal.open({
 				templateUrl: 'select-user-to-complete.html',
 				controller: [
-					'$scope', '$modalInstance', function (scope, instance) {
+					'$scope', '$modalInstance', function(scope, instance) {
 						scope.taskName = taskName;
 						scope.actor = actor;
 						scope.userToComplete = null;
 						scope.userToCompleteId = null;
 						scope.userPool = userService.getForAccount(self.loggedInUser.account.id, { permission: privilegeName }, self.ajaxHandler, true);
 
-						scope.formatUserItem = function (item, element, context) {
-							var collaborator = $.grep($scope.content.collaborators, function (c, i) { return c.id === parseInt(item.id); });
+						scope.formatUserItem = function(item, element, context) {
+							var collaborator = $.grep($scope.content.collaborators, function(c, i) { return c.id === parseInt(item.id); });
 							var html = $scope.formatUserItem(item, element, context);
 
 							if (collaborator.length === 0) {
@@ -318,21 +332,21 @@
 							return html + '<span class="fa fa-check-circle" style="display: inline-block; margin-left: 8px;"></span>';
 						};
 
-						scope.selectUserToComplete = function (id) {
-							scope.userToComplete = $.grep(scope.userPool, function (a) { return a.id === parseInt(id); })[0];
+						scope.selectUserToComplete = function(id) {
+							scope.userToComplete = $.grep(scope.userPool, function(a) { return a.id === parseInt(id); })[0];
 						};
 
-						scope.save = function () {
+						scope.save = function() {
 							if (!scope.userToComplete) {
 								notificationService.error('Error!', 'Please select a content ' + actor + '.');
 								return;
 							}
 
-							if ($.grep($scope.content.collaborators, function (c) { return (c.id === scope.userToComplete.id); }).length === 0) {
+							if ($.grep($scope.content.collaborators, function(c) { return (c.id === scope.userToComplete.id); }).length === 0) {
 								contentService.insertCollaborator(self.loggedInUser.account.id, $scope.content.id, scope.userToComplete.id, self.ajaxHandler);
 							}
 
-							var taskGroup = $.grep($scope.content.taskGroups, function (tg) { return tg.status === $scope.content.status; });
+							var taskGroup = $.grep($scope.content.taskGroups, function(tg) { return tg.status === $scope.content.status; });
 
 							if (taskGroup.length != 1) {
 								notificationService.error('Error!', 'Unable to find task group for ' + $scope.content.currentStep() + ' stage.');
@@ -351,14 +365,14 @@
 							taskGroup[0].tasks.push(task);
 
 							taskService.saveContentTasks(self.loggedInUser.account.id, taskGroup[0], {
-								success: function (r) {
+								success: function(r) {
 									instance.close();
 								},
 								error: self.ajaxHandler.error
 							});
 						};
 
-						scope.cancel = function () {
+						scope.cancel = function() {
 							instance.dismiss('cancel');
 						};
 					}
@@ -372,16 +386,16 @@
 			$scope.content.status = oldStatus + 1;
 
 			$scope.saveContent({
-				error: function () {
+				error: function() {
 					$scope.content.status = oldStatus;
 				}
 			});
 		};
 
-		self.getPromoteAutomationConnections = function () {
+		self.getPromoteAutomationConnections = function() {
 			if (!!$scope.promoteConnections && $.isArray($scope.promoteConnections) && $scope.promoteConnections.length > 0) {
-				$scope.hubspotConnection = $.grep($scope.promoteConnections, function (c) { return c.provider === 'hubspot'; });
-				$scope.actOnConnection = $.grep($scope.promoteConnections, function (c) { return c.provider === 'act-on'; });
+				$scope.hubspotConnection = $.grep($scope.promoteConnections, function(c) { return c.provider === 'hubspot'; });
+				$scope.actOnConnection = $.grep($scope.promoteConnections, function(c) { return c.provider === 'act-on'; });
 
 				$scope.hubspotConnection = $scope.hubspotConnection.length === 1 ? $scope.hubspotConnection[0] : null;
 				$scope.actOnConnection = $scope.actOnConnection.length === 1 ? $scope.actOnConnection[0] : null;
@@ -412,6 +426,7 @@
 		$scope.showAddFileButton = false;
 		$scope.showDownloadContentFile = false;
 		$scope.showMetaInfo = false;
+		$scope.showPromoteButtons = false;
 		$scope.isSaving = false;
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;
@@ -419,6 +434,7 @@
 		$scope.taskUsers = null;
 		$scope.collaborators = null;
 		$scope.selectedConnections = [];
+        $scope.analyzingContent = false;
 
 		$scope.isPromote = false;
 		$scope.hasError = launch.utils.isPropertyValid;
@@ -427,8 +443,10 @@
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
 		$scope.formatContentConnectionItem = launch.utils.formatContentConnectionItem;
 		$scope.getConnectionProviderIconClass = launch.utils.getConnectionProviderIconClass;
+		$scope.formatEcommercePlatformItem = launch.utils.formatEcommercePlatformItem;
 		$scope.formatBuyingStageItem = launch.utils.formatBuyingStageItem;
 		$scope.formatDate = launch.utils.formatDate;
+		$scope.ecommercePlatforms = ecommercePlatforms;
 
 		$scope.canViewContent = false;
 		$scope.canEditContent = false;
@@ -443,12 +461,12 @@
 		$scope.collboratorsIsDisabled = false;
 		$scope.attachmentsIsDisabled = false;
 
-		$scope.formatUserItem = function (item, element, context) {
+		$scope.formatUserItem = function(item, element, context) {
 			return $scope.getUserImageHtml(item.id, item.text);
 		};
 
-		$scope.getUserImageHtml = function (userId, text) {
-			var user = $.grep($scope.users, function (u, i) { return u.id === parseInt(userId); });
+		$scope.getUserImageHtml = function(userId, text) {
+			var user = $.grep($scope.users, function(u, i) { return u.id === parseInt(userId); });
 			var style = (user.length === 1 && !launch.utils.isBlank(user[0].image)) ? ' style="background-image: ' + user[0].imageUrl() + '"' : '';
 
 			if (launch.utils.isBlank(text) && user.length === 1) {
@@ -465,7 +483,7 @@
 			$modal.open({
 				templateUrl: '/assets/views/dialogs/publishing-guidelines.html',
 				controller: [
-					'$scope', '$modalInstance', function (scope, instance) {
+					'$scope', '$modalInstance', function(scope, instance) {
 						scope.publishingGuidelines = $scope.contentSettings.publishingGuidelines;
 						scope.ok = function() {
 							instance.dismiss('cancel');
@@ -475,7 +493,7 @@
 			});
 		};
 
-		$scope.saveContent = function (callback) {
+		$scope.saveContent = function(callback) {
 			if (!$scope.content || $scope.content.$resolved === false) {
 				return;
 			}
@@ -512,7 +530,7 @@
 									callback.success(r1);
 								}
 							},
-							error: function (r1) {
+							error: function(r1) {
 								if (!!callback && $.isFunction(callback.error)) {
 									callback.error(r1);
 								} else {
@@ -538,7 +556,7 @@
 			}
 		};
 
-		$scope.submitContent = function () {
+		$scope.submitContent = function() {
 			if (!$scope.canSubmitContent) {
 				var action = null;
 
@@ -574,7 +592,7 @@
 			if (!self.validateTasks()) {
 				return;
 			}
-			
+
 			if ($scope.content.status === 2) {
 				self.approveContent();
 			} else if ($scope.content.status === 3) {
@@ -586,15 +604,20 @@
 			}
 		};
 
-		$scope.updateContentConnection = function (ids) {
+		$scope.updateContentConnection = function(ids) {
 			$scope.contentConnectionIds = ids;
 
 			if ($.isArray($scope.contentConnectionIds)) {
-				var contentConnectionIds = $.map($scope.contentConnectionIds, function (id) { return parseInt(id); });
-				var contentConnections = $.grep($scope.contentConnections, function (cc) { return $.inArray(cc.id, contentConnectionIds) >= 0; });
+				var contentConnectionIds = $.map($scope.contentConnectionIds, function(id) { return parseInt(id); });
+				var contentConnections = $.grep($scope.contentConnections, function(cc) { return $.inArray(cc.id, contentConnectionIds) >= 0; });
 
 				$scope.content.accountConnections = contentConnections;
 			}
+		};
+
+		$scope.updateTags = function (tags) {
+			$scope.contentTags = launch.utils.isBlank(tags) ? null : tags;
+			$scope.content.tags = launch.utils.isBlank($scope.contentTags) ? null : $scope.contentTags.replace(', ', ',').split(',');
 		};
 
 		$scope.updateContentType = function() {
@@ -608,21 +631,21 @@
 			$scope.showMetaInfo = $scope.content.contentType.allowMetaTags();
 		};
 
-		$scope.updateAuthor = function () {
+		$scope.updateAuthor = function() {
 			var userId = parseInt($scope.content.author.id);
-			var user = $.grep($scope.users, function (u) { return u.id === userId; });
+			var user = $.grep($scope.users, function(u) { return u.id === userId; });
 
 			$scope.content.author = user[0];
 		};
 
-		$scope.updateCampaign = function () {
+		$scope.updateCampaign = function() {
 			var campaignId = parseInt($scope.content.campaign.id);
-			var campaign = $.grep($scope.campaigns, function (u) { return u.id === campaignId; });
+			var campaign = $.grep($scope.campaigns, function(u) { return u.id === campaignId; });
 
 			$scope.content.campaign = campaign[0];
 		};
 
-		$scope.uploadContentFile = function (files, form, control) {
+		$scope.uploadContentFile = function(files, form, control) {
 			console.log(files);
 			self.uploadFile = null;
 
@@ -650,11 +673,11 @@
 			$modal.open({
 				templateUrl: 'confirm.html',
 				controller: [
-					'$scope', '$modalInstance', function (scope, instance) {
+					'$scope', '$modalInstance', function(scope, instance) {
 						scope.message = 'Are you sure you want to delete this file?';
 						scope.okButtonText = 'Delete';
 						scope.cancelButtonText = 'Cancel';
-						scope.onOk = function () {
+						scope.onOk = function() {
 							var oldFileId = $scope.content.contentFile.id;
 
 							$scope.content.contentFile = null;
@@ -668,7 +691,7 @@
 
 							instance.close();
 						};
-						scope.onCancel = function () {
+						scope.onCancel = function() {
 							instance.dismiss('cancel');
 						};
 					}
@@ -682,18 +705,18 @@
 			}
 		};
 
-		$scope.filterTaskAssignees = function (collaborators) {
+		$scope.filterTaskAssignees = function(collaborators) {
 			if (!$scope.content) {
 				return;
 			}
 
-			$scope.taskUsers = $.grep($scope.users, function (u) {
+			$scope.taskUsers = $.grep($scope.users, function(u) {
 				if (u.id === self.loggedInUser.id) {
 					return true;
 				}
 
 				if ($.isArray(collaborators) && collaborators.length > 0) {
-					if ($.grep(collaborators, function (c) { return c.id === u.id; }).length > 0) {
+					if ($.grep(collaborators, function(c) { return c.id === u.id; }).length > 0) {
 						return true;
 					}
 				}
@@ -716,13 +739,13 @@
 			self.refreshActivity();
 		};
 
-		$scope.isCollaboratorFinished = function (collaborator) {
+		$scope.isCollaboratorFinished = function(collaborator) {
 			var collaboratorTasks = [];
 
 			if (!!$scope.content && $.isArray($scope.content.taskGroups) && $scope.content.taskGroups.length > 0) {
-				$.each($scope.content.taskGroups, function (i, tg) {
+				$.each($scope.content.taskGroups, function(i, tg) {
 					if ($.isArray(tg.tasks) && tg.tasks.length > 0) {
-						var tasks = $.grep(tg.tasks, function (t) {
+						var tasks = $.grep(tg.tasks, function(t) {
 							return t.userId === collaborator.id && !t.isComplete;
 						});
 
@@ -786,7 +809,7 @@
 					templateUrl: '/assets/views/dialogs/view-file-dialog.html',
 					size: 'lg',
 					controller: [
-						'$scope', '$modalInstance', function (scope, instance) {
+						'$scope', '$modalInstance', function(scope, instance) {
 							scope.title = file.fileName;
 							scope.path = file.path;
 							scope.mimeType = file.mimeType;
@@ -794,7 +817,7 @@
 							scope.isVideo = file.isVideo();
 							scope.isAudio = file.isAudio();
 
-							scope.ok = function () {
+							scope.ok = function() {
 								instance.dismiss('cancel');
 							};
 						}
@@ -840,7 +863,7 @@
 			}
 
 			$scope.content.comments = contentService.insertComment(self.loggedInUser.account.id, comment, {
-				success: function (r) {
+				success: function(r) {
 					self.refreshComments();
 				},
 				error: self.ajaxHandler.error
@@ -886,15 +909,15 @@
 			});
 		};
 
-		$scope.toggleSelectedConnections = function (connection, e) {
+		$scope.toggleSelectedConnections = function(connection, e) {
 			var checkbox = $(e.currentTarget);
 
 			if (checkbox.is(':checked')) {
-				if ($.grep($scope.selectedConnections, function (c) { return c.id === connection.id; }).length === 0) {
+				if ($.grep($scope.selectedConnections, function(c) { return c.id === connection.id; }).length === 0) {
 					$scope.selectedConnections.push(connection);
 				}
 			} else {
-				$scope.selectedConnections = $.grep($scope.selectedConnections, function (c) {
+				$scope.selectedConnections = $.grep($scope.selectedConnections, function(c) {
 					return c.id !== connection.id;
 				});
 			}
@@ -902,7 +925,7 @@
 			e.stopImmediatePropagation();
 		};
 
-		$scope.launchSelected = function () {
+		$scope.launchSelected = function() {
 			if (!$scope.canLaunchContent) {
 				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
 				return;
@@ -917,30 +940,39 @@
 				return;
 			}
 
-			$.each($scope.selectedConnections, function (i, c) {
+			$.each($scope.selectedConnections, function(i, c) {
 				$scope.launchContent(c, (i === $scope.selectedConnections.length - 1));
 			});
 
 			$scope.selectedConnections = [];
 		};
 
+        $scope.sendToScribe = function() {
+            if ($scope.analyzingContent === true) return;
+            $scope.analyzingContent = true;
+            contentService.analyze(self.loggedInUser.account.id, $scope.content.id, {
+                success: function(r) {
+                    $scope.analyzingContent = false;
+                    $modal.open({
+                        windowClass: 'modal-large',
+                        templateUrl: '/assets/views/content/scribe-analysis.html',
+                        controller: [
+                            '$scope', '$modalInstance', function (scope, instance) {
+                                scope.scribe = r;
+                            }
+                        ]
+                    });
+                },
+                error: self.ajaxHandler.error
+            });
+
+		}
+
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
 
 		$scope.$watch('content.author', $scope.filterCollaborators);
 
 		$scope.$watch('content.taskGroups', $scope.filterCollaborators);
-
-		$scope.$watch('contentTags', function () {
-			if (!$scope.content || !$scope.content.$resolved) {
-				return;
-			}
-
-			if (launch.utils.isBlank($scope.contentTags)) {
-				$scope.content.tags = null;
-			} else {
-				$scope.content.tags = $scope.contentTags.split(',');
-			}
-		});
 
 		self.init();
 	}

@@ -36,7 +36,8 @@
     "ise/php-soundcloud": "3.0.1",
     "dropbox/dropbox-sdk": "1.1.*",
     "eher/oauth": "1.0.*",
-    "google/apiclient": "dev-master"
+    "google/apiclient": "dev-master",
+    "traackr/traackr-api-php": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
