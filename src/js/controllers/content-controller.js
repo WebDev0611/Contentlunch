@@ -48,7 +48,6 @@
 				error: self.ajaxHandler.error
 			});
 
-			self.getPromoteAutomationConnections(); // TODO: GET RID OF THIS CALL AFTER PROMOTE CONNECTIONS COME FROM THE API!!
 			self.refreshContent();
 		}
 
