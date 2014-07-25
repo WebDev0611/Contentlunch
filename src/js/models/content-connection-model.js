@@ -14,15 +14,6 @@
 	self.created = null;
 	self.updated = null;
 
-	self.formatName = function () {
-		if (launch.utils.isBlank(self.provider) || launch.utils.isBlank(self.name) ||
-			self.provider.toLowerCase() === self.name.toLowerCase()) {
-			return self.identifier;
-		}
-
-		return self.name;
-	};
-
 	self.activeStatus = function() {
 		return self.active === true ? 'Active' : 'Inactive';
 	};

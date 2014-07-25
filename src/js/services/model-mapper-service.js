@@ -1119,9 +1119,7 @@
 				settings: connection.connectionSettings,
 				connection_type: connection.connectionType,
 				connection_name: connection.connectionName,
-				connection_provider: connection.provider,
-				identifier: connection.identifier,
-				url: connection.url
+				connection_provider: connection.provider
 			};
 		}
 	};
