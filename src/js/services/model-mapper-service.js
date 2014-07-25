@@ -1095,7 +1095,7 @@
 
 			if (launch.utils.isBlank(dto.connection_provider) || launch.utils.isBlank(dto.name) ||
 				dto.connection_provider.toLowerCase() === dto.name.toLowerCase()) {
-				connection.name = dto.identifier;
+				connection.name = launch.utils.isBlank(dto.identifier) ? dto.name : dto.identifier;
 			} else {
 				connection.name = dto.name;
 			}
