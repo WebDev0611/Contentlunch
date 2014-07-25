@@ -1083,7 +1083,6 @@
 			connection.id = parseInt(dto.id);
 			connection.accountId = parseInt(dto.account_id);
 			connection.connectionId = parseInt(dto.connection_id);
-			connection.name = dto.name;
 			connection.active = (parseInt(dto.status) === 1) ? true : false;
 			connection.connectionType = 'content';
 			connection.connectionSettings = dto.settings;
@@ -1091,8 +1090,15 @@
 			connection.updated = new Date(dto.updated_at);
 			connection.connectionName = dto.connection_name;
 			connection.provider = dto.connection_provider;
-      connection.identifier = dto.identifier;
-      connection.url = dto.url;
+			connection.identifier = dto.identifier;
+			connection.url = dto.url;
+
+			if (launch.utils.isBlank(dto.connection_provider) || launch.utils.isBlank(dto.name) ||
+				dto.connection_provider.toLowerCase() === dto.name.toLowerCase()) {
+				connection.name = dto.identifier;
+			} else {
+				connection.name = dto.name;
+			}
 
 			if (launch.utils.isBlank(connection.provider) && $.isPlainObject(dto.connection)) {
 				connection.provider = dto.connection.provider;
@@ -1113,7 +1119,9 @@
 				settings: connection.connectionSettings,
 				connection_type: connection.connectionType,
 				connection_name: connection.connectionName,
-				connection_provider: connection.provider
+				connection_provider: connection.provider,
+				identifier: connection.identifier,
+				url: connection.url
 			};
 		}
 	};
