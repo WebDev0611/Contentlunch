@@ -7,24 +7,19 @@
 		self.init = function() {
 			self.loggedInUser = AuthService.userInfo();
 
-			// TODO: NEED PRIVILEGES FOR EDITING ACCOUNT SETTINGS!!
-			scope.settings.push({ id: 'account', title: 'Account Settings' });
-
-			if (self.loggedInUser.hasPrivilege(['settings_edit_connections', 'settings_view_connections', 'settings_execute_connections'])) {
-				scope.settings.push({ id: 'connections', title: 'Content Connections' });
+			if (self.loggedInUser.hasPrivilege('settings_edit_account_settings')) {
+				scope.settings.push({ id: 'account', title: 'Account Settings' });
 			}
 
-			// TODO: NEED PRIVILEGES FOR EDITING CONTENT SETTINGS!!
-			//if (self.loggedInUser.hasPrivilege(['settings_edit_personas', 'settings_view_personas'])) {
-			scope.settings.push({ id: 'content', title: 'Content Settings' });
-			//}
+			if (self.loggedInUser.hasPrivilege('settings_view_content_settings')) {
+				scope.settings.push({ id: 'content', title: 'Content Settings' });
+			}
 
-			// TODO: NEED PRIVILEGES FOR EDITING SEO SETTINGS!!
-			//if (self.loggedInUser.hasPrivilege([''])) {
-			scope.settings.push({ id: 'seo', title: 'SEO Settings' });
-			//}
-
-			scope.settings.push({ id: 'promote', title: 'Promote Settings' });
+			if (self.loggedInUser.hasPrivilege('settings_view_connections')) {
+				scope.settings.push({ id: 'connections', title: 'Content Connections' });
+				scope.settings.push({ id: 'promote', title: 'Promote Settings' });
+				scope.settings.push({ id: 'seo', title: 'SEO Settings' });
+			}
 		};
 
 		scope.settings = [];

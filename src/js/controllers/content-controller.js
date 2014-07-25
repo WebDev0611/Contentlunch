@@ -163,9 +163,10 @@
 			$scope.canSubmitContent = ($scope.content.author.id === self.loggedInUser.id || self.loggedInUser.hasPrivilege('create_edit_content_other_unapproved'));
 			$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
 
-			// TODO: WHAT PRIVILEGES DO WE CHECK FOR RESTORE AND ARCHIVE?
-			$scope.canRestoreContent = $scope.content.archived ? !$scope.isPromote : false;
-			$scope.canArchiveContent = $scope.content.archived ? false : !$scope.isPromote;
+			if (!$scope.isPromote && !$scope.isNewContent) {
+				$scope.canRestoreContent = ($scope.content.archived === true) ? ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('create_execute_archive_restore_content_own') : self.loggedInUser.hasPrivilege('create_execute_archive_restore_content_other'): false;
+				$scope.canArchiveContent = ($scope.content.archived === true) ? false : ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('create_execute_archive_restore_content_own') : self.loggedInUser.hasPrivilege('create_execute_archive_restore_content_other');
+			}
 
 			$scope.showRichTextEditor = $scope.content.contentType.allowText();
 			$scope.showAddFileButton = $scope.content.contentType.allowFile();

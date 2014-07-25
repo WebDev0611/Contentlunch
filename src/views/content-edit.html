@@ -45,7 +45,8 @@
 						<i ng-bind-html="content.concept"></i>
 					</div>
 				</div>
-					
+<div>Archive: {{canArchiveContent}}</div>
+<div>Restore: {{canRestoreContent}}</div>
 				<h2>{{ content.currentStepTitleCase() }} Content</h2>
 
 				<div class="content-approved-header" ng-show="content.status === 3 && !content.archived">
@@ -59,7 +60,7 @@
 						Restore Content to Active
 					</button>
 				</div>
-
+				
 				<div ng-include="'/assets/views/content/partials/content-form.html'"></div>
 				
 				<div files-list="content.attachments" after-add-file-success="addAttachment" users="taskUsers" ng-hide="isNewContent" is-disabled="attachmentsIsDisabled"></div>
