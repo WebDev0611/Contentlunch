@@ -1,0 +1,42 @@
+<div class="traackr-table-wrapper">
+    <table class="table table-striped" ng-show="users.length">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Name</th>
+                <th>Primary Affiliation</th>
+                <th class="align-center">Reach</th>
+                <th class="align-center">Resonance</th>
+                <th class="align-center">Relevance</th>
+                <th>Connections</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in users">
+                <td class="align-middle"><input type="checkbox"></td>
+                <td class="align-middle">
+                    <div class="cl-badge cl-badge-horizontal">
+                        <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ user.avatar.small }}')"></span>
+                        <div class="cl-badge-caption">
+                            {{ user.name }}
+                        </div>
+                    </div>
+                </td>
+                <td class="align-middle">{{ user.primaryAffiliation }}</td>
+                <td class="align-middle align-center">{{ user.reach }}</td>
+                <td class="align-middle align-center">{{ user.resonance }}</td>
+                <td class="align-middle align-center">{{ user.relevance }}</td>
+                <td class="align-middle">
+                    <a ng-repeat="social in user.social" target="_blank" href="{{ social.url }}">
+                        <span class="fa fa-{{ social.type }}"></span>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div ng-hide="users.length">
+        No results.
+    </div>
+    <pre>{{ users | json }}</pre>
+</div>

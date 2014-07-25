@@ -37,112 +37,65 @@
                     </div>
                 </div> <!-- .well -->
 
-                <div class="row underline">
-                    <div class="col-sm-6">
-                        <h2 style="margin-top:0">Invite Guest Collaborators</h2>  
+                <div class="traackr-finder">
+                    <div class="row underline">
+                        <div class="col-sm-12">
+                            <h2 style="margin-top:0">Find External Influencers via Traackr</h2>  
+                        </div>
                     </div>
-                    <div class="col-sm-3" ng-init="guestsVia = 'linkedin'">
-                        <select class="form-control" ng-model="guestsVia">
-                            <option value="linkedin">LinkedIn</option>
-                            <option value="twitter">Twitter</option>
-                        </select>
-                    </div>
-                </div>
-            
-                <div ng-repeat="connection in connections | filter: { connectionProvider: guestsVia } track by connection.id">
-                    <div class="accordion-header" ng-click="connection.accordionOpen = !connection.accordionOpen; toggleAccordion(connection)">
-                        <i class="fa" ng-class="{ 'fa-caret-down': connection.accordionOpen, 'fa-caret-right': !connection.accordionOpen }"></i>
-                        {{ connection.name }} 
-                        <span ng-show="guestsVia == 'linkedin'">Connections</span>
-                        <span ng-show="guestsVia == 'twitter'">Followers</span>                                                                 
-                    </div>
-                    <div class="accordion-body" slide-toggle="connection.accordionOpen">
-                        <div ng-hide="connection.spinner">
-                            <div class="section-header">
-                                <div class="paging-controls">
-                                    <div class="form-group form-inline">
-                                        <label class="control-label" for="selPageSize">Items per page:</label>
-                                        <select class="form-control" id="selPageSize" name="selPageSize" ng-model="pagination.pageSize">
-                                            <option value="5">5</option>
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                    </div>
 
-                                    <div style="width: 100px; text-align: center;">
-                                        {{ (pagination.currentPage - 1) * pagination.pageSize + 1 }} 
-                                        to {{ pagination.currentPage * pagination.pageSize | min:connection.friends.length }}
-                                        of {{ connection.friends.length }}
-                                    </div>
+                    <div ng-show="traackr.taggedUsers.length">
+                        <h4>Tagged Users</h4>
+                        <div class="nudge-down">
+                            <traackr-table users="traackr.taggedUsers"></traackr-table>
+                        </div>
+                    </div>
 
-                                    <div class="pager" ng-show="connection.friends.length > pagination.pageSize">
-                                        <pagination 
-                                            total-items="connection.friends.length"
-                                            items-per-page="pagination.pageSize"
-                                            page="pagination.currentPage"
-                                            direction-links="true"
-                                            max-size="0">
-                                        </pagination>
-                                    </div>
-                                </div>
+                    <form ng-submit="searchInfluencers(keywords)">
+                        <div class="form-group">
+                            <label for="keywords">Search for New Influencers</label>
+                            <div class="input-group col-sm-6">
+                                <input type="text" name="keywords" class="form-control" id="keywords" ng-model="keywords">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-inverse">Search</button>
+                                </span>
                             </div>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th width="28px">&nbsp;</th>
-                                        <th width="200px">
-                                            <div sort-by="0" sort-var="sortOrder">
-                                                {{ connection.friendsHeaders[0] }}
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <div sort-by="1" sort-var="sortOrder">
-                                                {{ connection.friendsHeaders[1] }}
-                                            </div>
-                                        </th>
-                                        <th width="174px">
-                                            <div sort-by="2" sort-var="sortOrder">
-                                                {{ connection.friendsHeaders[2] }}
-                                            </div>
-                                        </th>
-                                        <th width="174px">
-                                            <label>
-                                                <input type="checkbox" ng-model="hideSentRequests">
-                                                Hide Sent Requests
-                                            </label>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-class="{ 'disabled-row': invited[friend.id] }" ng-repeat="friend in setViewable(connection.friends, hideSentRequests) | orderBy:sortOrder | paginate:pagination.currentPage:pagination.pageSize track by friend.id" ng-class-odd="'dark'">
-                                        <td>
-                                            <input ng-hide="invited[friend.id]" type="checkbox" id="friend{{ friend.id }}" checklist-model="connection.recipients" checklist-value="{ id: friend.id, name: friend[0] }">
-                                        </td>
-                                        <td ng-bind-html="friend[0]"></td>
-                                        <td ng-bind-html="friend[1]"></td>
-                                        <td ng-bind-html="friend[2]"></td>
-                                        <td>
-                                            <span ng-show="invited[friend.id]">
-                                                Request Sent
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>   
+                        </div>
+                    </form>
 
-                            <div class="form-group">
-                                <button class="btn btn-inverse" ng-click="openInviteModal(connection)">Invite Selected</button>
-                            </div>
+                    <div class="nudge-down">
+                        <traackr-table ng-show="traackr.searchResults && !traackr.spinner" users="traackr.searchResults"></traackr-table>
+                        <spinner class="inline-spinner" ng-show="traackr.spinner" spin-if="traackr.spinner"></spinner>
+                    </div>
+                </div> <!-- .traackr-finder -->
 
-                            <div ng-show="connection.connectionProvider == 'linkedin' && connection.groups.length">
-                                <h3>LinkedIn Groups</h3>
+                <div class="twitter-and-linked-in-finder">
+                    <div class="row underline">
+                        <div class="col-sm-6">
+                            <h2 style="margin-top:0">Invite Guest Collaborators</h2>  
+                        </div>
+                        <div class="col-sm-3" ng-init="guestsVia = 'linkedin'">
+                            <select class="form-control" ng-model="guestsVia">
+                                <option value="linkedin">LinkedIn</option>
+                                <option value="twitter">Twitter</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div ng-repeat="connection in connections | filter: { connectionProvider: guestsVia } track by connection.id">
+                        <div class="accordion-header" ng-click="connection.accordionOpen = !connection.accordionOpen; toggleAccordion(connection)">
+                            <i class="fa" ng-class="{ 'fa-caret-down': connection.accordionOpen, 'fa-caret-right': !connection.accordionOpen }"></i>
+                            {{ connection.name }} 
+                            <span ng-show="guestsVia == 'linkedin'">Connections</span>
+                            <span ng-show="guestsVia == 'twitter'">Followers</span>                                                                 
+                        </div>
+                        <div class="accordion-body" slide-toggle="connection.accordionOpen">
+                            <div ng-hide="connection.spinner">
                                 <div class="section-header">
                                     <div class="paging-controls">
                                         <div class="form-group form-inline">
-                                            <label class="control-label" for="selPageSize2">Items per page:</label>
-                                            <select class="form-control" id="selPageSize2" name="selPageSize2" ng-model="pagination2.pageSize">
+                                            <label class="control-label" for="selPageSize">Items per page:</label>
+                                            <select class="form-control" id="selPageSize" name="selPageSize" ng-model="pagination.pageSize">
                                                 <option value="5">5</option>
                                                 <option value="10">10</option>
                                                 <option value="20">20</option>
@@ -152,16 +105,16 @@
                                         </div>
 
                                         <div style="width: 100px; text-align: center;">
-                                            {{ (pagination2.currentPage - 1) * pagination2.pageSize + 1 }} 
-                                            to {{ pagination2.currentPage * pagination2.pageSize | min:connection.groups.length }}
-                                            of {{ connection.groups.length }}
+                                            {{ (pagination.currentPage - 1) * pagination.pageSize + 1 }} 
+                                            to {{ pagination.currentPage * pagination.pageSize | min:connection.friends.length }}
+                                            of {{ connection.friends.length }}
                                         </div>
 
-                                        <div class="pager" ng-show="connection.groups.length > pagination2.pageSize">
+                                        <div class="pager" ng-show="connection.friends.length > pagination.pageSize">
                                             <pagination 
-                                                total-items="connection.groups.length"
-                                                items-per-page="pagination2.pageSize"
-                                                page="pagination2.currentPage"
+                                                total-items="connection.friends.length"
+                                                items-per-page="pagination.pageSize"
+                                                page="pagination.currentPage"
                                                 direction-links="true"
                                                 max-size="0">
                                             </pagination>
@@ -171,7 +124,22 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Group Name</th>
+                                            <th width="28px">&nbsp;</th>
+                                            <th width="200px">
+                                                <div sort-by="0" sort-var="sortOrder">
+                                                    {{ connection.friendsHeaders[0] }}
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div sort-by="1" sort-var="sortOrder">
+                                                    {{ connection.friendsHeaders[1] }}
+                                                </div>
+                                            </th>
+                                            <th width="174px">
+                                                <div sort-by="2" sort-var="sortOrder">
+                                                    {{ connection.friendsHeaders[2] }}
+                                                </div>
+                                            </th>
                                             <th width="174px">
                                                 <label>
                                                     <input type="checkbox" ng-model="hideSentRequests">
@@ -181,17 +149,83 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="group in connection.groups | paginate:pagination2.currentPage:pagination2.pageSize track by group.id">
-                                            <td class="align-middle">{{ group.name }}</td>
-                                            <td><button ng-click="openInviteModal(connection, group)" class="btn btn-inverse">Send Message to Group</button></td>
+                                        <tr ng-class="{ 'disabled-row': invited[friend.id] }" ng-repeat="friend in setViewable(connection.friends, hideSentRequests) | orderBy:sortOrder | paginate:pagination.currentPage:pagination.pageSize track by friend.id" ng-class-odd="'dark'">
+                                            <td>
+                                                <input ng-hide="invited[friend.id]" type="checkbox" id="friend{{ friend.id }}" checklist-model="connection.recipients" checklist-value="{ id: friend.id, name: friend[0] }">
+                                            </td>
+                                            <td ng-bind-html="friend[0]"></td>
+                                            <td ng-bind-html="friend[1]"></td>
+                                            <td ng-bind-html="friend[2]"></td>
+                                            <td>
+                                                <span ng-show="invited[friend.id]">
+                                                    Request Sent
+                                                </span>
+                                            </td>
                                         </tr>
                                     </tbody>
-                                </table>                                
+                                </table>   
+
+                                <div class="form-group">
+                                    <button class="btn btn-inverse" ng-click="openInviteModal(connection)">Invite Selected</button>
+                                </div>
+
+                                <div ng-show="connection.connectionProvider == 'linkedin' && connection.groups.length">
+                                    <h3>LinkedIn Groups</h3>
+                                    <div class="section-header">
+                                        <div class="paging-controls">
+                                            <div class="form-group form-inline">
+                                                <label class="control-label" for="selPageSize2">Items per page:</label>
+                                                <select class="form-control" id="selPageSize2" name="selPageSize2" ng-model="pagination2.pageSize">
+                                                    <option value="5">5</option>
+                                                    <option value="10">10</option>
+                                                    <option value="20">20</option>
+                                                    <option value="50">50</option>
+                                                    <option value="100">100</option>
+                                                </select>
+                                            </div>
+
+                                            <div style="width: 100px; text-align: center;">
+                                                {{ (pagination2.currentPage - 1) * pagination2.pageSize + 1 }} 
+                                                to {{ pagination2.currentPage * pagination2.pageSize | min:connection.groups.length }}
+                                                of {{ connection.groups.length }}
+                                            </div>
+
+                                            <div class="pager" ng-show="connection.groups.length > pagination2.pageSize">
+                                                <pagination 
+                                                    total-items="connection.groups.length"
+                                                    items-per-page="pagination2.pageSize"
+                                                    page="pagination2.currentPage"
+                                                    direction-links="true"
+                                                    max-size="0">
+                                                </pagination>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Group Name</th>
+                                                <th width="174px">
+                                                    <label>
+                                                        <input type="checkbox" ng-model="hideSentRequests">
+                                                        Hide Sent Requests
+                                                    </label>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="group in connection.groups | paginate:pagination2.currentPage:pagination2.pageSize track by group.id">
+                                                <td class="align-middle">{{ group.name }}</td>
+                                                <td><button ng-click="openInviteModal(connection, group)" class="btn btn-inverse">Send Message to Group</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>                                
+                                </div>
                             </div>
+                            <spinner spin-if="connection.spinner"></spinner> 
                         </div>
-                        <spinner spin-if="connection.spinner"></spinner> 
-                    </div>
-                </div> <!-- [ng-repeat="connection in connections"] -->
+                    </div> <!-- [ng-repeat="connection in connections"] -->
+                </div> <!-- .twitter-and-linked-in-finder -->
             </div> <!-- .col-sm-9 -->
 
             <div class="col-sm-3">

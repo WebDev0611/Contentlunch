@@ -200,6 +200,21 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     };
 
 
+    // Traackr
+    // -------------------------
+    $scope.traackr = {};
+    $scope.searchInfluencers = function (keywords) {
+        $scope.traackr.spinner = true;
+
+        Restangular.all('traackr').customGET('search-influencers', { keywords: keywords }).then(function (traackrUsers) {
+            console.log(traackrUsers);
+            $scope.traackr.searchResults = traackrUsers;
+        }).catch($rootScope.globalErrorHandler).then(function () {
+            $scope.traackr.spinner = false;
+        });
+    };
+
+
     // Helpers
     // -------------------------
     $scope.setViewable = function(friends, hideInvited) {
