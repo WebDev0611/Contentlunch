@@ -1,6 +1,6 @@
 ﻿launch.module.directive('discussionPanel', function() {
 	return {
-		templateUrl: '/assets/views/discussion-panel.html',
+		templateUrl: '/assets/views/directives/discussion-panel.html',
 		scope: {
 			comments: '=comments',
 			addCommentCallback: '=addCommentCallback'

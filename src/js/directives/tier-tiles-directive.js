@@ -29,6 +29,6 @@
 			selectedSubscription: '=selectedSubscription',
 			tileOnClick: '=tileOnClick'
 		},
-		templateUrl: '/assets/views/tier-tiles.html'
+		templateUrl: '/assets/views/directives/tier-tiles.html'
 	};
 });

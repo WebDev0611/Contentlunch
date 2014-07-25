@@ -57,6 +57,6 @@
 		scope: {
 			selectedSetting: '=selectedSetting'
 		},
-		templateUrl: '/assets/views/account-left-pane.html'
+		templateUrl: '/assets/views/directives/account-left-pane.html'
 	};
 });

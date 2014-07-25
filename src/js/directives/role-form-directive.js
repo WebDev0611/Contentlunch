@@ -194,6 +194,6 @@
 			selfEditing: '=selfEditing',
 			creatingNew: '=creatingNew'
 		},
-		templateUrl: '/assets/views/role-form.html'
+		templateUrl: '/assets/views/directives/role-form.html'
 	};
 });

@@ -216,6 +216,6 @@
 			isDisabled: '=isDisabled',
 			users: '=users'
 		},
-		templateUrl: '/assets/views/files-list.html'
+		templateUrl: '/assets/views/directives/files-list.html'
 	}
 });

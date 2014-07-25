@@ -8,6 +8,8 @@ class TumblrAPI extends AbstractConnection {
   protected $baseUrl = 'http://api.tumblr.com';
   protected $configKey = 'services.tumblr';
 
+  protected $userInfo = null;
+
   protected function getClient()
   {
     if ( ! $this->client) {
@@ -65,18 +67,28 @@ class TumblrAPI extends AbstractConnection {
 
   public function getIdentifier()
   {
-    return null;
+    $user = $this->getUserInfo();
+    return $user['user']['blogs'][0]['name'];
+  }
+
+  public function getUrl()
+  {
+    $user = $this->getUserInfo();
+    return $user['user']['blogs'][0]['url'];
   }
 
   public function getUserInfo()
   {
-    $request = $this->getRequest('GET', 'v2/user/info');
-    $client = $this->getClient();
-    $response = $client->send($request);
-    $info = $response->json();
-    if ($info['meta']['msg'] == 'OK') {
-      return $info['response'];
+    if ( ! $this->userInfo) {
+      $request = $this->getRequest('GET', 'v2/user/info');
+      $client = $this->getClient();
+      $response = $client->send($request);
+      $info = $response->json();
+      if ($info['meta']['msg'] == 'OK') {
+        $this->userInfo = $info['response'];
+      }
     }
+    return $this->userInfo;
   }
 
   /**

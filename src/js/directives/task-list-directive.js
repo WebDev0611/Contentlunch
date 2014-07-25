@@ -303,6 +303,6 @@
 			authorId: '=authorId',
 			users: '=users'
 		},
-		templateUrl: '/assets/views/task-list.html'
+		templateUrl: '/assets/views/directives/task-list.html'
 	};
 });

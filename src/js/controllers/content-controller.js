@@ -1,5 +1,5 @@
 ﻿launch.module.controller('ContentController', [
-	'$scope', '$routeParams', '$filter', '$location', '$modal', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', function($scope, $routeParams, $filter, $location, $modal, authService, accountService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService) {
+	'$scope', '$routeParams', '$filter', '$location', '$modal', 'ecommercePlatforms', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', function ($scope, $routeParams, $filter, $location, $modal, ecommercePlatforms, authService, accountService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -443,8 +443,10 @@
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
 		$scope.formatContentConnectionItem = launch.utils.formatContentConnectionItem;
 		$scope.getConnectionProviderIconClass = launch.utils.getConnectionProviderIconClass;
+		$scope.formatEcommercePlatformItem = launch.utils.formatEcommercePlatformItem;
 		$scope.formatBuyingStageItem = launch.utils.formatBuyingStageItem;
 		$scope.formatDate = launch.utils.formatDate;
+		$scope.ecommercePlatforms = ecommercePlatforms;
 
 		$scope.canViewContent = false;
 		$scope.canEditContent = false;

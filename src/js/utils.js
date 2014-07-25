@@ -624,7 +624,7 @@
 			case 'audiorecording':
 			case 'audio_recording':
 			case 'audio-recording':
-				return 'fa fa-volume-up';
+				return 'fa fa-file-audio-o';
 			case 'blogpost':
 			case 'blog_post':
 			case 'blog-post':
@@ -655,7 +655,7 @@
 			case 'info_graphic':
 			case 'info-graphic':
 			case 'photo':
-				return 'fa fa-picture-o';
+				return 'fa fa-file-image-o';
 			case 'landingpage':
 			case 'landing_page':
 			case 'landing-page':
@@ -663,6 +663,8 @@
 			case 'website_page':
 			case 'website-page':
 				return 'fa fa-file-code-o';
+			case 'product-description':
+				return 'cl-icon cl-icon-cart';
 			case 'salesletter':
 			case 'sales_letter':
 			case 'sales-letter':
@@ -680,7 +682,7 @@
 			case 'social-media-post':
 				return 'fa fa-share-alt';
 			case 'video':
-				return 'fa fa-video-camera';
+				return 'fa fa-file-video-o';
 			case 'whitepaper':
 			case 'white_paper':
 			case 'white-paper':
@@ -718,6 +720,27 @@
 		}
 	},
 
+	getEcommercePlatformIconCssClass: function(platform) {
+		if (launch.utils.isBlank(platform)) {
+			return null;
+		}
+
+		switch (platform) {
+			case 'magento':
+				return 'cl-icon-ecommerce-magento';
+			case 'volusion':
+				return 'cl-icon-ecommerce-volusion';
+			case 'shopify':
+				return 'cl-icon-ecommerce-shopify';
+			case 'woo-commerce':
+				return 'cl-icon-ecommerce-woo-commerce';
+			case 'big-commerce':
+				return 'cl-icon-ecommerce-big-commerce';
+			default:
+				return 'fa fa-question';
+		}
+	},
+
 	formatContentTypeItem: function(item, element, context) {
 		return '<span class="' + launch.utils.getContentTypeIconClass(item.id) + '"></span> <span>' + item.text + '</span>';
 	},
@@ -744,6 +767,10 @@
 
 	formatDocumentUploaderItem: function(item, element, context) {
 		return '<span class="cl-icon"></span> <span>' + item.text + '</span>';
+	},
+
+	formatEcommercePlatformItem: function(item, element, context) {
+		return '<span class="cl-icon ' + launch.utils.getEcommercePlatformIconCssClass(item.id.toLowerCase()) + '"></span> <span>' + item.text + '</span>';
 	},
 
 	getUserById: function(users, id) {

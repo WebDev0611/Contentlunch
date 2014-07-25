@@ -1,6 +1,6 @@
 ﻿launch.module.directive('collaboratorSidebar', function($modal, $window, $location, AuthService, NotificationService, ContentService, CampaignService) {
 	return {
-		templateUrl: '/assets/views/colloborator-sidebar.html',
+		templateUrl: '/assets/views/directives/colloborator-sidebar.html',
 		scope: {
 			users: '=users',
 			itemId: '=itemId',
