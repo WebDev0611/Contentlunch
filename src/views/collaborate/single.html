@@ -47,7 +47,7 @@
                     <div ng-show="traackr.taggedUsers.length">
                         <h4>Tagged Users</h4>
                         <div class="nudge-down">
-                            <traackr-table users="traackr.taggedUsers"></traackr-table>
+                            <traackr-table users="traackr.taggedUsers" tagged="yes"></traackr-table>
                         </div>
                     </div>
 
@@ -64,9 +64,11 @@
                     </form>
 
                     <div class="nudge-down">
-                        <traackr-table ng-show="traackr.searchResults && !traackr.spinner" users="traackr.searchResults"></traackr-table>
+                        <traackr-table tagged="traackr.taggedUsers" ng-show="traackr.searchResults && !traackr.spinner" users="traackr.searchResults" selected-ids="traackr.selectedIds"></traackr-table>
                         <spinner class="inline-spinner" ng-show="traackr.spinner" spin-if="traackr.spinner"></spinner>
                     </div>
+
+                    <button ng-show="traackr.selectedIds.length" class="btn btn-inverse nudge-down" ng-click="tagTraackrUsers(traackr.selectedIds)">Tag Users</button>
                 </div> <!-- .traackr-finder -->
 
                 <div class="twitter-and-linked-in-finder">

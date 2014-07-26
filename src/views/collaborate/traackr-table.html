@@ -13,8 +13,11 @@
         </thead>
         <tbody>
             <tr ng-repeat="user in users">
-                <td class="align-middle"><input type="checkbox"></td>
                 <td class="align-middle">
+                    <input ng-hide="isTagged(user)" checklist-value="user.uid" checklist-model="selectedIds" type="checkbox">
+                    <i ng-show="isTagged(user)" class="fa fa-check big-blue-check"></i>
+                </td>
+                <td class="align-middle" style="white-space: nowrap;">
                     <div class="cl-badge cl-badge-horizontal">
                         <span class="cl-badge-image cl-badge-image-small" style="background-image: url('{{ user.avatar.small }}')"></span>
                         <div class="cl-badge-caption">
@@ -23,9 +26,9 @@
                     </div>
                 </td>
                 <td class="align-middle">{{ user.primaryAffiliation }}</td>
-                <td class="align-middle align-center">{{ user.reach }}</td>
-                <td class="align-middle align-center">{{ user.resonance }}</td>
-                <td class="align-middle align-center">{{ user.relevance }}</td>
+                <td class="align-middle align-center big-orange">{{ user.reach }}</td>
+                <td class="align-middle align-center big-orange">{{ user.resonance }}</td>
+                <td class="align-middle align-center big-orange">{{ user.relevance }}</td>
                 <td class="align-middle">
                     <a ng-repeat="social in user.social" target="_blank" href="{{ social.url }}">
                         <span class="fa fa-{{ social.type }}"></span>
@@ -38,5 +41,4 @@
     <div ng-hide="users.length">
         No results.
     </div>
-    <pre>{{ users | json }}</pre>
 </div>

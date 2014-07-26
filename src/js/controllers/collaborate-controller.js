@@ -33,6 +33,12 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
         });
         requests.connections = Account.all('connections').getList({ 'provider[]': ['linkedin', 'twitter'] });
         requests.guestCollaborators = Collab.all('guest-collaborators').getList();
+        requests.traackrTags = Collab.all('traackr-tags').getList().then(function (tags) {
+            $scope.traackr.taggedUsers = _.map(tags, function (tag) {
+                return tag.user;
+            });
+            return tags;
+        });
     } else {
         requests.list = $q.all({
             Content  : Account.all( 'content' ).getList({ status: 0 }),
@@ -212,6 +218,21 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
         }).catch($rootScope.globalErrorHandler).then(function () {
             $scope.traackr.spinner = false;
         });
+    };
+
+    $scope.tagTraackrUsers = function (userIdsToTag) {
+        var users = _.map(userIdsToTag, function (uid) {
+            return _.find($scope.traackr.searchResults, { uid: uid });
+        });
+
+        $scope.traackr.taggedUsers = _.union(users, $scope.traackr.taggedUsers);
+        $scope.traackr.taggedUsers = _.uniq($scope.traackr.taggedUsers, function (user) {
+            return user.uid;
+        });
+
+        $scope.traackr.selectedIds = [];
+
+        $scope.traackrTags.post({ users: users });
     };
 
 

@@ -6,6 +6,7 @@ use Traackr\TraackrApi;
 
 /**
  * @see: http://api.docs.traackr.com/traackr_1_0
+ * @see: http://traackr.github.io/traackr-api-docs/
  */
 class Traackr {
 

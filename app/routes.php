@@ -179,11 +179,14 @@ Route::group(['prefix' => 'api'], function()
   Route::resource('account/{accountID}/{conceptType}/{conceptID}/brainstorm', 'BrainstormController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
-    Route::post('account/{accountID}/{conceptType}/{conceptID}/brainstorm/{id}', 'BrainstormController@update');
+  Route::post('account/{accountID}/{conceptType}/{conceptID}/brainstorm/{id}', 'BrainstormController@update');
 
   Route::get('account/{accountID}/brainstorm', 'BrainstormController@all');
 
   Route::get('traackr/search-influencers', 'TraackrController@searchInfluencers');
+  Route::resource('account/{accountID}/{conceptType}/{conceptID}/traackr-tags', 'TraackrTagController', [
+    'only' => ['index', 'store', 'show', 'update', 'destroy']
+  ]);
 
   Route::get('test', 'MeasureController@test');
   Route::get('test2', 'MeasureController@contentCreated');

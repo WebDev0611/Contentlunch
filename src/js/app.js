@@ -321,6 +321,9 @@
 		.run([
 					'$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService',
 			function($rootScope,   $location,   userService,   authService,   notificationService) {
+				$rootScope.yes = true;
+				$rootScope.no = false;
+
 				var path = $location.path();
 
 				var fetchCurrentUser = function(r) {
