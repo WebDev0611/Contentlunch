@@ -34,7 +34,7 @@ class ServiceFactory {
       case 'youtube':
         // Youtube = google
         $this->provider = 'google';
-        $this->config = Config::get('services.google');
+        $this->config = Config::get('services.youtube');
       break;
       default:
         $this->provider = $provider;

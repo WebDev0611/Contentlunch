@@ -93,5 +93,11 @@ return [
   'traackr' => [
     // we're not doing any auth with Traackr (yet), so all we need is the API key
     'key' => '9bdcf55c7b277e26063a04d2dff577ba'
-  ]
+  ],
+  // Use same api creds as google
+  'youtube' => [
+    'key' => '105997751893-s34v4dmp7rauav72146qigpg94jnu83a.apps.googleusercontent.com',
+    'secret' => 'qSM5V2SgkYx2iUMJy0oBDo_w',
+    'scope' => ['profile', 'https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/youtube.upload'],
+  ],
 ];

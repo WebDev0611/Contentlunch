@@ -47,6 +47,7 @@ class AccountConnectionsController extends BaseController {
         }
       }
     }
+
     return $connections;
   }
 

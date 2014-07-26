@@ -5,6 +5,7 @@ use GuzzleHttp\Client;
 
 // Eh... google api lib not namespaced
 use Google_Client;
+use Google_Service_Oauth2;
 use Google_Service_YouTube;
 use Google_Service_YouTube_VideoSnippet;
 use Google_Service_YouTube_VideoStatus;
@@ -22,6 +23,8 @@ class YoutubeAPI extends AbstractConnection {
 
   // Youtube service api
   protected $api = null;
+
+  protected $info = null;
 
   protected function getClient()
   {
@@ -55,9 +58,26 @@ class YoutubeAPI extends AbstractConnection {
     return $this->client;
   }
 
+  public function getProfileInfo()
+  {
+    // This gets google + plus profile info
+    if ( ! $this->info) {
+      $api = new Google_Service_Oauth2($this->getClient());
+      $this->info = $api->userinfo->get();
+    }
+    return $this->info;
+  }
+
   public function getIdentifier()
   {
-    return null;
+    $info = $this->getProfileInfo();
+    return $info->name;
+  }
+
+  public function getUrl()
+  {
+    $info = $this->getProfileInfo();
+    return $info->link;
   }
 
   protected function getRefreshToken()
@@ -81,6 +101,8 @@ class YoutubeAPI extends AbstractConnection {
   {
     $response = ['success' => true, 'response' => []];
     try {
+
+      $client = $this->getClient();
 
       $videoPath = $content->upload->getAbsPath();
 
@@ -114,14 +136,14 @@ class YoutubeAPI extends AbstractConnection {
 
       // Setting the defer flag to true tells the client to return a request which can be called
       // with ->execute(); instead of making the API call immediately.
-      $this->client->setDefer(true);
+      $client->setDefer(true);
 
       // Create a request for the API's videos.insert method to create and upload the video.
       $insertRequest = $this->api->videos->insert("status,snippet", $video);
 
       // Create a MediaFileUpload object for resumable uploads.
       $media = new Google_Http_MediaFileUpload(
-        $this->client,
+        $client,
         $insertRequest,
         'video/*',
         null,
@@ -141,7 +163,7 @@ class YoutubeAPI extends AbstractConnection {
       fclose($handle);
 
       // If you want to make other calls after the file upload, set setDefer back to false
-      $this->client->setDefer(false);
+      $client->setDefer(false);
 
       $response['success'] = true;
       $response['response'] = $status;
