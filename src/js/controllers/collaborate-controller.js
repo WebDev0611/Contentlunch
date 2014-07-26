@@ -7,6 +7,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     };
     $scope.pagination2 = angular.copy($scope.pagination);
 
+    $scope.isLoaded = false;
 
     // Get & Setup Our Data
     // -------------------------
@@ -64,6 +65,8 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
         console.log(_.mapObject(responses, function (response, key) {
             return [key, response.plain ? response.plain() : response];
         }));
+    }).catch($rootScope.globalErrorHandler).then(function () {
+        $scope.isLoaded = true;
     });
 
     // Actions

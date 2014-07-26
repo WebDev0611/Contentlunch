@@ -1,4 +1,8 @@
-﻿<div class="collaborate view full-width-view">
+﻿<div class="loading-spinner-container" ng-hide="isLoaded">
+    <spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
+</div>
+
+<div ng-show="isLoaded" class="collaborate view full-width-view">
     <h2 class="module-header">Collaborate</h2>
     <div class="container">
         <div class="row align-right underline">
