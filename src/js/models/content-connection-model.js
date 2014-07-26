@@ -9,6 +9,7 @@
 	self.connectionCategory = null;
 	self.connectionSettings = null;
 	self.provider = null;
+	self.identifier = null;
 	self.url = null;
 	self.created = null;
 	self.updated = null;
