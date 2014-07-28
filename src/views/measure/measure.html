@@ -1,0 +1,30 @@
+﻿<div class="view measure" ng-show="true">
+	<div class="col-md-3 left-pane">
+		
+	</div>
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header">Measure</h2>
+
+		<div class="measure-editor row">
+			<div class="measure-header">
+				<div class="btn-group">
+					<button type="button" class="btn btn-default" ng-class="{ active: (selectedTab === 'overview') }" ng-click="selectTab('overview')">Overview</button>
+					<button type="button" class="btn btn-default" ng-class="{ active: (selectedTab === 'creation-stats') }" ng-click="selectTab('creation-stats')">Creation Stats</button>
+					<button type="button" class="btn btn-default" ng-class="{ active: (selectedTab === 'content-trends') }" ng-click="selectTab('content-trends')">Content Trends</button>
+					<button type="button" class="btn btn-default" ng-class="{ active: (selectedTab === 'content-details') }" ng-click="selectTab('content-details')">Content Details</button>
+					<button type="button" class="btn btn-default" ng-class="{ active: (selectedTab === 'marketing-automation') }" ng-click="selectTab('marketing-automation')">Marketing Automation</button>
+				</div>
+			</div>
+
+			<div ng-include="'/assets/views/measure/measure-overview.html'" ng-if="(selectedTab === 'overview')"></div>
+			<div ng-include="'/assets/views/measure/measure-creation-stats.html'" ng-if="(selectedTab === 'creation-stats')"></div>
+			<div ng-include="'/assets/views/measure/measure-content-trends.html'" ng-if="(selectedTab === 'content-trends')"></div>
+			<div ng-include="'/assets/views/measure/measure-content-details.html'" ng-if="(selectedTab === 'content-details')"></div>
+			<div ng-include="'/assets/views/measure/measure-marketing-automation.html'" ng-if="(selectedTab === 'marketing-automation')"></div>
+		</div>
+	</div>
+</div>
+
+<div class="loading-spinner-container" ng-show="!true">
+	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
+</div>

@@ -784,7 +784,8 @@ span[class^="icon-"], span[class*=" icon-"] {
 	width: 36px;
 }
 
-.users, .accounts, .roles, .content-settings, .seo-settings, .create, .calendar, .admin-library, .consult, .admin-conference, .promote {
+.users, .accounts, .roles, .content-settings, .seo-settings, .create, .calendar, .admin-library, .consult,
+.admin-conference, .promote, .measure {
 	.left-pane {
 		position: relative;
 
@@ -869,7 +870,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.users, .accounts, .roles, .content-settings, .seo-settings, .admin-library, .consult, .admin-conference, .promote {
+.users, .accounts, .roles, .content-settings, .seo-settings, .admin-library, .consult, .admin-conference, .promote, .measure {
 	.left-pane {
 		.btn-group {
 			.btn-create {
@@ -880,7 +881,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 }
 
 .user-editor, .account-editor, .role-editor, .content-settings-editor, .seo-settings-editor,
-.concept-editor, .content-editor, .campaign-editor {
+.concept-editor, .content-editor, .campaign-editor, .measure-editor {
 	.user-image-upload {
 		float: left;
 		text-align: center;
@@ -1342,7 +1343,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.create, .calendar, .promote {
+.create, .calendar, .promote, .measure {
 	.left-pane {
 		.btn-group {
 			margin-top: 12px;
@@ -1503,13 +1504,13 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 		}
 
-		.concept-editor, .content-editor, .campaign-editor {
+		.concept-editor, .content-editor, .campaign-editor, .measure-editor {
 			margin: 20px 0;
 		}
 	}
 }
 
-.create, .promote {
+.create, .promote, .measure {
 	.left-pane {
 		.filter-panel, .tasks-header {
 			border-radius: 4px;
@@ -1880,25 +1881,40 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
+.measure {
+	.left-pane {
+		.filter-panel, .tasks-header {
+			background-color: @measureColor;
+		}
+	}
+
+	.right-pane {
+		.right-pane-header {
+			background-color: @measureColorDark;
+			border-bottom-color: @measureColor;
+			color: #ffffff;
+
+			.cl-icon {
+				color: #ffffff;
+			}
+		}
+
+		.measure-editor{
+			margin: 20px 15px;
+		}
+	}
+}
+
 .create-header {
 	margin: 0 16px;
 
 	>* {
-		display: inline-block;
 		margin: 0 16px;
+		display: inline-block;
 		vertical-align: middle;
 
 		.control-label, .form-control {
 			display: inline;
-		}
-	}
-
-	.btn-group {
-		.btn {
-			&.active {
-				background-color: #000000;
-				color: #ffffff;
-			}
 		}
 	}
 
@@ -1924,6 +1940,17 @@ span[class^="icon-"], span[class*=" icon-"] {
 					font-size: 15pt;
 					margin: 0 4px;
 				}
+			}
+		}
+	}
+}
+
+.create-header, .measure-header {
+	.btn-group {
+		.btn {
+			&.active {
+				background-color: #000000;
+				color: #ffffff;
 			}
 		}
 	}

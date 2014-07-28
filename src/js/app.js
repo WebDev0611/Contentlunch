@@ -187,7 +187,7 @@
 					})
 					.when('/measure', {
 						controller: 'MeasureController',
-						templateUrl: '/assets/views/measure.html'
+						templateUrl: '/assets/views/measure/measure.html'
 					})
 					.when('/accounts', {
 						controller: 'AccountsController',
