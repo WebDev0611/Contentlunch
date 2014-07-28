@@ -39,6 +39,8 @@
 
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
+		$scope.formatContentTypeIcon = launch.utils.getContentTypeIconClass;
+		$scope.formatDate = launch.utils.formatDate;
 
 		$scope.pagination = {
 			totalItems: 0,
@@ -236,8 +238,8 @@
 
 			$scope.content.sort(function (a, b) {
 				if (!a && !b) { return 0; }
-				if (!!a && !b) { return -1; }
-				if (!a && !!b) { return 1; }
+				if (!!a && !b) { return ($scope.pagination.currentSortDirection === 'asc' ? -1 : 1); }
+				if (!a && !!b) { return ($scope.pagination.currentSortDirection === 'asc' ? 1 : -1); }
 
 				if (a.id === b.id) {
 					return 0;
@@ -245,8 +247,8 @@
 
 				if ($scope.pagination.currentSort === 'title') {
 					if (launch.utils.isBlank(a.title) && launch.utils.isBlank(b.title)) { return 0; }
-					if (!launch.utils.isBlank(a.title) && launch.utils.isBlank(b.title)) { return -1; }
-					if (launch.utils.isBlank(a.title) && !launch.utils.isBlank(b.title)) { return 1; }
+					if (!launch.utils.isBlank(a.title) && launch.utils.isBlank(b.title)) { return ($scope.pagination.currentSortDirection === 'asc' ? -1 : 1); }
+					if (launch.utils.isBlank(a.title) && !launch.utils.isBlank(b.title)) { return ($scope.pagination.currentSortDirection === 'asc' ? 1 : -1); }
 
 					if (a.title.toLowerCase() === b.title.toLowerCase()) {
 						return 0;
@@ -261,8 +263,8 @@
 
 				if ($scope.pagination.currentSort === 'author') {
 					if (!a.author && !b.author) { return 0; }
-					if (!!a.author && !b.author) { return -1; }
-					if (!a.author && !!b.author) { return 1; }
+					if (!!a.author && !b.author) { return ($scope.pagination.currentSortDirection === 'asc' ? -1 : 1); }
+					if (!a.author && !!b.author) { return ($scope.pagination.currentSortDirection === 'asc' ? 1 : -1); }
 
 					if (a.author.id === b.author.id) {
 						return 0;
@@ -279,47 +281,60 @@
 					}
 				}
 
-				if ($scope.pagination.currentSort === 'persona') {
-					if (launch.utils.isBlank(a.persona) && launch.utils.isBlank(b.persona)) { return 0; }
-					if (!launch.utils.isBlank(a.persona) && launch.utils.isBlank(b.persona)) { return -1; }
-					if (launch.utils.isBlank(a.persona) && !launch.utils.isBlank(b.persona)) { return 1; }
+				if ($scope.pagination.currentSort === 'launchdate') {
+					if (!launch.utils.isValidDate(a.launchDate) && !launch.utils.isValidDate(b.launchDate)) { return 0; }
+					if (!launch.utils.isValidDate(a.launchDate) && launch.utils.isValidDate(b.launchDate)) { return ($scope.pagination.currentSortDirection === 'asc' ? -1 : 1); }
+					if (launch.utils.isValidDate(a.launchDate) && !launch.utils.isValidDate(b.launchDate)) { return ($scope.pagination.currentSortDirection === 'asc' ? 1 : -1); }
 
-					if (a.persona.toLowerCase() === b.persona.toLowerCase()) {
+					var aLaunchDate = launch.utils.formatDate(a.launchDate);
+					var bLaunchDate = launch.utils.formatDate(b.launchDate);
+
+					if (aLaunchDate === bLaunchDate) {
 						return 0;
 					}
 
 					if ($scope.pagination.currentSortDirection === 'asc') {
-						return (a.persona.toLowerCase() < b.persona.toLowerCase()) ? -1 : 1;
+						return (aLaunchDate < bLaunchDate) ? -1 : 1;
 					} else {
-						return (a.persona.toLowerCase() > b.persona.toLowerCase()) ? -1 : 1;
+						return (aLaunchDate > bLaunchDate) ? -1 : 1;
 					}
 				}
 
-				if ($scope.pagination.currentSort === 'buyingstage') {
-					if (launch.utils.isBlank(a.buyingStage) && launch.utils.isBlank(b.buyingStage)) { return 0; }
-					if (!launch.utils.isBlank(a.buyingStage) && launch.utils.isBlank(b.buyingStage)) { return -1; }
-					if (launch.utils.isBlank(a.buyingStage) && !launch.utils.isBlank(b.buyingStage)) { return 1; }
+				if ($scope.pagination.currentSort === 'promotedate') {
+					if (!launch.utils.isValidDate(a.promoteDate) && !launch.utils.isValidDate(b.promoteDate)) { return 0; }
+					if (!launch.utils.isValidDate(a.promoteDate) && launch.utils.isValidDate(b.promoteDate)) { return ($scope.pagination.currentSortDirection === 'asc' ? -1 : 1); }
+					if (launch.utils.isValidDate(a.promoteDate) && !launch.utils.isValidDate(b.promoteDate)) { return ($scope.pagination.currentSortDirection === 'asc' ? 1 : -1); }
 
-					if (a.buyingStage.toLowerCase() === b.buyingStage.toLowerCase()) {
+					var aPromoteDate = launch.utils.formatDate(a.promoteDate);
+					var bPromoteDate = launch.utils.formatDate(b.promoteDate);
+
+					if (aPromoteDate === bPromoteDate) {
 						return 0;
 					}
 
 					if ($scope.pagination.currentSortDirection === 'asc') {
-						return (a.buyingStage.toLowerCase() < b.buyingStage.toLowerCase()) ? -1 : 1;
+						return (aPromoteDate < bPromoteDate) ? -1 : 1;
 					} else {
-						return (a.buyingStage.toLowerCase() > b.buyingStage.toLowerCase()) ? -1 : 1;
+						return (aPromoteDate > bPromoteDate) ? -1 : 1;
 					}
 				}
 
-				if ($scope.pagination.currentSort === 'currentstep' || $scope.pagination.currentSort === 'nextstep') {
-					if (a.status === b.status) {
+				if ($scope.pagination.currentSort === 'contentscore') {
+					if (isNaN(a.contentScore) && isNaN(b.contentScore)) { return 0; }
+					if (!isNaN(a.contentScore) && isNaN(b.contentScore)) { return ($scope.pagination.currentSortDirection === 'asc' ? -1 : 1); }
+					if (isNaN(a.contentScore) && !isNaN(b.contentScore)) { return ($scope.pagination.currentSortDirection === 'asc' ? 1 : -1); }
+
+					var aScore = parseFloat(a.contentScore);
+					var bScore = parseFloat(b.contentScore);
+
+					if (aScore === bScore) {
 						return 0;
 					}
 
 					if ($scope.pagination.currentSortDirection === 'asc') {
-						return (a.status < b.status) ? -1 : 1;
+						return (aScore < bScore) ? -1 : 1;
 					} else {
-						return (a.status > b.status) ? -1 : 1;
+						return (aScore > bScore) ? -1 : 1;
 					}
 				}
 
