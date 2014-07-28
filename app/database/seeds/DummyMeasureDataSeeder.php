@@ -17,7 +17,7 @@ class DummyMeasureDataSeeder extends Seeder {
 
         Content::where('title', 'LIKE', 'Dummy Measure Data %')->delete();
 
-        foreach(range(1, 10) as $index)
+        foreach(range(1, 50) as $index)
         {
             $userID        = $userIDs[array_rand($userIDs)];
             $contentTypeID = $contentTypeIDs[array_rand($contentTypeIDs)];

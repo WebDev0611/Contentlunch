@@ -15,6 +15,7 @@ class CreateMeasureUserEfficiencyTable extends Migration {
         Schema::create('measure_user_efficiency', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->unique();
+            $table->integer('account_id')->unsigned();
             $table->decimal('converted_concepts', 4, 3)->nullable();
             $table->decimal('completed_content_tasks', 4, 3)->nullable();
             $table->decimal('completed_campaign_tasks', 4, 3)->nullable();

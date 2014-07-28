@@ -8,48 +8,57 @@ class MeasureController extends BaseController {
 
     public function test()
     {
+        $date = Carbon::now()->subMonth(1);
         $now = Carbon::now();
+
+        do {
+            Scheduler::measureCreatedContent($date->format('Y-m-d'), 1);
+            Scheduler::measureLaunchedContent($date->format('Y-m-d'), 1);
+            Scheduler::measureTimingContent($date->format('Y-m-d'), 1);
+
+            $date->addDay(1);
+        } while ($now->gte($date));
+
         Scheduler::measureUserEfficiency($now->format('Y-m-d'), 1);
-
-        // $date = Carbon::now()->subMonth(1);
-        // $now = Carbon::now();
-
-        // // do {
-        // //     Scheduler::measureCreatedContent($date->format('Y-m-d'), 1);
-        // //     Scheduler::measureLaunchedContent($date->format('Y-m-d'), 1);
-        // //     $date->addDay(1);
-        // // } while ($now->gte($date));
-
-        // // Queue::push('Measure');
-
-        // Scheduler::measureCreatedContent($now->format('Y-m-d'), 1);
-        // Scheduler::measureLaunchedContent($now->format('Y-m-d'), 1);
     }
 
-    public function fire()
+    public function contentCreated($accountID)
     {
-        Log::info('Testing the FIRE');
-    }
-
-    public function createdContent()
-    {
-        if ($startDate == Input::get('start_date')) {
-            return MeasureCreatedContent::where('date', '>=', substr($startDate, 0, 10))->get();
+        $startDate = Input::get('start_date');
+        if (!$startDate) {
+            // default last 7 days
+            $startDate = Carbon::now()->subWeek(1);
         }
 
-        return MeasureCreatedContent::all();
+        return MeasureCreatedContent::where('account_id', $accountID)->where('date', '>=', substr($startDate, 0, 10))->get();
     }
 
-    public function launchedContent()
+    public function contentLaunched($accountID)
     {
-        if ($startDate == Input::get('start_date')) {
-            return MeasureLaunchedContent::where('date', '>=', substr($startDate, 0, 10))->get();
+        $startDate = Input::get('start_date');
+        if (!$startDate) {
+            // default last 7 days
+            $startDate = Carbon::now()->subWeek(1);
         }
 
-        return MeasureLaunchedContent::all();
+        return MeasureLaunchedContent::where('account_id', $accountID)->where('date', '>=', substr($startDate, 0, 10))->get();
     }
 
+    public function contentTiming($accountID)
+    {
+        $startDate = Input::get('start_date');
+        if (!$startDate) {
+            // default last 7 days
+            $startDate = Carbon::now()->subWeek(1);
+        }
 
+        return MeasureTimingContent::where('account_id', $accountID)->where('date', '>=', substr($startDate, 0, 10))->get();
+    }
+
+    public function userEfficiency($accountID)
+    {
+       return UserEfficiency::where('account_id', $accountID)->get();
+    }
 
     //////////////////////
     // Scheduled Tasks! //
@@ -150,7 +159,10 @@ class MeasureController extends BaseController {
         $count = DB::raw('COUNT(*) as count');
 
         foreach ($userIDs as $userID) {
-            $model = UserEfficiency::firstOrNew(['user_id' => $userID]);
+            $model = UserEfficiency::firstOrNew([
+                'user_id' => $userID, 
+                'account_id' => $accountID,
+            ]);
 
             $base                           = ContentTask::select($count)->where('user_id', $userID);
             $all                            = with(clone $base)->first();
