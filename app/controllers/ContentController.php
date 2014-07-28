@@ -73,12 +73,14 @@ class ContentController extends BaseController {
         }
       }
       // Attach related content
-      $related = Input::get('related');
-      if ($related) {
-        foreach ($related as $relatedContent) {
-          $content->related()->attach($relatedContent['id']);
+        $relatedContents = Input::get('related');
+        if ($relatedContents) {
+            foreach ($relatedContents as $relatedContent) {
+                $related = new ContentRelated(['content_id' => $content->id, 'related_content' => $relatedContent['related_content']]);
+                $content->related()->save($related);
+            }
         }
-      }
+
       // Attach uploads
       $uploads = Input::get('uploads');
       if ($uploads) {
@@ -192,14 +194,14 @@ class ContentController extends BaseController {
       $content->account_connections()->sync($connectionIDs);
 
       // Sync related content
-      $relateds = Input::get('related');
-      $relatedIDs = [];
-      if ($relateds) {
-        foreach ($relateds as $related) {
-          $relatedIDs[] = $related['id'];
+      $query = ContentRelated::where('content_id', $content->id)->delete();
+      $relatedContents = Input::get('related');
+      if ($relatedContents) {
+        foreach ($relatedContents as $relatedContent) {
+          $related = new ContentRelated(['content_id' => $content->id, 'related_content' => $relatedContent['related_content']]);
+          $content->related()->save($related);
         }
       }
-      $content->related()->sync($relatedIDs);
 
       // Sync uploads
       if (Input::has('uploads')) {

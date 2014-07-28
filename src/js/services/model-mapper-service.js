@@ -1275,7 +1275,9 @@
 			content.comments = ($.isArray(dto.comments)) ? $.map(dto.comments, self.comment.fromDto) : null;
 			content.accountConnections = ($.isArray(dto.account_connections)) ? $.map(dto.account_connections, self.connection.fromDto) : null;
 
-			content.relatedContent = dto.related.join(',');
+            if ($.isArray(dto.related)) {
+                content.relatedContent = $.map(dto.related, function(r, i) { return r.related_content; });
+            }
 
 			if ($.isArray(dto.tags)) {
 				content.tags = $.map(dto.tags, function(t, i) { return t.tag; });
@@ -1345,7 +1347,7 @@
 			dto.comments = $.isArray(content.comments) ? $.map(content.comments, self.comment.toDto) : null;
 			dto.account_connections = $.isArray(content.accountConnections) ? $.map(content.accountConnections, self.connection.toDto) : null;
 
-			dto.related = $.isArray(content.relatedContent) ? content.relatedContent.split(',') : null;
+			dto.related = $.isArray(content.relatedContent) ? $.map(content.relatedContent, function (t) { return { related_content : t }; }) : null;
 			dto.tags = $.isArray(content.tags) ? $.map(content.tags, function (t) { return { tag: t }; }) : null;
 
 			return dto;

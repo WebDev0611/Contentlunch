@@ -185,7 +185,7 @@
 
 		<div class="form-group">
 			<label for="txtRelatedContent">Related Content</label> (separate by comma)
-			<textarea name="txtRelatedContent" id="txtRelatedContent" class="form-control" ng-model="content.relatedContent" ng-disabled="isReadOnly"></textarea>
+			<textarea name="txtRelatedContent" id="txtRelatedContent" class="form-control" ng-model="relatedContent" ng-disabled="isReadOnly" ng-change="updateRelatedContent(relatedContent)"></textarea>
 		</div>
 	</div>
 
