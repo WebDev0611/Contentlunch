@@ -189,6 +189,10 @@
 						controller: 'MeasureController',
 						templateUrl: '/assets/views/measure/measure.html'
 					})
+					.when('/measure/content/:contentId', {
+						controller: 'MeasureContentItemController',
+						templateUrl: '/assets/views/measure/measure-content-item-details.html'
+					})
 					.when('/accounts', {
 						controller: 'AccountsController',
 						templateUrl: '/assets/views/account/accounts.html'

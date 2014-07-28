@@ -52,8 +52,8 @@
 		<thead>
 			<tr>
 				<th ng-show="isMeasure">
-					<span class="fa" ng-show="pagination.currentSort === 'contentScore'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
-					<span class="clickable-header" ng-click="applySort('contentScore')">Content Score</span>
+					<span class="fa" ng-show="pagination.currentSort === 'contentscore'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
+					<span class="clickable-header" ng-click="applySort('contentscore')">Content Score</span>
 				</th>
 				<th class="small-cell">&nbsp;</th>
 				<th class="small-cell" ng-show="canDelete && search.contentStage !== 'content' && !isPromote">&nbsp;</th>
@@ -64,6 +64,10 @@
 				<th>
 					<span class="fa" ng-show="pagination.currentSort === 'author'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
 					<span class="clickable-header" ng-click="applySort('author')">Author</span>
+				</th>
+				<th ng-show="isMeasure">
+					<span class="fa" ng-show="pagination.currentSort === 'launchdate'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
+					<span class="clickable-header" ng-click="applySort('launchdate')">Launch Date</span>
 				</th>
 				<th ng-hide="search.contentStage === 'concepts' || isMeasure">
 					<span class="fa" ng-show="pagination.currentSort === 'persona'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
@@ -78,7 +82,8 @@
 					<span class="clickable-header" ng-click="applySort('currentStep')">Current Step</span>
 				</th>
 				<th ng-show="isPromote || isMeasure">
-					<span>Promotion</span>
+					<span class="fa" ng-show="pagination.currentSort === 'promotedate'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
+					<span class="clickable-header" ng-click="applySort('promotedate')">Promotion</span>
 				</th>
 			</tr>
 		</thead>
@@ -97,6 +102,7 @@
 					<span class="user-image user-image-small" ng-style="{ 'background-image': c.author.image }"></span>
 					{{ c.author.formatName() }}
 				</td>
+				<td ng-show="isMeasure">{{ formatDate(c.launchDate) }}</td>
 				<td ng-hide="search.contentStage === 'concepts' || isMeasure">{{ c.persona }}</td>
 				<td style="text-align: center;" ng-hide="search.contentStage === 'concepts' || isMeasure"><span class="cl-icon" ng-class="'cl-icon-personas-' + c.buyingStage"></span></td>
 				<td ng-hide="isMeasure">
