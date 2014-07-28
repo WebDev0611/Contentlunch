@@ -1294,6 +1294,8 @@
 				content.taskGroups = $.map(dto.task_groups, self.taskGroups.fromDto);
 			}
 
+			content.contentScore = parseFloat(Math.random() * 100).toFixed(2); // TODO: GET THIS FROM THE API ONCE IT'S AVAILABLE!!
+
 			return content;
 		},
 		toDto: function(content) {

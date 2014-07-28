@@ -143,7 +143,7 @@
   background-image: url(/assets/images/promote.png);
 }
 .cl-icon-workflow-promote.cl-icon-white {
-  background-image: url(/assets/images/promote.svg);
+  background-image: url(/assets/images/promote-white.png);
 }
 .cl-icon-workflow-archive {
   background-image: url(/assets/images/archive.svg);
@@ -153,6 +153,12 @@
 }
 .cl-icon-workflow-collaborate {
   background-image: url(/assets/images/collaborate.svg);
+}
+.cl-icon-workflow-measure {
+  background-image: url(/assets/images/measure.png);
+}
+.cl-icon-workflow-measure.cl-icon-white {
+  background-image: url(/assets/images/measure-white.svg);
 }
 /* #endregion */
 /* #region content types */

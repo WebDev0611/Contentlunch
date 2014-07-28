@@ -156,6 +156,11 @@
 			</ul>
 		</div>
 		
+		<a href="/measure/content/{{ content.id }}" class="btn btn-lg btn-default btn-measure" ng-show="isPromote">
+			<span class="cl-icon cl-icon-white cl-icon-workflow-measure"></span>
+			<span ng-show="!content.archived">VIEW IN MEASURE</span>
+		</a>
+		
 		<div class="content-launched-header">
 			<div ng-repeat="l in launches">
 				<span class="fa fa-check"></span>
