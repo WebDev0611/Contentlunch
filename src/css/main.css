@@ -115,25 +115,32 @@
   overflow: auto;
 }
 /* #region navigation */
-.icon-home {
+.cl-icon-navigation {
+  height: 36px !important;
+  width: 36px !important;
+}
+.cl-icon-navigation-home {
   background-image: url(/assets/images/home.svg);
 }
-.icon-consult {
+.cl-icon-navigation-consult {
   background-image: url(/assets/images/consult.svg);
 }
-.icon-create {
+.cl-icon-navigation-create {
   background-image: url(/assets/images/create.svg);
 }
-.icon-collaborate {
+.cl-icon-navigation-collaborate {
   background-image: url(/assets/images/collaborate.svg);
 }
-.icon-calendar {
+.cl-icon-navigation-calendar {
   background-image: url(/assets/images/calendar.svg);
 }
-.icon-measure {
+.cl-icon-navigation-measure {
   background-image: url(/assets/images/measure.svg);
 }
-.icon-launch,
+.cl-icon-navigation-promote {
+  background-image: url(/assets/images/promote.svg);
+}
+.cl-icon-navigation-launch,
 .cl-icon-launch {
   background-image: url(/assets/images/launch.svg);
 }
@@ -269,6 +276,12 @@
 }
 .cl-icon-workflow-collaborate {
   background-image: url(/assets/images/collaborate.svg);
+}
+.cl-icon-workflow-measure {
+  background-image: url(/assets/images/measure.png);
+}
+.cl-icon-workflow-measure.cl-icon-white {
+  background-image: url(/assets/images/measure-white.png);
 }
 /* #endregion */
 /* #region content types */
@@ -514,22 +527,26 @@ header .navbar ul.nav li.subscription .top-arrow {
 }
 header .navbar ul.nav li.library,
 header .navbar ul.nav li.forum,
-header .navbar ul.nav li.conference {
+header .navbar ul.nav li.conference,
+header .navbar ul.nav li.announce {
   background-color: #39e4fd;
 }
 header .navbar ul.nav li.library .dark,
 header .navbar ul.nav li.forum .dark,
-header .navbar ul.nav li.conference .dark {
+header .navbar ul.nav li.conference .dark,
+header .navbar ul.nav li.announce .dark {
   background-color: #2badc0;
 }
 header .navbar ul.nav li.library .top-arrow,
 header .navbar ul.nav li.forum .top-arrow,
-header .navbar ul.nav li.conference .top-arrow {
+header .navbar ul.nav li.conference .top-arrow,
+header .navbar ul.nav li.announce .top-arrow {
   border-top-color: #39e4fd;
 }
 header .navbar ul.nav li.library img path,
 header .navbar ul.nav li.forum img path,
-header .navbar ul.nav li.conference img path {
+header .navbar ul.nav li.conference img path,
+header .navbar ul.nav li.announce img path {
   fill: #ffffff;
 }
 header .navbar ul.nav li .top-arrow {
@@ -871,23 +888,26 @@ span[class*=" icon-"].dark {
 .btn-launch {
   background-color: #10699d;
 }
-.btn-launch:hover {
-  background-color: #1797e1;
-  color: #ffffff;
+.btn-launch:hover,
+.btn-launch:focus {
+  background-color: #1797e1 !important;
+  color: #ffffff !important;
 }
 .btn-promote {
   background-color: #773876;
 }
-.btn-promote:hover {
-  background-color: #532752;
-  color: #ffffff;
+.btn-promote:hover,
+.btn-promote:focus {
+  background-color: #532752 !important;
+  color: #ffffff !important;
 }
 .btn-measure {
   background-color: #8eb933;
 }
-.btn-measure:hover {
-  background-color: #afe43f;
-  color: #ffffff;
+.btn-measure:hover,
+.btn-measure:focus {
+  background-color: #afe43f !important;
+  color: #ffffff !important;
 }
 .left-pane {
   background-color: #c4bfb5;
@@ -1520,6 +1540,9 @@ span[class*=" icon-"].dark {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.connection-list .row .identifier [contenteditable] {
+  padding-left: 0;
 }
 .connection-list .row > div.header {
   font-weight: bold;
