@@ -136,11 +136,6 @@
 			$location.url(angular.lowercase(url));
 		};
 
-		scope.imagePath = function(item) {
-			var filename = item.image ? item.image : item.title;
-			return '/assets/images/' + angular.lowercase(filename) + '.svg';
-		};
-
 		scope.formatMenuTitle = function(title) {
 			return angular.uppercase(title);
 		};
