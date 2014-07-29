@@ -15,7 +15,7 @@ return [
   ['Infographic', 'infographic', 'photo', true],
   ['Newsletter', 'newsletter', 'document', true],
   ['Landing Page', 'landing-page', 'long_html', true],
-  ['Product Description', 'product-description', 'document', true],
+  ['Product Description', 'product-description', 'long_html', true],
   ['Photo', 'photo', 'photo', true],
   ['Sales Letter', 'sales-letter', 'document', true],
   ['Sell Sheet Content', 'sellsheet-content', 'document', true],

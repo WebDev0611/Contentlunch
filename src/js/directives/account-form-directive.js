@@ -409,6 +409,6 @@
 			selfEditing: '=selfEditing',
 			creatingNew: '=creatingNew'
 		},
-		templateUrl: '/assets/views/account-form.html'
+		templateUrl: '/assets/views/directives/account-form.html'
 	};
 });

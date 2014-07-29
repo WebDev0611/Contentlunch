@@ -46,8 +46,9 @@ return [
   'hubspot' => [
     'key' => 'b5badda1-cb0e-11e3-bd85-131c19601838',
     'secret' => '13aeed7d-b469-4a15-81a5-7d0058036075',
-    // @todo: Do we need to ask the user to enter their portal id?
-    'portalId' => '175282', // Content launch portal id
+    // Content launch portal id, users should provide their own to connect to
+    //'portalId' => '175282', 
+    //'portalId' => '424894', // Jason's portal id
     'scope' => ['blog-rw', 'offline'],
     'callback_domain' => 'http://launch.localhost'
   ],
@@ -93,5 +94,11 @@ return [
   'traackr' => [
     // we're not doing any auth with Traackr (yet), so all we need is the API key
     'key' => '9bdcf55c7b277e26063a04d2dff577ba'
+  ],
+  // Use same api creds as google
+  'youtube' => [
+    'key' => '105997751893-s34v4dmp7rauav72146qigpg94jnu83a.apps.googleusercontent.com',
+    'secret' => 'qSM5V2SgkYx2iUMJy0oBDo_w',
+    'scope' => ['profile', 'https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/youtube.upload'],
   ]
 ];

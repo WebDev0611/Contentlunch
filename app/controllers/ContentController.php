@@ -73,12 +73,14 @@ class ContentController extends BaseController {
         }
       }
       // Attach related content
-      $related = Input::get('related');
-      if ($related) {
-        foreach ($related as $relatedContent) {
-          $content->related()->attach($relatedContent['id']);
+        $relatedContents = Input::get('related');
+        if ($relatedContents) {
+            foreach ($relatedContents as $relatedContent) {
+                $related = new ContentRelated(['content_id' => $content->id, 'related_content' => $relatedContent['related_content']]);
+                $content->related()->save($related);
+            }
         }
-      }
+
       // Attach uploads
       $uploads = Input::get('uploads');
       if ($uploads) {
@@ -121,6 +123,18 @@ class ContentController extends BaseController {
       return $this->responseAccessDenied();
     }
     return Content::find($id)->activities;
+  }
+
+  public function allActivities($accountID)
+  {
+    if (!$this->inAccount($accountID)) {
+      return $this->responseAccessDenied();
+    }
+
+    $contentIDs = Content::where('account_id', $accountID)->lists('id');
+    return ContentActivity::whereIn('content_id', $contentIDs)->with(['content' => function ($query) {
+      $query->select(['id', 'title']);
+    }])->get();
   }
 
   public function update($accountID, $id)
@@ -192,14 +206,14 @@ class ContentController extends BaseController {
       $content->account_connections()->sync($connectionIDs);
 
       // Sync related content
-      $relateds = Input::get('related');
-      $relatedIDs = [];
-      if ($relateds) {
-        foreach ($relateds as $related) {
-          $relatedIDs[] = $related['id'];
+      $query = ContentRelated::where('content_id', $content->id)->delete();
+      $relatedContents = Input::get('related');
+      if ($relatedContents) {
+        foreach ($relatedContents as $relatedContent) {
+          $related = new ContentRelated(['content_id' => $content->id, 'related_content' => $relatedContent['related_content']]);
+          $content->related()->save($related);
         }
       }
-      $content->related()->sync($relatedIDs);
 
       // Sync uploads
       if (Input::has('uploads')) {
@@ -272,6 +286,9 @@ class ContentController extends BaseController {
       break;
       case 'facebook':
         $class = 'FacebookAPI';
+      break;
+      case 'hubspot':
+        $class = 'HubspotAPI';
       break;
       case 'linkedin':
         $class = 'LinkedInAPI';

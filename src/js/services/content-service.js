@@ -77,11 +77,12 @@
 
 			return contentResource.delete({ accountId: accountId, id: content.id }, success, error);
 		},
-		launch: function (accountId, contentId, accountConnectionId, callback) {
+		launch: function (accountId, contentId, accountConnectionId, extraParams, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
-
-			return contentLaunch.post({ accountId: accountId, contentId: contentId, accountConnectionId: accountConnectionId }, null, success, error);
+			var params = { accountId: accountId, contentId: contentId, accountConnectionId: accountConnectionId };
+			params = _.merge(params, extraParams);
+			return contentLaunch.post(params, null, success, error);
 		},
 		getLaunches: function(accountId, contentId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;

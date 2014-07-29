@@ -1083,7 +1083,6 @@
 			connection.id = parseInt(dto.id);
 			connection.accountId = parseInt(dto.account_id);
 			connection.connectionId = parseInt(dto.connection_id);
-			connection.name = dto.name;
 			connection.active = (parseInt(dto.status) === 1) ? true : false;
 			connection.connectionType = 'content';
 			connection.connectionSettings = dto.settings;
@@ -1091,8 +1090,15 @@
 			connection.updated = new Date(dto.updated_at);
 			connection.connectionName = dto.connection_name;
 			connection.provider = dto.connection_provider;
-      connection.identifier = dto.identifier;
-      connection.url = dto.url;
+			connection.identifier = dto.identifier;
+			connection.url = dto.url;
+
+			if (launch.utils.isBlank(dto.connection_provider) || launch.utils.isBlank(dto.name) ||
+				dto.connection_provider.toLowerCase() === dto.name.toLowerCase()) {
+				connection.name = launch.utils.isBlank(dto.identifier) ? dto.name : dto.identifier;
+			} else {
+				connection.name = dto.name;
+			}
 
 			if (launch.utils.isBlank(connection.provider) && $.isPlainObject(dto.connection)) {
 				connection.provider = dto.connection.provider;
@@ -1269,7 +1275,9 @@
 			content.comments = ($.isArray(dto.comments)) ? $.map(dto.comments, self.comment.fromDto) : null;
 			content.accountConnections = ($.isArray(dto.account_connections)) ? $.map(dto.account_connections, self.connection.fromDto) : null;
 
-			content.relatedContent = dto.related.join(',');
+            if ($.isArray(dto.related)) {
+                content.relatedContent = $.map(dto.related, function(r, i) { return r.related_content; });
+            }
 
 			if ($.isArray(dto.tags)) {
 				content.tags = $.map(dto.tags, function(t, i) { return t.tag; });
@@ -1285,6 +1293,8 @@
 			if ($.isArray(dto.task_groups)) {
 				content.taskGroups = $.map(dto.task_groups, self.taskGroups.fromDto);
 			}
+
+			content.contentScore = parseFloat(Math.random() * 100).toFixed(2); // TODO: GET THIS FROM THE API ONCE IT'S AVAILABLE!!
 
 			return content;
 		},
@@ -1339,7 +1349,7 @@
 			dto.comments = $.isArray(content.comments) ? $.map(content.comments, self.comment.toDto) : null;
 			dto.account_connections = $.isArray(content.accountConnections) ? $.map(content.accountConnections, self.connection.toDto) : null;
 
-			dto.related = $.isArray(content.relatedContent) ? content.relatedContent.split(',') : null;
+			dto.related = $.isArray(content.relatedContent) ? $.map(content.relatedContent, function (t) { return { related_content : t }; }) : null;
 			dto.tags = $.isArray(content.tags) ? $.map(content.tags, function (t) { return { tag: t }; }) : null;
 
 			return dto;

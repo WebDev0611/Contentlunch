@@ -66,6 +66,8 @@
 
 				mainNavItems.push({ title: 'conference', url: '/consult/admin-conference', active: '', image: 'video' });
 
+				mainNavItems.push({ title: 'announce', url: '/announce', active: '', image: 'announcement' });
+
 				adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
 			}
 
@@ -134,11 +136,6 @@
 			$location.url(angular.lowercase(url));
 		};
 
-		scope.imagePath = function(item) {
-			var filename = item.image ? item.image : item.title;
-			return '/assets/images/' + angular.lowercase(filename) + '.svg';
-		};
-
 		scope.formatMenuTitle = function(title) {
 			return angular.uppercase(title);
 		};
@@ -148,6 +145,6 @@
 
 	return {
 		link: link,
-		templateUrl: '/assets/views/navigation.html'
+		templateUrl: '/assets/views/directives/navigation.html'
 	};
 });

@@ -1,0 +1,13 @@
+<div class="modal-header">Hubspot Options</div>
+<div class="modal-body">
+	<form name="hubspot_options_form" novalidate>
+		<div class="form-group">
+			<label for="author">Author</label>
+			<select ng-model="options.author_id" ng-options="author.id as author.full_name for author in authors" required></select>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary btn-black" ng-click="ok()" ng-disabled=" ! hubspot_options_form.$valid">Send</button>
+	<button class="btn btn-warning btn-black" ng-click="cancel()">Cancel</button>
+</div>

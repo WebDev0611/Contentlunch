@@ -32,10 +32,10 @@ launch.module.directive('userForm', function($modal, $upload, AuthService, RoleS
 		scope.hasError = launch.utils.isPropertyValid;
 		scope.errorMessage = launch.utils.getPropertyErrorMessage;
 
-    scope.activeOptions = [
-      { key: true, name: 'Active' },
-      { key: false, name: 'Inactive' }
-    ];
+		scope.activeOptions = [
+			{ key: true, name: 'Active' },
+			{ key: false, name: 'Inactive' }
+		];
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
@@ -101,12 +101,12 @@ launch.module.directive('userForm', function($modal, $upload, AuthService, RoleS
 
 			if (scope.isNewUser) {
 				scope.selectedUser.account = self.loggedInUser.account;
-        scope.attachAccount = scope.selectedUser.account;
+				scope.attachAccount = scope.selectedUser.account;
 				if (scope.selectedUser.account) {
 					scope.selectedUser.accounts.push(scope.selectedUser.account);
 				}
 			}
-      scope.selectedUser.roles = [scope.selectedUser.role];
+			scope.selectedUser.roles = [scope.selectedUser.role];
 
 			scope.isSaving = true;
 
@@ -291,7 +291,7 @@ launch.module.directive('userForm', function($modal, $upload, AuthService, RoleS
 							}
 						};
 
-						scp.cancel = function () {
+						scp.cancel = function() {
 							instance.dismiss('cancel');
 						};
 					}
@@ -321,6 +321,6 @@ launch.module.directive('userForm', function($modal, $upload, AuthService, RoleS
 			selfEditing: '=selfEditing',
 			creatingNew: '=creatingNew'
 		},
-		templateUrl: '/assets/views/user-form.html'
+		templateUrl: '/assets/views/directives/user-form.html'
 	};
 });

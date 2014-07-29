@@ -5,10 +5,10 @@
 		self.loggedInUser = null;
 
 		self.ajaxHandler = {
-			success: function (r) {
+			success: function(r) {
 
 			},
-			error: function (r) {
+			error: function(r) {
 				launch.utils.handleAjaxErrorResponse(r, notificationService);
 			}
 		};
@@ -134,7 +134,7 @@
 
 			$(ev.currentTarget).off('keypress');
 
-			$(ev.currentTarget).keypress(function (e) {
+			$(ev.currentTarget).keypress(function(e) {
 				return e.which != 13;
 			});
 		};
@@ -143,35 +143,37 @@
 			window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=' + providerId;
 		};
 
-    $scope.deleteConnection = function (connection) {
-      $modal.open({
-        templateUrl: 'confirm.html',
-        controller: ['$scope', '$modalInstance', function (
-          modalScope, instance) {
-          modalScope.identifier = connection.identifier + ' - ' + connection.connectionName;
-          modalScope.message = 'Are you sure you want to delete the connection? ' + modalScope.identifier;
-          modalScope.okButtonText = 'Delete';
-          modalScope.cancelButtonText = 'Cancel';
-          modalScope.onOk = function () {
+		$scope.deleteConnection = function(connection) {
+			$modal.open({
+				templateUrl: 'confirm.html',
+				controller: [
+					'$scope', '$modalInstance', function(
+													modalScope, instance) {
+						modalScope.identifier = connection.identifier + ' - ' + connection.connectionName;
+						modalScope.message = 'Are you sure you want to delete the connection? ' + modalScope.identifier;
+						modalScope.okButtonText = 'Delete';
+						modalScope.cancelButtonText = 'Cancel';
+						modalScope.onOk = function() {
 
-            connectionService.deleteContentConnection(
-              connection, {
-                success: function(r) {
-                  self.loadConnections();
-                  notificationService.success('Success!', 'Connection deleted: ' + modalScope.identifier);
-                  instance.close();
-                }
-              }
-            );
+							connectionService.deleteContentConnection(
+								connection, {
+									success: function(r) {
+										self.loadConnections();
+										notificationService.success('Success!', 'Connection deleted: ' + modalScope.identifier);
+										instance.close();
+									}
+								}
+							);
 
-          };
-          modalScope.onCancel = function () {
-            instance.dismiss('cancel');
-          };
+						};
+						modalScope.onCancel = function() {
+							instance.dismiss('cancel');
+						};
 
-        }]
-      });
-    };
+					}
+				]
+			});
+		};
 
 		$scope.icon = function(provider) {
 			return launch.utils.getConnectionProviderIconClass(provider.toLowerCase());

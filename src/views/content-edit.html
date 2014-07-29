@@ -45,7 +45,7 @@
 						<i ng-bind-html="content.concept"></i>
 					</div>
 				</div>
-					
+
 				<h2>{{ content.currentStepTitleCase() }} Content</h2>
 
 				<div class="content-approved-header" ng-show="content.status === 3 && !content.archived">
@@ -70,7 +70,7 @@
 					is-collaborator-finished="isCollaboratorFinished"></div>
 				
 				<div ng-if="!isNewContent" ng-show="showPromoteButtons">
-					<button class="btn btn-default btn-promote-automation" ng-click="launchContent(hubspotConnection, true)" ng-show="connectionIsSupported(hubspotConnection)">
+					<button class="btn btn-default btn-promote-automation" ng-click="launchContentHubspot(hubspotConnection, true)" ng-show="connectionIsSupported(hubspotConnection)">
 						Send to
 						<span class="cl-banner cl-banner-hubspot"></span>
 					</button>

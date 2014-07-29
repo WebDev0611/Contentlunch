@@ -5,7 +5,12 @@ launch.module.controller('HomeController',
 
         var user = AuthService.userInfo();
 
-        // Restangular Models
+        if (!user || !user.account || launch.utils.isBlank(user.account.id)) {
+        	$location.path('/login');
+	        return;
+        }
+
+	    // Restangular Models
         var Account = Restangular.one('account', user.account.id);
         var Discussion = Account.all('discussion');
         var User = Restangular.one('user', user.id);
@@ -18,7 +23,8 @@ launch.module.controller('HomeController',
             user: User.get(),
             guests: Account.all('guest-collaborators').getList({ limit: 5 }),
             // contentStrategy: Account.customGET('content-strategy'),
-            brainstorms: Account.all('brainstorm').getList({ user: user.id })
+            brainstorms: Account.all('brainstorm').getList({ user: user.id }),
+            activity: Account.getList('content-activity')
         }).then(function (responses) {
             angular.extend($scope, responses);
             $scope.isLoaded = true;

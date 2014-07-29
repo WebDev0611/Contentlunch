@@ -1,5 +1,5 @@
 ﻿launch.module.controller('PromoteConnectionsController', [
-	'$scope', '$location', 'AuthService', 'AccountService', 'ConnectionService', 'NotificationService', function ($scope, $location, authService, accountService, connectionService, notificationService) {
+	'$scope', '$location', '$modal', 'AuthService', 'AccountService', 'ConnectionService', 'NotificationService', function ($scope, $location, $modal, authService, accountService, connectionService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -82,7 +82,22 @@
 		};
 
 		$scope.connect = function (provider) {
-			window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=' + provider.id;
+			// For hubspot, the user needs to provide their portal id
+			if (provider.provider == 'hubspot') {
+				$modal.open({
+					template: '<div class="modal-header">Enter Your Hubspot Portal ID</div><div class="modal-body"><form name="hubspotform" novalidate><div class="form-group"><label for="portalid">Please enter the portal id you would like to connect to</label><input type="text" id="portalid" ng-model="portalid" class="form-control" required /></div><div class="buttons clearfix"><button class="btn btn-primary btn-black" ng-click="ok(portalid)" ng-disabled=" ! hubspotform.$valid">Connect</button><button class="btn btn-warning btn-black" ng-click="cancel()">Cancel</button></div></form></div></div>',
+					controller: function ($scope, $window, $modalInstance) {
+						$scope.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+						$scope.ok = function (portalid) {
+							window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=' + provider.id + '&portalid=' + portalid;
+						};
+					}
+				});
+			} else {
+				window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=' + provider.id;
+			}
 		};
 
 		$scope.disconnect = function (provider) {

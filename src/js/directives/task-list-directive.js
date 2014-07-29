@@ -15,14 +15,13 @@
 			}
 		};
 
-		self.init = function () {
+		self.init = function() {
 			self.loggedInUser = AuthService.userInfo();
 
 			scope.canCreateTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_collaborators');
 			scope.canAssignTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_collaborators');
 			scope.canEditTasksOthers = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_complete');
-			// TODO: WHAT'S THE RIGHT PRIVILEGE FOR THIS??
-			scope.canDeleteTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_complete');
+			scope.canDeleteTasks = self.loggedInUser.hasPrivilege('collaborate_delete_tasks');
 		};
 
 		self.refreshTaskGroups = function(contentId) {
@@ -303,6 +302,6 @@
 			authorId: '=authorId',
 			users: '=users'
 		},
-		templateUrl: '/assets/views/task-list.html'
+		templateUrl: '/assets/views/directives/task-list.html'
 	};
 });

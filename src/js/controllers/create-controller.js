@@ -29,9 +29,7 @@
 			$scope.editContentOthers = self.loggedInUser.hasPrivilege(['create_edit_content_other', 'create_edit_content_other_unapproved']);
 			$scope.promoteContentSelf = self.loggedInUser.hasPrivilege('promote_content_own');
 			$scope.promoteContentOthers = self.loggedInUser.hasPrivilege('promote_content_other');
-
-			// TODO: WE NEED A PRIVILEGE THAT ALLOWS A USER TO DELETE CONTENT!!
-			$scope.canDelete = true; //self.loggedInUser.hasPrivilege('');
+			$scope.canDelete = self.loggedInUser.hasPrivilege('content_delete');
 
 			if (!$scope.canViewConcepts && !$scope.canViewContent) {
 				$location.path('/');

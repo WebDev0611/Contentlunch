@@ -53,6 +53,8 @@ class Scheduler {
         return $conferenceModel->save();
     }
 
+    // Measure Tasks
+    // -------------------------
     public static function measureCreatedContent($date, $accountID)
     {
         Log::info('Queueing measureCreatedContent job');
@@ -128,6 +130,8 @@ class Scheduler {
             $job->delete();
         }, [$date->format('Y-m-d'), $accountID]); //, 'account-' . $accountID);
     }
+    // -------------------------
+    // End Measure Tasks
 
     /**
      * Delete scheduled tasks before they occur.

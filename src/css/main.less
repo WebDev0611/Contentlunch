@@ -45,7 +45,7 @@ header {
 					border-radius: 8px;
 					color: #ffffff;
 					font-size: 6pt;
-					.inner-nav-width(@navWidth, @navPadding);
+					.inner-nav(@navHeight, @navWidth, @navPadding);
 
 					img, svg {
 						height: 40px;
@@ -166,7 +166,7 @@ header {
 					}
 				}
 
-				&.library, &.forum, &.conference {
+				&.library, &.forum, &.conference, &.announce {
 					background-color: @subscriptionColor;
 
 					.dark {
@@ -552,6 +552,50 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
+.btn-launch, .btn-promote, .btn-create, .btn-measure {
+	color: #ffffff;
+	display: inline-block;
+	font-size: 12pt;
+	font-weight: bold;
+	right: 8px;
+
+	span {
+		vertical-align: middle;
+
+		&.cl-icon-launch {
+			height: 30px;
+			width: 30px;
+		}
+	}
+}
+
+.btn-launch {
+	background-color: @homeColorDark;
+
+	&:hover, &:focus {
+		background-color: @homeColor !important;
+		color: #ffffff !important;
+	}
+}
+
+.btn-promote {
+	background-color: @promoteColor;
+
+	&:hover, &:focus {
+		background-color: @promoteColorDark !important;
+		color: #ffffff !important;
+	}
+}
+
+.btn-measure {
+	background-color: @measureColorDark;
+
+	&:hover, &:focus {
+		background-color: @measureColor !important;
+		color: #ffffff !important;
+	}
+}
+
 .left-pane {
 	background-color: @leftPaneColor;
 	height: 100%;
@@ -675,35 +719,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 					}
 				}
 			}
-
-			.btn-launch, .btn-promote, .btn-create {
-				color: #ffffff;
-				display: inline-block;
-				font-size: 12pt;
-				font-weight: bold;
-				right: 8px;
-
-				span {
-					vertical-align: middle;
-
-					&.cl-icon-launch {
-						height: 30px;
-						width: 30px;
-					}
-				}
-			}
-
-			.btn-launch {
-				background-color: @homeColorDark;
-			}
-
-			.btn-promote {
-				background-color: @promoteColor;
-			}
-
-			.btn-create {
-				background-color: @createColor;
-			}
 		}
 
 		.btn-promote-automation {
@@ -784,7 +799,8 @@ span[class^="icon-"], span[class*=" icon-"] {
 	width: 36px;
 }
 
-.users, .accounts, .roles, .content-settings, .seo-settings, .create, .calendar, .admin-library, .consult, .admin-conference, .promote {
+.users, .accounts, .roles, .content-settings, .seo-settings, .create, .calendar, .admin-library, .consult,
+.admin-conference, .promote, .measure {
 	.left-pane {
 		position: relative;
 
@@ -869,7 +885,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.users, .accounts, .roles, .content-settings, .seo-settings, .admin-library, .consult, .admin-conference, .promote {
+.users, .accounts, .roles, .content-settings, .seo-settings, .admin-library, .consult, .admin-conference, .promote, .measure {
 	.left-pane {
 		.btn-group {
 			.btn-create {
@@ -880,7 +896,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 }
 
 .user-editor, .account-editor, .role-editor, .content-settings-editor, .seo-settings-editor,
-.concept-editor, .content-editor, .campaign-editor {
+.concept-editor, .content-editor, .campaign-editor, .measure-editor {
 	.user-image-upload {
 		float: left;
 		text-align: center;
@@ -1024,6 +1040,9 @@ span[class^="icon-"], span[class*=" icon-"] {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+      [contenteditable] {
+      	padding-left: 0;
       }
     }
 
@@ -1342,7 +1361,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.create, .calendar, .promote {
+.create, .calendar, .promote, .measure {
 	.left-pane {
 		.btn-group {
 			margin-top: 12px;
@@ -1503,13 +1522,13 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 		}
 
-		.concept-editor, .content-editor, .campaign-editor {
+		.concept-editor, .content-editor, .campaign-editor, .measure-editor {
 			margin: 20px 0;
 		}
 	}
 }
 
-.create, .promote {
+.create, .promote, .measure {
 	.left-pane {
 		.filter-panel, .tasks-header {
 			border-radius: 4px;
@@ -1544,10 +1563,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 	.right-pane {
 		.row {
 			margin: 20px 0;
-
-			.col-md-12 {
-				padding: 0;
-			}
 
 			.content-file-view {
 				.cl-icon {
@@ -1880,25 +1895,92 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
+.measure {
+	.left-pane {
+		.filter-panel, .tasks-header {
+			background-color: @measureColorDark;
+		}
+	}
+
+	.right-pane {
+		.right-pane-header {
+			background-color: @measureColorDark;
+			border-bottom-color: @measureColor;
+			color: #ffffff;
+
+			.cl-icon {
+				color: #ffffff;
+			}
+		}
+
+		.measure-editor {
+			margin: 20px 15px;
+
+			.measure-overview {
+				.measure-overview-group {
+					border-bottom: solid 1px #dddddd;
+				}
+
+				.measure-overview-header {
+					font-size: 20pt;
+					font-weight: bold;
+					padding-left: 0;
+					padding-right: 0;
+				}
+
+				.measure-overview-score {
+					font-weight: bold;
+					text-align: center;
+
+					.measure-overview-score-value {
+						color: @measureColorDark;
+						font-size: 16pt;
+					}
+				}
+
+				.company-score-container {
+					background-color: #e4e4e4;
+					height: 150px;
+					width: 300px;
+					padding: 16px;
+					text-align: center;
+
+					> * {
+						font-weight: bold;
+					}
+
+					.company-score {
+						color: @measureColorDark;
+						font-size: 36pt;
+					}
+				}
+			}
+
+			.measure-creation-stats {
+			}
+
+			.measure-content-trends {
+			}
+
+			.measure-content-details {
+			}
+
+			.measure-marketing-automation {
+			}
+		}
+	}
+}
+
 .create-header {
 	margin: 0 16px;
 
 	>* {
-		display: inline-block;
 		margin: 0 16px;
+		display: inline-block;
 		vertical-align: middle;
 
 		.control-label, .form-control {
 			display: inline;
-		}
-	}
-
-	.btn-group {
-		.btn {
-			&.active {
-				background-color: #000000;
-				color: #ffffff;
-			}
 		}
 	}
 
@@ -1929,6 +2011,23 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
+.create-header, .measure-header {
+	.btn-group {
+		.btn {
+			&.active {
+				background-color: #000000;
+				color: #ffffff;
+			}
+		}
+	}
+}
+
+.measure-header{
+	border-bottom: solid 1px #000000;
+	margin-bottom: 16px;
+	padding-bottom: 16px;
+}
+
 .create-table-container {
 	margin: 16px;
 
@@ -1953,6 +2052,22 @@ span[class^="icon-"], span[class*=" icon-"] {
 					width: 50px;
 				}
 
+				&.content-score {
+					color: @measureColorDark;
+					font-weight: bold;
+				}
+
+				&.promote{
+					>*{
+						cursor: pointer;
+					}
+
+					.fa{
+						color: @promoteColor;
+						font-size: 32px;
+					}
+				}
+
 				> span, > a {
 					display: inline-block;
 					vertical-align: middle;
@@ -1973,6 +2088,14 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 				.cl-icon-workflow {
 					margin: 4px 8px;
+				}
+
+				.btn {
+					.cl-icon {
+						font-size: 20pt;
+						height: 16px;
+						width: 16px;
+					}
 				}
 
 				input[type="checkbox"].form-control {
@@ -3190,4 +3313,18 @@ hr.simple-divider {
 			border-bottom: 0;
 		}
 	}
+}
+
+.inline-spinner {
+	position: relative;
+}
+
+.big-blue-check {
+	color: #2f89bb;
+	font-size: 24px;
+}
+
+.big-orange {
+	color: @collaborateColor;
+	font-size: 18px;
 }

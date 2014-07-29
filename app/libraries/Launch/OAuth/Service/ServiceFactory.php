@@ -34,7 +34,7 @@ class ServiceFactory {
       case 'youtube':
         // Youtube = google
         $this->provider = 'google';
-        $this->config = Config::get('services.google');
+        $this->config = Config::get('services.youtube');
       break;
       default:
         $this->provider = $provider;
@@ -115,6 +115,7 @@ class ServiceFactory {
       break;
       case 'hubspot':
         $data['token'] = $input['access_token'];
+        $data['refresh_token'] = $input['refresh_token'];
       break;
       default:
         // OAuth2

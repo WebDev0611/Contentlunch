@@ -48,7 +48,6 @@
 				error: self.ajaxHandler.error
 			});
 
-			self.getPromoteAutomationConnections(); // TODO: GET RID OF THIS CALL AFTER PROMOTE CONNECTIONS COME FROM THE API!!
 			self.refreshContent();
 		}
 
@@ -164,9 +163,10 @@
 			$scope.canSubmitContent = ($scope.content.author.id === self.loggedInUser.id || self.loggedInUser.hasPrivilege('create_edit_content_other_unapproved'));
 			$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
 
-			// TODO: WHAT PRIVILEGES DO WE CHECK FOR RESTORE AND ARCHIVE?
-			$scope.canRestoreContent = $scope.content.archived ? !$scope.isPromote : false;
-			$scope.canArchiveContent = $scope.content.archived ? false : !$scope.isPromote;
+			if (!$scope.isPromote && !$scope.isNewContent) {
+				$scope.canRestoreContent = ($scope.content.archived === true) ? ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('create_execute_archive_restore_content_own') : self.loggedInUser.hasPrivilege('create_execute_archive_restore_content_other'): false;
+				$scope.canArchiveContent = ($scope.content.archived === true) ? false : ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('create_execute_archive_restore_content_own') : self.loggedInUser.hasPrivilege('create_execute_archive_restore_content_other');
+			}
 
 			$scope.showRichTextEditor = $scope.content.contentType.allowText();
 			$scope.showAddFileButton = $scope.content.contentType.allowFile();
@@ -175,6 +175,7 @@
 
 			$scope.contentConnectionIds = $.map($scope.content.accountConnections, function(cc) { return parseInt(cc.id).toString(); });
 			$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
+			$scope.relatedContent = ($.isArray($scope.content.relatedContent)) ? $scope.content.relatedContent.join(',') : null;
 
 			if ($scope.canLaunchContent && $scope.content.contentType.canExportToAutomationProvider()) {
 				$scope.showPromoteButtons = true;
@@ -422,6 +423,7 @@
 		$scope.isReadOnly = false;
 		$scope.contentConnectionIds = null;
 		$scope.contentTags = null;
+		$scope.relatedContent = null;
 		$scope.showRichTextEditor = true;
 		$scope.showAddFileButton = false;
 		$scope.showDownloadContentFile = false;
@@ -619,6 +621,11 @@
 			$scope.contentTags = launch.utils.isBlank(tags) ? null : tags;
 			$scope.content.tags = launch.utils.isBlank($scope.contentTags) ? null : $scope.contentTags.replace(', ', ',').split(',');
 		};
+
+        $scope.updateRelatedContent = function(relatedContent) {
+            $scope.relatedContent = launch.utils.isBlank(relatedContent) ? null : relatedContent;
+            $scope.content.relatedContent = launch.utils.isBlank($scope.relatedContent) ? null : $scope.relatedContent.replace(', ', ',').split(',');
+        }
 
 		$scope.updateContentType = function() {
 			var contentTypeName = $scope.content.contentType.name;
@@ -884,7 +891,8 @@
 			return false;
 		};
 
-		$scope.launchContent = function(connection, refresh) {
+		$scope.launchContentHubspot = function(connection, refresh) {
+
 			if (!$scope.canLaunchContent) {
 				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
 				return;
@@ -894,7 +902,67 @@
 				return;
 			}
 
-			contentService.launch(self.loggedInUser.account.id, $scope.content.id, connection.id, {
+			var parentScope = $scope;
+
+			// If content type is blog_post, let user select blog author
+			// If content type is landing_page, site_page, let user select template
+			if ($scope.content.contentType.name == 'blog-post') {
+				var templateUrl = '/assets/views/dialogs/hubspot-options-blog-post.html';
+				var initModal = function($scope) {
+					$scope.authors = [];
+					connectionService.getAuthors(self.loggedInUser.account.id, connection.id, {
+						success: function(response) {
+							if ($.isArray(response)) {
+								$scope.options.author_id = response[0].id;
+								$scope.authors = response;
+							}
+						}
+					});
+				};
+			} else if (_.indexOf(['landing-page', 'site-page'], $scope.content.contentType.name) != -1) {
+				var templateUrl = '/assets/views/dialogs/hubspot-options-page.html';
+				var initModal = function($scope) {
+					$scope.templates = [];
+					connectionService.getTemplates(self.loggedInUser.account.id, connection.id, {
+						success: function(response) {
+							if ($.isArray(response)) {
+								$scope.options.template_path = response[0].path;
+								$scope.templates = response;
+							}
+						}
+					})
+				};
+			} else {
+				return $scope.launchContent(connection, refresh);
+			}
+
+			$modal.open({
+				templateUrl: templateUrl,
+				controller: function($scope, $modalInstance) {
+					$scope.options = { };
+					initModal($scope);
+					$scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
+					$scope.ok = function() {
+						parentScope.launchContent(connection, refresh, $scope.options);
+						$modalInstance.close();
+					};
+				}
+			});
+		};
+
+		$scope.launchContent = function(connection, refresh, extraParams) {
+			if (!$scope.canLaunchContent) {
+				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
+				return;
+			}
+
+			if (!self.validateTasks()) {
+				return;
+			}
+
+			contentService.launch(self.loggedInUser.account.id, $scope.content.id, connection.id, extraParams, {
 				success: function(r) {
 					if ($scope.content.status <= 3) {
 						$scope.content.status = 4;

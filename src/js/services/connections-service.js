@@ -11,6 +11,10 @@
 		delete: { method: 'DELETE' }
 	});
 
+	var actions = $resource('/api/account/:accountId/connections/:id/:action', { accountId: '@accountId', id: '@id', action: '@action' }, {
+		get: { method: 'GET', isArray: true }
+	});
+
 	return {
 		getProviders: function(providerType, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -94,6 +98,18 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return connections.get({ accountId: accountId, id: id }, success, error);
+		},
+		getAuthors: function (accountId, id, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return actions.get({ accountId: accountId, id: id, action: 'authors' }, success, error);
+		},
+		getTemplates: function (accountId, id, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return actions.get({ accountId: accountId, id: id, action: 'templates' }, success, error);	
 		}
 	};
 });
