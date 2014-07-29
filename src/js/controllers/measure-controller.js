@@ -1,5 +1,5 @@
 ﻿launch.module.controller('MeasureController', [
-	'$scope', '$location', '$filter', 'AuthService', 'UserService', 'ContentService', 'CampaignService', 'NotificationService', function ($scope, $location, $filter, authService, userService, contentService, campaignService, notificationService) {
+	'$scope', '$location', '$filter', 'AuthService', 'UserService', 'ContentService', 'CampaignService', 'MeasureService', 'NotificationService', function ($scope, $location, $filter, authService, userService, contentService, campaignService, measureService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -16,16 +16,19 @@
 		self.init = function() {
 			self.loggedInUser = authService.userInfo();
 
-			//$scope.selectedTab = 'overview';
-			$scope.selectedTab = 'content-details';
+			$scope.selectedTab = 'overview';
+			//$scope.selectedTab = 'content-details';
 
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
 
 			$scope.selectTab($scope.selectedTab);
+
+			$scope.overview = measureService.getOverview(self.loggedInUser.account.id, self.ajaxHandler);
 		};
 
+		$scope.overview = null;
 		$scope.contentTypes = null;
 		$scope.campaigns = null;
 		$scope.users = null;

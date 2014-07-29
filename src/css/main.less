@@ -1917,8 +1917,58 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 		}
 
-		.measure-editor{
+		.measure-editor {
 			margin: 20px 15px;
+
+			.row{
+				border-bottom: solid 1px #dddddd;
+			}
+
+			.measure-overview {
+				.measure-overview-header {
+					font-size: 20pt;
+					font-weight: bold;
+				}
+
+				.measure-overview-score {
+					font-weight: bold;
+					text-align: center;
+
+					.measure-overview-score-value {
+						color: @measureColorDark;
+						font-size: 16pt;
+					}
+				}
+
+				.company-score-container {
+					background-color: #e4e4e4;
+					height: 150px;
+					width: 300px;
+					padding: 16px;
+					text-align: center;
+
+					> * {
+						font-weight: bold;
+					}
+
+					.company-score {
+						color: @measureColorDark;
+						font-size: 36pt;
+					}
+				}
+			}
+
+			.measure-creation-stats {
+			}
+
+			.measure-content-trends {
+			}
+
+			.measure-content-details {
+			}
+
+			.measure-marketing-automation {
+			}
 		}
 	}
 }

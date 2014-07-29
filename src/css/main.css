@@ -116,6 +116,7 @@
 }
 /* #region navigation */
 .cl-icon-navigation {
+  margin-bottom: 6px;
   height: 36px !important;
   width: 36px !important;
 }
@@ -2375,6 +2376,35 @@ span[class*=" icon-"].dark {
 }
 .measure .right-pane .measure-editor {
   margin: 20px 15px;
+}
+.measure .right-pane .measure-editor .row {
+  border-bottom: solid 1px #dddddd;
+}
+.measure .right-pane .measure-editor .measure-overview .measure-overview-header {
+  font-size: 20pt;
+  font-weight: bold;
+}
+.measure .right-pane .measure-editor .measure-overview .measure-overview-score {
+  font-weight: bold;
+  text-align: center;
+}
+.measure .right-pane .measure-editor .measure-overview .measure-overview-score .measure-overview-score-value {
+  color: #8eb933;
+  font-size: 16pt;
+}
+.measure .right-pane .measure-editor .measure-overview .company-score-container {
+  background-color: #e4e4e4;
+  height: 150px;
+  width: 300px;
+  padding: 16px;
+  text-align: center;
+}
+.measure .right-pane .measure-editor .measure-overview .company-score-container > * {
+  font-weight: bold;
+}
+.measure .right-pane .measure-editor .measure-overview .company-score-container .company-score {
+  color: #8eb933;
+  font-size: 36pt;
 }
 .create-header {
   margin: 0 16px;
