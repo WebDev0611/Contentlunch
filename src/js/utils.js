@@ -48,7 +48,7 @@
 			return false;
 		}
 
-		if (!(new RegExp(pattern.toLowerCase()).test(s.toLowerCase()))) {
+		if (!(new RegExp(pattern).test(s.toLowerCase()))) {
 			return false;
 		}
 
