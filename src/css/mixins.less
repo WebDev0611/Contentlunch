@@ -20,7 +20,8 @@
 	}
 }
 
-.inner-nav-width(@width, @padding) {
+.inner-nav(@height, @width, @padding) {
+	height: @height - (@padding * 2);
 	width: @width - (@padding * 2);
 	padding: (@padding * 2);
 }

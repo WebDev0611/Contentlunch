@@ -422,7 +422,7 @@ header .navbar .navbar-collapse .logo {
 }
 header .navbar ul.nav li {
   cursor: pointer;
-  height: auto;
+  height: 80px;
   padding: 4px;
   text-align: center;
   vertical-align: middle;
@@ -432,6 +432,7 @@ header .navbar ul.nav li .dark {
   border-radius: 8px;
   color: #ffffff;
   font-size: 6pt;
+  height: 72px;
   width: 72px;
   padding: 8px;
 }
@@ -561,7 +562,7 @@ header .navbar ul.nav li .top-arrow {
   border-top-width: 10px;
   border-bottom-width: 0;
   left: 16px;
-  top: auto;
+  top: 80px;
 }
 header .navbar ul.nav li.active .top-arrow,
 header .navbar ul.nav li:hover .top-arrow {
