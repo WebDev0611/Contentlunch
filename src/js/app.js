@@ -201,6 +201,10 @@
 						controller: 'SubscriptionController',
 						templateUrl: '/assets/views/subscription.html'
 					})
+					.when('/announce', {
+						controller: 'AnnouncementsController',
+						templateUrl: '/assets/views/announcements.html'
+					})
 					.otherwise({
 						redirectTo: function(params, path, search) {
 							console.log('Invalid route: ' + path);

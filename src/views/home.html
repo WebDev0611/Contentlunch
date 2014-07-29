@@ -85,7 +85,7 @@
             <div class="pull-right subsection-header" style="margin-top: 8px;"><a ng-click="hideAllAnnouncements()">Hide All</a></div>
             <h1 class="underline">Announcements</h1>
             <div class="system-wide-announcements">
-                <table ng-show="announcements.length">
+                <table class="table" ng-show="announcements.length">
                     <tbody>
                         <tr class="announcement" ng-repeat="announcement in announcements | orderBy:'createdAt':true">
                             <td>

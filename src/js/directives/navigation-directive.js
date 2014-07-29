@@ -66,6 +66,8 @@
 
 				mainNavItems.push({ title: 'conference', url: '/consult/admin-conference', active: '', image: 'video' });
 
+				mainNavItems.push({ title: 'announce', url: '/announce', active: '', image: 'announcement' });
+
 				adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
 			}
 
