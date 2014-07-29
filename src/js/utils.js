@@ -44,11 +44,11 @@
 	},
 
 	isValidPattern: function(s, pattern) {
-		if (this.isBlank(s)) {
+		if (this.isBlank(s) || this.isBlank(pattern)) {
 			return false;
 		}
 
-		if (!(new RegExp(pattern).test(s))) {
+		if (!(new RegExp(pattern).test(s.toLowerCase()))) {
 			return false;
 		}
 

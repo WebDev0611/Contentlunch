@@ -1,16 +1,16 @@
 <div class="create-header">
-	<h3>
+	<h3 ng-hide="isMeasure">
 		<span ng-show="isPromote">Promote</span>
 		Content
 	</h3>
     
-    <div class="btn-group" ng-show="canViewContent && !isPromote">
+    <div class="btn-group" ng-show="canViewContent && !isPromote && !isMeasure">
         <button class="btn btn-default" ng-class="{ active: search.contentStage === 'content' }" ng-click="search.toggleContentStage('content')" ng-show="canViewContent">Content</button>
         <button class="btn btn-default" ng-class="{ active: search.contentStage === 'concepts' }" ng-click="search.toggleContentStage('concepts')" ng-show="canViewConcepts">Concepts</button>
         <button class="btn btn-default" ng-class="{ active: search.contentStage === 'archived' }" ng-click="search.toggleContentStage('archived')" ng-show="canViewContent">Archived</button>
     </div>
     
-    <div class="create-download" ng-hide="isPromote">
+    <div class="create-download" ng-hide="isPromote || isMeasure">
         <a class="btn btn-default fa fa-download" target="_blank" href="/api/account/{{ user.account.id }}/content/export-csv"></a>
     </div>
 
@@ -51,6 +51,10 @@
 	<table class="create-table">
 		<thead>
 			<tr>
+				<th ng-show="isMeasure">
+					<span class="fa" ng-show="pagination.currentSort === 'contentscore'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
+					<span class="clickable-header" ng-click="applySort('contentscore')">Content Score</span>
+				</th>
 				<th class="small-cell">&nbsp;</th>
 				<th class="small-cell" ng-show="canDelete && search.contentStage !== 'content' && !isPromote">&nbsp;</th>
 				<th>
@@ -61,25 +65,31 @@
 					<span class="fa" ng-show="pagination.currentSort === 'author'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
 					<span class="clickable-header" ng-click="applySort('author')">Author</span>
 				</th>
-				<th ng-hide="search.contentStage === 'concepts'">
+				<th ng-show="isMeasure">
+					<span class="fa" ng-show="pagination.currentSort === 'launchdate'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
+					<span class="clickable-header" ng-click="applySort('launchdate')">Launch Date</span>
+				</th>
+				<th ng-hide="search.contentStage === 'concepts' || isMeasure">
 					<span class="fa" ng-show="pagination.currentSort === 'persona'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
 					<span class="clickable-header" ng-click="applySort('persona')">Persona</span>
 				</th>
-				<th style="text-align: center;" ng-hide="search.contentStage === 'concepts'">
+				<th style="text-align: center;" ng-hide="search.contentStage === 'concepts' || isMeasure">
 					<span class="fa" ng-show="pagination.currentSort === 'buyingstage'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
 					<span class="clickable-header" ng-click="applySort('buyingStage')">Buying Stage</span>
 				</th>
-				<th>
+				<th ng-hide="isMeasure">
 					<span class="fa" ng-show="pagination.currentSort === 'currentstep'" ng-class="'fa-sort-numeric-' + pagination.currentSortDirection"></span>
 					<span class="clickable-header" ng-click="applySort('currentStep')">Current Step</span>
 				</th>
-				<th ng-show="isPromote">
-					<span>Promotion</span>
+				<th ng-show="isPromote || isMeasure">
+					<span class="fa" ng-show="pagination.currentSort === 'promotedate'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
+					<span class="clickable-header" ng-click="applySort('promotedate')">Promotion</span>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="c in pagedContent[pagination.currentPage - 1]" ng-class-odd="'dark'" ng-click="editContent(c)">
+			<tr ng-repeat="c in pagedContent[pagination.currentPage - 1]" ng-class-odd="'dark'" ng-click="editContent(c, $event)">
+				<td ng-show="isMeasure" class="content-score">{{ c.contentScore }}</td>
 				<td class="small-cell"><div class="campaign-dot campaign-dot-small" style="background-color: {{ c.campaign.color }}"></div></td>
 				<td class="small-cell" ng-show="canDelete && search.contentStage !== 'content' && !isPromote">
 					<input type="checkbox" class="form-control" ng-model="c.isSelected" ng-click="$event.stopPropagation()" />
@@ -92,14 +102,22 @@
 					<span class="user-image user-image-small" ng-style="{ 'background-image': c.author.image }"></span>
 					{{ c.author.formatName() }}
 				</td>
-				<td ng-hide="search.contentStage === 'concepts'">{{ c.persona }}</td>
-				<td style="text-align: center;" ng-hide="search.contentStage === 'concepts'"><span class="cl-icon" ng-class="'cl-icon-personas-' + c.buyingStage"></span></td>
-				<td>
+				<td ng-show="isMeasure">{{ formatDate(c.launchDate) }}</td>
+				<td ng-hide="search.contentStage === 'concepts' || isMeasure">{{ c.persona }}</td>
+				<td style="text-align: center;" ng-hide="search.contentStage === 'concepts' || isMeasure"><span class="cl-icon" ng-class="'cl-icon-personas-' + c.buyingStage"></span></td>
+				<td ng-hide="isMeasure">
 					<span class="cl-icon cl-icon-workflow" ng-class="formatWorkflowItem(c.currentStep())"></span>
 					<span ng-bind="formatWorkflowTitle(c.currentStep())"></span>
 				</td>
-				<td ng-show="isPromote">
-					PROMOTE ICONS HERE
+				<td class="promote" ng-show="isPromote || isMeasure">
+					<button class="btn btn-promote" ng-show="!c.promoteDate" ng-click="viewInPromote(c, $event)">
+						<span class="cl-icon cl-icon-small cl-icon-white cl-icon-workflow-promote"></span>
+						Promote
+					</button>
+					<span ng-show="!!c.promoteDate" ng-click="viewInPromote(c, $event)">
+						<span class="fa fa-check"></span>
+						Promoted
+					</span>
 				</td>
 			</tr>
 		</tbody>

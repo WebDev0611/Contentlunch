@@ -15,7 +15,8 @@ class Content extends Ardent {
     'title', 'body', 'account_id', 'connection_id',
     'buying_stage', 'persona',
     'secondary_buying_stage', 'secondary_persona', 'status',
-    'archived', 'concept', 'meta_description', 'meta_keywords'
+    'archived', 'concept', 'meta_description', 'meta_keywords',
+    'ecommerce_platform'
   ];
 
   public static $rules = [
@@ -131,7 +132,7 @@ class Content extends Ardent {
 
   public function related()
   {
-    return $this->belongsToMany('Content', 'content_related', 'content_id', 'related_content_id')->withTimestamps();
+    return $this->hasMany('ContentRelated', 'content_id', 'id');
   }
 
   public function tags()

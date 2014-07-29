@@ -42,6 +42,7 @@
 	self.metaKeywords = null;
 	self.ecommercePlatform = null;
 	self.isSelected = false;
+	self.contentScore = null;
 
 	self.taskGroups = null;
 

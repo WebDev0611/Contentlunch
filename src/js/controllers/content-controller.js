@@ -175,6 +175,7 @@
 
 			$scope.contentConnectionIds = $.map($scope.content.accountConnections, function(cc) { return parseInt(cc.id).toString(); });
 			$scope.contentTags = ($.isArray($scope.content.tags)) ? $scope.content.tags.join(',') : null;
+			$scope.relatedContent = ($.isArray($scope.content.relatedContent)) ? $scope.content.relatedContent.join(',') : null;
 
 			if ($scope.canLaunchContent && $scope.content.contentType.canExportToAutomationProvider()) {
 				$scope.showPromoteButtons = true;
@@ -422,6 +423,7 @@
 		$scope.isReadOnly = false;
 		$scope.contentConnectionIds = null;
 		$scope.contentTags = null;
+		$scope.relatedContent = null;
 		$scope.showRichTextEditor = true;
 		$scope.showAddFileButton = false;
 		$scope.showDownloadContentFile = false;
@@ -619,6 +621,11 @@
 			$scope.contentTags = launch.utils.isBlank(tags) ? null : tags;
 			$scope.content.tags = launch.utils.isBlank($scope.contentTags) ? null : $scope.contentTags.replace(', ', ',').split(',');
 		};
+
+        $scope.updateRelatedContent = function(relatedContent) {
+            $scope.relatedContent = launch.utils.isBlank(relatedContent) ? null : relatedContent;
+            $scope.content.relatedContent = launch.utils.isBlank($scope.relatedContent) ? null : $scope.relatedContent.replace(', ', ',').split(',');
+        }
 
 		$scope.updateContentType = function() {
 			var contentTypeName = $scope.content.contentType.name;

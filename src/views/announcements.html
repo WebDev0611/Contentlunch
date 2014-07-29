@@ -1,0 +1,49 @@
+<div class="loading-spinner-container" ng-hide="isLoaded">
+    <spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
+</div>
+
+<div ng-show="isLoaded" class="full-width-view">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-7">
+                    <div class="dashboard-section" style="margin-top:20px">
+                        <h1 class="underline">Global Announcements</h1>
+                        <div class="system-wide-announcements">
+                            <table class="table" ng-show="announcements.length">
+                                <tbody>
+                                    <tr class="announcement" ng-repeat="announcement in announcements | orderBy:'createdAt':true">
+                                        <td>
+                                            <img src="/assets/images/logo.png" height="24" alt="ContentLaunch">
+                                        </td>
+                                        <td>{{ announcement.message }}</td>
+                                        <td>{{ announcement.createdAt | moment: 'MM/DD/YY' }}</td>
+                                        <td width="40px">
+                                            <span class="fa fa-trash-o" ng-hide="announcement.deleteSpinner" ng-click="deleteAnnouncement(announcement)"></span>
+                                            <spinner class="inline-spinner" ng-show="announcement.deleteSpinner" spin-if="announcement.deleteSpinner"></spinner>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div ng-hide="announcements.length">
+                                No announcements.
+                            </div>
+                        </div>
+                    </div>
+
+                    <form ng-submit="saveAnnouncement()">
+                        <div class="form-group">
+                            <label for="announcement">New Announcement</label>
+                            <textarea name="announcement" class="form-control" id="announcement" ng-model="message"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="pull-right">
+                                <button class="btn btn-inverse" ng-hide="isSaving">Send</button>
+                                <spinner class="inline-spinner" ng-show="isSaving" spin-if="isSaving"></spinner>                                
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

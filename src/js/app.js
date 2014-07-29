@@ -187,7 +187,11 @@
 					})
 					.when('/measure', {
 						controller: 'MeasureController',
-						templateUrl: '/assets/views/measure.html'
+						templateUrl: '/assets/views/measure/measure.html'
+					})
+					.when('/measure/content/:contentId', {
+						controller: 'MeasureContentItemController',
+						templateUrl: '/assets/views/measure/measure-content-item-details.html'
 					})
 					.when('/accounts', {
 						controller: 'AccountsController',
@@ -196,6 +200,10 @@
 					.when('/subscription', {
 						controller: 'SubscriptionController',
 						templateUrl: '/assets/views/subscription.html'
+					})
+					.when('/announce', {
+						controller: 'AnnouncementsController',
+						templateUrl: '/assets/views/announcements.html'
 					})
 					.otherwise({
 						redirectTo: function(params, path, search) {
@@ -321,6 +329,9 @@
 		.run([
 					'$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService',
 			function($rootScope,   $location,   userService,   authService,   notificationService) {
+				$rootScope.yes = true;
+				$rootScope.no = false;
+
 				var path = $location.path();
 
 				var fetchCurrentUser = function(r) {
