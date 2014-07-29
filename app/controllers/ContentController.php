@@ -272,6 +272,9 @@ class ContentController extends BaseController {
       break;
       case 'facebook':
         $class = 'FacebookAPI';
+      case 'hubspot':
+        $class = 'HubspotAPI';
+      break;
       break;
       case 'linkedin':
         $class = 'LinkedInAPI';

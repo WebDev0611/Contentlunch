@@ -115,6 +115,7 @@ class ServiceFactory {
       break;
       case 'hubspot':
         $data['token'] = $input['access_token'];
+        $data['refresh_token'] = $input['refresh_token'];
       break;
       default:
         // OAuth2

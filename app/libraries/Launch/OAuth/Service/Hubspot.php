@@ -14,9 +14,10 @@ class Hubspot extends AbstractServiceOAuth2 {
   const SCOPE_OFFLINE = 'offline';
 
   public function getAuthorizationUri(array $additionalParameters = []) {
+    $portalID = \Input::get('portalid');
     $params = array_merge($additionalParameters, [
       // Add portal id
-      'portalId' => Config::get('services.hubspot.portalId')
+      'portalId' => $portalID
     ]);
     return parent::getAuthorizationUri($params);
   }

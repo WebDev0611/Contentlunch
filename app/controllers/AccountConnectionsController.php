@@ -258,4 +258,46 @@ class AccountConnectionsController extends BaseController {
 
     return $linkedIn->sendMessageToGroup($group, $message, $contentID, $contentType, $accountID);
   }
+
+  /**
+   * Get available authors from connection service
+   * if it is supported
+   */
+  private function authors($accountID, $connectionID)
+  {
+    if ( ! $this->inAccount(($accountID))) {
+      return $this->responseAccessDenied();
+    }
+    $connection = $this->show($accountID, $connectionID);
+    switch ($connection->connection->provider) {
+      case 'hubspot':
+        $api = ConnectionConnector::loadAPI($connection->connection->provider, $connection);
+        $response = $api->getAuthors();
+        return $response;
+      break;
+      default:
+        return $this->responseError('Provider '. $connection->connection->provider .' does not support authors method');
+    }
+  }
+
+  /**
+   * Get available templates from connection service
+   * if it is supported
+   */
+  private function templates($accountID, $connectionID)
+  {
+    if ( ! $this->inAccount(($accountID))) {
+      return $this->responseAccessDenied();
+    }
+    $connection = $this->show($accountID, $connectionID);
+    switch ($connection->connection->provider) {
+      case 'hubspot':
+        $api = ConnectionConnector::loadAPI($connection->connection->provider, $connection);
+        $response = $api->getTemplates();
+        return $response;
+      break;
+      default:
+        return $this->responseError('Provider '. $connection->connection->provider .' does not support authors method');
+    }
+  }
 }

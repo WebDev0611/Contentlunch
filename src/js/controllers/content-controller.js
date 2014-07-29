@@ -884,7 +884,8 @@
 			return false;
 		};
 
-		$scope.launchContent = function(connection, refresh) {
+		$scope.launchContentHubspot = function (connection, refresh) {
+			
 			if (!$scope.canLaunchContent) {
 				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
 				return;
@@ -894,7 +895,67 @@
 				return;
 			}
 
-			contentService.launch(self.loggedInUser.account.id, $scope.content.id, connection.id, {
+			var parentScope = $scope;
+
+			// If content type is blog_post, let user select blog author
+			// If content type is landing_page, site_page, let user select template
+			if ($scope.content.contentType.name == 'blog-post') {
+				var templateUrl = '/assets/views/dialogs/hubspot-options-blog-post.html';
+				var initModal = function ($scope) {
+					$scope.authors = [];
+					connectionService.getAuthors(self.loggedInUser.account.id, connection.id, {
+						success: function (response) {
+							if ($.isArray(response)) {
+								$scope.options.author_id = response[0].id;
+								$scope.authors = response;
+							}
+						}
+					});
+				};
+			} else if (_.indexOf(['landing-page', 'site-page'], $scope.content.contentType.name) != -1) {
+				var templateUrl = '/assets/views/dialogs/hubspot-options-page.html';
+				var initModal = function ($scope) {
+					$scope.templates = [];
+					connectionService.getTemplates(self.loggedInUser.account.id, connection.id, {
+						success: function (response) {
+							if ($.isArray(response)) {
+								$scope.options.template_path = response[0].path;
+								$scope.templates = response;
+							}
+						}
+					})
+				};
+			} else {
+				return $scope.launchContent(connection, refresh);
+			}
+
+			$modal.open({
+				templateUrl: templateUrl,
+				controller: function ($scope, $modalInstance) {
+					$scope.options = {};
+					initModal($scope);
+					$scope.cancel = function () {
+						$modalInstance.dismiss('cancel');
+					};
+					$scope.ok = function () {
+						parentScope.launchContent(connection, refresh, $scope.options);
+						$modalInstance.close();
+					};
+				} 
+			});
+		};
+
+		$scope.launchContent = function(connection, refresh, extraParams) {
+			if (!$scope.canLaunchContent) {
+				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
+				return;
+			}
+
+			if (!self.validateTasks()) {
+				return;
+			}
+
+			contentService.launch(self.loggedInUser.account.id, $scope.content.id, connection.id, extraParams, {
 				success: function(r) {
 					if ($scope.content.status <= 3) {
 						$scope.content.status = 4;
