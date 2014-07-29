@@ -197,6 +197,8 @@ Route::group(['prefix' => 'api'], function()
   Route::get("{$measureBase}content-timing",   'MeasureController@contentTiming');
   Route::get("{$measureBase}user-efficiency",  'MeasureController@userEfficiency');
 
+  Route::get('account/{id}/content-activity', 'ContentController@allActivities');
+
   // Dashboard
   // -------------------------
   Route::resource('account/{accountID}/discussion', 'AccountDiscussionController', [

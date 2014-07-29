@@ -16,4 +16,9 @@ class ContentActivity extends Ardent {
     'user_id', 'content_id', 'activity'
   ];
 
+  public function content()
+  {
+    return $this->belongsTo('Content');
+  }
+
 }

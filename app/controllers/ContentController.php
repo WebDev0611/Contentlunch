@@ -125,6 +125,18 @@ class ContentController extends BaseController {
     return Content::find($id)->activities;
   }
 
+  public function allActivities($accountID)
+  {
+    if (!$this->inAccount($accountID)) {
+      return $this->responseAccessDenied();
+    }
+
+    $contentIDs = Content::where('account_id', $accountID)->lists('id');
+    return ContentActivity::whereIn('content_id', $contentIDs)->with(['content' => function ($query) {
+      $query->select(['id', 'title']);
+    }])->get();
+  }
+
   public function update($accountID, $id)
   {
     if ( ! $this->inAccount($accountID)) {
