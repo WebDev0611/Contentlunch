@@ -17,8 +17,8 @@
     <div class="create-delete" ng-show="canDelete && search.contentStage !== 'content' && !isPromote">
         <button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteSelected()"></button>
     </div>
-
-    <div class="create-paging-controls">
+	
+	<div class="create-paging-controls" ng-show="pagination.totalItems > 5">
         <div class="form-group form-inline">
             <label class="control-label" for="selPageSize">Items per page:</label>
             <select class="form-control" id="selPageSize" name="selPageSize" ng-model="pagination.pageSize" ng-change="pagination.groupToPages()">

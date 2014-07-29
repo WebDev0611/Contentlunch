@@ -2073,11 +2073,6 @@ span[class*=" icon-"].dark {
 .measure .right-pane .row {
   margin: 20px 0;
 }
-.create .right-pane .row .col-md-12,
-.promote .right-pane .row .col-md-12,
-.measure .right-pane .row .col-md-12 {
-  padding: 0;
-}
 .create .right-pane .row .content-file-view .cl-icon,
 .promote .right-pane .row .content-file-view .cl-icon,
 .measure .right-pane .row .content-file-view .cl-icon {
@@ -2377,12 +2372,14 @@ span[class*=" icon-"].dark {
 .measure .right-pane .measure-editor {
   margin: 20px 15px;
 }
-.measure .right-pane .measure-editor .row {
+.measure .right-pane .measure-editor .measure-overview .measure-overview-group {
   border-bottom: solid 1px #dddddd;
 }
 .measure .right-pane .measure-editor .measure-overview .measure-overview-header {
   font-size: 20pt;
   font-weight: bold;
+  padding-left: 0;
+  padding-right: 0;
 }
 .measure .right-pane .measure-editor .measure-overview .measure-overview-score {
   font-weight: bold;

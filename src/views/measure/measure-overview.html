@@ -1,34 +1,38 @@
-﻿<div class="col-md-7">
-	<div class="row">
-		<div class="col-md-4 measure-overview-header">Creation</div>
-		<div class="col-md-4 measure-overview-score">
-			Total Content
-			<div class="measure-overview-score-value">{{ overview.totalContent }}</div>
+﻿<div class="row">
+	<div class="col-md-7">
+		<div class="row measure-overview-group">
+			<div class="col-md-4 measure-overview-header">Creation</div>
+			<div class="col-md-4 measure-overview-score">
+				Total Content
+				<div class="measure-overview-score-value">{{ overview.totalContent }}</div>
+			</div>
+			<div class="col-md-4 measure-overview-score">
+				Average Production Days
+				<div class="measure-overview-score-value">{{ overview.productionDays }}</div>
+			</div>
 		</div>
-		<div class="col-md-4 measure-overview-score">
-			Average Production Days
-			<div class="measure-overview-score-value">{{ overview.productionDays }}</div>
+		<div class="row measure-overview-group">
+			<div class="col-md-4 measure-overview-header">Content Trends</div>
+			<div class="col-md-4 measure-overview-score">
+				Total Content Score
+				<div class="measure-overview-score-value">{{ overview.totalContentScore }}</div>
+			</div>
+			<div class="col-md-4 measure-overview-score">
+				Average Content Score
+				<div class="measure-overview-score-value">{{ overview.averageContentScore }}</div>
+			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-4 measure-overview-header">Content Trends</div>
-		<div class="col-md-4 measure-overview-score">
-			Total Content Score
-			<div class="measure-overview-score-value">{{ overview.totalContentScore }}</div>
-		</div>
-		<div class="col-md-4 measure-overview-score">
-			Average Content Score
-			<div class="measure-overview-score-value">{{ overview.averageContentScore }}</div>
+	<div class="col-md-5">
+		<div class="company-score-container">
+			<div class="company-score">{{ overview.companyScore }}</div>
+			<div>Company Content Score</div>
 		</div>
 	</div>
 </div>
-<div class="col-md-5">
-	<div class="company-score-container">
-		<div class="company-score">{{ overview.companyScore }}</div>
-		<div>Company Content Score</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="measure-overview-header">Leading Content</div>
+		<div class="measure-content-details" ng-include="'/assets/views/content/partials/table-list.html'"></div>
 	</div>
-</div>
-
-<div>
-	<div class="measure-overview-header"></div>
 </div>

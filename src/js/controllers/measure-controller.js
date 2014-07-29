@@ -39,6 +39,7 @@
 		$scope.selectedTab = null;
 		$scope.isMeasure = true;
 		$scope.isLoading = false;
+		$scope.isOverview = false;
 
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
@@ -95,7 +96,6 @@
 			searchTermMinLength: 1,
 			myTasks: false,
 			contentTypes: [],
-			steps: $scope.isPromote ? ['promote'] : [],
 			buyingStages: [],
 			campaigns: [],
 			users: [],
@@ -139,6 +139,10 @@
 					return (launch.utils.isBlank($scope.search.searchTerm) ? true : content.matchSearchTerm($scope.search.searchTerm));
 				});
 
+				if ($scope.isOverview && $scope.filteredContent.length > 4) {
+					$scope.filteredContent.splice(4, $scope.filteredContent.length);
+				}
+
 				if (reset === true) {
 					$scope.pagination.reset();
 				}
@@ -170,6 +174,7 @@
 
 		$scope.selectTab = function (tab) {
 			$scope.isLoading = true;
+			$scope.isOverview = false;
 
 			switch (tab) {
 				case 'creation-stats':
@@ -186,7 +191,7 @@
 					console.log('LOAD CONTENT DETAILS...');
 					$scope.content = contentService.query(self.loggedInUser.account.id, null, {
 						success: function() {
-							$scope.applySort();
+							$scope.applySort('title');
 							$scope.search.applyFilter(true);
 							$scope.selectedTab = tab;
 							$scope.isLoading = false;
@@ -201,14 +206,23 @@
 					break;
 				default:
 					console.log('LOAD OVERVIEW STATS...');
-					$scope.selectedTab = tab;
-					$scope.isLoading = false;
+					$scope.isOverview = true;
+					$scope.content = contentService.query(self.loggedInUser.account.id, null, {
+						success: function (r) {
+							$scope.pagination.currentSortDirection = 'desc';
+							$scope.applySort('contentscore');
+							$scope.search.applyFilter(false);
+							$scope.selectedTab = tab;
+							$scope.isLoading = false;
+						},
+						error: self.ajaxHandler.error
+					});
 					break;
 			}
 		};
 
 		$scope.saveFilter = function () {
-			var page = $scope.isPromote ? 'promote' : 'create';
+			var page = 'measure';
 
 			userService.savePreferences(self.loggedInUser.id, page, $scope.search, {
 				success: function (r) {
@@ -232,7 +246,7 @@
 				$scope.pagination.currentSortDirection = ($scope.pagination.currentSortDirection === 'asc' ? 'desc' : 'asc');
 			} else {
 				$scope.pagination.currentSort = sort;
-				$scope.pagination.currentSortDirection = 'asc';
+				$scope.pagination.currentSortDirection = ($scope.pagination.currentSortDirection === 'desc' ? 'desc' : 'asc');
 			}
 
 			if (!$.isArray($scope.content) || $scope.content.length === 0 || !$scope.content.$resolved) {
