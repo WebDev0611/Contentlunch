@@ -13,6 +13,8 @@ class FacebookAPI extends AbstractConnection {
 
   protected $configKey = 'services.facebook';
 
+  protected $meData = null;
+
   protected function getClient()
   {
     if ( ! $this->client) {
@@ -24,11 +26,13 @@ class FacebookAPI extends AbstractConnection {
 
   public function getMe()
   {
-    $session = $this->getClient();
-    $data = (new FacebookRequest(
-      $session, 'GET', '/me'
-    ))->execute()->getGraphObject(GraphUser::className());
-    return $data;
+    if ( ! $this->meData) {
+      $session = $this->getClient();
+      $this->meData = (new FacebookRequest(
+        $session, 'GET', '/me'
+      ))->execute()->getGraphObject(GraphUser::className());
+    }
+    return $this->meData;
   }
 
   public function getUrl()
@@ -61,9 +65,14 @@ class FacebookAPI extends AbstractConnection {
     try {
       // /me translates to user_id of the person or page_id of the page
       // that the access token is mapped to
-      $post = (new FacebookRequest($session, 'POST', '/me/feed', [
-          'message' => $message
-        ]))
+      $params = [
+        'message' => $message
+      ];
+      $upload = $content->upload()->first();
+      if ($upload && $upload->media_type == 'image') {
+        $params['picture'] = $upload->getUrl();
+      }
+      $post = (new FacebookRequest($session, 'POST', '/me/feed', $params))
         ->execute()
         ->getGraphObject(GraphUser::className());
       $response['response'] = $post->asArray();
