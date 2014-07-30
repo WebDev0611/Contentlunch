@@ -1564,10 +1564,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 		.row {
 			margin: 20px 0;
 
-			.col-md-12 {
-				padding: 0;
-			}
-
 			.content-file-view {
 				.cl-icon {
 					margin-right: 4px;
@@ -1920,14 +1916,16 @@ span[class^="icon-"], span[class*=" icon-"] {
 		.measure-editor {
 			margin: 20px 15px;
 
-			.row{
-				border-bottom: solid 1px #dddddd;
-			}
-
 			.measure-overview {
+				.measure-overview-group {
+					border-bottom: solid 1px #dddddd;
+				}
+
 				.measure-overview-header {
 					font-size: 20pt;
 					font-weight: bold;
+					padding-left: 0;
+					padding-right: 0;
 				}
 
 				.measure-overview-score {
@@ -1965,6 +1963,9 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 
 			.measure-content-details {
+				.create-table-container{
+					margin: 0;
+				}
 			}
 
 			.measure-marketing-automation {
