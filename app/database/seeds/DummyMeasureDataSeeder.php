@@ -14,6 +14,7 @@ class DummyMeasureDataSeeder extends Seeder {
         // get list of users that COULD create content
         $userIDs = User::where('id', '!=', 1)->lists('id');
         $contentIDs = Content::where('account_id', 1)->lists('id');
+        $campaignIDs = Campaign::where('account_id', 1)->lists('id');
 
         // Content
         // -------------------------
@@ -23,6 +24,7 @@ class DummyMeasureDataSeeder extends Seeder {
 
         foreach (range(1, 50) as $index) {
             $userID        = $userIDs[array_rand($userIDs)];
+            $campaignID    = $campaignIDs[array_rand($campaignIDs)];
             $contentTypeID = $contentTypeIDs[array_rand($contentTypeIDs)];
             $launched      = $faker->dateTimeThisMonth(Carbon::now()->endOfMonth());
             $created       = $faker->dateTimeThisMonth($launched);
@@ -36,7 +38,7 @@ class DummyMeasureDataSeeder extends Seeder {
                 'user_id'                => $userID,
                 'buying_stage'           => rand(1, 3),
                 'persona'                => 'cmo',
-                'campaign_id'            => 1,
+                'campaign_id'            => $campaignID,
                 'secondary_buying_stage' => 'prospects',
                 'secondary_persona'      => 'vp sales',
                 'concept'                => $faker->text,
@@ -59,7 +61,6 @@ class DummyMeasureDataSeeder extends Seeder {
         // Tasks
         // -------------------------
         $contentTaskGroupIDs = ContentTaskGroup::whereIn('content_id', $contentIDs)->lists('id');
-        $campaignIDs = Campaign::where('account_id', 1)->lists('id');
 
         ContentTask::where('name', 'LIKE', 'Dummy Measure Data %')->delete();
         CampaignTask::where('name', 'LIKE', 'Dummy Measure Data %')->delete();
