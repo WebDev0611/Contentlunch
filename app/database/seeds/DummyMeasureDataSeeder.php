@@ -29,6 +29,7 @@ class DummyMeasureDataSeeder extends Seeder {
             $launched      = $faker->dateTimeThisMonth(Carbon::now()->endOfMonth());
             $created       = $faker->dateTimeThisMonth($launched);
             $concept       = $faker->dateTimeBetween($created, $launched);
+            $status        = rand(0, 4);
 
             Content::create([
                 'title'                  => "Dummy Measure Data {$index}",
@@ -42,13 +43,13 @@ class DummyMeasureDataSeeder extends Seeder {
                 'secondary_buying_stage' => 'prospects',
                 'secondary_persona'      => 'vp sales',
                 'concept'                => $faker->text,
-                'status'                 => 4, // 4 is launched
+                'status'                 => $status,
                 'archived'               => 0,
                 'upload_id'              => null,
-                'convert_date'           => $index < 25 ? null : $concept,
+                'convert_date'           => $index <= 25 && $status > 0 ? null : $concept,
                 'submit_date'            => null,
                 'approval_date'          => null,
-                'launch_date'            => $launched,
+                'launch_date'            => $status == 4 ? $launched : null, // 4 means launched
                 'promote_date'           => null,
                 'archive_date'           => null,
                 'meta_description'       => null,
