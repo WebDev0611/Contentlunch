@@ -17,7 +17,7 @@
 			self.loggedInUser = authService.userInfo();
 
 			$scope.selectedTab = 'overview';
-			//$scope.selectedTab = 'content-details';
+			$scope.selectedTab = 'creation-stats';
 
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, self.ajaxHandler);
