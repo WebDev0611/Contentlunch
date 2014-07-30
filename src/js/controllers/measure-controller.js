@@ -1,5 +1,5 @@
 ﻿launch.module.controller('MeasureController', [
-	'$scope', '$location', '$filter', 'AuthService', 'UserService', 'ContentService', 'CampaignService', 'NotificationService', function ($scope, $location, $filter, authService, userService, contentService, campaignService, notificationService) {
+	'$scope', '$location', '$filter', 'AuthService', 'UserService', 'ContentService', 'CampaignService', 'MeasureService', 'NotificationService', function ($scope, $location, $filter, authService, userService, contentService, campaignService, measureService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -16,16 +16,19 @@
 		self.init = function() {
 			self.loggedInUser = authService.userInfo();
 
-			//$scope.selectedTab = 'overview';
-			$scope.selectedTab = 'content-details';
+			$scope.selectedTab = 'overview';
+			//$scope.selectedTab = 'content-details';
 
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
 
 			$scope.selectTab($scope.selectedTab);
+
+			$scope.overview = measureService.getOverview(self.loggedInUser.account.id, self.ajaxHandler);
 		};
 
+		$scope.overview = null;
 		$scope.contentTypes = null;
 		$scope.campaigns = null;
 		$scope.users = null;
@@ -36,6 +39,7 @@
 		$scope.selectedTab = null;
 		$scope.isMeasure = true;
 		$scope.isLoading = false;
+		$scope.isOverview = false;
 
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
@@ -92,7 +96,6 @@
 			searchTermMinLength: 1,
 			myTasks: false,
 			contentTypes: [],
-			steps: $scope.isPromote ? ['promote'] : [],
 			buyingStages: [],
 			campaigns: [],
 			users: [],
@@ -136,6 +139,10 @@
 					return (launch.utils.isBlank($scope.search.searchTerm) ? true : content.matchSearchTerm($scope.search.searchTerm));
 				});
 
+				if ($scope.isOverview && $scope.filteredContent.length > 4) {
+					$scope.filteredContent.splice(4, $scope.filteredContent.length);
+				}
+
 				if (reset === true) {
 					$scope.pagination.reset();
 				}
@@ -167,6 +174,7 @@
 
 		$scope.selectTab = function (tab) {
 			$scope.isLoading = true;
+			$scope.isOverview = false;
 
 			switch (tab) {
 				case 'creation-stats':
@@ -179,18 +187,6 @@
 					$scope.selectedTab = tab;
 					$scope.isLoading = false;
 					break;
-				case 'content-details':
-					console.log('LOAD CONTENT DETAILS...');
-					$scope.content = contentService.query(self.loggedInUser.account.id, null, {
-						success: function() {
-							$scope.applySort();
-							$scope.search.applyFilter(true);
-							$scope.selectedTab = tab;
-							$scope.isLoading = false;
-						},
-						error: self.ajaxHandler.error
-					});
-					break;
 				case 'marketing-automation':
 					console.log('LOAD MARKETING AUTOMATION...');
 					$scope.selectedTab = tab;
@@ -198,14 +194,29 @@
 					break;
 				default:
 					console.log('LOAD OVERVIEW STATS...');
-					$scope.selectedTab = tab;
-					$scope.isLoading = false;
+					$scope.isOverview = true;
+					$scope.content = contentService.query(self.loggedInUser.account.id, null, {
+						success: function (r) {
+							if (tab === 'content-details') {
+								$scope.applySort('title');
+								$scope.search.applyFilter(true);
+							} else {
+								$scope.pagination.currentSortDirection = 'desc';
+								$scope.applySort('contentscore');
+								$scope.search.applyFilter(false);
+							}
+
+							$scope.selectedTab = tab;
+							$scope.isLoading = false;
+						},
+						error: self.ajaxHandler.error
+					});
 					break;
 			}
 		};
 
 		$scope.saveFilter = function () {
-			var page = $scope.isPromote ? 'promote' : 'create';
+			var page = 'measure';
 
 			userService.savePreferences(self.loggedInUser.id, page, $scope.search, {
 				success: function (r) {
@@ -229,7 +240,7 @@
 				$scope.pagination.currentSortDirection = ($scope.pagination.currentSortDirection === 'asc' ? 'desc' : 'asc');
 			} else {
 				$scope.pagination.currentSort = sort;
-				$scope.pagination.currentSortDirection = 'asc';
+				$scope.pagination.currentSortDirection = ($scope.pagination.currentSortDirection === 'desc' ? 'desc' : 'asc');
 			}
 
 			if (!$.isArray($scope.content) || $scope.content.length === 0 || !$scope.content.$resolved) {

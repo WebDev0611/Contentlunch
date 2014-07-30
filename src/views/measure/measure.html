@@ -80,11 +80,11 @@
 				</div>
 			</div>
 
-			<div ng-include="'/assets/views/measure/measure-overview.html'" ng-if="(selectedTab === 'overview')"></div>
-			<div ng-include="'/assets/views/measure/measure-creation-stats.html'" ng-if="(selectedTab === 'creation-stats')"></div>
-			<div ng-include="'/assets/views/measure/measure-content-trends.html'" ng-if="(selectedTab === 'content-trends')"></div>
-			<div ng-include="'/assets/views/content/partials/table-list.html'" ng-if="(selectedTab === 'content-details')"></div>
-			<div ng-include="'/assets/views/measure/measure-marketing-automation.html'" ng-if="(selectedTab === 'marketing-automation')"></div>
+			<div class="measure-overview" ng-include="'/assets/views/measure/measure-overview.html'" ng-if="(selectedTab === 'overview')"></div>
+			<div class="measure-creation-stats" ng-include="'/assets/views/measure/measure-creation-stats.html'" ng-if="(selectedTab === 'creation-stats')"></div>
+			<div class="measure-content-trends" ng-include="'/assets/views/measure/measure-content-trends.html'" ng-if="(selectedTab === 'content-trends')"></div>
+			<div class="measure-content-details" ng-include="'/assets/views/content/partials/table-list.html'" ng-if="(selectedTab === 'content-details')"></div>
+			<div class="measure-marketing-automation" ng-include="'/assets/views/measure/measure-marketing-automation.html'" ng-if="(selectedTab === 'marketing-automation')"></div>
 		</div>
 	</div>
 </div>

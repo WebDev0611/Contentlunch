@@ -5,7 +5,12 @@ launch.module.controller('HomeController',
 
         var user = AuthService.userInfo();
 
-        // Restangular Models
+        if (!user || !user.account || launch.utils.isBlank(user.account.id)) {
+        	$location.path('/login');
+	        return;
+        }
+
+	    // Restangular Models
         var Account = Restangular.one('account', user.account.id);
         var Discussion = Account.all('discussion');
         var User = Restangular.one('user', user.id);
