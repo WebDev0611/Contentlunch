@@ -187,18 +187,6 @@
 					$scope.selectedTab = tab;
 					$scope.isLoading = false;
 					break;
-				case 'content-details':
-					console.log('LOAD CONTENT DETAILS...');
-					$scope.content = contentService.query(self.loggedInUser.account.id, null, {
-						success: function() {
-							$scope.applySort('title');
-							$scope.search.applyFilter(true);
-							$scope.selectedTab = tab;
-							$scope.isLoading = false;
-						},
-						error: self.ajaxHandler.error
-					});
-					break;
 				case 'marketing-automation':
 					console.log('LOAD MARKETING AUTOMATION...');
 					$scope.selectedTab = tab;
@@ -209,9 +197,15 @@
 					$scope.isOverview = true;
 					$scope.content = contentService.query(self.loggedInUser.account.id, null, {
 						success: function (r) {
-							$scope.pagination.currentSortDirection = 'desc';
-							$scope.applySort('contentscore');
-							$scope.search.applyFilter(false);
+							if (tab === 'content-details') {
+								$scope.applySort('title');
+								$scope.search.applyFilter(true);
+							} else {
+								$scope.pagination.currentSortDirection = 'desc';
+								$scope.applySort('contentscore');
+								$scope.search.applyFilter(false);
+							}
+
 							$scope.selectedTab = tab;
 							$scope.isLoading = false;
 						},
