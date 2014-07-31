@@ -1,6 +1,6 @@
 ﻿<div class="view measure" ng-show="!isLoading">
 	<div class="col-md-3 left-pane">
-		<div ng-if="(selectedTab === 'content-details')">
+		<div ng-if="(pageSettings.selectedTab === 'content-details')">
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.changeSearchTerm()" />
 				<span class="input-group-addon">
@@ -72,19 +72,19 @@
 		<div class="measure-editor row">
 			<div class="measure-header">
 				<div class="btn-group">
-					<button type="button" class="btn btn-default" ng-class="{ active: (selectedTab === 'overview') }" ng-click="selectTab('overview')">Overview</button>
-					<button type="button" class="btn btn-default" ng-class="{ active: (selectedTab === 'creation-stats') }" ng-click="selectTab('creation-stats')">Creation Stats</button>
-					<button type="button" class="btn btn-default" ng-class="{ active: (selectedTab === 'content-trends') }" ng-click="selectTab('content-trends')">Content Trends</button>
-					<button type="button" class="btn btn-default" ng-class="{ active: (selectedTab === 'content-details') }" ng-click="selectTab('content-details')">Content Details</button>
-					<button type="button" class="btn btn-default" ng-class="{ active: (selectedTab === 'marketing-automation') }" ng-click="selectTab('marketing-automation')">Marketing Automation</button>
+					<button type="button" class="btn btn-default" ng-class="{ active: (pageSettings.selectedTab === 'overview') }" ng-click="selectTab('overview')">Overview</button>
+					<button type="button" class="btn btn-default" ng-class="{ active: (pageSettings.selectedTab === 'creation-stats') }" ng-click="selectTab('creation-stats')">Creation Stats</button>
+					<button type="button" class="btn btn-default" ng-class="{ active: (pageSettings.selectedTab === 'content-trends') }" ng-click="selectTab('content-trends')">Content Trends</button>
+					<button type="button" class="btn btn-default" ng-class="{ active: (pageSettings.selectedTab === 'content-details') }" ng-click="selectTab('content-details')">Content Details</button>
+					<button type="button" class="btn btn-default" ng-class="{ active: (pageSettings.selectedTab === 'marketing-automation') }" ng-click="selectTab('marketing-automation')">Marketing Automation</button>
 				</div>
 			</div>
 
-			<div class="measure-overview" ng-include="'/assets/views/measure/measure-overview.html'" ng-if="(selectedTab === 'overview')"></div>
-			<div class="measure-creation-stats" ng-include="'/assets/views/measure/measure-creation-stats.html'" ng-if="(selectedTab === 'creation-stats')"></div>
-			<div class="measure-content-trends" ng-include="'/assets/views/measure/measure-content-trends.html'" ng-if="(selectedTab === 'content-trends')"></div>
-			<div class="measure-content-details" ng-include="'/assets/views/content/partials/table-list.html'" ng-if="(selectedTab === 'content-details')"></div>
-			<div class="measure-marketing-automation" ng-include="'/assets/views/measure/measure-marketing-automation.html'" ng-if="(selectedTab === 'marketing-automation')"></div>
+			<div class="measure-overview" ng-include="'/assets/views/measure/measure-overview.html'" ng-if="(pageSettings.selectedTab === 'overview')"></div>
+			<div class="measure-creation-stats" ng-include="'/assets/views/measure/measure-creation-stats.html'" ng-if="(pageSettings.selectedTab === 'creation-stats')"></div>
+			<div class="measure-content-trends" ng-include="'/assets/views/measure/measure-content-trends.html'" ng-if="(pageSettings.selectedTab === 'content-trends')"></div>
+			<div class="measure-content-details" ng-include="'/assets/views/content/partials/table-list.html'" ng-if="(pageSettings.selectedTab === 'content-details')"></div>
+			<div class="measure-marketing-automation" ng-include="'/assets/views/measure/measure-marketing-automation.html'" ng-if="(pageSettings.selectedTab === 'marketing-automation')"></div>
 		</div>
 	</div>
 </div>
