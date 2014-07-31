@@ -16,14 +16,36 @@
 		self.init = function() {
 			self.loggedInUser = authService.userInfo();
 
-			$scope.selectedTab = 'overview';
-			//$scope.selectedTab = 'content-details';
-
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
 
-			$scope.selectTab($scope.selectedTab);
+			$scope.pageSettings = {
+				selectedTab: 'overview',
+				overview: { },
+				creationStats: {
+					contentCreatedLineChartTime: 7,
+					contentCreatedLineChartGroupBy: 'all',
+					contentCreatedPieChart: 'author',
+					contentLaunchedLineChartTime: 7,
+					contentLaunchedLineChartGroupBy: 'all',
+					productionDaysLineChartTime: 30,
+					productionDaysLineChartGroupBy: 'all'
+				},
+				contentTrends: {
+					companyContentScoreTime: 7,
+					companyContentScoreGroupBy: 'author',
+					individualContentScoreTrendTime: 7,
+					individualContentScoreTrendGroupBy: 'author',
+					individualContentScoreAverageGroupBy: 'author'
+				},
+				contentDetails: { },
+				marketingAutomation: { }
+			};
+
+			$scope.pageSettings.selectedTab = 'content-trends';
+
+			$scope.selectTab($scope.pageSettings.selectedTab);
 
 			$scope.overview = measureService.getOverview(self.loggedInUser.account.id, self.ajaxHandler);
 		};
@@ -35,8 +57,8 @@
 		$scope.content = null;
 		$scope.filteredContent = null;
 		$scope.pagedContent = null;
+		$scope.pageSettings = null;
 
-		$scope.selectedTab = null;
 		$scope.isMeasure = true;
 		$scope.isLoading = false;
 		$scope.isOverview = false;
@@ -179,17 +201,17 @@
 			switch (tab) {
 				case 'creation-stats':
 					console.log('LOAD CREATION STATS...');
-					$scope.selectedTab = tab;
+					$scope.pageSettings.selectedTab = tab;
 					$scope.isLoading = false;
 					break;
 				case 'content-trends':
 					console.log('LOAD CONTENT TRENDS...');
-					$scope.selectedTab = tab;
+					$scope.pageSettings.selectedTab = tab;
 					$scope.isLoading = false;
 					break;
 				case 'marketing-automation':
 					console.log('LOAD MARKETING AUTOMATION...');
-					$scope.selectedTab = tab;
+					$scope.pageSettings.selectedTab = tab;
 					$scope.isLoading = false;
 					break;
 				default:
@@ -206,7 +228,7 @@
 								$scope.search.applyFilter(false);
 							}
 
-							$scope.selectedTab = tab;
+							$scope.pageSettings.selectedTab = tab;
 							$scope.isLoading = false;
 						},
 						error: self.ajaxHandler.error

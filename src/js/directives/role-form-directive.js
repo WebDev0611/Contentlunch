@@ -157,8 +157,8 @@
 						role.isDeletable = true;
 						role.accountId = parseInt(scope.selectedRole.accountId);
 						role.modules = scope.selectedRole.modules;
-						role.created = new Date(scope.selectedRole.created);
-						role.updated = new Date(scope.selectedRole.updated);
+						role.created = new Date(moment(scope.selectedRole.created).format());
+						role.updated = new Date(moment(scope.selectedRole.updated).format());
 
 						scope.isNewRole = true;
 						scope.selectedRole = role;

@@ -198,6 +198,9 @@ Route::group(['prefix' => 'api'], function()
   Route::get("{$measureBase}user-efficiency",  'MeasureController@userEfficiency');
 
   Route::get('account/{id}/content-activity', 'ContentController@allActivities');
+  Route::get('account/{id}/my-activity', 'ActivityController@mine');
+  Route::post('account/{id}/my-activity', 'ActivityController@markAsRead');
+  Route::get('account/{id}/all-activity', 'ActivityController@all');
 
   // Dashboard
   // -------------------------

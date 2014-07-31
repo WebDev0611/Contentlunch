@@ -11,10 +11,11 @@ class DummyMeasureDataSeeder extends Seeder {
         Eloquent::unguard();
         $faker = Faker::create();
 
-        // get list of users that COULD create content
+        // get an account ID and a list of users, content, and campaigns that exist
+        $accountID = Account::first()->pluck('id');
         $userIDs = User::where('id', '!=', 1)->lists('id');
-        $contentIDs = Content::where('account_id', 1)->lists('id');
-        $campaignIDs = Campaign::where('account_id', 1)->lists('id');
+        $contentIDs = Content::where('account_id', $accountID)->lists('id');
+        $campaignIDs = Campaign::where('account_id', $accountID)->lists('id');
 
         // Content
         // -------------------------
@@ -34,7 +35,7 @@ class DummyMeasureDataSeeder extends Seeder {
             Content::create([
                 'title'                  => "Dummy Measure Data {$index}",
                 'body'                   => $faker->text,
-                'account_id'             => 1,
+                'account_id'             => $accountID,
                 'content_type_id'        => $contentTypeID,
                 'user_id'                => $userID,
                 'buying_stage'           => rand(1, 3),

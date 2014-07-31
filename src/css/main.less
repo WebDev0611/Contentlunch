@@ -1916,16 +1916,22 @@ span[class^="icon-"], span[class*=" icon-"] {
 		.measure-editor {
 			margin: 20px 15px;
 
+			.measure-sub-header {
+				font-size: 20pt;
+				font-weight: bold;
+				padding-left: 0;
+				padding-right: 0;
+			}
+
+			.measure-graph {
+				background-color: #ededed;
+				min-height: 200px;
+				width: 100%;
+			}
+
 			.measure-overview {
 				.measure-overview-group {
 					border-bottom: solid 1px #dddddd;
-				}
-
-				.measure-overview-header {
-					font-size: 20pt;
-					font-weight: bold;
-					padding-left: 0;
-					padding-right: 0;
 				}
 
 				.measure-overview-score {
@@ -1956,19 +1962,53 @@ span[class^="icon-"], span[class*=" icon-"] {
 				}
 			}
 
-			.measure-creation-stats {
+			.measure-creation-stats, .measure-content-trends {
+				.measure-sub-header {
+					font-size: 16pt;
+					margin-bottom: 4px;
+					min-height: 34px;
+
+					.form-control, .measure-sub-header-right {
+						display: inline-block;
+						float: right;
+						margin: 0 4px;
+						vertical-align: middle;
+						width: auto;
+					}
+
+					.measure-sub-header-right {
+						font-size: 10pt;
+						font-weight: normal;
+
+						.cl-icon {
+							margin: 0 4px;
+							vertical-align: middle;
+						}
+					}
+				}
 			}
 
 			.measure-content-trends {
 			}
 
 			.measure-content-details {
-				.create-table-container{
+				.create-table-container {
 					margin: 0;
 				}
 			}
 
 			.measure-marketing-automation {
+			}
+		}
+	}
+}
+
+.create-header, .measure-header {
+	.btn-group {
+		.btn {
+			&.active {
+				background-color: #000000;
+				color: #ffffff;
 			}
 		}
 	}
@@ -2014,18 +2054,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-.create-header, .measure-header {
-	.btn-group {
-		.btn {
-			&.active {
-				background-color: #000000;
-				color: #ffffff;
-			}
-		}
-	}
-}
-
-.measure-header{
+.measure-header {
 	border-bottom: solid 1px #000000;
 	margin-bottom: 16px;
 	padding-bottom: 16px;
@@ -3330,4 +3359,8 @@ hr.simple-divider {
 .big-orange {
 	color: @collaborateColor;
 	font-size: 18px;
+}
+
+.no-bold {
+	font-weight: normal;
 }

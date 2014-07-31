@@ -1,0 +1,16 @@
+<div ng-controller="WijmoBarController">
+    <wij-barchart data-source="list" height="400" width="600" chart-label-format-string="p0">
+        <axis>
+            <x text="Auto Makers"></x>
+            <y text="Percent Increase in Sales Over Prior Year" anno-format-string="p0"></y>
+        </axis>
+        <series-list>
+            <series label="2012 Auto Sales">
+                <data>
+                    <x bind="Maker"></x>
+                    <y bind="Sales"></y>
+                </data>
+            </series>
+        </series-list>
+    </wij-barchart>
+</div>

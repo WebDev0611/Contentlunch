@@ -33,7 +33,7 @@ return [
   'facebook' => [
     'key' => '207404499314444',
     'secret' => 'aa020dedfa881a0938ad157e48045c2b',
-    'scope' => ['email'],
+    'scope' => ['email', 'publish_actions'],
     'callback_domain' => 'http://local.contentlaunch.com'
   ],
   // https://developers.google.com/+/api/oauth
@@ -107,5 +107,5 @@ return [
     'key' => '105997751893-s34v4dmp7rauav72146qigpg94jnu83a.apps.googleusercontent.com',
     'secret' => 'qSM5V2SgkYx2iUMJy0oBDo_w',
     'scope' => ['profile', 'https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/youtube.upload'],
-  ],
+  ]
 ];

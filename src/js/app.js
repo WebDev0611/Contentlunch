@@ -1,7 +1,7 @@
 (function(window, angular) {
 	'use strict';
 
-	launch = window.launch || (window.launch = { });
+	var launch = window.launch || (window.launch = { });
 	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2', 'restangular', 'checklist-model']);
 
 	launch.module.value('contentStatuses', ['concept', 'create', 'review', 'launch', 'promote']);
