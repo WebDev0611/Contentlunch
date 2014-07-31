@@ -3,7 +3,7 @@ launch.module.directive('folderPreview', function (ModelMapperService, $modal, L
   return {
     link: function (scope, element, attrs) {
       
-      scope.folder.updated = new Date(scope.folder.updated_at);
+      scope.folder.updated = new Date(moment(scope.folder.updated_at).format());
       scope.user = ModelMapperService.user.fromDto(scope.folder.user);
       scope.userImage = function () {
         return scope.user.image ? scope.user.image : '/images/user.svg';

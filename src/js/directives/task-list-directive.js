@@ -149,7 +149,7 @@
 				if (!task) {
 					task = new launch.Task();
 					task.taskGroupId = taskGroup.id;
-					task.dueDate = new Date(taskGroup.dueDate);
+					task.dueDate = new Date(moment(taskGroup.dueDate).format());
 					task.isComplete = false;
 				}
 
@@ -206,7 +206,7 @@
 											if (createAnother) {
 												scope1.task = task = new launch.Task();
 												scope1.task.taskGroupId = taskGroup.id;
-												scope1.task.dueDate = new Date(taskGroup.dueDate);
+												scope1.task.dueDate = new Date(moment(taskGroup.dueDate).format());
 												scope1.task.isComplete = false;
 											} else {
 												instance.close();

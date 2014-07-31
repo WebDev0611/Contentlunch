@@ -473,7 +473,7 @@
 			return '';
 		}
 
-		return moment(new Date(date)).local().format('MM/DD/YYYY');
+		return moment(new Date(moment(date).format())).local().format('MM/DD/YYYY');
 	},
 
 	formatDateTime: function(date) {
@@ -489,8 +489,8 @@
 	},
 
 	sortByDate: function(a, b) {
-		var aDate = new Date(a);
-		var bDate = new Date(b);
+		var aDate = new Date(moment(a).format());
+		var bDate = new Date(moment(b).format());
 
 		return ((aDate < bDate) ? 1 : ((aDate > bDate) ? -1 : 0));
 	},
