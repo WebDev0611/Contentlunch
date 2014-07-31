@@ -18,16 +18,22 @@
 
 			$scope.selectedTab = 'creation-stats';
 
-			$scope.creationStats = {
-				contentCreatedLineChartTime: 7,
-				contentCreatedLineChartGroupBy: 'all',
-				contentCreatedPieChart: 'author',
-				contentLaunchedLineChartTime: 7,
-				contentLaunchedLineChartGroupBy: 'all',
-				productionDaysLineChartTime: 30,
-				productionDaysLineChartGroupBy: 'all'
-			};
+			$scope.contentCreatedLineChartTime = 7;
+			$scope.contentCreatedLineChartGroupBy = 'all';
+			$scope.contentCreatedPieChart = 'author';
+			$scope.contentLaunchedLineChartTime = 7;
+			$scope.contentLaunchedLineChartGroupBy = 'all';
+			$scope.productionDaysLineChartTime = 30;
+			$scope.productionDaysLineChartGroupBy = 'all';
 		};
+
+		$scope.contentCreatedLineChartTime = null;
+		$scope.contentCreatedLineChartGroupBy = null;
+		$scope.contentCreatedPieChart = null;
+		$scope.contentLaunchedLineChartTime = null;
+		$scope.contentLaunchedLineChartGroupBy = null;
+		$scope.productionDaysLineChartTime = null;
+		$scope.productionDaysLineChartGroupBy = null;
 
 		$scope.isMeasure = true;
 		$scope.isLoading = false;

@@ -16,16 +16,20 @@
 		self.init = function () {
 			self.loggedInUser = authService.userInfo();
 
-			$scope.contentTrends = {
-				companyContentScoreTime: 7,
-				companyContentScoreGroupBy: 'author',
-				individualContentScoreTrendTime: 7,
-				individualContentScoreTrendGroupBy: 'author',
-				individualContentScoreAverageGroupBy: 'author'
-			};
+			$scope.companyContentScoreTime = 7;
+			$scope.companyContentScoreGroupBy = 'author';
+			$scope.individualContentScoreTrendTime = 7;
+			$scope.individualContentScoreTrendGroupBy = 'author';
+			$scope.individualContentScoreAverageGroupBy = 'author';
 
 			$scope.selectedTab = 'content-trends';
 		};
+
+		$scope.companyContentScoreTime = null;
+		$scope.companyContentScoreGroupBy = null;
+		$scope.individualContentScoreTrendTime = null;
+		$scope.individualContentScoreTrendGroupBy = null;
+		$scope.individualContentScoreAverageGroupBy = null;
 
 		$scope.isMeasure = true;
 		$scope.isLoading = false;
