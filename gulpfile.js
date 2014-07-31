@@ -167,8 +167,12 @@ gulp.task('scripts', function() {
 			// './bower_components/angular-ui-calendar/src/calendar.js',
 			'./bower_components/fullcalendar/fullcalendar.js',
 			'./bower_components/restangular/dist/restangular.js',
-			'./bower_components/checklist-model/checklist-model.js',
-			'./src/js/lib/angular.wijmo.3.20142.45.min.js'
+            './bower_components/checklist-model/checklist-model.js',
+//            './bower_components/raphael/raphael.js',
+//            './bower_components/globalize/lib/globalize.js',
+//            './bower_components/wijmo-complete/wijmo/jquery.wijmo.wijchartcore.js',
+//            './bower_components/wijmo-complete/wijmo/jquery.wijmo.wijbarchart.js',
+//			'./src/js/lib/angular.wijmo.3.20142.45.js'
 			// './bower_components/fullcalendar/gcal.js', // only needed if we do gcal integration
 		])
 		.pipe(concat('build.js'))

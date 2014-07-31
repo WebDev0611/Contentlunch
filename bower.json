@@ -43,8 +43,7 @@
     "momentjs": "~2.6.0",
     "restangular": "~1.4.0",
     "checklist-model": "~0.1.3",
-    "spin.js": "~2.0.1",
-    "wijmo-complete": "git://github.com/wijmo/Wijmo-Complete#master"
+    "spin.js": "~2.0.1"
   },
   "resolutions": {
     "tinymce": "~4.0.21",
