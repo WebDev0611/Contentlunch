@@ -16,47 +16,58 @@
 		self.init = function () {
 			self.loggedInUser = authService.userInfo();
 
-			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
-			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, self.ajaxHandler);
-			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
-
-			$scope.pageSettings = {
-				selectedTab: 'overview',
-				overview: {
-					pagination: new launch.Pagination('title', 'asc')
-				},
-				creationStats: {
-					contentCreatedLineChartTime: 7,
-					contentCreatedLineChartGroupBy: 'all',
-					contentCreatedPieChart: 'author',
-					contentLaunchedLineChartTime: 7,
-					contentLaunchedLineChartGroupBy: 'all',
-					productionDaysLineChartTime: 30,
-					productionDaysLineChartGroupBy: 'all'
-				},
-				contentTrends: {
-					companyContentScoreTime: 7,
-					companyContentScoreGroupBy: 'author',
-					individualContentScoreTrendTime: 7,
-					individualContentScoreTrendGroupBy: 'author',
-					individualContentScoreAverageGroupBy: 'author'
-				},
-				contentDetails: {},
-				marketingAutomation: {
-					paginationLandingPages: new launch.Pagination('title', 'asc'),
-					paginationBlogs: new launch.Pagination('title', 'asc'),
-					paginationEmails: new launch.Pagination('title', 'asc'),
-					applySortLandingPages: function (sort, direction) { },
-					applySortBlogs: function (sort, direction) { },
-					applySortEmails: function (sort, direction) { }
-				}
+			$scope.marketingAutomation = {
+				paginationLandingPages: new launch.Pagination('title', 'asc'),
+				paginationBlogs: new launch.Pagination('title', 'asc'),
+				paginationEmails: new launch.Pagination('title', 'asc'),
+				applySortLandingPages: function(sort, direction) { },
+				applySortBlogs: function(sort, direction) { },
+				applySortEmails: function(sort, direction) { }
 			};
 
-			$scope.pageSettings.selectedTab = 'marketing-automation'; // TODO: DELETE ME AFTER TESTING!!
+			$scope.selectedTab = 'marketing-automation';
 
-			$scope.selectTab($scope.pageSettings.selectedTab);
+			//$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
+			//$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, self.ajaxHandler);
+			//$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
 
-			$scope.overview = measureService.getOverview(self.loggedInUser.account.id, self.ajaxHandler);
+			//$scope.pageSettings = {
+			//	selectedTab: 'overview',
+			//	overview: {
+			//		pagination: new launch.Pagination('title', 'asc')
+			//	},
+			//	creationStats: {
+			//		contentCreatedLineChartTime: 7,
+			//		contentCreatedLineChartGroupBy: 'all',
+			//		contentCreatedPieChart: 'author',
+			//		contentLaunchedLineChartTime: 7,
+			//		contentLaunchedLineChartGroupBy: 'all',
+			//		productionDaysLineChartTime: 30,
+			//		productionDaysLineChartGroupBy: 'all'
+			//	},
+			//	contentTrends: {
+			//		companyContentScoreTime: 7,
+			//		companyContentScoreGroupBy: 'author',
+			//		individualContentScoreTrendTime: 7,
+			//		individualContentScoreTrendGroupBy: 'author',
+			//		individualContentScoreAverageGroupBy: 'author'
+			//	},
+			//	contentDetails: {},
+			//	marketingAutomation: {
+			//		paginationLandingPages: new launch.Pagination('title', 'asc'),
+			//		paginationBlogs: new launch.Pagination('title', 'asc'),
+			//		paginationEmails: new launch.Pagination('title', 'asc'),
+			//		applySortLandingPages: function (sort, direction) { },
+			//		applySortBlogs: function (sort, direction) { },
+			//		applySortEmails: function (sort, direction) { }
+			//	}
+			//};
+
+			//$scope.pageSettings.selectedTab = 'marketing-automation'; // TODO: DELETE ME AFTER TESTING!!
+
+			//$scope.selectTab($scope.pageSettings.selectedTab);
+
+			//$scope.overview = measureService.getOverview(self.loggedInUser.account.id, self.ajaxHandler);
 		};
 
 		self.contentSort = function (a, b) {

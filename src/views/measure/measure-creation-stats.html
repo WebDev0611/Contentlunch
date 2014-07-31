@@ -1,118 +1,127 @@
-﻿<div ng-controller="WijmoLineController">
-    <div class="row">
-        <div class="col-md-7">
-            <div class="measure-sub-header">
-                Total Content
+﻿﻿<div class="view measure" ng-show="!isLoading">
+	<div class="col-md-3 left-pane"></div>
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header">Measure</h2>
 
-                <select class="form-control" ng-model="pageSettings.creationStats.contentCreatedLineChartGroupBy">
-                    <option value="all">All Content</option>
-                    <option value="author">By Author</option>
-                    <option value="buying-stage">By Buying Stage</option>
-                    <option value="content-type">By Content Type</option>
-                </select>
+		<div class="measure-editor row">
+			<div class="measure-header" ng-include="'/assets/views/measure/measure-navigation.html'"></div>
+			
+			<div class="measure-creation-stats">
+				<div class="row">
+					<div class="col-md-7">
+						<div class="measure-sub-header">
+							Total Content
 
-                <select class="form-control" ng-model="pageSettings.creationStats.contentCreatedLineChartTime">
-                    <option value="7">7 Days</option>
-                    <option value="14">14 Days</option>
-                    <option value="30">30 Days</option>
-                    <option value="Q">Quarter to Date</option>
-                    <option value="Y">Year to Date</option>
-                    <option value="A">Earliest to Date</option>
-                </select>
-            </div>
+							<select class="form-control" ng-model="creationStats.contentCreatedLineChartGroupBy">
+								<option value="all">All Content</option>
+								<option value="author">By Author</option>
+								<option value="buying-stage">By Buying Stage</option>
+								<option value="content-type">By Content Type</option>
+							</select>
 
-            <div class="measure-graph">
-                <wijmo-line-chart info="creationStats_contentCreatedLineChart">
+							<select class="form-control" ng-model="creationStats.contentCreatedLineChartTime">
+								<option value="7">7 Days</option>
+								<option value="14">14 Days</option>
+								<option value="30">30 Days</option>
+								<option value="Q">Quarter to Date</option>
+								<option value="Y">Year to Date</option>
+								<option value="A">Earliest to Date</option>
+							</select>
+						</div>
 
-                </wijmo-line-chart>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="measure-sub-header">
-                Total Content
+						<div class="measure-graph">
+							GRAPH CONTENT HERE
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="measure-sub-header">
+							Total Content
+			
+							<select class="form-control" ng-model="creationStats.contentCreatedPieChart">
+								<option value="author">By Author</option>
+								<option value="buying-stage">By Buying Stage</option>
+								<option value="content-type">By Content Type</option>
+							</select>
+						</div>
+		
+						<div class="measure-graph">
+							GRAPH CONTENT HERE
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-7">
+						<div class="measure-sub-header">
+							New Content Launched
 
-                <select class="form-control" ng-model="pageSettings.creationStats.contentCreatedPieChart">
-                    <option value="author">By Author</option>
-                    <option value="buying-stage">By Buying Stage</option>
-                    <option value="content-type">By Content Type</option>
-                </select>
-            </div>
+							<select class="form-control" ng-model="creationStats.contentLaunchedLineChartGroupBy">
+								<option value="all">All Content</option>
+								<option value="author">By Author</option>
+								<option value="buying-stage">By Buying Stage</option>
+								<option value="content-type">By Content Type</option>
+							</select>
 
-            <div class="measure-graph">
-                GRAPH CONTENT HERE
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-7">
-            <div class="measure-sub-header">
-                New Content Launched
+							<select class="form-control" ng-model="creationStats.contentLaunchedLineChartTime">
+								<option value="7">7 Days</option>
+								<option value="14">14 Days</option>
+								<option value="30">30 Days</option>
+								<option value="Q">Quarter to Date</option>
+								<option value="Y">Year to Date</option>
+								<option value="A">Earliest to Date</option>
+							</select>
+						</div>
+		
+						<div class="measure-graph">
+							GRAPH CONTENT HERE
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="measure-sub-header">Concept Conversion</div>
+		
+						<div class="measure-graph">
+							CONTENT HERE
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-7">
+						<div class="measure-sub-header">
+							Average Production Days
+			
+							<select class="form-control" ng-model="creationStats.productionDaysLineChartGroupBy">
+								<option value="all">All Content</option>
+								<option value="author">By Author</option>
+								<option value="buying-stage">By Buying Stage</option>
+								<option value="content-type">By Content Type</option>
+							</select>
 
-                <select class="form-control" ng-model="pageSettings.creationStats.contentLaunchedLineChartGroupBy">
-                    <option value="all">All Content</option>
-                    <option value="author">By Author</option>
-                    <option value="buying-stage">By Buying Stage</option>
-                    <option value="content-type">By Content Type</option>
-                </select>
+							<select class="form-control" ng-model="creationStats.productionDaysLineChartTime">
+								<option value="30">30 Days</option>
+								<option value="Q">Quarter to Date</option>
+								<option value="Y">Year to Date</option>
+								<option value="A">Earliest to Date</option>
+							</select>
+						</div>
+		
+						<div class="measure-graph">
+							GRAPH CONTENT HERE
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="measure-sub-header">
+							Deadline Success
+						</div>
+		
+						<div class="measure-graph">
+							CONTENT HERE
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-                <select class="form-control" ng-model="pageSettings.creationStats.contentLaunchedLineChartTime">
-                    <option value="7">7 Days</option>
-                    <option value="14">14 Days</option>
-                    <option value="30">30 Days</option>
-                    <option value="Q">Quarter to Date</option>
-                    <option value="Y">Year to Date</option>
-                    <option value="A">Earliest to Date</option>
-                </select>
-            </div>
-
-            <div class="measure-graph">
-                <wijmo-line-chart info="creationStats_contentLaunchedLineChart">
-
-                </wijmo-line-chart>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="measure-sub-header">Concept Conversion</div>
-
-            <div class="measure-graph">
-                CONTENT HERE
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-7">
-            <div class="measure-sub-header">
-                Average Production Days
-
-                <select class="form-control" ng-model="pageSettings.creationStats.productionDaysLineChartGroupBy">
-                    <option value="all">All Content</option>
-                    <option value="author">By Author</option>
-                    <option value="buying-stage">By Buying Stage</option>
-                    <option value="content-type">By Content Type</option>
-                </select>
-
-                <select class="form-control" ng-model="pageSettings.creationStats.productionDaysLineChartTime">
-                    <option value="30">30 Days</option>
-                    <option value="Q">Quarter to Date</option>
-                    <option value="Y">Year to Date</option>
-                    <option value="A">Earliest to Date</option>
-                </select>
-            </div>
-
-            <div class="measure-graph">
-                <wijmo-line-chart info="creationStats_productionDaysLineChart">
-
-                </wijmo-line-chart>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="measure-sub-header">
-                Deadline Success
-            </div>
-
-            <div class="measure-graph">
-                CONTENT HERE
-            </div>
-        </div>
-    </div>
+<div class="loading-spinner-container" ng-show="isLoading">
+	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
 </div>

@@ -1,97 +1,124 @@
-﻿<div ng-controller="WijmoLineController">
-    <div class="row">
-        <div class="col-md-7">
-            <div class="measure-sub-header">
-                Total Company Content Score
+﻿﻿<div class="view measure" ng-show="!isLoading">
+	<div class="col-md-3 left-pane"></div>
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header">Measure</h2>
 
-                <select class="form-control" ng-model="pageSettings.contentTrends.companyContentScoreTime">
-                    <option value="7">7 Days</option>
-                    <option value="14">14 Days</option>
-                    <option value="30">30 Days</option>
-                    <option value="Q">Quarter to Date</option>
-                    <option value="Y">Year to Date</option>
-                    <option value="A">Earliest to Date</option>
-                </select>
-            </div>
+		<div class="measure-editor row">
+			<div class="measure-header" ng-include="'/assets/views/measure/measure-navigation.html'"></div>
 
-            <div class="measure-graph">
-                <wijmo-line-chart info="contentTrends_companyContentScore" >
+			<div class="measure-content-trends">
+				<div class="row">
+					<div class="col-md-7">
+						<div class="measure-sub-header">
+							Total Company Content Score
 
-                </wijmo-line-chart>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="measure-sub-header">
-                Content Score Breakdown
+		
 
-                <select class="form-control" ng-model="pageSettings.contentTrends.companyContentScoreGroupBy">
-                    <option value="author">By Author</option>
-                    <option value="buying-stage">By Buying Stage</option>
-                    <option value="content-type">By Content Type</option>
-                </select>
-            </div>
+							<select class="form-control" ng-model="contentTrends.companyContentScoreTime">
+								<option value="7">7 Days</option>
+								<option value="14">14 Days</option>
+								<option value="30">30 Days</option>
+								<option value="Q">Quarter to Date</option>
+								<option value="Y">Year to Date</option>
+								<option value="A">Earliest to Date</option>
+							</select>
+						</div>
 
-            <div class="measure-graph">
-                GRAPH CONTENT HERE
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-7">
-            <div class="measure-sub-header">
-                Individual Content Scores
+						<div class="measure-graph">
+							GRAPH CONTENT HERE
+	
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="measure-sub-header">
+							Content Score Breakdown
 
-                <select class="form-control" ng-model="pageSettings.contentTrends.individualContentScoreTrendGroupBy">
-                    <option value="author">By Author</option>
-                    <option value="buying-stage">By Buying Stage</option>
-                    <option value="content-type">By Content Type</option>
-                </select>
+		
 
-                <select class="form-control" ng-model="pageSettings.contentTrends.individualContentScoreTrendTime">
-                    <option value="7">7 Days</option>
-                    <option value="14">14 Days</option>
-                    <option value="30">30 Days</option>
-                    <option value="Q">Quarter to Date</option>
-                    <option value="Y">Year to Date</option>
-                    <option value="A">Earliest to Date</option>
-                </select>
-            </div>
+							<select class="form-control" ng-model="contentTrends.companyContentScoreGroupBy">
+								<option value="author">By Author</option>
+								<option value="buying-stage">By Buying Stage</option>
+								<option value="content-type">By Content Type</option>
+							</select>
+						</div>
 
-            <div class="measure-graph">
-                <wijmo-line-chart info="contentTrends_individualContentScore">
+						<div class="measure-graph">
+							GRAPH CONTENT HERE
+	
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-7">
+						<div class="measure-sub-header">
+							Individual Content Scores
 
-                </wijmo-line-chart>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="measure-sub-header">
-                Average Content Score
+		
 
-                <select class="form-control" ng-model="pageSettings.contentTrends.individualContentScoreAverageGroupBy">
-                    <option value="author">By Author</option>
-                    <option value="content-type">By Content Type</option>
-                </select>
-            </div>
+							<select class="form-control" ng-model="contentTrends.individualContentScoreTrendGroupBy">
+								<option value="author">By Author</option>
+								<option value="buying-stage">By Buying Stage</option>
+								<option value="content-type">By Content Type</option>
+							</select>
 
-            <div class="measure-graph">
-                GRAPH CONTENT HERE
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-7">
-            <div class="measure-sub-header">
-                Content Views by Connection
-                <div class="measure-sub-header-right">
-                    Powered by
-                    <span class="cl-icon cl-icon-med cl-icon-google-analytics"></span>
-                    Google Analytics
-                </div>
-            </div>
+							<select class="form-control" ng-model="contentTrends.individualContentScoreTrendTime">
+								<option value="7">7 Days</option>
+								<option value="14">14 Days</option>
+								<option value="30">30 Days</option>
+								<option value="Q">Quarter to Date</option>
+								<option value="Y">Year to Date</option>
+								<option value="A">Earliest to Date</option>
+							</select>
+						</div>
 
-            <div class="measure-graph">
-                GRAPH CONTENT HERE
-            </div>
-        </div>
-    </div>
+						<div class="measure-graph">
+							GRAPH CONTENT HERE
+	
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="measure-sub-header">
+							Average Content Score
+
+		
+
+							<select class="form-control" ng-model="contentTrends.individualContentScoreAverageGroupBy">
+								<option value="author">By Author</option>
+								<option value="content-type">By Content Type</option>
+							</select>
+						</div>
+
+						<div class="measure-graph">
+							GRAPH CONTENT HERE
+	
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-7">
+						<div class="measure-sub-header">
+							Content Views by Connection
+		
+							<div class="measure-sub-header-right">
+								Powered by
+			
+								<span class="cl-icon cl-icon-med cl-icon-google-analytics"></span>
+								Google Analytics
+		
+							</div>
+						</div>
+
+						<div class="measure-graph">
+							GRAPH CONTENT HERE
+	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="loading-spinner-container" ng-show="isLoading">
+	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
 </div>
