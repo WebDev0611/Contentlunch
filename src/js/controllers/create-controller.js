@@ -360,8 +360,8 @@
 		};
 
 		$scope.highlightDate = function(date) {
-			var dt = (new Date(date)).getTime();
-			var today = (new Date(launch.utils.formatDate(new Date()))).getTime();
+			var dt = (new Date(moment(date).format())).getTime();
+			var today = (new Date(moment(launch.utils.formatDate(new Date().format())))).getTime();
 
 			if ((today - dt) < 172800000) {
 				return true;

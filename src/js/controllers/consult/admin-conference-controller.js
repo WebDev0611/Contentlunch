@@ -110,10 +110,10 @@ function ($scope,   $filter,   $modal,   AccountService,   ConferenceService,   
       $scope.conferences = response;
       angular.forEach($scope.conferences, function (value) {
         if (value.date_1) {
-          value.date_1 = new Date(value.date_1);
+          value.date_1 = new Date(moment(value.date_1).format());
         }
         if (value.scheduled_date) {
-          value.scheduled_date = value.scheduled_date_date = new Date(value.scheduled_date);
+          value.scheduled_date = value.scheduled_date_date = new Date(moment(value.scheduled_date).format());
         }
         value.launchUser = ModelMapperService.user.fromDto(value.user);
       });
