@@ -54,6 +54,7 @@ class ServiceFactory {
     $serviceFactory->registerService('salesforce', 'SalesforceService');
     $serviceFactory->registerService('soundcloud', 'SoundcloudService');
     $serviceFactory->registerService('hubspot', 'HubspotService');
+    $serviceFactory->registerService('vimeo', 'VimeoService');
     switch ($this->provider) {
       case 'tumblr':
       case 'twitter':

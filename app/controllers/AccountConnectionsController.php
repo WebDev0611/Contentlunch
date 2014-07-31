@@ -37,7 +37,7 @@ class AccountConnectionsController extends BaseController {
                   'identifier' => $connection->identifier
                 ]);
               } catch (\Exception $e) {
-
+              
               }
           }
           if ( ! $connection->url && $api->isValid()) {

@@ -37,7 +37,8 @@
     "dropbox/dropbox-sdk": "1.1.*",
     "eher/oauth": "1.0.*",
     "google/apiclient": "dev-master",
-    "traackr/traackr-api-php": "dev-master"
+    "traackr/traackr-api-php": "dev-master",
+    "vimeo/vimeo-api": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

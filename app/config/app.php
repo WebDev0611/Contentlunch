@@ -191,6 +191,7 @@ return [
     'SalesforceService' => 'Launch\OAuth\Service\Salesforce',
     'SoundcloudService' => 'Launch\OAuth\Service\Soundcloud',
     'WordpressService' => 'Launch\OAuth\Service\Wordpress',
+    'VimeoService' => 'Launch\OAuth\Service\Vimeo',
 
     'Twitter' => 'Thujohn\Twitter\TwitterFacade',
   ],
