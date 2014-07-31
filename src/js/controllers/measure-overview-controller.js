@@ -147,51 +147,6 @@
 		$scope.isOverview = true;
 		$scope.isLoading = false;
 
-		//$scope.pagination = {
-		//	totalItems: 0,
-		//	currentSort: 'title',
-		//	currentSortDirection: null,
-		//	pageSize: 5,
-		//	currentPage: 1,
-		//	maxPage: 0,
-		//	onPageChange: function (page) {
-		//	},
-		//	groupToPages: function () {
-		//		$scope.pagedContent = [];
-
-		//		for (var i = 0; i < $scope.filteredContent.length; i++) {
-		//			if (i % $scope.pagination.pageSize === 0) {
-		//				$scope.pagedContent[Math.floor(i / $scope.pagination.pageSize)] = [$scope.filteredContent[i]];
-		//			} else {
-		//				$scope.pagedContent[Math.floor(i / $scope.pagination.pageSize)].push($scope.filteredContent[i]);
-		//			}
-		//		}
-
-		//		$scope.pagination.maxPage = $scope.pagedContent.length;
-		//	},
-		//	getPageIndicator: function () {
-		//		var start = ((($scope.pagination.currentPage - 1) * $scope.pagination.pageSize) + 1);
-		//		var end = ($scope.pagination.currentPage * $scope.pagination.pageSize);
-
-		//		if (end > $scope.pagination.totalItems) {
-		//			end = $scope.pagination.totalItems;
-		//		}
-
-		//		return start + ' to ' + end + ' of ' + $scope.pagination.totalItems;
-		//	},
-		//	reset: function (sort, direction) {
-		//		if (!launch.utils.isBlank(sort)) {
-		//			$scope.pagination.currentSort = sort;
-		//		}
-
-		//		if (!launch.utils.isBlank(direction)) {
-		//			$scope.pagination.currentSortDirection = (direction === 'desc' ? 'desc' : 'asc');
-		//		}
-
-		//		$scope.pagination.currentPage = 1;
-		//	}
-		//};
-
 		$scope.pagination = new launch.Pagination('contentscore', 'desc');
 
 		$scope.search = {
