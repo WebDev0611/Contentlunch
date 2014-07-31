@@ -1923,7 +1923,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 				padding-right: 0;
 			}
 
-			.measure-graph{
+			.measure-graph {
 				background-color: #ededed;
 				min-height: 200px;
 				width: 100%;
@@ -1962,18 +1962,28 @@ span[class^="icon-"], span[class*=" icon-"] {
 				}
 			}
 
-			.measure-creation-stats {
+			.measure-creation-stats, .measure-content-trends {
 				.measure-sub-header {
 					font-size: 16pt;
 					margin-bottom: 4px;
 					min-height: 34px;
 
-					.form-control {
+					.form-control, .measure-sub-header-right {
 						display: inline-block;
 						float: right;
 						margin: 0 4px;
 						vertical-align: middle;
 						width: auto;
+					}
+
+					.measure-sub-header-right {
+						font-size: 10pt;
+						font-weight: normal;
+
+						.cl-icon {
+							margin: 0 4px;
+							vertical-align: middle;
+						}
 					}
 				}
 			}

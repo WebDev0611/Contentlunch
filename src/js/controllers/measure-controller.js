@@ -32,12 +32,18 @@
 					productionDaysLineChartTime: 30,
 					productionDaysLineChartGroupBy: 'all'
 				},
-				contentTrends: { },
+				contentTrends: {
+					companyContentScoreTime: 7,
+					companyContentScoreGroupBy: 'author',
+					individualContentScoreTrendTime: 7,
+					individualContentScoreTrendGroupBy: 'author',
+					individualContentScoreAverageGroupBy: 'author'
+				},
 				contentDetails: { },
 				marketingAutomation: { }
 			};
 
-			$scope.pageSettings.selectedTab = 'creation-stats';
+			$scope.pageSettings.selectedTab = 'content-trends';
 
 			$scope.selectTab($scope.pageSettings.selectedTab);
 

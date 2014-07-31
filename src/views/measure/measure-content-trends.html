@@ -1,1 +1,91 @@
-﻿CONTENT TRENDS
+﻿<div class="row">
+	<div class="col-md-7">
+		<div class="measure-sub-header">
+			Total Company Content Score
+
+			<select class="form-control" ng-model="pageSettings.contentTrends.companyContentScoreTime">
+				<option value="7">7 Days</option>
+				<option value="14">14 Days</option>
+				<option value="30">30 Days</option>
+				<option value="Q">Quarter to Date</option>
+				<option value="Y">Year to Date</option>
+				<option value="A">Earliest to Date</option>
+			</select>
+		</div>
+
+		<div class="measure-graph">
+			GRAPH CONTENT HERE
+		</div>
+	</div>
+	<div class="col-md-5">
+		<div class="measure-sub-header">
+			Content Score Breakdown
+
+			<select class="form-control" ng-model="pageSettings.contentTrends.companyContentScoreGroupBy">
+				<option value="author">By Author</option>
+				<option value="buying-stage">By Buying Stage</option>
+				<option value="content-type">By Content Type</option>
+			</select>
+		</div>
+
+		<div class="measure-graph">
+			GRAPH CONTENT HERE
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-7">
+		<div class="measure-sub-header">
+			Individual Content Scores
+
+			<select class="form-control" ng-model="pageSettings.contentTrends.individualContentScoreTrendGroupBy">
+				<option value="author">By Author</option>
+				<option value="buying-stage">By Buying Stage</option>
+				<option value="content-type">By Content Type</option>
+			</select>
+
+			<select class="form-control" ng-model="pageSettings.contentTrends.individualContentScoreTrendTime">
+				<option value="7">7 Days</option>
+				<option value="14">14 Days</option>
+				<option value="30">30 Days</option>
+				<option value="Q">Quarter to Date</option>
+				<option value="Y">Year to Date</option>
+				<option value="A">Earliest to Date</option>
+			</select>
+		</div>
+
+		<div class="measure-graph">
+			GRAPH CONTENT HERE
+		</div>
+	</div>
+	<div class="col-md-5">
+		<div class="measure-sub-header">
+			Average Content Score
+
+			<select class="form-control" ng-model="pageSettings.contentTrends.individualContentScoreAverageGroupBy">
+				<option value="author">By Author</option>
+				<option value="content-type">By Content Type</option>
+			</select>
+		</div>
+
+		<div class="measure-graph">
+			GRAPH CONTENT HERE
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-7">
+		<div class="measure-sub-header">
+			Content Views by Connection
+			<div class="measure-sub-header-right">
+				Powered by
+				<span class="cl-icon cl-icon-med cl-icon-google-analytics"></span>
+				Google Analytics
+			</div>
+		</div>
+		
+		<div class="measure-graph">
+			GRAPH CONTENT HERE
+		</div>
+	</div>
+</div>

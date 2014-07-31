@@ -124,6 +124,9 @@
 .cl-icon-scribe {
   background-image: url(/assets/images/scribe.png);
 }
+.cl-icon-google-analytics {
+  background-image: url(/assets/images/google-analytics.png);
+}
 /* #endregion */
 /* #region workflow */
 .cl-icon-workflow-concept {
