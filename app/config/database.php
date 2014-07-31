@@ -64,15 +64,15 @@ return array(
 		),
 
 		'pgsql' => array(
-			'driver'   => 'pgsql',
-			'host'     => 'localhost',
-			'database' => 'database',
-			'username' => 'root',
-			'password' => '',
-			'charset'  => 'utf8',
-			'prefix'   => '',
-			'schema'   => 'public',
-		),
+            'driver'   => 'pgsql',
+            'host'     => 'localhost',
+            'database' => 'database',
+            'username' => 'rootlkajsdfhlag',
+            'password' => '',
+            'charset'  => 'utf8',
+            'prefix'   => '',
+            'schema'   => 'public',
+        ),
 
 		'sqlsrv' => array(
 			'driver'   => 'sqlsrv',

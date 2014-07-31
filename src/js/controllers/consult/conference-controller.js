@@ -112,7 +112,7 @@ launch.module.controller('ConsultConferenceController', function ($scope, $filte
       $scope.conferences = response;
       angular.forEach($scope.conferences, function (value) {
         if (value.scheduled_date) {
-          value.scheduled_date = new Date(value.scheduled_date);
+          value.scheduled_date = new Date(moment(value.scheduled_date).format());
         }
       });
     });
