@@ -1,4 +1,4 @@
-﻿launch.module.controller('MeasureController', [
+﻿launch.module.controller('MeasureOverviewController', [
 	'$scope', '$location', '$filter', 'AuthService', 'UserService', 'ContentService', 'CampaignService', 'MeasureService', 'NotificationService', function ($scope, $location, $filter, authService, userService, contentService, campaignService, measureService, notificationService) {
 		var self = this;
 
@@ -13,53 +13,28 @@
 			}
 		};
 
-		self.init = function() {
+		self.init = function () {
 			self.loggedInUser = authService.userInfo();
 
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, self.ajaxHandler);
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
-
-			$scope.pageSettings = {
-				selectedTab: 'overview',
-				overview: {
-					pagination: new launch.Pagination('title', 'asc')
+			$scope.content = contentService.query(self.loggedInUser.account.id, null, {
+				success: function (r) {
+					$scope.isLoading = false;
+					$scope.pagination.currentSortDirection = 'desc';
+					$scope.applySort('contentscore');
+					$scope.search.applyFilter(false);
 				},
-				creationStats: {
-					contentCreatedLineChartTime: 7,
-					contentCreatedLineChartGroupBy: 'all',
-					contentCreatedPieChart: 'author',
-					contentLaunchedLineChartTime: 7,
-					contentLaunchedLineChartGroupBy: 'all',
-					productionDaysLineChartTime: 30,
-					productionDaysLineChartGroupBy: 'all'
-				},
-				contentTrends: {
-					companyContentScoreTime: 7,
-					companyContentScoreGroupBy: 'author',
-					individualContentScoreTrendTime: 7,
-					individualContentScoreTrendGroupBy: 'author',
-					individualContentScoreAverageGroupBy: 'author'
-				},
-				contentDetails: { },
-				marketingAutomation: {
-					paginationLandingPages: new launch.Pagination('title', 'asc'),
-					paginationBlogs: new launch.Pagination('title', 'asc'),
-					paginationEmails: new launch.Pagination('title', 'asc'),
-					applySortLandingPages: function (sort, direction) { },
-					applySortBlogs: function (sort, direction) { },
-					applySortEmails: function (sort, direction) { }
-				}
-			};
+				error: self.ajaxHandler.error
+			});
 
-			$scope.pageSettings.selectedTab = 'marketing-automation'; // TODO: DELETE ME AFTER TESTING!!
-
-			$scope.selectTab($scope.pageSettings.selectedTab);
+			$scope.selectedTab = 'overview';
 
 			$scope.overview = measureService.getOverview(self.loggedInUser.account.id, self.ajaxHandler);
 		};
 
-		self.contentSort = function(a, b) {
+		self.contentSort = function (a, b) {
 			if (!a && !b) { return 0; }
 			if (!!a && !b) { return ($scope.pagination.currentSortDirection === 'asc' ? -1 : 1); }
 			if (!a && !!b) { return ($scope.pagination.currentSortDirection === 'asc' ? 1 : -1); }
@@ -168,19 +143,9 @@
 		$scope.contentTypes = null;
 		$scope.campaigns = null;
 		$scope.users = null;
-		$scope.content = null;
-		$scope.filteredContent = null;
-		$scope.pagedContent = null;
-		$scope.pageSettings = null;
 
 		$scope.isMeasure = true;
 		$scope.isLoading = false;
-		$scope.isOverview = false;
-
-		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
-		$scope.formatCampaignItem = launch.utils.formatCampaignItem;
-		$scope.formatContentTypeIcon = launch.utils.getContentTypeIconClass;
-		$scope.formatDate = launch.utils.formatDate;
 
 		$scope.pagination = {
 			totalItems: 0,
@@ -293,75 +258,7 @@
 				$scope.search.users = [];
 
 				$scope.search.applyFilter(true);
-			},
-			toggleMyTasks: function (mine) {
-				$scope.search.myTasks = !!mine;
-
-				$scope.search.applyFilter(true);
 			}
-		};
-
-		$scope.formatUserItem = function (item, element, context) {
-			var user = $.grep($scope.users, function (u, i) { return u.id === parseInt(item.id); });
-			var style = (user.length === 1 && !launch.utils.isBlank(user[0].image)) ? ' style="background-image: ' + user[0].imageUrl() + '"' : '';
-
-			return '<span class="user-image user-image-small"' + style + '></span> <span>' + item.text + '</span>';
-		};
-
-		$scope.selectTab = function (tab) {
-			$scope.isLoading = true;
-			$scope.isOverview = false;
-
-			switch (tab) {
-				case 'creation-stats':
-					console.log('LOAD CREATION STATS...');
-					$scope.pageSettings.selectedTab = tab;
-					$scope.isLoading = false;
-					break;
-				case 'content-trends':
-					console.log('LOAD CONTENT TRENDS...');
-					$scope.pageSettings.selectedTab = tab;
-					$scope.isLoading = false;
-					break;
-				//case 'marketing-automation':
-				//	console.log('LOAD MARKETING AUTOMATION...');
-				//	$scope.pageSettings.selectedTab = tab;
-				//	$scope.isLoading = false;
-				//	break;
-				default:
-					console.log('LOAD OVERVIEW STATS...');
-					$scope.isOverview = true;
-					$scope.content = contentService.query(self.loggedInUser.account.id, null, {
-						success: function(r) {
-							if (tab === 'content-details') {
-								$scope.applySort('title');
-								$scope.search.applyFilter(true);
-							} else if (tab === 'marketing-automation') {
-							} else {
-								$scope.pagination.currentSortDirection = 'desc';
-								$scope.applySort('contentscore');
-								$scope.search.applyFilter(false);
-							}
-
-							$scope.pageSettings.selectedTab = tab;
-							$scope.isLoading = false;
-						},
-						error: self.ajaxHandler.error
-					});
-					break;
-			}
-		};
-
-		$scope.saveFilter = function () {
-			var page = 'measure';
-
-			userService.savePreferences(self.loggedInUser.id, page, $scope.search, {
-				success: function (r) {
-					notificationService.success('Success!', launch.utils.titleCase(page) + ' default filters saved!');
-					self.loggedInUser = authService.fetchCurrentUser(self.ajaxHandler);
-				},
-				error: self.ajaxHandler.error
-			});
 		};
 
 		$scope.applySort = function (sort) {
@@ -387,24 +284,6 @@
 			$scope.content.sort(self.contentSort);
 
 			$scope.search.applyFilter(false);
-		};
-
-		$scope.viewInPromote = function(content, e) {
-			if (!content) {
-				return;
-			}
-
-			$location.path('/promote/content/' + content.id);
-			e.stopImmediatePropagation();
-		};
-
-		$scope.editContent = function(content, e) {
-			if (!content) {
-				return;
-			}
-
-			$location.path('/measure/content/' + content.id);
-			e.stopImmediatePropagation();
 		};
 
 		self.init();
