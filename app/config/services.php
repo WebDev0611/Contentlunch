@@ -95,6 +95,13 @@ return [
     // we're not doing any auth with Traackr (yet), so all we need is the API key
     'key' => '9bdcf55c7b277e26063a04d2dff577ba'
   ],
+  'vimeo' => [
+    'key' => 'c868016651f889a457d8bbfa778fdcb0271362eb',
+    'secret' => 'f880276ef4cd199991929e11152e4a4f9b83ca9a',
+    // Enable this when upload is authorized for the app
+    // 'scope' => ['public', 'private', 'upload'],
+    'scope' => ['public', 'private']
+  ],
   // Use same api creds as google
   'youtube' => [
     'key' => '105997751893-s34v4dmp7rauav72146qigpg94jnu83a.apps.googleusercontent.com',

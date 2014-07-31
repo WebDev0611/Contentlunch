@@ -9,6 +9,8 @@ class TwitterAPI extends AbstractConnection
 
     protected $configKey = 'services.twitter';
 
+    protected $meData = null;
+
     protected function getClient()
     {
       if ( ! $this->client) {
@@ -26,8 +28,30 @@ class TwitterAPI extends AbstractConnection
       return $this->client;
     }
 
+    public function getMe()
+    {
+      if ( ! $this->meData) {
+        $client = $this->getClient();
+        $this->meData = $client->getCredentials();
+      }
+      return $this->meData;
+    }
+
     public function getIdentifier()
     {
+      $user = $this->getMe();
+      if ($user) {
+        return $user->name .' (@'. $user->screen_name .')';
+      }
+      return null;
+    }
+
+    public function getUrl()
+    {
+      $user = $this->getMe();
+      if ($user) {
+        return 'https://twitter.com/'. $user->screen_name;
+      }
       return null;
     }
 

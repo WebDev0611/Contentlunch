@@ -305,6 +305,9 @@ class ContentController extends BaseController {
       case 'wordpress':
         $class = 'WordpressAPI';
       break;
+      case 'vimeo':
+        $class = 'VimeoAPI';
+      break;
       case 'youtube':
         $class = 'YoutubeAPI';
       break;
