@@ -22,6 +22,7 @@ class ActivityController extends BaseController {
         $userID = Confide::User()->id;
         $contentIDs = Content::where('account_id', $accountID)->lists('id');
 
+        if (empty($contentIDs)) return [];
         return Activity::whereIn('content_id', $contentIDs)->with('user')->with('content')->limit(10)->get();
     }
 
