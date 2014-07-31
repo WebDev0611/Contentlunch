@@ -2,7 +2,7 @@
 	'use strict';
 
 	var launch = window.launch || (window.launch = { });
-	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2', 'restangular', 'checklist-model']);
+	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2', 'restangular', 'checklist-model', 'wijmo']);
 
 	launch.module.value('contentStatuses', ['concept', 'create', 'review', 'launch', 'promote']);
 	launch.module.value('ecommercePlatforms', [
