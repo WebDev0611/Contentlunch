@@ -16,89 +16,62 @@
 		self.init = function () {
 			self.loggedInUser = authService.userInfo();
 
-			$scope.marketingAutomation = {
-				paginationLandingPages: new launch.Pagination('title', 'asc'),
-				paginationBlogs: new launch.Pagination('title', 'asc'),
-				paginationEmails: new launch.Pagination('title', 'asc'),
-				applySortLandingPages: function(sort, direction) { },
-				applySortBlogs: function(sort, direction) { },
-				applySortEmails: function(sort, direction) { }
-			};
+			$scope.paginationLandingPages = new launch.Pagination('title', 'asc');
+			$scope.paginationBlogs = new launch.Pagination('title', 'asc');
+			$scope.paginationEmails = new launch.Pagination('title', 'asc');
+			$scope.applySortLandingPages = function (sort, direction) { };
+			$scope.applySortBlogs = function (sort, direction) { };
+			$scope.applySortEmails = function (sort, direction) { };
+
+			$scope.isLoading = true;
+
+			$scope.content = contentService.query(self.loggedInUser.account.id, null, {
+				success: function (r) {
+					$scope.isLoading = false;
+
+					$scope.landingPages = $.grep($scope.content, function (c) { return c.contentType.baseType === 'long_html'; });
+					$scope.blogs = $.grep($scope.content, function (c) { return c.contentType.baseType === 'blog_post'; });
+					$scope.emails = $.grep($scope.content, function (c) { return c.contentType.baseType === 'email'; });
+
+					$scope.landingPagesPaged = $scope.paginationLandingPages.groupToPages($scope.landingPages);
+					$scope.blogsPaged = $scope.paginationBlogs.groupToPages($scope.blogs);
+					$scope.emailsPaged = $scope.paginationEmails.groupToPages($scope.emails);
+				},
+				error: self.ajaxHandler.error
+			});
 
 			$scope.selectedTab = 'marketing-automation';
-
-			//$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
-			//$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, self.ajaxHandler);
-			//$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
-
-			//$scope.pageSettings = {
-			//	selectedTab: 'overview',
-			//	overview: {
-			//		pagination: new launch.Pagination('title', 'asc')
-			//	},
-			//	creationStats: {
-			//		contentCreatedLineChartTime: 7,
-			//		contentCreatedLineChartGroupBy: 'all',
-			//		contentCreatedPieChart: 'author',
-			//		contentLaunchedLineChartTime: 7,
-			//		contentLaunchedLineChartGroupBy: 'all',
-			//		productionDaysLineChartTime: 30,
-			//		productionDaysLineChartGroupBy: 'all'
-			//	},
-			//	contentTrends: {
-			//		companyContentScoreTime: 7,
-			//		companyContentScoreGroupBy: 'author',
-			//		individualContentScoreTrendTime: 7,
-			//		individualContentScoreTrendGroupBy: 'author',
-			//		individualContentScoreAverageGroupBy: 'author'
-			//	},
-			//	contentDetails: {},
-			//	marketingAutomation: {
-			//		paginationLandingPages: new launch.Pagination('title', 'asc'),
-			//		paginationBlogs: new launch.Pagination('title', 'asc'),
-			//		paginationEmails: new launch.Pagination('title', 'asc'),
-			//		applySortLandingPages: function (sort, direction) { },
-			//		applySortBlogs: function (sort, direction) { },
-			//		applySortEmails: function (sort, direction) { }
-			//	}
-			//};
-
-			//$scope.pageSettings.selectedTab = 'marketing-automation'; // TODO: DELETE ME AFTER TESTING!!
-
-			//$scope.selectTab($scope.pageSettings.selectedTab);
-
-			//$scope.overview = measureService.getOverview(self.loggedInUser.account.id, self.ajaxHandler);
 		};
 
 		self.contentSort = function (a, b) {
 			if (!a && !b) { return 0; }
-			if (!!a && !b) { return ($scope.pagination.currentSortDirection === 'asc' ? -1 : 1); }
-			if (!a && !!b) { return ($scope.pagination.currentSortDirection === 'asc' ? 1 : -1); }
+			if (!!a && !b) { return (self.sortDirection === 'asc' ? -1 : 1); }
+			if (!a && !!b) { return (self.sortDirection === 'asc' ? 1 : -1); }
 
 			if (a.id === b.id) {
 				return 0;
 			}
 
-			if ($scope.pagination.currentSort === 'title') {
+			if (self.sort === 'title') {
 				if (launch.utils.isBlank(a.title) && launch.utils.isBlank(b.title)) { return 0; }
-				if (!launch.utils.isBlank(a.title) && launch.utils.isBlank(b.title)) { return ($scope.pagination.currentSortDirection === 'asc' ? -1 : 1); }
-				if (launch.utils.isBlank(a.title) && !launch.utils.isBlank(b.title)) { return ($scope.pagination.currentSortDirection === 'asc' ? 1 : -1); }
+				if (!launch.utils.isBlank(a.title) && launch.utils.isBlank(b.title)) { return (self.sortDirection === 'asc' ? -1 : 1); }
+				if (launch.utils.isBlank(a.title) && !launch.utils.isBlank(b.title)) { return (self.sortDirection === 'asc' ? 1 : -1); }
 
 				if (a.title.toLowerCase() === b.title.toLowerCase()) {
 					return 0;
 				}
 
-				if ($scope.pagination.currentSortDirection === 'asc') {
+				if (self.sortDirection === 'asc') {
 					return (a.title.toLowerCase() < b.title.toLowerCase()) ? -1 : 1;
 				} else {
 					return (a.title.toLowerCase() > b.title.toLowerCase()) ? -1 : 1;
 				}
 			}
 
-			if ($scope.pagination.currentSort === 'author') {
+			if (self.sort === 'author') {
 				if (!a.author && !b.author) { return 0; }
-				if (!!a.author && !b.author) { return ($scope.pagination.currentSortDirection === 'asc' ? -1 : 1); }
-				if (!a.author && !!b.author) { return ($scope.pagination.currentSortDirection === 'asc' ? 1 : -1); }
+				if (!!a.author && !b.author) { return (self.sortDirection === 'asc' ? -1 : 1); }
+				if (!a.author && !!b.author) { return (self.sortDirection === 'asc' ? 1 : -1); }
 
 				if (a.author.id === b.author.id) {
 					return 0;
@@ -108,81 +81,68 @@
 					return (a.author.id < b.author.id) ? -1 : 1;
 				}
 
-				if ($scope.pagination.currentSortDirection === 'asc') {
+				if (self.sortDirection === 'asc') {
 					return (a.author.formatName().toLowerCase() < b.author.formatName().toLowerCase()) ? -1 : 1;
 				} else {
 					return (a.author.formatName().toLowerCase() > b.author.formatName().toLowerCase()) ? -1 : 1;
 				}
 			}
 
-			if ($scope.pagination.currentSort === 'launchdate') {
-				if (!launch.utils.isValidDate(a.launchDate) && !launch.utils.isValidDate(b.launchDate)) { return 0; }
-				if (!launch.utils.isValidDate(a.launchDate) && launch.utils.isValidDate(b.launchDate)) { return ($scope.pagination.currentSortDirection === 'asc' ? -1 : 1); }
-				if (launch.utils.isValidDate(a.launchDate) && !launch.utils.isValidDate(b.launchDate)) { return ($scope.pagination.currentSortDirection === 'asc' ? 1 : -1); }
+			if (self.sort === 'views') {
+				if (isNaN(a.contentViews) && isNaN(b.contentViews)) { return 0; }
+				if (!isNaN(a.contentViews) && isNaN(b.contentViews)) { return (self.sortDirection === 'asc' ? -1 : 1); }
+				if (isNaN(a.contentViews) && !isNaN(b.contentViews)) { return (self.sortDirection === 'asc' ? 1 : -1); }
 
-				var aLaunchDate = launch.utils.formatDate(a.launchDate);
-				var bLaunchDate = launch.utils.formatDate(b.launchDate);
+				var aViews = parseFloat(a.contentViews);
+				var bViews = parseFloat(b.contentViews);
 
-				if (aLaunchDate === bLaunchDate) {
+				if (aViews === bViews) {
 					return 0;
 				}
 
-				if ($scope.pagination.currentSortDirection === 'asc') {
-					return (aLaunchDate < bLaunchDate) ? -1 : 1;
+				if (self.sortDirection === 'asc') {
+					return (aViews < bViews) ? -1 : 1;
 				} else {
-					return (aLaunchDate > bLaunchDate) ? -1 : 1;
+					return (aViews > bViews) ? -1 : 1;
 				}
 			}
 
-			if ($scope.pagination.currentSort === 'promotedate') {
-				if (!launch.utils.isValidDate(a.promoteDate) && !launch.utils.isValidDate(b.promoteDate)) { return 0; }
-				if (!launch.utils.isValidDate(a.promoteDate) && launch.utils.isValidDate(b.promoteDate)) { return ($scope.pagination.currentSortDirection === 'asc' ? -1 : 1); }
-				if (launch.utils.isValidDate(a.promoteDate) && !launch.utils.isValidDate(b.promoteDate)) { return ($scope.pagination.currentSortDirection === 'asc' ? 1 : -1); }
+			if (self.sort === 'conversionrate') {
+				if (isNaN(a.contentConversionRate) && isNaN(b.contentConversionRate)) { return 0; }
+				if (!isNaN(a.contentConversionRate) && isNaN(b.contentConversionRate)) { return (self.sortDirection === 'asc' ? -1 : 1); }
+				if (isNaN(a.contentConversionRate) && !isNaN(b.contentConversionRate)) { return (self.sortDirection === 'asc' ? 1 : -1); }
 
-				var aPromoteDate = launch.utils.formatDate(a.promoteDate);
-				var bPromoteDate = launch.utils.formatDate(b.promoteDate);
+				var aRate = parseFloat(a.contentConversionRate);
+				var bRate = parseFloat(b.contentConversionRate);
 
-				if (aPromoteDate === bPromoteDate) {
+				if (aRate === bViews) {
 					return 0;
 				}
 
-				if ($scope.pagination.currentSortDirection === 'asc') {
-					return (aPromoteDate < bPromoteDate) ? -1 : 1;
+				if (self.sortDirection === 'asc') {
+					return (aRate < bRate) ? -1 : 1;
 				} else {
-					return (aPromoteDate > bPromoteDate) ? -1 : 1;
-				}
-			}
-
-			if ($scope.pagination.currentSort === 'contentscore') {
-				if (isNaN(a.contentScore) && isNaN(b.contentScore)) { return 0; }
-				if (!isNaN(a.contentScore) && isNaN(b.contentScore)) { return ($scope.pagination.currentSortDirection === 'asc' ? -1 : 1); }
-				if (isNaN(a.contentScore) && !isNaN(b.contentScore)) { return ($scope.pagination.currentSortDirection === 'asc' ? 1 : -1); }
-
-				var aScore = parseFloat(a.contentScore);
-				var bScore = parseFloat(b.contentScore);
-
-				if (aScore === bScore) {
-					return 0;
-				}
-
-				if ($scope.pagination.currentSortDirection === 'asc') {
-					return (aScore < bScore) ? -1 : 1;
-				} else {
-					return (aScore > bScore) ? -1 : 1;
+					return (aRate > bRate) ? -1 : 1;
 				}
 			}
 
 			return 0;
 		};
 
-		$scope.overview = null;
-		$scope.contentTypes = null;
-		$scope.campaigns = null;
-		$scope.users = null;
+		self.sort = null;
+		self.sortDirection = null;
+
 		$scope.content = null;
-		$scope.filteredContent = null;
-		$scope.pagedContent = null;
-		$scope.pageSettings = null;
+		$scope.landingPages = null;
+		$scope.blogs = null;
+		$scope.emails = null;
+		$scope.landingPagesPaged = null;
+		$scope.blogsPaged = null;
+		$scope.emailsPaged = null;
+
+		$scope.paginationLandingPages = null;
+		$scope.paginationBlogs = null;
+		$scope.paginationEmails = null;
 
 		$scope.isMeasure = true;
 		$scope.isLoading = false;
@@ -193,125 +153,6 @@
 		$scope.formatContentTypeIcon = launch.utils.getContentTypeIconClass;
 		$scope.formatDate = launch.utils.formatDate;
 
-		$scope.pagination = {
-			totalItems: 0,
-			currentSort: 'title',
-			currentSortDirection: null,
-			pageSize: 5,
-			currentPage: 1,
-			maxPage: 0,
-			onPageChange: function (page) {
-			},
-			groupToPages: function () {
-				$scope.pagedContent = [];
-
-				for (var i = 0; i < $scope.filteredContent.length; i++) {
-					if (i % $scope.pagination.pageSize === 0) {
-						$scope.pagedContent[Math.floor(i / $scope.pagination.pageSize)] = [$scope.filteredContent[i]];
-					} else {
-						$scope.pagedContent[Math.floor(i / $scope.pagination.pageSize)].push($scope.filteredContent[i]);
-					}
-				}
-
-				$scope.pagination.maxPage = $scope.pagedContent.length;
-			},
-			getPageIndicator: function () {
-				var start = ((($scope.pagination.currentPage - 1) * $scope.pagination.pageSize) + 1);
-				var end = ($scope.pagination.currentPage * $scope.pagination.pageSize);
-
-				if (end > $scope.pagination.totalItems) {
-					end = $scope.pagination.totalItems;
-				}
-
-				return start + ' to ' + end + ' of ' + $scope.pagination.totalItems;
-			},
-			reset: function (sort, direction) {
-				if (!launch.utils.isBlank(sort)) {
-					$scope.pagination.currentSort = sort;
-				}
-
-				if (!launch.utils.isBlank(direction)) {
-					$scope.pagination.currentSortDirection = (direction === 'desc' ? 'desc' : 'asc');
-				}
-
-				$scope.pagination.currentPage = 1;
-			}
-		};
-
-		$scope.search = {
-			searchTerm: null,
-			searchTermMinLength: 1,
-			myTasks: false,
-			contentTypes: [],
-			buyingStages: [],
-			campaigns: [],
-			users: [],
-			changeSearchTerm: function () {
-				if (launch.utils.isBlank($scope.search.searchTerm) || $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
-					$scope.search.applyFilter(true);
-				}
-			},
-			applyFilter: function (reset) {
-				if (!$scope.content || !$scope.content.$resolved) {
-					return;
-				}
-
-				$scope.filteredContent = $filter('filter')($scope.content, function (content) {
-					if (content.status < 3 || content.archived) {
-						return false;
-					}
-
-					if ($scope.search.myTasks && content.author.id !== self.loggedInUser.id) {
-						return false;
-					}
-
-					if ($.isArray($scope.search.contentTypes) && $scope.search.contentTypes.length > 0) {
-						if ($.inArray(content.contentType.name, $scope.search.contentTypes) < 0) {
-							return false;
-						}
-					}
-
-					if ($.isArray($scope.search.campaigns) && $scope.search.campaigns.length > 0) {
-						var campaignId = launch.utils.isBlank(content.campaign.id) ? '' : content.campaign.id.toString();
-
-						if ($.inArray(campaignId, $scope.search.campaigns) < 0) {
-							return false;
-						}
-					}
-
-					if ($.isArray($scope.search.users) && $scope.search.users.length > 0) {
-						return ($.grep($scope.search.users, function (uid) { return parseInt(uid) === content.author.id; }).length > 0);
-					}
-
-					return (launch.utils.isBlank($scope.search.searchTerm) ? true : content.matchSearchTerm($scope.search.searchTerm));
-				});
-
-				if ($scope.isOverview && $scope.filteredContent.length > 4) {
-					$scope.filteredContent.splice(4, $scope.filteredContent.length);
-				}
-
-				if (reset === true) {
-					$scope.pagination.reset();
-				}
-
-				$scope.pagination.totalItems = $scope.filteredContent.length;
-				$scope.pagination.groupToPages();
-			},
-			clearFilter: function () {
-				$scope.search.searchTerm = null;
-				$scope.search.contentTypes = [];
-				$scope.search.campaigns = [];
-				$scope.search.users = [];
-
-				$scope.search.applyFilter(true);
-			},
-			toggleMyTasks: function (mine) {
-				$scope.search.myTasks = !!mine;
-
-				$scope.search.applyFilter(true);
-			}
-		};
-
 		$scope.formatUserItem = function (item, element, context) {
 			var user = $.grep($scope.users, function (u, i) { return u.id === parseInt(item.id); });
 			var style = (user.length === 1 && !launch.utils.isBlank(user[0].image)) ? ' style="background-image: ' + user[0].imageUrl() + '"' : '';
@@ -319,103 +160,65 @@
 			return '<span class="user-image user-image-small"' + style + '></span> <span>' + item.text + '</span>';
 		};
 
-		$scope.selectTab = function (tab) {
-			$scope.isLoading = true;
-			$scope.isOverview = false;
+		$scope.applySort = function (sort, type) {
+			var items = null;
+			var pagination = null;
 
-			switch (tab) {
-				case 'creation-stats':
-					console.log('LOAD CREATION STATS...');
-					$scope.pageSettings.selectedTab = tab;
-					$scope.isLoading = false;
+			switch (type) {
+				case 'landingpages':
+					items = $scope.landingPages;
+					pagination = $scope.paginationLandingPages;
 					break;
-				case 'content-trends':
-					console.log('LOAD CONTENT TRENDS...');
-					$scope.pageSettings.selectedTab = tab;
-					$scope.isLoading = false;
+				case 'blogs':
+					items = $scope.blogs;
+					pagination = $scope.paginationBlogs;
 					break;
-					//case 'marketing-automation':
-					//	console.log('LOAD MARKETING AUTOMATION...');
-					//	$scope.pageSettings.selectedTab = tab;
-					//	$scope.isLoading = false;
-					//	break;
+				case 'emails':
+					items = $scope.emails;
+					pagination = $scope.paginationEmails;
+					break;
 				default:
-					console.log('LOAD OVERVIEW STATS...');
-					$scope.isOverview = true;
-					$scope.content = contentService.query(self.loggedInUser.account.id, null, {
-						success: function (r) {
-							if (tab === 'content-details') {
-								$scope.applySort('title');
-								$scope.search.applyFilter(true);
-							} else if (tab === 'marketing-automation') {
-							} else {
-								$scope.pagination.currentSortDirection = 'desc';
-								$scope.applySort('contentscore');
-								$scope.search.applyFilter(false);
-							}
-
-							$scope.pageSettings.selectedTab = tab;
-							$scope.isLoading = false;
-						},
-						error: self.ajaxHandler.error
-					});
-					break;
+					return;
 			}
-		};
 
-		$scope.saveFilter = function () {
-			var page = 'measure';
+			if (!$.isArray(items) || items.length === 0) {
+				return;
+			}
 
-			userService.savePreferences(self.loggedInUser.id, page, $scope.search, {
-				success: function (r) {
-					notificationService.success('Success!', launch.utils.titleCase(page) + ' default filters saved!');
-					self.loggedInUser = authService.fetchCurrentUser(self.ajaxHandler);
-				},
-				error: self.ajaxHandler.error
-			});
-		};
-
-		$scope.applySort = function (sort) {
 			if (launch.utils.isBlank(sort)) {
-				sort = launch.utils.isBlank($scope.pagination.currentSort) ? 'title' : $scope.pagination.currentSort;
+				sort = launch.utils.isBlank(pagination.currentSort) ? 'title' : pagination.currentSort;
 			} else {
 				sort = sort.toLowerCase();
 			}
 
-			$scope.pagination.reset();
+			pagination.reset();
 
-			if ($scope.pagination.currentSort === sort) {
-				$scope.pagination.currentSortDirection = ($scope.pagination.currentSortDirection === 'asc' ? 'desc' : 'asc');
+			if (pagination.currentSort === sort) {
+				pagination.currentSortDirection = (pagination.currentSortDirection === 'asc' ? 'desc' : 'asc');
 			} else {
-				$scope.pagination.currentSort = sort;
-				$scope.pagination.currentSortDirection = ($scope.pagination.currentSortDirection === 'desc' ? 'desc' : 'asc');
+				pagination.currentSort = sort;
+				pagination.currentSortDirection = 'asc';
 			}
 
-			if (!$.isArray($scope.content) || $scope.content.length === 0 || !$scope.content.$resolved) {
-				return;
+			self.sort = pagination.currentSort;
+			self.sortDirection = pagination.currentSortDirection;
+
+			items.sort(self.contentSort);
+
+			self.sort = null;
+			self.sortDirection = null;
+
+			switch (type) {
+				case 'landingpages':
+					$scope.landingPagesPaged = pagination.groupToPages(items);
+					break;
+				case 'blogs':
+					$scope.blogsPaged = pagination.groupToPages(items);
+					break;
+				case 'emails':
+					$scope.emailsPaged = pagination.groupToPages(items);
+					break;
 			}
-
-			$scope.content.sort(self.contentSort);
-
-			$scope.search.applyFilter(false);
-		};
-
-		$scope.viewInPromote = function (content, e) {
-			if (!content) {
-				return;
-			}
-
-			$location.path('/promote/content/' + content.id);
-			e.stopImmediatePropagation();
-		};
-
-		$scope.editContent = function (content, e) {
-			if (!content) {
-				return;
-			}
-
-			$location.path('/measure/content/' + content.id);
-			e.stopImmediatePropagation();
 		};
 
 		self.init();
