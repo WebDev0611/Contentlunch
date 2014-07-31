@@ -77,7 +77,7 @@ what you think."
     // Attach connection
     $content->account_connections()->attach($connection->id);
     // Attach related content
-    $content->related()->attach($prevContent->id);
+    // $content->related()->attach($prevContent->id);
     // Attach collaborators
     $content->collaborators()->sync([$user1->id, $user3->id]);
     // Attach content tags
@@ -108,7 +108,7 @@ what you think."
     // Attach connection
     $content->account_connections()->attach($connection->id);
     // Attach related content
-    $content->related()->attach($prevContent->id);
+    // $content->related()->attach($prevContent->id);
     // Attach collaborators
     $content->collaborators()->sync([$user1->id, $user2->id]);
     // Attach content tags
@@ -139,7 +139,7 @@ what you think."
     // Attach connection
     $content->account_connections()->attach($connection->id);
     // Attach related content
-    $content->related()->attach($prevContent->id);
+    // $content->related()->attach($prevContent->id);
     // Attach collaborators
     $content->collaborators()->sync([$user1->id, $user3->id]);
     // Attach content tags
@@ -171,7 +171,7 @@ what you think."
     // Attach connection
     $content->account_connections()->attach($connection->id);
     // Attach related content
-    $content->related()->attach($prevContent->id);
+    // $content->related()->attach($prevContent->id);
     // Attach collaborators
     $content->collaborators()->sync([$user2->id, $user3->id]);
     // Attach content tags

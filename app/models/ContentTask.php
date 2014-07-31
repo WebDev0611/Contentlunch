@@ -49,4 +49,14 @@ class ContentTask extends Ardent {
         $activity->save();
       });
     }
+
+    public function afterCreate()
+    {
+        // save general activity
+        Activity::create([
+            'content_id' => $this->id,
+            'user_id'    => $this->user_id,
+            'activity'   => 'assigned a task in',
+        ]);
+    }
 }

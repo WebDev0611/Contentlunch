@@ -31,6 +31,16 @@ class CollaboratorsController extends BaseController {
       return $this->responseError("User not found");
     }
 
+    if ($collabType == 'content') {
+      // save general activity
+      $act = $model->status == 0 ? 'a collaborator' : 'an author';
+      Activity::create([
+          'content_id' => $model->id,
+          'user_id'    => $userID,
+          'activity'   => "added as {$act} in",
+      ]);
+    }
+
     // sync collaborators
     $collabIDs = [];
     $collabs = $model->collaborators;

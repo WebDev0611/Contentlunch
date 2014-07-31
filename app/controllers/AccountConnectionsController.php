@@ -29,20 +29,28 @@ class AccountConnectionsController extends BaseController {
           // This is just a fix to get identifiers
           // for existing connections
           if ( ! $connection->identifier && $api->isValid()) {
-            $connection->identifier = $api->getIdentifier();
-            DB::table('account_connections')
-              ->where('id', $connection->id)
-              ->update([
-                'identifier' => $connection->identifier
-              ]);
+            try {
+              $connection->identifier = $api->getIdentifier();
+              DB::table('account_connections')
+                ->where('id', $connection->id)
+                ->update([
+                  'identifier' => $connection->identifier
+                ]);
+              } catch (\Exception $e) {
+
+              }
           }
           if ( ! $connection->url && $api->isValid()) {
-            $connection->url = $api->getUrl();
-            DB::table('account_connections')
-              ->where('id', $connection->id)
-              ->update([
-                'url' => $connection->url
-              ]);
+            try {
+              $connection->url = $api->getUrl();
+              DB::table('account_connections')
+                ->where('id', $connection->id)
+                ->update([
+                  'url' => $connection->url
+                ]);
+            } catch (\Exception $e) {
+
+            }
           }
         }
       }
@@ -100,6 +108,12 @@ class AccountConnectionsController extends BaseController {
     $connection = Connection::find($connectionID);
     if ( ! $connection) {
       return $this->responseError("Unable to find connection");
+    }
+    // Can't have more than 1 hubspot connection
+    if ($connection->provider == 'hubspot') {
+      AccountConnection::where('account_id', $accountID)
+        ->where('connection_id', $connection->id)
+        ->delete();
     }
     $service = new ServiceFactory($connection->provider);
     $settings = $service->getCallbackData();

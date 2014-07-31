@@ -35,8 +35,8 @@
 		</div>
 	</div>
 
-	<div class="control-group" ng-if="!!contentConnections.length && !!content.contentType.name" ng-hide="isPromote && isNewContent">
-		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'accountConnections', editContent.selContentConnections, forceDirty) }">
+	<div class="control-group" ng-hide="isPromote && isNewContent">
+		<div class="form-group" ng-if="!!contentConnections.length && !!content.contentType.name" ng-class="{ 'has-error': hasError(content, 'accountConnections', editContent.selContentConnections, forceDirty) }">
 			<label class="control-label" for="selContentConnections">Content Destinations</label>
 			<select id="selContentConnections" name="selContentConnections" class="multi-select" multiple="multiple" ng-disabled="isReadOnly" ng-change="updateContentConnection(contentConnectionIds)"
 					ui-select2="{ formatResult: formatContentConnectionItem, formatSelection: formatContentConnectionItem }" ng-model="contentConnectionIds" data-placeholder="Select Content Connection"
@@ -120,7 +120,7 @@
 				<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" role="menu" ng-if="!!promoteConnections.length">
-				<li ng-repeat="connection in promoteConnections" ng-click="promoteContent(connection.name)" ng-show="connectionIsSupported(connection)" ng-hide="connection.connectionCategory === 'automation'">
+				<li ng-repeat="connection in promoteConnections" ng-click="launchContent(connection)" ng-show="connectionIsSupported(connection)" ng-hide="connection.connectionCategory === 'automation'">
 					<a href="#">
 						<div>
 							<span class="{{ 'cl-icon ' + getConnectionProviderIconClass(connection.name) }}"></span>

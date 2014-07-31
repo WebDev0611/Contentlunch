@@ -110,15 +110,15 @@
                 <div class="btn-group">
                     <button class="btn dropdown-toggle" data-toggle="dropdown" ng-class="{ 'btn-default': !filters.activity.justMine, 'btn-inverse': filters.activity.justMine }" ng-click="filters.activity.justMine = true">My Activity</button>
                     <ul class="dropdown-menu" role="menu">
-                        <li ng-repeat="act in activity | filter: { userId: user.id } track by act.id"><a>{{ act.activity }} to <br>{{ act.content.title }} on {{ act.createdAt | moment: 'MM/DD/YY' }}</a></li>
-                        <li ng-hide="(activity | filter: { userId: user.id }).length"><a>No activity</a></li>
+                    <li ng-repeat="act in myActivity track by act.id"><a href="/create/content/edit/{{ act.contentId }}">You were {{ act.activity }}<br>{{ act.content.title }} on {{ act.createdAt | moment: 'MM/DD/YY' }}</a></li>
+                        <li ng-hide="myActivity.length"><a>No activity</a></li>
                     </ul>
                 </div>
                 <div class="btn-group">
                     <button class="btn dropdown-toggle" data-toggle="dropdown" ng-class="{ 'btn-default': filters.activity.justMine, 'btn-inverse': !filters.activity.justMine }" ng-click="filters.activity.justMine = false">All Activity</button>
                     <ul class="dropdown-menu" role="menu">
-                        <li ng-repeat="act in activity track by act.id"><a>{{ act.activity }} to <br>{{ act.content.title }} on {{ act.createdAt | moment: 'MM/DD/YY' }}</a></li>
-                        <li ng-hide="activity.length"><a>No activity</a></li>
+                        <li ng-repeat="act in allActivity track by act.id"><a href="/create/content/edit/{{ act.contentId }}">{{ act.user.firstName }} {{ act.user.lastName }} was {{ act.activity }}<br>{{ act.content.title }} on {{ act.createdAt | moment: 'MM/DD/YY' }}</a></li>
+                        <li ng-hide="allActivity.length"><a>No activity</a></li>
                     </ul>
                 </div>
             </div>
@@ -224,7 +224,7 @@
 
                     <form ng-submit="createReply(reply)" class="container-fluid">
                         <div class="well">
-                            <div class="row">
+                            <div>
                                 <div class="col-md-3">
                                     <div class="cl-badge cl-badge-horizontal no-margin">
                                         <span class="cl-badge-image" style="background-image: url('{{ user.image | imagePathFromObject }}')")></span>
@@ -238,11 +238,9 @@
                                     <label for="body">Add to the Discussion</label>
                                     <textarea rows="6" name="body" class="form-control" id="body" ng-model="reply.body"></textarea>
                                 </div>
-                            </div> <!-- .row -->
-                            <div class="row">
-                                <div class="pull-md-3 col-md-9">
-                                    <button type="submit" class="btn btn-inverse">Reply</button>
-                                </div>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-inverse">Reply</button>
                             </div>
                         </div> <!-- .well -->
                     </form>        
