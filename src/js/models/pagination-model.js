@@ -12,6 +12,7 @@
 
 	self.groupToPages = function (filteredContent) {
 		self.pagedContent = [];
+		self.totalItems = 0;
 
 		if ($.isArray(filteredContent) && filteredContent.length > 0) {
 			for (var i = 0; i < filteredContent.length; i++) {
@@ -20,6 +21,8 @@
 				} else {
 					self.pagedContent[Math.floor(i / self.pageSize)].push(filteredContent[i]);
 				}
+
+				self.totalItems++;
 			}
 		}
 
@@ -44,7 +47,9 @@
 			self.currentSort = sort;
 		}
 
-		self.currentSortDirection = (direction === 'desc' ? 'desc' : 'asc');
+		if (!launch.utils.isBlank(direction)) {
+			self.currentSortDirection = (direction === 'desc' ? 'desc' : 'asc');
+		}
 
 		self.currentPage = 1;
 	};

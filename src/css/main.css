@@ -2441,6 +2441,11 @@ span[class*=" icon-"].dark {
 .measure .right-pane .measure-editor .measure-content-details .create-table-container {
   margin: 0;
 }
+.measure .right-pane .measure-editor .measure-marketing-automation .measure-marketing-automation-hubspot-landing-pages .measure-marketing-automation-table {
+  border-top: solid 1px #cccccc;
+  margin: 24px 0;
+  padding: 4px 0;
+}
 .measure .right-pane .measure-editor .measure-table-header .measure-table-paging-controls {
   float: right;
 }
