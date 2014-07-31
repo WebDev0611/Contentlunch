@@ -1,1 +1,82 @@
-﻿MARKETING AUTOMATION
+﻿<div class="cl-banner cl-banner-large cl-banner-hubspot"></div>
+
+<div class="measure-marketing-automation-hubspot-landing-pages">
+	<div class="measure-table-header">
+		<span class="measure-sub-header">Landing Pages</span>
+
+		<!--<div class="measure-table-paging-controls" ng-show="pageSettings.marketingAutomation.paginationLandingPages.totalItems > 5">-->
+		<div class="measure-table-paging-controls">
+			<div class="form-group form-inline">
+				<label class="control-label" for="selPageSize">Items per page:</label>
+				<select class="form-control" id="selPageSize" name="selPageSize" ng-model="pageSettings.marketingAutomation.paginationLandingPages.pageSize" ng-change="pageSettings.marketingAutomation.paginationLandingPages.groupToPages()">
+					<option value="5">5</option>
+					<option value="10">10</option>
+					<option value="20">20</option>
+					<option value="50">50</option>
+					<option value="100">100</option>
+				</select>
+			</div>
+
+			<div style="width: 100px; text-align: center;">
+				{{ pageSettings.marketingAutomation.paginationLandingPages.getPageIndicator() }}
+			</div>
+
+			<!--<div class="measure-table-pager" ng-show="pageSettings.marketingAutomation.paginationLandingPages.totalItems > pageSettings.marketingAutomation.paginationLandingPages.pageSize">-->
+			<div class="measure-table-pager">
+				<pagination
+					total-items="pageSettings.marketingAutomation.paginationLandingPages.totalItems"
+					items-per-page="pageSettings.marketingAutomation.paginationLandingPages.pageSize"
+					page="pageSettings.marketingAutomation.paginationLandingPages.currentPage"
+					on-select-page="pageSettings.marketingAutomation.paginationLandingPages.onPageChange(page)"
+					direction-links="true"
+					max-size="0">
+				</pagination>
+			</div>
+		</div>
+	</div>
+		
+	<div class="measure-table-container">
+		<table class="measure-table">
+			<thead>
+				<tr>
+					<th class="small-cell">&nbsp;</th>
+					<th>
+						<span class="fa" ng-show="pageSettings.marketingAutomation.paginationLandingPages.currentSort === 'title'" ng-class="'fa-sort-alpha-' + pageSettings.marketingAutomation.paginationLandingPages.currentSortDirection"></span>
+						<span class="clickable-header" ng-click="pageSettings.marketingAutomation.applySortLandingPages('title')">Title</span>
+					</th>
+					<th>
+						<span class="fa" ng-show="pageSettings.marketingAutomation.paginationLandingPages.currentSort === 'author'" ng-class="'fa-sort-alpha-' + pageSettings.marketingAutomation.paginationLandingPages.currentSortDirection"></span>
+						<span class="clickable-header" ng-click="pageSettings.marketingAutomation.applySortLandingPages('author')">Author</span>
+					</th>
+					<th>
+						<span class="fa" ng-show="pageSettings.marketingAutomation.paginationLandingPages.currentSort === 'views'" ng-class="'fa-sort-alpha-' + pageSettings.marketingAutomation.paginationLandingPages.currentSortDirection"></span>
+						<span class="clickable-header" ng-click="pageSettings.marketingAutomation.applySortLandingPages('views')">Views</span>
+					</th>
+					<th>
+						<span class="fa" ng-show="pageSettings.marketingAutomation.paginationLandingPages.currentSort === 'conversionrate'" ng-class="'fa-sort-alpha-' + pageSettings.marketingAutomation.paginationLandingPages.currentSortDirection"></span>
+						<span class="clickable-header" ng-click="pageSettings.marketingAutomation.applySortLandingPages('conversionrate')">Conversion Rate</span>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="c in pageSettings.marketingAutomation.paginationLandingPages.pagedContent[pageSettings.marketingAutomation.paginationLandingPages.currentPage - 1]" ng-class-odd="'dark'">
+					<td class="small-cell"><div class="campaign-dot campaign-dot-small" style="background-color: {{ c.campaign.color }}"></div></td>
+					<td>
+						<span class="cl-icon" ng-class="formatContentTypeIcon(c.contentType.name)"></span>
+						{{ c.title }}
+					</td>
+					<td>
+						<span class="user-image user-image-small" ng-style="{ 'background-image': c.author.image }"></span>
+						{{ c.author.formatName() }}
+					</td>
+					<td>
+						VIEWS
+					</td>
+					<td>
+						CONVERSION RATE
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

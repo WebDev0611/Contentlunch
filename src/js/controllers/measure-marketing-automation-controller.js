@@ -1,4 +1,4 @@
-﻿launch.module.controller('MeasureController', [
+﻿launch.module.controller('MeasureMarketingAutomationController', [
 	'$scope', '$location', '$filter', 'AuthService', 'UserService', 'ContentService', 'CampaignService', 'MeasureService', 'NotificationService', function ($scope, $location, $filter, authService, userService, contentService, campaignService, measureService, notificationService) {
 		var self = this;
 
@@ -13,7 +13,7 @@
 			}
 		};
 
-		self.init = function() {
+		self.init = function () {
 			self.loggedInUser = authService.userInfo();
 
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
@@ -41,7 +41,7 @@
 					individualContentScoreTrendGroupBy: 'author',
 					individualContentScoreAverageGroupBy: 'author'
 				},
-				contentDetails: { },
+				contentDetails: {},
 				marketingAutomation: {
 					paginationLandingPages: new launch.Pagination('title', 'asc'),
 					paginationBlogs: new launch.Pagination('title', 'asc'),
@@ -59,7 +59,7 @@
 			$scope.overview = measureService.getOverview(self.loggedInUser.account.id, self.ajaxHandler);
 		};
 
-		self.contentSort = function(a, b) {
+		self.contentSort = function (a, b) {
 			if (!a && !b) { return 0; }
 			if (!!a && !b) { return ($scope.pagination.currentSortDirection === 'asc' ? -1 : 1); }
 			if (!a && !!b) { return ($scope.pagination.currentSortDirection === 'asc' ? 1 : -1); }
@@ -323,16 +323,16 @@
 					$scope.pageSettings.selectedTab = tab;
 					$scope.isLoading = false;
 					break;
-				//case 'marketing-automation':
-				//	console.log('LOAD MARKETING AUTOMATION...');
-				//	$scope.pageSettings.selectedTab = tab;
-				//	$scope.isLoading = false;
-				//	break;
+					//case 'marketing-automation':
+					//	console.log('LOAD MARKETING AUTOMATION...');
+					//	$scope.pageSettings.selectedTab = tab;
+					//	$scope.isLoading = false;
+					//	break;
 				default:
 					console.log('LOAD OVERVIEW STATS...');
 					$scope.isOverview = true;
 					$scope.content = contentService.query(self.loggedInUser.account.id, null, {
-						success: function(r) {
+						success: function (r) {
 							if (tab === 'content-details') {
 								$scope.applySort('title');
 								$scope.search.applyFilter(true);
@@ -389,7 +389,7 @@
 			$scope.search.applyFilter(false);
 		};
 
-		$scope.viewInPromote = function(content, e) {
+		$scope.viewInPromote = function (content, e) {
 			if (!content) {
 				return;
 			}
@@ -398,7 +398,7 @@
 			e.stopImmediatePropagation();
 		};
 
-		$scope.editContent = function(content, e) {
+		$scope.editContent = function (content, e) {
 			if (!content) {
 				return;
 			}
