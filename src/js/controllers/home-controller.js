@@ -24,7 +24,8 @@ launch.module.controller('HomeController',
             guests: Account.all('guest-collaborators').getList({ limit: 5 }),
             // contentStrategy: Account.customGET('content-strategy'),
             brainstorms: Account.all('brainstorm').getList({ user: user.id }),
-            activity: Account.getList('content-activity')
+            myActivity: Account.getList('my-activity'),
+            allActivity: Account.getList('all-activity')
         }).then(function (responses) {
             angular.extend($scope, responses);
             $scope.isLoaded = true;

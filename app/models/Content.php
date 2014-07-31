@@ -181,7 +181,7 @@ class Content extends Ardent {
         foreach ($dirty as $key => $newValue) {
           $activity = null;
           $origValue = $content->getOriginal($key);
-          switch ($key) {
+           switch ($key) {
             // Archived?
             case 'archived':
               if ($newValue) {
@@ -202,6 +202,7 @@ class Content extends Ardent {
                   ->where('id', $content->id)
                   ->update(['convert_date' => new \DateTime]);
                 $activity = 'Converted Concept to Content';
+                $generalActivity = 'converted';
               } elseif ($newValue == 2) {
                 DB::table('content')
                   ->where('id', $content->id)
@@ -212,12 +213,14 @@ class Content extends Ardent {
                   ->where('id', $content->id)
                   ->update(['approval_date' => new \DateTime]);
                 $activity = 'Approved';
+                $generalActivity = 'approved';
               } elseif ($newValue == 4) {
                 // Content has moved to the "Launch" phase
                 DB::table('content')
                   ->where('id', $content->id)
                   ->update(['launch_date' => new \DateTime]);
                 $activity = 'Launched';
+                $generalActivity = 'launched';
               } elseif ($newValue == 5) {
                 DB::table('content')
                   ->where('id', $content->id)
@@ -235,14 +238,23 @@ class Content extends Ardent {
             $activity = new ContentActivity([
               'user_id' => $user->id,
               'content_id' => $content->id,
-              'activity' => $activity
+              'activity' => 'had content that was ' . $activity
             ]);
             $activity->save();
+          }
+
+          if (!empty($generalActivity)) {
+            // save general activity
+            Activity::create([
+              'content_id' => $content->id,
+              'user_id'    => $user->id,
+              'activity'   => $generalActivity,
+            ]);
           }
         }
       }
     });
-/*
+    /*
     static::validating(function ($content) {
       $content->setAttribute('errors', [['upload' => 'Invalid upload file type']]);
       return false;
