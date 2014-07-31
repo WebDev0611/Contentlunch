@@ -16,13 +16,12 @@
 		self.init = function () {
 			self.loggedInUser = authService.userInfo();
 
-			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
-			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, self.ajaxHandler);
-			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
+			$scope.isLoading = true;
+
 			$scope.content = contentService.query(self.loggedInUser.account.id, null, {
 				success: function (r) {
 					$scope.isLoading = false;
-					$scope.pagination.currentSortDirection = 'desc';
+					//$scope.pagination.currentSortDirection = 'desc';
 					$scope.applySort('contentscore');
 					$scope.search.applyFilter(false);
 				},
@@ -140,57 +139,60 @@
 		};
 
 		$scope.overview = null;
-		$scope.contentTypes = null;
-		$scope.campaigns = null;
-		$scope.users = null;
+		$scope.content = null;
+		$scope.filteredContent = null;
+		$scope.pagedContent = null;
 
 		$scope.isMeasure = true;
+		$scope.isOverview = true;
 		$scope.isLoading = false;
 
-		$scope.pagination = {
-			totalItems: 0,
-			currentSort: 'title',
-			currentSortDirection: null,
-			pageSize: 5,
-			currentPage: 1,
-			maxPage: 0,
-			onPageChange: function (page) {
-			},
-			groupToPages: function () {
-				$scope.pagedContent = [];
+		//$scope.pagination = {
+		//	totalItems: 0,
+		//	currentSort: 'title',
+		//	currentSortDirection: null,
+		//	pageSize: 5,
+		//	currentPage: 1,
+		//	maxPage: 0,
+		//	onPageChange: function (page) {
+		//	},
+		//	groupToPages: function () {
+		//		$scope.pagedContent = [];
 
-				for (var i = 0; i < $scope.filteredContent.length; i++) {
-					if (i % $scope.pagination.pageSize === 0) {
-						$scope.pagedContent[Math.floor(i / $scope.pagination.pageSize)] = [$scope.filteredContent[i]];
-					} else {
-						$scope.pagedContent[Math.floor(i / $scope.pagination.pageSize)].push($scope.filteredContent[i]);
-					}
-				}
+		//		for (var i = 0; i < $scope.filteredContent.length; i++) {
+		//			if (i % $scope.pagination.pageSize === 0) {
+		//				$scope.pagedContent[Math.floor(i / $scope.pagination.pageSize)] = [$scope.filteredContent[i]];
+		//			} else {
+		//				$scope.pagedContent[Math.floor(i / $scope.pagination.pageSize)].push($scope.filteredContent[i]);
+		//			}
+		//		}
 
-				$scope.pagination.maxPage = $scope.pagedContent.length;
-			},
-			getPageIndicator: function () {
-				var start = ((($scope.pagination.currentPage - 1) * $scope.pagination.pageSize) + 1);
-				var end = ($scope.pagination.currentPage * $scope.pagination.pageSize);
+		//		$scope.pagination.maxPage = $scope.pagedContent.length;
+		//	},
+		//	getPageIndicator: function () {
+		//		var start = ((($scope.pagination.currentPage - 1) * $scope.pagination.pageSize) + 1);
+		//		var end = ($scope.pagination.currentPage * $scope.pagination.pageSize);
 
-				if (end > $scope.pagination.totalItems) {
-					end = $scope.pagination.totalItems;
-				}
+		//		if (end > $scope.pagination.totalItems) {
+		//			end = $scope.pagination.totalItems;
+		//		}
 
-				return start + ' to ' + end + ' of ' + $scope.pagination.totalItems;
-			},
-			reset: function (sort, direction) {
-				if (!launch.utils.isBlank(sort)) {
-					$scope.pagination.currentSort = sort;
-				}
+		//		return start + ' to ' + end + ' of ' + $scope.pagination.totalItems;
+		//	},
+		//	reset: function (sort, direction) {
+		//		if (!launch.utils.isBlank(sort)) {
+		//			$scope.pagination.currentSort = sort;
+		//		}
 
-				if (!launch.utils.isBlank(direction)) {
-					$scope.pagination.currentSortDirection = (direction === 'desc' ? 'desc' : 'asc');
-				}
+		//		if (!launch.utils.isBlank(direction)) {
+		//			$scope.pagination.currentSortDirection = (direction === 'desc' ? 'desc' : 'asc');
+		//		}
 
-				$scope.pagination.currentPage = 1;
-			}
-		};
+		//		$scope.pagination.currentPage = 1;
+		//	}
+		//};
+
+		$scope.pagination = new launch.Pagination('contentscore', 'desc');
 
 		$scope.search = {
 			searchTerm: null,
@@ -240,7 +242,7 @@
 					return (launch.utils.isBlank($scope.search.searchTerm) ? true : content.matchSearchTerm($scope.search.searchTerm));
 				});
 
-				if ($scope.isOverview && $scope.filteredContent.length > 4) {
+				if ($scope.filteredContent.length > 4) {
 					$scope.filteredContent.splice(4, $scope.filteredContent.length);
 				}
 
@@ -249,7 +251,7 @@
 				}
 
 				$scope.pagination.totalItems = $scope.filteredContent.length;
-				$scope.pagination.groupToPages();
+				$scope.pagedContent = $scope.pagination.groupToPages($scope.filteredContent);
 			},
 			clearFilter: function () {
 				$scope.search.searchTerm = null;

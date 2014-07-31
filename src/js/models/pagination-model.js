@@ -24,6 +24,8 @@
 		}
 
 		self.maxPage = self.pagedContent.length;
+
+		return self.pagedContent;
 	};
 
 	self.getPageIndicator = function() {
