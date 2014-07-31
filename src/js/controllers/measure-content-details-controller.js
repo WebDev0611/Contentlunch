@@ -16,47 +16,20 @@
 		self.init = function () {
 			self.loggedInUser = authService.userInfo();
 
+			$scope.isLoading = true;
+
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, self.ajaxHandler);
-			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
-
-			$scope.pageSettings = {
-				selectedTab: 'overview',
-				overview: {
-					pagination: new launch.Pagination('title', 'asc')
+			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler); $scope.content = contentService.query(self.loggedInUser.account.id, null, {
+				success: function (r) {
+					$scope.isLoading = false;
+					$scope.applySort('title');
+					$scope.search.applyFilter(true);
 				},
-				creationStats: {
-					contentCreatedLineChartTime: 7,
-					contentCreatedLineChartGroupBy: 'all',
-					contentCreatedPieChart: 'author',
-					contentLaunchedLineChartTime: 7,
-					contentLaunchedLineChartGroupBy: 'all',
-					productionDaysLineChartTime: 30,
-					productionDaysLineChartGroupBy: 'all'
-				},
-				contentTrends: {
-					companyContentScoreTime: 7,
-					companyContentScoreGroupBy: 'author',
-					individualContentScoreTrendTime: 7,
-					individualContentScoreTrendGroupBy: 'author',
-					individualContentScoreAverageGroupBy: 'author'
-				},
-				contentDetails: {},
-				marketingAutomation: {
-					paginationLandingPages: new launch.Pagination('title', 'asc'),
-					paginationBlogs: new launch.Pagination('title', 'asc'),
-					paginationEmails: new launch.Pagination('title', 'asc'),
-					applySortLandingPages: function (sort, direction) { },
-					applySortBlogs: function (sort, direction) { },
-					applySortEmails: function (sort, direction) { }
-				}
-			};
+				error: self.ajaxHandler.error
+			});
 
-			$scope.pageSettings.selectedTab = 'marketing-automation'; // TODO: DELETE ME AFTER TESTING!!
-
-			$scope.selectTab($scope.pageSettings.selectedTab);
-
-			$scope.overview = measureService.getOverview(self.loggedInUser.account.id, self.ajaxHandler);
+			$scope.selectedTab = 'content-details';
 		};
 
 		self.contentSort = function (a, b) {
@@ -164,14 +137,12 @@
 			return 0;
 		};
 
-		$scope.overview = null;
 		$scope.contentTypes = null;
 		$scope.campaigns = null;
 		$scope.users = null;
 		$scope.content = null;
 		$scope.filteredContent = null;
 		$scope.pagedContent = null;
-		$scope.pageSettings = null;
 
 		$scope.isMeasure = true;
 		$scope.isLoading = false;
@@ -306,50 +277,6 @@
 			var style = (user.length === 1 && !launch.utils.isBlank(user[0].image)) ? ' style="background-image: ' + user[0].imageUrl() + '"' : '';
 
 			return '<span class="user-image user-image-small"' + style + '></span> <span>' + item.text + '</span>';
-		};
-
-		$scope.selectTab = function (tab) {
-			$scope.isLoading = true;
-			$scope.isOverview = false;
-
-			switch (tab) {
-				case 'creation-stats':
-					console.log('LOAD CREATION STATS...');
-					$scope.pageSettings.selectedTab = tab;
-					$scope.isLoading = false;
-					break;
-				case 'content-trends':
-					console.log('LOAD CONTENT TRENDS...');
-					$scope.pageSettings.selectedTab = tab;
-					$scope.isLoading = false;
-					break;
-					//case 'marketing-automation':
-					//	console.log('LOAD MARKETING AUTOMATION...');
-					//	$scope.pageSettings.selectedTab = tab;
-					//	$scope.isLoading = false;
-					//	break;
-				default:
-					console.log('LOAD OVERVIEW STATS...');
-					$scope.isOverview = true;
-					$scope.content = contentService.query(self.loggedInUser.account.id, null, {
-						success: function (r) {
-							if (tab === 'content-details') {
-								$scope.applySort('title');
-								$scope.search.applyFilter(true);
-							} else if (tab === 'marketing-automation') {
-							} else {
-								$scope.pagination.currentSortDirection = 'desc';
-								$scope.applySort('contentscore');
-								$scope.search.applyFilter(false);
-							}
-
-							$scope.pageSettings.selectedTab = tab;
-							$scope.isLoading = false;
-						},
-						error: self.ajaxHandler.error
-					});
-					break;
-			}
 		};
 
 		$scope.saveFilter = function () {
