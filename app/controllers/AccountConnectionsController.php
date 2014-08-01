@@ -29,16 +29,16 @@ class AccountConnectionsController extends BaseController {
           // This is just a fix to get identifiers
           // for existing connections
           if ( ! $connection->identifier && $api->isValid()) {
-            try {
+            //try {
               $connection->identifier = $api->getIdentifier();
               DB::table('account_connections')
                 ->where('id', $connection->id)
                 ->update([
                   'identifier' => $connection->identifier
                 ]);
-              } catch (\Exception $e) {
+              //} catch (\Exception $e) {
               
-              }
+              //}
           }
           if ( ! $connection->url && $api->isValid()) {
             try {

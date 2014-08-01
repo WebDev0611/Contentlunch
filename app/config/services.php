@@ -23,6 +23,12 @@ return [
     'secret' => 'HjGxrBZkPLFk652EeIamVaAoBe8a',
     'scope' => []
   ],
+  // Use same api creds as google
+  'blogger' => [
+    'key' => '105997751893-s34v4dmp7rauav72146qigpg94jnu83a.apps.googleusercontent.com',
+    'secret' => 'qSM5V2SgkYx2iUMJy0oBDo_w',
+    'scope' => ['profile', 'https://www.googleapis.com/auth/blogger'],
+  ],
   'dropbox' => [
     'key' => '379fuhe952gx0ho',
     'secret' => '56b7243xrr4ww6u',

@@ -31,6 +31,11 @@ class ServiceFactory {
         //$this->provider = 'soundCloud';
         //$this->config = Config::get('services.soundcloud');
       //break;
+      case 'blogger':
+        // blogger = google
+        $this->provider = 'google';
+        $this->config = Config::get('services.blogger');
+      break;
       case 'youtube':
         // Youtube = google
         $this->provider = 'google';
