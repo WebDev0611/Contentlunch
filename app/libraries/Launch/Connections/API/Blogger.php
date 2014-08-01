@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use Google_Client;
 use Google_Service_Oauth2;
 use Google_Service_Blogger;
+use Google_Service_Blogger_Post;
 
 class BloggerAPI extends AbstractConnection {
 
@@ -99,12 +100,38 @@ class BloggerAPI extends AbstractConnection {
   }
 
   /**
-   * @see http://www.tumblr.com/docs/en/api/v2#posting
+   * @see https://developers.google.com/blogger/docs/3.0/reference/posts#resource
    */
   public function postContent($content)
   {
     $response = ['success' => true, 'response' => []];
-   
+    try {
+      $client = $this->getClient();
+
+      $info = $this->getMe();
+      $api = new Google_Service_Blogger($client);
+      if (empty($info['blogs']->items[0]['id'])) {
+        throw new \Exception("No blog found, setup blog on blogger");
+      }
+      $post = new Google_Service_Blogger_Post;
+      $body = $content->body;
+      // Quick and dirty way of inserting featured image into the post...
+      // doesn't give the user much options tho
+      $upload = $content->upload()->first();
+      if ($upload && $upload->media_type == 'image') {
+        $body = '<img src="'. $upload->getUrl() .'" style="float: left; margin: 0 10px 10px 0" />' . $body;
+      }
+      $post->setContent($body);
+      $post->setTitle($content->title);
+      
+      $apiResponse = $api->posts->insert($info['blogs']->items[0]['id'], $post);
+      $response['success'] = true;
+      $response['response'] = $apiResponse;
+    } catch (\Exception $e) {
+      $response['success'] = false;
+      $response['response'] = $apiResponse;
+      $response['error'] = $e->getMessage();
+    }
     return $response;
   }
 
