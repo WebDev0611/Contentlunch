@@ -44,6 +44,12 @@ launch.module.controller('HomeController',
             }).catch($rootScope.globalErrorHandler);
         };
 
+        $scope.showUnreadCount = true;
+        $scope.markMyActivityAsRead = function () {
+            $scope.myActivity.post();
+            $scope.showUnreadCount = false;
+        };
+
         // Tasks
         // -------------------------
         // $scope.toggleTaskComplete = function (task) {
