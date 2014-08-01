@@ -1,53 +1,28 @@
 angular.module('launch')
-    .controller('WijmoBarController', ['$scope', function($scope) {
-        $scope.list = [
-            { Maker: "Ford", Sales: .05 },
-            { Maker: "GM", Sales: .04 },
-            { Maker: "Chrysler", Sales: .21 },
-            { Maker: "Toyota", Sales: .27 },
-            { Maker: "Nissan", Sales: .1 },
-            { Maker: "Honda", Sales: .24 }
-        ];
-    }])
-    .directive('wijmoBarChart', [function() {
-        return {
-            restrict: 'AE',
-            link: function(scope, element, attrs) {
-                scope.$watch('isLoaded', function(newVal, oldVal) {
-                    if(newVal == true) {
-                        $jquery1_11_1(element[0]).find('.wijmo-wijbarchart').wijbarchart('redraw')
-                    }
-                })
-            },
-            templateUrl: '/assets/views/directives/wijmo-bar-chart.html'
-        };
-    }])
-
-
-
-    .controller('WijmoLineController', ['$scope', 'MeasureService', function($scope, MeasureService) {
+    .controller('WijmoController', ['$scope', 'MeasureService', function($scope, MeasureService) {
         var i, numDays;
 
-        $scope.contentTrends_companyContentScore = {
+        //start of line charts
+        $scope.companyContentScoreLine = {
             data: [],
             series: ['Company']
         };
-        numDays = $scope.pageSettings.contentTrends.companyContentScoreTime;
+        numDays = $scope.companyContentScoreTime;
         for(i = numDays; i > 0; i--) {
-            $scope.contentTrends_companyContentScore.data.push({
+            $scope.companyContentScoreLine.data.push({
                 DaysAgo: i,
                 Company: parseFloat(MeasureService.getOverview().companyScore)
             })
         }
 
 
-        $scope.contentTrends_individualContentScore = {
+        $scope.individualContentScoreLine = {
             data: [],
             series: ['James', 'Arthur', 'Gwen']
         };
-        numDays = $scope.pageSettings.contentTrends.individualContentScoreTrendTime;
+        numDays = $scope.individualContentScoreTrendTime;
         for(i = numDays; i > 0; i--) {
-            $scope.contentTrends_individualContentScore.data.push({
+            $scope.individualContentScoreLine.data.push({
                 DaysAgo: i,
                 James: parseFloat(MeasureService.getOverview().companyScore),
                 Arthur: parseFloat(MeasureService.getOverview().companyScore),
@@ -56,13 +31,13 @@ angular.module('launch')
         }
 
 
-        $scope.creationStats_contentCreatedLineChart = {
+        $scope.contentCreatedLine = {
             data: [],
             series: ['James', 'Arthur', 'Gwen']
         };
-        numDays = $scope.pageSettings.creationStats.contentCreatedLineChartTime;
+        numDays = $scope.contentCreatedLineChartTime;
         for(i = numDays; i > 0; i--) {
-            $scope.creationStats_contentCreatedLineChart.data.push({
+            $scope.contentCreatedLine.data.push({
                 DaysAgo: i,
                 James: parseFloat(MeasureService.getOverview().totalContent),
                 Arthur: parseFloat(MeasureService.getOverview().totalContent),
@@ -71,13 +46,13 @@ angular.module('launch')
         }
 
 
-        $scope.creationStats_contentLaunchedLineChart = {
+        $scope.contentLaunched = {
             data: [],
             series: ['James', 'Arthur', 'Gwen', 'Leslie']
         };
-        numDays = $scope.pageSettings.creationStats.contentLaunchedLineChartTime;
+        numDays = $scope.contentLaunchedLineChartTime;
         for(i = numDays; i > 0; i--) {
-            $scope.creationStats_contentLaunchedLineChart.data.push({
+            $scope.contentLaunched.data.push({
                 DaysAgo: i,
                 James: parseFloat(MeasureService.getOverview().totalContent) / 100,
                 Arthur: parseFloat(MeasureService.getOverview().totalContent) / 100,
@@ -87,19 +62,55 @@ angular.module('launch')
         }
 
 
-        $scope.creationStats_productionDaysLineChart = {
+        $scope.productionDays = {
             data: [],
             series: ['James', 'Arthur', 'Gwen']
         };
-        numDays = $scope.pageSettings.creationStats.productionDaysLineChartTime;
+        numDays = $scope.productionDaysLineChartTime;
         for(i = numDays; i > 0; i--) {
-            $scope.creationStats_productionDaysLineChart.data.push({
+            $scope.productionDays.data.push({
                 DaysAgo: i,
                 James: parseFloat(MeasureService.getOverview().productionDays),
                 Arthur: parseFloat(MeasureService.getOverview().productionDays),
                 Gwen: parseFloat(MeasureService.getOverview().productionDays)
             })
         }
+        //end of line charts
+
+        //start of pie charts
+        $scope.contentCreatedPie = {
+            data: {
+                James: parseFloat(MeasureService.getOverview().totalContent),
+                Arthur: parseFloat(MeasureService.getOverview().totalContent),
+                Gwen: parseFloat(MeasureService.getOverview().totalContent),
+                Leslie: parseFloat(MeasureService.getOverview().totalContent)
+            },
+            series: ['James', 'Arthur', 'Gwen', 'Leslie']
+        }
+
+
+        $scope.companyContentScorePie = {
+            data: {
+                James: parseFloat(MeasureService.getOverview().companyScore),
+                Arthur: parseFloat(MeasureService.getOverview().companyScore),
+                Gwen: parseFloat(MeasureService.getOverview().companyScore),
+                Leslie: parseFloat(MeasureService.getOverview().companyScore)
+            },
+            series: ['James', 'Arthur', 'Gwen', 'Leslie']
+        }
+        //end of pie charts
+
+        //start of bar charts
+        $scope.individualContentScoreBar = {
+            data: {
+                James: parseFloat(MeasureService.getOverview().companyScore),
+                Arthur: parseFloat(MeasureService.getOverview().companyScore),
+                Gwen: parseFloat(MeasureService.getOverview().companyScore),
+                Leslie: parseFloat(MeasureService.getOverview().companyScore)
+            },
+            series: ['James', 'Arthur', 'Gwen', 'Leslie']
+        }
+        //end of bar charts
     }])
     .directive('wijmoLineChart', [function() {
         return {
@@ -141,4 +152,69 @@ angular.module('launch')
             },
             templateUrl: '/assets/views/directives/wijmo-line-chart.html'
         }
+    }])
+    .directive('wijmoPieChart', [function() {
+        return {
+            restrict: 'E',
+            link: function(scope, element, attrs) {
+                scope.$watch('isLoaded', function(newVal, oldVal) {
+                    if(newVal == true) {
+                        $jquery1_11_1(element[0]).find('.wijmo-wijpiechart').wijlinechart('redraw')
+                    }
+                });
+
+                scope.getSeriesList = function() {
+
+                    var scope = this;
+                    var series = $.map(this.info.series, function(value) {
+                        return {
+                            label: value,
+                            data: scope.info.data[value]
+                        };
+                    });
+
+                    console.log(series);
+                    return series;
+                }
+            },
+            scope: {
+                info: '='
+            },
+            templateUrl: '/assets/views/directives/wijmo-pie-chart.html'
+        }
+    }])
+    .directive('wijmoBarChart', [function() {
+        return {
+            restrict: 'AE',
+            link: function(scope, element, attrs) {
+                scope.$watch('isLoaded', function(newVal, oldVal) {
+                    if(newVal == true) {
+                        $jquery1_11_1(element[0]).find('.wijmo-wijbarchart').wijbarchart('redraw')
+                    }
+
+                    scope.getSeriesList = function() {
+
+                        var scope = this;
+                        var x = this.info.series;
+                        var y = $.map(this.info.series, function(value) {
+                            return scope.info.data[value];
+                        });
+
+                        var series = [{
+                            data: {
+                                x: x,
+                                y: y
+                            }
+                        }];
+
+                        console.log(series);
+                        return series;
+                    }
+                })
+            },
+            scope: {
+                info: '='
+            },
+            templateUrl: '/assets/views/directives/wijmo-bar-chart.html'
+        };
     }])
