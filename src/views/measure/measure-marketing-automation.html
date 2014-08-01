@@ -1,1 +1,256 @@
-﻿MARKETING AUTOMATION
+﻿<div class="view measure" ng-show="!isLoading">
+	<div class="col-md-3 left-pane"></div>
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header">Measure</h2>
+
+		<div class="measure-editor row">
+			<div class="measure-header" ng-include="'/assets/views/measure/measure-navigation.html'"></div>
+
+			<div class="measure-marketing-automation">
+				<div class="cl-banner cl-banner-large cl-banner-hubspot"></div>
+
+				<div class="measure-marketing-automation-hubspot-landing-pages">
+					<div class="measure-marketing-automation-table">
+						<div class="measure-table-header">
+							<span class="measure-sub-header">Landing Pages</span>
+
+							<div class="measure-table-paging-controls" ng-show="paginationLandingPages.totalItems > 5">
+								<div class="form-group form-inline">
+									<label class="control-label" for="selPageSize">Items per page:</label>
+									<select class="form-control" id="selPageSize" name="selPageSize" ng-model="paginationLandingPages.pageSize" ng-change="paginationLandingPages.groupToPages()">
+										<option value="5">5</option>
+										<option value="10">10</option>
+										<option value="20">20</option>
+										<option value="50">50</option>
+										<option value="100">100</option>
+									</select>
+								</div>
+
+								<div style="width: 100px; text-align: center;">
+									{{ paginationLandingPages.getPageIndicator() }}
+								</div>
+
+								<div class="measure-table-pager" ng-show="paginationLandingPages.totalItems > paginationLandingPages.pageSize">
+									<pagination
+										total-items="paginationLandingPages.totalItems"
+										items-per-page="paginationLandingPages.pageSize"
+										page="paginationLandingPages.currentPage"
+										on-select-page="paginationLandingPages.onPageChange(page)"
+										direction-links="true"
+										max-size="0">
+									</pagination>
+								</div>
+							</div>
+						</div>
+
+						<div class="measure-table-container">
+							<table class="measure-table">
+								<thead>
+									<tr>
+										<th class="small-cell">&nbsp;</th>
+										<th>
+											<span class="fa" ng-show="paginationLandingPages.currentSort === 'title'" ng-class="'fa-sort-alpha-' + paginationLandingPages.currentSortDirection"></span>
+											<span class="clickable-header" ng-click="applySort('title', 'landingpages')">Title</span>
+										</th>
+										<th>
+											<span class="fa" ng-show="paginationLandingPages.currentSort === 'author'" ng-class="'fa-sort-alpha-' + paginationLandingPages.currentSortDirection"></span>
+											<span class="clickable-header" ng-click="applySort('author', 'landingpages')">Author</span>
+										</th>
+										<th>
+											<span class="fa" ng-show="paginationLandingPages.currentSort === 'views'" ng-class="'fa-sort-alpha-' + paginationLandingPages.currentSortDirection"></span>
+											<span class="clickable-header" ng-click="applySort('views', 'landingpages')">Views</span>
+										</th>
+										<th>
+											<span class="fa" ng-show="paginationLandingPages.currentSort === 'conversionrate'" ng-class="'fa-sort-alpha-' + paginationLandingPages.currentSortDirection"></span>
+											<span class="clickable-header" ng-click="applySort('conversionrate', 'landingpages')">Conversion Rate</span>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="c in landingPagesPaged[paginationLandingPages.currentPage - 1]" ng-class-odd="'dark'">
+										<td class="small-cell">
+											<div class="campaign-dot campaign-dot-small" style="background-color: {{ c.campaign.color }}"></div>
+										</td>
+										<td>
+											<span class="cl-icon" ng-class="formatContentTypeIcon(c.contentType.name)"></span>
+											{{ c.title }}
+										</td>
+										<td>
+											<span class="user-image user-image-small" ng-style="{ 'background-image': c.author.image }"></span>
+											{{ c.author.formatName() }}
+										</td>
+										<td>VIEWS
+										</td>
+										<td>CONVERSION RATE
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class="measure-marketing-automation-table">
+						<div class="measure-table-header">
+							<span class="measure-sub-header">Blogs</span>
+							<div class="measure-table-paging-controls" ng-show="paginationBlogs.totalItems > 5">
+								<div class="form-group form-inline">
+									<label class="control-label" for="selPageSize">Items per page:</label>
+									<select class="form-control" id="Select1" name="selPageSize" ng-model="paginationBlogs.pageSize" ng-change="paginationBlogs.groupToPages()">
+										<option value="5">5</option>
+										<option value="10">10</option>
+										<option value="20">20</option>
+										<option value="50">50</option>
+										<option value="100">100</option>
+									</select>
+								</div>
+
+								<div style="width: 100px; text-align: center;">
+									{{ paginationBlogs.getPageIndicator() }}
+								</div>
+
+								<div class="measure-table-pager" ng-show="paginationBlogs.totalItems > paginationBlogs.pageSize">
+									<pagination
+										total-items="paginationBlogs.totalItems"
+										items-per-page="paginationBlogs.pageSize"
+										page="paginationBlogs.currentPage"
+										on-select-page="paginationBlogs.onPageChange(page)"
+										direction-links="true"
+										max-size="0">
+									</pagination>
+								</div>
+							</div>
+						</div>
+
+						<div class="measure-table-container">
+							<table class="measure-table">
+								<thead>
+									<tr>
+										<th class="small-cell">&nbsp;</th>
+										<th>
+											<span class="fa" ng-show="paginationBlogs.currentSort === 'title'" ng-class="'fa-sort-alpha-' + paginationBlogs.currentSortDirection"></span>
+											<span class="clickable-header" ng-click="applySort('title', 'blogs')">Title</span>
+										</th>
+										<th>
+											<span class="fa" ng-show="paginationBlogs.currentSort === 'author'" ng-class="'fa-sort-alpha-' + paginationBlogs.currentSortDirection"></span>
+											<span class="clickable-header" ng-click="applySort('author', 'blogs')">Author</span>
+										</th>
+										<th>
+											<span class="fa" ng-show="paginationBlogs.currentSort === 'views'" ng-class="'fa-sort-alpha-' + paginationBlogs.currentSortDirection"></span>
+											<span class="clickable-header" ng-click="applySort('views', 'blogs')">Views</span>
+										</th>
+										<th>
+											<span class="fa" ng-show="paginationBlogs.currentSort === 'conversionrate'" ng-class="'fa-sort-alpha-' + paginationBlogs.currentSortDirection"></span>
+											<span class="clickable-header" ng-click="applySort('conversionrate', 'blogs')">Conversion Rate</span>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="c in blogsPaged[paginationBlogs.currentPage - 1]" ng-class-odd="'dark'">
+										<td class="small-cell">
+											<div class="campaign-dot campaign-dot-small" style="background-color: {{ c.campaign.color }}"></div>
+										</td>
+										<td>
+											<span class="cl-icon" ng-class="formatContentTypeIcon(c.contentType.name)"></span>
+											{{ c.title }}
+										</td>
+										<td>
+											<span class="user-image user-image-small" ng-style="{ 'background-image': c.author.image }"></span>
+											{{ c.author.formatName() }}
+										</td>
+										<td>VIEWS
+										</td>
+										<td>CONVERSION RATE
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class="measure-marketing-automation-table">
+						<div class="measure-table-header">
+							<span class="measure-sub-header">Landing Pages</span>
+
+							<div class="measure-table-paging-controls" ng-show="paginationEmails.totalItems > 5">
+								<div class="form-group form-inline">
+									<label class="control-label" for="selPageSize">Items per page:</label>
+									<select class="form-control" id="Select2" name="selPageSize" ng-model="paginationEmails.pageSize" ng-change="paginationEmails.groupToPages()">
+										<option value="5">5</option>
+										<option value="10">10</option>
+										<option value="20">20</option>
+										<option value="50">50</option>
+										<option value="100">100</option>
+									</select>
+								</div>
+
+								<div style="width: 100px; text-align: center;">
+									{{ paginationEmails.getPageIndicator() }}
+								</div>
+
+								<div class="measure-table-pager" ng-show="paginationEmails.totalItems > paginationEmails.pageSize">
+									<pagination
+										total-items="paginationEmails.totalItems"
+										items-per-page="paginationEmails.pageSize"
+										page="paginationEmails.currentPage"
+										on-select-page="paginationEmails.onPageChange(page)"
+										direction-links="true"
+										max-size="0">
+									</pagination>
+								</div>
+							</div>
+						</div>
+
+						<div class="measure-table-container">
+							<table class="measure-table">
+								<thead>
+									<tr>
+										<th class="small-cell">&nbsp;</th>
+										<th>
+											<span class="fa" ng-show="paginationEmails.currentSort === 'title'" ng-class="'fa-sort-alpha-' + paginationEmails.currentSortDirection"></span>
+											<span class="clickable-header" ng-click="applySort('title', 'emails')">Title</span>
+										</th>
+										<th>
+											<span class="fa" ng-show="paginationEmails.currentSort === 'author'" ng-class="'fa-sort-alpha-' + paginationEmails.currentSortDirection"></span>
+											<span class="clickable-header" ng-click="applySort('author', 'emails')">Author</span>
+										</th>
+										<th>
+											<span class="fa" ng-show="paginationEmails.currentSort === 'views'" ng-class="'fa-sort-alpha-' + paginationEmails.currentSortDirection"></span>
+											<span class="clickable-header" ng-click="applySort('views', 'emails')">Views</span>
+										</th>
+										<th>
+											<span class="fa" ng-show="paginationEmails.currentSort === 'conversionrate'" ng-class="'fa-sort-alpha-' + paginationEmails.currentSortDirection"></span>
+											<span class="clickable-header" ng-click="applySort('conversionrate', 'emails')">Conversion Rate</span>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="c in emailsPaged[paginationEmails.currentPage - 1]" ng-class-odd="'dark'">
+										<td class="small-cell">
+											<div class="campaign-dot campaign-dot-small" style="background-color: {{ c.campaign.color }}"></div>
+										</td>
+										<td>
+											<span class="cl-icon" ng-class="formatContentTypeIcon(c.contentType.name)"></span>
+											{{ c.title }}
+										</td>
+										<td>
+											<span class="user-image user-image-small" ng-style="{ 'background-image': c.author.image }"></span>
+											{{ c.author.formatName() }}
+										</td>
+										<td>VIEWS
+										</td>
+										<td>CONVERSION RATE
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="loading-spinner-container" ng-show="isLoading">
+	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
+</div>

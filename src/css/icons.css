@@ -258,6 +258,7 @@
   vertical-align: text-bottom;
 }
 .cl-banner-large {
+  height: 60px;
   width: 160px;
 }
 .cl-banner-content-launch {

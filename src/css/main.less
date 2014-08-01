@@ -1998,6 +1998,93 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 
 			.measure-marketing-automation {
+				.measure-marketing-automation-hubspot-landing-pages {
+					.measure-marketing-automation-table {
+						border-top: solid 1px #cccccc;
+						margin: 24px 0;
+						padding: 4px 0;
+					}
+				}
+			}
+
+			.measure-table-header {
+				.measure-table-paging-controls {
+					float: right;
+
+					>* {
+						display: inline-block;
+						margin: 0 16px;
+						vertical-align: middle;
+					}
+
+					.measure-table-pager {
+						.pagination {
+							margin: 0;
+
+							.btn {
+								font-size: 15pt;
+								margin: 0 4px;
+							}
+						}
+					}
+				}
+			}
+
+			.measure-table-container {
+				table.measure-table {
+					width: 100%;
+
+					tr {
+						border-bottom: solid 1px #000000;
+
+						td, th {
+							padding: 8px;
+							position: relative;
+							text-align: left;
+
+							&.small-cell {
+								width: 50px;
+							}
+
+							> span, > a {
+								display: inline-block;
+								vertical-align: middle;
+							}
+
+							.user-image {
+								border-color: @createColor;
+								height: 32px;
+								width: 32px;
+							}
+
+							.cl-icon {
+								color: #000000;
+								font-size: 20pt;
+								height: 32px;
+								width: 32px;
+							}
+
+							.cl-icon-workflow {
+								margin: 4px 8px;
+							}
+						}
+
+						th {
+							.clickable-header {
+								cursor: pointer;
+								font-family: Lato;
+								font-weight: bold;
+								text-decoration: underline;
+							}
+						}
+
+						&.dark {
+							td {
+								background-color: #E6E4E0;
+							}
+						}
+					}
+				}
 			}
 		}
 	}

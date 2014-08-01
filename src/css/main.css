@@ -374,6 +374,7 @@
   vertical-align: text-bottom;
 }
 .cl-banner-large {
+  height: 60px;
   width: 160px;
 }
 .cl-banner-content-launch {
@@ -2439,6 +2440,75 @@ span[class*=" icon-"].dark {
 }
 .measure .right-pane .measure-editor .measure-content-details .create-table-container {
   margin: 0;
+}
+.measure .right-pane .measure-editor .measure-marketing-automation .measure-marketing-automation-hubspot-landing-pages .measure-marketing-automation-table {
+  border-top: solid 1px #cccccc;
+  margin: 24px 0;
+  padding: 4px 0;
+}
+.measure .right-pane .measure-editor .measure-table-header .measure-table-paging-controls {
+  float: right;
+}
+.measure .right-pane .measure-editor .measure-table-header .measure-table-paging-controls > * {
+  display: inline-block;
+  margin: 0 16px;
+  vertical-align: middle;
+}
+.measure .right-pane .measure-editor .measure-table-header .measure-table-paging-controls .measure-table-pager .pagination {
+  margin: 0;
+}
+.measure .right-pane .measure-editor .measure-table-header .measure-table-paging-controls .measure-table-pager .pagination .btn {
+  font-size: 15pt;
+  margin: 0 4px;
+}
+.measure .right-pane .measure-editor .measure-table-container table.measure-table {
+  width: 100%;
+}
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr {
+  border-bottom: solid 1px #000000;
+}
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr td,
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr th {
+  padding: 8px;
+  position: relative;
+  text-align: left;
+}
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr td.small-cell,
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr th.small-cell {
+  width: 50px;
+}
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr td > span,
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr th > span,
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr td > a,
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr th > a {
+  display: inline-block;
+  vertical-align: middle;
+}
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr td .user-image,
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr th .user-image {
+  border-color: #ffb503;
+  height: 32px;
+  width: 32px;
+}
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr td .cl-icon,
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr th .cl-icon {
+  color: #000000;
+  font-size: 20pt;
+  height: 32px;
+  width: 32px;
+}
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr td .cl-icon-workflow,
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr th .cl-icon-workflow {
+  margin: 4px 8px;
+}
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr th .clickable-header {
+  cursor: pointer;
+  font-family: Lato;
+  font-weight: bold;
+  text-decoration: underline;
+}
+.measure .right-pane .measure-editor .measure-table-container table.measure-table tr.dark td {
+  background-color: #E6E4E0;
 }
 .create-header .btn-group .btn.active,
 .measure-header .btn-group .btn.active {
