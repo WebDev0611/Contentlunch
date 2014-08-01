@@ -1,17 +1,7 @@
-<wij-linechart data-source="info" show-chart-labels="false">
+<wij-linechart serieslist="getSeriesList()" show-chart-labels="false">
     <axis>
         <y origin="0">Count</y>
         <x>Days Ago</x>
     </axis>
-    <data>
-        <x bind="DaysAgo"></x>
-    </data>
     <header text="Score"></header>
-    <series-list>
-        <series label="Count1">
-            <data>
-                <y bind="Count1"></y>
-            </data>
-        </series>
-    </series-list>
 </wij-linechart>
