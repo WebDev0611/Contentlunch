@@ -36,6 +36,14 @@ class ServiceFactory {
         $this->provider = 'google';
         $this->config = Config::get('services.blogger');
       break;
+      case 'google-drive':
+        $this->provider = 'google';
+        $this->config = Config::get('services.google_drive');
+      break;
+      case 'google-plus':
+        $this->provider = 'google';
+        $this->config = Config::get('services.google_plus');
+      break;
       case 'youtube':
         // Youtube = google
         $this->provider = 'google';
@@ -88,6 +96,9 @@ class ServiceFactory {
         ]);
       break;
       case 'google': // youtube, g+, google docs
+      case 'google-drive':
+      case 'google-plus':
+      case 'youtube':
         // Request offline access token
         // @see https://developers.google.com/accounts/docs/OAuth2WebServer#offline
         return (string) $this->service->getAuthorizationUri([

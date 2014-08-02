@@ -290,6 +290,12 @@ class ContentController extends BaseController {
       case 'facebook':
         $class = 'FacebookAPI';
       break;
+      case 'google-drive':
+        $class = 'GoogleDriveAPI';
+      break;
+      case 'google-plus':
+        $class = 'GooglePlusAPI';
+      break;
       case 'hubspot':
         $class = 'HubspotAPI';
       break;

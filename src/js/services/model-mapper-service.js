@@ -1094,7 +1094,9 @@
 			connection.url = dto.url;
 
 			if (launch.utils.isBlank(dto.connection_provider) || launch.utils.isBlank(dto.name) ||
-				dto.connection_provider.toLowerCase() === dto.name.toLowerCase()) {
+				dto.connection_provider.toLowerCase() === dto.name.toLowerCase() || 
+				(dto.connection_provider === 'google-drive' && dto.name.toLowerCase() === 'google drive') || 
+				(dto.connection_provider === 'google-plus' && dto.name.toLowerCase() === 'google+') ) {
 				connection.name = launch.utils.isBlank(dto.identifier) ? dto.name : dto.identifier;
 			} else {
 				connection.name = dto.name;

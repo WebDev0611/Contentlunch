@@ -14,6 +14,12 @@ class AccountConnectionsController extends BaseController {
     if ($connections) {
       foreach ($connections as $connection) {
         switch ($connection->connection_provider) {
+          case 'google-drive':
+            $className = 'GoogleDriveAPI';
+          break;
+          case 'google-plus':
+            $className = 'GooglePlusAPI';
+          break;
           case 'linkedin':
             $className = 'LinkedInAPI';
           break;
@@ -29,16 +35,16 @@ class AccountConnectionsController extends BaseController {
           // This is just a fix to get identifiers
           // for existing connections
           if ( ! $connection->identifier && $api->isValid()) {
-            //try {
+            try {
               $connection->identifier = $api->getIdentifier();
               DB::table('account_connections')
                 ->where('id', $connection->id)
                 ->update([
                   'identifier' => $connection->identifier
                 ]);
-              //} catch (\Exception $e) {
+              } catch (\Exception $e) {
               
-              //}
+              }
           }
           if ( ! $connection->url && $api->isValid()) {
             try {

@@ -71,7 +71,9 @@ class YoutubeAPI extends AbstractConnection {
   public function getIdentifier()
   {
     $info = $this->getProfileInfo();
-    return $info->name;
+    if ($info) {
+      return ucwords($info->user->displayName);
+    }
   }
 
   public function getUrl()
