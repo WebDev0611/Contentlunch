@@ -137,12 +137,12 @@
 				<span ng-show="!content.archived">LAUNCH CONTENT</span>
 				<span class="caret"></span>
 			</button>
-			<ul class="dropdown-menu" role="menu" ng-if="!!contentConnections.length">
+			<ul class="dropdown-menu connections-dropdown" role="menu" ng-if="!!contentConnections.length">
 				<li ng-repeat="connection in contentConnections" ng-click="launchContent(connection, true)" ng-show="connectionIsSupported(connection)">
 					<input type="checkbox" class="form-control" ng-click="toggleSelectedConnections(connection, $event)" />
 					<a href="#">
 						<div>
-							<span class="{{ 'cl-icon ' + getConnectionProviderIconClass(connection.name) }}"></span>
+							<span class="{{ 'cl-icon ' + getConnectionProviderIconClass(connection.provider) }}"></span>
 							{{ connection.name }}
 						</div>
 					</a>
