@@ -106,9 +106,12 @@
 
         <div class="dashboard-section">
             <div class="notifications pull-right">
-                <!-- <span ng-show="activity.length">You have new notifications &nbsp; </span> -->
+                <span ng-show="myActivity.length && showUnreadCount">You have new notifications &nbsp; </span>
                 <div class="btn-group">
-                    <button class="btn dropdown-toggle" data-toggle="dropdown" ng-class="{ 'btn-default': !filters.activity.justMine, 'btn-inverse': filters.activity.justMine }" ng-click="filters.activity.justMine = true">My Activity</button>
+                    <button ng-click="markMyActivityAsRead()" class="btn dropdown-toggle" data-toggle="dropdown" ng-class="{ 'btn-default': !filters.activity.justMine, 'btn-inverse': filters.activity.justMine }" ng-click="filters.activity.justMine = true">
+                        My Activity
+                        <span class="badge" ng-show="myActivity.length && showUnreadCount">{{ myActivity.length }}</span>
+                    </button>
                     <ul class="dropdown-menu" role="menu">
                     <li ng-repeat="act in myActivity track by act.id"><a href="/create/content/edit/{{ act.contentId }}">You were {{ act.activity }}<br>{{ act.content.title }} on {{ act.createdAt | moment: 'MM/DD/YY' }}</a></li>
                         <li ng-hide="myActivity.length"><a>No activity</a></li>
@@ -117,7 +120,12 @@
                 <div class="btn-group">
                     <button class="btn dropdown-toggle" data-toggle="dropdown" ng-class="{ 'btn-default': filters.activity.justMine, 'btn-inverse': !filters.activity.justMine }" ng-click="filters.activity.justMine = false">All Activity</button>
                     <ul class="dropdown-menu" role="menu">
-                        <li ng-repeat="act in allActivity track by act.id"><a href="/create/content/edit/{{ act.contentId }}">{{ act.user.firstName }} {{ act.user.lastName }} was {{ act.activity }}<br>{{ act.content.title }} on {{ act.createdAt | moment: 'MM/DD/YY' }}</a></li>
+                        <li ng-repeat="act in allActivity track by act.id">
+                            <a href="/create/content/edit/{{ act.contentId }}">
+                                <span class="user-image user-image-small" style="background-image: url('{{ act.user.image | imagePathFromObject }}')"></span>
+                                {{ act.user.firstName }} {{ act.user.lastName }} was {{ act.activity }}<br>{{ act.content.title }} on {{ act.createdAt | moment: 'MM/DD/YY' }}
+                            </a>
+                        </li>
                         <li ng-hide="allActivity.length"><a>No activity</a></li>
                     </ul>
                 </div>

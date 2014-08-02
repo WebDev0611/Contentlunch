@@ -2,7 +2,7 @@
 	'use strict';
 
 	var launch = window.launch || (window.launch = { });
-	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2', 'restangular', 'checklist-model']);
+	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2', 'restangular', 'checklist-model', 'wijmo']);
 
 	launch.module.value('contentStatuses', ['concept', 'create', 'review', 'launch', 'promote']);
 	launch.module.value('ecommercePlatforms', [
@@ -186,8 +186,24 @@
 						templateUrl: '/assets/views/promote/promote-campaign.html'
 					})
 					.when('/measure', {
-						controller: 'MeasureController',
-						templateUrl: '/assets/views/measure/measure.html'
+						controller: 'MeasureOverviewController',
+						templateUrl: '/assets/views/measure/measure-overview.html'
+					})
+					.when('/measure/creation-stats', {
+						controller: 'MeasureCreationStatsController',
+						templateUrl: '/assets/views/measure/measure-creation-stats.html'
+					})
+					.when('/measure/content-trends', {
+						controller: 'MeasureContentTrendsController',
+						templateUrl: '/assets/views/measure/measure-content-trends.html'
+					})
+					.when('/measure/content-details', {
+						controller: 'MeasureContentDetailsController',
+						templateUrl: '/assets/views/measure/measure-content-details.html'
+					})
+					.when('/measure/marketing-automation', {
+						controller: 'MeasureMarketingAutomationController',
+						templateUrl: '/assets/views/measure/measure-marketing-automation.html'
 					})
 					.when('/measure/content/:contentId', {
 						controller: 'MeasureContentItemController',
