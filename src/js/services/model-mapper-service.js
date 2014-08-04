@@ -1402,6 +1402,7 @@
 			contentType.name = cachedContentType.name;
 			contentType.title = cachedContentType.title;
 			contentType.baseType = cachedContentType.baseType;
+			contentType.isVisible = cachedContentType.isVisible;
 
 			return contentType;
 		},
