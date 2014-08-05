@@ -935,6 +935,10 @@ span[class^="icon-"], span[class*=" icon-"] {
 			&.form-group-wide {
 				min-width: 30em;
 			}
+
+			&.form-group-narrow {
+				min-width: 15em;
+			}
 		}
 
 		&.btn-toolbar {
@@ -1900,6 +1904,22 @@ span[class^="icon-"], span[class*=" icon-"] {
 		.filter-panel, .tasks-header {
 			background-color: @measureColorDark;
 		}
+
+		.measure-score-container{
+			background-color: #e4e4e4;
+			border-radius: 8px;
+			font-weight: bold;
+			margin: auto;
+			margin-top: 60px;
+			padding: 16px;
+			text-align: center;
+			width: 75%;
+
+			.measure-score-container-score{
+				color: @measureColorDark;
+				font-size: 36pt;
+			}
+		}
 	}
 
 	.right-pane {
@@ -1994,6 +2014,15 @@ span[class^="icon-"], span[class*=" icon-"] {
 			.measure-content-details {
 				.create-table-container {
 					margin: 0;
+				}
+			}
+
+			.measure-content-item {
+				.form-control {
+					span {
+						display: inline-block;
+						vertical-align: middle;
+					}
 				}
 			}
 
@@ -2145,6 +2174,12 @@ span[class^="icon-"], span[class*=" icon-"] {
 	border-bottom: solid 1px #000000;
 	margin-bottom: 16px;
 	padding-bottom: 16px;
+}
+
+.measure-footer{
+	border-top: solid 1px #000000;
+	margin-top: 16px;
+	padding-top: 16px;
 }
 
 .create-table-container {

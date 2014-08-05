@@ -20,7 +20,8 @@
 
 			$scope.contentTypes = contentService.getContentTypes(self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, self.ajaxHandler);
-			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler); $scope.content = contentService.query(self.loggedInUser.account.id, null, {
+			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
+			$scope.content = contentService.query(self.loggedInUser.account.id, null, {
 				success: function (r) {
 					$scope.isLoading = false;
 					$scope.applySort('title');
