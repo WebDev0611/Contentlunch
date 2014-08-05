@@ -1293,6 +1293,20 @@ span[class*=" icon-"].dark {
 .measure .left-pane ul.items-list li .item-info .item-title {
   font-size: 12pt;
 }
+.users .left-pane ul.items-list li.disabled,
+.accounts .left-pane ul.items-list li.disabled,
+.roles .left-pane ul.items-list li.disabled,
+.content-settings .left-pane ul.items-list li.disabled,
+.seo-settings .left-pane ul.items-list li.disabled,
+.create .left-pane ul.items-list li.disabled,
+.calendar .left-pane ul.items-list li.disabled,
+.admin-library .left-pane ul.items-list li.disabled,
+.consult .left-pane ul.items-list li.disabled,
+.admin-conference .left-pane ul.items-list li.disabled,
+.promote .left-pane ul.items-list li.disabled,
+.measure .left-pane ul.items-list li.disabled {
+  opacity: 0.4;
+}
 .users .left-pane .pager ul.pagination,
 .accounts .left-pane .pager ul.pagination,
 .roles .left-pane .pager ul.pagination,
