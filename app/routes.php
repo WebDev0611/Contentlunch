@@ -1,5 +1,15 @@
 <?php
 
+// This redirects everything to https if enabled in config
+if (Config::get('app.force_secure')) {
+  App::before(function($request) {
+    if ( ! Request::secure())
+    {
+      return Redirect::secure(Request::path());
+    }
+  });
+}
+
 /**
  * API calls, prefixed with /api
  * Should return json responses
