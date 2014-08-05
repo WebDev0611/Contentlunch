@@ -6,12 +6,13 @@ use GuzzleHttp\Client;
 // Eh... google api lib not namespaced
 use Google_Client;
 use Google_Service_Oauth2;
-use Google_Service_Blogger;
-use Google_Service_Blogger_Post;
+use Google_Service_Drive;
+use Google_Service_Drive_DriveFile;
+use Google_Http_MediaFileUpload;
 
-class BloggerAPI extends AbstractConnection {
+class GoogleDriveAPI extends AbstractConnection {
 
-  protected $configKey = 'services.blogger';
+  protected $configKey = 'services.google_drive';
 
   protected $meData = null;
 
@@ -36,7 +37,7 @@ class BloggerAPI extends AbstractConnection {
       $this->client = new Google_Client;
       $this->client->setClientId($this->config['key']);
       $this->client->setClientSecret($this->config['secret']);
-      $this->client->setScopes('https://www.googleapis.com/auth/blogger');
+      $this->client->setScopes('https://www.googleapis.com/auth/drive');
 
       // Use refresh token
       try {
@@ -66,12 +67,8 @@ class BloggerAPI extends AbstractConnection {
       $client = $this->getClient();
       $api = new Google_Service_Oauth2($client);
       $userInfo = $api->userinfo->get();
-      $api = new Google_Service_Blogger($client);
-      $blogs = $api->blogs->listByUser('self');
-      $this->meData = [
-        'user' => $userInfo,
-        'blogs' => $blogs
-      ];
+      $api = new Google_Service_Drive($client);
+      $this->meData = $api->about->get();
     }
     return $this->meData;
   }
@@ -80,23 +77,14 @@ class BloggerAPI extends AbstractConnection {
   {
     $info = $this->getMe();
     if ($info) {
-      $me = ucwords($info['user']->name);
-      // Todo, user should be able to specify which blog to post to?
-      if ( ! empty($info['blogs']->items[0]['name'])) {
-        $me .= ' ('. $info['blogs']->items[0]['name'] .')';
-      }
-      return $me;
+      return ucwords($info->user->displayName);
     }
   }
 
   public function getUrl()
   {
-    $info = $this->getMe();
-    if ($info) {
-      if ( ! empty($info['blogs']->items[0]['url'])) {
-        return $info['blogs']->items[0]['url'];
-      }
-    }
+    // Not applicable
+    return $this->notApplicableText;
   }
 
   /**
@@ -108,28 +96,50 @@ class BloggerAPI extends AbstractConnection {
     try {
       $client = $this->getClient();
 
-      $info = $this->getMe();
-      $api = new Google_Service_Blogger($client);
-      if (empty($info['blogs']->items[0]['id'])) {
-        throw new \Exception("No blog found, setup blog on blogger");
+      $service = new Google_Service_Drive($client);
+
+      $filePath = $content->upload->getAbsPath();
+
+      $file = new Google_Service_Drive_DriveFile;
+      $file->setDescription($content->body);
+      $file->setTitle($content->title);
+
+      $chunkSizeBytes = 1 * 1024 * 1024;
+
+      // Call the API with the media upload, defer so it doesn't immediately return.
+      $client->setDefer(true);
+      $request = $service->files->insert($file);
+
+      // Create a media file upload to represent our upload process.
+      $media = new Google_Http_MediaFileUpload(
+          $client,
+          $request,
+          $content->upload->mimetype,
+          null,
+          true,
+          $chunkSizeBytes
+      );
+      $media->setFileSize(filesize($filePath));
+
+      // Upload the various chunks. $status will be false until the process is
+      // complete.
+      $status = false;
+      $handle = fopen($filePath, "rb");
+      while (!$status && !feof($handle)) {
+        $chunk = fread($handle, $chunkSizeBytes);
+        $status = $media->nextChunk($chunk);
       }
-      $post = new Google_Service_Blogger_Post;
-      $body = $content->body;
-      // Quick and dirty way of inserting featured image into the post...
-      // doesn't give the user much options tho
-      $upload = $content->upload()->first();
-      if ($upload && $upload->media_type == 'image') {
-        $body = '<img src="'. $upload->getUrl() .'" style="float: left; margin: 0 10px 10px 0" />' . $body;
-      }
-      $post->setContent($body);
-      $post->setTitle($content->title);
-      
-      $apiResponse = $api->posts->insert($info['blogs']->items[0]['id'], $post);
+
+      // The final value of $status will be the data from the API for the object
+      // that has been uploaded.
+
+      fclose($handle);
+    
       $response['success'] = true;
-      $response['response'] = $apiResponse;
+      $response['response'] = $status;
     } catch (\Exception $e) {
       $response['success'] = false;
-      $response['response'] = $apiResponse;
+      $response['response'] = $status;
       $response['error'] = $e->getMessage();
     }
     return $response;

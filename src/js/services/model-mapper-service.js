@@ -930,13 +930,15 @@
 
 			settings.publishingGuidelines = dto.publishing_guidelines;
 
-			settings.personaProperties = $.map(dto.persona_columns, function(p) { return launch.utils.titleCase(p); });
-			settings.personas = $.map(dto.personas, function(p) {
-				return {
-					name: p.name,
-					properties: p.columns
-				};
-			});
+			if ($.isArray(dto.persona_columns)) {
+				settings.personaProperties = $.map(dto.persona_columns, function (p) { return launch.utils.titleCase(p); });
+				settings.personas = $.map(dto.personas, function (p) {
+					return {
+						name: p.name,
+						properties: p.columns
+					};
+				});
+			}
 
 			settings.created = new Date(moment(dto.created_at).format());
 			settings.updated = new Date(moment(dto.updated_at).format());
@@ -1094,7 +1096,9 @@
 			connection.url = dto.url;
 
 			if (launch.utils.isBlank(dto.connection_provider) || launch.utils.isBlank(dto.name) ||
-				dto.connection_provider.toLowerCase() === dto.name.toLowerCase()) {
+				dto.connection_provider.toLowerCase() === dto.name.toLowerCase() || 
+				(dto.connection_provider === 'google-drive' && dto.name.toLowerCase() === 'google drive') || 
+				(dto.connection_provider === 'google-plus' && dto.name.toLowerCase() === 'google+') ) {
 				connection.name = launch.utils.isBlank(dto.identifier) ? dto.name : dto.identifier;
 			} else {
 				connection.name = dto.name;
@@ -1400,6 +1404,7 @@
 			contentType.name = cachedContentType.name;
 			contentType.title = cachedContentType.title;
 			contentType.baseType = cachedContentType.baseType;
+			contentType.isVisible = cachedContentType.isVisible;
 
 			return contentType;
 		},

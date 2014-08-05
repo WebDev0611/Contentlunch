@@ -10,6 +10,8 @@ abstract class AbstractConnection {
 
   protected $client = null;
 
+  protected $notApplicableText = 'n/a';
+
   public function __construct(array $accountConnection)
   {
     $this->accountConnection = $accountConnection;

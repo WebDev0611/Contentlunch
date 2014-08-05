@@ -926,7 +926,7 @@
 			case 'audio':
 				return (connection.provider === 'dropbox' || connection.provider === 'google-drive' || connection.provider === 'salesforce' || connection.provider === 'soundcloud');
 			case 'blog_post':
-				return (connection.provider === 'wordpress' || connection.provider === 'tumblr');
+				return (connection.provider === 'wordpress' || connection.provider === 'tumblr' || connection.provider === 'blogger' );
 			case 'document':
 				return (connection.provider === 'dropbox' || connection.provider === 'google-drive' || connection.provider === 'salesforce');
 			case 'generic_file':
@@ -938,7 +938,7 @@
 					return (launch.utils.isBlank(content.body) || content.body.length < 140);
 				}
 
-				return (connection.provider === 'facebook' || connection.provider === 'google' || connection.provider === 'linkedin' || connection.provider === 'twitter');
+				return (connection.provider === 'facebook' || connection.provider === 'google-plus' || connection.provider === 'linkedin' || connection.provider === 'twitter');
 			case 'long_html':
 				return (connection.provider === 'drupal' || connection.provider === 'joomla' || connection.provider === 'tumblr' || connection.provider === 'wordpress');
 			case 'photo':

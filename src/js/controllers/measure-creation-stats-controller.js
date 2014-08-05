@@ -66,6 +66,9 @@
 		$scope.isOverview = false;
 
 		self.init();
+<<<<<<< HEAD
         self.initChartData();
+=======
+>>>>>>> origin/master
 	}
 ]);

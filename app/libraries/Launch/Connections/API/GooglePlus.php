@@ -6,12 +6,13 @@ use GuzzleHttp\Client;
 // Eh... google api lib not namespaced
 use Google_Client;
 use Google_Service_Oauth2;
-use Google_Service_Blogger;
-use Google_Service_Blogger_Post;
+use Google_Service_Plus;
+use Google_Service_Plus_Moment as Google_Moment;
+use Google_Service_Plus_ItemScope as Google_ItemScope;
 
-class BloggerAPI extends AbstractConnection {
+class GooglePlusAPI extends AbstractConnection {
 
-  protected $configKey = 'services.blogger';
+  protected $configKey = 'services.google_plus';
 
   protected $meData = null;
 
@@ -36,7 +37,7 @@ class BloggerAPI extends AbstractConnection {
       $this->client = new Google_Client;
       $this->client->setClientId($this->config['key']);
       $this->client->setClientSecret($this->config['secret']);
-      $this->client->setScopes('https://www.googleapis.com/auth/blogger');
+      $this->client->setScopes(['https://www.googleapis.com/auth/plus.login']);
 
       // Use refresh token
       try {
@@ -62,16 +63,10 @@ class BloggerAPI extends AbstractConnection {
 
   public function getMe()
   {
+    // This gets google + plus profile info
     if ( ! $this->meData) {
-      $client = $this->getClient();
-      $api = new Google_Service_Oauth2($client);
-      $userInfo = $api->userinfo->get();
-      $api = new Google_Service_Blogger($client);
-      $blogs = $api->blogs->listByUser('self');
-      $this->meData = [
-        'user' => $userInfo,
-        'blogs' => $blogs
-      ];
+      $api = new Google_Service_Oauth2($this->getClient());
+      $this->meData = $api->userinfo->get();
     }
     return $this->meData;
   }
@@ -80,27 +75,18 @@ class BloggerAPI extends AbstractConnection {
   {
     $info = $this->getMe();
     if ($info) {
-      $me = ucwords($info['user']->name);
-      // Todo, user should be able to specify which blog to post to?
-      if ( ! empty($info['blogs']->items[0]['name'])) {
-        $me .= ' ('. $info['blogs']->items[0]['name'] .')';
-      }
-      return $me;
+      return ucwords($info->name);
     }
   }
 
   public function getUrl()
   {
     $info = $this->getMe();
-    if ($info) {
-      if ( ! empty($info['blogs']->items[0]['url'])) {
-        return $info['blogs']->items[0]['url'];
-      }
-    }
+    return $info->link;
   }
 
   /**
-   * @see https://developers.google.com/blogger/docs/3.0/reference/posts#resource
+   * @see https://developers.google.com/+/api/latest/moments/insert
    */
   public function postContent($content)
   {
@@ -108,28 +94,35 @@ class BloggerAPI extends AbstractConnection {
     try {
       $client = $this->getClient();
 
-      $info = $this->getMe();
-      $api = new Google_Service_Blogger($client);
-      if (empty($info['blogs']->items[0]['id'])) {
-        throw new \Exception("No blog found, setup blog on blogger");
-      }
-      $post = new Google_Service_Blogger_Post;
-      $body = $content->body;
-      // Quick and dirty way of inserting featured image into the post...
-      // doesn't give the user much options tho
+      // set $requestVisibleActions to write moments
+      $requestVisibleActions = [
+        'http://schemas.google.com/AddActivity',
+        'http://schemas.google.com/ReviewActivity'];
+      $client->setRequestVisibleActions($requestVisibleActions);
+
+      $service = new Google_Service_Plus($client, ['debug' => true]);
+
+      $moment_body = new Google_Moment();
+      $moment_body->setType("http://schemas.google.com/AddActivity");
+      //$moment_body->setType("http://schema.org/AddAction");
+      $item_scope = new Google_ItemScope();
+      $item_scope->setId("target-id-1");
+      //$item_scope->setType("http://schema.org/AddAction");
+      $item_scope->setType("http://schemas.google.com/AddActivity");
+      $item_scope->setName($content->title);
+      $item_scope->setDescription(strip_tags($content->body));
       $upload = $content->upload()->first();
       if ($upload && $upload->media_type == 'image') {
-        $body = '<img src="'. $upload->getUrl() .'" style="float: left; margin: 0 10px 10px 0" />' . $body;
+        $item_scope->setImage($upload->getUrl());
       }
-      $post->setContent($body);
-      $post->setTitle($content->title);
-      
-      $apiResponse = $api->posts->insert($info['blogs']->items[0]['id'], $post);
+      $moment_body->setTarget($item_scope);
+      $momentResult = $service->moments->insert('me', 'vault', $moment_body);
+    
       $response['success'] = true;
-      $response['response'] = $apiResponse;
+      $response['response'] = $momentResult;
     } catch (\Exception $e) {
       $response['success'] = false;
-      $response['response'] = $apiResponse;
+//      $response['response'] = $momentResult;
       $response['error'] = $e->getMessage();
     }
     return $response;

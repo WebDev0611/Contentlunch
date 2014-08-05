@@ -14,6 +14,12 @@ class AccountConnectionsController extends BaseController {
     if ($connections) {
       foreach ($connections as $connection) {
         switch ($connection->connection_provider) {
+          case 'google-drive':
+            $className = 'GoogleDriveAPI';
+          break;
+          case 'google-plus':
+            $className = 'GooglePlusAPI';
+          break;
           case 'linkedin':
             $className = 'LinkedInAPI';
           break;
