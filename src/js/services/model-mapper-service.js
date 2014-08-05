@@ -1144,6 +1144,14 @@
 			connection.connectionName = dto.connection_name;
 			connection.provider = dto.connection_provider;
 
+			if (launch.utils.isBlank(dto.connection_provider) || launch.utils.isBlank(dto.name) ||
+				dto.connection_provider.toLowerCase() === dto.name.toLowerCase() || 
+				(dto.connection_provider === 'acton' && dto.name.toLowerCase() === 'act-on') ) {
+				connection.name = launch.utils.isBlank(dto.identifier) ? dto.name : dto.identifier;
+			} else {
+				connection.name = dto.name;
+			}
+
 			if (launch.utils.isBlank(connection.provider) && $.isPlainObject(dto.connection)) {
 				connection.provider = dto.connection.provider;
 				connection.connectionType = dto.connection.type;

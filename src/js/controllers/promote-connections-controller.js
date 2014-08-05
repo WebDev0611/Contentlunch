@@ -73,6 +73,19 @@
 		$scope.connections = null;
 		$scope.categories = null;
 
+		$scope.providerIdentifier = function (provider) {
+			if (!$.isArray($scope.connections) || $scope.connections.length === 0) {
+				return false;
+			}
+
+			var provider = _.find($scope.connections, function (c) {
+				return c.provider === provider.provider;
+			});
+			if (provider) {
+				return provider.name;
+			}
+		};
+
 		$scope.providerIsConnected = function (provider) {
 			if (!$.isArray($scope.connections) || $scope.connections.length === 0) {
 				return false;

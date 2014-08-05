@@ -14,9 +14,12 @@
 					</div>
 					<div class="col-md-9">
 						<div class="row" ng-repeat="p in cat.providers">
-							<div class="col-md-7">
+							<div class="col-md-5">
 								{{ cat.title }} through
 								<span class="cl-banner cl-banner-{{ p.provider }}"></span>
+							</div>
+							<div class="col-md-2">
+								{{ providerIdentifier(p) }}
 							</div>
 							<div class="col-md-5">
 								<button class="btn btn-black" ng-click="connect(p)" ng-hide="providerIsConnected(p)">Connect</button>
