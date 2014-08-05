@@ -28,7 +28,7 @@
 										data-placeholder="Select Content Type" ng-change="updateContentType()"
 										error-message error-message-item="content" error-message-property="'contentType'" error-message-control="editConcept.selContentType">
 									<option value=""></option>
-									<option ng-repeat="ct in contentTypes" value="{{ ct.name }}">{{ ct.title }}</option>
+									<option ng-repeat="ct in contentTypes" value="{{ ct.name }}" ng-show="ct.isVisible">{{ ct.title }}</option>
 								</select>
 							</div>
 						</div>
