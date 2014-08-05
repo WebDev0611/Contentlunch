@@ -38,7 +38,7 @@
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return created.get({ accountId: accountId, start_date: startDate.format('YYYY-MM-DD') }, success, error);
+			return created.get({ accountId: accountId, start_date: startDate}, success, error);
 		},
 		getLaunched: function (accountId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;

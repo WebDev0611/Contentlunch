@@ -50,7 +50,7 @@
                 startDate = moment().subtract(parseInt(this.days), 'days');
             }
 
-            return measureService.getCreated(self.loggedInUser.account.id, startDate);
+            return measureService.getCreated(self.loggedInUser.account.id, startDate.format('YYYY-MM-DD'));
         };
 
 		$scope.contentCreatedLineChartTime = null;
@@ -66,9 +66,6 @@
 		$scope.isOverview = false;
 
 		self.init();
-<<<<<<< HEAD
         self.initChartData();
-=======
->>>>>>> origin/master
 	}
 ]);
