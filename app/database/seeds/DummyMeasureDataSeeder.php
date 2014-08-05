@@ -99,14 +99,14 @@ class DummyMeasureDataSeeder extends Seeder {
         $now  = Carbon::now();
 
         do {
-            App::make('MeasureController')->measureCreatedContent($date->format('Y-m-d'), 1);
-            App::make('MeasureController')->measureLaunchedContent($date->format('Y-m-d'), 1);
-            App::make('MeasureController')->measureTimingContent($date->format('Y-m-d'), 1);
+            App::make('MeasureController')->measureCreatedContent($date->format('Y-m-d'), $accountID);
+            App::make('MeasureController')->measureLaunchedContent($date->format('Y-m-d'), $accountID);
+            App::make('MeasureController')->measureTimingContent($date->format('Y-m-d'), $accountID);
 
             $date->addDay(1);
         } while ($now->gte($date));
 
-        App::make('MeasureController')->measureUserEfficiency(1);
+        App::make('MeasureController')->measureUserEfficiency($accountID);
     }
 
 }
