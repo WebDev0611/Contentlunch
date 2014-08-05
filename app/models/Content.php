@@ -130,6 +130,11 @@ class Content extends Ardent {
       ->with('connection');
   }
 
+  public function launches()
+  {
+    return $this->hasMany('LaunchResponse');
+  }
+
   public function related()
   {
     return $this->hasMany('ContentRelated', 'content_id', 'id');

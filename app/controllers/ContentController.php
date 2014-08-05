@@ -345,6 +345,14 @@ class ContentController extends BaseController {
     return $launch;
   }
 
+  public function getLaunches($accountID, $contentID)
+  {
+    if ( ! $this->inAccount($accountID)) {
+      return $this->responseAccessDenied();
+    }
+    return Content::find($contentID)->launches;
+  }
+
 
     public function analyze($accountID, $contentID) {
         $scribeClass = 'Launch\Connections\API\\ScribeAPI';
