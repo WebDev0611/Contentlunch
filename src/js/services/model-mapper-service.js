@@ -1792,6 +1792,20 @@
 		}
 	};
 
+    self.measure = {
+        parseResponse: function (r, getHeaders) {
+            return self.parseResponse(r, getHeaders, self.measure.fromDto);
+        },
+        fromDto : function(dto) {
+            console.log(dto);
+            return dto
+            debugger;
+            var series = ($.isArray(dto)) ? $.map(dto, function(r, i) { return r; }) : [];
+            console.log(series);
+            return series;
+        }
+    }
+
 	return self;
 };
 
