@@ -6,6 +6,8 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   $
     var Campaigns = Account.all('campaigns');
 
     $scope.isLoaded = false;
+    $scope.isSaving = false;
+
     $q.all({
         campaign: $routeParams.campaignId === 'new' ? newCampaign() : Campaigns.get($routeParams.campaignId),
         campaignTypes: Restangular.all('campaign-types').getList(),
@@ -37,9 +39,11 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   $
     // Actions
     // -------------------------
     $scope.saveCampaign = function (campaign) {
-        campaign.status = 1; // only concepts will have a non-1 status
+    	campaign.status = 1; // only concepts will have a non-1 status
+    	$scope.isSaving = true;
         (campaign.isNew ? Campaigns.post(campaign) : campaign.put()).then(function (camp) {
-            var path = $location.path();
+        	$scope.isSaving = false;
+        	var path = $location.path();
             notify.success('Campaign saved');
             if (campaign.isNew) {
                 $location.search({}).path('/calendar/campaigns/' + camp.id);
@@ -73,9 +77,21 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   $
         });
     };
 
-    $scope.cancelCampaign = function () {
-        $location.path('/calendar');
-    };
+	$scope.cancelCampaign = function() {
+		if ($scope.campaign.isNew) {
+			$location.path('/calendar');
+		} else {
+			$scope.isLoaded = false;
+			$scope.campaign = Campaigns.get($routeParams.campaignId).then(function(r) {
+				$scope.isLoaded = true;
+					$scope.campaign = r;
+				},
+				function(r) {
+					notify.error(r);
+				}
+			);
+		}
+	};
 
     $scope.duplicateCampaign = function () {
         $location.search({ duplicate: true });

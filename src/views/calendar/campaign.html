@@ -2,6 +2,10 @@
     <spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
 </div>
 
+<div class="full-screen-modal" ng-show="isSaving">
+	<spinner spin="{ color: 'white', length: 50, width: 10, radius: 30 }"></spinner>
+</div>
+
 <div ng-show="isLoaded" class="view calendar">
     <div class="col-md-3 left-pane">
         <button ng-hide="campaign.isNew" class="btn full-width small-nudge-down btn-inverse add-content" ng-click="duplicateCampaign()">Duplicate Campaign</button>
@@ -56,7 +60,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="isActive">Active?</label>
+                                    <label for="isActive">Status</label>
                                     <select name="isActive" class="form-control" id="isActive" 
                                             ng-model="campaign.isActive">
                                         <option value="0">Inactive</option>
@@ -145,7 +149,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea rows="4" name="description" class="form-control" id="description" ng-model="campaign.description"></textarea>
+                                    <textarea rows="4" name="description" id="description" rich-text-editor ng-model="campaign.description"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-6">
