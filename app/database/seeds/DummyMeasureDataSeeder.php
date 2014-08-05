@@ -14,7 +14,6 @@ class DummyMeasureDataSeeder extends Seeder {
         // get an account ID and a list of users, content, and campaigns that exist
         $accountID = Account::first()->pluck('id');
         $userIDs = User::where('id', '!=', 1)->lists('id');
-        $contentIDs = Content::where('account_id', $accountID)->lists('id');
         $campaignIDs = Campaign::where('account_id', $accountID)->lists('id');
 
         // Content
@@ -62,6 +61,7 @@ class DummyMeasureDataSeeder extends Seeder {
 
         // Tasks
         // -------------------------
+        $contentIDs = Content::where('account_id', $accountID)->lists('id');
         $contentTaskGroupIDs = ContentTaskGroup::whereIn('content_id', $contentIDs)->lists('id');
 
         ContentTask::where('name', 'LIKE', 'Dummy Measure Data %')->delete();
