@@ -27,6 +27,32 @@
 			$scope.productionDaysLineChartGroupBy = 'all';
 		};
 
+        self.initChartData = function () {
+            $scope.contentCreatedLine = {
+                series: ['All'],
+                title: 'Total Content'
+            };
+        };
+
+        $scope.getChartData = function() {
+
+            var startDate;
+            if(this.days == 'Q') {
+                startDate = moment().startOf('quarter');
+            }
+            else if(this.days == 'Y') {
+                startDate = moment().startOf('year');
+            }
+            else if(this.days == 'A'){
+                startDate = moment().startOf('year');
+            }
+            else {
+                startDate = moment().subtract(parseInt(this.days), 'days');
+            }
+
+            return measureService.getCreated(self.loggedInUser.account.id, startDate.format('YYYY-MM-DD'));
+        };
+
 		$scope.contentCreatedLineChartTime = null;
 		$scope.contentCreatedLineChartGroupBy = null;
 		$scope.contentCreatedPieChart = null;
@@ -40,5 +66,6 @@
 		$scope.isOverview = false;
 
 		self.init();
+        self.initChartData();
 	}
 ]);

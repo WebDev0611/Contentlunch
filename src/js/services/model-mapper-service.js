@@ -930,13 +930,15 @@
 
 			settings.publishingGuidelines = dto.publishing_guidelines;
 
-			settings.personaProperties = $.map(dto.persona_columns, function(p) { return launch.utils.titleCase(p); });
-			settings.personas = $.map(dto.personas, function(p) {
-				return {
-					name: p.name,
-					properties: p.columns
-				};
-			});
+			if ($.isArray(dto.persona_columns)) {
+				settings.personaProperties = $.map(dto.persona_columns, function (p) { return launch.utils.titleCase(p); });
+				settings.personas = $.map(dto.personas, function (p) {
+					return {
+						name: p.name,
+						properties: p.columns
+					};
+				});
+			}
 
 			settings.created = new Date(moment(dto.created_at).format());
 			settings.updated = new Date(moment(dto.updated_at).format());
@@ -1802,6 +1804,20 @@
 			return lc;
 		}
 	};
+
+    self.measure = {
+        parseResponse: function (r, getHeaders) {
+            return self.parseResponse(r, getHeaders, self.measure.fromDto);
+        },
+        fromDto : function(dto) {
+            console.log(dto);
+            return dto
+            debugger;
+            var series = ($.isArray(dto)) ? $.map(dto, function(r, i) { return r; }) : [];
+            console.log(series);
+            return series;
+        }
+    }
 
 	return self;
 };

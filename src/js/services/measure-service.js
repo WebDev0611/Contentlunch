@@ -3,8 +3,8 @@
 		get: { method: 'GET' }
 	});
 
-	var created = $resource('/api/account/:accountId/measure/content-created', { accountId: '@accountId' }, {
-		get: { method: 'GET' }
+	var created = $resource('/api/account/:accountId/measure/content-created', { accountId: '@accountId'}, {
+		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.measure.parseResponse }
 	});
 
 	var launched = $resource('/api/account/:accountId/measure/content-launched', { accountId: '@accountId' }, {
@@ -15,7 +15,7 @@
 		get: { method: 'GET' }
 	});
 
-	var eficiency = $resource('/api/account/:accountId/measure/content-efficiency', { accountId: '@accountId' }, {
+	var efficiency = $resource('/api/account/:accountId/measure/content-efficiency', { accountId: '@accountId' }, {
 		get: { method: 'GET' }
 	});
 
@@ -34,11 +34,11 @@
 				averageContentScore: parseFloat(Math.random() * 100).toFixed(2)
 			};
 		},
-		getCreated: function (accountId, callback) {
+		getCreated: function (accountId, startDate, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return created.get({ accountId: accountId }, success, error);
+			return created.get({ accountId: accountId, start_date: startDate}, success, error);
 		},
 		getLaunched: function (accountId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -56,7 +56,7 @@
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return eficiency.get({ accountId: accountId }, success, error);
+			return efficiency.get({ accountId: accountId }, success, error);
 		}
 	};
 });
