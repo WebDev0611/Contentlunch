@@ -55,7 +55,8 @@
 					})
 					.when('/user/confirm/:code', {
 						controller: 'ConfirmController',
-						templateUrl: '/assets/views/reset-password.html'
+						templateUrl: '/assets/views/reset-password.html',
+						allowAnon: true
 					})
 					.when('/users', {
 						controller: 'UsersController',
