@@ -124,26 +124,39 @@ launch.module
 
                 scope.getSeriesList = function() {
                     //debugger;
+                    var scope = this;
 
                     if(this.data_days != this.days) {
-                        this.data = this.$parent.getChartData.call(this);
+                        this.data = this.$parent.getLineChartData.call(this);
                         this.data_days = this.days;
                     }
 
-                    var scope = this;
-                    var series = $.map(this.info.series, function(value) {
+                    this.series = ['All'];
+//                    if(this.group == 'all') {
+//                        this.series = ['All'];
+//                    }
+//                    else if (this.group == 'author') {
+//                        this.series = [];
+//                        $.each(this.data, function(i, date){
+//                            debugger;
+//                            $.each(date.stats.by_user, function(i, user) {
+//                                if($.inArray(user.user_id, scope.series) == -1) {
+//                                    scope.series.push(user.user_id);
+//                                }
+//                            });
+//                        });
+//                        this.series = series;
+//                    }
+
+                    var series = $.map(this.series, function(value) {
                         var data = [];
                         var labels = [];
 
                         $.each(scope.data, function(i, date) {
-                            labels.push(date.date);
+                            var parsed = scope.info.dateParseFunction(date);
 
-                            var sum = 0;
-                            $.each(date.stats.by_user, function(i, user) {
-                                sum += user.count;
-                            });
-
-                            data.push(sum);
+                            labels.push(parsed.label);
+                            data.push(parsed.data);
                         });
 
                         return {
@@ -158,7 +171,8 @@ launch.module
             },
             scope: {
                 info: '=',
-                days: '='
+                days: '=',
+                group: '='
             },
             templateUrl: '/assets/views/directives/wijmo-line-chart.html'
         }
