@@ -8,11 +8,11 @@
 	});
 
 	var launched = $resource('/api/account/:accountId/measure/content-launched', { accountId: '@accountId' }, {
-		get: { method: 'GET' }
+		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.measure.parseResponse }
 	});
 
 	var timing = $resource('/api/account/:accountId/measure/content-timing', { accountId: '@accountId' }, {
-		get: { method: 'GET' }
+		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.measure.parseResponse }
 	});
 
 	var efficiency = $resource('/api/account/:accountId/measure/content-efficiency', { accountId: '@accountId' }, {
@@ -20,37 +20,47 @@
 	});
 
 	return {
-		getOverview: function (accountId, callback) {
+		getOverview: function (accountId, startDate, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			//return overview.get({ accountId: accountId }, success, error);
+            startDate = moment(startDate);
 
-			return {
-				companyScore: parseFloat(Math.random() * 100).toFixed(2),
-				totalContent: parseInt(Math.random() * 10000),
-				productionDays: parseInt(Math.random() * 500),
-				totalContentScore: parseFloat(Math.random() * 1000).toFixed(2),
-				averageContentScore: parseFloat(Math.random() * 100).toFixed(2)
-			};
+            var data = [];
+            while(startDate < moment()) {
+                data.push({
+                    date: startDate.format('YYYY-MM-DD'),
+                    stats: {
+                        companyScore: parseFloat(Math.random() * 100).toFixed(2),
+                        totalContent: parseInt(Math.random() * 10000),
+                        productionDays: parseInt(Math.random() * 500),
+                        totalContentScore: parseFloat(Math.random() * 1000).toFixed(2),
+                        averageContentScore: parseFloat(Math.random() * 100).toFixed(2)
+                    }
+                });
+                startDate.add(1, 'days');
+            }
+
+            return data;
 		},
 		getCreated: function (accountId, startDate, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return created.get({ accountId: accountId, start_date: startDate}, success, error);
+			return created.get({ accountId: accountId, start_date: startDate }, success, error);
 		},
-		getLaunched: function (accountId, callback) {
+		getLaunched: function (accountId, startDate, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return launched.get({ accountId: accountId }, success, error);
+			return launched.get({ accountId: accountId, start_date: startDate }, success, error);
 		},
-		getTiming: function (accountId, callback) {
+		getTiming: function (accountId, startDate, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return timing.get({ accountId: accountId }, success, error);
+			return timing.get({ accountId: accountId, start_date: startDate }, success, error);
 		},
 		getEfficiency: function (accountId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
