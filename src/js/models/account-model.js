@@ -66,6 +66,10 @@
 			case 'city':
 				return launch.utils.isBlank(this.city) ? 'City is required.' : null;
 			case 'state':
+				if (!launch.utils.isBlank(this.country) && (this.country.toUpperCase() === 'UK' || this.country.toUpperCase() === 'AUSTRALIA')) {
+					return null;
+				}
+
 				return launch.utils.isBlank(this.state) ? 'State is required.' : null;
 			case 'postalcode':
 				return launch.utils.isBlank(this.postalCode) ? 'Postal Code is required.' : null;
