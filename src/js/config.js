@@ -1,5 +1,5 @@
 ﻿launch.config = {
-	DEBUG_MODE: true,
+	DEBUG_MODE: false,
 	USER_PHOTO_FILE_TYPES: ['image/gif', 'image/png', 'image/jpeg', 'image/bmp'],
 	SLIDE_DECK_FILE_TYPES: ['ppt', 'pptx', 'pdf', 'key', 'keynote', 'pez'],
 	MIN_PASSWORD_LENGTH: 8,
