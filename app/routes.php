@@ -1,5 +1,15 @@
 <?php
 
+// This redirects everything to https if enabled in config
+if (Config::get('app.force_secure')) {
+  App::before(function($request) {
+    if ( ! Request::secure())
+    {
+      return Redirect::secure(Request::path());
+    }
+  });
+}
+
 /**
  * API calls, prefixed with /api
  * Should return json responses
@@ -38,6 +48,7 @@ Route::group(['prefix' => 'api'], function()
   Route::get('account/{accountID}/content/export-csv', 'ContentController@download_csv');
   // Launch a content connection
   Route::post('account/{accountID}/content/{contentID}/launch/{accountConnectionID}', 'ContentController@launch');
+  Route::get('account/{accountID}/content/{contentID}/launch', 'ContentController@getLaunches');
   Route::resource('account/{id}/content', 'ContentController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);

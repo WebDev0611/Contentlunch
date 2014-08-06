@@ -323,8 +323,11 @@
 
 						var error = function(r) {
 							if (r.status === 401) {
-								// TODO: OPEN DIALOG HERE!!
-								$location.path('/login');
+								if (!launch.utils.startsWith($location.path(), '/user/confirm/')) {
+									// TODO: OPEN DIALOG HERE!!
+									$location.path('/login');
+								}
+
 								return $q.reject(r);
 							} else {
 								return $q.reject(r);

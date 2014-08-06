@@ -1,6 +1,6 @@
-﻿﻿﻿<div class="view measure" ng-show="!isLoading">
+﻿﻿<div class="view measure" ng-show="!isLoading">
 	<div class="col-md-3 left-pane"></div>
-	<div class="col-md-9 right-pane">
+	<div class="col-md-9 right-pane" ng-controller="WijmoController">
 		<h2 class="right-pane-header">Measure</h2>
 
 		<div class="measure-editor row">
@@ -30,7 +30,7 @@
 						</div>
 
 						<div class="measure-graph">
-                            <wijmo-line-chart info="contentCreatedLine" days="contentCreatedLineChartTime" group="contentCreatedLineChartGroupBy">
+                            <wijmo-line-chart info="contentCreatedLine" days="contentCreatedLineChartTime">
 
                             </wijmo-line-chart>
 						</div>
@@ -47,9 +47,9 @@
 						</div>
 		
 						<div class="measure-graph">
-                            <!--<wijmo-pie-chart info="contentCreatedPie">-->
+                            <wijmo-pie-chart info="contentCreatedPie">
 
-                            <!--</wijmo-pie-chart>-->
+                            </wijmo-pie-chart>
 						</div>
 					</div>
 				</div>
@@ -76,9 +76,9 @@
 						</div>
 		
 						<div class="measure-graph">
-                            <wijmo-line-chart info="contentLaunched" days="contentLaunchedLineChartTime">
+                            <!--<wijmo-line-chart info="contentLaunched">-->
 
-                            </wijmo-line-chart>
+                            <!--</wijmo-line-chart>-->
 						</div>
 					</div>
 					<div class="col-md-5">
@@ -110,9 +110,9 @@
 						</div>
 		
 						<div class="measure-graph">
-                            <wijmo-line-chart info="productionDays" days="productionDaysLineChartTime">
+                            <!--<wijmo-line-chart info="productionDays">-->
 
-                            </wijmo-line-chart>
+                            <!--</wijmo-line-chart>-->
 						</div>
 					</div>
 					<div class="col-md-5">

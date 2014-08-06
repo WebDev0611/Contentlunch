@@ -328,8 +328,13 @@ class ContentController extends BaseController {
     }
     $class = 'Launch\Connections\API\\'. $class;
     $api = new $class($accountConnection->toArray());
-    $response = $api->postContent($content);
+    if (($groupID = Input::get('group_id'))) {
+      $response = $api->postToGroup($content, $groupID);
+    } else {
+      $response = $api->postContent($content);
+    }
     if ( ! isset($response['success']) || ! isset($response['response'])) {
+      echo '<pre>'; print_r($response); echo '</pre>';
       throw new \Exception("Response from connection API must set success and response");
     }
     $launch = new LaunchResponse([
@@ -343,6 +348,14 @@ class ContentController extends BaseController {
       return $this->responseError($response['error']);
     }
     return $launch;
+  }
+
+  public function getLaunches($accountID, $contentID)
+  {
+    if ( ! $this->inAccount($accountID)) {
+      return $this->responseAccessDenied();
+    }
+    return Content::find($contentID)->launches;
   }
 
 

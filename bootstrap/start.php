@@ -35,6 +35,10 @@ $env = $app->detectEnvironment(function() {
     'contentlaunch.com' => 'prod'
   );
 
+  if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_ADDR'] == '10.0.2.15') {
+    return 'local';
+  }
+
   if (isset($_SERVER['SERVER_NAME']) 
         && $_SERVER['SERVER_NAME'] == 'local.contentlaunch.com' 
         && isset($_SERVER['SERVER_ADDR']) 

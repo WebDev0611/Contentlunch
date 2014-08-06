@@ -82,7 +82,7 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 			var params = { accountId: accountId, contentId: contentId, accountConnectionId: accountConnectionId };
 			params = _.merge(params, extraParams);
-			return contentLaunch.post(params, null, success, error);
+			return contentLaunch.post(params, (extraParams || {}).groupId ? { group_id: extraParams.groupId } : null, success, error);
 		},
 		getLaunches: function(accountId, contentId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;

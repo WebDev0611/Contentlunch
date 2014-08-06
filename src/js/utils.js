@@ -126,12 +126,16 @@
 					type = (!launch.utils.isBlank(response.data.error.type)) ? response.data.error.type : null;
 					file = (!launch.utils.isBlank(response.data.error.file)) ? response.data.error.file : null;
 					line = (!launch.utils.isBlank(response.data.error.line)) ? response.data.error.line : null;
-				} else if ($.isArray(response.data.errors)) {
-					err = '';
+				} else if (!!response.data.errors) {
+					if ($.isArray(response.data.errors)) {
+						err = '';
 
-					$.each(response.data.errors, function(i, e) {
-						err += e + '\n\n';
-					});
+						$.each(response.data.errors, function(i, e) {
+							err += e + '\n\n';
+						});
+					} else if (typeof response.data.errors === 'string') {
+						err = response.data.errors;
+					}
 				} else {
 					err = (!launch.utils.isBlank(response.data.message)) ? response.data.message : null;
 					type = (!launch.utils.isBlank(response.data.type)) ? response.data.type : null;
