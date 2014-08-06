@@ -1,0 +1,40 @@
+<div class="modal-header">LinkedIn Launch Options</div>
+<div class="modal-body">
+    <form novalidate>
+        <p>For the LinkedIn connection, <strong>{{ connection.name }}</strong>, do you want to launch this content to your timeline, or to a specific group?</p>
+        <div class="form-group" ng-init="options.timeOrGroup = 'timeline'">
+            <label style="display: inline-block; margin-right: 12px;">
+                <input ng-change="showGroups(options.timeOrGroup)" type="radio" name="timeOrGroup" ng-model="options.timeOrGroup" value="timeline">
+                Timeline
+            </label>
+            <label style="display: inline-block; margin-right: 12px;">
+                <input ng-change="showGroups(options.timeOrGroup)" type="radio" name="timeOrGroup" ng-model="options.timeOrGroup" value="group">
+                Group
+            </label>
+
+            <div ng-show="showGroupListLoader">
+                <spinner class="inline-spinner" spin-if="showGroupListLoader"></spinner>
+                Getting a list of groups...
+            </div>
+
+            <div ng-show="showGroupList">
+                <h4>Choose a group</h4>
+
+                <div ng-repeat="item in groups">
+                    <label>
+                        <input type="radio" name="group" ng-model="options.selectedGroup" value="{{ item.group.id }}">
+                        {{ item.group.name }}
+                    </label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="pull-left" style="line-height: 13px; text-align:left; margin-right: 16px;">
+        <small>Hitting cancel will only cancel this LinkedIn content from launch.<br>Any other connections you chose will still launch.</small>
+    </div>
+
+    <button class="btn btn-primary btn-black" ng-disabled="!(options.timeOrGroup == 'timeline' || (options.timeOrGroup == 'group' && options.selectedGroup))" ng-click="ok(options)">Launch</button>
+    <button class="btn btn-warning btn-black" ng-click="cancel()">Cancel</button>
+</div>

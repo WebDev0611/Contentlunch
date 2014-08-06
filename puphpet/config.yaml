@@ -95,7 +95,7 @@ apache:
         SLuFTaoFbOYr:
             servername: local.contentlaunch.dev
             serveraliases:
-                - local.contentlaunch.com
+                - local.contentlaunch.com staging.contentlaunch.surgeforward.com contentlaunch.cam
             docroot: /var/www/public
             port: '80'
             setenv:

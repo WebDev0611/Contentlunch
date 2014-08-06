@@ -1,5 +1,5 @@
 ﻿launch.module.controller('ContentController', [
-	'$scope', '$routeParams', '$filter', '$location', '$modal', 'ecommercePlatforms', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', function ($scope, $routeParams, $filter, $location, $modal, ecommercePlatforms, authService, accountService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService) {
+	'$scope', '$routeParams', '$filter', '$location', '$modal', 'ecommercePlatforms', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', 'Restangular', function ($scope, $routeParams, $filter, $location, $modal, ecommercePlatforms, authService, accountService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService, Restangular) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -962,19 +962,70 @@
 				return;
 			}
 
-			contentService.launch(self.loggedInUser.account.id, $scope.content.id, connection.id, extraParams, {
-				success: function(r) {
-					if ($scope.content.status <= 3) {
-						$scope.content.status = 4;
-						$scope.saveContent();
-					} else if (refresh) {
-						self.refreshLaunches();
-					}
+			if (connection.provider == 'linkedin') {
+				// popup
+				$modal.open({
+					templateUrl: '/assets/views/dialogs/linkedin-launch-options.html',
+					controller: function ($scope, $modalInstance) {
+						$scope.connection = connection;
+						$scope.options = {};
 
-					notificationService.success('Success!', 'Successfull launched to ' + connection.name + '!');
-				},
-				error: self.ajaxHandler.error
-			});
+						$scope.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+
+						$scope.ok = function (opts) {
+							// set extraParams with options
+							opts = opts.timeOrGroup == 'group' ? opts : false;
+							if (opts) {
+								opts.groupName = ((_.findWhere($scope.groups, { id: opts.groupId }) || {}).group || {}).name;
+							}
+
+							launch(opts);
+							$modalInstance.close();
+						};
+
+						$scope.showGroups = function (timeOrGroup) {
+							$scope.showGroupList = false;
+
+							if (timeOrGroup == 'group') {
+								$scope.showGroupListLoader = true;
+								// get groups and show list
+								Restangular.one('account', self.loggedInUser.account.id)
+								.one('connections', connection.id).getList('groups')
+								.then(function (groups) {
+									$scope.groups = groups;
+									$scope.showGroupList = true;
+								}).catch($scope.globalErrorHandler).then(function () {
+									$scope.showGroupListLoader = false;
+								});
+							}
+						};
+					}
+				});
+			} else {
+				launch();
+			}
+
+			function launch(extraOpts) {
+				if (extraOpts) {
+					extraParams = _.merge(extraParams || {}, { group_id: extraOpts.groupId });
+				}
+
+				contentService.launch(self.loggedInUser.account.id, $scope.content.id, connection.id, extraParams, {
+					success: function(r) {
+						if ($scope.content.status <= 3) {
+							$scope.content.status = 4;
+							$scope.saveContent();
+						} else if (refresh) {
+							self.refreshLaunches();
+						}
+
+						notificationService.success('Success!', 'Successfully launched to ' + ((extraOpts || {}).groupName ? extraOpts.groupName : connection.name) + '!');
+					},
+					error: self.ajaxHandler.error
+				});
+			}
 		};
 
 		$scope.toggleSelectedConnections = function(connection, e) {
