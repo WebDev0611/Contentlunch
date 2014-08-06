@@ -212,6 +212,7 @@
 				},
 				error: function(r) {
 					$scope.isSaving = false;
+					$scope.isUploading = false;
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
 
 					if (!!callback && $.isFunction(callback.error)) {
@@ -234,11 +235,21 @@
 				},
 				error: function(err) {
 					$scope.showFullScreenModal = false;
-					self.ajaxHandler.error(err);
+					$scope.isSaving = false;
+
+					if (!!callback && $.isFunction(callback.error)) {
+						callback.error(err);
+					} else {
+						self.ajaxHandler.error(err);
+					}
+				},
+				progress: function (e) {
+					$scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
 				}
 			};
 
 			$scope.showFullScreenModal = true;
+
 			if ($scope.isNewContent || !self.contentFile || launch.utils.isBlank(self.contentFile.id)) {
 				accountService.addFile(self.loggedInUser.account.id, self.uploadFile, null, responseHandler);
 			} else {
@@ -387,7 +398,8 @@
 			$scope.content.status = oldStatus + 1;
 
 			$scope.saveContent({
-				error: function() {
+				error: function () {
+					$scope.isSaving = false;
 					$scope.content.status = oldStatus;
 				}
 			});
@@ -449,6 +461,7 @@
 		$scope.formatBuyingStageItem = launch.utils.formatBuyingStageItem;
 		$scope.formatDate = launch.utils.formatDate;
 		$scope.ecommercePlatforms = ecommercePlatforms;
+		$scope.percentComplete = 0;
 
 		$scope.canViewContent = false;
 		$scope.canEditContent = false;
@@ -541,7 +554,9 @@
 							}
 						});
 					},
-					error: function(r) {
+					error: function (r) {
+						$scope.isSaving = false;
+
 						if (!!callback && $.isFunction(callback.error)) {
 							callback.error(r);
 						} else {

@@ -114,6 +114,14 @@
 .ui-pnotify-text {
   overflow: auto;
 }
+.has-error .help-block,
+.has-error .control-label,
+.has-error .radio,
+.has-error .checkbox,
+.has-error .radio-inline,
+.has-error .checkbox-inline {
+  color: #ff0000;
+}
 /* #region navigation */
 .cl-icon-navigation {
   margin-bottom: 6px;
@@ -3614,6 +3622,11 @@ hr.simple-divider {
   top: 50%;
   margin-top: 115px;
   width: 100%;
+}
+.full-screen-modal .progress {
+  margin: auto;
+  margin-top: 24px;
+  max-width: 300px;
 }
 .modal-dialog .modal-brainstorm .agenda {
   width: 33%;
