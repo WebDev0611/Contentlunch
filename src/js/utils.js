@@ -560,6 +560,7 @@
 		}
 
 		switch (provider.toLowerCase()) {
+			case 'acton':
 			case 'act-on':
 				return 'cl-icon cl-icon-act-on';
 			//case 'all-in-one':
