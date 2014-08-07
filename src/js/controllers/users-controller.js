@@ -4,6 +4,15 @@ launch.module.controller('UsersController', [
 
 		self.loggedInUser = null;
 
+		self.ajaxHandler = {
+			success: function (r) {
+
+			},
+			error: function (r) {
+				launch.utils.handleAjaxErrorResponse(r, notificationService);
+			}
+		};
+
 		self.init = function() {
 			self.loggedInUser = authService.userInfo();
 			self.loadUsers(true);
@@ -85,6 +94,19 @@ launch.module.controller('UsersController', [
 			}
 
 			return false;
+		};
+
+		self.refreshCurrentUser = function (onsuccess) {
+			self.loggedInUser = authService.fetchCurrentUser({
+				success: function (r) {
+					sessionService.set(sessionService.USER_KEY, self.loggedInUser);
+
+					if ($.isFunction(onsuccess)) {
+						onsuccess(r);
+					}
+				},
+				error: self.ajaxHandler.error
+			});
 		};
 
 		$scope.users = [];
@@ -225,15 +247,15 @@ launch.module.controller('UsersController', [
 		$scope.afterSaveSuccess = function (user, form) {
 			$scope.selectedUser = user;
 
-			if ($scope.selfEditing()) {
-				sessionService.set(sessionService.USER_KEY, user);
-			}
+			var callback = function() { self.adjustPage(user.id, form); };
 
-			self.loadUsers(false, {
-				success: function () {
-					self.adjustPage(user.id, form);
-				}
-			});
+			if ($scope.selfEditing()) {
+				self.refreshCurrentUser(function(r) {
+					self.loadUsers(false, { success: callback });
+				});
+			} else {
+				self.loadUsers(false, { success: callback });
+			}
 		};
 
 		self.init();

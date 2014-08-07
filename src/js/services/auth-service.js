@@ -45,7 +45,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 					remember: remember
 				},
 				function(r) {
-					// I think this has already been ran through fromDto
+					// I think this has already been run through fromDto
 					// var user = self.modelMapper.auth.fromDto(r);
 					var user = r;
 

@@ -13,7 +13,7 @@
 	self.created = null;
 	self.updated = null;
 
-	self.personaProperties = ['Name', 'Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5'];
+	self.personaProperties = ['Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5'];
 	self.personas = [];
 
 	self.buyingStages = function() {
@@ -25,20 +25,20 @@
 	self.addEmptyPerona = function(index) {
 		var properties = [];
 
-		for (var i = 0; i < self.personaProperties.length; i++) {
-			var text = launch.utils.isBlank(self.personaProperties[i]) ? null : 'New ' + self.personaProperties[i];
+		for (var i = 0; i < this.personaProperties.length; i++) {
+			var text = launch.utils.isBlank(this.personaProperties[i]) ? null : 'New ' + this.personaProperties[i];
 			properties.push({ index: i, value: text });
 		}
 
 		index = parseInt(index);
 
-		if (isNaN(index) || index >= self.personas.length || index < 0) {
-			self.personas.push({
+		if (isNaN(index) || index >= this.personas.length || index < 0) {
+			this.personas.push({
 				properties: properties
 			});
 
 		} else {
-			self.personas.splice(index, 0, {
+			this.personas.splice(index, 0, {
 				properties: properties
 			});
 
@@ -46,7 +46,7 @@
 	};
 
 	self.deletePersona = function(index) {
-		self.personas.splice(index, 1);
+		this.personas.splice(index, 1);
 	};
 
 	return self;

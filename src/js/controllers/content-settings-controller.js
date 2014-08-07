@@ -41,6 +41,23 @@
 				success: function(r) {
 					self.isDirty = false;
 
+					if (launch.utils.isBlank($scope.contentSettings.id)) {
+						$scope.contentSettings.id = null;
+						$scope.contentSettings.accountId = self.loggedInUser.account.id;
+						$scope.contentSettings.includeAuthorName = false;
+						$scope.contentSettings.authorNameContentTypes = [];
+						$scope.contentSettings.allowPublishDateEdit = false;
+						$scope.contentSettings.publishDateContentTypes = [];
+						$scope.contentSettings.useKeywordTags = false;
+						$scope.contentSettings.keywordTagsContentTypes = [];
+						$scope.contentSettings.publishingGuidelines = null;
+						$scope.contentSettings.created = new Date();
+						$scope.contentSettings.updated = new Date();
+
+						$scope.contentSettings.personaProperties = ['Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5'];
+						$scope.contentSettings.personas = [];
+					}
+
 					if ($.isFunction(onAfterSave)) {
 						onAfterSave();
 					}

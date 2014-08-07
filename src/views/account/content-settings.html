@@ -1,8 +1,8 @@
-﻿<div class="view content-settings">
+﻿<div class="view content-settings" ng-show="contentSettings.$resolved">
 	<div class="col-md-3 left-pane">
 		<div account-left-pane selected-setting="'content'"></div>
 	</div>
-	<div class="col-md-9 right-pane" ng-show="contentSettings.$resolved">
+	<div class="col-md-9 right-pane">
 		<h2 class="right-pane-header">Content Settings</h2>
 		
 		<form name="editContentSettings" class="content-settings-editor" novalidate="novalidate" ng-show="canEditContentSettings">
@@ -106,8 +106,12 @@
 	<div ng-hide="canEditContentSettings">
 		You do not have privileges to edit content settings.
 	</div>
+</div>
 
-	<div class="loading-spinner-container" ng-hide="contentSettings.$resolved || !canEditContentSettings">
-		<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
-	</div>
+<div class="loading-spinner-container" ng-show="!contentSettings.$resolved || !canEditContentSettings">
+	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
+</div>
+
+<div class="full-screen-modal" ng-show="isSaving">
+	<spinner spin="{ color: 'white', length: 50, width: 10, radius: 30 }"></spinner>
 </div>
