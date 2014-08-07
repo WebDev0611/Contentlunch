@@ -154,6 +154,19 @@
 		</div>
 	</div>
 
+	<div class="content-strategy">
+		<h2>Our Content Strategy</h2>
+
+		<div ng-repeat="item in selectedAccount.strategy track by item.id">
+			<input class="form-control" style="width: 333px; margin-bottom: 16px; display: inline-block;" type="text" ng-model="item.text">
+			<span ng-click="deleteStrategyItem(item)" class="fa fa-trash-o"></span>
+		</div>
+
+		<button class="btn btn-inverse" ng-click="addStrategyItem()">
+			Add Bullet 
+		</button>
+	</div>
+
 	<h2>Payment Info</h2>
 
 	<div ng-if="selectedAccount.hasToken">

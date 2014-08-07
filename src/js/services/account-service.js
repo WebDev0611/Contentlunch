@@ -57,6 +57,8 @@
 				}
 			});
 
+            console.log(account, account.strategy);
+
 			return account;
 		},
 		update: function(account, callback) {

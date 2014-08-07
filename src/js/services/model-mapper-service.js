@@ -129,6 +129,7 @@
 			account.country = dto.country;
 			account.email = dto.email;
 			account.phoneNumber = dto.phone;
+			account.strategy = dto.strategy;
 			account.userCount = parseInt(dto.count_users);
 			account.created = dto.created_at;
 			account.updated = dto.updated_at;
@@ -195,6 +196,7 @@
 				payment_type: account.paymentType,
 				yearly_payment: (account.yearlyPayment === true) ? 1 : 0,
 				hasToken: account.hasToken,
+				strategy: account.strategy,
 				created_at: account.created,
 				updated_at: account.updated
 			};

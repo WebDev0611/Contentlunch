@@ -355,6 +355,21 @@
 			});
 		};
 
+		scope.strategy = [];
+		scope.deleteStrategyItem = function (item) {
+			_.remove(scope.selectedAccount.strategy, item);
+		};
+
+		scope.addStrategyItem = function () {
+			if (!scope.selectedAccount.strategy) scope.selectedAccount.strategy = [];
+			var maxId = Math.max.apply(null, _.pluck(scope.selectedAccount.strategy, 'id'));
+			if (!maxId || maxId < 0) maxId = 0;
+			var newId = maxId + 1;
+			scope.selectedAccount.strategy.push({
+				id: newId
+			});
+		};
+
 		scope.$watch('selectedAccount', function(newAccount, oldAccount) {
 			if (!!oldAccount && (oldAccount.$resolved === true || oldAccount.id === null)) {
 				if (!newAccount || newAccount.id === null || (newAccount.$resolved && newAccount.id !== oldAccount.id)) {
