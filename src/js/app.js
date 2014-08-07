@@ -29,6 +29,10 @@
 						templateUrl: '/assets/views/login.html',
 						allowAnon: true
 					})
+					.when('/impersonate/reset', {
+						controller: 'ResetImpersonateController',
+						templateUrl: '/assets/views/home.html'
+					})
 					.when('/account', {
 						controller: 'AccountController',
 						templateUrl: '/assets/views/account/account.html'

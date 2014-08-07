@@ -136,7 +136,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 		},
 		impersonate: function(accountId) {
 			self.impersonate.save({ account_id: accountId },
-				function(r) {
+				function (r) {
 					self.uncacheSession();
 					var user = self.modelMapper.user.fromDto(r);
 					self.cacheSession(user);
@@ -148,7 +148,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 				self.uncacheSession();
 				var user = self.modelMapper.user.fromDto(r);
 				self.cacheSession(user);
-				$window.location.href = '/';
+				$window.location.href = '/accounts';
 			});
 		}
 	};

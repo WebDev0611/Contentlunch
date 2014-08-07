@@ -462,8 +462,12 @@
 			return null;
 		}
 
-		if ($.isPlainObject(stateCode) && !launch.utils.isBlank(stateCode.name) && !launch.utils.isBlank(stateCode.value)) {
-			return stateCode;
+		if ($.isPlainObject(stateCode)) {
+			if (!launch.utils.isBlank(stateCode.name) && !launch.utils.isBlank(stateCode.value)) {
+				return stateCode;
+			} else {
+				return stateCode;
+			}
 		}
 
 		var states = launch.utils.getStates(country);
