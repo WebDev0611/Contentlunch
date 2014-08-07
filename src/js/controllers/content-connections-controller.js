@@ -103,18 +103,33 @@
 		};
 
 		$scope.checkStatus = function (connection) {
+			var parentScope = $scope;
 			var modalResponse = function (response) {
+				parentScope.isLoading = false;
 				$modal.open({
-					template: '<div class="modal-header">{{ connection.name }} Status</div><div class="modal-body">{{ response }}</div><div class="modal-footer"><button class="btn btn-primary" ng-click="close()">Close</button></div>',
+					template: '<div class="modal-header"><strong>Connection Status: {{ connection.connectionName}} - {{ connection.name }}</strong></div><div class="modal-body"><strong ng-if="success">Connection Status: Success!</strong><strong ng-if=" ! success">Connection Status: Failed</strong><div ng-bind="failMessage"></div><div ng-repeat="data in response"><label>{{ data.label }}</label><br />{{ data.value }}</div></div><div class="modal-footer"><button class="btn btn-primary" ng-click="close()">Close</button></div>',
 					controller: function ($scope, $modalInstance) {
 						$scope.connection = connection;
-						$scope.response = response;
+						$scope.response = [];
+						$scope.success = response[0];
+						if (response[0]) {
+							_.each(_.keys(response[1]), function (key) { 
+								$scope.response.push({ 
+									label: key, 
+									value: response[1][key] 
+								}); 
+							});
+						} else {
+							$scope.failMessage = response[1];
+						}
+						//_.keys(response)
 						$scope.close = function () {
 							$modalInstance.dismiss('cancel');
 						};
 					}
 				});
 			};
+			parentScope.isLoading = true;
 			connectionService.checkStatus(self.loggedInUser.account.id, connection.id, {
 				success: modalResponse,
 				error: modalResponse
