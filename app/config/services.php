@@ -18,6 +18,7 @@
 // The developer could edit his host file to point for example https://contentlaunch.com to his local instance
 // For now, the callback_domain is where the provider will redirect to
 return [
+  'redirect_url' => 'https://staging.contentlaunch.surgeforward.com/api/add-connection',
   'acton' => [
     'key' => 'rWSMXgnRNIvDe4BNl7bu0DKpdgAa',
     'secret' => 'HjGxrBZkPLFk652EeIamVaAoBe8a',
@@ -114,9 +115,7 @@ return [
   'vimeo' => [
     'key' => 'eb1cc41f34259f58146c7f594b3965504c64ce95',
     'secret' => '390f70c3396dcfb3067caf005b1135ce3708f318',
-    // Enable this when upload is authorized for the app
-     'scope' => ['public', 'private', 'upload'],
-    //'scope' => ['public', 'private']
+     'scope' => ['public', 'private', 'upload', 'edit'],
   ],
   // Use same api creds as google
   'youtube' => [

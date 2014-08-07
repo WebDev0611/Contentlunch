@@ -54,7 +54,7 @@ class ServiceFactory {
         $this->config = Config::get('services.'. $provider);
     }
     
-    $redirectURL = 'https://staging.contentlaunch.surgeforward.com/api/add-connection';
+    $redirectURL = Config::get('services.redirect_url');
     $credentials = new Credentials(
       $this->config['key'],
       $this->config['secret'],

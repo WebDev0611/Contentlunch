@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Config;
 use GuzzleHttp\Client;
+use Vimeo\Vimeo;
 
 class VimeoAPI extends AbstractConnection {
 
@@ -13,7 +14,8 @@ class VimeoAPI extends AbstractConnection {
   {
     if ( ! $this->client) {
       $token = $this->getAccessToken();
-      $this->client = new Client([
+      $this->client = new Vimeo($this->config['key'], $this->config['secret'], $token);
+      /*$this->client = new Client([
         'base_url' => $this->base_url,
         'defaults' => [
           'headers' => [
@@ -21,7 +23,7 @@ class VimeoAPI extends AbstractConnection {
             'Accept' => 'application/vnd.vimeo.*+json;version=3.2'
           ]
         ]
-      ]);
+      ]);*/
     }
     return $this->client;
   }
@@ -36,8 +38,8 @@ class VimeoAPI extends AbstractConnection {
   {
     if ( ! $this->me) {
       $client = $this->getClient();
-      $response = $client->get('me');
-      $this->me = $response->json();
+      $response = $client->request('/me');
+      $this->me = $response['body'];
     }
     return $this->me;
   }
@@ -50,7 +52,47 @@ class VimeoAPI extends AbstractConnection {
 
   public function postContent($content)
   {
-  	return null;
+  	$client = $this->getClient();
+    $response = ['success' => false, 'response' => []];
+
+    try {
+      
+      $videoPath = $content->upload->getAbsPath();
+
+      $uploadResponse = $client->upload($videoPath);
+
+      // Upload response is the uri of the new video
+      // /video/[video-id]
+      $parts = explode('/', $uploadResponse);
+      $videoID = array_pop($parts);
+
+      $updateResponse = $this->updateVideo($content, $videoID);
+
+      $response['response'] = [
+        'video_id' => $videoID,
+        'upload' => $uploadResponse,
+        'update' => $updateResponse
+      ];
+      $response['success'] = true;
+    } catch (\Exception $e) {
+      $response['success'] = false;
+      $response['response'] = $uploadResponse;
+      $response['error'] = $e->getMessage();
+    }
+    return $response;
+  }
+
+  public function updateVideo($content, $videoID)
+  {
+    $client = $this->getClient();
+    // Do a PATCH request to update video's metadata
+    return $client->request('/videos/'. $videoID, [
+      'name' => $content->title,
+      'description' => $content->body,
+      'privacy.view' => 'anybody',
+      'privacy.embed' => 'public',
+      'review_link' => 'true'
+    ], 'PATCH');
   }
 
 }
