@@ -102,6 +102,25 @@
 			}
 		};
 
+		$scope.checkStatus = function (connection) {
+			var modalResponse = function (response) {
+				$modal.open({
+					template: '<div class="modal-header">{{ connection.name }} Status</div><div class="modal-body">{{ response }}</div><div class="modal-footer"><button class="btn btn-primary" ng-click="close()">Close</button></div>',
+					controller: function ($scope, $modalInstance) {
+						$scope.connection = connection;
+						$scope.response = response;
+						$scope.close = function () {
+							$modalInstance.dismiss('cancel');
+						};
+					}
+				});
+			};
+			connectionService.checkStatus(self.loggedInUser.account.id, connection.id, {
+				success: modalResponse,
+				error: modalResponse
+			});
+		};
+
 		$scope.toggleActiveStatus = function(connection) {
 			if (!$scope.canEditConnection) {
 				return;

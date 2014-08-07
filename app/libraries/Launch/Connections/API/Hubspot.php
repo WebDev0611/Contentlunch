@@ -9,24 +9,6 @@ class HubspotAPI extends AbstractConnection {
 
   protected $base_url = 'https://api.hubapi.com';
 
-  protected function getClient()
-  {
-    if ( ! $this->client) {
-      $token = $this->getAccessToken();
-      $this->client = new Client([
-        'base_url' => $this->base_url,
-        'defaults' => [
-          'config' => [
-            'curl' => [
-              CURLOPT_SSL_VERIFYPEER => false
-            ]
-          ],
-        ]
-      ]);
-    }
-    return $this->client;
-  }
-
   public function getAccessToken()
   {
     if (empty($this->accountConnection['settings']['token'])) {
@@ -34,11 +16,6 @@ class HubspotAPI extends AbstractConnection {
     }
     $token = $this->accountConnection['settings']['token'];
     return $token;
-  }
-
-  public function getIdentifier()
-  {
-    return null;
   }
 
   public function getAuthors()
@@ -60,6 +37,29 @@ class HubspotAPI extends AbstractConnection {
     $response = $client->get('content/api/v2/blogs?access_token=' . $token);
     $info = $response->json();
     return $info;
+  }
+
+  protected function getClient()
+  {
+    if ( ! $this->client) {
+      $token = $this->getAccessToken();
+      $this->client = new Client([
+        'base_url' => $this->base_url,
+        'defaults' => [
+          'config' => [
+            'curl' => [
+              CURLOPT_SSL_VERIFYPEER => false
+            ]
+          ],
+        ]
+      ]);
+    }
+    return $this->client;
+  }
+
+  public function getIdentifier()
+  {
+    return null;
   }
 
   public function getTemplates()
@@ -114,6 +114,29 @@ class HubspotAPI extends AbstractConnection {
       $response['error'] = $e->getMessage();
     }
     return $response;
+  }
+
+  public function postContent($content)
+  {
+    // The frontend is setup to allow posting to hubspot
+    // if the base_type is long_html, email, or blog_post
+    // 
+    $key = $content->content_type()->first()->key;
+    switch ($key) {
+      case 'blog-post':
+        return $this->postBlog($content);
+      break;
+      case 'email':
+      case 'workflow-email':
+        return $this->postEmailTemplate($content);
+      break;
+      case 'landing-page':
+        return $this->postLandingPage($content);
+      break;
+      case 'website-page':
+        return $this->postSitePage($content);
+      break;
+    }
   }
 
   public function postEmailTemplate($content)
@@ -210,29 +233,6 @@ class HubspotAPI extends AbstractConnection {
       $response['error'] = $e->getMessage();
     }
     return $response;
-  }
-
-  public function postContent($content)
-  {
-    // The frontend is setup to allow posting to hubspot
-    // if the base_type is long_html, email, or blog_post
-    // 
-    $key = $content->content_type()->first()->key;
-    switch ($key) {
-      case 'blog-post':
-        return $this->postBlog($content);
-      break;
-      case 'email':
-      case 'workflow-email':
-        return $this->postEmailTemplate($content);
-      break;
-      case 'landing-page':
-        return $this->postLandingPage($content);
-      break;
-      case 'website-page':
-        return $this->postSitePage($content);
-      break;
-    }
   }
 
 }

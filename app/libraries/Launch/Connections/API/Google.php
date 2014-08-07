@@ -10,30 +10,51 @@ use Google_Service_Plus;
 use Google_Service_Plus_Moment as Google_Moment;
 use Google_Service_Plus_ItemScope as Google_ItemScope;
 
-class GooglePlusAPI extends GoogleAPI {
+abstract class GoogleAPI extends AbstractConnection {
 
-  protected $configKey = 'services.google_plus';
-
-  public function getMe()
+  protected function getClient()
   {
-    // This gets google + plus profile info
-    if ( ! $this->me) {
-      $api = new Google_Service_Oauth2($this->getClient());
-      $this->me = $api->userinfo->get();
+    if ( ! $this->client) {
+      // Setup google client
+      $this->client = new Google_Client;
+      $this->client->setClientId($this->config['key']);
+      $this->client->setClientSecret($this->config['secret']);
+      $this->client->setScopes($this->config['scopes']);
+
+      // Use refresh token
+      try {
+        $token = $this->getRefreshToken();
+      } catch (\Exception $e) {
+        return;
+      }
+
+      if ( ! $token) {
+        // @todo: Handle this better
+        throw new \Exception('Invalid token');
+      }
+      // Google lib expects token in this format
+      $token = json_encode([
+        'access_token' => $token,
+        'created' => time(),
+        'expires_in' => 3600
+      ]);
+      $this->client->setAccessToken($token);
     }
-    return $this->me;
+    return $this->client;
   }
 
-  public function getIdentifier()
+  protected function getRefreshToken()
   {
-    $me = $this->getMe();
-    return ucwords($me->name);
-  }
-
-  public function getUrl()
-  {
-    $me = $this->getMe();
-    return $me->link;
+    $client = new Client;
+    $response = $client->post('https://accounts.google.com/o/oauth2/token', [
+      'body' => [
+        'refresh_token' => $this->accountConnection['settings']['token']->getRefreshToken(),
+        'client_id' => $this->config['key'],
+        'client_secret' => $this->config['secret'],
+        'grant_type' => 'refresh_token'
+      ]
+    ]);
+    return $response->json()['access_token'];
   }
 
   /**

@@ -58,7 +58,8 @@
 						<a href="{{ connection.url }}" target="_blank">{{ connection.url }}</a>
 					</div>
 					<div class="col-md-2">
-						<span class="toggle" ng-click="toggleActiveStatus(connection)">{{ connection.activeStatus() }}</span>
+						<span class="toggle" ng-click="toggleActiveStatus(connection)">{{ connection.activeStatus() }}</span> | 
+						<span ng-click="checkStatus(connection)">Check Status</span>
 					</div>
 					<div class="col-md-2">
 						<span class="fa fa-trash-o" ng-show="canEditConnection" ng-click="deleteConnection(connection)"></span>

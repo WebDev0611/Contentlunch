@@ -112,11 +112,11 @@ return [
     'key' => '9bdcf55c7b277e26063a04d2dff577ba'
   ],
   'vimeo' => [
-    'key' => 'c868016651f889a457d8bbfa778fdcb0271362eb',
-    'secret' => 'f880276ef4cd199991929e11152e4a4f9b83ca9a',
+    'key' => 'eb1cc41f34259f58146c7f594b3965504c64ce95',
+    'secret' => '390f70c3396dcfb3067caf005b1135ce3708f318',
     // Enable this when upload is authorized for the app
-    // 'scope' => ['public', 'private', 'upload'],
-    'scope' => ['public', 'private']
+     'scope' => ['public', 'private', 'upload'],
+    //'scope' => ['public', 'private']
   ],
   // Use same api creds as google
   'youtube' => [

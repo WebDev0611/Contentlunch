@@ -29,6 +29,9 @@ $app = new Illuminate\Foundation\Application;
  * By default, will return local
  */
 $env = $app->detectEnvironment(function() {
+  if (gethostname() == 'mtdew') {
+    return 'local';
+  }
   $hosts = array(
     'test.contentlaunch.surgeforward.com' => 'test',
     'staging.contentlaunch.surgeforward.com' => 'staging',

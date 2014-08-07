@@ -13,22 +13,6 @@ class BloggerAPI extends AbstractConnection {
 
   protected $configKey = 'services.blogger';
 
-  protected $meData = null;
-
-  protected function getRefreshToken()
-  {
-    $client = new Client;
-    $response = $client->post('https://accounts.google.com/o/oauth2/token', [
-      'body' => [
-        'refresh_token' => $this->accountConnection['settings']['token']->getRefreshToken(),
-        'client_id' => $this->config['key'],
-        'client_secret' => $this->config['secret'],
-        'grant_type' => 'refresh_token'
-      ]
-    ]);
-    return $response->json()['access_token'];
-  }
-
   protected function getClient()
   {
     if ( ! $this->client) {
@@ -60,43 +44,54 @@ class BloggerAPI extends AbstractConnection {
     return $this->client;
   }
 
+  public function getIdentifier()
+  {
+    $me = $this->getMe();
+    $name = ucwords($me['user']->name);
+    // Todo, user should be able to specify which blog to post to?
+    if ( ! empty($me['blogs']->items[0]['name'])) {
+      $name .= ' ('. $me['blogs']->items[0]['name'] .')';
+    }
+    return $name;
+  }
+
   public function getMe()
   {
-    if ( ! $this->meData) {
+    if ( ! $this->me) {
       $client = $this->getClient();
       $api = new Google_Service_Oauth2($client);
       $userInfo = $api->userinfo->get();
       $api = new Google_Service_Blogger($client);
       $blogs = $api->blogs->listByUser('self');
-      $this->meData = [
+      $this->me = [
         'user' => $userInfo,
         'blogs' => $blogs
       ];
     }
-    return $this->meData;
+    return $this->me;
   }
 
-  public function getIdentifier()
+  protected function getRefreshToken()
   {
-    $info = $this->getMe();
-    if ($info) {
-      $me = ucwords($info['user']->name);
-      // Todo, user should be able to specify which blog to post to?
-      if ( ! empty($info['blogs']->items[0]['name'])) {
-        $me .= ' ('. $info['blogs']->items[0]['name'] .')';
-      }
-      return $me;
-    }
+    $client = new Client;
+    $response = $client->post('https://accounts.google.com/o/oauth2/token', [
+      'body' => [
+        'refresh_token' => $this->accountConnection['settings']['token']->getRefreshToken(),
+        'client_id' => $this->config['key'],
+        'client_secret' => $this->config['secret'],
+        'grant_type' => 'refresh_token'
+      ]
+    ]);
+    return $response->json()['access_token'];
   }
 
   public function getUrl()
   {
-    $info = $this->getMe();
-    if ($info) {
-      if ( ! empty($info['blogs']->items[0]['url'])) {
-        return $info['blogs']->items[0]['url'];
-      }
+    $me = $this->getMe();
+    if ( ! empty($me['blogs']->items[0]['url'])) {
+      return $me['blogs']->items[0]['url'];
     }
+    return self::NA_TEXT;
   }
 
   /**

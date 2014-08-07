@@ -9,8 +9,6 @@ class VimeoAPI extends AbstractConnection {
 
   protected $base_url = 'https://api.vimeo.com';
 
-  protected $meData = null;
-
   protected function getClient()
   {
     if ( ! $this->client) {
@@ -19,7 +17,8 @@ class VimeoAPI extends AbstractConnection {
         'base_url' => $this->base_url,
         'defaults' => [
           'headers' => [
-            'Authorization' => 'Bearer '. $token
+            'Authorization' => 'Bearer '. $token,
+            'Accept' => 'application/vnd.vimeo.*+json;version=3.2'
           ]
         ]
       ]);
@@ -27,17 +26,26 @@ class VimeoAPI extends AbstractConnection {
     return $this->client;
   }
 
-  public function getMe()
-  {
-  	if ( ! $this->meData) {
-  		$client = $this->getClient();
-  		$response = $client->get('me');
-  	}
-  }
-
   public function getIdentifier()
   {
-    return null;
+    $me = $this->getMe();
+    return $me['name'];
+  }
+
+  public function getMe()
+  {
+    if ( ! $this->me) {
+      $client = $this->getClient();
+      $response = $client->get('me');
+      $this->me = $response->json();
+    }
+    return $this->me;
+  }
+
+  public function getUrl()
+  {
+    $me = $this->getMe();
+    return $me['link'];
   }
 
   public function postContent($content)
