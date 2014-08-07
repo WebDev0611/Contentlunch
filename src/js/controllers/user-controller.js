@@ -10,22 +10,21 @@ launch.module.controller('UserController', [
 		};
 
 		$scope.user = null;
+		$scope.isLoading = false;
 
 		$scope.refreshMethod = function () {
+			$scope.isLoading = true;
+
 			$scope.user = userService.get(self.loggedInUser.id, {
-				success: function (r) { },
-				error: function(r) {
+				success: function(r) {
+					$scope.isLoading = false;
+				},
+				error: function (r) {
+					$scope.isLoading = false;
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
 				}
 			});
 		};
-
-		//$scope.afterSaveSuccess = function (user, form) {
-		//	$scope.user = user;
-
-		//	var auth = sessionService.get(sessionService.AUTHENTICATED_KEY);
-		//	//sessionService.set(sessionService.AUTHENTICATED_KEY, $scope.user);
-		//};
 
 		self.init();
 	}

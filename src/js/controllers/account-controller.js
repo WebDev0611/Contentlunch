@@ -7,6 +7,7 @@ launch.module.controller('AccountController', [
 
 			},
 			error: function (r) {
+				$scope.isLoading = false;
 				launch.utils.handleAjaxErrorResponse(r, notificationService);
 			}
 		};
@@ -16,15 +17,20 @@ launch.module.controller('AccountController', [
 		};
 
 		$scope.selectedAccount = null;
+		$scope.isLoading = false;
 
 		$scope.refreshMethod = function() {
 			var tempAccount = authService.accountInfo();
 
+			$scope.isLoading = true;
+
 			// Get the latest version of the account from the database.
 			$scope.selectedAccount = accountService.get(tempAccount.id, {
 				success: function (account) {
+					$scope.isLoading = false;
 					sessionService.set(sessionService.ACCOUNT_KEY, $scope.selectedAccount);
-				}
+				},
+				error: self.ajaxHandler.error
 			});
 		};
 
