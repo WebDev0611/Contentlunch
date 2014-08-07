@@ -22,7 +22,7 @@ launch.module.controller('HomeController',
             announcements: Announcements.getList(),
             user: User.get(),
             guests: Account.all('guest-collaborators').getList({ limit: 5 }),
-            // contentStrategy: Account.customGET('content-strategy'),
+            strategy: user.account.strategy,
             brainstorms: Account.all('brainstorm').getList({ user: user.id }),
             myActivity: Account.getList('my-activity'),
             allActivity: Account.getList('all-activity')
