@@ -4,6 +4,15 @@ launch.module.directive('userForm', function($modal, $upload, AuthService, RoleS
 
 		self.loggedInUser = null;
 
+		self.ajaxHandler = {
+			success: function (r) {
+
+			},
+			error: function (r) {
+				launch.utils.handleAjaxErrorResponse(r, NotificationService);
+			}
+		};
+
 		self.init = function() {
 			self.loggedInUser = AuthService.userInfo();
 
@@ -18,6 +27,15 @@ launch.module.directive('userForm', function($modal, $upload, AuthService, RoleS
 			if ($.isFunction(scope.refreshMethod)) {
 				scope.refreshMethod(form);
 			}
+		};
+
+		self.refreshCurrentUser = function() {
+			self.loggedInUser = AuthService.fetchCurrentUser({
+				success: function(r) {
+					SessionService.set(SessionService.USER_KEY, self.loggedInUser);
+				},
+				error: self.ajaxHandler.error
+			});
 		};
 
 		scope.roles = [];
@@ -113,8 +131,9 @@ launch.module.directive('userForm', function($modal, $upload, AuthService, RoleS
 			scope.selectedUser = method(scope.selectedUser, {
 				success: function(r) {
 					if (scope.selfEditing) {
-						SessionService.set(SessionService.USER_KEY, scope.selectedUser);
+						self.refreshCurrentUser();
 					}
+
 					if (scope.isNewUser && !!scope.attachAccount) {
 						AccountService.addUser(scope.attachAccount.id, r.id, {
 							success: function(rs) {
@@ -201,7 +220,7 @@ launch.module.directive('userForm', function($modal, $upload, AuthService, RoleS
 					scope.selectedUser = user;
 
 					if (scope.selfEditing) {
-						SessionService.set(SessionService.USER_KEY, scope.selectedUser);
+						self.refreshCurrentUser();
 					}
 
 					if ($.isFunction(scope.afterSaveSuccess)) {

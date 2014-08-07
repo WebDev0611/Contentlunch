@@ -20,11 +20,12 @@ launch.module.controller('UserController', [
 			});
 		};
 
-		$scope.afterSaveSuccess = function (user, form) {
-			$scope.user = user;
+		//$scope.afterSaveSuccess = function (user, form) {
+		//	$scope.user = user;
 
-			sessionService.set(sessionService.AUTHENTICATED_KEY, $scope.user);
-		};
+		//	var auth = sessionService.get(sessionService.AUTHENTICATED_KEY);
+		//	//sessionService.set(sessionService.AUTHENTICATED_KEY, $scope.user);
+		//};
 
 		self.init();
 	}
