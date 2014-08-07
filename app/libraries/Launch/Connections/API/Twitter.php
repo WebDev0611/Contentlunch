@@ -75,10 +75,22 @@ class TwitterAPI extends AbstractConnection
       $client = $this->getClient();
       // Strip html tags
       $message = strip_tags($content->body);
-      $response = $client->postTweet([
-        'status' => $message,
-        'format' => 'array'
-      ]);
+
+      // If there is an attached file, upload with media
+      $upload = $content->upload()->first();
+      if ($upload && $upload->media_type == 'image') {
+        // Twitter supports PNG, JPG and GIF up to 3 MB
+        $response = $client->postTweetMedia([
+          'status' => $message,
+          'format' => 'array',
+          'media[]' => file_get_contents($upload->getAbsPath())
+        ]);
+      } else {
+        $response = $client->postTweet([
+          'status' => $message,
+          'format' => 'array'
+        ]);
+      }
       if ( ! empty($response['errors'])) {
         $errors = [];
         foreach ($response['errors'] as $error) {
