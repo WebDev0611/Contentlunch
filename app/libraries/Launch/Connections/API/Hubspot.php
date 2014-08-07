@@ -62,6 +62,11 @@ class HubspotAPI extends AbstractConnection {
     return null;
   }
 
+  public function getMe()
+  {
+    return null;
+  }
+
   public function getTemplates()
   {
     $client = $this->getClient();
@@ -83,6 +88,11 @@ class HubspotAPI extends AbstractConnection {
       }
     }
     return $templates;
+  }
+
+  public function getUrl()
+  {
+    return null;
   }
 
   /**
