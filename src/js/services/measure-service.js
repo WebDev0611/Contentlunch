@@ -15,8 +15,8 @@
 		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.measure.parseResponse }
 	});
 
-	var efficiency = $resource('/api/account/:accountId/measure/content-efficiency', { accountId: '@accountId' }, {
-		get: { method: 'GET' }
+	var efficiency = $resource('/api/account/:accountId/measure/user-efficiency', { accountId: '@accountId' }, {
+		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.measure.parseResponse }
 	});
 
 	return {

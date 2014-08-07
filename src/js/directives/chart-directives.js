@@ -127,33 +127,49 @@ launch.module
                     var scope = this;
 
                     if(this.data_days != this.days) {
-                        this.data = this.$parent.getLineChartData.call(this);
+                        this.data = this.$parent.getChartData.call(this);
                         this.data_days = this.days;
                     }
 
                     this.series = ['All'];
-//                    if(this.group == 'all') {
-//                        this.series = ['All'];
-//                    }
-//                    else if (this.group == 'author') {
-//                        this.series = [];
-//                        $.each(this.data, function(i, date){
-//                            debugger;
-//                            $.each(date.stats.by_user, function(i, user) {
-//                                if($.inArray(user.user_id, scope.series) == -1) {
-//                                    scope.series.push(user.user_id);
-//                                }
-//                            });
-//                        });
-//                        this.series = series;
-//                    }
+                    if (this.group == 'author') {
+                        this.series = [];
+                        $.each(this.data, function(i, date){
+                            $.each(date.stats.by_user, function(i, user) {
+                                if($.inArray(user.user_id, scope.series) == -1) {
+                                    scope.series.push(user.user_id);
+                                }
+                            });
+                        });
+                    }
+                    else if(this.group == 'buying-stage') {
+                        this.series = [];
+                        $.each(this.data, function(i, date){
+                            $.each(date.stats.by_buying_stage, function(i, stage) {
+                                if($.inArray(stage.buying_stage, scope.series) == -1) {
+                                    scope.series.push(stage.buying_stage);
+                                }
+                            });
+                        });
+                    }
+                    else if(this.group == 'content-type') {
+                        this.series = [];
+                        $.each(this.data, function(i, date){
+                            $.each(date.stats.by_content_type, function(i, type) {
+                                if($.inArray(type.content_type_id, scope.series) == -1) {
+                                    scope.series.push(type.content_type_id);
+                                }
+                            });
+                        });
+                    }
+                    this.series.sort();
 
                     var series = $.map(this.series, function(value) {
                         var data = [];
                         var labels = [];
 
                         $.each(scope.data, function(i, date) {
-                            var parsed = scope.info.dateParseFunction(date);
+                            var parsed = scope.info.dateParseFunction(date, scope.group, value);
 
                             labels.push(parsed.label);
                             data.push(parsed.data);
@@ -188,12 +204,55 @@ launch.module
                 });
 
                 scope.getSeriesList = function() {
-
                     var scope = this;
-                    var series = $.map(this.info.series, function(value) {
+
+                    if((!this.days && !this.data) || (this.data_days != this.days)) {
+                        this.data = this.$parent.getChartData.call(this);
+                        this.data_days = this.days;
+                    }
+
+                    this.series = [];
+                    if (this.group == 'author') {
+                        $.each(this.data, function(i, date){
+                            $.each(date.stats.by_user, function(i, user) {
+                                if($.inArray(user.user_id, scope.series) == -1) {
+                                    scope.series.push(user.user_id);
+                                }
+                            });
+                        });
+                    }
+                    else if(this.group == 'buying-stage') {
+                        $.each(this.data, function(i, date){
+                            $.each(date.stats.by_buying_stage, function(i, stage) {
+                                if($.inArray(stage.buying_stage, scope.series) == -1) {
+                                    scope.series.push(stage.buying_stage);
+                                }
+                            });
+                        });
+                    }
+                    else if(this.group == 'content-type') {
+                        $.each(this.data, function(i, date){
+                            $.each(date.stats.by_content_type, function(i, type) {
+                                if($.inArray(type.content_type_id, scope.series) == -1) {
+                                    scope.series.push(type.content_type_id);
+                                }
+                            });
+                        });
+                    }
+                    this.series.sort();
+
+                    var series = $.map(this.series, function(value) {
+                        var data = 0;
+
+                        $.each(scope.data, function(i, date) {
+                            var parsed = scope.info.dateParseFunction(date, scope.group, value);
+
+                            data += parsed.data;
+                        });
+
                         return {
                             label: value,
-                            data: scope.info.data[value]
+                            data: data
                         };
                     });
 
@@ -202,7 +261,8 @@ launch.module
                 }
             },
             scope: {
-                info: '='
+                info: '=',
+                group: '='
             },
             templateUrl: '/assets/views/directives/wijmo-pie-chart.html'
         }
@@ -217,16 +277,63 @@ launch.module
                     }
 
                     scope.getSeriesList = function() {
-
                         var scope = this;
-                        var x = this.info.series;
-                        var y = $.map(this.info.series, function(value) {
-                            return scope.info.data[value];
+
+                        if((!this.days && !this.data) || (this.data_days != this.days)) {
+                            this.data = this.$parent.getChartData.call(this);
+                            this.data_days = this.days;
+                        }
+
+                        this.series = [];
+                        if (this.group == 'author') {
+                            $.each(this.data, function(i, date){
+                                $.each(date.stats.by_user, function(i, user) {
+                                    if($.inArray(""+user.user_id, scope.series) == -1) {
+                                        scope.series.push(""+user.user_id);
+                                    }
+                                });
+                            });
+                        }
+                        else if(this.group == 'buying-stage') {
+                            $.each(this.data, function(i, date){
+                                $.each(date.stats.by_buying_stage, function(i, stage) {
+                                    if($.inArray(""+stage.buying_stage, scope.series) == -1) {
+                                        scope.series.push(""+stage.buying_stage);
+                                    }
+                                });
+                            });
+                        }
+                        else if(this.group == 'content-type') {
+                            $.each(this.data, function(i, date){
+                                $.each(date.stats.by_content_type, function(i, type) {
+                                    if($.inArray(""+type.content_type_id, scope.series) == -1) {
+                                        scope.series.push(""+type.content_type_id);
+                                    }
+                                });
+                            });
+                        }
+                        else {
+                            scope.series = ['All']
+                        }
+                        this.series.sort();
+
+                        var y = $.map(this.series, function(value) {
+                            var data = 0;
+
+                            $.each(scope.data, function(i, date) {
+                                var parsed = scope.info.dateParseFunction(date, scope.group, value);
+
+                                data += parsed.data;
+                            });
+
+                            return data;
                         });
 
                         var series = [{
+                            label: 'Count',
+                            legendEntry: false,
                             data: {
-                                x: x,
+                                x: this.series,
                                 y: y
                             }
                         }];
@@ -237,7 +344,9 @@ launch.module
                 })
             },
             scope: {
-                info: '='
+                info: '=',
+                days: '=',
+                group: '='
             },
             templateUrl: '/assets/views/directives/wijmo-bar-chart.html'
         };
