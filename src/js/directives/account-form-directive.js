@@ -216,6 +216,8 @@
 		scope.resendAccountCreationEmail = function() {
 			AccountService.resendCreationEmail.save({ id: scope.selectedAccount.id }, function() {
 				NotificationService.success('Success', 'Account creation email sent.');
+			}, function(r) {
+				launch.utils.handleAjaxErrorResponse(r, NotificationService);
 			});
 		};
 
