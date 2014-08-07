@@ -14,6 +14,8 @@
 			for (var i = 0; i < 10; i++) {
 				scope.years.push(year + i);
 			}
+
+			scope.isGlobalAdmin = self.loggedInUser.role.isGlobalAdmin;
 		};
 
 		scope.activeOptions = [

@@ -155,7 +155,7 @@
 	</div>
 
 	<div class="content-strategy">
-		<h2>Our Content Strategy</h2>
+		<h2>{{ isGlobalAdmin ? 'Set' : 'Our' }} Content Strategy</h2>
 
 		<div ng-repeat="item in selectedAccount.strategy track by item.id">
 			<input class="form-control" style="width: 333px; margin-bottom: 16px; display: inline-block;" type="text" ng-model="item.text">
