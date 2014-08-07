@@ -1,6 +1,6 @@
 launch.module.controller('CampaignController',
-        ['$scope', 'AuthService', '$routeParams', '$filter', '$q', '$upload', '$modal', 'Restangular', '$location', '$rootScope', 'campaignTasks', 'NotificationService', 
-function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   $modal,   Restangular,   $location,   $rootScope,   campaignTasks,   notify) {
+        ['$scope', 'AuthService', '$routeParams', '$filter', '$q', '$upload', '$modal', 'Restangular', '$location', '$rootScope', 'campaignTasks', 'UserService', 'NotificationService',
+function ($scope, AuthService, $routeParams, $filter, $q, $upload, $modal, Restangular, $location, $rootScope, campaignTasks, userService, notify) {
     var user = $scope.user = AuthService.userInfo();
     var Account   = Restangular.one('account', user.account.id);
     var Campaigns = Account.all('campaigns');
@@ -34,6 +34,8 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   $
         if ($location.search().duplicate) {
             $scope.duplicateCampaign();
         }
+
+	    $scope.filterCollaborators();
     }).catch($rootScope.globalErrorHandler);
 
     // Actions
@@ -108,25 +110,6 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   $
         delete $scope.campaign.content;
     };
 
-    // Collaborator Actions //
-    $scope.addCollaborator = function (collab) {
-        $scope.showAddInternal = false;
-        if (!_.isArray($scope.campaign.collaborators)) 
-            $scope.campaign.collaborators = [];
-
-        $scope.campaign.all('collaborators').post({ 
-            userId: collab.id 
-        }).then(function () {
-            $scope.campaign.collaborators.push(collab);
-        });
-    };
-
-    $scope.removeCollaborator = function (collab) {
-        $scope.campaign.one('collaborators', collab.id).remove().then(function () {
-            $rootScope.removeRow($scope.campaign.collaborators, collab.id);
-        });
-    };
-
     // Task Actions //
     $scope.newTask = function () {
         campaignTasks.openModal($scope.tasks).then(function (tasks) {
@@ -178,6 +161,18 @@ function ($scope,   AuthService,   $routeParams,   $filter,   $q,   $upload,   $
         $scope.campaign.one('uploads', file.id).remove().then(function () {
             _.remove($scope.files, file);
         });
+    };
+
+    $scope.filterCollaborators = function () {
+    	if (!$scope.campaign || !$scope.campaign.user) {
+    		return;
+    	}
+
+    	var users = userService.getForAccount(user.account.id);
+
+    	$scope.collaborators = $.grep(users, function (u) {
+    		return u.id !== $scope.campaign.user.id;
+    	});
     };
 
     // Helpers
