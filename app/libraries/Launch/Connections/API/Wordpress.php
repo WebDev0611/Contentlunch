@@ -12,8 +12,6 @@ class WordpressAPI extends AbstractConnection {
   
   protected $base_url = 'https://public-api.wordpress.com';
 
-  protected $meData = null;
-
   protected function getClient()
   {
     if ( ! $this->client) {
@@ -32,31 +30,27 @@ class WordpressAPI extends AbstractConnection {
 
   public function getIdentifier()
   {
-    $user = $this->getMe();
-    if ($user) {
-      return $user['display_name'];
-    }
-  }
-
-  public function getUrl()
-  {
-    $user = $this->getMe();
-    if ($user) {
-      $client = $this->getClient();
-      $response = $client->get('rest/v1/sites/' . $user['primary_blog']);
-      $blog = $response->json();
-      return $blog['URL'];
-    }
+    $me = $this->getMe();
+    return $me['display_name'];
   }
 
   public function getMe()
   {
-    if ( ! $this->meData) {
+    if ( ! $this->me) {
       $client = $this->getClient();
       $response = $client->get('rest/v1/me');
-      $this->meData = $response->json();
+      $this->me = $response->json();
     }
-    return $this->meData;
+    return $this->me;
+  }
+
+  public function getUrl()
+  {
+    $me = $this->getMe();
+    $client = $this->getClient();
+    $response = $client->get('rest/v1/sites/' . $user['primary_blog']);
+    $blog = $response->json();
+    return $blog['URL'];
   }
 
   /**

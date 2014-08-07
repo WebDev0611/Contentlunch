@@ -49,11 +49,19 @@ class LinkedInAPI extends AbstractConnection implements Connection
       return $client;
     }
 
+    public function getIdentifier()
+    {
+      $me = $this->getMe();
+      return $me['firstName'] .' '. $me['lastName'];
+    }
+
     public function getMe()
     {
-      $client = $this->getClient();
-      $user = $client->api('v1/people/~:(firstName,lastName,picture-url,public-profile-url)');
-      return $user;
+      if ( ! $this->me) {
+        $client = $this->getClient();
+        $this->me = $client->api('v1/people/~:(firstName,lastName,picture-url,public-profile-url)');
+      }
+      return $this->me;
     }
 
     /**
@@ -66,16 +74,10 @@ class LinkedInAPI extends AbstractConnection implements Connection
         return $this->processResult($result);
     }
 
-    public function getIdentifier()
-    {
-      $user = $this->getMe();
-      return $user['firstName'] .' '. $user['lastName'];
-    }
-
     public function getUrl()
     {
-      $user = $this->getMe();
-      return $user['publicProfileUrl'];
+      $me = $this->getMe();
+      return $me['publicProfileUrl'];
     }
 
     /**

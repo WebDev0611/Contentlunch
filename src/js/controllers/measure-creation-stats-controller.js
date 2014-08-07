@@ -20,57 +20,113 @@
 
 			$scope.contentCreatedLineChartTime = 7;
 			$scope.contentCreatedLineChartGroupBy = 'all';
-			$scope.contentCreatedPieChart = 'author';
-			$scope.contentLaunchedLineChartTime = 7;
-			$scope.contentLaunchedLineChartGroupBy = 'all';
+			$scope.contentCreatedPieChartGroupBy = 'author';
+			$scope.contentLaunchedBarChartTime = 7;
+			$scope.contentLaunchedBarChartGroupBy = 'all';
 			$scope.productionDaysLineChartTime = 30;
 			$scope.productionDaysLineChartGroupBy = 'all';
 		};
 
         self.initChartData = function () {
-            $scope.contentCreatedLine = {
-                title: 'Total Content',
-                measureFunction: measureService.getCreated,
-                dateParseFunction: function(date) {
-                    var sum = 0;
+            function countDateParse(date, groupBy, group) {
+                var sum = 0;
+                if(groupBy == 'all' || !groupBy) {
                     $.each(date.stats.by_user, function(i, user) {
                         sum += user.count;
                     });
-                    return {label: date.date, data: sum};
                 }
+                else if(groupBy == 'author') {
+                    $.each(date.stats.by_user, function(i, user) {
+                        if(user.user_id == group) {
+                            sum += user.count;
+                        }
+                    })
+                }
+                else if(groupBy == 'buying-stage') {
+                    $.each(date.stats.by_buying_stage, function(i, stage) {
+                        if(stage.buying_stage == group) {
+                            sum += stage.count;
+                        }
+                    })
+                }
+                else if(groupBy == 'content-type') {
+                    $.each(date.stats.by_content_type, function(i, type) {
+                        if(type.content_type_id == group) {
+                            sum += type.count;
+                        }
+                    })
+                }
+                return {label: date.date, data: sum};
+            }
+
+            $scope.contentCreatedLine = {
+                title: 'Total Content',
+                measureFunction: measureService.getCreated,
+                dateParseFunction: countDateParse
             };
 
             $scope.contentLaunched = {
                 title: 'Content Launched',
                 measureFunction: measureService.getLaunched,
-                dateParseFunction: function(date) {
-                    var sum = 0;
-                    $.each(date.stats.by_user, function(i, user) {
-                        sum += user.count;
-                    });
-                    return {label: date.date, data: sum};
-                }
-            }
+                dateParseFunction: countDateParse
+            };
 
             $scope.productionDays = {
                 title: 'Average Production Days',
                 measureFunction: measureService.getTiming,
-                dateParseFunction: function(date) {
+                dateParseFunction: function(date, groupBy, group) {
                     var sum = 0;
-                    $.each(date.stats.by_user, function(i, user) {
-                        sum += parseFloat(user.average_seconds);
-                    });
-                    var average = date.stats.by_user.length > 0 ? sum / date.stats.by_user.length : 0;
+                    var average = 0;
+
+                    if(groupBy == 'all' || !groupBy) {
+                        $.each(date.stats.by_user, function(i, user) {
+                            sum += parseFloat(user.average_seconds);
+                        });
+                        average = date.stats.by_user.length > 0 ? sum / date.stats.by_user.length : 0;
+                    }
+                    else if(groupBy == 'author') {
+                        $.each(date.stats.by_user, function(i, user) {
+                            if(user.user_id == group) {
+                                sum += parseFloat(user.average_seconds);
+                            }
+                        });
+                        average = date.stats.by_user.length > 0 ? sum / date.stats.by_user.length : 0;
+                    }
+                    else if(groupBy == 'buying-stage') {
+                        $.each(date.stats.by_buying_stage, function(i, stage) {
+                            if(stage.buying_stage == group) {
+                                sum += parseFloat(stage.average_seconds);
+                            }
+                        });
+                        average = date.stats.by_buying_stage.length > 0 ? sum / date.stats.by_buying_stage.length : 0;
+                    }
+                    else if(groupBy == 'content-type') {
+                        $.each(date.stats.by_content_type, function(i, type) {
+                            if(type.content_type_id == group) {
+                                sum += parseFloat(type.average_seconds);
+                            }
+                        });
+                        average = date.stats.by_content_type.length > 0 ? sum / date.stats.by_content_type.length : 0;
+                    }
 
                     return {label: date.date, data: average}
                 }
-            }
+            };
+
+            $scope.contentCreatedPie = {
+                title: 'Total Content',
+                measureFunction: measureService.getCreated,
+                dateParseFunction: countDateParse
+            };
         };
 
-        $scope.getLineChartData = function() {
+        $scope.getChartData = function() {
 
             var startDate;
-            if(this.days == 'Q') {
+            if(!this.days) {
+                startDate = moment('1970-01-01')
+            }
+            else if(this.days == 'Q') {
                 startDate = moment().startOf('quarter');
             }
             else if(this.days == 'Y') {
@@ -88,9 +144,9 @@
 
 		$scope.contentCreatedLineChartTime = null;
 		$scope.contentCreatedLineChartGroupBy = null;
-		$scope.contentCreatedPieChart = null;
-		$scope.contentLaunchedLineChartTime = null;
-		$scope.contentLaunchedLineChartGroupBy = null;
+		$scope.contentCreatedPieChartGroupBy = null;
+		$scope.contentLaunchedBarChartTime = null;
+		$scope.contentLaunchedBarChartGroupBy = null;
 		$scope.productionDaysLineChartTime = null;
 		$scope.productionDaysLineChartGroupBy = null;
 

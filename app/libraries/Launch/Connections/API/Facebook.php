@@ -13,8 +13,6 @@ class FacebookAPI extends AbstractConnection {
 
   protected $configKey = 'services.facebook';
 
-  protected $meData = null;
-
   protected function getClient()
   {
     if ( ! $this->client) {
@@ -24,29 +22,27 @@ class FacebookAPI extends AbstractConnection {
     return $this->client;
   }
 
+  public function getIdentifier()
+  {
+    $me = $this->getMe();
+    return $me->getName();
+  }
+
   public function getMe()
   {
-    if ( ! $this->meData) {
+    if ( ! $this->me) {
       $session = $this->getClient();
-      $this->meData = (new FacebookRequest(
+      $this->me = (new FacebookRequest(
         $session, 'GET', '/me'
       ))->execute()->getGraphObject(GraphUser::className());
     }
-    return $this->meData;
+    return $this->me;
   }
 
   public function getUrl()
   {
-    $info = $this->getMe();
-    return $info->getProperty('link');
-  }
-
-  public function getIdentifier()
-  {
-    $info = $this->getMe();
-    if ($info) {
-      return $info->getName();
-    }
+    $me= $this->getMe();
+    return $me->getProperty('link');
   }
 
   /**

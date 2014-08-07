@@ -1,11 +1,16 @@
-﻿<div class="view accounts">
+﻿
+<div class="view accounts">
 	<div class="col-md-3 left-pane">
 		<div account-left-pane selected-setting="'connections'"></div>
 	</div>
 	<div class="col-md-9 right-pane">
+		<div class="loading-spinner-container spinner-mask" ng-hide=" ! isLoading">
+		    <spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
+		</div>
 		<h2 class="right-pane-header">Content Connections</h2>
 
 		<div class="right-pane-content">
+
 			<div class="control-group btn-toolbar content-connection-button-bar">
 				<div class="form-group input-group">
 					<input type="text" class="form-control" placeholder="Search" ng-model="search.searchTerm" ng-change="search.applyFilter(true)" />
@@ -43,7 +48,7 @@
 					<div class="col-md-2 header">Status</div>
 					<div class="col-md-2 header">Delete</div>
 				</div>
-				<div class="row" ng-repeat="connection in filteredConnections">
+				<div class="row" ng-repeat="connection in filteredConnections | orderBy:'connectionName'">
 					<div class="col-md-4">
 						<div class="provider-icon">
 							<span class="{{ icon(connection.provider) }}"></span>
@@ -58,7 +63,8 @@
 						<a href="{{ connection.url }}" target="_blank">{{ connection.url }}</a>
 					</div>
 					<div class="col-md-2">
-						<span class="toggle" ng-click="toggleActiveStatus(connection)">{{ connection.activeStatus() }}</span>
+						<span class="toggle" ng-click="toggleActiveStatus(connection)">{{ connection.activeStatus() }}</span> | 
+						<span ng-click="checkStatus(connection)">Check Status</span>
 					</div>
 					<div class="col-md-2">
 						<span class="fa fa-trash-o" ng-show="canEditConnection" ng-click="deleteConnection(connection)"></span>

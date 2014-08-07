@@ -22,21 +22,24 @@ class SoundcloudAPI extends AbstractConnection {
 
   public function getIdentifier()
   {
-    $user = $this->getMe();
-    return $user->username;
-  }
-
-  public function getUrl()
-  {
-    $user = $this->getMe();
-    return $user->permalink_url;
+    $me = $this->getMe();
+    return $me->username;
   }
 
   public function getMe()
   {
-    $client = $this->getClient();
-    $response = $client->get('me');
-    return json_decode($response);
+    if ( ! $this->me) {
+      $client = $this->getClient();
+      $response = $client->get('me');
+      $this->me = json_decode($response);
+    }
+    return $this->me;
+  }
+
+  public function getUrl()
+  {
+    $me = $this->getMe();
+    return $me->permalink_url;
   }
 
   public function postContent($content)
