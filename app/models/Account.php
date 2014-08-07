@@ -27,7 +27,7 @@ class Account extends Ardent {
 	protected $fillable = [
 		'title', 'active', 'address', 'address_2', 'name', 'city',
 		'state', 'phone', 'country', 'zipcode', 'email', 'auto_renew',
-		'payment_type', 'token', 'yearly_payment'
+		'payment_type', 'token', 'yearly_payment', 'strategy'
   ];
 
 	//protected function getDateFormat()
@@ -55,7 +55,25 @@ class Account extends Ardent {
         
       }
   	}
+
+    if (is_array(@$this->strategy)) {
+      $this->strategy = json_encode($this->strategy);
+    }
   }
+
+    public function toArray()
+    {
+      $values = parent::toArray();
+
+      if (is_string(@$values['strategy'])) {
+        $values['strategy'] = @json_decode($values['strategy'], true);
+      }
+      if (!@$values['strategy']) {
+        $values['strategy'] = [];
+      }
+
+      return $values;
+    }
 
   /**
    * Return the newest subscription record

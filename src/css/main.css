@@ -114,6 +114,14 @@
 .ui-pnotify-text {
   overflow: auto;
 }
+.has-error .help-block,
+.has-error .control-label,
+.has-error .radio,
+.has-error .checkbox,
+.has-error .radio-inline,
+.has-error .checkbox-inline {
+  color: #ff0000;
+}
 /* #region navigation */
 .cl-icon-navigation {
   margin-bottom: 6px;
@@ -678,6 +686,11 @@ header .login-info .popover-menu .admin-menu li .glyphicon {
   background-color: #1a1a1a;
   color: #ffffff;
 }
+.btn-black[disabled] {
+  background-color: #aaaaaa;
+  color: #000000;
+  cursor: not-allowed;
+}
 label {
   display: inline;
   font-family: 'Lato-Bold';
@@ -768,7 +781,7 @@ span[class*=" icon-"].dark {
   opacity: 0.4;
   content: attr(data-placeholder);
 }
-#login-form,
+#loginForm,
 #change-password-form {
   background-color: #10699d;
   border-radius: 40px;
@@ -776,44 +789,44 @@ span[class*=" icon-"].dark {
   padding: 20px 40px;
   height: 360px;
 }
-#login-form .header,
+#loginForm .header,
 #change-password-form .header {
   font-family: 'Lato-Light';
   font-size: 20px;
   margin: 16px;
   text-align: center;
 }
-#login-form .header .content,
+#loginForm .header .content,
 #change-password-form .header .content {
   font-family: 'Lato-Light';
   vertical-align: top;
 }
-#login-form .header .launch,
+#loginForm .header .launch,
 #change-password-form .header .launch {
   font-family: 'Lato-Black';
   vertical-align: top;
 }
-#login-form input[type="text"],
+#loginForm input[type="text"],
 #change-password-form input[type="text"],
-#login-form input[type="password"],
+#loginForm input[type="password"],
 #change-password-form input[type="password"] {
   color: #000000;
   width: 100%;
 }
-#login-form a,
+#loginForm a,
 #change-password-form a {
   color: #ffffff;
 }
-#login-form .btn-toolbar,
+#loginForm .btn-toolbar,
 #change-password-form .btn-toolbar {
   text-align: center;
 }
-#login-form .btn-toolbar .btn,
+#loginForm .btn-toolbar .btn,
 #change-password-form .btn-toolbar .btn {
   margin: 4px;
   padding: 4px 33px;
 }
-#login-form button,
+#loginForm button,
 #change-password-form button {
   background-color: #333333;
   border: 0;
@@ -822,11 +835,11 @@ span[class*=" icon-"].dark {
   margin: 0 0 16px 0;
   padding: 4px;
 }
-#login-form button.full-width,
+#loginForm button.full-width,
 #change-password-form button.full-width {
   width: 100%;
 }
-#login-form .icon-launch,
+#loginForm .icon-launch,
 #change-password-form .icon-launch {
   -moz-background-size: 40px;
   -o-background-size: 40px;
@@ -834,11 +847,11 @@ span[class*=" icon-"].dark {
   height: 40px;
   width: 40px;
 }
-#login-form {
+#loginForm {
   margin: auto;
   width: 350px;
 }
-#login-form .header .logo-white {
+#loginForm .header .logo-white {
   height: 50px;
 }
 #change-password-form button {
@@ -1292,6 +1305,20 @@ span[class*=" icon-"].dark {
 .promote .left-pane ul.items-list li .item-info .item-title,
 .measure .left-pane ul.items-list li .item-info .item-title {
   font-size: 12pt;
+}
+.users .left-pane ul.items-list li.disabled,
+.accounts .left-pane ul.items-list li.disabled,
+.roles .left-pane ul.items-list li.disabled,
+.content-settings .left-pane ul.items-list li.disabled,
+.seo-settings .left-pane ul.items-list li.disabled,
+.create .left-pane ul.items-list li.disabled,
+.calendar .left-pane ul.items-list li.disabled,
+.admin-library .left-pane ul.items-list li.disabled,
+.consult .left-pane ul.items-list li.disabled,
+.admin-conference .left-pane ul.items-list li.disabled,
+.promote .left-pane ul.items-list li.disabled,
+.measure .left-pane ul.items-list li.disabled {
+  opacity: 0.4;
 }
 .users .left-pane .pager ul.pagination,
 .accounts .left-pane .pager ul.pagination,
@@ -3595,6 +3622,11 @@ hr.simple-divider {
   top: 50%;
   margin-top: 115px;
   width: 100%;
+}
+.full-screen-modal .progress {
+  margin: auto;
+  margin-top: 24px;
+  max-width: 300px;
 }
 .modal-dialog .modal-brainstorm .agenda {
   width: 33%;

@@ -29,12 +29,45 @@
 
         self.initChartData = function () {
             $scope.contentCreatedLine = {
-                series: ['All'],
-                title: 'Total Content'
+                title: 'Total Content',
+                measureFunction: measureService.getCreated,
+                dateParseFunction: function(date) {
+                    var sum = 0;
+                    $.each(date.stats.by_user, function(i, user) {
+                        sum += user.count;
+                    });
+                    return {label: date.date, data: sum};
+                }
             };
+
+            $scope.contentLaunched = {
+                title: 'Content Launched',
+                measureFunction: measureService.getLaunched,
+                dateParseFunction: function(date) {
+                    var sum = 0;
+                    $.each(date.stats.by_user, function(i, user) {
+                        sum += user.count;
+                    });
+                    return {label: date.date, data: sum};
+                }
+            }
+
+            $scope.productionDays = {
+                title: 'Average Production Days',
+                measureFunction: measureService.getTiming,
+                dateParseFunction: function(date) {
+                    var sum = 0;
+                    $.each(date.stats.by_user, function(i, user) {
+                        sum += parseFloat(user.average_seconds);
+                    });
+                    var average = date.stats.by_user.length > 0 ? sum / date.stats.by_user.length : 0;
+
+                    return {label: date.date, data: average}
+                }
+            }
         };
 
-        $scope.getChartData = function() {
+        $scope.getLineChartData = function() {
 
             var startDate;
             if(this.days == 'Q') {
@@ -50,7 +83,7 @@
                 startDate = moment().subtract(parseInt(this.days), 'days');
             }
 
-            return measureService.getCreated(self.loggedInUser.account.id, startDate.format('YYYY-MM-DD'));
+            return this.info.measureFunction(self.loggedInUser.account.id, startDate.format('YYYY-MM-DD'));
         };
 
 		$scope.contentCreatedLineChartTime = null;

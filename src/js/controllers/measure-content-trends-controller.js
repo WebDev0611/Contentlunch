@@ -25,6 +25,44 @@
 			$scope.selectedTab = 'content-trends';
 		};
 
+        self.initChartData = function () {
+            $scope.companyContentScoreLine = {
+                title: 'Company Content Score',
+                measureFunction: measureService.getOverview,
+                dateParseFunction: function(date) {
+                    return {label: date.date, data: parseFloat(date.stats.companyScore)};
+                }
+            };
+
+            $scope.individualContentScoreLine = {
+                title: 'Individual Content Score',
+                measureFunction: measureService.getOverview,
+                dateParseFunction: function(date) {
+                    return {label: date.date, data: parseFloat(date.stats.totalContentScore)};
+                }
+            };
+
+        };
+
+        $scope.getLineChartData = function() {
+
+            var startDate;
+            if(this.days == 'Q') {
+                startDate = moment().startOf('quarter');
+            }
+            else if(this.days == 'Y') {
+                startDate = moment().startOf('year');
+            }
+            else if(this.days == 'A'){
+                startDate = moment().startOf('year');
+            }
+            else {
+                startDate = moment().subtract(parseInt(this.days), 'days');
+            }
+
+            return this.info.measureFunction(self.loggedInUser.account.id, startDate.format('YYYY-MM-DD'));
+        };
+
 		$scope.companyContentScoreTime = null;
 		$scope.companyContentScoreGroupBy = null;
 		$scope.individualContentScoreTrendTime = null;
@@ -36,5 +74,6 @@
 		$scope.isOverview = false;
 
 		self.init();
+        self.initChartData();
 	}
 ]);

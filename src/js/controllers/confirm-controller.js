@@ -49,7 +49,7 @@ launch.module.controller('ConfirmController', [
 						$scope.isSaving = false;
 						notificationService.success('Success!', 'You have successfully changed your password!');
 
-						$route.path('/login');
+						$location.path('/login');
 					},
 					error: function(r) {
 						$scope.isSaving = false;

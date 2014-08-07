@@ -134,6 +134,29 @@ class LinkedInAPI extends AbstractConnection implements Connection
       ];
     }
 
+    public function postToGroup($content, $groupID)
+    {
+      $payload = [
+        'title'   => strip_tags($content->title),
+        'summary' => strip_tags($content->body),
+      ];
+
+      $response = $this->linkedIn->api("v1/groups/{$groupID}/posts", [], 'POST', $payload);
+
+      if (isset($response['errorCode'])) {
+        return [
+          'success'  => false,
+          'error'    => $response['message'],
+          'response' => $response
+        ];
+      }
+      return [
+        'success'  => true,
+        // this response doesn't actually return anything on success
+        'response' => $response ?: true,
+      ];
+    }
+
 
     /**
      * Send a direct message to the IDs passed in with the provided message data

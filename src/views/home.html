@@ -56,9 +56,11 @@
         <div class="panel">
             <div class="panel-heading" style="background-color:#2badc0; color: white">Our Content Strategy</div>
             <div class="panel-body">
-                <div ng-bind-html="contentStrategy"></div>
+                <ul ng-show="strategy.length">
+                    <li ng-repeat="item in strategy">{{ item.text }}</li>
+                </ul>
 
-                <div ng-show="!contentStrategy">
+                <div ng-hide="strategy.length">
                     No content strategy for you!
                 </div>
             </div>

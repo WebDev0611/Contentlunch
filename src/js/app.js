@@ -55,7 +55,8 @@
 					})
 					.when('/user/confirm/:code', {
 						controller: 'ConfirmController',
-						templateUrl: '/assets/views/reset-password.html'
+						templateUrl: '/assets/views/reset-password.html',
+						allowAnon: true
 					})
 					.when('/users', {
 						controller: 'UsersController',
@@ -323,8 +324,11 @@
 
 						var error = function(r) {
 							if (r.status === 401) {
-								// TODO: OPEN DIALOG HERE!!
-								$location.path('/login');
+								if (!launch.utils.startsWith($location.path(), '/user/confirm/')) {
+									// TODO: OPEN DIALOG HERE!!
+									$location.path('/login');
+								}
+
 								return $q.reject(r);
 							} else {
 								return $q.reject(r);
@@ -342,8 +346,7 @@
 				$httpProvider.defaults.headers.common['X-Timezone'] = moment().format('Z');
 			}
 		])
-		.run([
-					'$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService',
+		.run(['$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService',
 			function($rootScope,   $location,   userService,   authService,   notificationService) {
 				$rootScope.yes = true;
 				$rootScope.no = false;
@@ -358,16 +361,16 @@
 				};
 
 				$rootScope.$on('$routeChangeStart', function(event, next, current) {
-					// TODO: VALIDATE THAT THE USER IS ALLOWED TO VIEW THE PAGE THEY ARE REQUESTING!! IF NOT, SHOW A WARNING OR ERROR AND REDIRECT TO HOME!!
-					//          THIS MAY BE BETTER TO DO IN EACH CONTROLLER, HOWEVER?
 					if ($location.path() === '/login') {
 						authService.logout();
 					} else if (!next.allowAnon && !authService.isLoggedIn()) {
 						// if you want a page to be allowed access anonymously,
 						// set the flag "allowAnon" to true in the route defintion
-						authService.fetchCurrentUser({
-							success: fetchCurrentUser
-						});
+						//authService.fetchCurrentUser({
+						//	success: fetchCurrentUser
+						//});
+						$location.path('/login');
+						event.preventDefault();
 					}
 				});
 
@@ -378,9 +381,6 @@
 
 				$.pnotify.defaults.styling = "bootstrap3";
 				$.pnotify.defaults.history = false;
-
-				// TODO: FIGURE OUT IF WE CAN SET THIS FROM THE SERVER!!!
-				launch.config.DEBUG_MODE = true;
 
 				// Generic Template-wide helpers
 				// -------------------------

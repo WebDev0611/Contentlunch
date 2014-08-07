@@ -69,14 +69,14 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 		},
 		userInfo: function() {
 			if (!this.isLoggedIn()) {
-				return { };
+				return null;
 			}
 
 			return self.modelMapper.auth.fromCache(JSON.parse(SessionService.get(SessionService.USER_KEY)));
 		},
 		accountInfo: function() {
 			if (!this.isLoggedIn()) {
-				return { };
+				return null;
 			}
 
 			return self.modelMapper.account.fromCache(JSON.parse(SessionService.get(SessionService.ACCOUNT_KEY)));

@@ -14,6 +14,8 @@
 			for (var i = 0; i < 10; i++) {
 				scope.years.push(year + i);
 			}
+
+			scope.isGlobalAdmin = self.loggedInUser.role.isGlobalAdmin;
 		};
 
 		scope.activeOptions = [
@@ -352,6 +354,21 @@
 						};
 					}
 				]
+			});
+		};
+
+		scope.strategy = [];
+		scope.deleteStrategyItem = function (item) {
+			_.remove(scope.selectedAccount.strategy, item);
+		};
+
+		scope.addStrategyItem = function () {
+			if (!scope.selectedAccount.strategy) scope.selectedAccount.strategy = [];
+			var maxId = Math.max.apply(null, _.pluck(scope.selectedAccount.strategy, 'id'));
+			if (!maxId || maxId < 0) maxId = 0;
+			var newId = maxId + 1;
+			scope.selectedAccount.strategy.push({
+				id: newId
 			});
 		};
 

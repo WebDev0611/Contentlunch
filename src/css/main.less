@@ -326,6 +326,12 @@ header {
 		background-color: lighten(#000000, 10%);
 		color: #ffffff;
 	}
+
+	&[disabled] {
+		background-color: #aaaaaa;
+		color: #000000;
+		cursor: not-allowed;
+	}
 }
 
 label {
@@ -439,7 +445,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-#login-form, #change-password-form {
+#loginForm, #change-password-form {
 	background-color: @homeColorDark;
 	border-radius: 40px;
 	color: #ffffff;
@@ -503,7 +509,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
-#login-form {
+#loginForm {
 	margin: auto;
 	width: 350px;
 
@@ -857,6 +863,10 @@ span[class^="icon-"], span[class*=" icon-"] {
 					.item-title {
 						font-size: 12pt;
 					}
+				}
+
+				&.disabled {
+					opacity: 0.4;
 				}
 			}
 		}
@@ -3337,6 +3347,12 @@ hr.simple-divider {
 		top: 50%;
 		margin-top: 115px;
 		width: 100%;
+	}
+
+	.progress{
+		margin: auto;
+		margin-top: 24px;
+		max-width: 300px;
 	}
 }
 
