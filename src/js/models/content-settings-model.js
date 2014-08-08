@@ -49,5 +49,17 @@
 		this.personas.splice(index, 1);
 	};
 
+	self.validateProperty = function (property) {
+		if (launch.utils.isBlank(property)) {
+			return null;
+		}
+
+		if (property.toLowerCase() === 'publishingguidelines' && launch.utils.isBlank(this.publishingGuidelines)) {
+			return 'Publishing Guidelines are required.';
+		}
+
+		return null;
+	};
+
 	return self;
 };

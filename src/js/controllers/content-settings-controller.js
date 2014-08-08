@@ -74,9 +74,26 @@
 		$scope.itemPlaceholder = 'Enter Some Text';
 		$scope.textEditorSettings = launch.config.TINY_MCE_SETTINGS;
 		$scope.canEditContentSettings = false;
+
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
+		$scope.hasError = launch.utils.isPropertyValid;
+		$scope.errorMessage = launch.utils.getPropertyErrorMessage;
 
 		$scope.updateContentSettings = function(refresh, onAfterSave) {
+			if (!$scope.contentSettings || $scope.contentSettings.$resolved === false) {
+				return;
+			}
+
+			$scope.forceDirty = true;
+
+			var msg = launch.utils.validateAll($scope.contentSettings);
+
+			if (!launch.utils.isBlank(msg)) {
+				notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
+
+				return;
+			}
+
 			$scope.isSaving = true;
 
 			contentSettingsService.update($scope.contentSettings, {
