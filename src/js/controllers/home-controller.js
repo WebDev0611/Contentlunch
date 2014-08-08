@@ -101,5 +101,86 @@ launch.module.controller('HomeController',
             pageSize: 10,
             currentPage: 1,
         };
+
+        // Charts
+        // -------------------------
+        self.initChartData = function () {
+            function countDateParse(date, groupBy, group) {
+                var sum = 0;
+                if(groupBy == 'all' || !groupBy) {
+                    $.each(date.stats.by_user, function(i, user) {
+                        sum += user.count;
+                    });
+                }
+                else if(groupBy == 'author') {
+                    $.each(date.stats.by_user, function(i, user) {
+                        if(user.user_id == group) {
+                            sum += user.count;
+                        }
+                    })
+                }
+                else if(groupBy == 'buying-stage') {
+                    $.each(date.stats.by_buying_stage, function(i, stage) {
+                        if(stage.buying_stage == group) {
+                            sum += stage.count;
+                        }
+                    })
+                }
+                else if(groupBy == 'content-type') {
+                    $.each(date.stats.by_content_type, function(i, type) {
+                        if(type.content_type_id == group) {
+                            sum += type.count;
+                        }
+                    })
+                }
+                return {label: date.date, data: sum};
+            }
+
+            $scope.companyContentScoreTime = 7;
+            $scope.companyContentScoreLine = {
+                title: 'Company Content Score',
+                measureFunction: function() {return []},
+                dateParseFunction: countDateParse
+            };
+
+            $scope.totalContentItemsTime = 7;
+            $scope.totalContentItemsLine = {
+                title: 'Total Content Items',
+                measureFunction: function() {return []},
+                dateParseFunction: countDateParse
+            };
+
+            $scope.stageBreakdownPie = {
+                title: 'Stage Breakdown',
+                measureFunction: function() {return []},
+                dateParseFunction: countDateParse
+            };
+
+
+        };
+
+        $scope.getChartData = function() {
+
+            var startDate;
+            if(!this.days) {
+                startDate = moment('1970-01-01')
+            }
+            else if(this.days == 'Q') {
+                startDate = moment().startOf('quarter');
+            }
+            else if(this.days == 'Y') {
+                startDate = moment().startOf('year');
+            }
+            else if(this.days == 'A'){
+                startDate = moment().startOf('year');
+            }
+            else {
+                startDate = moment().subtract(parseInt(this.days), 'days');
+            }
+
+            return this.info.measureFunction(user.account.id, startDate.format('YYYY-MM-DD'));
+        };
+
+        self.initChartData();
     }
 ]);
