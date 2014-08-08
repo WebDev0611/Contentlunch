@@ -3,7 +3,9 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
   $scope.files = [];
 
   $scope.init = function () {
+    $scope.isLoading = true;
     LibraryService.Libraries.query({}, function (response) {
+      $scope.isLoading = false;
       if (response[0]) {
         $scope.files = response[0].uploads;
       }
@@ -50,6 +52,7 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
 
         // Save file
         $scope.ok = function () {
+          $scope.isSaving = true;
           var data = {
             description: $scope.uploadFile.description,
             tags: $scope.uploadFile.tags
@@ -63,6 +66,8 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
             $modalInstance.dismiss();
             NotificationService.success('Success!', 'File: ' + response.filename + ' added');
             parentScope.init();
+          }).then(function () {
+            $scope.isSaving = false;
           });
         };
       }
@@ -112,6 +117,7 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
 
         // Save file
         $scope.ok = function () {
+          $scope.isSaving = true;
           $upload.upload({
             url: '/api/library/' + $scope.uploadFile.libraries[0].id + '/uploads/' + $scope.uploadFile.id + '?description=' + $scope.uploadFile.description +'&tags='+ $scope.uploadFile.tags,
             method: 'PUT'
@@ -123,12 +129,14 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
             parentScope.init();
           }).error(function (response) {
             launch.utils.handleAjaxErrorResponse(response, NotificationService);
+          }).then(function () {
+            $scope.isSaving = false;
           });
         };
 
         // Delete file
         $scope.delete = function () {  
-
+          $scope.isDeleting = true;
           $modal.open({
             templateUrl: 'confirm.html',
             controller: ['$scope', '$modalInstance', function (modalScope, instance) {
@@ -142,6 +150,8 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
                   parentScope.init();
                 }, function (response) {
                   launch.utils.handleAjaxErrorResponse(response, NotificationService);
+                }).then(function () {
+                  $scope.isDeleting = false;
                 });
                 instance.close();
               };

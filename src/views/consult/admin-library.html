@@ -1,4 +1,8 @@
-<div class="view admin-library">
+<div class="loading-spinner-container" ng-show="isLoading">
+    <spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
+</div>
+
+<div class="view admin-library" ng-hide="isLoading">
   
   <div class="col-md-3 left-pane">
     <div class="btn-group">

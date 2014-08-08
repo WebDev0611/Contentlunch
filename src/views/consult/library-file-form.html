@@ -40,9 +40,9 @@
       </div>
 
       <div class="buttons clearfix">
-        <button class="btn btn-primary btn-black" ng-click="ok()">Save and Close</button>
-        <button class="btn btn-warning btn-black" ng-click="cancel()">Cancel</button>
-        <button class="btn btn-warning btn-black" ng-click="delete()" ng-show="mode == 'edit'">Delete</button>
+        <button class="btn btn-primary btn-black ladda-button" ng-disabled="isDeleting" data-style="zoom-in" ladda-button="isSaving" ng-click="ok()">Save and Close</button>
+        <button class="btn btn-warning btn-black ladda-button" ng-disabled="isSaving || isDeleting" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-warning btn-black ladda-button" ng-disabled="isSaving" data-style="zoom-in" ladda-button="isSaving" ng-click="delete()" ng-show="mode == 'edit'">Delete</button>
       </div>
 
     </form>
