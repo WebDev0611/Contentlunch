@@ -62,7 +62,7 @@
 				
 				<div ng-include="'/assets/views/content/partials/content-form.html'"></div>
 				
-				<div files-list="content.attachments" after-add-file-success="addAttachment" users="taskUsers" ng-hide="isNewContent" is-disabled="attachmentsIsDisabled"></div>
+				<div files-list="content.attachments" after-add-file-success="addAttachment" before-add-file="beforeAddAttachment" users="taskUsers" ng-hide="isNewContent" is-disabled="attachmentsIsDisabled"></div>
 			</div>
 			<div class="col-md-3" ng-hide="isNewContent">
 				<div collaborator-sidebar collaborators="content.collaborators" users="collaborators" item-id="content.id" item-type="'content'"
