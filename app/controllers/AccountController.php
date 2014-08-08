@@ -142,7 +142,7 @@ class AccountController extends BaseController {
 			return $this->responseAccessDenied();
 		}
 		$account = Account::find($id);
-		$user = User::where('email', $account->email)->first();
+		$user = $account->getSiteAdminUser();
 		$token = $user->confirmation_code;
 		$data = array(
 			'account' => $account,
