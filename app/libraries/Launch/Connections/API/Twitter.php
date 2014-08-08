@@ -9,8 +9,6 @@ class TwitterAPI extends AbstractConnection
 
     protected $configKey = 'services.twitter';
 
-    protected $meData = null;
-
     protected function getClient()
     {
       if ( ! $this->client) {
@@ -26,33 +24,6 @@ class TwitterAPI extends AbstractConnection
         }
       }
       return $this->client;
-    }
-
-    public function getMe()
-    {
-      if ( ! $this->meData) {
-        $client = $this->getClient();
-        $this->meData = $client->getCredentials();
-      }
-      return $this->meData;
-    }
-
-    public function getIdentifier()
-    {
-      $user = $this->getMe();
-      if ($user) {
-        return $user->name .' (@'. $user->screen_name .')';
-      }
-      return null;
-    }
-
-    public function getUrl()
-    {
-      $user = $this->getMe();
-      if ($user) {
-        return 'https://twitter.com/'. $user->screen_name;
-      }
-      return null;
     }
 
     /**
@@ -73,6 +44,27 @@ class TwitterAPI extends AbstractConnection
         return $this->processResult(@$result['users'] ? $result['users'] : $result);
     }
 
+    public function getIdentifier()
+    {
+      $me = $this->getMe();
+      return $me->name .' (@'. $me->screen_name .')';
+    }
+
+    public function getMe()
+    {
+      if ( ! $this->me) {
+        $client = $this->getClient();
+        $this->me = $client->getCredentials();
+      }
+      return $this->me;
+    }
+
+    public function getUrl()
+    {
+      $me = $this->getMe();
+      return 'https://twitter.com/'. $me->screen_name;
+    }
+
     /**
      * Post the provided content to the connections
      * @param  object $content The content to publish
@@ -83,10 +75,22 @@ class TwitterAPI extends AbstractConnection
       $client = $this->getClient();
       // Strip html tags
       $message = strip_tags($content->body);
-      $response = $client->postTweet([
-        'status' => $message,
-        'format' => 'array'
-      ]);
+
+      // If there is an attached file, upload with media
+      $upload = $content->upload()->first();
+      if ($upload && $upload->media_type == 'image') {
+        // Twitter supports PNG, JPG and GIF up to 3 MB
+        $response = $client->postTweetMedia([
+          'status' => $message,
+          'format' => 'array',
+          'media[]' => file_get_contents($upload->getAbsPath())
+        ]);
+      } else {
+        $response = $client->postTweet([
+          'status' => $message,
+          'format' => 'array'
+        ]);
+      }
       if ( ! empty($response['errors'])) {
         $errors = [];
         foreach ($response['errors'] as $error) {

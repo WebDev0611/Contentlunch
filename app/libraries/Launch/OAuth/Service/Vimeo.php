@@ -11,4 +11,5 @@ class Vimeo extends AbstractServiceOAuth2 {
   const API_PUBLIC = 'public';
   const API_PRIVATE = 'private';
   const API_UPLOAD = 'upload';
+  const API_EDIT = 'edit';
 }

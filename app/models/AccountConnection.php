@@ -56,6 +56,7 @@ class AccountConnection extends Ardent {
       else $query->where('connections.provider', $provider);
     }
     $query->where('account_connections.account_id', $accountID);
+    $query->orderBy('connections.provider', 'ASC');
     $connections = $query->get([
       'account_connections.id',
       'account_connections.name',

@@ -17,6 +17,16 @@ class TrapitAPI extends AbstractConnection {
     return null;
   }
 
+  public function getMe()
+  {
+    return null;
+  }
+
+  public function getUrl()
+  {
+    return null;
+  }
+
   /**
    * @see http://www.tumblr.com/docs/en/api/v2#posting
    */

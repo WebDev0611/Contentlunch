@@ -12,8 +12,6 @@ class ActonAPI extends AbstractConnection {
 
   protected $base_url = 'https://restapi.actonsoftware.com';
 
-  protected $meData = null;
-
   protected function getClient()
   {
     if ( ! $this->client) {
@@ -30,6 +28,31 @@ class ActonAPI extends AbstractConnection {
     return $this->client;
   }
 
+  public function getIdentifier()
+  {
+    $me = $this->getMe();
+    return $me['cname'];
+  }
+
+
+  public function getLandingPages()
+  {
+    $client = $this->getClient();
+    $response = $client->get('/api/1/page');
+    print_r($response->json());
+    die;
+  }
+
+  public function getMe()
+  {
+    if ( ! $this->me) {
+      $client = $this->getClient();
+      $response = $client->get('/api/1/account');
+      $this->me = $response->json();
+    }
+    return $this->me;
+  }
+
   protected function getRefreshToken()
   {
     $client = $this->getClient();
@@ -44,50 +67,9 @@ class ActonAPI extends AbstractConnection {
     return $response->json()['access_token'];
   }
 
-  public function getMe()
-  {
-    if ( ! $this->meData) {
-      $client = $this->getClient();
-      $response = $client->get('/api/1/account');
-      $this->meData = $response->json();
-    }
-    return $this->meData;
-  }
-
-  public function getIdentifier()
-  {
-    $data = $this->getMe();
-    if ($data) {
-      return $data['cname'];
-    }
-  }
-
   public function getUrl()
   {
-    return $this->notApplicableText;
-  }
-
-  /**
-   */
-  public function postEmailDraft($content)
-  {
-    $client = $this->getClient();
-    $response = ['success' => true, 'response' => []];
-    try {
-      $apiResponse = $client->post('/api/1/message', [
-        'body' => [
-          'type' => 'draft',
-          'subject' => $content->title,
-          'htmlbody' => $content->body,
-        ]
-      ]);
-      $response['success'] = true;
-      $response['response'] = $apiResponse->json();
-    } catch (\Exception $e) {
-      $response['success'] = false;
-      $response['error'] = $e->getMessage();
-    }
-    return $response;
+    return self::NA_TEXT;
   }
 
   public function postContent($content)
@@ -111,6 +93,27 @@ class ActonAPI extends AbstractConnection {
         return $this->postSitePage($content);
       break;
     }
+  }
+
+  public function postEmailDraft($content)
+  {
+    $client = $this->getClient();
+    $response = ['success' => true, 'response' => []];
+    try {
+      $apiResponse = $client->post('/api/1/message', [
+        'body' => [
+          'type' => 'draft',
+          'subject' => $content->title,
+          'htmlbody' => $content->body,
+        ]
+      ]);
+      $response['success'] = true;
+      $response['response'] = $apiResponse->json();
+    } catch (\Exception $e) {
+      $response['success'] = false;
+      $response['error'] = $e->getMessage();
+    }
+    return $response;
   }
 
 }

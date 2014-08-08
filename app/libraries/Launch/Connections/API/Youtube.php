@@ -17,14 +17,12 @@ use Google_Http_MediaFileUpload;
  * @see https://github.com/google/google-api-php-client
  * Use master of this lib, as latest tag has error in media upload
  */
-class YoutubeAPI extends AbstractConnection {
+class YoutubeAPI extends GoogleAPI {
   
-  protected $configKey = 'services.google';
+  protected $configKey = 'services.youtube';
 
   // Youtube service api
   protected $api = null;
-
-  protected $info = null;
 
   protected function getClient()
   {
@@ -58,28 +56,26 @@ class YoutubeAPI extends AbstractConnection {
     return $this->client;
   }
 
-  public function getProfileInfo()
-  {
-    // This gets google + plus profile info
-    if ( ! $this->info) {
-      $api = new Google_Service_Oauth2($this->getClient());
-      $this->info = $api->userinfo->get();
-    }
-    return $this->info;
-  }
-
   public function getIdentifier()
   {
-    $info = $this->getProfileInfo();
-    if ($info) {
-      return ucwords($info->user->displayName);
+    $me = $this->getMe();
+    return ucwords($me->user->displayName);
+  }
+
+  public function getMe()
+  {
+    // This gets google + plus profile info
+    if ( ! $this->me) {
+      $api = new Google_Service_Oauth2($this->getClient());
+      $this->me = $api->userinfo->get();
     }
+    return $this->me;
   }
 
   public function getUrl()
   {
-    $info = $this->getProfileInfo();
-    return $info->link;
+    $me = $this->getMe();
+    return $me->link;
   }
 
   protected function getRefreshToken()

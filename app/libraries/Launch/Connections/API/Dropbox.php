@@ -4,9 +4,6 @@ use Illuminate\Support\Facades\Config;
 use Dropbox\Client;
 use Dropbox\WriteMode;
 
-/**
- * @see https://www.dropbox.com/developers/core/start/php
- */
 class DropboxAPI extends AbstractConnection {
 
   protected $configKey = 'services.dropbox';
@@ -20,17 +17,24 @@ class DropboxAPI extends AbstractConnection {
     return $this->client;
   }
 
-  public function getAccountInfo()
+  public function getIdentifier()
+  {  
+    $info = $this->getMe();
+    return $info['display_name'];
+  }
+
+  public function getMe()
   {
-    try {
+    if ( ! $this->me) {
       $client = $this->getClient();
-    } catch (\Exception $e) {
-      return '';
+      $this->me = $client->getAccountInfo();
     }
-    if ($client) {
-      $response = $client->getAccountInfo();
-      return $response;
-    }
+    return $this->me;
+  }
+
+  public function getUrl()
+  {
+    return self::NA_TEXT;
   }
 
   public function postContent($content)
@@ -56,19 +60,6 @@ class DropboxAPI extends AbstractConnection {
       $response['error'] = $e->getMessage();
     }
     return $response;
-  }
-
-  public function getIdentifier()
-  {  
-    $info = $this->getAccountInfo();
-    if ($info) {
-      return $info['display_name'];
-    }
-  }
-
-  public function getUrl()
-  {
-    return null;
   }
 
 }

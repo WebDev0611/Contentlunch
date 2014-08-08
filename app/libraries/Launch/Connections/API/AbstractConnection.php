@@ -10,7 +10,10 @@ abstract class AbstractConnection {
 
   protected $client = null;
 
-  protected $notApplicableText = 'n/a';
+  protected $me = null;
+
+  // Not applicable text
+  const NA_TEXT = 'n/a';
 
   public function __construct(array $accountConnection)
   {
@@ -43,14 +46,25 @@ abstract class AbstractConnection {
     return $this->accountConnection['settings']['token']->getAccessTokenSecret();
   }
 
+  /**
+   * Setup the connection client with valid access token
+   */
   abstract protected function getClient();
 
-  abstract protected function getIdentifier();
+  /**
+   * Get the me name / identifier string of connected account
+   */
+  abstract public function getIdentifier();
 
-  public function getUrl()
-  {
-    return null;
-  }
+  /**
+   * Get the me data for the connected account
+   */
+  abstract public function getMe();
+
+  /**
+   * Get the url of the connected account
+   */
+  abstract public function getUrl();
 
   /**
    * Save connection identifer in the accountConnection record

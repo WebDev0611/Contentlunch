@@ -408,7 +408,7 @@
 		self.getPromoteAutomationConnections = function() {
 			if (!!$scope.promoteConnections && $.isArray($scope.promoteConnections) && $scope.promoteConnections.length > 0) {
 				$scope.hubspotConnection = $.grep($scope.promoteConnections, function(c) { return c.provider === 'hubspot'; });
-				$scope.actOnConnection = $.grep($scope.promoteConnections, function(c) { return c.provider === 'act-on'; });
+				$scope.actOnConnection = $.grep($scope.promoteConnections, function(c) { return c.provider === 'acton'; });
 
 				$scope.hubspotConnection = $scope.hubspotConnection.length === 1 ? $scope.hubspotConnection[0] : null;
 				$scope.actOnConnection = $scope.actOnConnection.length === 1 ? $scope.actOnConnection[0] : null;

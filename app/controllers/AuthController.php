@@ -55,6 +55,17 @@ class AuthController extends BaseController {
         Confide::logout();
         return $this->responseError("Account is inactive.", 401);
       }
+
+      // check if account is active, but make exception for global admin
+      if ( ! $this->hasRole('global_admin')) {
+        // how the heck do we know which account they are trying to log into...?
+        $account = Account::find($user->accounts[0]->id);
+        if ( ! $account->active) {
+          Confide::logout();
+          return $this->responseError("Account is inactive.", 401);
+        }
+      }
+
       $ctrl = new UserController;
       return $ctrl->callAction('show', [$user->id]);
     }

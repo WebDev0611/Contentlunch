@@ -320,4 +320,33 @@ class AccountConnectionsController extends BaseController {
         return $this->responseError('Provider '. $connection->connection->provider .' does not support authors method');
     }
   }
+
+  /**
+   * Check the status of a connection to determine
+   * if access token is still valid
+   */
+  private function status($accountID, $connectionID)
+  {
+    if ( ! $this->inAccount(($accountID))) {
+      return $this->responseAccessDenied();
+    }
+    $connection = $this->show($accountID, $connectionID);
+    $api = ConnectionConnector::loadAPI($connection->connection->provider, $connection);
+    // Check status by getting the me data
+    try {
+      $response = $api->getMe(true);
+      $response = (array) $response;
+      switch ($connection->connection->provider) {
+        case 'facebook':
+          $response = array_pop($response);
+        break;
+      }
+      $success = 1;
+    } catch (\Exception $e) {
+      $response = $e->getMessage();
+      $success = 0;
+    }
+    return [$success, $response];
+  }
+
 }

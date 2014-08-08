@@ -6,9 +6,8 @@ use GuzzleHttp\Client;
 class TumblrAPI extends AbstractConnection {
 
   protected $baseUrl = 'http://api.tumblr.com';
-  protected $configKey = 'services.tumblr';
 
-  protected $userInfo = null;
+  protected $configKey = 'services.tumblr';
 
   protected function getClient()
   {
@@ -27,6 +26,26 @@ class TumblrAPI extends AbstractConnection {
       ]);
     }
     return $this->client;
+  }
+
+  public function getIdentifier()
+  {
+    $me = $this->getMe();
+    return $me['user']['blogs'][0]['name'];
+  }
+
+  public function getMe()
+  {
+    if ( ! $this->me) {
+      $request = $this->getRequest('GET', 'v2/user/info');
+      $client = $this->getClient();
+      $response = $client->send($request);
+      $info = $response->json();
+      if ($info['meta']['msg'] == 'OK') {
+        $this->me = $info['response'];
+      }
+    }
+    return $this->me;
   }
 
   public function getRequest($method, $path, $params = [], $headers = [])
@@ -65,30 +84,10 @@ class TumblrAPI extends AbstractConnection {
     return $request;
   }
 
-  public function getIdentifier()
-  {
-    $user = $this->getUserInfo();
-    return $user['user']['blogs'][0]['name'];
-  }
-
   public function getUrl()
   {
-    $user = $this->getUserInfo();
-    return $user['user']['blogs'][0]['url'];
-  }
-
-  public function getUserInfo()
-  {
-    if ( ! $this->userInfo) {
-      $request = $this->getRequest('GET', 'v2/user/info');
-      $client = $this->getClient();
-      $response = $client->send($request);
-      $info = $response->json();
-      if ($info['meta']['msg'] == 'OK') {
-        $this->userInfo = $info['response'];
-      }
-    }
-    return $this->userInfo;
+    $me = $this->getMe();
+    return $me['user']['blogs'][0]['url'];
   }
 
   /**
@@ -97,8 +96,8 @@ class TumblrAPI extends AbstractConnection {
   public function postContent($content)
   {
     // Get the name of the user's blog
-    $userInfo = $this->getUserInfo();
-    $name = $userInfo['user']['blogs'][0]['name'];
+    $me = $this->getMe();
+    $name = $me['user']['blogs'][0]['name'];
 
     // Setup post params
     $params = [

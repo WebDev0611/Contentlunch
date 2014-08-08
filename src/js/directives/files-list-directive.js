@@ -15,6 +15,7 @@
 		scope.percentComplete = 0;
 		scope.isCollapsed = false;
 		scope.fileCount = null;
+		scope.percentComplete = 0;
 
 		scope.getUserInfo = function (userId) {
 			var user = launch.utils.getUserById(scope.users, userId);
@@ -106,8 +107,11 @@
 								return;
 							}
 
+							scope.isSaving = true;
+
 							AccountService.addFile(self.loggedInUser.account.id, scp.file, scp.description, {
 								success: function (r) {
+									scope.isSaving = false;
 									scope.filesList.push(r);
 
 									scope.fileCount = scope.filesList.length;
@@ -124,7 +128,11 @@
 									instance.close();
 								},
 								error: function (r) {
+									scope.isSaving = false;
 									launch.utils.handleAjaxErrorResponse(r, NotificationService);
+								},
+								progress: function(evt) {
+									scope.percentComplete = parseInt(100.0 * evt.loaded / evt.total);
 								}
 							});
 						};

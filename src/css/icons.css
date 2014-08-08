@@ -29,6 +29,24 @@
 .cl-icon-launch {
   background-image: url(/assets/images/launch.svg);
 }
+.cl-icon-navigation-accounts {
+  background-image: url(/assets/images/account.png);
+}
+.cl-icon-navigation-subscription {
+  background-image: url(/assets/images/subscriptions.png);
+}
+.cl-icon-navigation-library {
+  background-image: url(/assets/images/library.png);
+}
+.cl-icon-navigation-forum {
+  background-image: url(/assets/images/forum.png);
+}
+.cl-icon-navigation-conference {
+  background-image: url(/assets/images/conference.png);
+}
+.cl-icon-navigation-announce {
+  background-image: url(/assets/images/announce.png);
+}
 /* #endregion */
 /* #region icon sizing */
 .cl-icon {

@@ -39,6 +39,17 @@
 	</div>
 </form>
 
+<div class="full-screen-modal" ng-show="isSaving">
+	<spinner spin="{ color: 'white', length: 50, width: 10, radius: 30 }"></spinner>
+	<div class="message">
+		Uploading...
+
+		<progressbar class="progress-striped active" value="percentComplete">
+			<span>{{ percentComplete }}%</span>
+		</progressbar>
+	</div>
+</div>
+
 <script type="text/ng-template" id="edit-attachment.html">
 	<div class="modal-header">Choose a File</div>
 	<div class="modal-body">

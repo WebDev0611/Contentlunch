@@ -29,13 +29,13 @@ class AccountSubscriptionController extends BaseController {
       // Based on the subscription level, assign modules to the account
       switch ($sub->subscription_level) {
         case 1:
-          $names = array('create', 'calendar', 'launch', 'measure');
+          $names = array('create', 'calendar', 'launch', 'measure', 'promote');
         break;
         case 2:
-          $names = array('create', 'calendar', 'launch', 'measure', 'collaborate');
+          $names = array('create', 'calendar', 'launch', 'measure', 'collaborate', 'promote');
         break;
         case 3:
-          $names = array('create', 'calendar', 'launch', 'measure', 'collaborate', 'consult');
+          $names = array('create', 'calendar', 'launch', 'measure', 'collaborate', 'consult', 'promote');
         break;
       }
       $modules = Module::whereIn('name', $names)->get();
