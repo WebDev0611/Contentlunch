@@ -56,8 +56,11 @@
 			
 			<h2>Company Publishing Guidelines</h2>
 			<p>Enter Company publishing guidelines here. These will be available for users as they are creating Ideas and Content.</p>
-
-			<textarea id="txtPublishingGuidelines" rich-text-editor ng-model="contentSettings.publishingGuidelines" ng-change="setDirty()"></textarea>
+			
+			<div class="control-group" ng-class="{ 'has-error': hasError(contentSettings, 'publishingGuidelines', editContentSettings.txtPublishingGuidelines, forceDirty) }">
+				<textarea id="txtPublishingGuidelines" name="txtPublishingGuidelines" rich-text-editor ng-model="contentSettings.publishingGuidelines" ng-change="setDirty()"
+					error-message error-message-item="contentSettings" error-message-property="'publishingGuidelines'" error-message-control="editContentSettings.txtPublishingGuidelines"></textarea>
+			</div>
 			
 			<h2>Personas/Buying Stage</h2>
 			<div>
