@@ -19,7 +19,7 @@
                                 <input type="checkbox" style="margin: 3px 0 0 -20px !important;" check-int ng-model="task.isComplete" disabled="disabled" ng-change="toggleTaskComplete(task)">
                                 <a href="{{ getTaskUrl(task) }}">{{ task.name }}</a>
                             </label>
-                            <div>
+                            <div class="no-wrap">
                                 <small ng-hide="task.dateCompleted" ng-class="{ error: (task.dueDate | isOverdue) }">
                                     <strong>Due:</strong> {{ task.dueDate ? (task.dueDate | date) : 'N/A' }}
                                 </small>
