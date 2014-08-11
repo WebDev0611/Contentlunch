@@ -200,6 +200,23 @@ header {
 				}
 			}
 		}
+
+		&.navbar-signup{
+			background-color: @homeColorDark;
+			border-radius: 0;
+			color: #ffffff;
+			font-size: 24pt;
+			font-weight: bold;
+			margin: 0;
+
+			.logo-white{
+				display: inline-block;
+				margin: 20px auto;
+				vertical-align: middle;
+				height: 60px;
+				width: 350px;
+			}
+		}
 	}
 
 	.login-info {
@@ -3519,4 +3536,78 @@ hr.simple-divider {
 
 .fc-event-inner {
 	text-shadow: 1px 1px 2px black;
+}
+
+.signup-form {
+	margin: 16px;
+	padding: 0 0 0 40px;
+
+	ul.signup-module-list {
+		list-style: none;
+		padding: 0;
+
+		li {
+			margin-bottom: 24px;
+			min-height: @navHeight;
+
+			> * {
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+			.signup-module-list-item {
+				display: inline-block;
+				float: left;
+				height: @navHeight;
+				margin-right: 16px;
+				padding: 22px;
+				text-align: center;
+				vertical-align: middle;
+				width: @navWidth;
+
+				&.create {
+					background-color: @createColor;
+				}
+
+				&.collaborate {
+					background-color: @collaborateColor;
+				}
+
+				&.consult {
+					background-color: @consultColor;
+				}
+
+				&.promote {
+					background-color: @promoteColor;
+				}
+
+				&.measure {
+					background-color: @measureColor;
+				}
+			}
+
+			.signup-module-list-item-title {
+				font-size: 16pt;
+				margin-top: 16px;
+			}
+		}
+	}
+
+	form[name="signupForm"] {
+		background-color: #F2F2F2;
+		border: solid 1px #cccccc;
+		border-radius: 4px;
+		padding: 16px;
+
+		label {
+			font-family: Lato;
+			font-weight: normal;
+		}
+
+		.btn{
+			display: block;
+			margin: auto;
+			padding: 4px 150px;
+		}
+	}
 }

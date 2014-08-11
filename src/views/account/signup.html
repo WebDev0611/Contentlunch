@@ -1,0 +1,99 @@
+﻿<div class="signup-form row">
+	<div class="col-md-2"></div>
+	<div class="col-md-4">
+		<ul class="signup-module-list">
+			<li>
+				<div class="signup-module-list-item create">
+					<span class="cl-icon cl-icon-navigation cl-icon-navigation-create"></span>
+				</div>
+				<span class="signup-module-list-item-title">CREATE</span><br/>
+				<span>compelling content for your business</span>
+			</li>
+			<li>
+				<div class="signup-module-list-item collaborate">
+					<span class="cl-icon cl-icon-navigation cl-icon-navigation-collaborate"></span>
+				</div>
+				<span class="signup-module-list-item-title">COLLABORATE</span><br/>
+				<span>with leaders in your industry</span>
+			</li>
+			<li>
+				<div class="signup-module-list-item consult">
+					<span class="cl-icon cl-icon-navigation cl-icon-navigation-consult"></span>
+				</div>
+				<span class="signup-module-list-item-title">CONSULT</span><br/>
+				<span>with our team of content marketing pros</span>
+			</li>
+			<li>
+				<div class="signup-module-list-item promote">
+					<span class="cl-icon cl-icon-navigation cl-icon-navigation-promote"></span>
+				</div>
+				<span class="signup-module-list-item-title">PROMOTE</span><br/>
+				<span>your content with our connection providers</span>
+			</li>
+			<li>
+				<div class="signup-module-list-item measure">
+					<span class="cl-icon cl-icon-navigation cl-icon-navigation-measure"></span>
+				</div>
+				<span class="signup-module-list-item-title">MEASURE</span><br/>
+				<span>your success</span>
+			</li>
+		</ul>
+	</div>
+	<div class="col-md-4">
+		<form name="signupForm" novalidate="novalidate">
+			<div class="control-group">
+				SIGN UP NOW
+			</div>
+			<div class="control-group">
+				<div class="form-group" ng-class="{ 'has-error': hasError(user, 'firstName', signupForm.txtFirstName, forceDirty) }">
+					<label class="control-label" for="txtFirstName">First Name</label>
+					<input type="text" id="txtFirstName" name="txtFirstName" class="form-control" ng-model="user.firstName"
+						error-message error-message-item="user" error-message-property="'firstName'" error-message-control="signupForm.txtFirstName" />
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="form-group" ng-class="{ 'has-error': hasError(user, 'lastName', signupForm.txtLastName, forceDirty) }">
+					<label class="control-label" for="txtFirstName">Last Name</label>
+					<input type="text" id="txtLastName" name="txtLastName" class="form-control" ng-model="user.lastName"
+						error-message error-message-item="user" error-message-property="'lastName'" error-message-control="signupForm.txtLastName" />
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="form-group" ng-class="{ 'has-error': hasError(user, 'title', signupForm.txtTitle, forceDirty) }">
+					<label class="control-label" for="txtTitle">Title</label>
+					<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="user.title"
+						error-message error-message-item="user" error-message-property="'title'" error-message-control="signupForm.txtTitle" />
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="form-group" ng-class="{ 'has-error': hasError(user, 'businessName', signupForm.txtBusinessName, forceDirty) }">
+					<label class="control-label" for="txtBusinessName">Business Name</label>
+					<input type="text" id="txtBusinessName" name="txtBusinessName" class="form-control" ng-model="user.businessName"
+						error-message error-message-item="user" error-message-property="'businessName'" error-message-control="signupForm.txtBusinessName" />
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="form-group" ng-class="{ 'has-error': hasError(user, 'phoneNumber', signupForm.txtPhoneNumber, forceDirty) }">
+					<label class="control-label" for="txtPhoneNumber">Phone Number</label>
+					<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="user.phoneNumber"
+						error-message error-message-item="user" error-message-property="'phoneNumber'" error-message-control="signupForm.txtPhoneNumber" />
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="form-group" ng-class="{ 'has-error': hasError(user, 'emailAddress', signupForm.txtEmailAddress, forceDirty) }">
+					<label class="control-label" for="txtEmailAddress">Email Address</label>
+					<input type="text" id="txtEmailAddress" name="txtEmailAddress" class="form-control" ng-model="user.emailAddress"
+							error-message error-message-item="user" error-message-property="'emailAddress'" error-message-control="signupForm.txtEmailAddress" />
+				</div>
+			</div>
+			
+			<button type="button" class="btn btn-default btn-black" ng-click="signUp()">SIGN UP</button>
+		</form>
+	</div>
+	<div class="col-md-2"></div>
+</div>
