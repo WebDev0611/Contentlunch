@@ -121,6 +121,7 @@
 			account.creditCard = new launch.CreditCard();
 			account.bankAccount = new launch.BankAccount();
 			account.subscription = null;
+			account.country = 'USA';
 
 			return account;
 		},

@@ -3809,6 +3809,7 @@ hr.simple-divider {
   float: left;
   height: 80px;
   margin-right: 16px;
+  opacity: 0.6;
   padding: 22px;
   text-align: center;
   vertical-align: middle;
