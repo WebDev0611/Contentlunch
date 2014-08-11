@@ -180,7 +180,6 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
 
                 var sourcesToAdd = toAdd(newEvents, currentEvents);
                 _.each(sourcesToAdd, function (source) {
-                    console.log($elem.length);
                     $elem.fullCalendar('addEventSource', source);
                 });
 
