@@ -25,7 +25,7 @@ class Campaign extends Ardent {
     'is_active'        => 'required',
     'campaign_type_id' => 'required',
     'start_date'       => 'required',
-    'end_date'         => 'required',
+    'end_date'         => 'required|after:start_date',
     'description'      => 'required',
   ];
 

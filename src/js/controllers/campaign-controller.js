@@ -35,24 +35,25 @@ function ($scope, AuthService, $routeParams, $filter, $q, $upload, $modal, Resta
             $scope.duplicateCampaign();
         }
 
-	    $scope.filterCollaborators();
+        $scope.filterCollaborators();
     }).catch($rootScope.globalErrorHandler);
 
     // Actions
     // -------------------------
     $scope.saveCampaign = function (campaign) {
-    	campaign.status = 1; // only concepts will have a non-1 status
-    	$scope.isSaving = true;
+        campaign.status = 1; // only concepts will have a non-1 status
+        $scope.isSaving = true;
         (campaign.isNew ? Campaigns.post(campaign) : campaign.put()).then(function (camp) {
-        	$scope.isSaving = false;
-        	var path = $location.path();
+            var path = $location.path();
             notify.success('Campaign saved');
             if (campaign.isNew) {
                 $location.search({}).path('/calendar/campaigns/' + camp.id);
             } else {
                 $scope.campaign = camp;
             }
-        }).catch($rootScope.globalErrorHandler);
+        }).catch($rootScope.globalErrorHandler).then(function () {
+            $scope.isSaving = false;
+        });
     };
 
     $scope.deleteCampaign = function (campaign) {
@@ -79,21 +80,21 @@ function ($scope, AuthService, $routeParams, $filter, $q, $upload, $modal, Resta
         });
     };
 
-	$scope.cancelCampaign = function() {
-		if ($scope.campaign.isNew) {
-			$location.path('/calendar');
-		} else {
-			$scope.isLoaded = false;
-			$scope.campaign = Campaigns.get($routeParams.campaignId).then(function(r) {
-				$scope.isLoaded = true;
-					$scope.campaign = r;
-				},
-				function(r) {
-					notify.error(r);
-				}
-			);
-		}
-	};
+    $scope.cancelCampaign = function() {
+        if ($scope.campaign.isNew) {
+            $location.path('/calendar');
+        } else {
+            $scope.isLoaded = false;
+            $scope.campaign = Campaigns.get($routeParams.campaignId).then(function(r) {
+                $scope.isLoaded = true;
+                    $scope.campaign = r;
+                },
+                function(r) {
+                    notify.error(r);
+                }
+            );
+        }
+    };
 
     $scope.duplicateCampaign = function () {
         $location.search({ duplicate: true });
@@ -164,15 +165,15 @@ function ($scope, AuthService, $routeParams, $filter, $q, $upload, $modal, Resta
     };
 
     $scope.filterCollaborators = function () {
-    	if (!$scope.campaign || !$scope.campaign.user) {
-    		return;
-    	}
+        if (!$scope.campaign || !$scope.campaign.user) {
+            return;
+        }
 
-    	var users = userService.getForAccount(user.account.id);
+        var users = userService.getForAccount(user.account.id);
 
-    	$scope.collaborators = $.grep(users, function (u) {
-    		return u.id !== $scope.campaign.user.id;
-    	});
+        $scope.collaborators = $.grep(users, function (u) {
+            return u.id !== $scope.campaign.user.id;
+        });
     };
 
     // Helpers
