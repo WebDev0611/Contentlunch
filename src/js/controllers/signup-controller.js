@@ -68,7 +68,7 @@
 			account.userCount = 10;
 			account.subscription = self.subscription;
 
-			accountService.add(account, {
+			accountService.addBeta(account, {
 				success: function () { },
 				error: self.ajaxHandler.error
 			});

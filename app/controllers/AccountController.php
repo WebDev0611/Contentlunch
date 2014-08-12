@@ -24,20 +24,19 @@ class AccountController extends BaseController {
 		return $accounts;
 	}
 
-	public function store()
+	public function store($checkAuth = true)
 	{
 		// Restrict to global admins
-		if ( ! $this->hasRole('global_admin')) {
+		if ($checkAuth && ! $this->hasRole('global_admin')) {
 			return $this->responseAccessDenied();
 		}
 		$account = new Account;
 		if (Input::has('payment_info')) {
 			$account->payment_info = serialize(Input::get('payment_info'));
 		}
-		if ($account->save())
-		{
+		if ($account->save()) {
 			// Attach builtin roles, they can't be deleted
-      $roles = Role::whereNull('account_id')->where('name', '<>', 'global_admin')->get();
+			$roles = Role::whereNull('account_id')->where('name', '<>', 'global_admin')->get();
 			foreach ($roles as $bRole) {
 				$role = new AccountRole;
 				$role->account_id = $account->id;
@@ -59,17 +58,23 @@ class AccountController extends BaseController {
 				}
 			}
 			$user = $this->createSiteAdminUser($account);
-    	// Send account creation email
-    	$this->resend_creation_email($account->id);
-			return $this->show($account->id);
+			// Send account creation email
+			$this->resend_creation_email($account->id);
+			return $this->show($account->id, $checkAuth);
 		}
 		return $this->responseError($account->errors()->all(':message'));
 	}
 
-	public function show($id)
+	public function store_beta_signup()
+	{
+		return $this->store(false);
+	}
+
+
+	public function show($id, $checkAuth = true)
 	{
 		// Restrict to global admins or user is connected to account
-		if ( ! $this->inAccount($id)) {
+		if ($checkAuth && ! $this->inAccount($id)) {
 			return $this->responseAccessDenied();
 		}
 		$account = Account::countusers()
