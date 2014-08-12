@@ -36,7 +36,9 @@ class BrainstormController extends BaseController {
             return $response;
         }
 
-        return Brainstorm::where("{$conceptType}_id", $conceptID)->get();
+        $brainstorms = Brainstorm::where("{$conceptType}_id", $conceptID)->get();
+
+        return $brainstorms;
     }
 
     /**
@@ -68,6 +70,14 @@ class BrainstormController extends BaseController {
         }
 
         $this->brainstorm = new Brainstorm();
+
+        if($conceptType == 'content') {
+            $this->brainstorm->content_id = $conceptID;
+        }
+        else {
+            $this->brainstorm->campaign_id = $conceptID;
+        }
+
         if (!$this->brainstorm->save()) {
             return $this->responseError($this->brainstorm->errors()->all(':message'));
         }
@@ -86,6 +96,13 @@ class BrainstormController extends BaseController {
     {
         if (($response = $this->validate($accountID, $conceptType, $conceptID, $id)) !== true) {
             return $response;
+        }
+
+        if($conceptType == 'content') {
+            $this->brainstorm->content_id = $conceptID;
+        }
+        else {
+            $this->brainstorm->campaign_id = $conceptID;
         }
 
         if (!$this->brainstorm->save()) {

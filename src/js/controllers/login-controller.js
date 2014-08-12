@@ -2,6 +2,8 @@ launch.module.controller('LoginController', [
 	'$scope', '$sanitize', '$location', 'AuthService', 'NotificationService', function($scope, $sanitize, $location, authService, notificationService) {
 		var self = this;
 
+		self.notification = null;
+
 		self.init = function() {
 			authService.logout();
 			$scope.toggleMode();
@@ -30,17 +32,13 @@ launch.module.controller('LoginController', [
 		$scope.isSaving = false;
 		$scope.mode = null;
 
-		$scope.login = function(e, user) {
-			if (e.type === 'keypress' && e.charCode !== 13) {
-				return;
-			}
-
+		$scope.login = function() {
 			$scope.forceDirty = true;
 
 			var msg = launch.utils.validateAll($scope.user);
 
 			if (!launch.utils.isBlank(msg)) {
-				notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
+				self.notification = notificationService.error('Error!', 'Please fix the following problems:\n\n' + msg.join('\n'));
 
 				return;
 			}

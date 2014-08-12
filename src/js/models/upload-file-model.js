@@ -1,4 +1,4 @@
-﻿launch.UploadFile = function () {
+﻿launch.UploadFile = function() {
 	var self = this;
 
 	self.id = null;
@@ -14,13 +14,13 @@
 	self.created = null;
 	self.updated = null;
 	self.deleted = null;
-  self.tags = null;
+	self.tags = null;
 
-	self.fileType = function () {
+	self.fileType = function() {
 		return launch.utils.getFileTypeCssClass(self.extension);
 	};
 
-	self.isImage = function () {
+	self.isImage = function() {
 		if (!launch.utils.isBlank(self.extension)) {
 			var ext = self.extension.toLowerCase();
 
@@ -33,7 +33,7 @@
 		return false;
 	};
 
-	self.isVideo = function () {
+	self.isVideo = function() {
 		if (!launch.utils.isBlank(self.extension)) {
 			var ext = self.extension.toLowerCase();
 
@@ -46,7 +46,7 @@
 		return false;
 	};
 
-	self.isAudio = function () {
+	self.isAudio = function() {
 		if (!launch.utils.isBlank(self.extension)) {
 			var ext = self.extension.toLowerCase();
 
@@ -58,6 +58,23 @@
 		}
 
 		return false;
+	};
+
+	self.fileIsSupported = function() {
+		// TODO: ADD MISSING SUPPROTED MIME-TYPES BY BROWSER!!
+
+		//if ($.browser.webkit) {
+		//	if (this.mimeType === 'video/wmv') {
+		//		return false;
+		//	}
+		//} else if ($.browser.mozilla) {
+		//} else if ($.browser.opera) {
+		//} else if ($.browser.msie) {
+		//} else {
+		//	return false;
+		//}
+
+		return true;
 	};
 
 	return self;

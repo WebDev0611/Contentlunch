@@ -10,8 +10,6 @@ class Brainstorm extends Ardent {
 
     protected $fillable = [
         'user_id',
-        'content_id',
-        'campaign_id',
         'account_id',
         'agenda',
         'datetime',

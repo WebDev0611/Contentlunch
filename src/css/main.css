@@ -153,6 +153,24 @@
 .cl-icon-launch {
   background-image: url(/assets/images/launch.svg);
 }
+.cl-icon-navigation-accounts {
+  background-image: url(/assets/images/account.png);
+}
+.cl-icon-navigation-subscription {
+  background-image: url(/assets/images/subscriptions.png);
+}
+.cl-icon-navigation-library {
+  background-image: url(/assets/images/library.png);
+}
+.cl-icon-navigation-forum {
+  background-image: url(/assets/images/forum.png);
+}
+.cl-icon-navigation-conference {
+  background-image: url(/assets/images/conference.png);
+}
+.cl-icon-navigation-announce {
+  background-image: url(/assets/images/announce.png);
+}
 /* #endregion */
 /* #region icon sizing */
 .cl-icon {
@@ -580,6 +598,21 @@ header .navbar ul.nav li .top-arrow {
 header .navbar ul.nav li.active .top-arrow,
 header .navbar ul.nav li:hover .top-arrow {
   display: inline-block;
+}
+header .navbar.navbar-signup {
+  background-color: #10699d;
+  border-radius: 0;
+  color: #ffffff;
+  font-size: 24pt;
+  font-weight: bold;
+  margin: 0;
+}
+header .navbar.navbar-signup .logo-white {
+  display: inline-block;
+  margin: 20px auto;
+  vertical-align: middle;
+  height: 60px;
+  width: 350px;
 }
 header .login-info {
   background-color: #282725;
@@ -3743,4 +3776,76 @@ hr.simple-divider {
 }
 .connections-dropdown {
   width: 275px;
+}
+.spinner-mask {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.6);
+  z-index: 999999;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.fc-event-inner {
+  text-shadow: 1px 1px 2px black;
+}
+.signup-form {
+  margin: 16px;
+  padding: 0 0 0 40px;
+}
+.signup-form ul.signup-module-list {
+  list-style: none;
+  padding: 0;
+}
+.signup-form ul.signup-module-list li {
+  margin-bottom: 24px;
+  min-height: 80px;
+}
+.signup-form ul.signup-module-list li > * {
+  display: inline-block;
+  vertical-align: middle;
+}
+.signup-form ul.signup-module-list li .signup-module-list-item {
+  display: inline-block;
+  float: left;
+  height: 80px;
+  margin-right: 16px;
+  opacity: 0.6;
+  padding: 22px;
+  text-align: center;
+  vertical-align: middle;
+  width: 80px;
+}
+.signup-form ul.signup-module-list li .signup-module-list-item.create {
+  background-color: #ffb503;
+}
+.signup-form ul.signup-module-list li .signup-module-list-item.collaborate {
+  background-color: #ff5b02;
+}
+.signup-form ul.signup-module-list li .signup-module-list-item.consult {
+  background-color: #39e4fd;
+}
+.signup-form ul.signup-module-list li .signup-module-list-item.promote {
+  background-color: #773876;
+}
+.signup-form ul.signup-module-list li .signup-module-list-item.measure {
+  background-color: #afe43f;
+}
+.signup-form ul.signup-module-list li .signup-module-list-item-title {
+  font-size: 16pt;
+  margin-top: 16px;
+}
+.signup-form form[name="signupForm"] {
+  background-color: #F2F2F2;
+  border: solid 1px #cccccc;
+  border-radius: 4px;
+  padding: 16px;
+}
+.signup-form form[name="signupForm"] label {
+  font-family: Lato;
+  font-weight: normal;
+}
+.signup-form form[name="signupForm"] .btn {
+  display: block;
+  margin: auto;
+  padding: 4px 150px;
 }
