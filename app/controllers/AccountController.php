@@ -67,7 +67,12 @@ class AccountController extends BaseController {
 
 	public function store_beta_signup()
 	{
-		return $this->store(false);
+		$account = $this->store(false);
+		// may be an error, but won't be if it has an ID
+		if (!@$account->id) return $account;
+		$user = $account->getSiteAdminUser();
+		$account->confirmation_code = $user->confirmation_code;;
+		return $account;
 	}
 
 
