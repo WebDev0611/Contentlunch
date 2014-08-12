@@ -1,12 +1,16 @@
 ﻿launch.module.factory('AccountService', function($resource, $upload, ModelMapperService, SessionService) {
-	var accounts = $resource('/api/account/:id', { id: '@id' }, {
-		get: { method: 'GET', transformResponse: ModelMapperService.account.parseResponse },
-		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.account.parseResponse },
-		update: { method: 'PUT', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
-		insert: { method: 'POST', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
-		delete: { method: 'DELETE' },
-		getSubscription: { method: 'GET' }
-	});
+    var accounts = $resource('/api/account/:id', { id: '@id' }, {
+        get: { method: 'GET', transformResponse: ModelMapperService.account.parseResponse },
+        query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.account.parseResponse },
+        update: { method: 'PUT', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
+        insert: { method: 'POST', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
+        delete: { method: 'DELETE' },
+        getSubscription: { method: 'GET' }
+    });
+
+    var betaAccounts = $resource('/api/beta-account/:id', { id: '@id' }, {
+        insert: { method: 'POST', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
+    });
 
 	var accountSubscriptions = $resource('/api/account/:id/subscription', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.subscription.parseResponse },
@@ -71,6 +75,12 @@
 
 			return accounts.insert(null, account, success, error);
 		},
+        addBeta: function(account, callback) {
+            var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+            var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+            return betaAccounts.insert(null, account, success, error);
+        },
 		delete: function(account, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;

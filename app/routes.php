@@ -100,6 +100,8 @@ Route::group(['prefix' => 'api'], function()
 
   Route::post('account/{id}/resend_creation_email', 'AccountController@resend_creation_email');
 
+  Route::post('beta-account', 'AccountController@store_beta_signup');
+
   Route::get('account/{id}/roles', 'AccountRoleController@index');
   Route::post('account/{id}/roles', 'AccountRoleController@store');
   Route::get('account/{id}/roles/{roleid}', 'AccountRoleController@showRole');
