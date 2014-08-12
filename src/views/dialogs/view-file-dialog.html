@@ -13,14 +13,10 @@
 
 	<div ng-if="isSupported">
 		<div class="file-dialog" ng-if="isVideo">
-			<video controls="controls" preload="preload" autoplay="autoplay">
-				<source src="{{ path }}" type="{{ mimeType }}" />
-			</video>
+			<video controls="controls" preload="preload" autoplay="autoplay" src="{{ path }}"></video>
 		</div>
 		<div class="file-dialog" ng-if="isAduio">
-			<audio controls="controls" preload="preload" autoplay="autoplay">
-				<source src="{{ path }}" type="{{ mimeType }}" />
-			</audio>
+			<audio controls="controls" preload="preload" autoplay="autoplay" src="{{ path }}"></audio>
 		</div>
 	</div>
 </div>

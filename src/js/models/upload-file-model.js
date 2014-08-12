@@ -61,20 +61,14 @@
 	};
 
 	self.fileIsSupported = function() {
-		// TODO: ADD MISSING SUPPROTED MIME-TYPES BY BROWSER!!
+		var video = document.createElement('video');
+		var canPlay = video.canPlayType(this.mimeType + '');
 
-		//if ($.browser.webkit) {
-		//	if (this.mimeType === 'video/wmv') {
-		//		return false;
-		//	}
-		//} else if ($.browser.mozilla) {
-		//} else if ($.browser.opera) {
-		//} else if ($.browser.msie) {
-		//} else {
-		//	return false;
-		//}
-
-		return true;
+		if (canPlay === 'probably' || canPlay === 'maybe') {
+			return true;
+		} else {
+			return false;
+		}
 	};
 
 	return self;
