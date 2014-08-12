@@ -24,7 +24,7 @@
 
       <div class="form-group">
         <label for="description">Description</label>
-        <textarea id="description" class="form-control" rows="3" ng-model="uploadFile.description"></textarea>
+        <textarea id="description" class="form-control" rows="3" ng-model="uploadFile.description" ng-maxlength="60" maxlength="60"></textarea>
       </div>
 
       <div class="form-group" ng-hide="disableFolderSelect">
@@ -42,7 +42,7 @@
       <div class="buttons clearfix">
         <button class="btn btn-primary btn-black ladda-button" ng-disabled="isDeleting" data-style="zoom-in" ladda-button="isSaving" ng-click="ok()">Save and Close</button>
         <button class="btn btn-warning btn-black ladda-button" ng-disabled="isSaving || isDeleting" ng-click="cancel()">Cancel</button>
-        <button class="btn btn-warning btn-black ladda-button" ng-disabled="isSaving" data-style="zoom-in" ladda-button="isSaving" ng-click="delete()" ng-show="mode == 'edit'">Delete</button>
+        <button class="btn btn-warning btn-black ladda-button" ng-disabled="isSaving" data-style="zoom-in" ladda-button="isDeleting" ng-click="delete()" ng-show="mode == 'edit'">Delete</button>
       </div>
 
     </form>
