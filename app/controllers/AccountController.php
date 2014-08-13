@@ -72,6 +72,23 @@ class AccountController extends BaseController {
 		if (!@$account->id) return $account;
 		$user = $account->getSiteAdminUser();
 		$account->confirmation_code = $user->confirmation_code;;
+
+		try {
+			$sub = App::make('AccountSubscriptionController')->post_subscription($account->id, false);
+
+			if (!@$sub->id) {
+				throw new Exception('Error saving subscription');
+			}
+		} catch (Exception $e) {
+			// undo account
+			Account::destroy($account->id);
+			AccountRole::where('account_id', $account->id)->delete();
+			User::destroy($user->id);
+			return $sub ?: $this->responseError($e, 401);
+		}
+
+		$account->subscription = $sub;
+
 		return $account;
 	}
 
