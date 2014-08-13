@@ -82,12 +82,13 @@ class AccountController extends BaseController {
 		} catch (Exception $e) {
 			// undo account
 			Account::destroy($account->id);
-			AccountRole::where('account_id', $account->id)->delete();
 			User::destroy($user->id);
+			DB::table('assigned_roles')->where('user_id', $user->id)->delete();
+			AccountRole::where('account_id', $account->id)->delete();
 			return $sub ?: $this->responseError($e, 401);
 		}
 
-		$account->subscription = $sub;
+		$account->subscription = $sub->toArray();
 
 		return $account;
 	}

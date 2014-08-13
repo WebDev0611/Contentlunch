@@ -202,7 +202,7 @@ Route::group(['prefix' => 'api'], function()
   ]);
 
   Route::get('test', 'MeasureController@test');
-  Route::get('test2', 'MeasureController@contentCreated');
+  Route::get('test2', 'MeasureController@runConnection');
 
   $measureBase = 'account/{accountID}/measure/';
   Route::get("{$measureBase}content-created",  'MeasureController@contentCreated');
