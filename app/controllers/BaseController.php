@@ -104,4 +104,26 @@ class BaseController extends Controller {
     return false;
   }
 
+  /**
+   * Validation helper, determine if user
+   * should have access to this account and content
+   * @return bool $valid
+   */
+  protected function validateAccountContent($accountID, $contentID)
+  {
+    // Make sure user belongs to account
+    if ( ! $this->inAccount($accountID)) {
+      return false;
+    }
+    // Make sure content belongs to account
+    $content = Content::find($contentID);
+    if ( ! $content) {
+      return false;
+    }
+    if ($content->account_id != $accountID) {
+      return false;
+    }
+    return true;
+  }
+
 }

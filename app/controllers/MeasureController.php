@@ -1,5 +1,6 @@
 <?php
 
+use Launch\Connections\API\ConnectionConnector;
 use Launch\Scheduler\Scheduler;
 use Launch\Scheduler\Timezone;
 use Carbon\Carbon;
@@ -201,6 +202,55 @@ class MeasureController extends BaseController {
 
             $model->save();
         }
+    }
+
+    /**
+     * Get the automation stats for content that
+     * has been promoted to hubspot and/or acton
+     * Stats are cached for an hour
+     */
+    public function getAutomationStats($accountID)
+    {
+        if ( ! $this->inAccount($accountID)) {
+            return $this->responseAccessDenied();
+        }
+        $stats = [];
+
+        // Get all launches to hubspot
+        $launches = LaunchResponse::where('success', 1)
+            ->whereHas('account_connection', function ($query) {
+                $query->whereHas('connection', function ($query) {
+                    $query->where('provider', '=', 'hubspot');
+                });
+            })
+            ->with(['account_connection.connection' => function ($query) {
+                $query->where('provider', '=', 'hubspot');
+            }])
+            ->with('content.user')
+            ->with('content.content_type')
+            ->get();
+
+        foreach ($launches as $launch) {
+            $automation = null;
+            // Check cache 
+            $cacheKey = 'launch-stats:'. $accountID .':'. $launch->id;
+            if ( ! Input::get('refresh') && Cache::has($cacheKey)) {
+                $automation = Cache::get($cacheKey);
+            } else {
+                $api = ConnectionConnector::loadAPI('hubspot', $launch->account_connection);
+                if (method_exists($api, 'getStats')) {
+                    $automation = $api->getStats($launch);
+                    $expires = Carbon::now()->addMinutes(60);
+                    Cache::put($cacheKey, $automation, $expires);
+                }
+            }
+            if ( ! empty($automation)) {
+                $record = $launch->content->toArray();
+                $record['automation'] = $automation;
+                $stats[] = $record;
+            }
+        }
+        return $stats;
     }
 
 }

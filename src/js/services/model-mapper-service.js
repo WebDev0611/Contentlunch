@@ -1328,6 +1328,10 @@
 				content.taskGroups = $.map(dto.task_groups, self.taskGroups.fromDto);
 			}
 
+			if (!!dto.automation) {
+				content.automation = dto.automation;
+			}
+
 			content.contentScore = parseFloat(Math.random() * 100).toFixed(2); // TODO: GET THIS FROM THE API ONCE IT'S AVAILABLE!!
 
 			return content;

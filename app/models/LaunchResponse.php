@@ -19,4 +19,14 @@ class LaunchResponse extends Ardent {
     return $values;
   }
 
+  public function account_connection()
+  {
+    return $this->belongsTo('AccountConnection');
+  }
+
+  public function content()
+  {
+    return $this->belongsTo('Content');
+  }
+
 }

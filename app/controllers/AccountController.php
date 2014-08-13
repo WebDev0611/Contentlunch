@@ -201,7 +201,9 @@ class AccountController extends BaseController {
 		);
 		Mail::send('emails.account.request_update', $data, function ($message) {
 			$message
-				->to('jkuchynka@surgeforward.com')
+				->to('support@contentlaunch.com', 'Launch Support')
+				->cc('mmayo@surgeforward.com', 'Mark Mayo')
+				->cc('jkuchynka@surgeforward.com', 'Jason Kuchynka')
 				->from(Input::get('email'))
 				->subject('Account Update Request - '. Input::get('company'));
 		});
@@ -213,7 +215,7 @@ class AccountController extends BaseController {
 		Mail::send('emails.account.cancellation', array(), function ($message) use ($account) {
 			$message
 				->to($account->email)
-				->from('jkuchynka@surgeforward.com', 'Content Launch Support')
+				->from('support@contentlaunch.com', 'Launch Support')
 				->subject('Content Launch Account Cancellation');
 		});
 	}

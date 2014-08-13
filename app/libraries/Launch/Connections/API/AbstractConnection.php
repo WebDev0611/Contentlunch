@@ -31,10 +31,19 @@ abstract class AbstractConnection {
     if ( ! is_object($this->accountConnection['settings']['token'])) {
       return;
     }
+    $token = $this->accountConnection['settings']['token'];
+
+    $expire = $token->getEndOfLife();
+    if ($expire < time()) {
+      // This token has expired, get refresh token
+      $token = $this->getRefreshToken();
+    }
+
     $token = $this->accountConnection['settings']['token']->getAccessToken();
     if ( ! $token) {
       throw new \Exception("Invalid connection");
     }
+
     return $token;
   }
 
