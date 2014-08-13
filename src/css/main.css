@@ -2610,11 +2610,14 @@ span[class*=" icon-"].dark {
 .measure .right-pane .measure-editor .measure-table-container table.measure-table tr.dark td {
   background-color: #E6E4E0;
 }
-.support .right-pane-header {
+.support .right-pane .right-pane-header {
   background-color: #000000;
   color: #ffffff;
 }
-.support .control-group {
+.support .right-pane .right-pane-content {
+  margin-left: 100px;
+}
+.support .right-pane .right-pane-content .control-group {
   max-width: 400px;
 }
 .create-header .btn-group .btn.active,
