@@ -48,6 +48,7 @@
 			if (launch.utils.isBlank($scope.user.title)) { msg += '\nTitle is required.'; }
 			if (launch.utils.isBlank($scope.user.businessName)) { msg += '\nBusiness Name is required.'; }
 			if (launch.utils.isBlank($scope.user.phoneNumber)) { msg += '\nPhone Number is required.'; }
+
 			if (launch.utils.isBlank($scope.user.emailAddress)) {
 				msg += '\nEmail Address is required.';
 			} else if (!launch.utils.isValidEmail($scope.user.emailAddress)) {
@@ -68,17 +69,9 @@
 			account.userCount = 10;
 			account.subscription = self.subscription;
 
-			account = accountService.addBeta(account, {
-				success: function (r) {
-					console.log('SUCCESS!! Beta account created!');
-					//$location.path('/user/confirm/' + r.confirmation_code);
-
-					//accountService.updateAccountSubscription(account.id, self.subscription, {
-					//	success: function() {
-					//		//$location.path('/user/confirm/' + code);
-					//	},
-					//	error: self.ajaxHandler.error
-					//});
+			accountService.addBeta(account, {
+				success: function(r) {
+					document.location = '/user/confirm/' + r.confirmation_code;
 				},
 				error: self.ajaxHandler.error
 			});
