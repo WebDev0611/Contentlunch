@@ -305,7 +305,14 @@
 		toDto: function(account) {
 			var dto = self.account.toDto(account);
 
-			dto.subscription = self.subscription.toDto(account.subscription);
+			dto.subscription_id = account.subscription.id;
+			dto.id = account.subscription.id;
+			dto.licenses = account.subscription.numberLicenses;
+			dto.monthly_price = account.subscription.pricePerMonth;
+			dto.training = account.subscription.training;
+			dto.annual_discount = account.subscription.annualDiscount;
+			dto.features = account.subscription.features;
+			dto.subscription_level = account.subscription.subscriptionLevel;
 
 			return dto;
 		}

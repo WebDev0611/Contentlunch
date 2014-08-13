@@ -70,14 +70,15 @@
 
 			account = accountService.addBeta(account, {
 				success: function (r) {
-					var code = r.confirmation_code;
+					console.log('SUCCESS!! Beta account created!');
+					//$location.path('/user/confirm/' + r.confirmation_code);
 
-					accountService.updateAccountSubscription(account.id, self.subscription, {
-						success: function() {
-							//$location.path('/user/confirm/' + code);
-						},
-						error: self.ajaxHandler.error
-					});
+					//accountService.updateAccountSubscription(account.id, self.subscription, {
+					//	success: function() {
+					//		//$location.path('/user/confirm/' + code);
+					//	},
+					//	error: self.ajaxHandler.error
+					//});
 				},
 				error: self.ajaxHandler.error
 			});
