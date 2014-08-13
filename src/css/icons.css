@@ -302,3 +302,6 @@
   background-image: url(/assets/images/smart-shoot-banner.png);
 }
 /* #endregion */
+.cl-icon-folder {
+  background-image: url(/assets/images/folder-open.svg);
+}
