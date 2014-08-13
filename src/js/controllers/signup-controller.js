@@ -68,8 +68,18 @@
 			account.userCount = 10;
 			account.subscription = self.subscription;
 
-			accountService.addBeta(account, {
-				success: function () { },
+			account = accountService.addBeta(account, {
+				success: function (r) {
+					console.log('SUCCESS!! Beta account created!');
+					//$location.path('/user/confirm/' + r.confirmation_code);
+
+					//accountService.updateAccountSubscription(account.id, self.subscription, {
+					//	success: function() {
+					//		//$location.path('/user/confirm/' + code);
+					//	},
+					//	error: self.ajaxHandler.error
+					//});
+				},
 				error: self.ajaxHandler.error
 			});
 		};

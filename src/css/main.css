@@ -626,6 +626,11 @@ header .login-info {
   text-align: right;
   vertical-align: middle;
 }
+header .login-info .cl-icon {
+  display: inline-block;
+  margin-right: 4px;
+  vertical-align: middle;
+}
 header .login-info .popover-menu {
   cursor: pointer;
   display: inline-block;
@@ -669,6 +674,10 @@ header .login-info .popover-menu .admin-menu li .item-image {
 header .login-info .popover-menu .admin-menu li .glyphicon {
   display: inline-block;
   margin-right: 8px;
+}
+header .login-info .popover-menu > a {
+  color: #ffffff;
+  text-decoration: none;
 }
 .small-text {
   font-size: 8pt;

@@ -9,7 +9,8 @@
     });
 
     var betaAccounts = $resource('/api/beta-account/:id', { id: '@id' }, {
-        insert: { method: 'POST', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
+    	//insert: { method: 'POST', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
+    	insert: { method: 'POST', transformRequest: ModelMapperService.accountBeta.formatRequest },
     });
 
 	var accountSubscriptions = $resource('/api/account/:id/subscription', { id: '@id' }, {
