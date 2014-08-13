@@ -184,6 +184,21 @@ class AccountController extends BaseController {
 		return array('success' => 'OK');
 	}
 
+	public function send_support_email()
+	{
+		$user = Confide::user();
+		if (!$user) {
+			// they they aren't even logged in!
+			return $this->responseError('Not logged in', 401);
+		}
+
+		Mail::send('emails.account.support', Input::get(), function ($message) {
+			$message->to('support@contentlaunch.com')->subject('Customer Support');
+		});
+
+		return array('success' => 'OK');
+	}
+
 	public function request_update_email()
 	{
 		// Restrict to site admins
