@@ -32,7 +32,9 @@ class ConferencesController extends BaseController {
     $conference->user_id = $user->id;
     // Schedule date requests must > 3 days and < 2 weeks
     $minDate = new \DateTime('+4 days');
+    $minDate->setTime(0, 0, 0); // if we don't set the time, it takes the current time (we want the beginning of this day)
     $maxDate = new \DateTime('+13 days');
+    $maxDate->setTime(23, 59, 59); // if we don't set the time, it takes the current time (we want the end of this day)
     if (Input::get('date_1') && Input::get('time_1')) {
       $date = new \DateTime(Input::get('date_1') .' '. Input::get('time_1'));
       if ($date < $minDate || $date > $maxDate) {

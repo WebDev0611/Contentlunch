@@ -12,6 +12,8 @@ body {
     color: @text-color;
     font-family: Lato, sans-serif;
     min-height: 100%;
+	word-wrap: break-word;
+	-ms-word-wrap: break-word;
 }
 
 header {
@@ -200,6 +202,23 @@ header {
 				}
 			}
 		}
+
+		&.navbar-signup {
+			background-color: @homeColorDark;
+			border-radius: 0;
+			color: #ffffff;
+			font-size: 24pt;
+			font-weight: bold;
+			margin: 0;
+
+			.logo-white {
+				display: inline-block;
+				margin: 20px auto;
+				vertical-align: middle;
+				height: 60px;
+				width: 350px;
+			}
+		}
 	}
 
 	.login-info {
@@ -211,6 +230,12 @@ header {
 		padding: 0;
 		text-align: right;
 		vertical-align: middle;
+
+		.cl-icon {
+			display: inline-block;
+			margin-right: 4px;
+			vertical-align: middle;
+		}
 
 		.popover-menu {
 			cursor: pointer;
@@ -262,6 +287,11 @@ header {
 						margin-right: 8px;
 					}
 				}
+			}
+
+			> a {
+				color: #ffffff;
+				text-decoration: none;
 			}
 		}
 	}
@@ -2129,6 +2159,17 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
+.support {
+	.right-pane-header{
+		background-color: #000000;
+		color: #ffffff;
+	}
+
+	.control-group{
+		max-width: 400px;
+	}
+}
+
 .create-header, .measure-header {
 	.btn-group {
 		.btn {
@@ -3511,4 +3552,87 @@ hr.simple-divider {
 	position: absolute;
 	background: rgba(255,255,255,.6);
 	z-index: 999999;
+}
+
+.nowrap {
+	white-space: nowrap;
+}
+
+.fc-event-inner {
+	text-shadow: 1px 1px 2px black;
+}
+
+.signup-form {
+	margin: 16px;
+	padding: 0 0 0 40px;
+
+	ul.signup-module-list {
+		list-style: none;
+		padding: 0;
+
+		li {
+			margin-bottom: 24px;
+			min-height: @navHeight;
+
+			> * {
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+			.signup-module-list-item {
+				display: inline-block;
+				float: left;
+				height: @navHeight;
+				margin-right: 16px;
+				opacity: 0.6;
+				padding: 22px;
+				text-align: center;
+				vertical-align: middle;
+				width: @navWidth;
+
+				&.create {
+					background-color: @createColor;
+				}
+
+				&.collaborate {
+					background-color: @collaborateColor;
+				}
+
+				&.consult {
+					background-color: @consultColor;
+				}
+
+				&.promote {
+					background-color: @promoteColor;
+				}
+
+				&.measure {
+					background-color: @measureColor;
+				}
+			}
+
+			.signup-module-list-item-title {
+				font-size: 16pt;
+				margin-top: 16px;
+			}
+		}
+	}
+
+	form[name="signupForm"] {
+		background-color: #F2F2F2;
+		border: solid 1px #cccccc;
+		border-radius: 4px;
+		padding: 16px;
+
+		label {
+			font-family: Lato;
+			font-weight: normal;
+		}
+
+		.btn{
+			display: block;
+			margin: auto;
+			padding: 4px 150px;
+		}
+	}
 }

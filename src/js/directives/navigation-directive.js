@@ -4,6 +4,9 @@
 
 		self.init = function() {
 			self.getLoggedInUser();
+
+			scope.isSignup = $location.path() === '/signup';
+
 			scope.$on('$routeChangeSuccess', self.detectRoute);
 		};
 
@@ -108,7 +111,8 @@
 			self.subscription = null;
 			scope.user = AuthService.fetchCurrentUser({
 				success: function(user) {
-					if ($location.path().indexOf('/user/confirm') === 0 || $location.path().indexOf('/login') === 0 || $location.path().indexOf('/collaborate/guest') === 0) {
+					if ($location.path().indexOf('/user/confirm') === 0 || $location.path().indexOf('/login') === 0 ||
+						$location.path().indexOf('/signup') === 0 || $location.path().indexOf('/collaborate/guest') === 0) {
 						return;
 					}
 
@@ -123,6 +127,7 @@
 
 		scope.user = null;
 		scope.showNav = false;
+		scope.isSignup = false;
 		scope.mainMenu = [];
 		scope.adminMenu = [];
 		scope.userMenu = [];

@@ -25,6 +25,7 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
     var parentScope = $scope;
 
     $modal.open({
+      backdrop: 'static',
       templateUrl: '/assets/views/consult/library-file-form.html',
       controller: function ($scope, $window, $modalInstance, $upload) {
 
@@ -79,6 +80,7 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
     var parentScope = $scope;
 
     $modal.open({
+      backdrop: 'static',
       templateUrl: '/assets/views/consult/library-file-form.html',
       controller: function ($scope, $window, $modalInstance, $upload, LibraryService, NotificationService) {
 
@@ -138,6 +140,7 @@ launch.module.controller('ConsultAdminLibraryController', function ($scope, $mod
         $scope.delete = function () {  
           $scope.isDeleting = true;
           $modal.open({
+            backdrop: 'static',
             templateUrl: 'confirm.html',
             controller: ['$scope', '$modalInstance', function (modalScope, instance) {
               modalScope.message = 'Are you sure you want to delete this file?';

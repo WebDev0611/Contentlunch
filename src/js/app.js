@@ -33,6 +33,15 @@
 						controller: 'ResetImpersonateController',
 						templateUrl: '/assets/views/home.html'
 					})
+					.when('/signup', {
+						controller: 'SignupController',
+						templateUrl: '/assets/views/account/signup.html',
+						allowAnon: true
+					})
+					.when('/support', {
+						controller: 'SupportController',
+						templateUrl: '/assets/views/support.html'
+					})
 					.when('/account', {
 						controller: 'AccountController',
 						templateUrl: '/assets/views/account/account.html'

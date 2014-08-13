@@ -108,6 +108,33 @@ class TwitterAPI extends AbstractConnection
       ];
     }
 
+    public function updateFavoritesAndRetweets($accountConnectionId) {
+
+        $temp = \AccountConnection::find($accountConnectionId)
+            ->content()
+            ->withPivot('external_id', 'likes', 'shares')
+            ->get();
+
+        $content = array();
+        foreach($temp as $c) {
+            $content[$c->pivot->external_id] = $c;
+        }
+
+        //var_dump($content);
+
+        $client = $this->getClient();
+        $tweets = $client->query('statuses/lookup', 'GET', ['id' => implode(',', array_keys($content)), 'format' => 'array']);
+        //var_dump($tweets);
+
+        foreach($tweets as $tweet) {
+            $id = $tweet['id'];
+            if(isset($content[$id])) {
+                $content[$id]->pivot->likes = $tweet['favorite_count'];
+                $content[$id]->pivot->shares = $tweet['retweet_count'];
+                $content[$id]->pivot->save();
+            }
+        }
+    }
 
     /**
      * Send a direct message to the IDs passed in with the provided message data

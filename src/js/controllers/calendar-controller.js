@@ -35,7 +35,7 @@ function ($scope,   AuthService,   $timeout,   $filter,   UserService,   campaig
     $scope.isLoaded = false;
     var eventize;
     $q.all({
-        campaigns: Account.getList('campaigns'),
+        campaigns: Account.getList('campaigns', {end_date: moment().format('YYYY-MM-DD')}),
         content: Account.getList('content'),
         brainstorms: Account.getList('brainstorm'),
         // that's CONTENT tasks to you, boooooiii

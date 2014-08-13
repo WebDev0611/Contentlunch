@@ -1,4 +1,13 @@
-﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+﻿<div class="navbar navbar-signup row" ng-if="isSignup">
+	<div class="col-md-2"></div>
+	<div class="col-md-8">
+		<span class="logo-white"></span>
+		BETA
+	</div>
+	<div class="col-md-2"></div>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-if="!isSignup">
 	<div class="navbar-collapse collapse" role="navigation">
 		<div class="logo hidden-sm"></div>
 		<ul class="nav navbar-nav" ng-show="showNav">
@@ -13,12 +22,19 @@
 	</div>
 
 	<div class="login-info" ng-show="showNav">
+		<div class="popover-menu">
+			<a href="/support">
+				<span class="cl-icon fa fa-question-circle"></span>
+				Support
+			</a>
+		</div>
+
 		<div class="popover-menu admin-menu" menu-popover menu-items="adminMenu" data-placement="bottom" data-trigger="hover" data-menu="true" ng-show="adminMenu.length > 0">
-			<span class="glyphicon glyphicon-cog"></span>
+			<span class="cl-icon fa fa-cog"></span>
 			Admin Settings
 		</div>
 		<div class="popover-menu user-menu" menu-popover menu-items="userMenu" data-placement="bottom" data-trigger="hover" data-menu="true">
-			<span class="glyphicon glyphicon-user"></span>
+			<span class="cl-icon fa fa-user"></span>
 			{{ user.displayName }}
 		</div>
 	</div>

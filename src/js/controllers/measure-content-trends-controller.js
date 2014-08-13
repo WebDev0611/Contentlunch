@@ -26,28 +26,65 @@
 		};
 
         self.initChartData = function () {
+            function countDateParse(date, groupBy, group) {
+                var sum = 0;
+                if(groupBy == 'all' || !groupBy) {
+                    $.each(date.stats.by_user, function(i, user) {
+                        sum += user.count;
+                    });
+                }
+                else if(groupBy == 'author') {
+                    $.each(date.stats.by_user, function(i, user) {
+                        if(user.user_id == group) {
+                            sum += user.count;
+                        }
+                    })
+                }
+                else if(groupBy == 'buying-stage') {
+                    $.each(date.stats.by_buying_stage, function(i, stage) {
+                        if(stage.buying_stage == group) {
+                            sum += stage.count;
+                        }
+                    })
+                }
+                else if(groupBy == 'content-type') {
+                    $.each(date.stats.by_content_type, function(i, type) {
+                        if(type.content_type_id == group) {
+                            sum += type.count;
+                        }
+                    })
+                }
+                return {label: date.date, data: sum};
+            }
+
             $scope.companyContentScoreLine = {
                 title: 'Company Content Score',
-                measureFunction: measureService.getOverview,
-                dateParseFunction: function(date) {
-                    return {label: date.date, data: parseFloat(date.stats.companyScore)};
-                }
+                measureFunction: function() {return []},
+                dateParseFunction: countDateParse
+            };
+
+            $scope.companyContentScorePie = {
+                title: 'Content Score Breakdown',
+                measureFunction: function() {return []},
+                dateParseFunction: countDateParse
             };
 
             $scope.individualContentScoreLine = {
                 title: 'Individual Content Score',
-                measureFunction: measureService.getOverview,
-                dateParseFunction: function(date) {
-                    return {label: date.date, data: parseFloat(date.stats.totalContentScore)};
-                }
+                measureFunction: function() {return []},
+                dateParseFunction: countDateParse
             };
+
 
         };
 
-        $scope.getLineChartData = function() {
+        $scope.getChartData = function() {
 
             var startDate;
-            if(this.days == 'Q') {
+            if(!this.days) {
+                startDate = moment('1970-01-01')
+            }
+            else if(this.days == 'Q') {
                 startDate = moment().startOf('quarter');
             }
             else if(this.days == 'Y') {

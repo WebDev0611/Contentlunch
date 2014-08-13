@@ -20,7 +20,9 @@
 
           <div class="col-lg-6">
             <label for="scheduled_date">Date</label>
-            <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" class="form-control" id="scheduled_date" ng-model="conference.scheduled_date_date" ng-disabled="mode == 'view'" />
+            <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" class="form-control" id="scheduled_date" ng-model="conference.scheduled_date_date" ng-hide="mode == 'view'" />
+            <div ng-show="mode == 'view' && !conference.scheduled_date">To be determined</div>
+            <div ng-show="mode == 'view' && !!conference.scheduled_date">{{ conference.scheduled_date | moment:'MM/DD/YYYY' }}</div>
           </div>
         </div>
 
@@ -32,7 +34,9 @@
 
           <div class="col-lg-6">
             <label for="scheduled_date_time">Time</label>
-            <timepicker ng-model="conference.scheduled_date_time" hour-step="1" minute-step="15" show-meridian="true" id="scheduled_date_time" class="" ng-disabled="mode == 'view'"></timepicker>
+            <timepicker ng-model="conference.scheduled_date_time" hour-step="1" minute-step="15" show-meridian="true" id="scheduled_date_time" class="" ng-hide="mode == 'view'"></timepicker>
+            <div ng-show="mode == 'view' && !conference.scheduled_date">To be determined</div>
+            <div ng-show="mode == 'view' && !!conference.scheduled_date">{{ conference.scheduled_date | moment:'h:mm a' }}</div>
           </div>
         </div>
 

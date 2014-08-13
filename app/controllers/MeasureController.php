@@ -5,7 +5,17 @@ use Launch\Scheduler\Scheduler;
 use Launch\Scheduler\Timezone;
 use Carbon\Carbon;
 
+use Launch\Connections\API\ConnectionConnector;
+
 class MeasureController extends BaseController {
+
+    public function runConnection() {
+        $connection = AccountConnection::find(27);
+        //var_dump($connection);
+        $twitter = ConnectionConnector::loadAPI('twitter', $connection);
+        echo $twitter->getContent(27);
+        die;
+    }
 
     public function test()
     {

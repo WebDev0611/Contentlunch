@@ -37,7 +37,12 @@
 							<div class="checkbox"><input type="checkbox" ng-model="privilege.view" ng-disabled="selectedRole.isBuiltIn || !canEditRole" ng-show="privilege.accessType !== 'execute'" /></div>
 						</td>
 						<td class="check-column">
-							<div class="checkbox"><input type="checkbox" ng-model="privilege.edit" ng-disabled="selectedRole.isBuiltIn || !canEditRole" ng-show="privilege.accessType !== 'execute'" /></div>
+							<div class="checkbox">
+								<input type="checkbox" ng-model="privilege.edit" ng-disabled="selectedRole.isBuiltIn || !canEditRole" 
+									ng-show="privilege.accessType !== 'execute' 
+											 && privilege.name !== 'calendar_view_archive' 
+											 && privilege.name !== 'create_view_launch_content_other'" />
+							</div>
 						</td>
 						<td class="check-column">
 							<div class="checkbox"><input type="checkbox" ng-model="privilege.execute" ng-disabled="selectedRole.isBuiltIn || !canEditRole" ng-show="privilege.accessType === 'execute'" /></div>

@@ -19,7 +19,7 @@
                                 <input type="checkbox" style="margin: 3px 0 0 -20px !important;" check-int ng-model="task.isComplete" disabled="disabled" ng-change="toggleTaskComplete(task)">
                                 <a href="{{ getTaskUrl(task) }}">{{ task.name }}</a>
                             </label>
-                            <div>
+                            <div class="no-wrap">
                                 <small ng-hide="task.dateCompleted" ng-class="{ error: (task.dueDate | isOverdue) }">
                                     <strong>Due:</strong> {{ task.dueDate ? (task.dueDate | date) : 'N/A' }}
                                 </small>
@@ -134,7 +134,36 @@
             </div>
             <h1 class="underline">My Company</h1>
 
-            <div wijmo-bar-chart></div>
+            <table class="table" style="width: 50%; margin: auto;">
+                <tr>
+                    <td >
+                        Content Launch
+                        <div>
+
+                        </div>
+                    </td>
+                    <td>
+                        Total Company Content Score
+                        <wijmo-line-chart info="companyContentScoreLine" days="companyContentScoreTime" width="400" height="200">
+
+                        </wijmo-line-chart>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Total Company Content Score
+                        <wijmo-line-chart info="totalContentItemsLine" days="totalContentItemsTime" width="400" height="200">
+
+                        </wijmo-line-chart>
+                    </td>
+                    <td>
+                        Stage Breakdown
+                        <wijmo-pie-chart info="stageBreakdownPie" width="400" height="200">
+
+                        </wijmo-pie-chart>
+                    </td>
+                </tr>
+            </table>
 
             <table class="table table-striped">
                 <thead>

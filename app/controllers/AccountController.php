@@ -24,20 +24,19 @@ class AccountController extends BaseController {
 		return $accounts;
 	}
 
-	public function store()
+	public function store($checkAuth = true)
 	{
 		// Restrict to global admins
-		if ( ! $this->hasRole('global_admin')) {
+		if ($checkAuth && ! $this->hasRole('global_admin')) {
 			return $this->responseAccessDenied();
 		}
 		$account = new Account;
 		if (Input::has('payment_info')) {
 			$account->payment_info = serialize(Input::get('payment_info'));
 		}
-		if ($account->save())
-		{
+		if ($account->save()) {
 			// Attach builtin roles, they can't be deleted
-      $roles = Role::whereNull('account_id')->where('name', '<>', 'global_admin')->get();
+			$roles = Role::whereNull('account_id')->where('name', '<>', 'global_admin')->get();
 			foreach ($roles as $bRole) {
 				$role = new AccountRole;
 				$role->account_id = $account->id;
@@ -59,17 +58,46 @@ class AccountController extends BaseController {
 				}
 			}
 			$user = $this->createSiteAdminUser($account);
-    	// Send account creation email
-    	$this->resend_creation_email($account->id);
-			return $this->show($account->id);
+			// Send account creation email
+			$this->resend_creation_email($account->id);
+			return $this->show($account->id, $checkAuth);
 		}
 		return $this->responseError($account->errors()->all(':message'));
 	}
 
-	public function show($id)
+	public function store_beta_signup()
+	{
+		$account = $this->store(false);
+		// may be an error, but won't be if it has an ID
+		if (!@$account->id) return $account;
+		$user = $account->getSiteAdminUser();
+		$account->confirmation_code = $user->confirmation_code;;
+
+		try {
+			$sub = App::make('AccountSubscriptionController')->post_subscription($account->id, false);
+
+			if (!@$sub->id) {
+				throw new Exception('Error saving subscription');
+			}
+		} catch (Exception $e) {
+			// undo account
+			Account::destroy($account->id);
+			User::destroy($user->id);
+			DB::table('assigned_roles')->where('user_id', $user->id)->delete();
+			AccountRole::where('account_id', $account->id)->delete();
+			return $sub ?: $this->responseError($e, 401);
+		}
+
+		$account->subscription = $sub->toArray();
+
+		return $account;
+	}
+
+
+	public function show($id, $checkAuth = true)
 	{
 		// Restrict to global admins or user is connected to account
-		if ( ! $this->inAccount($id)) {
+		if ($checkAuth && ! $this->inAccount($id)) {
 			return $this->responseAccessDenied();
 		}
 		$account = Account::countusers()
@@ -142,7 +170,7 @@ class AccountController extends BaseController {
 			return $this->responseAccessDenied();
 		}
 		$account = Account::find($id);
-		$user = User::where('email', $account->email)->first();
+		$user = $account->getSiteAdminUser();
 		$token = $user->confirmation_code;
 		$data = array(
 			'account' => $account,

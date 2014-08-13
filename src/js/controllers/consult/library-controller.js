@@ -99,6 +99,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
 
         // Save file
         $scope.ok = function () {
+          $scope.isSaving = true;
           var data = {
             description: $scope.uploadFile.description,
             tags: $scope.uploadFile.tags
@@ -115,6 +116,8 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
             $modalInstance.dismiss();
           }).error(function (response) {
             launch.utils.handleAjaxErrorResponse(response, NotificationService);
+          }).then(function () {
+            $scope.isSaving = false;
           });
         };
       }
@@ -163,6 +166,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
 
         // Save file
         $scope.ok = function () {
+          $scope.isSaving = true;
           var data = {
             description: $scope.uploadFile.description,
             tags: $scope.uploadFile.tags
@@ -177,6 +181,8 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
             $modalInstance.dismiss();
           }).error(function (response) {
             launch.utils.handleAjaxErrorResponse(response, NotificationService);
+          }).then(function () {
+            $scope.isSaving = false;
           });
         };
 
@@ -190,6 +196,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
               modalScope.okButtonText = 'Delete';
               modalScope.cancelButtonText = 'Cancel';
               modalScope.onOk = function () {
+                $scope.isDeleting = true;
                 if ( ! $scope.uploadFile.libraries[0]) {
                   libraryID = 'root';
                 } else {
@@ -199,8 +206,10 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
                   NotificationService.success('Success!', 'File: ' + $scope.uploadFile.fileName + ' deleted');
                   $modalInstance.close();
                   parentScope.init(libraryID);
+                  $scope.isDeleting = false;
                 }, function (response) {
                   launch.utils.handleAjaxErrorResponse(response, NotificationService);
+                  $scope.isDeleting = false;
                 });
                 instance.close();
               };
@@ -238,11 +247,14 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
         };
 
         $scope.ok = function () {
+          $scope.isSaving = true;
           LibraryService.Libraries.save($scope.folder, function (response) {
             parentScope.init(response.id);
             $modalInstance.dismiss();
           }, function (response) {
             launch.utils.handleAjaxErrorResponse(response, NotificationService);
+          }).then(function () {
+            $scope.isSaving = false;
           });
         };
       }
@@ -265,11 +277,14 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
         };
 
         $scope.ok = function () {
+true 
           LibraryService.Libraries.update($scope.folder, function (response) {
             parentScope.init($scope.folder.id);
             $modalInstance.close();
           }, function (response) {
             launch.utils.handleAjaxErrorResponse(response, NotificationService);
+          }).then(function () {
+            $scope.isSaving = false;
           });
         };
 
@@ -282,12 +297,15 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
               modalScope.okButtonText = 'Delete';
               modalScope.cancelButtonText = 'Cancel';
               modalScope.onOk = function () {
+                $scope.isDeleting = true;
                 LibraryService.Libraries.delete({ id: $scope.folder.id }, function (response) {
                   parentScope.init('root');
                   $modalInstance.close();
                   NotificationService.success('Success!', 'Folder: ' + $scope.folder.name + ' deleted');
+                  $scope.isDeleting = false;
                 }, function (response) {
                   launch.utils.handleAjaxErrorResponse(response, NotificationService);
+                  $scope.isDeleting = false;
                 });
                 instance.close();
               };
@@ -426,6 +444,7 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
     }
   };
   $scope.init = function (initFolder) {
+    $scope.isLoading = true;
     // Get all libraries and uploads
     LibraryService.Libraries.query({}, function (response) {
       $scope.data = response;
@@ -438,8 +457,11 @@ launch.module.controller('ConsultLibraryController', function ($scope, $modal, L
             $scope.loggedInUser = user;
             $scope.search.init();
             $scope.initialized = true;
+            $scope.isLoading = false;
           }
         });
+      } else {
+        $scope.isLoading = false;
       }
     });
   };
