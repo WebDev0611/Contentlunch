@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'jkuchynka@surgeforward.com', 'name' => 'Admin'),
+	'from' => array('address' => 'support@contentlaunch.com', 'name' => 'Launch Support'),
 
 	/*
 	|--------------------------------------------------------------------------
