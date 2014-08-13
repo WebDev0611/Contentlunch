@@ -298,6 +298,19 @@
 		}
 	};
 
+	self.accountBeta = {
+		formatRequest: function (account) {
+			return JSON.stringify(self.accountBeta.toDto(account));
+		},
+		toDto: function(account) {
+			var dto = self.account.toDto(account);
+
+			dto.subscription = self.subscription.toDto(account.subscription);
+
+			return dto;
+		}
+	};
+
 	self.user = {
 		parseResponse: function(r, getHeaders) {
 			return self.parseResponse(r, getHeaders, self.user.fromDto, self.user.sort);
