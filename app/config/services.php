@@ -66,7 +66,7 @@ return [
     // Content launch portal id, users should provide their own to connect to
     //'portalId' => '175282', 
     //'portalId' => '424894', // Jason's portal id
-    'scope' => ['blog-rw', 'offline'],
+    'scope' => ['blog-rw', 'settings-rw', 'offline'],
     'callback_domain' => 'http://launch.localhost'
   ],
   'linkedin' => [

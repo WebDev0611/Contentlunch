@@ -12,6 +12,7 @@ class Hubspot extends AbstractServiceOAuth2 {
 
   const SCOPE_BLOG_RW = 'blog-rw';
   const SCOPE_OFFLINE = 'offline';
+  const SCOPE_SETTINGS = 'settings-rw';
 
   public function getAuthorizationUri(array $additionalParameters = []) {
     $portalID = \Input::get('portalid');

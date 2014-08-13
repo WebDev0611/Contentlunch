@@ -334,13 +334,23 @@ class AccountConnectionsController extends BaseController {
     $connection = $this->show($accountID, $connectionID);
     $api = ConnectionConnector::loadAPI($connection->connection->provider, $connection);
     // Check status by getting the me data
-
     try {
       $response = $api->getMe(true);
       $response = (array) $response;
       switch ($connection->connection->provider) {
         case 'facebook':
           $response = array_pop($response);
+        break;
+        case 'hubspot':
+          $return = [];
+          foreach ($response as $setting) {
+            if ($setting['name'] == 'readOnly') {
+              foreach ($setting['value'] as $rSetting) {
+                $return[$rSetting['name']] = $rSetting['value'];
+              }
+            }
+          }
+          $response = $return;
         break;
       }
       $success = 1;

@@ -59,12 +59,28 @@ class HubspotAPI extends AbstractConnection {
 
   public function getIdentifier()
   {
+    $me = $this->getMe();
+    foreach ($me as $setting) {
+      if ($setting['name'] == 'readOnly') {
+        foreach ($setting['value'] as $rSetting) {
+          if ($rSetting['name'] == 'primaryAppDomain') {
+            return 'Portal ID: '. $rSetting['portalId'];
+          }
+        }
+      }
+    }
     return null;
   }
 
   public function getMe()
   {
-    return null;
+    if ( ! $this->me) {
+      $client = $this->getClient();
+      $token = $this->getAccessToken();
+      $response = $client->get('settings/v1/settings?access_token='. $token .'&domains=true&readOnly=true');
+      $this->me = $response->json();
+    }
+    return $this->me;
   }
 
   /**
@@ -127,6 +143,16 @@ class HubspotAPI extends AbstractConnection {
 
   public function getUrl()
   {
+    $me = $this->getMe();
+    foreach ($me as $setting) {
+      if ($setting['name'] == 'readOnly') {
+        foreach ($setting['value'] as $rSetting) {
+          if ($rSetting['name'] == 'primaryAppDomain') {
+            return $rSetting['value'];
+          }
+        }
+      }
+    }
     return null;
   }
 

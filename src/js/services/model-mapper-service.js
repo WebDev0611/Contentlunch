@@ -1165,6 +1165,7 @@
 			connection.updated = new Date(moment(dto.updated_at).format());
 			connection.connectionName = dto.connection_name;
 			connection.provider = dto.connection_provider;
+			connection.url = dto.url;
 
 			if (launch.utils.isBlank(dto.connection_provider) || launch.utils.isBlank(dto.name) ||
 				dto.connection_provider.toLowerCase() === dto.name.toLowerCase() || 
