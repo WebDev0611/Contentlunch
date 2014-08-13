@@ -67,6 +67,41 @@ class HubspotAPI extends AbstractConnection {
     return null;
   }
 
+  /**
+   * Get stats for a piece of content on hubspot
+   * landing_page - views, 
+   */
+  public function getStats($launch)
+  {
+    $client = $this->getClient();
+    $token = $this->getAccessToken();
+    $response = unserialize($launch->response);
+    switch ($response['subcategory']) {
+      case 'landing_page':
+        $apiResponse = $client->get('content/api/v2/pages/'. $response['id'] .'?access_token='. $token);
+        $page = $apiResponse->json();
+        $stats = [
+          'views' => $page['views'],
+          'conversion' => 100,
+          'published_url' => $page['published_url']
+        ];
+      break;
+      case 'normal_blog_post':
+        $apiResponse = $client->get('content/api/v2/blog-posts/'. $response['id'] .'?access_token='. $token);
+        $post = $apiResponse->json();
+        print_r($post);
+        die;
+        $stats = [
+          'views' => $post['views'],
+          'comments' => $post['comment_count'],
+          'inbound_links' => 0,
+          'published_url' => $post['published_url']
+        ];
+      break;
+    }
+    return $stats;
+  }
+
   public function getTemplates()
   {
     $client = $this->getClient();
@@ -115,7 +150,7 @@ class HubspotAPI extends AbstractConnection {
           'blog_author_id' => $blogAuthorID,
           'meta_description' => $content->meta_description,
           'meta_keywords' => $content->meta_keywords,
-          'is_draft' => 'true'
+          'is_draft' => 1
         ])
       ]);
       $response['success'] = true;
@@ -196,7 +231,7 @@ class HubspotAPI extends AbstractConnection {
               'smart_objects' => []
             ]
           ],
-          'is_draft' => true,
+          'is_draft' => 1,
           'meta_description' => $content->meta_description,
           'meta_keywords' => $content->meta_keywords,
           'subcategory' => 'landing_page',

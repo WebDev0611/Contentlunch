@@ -12,6 +12,8 @@ class ConnectionConnector
      */
     private static $map = [
         'linkedin' => 'LinkedIn',
+        'google-drive' => 'GoogleDrive',
+        'google-plus' => 'GooglePlus',
 
         // i.e. we don't need to put Twitter here cuz it does
         // 'twitter' => 'Twitter' automatically

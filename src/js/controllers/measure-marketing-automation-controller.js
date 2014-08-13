@@ -25,8 +25,9 @@
 
 			$scope.isLoading = true;
 
-			$scope.content = contentService.query(self.loggedInUser.account.id, null, {
+			$scope.content = measureService.getAutomation(self.loggedInUser.account.id, {
 				success: function (r) {
+					console.log(r);
 					$scope.isLoading = false;
 
 					$scope.landingPages = $.grep($scope.content, function (c) { return c.contentType.baseType === 'long_html'; });
@@ -36,8 +37,7 @@
 					$scope.landingPagesPaged = $scope.paginationLandingPages.groupToPages($scope.landingPages);
 					$scope.blogsPaged = $scope.paginationBlogs.groupToPages($scope.blogs);
 					$scope.emailsPaged = $scope.paginationEmails.groupToPages($scope.emails);
-				},
-				error: self.ajaxHandler.error
+				}
 			});
 
 			$scope.selectedTab = 'marketing-automation';
