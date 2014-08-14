@@ -23,14 +23,18 @@
 		save: { method: 'PUT', transformRequest: ModelMapperService.subscription.formatRequest }
 	});
 
-    var brainstorms = $resource('/api/account/:account_id/:content_type/:content_id/:campaign_id/brainstorm/:id',
-        { account_id : '@account_id', content_type : '@content_type', content_id : '@content_id', campaign_id: '@campaign_id', id : '@id'},
-        {
-            get: { method: 'GET', transformRequest: ModelMapperService.brainstorm.formatRequest, transformResponse: ModelMapperService.brainstorm.parseResponse, isArray: true },
-            insert: { method: 'POST', transformRequest: ModelMapperService.brainstorm.formatRequest, transformResponse: ModelMapperService.brainstorm.parseResponse },
-            delete: { method: 'DELETE' }
-        }
-    );
+	var brainstorms = $resource('/api/account/:account_id/:content_type/:content_id/:campaign_id/brainstorm/:id',
+		{ account_id: '@account_id', content_type: '@content_type', content_id: '@content_id', campaign_id: '@campaign_id', id: '@id' },
+		{
+			get: { method: 'GET', transformRequest: ModelMapperService.brainstorm.formatRequest, transformResponse: ModelMapperService.brainstorm.parseResponse, isArray: true },
+			insert: { method: 'POST', transformRequest: ModelMapperService.brainstorm.formatRequest, transformResponse: ModelMapperService.brainstorm.parseResponse },
+			delete: { method: 'DELETE' }
+		}
+	);
+
+	var supportEmail = $resource('/api/support-email', null, {
+		send: { method: 'POST' }
+	});
 
 	return {
 		query: function(callback) {
@@ -255,6 +259,12 @@
 					callback.error({ data: data, status: status, headers: headers, config: config });
 				}
 			});
+		},
+		sendSupportEmail: function(email, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return supportEmail.send(null, email, success, error);
 		}
 	};
 });
