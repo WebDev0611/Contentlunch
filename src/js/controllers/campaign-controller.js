@@ -242,6 +242,7 @@ function ($scope, AuthService, $routeParams, $filter, $q, $upload, $modal, Resta
             isNew: true,
             accountId: user.account.id,
             userId: user.id,
+			isActive: 1
             // startDate: moment().format(),
             // endDate: moment().add('month', 1).format(),
             // put any other defaults needed here

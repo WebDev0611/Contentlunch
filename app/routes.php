@@ -44,7 +44,6 @@ Route::group(['prefix' => 'api'], function()
 
   Route::get('account/{accountID}/content-tasks', 'ContentTaskGroupController@getAllTasks');
 
-
   Route::get('account/{accountID}/content/export-csv', 'ContentController@download_csv');
   // Launch a content connection
   Route::post('account/{accountID}/content/{contentID}/launch/{accountConnectionID}', 'ContentController@launch');
@@ -99,6 +98,7 @@ Route::group(['prefix' => 'api'], function()
   Route::post('account/{id}/subscription', 'AccountSubscriptionController@post_subscription');
 
   Route::post('account/{id}/resend_creation_email', 'AccountController@resend_creation_email');
+  Route::post('support-email', 'AccountController@send_support_email');
 
   Route::post('beta-account', 'AccountController@store_beta_signup');
 
@@ -210,6 +210,7 @@ Route::group(['prefix' => 'api'], function()
   Route::get("{$measureBase}content-timing",   'MeasureController@contentTiming');
   Route::get("{$measureBase}content-score",   'MeasureController@contentScore');
   Route::get("{$measureBase}user-efficiency",  'MeasureController@userEfficiency');
+  Route::get("{$measureBase}automation", 'MeasureController@getAutomationStats');
 
   Route::get('account/{id}/content-activity', 'ContentController@allActivities');
   Route::get('account/{id}/my-activity', 'ActivityController@mine');

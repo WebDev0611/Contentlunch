@@ -14,14 +14,18 @@
 					</div>
 					<div class="col-md-9">
 						<div class="row" ng-repeat="p in cat.providers">
-							<div class="col-md-5">
+							<div class="col-md-2" style="text-align: right; line-height: 30px">
 								{{ cat.title }} through
-								<span class="cl-banner cl-banner-{{ p.provider }}"></span>
 							</div>
 							<div class="col-md-2">
-								{{ providerIdentifier(p) }}
+								<span class="cl-banner cl-banner-{{ p.provider }}"></span>
 							</div>
-							<div class="col-md-5">
+							<div class="col-md-4" style="" ng-bind-html="providerIdentifier(p)">
+							</div>
+							<div class="col-md-2" style="line-height: 30px">
+								<span ng-click="checkStatus(p)">Check Status</span>
+							</div>
+							<div class="col-md-2">
 								<button class="btn btn-black" ng-click="connect(p)" ng-hide="providerIsConnected(p)">Connect</button>
 								<button class="btn btn-black" ng-click="disconnect(p)" ng-show="providerIsConnected(p)">Disconnect</button>
 							</div>

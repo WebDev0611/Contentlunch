@@ -2159,6 +2159,24 @@ span[class^="icon-"], span[class*=" icon-"] {
 	}
 }
 
+.support {
+	.right-pane{
+		.right-pane-header{
+			background-color: #000000;
+			color: #ffffff;
+		}
+
+		.right-pane-content{
+			margin-left: 100px;
+
+			.control-group{
+				max-width: 400px;
+			}
+
+		}
+	}
+}
+
 .create-header, .measure-header {
 	.btn-group {
 		.btn {
@@ -2578,6 +2596,101 @@ span[class^="icon-"], span[class*=" icon-"] {
 }
 
 .files-list {
+	list-style: none;
+	padding: 0;
+
+	li {
+		padding-left: 0;
+		padding-right: 30px;
+	}
+
+	.file-preview, .folder-preview {
+		position: relative;
+		background: #D7D7D7;
+		padding: 5px 10px 15px 10px;
+		margin: 20px 0;
+		border-radius: 8px;
+		height: 155px;
+
+		.row {
+			margin-top: 5px;
+		}
+
+		.edit {
+			position: absolute;
+			top: 1px;
+			right: 2px;
+			font-size: 10px;
+			font-weight: bold;
+			text-align: center;
+
+			.fa {
+				font-size: 20px;
+			}
+		}
+
+		.cl-icon, .cl-icon svg {
+			height: 50px;
+			width: 50px;
+			float: left;
+			margin-right: 25px;
+			margin-top: -5px;
+		}
+
+		.description {
+			padding-right: 25px;
+			padding-top: 5px;
+			font-size: 13px;
+		}
+
+		.filename {
+			text-decoration: underline;
+			cursor: pointer;
+
+			a {
+				color: #000000;
+				font-weight: bold;
+			}
+		}
+
+		.info, .user {
+			font-size: 11px;
+			overflow: hidden;
+		}
+
+		.name {
+			font-weight: bold;
+		}
+
+		.tags {
+			font-style: italic;
+
+			span {
+				margin-right: 3px;
+			}
+		}
+
+		.user {
+			.user-image {
+				border-color: #2BADC0;
+				float: left;
+				margin-right: 5px;
+			}
+		}
+
+		.rating-views {
+			margin: 8px 0;
+		}
+
+		.rating {
+			font-size: 16px;
+		}
+
+		.views {
+			margin-left: 10px;
+		}
+	}
+
 	.files-list-header {
 		margin: 24px 0 !important;
 
@@ -3100,100 +3213,6 @@ hr.simple-divider {
   margin-bottom: 10px;
 }
 
-.files-list {
-  list-style: none;
-  padding: 0;
-
-  li {
-    padding-left: 0;
-    padding-right: 30px;
-  }
-
-  .file-preview, .folder-preview {
-    position: relative;
-    background: #D7D7D7;
-    padding: 5px 10px 15px 10px;
-    margin: 20px 0;
-    border-radius: 8px;
-    height: 155px;
-
-    .row {
-      margin-top: 5px;
-    }
-
-    .edit {
-      position: absolute;
-      top: 1px;
-      right: 2px;
-      font-size: 10px;
-      font-weight: bold;
-      text-align: center;
-      .fa {
-        font-size: 20px;
-      }
-    }
-
-    .cl-icon, .cl-icon svg {
-      height: 50px;
-      width: 50px;
-      float: left;
-      margin-right: 25px;
-      margin-top: -5px;
-    }
-
-    .description {
-      padding-right: 25px;
-      padding-top: 5px;
-      font-size: 13px;
-    }
-
-    .filename {
-      text-decoration: underline;
-      cursor: pointer;
-      a {
-        color: #000000;
-        font-weight: bold;
-      }
-    }
-
-    .info, .user {
-      font-size: 11px;
-      overflow: hidden;
-    }
-
-    .name {
-      font-weight: bold;
-    }
-
-    .tags {
-      font-style: italic;
-      span {
-        margin-right: 3px;
-      }
-    }
-
-    .user {
-      .user-image {
-        border-color: #2BADC0;
-        float: left;
-        margin-right: 5px;
-      }
-    }
-
-    .rating-views {
-      margin: 8px 0;
-    }
-
-    .rating {
-      font-size: 16px;
-    }
-
-    .views {
-      margin-left: 10px;
-    }
-  }
-}
-
 .admin-library {
   .right-pane {
     padding: 65px 20px;
@@ -3229,90 +3248,124 @@ hr.simple-divider {
 }
 
 .consult {
-  &.consult-landing .right-pane-header {
-    padding-left: 50px;
-  }
+	&.consult-landing .right-pane-header {
+		padding-left: 50px;
+	}
 
-  .left-pane {
-    .select2-container {
-      // min-width: 100%;
-      width: 100%;
-    }
-  }
+	.left-pane {
+		.select2-container {
+			// min-width: 100%;
+			width: 100%;
+		}
+	}
 
-  .panel-group {
-    .panel {
-      background-color: transparent;
-      border: none !important;
+	.panel-group {
+		.panel {
+			background-color: transparent;
+			border: none !important;
 
-      .panel-heading {
-        background-color: transparent;
-        border-bottom: solid 1px #000000;
-      }
+			.panel-heading {
+				background-color: transparent;
+				border-bottom: solid 1px #000000;
+			}
 
-      .panel-collapse {
-        border: none !important;
+			.panel-collapse {
+				border: none !important;
 
-        .panel-body {
-          border: none !important;
-        }
-      }
-    }
-  }
+				.panel-body {
+					border: none !important;
+				}
+			}
+		}
+	}
 
-  .right-pane-header {
-    color: #ffffff;
-    background-color: #2BADC0;
-    border-bottom-color: #8DCDD5;
-  }
-  .container {
-    padding-left: 0;
-  }
-  .subheader {
-    h3 {
-      border-bottom: 1px solid #000000;
-      padding-bottom: 10px;
-      margin-top: 0;
-    }
-  }
-  .landing-box {
-    text-align: center;
-    padding: 0 28px;
-    h3 {
-      border-bottom: 1px solid #000000;
-      padding-bottom: 10px;
-    }
-    .landing-icon {
-      svg {
-        width: 150px;
-        height: 150px;  
-      }
-      margin: 15px 0;
-    }
-    .text {
-      padding: 0 20px;
-      text-align: left;
-      font-style: italic;
-    }
-  }
-  .subtext {
-    font-style: italic;
-    margin: 85px auto 45px auto;
-    width: 40%;
-  }
-  .filter-panel {
-    background-color: #2BADC0;
-    border-radius: 4px;
-    color: #ffffff;
-    font-family: 'Lato Black';
-    font-size: 14pt;
-    margin: 12px 0;
-    padding: 4px;
-  }
+	.right-pane-header {
+		color: #ffffff;
+		background-color: #2BADC0;
+		border-bottom-color: #8DCDD5;
+	}
 
-  .cl-badge-image {
-  	border-color: @consultColorDark;
-  }
+	.container {
+		padding-left: 0;
+	}
+
+	.subheader {
+		h3 {
+			border-bottom: 1px solid #000000;
+			padding-bottom: 10px;
+			margin-top: 0;
+		}
+	}
+
+	.landing-box {
+		text-align: center;
+		padding: 0 28px;
+
+		h3 {
+			border-bottom: 1px solid #000000;
+			padding-bottom: 10px;
+		}
+
+		.landing-icon {
+			svg {
+				width: 150px;
+				height: 150px;
+			}
+
+			margin: 15px 0;
+		}
+
+		.text {
+			padding: 0 20px;
+			text-align: left;
+			font-style: italic;
+		}
+	}
+
+	.subtext {
+		font-style: italic;
+		margin: 85px auto 45px auto;
+		width: 40%;
+	}
+
+	.filter-panel {
+		background-color: #2BADC0;
+		border-radius: 4px;
+		color: #ffffff;
+		font-family: 'Lato Black';
+		font-size: 14pt;
+		margin: 12px 0;
+		padding: 4px;
+	}
+
+	.global-folder {
+		position: relative;
+		background: #D7D7D7;
+		padding: 5px 10px 15px 10px;
+		margin: 20px 0;
+		border-radius: 8px;
+		height: 155px;
+		max-width: 75%;
+
+		.description{
+			> *{
+				vertical-align: middle;
+			}
+
+			a{
+				color: #000000;
+				display: inline-block;
+				font-size: 16pt;
+				font-weight: bold;
+				margin-left: 8px;
+				text-decoration: underline;
+			}
+		}
+	}
+
+	.cl-badge-image {
+		border-color: @consultColorDark;
+	}
 }
 
 .admin-conference {

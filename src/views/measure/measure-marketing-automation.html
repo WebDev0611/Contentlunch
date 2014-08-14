@@ -79,9 +79,9 @@
 											<span class="user-image user-image-small" ng-style="{ 'background-image': c.author.image }"></span>
 											{{ c.author.formatName() }}
 										</td>
-										<td>VIEWS
+										<td>{{ c.automation.views }}
 										</td>
-										<td>CONVERSION RATE
+										<td>{{ c.automation.conversion }}%
 										</td>
 									</tr>
 								</tbody>
@@ -139,8 +139,8 @@
 											<span class="clickable-header" ng-click="applySort('views', 'blogs')">Views</span>
 										</th>
 										<th>
-											<span class="fa" ng-show="paginationBlogs.currentSort === 'conversionrate'" ng-class="'fa-sort-alpha-' + paginationBlogs.currentSortDirection"></span>
-											<span class="clickable-header" ng-click="applySort('conversionrate', 'blogs')">Conversion Rate</span>
+											<span class="fa" ng-show="paginationBlogs.currentSort === 'comments'" ng-class="'fa-sort-alpha-' + paginationBlogs.currentSortDirection"></span>
+											<span class="clickable-header" ng-click="applySort('comments', 'blogs')">Conmments</span>
 										</th>
 									</tr>
 								</thead>
@@ -157,9 +157,9 @@
 											<span class="user-image user-image-small" ng-style="{ 'background-image': c.author.image }"></span>
 											{{ c.author.formatName() }}
 										</td>
-										<td>VIEWS
+										<td>{{ c.automation.views }}
 										</td>
-										<td>CONVERSION RATE
+										<td>{{ c.automation.comments }}
 										</td>
 									</tr>
 								</tbody>
@@ -167,6 +167,7 @@
 						</div>
 					</div>
 
+<!--
 					<div class="measure-marketing-automation-table">
 						<div class="measure-table-header">
 							<span class="measure-sub-header">Landing Pages</span>
@@ -245,6 +246,7 @@
 							</table>
 						</div>
 					</div>
+					-->
 				</div>
 			</div>
 		</div>

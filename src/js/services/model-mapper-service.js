@@ -1165,6 +1165,7 @@
 			connection.updated = new Date(moment(dto.updated_at).format());
 			connection.connectionName = dto.connection_name;
 			connection.provider = dto.connection_provider;
+			connection.url = dto.url;
 
 			if (launch.utils.isBlank(dto.connection_provider) || launch.utils.isBlank(dto.name) ||
 				dto.connection_provider.toLowerCase() === dto.name.toLowerCase() || 
@@ -1326,6 +1327,10 @@
 
 			if ($.isArray(dto.task_groups)) {
 				content.taskGroups = $.map(dto.task_groups, self.taskGroups.fromDto);
+			}
+
+			if (!!dto.automation) {
+				content.automation = dto.automation;
 			}
 
 			content.contentScore = parseFloat(Math.random() * 100).toFixed(2); // TODO: GET THIS FROM THE API ONCE IT'S AVAILABLE!!

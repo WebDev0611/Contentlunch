@@ -1,5 +1,6 @@
 <?php namespace Launch\Connections\API;
 
+use Launch\OAuth\Service\ServiceFactory;
 use Illuminate\Support\Facades\Config;
 
 abstract class AbstractConnection {
@@ -31,10 +32,39 @@ abstract class AbstractConnection {
     if ( ! is_object($this->accountConnection['settings']['token'])) {
       return;
     }
+    $token = $this->accountConnection['settings']['token'];
+
+    $expire = $token->getEndOfLife();
+    if ($expire < time()) {
+      // This token has expired, get refresh token
+      // Load up the service class
+      $factory = new ServiceFactory($this->accountConnection['connection']['provider']);
+      $newToken = $factory->service->refreshAccessToken($token);
+      if ($newToken) {
+        // Save new token, this implies that the provider
+        // sends back a new refresh token
+        $connectionObject = \AccountConnection::find($this->accountConnection['id']);
+        $settings = unserialize($connectionObject->settings);
+        $settings['token'] = $newToken;
+        // If new token doesn't have a refresh token, copy over
+        // the original refresh token (provider uses original refresh token for
+        // subsequent refresh calls)
+        if ( ! $newToken->getRefreshToken()) {
+          $newToken->setRefreshToken($token->getRefreshToken());
+        }
+        // Copy over extra params
+        $newToken->setExtraParams($token->getExtraParams());
+        $connectionObject->settings = $settings;
+        $connectionObject->updateUniques();
+        $this->accountConnection['settings']['token'] = $newToken;
+      }
+    }
+
     $token = $this->accountConnection['settings']['token']->getAccessToken();
     if ( ! $token) {
       throw new \Exception("Invalid connection");
     }
+
     return $token;
   }
 

@@ -52,7 +52,7 @@ class AccountSubscriptionController extends BaseController {
         $balancedAccount = new Launch\Balanced($account);
         $balancedAccount->chargeAccount();
       }
-      return $this->get_subscription($id);
+      return $this->get_subscription($id, $checkAuth);
     }
     return $this->errorResponse($sub->errors()->toArray());
   }

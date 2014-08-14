@@ -22,6 +22,7 @@ return [
   'acton' => [
     'key' => 'rWSMXgnRNIvDe4BNl7bu0DKpdgAa',
     'secret' => 'HjGxrBZkPLFk652EeIamVaAoBe8a',
+    //'scope' => ['PRODUCTION']
     'scope' => []
   ],
   // Use same api creds as google
@@ -66,7 +67,7 @@ return [
     // Content launch portal id, users should provide their own to connect to
     //'portalId' => '175282', 
     //'portalId' => '424894', // Jason's portal id
-    'scope' => ['blog-rw', 'offline'],
+    'scope' => ['blog-rw', 'settings-rw', 'offline'],
     'callback_domain' => 'http://launch.localhost'
   ],
   'linkedin' => [

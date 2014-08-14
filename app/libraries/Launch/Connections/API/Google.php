@@ -1,5 +1,7 @@
 <?php namespace Launch\Connections\API;
 
+use Launch\Exception\OAuthTokenException;
+
 use Illuminate\Support\Facades\Config;
 use GuzzleHttp\Client;
 
@@ -15,30 +17,29 @@ abstract class GoogleAPI extends AbstractConnection {
   protected function getClient()
   {
     if ( ! $this->client) {
-      // Setup google client
-      $this->client = new Google_Client;
-      $this->client->setClientId($this->config['key']);
-      $this->client->setClientSecret($this->config['secret']);
-      $this->client->setScopes($this->config['scopes']);
-
-      // Use refresh token
       try {
-        $token = $this->getRefreshToken();
-      } catch (\Exception $e) {
-        return;
-      }
+        // Setup google client
+        $this->client = new Google_Client;
+        $this->client->setClientId($this->config['key']);
+        $this->client->setClientSecret($this->config['secret']);
+        $this->client->setScopes($this->config['scope']);
 
-      if ( ! $token) {
-        // @todo: Handle this better
-        throw new \Exception('Invalid token');
+        $token = $this->getAccessToken();
+
+        // Use refresh token
+        //$token = $this->getRefreshToken();
+
+        // Google lib expects token in this format
+        $token = json_encode([
+          'access_token' => $token,
+          'created' => time(),
+          'expires_in' => 3600
+        ]);
+        $this->client->setAccessToken($token);
+      } catch (\Exception $e) {
+        // Token invalid, or unable to refresh token
+        throw new OAuthTokenException($e->getMessage());
       }
-      // Google lib expects token in this format
-      $token = json_encode([
-        'access_token' => $token,
-        'created' => time(),
-        'expires_in' => 3600
-      ]);
-      $this->client->setAccessToken($token);
     }
     return $this->client;
   }
@@ -46,6 +47,7 @@ abstract class GoogleAPI extends AbstractConnection {
   protected function getRefreshToken()
   {
     $client = new Client;
+
     $response = $client->post('https://accounts.google.com/o/oauth2/token', [
       'body' => [
         'refresh_token' => $this->accountConnection['settings']['token']->getRefreshToken(),

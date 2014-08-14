@@ -99,6 +99,7 @@ class ServiceFactory {
       case 'google-drive':
       case 'google-plus':
       case 'youtube':
+      case 'blogger':
         // Request offline access token
         // @see https://developers.google.com/accounts/docs/OAuth2WebServer#offline
         return (string) $this->service->getAuthorizationUri([

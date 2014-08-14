@@ -2,6 +2,7 @@
 
 use Launch\OAuth\Service\ServiceFactory;
 use Launch\Connections\API\ConnectionConnector;
+use Launch\Exception\OAuthTokenException;
 
 class AccountConnectionsController extends BaseController {
 
@@ -348,8 +349,25 @@ class AccountConnectionsController extends BaseController {
         case 'facebook':
           $response = array_pop($response);
         break;
+        case 'hubspot':
+          $return = [];
+          foreach ($response as $setting) {
+            if ($setting['name'] == 'readOnly') {
+              foreach ($setting['value'] as $rSetting) {
+                $return[$rSetting['name']] = $rSetting['value'];
+              }
+            }
+          }
+          $response = $return;
+        break;
       }
       $success = 1;
+    } catch (OAuthTokenException $e) {
+      $response = "Invalid access token. Please reauthenticate this connection.";
+      if (Config::get('app.debug')) {
+        $response .= '<br />Debug message: '. $e->getMessage();
+      }
+      $success = 0;
     } catch (\Exception $e) {
       $response = $e->getMessage();
       $success = 0;

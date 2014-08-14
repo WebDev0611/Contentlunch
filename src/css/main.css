@@ -426,6 +426,9 @@
   background-image: url(/assets/images/smart-shoot-banner.png);
 }
 /* #endregion */
+.cl-icon-folder {
+  background-image: url(/assets/images/folder-open.svg);
+}
 html,
 body {
   height: 100%;
@@ -2610,6 +2613,16 @@ span[class*=" icon-"].dark {
 .measure .right-pane .measure-editor .measure-table-container table.measure-table tr.dark td {
   background-color: #E6E4E0;
 }
+.support .right-pane .right-pane-header {
+  background-color: #000000;
+  color: #ffffff;
+}
+.support .right-pane .right-pane-content {
+  margin-left: 100px;
+}
+.support .right-pane .right-pane-content .control-group {
+  max-width: 400px;
+}
 .create-header .btn-group .btn.active,
 .measure-header .btn-group .btn.active {
   background-color: #000000;
@@ -3017,6 +3030,103 @@ span[class*=" icon-"].dark {
 .collaborators {
   text-align: center;
 }
+.files-list {
+  list-style: none;
+  padding: 0;
+}
+.files-list li {
+  padding-left: 0;
+  padding-right: 30px;
+}
+.files-list .file-preview,
+.files-list .folder-preview {
+  position: relative;
+  background: #D7D7D7;
+  padding: 5px 10px 15px 10px;
+  margin: 20px 0;
+  border-radius: 8px;
+  height: 155px;
+}
+.files-list .file-preview .row,
+.files-list .folder-preview .row {
+  margin-top: 5px;
+}
+.files-list .file-preview .edit,
+.files-list .folder-preview .edit {
+  position: absolute;
+  top: 1px;
+  right: 2px;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+.files-list .file-preview .edit .fa,
+.files-list .folder-preview .edit .fa {
+  font-size: 20px;
+}
+.files-list .file-preview .cl-icon,
+.files-list .folder-preview .cl-icon,
+.files-list .file-preview .cl-icon svg,
+.files-list .folder-preview .cl-icon svg {
+  height: 50px;
+  width: 50px;
+  float: left;
+  margin-right: 25px;
+  margin-top: -5px;
+}
+.files-list .file-preview .description,
+.files-list .folder-preview .description {
+  padding-right: 25px;
+  padding-top: 5px;
+  font-size: 13px;
+}
+.files-list .file-preview .filename,
+.files-list .folder-preview .filename {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.files-list .file-preview .filename a,
+.files-list .folder-preview .filename a {
+  color: #000000;
+  font-weight: bold;
+}
+.files-list .file-preview .info,
+.files-list .folder-preview .info,
+.files-list .file-preview .user,
+.files-list .folder-preview .user {
+  font-size: 11px;
+  overflow: hidden;
+}
+.files-list .file-preview .name,
+.files-list .folder-preview .name {
+  font-weight: bold;
+}
+.files-list .file-preview .tags,
+.files-list .folder-preview .tags {
+  font-style: italic;
+}
+.files-list .file-preview .tags span,
+.files-list .folder-preview .tags span {
+  margin-right: 3px;
+}
+.files-list .file-preview .user .user-image,
+.files-list .folder-preview .user .user-image {
+  border-color: #2BADC0;
+  float: left;
+  margin-right: 5px;
+}
+.files-list .file-preview .rating-views,
+.files-list .folder-preview .rating-views {
+  margin: 8px 0;
+}
+.files-list .file-preview .rating,
+.files-list .folder-preview .rating {
+  font-size: 16px;
+}
+.files-list .file-preview .views,
+.files-list .folder-preview .views {
+  margin-left: 10px;
+}
 .files-list .files-list-header {
   margin: 24px 0 !important;
 }
@@ -3420,103 +3530,6 @@ hr.simple-divider {
   font-size: 16px;
   margin-bottom: 10px;
 }
-.files-list {
-  list-style: none;
-  padding: 0;
-}
-.files-list li {
-  padding-left: 0;
-  padding-right: 30px;
-}
-.files-list .file-preview,
-.files-list .folder-preview {
-  position: relative;
-  background: #D7D7D7;
-  padding: 5px 10px 15px 10px;
-  margin: 20px 0;
-  border-radius: 8px;
-  height: 155px;
-}
-.files-list .file-preview .row,
-.files-list .folder-preview .row {
-  margin-top: 5px;
-}
-.files-list .file-preview .edit,
-.files-list .folder-preview .edit {
-  position: absolute;
-  top: 1px;
-  right: 2px;
-  font-size: 10px;
-  font-weight: bold;
-  text-align: center;
-}
-.files-list .file-preview .edit .fa,
-.files-list .folder-preview .edit .fa {
-  font-size: 20px;
-}
-.files-list .file-preview .cl-icon,
-.files-list .folder-preview .cl-icon,
-.files-list .file-preview .cl-icon svg,
-.files-list .folder-preview .cl-icon svg {
-  height: 50px;
-  width: 50px;
-  float: left;
-  margin-right: 25px;
-  margin-top: -5px;
-}
-.files-list .file-preview .description,
-.files-list .folder-preview .description {
-  padding-right: 25px;
-  padding-top: 5px;
-  font-size: 13px;
-}
-.files-list .file-preview .filename,
-.files-list .folder-preview .filename {
-  text-decoration: underline;
-  cursor: pointer;
-}
-.files-list .file-preview .filename a,
-.files-list .folder-preview .filename a {
-  color: #000000;
-  font-weight: bold;
-}
-.files-list .file-preview .info,
-.files-list .folder-preview .info,
-.files-list .file-preview .user,
-.files-list .folder-preview .user {
-  font-size: 11px;
-  overflow: hidden;
-}
-.files-list .file-preview .name,
-.files-list .folder-preview .name {
-  font-weight: bold;
-}
-.files-list .file-preview .tags,
-.files-list .folder-preview .tags {
-  font-style: italic;
-}
-.files-list .file-preview .tags span,
-.files-list .folder-preview .tags span {
-  margin-right: 3px;
-}
-.files-list .file-preview .user .user-image,
-.files-list .folder-preview .user .user-image {
-  border-color: #2BADC0;
-  float: left;
-  margin-right: 5px;
-}
-.files-list .file-preview .rating-views,
-.files-list .folder-preview .rating-views {
-  margin: 8px 0;
-}
-.files-list .file-preview .rating,
-.files-list .folder-preview .rating {
-  font-size: 16px;
-}
-.files-list .file-preview .views,
-.files-list .folder-preview .views {
-  margin-left: 10px;
-}
 .admin-library .right-pane {
   padding: 65px 20px;
 }
@@ -3612,6 +3625,26 @@ hr.simple-divider {
   font-size: 14pt;
   margin: 12px 0;
   padding: 4px;
+}
+.consult .global-folder {
+  position: relative;
+  background: #D7D7D7;
+  padding: 5px 10px 15px 10px;
+  margin: 20px 0;
+  border-radius: 8px;
+  height: 155px;
+  max-width: 75%;
+}
+.consult .global-folder .description > * {
+  vertical-align: middle;
+}
+.consult .global-folder .description a {
+  color: #000000;
+  display: inline-block;
+  font-size: 16pt;
+  font-weight: bold;
+  margin-left: 8px;
+  text-decoration: underline;
 }
 .consult .cl-badge-image {
   border-color: #2badc0;

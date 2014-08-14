@@ -82,12 +82,13 @@ class AccountController extends BaseController {
 		} catch (Exception $e) {
 			// undo account
 			Account::destroy($account->id);
-			AccountRole::where('account_id', $account->id)->delete();
 			User::destroy($user->id);
+			DB::table('assigned_roles')->where('user_id', $user->id)->delete();
+			AccountRole::where('account_id', $account->id)->delete();
 			return $sub ?: $this->responseError($e, 401);
 		}
 
-		$account->subscription = $sub;
+		$account->subscription = $sub->toArray();
 
 		return $account;
 	}
@@ -183,6 +184,21 @@ class AccountController extends BaseController {
 		return array('success' => 'OK');
 	}
 
+	public function send_support_email()
+	{
+		$user = Confide::user();
+		if (!$user) {
+			// they they aren't even logged in!
+			return $this->responseError('Not logged in', 401);
+		}
+
+		Mail::send('emails.account.support', Input::get(), function ($message) {
+			$message->to('support@contentlaunch.com')->subject('Customer Support');
+		});
+
+		return array('success' => 'OK');
+	}
+
 	public function request_update_email()
 	{
 		// Restrict to site admins
@@ -200,7 +216,9 @@ class AccountController extends BaseController {
 		);
 		Mail::send('emails.account.request_update', $data, function ($message) {
 			$message
-				->to('jkuchynka@surgeforward.com')
+				->to('support@contentlaunch.com', 'Launch Support')
+				->cc('mmayo@surgeforward.com', 'Mark Mayo')
+				->cc('jkuchynka@surgeforward.com', 'Jason Kuchynka')
 				->from(Input::get('email'))
 				->subject('Account Update Request - '. Input::get('company'));
 		});
@@ -212,7 +230,7 @@ class AccountController extends BaseController {
 		Mail::send('emails.account.cancellation', array(), function ($message) use ($account) {
 			$message
 				->to($account->email)
-				->from('jkuchynka@surgeforward.com', 'Content Launch Support')
+				->from('support@contentlaunch.com', 'Launch Support')
 				->subject('Content Launch Account Cancellation');
 		});
 	}
