@@ -1,51 +1,61 @@
-
 <div class="library-file-form">
-  <div class="modal-header">File Information</div>
-  <div class="modal-body">
+	<div class="modal-header">File Information</div>
+	<div class="modal-body">
 
-    <form name="fileSelectForm" novalidate="novalidate">
-    
-      <div class="form-group">
+		<form name="fileSelectForm" novalidate="novalidate">
 
-        <label>File</label>
+			<div class="form-group">
 
-        <div class="selected-file" ng-show="!!fileName" onclick="$('#filAttachment').click()">
-          <span class="cl-icon cl-icon-x-large" ng-class="fileType"></span>
-          <br />
-          <span class="small-text">{{ fileName }}</span>
-        </div>
+				<label>File</label>
 
-        <div>
-          <button type="button" class="btn btn-black btn-default" onclick="$('#filAttachment').click()" ng-show="!fileName">Browse</button>
-          <input type="file" id="filAttachment" ng-file-select="addFile($files, fileSelectForm, fileSelectForm.filAttachment)" style="display: none" ng-disabled="mode == 'edit'" />
-        </div>
+				<div class="selected-file" ng-show="!!fileName" onclick="$('#filAttachment').click()">
+					<span class="cl-icon cl-icon-x-large" ng-class="fileType"></span>
+					<br />
+					<span class="small-text">{{ fileName }}</span>
+				</div>
 
-      </div>
+				<div>
+					<button type="button" class="btn btn-black btn-default" onclick="$('#filAttachment').click()" ng-show="!fileName">Browse</button>
+					<input type="file" id="filAttachment" ng-file-select="addFile($files, fileSelectForm, fileSelectForm.filAttachment)" style="display: none" ng-disabled="mode == 'edit'" />
+				</div>
 
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea id="description" class="form-control" rows="3" ng-model="uploadFile.description" ng-maxlength="60" maxlength="60"></textarea>
-      </div>
+			</div>
 
-      <div class="form-group" ng-hide="disableFolderSelect">
-        <label for="folder">File Folder</label>
-        <div>
-          <select id="folder" ng-model="uploadFile.folder" required ng-options="folder.key as folder.name for folder in fileFolders"></select>
-        </div>
-      </div>
-    
-      <div class="form-group">
-        <label for="tags">Tags (separate by comma)</label>
-        <input type="text" id="tags" class="form-control" ng-model="uploadFile.tags" />
-      </div>
+			<div class="form-group">
+				<label for="description">Description</label>
+				<textarea id="description" class="form-control" rows="3" ng-model="uploadFile.description" ng-maxlength="60" maxlength="60"></textarea>
+			</div>
 
-      <div class="buttons clearfix">
-        <button class="btn btn-primary btn-black ladda-button" ng-disabled="isDeleting" data-style="zoom-in" ladda-button="isSaving" ng-click="ok()">Save and Close</button>
-        <button class="btn btn-warning btn-black ladda-button" ng-disabled="isSaving || isDeleting" ng-click="cancel()">Cancel</button>
-        <button class="btn btn-warning btn-black ladda-button" ng-disabled="isSaving" data-style="zoom-in" ladda-button="isDeleting" ng-click="delete()" ng-show="mode == 'edit'">Delete</button>
-      </div>
+			<div class="form-group" ng-hide="disableFolderSelect">
+				<label for="folder">File Folder</label>
+				<div>
+					<select id="folder" ng-model="uploadFile.folder" required ng-options="folder.key as folder.name for folder in fileFolders"></select>
+				</div>
+			</div>
 
-    </form>
+			<div class="form-group">
+				<label for="tags">Tags (separate by comma)</label>
+				<input type="text" id="tags" class="form-control" ng-model="uploadFile.tags" />
+			</div>
 
-  </div>
+			<div class="buttons clearfix">
+				<button class="btn btn-primary btn-black" ng-disabled="isDeleting" data-style="zoom-in" ng-click="ok()">Save and Close</button>
+				<button class="btn btn-warning btn-black" ng-disabled="isSaving || isDeleting" ng-click="cancel()">Cancel</button>
+				<button class="btn btn-warning btn-black" ng-disabled="isSaving" data-style="zoom-in" ng-click="delete()" ng-show="mode == 'edit'">Delete</button>
+			</div>
+
+		</form>
+
+		<div class="full-screen-modal" ng-show="isSaving">
+			<spinner spin="{ color: 'white', length: 50, width: 10, radius: 30 }"></spinner>
+			<div class="message">
+				Uploading...
+
+				<progressbar class="progress-striped active" value="percentComplete">
+					<span>{{ percentComplete }}%</span>
+				</progressbar>
+			</div>
+		</div>
+
+	</div>
 </div>
