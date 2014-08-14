@@ -1467,24 +1467,27 @@ span[class^="icon-"], span[class*=" icon-"] {
 			}
 		}
 
-        .panel-brainstorms {
-            .brainstorm {
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                position: relative;
-                padding-right: 8px;
-                margin-bottom: 10px;
-                .description {
-                    text-decoration: underline;
-                }
-                .fa-trash-o {
-                    position: absolute;
-                    right: 0;
-                    top: 3px;
-                }
-            }
-        }
+		.panel-brainstorms {
+			.brainstorm {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				position: relative;
+				padding-right: 8px;
+				margin-bottom: 10px;
+
+				.description {
+					text-decoration: underline;
+				}
+
+				.fa-trash-o {
+					position: absolute;
+					right: 0;
+					top: 3px;
+				}
+			}
+		}
+
 		.panel-collaborators {
 			.panel-footer {
 				background-color: #E4E4E4;
@@ -1509,6 +1512,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 					padding: 0;
 
 					li {
+						margin: 4px 0;
 						position: relative;
 
 						.fa {
@@ -1547,6 +1551,10 @@ span[class^="icon-"], span[class*=" icon-"] {
 								vertical-align: top;
 							}
 						}
+
+						&.disabled {
+							opacity: 0.4;
+						}
 					}
 				}
 			}
@@ -1558,7 +1566,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 				vertical-align: middle;
 			}
 		}
-		
+
 		.btn {
 			.fa {
 				display: inline-block;
@@ -1777,9 +1785,8 @@ span[class^="icon-"], span[class*=" icon-"] {
 						}
 
 						input[type="checkbox"] {
-							height: 20px;
-							width: 20px;
-							margin: 8px 8px 0 0;
+							height: 16px;
+							width: 16px;
 						}
 
 						a {
@@ -1790,6 +1797,10 @@ span[class^="icon-"], span[class*=" icon-"] {
 						.fa-trash-o {
 							cursor: pointer;
 							float: right;
+						}
+
+						.disabled{
+							opacity: 0.4;
 						}
 					}
 				}

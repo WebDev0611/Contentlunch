@@ -20,12 +20,16 @@
 
 				self.service = (scope.itemType.toLowerCase() === 'campaign') ? CampaignService : ContentService;
 
-				scope.checkCollaborator = ($.isFunction(scope.isCollaboratorFinished)) ? scope.isCollaboratorFinished : function(c) { return false; };
+				scope.checkCollaborator = ($.isFunction(scope.isCollaboratorFinished)) ? scope.isCollaboratorFinished : function (c) { return false; };
+				//scope.potentialCollaborators = $.grep(scope.users, function(u) { return u.active; });
 			};
 
 			self.refreshCollaborators = function () {
 				scope.collaborators = self.service.queryCollaborators(self.loggedInUser.account.id, scope.itemId, null, {
 					success: function (r) {
+						scope.potentialCollaborators = $.grep(scope.users, function(u) {
+							return u.active;
+						});
 					},
 					error: function (r) {
 						launch.utils.handleAjaxErrorResponse(r, NotificationService);
@@ -78,6 +82,7 @@
 			scope.item = null;
 			scope.tasks = null;
 			scope.collaborators = null;
+			scope.potentialCollaborators = null;
 			scope.newCollaborator = 0;
 			scope.canModifyCollaborators = false;
 
