@@ -46,7 +46,7 @@ launch.module.controller('ConsultLibraryController', function($scope, $modal, Li
 				return f.id != 'root' && f.global !== 1;
 			});
 
-			$scope.globalFolder = _.find($scope.data, function (f) {
+			$scope.globalFolder = _.find($scope.data, function(f) {
 				return f.global === 1;
 			});
 
@@ -75,164 +75,169 @@ launch.module.controller('ConsultLibraryController', function($scope, $modal, Li
 
 	// Upload a file
 	$scope.addFile = function() {
-
-		var parentScope = $scope;
-
 		$modal.open({
 			templateUrl: '/assets/views/consult/library-file-form.html',
-			controller: function($scope, $window, $modalInstance, $upload, LibraryService, NotificationService) {
+			controller: [
+				'$scope', '$window', '$modalInstance', '$upload', 'LibraryService', 'NotificationService',
+				function(scope, $window, $modalInstance, $upload, LibraryService, NotificationService) {
 
-				$scope.file = { };
-				$scope.folders = [];
-				$scope.uploadFile = new launch.UploadFile();
-				$scope.uploadFile.tags = '';
-				$scope.disableFolderSelect = false;
+					scope.file = { };
+					scope.folders = [];
+					scope.uploadFile = new launch.UploadFile();
+					scope.uploadFile.tags = '';
+					scope.disableFolderSelect = false;
 
-				// Setup available folders to save file to
-				$scope.fileFolders = parentScope.getFolderOptions();
-				// Default to currently open folder
-				if (parentScope.selectedFolder) {
-					$scope.uploadFile.folder = parentScope.selectedFolder.id;
-				}
-				// User clicked browse and staged file for upload
-				$scope.addFile = function(files, form, control) {
-					$scope.file = $.isArray(files) ? files[0] : files;
-					$scope.fileName = $scope.file.name;
-					$scope.fileType = launch.utils.getFileTypeCssClass($scope.file.name.substring($scope.file.name.lastIndexOf('.') + 1));
-				};
-
-				// Close modal
-				$scope.cancel = function() {
-					$modalInstance.dismiss('cancel');
-				};
-
-				// Save file
-				$scope.ok = function() {
-					$scope.isSaving = true;
-					var data = {
-						description: $scope.uploadFile.description,
-						tags: $scope.uploadFile.tags
+					// Setup available folders to save file to
+					scope.fileFolders = $scope.getFolderOptions();
+					// Default to currently open folder
+					if ($scope.selectedFolder) {
+						scope.uploadFile.folder = $scope.selectedFolder.id;
+					}
+					// User clicked browse and staged file for upload
+					scope.addFile = function(files, form, control) {
+						scope.file = $.isArray(files) ? files[0] : files;
+						scope.fileName = scope.file.name;
+						scope.fileType = launch.utils.getFileTypeCssClass(scope.file.name.substring(scope.file.name.lastIndexOf('.') + 1));
 					};
-					$upload.upload({
-						url: '/api/library/' + $scope.uploadFile.folder + '/uploads',
-						method: 'POST',
-						data: data,
-						file: $scope.file
-					}).success(function(response) {
-						// Reload view with folder that file was saved to
-						parentScope.init($scope.uploadFile.folder);
-						NotificationService.success('Success!', 'File: ' + response.filename + ' saved.');
-						$modalInstance.dismiss();
-					}).error(function(response) {
-						launch.utils.handleAjaxErrorResponse(response, NotificationService);
-					}).then(function() {
-						$scope.isSaving = false;
-					});
-				};
-			}
+
+					// Close modal
+					scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
+
+					// Save file
+					scope.ok = function() {
+						$scope.isSaving = true;
+						var data = {
+							description: scope.uploadFile.description,
+							tags: scope.uploadFile.tags
+						};
+						$upload.upload({
+							url: '/api/library/' + scope.uploadFile.folder + '/uploads',
+							method: 'POST',
+							data: data,
+							file: scope.file
+						}).success(function(response) {
+							// Reload view with folder that file was saved to
+							$scope.isSaving = false;
+							$scope.init(scope.uploadFile.folder);
+							NotificationService.success('Success!', 'File: ' + response.filename + ' saved.');
+							$modalInstance.dismiss();
+						}).error(function(response) {
+							$scope.isSaving = false;
+							launch.utils.handleAjaxErrorResponse(response, NotificationService);
+						}).progress(function (e) {
+							$scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
+						});
+					};
+				}
+			]
 		});
 	};
 
 	// Edit a file
 	$scope.editFile = function(file) {
-		var parentScope = $scope;
-
 		$modal.open({
 			templateUrl: '/assets/views/consult/library-file-form.html',
-			controller: function($scope, $window, $modalInstance, $upload, LibraryService, NotificationService) {
+			controller: [
+				'$scope', '$window', '$modalInstance', '$upload', 'LibraryService', 'NotificationService',
+				function(scope, $window, $modalInstance, $upload, LibraryService, NotificationService) {
 
-				$scope.file = { };
-				$scope.folders = [];
-				$scope.uploadFile = file;
-				$scope.mode = 'edit';
-				$scope.disableFolderSelect = false;
+					scope.file = { };
+					scope.folders = [];
+					scope.uploadFile = file;
+					scope.mode = 'edit';
+					scope.disableFolderSelect = false;
 
-				$scope.fileType = launch.utils.getFileTypeCssClass(file.fileName.substring(file.fileName.lastIndexOf('.') + 1));
+					scope.fileType = launch.utils.getFileTypeCssClass(file.fileName.substring(file.fileName.lastIndexOf('.') + 1));
 
-				$scope.fileFolders = parentScope.getFolderOptions();
-				// Default to currently open folder
-				$scope.uploadFile.folder = parentScope.selectedFolder.id;
+					scope.fileFolders = $scope.getFolderOptions();
+					// Default to currently open folder
+					scope.uploadFile.folder = $scope.selectedFolder.id;
 
-				if ($.isArray($scope.uploadFile.tags)) {
-					$scope.uploadFile.tags = _.map($scope.uploadFile.tags, function(tag) {
-						return tag.tag;
-					}).join();
-				}
+					if ($.isArray(scope.uploadFile.tags)) {
+						scope.uploadFile.tags = _.map(scope.uploadFile.tags, function(tag) {
+							return tag.tag;
+						}).join();
+					}
 
-				$scope.fileName = $scope.uploadFile.fileName;
+					scope.fileName = scope.uploadFile.fileName;
 
-				// User clicked browse and staged file for upload
-				$scope.addFile = function(files, form, control) {
-					$scope.file = $.isArray(files) ? files[0] : files;
-					$scope.fileName = $scope.file.name;
-					$scope.fileType = launch.utils.getFileTypeCssClass($scope.file.name.substring($scope.file.name.lastIndexOf('.') + 1));
-				};
-
-				// Close modal
-				$scope.cancel = function() {
-					$modalInstance.dismiss('cancel');
-				};
-
-				// Save file
-				$scope.ok = function() {
-					$scope.isSaving = true;
-					var data = {
-						description: $scope.uploadFile.description,
-						tags: $scope.uploadFile.tags
+					// User clicked browse and staged file for upload
+					scope.addFile = function(files, form, control) {
+						scope.file = $.isArray(files) ? files[0] : files;
+						scope.fileName = scope.file.name;
+						scope.fileType = launch.utils.getFileTypeCssClass(scope.file.name.substring(scope.file.name.lastIndexOf('.') + 1));
 					};
-					$upload.upload({
-						url: '/api/library/' + $scope.uploadFile.folder + '/uploads/' + file.id + '?description=' + $scope.uploadFile.description + '&tags=' + $scope.uploadFile.tags,
-						method: 'PUT'
-					}).success(function(response) {
-						// Reload view with folder that file was saved to
-						parentScope.init($scope.uploadFile.folder);
-						NotificationService.success('Success!', 'File: ' + response.filename + ' saved.');
-						$modalInstance.dismiss();
-					}).error(function(response) {
-						launch.utils.handleAjaxErrorResponse(response, NotificationService);
-					}).then(function() {
-						$scope.isSaving = false;
-					});
-				};
 
-				// Delete file
-				$scope.delete = function() {
+					// Close modal
+					scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
 
-					$modal.open({
-						templateUrl: 'confirm.html',
-						controller: [
-							'$scope', '$modalInstance', function(modalScope, instance) {
-								modalScope.message = 'Are you sure you want to delete this file?';
-								modalScope.okButtonText = 'Delete';
-								modalScope.cancelButtonText = 'Cancel';
-								modalScope.onOk = function() {
-									$scope.isDeleting = true;
-									if (! $scope.uploadFile.libraries[0]) {
-										libraryID = 'root';
-									} else {
-										libraryID = $scope.uploadFile.libraries[0].id;
-									}
-									LibraryService.Uploads.delete({ id: libraryID, uploadid: $scope.uploadFile.id }, function(response) {
-										NotificationService.success('Success!', 'File: ' + $scope.uploadFile.fileName + ' deleted');
-										$modalInstance.close();
-										parentScope.init(libraryID);
-										$scope.isDeleting = false;
-									}, function(response) {
-										launch.utils.handleAjaxErrorResponse(response, NotificationService);
-										$scope.isDeleting = false;
-									});
-									instance.close();
-								};
-								modalScope.onCancel = function() {
-									instance.dismiss('cancel');
-								};
-							}
-						]
-					});
+					// Save file
+					scope.ok = function() {
+						$scope.isSaving = true;
+						var data = {
+							description: scope.uploadFile.description,
+							tags: scope.uploadFile.tags
+						};
+						$upload.upload({
+							url: '/api/library/' + scope.uploadFile.folder + '/uploads/' + file.id + '?description=' + scope.uploadFile.description + '&tags=' + scope.uploadFile.tags,
+							method: 'PUT'
+						}).success(function(response) {
+							// Reload view with folder that file was saved to
+							$scope.isSaving = false;
+							$scope.init(scope.uploadFile.folder);
+							NotificationService.success('Success!', 'File: ' + response.filename + ' saved.');
+							$modalInstance.dismiss();
+						}).error(function(response) {
+							$scope.isSaving = false;
+							launch.utils.handleAjaxErrorResponse(response, NotificationService);
+						}).progress(function(e) {
+							$scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
+						});
+					};
 
-				};
+					// Delete file
+					scope.delete = function() {
 
-			}
+						$modal.open({
+							templateUrl: 'confirm.html',
+							controller: [
+								'$scope', '$modalInstance', function(modalScope, instance) {
+									modalScope.message = 'Are you sure you want to delete this file?';
+									modalScope.okButtonText = 'Delete';
+									modalScope.cancelButtonText = 'Cancel';
+									modalScope.onOk = function() {
+										$scope.isDeleting = true;
+										if (!scope.uploadFile.libraries[0]) {
+											libraryID = 'root';
+										} else {
+											libraryID = scope.uploadFile.libraries[0].id;
+										}
+										LibraryService.Uploads.delete({ id: libraryID, uploadid: scope.uploadFile.id }, function(response) {
+											NotificationService.success('Success!', 'File: ' + scope.uploadFile.fileName + ' deleted');
+											$modalInstance.close();
+											$scope.init(libraryID);
+											$scope.isDeleting = false;
+										}, function(response) {
+											launch.utils.handleAjaxErrorResponse(response, NotificationService);
+											$scope.isDeleting = false;
+										});
+										instance.close();
+									};
+									modalScope.onCancel = function() {
+										instance.dismiss('cancel');
+									};
+								}
+							]
+						});
+
+					};
+
+				}
+			]
 		});
 	};
 
@@ -457,7 +462,7 @@ launch.module.controller('ConsultLibraryController', function($scope, $modal, Li
 		}
 	};
 
-	$scope.init = function (initFolder) {
+	$scope.init = function(initFolder) {
 		$scope.isLoading = true;
 		// Get all libraries and uploads
 		LibraryService.Libraries.query({ }, function(response) {
