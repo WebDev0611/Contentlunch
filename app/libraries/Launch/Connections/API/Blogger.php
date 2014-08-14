@@ -22,12 +22,7 @@ class BloggerAPI extends AbstractConnection {
       $this->client->setClientSecret($this->config['secret']);
       $this->client->setScopes('https://www.googleapis.com/auth/blogger');
 
-      // Use refresh token
-      try {
-        $token = $this->getRefreshToken();
-      } catch (\Exception $e) {
-        return;
-      }
+      $token = $this->getAccessToken();
 
       if ( ! $token) {
         // @todo: Handle this better

@@ -22,6 +22,7 @@ return [
   'acton' => [
     'key' => 'rWSMXgnRNIvDe4BNl7bu0DKpdgAa',
     'secret' => 'HjGxrBZkPLFk652EeIamVaAoBe8a',
+    //'scope' => ['PRODUCTION']
     'scope' => []
   ],
   // Use same api creds as google

@@ -10,4 +10,6 @@ class Acton extends AbstractServiceOAuth2 {
 
   protected $accessTokenEndpoint = 'https://restapi.actonsoftware.com/token';
 
+  const SCOPE_PRODUCTION = 'PRODUCTION';
+
 }

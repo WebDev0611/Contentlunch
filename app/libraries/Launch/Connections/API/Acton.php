@@ -52,9 +52,10 @@ class ActonAPI extends AbstractConnection {
     }
     return $this->me;
   }
-
+/*
   protected function getRefreshToken()
   {
+    // Don't call getClient(), because it will cause an endless loop
     $client = $this->getClient();
     $response = $client->post('/token', [
       'body' => [
@@ -66,6 +67,7 @@ class ActonAPI extends AbstractConnection {
     ]);
     return $response->json()['access_token'];
   }
+  */
 
   public function getUrl()
   {
