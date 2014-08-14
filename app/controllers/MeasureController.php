@@ -23,14 +23,15 @@ class MeasureController extends BaseController {
         $now = Carbon::now();
 
         do {
-            Scheduler::measureCreatedContent($date->format('Y-m-d'), 1);
-            Scheduler::measureLaunchedContent($date->format('Y-m-d'), 1);
-            Scheduler::measureTimingContent($date->format('Y-m-d'), 1);
+            $this->measureCreatedContent($date->format('Y-m-d'), 1);
+            $this->measureLaunchedContent($date->format('Y-m-d'), 1);
+            $this->measureTimingContent($date->format('Y-m-d'), 1);
+            $this->measureContentScore($date->format('Y-m-d'), 1);
 
             $date->addDay(1);
         } while ($now->gte($date));
 
-        Scheduler::measureUserEfficiency($now->format('Y-m-d'), 1);
+        $this->measureUserEfficiency($now->format('Y-m-d'), 1);
     }
 
     public function contentCreated($accountID)
@@ -64,6 +65,17 @@ class MeasureController extends BaseController {
         }
 
         return MeasureTimingContent::where('account_id', $accountID)->where('date', '>=', substr($startDate, 0, 10))->get();
+    }
+
+    public function contentScore($accountID)
+    {
+        $startDate = Input::get('start_date');
+        if (!$startDate) {
+            // default last 7 days
+            $startDate = Carbon::now()->subWeek(1);
+        }
+
+        return MeasureContentScore::where('account_id', $accountID)->where('date', '>=', substr($startDate, 0, 10))->get();
     }
 
     public function userEfficiency($accountID)
@@ -153,6 +165,38 @@ class MeasureController extends BaseController {
         $stats['by_user']         = with(clone $query)->select([$average, 'user_id'])->groupBy('user_id')->get()->toArray();
         $stats['by_buying_stage'] = with(clone $query)->select([$average, 'buying_stage'])->groupBy('buying_stage')->get()->toArray();
         $stats['by_content_type'] = with(clone $query)->select([$average, 'content_type_id'])->groupBy('content_type_id')->get()->toArray();
+
+        $model->stats = $stats;
+
+        $model->save();
+    }
+
+    public function measureContentScore($date, $accountID) {
+        $date = new Carbon($date);
+
+        // @TODO get this from a config?
+        // For now, using PDT since all 3 devs are on the west coast
+        Timezone::set('-07:00');
+
+        $score = DB::raw('sum(likes) + 10*sum(shares) as score');
+        $query = DB::table('content')
+            ->join('content_account_connections', 'content.id', '=', 'content_account_connections.content_id')
+            ->where('launch_date', '>=', $date->copy()->startOfDay())
+            ->where('launch_date', '<', $date->copy()->endOfDay())
+            ->where('account_id', $accountID)
+            ->where('status', '!=', 0);
+
+
+        $model = MeasureContentScore::firstOrNew(['date' => $date->format('Y-m-d')]);
+        $model->account_id = $accountID;
+
+        $stats = [];
+
+        $stats['by_user']         = with(clone $query)->select([$score, 'user_id'])->groupBy('user_id')->get();
+        $stats['by_buying_stage'] = with(clone $query)->select([$score, 'buying_stage'])->groupBy('buying_stage')->get();
+        $stats['by_content_type'] = with(clone $query)->select([$score, 'content_type_id'])->groupBy('content_type_id')->get();
+
+        var_dump($stats);
 
         $model->stats = $stats;
 

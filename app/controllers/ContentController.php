@@ -277,6 +277,7 @@ class ContentController extends BaseController {
       ->where('account_connections.account_id', $accountID)
       ->where('account_connections.id', $accountConnectionID)
       ->first();
+
     if ( ! $accountConnection) {
       return $this->responseError("Account Connection not found");
     }
@@ -347,6 +348,14 @@ class ContentController extends BaseController {
     if ( ! empty($response['error'])) {
       return $this->responseError($response['error']);
     }
+
+    if(!empty($response['external_id'])) {
+        DB::table('content_account_connections')
+            ->where('content_id', '=', $contentID)
+            ->where('account_connection_id', '=', $accountConnectionID)
+            ->update(['external_id' => $response['external_id']]);
+    }
+
     return $launch;
   }
 

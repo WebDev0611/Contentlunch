@@ -105,8 +105,27 @@ class Scheduler {
             Log::info('Running measureTimingContent job');
             App::make('MeasureController')->measureTimingContent($date, $accountID);
 
-            // schedule for tomorrow
+            // schedule for next month
             \Launch\Scheduler\Scheduler::measureTimingContent($date->addMonth(1)->endOfDay(), $accountID);
+
+            $job->delete();
+        }, [$date->format('Y-m-d'), $accountID]); //, 'account-' . $accountID);
+    }
+
+    public static function measureContentScore($date, $accountID)
+    {
+        Log::info('Queueing measureContentScore job');
+        // @TODO configurable
+        Timezone::set('-07:00');
+
+        $date = new Carbon($date);
+        Queue::later($date->endOfDay(), function ($job) use ($date, $accountID) {
+            // Queue::push(function ($job) use ($date, $accountID) {
+            Log::info('Running measureContentScore job');
+            App::make('MeasureController')->measureContentScore($date, $accountID);
+
+            // schedule for tomorrow
+            \Launch\Scheduler\Scheduler::measureContentScore($date->tomorrow()->endOfDay(), $accountID);
 
             $job->delete();
         }, [$date->format('Y-m-d'), $accountID]); //, 'account-' . $accountID);
