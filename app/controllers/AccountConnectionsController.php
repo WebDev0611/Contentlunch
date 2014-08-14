@@ -183,6 +183,14 @@ class AccountConnectionsController extends BaseController {
     else return $this->responseError("Action {$action} does not exist", 404);
   }
 
+  public function updateStats($accountID, $accountConnectionID) {
+      //todo generalize beyond twitter
+
+      $connectionData = $this->show($accountID, $accountConnectionID);
+      $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
+      return $connectionApi->updateStats($accountConnectionID);
+  }
+
   private function friends($accountID, $connectionID)
   {
     if (!$this->inAccount($accountID)) {
