@@ -18,6 +18,7 @@ class LibraryController extends BaseController {
       ->with('uploads')
       ->with('uploads.libraries')
       ->with('uploads.user')
+      ->with('uploads.user.image')
       ->with('uploads.tags')
       // Get count of upload views (downloads)
       ->with(['uploads.views' => function ($q) {
@@ -74,8 +75,8 @@ class LibraryController extends BaseController {
       $rootUploadsArray = [];
       if ($ids) {
         $rootUploads = Upload::with('user')
+          ->with('user.image')
           ->with('tags')
-          ->with('user')
           ->with('libraries')
           // Get count of upload views (downloads)
           ->with(['views' => function ($q) {
