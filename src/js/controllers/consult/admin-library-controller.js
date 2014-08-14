@@ -10,7 +10,8 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 				$scope.files = response[0].uploads;
 			}
 		});
-	}
+	};
+
 	$scope.init();
 
 	// Rate a file
@@ -21,9 +22,6 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 	};
 
 	$scope.addFile = function() {
-
-		var parentScope = $scope;
-
 		$modal.open({
 			backdrop: 'static',
 			templateUrl: '/assets/views/consult/library-file-form.html',
@@ -53,7 +51,7 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 
 				// Save file
 				scope.ok = function () {
-					scope.isSaving = true;
+					$scope.isSaving = true;
 					var data = {
 						description: scope.uploadFile.description,
 						tags: scope.uploadFile.tags
@@ -66,11 +64,11 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 					}).success(function(response) {
 						$modalInstance.dismiss();
 						NotificationService.success('Success!', 'File: ' + response.filename + ' added');
-						parentScope.init();
+						$scope.init();
 					}).progress(function (e) {
-						scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
+						$scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
 					}).then(function () {
-						scope.isSaving = false;
+						$scope.isSaving = false;
 					});
 				};
 			}]
@@ -78,19 +76,16 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 	};
 
 	// Edit a file
-	$scope.editFile = function(file) {
-		var parentScope = $scope;
-
+	$scope.editFile = function (file) {
 		$modal.open({
 			backdrop: 'static',
 			templateUrl: '/assets/views/consult/library-file-form.html',
 			controller: [
 				'$scope', '$modalInstance', '$window', '$upload', 'LibraryService', 'NotificationService',
 				function(scope, $modalInstance, $window, $upload, LibraryService, NotificationService) {
-
 					scope.file = {};
 					scope.uploadFile = file;
-					$scope.fileName = file.fileName;
+					scope.fileName = file.fileName;
 					scope.disableFolderSelect = true;
 
 					scope.fileType = launch.utils.getFileTypeCssClass(file.fileName.substring(file.fileName.lastIndexOf('.') + 1));
@@ -123,7 +118,7 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 
 					// Save file
 					scope.ok = function () {
-						scope.isSaving = true;
+						$scope.isSaving = true;
 						$upload.upload({
 							url: '/api/library/' + scope.uploadFile.libraries[0].id + '/uploads/' + scope.uploadFile.id + '?description=' + scope.uploadFile.description + '&tags=' + scope.uploadFile.tags,
 							method: 'PUT'
@@ -132,13 +127,13 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 						}).success(function(response) {
 							$modalInstance.dismiss();
 							NotificationService.success('Success!', 'File: ' + scope.uploadFile.fileName + ' updated');
-							parentScope.init();
+							$scope.init();
 						}).error(function(response) {
 							launch.utils.handleAjaxErrorResponse(response, NotificationService);
 						}).progress(function (e) {
-							scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
+							$scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
 						}).then(function () {
-							scope.isSaving = false;
+							$scope.isSaving = false;
 						});
 					};
 
@@ -153,14 +148,15 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 									modalScope.message = 'Are you sure you want to delete this file?';
 									modalScope.okButtonText = 'Delete';
 									modalScope.cancelButtonText = 'Cancel';
-									modalScope.onOk = function() {
+									modalScope.onOk = function () {
+										$scope.isDeleting = true;
 										LibraryService.Uploads.delete({ id: scope.uploadFile.libraries[0].id, uploadid: scope.uploadFile.id }, function (response) {
-											scope.isDeleting = false;
+											$scope.isDeleting = false;
 											NotificationService.success('Success!', 'File: ' + scope.uploadFile.fileName + ' deleted');
 											$modalInstance.close();
-											parentScope.init();
+											$scope.init();
 										}, function(response) {
-											scope.isDeleting = false;
+											$scope.isDeleting = false;
 											launch.utils.handleAjaxErrorResponse(response, NotificationService);
 										});
 										instance.close();
@@ -181,5 +177,4 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 	$scope.canEditFile = function(file) {
 		return true;
 	};
-
 });

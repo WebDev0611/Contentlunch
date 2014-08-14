@@ -3,22 +3,18 @@
 	<div class="modal-body">
 
 		<form name="fileSelectForm" novalidate="novalidate">
-
 			<div class="form-group">
-
 				<label>File</label>
-
 				<div class="selected-file" ng-show="!!fileName" onclick="$('#filAttachment').click()">
 					<span class="cl-icon cl-icon-x-large" ng-class="fileType"></span>
 					<br />
 					<span class="small-text">{{ fileName }}</span>
 				</div>
 
-				<div>
-					<button type="button" class="btn btn-black btn-default" onclick="$('#filAttachment').click()" ng-show="!fileName">Browse</button>
-					<input type="file" id="filAttachment" ng-file-select="addFile($files, fileSelectForm, fileSelectForm.filAttachment)" style="display: none" ng-disabled="mode == 'edit'" />
+				<div ng-show="!fileName">
+					<button type="button" class="btn btn-black btn-default" onclick="$('#filAttachment').click();">Browse</button>
+					<input type="file" id="filAttachment" ng-file-select="addFile($files, fileSelectForm, fileSelectForm.filAttachment)" style="display: none" />
 				</div>
-
 			</div>
 
 			<div class="form-group">
@@ -39,23 +35,10 @@
 			</div>
 
 			<div class="buttons clearfix">
-				<button class="btn btn-primary btn-black" ng-disabled="isDeleting" data-style="zoom-in" ng-click="ok()">Save and Close</button>
-				<button class="btn btn-warning btn-black" ng-disabled="isSaving || isDeleting" ng-click="cancel()">Cancel</button>
-				<button class="btn btn-warning btn-black" ng-disabled="isSaving" data-style="zoom-in" ng-click="delete()" ng-show="mode == 'edit'">Delete</button>
+				<button class="btn btn-primary btn-black" data-style="zoom-in" ng-click="ok()">Save and Close</button>
+				<button class="btn btn-warning btn-black" ng-click="cancel()">Cancel</button>
+				<button class="btn btn-warning btn-black" data-style="zoom-in" ng-click="delete()" ng-show="mode == 'edit'">Delete</button>
 			</div>
-
 		</form>
-
-		<div class="full-screen-modal" ng-show="isSaving">
-			<spinner spin="{ color: 'white', length: 50, width: 10, radius: 30 }"></spinner>
-			<div class="message">
-				Uploading...
-
-				<progressbar class="progress-striped active" value="percentComplete">
-					<span>{{ percentComplete }}%</span>
-				</progressbar>
-			</div>
-		</div>
-
 	</div>
 </div>

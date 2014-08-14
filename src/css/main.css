@@ -3553,6 +3553,10 @@ hr.simple-divider {
   vertical-align: middle;
   border: none;
 }
+.library-file-form .selected-file,
+.library-folder-form .selected-file {
+  cursor: pointer;
+}
 .view.forum .section-header {
   margin: 0 0 16px;
 }
