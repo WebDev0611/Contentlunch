@@ -21,7 +21,6 @@
 				self.service = (scope.itemType.toLowerCase() === 'campaign') ? CampaignService : ContentService;
 
 				scope.checkCollaborator = ($.isFunction(scope.isCollaboratorFinished)) ? scope.isCollaboratorFinished : function (c) { return false; };
-				//scope.potentialCollaborators = $.grep(scope.users, function(u) { return u.active; });
 			};
 
 			self.refreshCollaborators = function () {
