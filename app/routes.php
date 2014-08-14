@@ -202,12 +202,13 @@ Route::group(['prefix' => 'api'], function()
   ]);
 
   Route::get('test', 'MeasureController@test');
-  Route::get('test2', 'MeasureController@runConnection');
+  Route::get('updateStats/{accountID}/{accountConnectionID}', 'AccountConnectionsController@updateStats');
 
   $measureBase = 'account/{accountID}/measure/';
   Route::get("{$measureBase}content-created",  'MeasureController@contentCreated');
   Route::get("{$measureBase}content-launched", 'MeasureController@contentLaunched');
   Route::get("{$measureBase}content-timing",   'MeasureController@contentTiming');
+  Route::get("{$measureBase}content-score",   'MeasureController@contentScore');
   Route::get("{$measureBase}user-efficiency",  'MeasureController@userEfficiency');
   Route::get("{$measureBase}automation", 'MeasureController@getAutomationStats');
 
