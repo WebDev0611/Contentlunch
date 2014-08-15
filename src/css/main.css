@@ -2031,6 +2031,7 @@ span[class*=" icon-"].dark {
 .calendar .right-pane .panel .panel-body ul.concept-collaborators li,
 .promote .right-pane .panel .panel-body ul.concept-collaborators li,
 .measure .right-pane .panel .panel-body ul.concept-collaborators li {
+  margin: 4px 0;
   position: relative;
 }
 .create .right-pane .panel .panel-body ul.concept-collaborators li .fa,
@@ -2087,6 +2088,12 @@ span[class*=" icon-"].dark {
 .measure .right-pane .panel .panel-body ul.concept-collaborators li .awaiting-reply .guest-collaborator-name {
   margin-left: 48px;
   vertical-align: top;
+}
+.create .right-pane .panel .panel-body ul.concept-collaborators li.disabled,
+.calendar .right-pane .panel .panel-body ul.concept-collaborators li.disabled,
+.promote .right-pane .panel .panel-body ul.concept-collaborators li.disabled,
+.measure .right-pane .panel .panel-body ul.concept-collaborators li.disabled {
+  opacity: 0.4;
 }
 .create .right-pane .panel.panel-user-info,
 .calendar .right-pane .panel.panel-user-info,
@@ -2323,9 +2330,8 @@ span[class*=" icon-"].dark {
   font-weight: normal;
 }
 .create .left-pane .task-group .task-group-list .task-group-task .checkbox input[type="checkbox"] {
-  height: 20px;
-  width: 20px;
-  margin: 8px 8px 0 0;
+  height: 16px;
+  width: 16px;
 }
 .create .left-pane .task-group .task-group-list .task-group-task .checkbox a {
   color: #000000;
@@ -2334,6 +2340,9 @@ span[class*=" icon-"].dark {
 .create .left-pane .task-group .task-group-list .task-group-task .checkbox .fa-trash-o {
   cursor: pointer;
   float: right;
+}
+.create .left-pane .task-group .task-group-list .task-group-task .checkbox .disabled {
+  opacity: 0.4;
 }
 .create .left-pane .task-group .panel-group .panel .panel-heading {
   border: none;

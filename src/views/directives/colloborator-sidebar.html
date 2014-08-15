@@ -3,11 +3,11 @@
 	<div class="panel-body">
 		<select name="selAddCollaborator" id="selAddCollaborator" class="form-control" ng-change="addCollaborator()" ng-model="newCollaborator" ng-show="canModifyCollaborators && !isDisabled">
 			<option value="0">--Add Collaborator--</option>
-			<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
+			<option ng-repeat="u in potentialCollaborators" value="{{ u.id }}">{{ u.formatName() }}</option>
 		</select>
 
 		<ul class="concept-collaborators">
-			<li ng-repeat="c in collaborators">
+			<li ng-repeat="c in collaborators" ng-class="{ 'disabled': !c.active }">
 				<span class="user-image user-image-medium" ng-style="{ 'background-image': c.imageUrl() }"></span>
 				{{ c.formatName() }}
 				<span class="fa fa-trash-o" ng-click="removeCollaborator(c)" ng-show="canModifyCollaborators && !isDisabled && !userIsCollaborator(c)"></span>
