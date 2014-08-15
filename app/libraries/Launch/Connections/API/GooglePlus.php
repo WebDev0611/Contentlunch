@@ -68,7 +68,7 @@ class GooglePlusAPI extends GoogleAPI {
       }
       $moment_body->setTarget($item_scope);
       $momentResult = $service->moments->insert('me', 'vault', $moment_body);
-    
+
       $response['success'] = true;
       $response['response'] = $momentResult;
     } catch (\Exception $e) {
