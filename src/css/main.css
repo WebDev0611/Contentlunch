@@ -1381,18 +1381,30 @@ span[class*=" icon-"].dark {
 .measure .left-pane .pager ul.pagination {
   display: block;
 }
-.users .left-pane .pager ul.pagination li a,
-.accounts .left-pane .pager ul.pagination li a,
-.roles .left-pane .pager ul.pagination li a,
-.content-settings .left-pane .pager ul.pagination li a,
-.seo-settings .left-pane .pager ul.pagination li a,
-.create .left-pane .pager ul.pagination li a,
-.calendar .left-pane .pager ul.pagination li a,
-.admin-library .left-pane .pager ul.pagination li a,
-.consult .left-pane .pager ul.pagination li a,
-.admin-conference .left-pane .pager ul.pagination li a,
-.promote .left-pane .pager ul.pagination li a,
-.measure .left-pane .pager ul.pagination li a {
+.users .left-pane .pager ul.pagination li > a,
+.accounts .left-pane .pager ul.pagination li > a,
+.roles .left-pane .pager ul.pagination li > a,
+.content-settings .left-pane .pager ul.pagination li > a,
+.seo-settings .left-pane .pager ul.pagination li > a,
+.create .left-pane .pager ul.pagination li > a,
+.calendar .left-pane .pager ul.pagination li > a,
+.admin-library .left-pane .pager ul.pagination li > a,
+.consult .left-pane .pager ul.pagination li > a,
+.admin-conference .left-pane .pager ul.pagination li > a,
+.promote .left-pane .pager ul.pagination li > a,
+.measure .left-pane .pager ul.pagination li > a,
+.users .left-pane .pager ul.pagination .btn,
+.accounts .left-pane .pager ul.pagination .btn,
+.roles .left-pane .pager ul.pagination .btn,
+.content-settings .left-pane .pager ul.pagination .btn,
+.seo-settings .left-pane .pager ul.pagination .btn,
+.create .left-pane .pager ul.pagination .btn,
+.calendar .left-pane .pager ul.pagination .btn,
+.admin-library .left-pane .pager ul.pagination .btn,
+.consult .left-pane .pager ul.pagination .btn,
+.admin-conference .left-pane .pager ul.pagination .btn,
+.promote .left-pane .pager ul.pagination .btn,
+.measure .left-pane .pager ul.pagination .btn {
   background-color: transparent;
   border-color: #000000;
   border-radius: 0 !important;
@@ -2569,6 +2581,7 @@ span[class*=" icon-"].dark {
 .measure .right-pane .measure-editor .measure-table-header .measure-table-paging-controls .measure-table-pager .pagination {
   margin: 0;
 }
+.measure .right-pane .measure-editor .measure-table-header .measure-table-paging-controls .measure-table-pager .pagination li > a,
 .measure .right-pane .measure-editor .measure-table-header .measure-table-paging-controls .measure-table-pager .pagination .btn {
   font-size: 15pt;
   margin: 0 4px;
@@ -2663,6 +2676,7 @@ span[class*=" icon-"].dark {
 .create-header .create-paging-controls .create-pager .pagination {
   margin: 0;
 }
+.create-header .create-paging-controls .create-pager .pagination li > a,
 .create-header .create-paging-controls .create-pager .pagination .btn {
   font-size: 15pt;
   margin: 0 4px;
@@ -2908,7 +2922,8 @@ span[class*=" icon-"].dark {
 .section-header .paging-controls .pager .pagination .btn {
   font-size: 15pt;
 }
-.section-header .paging-controls .pager li > a {
+.section-header .paging-controls .pager li > a,
+.section-header .paging-controls .pager .btn {
   border-radius: 0;
 }
 .section-header .calendar-download .btn,

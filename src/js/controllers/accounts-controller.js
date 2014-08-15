@@ -12,11 +12,13 @@ launch.module.controller('AccountsController', [
 
 		self.loadAccounts = function (reset, callback) {
 			$scope.isLoading = true;
+			$scope.renderPager = false;
 
 			$scope.accounts = accountService.query({
 				success: function(accounts) {
 					$scope.isLoading = false;
 					$scope.search.applyFilter(reset);
+					$scope.renderPager = true;
 
 					if (!!callback && $.isFunction(callback.success)) {
 						callback.success(accounts);
@@ -84,6 +86,7 @@ launch.module.controller('AccountsController', [
 		$scope.pagedAccounts = [];
 		$scope.isLoading = false;
 		$scope.isSaving = false;
+		$scope.renderPager = false;
 		$scope.selectedIndex = null;
 		$scope.selectedAccount = null;
 

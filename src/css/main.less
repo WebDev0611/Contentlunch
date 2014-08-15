@@ -905,16 +905,16 @@ span[class^="icon-"], span[class*=" icon-"] {
 			ul.pagination {
 				display: block;
 
-				li {
-					a {
-						background-color: transparent;
-						border-color: @text-color;
-						border-radius: 0 !important;
-						color: @text-color;
-						cursor: pointer;
-						margin: 0 4px;
-					}
+				li > a, .btn {
+					background-color: transparent;
+					border-color: @text-color;
+					border-radius: 0 !important;
+					color: @text-color;
+					cursor: pointer;
+					margin: 0 4px;
+				}
 
+				li {
 					&.active a {
 						background-color: @text-color;
 						color: #ffffff;
@@ -2101,7 +2101,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 						.pagination {
 							margin: 0;
 
-							.btn {
+							li > a, .btn {
 								font-size: 15pt;
 								margin: 0 4px;
 							}
@@ -2230,7 +2230,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 			.pagination {
 				margin: 0;
 
-				.btn {
+				li > a, .btn {
 					font-size: 15pt;
 					margin: 0 4px;
 				}
@@ -2444,7 +2444,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 				}
 			}
 
-			li > a {
+			li > a, .btn {
 				border-radius: 0;
 			}
 		}
