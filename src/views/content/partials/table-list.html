@@ -13,8 +13,8 @@
     <div class="create-download" ng-hide="isPromote || isMeasure">
         <a class="btn btn-default fa fa-download" target="_blank" href="/api/account/{{ user.account.id }}/content/export-csv"></a>
     </div>
-
-    <div class="create-delete" ng-show="canDelete && search.contentStage !== 'content' && !isPromote">
+	{{canDeleteContent}}
+    <div class="create-delete" ng-show="canDeleteContent && search.contentStage !== 'content' && !isPromote">
         <button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteSelected()"></button>
     </div>
 	
@@ -56,7 +56,7 @@
 					<span class="clickable-header" ng-click="applySort('contentscore')">Content Score</span>
 				</th>
 				<th class="small-cell">&nbsp;</th>
-				<th class="small-cell" ng-show="canDelete && search.contentStage !== 'content' && !isPromote">&nbsp;</th>
+				<th class="small-cell" ng-show="canDeleteContent && search.contentStage !== 'content' && !isPromote">&nbsp;</th>
 				<th>
 					<span class="fa" ng-show="pagination.currentSort === 'title'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
 					<span class="clickable-header" ng-click="applySort('title')">Title</span>
@@ -91,7 +91,7 @@
 			<tr ng-repeat="c in pagedContent[pagination.currentPage - 1]" ng-class-odd="'dark'" ng-click="editContent(c, $event)">
 				<td ng-show="isMeasure" class="content-score">{{ c.contentScore }}</td>
 				<td class="small-cell"><div class="campaign-dot campaign-dot-small" style="background-color: {{ c.campaign.color }}"></div></td>
-				<td class="small-cell" ng-show="canDelete && search.contentStage !== 'content' && !isPromote">
+				<td class="small-cell" ng-show="canDeleteContent && search.contentStage !== 'content' && !isPromote">
 					<input type="checkbox" class="form-control" ng-model="c.isSelected" ng-click="$event.stopPropagation()" />
 				</td>
 				<td>

@@ -21,7 +21,7 @@
 			scope.canCreateTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_collaborators');
 			scope.canAssignTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_collaborators');
 			scope.canEditTasksOthers = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_complete');
-			scope.canDeleteTasks = self.loggedInUser.hasPrivilege('collaborate_delete_tasks');
+			scope.canDeleteTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_delete');
 		};
 
 		self.refreshTaskGroups = function(contentId) {

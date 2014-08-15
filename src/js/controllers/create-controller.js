@@ -29,7 +29,7 @@
 			$scope.editContentOthers = self.loggedInUser.hasPrivilege(['create_edit_content_other', 'create_edit_content_other_unapproved']);
 			$scope.promoteContentSelf = self.loggedInUser.hasPrivilege('promote_content_own');
 			$scope.promoteContentOthers = self.loggedInUser.hasPrivilege('promote_content_other');
-			$scope.canDelete = self.loggedInUser.hasPrivilege('content_delete');
+			$scope.canDeleteContent = self.loggedInUser.hasPrivilege('content_delete');
 
 			if (!$scope.canViewConcepts && !$scope.canViewContent) {
 				$location.path('/');
@@ -178,7 +178,7 @@
 		$scope.editConceptOthers = false;
 		$scope.promoteContentSelf = false;
 		$scope.promoteContentOthers = false;
-		$scope.canDelete = false;
+		$scope.canDeleteContent = false;
 
 		$scope.formatContentTypeItem = launch.utils.formatContentTypeItem;
 		$scope.formatCampaignItem = launch.utils.formatCampaignItem;

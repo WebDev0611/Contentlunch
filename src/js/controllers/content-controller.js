@@ -157,6 +157,7 @@
 			} else {
 				$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('create_execute_launch_content_own') : self.loggedInUser.hasPrivilege('create_execute_launch_content_other');
 				$scope.canPromoteContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('promote_content_own') : self.loggedInUser.hasPrivilege('promote_content_other');
+				$scope.canDeleteContent = self.loggedInUser.hasPrivilege('create_execute_content_delete');
 				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = true;
 			}
 

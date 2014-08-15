@@ -11,7 +11,7 @@ class PermissionsUpdateV3 extends Migration {
       ['site_admin', 'manager', 'creator', 'client', 'editor']],
     ['create_execute_archive_restore_content_other', 'Archive Restore Other Content',
       ['site_admin', 'manager']],
-    ['collaborate_delete_tasks', 'Collaborate delete tasks',
+    ['collaborate_execute_tasks_delete', 'Collaborate delete tasks',
       ['site_admin', 'manager', 'editor']],
     ['promote_content_own', 'Promote Own Content', ['site_admin', 'manager', 'creator', 'client', 'editor']],
     ['promote_content_other', 'Promote Other Content',
