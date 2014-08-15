@@ -93,9 +93,13 @@ class CollaboratorsController extends BaseController {
 
   public function getModel($collabType, $modelID) {
     if ($collabType == 'content') {
-      return Content::find($modelID);
+      return Content::with(['collaborators' => function ($query) {
+        $query->with('image');
+      }])->find($modelID);
     } else if ($collabType == 'campaigns') {
-      return Campaign::find($modelID);
+      return Campaign::with(['collaborators' => function ($query) {
+        $query->with('image');
+      }])->find($modelID);
     }
 
     return false;
