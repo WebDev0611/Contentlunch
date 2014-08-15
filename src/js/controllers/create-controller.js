@@ -29,7 +29,7 @@
 			$scope.editContentOthers = self.loggedInUser.hasPrivilege(['create_edit_content_other', 'create_edit_content_other_unapproved']);
 			$scope.promoteContentSelf = self.loggedInUser.hasPrivilege('promote_content_own');
 			$scope.promoteContentOthers = self.loggedInUser.hasPrivilege('promote_content_other');
-			$scope.canDelete = self.loggedInUser.hasPrivilege('content_delete');
+			$scope.canDelete = self.loggedInUser.hasPrivilege('create_execute_content_delete');
 
 			if (!$scope.canViewConcepts && !$scope.canViewContent) {
 				$location.path('/');

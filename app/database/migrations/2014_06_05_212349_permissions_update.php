@@ -7,7 +7,7 @@ use Launch\Migration;
 class PermissionsUpdate extends Migration {
 
   protected $permissions = [
-    ['content_delete', 'Delete Content', 
+    ['create_execute_content_delete', 'Delete Content', 
       ['site_admin', 'manager']],
     ['settings_edit_account_settings', 'Edit Account Settings',
       ['site_admin']],
