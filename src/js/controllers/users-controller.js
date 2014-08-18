@@ -21,11 +21,14 @@ launch.module.controller('UsersController', [
 			$scope.showUsers = self.loggedInUser.hasPrivilege(['settings_view_profiles', 'settings_edit_profiles']);
 		};
 
-		self.loadUsers = function(reset, cb) {
+		self.loadUsers = function (reset, cb) {
+			$scope.renderPager = false;
+
 			var callback = {
 				success: function(users) {
 					$scope.isLoading = false;
 					$scope.search.applyFilter(reset);
+					$scope.renderPager = true;
 
 					if (!!cb && $.isFunction(cb.success)) {
 						cb.success(users);
@@ -114,6 +117,7 @@ launch.module.controller('UsersController', [
 		$scope.pagedUsers = [];
 		$scope.isLoading = false;
 		$scope.isSaving = false;
+		$scope.renderPager = false;
 		$scope.selectedIndex = null;
 		$scope.selectedUser = null;
 		$scope.showNewUser = false;

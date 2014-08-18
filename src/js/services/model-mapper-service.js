@@ -360,7 +360,7 @@
 				user.impersonating = true;
 			}
 
-			if (!!dto.image) {
+			if (!!dto.image && isNaN(dto.image)) {
 				var path = dto.image.path;
 
 				if (launch.utils.startsWith(path, '/public')) {

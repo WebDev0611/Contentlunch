@@ -104,11 +104,12 @@ class TwitterAPI extends AbstractConnection
       }
       return [
         'success' => true,
-        'response' => $response
+        'response' => $response,
+        'external_id' => $response['id_str']
       ];
     }
 
-    public function updateFavoritesAndRetweets($accountConnectionId) {
+    public function updateStats($accountConnectionId) {
 
         $temp = \AccountConnection::find($accountConnectionId)
             ->content()
@@ -126,14 +127,19 @@ class TwitterAPI extends AbstractConnection
         $tweets = $client->query('statuses/lookup', 'GET', ['id' => implode(',', array_keys($content)), 'format' => 'array']);
         //var_dump($tweets);
 
+        $count = 0;
         foreach($tweets as $tweet) {
             $id = $tweet['id'];
             if(isset($content[$id])) {
+                $count++;
+
                 $content[$id]->pivot->likes = $tweet['favorite_count'];
                 $content[$id]->pivot->shares = $tweet['retweet_count'];
                 $content[$id]->pivot->save();
             }
         }
+
+        return json_encode(['success' => 1, 'count' => $count]);
     }
 
     /**

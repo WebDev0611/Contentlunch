@@ -15,6 +15,10 @@
 		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.measure.parseResponse }
 	});
 
+    var score = $resource('/api/account/:accountId/measure/content-score', { accountId: '@accountId' }, {
+        get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.measure.parseResponse }
+    });
+
 	var efficiency = $resource('/api/account/:accountId/measure/user-efficiency', { accountId: '@accountId' }, {
 		get: { method: 'GET', isArray: true, transformResponse: ModelMapperService.measure.parseResponse }
 	});
@@ -60,12 +64,18 @@
 
 			return launched.get({ accountId: accountId, start_date: startDate }, success, error);
 		},
-		getTiming: function (accountId, startDate, callback) {
-			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
-			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+        getTiming: function (accountId, startDate, callback) {
+            var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+            var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return timing.get({ accountId: accountId, start_date: startDate }, success, error);
-		},
+            return timing.get({ accountId: accountId, start_date: startDate }, success, error);
+        },
+        getScore: function (accountId, startDate, callback) {
+            var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+            var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+            return score.get({ accountId: accountId, start_date: startDate }, success, error);
+        },
 		getEfficiency: function (accountId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;

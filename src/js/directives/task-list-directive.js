@@ -21,7 +21,7 @@
 			scope.canCreateTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_collaborators');
 			scope.canAssignTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_collaborators');
 			scope.canEditTasksOthers = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_complete');
-			scope.canDeleteTasks = self.loggedInUser.hasPrivilege('collaborate_delete_tasks');
+			scope.canDeleteTasks = self.loggedInUser.hasPrivilege('collaborate_execute_tasks_delete');
 		};
 
 		self.refreshTaskGroups = function(contentId) {
@@ -73,6 +73,12 @@
 			var user = launch.utils.getUserById(scope.users, parseInt(id));
 
 			return (!!user) ? user.formatName() : null;
+		};
+
+		scope.isUserActive = function(id) {
+			var user = launch.utils.getUserById(scope.users, parseInt(id));
+
+			return (!!user) ? user.active : false;
 		};
 
 		scope.toggleTaskActiveStatus = function (taskGroup, task) {
@@ -160,7 +166,7 @@
 							'$scope', '$modalInstance', function (scope1, instance) {
 								scope1.task = task;
 
-								scope1.users = scope.users;
+								scope1.availableUsers = $.grep(scope.users, function(u) { return u.active; });
 								scope1.openCalendar = scope.openCalendar;
 								scope1.formatUserItem = scope.formatUserItem;
 
@@ -237,27 +243,23 @@
 				scope.saveTaskGroup(taskGroup, null);
 			};
 
-			//if (task.isComplete) {
-				$modal.open({
-					templateUrl: 'confirm.html',
-					controller: [
-						'$scope', '$modalInstance', function (scp, instance) {
-							scp.message = 'Are you sure you want to delete this task?';
-							scp.okButtonText = 'Delete';
-							scp.cancelButtonText = 'Cancel';
-							scp.onOk = function () {
-								handleDelete();
-								instance.close();
-							};
-							scp.onCancel = function () {
-								instance.dismiss('cancel');
-							};
-						}
-					]
-				});
-			//} else {
-			//	handleDelete();
-			//}
+			$modal.open({
+				templateUrl: 'confirm.html',
+				controller: [
+					'$scope', '$modalInstance', function (scp, instance) {
+						scp.message = 'Are you sure you want to delete this task?';
+						scp.okButtonText = 'Delete';
+						scp.cancelButtonText = 'Cancel';
+						scp.onOk = function () {
+							handleDelete();
+							instance.close();
+						};
+						scp.onCancel = function () {
+							instance.dismiss('cancel');
+						};
+					}
+				]
+			});
 		};
 
 		scope.toggleOpen = function (taskGroup) {

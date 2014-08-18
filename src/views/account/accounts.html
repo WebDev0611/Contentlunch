@@ -31,7 +31,7 @@
 			</li>
 		</ul>
 		
-		<div class="pager" ng-show="pagination.showPager() === true">
+		<div class="pager" ng-if="renderPager" ng-show="pagination.showPager() === true">
 			<hr/>
 
 			<pagination

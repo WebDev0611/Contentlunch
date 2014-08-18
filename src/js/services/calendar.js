@@ -4,7 +4,7 @@ angular.module('launch')
 .factory('calendar', 
         ['contentStatuses', '$http', '$interpolate', '$compile', '$rootScope',
 function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
-    var $elem, calendar, currentEvents;
+    var $elem, calendar, currentEvents = [];
     $(document).on('click', '.popover-close', function () {
         $(this).closest('.popover').popover('hide');
     });
@@ -96,7 +96,6 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
 
         eventize: function (contents) {
             return function (campaigns, tasks, brainstorms) {
-                console.log('campaigns.length', campaigns.length);
                 var tasksByContent = _.groupBy(tasks, 'contentId');
 
                 var events = [];
@@ -175,13 +174,22 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
 
                 var eventsToRemove = toRemove(newEvents, currentEvents);
                 $elem.fullCalendar('removeEvents', function (event) {
-                    return eventsToRemove[event.uniqId];
+                    return !!eventsToRemove[event.uniqId];
                 });
 
                 var sourcesToAdd = toAdd(newEvents, currentEvents);
                 _.each(sourcesToAdd, function (source) {
                     $elem.fullCalendar('addEventSource', source);
                 });
+
+                // console.log('--');
+                // console.log('campaigns.length', campaigns.length);
+                // console.log('tasks.length', tasks.length);
+                // console.log('currentEvents', currentEvents.length);
+                // console.log('newEvents', newEvents.length);
+                // console.log('eventsToRemove', _.size(eventsToRemove));
+                // console.log('sourcesToAdd', sourcesToAdd.length);
+                // console.log('clientEvents', $elem.fullCalendar( 'clientEvents').length, campaigns.length, tasks.length, currentEvents.length);
 
                 currentEvents = newEvents;
             };

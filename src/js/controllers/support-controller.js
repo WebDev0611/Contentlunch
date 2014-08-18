@@ -1,8 +1,18 @@
 ﻿launch.module.controller('SupportController', [
-	'$scope', '$location', 'AuthService', 'NotificationService', function ($scope, $location, authService, notificationService) {
+	'$scope', '$location', 'AuthService', 'AccountService', 'NotificationService', function ($scope, $location, authService, accountService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
+
+		self.ajaxHandler = {
+			success: function (r) {
+
+			},
+			error: function (r) {
+				$scope.isSaving = false;
+				launch.utils.handleAjaxErrorResponse(r, notificationService);
+			}
+		};
 
 		self.init = function() {
 			self.loggedInUser = authService.userInfo();
@@ -36,7 +46,17 @@
 				return;
 			}
 
+			var email = {
+				email: $scope.email,
+				name: $scope.name,
+				company: $scope.company,
+				module: $scope.module,
+				problem: $scope.description
+			};
 
+			$scope.isSaving = true;
+
+			accountService.sendSupportEmail(email, self.ajaxHandler);
 		};
 
 		self.init();

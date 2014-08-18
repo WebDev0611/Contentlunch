@@ -1,7 +1,3 @@
-<div class="loading-spinner-container" ng-show="isLoading">
-	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
-</div>
-
 <div class="view consult" ng-hide="isLoading">
 	<div class="col-md-3 left-pane">
 		<div class="btn-group">
@@ -77,8 +73,8 @@
 		<div class="container">
 			<div class="subheader">
 				<h3><a ng-click="showFolder('root')" href="#">Library</a>
-					<span ng-show="selectedFolder && selectedFolder.id != 'root'"> &gt; {{ selectedFolder.name }}</span>
-					<span ng-show="search.activeSearch()"> &gt; Search</span>
+					<span ng-show="selectedFolder && selectedFolder.id != 'root'">&gt; {{ selectedFolder.name }}</span>
+					<span ng-show="search.activeSearch()">&gt; Search</span>
 				</h3>
 			</div>
 
@@ -98,5 +94,23 @@
 				<li ng-repeat="file in files" file-preview="file" edit-file="editFile" can-edit-file="canEditFile" rate-file="rateFile" class="col-md-4"></li>
 			</ul>
 		</div>
+	</div>
+</div>
+
+<div class="loading-spinner-container" ng-show="isLoading">
+	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
+</div>
+
+<div class="full-screen-modal" ng-show="isSaving || isDeleting">
+	<spinner spin="{ color: 'white', length: 50, width: 10, radius: 30 }"></spinner>
+	<div class="message" ng-show="isSaving">
+		Uploading...
+
+		<progressbar class="progress-striped active" value="percentComplete">
+			<span>{{ percentComplete }}%</span>
+		</progressbar>
+	</div>
+	<div class="message" ng-show="isDeleting">
+		Deleting...
 	</div>
 </div>

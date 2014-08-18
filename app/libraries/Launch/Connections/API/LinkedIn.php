@@ -13,7 +13,7 @@ use LSS\Array2XML;
 class LinkedInAPI extends AbstractConnection implements Connection
 {
     /**
-     * A reference to the LinkedIn SDK we're using 
+     * A reference to the LinkedIn SDK we're using
      * that in initialized in __construct
      * @var LinkedIn
      */
@@ -30,38 +30,38 @@ class LinkedInAPI extends AbstractConnection implements Connection
     {
         parent::__construct($accountConnection);
 
-        if ( ! empty($accountConnection['settings'])) {
+        if (!empty($accountConnection['settings'])) {
 
-          // $config = Config::get('services.linkedin');
-          // $this->linkedIn = new LinkedIn($config['key'], $config['secret']);
+            // $config = Config::get('services.linkedin');
+            // $this->linkedIn = new LinkedIn($config['key'], $config['secret']);
 
-          // need to pass params to please the fn definition, but actual
-          // values are only needed if we are using oauth, I think...
-          $this->linkedIn = new LinkedIn(null, null);
-          $this->linkedIn->setAccessToken($accountConnection['settings']['token']->getAccessToken());
+            // need to pass params to please the fn definition, but actual
+            // values are only needed if we are using oauth, I think...
+            $this->linkedIn = new LinkedIn(null, null);
+            $this->linkedIn->setAccessToken($accountConnection['settings']['token']->getAccessToken());
         }
     }
 
     protected function getClient()
     {
-      $client = new LinkedIn($this->config['key'], $this->config['secret']);
-      $client->setAccessToken($this->getAccessToken());
-      return $client;
+        $client = new LinkedIn($this->config['key'], $this->config['secret']);
+        $client->setAccessToken($this->getAccessToken());
+        return $client;
     }
 
     public function getIdentifier()
     {
-      $me = $this->getMe();
-      return $me['firstName'] .' '. $me['lastName'];
+        $me = $this->getMe();
+        return $me['firstName'] . ' ' . $me['lastName'];
     }
 
     public function getMe()
     {
-      if ( ! $this->me) {
-        $client = $this->getClient();
-        $this->me = $client->api('v1/people/~:(firstName,lastName,picture-url,public-profile-url)');
-      }
-      return $this->me;
+        if (!$this->me) {
+            $client = $this->getClient();
+            $this->me = $client->api('v1/people/~:(firstName,lastName,picture-url,public-profile-url)');
+        }
+        return $this->me;
     }
 
     /**
@@ -76,8 +76,44 @@ class LinkedInAPI extends AbstractConnection implements Connection
 
     public function getUrl()
     {
-      $me = $this->getMe();
-      return $me['publicProfileUrl'];
+        $me = $this->getMe();
+        return $me['publicProfileUrl'];
+    }
+
+    public function updateStats($accountConnectionId) {
+
+        $temp = \AccountConnection::find($accountConnectionId)
+            ->content()
+            ->withPivot('external_id', 'likes', 'shares')
+            ->get();
+
+        $content = array();
+        foreach($temp as $c) {
+            $content[$c->pivot->external_id] = $c;
+        }
+
+        //var_dump($content);
+
+        $ids = array_keys($content);
+
+        $client = $this->getClient();
+        $shares = $client->api('v1/people/~/network/updates::('.implode(',', $ids).')');
+
+        $count = 0;
+        if(isset($shares['values'])) {
+            foreach($shares['values'] as $share) {
+                $id = $share['updateKey'];
+                if(isset($content[$id])) {
+                    $count++;
+
+                    $content[$id]->pivot->likes = $share['numLikes'];
+                    $content[$id]->pivot->shares = $share['updateComments']['_total'];
+                    $content[$id]->pivot->save();
+                }
+            }
+        }
+
+        return json_encode(['success' => 1, 'count' => $count]);
     }
 
     /**
@@ -88,81 +124,84 @@ class LinkedInAPI extends AbstractConnection implements Connection
      */
     public function postContent($content)
     {
-      // This only works with xml? Could not get json request to work here, linkedin always returns strange xml errors
-      // LinkedIn->api() doesn't allow passing xml
-      // @todo: submitted-url is required here... not sure what to pass in yet
-      // @todo: Investigate if network-activity api would be better to use here
-      $params = [
-        'comment' => strip_tags($content->body),
-        'content' => [
-          'title' => strip_tags($content->title),
-          'submitted-url' => 'http:://contentlaunch.com/'
-        ],
-        'visibility' => [
-          'code' => 'anyone'
-        ]
-      ];
-      // See if content main upload is an image and attach it
-      $upload = $content->upload()->first();
-      if ($upload && $upload->media_type == 'image') {
-        $params['content']['submitted-image-url'] = $upload->getUrl();
-      }
-      // Convert array to xml
-      $xml = Array2XML::createXML('share', $params);
-      $xml = $xml->saveXML();
-      $urlParams = [
-        'oauth2_access_token' => $this->linkedIn->getAccessToken(),
-        'format' => 'json'
-      ];
-      // generate an url
-      $url = $this->linkedIn->getUrlGenerator()->getUrl('api', '/v1/people/~/shares', $urlParams);
-      // $method that url
-      $request = new Request;
-      $result = $request->send($url, $xml, 'POST', 'xml');
-      $response = json_decode($result, true);
-
-      if (isset($response['errorCode'])) {
-        return [
-          'success' => false,
-          'error' => $response['message'],
-          'response' => $response
+        // This only works with xml? Could not get json request to work here, linkedin always returns strange xml errors
+        // LinkedIn->api() doesn't allow passing xml
+        // @todo: submitted-url is required here... not sure what to pass in yet
+        // @todo: Investigate if network-activity api would be better to use here
+        $params = [
+            'comment' => strip_tags($content->body),
+            'content' => [
+                'title' => strip_tags($content->title),
+                'submitted-url' => 'http:://contentlaunch.com/'
+            ],
+            'visibility' => [
+                'code' => 'anyone'
+            ]
         ];
-      }
-      return [
-        'success' => true,
-        'response' => $response
-      ];
+        // See if content main upload is an image and attach it
+        $upload = $content->upload()->first();
+        if ($upload && $upload->media_type == 'image') {
+            $params['content']['submitted-image-url'] = $upload->getUrl();
+        }
+        // Convert array to xml
+        $xml = Array2XML::createXML('share', $params);
+        $xml = $xml->saveXML();
+        $urlParams = [
+            'oauth2_access_token' => $this->linkedIn->getAccessToken(),
+            'format' => 'json'
+        ];
+        // generate an url
+        $url = $this->linkedIn->getUrlGenerator()->getUrl('api', '/v1/people/~/shares', $urlParams);
+        // $method that url
+        $request = new Request;
+        $result = $request->send($url, $xml, 'POST', 'xml');
+        $response = json_decode($result, true);
+
+
+        if (isset($response['errorCode'])) {
+            return [
+                'success' => false,
+                'error' => $response['message'],
+                'response' => $response
+            ];
+        }
+        return [
+            'success' => true,
+            'response' => $response,
+            'external_id' => $response['updateKey']
+        ];
     }
 
     public function postToGroup($content, $groupID)
     {
-      $payload = [
-        'title'   => strip_tags($content->title),
-        'summary' => strip_tags($content->body),
-      ];
-
-      $response = $this->linkedIn->api("v1/groups/{$groupID}/posts", [], 'POST', $payload);
-
-      if (isset($response['errorCode'])) {
-        return [
-          'success'  => false,
-          'error'    => $response['message'],
-          'response' => $response
+        $payload = [
+            'title' => strip_tags($content->title),
+            'summary' => strip_tags($content->body),
         ];
-      }
-      return [
-        'success'  => true,
-        // this response doesn't actually return anything on success
-        'response' => $response ?: true,
-      ];
+
+        $response = $this->linkedIn->api("v1/groups/{$groupID}/posts", [], 'POST', $payload);
+
+        if (isset($response['errorCode'])) {
+            return [
+                'success' => false,
+                'error' => $response['message'],
+                'response' => $response
+            ];
+        }
+        return [
+            'success' => true,
+            // this response doesn't actually return anything on success
+            'response' => $response ? : true,
+            'external_id' => $response['updateKey']
+        ];
     }
 
 
     /**
      * Send a direct message to the IDs passed in with the provided message data
-     * @param  array  $ids       Array of IDs of recipients
-     * @param  array  $message   Array of message details [subject, body]
-     * @param  int    $contentID ID of the content to associate the guest with
+     * @param  array $ids Array of IDs of recipients
+     * @param  array $message Array of message details [subject, body]
+     * @param  int $contentID ID of the content to associate the guest with
      * @return Response        200 on success, an error from ConnectionConnector::responseError on failure
      */
     public function sendDirectMessage(array $friends, array $message, $contentID, $contentType, $accountID)
@@ -171,9 +210,9 @@ class LinkedInAPI extends AbstractConnection implements Connection
         foreach ($friends as $friend) {
             $id = $friend['id'];
             $name = $friend['name'];
-            
+
             $accessCode = ConnectionConnector::makeAccessCode($id);
-            $link       = ConnectionConnector::makeShareLink($accessCode);
+            $link = ConnectionConnector::makeShareLink($accessCode);
 
             $payload = [
                 "recipients" => [
@@ -184,7 +223,7 @@ class LinkedInAPI extends AbstractConnection implements Connection
                     ]]
                 ],
                 "subject" => $message['subject'],
-                "body"    => "{$message['body']}\n\n{$link}"
+                "body" => "{$message['body']}\n\n{$link}"
             ];
 
             $result = $this->linkedIn->api('v1/people/~/mailbox', [], 'POST', $payload);
@@ -193,16 +232,16 @@ class LinkedInAPI extends AbstractConnection implements Connection
             if ($results[$id]['success']) {
                 ConnectionConnector::createGuestCollaborator([
                     'connection_user_id' => $id,
-                    'name'               => $name,
-                    'connection_id'      => $this->accountConnection['connection_id'],
-                    'content_id'         => $contentID,
-                    'account_id'         => $accountID,
-                    'content_type'       => $contentType,
-                    'access_code'        => $accessCode,
+                    'name' => $name,
+                    'connection_id' => $this->accountConnection['connection_id'],
+                    'content_id' => $contentID,
+                    'account_id' => $accountID,
+                    'content_type' => $contentType,
+                    'access_code' => $accessCode,
                 ]);
             }
 
-            $results[$id]['id']  = $id;
+            $results[$id]['id'] = $id;
             $results[$id]['raw'] = $result;
         }
 
@@ -218,10 +257,10 @@ class LinkedInAPI extends AbstractConnection implements Connection
     public function sendMessageToGroup($group, $message, $contentID, $contentType, $accountID)
     {
         $accessCode = ConnectionConnector::makeAccessCode($group['id']);
-        $link       = ConnectionConnector::makeShareLink($accessCode);
+        $link = ConnectionConnector::makeShareLink($accessCode);
 
         $payload = [
-            'title'   => $message['subject'],
+            'title' => $message['subject'],
             'summary' => "{$message['body']}\n\n{$link}"
         ];
 
@@ -241,13 +280,13 @@ class LinkedInAPI extends AbstractConnection implements Connection
         if (empty($result['error']) && !isset($result['errorCode'])) {
             ConnectionConnector::createGuestCollaborator([
                 'connection_user_id' => $group['id'],
-                'name'               => $group['name'],
-                'connection_id'      => $this->accountConnection['connection_id'],
-                'content_id'         => $contentID,
-                'account_id'         => $accountID,
-                'content_type'       => $contentType,
-                'access_code'        => $accessCode,
-                'type'               => 'group',
+                'name' => $group['name'],
+                'connection_id' => $this->accountConnection['connection_id'],
+                'content_id' => $contentID,
+                'account_id' => $accountID,
+                'content_type' => $contentType,
+                'access_code' => $accessCode,
+                'type' => 'group',
             ]);
         }
 
@@ -264,7 +303,7 @@ class LinkedInAPI extends AbstractConnection implements Connection
 
     /**
      * Handle responses for this particular API
-     * @param  array    $result  result from an API call
+     * @param  array $result result from an API call
      * @return Response
      */
     private function processResult($result)

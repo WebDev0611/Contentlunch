@@ -59,7 +59,7 @@ class AccountController extends BaseController {
 			}
 			$user = $this->createSiteAdminUser($account);
 			// Send account creation email
-			$this->resend_creation_email($account->id);
+			$this->resend_creation_email($account->id, $checkAuth);
 			return $this->show($account->id, $checkAuth);
 		}
 		return $this->responseError($account->errors()->all(':message'));
@@ -163,10 +163,10 @@ class AccountController extends BaseController {
 		return $this->responseError("Couldn't delete account");
 	}
 
-	public function resend_creation_email($id)
+	public function resend_creation_email($id, $checkAuth = true)
 	{
 		// Restrict to global admins
-		if ( ! $this->hasRole('global_admin')) {
+		if ($checkAuth && ! $this->hasRole('global_admin')) {
 			return $this->responseAccessDenied();
 		}
 		$account = Account::find($id);

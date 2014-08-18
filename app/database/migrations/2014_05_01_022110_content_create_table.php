@@ -105,6 +105,7 @@ class ContentCreateTable extends Migration {
       $table->string('external_id');
       $table->integer('likes');
       $table->integer('shares');
+      $table->integer('comments');
       $table->timestamps();
     });
 	}

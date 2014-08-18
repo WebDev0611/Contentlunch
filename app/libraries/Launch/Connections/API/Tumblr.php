@@ -129,6 +129,7 @@ class TumblrAPI extends AbstractConnection {
       $response['response'] = $request->getBody();
       $response['error'] = $e->getMessage();
     }
+      var_dump($response);
     return $response;
   }
 

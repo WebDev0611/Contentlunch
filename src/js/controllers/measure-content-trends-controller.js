@@ -26,53 +26,55 @@
 		};
 
         self.initChartData = function () {
-            function countDateParse(date, groupBy, group) {
-                var sum = 0;
-                if(groupBy == 'all' || !groupBy) {
-                    $.each(date.stats.by_user, function(i, user) {
-                        sum += user.count;
-                    });
+            function fieldDateParse(field) {
+                return function(date, groupBy, group) {
+                    var sum = 0;
+                    if(groupBy == 'all' || !groupBy) {
+                        $.each(date.stats.by_user, function(i, user) {
+                            sum += parseFloat(user[field]);
+                        });
+                    }
+                    else if(groupBy == 'author') {
+                        $.each(date.stats.by_user, function(i, user) {
+                            if(user.user_id == group) {
+                                sum += parseFloat(user[field]);
+                            }
+                        })
+                    }
+                    else if(groupBy == 'buying-stage') {
+                        $.each(date.stats.by_buying_stage, function(i, stage) {
+                            if(stage.buying_stage == group) {
+                                sum += parseFloat(stage[field]);
+                            }
+                        })
+                    }
+                    else if(groupBy == 'content-type') {
+                        $.each(date.stats.by_content_type, function(i, type) {
+                            if(type.content_type_id == group) {
+                                sum += parseFloat(type[field]);
+                            }
+                        })
+                    }
+                    return {label: date.date, data: sum};
                 }
-                else if(groupBy == 'author') {
-                    $.each(date.stats.by_user, function(i, user) {
-                        if(user.user_id == group) {
-                            sum += user.count;
-                        }
-                    })
-                }
-                else if(groupBy == 'buying-stage') {
-                    $.each(date.stats.by_buying_stage, function(i, stage) {
-                        if(stage.buying_stage == group) {
-                            sum += stage.count;
-                        }
-                    })
-                }
-                else if(groupBy == 'content-type') {
-                    $.each(date.stats.by_content_type, function(i, type) {
-                        if(type.content_type_id == group) {
-                            sum += type.count;
-                        }
-                    })
-                }
-                return {label: date.date, data: sum};
             }
 
             $scope.companyContentScoreLine = {
                 title: 'Company Content Score',
                 measureFunction: function() {return []},
-                dateParseFunction: countDateParse
+                dateParseFunction: fieldDateParse('score')
             };
 
             $scope.companyContentScorePie = {
                 title: 'Content Score Breakdown',
                 measureFunction: function() {return []},
-                dateParseFunction: countDateParse
+                dateParseFunction: fieldDateParse('score')
             };
 
             $scope.individualContentScoreLine = {
                 title: 'Individual Content Score',
-                measureFunction: function() {return []},
-                dateParseFunction: countDateParse
+                measureFunction: measureService.getScore,
+                dateParseFunction: fieldDateParse('score')
             };
 
 

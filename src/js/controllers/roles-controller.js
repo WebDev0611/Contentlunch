@@ -15,12 +15,14 @@ launch.module.controller('RolesController', [
 		};
 
 		self.loadRoles = function (reset, callback) {
+			$scope.renderPager = false;
 			$scope.isLoading = true;
 
 			$scope.roles = roleService.query(self.accountId, {
 				success: function (roles) {
 					$scope.isLoading = false;
 					$scope.search.applyFilter(reset);
+					$scope.renderPager = true;
 
 					if (!!callback && $.isFunction(callback.success)) {
 						callback.success(roles);
@@ -88,6 +90,7 @@ launch.module.controller('RolesController', [
 		$scope.pagedRoles = [];
 		$scope.isLoading = false;
 		$scope.isSaving = false;
+		$scope.renderPager = false;
 		$scope.selectedIndex = null;
 		$scope.selectedRole = null;
 		$scope.showNewRole = false;

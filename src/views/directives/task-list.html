@@ -26,7 +26,7 @@
 					{{ t.name }} - <span ng-class="{ error: t.isOverdue() }">Due: {{ t.formattedDueDate() }}</span>
 				</label>
 				<span class="fa fa-trash-o" ng-click="deleteTask(tg, t)" ng-show="canDeleteTasks && parentStatus <= tg.status"></span>
-				<div>
+				<div ng-class="{ 'disabled': !isUserActive(t.userId) }">
 					<a ng-click="editTask(tg, t, $event)" ng-show="canAssignTasks">Assigned to {{ getUserName(t.userId) }}</a>
 					<span ng-hide="canAssignTasks">Assigned to {{ getUserName(t.userId) }}</span>
 				</div>
@@ -51,7 +51,7 @@
 					<select id="selTaskAssignedTo" name="selTaskAssignedTo" type="text"ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="task.userId"
 							data-placeholder="Select Assignee">
 						<option value=""></option>
-						<option ng-repeat="u in users" value="{{ u.id }}">{{ u.formatName() }}</option>
+						<option ng-repeat="u in availableUsers" value="{{ u.id }}">{{ u.formatName() }}</option>
 					</select>
 				</div>
 
