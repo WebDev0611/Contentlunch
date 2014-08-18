@@ -11,10 +11,23 @@ class HubspotAPI extends AbstractConnection {
 
   public function getAccessToken()
   {
-    if (empty($this->accountConnection['settings']['token'])) {
+    if (empty($this->accountConnection['settings']['access_token'])) {
       throw new \Exception("Invalid connection");
     }
-    $token = $this->accountConnection['settings']['token'];
+    $expire = strtotime($this->accountConnection['updated_at']) + $this->accountConnection['settings']['expires_in'];
+    if ($expire < time()) {
+      // Token is expired, refresh token
+      $client = $this->getClient();
+      $refreshToken = $this->accountConnection['settings']['refresh_token'];
+      $response = $client->post('https://api.hubapi.com/auth/v1/refresh?refresh_token='. $refreshToken .'&client_id='. $this->config['key'] .'&grant_type=refresh_token');
+      $newToken = $response->json();
+      // Update account connection
+      $connectionObject = \AccountConnection::find($this->accountConnection['id']);
+      $connectionObject->settings = $newToken;
+      $connectionObject->updateUniques();
+      $this->accountConnection['settings'] = $newToken;
+    }
+    $token = $this->accountConnection['settings']['access_token'];
     return $token;
   }
 
@@ -42,7 +55,6 @@ class HubspotAPI extends AbstractConnection {
   protected function getClient()
   {
     if ( ! $this->client) {
-      $token = $this->getAccessToken();
       $this->client = new Client([
         'base_url' => $this->base_url,
         'defaults' => [
