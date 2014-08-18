@@ -19,11 +19,14 @@
 // For now, the callback_domain is where the provider will redirect to
 return [
   'redirect_url' => 'https://staging.contentlaunch.surgeforward.com/api/add-connection',
+  //'redirect_url' => 'https://app.contentlaunch.com/api/add-connection',
   'acton' => [
-    'key' => 'rWSMXgnRNIvDe4BNl7bu0DKpdgAa',
-    'secret' => 'HjGxrBZkPLFk652EeIamVaAoBe8a',
-    //'scope' => ['PRODUCTION']
-    'scope' => []
+    //'key' => 'rWSMXgnRNIvDe4BNl7bu0DKpdgAa',
+    //'secret' => 'HjGxrBZkPLFk652EeIamVaAoBe8a',
+    'key' => 'B9XaHOER8YWiMZY_3eaTzyf2sd0a',
+    'secret' => 'dGO3Nr69cZkzfp5FrbjlAbDFNHUa',
+    'scope' => ['PRODUCTION']
+    //'scope' => []
   ],
   // Use same api creds as google
   'blogger' => [

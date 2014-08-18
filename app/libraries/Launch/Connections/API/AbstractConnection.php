@@ -35,7 +35,7 @@ abstract class AbstractConnection {
     $token = $this->accountConnection['settings']['token'];
 
     $expire = $token->getEndOfLife();
-    if ($expire < time()) {
+    if ($token->getRefreshToken() && $expire < time()) {
       // This token has expired, get refresh token
       // Load up the service class
       $factory = new ServiceFactory($this->accountConnection['connection']['provider']);
