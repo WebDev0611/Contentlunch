@@ -493,6 +493,7 @@
 			role.updated = new Date(moment(dto.updated_at).format());
 
 			if ($.isArray(dto.permissions)) {
+
 				var readPrivs = [];
 				var execPrivs = [];
 				var mergePrivs = function(module) {
@@ -513,7 +514,8 @@
 
 						readPrivs.push(viewPrivilege);
 					} else if (p.type === 'execute') {
-						execPrivs.push(self.privilege.fromDto(p));
+						var execPrivilege = self.privilege.fromDto(p);
+						execPrivs.push(execPrivilege);
 					}
 				});
 
@@ -800,7 +802,7 @@
 			privilege.accessType = (accessType === 'execute') ? 'execute' : null;
 			privilege.view = (accessType === 'view');
 			privilege.edit = (accessType === 'edit');
-			privilege.execute = (accessType === 'execute');
+			privilege.execute = (accessType === 'execute' && dto.access === 1);
 
 			return privilege;
 		},
