@@ -15,16 +15,16 @@ class MeasureController extends BaseController {
         die;
     }
 
-    public function test()
+    public function test($accountID)
     {
         $date = Carbon::now()->subMonth(1);
         $now = Carbon::now();
 
         do {
-            $this->measureCreatedContent($date->format('Y-m-d'), 1);
-            $this->measureLaunchedContent($date->format('Y-m-d'), 1);
-            $this->measureTimingContent($date->format('Y-m-d'), 1);
-            $this->measureContentScore($date->format('Y-m-d'), 1);
+            $this->measureCreatedContent($date->format('Y-m-d'), $accountID);
+            $this->measureLaunchedContent($date->format('Y-m-d'), $accountID);
+            $this->measureTimingContent($date->format('Y-m-d'), $accountID);
+            $this->measureContentScore($date->format('Y-m-d'), $accountID);
 
             $date->addDay(1);
         } while ($now->gte($date));

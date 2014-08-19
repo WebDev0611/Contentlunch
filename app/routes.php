@@ -201,7 +201,7 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
-  Route::get('test', 'MeasureController@test');
+  Route::get('test/{accountID}', 'MeasureController@test');
   Route::get('updateStats/{accountID}/{accountConnectionID}', 'AccountConnectionsController@updateStats');
 
   $measureBase = 'account/{accountID}/measure/';
