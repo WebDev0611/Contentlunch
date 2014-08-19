@@ -31,7 +31,7 @@
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-						<li ng-repeat="provider in providers" ng-click="addConnection(provider.id)">
+						<li ng-repeat="provider in providers" ng-click="addConnection(provider)">
 							<a href="#">
 								<span class="{{ icon(provider.provider) }}"></span>
 								{{ provider.name }}

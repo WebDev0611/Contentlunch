@@ -79,6 +79,22 @@ class AccountConnectionsController extends BaseController {
     if ( ! $connection) {
       return $this->responseError("Unable to find connection");
     }
+    // Slideshare doesn't do OAuth, passing along credentials
+    if ($connection->provider == 'slideshare') {
+      $connect = new AccountConnection;
+      $connect->account_id = $accountID;
+      $connect->connection_id = $connection->id;
+      $connect->name = $connection->name;
+      $connect->status = 1;
+      $connect->settings = [
+        'username' => Input::get('username'),
+        'password' => Input::get('password')
+      ];
+      $service = new ServiceFactory($connection->provider);
+      $api = ConnectionConnector::loadAPI($connection->provider, $connect);
+      // Get me data, which serves as a username/password check
+      $data = $api->getMe();
+    }
     // Set the connection type in the SESSION
     Session::put('connection_id', $connection->id);
     Session::put('account_id', $accountID);

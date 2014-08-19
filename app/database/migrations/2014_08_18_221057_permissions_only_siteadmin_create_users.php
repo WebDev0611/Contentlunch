@@ -19,7 +19,6 @@ class PermissionsOnlySiteadminCreateUsers extends Migration {
 		foreach ($roles as $role) {
 			$role->perms()->detach($perm->id);
 		}
-		die();
 	}
 
 	/**

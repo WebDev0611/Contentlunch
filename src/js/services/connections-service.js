@@ -15,6 +15,10 @@
 		get: { method: 'GET', isArray: true }
 	});
 
+	var createConnection = $resource('/api/account/:accountId/connections/create', { accountId: '@accountId' }, {
+		insert: { method: 'GET', isArray: false }	
+	});
+
 	return {
 		getProviders: function(providerType, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -116,6 +120,13 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return actions.get({ accountId: accountId, id: id, action: 'status' }, success, error);
+		},
+		createConnection: function (accountId, params, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			params.accountId = accountId;
+			return createConnection.insert(params, success, error);
 		}
 	};
 });

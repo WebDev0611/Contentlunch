@@ -173,7 +173,6 @@ class BloggerAPI extends AbstractConnection
             $response['response'] = $apiResponse;
             $response['error'] = $e->getMessage();
         }
-        var_dump($response);
         return $response;
     }
 

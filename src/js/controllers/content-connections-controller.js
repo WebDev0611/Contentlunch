@@ -173,8 +173,32 @@
 			});
 		};
 
-		$scope.addConnection = function(providerId) {
-			window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=' + providerId;
+		$scope.addConnection = function(provider) {
+			if (provider.provider == 'slideshare') {
+				$modal.open({
+					template: '<div class="modal-header">Please enter your Slideshare credentials</div><div class="modal-body"><form name="slideshareform" novalidate><div class="form-group"><label for="username">Username</label><input type="text" id="username" ng-model="username" class="form-control" required /></div><div class="form-group"><label for="password">Password</label><input type="password" id="password" ng-model="password" class="form-control" required /></div><div class="buttons clearfix"><button class="btn btn-primary btn-black" ng-click="ok(username, password)" ng-disabled=" ! slideshareform.$valid">Connect</button><button class="btn btn-warning btn-black" ng-click="cancel()">Cancel</button></div></form></div></div>',
+					controller: function ($scope, $window, $modalInstance) {
+						$scope.username = '';
+						$scope.password = '';
+						$scope.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+						$scope.ok = function (username, password) {
+							var connection = provider;
+							connection.username = username;
+							connection.password = password;
+							connection.connection_id = provider.id;
+							connectionService.createConnection(self.loggedInUser.account.id, connection, {
+								success: function (response) {
+									self.init();
+								}
+							});
+						};
+					}
+				});
+			} else {
+				window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=' + provider.id;
+			}
 		};
 
 		$scope.deleteConnection = function(connection) {
