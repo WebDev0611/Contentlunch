@@ -83,7 +83,6 @@ class WordpressAPI extends AbstractConnection
             $response['success'] = true;
             $response['response'] = $apiResponse->json();
             $response['external_id'] = $response['response']['ID'];
-            var_dump($response);
         } catch (\Exception $e) {
             $response['success'] = false;
             $response['response'] = $apiResponse->json();
@@ -91,6 +90,63 @@ class WordpressAPI extends AbstractConnection
         }
 
         return $response;
+    }
+
+    public function updateStats($accountConnectionId) {
+
+        $temp = \AccountConnection::find($accountConnectionId)
+            ->content()
+            ->withPivot('external_id', 'likes', 'shares')
+            ->get();
+
+        $content = array();
+        foreach($temp as $c) {
+            $content[$c->pivot->external_id] = $c;
+        }
+
+        //var_dump($content);
+
+        $ids = array_keys($content);
+
+        $client = $this->getClient();
+
+        $me = $this->getMe();
+
+        //TODO paging
+
+        $url = 'rest/v1/sites/' . $me['token_site_id'] . '/posts';
+        $query = array();
+        foreach($ids as $id) {
+            $query[] = "filter[post__in][]=$id";
+        }
+        $query[] = 'number=100';
+        $response = $client->get($url . '?' . implode('&', $query));
+        $response = $response->json();
+//        var_dump($response->json());die;
+
+        if($response['found'] > 100) {
+            echo 'warning multiple pages';
+        }
+
+        //var_dump($tweets);
+        $posts = array();
+        foreach($response['posts'] as $post) {
+            $posts[$post['ID']] = $post;
+        }
+
+        $count = 0;
+        foreach($posts as $post) {
+            $id = $post['ID'];
+            if(isset($content[$id])) {
+                $count++;
+
+                $content[$id]->pivot->likes = $post['like_count'];
+                $content[$id]->pivot->comments = $post['comment_count'];
+                $content[$id]->pivot->save();
+            }
+        }
+
+        return json_encode(['success' => 1, 'count' => $count]);
     }
 
 }
