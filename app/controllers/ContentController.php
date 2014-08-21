@@ -348,7 +348,7 @@ class ContentController extends BaseController {
     if ( ! empty($response['error'])) {
       return $this->responseError($response['error']);
     }
-
+    
     if(!empty($response['external_id'])) {
         DB::table('content_account_connections')
             ->where('content_id', '=', $contentID)

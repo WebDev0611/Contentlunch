@@ -132,7 +132,7 @@ class LinkedInAPI extends AbstractConnection implements Connection
             'comment' => strip_tags($content->body),
             'content' => [
                 'title' => strip_tags($content->title),
-                'submitted-url' => 'http:://contentlaunch.com/'
+                'submitted-url' => 'https://staging.contentlaunch.com/'
             ],
             'visibility' => [
                 'code' => 'anyone'
