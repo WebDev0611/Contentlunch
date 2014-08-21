@@ -12,7 +12,10 @@ class Upload extends CabinetUpload {
    */
   public function getUrl()
   {
-     return URL::asset(str_replace('/public/', '', $this->path) . $this->filename);
+    $url = URL::asset(str_replace('/public/', '', $this->path) . $this->filename);
+    // return non https
+    $url = str_replace('https://', 'http://', $url);
+    return $url;
   }
 
   /**
