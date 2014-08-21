@@ -27,7 +27,7 @@ class YoutubeAPI extends GoogleAPI {
   public function getIdentifier()
   {
     $me = $this->getMe();
-    return ucwords($me->user->displayName);
+    return ucwords($me->name);
   }
 
   public function getMe()
