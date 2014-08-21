@@ -132,7 +132,7 @@ class LinkedInAPI extends AbstractConnection implements Connection
             'comment' => strip_tags($content->body),
             'content' => [
                 'title' => strip_tags($content->title),
-                'submitted-url' => 'https://staging.contentlaunch.com/'
+                'submitted-url' => 'http://contentlaunch.com/'
             ],
             'visibility' => [
                 'code' => 'anyone'
@@ -141,7 +141,8 @@ class LinkedInAPI extends AbstractConnection implements Connection
         // See if content main upload is an image and attach it
         $upload = $content->upload()->first();
         if ($upload && $upload->media_type == 'image') {
-            $params['content']['submitted-image-url'] = $upload->getUrl();
+            // Linkedin only accepts public images at http://, not https://
+            $params['content']['submitted-image-url'] = str_replace('https://', 'http://', $upload->getUrl());
         }
         // Convert array to xml
         $xml = Array2XML::createXML('share', $params);
