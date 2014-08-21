@@ -79,9 +79,11 @@ class BaseController extends Controller {
   protected function hasPermission($permission)
   {
     $user = Confide::user();
-    $user = User::with('roles')->find($user->id);
     if ($user) {
-      return $user->can($permission);
+      $userObj = User::with('roles')->find($user->id);
+      if ($userObj) {
+        return $userObj->can($permission);
+      }
     }
     return false;
   }
