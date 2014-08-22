@@ -146,13 +146,39 @@ class AccountConnectionsController extends BaseController {
     $connect->name = $connection->name;
     $connect->status = 1;
     $connect->settings = $settings;
-    if ($connect->save()) {
-        if ($connection->type == 'promote') {
-            return Redirect::to('/account/promote');
-        } else {
-            return Redirect::to('/account/connections');
-        }
+    // Load up the connection API, check if this specific connection account 
+    // already exists for this content launch account
+    $api = ConnectionConnector::loadAPI($connection->provider, $connect); 
+    $externalId = $api->getExternalId();
+    $connect->external_id = $externalId;
+    if ($externalId) {
+      $existing = AccountConnection::where('account_id', $accountID)
+        ->where('external_id', $externalId)
+        ->first();
+    } else {
+      $existing = false;
     }
+    $success = false;
+    if ($existing) {
+      // Update this connection with new tokens
+      $existing->settings = $settings;
+      if ($existing->updateUniques()) {
+        $success = true;
+      }
+    } else {
+      if ($connect->save()) {
+        $success = true;
+      }
+    }
+    
+    if ($success) {
+      if ($connection->type == 'promote') {
+          return Redirect::to('/account/promote');
+      } else {
+          return Redirect::to('/account/connections');
+      }
+    }
+    
     return ['Error saving connection'];
   }
 
@@ -357,6 +383,7 @@ class AccountConnectionsController extends BaseController {
     }
     $connection = $this->show($accountID, $connectionID);
     $api = ConnectionConnector::loadAPI($connection->connection->provider, $connection);
+    //$api->getUniqueId();
     // Check status by getting the me data
     try {
       $response = $api->getMe(true);

@@ -40,6 +40,15 @@ class FacebookAPI extends AbstractConnection
         return $this->me;
     }
 
+    /**
+     * Get the external user / account id
+     */
+    public function getExternalId()
+    {
+        $me = $this->getMe();
+        return $me->getId();
+    }
+
     public function getUrl()
     {
         $me = $this->getMe();
