@@ -87,40 +87,34 @@ class ServiceFactory {
 
   public function getAuthorizationUri()
   {
+    // Params to add the auth uri
+    $params = [];
     switch ($this->provider) {
+      case 'dropbox':
+        $params['force_reapprove'] = 'true';
+      break;
       case 'facebook':
-        return (string) $this->service->getAuthorizationUri([
-          'auth_type' => 'reauthenticate'
-        ]);
+        $params['auth_type'] = 'reauthenticate';
       break;
       case 'tumblr':
         $token = $this->service->requestRequestToken();
-        return (string) $this->service->getAuthorizationUri([
-          'oauth_token' => $token->getRequestToken()
-        ]);
+        $params['oauth_token'] = $token->getRequestToken();
       break;
       case 'twitter':
         $token = $this->service->requestRequestToken();
-        return (string) $this->service->getAuthorizationUri([
-          'oauth_token' => $token->getRequestToken(),
-          'force_login' => 'true'
-        ]);
+        $params['oauth_token'] = $token->getRequestToken();
+        $params['force_login'] = 'true';
       break;
       case 'google': // youtube, g+, google docs
       case 'google-drive':
       case 'google-plus':
       case 'youtube':
       case 'blogger':
-        // Request offline access token
-        // @see https://developers.google.com/accounts/docs/OAuth2WebServer#offline
-        return (string) $this->service->getAuthorizationUri([
-          'access_type' => 'offline',
-          'approval_prompt' => 'force'
-        ]);
+        $params['access_type'] = 'offline';
+        $params['approval_prompt'] = 'force';
       break;
-      default:
-        return (string) $this->service->getAuthorizationUri();
-    }
+    }  
+    return (string) $this->service->getAuthorizationUri($params);
   }
 
   public function getCallbackData($input = null)

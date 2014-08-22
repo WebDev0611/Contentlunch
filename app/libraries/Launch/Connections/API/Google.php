@@ -44,6 +44,17 @@ abstract class GoogleAPI extends AbstractConnection {
     return $this->client;
   }
 
+  /**
+   * Get the external user / account id
+   */
+  public function getExternalId()
+  {
+    $client = $this->getClient();
+    $api = new Google_Service_Oauth2($client);
+    $userInfo = $api->userinfo->get();
+    return $userInfo->getId();
+  }
+
   protected function getRefreshToken()
   {
     $client = new Client;

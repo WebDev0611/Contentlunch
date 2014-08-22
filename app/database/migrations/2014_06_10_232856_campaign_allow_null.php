@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
@@ -15,7 +14,6 @@ class CampaignAllowNull extends Migration {
     {
         Schema::table('campaigns', function ($table) {
             $db = Config::get('database.default');
-            echo ' DB TYPE: '. $db .' ';
             if ($db == 'sqlsrv') {
                 DB::unprepared("ALTER TABLE [campaigns] ALTER COLUMN [description] text NULL");
                 DB::unprepared("ALTER TABLE [campaigns] ALTER COLUMN [goals] text NULL");

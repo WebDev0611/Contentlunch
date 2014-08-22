@@ -82,6 +82,11 @@ abstract class AbstractConnection {
   abstract protected function getClient();
 
   /**
+   * Get the external user / account id
+   */
+  abstract public function getExternalId();
+
+  /**
    * Get the me name / identifier string of connected account
    */
   abstract public function getIdentifier();

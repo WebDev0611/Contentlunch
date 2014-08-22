@@ -4,6 +4,7 @@ use HappyR\LinkedIn\LinkedIn;
 use HappyR\LinkedIn\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Launch\Connections\API\ConnectionConnector;
+use Launch\Exception\OAuthTokenException;
 use LSS\Array2XML;
 
 /**
@@ -49,6 +50,15 @@ class LinkedInAPI extends AbstractConnection implements Connection
         return $client;
     }
 
+    /**
+     * Get the external user / account id
+     */
+    public function getExternalId()
+    {
+        $me = $this->getMe();
+        return $me['id'];
+    }
+
     public function getIdentifier()
     {
         $me = $this->getMe();
@@ -59,7 +69,10 @@ class LinkedInAPI extends AbstractConnection implements Connection
     {
         if (!$this->me) {
             $client = $this->getClient();
-            $this->me = $client->api('v1/people/~:(firstName,lastName,picture-url,public-profile-url)');
+            $this->me = $client->api('v1/people/~:(id,firstName,lastName,picture-url,public-profile-url)');
+            if (isset($this->me['errorCode'])) {
+                throw new OAuthTokenException($this->me['message']);
+            }
         }
         return $this->me;
     }

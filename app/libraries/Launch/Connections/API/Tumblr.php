@@ -29,6 +29,15 @@ class TumblrAPI extends AbstractConnection
         return $this->client;
     }
 
+    /**
+     * Get the external user / account id
+     */
+    public function getExternalId()
+    {
+        $me = $this->getMe();
+        return $me['user']['name'];
+    }
+
     public function getIdentifier() {
         $me = $this->getMe();
 

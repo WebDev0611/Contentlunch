@@ -17,6 +17,15 @@ class DropboxAPI extends AbstractConnection {
     return $this->client;
   }
 
+  /**
+   * Get the external user / account id
+   */
+  public function getExternalId()
+  {
+    $me = $this->getMe();
+    return $me['uid'];
+  }
+
   public function getIdentifier()
   {  
     $info = $this->getMe();

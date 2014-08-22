@@ -60,6 +60,14 @@ class ScribeAPI {
         return $this->_request($this->suggestionsURL(), 'POST', $params);
     }
 
+    /**
+     * Get the external user / account id
+     */
+    public function getExternalId()
+    {
+        
+    }
+
 
     public function details($query, $domain) {
         $params = array(

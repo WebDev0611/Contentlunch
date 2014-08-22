@@ -69,7 +69,24 @@ class HubspotAPI extends AbstractConnection {
     return $this->client;
   }
 
+  /**
+   * Get the external user / account id
+   */
+  public function getExternalId()
+  {
+    return $this->getPortalId();
+  }
+
   public function getIdentifier()
+  {
+    $portalId = $this->getPortalId();
+    if ($portalId) {
+      return 'Portal ID: '. $portalId;
+    }
+    return null;
+  }
+
+  public function getPortalId()
   {
     $me = $this->getMe();
     foreach ($me as $setting) {
@@ -83,6 +100,7 @@ class HubspotAPI extends AbstractConnection {
     }
     return null;
   }
+
 
   public function getMe()
   {

@@ -14,6 +14,7 @@ class ConnectionConnector
         'linkedin' => 'LinkedIn',
         'google-drive' => 'GoogleDrive',
         'google-plus' => 'GooglePlus',
+        'all-in-one' => 'AllInOne',
 
         // i.e. we don't need to put Twitter here cuz it does
         // 'twitter' => 'Twitter' automatically

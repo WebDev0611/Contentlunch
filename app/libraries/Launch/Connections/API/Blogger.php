@@ -10,36 +10,10 @@ use Google_Service_Blogger;
 use Google_Service_Blogger_Post;
 use Google_Http_Batch;
 
-class BloggerAPI extends AbstractConnection
+class BloggerAPI extends GoogleAPI
 {
 
     protected $configKey = 'services.blogger';
-
-    protected function getClient()
-    {
-        if (!$this->client) {
-            // Setup google client
-            $this->client = new Google_Client;
-            $this->client->setClientId($this->config['key']);
-            $this->client->setClientSecret($this->config['secret']);
-            $this->client->setScopes('https://www.googleapis.com/auth/blogger');
-
-            $token = $this->getAccessToken();
-
-            if (!$token) {
-                // @todo: Handle this better
-                throw new \Exception('Invalid token');
-            }
-            // Google lib expects token in this format
-            $token = json_encode([
-                'access_token' => $token,
-                'created' => time(),
-                'expires_in' => 3600
-            ]);
-            $this->client->setAccessToken($token);
-        }
-        return $this->client;
-    }
 
     public function getIdentifier()
     {
@@ -66,20 +40,6 @@ class BloggerAPI extends AbstractConnection
             ];
         }
         return $this->me;
-    }
-
-    protected function getRefreshToken()
-    {
-        $client = new Client;
-        $response = $client->post('https://accounts.google.com/o/oauth2/token', [
-            'body' => [
-                'refresh_token' => $this->accountConnection['settings']['token']->getRefreshToken(),
-                'client_id' => $this->config['key'],
-                'client_secret' => $this->config['secret'],
-                'grant_type' => 'refresh_token'
-            ]
-        ]);
-        return $response->json()['access_token'];
     }
 
     public function getUrl()

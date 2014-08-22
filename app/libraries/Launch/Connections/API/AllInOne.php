@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Config;
 use GuzzleHttp\Client;
 
-class HootsuiteAPI extends AbstractConnection {
+class AllInOneAPI extends AbstractConnection {
 
-  protected $configKey = 'services.hootsuite';
+  protected $configKey = 'services.allinone';
 
   protected function getClient()
   {
@@ -17,7 +17,7 @@ class HootsuiteAPI extends AbstractConnection {
    */
   public function getExternalId()
   {
-    
+        
   }
 
   public function getIdentifier()

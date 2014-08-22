@@ -28,6 +28,15 @@ class VimeoAPI extends AbstractConnection {
     return $this->client;
   }
 
+  /**
+   * Get the external user / account id
+   */
+  public function getExternalId()
+  {
+    $me = $this->getMe();
+    return $me['uri'];
+  }
+
   public function getIdentifier()
   {
     $me = $this->getMe();

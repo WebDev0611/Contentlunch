@@ -27,6 +27,14 @@ class SlideshareAPI extends AbstractConnection {
     return $this->client;
   }
 
+  /**
+   * Get the external user / account id
+   */
+  public function getExternalId()
+  {
+    
+  }
+
   public function getIdentifier()
   {
     return null;

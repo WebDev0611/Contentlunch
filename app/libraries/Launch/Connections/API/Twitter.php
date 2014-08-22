@@ -27,6 +27,15 @@ class TwitterAPI extends AbstractConnection
     }
 
     /**
+     * Get the external user / account id
+     */
+    public function getExternalId()
+    {
+      $me = $this->getMe();
+      return $me->id;
+    }
+
+    /**
      * Returns a list of friends/connections/followers
      * @return array List of friends/connections/followers
      */

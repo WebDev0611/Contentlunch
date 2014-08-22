@@ -20,6 +20,15 @@ class SoundcloudAPI extends AbstractConnection {
     return $this->client;
   }
 
+  /**
+   * Get the external user / account id
+   */
+  public function getExternalId()
+  {
+    $me = $this->getMe();
+    return $me->id;
+  }
+
   public function getIdentifier()
   {
     $me = $this->getMe();

@@ -12,6 +12,14 @@ class TrapitAPI extends AbstractConnection {
     return null;
   }
 
+  /**
+   * Get the external user / account id
+   */
+  public function getExternalId()
+  {
+    
+  }
+
   public function getIdentifier()
   {
     return null;
