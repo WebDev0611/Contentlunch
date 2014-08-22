@@ -122,7 +122,7 @@ class FacebookAPI extends AbstractConnection
 
         $count = 0;
         foreach($posts as $post) {
-            var_dump($post);
+            //var_dump($post);
 
             $id = $post->id;
             if(isset($content[$id])) {
