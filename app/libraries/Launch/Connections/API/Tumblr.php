@@ -145,53 +145,56 @@ class TumblrAPI extends AbstractConnection
 
     public function updateStats($accountConnectionId) {
 
-        $temp = \AccountConnection::find($accountConnectionId)
+        $content = \AccountConnection::find($accountConnectionId)
             ->content()
             ->withPivot('external_id', 'likes', 'shares')
             ->get();
-
-        $content = array();
-        foreach ($temp as $c) {
-            $content[$c->pivot->external_id] = $c;
-        }
-        $ids = array_keys($content);
 
         $me = $this->getMe();
         $name = $me['user']['blogs'][0]['name'];
 
         //need to do request manually because it doesn't use oauth for info retrieval
         $params = array(
-            "api_key={$this->config['key']}",
-            "id={$ids[0]}",
-            'notes_info=true',
-            'reblog_info=true'
+            'api_key' => $this->config['key'],
+            'notes_info' => 'true',
         );
-        $url = 'http://api.tumblr.com/v2/blog/'.$name.'.tumblr.com/posts?' . implode('&', $params);
-        $response = file_get_contents($url);
-        echo $response;die;
-
-        $response = json_decode($response);
-        var_dump($response);die;
-
-        $request = $this->getRequest('GET', 'v2/blog/' . $name . '.tumblr.com/post');
-        $client = $this->getClient();
-        $apiResponse = $client->send($request);
-        $output = $apiResponse->json();
-
-        var_dump($output);die;
+        $url = 'http://api.tumblr.com/v2/blog/'.$name.'.tumblr.com/posts?';
 
         $count = 0;
-        foreach ($posts as $post) {
-            var_dump($post);
+        foreach ($content as $post) {
+            $pivot = $post->pivot;
 
-            $id = $post->id;
-            if (isset($content[$id])) {
-                $count++;
-                $pivot = $content[$id]->pivot;
+            $params['id'] = $pivot->external_id;
 
-                $pivot->likes = isset($post->likes) ? count($post->likes->data) : 0;
-                $pivot->shares = isset($post->sharedposts) ? count($post->sharedposts->data) : 0;
-                $pivot->comments = isset($post->comments) ? count($post->comments->data) : 0;
+            $content = file_get_contents($url . http_build_query($params));
+            $content = json_decode($content, true);
+
+            if($content['meta']['status'] == 200) {
+                if(!isset($content['response']['posts'][0]['notes'])) {
+                    echo 'Warning notes is missing';
+                    var_dump($content['response']);
+                    continue;
+                }
+                $notes = $content['response']['posts'][0]['notes'];
+
+                $likes = 0;
+                $shares = 0;
+                $comments = 0;
+                foreach($notes as $note) {
+                    if($note['type'] == 'like') {
+                        $likes++;
+                    }
+                    else if($note['type'] == 'reblog') {
+                        $shares++;
+                    }
+                    else if($note['type'] == 'reply') {
+                        $comments++;
+                    }
+                }
+
+
+                $pivot->likes = $likes;
+                $pivot->shares = $shares;
                 $pivot->save();
             }
         }
