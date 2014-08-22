@@ -89,10 +89,16 @@ class ServiceFactory {
   {
     switch ($this->provider) {
       case 'tumblr':
-      case 'twitter':
         $token = $this->service->requestRequestToken();
         return (string) $this->service->getAuthorizationUri([
           'oauth_token' => $token->getRequestToken()
+        ]);
+      break;
+      case 'twitter':
+        $token = $this->service->requestRequestToken();
+        return (string) $this->service->getAuthorizationUri([
+          'oauth_token' => $token->getRequestToken(),
+          'force_login' => 'true'
         ]);
       break;
       case 'google': // youtube, g+, google docs
