@@ -88,6 +88,11 @@ class ServiceFactory {
   public function getAuthorizationUri()
   {
     switch ($this->provider) {
+      case 'facebook':
+        return (string) $this->service->getAuthorizationUri([
+          'auth_type' => 'reauthenticate'
+        ]);
+      break;
       case 'tumblr':
         $token = $this->service->requestRequestToken();
         return (string) $this->service->getAuthorizationUri([
