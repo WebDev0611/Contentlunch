@@ -4,10 +4,13 @@ class ConnectionController extends BaseController {
 
   public function index()
   {
+  	$query = Connection::query();
     if (Input::get('type')) {
-      return Connection::where('type', Input::get('type'))->get();
+      $query->where('type', Input::get('type'));
     }
-    return Connection::all();
+    // These connections shouldn't be available yet
+    $query->where('enabled', 1);
+    return $query->get();
   }
 
 }

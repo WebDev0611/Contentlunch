@@ -13,6 +13,7 @@ class AccountConnectionAddExternalId extends Migration {
 	 */
 	public function up()
 	{
+		
 		Schema::table('account_connections', function ($table) {
 			$table->string('external_id')->nullable();
 		});
