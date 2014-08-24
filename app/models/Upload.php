@@ -18,6 +18,16 @@ class Upload extends CabinetUpload {
     return $url;
   }
 
+  public function getImageUrl($size)
+  {
+    //$url = URL::asset(str_replace('/public/', '', $this->path));
+    $filepath = str_replace('/public/', '', $this->path . $this->filename);
+    $url = URL::asset('/');
+    // return non https
+    $url = str_replace('https://', 'http://', $url);
+    return $url .'image/'. $size .'/'. $filepath;
+  }
+
   /**
    * Get the absolute file path to the upload
    */

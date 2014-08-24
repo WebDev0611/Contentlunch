@@ -1,5 +1,7 @@
 <?php
 
+use Launch\Image;
+
 class UploadController extends BaseController {
 
   public function index($accountID)
@@ -157,6 +159,19 @@ class UploadController extends BaseController {
       $rating->save();
     }
     return $rating;
+  }
+
+  public function getImage($size, $filename)
+  {
+      $response = Response::make(
+          Image::resize($filename, $size),
+          200
+      );
+      $response->header(
+          'Content-Type',
+          Image::getMimeType($filename)
+      );
+      return $response;
   }
 
 }

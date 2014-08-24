@@ -238,6 +238,12 @@ Route::group(['prefix' => 'api'], function()
 
 Route::get('password/reset/{code}', 'AuthController@check_reset');
 
+// If a file doesn't exist in the public/image folder yet,
+// Laravel will call this route.
+// Generate the image and return it
+Route::get('image/{size}/{file}', 'UploadController@getImage')
+  ->where('file', '.*');
+
 
 /**
  * Catchall route.

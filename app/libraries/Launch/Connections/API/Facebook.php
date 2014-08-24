@@ -77,7 +77,9 @@ class FacebookAPI extends AbstractConnection
             ];
             $upload = $content->upload()->first();
             if ($upload && $upload->media_type == 'image') {
-                $params['picture'] = $upload->getUrl();
+                // Constrain images to large imagecache preset
+                $params['picture'] = $upload->getImageUrl('large');
+                $params['name'] = $content->title;
             }
             $post = (new FacebookRequest($session, 'POST', '/me/feed', $params))
                 ->execute()

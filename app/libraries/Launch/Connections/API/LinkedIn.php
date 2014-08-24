@@ -155,7 +155,7 @@ class LinkedInAPI extends AbstractConnection implements Connection
         $upload = $content->upload()->first();
         if ($upload && $upload->media_type == 'image') {
             // Linkedin only accepts public images at http://, not https://
-            $params['content']['submitted-image-url'] = $upload->getUrl();
+            $params['content']['submitted-image-url'] = $upload->getImageUrl('large');
         }
         // Convert array to xml
         $xml = Array2XML::createXML('share', $params);
