@@ -15,6 +15,7 @@ class Upload extends CabinetUpload {
     $url = URL::asset(str_replace('/public/', '', $this->path) . $this->filename);
     // return non https
     $url = str_replace('https://', 'http://', $url);
+    $url = str_replace(' ', '%20', $url);
     return $url;
   }
 
@@ -25,6 +26,7 @@ class Upload extends CabinetUpload {
     $url = URL::asset('/');
     // return non https
     $url = str_replace('https://', 'http://', $url);
+    $url = str_replace(' ', '%20', $url);
     return $url .'image/'. $size .'/'. $filepath;
   }
 
