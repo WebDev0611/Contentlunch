@@ -100,7 +100,8 @@ return array(
     ],
 */
     // Max upload size - In BYTES. 1GB = 1073741824 bytes, 10 MB = 10485760, 1 MB = 1048576
-    'max_upload_file_size' => 10485760, // Converter - http://www.beesky.com/newsite/bit_byte.htm
+    //'max_upload_file_size' => 10485760, // Converter - http://www.beesky.com/newsite/bit_byte.htm
+    'max_upload_file_size' => 1073741824,
 
     // [True] will change all uploaded file names to an obfuscated name. (Example_Image.jpg becomes Example_Image_p4n8wfnt8nwh5gc7ynwn8gtu4se8u.jpg)
     // [False] attempts to leaves the filename as is.
