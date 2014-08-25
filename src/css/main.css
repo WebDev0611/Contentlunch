@@ -462,14 +462,14 @@ header .navbar ul.nav li {
   padding: 4px;
   text-align: center;
   vertical-align: middle;
-  width: 80px;
+  width: 84px;
 }
 header .navbar ul.nav li .dark {
   border-radius: 8px;
   color: #ffffff;
   font-size: 6pt;
   height: 72px;
-  width: 72px;
+  width: 76px;
   padding: 8px;
 }
 header .navbar ul.nav li .dark img,
@@ -593,11 +593,11 @@ header .navbar ul.nav li .top-arrow {
   height: 0;
   border-color: transparent;
   border-style: solid;
-  border-left-width: 24px;
-  border-right-width: 24px;
+  border-left-width: 25.33333333px;
+  border-right-width: 25.33333333px;
   border-top-width: 10px;
   border-bottom-width: 0;
-  left: 16px;
+  left: 16.66666667px;
   top: 80px;
 }
 header .navbar ul.nav li.active .top-arrow,
@@ -3885,7 +3885,7 @@ hr.simple-divider {
   padding: 22px;
   text-align: center;
   vertical-align: middle;
-  width: 80px;
+  width: 84px;
 }
 .signup-form ul.signup-module-list li .signup-module-list-item.create {
   background-color: #ffb503;
@@ -3920,4 +3920,18 @@ hr.simple-divider {
   display: block;
   margin: auto;
   padding: 4px 150px;
+}
+.notifications .dropdown-menu {
+  width: 350px;
+}
+.notifications .dropdown-menu li {
+  white-space: normal;
+}
+.notifications .dropdown-menu li a {
+  white-space: normal;
+}
+.notifications .dropdown-menu li a .user-image {
+  display: block;
+  float: left;
+  margin: 4px 8px 4px 0;
 }

@@ -13,7 +13,7 @@
     <div class="create-download" ng-hide="isPromote || isMeasure">
         <a class="btn btn-default fa fa-download" target="_blank" href="/api/account/{{ user.account.id }}/content/export-csv"></a>
     </div>
-	{{canDeleteContent}}
+
     <div class="create-delete" ng-show="canDeleteContent && search.contentStage !== 'content' && !isPromote">
         <button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteSelected()"></button>
     </div>
