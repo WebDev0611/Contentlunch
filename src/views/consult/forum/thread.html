@@ -74,7 +74,7 @@
                             </div>
                         </td>
                         <td>
-                            <div ng-hide="isEditing && reply.isEditing" ng-bind-html="reply.body"></div>
+                            <div ng-hide="isEditing && reply.isEditing" ng-bind-html="formatBody(reply)"></div>
                             <form ng-submit="updateReply(current.reply)" ng-show="isEditing && reply.isEditing">
                                 <div class="nudge-down">
                                     <textarea rich-text-editor name="body" class="form-control" ng-model="current.reply.body"></textarea>

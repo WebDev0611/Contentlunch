@@ -1,58 +1,60 @@
 launch.module.controller('ForumController',
-        ['$scope', '$rootScope', 'AuthService', '$routeParams', '$q', 'Restangular', 'NotificationService', 
-function ($scope,   $rootScope,   AuthService,   $routeParams,   $q,   Restangular,   notify) {
-    var user = $scope.user = AuthService.userInfo();
-    $scope.user.name = $scope.user.displayName;
-    $scope.showNewThreadForm = false;
+[
+	'$scope', '$sce', '$rootScope', 'AuthService', '$routeParams', '$q', 'Restangular', 'NotificationService',
+	function ($scope, $sce, $rootScope, AuthService, $routeParams, $q, Restangular, notify) {
+		var user = $scope.user = AuthService.userInfo();
+		$scope.user.name = $scope.user.displayName;
+		$scope.showNewThreadForm = false;
 
-    $scope.canCreate = user.hasPrivilege('consult_execute_forum_create');
+		$scope.canCreate = user.hasPrivilege('consult_execute_forum_create');
 
-    var Threads = Restangular.all('forum-thread');
+		var Threads = Restangular.all('forum-thread');
 
-    $scope.isLoaded = false;
-    $q.all({
-        threads: Threads.getList(),
-    }).then(function (responses) {
-        angular.extend($scope, responses);
-        $scope.isLoaded = true;
-    }).catch($rootScope.globalErrorHandler);
+		$scope.isLoaded = false;
+		$q.all({
+			threads: Threads.getList(),
+		}).then(function(responses) {
+			angular.extend($scope, responses);
+			$scope.isLoaded = true;
+		}).catch($rootScope.globalErrorHandler);
 
-    // Thread CRUD
-    // -------------------------
-    $scope.createThread = function (thread) {
-        thread.userId = user.id;
-        thread.accountId = (user.account || {}).id;
+		// Thread CRUD
+		// -------------------------
+		$scope.createThread = function(thread) {
+			thread.userId = user.id;
+			thread.accountId = (user.account || { }).id;
 
-        Threads.post(thread).then(function (thread) {
-            notify.success('Thread created');
-            _.appendOrUpdate($scope.threads, thread);
-            $scope.cancelThread();
-        }).catch($rootScope.globalErrorHandler);
-    };
+			Threads.post(thread).then(function(thread) {
+				notify.success('Thread created');
+				_.appendOrUpdate($scope.threads, thread);
+				$scope.cancelThread();
+			}).catch($rootScope.globalErrorHandler);
+		};
 
-    $scope.deleteThread = function (thread) {
-        thread.remove().then(function () {
-            notify.success('Thread Deleted');
-            _.remove($scope.threads, thread);
-        }).catch($rootScope.globalErrorHandler);
-    };
+		$scope.deleteThread = function(thread) {
+			thread.remove().then(function() {
+				notify.success('Thread Deleted');
+				_.remove($scope.threads, thread);
+			}).catch($rootScope.globalErrorHandler);
+		};
 
-    $scope.updateThread = function (thread) {
-        thread.put().then(function (thread) {
-            notify.success('Thread updated');
-            _.appendOrUpdate($scope.threads, thread);
-        }).catch($rootScope.globalErrorHandler);
-    };
+		$scope.updateThread = function(thread) {
+			thread.put().then(function(thread) {
+				notify.success('Thread updated');
+				_.appendOrUpdate($scope.threads, thread);
+			}).catch($rootScope.globalErrorHandler);
+		};
 
-    $scope.cancelThread = function () {
-        $scope.thread = {};
-        $scope.showNewThreadForm = false;
-    };
+		$scope.cancelThread = function() {
+			$scope.thread = { };
+			$scope.showNewThreadForm = false;
+		};
 
-    // Helpers
-    // -------------------------
-    $scope.pagination = {
-        pageSize: 10,
-        currentPage: 1,
-    };
-}]);
+		// Helpers
+		// -------------------------
+		$scope.pagination = {
+			pageSize: 10,
+			currentPage: 1,
+		};
+	}
+]);
