@@ -6,8 +6,15 @@ angular.module('launch')
     return function (imageObj, type) {
         // generic fallback image
         var path = '/assets/images/' + (type || 'user') + '.svg';
-        if (imageObj && imageObj.path && imageObj.filename)
-            path = imageObj.path + imageObj.filename;
-        return path.replace(/^\/public/, '');
+
+	    if (imageObj) {
+	    	if (typeof imageObj === 'string') {
+			    path = imageObj;
+		    } else if (!!imageObj.path && !!imageObj.filename) {
+	    		path = imageObj.path + imageObj.filename;
+	    	}
+	    }
+
+	    return path.replace(/^\/public/, '');
     }; 
 }]);

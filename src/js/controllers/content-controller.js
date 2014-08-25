@@ -1,5 +1,5 @@
 ﻿launch.module.controller('ContentController', [
-	'$scope', '$routeParams', '$filter', '$location', '$modal', 'ecommercePlatforms', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', 'Restangular', function ($scope, $routeParams, $filter, $location, $modal, ecommercePlatforms, authService, accountService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService, Restangular) {
+	'$scope', '$sce', '$routeParams', '$filter', '$location', '$modal', 'ecommercePlatforms', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', 'Restangular', function ($scope, $sce, $routeParams, $filter, $location, $modal, ecommercePlatforms, authService, accountService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService, Restangular) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -492,7 +492,7 @@
 			var imageHtml = '<span class="user-image user-image-small"' + style + '></span>';
 			var textHtml = '<span class="user-name">' + (launch.utils.isBlank(text) ? '' : text) + '</span>';
 
-			return imageHtml + ' ' + textHtml;
+			return $sce.trustAsHtml(imageHtml + ' ' + textHtml);
 		};
 
 		$scope.showPublishingGuidelines = function() {
