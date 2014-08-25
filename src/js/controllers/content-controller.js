@@ -416,6 +416,20 @@
 			}
 		};
 
+		self.formatUserImage = function (userId, text) {
+			var user = $.grep($scope.users, function (u, i) { return u.id === parseInt(userId); });
+			var style = (user.length === 1 && !launch.utils.isBlank(user[0].image)) ? ' style="background-image: ' + user[0].imageUrl() + '"' : '';
+
+			if (launch.utils.isBlank(text) && user.length === 1) {
+				text = user[0].formatName();
+			}
+
+			var imageHtml = '<span class="user-image user-image-small"' + style + '></span>';
+			var textHtml = '<span class="user-name">' + (launch.utils.isBlank(text) ? '' : text) + '</span>';
+
+			return (imageHtml + ' ' + textHtml);
+		};
+
 		$scope.content = null;
 		$scope.comments = null;
 		$scope.contentTypes = null;
@@ -478,21 +492,11 @@
 		$scope.attachmentsIsDisabled = false;
 
 		$scope.formatUserItem = function(item, element, context) {
-			return $scope.getUserImageHtml(item.id, item.text);
+			return self.formatUserImage(item.id, item.text);
 		};
 
 		$scope.getUserImageHtml = function(userId, text) {
-			var user = $.grep($scope.users, function(u, i) { return u.id === parseInt(userId); });
-			var style = (user.length === 1 && !launch.utils.isBlank(user[0].image)) ? ' style="background-image: ' + user[0].imageUrl() + '"' : '';
-
-			if (launch.utils.isBlank(text) && user.length === 1) {
-				text = user[0].formatName();
-			}
-
-			var imageHtml = '<span class="user-image user-image-small"' + style + '></span>';
-			var textHtml = '<span class="user-name">' + (launch.utils.isBlank(text) ? '' : text) + '</span>';
-
-			return $sce.trustAsHtml(imageHtml + ' ' + textHtml);
+			return $sce.trustAsHtml(self.formatUserImage(userId, text));
 		};
 
 		$scope.showPublishingGuidelines = function() {
