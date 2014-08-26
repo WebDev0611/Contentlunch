@@ -82,7 +82,10 @@
 					{{ campaign.title }}
 				</a>
             </td>
-            <td>{{ campaign.user.name }}</td>
+			<td>
+				<span class="user-image user-image-small" style="background-image: url('{{ campaign.user.image | imagePathFromObject }}')")></span>
+				{{ campaign.user.name }}
+			</td>
             <td ng-show="filters.conceptsOn === false">{{ campaign.status ? 'Active' : 'Inactive' }}</td>
             <td ng-show="filters.conceptsOn === false">{{ campaign.startDate | moment:'MM/DD/YYYY' }} - {{ campaign.endDate | moment:'MM/DD/YYYY' }}</td>
             <td ng-show="filters.conceptsOn === false">{{ campaign.campaignType.name }}</td>

@@ -99,7 +99,7 @@
 					{{ c.title }}
 				</td>
 				<td>
-					<span class="user-image user-image-small" ng-style="{ 'background-image': c.author.image }"></span>
+					<span class="user-image user-image-small" ng-style="{ 'background-image': c.author.imageUrl() }"></span>
 					{{ c.author.formatName() }}
 				</td>
 				<td ng-show="isMeasure">{{ formatDate(c.launchDate) }}</td>

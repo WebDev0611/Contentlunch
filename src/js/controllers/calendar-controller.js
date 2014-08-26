@@ -36,7 +36,7 @@ launch.module.controller('CalendarController',
 		$scope.isLoaded = false;
 		var eventize;
 		$q.all({
-			campaigns: Account.getList('campaigns', { end_date: moment().format('YYYY-MM-DD') }),
+			campaigns: Account.getList('campaigns'),
 			content: Account.getList('content'),
 			brainstorms: Account.getList('brainstorm'),
 			// that's CONTENT tasks to you, boooooiii
