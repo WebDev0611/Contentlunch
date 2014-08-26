@@ -1106,7 +1106,54 @@
                 error: self.ajaxHandler.error
             });
 
-		}
+        }
+
+        $scope.cancelEdit = function (form) {
+	        var finish = function() {
+		        $location.path('/create');
+	        };
+
+	        if ($scope.isReadOnly) {
+		        finish();
+	        }
+
+	        if (form.$dirty || $scope.isNewContent) {
+        		$modal.open({
+        			templateUrl: 'confirm.html',
+        			controller: [
+						'$scope', '$modalInstance', function (scope, instance) {
+							scope.message = 'You have not saved your changes. Are you sure you want to cancel?';
+							scope.okButtonText = 'Save Changes';
+							scope.cancelButtonText = 'Discard Changes';
+							scope.onOk = function () {
+								$scope.saveContent({
+									success: function(r) {
+										instance.close();
+										finish();
+									},
+									error: function(r) {
+										instance.close();
+										self.ajaxHandler.error(r);
+									}
+								});
+							};
+							scope.onCancel = function () {
+								instance.dismiss('cancel');
+
+								if ($scope.isNewContent) {
+									finish();
+									return;
+								}
+
+								self.refreshContent();
+							};
+						}
+        			]
+        		});
+	        } else {
+        		finish();
+	        }
+        };
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
 
