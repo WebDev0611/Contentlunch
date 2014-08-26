@@ -14,7 +14,7 @@
         <a class="btn btn-default fa fa-download" target="_blank" href="/api/account/{{ user.account.id }}/content/export-csv"></a>
     </div>
 
-    <div class="create-delete" ng-show="canDeleteContent && search.contentStage !== 'content' && !isPromote">
+    <div class="create-delete" ng-show="canDeleteContent">
         <button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteSelected()"></button>
     </div>
 	
@@ -51,12 +51,12 @@
 	<table class="create-table">
 		<thead>
 			<tr>
+				<th class="small-cell" ng-show="canDeleteContent">&nbsp;</th>
 				<th ng-show="isMeasure">
 					<span class="fa" ng-show="pagination.currentSort === 'contentscore'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
 					<span class="clickable-header" ng-click="applySort('contentscore')">Content Score</span>
 				</th>
 				<th class="small-cell">&nbsp;</th>
-				<th class="small-cell" ng-show="canDeleteContent && search.contentStage !== 'content' && !isPromote">&nbsp;</th>
 				<th>
 					<span class="fa" ng-show="pagination.currentSort === 'title'" ng-class="'fa-sort-alpha-' + pagination.currentSortDirection"></span>
 					<span class="clickable-header" ng-click="applySort('title')">Title</span>
@@ -89,11 +89,11 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="c in pagedContent[pagination.currentPage - 1]" ng-class-odd="'dark'" ng-click="editContent(c, $event)">
-				<td ng-show="isMeasure" class="content-score">{{ c.contentScore }}</td>
-				<td class="small-cell"><div class="campaign-dot campaign-dot-small" style="background-color: {{ c.campaign.color }}"></div></td>
-				<td class="small-cell" ng-show="canDeleteContent && search.contentStage !== 'content' && !isPromote">
+				<td class="small-cell" ng-show="canDeleteContent">
 					<input type="checkbox" class="form-control" ng-model="c.isSelected" ng-click="$event.stopPropagation()" />
 				</td>
+				<td ng-show="isMeasure" class="content-score">{{ c.contentScore }}</td>
+				<td class="small-cell"><div class="campaign-dot campaign-dot-small" style="background-color: {{ c.campaign.color }}"></div></td>
 				<td>
 					<span class="cl-icon" ng-class="formatContentTypeIcon(c.contentType.name)"></span>
 					{{ c.title }}
