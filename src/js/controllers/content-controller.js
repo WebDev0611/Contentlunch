@@ -11,7 +11,10 @@
 			success: function(r) {
 
 			},
-			error: function(r) {
+			error: function (r) {
+				$scope.analyzingContent = false;
+				$scope.isSaving = false;
+				$scope.isUploading = false;
 				launch.utils.handleAjaxErrorResponse(r, notificationService);
 			}
 		};
@@ -127,9 +130,7 @@
 				return;
 			}
 
-			// TODO: GET LAUNCHES FROM THE API ONCE IT'S READY!!
-			//$scope.launches = contentService.getLaunches(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
-			$scope.launches = $scope.content.accountConnections;
+			$scope.launches = contentService.getLaunches(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
 		};
 
 		self.filterCampaigns = function() {
@@ -1115,8 +1116,12 @@
             if ($scope.analyzingContent === true) return;
             $scope.analyzingContent = true;
             contentService.analyze(self.loggedInUser.account.id, $scope.content.id, {
-                success: function(r) {
-                    $scope.analyzingContent = false;
+            	success: function (r) {
+            		if (!launch.utils.isBlank(r.fleschScore)) {
+			            r.fleschScore = launch.utils.titleCase(r.fleschScore);
+		            }
+
+		            $scope.analyzingContent = false;
                     $modal.open({
                         windowClass: 'modal-large',
                         templateUrl: '/assets/views/content/scribe-analysis.html',
