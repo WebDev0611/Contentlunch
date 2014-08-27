@@ -146,6 +146,7 @@ class AccountConnectionsController extends BaseController {
     $connect->name = $connection->name;
     $connect->status = 1;
     $connect->settings = $settings;
+    $connect->updated_at = time();
     // Load up the connection API, check if this specific connection account 
     // already exists for this content launch account
     $api = ConnectionConnector::loadAPI($connection->provider, $connect); 
@@ -383,7 +384,8 @@ class AccountConnectionsController extends BaseController {
     }
     $connection = $this->show($accountID, $connectionID);
     $api = ConnectionConnector::loadAPI($connection->connection->provider, $connection);
-    //$api->getUniqueId();
+    $connection->external_id = $api->getExternalId();
+    $connection->updateUniques();
     // Check status by getting the me data
     try {
       $response = $api->getMe(true);

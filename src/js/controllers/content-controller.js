@@ -157,10 +157,10 @@
 			} else {
 				$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('create_execute_launch_content_own') : self.loggedInUser.hasPrivilege('create_execute_launch_content_other');
 				$scope.canPromoteContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('promote_content_own') : self.loggedInUser.hasPrivilege('promote_content_other');
-				$scope.canDeleteContent = self.loggedInUser.hasPrivilege('create_execute_content_delete');
 				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = true;
 			}
 
+			$scope.canDeleteContent = self.loggedInUser.hasPrivilege('create_execute_content_delete');
 			$scope.canSubmitContent = ($scope.content.author.id === self.loggedInUser.id || self.loggedInUser.hasPrivilege('create_edit_content_other_unapproved'));
 			$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
 
@@ -912,6 +912,7 @@
 			return false;
 		};
 
+
 		$scope.launchContentHubspot = function(connection, refresh) {
 
 			if (!$scope.canLaunchContent) {
@@ -1024,6 +1025,24 @@
 						};
 					}
 				});
+			} else if (connection.provider == 'acton') {
+				// popup
+				$modal.open({
+					templateUrl: '/assets/views/dialogs/acton-launch-options.html',
+					controller: function ($scope, $modalInstance) {
+						$scope.options = {
+							type: 'draft'
+						};
+						$scope.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+
+						$scope.ok = function (opts) {
+							launch(opts);
+							$modalInstance.close();
+						};
+					}
+				});
 			} else {
 				launch();
 			}
@@ -1031,6 +1050,11 @@
 			function launch(extraOpts) {
 				if (extraOpts) {
 					extraParams = _.merge(extraParams || {}, { group_id: extraOpts.groupId });
+					if (extraOpts.type) {
+						extraParams = _.merge(extraParams, {
+							type: extraOpts.type
+						});
+					}
 				}
 
 				contentService.launch(self.loggedInUser.account.id, $scope.content.id, connection.id, extraParams, {
@@ -1106,7 +1130,88 @@
                 error: self.ajaxHandler.error
             });
 
-		}
+        }
+
+        $scope.cancelEdit = function (form) {
+	        var finish = function() {
+		        $location.path('/create');
+	        };
+
+	        if ($scope.isReadOnly) {
+		        finish();
+	        }
+
+	        if (form.$dirty || $scope.isNewContent) {
+        		$modal.open({
+        			templateUrl: 'confirm.html',
+        			controller: [
+						'$scope', '$modalInstance', function (scope, instance) {
+							scope.message = 'You have not saved your changes. Are you sure you want to cancel?';
+							scope.okButtonText = 'Save Changes';
+							scope.cancelButtonText = 'Discard Changes';
+							scope.onOk = function () {
+								$scope.saveContent({
+									success: function(r) {
+										instance.close();
+										finish();
+									},
+									error: function(r) {
+										instance.close();
+										self.ajaxHandler.error(r);
+									}
+								});
+							};
+							scope.onCancel = function () {
+								instance.dismiss('cancel');
+
+								if ($scope.isNewContent) {
+									finish();
+									return;
+								}
+
+								self.refreshContent();
+							};
+						}
+        			]
+        		});
+	        } else {
+        		finish();
+	        }
+        };
+
+		$scope.deleteContent = function() {
+			if (!$scope.canDeleteContent) {
+				notificationService.error('Error!!', 'You do not have sufficient privileges to delete content.');
+				return;
+			}
+
+			$modal.open({
+				templateUrl: 'confirm.html',
+				controller: [
+					'$scope', '$modalInstance', function (scope, instance) {
+						scope.message = 'Are you sure you want to delete this content item?';
+						scope.okButtonText = 'Delete';
+						scope.cancelButtonText = 'Cancel';
+						scope.onOk = function () {
+							contentService.delete(self.loggedInUser.account.id, $scope.content, {
+								success: function(r) {
+									instance.close();
+									notificationService.success('Success!!', 'You have successfully deleted "' + $scope.content.title + '".');
+									$location.path('/create');
+								},
+								error: function(r) {
+									instance.close();
+									self.ajaxHandler.error(r);
+								}
+							});
+						};
+						scope.onCancel = function () {
+							instance.dismiss('cancel');
+						};
+					}
+				]
+			});
+		};
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
 

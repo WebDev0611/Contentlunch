@@ -14,6 +14,7 @@
 		};
 
 		self.init = function() {
+			$scope.isLoading = true;
 			self.loggedInUser = authService.userInfo();
 
 			$scope.isPromote = ($location.path() === '/promote');
@@ -29,7 +30,7 @@
 			$scope.editContentOthers = self.loggedInUser.hasPrivilege(['create_edit_content_other', 'create_edit_content_other_unapproved']);
 			$scope.promoteContentSelf = self.loggedInUser.hasPrivilege('promote_content_own');
 			$scope.promoteContentOthers = self.loggedInUser.hasPrivilege('promote_content_other');
-			$scope.canDeleteContent = self.loggedInUser.hasPrivilege('content_delete');
+			$scope.canDeleteContent = self.loggedInUser.hasPrivilege('create_execute_content_delete');
 
 			if (!$scope.canViewConcepts && !$scope.canViewContent) {
 				$location.path('/');
@@ -111,12 +112,16 @@
 				$scope.contentCreatorOpen = $scope.search.users.length > 0;
 			}
 
+			$scope.isLoading = true;
+
 			$scope.content = contentService.query(self.loggedInUser.account.id, params, {
 				success: function (r) {
+					$scope.isLoading = false;
 					$scope.applySort();
 					$scope.search.applyFilter(true);
 				},
-				error: function(r) {
+				error: function (r) {
+					$scope.isLoading = false;
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
 				}
 			});
@@ -166,6 +171,7 @@
 		$scope.filteredContent = null;
 		$scope.pagedContent = null;
 		$scope.isPromote = false;
+		$scope.isLoading = false;
 
 		$scope.canViewContent = false;
 		$scope.canViewConcepts = false;
@@ -382,21 +388,36 @@
 			});
 		};
 
-		$scope.deleteSelected = function() {
-			if ($scope.search.contentStage === 'content') {
-				return;
-			}
+		$scope.deleteSelected = function () {
+			var itemsToDelete = $.grep($scope.content, function (c) { return c.isSelected; });
 
-			var itemsToDelete = $.grep($scope.content, function(c) { return c.isSelected; });
+			$modal.open({
+				templateUrl: 'confirm.html',
+				controller: [
+					'$scope', '$modalInstance', function (scope, instance) {
+						scope.message = 'Are you sure you want to delete the selected ' + itemsToDelete.length + ' content items?';
+						scope.okButtonText = 'Delete';
+						scope.cancelButtonText = 'Cancel';
+						scope.onOk = function () {
+							$scope.isLoading = true;
 
-			$.each(itemsToDelete, function(i, c) {
-				contentService.delete(self.loggedInUser.account.id, c, {
-					success: function(r) {
-                        self.loadContent();
-                        notificationService.success('Delete Successful', 'Concept "' + c.title + '" successfully deleted.');
-					},
-					error: self.ajaxHandler.error
-				});
+							$.each(itemsToDelete, function (i, c) {
+								contentService.delete(self.loggedInUser.account.id, c, {
+									success: function (r) {
+										self.loadContent();
+										notificationService.success('Success!!', 'You have successfully deleted  "' + c.title + '".');
+									},
+									error: self.ajaxHandler.error
+								});
+							});
+
+							instance.close();
+						};
+						scope.onCancel = function () {
+							instance.dismiss('cancel');
+						};
+					}
+				]
 			});
 		};
 

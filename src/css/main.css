@@ -2831,8 +2831,8 @@ span[class*=" icon-"].dark {
 .calendar-table-container table.create-table tr th input[type="checkbox"].form-control,
 .create-table-container table.calendar-table tr th input[type="checkbox"].form-control,
 .calendar-table-container table.calendar-table tr th input[type="checkbox"].form-control {
-  height: 20px;
-  width: 20px;
+  height: 16px;
+  width: 16px;
 }
 .create-table-container table.create-table tr th .clickable-header,
 .calendar-table-container table.create-table tr th .clickable-header,
