@@ -11,7 +11,8 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
     return (calendar = {
         // I know this should be a directive, but I was using ui-calendar and seeing
         // MASSIVE performance issues and it was easiest just to change it to this
-        init: function (config) {
+    	init: function (config) {
+		    currentEvents = [];
             $elem = $('#js-cl-calendar');
             $elem.fullCalendar(config);
         },
@@ -96,79 +97,62 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
 
         eventize: function (contents) {
             return function (campaigns, tasks, brainstorms) {
-                var tasksByContent = _.groupBy(tasks, 'contentId');
+               var events = [];
 
-                var events = [];
+               var taskEvents = _.map(tasks, function (task) {
+					// THIS IS REALLY SLOW. WE SHOULD CONSIDER RETURNING AT LEAST SOME CONTENT INFO BACK WHEN REQUESTING TASKS.
+	            	var content = _.findById(contents, task.contentId) || { };
+		            var color = (content.campaign || { }).color || randomColor();
 
-                _.each(tasksByContent, function (tasks, contentId) {
-                    var content = _.findById(contents, contentId);
-                    if (!content) content = {};
-                    var color = (content.campaign || {}).color || randomColor();
+		            return _.merge(task, {
+			            uniqId: 'task_' + task.id,
+			            title: task.name,
+			            contentTypeIconClass: launch.utils.getContentTypeIconClass((content.contentType || { }).key),
+			            workflowIconCssClass: launch.utils.getWorkflowIconCssClass(contentStatuses[task.status]),
+			            stage: contentStatuses[task.status],
+			            circleColor: color,
+			            start: task.dueDate,
+			            type: 'task',
+			            allDay: false, // will make the time show
+			            content: content,
+			            sourceOpts: {
+				            className: 'calendar-task',
+				            color: color,
+				            textColor: 'whitesmoke'
+			            }
+		            });
+	            });
 
-                    _.each(tasks, function (task) {
-                        task = _.merge(task, {
-                            uniqId: 'task_' + task.id,
-                            title: task.name,
-                            contentTypeIconClass: launch.utils.getContentTypeIconClass((content.contentType || {}).key),
-                            workflowIconCssClass: launch.utils.getWorkflowIconCssClass(contentStatuses[task.status]),
-                            stage: contentStatuses[task.status],
-                            circleColor: color,
-                            start: task.dueDate,
-                            type: 'task',
-                            allDay: false, // will make the time show
-                            content: content,
-                            sourceOpts: {
-                                className: 'calendar-task',
-                                color: color,
-                                textColor: 'whitesmoke'
-                            }
-                        });
+	            var campaignEvents = _.map(campaigns, function (campaign) {
+		            return _.merge(campaign, {
+		                uniqId: 'campaign_' + campaign.id,
+		                title: campaign.title,
+		                start: campaign.startDate,
+		                end: campaign.endDate,
+		                type: 'campaign',
+		                allDay: true,
+		                sourceOpts: {
+		                    color: campaign.color,
+		                    textColor: 'whitesmoke'
+		                }
+		            });
+	            });
 
-                        events.push(task);
-                    });
-                });
+	            var brainstormEvents = _.map(brainstorms, function (brainstorm) {
+		            return _.merge(brainstorm, {
+			            uniqId: 'brainstorm_' + brainstorm.id,
+			            title: 'Brainstorming Session',
+			            start: brainstorm.date + 'T' + brainstorm.time,
+			            type: 'brainstorm',
+			            sourceOpts: {
+				            className: 'calendar-task',
+				            color: randomColor(),
+				            textColor: 'whitesmoke'
+			            }
+		            });
+	            });
 
-                _.each(campaigns, function (campaign) {
-                    events.push(_.merge(campaign, {
-                        uniqId: 'campaign_' + campaign.id,
-                        title: campaign.title,
-                        start: campaign.startDate,
-                        end: campaign.endDate,
-                        type:'campaign',
-                        allDay: true,
-                        sourceOpts: {
-                            color: campaign.color,
-                            textColor: 'whitesmoke'
-                        }
-                    }));
-                });
-
-                _.each(brainstorms, function (brainstorm) {
-                    if (!brainstorm.campaign) {
-                        if (brainstorm.campaignId) 
-                            brainstorm.campaign = _.findById(campaigns, brainstorm.campaignId) || {};
-                        else
-                            brainstorm.campaign = {};
-                    }
-                    if (!brainstorm.content) {
-                        if (brainstorm.contentId) 
-                            brainstorm.content = _.findById(contents, brainstorm.contentId) || {};
-                        else
-                            brainstorm.content = {};
-                    }
-
-                    events.push(_.merge(brainstorm, {
-                        uniqId: 'brainstorm_' + brainstorm.id,
-                        title: 'Brainstorming Session',
-                        start: brainstorm.date + 'T' + brainstorm.time,
-                        type:'brainstorm',
-                        sourceOpts: {
-                            className: 'calendar-task',
-                            color: randomColor(),
-                            textColor: 'whitesmoke'
-                        }
-                    }));
-                });
+	            events = _.union(taskEvents, campaignEvents, brainstormEvents);
 
                 var newEvents = events;
 
@@ -182,16 +166,7 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
                     $elem.fullCalendar('addEventSource', source);
                 });
 
-                // console.log('--');
-                // console.log('campaigns.length', campaigns.length);
-                // console.log('tasks.length', tasks.length);
-                // console.log('currentEvents', currentEvents.length);
-                // console.log('newEvents', newEvents.length);
-                // console.log('eventsToRemove', _.size(eventsToRemove));
-                // console.log('sourcesToAdd', sourcesToAdd.length);
-                // console.log('clientEvents', $elem.fullCalendar( 'clientEvents').length, campaigns.length, tasks.length, currentEvents.length);
-
-                currentEvents = newEvents;
+            	currentEvents = newEvents;
             };
         }
     });

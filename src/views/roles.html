@@ -1,4 +1,4 @@
-﻿<div class="view roles">
+﻿<div class="view roles" ng-show="roles.$resolved">
 	<div class="col-md-3 left-pane">
 		<div class="btn-group" ng-show="showNewRole">
 			<button class="btn btn-default btn-create" ng-click="enterNewRole()">
@@ -48,4 +48,8 @@
 	<div class="col-md-9 right-pane">
 		<div class="right-pane-content" ng-show="!!selectedRole" ng-cloak role-form selected-role="selectedRole" refresh-method="refreshMethod" after-save-success="afterSaveSuccess" self-editing="selfEditing()" creating-new="(isNaN(selectedRole.id) || selectedRole.id <= 0)"></div>
 	</div>
+</div>
+
+<div class="loading-spinner-container" ng-show="!roles.$resolved">
+	<spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
 </div>

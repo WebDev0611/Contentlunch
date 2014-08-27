@@ -21,6 +21,20 @@ class ConnectionConnector
     ];
 
     /**
+     * Takes a provider (from DB) and returns whether the connection exists.
+     * @param  string                   $provider  e.g. 'twitter', 'linkedin', etc
+     * @return boolean                  whether the connection exists
+     */
+    static function existsAPI($provider)
+    {
+        if (@self::$map[$provider]) $provider = self::$map[$provider];
+        else $provider = ucfirst($provider);
+        $provider = "Launch\Connections\API\\{$provider}API";
+
+        return class_exists($provider);
+    }
+
+    /**
      * Takes a provider (from DB) and the $data returned from 
      * $accountConnection->show($accountID, $connectionID);
      * to load the correct API.

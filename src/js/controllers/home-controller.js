@@ -181,6 +181,16 @@ launch.module.controller('HomeController',
             return this.info.measureFunction(user.account.id, startDate.format('YYYY-MM-DD'));
         };
 
-        self.initChartData();
+	    $scope.formatActivity = function(activity) {
+	    	if (launch.utils.startsWith(activity.activity, 'assigned') || launch.utils.startsWith(activity.activity, 'added as')) {
+	    		var person = (user.id === activity.userId) ? 'You were ' : (!!activity.user ? activity.user.firstName + ' ' + activity.user.lastName: 'Someone ');
+
+			    return person + activity.activity + '' + activity.content.title + ' on ' + launch.utils.formatDate(activity.createdAt);
+	    	}
+
+	    	return activity.content.title + ' was ' + activity.activity + ' on ' + launch.utils.formatDate(activity.createdAt);
+	    };
+
+	    self.initChartData();
     }
 ]);

@@ -115,7 +115,12 @@
                         <span class="badge" ng-show="myActivity.length && showUnreadCount">{{ myActivity.length }}</span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                    <li ng-repeat="act in myActivity track by act.id"><a href="/create/content/edit/{{ act.contentId }}">You were {{ act.activity }}<br>{{ act.content.title }} on {{ act.createdAt | moment: 'MM/DD/YY' }}</a></li>
+						<li ng-repeat="act in myActivity track by act.id">
+							<a href="/create/content/edit/{{ act.contentId }}">
+								{{ formatActivity(act) }}
+								<!--You were {{ act.activity }}<br>{{ act.content.title }} on {{ act.createdAt | moment: 'MM/DD/YY' }}-->
+							</a>
+						</li>
                         <li ng-hide="myActivity.length"><a>No activity</a></li>
                     </ul>
                 </div>
@@ -125,7 +130,8 @@
                         <li ng-repeat="act in allActivity track by act.id">
                             <a href="/create/content/edit/{{ act.contentId }}">
                                 <span class="user-image user-image-small" style="background-image: url('{{ act.user.image | imagePathFromObject }}')"></span>
-                                {{ act.user.firstName }} {{ act.user.lastName }} was {{ act.activity }}<br>{{ act.content.title }} on {{ act.createdAt | moment: 'MM/DD/YY' }}
+								<!--{{ act.user.firstName }} {{ act.user.lastName }} was {{ act.activity }}<br>{{ act.content.title }} on {{ act.createdAt | moment: 'MM/DD/YY' }}-->
+								{{ formatActivity(act) }}
                             </a>
                         </li>
                         <li ng-hide="allActivity.length"><a>No activity</a></li>

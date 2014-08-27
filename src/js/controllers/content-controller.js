@@ -1,5 +1,5 @@
 ﻿launch.module.controller('ContentController', [
-	'$scope', '$routeParams', '$filter', '$location', '$modal', 'ecommercePlatforms', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', 'Restangular', function ($scope, $routeParams, $filter, $location, $modal, ecommercePlatforms, authService, accountService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService, Restangular) {
+	'$scope', '$sce', '$routeParams', '$filter', '$location', '$modal', 'ecommercePlatforms', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', 'Restangular', function ($scope, $sce, $routeParams, $filter, $location, $modal, ecommercePlatforms, authService, accountService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService, Restangular) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -157,10 +157,10 @@
 			} else {
 				$scope.canLaunchContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('create_execute_launch_content_own') : self.loggedInUser.hasPrivilege('create_execute_launch_content_other');
 				$scope.canPromoteContent = ($scope.content.author.id === self.loggedInUser.id) ? self.loggedInUser.hasPrivilege('promote_content_own') : self.loggedInUser.hasPrivilege('promote_content_other');
-				$scope.canDeleteContent = self.loggedInUser.hasPrivilege('create_execute_content_delete');
 				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = true;
 			}
 
+			$scope.canDeleteContent = self.loggedInUser.hasPrivilege('create_execute_content_delete');
 			$scope.canSubmitContent = ($scope.content.author.id === self.loggedInUser.id || self.loggedInUser.hasPrivilege('create_edit_content_other_unapproved'));
 			$scope.canDiscussContent = self.loggedInUser.hasPrivilege('collaborate_execute_feedback');
 
@@ -416,6 +416,20 @@
 			}
 		};
 
+		self.formatUserImage = function (userId, text) {
+			var user = $.grep($scope.users, function (u, i) { return u.id === parseInt(userId); });
+			var style = (user.length === 1 && !launch.utils.isBlank(user[0].image)) ? ' style="background-image: ' + user[0].imageUrl() + '"' : '';
+
+			if (launch.utils.isBlank(text) && user.length === 1) {
+				text = user[0].formatName();
+			}
+
+			var imageHtml = '<span class="user-image user-image-small"' + style + '></span>';
+			var textHtml = '<span class="user-name">' + (launch.utils.isBlank(text) ? '' : text) + '</span>';
+
+			return (imageHtml + ' ' + textHtml);
+		};
+
 		$scope.content = null;
 		$scope.comments = null;
 		$scope.contentTypes = null;
@@ -478,21 +492,11 @@
 		$scope.attachmentsIsDisabled = false;
 
 		$scope.formatUserItem = function(item, element, context) {
-			return $scope.getUserImageHtml(item.id, item.text);
+			return self.formatUserImage(item.id, item.text);
 		};
 
 		$scope.getUserImageHtml = function(userId, text) {
-			var user = $.grep($scope.users, function(u, i) { return u.id === parseInt(userId); });
-			var style = (user.length === 1 && !launch.utils.isBlank(user[0].image)) ? ' style="background-image: ' + user[0].imageUrl() + '"' : '';
-
-			if (launch.utils.isBlank(text) && user.length === 1) {
-				text = user[0].formatName();
-			}
-
-			var imageHtml = '<span class="user-image user-image-small"' + style + '></span>';
-			var textHtml = '<span class="user-name">' + (launch.utils.isBlank(text) ? '' : text) + '</span>';
-
-			return imageHtml + ' ' + textHtml;
+			return $sce.trustAsHtml(self.formatUserImage(userId, text));
 		};
 
 		$scope.showPublishingGuidelines = function() {
@@ -1126,7 +1130,88 @@
                 error: self.ajaxHandler.error
             });
 
-		}
+        }
+
+        $scope.cancelEdit = function (form) {
+	        var finish = function() {
+		        $location.path('/create');
+	        };
+
+	        if ($scope.isReadOnly) {
+		        finish();
+	        }
+
+	        if (form.$dirty || $scope.isNewContent) {
+        		$modal.open({
+        			templateUrl: 'confirm.html',
+        			controller: [
+						'$scope', '$modalInstance', function (scope, instance) {
+							scope.message = 'You have not saved your changes. Are you sure you want to cancel?';
+							scope.okButtonText = 'Save Changes';
+							scope.cancelButtonText = 'Discard Changes';
+							scope.onOk = function () {
+								$scope.saveContent({
+									success: function(r) {
+										instance.close();
+										finish();
+									},
+									error: function(r) {
+										instance.close();
+										self.ajaxHandler.error(r);
+									}
+								});
+							};
+							scope.onCancel = function () {
+								instance.dismiss('cancel');
+
+								if ($scope.isNewContent) {
+									finish();
+									return;
+								}
+
+								self.refreshContent();
+							};
+						}
+        			]
+        		});
+	        } else {
+        		finish();
+	        }
+        };
+
+		$scope.deleteContent = function() {
+			if (!$scope.canDeleteContent) {
+				notificationService.error('Error!!', 'You do not have sufficient privileges to delete content.');
+				return;
+			}
+
+			$modal.open({
+				templateUrl: 'confirm.html',
+				controller: [
+					'$scope', '$modalInstance', function (scope, instance) {
+						scope.message = 'Are you sure you want to delete this content item?';
+						scope.okButtonText = 'Delete';
+						scope.cancelButtonText = 'Cancel';
+						scope.onOk = function () {
+							contentService.delete(self.loggedInUser.account.id, $scope.content, {
+								success: function(r) {
+									instance.close();
+									notificationService.success('Success!!', 'You have successfully deleted "' + $scope.content.title + '".');
+									$location.path('/create');
+								},
+								error: function(r) {
+									instance.close();
+									self.ajaxHandler.error(r);
+								}
+							});
+						};
+						scope.onCancel = function () {
+							instance.dismiss('cancel');
+						};
+					}
+				]
+			});
+		};
 
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
 
