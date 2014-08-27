@@ -3935,3 +3935,34 @@ hr.simple-divider {
   float: left;
   margin: 4px 8px 4px 0;
 }
+.scribe-modal-container {
+  max-height: 500px;
+  overflow: auto;
+}
+table.scribe-table {
+  border-left: solid 1px #cccccc;
+  border-top: solid 1px #cccccc;
+  width: 100%;
+}
+table.scribe-table tr th {
+  text-align: center;
+}
+table.scribe-table tr td,
+table.scribe-table tr th {
+  border-right: solid 1px #cccccc;
+  border-bottom: solid 1px #cccccc;
+  padding: 4px;
+  vertical-align: top;
+}
+table.scribe-table tr td.scribe-score-overall,
+table.scribe-table tr th.scribe-score-overall {
+  font-size: 24pt;
+  font-weight: bold;
+  padding-top: 50px;
+  text-align: center;
+  width: 25%;
+}
+table.scribe-table tr td.scribe-category,
+table.scribe-table tr th.scribe-category {
+  width: 25%;
+}

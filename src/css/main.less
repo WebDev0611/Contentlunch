@@ -3713,3 +3713,39 @@ hr.simple-divider {
 		}
 	}
 }
+
+.scribe-modal-container{
+	max-height: 500px;
+	overflow: auto;
+}
+
+table.scribe-table {
+	border-left: solid 1px #cccccc;
+	border-top: solid 1px #cccccc;
+	width: 100%;
+
+	tr {
+		th{
+			text-align: center;
+		}
+
+		td, th {
+			border-right: solid 1px #cccccc;
+			border-bottom: solid 1px #cccccc;
+			padding: 4px;
+			vertical-align: top;
+
+			&.scribe-score-overall{
+				font-size: 24pt;
+				font-weight: bold;
+				padding-top: 50px;
+				text-align: center;
+				width: 25%;
+			}
+
+			&.scribe-category {
+				width: 25%;
+			}
+		}
+	}
+}

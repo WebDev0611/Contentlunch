@@ -1824,9 +1824,13 @@
 		fromDto: function(dto) {
 			var lc = new launch.LaunchedContent();
 
+			// TODO: CHANGE THIS WHEN THE API RETURNS SUFFICIENT INFO!!
 			lc.id = parseInt(dto.id);
+			lc.accountConnectionId = parseInt(dto.account_connection_id);
 			lc.contentId = parseInt(dto.content_id);
 			lc.userId = parseInt(dto.user_id);
+			lc.success = parseInt(dto.success) === 1;
+			lc.response = dto.response;
 			lc.created = new Date(moment(lc.created_at).format());
 			lc.updated = new Date(moment(lc.updated_at).format());
 
