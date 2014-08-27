@@ -908,6 +908,7 @@
 			return false;
 		};
 
+
 		$scope.launchContentHubspot = function(connection, refresh) {
 
 			if (!$scope.canLaunchContent) {
@@ -1020,6 +1021,24 @@
 						};
 					}
 				});
+			} else if (connection.provider == 'acton') {
+				// popup
+				$modal.open({
+					templateUrl: '/assets/views/dialogs/acton-launch-options.html',
+					controller: function ($scope, $modalInstance) {
+						$scope.options = {
+							type: 'draft'
+						};
+						$scope.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+
+						$scope.ok = function (opts) {
+							launch(opts);
+							$modalInstance.close();
+						};
+					}
+				});
 			} else {
 				launch();
 			}
@@ -1027,6 +1046,11 @@
 			function launch(extraOpts) {
 				if (extraOpts) {
 					extraParams = _.merge(extraParams || {}, { group_id: extraOpts.groupId });
+					if (extraOpts.type) {
+						extraParams = _.merge(extraParams, {
+							type: extraOpts.type
+						});
+					}
 				}
 
 				contentService.launch(self.loggedInUser.account.id, $scope.content.id, connection.id, extraParams, {

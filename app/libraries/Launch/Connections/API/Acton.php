@@ -33,7 +33,8 @@ class ActonAPI extends AbstractConnection {
    */
   public function getExternalId()
   {
-    
+    $me = $this->getMe();
+    return $me['account_id'];
   }
 
   public function getIdentifier()
@@ -110,9 +111,11 @@ class ActonAPI extends AbstractConnection {
     $client = $this->getClient();
     $response = ['success' => true, 'response' => []];
     try {
+      $type = \Input::get('type');
+      $type = ($type == 'draft' ? 'draft' : 'template');
       $apiResponse = $client->post('/api/1/message', [
         'body' => [
-          'type' => 'draft',
+          'type' => $type,
           'subject' => $content->title,
           'htmlbody' => $content->body,
         ]

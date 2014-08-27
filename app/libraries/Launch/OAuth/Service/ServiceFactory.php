@@ -113,7 +113,7 @@ class ServiceFactory {
         $params['access_type'] = 'offline';
         $params['approval_prompt'] = 'force';
       break;
-    }  
+    }
     return (string) $this->service->getAuthorizationUri($params);
   }
 

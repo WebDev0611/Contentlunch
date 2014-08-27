@@ -383,7 +383,8 @@ class AccountConnectionsController extends BaseController {
     }
     $connection = $this->show($accountID, $connectionID);
     $api = ConnectionConnector::loadAPI($connection->connection->provider, $connection);
-    //$api->getUniqueId();
+    $connection->external_id = $api->getExternalId();
+    $connection->updateUniques();
     // Check status by getting the me data
     try {
       $response = $api->getMe(true);
