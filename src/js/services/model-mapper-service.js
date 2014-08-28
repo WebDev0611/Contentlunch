@@ -1826,6 +1826,7 @@
 
 			// TODO: CHANGE THIS WHEN THE API RETURNS SUFFICIENT INFO!!
 			lc.id = parseInt(dto.id);
+			lc.connection = null;//self.contentConnection.fromDto(dto.accountConnection);
 			lc.accountConnectionId = parseInt(dto.account_connection_id);
 			lc.contentId = parseInt(dto.content_id);
 			lc.userId = parseInt(dto.user_id);

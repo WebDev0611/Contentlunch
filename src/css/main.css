@@ -2238,6 +2238,14 @@ span[class*=" icon-"].dark {
   font-weight: bold;
   margin: 16px 0;
 }
+.create .right-pane .content-approved-header .content-launched-item,
+.promote .right-pane .content-approved-header .content-launched-item,
+.measure .right-pane .content-approved-header .content-launched-item,
+.create .right-pane .content-launched-header .content-launched-item,
+.promote .right-pane .content-launched-header .content-launched-item,
+.measure .right-pane .content-launched-header .content-launched-item {
+  cursor: pointer;
+}
 .create .right-pane .content-approved-header .fa,
 .promote .right-pane .content-approved-header .fa,
 .measure .right-pane .content-approved-header .fa,
@@ -2254,6 +2262,14 @@ span[class*=" icon-"].dark {
 .promote .right-pane .content-launched-header .fa.fa-check,
 .measure .right-pane .content-launched-header .fa.fa-check {
   color: #10699d;
+}
+.create .right-pane .content-approved-header .fa.error,
+.promote .right-pane .content-approved-header .fa.error,
+.measure .right-pane .content-approved-header .fa.error,
+.create .right-pane .content-launched-header .fa.error,
+.promote .right-pane .content-launched-header .fa.error,
+.measure .right-pane .content-launched-header .fa.error {
+  color: #ff0000;
 }
 .create .right-pane .content-approved-header,
 .promote .right-pane .content-approved-header,

@@ -1663,12 +1663,20 @@ span[class^="icon-"], span[class*=" icon-"] {
 			font-weight: bold;
 			margin: 16px 0;
 
+			.content-launched-item {
+				cursor: pointer;
+			}
+
 			.fa {
 				color: #000000;
 				display: inline-block;
 
 				&.fa-check {
 					color: @homeColorDark;
+				}
+
+				&.error {
+					color: #ff0000;
 				}
 			}
 		}
