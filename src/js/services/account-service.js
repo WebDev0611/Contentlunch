@@ -139,19 +139,26 @@
 
 			return account;
 		},
-		getNewBrainstorm: function(user_id, account_id, content_type, concept_id) {
+		getNewBrainstorm: function(userId, accountId, contentType, itemId) {
 			var brainstorm = new launch.Brainstorm();
-			brainstorm.user_id = user_id;
-			brainstorm.account_id = account_id;
-			brainstorm.content_type = content_type;
-			brainstorm.content_id = concept_id;
 			var now = new Date();
+
+			now.setMinutes(0);
 			now.setSeconds(0);
 			now.setMilliseconds(0);
-			now.setMinutes(0);
-			brainstorm.datetime = now;
-			brainstorm.date = moment(now).format('YYYY-MM-DD');
+
+			brainstorm.userId = userId;
+			brainstorm.accountId = accountId;
+			brainstorm.contentType = contentType;
+			brainstorm.date = moment(now).format('MM-DD-YYYY');
 			brainstorm.time = now.getTime();
+
+			if (contentType === 'content') {
+				brainstorm.contentId = itemId;
+			} else if (contentType === 'campaign') {
+				brainstorm.campaignId = itemId;
+			}
+
 			return brainstorm;
 		},
 		addBrainstorm: function(brainstorm, callback) {
@@ -159,10 +166,11 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return brainstorms.insert({
-				account_id: brainstorm.account_id,
-				content_type: brainstorm.content_type,
-				content_id: brainstorm.content_id,
-				campaign_id: brainstorm.campaign_id
+				account_id: brainstorm.accountId,
+				content_type: brainstorm.contentType,
+				content_id: brainstorm.contentId,
+				campaign_id: brainstorm.campaignId,
+				id: brainstorm.id
 			}, brainstorm, success, error);
 		},
 		removeBrainstorm: function(brainstorm, callback) {
@@ -170,10 +178,10 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return brainstorms.delete({
-				account_id: brainstorm.account_id,
-				content_type: brainstorm.content_type,
-				content_id: brainstorm.content_id,
-				campaign_id: brainstorm.campaign_id,
+				account_id: brainstorm.accountId,
+				content_type: brainstorm.contentType,
+				content_id: brainstorm.contentId,
+				campaign_id: brainstorm.campaignId,
 				id: brainstorm.id
 			}, brainstorm, success, error);
 		},

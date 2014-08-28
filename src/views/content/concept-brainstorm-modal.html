@@ -1,35 +1,32 @@
-<form role="form" class="modal-brainstorm">
-    <div class="modal-header">
-        {{message}}
-    </div>
-    <div class="modal-body">
-        <div class="agenda">
-            <label>Agenda</label>
-            <div ng-repeat="item in brainstorm.agenda">
-                <div class="agenda-item">
-                    <div class="description" ng-hide="editing" ng-click="editing = true">{{ item.description }}</div>
-                    <textarea type="text" ng-show="editing" ng-blur="editing = false" ng-model="item.description">{{ item.description }}</textarea>
-                    <span ng-hide="editing" class="fa fa-trash-o" ng-click="removeItem($index); $event.stopPropagation()"></span>
-                </div>
-            </div>
-            <div ng-click="addItem()"><span class="glyphicon glyphicon-plus-sign"></span> Add Item</div>
-        </div>
-        <div class="details">
-            <div class="date">
-                <label>Date</label>
-                <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" class="form-control" ng-model="brainstorm.date" />
-            </div>
-            <div class="time">
-                <timepicker ng-model="brainstorm.time" hour-step="1" minute-step="15" show-meridian="true"></timepicker>
-            </div>
-            <div>
-                <label>Description</label>
-                <textarea rows="5" class="form-control" ng-model="brainstorm.description"></textarea>
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-default" ng-click="$dismiss()">Go Back</button>
-        <button class="btn btn-primary" ng-click="schedule()">Send</button>
-    </div>
-</form>
+<div class="modal-header">Brainstorm Session</div>
+
+<div class="modal-body">
+	<form role="form" class="modal-brainstorm">
+		<div class="details">
+			<div class="control-group date">
+				<label>Date</label>
+				<input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" class="form-control" ng-model="brainstorm.date" />
+			</div>
+
+			<div class="control-group time">
+				<timepicker ng-model="brainstorm.time" hour-step="1" minute-step="15" show-meridian="true"></timepicker>
+			</div>
+
+			<div class="control-group">
+				<label>Description</label>
+				<textarea rows="5" class="form-control" ng-model="brainstorm.description"></textarea>
+			</div>
+
+			<div class="control-group">
+				<label>Meeting Information</label>
+				<textarea rows="5" class="form-control" ng-model="brainstorm.agenda"></textarea>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="$dismiss()">Cancel</button>
+	<button class="btn btn-primary" ng-click="save()">Save</button>
+</div>
+
