@@ -165,8 +165,8 @@
 			<div class="content-launched-item" ng-repeat="l in launches">
 				<span class="fa fa-check" ng-show="l.success"></span>
 				<span class="fa fa-times error" ng-show="!l.success"></span>
-				<span ng-class="getConnectionProviderIconClass(l.provider)"></span>
-				Posted to {{ l.name }}
+				<span ng-class="getConnectionProviderIconClass(l.connection.provider)"></span>
+				Posted to {{ l.connection.name }}
 				<button class="btn btn-default btn-black btn-xs" ng-click="launchContent(l.connection)" ng-show="!l.success">Try Again</button>
 			</div>
 		</div>
