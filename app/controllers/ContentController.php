@@ -364,7 +364,13 @@ class ContentController extends BaseController {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    return Content::find($contentID)->launches;
+    $content = Content::find($contentID);
+    if ( ! $content) {
+      return $this->responseError('Content not found');
+    }
+    return LaunchResponse::where('content_id', $contentID)
+      ->with('account_connection.connection')
+      ->get();
   }
 
 
