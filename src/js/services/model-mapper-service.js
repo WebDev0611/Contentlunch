@@ -1834,7 +1834,6 @@
 		fromDto: function(dto) {
 			var lc = new launch.LaunchedContent();
 
-			// TODO: CHANGE THIS WHEN THE API RETURNS SUFFICIENT INFO!!
 			lc.id = parseInt(dto.id);
 			lc.connection = self.contentConnection.fromDto(dto.account_connection);
 			lc.accountConnectionId = parseInt(dto.account_connection_id);
