@@ -961,7 +961,7 @@
 			case 'photo':
 				return (connection.provider === 'dropbox' || connection.provider === 'facebook' || connection.provider === 'google' || connection.provider === 'google-drive' || connection.provider === 'linkedin' || connection.provider === 'salesforce' || connection.provider === 'twitter');
 			case 'video':
-				return (connection.provider === 'vimeo' || connection.provider === 'youtube');
+				return (connection.provider === 'vimeo' || connection.provider === 'youtube' || connection.provider === 'facebook' || connection.provider === 'google' || connection.provider === 'linkedin' || connection.provider === 'twitter');
 			default:
 				return false;
 		}
