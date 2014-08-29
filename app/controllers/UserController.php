@@ -74,6 +74,20 @@ class UserController extends BaseController {
 		if ( ! $this->hasPermission('settings_execute_users') && ! $this->hasPermission('adminster_contentlaunch')) {
 			return $this->responseAccessDenied();
 		}
+		// If logged in user belongs to account, and account has reached maximum users,
+		// deny this request
+		$thisUser = Confide::user();
+		$accounts = $thisUser->accounts;
+		if ($accounts[0]) {
+			$account = Account::countUsers()->find($accounts[0]->id);
+      		$count_users = $account->count_users;
+      		// How many users are allowed in this account's tier?
+			$licenses = AccountSubscription::where('account_id', $account->id)->pluck('licenses');
+			if ($count_users >= $licenses) {
+				return $this->responseError("This account already has the maximum amount of users.");
+			}      		
+		}
+
 		$user = new User;
 	// Check for soft deleted user, reinstate account
 	$user = User::withTrashed()
