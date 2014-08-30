@@ -138,8 +138,17 @@ class AccountConnectionsController extends BaseController {
         ->where('connection_id', $connection->id)
         ->delete();
     }
-    $service = new ServiceFactory($connection->provider);
-    $settings = $service->getCallbackData();
+    try {
+      $service = new ServiceFactory($connection->provider);
+      $settings = $service->getCallbackData();
+    } catch (\Exception $e) {
+      // User canceled the connection?
+      if ($connection->type == 'promote') {
+        return Redirect::to('/account/promote');
+      } else {
+        return Redirect::to('/account/connections');
+      }
+    }
     $connect = new AccountConnection;
     $connect->account_id = $accountID;
     $connect->connection_id = $connectionID;
@@ -147,6 +156,7 @@ class AccountConnectionsController extends BaseController {
     $connect->status = 1;
     $connect->settings = $settings;
     $connect->updated_at = time();
+    
     // Load up the connection API, check if this specific connection account 
     // already exists for this content launch account
     $api = ConnectionConnector::loadAPI($connection->provider, $connect); 
