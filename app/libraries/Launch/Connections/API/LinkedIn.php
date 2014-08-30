@@ -142,9 +142,9 @@ class LinkedInAPI extends AbstractConnection implements Connection
         // @todo: submitted-url is required here... not sure what to pass in yet
         // @todo: Investigate if network-activity api would be better to use here
         $params = [
-            'comment' => strip_tags($content->body),
+            'comment' => $this->stripTags($content->body),
             'content' => [
-                'title' => strip_tags($content->title),
+                'title' => $this->stripTags($content->title),
                 'submitted-url' => 'http://contentlaunch.com/'
             ],
             'visibility' => [
@@ -189,8 +189,8 @@ class LinkedInAPI extends AbstractConnection implements Connection
     public function postToGroup($content, $groupID)
     {
         $payload = [
-            'title' => strip_tags($content->title),
-            'summary' => strip_tags($content->body),
+            'title' => $this->stripTags($content->title),
+            'summary' => $this->stripTags($content->body),
         ];
 
         $response = $this->linkedIn->api("v1/groups/{$groupID}/posts", [], 'POST', $payload);
