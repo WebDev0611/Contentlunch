@@ -98,6 +98,9 @@ class LibraryUploadsController extends BaseController {
       $accountID = $user->getAccountID();
     } else {
       $library = Library::find($libraryID);
+      if ( ! $library) {
+        return $this->responseError('Library not found');
+      }
       if ($library->account) {
         $accountID = $library->account->id;
       }
