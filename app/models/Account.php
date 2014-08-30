@@ -14,6 +14,10 @@ class Account extends Ardent {
         'email' => 'unique:accounts'
 	];
 
+	public static $customMessages = [
+		'title.unique' => 'The account name has already been taken.'
+	];
+
 	protected $table = 'accounts';
 
 	protected $hidden = ['balanced_info'];
