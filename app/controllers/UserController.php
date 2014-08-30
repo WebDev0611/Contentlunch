@@ -78,7 +78,7 @@ class UserController extends BaseController {
 		// deny this request
 		$thisUser = Confide::user();
 		$accounts = $thisUser->accounts;
-		if ($accounts[0]) {
+		if ( ! empty($accounts[0])) {
 			$account = Account::countUsers()->find($accounts[0]->id);
       		$count_users = $account->count_users;
       		// How many users are allowed in this account's tier?

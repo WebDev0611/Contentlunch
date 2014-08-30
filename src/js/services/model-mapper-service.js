@@ -355,6 +355,7 @@
 			user.roles = ($.isArray(dto.roles)) ? $.map(dto.roles, function(r, i) { return self.role.fromDto(r); }) : [];
 			user.role = (user.roles.length > 0) ? user.roles[0] : null;
 			user.preferences = dto.preferences;
+			user.super = (parseInt(dto.super) === 1) ? true : false;
 
 			if (dto.impersonating) {
 				user.impersonating = true;
@@ -393,7 +394,8 @@
 				title: user.title,
 				status: (user.active === true) ? 1 : 0,
 				accounts: ($.isArray(user.accounts)) ? $.map(user.accounts, function(a, i) { return self.account.toDto(a); }) : null,
-				roles: $.isArray(user.roles) ? $.map(user.roles, function(r, i) { return self.role.toDto(r); }) : null
+				roles: $.isArray(user.roles) ? $.map(user.roles, function(r, i) { return self.role.toDto(r); }) : null,
+				super: (user.super === true) ? 1 : 0
 			};
 
 			if ((!$.isArray(dto.roles) || dto.roles.length === 0) && !!user.role) {
