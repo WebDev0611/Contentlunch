@@ -19,7 +19,7 @@ class CampaignController extends BaseController {
       ->with('user')
       ->with('campaign_type')
       ->with('guest_collaborators')
-      ->with('collaborators');
+      ->with('collaborators.image');
 
     if (Input::has('status')) {
       $query->where('status', Input::get('status'));
@@ -87,7 +87,7 @@ class CampaignController extends BaseController {
     }
     $campaign = Campaign::with('tags')
       ->with('user')
-      ->with('collaborators')
+      ->with('collaborators.image')
       ->with('campaign_type')
       ->with('content')
       ->find($id);

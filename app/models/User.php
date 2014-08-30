@@ -10,7 +10,7 @@ class User extends ConfideUser {
 
   public $forceEntityHydrationFromInput = true;
 
-  protected $hidden = array('password', 'password_confirmation', 'confirmation_code');
+  protected $hidden = array('password', 'password_confirmation', 'confirmation_code', 'remember_token');
 
   protected $fillable = array('username', 'email', 'first_name', 'last_name', 'confirmed', 'password',
     'password_confirmation', 'hidden_announcements',

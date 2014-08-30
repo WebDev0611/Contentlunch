@@ -10,7 +10,7 @@ class ActivityController extends BaseController {
 
         $userID = Confide::User()->id;
 
-        return Activity::where('user_id', $userID)->where('is_read', 0)->with('user')->with('content')->get();
+        return Activity::where('user_id', $userID)->where('is_read', 0)->with('user.image')->with('content')->get();
     }
 
     public function all($accountID)
@@ -23,7 +23,7 @@ class ActivityController extends BaseController {
         $contentIDs = Content::where('account_id', $accountID)->lists('id');
 
         if (empty($contentIDs)) return [];
-        return Activity::whereIn('content_id', $contentIDs)->with('user')->with('content')->limit(10)->get();
+        return Activity::whereIn('content_id', $contentIDs)->with('user.image')->with('content')->limit(10)->get();
     }
 
     public function markAsRead($accountID)
