@@ -18,7 +18,7 @@
 			if (self.loggedInUser.hasPrivilege('settings_view_connections')) {
 				scope.settings.push({ id: 'connections', title: 'Content Connections' });
 				scope.settings.push({ id: 'promote', title: 'Promote Settings' });
-				scope.settings.push({ id: 'seo', title: 'SEO Settings' });
+				//scope.settings.push({ id: 'seo', title: 'SEO Settings' });
 			}
 		};
 

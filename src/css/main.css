@@ -2005,6 +2005,12 @@ span[class*=" icon-"].dark {
   right: 0;
   top: 3px;
 }
+.create .right-pane .panel-brainstorms .glyphicon,
+.calendar .right-pane .panel-brainstorms .glyphicon,
+.promote .right-pane .panel-brainstorms .glyphicon,
+.measure .right-pane .panel-brainstorms .glyphicon {
+  margin-right: 4px;
+}
 .create .right-pane .panel-collaborators .panel-footer,
 .calendar .right-pane .panel-collaborators .panel-footer,
 .promote .right-pane .panel-collaborators .panel-footer,
@@ -3749,29 +3755,9 @@ hr.simple-divider {
   margin-top: 24px;
   max-width: 300px;
 }
-.modal-dialog .modal-brainstorm .agenda {
-  width: 33%;
-  display: inline-block;
-  vertical-align: top;
-}
-.modal-dialog .modal-brainstorm .agenda textarea {
-  width: 180px;
-  height: auto;
-}
-.modal-dialog .modal-brainstorm .agenda .agenda-item {
-  position: relative;
-}
-.modal-dialog .modal-brainstorm .agenda .agenda-item .description {
-  padding-right: 10px;
-}
-.modal-dialog .modal-brainstorm .agenda .agenda-item .fa-trash-o {
-  position: absolute;
-  right: 8px;
-  top: 2px;
-}
 .modal-dialog .modal-brainstorm .details {
-  width: 65%;
   display: inline-block;
+  width: 100%;
 }
 .modal-dialog .modal-brainstorm .details .date {
   display: inline-block;

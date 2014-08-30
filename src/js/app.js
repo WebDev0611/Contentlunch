@@ -54,10 +54,10 @@
 						controller: 'ContentSettingsController',
 						templateUrl: '/assets/views/account/content-settings.html'
 					})
-					.when('/account/seo', {
-						controller: 'SeoSettingsController',
-						templateUrl: '/assets/views/account/seo-settings.html'
-					})
+					//.when('/account/seo', {
+					//	controller: 'SeoSettingsController',
+					//	templateUrl: '/assets/views/account/seo-settings.html'
+					//})
 					.when('/account/promote', {
 						controller: 'PromoteConnectionsController',
 						templateUrl: '/assets/views/account/promote-connections.html'
