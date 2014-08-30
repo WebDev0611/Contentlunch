@@ -176,7 +176,14 @@ class AccountConnectionsController extends BaseController {
       if ($connection->type == 'promote') {
           return Redirect::to('/account/promote');
       } else {
-          return Redirect::to('/account/connections');
+          // If we updated an existing connection,
+          // the front end needs to display a message
+          // to the user
+          if ($existing) {
+            return Redirect::to('/account/connections?updated=' . $existing->id);
+          } else {
+            return Redirect::to('/account/connections');
+          }
       }
     }
     
