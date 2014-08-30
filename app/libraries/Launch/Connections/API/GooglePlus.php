@@ -45,62 +45,25 @@ class GooglePlusAPI extends GoogleAPI
         try {
             $client = $this->getClient();
 
-            $service = new Google_Service_Plus($client, ['debug' => true]);
+            $service = new Google_Service_Plus($client);
+
 
             $moment_body = new Google_Moment();
-            //$moment_body->setType("http://schemas.google.com/CreateActivity");
-            $moment_body->setType("http://schema.org/AddAction");
+            $moment_body->setType("http://schemas.google.com/CreateActivity");
 
-/*
             $create = new Google_ItemScope;
             $create->setId(uniqid());
             $create->setType('http://schema.org/CreativeWork');
-            $create->setName('Test 123');
-            $create->setDescription('This is a test post');
-            //$create->setCaption('This is a test post');
-            //$create->setImage('http://th00.deviantart.net/fs70/PRE/i/2012/135/a/7/tux_button_by_blacklite_teh_haxxor-d4zv3fv.png');
-            $create->setText('Check out this tux image');
-            //$create->setUrl('http://imgur.com');
-
-            */
-
-            $create = new Google_ItemScope;
-            $create->setId(uniqid());
-            $create->setType('http://schema.org/Thing');
-            $create->setName('Spitz seeds are the best!');
-            $create->setDescription('I\'m totally addicted to these things');
-
-            $moment_body->setTarget($create);
-
-
-            /*
-
-            //$moment_body->setType("http://schemas.google.com/AddActivity");
-            $moment_body->setType("http://schemas.google.com/CreateActivity");
-            $moment_body->setName('Test 123');
-            $moment_body->setText('Hello this is a post');
-            //$moment_body->setType("http://schema.org/AddAction");
-            $item_scope = new Google_ItemScope();
-            $item_scope->setId(uniqid());
-            //$item_scope->setType("http://schema.org/AddAction");
-            $item_scope->setType("http://schema.org/Thing");
-            $item_scope->setName($content->title);
-            //$item_scope->setText(strip_tags($content->body));
-            //$item_scope->setUrl('http://contentlaunch.com');
-
-            $result = new Google_ItemScope;
-            $result->setId(uniqid());
-            $result->setType("http://schema.org/CreativeWork");
-            $result->setName($content->title);
-            $result->setText("This is the body of my post");
-
+            $create->setName($this->stripTags($content->title));
+            $create->setDescription($this->stripTags($content->body));
+            $create->setText($this->stripTags($content->body));
             $upload = $content->upload()->first();
             if ($upload && $upload->media_type == 'image') {
-                $item_scope->setImage($upload->getUrl());
+                $create->setImage($upload->getImageUrl('large'));
             }
-            //$moment_body->setTarget($item_scope);
-            //$moment_body->setTarget($result);
-            */
+            
+            $moment_body->setTarget($create);
+
             $momentResult = $service->moments->insert('me', 'vault', $moment_body);
 
             $response['success'] = true;
