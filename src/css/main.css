@@ -3882,7 +3882,7 @@ hr.simple-divider {
   display: inline-block;
   float: left;
   height: 80px;
-  margin-right: 16px;
+  margin-right: 0;
   opacity: 0.6;
   padding: 22px;
   text-align: center;
@@ -3905,8 +3905,11 @@ hr.simple-divider {
   background-color: #afe43f;
 }
 .signup-form ul.signup-module-list li .signup-module-list-item-title {
+  display: block;
   font-size: 16pt;
-  margin-top: 16px;
+}
+.signup-form ul.signup-module-list li .signup-module-list-item-desc {
+  display: block;
 }
 .signup-form form[name="signupForm"] {
   background-color: #F2F2F2;
