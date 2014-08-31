@@ -833,8 +833,10 @@ span[class*=" icon-"].dark {
   background-color: #10699d;
   border-radius: 40px;
   color: #ffffff;
+  margin: auto;
   padding: 20px 40px;
-  height: 360px;
+  min-height: 360px;
+  width: 350px;
 }
 #loginForm .header,
 #change-password-form .header {
@@ -842,6 +844,10 @@ span[class*=" icon-"].dark {
   font-size: 20px;
   margin: 16px;
   text-align: center;
+}
+#loginForm .header .logo-white,
+#change-password-form .header .logo-white {
+  height: 50px;
 }
 #loginForm .header .content,
 #change-password-form .header .content {
@@ -893,13 +899,6 @@ span[class*=" icon-"].dark {
   background-size: 40px;
   height: 40px;
   width: 40px;
-}
-#loginForm {
-  margin: auto;
-  width: 350px;
-}
-#loginForm .header .logo-white {
-  height: 50px;
 }
 #change-password-form button {
   padding: 8px;
