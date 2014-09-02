@@ -9,35 +9,35 @@ return [
   ],
   // Use same api creds as google
   'blogger' => [
-    'key' => '',
-    'secret' => '',
+    'key' => '229252344182-6e0oa703c66350j3rgprhu1e6balqgn3.apps.googleusercontent.com',
+    'secret' => 'bJ6EN7y6yDiG6oiTpVi3FfZn',
     'scope' => ['profile', 'https://www.googleapis.com/auth/blogger'],
   ],
   'dropbox' => [
-    'key' => '',
-    'secret' => '',
+    'key' => 'u2rsvtt8ugl938l',
+    'secret' => 'xp39s1z1nib0pmt',
     'scope' => [],
   ],
   // https://developers.facebook.com/docs/facebook-login/permissions/v2.0
   'facebook' => [
-    'key' => '',
-    'secret' => '',
+    'key' => '1514771092096173',
+    'secret' => 'e7b592515d4d70912c8ae376e887f90b',
     'scope' => ['email', 'publish_actions'],
   ],
   // https://developers.google.com/+/api/oauth
   'google' => [
-    'key' => '',
-    'secret' => '',
+    'key' => '229252344182-6e0oa703c66350j3rgprhu1e6balqgn3.apps.googleusercontent.com',
+    'secret' => 'bJ6EN7y6yDiG6oiTpVi3FfZn',
     'scope' => ['userinfo_email', 'userinfo_profile', 'https://www.googleapis.com/auth/youtube'],
   ],
   'google_drive' => [
-    'key' => '',
-    'secret' => '',
+    'key' => '229252344182-6e0oa703c66350j3rgprhu1e6balqgn3.apps.googleusercontent.com',
+    'secret' => 'bJ6EN7y6yDiG6oiTpVi3FfZn',
     'scope' => ['profile', 'https://www.googleapis.com/auth/drive'],
   ],
   'google_plus' => [
-    'key' => '',
-    'secret' => '',
+    'key' => '229252344182-6e0oa703c66350j3rgprhu1e6balqgn3.apps.googleusercontent.com',
+    'secret' => 'bJ6EN7y6yDiG6oiTpVi3FfZn',
     'scope' => ['profile', 'https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.me'],
   ],
   'hubspot' => [
@@ -49,8 +49,8 @@ return [
     'scope' => ['blog-rw', 'settings-rw', 'offline'],
   ],
   'linkedin' => [
-    'key' => '',
-    'secret' => '',
+    'key' => '75uo3uakvtr7e1',
+    'secret' => '4TFxfxhiA4P2rt5l',
     'scope' => ['rw_nus', 'r_basicprofile', 'r_network', 'w_messages', 'r_fullprofile', 'rw_groups'],
   ],
   'salesforce' => [
@@ -62,23 +62,23 @@ return [
     'key' => 'scribe-524586291c334afe8d25cf4970150247',
   ],
   'soundcloud' => [
-    'key' => '',
-    'secret' => '',
+    'key' => 'b7f6e48469239125b51f84a4ee83c845',
+    'secret' => 'cac4165b86ee8c238cc1625c49352a95',
     'scope' => ['non-expiring'],
   ],
   'tumblr' => [
-    'key' => '',
-    'secret' => '',
+    'key' => 'oRG7eGtygWOKVVqG8l7uQldeR0wtlzdxUCLkCeKl70WysDOsHq',
+    'secret' => '8Iown7u7gwKCzq40Bn2n35lSunsyPFn7WEh6awqt4pilhgVGCh',
     'scope' => [],
   ],
   'twitter' => [
-    'key' => '',
-    'secret' => '',
+    'key' => 'sepmKBPSmyESKLOQ2ZnHJQ',
+    'secret' => '8i6K65vmr6JEiU7VEvPkrFPmA89J7HWfpmmCxPxgo',
     'scope' => [],
   ],
   'wordpress' => [
-    'key' => '',
-    'secret' => '',
+    'key' => '36719',
+    'secret' => 'kfANNW247Psf1aX4ROWtvtnG5sSU9jw8fdWmdXJVKej5ROSekrKYm4RzTGh4Ueg8',
     'scope' => [],
   ],
   'traackr' => [
@@ -92,7 +92,7 @@ return [
   ],
   // Use same api creds as google
   'youtube' => [
-    'key' => '',
+    'key' => '229252344182-6e0oa703c66350j3rgprhu1e6balqgn3.apps.googleusercontent.com',
     'secret' => '',
     'scope' => ['profile', 'https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/youtube.upload'],
   ]
