@@ -42,7 +42,7 @@
 
 			$scope.steps = [
 				{ name: 'create', title: 'Create' },
-				{ name: 'approve', title: 'Review' },
+				{ name: 'review', title: 'Review' },
 				{ name: 'launch', title: 'Launch' },
 				{ name: 'promote', title: 'Promote' }
 			];
