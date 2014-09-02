@@ -164,6 +164,7 @@ class AccountConnectionsController extends BaseController {
     $connect->external_id = $externalId;
     if ($externalId) {
       $existing = AccountConnection::where('account_id', $accountID)
+        ->where('connection_id', $connection->id)
         ->where('external_id', $externalId)
         ->first();
     } else {

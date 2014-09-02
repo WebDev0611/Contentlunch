@@ -12,6 +12,13 @@ class AddMissingContentForeignKeys extends Migration {
 	 */
 	public function up()
 	{
+        $tables = [
+            'launches', 'content_account_connections', 'content_activities', 'content_collaborators', 'content_comments',
+            'content_related', 'content_tags', 'content_task_groups', 'content_uploads'
+        ];
+        foreach ($tables as $table) {
+            DB::statement('delete from '. $table .' where not exists (select 1 from content where content.id = content_id)');
+        }
         DB::statement('ALTER TABLE `content_account_connections`
 	                    CHANGE COLUMN `content_id` `content_id` INT(11) UNSIGNED NOT NULL AFTER `id`;');
         Schema::table('content_account_connections', function(Blueprint $table){

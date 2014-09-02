@@ -27,65 +27,67 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 		$modal.open({
 			backdrop: 'static',
 			templateUrl: '/assets/views/consult/library-file-form.html',
-			controller: ['$scope', '$modalInstance', '$window', '$upload', function (scope, $modalInstance, $window, $upload) {
+			controller: [
+				'$scope', '$modalInstance', '$window', '$upload', function(scope, $modalInstance, $window, $upload) {
 
-				scope.file = {};
-				scope.uploadFile = new launch.UploadFile();
-				scope.disableFolderSelect = true;
+					scope.file = { };
+					scope.uploadFile = new launch.UploadFile();
+					scope.disableFolderSelect = true;
 
-				scope.fileFolders = [
-					{ key: '0', name: '(Default to the root folder)' }
-				];
+					scope.fileFolders = [
+						{ key: '0', name: '(Default to the root folder)' }
+					];
 
-				scope.uploadFile.folder = '0';
+					scope.uploadFile.folder = '0';
 
-				// User clicked browse and staged file for upload
-				scope.addFile = function (files, form, control) {
-					scope.file = $.isArray(files) ? files[0] : files;
-					scope.fileName = scope.file.name;
-					scope.fileType = launch.utils.getFileTypeCssClass(scope.file.name.substring(scope.file.name.lastIndexOf('.') + 1));
-				};
-
-				// Close modal
-				scope.cancel = function () {
-					$modalInstance.dismiss('cancel');
-				};
-
-				// Save file
-				scope.ok = function () {
-					$scope.isSaving = true;
-					var data = {
-						description: scope.uploadFile.description,
-						tags: scope.uploadFile.tags
+					// User clicked browse and staged file for upload
+					scope.addFile = function(files, form, control) {
+						scope.file = $.isArray(files) ? files[0] : files;
+						scope.fileName = scope.file.name;
+						scope.fileType = launch.utils.getFileTypeCssClass(scope.file.name.substring(scope.file.name.lastIndexOf('.') + 1));
 					};
-					$upload.upload({
-						url: '/api/library/' + $scope.globalID + '/uploads',
-						method: 'POST',
-						data: data,
-						file: scope.file
-					}).success(function(response) {
-						$modalInstance.dismiss();
-						NotificationService.success('Success!', 'File: ' + response.filename + ' added');
-						$scope.init();
-					}).progress(function (e) {
-						$scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
-					}).then(function () {
-						$scope.isSaving = false;
-					});
-				};
-			}]
+
+					// Close modal
+					scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
+
+					// Save file
+					scope.ok = function() {
+						$scope.isSaving = true;
+						var data = {
+							description: scope.uploadFile.description,
+							tags: scope.uploadFile.tags
+						};
+						$upload.upload({
+							url: '/api/library/' + $scope.globalID + '/uploads',
+							method: 'POST',
+							data: data,
+							file: scope.file
+						}).success(function(response) {
+							$modalInstance.dismiss();
+							NotificationService.success('Success!', 'File: ' + response.filename + ' added');
+							$scope.init();
+						}).progress(function(e) {
+							$scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
+						}).then(function() {
+							$scope.isSaving = false;
+						});
+					};
+				}
+			]
 		});
 	};
 
 	// Edit a file
-	$scope.editFile = function (file) {
+	$scope.editFile = function(file) {
 		$modal.open({
 			backdrop: 'static',
 			templateUrl: '/assets/views/consult/library-file-form.html',
 			controller: [
 				'$scope', '$modalInstance', '$window', '$upload', 'LibraryService', 'NotificationService',
 				function(scope, $modalInstance, $window, $upload, LibraryService, NotificationService) {
-					scope.file = {};
+					scope.file = { };
 					scope.uploadFile = file;
 					scope.fileName = file.fileName;
 					scope.disableFolderSelect = true;
@@ -95,7 +97,7 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 					scope.mode = 'edit';
 
 					if ($.isArray(scope.uploadFile.tags)) {
-						scope.uploadFile.tags = _.map(scope.uploadFile.tags, function (tag) {
+						scope.uploadFile.tags = _.map(scope.uploadFile.tags, function(tag) {
 							return tag.tag;
 						}).join();
 					}
@@ -107,19 +109,19 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 					scope.uploadFile.folder = '0';
 
 					// User clicked browse and staged file for upload
-					scope.addFile = function (files, form, control) {
+					scope.addFile = function(files, form, control) {
 						scope.file = $.isArray(files) ? files[0] : files;
 						scope.fileName = scope.file.name;
 						scope.fileType = launch.utils.getFileTypeCssClass(scope.file.name.substring(scope.file.name.lastIndexOf('.') + 1));
 					};
 
 					// Close modal
-					scope.cancel = function () {
+					scope.cancel = function() {
 						$modalInstance.dismiss('cancel');
 					};
 
 					// Save file
-					scope.ok = function () {
+					scope.ok = function() {
 						$scope.isSaving = true;
 						$upload.upload({
 							url: '/api/library/' + scope.uploadFile.libraries[0].id + '/uploads/' + scope.uploadFile.id + '?description=' + scope.uploadFile.description + '&tags=' + scope.uploadFile.tags,
@@ -132,15 +134,15 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 							$scope.init();
 						}).error(function(response) {
 							launch.utils.handleAjaxErrorResponse(response, NotificationService);
-						}).progress(function (e) {
+						}).progress(function(e) {
 							$scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
-						}).then(function () {
+						}).then(function() {
 							$scope.isSaving = false;
 						});
 					};
 
 					// Delete file
-					scope.delete = function () {
+					scope.delete = function() {
 						scope.isDeleting = true;
 						$modal.open({
 							backdrop: 'static',
@@ -150,9 +152,9 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 									modalScope.message = 'Are you sure you want to delete this file?';
 									modalScope.okButtonText = 'Delete';
 									modalScope.cancelButtonText = 'Cancel';
-									modalScope.onOk = function () {
+									modalScope.onOk = function() {
 										$scope.isDeleting = true;
-										LibraryService.Uploads.delete({ id: scope.uploadFile.libraries[0].id, uploadid: scope.uploadFile.id }, function (response) {
+										LibraryService.Uploads.delete({ id: scope.uploadFile.libraries[0].id, uploadid: scope.uploadFile.id }, function(response) {
 											$scope.isDeleting = false;
 											NotificationService.success('Success!', 'File: ' + scope.uploadFile.fileName + ' deleted');
 											$modalInstance.close();
