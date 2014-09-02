@@ -126,7 +126,7 @@ launch.module.controller('ConsultLibraryController', function($scope, $modal, Li
 						}).error(function(response) {
 							$scope.isSaving = false;
 							launch.utils.handleAjaxErrorResponse(response, NotificationService);
-						}).progress(function (e) {
+						}).progress(function(e) {
 							$scope.percentComplete = parseInt(100.0 * e.loaded / e.total);
 						});
 					};
