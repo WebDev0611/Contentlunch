@@ -42,7 +42,7 @@
 
 			$scope.steps = [
 				{ name: 'create', title: 'Create' },
-				{ name: 'approve', title: 'Review' },
+				{ name: 'review', title: 'Review' },
 				{ name: 'launch', title: 'Launch' },
 				{ name: 'promote', title: 'Promote' }
 			];
@@ -204,7 +204,7 @@
 			totalItems: 0,
 			currentSort: 'title',
 			currentSortDirection: null,
-			pageSize: 5,
+			pageSize: 10,
 			currentPage: 1,
 			maxPage: 0,
 			onPageChange: function(page) {
