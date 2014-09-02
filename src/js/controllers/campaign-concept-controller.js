@@ -60,6 +60,7 @@
 					},
 					error: self.ajaxHandler.error
 				});
+
 				$scope.isNewConcept = false;
 			}
 		};
