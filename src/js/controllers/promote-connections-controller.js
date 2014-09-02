@@ -97,20 +97,24 @@
 			return $.grep($scope.connections, function (c) { return c.provider === provider.provider; }).length > 0;
 		};
 
-		$scope.connect = function (provider) {
+		$scope.connect = function(provider) {
 			// For hubspot, the user needs to provide their portal id
 			if (provider.provider == 'hubspot') {
 				$modal.open({
 					template: '<div class="modal-header">Enter Your Hubspot Portal ID</div><div class="modal-body"><form name="hubspotform" novalidate><div class="form-group"><label for="portalid">Please enter the portal id you would like to connect to</label><input type="text" id="portalid" ng-model="portalid" class="form-control" required /></div><div class="buttons clearfix"><button class="btn btn-primary btn-black" ng-click="ok(portalid)" ng-disabled=" ! hubspotform.$valid">Connect</button><button class="btn btn-warning btn-black" ng-click="cancel()">Cancel</button></div></form></div></div>',
-					controller: function ($scope, $window, $modalInstance) {
-						$scope.cancel = function () {
+					controller: function($scope, $window, $modalInstance) {
+						$scope.cancel = function() {
 							$modalInstance.dismiss('cancel');
 						};
-						$scope.ok = function (portalid) {
+						$scope.ok = function(portalid) {
 							window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=' + provider.id + '&portalid=' + portalid;
 						};
 					}
 				});
+			} else if (provider.provider == 'hootsuite') {
+				notificationService.info('Coming Soon!', 'Unfortunately, we\'re not quite there yet with integrating Hootsuite. Check back again soon!');
+			} else if (provider.provider == 'outbrain') {
+				notificationService.info('Coming Soon!', 'Unfortunately, we\'re not quite there yet with integrating Outbrain. Check back again soon!');
 			} else {
 				window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=' + provider.id;
 			}
