@@ -4,6 +4,8 @@ use LaravelBook\Ardent\Ardent;
 
 class ContentTag extends Ardent {
 
+    protected $softDelete = true;
+
   protected $table = 'content_tags';
 
   public $autoHydrateEntityFromInput = true;

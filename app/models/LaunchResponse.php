@@ -3,7 +3,9 @@
 use LaravelBook\Ardent\Ardent;
 
 class LaunchResponse extends Ardent {
-  
+
+    protected $softDelete = true;
+
   protected $table = 'launches';
 
   protected $fillable = [

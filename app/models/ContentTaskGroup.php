@@ -4,6 +4,8 @@ use LaravelBook\Ardent\Ardent;
 
 class ContentTaskGroup extends Ardent {
 
+    protected $softDelete = true;
+
     public $autoHydrateEntityFromInput = false;
     public $forceEntityHydrationFromInput = false;
 

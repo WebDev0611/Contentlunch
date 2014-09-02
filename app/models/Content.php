@@ -5,6 +5,8 @@ use webignition\InternetMediaType\Parser\TypeParser;
 
 class Content extends Ardent {
 
+    protected $softDelete = true;
+
   protected $table = 'content';
 
   public $autoHydrateEntityFromInput = true;
@@ -260,6 +262,13 @@ class Content extends Ardent {
         }
       }
     });
+      static::deleted(function($content) {
+          $content->activities()->delete();
+          $content->comments()->delete();
+          $content->related()->delete();
+          $content->tags()->delete();
+          $content->task_groups()->delete();
+      });
     /*
     static::validating(function ($content) {
       $content->setAttribute('errors', [['upload' => 'Invalid upload file type']]);

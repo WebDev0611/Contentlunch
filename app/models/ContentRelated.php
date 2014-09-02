@@ -4,6 +4,8 @@ use LaravelBook\Ardent\Ardent;
 
 class ContentRelated extends Ardent {
 
+    protected $softDelete = true;
+
     protected $table = 'content_related';
 
     public $autoHydrateEntityFromInput = true;

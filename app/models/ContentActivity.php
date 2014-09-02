@@ -3,7 +3,9 @@
 use LaravelBook\Ardent\Ardent;
 
 class ContentActivity extends Ardent {
-  
+
+    protected $softDelete = true;
+
   protected $table = 'content_activities';
 
   public static $rules = [
