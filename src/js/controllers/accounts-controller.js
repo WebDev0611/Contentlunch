@@ -140,7 +140,7 @@ launch.module.controller('AccountsController', [
 
 		$scope.pagination = {
 			totalItems: 0,
-			pageSize: 3,
+			pageSize: 10,
 			currentPage: 1,
 			currentSort: 'firstName',
 			currentSortDirection: 'ASC',

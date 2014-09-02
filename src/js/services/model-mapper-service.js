@@ -1572,7 +1572,7 @@
 
 			return campaign;
 		},
-		toDto: function (campaign) {
+		toDto: function(campaign) {
 			var dto = {
 				id: campaign.id,
 				account_id: campaign.accountId,
@@ -1581,6 +1581,7 @@
 				is_active: campaign.isActive ? 1 : 0,
 				title: campaign.title,
 				description: campaign.description,
+				concept: campaign.concept,
 				campaign_type: campaign.campaignType,
 				type: campaign.type,
 				status: campaign.status,
@@ -1605,7 +1606,7 @@
 			dto.collaborators = $.isArray(campaign.collaborators) ? $.map(campaign.collaborators, self.user.toDto) : null;
 			dto.comments = $.isArray(campaign.comments) ? $.map(campaign.comments, self.comment.toDto) : null;
 			dto.guest_collaborators = $.isArray(campaign.guestCollaborators) ? $.map(campaign.guestCollaborators, self.guestCollaborator.toDto) : null;
-			dto.tags = $.isArray(campaign.tags) ? $.map(campaign.tags, function (t) { return { tag: t }; }) : null;
+			dto.tags = $.isArray(campaign.tags) ? $.map(campaign.tags, function(t) { return { tag: t }; }) : null;
 
 			return dto;
 		}

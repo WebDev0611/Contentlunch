@@ -833,8 +833,10 @@ span[class*=" icon-"].dark {
   background-color: #10699d;
   border-radius: 40px;
   color: #ffffff;
+  margin: auto;
   padding: 20px 40px;
-  height: 360px;
+  min-height: 360px;
+  width: 350px;
 }
 #loginForm .header,
 #change-password-form .header {
@@ -842,6 +844,10 @@ span[class*=" icon-"].dark {
   font-size: 20px;
   margin: 16px;
   text-align: center;
+}
+#loginForm .header .logo-white,
+#change-password-form .header .logo-white {
+  height: 50px;
 }
 #loginForm .header .content,
 #change-password-form .header .content {
@@ -893,13 +899,6 @@ span[class*=" icon-"].dark {
   background-size: 40px;
   height: 40px;
   width: 40px;
-}
-#loginForm {
-  margin: auto;
-  width: 350px;
-}
-#loginForm .header .logo-white {
-  height: 50px;
 }
 #change-password-form button {
   padding: 8px;
@@ -3882,7 +3881,7 @@ hr.simple-divider {
   display: inline-block;
   float: left;
   height: 80px;
-  margin-right: 16px;
+  margin-right: 0;
   opacity: 0.6;
   padding: 22px;
   text-align: center;
@@ -3905,8 +3904,11 @@ hr.simple-divider {
   background-color: #afe43f;
 }
 .signup-form ul.signup-module-list li .signup-module-list-item-title {
+  display: block;
   font-size: 16pt;
-  margin-top: 16px;
+}
+.signup-form ul.signup-module-list li .signup-module-list-item-desc {
+  display: block;
 }
 .signup-form form[name="signupForm"] {
   background-color: #F2F2F2;

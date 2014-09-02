@@ -17,6 +17,11 @@ function ($scope, AuthService, $routeParams, $filter, $q, $upload, $modal, Resta
     }).then(function (responses) {
         angular.extend($scope, responses);
 
+        if ($scope.campaign.status === 0) {
+        	$location.path('/calendar/concept/edit/campaign/' + $scope.campaign.id);
+        	return;
+        }
+
         // help the UI with a few permission things
         if (user.id == $scope.campaign.userId) {
             $scope.canEdit = user.hasPrivilege('calendar_execute_campaigns_own');

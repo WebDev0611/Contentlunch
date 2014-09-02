@@ -148,7 +148,7 @@
 			if ($scope.content.status < 3) {
 				$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_view_content_other_unapproved', 'create_view_content_other', 'create_edit_content_as_collaborator']);
 				$scope.canEditContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_content_own') : self.loggedInUser.hasPrivilege(['create_edit_content_other_unapproved', 'create_edit_content_other', 'create_edit_content_as_collaborator']);
-				$scope.canApproveContent = self.loggedInUser.hasPrivilege('collaborate_execute_approve');
+				$scope.canApproveContent = self.loggedInUser.hasPrivilege('create_execute_approve');
 				$scope.isReadOnly = $scope.collboratorsIsDisabled = $scope.attachmentsIsDisabled = !$scope.canEditContent;
 			} else if ($scope.content.status === 3) {
 				$scope.canViewContent = $scope.content.author.id === self.loggedInUser.id ? self.loggedInUser.hasPrivilege('create_execute_launch_content_own') : self.loggedInUser.hasPrivilege('create_view_launch_content_other');
@@ -304,7 +304,7 @@
 				return;
 			}
 
-			self.showSelectApproverDialog('approve', 'approver', 'collaborate_execute_approve');
+			self.showSelectApproverDialog('approve', 'approver', 'create_execute_approve');
 		};
 
 		self.launchContent = function() {

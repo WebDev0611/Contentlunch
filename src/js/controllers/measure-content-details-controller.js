@@ -158,7 +158,7 @@
 			totalItems: 0,
 			currentSort: 'title',
 			currentSortDirection: null,
-			pageSize: 5,
+			pageSize: 10,
 			currentPage: 1,
 			maxPage: 0,
 			onPageChange: function (page) {
