@@ -66,7 +66,7 @@ class FacebookAPI extends AbstractConnection
     public function postContent($content)
     {
         // No html allowed here
-        $message = strip_tags($content->body);
+        $message = $this->stripTags($content->body);
         $session = $this->getClient();
         $response = ['success' => true, 'response' => []];
         try {

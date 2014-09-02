@@ -1,23 +1,47 @@
-<form role="form" class="modal-brainstorm modal-dialog">
-    <div class="modal-header">
-        <h3>Overall Score: {{ scribe.scribeScore }}</h3>
-    </div>
-    <div class="modal-body">
-        <h4>Document Score: </h4>
-        <h4>Readability: {{ scribe.fleschScore }}</h4>
-        <h4>Keyword Analysis</h4>
-        <div ng-repeat="keyword in scribe.keywords">
-            <p>"{{ keyword.text }}"</p>
-            <ul>
-                <li>{{ keyword.kwod }}</li>
-                <li>Keyword Score: {{ keyword.kwc }}</li>
-                <li>Keyword Density: {{ keyword.kwd }}</li>
-                <li>Keyword Importance: {{ keyword.kwlText }}</li>
-                <li>Search Volume: {{ keyword.kwsv }}</li>
-            </ul>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="$dismiss()">Close</button>
-    </div>
-</form>
+<div class="modal-header">
+	<h4>Content Analysis</h4>
+</div>
+
+<div class="modal-body scribe-modal-container">
+	<p>
+		The following is list of recommendations to improve the findability of your content on major search engines. Edit your content and click the
+		"Analyze Content" button at any time to review the effects your edits have on the content analysis SEO score.
+	</p>
+	<table class="scribe-table">
+		<tr>
+			<th>Overall</th>
+			<th>Content</th>
+			<th>Analysis &amp; Recommendations</th>
+		</tr>
+		<tr>
+			<td class="scribe-score-overall" rowspan="3">
+				{{ scribe.scribeScore }}
+			</td>
+			<td class="scribe-category">Readability</td>
+			<td>{{ scribe.fleschScore }}</td>
+		</tr>
+		<tr>
+			<td class="scribe-category">Document Score</td>
+			<td>{{ scribe.docScore }}</td>
+		</tr>
+		<tr>
+			<td class="scribe-category">Keyword Analysis</td>
+			<td>
+				<div ng-repeat="keyword in scribe.keywords">
+					<p>"{{ keyword.text }}"</p>
+					<ul>
+						<li>{{ keyword.kwod }}</li>
+						<li>Keyword Score: {{ keyword.kwc }}</li>
+						<li>Keyword Density: {{ keyword.kwd }}</li>
+						<li>Keyword Importance: {{ keyword.kwlText }}</li>
+						<li>Search Volume: {{ keyword.kwsv }}</li>
+					</ul>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="$dismiss()">Close</button>
+</div>

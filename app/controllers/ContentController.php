@@ -19,7 +19,7 @@ class ContentController extends BaseController {
       ->with('related')
       ->with('tags')
       ->with('user')
-      ->with('collaborators')
+      ->with('collaborators.image')
       ->with('guest_collaborators')
       ->where('account_id', $account->id);
     if (Input::has('campaign_id')) {
@@ -102,11 +102,11 @@ class ContentController extends BaseController {
     $content = Content::with('campaign')
       ->with('content_type')
       ->with('account_connections')
-      ->with('activities')
+      ->with('activities.user')
       ->with('related')
       ->with('tags')
       ->with('user')
-      ->with('collaborators')
+      ->with('collaborators.image')
       ->with('task_groups')
       ->with('upload')
       ->with('uploads')
@@ -122,7 +122,7 @@ class ContentController extends BaseController {
     if (!$hasGuestAccess && !$this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    return Content::find($id)->activities;
+    return Activity::where('content_id', $id)->with('user')->get();
   }
 
   public function allActivities($accountID)
@@ -364,7 +364,13 @@ class ContentController extends BaseController {
     if ( ! $this->inAccount($accountID)) {
       return $this->responseAccessDenied();
     }
-    return Content::find($contentID)->launches;
+    $content = Content::find($contentID);
+    if ( ! $content) {
+      return $this->responseError('Content not found');
+    }
+    return LaunchResponse::where('content_id', $contentID)
+      ->with('account_connection.connection')
+      ->get();
   }
 
 

@@ -185,6 +185,7 @@ class Content extends Ardent {
         $user = Confide::user();
         foreach ($dirty as $key => $newValue) {
           $activity = null;
+          $generalActivity = null;
           $origValue = $content->getOriginal($key);
            switch ($key) {
             // Archived?

@@ -17,7 +17,7 @@
 		self.init = function () {
 			self.loggedInUser = authService.userInfo();
 			self.refreshConcept();
-            self.refreshBrainstorms();
+			$scope.refreshBrainstorms();
 
 			$scope.showCollaborate = (!$scope.isNewConcept && self.loggedInUser.hasModuleAccess('collaborate'));
             $scope.showBrainstorms = !$scope.isNewConcept;
@@ -34,10 +34,6 @@
 			});
 
 		}
-
-        self.refreshBrainstorms = function() {
-            $scope.brainstorms = accountService.getBrainstorms(self.loggedInUser.account.id, 'content', $routeParams.contentId, self.ajaxHandler);
-        }
 
 		self.refreshConcept = function() {
 			var contentId = parseInt($routeParams.contentId);
@@ -229,47 +225,9 @@
 
 		$scope.$watch('content.author', self.filterCollaborators);
 
-
-
-        $scope.showScheduleBrainstorm = function(brainstorm) {
-            if (!brainstorm) brainstorm = accountService.getNewBrainstorm(self.loggedInUser.id, self.loggedInUser.account.id, 'content', $scope.content.id);
-            $modal.open({
-                templateUrl: '/assets/views/content/concept-brainstorm-modal.html',
-                controller: [
-                    '$scope', '$modalInstance', function(scope, instance) {
-                        scope.brainstorm = brainstorm;
-                        scope.message = 'Brainstorm Session';
-                        scope.schedule = function() {
-                            accountService.addBrainstorm(scope.brainstorm, {
-                                success : function(r) {
-                                    self.refreshBrainstorms();
-                                    notificationService.success('Success!', 'Your brainstorm has successfully been scheduled.');
-                                },
-                                error : self.ajaxHandler.error
-                            });
-                            instance.close();
-                        };
-                        scope.addItem = function() {
-                            scope.brainstorm.agenda.push({description: ''});
-                        };
-                        scope.removeItem = function(index) {
-                            scope.brainstorm.agenda.splice(index, 1);
-                        }
-                    }
-                ]
-            });
-        };
-
-        $scope.removeBrainstorm = function(brainstorm) {
-            accountService.removeBrainstorm(brainstorm, {
-                success : function(r) {
-                    self.refreshBrainstorms();
-                    notificationService.success('Success!', 'Your brainstorm has successfully been removed.');
-                },
-                error : self.ajaxHandler.error
-            });
-        }
-
+		$scope.refreshBrainstorms = function () {
+			$scope.brainstorms = accountService.getBrainstorms(self.loggedInUser.account.id, 'content', $routeParams.contentId, self.ajaxHandler);
+		}
 
 		self.init();
 	}

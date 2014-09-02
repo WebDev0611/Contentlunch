@@ -20,6 +20,11 @@ class ContentTask extends Ardent {
         'content_task_group_id' => 'required',
     ];
 
+    public function content()
+    {
+        return $this->belongsTo('Content');
+    }
+
     public function task_group()
     {
         return $this->belongsTo('ContentTaskGroup', 'content_task_group_id');

@@ -766,8 +766,16 @@
 		return '<span class="' + launch.utils.getWorkflowIconCssClass(item.id) + '"></span> <span>' + item.text + '</span>';
 	},
 
-	formatContentConnectionItem: function(item, element, context) {
-		return '<span class="cl-icon ' + launch.utils.getConnectionProviderIconClass(item.text.toLowerCase()) + '"></span> <span>' + item.text + '</span>';
+	formatContentConnectionItem: function (item, element, context) {
+		var provider = item.text.substring(0, item.text.indexOf(' - ')).toLowerCase();
+
+		if (provider === 'google+') {
+			provider = 'google-plus';
+		} else if (provider === 'google drive') {
+			provider = 'google-drive';
+		}
+
+		return '<span class="cl-icon ' + launch.utils.getConnectionProviderIconClass(provider) + '"></span> <span>' + item.text + '</span>';
 	},
 
 	formatDocumentTypeItem: function(item, element, context) {

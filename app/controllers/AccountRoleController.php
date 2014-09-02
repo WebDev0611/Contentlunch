@@ -118,6 +118,20 @@ class AccountRoleController extends BaseController {
     }
     $role = AccountRole::find($roleId);
     $role->display_name = Input::get('display_name');
+    // Don't allow setting status to inactive if users
+    // are attached to the role
+    if ($role->status && ! Input::get('status')) {
+      $users = $role->users->toArray();
+      if ( ! empty($users)) {
+        // Return a list of users with this role
+        $names = [];
+        foreach ($users as $user) {
+          $names[] = $user['first_name'] .' '. $user['last_name'];
+        }
+        $userNames = implode(', ', $names);
+        return $this->responseError("This User Role cannot be set to inactive. These users are assigned this role: ". $userNames); 
+      }
+    }
     $role->status = Input::get('status');
     if ($role->updateUniques()) {
       $this->sync_permissions($role, Input::get('permissions'));

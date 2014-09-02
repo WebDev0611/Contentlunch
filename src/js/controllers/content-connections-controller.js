@@ -13,6 +13,8 @@
 			}
 		};
 
+		$scope.initRan = false;
+
 		self.loadConnections = function() {
 			self.loggedInUser = authService.userInfo();
 			$scope.isLoading = true;
@@ -24,6 +26,16 @@
 				success: function(r) {
 					$scope.isLoading = false;
 					$scope.search.applyFilter();
+
+					var search = $location.search();
+					if ( ! $scope.initRan && search.updated) {
+						_($scope.connections).forEach(function (connection) {
+							if (connection.id == search.updated) {
+								notificationService.success("Updated connection: " + connection.identifier + ' - ' + connection.connectionName);
+							}
+						});
+					}
+					$scope.initRan = true;
 				},
 				error: function(r) {
 					$scope.isLoading = false;
@@ -69,6 +81,7 @@
 			$("[contenteditable]").keypress(function(e) {
 				return e.which != 13;
 			});
+
 		};
 
 		$scope.providers = [];

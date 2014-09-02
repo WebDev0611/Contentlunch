@@ -479,14 +479,20 @@ span[class^="icon-"], span[class*=" icon-"] {
 	background-color: @homeColorDark;
 	border-radius: 40px;
 	color: #ffffff;
+	margin: auto;
 	padding: 20px 40px;
-  height: 360px;
+	min-height: 360px;
+	width: 350px;
 
 	.header {
 		font-family: 'Lato-Light';
 		font-size: 20px;
 		margin: 16px;
 		text-align: center;
+
+		.logo-white {
+			height: 50px;
+		}
 
 		.content {
 			font-family: 'Lato-Light';
@@ -536,17 +542,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 		background-size: 40px;
 		height: 40px;
 		width: 40px;
-	}
-}
-
-#loginForm {
-	margin: auto;
-	width: 350px;
-
-	.header {
-		.logo-white {
-			height: 50px;
-		}
 	}
 }
 
@@ -1486,6 +1481,10 @@ span[class^="icon-"], span[class*=" icon-"] {
 					top: 3px;
 				}
 			}
+
+			.glyphicon {
+				margin-right: 4px;
+			}
 		}
 
 		.panel-collaborators {
@@ -1663,12 +1662,20 @@ span[class^="icon-"], span[class*=" icon-"] {
 			font-weight: bold;
 			margin: 16px 0;
 
+			.content-launched-item {
+				cursor: pointer;
+			}
+
 			.fa {
 				color: #000000;
 				display: inline-block;
 
 				&.fa-check {
 					color: @homeColorDark;
+				}
+
+				&.error {
+					color: #ff0000;
 				}
 			}
 		}
@@ -3456,33 +3463,15 @@ hr.simple-divider {
 
 .modal-dialog {
     .modal-brainstorm {
-        .agenda {
-            width: 33%;
-            display: inline-block;
-            vertical-align: top;
-            textarea {
-                width: 180px;
-                height: auto;
-            }
-            .agenda-item {
-                position: relative;
-                .description {
-                    padding-right: 10px;
-                }
-                .fa-trash-o {
-                    position: absolute;
-                    right: 8px;
-                    top: 2px;
-                }
-            }
-        }
         .details {
-            width: 65%;
             display: inline-block;
+			width: 100%;
+
             .date {
                 display: inline-block;
                 vertical-align: top;
             }
+
             .time {
                 display: inline-block;
                 vertical-align: top;
@@ -3640,7 +3629,7 @@ hr.simple-divider {
 				display: inline-block;
 				float: left;
 				height: @navHeight;
-				margin-right: 16px;
+				margin-right: 0;
 				opacity: 0.6;
 				padding: 22px;
 				text-align: center;
@@ -3669,8 +3658,12 @@ hr.simple-divider {
 			}
 
 			.signup-module-list-item-title {
+				display: block;
 				font-size: 16pt;
-				margin-top: 16px;
+			}
+
+			.signup-module-list-item-desc {
+				display: block;
 			}
 		}
 	}
@@ -3686,7 +3679,7 @@ hr.simple-divider {
 			font-weight: normal;
 		}
 
-		.btn{
+		.btn {
 			display: block;
 			margin: auto;
 			padding: 4px 150px;
@@ -3709,6 +3702,42 @@ hr.simple-divider {
 					float: left;
 					margin: 4px 8px 4px 0;
 				}
+			}
+		}
+	}
+}
+
+.scribe-modal-container{
+	max-height: 500px;
+	overflow: auto;
+}
+
+table.scribe-table {
+	border-left: solid 1px #cccccc;
+	border-top: solid 1px #cccccc;
+	width: 100%;
+
+	tr {
+		th{
+			text-align: center;
+		}
+
+		td, th {
+			border-right: solid 1px #cccccc;
+			border-bottom: solid 1px #cccccc;
+			padding: 4px;
+			vertical-align: top;
+
+			&.scribe-score-overall{
+				font-size: 24pt;
+				font-weight: bold;
+				padding-top: 50px;
+				text-align: center;
+				width: 25%;
+			}
+
+			&.scribe-category {
+				width: 25%;
 			}
 		}
 	}

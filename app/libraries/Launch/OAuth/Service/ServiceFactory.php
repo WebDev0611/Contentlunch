@@ -31,28 +31,16 @@ class ServiceFactory {
         //$this->provider = 'soundCloud';
         //$this->config = Config::get('services.soundcloud');
       //break;
-      case 'blogger':
-        // blogger = google
-        $this->provider = 'google';
-        $this->config = Config::get('services.blogger');
-      break;
       case 'google-drive':
-        $this->provider = 'google';
         $this->config = Config::get('services.google_drive');
       break;
       case 'google-plus':
-        $this->provider = 'google';
         $this->config = Config::get('services.google_plus');
       break;
-      case 'youtube':
-        // Youtube = google
-        $this->provider = 'google';
-        $this->config = Config::get('services.youtube');
-      break;
       default:
-        $this->provider = $provider;
         $this->config = Config::get('services.'. $provider);
     }
+    $this->provider = $provider;
     
     $redirectURL = Config::get('services.redirect_url');
     $credentials = new Credentials(
@@ -69,6 +57,19 @@ class ServiceFactory {
     $serviceFactory->registerService('hubspot', 'HubspotService');
     $serviceFactory->registerService('vimeo', 'VimeoService');
     switch ($this->provider) {
+      case 'blogger':
+      case 'google':
+      case 'google-drive':
+      case 'google-plus':
+      case 'youtube':
+        // Use google oauth
+        $scope = $this->config['scope'];
+        if ($scope) {
+          $this->service = $serviceFactory->createService('google', $credentials, $this->storage, $this->config['scope']);  
+        } else {
+          $this->service = $serviceFactory->createService('google', $credentials, $this->storage);
+        }
+      break;
       case 'tumblr':
       case 'twitter':
         // OAuth1
@@ -105,6 +106,9 @@ class ServiceFactory {
         $params['oauth_token'] = $token->getRequestToken();
         $params['force_login'] = 'true';
       break;
+      case 'google-plus':
+        // Needed for creating moments
+        $params['request_visible_actions'] = 'http://schemas.google.com/AddActivity http://schemas.google.com/CreateActivity'; //urlencode('http://schemas.google.com/AddActivity');
       case 'google': // youtube, g+, google docs
       case 'google-drive':
       case 'google-plus':

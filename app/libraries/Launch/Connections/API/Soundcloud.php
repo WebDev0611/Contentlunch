@@ -57,9 +57,9 @@ class SoundcloudAPI extends AbstractConnection
         $response = ['success' => true, 'response' => []];
         // Build the track
         $track = [
-            'track[title]' => $content->title,
+            'track[title]' => $this->stripTags($content->title),
             'track[tags]' => 'tags separated by space',
-            'track[asset_data]' => new \CURLFile('/absolute/path/to/track.mp3')
+            //'track[asset_data]' => new \CURLFile('/absolute/path/to/track.mp3')
         ];
         $trackTags = [];
         if ($content->tags) {
@@ -70,7 +70,9 @@ class SoundcloudAPI extends AbstractConnection
         $track['track[tags]'] = implode(' ', $trackTags);
         // Get absolute path to the audio upload
         $upload = '/' . base_path() . $content->upload['path'] . $content->upload['filename'];
-        $track['track[asset_data]'] = new \CURLFile($upload);
+        // CURLFile is PHP 5.5, we're running 5.4
+        //$track['track[asset_data]'] = new \CURLFile($upload);
+        $track['track[asset_data]'] = '@'. $upload;
         try {
             $apiResponse = json_decode($client->post('tracks', $track), true);
             $response['success'] = true;

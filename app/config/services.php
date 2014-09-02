@@ -23,8 +23,8 @@ return [
   //'redirect_url' => 'http://localhost',
   'acton' => [
     // Jason's test keys
-    'key' => 'rWSMXgnRNIvDe4BNl7bu0DKpdgAa',
-    'secret' => 'HjGxrBZkPLFk652EeIamVaAoBe8a',
+    'key' => 'kQrGCQuvayoGHf0nAoVu31FenJAa',
+    'secret' => '5Lih8vbuU7msYNkpcoidNLFRDska',
     // Production keys
     //'key' => 'B9XaHOER8YWiMZY_3eaTzyf2sd0a',
     //'secret' => 'dGO3Nr69cZkzfp5FrbjlAbDFNHUa',

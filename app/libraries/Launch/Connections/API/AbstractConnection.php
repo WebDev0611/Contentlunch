@@ -110,6 +110,16 @@ abstract class AbstractConnection {
     $settings = unserialize($connection->settings);
   }
 
+  /**
+   * Strip tags and format text as plain text
+   */
+  protected function stripTags($string)
+  {
+    $string = html_entity_decode($string, ENT_QUOTES);
+    $string = strip_tags($string);
+    return $string;
+  }
+
   abstract public function postContent($content);
 
   public function isValid()

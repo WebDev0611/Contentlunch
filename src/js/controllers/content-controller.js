@@ -11,7 +11,10 @@
 			success: function(r) {
 
 			},
-			error: function(r) {
+			error: function (r) {
+				$scope.analyzingContent = false;
+				$scope.isSaving = false;
+				$scope.isUploading = false;
 				launch.utils.handleAjaxErrorResponse(r, notificationService);
 			}
 		};
@@ -127,9 +130,7 @@
 				return;
 			}
 
-			// TODO: GET LAUNCHES FROM THE API ONCE IT'S READY!!
-			//$scope.launches = contentService.getLaunches(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
-			$scope.launches = $scope.content.accountConnections;
+			$scope.launches = contentService.getLaunches(self.loggedInUser.account.id, self.contentId, self.ajaxHandler);
 		};
 
 		self.filterCampaigns = function() {
@@ -912,8 +913,7 @@
 			return false;
 		};
 
-
-		$scope.launchContentHubspot = function(connection, refresh) {
+		$scope.launchContentHubspot = function (connection, refresh) {
 
 			if (!$scope.canLaunchContent) {
 				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
@@ -974,7 +974,12 @@
 			});
 		};
 
-		$scope.launchContent = function(connection, refresh, extraParams) {
+		$scope.launchContent = function (connection, refresh, extraParams) {
+			if (!connection) {
+				notificationService.notify('Warning!!', 'Invalid connection information!');
+				return;
+			}
+
 			if (!$scope.canLaunchContent) {
 				notificationService.error('Error!', 'You do not have sufficient privileges to launch content. Please contact your administrator for more information.');
 				return;
@@ -988,39 +993,39 @@
 				// popup
 				$modal.open({
 					templateUrl: '/assets/views/dialogs/linkedin-launch-options.html',
-					controller: function ($scope, $modalInstance) {
+					controller: function($scope, $modalInstance) {
 						$scope.connection = connection;
-						$scope.options = {};
+						$scope.options = { };
 
-						$scope.cancel = function () {
+						$scope.cancel = function() {
 							$modalInstance.dismiss('cancel');
 						};
 
-						$scope.ok = function (opts) {
+						$scope.ok = function(opts) {
 							// set extraParams with options
 							opts = opts.timeOrGroup == 'group' ? opts : false;
 							if (opts) {
-								opts.groupName = ((_.findWhere($scope.groups, { id: opts.groupId }) || {}).group || {}).name;
+								opts.groupName = ((_.findWhere($scope.groups, { id: opts.groupId }) || { }).group || { }).name;
 							}
 
 							launch(opts);
 							$modalInstance.close();
 						};
 
-						$scope.showGroups = function (timeOrGroup) {
+						$scope.showGroups = function(timeOrGroup) {
 							$scope.showGroupList = false;
 
 							if (timeOrGroup == 'group') {
 								$scope.showGroupListLoader = true;
 								// get groups and show list
 								Restangular.one('account', self.loggedInUser.account.id)
-								.one('connections', connection.id).getList('groups')
-								.then(function (groups) {
-									$scope.groups = groups;
-									$scope.showGroupList = true;
-								}).catch($scope.globalErrorHandler).then(function () {
-									$scope.showGroupListLoader = false;
-								});
+									.one('connections', connection.id).getList('groups')
+									.then(function(groups) {
+										$scope.groups = groups;
+										$scope.showGroupList = true;
+									}).catch($scope.globalErrorHandler).then(function() {
+										$scope.showGroupListLoader = false;
+									});
 							}
 						};
 					}
@@ -1029,15 +1034,15 @@
 				// popup
 				$modal.open({
 					templateUrl: '/assets/views/dialogs/acton-launch-options.html',
-					controller: function ($scope, $modalInstance) {
+					controller: function($scope, $modalInstance) {
 						$scope.options = {
 							type: 'draft'
 						};
-						$scope.cancel = function () {
+						$scope.cancel = function() {
 							$modalInstance.dismiss('cancel');
 						};
 
-						$scope.ok = function (opts) {
+						$scope.ok = function(opts) {
 							launch(opts);
 							$modalInstance.close();
 						};
@@ -1049,7 +1054,7 @@
 
 			function launch(extraOpts) {
 				if (extraOpts) {
-					extraParams = _.merge(extraParams || {}, { group_id: extraOpts.groupId });
+					extraParams = _.merge(extraParams || { }, { group_id: extraOpts.groupId });
 					if (extraOpts.type) {
 						extraParams = _.merge(extraParams, {
 							type: extraOpts.type
@@ -1066,9 +1071,15 @@
 							self.refreshLaunches();
 						}
 
-						notificationService.success('Success!', 'Successfully launched to ' + ((extraOpts || {}).groupName ? extraOpts.groupName : connection.name) + '!');
+						notificationService.success('Success!', 'Successfully launched to ' + ((extraOpts || { }).groupName ? extraOpts.groupName : connection.name) + '!');
 					},
-					error: self.ajaxHandler.error
+					error: function(r) {
+						self.ajaxHandler.error(r);
+
+						if (refresh) {
+							self.refreshLaunches();
+						}
+					}
 				});
 			}
 		};
@@ -1115,8 +1126,12 @@
             if ($scope.analyzingContent === true) return;
             $scope.analyzingContent = true;
             contentService.analyze(self.loggedInUser.account.id, $scope.content.id, {
-                success: function(r) {
-                    $scope.analyzingContent = false;
+            	success: function (r) {
+            		if (!launch.utils.isBlank(r.fleschScore)) {
+			            r.fleschScore = launch.utils.titleCase(r.fleschScore);
+		            }
+
+		            $scope.analyzingContent = false;
                     $modal.open({
                         windowClass: 'modal-large',
                         templateUrl: '/assets/views/content/scribe-analysis.html',

@@ -182,6 +182,7 @@
 			} else {
 				scope.isNewRole = false;
 			}
+			console.log(scope.selectedRole);
 		});
 
 		self.init();

@@ -21,4 +21,9 @@ class ContentActivity extends Ardent {
     return $this->belongsTo('Content');
   }
 
+  public function user()
+  {
+    return $this->belongsTo('User')->with('image');
+  }
+
 }

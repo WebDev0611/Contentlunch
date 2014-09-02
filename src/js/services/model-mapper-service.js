@@ -355,6 +355,7 @@
 			user.roles = ($.isArray(dto.roles)) ? $.map(dto.roles, function(r, i) { return self.role.fromDto(r); }) : [];
 			user.role = (user.roles.length > 0) ? user.roles[0] : null;
 			user.preferences = dto.preferences;
+			user.super = (parseInt(dto.super) === 1) ? true : false;
 
 			if (dto.impersonating) {
 				user.impersonating = true;
@@ -393,7 +394,8 @@
 				title: user.title,
 				status: (user.active === true) ? 1 : 0,
 				accounts: ($.isArray(user.accounts)) ? $.map(user.accounts, function(a, i) { return self.account.toDto(a); }) : null,
-				roles: $.isArray(user.roles) ? $.map(user.roles, function(r, i) { return self.role.toDto(r); }) : null
+				roles: $.isArray(user.roles) ? $.map(user.roles, function(r, i) { return self.role.toDto(r); }) : null,
+				super: (user.super === true) ? 1 : 0
 			};
 
 			if ((!$.isArray(dto.roles) || dto.roles.length === 0) && !!user.role) {
@@ -1783,38 +1785,48 @@
             return self.parseResponse(r, getHeaders, self.brainstorm.fromDto);
         },
         formatRequest: function(brainstorm) {
-            var request = $.extend(true, {}, brainstorm);
-            if (request.date && request.time) {
-                var time = new Date(moment(request.time).format());
-                request.datetime = request.date + ' ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();
-            }
-            return JSON.stringify(request);
+        	return JSON.stringify(self.brainstorm.toDto(brainstorm));
         },
         fromDto: function(dto) {
             var brainstorm = new launch.Brainstorm();
 
             brainstorm.id = parseInt(dto.id);
-            brainstorm.user_id = dto.user_id;
-            brainstorm.content_id = dto.content_id;
-            brainstorm.campaign_id = dto.campaign_id;
-            brainstorm.account_id = dto.account_id;
+            brainstorm.userId = dto.user_id;
+            brainstorm.contentId = dto.content_id;
+            brainstorm.campaignId = dto.campaign_id;
+            brainstorm.accountId = dto.account_id;
             brainstorm.agenda = dto.agenda;
 
-            // datepickerPopup directive formats into yyyy-mm-dd...
-            var dt = new Date(moment(dto.datetime).format());
-            brainstorm.datetime = dt;
-            brainstorm.date = moment(dt).format('YYYY-MM-DD');
-            // ...while timepicker operations are done with Date objects
-            brainstorm.time = dt.getTime();
+            brainstorm.datetime = new Date(moment(dto.datetime).format());
+            brainstorm.date = moment(brainstorm.datetime).format('MM-DD-YYYY');
+            brainstorm.time = brainstorm.datetime.getTime();
 
             brainstorm.description = dto.description;
             brainstorm.credentials = dto.credentials;
-            brainstorm.content_type = brainstorm.content_id ? 'content' : 'campaign';
+            brainstorm.contentType = brainstorm.contentId ? 'content' : 'campaign';
             brainstorm.created = new Date(moment(dto.created_at).format());
             brainstorm.updated = new Date(moment(dto.updated_at).format());
 
             return brainstorm;
         },
+        toDto: function (brainstorm) {
+        	if (!brainstorm) {
+		        return null;
+	        }
+
+	        return {
+		        id: brainstorm.id,
+		        user_id: brainstorm.userId,
+		        content_id: brainstorm.contentId,
+		        campaign_id: brainstorm.campaignId,
+		        account_id: brainstorm.accountId,
+		        agenda: brainstorm.agenda,
+		        description: brainstorm.description,
+		        credentials: brainstorm.credentials,
+		        content_type: brainstorm.contentType,
+		        datetime: new Date(moment(brainstorm.time).format('MM-DD-YYYY HH:mm'))
+	        };
+        }
 	};
 
 	self.launchedContent = {
@@ -1825,8 +1837,12 @@
 			var lc = new launch.LaunchedContent();
 
 			lc.id = parseInt(dto.id);
+			lc.connection = self.contentConnection.fromDto(dto.account_connection);
+			lc.accountConnectionId = parseInt(dto.account_connection_id);
 			lc.contentId = parseInt(dto.content_id);
 			lc.userId = parseInt(dto.user_id);
+			lc.success = parseInt(dto.success) === 1;
+			lc.response = dto.response;
 			lc.created = new Date(moment(lc.created_at).format());
 			lc.updated = new Date(moment(lc.updated_at).format());
 

@@ -74,49 +74,66 @@ class UserController extends BaseController {
 		if ( ! $this->hasPermission('settings_execute_users') && ! $this->hasPermission('adminster_contentlaunch')) {
 			return $this->responseAccessDenied();
 		}
+		// If logged in user belongs to account, and account has reached maximum users,
+		// deny this request
+		$thisUser = Confide::user();
+		$accounts = $thisUser->accounts;
+		if ( ! empty($accounts[0])) {
+			$account = Account::countUsers()->find($accounts[0]->id);
+      		$count_users = $account->count_users;
+      		// How many users are allowed in this account's tier?
+			$licenses = AccountSubscription::where('account_id', $account->id)->pluck('licenses');
+			if ($count_users >= $licenses) {
+				return $this->responseError("This account already has the maximum amount of users.");
+			}      		
+		}
+
 		$user = new User;
-	// Check for soft deleted user, reinstate account
-	$user = User::withTrashed()
-	  ->where('email', Input::get('email'))
-	  ->first();
-	if ($user) {
-	  $user->deleted_at = null;
-	  $mode = 'update';
-	} else {
-	  $user = new User;
-	  $mode = 'create';
-	}
-	$user->username = Input::get('email');
-	// Taken from ConfideUser. Ardent purges this field
-	$user->confirmation_code = md5( uniqid(mt_rand(), true) );
-	// Password can't be null, set a random temp password
-	$user->password = $user->password_confirmation = substr(uniqid(mt_rand(), true), 0, 8);
-	// Make sure user is unconfirmed
-	// If confirmed exist in the request, ardent will try to hydrate from
-	// those values, so just set those values in the request input
-	$input = Request::all();
-	$input['confirmed'] = 0;
-	Request::replace($input);
-	if ($mode == 'update') {
-	  $ret = $user->updateUniques();
-	} else {
-	  $ret = $user->save();
-	}
-	if ($ret)
-	{
-		// Save roles
-		$user->saveRoles(Input::get('roles'));
-		$data = ['user' => $user];
-		// Send confirmation email
-		Mail::send('emails.auth.confirm', $data, function ($message) use ($user) {
+		// Check for soft deleted user, reinstate account
+		$user = User::withTrashed()
+	  		->where('email', Input::get('email'))
+	  		->first();
+		if ($user && $user->deleted_at) {
+	  		$user->deleted_at = null;
+	  		$mode = 'update';
+	  		// Drop user from any previous accounts
+	  		DB::table('account_user')
+	  			->where('user_id', $user->id)
+	  			->delete();
+		} else {
+	  		$user = new User;
+	  		$mode = 'create';
+		}
+		$user->username = Input::get('email');
+		// Taken from ConfideUser. Ardent purges this field
+		$user->confirmation_code = md5( uniqid(mt_rand(), true) );
+		// Password can't be null, set a random temp password
+		$user->password = $user->password_confirmation = substr(uniqid(mt_rand(), true), 0, 8);
+		// Make sure user is unconfirmed
+		// If confirmed exist in the request, ardent will try to hydrate from
+		// those values, so just set those values in the request input
+		$input = Request::all();
+		$input['confirmed'] = 0;
+		Request::replace($input);
+		if ($mode == 'update') {
+		  $ret = $user->updateUniques();
+		} else {
+		  $ret = $user->save();
+		}
+		if ($ret) {
+			// Save roles
+			$user->saveRoles(Input::get('roles'));
+			$data = ['user' => $user];
+			// Send confirmation email
+			Mail::send('emails.auth.confirm', $data, function ($message) use ($user) {
 				$message->to($user->email)->subject('Account Confirmation');
 			});
-		return $this->show($user->id);
-	}
-	else
-	{
-	  return $this->responseError($user->errors()->all(':message'));
-	}
+			return $this->show($user->id);
+		}
+		else
+		{
+	  		return $this->responseError($user->errors()->all(':message'));
+		}
 	}
 
 	public function show($id)
@@ -128,7 +145,7 @@ class UserController extends BaseController {
 		if ( ! $user) {
 			return $this->responseError("User not found.");
 		}
-	$user->modules = [];
+		$user->modules = [];
 		if (isset($user->accounts[0])) {
 			$account = Account::find($user->accounts[0]->id);
 			$modules = $account->modules;

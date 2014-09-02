@@ -89,10 +89,7 @@
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			// TODO: UNCOMMENT THIS WHEN IT'S AVAILABLE IN THE API!!
-			//return contentLaunch.get({ accountId: accountId, contentId: contentId }, success, error);
-
-			return [];
+			return contentLaunch.get({ accountId: accountId, contentId: contentId }, success, error);
 		},
 		getComment: function (accountId, contentId, id, params, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;

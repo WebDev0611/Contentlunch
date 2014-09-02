@@ -6,7 +6,11 @@ class ContentTaskGroupController extends BaseController {
     // (this is used in the calendar)
     public function getAllTasks($accountID) 
     {
-        return ContentTask::join('content_task_groups as ctg', 'ctg.id', '=', 'content_task_group_id')->with('user')->get();
+        return ContentTask::join('content_task_groups as ctg', 'ctg.id', '=', 'content_task_group_id')
+            ->join('content', 'ctg.content_id', '=', 'content.id')
+            ->with('user')
+            ->where('content.account_id', $accountID)
+            ->get();
     }
 
     public function index($accountID, $contentID)

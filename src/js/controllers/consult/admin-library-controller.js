@@ -1,6 +1,7 @@
 launch.module.controller('ConsultAdminLibraryController', function($scope, $modal, $route, LibraryService, NotificationService) {
 
 	$scope.files = [];
+	$scope.globalID = null;
 
 	$scope.init = function() {
 		$scope.isLoading = true;
@@ -8,6 +9,7 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 			$scope.isLoading = false;
 			if (response[0]) {
 				$scope.files = response[0].uploads;
+				$scope.globalID = response[0].id;
 			}
 		});
 	};
@@ -57,7 +59,7 @@ launch.module.controller('ConsultAdminLibraryController', function($scope, $moda
 						tags: scope.uploadFile.tags
 					};
 					$upload.upload({
-						url: '/api/library/1/uploads',
+						url: '/api/library/' + $scope.globalID + '/uploads',
 						method: 'POST',
 						data: data,
 						file: scope.file

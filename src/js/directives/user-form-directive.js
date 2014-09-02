@@ -4,6 +4,7 @@ launch.module.directive('userForm', function($modal, $upload, AuthService, RoleS
 
 		self.loggedInUser = null;
 
+		console.log('super', scope.selectedUser);
 		self.ajaxHandler = {
 			success: function (r) {
 

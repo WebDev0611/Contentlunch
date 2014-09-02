@@ -45,34 +45,30 @@ class GooglePlusAPI extends GoogleAPI
         try {
             $client = $this->getClient();
 
-            // set $requestVisibleActions to write moments
-            $requestVisibleActions = [
-                'http://schemas.google.com/AddActivity',
-                'http://schemas.google.com/ReviewActivity'
-            ];
-            $client->setRequestVisibleActions($requestVisibleActions);
+            $service = new Google_Service_Plus($client);
 
-            $service = new Google_Service_Plus($client, ['debug' => true]);
 
             $moment_body = new Google_Moment();
-            $moment_body->setType("http://schemas.google.com/AddActivity");
-            //$moment_body->setType("http://schema.org/AddAction");
-            $item_scope = new Google_ItemScope();
-            $item_scope->setId("target-id-1");
-            //$item_scope->setType("http://schema.org/AddAction");
-            $item_scope->setType("http://schemas.google.com/AddActivity");
-            $item_scope->setName($content->title);
-            $item_scope->setDescription(strip_tags($content->body));
+            $moment_body->setType("http://schemas.google.com/CreateActivity");
+
+            $create = new Google_ItemScope;
+            $create->setId(uniqid());
+            $create->setType('http://schema.org/CreativeWork');
+            $create->setName($this->stripTags($content->title));
+            $create->setDescription($this->stripTags($content->body));
+            $create->setText($this->stripTags($content->body));
             $upload = $content->upload()->first();
             if ($upload && $upload->media_type == 'image') {
-                $item_scope->setImage($upload->getUrl());
+                $create->setImage($upload->getImageUrl('large'));
             }
-            $moment_body->setTarget($item_scope);
+            
+            $moment_body->setTarget($create);
+
             $momentResult = $service->moments->insert('me', 'vault', $moment_body);
 
             $response['success'] = true;
             $response['response'] = $momentResult;
-            $response['external_id'] = $momentResult['result']['id'];
+            $response['external_id'] = $momentResult->id;
         } catch (\Exception $e) {
             $response['success'] = false;
 //      $response['response'] = $momentResult;
