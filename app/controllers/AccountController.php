@@ -163,6 +163,56 @@ class AccountController extends BaseController {
 		return $this->responseError("Couldn't delete account");
 	}
 
+    public function csv() {
+        $query = DB::table('accounts')
+            ->join('account_user', 'accounts.id', '=', 'account_user.account_id')
+            ->join('users', 'account_user.user_id', '=', 'users.id')
+            ->join('assigned_roles', 'users.id', '=', 'assigned_roles.user_id')
+            ->join('roles', function($join) {
+                $join
+                    ->on('assigned_roles.role_id', '=', 'roles.id')
+                    ->on('accounts.id', '=', 'roles.account_id');
+            })->select(
+                'accounts.name',
+                'accounts.email',
+                'accounts.phone',
+                'accounts.created_at',
+                'users.email as user_email',
+                'users.title',
+                'users.first_name',
+                'users.last_name'
+            )->where('roles.name', '=', 'site_admin');
+
+        $results = $query->get();
+
+        $csv = '';
+        $headers = [
+            'Account Name',
+            'Account Email',
+            'Account Phone',
+            'Create Date',
+            'User Email',
+            'Title',
+            'First Name',
+            'Last Name'
+        ];
+
+        //wrap headers in "" and implode with ,
+        $csv .= implode(',', array_map(function($header) {return '"'.$header.'"';}, $headers)) . "\n";
+
+        foreach($results as $row) {
+            $row = (array) $row;
+            $csv .= implode(',', array_map(function($d) {return '"'.$d.'"';}, $row)) . "\n";
+        }
+
+        $headers = array(
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="accounts.csv"',
+        );
+
+        return Response::make(rtrim($csv, "\n"), 200, $headers);
+    }
+
 	public function resend_creation_email($id, $checkAuth = true)
 	{
 		// Restrict to global admins

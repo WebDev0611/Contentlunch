@@ -234,6 +234,8 @@ Route::group(['prefix' => 'api'], function()
 
   Route::post('account/{accountID}/content/{contentID}/analyze', 'ContentController@analyze');
 
+    Route::get('accounts/csv', 'AccountController@csv');
+
 });
 
 Route::get('password/reset/{code}', 'AuthController@check_reset');
