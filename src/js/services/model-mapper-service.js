@@ -120,6 +120,7 @@
 
 			account.id = parseInt(dto.id);
 			account.title = account.name = dto.title;
+			account.name = dto.name;
 			account.active = (parseInt(dto.active) === 1) ? true : false;
 			account.address1 = dto.address;
 			account.address2 = dto.address_2;
@@ -181,7 +182,7 @@
 			var dto = {
 				id: account.id,
 				title: account.title,
-				name: account.title,
+				name: account.name,
 				active: (account.active === true) ? 1 : 0,
 				address: account.address1,
 				address_2: account.address2,

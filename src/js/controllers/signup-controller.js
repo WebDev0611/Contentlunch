@@ -62,7 +62,8 @@
 
 			var account = accountService.getNewAccount();
 
-			account.title = $scope.user.businessName;
+			account.name = $scope.user.businessName;
+			account.title = $scope.user.title;
 			account.active = true;
 			account.email = $scope.user.emailAddress;
 			account.phoneNumber = $scope.user.phoneNumber;

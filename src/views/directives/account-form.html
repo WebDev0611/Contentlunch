@@ -1,9 +1,9 @@
 ﻿<form name="editAccount" class="account-editor" novalidate="novalidate">
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'title', editAccount.txtAccountName, forceDirty) }">
+		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'name', editAccount.txtAccountName, forceDirty) }">
 			<label class="control-label" for="txtAccountName">Account Name</label>
-			<input type="text" id="txtAccountName" name="txtAccountName" class="form-control" ng-model="selectedAccount.title"
-					error-message error-message-item="selectedAccount" error-message-property="'title'" error-message-control="editAccount.txtAccountName" />
+			<input type="text" id="txtAccountName" name="txtAccountName" class="form-control" ng-model="selectedAccount.name"
+					error-message error-message-item="selectedAccount" error-message-property="'name'" error-message-control="editAccount.txtAccountName" />
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'active', editAccount.selStatus, forceDirty) }">
 			<label class="control-label" for="selStatus">Status</label>
