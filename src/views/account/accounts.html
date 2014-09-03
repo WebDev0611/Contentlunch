@@ -1,10 +1,14 @@
 <div class="view accounts" ng-show="!isLoading">
 	<div class="col-md-3 left-pane">
-		<div class="btn-group">
-			<button class="btn btn-default btn-create" ng-click="enterNewAccount()">
+		<div class="btn-group btn-group-justified btn-group-filter">
+			<a class="btn btn-default btn-black" ng-click="enterNewAccount()">
 				<span class="glyphicon glyphicon-user"></span>
 				CREATE NEW ACCOUNT
-			</button>
+			</a>
+			<a class="btn btn-default btn-black" href="/api/accounts/csv" target="_blank">
+				<span class="fa fa-download"></span>
+				EXPORT ACCOUNTS
+			</a>
 		</div>
 
 		<div class="input-group">

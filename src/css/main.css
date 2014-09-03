@@ -1165,6 +1165,7 @@ span[class*=" icon-"].dark {
 .admin-conference .left-pane .btn-group,
 .promote .left-pane .btn-group,
 .measure .left-pane .btn-group {
+  margin: auto;
   margin-bottom: 12px;
   width: 100%;
 }
@@ -1195,30 +1196,30 @@ span[class*=" icon-"].dark {
   background-color: #000000;
   color: #ffffff;
 }
-.users .left-pane .btn-group .btn-create .glyphicon,
-.accounts .left-pane .btn-group .btn-create .glyphicon,
-.roles .left-pane .btn-group .btn-create .glyphicon,
-.content-settings .left-pane .btn-group .btn-create .glyphicon,
-.seo-settings .left-pane .btn-group .btn-create .glyphicon,
-.create .left-pane .btn-group .btn-create .glyphicon,
-.calendar .left-pane .btn-group .btn-create .glyphicon,
-.admin-library .left-pane .btn-group .btn-create .glyphicon,
-.consult .left-pane .btn-group .btn-create .glyphicon,
-.admin-conference .left-pane .btn-group .btn-create .glyphicon,
-.promote .left-pane .btn-group .btn-create .glyphicon,
-.measure .left-pane .btn-group .btn-create .glyphicon,
-.users .left-pane .btn-group .btn-calendar .glyphicon,
-.accounts .left-pane .btn-group .btn-calendar .glyphicon,
-.roles .left-pane .btn-group .btn-calendar .glyphicon,
-.content-settings .left-pane .btn-group .btn-calendar .glyphicon,
-.seo-settings .left-pane .btn-group .btn-calendar .glyphicon,
-.create .left-pane .btn-group .btn-calendar .glyphicon,
-.calendar .left-pane .btn-group .btn-calendar .glyphicon,
-.admin-library .left-pane .btn-group .btn-calendar .glyphicon,
-.consult .left-pane .btn-group .btn-calendar .glyphicon,
-.admin-conference .left-pane .btn-group .btn-calendar .glyphicon,
-.promote .left-pane .btn-group .btn-calendar .glyphicon,
-.measure .left-pane .btn-group .btn-calendar .glyphicon {
+.users .left-pane .btn-group .glyphicon,
+.accounts .left-pane .btn-group .glyphicon,
+.roles .left-pane .btn-group .glyphicon,
+.content-settings .left-pane .btn-group .glyphicon,
+.seo-settings .left-pane .btn-group .glyphicon,
+.create .left-pane .btn-group .glyphicon,
+.calendar .left-pane .btn-group .glyphicon,
+.admin-library .left-pane .btn-group .glyphicon,
+.consult .left-pane .btn-group .glyphicon,
+.admin-conference .left-pane .btn-group .glyphicon,
+.promote .left-pane .btn-group .glyphicon,
+.measure .left-pane .btn-group .glyphicon,
+.users .left-pane .btn-group .fa,
+.accounts .left-pane .btn-group .fa,
+.roles .left-pane .btn-group .fa,
+.content-settings .left-pane .btn-group .fa,
+.seo-settings .left-pane .btn-group .fa,
+.create .left-pane .btn-group .fa,
+.calendar .left-pane .btn-group .fa,
+.admin-library .left-pane .btn-group .fa,
+.consult .left-pane .btn-group .fa,
+.admin-conference .left-pane .btn-group .fa,
+.promote .left-pane .btn-group .fa,
+.measure .left-pane .btn-group .fa {
   margin-right: 8px;
 }
 .users .left-pane .btn-group.btn-group-filter .btn.active,

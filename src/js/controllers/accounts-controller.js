@@ -1,5 +1,5 @@
 launch.module.controller('AccountsController', [
-	'$scope', '$filter', 'AuthService', 'AccountService', function ($scope, $filter, authService, accountService) {
+	'$scope', '$filter', 'AuthService', 'AccountService', 'NotificationService', function ($scope, $filter, authService, accountService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
