@@ -40,7 +40,10 @@
                             total-items="replies.length"
                             items-per-page="pagination.pageSize"
                             page="pagination.currentPage"
-                            direction-links="true"
+							ng-model="pagination.currentPage"
+							direction-links="false"
+							previous-text="<<"
+							next-text=">>"
                             max-size="0">
                         </pagination>
                     </div>

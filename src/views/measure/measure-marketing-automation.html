@@ -35,8 +35,11 @@
 										total-items="paginationLandingPages.totalItems"
 										items-per-page="paginationLandingPages.pageSize"
 										page="paginationLandingPages.currentPage"
+										ng-model="pagination.currentPage"
 										on-select-page="paginationLandingPages.onPageChange(page)"
-										direction-links="true"
+										direction-links="false"
+										previous-text="<<"
+										next-text=">>"
 										max-size="0">
 									</pagination>
 								</div>
@@ -113,8 +116,11 @@
 										total-items="paginationBlogs.totalItems"
 										items-per-page="paginationBlogs.pageSize"
 										page="paginationBlogs.currentPage"
+										ng-model="pagination.currentPage"
 										on-select-page="paginationBlogs.onPageChange(page)"
-										direction-links="true"
+										direction-links="false"
+										previous-text="<<"
+										next-text=">>"
 										max-size="0">
 									</pagination>
 								</div>
@@ -166,87 +172,6 @@
 							</table>
 						</div>
 					</div>
-
-<!--
-					<div class="measure-marketing-automation-table">
-						<div class="measure-table-header">
-							<span class="measure-sub-header">Landing Pages</span>
-
-							<div class="measure-table-paging-controls" ng-show="paginationEmails.totalItems > 5">
-								<div class="form-group form-inline">
-									<label class="control-label" for="selPageSize">Items per page:</label>
-									<select class="form-control" id="Select2" name="selPageSize" ng-model="paginationEmails.pageSize" ng-change="paginationEmails.groupToPages()">
-										<option value="5">5</option>
-										<option value="10">10</option>
-										<option value="20">20</option>
-										<option value="50">50</option>
-										<option value="100">100</option>
-									</select>
-								</div>
-
-								<div style="width: 100px; text-align: center;">
-									{{ paginationEmails.getPageIndicator() }}
-								</div>
-
-								<div class="measure-table-pager" ng-show="paginationEmails.totalItems > paginationEmails.pageSize">
-									<pagination
-										total-items="paginationEmails.totalItems"
-										items-per-page="paginationEmails.pageSize"
-										page="paginationEmails.currentPage"
-										on-select-page="paginationEmails.onPageChange(page)"
-										direction-links="true"
-										max-size="0">
-									</pagination>
-								</div>
-							</div>
-						</div>
-
-						<div class="measure-table-container">
-							<table class="measure-table">
-								<thead>
-									<tr>
-										<th class="small-cell">&nbsp;</th>
-										<th>
-											<span class="fa" ng-show="paginationEmails.currentSort === 'title'" ng-class="'fa-sort-alpha-' + paginationEmails.currentSortDirection"></span>
-											<span class="clickable-header" ng-click="applySort('title', 'emails')">Title</span>
-										</th>
-										<th>
-											<span class="fa" ng-show="paginationEmails.currentSort === 'author'" ng-class="'fa-sort-alpha-' + paginationEmails.currentSortDirection"></span>
-											<span class="clickable-header" ng-click="applySort('author', 'emails')">Author</span>
-										</th>
-										<th>
-											<span class="fa" ng-show="paginationEmails.currentSort === 'views'" ng-class="'fa-sort-alpha-' + paginationEmails.currentSortDirection"></span>
-											<span class="clickable-header" ng-click="applySort('views', 'emails')">Views</span>
-										</th>
-										<th>
-											<span class="fa" ng-show="paginationEmails.currentSort === 'conversionrate'" ng-class="'fa-sort-alpha-' + paginationEmails.currentSortDirection"></span>
-											<span class="clickable-header" ng-click="applySort('conversionrate', 'emails')">Conversion Rate</span>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="c in emailsPaged[paginationEmails.currentPage - 1]" ng-class-odd="'dark'">
-										<td class="small-cell">
-											<div class="campaign-dot campaign-dot-small" style="background-color: {{ c.campaign.color }}"></div>
-										</td>
-										<td>
-											<span class="cl-icon" ng-class="formatContentTypeIcon(c.contentType.name)"></span>
-											{{ c.title }}
-										</td>
-										<td>
-											<span class="user-image user-image-small" ng-style="{ 'background-image': c.author.imageUrl() }"></span>
-											{{ c.author.formatName() }}
-										</td>
-										<td>VIEWS
-										</td>
-										<td>CONVERSION RATE
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					-->
 				</div>
 			</div>
 		</div>

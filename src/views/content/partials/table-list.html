@@ -39,8 +39,11 @@
 				total-items="pagination.totalItems"
 				items-per-page="pagination.pageSize"
 				page="pagination.currentPage"
+				ng-model="pagination.currentPage"
 				on-select-page="pagination.onPageChange(page, editUser)"
-				direction-links="true"
+				direction-links="false"
+				previous-text="<<"
+				next-text=">>"
 				max-size="0">
 			</pagination>
 		</div>
