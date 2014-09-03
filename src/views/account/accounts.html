@@ -35,7 +35,7 @@
 			</li>
 		</ul>
 		
-		<div class="pager" ng-if="renderPager" ng-show="pagination.showPager() === true">
+		<div class="cl-pager" ng-if="renderPager" ng-show="pagination.showPager() === true">
 			<hr/>
 
 			<pagination
@@ -43,7 +43,9 @@
 				items-per-page="pagination.pageSize"
 				page="pagination.currentPage"
 				on-select-page="pagination.onPageChange(page, editUser)"
-				direction-links="false"
+				align="true"
+				previous-text="<<"
+				next-text=">>"
 				max-size="6">
 			</pagination>
 		</div>

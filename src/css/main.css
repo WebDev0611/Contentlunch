@@ -1367,44 +1367,44 @@ span[class*=" icon-"].dark {
 .measure .left-pane ul.items-list li.disabled {
   opacity: 0.4;
 }
-.users .left-pane .pager ul.pagination,
-.accounts .left-pane .pager ul.pagination,
-.roles .left-pane .pager ul.pagination,
-.content-settings .left-pane .pager ul.pagination,
-.seo-settings .left-pane .pager ul.pagination,
-.create .left-pane .pager ul.pagination,
-.calendar .left-pane .pager ul.pagination,
-.admin-library .left-pane .pager ul.pagination,
-.consult .left-pane .pager ul.pagination,
-.admin-conference .left-pane .pager ul.pagination,
-.promote .left-pane .pager ul.pagination,
-.measure .left-pane .pager ul.pagination {
+.users .left-pane .cl-pager ul.pagination,
+.accounts .left-pane .cl-pager ul.pagination,
+.roles .left-pane .cl-pager ul.pagination,
+.content-settings .left-pane .cl-pager ul.pagination,
+.seo-settings .left-pane .cl-pager ul.pagination,
+.create .left-pane .cl-pager ul.pagination,
+.calendar .left-pane .cl-pager ul.pagination,
+.admin-library .left-pane .cl-pager ul.pagination,
+.consult .left-pane .cl-pager ul.pagination,
+.admin-conference .left-pane .cl-pager ul.pagination,
+.promote .left-pane .cl-pager ul.pagination,
+.measure .left-pane .cl-pager ul.pagination {
   display: block;
 }
-.users .left-pane .pager ul.pagination li > a,
-.accounts .left-pane .pager ul.pagination li > a,
-.roles .left-pane .pager ul.pagination li > a,
-.content-settings .left-pane .pager ul.pagination li > a,
-.seo-settings .left-pane .pager ul.pagination li > a,
-.create .left-pane .pager ul.pagination li > a,
-.calendar .left-pane .pager ul.pagination li > a,
-.admin-library .left-pane .pager ul.pagination li > a,
-.consult .left-pane .pager ul.pagination li > a,
-.admin-conference .left-pane .pager ul.pagination li > a,
-.promote .left-pane .pager ul.pagination li > a,
-.measure .left-pane .pager ul.pagination li > a,
-.users .left-pane .pager ul.pagination .btn,
-.accounts .left-pane .pager ul.pagination .btn,
-.roles .left-pane .pager ul.pagination .btn,
-.content-settings .left-pane .pager ul.pagination .btn,
-.seo-settings .left-pane .pager ul.pagination .btn,
-.create .left-pane .pager ul.pagination .btn,
-.calendar .left-pane .pager ul.pagination .btn,
-.admin-library .left-pane .pager ul.pagination .btn,
-.consult .left-pane .pager ul.pagination .btn,
-.admin-conference .left-pane .pager ul.pagination .btn,
-.promote .left-pane .pager ul.pagination .btn,
-.measure .left-pane .pager ul.pagination .btn {
+.users .left-pane .cl-pager ul.pagination li > a,
+.accounts .left-pane .cl-pager ul.pagination li > a,
+.roles .left-pane .cl-pager ul.pagination li > a,
+.content-settings .left-pane .cl-pager ul.pagination li > a,
+.seo-settings .left-pane .cl-pager ul.pagination li > a,
+.create .left-pane .cl-pager ul.pagination li > a,
+.calendar .left-pane .cl-pager ul.pagination li > a,
+.admin-library .left-pane .cl-pager ul.pagination li > a,
+.consult .left-pane .cl-pager ul.pagination li > a,
+.admin-conference .left-pane .cl-pager ul.pagination li > a,
+.promote .left-pane .cl-pager ul.pagination li > a,
+.measure .left-pane .cl-pager ul.pagination li > a,
+.users .left-pane .cl-pager ul.pagination .btn,
+.accounts .left-pane .cl-pager ul.pagination .btn,
+.roles .left-pane .cl-pager ul.pagination .btn,
+.content-settings .left-pane .cl-pager ul.pagination .btn,
+.seo-settings .left-pane .cl-pager ul.pagination .btn,
+.create .left-pane .cl-pager ul.pagination .btn,
+.calendar .left-pane .cl-pager ul.pagination .btn,
+.admin-library .left-pane .cl-pager ul.pagination .btn,
+.consult .left-pane .cl-pager ul.pagination .btn,
+.admin-conference .left-pane .cl-pager ul.pagination .btn,
+.promote .left-pane .cl-pager ul.pagination .btn,
+.measure .left-pane .cl-pager ul.pagination .btn {
   background-color: transparent;
   border-color: #000000;
   border-radius: 0 !important;
@@ -1412,18 +1412,18 @@ span[class*=" icon-"].dark {
   cursor: pointer;
   margin: 0 4px;
 }
-.users .left-pane .pager ul.pagination li.active a,
-.accounts .left-pane .pager ul.pagination li.active a,
-.roles .left-pane .pager ul.pagination li.active a,
-.content-settings .left-pane .pager ul.pagination li.active a,
-.seo-settings .left-pane .pager ul.pagination li.active a,
-.create .left-pane .pager ul.pagination li.active a,
-.calendar .left-pane .pager ul.pagination li.active a,
-.admin-library .left-pane .pager ul.pagination li.active a,
-.consult .left-pane .pager ul.pagination li.active a,
-.admin-conference .left-pane .pager ul.pagination li.active a,
-.promote .left-pane .pager ul.pagination li.active a,
-.measure .left-pane .pager ul.pagination li.active a {
+.users .left-pane .cl-pager ul.pagination li.active a,
+.accounts .left-pane .cl-pager ul.pagination li.active a,
+.roles .left-pane .cl-pager ul.pagination li.active a,
+.content-settings .left-pane .cl-pager ul.pagination li.active a,
+.seo-settings .left-pane .cl-pager ul.pagination li.active a,
+.create .left-pane .cl-pager ul.pagination li.active a,
+.calendar .left-pane .cl-pager ul.pagination li.active a,
+.admin-library .left-pane .cl-pager ul.pagination li.active a,
+.consult .left-pane .cl-pager ul.pagination li.active a,
+.admin-conference .left-pane .cl-pager ul.pagination li.active a,
+.promote .left-pane .cl-pager ul.pagination li.active a,
+.measure .left-pane .cl-pager ul.pagination li.active a {
   background-color: #000000;
   color: #ffffff;
 }
