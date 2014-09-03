@@ -165,6 +165,11 @@
 						controller: [
 							'$scope', '$modalInstance', function (scope1, instance) {
 								scope1.task = task;
+								scope1.minDate = new Date();
+
+								if (moment(task.dueDate) < moment(scope1.minDate)) {
+									scope1.minDate = task.dueDate;
+								}
 
 								scope1.availableUsers = $.grep(scope.users, function(u) { return u.active; });
 								scope1.openCalendar = scope.openCalendar;

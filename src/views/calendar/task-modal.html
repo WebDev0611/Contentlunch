@@ -30,7 +30,8 @@
         <div class="form-group">
             <label for="dueDate">Due Date</label>
             <div class="input-group">
-                <input show-weeks="false" show-button-bar="false" datepicker-popup="MM/dd/yyyy" date-only="true" type="text" name="dueDate" class="form-control" id="dueDate" ng-model="task.dueDate">
+				<input type="text" name="dueDate" class="form-control" id="dueDate" ng-model="task.dueDate"
+					datepicker-popup="MM/dd/yyyy" date-only="true" min="minDate" show-weeks="false" show-button-bar="false">
                 <span class="input-group-btn">
                     <label for="dueDate" class="btn btn-default"><i class="fa fa-calendar"></i></label>
                 </span>                

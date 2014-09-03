@@ -19,11 +19,22 @@ function ($modal,   Restangular,   AuthService) {
                     users: function () { return Account.getList('users'); }
                 },
                 controller: ['$scope', '$modalInstance', 'campaigns', 'users',
-                function     ($scope,   $modalInstance,   campaigns,   users) {
-                    $scope.showCampaignPicker = showCampaignPicker;
+                function ($scope, $modalInstance, campaigns, users) {
+                	if (!task) {
+                		task = new launch.Task();
+                		task.dueDate = new Date();
+                		task.isComplete = false;
+	                }
+
+	                $scope.showCampaignPicker = showCampaignPicker;
+	                $scope.minDate = new Date();
                     $scope.campaigns = campaigns;
                     $scope.users = users;
-                    $scope.task = task ? Restangular.copy(task) : { isComplete: false };
+                    $scope.task = Restangular.copy(task);
+
+                    if (moment(task.dueDate) < moment($scope.minDate)) {
+                    	$scope.minDate = task.dueDate;
+                    }
                 }]
             }).result.then(function (task) {
                 var Tasks = tasks.post ? tasks : Account.one('campaigns', task.campaignId).all('tasks');
