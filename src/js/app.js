@@ -20,6 +20,10 @@
 				$locationProvider.html5Mode(true);
 
 				$routeProvider
+					.when('/welcome', {
+						controller: 'WelcomeController',
+						templateUrl: '/assets/views/welcome.html'
+					})
 					.when('/', {
 						controller: 'HomeController',
 						templateUrl: '/assets/views/home.html'

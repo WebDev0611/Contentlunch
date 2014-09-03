@@ -52,7 +52,8 @@ launch.module.controller('LoginController', [
 					if (u.role.isGlobalAdmin === true) {
 						$location.path('/accounts');
 					} else {
-						$location.path(launch.utils.isBlank(self.redirect) ? '/' : self.redirect).search({ });
+						//$location.path(launch.utils.isBlank(self.redirect) ? '/' : self.redirect).search({ });
+						$location.path(launch.utils.isBlank(self.redirect) ? '/welcome' : self.redirect).search({});
 					}
 				},
 				error: function(r) {
