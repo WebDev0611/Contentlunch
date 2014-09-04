@@ -16,8 +16,7 @@
 			self.init = function() {
 				self.loggedInUser = AuthService.userInfo();
 
-				// TODO: DO WE NEED A PRIVILEGE FOR THIS? THE COLLABORATE PRIVILEGE IS WRONG!!
-				scope.canModifyCollaborators = true;//self.loggedInUser.hasPrivilege('collaborate_execute_sendcontent');
+				scope.canModifyCollaborators = true;
 
 				self.service = (scope.itemType.toLowerCase() === 'campaign') ? CampaignService : ContentService;
 
