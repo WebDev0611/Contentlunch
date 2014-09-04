@@ -368,9 +368,14 @@ class ContentController extends BaseController {
     if ( ! $content) {
       return $this->responseError('Content not found');
     }
-    return LaunchResponse::where('content_id', $contentID)
+    $launches = LaunchResponse::where('content_id', $contentID)
       ->with('account_connection.connection')
+      ->has('account_connection')
       ->get();
+    foreach ($launches as $launch) {
+      $launch->permalink = $launch->getPermalink();
+    }
+    return $launches;
   }
 
 

@@ -1847,6 +1847,7 @@
 			lc.response = dto.response;
 			lc.created = new Date(moment(lc.created_at).format());
 			lc.updated = new Date(moment(lc.updated_at).format());
+			lc.permalink = dto.permalink;
 
 			return lc;
 		}
