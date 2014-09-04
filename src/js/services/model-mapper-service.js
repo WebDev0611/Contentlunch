@@ -522,7 +522,6 @@
 					}
 				});
 
-				// TODO: THESE SHOULD COME FROM THE API!!
 				var home = new launch.Module();
 				var consult = new launch.Module();
 				var create = new launch.Module();
@@ -1047,17 +1046,6 @@
 				default:
 					return self.contentConnection.fromDto(dto);
 			}
-
-			// TODO: UNCOMMENT THIS WHEN WE GET connection_type FROM THE API!!
-			//if (dto.type === 'content') {
-			//	return self.contentConnection.fromDto(dto);
-			//} else if (dto.type === 'promote') {
-			//	return self.promoteConnection.fromDto(dto);
-			//} else if (dto.type === 'seo') {
-			//	return self.seoConnection.fromDto(dto);
-			//}
-
-			//throw 'Unknown connection type: ' + JSON.stringify(dto);
 		},
 		toDto: function(connection) {
 			return {
@@ -1213,7 +1201,7 @@
 			connection.name = dto.name;
 			connection.active = (parseInt(dto.status) === 1) ? true : false;
 			connection.connectionType = 'seo';
-			connection.connectionCategory = null; // TODO: SET THIS VALUE FROM THE API!!
+			connection.connectionCategory = dto.category;
 			connection.connectionSettings = dto.settings;
 			connection.created = new Date(moment(dto.created_at).format());
 			connection.updated = new Date(moment(dto.updated_at).format());
