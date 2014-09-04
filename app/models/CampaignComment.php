@@ -4,6 +4,8 @@ use LaravelBook\Ardent\Ardent;
 
 class CampaignComment extends Ardent {
 
+    protected $softDelete = true;
+
   protected $table = 'campaign_comments';
 
   public $autoHydrateEntityFromInput = true;

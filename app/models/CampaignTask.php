@@ -4,6 +4,8 @@ use LaravelBook\Ardent\Ardent;
 
 class CampaignTask extends Ardent {
 
+    protected $softDelete = true;
+
     protected $table = 'campaign_tasks';
 
     public $autoHydrateEntityFromInput = true;
