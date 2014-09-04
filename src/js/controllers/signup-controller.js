@@ -9,7 +9,7 @@
 
 			},
 			error: function (r) {
-				$scope.isLoading = false;
+				$scope.isSaving = false;
 				launch.utils.handleAjaxErrorResponse(r, notificationService);
 			}
 		};
@@ -39,6 +39,7 @@
 		};
 
 		$scope.user = null;
+		$scope.isSaving = false;
 
 		$scope.signUp = function() {
 			var msg = '';
@@ -70,8 +71,11 @@
 			account.userCount = 10;
 			account.subscription = self.subscription;
 
+			$scope.isSaving = true;
+
 			accountService.addBeta(account, {
-				success: function(r) {
+				success: function (r) {
+					$scope.isSaving = false;
 					document.location = '/user/confirm/' + r.confirmation_code;
 				},
 				error: self.ajaxHandler.error

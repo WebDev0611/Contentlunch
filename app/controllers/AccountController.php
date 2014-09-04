@@ -228,7 +228,10 @@ class AccountController extends BaseController {
 			'token' => $token
 		);
 		Mail::send('emails.account.creation', $data, function ($message) use ($account) {
-			$message->to($account->email)->subject('Account Created');
+			$message
+                ->from('support@contentlaunch.com', 'Content Launch')
+                ->to($account->email)
+                ->subject('Account Created');
 		});
 
 		return array('success' => 'OK');
@@ -243,7 +246,10 @@ class AccountController extends BaseController {
 		}
 
 		Mail::send('emails.account.support', Input::get(), function ($message) {
-			$message->to('support@contentlaunch.com')->subject('Customer Support');
+			$message
+                ->to('support@contentlaunch.com')
+                ->cc('mmayo@surgeforward.com')
+                ->subject('Customer Support');
 		});
 
 		return array('success' => 'OK');

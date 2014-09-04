@@ -143,23 +143,27 @@ class AuthController extends BaseController {
     return Redirect::to('login?link=expired');
   }
 
-  /**
-   * Attempt to send change password link to the given email
-   *
-   */
-  public function do_forgot_password()
-  {
-    if( Confide::forgotPassword( Input::get( 'email' ) ) )
-    {
-      $notice_msg = Lang::get('confide::confide.alerts.password_forgot');
-      return ['message' => $notice_msg];
+    /**
+     * Attempt to send change password link to the given email
+     *
+     */
+    public function do_forgot_password() {
+        if (Confide::forgotPassword(Input::get('email'))) {
+            $user = User::where('email', Input::get('email'))->first();
+            $user->confirmation_code = md5(uniqid(mt_rand(), true));
+            $user->confirmed = 0;
+            $user->save();
+
+            $notice_msg = Lang::get('confide::confide.alerts.password_forgot');
+
+            return ['message' => $notice_msg];
+        }
+        else {
+            $error_msg = Lang::get('confide::confide.alerts.wrong_password_forgot');
+
+            return $this->responseError($error_msg);
+        }
     }
-    else
-    {
-      $error_msg = Lang::get('confide::confide.alerts.wrong_password_forgot');
-      return $this->responseError($error_msg);
-    }
-  }
 
   /**
    * Attempt change password of the user
