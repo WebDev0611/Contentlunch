@@ -246,7 +246,10 @@ class AccountController extends BaseController {
 		}
 
 		Mail::send('emails.account.support', Input::get(), function ($message) {
-			$message->to('support@contentlaunch.com')->subject('Customer Support');
+			$message
+                ->to('support@contentlaunch.com')
+                ->cc('mmayo@surgeforward.com')
+                ->subject('Customer Support');
 		});
 
 		return array('success' => 'OK');
