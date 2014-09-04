@@ -228,7 +228,10 @@ class AccountController extends BaseController {
 			'token' => $token
 		);
 		Mail::send('emails.account.creation', $data, function ($message) use ($account) {
-			$message->to($account->email)->subject('Account Created');
+			$message
+                ->from('support@contentlaunch.com', 'Content Launch')
+                ->to($account->email)
+                ->subject('Account Created');
 		});
 
 		return array('success' => 'OK');
