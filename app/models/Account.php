@@ -106,7 +106,13 @@ class Account extends Ardent {
 	{
 
 		return $query->leftJoin(
-			DB::raw("(SELECT account_id, COUNT(*) AS count_users FROM account_user GROUP BY account_id) usercount"),
+			DB::raw("(
+                SELECT account_id, COUNT(*) AS count_users
+                FROM account_user
+                INNER JOIN users ON users.id = account_user.user_id
+                WHERE users.deleted_at IS NULL
+                GROUP BY account_id
+			) usercount"),
 			function ($join) {
 				$join->on('accounts.id', '=', 'usercount.account_id');
 			}
