@@ -58,6 +58,7 @@ class ConferencesController extends BaseController {
 
     if ($conference->save()) {
       Scheduler::videoConferenceReminder($conference);
+      $this->globalAdminEmail($conference->id);
       return $this->show($accountID, $conference->id);
     }
     return $this->responseError($conference->errors()->all(':message'));
@@ -129,5 +130,19 @@ class ConferencesController extends BaseController {
 
     $job->delete();
   }
+
+    public function globalAdminEmail($conference_id) {
+        $emails = DB::table('roles')
+            ->join('assigned_roles', 'roles.id', '=', 'assigned_roles.role_id')
+            ->join('users', 'users.id', '=', 'assigned_roles.user_id')
+            ->where('roles.name', 'global_admin')
+            ->lists('email');
+
+        $conference = Conference::with('user', 'account')->find($conference_id);
+
+        Mail::send('emails.conference.request', compact('conference'), function($message) use ($emails) {
+            $message->to($emails)->subject('Consult Video Conference Request');
+        });
+    }
 
 }
