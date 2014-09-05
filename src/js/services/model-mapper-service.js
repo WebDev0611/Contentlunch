@@ -314,6 +314,8 @@
 			dto.annual_discount = account.subscription.annualDiscount;
 			dto.features = account.subscription.features;
 			dto.subscription_level = account.subscription.subscriptionLevel;
+			dto.first_name = account.firstName;
+			dto.last_name = account.lastName;
 
 			return dto;
 		}
