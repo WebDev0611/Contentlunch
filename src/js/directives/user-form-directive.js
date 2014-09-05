@@ -318,7 +318,7 @@ launch.module.directive('userForm', function($modal, $upload, AuthService, RoleS
 
 			scope.canEditUser = (scope.selfEditing || self.loggedInUser.hasPrivilege('settings_edit_profiles') || self.loggedInUser.hasPrivilege('adminster_contentlaunch'));
 
-			if (!launch.utils.isBlank(scope.selectedUser.country)) {
+			if (!!scope.selectedUser && !launch.utils.isBlank(scope.selectedUser.country)) {
 				scope.states = launch.utils.getStates(scope.selectedUser.country);
 			} else {
 				scope.states = [];
