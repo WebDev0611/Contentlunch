@@ -10,7 +10,8 @@ class Account extends Ardent {
 	public $forceEntityHydrationFromInput = true;
 
 	public static $rules = [
-		'title' => 'required|min:5|unique:accounts',
+		//'title' => 'required|min:5|unique:accounts',
+		'name' => 'required|min:5',
         'email' => 'unique:accounts'
 	];
 
