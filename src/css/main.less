@@ -1362,6 +1362,7 @@ span[class^="icon-"], span[class*=" icon-"] {
 			td, th {
 				padding: 8px;
 				text-align: left;
+				vertical-align: top;
 
 				> span{
 					vertical-align: middle;
@@ -2192,6 +2193,44 @@ span[class^="icon-"], span[class*=" icon-"] {
 				max-width: 400px;
 			}
 
+		}
+	}
+}
+
+.welcome {
+	font-size: 14pt;
+	margin: auto;
+	max-width: 800px;
+
+	.welcome-header {
+		margin: 0 0 48px 0;
+		text-align: center;
+
+		h1 {
+			font-size: 36pt;
+			font-weight: bold;
+		}
+	}
+
+	.welcome-content {
+		margin: 48px 0 0 0;
+
+		.welcome-content-em{
+			text-decoration: underline;
+		}
+
+		p {
+			margin: 24pt 0;
+		}
+
+		ul {
+			li {
+				list-style: none;
+
+				.fa{
+					color: @homeColorDark;
+				}
+			}
 		}
 	}
 }

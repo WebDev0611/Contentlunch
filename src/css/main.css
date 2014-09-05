@@ -403,6 +403,10 @@
   height: 60px;
   width: 160px;
 }
+.cl-banner-x-large {
+  height: 60px;
+  width: 280px;
+}
 .cl-banner-content-launch {
   background-image: url(/assets/images/logo.png);
 }
@@ -1865,6 +1869,7 @@ span[class*=" icon-"].dark {
 .seo-settings-editor table.persona-table tr th {
   padding: 8px;
   text-align: left;
+  vertical-align: top;
 }
 .content-settings-editor table.persona-table tr td > span,
 .seo-settings-editor table.persona-table tr td > span,
@@ -2666,6 +2671,34 @@ span[class*=" icon-"].dark {
 }
 .support .right-pane .right-pane-content .control-group {
   max-width: 400px;
+}
+.welcome {
+  font-size: 14pt;
+  margin: auto;
+  max-width: 800px;
+}
+.welcome .welcome-header {
+  margin: 0 0 48px 0;
+  text-align: center;
+}
+.welcome .welcome-header h1 {
+  font-size: 36pt;
+  font-weight: bold;
+}
+.welcome .welcome-content {
+  margin: 48px 0 0 0;
+}
+.welcome .welcome-content .welcome-content-em {
+  text-decoration: underline;
+}
+.welcome .welcome-content p {
+  margin: 24pt 0;
+}
+.welcome .welcome-content ul li {
+  list-style: none;
+}
+.welcome .welcome-content ul li .fa {
+  color: #10699d;
 }
 .create-header .btn-group .btn.active,
 .measure-header .btn-group .btn.active {
@@ -3970,4 +4003,13 @@ table.scribe-table tr th.scribe-score-overall {
 table.scribe-table tr td.scribe-category,
 table.scribe-table tr th.scribe-category {
   width: 25%;
+}
+.OB_AMPLIFY {
+  padding: 0 10px;
+  top: 12px;
+  display: inline-block;
+  float: none !important;
+}
+.posted-link {
+  font-size: 14px;
 }
