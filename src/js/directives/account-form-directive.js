@@ -65,6 +65,7 @@
 		scope.errorMessage = launch.utils.getPropertyErrorMessage;
 		scope.subscriptions = [];
 		scope.years = [];
+		scope.states = [];
 
 		scope.cancelEdit = function(form) {
 			if (form.$dirty) {
@@ -189,36 +190,18 @@
 			});
 		};
 
-		scope.getStates = function(forCreditCard) {
-			if (forCreditCard) {
-				if (!!scope.selectedAccount && !!scope.selectedAccount.country && !!scope.selectedAccount.creditCard) {
-					if (scope.selectedAccount.creditCard.country == 'Australia' || scope.selectedAccount.creditCard.country == 'UK') {
-						return [];
-					}
-					return launch.utils.getStates(scope.selectedAccount.creditCard.country);
-				}
-			} else {
-				if (!!scope.selectedAccount && !!scope.selectedAccount.country) {
-					if (scope.selectedAccount.country == 'Australia' || scope.selectedAccount.country == 'UK') {
-						return [];
-					}
-					return launch.utils.getStates(scope.selectedAccount.country);
-				}
-			}
-
-			return [];
-		};
-
 		scope.impersonateAccount = function() {
 			AuthService.impersonate(scope.selectedAccount.id);
 		};
 
-		scope.resendAccountCreationEmail = function() {
+		scope.resendAccountCreationEmail = function(e) {
 			AccountService.resendCreationEmail.save({ id: scope.selectedAccount.id }, function() {
 				NotificationService.success('Success', 'Account creation email sent.');
 			}, function(r) {
 				launch.utils.handleAjaxErrorResponse(r, NotificationService);
 			});
+
+			e.stopImmediatePropagation();
 		};
 
 		scope.renewAccount = function() {
@@ -387,6 +370,12 @@
 						}
 					});
 				}
+			}
+
+			if (!launch.utils.isBlank(scope.selectedAccount.country)) {
+				scope.states = launch.utils.getStates(scope.selectedAccount.country);
+			} else {
+				scope.states = [];
 			}
 
 			if (!scope.selfEditing && (!scope.selectedAccount || launch.utils.isBlank(scope.selectedAccount.id) || scope.selectedAccount.id <= 0)) {

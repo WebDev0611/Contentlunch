@@ -50,6 +50,7 @@ launch.module.directive('userForm', function($modal, $upload, AuthService, RoleS
 		scope.percentComplete = 0;
 		scope.hasError = launch.utils.isPropertyValid;
 		scope.errorMessage = launch.utils.getPropertyErrorMessage;
+		scope.states = [];
 
 		scope.activeOptions = [
 			{ key: true, name: 'Active' },
@@ -246,17 +247,6 @@ launch.module.directive('userForm', function($modal, $upload, AuthService, RoleS
 			});
 		};
 
-		scope.getStates = function() {
-			if (!!scope.selectedUser && !!scope.selectedUser.country) {
-				if (scope.selectedUser.country == 'Australia' || scope.selectedUser.country == 'UK') {
-					return [];
-				}
-				return launch.utils.getStates(scope.selectedUser.country);
-			}
-
-			return [];
-		};
-
 		scope.resetPassword = function() {
 			$modal.open({
 				windowClass: 'round-corner-dialog',
@@ -327,6 +317,12 @@ launch.module.directive('userForm', function($modal, $upload, AuthService, RoleS
 			}
 
 			scope.canEditUser = (scope.selfEditing || self.loggedInUser.hasPrivilege('settings_edit_profiles') || self.loggedInUser.hasPrivilege('adminster_contentlaunch'));
+
+			if (!launch.utils.isBlank(scope.selectedUser.country)) {
+				scope.states = launch.utils.getStates(scope.selectedUser.country);
+			} else {
+				scope.states = [];
+			}
 		}, true);
 
 		self.init();
