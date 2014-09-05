@@ -2678,7 +2678,7 @@ span[class*=" icon-"].dark {
   max-width: 800px;
 }
 .welcome .welcome-header {
-  margin: 0 0 48px 0;
+  margin: 48px 0;
   text-align: center;
 }
 .welcome .welcome-header h1 {
