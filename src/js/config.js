@@ -30,9 +30,10 @@
 		toolbar2: 'formatselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | table | removeformat | visualchars visualblocks',
 
 		// DOCUMENT TOOLBAR
-		toolbar3: 'cut copy paste | undo redo | searchreplace | preview print',
+		toolbar3: 'undo redo | searchreplace | preview print',
 
 		menubar: false,
+		
 		toolbar_items_size: 'small'
 	}
 };

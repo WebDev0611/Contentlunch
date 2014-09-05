@@ -29,6 +29,7 @@
 				controller: [
 					'$scope', '$modalInstance', function (scp, instance) {
 						scp.brainstorm = brainstorm;
+						scp.brainstorm.date = moment(scp.brainstorm.date).format();
 
 						scp.save = function () {
 							AccountService.addBrainstorm(scp.brainstorm, {

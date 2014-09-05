@@ -190,16 +190,7 @@ launch.module.controller('AccountsController', [
 				self.reset(form);
 			} else {
 				$scope.selectedIndex = ((($scope.pagination.currentPage - 1) * $scope.pagination.pageSize) + i);
-
-				$scope.isSaving = true;
-				$scope.selectedAccount = accountService.get(account.id, {
-					success: function(r) {
-						$scope.isSaving = false;
-					},
-					error: function(r) {
-						$scope.isSaving = false;
-					}
-				});
+				$scope.selectedAccount = account;
 			}
 		};
 

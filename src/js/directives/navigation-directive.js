@@ -11,7 +11,7 @@
 		};
 
 		self.getNavigationItems = function() {
-			if (!scope.user || !scope.user.id || !scope.user.$resolved) {
+			if (!scope.user || !scope.user.id) {
 				scope.showNav = false;
 				return;
 			}
@@ -100,29 +100,38 @@
 			if (forceLogout) {
 				scope.showNav = false;
 				scope.user = null;
-			} else if (!scope.user) {
-				self.getLoggedInUser();
+				scope.mainMenu = [];
+				scope.adminMenu = [];
+				scope.userMenu = [];
 			} else {
-				self.getNavigationItems();
+				self.getLoggedInUser();
+
+				if (!!scope.user && $.isArray(scope.user.modules) && scope.user.modules.length > 0) {
+					self.getNavigationItems();
+				}
 			}
 		};
 
-		self.getLoggedInUser = function() {
+		self.getLoggedInUser = function () {
+			scope.user = AuthService.userInfo();
 			self.subscription = null;
-			scope.user = AuthService.fetchCurrentUser({
-				success: function(user) {
-					if ($location.path().indexOf('/user/confirm') === 0 || $location.path().indexOf('/login') === 0 ||
-						$location.path().indexOf('/signup') === 0 || $location.path().indexOf('/collaborate/guest') === 0) {
-						return;
-					}
 
-					if (launch.utils.isBlank(scope.user.id)) {
-						$location.path('/login');
-					}
+			if ($location.path().indexOf('/user/confirm') === 0 || $location.path().indexOf('/login') === 0 ||
+				$location.path().indexOf('/signup') === 0 || $location.path().indexOf('/collaborate/guest') === 0) {
+				return;
+			}
 
-					self.getNavigationItems();
-				}
-			});
+			if (!scope.user || !$.isArray(scope.user.modules) || scope.user.modules.length === 0) {
+				scope.user = AuthService.fetchCurrentUser({
+					success: function (user) {
+						if (launch.utils.isBlank(scope.user.id)) {
+							$location.path('/login');
+						}
+
+						self.getNavigationItems();
+					}
+				});
+			}
 		};
 
 		scope.user = null;
