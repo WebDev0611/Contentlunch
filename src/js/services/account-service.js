@@ -150,7 +150,7 @@
 			brainstorm.userId = userId;
 			brainstorm.accountId = accountId;
 			brainstorm.contentType = contentType;
-			brainstorm.date = moment(now).format('MM-DD-YYYY');
+			brainstorm.date = moment(now).format();
 			brainstorm.time = now.getTime();
 
 			if (contentType === 'content') {
