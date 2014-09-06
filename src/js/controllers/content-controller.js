@@ -1228,6 +1228,17 @@
 			});
 		};
 
+		$scope.outbrainPopup = function (url) {
+			$modal.open({
+				templateUrl: '/api/outbrain?url=' + url,
+				controller: function ($scope, $modalInstance) {
+					$scope.cancel = function () {
+						$modalInstance.dismiss('cancel');
+					}
+				}
+			});
+		};
+
 		$scope.$watch('content.collaborators', $scope.filterTaskAssignees);
 
 		$scope.$watch('content.author', $scope.filterCollaborators);

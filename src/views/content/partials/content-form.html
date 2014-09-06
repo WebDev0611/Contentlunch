@@ -167,7 +167,9 @@
 				<span class="fa fa-times error" ng-show="!l.success"></span>
 				<span ng-class="getConnectionProviderIconClass(l.connection.provider)"></span>
 				Posted to {{ l.connection.name }} <span ng-if="l.permalink"> @ <a ng-href="{{ l.permalink }}" target="__blank" class="posted-link">Link</a></span>
-				<div class="OB_AMPLIFY" ng-data-src="{{ l.permalink }}" data-channel-id="channel_id" style="display: inline-block" ng-if="l.permalink"></div>
+				<a href="#" ng-click="outbrainPopup(l.permalink)" ng-if="l.permalink">
+					<img src="http://widgets.outbrain.com/amplifyThis/button/images/amplify1.png" />
+				</a>
 
 				<button class="btn btn-default btn-black btn-xs" ng-click="launchContent(l.connection)" ng-show="!l.success">Try Again</button>
 			</div>

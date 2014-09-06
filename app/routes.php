@@ -236,6 +236,13 @@ Route::group(['prefix' => 'api'], function()
 
     Route::get('accounts/csv', 'AccountController@csv');
 
+    Route::get('outbrain', function () {
+      $url = Input::get('url');
+      return View::make('outbrain', [
+        'url' => $url
+      ]);
+    });
+
 });
 
 Route::get('password/reset/{code}', 'AuthController@check_reset');
