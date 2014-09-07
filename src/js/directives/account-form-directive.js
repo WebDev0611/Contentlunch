@@ -288,7 +288,7 @@
 									case 'company':
 										return launch.utils.isBlank(scp.message.company) ? 'Company is required' : null;
 									case 'name':
-										return launch.utils.isBlank(scp.message.name) ? 'Name is required' : null;
+										return launch.utils.isBlank(scp.message.name) ? 'Namez is required' : null;
 									case 'email':
 										if (launch.utils.isBlank(scp.message.email)) {
 											return 'Email Address is required.';
