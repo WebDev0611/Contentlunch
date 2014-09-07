@@ -93,7 +93,7 @@ return [
   // Use same api creds as google
   'youtube' => [
     'key' => '229252344182-6e0oa703c66350j3rgprhu1e6balqgn3.apps.googleusercontent.com',
-    'secret' => '',
+    'secret' => 'bJ6EN7y6yDiG6oiTpVi3FfZn',
     'scope' => ['profile', 'https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/youtube.upload'],
   ]
 ];
