@@ -58,8 +58,8 @@
 				<div class="form-group">
 					<label for="txtTaskDueDate">Due Date</label>
 					<div class="input-group">
-						<input id="txtTaskDueDate" name="txtTaskDueDate" type="text" class="form-control" ng-model="task.dueDate"
-							datepicker-popup="'MM/DD/YYYY'" min="minDate" is-open="opened" show-weeks="false" show-button-bar="false" />
+						<input id="txtTaskDueDate" name="txtTaskDueDate" type="text" class="form-control" ng-model="task.dueDate" value="{{ task.dueDate }}"
+							datepicker-popup="{{ dateFormat }}" min="minDate" is-open="opened" show-weeks="false" show-button-bar="false" />
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-default" ng-click="opened = openCalendar(opened, $event)"><i class="fa fa-calendar"></i></button>
 						</span>
