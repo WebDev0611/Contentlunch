@@ -34,6 +34,25 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 		save: { method: 'POST', transformResponse: self.modelMapper.user.parseResponse }
 	});
 
+	self.fetchCurrentUser = function(callback) {
+		var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+		var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+		return self.authenticate.fetchCurrentUser(null, function(r) {
+			if (r.id) {
+				self.cacheSession(r);
+			}
+
+			if ($.isFunction(success)) {
+				success(r);
+			}
+
+			if (!r.id) {
+				return;
+			}
+		}, error);
+	};
+
 	return {
 		login: function(username, password, remember, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -81,24 +100,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 
 			return self.modelMapper.account.fromCache(JSON.parse(SessionService.get(SessionService.ACCOUNT_KEY)));
 		},
-		fetchCurrentUser: function(callback) {
-			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
-			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
-
-			return self.authenticate.fetchCurrentUser(null, function(r) {
-				if (r.id) {
-					self.cacheSession(r);
-				}
-
-				if ($.isFunction(success)) {
-					success(r);
-				}
-
-				if (!r.id) {
-					return;
-				}
-			}, error);
-		},
+		fetchCurrentUser: self.fetchCurrentUser,
 		fetchGuestCollaborator: function(callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
@@ -138,16 +140,14 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 			self.impersonate.save({ account_id: accountId },
 				function (r) {
 					self.uncacheSession();
-					var user = self.modelMapper.user.fromDto(r);
-					self.cacheSession(user);
+					self.fetchCurrentUser();
 					$window.location.href = '/';
 				});
 		},
 		impersonateReset: function() {
 			self.impersonate.save({ reset: 'true' }, function(r) {
 				self.uncacheSession();
-				var user = self.modelMapper.user.fromDto(r);
-				self.cacheSession(user);
+				self.fetchCurrentUser();
 				$window.location.href = '/accounts';
 			});
 		}

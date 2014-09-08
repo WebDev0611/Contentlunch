@@ -55,6 +55,12 @@ class Campaign extends Ardent {
     }
   }
 
+    protected function beforeDelete() {
+        $this->comments()->delete();
+        $this->tags()->delete();
+        $this->tasks()->delete();
+    }
+
   /**
    * Gets the next campaign color to use from an ordered list
    */

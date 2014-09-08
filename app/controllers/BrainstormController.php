@@ -21,6 +21,37 @@ class BrainstormController extends BaseController {
             $query->where('user_id', $userID);
         }
 
+        if ($start = Input::get('start')) {
+            $query->where('datetime', '>=', $start);
+        }
+
+        if ($end = Input::get('end')) {
+            $query->where('datetime', '<=', $end);
+        }
+
+        return $query->get();
+    }
+
+    public function getForCalendar($accountID) {
+        $account = Account::find($accountID);
+        if (!$account) {
+            return $this->responseError("Invalid account");
+        }
+        if (!$this->inAccount($account->id)) {
+            return $this->responseAccessDenied();
+        }
+
+        $query = Brainstorm::with('campaign', 'content')
+            ->where('account_id', $accountID);
+
+        if ($start = Input::get('start')) {
+            $query->where('datetime', '>=', $start);
+        }
+
+        if ($end = Input::get('end')) {
+            $query->where('datetime', '<=', $end);
+        }
+
         return $query->get();
     }
 

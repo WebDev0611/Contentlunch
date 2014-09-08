@@ -1,16 +1,40 @@
 <?php
 
 class ContentTaskGroupController extends BaseController {
+
+    public function getForCalendar($accountID) {
+        ini_set('xdebug.var_display_max_depth', 10);
+        ini_set('xdebug.var_display_max_children', 256);
+
+        $content = Content::where('account_id', $accountID)->lists('id');
+        $task_groups = ContentTaskGroup::whereIn('content_id', $content)->lists('id');
+
+        $tasks = ContentTask::with('task_group.content.content_type', 'task_group.content.campaign', 'task_group.content.user', 'user')
+            ->whereIn('content_task_group_id', $task_groups);
+
+
+        if(Input::get('start')) {
+            $tasks->where('due_date', '>=', Input::get('start'));
+        }
+        if(Input::get('end')) {
+            $tasks->where('due_date', '<=', Input::get('end'));
+        }
+
+        return $tasks->get();
+    }
     
     // returns a list of ALL tasks (not task groups) regardless of content
     // (this is used in the calendar)
     public function getAllTasks($accountID) 
     {
-        return ContentTask::join('content_task_groups as ctg', 'ctg.id', '=', 'content_task_group_id')
+        $contentTasks = ContentTask::join('content_task_groups as ctg', 'ctg.id', '=', 'content_task_group_id')
             ->join('content', 'ctg.content_id', '=', 'content.id')
             ->with('user')
-            ->where('content.account_id', $accountID)
-            ->get();
+            ->where('content.account_id', $accountID);
+
+        $contentTasks = $contentTasks->get()->toArray();
+
+        return $contentTasks;
     }
 
     public function index($accountID, $contentID)

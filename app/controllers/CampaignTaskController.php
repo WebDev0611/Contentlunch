@@ -2,6 +2,26 @@
 
 class CampaignTaskController extends BaseController {
 
+    // returns a list of ALL tasks (not task groups) regardless of content
+    // (this is used in the calendar)
+    public function getForCalendar($accountID)
+    {
+        $campaigns = Campaign::where('account_id', $accountID)->lists('id');
+
+        $tasks = CampaignTask::with('campaign', 'user')
+            ->whereIn('campaign_id', $campaigns);
+
+
+        if(Input::get('start')) {
+            $tasks->where('due_date', '>=', Input::get('start'));
+        }
+        if(Input::get('end')) {
+            $tasks->where('due_date', '<=', Input::get('end'));
+        }
+
+        return $tasks->get();
+    }
+
     public function index($accountID, $campaignID)
     {
         $account = Account::find($accountID);

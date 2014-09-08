@@ -50,7 +50,7 @@
 		switch (property.toLowerCase()) {
 			case 'title':
 			case 'accountname':
-				return launch.utils.isBlank(this.title) ? 'Account Name is required.' : null;
+				return launch.utils.isBlank(this.name) ? 'Account Name is required.' : null;
 			case 'email':
 				if (launch.utils.isBlank(this.email)) {
 					return 'Email is required.';

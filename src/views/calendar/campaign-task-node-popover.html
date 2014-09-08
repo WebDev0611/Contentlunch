@@ -1,0 +1,32 @@
+<div class="calendar-node-popover">
+
+    <div><strong>Assigned to</strong></div>
+    <div>
+        {{ user.name }} 
+        &mdash;
+        {{ isComplete ? 'Completed' : 'Pending' }}
+    </div>
+
+    <hr class="simple-divider">
+
+    <table class="structural">
+        <tbody>
+            <tr>
+                <td>
+                    <span class="calendar-node-popover-colorification" style="background-color:{{ circleColor }}"></span>
+                </td>
+                <td>
+                    <strong>{{ campaign.title }}</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="calendar-node-popover-colorification" style="background-image: url('{{ user.image | imagePathFromObject }}'); border: 2px solid black; background-size: cover"></span>
+                </td>
+                <td>
+                    {{ user.name }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

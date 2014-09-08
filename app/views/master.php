@@ -33,13 +33,10 @@
 
     <footer></footer>
 
-    <div class="OB_AMPLIFY" style="display: none"></div>
-
     <script type="text/javascript" src="/assets/js/build.js"></script>
     <script type="text/javascript" src="https://js.balancedpayments.com/1.1.11/balanced.js"></script>
 	<script type="text/javascript" src="/assets/js/app.js"></script>
     <script type="text/javascript" src="/assets/js/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" src="https://widgets.outbrain.com/amplifyThis/amplify.js"></script>
 
     <?php if (Config::get('app.debug')): ?>
       <script type="text/javascript">

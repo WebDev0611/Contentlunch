@@ -81,6 +81,7 @@ class UserController extends BaseController {
 		if ( ! empty($accounts[0])) {
 			$account = Account::countUsers()->find($accounts[0]->id);
       		$count_users = $account->count_users;
+
       		// How many users are allowed in this account's tier?
 			$licenses = AccountSubscription::where('account_id', $account->id)->pluck('licenses');
 			if ($count_users >= $licenses) {

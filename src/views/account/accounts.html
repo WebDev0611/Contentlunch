@@ -29,8 +29,8 @@
 		<ul class="items-list">
 			<li ng-repeat="account in pagedAccounts[pagination.currentPage - 1]" ng-click="selectAccount(account, $index, editAccount)" ng-class="{ selected: isSelectedAccount(account) }">
 				<div class="item-info">
-					<span class="item-title">{{ account.title }}{{ account.subscription.getName(' -') }}</span><br/>
-					{{ account.city }}, {{ account.state.value }}
+					<span class="item-title">{{ account.name }}{{ account.subscription.getName(' -') }}</span><br/>
+					<span ng-show="account.city">{{ account.city }}, {{ account.state.value }}</span>
 				</div>
 			</li>
 		</ul>
@@ -49,7 +49,7 @@
 	</div>
 	<div class="col-md-9 right-pane">
 		<h2 class="right-pane-header" ng-show="!!selectedAccount">Account Settings</h2>
-		<div class="right-pane-content" ng-show="!!selectedAccount" ng-cloak account-form selected-account="selectedAccount" refresh-method="refreshMethod" after-save-success="afterSaveSuccess" self-editing="selfEditing()" creating-new="(isNaN(selectedAccount.id) || selectedAccount.id <= 0)"></div>
+		<div class="right-pane-content" ng-if="!!selectedAccount" account-form selected-account="selectedAccount" refresh-method="refreshMethod" after-save-success="afterSaveSuccess" self-editing="selfEditing()" creating-new="(isNaN(selectedAccount.id) || selectedAccount.id <= 0)"></div>
 	</div>
 </div>
 

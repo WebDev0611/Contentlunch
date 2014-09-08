@@ -29,6 +29,14 @@ class CampaignController extends BaseController {
       $query->where('end_date', '>=', Input::get('end_date'));
     }
 
+      if(Input::has('start')) {
+          $query->where('end_date', '>=', Input::get('start'));
+      }
+
+      if(Input::has('end')) {
+          $query->where('start_date', '<=', Input::get('end'));
+      }
+
     $user = Confide::User();
     if(!$this->hasAbility([], ['calendar_view_campaigns_other'])) {
       $query->where('user_id', $user->id);

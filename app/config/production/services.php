@@ -41,8 +41,8 @@ return [
     'scope' => ['profile', 'https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.me'],
   ],
   'hubspot' => [
-    'key' => '',
-    'secret' => '',
+    'key' => 'b5badda1-cb0e-11e3-bd85-131c19601838',
+    'secret' => '13aeed7d-b469-4a15-81a5-7d0058036075',
     // Content launch portal id, users should provide their own to connect to
     //'portalId' => '175282', 
     //'portalId' => '424894', // Jason's portal id
@@ -86,14 +86,14 @@ return [
     'key' => '9bdcf55c7b277e26063a04d2dff577ba'
   ],
   'vimeo' => [
-    'key' => '',
-    'secret' => '',
+    'key' => 'eb1cc41f34259f58146c7f594b3965504c64ce95',
+    'secret' => '390f70c3396dcfb3067caf005b1135ce3708f318',
     'scope' => ['public', 'private', 'upload', 'edit'],
   ],
   // Use same api creds as google
   'youtube' => [
     'key' => '229252344182-6e0oa703c66350j3rgprhu1e6balqgn3.apps.googleusercontent.com',
-    'secret' => '',
+    'secret' => 'bJ6EN7y6yDiG6oiTpVi3FfZn',
     'scope' => ['profile', 'https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/youtube.upload'],
   ]
 ];
