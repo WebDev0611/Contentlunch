@@ -206,6 +206,7 @@
 									self.init();
 								}
 							});
+                            $modalInstance.close(connection);
 						};
 					}
 				});

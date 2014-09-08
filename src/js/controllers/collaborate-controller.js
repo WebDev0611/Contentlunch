@@ -30,6 +30,7 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
         Collab = Account.one($routeParams.conceptType, $routeParams.id);
         requests.selected = Collab.get().then(function (selected) {
             selected.internalCollaborators = selected.collaborators;
+            selected.conceptType = $routeParams.conceptType;
             return selected;
         });
         requests.connections = Account.all('connections').getList({ 'provider[]': ['linkedin', 'twitter'] });
@@ -43,13 +44,13 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
     } else {
         requests.list = $q.all({
             Content  : Account.all( 'content' ).getList({ status: 0 }),
-            Campaign : Account.all('campaigns').getList({ status: 0 }),
+            Campaign : Account.all('campaign').getList({ status: 0 }),
         }).then(function (responses) {
             // merge lists and set the type & typeSlug
             var response = _.reduce(responses, function (list, sublist, type) {
                 _.each(sublist, function (item) {
                     item.type = type;
-                    item.typeSlug = type === 'Content' ? 'content' : 'campaigns';
+                    item.typeSlug = type === 'Content' ? 'content' : 'campaign';
                     item.internalCollaborators = item.collaborators;
                     return list.push(item);
                 });
