@@ -12,8 +12,6 @@ class Timezone
      */
     public static function set($timezone)
     {
-        // set MySQL timezone
-        DB::statement("SET time_zone='{$timezone}'");
 
         // Convert -08:00 to "Americas/Los_Angeles" etc.
         // Note that it may not be reliable to store the timezone ID because
@@ -23,10 +21,15 @@ class Timezone
         $timezoneName = timezone_name_from_abbr(null, $offset * 3600, true);
         if ($timezoneName === false) $tz = timezone_name_from_abbr(null, $offset * 3600, false);
 
-        // set Laravel timezone
-        Config::set('app.timezone', $timezoneName);
-        // set PHP timezone
-        date_default_timezone_set($timezoneName);
+        if ($timezoneName) {
+            // set MySQL timezone
+            DB::statement("SET time_zone='{$timezone}'");
+
+            // set Laravel timezone
+            Config::set('app.timezone', $timezoneName);
+            // set PHP timezone
+            date_default_timezone_set($timezoneName);
+        }
     }
 }
 
