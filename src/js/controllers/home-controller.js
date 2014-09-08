@@ -5,6 +5,13 @@ launch.module.controller('HomeController',
 
         var user = AuthService.userInfo();
 
+        // If user is global admin, we don't really have a homepage
+        // for them so take them to /accounts
+        if (user && launch.utils.isBlank(user.account)) {
+            $location.path('/accounts');
+            return;
+        }
+
         if (!user || !user.account || launch.utils.isBlank(user.account.id)) {
         	$location.path('/login');
 	        return;
