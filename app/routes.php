@@ -32,6 +32,9 @@ Route::group(['prefix' => 'api'], function()
   Route::resource('account/{id}/campaigns', 'CampaignController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
+  Route::resource('account/{id}/campaign', 'CampaignController', [
+    'only' => ['index', 'store', 'show', 'update', 'destroy']
+  ]);
 
   Route::resource('account/{accountID}/campaigns/{campaignID}/tasks', 'CampaignTaskController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
@@ -42,7 +45,9 @@ Route::group(['prefix' => 'api'], function()
   ]);
 
 
-  Route::get('account/{accountID}/content-tasks', 'ContentTaskGroupController@getAllTasks');
+//  Route::get('account/{accountID}/content-tasks', 'ContentTaskGroupController@getAllTasks');
+  Route::get('account/{accountID}/campaign-tasks', 'CampaignTaskController@getForCalendar');
+  Route::get('account/{accountID}/content-tasks', 'ContentTaskGroupController@getForCalendar');
 
   Route::get('account/{accountID}/content/export-csv', 'ContentController@download_csv');
   // Launch a content connection
@@ -194,12 +199,15 @@ Route::group(['prefix' => 'api'], function()
   ]);
   Route::post('account/{accountID}/{conceptType}/{conceptID}/brainstorm/{id}', 'BrainstormController@update');
 
-  Route::get('account/{accountID}/brainstorm', 'BrainstormController@all');
+    Route::get('account/{accountID}/brainstorm', 'BrainstormController@all');
+    Route::get('account/{accountID}/brainstorm-calendar', 'BrainstormController@getForCalendar');
 
   Route::get('traackr/search-influencers', 'TraackrController@searchInfluencers');
   Route::resource('account/{accountID}/{conceptType}/{conceptID}/traackr-tags', 'TraackrTagController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
+
+    Route::get('conference/test', 'ConferencesController@test');
 
   Route::get('test/{accountID}', 'MeasureController@test');
   Route::get('updateStats/{accountID}/{accountConnectionID}', 'AccountConnectionsController@updateStats');

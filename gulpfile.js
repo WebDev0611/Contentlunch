@@ -233,9 +233,16 @@ gulp.task('fonts-otf', function () {
 });
 
 gulp.task('views', function () {
-	return gulp.src('src/views/**/*.html')
+	return gulp.src(['src/views/**/*.html'])
 	//	.pipe(embedlr())
 		.pipe(gulp.dest('public/assets/views'))
+		.pipe(livereload(server));
+});
+
+gulp.task('documents', function () {
+	return gulp.src(['src/documents/**/*.*'])
+	//	.pipe(embedlr())
+		.pipe(gulp.dest('public/assets/documents'))
 		.pipe(livereload(server));
 });
 
@@ -284,5 +291,5 @@ gulp.task('watch', function() {
 
 // Run clean task first as dependency
 gulp.task('default', ['clean'], function () {
-	gulp.start('styles-bootstrap', 'map-bootstrap', 'bootstrap-components-css', 'styles-angular-ui', 'less', 'tinymce', 'scripts', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff', 'fonts-otf');
+	gulp.start('styles-bootstrap', 'map-bootstrap', 'bootstrap-components-css', 'styles-angular-ui', 'less', 'tinymce', 'scripts', 'documents', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff', 'fonts-otf');
 });

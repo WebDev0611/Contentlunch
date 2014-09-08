@@ -844,7 +844,7 @@
 							scope.isImage = file.isImage();
 							scope.isVideo = file.isVideo();
 							scope.isAudio = file.isAudio();
-							scope.isSupported = file.fileIsSupported();
+							scope.isSupported =  !file.isVideo() || file.fileIsSupported();
 
 							scope.ok = function() {
 								instance.dismiss('cancel');

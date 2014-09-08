@@ -164,6 +164,7 @@
 						templateUrl: 'create-task.html',
 						controller: [
 							'$scope', '$modalInstance', function (scope1, instance) {
+								scope1.dateFormat = 'MM/dd/yyyy';
 								scope1.task = task;
 								scope1.minDate = new Date();
 

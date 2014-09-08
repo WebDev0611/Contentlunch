@@ -34,7 +34,12 @@
                     <p>{{ selected.description }}</p>
 
                     <div class="align-right">
-                        <a ng-href="/create/content/edit/{{ selected.id }}" class="btn btn-create">
+                        <a ng-href="/create/concept/edit/{{ selected.id }}" class="btn btn-create" ng-show="selected.conceptType == 'content'">
+                            <img src="/assets/images/create.svg">
+                            View in Create
+                        </a>
+
+                        <a ng-href="/calendar/concept/edit/campaign/{{ selected.id }}" class="btn btn-create" ng-show="selected.conceptType == 'campaign'">
                             <img src="/assets/images/create.svg">
                             View in Create
                         </a>
@@ -97,7 +102,7 @@
                         </div>
                         <div class="accordion-body" slide-toggle="connection.accordionOpen">
                             <div ng-hide="connection.spinner">
-                                <div class="section-header">
+                                <div class="section-header section-header-collaborate">
                                     <div class="paging-controls">
                                         <div class="form-group form-inline">
                                             <label class="control-label" for="selPageSize">Items per page:</label>

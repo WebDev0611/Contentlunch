@@ -21,6 +21,15 @@ launch.module.controller('CalendarController',
 
 		$scope.sortOrder = 'title';
 
+        function randomColor() {
+            return '#' + Math.floor(Math.random() * 16777215).toString(16);
+        }
+
+        var contentTasksCache = {};
+        var campaignTasksCache = {};
+        var campaignCache = {};
+        var brainstormCache = {};
+
 		var calendarConfig = {
 			editable: false,
 			header: {
@@ -28,7 +37,179 @@ launch.module.controller('CalendarController',
 				center: 'title',
 				right: 'prev,next today'
 			},
-			eventRender: calendar.eventRender
+            slotEventOverlap: false,
+			eventRender: calendar.eventRender,
+            eventSources: [
+                function(start, end, timezone, callback) {
+                    var makeEvents = function(tasks) {
+                        return _.map(tasks, function(task) {
+                            var content = task.taskGroup.content
+                            var color = (content.campaign || { }).color || randomColor();
+
+                            return _.merge(task, {
+                                uniqId: 'content_task_' + task.id,
+                                title: task.name,
+                                contentTypeIconClass: launch.utils.getContentTypeIconClass((content.contentType || { }).key),
+                                workflowIconCssClass: launch.utils.getWorkflowIconCssClass(contentStatuses[task.stepId]),
+                                stage: contentStatuses[task.status],
+                                circleColor: color,
+                                start: task.dueDate,
+                                type: 'content_task',
+                                allDay: false, // will make the time show
+                                content: content,
+                                className: 'calendar-task',
+                                color: color,
+                                textColor: 'whitesmoke'
+                            });
+                        })
+                    };
+
+                    var key = start.unix()+'_'+end.unix();
+                    if(typeof(contentTasksCache[key]) !== 'undefined') {
+                        var response = contentTasksCache[key];
+                        var filtered = filterItems(response);
+                        callback(makeEvents(filtered));
+                        return;
+                    }
+
+                    Account.getList('content-tasks', {start: start.format('YYYY-MM-DD'), end: end.format('YYYY-MM-DD')})
+                        .then(function(response) {
+                            _.each(response, function(task) {
+                                task.type = 'content_task';
+                                task.stepId = task.taskGroup.status;
+                            });
+                            contentTasksCache[key] = response;
+                            var filtered = filterItems(response);
+
+                            var events = makeEvents(filtered);
+
+                            console.log(events);
+                            callback(events);
+                        });
+                },
+
+                function(start, end, timezone, callback) {
+                    var makeEvents = function(tasks) {
+                        return _.map(tasks, function(task) {
+                            var campaign = task.campaign
+                            var color = (campaign || { }).color || randomColor();
+
+                            return _.merge(task, {
+                                uniqId: 'campaign_task_' + task.id,
+                                title: task.name,
+                                circleColor: color,
+                                start: task.dueDate,
+                                type: 'campaign_task',
+                                allDay: false, // will make the time show
+                                campaign: campaign,
+                                className: 'calendar-task',
+                                color: color,
+                                textColor: 'whitesmoke'
+                            });
+                        })
+                    };
+
+                    var key = start.unix()+'_'+end.unix();
+                    if(typeof(campaignTasksCache[key]) !== 'undefined') {
+                        var response = campaignTasksCache[key];
+                        var filtered = filterItems(response);
+                        callback(makeEvents(filtered));
+                        return;
+                    }
+
+                    Account.getList('campaign-tasks', {start: start.format('YYYY-MM-DD'), end: end.format('YYYY-MM-DD')})
+                        .then(function(response) {
+                            _.each(response, function(task) {
+                                task.type = 'campaign_task';
+                            });
+                            campaignTasksCache[key] = response;
+                            var filtered = filterItems(response);
+
+                            var events = makeEvents(filtered);
+
+                            console.log(events);
+                            callback(events);
+                        });
+                },
+
+                function(start, end, timezone, callback) {
+                    var makeEvents = function(campaigns) {
+                        return _.map(campaigns, function(campaign) {
+                            return _.merge(campaign, {
+                                uniqId: 'campaign_' + campaign.id,
+                                title: campaign.title,
+                                start: campaign.startDate,
+                                end: campaign.endDate,
+                                type: 'campaign',
+                                allDay: true,
+                                color: campaign.color,
+                                textColor: 'whitesmoke'
+                            });
+                        })
+                    };
+
+                    var key = start.unix()+'_'+end.unix();
+                    if(typeof(campaignCache[key]) !== 'undefined') {
+                        var response = campaignCache[key];
+                        var filtered = filterItems(response);
+                        callback(makeEvents(filtered));
+                        return;
+                    }
+
+                    Account.getList('campaigns', {start: start.format('YYYY-MM-DD'), end: end.format('YYYY-MM-DD')})
+                        .then(function(response) {
+                            _.each(response, function(campaign) {
+                                campaign.campaignId = campaign.id;
+                                campaign.type = 'campaign';
+                            });
+                            campaignCache[key] = response;
+                            var filtered = filterItems(response);
+
+                            var events = makeEvents(filtered);
+
+                            console.log(events);
+                            callback(events);
+                        });
+                },
+
+                function(start, end, timezone, callback) {
+                    var makeEvents = function(brainstorms) {
+                        return _.map(brainstorms, function(brainstorm) {
+                            return _.merge(brainstorm, {
+                                uniqId: 'brainstorm_' + brainstorm.id,
+                                title: 'Brainstorming Session',
+                                start: brainstorm.datetime,
+                                type: 'brainstorm',
+                                className: 'calendar-task',
+                                color: randomColor(),
+                                textColor: 'whitesmoke'
+                            });
+                        })
+                    };
+
+                    var key = start.unix()+'_'+end.unix();
+                    if(typeof(brainstormCache[key]) !== 'undefined') {
+                        var response = brainstormCache[key];
+                        var filtered = filterItems(response);
+                        callback(makeEvents(filtered));
+                        return;
+                    }
+
+                    Account.getList('brainstorm-calendar', {start: start.format('YYYY-MM-DD'), end: end.format('YYYY-MM-DD')})
+                        .then(function(response) {
+                            _.each(response, function(task) {
+                                task.type = 'brainstorm';
+                            });
+                            brainstormCache[key] = response;
+                            var filtered = filterItems(response);
+
+                            var events = makeEvents(filtered);
+
+                            console.log(events);
+                            callback(events);
+                        });
+                }
+            ]
 		};
 
 		var Account = Restangular.one('account', user.account.id);
@@ -40,23 +221,32 @@ launch.module.controller('CalendarController',
 			content: Account.getList('content'),
 			brainstorms: Account.getList('brainstorm'),
 			// that's CONTENT tasks to you, boooooiii
-			tasks: Account.getList('content-tasks'),
+            tasks: Account.getList('content-tasks'),
+            campaign_tasks: Account.getList('campaign-tasks'),
 			users: Account.getList('users'),
 			contentSettings: Account.customGET('content-settings'),
 			contentTypes: Restangular.all('content-types').getList(),
-			userAuth: Restangular.all('auth').customGET(),
+			userAuth: Restangular.all('auth').customGET()
 		}).then(function(responses) {
 			originalResponses = _.mapObject(responses, function(response, key) {
 				return [key, (response || { }).plain ? response.plain() : response];
 			});
 
-			var contentObj = _.mapObject(originalResponses.content, function(content) {
-				return [content.id, content];
-			});
-			originalResponses.tasks = _.map(originalResponses.tasks, function(task) {
-				task.content = contentObj[task.contentId];
-				return task;
-			});
+            var contentObj = _.mapObject(originalResponses.content, function(content) {
+                return [content.id, content];
+            });
+            var campaignObj = _.mapObject(originalResponses.campaigns, function(campaign) {
+                return [campaign.id, campaign];
+            });
+
+            originalResponses.tasks = _.map(originalResponses.tasks, function(task) {
+                task.content = contentObj[task.contentId];
+                return task;
+            });
+            originalResponses.campaign_tasks = _.map(originalResponses.campaign_tasks, function(task) {
+                task.campaign = campaignObj[task.campaignId];
+                return task;
+            });
 			originalResponses.campaigns = _.map(originalResponses.campaigns, function(campaign) {
 				campaign.campaignId = campaign.id;
 				return campaign;
@@ -88,8 +278,8 @@ launch.module.controller('CalendarController',
 
 			$timeout(function() {
 				calendar.init(calendarConfig);
-				eventize = calendar.eventize(responses.content);
-				eventize(responses.campaigns, responses.tasks, responses.brainstorms);
+//				eventize = calendar.eventize(responses.content, responses.campaignObj);
+//				eventize(responses.campaigns, responses.tasks, responses.campaign_tasks, responses.brainstorms);
 			});
 		});
 
@@ -141,8 +331,8 @@ launch.module.controller('CalendarController',
 
 			$scope.brainstorms = filterItems(originalResponses.brainstorms);
 
-			if (eventize)
-				eventize($scope.campaigns, $scope.tasks, $scope.brainstorms);
+			if (calendar)
+				calendar.refresh();
 		}, 300);
 		$scope.$watch('filters', filterDebouncer, true);
 
@@ -158,6 +348,13 @@ launch.module.controller('CalendarController',
 		};
 
 		function filterItems(items) {
+            // first filter for "my" tasks if needed
+            if ($scope.filters.onlyMine) {
+                items = _.filter(items, function(task) {
+                    return (task.type != 'content_task' && task.type != 'campaign_task') || task.userId == user.id;
+                });
+            }
+
 			items = _.reduce(searches, function(filtered, modelKey, filterKey) {
 				var array = $scope.filters[filterKey];
 				if (_.isEmpty(array)) return filtered;
@@ -184,7 +381,7 @@ launch.module.controller('CalendarController',
 				if (!item.hasOwnProperty(prop) && !(item.content || { }).hasOwnProperty(prop)) return true;
 
 				// return if an item (or item's content) has that property in the selected stuff
-				return (item.content && _.contains(array, item.content[prop])) || _.contains(array, item[prop]);
+				return (item.content && _.contains(array, ''+item.content[prop])) || _.contains(array, ''+item[prop]);
 			};
 		}
 

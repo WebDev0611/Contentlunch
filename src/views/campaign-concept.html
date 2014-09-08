@@ -40,6 +40,11 @@
 						</div>
 
 						<button type="button" class="btn btn-lg btn-black btn-default" ng-click="saveConcept()" ng-show="canEditCampaign">Save</button>
+
+                        <button type="button" class="btn btn-lg btn-collaborate" ng-click="viewInCollaborate()" ng-show="showCollaborate">
+                            <span class="cl-icon cl-icon-white cl-icon-med cl-icon-workflow-collaborate"></span>
+                            View in Collaborate
+                        </button>
 					
 						<button type="button" class="btn btn-lg btn-calendar" ng-click="convertConcept()" ng-hide="isNewConcept || !canConvertConept">
 							<span class="cl-icon cl-icon-white cl-icon-med cl-icon-workflow-create"></span>

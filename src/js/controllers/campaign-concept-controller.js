@@ -142,6 +142,10 @@
 			});
 		};
 
+        $scope.viewInCollaborate = function () {
+            $location.path('/collaborate/campaign/' + $scope.campaign.id);
+        };
+
 		$scope.convertConcept = function() {
 			$scope.campaign.status = 1;
 			$scope.campaign.concept = $scope.campaign.description;
