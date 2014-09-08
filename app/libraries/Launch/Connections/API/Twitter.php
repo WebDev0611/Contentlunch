@@ -83,7 +83,7 @@ class TwitterAPI extends AbstractConnection
     {
       $client = $this->getClient();
       // Strip html tags
-      $message = strip_tags($content->body);
+      $message = $message = $this->stripTags($content->body);
 
       // If there is an attached file, upload with media
       $upload = $content->upload()->first();
