@@ -2970,6 +2970,16 @@ span[class*=" icon-"].dark {
   background-color: #000000;
   color: #ffffff;
 }
+.section-header.section-header-collaborate {
+  margin: 0;
+  text-align: right;
+}
+.section-header.section-header-collaborate .paging-controls {
+  float: none;
+}
+.section-header.section-header-collaborate .paging-controls > * {
+  margin: 0;
+}
 .section-header .paging-controls {
   float: right;
 }

@@ -132,7 +132,16 @@
 
 					if (scope.isNewAccount || (scope.selectedAccount.subscription.subscriptionLevel !== self.originalSubscription.subscriptionLevel)) {
 						// Now save the subscription along with the new account.
-						AccountService.updateAccountSubscription(r.id, scope.selectedAccount.subscription);
+						AccountService.updateAccountSubscription(r.id, scope.selectedAccount.subscription, {
+							success: function(r) {
+								self.originalSubscription = angular.copy(scope.selectedAccount.subscription);
+							},
+							error: function(r) {
+								scope.isSaving = false;
+
+								launch.utils.handleAjaxErrorResponse(r, NotificationService);
+							}
+						});
 					}
 
 					var successMsg = 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.title + '\'s') + ' account settings!';
@@ -385,23 +394,24 @@
 			}
 
 			if (!!scope.selectedAccount && !self.originalSubscription) {
-				var setSubscription = function(acct) {
-					if (!!acct.subscription) {
-						if ($.isFunction(acct.subscription.validateProperty)) {
-							self.originalSubscription = angular.copy(acct.subscription);
-						} else if (acct.subscription.$promise) {
-							acct.subscription.$promise.then(function(s) {
-								setSubscription(acct);
-							});
-						}
-					}
-				};
+				self.originalSubscription = angular.copy(scope.selectedAccount.subscription);
+				//var setSubscription = function(acct) {
+				//	if (!!acct.subscription) {
+				//		if ($.isFunction(acct.subscription.validateProperty)) {
+				//			self.originalSubscription = angular.copy(acct.subscription);
+				//		} else if (acct.subscription.$promise) {
+				//			acct.subscription.$promise.then(function(s) {
+				//				setSubscription(acct);
+				//			});
+				//		}
+				//	}
+				//};
 
-				if (scope.selectedAccount.$resolved === true) {
-					setSubscription(scope.selectedAccount);
-				} else if (scope.selectedAccount.$promise) {
-					scope.selectedAccount.$promise.then(setSubscription);
-				}
+				//if (scope.selectedAccount.$resolved === true) {
+				//	setSubscription(scope.selectedAccount);
+				//} else if (scope.selectedAccount.$promise) {
+				//	scope.selectedAccount.$promise.then(setSubscription);
+				//}
 			}
 		}, true);
 
