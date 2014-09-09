@@ -17,7 +17,7 @@ class AccountSubscriptionController extends BaseController {
     if ($checkAuth && ! $this->inAccount($id)) {
       return $this->responseAccessDenied();
     }
-    $sub = new AccountSubscription;
+    $sub = AccountSubscription::firstOrNew(['account_id' => $id]);
     $sub->account_id = $id;
     $sub->subscription_level = Input::get('subscription_level');
     $sub->licenses = Input::get('licenses');
@@ -54,7 +54,7 @@ class AccountSubscriptionController extends BaseController {
       }
       return $this->get_subscription($id, $checkAuth);
     }
-    return $this->errorResponse($sub->errors()->toArray());
+    return $this->responseError($sub->errors()->toArray());
   }
 
 }
