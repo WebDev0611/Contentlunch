@@ -466,7 +466,10 @@
 		$scope.taskUsers = null;
 		$scope.collaborators = null;
 		$scope.selectedConnections = [];
-        $scope.analyzingContent = false;
+		$scope.analyzingContent = false;
+		$scope.isNewFile = false;
+		$scope.newFile = null;
+		$scope.newFileType = null;
 
 		$scope.isPromote = false;
 		$scope.hasError = launch.utils.isPropertyValid;
@@ -696,6 +699,9 @@
 
 			self.replaceFile = true;
 			self.uploadFile = file;
+			$scope.isNewFile = true;
+			$scope.newFile = file.name;
+			$scope.newFileType = launch.utils.getFileTypeCssClass(file.name.substring(file.name.lastIndexOf('.') + 1));
 			console.log(self.uploadFile);
 		};
 

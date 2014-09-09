@@ -2186,10 +2186,23 @@ span[class*=" icon-"].dark {
 }
 .create .right-pane .row .content-file-view .content-file-view-file,
 .promote .right-pane .row .content-file-view .content-file-view-file,
-.measure .right-pane .row .content-file-view .content-file-view-file {
-  cursor: pointer;
+.measure .right-pane .row .content-file-view .content-file-view-file,
+.create .right-pane .row .content-file-view .content-new-file,
+.promote .right-pane .row .content-file-view .content-new-file,
+.measure .right-pane .row .content-file-view .content-new-file {
   display: inline-block;
   padding: 0 16px;
+}
+.create .right-pane .row .content-file-view .content-file-view-file,
+.promote .right-pane .row .content-file-view .content-file-view-file,
+.measure .right-pane .row .content-file-view .content-file-view-file {
+  cursor: pointer;
+}
+.create .right-pane .row .content-file-view .content-new-file,
+.promote .right-pane .row .content-file-view .content-new-file,
+.measure .right-pane .row .content-file-view .content-new-file {
+  color: #3c763d;
+  font-weight: bold;
 }
 .create .right-pane .content-preview,
 .promote .right-pane .content-preview,
