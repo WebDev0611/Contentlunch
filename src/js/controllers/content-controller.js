@@ -261,6 +261,10 @@
 
 			self.replaceFile = false;
 			self.uploadFile = null;
+
+			$scope.isNewFile = false;
+			$scope.newFile = null;
+			$scope.newFileType = null;
 		};
 
 		self.validateTasks = function() {
