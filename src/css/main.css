@@ -686,6 +686,9 @@ header .login-info .popover-menu > a {
   color: #ffffff;
   text-decoration: none;
 }
+.disabled {
+  opacity: 0.4;
+}
 .small-text {
   font-size: 8pt;
   font-weight: normal;
@@ -1357,20 +1360,6 @@ span[class*=" icon-"].dark {
 .measure .left-pane ul.items-list li .item-info .item-title {
   font-size: 12pt;
 }
-.users .left-pane ul.items-list li.disabled,
-.accounts .left-pane ul.items-list li.disabled,
-.roles .left-pane ul.items-list li.disabled,
-.content-settings .left-pane ul.items-list li.disabled,
-.seo-settings .left-pane ul.items-list li.disabled,
-.create .left-pane ul.items-list li.disabled,
-.calendar .left-pane ul.items-list li.disabled,
-.admin-library .left-pane ul.items-list li.disabled,
-.consult .left-pane ul.items-list li.disabled,
-.admin-conference .left-pane ul.items-list li.disabled,
-.promote .left-pane ul.items-list li.disabled,
-.measure .left-pane ul.items-list li.disabled {
-  opacity: 0.4;
-}
 .users .left-pane .cl-pager ul.pagination,
 .accounts .left-pane .cl-pager ul.pagination,
 .roles .left-pane .cl-pager ul.pagination,
@@ -1706,7 +1695,6 @@ span[class*=" icon-"].dark {
 }
 .tier-components .tier-tiles .tile.disabled {
   background-color: #999999;
-  opacity: 0.4;
 }
 .tier-components .tier-info {
   display: inline-block;
@@ -2112,12 +2100,6 @@ span[class*=" icon-"].dark {
   margin-left: 48px;
   vertical-align: top;
 }
-.create .right-pane .panel .panel-body ul.concept-collaborators li.disabled,
-.calendar .right-pane .panel .panel-body ul.concept-collaborators li.disabled,
-.promote .right-pane .panel .panel-body ul.concept-collaborators li.disabled,
-.measure .right-pane .panel .panel-body ul.concept-collaborators li.disabled {
-  opacity: 0.4;
-}
 .create .right-pane .panel.panel-user-info,
 .calendar .right-pane .panel.panel-user-info,
 .promote .right-pane .panel.panel-user-info,
@@ -2361,9 +2343,6 @@ span[class*=" icon-"].dark {
   list-style: none;
   padding: 0;
 }
-.create .left-pane .task-group .task-group-list .task-group-task.disabled {
-  opacity: 0.6;
-}
 .create .left-pane .task-group .task-group-list .task-group-task .checkbox label {
   font-family: Lato;
   font-weight: normal;
@@ -2379,9 +2358,6 @@ span[class*=" icon-"].dark {
 .create .left-pane .task-group .task-group-list .task-group-task .checkbox .fa-trash-o {
   cursor: pointer;
   float: right;
-}
-.create .left-pane .task-group .task-group-list .task-group-task .checkbox .disabled {
-  opacity: 0.4;
 }
 .create .left-pane .task-group .panel-group .panel .panel-heading {
   border: none;
@@ -3047,9 +3023,6 @@ span[class*=" icon-"].dark {
   list-style: none;
   padding: 0;
 }
-.task-list .task-task.disabled {
-  opacity: 0.6;
-}
 .task-list .task-task .checkbox {
   padding-left: 0;
 }
@@ -3329,7 +3302,7 @@ table.structural > tbody > tr > td {
   background-color: #e6e4e0;
 }
 .disabled-row {
-  color: #aaa;
+  opacity: 0.4;
 }
 .disabled-row a {
   color: #8fa4bb;

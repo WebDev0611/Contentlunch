@@ -100,6 +100,7 @@
 						self.setPrivileges();
 
 						$scope.activity = $scope.content.activity;
+						$scope.showConcept = !launch.utils.isBlank($scope.content.concept);
 
 						self.filterCampaigns();
 						self.refreshComments();
@@ -457,6 +458,7 @@
 		$scope.showDownloadContentFile = false;
 		$scope.showMetaInfo = false;
 		$scope.showPromoteButtons = false;
+		$scope.showConcept = true;
 		$scope.isSaving = false;
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;

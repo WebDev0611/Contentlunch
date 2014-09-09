@@ -297,6 +297,10 @@ header {
 	}
 }
 
+.disabled {
+	opacity: 0.4;
+}
+
 .small-text {
 	font-size: 8pt;
 	font-weight: normal;
@@ -890,10 +894,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 						font-size: 12pt;
 					}
 				}
-
-				&.disabled {
-					opacity: 0.4;
-				}
 			}
 		}
 
@@ -1156,7 +1156,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 
 			&.disabled {
 				background-color: #999999;
-				opacity: 0.4;
 			}
 		}
 	}
@@ -1552,10 +1551,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 								vertical-align: top;
 							}
 						}
-
-						&.disabled {
-							opacity: 0.4;
-						}
 					}
 				}
 			}
@@ -1783,10 +1778,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 				padding: 0;
 
 				.task-group-task {
-					&.disabled {
-						opacity: 0.6;
-					}
-
 					.checkbox {
 						label {
 							font-family: Lato;
@@ -1806,10 +1797,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 						.fa-trash-o {
 							cursor: pointer;
 							float: right;
-						}
-
-						.disabled{
-							opacity: 0.4;
 						}
 					}
 				}
@@ -2577,10 +2564,6 @@ span[class^="icon-"], span[class*=" icon-"] {
 	padding: 0;
 
 	.task-task {
-		&.disabled {
-			opacity: 0.6;
-		}
-
 		.checkbox {
 			padding-left: 0;
 
@@ -2897,7 +2880,7 @@ table.structural {
 }
 
 .disabled-row {
-	color: #aaa;
+	opacity: 0.4;
 
 	a {
 		color: #8fa4bb;
