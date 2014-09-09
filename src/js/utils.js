@@ -814,34 +814,35 @@
 			case 'png':
 			case 'jpeg':
 			case 'image':
-				return 'cl-icon-file-image';
+				return 'fa fa-image';
 			case 'avi':
 			case 'mp4':
 			case 'mpg':
 			case 'wmv':
 			case 'mov':
 			case 'video':
-				return 'cl-icon-file-video';
+				return 'fa fa-video-camera';
 			case 'wav':
 			case 'mp3':
 			case 'wma':
 			case 'audio':
-				return 'cl-icon-file-audio';
+				return 'fa fa-file-audio-o';
 			case 'pdf':
-				return 'cl-icon-file-pdf';
+				return 'fa fa-file-pdf-o';
 			case 'doc':
 			case 'docx':
 			case 'document':
-				return 'cl-icon-file-ms-word';
+			case 'rtf':
+				return 'fa fa-file-word-o';
 			case 'xls':
 			case 'xlsx':
 			case 'spreadsheet':
-				return 'cl-icon-file-ms-excel';
+				return 'fa fa-file-excel-o';
 			case 'ppt':
 			case 'pptx':
-				return 'cl-icon-file-ms-powerpoint';
+				return 'fa fa-file-powerpoint-o';
 			default:
-				return null;
+				return 'fa fa-file-o';
 		}
 	},
 

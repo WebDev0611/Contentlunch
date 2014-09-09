@@ -42,7 +42,8 @@
 		
 					<div class="col-md-6">
 						<h3>Concept</h3>
-						<i ng-bind-html="content.concept"></i>
+						<i ng-bind-html="content.concept" ng-if="showConcept"></i>
+						<div class="disabled" ng-if="!showConcept">N/A</div>
 					</div>
 				</div>
 

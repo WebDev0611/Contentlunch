@@ -7,6 +7,7 @@ function ($scope, AuthService, $routeParams, $filter, $q, $upload, $modal, Resta
 
     $scope.isLoaded = false;
     $scope.isSaving = false;
+    $scope.showConcept = true;
 
     $q.all({
         campaign: $routeParams.campaignId === 'new' ? newCampaign() : Campaigns.get($routeParams.campaignId),
@@ -39,6 +40,8 @@ function ($scope, AuthService, $routeParams, $filter, $q, $upload, $modal, Resta
         if ($location.search().duplicate) {
             $scope.duplicateCampaign();
         }
+
+        $scope.showConcept = !launch.utils.isBlank($scope.campaign.concept);
 
         $scope.filterCollaborators();
     }).catch($rootScope.globalErrorHandler);
