@@ -140,15 +140,21 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 			self.impersonate.save({ account_id: accountId },
 				function (r) {
 					self.uncacheSession();
-					self.fetchCurrentUser();
-					$window.location.href = '/';
+					self.fetchCurrentUser({
+						success: function (user) {
+							$window.location.href = '/';
+						}
+					});
 				});
 		},
 		impersonateReset: function() {
 			self.impersonate.save({ reset: 'true' }, function(r) {
 				self.uncacheSession();
-				self.fetchCurrentUser();
-				$window.location.href = '/accounts';
+				self.fetchCurrentUser({
+					success: function (user) {
+						$window.location.href = '/accounts';
+					}
+				});
 			});
 		}
 	};
