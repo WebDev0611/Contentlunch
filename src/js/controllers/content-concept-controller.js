@@ -26,6 +26,11 @@
 			$scope.users = userService.getForAccount(self.loggedInUser.account.id, null, self.ajaxHandler);
 			$scope.campaigns = campaignService.query(self.loggedInUser.account.id, null, {
 				success: function (r) {
+					if ($scope.campaigns.length === 0 && r.length > 0) {
+						console.log('Why is $scope.campaigns not populated here??');
+						$scope.campaigns = r;
+					}
+
 					if ($scope.isNewConcept) {
 						self.filterCampaigns();
 					}
