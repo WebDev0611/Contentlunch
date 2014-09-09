@@ -46,7 +46,7 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
                         title: $interpolate('<div class="group">\
                                                 <div class="popover-close">&times;</div>\
                                                 <div class="calendar-node-popover-title">{{ title }}</div>\
-                                                <div class="calendar-node-popover-date">{{ start.format() | date:"h:mm a" }}</div>\
+                                                <div class="calendar-node-popover-date">{{ start.format() | date:"MM/dd/yyyy" }}</div>\
                                              </div>')(event)
                     });
                 });
@@ -71,7 +71,7 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
                         title: $interpolate('<div class="group">\
                                                 <div class="popover-close">&times;</div>\
                                                 <div class="calendar-node-popover-title">{{ title }}</div>\
-                                                <div class="calendar-node-popover-date">{{ start.format() | date:"h:mm a" }}</div>\
+                                                <div class="calendar-node-popover-date">{{ start.format() | date:"MM/dd/yyyy" }}</div>\
                                              </div>')(event)
                     });
                 });
