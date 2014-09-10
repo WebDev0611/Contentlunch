@@ -10,9 +10,13 @@
 			scope.$on('$routeChangeSuccess', self.detectRoute);
 		};
 
-		self.getNavigationItems = function() {
+		self.getNavigationItems = function(forceRefresh) {
 			if (!scope.user || !scope.user.id) {
 				scope.showNav = false;
+				return;
+			}
+
+			if (!forceRefresh && $.isArray(scope.mainMenu) && scope.mainMenu.length > 0) {
 				return;
 			}
 
@@ -107,12 +111,14 @@
 				self.getLoggedInUser();
 
 				if (!!scope.user && $.isArray(scope.user.modules) && scope.user.modules.length > 0) {
-					self.getNavigationItems();
+					console.log('CALLING getNavitationItems FROM detectRoute');
+					self.getNavigationItems(true);
+					console.log('RETURNED ' + scope.mainMenu.length + ' ITEMS');
 				}
 			}
 		};
 
-		self.getLoggedInUser = function () {
+		self.getLoggedInUser = function() {
 			scope.user = AuthService.userInfo();
 			self.subscription = null;
 
@@ -123,14 +129,20 @@
 
 			if (!scope.user || !$.isArray(scope.user.modules) || scope.user.modules.length === 0) {
 				scope.user = AuthService.fetchCurrentUser({
-					success: function (user) {
+					success: function(user) {
 						if (launch.utils.isBlank(scope.user.id)) {
 							$location.path('/login');
 						}
 
-						self.getNavigationItems();
+						console.log('CALLING getNavitationItems FROM getLoggedInUser (AFTER API REQUEST)');
+						self.getNavigationItems(true);
+						console.log('RETURNED ' + scope.mainMenu.length + ' ITEMS');
 					}
 				});
+			} else {
+				console.log('CALLING getNavitationItems FROM getLoggedInUser');
+				self.getNavigationItems(false);
+				console.log('RETURNED ' + scope.mainMenu.length + ' ITEMS');
 			}
 		};
 
