@@ -33,7 +33,8 @@
         <div style="width: 100px; text-align: center;">
             {{ pagination.getPageIndicator() }}
         </div>
-
+		
+		{{pagination.totalItems}} > {{pagination.pageSize}}
 		<div class="create-pager" ng-show="pagination.totalItems > pagination.pageSize">
 			<pagination
 				total-items="pagination.totalItems"
@@ -41,9 +42,7 @@
 				page="pagination.currentPage"
 				ng-model="pagination.currentPage"
 				on-select-page="pagination.onPageChange(page, editUser)"
-				direction-links="false"
-				previous-text="<<"
-				next-text=">>"
+				direction-links="true"
 				max-size="0">
 			</pagination>
 		</div>

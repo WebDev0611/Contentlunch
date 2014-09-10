@@ -6,7 +6,8 @@
 
 		self.ajaxHandler = {
 			success: function (r) {
-
+				$scope.isSaving = false;
+				notificationService.success('SUCCESS!!', 'You\'re message has been sent! We\'ll be in contact soon.');
 			},
 			error: function (r) {
 				$scope.isSaving = false;

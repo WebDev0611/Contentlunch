@@ -321,9 +321,12 @@ class ContentController extends BaseController {
       case 'vimeo':
         $class = 'VimeoAPI';
       break;
-      case 'youtube':
-        $class = 'YoutubeAPI';
-      break;
+        case 'youtube':
+            $class = 'YoutubeAPI';
+            break;
+        case 'slideshare':
+            $class = 'SlideshareAPI';
+            break;
       default:
         return $this->responseError("Connection provider: ". $accountConnection->connection->provider ." not implemented yet.");
     }
