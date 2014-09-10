@@ -2726,8 +2726,6 @@ span[class*=" icon-"].dark {
 }
 .create-header .create-paging-controls .create-pager .pagination {
   margin: 0;
-  /*min-height: 34px;
-				min-width: 50px;*/
 }
 .create-header .create-paging-controls .create-pager .pagination li > a,
 .create-header .create-paging-controls .create-pager .pagination .btn {
