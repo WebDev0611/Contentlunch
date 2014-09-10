@@ -31,7 +31,7 @@
                     </div>
 
                     <h4>Description</h4>
-                    <p>{{ selected.description }}</p>
+                    <div ng-bind-html="selected.description"></div>
 
                     <div class="align-right">
                         <a ng-href="/create/concept/edit/{{ selected.id }}" class="btn btn-create" ng-show="selected.conceptType == 'content'">

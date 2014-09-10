@@ -100,6 +100,7 @@
 						self.setPrivileges();
 
 						$scope.activity = $scope.content.activity;
+						$scope.showConcept = !launch.utils.isBlank($scope.content.concept);
 
 						self.filterCampaigns();
 						self.refreshComments();
@@ -260,6 +261,10 @@
 
 			self.replaceFile = false;
 			self.uploadFile = null;
+
+			$scope.isNewFile = false;
+			$scope.newFile = null;
+			$scope.newFileType = null;
 		};
 
 		self.validateTasks = function() {
@@ -457,6 +462,7 @@
 		$scope.showDownloadContentFile = false;
 		$scope.showMetaInfo = false;
 		$scope.showPromoteButtons = false;
+		$scope.showConcept = true;
 		$scope.isSaving = false;
 		$scope.isUploading = false;
 		$scope.percentComplete = 0;
@@ -464,7 +470,10 @@
 		$scope.taskUsers = null;
 		$scope.collaborators = null;
 		$scope.selectedConnections = [];
-        $scope.analyzingContent = false;
+		$scope.analyzingContent = false;
+		$scope.isNewFile = false;
+		$scope.newFile = null;
+		$scope.newFileType = null;
 
 		$scope.isPromote = false;
 		$scope.hasError = launch.utils.isPropertyValid;
@@ -694,6 +703,9 @@
 
 			self.replaceFile = true;
 			self.uploadFile = file;
+			$scope.isNewFile = true;
+			$scope.newFile = file.name;
+			$scope.newFileType = launch.utils.getFileTypeCssClass(file.name.substring(file.name.lastIndexOf('.') + 1));
 			console.log(self.uploadFile);
 		};
 

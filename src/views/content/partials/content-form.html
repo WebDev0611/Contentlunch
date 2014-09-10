@@ -71,19 +71,31 @@
 				Replace File
 			</button>
 
-			<div class="content-file-view-file" ng-click="viewFile(content.contentFile)">
+			<div class="content-file-view-file" ng-click="viewFile(content.contentFile)" ng-if="!isNewFile">
 				<span class="cl-icon" ng-class="content.contentFile.fileType()"></span>
 				{{ content.contentFile.fileName }}
+			</div>
+
+			<div class="content-new-file" ng-if="isNewFile">
+				<span class="cl-icon" ng-class="newFileType"></span>
+				{{ newFile }}
 			</div>
 
 			<span class="fa fa-download" ng-click="downloadFile(content.contentFile)" ng-show="showDownloadContentFile"></span>
 			<span class="fa fa-trash-o" ng-click="deleteContentFile()" ng-hide="isReadOnly"></span>
 		</div>
+		
+		<div class="content-file-view" ng-show="!content.contentFile && !isReadOnly">
+			<button type="button" class="btn btn-lg btn-black btn-default" onclick="$('#filContentFile').click()">
+				<span class="fa fa-paperclip"></span>
+				Add a File
+			</button>
 
-		<button type="button" class="btn btn-lg btn-black btn-default" onclick="$('#filContentFile').click()" ng-show="!content.contentFile && !isReadOnly">
-			<span class="fa fa-paperclip"></span>
-			Add a File
-		</button>
+			<div class="content-new-file">
+				<span class="cl-icon" ng-class="newFileType"></span>
+				{{ newFile }}
+			</div>
+		</div>
 		
 		<input type="file" id="filContentFile" ng-file-select="uploadContentFile($files, editContent, editContent.filContentFile)" />
 		<progressbar class="progress-striped active" value="percentComplete" ng-show="isUploading">

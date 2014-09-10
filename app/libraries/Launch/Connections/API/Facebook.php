@@ -75,13 +75,24 @@ class FacebookAPI extends AbstractConnection
             $params = [
                 'message' => $message
             ];
+            
+            $postUri = '/me/feed';
+
             $upload = $content->upload()->first();
             if ($upload && $upload->media_type == 'image') {
                 // Constrain images to large imagecache preset
                 $params['picture'] = $upload->getImageUrl('large');
                 $params['name'] = $content->title;
+            } elseif ($upload && $upload->media_type == 'video') {
+                $postUri = '/me/videos';
+                $params = [
+                    'source' => '@' . $upload->getAbsPath(),
+                    'description' => $message,
+                    'title' => $content->title
+                ];
             }
-            $post = (new FacebookRequest($session, 'POST', '/me/feed', $params))
+
+            $post = (new FacebookRequest($session, 'POST', $postUri, $params))
                 ->execute()
                 ->getGraphObject(GraphUser::className());
             $response['response'] = $post->asArray();
