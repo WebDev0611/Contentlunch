@@ -128,28 +128,36 @@
 
 			method(scope.selectedAccount, {
 				success: function(r) {
-					scope.isSaving = false;
+					var successMsg = 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.title + '\'s') + ' account settings!';
 
 					if (scope.isNewAccount || (scope.selectedAccount.subscription.subscriptionLevel !== self.originalSubscription.subscriptionLevel)) {
 						// Now save the subscription along with the new account.
 						AccountService.updateAccountSubscription(r.id, scope.selectedAccount.subscription, {
-							success: function(r) {
-								self.originalSubscription = angular.copy(scope.selectedAccount.subscription);
-							},
-							error: function(r) {
+							success: function(subscription) {
 								scope.isSaving = false;
 
-								launch.utils.handleAjaxErrorResponse(r, NotificationService);
+								self.originalSubscription = angular.copy(scope.selectedAccount.subscription);
+
+								NotificationService.success('Success!', successMsg);
+
+								if ($.isFunction(scope.afterSaveSuccess)) {
+									scope.afterSaveSuccess(r, form);
+								}
+							},
+							error: function(err) {
+								scope.isSaving = false;
+
+								launch.utils.handleAjaxErrorResponse(err, NotificationService);
 							}
 						});
-					}
+					} else {
+						scope.isSaving = false;
 
-					var successMsg = 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.title + '\'s') + ' account settings!';
+						NotificationService.success('Success!', successMsg);
 
-					NotificationService.success('Success!', successMsg);
-
-					if ($.isFunction(scope.afterSaveSuccess)) {
-						scope.afterSaveSuccess(r, form);
+						if ($.isFunction(scope.afterSaveSuccess)) {
+							scope.afterSaveSuccess(r, form);
+						}
 					}
 				},
 				error: function(r) {
