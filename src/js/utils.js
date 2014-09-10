@@ -938,6 +938,10 @@
 			return false;
 		}
 
+        if(connection.provider == 'slideshare' && content.contentType.name == 'slide-deck') {
+            return true;
+        }
+
 
 		switch (content.contentType.baseType) {
 			case 'audio':

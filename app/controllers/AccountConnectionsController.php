@@ -66,41 +66,55 @@ class AccountConnectionsController extends BaseController {
     return $connections;
   }
 
-  /**
-   * Goto the provider's url for authenticating with contentlaunch
-   * Based on the connection_id url param
-   */
-  public function create($accountID)
-  {
-    if ( ! $this->inAccount($accountID)) {
-      return $this->responseAccessDenied();
+    /**
+     * Goto the provider's url for authenticating with contentlaunch
+     * Based on the connection_id url param
+     */
+    public function create($accountID) {
+        if (!$this->inAccount($accountID)) {
+            return $this->responseAccessDenied();
+        }
+        $connection = Connection::find(Input::get('connection_id'));
+        if (!$connection) {
+            return $this->responseError("Unable to find connection");
+        }
+
+        // Slideshare doesn't do OAuth, passing along credentials
+        if ($connection->provider == 'slideshare') {
+            $connect = new AccountConnection;
+            $connect->account_id = $accountID;
+            $connect->connection_id = $connection->id;
+            $connect->name = $connection->name;
+
+
+            $connect->status = 1;
+            $connect->settings = [
+                'username' => Input::get('username'),
+                'password' => Input::get('password')
+            ];
+            $api = ConnectionConnector::loadAPI($connection->provider, $connect);
+            // Get me data, which serves as a username/password check
+            if($api->getMe()) {
+
+                $connect->external_id = $api->getExternalId();
+                $connect->identifier = $api->getIdentifier();
+                $connect->url = $api->getUrl();
+
+                $connect->save();
+
+                return ['success' => 1, 'message' => 'Connection created successfully'];
+            }
+            else {
+                return $this->responseError('Error connecting to slideshare');
+            }
+        }
+        // Set the connection type in the SESSION
+        Session::put('connection_id', $connection->id);
+        Session::put('account_id', $accountID);
+        $service = new ServiceFactory($connection->provider);
+
+        return Redirect::away($service->getAuthorizationUri());
     }
-    $connection = Connection::find(Input::get('connection_id'));
-    if ( ! $connection) {
-      return $this->responseError("Unable to find connection");
-    }
-    // Slideshare doesn't do OAuth, passing along credentials
-    if ($connection->provider == 'slideshare') {
-      $connect = new AccountConnection;
-      $connect->account_id = $accountID;
-      $connect->connection_id = $connection->id;
-      $connect->name = $connection->name;
-      $connect->status = 1;
-      $connect->settings = [
-        'username' => Input::get('username'),
-        'password' => Input::get('password')
-      ];
-      $service = new ServiceFactory($connection->provider);
-      $api = ConnectionConnector::loadAPI($connection->provider, $connect);
-      // Get me data, which serves as a username/password check
-      $data = $api->getMe();
-    }
-    // Set the connection type in the SESSION
-    Session::put('connection_id', $connection->id);
-    Session::put('account_id', $accountID);
-    $service = new ServiceFactory($connection->provider);
-    return Redirect::away($service->getAuthorizationUri());
-  }
 
   /**
    * Connection providers should redirect to this route
@@ -246,11 +260,10 @@ class AccountConnectionsController extends BaseController {
   }
 
   public function updateStats($accountID, $accountConnectionID) {
-      //todo generalize beyond twitter
 
       $connectionData = $this->show($accountID, $accountConnectionID);
       $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
-      return $connectionApi->updateStats($accountConnectionID);
+      return $connectionApi->updateStats($accountConnectionID); //TODO not actually necessary to pass id
   }
 
   private function friends($accountID, $connectionID)
