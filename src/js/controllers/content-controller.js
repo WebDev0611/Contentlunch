@@ -1017,9 +1017,10 @@
 							// set extraParams with options
 							opts = opts.timeOrGroup == 'group' ? opts : false;
 							if (opts) {
+								opts.groupId = opts.selectedGroup;
 								opts.groupName = ((_.findWhere($scope.groups, { id: opts.groupId }) || { }).group || { }).name;
+								opts.groupId = opts.selectedGroup;
 							}
-
 							launch(opts);
 							$modalInstance.close();
 						};
@@ -1067,6 +1068,8 @@
 			function launch(extraOpts) {
 				if (extraOpts) {
 					extraParams = _.merge(extraParams || { }, { group_id: extraOpts.groupId });
+					console.log('extraParams', extraParams);
+					console.log('extraOpts', extraOpts);
 					if (extraOpts.type) {
 						extraParams = _.merge(extraParams, {
 							type: extraOpts.type

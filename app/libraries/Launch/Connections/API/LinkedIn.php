@@ -193,6 +193,13 @@ class LinkedInAPI extends AbstractConnection implements Connection
             'summary' => $this->stripTags($content->body),
         ];
 
+        // See if content main upload is an image and attach it
+        $upload = $content->upload()->first();
+        if ($upload && $upload->media_type == 'image') {
+            // Linkedin only accepts public images at http://, not https://
+            $payload['submitted-image-url'] = $upload->getImageUrl('large');
+        }
+
         $response = $this->linkedIn->api("v1/groups/{$groupID}/posts", [], 'POST', $payload);
 
         if (isset($response['errorCode'])) {
