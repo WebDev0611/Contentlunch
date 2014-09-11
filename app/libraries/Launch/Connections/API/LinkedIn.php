@@ -137,40 +137,24 @@ class LinkedInAPI extends AbstractConnection implements Connection
      */
     public function postContent($content)
     {
-        // This only works with xml? Could not get json request to work here, linkedin always returns strange xml errors
-        // LinkedIn->api() doesn't allow passing xml
-        // @todo: submitted-url is required here... not sure what to pass in yet
-        // @todo: Investigate if network-activity api would be better to use here
-        $params = [
+        // If no image, just posting the content body as a comment
+        $payload = [
             'comment' => $this->stripTags($content->body),
-            'content' => [
-                'title' => $this->stripTags($content->title),
-                'submitted-url' => 'http://contentlaunch.com/'
-            ],
             'visibility' => [
                 'code' => 'anyone'
             ]
         ];
-        // See if content main upload is an image and attach it
+
         $upload = $content->upload()->first();
         if ($upload && $upload->media_type == 'image') {
-            // Linkedin only accepts public images at http://, not https://
-            $params['content']['submitted-image-url'] = $upload->getImageUrl('large');
+            $payload['content'] = [
+                'title' => $this->stripTags($content->title),
+                'submitted-url' => $upload->getImageUrl('large'),
+                'submitted-image-url' => $upload->getImageUrl('large')
+            ];
         }
-        // Convert array to xml
-        $xml = Array2XML::createXML('share', $params);
-        $xml = $xml->saveXML();
-        $urlParams = [
-            'oauth2_access_token' => $this->linkedIn->getAccessToken(),
-            'format' => 'json'
-        ];
-        // generate an url
-        $url = $this->linkedIn->getUrlGenerator()->getUrl('api', '/v1/people/~/shares', $urlParams);
-        // $method that url
-        $request = new Request;
-        $result = $request->send($url, $xml, 'POST', 'xml');
-        $response = json_decode($result, true);
 
+        $response = $this->linkedIn->api("v1/people/~/shares", [], 'POST', $payload);
 
         if (isset($response['errorCode'])) {
             return [
@@ -181,7 +165,8 @@ class LinkedInAPI extends AbstractConnection implements Connection
         }
         return [
             'success' => true,
-            'response' => $response,
+            // this response doesn't actually return anything on success
+            'response' => $response ? : true,
             'external_id' => $response['updateKey']
         ];
     }
@@ -196,8 +181,11 @@ class LinkedInAPI extends AbstractConnection implements Connection
         // See if content main upload is an image and attach it
         $upload = $content->upload()->first();
         if ($upload && $upload->media_type == 'image') {
-            // Linkedin only accepts public images at http://, not https://
-            $payload['submitted-image-url'] = $upload->getImageUrl('large');
+            $payload['content'] = [
+                'title' => $this->stripTags($content->title),
+                'submitted-url' => $upload->getImageUrl('large'),
+                'submitted-image-url' => $upload->getImageUrl('large')
+            ];
         }
 
         $response = $this->linkedIn->api("v1/groups/{$groupID}/posts", [], 'POST', $payload);
