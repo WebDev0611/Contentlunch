@@ -6,6 +6,10 @@ class AccountSubscription extends Ardent {
 
   protected $table = 'account_subscription';
 
+  protected $fillable = [
+  	'account_id'
+  ];
+
   //protected function getDateFormat()
   //{
   //  return 'Y-m-d H:i:s';
