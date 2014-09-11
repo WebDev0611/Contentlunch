@@ -3,6 +3,7 @@ launch.module
         return {
             restrict: 'E',
             link: function(scope, element, attrs) {
+                scope.data = [];
                 scope.$parent.$watch('isLoaded', function(newVal, oldVal) {
                     if(newVal == true) {
                         var chart = $jquery1_11_1(element[0]).find('.wijmo-wijlinechart');
