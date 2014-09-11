@@ -2,10 +2,13 @@
 
 // This redirects everything to https if enabled in config
 if (Config::get('app.force_secure')) {
+  // Don't redirect requests to imagecache files
   App::before(function($request) {
-    if ( ! Request::secure())
-    {
-      return Redirect::secure(Request::path());
+    if ($request->segment(1) != 'image') {
+      if ( ! Request::secure())
+      {
+        return Redirect::secure(Request::path());
+      }
     }
   });
 }
