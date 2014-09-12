@@ -57,4 +57,25 @@ class AccountSubscriptionController extends BaseController {
     return $this->responseError($sub->errors()->toArray());
   }
 
+  /**
+   * Allow a customer to renew their own account
+   */
+  public function renew_subscription($id)
+  {
+    if ( ! $this->inAccount($id)) {
+      return $this->responseAccessDenied();
+    }
+    try {
+      $account = Account::find($id);
+      $balanced = new Launch\Balanced($account);
+      $payment = $balanced->chargeAccount(true);
+    } catch (\Exception $e) {
+      return $this->responseError($e->getMessage());
+    }
+    $account = $account->toArray();
+    $retPayment = $payment->toArray();
+    $account['payment'] = $payment->toArray();
+    return $account;
+  }
+
 }

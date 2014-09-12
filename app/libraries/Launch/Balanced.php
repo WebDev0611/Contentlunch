@@ -127,8 +127,10 @@ class Balanced {
    *  - We have valid payment info, and
    *  - This is a new account, or
    *  - This is a recurring account that is past it's expiration date
+   * @var boolean $forceRenew
+   *   Force making payment even if account isn't past due
    */
-  public function chargeAccount()
+  public function chargeAccount($forceRenew = false)
   {
     $payment = $this->getPayment();
     if ( ! $payment) {
@@ -138,8 +140,14 @@ class Balanced {
     if ( ! $subscription) {
       return;
     }
+    $doCharge = false;
     if ( ! $this->account->expiration_date) {
       // New account, make payment
+      $doCharge = true;
+    } elseif ($forceRenew) {
+      $doCharge = true;
+    }
+    if ($doCharge) {
       if ( ! $this->account->yearly_payment) {
         // Charge monthly
         $amount = $subscription->monthly_price;
@@ -156,8 +164,15 @@ class Balanced {
         'appears_on_statement_as' => 'contentlaunch.com sub',
         'description' => 'Membership fee for account: '. $this->account->title
       ));
+      // Save response from balanced
+      $user = \Confide::user();
+      $payment = new \Payment;
+      $payment->account_id = $this->account->id;
+      $payment->user_id = $user->id;
+      $payment->response = serialize($ret);
+      $payment->save();
       if ( ! $ret) {
-        return;
+        //return;
       }
       if ( ! $this->account->yearly_payment) {
         $date = new \Carbon\Carbon($this->account->expiration_date);
@@ -169,6 +184,7 @@ class Balanced {
         $this->account->expiration_date = $date->toDateTimeString();
       }
       $this->account->updateUniques();
+      return $payment;
     }
   }
 

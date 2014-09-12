@@ -102,6 +102,8 @@ Route::group(['prefix' => 'api'], function()
   Route::get('account/{id}/content-settings', 'AccountContentSettingsController@get_settings');
   Route::put('account/{id}/content-settings', 'AccountContentSettingsController@save_settings');
 
+  Route::put('account/{id}/renew-subscription', 'AccountSubscriptionController@renew_subscription');
+
   Route::get('account/{id}/subscription', 'AccountSubscriptionController@get_subscription');
   Route::post('account/{id}/subscription', 'AccountSubscriptionController@post_subscription');
 
