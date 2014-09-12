@@ -129,6 +129,7 @@ class Content extends Ardent {
   {
     return $this->belongsToMany('AccountConnection', 'content_account_connections', 'content_id', 'account_connection_id')
       ->withTimestamps()
+      ->withPivot('likes', 'shares', 'comments', 'views', 'downloads', 'conversions')
       ->with('connection');
   }
 

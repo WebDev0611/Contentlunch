@@ -117,8 +117,8 @@ class SoundcloudAPI extends AbstractConnection
                 $pivot->likes = isset($track['favoritings_count']) ? $track['favoritings_count'] : 0;
                 $pivot->shares = isset($track['shared_to_count']) ? $track['shared_to_count'] : 0;
                 $pivot->comments = isset($track['comment_count']) ? $track['comment_count'] : 0;
-                $pivot->downloads = isset($track['comment_count']) ? $track['download_count'] : 0;
-                $pivot->views = isset($track['comment_count']) ? $track['playback_count'] : 0;
+                $pivot->downloads = isset($track['download_count']) ? $track['download_count'] : 0;
+                $pivot->views = isset($track['playback_count']) ? $track['playback_count'] : 0;
                 $pivot->save();
             }
         }

@@ -101,6 +101,17 @@ abstract class AbstractConnection {
    */
   abstract public function getUrl();
 
+  public function calculateOffsiteScore($pivotData) {
+      if(!isset($this->config['metric'])) {
+          return false;
+      }
+      $scoreMetric = $this->config['metric'];
+
+      $score = 100 * $pivotData->$scoreMetric['key'] / $scoreMetric['max'];
+
+      return min($score, 100);
+  }
+
   /**
    * Save connection identifer in the accountConnection record
    */

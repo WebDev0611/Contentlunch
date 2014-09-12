@@ -3,7 +3,7 @@
     <div>
         {{ user.name }} 
         &mdash;
-        {{ isComplete ? 'Completed' : 'Pending' }}
+        {{ parseInt(isComplete) ? 'Completed' : 'Pending' }}
     </div>
 
     <hr class="simple-divider">
