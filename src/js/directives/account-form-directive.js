@@ -221,9 +221,38 @@
 			e.stopImmediatePropagation();
 		};
 
-		scope.renewAccount = function() {
-			// TODO: IMPLEMENT THE ABILITY TO RENEW AN ACCOUNT!!
-			NotificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+		scope.renewAccount = function () {
+			$modal.open({
+				templateUrl: 'confirm.html',
+				controller: [
+					'$scope', '$modalInstance', function (scp, instance) {
+						scp.message = 'You will be charged $' + scope.selectedAccount.subscription.formatPricePerMonth(scope.selectedAccount.yearlyPayment) + ' if you renew. Are you sure you want to renew?';
+						scp.okButtonText = 'Renew Account';
+						scp.cancelButtonText = 'Cancel';
+						scp.onOk = function () {
+							scope.isSaving = true;
+
+							AccountService.renew(scope.selectedAccount.id, {
+								success: function (r) {
+									scope.isSaving = false;
+
+									NotificationService.success('SUCCESS!!', 'Your account has been charged $' + r.subscription.formatPricePerMonth(r.yearlyPayment) + '.');
+								},
+								error: function (r) {
+									scope.isSaving = false;
+
+									launch.utils.handleAjaxErrorResponse(r, NotificationService);
+								}
+							});
+
+							instance.close();
+						};
+						scp.onCancel = function () {
+							instance.dismiss('cancel');
+						};
+					}
+				]
+			});
 		};
 
 		scope.cancelAccount = function() {
