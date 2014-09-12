@@ -223,7 +223,22 @@
 
 		scope.renewAccount = function() {
 			// TODO: IMPLEMENT THE ABILITY TO RENEW AN ACCOUNT!!
-			NotificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+			//NotificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
+
+			scope.isSaving = true;
+
+			AccountService.renew(scope.selectedAccount.id, {
+				success: function(r) {
+					scope.isSaving = false;
+
+					NotificationService.success('SUCCESS!!', 'Your account has been charged $' + r.subscription.formatPricePerMonth(r.yearlyPayment) + '.');
+				},
+				error: function (r) {
+					scope.isSaving = false;
+
+					launch.utils.handleAjaxErrorResponse(r, NotificationService);
+				}
+			});
 		};
 
 		scope.cancelAccount = function() {

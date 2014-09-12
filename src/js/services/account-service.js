@@ -17,6 +17,10 @@
 		save: { method: 'POST', transformRequest: ModelMapperService.subscription.formatRequest }
 	});
 
+	var accountRenew = $resource('/api/account/:id/renew-subscription', { id: '@id' }, {
+		renew: { method: 'PUT', transformResponse: ModelMapperService.account.parseResponse }
+	});
+
 	var subscriptions = $resource('/api/subscription/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.subscription.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.subscription.parseResponse },
@@ -110,6 +114,12 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			accountSubscriptions.save({ id: accountId }, subscription, success, error);
+		},
+		renew: function(accountId, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return accountRenew.renew({ id: accountId }, null, success, error);
 		},
 		getSubscriptions: function(callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
