@@ -222,9 +222,6 @@
 		};
 
 		scope.renewAccount = function() {
-			// TODO: IMPLEMENT THE ABILITY TO RENEW AN ACCOUNT!!
-			//NotificationService.info('WARNING!', 'THIS HAS NOT YET BEEN IMPLEMENTED!');
-
 			scope.isSaving = true;
 
 			AccountService.renew(scope.selectedAccount.id, {
