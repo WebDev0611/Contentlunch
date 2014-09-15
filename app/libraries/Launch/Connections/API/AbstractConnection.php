@@ -103,13 +103,20 @@ abstract class AbstractConnection {
 
   public function calculateOffsiteScore($pivotData) {
       if(!isset($this->config['metric'])) {
-          return false;
+          return null;
       }
       $scoreMetric = $this->config['metric'];
 
       $score = 100 * $pivotData->$scoreMetric['key'] / $scoreMetric['max'];
 
       return min($score, 100);
+  }
+
+  public function getDiversityID() {
+      if(!isset($this->config['metric'])){
+          return null;
+      }
+      return $this->config['metric']['diversity_id'];
   }
 
   /**

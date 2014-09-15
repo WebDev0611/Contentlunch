@@ -33,6 +33,7 @@ return [
     'metric' => [
         'key' => 'views',
         'max' => '1000',
+        'diversity_id' => 10
     ]
   ],
   // Use same api creds as google
@@ -43,6 +44,7 @@ return [
     'metric' => [
         'key' => 'likes',
         'max' => '10',
+        'diversity_id' => 4
     ]
   ],
   'dropbox' => [
@@ -53,6 +55,7 @@ return [
     'metric' => [
         'key' => 'downloads',
         'max' => '10',
+        'diversity_id' => 11
     ]
   ],
   // https://developers.facebook.com/docs/facebook-login/permissions/v2.0
@@ -64,6 +67,7 @@ return [
     'metric' => [
         'key' => 'likes',
         'max' => '10',
+        'diversity_id' => 0
     ]
   ],
   // https://developers.google.com/+/api/oauth
@@ -80,6 +84,7 @@ return [
     'metric' => [
         'key' => 'downloads',
         'max' => '10',
+        'diversity_id' => 11
     ]
   ],
   'google_plus' => [
@@ -89,6 +94,7 @@ return [
     'metric' => [
         'key' => 'likes',
         'max' => '10',
+        'diversity_id' => 3
     ]
   ],
   'hubspot' => [
@@ -102,6 +108,7 @@ return [
     'metric' => [
         'key' => 'views',
         'max' => '10',
+        'diversity_id' => 4
     ]
   ],
   'linkedin' => [
@@ -112,6 +119,7 @@ return [
     'metric' => [
         'key' => 'likes',
         'max' => '10',
+        'diversity_id' => 2
     ]
   ],
   'salesforce' => [
@@ -130,6 +138,7 @@ return [
       'metric' => [
           'key' => 'downloads',
           'max' => '10',
+          'diversity_id' => 9
       ]
   ],
   'soundcloud' => [
@@ -140,6 +149,7 @@ return [
     'metric' => [
         'key' => 'views',
         'max' => '10',
+        'diversity_id' => 8
     ]
   ],
   'tumblr' => [
@@ -150,6 +160,7 @@ return [
     'metric' => [
         'key' => 'likes',
         'max' => '10',
+        'diversity_id' => 5
     ]
   ],
   'twitter' => [
@@ -160,6 +171,7 @@ return [
     'metric' => [
         'key' => 'likes',
         'max' => '10',
+        'diversity_id' => 1
     ]
   ],
   'wordpress' => [
@@ -170,6 +182,7 @@ return [
     'metric' => [
         'key' => 'likes',
         'max' => '10',
+        'diversity_id' => 4
     ]
   ],
   'traackr' => [
@@ -183,6 +196,7 @@ return [
      'metric' => [
          'key' => 'views',
          'max' => '10',
+         'diversity_id' => 6
      ]
   ],
   // Use same api creds as google
@@ -193,6 +207,7 @@ return [
     'metric' => [
         'key' => 'comments',
         'max' => '10',
+        'diversity_id' => 7
     ]
   ]
 ];

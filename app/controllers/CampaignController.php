@@ -1,6 +1,8 @@
 <?php
 
 use Launch\CSV;
+use \Carbon\Carbon;
+use \Launch\Connections\API\ConnectionConnector;
 
 class CampaignController extends BaseController {
 
@@ -175,6 +177,78 @@ class CampaignController extends BaseController {
     }
     return $this->responseError($campaign->errors()->all(':message'));
   }
+
+    public function updateScores($accountID, $period = '60') {
+        $campaigns = Campaign::with([
+            'content_scores' => function($query) use ($period) {
+                    $query->where('date', '>=', Carbon::now()->subDays($period));
+                    $query->with('content.account_connections');
+                }
+        ])->where('account_id', $accountID)
+          ->get();
+
+        $date = Carbon::now()->format('Y-m-d');
+
+        $maxPlatforms = 10; //TODO move to config
+        $maxContentPieces = 10; //TODO move to config
+
+        foreach($campaigns as $campaign) {
+
+            //Quantity score is based on count of unique content launched in the last $period days
+            $uniqueContent = array_unique($campaign->content_scores->lists('content_id'));
+            $quantityScore = 100 * count($uniqueContent) / $maxContentPieces;
+            $quantityScore = min($quantityScore, 100);
+
+            //Quality score is based on average of all content scores in the last $period days
+            $totalContentScore = 0;
+            $scoreCount = 0;
+            foreach($campaign->content_scores as $score) {
+                if($score->score !== null) {
+                    $scoreCount++;
+                    $totalContentScore += $score->score;
+                }
+            }
+            if($scoreCount > 0) {
+                $qualityScore = $totalContentScore / $scoreCount;
+            }
+            else {
+                $qualityScore = null;
+            }
+
+
+            //Diversity score is based on number of unique platforms used in the last $period days
+            $diversityCount = [];
+            foreach($campaign->content_scores as $score) {
+                if(count($score->content->account_connections)) {
+                    $connection = $score->content->account_connections[0];
+                    $api = ConnectionConnector::loadAPI($connection->connection->provider, $connection);
+
+                    $diversityId = $api->getDiversityID();
+                    $diversityCount[$diversityId] = true;
+                }
+            }
+            $diversityCount = count($diversityCount);
+            $diversityScore = 100 * $diversityCount / $maxPlatforms;
+
+
+            if($qualityScore === null) {
+                $totalScore = .5 * $quantityScore + .5 * $diversityScore;
+            }
+            else {
+                $totalScore = .25 * $quantityScore + .5 * $qualityScore + .25 * $diversityScore;
+            }
+
+
+            $campaignScore = CampaignScore::firstOrNew(['date' => $date, 'campaign_id' => $campaign->id]);
+            $campaignScore->quantity_score = $quantityScore;
+            $campaignScore->quality_score = $qualityScore;
+            $campaignScore->diversity_score = $diversityScore;
+            $campaignScore->score = $totalScore;
+            $campaignScore->save();
+        }
+
+        return ['success' => 1, 'count' => count($campaigns)];
+    }
 
   public function destroy($accountID, $id)
   {

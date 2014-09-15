@@ -115,6 +115,11 @@ class Content extends Ardent {
     return $this->hasMany('ContentTaskGroup', 'content_id', 'id')->with('tasks');
   }
 
+    public function scores()
+    {
+        return $this->hasMany('ContentScore', 'content_id', 'id');
+    }
+
   public function guest_collaborators()
   {
     return $this->hasMany('GuestCollaborator', 'content_id', 'id')->where('content_type', 'content');
@@ -269,6 +274,7 @@ class Content extends Ardent {
           $content->related()->delete();
           $content->tags()->delete();
           $content->task_groups()->delete();
+          $content->scores()->delete();
       });
     /*
     static::validating(function ($content) {

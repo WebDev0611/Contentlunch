@@ -59,6 +59,7 @@ class Campaign extends Ardent {
         $this->comments()->delete();
         $this->tags()->delete();
         $this->tasks()->delete();
+        $this->scores()->delete();
     }
 
   /**
@@ -97,10 +98,20 @@ class Campaign extends Ardent {
     return $this->hasMany('CampaignComment', 'campaign_id', 'id')->with('user')->with('guest');
   }
 
-  public function tasks()
-  {
-    return $this->hasMany('CampaignTask');
-  }
+    public function tasks()
+    {
+        return $this->hasMany('CampaignTask');
+    }
+
+    public function scores()
+    {
+        return $this->hasMany('CampaignScore', 'campaign_id', 'id');
+    }
+
+    public function content_scores()
+    {
+        return $this->hasMany('ContentScore', 'campaign_id', 'id');
+    }
 
   public function guest_collaborators()
   {

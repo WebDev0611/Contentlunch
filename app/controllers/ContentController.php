@@ -2,6 +2,7 @@
 
     use Launch\CSV;
     use \Launch\Connections\API\ConnectionConnector;
+    use \Carbon\Carbon;
 
     class ContentController extends BaseController
     {
@@ -275,6 +276,8 @@
                             ->where('status', 4)
                             ->get();
 
+            $date = Carbon::now()->format('Y-m-d');
+
             $totalConversions = 0;
             foreach($contents as $content) {
                 foreach($content->account_connections as $connection) {
@@ -286,8 +289,12 @@
             foreach($contents as $content) {
                 //Algorithm currently just uses first provider, should be able to use all
                 if(!count($content->account_connections)) {
-                    $content->score = null;
-                    $content->save();
+                    $contentScore = ContentScore::firstOrNew(['date' => $date, 'content_id' => $content->id]);
+                    $contentScore->campaign_id = $content->campaign_id;
+                    $contentScore->offsiteScore = null;
+                    $contentScore->onsiteScore = null;
+                    $contentScore->score = null;
+                    $contentScore->save();
                     continue;
                 }
                 $connection = $content->account_connections[0];
@@ -298,7 +305,7 @@
                     $onsiteScore = 100 * $connection->pivot->conversions / $totalConversions;
                 }
                 else {
-                    $onsiteScore = false;
+                    $onsiteScore = null;
                 }
 
 
@@ -307,19 +314,25 @@
                 $api = ConnectionConnector::loadAPI($connection->connection->provider, $connection);
                 $offsiteScore = $api->calculateOffsiteScore($connection->pivot);
 
-                if($onsiteScore !== false && $offsiteScore !== false) {
-                    $content->score = .7 * $onsiteScore + .3 * $offsiteScore;
+                $totalScore = null;
+                if($onsiteScore !== null && $offsiteScore !== null) {
+                    $totalScore = .7 * $onsiteScore + .3 * $offsiteScore;
                 }
-                else if($offsiteScore === false && $onsiteScore === false) {
-                    $content->score = null;
+                else if($offsiteScore === null && $onsiteScore === null) {
+                    $totalScore = null;
                 }
-                else if($onsiteScore === false) {
-                    $content->score = $offsiteScore;
+                else if($onsiteScore === null) {
+                    $totalScore = $offsiteScore;
                 }
-                else if($offsiteScore === false) {
-                    $content->score = $onsiteScore;
+                else if($offsiteScore === null) {
+                    $totalScore = $onsiteScore;
                 }
-                $content->save();
+                $contentScore = ContentScore::firstOrNew(['date' => $date, 'content_id' => $content->id]);
+                $contentScore->campaign_id = $content->campaign_id;
+                $contentScore->offsiteScore = $offsiteScore;
+                $contentScore->onsiteScore = $onsiteScore;
+                $contentScore->score = $totalScore;
+                $contentScore->save();
             }
 
             return ['success' => 1, 'count' => count($contents)];
