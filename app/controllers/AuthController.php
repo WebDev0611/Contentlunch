@@ -103,7 +103,7 @@ class AuthController extends BaseController {
     if ($user) {
       
       // Check if this code was generated within 24 hours
-      if ( (strtotime($user->updated_at) - strtotime('-24 hours')) > 0) {
+      if ( (strtotime($user->updated_at) - strtotime('-1 week')) > 0) {
         if (Confide::confirm($code))
         {
           // Set user to active
