@@ -8,6 +8,10 @@ class CampaignTaskController extends BaseController {
     {
         $campaigns = Campaign::where('account_id', $accountID)->lists('id');
 
+        if(!$campaigns) {
+            return [];
+        }
+
         $tasks = CampaignTask::with('campaign', 'user')
             ->whereIn('campaign_id', $campaigns);
 

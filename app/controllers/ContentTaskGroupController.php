@@ -3,11 +3,16 @@
 class ContentTaskGroupController extends BaseController {
 
     public function getForCalendar($accountID) {
-        ini_set('xdebug.var_display_max_depth', 10);
-        ini_set('xdebug.var_display_max_children', 256);
 
         $content = Content::where('account_id', $accountID)->lists('id');
+        if(!$content) {
+            return [];
+        }
+
         $task_groups = ContentTaskGroup::whereIn('content_id', $content)->lists('id');
+        if(!$task_groups) {
+            return [];
+        }
 
         $tasks = ContentTask::with('task_group.content.content_type', 'task_group.content.campaign', 'task_group.content.user', 'user')
             ->whereIn('content_task_group_id', $task_groups);
