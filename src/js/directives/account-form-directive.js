@@ -128,7 +128,7 @@
 
 			method(scope.selectedAccount, {
 				success: function(r) {
-					var successMsg = 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.title + '\'s') + ' account settings!';
+					var successMsg = 'You have successfully saved ' + (scope.selfEditing ? 'your' : r.name + '\'s') + ' account settings!';
 
 					if (scope.isNewAccount || (scope.selectedAccount.subscription.subscriptionLevel !== self.originalSubscription.subscriptionLevel)) {
 						// Now save the subscription along with the new account.
