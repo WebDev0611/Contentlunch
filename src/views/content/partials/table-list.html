@@ -33,8 +33,6 @@
         <div style="width: 100px; text-align: center;">
             {{ pagination.getPageIndicator() }}
         </div>
-		
-		{{pagination.totalItems}} > {{pagination.pageSize}}
 		<div class="create-pager" ng-show="pagination.totalItems > pagination.pageSize">
 			<pagination
 				total-items="pagination.totalItems"
