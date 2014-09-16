@@ -12,7 +12,7 @@ class AddSoftDeletesToBrainstorms extends Migration {
 	 */
 	public function up()
 	{
-        Schema::table('content_account_connections', function(Blueprint $table){
+        Schema::table('brainstorms', function(Blueprint $table){
             $table->softDeletes();
         });
 	}
@@ -24,7 +24,7 @@ class AddSoftDeletesToBrainstorms extends Migration {
 	 */
 	public function down()
 	{
-        Schema::table('content_account_connections', function(Blueprint $table){
+        Schema::table('brainstorms', function(Blueprint $table){
             $table->dropSoftDeletes();
         });
 	}
