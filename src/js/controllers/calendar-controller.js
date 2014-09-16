@@ -77,6 +77,7 @@ launch.module.controller('CalendarController',
                             _.each(response, function(task) {
                                 task.type = 'content_task';
                                 task.stepId = task.taskGroup.status;
+                                task.isComplete = parseInt(task.isComplete);
                             });
                             contentTasksCache[key] = response;
                             var filtered = filterItems(response);
@@ -121,6 +122,7 @@ launch.module.controller('CalendarController',
                         .then(function(response) {
                             _.each(response, function(task) {
                                 task.type = 'campaign_task';
+                                task.isComplete = parseInt(task.isComplete);
                             });
                             campaignTasksCache[key] = response;
                             var filtered = filterItems(response);
