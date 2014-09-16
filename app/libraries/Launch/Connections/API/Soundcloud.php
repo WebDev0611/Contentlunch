@@ -107,7 +107,7 @@ class SoundcloudAPI extends AbstractConnection
 
         $count = 0;
         foreach($tracks as $track) {
-            var_dump($track);
+//            var_dump($track);
 
             $id = $track['id'];
             if(isset($content[$id])) {

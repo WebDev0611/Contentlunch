@@ -119,6 +119,10 @@ abstract class AbstractConnection {
       return $this->config['metric']['diversity_id'];
   }
 
+    public function updateStats($accountConnectionId){
+
+    }
+
   /**
    * Save connection identifer in the accountConnection record
    */

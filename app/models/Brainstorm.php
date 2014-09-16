@@ -5,6 +5,8 @@ use LaravelBook\Ardent\Ardent;
 class Brainstorm extends Ardent {
     protected $table = 'brainstorms';
 
+    public $softDelete = true;
+
     public $autoHydrateEntityFromInput    = true;
     public $forceEntityHydrationFromInput = true;
 
