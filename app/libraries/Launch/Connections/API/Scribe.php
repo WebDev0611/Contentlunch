@@ -2,12 +2,28 @@
 
 use Illuminate\Support\Facades\Config;
 
-class ScribeAPI {
+class ScribeAPI extends AbstractConnection {
     private $_apiKey;
 
     public function __construct() {
         $config = Config::get('services.scribe');
         $this->_apiKey = $config['key'];
+    }
+
+    public function getIdentifier() {
+        return null;
+    }
+    public function postContent($content) {
+        return null;
+    }
+    public function getUrl() {
+        return null;
+    }
+    public function getMe() {
+        return null;
+    }
+    public function getClient() {
+        return null;
     }
 
 

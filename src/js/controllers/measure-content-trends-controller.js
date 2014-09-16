@@ -67,7 +67,7 @@
 
             $scope.companyContentScorePie = {
                 title: 'Content Score Breakdown',
-                measureFunction: function() {return []},
+                measureFunction: measureService.getScore,
                 dateParseFunction: fieldDateParse('score')
             };
 

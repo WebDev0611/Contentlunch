@@ -259,11 +259,26 @@ class AccountConnectionsController extends BaseController {
     else return $this->responseError("Action {$action} does not exist", 404);
   }
 
-  public function updateStats($accountID, $accountConnectionID) {
+  public function updateStats($accountID) {
 
-      $connectionData = $this->show($accountID, $accountConnectionID);
-      $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
-      return $connectionApi->updateStats($accountConnectionID); //TODO not actually necessary to pass id
+      $connections = $this->index($accountID);
+
+      $responses = [];
+      foreach($connections as $connection) {
+          try {
+              $connectionData = $this->show($accountID, $connection->id);
+              if(ConnectionConnector::existsAPI($connectionData->connection->provider)) {
+                  $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
+                  if($connectionApi->isValid()) {
+                      $responses[] = $connectionApi->updateStats($connection->id); //TODO not actually necessary to pass id
+                  }
+              }
+          } catch(Exception $e) {
+              $responses[] = ['error' => $e->getMessage()];
+          }
+      }
+
+      return $responses;
   }
 
   private function friends($accountID, $connectionID)

@@ -89,6 +89,11 @@ class Content extends Ardent {
     return $this->hasMany('ContentComment', 'content_id', 'id')->with('user')->with('guest');
   }
 
+    public function brainstorms()
+    {
+        return $this->hasMany('Brainstorm', 'content_id', 'id');
+    }
+
   public function content_type()
   {
     return $this->belongsTo('ContentType');
@@ -217,6 +222,9 @@ class Content extends Ardent {
                   ->update(['convert_date' => new \DateTime]);
                 $activity = 'Converted Concept to Content';
                 $generalActivity = 'converted';
+
+                  $content->brainstorms()->delete();
+
               } elseif ($newValue == 2) {
                 DB::table('content')
                   ->where('id', $content->id)

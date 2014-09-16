@@ -204,20 +204,20 @@ Route::group(['prefix' => 'api'], function()
   ]);
   Route::post('account/{accountID}/{conceptType}/{conceptID}/brainstorm/{id}', 'BrainstormController@update');
 
-    Route::get('account/{accountID}/brainstorm', 'BrainstormController@all');
-    Route::get('account/{accountID}/brainstorm-calendar', 'BrainstormController@getForCalendar');
+  Route::get('account/{accountID}/brainstorm', 'BrainstormController@all');
+  Route::get('account/{accountID}/brainstorm-calendar', 'BrainstormController@getForCalendar');
 
   Route::get('traackr/search-influencers', 'TraackrController@searchInfluencers');
   Route::resource('account/{accountID}/{conceptType}/{conceptID}/traackr-tags', 'TraackrTagController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
-    Route::get('conference/test', 'ConferencesController@test');
+  Route::get('conference/test', 'ConferencesController@test');
 
-  Route::get('test/{accountID}', 'MeasureController@test');
-  Route::get('updateStats/{accountID}/{accountConnectionID}', 'AccountConnectionsController@updateStats');
-    Route::get("account/{accountID}/updateContentScores",  'ContentController@updateScores');
-    Route::get("account/{accountID}/updateCampaignScores",  'CampaignController@updateScores');
+  Route::get('account/{accountID}/updateMeasureStats', 'MeasureController@updateStats');
+  Route::get('account/{accountID}/updateMetrics', 'AccountConnectionsController@updateStats');
+  Route::get("account/{accountID}/updateContentScores",  'ContentController@updateScores');
+  Route::get("account/{accountID}/updateCampaignScores",  'CampaignController@updateScores');
 
   $measureBase = 'account/{accountID}/measure/';
   Route::get("{$measureBase}content-created",  'MeasureController@contentCreated');

@@ -15,7 +15,7 @@ class MeasureController extends BaseController {
         die;
     }
 
-    public function test($accountID)
+    public function updateStats($accountID)
     {
         $date = Carbon::now()->subMonth(1);
         $now = Carbon::now();
@@ -29,7 +29,7 @@ class MeasureController extends BaseController {
             $date->addDay(1);
         } while ($now->gte($date));
 
-        $this->measureUserEfficiency($now->format('Y-m-d'), 1);
+        $this->measureUserEfficiency($now->format('Y-m-d'), $accountID);
     }
 
     public function contentCreated($accountID)
@@ -176,13 +176,17 @@ class MeasureController extends BaseController {
         // For now, using PDT since all 3 devs are on the west coast
         Timezone::set('-07:00');
 
-        $score = DB::raw('sum(likes) + 10*sum(shares) as score');
+        $score = DB::raw('sum(content_scores.score) as score');
         $query = DB::table('content')
-            ->join('content_account_connections', 'content.id', '=', 'content_account_connections.content_id')
-            ->where('launch_date', '>=', $date->copy()->startOfDay())
-            ->where('launch_date', '<', $date->copy()->endOfDay())
+            ->join('content_scores', 'content.id', '=', 'content_scores.content_id')
+            ->where('content_scores.date', $date)
             ->where('account_id', $accountID)
             ->where('status', '!=', 0);
+
+        //not sure if score content score should show all content or just content launched that day
+        //scoring algorithm gives scores for all content on all days so I'm going to stick with that
+//            ->where('launch_date', '>=', $date->copy()->startOfDay())
+//            ->where('launch_date', '<', $date->copy()->endOfDay())
 
 
         $model = MeasureContentScore::firstOrNew(['date' => $date->format('Y-m-d')]);

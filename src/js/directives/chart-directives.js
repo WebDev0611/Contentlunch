@@ -149,11 +149,11 @@ launch.module
                     var series = $.map(this.series, function(value) {
                         var data = 0;
 
-                        $.each(scope.data, function(i, date) {
-                            var parsed = scope.info.dateParseFunction(date, scope.group, value);
+                        var date = scope.data[scope.data.length - 1];
 
-                            data += parsed.data;
-                        });
+                        var parsed = scope.info.dateParseFunction(date, scope.group, value);
+
+                        data = parsed.data;
 
                         return {
                             label: value,
