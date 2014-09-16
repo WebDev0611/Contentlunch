@@ -48,9 +48,24 @@ class AccountSubscriptionController extends BaseController {
       $account->updateUniques();
       // Attempt to do subscription charge
       // Will only do the charge if new account or matches expiration date rule
+      // @todo: This really needs refactoring, if transaction fails the account is still created
       if (app()->env != 'testing') {
         $balancedAccount = new Launch\Balanced($account);
-        $balancedAccount->chargeAccount();
+        try {
+          $balancedAccount->chargeAccount();
+        } catch (\Balanced\Errors\Declined $e) {
+          return $this->responseError('Error processing transaction. The transaction was declined.');
+        } catch (\Balanced\Errors\NoFundingSource $e) {
+          return $this->responseError('Error processing transaction. No active funding sources.');
+        } catch (\Balanced\Errors\CannotDebit $e) {
+          return $this->responseError('Error processing transaction. No debitable funding sources.');
+        } catch (\Balanced\Errors\InvalidRoutingNumber $e) {
+          return $this->responseError('Error processing transaction. Routing number is invalid.');
+        } catch (\Balanced\Errors\BankAccountVerificationFailure $e) {
+          return $this->responseError('Error processing transaction. Unable to verify bank account.'. $e->description);
+        } catch (\Exception $e) {
+          return $this->responseError('Error processing transaction.');
+        }
       }
       return $this->get_subscription($id, $checkAuth);
     }
@@ -69,8 +84,18 @@ class AccountSubscriptionController extends BaseController {
       $account = Account::find($id);
       $balanced = new Launch\Balanced($account);
       $payment = $balanced->chargeAccount(true);
+    } catch (\Balanced\Errors\Declined $e) {
+      return $this->responseError('Error processing transaction. The transaction was declined.');
+    } catch (\Balanced\Errors\NoFundingSource $e) {
+      return $this->responseError('Error processing transaction. No active funding sources.');
+    } catch (\Balanced\Errors\CannotDebit $e) {
+      return $this->responseError('Error processing transaction. No debitable funding sources.');
+    } catch (\Balanced\Errors\InvalidRoutingNumber $e) {
+      return $this->responseError('Error processing transaction. Routing number is invalid.');
+    } catch (\Balanced\Errors\BankAccountVerificationFailure $e) {
+      return $this->responseError('Error processing transaction. Unable to verify bank account.'. $e->description);
     } catch (\Exception $e) {
-      return $this->responseError($e->getMessage());
+      return $this->responseError('Error processing transaction.');
     }
     $account = $account->toArray();
     $retPayment = $payment->toArray();
