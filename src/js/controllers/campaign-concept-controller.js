@@ -147,17 +147,28 @@
         };
 
 		$scope.convertConcept = function() {
-			$scope.campaign.status = 1;
-			$scope.campaign.concept = $scope.campaign.description;
+            if($scope.brainstorms.length) {
+                $modal.open({
+                    template: '<div class="modal-body">Warning: Converting this campaign concept will delete scheduled brainstorms</div>' +
+                        '<div class="modal-footer">' +
+                        '<button class="btn btn-primary" ng-click="$close()">OK</button>' +
+                        '<button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>' +
+                        '</div>',
+                    size: 'sm'
+                }).result.then(function(selected) {
+                        $scope.campaign.status = 1;
+                        $scope.campaign.concept = $scope.campaign.description;
 
-			campaignService.update(self.loggedInUser.account.id, $scope.campaign, {
-				success: function (r) {
-					$location.path('/calendar/campaigns/' + $scope.campaign.id);
-				},
-				error: function (r) {
-					launch.utils.handleAjaxErrorResponse(r, notificationService);
-				}
-			});
+                        campaignService.update(self.loggedInUser.account.id, $scope.campaign, {
+                            success: function (r) {
+                                $location.path('/calendar/campaigns/' + $scope.campaign.id);
+                            },
+                            error: function (r) {
+                                launch.utils.handleAjaxErrorResponse(r, notificationService);
+                            }
+                        });
+                });
+            }
 		};
 
 		$scope.addComment = function (message) {

@@ -122,6 +122,11 @@ class Campaign extends Ardent {
         return $this->hasMany('ContentScore', 'campaign_id', 'id');
     }
 
+    public function brainstorms()
+    {
+        return $this->hasMany('Brainstorm', 'campaign_id', 'id');
+    }
+
   public function guest_collaborators()
   {
     return $this->hasMany('GuestCollaborator', 'content_id', 'id')->where('content_type', 'campaign');
