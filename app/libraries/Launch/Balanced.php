@@ -148,6 +148,7 @@ class Balanced {
       $doCharge = true;
     }
     if ($doCharge) {
+
       if ( ! $this->account->yearly_payment) {
         // Charge monthly
         $amount = $subscription->monthly_price;
