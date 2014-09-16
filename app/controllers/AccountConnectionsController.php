@@ -265,12 +265,16 @@ class AccountConnectionsController extends BaseController {
 
       $responses = [];
       foreach($connections as $connection) {
-          $connectionData = $this->show($accountID, $connection->id);
-          if(ConnectionConnector::existsAPI($connectionData->connection->provider)) {
-              $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
-              if($connectionApi->isValid()) {
-                  $responses[] = $connectionApi->updateStats($connection->id); //TODO not actually necessary to pass id
+          try {
+              $connectionData = $this->show($accountID, $connection->id);
+              if(ConnectionConnector::existsAPI($connectionData->connection->provider)) {
+                  $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
+                  if($connectionApi->isValid()) {
+                      $responses[] = $connectionApi->updateStats($connection->id); //TODO not actually necessary to pass id
+                  }
               }
+          } catch(Exception $e) {
+              $responses[] = ['error' => $e->getMessage()];
           }
       }
 
