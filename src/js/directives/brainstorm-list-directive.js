@@ -30,8 +30,11 @@
 					'$scope', '$modalInstance', function (scp, instance) {
 						scp.brainstorm = brainstorm;
 						scp.brainstorm.date = moment(scp.brainstorm.date).format();
+                        scp.brainstorm.agenda = scp.brainstorm.agenda.join("\n");
 
 						scp.save = function () {
+                            scp.brainstorm.agenda = scp.brainstorm.agenda.split("\n");
+                            console.log(scp.brainstorm)
 							AccountService.addBrainstorm(scp.brainstorm, {
 								success: function (r) {
 									NotificationService.success('Success!', 'Your Brainstorm Session has successfully been scheduled.');
