@@ -223,7 +223,11 @@ class Content extends Ardent {
                 $activity = 'Converted Concept to Content';
                 $generalActivity = 'converted';
 
-                  $content->brainstorms()->delete();
+                  //need to do with loop so that model event fires
+                  $brainstorms = $content->brainstorms()->get();
+                  foreach($brainstorms as $brainstorm) {
+                      $brainstorm->delete();
+                  }
 
               } elseif ($newValue == 2) {
                 DB::table('content')

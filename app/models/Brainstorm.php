@@ -49,6 +49,10 @@ class Brainstorm extends Ardent {
         return $this->belongsTo('Campaign');
     }
 
+    public function account() {
+        return $this->belongsTo('Account');
+    }
+
     protected function beforeSave()
     {
         if (is_array(@$this->agenda)) {
@@ -57,6 +61,18 @@ class Brainstorm extends Ardent {
         if (is_numeric($this->datetime)) {
             $this->datetime = date('Y-m-d H:i:s', $this->datetime);
         }
+    }
+
+    protected function beforeDelete() {
+        $this->cancellationEmail();
+    }
+
+    public function cancellationEmail() {
+        $emails = $this->account()->with('users')->first()->users->lists('email');
+
+        Mail::send('emails.brainstorm.cancellation', ['brainstorm' => $this->toArray()], function($message) use ($emails) {
+            $message->to($emails)->subject('Brainstorm Cancellation');
+        });
     }
 
     public function toArray()
