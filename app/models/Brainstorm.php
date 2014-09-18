@@ -61,10 +61,18 @@ class Brainstorm extends Ardent {
         if (is_numeric($this->datetime)) {
             $this->datetime = date('Y-m-d H:i:s', $this->datetime);
         }
+
+        if($this->isDirty('datetime')) {
+            $this->rescheduledEmail();
+        }
     }
 
     protected function beforeDelete() {
         $this->cancellationEmail();
+    }
+
+    protected function beforeCreate() {
+        $this->scheduledEmail();
     }
 
     public function cancellationEmail() {
@@ -72,6 +80,24 @@ class Brainstorm extends Ardent {
 
         Mail::send('emails.brainstorm.cancellation', ['brainstorm' => $this->toArray()], function($message) use ($emails) {
             $message->to($emails)->subject('Brainstorm Cancellation');
+        });
+    }
+
+    public function scheduledEmail() {
+        $emails = $this->account()->with('users')->first()->users->lists('email');
+
+        $emails = ['dev@vimbly.com'];
+        Mail::send('emails.brainstorm.scheduled', ['brainstorm' => $this->toArray()], function($message) use ($emails) {
+            $message->to($emails)->subject('Brainstorm Scheduled');
+        });
+    }
+
+    public function rescheduledEmail() {
+        $emails = $this->account()->with('users')->first()->users->lists('email');
+
+        $emails = ['dev@vimbly.com'];
+        Mail::send('emails.brainstorm.rescheduled', ['brainstorm' => $this->toArray()], function($message) use ($emails) {
+            $message->to($emails)->subject('Brainstorm Rescheduled');
         });
     }
 
