@@ -22,6 +22,17 @@ abstract class AbstractConnection {
     $this->config = Config::get($this->configKey);
   }
 
+    public function curlFileCreate($filename, $mimetype = '', $postname = '') {
+        if (!function_exists('curl_file_create')) {
+            return "@$filename;filename="
+            . ($postname ?: basename($filename))
+            . ($mimetype ? ";type=$mimetype" : '');
+        }
+        else {
+            return curl_file_create($filename, $mimetype, $postname);
+        }
+    }
+
   public function getAccessToken()
   {
     // If no access token, it's impossible for us to

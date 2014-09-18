@@ -116,7 +116,7 @@ class SlideshareAPI extends AbstractConnection
         $params = [
             'slideshow_title' => $title,
             'slideshow_description' => $description,
-            'slideshow_srcfile' => curl_file_create($upload_path)
+            'slideshow_srcfile' => $this->curlFileCreate($upload_path)
         ];
 
         $response = $this->postRequest('/upload_slideshow', $params);
