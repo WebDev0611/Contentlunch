@@ -179,6 +179,7 @@
 			return account;
 		},
 		toDto: function(account) {
+            console.log(account)
 			var dto = {
 				id: account.id,
 				title: account.title,
@@ -1789,7 +1790,7 @@
             brainstorm.accountId = dto.account_id;
             brainstorm.agenda = dto.agenda;
 
-            brainstorm.datetime = new Date(moment(dto.datetime).format());
+            brainstorm.datetime = new Date(moment.utc(dto.datetime).format());
             brainstorm.date = moment(brainstorm.datetime).format('MM-DD-YYYY');
             brainstorm.time = brainstorm.datetime.getTime();
 
@@ -1816,7 +1817,7 @@
 		        description: brainstorm.description,
 		        credentials: brainstorm.credentials,
 		        content_type: brainstorm.contentType,
-		        datetime: new Date(moment(brainstorm.time).format('MM-DD-YYYY HH:mm'))
+		        datetime: new Date(moment(brainstorm.datetime).format())
 	        };
         }
 	};

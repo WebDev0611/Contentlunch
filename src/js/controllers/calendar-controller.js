@@ -199,8 +199,9 @@ launch.module.controller('CalendarController',
 
                     Account.getList('brainstorm-calendar', {start: start.format('YYYY-MM-DD'), end: end.format('YYYY-MM-DD')})
                         .then(function(response) {
-                            _.each(response, function(task) {
-                                task.type = 'brainstorm';
+                            _.each(response, function(brainstorm) {
+                                brainstorm.type = 'brainstorm';
+                                brainstorm.datetime = moment.utc(brainstorm.datetime)
                             });
                             brainstormCache[key] = response;
                             var filtered = filterItems(response);
