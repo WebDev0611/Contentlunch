@@ -90,7 +90,12 @@ launch.module.controller('HomeController',
         };
 
         $scope.getBrainstormUrl = function(brainstorm) {
-            return '/create/concept/edit/content/' + brainstorm.contentId;
+            if(brainstorm.contentId) {
+                return '/create/concept/edit/content/' + brainstorm.contentId;
+            }
+            else {
+                return '/calendar/concept/edit/campaign/' + brainstorm.campaignId;
+            }
         };
 
 

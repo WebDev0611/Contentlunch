@@ -53,6 +53,15 @@ class Campaign extends Ardent {
     if (empty($this->color)) {
       $this->color = $this->getNextColor();
     }
+
+      $dirty = $this->getDirty();
+      if (isset($dirty['status'])) {
+          $origValue = $this->getOriginal('status');
+          $newValue = $dirty['status'];
+          if ($origValue == 0 && $newValue == 1) {
+              $this->brainstorms()->delete();
+          }
+      }
   }
 
     protected function beforeDelete() {
@@ -111,6 +120,11 @@ class Campaign extends Ardent {
     public function content_scores()
     {
         return $this->hasMany('ContentScore', 'campaign_id', 'id');
+    }
+
+    public function brainstorms()
+    {
+        return $this->hasMany('Brainstorm', 'campaign_id', 'id');
     }
 
   public function guest_collaborators()

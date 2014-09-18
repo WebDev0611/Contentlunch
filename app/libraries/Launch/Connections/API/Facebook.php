@@ -120,32 +120,36 @@ class FacebookAPI extends AbstractConnection
 
         $content = array();
         foreach ($temp as $c) {
-            list(, $id) = explode('_', $c->pivot->external_id);
-            $content[$id] = $c;
+            if($c->pivot->external_id) {
+                list(, $id) = explode('_', $c->pivot->external_id);
+                $content[$id] = $c;
+            }
         }
 
-        $session = $this->getClient();
-        $posts = (new FacebookRequest($session, 'GET', "/", [
-            'ids' => implode(',', array_keys($content)),
-            'fields' => 'likes.limit(10000),comments.limit(10000),sharedposts.limit(10000)'
-        ]))
-            ->execute()
-            ->getGraphObject()
-            ->asArray();
-
         $count = 0;
-        foreach($posts as $post) {
-            //var_dump($post);
+        if($content) {
+            $session = $this->getClient();
+            $posts = (new FacebookRequest($session, 'GET', "/", [
+                'ids' => implode(',', array_keys($content)),
+                'fields' => 'likes.limit(10000),comments.limit(10000),sharedposts.limit(10000)'
+            ]))
+                ->execute()
+                ->getGraphObject()
+                ->asArray();
 
-            $id = $post->id;
-            if(isset($content[$id])) {
-                $count++;
-                $pivot = $content[$id]->pivot;
+            foreach($posts as $post) {
+                //var_dump($post);
 
-                $pivot->likes = isset($post->likes) ? count($post->likes->data) : 0;
-                $pivot->shares = isset($post->sharedposts) ? count($post->sharedposts->data) : 0;
-                $pivot->comments = isset($post->comments) ? count($post->comments->data) : 0;
-                $pivot->save();
+                $id = $post->id;
+                if(isset($content[$id])) {
+                    $count++;
+                    $pivot = $content[$id]->pivot;
+
+                    $pivot->likes = isset($post->likes) ? count($post->likes->data) : 0;
+                    $pivot->shares = isset($post->sharedposts) ? count($post->sharedposts->data) : 0;
+                    $pivot->comments = isset($post->comments) ? count($post->comments->data) : 0;
+                    $pivot->save();
+                }
             }
         }
 

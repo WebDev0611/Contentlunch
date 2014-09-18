@@ -179,17 +179,30 @@
 		};
 
 		$scope.convertConcept = function() {
-			$scope.content.status = 1;
-			$scope.content.concept = $scope.content.body;
+            if($scope.brainstorms.length) {
+                $modal.open({
+                    template: '<div class="modal-body">Warning: Converting this content concept will delete scheduled brainstorms</div>' +
+                        '<div class="modal-footer">' +
+                        '<button class="btn btn-primary" ng-click="$close()">OK</button>' +
+                        '<button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>' +
+                        '</div>',
+                    size: 'sm'
+                }).result.then(function(selected) {
+                        $scope.content.status = 1;
+                        $scope.content.concept = $scope.content.body;
 
-			contentService.update(self.loggedInUser.account.id, $scope.content, {
-				success: function(r) {
-					$location.path('/create/content/edit/' + $scope.content.id);
-				},
-				error: function(r) {
-					launch.utils.handleAjaxErrorResponse(r, notificationService);
-				}
-			});
+                        contentService.update(self.loggedInUser.account.id, $scope.content, {
+                            success: function(r) {
+                                $location.path('/create/content/edit/' + $scope.content.id);
+                            },
+                            error: function(r) {
+                                launch.utils.handleAjaxErrorResponse(r, notificationService);
+                            }
+                        });
+                    });
+            }
+
+
 		};
 
 		$scope.updateContentType = function() {
