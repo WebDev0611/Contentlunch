@@ -86,7 +86,6 @@ class Brainstorm extends Ardent {
     public function scheduledEmail() {
         $emails = $this->account()->with('users')->first()->users->lists('email');
 
-        $emails = ['dev@vimbly.com'];
         Mail::send('emails.brainstorm.scheduled', ['brainstorm' => $this->toArray()], function($message) use ($emails) {
             $message->to($emails)->subject('Brainstorm Scheduled');
         });
@@ -95,7 +94,6 @@ class Brainstorm extends Ardent {
     public function rescheduledEmail() {
         $emails = $this->account()->with('users')->first()->users->lists('email');
 
-        $emails = ['dev@vimbly.com'];
         Mail::send('emails.brainstorm.rescheduled', ['brainstorm' => $this->toArray()], function($message) use ($emails) {
             $message->to($emails)->subject('Brainstorm Rescheduled');
         });
