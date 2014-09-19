@@ -435,10 +435,12 @@
             }
 
             if (!empty($response['external_id'])) {
-                DB::table('content_account_connections')
-                    ->where('content_id', '=', $contentID)
-                    ->where('account_connection_id', '=', $accountConnectionID)
-                    ->update(['external_id' => $response['external_id']]);
+                $contentAccountConnection = ContentAccountConnection::firstOrNew([
+                    'content_id' => $contentID,
+                    'account_connection_id' => $accountConnectionID
+                ]);
+                $contentAccountConnection->external_id = $response['external_id'];
+                $contentAccountConnection->save();
             }
 
             return $launch;

@@ -281,6 +281,14 @@ class AccountConnectionsController extends BaseController {
       return $responses;
   }
 
+    public function updateOne($accountID, $accountConnectionID) {
+        $connectionData = $this->show($accountID, $accountConnectionID);
+        $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
+        if($connectionApi->isValid()) {
+            return $connectionApi->updateStats($accountConnectionID); //TODO not actually necessary to pass id
+        }
+    }
+
   private function friends($accountID, $connectionID)
   {
     if (!$this->inAccount($accountID)) {

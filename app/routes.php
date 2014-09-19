@@ -216,6 +216,7 @@ Route::group(['prefix' => 'api'], function()
 
   Route::get('account/{accountID}/updateMeasureStats', 'MeasureController@updateStats');
   Route::get('account/{accountID}/updateMetrics', 'AccountConnectionsController@updateStats');
+  Route::get('account/{accountID}/updateOne/{accountConnectionID}', 'AccountConnectionsController@updateOne');
   Route::get("account/{accountID}/updateContentScores",  'ContentController@updateScores');
   Route::get("account/{accountID}/updateCampaignScores",  'CampaignController@updateScores');
 

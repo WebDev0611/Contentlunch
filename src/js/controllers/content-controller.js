@@ -1077,6 +1077,11 @@
 					}
 				}
 
+                //If launched connection is not a destination, add it
+                if($.inArray(connection.id, $scope.contentConnectionIds) == -1) {
+                    $scope.contentConnectionIds.push(connection.id)
+                }
+
 				contentService.launch(self.loggedInUser.account.id, $scope.content.id, connection.id, extraParams, {
 					success: function(r) {
 						if ($scope.content.status <= 3) {

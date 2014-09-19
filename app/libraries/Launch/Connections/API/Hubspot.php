@@ -211,6 +211,7 @@ class HubspotAPI extends AbstractConnection {
       ]);
       $response['success'] = true;
       $response['response'] = $apiResponse->json();
+      $response['external_id'] = $response['response']['id'];
     } catch (\Exception $e) {
       $response['error'] = $e->getMessage();
     }
@@ -295,6 +296,7 @@ class HubspotAPI extends AbstractConnection {
       ]);
       $response['success'] = true;
       $response['response'] = $apiResponse->json();
+      $response['external_id'] = $response['response']['id'];
     } catch (\Exception $e) {
       $response['error'] = $e->getMessage();
     }
@@ -330,10 +332,52 @@ class HubspotAPI extends AbstractConnection {
       ]);
       $response['success'] = true;
       $response['response'] = $apiResponse->json();
+      $response['external_id'] = $response['response']['id'];
     } catch (\Exception $e) {
       $response['error'] = $e->getMessage();
     }
     return $response;
   }
+
+    public function updateStats($accountConnectionId)
+    {
+        $client = $this->getClient();
+        $token = $this->getAccessToken();
+
+        $contents = \AccountConnection::find($accountConnectionId)
+            ->content()
+            ->withPivot('external_id', 'likes', 'shares')
+            ->get();
+
+
+        $count = 0;
+        foreach ($contents as $content) {
+            $key = $content->content_type()->first()->key;
+            $pivot = $content->pivot;
+            switch ($key) {
+                case 'blog-post':
+                    $apiResponse = $client->get('content/api/v2/blog-posts/'. $pivot->external_id .'?access_token='. $token);
+                    $apiResponse = $apiResponse->json();
+
+                    $pivot->comments = $apiResponse['comment_count'];
+                    $pivot->views = $apiResponse['views'];
+                    break;
+                case 'landing-page':
+                case 'website-page':
+                    $apiResponse = $client->get('content/api/v2/pages/'. $pivot->external_id .'?access_token='. $token);
+                    $apiResponse = $apiResponse->json();
+                    $pivot->views = $apiResponse['views'];
+                    break;
+                case 'email':
+                case 'workflow-email':
+                    //no metrics available
+                    break;
+            }
+            $count++;
+            $pivot->save();
+        }
+
+        return json_encode(['success' => 1, 'count' => $count]);
+    }
 
 }
