@@ -1,4 +1,8 @@
 ﻿launch.utils = {
+    stripTags: function(str) {
+        return str.replace(/(<([^>]+)>)/ig,"");
+    },
+
 	isBlank: function(str) {
 		var i;
 
@@ -957,7 +961,8 @@
 				return (connection.provider === 'constant-contact');
 			case 'social_media_post':
 				if (connection.provider === 'twitter') {
-					return (launch.utils.isBlank(content.body) || content.body.length < 140);
+//					return (launch.utils.isBlank(content.body) || content.body.length < 140);
+                    return true;
 				}
 
 				return (connection.provider === 'facebook' || connection.provider === 'google-plus' || connection.provider === 'linkedin' || connection.provider === 'twitter');

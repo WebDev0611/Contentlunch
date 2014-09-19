@@ -1061,7 +1061,15 @@
 						};
 					}
 				});
-			} else {
+			} else if (connection.provider === 'twitter') {
+                var strippedBody = window.launch.utils.stripTags($scope.content.body);
+                if(strippedBody.length >= 140) {
+                    notificationService.notify('Warning!!', 'Content is too long to launch to twitter');
+                }
+                else {
+                    launch();
+                }
+            } else {
 				launch();
 			}
 
