@@ -313,7 +313,7 @@ launch.module.controller('CalendarController',
 			});
 		};
 
-		var filterDebouncer = _.debounce(function(filters) {
+		var filterDebouncer = _.throttle(function(filters) {
 			$scope.campaigns = filterItems(originalResponses.campaigns);
 			var tasks = originalResponses.tasks;
 

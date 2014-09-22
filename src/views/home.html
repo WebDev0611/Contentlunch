@@ -130,7 +130,7 @@
                         <li ng-repeat="act in allActivity track by act.id">
                             <a href="/create/content/edit/{{ act.contentId }}">
                                 <span class="user-image user-image-small" style="background-image: url('{{ act.user.image | imagePathFromObject }}')"></span>
-								<!--{{ act.user.firstName }} {{ act.user.lastName }} was {{ act.activity }}<br>{{ act.content.title }} on {{ act.createdAt | moment: 'MM/DD/YY' }}-->
+								<!--{{ formatActivity(act) }}-->
 								{{ formatActivity(act) }}
                             </a>
                         </li>
