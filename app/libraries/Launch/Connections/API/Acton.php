@@ -105,6 +105,22 @@ class ActonAPI extends AbstractConnection
         }
     }
 
+    public function listContacts() {
+        $client = $this->getClient();
+
+        $apiResponse = $client->get('/api/1/list')->json();
+
+        $lists = [];
+        foreach($apiResponse['result'] as $list) {
+            $lists[] = [
+                'id' => $list['id'],
+                'name' => $list['name']
+            ];
+        }
+
+        return $lists;
+    }
+
     public function postEmailDraft($content) {
         $client = $this->getClient();
         $response = ['success' => true, 'response' => []];
@@ -118,9 +134,25 @@ class ActonAPI extends AbstractConnection
                     'htmlbody' => $content->body,
                 ]
             ])->json();
+
+            if($type == 'draft') {
+                $apiResponse = $client->post('/api/1/message/'.$apiResponse['id'].'/send', [
+                    'body' => [
+                        'senderemail' => \Input::get('senderEmail'),
+                        'sendername' => \Input::get('senderName'),
+                        'sendtoids' => \Input::get('list'),
+                        'when' => time(),
+                        'subject' => $content->title
+                    ]
+                ])->json();
+                var_dump($apiResponse);
+                preg_match('/Message scheduled for launch: (.+)/', $apiResponse['message'], $matches);
+                $apiResponse['id'] = $matches[1];
+            }
+
             $response['success'] = true;
             $response['response'] = $apiResponse;
-            $response['external_id'] = json_decode($apiResponse)->id;
+            $response['external_id'] = $apiResponse['id'];
         } catch (\Exception $e) {
             $response['success'] = false;
             $response['error'] = $e->getMessage();
@@ -146,13 +178,15 @@ class ActonAPI extends AbstractConnection
             $key = $c->content_type->key;
 
             if($key == 'email' || $key == 'workflow-email') {
-                $apiResponse = $client->get("/api/1/message/$id/report")->json();
-                $apiResponse = json_decode($apiResponse);
 
-                if($apiResponse->status == 'ok') {
+                $apiResponse = $client->get("/api/1/message/$id/report")->json();\
+
+                var_dump($apiResponse);
+
+                if($apiResponse['status'] == 'ok') {
                     $count++;
 
-                    $c->pivot->views = $apiResponse->opened[0];
+                    $c->pivot->views = $apiResponse['opened'][0];
                     $c->pivot->save();
                 }
             }

@@ -1,20 +1,50 @@
 <div class="modal-header">ActOn Launch Options</div>
 <div class="modal-body">
     <form novalidate>
-        <p>For the ActOn connection, <strong>{{ connection.name }}</strong>, do you want to launch this content as an email draft, or email template?</p>
+        <p>For the ActOn connection, <strong>{{ connection.identifier }}</strong>, do you want to launch this content as an email draft, or email template?</p>
         <div class="form-group" ng-init="options.type = 'template'">
             <label style="display: inline-block; margin-right: 12px;">
-                <input type="radio" name="type" ng-model="options.type" value="template">
+                <input type="radio" ng-change="showContacts(options.type)" name="type" ng-model="options.type" value="template">
                 Template
             </label>
             <label style="display: inline-block; margin-right: 12px;">
-                <input type="radio" name="type" ng-model="options.type" value="draft">
+                <input type="radio" ng-change="showContacts(options.type)" name="type" ng-model="options.type" value="draft">
                 Draft
+            </label>
+        </div>
+
+        <div ng-show="showContactListLoader">
+            <spinner class="inline-spinner" spin-if="showContactListLoader"></spinner>
+            Getting contact lists...
+        </div>
+
+        <div ng-show="showContactList">
+            <h4>Choose a contact list</h4>
+
+            <div ng-repeat="cl in contactLists">
+                <label>
+                    <input type="radio" name="list" ng-model="options.list" value="{{ cl.id }}">
+                    {{ cl.name }}
+                </label>
+            </div>
+        </div>
+
+        <div ng-show="options.type == 'draft'">
+            <label>
+                Sender Email
+                <input type="text" name="senderEmail" ng-model="options.senderEmail">
+            </label>
+        </div>
+
+        <div ng-show="options.type == 'draft'">
+            <label>
+                Sender Name
+                <input type="text" name="senderName" ng-model="options.senderName">
             </label>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary btn-black" ng-click="ok(options)">Launch</button>
+    <button class="btn btn-primary btn-black" ng-disabled="!(options.type == 'template' || (options.type == 'draft' && options.list && options.senderEmail && options.senderName))" ng-click="ok(options)">Launch</button>
     <button class="btn btn-warning btn-black" ng-click="cancel()">Cancel</button>
 </div>

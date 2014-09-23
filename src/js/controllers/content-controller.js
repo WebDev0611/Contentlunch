@@ -1059,6 +1059,28 @@
 							launch(opts);
 							$modalInstance.close();
 						};
+
+                        $scope.showContacts = function(type) {
+                            $scope.showContactList = false;
+
+                            if (type == 'draft') {
+                                $scope.showContactListLoader = true;
+                                // get contacts and show list
+
+                                connectionService
+                                    .getContacts(self.loggedInUser.account.id, connection.id, {
+                                        success: function(contacts) {
+                                            $scope.contactLists = contacts;
+                                            $scope.showContactList = true;
+                                            $scope.showContactListLoader = false;
+                                        },
+                                        error: function(error) {
+                                            $scope.globalErrorHandler(error);
+                                            $scope.showContactListLoader = false;
+                                        }
+                                    })
+                            }
+                        };
 					}
 				});
 			} else if (connection.provider === 'twitter') {
@@ -1075,12 +1097,12 @@
 
 			function launch(extraOpts) {
 				if (extraOpts) {
-					extraParams = _.merge(extraParams || { }, { group_id: extraOpts.groupId });
+					extraParams = _.merge(extraParams || { }, extraOpts);
 					console.log('extraParams', extraParams);
 					console.log('extraOpts', extraOpts);
-					if (extraOpts.type) {
+					if (extraOpts.groupId) {
 						extraParams = _.merge(extraParams, {
-							type: extraOpts.type
+							group_id: extraOpts.groupId
 						});
 					}
 				}

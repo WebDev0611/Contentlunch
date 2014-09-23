@@ -115,6 +115,12 @@
 
 			return actions.get({ accountId: accountId, id: id, action: 'templates' }, success, error);	
 		},
+        getContacts: function (accountId, id, callback) {
+            var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+            var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+            return actions.get({ accountId: accountId, id: id, action: 'contacts' }, success, error);
+        },
 		checkStatus: function (accountId, id, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;

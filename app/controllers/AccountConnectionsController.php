@@ -259,6 +259,14 @@ class AccountConnectionsController extends BaseController {
     else return $this->responseError("Action {$action} does not exist", 404);
   }
 
+  public function contacts($accountID, $accountConnectionID) {
+      $connectionData = $this->show($accountID, $accountConnectionID);
+      $connectionApi = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
+      if($connectionApi->isValid()) {
+          return $connectionApi->listContacts(); //TODO not actually necessary to pass id
+      }
+  }
+
   public function updateStats($accountID) {
 
       $connections = $this->index($accountID);
