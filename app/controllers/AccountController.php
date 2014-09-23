@@ -205,6 +205,15 @@ class AccountController extends BaseController {
 		if (Input::has('payment_info')) {
 			$account->payment_info = serialize(Input::get('payment_info'));
 		}
+        if(Input::has('token') && Input::get('token') != $account->token) {
+            $balancedAccount = new Launch\Balanced($account);
+            try {
+                $balancedAccount->syncPayment();
+            }
+            catch(Balanced\Errors\Declined $e) {
+                return $this->responseError(['Your credit card was declined']);
+            }
+        }
 		if ($account->updateUniques())
 		{
 			if ($send_cancellation_email) {
