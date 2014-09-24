@@ -146,6 +146,10 @@
             $location.path('/collaborate/campaign/' + $scope.campaign.id);
         };
 
+        $scope.updateCollaborators = function(response) {
+            $scope.campaign.collaborators = response;
+        }
+
 		$scope.convertConcept = function() {
             if($scope.brainstorms.length) {
                 $modal.open({
