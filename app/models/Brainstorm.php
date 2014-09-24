@@ -62,7 +62,7 @@ class Brainstorm extends Ardent {
             $this->datetime = date('Y-m-d H:i:s', $this->datetime);
         }
 
-        if($this->isDirty('datetime')) {
+        if($this->id && $this->isDirty('datetime')) {
             $this->rescheduledEmail();
         }
     }
@@ -86,7 +86,17 @@ class Brainstorm extends Ardent {
     public function scheduledEmail() {
         $emails = $this->account()->with('users')->first()->users->lists('email');
 
-        Mail::send('emails.brainstorm.scheduled', ['brainstorm' => $this->toArray()], function($message) use ($emails) {
+        if($this->content_id) {
+            $concept = $this->content()->first()->toArray();
+        }
+        else if($this->campaign_id) {
+            $concept = $this->campaign()->first()->toArray();
+        }
+        else {
+            $concept = [];
+        }
+
+        Mail::send('emails.brainstorm.scheduled', ['brainstorm' => $this->toArray(), 'concept' => $concept], function($message) use ($emails) {
             $message->to($emails)->subject('Brainstorm Scheduled');
         });
     }
@@ -94,7 +104,17 @@ class Brainstorm extends Ardent {
     public function rescheduledEmail() {
         $emails = $this->account()->with('users')->first()->users->lists('email');
 
-        Mail::send('emails.brainstorm.rescheduled', ['brainstorm' => $this->toArray()], function($message) use ($emails) {
+        if($this->content_id) {
+            $concept = $this->content()->first()->toArray();
+        }
+        else if($this->campaign_id) {
+            $concept = $this->campaign()->first()->toArray();
+        }
+        else {
+            $concept = [];
+        }
+
+        Mail::send('emails.brainstorm.rescheduled', ['brainstorm' => $this->toArray(), 'concept' => $concept], function($message) use ($emails) {
             $message->to($emails)->subject('Brainstorm Rescheduled');
         });
     }

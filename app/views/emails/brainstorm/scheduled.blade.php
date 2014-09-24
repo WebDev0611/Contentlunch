@@ -5,9 +5,13 @@
 </head>
 <body>
 
-<p>This email is to notify you that there is a brainstorm session "{{ $brainstorm['description'] }}" scheduled for  {{ date('F j, Y \a\t g:i a', strtotime($brainstorm['datetime'])) }}. </p>
+<p>Greetings from Content Launch</p>
 
-<p>Content Launch Team</p>
+<p>This is to notify you that a brainstorm session has been scheduled for the concept {{ $concept['title'] }}</p>
+
+<p>on {{ date('F j, Y \a\t g:i a', strtotime($brainstorm['datetime'])) }}</p>
+
+<p>To see more information, please login here <a href="{{ URL::to('login') }}">{{ URL::to('login') }}</a></p>
 
 </body>
 </html>
