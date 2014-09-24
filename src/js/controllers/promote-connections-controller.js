@@ -75,7 +75,7 @@
 
 		$scope.providerIdentifier = function (provider) {
 			if (!$.isArray($scope.connections) || $scope.connections.length === 0) {
-				return false;
+				return 'Not Connected';
 			}
 
 			var provider = _.find($scope.connections, function (c) {
@@ -87,6 +87,9 @@
 				}
 				return provider.name;
 			}
+            else {
+                return 'Not Connected'
+            }
 		};
 
 		$scope.providerIsConnected = function (provider) {
