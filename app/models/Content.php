@@ -177,6 +177,12 @@ class Content extends Ardent {
         $content->task_groups()->save($task_group);
       }
 
+        Activity::create([
+            'content_id' => $content->id,
+            'user_id'    => Confide::user()->id,
+            'activity'   => 'created',
+        ]);
+
       return $content;
     });
 
@@ -208,10 +214,12 @@ class Content extends Ardent {
                   ->where('id', $content->id)
                   ->update(['archive_date' => new \DateTime]);
                 $activity = 'Archived';
+                $generalActivity = 'archived';
               }
             break;
             case 'body':
               $activity = 'Edited content';
+              $generalActivity = 'edited';
             break;
             // If status changed, log as an activity
             // Also store the date of the change on the content record
@@ -234,6 +242,7 @@ class Content extends Ardent {
                   ->where('id', $content->id)
                   ->update(['submit_date' => new \DateTime]);
                 $activity = 'Submitted for Review';
+                $generalActivity = 'submitted';
               } elseif ($newValue == 3) {
                 DB::table('content')
                   ->where('id', $content->id)
@@ -258,6 +267,7 @@ class Content extends Ardent {
             case 'user_id':
               $author = User::find($newValue);
               $activity = 'Assigned '. strtoupper($author->first_name .' '. $author->last_name) .' as the Author';
+              $generalActivity = 'assigned';
             break;
           }
           if ( ! empty($activity)) {
