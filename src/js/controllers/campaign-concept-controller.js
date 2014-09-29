@@ -173,6 +173,19 @@
                         });
                 });
             }
+            else {
+                $scope.campaign.status = 1;
+                $scope.campaign.concept = $scope.campaign.description;
+
+                campaignService.update(self.loggedInUser.account.id, $scope.campaign, {
+                    success: function (r) {
+                        $location.path('/calendar/campaigns/' + $scope.campaign.id);
+                    },
+                    error: function (r) {
+                        launch.utils.handleAjaxErrorResponse(r, notificationService);
+                    }
+                });
+            }
 		};
 
 		$scope.addComment = function (message) {

@@ -201,7 +201,19 @@
                         });
                     });
             }
+            else {
+                $scope.content.status = 1;
+                $scope.content.concept = $scope.content.body;
 
+                contentService.update(self.loggedInUser.account.id, $scope.content, {
+                    success: function(r) {
+                        $location.path('/create/content/edit/' + $scope.content.id);
+                    },
+                    error: function(r) {
+                        launch.utils.handleAjaxErrorResponse(r, notificationService);
+                    }
+                });
+            }
 
 		};
 
