@@ -5,24 +5,44 @@ return [
     // Production keys
     'key' => 'B9XaHOER8YWiMZY_3eaTzyf2sd0a',
     'secret' => 'dGO3Nr69cZkzfp5FrbjlAbDFNHUa',
-    'scope' => ['PRODUCTION']
+    'scope' => ['PRODUCTION'],
+    'metric' => [
+        'key' => 'views',
+        'max' => '1000',
+        'diversity_id' => 10
+    ]
   ],
   // Use same api creds as google
   'blogger' => [
     'key' => '229252344182-6e0oa703c66350j3rgprhu1e6balqgn3.apps.googleusercontent.com',
     'secret' => 'bJ6EN7y6yDiG6oiTpVi3FfZn',
     'scope' => ['profile', 'https://www.googleapis.com/auth/blogger'],
+    'metric' => [
+        'key' => 'likes',
+        'max' => '10',
+        'diversity_id' => 4
+    ]
   ],
   'dropbox' => [
     'key' => 'u2rsvtt8ugl938l',
     'secret' => 'xp39s1z1nib0pmt',
     'scope' => [],
+    'metric' => [
+        'key' => 'downloads',
+        'max' => '10',
+        'diversity_id' => 11
+    ]
   ],
   // https://developers.facebook.com/docs/facebook-login/permissions/v2.0
   'facebook' => [
     'key' => '1514771092096173',
     'secret' => 'e7b592515d4d70912c8ae376e887f90b',
     'scope' => ['email', 'publish_actions'],
+    'metric' => [
+        'key' => 'likes',
+        'max' => '10',
+        'diversity_id' => 0
+    ]
   ],
   // https://developers.google.com/+/api/oauth
   'google' => [
@@ -34,11 +54,21 @@ return [
     'key' => '229252344182-6e0oa703c66350j3rgprhu1e6balqgn3.apps.googleusercontent.com',
     'secret' => 'bJ6EN7y6yDiG6oiTpVi3FfZn',
     'scope' => ['profile', 'https://www.googleapis.com/auth/drive'],
+    'metric' => [
+        'key' => 'downloads',
+        'max' => '10',
+        'diversity_id' => 11
+    ]
   ],
   'google_plus' => [
     'key' => '229252344182-6e0oa703c66350j3rgprhu1e6balqgn3.apps.googleusercontent.com',
     'secret' => 'bJ6EN7y6yDiG6oiTpVi3FfZn',
     'scope' => ['profile', 'https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.me'],
+    'metric' => [
+        'key' => 'likes',
+        'max' => '10',
+        'diversity_id' => 3
+    ]
   ],
   'hubspot' => [
     'key' => 'b5badda1-cb0e-11e3-bd85-131c19601838',
@@ -47,11 +77,21 @@ return [
     //'portalId' => '175282', 
     //'portalId' => '424894', // Jason's portal id
     'scope' => ['blog-rw', 'settings-rw', 'offline'],
+    'metric' => [
+        'key' => 'views',
+        'max' => '10',
+        'diversity_id' => 4
+    ]
   ],
   'linkedin' => [
     'key' => '75uo3uakvtr7e1',
     'secret' => '4TFxfxhiA4P2rt5l',
     'scope' => ['rw_nus', 'r_basicprofile', 'r_network', 'w_messages', 'r_fullprofile', 'rw_groups'],
+    'metric' => [
+        'key' => 'likes',
+        'max' => '10',
+        'diversity_id' => 2
+    ]
   ],
   'salesforce' => [
     'key' => '',
@@ -61,25 +101,55 @@ return [
   'scribe' => [
     'key' => 'scribe-524586291c334afe8d25cf4970150247',
   ],
+  'slideshare' => [
+      'key' => 'l5uz33i1',
+      'secret' => 'NP33v7lc',
+      'scope' => [],
+      'metric' => [
+          'key' => 'downloads',
+          'max' => '10',
+          'diversity_id' => 9
+      ]
+  ],
   'soundcloud' => [
     'key' => 'b7f6e48469239125b51f84a4ee83c845',
     'secret' => 'cac4165b86ee8c238cc1625c49352a95',
     'scope' => ['non-expiring'],
+    'metric' => [
+        'key' => 'views',
+        'max' => '10',
+        'diversity_id' => 8
+    ]
   ],
   'tumblr' => [
     'key' => 'oRG7eGtygWOKVVqG8l7uQldeR0wtlzdxUCLkCeKl70WysDOsHq',
     'secret' => '8Iown7u7gwKCzq40Bn2n35lSunsyPFn7WEh6awqt4pilhgVGCh',
     'scope' => [],
+    'metric' => [
+        'key' => 'likes',
+        'max' => '10',
+        'diversity_id' => 5
+    ]
   ],
   'twitter' => [
     'key' => 'sepmKBPSmyESKLOQ2ZnHJQ',
     'secret' => '8i6K65vmr6JEiU7VEvPkrFPmA89J7HWfpmmCxPxgo',
     'scope' => [],
+    'metric' => [
+        'key' => 'likes',
+        'max' => '10',
+        'diversity_id' => 1
+    ]
   ],
   'wordpress' => [
     'key' => '36719',
     'secret' => 'kfANNW247Psf1aX4ROWtvtnG5sSU9jw8fdWmdXJVKej5ROSekrKYm4RzTGh4Ueg8',
     'scope' => [],
+    'metric' => [
+        'key' => 'likes',
+        'max' => '10',
+        'diversity_id' => 4
+    ]
   ],
   'traackr' => [
     // we're not doing any auth with Traackr (yet), so all we need is the API key
@@ -89,11 +159,21 @@ return [
     'key' => 'eb1cc41f34259f58146c7f594b3965504c64ce95',
     'secret' => '390f70c3396dcfb3067caf005b1135ce3708f318',
     'scope' => ['public', 'private', 'upload', 'edit'],
+    'metric' => [
+        'key' => 'views',
+        'max' => '10',
+        'diversity_id' => 6
+    ]
   ],
   // Use same api creds as google
   'youtube' => [
     'key' => '229252344182-6e0oa703c66350j3rgprhu1e6balqgn3.apps.googleusercontent.com',
     'secret' => 'bJ6EN7y6yDiG6oiTpVi3FfZn',
     'scope' => ['profile', 'https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/youtube.upload'],
+    'metric' => [
+        'key' => 'comments',
+        'max' => '10',
+        'diversity_id' => 7
+    ]
   ]
 ];

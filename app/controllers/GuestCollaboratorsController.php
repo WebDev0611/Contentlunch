@@ -10,7 +10,7 @@ class GuestCollaboratorsController extends BaseController {
             return $this->responseAccessDenied();
         }
 
-        $query = GuestCollaborator::with('connection');
+        $query = GuestCollaborator::with('connection')->where('account_id', $accountID);
 
         if ($limit = Input::get('limit')) {
             $query->limit($limit);
