@@ -77,6 +77,32 @@ class MeasureController extends BaseController {
        return UserEfficiency::where('account_id', $accountID)->get();
     }
 
+    public function overview($accountID) {
+        $now = Carbon::now()->format('Y-m-d');
+
+        $content = Content::where('account_id', $accountID)
+                    ->with(['scores' => function($query) use ($now){
+                        $query->where('date', $now);
+                    }])
+                    ->where('status', '!=', 0)
+                    ->get();
+
+        $totalScore = 0;
+        $totalCount = 0;
+        foreach($content as $c) {
+            if(count($c->scores)) {
+                $totalScore += $c->scores[0]->score;
+                $totalCount++;
+            }
+        }
+
+        return [
+            'totalContent' => count($content),
+            'companyScore' => $totalScore,
+            'averageContentScore' => round($totalScore / ($totalCount ?: 1), 2)
+        ];
+    }
+
     //////////////////////
     // Scheduled Tasks! //
     //////////////////////
@@ -257,10 +283,12 @@ class MeasureController extends BaseController {
 
         // Get all launches to hubspot
         $launches = LaunchResponse::where('success', 1)
-            ->whereHas('account_connection', function ($query) {
-                $query->whereHas('connection', function ($query) {
-                    $query->where('provider', '=', 'hubspot');
-                });
+            ->whereHas('account_connection', function ($query) use ($accountID) {
+                $query
+                    ->where('account_id', $accountID)
+                    ->whereHas('connection', function ($query) {
+                        $query->where('provider', '=', 'hubspot');
+                    });
             })
             ->with(['account_connection.connection' => function ($query) {
                 $query->where('provider', '=', 'hubspot');

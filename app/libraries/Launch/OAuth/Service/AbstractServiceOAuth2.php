@@ -75,6 +75,14 @@ class AbstractServiceOAuth2 extends AbstractService {
 
     $token = new StdOAuth2Token();
     $token->setAccessToken($data['access_token']);
+    if(!empty($data['refresh_token'])) {
+        $token->setRefreshToken($data['refresh_token']);
+    }
+
+    if(!empty($data['expires_in'])) {
+        $token->setLifetime($data['expires_in']);
+    }
+
     $token->setExtraParams($data);
     return $token;
   }

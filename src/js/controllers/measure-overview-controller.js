@@ -21,7 +21,7 @@
 			$scope.content = contentService.query(self.loggedInUser.account.id, null, {
 				success: function (r) {
 					$scope.isLoading = false;
-					//$scope.pagination.currentSortDirection = 'desc';
+					$scope.pagination.currentSortDirection = 'asc';
 					$scope.applySort('contentscore');
 					$scope.search.applyFilter(false);
 				},

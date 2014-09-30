@@ -28,29 +28,11 @@
 	});
 
 	return {
-		getOverview: function (accountId, startDate, callback) {
+		getOverview: function (accountId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			//return overview.get({ accountId: accountId }, success, error);
-            startDate = moment(startDate);
-
-            var data = [];
-            while(startDate < moment()) {
-                data.push({
-                    date: startDate.format('YYYY-MM-DD'),
-                    stats: {
-                        companyScore: parseFloat(Math.random() * 100).toFixed(2),
-                        totalContent: parseInt(Math.random() * 10000),
-                        productionDays: parseInt(Math.random() * 500),
-                        totalContentScore: parseFloat(Math.random() * 1000).toFixed(2),
-                        averageContentScore: parseFloat(Math.random() * 100).toFixed(2)
-                    }
-                });
-                startDate.add(1, 'days');
-            }
-
-            return data;
+            return overview.get({ accountId: accountId}, success, error);
 		},
 		getCreated: function (accountId, startDate, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;

@@ -1329,7 +1329,7 @@
 				content.automation = dto.automation;
 			}
 
-			content.contentScore = parseFloat(Math.random() * 100).toFixed(2); // TODO: GET THIS FROM THE API ONCE IT'S AVAILABLE!!
+			content.contentScore = parseInt((dto.scores[0] || {}).score) || 0;
 
 			return content;
 		},

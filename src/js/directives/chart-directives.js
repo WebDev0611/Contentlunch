@@ -32,8 +32,8 @@ launch.module
                         this.series = [];
                         $.each(this.data, function(i, date){
                             $.each(date.stats.by_user, function(i, user) {
-                                if($.inArray(user.user_id, scope.series) == -1) {
-                                    scope.series.push(user.user_id);
+                                if($.inArray(user.user_id.toString(), scope.series) == -1) {
+                                    scope.series.push(user.user_id.toString());
                                 }
                             });
                         });
@@ -42,8 +42,8 @@ launch.module
                         this.series = [];
                         $.each(this.data, function(i, date){
                             $.each(date.stats.by_buying_stage, function(i, stage) {
-                                if($.inArray(stage.buying_stage, scope.series) == -1) {
-                                    scope.series.push(stage.buying_stage);
+                                if($.inArray(stage.buying_stage.toString(), scope.series) == -1) {
+                                    scope.series.push(stage.buying_stage.toString());
                                 }
                             });
                         });
@@ -52,8 +52,8 @@ launch.module
                         this.series = [];
                         $.each(this.data, function(i, date){
                             $.each(date.stats.by_content_type, function(i, type) {
-                                if($.inArray(type.content_type_id, scope.series) == -1) {
-                                    scope.series.push(type.content_type_id);
+                                if($.inArray(type.content_type_id.toString(), scope.series) == -1) {
+                                    scope.series.push(type.content_type_id.toString());
                                 }
                             });
                         });
@@ -120,8 +120,8 @@ launch.module
                     if (this.group == 'author') {
                         $.each(this.data, function(i, date){
                             $.each(date.stats.by_user, function(i, user) {
-                                if($.inArray(user.user_id, scope.series) == -1) {
-                                    scope.series.push(user.user_id);
+                                if($.inArray(user.user_id.toString(), scope.series) == -1) {
+                                    scope.series.push(user.user_id.toString());
                                 }
                             });
                         });
@@ -129,8 +129,8 @@ launch.module
                     else if(this.group == 'buying-stage') {
                         $.each(this.data, function(i, date){
                             $.each(date.stats.by_buying_stage, function(i, stage) {
-                                if($.inArray(stage.buying_stage, scope.series) == -1) {
-                                    scope.series.push(stage.buying_stage);
+                                if($.inArray(stage.buying_stage.toString(), scope.series) == -1) {
+                                    scope.series.push(stage.buying_stage.toString());
                                 }
                             });
                         });
@@ -138,8 +138,8 @@ launch.module
                     else if(this.group == 'content-type') {
                         $.each(this.data, function(i, date){
                             $.each(date.stats.by_content_type, function(i, type) {
-                                if($.inArray(type.content_type_id, scope.series) == -1) {
-                                    scope.series.push(type.content_type_id);
+                                if($.inArray(type.content_type_id.toString(), scope.series) == -1) {
+                                    scope.series.push(type.content_type_id.toString());
                                 }
                             });
                         });
@@ -196,8 +196,8 @@ launch.module
                     if (this.group == 'author') {
                         $.each(this.data, function(i, date){
                             $.each(date.stats.by_user, function(i, user) {
-                                if($.inArray(""+user.user_id, scope.series) == -1) {
-                                    scope.series.push(""+user.user_id);
+                                if($.inArray(user.user_id.toString(), scope.series) == -1) {
+                                    scope.series.push(user.user_id.toString());
                                 }
                             });
                         });
@@ -205,8 +205,8 @@ launch.module
                     else if(this.group == 'buying-stage') {
                         $.each(this.data, function(i, date){
                             $.each(date.stats.by_buying_stage, function(i, stage) {
-                                if($.inArray(""+stage.buying_stage, scope.series) == -1) {
-                                    scope.series.push(""+stage.buying_stage);
+                                if($.inArray(stage.buying_stage.toString(), scope.series) == -1) {
+                                    scope.series.push(stage.buying_stage.toString());
                                 }
                             });
                         });
@@ -214,8 +214,8 @@ launch.module
                     else if(this.group == 'content-type') {
                         $.each(this.data, function(i, date){
                             $.each(date.stats.by_content_type, function(i, type) {
-                                if($.inArray(""+type.content_type_id, scope.series) == -1) {
-                                    scope.series.push(""+type.content_type_id);
+                                if($.inArray(type.content_type_id.toString(), scope.series) == -1) {
+                                    scope.series.push(type.content_type_id.toString());
                                 }
                             });
                         });

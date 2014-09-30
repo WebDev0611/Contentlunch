@@ -45,25 +45,30 @@ class GooglePlusAPI extends GoogleAPI
         try {
             $client = $this->getClient();
 
-            $service = new Google_Service_Plus($client);
 
+            // set $requestVisibleActions to write moments
+            $requestVisibleActions = [
+                'http://schema.org/CreateAction',];
+            $client->setRequestVisibleActions($requestVisibleActions);
+
+            $service = new Google_Service_Plus($client, ['debug' => true]);
 
             $moment_body = new Google_Moment();
-            $moment_body->setType("http://schemas.google.com/CreateActivity");
+//            $moment_body->setType("http://schemas.google.com/AddActivity");
+            $moment_body->setType("http://schema.org/CreateAction");
 
-            $create = new Google_ItemScope;
-            $create->setId(uniqid());
-            $create->setType('http://schema.org/CreativeWork');
-            $create->setName($this->stripTags($content->title));
-            $create->setDescription($this->stripTags($content->body));
-            $create->setText($this->stripTags($content->body));
+            $item_scope = new Google_ItemScope();
+            $item_scope->setId("target-id-1");
+//            $item_scope->setType("http://schemas.google.com/AddActivity");
+            $item_scope->setType("http://schema.org/CreateAction");
+            $item_scope->setName($content->title);
+            $item_scope->setDescription(strip_tags($content->body));
+
             $upload = $content->upload()->first();
             if ($upload && $upload->media_type == 'image') {
-                $create->setImage($upload->getImageUrl('large'));
+                $item_scope->setImage($upload->getUrl());
             }
-            
-            $moment_body->setTarget($create);
-
+            $moment_body->setTarget($item_scope);
             $momentResult = $service->moments->insert('me', 'vault', $moment_body);
 
             $response['success'] = true;

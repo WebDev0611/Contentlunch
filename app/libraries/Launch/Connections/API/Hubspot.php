@@ -140,8 +140,6 @@ class HubspotAPI extends AbstractConnection {
       case 'normal_blog_post':
         $apiResponse = $client->get('content/api/v2/blog-posts/'. $response['id'] .'?access_token='. $token);
         $post = $apiResponse->json();
-        print_r($post);
-        die;
         $stats = [
           'views' => $post['views'],
           'comments' => $post['comment_count'],

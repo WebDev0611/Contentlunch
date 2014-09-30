@@ -228,7 +228,8 @@ Route::group(['prefix' => 'api'], function()
   Route::get("{$measureBase}content-timing",   'MeasureController@contentTiming');
   Route::get("{$measureBase}content-score",   'MeasureController@contentScore');
   Route::get("{$measureBase}user-efficiency",  'MeasureController@userEfficiency');
-  Route::get("{$measureBase}automation", 'MeasureController@getAutomationStats');
+    Route::get("{$measureBase}automation", 'MeasureController@getAutomationStats');
+    Route::get("{$measureBase}overview", 'MeasureController@overview');
 
   Route::get('account/{id}/content-activity', 'ContentController@allActivities');
   Route::get('account/{id}/my-activity', 'ActivityController@mine');
