@@ -1329,7 +1329,12 @@
 				content.automation = dto.automation;
 			}
 
-			content.contentScore = parseInt((dto.scores[0] || {}).score) || 0;
+            if(dto.scores && dto.scores.length) {
+                content.contentScore = parseInt(dto.scores[0].score);
+            }
+            else {
+                content.contentScore = 0;
+            }
 
 			return content;
 		},
