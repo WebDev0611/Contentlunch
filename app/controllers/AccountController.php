@@ -417,6 +417,8 @@ class AccountController extends BaseController {
 	}
 
     function scoreAllAccounts() {
+        set_time_limit(0);
+
         $accounts = Account::all();
 
         $AccountConnectionsController = App::make('AccountConnectionsController');
