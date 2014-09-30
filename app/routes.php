@@ -220,6 +220,8 @@ Route::group(['prefix' => 'api'], function()
   Route::get("account/{accountID}/updateContentScores",  'ContentController@updateScores');
   Route::get("account/{accountID}/updateCampaignScores",  'CampaignController@updateScores');
 
+  Route::get('scoreAllAccounts', 'AccountController@scoreAllAccounts');
+
   $measureBase = 'account/{accountID}/measure/';
   Route::get("{$measureBase}content-created",  'MeasureController@contentCreated');
   Route::get("{$measureBase}content-launched", 'MeasureController@contentLaunched');

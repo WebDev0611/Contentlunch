@@ -416,6 +416,31 @@ class AccountController extends BaseController {
 
 	}
 
+    function scoreAllAccounts() {
+        $accounts = Account::all();
+
+        $AccountConnectionsController = App::make('AccountConnectionsController');
+        $ContentController = App::make('ContentController');
+        $CampaignController = App::make('CampaignController');
+        $MeasureController = App::make('MeasureController');
+
+        foreach($accounts as $account) {
+            try {
+                $AccountConnectionsController->updateStats($account->id);
+
+                $ContentController->updateScores($account->id);
+                $CampaignController->updateScores($account->id);
+
+                $MeasureController->updateStats($account->id);
+            }
+            catch (Exception $e) {
+                var_dump($e->getMessage());
+                var_dump($e->getTrace());
+            }
+        }
+        echo 'done';
+    }
+
 	protected function createSiteAdminUser($account)
 	{
 		// When creating a new account, an email must be attached

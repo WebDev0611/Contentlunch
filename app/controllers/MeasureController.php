@@ -17,17 +17,13 @@ class MeasureController extends BaseController {
 
     public function updateStats($accountID)
     {
-        $date = Carbon::now()->subMonth(1);
         $now = Carbon::now();
 
-        do {
-            $this->measureCreatedContent($date->format('Y-m-d'), $accountID);
-            $this->measureLaunchedContent($date->format('Y-m-d'), $accountID);
-            $this->measureTimingContent($date->format('Y-m-d'), $accountID);
-            $this->measureContentScore($date->format('Y-m-d'), $accountID);
+        $this->measureCreatedContent($now->format('Y-m-d'), $accountID);
+        $this->measureLaunchedContent($now->format('Y-m-d'), $accountID);
+        $this->measureTimingContent($now->format('Y-m-d'), $accountID);
+        $this->measureContentScore($now->format('Y-m-d'), $accountID);
 
-            $date->addDay(1);
-        } while ($now->gte($date));
 
         $this->measureUserEfficiency($now->format('Y-m-d'), $accountID);
     }
