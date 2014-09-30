@@ -123,8 +123,7 @@ class MeasureController extends BaseController {
                         ->where('account_id', $accountID)
                         ->where('status', '!=', 0);
 
-        $model = MeasureLaunchedContent::firstOrNew(['date' => $date->format('Y-m-d')]);
-        $model->account_id = $accountID;
+        $model = MeasureLaunchedContent::firstOrNew(['date' => $date->format('Y-m-d'), 'account_id' => $accountID]);
 
         $stats = [];
 
@@ -151,8 +150,7 @@ class MeasureController extends BaseController {
                         ->where('account_id', $accountID)
                         ->whereNotNull('launch_date');
 
-        $model = MeasureTimingContent::firstOrNew(['date' => $date->format('Y-m-d')]);
-        $model->account_id = $accountID;
+        $model = MeasureTimingContent::firstOrNew(['date' => $date->format('Y-m-d'), 'account_id' => $accountID]);
 
         $stats = [];
 
@@ -185,8 +183,7 @@ class MeasureController extends BaseController {
 //            ->where('launch_date', '<', $date->copy()->endOfDay())
 
 
-        $model = MeasureContentScore::firstOrNew(['date' => $date->format('Y-m-d')]);
-        $model->account_id = $accountID;
+        $model = MeasureContentScore::firstOrNew(['date' => $date->format('Y-m-d'), 'account_id' => $accountID]);
 
         $stats = [];
 

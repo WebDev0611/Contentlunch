@@ -1059,28 +1059,6 @@
 							launch(opts);
 							$modalInstance.close();
 						};
-
-                        $scope.showContacts = function(type) {
-                            $scope.showContactList = false;
-
-                            if (type == 'draft') {
-                                $scope.showContactListLoader = true;
-                                // get contacts and show list
-
-                                connectionService
-                                    .getContacts(self.loggedInUser.account.id, connection.id, {
-                                        success: function(contacts) {
-                                            $scope.contactLists = contacts;
-                                            $scope.showContactList = true;
-                                            $scope.showContactListLoader = false;
-                                        },
-                                        error: function(error) {
-                                            $scope.globalErrorHandler(error);
-                                            $scope.showContactListLoader = false;
-                                        }
-                                    })
-                            }
-                        };
 					}
 				});
 			} else if (connection.provider === 'twitter') {

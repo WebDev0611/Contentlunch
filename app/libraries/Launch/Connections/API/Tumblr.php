@@ -171,8 +171,6 @@ class TumblrAPI extends AbstractConnection
 
             if($content['meta']['status'] == 200) {
                 if(!isset($content['response']['posts'][0]['notes'])) {
-                    echo 'Warning notes is missing';
-                    var_dump($content['response']);
                     continue;
                 }
                 $notes = $content['response']['posts'][0]['notes'];

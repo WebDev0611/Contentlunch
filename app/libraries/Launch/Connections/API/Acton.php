@@ -135,21 +135,6 @@ class ActonAPI extends AbstractConnection
                 ]
             ])->json();
 
-            if($type == 'draft') {
-                $apiResponse = $client->post('/api/1/message/'.$apiResponse['id'].'/send', [
-                    'body' => [
-                        'senderemail' => \Input::get('senderEmail'),
-                        'sendername' => \Input::get('senderName'),
-                        'sendtoids' => \Input::get('list'),
-                        'when' => time(),
-                        'subject' => $content->title
-                    ]
-                ])->json();
-                var_dump($apiResponse);
-                preg_match('/Message scheduled for launch: (.+)/', $apiResponse['message'], $matches);
-                $apiResponse['id'] = $matches[1];
-            }
-
             $response['success'] = true;
             $response['response'] = $apiResponse;
             $response['external_id'] = $apiResponse['id'];
