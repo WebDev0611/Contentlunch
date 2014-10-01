@@ -5,6 +5,7 @@ use Facebook\FacebookRequest;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
 use Illuminate\Support\Facades\Config;
+use Launch\Connections\ReAuthException;
 
 /**
  * @see: https://developers.facebook.com/docs/graph-api/reference/v2.0/user/feed
@@ -98,9 +99,7 @@ class FacebookAPI extends AbstractConnection
             $response['response'] = $post->asArray();
             $response['external_id'] = $post->getProperty('id');
         } catch (FacebookRequestException $e) {
-            $response['success'] = false;
-            $response['response'] = $e->getResponse();
-            $response['error'] = $e->getMessage();
+            throw new ReAuthException('Facebook requires you to reauthorize ContentLaunch. Please re-add the connection in Account Settings');
         } catch (\Exception $e) {
             // Error
             $response['success'] = false;

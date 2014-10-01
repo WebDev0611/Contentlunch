@@ -3,6 +3,7 @@
     use Launch\CSV;
     use \Launch\Connections\API\ConnectionConnector;
     use \Carbon\Carbon;
+    use Launch\Connections\ReAuthException;
 
     class ContentController extends BaseController
     {
@@ -412,11 +413,16 @@
             }
             $class = 'Launch\Connections\API\\' . $class;
             $api = new $class($accountConnection->toArray());
-            if (($groupID = Input::get('group_id'))) {
-                $response = $api->postToGroup($content, $groupID);
+            try {
+                if (($groupID = Input::get('group_id'))) {
+                    $response = $api->postToGroup($content, $groupID);
+                }
+                else {
+                    $response = $api->postContent($content);
+                }
             }
-            else {
-                $response = $api->postContent($content);
+            catch(ReAuthException $e) {
+                return $this->responseError($e->getMessage());
             }
             if (!isset($response['success']) || !isset($response['response'])) {
                 echo '<pre>';
