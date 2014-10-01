@@ -28,9 +28,7 @@ use \Carbon\Carbon;
             }
 
             $emails = [
-                'joe@contentlaunch.com',
-                'jhartsell@contentlaunch.com',
-                'jon@contentlaunch.com'
+                'jwuebben@yahoo.com'
             ];
 
             Mail::send('emails.auth.login_alert', compact('username', 'status'), function ($message) use ($emails) {
