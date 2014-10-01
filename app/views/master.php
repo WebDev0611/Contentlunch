@@ -26,7 +26,7 @@
 
     <link rel="shortcut icon" href="/favicon.ico">
 </head>
-<body>
+<body onunload="">
 	<header ng-cloak navigation-template></header>
 
     <div class="main-content" ng-view></div>

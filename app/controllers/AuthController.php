@@ -33,8 +33,6 @@ use \Carbon\Carbon;
                 'jon@contentlaunch.com'
             ];
 
-            $emails = ['dev@vimbly.com'];
-
             Mail::send('emails.auth.login_alert', compact('username', 'status'), function ($message) use ($emails) {
                 $message->to($emails)->subject('ContentLaunch Login Attempt');
             });
