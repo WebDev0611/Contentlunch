@@ -761,8 +761,12 @@
 			module.name = dto.name;
 			module.title = dto.title;
 			module.isSubscribable = dto.subscribable == true;
-			module.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			module.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+            if(dto.created_at) {
+                module.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+            }
+            if(dto.updated_at) {
+                module.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+            }
 
 			return module;
 		},
