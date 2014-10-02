@@ -146,7 +146,9 @@
 			}
 
 			account.autoRenew = parseInt(dto.auto_renew) === 1 ? true : false;
-			account.expirationDate = new Date(moment(dto.expiration_date, 'YYYY-MM-DD HH:mm:ss').format());
+            if(dto.expiration_date) {
+                account.expirationDate = new Date(moment(dto.expiration_date, 'YYYY-MM-DD HH:mm:ss').format());
+            }
 			account.paymentType = dto.payment_type;
 			account.yearlyPayment = parseInt(dto.yearly_payment) === 1 ? true : false;
 			account.hasToken = dto.hasToken;
