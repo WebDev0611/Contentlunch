@@ -78,7 +78,7 @@
 			accountService.addBeta(account, {
 				success: function (r) {
 					$scope.isSaving = false;
-					document.location = '/user/confirm/' + r.confirmation_code;
+					document.location = '/signup/confirm';
 				},
 				error: self.ajaxHandler.error
 			});
