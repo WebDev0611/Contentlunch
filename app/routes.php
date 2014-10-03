@@ -28,6 +28,10 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
+  Route::resource('log_error', 'ErrorLogController', [
+      'only' => ['index', 'store', 'show']
+  ]);
+
   Route::post('account/{id}/add_user', 'AccountUserController@store');
   Route::get('account/{id}/users', 'AccountUserController@show');
 

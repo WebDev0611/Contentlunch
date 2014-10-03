@@ -38,7 +38,7 @@ class BaseController extends Controller {
    */
   protected function responseAccessDenied()
   {
-    return Response::json(['errors' => ['Access Denied'], 401]);
+    return Response::json(['errors' => ['Access Denied']], 401);
   }
 
   /**

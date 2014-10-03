@@ -23,6 +23,15 @@
 			this.unset(this.AUTHENTICATED_KEY);
 			this.unset(this.CONTENT_TYPES_KEY);
 			this.unset(this.ACCOUNT_USERS_KEY);
-		}
+		},
+        dump: function() {
+            return {
+                USER_KEY: this.get(this.USER_KEY),
+                ACCOUNT_KEY: this.get(this.ACCOUNT_KEY),
+                AUTHENTICATED_KEY: this.get(this.AUTHENTICATED_KEY),
+                CONTENT_TYPES_KEY: this.get(this.CONTENT_TYPES_KEY),
+                ACCOUNT_USERS_KEY: this.get(this.ACCOUNT_USERS_KEY)
+            }
+        }
 	};
 });
