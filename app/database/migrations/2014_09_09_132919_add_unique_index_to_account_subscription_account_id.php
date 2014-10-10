@@ -21,9 +21,11 @@ class AddUniqueIndexToAccountSubscriptionAccountId extends Migration {
 			$ids[$sub->account_id] = $sub->id;
 		}
 		$ids = array_values($ids);
-		DB::table('account_subscription')
-			->whereNotIn('id', $ids)
-			->delete();
+        if($ids) {
+            DB::table('account_subscription')
+                ->whereNotIn('id', $ids)
+                ->delete();
+        }
         Schema::table('account_subscription', function(Blueprint $table){
             $table->unique('account_id');
         });
