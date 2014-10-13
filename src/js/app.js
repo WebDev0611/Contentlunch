@@ -26,7 +26,18 @@
 					})
 					.when('/', {
 						controller: 'HomeController',
-						templateUrl: '/assets/views/home.html'
+						templateUrl: '/assets/views/home.html',
+                        resolve: {
+                            app: function($q, $rootScope, $location, AuthService) {
+                                var defer = $q.defer();
+                                var user = AuthService.userInfo();
+                                if (user && launch.utils.isBlank(user.account)) {
+                                    $location.path('/accounts');
+                                }
+                                defer.resolve();
+                                return defer.promise;
+                            }
+                        }
 					})
 					.when('/login', {
 						controller: 'LoginController',

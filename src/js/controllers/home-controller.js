@@ -7,10 +7,12 @@ launch.module.controller('HomeController',
 
         // If user is global admin, we don't really have a homepage
         // for them so take them to /accounts
-        if (user && launch.utils.isBlank(user.account)) {
-            $location.path('/accounts');
-            return;
-        }
+//        This is done in app.js now at the route level. was causing errors before
+//        if (user && launch.utils.isBlank(user.account)) {
+//            window.location.href = '/accounts';
+////            $location.path('/accounts');
+//            return;
+//        }
 
         if (!user || !user.account || launch.utils.isBlank(user.account.id)) {
         	$location.path('/login');

@@ -15,14 +15,16 @@ launch.module.controller('ConsultConferenceController', function ($scope, $filte
 
   // Consultant options
   // If topic is application, CEO cannot be selected
+    var applicationOptions = [['professional', 'Content Launch Professional']];
+    var defaultOptions = [
+        ['professional', 'Content Launch Professional'],
+        ['ceo', 'CEO Jon Wuebben']
+    ];
   $scope.consultantOptions = function () {
     if ($scope.request.topic == 'application') {
-      return [['professional', 'Content Launch Professional']];
+      return applicationOptions;
     }
-    return [
-      ['professional', 'Content Launch Professional'],
-      ['ceo', 'CEO Jon Wuebben']
-    ];
+    return defaultOptions;
   };
 
   $scope.sendRequest = function () {
