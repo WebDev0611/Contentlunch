@@ -269,7 +269,7 @@ launch.module.controller('ConsultLibraryController', function($scope, $modal, Li
 						$modalInstance.dismiss();
 					}, function(response) {
 						launch.utils.handleAjaxErrorResponse(response, NotificationService);
-					}).then(function() {
+					}).$promise.then(function() {
 						$scope.isSaving = false;
 					});
 				};
