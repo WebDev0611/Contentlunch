@@ -146,9 +146,9 @@
 			}
 
 			account.autoRenew = parseInt(dto.auto_renew) === 1 ? true : false;
-            if(dto.expiration_date) {
-                account.expirationDate = new Date(moment(dto.expiration_date, 'YYYY-MM-DD HH:mm:ss').format());
-            }
+            account.expirationDate = launch.utils.isBlank(dto.expiration_date) ?
+                null :
+                new Date(moment(dto.expiration_date, 'YYYY-MM-DD HH:mm:ss').format());
 			account.paymentType = dto.payment_type;
 			account.yearlyPayment = parseInt(dto.yearly_payment) === 1 ? true : false;
 			account.hasToken = dto.hasToken;
@@ -253,7 +253,9 @@
 			account.subscription = self.subscription.fromCache(cachedAccount.subscription);
 
 			account.autoRenew = cachedAccount.autoRenew;
-			account.expirationDate = new Date(moment(cachedAccount.expirationDate, 'YYYY-MM-DD HH:mm:ss').format());
+			account.expirationDate = launch.utils.isBlank(cachedAccount.expirationDate) ?
+                null :
+                new Date(moment(cachedAccount.expirationDate, 'YYYY-MM-DD HH:mm:ss').format());
 			account.paymentType = cachedAccount.paymentType;
 			account.yearlyPayment = account.yearlyPayment;
 			account.hasToken = cachedAccount.hasToken;
@@ -344,8 +346,12 @@
 			user.firstName = dto.first_name;
 			user.lastName = dto.last_name;
 			user.email = dto.email;
-			user.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			user.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			user.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			user.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 			user.confirmed = dto.confirmed;
 			user.address1 = dto.address;
 			user.address2 = dto.address_2;
@@ -497,8 +503,12 @@
 			role.isBuiltIn = parseInt(dto.builtin) === 1 ? true : false;
 			role.isDeletable = parseInt(dto.deletable) === 1 ? true : false;
 			role.accountId = parseInt(dto.account_id);
-			role.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			role.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			role.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			role.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 
 			if ($.isArray(dto.permissions)) {
 
@@ -691,8 +701,12 @@
 			subscription.training = parseInt(dto.training) === 1 ? true : false;
 			subscription.annualDiscount = parseFloat(dto.annual_discount);
 			subscription.features = dto.features;
-			subscription.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			subscription.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			subscription.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			subscription.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 
 			// TODO: SET THE COMPONENTS CORRECTLY FROM THE API WHEN IT'S READY!!
 			//			THIS IS ALREADY DONE WHEN GETTING MODULES FOR AN ACCOUNT (EXCEPT FOR THE "active" FLAG).
@@ -738,8 +752,12 @@
 			subscription.training = cachedSubscription.training;
 			subscription.annualDiscount = cachedSubscription.annualDiscount;
 			subscription.features = cachedSubscription.features;
-			subscription.created = new Date(moment(cachedSubscription.created, 'YYYY-MM-DD HH:mm:ss').format());
-			subscription.updated = new Date(moment(cachedSubscription.updated, 'YYYY-MM-DD HH:mm:ss').format());
+			subscription.created = launch.utils.isBlank(cachedSubscription.created) ?
+                null :
+                new Date(moment(cachedSubscription.created, 'YYYY-MM-DD HH:mm:ss').format());
+			subscription.updated = launch.utils.isBlank(cachedSubscription.updated) ?
+                null :
+                new Date(moment(cachedSubscription.updated, 'YYYY-MM-DD HH:mm:ss').format());
 			subscription.components = cachedSubscription.components;
 
 			return subscription;
@@ -763,12 +781,12 @@
 			module.name = dto.name;
 			module.title = dto.title;
 			module.isSubscribable = dto.subscribable == true;
-            if(dto.created_at) {
-                module.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-            }
-            if(dto.updated_at) {
-                module.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
-            }
+            module.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+            module.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 
 			return module;
 		},
@@ -794,8 +812,12 @@
 			self.active = cachedModule.active;
 			module.name = cachedModule.name;
 			module.title = cachedModule.title;
-			module.created = new Date(moment(cachedModule.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			module.updated = new Date(moment(cachedModule.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			module.created = launch.utils.isBlank(cachedModule.created_at) ?
+                null :
+                new Date(moment(cachedModule.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			module.updated = launch.utils.isBlank(cachedModule.updated_at) ?
+                null :
+                new Date(moment(cachedModule.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 
 			return module;
 		}
@@ -975,8 +997,12 @@
 				});
 			}
 
-			settings.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			settings.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			settings.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			settings.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 
 			return settings;
 		},
@@ -1007,8 +1033,12 @@
 			provider.name = dto.name;
 			provider.provider = dto.provider;
 			provider.connectionType = dto.type;
-			provider.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			provider.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			provider.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			provider.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 			provider.category = dto.category;
 
 			return provider;
@@ -1112,8 +1142,12 @@
 			connection.active = (parseInt(dto.status) === 1) ? true : false;
 			connection.connectionType = 'content';
 			connection.connectionSettings = dto.settings;
-			connection.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			connection.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			connection.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			connection.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 			connection.connectionName = dto.connection_name;
 			connection.provider = dto.connection_provider;
 			connection.identifier = dto.identifier;
@@ -1163,8 +1197,12 @@
 			connection.active = (parseInt(dto.status) === 1) ? true : false;
 			connection.connectionType = 'promote';
 			connection.connectionSettings = dto.settings;
-			connection.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			connection.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			connection.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			connection.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 			connection.connectionName = dto.connection_name;
 			connection.provider = dto.connection_provider;
 			connection.url = dto.url;
@@ -1212,8 +1250,12 @@
 			connection.connectionType = 'seo';
 			connection.connectionCategory = dto.category;
 			connection.connectionSettings = dto.settings;
-			connection.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			connection.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			connection.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			connection.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 
 			return connection;
 		},
@@ -1298,15 +1340,33 @@
 			content.concept = dto.concept;
 			content.status = parseInt(dto.status);
 			content.archived = (parseInt(dto.archived) === 1);
-			content.dueDate = launch.utils.isBlank(dto.due_date) ? null : new Date(moment(dto.due_date, 'YYYY-MM-DD HH:mm:ss').format());
-			content.convertDate = launch.utils.isBlank(dto.convert_date) ? null : new Date(moment(dto.convert_date, 'YYYY-MM-DD HH:mm:ss').format());
-			content.submitDate = launch.utils.isBlank(dto.submit_date) ? null : new Date(moment(dto.submit_date, 'YYYY-MM-DD HH:mm:ss').format());
-			content.approveDate = launch.utils.isBlank(dto.approve_date) ? null : new Date(moment(dto.approve_date, 'YYYY-MM-DD HH:mm:ss').format());
-			content.launchDate = launch.utils.isBlank(dto.launch_date) ? null : new Date(moment(dto.launch_date, 'YYYY-MM-DD HH:mm:ss').format());
-			content.promoteDate = launch.utils.isBlank(dto.promote_date) ? null : new Date(moment(dto.promote_date, 'YYYY-MM-DD HH:mm:ss').format());
-			content.archiveDate = launch.utils.isBlank(dto.archive_date) ? null : new Date(moment(dto.archive_date, 'YYYY-MM-DD HH:mm:ss').format());
-			content.created = launch.utils.isBlank(dto.created_at) ? null : new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			content.updated = launch.utils.isBlank(dto.updated_at) ? null : new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			content.dueDate = launch.utils.isBlank(dto.due_date) ?
+                null :
+                new Date(moment(dto.due_date, 'YYYY-MM-DD HH:mm:ss').format());
+			content.convertDate = launch.utils.isBlank(dto.convert_date) ?
+                null :
+                new Date(moment(dto.convert_date, 'YYYY-MM-DD HH:mm:ss').format());
+			content.submitDate = launch.utils.isBlank(dto.submit_date) ?
+                null :
+                new Date(moment(dto.submit_date, 'YYYY-MM-DD HH:mm:ss').format());
+			content.approveDate = launch.utils.isBlank(dto.approve_date) ?
+                null :
+                new Date(moment(dto.approve_date, 'YYYY-MM-DD HH:mm:ss').format());
+			content.launchDate = launch.utils.isBlank(dto.launch_date) ?
+                null :
+                new Date(moment(dto.launch_date, 'YYYY-MM-DD HH:mm:ss').format());
+			content.promoteDate = launch.utils.isBlank(dto.promote_date) ?
+                null :
+                new Date(moment(dto.promote_date, 'YYYY-MM-DD HH:mm:ss').format());
+			content.archiveDate = launch.utils.isBlank(dto.archive_date) ?
+                null :
+                new Date(moment(dto.archive_date, 'YYYY-MM-DD HH:mm:ss').format());
+			content.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			content.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 
 			content.collaborators = ($.isArray(dto.collaborators)) ? $.map(dto.collaborators, self.user.fromDto) : null;
 			content.comments = ($.isArray(dto.comments)) ? $.map(dto.comments, self.comment.fromDto) : null;
@@ -1413,8 +1473,12 @@
 			activity.contentId = parseInt(dto.content_id);
 			activity.userId = parseInt(dto.user_id);
 			activity.title = dto.activity;
-			activity.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			activity.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			activity.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			activity.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 
 			return activity;
 		}
@@ -1486,8 +1550,12 @@
 			comment.id = parseInt(dto.id);
 			comment.itemId = parseInt(dto.content_id);
 			comment.comment = dto.comment;
-			comment.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			comment.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			comment.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			comment.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 
 			if (!!dto.guest) {
 				comment.commentor = self.guestCollaborator.fromDto(dto.guest);
@@ -1545,8 +1613,12 @@
 			campaign.goals = dto.goals;
 			campaign.color = dto.color;
 
-			campaign.startDate = launch.utils.isBlank(dto.start_date) ? null : new Date(moment(dto.start_date, 'YYYY-MM-DD HH:mm:ss').format());
-			campaign.endDate = launch.utils.isBlank(dto.end_date) ? null : new Date(moment(dto.end_date, 'YYYY-MM-DD HH:mm:ss').format());
+			campaign.startDate = launch.utils.isBlank(dto.start_date) ?
+                null :
+                new Date(moment(dto.start_date, 'YYYY-MM-DD HH:mm:ss').format());
+			campaign.endDate = launch.utils.isBlank(dto.end_date) ?
+                null :
+                new Date(moment(dto.end_date, 'YYYY-MM-DD HH:mm:ss').format());
 			campaign.isRecurring = (parseInt(dto.is_recurring) === 1) ? true : false;
 			campaign.isSeries = (parseInt(dto.is_series) === 1) ? true : false;
 			campaign.recurringId = parseInt(dto.recurring_id);
@@ -1570,8 +1642,12 @@
 				});
 			}
 
-			campaign.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			campaign.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			campaign.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			campaign.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 
 			return campaign;
 		},
@@ -1629,11 +1705,19 @@
 			taskGroup.contentId = parseInt(dto.content_id);
 			taskGroup.status = parseInt(dto.status);
 			taskGroup.isComplete = (parseInt(dto.is_complete) === 1) ? true : false;
-			taskGroup.dueDate = new Date(moment(dto.due_date, 'YYYY-MM-DD HH:mm:ss').format());
-			taskGroup.completeDate = launch.utils.isBlank(dto.date_completed) ? null : new Date(moment(dto.date_completed, 'YYYY-MM-DD HH:mm:ss').format());
+			taskGroup.dueDate = launch.utils.isBlank(dto.due_date) ?
+                null :
+                new Date(moment(dto.due_date, 'YYYY-MM-DD HH:mm:ss').format());
+			taskGroup.completeDate = launch.utils.isBlank(dto.date_completed) ?
+                null :
+                new Date(moment(dto.date_completed, 'YYYY-MM-DD HH:mm:ss').format());
 			taskGroup.tasks = $.isArray(dto.tasks) ? $.map(dto.tasks, self.task.fromDto) : null;
-			taskGroup.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			taskGroup.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			taskGroup.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			taskGroup.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 
 			return taskGroup;
 		},
@@ -1659,12 +1743,20 @@
 			task.id = parseInt(dto.id);
 			task.name = dto.name;
 			task.isComplete = (parseInt(dto.is_complete) === 1) ? true : false;
-			task.completeDate = launch.utils.isBlank(dto.date_completed) ? null : new Date(moment(dto.date_completed, 'YYYY-MM-DD HH:mm:ss').format());
-			task.dueDate = launch.utils.isBlank(dto.due_date) ? null : new Date(moment(dto.due_date, 'YYYY-MM-DD HH:mm:ss').format());
+			task.completeDate = launch.utils.isBlank(dto.date_completed) ?
+                null :
+                new Date(moment(dto.date_completed, 'YYYY-MM-DD HH:mm:ss').format());
+			task.dueDate = launch.utils.isBlank(dto.due_date) ?
+                null :
+                new Date(moment(dto.due_date, 'YYYY-MM-DD HH:mm:ss').format());
 			task.userId = parseInt(dto.user_id);
 			task.taskGroupId = parseInt(dto.content_task_group_id);
-			task.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			task.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			task.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			task.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 
 			return task;
 		},
@@ -1700,9 +1792,15 @@
 			uploadFile.mimeType = dto.mimetype;
 			uploadFile.path = dto.path;
 			uploadFile.size = parseInt(dto.size);
-			uploadFile.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			uploadFile.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
-			uploadFile.deleted = launch.utils.isBlank(dto.deleted_at) ? null : new Date(moment(dto.deleted_at, 'YYYY-MM-DD HH:mm:ss').format());
+			uploadFile.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			uploadFile.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			uploadFile.deleted = launch.utils.isBlank(dto.deleted_at) ?
+                null :
+                new Date(moment(dto.deleted_at, 'YYYY-MM-DD HH:mm:ss').format());
 
 			var path = dto.path;
 
@@ -1764,8 +1862,12 @@
 			guestCollaborator.name = dto.name;
 			guestCollaborator.connectionType = dto.type;
 			guestCollaborator.connetionSettings = dto.settings;
-			guestCollaborator.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			guestCollaborator.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			guestCollaborator.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			guestCollaborator.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 
 			if ($.isArray(dto.content)) {
 				guestCollaborator.content = $.map(dto.content, function (c) {
@@ -1801,15 +1903,21 @@
             brainstorm.accountId = dto.account_id;
             brainstorm.agenda = dto.agenda;
 
-            brainstorm.datetime = new Date(moment.utc(dto.datetime, 'YYYY-MM-DD HH:mm:ss').format());
+            brainstorm.datetime = launch.utils.isBlank(dto.datetime) ?
+                null :
+                new Date(moment.utc(dto.datetime, 'YYYY-MM-DD HH:mm:ss').format());
             brainstorm.date = moment(brainstorm.datetime).format('MM-DD-YYYY');
             brainstorm.time = brainstorm.datetime.getTime();
 
             brainstorm.description = dto.description;
             brainstorm.credentials = dto.credentials;
             brainstorm.contentType = brainstorm.contentId ? 'content' : 'campaign';
-            brainstorm.created = new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-            brainstorm.updated = new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+            brainstorm.created = launch.utils.isBlank(dto.created_at) ?
+                null :
+                new Date(moment(dto.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+            brainstorm.updated = launch.utils.isBlank(dto.updated_at) ?
+                null :
+                new Date(moment(dto.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 
             return brainstorm;
         },
@@ -1828,7 +1936,9 @@
 		        description: brainstorm.description,
 		        credentials: brainstorm.credentials,
 		        content_type: brainstorm.contentType,
-		        datetime: new Date(moment(brainstorm.datetime, 'YYYY-MM-DD HH:mm:ss').format())
+		        datetime: launch.utils.isBlank(brainstorm.datetime) ?
+                    null :
+                    new Date(moment(brainstorm.datetime, 'YYYY-MM-DD HH:mm:ss').format())
 	        };
         }
 	};
@@ -1847,8 +1957,12 @@
 			lc.userId = parseInt(dto.user_id);
 			lc.success = parseInt(dto.success) === 1;
 			lc.response = dto.response;
-			lc.created = new Date(moment(lc.created_at, 'YYYY-MM-DD HH:mm:ss').format());
-			lc.updated = new Date(moment(lc.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
+			lc.created = launch.utils.isBlank(lc.created_at) ?
+                null :
+                new Date(moment(lc.created_at, 'YYYY-MM-DD HH:mm:ss').format());
+			lc.updated = launch.utils.isBlank(lc.updated_at) ?
+                null :
+                new Date(moment(lc.updated_at, 'YYYY-MM-DD HH:mm:ss').format());
 			lc.permalink = dto.permalink;
 
 			return lc;
