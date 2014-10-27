@@ -37,7 +37,8 @@
 					$scope.landingPagesPaged = $scope.paginationLandingPages.groupToPages($scope.landingPages);
 					$scope.blogsPaged = $scope.paginationBlogs.groupToPages($scope.blogs);
 					$scope.emailsPaged = $scope.paginationEmails.groupToPages($scope.emails);
-				}
+				},
+                error: self.ajaxHandler.error
 			});
 
 			$scope.selectedTab = 'marketing-automation';
