@@ -23,6 +23,7 @@ launch.module
                     var scope = this;
 
                     if(this.data_days != this.days) {
+                        if(!this.$parent.getChartData) return [];
                         this.data = this.$parent.getChartData.call(this);
                         this.data_days = this.days;
                     }
@@ -112,6 +113,7 @@ launch.module
                     var scope = this;
 
                     if((!this.days && !this.data) || (this.data_days != this.days)) {
+                        if(!this.$parent.getChartData) return [];
                         this.data = this.$parent.getChartData.call(this);
                         this.data_days = this.days;
                     }
@@ -188,6 +190,7 @@ launch.module
                     var scope = this;
 
                     if((!this.days && !this.data) || (this.data_days != this.days)) {
+                        if(!this.$parent.getChartData) return [];
                         this.data = this.$parent.getChartData.call(this);
                         this.data_days = this.days;
                     }
