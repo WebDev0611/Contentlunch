@@ -74,6 +74,10 @@ class Content extends Ardent {
     return $this->hasMany('ContentActivity');
   }
 
+    public function general_activities() {
+        return $this->hasMany('Activity');
+    }
+
   public function campaign()
   {
     return $this->belongsTo('Campaign');
@@ -292,6 +296,7 @@ class Content extends Ardent {
     });
       static::deleted(function($content) {
           $content->activities()->delete();
+          $content->general_activities()->delete();
           $content->comments()->delete();
           $content->related()->delete();
           $content->tags()->delete();

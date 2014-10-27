@@ -42,14 +42,17 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 			if (r.id) {
 				self.cacheSession(r);
 			}
+            else {
+                if ($.isFunction(error)) {
+                    error(r);
+                }
+                return;
+            }
 
 			if ($.isFunction(success)) {
 				success(r);
 			}
 
-			if (!r.id) {
-				return;
-			}
 		}, error);
 	};
 
