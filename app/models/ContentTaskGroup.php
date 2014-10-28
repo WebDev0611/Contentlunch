@@ -44,4 +44,13 @@ class ContentTaskGroup extends Ardent {
         return $this->hasMany('ContentTask');
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function($task_group) {
+            $task_group->tasks()->delete();
+        });
+    }
+
 }

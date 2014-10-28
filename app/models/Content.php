@@ -300,8 +300,11 @@ class Content extends Ardent {
           $content->comments()->delete();
           $content->related()->delete();
           $content->tags()->delete();
-          $content->task_groups()->delete();
           $content->scores()->delete();
+          $task_groups = $content->task_groups()->get();
+          foreach($task_groups as $task_group) {
+              $task_group->delete();
+          }
       });
     /*
     static::validating(function ($content) {
