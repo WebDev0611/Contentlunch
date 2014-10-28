@@ -1,6 +1,6 @@
 launch.module.controller('HomeController', 
-            ['$scope', '$rootScope', '$location', 'AuthService', '$q', 'NotificationService', 'Restangular', 
-    function ($scope,   $rootScope,   $location,   AuthService,   $q,   notify,                Restangular) {
+            ['$scope', '$rootScope', '$location', 'AuthService', '$q', 'NotificationService', 'MeasureService', 'Restangular',
+                function ($scope,   $rootScope,   $location,   AuthService,   $q,   notify,    measureService,   Restangular) {
         $scope.isLoaded = false;
 
         var user = AuthService.userInfo();
@@ -18,6 +18,15 @@ launch.module.controller('HomeController',
         	$location.path('/login');
 	        return;
         }
+
+        self.ajaxHandler = {
+            success: function (r) {
+
+            },
+            error: function (r) {
+                launch.utils.handleAjaxErrorResponse(r, notificationService);
+            }
+        };
 
 	    // Restangular Models
         var Account = Restangular.one('account', user.account.id);
@@ -119,58 +128,60 @@ launch.module.controller('HomeController',
         // Charts
         // -------------------------
         self.initChartData = function () {
-            function countDateParse(date, groupBy, group) {
-                var sum = 0;
-                if(groupBy == 'all' || !groupBy) {
-                    $.each(date.stats.by_user, function(i, user) {
-                        sum += user.count;
-                    });
+            function fieldDateParse(field) {
+                return function(date, groupBy, group) {
+                    var sum = 0;
+                    if(groupBy == 'all' || !groupBy) {
+                        $.each(date.stats.by_user, function(i, user) {
+                            sum += parseFloat(user[field]);
+                        });
+                    }
+                    else if(groupBy == 'author') {
+                        $.each(date.stats.by_user, function(i, user) {
+                            if(user.user_id == group) {
+                                sum += parseFloat(user[field]);
+                            }
+                        })
+                    }
+                    else if(groupBy == 'buying-stage') {
+                        $.each(date.stats.by_buying_stage, function(i, stage) {
+                            if(stage.buying_stage == group) {
+                                sum += parseFloat(stage[field]);
+                            }
+                        })
+                    }
+                    else if(groupBy == 'content-type') {
+                        $.each(date.stats.by_content_type, function(i, type) {
+                            if(type.content_type_id == group) {
+                                sum += parseFloat(type[field]);
+                            }
+                        })
+                    }
+                    return {label: date.date, data: sum};
                 }
-                else if(groupBy == 'author') {
-                    $.each(date.stats.by_user, function(i, user) {
-                        if(user.user_id == group) {
-                            sum += user.count;
-                        }
-                    })
-                }
-                else if(groupBy == 'buying-stage') {
-                    $.each(date.stats.by_buying_stage, function(i, stage) {
-                        if(stage.buying_stage == group) {
-                            sum += stage.count;
-                        }
-                    })
-                }
-                else if(groupBy == 'content-type') {
-                    $.each(date.stats.by_content_type, function(i, type) {
-                        if(type.content_type_id == group) {
-                            sum += type.count;
-                        }
-                    })
-                }
-                return {label: date.date, data: sum};
             }
 
             $scope.companyContentScoreTime = 7;
             $scope.companyContentScoreLine = {
                 title: 'Company Content Score',
-                measureFunction: function() {return []},
-                dateParseFunction: countDateParse
+                measureFunction: measureService.getScore,
+                dateParseFunction: fieldDateParse('score')
             };
 
             $scope.totalContentItemsTime = 7;
             $scope.totalContentItemsLine = {
                 title: 'Total Content Items',
-                measureFunction: function() {return []},
-                dateParseFunction: countDateParse
+                measureFunction: measureService.getCreated,
+                dateParseFunction: fieldDateParse('count')
             };
 
             $scope.stageBreakdownPie = {
                 title: 'Stage Breakdown',
                 measureFunction: function() {return []},
-                dateParseFunction: countDateParse
+                dateParseFunction:  function() {return []}
             };
 
-
+            $scope.overview = measureService.getOverview(user.account.id, self.ajaxHandler);
         };
 
         $scope.getChartData = function() {

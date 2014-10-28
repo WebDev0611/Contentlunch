@@ -61,7 +61,7 @@
 
             $scope.companyContentScoreLine = {
                 title: 'Company Content Score',
-                measureFunction: function() {return []},
+                measureFunction: measureService.getScore,
                 dateParseFunction: fieldDateParse('score')
             };
 
