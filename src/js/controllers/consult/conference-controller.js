@@ -76,12 +76,9 @@ launch.module.controller('ConsultConferenceController', function ($scope, $filte
         // If topic is application, CEO cannot be selected
         $scope.consultantOptions = function () {
           if ($scope.conference.topic == 'application') {
-            return [['professional', 'Content Launch Professional']];
+            return applicationOptions;
           }
-          return [
-            ['professional', 'Content Launch Professional'],
-            ['ceo', 'CEO Jon Wuebben']
-          ];
+          return defaultOptions;
         };
 
         $scope.users = [
