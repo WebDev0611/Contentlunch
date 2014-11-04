@@ -2,6 +2,7 @@
 	var self = this;
 
 	self.id = null;
+	self.name = null;
 	self.title = null;
 	self.active = true;
 	self.address1 = null;
@@ -32,7 +33,7 @@
 
 	self.matchSearchTerm = function(term) {
 		if (launch.utils.startsWith(self.title, term) || launch.utils.startsWith(self.email, term) ||
-			launch.utils.startsWith(self.city, term) ||
+			launch.utils.startsWith(self.city, term) || launch.utils.startsWith(self.name, term) ||
 			launch.utils.startsWith(self.state.name, term) || launch.utils.startsWith(self.state.value, term)) {
 			return true;
 		}

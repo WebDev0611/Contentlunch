@@ -109,7 +109,7 @@ launch.module.controller('AccountsController', [
 				this.applyFilter(true);
 			},
 			applyFilter: function(reset) {
-				$scope.filteredAccounts = $filter('filter')($scope.accounts, function(account) {
+				var filteredResults = $filter('filter')($scope.accounts, function(account) {
 					if ($scope.search.accountStatus === 'all' || ($scope.search.accountStatus === 'active' && account.active) || ($scope.search.accountStatus === 'inactive' && !account.active)) {
 						if (!launch.utils.isBlank($scope.search.searchTerm) && $scope.search.searchTerm.length >= $scope.search.searchTermMinLength) {
 							return (launch.utils.isBlank($scope.search.searchTerm) ? true : account.matchSearchTerm($scope.search.searchTerm));
@@ -120,6 +120,18 @@ launch.module.controller('AccountsController', [
 						return false;
 					}
 				});
+
+				// Give account/company name priority in the results list
+				var sortedAccounts = [];
+				var filteredResultsLength = filteredResults.length;
+				for (var i = filteredResultsLength - 1; i >= 0; i--) {
+					if (launch.utils.startsWith(filteredResults[i].name, $scope.search.searchTerm)) {
+						sortedAccounts.push(filteredResults[i]);
+						filteredResults.splice(i, 1);
+					}
+				}
+
+				$scope.filteredAccounts = sortedAccounts.concat(filteredResults);
 
 				if (reset === true) {
 					$scope.pagination.currentPage = 1;
