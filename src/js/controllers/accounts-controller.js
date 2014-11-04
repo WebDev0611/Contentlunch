@@ -121,13 +121,17 @@ launch.module.controller('AccountsController', [
 					}
 				});
 
-				// Give account/company name priority in the results list
 				var sortedAccounts = [];
-				var filteredResultsLength = filteredResults.length;
-				for (var i = filteredResultsLength - 1; i >= 0; i--) {
-					if (launch.utils.startsWith(filteredResults[i].name, $scope.search.searchTerm)) {
-						sortedAccounts.push(filteredResults[i]);
-						filteredResults.splice(i, 1);
+
+				// Give account/company name priority in the results list
+				// if the user is searching
+				if (!launch.utils.isBlank($scope.search.searchTerm)) {
+					var filteredResultsLength = filteredResults.length;
+					for (var i = filteredResultsLength - 1; i >= 0; i--) {
+						if (launch.utils.startsWith(filteredResults[i].name, $scope.search.searchTerm)) {
+							sortedAccounts.push(filteredResults[i]);
+							filteredResults.splice(i, 1);
+						}
 					}
 				}
 
