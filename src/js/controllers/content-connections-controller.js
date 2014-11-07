@@ -260,7 +260,7 @@
 				controller: [
 					'$scope', '$modalInstance', function (scope1, instance) {
 						scope1.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							instance.dismiss('cancel');
 						};
 						scope1.ok = function () {
 							window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=8';
