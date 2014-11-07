@@ -210,7 +210,10 @@
 						};
 					}
 				});
-			} else {
+			}else if(provider.provider == 'wordpress') {
+				$scope.wordpressForm();
+			}
+			 else {
 				window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=' + provider.id;
 			}
 		};
@@ -250,6 +253,22 @@
 		$scope.icon = function(provider) {
 			return launch.utils.getConnectionProviderIconClass(provider.toLowerCase());
 		};
+
+		$scope.wordpressForm = function() {
+			$modal.open({
+				templateUrl: 'wordpress-connect.html',
+				controller: [
+					'$scope', '$modalInstance', function (scope1, instance) {
+						scope1.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+						scope1.ok = function () {
+							window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=8';
+						};
+					}
+				]
+			});
+		}
 
 		self.init();
 	}

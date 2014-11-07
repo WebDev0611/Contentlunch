@@ -170,6 +170,10 @@ class AccountConnectionsController extends BaseController {
     $connect->status = 1;
     $connect->settings = $settings;
     $connect->updated_at = time();
+
+    if ($connection->provider == 'wordpress') {
+      $connect->url = $settings['token']->getExtraParams()['blog_url'];
+    }
     
     // Load up the connection API, check if this specific connection account 
     // already exists for this content launch account

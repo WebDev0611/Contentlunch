@@ -32,16 +32,18 @@ class WordpressAPI extends AbstractConnection
     /**
      * Get the external user / account id
      */
-    public function getExternalId()
-    {
+    public function getExternalId() {
         $me = $this->getMe();
-        return $me['ID'];
+        return $me['ID'] . $me['token_site_id'];
     }
 
     public function getIdentifier() {
         $me = $this->getMe();
+        $client = $this->getClient();
+        $response = $client->get('rest/v1/sites/' . $me['token_site_id']);
+        $blog = $response->json();
 
-        return $me['display_name'];
+        return $blog['name'];
     }
 
     public function getMe() {
