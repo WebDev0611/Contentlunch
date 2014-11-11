@@ -96,7 +96,6 @@ class WordpressAPI extends AbstractConnection
             $response['external_id'] = $response['response']['ID'];
         } catch (\Exception $e) {
             $response['success'] = false;
-            $response['response'] = $apiResponse->json();
             $response['error'] = $e->getMessage();
         }
 
