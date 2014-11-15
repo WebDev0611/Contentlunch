@@ -94,5 +94,17 @@
 	</div>
 </script>
 
+<script type="text/ng-template" id="wordpress-error.html" ng-hide="isLoading">
+	<div class="modal-header"><i>{{ errorMessage }}</i></div>
+	<div class="modal-body">
+		<form name="wordpressForm" novalidate>
+		<p>We can see that your WordPress site exists, but some configuration on your server is preventing us from establishing a connection. Please consult your system administrator or hosting provider with the error message posted above.</p>
+			<div class="buttons clearfix">
+				<button class="btn btn-primary btn-black" ng-click="ok()">OK</button>
+			</div>
+		</form>
+	</div>
+</script>
+
 
 

@@ -211,6 +211,13 @@ class AccountConnectionsController extends BaseController {
           if ($existing) {
             return Redirect::to('/account/connections?updated=' . $existing->id);
           } else {
+            if ($connection->provider == 'wordpress') {
+              $wordpressApi = new Launch\Connections\API\WordpressAPI($connect->toArray());
+              if ($errorMessage = $wordpressApi->canNotConnect()) {
+                $connect->delete();
+                return Redirect::to('/account/connections?message=wordpress_error&error=' . urldecode($errorMessage));  
+              }  
+            }
             return Redirect::to('/account/connections');
           }
       }

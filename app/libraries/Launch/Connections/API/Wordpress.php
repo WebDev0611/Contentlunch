@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Config;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 /**
  * @see http://developer.wordpress.com/docs/api/
@@ -35,6 +36,37 @@ class WordpressAPI extends AbstractConnection
     public function getExternalId() {
         $me = $this->getMe();
         return $me['ID'] . $me['token_site_id'];
+    }
+
+    public function getSiteData() {
+        try {
+            $me = $this->getMe();
+            $client = $this->getClient();
+            $response = $client->get('rest/v1/sites/' . $me['token_site_id']);
+        } catch (ClientException $e) {
+            $responseBody = json_decode($e->getResponse()->getBody(true));
+            $response['success'] = false;
+            $response['error'] = $responseBody->message;
+        }
+        return $response;
+    }
+
+    /* 
+    * Sends a request to the connection to
+    * see if anything returns. Use this to
+    * determine if the WordPress REST API is
+    * functioning properly on the customer's
+    * server. If it's not, return the error
+    * message.
+    */
+    public function canNotConnect() {
+        try {
+            $this->getClient()->get('rest/v1/sites/' . $this->getMe()['token_site_id']);
+        } catch (ClientException $e) {
+            $responseBody = json_decode($e->getResponse()->getBody(true));
+            return $responseBody->message;
+        }
+        return false;
     }
 
     public function getIdentifier() {
@@ -94,9 +126,10 @@ class WordpressAPI extends AbstractConnection
             $response['success'] = true;
             $response['response'] = $apiResponse->json();
             $response['external_id'] = $response['response']['ID'];
-        } catch (\Exception $e) {
+        } catch (ClientException $e) {
+            $responseBody = json_decode($e->getResponse()->getBody(true));
             $response['success'] = false;
-            $response['error'] = $e->getMessage();
+            $response['error'] = $responseBody->message;
         }
 
         return $response;

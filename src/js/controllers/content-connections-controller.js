@@ -14,6 +14,7 @@
 		};
 
 		$scope.initRan = false;
+		$scope.connectionErrorShown = false;
 
 		self.loadConnections = function() {
 			self.loggedInUser = authService.userInfo();
@@ -35,7 +36,12 @@
 							}
 						});
 					}
+
 					$scope.initRan = true;
+
+					if (!$scope.connectionErrorShown) {
+						self.findConnectionMessages();
+					}
 				},
 				error: function(r) {
 					$scope.isLoading = false;
@@ -45,6 +51,18 @@
 			});
 
 			$scope.search.applyFilter();
+		};
+
+		self.findConnectionMessages = function() {
+			var gets = $location.search();
+
+			if (gets.message) {
+				if (gets.message == "wordpress_error") {
+					$scope.wordpressError(gets.error);
+				}
+			}
+
+			$scope.connectionErrorShown = true;
 		};
 
 		self.saveContentConnection = function(connection, callback) {
@@ -264,6 +282,20 @@
 						};
 						scope1.ok = function () {
 							window.location = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=8';
+						};
+					}
+				]
+			});
+		}
+
+		$scope.wordpressError = function(errorMessage) {
+			$modal.open({
+				templateUrl: 'wordpress-error.html',
+				controller: [
+					'$scope', '$modalInstance', function (scope1, instance) {
+						scope1.errorMessage = errorMessage;
+						scope1.ok = function () {
+							instance.dismiss('cancel');
 						};
 					}
 				]
