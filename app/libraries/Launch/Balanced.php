@@ -33,7 +33,7 @@ class Balanced {
       \RESTful\Bootstrap::init();
       \Balanced\Bootstrap::init();
       static::$initialized = true;
-      \Balanced\Settings::$api_key = Config::get('app.balanced.api_key_secret');
+      \Balanced\Settings::$api_key = Config::get('app.balanced.api_key_secret_prod');
     }
   }
 
@@ -44,7 +44,7 @@ class Balanced {
   public function getCustomer()
   {
     if ( ! isset($this->balanced_info['customer_uri'])) {
-      return null;
+      $this->syncCustomer();
     }
     return \Balanced\Customer::get($this->balanced_info['customer_uri']);
   }
@@ -115,11 +115,58 @@ class Balanced {
   public function syncPayment()
   {
     // Get the current payment record based on the account token
-    $payment = $this->getPayment();
+    if ($payment = $this->getPayment()) {
     // Check if card/account is associated with the customer
-    if ( ! isset($payment->links->customer)) {
-      $payment->associateToCustomer($this->getCustomer());
+      if ( ! isset($payment->links->customer)) {
+        $payment->associateToCustomer($this->getCustomer());
+      }
     }
+  }
+
+  public function charge()
+  {
+    // Do we have a Credit card for this account?
+    if ( ! $payment = $this->getPayment()) {
+      return;
+    }
+
+    // Has a subscription been set?
+    if ( ! $subscription = $this->account->accountSubscription) {
+      return;
+    }
+
+    // Should this user be billed at all? payment_dat will
+    // be NULL if we should not charge the user.
+    if ( ! $this->account->payment_date) {
+      return;
+    }
+
+    if ($this->account->hasMonthlySubscription()) {
+      $amount = $subscription->monthly_price;
+    } elseif ($this->account->hasAnnualSubscription()) {
+      $amount = $subscription->monthly_price * 12;
+      // Annual discount
+      $amount = $amount - ($amount * floatval('.'. $subscription->annual_discount));
+    }
+
+    $amount = $amount * 100;
+
+    $ret = $payment->debits->create(array(
+      'amount' => $amount,
+      // Must be <= 22 characters
+      'appears_on_statement_as' => 'contentlaunch.com sub',
+      'description' => 'Membership fee for account: '. $this->account->title
+    ));
+
+    // Save response from balanced
+    $user = $this->account->getSiteAdminUser();
+    $payment = new \Payment;
+    $payment->account_id = $this->account->id;
+    $payment->user_id = $user->id;
+    $payment->response = serialize($ret);
+    $payment->save();
+
+    return $payment;
   }
 
   /**

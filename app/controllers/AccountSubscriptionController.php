@@ -46,27 +46,6 @@ class AccountSubscriptionController extends BaseController {
       $account = Account::find($sub->account_id);
       $account->modules()->sync($syncModules);
       $account->updateUniques();
-      // Attempt to do subscription charge
-      // Will only do the charge if new account or matches expiration date rule
-      // @todo: This really needs refactoring, if transaction fails the account is still created
-      if (app()->env != 'testing') {
-        $balancedAccount = new Launch\Balanced($account);
-        try {
-          $balancedAccount->chargeAccount();
-        } catch (\Balanced\Errors\Declined $e) {
-          return $this->responseError('Error processing transaction. The transaction was declined.');
-        } catch (\Balanced\Errors\NoFundingSource $e) {
-          return $this->responseError('Error processing transaction. No active funding sources.');
-        } catch (\Balanced\Errors\CannotDebit $e) {
-          return $this->responseError('Error processing transaction. No debitable funding sources.');
-        } catch (\Balanced\Errors\InvalidRoutingNumber $e) {
-          return $this->responseError('Error processing transaction. Routing number is invalid.');
-        } catch (\Balanced\Errors\BankAccountVerificationFailure $e) {
-          return $this->responseError('Error processing transaction. Unable to verify bank account.'. $e->description);
-        } catch (\Exception $e) {
-          return $this->responseError('Error processing transaction.');
-        }
-      }
       return $this->get_subscription($id, $checkAuth);
     }
     return $this->responseError($sub->errors()->toArray());

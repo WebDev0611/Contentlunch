@@ -40,7 +40,8 @@
     "traackr/traackr-api-php": "dev-master",
     "vimeo/vimeo-api": "dev-master",
     "orchestra/imagine": "dev-master",
-    "aweber/aweber": "~1.1.12"
+    "aweber/aweber": "~1.1.12",
+    "indatus/dispatcher": "1.*"
 	},
 	"autoload": {
 		"classmap": [

@@ -41,6 +41,11 @@ class Account extends Ardent {
  //   return 'Y-m-d H:i:s';
  // }
 
+  public function getDates()
+	{
+    return array('created_at');
+	}
+
   protected function beforeSave()
   {
   	if (app()->env != 'testing') {
@@ -67,19 +72,19 @@ class Account extends Ardent {
     }
   }
 
-    public function toArray()
-    {
-      $values = parent::toArray();
+  public function toArray()
+  {
+    $values = parent::toArray();
 
-      if (is_string(@$values['strategy'])) {
-        $values['strategy'] = @json_decode($values['strategy'], true);
-      }
-      if (!@$values['strategy']) {
-        $values['strategy'] = [];
-      }
-
-      return $values;
+    if (is_string(@$values['strategy'])) {
+      $values['strategy'] = @json_decode($values['strategy'], true);
     }
+    if (!@$values['strategy']) {
+      $values['strategy'] = [];
+    }
+
+    return $values;
+  }
 
   /**
    * Return the newest subscription record
@@ -105,7 +110,6 @@ class Account extends Ardent {
 
 	public function scopeCountusers($query)
 	{
-
 		return $query->leftJoin(
 			DB::raw("(
                 SELECT account_id, COUNT(*) AS count_users
@@ -148,6 +152,83 @@ class Account extends Ardent {
         }
       }
     }
+	}
+
+	// Returns the number of days this account
+	// has been active for.
+	public function getAge()
+	{
+		$createdAt = new Carbon($this->created_at);
+		return $createdAt->diffInDays();
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Subscription identifiers
+	|--------------------------------------------------------------------------
+	|	A payment_date and token are only set when an account has a non-trial
+	| subscription. Those are the most important pieces in identifying that
+	| state.
+	|
+	*/
+	public function inTrialPeriod()
+	{
+		return ($this->getAge() <= 30);
+	}
+
+	public function hasTrialUncommittedAccount()
+	{
+		return ($this->inTrialPeriod() &&
+					  !$this->hasSubscription());
+	}
+
+	public function hasTrialCommittedAccount()
+	{
+		return ($this->inTrialPeriod() &&
+						$this->hasSubscription());
+	}
+
+	public function hasSubscription()
+	{
+		return $this->payment_date != NULL;
+	}
+
+	public function hasMonthlySubscription() 
+	{
+		return (!$this->yearly_payment &&
+						$this->auto_renew &&
+						$this->token != NULL &&
+						$this->payment_date != NULL);
+	}
+
+	public function hasAnnualSubscription() 
+	{
+		return ($this->yearly_payment &&
+					  $this->token != NULL &&
+					  $this->payment_date != NULL);
+	}
+
+	public function hasAnnualAutoRenewSubscription()
+	{
+		return ($this->yearly_payment &&
+			      $this->auto_renew &&
+			      $this->token != NULL &&
+			      $this->payment_date != NULL);
+	}
+
+	public function hasAnnualNoRenewSubscription()
+	{
+		return ($this->yearly_payment &&
+			      !$this->auto_renew &&
+			      $this->token != NULL &&
+			      $this->payment_date != NULL);
+	}
+
+	public function hasMissedPayment()
+	{
+		return ($this->payment_date != NULL &&
+					  $this->token == NULL &&
+					  $this->payment_info == NULL);
 	}
 
 }

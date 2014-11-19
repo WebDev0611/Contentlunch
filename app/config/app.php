@@ -15,7 +15,7 @@ return [
 
   'debug' => true,
 
-  'version' => '9',
+  'version' => '7',
 
   /*
   |--------------------------------------------------------------------------
@@ -118,6 +118,8 @@ return [
     'Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider',
 
     'Way\Generators\GeneratorsServiceProvider',
+
+    'Indatus\Dispatcher\ServiceProvider',
   ],
 
   /*
@@ -199,7 +201,8 @@ return [
   ],
 
   'balanced' => [
-    'api_key_secret' => 'ak-test-2b1tOVFkmQZkf4colkOw6BIPfeCMBBJg4'
+    'api_key_secret' => 'ak-test-2b1tOVFkmQZkf4colkOw6BIPfeCMBBJg4',
+    'api_key_secret_prod' => 'ak-test-2nTDcVjW9XkNMAtdh5xLIMMPeHaliy5Aa'
   ]
   
 ];
