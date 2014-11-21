@@ -1,5 +1,7 @@
 <?php
 
+use \Carbon\Carbon;
+
 class CampaignTaskController extends BaseController {
 
     // returns a list of ALL tasks (not task groups) regardless of content
@@ -72,6 +74,13 @@ class CampaignTaskController extends BaseController {
         if ($task->save()) {
             // add task person to list of collaborators if they don't already exist
             $this->addToCampaignCollaborators($accountID, $campaignID, $task->user_id);
+
+            Queue::later(
+                Carbon::now()->addMinutes(10), 
+                'Launch\\Repositories\\EmailRepository@sendCampaignTaskCreated', 
+                ['taskId' => $task->id]
+            );
+
             return $this->show($accountID, $campaignID, $task->id);
         }
 

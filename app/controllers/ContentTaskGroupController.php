@@ -1,5 +1,7 @@
 <?php
 
+use \Carbon\Carbon;
+
 class ContentTaskGroupController extends BaseController {
 
     public function getForCalendar($accountID) {
@@ -55,6 +57,10 @@ class ContentTaskGroupController extends BaseController {
     {
         // TODO: permissions
 
+        $newTask = false;
+        $updatedTask = false;
+        $deletedTask = false;
+
         $input = Input::all();
         
         $id = @$input['id'];
@@ -95,9 +101,56 @@ class ContentTaskGroupController extends BaseController {
                 }
             } else { 
                 $task = new ContentTask();
+                $newTask = true;
             }
 
-            $task->fill($t);
+            if (!$newTask) {
+
+                $orignalDueDate = $task->due_date;
+                $orignalUser = $task->user_id;
+                $orignalName = $task->name;
+                $orignalIsCompleted = $task->is_complete;
+                $orignalCompletedDate = $task->date_completed;
+
+                $newDueDate = new Carbon($t['due_date']);
+                $newDueDate = $newDueDate->toDateString();
+                $newUser = $t['user_id'];
+                $newName = $t['name'];
+                $newCompleted = $t['is_complete'];
+
+                $lastUpdateTime = new Carbon($task->updated_at);
+
+                if (($orignalName != $newName ||
+                $orignalUser != $newUser ||
+                $orignalDueDate != $newDueDate ||
+                $orignalIsCompleted != $newCompleted) &&
+                $lastUpdateTime->diffInMinutes(Carbon::now()) >= 1) {
+
+                    Queue::later(
+                        Carbon::now()->addMinutes(1), 
+                        'Launch\\Repositories\\EmailRepository@runContentTaskUpdated', [
+                            'taskId' => $task->id,
+                            'orignalName' => $orignalName,
+                            'orignalUser' => $orignalUser,
+                            'orignalDueDate' => $orignalDueDate,
+                            'orignalIsCompleted' => $orignalIsCompleted
+                        ]
+                    );
+                }
+            }
+
+            // Only update if things have actually changed..
+            if (!$newTask) {
+                if ($orignalName != $newName ||
+                    $orignalUser != $newUser ||
+                    $orignalDueDate != $newDueDate ||
+                    $orignalIsCompleted != $newCompleted) {
+                    $task->fill($t);
+                }
+            } else {
+                $task = $task->fill($t);
+            }
+
             $success = $taskGroup->tasks()->save($task);
 
             // try to save what we can... but still mark errors
@@ -107,12 +160,36 @@ class ContentTaskGroupController extends BaseController {
                     $errors[] = "Task [$i] - $error";
                 }
             }
+
+            if ($newTask) {
+                Queue::later(
+                    Carbon::now()->addMinutes(1), 
+                    'Launch\\Repositories\\EmailRepository@runContentTaskCreated', [
+                        'taskId' => $task->id
+                    ]
+                );
+            }
+
         }
 
         // delete any tasks that existed before and don't exist now
         $deleteTaskIDs = [];
         foreach ($taskCheck as $id => $deleteTask) {
             if (!$deleteTask) {
+                $deletedTask = ContentTask::find($id);
+                $lastUpdateTime = new Carbon($deletedTask->updated_at);
+                if ($lastUpdateTime->diffInMinutes(Carbon::now()) >= 1) {
+                    Queue::later(
+                        Carbon::now()->addMinutes(1), 
+                        'Launch\\Repositories\\EmailRepository@runContentTaskUpdated', [
+                            'taskId' => $deletedTask->id,
+                            'orignalName' => $deletedTask->name,
+                            'orignalUser' => $deletedTask->user_id,
+                            'orignalDueDate' => $deletedTask->due_date,
+                            'orignalIsCompleted' => $deletedTask->is_complete
+                        ]
+                    );
+                }
                 $deleteTaskIDs[] = $id;
             }
         }
