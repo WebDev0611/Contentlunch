@@ -128,8 +128,8 @@ class ContentTaskUpdatedEmailQueue {
 
 	protected function isDateOrNameUpdated(
 		$originalTaskName, 
-		$originalTaskDueDate,
 		$taskName,
+		$originalTaskDueDate,
 		$taskDueDate)
 	{
 		return ($originalTaskName != $taskName ||

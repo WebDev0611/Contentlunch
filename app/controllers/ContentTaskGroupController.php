@@ -3,6 +3,7 @@
 use \Carbon\Carbon;
 use Launch\Notifications\ContentTaskUpdatedNoti;
 use Launch\Notifications\ContentTaskNewNoti;
+use Launch\Notifications\ContentTaskDeletedNoti;
 
 class ContentTaskGroupController extends BaseController {
 
@@ -140,19 +141,7 @@ class ContentTaskGroupController extends BaseController {
         foreach ($taskCheck as $id => $deleteTask) {
             if (!$deleteTask) {
                 $deletedTask = ContentTask::find($id);
-                $lastUpdateTime = new Carbon($deletedTask->updated_at);
-                if ($lastUpdateTime->diffInMinutes(Carbon::now()) >= 1) {
-                    Queue::later(
-                        Carbon::now()->addMinutes(1), 
-                        'Launch\\Repositories\\EmailRepository@runContentTaskUpdated', [
-                            'taskId' => $deletedTask->id,
-                            'orignalName' => $deletedTask->name,
-                            'orignalUser' => $deletedTask->user_id,
-                            'orignalDueDate' => $deletedTask->due_date,
-                            'orignalIsCompleted' => $deletedTask->is_complete
-                        ]
-                    );
-                }
+                $deletedNoti = new ContentTaskDeletedNoti($initiator, $deletedTask);
                 $deleteTaskIDs[] = $id;
             }
         }

@@ -17,10 +17,10 @@ class EmailRepository {
 		$taskId = $data['taskId'];
 
 		$task = CampaignTask::
-								whereId($taskId)
-							->with('user')
-							->with('campaign')
-							->first();
+					whereId($taskId)
+				->with('user')
+				->with('campaign')
+				->first();
 
 		if ($task) {
 			$account = Account::find($task->campaign->account_id);
@@ -43,77 +43,6 @@ class EmailRepository {
 		}
 
 	  $job->delete();
-
-	}
-
-	public function runContentTaskCreated($job, $data)
-	{
-		$taskId = $data['taskId'];
-
-		$task = ContentTask::
-						    whereId($data['taskId'])
-						  ->with('user')
-						  ->first();
-
-		if ($task) {
-			$this->sendContentTaskAssignment($task);
-		}
-
-		$job->delete();
-	}
-
-	public function runContentTaskUpdated($job, $data)
-	{
-    $reassigned = false;
-
-    $id = $data['taskId'];
-    $orignalName = $data['orignalName'];
-    $orignalUser = $data['orignalUser'];
-    $orignalDueDate = $data['orignalDueDate'];
-    $orignalIsCompleted = $data['orignalIsCompleted'];
-
-		$task = ContentTask::
-						    whereId($data['taskId'])
-						  ->with('user')
-						  ->first();
-
-		$orignalUser = User::find($data['orignalUser']);
-
-		if (!$task) {
-			$this->sendContentTaskDeleted($orignalName, $orignalUser->first_name);
-			return $job->delete();
-		}
-
-		// If new User, send the new user a generic task assignment email
-		// and send orignal user email notifying that they have been
-		// removed from the task
-		if ($orignalUser->id != $task->user->id) {
-			$this->sendContentTaskAssignment($task);
-			$this->sendContentTaskRemoval($orignalUser, $task, $orignalName, $orignalDueDate);
-			$reassigned = true;
-		}
-
-		// If task is completed, send an email to the orignal user
-		// that it has been marked as such
-		if (!$orignalIsCompleted && $task->is_complete) {
-			$this->sendContentTaskComplete($task);
-		}
-
-		// If task has been re-opened, send an email to the current
-		// user that it has been re-opened
-		if ($orignalIsCompleted && !$task->is_complete) {
-			$this->sendContentTaskReopened($task);
-		}
-
-		// If task name or due date has been changed, send an email 
-		// to the current user regarding the changes
-		if (!$reassigned &&
-				($orignalName != $task->name ||
-				$orignalDueDate != $task->due_date)) {
-			$this->sendContentTaskUpdated($task, $orignalName, $orignalDueDate);
-		}
-
-		$job->delete();
 
 	}
 
