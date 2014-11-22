@@ -181,7 +181,7 @@ class EmailRepository {
 	){
 
 		$youHave = 'You have';
-		$heHas = "{$initiatorFirstName} {initiatorLastName} has";
+		$heHas = "{$initiatorFirstName} {$initiatorLastName} has";
 
 		if ($initiatorId == $assigneeId) {
 			$someoneHasText = $youHave;
