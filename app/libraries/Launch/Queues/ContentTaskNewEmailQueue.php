@@ -20,7 +20,7 @@ class ContentTaskNewEmailQueue {
 		  ->with('user')
 		  ->first();
 
-		if ($task) {
+		if ($task && !$task->is_complete) {
 			$taskGroup = ContentTaskGroup::whereId($task->content_task_group_id)->first();
 			$content = Content::find($taskGroup->content_id);
 
