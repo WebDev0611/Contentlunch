@@ -4,7 +4,9 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
-	<p>Hi {{ $firstName }},</p>
-	<p>The task <b>{{ $taskName }}</b> from the {{ $contentTitle }} content has been completed.</p>
+	<p>{{ $initiatorFirstName }} {{ $initiatorLastName }} has marked <i>{{{ $taskName }}}</i> from the <i>{{{ $contentTitle }}}</i> content as completed.</p>
+	<b>Task:</b> {{{ $taskName }}}<br/>
+	<b>Content:</b> {{{ $contentTitle }}}<br/>
+	<b>Due Date:</b> {{ $taskDueDate }}<br/>
 	</body>
 </html>

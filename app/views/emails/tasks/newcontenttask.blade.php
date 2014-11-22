@@ -4,9 +4,10 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
-	<p>Hi {{ $firstName }},</p>
-    <p>{{ $accountName }} has assigned you a new task on the <i>{{ $contentTitle }}</i> content.</p>
-    <p>Task: <b>{{ $taskName }}</b></p>
-    <p>Due Date: <b>{{ $dueDate }}</b></p>
+	<p>Hi {{ $assigneeFirstName }},</p>
+    <p>You have benn assigned a new task on the <i>{{ $contentTitle }}</i> content.</p>
+	<b>Task:</b> {{{ $taskName }}}<br/>
+	<b>Content:</b> {{{ $contentTitle }}}<br/>
+	<b>Due Date:</b> {{ $taskDueDate }}<br/>
 	</body>
 </html>

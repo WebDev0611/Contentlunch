@@ -4,8 +4,10 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
-	<p>Hi {{ $firstName }},</p>
-    <p>You have been removed from a task on the <i>{{ $contentTitle }}</i> content, which was due on {{ $dueDate }}.</p>
-    <p>Task Name: <b>{{ $taskName }}</b></p>
+	<p>Hi {{ $assigneeFirstName }},</p>
+    <p>You have been unassigned from <i>{{ $taskName }}</i> on the {{{ $contentTitle }}} content.</p>
+	<b>Task:</b> {{{ $taskName }}}<br/>
+	<b>Content:</b> {{{ $contentTitle }}}<br/>
+	<b>Due Date:</b> {{ $taskDueDate }}<br/>
 	</body>
 </html>

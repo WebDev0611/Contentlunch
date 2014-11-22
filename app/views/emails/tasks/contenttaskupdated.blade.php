@@ -4,13 +4,16 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
-	<p>Hi {{ $firstName }},</p>
+	<p>Hi {{ $assigneeFirstName }},</p>
 	@if ($orignalTaskName == $taskName && $orignalTaskDueDate != $taskDueDate)
-		<p>The due date for the task <b>{{ $taskName }}</b> from the <i>{{ $contentTitle }}</i> content has been change from {{ $orignalTaskDueDate }} to <b>{{ $taskDueDate }}.</b></p>
+		<p>The due date for <i>{{ $taskName }}</i> on the <i>{{ $contentTitle }}</i> content has been change from {{ $orignalTaskDueDate }} to {{ $taskDueDate }}.</p>
 	@elseif ($orignalTaskName != $taskName && $orignalTaskDueDate == $taskDueDate)
-		<p>The task <i>{{ $orignalTaskName }}</i> from the <i>{{ $contentTitle }}</i> content has been changed to <b>{{{ $taskName }}}</b>. The due date remains the same at {{ $taskDueDate }}.</i></p>
+		<p>The task <i>{{ $orignalTaskName }}</i> on the <i>{{ $contentTitle }}</i> content has been changed to <i>{{{ $taskName }}}</i>. The due date remains the same at {{ $taskDueDate }}.</i></p>
 	@elseif ($orignalTaskName != $taskName && $orignalTaskDueDate != $taskDueDate)
-		<p>The task <i>{{ $orignalTaskName }}</i> from the <i>{{ $contentTitle }}</i> content has been changed to <b>{{{ $taskName }}}</b>. The due date has also changed from {{ $orignalTaskDueDate }} to <b>{{ $taskDueDate }}.</b></p>
+		<p>The task <i>{{ $orignalTaskName }}</i> on the <i>{{ $contentTitle }}</i> content has been changed to <i>{{{ $taskName }}}</i>. The due date has also changed from {{ $orignalTaskDueDate }} to {{ $taskDueDate }}.</p>
 	@endif
+	<b>Task:</b> {{{ $taskName }}}<br/>
+	<b>Content:</b> {{{ $contentTitle }}}<br/>
+	<b>Due Date:</b> {{ $taskDueDate }}<br/>
 	</body>
 </html>

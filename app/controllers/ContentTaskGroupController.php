@@ -1,6 +1,8 @@
 <?php
 
 use \Carbon\Carbon;
+use Launch\Notifications\ContentTaskUpdatedNoti;
+use Launch\Notifications\ContentTaskNewNoti;
 
 class ContentTaskGroupController extends BaseController {
 
@@ -57,6 +59,8 @@ class ContentTaskGroupController extends BaseController {
     {
         // TODO: permissions
 
+        $initiator = Confide::user();
+
         $newTask = false;
         $updatedTask = false;
         $deletedTask = false;
@@ -105,48 +109,12 @@ class ContentTaskGroupController extends BaseController {
             }
 
             if (!$newTask) {
-
-                $orignalDueDate = $task->due_date;
-                $orignalUser = $task->user_id;
-                $orignalName = $task->name;
-                $orignalIsCompleted = $task->is_complete;
-                $orignalCompletedDate = $task->date_completed;
-
-                $newDueDate = new Carbon($t['due_date']);
-                $newDueDate = $newDueDate->toDateString();
-                $newUser = $t['user_id'];
-                $newName = $t['name'];
-                $newCompleted = $t['is_complete'];
-
-                $lastUpdateTime = new Carbon($task->updated_at);
-
-                if (($orignalName != $newName ||
-                $orignalUser != $newUser ||
-                $orignalDueDate != $newDueDate ||
-                $orignalIsCompleted != $newCompleted) &&
-                $lastUpdateTime->diffInMinutes(Carbon::now()) >= 1) {
-
-                    Queue::later(
-                        Carbon::now()->addMinutes(1), 
-                        'Launch\\Repositories\\EmailRepository@runContentTaskUpdated', [
-                            'taskId' => $task->id,
-                            'orignalName' => $orignalName,
-                            'orignalUser' => $orignalUser,
-                            'orignalDueDate' => $orignalDueDate,
-                            'orignalIsCompleted' => $orignalIsCompleted
-                        ]
-                    );
-                }
+                $updateNoti = new ContentTaskUpdatedNoti($initiator, $task, $t);
             }
 
             // Only update if things have actually changed..
-            if (!$newTask) {
-                if ($orignalName != $newName ||
-                    $orignalUser != $newUser ||
-                    $orignalDueDate != $newDueDate ||
-                    $orignalIsCompleted != $newCompleted) {
-                    $task->fill($t);
-                }
+            if (!$newTask && $updateNoti->isTaskUpdated()) {
+                $task->fill($t);
             } else {
                 $task = $task->fill($t);
             }
@@ -162,12 +130,7 @@ class ContentTaskGroupController extends BaseController {
             }
 
             if ($newTask) {
-                Queue::later(
-                    Carbon::now()->addMinutes(1), 
-                    'Launch\\Repositories\\EmailRepository@runContentTaskCreated', [
-                        'taskId' => $task->id
-                    ]
-                );
+                $newNoti = new ContentTaskNewNoti($task->id);
             }
 
         }
