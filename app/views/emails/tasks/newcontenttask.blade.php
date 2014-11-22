@@ -5,7 +5,7 @@
 	</head>
 	<body>
 	<p>Hi {{ $assigneeFirstName }},</p>
-    <p>You have benn assigned a new task on the <i>{{ $contentTitle }}</i> content.</p>
+    <p>You have been assigned a new task on the <i>{{ $contentTitle }}</i> content.</p>
 	<b>Task:</b> {{{ $taskName }}}<br/>
 	<b>Content:</b> {{{ $contentTitle }}}<br/>
 	<b>Due Date:</b> {{ $taskDueDate }}<br/>
