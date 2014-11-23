@@ -1,5 +1,5 @@
 ﻿launch.module.controller('SignupController', [
-	'$scope', '$filter', '$location', 'AuthService', 'AccountService', 'UserService', 'NotificationService', 'SessionService', function ($scope, $filter, $location, authService, accountService, userService, notificationService, sessionService) {
+	'$scope', '$window', '$filter', '$location', 'AuthService', 'AccountService', 'UserService', 'NotificationService', 'SessionService', function ($scope, $window, $filter, $location, authService, accountService, userService, notificationService, sessionService) {
 		var self = this;
 
 		self.subscription = null;
@@ -41,6 +41,19 @@
 		$scope.user = null;
 		$scope.isSaving = false;
 
+		self.fireConversion = function() {
+			$.getScript( "http://www.googleadservices.com/pagead/conversion_async.js", function( data, textStatus, jqxhr ) {
+			  $window.google_trackConversion({
+				  google_conversion_id: 1027851638, 
+				  google_conversion_label: 'kFiJCIGnvVcQ9oqP6gM',
+				  google_conversion_language: "en",
+				  google_conversion_format: "2",
+				  google_conversion_color: "ffffff",
+				  google_remarketing_only: false
+				});
+			});
+		}
+
 		$scope.signUp = function() {
 			var msg = '';
 
@@ -78,6 +91,7 @@
 			accountService.addBeta(account, {
 				success: function (r) {
 					$scope.isSaving = false;
+					self.fireConversion();
 					document.location = '/signup/confirm';
 				},
 				error: self.ajaxHandler.error

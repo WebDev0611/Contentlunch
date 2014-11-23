@@ -12,12 +12,15 @@
 */
 Artisan::add(new DeployCommand);
 
-Artisan::add(new BalancedTransferCommand);
+// Wait until Beta ends to register these
+//Artisan::add(new BalancedTransferCommand);
 
-Artisan::add(new NoticeTrialEndCommand);
-Artisan::add(new NoticeTrialNearingEndCommand);
+//Artisan::add(new NoticeTrialEndCommand);
+//Artisan::add(new NoticeTrialNearingEndCommand);
 
-Artisan::add(new PaymentMonthlyCommand);
-Artisan::add(new PaymentAnnualRenewCommand);
-Artisan::add(new PaymentAnnualNoRenewCommand);
+//Artisan::add(new PaymentMonthlyCommand);
+//Artisan::add(new PaymentAnnualRenewCommand);
+//Artisan::add(new PaymentAnnualNoRenewCommand);
+
+Artisan::add(new TestCommand);
 
