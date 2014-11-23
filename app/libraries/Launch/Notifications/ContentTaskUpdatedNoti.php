@@ -27,7 +27,7 @@ class ContentTaskUpdatedNoti {
 	public function wasTaskUpdatedRecently()
 	{
 		$updated_at = new Carbon($this->dbTask->updated_at);
-		return ($updated_at->diffInMinutes(Carbon::now()) < 1);
+		return ($updated_at->diffInMinutes(Carbon::now()) < 5);
 	}
 
 	public function isTaskUpdated()
@@ -49,7 +49,7 @@ class ContentTaskUpdatedNoti {
   			$user = User::find($this->dbTask->user_id);
 
 			Queue::later(
-	            Carbon::now()->addMinutes(1), 
+	            Carbon::now()->addMinutes(5), 
 	            'Launch\\Queues\\ContentTaskUpdatedEmailQueue', [
 	                'taskId' => $this->dbTask->id,
 	                'originalTaskData' => $this->dbTask->toArray(),

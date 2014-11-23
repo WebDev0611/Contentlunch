@@ -3,14 +3,13 @@
 use \Carbon\Carbon;
 use \Queue;
 
-class ContentTaskNewNoti {
+class CampaignTaskNewNoti {
 
 	protected $taskId;
 
 	function __construct($taskId)
 	{
 		$this->taskId = $taskId;
-
 		$this->queueEmailNotification();
 	}
 
@@ -18,9 +17,8 @@ class ContentTaskNewNoti {
 	{
 		Queue::later(
             Carbon::now()->addMinutes(5), 
-            'Launch\\Queues\\ContentTaskNewEmailQueue', [
-                'taskId' => $this->taskId
-            ]
-        );	
+            'Launch\\Queues\\CampaignTaskNewEmailQueue', 
+            ['taskId' => $this->taskId]
+        );
 	}
 }

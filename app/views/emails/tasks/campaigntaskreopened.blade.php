@@ -4,8 +4,7 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
-	<p>Hi {{ $assigneeFirstName }},</p>
-    <p>You have been assigned a new task on the <i>{{ $campaignTitle }}</i> campaign.</p>
+	<p><i>{{{ $taskName }}}</i> from the <i>{{{ $campaignTitle }}}</i> campaign has been re-opened and assigned to you.</p>
 	<b>Task:</b> {{{ $taskName }}}<br/>
 	<b>Campaign:</b> {{{ $campaignTitle }}}<br/>
 	<b>Due Date:</b> {{ $taskDueDate }}<br/>

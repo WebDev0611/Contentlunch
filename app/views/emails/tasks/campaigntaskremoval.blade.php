@@ -5,7 +5,7 @@
 	</head>
 	<body>
 	<p>Hi {{ $assigneeFirstName }},</p>
-    <p>You have been assigned a new task on the <i>{{ $campaignTitle }}</i> campaign.</p>
+    <p>You have been unassigned from <i>{{ $taskName }}</i> on the {{{ $campaignTitle }}} campaign.</p>
 	<b>Task:</b> {{{ $taskName }}}<br/>
 	<b>Campaign:</b> {{{ $campaignTitle }}}<br/>
 	<b>Due Date:</b> {{ $taskDueDate }}<br/>

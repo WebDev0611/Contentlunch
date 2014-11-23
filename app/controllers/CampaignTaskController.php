@@ -1,6 +1,9 @@
 <?php
 
 use \Carbon\Carbon;
+use Launch\Notifications\CampaignTaskUpdatedNoti;
+use Launch\Notifications\CampaignTaskNewNoti;
+use Launch\Notifications\CampaignTaskDeletedNoti;
 
 class CampaignTaskController extends BaseController {
 
@@ -75,11 +78,7 @@ class CampaignTaskController extends BaseController {
             // add task person to list of collaborators if they don't already exist
             $this->addToCampaignCollaborators($accountID, $campaignID, $task->user_id);
 
-            Queue::later(
-                Carbon::now()->addMinutes(10), 
-                'Launch\\Repositories\\EmailRepository@sendCampaignTaskCreated', 
-                ['taskId' => $task->id]
-            );
+            $taskNoti = new CampaignTaskNewNoti($task->id);
 
             return $this->show($accountID, $campaignID, $task->id);
         }
@@ -97,10 +96,18 @@ class CampaignTaskController extends BaseController {
             return $this->responseAccessDenied();
         }
 
+        $initiator = Confide::user();
+
         $task = CampaignTask::find($taskID);
+
+        $originalTaskData = $task->toArray();
+
+        $user = User::find($task->user_id);
+
         if ($task->save()) {
             // add task person to list of collaborators if they don't already exist
             $this->addToCampaignCollaborators($accountID, $campaignID, $task->user_id);
+            $taskNoti = new CampaignTaskUpdatedNoti($initiator, $task, $originalTaskData, $user->toArray());
             return $this->show($accountID, $campaignID, $task->id);
         }
 
@@ -117,8 +124,16 @@ class CampaignTaskController extends BaseController {
             return $this->responseAccessDenied();
         }
 
+        $initiator = Confide::user();
         $task = CampaignTask::find($taskID);
+        $assignee = User::find($task->user_id);
+
+        $initiator = $initiator->toArray();
+        $assignee = $assignee->toArray();
+        $taskData = $task->toArray();
+
         if ($task->delete()) {
+            $taskNoti = new CampaignTaskDeletedNoti($initiator, $taskData, $assignee);
             return array('success' => 'OK');
         }
 

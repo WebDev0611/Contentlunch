@@ -12,38 +12,181 @@ use \Carbon\Carbon;
 
 class EmailRepository {
 
-	public function sendCampaignTaskCreated($job, $data)
-	{
-		$taskId = $data['taskId'];
+	public function sendCampaignTaskAssignment(
+		$assigneeFirstName,
+		$assigneeEmail,
+		$taskName,
+		$taskDueDate,
+		$campaignTitle
+	){
 
-		$task = CampaignTask::
-					whereId($taskId)
-				->with('user')
-				->with('campaign')
-				->first();
+		$mailData = array(
+	    'assigneeFirstName' => $assigneeFirstName,
+	    'assigneeEmail' => $assigneeEmail,
+	    'taskName' => $taskName,
+	    'taskDueDate' => $taskDueDate,
+	    'campaignTitle' => $campaignTitle,
+	    'date' => Carbon::now('PST')
+	  );
 
-		if ($task) {
-			$account = Account::find($task->campaign->account_id);
+		Mail::send('emails.tasks.newcampaigntask', $mailData, function ($message) use($mailData) {
+	    $message
+	      ->to($mailData['assigneeEmail'])
+	      ->from('do-not-reply@contentlaunch.com', 'Content Launch')
+	      ->subject("You have been assigned \"{$mailData['taskName']}\" on the {$mailData['campaignTitle']} campaign on " . $mailData['date']->toDayDateTimeString());
+	  });
+	}
 
-			$mailData = array(
-		    'taskName' => $task->name,
-		    'dueDate' => $task->due_date,
-		    'campaignTitle' => $task->campaign->title,
-		    'campaignDesc' => $task->campaign->description,
-		    'firstName' => $task->user->first_name,
-		    'accountName' => $account->name
-		  );
+	public function sendCampaignTaskRemoval(
+		$assigneeFirstName,
+		$assigneeEmail,
+		$taskName,
+		$taskDueDate,
+		$campaignTitle
+	){
 
-		  Mail::send('emails.tasks.newcampaigntask', $mailData, function ($message) use ($task) {
-		    $message
-		      ->to($task->user->email)
-		      ->from('do-not-reply@contentlaunch.com', 'Content Launch')
-		      ->subject('Campaign Task Notification');
-		  });
+		$mailData = array(
+	    'assigneeFirstName' => $assigneeFirstName,
+	    'assigneeEmail' => $assigneeEmail,
+	    'taskName' => $taskName,
+	    'taskDueDate' => $taskDueDate,
+	    'campaignTitle' => $campaignTitle,
+	    'date' => Carbon::now('PST')
+	  );
+
+		Mail::send('emails.tasks.campaigntaskremoval', $mailData, function ($message) use($mailData) {
+	    $message
+	      ->to($mailData['assigneeEmail'])
+	      ->from('do-not-reply@contentlaunch.com', 'Content Launch')
+	      ->subject("You have been unassigned from \"{$mailData['taskName']}\" on the {$mailData['campaignTitle']} campaign on " . $mailData['date']->toDayDateTimeString());
+	  });
+	}
+
+	public function sendCampaignTaskDeleted(
+		$assigneeId,
+		$assigneeFirstName, 
+		$assigneeEmail,
+		$initiatorId,
+		$initiatorFirstName,
+		$initiatorLastName,
+		$initiatorEmail,
+		$taskName,
+		$taskDueDate,
+		$campaignTitle
+	){
+
+		$youHave = 'You have';
+		$heHas = "{$initiatorFirstName} {$initiatorLastName} has";
+
+		if ($initiatorId == $assigneeId) {
+			$someoneHasText = $youHave;
+			$someoneHas = false;
+		} else {
+			$someoneHasText = $heHas;
+			$someoneHas = true;
 		}
 
-	  $job->delete();
+		$mailData = [
+			'date' => Carbon::now('PST'),
+			'assigneeId' => $assigneeId,
+	    'assigneeFirstName' => $assigneeFirstName,
+	    'assigneeEmail' => $assigneeEmail,
+	    'initiatorId' => $initiatorId,
+	    'initiatorFirstName' => $initiatorFirstName,
+	    'initiatorLastName' => $initiatorLastName,
+	    'initiatorEmail' => $initiatorEmail,
+	    'taskName' => $taskName,
+	    'taskDueDate' => $taskDueDate,
+	    'campaignTitle' => $campaignTitle,
+	    'someoneHas' => $someoneHas,
+	    'someoneHasText' => $someoneHasText
+	  ];
 
+		Mail::send('emails.tasks.campaigntaskdeleted', $mailData, function ($message) use($mailData) {
+	    $message
+	      ->to($mailData['assigneeEmail'])
+	      ->from('do-not-reply@contentlaunch.com', 'Content Launch')
+	      ->subject("{$mailData['someoneHasText']} deleted \"{$mailData['taskName']}\" on " . $mailData['date']->toDayDateTimeString());
+	  });
+	}
+
+	public function sendCampaignTaskComplete(
+		$initiatorFirstName,
+		$initiatorLastName,
+		$assigneeEmail,
+		$taskName,
+		$taskDueDate,
+		$campaignTitle
+	){
+		
+		$mailData = array(
+	    'initiatorFirstName' => $initiatorFirstName,
+	    'initiatorLastName' => $initiatorLastName,
+	    'taskName' => $taskName,
+	    'taskDueDate' => $taskDueDate,
+	    'campaignTitle' => $campaignTitle,
+	    'assigneeEmail' => $assigneeEmail,
+	    'date' => Carbon::now('PST')
+	  );
+
+		Mail::send('emails.tasks.campaigntaskcomplete', $mailData, function ($message) use($mailData) {
+	    $message
+	      ->to($mailData['assigneeEmail'])
+	      ->from('do-not-reply@contentlaunch.com', 'Content Launch')
+	      ->subject("\"{$mailData['taskName']}\" from the {$mailData['campaignTitle']} campaign has been marked as completed on " . $mailData['date']->toDayDateTimeString());
+	  });
+	}
+
+	public function sendCampaignTaskReopened(
+		$assigneeEmail,
+		$taskName,
+		$taskDueDate,
+		$campaignTitle
+	){
+
+		$mailData = array(
+	    'assigneeEmail' => $assigneeEmail,
+	    'taskName' => $taskName,
+	    'taskDueDate' => $taskDueDate,
+	    'campaignTitle' => $campaignTitle,
+	    'date' => Carbon::now('PST')
+	  );
+
+		Mail::send('emails.tasks.campaigntaskreopened', $mailData, function ($message) use($mailData) {
+	    $message
+	      ->to($mailData['assigneeEmail'])
+	      ->from('do-not-reply@contentlaunch.com', 'Content Launch')
+	      ->subject("\"{$mailData['taskName']}\" from {$mailData['campaignTitle']} has been reopened and assigned to you on " . $mailData['date']->toDayDateTimeString());
+	  });
+	}
+
+	public function sendCampaignTaskUpdated(
+		$assigneeFirstName,
+		$assigneeEmail,
+		$orignalTaskName,
+		$orignalTaskDueDate,
+		$taskName,
+		$taskDueDate,
+		$campaignTitle
+	){
+	
+		$mailData = array(
+			'assigneeFirstName' => $assigneeFirstName,
+			'assigneeEmail' => $assigneeEmail,
+	    'orignalTaskName' => $orignalTaskName,
+	    'orignalTaskDueDate' => $orignalTaskDueDate,
+	    'taskName' => $taskName,
+	    'taskDueDate' => $taskDueDate,
+	    'campaignTitle' => $campaignTitle,
+	    'date' => Carbon::now('PST')
+	  );
+
+		Mail::send('emails.tasks.campaigntaskupdated', $mailData, function ($message) use($mailData) {
+	    $message
+	      ->to($mailData['assigneeEmail'])
+	      ->from('do-not-reply@contentlaunch.com', 'Content Launch')
+	      ->subject("\"{$mailData['orignalTaskName']}\" on the {$mailData['campaignTitle']} campaign has been updated on " . $mailData['date']->toDayDateTimeString());
+	  });
 	}
 
 	public function sendContentTaskAssignment(

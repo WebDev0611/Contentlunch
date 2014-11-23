@@ -24,7 +24,7 @@ class ContentTaskDeletedNoti {
 	public function wasTaskUpdatedRecently()
 	{
 		$updated_at = new Carbon($this->task->updated_at);
-		return ($updated_at->diffInMinutes(Carbon::now()) < 1);
+		return ($updated_at->diffInMinutes(Carbon::now()) < 5);
 	}
 
 	public function queueEmailNotification()
@@ -36,7 +36,7 @@ class ContentTaskDeletedNoti {
   			$content = Content::find($taskGroup->content_id);
 
 			Queue::later(
-	            Carbon::now()->addMinutes(1), 
+	            Carbon::now()->addMinutes(5), 
 	            'Launch\\Queues\\ContentTaskDeletedEmailQueue', [
 	                'taskData' => $this->task->toArray(),
 	                'initiatorData' => $this->initiator->toArray(),
