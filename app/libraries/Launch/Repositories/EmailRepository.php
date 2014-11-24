@@ -12,6 +12,57 @@ use \Carbon\Carbon;
 
 class EmailRepository {
 
+
+	public function sendContentTaskReminder(
+		$assigneeEmail,
+		$assigneeFirstName,
+		$taskName,
+		$taskDueDate,
+		$contentTitle
+	){
+
+		$mailData = array(
+	    'assigneeFirstName' => $assigneeFirstName,
+	    'assigneeEmail' => $assigneeEmail,
+	    'taskName' => $taskName,
+	    'taskDueDate' => $taskDueDate,
+	    'contentTitle' => $contentTitle,
+	    'date' => Carbon::now('PST')
+	  );
+
+		Mail::send('emails.tasks.contenttaskreminder', $mailData, function ($message) use($mailData) {
+	    $message
+	      ->to($mailData['assigneeEmail'])
+	      ->from('do-not-reply@contentlaunch.com', 'Content Launch')
+	      ->subject("Reminder that \"{$mailData['taskName']}\" on the {$mailData['contentTitle']} content is due tomorrow.");
+	  });
+	}
+
+	public function sendCampaignTaskReminder(
+		$assigneeEmail,
+		$assigneeFirstName,
+		$taskName,
+		$taskDueDate,
+		$campaignTitle
+	){
+
+		$mailData = array(
+	    'assigneeFirstName' => $assigneeFirstName,
+	    'assigneeEmail' => $assigneeEmail,
+	    'taskName' => $taskName,
+	    'taskDueDate' => $taskDueDate,
+	    'campaignTitle' => $campaignTitle,
+	    'date' => Carbon::now('PST')
+	  );
+
+		Mail::send('emails.tasks.campaigntaskreminder', $mailData, function ($message) use($mailData) {
+	    $message
+	      ->to($mailData['assigneeEmail'])
+	      ->from('do-not-reply@contentlaunch.com', 'Content Launch')
+	      ->subject("Reminder that \"{$mailData['taskName']}\" on the {$mailData['campaignTitle']} campaign is due tomorrow.");
+	  });	  
+	}
+
 	public function sendCampaignTaskAssignment(
 		$assigneeFirstName,
 		$assigneeEmail,

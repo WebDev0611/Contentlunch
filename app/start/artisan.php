@@ -24,3 +24,5 @@ Artisan::add(new DeployCommand);
 
 Artisan::add(new TestCommand);
 
+Artisan::add(new TaskReminderCommand);
+
