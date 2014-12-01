@@ -148,20 +148,22 @@
 				console.log('CALLING getNavitationItems FROM getLoggedInUser');
 				self.getNavigationItems(false);
 				console.log('RETURNED ' + scope.mainMenu.length + ' ITEMS');
-				scope.trialDays = scope.account.remainingTrialDays();
+
+				if (scope.account) {
+					scope.trialDays = scope.account.remainingTrialDays();
+					scope.inTrial = scope.account.inTrial();
+				}
 
 				if (scope.trialDays == 1) {
 					scope.lastTrialDay = true;
 				}
-
-				scope.inTrial = scope.account.inTrial();
 			}
 		};
 
 		scope.user = null;
 		scope.account = null;
 		scope.lastTrialDay = false;
-		scope.inTrial = true;
+		scope.inTrial = false;
 		scope.showNav = false;
 		scope.isSignup = false;
 		scope.mainMenu = [];
