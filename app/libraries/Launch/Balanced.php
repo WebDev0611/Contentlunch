@@ -33,8 +33,24 @@ class Balanced {
       \RESTful\Bootstrap::init();
       \Balanced\Bootstrap::init();
       static::$initialized = true;
-      \Balanced\Settings::$api_key = Config::get('app.balanced.api_key_secret_prod');
+      \Balanced\Settings::$api_key = Config::get('services.balanced.key');
     }
+  }
+
+  public function getMarketplace()
+  {
+    return \Balanced\Marketplace::mine();
+  }
+
+  public function getMarketCustomer()
+  {
+    $market = \Balanced\Marketplace::mine();
+    return \Balanced\Customer::get($market->owner_customer->href);
+  }
+
+  public function getMarketBankAccount()
+  {
+    return \Balanced\BankAccount::get("/bank_accounts/BAGWyJeh9ueH7NmB6PVd3fa");
   }
 
   /**
@@ -141,6 +157,12 @@ class Balanced {
       return;
     }
 
+    $customer = $this->getCustomer();
+
+    $order = $customer->orders->create();
+
+    \Log::info("Order href: " . $order->href);
+
     if ($this->account->hasMonthlySubscription()) {
       $amount = $subscription->monthly_price;
     } elseif ($this->account->hasAnnualSubscription()) {
@@ -155,7 +177,8 @@ class Balanced {
       'amount' => $amount,
       // Must be <= 22 characters
       'appears_on_statement_as' => 'contentlaunch.com sub',
-      'description' => 'Membership fee for account: '. $this->account->title
+      'description' => 'Membership fee for account: '. $this->account->title,
+      'order' => $order->href
     ));
 
     // Save response from balanced
@@ -166,7 +189,7 @@ class Balanced {
     $payment->response = serialize($ret);
     $payment->save();
 
-    return $payment;
+    return $amount;
   }
 
   /**
@@ -179,6 +202,7 @@ class Balanced {
    */
   public function chargeAccount($forceRenew = false)
   {
+    return;
     $payment = $this->getPayment();
     if ( ! $payment) {
       return;

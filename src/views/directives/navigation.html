@@ -2,13 +2,19 @@
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
 		<span class="logo-white"></span>
-		BETA
 	</div>
 	<div class="col-md-2"></div>
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-if="!isSignup">
 	<div class="navbar-collapse collapse" role="navigation">
+
+		<div class="trial" ng-show="inTrial">
+			<div class="trialHeader">30 Day Trial</div>
+			<div class="trialRemaining"><span class="trialCounter">{{trialDays | number:0}}</span> {{lastTrialDay ? 'Day' : 'Days'}} Left</div>
+			<div class="trialSub"><a href="/account"><span class="subNow">Subscribe Now!</span></a></div>
+		</div>
+
 		<div class="logo hidden-sm"></div>
 
 		<ul class="nav navbar-nav" ng-show="showNav">

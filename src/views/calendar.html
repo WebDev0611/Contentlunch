@@ -1,8 +1,18 @@
 <div class="view calendar" ng-show="isLoaded">
 	<div class="col-md-3 left-pane">
+		<div class="btn-group add-content" style="margin-bottom: -3px" ng-show="canCreate">
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+				CREATE TASK...
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li ng-click="newContentTask()"><a>Content task</a></li>
+				<li ng-click="newCampaignTask()"><a>Campaign task</a></li>
+			</ul>
+		</div>
 		<div class="btn-group add-content" ng-show="canCreate">
 			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-				NEW...
+				CREATE CAMPAIGN...
 				<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" role="menu">
@@ -128,3 +138,101 @@
 <div class="loading-spinner-container" ng-hide="isLoaded">
     <spinner spin="{ length: 50, width: 10, radius: 30 }"></spinner>
 </div>
+
+<script type="text/ng-template" id="create-campaign-task.html">
+	<div class="modal-header">New Campaign Task</div>
+	<div class="modal-body">
+		<form name="editTask" novalidate="novalidate">
+			<div class="control-group">
+
+				<div class="form-group">
+					<label for="selTaskCampaign">Campaign</label>
+					<select id="selTaskCampaign" name="selTaskCampaign" type="text"ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="task.campaignId"
+							data-placeholder="Select Campaign" ng-change="getCollaborators()">
+						<option value=""></option>
+						<option ng-repeat="c in campaignList" value="{{ c.id }}">{{ c.title }}</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="txtTaskName">Task Name</label>
+					<input id="txtTaskName" name="txtTaskName" type="text" class="form-control" ng-model="task.name" />
+				</div>
+
+				<div class="form-group">
+					<label for="selTaskAssignee">Assigned To</label>
+					<select id="selTaskAssignee" name="selTaskAssignee" type="text"ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="task.user_id">
+						<option value=""></option>
+						<option ng-repeat="c in collaborators" value="{{ c.id }}">{{ c.name }}</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="txtTaskDueDate">Due Date</label>
+					<div class="input-group">
+						<input id="txtTaskDueDate" name="txtTaskDueDate" type="text" class="form-control" ng-model="task.dueDate" value="{{ task.dueDate }}"
+							datepicker-popup="{{ dateFormat }}" min="minDate" is-open="opened" show-weeks="false" show-button-bar="false" />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="opened = openCalendar(opened, $event)"><i class="fa fa-calendar"></i></button>
+						</span>
+					</div>
+				</div>
+
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="save(true)">Save and New</button>
+		<button class="btn btn-primary" ng-click="save(false)">Save and Close</button>
+		<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="create-content-task.html">
+	<div class="modal-header">New Content Task</div>
+	<div class="modal-body">
+		<form name="editTask" novalidate="novalidate">
+			<div class="control-group">
+
+				<div class="form-group">
+					<label for="selTaskCampaign">Content</label>
+					<select id="selTaskCampaign" name="selTaskCampaign" type="text"ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="task.contentId"
+							data-placeholder="Select Content" ng-change="getCollaborators()">
+						<option value=""></option>
+						<option ng-repeat="c in contents" value="{{ c.id }}">{{ c.title }}</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="txtTaskName">Task Name</label>
+					<input id="txtTaskName" name="txtTaskName" type="text" class="form-control" ng-model="task.name" />
+				</div>
+
+				<div class="form-group">
+					<label for="selTaskAssignee">Assigned To</label>
+					<select id="selTaskAssignee" name="selTaskAssignee" type="text"ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="task.userId">
+						<option value=""></option>
+						<option ng-repeat="c in collaborators" value="{{ c.id }}">{{ c.name }}</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="txtTaskDueDate">Due Date</label>
+					<div class="input-group">
+						<input id="txtTaskDueDate" name="txtTaskDueDate" type="text" class="form-control" ng-model="task.dueDate" value="{{ task.dueDate }}"
+							datepicker-popup="{{ dateFormat }}" min="minDate" is-open="opened" show-weeks="false" show-button-bar="false" />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="opened = openCalendar(opened, $event)"><i class="fa fa-calendar"></i></button>
+						</span>
+					</div>
+				</div>
+
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="save(true)">Save and New</button>
+		<button class="btn btn-primary" ng-click="save(false)">Save and Close</button>
+		<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+	</div>
+</script>

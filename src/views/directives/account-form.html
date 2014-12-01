@@ -116,7 +116,7 @@
 				</div>
 				
 				<div class="control-group btn-group" ng-show="selfEditing">
-					<button type="button" class="btn btn-default" ng-show="!selectedAccount.autoRenew" ng-click="renewAccount()">Renew Account</button>
+					<button type="button" class="btn btn-default" ng-show="!selectedAccount.autoRenew && !selectedAccount.paymentDate && !selectedAccount.inTrial()" ng-click="renewAccount()">Renew Account</button>
 					<button type="button" class="btn btn-default" ng-click="cancelAccount()">Cancel Account</button>
 				</div>
 			</div>
@@ -169,16 +169,15 @@
 
 	<h2>Payment Info</h2>
 
-	<div ng-if="selectedAccount.hasToken">
+	<!--<div ng-if="selectedAccount.hasToken">
 		<p>Stored payment type: {{ selectedAccount.tokenizedType }}</p>
 	</div>
 
 	<div class="control-group">
 		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radCreditCard" ng-value="'CC'" ng-model="selectedAccount.paymentType" />Credit Card</label>
-		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radACH" ng-value="'ACH'" ng-model="selectedAccount.paymentType" />ACH</label>
-	</div>
+	</div>-->
 
-	<div ng-show="selectedAccount.paymentType === 'CC'">
+	<div>
 		<div class="control-group">
 			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'nameOnCard', editAccount.txtNameOnCard, forceDirty) }">
 				<label class="control-label" for="txtNameOnCard">Name on Card <span class="error">*</span></label>

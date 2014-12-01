@@ -41,7 +41,7 @@ class ContentTaskDeletedNoti {
 	                'taskData' => $this->task->toArray(),
 	                'initiatorData' => $this->initiator->toArray(),
 	                'assigneeData' => $this->assignee->toArray(),
-	                'contentData' => ['title' => $content->title]
+	                'contentData' => ['title' => $content->title, 'id' => $content->id]
 	            ]
 	        );
 		}	

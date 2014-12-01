@@ -62,7 +62,7 @@ class AccountSubscriptionController extends BaseController {
     try {
       $account = Account::find($id);
       $balanced = new Launch\Balanced($account);
-      $payment = $balanced->chargeAccount(true);
+      //$payment = $balanced->chargeAccount(true);
     } catch (\Balanced\Errors\Declined $e) {
       return $this->responseError('Error processing transaction. The transaction was declined.');
     } catch (\Balanced\Errors\NoFundingSource $e) {
@@ -77,8 +77,8 @@ class AccountSubscriptionController extends BaseController {
       return $this->responseError('Error processing transaction.');
     }
     $account = $account->toArray();
-    $retPayment = $payment->toArray();
-    $account['payment'] = $payment->toArray();
+    //$retPayment = $payment->toArray();
+    //$account['payment'] = $payment->toArray();
     return $account;
   }
 

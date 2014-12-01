@@ -25,7 +25,8 @@ class CampaignTaskNewEmailQueue {
 				$task->user->email,
 				$task->name,
 				$task->due_date,
-				$task->campaign->title
+				$task->campaign->title,
+				$task->campaign->id
 			);
 		}
 

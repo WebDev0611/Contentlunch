@@ -13,7 +13,7 @@
 Artisan::add(new DeployCommand);
 
 // Wait until Beta ends to register these
-//Artisan::add(new BalancedTransferCommand);
+Artisan::add(new BalancedTransferCommand);
 
 //Artisan::add(new NoticeTrialEndCommand);
 //Artisan::add(new NoticeTrialNearingEndCommand);
@@ -23,6 +23,7 @@ Artisan::add(new DeployCommand);
 //Artisan::add(new PaymentAnnualNoRenewCommand);
 
 Artisan::add(new TestCommand);
+Artisan::add(new TestRepeatCommand);
 
 Artisan::add(new TaskReminderCommand);
 

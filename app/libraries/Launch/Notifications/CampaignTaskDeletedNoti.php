@@ -37,7 +37,7 @@ class CampaignTaskDeletedNoti {
 	                'taskData' => $this->task,
 	                'initiatorData' => $this->initiator,
 	                'assigneeData' => $this->assignee,
-	                'campaignData' => ['title' => $campaign->title]
+	                'campaignData' => ['title' => $campaign->title, 'id' => $campaign->id]
 	            ]
 	        );
 		}	

@@ -60,6 +60,7 @@
 		scope.forceDirty = false;
 		scope.isLoading = false;
 		scope.isSaving = false;
+		scope.isPaymentSet = true;
 		scope.hasError = launch.utils.isPropertyValid;
 		scope.isNewAccount = false;
 		scope.errorMessage = launch.utils.getPropertyErrorMessage;
@@ -159,6 +160,8 @@
 							scope.afterSaveSuccess(r, form);
 						}
 					}
+
+					scope.selectedAccount.paymentDate = scope.selectedAccount.expirationDate;
 				},
 				error: function(r) {
 					scope.isSaving = false;

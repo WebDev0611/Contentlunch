@@ -23,9 +23,41 @@
 	self.paymentType = 'CC';
 	self.yearlyPayment = false;
 	self.hasToken = false;
+	self.paymentDate = null;
 
 	self.created = null;
 	self.updated = null;
+
+	self.remainingTrialDays = function () {
+
+		var today = moment();
+		var expire = moment(self.expirationDate);
+		return expire.diff(today, 'days');
+	};
+
+	self.inTrial = function () {
+
+		var createdAt;
+		var today = moment();
+		var expires = moment(self.expirationDate).format("YYYY-MM-DD");
+
+		if (moment(self.created).format("YYYY-MM-DD") < moment("2014-12-01").format("YYYY-MM-DD")) {
+			createdAt = moment("2014-12-01");
+		} else {
+			createdAt = moment(self.created);
+		}
+
+		if (today.diff(createdAt, 'days') <= 30) {
+			return true;
+		}
+
+		return false;
+
+	};
+
+	self.isPaymentSet = function () {
+		return self.paymentDate;
+	};
 
 	self.formattedExpirationDate = function () {
 		return launch.utils.isBlank(self.expirationDate) ? null : launch.utils.formatDate(self.expirationDate);

@@ -31,7 +31,7 @@ class AccountController extends BaseController {
 			return $this->responseAccessDenied();
 		}
 		$account = new Account;
-		$account->expiration_date = \Carbon\Carbon::now()->addMonth();
+		$account->expiration_date = \Carbon\Carbon::now()->addDays(30);
 		if (Input::has('payment_info')) {
 			$account->payment_info = serialize(Input::get('payment_info'));
 		}
@@ -219,6 +219,11 @@ class AccountController extends BaseController {
                 return $this->responseError('Something went wrong while processing your card');
             }
         }
+
+        if ($account->token && !$account->payment_date) {
+        	$account->payment_date = $account->expiration_date;
+        }
+
 		if ($account->updateUniques())
 		{
 			if ($send_cancellation_email) {

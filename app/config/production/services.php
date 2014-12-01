@@ -175,5 +175,8 @@ return [
         'max' => '10',
         'diversity_id' => 7
     ]
+  ],
+  'balanced' => [
+    'key' => 'ak-prod-1ZNSGbwQj3yQKTWusJrdm07KyU5gtvPcs'
   ]
 ];

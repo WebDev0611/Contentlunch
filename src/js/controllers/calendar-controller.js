@@ -1,7 +1,7 @@
 launch.module.controller('CalendarController',
 [
-	'$scope', 'AuthService', '$timeout', '$filter', 'UserService', 'campaignTasks', '$q', 'contentStatuses', 'calendar', 'Restangular', 'NotificationService',
-	function($scope, AuthService, $timeout, $filter, UserService, campaignTasks, $q, contentStatuses, calendar, Restangular, notify) {
+	'$scope', '$modal', 'AuthService', '$timeout', '$filter', 'UserService', 'campaignTasks', '$q', 'contentStatuses', 'calendar', 'Restangular', 'NotificationService', 'ContentService', 'TaskService',
+	function($scope, $modal, AuthService, $timeout, $filter, UserService, campaignTasks, $q, contentStatuses, calendar, Restangular, notify, contentService, taskService) {
 
 		// different permissions
 		// calendar_execute_campaigns_own
@@ -15,6 +15,7 @@ launch.module.controller('CalendarController',
 		$scope.calendar = { };
 
 		var user = $scope.user = AuthService.userInfo();
+        $scope.users = UserService.getForAccount(user.account.id, null, self.ajaxHandler);
 		$scope.canCreate = user.hasPrivilege('calendar_execute_campaigns_own');
 		$scope.canExport = user.hasPrivilege('calendar_execute_export');
 		// $scope.canCreateTask = user.hasPrivilege('calendar_execute_schedule');
@@ -29,6 +30,11 @@ launch.module.controller('CalendarController',
         var campaignTasksCache = {};
         var campaignCache = {};
         var brainstormCache = {};
+        var key;
+        var campaignTasksKey;
+
+        var taskStart;
+        var taskEnd;
 
 		var calendarConfig = {
 			editable: false,
@@ -64,7 +70,7 @@ launch.module.controller('CalendarController',
                         })
                     };
 
-                    var key = start.unix()+'_'+end.unix();
+                    key = start.unix()+'_'+end.unix();
                     if(typeof(contentTasksCache[key]) !== 'undefined') {
                         var response = contentTasksCache[key];
                         var filtered = filterItems(response);
@@ -72,7 +78,10 @@ launch.module.controller('CalendarController',
                         return;
                     }
 
-                    Account.getList('content-tasks', {start: start.format('YYYY-MM-DD'), end: end.format('YYYY-MM-DD')})
+                    taskStart = start.format('YYYY-MM-DD');
+                    taskEnd = end.format('YYYY-MM-DD');
+
+                    Account.getList('content-tasks', {start: taskStart, end: taskEnd})
                         .then(function(response) {
                             _.each(response, function(task) {
                                 task.type = 'content_task';
@@ -84,7 +93,6 @@ launch.module.controller('CalendarController',
 
                             var events = makeEvents(filtered);
 
-                            console.log(events);
                             callback(events);
                         });
                 },
@@ -110,26 +118,28 @@ launch.module.controller('CalendarController',
                         })
                     };
 
-                    var key = start.unix()+'_'+end.unix();
-                    if(typeof(campaignTasksCache[key]) !== 'undefined') {
-                        var response = campaignTasksCache[key];
+                    campaignTasksKey = start.unix()+'_'+end.unix();
+                    if(typeof(campaignTasksCache[campaignTasksKey]) !== 'undefined') {
+                        var response = campaignTasksCache[campaignTasksKey];
                         var filtered = filterItems(response);
                         callback(makeEvents(filtered));
                         return;
                     }
 
-                    Account.getList('campaign-tasks', {start: start.format('YYYY-MM-DD'), end: end.format('YYYY-MM-DD')})
+                    campaignTaskStart = start.format('YYYY-MM-DD');
+                    campaignTaskEnd = end.format('YYYY-MM-DD');
+
+                    Account.getList('campaign-tasks', {start: campaignTaskStart, end: campaignTaskEnd})
                         .then(function(response) {
                             _.each(response, function(task) {
                                 task.type = 'campaign_task';
                                 task.isComplete = parseInt(task.isComplete);
                             });
-                            campaignTasksCache[key] = response;
+                            campaignTasksCache[campaignTasksKey] = response;
                             var filtered = filterItems(response);
 
                             var events = makeEvents(filtered);
 
-                            console.log(events);
                             callback(events);
                         });
                 },
@@ -169,7 +179,6 @@ launch.module.controller('CalendarController',
 
                             var events = makeEvents(filtered);
 
-                            console.log(events);
                             callback(events);
                         });
                 },
@@ -208,7 +217,6 @@ launch.module.controller('CalendarController',
 
                             var events = makeEvents(filtered);
 
-                            console.log(events);
                             callback(events);
                         });
                 }
@@ -216,6 +224,9 @@ launch.module.controller('CalendarController',
 		};
 
 		var Account = Restangular.one('account', user.account.id);
+        var Campaigns = Account.all('campaigns');
+        var originalResponses = { };
+
 		var originalResponses = { };
 		$scope.isLoaded = false;
 		var eventize;
@@ -293,6 +304,368 @@ launch.module.controller('CalendarController',
 			// so no need to do any more than post, which is handled in the service
 			campaignTasks.openModal([], { }, true);
 		};
+
+        $scope.openCalendar = function (opened, e) {
+            e.stopImmediatePropagation();
+
+            return !opened;
+        };
+
+        $scope.refreshCal = function () {
+            calendar.init(calendarConfig);
+        };
+
+        $scope.newContentTask = function () {
+            $modal.open({
+                templateUrl: 'create-content-task.html',
+                controller: [
+                    '$scope', '$modalInstance', function (scope1, instance) {
+
+                        task = new launch.Task();
+                        task.dueDate = new Date();
+                        task.isComplete = false;
+
+                        scope1.dateFormat = 'MM/dd/yyyy';
+                        scope1.minDate = new Date();
+                        scope1.task = task;
+
+                        scope1.taskGroups = {};
+                        scope1.taskGroup = {};
+                        scope1.collaborators = {};
+                        scope1.selectedContent = {};
+                        Account.getList('content').then(function (results) {
+                            scope1.contents = results;
+                        });
+                        scope1.content = {};
+
+                        if (moment(task.dueDate) < moment(scope1.minDate)) {
+                            scope1.minDate = task.dueDate;
+                        }
+
+                        scope1.openCalendar = $scope.openCalendar;
+
+                        scope1.getCollaborators = function() {
+
+                            var result = scope1.contents.filter(function( obj ) {
+                              return obj.id == scope1.task.contentId;
+                            });
+
+                            if (typeof result[0] !== 'undefined') {
+                                scope1.selectedContent = result[0];
+                                scope1.collaborators = $.grep($scope.users, function(u) {
+                                    if (u.id == $scope.user.id) {
+                                        return true;
+                                    }
+
+                                    if ($.isArray(result[0].collaborators) && result[0].collaborators.length > 0) {
+                                        if ($.grep(result[0].collaborators, function(c) { return c.id === u.id; }).length > 0) {
+                                            return true;
+                                        }
+                                    }
+
+                                    return false;
+                                });
+                                scope1.taskGroups = taskService.queryContentTasks($scope.user.account.id, scope1.task.contentId, {
+                                    success: function(r) {
+                                       scope1.taskGroup = r[0];
+                                       scope1.task.taskGroupId = scope1.taskGroup.id;
+                                       scope1.task.dueDate = new Date(moment(scope1.taskGroup.dueDate).format());
+                                    },
+                                    error: function() {
+                                        alert('error');
+                                    }
+                                });
+                            }
+                        };
+
+                        scope1.cancel = function () {
+                            instance.dismiss('cancel');
+                        };
+
+                        scope1.saveTaskGroup = function(createAnother) {
+
+                            scope1.taskGroup.tasks.push(scope1.task);
+                            var someTaskGroup = taskService.saveContentTasks($scope.user.account.id, scope1.taskGroup, {
+                                success: function (r) {
+
+                                    var returnedTask = r.tasks[r.tasks.length - 1];
+
+                                    var color = (scope1.selectedContent.campaign || { }).color || randomColor();
+
+                                    var calEvent = {
+                                        uniqId: 'content_task_' + returnedTask.id,
+                                        title: returnedTask.name,
+                                        contentTypeIconClass: launch.utils.getContentTypeIconClass((scope1.selectedContent.contentType || { }).key),
+                                        workflowIconCssClass: launch.utils.getWorkflowIconCssClass(contentStatuses[scope1.task.stepId]),
+                                        stage: contentStatuses[scope1.task.status],
+                                        circleColor: color,
+                                        start: scope1.task.dueDate,
+                                        type: 'content_task',
+                                        allDay: false, 
+                                        content: scope1.selectedContent,
+                                        className: 'calendar-task',
+                                        color: color,
+                                        textColor: 'whitesmoke'
+                                    };                            
+
+                                    calendar.addEvent(calEvent);
+
+                                    var task = {
+                                        contentTaskGroupId: scope1.taskGroup.id,
+                                        createdAt: returnedTask.created,
+                                        dateCompleted: null,
+                                        deletedAt: null,
+                                        dueDate: scope1.task.dueDate,
+                                        id: returnedTask.id,
+                                        isComplete: "0",
+                                        name: scope1.task.name,
+                                        taskGroup: scope1.taskGroup,
+                                        updatedAt: returnedTask.updated,
+                                        userId: returnedTask.userId,
+                                        user: null
+                                    };
+
+                                    originalResponses.tasks.push(task);
+
+                                    Account.getList('content-tasks', {start: taskStart, end: taskEnd})
+                                        .then(function(response) {
+                                            _.each(response, function(task) {
+                                                task.type = 'content_task';
+                                                task.stepId = task.taskGroup.status;
+                                                task.isComplete = parseInt(task.isComplete);
+                                            });
+                                            contentTasksCache[key] = response;
+                                        });
+
+                                    if (createAnother) {
+                                        scope1.task = task = new launch.Task();
+                                        scope1.task.dueDate = new Date();
+                                        scope1.task.isComplete = false;
+                                    } else {
+                                        instance.close();
+                                    }
+                                },
+                                error: function (r) {
+                                    notify.error('Error!', 'Unable to save Task. Please try again later.');
+                                }
+                            });
+                        };
+
+                        scope1.save = function (createAnother) {
+                            if (!scope1.task.contentId) {
+                                notify.error('Error!', 'Please select which piece of Content this belongs to.');
+                                return;
+                            }
+
+                            if (!scope1.task.userId) {
+                                notify.error('Error!', 'Please select an Assignee.');
+                                return;
+                            }
+
+                            if (!scope1.task.name) {
+                                notify.error('Error!', 'Please give you task a name.');
+                                return;
+                            }
+
+                            if (moment(scope1.task.dueDate).format("YYYY-MM-DD") > moment(scope1.taskGroup.dueDate).format("YYYY-MM-DD")) {
+                                $modal.open({
+                                    templateUrl: 'confirm.html',
+                                    controller: [
+                                        '$scope', '$modalInstance', function (scope2, inst) {
+                                            scope2.message = 'A Task\'s Due Date cannot be after the Task Group\'s Due Date. Do you want to extend the Due Date?';
+                                            scope2.okButtonText = 'Yes';
+                                            scope2.cancelButtonText = 'No';
+                                            scope2.onOk = function () {
+                                                scope1.taskGroup.dueDate = moment(scope1.task.dueDate).format("YYYY-MM-DD");
+                                                scope1.saveTaskGroup();
+                                                inst.close();
+                                                instance.close();
+                                            };
+                                            scope2.onCancel = function () {
+                                                inst.dismiss('cancel');
+                                            };
+                                        }
+                                    ]
+                                });
+
+                                return;
+                            }
+
+                            scope1.saveTaskGroup(createAnother);
+                        };
+                    }
+                ]
+            });
+        };
+
+        $scope.newCampaignTask = function () {
+                
+            $modal.open({
+                templateUrl: 'create-campaign-task.html',
+                controller: [
+                    '$scope', '$modalInstance', function (scope1, instance) {
+
+                        task = new launch.Task();
+                        task.dueDate = new Date();
+                        task.isComplete = false;
+
+                        scope1.dateFormat = 'MM/dd/yyyy';
+                        scope1.minDate = new Date();
+                        scope1.task = task;
+
+                        scope1.campaign = {};
+
+                        if (moment(task.dueDate) < moment(scope1.minDate)) {
+                            scope1.minDate = task.dueDate;
+                        }
+
+                        scope1.openCalendar = $scope.openCalendar;
+
+                        scope1.campaignList = $.grep($scope.campaigns, function(c) {
+                            return (($scope.filters.conceptsOn) ? parseInt(c.status) === 0 : parseInt(c.status) !== 0);
+                        });
+
+                        scope1.collaborators = {};
+
+                        scope1.getCollaborators = function() {
+
+                            Campaigns.get(scope1.task.campaignId).then(function (c) {
+                                scope1.setCollaborators(c);
+                            });
+                        };
+
+                        scope1.setCollaborators = function(ca) {
+                            scope1.campaign = ca;
+                            scope1.collaborators = $.grep($scope.users, function(u) {
+                                if (u.id == $scope.user.id) {
+                                    return true;
+                                }
+
+                                if ($.isArray(ca.collaborators) && ca.collaborators.length > 0) {
+                                    if ($.grep(ca.collaborators, function(c) { return c.id === u.id; }).length > 0) {
+                                        return true;
+                                    }
+                                }
+
+                                return false;
+                            });
+                        };
+
+                        scope1.cancel = function () {
+                            instance.dismiss('cancel');
+                        };
+
+                        scope1.saveCampaign = function () {
+                            scope1.campaign.put().then(function (camp) {
+                                // modify calendar campaign line
+                            });
+                        };
+
+                        scope1.save = function (createAnother) {
+                            
+                            if (!scope1.task.campaignId) {
+                                notify.error('Error!', 'Please select a Campaign.');
+                                return;
+                            }
+
+                            if (!scope1.task.user_id) {
+                                notify.error('Error!', 'Please select an Assignee.');
+                                return;
+                            }
+
+                            if (!scope1.task.name) {
+                                notify.error('Error!', 'Please give you task a name.');
+                                return;
+                            }
+
+                            if (moment(scope1.task.dueDate).format("YYYY-MM-DD") > moment(scope1.campaign.endDate).format("YYYY-MM-DD")) {
+                                $modal.open({
+                                    templateUrl: 'confirm.html',
+                                    controller: [
+                                        '$scope', '$modalInstance', function (scope2, inst) {
+                                            scope2.message = 'A Task\'s Due Date cannot be after the Campaigns\'s Due Date. Do you want to extend the Due Date?';
+                                            scope2.okButtonText = 'Yes';
+                                            scope2.cancelButtonText = 'No';
+                                            scope2.onOk = function () {
+                                                scope1.campaign.endDate = moment(scope1.task.dueDate).format("YYYY-MM-DD");
+                                                scope1.saveCampaign();
+                                                inst.close();
+                                                instance.close();
+                                            };
+                                            scope2.onCancel = function () {
+                                                inst.dismiss('cancel');
+                                            };
+                                        }
+                                    ]
+                                });
+
+                                return;
+                            }
+
+                            var Tasks = Account.one('campaigns', scope1.task.campaignId).all('tasks');
+
+                            Tasks.post(scope1.task).then(function (task) {
+
+                                var color = (scope1.campaign || { }).color || randomColor();
+
+                                var calEvent = {
+                                    uniqId: 'campaign_task_' + task.id,
+                                    title: task.name,
+                                    circleColor: color,
+                                    start: task.dueDate,
+                                    type: 'campaign_task',
+                                    allDay: false,
+                                    campaign: task.campaign,
+                                    className: 'calendar-task',
+                                    color: color,
+                                    textColor: 'whitesmoke'
+                                };
+
+                                calendar.addEvent(calEvent);
+
+                                var task = {
+                                    campaign: task.campaign,
+                                    campaignId: task.campaignId,
+                                    createdAt: task.createdAt,
+                                    dateCompleted: task.dateCompleted,
+                                    deletedAt: task.deletedAt,
+                                    dueDate: task.dueDate,
+                                    id: task.id,
+                                    isComplete: task.isComplete,
+                                    name: task.name,
+                                    updatedAt: task.updatedAt,
+                                    user: task.user,
+                                    userId: task.userId,
+                                };
+
+                                originalResponses.campaign_tasks.push(task);
+
+                                Account.getList('campaign-tasks', {start: campaignTaskStart, end: campaignTaskEnd})
+                                    .then(function(response) {
+                                        _.each(response, function(task) {
+                                            task.type = 'campaign_task';
+                                            task.isComplete = parseInt(task.isComplete);
+                                        });
+                                        campaignTasksCache[campaignTasksKey] = response;
+                                    });
+
+                                if (createAnother) {
+                                    scope1.task = task = new launch.Task();
+                                    scope1.task.dueDate = new Date();
+                                    scope1.task.isComplete = false;
+                                } else {
+                                    instance.close();                                    
+                                }
+                            });
+                        };
+                    }
+                ]
+            });
+                
+            
+
+            //e.stopImmediatePropagation();
+        };
 
 // Helpers
 		// -------------------------

@@ -48,7 +48,8 @@ class CampaignTaskUpdatedEmailQueue {
 				$initiatorData['email'],
 				$originalTaskData['name'],
 				$originalTaskData['due_date'],
-				$campaignData['title']
+				$campaignData['title'],
+				$campaignData['id']
 			);
 			return $job->delete();
 		}
@@ -60,10 +61,13 @@ class CampaignTaskUpdatedEmailQueue {
 			$email->sendCampaignTaskComplete(
 				$initiatorData['first_name'],
 				$initiatorData['last_name'],
+				$initiatorData['id'],
+				$originalAssigneeData['id'],
 				$originalAssigneeData['email'],
 				$originalTaskData['name'],
 				$originalTaskData['due_date'],
-				$campaignData['title']
+				$campaignData['title'],
+				$campaignData['id']
 			);
 			return $job->delete();
 		}
@@ -77,7 +81,8 @@ class CampaignTaskUpdatedEmailQueue {
 				$task->user->email,
 				$task->name,
 				$task->due_date,
-				$campaignData['title']
+				$campaignData['title'],
+				$campaignData['id']
 			);
 
 			return $job->delete();
@@ -93,7 +98,8 @@ class CampaignTaskUpdatedEmailQueue {
 				$task->user->email,
 				$task->name,
 				$task->due_date,
-				$campaignData['title']
+				$campaignData['title'],
+				$campaignData['id']
 			);
 
 			$email->sendCampaignTaskRemoval(
@@ -101,7 +107,8 @@ class CampaignTaskUpdatedEmailQueue {
 				$originalAssigneeData['email'], 
 				$originalTaskData['name'], 
 				$originalTaskData['due_date'],
-				$campaignData['title']
+				$campaignData['title'],
+				$campaignData['id']
 			);
 
 			return $job->delete();
@@ -118,7 +125,8 @@ class CampaignTaskUpdatedEmailQueue {
 				$originalTaskData['due_date'],
 				$task->name,
 				$task->due_date,
-				$campaignData['title']
+				$campaignData['title'],
+				$campaignData['id']
 			);
 		}
 

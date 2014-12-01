@@ -14,7 +14,7 @@ class BalancedTransferCommand extends Command {
 	 *
 	 * @var string
 	 */
-	protected $name = 'contentlaunch:balancedtransfer';
+	protected $name = 'cl:balancedtransfer';
 
 	/**
 	 * The console command description.
@@ -64,7 +64,6 @@ class BalancedTransferCommand extends Command {
 	private function processConversion($account)
 	{
 		$this->accountRepo->clearPaymentInfo($account);
-		$this->createBalancedCustomer($account);
 	}
 
 	private function createBalancedCustomer($account)

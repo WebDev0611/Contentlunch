@@ -23,7 +23,8 @@ class ContentTaskDeletedEmailQueue {
 			$data['initiatorData']['email'],
 			$data['taskData']['name'],
 			$data['taskData']['due_date'],
-			$data['contentData']['title']
+			$data['contentData']['title'],
+			$data['contentData']['id']
 		);
 
 		$job->delete();

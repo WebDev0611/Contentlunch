@@ -29,7 +29,8 @@ class ContentTaskNewEmailQueue {
 				$task->user->email,
 				$task->name,
 				$task->due_date,
-				$content->title
+				$content->title,
+				$content->id
 			);
 		}
 

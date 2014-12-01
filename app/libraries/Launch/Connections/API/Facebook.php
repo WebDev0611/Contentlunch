@@ -41,6 +41,20 @@ class FacebookAPI extends AbstractConnection
         return $this->me;
     }
 
+    public function getAccounts()
+    {
+        $session = $this->getClient();
+
+        $request = new FacebookRequest(
+            $session,
+            'GET',
+            '/me/accounts'
+        );
+
+        $response = $request->execute();
+        return $response->getGraphObject();
+    }
+
     /**
      * Get the external user / account id
      */

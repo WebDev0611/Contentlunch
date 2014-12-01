@@ -21,6 +21,10 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
             $('#js-cl-calendar').fullCalendar('refetchEvents');
         },
 
+        addEvent: function(event) {
+            $('#js-cl-calendar').fullCalendar( 'renderEvent', event );
+        },
+
         // @note that in all of these $interpolate functions,
         // the it will render stuff in {{ }}, but it is NOT a
         // full $compile and won't render stuff like ngRepeat

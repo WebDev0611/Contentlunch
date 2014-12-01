@@ -107,6 +107,7 @@
 				scope.mainMenu = [];
 				scope.adminMenu = [];
 				scope.userMenu = [];
+				scope.inTrial = false;
 			} else {
 				self.getLoggedInUser();
 
@@ -120,10 +121,12 @@
 
 		self.getLoggedInUser = function() {
 			scope.user = AuthService.userInfo();
+			scope.account = AuthService.accountInfo();
 			self.subscription = null;
 
 			if ($location.path().indexOf('/user/confirm') === 0 || $location.path().indexOf('/login') === 0 ||
 				$location.path().indexOf('/signup') === 0 || $location.path().indexOf('/collaborate/guest') === 0) {
+				scope.inTrial = false;
 				return;
 			}
 
@@ -132,8 +135,10 @@
 					success: function(user) {
 						if (launch.utils.isBlank(scope.user.id)) {
 							$location.path('/login');
+							scope.inTrial = false;
 						}
 
+						scope.account = AuthService.accountInfo();
 						console.log('CALLING getNavitationItems FROM getLoggedInUser (AFTER API REQUEST)');
 						self.getNavigationItems(true);
 						console.log('RETURNED ' + scope.mainMenu.length + ' ITEMS');
@@ -143,10 +148,20 @@
 				console.log('CALLING getNavitationItems FROM getLoggedInUser');
 				self.getNavigationItems(false);
 				console.log('RETURNED ' + scope.mainMenu.length + ' ITEMS');
+				scope.trialDays = scope.account.remainingTrialDays();
+
+				if (scope.trialDays == 1) {
+					scope.lastTrialDay = true;
+				}
+
+				scope.inTrial = scope.account.inTrial();
 			}
 		};
 
 		scope.user = null;
+		scope.account = null;
+		scope.lastTrialDay = false;
+		scope.inTrial = true;
 		scope.showNav = false;
 		scope.isSignup = false;
 		scope.mainMenu = [];

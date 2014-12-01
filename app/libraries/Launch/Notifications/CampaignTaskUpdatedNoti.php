@@ -51,7 +51,7 @@ class CampaignTaskUpdatedNoti {
 	            	'taskId' => $this->originalTaskData['id'],
 	                'originalTaskData' => $this->originalTaskData,
 	                'originalAssigneeData' => $this->originalAssigneeData,
-	                'campaignData' => ['title' => $campaign->title],
+	                'campaignData' => ['title' => $campaign->title, 'id' => $campaign->id],
 	                'initiatorData' => $this->initiator->toArray()
 	            ]
 	        );

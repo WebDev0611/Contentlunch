@@ -54,7 +54,7 @@ class ContentTaskUpdatedNoti {
 	                'taskId' => $this->dbTask->id,
 	                'originalTaskData' => $this->dbTask->toArray(),
 	                'originalAssigneeData' => $user->toArray(),
-	                'contentData' => ['title' => $content->title],
+	                'contentData' => ['title' => $content->title, 'id' => $content->id],
 	                'initiatorData' => $this->initiator->toArray(),
 	                'orignalName' => $this->dbTask->name,
 	                'orignalUser' => $this->dbTask->user_id,

@@ -134,6 +134,7 @@
 			account.userCount = parseInt(dto.count_users);
 			account.created = dto.created_at;
 			account.updated = dto.updated_at;
+			account.paymentDate = dto.payment_date;
 
 			account.subscription = self.subscription.fromDto(dto.account_subscription);
 
@@ -202,7 +203,8 @@
 				hasToken: account.hasToken,
 				strategy: account.strategy,
 				created_at: account.created,
-				updated_at: account.updated
+				updated_at: account.updated,
+				payment_date: account.paymentDate
 			};
 
 			if (!!account.creditCard && !launch.utils.isBlank(account.creditCard.cardNumber) && !launch.utils.isValidPattern(account.creditCard.cardNumber, /\*/)) {
@@ -249,6 +251,7 @@
 			account.phoneNumber = cachedAccount.phoneNumber;
 			account.created = cachedAccount.created;
 			account.updated = cachedAccount.updated;
+			account.paymentDate = cachedAccount.paymentDate;
 
 			account.subscription = self.subscription.fromCache(cachedAccount.subscription);
 

@@ -11,9 +11,9 @@ use Launch\Repositories\EmailRepository;
 
 class TaskReminderCommand extends ScheduledCommand {
 
-	protected $name = 'command:name';
+	protected $name = 'cl:taskreminder';
 
-	protected $description = 'Command description.';
+	protected $description = 'Sends reminder emails on tasks that are due tomorrow';
 
 	protected $email;
 
@@ -46,13 +46,14 @@ class TaskReminderCommand extends ScheduledCommand {
 
 			$content = Content::find($taskGroup->content_id);
 
-	    	$this->email->sendContentTaskReminder(
-	    		$contentTask->user->email,
-	    		$contentTask->user->first_name,
-	    		$contentTask->name,
-	    		$contentTask->due_date,
-	    		$content->title
-	    	);
+    	$this->email->sendContentTaskReminder(
+    		$contentTask->user->email,
+    		$contentTask->user->first_name,
+    		$contentTask->name,
+    		$contentTask->due_date,
+    		$content->title,
+        $content->id
+    	);
     }
 
     $campaignTasks = CampaignTask::
@@ -70,7 +71,8 @@ class TaskReminderCommand extends ScheduledCommand {
     		$campaignTask->user->first_name,
     		$campaignTask->name,
     		$campaignTask->due_date,
-    		$campaignTask->campaign->title
+    		$campaignTask->campaign->title,
+        $campaignTask->campaign->id
     	);
     }
 	}

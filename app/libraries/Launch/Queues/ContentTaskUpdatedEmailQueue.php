@@ -48,7 +48,8 @@ class ContentTaskUpdatedEmailQueue {
 				$initiatorData['email'],
 				$originalTaskData['name'],
 				$originalTaskData['due_date'],
-				$contentData['title']
+				$contentData['title'],
+				$contentData['id']
 			);
 			return $job->delete();
 		}
@@ -60,10 +61,13 @@ class ContentTaskUpdatedEmailQueue {
 			$email->sendContentTaskComplete(
 				$initiatorData['first_name'],
 				$initiatorData['last_name'],
+				$initiatorData['id'],
+				$originalAssigneeData['id'],
 				$originalAssigneeData['email'],
 				$originalTaskData['name'],
 				$originalTaskData['due_date'],
-				$contentData['title']
+				$contentData['title'],
+				$contentData['id']
 			);
 			return $job->delete();
 		}
@@ -77,7 +81,8 @@ class ContentTaskUpdatedEmailQueue {
 				$task->user->email,
 				$task->name,
 				$task->due_date,
-				$contentData['title']
+				$contentData['title'],
+				$contentData['id']
 			);
 
 			return $job->delete();
@@ -93,7 +98,8 @@ class ContentTaskUpdatedEmailQueue {
 				$task->user->email,
 				$task->name,
 				$task->due_date,
-				$contentData['title']
+				$contentData['title'],
+				$contentData['id']
 			);
 
 			$email->sendContentTaskRemoval(
@@ -101,7 +107,8 @@ class ContentTaskUpdatedEmailQueue {
 				$originalAssigneeData['email'], 
 				$originalTaskData['name'], 
 				$originalTaskData['due_date'],
-				$contentData['title']
+				$contentData['title'],
+				$contentData['id']
 			);
 
 			return $job->delete();
@@ -118,7 +125,8 @@ class ContentTaskUpdatedEmailQueue {
 				$originalTaskData['due_date'],
 				$task->name,
 				$task->due_date,
-				$contentData['title']
+				$contentData['title'],
+				$contentData['id']
 			);
 		}
 

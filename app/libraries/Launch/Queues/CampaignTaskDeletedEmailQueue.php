@@ -21,7 +21,8 @@ class CampaignTaskDeletedEmailQueue {
 			$data['initiatorData']['email'],
 			$data['taskData']['name'],
 			$data['taskData']['due_date'],
-			$data['campaignData']['title']
+			$data['campaignData']['title'],
+			$data['campaignData']['id']
 		);
 
 		$job->delete();

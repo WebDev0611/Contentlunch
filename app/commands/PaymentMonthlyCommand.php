@@ -33,7 +33,6 @@ class PaymentMonthlyCommand extends ScheduledCommand {
 
 	public function schedule(Schedulable $scheduler) 
 	{
-		return $scheduler;
 		return $scheduler
             ->daily()
             ->hours(16)
@@ -43,19 +42,24 @@ class PaymentMonthlyCommand extends ScheduledCommand {
 	public function fire() 
 	{
 		if ($accounts = $this->accountRepo->getDueMonthlyRenewAccounts()) {
+
 			foreach ($accounts as $account) {
+
 				try {
+
 					$balancedAccount = new Balanced($account);
 					$ammountCharged = $balancedAccount->charge($account);
+					$this->emailRepo->sendBillingInvoice($account, $ammountCharged);
+	    			$this->accountRepo->renewMonthlyAccount($account);
+
 				} catch (\Balanced\Errors\Error $e) {
-	    		$this->accountRepo->flagAccountForBillingError($account);
-	      	$this->emailRepo->sendBillingError($account);
-	      	Log::info("PaymentMonthlyCommand: payment rejected for {$account->id}");
-	    	}
-	    	$this->emailRepo->sendBillingInvoice($account, $ammountCharged);
-	    	$this->accountRepo->renewMonthlyAccount($account);
-	    	Log::info("PaymentMonthlyCommand: payment succeeded for {$account->id}");
+
+	      			$this->emailRepo->sendBillingError($account);
+	    			$this->accountRepo->flagAccountForBillingError($account);
+	      			Log::info("PaymentMonthlyCommand: payment rejected for {$account->id}");
+	    		}
 			}
+
 			$count = count($accounts);
 			Log::info("Success: PaymentMonthlyCommand: Handled $count accounts");
 		}
