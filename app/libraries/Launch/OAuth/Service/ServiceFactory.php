@@ -108,13 +108,13 @@ class ServiceFactory {
       break;
       case 'google-plus':
         // Needed for creating moments
-        $params['request_visible_actions'] = 'http://schemas.google.com/AddActivity http://schemas.google.com/CreateActivity'; //urlencode('http://schemas.google.com/AddActivity');
+        $params['request_visible_actions'] = 'http://schemas.google.com/AddActivity http://schemas.google.com/CreateActivity http://schema.org/CreativeWork http://schema.org/Thing'; //urlencode('http://schemas.google.com/AddActivity');
       case 'google': // youtube, g+, google docs
       case 'google-drive':
       case 'google-plus':
       case 'youtube':
       case 'blogger':
-        $params['access_type'] = 'offline';
+        $this->service->setAccessType('offline');
         $params['approval_prompt'] = 'force';
       break;
     }

@@ -45,30 +45,28 @@ class GooglePlusAPI extends GoogleAPI
         try {
             $client = $this->getClient();
 
-
             // set $requestVisibleActions to write moments
             $requestVisibleActions = [
-                'http://schema.org/CreateAction',];
+                'http://schema.org/CreativeWork',
+                'http://schemas.google.com/AddActivity',
+                'http://schema.org/Thing',
+                'http://schema.org/AddAction',
+                'http://schema.org/CreateAction'];
+
             $client->setRequestVisibleActions($requestVisibleActions);
 
             $service = new Google_Service_Plus($client, ['debug' => true]);
 
             $moment_body = new Google_Moment();
-//            $moment_body->setType("http://schemas.google.com/AddActivity");
-            $moment_body->setType("http://schema.org/CreateAction");
+            $moment_body->setType("http://schema.org/AddAction");
 
             $item_scope = new Google_ItemScope();
             $item_scope->setId("target-id-1");
-//            $item_scope->setType("http://schemas.google.com/AddActivity");
-            $item_scope->setType("http://schema.org/CreateAction");
+            $item_scope->setType("http://schema.org/AddAction");
             $item_scope->setName($content->title);
-            $item_scope->setDescription(strip_tags($content->body));
+            $item_scope->setDescription($content->body);
 
-            $upload = $content->upload()->first();
-            if ($upload && $upload->media_type == 'image') {
-                $item_scope->setImage($upload->getUrl());
-            }
-            $moment_body->setTarget($item_scope);
+            $moment_body->setObject($item_scope);
             $momentResult = $service->moments->insert('me', 'vault', $moment_body);
 
             $response['success'] = true;
@@ -76,7 +74,6 @@ class GooglePlusAPI extends GoogleAPI
             $response['external_id'] = $momentResult->id;
         } catch (\Exception $e) {
             $response['success'] = false;
-//      $response['response'] = $momentResult;
             $response['error'] = $e->getMessage();
         }
 

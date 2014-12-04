@@ -30,8 +30,16 @@ abstract class GoogleAPI extends AbstractConnection
 
                 $token = $this->getAccessToken();
 
+                $token = [
+                    "access_token" => $this->accountConnection['settings']['token']->getAccessToken(),
+                    "refresh_token" => $this->accountConnection['settings']['token']->getRefreshToken(),
+                    "token_type" => $this->accountConnection['settings']['token']->getExtraParams()['token_type'],
+                    "expires_in" => $this->accountConnection['settings']['token']->getEndOfLife(),
+                    "id_token" => $this->accountConnection['settings']['token']->getExtraParams()['id_token'],
+                    "created" => 1320790426,
+                ];
 
-                $this->client->setAccessToken($token);
+                $this->client->setAccessToken(json_encode($token));
             } catch (\Exception $e) {
                 // Token invalid, or unable to refresh token
                 throw new OAuthTokenException($e->getMessage());
