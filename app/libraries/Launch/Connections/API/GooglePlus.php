@@ -44,7 +44,7 @@ class GooglePlusAPI extends GoogleAPI
         $response = ['success' => true, 'response' => []];
         try {
             $client = $this->getClient();
-
+            
             // set $requestVisibleActions to write moments
             $requestVisibleActions = [
                 'http://schema.org/CreativeWork',
