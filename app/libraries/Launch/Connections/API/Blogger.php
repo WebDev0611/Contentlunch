@@ -124,7 +124,11 @@ class BloggerAPI extends GoogleAPI
             $post->setContent($body);
             $post->setTitle($content->title);
 
-            $apiResponse = $api->posts->insert($info['blogs']->items[0]['id'], $post);
+            $apiResponse = $api->posts->insert(
+                $info['blogs']->items[0]['id'], 
+                $post, 
+                ['isDraft' => true]);
+
             $response['success'] = true;
             $response['response'] = $apiResponse;
             $response['external_id'] = $apiResponse->getId();
