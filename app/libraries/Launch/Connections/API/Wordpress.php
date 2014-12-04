@@ -120,7 +120,8 @@ class WordpressAPI extends AbstractConnection
                 'body' => [
                     'title' => $content->title,
                     'content' => $content->body,
-                    'tags' => $tags
+                    'tags' => $tags,
+                    'status' => "draft"
                 ]
             ]);
             $response['success'] = true;
