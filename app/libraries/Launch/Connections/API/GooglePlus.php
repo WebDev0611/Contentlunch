@@ -51,22 +51,30 @@ class GooglePlusAPI extends GoogleAPI
                 'http://schemas.google.com/AddActivity',
                 'http://schema.org/Thing',
                 'http://schema.org/AddAction',
-                'http://schema.org/CreateAction'];
+                'http://schema.org/CreateAction',
+                'http://schema.org/url'];
 
             $client->setRequestVisibleActions($requestVisibleActions);
 
             $service = new Google_Service_Plus($client, ['debug' => true]);
 
             $moment_body = new Google_Moment();
-            $moment_body->setType("http://schema.org/AddAction");
+            $moment_body->setType("http://schema.org/CreateAction");
 
             $item_scope = new Google_ItemScope();
             $item_scope->setId("target-id-1");
-            $item_scope->setType("http://schema.org/AddAction");
-            $item_scope->setName($content->title);
-            $item_scope->setDescription($content->body);
+            $item_scope->setType("http://schema.org/CreativeWork");
+            $item_scope->setName(strip_tags($content->body));
+            $item_scope->setDescription(strip_tags($content->body));
+            $item_scope->setCaption(strip_tags($content->body));
 
-            $moment_body->setObject($item_scope);
+            $upload = \Upload::find($content->upload_id);
+            if ($upload && $upload->media_type == 'image') {
+                $item_scope->setImage($upload->getUrl());
+                $item_scope->setContentUrl($upload->getUrl());
+            }
+
+            $moment_body->setTarget($item_scope);
             $momentResult = $service->moments->insert('me', 'vault', $moment_body);
 
             $response['success'] = true;
