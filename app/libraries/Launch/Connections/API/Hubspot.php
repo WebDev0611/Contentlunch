@@ -20,10 +20,16 @@ class HubspotAPI extends AbstractConnection {
       $client = $this->getClient();
       $refreshToken = $this->accountConnection['settings']['refresh_token'];
       $response = $client->post(
-          'https://api.hubapi.com/auth/v1/refresh?refresh_token='. $refreshToken .'&client_id='. $this->config['key'] .'&grant_type=refresh_token',
+          'https://api.hubapi.com/auth/v1/refresh',
           ['headers' => [
-              'Content-Type' => 'application/x-www-form-urlencoded'
-          ]]
+              'Content-Type' => 'application/x-www-form-urlencoded',
+            ],
+            'body' => [
+              'refresh_token' => $refreshToken,
+              'client_id' => $this->config['key'],
+              'grant_type' => 'refresh_token'
+            ]
+          ]
       );
       $newToken = $response->json();
       // Update account connection
