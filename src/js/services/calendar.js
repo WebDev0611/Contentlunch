@@ -17,6 +17,21 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
             $elem.fullCalendar(config);
         },
 
+        getEvents: function() {
+            var theseEvents = $('#js-cl-calendar').fullCalendar('clientEvents');
+        },
+
+        getCampaign: function(campaignId) {
+            var theseEvents = $('#js-cl-calendar').fullCalendar('clientEvents');
+            return theseEvents.filter(function( obj ) {
+              return obj.uniqId == ("campaign_" + campaignId);
+            }); 
+        },
+
+        updateEvent: function(event) {
+            $('#js-cl-calendar').fullCalendar('updateEvent', event);
+        },
+
         refresh: function() {
             $('#js-cl-calendar').fullCalendar('refetchEvents');
         },

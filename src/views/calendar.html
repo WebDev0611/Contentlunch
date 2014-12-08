@@ -199,7 +199,7 @@
 					<select id="selTaskCampaign" name="selTaskCampaign" type="text"ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="task.contentId"
 							data-placeholder="Select Content" ng-change="getCollaborators()">
 						<option value=""></option>
-						<option ng-repeat="c in contents" value="{{ c.id }}">{{ c.title }}</option>
+						<option ng-repeat="c in contents|orderBy:'title'" value="{{ c.id }}">{{ c.title }}</option>
 					</select>
 				</div>
 

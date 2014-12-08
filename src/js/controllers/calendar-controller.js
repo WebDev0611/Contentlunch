@@ -367,7 +367,7 @@ launch.module.controller('CalendarController',
                                 });
                                 scope1.taskGroups = taskService.queryContentTasks($scope.user.account.id, scope1.task.contentId, {
                                     success: function(r) {
-                                       scope1.taskGroup = r[0];
+                                       scope1.taskGroup = r[scope1.selectedContent.status - 1];
                                        scope1.task.taskGroupId = scope1.taskGroup.id;
                                        scope1.task.dueDate = new Date(moment(scope1.taskGroup.dueDate).format());
                                     },
@@ -442,7 +442,7 @@ launch.module.controller('CalendarController',
                                         scope1.task.dueDate = new Date();
                                         scope1.task.isComplete = false;
                                     } else {
-                                        instance.close();
+                                        instance.dismiss('cancel');
                                     }
                                 },
                                 error: function (r) {
@@ -463,7 +463,7 @@ launch.module.controller('CalendarController',
                             }
 
                             if (!scope1.task.name) {
-                                notify.error('Error!', 'Please give you task a name.');
+                                notify.error('Error!', 'Please give your task a name.');
                                 return;
                             }
 
@@ -477,9 +477,8 @@ launch.module.controller('CalendarController',
                                             scope2.cancelButtonText = 'No';
                                             scope2.onOk = function () {
                                                 scope1.taskGroup.dueDate = moment(scope1.task.dueDate).format("YYYY-MM-DD");
-                                                scope1.saveTaskGroup();
+                                                scope1.saveTaskGroup(createAnother);
                                                 inst.close();
-                                                instance.close();
                                             };
                                             scope2.onCancel = function () {
                                                 inst.dismiss('cancel');
@@ -487,11 +486,9 @@ launch.module.controller('CalendarController',
                                         }
                                     ]
                                 });
-
-                                return;
-                            }
-
-                            scope1.saveTaskGroup(createAnother);
+                            } else {
+                                scope1.saveTaskGroup(createAnother);
+                            }  
                         };
                     }
                 ]
@@ -555,9 +552,63 @@ launch.module.controller('CalendarController',
                             instance.dismiss('cancel');
                         };
 
-                        scope1.saveCampaign = function () {
+                        scope1.saveCampaign = function (createAnother) {
                             scope1.campaign.put().then(function (camp) {
-                                // modify calendar campaign line
+                                var Tasks = Account.one('campaigns', scope1.task.campaignId).all('tasks');
+
+                                Tasks.post(scope1.task).then(function (task) {
+
+                                    var color = (scope1.campaign || { }).color || randomColor();
+
+                                    var calEvent = {
+                                        uniqId: 'campaign_task_' + task.id,
+                                        title: task.name,
+                                        circleColor: color,
+                                        start: task.dueDate,
+                                        type: 'campaign_task',
+                                        allDay: false,
+                                        campaign: task.campaign,
+                                        className: 'calendar-task',
+                                        color: color,
+                                        textColor: 'whitesmoke'
+                                    };
+
+                                    calendar.addEvent(calEvent);
+
+                                    var task = {
+                                        campaign: task.campaign,
+                                        campaignId: task.campaignId,
+                                        createdAt: task.createdAt,
+                                        dateCompleted: task.dateCompleted,
+                                        deletedAt: task.deletedAt,
+                                        dueDate: task.dueDate,
+                                        id: task.id,
+                                        isComplete: task.isComplete,
+                                        name: task.name,
+                                        updatedAt: task.updatedAt,
+                                        user: task.user,
+                                        userId: task.userId,
+                                    };
+
+                                    originalResponses.campaign_tasks.push(task);
+
+                                    Account.getList('campaign-tasks', {start: campaignTaskStart, end: campaignTaskEnd})
+                                        .then(function(response) {
+                                            _.each(response, function(task) {
+                                                task.type = 'campaign_task';
+                                                task.isComplete = parseInt(task.isComplete);
+                                            });
+                                            campaignTasksCache[campaignTasksKey] = response;
+                                        });
+
+                                    if (createAnother) {
+                                        scope1.task = task = new launch.Task();
+                                        scope1.task.dueDate = new Date();
+                                        scope1.task.isComplete = false;
+                                    } else {
+                                        instance.close();                                    
+                                    }
+                                });
                             });
                         };
 
@@ -587,10 +638,12 @@ launch.module.controller('CalendarController',
                                             scope2.okButtonText = 'Yes';
                                             scope2.cancelButtonText = 'No';
                                             scope2.onOk = function () {
-                                                scope1.campaign.endDate = moment(scope1.task.dueDate).format("YYYY-MM-DD");
-                                                scope1.saveCampaign();
                                                 inst.close();
-                                                instance.close();
+                                                scope1.campaign.endDate = moment(scope1.task.dueDate).format("YYYY-MM-DD");
+                                                var campaignEvent = calendar.getCampaign(scope1.campaign.id);
+                                                campaignEvent[0].end = scope1.campaign.endDate;
+                                                calendar.updateEvent(campaignEvent[0]);
+                                                scope1.saveCampaign(createAnother);
                                             };
                                             scope2.onCancel = function () {
                                                 inst.dismiss('cancel');
@@ -598,73 +651,13 @@ launch.module.controller('CalendarController',
                                         }
                                     ]
                                 });
-
-                                return;
+                            } else {
+                                scope1.saveCampaign(createAnother);
                             }
-
-                            var Tasks = Account.one('campaigns', scope1.task.campaignId).all('tasks');
-
-                            Tasks.post(scope1.task).then(function (task) {
-
-                                var color = (scope1.campaign || { }).color || randomColor();
-
-                                var calEvent = {
-                                    uniqId: 'campaign_task_' + task.id,
-                                    title: task.name,
-                                    circleColor: color,
-                                    start: task.dueDate,
-                                    type: 'campaign_task',
-                                    allDay: false,
-                                    campaign: task.campaign,
-                                    className: 'calendar-task',
-                                    color: color,
-                                    textColor: 'whitesmoke'
-                                };
-
-                                calendar.addEvent(calEvent);
-
-                                var task = {
-                                    campaign: task.campaign,
-                                    campaignId: task.campaignId,
-                                    createdAt: task.createdAt,
-                                    dateCompleted: task.dateCompleted,
-                                    deletedAt: task.deletedAt,
-                                    dueDate: task.dueDate,
-                                    id: task.id,
-                                    isComplete: task.isComplete,
-                                    name: task.name,
-                                    updatedAt: task.updatedAt,
-                                    user: task.user,
-                                    userId: task.userId,
-                                };
-
-                                originalResponses.campaign_tasks.push(task);
-
-                                Account.getList('campaign-tasks', {start: campaignTaskStart, end: campaignTaskEnd})
-                                    .then(function(response) {
-                                        _.each(response, function(task) {
-                                            task.type = 'campaign_task';
-                                            task.isComplete = parseInt(task.isComplete);
-                                        });
-                                        campaignTasksCache[campaignTasksKey] = response;
-                                    });
-
-                                if (createAnother) {
-                                    scope1.task = task = new launch.Task();
-                                    scope1.task.dueDate = new Date();
-                                    scope1.task.isComplete = false;
-                                } else {
-                                    instance.close();                                    
-                                }
-                            });
                         };
                     }
                 ]
             });
-                
-            
-
-            //e.stopImmediatePropagation();
         };
 
 // Helpers
