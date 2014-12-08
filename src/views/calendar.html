@@ -150,7 +150,7 @@
 					<select id="selTaskCampaign" name="selTaskCampaign" type="text"ui-select2="{ formatResult: formatUserItem, formatSelection: formatUserItem, selectOnBlur: true }" ng-model="task.campaignId"
 							data-placeholder="Select Campaign" ng-change="getCollaborators()">
 						<option value=""></option>
-						<option ng-repeat="c in campaignList" value="{{ c.id }}">{{ c.title }}</option>
+						<option ng-repeat="c in campaignList|orderBy:'title'" value="{{ c.id }}">{{ c.title }}</option>
 					</select>
 				</div>
 
