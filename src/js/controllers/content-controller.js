@@ -1002,47 +1002,75 @@
 			}
 
 			if (connection.provider == 'linkedin') {
-				// popup
-				$modal.open({
-					templateUrl: '/assets/views/dialogs/linkedin-launch-options.html',
-					controller: function($scope, $modalInstance) {
-						$scope.connection = connection;
-						$scope.options = { };
+				var today = moment();
 
-						$scope.cancel = function() {
-							$modalInstance.dismiss('cancel');
-						};
+				var connectionLastUpdated = moment([
+					connection.updated.getFullYear(), 
+					connection.updated.getMonth() + 1, 
+					connection.updated.getDay()]);
 
-						$scope.ok = function(opts) {
-							// set extraParams with options
-							opts = opts.timeOrGroup == 'group' ? opts : false;
-							if (opts) {
-								opts.groupId = opts.selectedGroup;
-								opts.groupName = ((_.findWhere($scope.groups, { id: opts.groupId }) || { }).group || { }).name;
-								opts.groupId = opts.selectedGroup;
-							}
-							launch(opts);
-							$modalInstance.close();
-						};
+				if (today.diff(connectionLastUpdated, 'days') > 50 &&
+					!window.launch.utils.isBlank(self.loggedInUser.account) &&
+					!window.launch.utils.isBlank(self.loggedInUser.account.id)) {
 
-						$scope.showGroups = function(timeOrGroup) {
-							$scope.showGroupList = false;
+					$modal.open({
+						templateUrl: '/assets/views/dialogs/linkedin-refresh-connection.html',
+						controller: function($scope, $modalInstance) {
+							$scope.connection = connection;
 
-							if (timeOrGroup == 'group') {
-								$scope.showGroupListLoader = true;
-								// get groups and show list
-								Restangular.one('account', self.loggedInUser.account.id)
-									.one('connections', connection.id).getList('groups')
-									.then(function(groups) {
-										$scope.groups = groups;
-										$scope.showGroupList = true;
-									}).catch($scope.globalErrorHandler).then(function() {
-										$scope.showGroupListLoader = false;
-									});
-							}
-						};
-					}
-				});
+							$scope.cancel = function() {
+								$modalInstance.dismiss('cancel');
+							};
+
+							$scope.ok = function(opts) {
+								// set extraParams with options
+								var authUrl = '/api/account/' + self.loggedInUser.account.id + '/connections/create?connection_id=' + connection.connectionId;
+								window.location = authUrl;
+							};
+						}
+					});
+				} else {
+					$modal.open({
+						templateUrl: '/assets/views/dialogs/linkedin-launch-options.html',
+						controller: function($scope, $modalInstance) {
+							$scope.connection = connection;
+							$scope.options = { };
+
+							$scope.cancel = function() {
+								$modalInstance.dismiss('cancel');
+							};
+
+							$scope.ok = function(opts) {
+								// set extraParams with options
+								opts = opts.timeOrGroup == 'group' ? opts : false;
+								if (opts) {
+									opts.groupId = opts.selectedGroup;
+									opts.groupName = ((_.findWhere($scope.groups, { id: opts.groupId }) || { }).group || { }).name;
+									opts.groupId = opts.selectedGroup;
+								}
+								launch(opts);
+								$modalInstance.close();
+							};
+
+							$scope.showGroups = function(timeOrGroup) {
+								$scope.showGroupList = false;
+
+								if (timeOrGroup == 'group') {
+									$scope.showGroupListLoader = true;
+									// get groups and show list
+									Restangular.one('account', self.loggedInUser.account.id)
+										.one('connections', connection.id).getList('groups')
+										.then(function(groups) {
+											$scope.groups = groups;
+											$scope.showGroupList = true;
+										}).catch($scope.globalErrorHandler).then(function() {
+											$scope.showGroupListLoader = false;
+										});
+								}
+							};
+						}
+					});
+				}
 			} else if (connection.provider == 'acton') {
 				// popup
 				$modal.open({

@@ -38,7 +38,7 @@ class LinkedInAPI extends AbstractConnection implements Connection
 
             // need to pass params to please the fn definition, but actual
             // values are only needed if we are using oauth, I think...
-            $this->linkedIn = new LinkedIn(null, null);
+            $this->linkedIn = new LinkedIn($this->config['key'], $this->config['secret']);
             $this->linkedIn->setAccessToken($accountConnection['settings']['token']->getAccessToken());
         }
     }

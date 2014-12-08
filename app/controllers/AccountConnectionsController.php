@@ -23,6 +23,14 @@ class AccountConnectionsController extends BaseController {
           break;
           case 'linkedin':
             $className = 'LinkedInAPI';
+            if ($this->isNearExpiration($connection)) {
+              $connection->updated_at = '2014-08-22 00:00:00';
+              DB::table('account_connections')
+                ->where('id', $connection->id)
+                ->update([
+                  'updated_at' => '2014-08-22 00:00:00'
+                ]);
+            }
           break;
           default:
             $className = ucwords($connection->connection_provider) .'API';
@@ -491,6 +499,16 @@ class AccountConnectionsController extends BaseController {
       $success = 0;
     }
     return [$success, $response];
+  }
+
+  private function isNearExpiration($connection)
+  {
+    $endOfLife = $connection->settings['token']->getEndOfLife();
+    $date = new DateTime();
+    $date->setTimestamp($endOfLife);
+    $expireDate = new \Carbon\Carbon($date->format('Y-m-d'));
+    $today = \Carbon\Carbon::now();
+    return $today->diffInDays($expireDate, false) < 10;
   }
 
 }
