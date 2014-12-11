@@ -1,9 +1,7 @@
 <?php
 
 use \Carbon\Carbon;
-use Launch\Notifications\CampaignTaskUpdatedNoti;
-use Launch\Notifications\CampaignTaskNewNoti;
-use Launch\Notifications\CampaignTaskDeletedNoti;
+use Launch\Notifications\TaskNotificationHandler;
 
 class CampaignTaskController extends BaseController {
 
@@ -72,13 +70,17 @@ class CampaignTaskController extends BaseController {
             return $this->responseAccessDenied();
         }
 
+        $initiator = Confide::user();
+
+        $notificationHandler = new TaskNotificationHandler($initiator, 'Campaign');
+
         $task = new CampaignTask;
         $task->campaign_id = $campaignID;
         if ($task->save()) {
             // add task person to list of collaborators if they don't already exist
             $this->addToCampaignCollaborators($accountID, $campaignID, $task->user_id);
 
-            $taskNoti = new CampaignTaskNewNoti($task->id);
+            $notificationHandler->queueNewTask($task->toArray());
 
             return $this->show($accountID, $campaignID, $task->id);
         }
@@ -97,17 +99,18 @@ class CampaignTaskController extends BaseController {
         }
 
         $initiator = Confide::user();
+        $notificationHandler = new TaskNotificationHandler($initiator, 'Campaign');
 
         $task = CampaignTask::find($taskID);
 
-        $originalTaskData = $task->toArray();
+        $originalTask = $task->toArray();
 
         $user = User::find($task->user_id);
 
         if ($task->save()) {
             // add task person to list of collaborators if they don't already exist
             $this->addToCampaignCollaborators($accountID, $campaignID, $task->user_id);
-            $taskNoti = new CampaignTaskUpdatedNoti($initiator, $task, $originalTaskData, $user->toArray());
+            $notificationHandler->queueUpdatedTask($originalTask, $task->toArray());
             return $this->show($accountID, $campaignID, $task->id);
         }
 
@@ -127,13 +130,14 @@ class CampaignTaskController extends BaseController {
         $initiator = Confide::user();
         $task = CampaignTask::find($taskID);
         $assignee = User::find($task->user_id);
+        $notificationHandler = new TaskNotificationHandler($initiator, 'Campaign');
 
         $initiator = $initiator->toArray();
         $assignee = $assignee->toArray();
         $taskData = $task->toArray();
 
         if ($task->delete()) {
-            $taskNoti = new CampaignTaskDeletedNoti($initiator, $taskData, $assignee);
+            $notificationHandler->queueDeletedTask($task->toArray());
             return array('success' => 'OK');
         }
 

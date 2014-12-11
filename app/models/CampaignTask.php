@@ -38,4 +38,9 @@ class CampaignTask extends Ardent {
         return $this->belongsTo('User');
     }
 
+    public function subscribers()
+    {
+        return $this->hasMany('CampaignTaskSubscriber');
+    }
+
 }

@@ -1,9 +1,7 @@
 <?php
 
 use \Carbon\Carbon;
-use Launch\Notifications\ContentTaskUpdatedNoti;
-use Launch\Notifications\ContentTaskNewNoti;
-use Launch\Notifications\ContentTaskDeletedNoti;
+use Launch\Notifications\TaskNotificationHandler;
 
 class ContentTaskGroupController extends BaseController {
 
@@ -62,6 +60,8 @@ class ContentTaskGroupController extends BaseController {
 
         $initiator = Confide::user();
 
+        $notificationHandler = new TaskNotificationHandler($initiator, 'Content');
+
         $newTask = false;
         $updatedTask = false;
         $deletedTask = false;
@@ -110,11 +110,11 @@ class ContentTaskGroupController extends BaseController {
             }
 
             if (!$newTask) {
-                $updateNoti = new ContentTaskUpdatedNoti($initiator, $task, $t);
+                $notificationHandler->queueUpdatedTask($task->toArray(), $t);
             }
 
             // Only update if things have actually changed..
-            if (!$newTask && $updateNoti->isTaskUpdated()) {
+            if (!$newTask) {
                 $task->fill($t);
             } else {
                 $task = $task->fill($t);
@@ -131,7 +131,7 @@ class ContentTaskGroupController extends BaseController {
             }
 
             if ($newTask) {
-                $newNoti = new ContentTaskNewNoti($task->id);
+                $notificationHandler->queueNewTask($task->toArray());
             }
 
         }
@@ -141,7 +141,7 @@ class ContentTaskGroupController extends BaseController {
         foreach ($taskCheck as $id => $deleteTask) {
             if (!$deleteTask) {
                 $deletedTask = ContentTask::find($id);
-                $deletedNoti = new ContentTaskDeletedNoti($initiator, $deletedTask);
+                $notificationHandler->queueDeletedTask($deletedTask->toArray());
                 $deleteTaskIDs[] = $id;
             }
         }

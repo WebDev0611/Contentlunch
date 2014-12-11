@@ -80,15 +80,16 @@ background-color: #f6f6f6;
 
 								<tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
 									<td class="content-block" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 10px 0 10px;" valign="top">
-										{{{ $someoneHas }}} marked <i><strong style='color: #6da5ff;'>{{{ $taskName }}}</strong></i> on the <a style="text-decoration: none;" href="{{ $contentUrl }}"><strong style="color: #990000">{{ $contentTitle }}</strong></a> content as complete.
+										{{{ $someoneHasText }}} marked <i><strong style='color: #6da5ff;'>{{{ $currentTaskName }}}</strong></i> on the <a style="text-decoration: none;" href="{{ $taskParentUrl }}"><strong style="color: #990000">{{ $taskParentTitle }}</strong></a> {{ $taskParentType }} as complete.
 									</td>
 								</tr>
 
 								<tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
 									<td class="alert alert-warning" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 16px; vertical-align: top; border-radius: 3px 3px 0 0; background: #efefef; margin: 0; padding: 10px;" valign="top">
-										<strong>Task:</strong> {{{ $taskName }}}<br/>
-										<strong>Due:</strong> {{ $taskDueDate }}<br/>
-										<strong>Content:</strong> <a style="" href="{{ $contentUrl }}">{{{ $contentTitle }}}</a><br/>
+										<strong>Task:</strong> {{{ $currentTaskName }}}<br/>
+										<strong>Assignee:</strong> {{{ $currentAssigneeFirstName }}} {{{ $currentAssigneeLastName }}}<br/>
+										<strong>Due:</strong> {{ $currentTaskDueDate }}<br/>
+										<strong>{{ $taskParentType }}:</strong> <a style="" href="{{ $taskParentUrl }}">{{{ $taskParentTitle }}}</a><br/>
 									</td>
 								</tr>
 								

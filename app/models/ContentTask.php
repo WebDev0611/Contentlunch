@@ -35,6 +35,11 @@
             return $this->belongsTo('User');
         }
 
+        public function subscribers()
+        {
+            return $this->hasMany('ContentTaskSubscriber');
+        }
+
         public static function boot() {
             parent::boot();
 

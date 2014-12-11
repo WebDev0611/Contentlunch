@@ -87,6 +87,7 @@ background-color: #f6f6f6;
 								<tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
 									<td class="alert alert-warning" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 16px; vertical-align: top; border-radius: 3px 3px 0 0; background: #efefef; margin: 0; padding: 10px;" valign="top">
 										<strong>Task:</strong> {{{ $taskName }}}<br/>
+										<strong>Assignee:</strong> {{{ $assigneeFirstName }}} {{{ $assigneeLastName }}}<br/>
 										<strong>Due:</strong> {{ $taskDueDate }}<br/>
 										<strong>Campaign:</strong> <a style="" href="{{ $campaignUrl }}">{{{ $campaignTitle }}}</a><br/>
 									</td>

@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>You have been assigned a new Task</title>
+<title>You have been unassigned from a Task</title>
 
 
 <style type="text/css">
@@ -67,8 +67,8 @@ background-color: #f6f6f6;
 							<table width="100%" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
 
 								<tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
-									<td class="alert alert-warning" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 16px; vertical-align: top; color: #fff; font-weight: 500; text-align: center; border-radius: 3px 3px 0 0; background: #6da5ff; margin: 0; padding: 10px;" align="center" valign="top">
-										You have been assigned a new Task
+									<td class="alert alert-warning" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 16px; vertical-align: top; color: #fff; font-weight: 500; text-align: center; border-radius: 3px 3px 0 0; background: #2BBA3E; margin: 0; padding: 10px;" align="center" valign="top">
+										You have been unassigned from a Task
 									</td>
 								</tr>
 
@@ -79,22 +79,17 @@ background-color: #f6f6f6;
 								</tr>
 
 								<tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
-									<td class="content-block" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 10px 0 0px;" valign="top">
-										Hi {{{ $assigneeFirstName }}},
-									</td>
-								</tr>
-
-								<tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
 									<td class="content-block" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 10px 0 10px;" valign="top">
-										You have been assigned the Task <i><strong style='color: #6da5ff;'>{{{ $taskName }}}</strong></i> on the <a style="text-decoration: none;" href="{{ $contentUrl }}"><strong style="color: #990000">{{{ $contentTitle }}}</strong></a> Content.
+										{{ $someoneHasText }} unassigned {{ $whoIsUnassignedText }} from <i><strong style='color: #6da5ff;'>{{{ $originalTaskName }}}</strong></i> on the <a style="text-decoration: none;" href="{{ $taskParentUrl }}"><strong style="color: #990000">{{ $taskParentTitle }}</strong></a> {{ $taskParentType }}.
 									</td>
 								</tr>
 
 								<tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
 									<td class="alert alert-warning" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 16px; vertical-align: top; border-radius: 3px 3px 0 0; background: #efefef; margin: 0; padding: 10px;" valign="top">
-										<strong>Task:</strong> {{{ $taskName }}}<br/>
-										<strong>Due:</strong> {{ $taskDueDate }}<br/>
-										<strong>Content:</strong> <a style="" href="{{ $contentUrl }}">{{{ $contentTitle }}}</a><br/>
+										<strong>Task:</strong> {{{ $originalTaskName }}}<br/>
+										<strong>Assignee:</strong> {{{ $originalAssigneeFirstName }}} {{{ $originalAssigneeFirstName }}}<br/>
+										<strong>Due:</strong> {{ $currentTaskDueDate }}<br/>
+										<strong>{{ $taskParentType }}:</strong> <a style="" href="{{ $taskParentUrl }}">{{{ $taskParentTitle }}}</a><br/>
 									</td>
 								</tr>
 								
@@ -109,3 +104,4 @@ background-color: #f6f6f6;
 
 </body>
 </html>
+

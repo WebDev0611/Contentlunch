@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>A Task has been updated</title>
+<title>A Task has been reopened</title>
 
 
 <style type="text/css">
@@ -67,8 +67,8 @@ background-color: #f6f6f6;
 							<table width="100%" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
 
 								<tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
-									<td class="alert alert-warning" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 16px; vertical-align: top; color: #fff; font-weight: 500; text-align: center; border-radius: 3px 3px 0 0; background: #ff9f00; margin: 0; padding: 10px;" align="center" valign="top">
-										A Task has been updated
+									<td class="alert alert-warning" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 16px; vertical-align: top; color: #fff; font-weight: 500; text-align: center; border-radius: 3px 3px 0 0; background: #6da5ff; margin: 0; padding: 10px;" align="center" valign="top">
+										A Task has been reopened
 									</td>
 								</tr>
 
@@ -80,21 +80,16 @@ background-color: #f6f6f6;
 
 								<tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
 									<td class="content-block" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 10px 0 10px;" valign="top">
-										@if ($orignalTaskName == $taskName && $orignalTaskDueDate != $taskDueDate)
-											The due date for <i><strong style='color: #6da5ff;'>{{ $taskName }}</strong></i> on the <a style="text-decoration: none;" href="{{ $campaignUrl }}"><strong style="color: #990000">{{ $campaignTitle }}</strong></a> Campaign has been change from {{ $orignalTaskDueDate }} to <strong>{{ $formattedTaskDueDate }}</strong>.
-										@elseif ($orignalTaskName != $taskName && $orignalTaskDueDate == $taskDueDate)
-											The task <i>{{ $orignalTaskName }}</i> on the <a style="text-decoration: none;" href="{{ $campaignUrl }}"><strong style="color: #990000">{{ $campaignTitle }}</strong></a> Campaign has been changed to <i><strong style='color: #6da5ff;'>{{{ $taskName }}}</strong></i>. The due date remains the same at <strong>{{ $formattedTaskDueDate }}</strong>.
-										@elseif ($orignalTaskName != $taskName && $orignalTaskDueDate != $taskDueDate)
-											The task <i>{{ $orignalTaskName }}</i> on the <a style="text-decoration: none;" href="{{ $campaignUrl }}"><strong style="color: #990000">{{ $campaignTitle }}</strong></a> Campaign has been changed to <i><strong style='color: #6da5ff;'>{{{ $taskName }}}</strong></i>. The due date has also changed from {{ $orignalTaskDueDate }} to <strong>{{ $formattedTaskDueDate }}</strong>.
-										@endif
+										{{{ $someoneHasText }}} reopened the Task <i><strong style='color: #6da5ff;'>{{{ $currentTaskName }}}</strong></i> on the <a style="text-decoration: none;" href="{{ $taskParentUrl }}"><strong style="color: #990000">{{ $taskParentTitle }}</strong></a> {{ $taskParentType }}.
 									</td>
 								</tr>
 
 								<tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
 									<td class="alert alert-warning" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 16px; vertical-align: top; border-radius: 3px 3px 0 0; background: #efefef; margin: 0; padding: 10px;" valign="top">
-										<strong>Task:</strong> {{{ $taskName }}}<br/>
-										<strong>Due:</strong> {{ $formattedTaskDueDate }}<br/>
-										<strong>Campaign:</strong> <a style="" href="{{ $campaignUrl }}">{{{ $campaignTitle }}}</a><br/>
+										<strong>Task:</strong> {{{ $currentTaskName }}}<br/>
+										<strong>Assignee:</strong> {{{ $currentAssigneeFirstName }}} {{{ $currentAssigneeLastName }}}<br/>
+										<strong>Due:</strong> {{ $currentTaskDueDate }}<br/>
+										<strong>{{ $taskParentType }}:</strong> <a style="" href="{{ $taskParentUrl }}">{{{ $taskParentTitle }}}</a><br/>
 									</td>
 								</tr>
 								

@@ -33,10 +33,11 @@ class TaskReminderCommand extends ScheduledCommand {
 
 	public function fire()
 	{
+    \Log::info('Running task reminder');
+
 		$contentTasks = ContentTask::
       whereDueDate(Carbon::today()->addDay()->toDateString())
       ->whereIsComplete(0)
-      ->whereDeletedAt(null)
       ->with('user')
       ->get();
 
@@ -46,35 +47,98 @@ class TaskReminderCommand extends ScheduledCommand {
 
 			$content = Content::find($taskGroup->content_id);
 
-    	$this->email->sendContentTaskReminder(
-    		$contentTask->user->email,
-    		$contentTask->user->first_name,
-    		$contentTask->name,
-    		$contentTask->due_date,
-    		$content->title,
-        $content->id
-    	);
+      $subscribers = false;
+
+      $subs = $contentTask->subscribers;
+      if ($subs) {
+        foreach ($subs as $sub) {
+          $subscribers[] = $sub->user;
+        }
+      }
+
+      // Older tasks do not have a notion of subscribers
+      // so send email to task assignee if no
+      // subscribers exist
+      if ($subscribers) {
+        foreach ($subscribers as $subscriber) {
+          $this->sendContentTaskReminder(
+            $contentTask,
+            $content,
+            $subscriber
+          );
+        }
+      } else {
+        $this->sendContentTaskReminder(
+            $contentTask,
+            $content,
+            $contentTask->user
+          );
+      }
     }
 
     $campaignTasks = CampaignTask::
       whereDueDate(Carbon::today()->addDay()->toDateString())
       ->whereIsComplete(0)
-      ->whereDeletedAt(null)
       ->with('user')
       ->with('campaign')
       ->get();
 
     foreach ($campaignTasks as $campaignTask) {
 
-    	$this->email->sendCampaignTaskReminder(
-    		$campaignTask->user->email,
-    		$campaignTask->user->first_name,
-    		$campaignTask->name,
-    		$campaignTask->due_date,
-    		$campaignTask->campaign->title,
-        $campaignTask->campaign->id
-    	);
+      $subscribers = false;
+
+      $subs = $campaignTask->subscribers;
+      if ($subs) {
+        foreach ($subs as $sub) {
+          $subscribers[] = $sub->user;
+        }
+      }
+
+      // Older tasks do not have a notion of subscribers
+      // so send email to task assignee if no
+      // subscribers exist
+      if ($subscribers) {
+        foreach ($subscribers as $subscriber) {
+          $this->sendCampaignTaskReminder(
+            $campaignTask,
+            $campaignTask->campaign,
+            $subscriber
+          );
+        }
+      } else {
+        $this->sendCampaignTaskReminder(
+            $campaignTask,
+            $campaignTask->campaign,
+            $campaignTask->user
+          );
+      }
     }
 	}
+
+  public function sendContentTaskReminder($task, $content, $user)
+  {
+    $this->email->sendContentTaskReminder(
+        $user->email,
+        $task->user->first_name,
+        $task->user->last_name,
+        $task->name,
+        $task->due_date,
+        $content->title,
+        $content->id
+      );
+  }
+
+  public function sendCampaignTaskReminder($task, $campaign, $user)
+  {
+    $this->email->sendCampaignTaskReminder(
+        $user->email,
+        $task->user->first_name,
+        $task->user->last_name,
+        $task->name,
+        $task->due_date,
+        $campaign->title,
+        $campaign->id
+      );
+  }
 
 }
