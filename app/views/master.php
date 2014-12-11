@@ -34,6 +34,7 @@
     <footer></footer>
 
     <script type="text/javascript" src="/assets/js/build.js?version=<?php echo Config::get('app.version') ?>"></script>
+    <script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion_async.js" charset="utf-8"></script>
     <script type="text/javascript" src="https://js.balancedpayments.com/1.1.11/balanced.js"></script>
 	<script type="text/javascript" src="/assets/js/app.js?version=<?php echo Config::get('app.version') ?>"></script>
     <script type="text/javascript" src="/assets/js/tinymce/tinymce.min.js"></script>
