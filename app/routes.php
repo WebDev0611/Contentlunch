@@ -268,6 +268,9 @@ Route::group(['prefix' => 'api'], function()
 
 });
 
+// HasOffers postback
+Route::get('redirect/contentlaunch', 'HasOffersController@createCookies');
+
 Route::get('password/reset/{code}', 'AuthController@check_reset');
 
 // If a file doesn't exist in the public/image folder yet,
