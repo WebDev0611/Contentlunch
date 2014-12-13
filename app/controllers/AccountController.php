@@ -62,6 +62,8 @@ class AccountController extends BaseController {
 			// Send account creation email
 			$this->resend_creation_email($account->id, $checkAuth);
 
+			App::make('HasOffersController')->store($account->id);
+
 			// Save default personas and settings
 			// Save content settings
 		    $settings = new AccountContentSettings;
