@@ -391,6 +391,27 @@ class AccountConnectionsController extends BaseController {
     return $linkedIn->getGroups($page, $perPage);
   }
 
+  private function companies($accountID, $connectionID)
+  {
+    if (!$this->inAccount($accountID)) {
+      return $this->responseAccessDenied();
+    }
+
+    if (!Request::isMethod('get')) return $this->responseError('groups action only accepts GET requests');
+
+    $connectionData = $this->show($accountID, $connectionID);
+    if ($connectionData->connection->provider != 'linkedin') return $this->responseError('groups action is only valid if the provider is linkedin');
+
+    $linkedIn = ConnectionConnector::loadAPI($connectionData->connection->provider, $connectionData);
+
+    $page = Input::get('page');
+    if (!$page) $page = 0;
+    $perPage = Input::get('perPage');
+    if (!$perPage) $perPage = 1000;
+
+    return $linkedIn->getCompanies();
+  }
+
   private function messageGroup($accountID, $connectionID)
   {
     if (!$this->inAccount($accountID)) {

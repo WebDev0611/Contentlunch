@@ -416,6 +416,8 @@
             try {
                 if (($groupID = Input::get('group_id'))) {
                     $response = $api->postToGroup($content, $groupID);
+                } elseif ($companyId = Input::get('companyId')) {
+                    $response = $api->postToCompany($content, $companyId);
                 }
                 else {
                     $response = $api->postContent($content);

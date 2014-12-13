@@ -11,6 +11,10 @@
                 <input ng-change="showGroups(options.timeOrGroup)" type="radio" name="timeOrGroup" ng-model="options.timeOrGroup" value="group">
                 Group
             </label>
+            <label style="display: inline-block; margin-right: 12px;">
+                <input ng-change="showGroups(options.timeOrGroup)" type="radio" name="timeOrGroup" ng-model="options.timeOrGroup" value="company">
+                Company
+            </label>
 
             <div ng-show="showGroupListLoader">
                 <spinner class="inline-spinner" spin-if="showGroupListLoader"></spinner>
@@ -18,7 +22,7 @@
             </div>
 
             <div ng-show="showGroupList">
-                <h4>Choose a group</h4>
+                <h4>Choose a Group</h4>
 
                 <div ng-repeat="item in groups">
                     <label>
@@ -27,6 +31,23 @@
                     </label>
                 </div>
             </div>
+
+            <div ng-show="showCompanyListLoader">
+                <spinner class="inline-spinner" spin-if="showCompanyListLoader"></spinner>
+                Getting a list of companies...
+            </div>
+
+            <div ng-show="showCompanyList">
+                <h4>Choose a Company</h4>
+
+                <div ng-repeat="item in companies">
+                    <label>
+                        <input type="radio" name="company" ng-model="options.selectedCompany" value="{{ item.id }}">
+                        {{ item.name }}
+                    </label>
+                </div>
+            </div>
+
         </div>
     </form>
 </div>
@@ -35,6 +56,6 @@
         <small>Hitting cancel will only cancel this LinkedIn content from launch.<br>Any other connections you chose will still launch.</small>
     </div>
 
-    <button class="btn btn-primary btn-black" ng-disabled="!(options.timeOrGroup == 'timeline' || (options.timeOrGroup == 'group' && options.selectedGroup))" ng-click="ok(options)">Launch</button>
+    <button class="btn btn-primary btn-black" ng-disabled="!(options.timeOrGroup == 'timeline' || (options.timeOrGroup == 'group' && options.selectedGroup) || (options.timeOrGroup == 'company' && options.selectedCompany))" ng-click="ok(options)">Launch</button>
     <button class="btn btn-warning btn-black" ng-click="cancel()">Cancel</button>
 </div>

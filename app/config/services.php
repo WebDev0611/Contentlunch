@@ -114,7 +114,7 @@ return [
   'linkedin' => [
     'key' => '75v9b2qqxfhxrf',
     'secret' => 'EpLWyw4wv73LyW57',
-    'scope' => ['rw_nus', 'r_basicprofile', 'r_network', 'w_messages', 'r_fullprofile', 'rw_groups'],
+    'scope' => ['rw_nus', 'r_basicprofile', 'r_network', 'w_messages', 'r_fullprofile', 'rw_groups', 'rw_company_admin'],
     'callback_domain' => 'http://local.contentlaunch.com',
     'metric' => [
         'key' => 'likes',

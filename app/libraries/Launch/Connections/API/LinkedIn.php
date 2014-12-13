@@ -205,6 +205,41 @@ class LinkedInAPI extends AbstractConnection implements Connection
         ];
     }
 
+    public function postToCompany($content, $companyId)
+    {
+        // If no image, just posting the content body as a comment
+        $payload = [
+            'comment' => $this->stripTags($content->body),
+            'visibility' => [
+                'code' => 'anyone'
+            ]
+        ];
+
+        $upload = $content->upload()->first();
+        if ($upload && $upload->media_type == 'image') {
+            $payload['content'] = [
+                'title' => $this->stripTags($content->title),
+                'submitted-url' => $upload->getImageUrl('large'),
+                'submitted-image-url' => $upload->getImageUrl('large')
+            ];
+        }
+
+        $response = $this->linkedIn->api("v1/companies/{$companyId}/shares", [], 'POST', $payload);
+
+        if (isset($response['errorCode'])) {
+            return [
+                'success' => false,
+                'error' => $response['message'],
+                'response' => $response
+            ];
+        }
+        return [
+            'success' => true,
+            // this response doesn't actually return anything on success
+            'response' => $response ? : true,
+            'external_id' => $response['updateKey']
+        ];
+    }
 
     /**
      * Send a direct message to the IDs passed in with the provided message data
@@ -260,6 +295,13 @@ class LinkedInAPI extends AbstractConnection implements Connection
     public function getGroups($page = 0, $perPage = 1000)
     {
         $result = $this->linkedIn->api('v1/people/~/group-memberships'); // ['count' => $perPage, 'start' => $page]);
+        return $this->processResult($result);
+    }
+
+    public function getCompanies()
+    {
+        $client = $this->getClient();
+        $result = $client->api('v1/companies', ['is-company-admin' => 'true']);
         return $this->processResult($result);
     }
 

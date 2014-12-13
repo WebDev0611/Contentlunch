@@ -1042,11 +1042,19 @@
 
 							$scope.ok = function(opts) {
 								// set extraParams with options
-								opts = opts.timeOrGroup == 'group' ? opts : false;
+								opts = (opts.timeOrGroup == 'group' || opts.timeOrGroup == 'company') ? opts : false;
 								if (opts) {
-									opts.groupId = opts.selectedGroup;
-									opts.groupName = ((_.findWhere($scope.groups, { id: opts.groupId }) || { }).group || { }).name;
-									opts.groupId = opts.selectedGroup;
+
+									if (opts.timeOrGroup == 'group') {
+										opts.groupId = opts.selectedGroup;
+										opts.groupName = ((_.findWhere($scope.groups, { id: opts.groupId }) || { }).group || { }).name;
+										opts.groupId = opts.selectedGroup;
+									} else if (opts.timeOrGroup == 'company') {
+										opts.companyId = opts.selectedCompany;
+										opts.companyName = ((_.findWhere($scope.groups, { id: opts.companyId }) || { }).company || { }).name;
+										opts.companyId = opts.selectedCompany;
+									}
+									
 								}
 								launch(opts);
 								$modalInstance.close();
@@ -1054,6 +1062,7 @@
 
 							$scope.showGroups = function(timeOrGroup) {
 								$scope.showGroupList = false;
+								$scope.showCompanyList = false;
 
 								if (timeOrGroup == 'group') {
 									$scope.showGroupListLoader = true;
@@ -1065,6 +1074,17 @@
 											$scope.showGroupList = true;
 										}).catch($scope.globalErrorHandler).then(function() {
 											$scope.showGroupListLoader = false;
+										});
+								} else if (timeOrGroup == 'company') {
+									$scope.showCompanyListLoader = true;
+									// get companies and show list
+									Restangular.one('account', self.loggedInUser.account.id)
+										.one('connections', connection.id).getList('companies')
+										.then(function(companies) {
+											$scope.companies = companies;
+											$scope.showCompanyList = true;
+										}).catch($scope.globalErrorHandler).then(function() {
+											$scope.showCompanyListLoader = false;
 										});
 								}
 							};

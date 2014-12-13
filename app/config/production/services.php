@@ -86,7 +86,7 @@ return [
   'linkedin' => [
     'key' => '75uo3uakvtr7e1',
     'secret' => '4TFxfxhiA4P2rt5l',
-    'scope' => ['rw_nus', 'r_basicprofile', 'r_network', 'w_messages', 'r_fullprofile', 'rw_groups'],
+    'scope' => ['rw_nus', 'r_basicprofile', 'r_network', 'w_messages', 'r_fullprofile', 'rw_groups', 'rw_company_admin'],
     'metric' => [
         'key' => 'likes',
         'max' => '10',
