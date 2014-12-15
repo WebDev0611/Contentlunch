@@ -213,16 +213,6 @@
 	</div>
 
 	<div class="control-group">
-		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'buyingStage', editContent.selBuyingStage, forceDirty) }">
-			<label for="selBuyingStage">Buying Stage</label>
-			<select name="selBuyingStage" id="selBuyingStage" ng-disabled="isReadOnly"
-					ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem, allowClear: true }" ng-model="content.buyingStage" data-placeholder="Select Buying Stage"
-					error-message error-message-item="content" error-message-property="'buyingStage'" error-message-control="editContent.selBuyingStage">
-				<option value=""></option>
-				<option ng-repeat="bs in buyingStages" value="{{ $index }}">{{ bs }}</option>
-			</select>
-		</div>
-
 		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'persona', editContent.selPersona, forceDirty) }">
 			<label for="selPersona">Persona</label>
 			<select name="selPersona" id="selPersona" ng-disabled="isReadOnly"
@@ -230,6 +220,16 @@
 					error-message error-message-item="content" error-message-property="'persona'" error-message-control="editContent.selPersona">
 				<option value=""></option>
 				<option ng-repeat="p in contentSettings.personas" value="{{ p.name }}">{{ p.name }}</option>
+			</select>
+		</div>
+		
+		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'buyingStage', editContent.selBuyingStage, forceDirty) }">
+			<label for="selBuyingStage">Buying Stage</label>
+			<select name="selBuyingStage" id="selBuyingStage" ng-disabled="isReadOnly"
+					ui-select2="{ formatResult: formatBuyingStageItem, formatSelection: formatBuyingStageItem, allowClear: true }" ng-model="content.buyingStage" data-placeholder="Select Buying Stage"
+					error-message error-message-item="content" error-message-property="'buyingStage'" error-message-control="editContent.selBuyingStage">
+				<option value=""></option>
+				<option ng-repeat="bs in buyingStages" value="{{ $index }}">{{ bs }}</option>
 			</select>
 		</div>
 

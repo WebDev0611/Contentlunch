@@ -52,7 +52,8 @@
 			return false;
 		}
 
-		if (!(new RegExp(pattern).test(s.toLowerCase()))) {
+		if (!(new RegExp(pattern).test(s)) && 
+			!(new RegExp(pattern).test(s.toLowerCase()))) {
 			return false;
 		}
 
@@ -947,6 +948,11 @@
             return true;
         }
 
+        if (content.contentType.name === 'casestudy' && 
+        	(connection.provider === 'wordpress' || connection.provider === 'blogger' || connection.provider === 'tumblr')) {
+        	return true;	
+        }
+
 
 		switch (content.contentType.baseType) {
 			case 'audio':
@@ -956,6 +962,8 @@
 			case 'document':
 				return (connection.provider === 'dropbox' || connection.provider === 'google-drive' || connection.provider === 'salesforce');
 			case 'generic_file':
+				return (connection.provider === 'dropbox' || connection.provider === 'google-drive' || connection.provider === 'salesforce');
+			case 'attached_file':
 				return (connection.provider === 'dropbox' || connection.provider === 'google-drive' || connection.provider === 'salesforce');
 			case 'email':
 				return (connection.provider === 'constant-contact');

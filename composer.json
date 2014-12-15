@@ -39,9 +39,12 @@
     "google/apiclient": "1.1.2",
     "traackr/traackr-api-php": "dev-master",
     "vimeo/vimeo-api": "dev-master",
-    "orchestra/imagine": "dev-master",
+    "orchestra/support-providers": "3.0.*@dev",
+    "orchestra/imagine": "3.0.*@dev",
     "aweber/aweber": "~1.1.12",
-    "indatus/dispatcher": "1.*"
+    "indatus/dispatcher": "1.*",
+    "soundasleep/html2text": "~0.2",
+    "barryvdh/laravel-dompdf": "0.4.*"
 	},
 	"autoload": {
 		"classmap": [

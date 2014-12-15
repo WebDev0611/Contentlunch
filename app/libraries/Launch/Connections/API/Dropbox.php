@@ -48,14 +48,52 @@ class DropboxAPI extends AbstractConnection {
 
   public function postContent($content)
   {
+    $contentType = $content->content_type()->first();
+
+    if ($contentType->key == 'ebook' && $content->body != null) {
+      return $this->postEbookContent($content);
+    } else {
+      $response = ['success' => false, 'response' => []];
+      $client = $this->getClient();
+      if ( ! $client) {
+        return $apiResponseonse;
+      }
+      try {
+        $f = fopen($content->upload->getAbsPath(), 'rb');
+        $apiResponse = $client->uploadFile('/'. $content->upload['filename'], WriteMode::add(), $f);
+        fclose($f);
+        if ( ! $apiResponse) {
+          throw new \Exception("Couldn't upload file");
+        }
+        $response['success'] = true;
+        $response['response'] = $apiResponse;
+      }
+      catch (\Exception $e) {
+        $response['success'] = false;
+        $response['response'] = $apiResponse;
+        $response['error'] = $e->getMessage();
+      }
+      return $response;
+    } 
+  }
+
+  public function postEbookContent($content)
+  {
     $response = ['success' => false, 'response' => []];
     $client = $this->getClient();
     if ( ! $client) {
       return $apiResponseonse;
     }
     try {
-      $f = fopen($content->upload->getAbsPath(), 'rb');
-      $apiResponse = $client->uploadFile('/'. $content->upload['filename'], WriteMode::add(), $f);
+      $filePath = base_path() . "/public/tmp_content_ebook_{$content->id}.pdf";
+      $pdf = \App::make('dompdf');
+      $pdf->loadHTML($content->body);
+      $file = fopen($filePath, "w");
+      fwrite($file, $pdf->stream());
+      fclose($file);
+
+      $f = fopen($filePath, 'rb');
+      $apiResponse = $client->uploadFile('/'. $content->title, WriteMode::add(), $f);
       fclose($f);
       if ( ! $apiResponse) {
         throw new \Exception("Couldn't upload file");
