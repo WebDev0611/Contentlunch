@@ -111,7 +111,7 @@ class TumblrAPI extends AbstractConnection
         // Setup post params
         $params = [
             'type' => 'text',
-            'state' => 'published',
+            'state' => 'draft',
             'format' => 'html',
             'title' => $content->title,
             'body' => $content->body
