@@ -9,7 +9,8 @@
 
 	self.allowText = function () {
 		return (self.baseType === 'audio' || self.baseType === 'blog_post' || self.baseType === 'email' || self.baseType === 'long_html' ||
-				self.baseType === 'photo' || self.baseType === 'social_media_post' || self.baseType === 'video');
+				self.baseType === 'photo' || self.baseType === 'social_media_post' || self.baseType === 'video' ||
+				self.name === 'casestudy' || self.name === 'ebook');
 	};
 
 	self.requireText = function () {

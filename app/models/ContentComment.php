@@ -41,7 +41,7 @@ class ContentComment extends Ardent {
 
   public function user()
   {
-    return $this->belongsTo('User');
+    return $this->belongsTo('User')->with('image');
   }
 
   public function guest()

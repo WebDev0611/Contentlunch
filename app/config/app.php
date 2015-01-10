@@ -120,6 +120,8 @@ return [
     'Way\Generators\GeneratorsServiceProvider',
 
     'Indatus\Dispatcher\ServiceProvider',
+
+    'Barryvdh\DomPDF\ServiceProvider',
   ],
 
   /*
@@ -198,6 +200,8 @@ return [
     'VimeoService' => 'Launch\OAuth\Service\Vimeo',
 
     'Twitter' => 'Thujohn\Twitter\TwitterFacade',
+
+    'PDF' => 'Barryvdh\DomPDF\Facade',
   ],
 
   'balanced' => [

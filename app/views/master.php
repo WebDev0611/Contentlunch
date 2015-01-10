@@ -6,6 +6,7 @@
     <meta name="keywords" content="Content Launch" />
     <meta name="description" content="Content Launch" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://contentlaunch.com/favicon.ico" type="image/vnd.microsoft.icon" />
 
 	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css" />
 	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap-components.css" />
@@ -24,7 +25,6 @@
         $jquery1_11_1 = $.noConflict(true);
     </script>
 
-    <link rel="shortcut icon" href="/favicon.ico">
 </head>
 <body onunload="">
 	<header ng-cloak navigation-template></header>
