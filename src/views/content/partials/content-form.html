@@ -222,6 +222,18 @@
 				<option ng-repeat="p in contentSettings.personas" value="{{ p.name }}">{{ p.name }}</option>
 			</select>
 		</div>
+
+		<div class="form-group">
+			<label for="selSecondaryPersona">Secondary Persona</label>
+			<select name="selSecondaryPersona" id="selSecondaryPersona" ng-disabled="isReadOnly"
+					ui-select2="{ allowClear: true }" ng-model="content.secondaryPersona" data-placeholder="Select Secondary Persona">
+				<option value=""></option>
+				<option ng-repeat="p in contentSettings.personas" value="{{ p.name }}">{{ p.name }}</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="control-group">
 		
 		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'buyingStage', editContent.selBuyingStage, forceDirty) }">
 			<label for="selBuyingStage">Buying Stage</label>
@@ -233,19 +245,6 @@
 			</select>
 		</div>
 
-		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'campaign', editContent.selCampaign, forceDirty) }">
-			<label for="selCampaign">Campaign</label>
-			<select name="selCampaign" id="selCampaign" ng-disabled="isReadOnly"
-					ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, allowClear: true }" ng-model="content.campaign.id"
-					data-placeholder="Select Campaign" ng-change="updateCampaign()"
-					error-message error-message-item="content" error-message-property="'campaign'" error-message-control="editContent.selCampaign">
-				<option value=""></option>
-				<option ng-repeat="c in campaigns" value="{{ c.id }}" data-color="{{ c.color }}">{{ c.title + (!!c.isEnded() ? ' (Campaign Ended)' : '') }}</span></option>
-			</select>
-		</div>
-	</div>
-					
-	<div class="control-group">
 		<div class="form-group">
 			<label for="selSecondaryBuyingStage">Secondary Buying Stage</label>
 			<select name="selSecondaryBuyingStage" id="selSecondaryBuyingStage" ng-disabled="isReadOnly"
@@ -256,12 +255,17 @@
 			</select>
 		</div>
 
-		<div class="form-group">
-			<label for="selSecondaryPersona">Secondary Persona</label>
-			<select name="selSecondaryPersona" id="selSecondaryPersona" ng-disabled="isReadOnly"
-					ui-select2="{ allowClear: true }" ng-model="content.secondaryPersona" data-placeholder="Select Secondary Persona">
+	</div>
+					
+	<div class="control-group">
+		<div class="form-group" ng-class="{ 'has-error': hasError(content, 'campaign', editContent.selCampaign, forceDirty) }">
+			<label for="selCampaign">Campaign</label>
+			<select name="selCampaign" id="selCampaign" ng-disabled="isReadOnly"
+					ui-select2="{ formatResult: formatCampaignItem, formatSelection: formatCampaignItem, allowClear: true }" ng-model="content.campaign.id"
+					data-placeholder="Select Campaign" ng-change="updateCampaign()"
+					error-message error-message-item="content" error-message-property="'campaign'" error-message-control="editContent.selCampaign">
 				<option value=""></option>
-				<option ng-repeat="p in contentSettings.personas" value="{{ p.name }}">{{ p.name }}</option>
+				<option ng-repeat="c in campaigns" value="{{ c.id }}" data-color="{{ c.color }}">{{ c.title + (!!c.isEnded() ? ' (Campaign Ended)' : '') }}</span></option>
 			</select>
 		</div>
 	</div>
