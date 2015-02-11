@@ -74,7 +74,7 @@
 			if (launch.utils.isBlank($scope.user.lastName)) { msg += '\nLast Name is required.'; }
 			//if (launch.utils.isBlank($scope.user.title)) { msg += '\nTitle is required.'; }
 			if (launch.utils.isBlank($scope.user.businessName)) { msg += '\nBusiness Name is required.'; }
-			//if (launch.utils.isBlank($scope.user.phoneNumber)) { msg += '\nPhone Number is required.'; }
+			if (launch.utils.isBlank($scope.user.phoneNumber)) { msg += '\nPhone Number is required.'; }
 
 			if (launch.utils.isBlank($scope.user.emailAddress)) {
 				msg += '\nEmail Address is required.';
