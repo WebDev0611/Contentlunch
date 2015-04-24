@@ -11,7 +11,7 @@ class Account extends Ardent {
 
 	public static $rules = [
 		//'title' => 'required|min:5|unique:accounts',
-		'name' => 'required|min:5',
+		'name' => 'required|min:2',
         'email' => 'unique:accounts'
 	];
 
