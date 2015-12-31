@@ -17,7 +17,7 @@ class ModulesCreateTable extends Migration {
       $table->increments('id')->unsigned();
       $table->string('name')->unique();
       $table->string('title');
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 
     // Creates the account_module table

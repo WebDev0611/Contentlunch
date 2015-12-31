@@ -18,7 +18,7 @@ class LaunchesCreateTable extends Migration {
       $table->integer('account_connection_id')->references('id')->on('account_connection_id')->onDelete('cascade');
       $table->boolean('success');
       $table->text('response')->nullable();
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 	}
 

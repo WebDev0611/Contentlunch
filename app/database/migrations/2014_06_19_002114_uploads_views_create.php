@@ -16,7 +16,7 @@ class UploadsViewsCreate extends Migration {
       $table->increments('id');
       $table->integer('upload_id')->references('id')->on('uploads')->onDelete('cascade');
       $table->integer('user_id')->references('id')->on('users')->onDelete('cascade');
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
       $table->unique('upload_id', 'user_id');
     });
 	}

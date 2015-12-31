@@ -21,28 +21,28 @@ class LibrarySetup extends Migration {
       $table->string('name');
       $table->text('description')->nullable();
       $table->integer('user_id')->references('id')->on('users')->onDelete('cascade');
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 
 		Schema::create('library_uploads', function ($table) {
       $table->increments('id');
       $table->integer('upload_id')->references('id')->on('uploads')->onDelete('cascade');
       $table->integer('library_id')->references('id')->on('library')->onDelete('cascade');
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 
     Schema::create('upload_ratings', function ($table) {
       $table->increments('id');
       $table->integer('upload_id')->references('id')->on('uploads')->onDelete('cascade');
       $table->integer('rating');
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 
     Schema::create('upload_tags', function ($table) {
       $table->increments('id');
       $table->integer('upload_id')->references('id')->on('uploads')->onDelete('cascade');
       $table->string('tag');
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 
     // Add global library needed for global admin

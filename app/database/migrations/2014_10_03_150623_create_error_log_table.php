@@ -15,7 +15,7 @@ class CreateErrorLogTable extends Migration {
         Schema::create('error_logs', function(Blueprint $table) {
             $table->increments('id');
             $table->text('error');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
         });
 	}
 

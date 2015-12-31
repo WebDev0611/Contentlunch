@@ -13,7 +13,7 @@ class AddStrategyToAccount extends Migration {
     public function up()
     {
         Schema::table('accounts', function (Blueprint $table) {
-            $table->text('strategy')->null()->after('balanced_info');
+            $table->text('strategy')->nullable()->after('balanced_info');
         });
     }
 

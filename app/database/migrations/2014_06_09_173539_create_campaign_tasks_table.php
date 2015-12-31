@@ -26,7 +26,7 @@ class CreateCampaignTasksTable extends Migration {
             $table->date('date_completed')->nullable();
             $table->boolean('is_complete')->default(false);
 
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

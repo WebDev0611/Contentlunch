@@ -17,7 +17,7 @@ class CreateContentTasksTable extends Migration {
             $table->integer('status'); // 1 = create
             $table->date('due_date');
             $table->integer('content_id');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
         });
 
         Schema::create('content_tasks', function ($table) {
@@ -27,7 +27,7 @@ class CreateContentTasksTable extends Migration {
             $table->string('name');
             $table->integer('user_id');
             $table->integer('content_task_group_id');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

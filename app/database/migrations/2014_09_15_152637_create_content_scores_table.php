@@ -25,7 +25,7 @@ class CreateContentScoresTable extends Migration {
             $table->float('onsiteScore')->nullable();
             $table->float('score')->nullable();
             $table->softDeletes();
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 
             $table->unique(['content_id', 'date']);
             $table->foreign('content_id')

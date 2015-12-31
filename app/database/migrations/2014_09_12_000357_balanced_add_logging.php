@@ -18,7 +18,7 @@ class BalancedAddLogging extends Migration {
 			$table->integer('account_id')->references('id')->on('accounts')->onDelete('cascade');
 			$table->integer('user_id')->references('id')->on('users')->onDelete('cascade');
 			$table->text('response');
-			$table->timestamps();
+			$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 		});
 	}
 

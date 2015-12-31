@@ -16,7 +16,7 @@ class CreateCampaignUploadsTable extends Migration {
             $table->increments('id');
             $table->integer('campaign_id')->unsigned();
             $table->integer('upload_id')->unsigned();
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

@@ -17,7 +17,7 @@ class ConfideSetupUsersTable extends Migration {
       $table->string('username');
       $table->string('email');
       $table->string('password');
-      $table->string('confirmation_code');
+      $table->string('confirmation_code')->default("0");
       $table->boolean('confirmed')->default(false);
       $table->string('first_name', 100)->nullable();
       $table->string('last_name', 100)->nullable();
@@ -30,7 +30,8 @@ class ConfideSetupUsersTable extends Migration {
       $table->integer('image')->nullable();
       $table->integer('status')->default(0);
       $table->string('title')->nullable();
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+      $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
       $table->softDeletes();
     });
 
@@ -39,7 +40,7 @@ class ConfideSetupUsersTable extends Migration {
     {
       $t->string('email');
       $t->string('token');
-      $t->timestamp('created_at');
+      $t->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 
     // Insert the admin super user

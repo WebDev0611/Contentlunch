@@ -25,7 +25,7 @@ class ConferencesSetup extends Migration {
       $table->string('replay_link')->nullable();
       $table->integer('user_id')->references('id')->on('users')->onDelete('cascade');
       $table->integer('account_id')->references('id')->on('accounts')->onDelete('cascade');
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 	}
 

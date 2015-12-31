@@ -32,7 +32,7 @@ class AccountsCreateTable extends Migration {
       $table->string('payment_type', 6)->nullable();
       $table->string('token')->nullable();
       $table->boolean('yearly_payment')->default(false);
-			$table->timestamps();
+			$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 		});
 
 		// Create the accounts users table (many to many relation)
@@ -41,7 +41,7 @@ class AccountsCreateTable extends Migration {
 			$table->increments('id')->unsigned();
 			$table->integer('user_id')->unsigned();
 			$table->integer('account_id')->unsigned();
-			$table->timestamps();
+			$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 			$table->foreign('user_id')->references('id')->on('users');
 			$table->foreign('account_id')->references('id')->on('accounts');
 			$table->unique(array('user_id', 'account_id'));
