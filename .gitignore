@@ -12,12 +12,13 @@ Thumbs.db
 uploads/
 .vagrant/
 public/adminer/
+.idea
 
 # each indiviual `vagrant up` will create ssh keys
 root_id_rsa*
 id_rsa*
 *.zsh*
-
+*.iml
 # ignore local configurations
 app/config/local/
 *.sublime-workspace
