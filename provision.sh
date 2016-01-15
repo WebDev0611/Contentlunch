@@ -130,7 +130,7 @@ echo -e "Done!\n"
 
 heading "Installing composer dependencies";
 echo " ╰─➤ Running composer install"
-composer install
+/usr/bin/composer install
 echo -e "Done!\n"
 
 
