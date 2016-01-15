@@ -17,7 +17,7 @@ class ContentActivityCreateTable extends Migration {
       $table->integer('content_id')->references('id')->on('content')->onDelete('cascade');
       $table->integer('user_id')->references('id')->on('users')->onDelete('cascade');
       $table->string('activity');
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 	}
 

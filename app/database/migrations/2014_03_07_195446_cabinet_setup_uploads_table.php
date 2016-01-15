@@ -23,7 +23,7 @@ class CabinetSetupUploadsTable extends Migration {
       $table->integer('user_id')->unsigned()->index();
       $table->integer('parent_id')->unsigned()->index(); // If this is a child file, it'll be referenced here.
       $table->softDeletes();
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
   }
 

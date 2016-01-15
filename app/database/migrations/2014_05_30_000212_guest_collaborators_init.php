@@ -28,7 +28,7 @@ class GuestCollaboratorsInit extends Migration {
             $table->integer('content_id')->unsigned();
             $table->foreign('content_id')->references('id')->on('content')->onDelete('cascade');
 
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

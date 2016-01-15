@@ -22,7 +22,7 @@ class EntrustSetupTables extends Migration {
       $table->boolean('builtin')->default(false);
       $table->integer('status')->default(1);
       $table->integer('account_id')->nullable();
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 
     // Creates the assigned_roles (Many-to-Many relation) table
@@ -43,7 +43,7 @@ class EntrustSetupTables extends Migration {
       $table->string('display_name');
       $table->string('module');
       $table->string('type');
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 
     // Creates the permission_role (Many-to-Many relation) table

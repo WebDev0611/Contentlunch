@@ -21,7 +21,7 @@ class CreateCampaignScoresTable extends Migration {
             $table->float('diversity_score')->nullable();
             $table->float('score')->nullable();
             $table->softDeletes();
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 
             $table->unique(['campaign_id', 'date']);
             $table->foreign('campaign_id')

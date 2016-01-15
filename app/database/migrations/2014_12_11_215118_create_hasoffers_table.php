@@ -21,7 +21,7 @@ class CreateHasoffersTable extends Migration {
             $table->text('affiliate_id')->nullable();
             $table->text('offer_id')->nullable();
             $table->tinyInteger('status');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 		});
 	}
 

@@ -21,7 +21,7 @@ class SubscriptionsCreateTable extends Migration {
       $table->integer('annual_discount');
       $table->integer('training');
       $table->text('features');
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 
     // Insert subscriptions for the application

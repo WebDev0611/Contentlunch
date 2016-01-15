@@ -22,7 +22,7 @@ class AccountSubscriptionCreateTable extends Migration {
       $table->integer('annual_discount')->nullable();
       $table->integer('training')->nullable();
       $table->text('features')->nullable();
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 	}
 

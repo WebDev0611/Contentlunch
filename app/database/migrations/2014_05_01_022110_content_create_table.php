@@ -28,7 +28,7 @@ class ContentCreateTable extends Migration {
       $table->text('concept')->nullable();
       $table->integer('status')->default(0);
       $table->boolean('archived')->default(false);
-			$table->timestamps();
+			$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 		});
 
 		// Create content_type table
@@ -73,21 +73,21 @@ class ContentCreateTable extends Migration {
 			$table->increments('id');
 			$table->integer('content_id');
 			$table->string('tag');
-			$table->timestamps();
+			$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 		});
 
 		Schema::create('content_related', function ($table) {
 			$table->increments('id');
 			$table->integer('content_id');
 			$table->integer('related_content_id');
-			$table->timestamps();
+			$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 		});
 
     Schema::create('content_collaborators', function ($table) {
       $table->increments('id');
       $table->integer('content_id');
       $table->integer('user_id');
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 
 		Schema::create('content_comments', function ($table) {
@@ -95,7 +95,7 @@ class ContentCreateTable extends Migration {
 			$table->integer('user_id');
 			$table->integer('content_id');
 			$table->text('comment');
-			$table->timestamps();
+			$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 		});
 
     Schema::create('content_account_connections', function ($table) {
@@ -106,7 +106,7 @@ class ContentCreateTable extends Migration {
       $table->integer('likes');
       $table->integer('shares');
       $table->integer('comments');
-      $table->timestamps();
+      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 	}
 

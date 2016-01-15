@@ -18,7 +18,7 @@ class CreateCampaignCommentsTable extends Migration {
             $table->integer('guest_id')->unsigned()->nullable();
             $table->integer('campaign_id')->unsigned();
             $table->text('comment');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

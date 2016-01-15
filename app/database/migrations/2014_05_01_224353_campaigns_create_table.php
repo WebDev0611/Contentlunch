@@ -47,7 +47,7 @@ class CampaignsCreateTable extends Migration {
     	$table->increments('id');
     	$table->string('tag');
     	$table->integer('campaign_id');
-    	$table->timestamps();
+    	$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 
 		// Create campaigns table
@@ -58,12 +58,13 @@ class CampaignsCreateTable extends Migration {
 			$table->string('title');
 			$table->integer('status');
 			$table->integer('campaign_type_id');
-			$table->timestamp('start_date');
-			$table->timestamp('end_date');
+			$table->timestamp('start_date')->default(\DB::raw('CURRENT_TIMESTAMP'));
+			$table->timestamp('end_date')->default(\DB::raw('CURRENT_TIMESTAMP'));
 			$table->boolean('is_recurring');
 			$table->text('description');
 			$table->text('goals');
-			$table->timestamps();
+			$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+			$table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 		});
 	}
 

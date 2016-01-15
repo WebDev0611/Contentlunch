@@ -15,7 +15,7 @@ class CreateRecurringCampaignTable extends Migration {
         Schema::create('recurring_campaigns', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('campaign_id');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
         });
 
         Schema::table('campaigns', function (Blueprint $table) {

@@ -22,7 +22,7 @@ class AccountContentSettingsCreateTable extends Migration {
 			$table->text('publishing_guidelines');
 			$table->string('persona_columns');
 			$table->text('personas');
-			$table->timestamps();
+			$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 		});
 	}
 

@@ -8,52 +8,49 @@
       "type": "vcs",
       "url": "https://github.com/jbizzay/cabinet"
     },
-	{
-	  "type": "vcs",
-	  "url": "https://github.com/Zizaco/ardent.git"
-	}
+    {
+      "type": "vcs",
+      "url": "https://github.com/Zizaco/ardent.git"
+    }
   ],
   "require": {
     "laravel/framework": "4.1.*",
-    "laravelbook/ardent": "dev-master as 2.4.0",
     "zizaco/confide": "3.2.x",
-    "zizaco/entrust": "1.2.1",
-    "andrew13/cabinet": "dev-master",
+    "zizaco/entrust": "1.2.5",
+    "andrew13/cabinet": "1.0.5",
     "summerstreet/woodling": "dev-master",
     "balanced/balanced": "1.x",
     "lusitanian/oauth": "~0.3",
     "doctrine/dbal": "~2.3",
     "webignition/internet-media-type": "dev-master",
-    "happyr/linkedin-api-client": "dev-master",
     "thujohn/twitter": "dev-master",
     "felixkiss/uniquewith-validator": "1.1.*",
     "way/generators": "2.*",
     "fzaninotto/faker": "dev-master",
     "facebook/php-sdk-v4": "4.0.9",
-    "guzzlehttp/guzzle": "dev-master",
+    "guzzlehttp/guzzle": "3.8.0",
     "pda/pheanstalk": "~2.0",
     "openlss/lib-array2xml": "dev-master",
     "ise/php-soundcloud": "3.0.1",
     "dropbox/dropbox-sdk": "1.1.*",
     "eher/oauth": "1.0.*",
     "google/apiclient": "1.1.2",
-    "traackr/traackr-api-php": "dev-master",
+    "traackr/traackr-api-php": "0.15.1",
     "vimeo/vimeo-api": "dev-master",
-    "orchestra/support-providers": "3.0.*@dev",
-    "orchestra/imagine": "3.0.*@dev",
+    "orchestra/imagine": "2.2.1",
     "aweber/aweber": "~1.1.12",
     "indatus/dispatcher": "1.*",
     "soundasleep/html2text": "~0.2",
     "barryvdh/laravel-dompdf": "0.4.*"
-	},
-	"autoload": {
-		"classmap": [
-			"app/commands",
-			"app/controllers",
-			"app/models",
-			"app/database/migrations",
-			"app/database/seeds",
-			"app/tests/TestCase.php",
+  },
+  "autoload": {
+    "classmap": [
+      "app/commands",
+      "app/controllers",
+      "app/models",
+      "app/database/migrations",
+      "app/database/seeds",
+      "app/tests/TestCase.php",
       "app/libraries"
     ]
   },

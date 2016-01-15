@@ -19,7 +19,7 @@ class CreateTraackrTagsTable extends Migration {
             $table->integer('account_id')->unsigned();
             $table->text('user');
             $table->string('traackr_id'); // it's a hex string
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 
