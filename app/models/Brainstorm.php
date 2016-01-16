@@ -23,7 +23,7 @@ class Brainstorm extends Ardent {
         'account_id'  => 'required'
     ];
 
-    public function validate(array $rules = [], array $customMessages = []) 
+    public function validate(array $rules = [], array $customMessages = [], array $customAttributes = array())
     {
         // merge any custom rules with our standard rules
         $rules = array_merge(self::$rules, $rules);

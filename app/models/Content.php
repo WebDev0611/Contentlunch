@@ -32,7 +32,7 @@ class Content extends Ardent {
    * Override ardent's validate method and add our own custom validation for content type / upload type
    * @return boolean True if valid, false if validation fails
    */
-  public function validate(array $rules = [], array $customMessages = [])
+  public function validate(array $rules = [], array $customMessages = [], array $customAttributes = array())
   {
     // Based on the content type, make sure the main upload file is a valid type
     if ( ! empty($this->content_type_id) && ! empty($this->upload_id)) {
