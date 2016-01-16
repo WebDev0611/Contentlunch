@@ -3,21 +3,12 @@
   "description": "The Laravel Framework.",
   "keywords": ["framework", "laravel"],
   "license": "MIT",
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/jbizzay/cabinet"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/Zizaco/ardent.git"
-    }
-  ],
   "require": {
-    "laravel/framework": "4.1.*",
+    "laravel/framework": "4.2",
     "zizaco/confide": "3.2.x",
     "zizaco/entrust": "1.2.5",
-    "andrew13/cabinet": "1.0.5",
+    "laravelbook/ardent": "2.5.0",
+    "andrew13/cabinet": "1.1.4.",
     "summerstreet/woodling": "dev-master",
     "balanced/balanced": "1.x",
     "lusitanian/oauth": "~0.3",
@@ -28,7 +19,7 @@
     "way/generators": "2.*",
     "fzaninotto/faker": "dev-master",
     "facebook/php-sdk-v4": "4.0.9",
-    "guzzlehttp/guzzle": "3.8.0",
+    "guzzlehttp/guzzle": "4.2.3",
     "pda/pheanstalk": "~2.0",
     "openlss/lib-array2xml": "dev-master",
     "ise/php-soundcloud": "3.0.1",

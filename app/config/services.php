@@ -212,5 +212,8 @@ return [
   ],
   'balanced' => [
     'key' => 'ak-test-2nTDcVjW9XkNMAtdh5xLIMMPeHaliy5Aa'
-  ]
+  ],
+    'mandrill' => [
+        'secret' => 'dOc3gQTmxOQKA_FVnY1nHw',
+    ],
 ];
