@@ -15,8 +15,13 @@ class AccountRole extends EntrustRole
 
 	/**
 	 * Override validate, dynamically set validation rules
+	 * @param array $rules
+	 * @param array $customMessages
+	 * @param array $customAttributes
+	 * @return bool
 	 */
-	public function validate(array $rules = array(), array $customMessages = array())
+
+	public function validate(array $rules = array(), array $customMessages = array(), array $customAttributes = array())
 	{
 		// Start with static rules
 		$rules = static::$rules;

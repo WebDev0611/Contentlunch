@@ -12,7 +12,7 @@ composer.lock
 Thumbs.db
 uploads/
 .vagrant/
-public/adminer/
+public/src
 .idea
 
 # each indiviual `vagrant up` will create ssh keys
