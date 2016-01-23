@@ -15,7 +15,8 @@ return array(
 	|
 	*/
 
-	'driver' => 'smtp',
+	'driver' => 'mandrill',
+	'from' => ['address' => 'hello@nakedculture.co', 'name' => 'NakedCulture'],
 
 	/*
 	|--------------------------------------------------------------------------
