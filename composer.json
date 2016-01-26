@@ -32,7 +32,9 @@
     "aweber/aweber": "~1.1.12",
     "indatus/dispatcher": "1.*",
     "soundasleep/html2text": "~0.2",
-    "barryvdh/laravel-dompdf": "0.4.*"
+    "barryvdh/laravel-dompdf": "0.4.*",
+    "phpunit/phpunit": "4.8",
+    "brianium/paratest": "dev-master"
   },
   "autoload": {
     "classmap": [
