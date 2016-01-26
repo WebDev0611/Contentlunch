@@ -47,4 +47,22 @@
           <file>./app/tests/integration/CampaignIntegrationTest.php</file>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">/app/*</directory>
+            <exclude>
+                <directory suffix=".php">/app/config</directory>
+                <directory suffix=".php">/app/database</directory>
+                <directory suffix=".php">/app/lang</directory>
+                <directory suffix=".php">/app/libraries</directory>
+                <directory suffix=".php">/app/start</directory>
+                <directory suffix=".php">/app/views</directory>
+                <directory suffix=".php">/app/views</directory>
+                <directory suffix=".php">/app/assets</directory>
+                <directory suffix=".php">/app/storage</directory>
+                <file>/filters.php</file>
+                <file>/routes.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
 </phpunit>
