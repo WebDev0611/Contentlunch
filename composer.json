@@ -12,7 +12,7 @@
     "summerstreet/woodling": "dev-master",
     "balanced/balanced": "1.x",
     "lusitanian/oauth": "~0.3",
-    "doctrine/dbal": "~2.3",
+    "doctrine/dbal": "2.3",
     "webignition/internet-media-type": "dev-master",
     "thujohn/twitter": "dev-master",
     "felixkiss/uniquewith-validator": "1.1.*",
