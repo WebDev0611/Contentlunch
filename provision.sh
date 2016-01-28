@@ -51,6 +51,8 @@ echo " ╰─➤ Installing php-mcrypt"
 sudo yum install -y -q php-mcrypt >&- 2>&-
 echo " ╰─➤ Installing php-mbstring"
 sudo yum install -y -q php-mbstring >&- 2>&-
+echo " ╰─➤ Installing phpunit"
+sudo yum install -y -q phpunit >&- 2>&-
 echo -e "Done!\n"
 
 
