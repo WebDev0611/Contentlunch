@@ -4,6 +4,14 @@
 	self.defaultTimeout = 4000;
 	self.notify = function(title, msg, timeout, type) {
 		if (!launch.utils.isBlank(title) || launch.utils.isBlank(msg)) {
+
+			// Enabling generic messages unless debug=true
+			if(window.debug || location.search.includes("debug=true")){
+				msg = msg;
+			}else{
+				msg = "Looks like something went wrong. <br/>The ContentLaunch support team has been notified."
+			}
+
 			return $.pnotify({
 				title: title,
 				text: msg,
