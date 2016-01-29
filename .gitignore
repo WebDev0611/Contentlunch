@@ -4,6 +4,7 @@
 /bower_components
 /public/bower_components
 /public/assets
+public/info.php
 composer.phar
 composer.lock
 .env.local.php
