@@ -1,4 +1,4 @@
-﻿launch.module.directive('accountForm', function($modal, $window, $location, AuthService, AccountService, PaymentService, NotificationService) {
+launch.module.directive('accountForm', function($modal, $window, $location, AuthService, AccountService, PaymentService, NotificationService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 

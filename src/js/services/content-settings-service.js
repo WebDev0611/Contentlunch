@@ -1,4 +1,4 @@
-﻿launch.module.factory('ContentSettingsService', function ($resource, ModelMapperService) {
+launch.module.factory('ContentSettingsService', function ($resource, ModelMapperService) {
 	var contentSettings = $resource('/api/account/:accountId/content-settings', { accountId: '@accountId' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.contentSettings.parseResponse },
 		update: { method: 'PUT', transformRequest: ModelMapperService.contentSettings.formatRequest, transformResponse: ModelMapperService.contentSettings.parseResponse }

@@ -1,4 +1,4 @@
-﻿launch.ContentConnection = function() {
+launch.ContentConnection = function() {
 	var self = this;
 
 	self.id = null;

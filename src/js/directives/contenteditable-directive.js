@@ -1,4 +1,4 @@
-﻿launch.module.directive('contenteditable', function () {
+launch.module.directive('contenteditable', function () {
 	return {
 		require: 'ngModel',
 		scope: {

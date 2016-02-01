@@ -1,4 +1,4 @@
-﻿launch.module.controller('SupportController', [
+launch.module.controller('SupportController', [
 	'$scope', '$location', 'AuthService', 'AccountService', 'NotificationService', function ($scope, $location, authService, accountService, notificationService) {
 		var self = this;
 

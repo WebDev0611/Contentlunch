@@ -1,4 +1,4 @@
-﻿launch.User = function() {
+launch.User = function() {
 	var self = this;
 
 	self.id = null;

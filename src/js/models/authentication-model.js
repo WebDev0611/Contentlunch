@@ -1,4 +1,4 @@
-﻿launch.Authentication = function () {
+launch.Authentication = function () {
 	var self = this;
 
 	self.id = null;

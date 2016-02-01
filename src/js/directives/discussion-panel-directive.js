@@ -1,4 +1,4 @@
-﻿launch.module.directive('discussionPanel', function() {
+launch.module.directive('discussionPanel', function() {
 	return {
 		templateUrl: '/assets/views/directives/discussion-panel.html',
 		scope: {

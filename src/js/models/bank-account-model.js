@@ -1,4 +1,4 @@
-﻿launch.BankAccount = function () {
+launch.BankAccount = function () {
 	var self = this;
 
 	self.bankName = null;

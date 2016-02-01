@@ -1,4 +1,4 @@
-﻿launch.UploadFile = function() {
+launch.UploadFile = function() {
 	var self = this;
 
 	self.id = null;

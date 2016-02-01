@@ -1,4 +1,4 @@
-﻿launch.module.factory('TaskService', function ($resource, ModelMapperService) {
+launch.module.factory('TaskService', function ($resource, ModelMapperService) {
 	var contentTasks = $resource('/api/account/:accountId/content/:contentId/task-group/:id', { accountId: '@accountId', contentId: '@contentId', id: '@id' },
 	{
 		get: { method: 'GET', transformResponse: ModelMapperService.taskGroups.parseResponse },

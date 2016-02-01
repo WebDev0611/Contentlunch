@@ -1,4 +1,4 @@
-﻿launch.module.controller('CollaborateController', 
+launch.module.controller('CollaborateController', 
         ['$scope', '$rootScope', '$location', 'Restangular', '$q', 'AuthService', '$filter', '$routeParams', '$modal', 'guestCollaborators', 'NotificationService', 
 function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,   $filter,   $routeParams,   $modal,   guestCollaborators,   notify) {
     $scope.pagination = {

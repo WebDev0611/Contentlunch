@@ -1,4 +1,4 @@
-﻿launch.module.controller('SubscriptionController', [
+launch.module.controller('SubscriptionController', [
 	'$scope', '$location', 'AccountService', 'NotificationService', function ($scope, $location, accountService, notificationService) {
 		var self = this;
 

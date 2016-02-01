@@ -1,4 +1,4 @@
-﻿launch.module.factory('SessionService', function() {
+launch.module.factory('SessionService', function() {
 	return {
 		USER_KEY: 'USER_KEY',
 		ACCOUNT_KEY: 'ACCOUNT_KEY',

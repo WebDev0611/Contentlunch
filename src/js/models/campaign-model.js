@@ -1,4 +1,4 @@
-﻿launch.Campaign = function() {
+launch.Campaign = function() {
 	var self = this;
 
 	self.id = null;

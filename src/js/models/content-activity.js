@@ -1,4 +1,4 @@
-﻿launch.ContentActivity = function () {
+launch.ContentActivity = function () {
 	var self = this;
 
 	self.id = null;

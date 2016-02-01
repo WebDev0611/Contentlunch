@@ -1,4 +1,4 @@
-﻿launch.Pagination = function (defaultSort, defaultSortDirection) {
+launch.Pagination = function (defaultSort, defaultSortDirection) {
 	var self = this;
 
 	self.totalItems = 0;

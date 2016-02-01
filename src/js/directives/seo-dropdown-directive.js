@@ -1,4 +1,4 @@
-﻿launch.module.directive('seoDropdown', function ($compile, $location, $templateCache) {
+launch.module.directive('seoDropdown', function ($compile, $location, $templateCache) {
 	return {
 		restrict: 'A',
 		scope: {

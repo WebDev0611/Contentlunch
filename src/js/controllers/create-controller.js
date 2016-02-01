@@ -1,4 +1,4 @@
-﻿launch.module.controller('CreateController', [
+launch.module.controller('CreateController', [
 	'$scope', '$filter', '$location', '$modal', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'CampaignService', 'NotificationService', function($scope, $filter, $location, $modal, authService, userService, contentSettingsService, contentService, campaignService, notificationService) {
 		var self = this;
 

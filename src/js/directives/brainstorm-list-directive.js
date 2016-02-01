@@ -1,4 +1,4 @@
-﻿launch.module.directive('brainstormList', function($modal, $window, $location, AuthService, AccountService, NotificationService) {
+launch.module.directive('brainstormList', function($modal, $window, $location, AuthService, AccountService, NotificationService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 

@@ -1,4 +1,4 @@
-﻿launch.CreditCard = function() {
+launch.CreditCard = function() {
 	var self = this;
 
 	self.cardNumber = null;

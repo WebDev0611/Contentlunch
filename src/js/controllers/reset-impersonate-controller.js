@@ -1,4 +1,4 @@
-﻿launch.module.controller('ResetImpersonateController', [
+launch.module.controller('ResetImpersonateController', [
 	'$scope', '$location', 'AuthService', 'AccountService', 'NotificationService', 'SessionService', function ($scope, $location, authService, accountService, notificationService, sessionService) {
 		var self = this;
 

@@ -1,4 +1,4 @@
-﻿launch.module.factory('PaymentService', function ($window, ModelMapperService) {
+launch.module.factory('PaymentService', function ($window, ModelMapperService) {
 	var balanced = $window.balanced;
 
 	return {

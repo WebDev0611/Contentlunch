@@ -1,4 +1,4 @@
-﻿launch.module.factory('CampaignService', function ($resource, ModelMapperService) {
+launch.module.factory('CampaignService', function ($resource, ModelMapperService) {
 	var campaignResource = $resource('/api/account/:accountId/campaigns/:id', { accountId: '@accountId', id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.campaign.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.campaign.parseResponse },

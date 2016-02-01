@@ -1,4 +1,4 @@
-﻿launch.module.factory('MeasureService', function ($resource, $upload, ModelMapperService) {
+launch.module.factory('MeasureService', function ($resource, $upload, ModelMapperService) {
 	var overview = $resource('/api/account/:accountId/measure/overview', { accountId: '@accountId' }, {
 		get: { method: 'GET' }
 	});

@@ -1,4 +1,4 @@
-﻿
+
 launch.module.directive('laddaButton', function () {
 	return {
 		restrict: 'A',
