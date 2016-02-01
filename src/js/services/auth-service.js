@@ -1,7 +1,6 @@
 launch.module.factory('AuthService', function($window, $location, $resource, $sanitize, SessionService) {
 	var self = this;
 
-
 	// WE CANNOT PASS IN A ModelMapperService BECAUSE IT WOULD CAUSE A CIRCULAR DEPENDENCY.
 	// INSTEAD, CREATE OUR OWN INSTANCE OF THE ModelMapper CLASS.
 	self.modelMapper = new launch.ModelMapper($location, this);

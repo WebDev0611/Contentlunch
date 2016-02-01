@@ -16,6 +16,7 @@ launch.module.controller('SignupController', [
 
 		self.subscription = null;
 
+
 		self.ajaxHandler = {
 			success: function (r) {
 
@@ -126,9 +127,14 @@ launch.module.controller('SignupController', [
 					$scope.isSaving = false;
 					document.location = '/';
 
+					p = authService.fetchCurrentUser();
+					p.$promise.then(function(user) {
+						$window.location.reload();
+					});
+
 					// We should now have an account and be logged in, so lets go through the full
 					// app initialization:
-					$window.location.reload();
+
 				},
 				error: self.ajaxHandler.error
 			});
