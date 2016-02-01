@@ -1,4 +1,4 @@
-﻿launch.SeoConnection = function () {
+launch.SeoConnection = function () {
 	var self = this;
 
 	self.id = null;

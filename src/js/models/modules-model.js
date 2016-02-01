@@ -1,4 +1,4 @@
-﻿launch.Module = function() {
+launch.Module = function() {
 	var self = this;
 
 	self.id = null;

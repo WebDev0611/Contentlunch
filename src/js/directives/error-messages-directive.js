@@ -1,4 +1,4 @@
-﻿launch.module.directive('errorMessage', function ($compile, $templateCache) {
+launch.module.directive('errorMessage', function ($compile, $templateCache) {
 	var self = this;
 
 	self.link = function(scope, element, attrs) {

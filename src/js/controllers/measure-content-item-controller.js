@@ -1,4 +1,4 @@
-﻿launch.module.controller('MeasureContentItemController', [
+launch.module.controller('MeasureContentItemController', [
 	'$scope', '$routeParams', '$location', 'AuthService', 'ContentService', 'MeasureService', 'NotificationService', function ($scope, $routeParams, $location, authService, contentService, measureService, notificationService) {
 		var self = this;
 

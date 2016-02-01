@@ -1,4 +1,4 @@
-﻿launch.module.controller('ContentConnectionsController', [
+launch.module.controller('ContentConnectionsController', [
 	'$scope', '$filter', '$location', '$modal', 'AuthService', 'AccountService', 'UserService', 'NotificationService', 'ConnectionService', function($scope, $filter, $location, $modal, authService, accountService, userService, notificationService, connectionService) {
 		var self = this;
 

@@ -1,4 +1,4 @@
-﻿launch.ContentSettings = function () {
+launch.ContentSettings = function () {
 	var self = this;
 
 	self.id = null;

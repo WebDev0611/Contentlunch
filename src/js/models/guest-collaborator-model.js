@@ -1,4 +1,4 @@
-﻿launch.GuestCollaborator = function() {
+launch.GuestCollaborator = function() {
 	var self = this;
 
 	self.id = null;

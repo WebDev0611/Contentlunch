@@ -1,4 +1,4 @@
-﻿launch.module.directive('tierTiles', function(ModuleService) {
+launch.module.directive('tierTiles', function(ModuleService) {
 	var link = function(scope, element, attrs) {
 		scope.imageSource = function(component) {
 			if (!!component && !launch.utils.isBlank(component.name)) {

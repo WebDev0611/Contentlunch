@@ -1,4 +1,4 @@
-﻿launch.module.directive('truncateText', function() {
+launch.module.directive('truncateText', function() {
 	var link = function(scope, element, attrs) {
 		var options = {
 			watch: true

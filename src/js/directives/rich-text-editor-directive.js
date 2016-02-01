@@ -1,4 +1,4 @@
-﻿launch.module.directive('richTextEditor', [
+launch.module.directive('richTextEditor', [
 	'$window', '$compile', '$location', '$templateCache',
 	function($window, $compile, $location, $templateCache) {
 		var link = function(scope, element, attrs, ngModel) {

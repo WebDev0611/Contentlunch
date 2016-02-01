@@ -1,4 +1,4 @@
-﻿launch.ModelMapper = function($location, authService, notificationService) {
+launch.ModelMapper = function($location, authService, notificationService) {
 	var self = this;
 
 	self.parseResponse = function(r, getHeaders, fromDto, sort) {

@@ -1,4 +1,4 @@
-﻿launch.Role = function(id, name) {
+launch.Role = function(id, name) {
 	var self = this;
 
 	self.id = parseInt(id);

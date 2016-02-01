@@ -1,4 +1,4 @@
-﻿launch.module.controller('SignupController', [
+launch.module.controller('SignupController', [
 	'$scope',
 	'$modal',
 	'$window',

@@ -1,4 +1,4 @@
-﻿launch.module.directive('accountLeftPane', function($location, AuthService) {
+launch.module.directive('accountLeftPane', function($location, AuthService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 

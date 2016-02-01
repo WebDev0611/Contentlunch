@@ -1,4 +1,4 @@
-﻿launch.ContentType = function() {
+launch.ContentType = function() {
 	var self = this;
 
 	self.id = null;

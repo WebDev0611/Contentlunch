@@ -1,4 +1,4 @@
-﻿launch.Content = function() {
+launch.Content = function() {
 	var self = this;
 	var lowerCaseTags = null;
 

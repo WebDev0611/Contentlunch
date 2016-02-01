@@ -1,4 +1,4 @@
-﻿launch.module.factory('RoleService', function ($resource, ModelMapperService) {
+launch.module.factory('RoleService', function ($resource, ModelMapperService) {
 	var roles = $resource('/api/role/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.role.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.role.parseResponse },

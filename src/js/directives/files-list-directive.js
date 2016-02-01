@@ -1,4 +1,4 @@
-﻿launch.module.directive('filesList', function($modal, $window, $location, AuthService, AccountService, NotificationService) {
+launch.module.directive('filesList', function($modal, $window, $location, AuthService, AccountService, NotificationService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 

@@ -1,4 +1,4 @@
-﻿launch.LaunchedContent = function() {
+launch.LaunchedContent = function() {
 	var self = this;
 
 	self.id = null;

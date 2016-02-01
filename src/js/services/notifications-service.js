@@ -1,4 +1,4 @@
-﻿launch.module.factory('NotificationService', function() {
+launch.module.factory('NotificationService', function() {
 	var self = this;
 
 	self.defaultTimeout = 4000;

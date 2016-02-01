@@ -1,4 +1,4 @@
-﻿launch.module.controller('ContentController', [
+launch.module.controller('ContentController', [
 	'$scope', '$sce', '$routeParams', '$filter', '$location', '$modal', 'ecommercePlatforms', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', 'Restangular', function ($scope, $sce, $routeParams, $filter, $location, $modal, ecommercePlatforms, authService, accountService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService, Restangular) {
 		var self = this;
 

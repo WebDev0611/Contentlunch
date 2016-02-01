@@ -1,4 +1,4 @@
-﻿launch.Subscription = function(level) {
+launch.Subscription = function(level) {
 	var self = this;
 
 	if (!level || isNaN(level) || level <= 0 || level > 3) {

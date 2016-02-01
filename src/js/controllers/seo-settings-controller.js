@@ -1,4 +1,4 @@
-﻿launch.module.controller('SeoSettingsController', [
+launch.module.controller('SeoSettingsController', [
 	'$scope', '$location', '$modal', 'AuthService', 'AccountService', 'ConnectionService', 'NotificationService', function ($scope, $location, $modal, authService, accountService, connectionService, notificationService) {
 		var self = this;
 

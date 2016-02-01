@@ -1,4 +1,4 @@
-﻿launch.module.controller('ContentConceptController', [
+launch.module.controller('ContentConceptController', [
 	'$scope', '$routeParams', '$filter', '$location', '$modal', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'CampaignService', 'NotificationService', 'AccountService',
     function ($scope, $routeParams, $filter, $location, $modal, authService, userService, contentSettingsService, contentService, campaignService, notificationService, accountService) {
 		var self = this;
