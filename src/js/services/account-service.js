@@ -1,4 +1,4 @@
-﻿launch.module.factory('AccountService', function($resource, $upload, ModelMapperService, SessionService) {
+launch.module.factory('AccountService', function($resource, $upload, ModelMapperService, SessionService) {
 	var accounts = $resource('/api/account/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.account.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.account.parseResponse },

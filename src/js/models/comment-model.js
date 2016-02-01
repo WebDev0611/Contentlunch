@@ -1,4 +1,4 @@
-﻿launch.Comment = function() {
+launch.Comment = function() {
 	var self = this;
 
 	self.id = null;

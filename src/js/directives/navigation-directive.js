@@ -1,4 +1,4 @@
-﻿launch.module.directive('navigationTemplate', function($location, $compile, AuthService) {
+launch.module.directive('navigationTemplate', function($location, $compile, AuthService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 

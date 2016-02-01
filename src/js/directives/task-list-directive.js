@@ -1,4 +1,4 @@
-﻿launch.module.directive('taskList', function($modal, $window, $location, AuthService, TaskService, NotificationService) {
+launch.module.directive('taskList', function($modal, $window, $location, AuthService, TaskService, NotificationService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 

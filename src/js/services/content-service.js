@@ -1,4 +1,4 @@
-﻿launch.module.factory('ContentService', function ($resource, ModelMapperService, SessionService) {
+launch.module.factory('ContentService', function ($resource, ModelMapperService, SessionService) {
 	var contentResource = $resource('/api/account/:accountId/content/:id', { accountId: '@accountId', id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.content.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.content.parseResponse },

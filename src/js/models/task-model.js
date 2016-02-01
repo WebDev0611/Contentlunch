@@ -1,4 +1,4 @@
-﻿launch.TaskGroup = function () {
+launch.TaskGroup = function () {
 	var self = this;
 
 	self.id = null;

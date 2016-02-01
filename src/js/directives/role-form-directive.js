@@ -1,4 +1,4 @@
-﻿launch.module.directive('roleForm', function($modal, AuthService, RoleService, NotificationService) {
+launch.module.directive('roleForm', function($modal, AuthService, RoleService, NotificationService) {
 	var link = function(scope, element, attrs) {
 		var self = this;
 

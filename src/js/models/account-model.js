@@ -1,4 +1,4 @@
-﻿launch.Account = function() {
+launch.Account = function() {
 	var self = this;
 
 	self.id = null;

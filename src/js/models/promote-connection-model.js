@@ -1,4 +1,4 @@
-﻿launch.PromoteConnection = function () {
+launch.PromoteConnection = function () {
 	var self = this;
 
 	self.id = null;

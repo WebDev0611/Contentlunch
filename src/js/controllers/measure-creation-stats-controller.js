@@ -1,4 +1,4 @@
-﻿launch.module.controller('MeasureCreationStatsController', [
+launch.module.controller('MeasureCreationStatsController', [
 	'$scope', '$location', '$filter', 'AuthService', 'UserService', 'ContentService', 'CampaignService', 'MeasureService', 'NotificationService', function ($scope, $location, $filter, authService, userService, contentService, campaignService, measureService, notificationService) {
 		var self = this;
 

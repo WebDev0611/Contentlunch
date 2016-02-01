@@ -1,4 +1,4 @@
-﻿launch.module.directive('menuPopover', function($compile, $location, $templateCache) {
+launch.module.directive('menuPopover', function($compile, $location, $templateCache) {
 	return {
 		restrict: 'A',
 		scope: {

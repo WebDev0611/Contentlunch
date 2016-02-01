@@ -1,4 +1,4 @@
-﻿launch.module.controller('SignupController', [
+launch.module.controller('SignupController', [
 	'$scope', '$modal', '$window', '$filter', '$location', 'AuthService', 'AccountService', 'UserService', 'NotificationService', 'SessionService', function ($scope, $modal, $window, $filter, $location, authService, accountService, userService, notificationService, sessionService) {
 		var self = this;
 

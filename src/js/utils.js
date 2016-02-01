@@ -1,4 +1,4 @@
-﻿launch.utils = {
+launch.utils = {
     stripTags: function(str) {
         return str.replace(/(<([^>]+)>)/ig,"");
     },

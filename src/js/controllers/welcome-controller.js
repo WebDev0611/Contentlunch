@@ -1,4 +1,4 @@
-﻿launch.module.controller('WelcomeController', [
+launch.module.controller('WelcomeController', [
 	'$scope', '$location', 'AuthService', 'NotificationService', function ($scope, $location, authService, notificationService) {
 		var self = this;
 
