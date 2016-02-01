@@ -23,7 +23,7 @@ class Account extends Ardent {
 
 	protected $hidden = ['balanced_info'];
 
-  protected $softDelete = true;
+    protected $softDelete = true;
 
 	/**
 	 * Specifies the columns that can be mass assigned
@@ -42,9 +42,9 @@ class Account extends Ardent {
  // }
 
   public function getDates()
-	{
+  {
     return array('created_at');
-	}
+  }
 
   protected function beforeSave()
   {
