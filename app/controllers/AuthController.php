@@ -108,11 +108,12 @@ use \Carbon\Carbon;
 
                     $err_msg = Lang::get('confide::confide.alerts.too_many_attempts');
                 }
-                elseif ($user->checkUserExists($input) and !$user->isConfirmed($input)) {
-                    $this->send_login_email($username, 'Failure: User not confirmed');
-
-                    $err_msg = Lang::get('confide::confide.alerts.not_confirmed');
-                }
+// No longer requiring confirmation before using product.
+//                elseif ($user->checkUserExists($input) and !$user->isConfirmed($input)) {
+//                    $this->send_login_email($username, 'Failure: User not confirmed');
+//
+//                    $err_msg = Lang::get('confide::confide.alerts.not_confirmed');
+//                }
                 else {
                     $this->send_login_email($username, 'Failure: Invalid Credentials');
 

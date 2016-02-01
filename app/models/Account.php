@@ -23,7 +23,7 @@ class Account extends Ardent {
 
 	protected $hidden = ['balanced_info'];
 
-  protected $softDelete = true;
+  	protected $softDelete = true;
 
 	/**
 	 * Specifies the columns that can be mass assigned
@@ -33,7 +33,7 @@ class Account extends Ardent {
 	protected $fillable = [
 		'title', 'active', 'address', 'address_2', 'name', 'city',
 		'state', 'phone', 'country', 'zipcode', 'email', 'auto_renew',
-		'payment_type', 'token', 'yearly_payment', 'strategy'
+		'payment_type', 'token', 'yearly_payment', 'strategy', 'account_type'
   ];
 
 	//protected function getDateFormat()
@@ -98,6 +98,12 @@ class Account extends Ardent {
   {
   	return $this->belongsToMany('Module');
   }
+
+
+	public function parent()
+	{
+		return $this->hasOne('Account', 'parent_id', 'id');
+	}
 
 	/**
 	 * Define relationship to another model.

@@ -57,42 +57,75 @@
 			<div class="control-group">
 				<div class="form-group">
 					<label class="control-label" for="txtFirstName">First Name <span class="error">*</span></label>
-					<input type="text" id="txtFirstName" name="txtFirstName" class="form-control" ng-model="user.firstName" />
+					<input autocomplete="off" type="text" id="txtFirstName" name="txtFirstName" class="form-control" ng-model="user.firstName" />
 				</div>
 			</div>
 
 			<div class="control-group">
 				<div class="form-group">
 					<label class="control-label" for="txtFirstName">Last Name <span class="error">*</span></label>
-					<input type="text" id="txtLastName" name="txtLastName" class="form-control" ng-model="user.lastName" />
+					<input autocomplete="off" type="text" id="txtLastName" name="txtLastName" class="form-control" ng-model="user.lastName" />
 				</div>
 			</div>
 
 			<div class="control-group">
 				<div class="form-group">
 					<label class="control-label" for="txtTitle">Title</label>
-					<input type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="user.title" />
+					<input autocomplete="off" type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="user.title" />
 				</div>
 			</div>
 
 			<div class="control-group">
 				<div class="form-group">
 					<label class="control-label" for="txtBusinessName">Company Name <span class="error">*</span></label>
-					<input type="text" id="txtBusinessName" name="txtBusinessName" class="form-control" ng-model="user.businessName" />
+					<input autocomplete="off" type="text" id="txtBusinessName" name="txtBusinessName" class="form-control" ng-model="user.businessName" />
 				</div>
 			</div>
 
 			<div class="control-group">
 				<div class="form-group">
 					<label class="control-label" for="txtPhoneNumber">Phone Number</label>
-					<input type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="user.phoneNumber" />
+					<input autocomplete="off" type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="user.phoneNumber" />
 				</div>
 			</div>
 
 			<div class="control-group">
 				<div class="form-group">
 					<label class="control-label" for="txtEmailAddress">Email Address <span class="error">*</span></label>
-					<input type="text" id="txtEmailAddress" name="txtEmailAddress" class="form-control" ng-model="user.emailAddress" />
+					<input autocomplete="off" type="text" id="txtEmailAddress" name="txtEmailAddress" class="form-control" ng-model="user.emailAddress" />
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="form-group">
+					<label class="control-label">How will you use Content Launch?</label>
+
+					<div class="radio">
+						<label>
+							<input type="radio"
+								   name="optionsRadios"
+								   id="optHowUse1" value="single" ng-model="user.accountMode">
+							To market my company.
+						</label>
+					</div>
+
+
+					<div class="radio">
+						<label>
+							<input type="radio" name="optionsRadios" id="optHowUse2" value="agency" ng-model="user.accountMode">
+							To market one or more of my clients (Agency Mode)
+						</label>
+					</div>
+
+
+				</div>
+			</div>
+
+
+			<div class="control-group">
+				<div class="form-group">
+					<label class="control-label" for="txtPassword">Password <span class="error">*</span></label>
+					<input autocomplete="off" type="password" id="txtPassword" name="txtPassword" class="form-control" ng-model="user.password" />
 				</div>
 			</div>
 

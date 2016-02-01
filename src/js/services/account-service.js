@@ -4,6 +4,10 @@
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.account.parseResponse },
 		update: { method: 'PUT', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
 		insert: { method: 'POST', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
+		register: { method: 'POST',
+			url: '/api/account/register',
+			transformRequest: ModelMapperService.account.formatRequest,
+			transformResponse: ModelMapperService.account.parseResponse },
 		delete: { method: 'DELETE' },
 		getSubscription: { method: 'GET' }
 	});
@@ -76,6 +80,12 @@
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
 			return accounts.update({ id: account.id }, account, success, error);
+		},
+		register: function(account, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return accounts.register(null, account, success, error);
 		},
 		add: function(account, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;

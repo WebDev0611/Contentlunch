@@ -25,6 +25,8 @@
 	self.hasToken = false;
 	self.paymentDate = null;
 
+	self.accountType = null;
+
 	self.created = null;
 	self.updated = null;
 
@@ -114,6 +116,8 @@
 				return (this.active === true || this.active === false) ? null : 'Active Status is required.';
 			case 'subscription':
 				return (!this.subscription) ? 'Subscription is required.' : null;
+			case 'accountType':
+				return (this.accountType == 'single') || (this.accountType == 'agency') || (this.accountType == 'client') ? null : "Invalid account type.";
 			case 'paymenttype':
 				if (launch.utils.isBlank(this.paymentType)) {
 					return 'Payment Type is required.';

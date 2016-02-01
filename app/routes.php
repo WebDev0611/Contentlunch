@@ -24,6 +24,8 @@ Route::group(['prefix' => 'api'], function()
 
   Route::post('account/request_update', 'AccountController@request_update_email');
 
+  Route::post('account/register', 'AccountController@register');
+
   Route::resource('account', 'AccountController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
@@ -232,8 +234,8 @@ Route::group(['prefix' => 'api'], function()
   Route::get("{$measureBase}content-timing",   'MeasureController@contentTiming');
   Route::get("{$measureBase}content-score",   'MeasureController@contentScore');
   Route::get("{$measureBase}user-efficiency",  'MeasureController@userEfficiency');
-    Route::get("{$measureBase}automation", 'MeasureController@getAutomationStats');
-    Route::get("{$measureBase}overview", 'MeasureController@overview');
+  Route::get("{$measureBase}automation", 'MeasureController@getAutomationStats');
+  Route::get("{$measureBase}overview", 'MeasureController@overview');
 
   Route::get('account/{id}/content-activity', 'ContentController@allActivities');
   Route::get('account/{id}/my-activity', 'ActivityController@mine');

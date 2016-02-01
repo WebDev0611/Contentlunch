@@ -135,6 +135,7 @@
 			account.created = dto.created_at;
 			account.updated = dto.updated_at;
 			account.paymentDate = dto.payment_date;
+			account.accountType = dto.account_type;
 
 			account.subscription = self.subscription.fromDto(dto.account_subscription);
 
@@ -204,7 +205,8 @@
 				strategy: account.strategy,
 				created_at: account.created,
 				updated_at: account.updated,
-				payment_date: account.paymentDate
+				payment_date: account.paymentDate,
+				account_type: account.accountType
 			};
 
 			if (!!account.creditCard && !launch.utils.isBlank(account.creditCard.cardNumber) && !launch.utils.isValidPattern(account.creditCard.cardNumber, /\*/)) {

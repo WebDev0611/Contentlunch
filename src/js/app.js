@@ -2,9 +2,22 @@
 	'use strict';
 
 	var launch = window.launch || (window.launch = { });
-	launch.module = angular.module('launch', ['ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap', 'angularFileUpload', 'ui.tinymce', 'ui.select2', 'restangular', 'checklist-model', 'wijmo']);
+	launch.module = angular.module('launch', ['ngRoute',
+                                            'ngResource',
+                                            'ngSanitize',
+                                            'ui.bootstrap',
+                                            'angularFileUpload',
+                                            'ui.tinymce',
+                                            'ui.select2',
+                                            'restangular',
+                                            'checklist-model',
+                                            'wijmo']);
 
-	launch.module.value('contentStatuses', ['concept', 'create', 'review', 'launch', 'promote']);
+	launch.module.value('contentStatuses', ['concept',
+        'create',
+        'review',
+        'launch',
+        'promote']);
 	launch.module.value('ecommercePlatforms', [
 			{ id: 'magento', name: 'Magento' },
 			{ id: 'volusion', name: 'Volusion' },
@@ -258,7 +271,6 @@
 					.otherwise({
 						redirectTo: function(params, path, search) {
 							console.log('Invalid route: ' + path);
-
 							return '/';
 						}
 					});

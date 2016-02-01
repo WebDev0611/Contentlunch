@@ -22,7 +22,7 @@ class User extends ConfideUser {
     'username' => 'required|unique:users,username',
     'email' => 'required|email',
     'password' => 'required|between:4,20|confirmed',
-    'password_confirmation' => 'min:4'
+//    'password_confirmation' => 'min:4'
   );
 
   protected $softDelete = true;
