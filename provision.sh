@@ -8,12 +8,12 @@ echo -e "
 ================================================================"
 }
 
-echo "      _   __        __              __ ______        __ __                     "
-echo "     / | / /____ _ / /__ ___   ____/ // ____/__  __ / // /_ __  __ _____ ___   "
-echo "    /  |/ // __ \`// //_// _ \ / __  // /    / / / // // __// / / // ___// _ \  "
-echo "   / /|  // /_/ // ,<  /  __// /_/ // /___ / /_/ // // /_ / /_/ // /   /  __/  "
-echo "  /_/ |_/ \__,_//_/|_| \___/ \__,_/ \____/ \__,_//_/ \__/ \__,_//_/    \___/   "
-echo "                                                                               "
+echo "     __/ _//|\                   __             __     __                       __  "
+echo "   _/_  /_/     _________  ____  / /____  ____  / /_   / /___ ___  ______  _____/ /_ "
+echo "  / /_/_/      / ___/ __ \/ __ \/ __/ _ \/ __ \/ __/  / / __ \`/ / / / __ \/ ___/ __ \ "
+echo " / //_/       / /__/ /_/ / / / / /_/  __/ / / / /_   / / /_/ / /_/ / / / / /__/ / / /"
+echo "/ /_/         \___/\____/_/ /_/\__/\___/_/ /_/\__/  /_/\__,_/\__,_/_/ /_/\___/_/ /_/ "
+echo "|_|                                                                                  "
 
 heading "Updating CentOS7 box"
 echo " ╰─➤ Installing epel-release"
@@ -58,9 +58,10 @@ echo -e "Done!\n"
 
 heading "Starting services";
 echo " ╰─➤ Starting MySQL"
-sudo service mysqld start  >&- 2>&-
+sudo systemctl start mysqld >&- 2>&-
+sudo systemctl enable mysqld >&- 2>&-
 echo " ╰─➤ Starting Apache"
-sudo service httpd start  >&- 2>&-
+sudo systemctl start httpd >&- 2>&-
 echo -e "Done!\n"
 
 
@@ -87,7 +88,8 @@ sudo sed -i 's,    AllowOverride None,    AllowOverride All,g' /etc/httpd/conf/h
 echo " ╰─➤ Setting ServerName to 'contentlaunch.app'"
 sudo sed -i 's,#ServerName www.example.com:80,ServerName contentlaunch.app,g' /etc/httpd/conf/httpd.conf
 echo " ╰─➤ Restarting Apache"
-sudo service httpd restart  >&- 2>&-
+sudo systemctl restart httpd >&- 2>&-
+sudo systemctl enable httpd>&- 2>&-
 echo -e "Done!\n"
 
 
