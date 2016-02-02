@@ -30,6 +30,8 @@ launch.Account = function() {
 	self.created = null;
 	self.updated = null;
 
+	self.password = null;
+
 	self.remainingTrialDays = function () {
 
 		var today = moment();

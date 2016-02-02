@@ -129,11 +129,10 @@ launch.module.controller('SignupController', [
 
 					p = authService.fetchCurrentUser();
 					p.$promise.then(function(user) {
-						$window.location.reload();
+						// We should now have an account and be logged in
+
 					});
 
-					// We should now have an account and be logged in, so lets go through the full
-					// app initialization:
 
 				},
 				error: self.ajaxHandler.error

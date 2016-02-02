@@ -137,6 +137,10 @@ launch.ModelMapper = function($location, authService, notificationService) {
 			account.paymentDate = dto.payment_date;
 			account.accountType = dto.account_type;
 
+
+
+
+
 			account.subscription = self.subscription.fromDto(dto.account_subscription);
 
 			if ($.isArray(dto.modules) && dto.modules.length > 0) {
@@ -206,7 +210,8 @@ launch.ModelMapper = function($location, authService, notificationService) {
 				created_at: account.created,
 				updated_at: account.updated,
 				payment_date: account.paymentDate,
-				account_type: account.accountType
+				account_type: account.accountType,
+				password: account.password
 			};
 
 			if (!!account.creditCard && !launch.utils.isBlank(account.creditCard.cardNumber) && !launch.utils.isValidPattern(account.creditCard.cardNumber, /\*/)) {

@@ -454,13 +454,15 @@ class AccountController extends BaseController {
 			$user->email = $account->email;
 			$user->confirmation_code = md5( uniqid(mt_rand(), true) );
 			if( Input::has('password')) {
-				$user->password = Input::get('password');
-				$user->confirmed = 1;
+				$user->password_confirmation = $user->password = Input::get('password');
+				$user->confirmed = 0;
+				$user->status = 1;
 			} else {
 				$user->password = $user->password_confirmation = substr(uniqid(mt_rand(), true), 0, 8);
 				$user->confirmed = 0;
+				$user->status = 0;
 			}
-			$user->status = 0;
+
 			$user->save();
 		}
 		// Attach user to account
