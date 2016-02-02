@@ -143,9 +143,10 @@ class AccountController extends BaseController {
 			return $account->errors()->all(':message');
 		}
 
+		$sub_type = (Input::get('account_type') == 'agency') ? "trial" : "freemium";
 		$sub = App::make('AccountSubscriptionController')->create_subscription($account->id, 3, 25, 0, 0, 1,
 															"API, Premium Support, Custom Reporting, Advanced Security",
-															"freemium");
+														    $sub_type);
 
 		if(! $sub->exists() ) {
 			return $sub->errors()->all(':message');
