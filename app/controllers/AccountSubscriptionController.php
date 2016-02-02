@@ -17,7 +17,8 @@ class AccountSubscriptionController extends BaseController {
                                       $monthly_price,
                                       $annual_discount,
                                       $training,
-                                      $features) {
+                                      $features,
+                                      $subscription_type) {
     $sub = AccountSubscription::firstOrNew(['account_id' => $account_id]);
     $sub->account_id = $account_id;
     $sub->subscription_level = $subscription_level;
@@ -26,6 +27,7 @@ class AccountSubscriptionController extends BaseController {
     $sub->annual_discount = $annual_discount;
     $sub->training = $training;
     $sub->features = $features;
+    $sub->subscription_type = $subscription_type;
     if ($sub->save()) {
       // Based on the subscription level, assign modules to the account
       switch ($sub->subscription_level) {
@@ -47,9 +49,8 @@ class AccountSubscriptionController extends BaseController {
       $account = Account::find($sub->account_id);
       $account->modules()->sync($syncModules);
       $account->updateUniques();
-      return $sub;
     }
-    return false;
+    return $sub;
   }
 
   public function post_subscription($id, $checkAuth = true)
@@ -67,7 +68,7 @@ class AccountSubscriptionController extends BaseController {
                 Input::get('training'),
                 Input::get('features'));
 
-    if($sub) {
+    if($sub->exists()) {
       return $this->get_subscription($id, $checkAuth);
     }
     return $this->responseError($sub->errors()->toArray());

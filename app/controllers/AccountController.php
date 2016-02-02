@@ -25,7 +25,9 @@ class AccountController extends BaseController {
 	}
 
 	protected function createAccount($autoLogin = false) {
-		/** Creates a brand new account */
+		/** Creates a brand new account
+		 *  If $autoLogin, the current user is logged in as that account.
+		 */
 		$account = new Account;
 		$account->expiration_date = \Carbon\Carbon::now()->addDays(30);
 //		if (Input::has('payment_info')) {
@@ -141,8 +143,11 @@ class AccountController extends BaseController {
 			return $account->errors()->all(':message');
 		}
 
-		$sub = App::make('AccountSubscriptionController')->create_subscription($account->id, 3, 25, 0, 0, 1, "API, Premium Support, Custom Reporting, Advanced Security");
-		if(! $sub) {
+		$sub = App::make('AccountSubscriptionController')->create_subscription($account->id, 3, 25, 0, 0, 1,
+															"API, Premium Support, Custom Reporting, Advanced Security",
+															"freemium");
+
+		if(! $sub->exists() ) {
 			return $sub->errors()->all(':message');
 		}
 
