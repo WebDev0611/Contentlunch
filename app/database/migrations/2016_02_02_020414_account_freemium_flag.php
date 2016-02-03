@@ -19,6 +19,7 @@ class AccountFreemiumFlag extends Migration {
 		Schema::table('subscriptions', function($table){
             $table->string('name', 32)->default('unnamed');
 			$table->boolean('active')->default(true);
+            $table->string('stripe_id', 24)->default('pro');
 		});
 
 
@@ -38,8 +39,8 @@ class AccountFreemiumFlag extends Migration {
 
         // Create the enterprise and agency plans
 		$data = [
-			[4, 999, 250, 10, 1, 'API, Premium Support, Custom Reporting, Advanced Security', 'Enterprise'],
-            [5, 999, 100, 10, 1, 'API, Premium Support, Custom Reporting, Advanced Security', 'Agency'],
+			[4, 999, 250, 10, 1, 'API, Premium Support, Custom Reporting, Advanced Security', 'Enterprise', 'enterprise'],
+            [5, 999, 100, 10, 1, 'API, Premium Support, Custom Reporting, Advanced Security', 'Agency', 'agency'],
 		];
 		foreach ($data as $row) {
 			$sub = new Subscription;
@@ -50,6 +51,7 @@ class AccountFreemiumFlag extends Migration {
 			$sub->training = $row[4];
 			$sub->features = $row[5];
             $sub->name = $row[6];
+            $sub->stripe_id = $row[7];
 			$sub->save();
 		}
 
