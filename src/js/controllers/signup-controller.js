@@ -125,12 +125,15 @@ launch.module.controller('SignupController', [
 				success: function (r) {
 					self.fireConversion();
 					$scope.isSaving = false;
-					document.location = '/';
 
 					p = authService.fetchCurrentUser();
 					p.$promise.then(function(user) {
 						// We should now have an account and be logged in
-
+						if(account.accountType == 'agency') {
+							$location.path("/agency");
+						} else {
+							$location.path( "/" );
+						}
 					});
 
 

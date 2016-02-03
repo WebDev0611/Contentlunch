@@ -52,6 +52,11 @@
                             }
                         }
 					})
+					.when('/agency', {
+						controller: 'AgencyController',
+						controllerAs: "ctrl",
+						templateUrl: '/assets/views/agency.html',
+					})
 					.when('/login', {
 						controller: 'LoginController',
 						templateUrl: '/assets/views/login.html',
