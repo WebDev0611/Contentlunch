@@ -13,7 +13,7 @@ class AccountFreemiumFlag extends Migration {
 	public function up()
 	{
 		Schema::table('account_subscription', function($table) {
-			$table->enum('subscription_type', array('freemium', 'trial', 'paid', 'complementary'))->default("freemium");
+			$table->enum('subscription_type', array('freemium', 'trial', 'paid', 'complementary', 'client'))->default("freemium");
 		});
 
 		Schema::table('subscriptions', function($table){

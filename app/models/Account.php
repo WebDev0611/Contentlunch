@@ -12,7 +12,7 @@ class Account extends Ardent {
 	public static $rules = [
 		//'title' => 'required|min:5|unique:accounts',
 		'name' => 'required|min:2',
-        'email' => 'unique:accounts'
+        'email' => 'required'
 	];
 
 	public static $customMessages = [
@@ -99,11 +99,15 @@ class Account extends Ardent {
   	return $this->belongsToMany('Module');
   }
 
+    public function parent() {
+        return $this->belongsTo('Account', 'parent_id', 'id');
+    }
 
-	public function parent()
+	public function children()
 	{
-		return $this->hasOne('Account', 'parent_id', 'id');
+		return $this->hasMany('Account', 'parent_id', 'id');
 	}
+
 
 	/**
 	 * Define relationship to another model.

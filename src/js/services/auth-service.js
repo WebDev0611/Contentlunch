@@ -34,6 +34,10 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 		save: { method: 'POST', transformResponse: self.modelMapper.user.parseResponse }
 	});
 
+
+	var cachedValidation = null;
+
+
 	self.fetchCurrentUser = function(callback) {
 		var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 		var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
@@ -57,6 +61,25 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 	};
 
 	return {
+		validateCurrentUser: function() {
+			console.log("Validating user");
+			if(! cachedValidation) {
+				console.log("NOT using cached validation");
+				cachedValidation = self.authenticate.fetchCurrentUser().$promise;
+
+				cachedValidation.then(function(r){
+					if (r.id) {
+						self.cacheSession(r);
+					}
+				});
+
+				cachedValidation.catch(function(){
+					cachedValidation = null;  // do not cache negative results
+				});
+			}
+
+			return cachedValidation;
+		},
 		login: function(username, password, remember, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;

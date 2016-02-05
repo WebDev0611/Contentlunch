@@ -56,6 +56,11 @@
 						controller: 'AgencyController',
 						controllerAs: "ctrl",
 						templateUrl: '/assets/views/agency.html',
+						resolve: {
+							userInfo: function(AuthService) {
+								return AuthService.validateCurrentUser(); // this will make sure we're not using stale versions.
+							}
+						}
 					})
 					.when('/login', {
 						controller: 'LoginController',

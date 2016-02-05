@@ -1,4 +1,50 @@
-<div class="agency-view">
-    AGENCY VIEW
+<div class="agency-view row">
+    <h1>Clients</h1>
+        <ul class="client-list">
+            <li ng-repeat="client in ctrl.clients">
+                <div class="pull-right">
+                    <button class="btn btn-default">Go To Client</button>
+                    <button class="btn btn-default">Remove Client</button>
+                </div>
+
+                {{client.name}} <br/>
+
+            </li>
+        </ul>
+
+        <button ng-click="ctrl.addClient()" class="btn btn-default">Add Client</button>
+
 </div>
 
+<div class="agency-client-add" ng-if="ctrl.addingClient">
+    <h1>Onboard new Client</h1>
+
+    <form validate>
+        <div class="form-group">
+            <label for="companyName">Company Name</label>
+            <input required ng-model="ctrl.newClient.name"
+                   type="text" class="form-control"
+                   placeholder="Company Name" id="companyName">
+        </div>
+
+
+        <div class="form-group">
+            <label for="companyName">Primary Client Contact</label>
+            <input required ng-model="ctrl.newClient.clientName"
+                   type="text" class="form-control"
+                   placeholder="Full Name" id="clientName">
+            <input required ng-model="ctrl.newClient.clientEmail"
+                   type="text" class="form-control"
+                   placeholder="Email Address" id="clientEmail">
+
+        </div>
+
+        <button ng-click="ctrl.submitNewClient()" type="submit" class="btn btn-default">Add Client</button>
+
+        <button ng-click="ctrl.cancelAddClient()" class="btn btn-default">Cancel</button>
+    </form>
+
+
+
+
+</div>

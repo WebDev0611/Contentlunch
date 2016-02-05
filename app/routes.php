@@ -22,6 +22,10 @@ if (Config::get('app.force_secure')) {
 Route::group(['prefix' => 'api'], function()
 {
 
+  Route::resource('agency/{accountId}/client', 'AgencyController', [
+      'only' => ['index', 'store', 'show', 'update', 'destroy']
+  ]);
+
   Route::post('account/request_update', 'AccountController@request_update_email');
 
   Route::post('account/register', 'AccountController@register');

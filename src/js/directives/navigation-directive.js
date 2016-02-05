@@ -50,7 +50,9 @@ launch.module.directive('navigationTemplate', function($location, $compile, Auth
 					});
 				});
 
+				mainNavItems.splice(0, 0, { title: 'clients', url: 'agency', active: 'active' });
 				mainNavItems.splice(0, 0, { title: 'home', url: '/', active: 'active' });
+
 
 				if (scope.user.hasModuleAccess('settings')) {
 					if (scope.user.hasPrivilege(['settings_edit_account_settings', 'settings_edit_content_settings', 'settings_edit_seo_settings'])) {

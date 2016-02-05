@@ -15,6 +15,12 @@ echo "   / /|  // /_/ // ,<  /  __// /_/ // /___ / /_/ // // /_ / /_/ // /   /  
 echo "  /_/ |_/ \__,_//_/|_| \___/ \__,_/ \____/ \__,_//_/ \__/ \__,_//_/    \___/   "
 echo "                                                                               "
 
+if [ -f /etc/provisioned ]; then
+    echo "Already Provisioned"
+    exit 0
+fi
+
+
 heading "Updating CentOS7 box"
 echo " ╰─➤ Installing epel-release"
 sudo yum install -y epel-release  >&- 2>&-
@@ -178,3 +184,5 @@ echo "  editor@test.com     |    launch123 "
 echo "  creator@test.com    |    launch123 "
 
 echo -e "\n\nEnjoy!"
+
+sudo echo "ok" > /etc/provisioned
