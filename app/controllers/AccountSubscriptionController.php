@@ -64,23 +64,22 @@ class AccountSubscriptionController extends BaseController {
     return $sub;
   }
 
-  public function post_subscription($id, $checkAuth = true)
+  public function post_subscription($account_id, $checkAuth = true)
   {
     // Restrict user is in account
-    if ($checkAuth && ! $this->inAccount($id)) {
+    if ($checkAuth && ! $this->inAccount($account_id)) {
       return $this->responseAccessDenied();
     }
 
-    $sub = $this->create_subscription($id,
-                Input::get('subscription_level'),
-                Input::get('licenses'),
-                Input::get('monthly_price'),
-                Input::get('annual_discount'),
-                Input::get('training'),
-                Input::get('features'));
+    $sub = AccountSubscription::firstOrNew(['account_id' => $account_id]);
+
+    $stripe_token = Input::get('token');
+    $plan_id = Input::get('plan_id');
+
+    $this->switch_plan($sub, $plan_id, $stripe_token);
 
     if($sub->exists()) {
-      return $this->get_subscription($id, $checkAuth);
+      return $this->get_subscription($account_id, $checkAuth);
     }
     return $this->responseError($sub->errors()->toArray());
   }
@@ -90,30 +89,66 @@ class AccountSubscriptionController extends BaseController {
    */
   public function renew_subscription($id)
   {
-    if ( ! $this->inAccount($id)) {
+    if (!$this->inAccount($id)) {
       return $this->responseAccessDenied();
     }
-    try {
-      $account = Account::find($id);
-      $balanced = new Launch\Balanced($account);
-      //$payment = $balanced->chargeAccount(true);
-    } catch (\Balanced\Errors\Declined $e) {
-      return $this->responseError('Error processing transaction. The transaction was declined.');
-    } catch (\Balanced\Errors\NoFundingSource $e) {
-      return $this->responseError('Error processing transaction. No active funding sources.');
-    } catch (\Balanced\Errors\CannotDebit $e) {
-      return $this->responseError('Error processing transaction. No debitable funding sources.');
-    } catch (\Balanced\Errors\InvalidRoutingNumber $e) {
-      return $this->responseError('Error processing transaction. Routing number is invalid.');
-    } catch (\Balanced\Errors\BankAccountVerificationFailure $e) {
-      return $this->responseError('Error processing transaction. Unable to verify bank account.'. $e->description);
-    } catch (\Exception $e) {
-      return $this->responseError('Error processing transaction.');
+  }
+
+  protected function update_quantity($account_subscription) {
+    $account = $account_subscription->account()->first();
+    $stripeKey = Config::get('app.stripe')['secret_key'];
+
+    \Stripe\Stripe::setApiKey($stripeKey);
+
+    if($account->token) {
+      // Need to update an existing stripe customer
+      $cu = \Stripe\Customer::retrieve($account->token);
+      $cu->quantity = $account->quantity();
+      $cu->save();
+    } else {
+      throw new Exception('Can not update non-existent customer');
     }
-    $account = $account->toArray();
-    //$retPayment = $payment->toArray();
-    //$account['payment'] = $payment->toArray();
-    return $account;
+  }
+
+  protected function switch_plan($account_subscription, $plan_id, $stripe_token=null) {
+    $account = $account_subscription->account()->first();
+    $plan = Subscription::find($plan_id);
+    $stripeKey = Config::get('app.stripe')['secret_key'];
+
+    \Stripe\Stripe::setApiKey($stripeKey);
+
+    if($account->token) {
+      // Need to update an existing stripe customer
+      $cu = \Stripe\Customer::retrieve($account->token);
+      $cu->plan = $plan->stripe_id;
+      $cu->quantity = $account->quantity();
+      if($stripe_token) {
+        $cu->source = $stripe_token;
+      }
+      $cu->save();
+    } else {
+      if(!$stripe_token) {
+        throw new Exception('Can not find payment details for customer.');
+      }
+      // Need to create a new stripe customer
+      $cu = \Stripe\Customer::create(array(
+          "description" => "{$account->name} {$account->id}",
+          "email" => $account->email,
+          "metadata" => [
+            "account_id" => $account->id
+          ],
+          "plan" => $plan->stripe_id,
+          "quantity" => $account->quantity(),
+          "source" => $stripe_token
+      ));
+      $account->token = $cu->id;
+      $account->save();
+    }
+
+
+
+    $account_subscription->save();
+    return $account_subscription;
   }
 
 }

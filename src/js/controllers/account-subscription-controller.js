@@ -35,19 +35,24 @@ launch.module.controller('AccountSubscriptionController', [
             self.period = type;
         }
 
-        self.setupSubscription = function(stripeToken){
-
+        self.setupSubscription = function(stripeToken, plan){
+            console.log("Subscribe " + stripeToken + " to " + plan.name);
+            AccountService.updateAccountSubscription(tempAccount.id, {plan_id:plan.id, token:stripeToken['id']}).$promise.then(function(result){
+                console.log(result);
+            });
         };
 
-        pendingAction = self.setupSubscription;
 
-        self.collectPaymentDetails = function($event, annual){
+
+        self.collectPaymentDetails = function($event, subscription_plan){
             $event.preventDefault();
+            pendingAction = function(token) {
+                self.setupSubscription(token, subscription_plan)
+            }
             self.stripeHandler.open({
                 name: 'Content Launch',
-                description: annual ? 'Professional (annual)' : 'Professional (monthly)',
+                description: subscription_plan.name,
                 panelLabel: 'Subscribe',
-                //amount: annual ? 8900*12 : 9900,
                 email: user.email
             });
         }

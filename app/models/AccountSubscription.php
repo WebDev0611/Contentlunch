@@ -10,6 +10,12 @@ class AccountSubscription extends Ardent {
   	'account_id'
   ];
 
+
+  public function account()
+  {
+    return $this->belongsTo('Account','account_id','id');
+  }
+
   //protected function getDateFormat()
   //{
   //  return 'Y-m-d H:i:s';

@@ -3,11 +3,10 @@
 <div class="row">
 
     <div class="col-md-4">
-        <a ng-click="sctrl.planPeriod('annual')">Annual</a> | <a ng-click="sctrl.planPeriod('monthly')">Monthly</a>
+        <!--<a ng-click="sctrl.planPeriod('annual')">Annual</a> | <a ng-click="sctrl.planPeriod('monthly')">Monthly</a>-->
 
         <button ng-repeat="sub in sctrl.account.availableSubscriptions"
-                ng-if="sub.period==sctrl.period"
-                ng-click="sctrl.collectPaymentDetails($event, true)"
+                ng-click="sctrl.collectPaymentDetails($event, sub)"
                 class="btn btn-block primary btn-default">
             <b>{{sub.name}}</b><br/>${{sub.monthly_price}}/<span ng-if="sub.plan_type=='single'">User</span><span ng-if="sub.plan_type=='agency'">Client</span>/Month<br/><i>paid {{sub.period}}</i>
         </button>

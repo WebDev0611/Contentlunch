@@ -18,7 +18,7 @@ launch.module.factory('AccountService', function($resource, $upload, ModelMapper
 
 	var accountSubscriptions = $resource('/api/account/:id/subscription', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.subscription.parseResponse },
-		save: { method: 'POST', transformRequest: ModelMapperService.subscription.formatRequest }
+		save: { method: 'POST' }
 	});
 
 	var accountRenew = $resource('/api/account/:id/renew-subscription', { id: '@id' }, {
@@ -123,7 +123,7 @@ launch.module.factory('AccountService', function($resource, $upload, ModelMapper
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			accountSubscriptions.save({ id: accountId }, subscription, success, error);
+			return accountSubscriptions.save({ id: accountId }, subscription, success, error);
 		},
 		renew: function(accountId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;

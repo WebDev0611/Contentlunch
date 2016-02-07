@@ -204,9 +204,14 @@ return [
     'PDF' => 'Barryvdh\DomPDF\Facade',
   ],
 
-  'balanced' => [
-    'api_key_secret' => 'ak-test-2b1tOVFkmQZkf4colkOw6BIPfeCMBBJg4',
-    'api_key_secret_prod' => 'ak-test-2nTDcVjW9XkNMAtdh5xLIMMPeHaliy5Aa'
+//  'balanced' => [
+//    'api_key_secret' => 'ak-test-2b1tOVFkmQZkf4colkOw6BIPfeCMBBJg4',
+//    'api_key_secret_prod' => 'ak-test-2nTDcVjW9XkNMAtdh5xLIMMPeHaliy5Aa'
+//  ]
+
+  'stripe' => [
+    'secret_key' => 'sk_test_LWaM9Mld4dpcRtIeDCH7K72t',
+    'public_key' => 'pk_test_9WtB8kfnBxpSgEX7MMwOkA82'
   ]
   
 ];

@@ -21,7 +21,7 @@ class Account extends Ardent {
 
 	protected $table = 'accounts';
 
-	protected $hidden = ['balanced_info'];
+	protected $hidden = ['balanced_info', 'token'];
 
     protected $softDelete = true;
 
@@ -33,7 +33,7 @@ class Account extends Ardent {
 	protected $fillable = [
 		'title', 'active', 'address', 'address_2', 'name', 'city',
 		'state', 'phone', 'country', 'zipcode', 'email', 'auto_renew',
-		'payment_type', 'token', 'yearly_payment', 'strategy', 'account_type'
+		'payment_type', 'yearly_payment', 'strategy', 'account_type'
   ];
 
 	//protected function getDateFormat()
@@ -138,7 +138,15 @@ class Account extends Ardent {
 		));
 	}
 
-
+	public function quantity() {
+		if($this->account_type=='agency') {
+			return $this->clientCount() + 1;
+		}
+		return $this->userCount();
+	}
+	public function userCount() {
+		return $this->users()->count();
+	}
 	public function clientCount() {
 		return Account::where('parent_id','=', $this->id)->count();
 	}
