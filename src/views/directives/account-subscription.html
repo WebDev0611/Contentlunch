@@ -1,0 +1,44 @@
+<h2>Subscription</h2>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <a ng-click="sctrl.planPeriod('annual')">Annual</a> | <a ng-click="sctrl.planPeriod('monthly')">Monthly</a>
+
+        <button ng-repeat="sub in sctrl.account.availableSubscriptions"
+                ng-if="sub.period==sctrl.period"
+                ng-click="sctrl.collectPaymentDetails($event, true)"
+                class="btn btn-block primary btn-default">
+            <b>{{sub.name}}</b><br/>${{sub.monthly_price}}/<span ng-if="sub.plan_type=='single'">User</span><span ng-if="sub.plan_type=='agency'">Client</span>/Month<br/><i>paid {{sub.period}}</i>
+        </button>
+
+        <button ng-if="sctrl.account.accountType=='single'"
+                class="btn btn-block btn-default">Free<br/>$0/Month<br/><i>limited 10 content distributions</i></button><br/>
+    </div>
+
+    <div class="col-md-4">
+        <ul>
+            <li>Current Plan: Professional (Annual)</li>
+            <li>Billing Date: 1/1/2016</li>
+            <li ng-if="sctrl.account.accountType=='single'">
+                <ng-pluralize count="sctrl.account.userCount"
+                              when="{'0': 'No Users',
+                                     'one': '1 User',
+                                     'other': '{} Users'}">
+                </ng-pluralize>
+            </li>
+            <li ng-if="sctrl.account.accountType=='agency'">
+                <ng-pluralize count="sctrl.account.clientCount"
+                              when="{'0': 'No Clients',
+                                     'one': '1 Client',
+                                     'other': '{} Clients'}">
+                </ng-pluralize>
+            </li>
+            <li><a ng-click="">Change Payment Details</a></li>
+            <li><a ng-click="">Invoices</a></li>
+            <li><a ng-click="">Cancel Subscription</a></li>
+        </ul>
+    </div>
+
+
+</div>

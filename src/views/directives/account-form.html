@@ -75,85 +75,91 @@
 		</div>
 	</div>
 
-	<h2>Subscription Info</h2>
+	<account-subscription></account-subscription>
 
-	<div class="row">
-		<div class="col-md-4">
-			<div class="control-group" ng-show="!selfEditing">
-				<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'subscription', editAccount.selSubscription, forceDirty) }">
-					<label class="control-label" for="selSubscription">Subscription Level <span class="error">*</span></label>
-					<select id="selSubscription" name="selSubscription" class="form-control"
-							ng-model="selectedAccount.subscription" ng-change="changeTier()" ng-options="s.getName() for s in subscriptions track by s.subscriptionLevel"
-							error-message error-message-item="selectedAccount" error-message-property="'subscription'" error-message-control="editAccount.selSubscription">
-					</select>
-				</div>
-			</div>
 
-			<div class="control-group">
-				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radMonthly" ng-value="false" ng-model="selectedAccount.yearlyPayment" ng-change="changePaymentPeriod()" />Monthly Payment</label>
-				<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radYearly" ng-value="true" ng-model="selectedAccount.yearlyPayment" ng-change="changePaymentPeriod()" />Annual Payment (<span>{{ selectedAccount.subscription.annualDiscount }}</span>% discount)</label>
-			</div>
 
-			<div class="control-group">
-				<div class="checkbox">
-					<label class="control-label" for="chkAutoRenew">
-						<input type="checkbox" id="chkAutoRenew" ng-model="selectedAccount.autoRenew" ng-disabled="!selectedAccount.yearlyPayment" />
-						Account Auto Renew
-					</label>
-				</div>
-			</div>
 
-			<div class="control-group">
-				<!--Account Renew/Expiration Date: <span ng-bind="selectedAccount.formattedExpirationDate()"></span>-->
-				Account Renew/Expiration Date: <br>Free Trial Period
-			</div>
 
-			<div class="control-group">
-				<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.subscription, 'numberLicenses', editAccount.txtMaxNumUsers, forceDirty) }" ng-hide="selfEditing">
-					<label class="control-label" for="txtMaxNumUsers">Max # of Users <span class="error">*</span></label>
-					<input type="text" required="required" id="txtMaxNumUsers" name="txtMaxNumUsers" class="form-control"
-							ng-model="selectedAccount.subscription.numberLicenses" ng-disabled="selfEditing"
-							error-message error-message-item="selectedAccount.subscription" error-message-property="'numberLicenses'" error-message-control="editAccount.txtMaxNumUsers" />
-				</div>
-				
-				<div class="control-group btn-group" ng-show="selfEditing">
-					<button type="button" class="btn btn-default" ng-show="!selectedAccount.autoRenew && !selectedAccount.paymentDate && !selectedAccount.inTrial()" ng-click="renewAccount()">Renew Account</button>
-					<button type="button" class="btn btn-default" ng-click="cancelAccount()">Cancel Account</button>
-				</div>
-			</div>
-		</div>
+	<!--<h2>Subscription Info</h2>-->
 
-		<div class="col-md-8">
-			<div class="tier-components">
-				<div style="display: inline-block;" tier-tiles selected-subscription="selectedAccount.subscription"></div>
+	<!--<div class="row">-->
+		<!--<div class="col-md-4">-->
+			<!--<div class="control-group" ng-show="!selfEditing">-->
+				<!--<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount, 'subscription', editAccount.selSubscription, forceDirty) }">-->
+					<!--<label class="control-label" for="selSubscription">Subscription Level <span class="error">*</span></label>-->
+					<!--<select id="selSubscription" name="selSubscription" class="form-control"-->
+							<!--ng-model="selectedAccount.subscription" ng-change="changeTier()" ng-options="s.getName() for s in subscriptions track by s.subscriptionLevel"-->
+							<!--error-message error-message-item="selectedAccount" error-message-property="'subscription'" error-message-control="editAccount.selSubscription">-->
+					<!--</select>-->
+				<!--</div>-->
+			<!--</div>-->
 
-				<div class="tier-info">
-					<ul class="tier-info-list">
-						<li>
-							<div class="tier-info-label">Price / Month:</div>
-							<div class="tier-info-data">${{ selectedAccount.subscription.formatPricePerMonth(selectedAccount.yearlyPayment) }}</div>
-						</li>
-						<li>
-							<div class="tier-info-label">Max # Users:</div>
-							<div class="tier-info-data">{{ selectedAccount.subscription.numberLicenses }}</div>
-						</li>
-						<li>
-							<div class="tier-info-label">Training:</div>
-							<div class="tier-info-data">{{ (selectedAccount.subscription.training === true ? 'Included' : 'Not Included') }}</div>
-						</li>
-						<li>
-							<div class="tier-info-label">Additional Features:</div>
-							<div class="tier-info-data">{{ selectedAccount.subscription.features }}</div>
-						</li>
-					</ul>
-					
-					<div class="control-group btn-group">
-						<button type="button" class="btn btn-default" ng-click="compareTiers()" ng-show="selfEditing">Compare Tiers</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+			<!--<div class="control-group">-->
+				<!--<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radMonthly" ng-value="false" ng-model="selectedAccount.yearlyPayment" ng-change="changePaymentPeriod()" />Monthly Payment</label>-->
+				<!--<label class="radio-inline"><input type="radio" name="radPaymentPeriod" id="radYearly" ng-value="true" ng-model="selectedAccount.yearlyPayment" ng-change="changePaymentPeriod()" />Annual Payment (<span>{{ selectedAccount.subscription.annualDiscount }}</span>% discount)</label>-->
+			<!--</div>-->
+
+			<!--<div class="control-group">-->
+				<!--<div class="checkbox">-->
+					<!--<label class="control-label" for="chkAutoRenew">-->
+						<!--<input type="checkbox" id="chkAutoRenew" ng-model="selectedAccount.autoRenew" ng-disabled="!selectedAccount.yearlyPayment" />-->
+						<!--Account Auto Renew-->
+					<!--</label>-->
+				<!--</div>-->
+			<!--</div>-->
+
+			<!--<div class="control-group">-->
+				<!--&lt;!&ndash;Account Renew/Expiration Date: <span ng-bind="selectedAccount.formattedExpirationDate()"></span>&ndash;&gt;-->
+				<!--Account Renew/Expiration Date: <br>Free Trial Period-->
+			<!--</div>-->
+
+			<!--<div class="control-group">-->
+				<!--<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.subscription, 'numberLicenses', editAccount.txtMaxNumUsers, forceDirty) }" ng-hide="selfEditing">-->
+					<!--<label class="control-label" for="txtMaxNumUsers">Max # of Users <span class="error">*</span></label>-->
+					<!--<input type="text" required="required" id="txtMaxNumUsers" name="txtMaxNumUsers" class="form-control"-->
+							<!--ng-model="selectedAccount.subscription.numberLicenses" ng-disabled="selfEditing"-->
+							<!--error-message error-message-item="selectedAccount.subscription" error-message-property="'numberLicenses'" error-message-control="editAccount.txtMaxNumUsers" />-->
+				<!--</div>-->
+				<!---->
+				<!--<div class="control-group btn-group" ng-show="selfEditing">-->
+					<!--<button type="button" class="btn btn-default" ng-show="!selectedAccount.autoRenew && !selectedAccount.paymentDate && !selectedAccount.inTrial()" ng-click="renewAccount()">Renew Account</button>-->
+					<!--<button type="button" class="btn btn-default" ng-click="cancelAccount()">Cancel Account</button>-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+
+		<!--<div class="col-md-8">-->
+			<!--<div class="tier-components">-->
+				<!--<div style="display: inline-block;" tier-tiles selected-subscription="selectedAccount.subscription"></div>-->
+
+				<!--<div class="tier-info">-->
+					<!--<ul class="tier-info-list">-->
+						<!--<li>-->
+							<!--<div class="tier-info-label">Price / Month:</div>-->
+							<!--<div class="tier-info-data">${{ selectedAccount.subscription.formatPricePerMonth(selectedAccount.yearlyPayment) }}</div>-->
+						<!--</li>-->
+						<!--<li>-->
+							<!--<div class="tier-info-label">Max # Users:</div>-->
+							<!--<div class="tier-info-data">{{ selectedAccount.subscription.numberLicenses }}</div>-->
+						<!--</li>-->
+						<!--<li>-->
+							<!--<div class="tier-info-label">Training:</div>-->
+							<!--<div class="tier-info-data">{{ (selectedAccount.subscription.training === true ? 'Included' : 'Not Included') }}</div>-->
+						<!--</li>-->
+						<!--<li>-->
+							<!--<div class="tier-info-label">Additional Features:</div>-->
+							<!--<div class="tier-info-data">{{ selectedAccount.subscription.features }}</div>-->
+						<!--</li>-->
+					<!--</ul>-->
+					<!---->
+					<!--<div class="control-group btn-group">-->
+						<!--<button type="button" class="btn btn-default" ng-click="compareTiers()" ng-show="selfEditing">Compare Tiers</button>-->
+					<!--</div>-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
 
 	<div class="content-strategy">
 		<h2>{{ isGlobalAdmin ? 'Set' : 'Our' }} Content Strategy</h2>
@@ -168,80 +174,71 @@
 		</button>
 	</div>
 
-	<h2>Payment Info</h2>
+	<!--<h2>Payment Info</h2>-->
+	<!--<div>-->
+		<!--<div class="control-group">-->
+			<!--<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'nameOnCard', editAccount.txtNameOnCard, forceDirty) }">-->
+				<!--<label class="control-label" for="txtNameOnCard">Name on Card <span class="error">*</span></label>-->
+				<!--<input type="text" id="txtNameOnCard" name="txtNameOnCard" class="form-control" ng-model="selectedAccount.creditCard.nameOnCard"-->
+					<!--error-message error-message-item="selectedAccount.creditCard" error-message-property="'nameOnCard'" error-message-control="editAccount.txtNameOnCard" />-->
+			<!--</div>-->
+			<!--<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'cardType', editAccount.selCardType, forceDirty) }">-->
+				<!--<label class="control-label" for="selCardType">Card Type <span class="error">*</span></label>-->
+				<!--<select id="selCardType" name="selCardType" class="form-control" ng-model="selectedAccount.creditCard.cardType"-->
+					<!--error-message error-message-item="selectedAccount.creditCard" error-message-property="'cardType'" error-message-control="editAccount.selCardType">-->
+					<!--<option value="VISA">Visa</option>-->
+					<!--<option value="MASTERCARD">MasterCard</option>-->
+					<!--<option value="AMEX">American Express</option>-->
+					<!--<option value="DISCOVER">Discover</option>-->
+				<!--</select>-->
+			<!--</div>-->
+			<!--<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'cardNumber', editAccount.txtCardNumber, forceDirty) }">-->
+				<!--<label class="control-label" for="txtCardNumber">Card Number <span class="error">*</span></label>-->
+				<!--<input type="text" id="txtCardNumber" name="txtCardNumber" class="form-control" ng-model="selectedAccount.creditCard.cardNumber"-->
+					<!--error-message error-message-item="selectedAccount.creditCard" error-message-property="'cardNumber'" error-message-control="editAccount.txtCardNumber" />-->
+			<!--</div>-->
+		<!--</div>-->
 
-	<!--<div ng-if="selectedAccount.hasToken">
-		<p>Stored payment type: {{ selectedAccount.tokenizedType }}</p>
-	</div>
+		<!--<div class="control-group">-->
+			<!--<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'cvc', editAccount.txtCVCNumber, forceDirty) }">-->
+				<!--<label class="control-label" for="txtCVCNumber">CVC <span class="error">*</span></label>-->
+				<!--<input type="text" id="txtCVCNumber" name="txtCVCNumber" class="form-control" ng-model="selectedAccount.creditCard.cvc"-->
+					<!--error-message error-message-item="selectedAccount.creditCard" error-message-property="'cvc'" error-message-control="editAccount.txtCVCNumber" />-->
+			<!--</div>-->
+			<!--<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'expirationDateMonth', editAccount.selExpirationMonth, forceDirty) }">-->
+				<!--<label class="control-label" for="selExpirationMonth">Expir. Month <span class="error">*</span></label>-->
+				<!--<select id="selExpirationMonth" name="selExpirationMonth" class="form-control" ng-model="selectedAccount.creditCard.expirationDateMonth"-->
+					<!--error-message error-message-item="selectedAccount.creditCard" error-message-property="'expirationDateMonth'" error-message-control="editAccount.selExpirationMonth">-->
+					<!--<option value="1">Jan</option>-->
+					<!--<option value="2">Feb</option>-->
+					<!--<option value="3">Mar</option>-->
+					<!--<option value="4">Apr</option>-->
+					<!--<option value="5">May</option>-->
+					<!--<option value="6">Jun</option>-->
+					<!--<option value="7">Jul</option>-->
+					<!--<option value="8">Aug</option>-->
+					<!--<option value="9">Sep</option>-->
+					<!--<option value="10">Oct</option>-->
+					<!--<option value="11">Nov</option>-->
+					<!--<option value="12">Dec</option>-->
+				<!--</select>-->
+			<!--</div>-->
+			<!--<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'expirationDateYear', editAccount.selExpirationYear, forceDirty) }">-->
+				<!--<label class="control-label" for="selExpirationYear">Expir. Year <span class="error">*</span></label>-->
+				<!--<select id="selExpirationYear" name="selExpirationYear" class="form-control"-->
+					<!--ng-model="selectedAccount.creditCard.expirationDateYear" ng-options="year for year in years"-->
+					<!--error-message error-message-item="selectedAccount.creditCard" error-message-property="'expirationDateYear'" error-message-control="editAccount.selExpirationYear"></select>-->
+			<!--</div>-->
+		<!--</div>-->
 
-	<div class="control-group">
-		<label class="radio-inline"><input type="radio" name="radPaymentMethod" id="radCreditCard" ng-value="'CC'" ng-model="selectedAccount.paymentType" />Credit Card</label>
-	</div>-->
-
-	<div>
-		<div class="control-group">
-			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'nameOnCard', editAccount.txtNameOnCard, forceDirty) }">
-				<label class="control-label" for="txtNameOnCard">Name on Card <span class="error">*</span></label>
-				<input type="text" id="txtNameOnCard" name="txtNameOnCard" class="form-control" ng-model="selectedAccount.creditCard.nameOnCard"
-					error-message error-message-item="selectedAccount.creditCard" error-message-property="'nameOnCard'" error-message-control="editAccount.txtNameOnCard" />
-			</div>
-			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'cardType', editAccount.selCardType, forceDirty) }">
-				<label class="control-label" for="selCardType">Card Type <span class="error">*</span></label>
-				<select id="selCardType" name="selCardType" class="form-control" ng-model="selectedAccount.creditCard.cardType"
-					error-message error-message-item="selectedAccount.creditCard" error-message-property="'cardType'" error-message-control="editAccount.selCardType">
-					<option value="VISA">Visa</option>
-					<option value="MASTERCARD">MasterCard</option>
-					<option value="AMEX">American Express</option>
-					<option value="DISCOVER">Discover</option>
-				</select>
-			</div>
-			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'cardNumber', editAccount.txtCardNumber, forceDirty) }">
-				<label class="control-label" for="txtCardNumber">Card Number <span class="error">*</span></label>
-				<input type="text" id="txtCardNumber" name="txtCardNumber" class="form-control" ng-model="selectedAccount.creditCard.cardNumber"
-					error-message error-message-item="selectedAccount.creditCard" error-message-property="'cardNumber'" error-message-control="editAccount.txtCardNumber" />
-			</div>
-		</div>
-
-		<div class="control-group">
-			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'cvc', editAccount.txtCVCNumber, forceDirty) }">
-				<label class="control-label" for="txtCVCNumber">CVC <span class="error">*</span></label>
-				<input type="text" id="txtCVCNumber" name="txtCVCNumber" class="form-control" ng-model="selectedAccount.creditCard.cvc"
-					error-message error-message-item="selectedAccount.creditCard" error-message-property="'cvc'" error-message-control="editAccount.txtCVCNumber" />
-			</div>
-			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'expirationDateMonth', editAccount.selExpirationMonth, forceDirty) }">
-				<label class="control-label" for="selExpirationMonth">Expir. Month <span class="error">*</span></label>
-				<select id="selExpirationMonth" name="selExpirationMonth" class="form-control" ng-model="selectedAccount.creditCard.expirationDateMonth"
-					error-message error-message-item="selectedAccount.creditCard" error-message-property="'expirationDateMonth'" error-message-control="editAccount.selExpirationMonth">
-					<option value="1">Jan</option>
-					<option value="2">Feb</option>
-					<option value="3">Mar</option>
-					<option value="4">Apr</option>
-					<option value="5">May</option>
-					<option value="6">Jun</option>
-					<option value="7">Jul</option>
-					<option value="8">Aug</option>
-					<option value="9">Sep</option>
-					<option value="10">Oct</option>
-					<option value="11">Nov</option>
-					<option value="12">Dec</option>
-				</select>
-			</div>
-			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'expirationDateYear', editAccount.selExpirationYear, forceDirty) }">
-				<label class="control-label" for="selExpirationYear">Expir. Year <span class="error">*</span></label>
-				<select id="selExpirationYear" name="selExpirationYear" class="form-control"
-					ng-model="selectedAccount.creditCard.expirationDateYear" ng-options="year for year in years"
-					error-message error-message-item="selectedAccount.creditCard" error-message-property="'expirationDateYear'" error-message-control="editAccount.selExpirationYear"></select>
-			</div>
-		</div>
-
-		<div class="control-group">
-			<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'postalCode', editAccount.txtCCPostalCode, forceDirty) }">
-				<label class="control-label" for="txtCCPostalCode">Postal Code <span class="error">*</span></label>
-				<input type="text" id="txtCCPostalCode" name="txtCCPostalCode" class="form-control" ng-model="selectedAccount.creditCard.postalCode"
-					error-message error-message-item="selectedAccount.creditCard" error-message-property="'postalCode'" error-message-control="editAccount.txtCCPostalCode" />
-			</div>
-		</div>
-	</div>
+		<!--<div class="control-group">-->
+			<!--<div class="form-group" ng-class="{ 'has-error': hasError(selectedAccount.creditCard, 'postalCode', editAccount.txtCCPostalCode, forceDirty) }">-->
+				<!--<label class="control-label" for="txtCCPostalCode">Postal Code <span class="error">*</span></label>-->
+				<!--<input type="text" id="txtCCPostalCode" name="txtCCPostalCode" class="form-control" ng-model="selectedAccount.creditCard.postalCode"-->
+					<!--error-message error-message-item="selectedAccount.creditCard" error-message-property="'postalCode'" error-message-control="editAccount.txtCCPostalCode" />-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
 
 	<div ng-show="selectedAccount.paymentType === 'ACH'">
 		<div class="control-group">

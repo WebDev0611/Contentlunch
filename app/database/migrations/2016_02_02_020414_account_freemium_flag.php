@@ -20,6 +20,8 @@ class AccountFreemiumFlag extends Migration {
             $table->string('name', 32)->default('unnamed');
 			$table->boolean('active')->default(true);
             $table->string('stripe_id', 24)->default('pro');
+			$table->enum('plan_type', array('agency', 'single'))->default('single');
+			$table->enum('period', array('annual', 'monthly'))->default('monthly');
 		});
 
 
@@ -33,14 +35,19 @@ class AccountFreemiumFlag extends Migration {
         // Give plan #3 a name
         $sub = Subscription::findOrFail(3);
         $sub ->name = 'Professional';
-        $sub ->monthly_price = 100;
+        $sub ->monthly_price = 99;
         $sub->save();
 
 
         // Create the enterprise and agency plans
 		$data = [
-			[4, 999, 250, 10, 1, 'API, Premium Support, Custom Reporting, Advanced Security', 'Enterprise', 'enterprise'],
-            [5, 999, 100, 10, 1, 'API, Premium Support, Custom Reporting, Advanced Security', 'Agency', 'agency'],
+			[4, 999, 250, 10, 1, 'API, Premium Support, Custom Reporting, Advanced Security', 'Enterprise', 'enterprise', 'single', 'monthly'],
+            [5, 999, 99, 10, 1, 'API, Premium Support, Custom Reporting, Advanced Security', 'Agency', 'agency', 'agency', 'monthly'],
+
+			[6, 999, 89, 10, 1, 'API, Premium Support, Custom Reporting, Advanced Security', 'Professional (annual)', 'pro-annual', 'single', 'annual'],
+			[7, 999, 225, 10, 1, 'API, Premium Support, Custom Reporting, Advanced Security', 'Enterprise (annual)', 'enterprise-annual', 'single', 'annual'],
+			[8, 999, 89, 10, 1, 'API, Premium Support, Custom Reporting, Advanced Security', 'Agency (annual)', 'agency-annual', 'agency', 'annual'],
+
 		];
 		foreach ($data as $row) {
 			$sub = new Subscription;
@@ -52,6 +59,8 @@ class AccountFreemiumFlag extends Migration {
 			$sub->features = $row[5];
             $sub->name = $row[6];
             $sub->stripe_id = $row[7];
+			$sub->plan_type = $row[8];
+			$sub->period = $row[9];
 			$sub->save();
 		}
 

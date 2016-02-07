@@ -11,6 +11,17 @@ class AccountSubscriptionController extends BaseController {
     return Account::find($id)->accountSubscription()->orderBy('id', 'desc')->first();
   }
 
+
+  public function subscribe() {
+    /** This is the handler that takes the user's stripe token, and subscribes them to a plan.
+     * It will create a stripe customer.
+     * If the user already has a subscription, it allows them to switch their plan.
+     * */
+
+  }
+
+
+
   public function create_subscription($account_id,
                                       $subscription_level,
                                       $licenses,

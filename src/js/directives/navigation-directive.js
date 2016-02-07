@@ -50,7 +50,11 @@ launch.module.directive('navigationTemplate', function($location, $compile, Auth
 					});
 				});
 
-				mainNavItems.splice(0, 0, { title: 'clients', url: 'agency', active: 'active' });
+
+				if(scope.user.account.accountType == 'agency') {
+					mainNavItems.splice(0, 0, {title: 'clients', url: 'agency', active: 'active'});
+				}
+
 				mainNavItems.splice(0, 0, { title: 'home', url: '/', active: 'active' });
 
 

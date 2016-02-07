@@ -5,10 +5,11 @@ launch.module.controller('AgencyController', [
         self.addingClient = false;
         self.clients = [];
 
-        self.newClient = {
-            name: "",
-
-        };
+        self.createStub = function() {
+            self.newClient = {
+                name: "",
+            };
+        }
 
 
         self.init = function() {
@@ -20,6 +21,7 @@ launch.module.controller('AgencyController', [
                     self.addClient();
                 }
             });
+            self.createStub();
             console.log(a);
         }
 
@@ -36,6 +38,7 @@ launch.module.controller('AgencyController', [
 
         self.cancelAddClient = function() {
             self.addingClient = false;
+            self.createStub();
         }
 
         self.init();

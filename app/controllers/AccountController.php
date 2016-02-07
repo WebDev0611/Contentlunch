@@ -227,6 +227,16 @@ class AccountController extends BaseController {
 		} else {
 			$account->hasToken = false;
 		}
+
+		if($account->account_type=='agency') {
+			$account->client_count = $account->clientCount();
+
+		}
+
+		$account->available_subscriptions = Subscription::where('active','=',1)->where('plan_type','=',$account->account_type)->get();
+
+
+
 		unset($account->token);
 		$account->payment_info = unserialize($account->payment_info);
 		return $account;

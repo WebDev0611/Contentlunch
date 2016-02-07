@@ -1,5 +1,8 @@
 launch.module.controller('AccountController', [
-	'$scope', '$filter', '$location', 'AuthService', 'AccountService', 'UserService', 'NotificationService', 'SessionService', function ($scope, $filter, $location, authService, accountService, userService, notificationService, sessionService) {
+	'$scope', '$filter', '$location', 'AuthService',
+	'AccountService', 'UserService',
+	'NotificationService', 'SessionService',
+	function ($scope, $filter, $location, authService, accountService, userService, notificationService, sessionService) {
 		var self = this;
 
 		self.ajaxHandler = {
@@ -18,6 +21,7 @@ launch.module.controller('AccountController', [
 
 		$scope.selectedAccount = null;
 		$scope.isLoading = false;
+
 
 		$scope.refreshMethod = function() {
 			var tempAccount = authService.accountInfo();

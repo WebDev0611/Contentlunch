@@ -132,10 +132,13 @@ launch.ModelMapper = function($location, authService, notificationService) {
 			account.phoneNumber = dto.phone;
 			account.strategy = dto.strategy;
 			account.userCount = parseInt(dto.count_users);
+			account.clientCount = parseInt(dto.count_clients);
 			account.created = dto.created_at;
 			account.updated = dto.updated_at;
 			account.paymentDate = dto.payment_date;
 			account.accountType = dto.account_type;
+			account.availableSubscriptions = dto.available_subscriptions;
+
 
 
 
@@ -211,7 +214,9 @@ launch.ModelMapper = function($location, authService, notificationService) {
 				updated_at: account.updated,
 				payment_date: account.paymentDate,
 				account_type: account.accountType,
-				password: account.password
+				password: account.password,
+				first_name: account.firstName,  // these two are a bastardization to support registration...
+				last_name: account.lastName
 			};
 
 			if (!!account.creditCard && !launch.utils.isBlank(account.creditCard.cardNumber) && !launch.utils.isValidPattern(account.creditCard.cardNumber, /\*/)) {
@@ -706,6 +711,7 @@ launch.ModelMapper = function($location, authService, notificationService) {
 			var subscription = new launch.Subscription(parseInt(dto.subscription_level));
 
 			subscription.id = parseInt(dto.id);
+			subscription.planType = dto.plan_type;
 			subscription.numberLicenses = parseInt(dto.licenses);
 			subscription.pricePerMonth = parseFloat(dto.monthly_price);
 			subscription.training = parseInt(dto.training) === 1 ? true : false;

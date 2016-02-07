@@ -138,6 +138,11 @@ class Account extends Ardent {
 		));
 	}
 
+
+	public function clientCount() {
+		return Account::where('parent_id','=', $this->id)->count();
+	}
+
 	/**
 	 * Attach a user to this account
 	 * @param  integer $id User id
