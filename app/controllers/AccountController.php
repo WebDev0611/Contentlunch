@@ -253,23 +253,23 @@ class AccountController extends BaseController {
 		if (Input::has('payment_info')) {
 			$account->payment_info = serialize(Input::get('payment_info'));
 		}
-        if(Input::has('token') && Input::get('token') != $account->token) {
-            $account->token = Input::get('token');
-            $balancedAccount = new Launch\Balanced($account);
-            try {
-                $balancedAccount->syncPayment();
-            }
-            catch(Balanced\Errors\Declined $e) {
-                return $this->responseError('Your credit card was declined');
-            }
-            catch(Balanced\Errors\Error $e) {
-                return $this->responseError('Something went wrong while processing your card');
-            }
-        }
-
-        if ($account->token && !$account->payment_date) {
-        	$account->payment_date = $account->expiration_date;
-        }
+//        if(Input::has('token') && Input::get('token') != $account->token) {
+//            $account->token = Input::get('token');
+//            $balancedAccount = new Launch\Balanced($account);
+//            try {
+//                $balancedAccount->syncPayment();
+//            }
+//            catch(Balanced\Errors\Declined $e) {
+//                return $this->responseError('Your credit card was declined');
+//            }
+//            catch(Balanced\Errors\Error $e) {
+//                return $this->responseError('Something went wrong while processing your card');
+//            }
+//        }
+//
+//        if ($account->token && !$account->payment_date) {
+//        	$account->payment_date = $account->expiration_date;
+//        }
 
 		if ($account->updateUniques())
 		{
@@ -465,6 +465,7 @@ class AccountController extends BaseController {
 			$user->username = $account->email;
 			$user->email = $account->email;
 			$user->confirmation_code = md5( uniqid(mt_rand(), true) );
+			if( Input::has('first_name'))
 			if( Input::has('password')) {
 				$user->password_confirmation = $user->password = Input::get('password');
 				$user->confirmed = 0;

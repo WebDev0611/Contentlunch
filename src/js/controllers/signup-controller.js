@@ -36,6 +36,7 @@ launch.module.controller('SignupController', [
 				phoneNumber: null,
 				emailAddress: null,
 				password: null,
+				fullName: null,
 				accountType: "single"
 			};
 
@@ -85,11 +86,8 @@ launch.module.controller('SignupController', [
 		$scope.signUp = function() {
 			var msg = '';
 
-			if (launch.utils.isBlank($scope.user.firstName)) { msg += '\nFirst Name is required.'; }
-			if (launch.utils.isBlank($scope.user.lastName)) { msg += '\nLast Name is required.'; }
-			//if (launch.utils.isBlank($scope.user.title)) { msg += '\nTitle is required.'; }
+			if (launch.utils.isBlank($scope.user.fullName)) { msg += '\nYour Name is required.'; }
 			if (launch.utils.isBlank($scope.user.businessName)) { msg += '\nBusiness Name is required.'; }
-			if (launch.utils.isBlank($scope.user.phoneNumber)) { msg += '\nPhone Number is required.'; }
 			if (launch.utils.isBlank($scope.user.password)) { msg += '\nPassword is required.'; }
 
 			if (launch.utils.isBlank($scope.user.emailAddress)) {
@@ -107,17 +105,18 @@ launch.module.controller('SignupController', [
 
 
 			account.name = $scope.user.businessName;
-			account.firstName = $scope.user.firstName;
-			account.lastName = $scope.user.lastName;
-			account.title = $scope.user.title;
+
+			account.firstName = $scope.user.fullName.split(" ", 2)[0];
+			account.lastName = $scope.user.fullName.substr(account.firstName.length+1);
+
+			account.title = ""; //$scope.user.title;
 			account.active = true;
 			account.email = $scope.user.emailAddress;
-			account.phoneNumber = $scope.user.phoneNumber;
+			account.phoneNumber = ""; //$scope.user.phoneNumber;
 			account.userCount = 1;
 			//account.subscription = self.subscription;
 			account.password = $scope.user.password;
 			account.accountType = $scope.user.accountType;
-
 
 			$scope.isSaving = true;
 

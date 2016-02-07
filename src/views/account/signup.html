@@ -56,22 +56,8 @@
 			</div>
 			<div class="control-group">
 				<div class="form-group">
-					<label class="control-label" for="txtFirstName">First Name <span class="error">*</span></label>
-					<input autocomplete="off" type="text" id="txtFirstName" name="txtFirstName" class="form-control" ng-model="user.firstName" />
-				</div>
-			</div>
-
-			<div class="control-group">
-				<div class="form-group">
-					<label class="control-label" for="txtFirstName">Last Name <span class="error">*</span></label>
-					<input autocomplete="off" type="text" id="txtLastName" name="txtLastName" class="form-control" ng-model="user.lastName" />
-				</div>
-			</div>
-
-			<div class="control-group">
-				<div class="form-group">
-					<label class="control-label" for="txtTitle">Title</label>
-					<input autocomplete="off" type="text" id="txtTitle" name="txtTitle" class="form-control" ng-model="user.title" />
+					<label class="control-label" for="txtFirstName">Your Name <span class="error">*</span></label>
+					<input autocomplete="off" type="text" id="txtFirstName" name="txtFirstName" class="form-control" ng-model="user.fullName" />
 				</div>
 			</div>
 
@@ -84,15 +70,15 @@
 
 			<div class="control-group">
 				<div class="form-group">
-					<label class="control-label" for="txtPhoneNumber">Phone Number</label>
-					<input autocomplete="off" type="text" id="txtPhoneNumber" name="txtPhoneNumber" class="form-control" ng-model="user.phoneNumber" />
+					<label class="control-label" for="txtEmailAddress">Email Address <span class="error">*</span></label>
+					<input autocomplete="off" type="text" id="txtEmailAddress" name="txtEmailAddress" class="form-control" ng-model="user.emailAddress" />
 				</div>
 			</div>
 
 			<div class="control-group">
 				<div class="form-group">
-					<label class="control-label" for="txtEmailAddress">Email Address <span class="error">*</span></label>
-					<input autocomplete="off" type="text" id="txtEmailAddress" name="txtEmailAddress" class="form-control" ng-model="user.emailAddress" />
+					<label class="control-label" for="txtPassword">Password <span class="error">*</span></label>
+					<input autocomplete="off" type="password" id="txtPassword" name="txtPassword" class="form-control" ng-model="user.password" />
 				</div>
 			</div>
 
@@ -122,12 +108,7 @@
 			</div>
 
 
-			<div class="control-group">
-				<div class="form-group">
-					<label class="control-label" for="txtPassword">Password <span class="error">*</span></label>
-					<input autocomplete="off" type="password" id="txtPassword" name="txtPassword" class="form-control" ng-model="user.password" />
-				</div>
-			</div>
+
 
 			<p class="center">By clicking Sign Up, you agree to our <a href ng-click="openTerms()">Terms & Conditions.</a></p>
 			
