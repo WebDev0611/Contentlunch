@@ -119,6 +119,10 @@ launch.module.factory('AccountService', function($resource, $upload, ModelMapper
 
 			return resource.insert({ id: accountId }, userId, success, error);
 		},
+
+		updatePayment: function(accountId, details) {
+			return accountSubscriptions.save({ id: accountId }, details);
+		},
 		updateAccountSubscription: function(accountId, subscription, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;

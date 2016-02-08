@@ -76,7 +76,11 @@ class AccountSubscriptionController extends BaseController {
     $stripe_token = Input::get('token');
     $plan_id = Input::get('plan_id');
 
-    $this->switch_plan($sub, $plan_id, $stripe_token);
+    if($plan_id) {
+      $this->switch_plan($sub, $plan_id, $stripe_token);
+    } else {
+      $this->update_payment($sub, $stripe_token);
+    }
 
     if($sub->exists()) {
       return $this->get_subscription($account_id, $checkAuth);
@@ -107,6 +111,37 @@ class AccountSubscriptionController extends BaseController {
       $cu->save();
     } else {
       throw new Exception('Can not update non-existent customer');
+    }
+  }
+
+
+
+  protected function update_payment($account_subscription, $stripe_token) {
+    $account = $account_subscription->account()->first();
+    $stripeKey = Config::get('app.stripe')['secret_key'];
+    \Stripe\Stripe::setApiKey($stripeKey);
+    if($account->token) {
+      // Need to update an existing stripe customer
+      $cu = \Stripe\Customer::retrieve($account->token);
+      if($stripe_token) {
+        $cu->source = $stripe_token;
+      }
+      $cu->save();
+    } else {
+      if(!$stripe_token) {
+        throw new Exception('Can not find payment details for customer.');
+      }
+      // Need to create a new stripe customer
+      $cu = \Stripe\Customer::create(array(
+          "description" => "{$account->name} {$account->id}",
+          "email" => $account->email,
+          "metadata" => [
+              "account_id" => $account->id
+          ],
+          "source" => $stripe_token
+      ));
+      $account->token = $cu->id;
+      $account->save();
     }
   }
 

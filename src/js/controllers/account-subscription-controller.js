@@ -16,8 +16,6 @@ launch.module.controller('AccountSubscriptionController', [
             self.period = "annual";
             self.account = AccountService.get(tempAccount.id);
 
-
-
             self.stripeHandler = StripeCheckout.configure({
                 key: 'pk_test_9WtB8kfnBxpSgEX7MMwOkA82',
                 image: '/img/documentation/checkout/marketplace.png',
@@ -42,6 +40,22 @@ launch.module.controller('AccountSubscriptionController', [
             });
         };
 
+        self.setupPaymentDetails = function(stripeToken) {
+
+            AccountService.updatePayment(tempAccount.id, {token:stripeToken['id']}).$promise.then(function(result){
+                console.log(result);
+            });
+        }
+
+        self.changePaymentDetails = function($event) {
+            $event.preventDefault();
+            pendingAction = self.setupPaymentDetails;
+            self.stripeHandler.open({
+                name: 'Content Launch',
+                panelLabel: 'Update',
+                email: user.email
+            });
+        }
 
 
         self.collectPaymentDetails = function($event, subscription_plan){
