@@ -18,7 +18,8 @@ launch.module.factory('AccountService', function($resource, $upload, ModelMapper
 
 	var accountSubscriptions = $resource('/api/account/:id/subscription', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.subscription.parseResponse },
-		save: { method: 'POST' }
+		save: { method: 'POST' },
+		cancel: { method: 'DELETE' }
 	});
 
 	var accountRenew = $resource('/api/account/:id/renew-subscription', { id: '@id' }, {
@@ -119,7 +120,9 @@ launch.module.factory('AccountService', function($resource, $upload, ModelMapper
 
 			return resource.insert({ id: accountId }, userId, success, error);
 		},
-
+		cancelSubscription: function(accountId) {
+			return accountSubscriptions.cancel({ id: accountId });
+		},
 		updatePayment: function(accountId, details) {
 			return accountSubscriptions.save({ id: accountId }, details);
 		},

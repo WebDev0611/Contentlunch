@@ -1,8 +1,8 @@
 // Controller for the subscription form used in the account page.
 
 launch.module.controller('AccountSubscriptionController', [
-    '$scope', "AuthService", "AccountService",
-    function ($scope, AuthService, AccountService) {
+    '$scope', "AuthService", "AccountService", "$modal", "AnalyticsService",
+    function ($scope, AuthService, AccountService, $modal, AnalyticsService) {
         var self = this;
         var user = AuthService.accountInfo();
         var pendingAction;
@@ -35,16 +35,35 @@ launch.module.controller('AccountSubscriptionController', [
 
         self.setupSubscription = function(stripeToken, plan){
             console.log("Subscribe " + stripeToken + " to " + plan.name);
+            AnalyticsService.trackEvent('subscribe', {'plan':plan.name});
             AccountService.updateAccountSubscription(tempAccount.id, {plan_id:plan.id, token:stripeToken['id']}).$promise.then(function(result){
                 console.log(result);
             });
         };
 
         self.setupPaymentDetails = function(stripeToken) {
-
+            AnalyticsService.trackEvent('changePaymentDetails', {});
             AccountService.updatePayment(tempAccount.id, {token:stripeToken['id']}).$promise.then(function(result){
                 console.log(result);
             });
+        }
+
+        self.cancelSubscription = function($event) {
+            $event.preventDefault();
+
+            var m = $modal.open({
+                templateUrl: 'cancel-confirm-window.html',
+                controller: "CancelConfirmController",
+                controllerAs: "ctrl"
+            });
+
+            m.result.then(function(reason){
+               AnalyticsService.trackEvent('cancelSubscription', {reason: reason});
+               AccountService.cancelSubscription(tempAccount.id);
+
+            });
+
+            //AccountService.cancelSubscription(tempAccount.id);
         }
 
         self.changePaymentDetails = function($event) {
@@ -60,6 +79,7 @@ launch.module.controller('AccountSubscriptionController', [
 
         self.collectPaymentDetails = function($event, subscription_plan){
             $event.preventDefault();
+            AnalyticsService.trackEvent('collectPayment', {'plan':subscription_plan.name});
             pendingAction = function(token) {
                 self.setupSubscription(token, subscription_plan)
             }

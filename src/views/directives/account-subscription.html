@@ -36,9 +36,32 @@
 
             <li><a ng-click="sctrl.changePaymentDetails($event)">Change Payment Details</a></li>
             <li><a ng-click="">Invoices</a></li>
-            <li><a ng-click="">Cancel Subscription</a></li>
+            <li>
+                <a ng-click="sctrl.cancelSubscription($event)">Cancel Subscription</a>
+            </li>
         </ul>
     </div>
 
 
 </div>
+
+
+<script type="text/ng-template" id="cancel-confirm-window.html">
+    <div class="modal-header">Cancel Subscription</div>
+    <div class="modal-body">
+        <h2>Sorry to see you go.</h2>
+
+        <p>Please take a moment and let us know why you're canceling.</p>
+
+        <textarea class="form-control" ng-model="ctrl.reason"></textarea>
+
+
+    </div>
+    <div class="modal-footer">
+        <button ng-class="{disabled:(ctrl.reason.length==0)}"
+                class="btn btn-danger"
+                ng-disabled="ctrl.reason.length==0"
+                ng-click="$close(ctrl.reason)">Cancel Subscription</button>
+        <button class="btn btn-success" ng-click="$dismiss()">Keep Subscription</button>
+    </div>
+</script>

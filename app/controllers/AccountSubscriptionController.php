@@ -64,6 +64,35 @@ class AccountSubscriptionController extends BaseController {
     return $sub;
   }
 
+  public function cancel_subscription($account_id)
+  {
+    // Restrict user is in account
+    if (! $this->inAccount($account_id)) {
+      return $this->responseAccessDenied();
+    }
+
+    $sub = AccountSubscription::firstOrNew(['account_id' => $account_id]);
+    $account = $sub->account()->first();
+
+    $stripeKey = Config::get('app.stripe')['secret_key'];
+
+    \Stripe\Stripe::setApiKey($stripeKey);
+
+    if($account->token) {
+      // Need to update an existing stripe customer
+      $subscriptions = \Stripe\Customer::retrieve($account->token)->subscriptions->all();
+      foreach($subscriptions->data as &$sub) {
+        $sub->cancel();
+      }
+//      $cu = \Stripe\Customer::retrieve($account->token);
+//
+//      $cu->save();
+    }
+
+  }
+
+
+
   public function post_subscription($account_id, $checkAuth = true)
   {
     // Restrict user is in account

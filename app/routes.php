@@ -118,6 +118,7 @@ Route::group(['prefix' => 'api'], function()
   Route::post('account/{id}/subscribe', 'AccountSubscriptionController@subscribe');
   Route::get('account/{id}/subscription', 'AccountSubscriptionController@get_subscription');
   Route::post('account/{id}/subscription', 'AccountSubscriptionController@post_subscription');
+  Route::delete('account/{id}/subscription', 'AccountSubscriptionController@cancel_subscription');
 
   Route::post('account/{id}/resend_creation_email', 'AccountController@resend_creation_email');
   Route::post('support-email', 'AccountController@send_support_email');
