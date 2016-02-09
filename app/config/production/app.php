@@ -1,6 +1,6 @@
 <?php
 return array(
-  'debug' => false,
+  'debug' => true,
   'url' => 'http://app.contentlaunch.com',
   'key' => 'mTPMo0f9iS62L8sHQEqOJ6gIPpvhqqpO',
   'force_secure' => true,
