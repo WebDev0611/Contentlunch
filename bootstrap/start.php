@@ -29,29 +29,33 @@ $app = new Illuminate\Foundation\Application;
  * By default, will return local
  */
 $env = $app->detectEnvironment(function() {
-  if (gethostname() == 'mtdew') {
-    return 'local';
-  }
+//  if (gethostname() == 'mtdew') {
+//    return 'local';
+//  }
+
   $hosts = array(
     'test.contentlaunch.surgeforward.com' => 'test',
     'staging.contentlaunch.surgeforward.com' => 'staging',
-    'contentlaunch.com' => 'prod'
+    'app.contentlaunch.com' => 'production'
   );
 
-  if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_ADDR'] == '10.0.2.15') {
-    return 'local';
-  }
+//  if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_ADDR'] == '10.0.2.15') {
+//    return 'local';
+//  }
 
-  if (isset($_SERVER['SERVER_NAME']) 
-        && $_SERVER['SERVER_NAME'] == 'local.contentlaunch.com' 
-        && isset($_SERVER['SERVER_ADDR']) 
-        && $_SERVER['SERVER_ADDR'] == '10.254.2.21'
-     ) {
-    return 'test';
-  }
+//  if (isset($_SERVER['SERVER_NAME'])
+//        && $_SERVER['SERVER_NAME'] == 'local.contentlaunch.com'
+//        && isset($_SERVER['SERVER_ADDR'])
+//        && $_SERVER['SERVER_ADDR'] == '10.254.2.21'
+//     ) {
+//    return 'test';
+//  }
+
   if (isset($_SERVER['SERVER_NAME']) && isset($hosts[$_SERVER['SERVER_NAME']])) {
     return $hosts[$_SERVER['SERVER_NAME']];
   }
+
+
   return 'local';
 });
 

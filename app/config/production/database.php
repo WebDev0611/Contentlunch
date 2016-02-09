@@ -5,10 +5,10 @@ return array(
   'connections' => array(
     'mysql' => array(
       'driver'    => 'mysql',
-      'host'      => 'app.contentlaunch.sql01.prd.us-east-1.lan.surgeforward.com',
-      'database'  => 'contentlaunch_production',
-      'username'  => 'contentlaunch',
-      'password'  => 'Fn7E2tcA7fDPyYmY',
+      'host'      => 'contentlaunch-prod.ciijdncmo3aq.us-east-1.rds.amazonaws.com',
+      'database'  => 'cl_prod',
+      'username'  => 'clprod',
+      'password'  => 'h*Le8vE7%TF',
       'charset'   => 'utf8',
       'collation' => 'utf8_unicode_ci',
       'prefix'    => '',
