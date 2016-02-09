@@ -84,9 +84,9 @@ class AccountSubscriptionController extends BaseController {
       foreach($subscriptions->data as &$sub) {
         $sub->cancel();
       }
-//      $cu = \Stripe\Customer::retrieve($account->token);
-//
-//      $cu->save();
+      $account->token = null;
+      $account->save();
+
     }
 
   }
@@ -142,7 +142,6 @@ class AccountSubscriptionController extends BaseController {
       throw new Exception('Can not update non-existent customer');
     }
   }
-
 
 
   protected function update_payment($account_subscription, $stripe_token) {

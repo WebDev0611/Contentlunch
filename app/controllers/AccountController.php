@@ -222,6 +222,10 @@ class AccountController extends BaseController {
 			->with('modules')
 			->where('accounts.id', $id)
 			->first();
+
+		$subscription = $account->accountSubscription()->first()->subscription()->first();
+		$account->subscription_plan = $subscription;
+
 		if ($account->token) {
 			$account->hasToken = true;
 		} else {

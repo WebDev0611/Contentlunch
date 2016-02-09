@@ -17,8 +17,11 @@
 
     <div class="col-md-4">
         <ul>
-            <li>Current Plan: Professional (Annual)</li>
-            <li>Billing Date: 1/1/2016</li>
+
+
+            <li>{{sctrl.account.subscription_plan.name}}</li>
+
+
             <li ng-if="sctrl.account.accountType=='single'">
                 <ng-pluralize count="sctrl.account.userCount"
                               when="{'0': 'No Users',
@@ -35,7 +38,7 @@
             </li>
 
             <li><a ng-click="sctrl.changePaymentDetails($event)">Change Payment Details</a></li>
-            <li><a ng-click="">Invoices</a></li>
+            <!--<li><a ng-click="">Invoices</a></li>-->
             <li>
                 <a ng-click="sctrl.cancelSubscription($event)">Cancel Subscription</a>
             </li>
