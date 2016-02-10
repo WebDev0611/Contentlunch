@@ -268,6 +268,9 @@ Route::group(['prefix' => 'api'], function()
 
 });
 
+
+Route::get('healthcheck', 'HealthCheckController@health_check');
+
 // HasOffers postback
 Route::get('redirect/contentlaunch', 'HasOffersController@createCookies');
 

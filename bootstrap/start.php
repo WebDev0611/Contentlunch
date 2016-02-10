@@ -36,7 +36,8 @@ $env = $app->detectEnvironment(function() {
   $hosts = array(
     'test.contentlaunch.surgeforward.com' => 'test',
     'staging.contentlaunch.surgeforward.com' => 'staging',
-    'app.contentlaunch.com' => 'production'
+    'app.contentlaunch.com' => 'production',
+    'contentlaunch-prod.elasticbeanstalk.com' => 'production'
   );
 
 //  if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_ADDR'] == '10.0.2.15') {
