@@ -15,7 +15,7 @@ return array(
     |
     */
 
-//    'driver' => 'redis',
-//    'prefix' => 'cl',
+    'driver' => 'redis',
+    'prefix' => 'cl',
 
 );
