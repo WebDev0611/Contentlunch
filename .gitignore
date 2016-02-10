@@ -20,6 +20,8 @@ root_id_rsa*
 id_rsa*
 *.zsh*
 *.iml
+*.secret
 # ignore local configurations
 app/config/local/
 *.sublime-workspace
+.elasticbeanstalk/
