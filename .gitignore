@@ -24,4 +24,9 @@ id_rsa*
 # ignore local configurations
 app/config/local/
 *.sublime-workspace
-.elasticbeanstalk/
+
+# .elasticbeanstalk/
+# Elastic Beanstalk Files
+# .elasticbeanstalk/*
+# !.elasticbeanstalk/*.cfg.yml
+# !.elasticbeanstalk/*.global.yml
