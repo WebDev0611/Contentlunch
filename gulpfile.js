@@ -4,7 +4,7 @@ var gulp = require('gulp'),
 		minifycss = require('gulp-minify-css'),
 		jshint = require('gulp-jshint'),
 		uglify = require('gulp-uglify'),
-		imagemin = require('gulp-imagemin'),
+		//imagemin = require('gulp-imagemin'),
 		rename = require('gulp-rename'),
 		clean = require('gulp-clean'),
 		less = require('gulp-less'),
@@ -89,9 +89,9 @@ gulp.task('less', function () {
 gulp.task('tinymce', function () {
   var dir = './bower_components/tinymce/';
   gulp.src([
-    dir + 'tinymce.min.js', 
-    dir + 'plugins/**/*', 
-    dir + 'skins/**/*', 
+    dir + 'tinymce.min.js',
+    dir + 'plugins/**/*',
+    dir + 'skins/**/*',
     dir + 'themes/**/*'
   ], { base: dir })
     .pipe(gulp.dest('./public/assets/js/tinymce'))
@@ -253,17 +253,16 @@ gulp.task('images', function() {
 			'./bower_components/select2/select2-spinner.gif',
 			'./bower_components/select2/select2x2.png'
 		])
-		.pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
 		.pipe(gulp.dest('public/assets/css'))
 		.pipe(livereload(server));
 
 	return gulp.src([
 			'src/images/**/*',
 		])
-		.pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
 		.pipe(gulp.dest('public/assets/images'))
 		.pipe(livereload(server));
 });
+
 
 gulp.task('clean', function() {
 	return gulp.src(['public/assets/css', 'public/assets/js', 'public/assets/images', 'public/assets/views'], {read: false})
