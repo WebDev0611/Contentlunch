@@ -17,6 +17,9 @@ if (Config::get('app.force_secure')) {
 Route::post('stripe_webhook', 'StripeWebhookController@webhook');
 Route::get('debug_update_account/{accountId}', 'StripeWebhookController@debug_update_account');
 
+Route::get('login', 'AuthController@login_page');
+Route::post('login', 'AuthController@process_login');
+
 /**
  * API calls, prefixed with /api
  * Should return json responses
@@ -302,13 +305,23 @@ Route::get('image/{size}/{file}', 'UploadController@getImage')
  * Any routes that aren't already matched by laravel should
  * be passed on to angular's routing.
  */
-Route::any('{all}', function()
-{
-  // If route starts with api and the route wasn't matched, return an error response
-  if (Request::is('api/*')) {
-    return Response::json([
-      'error' => 'Unknown route: '. Request::path()
-    ], 400);
-  }
-  return View::make('master');
-})->where('all', '.*');
+
+//Route::any('{all}', function()
+//{
+//  // If route starts with api and the route wasn't matched, return an error response
+//  if (Request::is('api/*')) {
+//    return Response::json([
+//      'error' => 'Unknown route: '. Request::path()
+//    ], 400);
+//  }
+//
+//  return View::make('master');
+//
+//})->where('all', '.*');
+
+
+Route::group(array('before' => 'auth'), function(){
+  Route::get("/", "AppController@home");
+  Route::get('/app/{accouintId}', 'AppController@account');
+});
+

@@ -39,14 +39,19 @@
     <script async type="text/javascript" src="/assets/js/tinymce/tinymce.min.js"></script>
     <script type="text/javascript" src="/assets/js/app.js?version=<?php echo Config::get('app.version') ?>"></script>
 
-    <?php if (Config::get('app.debug')): ?>
+
       <script type="text/javascript">
       //var launchDebug = true;
-	      $(document).ready(function() {
-		      window.launch.config.DEBUG_MODE = true;
-	      });
+      
+          launch.module.constant('accountId', <?= $accountId ?>);
+
+          <?php if (Config::get('app.debug')): ?>
+              $(document).ready(function() {
+                  window.launch.config.DEBUG_MODE = true;
+              });
+          <?php endif; ?>
       </script>
-    <?php endif; ?>
+
 
 
 	<script type="text/ng-template" id="confirm.html">

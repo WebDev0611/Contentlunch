@@ -1,35 +1,35 @@
 (function(window, angular) {
 	'use strict';
 
-	var launch = window.launch || (window.launch = { });
+	var launch = window.launch || (window.launch = {});
 	launch.module = angular.module('launch', ['ngRoute',
-                                            'ngResource',
-                                            'ngSanitize',
-                                            'ui.bootstrap',
-                                            'angularFileUpload',
-                                            'ui.tinymce',
-                                            'ui.select2',
-                                            'restangular',
-                                            'checklist-model',
-                                            'wijmo']);
+		'ngResource',
+		'ngSanitize',
+		'ui.bootstrap',
+		'angularFileUpload',
+		'ui.tinymce',
+		'ui.select2',
+		'restangular',
+		'checklist-model',
+		'wijmo']);
 
 	launch.module.value('contentStatuses', ['concept',
-        'create',
-        'review',
-        'launch',
-        'promote']);
+		'create',
+		'review',
+		'launch',
+		'promote']);
 	launch.module.value('ecommercePlatforms', [
-			{ id: 'magento', name: 'Magento' },
-			{ id: 'volusion', name: 'Volusion' },
-			{ id: 'shopify', name: 'Shopify' },
-			{ id: 'woo-commerce', name: 'Woo Commerce' },
-			{ id: 'big-commerce', name: 'Big Commerce' },
-			{ id: 'other', name: 'Other' }
+		{id: 'magento', name: 'Magento'},
+		{id: 'volusion', name: 'Volusion'},
+		{id: 'shopify', name: 'Shopify'},
+		{id: 'woo-commerce', name: 'Woo Commerce'},
+		{id: 'big-commerce', name: 'Big Commerce'},
+		{id: 'other', name: 'Other'}
 	]);
 
 	launch.module.config([
 			'$routeProvider', '$locationProvider', '$httpProvider', 'RestangularProvider',
-			function($routeProvider, $locationProvider, $httpProvider, RestangularProvider) {
+			function ($routeProvider, $locationProvider, $httpProvider, RestangularProvider) {
 				$locationProvider.html5Mode(true);
 
 				$routeProvider
@@ -42,24 +42,24 @@
 						controller: 'HomeController',
 						controllerAs: 'ctrl',
 						templateUrl: '/assets/views/home.html',
-                        resolve: {
-                            app: function($q, $rootScope, $location, AuthService) {
-                                var defer = $q.defer();
-                                var user = AuthService.userInfo();
-                                if (user && launch.utils.isBlank(user.account)) {
-                                    $location.path('/accounts');
-                                }
-                                defer.resolve();
-                                return defer.promise;
-                            }
-                        }
+						resolve: {
+							app: function ($q, $rootScope, $location, AuthService) {
+								var defer = $q.defer();
+								var user = AuthService.userInfo();
+								if (user && launch.utils.isBlank(user.account)) {
+									$location.path('/accounts');
+								}
+								defer.resolve();
+								return defer.promise;
+							}
+						}
 					})
 					.when('/agency', {
 						controller: 'AgencyController',
 						controllerAs: 'ctrl',
 						templateUrl: '/assets/views/agency.html',
 						resolve: {
-							userInfo: function(AuthService) {
+							userInfo: function (AuthService) {
 								return AuthService.validateCurrentUser(); // this will make sure we're not using stale versions.
 							}
 						}
@@ -75,18 +75,18 @@
 						controllerAs: 'ctrl',
 						templateUrl: '/assets/views/home.html'
 					})
-                    .when('/signup', {
-                        controller: 'SignupController',
+					.when('/signup', {
+						controller: 'SignupController',
 						controllerAs: 'ctrl',
-                        templateUrl: '/assets/views/account/signup.html',
-                        allowAnon: true
-                    })
-                    .when('/signup/confirm', {
-                        controller: 'SignupController',
+						templateUrl: '/assets/views/account/signup.html',
+						allowAnon: true
+					})
+					.when('/signup/confirm', {
+						controller: 'SignupController',
 						controllerAs: 'ctrl',
-                        templateUrl: '/assets/views/account/signup_confirm.html',
-                        allowAnon: true
-                    })
+						templateUrl: '/assets/views/account/signup_confirm.html',
+						allowAnon: true
+					})
 					.when('/support', {
 						controller: 'SupportController',
 						controllerAs: 'ctrl',
@@ -333,7 +333,7 @@
 						templateUrl: '/assets/views/announcements.html'
 					})
 					.otherwise({
-						redirectTo: function(params, path, search) {
+						redirectTo: function (params, path, search) {
 							console.log('Invalid route: ' + path);
 							return '/';
 						}
@@ -342,13 +342,13 @@
 				RestangularProvider.setBaseUrl('/api');
 
 				// take all the requests from the server and transform snake_case to camelCase
-				RestangularProvider.addResponseInterceptor(function(data, operation, route, url) {
+				RestangularProvider.addResponseInterceptor(function (data, operation, route, url) {
 					if (_.isArray(data)) return _.map(data, toClient);
 					return toClient(data);
 				});
 
 				// take all the requests to the server (that have data) and convert snake_case back to camelCase
-				RestangularProvider.addRequestInterceptor(function(data, operation, route, url) {
+				RestangularProvider.addRequestInterceptor(function (data, operation, route, url) {
 					operation = operation.toUpperCase();
 					if (operation === 'GET' || operation === 'GETLIST' || operation === 'REMOVE' || operation === 'DELETE')
 						return data;
@@ -374,9 +374,9 @@
 					if (data.first_name && data.last_name)
 						data.name = data.first_name + ' ' + data.last_name;
 
-					return _.mapObject(data, function(value, key) {
+					return _.mapObject(data, function (value, key) {
 						// camelCaseize keys
-						key = (key + '').replace(/_(\w)/g, function(_, $1) {
+						key = (key + '').replace(/_(\w)/g, function (_, $1) {
 							return $1.toUpperCase();
 						});
 
@@ -397,7 +397,7 @@
 					if (!angular.isObject(data) && !angular.isArray(data))
 						return data;
 
-					return _.mapObject(data, function(value, key) {
+					return _.mapObject(data, function (value, key) {
 						// adjust dates for UTC timezone
 						if (isDateString(value)) {
 							// console.debug(key, 'before utc:', value);
@@ -406,7 +406,7 @@
 						}
 
 						// snake_caseize keys
-						key = (key + '').replace(/([a-z])([A-Z0-9])/g, function(_, $1, $2) {
+						key = (key + '').replace(/([a-z])([A-Z0-9])/g, function (_, $1, $2) {
 							return $1 + '_' + $2.toLowerCase();
 						});
 
@@ -426,12 +426,12 @@
 				}
 
 				var interceptor = [
-					'$location', '$q', function($location, $q) {
-						var success = function(r) {
+					'$location', '$q', function ($location, $q) {
+						var success = function (r) {
 							return r;
 						};
 
-						var error = function(r) {
+						var error = function (r) {
 							if (r.status === 401) {
 								if (!launch.utils.startsWith($location.path(), '/user/confirm/')) {
 									// TODO: OPEN DIALOG HERE!!
@@ -444,7 +444,7 @@
 							}
 						};
 
-						return function(promise) {
+						return function (promise) {
 							return promise.then(success, error);
 						};
 					}
@@ -456,20 +456,20 @@
 			}
 		])
 		.run(['$rootScope', '$location', 'UserService', 'AuthService', 'NotificationService',
-			function($rootScope,   $location,   userService,   authService,   notificationService) {
+			function ($rootScope, $location, userService, authService, notificationService) {
 				$rootScope.yes = true;
 				$rootScope.no = false;
 
 				var path = $location.path();
 
-				var fetchCurrentUser = function(r) {
+				var fetchCurrentUser = function (r) {
 					if (!r.id && $location.path() !== '/login' && $location.path().indexOf('/user/confirm') !== 0) {
 						console.log('redirecting to login');
 						$location.path('/login').search('path', path);
 					}
 				};
 
-				$rootScope.$on('$routeChangeStart', function(event, next, current) {
+				$rootScope.$on('$routeChangeStart', function (event, next, current) {
 					if ($location.path() === '/login') {
 						authService.logout();
 					} else if (!next.allowAnon && !authService.isLoggedIn()) {
@@ -483,7 +483,7 @@
 					}
 				});
 
-				$rootScope.$on('$routeChangeSuccess', function(event, next, current) {
+				$rootScope.$on('$routeChangeSuccess', function (event, next, current) {
 					// Bootstrap popovers aren't going away causing issues
 					$('.popover').remove();
 				});
@@ -493,20 +493,20 @@
 
 				// Generic Template-wide helpers
 				// -------------------------
-				$rootScope.addRow = function(array, item) {
+				$rootScope.addRow = function (array, item) {
 					array.push(item);
 				};
 
 				// byId is opt OUT
-				$rootScope.removeRow = function(array, index, byId) {
+				$rootScope.removeRow = function (array, index, byId) {
 					if (byId !== false) {
 						index = _.indexById(array, index);
 					}
 					if (index !== -1) array.splice(index, 1);
 				};
 
-				$rootScope.globalErrorHandler = function(err) {
-					var errorMessage = (err.data || { });
+				$rootScope.globalErrorHandler = function (err) {
+					var errorMessage = (err.data || {});
 					errorMessage = errorMessage.errors || errorMessage.error;
 					if (angular.isArray(errorMessage)) errorMessage = errorMessage.join('<br>');
 					notificationService.error(errorMessage || err.data || err || 'Unknown Error.');
@@ -515,8 +515,8 @@
 			}
 		]);
 
-	launch.module.filter('pageStart', function() {
-		return function(input, start) {
+	launch.module.filter('pageStart', function () {
+		return function (input, start) {
 			return input.splice(parseInt(start));
 		};
 	});
@@ -525,32 +525,32 @@
 	_.templateSettings.interpolate = /\{\{ +(.+?) +\}\}/g;
 	_.mixin({
 		mapObject: _.compose(_.object, _.map),
-		findById: function(items, id) {
-			return _.find(items, function(item) {
+		findById: function (items, id) {
+			return _.find(items, function (item) {
 				return item.id == id;
 			});
 		},
-		appendOrUpdate: function(array, item) {
+		appendOrUpdate: function (array, item) {
 			var index = _.indexById(array, item.id);
 
 			if (index !== -1) array[index] = angular.copy(item);
 			else array.push(angular.copy(item));
 		},
-		remove: function(array, item) {
-			if (!item.id) item = { id: item };
+		remove: function (array, item) {
+			if (!item.id) item = {id: item};
 			var index = _.indexById(array, item.id);
 			if (index !== -1) array.splice(index, 1);
 		},
-		stripTags: function(str) {
+		stripTags: function (str) {
 			if (!str) return '';
 			return ('' + str).replace(/<\/?[^>]+>/g, '');
 		},
-		indexById: function(array, id) {
+		indexById: function (array, id) {
 			var index = -1;
 
 			// we could use 2 underscore functions to do this, but
 			// then it would have to loop through everything twice
-			var exists = _.any(array, function(item) {
+			var exists = _.any(array, function (item) {
 				index++;
 				return item.id == id;
 			});
@@ -558,4 +558,5 @@
 			return exists ? index : -1;
 		}
 	});
+
 })(window, angular);
