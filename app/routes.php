@@ -13,6 +13,10 @@ if (Config::get('app.force_secure')) {
   });
 }
 
+
+Route::post('stripe_webhook', 'StripeWebhookController@webhook');
+Route::get('debug_update_account/{accountId}', 'StripeWebhookController@debug_update_account');
+
 /**
  * API calls, prefixed with /api
  * Should return json responses
@@ -37,6 +41,7 @@ Route::group(['prefix' => 'api'], function()
   Route::resource('log_error', 'ErrorLogController', [
       'only' => ['index', 'store', 'show']
   ]);
+
 
   Route::post('account/{id}/add_user', 'AccountUserController@store');
   Route::get('account/{id}/users', 'AccountUserController@show');

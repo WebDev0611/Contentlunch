@@ -16,20 +16,43 @@ Account - Each company that signs up gets an entry in Account
 Subscription represents a subscription plan
 
 AccountSubscription ties a subscription to an Account
-  todo - do we need this?  It should be a many to one relationship
-
-
+  - account_id - which account
+  - subscription_level - which Subscription plan
+  - licenses - ???
+  - monthly_price - How much we charge per month for this plan (/12 for annual)
+  - annual_discount - unused
+  - training - ???
+  - features - ??? always "API, Premium Support, Custom Reporting, Advanced Security" - to be removed
+  - created_at/updated_at - self-explanatory
+  - subscription_type - one of:
+      - trial - on free trial
+      - client - a child account of an agency plan
+      - freemium - our free-forever plan
+      - paid - a paid plan
+      - complementary - a paid plan, but given out for free by us
 
 # Stripe
 
-Stripe has three plans set up with id's:
+Stripe has 6 plans set up with id's:
   pro / $99
   enterprise / $249
   agency / $99
+  pro-annual / $1068
+  enterprise-annual / $2700
+  agency-annual / $1068
 
 For pro and enterprise, that's the per-user price.
 For agency, that's the per-client price.
+-annual plans are per 12 months, otherwise every month
 
 The id in stripe has to match a stripe_id in a Subscription model
+
+Stripe makes webhook calls to /stripe_webhook
+
+# Emails
+
+Stripe sends a receipt email for successful charges
+stunning.co for others
+
 
 

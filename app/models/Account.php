@@ -254,4 +254,43 @@ class Account extends Ardent {
 					  $this->payment_info == NULL);
 	}
 
+
+	public function updateSubscriptionFromStripe() {
+		if( $this->token == null ){
+			return;
+		}
+
+		$accountSub = $this->accountSubscription()->first();
+
+		$cu = \Stripe\Customer::retrieve($this->token);
+		$subscription = $cu->subscriptions->data[0];
+
+
+
+
+		switch($subscription->status) {
+			case 'trialing':
+			case 'active':
+				$this->expiration_date = date('Y-m-d H:i:s', $subscription->current_period_end);
+				$plan = Subscription::where('stripe_id', $subscription->plan->id)->first();
+				if($accountSub->subscription_level != $plan->subscription_level){
+					$accountSub->subscription_level = $plan->subscription_level;
+				}
+
+
+
+				$accountSub->save();
+				break;
+			case 'past_due':
+			case 'canceled':
+			case 'unpaid':
+				$this->expiration_date = null;
+				break;
+
+		}
+
+
+
+	}
+
 }

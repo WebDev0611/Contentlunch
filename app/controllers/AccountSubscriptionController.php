@@ -76,7 +76,7 @@ class AccountSubscriptionController extends BaseController {
 
     $stripeKey = Config::get('app.stripe')['secret_key'];
 
-    \Stripe\Stripe::setApiKey($stripeKey);
+//    \Stripe\Stripe::setApiKey($stripeKey);
 
     if($account->token) {
       // Need to update an existing stripe customer
@@ -131,7 +131,7 @@ class AccountSubscriptionController extends BaseController {
     $account = $account_subscription->account()->first();
     $stripeKey = Config::get('app.stripe')['secret_key'];
 
-    \Stripe\Stripe::setApiKey($stripeKey);
+//    \Stripe\Stripe::setApiKey($stripeKey);
 
     if($account->token) {
       // Need to update an existing stripe customer
@@ -147,7 +147,7 @@ class AccountSubscriptionController extends BaseController {
   protected function update_payment($account_subscription, $stripe_token) {
     $account = $account_subscription->account()->first();
     $stripeKey = Config::get('app.stripe')['secret_key'];
-    \Stripe\Stripe::setApiKey($stripeKey);
+//    \Stripe\Stripe::setApiKey($stripeKey);
     if($account->token) {
       // Need to update an existing stripe customer
       $cu = \Stripe\Customer::retrieve($account->token);
@@ -178,7 +178,7 @@ class AccountSubscriptionController extends BaseController {
     $plan = Subscription::find($plan_id);
     $stripeKey = Config::get('app.stripe')['secret_key'];
 
-    \Stripe\Stripe::setApiKey($stripeKey);
+//    \Stripe\Stripe::setApiKey($stripeKey);
 
     if($account->token) {
       // Need to update an existing stripe customer
