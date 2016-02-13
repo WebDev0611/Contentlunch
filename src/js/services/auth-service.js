@@ -69,6 +69,7 @@ launch.module.factory('AuthService', function($window, $location, $resource, $sa
 
 				cachedValidation.then(function(r){
 					if (r.id) {
+						console.log("Retrieved auth info");
 						self.cacheSession(r);
 					}
 				});

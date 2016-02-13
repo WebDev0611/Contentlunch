@@ -26,8 +26,9 @@
     </script>
 
 </head>
-<body onunload="">
-	<header ng-cloak navigation-template></header>
+<body>
+
+	<header navigation-template></header>
 
     <div class="main-content" ng-view></div>
 
@@ -42,7 +43,6 @@
 
       <script type="text/javascript">
       //var launchDebug = true;
-      
           launch.module.constant('accountId', <?= $accountId ?>);
 
           <?php if (Config::get('app.debug')): ?>

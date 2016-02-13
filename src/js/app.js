@@ -30,7 +30,9 @@
 	launch.module.config([
 			'$routeProvider', '$locationProvider', '$httpProvider', 'RestangularProvider',
 			function ($routeProvider, $locationProvider, $httpProvider, RestangularProvider) {
-				$locationProvider.html5Mode(true);
+				$locationProvider.html5Mode(false);
+
+
 
 				$routeProvider
 					.when('/welcome', {
@@ -43,6 +45,10 @@
 						controllerAs: 'ctrl',
 						templateUrl: '/assets/views/home.html',
 						resolve: {
+							userInfo: function (AuthService) {
+								return AuthService.validateCurrentUser(); // this will make sure we're not using stale versions.
+							},
+
 							app: function ($q, $rootScope, $location, AuthService) {
 								var defer = $q.defer();
 								var user = AuthService.userInfo();
@@ -469,19 +475,19 @@
 					}
 				};
 
-				$rootScope.$on('$routeChangeStart', function (event, next, current) {
-					if ($location.path() === '/login') {
-						authService.logout();
-					} else if (!next.allowAnon && !authService.isLoggedIn()) {
-						// if you want a page to be allowed access anonymously,
-						// set the flag "allowAnon" to true in the route defintion
-						//authService.fetchCurrentUser({
-						//	success: fetchCurrentUser
-						//});
-						$location.path('/login');
-						event.preventDefault();
-					}
-				});
+				//$rootScope.$on('$routeChangeStart', function (event, next, current) {
+				//	if ($location.path() === '/login') {
+				//		authService.logout();
+				//	} else if (!next.allowAnon && !authService.isLoggedIn()) {
+				//		// if you want a page to be allowed access anonymously,
+				//		// set the flag "allowAnon" to true in the route defintion
+				//		//authService.fetchCurrentUser({
+				//		//	success: fetchCurrentUser
+				//		//});
+				//		$location.path('/login');
+				//		event.preventDefault();
+				//	}
+				//});
 
 				$rootScope.$on('$routeChangeSuccess', function (event, next, current) {
 					// Bootstrap popovers aren't going away causing issues

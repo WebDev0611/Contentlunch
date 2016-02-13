@@ -322,6 +322,6 @@ Route::get('image/{size}/{file}', 'UploadController@getImage')
 
 Route::group(array('before' => 'auth'), function(){
   Route::get("/", "AppController@home");
-  Route::get('/app/{accouintId}', 'AppController@account');
+  Route::get('/account/{accountId}', 'AppController@account');
 });
 

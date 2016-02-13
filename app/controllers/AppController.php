@@ -22,11 +22,11 @@ class AppController extends BaseController
         foreach($accounts as $account) {
             if($account != 'client') {
                 // Prefer agency or pro accounts over clients.
-                return Redirect::to("/app/{$account->id}");
+                return Redirect::to("/account/{$account->id}");
             }
         }
         foreach($accounts as $account) {
-            return Redirect::to("/app/{$account->id}");
+            return Redirect::to("/account/{$account->id}");
         }
     }
 

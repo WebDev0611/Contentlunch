@@ -5,6 +5,7 @@ launch.module.directive('navigationTemplate', function($location, $compile, Auth
 		self.init = function() {
 			self.getLoggedInUser();
 
+            // TODO
 			scope.isSignup = $location.path() === '/signup';
 
 			scope.$on('$routeChangeSuccess', self.detectRoute);
@@ -55,40 +56,40 @@ launch.module.directive('navigationTemplate', function($location, $compile, Auth
 					mainNavItems.splice(0, 0, {title: 'clients', url: 'agency', active: 'active'});
 				}
 
-				mainNavItems.splice(0, 0, { title: 'home', url: '/', active: 'active' });
+				mainNavItems.splice(0, 0, { title: 'home', url: '#/', active: 'active' });
 
 
 				if (scope.user.hasModuleAccess('settings')) {
 					if (scope.user.hasPrivilege(['settings_edit_account_settings', 'settings_edit_content_settings', 'settings_edit_seo_settings'])) {
-						adminMenuItems.push({ text: 'Account Settings', cssClass: 'glyphicon-cog', url: '/account' });
+						adminMenuItems.push({ text: 'Account Settings', cssClass: 'glyphicon-cog', url: '#/account' });
 					}
 
 					if (scope.user.hasPrivilege(['settings_edit_profiles', 'settings_execute_users'])) {
-						adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
+						adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '#/users' });
 					}
 
 					if (scope.user.hasPrivilege(['settings_edit_roles', 'settings_execute_roles'])) {
-						adminMenuItems.push({ text: 'User Roles', cssClass: 'glyphicon-lock', url: '/roles' });
+						adminMenuItems.push({ text: 'User Roles', cssClass: 'glyphicon-lock', url: '#/roles' });
 					}
 				}
 			} else {
-				mainNavItems.push({ title: 'accounts', url: '/accounts', active: '' });
-				mainNavItems.push({ title: 'subscription', url: '/subscription', active: '' });
-				mainNavItems.push({ title: 'library', url: '/consult/admin-library', active: '' });
-				mainNavItems.push({ title: 'forum', url: '/consult/forum', active: '' });
+				mainNavItems.push({ title: 'accounts', url: '#/accounts', active: '' });
+				mainNavItems.push({ title: 'subscription', url: '#/subscription', active: '' });
+				mainNavItems.push({ title: 'library', url: '#/consult/admin-library', active: '' });
+				mainNavItems.push({ title: 'forum', url: '#/consult/forum', active: '' });
 
-				mainNavItems.push({ title: 'conference', url: '/consult/admin-conference', active: '', image: 'video' });
+				mainNavItems.push({ title: 'conference', url: '#/consult/admin-conference', active: '', image: 'video' });
 
-				mainNavItems.push({ title: 'announce', url: '/announce', active: '', image: 'announcement' });
+				mainNavItems.push({ title: 'announce', url: '#/announce', active: '', image: 'announcement' });
 
-				adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '/users' });
+				adminMenuItems.push({ text: 'Users', cssClass: 'glyphicon-user', url: '#/users' });
 			}
 
-			userMenuItems.push({ text: 'My Account', cssClass: 'glyphicon-user', url: '/user', image: imageUrl });
-			userMenuItems.push({ text: 'Logout', cssClass: 'glyphicon-log-out', url: '/login', image: null });
+			userMenuItems.push({ text: 'My Account', cssClass: 'glyphicon-user', url: '#/user', image: imageUrl });
+			userMenuItems.push({ text: 'Logout', cssClass: 'glyphicon-log-out', url: '#/login', image: null });
 
 			if (scope.user.impersonating) {
-				userMenuItems.push({ text: 'Switch Back', cssClass: 'glyphicon-log-out', url: '/impersonate/reset', image: null });
+				userMenuItems.push({ text: 'Switch Back', cssClass: 'glyphicon-log-out', url: '#/impersonate/reset', image: null });
 			}
 
 			scope.mainMenu = mainNavItems;
@@ -130,8 +131,8 @@ launch.module.directive('navigationTemplate', function($location, $compile, Auth
 			scope.account = AuthService.accountInfo();
 			self.subscription = null;
 
-			if ($location.path().indexOf('/user/confirm') === 0 || $location.path().indexOf('/login') === 0 ||
-				$location.path().indexOf('/signup') === 0 || $location.path().indexOf('/collaborate/guest') === 0) {
+			if ($location.path().indexOf('user/confirm') != -1 || $location.path().indexOf('login') != -1 ||
+				$location.path().indexOf('signup') != -1 || $location.path().indexOf('collaborate/guest') != -1) {
 				scope.inTrial = false;
 				return;
 			}
@@ -177,12 +178,12 @@ launch.module.directive('navigationTemplate', function($location, $compile, Auth
 		scope.userMenu = [];
 
 		scope.navigate = function(url) {
-			if (url == '/impersonate/reset') {
+			if (url == '#/impersonate/reset') {
 				AuthService.impersonateReset();
 				return;
 			}
 
-			$location.url(angular.lowercase(url));
+			$location.path(angular.lowercase(url));
 		};
 
 		scope.formatMenuTitle = function(title) {
