@@ -115,12 +115,12 @@
 	</div>
 
 	<div class="toggle-module" ng-if="!isNewContent" ng-show="content.status >= 3 && !content.archived && !isNewContent">
-		<a href="/promote/content/{{ content.id }}" class="btn btn-lg btn-default btn-promote" ng-click="submitContent()" ng-show="(content.status === 4 && canPromoteContent && !isPromote)">
+		<a href="#/promote/content/{{ content.id }}" class="btn btn-lg btn-default btn-promote" ng-click="submitContent()" ng-show="(content.status === 4 && canPromoteContent && !isPromote)">
 			<span class="cl-icon cl-icon-white cl-icon-workflow-promote"></span>
 			<span ng-show="!content.archived">PROMOTE CONTENT</span>
 		</a>
 		
-		<a href="/create/content/edit/{{ content.id }}" class="btn btn-lg btn-default btn-create" ng-show="isPromote">
+		<a href="#/create/content/edit/{{ content.id }}" class="btn btn-lg btn-default btn-create" ng-show="isPromote">
 			<span class="cl-icon cl-icon-white cl-icon-workflow-create"></span>
 			<span ng-show="!content.archived">VIEW IN CREATE</span>
 		</a>
@@ -168,7 +168,7 @@
 			</ul>
 		</div>
 		
-		<a href="/measure/content/{{ content.id }}" class="btn btn-lg btn-default btn-measure" ng-show="isPromote">
+		<a href="#/measure/content/{{ content.id }}" class="btn btn-lg btn-default btn-measure" ng-show="isPromote">
 			<span class="cl-icon cl-icon-white cl-icon-workflow-measure"></span>
 			<span ng-show="!content.archived">VIEW IN MEASURE</span>
 		</a>

@@ -72,7 +72,7 @@
                 <tbody>
                     <tr ng-repeat="thread in threads | filter:search | orderBy:sortBy:true | paginate:pagination.currentPage:pagination.pageSize track by thread.id">
                         <td class="align-middle">
-                            <a href="/consult/forum/{{ thread.id }}">{{ thread.name }}</a><br>
+                            <a href="#/consult/forum/{{ thread.id }}">{{ thread.name }}</a><br>
                             <small><strong>Created: </strong> {{ thread.createdAt | moment:'MM/DD/YY' }}</small>
                         </td>
                         <td class="align-middle">{{ thread.description }}</td>

@@ -116,7 +116,7 @@
                     </button>
                     <ul class="dropdown-menu" role="menu">
 						<li ng-repeat="act in myActivity track by act.id">
-							<a href="/create/content/edit/{{ act.contentId }}">
+							<a href="#/create/content/edit/{{ act.contentId }}">
 								{{ formatActivity(act) }}
 								<!--You were {{ act.activity }}<br>{{ act.content.title }} on {{ act.createdAt | moment: 'MM/DD/YY' }}-->
 							</a>
@@ -128,7 +128,7 @@
                     <button class="btn dropdown-toggle" data-toggle="dropdown" ng-class="{ 'btn-default': filters.activity.justMine, 'btn-inverse': !filters.activity.justMine }" ng-click="filters.activity.justMine = false">All Activity</button>
                     <ul class="dropdown-menu" role="menu">
                         <li ng-repeat="act in allActivity track by act.id">
-                            <a href="/create/content/edit/{{ act.contentId }}">
+                            <a href="#/create/content/edit/{{ act.contentId }}">
                                 <span class="user-image user-image-small" style="background-image: url('{{ act.user.image | imagePathFromObject }}')"></span>
 								<!--{{ formatActivity(act) }}-->
 								{{ formatActivity(act) }}

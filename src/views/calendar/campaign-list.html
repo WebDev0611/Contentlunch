@@ -76,10 +76,10 @@
                 <span class="tiny-circle" style="background-color: {{ campaign.color }}"></span>
             </td>
             <td>
-				<a href="/calendar/campaigns/{{ campaign.id }}" ng-show="campaign.status != 0">
+				<a href="#/calendar/campaigns/{{ campaign.id }}" ng-show="campaign.status != 0">
 					{{ campaign.title }}
 				</a>
-				<a href="/calendar/concept/edit/campaign/{{ campaign.id }}" ng-show="campaign.status == 0">
+				<a href="#/calendar/concept/edit/campaign/{{ campaign.id }}" ng-show="campaign.status == 0">
 					{{ campaign.title }}
 				</a>
             </td>
