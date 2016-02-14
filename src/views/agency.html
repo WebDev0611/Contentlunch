@@ -3,7 +3,7 @@
         <ul class="client-list">
             <li ng-repeat="client in ctrl.clients">
                 <div class="pull-right">
-                    <button class="btn btn-default">Go To Client</button>
+                    <a href="/account/{{client.id}}" class="btn btn-default">Go To Client</a>
                     <button class="btn btn-default">Remove Client</button>
                 </div>
 

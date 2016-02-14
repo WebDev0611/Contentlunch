@@ -17,6 +17,7 @@ var gulp = require('gulp'),
 		lr = require('tiny-lr'),
 		embedlr = require('gulp-embedlr'),
 		autoprefixer = require('gulp-autoprefixer'),
+		typescript = require('gulp-typescript'),
 		server = lr();
 var gutil = require('gulp-util');
 
@@ -141,7 +142,19 @@ gulp.task('tinymce-images', function () {
 		.pipe(livereload(server));
 });
 
-gulp.task('scripts', function() {
+
+gulp.task("scripts", ["typescript", "javascript"]);
+
+gulp.task('typescript', function() {
+	return gulp.src('src/js/**/*.ts')
+		.pipe(typescript({
+			noImplicitAny: false,
+			out: 'ts.js'
+		}))
+		.pipe(gulp.dest('public/assets'));
+});
+
+gulp.task('javascript', function() {
 	gulp.src([
 			'./bower_components/lodash/dist/lodash.js',
 			'./bower_components/jquery/dist/jquery.js',
@@ -180,7 +193,7 @@ gulp.task('scripts', function() {
 		//	sourcesContent: true
 		//})).on('error', gutil.log)
 		.pipe(gulp.dest('./public/assets/js'));
-	return gulp.src(['src/js/app.js', 'src/js/**/*.js'])
+	return gulp.src(['src/js/app.js', 'src/js/**/*.js', 'public/assets/ts.js'])
 		// .pipe(jshint('.jshintrc'))
 		// .pipe(jshint.reporter('jshint-stylish'))
 		.pipe(concat('app.js'))
@@ -282,6 +295,7 @@ gulp.task('watch', function() {
 		gulp.watch('src/fonts/**/*.ttf', ['fonts-ttf']).on('change', function (e) { console.log('File "' + e.path + '" changed; FONT-TTF task complete'); });
 		gulp.watch('src/fonts/**/*.woff', ['fonts-woff']).on('change', function (e) { console.log('File "' + e.path + '" changed; FONT-WOFF task complete'); });
 		gulp.watch('src/css/**/*.less', ['less']).on('change', function (e) { console.log('File "' + e.path + '" changed; LESS task complete'); });
+		gulp.watch('src/js/**/*.ts', ['scripts']).on('change', function (e) { console.log('File "' + e.path + '" changed; SCRIPTS task complete'); });
 		gulp.watch('src/js/**/*.js', ['scripts']).on('change', function (e) { console.log('File "' + e.path + '" changed; SCRIPTS task complete'); });
 		gulp.watch('src/views/**/*.html', ['views']).on('change', function (e) { console.log('File "' + e.path + '" changed; VIEW task complete'); });
 		gulp.watch('src/images/**/*', ['images']).on('change', function (e) { console.log('File "' + e.path + '" changed; IMAGE task complete'); });
