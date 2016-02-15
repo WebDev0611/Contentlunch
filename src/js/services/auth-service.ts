@@ -3,7 +3,7 @@
 module launchts {
 
 	class AuthService {
-		static $inject = ["$window", "$location", "$resource", "$sanitize", "SessionService"];
+		static $inject = ["$window", "$location", "$resource", "$sanitize"];
 
 		// WE CANNOT PASS IN A ModelMapperService BECAUSE IT WOULD CAUSE A CIRCULAR DEPENDENCY.
 		// INSTEAD, CREATE OUR OWN INSTANCE OF THE ModelMapper CLASS.
@@ -17,8 +17,7 @@ module launchts {
 		constructor(protected $window,
 					protected $location,
 					protected $resource,
-					protected $sanitize,
-					protected SessionService) {
+					protected $sanitize) {
 
 			this.modelMapper = new launch.ModelMapper($location, this);
 
@@ -41,16 +40,22 @@ module launchts {
 		}
 
 
+		// We can't cache this data anymore since a single user might work on multiple accounts, even
+		// in different browser tabs.  So just locally "cache" them in a couple vars.
+		protected authenticated_key;
+		protected user_key;
+		protected account_key;
+
 		protected cacheSession(user) {
-			this.SessionService.set(this.SessionService.AUTHENTICATED_KEY, true);
-			this.SessionService.set(this.SessionService.USER_KEY, user);
-			this.SessionService.set(this.SessionService.ACCOUNT_KEY, user.account);
+			this.authenticated_key = true;
+			this.user_key = user;
+			this.account_key = user.account;
 		};
 
 		protected uncacheSession() {
-			this.SessionService.unset(this.SessionService.AUTHENTICATED_KEY);
-			this.SessionService.unset(this.SessionService.USER_KEY);
-			this.SessionService.unset(this.SessionService.ACCOUNT_KEY);
+			this.authenticated_key = null;
+			this.user_key = null;
+			this.account_key = null;
 		};
 
 		public fetchCurrentUser = (callback) => {
@@ -107,8 +112,6 @@ module launchts {
 					remember: remember
 				},
 				(r) => {
-					// I think this has already been run through fromDto
-					// var user = this.modelMapper.auth.fromDto(r);
 					var user = r;
 
 					this.cacheSession(user);
@@ -122,7 +125,7 @@ module launchts {
 
 
 		public logout() {
-			this.SessionService.clear();
+			this.uncacheSession();
 
 			return this.$resource('/api/auth/logout').get((r) => {
 				this.uncacheSession();
@@ -131,7 +134,7 @@ module launchts {
 
 
 		public isLoggedIn() {
-			return Boolean(this.SessionService.get(this.SessionService.AUTHENTICATED_KEY));
+			return this.authenticated_key; // Boolean(this.SessionService.get(this.SessionService.AUTHENTICATED_KEY));
 		}
 
 		public userInfo() {
@@ -139,7 +142,7 @@ module launchts {
 				return null;
 			}
 
-			return this.modelMapper.auth.fromCache(JSON.parse(this.SessionService.get(this.SessionService.USER_KEY)));
+			return this.modelMapper.auth.fromCache(this.user_key);
 		}
 
 		public accountInfo() {
@@ -147,7 +150,7 @@ module launchts {
 				return null;
 			}
 
-			return this.modelMapper.account.fromCache(JSON.parse(this.SessionService.get(this.SessionService.ACCOUNT_KEY)));
+			return this.modelMapper.account.fromCache(this.account_key);
 		}
 
 
@@ -212,6 +215,7 @@ module launchts {
 			});
 		}
 	}
+
 
 	launch.module.service('AuthService', AuthService);
 }
