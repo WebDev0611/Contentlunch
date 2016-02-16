@@ -84,6 +84,7 @@ module launchts {
 			console.log("Validating user");
 			if (!this.cachedValidation) {
 				console.log("NOT using cached validation");
+
 				this.cachedValidation = this.authenticate.fetchCurrentUser().$promise;
 
 				this.cachedValidation.then((r) => {

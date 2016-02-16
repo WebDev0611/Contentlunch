@@ -27,10 +27,9 @@
 
 </head>
 <body>
+    <div ui-view>
 
-	<header navigation-template></header>
-
-    <div class="main-content" ng-view></div>
+    </div>
 
     <footer></footer>
 
@@ -38,7 +37,10 @@
     <script async type="text/javascript" src="https://www.googleadservices.com/pagead/conversion_async.js" charset="utf-8"></script>
     <script async type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
     <script async type="text/javascript" src="/assets/js/tinymce/tinymce.min.js"></script>
+
     <script type="text/javascript" src="/assets/js/app.js?version=<?php echo Config::get('app.version') ?>"></script>
+    <script type="text/javascript" src="/assets/js/launch-ts.js?version=<?php echo Config::get('app.version') ?>"></script>
+
 
 
       <script type="text/javascript">
