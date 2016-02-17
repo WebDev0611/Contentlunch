@@ -1,18 +1,15 @@
 /// <reference path='launch.ts' />
-
 module launchts {
-
 
     launch.module.config(["$stateProvider",
         function($stateProvider:ng.ui.IStateProvider) {
             //$locationProvider.html5Mode(false);
-
             $stateProvider
                 .state('app',{
                     templateUrl: '/assets/views/app.html',
                     resolve: {
                         userInfo: function (AuthService) {
-                            return AuthService.validateCurrentUser(); // this will make sure we're not using stale versions.
+                            return AuthService.validateCurrentUser(); // this will make sure we're  using stale versions
                         }
                     }
                 })
@@ -23,8 +20,9 @@ module launchts {
                     templateUrl: '/assets/views/welcome.html',
                     url: '/welcome'
                 })
-                .state('app.home', {
-                    url: '/home',
+                .state('home', {
+                    url: '',
+                    parent: 'app',
                     views: {
                         mainContent: {
                             controller: "HomeController",
