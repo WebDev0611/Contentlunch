@@ -3,7 +3,7 @@
 module launchts {
 
 	class AuthService {
-		static $inject = ["$window", "$location", "$resource", "$sanitize"];
+		static $inject = ["$window", "$location", "$resource", "$sanitize", "accountId"];
 
 		// WE CANNOT PASS IN A ModelMapperService BECAUSE IT WOULD CAUSE A CIRCULAR DEPENDENCY.
 		// INSTEAD, CREATE OUR OWN INSTANCE OF THE ModelMapper CLASS.
@@ -14,14 +14,19 @@ module launchts {
 		protected impersonateres;
 		protected cachedValidation:ng.IPromise<any> = null;
 
+
+
 		constructor(protected $window,
 					protected $location,
 					protected $resource,
-					protected $sanitize) {
+					protected $sanitize,
+				    protected accountId:number) {
+
+
 
 			this.modelMapper = new launch.ModelMapper($location, this);
 
-			this.authenticate = this.$resource('/api/auth', null, {
+			this.authenticate = this.$resource('/api/auth/:accountId', null, {
 				login: {method: 'POST', transformResponse: this.modelMapper.auth.parseResponse},
 				fetchCurrentUser: {method: 'GET', transformResponse: this.modelMapper.auth.parseResponse}
 			});
@@ -62,7 +67,7 @@ module launchts {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return this.authenticate.fetchCurrentUser(null, (r) => {
+			return this.authenticate.fetchCurrentUser({accountId:this.accountId}, (r) => {
 				if (r.id) {
 					this.cacheSession(r);
 				}
@@ -85,7 +90,7 @@ module launchts {
 			if (!this.cachedValidation) {
 				console.log("NOT using cached validation");
 
-				this.cachedValidation = this.authenticate.fetchCurrentUser().$promise;
+				this.cachedValidation = this.authenticate.fetchCurrentUser({accountId:this.accountId}).$promise;
 
 				this.cachedValidation.then((r) => {
 					if (r.id) {

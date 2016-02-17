@@ -9,11 +9,13 @@ module launchts {
                                 'NotificationService',
                                 'MeasureService',
                                 'Restangular',
-                                'userInfo']
+                                'userInfo',
+                                'accountId']
 
         constructor (private $scope, private $rootScope, private $location,
                      private AuthService, private $q, private notify,
-                     private measureService, private Restangular, private user) {
+                     private measureService, private Restangular, private user,
+                     accountId:number) {
 
             $scope.isLoaded = false;
 
@@ -34,9 +36,11 @@ module launchts {
             }
 
             // Restangular Models
-            var Account = Restangular.one('account', user.account.id);
+            var Account = Restangular.one('account', accountId);
             var Discussion = Account.all('discussion');
+
             var User = Restangular.one('user', user.id);
+
             var Announcements = Restangular.all('announcements');
 
             $q.all({

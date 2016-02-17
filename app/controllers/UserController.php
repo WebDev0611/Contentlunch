@@ -137,7 +137,7 @@ class UserController extends BaseController {
 		}
 	}
 
-	public function show($id)
+	public function show($id, $accountId=null)
 	{
 		$user = User::with('image')
 			->with('roles')
@@ -147,6 +147,7 @@ class UserController extends BaseController {
 			return $this->responseError("User not found.");
 		}
 		$user->modules = [];
+
 		if (isset($user->accounts[0])) {
 			$account = Account::find($user->accounts[0]->id);
 			$modules = $account->modules;

@@ -82,6 +82,8 @@ launch.module.factory('UserService', function($resource, $upload, AccountService
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
+			debugger
+
 			return users.get({ id: id }, success, error);
 		},
 		update: function(user, callback) {

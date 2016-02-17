@@ -145,9 +145,11 @@ Route::group(['prefix' => 'api'], function()
 
   Route::group(['prefix' => 'auth'], function() {
     // Attempt to login a user
-    Route::post('/', 'AuthController@do_login');
+    // Route::post('/', 'AuthController@do_login');
+
+
     // Gets the currently logged in user, or guest
-    Route::get('/', 'AuthController@show_current');
+    Route::get('/{accountId}', 'AuthController@show_current');
     // Logout
     Route::get('/logout', 'AuthController@logout');
     // Forgot password, sends reset email

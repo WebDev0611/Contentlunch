@@ -12,11 +12,11 @@ use \Carbon\Carbon;
          * Get the active logged in user
          * @return [type] [description]
          */
-        public function show_current() {
+        public function show_current($accountId) {
             if ($user = Confide::user()) {
                 $ctrl = new UserController;
 
-                return $ctrl->callAction('show', [$user->id]);
+                return $ctrl->callAction('show', [$user->id, $accountId]);
             }
 
             return Response::json(['username' => 'guest']);
@@ -70,91 +70,89 @@ use \Carbon\Carbon;
             }
         }
 
-        /**
-         * Attempt to do login
-         *
-         */
-        public function do_login() {
-            $input = [
-                'email' => Input::get('email'), // May be the username too
-                'username' => Input::get('email'), // so we have to pass both
-                'password' => Input::get('password'),
-                'remember' => Input::get('remember'),
-            ];
 
-            $username = Input::get('email');
-
-            // Ugly hack to get remember_token past Ardent validation
-            // Should be done for logout too
-            User::$rules = [];
-
-            Session::forget('guest');
-
-            // If you wish to only allow login from confirmed users, call logAttempt
-            // with the second parameter as true.
-            // logAttempt will check if the 'email' perhaps is the username.
-            // Get the value from the config file instead of changing the controller
-            if (Confide::logAttempt($input, Config::get('confide::signup_confirm'))) {
-                // Redirect the user to the URL they were trying to access before
-                // caught by the authentication filter IE Redirect::guest('user/login').
-                // Otherwise fallback to '/'
-                // Fix pull #145
-                //return Redirect::intended('/'); // change it to '/admin', '/dashboard' or something
-                //
-                //$id = User::where('email', $input['email'])->pluck('id');
-                $user = Confide::user();
-                // Don't let inactive users login
-                if (!$user->status) {
-                    $this->send_login_email($username, 'Failure: Inactive User');
-
-                    Confide::logout();
-
-                    return $this->responseError("Account is inactive.", 401);
-                }
-
-                // check if account is active, but make exception for global admin
-                if (!$this->hasRole('global_admin')) {
-                    // how the heck do we know which account they are trying to log into...?
-                    $account = Account::find($user->accounts[0]->id);
-                    if (!$account->active) {
-                        $this->send_login_email($username, 'Failure: Inactive Account');
-
-                        Confide::logout();
-
-                        return $this->responseError("Account is inactive.", 401);
-                    }
-                }
-
-                $this->send_login_email($username, 'Success');
-
-                $ctrl = new UserController;
-
-                return $ctrl->callAction('show', [$user->id]);
-            }
-            else {
-                $user = new User;
-
-                // Check if there was too many login attempts
-                if (Confide::isThrottled($input)) {
-                    $this->send_login_email($username, 'Failure: Too many login attempts');
-
-                    $err_msg = Lang::get('confide::confide.alerts.too_many_attempts');
-                }
-// No longer requiring confirmation before using product.
-//                elseif ($user->checkUserExists($input) and !$user->isConfirmed($input)) {
-//                    $this->send_login_email($username, 'Failure: User not confirmed');
+// We moved login out of the API/App and onto an html page.  See process_login and login_page
+//        public function do_login() {
+//            $input = [
+//                'email' => Input::get('email'), // May be the username too
+//                'username' => Input::get('email'), // so we have to pass both
+//                'password' => Input::get('password'),
+//                'remember' => Input::get('remember'),
+//            ];
 //
-//                    $err_msg = Lang::get('confide::confide.alerts.not_confirmed');
+//            $username = Input::get('email');
+//
+//            // Ugly hack to get remember_token past Ardent validation
+//            // Should be done for logout too
+//            User::$rules = [];
+//
+//            Session::forget('guest');
+//
+//            // If you wish to only allow login from confirmed users, call logAttempt
+//            // with the second parameter as true.
+//            // logAttempt will check if the 'email' perhaps is the username.
+//            // Get the value from the config file instead of changing the controller
+//            if (Confide::logAttempt($input, Config::get('confide::signup_confirm'))) {
+//                // Redirect the user to the URL they were trying to access before
+//                // caught by the authentication filter IE Redirect::guest('user/login').
+//                // Otherwise fallback to '/'
+//                // Fix pull #145
+//                //return Redirect::intended('/'); // change it to '/admin', '/dashboard' or something
+//                //
+//                //$id = User::where('email', $input['email'])->pluck('id');
+//                $user = Confide::user();
+//                // Don't let inactive users login
+//                if (!$user->status) {
+//                    $this->send_login_email($username, 'Failure: Inactive User');
+//
+//                    Confide::logout();
+//
+//                    return $this->responseError("Account is inactive.", 401);
 //                }
-                else {
-                    $this->send_login_email($username, 'Failure: Invalid Credentials');
-
-                    $err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
-                }
-
-                return $this->responseError($err_msg, 401);
-            }
-        }
+//
+//                // check if account is active, but make exception for global admin
+//                if (!$this->hasRole('global_admin')) {
+//                    // how the heck do we know which account they are trying to log into...?
+//                    $account = Account::find($user->accounts[0]->id);
+//                    if (!$account->active) {
+//                        $this->send_login_email($username, 'Failure: Inactive Account');
+//
+//                        Confide::logout();
+//
+//                        return $this->responseError("Account is inactive.", 401);
+//                    }
+//                }
+//
+//                $this->send_login_email($username, 'Success');
+//
+//                $ctrl = new UserController;
+//
+//                return $ctrl->callAction('show', [$user->id]);
+//            }
+//            else {
+//                $user = new User;
+//
+//                // Check if there was too many login attempts
+//                if (Confide::isThrottled($input)) {
+//                    $this->send_login_email($username, 'Failure: Too many login attempts');
+//
+//                    $err_msg = Lang::get('confide::confide.alerts.too_many_attempts');
+//                }
+//// No longer requiring confirmation before using product.
+////                elseif ($user->checkUserExists($input) and !$user->isConfirmed($input)) {
+////                    $this->send_login_email($username, 'Failure: User not confirmed');
+////
+////                    $err_msg = Lang::get('confide::confide.alerts.not_confirmed');
+////                }
+//                else {
+//                    $this->send_login_email($username, 'Failure: Invalid Credentials');
+//
+//                    $err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
+//                }
+//
+//                return $this->responseError($err_msg, 401);
+//            }
+//        }
 
         /**
          * Attempt to confirm account with code
