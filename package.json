@@ -7,7 +7,8 @@
   "license": "ISC",
   "dependencies": {
     "gulp": "^3.8.6",
-    "gulp-less": "^1.2.1"
+    "gulp-less": "^1.2.1",
+    "gulp-notify": "^2.2.0"
   },
   "devDependencies": {
     "connect-livereload": "~0.3.2",

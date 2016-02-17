@@ -19,6 +19,7 @@ var gulp = require('gulp'),
 		autoprefixer = require('gulp-autoprefixer'),
 		typescript = require('gulp-typescript'),
 		sourcemaps = require('gulp-sourcemaps'),
+	    notify = require('gulp-notify'),
 		server = lr();
 
 var gutil = require('gulp-util');
@@ -150,7 +151,8 @@ gulp.task('typescript', function() {
 		.pipe(sourcemaps.init())
 		.pipe(typescript({out: 'launch-ts.js'}))
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('public/assets/js'));
+		.pipe(gulp.dest('public/assets/js'))
+		.pipe(notify({title:'typescript done', onLast: true, sound:true}));
 });
 
 gulp.task('javascript', function() {
@@ -195,6 +197,7 @@ gulp.task('javascript', function() {
 		//	sourcesContent: true
 		//})).on('error', gutil.log)
 		.pipe(gulp.dest('./public/assets/js'))
+		.pipe(notify({title:'javascript done', onLast: true, sound:true}))
 		.pipe(livereload(server));
 });
 

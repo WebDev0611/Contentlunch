@@ -27,6 +27,7 @@ module launchts {
             //        }
 
 
+
             if (!user || !user.account || launch.utils.isBlank(user.account.id)) {
                 $location.path('/login');
                 return;
