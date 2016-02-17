@@ -1,5 +1,5 @@
 angular.module('launch').controller('GuestContentController', [
-	'$scope', '$routeParams', '$location', 'AuthService', 'ContentService', 'UserService', 'CampaignService', 'NotificationService', function ($scope, $routeParams, $location, authService, contentService, userService, campaignService, notificationService) {
+	'$scope', '$stateParams', '$location', 'AuthService', 'ContentService', 'UserService', 'CampaignService', 'NotificationService', function ($scope, $stateParams, $location, authService, contentService, userService, campaignService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -17,7 +17,7 @@ angular.module('launch').controller('GuestContentController', [
 		self.init = function () {
 			self.loggedInUser = authService.fetchGuestCollaborator({
 				success: function (r) {
-					self.contentId = parseInt($routeParams.contentId);
+					self.contentId = parseInt($stateParams.contentId);
 
 					$scope.allItems = [];
 

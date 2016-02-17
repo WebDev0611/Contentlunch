@@ -1,5 +1,5 @@
 launch.module.controller('MeasureContentItemController', [
-	'$scope', '$routeParams', '$location', 'AuthService', 'ContentService', 'MeasureService', 'NotificationService', function ($scope, $routeParams, $location, authService, contentService, measureService, notificationService) {
+	'$scope', '$stateParams', '$location', 'AuthService', 'ContentService', 'MeasureService', 'NotificationService', function ($scope, $stateParams, $location, authService, contentService, measureService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -23,7 +23,7 @@ launch.module.controller('MeasureContentItemController', [
 				success: function (r) {
 					$scope.isLoading = false;
 
-					self.contentId = parseInt($routeParams.contentId);
+					self.contentId = parseInt($stateParams.contentId);
 
 					$scope.selectedContent = $.grep($scope.content, function (c) { return c.id === self.contentId; });
 					$scope.selectedContent = ($scope.selectedContent.length === 1) ? $scope.selectedContent[0] : null;

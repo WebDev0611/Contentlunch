@@ -1,5 +1,5 @@
 launch.module.controller('ConfirmController', [
-	'$scope', '$location', '$route', '$routeParams', 'AuthService', 'UserService', 'NotificationService', function($scope, $location, $route, $routeParams, authService, userService, notificationService) {
+	'$scope', '$location', '$route', '$stateParams', 'AuthService', 'UserService', 'NotificationService', function($scope, $location, $route, $stateParams, authService, userService, notificationService) {
 		var self = this;
 
 		self.init = function () {

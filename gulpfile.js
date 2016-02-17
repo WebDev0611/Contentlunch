@@ -9,9 +9,8 @@ var gulp = require('gulp'),
 		clean = require('gulp-clean'),
 		less = require('gulp-less'),
 		path = require('path'),
-		concat = require('gulp-concat-sourcemap'),
-		//concat = require('gulp-concat'),
-		notify = require('gulp-notify'),
+		concatSourcemaps = require('gulp-concat-sourcemap'),
+		concat = require('gulp-concat'),
 		cache = require('gulp-cache'),
 		livereload = require('gulp-livereload'),
 		lr = require('tiny-lr'),
@@ -151,8 +150,7 @@ gulp.task('typescript', function() {
 		.pipe(sourcemaps.init())
 		.pipe(typescript({out: 'launch-ts.js'}))
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('public/assets/js'))
-		.pipe(notify({title:'typescript done', onLast: true, sound:true}));
+		.pipe(gulp.dest('public/assets/js'));
 });
 
 gulp.task('javascript', function() {
@@ -188,17 +186,17 @@ gulp.task('javascript', function() {
 		//	sourcesContent: true
 		//})).on('error', gutil.log)
 		.pipe(gulp.dest('./public/assets/js'));
+
 	return gulp.src(['src/js/app.js', 'src/js/**/*.js'])
 		// .pipe(jshint('.jshintrc'))
 		// .pipe(jshint.reporter('jshint-stylish'))
-		.pipe(concat('app.js'))
+		.pipe(concatSourcemaps('app.js'))
 		//.pipe(concat('app.js', {
 		//	// sourceRoot: '/assets/src',
 		//	sourcesContent: true
 		//})).on('error', gutil.log)
 		.pipe(gulp.dest('./public/assets/js'))
-		.pipe(notify({title:'javascript done', onLast: true, sound:true}))
-		.pipe(livereload(server));
+		.pipe(livereload(server))
 });
 
 gulp.task('fonts-eot', function() {

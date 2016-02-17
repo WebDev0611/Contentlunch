@@ -1,6 +1,6 @@
 launch.module.controller('ContentConceptController', [
-	'$scope', '$routeParams', '$filter', '$location', '$modal', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'CampaignService', 'NotificationService', 'AccountService',
-    function ($scope, $routeParams, $filter, $location, $modal, authService, userService, contentSettingsService, contentService, campaignService, notificationService, accountService) {
+	'$scope', '$stateParams', '$filter', '$location', '$modal', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'CampaignService', 'NotificationService', 'AccountService',
+    function ($scope, $stateParams, $filter, $location, $modal, authService, userService, contentSettingsService, contentService, campaignService, notificationService, accountService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -41,7 +41,7 @@ launch.module.controller('ContentConceptController', [
 		}
 
 		self.refreshConcept = function() {
-			var contentId = parseInt($routeParams.contentId);
+			var contentId = parseInt($stateParams.contentId);
 
 			if (isNaN(contentId)) {
 				$scope.content = contentService.getNewContentConcept(self.loggedInUser);
@@ -256,7 +256,7 @@ launch.module.controller('ContentConceptController', [
 		$scope.$watch('content.author', self.filterCollaborators);
 
 		$scope.refreshBrainstorms = function () {
-			$scope.brainstorms = accountService.getBrainstorms(self.loggedInUser.account.id, 'content', $routeParams.contentId, self.ajaxHandler);
+			$scope.brainstorms = accountService.getBrainstorms(self.loggedInUser.account.id, 'content', $stateParams.contentId, self.ajaxHandler);
 		}
 
 		self.init();

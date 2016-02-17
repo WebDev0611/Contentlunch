@@ -1,5 +1,5 @@
 angular.module('launch').controller('GuestCampaignController', [
-	'$scope', '$routeParams', '$location', 'AuthService', 'CampaignService', 'UserService', 'NotificationService', function ($scope, $routeParams, $location, authService, campaignService, userService, notificationService) {
+	'$scope', '$stateParams', '$location', 'AuthService', 'CampaignService', 'UserService', 'NotificationService', function ($scope, $stateParams, $location, authService, campaignService, userService, notificationService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -17,7 +17,7 @@ angular.module('launch').controller('GuestCampaignController', [
 		self.init = function () {
 			self.loggedInUser = authService.fetchGuestCollaborator({
 				success: function (r) {
-					self.campaignId = parseInt($routeParams.campaignId);
+					self.campaignId = parseInt($stateParams.campaignId);
 
 					$scope.allItems = [];
 

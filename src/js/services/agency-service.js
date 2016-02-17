@@ -12,7 +12,6 @@ launch.module.factory('AgencyService', ["$resource", function($resource) {
     });
 
 
-    init();
     return {
         clients: self.clients,
         loadClients: function(accountId) {
