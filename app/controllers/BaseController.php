@@ -76,11 +76,11 @@ class BaseController extends Controller {
     return Entrust::hasRole($roleName);
   }
 
-  protected function hasPermission($permission)
+  protected function hasPermission($accountId, $permission)
   {
     $user = Confide::user();
     if ($user) {
-      $userObj = User::with('roles')->find($user->id);
+      $userObj = User::find($user->id);
       if ($userObj) {
         return $userObj->can($permission);
       }
@@ -90,18 +90,28 @@ class BaseController extends Controller {
 
   protected function inAccount($accountId)
   {
+    // Global admins can do anything.
     if ($this->hasRole('global_admin')) {
       return true;
     }
+
+    // Make sure a user is logged in
     $user = Confide::user();
     if ($user) {
-      $id = DB::table('account_user')
-        ->where('account_id', $accountId)
-        ->where('user_id', $user->id)
-        ->pluck('id');
+
+      // First, lets check the actual account specified
+      $id = DB::table('account_user')->where('account_id', $accountId)->where('user_id', $user->id)->pluck('id');
       if ($id) {
         return true;
       }
+
+      // If the account is a client account, we also have to check the parent agency account.
+      $account = Account::find($accountId);
+      if($account->account_type == 'client') {
+        return $this->inAccount($account->parent_id);
+      }
+
+
     }
     return false;
   }

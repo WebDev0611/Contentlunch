@@ -35,7 +35,6 @@ class AccountUserController extends BaseController {
       return $this->responseAccessDenied();
     }
     $query = $account->users()
-      ->with('roles')
       ->with('accounts')
       ->with('image');
 

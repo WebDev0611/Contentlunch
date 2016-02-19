@@ -61,10 +61,10 @@ class AccountRepository {
 	{
 		$account->token = NULL;
 		$account->balanced_info = NULL;
-  	$account->payment_info = NULL;
-  	$account->payment_date = NULL;
-  	$account->expiration_date = '2014-12-31 12:00:00';
-  	$account->updateUniques();
+		$account->payment_info = NULL;
+		$account->payment_date = NULL;
+		$account->expiration_date = '2014-12-31 12:00:00';
+		$account->updateUniques();
 	}
 
 	/*
@@ -79,9 +79,9 @@ class AccountRepository {
 	*/
 	public function flagAccountForBillingError($account) 
 	{
-    $account->token = NULL;
-    $account->payment_info = NULL;
-    $account->updateUniques();
+		$account->token = NULL;
+		$account->payment_info = NULL;
+		$account->updateUniques();
 	}
 
 	# Monthly

@@ -9,58 +9,60 @@ class UserController extends BaseController {
 	 */
 	public function index()
 	{
-		$return = array();
-		$query = User::with('roles')
-			->with('image')
-			->with('accounts');
+        return [];
 
-	if (Input::has('permission')) {
-	  // User must have ALL passed permissions
-	  $query->whereHas('roles', function ($q) {
-		$perms = explode(',', Input::get('permission'));
-		foreach ($perms as $p) {
-		  $q->whereHas('perms', function ($q) use ($p) {
-			$q->where('permissions.name', trim($p));
+        // TODO: SECURITY PROBLEM - this returns all users for anyone who asks.
+        // Replaced with empty result above until I can figure out what it was supposed to do.
+
+		$return = array();
+		$query = User::with('image')->with('accounts');
+
+		if (Input::has('permission')) {
+		  // User must have ALL passed permissions
+		  $query->whereHas('roles', function ($q) {
+			$perms = explode(',', Input::get('permission'));
+			foreach ($perms as $p) {
+			  $q->whereHas('perms', function ($q) use ($p) {
+				$q->where('permissions.name', trim($p));
+			  });
+			}
 		  });
 		}
-	  }); 
-	}
 
 		if (Input::get('roles')) {
 			$query->roles(Input::get('roles'));
 		}
-	return $query->get();
 
-		$users = $query->get()->toArray();
-		// @todo: How to limit columns returned with eloquent relationships?
-		foreach ($users as &$user) {
-			if ($user['roles']) {
-				$roles = array();
-				foreach ($user['roles'] as $role) {
-					$roles[] = array(
-						'id' => $role['id'],
-						'name' => $role['name']
-					);
-				}
-				$user['roles'] = $roles;
-			}
-			if ($user['accounts']) {
-				$accounts = array();
-				foreach ($user['accounts'] as $account) {
-					$accounts[] = array(
-						'id' => $account['id'],
-						'name' => $account['name']
-					);
-				}
-				$user['accounts'] = $accounts;
-			}
-		}
-	/*
-	$queries = DB::getQueryLog();
-	$last_query = end($queries);
-	print_r($queries);
-	// */
-		return $users;
+		return $query->get();
+
+//  This next section was after the return above and was never called... why was it here?
+//
+//		$users = $query->get()->toArray();
+//		// @todo: How to limit columns returned with eloquent relationships?
+//		foreach ($users as &$user) {
+//			if ($user['roles']) {
+//				$roles = array();
+//				foreach ($user['roles'] as $role) {
+//					$roles[] = array(
+//						'id' => $role['id'],
+//						'name' => $role['name']
+//					);
+//				}
+//				$user['roles'] = $roles;
+//			}
+//			if ($user['accounts']) {
+//				$accounts = array();
+//				foreach ($user['accounts'] as $account) {
+//					$accounts[] = array(
+//						'id' => $account['id'],
+//						'name' => $account['name']
+//					);
+//				}
+//				$user['accounts'] = $accounts;
+//			}
+//		}
+//
+//		return $users;
 	}
 
 	/**
@@ -137,30 +139,30 @@ class UserController extends BaseController {
 		}
 	}
 
-	public function show($id, $accountId=null)
+	public function show($id, $accountId)
 	{
 		$user = User::with('image')
-			->with('roles')
 			->with('accounts')
 			->find($id);
+
 		if ( ! $user) {
 			return $this->responseError("User not found.");
 		}
 		$user->modules = [];
 
-		if (isset($user->accounts[0])) {
-			$account = Account::find($user->accounts[0]->id);
-			$modules = $account->modules;
-			$modules = $modules->toArray();
-			foreach ($modules as &$module) {
-				$module['subscribable'] = true;
-			}
-			$modules[] = ['name' => 'settings', 'title' => 'Settings', 'subscribable' => false];
-			$user->modules = $modules;
-		} else {
-			$user->modules = [];
+
+		$account = Account::find($accountId);
+		$modules = $account->modules;
+		$modules = $modules->toArray();
+		foreach ($modules as &$module) {
+			$module['subscribable'] = true;
 		}
-	
+		$modules[] = ['name' => 'settings', 'title' => 'Settings', 'subscribable' => false];
+		$user->modules = $modules;
+
+
+        $roles = $user->roles($accountId)->get();
+
 		if (isset($user->roles[0])) {
 			$role = Role::find($user->roles[0]->id);
 			// Site admin has all permissions
@@ -173,9 +175,9 @@ class UserController extends BaseController {
 			}
 		}
 
-	if ( ! empty($user->preferences)) {
-	  $user->preferences = unserialize($user->preferences);
-	}
+        if ( ! empty($user->preferences)) {
+          $user->preferences = unserialize($user->preferences);
+        }
 
 		if ($user) {
 			if (Session::get('impersonate_from') && Session::get('impersonate_from') != $id) {

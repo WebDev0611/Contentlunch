@@ -1,7 +1,9 @@
 <?php
 
 use Zizaco\Confide\ConfideUser;
-use Zizaco\Entrust\HasRole;
+use Launch\HasRole;
+//use Zizaco\Entrust\HasRole;
+
 
 class User extends ConfideUser {
   use HasRole;
@@ -41,11 +43,6 @@ class User extends ConfideUser {
   {
     return 'remember_token';
   }
-
-  //protected function getDateFormat()
-  //{
-  //  return 'Y-m-d H:i:s';
-  //}
 
   public function accounts()
   {
