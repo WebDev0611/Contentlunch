@@ -371,7 +371,6 @@ launch.ModelMapper = function($location, authService, notificationService) {
 			user.phoneNumber = dto.phone;
 			user.title = dto.title;
 			user.userName = dto.username;
-			debugger
 			user.active = (parseInt(dto.status) === 1) ? true : false;
 			user.accounts = ($.isArray(dto.accounts)) ? $.map(dto.accounts, function(a, i) { return self.account.fromDto(a); }) : [];
 			user.account = (user.accounts.length > 0) ? user.accounts[0] : null;
@@ -1988,7 +1987,8 @@ launch.ModelMapper = function($location, authService, notificationService) {
         fromDto : function(dto) {
             console.log(dto);
             return dto
-            debugger;
+
+			// TODO: What is this supposed to be?
             var series = ($.isArray(dto)) ? $.map(dto, function(r, i) { return r; }) : [];
             console.log(series);
             return series;

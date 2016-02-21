@@ -42,12 +42,12 @@ module launchts {
             var User = Restangular.one('user', user.id);
 
             var Announcements = Restangular.all('announcements');
+            $scope.user = user;
 
             $q.all({
                 discussion: Discussion.getList(),
                 tasks: User.getList('tasks'),
                 announcements: Announcements.getList(),
-                user: User.get(),
                 guests: Account.all('guest-collaborators').getList({limit: 5}),
                 strategy: user.account.strategy,
                 brainstorms: Account.all('brainstorm').getList({user: user.id}),
