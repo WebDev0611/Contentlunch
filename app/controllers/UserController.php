@@ -161,10 +161,13 @@ class UserController extends BaseController {
 		$user->modules = $modules;
 
 
-        $roles = $user->roles($accountId)->get();
+        $roles = $user->rolesForAccount($account)->get();
 
-		if (isset($user->roles[0])) {
-			$role = Role::find($user->roles[0]->id);
+		if (isset($roles[0])) {
+
+			// Why is this assuming a single role?
+			$role = $roles[0];
+
 			// Site admin has all permissions
 			if ($role->name == 'global_admin') {
 				$user->permissions = Permission::all()->toArray();
@@ -183,7 +186,8 @@ class UserController extends BaseController {
 			if (Session::get('impersonate_from') && Session::get('impersonate_from') != $id) {
 				$user->impersonating = true;
 			}
-			return $user;
+
+			return $user->toJsonWithAccount($account);
 		}
 	}
 

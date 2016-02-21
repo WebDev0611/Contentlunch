@@ -139,12 +139,7 @@ launch.ModelMapper = function($location, authService, notificationService) {
 			account.accountType = dto.account_type;
 			account.availableSubscriptions = dto.available_subscriptions;
 
-
-
-
-
-
-			account.subscription = self.subscription.fromDto(dto.account_subscription);
+			account.subscription = {}; //self.subscription.fromDto(dto.account_subscription);
 
 			if ($.isArray(dto.modules) && dto.modules.length > 0) {
 
@@ -376,6 +371,7 @@ launch.ModelMapper = function($location, authService, notificationService) {
 			user.phoneNumber = dto.phone;
 			user.title = dto.title;
 			user.userName = dto.username;
+			debugger
 			user.active = (parseInt(dto.status) === 1) ? true : false;
 			user.accounts = ($.isArray(dto.accounts)) ? $.map(dto.accounts, function(a, i) { return self.account.fromDto(a); }) : [];
 			user.account = (user.accounts.length > 0) ? user.accounts[0] : null;

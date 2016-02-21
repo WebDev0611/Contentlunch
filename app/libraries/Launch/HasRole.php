@@ -15,10 +15,30 @@ trait HasRole
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function roles($accountId)
+    protected function roles()
     {
-        return $this->belongsToMany(Config::get('entrust::role'), Config::get('entrust::assigned_roles_table'), 'user_id', 'role_id')->where('account_id', '=', $accountId);
+        return $this->belongsToMany('Role', 'assigned_roles', 'user_id', 'role_id');
     }
+
+
+    /**
+     * Returns the roles for this user for the given account.
+     *
+     * If this is a child account, it will also return the roles this user has
+     * on the parent account so permissions cascade correctly.
+     *
+     * @param $accountId
+     * @return mixed
+     */
+    public function rolesForAccount($account) {
+        return $this->roles()->where(function ($query) use ($account) {
+                $query->where('account_id', '=', $account->id)->orWhere('account_id', '=', $account->parent_id);
+            });
+
+    }
+
+
+
 
     /**
      * Checks if the user has a Role by its name.

@@ -166,15 +166,13 @@ class Account extends Ardent {
 	 */
 	public function getSiteAdminUser()
 	{
-    foreach ($this->users as $user) {
-      if ($user->roles) {
-        foreach ($user->roles as $role) {
-          if ($role->name == 'site_admin') {
-            return $user;
-          }
-        }
-      }
-    }
+		foreach ($this->users as $user) {
+			foreach ($user->rolesForAccount($this) as $role) {
+			  if ($role->name == 'site_admin') {
+				return $user;
+			  }
+			}
+		}
 	}
 
 	// Returns the number of days this account
