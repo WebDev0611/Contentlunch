@@ -65,15 +65,15 @@ class BaseController extends Controller {
    * @param string $roleName
    * @return boolean Has role
    */
-  protected function hasRole($roleName)
+  protected function hasRole($roleName, $account)
   {
+    $user = Confide::user();
+
     if (app()->environment() == 'testing') {
       return true;
     }
-    if (Entrust::hasRole('global_admin')) {
-      return true;
-    }
-    return Entrust::hasRole($roleName);
+
+    return $user->hasRole($roleName, $account);
   }
 
   protected function hasPermission($accountId, $permission)
@@ -90,10 +90,9 @@ class BaseController extends Controller {
 
   protected function inAccount($accountId)
   {
-    // Global admins can do anything.
-    if ($this->hasRole('global_admin')) {
-      return true;
-    }
+
+    $account = Account::findOrFail($accountId);
+
 
     // Make sure a user is logged in
     $user = Confide::user();
