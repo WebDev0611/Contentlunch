@@ -34,7 +34,6 @@ trait HasRole
         return $this->roles()->where(function ($query) use ($account) {
                 $query->where('account_id', '=', $account->id)->orWhere('account_id', '=', $account->parent_id);
             });
-
     }
 
 
@@ -46,16 +45,18 @@ trait HasRole
      * @param string $name Role name.
      *
      * @return bool
+     *
+     * // TODO: Cache roles, at least per-request
+     *
      */
-    public function hasRole($name, $accountId)
+    public function hasRole($name, $account)
     {
-        foreach ($this->roles($accountId) as $role) {
-            if ($role->name == $name) {
-                return true;
-            }
+        // TODO: Performance: We should not be performing this query every single time we check roles.
+        if($this->roles->where('name','=','global_admin')->count() > 0) {
+            return true;
         }
 
-        return false;
+        return $this->rolesForAccount($account)->where('name', '=', $name)->count() > 0;
     }
 
     /**
