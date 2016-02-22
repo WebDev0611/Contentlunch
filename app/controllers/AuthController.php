@@ -111,7 +111,7 @@ use \Carbon\Carbon;
 //                }
 //
 //                // check if account is active, but make exception for global admin
-//                if (!$this->hasRole('global_admin')) {
+//                if (!$this->isGlobalAdmin()) {
 //                    // how the heck do we know which account they are trying to log into...?
 //                    $account = Account::find($user->accounts[0]->id);
 //                    if (!$account->active) {

@@ -5,7 +5,7 @@ class AccountController extends BaseController {
 	public function index()
 	{
 		// Restrict to global admins
-		if ( ! $this->hasRole('global_admin')) {
+		if ( ! $this->isGlobalAdmin()) {
 			return $this->responseAccessDenied();
 		}
 		$accounts = Account::countusers()
@@ -169,7 +169,7 @@ class AccountController extends BaseController {
 	public function store($checkAuth = true)
 	{
 		// Restrict to global admins
-		if ($checkAuth && ! $this->hasRole('global_admin')) {
+		if ($checkAuth && ! $this->isGlobalAdmin()) {
 			return $this->responseAccessDenied();
 		}
 
@@ -365,7 +365,7 @@ class AccountController extends BaseController {
 	public function resend_creation_email($id, $checkAuth = true)
 	{
 		// Restrict to global admins
-		if ($checkAuth && ! $this->hasRole('global_admin')) {
+		if ($checkAuth && ! $this->isGlobalAdmin()) {
 			return $this->responseAccessDenied();
 		}
 		$account = Account::find($id);

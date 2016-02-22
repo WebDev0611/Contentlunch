@@ -30,13 +30,13 @@ class ForumThreadController extends BaseController {
         return $thread;
     }
 
-    public function store()
+    public function store($accountId)
     {
         if (($response = $this->validate()) !== true) {
             return $response;
         }
 
-        if(!$this->hasAbility([], ['consult_execute_forum_create'])) {
+        if(!$this->hasAbility([], ['consult_execute_forum_create'], $accountId)) {
             return $this->responseError('You do not have permission to create threads', 401);
         }
 
@@ -92,7 +92,7 @@ class ForumThreadController extends BaseController {
             return $response;
         }
 
-        if (!$this->hasRole('global_admin')) {
+        if (!$this->isGlobalAdmin()) {
             return $this->responseError('You do not have permission to delete threads', 401);   
         }
 

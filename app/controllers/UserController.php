@@ -200,6 +200,7 @@ class UserController extends BaseController {
 	if ($loggedInUser && $loggedInUser->id == $id) {
 
 	} else {
+		// TODO Marc - need to get $accountId, but only if editing someone else.
 		  if ( ! $this->hasAbility(array(), array('settings_execute_users'))) {
 			 return $this->responseAccessDenied();
 		  }
@@ -239,6 +240,7 @@ class UserController extends BaseController {
 	{
 		// Restrict to user execute permission
 		// @todo: restrict user is in same account
+		// TODO Marc: Need to have $accountId here
 		if ( ! $this->hasAbility(array(), array('settings_execute_users'))) {
 			return $this->responseAccessDenied();
 		}

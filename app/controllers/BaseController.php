@@ -41,21 +41,27 @@ class BaseController extends Controller {
     return Response::json(['errors' => ['Access Denied']], 401);
   }
 
+
+  protected function isGlobalAdmin() {
+    $user = Confide::user();
+    return $user->roles()->where('name','=','global_admin')->count() > 0;
+  }
+
   /**
    * Check if user has ability
    * @return boolean Can access
    */
-  protected function hasAbility($roles, $permissions = array(), $options = array())
+  protected function hasAbility($roles, $permissions = array(), $accountId, $options = array())
   {
     if (app()->environment() == 'testing') {
       return true;
     }
-    if ($this->hasRole('global_admin')) {
+    if ($this->isGlobalAdmin()) {
       return true;
     }
     $user = Confide::user();
     if ($user) {
-      return $user->ability($roles, $permissions, $options);
+      return $user->ability($roles, $permissions, $accountId, $options);
     }
     return false;
   }
@@ -82,7 +88,7 @@ class BaseController extends Controller {
     if ($user) {
       $userObj = User::find($user->id);
       if ($userObj) {
-        return $userObj->can($permission);
+        return $userObj->can($permission, $accountId);
       }
     }
     return false;

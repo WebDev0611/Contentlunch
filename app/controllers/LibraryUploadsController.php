@@ -41,7 +41,7 @@ class LibraryUploadsController extends BaseController {
         $accountID = $account->id;
       }
     }
-    if ($libraryID != 'root' && ! $this->hasRole('global_admin')) {
+    if ($libraryID != 'root' && ! $this->isGlobalAdmin()) {
       $library = Library::find($libraryID);
       // Does user belong to account?
       if ( ! $library || ! $library->account || ! $this->inAccount($library->account->id)) {
@@ -106,7 +106,7 @@ class LibraryUploadsController extends BaseController {
       }
     }
     // Does user belong to account?
-    if ( ! $this->hasRole('global_admin')) {
+    if ( ! $this->isGlobalAdmin()) {
       if ( ! $this->inAccount($accountID)) {
         return $this->responseAccessDenied();
       }
@@ -126,7 +126,7 @@ class LibraryUploadsController extends BaseController {
       if ( ! $accountID) {
         return $this->responseAccessDenied();
       }
-    } elseif (! $this->hasRole('global_admin')) {
+    } elseif (! $this->isGlobalAdmin()) {
       $library = Library::find($libraryID);
       // Does user belong to account?
       if ( ! $library || ! $library->account || ! $this->inAccount($library->account->id)) {
@@ -179,7 +179,7 @@ class LibraryUploadsController extends BaseController {
       if ( ! $accountID) {
         return $this->responseAccessDenied();
       }
-    } elseif ( ! $this->hasRole('global_admin')) {
+    } elseif ( ! $this->isGlobalAdmin()) {
       $library = Library::find($libraryID);
       // Does user belong to account?
       if ( ! $library || ! $library->account || ! $this->inAccount($library->account->id)) {

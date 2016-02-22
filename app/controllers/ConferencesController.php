@@ -8,7 +8,7 @@ class ConferencesController extends BaseController {
   {
     $query = Conference::with('user')->orderBy('created_at', 'desc');
     if ($accountID == 'all') {
-      if ( ! $this->hasRole('global_admin')) {
+      if ( ! $this->isGlobalAdmin()) {
         return $this->responseAccessDenied();
       }
     } else {
@@ -49,7 +49,7 @@ class ConferencesController extends BaseController {
       }
       $conference->date_2 = $date;
     }
-    if ($this->hasRole('global_admin')) {
+    if ($this->isGlobalAdmin()) {
       if (Input::get('scheduled_date') && Input::get('scheduled_time')) {
         $conference->scheduled_date = new \DateTime(Input::get('scheduled_date') .' '. Input::get('scheduled_time'));
       }
@@ -86,7 +86,7 @@ class ConferencesController extends BaseController {
       $conference->date_2 = new \DateTime(Input::get('date_2') .' '. Input::get('time_2'));
     }
     // Check if global admin is editing the conference with a scheduled date
-    if ($this->hasRole('global_admin')) {
+    if ($this->isGlobalAdmin()) {
       if (Input::get('scheduled_date') && Input::get('scheduled_time')) {
         $conference->scheduled_date = new \DateTime(Input::get('scheduled_date') .' '. Input::get('scheduled_time'));
         // Now that there is a scheduled date, bump the status to scheduled

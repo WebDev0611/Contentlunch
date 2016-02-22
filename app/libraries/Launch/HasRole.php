@@ -15,7 +15,7 @@ trait HasRole
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    protected function roles()
+    public function roles()
     {
         return $this->belongsToMany('Role', 'assigned_roles', 'user_id', 'role_id');
     }
@@ -96,7 +96,7 @@ trait HasRole
      *
      * @return array|bool
      */
-    public function ability($roles, $permissions, $options = array())
+    public function ability($roles, $permissions, $accountId, $options = array())
     {
         // Convert string to array if that's what is passed in.
         if (!is_array($roles)) {
@@ -131,7 +131,7 @@ trait HasRole
             $checkedRoles[$role] = $this->hasRole($role);
         }
         foreach ($permissions as $permission) {
-            $checkedPermissions[$permission] = $this->can($permission);
+            $checkedPermissions[$permission] = $this->can($permission, $accountId);
         }
 
         // If validate all and there is a false in either

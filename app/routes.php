@@ -214,7 +214,7 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'update']
   ]);
 
-  Route::resource('forum-thread', 'ForumThreadController', [
+  Route::resource('forum-thread/', 'ForumThreadController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
