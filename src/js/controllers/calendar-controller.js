@@ -1,7 +1,15 @@
 launch.module.controller('CalendarController',
 [
-	'$scope', '$modal', 'AuthService', '$timeout', '$filter', 'UserService', 'campaignTasks', '$q', 'contentStatuses', 'calendar', 'Restangular', 'NotificationService', 'ContentService', 'TaskService',
-	function($scope, $modal, AuthService, $timeout, $filter, UserService, campaignTasks, $q, contentStatuses, calendar, Restangular, notify, contentService, taskService) {
+	'$scope', '$modal', 'AuthService', '$timeout', '$filter', 'UserService',
+    'campaignTasks', '$q', 'contentStatuses', 'calendar',
+    'Restangular', 'NotificationService', 'ContentService', 'TaskService',
+    'userInfo',
+	function($scope, $modal,
+             AuthService, $timeout, $filter,
+             UserService, campaignTasks, $q,
+             contentStatuses, calendar,
+             Restangular, notify, contentService, taskService,
+             userInfo) {
 
 		// different permissions
 		// calendar_execute_campaigns_own
@@ -229,6 +237,8 @@ launch.module.controller('CalendarController',
 
 		var originalResponses = { };
 		$scope.isLoaded = false;
+        $scope.userAuth = userInfo;
+        
 		var eventize;
 		$q.all({
 			campaigns: Account.getList('campaigns'),
@@ -240,7 +250,7 @@ launch.module.controller('CalendarController',
 			users: Account.getList('users'),
 			contentSettings: Account.customGET('content-settings'),
 			contentTypes: Restangular.all('content-types').getList(),
-			userAuth: Restangular.all('auth').customGET()
+
 		}).then(function(responses) {
 			originalResponses = _.mapObject(responses, function(response, key) {
 				return [key, (response || { }).plain ? response.plain() : response];
