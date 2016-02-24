@@ -1,7 +1,15 @@
+// External typings first:
 /// <reference path='typings/tsd.d.ts' />
 /// <reference path='launch.d.ts' />
+
+
+// Services
 /// <reference path='services/auth-service.ts' />
 
+
+// Controllers:
+/// <reference path='controllers/agency-controller.ts' />
+/// <reference path='controllers/home-controller.ts' />
 
 // extend lodash
 declare module _ {

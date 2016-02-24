@@ -42,6 +42,8 @@ use \Carbon\Carbon;
             return View::make('login');
         }
 
+
+
         public function process_login() {
             $rules = array(
                 'email'    => 'required|email', // make sure the email is an actual email

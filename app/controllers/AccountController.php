@@ -148,6 +148,45 @@ class AccountController extends BaseController {
 		return $account;
 	}
 
+	public function signup_page() {
+		return View::make('signup');
+	}
+
+
+	public function process_signup() {
+		$rules = array(
+			'password' => 'required|alphaNum|min:4', // password can only be alphanumeric and has to be greater than 3 characters
+			'full_name' => 'required|min:3',
+			'name' => 'required|min:3',
+			'email' => 'required|email',
+		);
+		// run the validation rules on the inputs from the form
+		$validator = Validator::make(Input::all(), $rules);
+		// if the validator fails, redirect back to the form
+		if ($validator->fails()) {
+			return Redirect::to('signup')
+				->withErrors($validator) // send back all errors to the login form
+				->withInput(Input::except('password')); // send back the input (not the password) so that we can repopulate the form
+		}
+
+
+		$account = $this->createAccount(true);
+		if(!$account->exists) {
+			return $account->errors()->all(':message');
+		}
+
+		$sub_type = (Input::get('account_type') == 'agency') ? "trial" : "freemium";
+		$sub = App::make('AccountSubscriptionController')->create_subscription($account->id, 3, 25, 0, 0, 1,
+			"API, Premium Support, Custom Reporting, Advanced Security",
+			$sub_type);
+
+		if(! $sub->exists() ) {
+			return $sub->errors()->all(':message');
+		}
+
+		return Redirect::route('account', [$account->id]);
+	}
+
 	public function register() {
 		$account = $this->createAccount(true);
 		if(!$account->exists) {
@@ -188,7 +227,7 @@ class AccountController extends BaseController {
 		// may be an error, but won't be if it has an ID
 		if (!@$account->id) return $account;
 		$user = $account->getSiteAdminUser();
-		$account->confirmation_code = $user->confirmation_code;;
+		$account->confirmation_code = $user->confirmation_code;
 
 		try {
 			$sub = App::make('AccountSubscriptionController')->post_subscription($account->id, false);
@@ -370,11 +409,10 @@ class AccountController extends BaseController {
 		}
 		$account = Account::find($id);
 		$user = $account->getSiteAdminUser();
-		$token = $user->confirmation_code;
+//		$token = $user->confirmation_code;
 		$data = array(
 			'account' => $account,
-			'user' => $user,
-			'token' => $token
+			'user' => $user
 		);
 		Mail::send('emails.account.creation', $data, function ($message) use ($account) {
 			$message
@@ -479,7 +517,20 @@ class AccountController extends BaseController {
 			$user->username = $account->email;
 			$user->email = $account->email;
 			$user->confirmation_code = md5( uniqid(mt_rand(), true) );
-			if( Input::has('first_name'))
+			if( Input::has('full_name')) {
+
+				$names = explode(" ", Input::get('full_name'), 2);
+				if(count($names) == 2) {
+					list($firstName, $lastName) = $names;
+				} else {
+					$firstName = Input::get('full_name');
+					$lastName = "";
+				}
+				$user->first_name = $firstName;
+				$user->last_name = $lastName;
+
+			}
+
 			if( Input::has('password')) {
 				$user->password_confirmation = $user->password = Input::get('password');
 				$user->confirmed = 0;

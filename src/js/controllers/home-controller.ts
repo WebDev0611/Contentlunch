@@ -1,3 +1,6 @@
+///<reference path="../launch.ts"/>
+
+
 module launchts {
 
     class HomeController {

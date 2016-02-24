@@ -29,7 +29,7 @@
     <body>
 
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-4 col-md-offset-3 col-sm-10 col-sm-offset-1">
                 {{ Form::open(array('url' => 'login')) }}
                 <h1>Login</h1>
 
@@ -38,22 +38,22 @@
                 <div class="alert alert-danger">{{ Session::get('loginError') }}</div>
                 @endif
 
-                <p>
+                <div>
                     {{ $errors->first('email') }}
                     {{ $errors->first('password') }}
-                </p>
+                </div>
 
-                <p>
+                <div class="form-group">
                     {{ Form::label('email', 'Email Address') }}
-                    {{ Form::text('email', Input::old('email'), array('placeholder' => 'awesome@awesome.com')) }}
-                </p>
+                    {{ Form::text('email', Input::old('email'), array('class'=>'form-control', 'placeholder' => 'awesome@awesome.com')) }}
+                </div>
 
-                <p>
+                <div class="form-group">
                     {{ Form::label('password', 'Password') }}
-                    {{ Form::password('password') }}
-                </p>
+                    {{ Form::password('password', ['class'=>'form-control']) }}
+                </div>
 
-                <p>{{ Form::submit('Submit!') }}</p>
+                <p>{{ Form::submit('Submit!', ['class'=>'btn btn-default']) }}</p>
                 {{ Form::close() }}
             </div>
         </div>

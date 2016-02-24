@@ -53,16 +53,16 @@ module launchts {
                         }
                     }
                 })
-                .state('signup', {
-                    url: '/signup',
-                    views: {
-                        mainContent: {
-                            controller: 'SignupController',
-                            controllerAs: 'ctrl',
-                            templateUrl: '/assets/views/account/signup.html'
-                        }
-                    }
-                })
+                //.state('signup', {
+                //    url: '/signup',
+                //    views: {
+                //        mainContent: {
+                //            controller: 'SignupController',
+                //            controllerAs: 'ctrl',
+                //            templateUrl: '/assets/views/account/signup.html'
+                //        }
+                //    }
+                //})
                 .state('signupConfirm', {
                     url: '/signup/confirm',
                     views: {

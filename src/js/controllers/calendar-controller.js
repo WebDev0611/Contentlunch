@@ -238,7 +238,7 @@ launch.module.controller('CalendarController',
 		var originalResponses = { };
 		$scope.isLoaded = false;
         $scope.userAuth = userInfo;
-        
+
 		var eventize;
 		$q.all({
 			campaigns: Account.getList('campaigns'),

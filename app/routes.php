@@ -20,6 +20,9 @@ Route::get('debug_update_account/{accountId}', 'StripeWebhookController@debug_up
 Route::get('login', 'AuthController@login_page');
 Route::post('login', 'AuthController@process_login');
 
+Route::get('signup', 'AccountController@signup_page');
+Route::post('signup', 'AccountController@process_signup');
+
 /**
  * API calls, prefixed with /api
  * Should return json responses
@@ -324,6 +327,6 @@ Route::get('image/{size}/{file}', 'UploadController@getImage')
 
 Route::group(array('before' => 'auth'), function(){
   Route::get("/", "AppController@home");
-  Route::get('/account/{accountId}', 'AppController@account');
+  Route::get('/account/{accountId}', ['uses'=>'AppController@account', 'as' => 'account'] );
 });
 
