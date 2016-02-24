@@ -59,6 +59,16 @@ echo " ╰─➤ Installing php-mbstring"
 sudo yum install -y -q php-mbstring >&- 2>&-
 echo " ╰─➤ Installing phpunit"
 sudo yum install -y -q phpunit >&- 2>&-
+echo " Install XDebug"
+sudo yum install -y php-pecl-xdebug.x86_64
+
+echo "[xdebug]" >> /etc/php.ini
+echo "zend_extension=\"/usr/lib64/php/modules/xdebug.so\"" >> /etc/php.ini
+echo "xdebug.remote_enble=1" >> /etc/php.ini
+echo "xdebug.idekey=marc" >> /etc/php.ini
+echo "xdebug.remote_autostart=1" >> /etc/php.ini
+echo "xdebug.remote_host=192.168.1.125" >> /etc/php.ini
+
 echo -e "Done!\n"
 
 
