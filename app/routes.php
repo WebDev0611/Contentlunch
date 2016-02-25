@@ -150,7 +150,6 @@ Route::group(['prefix' => 'api'], function()
     // Attempt to login a user
     // Route::post('/', 'AuthController@do_login');
 
-
     // Gets the currently logged in user, or guest
     Route::get('/{accountId}', 'AuthController@show_current');
     // Logout

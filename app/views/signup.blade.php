@@ -74,14 +74,14 @@
         <div>
             <label>
                 <input type="radio"
-                       name="optionsRadios"
+                       name="account_type"
                        id="optHowUse1" value="single" checked>
                 To market my company.
             </label>
         </div>
         <div>
             <label>
-                <input type="radio" name="optionsRadios" id="optHowUse2" value="agency" >
+                <input type="radio" name="account_type" id="optHowUse2" value="agency" >
                 To market one or more of my clients (Agency Mode)
             </label>
         </div>

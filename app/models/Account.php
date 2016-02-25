@@ -6,7 +6,7 @@ class Account extends Ardent {
 
 	// Hydrates from input on new entry's validation
 	public $autoHydrateEntityFromInput = true;
-	// Hydrates from input whenver validation is called
+	// Hydrates from input whenever validation is called
 	public $forceEntityHydrationFromInput = true;
 
 	public static $rules = [
