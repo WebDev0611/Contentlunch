@@ -33,17 +33,14 @@
         {{ Form::open(array('url' => 'signup')) }}
         <h1>Sign Up</h1>
 
-        <!-- if there are login errors, show them here -->
-        @if (Session::get('signupError'))
-        <div class="alert alert-danger">{{ Session::get('signupError') }}</div>
+        @if($errors->count()>0)
+            <div class="alert alert-danger">
+                <p>{{ $errors->first('full_name') }}</p>
+                <p>{{ $errors->first('name') }}</p>
+                <p>{{ $errors->first('email') }}</p>
+                <p>{{ $errors->first('password') }}</p>
+            </div>
         @endif
-
-        <div>
-            {{ $errors->first('full_name') }}
-            {{ $errors->first('name') }}
-            {{ $errors->first('email') }}
-            {{ $errors->first('password') }}
-        </div>
 
 
         <div class="form-group">
@@ -88,7 +85,7 @@
 
         <hr/>
 
-        <p class="center">By clicking Sign Up, you agree to our <a href="terms.html">Terms & Conditions.</a></p>
+        <p class="center">By clicking Sign Up, you agree to our <a target="_blank" href="terms.html">Terms &amp; Conditions.</a></p>
 
         <p>{{ Form::submit('Sign Up', ['class' => 'btn btn-default']) }}</p>
         {{ Form::close() }}

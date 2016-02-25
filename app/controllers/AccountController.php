@@ -158,7 +158,7 @@ class AccountController extends BaseController {
 			'password' => 'required|alphaNum|min:4', // password can only be alphanumeric and has to be greater than 3 characters
 			'full_name' => 'required|min:3',
 			'name' => 'required|min:3',
-			'email' => 'required|email',
+			'email' => 'required|unique:users,email|email',
 		);
 		// run the validation rules on the inputs from the form
 		$validator = Validator::make(Input::all(), $rules);
@@ -168,42 +168,55 @@ class AccountController extends BaseController {
 				->withErrors($validator) // send back all errors to the login form
 				->withInput(Input::except('password')); // send back the input (not the password) so that we can repopulate the form
 		}
+		try {
+			return DB::transaction(function () use ($validator) {
 
+				$account = $this->createAccount(true);
+				if (!$account->exists) {
+					return Redirect::to('signup')
+						->withErrors('AccountCreation')
+						->withErrors($validator)// send back all errors to the login form
+						->withInput(Input::except('password')); // send back the input (not the password) so that we can repopulate the form
+				}
 
-		$account = $this->createAccount(true);
-		if(!$account->exists) {
-			return $account->errors()->all(':message');
+				$sub_type = (Input::get('account_type') == 'agency') ? "trial" : "freemium";
+				$sub = App::make('AccountSubscriptionController')->create_subscription($account->id, 3, 25, 0, 0, 1,
+					"API, Premium Support, Custom Reporting, Advanced Security",
+					$sub_type);
+
+				if (!$sub->exists()) {
+					return $sub->errors()->all(':message');
+				}
+
+				return Redirect::route('account', [$account->id]);
+
+			});
+		} catch(Exception $exception) {
+			return Redirect::to('signup')
+				->withErrors('AccountCreation')
+				->withErrors($validator) // send back all errors to the login form
+				->withInput(Input::except('password'));  // send back the input (not the password) so that we can repopulate the form
 		}
 
-		$sub_type = (Input::get('account_type') == 'agency') ? "trial" : "freemium";
-		$sub = App::make('AccountSubscriptionController')->create_subscription($account->id, 3, 25, 0, 0, 1,
-			"API, Premium Support, Custom Reporting, Advanced Security",
-			$sub_type);
-
-		if(! $sub->exists() ) {
-			return $sub->errors()->all(':message');
-		}
-
-		return Redirect::route('account', [$account->id]);
 	}
 
-	public function register() {
-		$account = $this->createAccount(true);
-		if(!$account->exists) {
-			return $account->errors()->all(':message');
-		}
-
-		$sub_type = (Input::get('account_type') == 'agency') ? "trial" : "freemium";
-		$sub = App::make('AccountSubscriptionController')->create_subscription($account->id, 3, 25, 0, 0, 1,
-															"API, Premium Support, Custom Reporting, Advanced Security",
-														    $sub_type);
-
-		if(! $sub->exists() ) {
-			return $sub->errors()->all(':message');
-		}
-
-		return $account;
-	}
+//	public function register() {
+//		$account = $this->createAccount(true);
+//		if(!$account->exists) {
+//			return $account->errors()->all(':message');
+//		}
+//
+//		$sub_type = (Input::get('account_type') == 'agency') ? "trial" : "freemium";
+//		$sub = App::make('AccountSubscriptionController')->create_subscription($account->id, 3, 25, 0, 0, 1,
+//															"API, Premium Support, Custom Reporting, Advanced Security",
+//														    $sub_type);
+//
+//		if(! $sub->exists() ) {
+//			return $sub->errors()->all(':message');
+//		}
+//
+//		return $account;
+//	}
 
 	public function store($checkAuth = true)
 	{
@@ -511,38 +524,36 @@ class AccountController extends BaseController {
 		// to the account record.
 		// This email should be turned into a user account that will
 		// become the account's site admin.
-		$user = User::where('email', $account->email)->first();
-		if ( ! $user) {
-			$user = new User;
-			$user->username = $account->email;
-			$user->email = $account->email;
-			$user->confirmation_code = md5( uniqid(mt_rand(), true) );
-			if( Input::has('full_name')) {
+		$user = new User;
+		$user->username = $account->email;
+		$user->email = $account->email;
+		$user->confirmation_code = md5( uniqid(mt_rand(), true) );
+		if( Input::has('full_name')) {
 
-				$names = explode(" ", Input::get('full_name'), 2);
-				if(count($names) == 2) {
-					list($firstName, $lastName) = $names;
-				} else {
-					$firstName = Input::get('full_name');
-					$lastName = "";
-				}
-				$user->first_name = $firstName;
-				$user->last_name = $lastName;
-
-			}
-
-			if( Input::has('password')) {
-				$user->password_confirmation = $user->password = Input::get('password');
-				$user->confirmed = 0;
-				$user->status = 1;
+			$names = explode(" ", Input::get('full_name'), 2);
+			if(count($names) == 2) {
+				list($firstName, $lastName) = $names;
 			} else {
-				$user->password = $user->password_confirmation = substr(uniqid(mt_rand(), true), 0, 8);
-				$user->confirmed = 0;
-				$user->status = 0;
+				$firstName = Input::get('full_name');
+				$lastName = "";
 			}
+			$user->first_name = $firstName;
+			$user->last_name = $lastName;
 
-			$user->save();
 		}
+
+		if( Input::has('password')) {
+			$user->password_confirmation = $user->password = Input::get('password');
+			$user->confirmed = 0;
+			$user->status = 1;
+		} else {
+			$user->password = $user->password_confirmation = substr(uniqid(mt_rand(), true), 0, 8);
+			$user->confirmed = 0;
+			$user->status = 0;
+		}
+
+		$user->save();
+
 		// Attach user to account
 		$user->accounts()->attach($account);
 		// Attach site admin role
