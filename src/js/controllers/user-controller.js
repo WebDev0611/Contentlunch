@@ -21,6 +21,7 @@ launch.module.controller('UserController', [
 					$scope.isLoading = false;
 				},
 				error: function (r) {
+                    debugger
 					$scope.isLoading = false;
 					launch.utils.handleAjaxErrorResponse(r, notificationService);
 				}

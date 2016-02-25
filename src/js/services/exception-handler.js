@@ -27,4 +27,6 @@ if(window.location.hostname.indexOf('local') == -1) {
             $location.path('/');
         };
     });
+} else {
+    window.debug = true;
 }

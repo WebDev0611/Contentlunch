@@ -131,7 +131,7 @@ class UserController extends BaseController {
 			Mail::send('emails.auth.confirm', $data, function ($message) use ($user) {
 				$message->to($user->email)->subject('Account Confirmation');
 			});
-			return $this->show($user->id);
+			return $this->show($account->id, $user->id);
 		}
 		else
 		{
@@ -193,7 +193,7 @@ class UserController extends BaseController {
 		}
 	}
 
-	public function update($id)
+	public function update($accountId, $id)
 	{
 		// Restrict to execute users permission
 		// @todo: restrict user is in same account
@@ -202,8 +202,7 @@ class UserController extends BaseController {
 	if ($loggedInUser && $loggedInUser->id == $id) {
 
 	} else {
-		// TODO Marc - need to get $accountId, but only if editing someone else.
-		  if ( ! $this->hasAbility(array(), array('settings_execute_users'))) {
+		  if ( ! $this->hasAbility(array(), array('settings_execute_users'), $accountId)) {
 			 return $this->responseAccessDenied();
 		  }
 	}
@@ -233,7 +232,7 @@ class UserController extends BaseController {
 			if (Input::get('roles')) {
 				$user->saveRoles(Input::get('roles'));
 			}
-			return $this->show($user->id);
+			return $this->show($accountId ,$user->id);
 		}
 		return $this->responseError($user->errors()->all(':message'));
 	}
@@ -253,7 +252,7 @@ class UserController extends BaseController {
 		return $this->responseError("Couldn't delete user");
 	}
 
-	public function postProfileImage($id)
+	public function postProfileImage($accountId, $id)
 	{
 		$user = User::find($id);
 		$file = Input::file('file');
@@ -278,7 +277,7 @@ class UserController extends BaseController {
 
 			$user->image = $upload->id;
 			$user->updateUniques();
-			return $this->show($user->id);
+			return $this->show($accountId, $user->id);
 		}
 		return Response::json(array(
 			'message' => "Couldn't upload file",

@@ -69,10 +69,10 @@ launch.User = function() {
 				}
 
 				return null;
-			case 'title':
-				return launch.utils.isBlank(this.title) ? 'Title is required.' : null;
-			case 'phoneNumber':
-				return launch.utils.isBlank(this.phoneNumber) ? 'Phone is required.' : null;
+			//case 'title':
+			//	return launch.utils.isBlank(this.title) ? 'Title is required.' : null;
+			//case 'phoneNumber':
+			//	return launch.utils.isBlank(this.phoneNumber) ? 'Phone is required.' : null;
 			case 'active':
 				if (typeof this.active !== 'boolean') {
 					this.active = (this.active === 1 || this.active === '1' || this.active.toLowerCase() === 'true');
