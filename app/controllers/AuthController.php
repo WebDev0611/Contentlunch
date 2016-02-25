@@ -67,7 +67,8 @@ use \Carbon\Carbon;
                     return Redirect::to('/');
                 } else {
                     // validation not successful, send back to form
-                    return Redirect::to('login');
+                    return Redirect::to('login')
+                        ->withErrors('FailedLogin');
                 }
             }
         }

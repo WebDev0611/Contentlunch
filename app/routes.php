@@ -38,7 +38,7 @@ Route::group(['prefix' => 'api'], function()
 
   Route::post('account/request_update', 'AccountController@request_update_email');
 
-  Route::post('account/register', 'AccountController@register');
+//  Route::post('account/register', 'AccountController@register');
 
   Route::resource('account', 'AccountController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']

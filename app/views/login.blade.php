@@ -33,15 +33,12 @@
                 {{ Form::open(array('url' => 'login')) }}
                 <h1>Login</h1>
 
-                <!-- if there are login errors, show them here -->
-                @if (Session::get('loginError'))
-                <div class="alert alert-danger">{{ Session::get('loginError') }}</div>
-                @endif
+                @if( $errors->count() > 0 )
+                    <div class="alert alert-danger">
 
-                <div>
-                    {{ $errors->first('email') }}
-                    {{ $errors->first('password') }}
-                </div>
+                        Incorrect username/password
+                    </div>
+                @endif
 
                 <div class="form-group">
                     {{ Form::label('email', 'Email Address') }}
@@ -55,7 +52,15 @@
 
                 <p>{{ Form::submit('Submit!', ['class'=>'btn btn-default']) }}</p>
                 {{ Form::close() }}
+
+
+                <div class="text-center">
+                    <a href="/signup">Register New Account</a>
+                </div>
             </div>
         </div>
+
+
+
     </body>
 </html>

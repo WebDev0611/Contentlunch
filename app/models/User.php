@@ -21,7 +21,7 @@ class User extends ConfideUser {
 
   public static $rules = array(
     'username' => 'required|unique:users,username',
-    'email' => 'required|email',
+    'email' => 'required|unique:users,email|email',
     'password' => 'required|between:4,20|confirmed',
   );
 
@@ -57,11 +57,6 @@ class User extends ConfideUser {
     return $this->hasMany('CampaignTask');
   }
 
-// Appears to be unused...
-//  public function zroles()
-//  {
-//    return $this->belongsToMany('Role', 'assigned_roles', 'id', 'user_id');
-//  }
 
   public function image()
   {
