@@ -188,15 +188,9 @@ gulp.task('javascript', function() {
 		.pipe(gulp.dest('./public/assets/js'));
 
 	return gulp.src(['src/js/app.js', 'src/js/**/*.js'])
-		// .pipe(jshint('.jshintrc'))
-		// .pipe(jshint.reporter('jshint-stylish'))
-		.pipe(concatSourcemaps('app.js'))
-		//.pipe(concat('app.js', {
-		//	// sourceRoot: '/assets/src',
-		//	sourcesContent: true
-		//})).on('error', gutil.log)
-		.pipe(gulp.dest('./public/assets/js'))
-		.pipe(livereload(server))
+		  .pipe(concatSourcemaps('launch-app.js',{sourcesContent:true}))
+		  .pipe(gulp.dest('./public/assets/js'))
+
 });
 
 gulp.task('fonts-eot', function() {

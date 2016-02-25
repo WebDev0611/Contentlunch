@@ -38,7 +38,7 @@
     <script async type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
     <script async type="text/javascript" src="/assets/js/tinymce/tinymce.min.js"></script>
 
-    <script type="text/javascript" src="/assets/js/app.js?version=<?php echo Config::get('app.version') ?>"></script>
+    <script type="text/javascript" src="/assets/js/launch-app.js?version=<?php echo Config::get('app.version') ?>"></script>
     <script type="text/javascript" src="/assets/js/launch-ts.js?version=<?php echo Config::get('app.version') ?>"></script>
 
 

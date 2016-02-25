@@ -15,7 +15,8 @@ launch.module.controller('UserController', [
 		$scope.refreshMethod = function () {
 			$scope.isLoading = true;
 
-			$scope.user = userService.get(self.loggedInUser.id, {
+
+			$scope.user = userService.get(self.loggedInUser.id, self.loggedInUser.account.id, {
 				success: function(r) {
 					$scope.isLoading = false;
 				},

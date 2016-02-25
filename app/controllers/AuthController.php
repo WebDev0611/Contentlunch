@@ -16,7 +16,7 @@ use \Carbon\Carbon;
             if ($user = Confide::user()) {
                 $ctrl = new UserController;
 
-                return $ctrl->callAction('show', [$user->id, $accountId]);
+                return $ctrl->callAction('show', [$accountId, $user->id]);
             }
 
             return Response::json(['username' => 'guest']);

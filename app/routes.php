@@ -204,13 +204,16 @@ Route::group(['prefix' => 'api'], function()
   Route::get('uploads/{id}/download', 'UploadController@download');
   Route::post('uploads/{id}/rating', 'UploadController@rating');
 
-  Route::resource('user', 'UserController', [
-    'only' => ['index', 'store', 'show', 'update', 'destroy']
-  ]);
+
   Route::post('/user/{id}/image', 'UserController@postProfileImage');
   Route::post('/user/{id}/preferences/{key}', 'UserController@savePreferences');
 
   Route::get('impersonate/{id}', 'AdminController@impersonate');
+
+  Route::resource('account/{accountId}/user', 'UserController', [
+      'only' => ['index', 'store', 'show', 'update', 'destroy']
+  ]);
+
 
   Route::resource('account/{accountID}/content/{contentID}/task-group', 'ContentTaskGroupController', [
     'only' => ['index', 'update']

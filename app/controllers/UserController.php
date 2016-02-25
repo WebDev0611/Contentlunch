@@ -139,11 +139,13 @@ class UserController extends BaseController {
 		}
 	}
 
-	public function show($id, $accountId)
+	public function show($accountId, $userId)
 	{
+		// TODO: SECURITY This is not secure, we need to check if it's the actual user or someone they can view.
+
 		$user = User::with('image')
 			->with('accounts')
-			->find($id);
+			->find($userId);
 
 		if ( ! $user) {
 			return $this->responseError("User not found.");
@@ -183,7 +185,7 @@ class UserController extends BaseController {
         }
 
 		if ($user) {
-			if (Session::get('impersonate_from') && Session::get('impersonate_from') != $id) {
+			if (Session::get('impersonate_from') && Session::get('impersonate_from') != $userId) {
 				$user->impersonating = true;
 			}
 
