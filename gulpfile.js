@@ -9,7 +9,7 @@ var gulp = require('gulp'),
 		clean = require('gulp-clean'),
 		less = require('gulp-less'),
 		path = require('path'),
-		concatSourcemaps = require('gulp-concat-sourcemap'),
+		//concatSourcemaps = require('gulp-concat-sourcemap'),
 		concat = require('gulp-concat'),
 		cache = require('gulp-cache'),
 		livereload = require('gulp-livereload'),
@@ -97,8 +97,8 @@ gulp.task('tinymce', function () {
     dir + 'skins/**/*',
     dir + 'themes/**/*'
   ], { base: dir })
-    .pipe(gulp.dest('./public/assets/js/tinymce'))
-    .pipe(livereload(server));
+    .pipe(gulp.dest('./public/assets/js/tinymce'));
+    
 });
 
 gulp.task('tinymce-scripts', function() {
@@ -148,8 +148,8 @@ gulp.task('tinymce-images', function () {
 gulp.task('typescript', function() {
 	return gulp.src('src/js/**/*.ts')
 		.pipe(sourcemaps.init())
-		.pipe(typescript({out: 'launch-ts.js'}))
-		.pipe(sourcemaps.write('.'))
+			.pipe(typescript({out: 'launch-ts.js'}))
+		.pipe(sourcemaps.write())
 		.pipe(gulp.dest('public/assets/js'));
 });
 
@@ -180,15 +180,15 @@ gulp.task('javascript', function() {
 			'./bower_components/restangular/dist/restangular.js',
             './bower_components/checklist-model/checklist-model.js',
 		])
-		.pipe(concat('build.js'))
-		//.pipe(concat('build.js', {
-		//	// sourceRoot: '/assets/src',
-		//	sourcesContent: true
-		//})).on('error', gutil.log)
+		.pipe(sourcemaps.init())
+  		  .pipe(concat('build.js'))
+		.pipe(sourcemaps.write())
 		.pipe(gulp.dest('./public/assets/js'));
 
 	return gulp.src(['src/js/app.js', 'src/js/**/*.js'])
-		  .pipe(concatSourcemaps('launch-app.js',{sourcesContent:true}))
+		  .pipe(sourcemaps.init())
+		    .pipe(concat('launch-app.js'))
+		  .pipe(sourcemaps.write())
 		  .pipe(gulp.dest('./public/assets/js'))
 
 });
@@ -292,5 +292,20 @@ gulp.task('watch', function() {
 
 // Run clean task first as dependency
 gulp.task('default', ['clean'], function () {
-	gulp.start('styles-bootstrap', 'map-bootstrap', 'bootstrap-components-css', 'styles-angular-ui', 'less', 'tinymce', 'javascript', 'typescript', 'documents', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff', 'fonts-otf');
+	gulp.start('styles-bootstrap',
+		'map-bootstrap',
+		'bootstrap-components-css',
+		'styles-angular-ui',
+		'less',
+		'tinymce',
+		'javascript',
+		'typescript',
+		'documents',
+		'views',
+		'images',
+		'fonts-eot',
+		'fonts-svg',
+		'fonts-ttf',
+		'fonts-woff',
+		'fonts-otf');
 });

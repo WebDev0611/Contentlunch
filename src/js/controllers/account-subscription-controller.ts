@@ -2,23 +2,35 @@
 
 launch.module.controller('AccountSubscriptionController', [
     '$scope', "AuthService", "AccountService", "$modal", "AnalyticsService",
-    function ($scope, AuthService, AccountService, $modal, AnalyticsService) {
+    function ($scope,
+              AuthService,
+              AccountService,
+              $modal,
+              AnalyticsService) {
         var self = this;
-        var user = AuthService.accountInfo();
+
         var pendingAction;
 
-        var tempAccount = AuthService.accountInfo();
+        debugger
 
+        // We will always have a cached version by this time.
+        var userInfo;
+        AuthService.validateCurrentUser().then((user)=>{
+            userInfo = user
+        });
+
+        self.account = userInfo.account;
 
         self.init = function () {
             $scope.refreshMethod();
 
             self.period = "annual";
-            self.account = AccountService.get(tempAccount.id);
+
 
             self.stripeHandler = StripeCheckout.configure({
+                // TODO: Marc Get the right stripe key in here
                 key: 'pk_test_9WtB8kfnBxpSgEX7MMwOkA82',
-                image: '/img/documentation/checkout/marketplace.png',
+                image: '/assets/images/cl-wave.png',
                 locale: 'auto',
                 token: function(token) {
                     console.log("Made token!" + token);
