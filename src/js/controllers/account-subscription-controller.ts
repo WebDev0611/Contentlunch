@@ -1,108 +1,114 @@
-// Controller for the subscription form used in the account page.
+/// <reference path='../launch.ts' />
 
-launch.module.controller('AccountSubscriptionController', [
-    '$scope', "AuthService", "AccountService", "$modal", "AnalyticsService",
-    function ($scope,
-              AuthService,
-              AccountService,
-              $modal,
-              AnalyticsService) {
-        var self = this;
+module launchts {
 
-        var pendingAction;
+    // Controller for the subscription form used in the account page
 
-        debugger
+    import IModalService = angular.ui.bootstrap.IModalService;
+    export class AccountSubscriptionController {
 
-        // We will always have a cached version by this time.
-        var userInfo;
-        AuthService.validateCurrentUser().then((user)=>{
-            userInfo = user
-        });
+        public static $inject = ['$scope', "AuthService", "AccountService", "$modal", "AnalyticsService"];
 
-        self.account = userInfo.account;
+        protected userInfo;
+        protected account;
+        protected period:string;
+        protected stripeHandler;
+        protected pendingAction:Function;
 
-        self.init = function () {
-            $scope.refreshMethod();
-
-            self.period = "annual";
+        constructor(protected $scope, protected authService:AuthService,
+                    protected accountService, protected $modal:IModalService,
+                    protected analyticsService) {
 
 
-            self.stripeHandler = StripeCheckout.configure({
+
+            // We will always have a cached version by this time so this should be synchronous
+            authService.validateCurrentUser().then((user)=> {
+                this.userInfo = user;
+                this.account = this.userInfo.account;
+                console.log("1 " + this.userInfo);
+            });
+
+
+            this.period = "annual";
+
+            this.stripeHandler = StripeCheckout.configure({
                 // TODO: Marc Get the right stripe key in here
                 key: 'pk_test_9WtB8kfnBxpSgEX7MMwOkA82',
                 image: '/assets/images/cl-wave.png',
                 locale: 'auto',
-                token: function(token) {
+                token: function (token) {
                     console.log("Made token!" + token);
                     // Use the token to create the charge with a server-side script.
                     // You can access the token ID with `token.id`
-                    pendingAction(token);
+                    this.pendingAction(token);
                 }
             });
         };
 
-        self.planPeriod = function(type) {
-            self.period = type;
+        public planPeriod(type:string) {
+            this.period = type;
         }
 
-        self.setupSubscription = function(stripeToken, plan){
+        public setupSubscription(stripeToken, plan) {
             console.log("Subscribe " + stripeToken + " to " + plan.name);
-            AnalyticsService.trackEvent('subscribe', {'plan':plan.name});
-            AccountService.updateAccountSubscription(tempAccount.id, {plan_id:plan.id, token:stripeToken['id']}).$promise.then(function(result){
+            this.analyticsService.trackEvent('subscribe', {'plan': plan.name});
+            this.accountService.updateAccountSubscription(this.account.id, {
+                plan_id: plan.id,
+                token: stripeToken['id']
+            }).$promise.then(function (result) {
                 console.log(result);
             });
         };
 
-        self.setupPaymentDetails = function(stripeToken) {
-            AnalyticsService.trackEvent('changePaymentDetails', {});
-            AccountService.updatePayment(tempAccount.id, {token:stripeToken['id']}).$promise.then(function(result){
+        public setupPaymentDetails(stripeToken) {
+            this.analyticsService.trackEvent('changePaymentDetails', {});
+            this.accountService.updatePayment(this.account.id, {token: stripeToken['id']}).$promise.then(function (result) {
                 console.log(result);
             });
         }
 
-        self.cancelSubscription = function($event) {
+        public cancelSubscription($event) {
             $event.preventDefault();
 
-            var m = $modal.open({
+            var m = this.$modal.open({
                 templateUrl: 'cancel-confirm-window.html',
                 controller: "CancelConfirmController",
                 controllerAs: "ctrl"
             });
 
-            m.result.then(function(reason){
-               AnalyticsService.trackEvent('cancelSubscription', {reason: reason});
-               AccountService.cancelSubscription(tempAccount.id);
+            m.result.then(function (reason) {
+                this.analyticsService.trackEvent('cancelSubscription', {reason: reason});
+                this.accountService.cancelSubscription(this.account.id);
 
             });
-
-            //AccountService.cancelSubscription(tempAccount.id);
         }
 
-        self.changePaymentDetails = function($event) {
+        public changePaymentDetails($event) {
             $event.preventDefault();
-            pendingAction = self.setupPaymentDetails;
-            self.stripeHandler.open({
+            this.pendingAction = this.setupPaymentDetails;
+            this.stripeHandler.open({
                 name: 'Content Launch',
                 panelLabel: 'Update',
-                email: user.email
+                email: this.userInfo.email
             });
         }
 
 
-        self.collectPaymentDetails = function($event, subscription_plan){
+        public collectPaymentDetails = function ($event, subscription_plan) {
             $event.preventDefault();
-            AnalyticsService.trackEvent('collectPayment', {'plan':subscription_plan.name});
-            pendingAction = function(token) {
-                self.setupSubscription(token, subscription_plan)
+            this.analyticsService.trackEvent('collectPayment', {'plan': subscription_plan.name});
+            this.pendingAction = function (token) {
+                this.setupSubscription(token, subscription_plan)
             }
-            self.stripeHandler.open({
+            this.stripeHandler.open({
                 name: 'Content Launch',
                 description: subscription_plan.name,
                 panelLabel: 'Subscribe',
-                email: user.email
+                email: this.userInfo.email
             });
         }
-
-        self.init();
     }
-]);
+
+
+    launch.module.controller('AccountSubscriptionController', AccountSubscriptionController);
+}

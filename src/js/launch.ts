@@ -10,6 +10,7 @@
 // Controllers:
 /// <reference path='controllers/agency-controller.ts' />
 /// <reference path='controllers/home-controller.ts' />
+/// <reference path='controllers/account-subscription-controller.ts' />
 
 // extend lodash
 declare module _ {

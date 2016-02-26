@@ -9,7 +9,7 @@ module launchts {
                     templateUrl: '/assets/views/app.html',
                     resolve: {
                         userInfo: function (AuthService) {
-                            return AuthService.validateCurrentUser(); // this will make sure we're  using stale versions
+                            return AuthService.validateCurrentUser(); // this will make sure we're not using stale versions
                         }
                     }
                 })

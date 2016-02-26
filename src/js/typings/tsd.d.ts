@@ -4,3 +4,6 @@
 /// <reference path="lodash/lodash.d.ts" />
 /// <reference path="moment/moment-node.d.ts" />
 /// <reference path="moment/moment.d.ts" />
+/// <reference path="angular-ui-bootstrap/angular-ui-bootstrap.d.ts" />
+/// <reference path="stripe/stripe.d.ts" />
+/// <reference path="stripe-checkout/stripe-checkout.d.ts" />

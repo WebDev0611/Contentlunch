@@ -2,7 +2,7 @@
 
 module launchts {
 
-	class AuthService {
+	export class AuthService {
 		static $inject = ["$window", "$location", "$resource", "$sanitize", "accountId"];
 
 		// WE CANNOT PASS IN A ModelMapperService BECAUSE IT WOULD CAUSE A CIRCULAR DEPENDENCY.

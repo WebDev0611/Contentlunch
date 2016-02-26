@@ -22,6 +22,15 @@
     },
     "moment/moment-node.d.ts": {
       "commit": "85af69c91599a6c904618545f0613970e1ff3f64"
+    },
+    "angular-ui-bootstrap/angular-ui-bootstrap.d.ts": {
+      "commit": "27d7b56688bfeba9c6fc1ce0ecb611d929982d44"
+    },
+    "stripe/stripe.d.ts": {
+      "commit": "27d7b56688bfeba9c6fc1ce0ecb611d929982d44"
+    },
+    "stripe-checkout/stripe-checkout.d.ts": {
+      "commit": "27d7b56688bfeba9c6fc1ce0ecb611d929982d44"
     }
   }
 }
