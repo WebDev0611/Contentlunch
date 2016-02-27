@@ -1,6 +1,6 @@
 [global]
 ApplicationName=contentlaunch
-AwsCredentialFile=/Users/mhughes/.elasticbeanstalk/aws_credential_file
+AwsCredentialFile=~/.elasticbeanstalk/aws_credential_file
 DevToolsEndpoint=git.elasticbeanstalk.us-east-1.amazonaws.com
 EnvironmentName=contentlaunch-env
 EnvironmentTier=WebServer::Standard::1.0
