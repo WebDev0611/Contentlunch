@@ -61,6 +61,8 @@ echo " ╰─➤ Installing phpunit"
 sudo yum install -y -q phpunit >&- 2>&-
 echo " Install XDebug"
 sudo yum install -y php-pecl-xdebug.x86_64
+echo " Install Redis"
+sudo yum install -y redis
 
 echo "[xdebug]" >> /etc/php.ini
 echo "zend_extension=\"/usr/lib64/php/modules/xdebug.so\"" >> /etc/php.ini
@@ -76,6 +78,11 @@ heading "Starting services";
 echo " ╰─➤ Starting MySQL"
 sudo systemctl start mysqld >&- 2>&-
 sudo systemctl enable mysqld >&- 2>&-
+
+echo " ╰─➤ Starting redis"
+sudo systemctl start redis >&- 2>&-
+sudo systemctl enable redis >&- 2>&-
+
 echo " ╰─➤ Starting Apache"
 sudo systemctl start httpd >&- 2>&-
 echo -e "Done!\n"

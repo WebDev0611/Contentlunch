@@ -13,6 +13,10 @@ if (Config::get('app.force_secure')) {
   });
 }
 
+Route::get('status/db', 'StatusController@db');
+Route::get('status/redis', 'StatusController@redis');
+Route::get('status/all', 'StatusController@all');
+
 
 Route::post('stripe_webhook', 'StripeWebhookController@webhook');
 Route::get('debug_update_account/{accountId}', 'StripeWebhookController@debug_update_account');
