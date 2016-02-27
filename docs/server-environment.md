@@ -26,14 +26,14 @@ redis: contentlaunch-prod.i9zt5p.0001.use1.cache.amazonaws.com
 redis cache prefix: cl
 
 
-contentlaunch-prod
+contentlaunch-dev
 host: http://dev.contentlaunch.com/
-db: cl_dev
+db: cl_dev  [currently running a copy of cl_prod taken on 2/27/16]
 git branch: development
 redis: contentlaunch-prod.i9zt5p.0001.use1.cache.amazonaws.com (SAME AS PROD)
 redis cache prefix: cldev
 
-## Primer
+## EB Primer
 
 To set up eb cli
 
@@ -54,6 +54,18 @@ To update an evironment
 To check status
 
 eb status
+
+# Health Checks
+
+http://dev.contentlaunch.com/status/db
+Pings the database
+
+http://dev.contentlaunch.com/status/redis
+Pings the redis server
+
+http://dev.contentlaunch.com/status/all
+Pings both db and redis
+
 
 
 # DNS
