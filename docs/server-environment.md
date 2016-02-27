@@ -6,6 +6,8 @@ It's replicated in two availability zones for redundancy, performs regular backu
 
 It's running MariaDB which is the open source MySql fork (Oracle bought MySql and essentially stopped working on it a few years ago, the MariaDB people picked it up to kept it going forward, think of it as a 10% faster MySql).
 
+SSH through one of the servers to access it (sequel pro makes this easy)
+
 # Redis
 
 Redis server using Elasticache and servers are pointing to that.
@@ -52,3 +54,14 @@ To update an evironment
 To check status
 
 eb status
+
+
+# DNS
+
+Currently registered at FastDomain
+Using media temple dns servers that point at AWS resources
+
+Target / TODO:
+Transfer registration to AWS
+Use AWS/Route53 dns servers
+
