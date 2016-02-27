@@ -25,7 +25,7 @@ class StatusController extends \BaseController {
     function all() {
         $this->testRedis();
         $this->testDb();
-        return "OK";
+        return "OK1";
     }
 
 }
