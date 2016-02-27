@@ -33,6 +33,11 @@ $env = $app->detectEnvironment(function() {
 //    return 'local';
 //  }
 
+  $environment = getenv('environment');
+  if($environment) {
+    return $environment;
+  }
+
   $hosts = array(
     'test.contentlaunch.surgeforward.com' => 'test',
     'staging.contentlaunch.surgeforward.com' => 'staging',
@@ -57,6 +62,8 @@ $env = $app->detectEnvironment(function() {
   if (isset($_SERVER['SERVER_NAME']) && isset($hosts[$_SERVER['SERVER_NAME']])) {
     return $hosts[$_SERVER['SERVER_NAME']];
   }
+
+
 
 
   return 'local';
