@@ -1,4 +1,6 @@
 branch-defaults:
+  development:
+    environment: contentlaunch-dev
   master:
     environment: contentlaunch-prod
     group_suffix: null

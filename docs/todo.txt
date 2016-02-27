@@ -4,3 +4,20 @@ Agency accounts
 
 user->getAccountID has been removed, must fix LibraryUploadsController so an account is always passed to it
 
+
+
+Make sure DNS registrations are looked after, don't want them expiring.
+
+
+
+1. Check mail / spf settings
+2. check www settings
+3. check hubspot domains
+
+
+set default=false in production
+
+Set up dev api keys in services.php
+
+Check php.ini session info lengths (http://stackoverflow.com/questions/26071747/how-to-set-session-timeout-in-laravel-4-2)
+

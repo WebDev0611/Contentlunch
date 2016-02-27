@@ -37,6 +37,8 @@ $env = $app->detectEnvironment(function() {
     'test.contentlaunch.surgeforward.com' => 'test',
     'staging.contentlaunch.surgeforward.com' => 'staging',
     'app.contentlaunch.com' => 'production',
+    'dev.contentlaunch.com' => 'staging',
+    'contentlaunch-dev.us-east-1.elasticbeanstalk.com' => 'staging',
     'contentlaunch-prod.elasticbeanstalk.com' => 'production'
   );
 
