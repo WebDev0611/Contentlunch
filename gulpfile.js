@@ -19,6 +19,7 @@ var gulp = require('gulp'),
 		typescript = require('gulp-typescript'),
 		sourcemaps = require('gulp-sourcemaps'),
 	    notify = require('gulp-notify'),
+	    runSequence = require('run-sequence'),
 		server = lr();
 
 var gutil = require('gulp-util');
@@ -290,22 +291,28 @@ gulp.task('watch', function() {
 	});
 });
 
-// Run clean task first as dependency
-gulp.task('default', ['clean'], function () {
-	gulp.start('styles-bootstrap',
-		'map-bootstrap',
-		'bootstrap-components-css',
-		'styles-angular-ui',
-		'less',
-		'tinymce',
-		'javascript',
-		'typescript',
-		'documents',
-		'views',
-		'images',
-		'fonts-eot',
-		'fonts-svg',
-		'fonts-ttf',
-		'fonts-woff',
-		'fonts-otf');
-});
+
+
+
+gulp.task('default', function (callback) {
+	runSequence('clean', [
+			'styles-bootstrap',
+			'map-bootstrap',
+			'bootstrap-components-css',
+			'styles-angular-ui',
+			'less',
+			'tinymce',
+			'javascript',
+			'typescript',
+			'documents',
+			'views',
+			'images',
+			'fonts-eot',
+			'fonts-svg',
+			'fonts-ttf',
+			'fonts-woff',
+			'fonts-otf'
+	],
+		callback
+	)
+})
