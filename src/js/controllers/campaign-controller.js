@@ -1,6 +1,6 @@
 launch.module.controller('CampaignController',
-        ['$scope', 'AuthService', '$routeParams', '$filter', '$q', '$upload', '$modal', 'Restangular', '$location', '$rootScope', 'campaignTasks', 'UserService', 'NotificationService',
-function ($scope, AuthService, $routeParams, $filter, $q, $upload, $modal, Restangular, $location, $rootScope, campaignTasks, userService, notify) {
+        ['$scope', 'AuthService', '$stateParams', '$filter', '$q', '$upload', '$modal', 'Restangular', '$location', '$rootScope', 'campaignTasks', 'UserService', 'NotificationService',
+function ($scope, AuthService, $stateParams, $filter, $q, $upload, $modal, Restangular, $location, $rootScope, campaignTasks, userService, notify) {
     var user = $scope.user = AuthService.userInfo();
     var Account   = Restangular.one('account', user.account.id);
     var Campaigns = Account.all('campaigns');
@@ -10,11 +10,11 @@ function ($scope, AuthService, $routeParams, $filter, $q, $upload, $modal, Resta
     $scope.showConcept = true;
 
     $q.all({
-        campaign: $routeParams.campaignId === 'new' ? newCampaign() : Campaigns.get($routeParams.campaignId),
+        campaign: $stateParams.campaignId === 'new' ? newCampaign() : Campaigns.get($stateParams.campaignId),
         campaignTypes: Restangular.all('campaign-types').getList(),
         users: Account.all('users').getList(),
-        tasks: Campaigns.one($routeParams.campaignId).getList('tasks'),
-        files: Campaigns.one($routeParams.campaignId).getList('uploads')
+        tasks: Campaigns.one($stateParams.campaignId).getList('tasks'),
+        files: Campaigns.one($stateParams.campaignId).getList('uploads')
     }).then(function (responses) {
         angular.extend($scope, responses);
 
@@ -93,7 +93,7 @@ function ($scope, AuthService, $routeParams, $filter, $q, $upload, $modal, Resta
             $location.path('/calendar');
         } else {
             $scope.isLoaded = false;
-            $scope.campaign = Campaigns.get($routeParams.campaignId).then(function(r) {
+            $scope.campaign = Campaigns.get($stateParams.campaignId).then(function(r) {
                 $scope.isLoaded = true;
                     $scope.campaign = r;
                 },

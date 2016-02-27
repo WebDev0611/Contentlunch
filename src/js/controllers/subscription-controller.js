@@ -1,9 +1,14 @@
+// 2/6/2016 - Is this used anymore?  Looks like accountController is where we set it up now.
+
 launch.module.controller('SubscriptionController', [
 	'$scope', '$location', 'AccountService', 'NotificationService', function ($scope, $location, accountService, notificationService) {
 		var self = this;
 
 		self.init = function () {
 			$scope.subscriptions = accountService.getSubscriptions();
+
+
+
 		};
 
 		$scope.forceDirty = false;
@@ -11,6 +16,9 @@ launch.module.controller('SubscriptionController', [
 		$scope.isSaving = false;
 		$scope.hasError = launch.utils.isPropertyValid;
 		$scope.errorMessage = launch.utils.getPropertyErrorMessage;
+
+
+
 
 		$scope.save = function (form) {
 			$scope.forceDirty = true;

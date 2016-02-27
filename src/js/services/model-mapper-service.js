@@ -131,12 +131,16 @@ launch.ModelMapper = function($location, authService, notificationService) {
 			account.email = dto.email;
 			account.phoneNumber = dto.phone;
 			account.strategy = dto.strategy;
-			account.userCount = parseInt(dto.count_users);
+			account.userCount = parseInt(dto.user_count);
+			account.clientCount = parseInt(dto.client_count);
 			account.created = dto.created_at;
 			account.updated = dto.updated_at;
 			account.paymentDate = dto.payment_date;
+			account.accountType = dto.account_type;
+			account.availableSubscriptions = dto.available_subscriptions;
+			account.subscriptionPlan = dto.subscription_plan;
 
-			account.subscription = self.subscription.fromDto(dto.account_subscription);
+			account.subscription = {}; //self.subscription.fromDto(dto.account_subscription);
 
 			if ($.isArray(dto.modules) && dto.modules.length > 0) {
 
@@ -204,7 +208,11 @@ launch.ModelMapper = function($location, authService, notificationService) {
 				strategy: account.strategy,
 				created_at: account.created,
 				updated_at: account.updated,
-				payment_date: account.paymentDate
+				payment_date: account.paymentDate,
+				account_type: account.accountType,
+				password: account.password,
+				first_name: account.firstName,  // these two are a bastardization to support registration...
+				last_name: account.lastName
 			};
 
 			if (!!account.creditCard && !launch.utils.isBlank(account.creditCard.cardNumber) && !launch.utils.isValidPattern(account.creditCard.cardNumber, /\*/)) {
@@ -699,6 +707,7 @@ launch.ModelMapper = function($location, authService, notificationService) {
 			var subscription = new launch.Subscription(parseInt(dto.subscription_level));
 
 			subscription.id = parseInt(dto.id);
+			subscription.planType = dto.plan_type;
 			subscription.numberLicenses = parseInt(dto.licenses);
 			subscription.pricePerMonth = parseFloat(dto.monthly_price);
 			subscription.training = parseInt(dto.training) === 1 ? true : false;
@@ -1979,7 +1988,8 @@ launch.ModelMapper = function($location, authService, notificationService) {
         fromDto : function(dto) {
             console.log(dto);
             return dto
-            debugger;
+
+			// TODO: What is this supposed to be?
             var series = ($.isArray(dto)) ? $.map(dto, function(r, i) { return r; }) : [];
             console.log(series);
             return series;

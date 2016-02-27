@@ -4,6 +4,10 @@ launch.module.factory('AccountService', function($resource, $upload, ModelMapper
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.account.parseResponse },
 		update: { method: 'PUT', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
 		insert: { method: 'POST', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
+		register: { method: 'POST',
+			url: '/api/account/register',
+			transformRequest: ModelMapperService.account.formatRequest,
+			transformResponse: ModelMapperService.account.parseResponse },
 		delete: { method: 'DELETE' },
 		getSubscription: { method: 'GET' }
 	});
@@ -14,7 +18,8 @@ launch.module.factory('AccountService', function($resource, $upload, ModelMapper
 
 	var accountSubscriptions = $resource('/api/account/:id/subscription', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.subscription.parseResponse },
-		save: { method: 'POST', transformRequest: ModelMapperService.subscription.formatRequest }
+		save: { method: 'POST' },
+		cancel: { method: 'DELETE' }
 	});
 
 	var accountRenew = $resource('/api/account/:id/renew-subscription', { id: '@id' }, {
@@ -77,6 +82,12 @@ launch.module.factory('AccountService', function($resource, $upload, ModelMapper
 
 			return accounts.update({ id: account.id }, account, success, error);
 		},
+		register: function(account, callback) {
+			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
+			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
+
+			return accounts.register(null, account, success, error);
+		},
 		add: function(account, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
@@ -109,11 +120,17 @@ launch.module.factory('AccountService', function($resource, $upload, ModelMapper
 
 			return resource.insert({ id: accountId }, userId, success, error);
 		},
+		cancelSubscription: function(accountId) {
+			return accountSubscriptions.cancel({ id: accountId });
+		},
+		updatePayment: function(accountId, details) {
+			return accountSubscriptions.save({ id: accountId }, details);
+		},
 		updateAccountSubscription: function(accountId, subscription, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			accountSubscriptions.save({ id: accountId }, subscription, success, error);
+			return accountSubscriptions.save({ id: accountId }, subscription, success, error);
 		},
 		renew: function(accountId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;

@@ -9,58 +9,60 @@ class UserController extends BaseController {
 	 */
 	public function index()
 	{
-		$return = array();
-		$query = User::with('roles')
-			->with('image')
-			->with('accounts');
+        return [];
 
-	if (Input::has('permission')) {
-	  // User must have ALL passed permissions
-	  $query->whereHas('roles', function ($q) {
-		$perms = explode(',', Input::get('permission'));
-		foreach ($perms as $p) {
-		  $q->whereHas('perms', function ($q) use ($p) {
-			$q->where('permissions.name', trim($p));
+        // TODO: SECURITY PROBLEM - this returns all users for anyone who asks.
+        // Replaced with empty result above until I can figure out what it was supposed to do.
+
+		$return = array();
+		$query = User::with('image')->with('accounts');
+
+		if (Input::has('permission')) {
+		  // User must have ALL passed permissions
+		  $query->whereHas('roles', function ($q) {
+			$perms = explode(',', Input::get('permission'));
+			foreach ($perms as $p) {
+			  $q->whereHas('perms', function ($q) use ($p) {
+				$q->where('permissions.name', trim($p));
+			  });
+			}
 		  });
 		}
-	  }); 
-	}
 
 		if (Input::get('roles')) {
 			$query->roles(Input::get('roles'));
 		}
-	return $query->get();
 
-		$users = $query->get()->toArray();
-		// @todo: How to limit columns returned with eloquent relationships?
-		foreach ($users as &$user) {
-			if ($user['roles']) {
-				$roles = array();
-				foreach ($user['roles'] as $role) {
-					$roles[] = array(
-						'id' => $role['id'],
-						'name' => $role['name']
-					);
-				}
-				$user['roles'] = $roles;
-			}
-			if ($user['accounts']) {
-				$accounts = array();
-				foreach ($user['accounts'] as $account) {
-					$accounts[] = array(
-						'id' => $account['id'],
-						'name' => $account['name']
-					);
-				}
-				$user['accounts'] = $accounts;
-			}
-		}
-	/*
-	$queries = DB::getQueryLog();
-	$last_query = end($queries);
-	print_r($queries);
-	// */
-		return $users;
+		return $query->get();
+
+//  This next section was after the return above and was never called... why was it here?
+//
+//		$users = $query->get()->toArray();
+//		// @todo: How to limit columns returned with eloquent relationships?
+//		foreach ($users as &$user) {
+//			if ($user['roles']) {
+//				$roles = array();
+//				foreach ($user['roles'] as $role) {
+//					$roles[] = array(
+//						'id' => $role['id'],
+//						'name' => $role['name']
+//					);
+//				}
+//				$user['roles'] = $roles;
+//			}
+//			if ($user['accounts']) {
+//				$accounts = array();
+//				foreach ($user['accounts'] as $account) {
+//					$accounts[] = array(
+//						'id' => $account['id'],
+//						'name' => $account['name']
+//					);
+//				}
+//				$user['accounts'] = $accounts;
+//			}
+//		}
+//
+//		return $users;
 	}
 
 	/**
@@ -129,7 +131,7 @@ class UserController extends BaseController {
 			Mail::send('emails.auth.confirm', $data, function ($message) use ($user) {
 				$message->to($user->email)->subject('Account Confirmation');
 			});
-			return $this->show($user->id);
+			return $this->show($account->id, $user->id);
 		}
 		else
 		{
@@ -137,31 +139,37 @@ class UserController extends BaseController {
 		}
 	}
 
-	public function show($id)
+	public function show($accountId, $userId)
 	{
+		// TODO: SECURITY This is not secure, we need to check if it's the actual user or someone they can view.
+
 		$user = User::with('image')
-			->with('roles')
 			->with('accounts')
-			->find($id);
+			->find($userId);
+
 		if ( ! $user) {
 			return $this->responseError("User not found.");
 		}
 		$user->modules = [];
-		if (isset($user->accounts[0])) {
-			$account = Account::find($user->accounts[0]->id);
-			$modules = $account->modules;
-			$modules = $modules->toArray();
-			foreach ($modules as &$module) {
-				$module['subscribable'] = true;
-			}
-			$modules[] = ['name' => 'settings', 'title' => 'Settings', 'subscribable' => false];
-			$user->modules = $modules;
-		} else {
-			$user->modules = [];
+
+
+		$account = Account::find($accountId);
+		$modules = $account->modules;
+		$modules = $modules->toArray();
+		foreach ($modules as &$module) {
+			$module['subscribable'] = true;
 		}
-	
-		if (isset($user->roles[0])) {
-			$role = Role::find($user->roles[0]->id);
+		$modules[] = ['name' => 'settings', 'title' => 'Settings', 'subscribable' => false];
+		$user->modules = $modules;
+
+
+        $roles = $user->rolesForAccount($account)->get();
+
+		if (isset($roles[0])) {
+
+			// Why is this assuming a single role?
+			$role = $roles[0];
+
 			// Site admin has all permissions
 			if ($role->name == 'global_admin') {
 				$user->permissions = Permission::all()->toArray();
@@ -172,19 +180,20 @@ class UserController extends BaseController {
 			}
 		}
 
-	if ( ! empty($user->preferences)) {
-	  $user->preferences = unserialize($user->preferences);
-	}
+        if ( ! empty($user->preferences)) {
+          $user->preferences = unserialize($user->preferences);
+        }
 
 		if ($user) {
-			if (Session::get('impersonate_from') && Session::get('impersonate_from') != $id) {
+			if (Session::get('impersonate_from') && Session::get('impersonate_from') != $userId) {
 				$user->impersonating = true;
 			}
-			return $user;
+			$account->available_subscriptions = Subscription::where('active','=',1)->where('plan_type','=',$account->account_type)->get();
+			return $user->toJsonWithAccount($account);
 		}
 	}
 
-	public function update($id)
+	public function update($accountId, $id)
 	{
 		// Restrict to execute users permission
 		// @todo: restrict user is in same account
@@ -193,7 +202,7 @@ class UserController extends BaseController {
 	if ($loggedInUser && $loggedInUser->id == $id) {
 
 	} else {
-		  if ( ! $this->hasAbility(array(), array('settings_execute_users'))) {
+		  if ( ! $this->hasAbility(array(), array('settings_execute_users'), $accountId)) {
 			 return $this->responseAccessDenied();
 		  }
 	}
@@ -223,7 +232,7 @@ class UserController extends BaseController {
 			if (Input::get('roles')) {
 				$user->saveRoles(Input::get('roles'));
 			}
-			return $this->show($user->id);
+			return $this->show($accountId ,$user->id);
 		}
 		return $this->responseError($user->errors()->all(':message'));
 	}
@@ -232,6 +241,7 @@ class UserController extends BaseController {
 	{
 		// Restrict to user execute permission
 		// @todo: restrict user is in same account
+		// TODO Marc: Need to have $accountId here
 		if ( ! $this->hasAbility(array(), array('settings_execute_users'))) {
 			return $this->responseAccessDenied();
 		}
@@ -242,7 +252,7 @@ class UserController extends BaseController {
 		return $this->responseError("Couldn't delete user");
 	}
 
-	public function postProfileImage($id)
+	public function postProfileImage($accountId, $id)
 	{
 		$user = User::find($id);
 		$file = Input::file('file');
@@ -267,7 +277,7 @@ class UserController extends BaseController {
 
 			$user->image = $upload->id;
 			$user->updateUniques();
-			return $this->show($user->id);
+			return $this->show($accountId, $user->id);
 		}
 		return Response::json(array(
 			'message' => "Couldn't upload file",

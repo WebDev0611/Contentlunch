@@ -26,27 +26,34 @@
     </script>
 
 </head>
-<body onunload="">
-	<header ng-cloak navigation-template></header>
+<body>
+    <div ui-view>
 
-    <div class="main-content" ng-view></div>
+    </div>
 
     <footer></footer>
 
-    <script type="text/javascript" src="/assets/js/build.js?version=<?php echo Config::get('app.version') ?>"></script>
-    <script type="text/javascript" src="https://www.googleadservices.com/pagead/conversion_async.js" charset="utf-8"></script>
-    <!--<script type="text/javascript" src="https://js.balancedpayments.com/1.1.11/balanced.js"></script>-->
-	<script type="text/javascript" src="/assets/js/app.js?version=<?php echo Config::get('app.version') ?>"></script>
-    <script type="text/javascript" src="/assets/js/tinymce/tinymce.min.js"></script>
+    <script async type="text/javascript" src="/assets/js/build.js?version=<?php echo Config::get('app.version') ?>"></script>
+    <script async type="text/javascript" src="https://www.googleadservices.com/pagead/conversion_async.js" charset="utf-8"></script>
+    <script async type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
+    <script async type="text/javascript" src="/assets/js/tinymce/tinymce.min.js"></script>
 
-    <?php if (Config::get('app.debug')): ?>
+    <script type="text/javascript" src="/assets/js/launch-app.js?version=<?php echo Config::get('app.version') ?>"></script>
+    <script type="text/javascript" src="/assets/js/launch-ts.js?version=<?php echo Config::get('app.version') ?>"></script>
+
+
+
       <script type="text/javascript">
       //var launchDebug = true;
-	      $(document).ready(function() {
-		      window.launch.config.DEBUG_MODE = true;
-	      });
+          launch.module.constant('accountId', <?= $accountId ?>);
+
+          <?php if (Config::get('app.debug')): ?>
+              $(document).ready(function() {
+                  window.launch.config.DEBUG_MODE = true;
+              });
+          <?php endif; ?>
       </script>
-    <?php endif; ?>
+
 
 
 	<script type="text/ng-template" id="confirm.html">

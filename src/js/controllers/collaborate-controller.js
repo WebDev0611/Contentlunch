@@ -1,6 +1,6 @@
 launch.module.controller('CollaborateController', 
-        ['$scope', '$rootScope', '$location', 'Restangular', '$q', 'AuthService', '$filter', '$routeParams', '$modal', 'guestCollaborators', 'NotificationService', 
-function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,   $filter,   $routeParams,   $modal,   guestCollaborators,   notify) {
+        ['$scope', '$rootScope', '$location', 'Restangular', '$q', 'AuthService', '$filter', '$stateParams', '$modal', 'guestCollaborators', 'NotificationService',
+function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,   $filter,   $stateParams,   $modal,   guestCollaborators,   notify) {
     $scope.pagination = {
         pageSize: 10,
         currentPage: 1,
@@ -26,11 +26,11 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
 
     // sharing controllers since "list" is so simple
     var Collab;
-    if ($routeParams.id) {
-        Collab = Account.one($routeParams.conceptType, $routeParams.id);
+    if ($stateParams.id) {
+        Collab = Account.one($stateParams.conceptType, $stateParams.id);
         requests.selected = Collab.get().then(function (selected) {
             selected.internalCollaborators = selected.collaborators;
-            selected.conceptType = $routeParams.conceptType;
+            selected.conceptType = $stateParams.conceptType;
             return selected;
         });
         requests.connections = Account.all('connections').getList({ 'provider[]': ['linkedin', 'twitter'] });
@@ -148,8 +148,8 @@ function ($scope,   $rootScope,   $location,   Restangular,   $q,   AuthService,
                 }),
                 group: group,
                 message: message,
-                contentId: $routeParams.id,
-                contentType: $routeParams.conceptType
+                contentId: $stateParams.id,
+                contentType: $stateParams.conceptType
             });
         // the angular.noop here should make it so our catch doesn't catch this if it errors
         }, angular.noop).then(function (response) {

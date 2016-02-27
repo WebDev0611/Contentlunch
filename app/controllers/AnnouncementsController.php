@@ -31,7 +31,7 @@ class AnnouncementsController extends \BaseController {
      */
     public function store()
     {
-        if (!$this->hasRole('global_admin')) {
+        if (!$this->isGlobalAdmin()) {
             return $this->responseError('You do not have permission to create announcements', 401);   
         }
 
@@ -51,7 +51,7 @@ class AnnouncementsController extends \BaseController {
      */
     public function update($id)
     {
-        if (!$this->hasRole('global_admin')) {
+        if (!$this->isGlobalAdmin()) {
             return $this->responseError('You do not have permission to update announcements', 401);   
         }
 
@@ -71,7 +71,7 @@ class AnnouncementsController extends \BaseController {
      */
     public function destroy($id)
     {
-        if (!$this->hasRole('global_admin')) {
+        if (!$this->isGlobalAdmin()) {
             return $this->responseError('You do not have permission to delete announcements', 401);   
         }
 

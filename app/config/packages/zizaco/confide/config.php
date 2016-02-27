@@ -123,6 +123,6 @@ return array(
     |
     */
     'signup_email'      => false,
-    'signup_confirm'    => true,
+    'signup_confirm'    => false,
 
 );

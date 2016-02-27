@@ -13,6 +13,16 @@ if (Config::get('app.force_secure')) {
   });
 }
 
+
+Route::post('stripe_webhook', 'StripeWebhookController@webhook');
+Route::get('debug_update_account/{accountId}', 'StripeWebhookController@debug_update_account');
+
+Route::get('login', 'AuthController@login_page');
+Route::post('login', 'AuthController@process_login');
+
+Route::get('signup', 'AccountController@signup_page');
+Route::post('signup', 'AccountController@process_signup');
+
 /**
  * API calls, prefixed with /api
  * Should return json responses
@@ -22,7 +32,13 @@ if (Config::get('app.force_secure')) {
 Route::group(['prefix' => 'api'], function()
 {
 
+  Route::resource('agency/{accountId}/client', 'AgencyController', [
+      'only' => ['index', 'store', 'show', 'update', 'destroy']
+  ]);
+
   Route::post('account/request_update', 'AccountController@request_update_email');
+
+//  Route::post('account/register', 'AccountController@register');
 
   Route::resource('account', 'AccountController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
@@ -31,6 +47,7 @@ Route::group(['prefix' => 'api'], function()
   Route::resource('log_error', 'ErrorLogController', [
       'only' => ['index', 'store', 'show']
   ]);
+
 
   Route::post('account/{id}/add_user', 'AccountUserController@store');
   Route::get('account/{id}/users', 'AccountUserController@show');
@@ -108,8 +125,11 @@ Route::group(['prefix' => 'api'], function()
 
   Route::put('account/{id}/renew-subscription', 'AccountSubscriptionController@renew_subscription');
 
+
+  Route::post('account/{id}/subscribe', 'AccountSubscriptionController@subscribe');
   Route::get('account/{id}/subscription', 'AccountSubscriptionController@get_subscription');
   Route::post('account/{id}/subscription', 'AccountSubscriptionController@post_subscription');
+  Route::delete('account/{id}/subscription', 'AccountSubscriptionController@cancel_subscription');
 
   Route::post('account/{id}/resend_creation_email', 'AccountController@resend_creation_email');
   Route::post('support-email', 'AccountController@send_support_email');
@@ -128,9 +148,10 @@ Route::group(['prefix' => 'api'], function()
 
   Route::group(['prefix' => 'auth'], function() {
     // Attempt to login a user
-    Route::post('/', 'AuthController@do_login');
+    // Route::post('/', 'AuthController@do_login');
+
     // Gets the currently logged in user, or guest
-    Route::get('/', 'AuthController@show_current');
+    Route::get('/{accountId}', 'AuthController@show_current');
     // Logout
     Route::get('/logout', 'AuthController@logout');
     // Forgot password, sends reset email
@@ -183,19 +204,22 @@ Route::group(['prefix' => 'api'], function()
   Route::get('uploads/{id}/download', 'UploadController@download');
   Route::post('uploads/{id}/rating', 'UploadController@rating');
 
-  Route::resource('user', 'UserController', [
-    'only' => ['index', 'store', 'show', 'update', 'destroy']
-  ]);
+
   Route::post('/user/{id}/image', 'UserController@postProfileImage');
   Route::post('/user/{id}/preferences/{key}', 'UserController@savePreferences');
 
   Route::get('impersonate/{id}', 'AdminController@impersonate');
 
+  Route::resource('account/{accountId}/user', 'UserController', [
+      'only' => ['index', 'store', 'show', 'update', 'destroy']
+  ]);
+
+
   Route::resource('account/{accountID}/content/{contentID}/task-group', 'ContentTaskGroupController', [
     'only' => ['index', 'update']
   ]);
 
-  Route::resource('forum-thread', 'ForumThreadController', [
+  Route::resource('forum-thread/', 'ForumThreadController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
@@ -232,8 +256,8 @@ Route::group(['prefix' => 'api'], function()
   Route::get("{$measureBase}content-timing",   'MeasureController@contentTiming');
   Route::get("{$measureBase}content-score",   'MeasureController@contentScore');
   Route::get("{$measureBase}user-efficiency",  'MeasureController@userEfficiency');
-    Route::get("{$measureBase}automation", 'MeasureController@getAutomationStats');
-    Route::get("{$measureBase}overview", 'MeasureController@overview');
+  Route::get("{$measureBase}automation", 'MeasureController@getAutomationStats');
+  Route::get("{$measureBase}overview", 'MeasureController@overview');
 
   Route::get('account/{id}/content-activity', 'ContentController@allActivities');
   Route::get('account/{id}/my-activity', 'ActivityController@mine');
@@ -268,6 +292,9 @@ Route::group(['prefix' => 'api'], function()
 
 });
 
+
+Route::get('healthcheck', 'HealthCheckController@health_check');
+
 // HasOffers postback
 Route::get('redirect/contentlaunch', 'HasOffersController@createCookies');
 
@@ -285,13 +312,23 @@ Route::get('image/{size}/{file}', 'UploadController@getImage')
  * Any routes that aren't already matched by laravel should
  * be passed on to angular's routing.
  */
-Route::any('{all}', function()
-{
-  // If route starts with api and the route wasn't matched, return an error response
-  if (Request::is('api/*')) {
-    return Response::json([
-      'error' => 'Unknown route: '. Request::path()
-    ], 400);
-  }
-  return View::make('master');
-})->where('all', '.*');
+
+//Route::any('{all}', function()
+//{
+//  // If route starts with api and the route wasn't matched, return an error response
+//  if (Request::is('api/*')) {
+//    return Response::json([
+//      'error' => 'Unknown route: '. Request::path()
+//    ], 400);
+//  }
+//
+//  return View::make('master');
+//
+//})->where('all', '.*');
+
+
+Route::group(array('before' => 'auth'), function(){
+  Route::get("/", "AppController@home");
+  Route::get('/account/{accountId}', ['uses'=>'AppController@account', 'as' => 'account'] );
+});
+

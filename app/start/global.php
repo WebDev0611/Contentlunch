@@ -1,5 +1,8 @@
 <?php
 
+
+\Stripe\Stripe::setApiKey(Config::get('app.stripe')['secret_key']);
+
 /*
 |--------------------------------------------------------------------------
 | Register The Laravel Class Loader
@@ -10,6 +13,7 @@
 | your classes in the "global" namespace without Composer updating.
 |
 */
+
 
 ClassLoader::addDirectories(array(
 

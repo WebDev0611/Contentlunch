@@ -10,7 +10,7 @@
 		
 		<div class="measure-editor row">
 			<div class="measure-header">
-				<a href="/measure/content-details" class="btn btn-default">View All Content</a>
+				<a href="#/measure/content-details" class="btn btn-default">View All Content</a>
 			</div>
 
 			<div class="measure-content-item" ng-if="!!selectedContent">
@@ -65,12 +65,12 @@
 			</div>
 
 			<div class="measure-footer">
-				<a href="/create/content/edit/{{ selectedContent.id }}" type="button" class="btn btn-lg btn-default btn-launch">
+				<a href="#/create/content/edit/{{ selectedContent.id }}" type="button" class="btn btn-lg btn-default btn-launch">
 					<span class="cl-icon cl-icon-white cl-icon-workflow-launch"></span>
 					<span ng-show="!content.archived">LAUNCH TO MORE</span>
 				</a>
 				
-				<a href="/promote/content/{{ selectedContent.id }}" type="button" class="btn btn-lg btn-default btn-promote">
+				<a href="#/promote/content/{{ selectedContent.id }}" type="button" class="btn btn-lg btn-default btn-promote">
 					<span class="cl-icon cl-icon-white cl-icon-workflow-promote"></span>
 					<span>VIEW IN PROMOTE</span>
 				</a>

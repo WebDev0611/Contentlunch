@@ -4,20 +4,23 @@ var gulp = require('gulp'),
 		minifycss = require('gulp-minify-css'),
 		jshint = require('gulp-jshint'),
 		uglify = require('gulp-uglify'),
-		imagemin = require('gulp-imagemin'),
+		//imagemin = require('gulp-imagemin'),
 		rename = require('gulp-rename'),
 		clean = require('gulp-clean'),
 		less = require('gulp-less'),
 		path = require('path'),
-		//concat = require('gulp-concat-sourcemap'),
+		//concatSourcemaps = require('gulp-concat-sourcemap'),
 		concat = require('gulp-concat'),
-		notify = require('gulp-notify'),
 		cache = require('gulp-cache'),
 		livereload = require('gulp-livereload'),
 		lr = require('tiny-lr'),
 		embedlr = require('gulp-embedlr'),
 		autoprefixer = require('gulp-autoprefixer'),
+		typescript = require('gulp-typescript'),
+		sourcemaps = require('gulp-sourcemaps'),
+	    notify = require('gulp-notify'),
 		server = lr();
+
 var gutil = require('gulp-util');
 
 gulp.task('styles-bootstrap', function () {
@@ -89,13 +92,13 @@ gulp.task('less', function () {
 gulp.task('tinymce', function () {
   var dir = './bower_components/tinymce/';
   gulp.src([
-    dir + 'tinymce.min.js', 
-    dir + 'plugins/**/*', 
-    dir + 'skins/**/*', 
+    dir + 'tinymce.min.js',
+    dir + 'plugins/**/*',
+    dir + 'skins/**/*',
     dir + 'themes/**/*'
   ], { base: dir })
-    .pipe(gulp.dest('./public/assets/js/tinymce'))
-    .pipe(livereload(server));
+    .pipe(gulp.dest('./public/assets/js/tinymce'));
+
 });
 
 gulp.task('tinymce-scripts', function() {
@@ -141,7 +144,16 @@ gulp.task('tinymce-images', function () {
 		.pipe(livereload(server));
 });
 
-gulp.task('scripts', function() {
+
+gulp.task('typescript', function() {
+	return gulp.src('src/js/**/*.ts')
+		.pipe(sourcemaps.init())
+			.pipe(typescript({out: 'launch-ts.js'}))
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest('public/assets/js'));
+});
+
+gulp.task('javascript', function() {
 	gulp.src([
 			'./bower_components/lodash/dist/lodash.js',
 			'./bower_components/jquery/dist/jquery.js',
@@ -152,7 +164,7 @@ gulp.task('scripts', function() {
 			'./bower_components/ng-file-upload/angular-file-upload-html5-shim.js',
 			'./bower_components/ng-file-upload/angular-file-upload-shim.js',
 			'./bower_components/angular/angular.js',
-			'./bower_components/angular-route/angular-route.js',
+			'./bower_components/angular-ui-router/release/angular-ui-router.js',
 			'./bower_components/angular-resource/angular-resource.js',
 			'./bower_components/angular-sanitize/angular-sanitize.js',
 			'./bower_components/angular-ui/build/angular-ui.js',
@@ -167,29 +179,18 @@ gulp.task('scripts', function() {
 			'./bower_components/fullcalendar/dist/fullcalendar.js',
 			'./bower_components/restangular/dist/restangular.js',
             './bower_components/checklist-model/checklist-model.js',
-//            './bower_components/raphael/raphael.js',
-//            './bower_components/globalize/lib/globalize.js',
-//            './bower_components/wijmo-complete/wijmo/jquery.wijmo.wijchartcore.js',
-//            './bower_components/wijmo-complete/wijmo/jquery.wijmo.wijbarchart.js',
-//			'./src/js/lib/angular.wijmo.3.20142.45.js'
-			// './bower_components/fullcalendar/gcal.js', // only needed if we do gcal integration
 		])
-		.pipe(concat('build.js'))
-		//.pipe(concat('build.js', {
-		//	// sourceRoot: '/assets/src',
-		//	sourcesContent: true
-		//})).on('error', gutil.log)
+		.pipe(sourcemaps.init())
+  		  .pipe(concat('build.js'))
+		.pipe(sourcemaps.write())
 		.pipe(gulp.dest('./public/assets/js'));
+
 	return gulp.src(['src/js/app.js', 'src/js/**/*.js'])
-		// .pipe(jshint('.jshintrc'))
-		// .pipe(jshint.reporter('jshint-stylish'))
-		.pipe(concat('app.js'))
-		//.pipe(concat('app.js', {
-		//	// sourceRoot: '/assets/src',
-		//	sourcesContent: true
-		//})).on('error', gutil.log)
-		.pipe(gulp.dest('./public/assets/js'))
-		.pipe(livereload(server));
+		  .pipe(sourcemaps.init())
+		    .pipe(concat('launch-app.js'))
+		  .pipe(sourcemaps.write())
+		  .pipe(gulp.dest('./public/assets/js'))
+
 });
 
 gulp.task('fonts-eot', function() {
@@ -253,17 +254,16 @@ gulp.task('images', function() {
 			'./bower_components/select2/select2-spinner.gif',
 			'./bower_components/select2/select2x2.png'
 		])
-		.pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
 		.pipe(gulp.dest('public/assets/css'))
 		.pipe(livereload(server));
 
 	return gulp.src([
 			'src/images/**/*',
 		])
-		.pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
 		.pipe(gulp.dest('public/assets/images'))
 		.pipe(livereload(server));
 });
+
 
 gulp.task('clean', function() {
 	return gulp.src(['public/assets/css', 'public/assets/js', 'public/assets/images', 'public/assets/views'], {read: false})
@@ -283,7 +283,8 @@ gulp.task('watch', function() {
 		gulp.watch('src/fonts/**/*.ttf', ['fonts-ttf']).on('change', function (e) { console.log('File "' + e.path + '" changed; FONT-TTF task complete'); });
 		gulp.watch('src/fonts/**/*.woff', ['fonts-woff']).on('change', function (e) { console.log('File "' + e.path + '" changed; FONT-WOFF task complete'); });
 		gulp.watch('src/css/**/*.less', ['less']).on('change', function (e) { console.log('File "' + e.path + '" changed; LESS task complete'); });
-		gulp.watch('src/js/**/*.js', ['scripts']).on('change', function (e) { console.log('File "' + e.path + '" changed; SCRIPTS task complete'); });
+		gulp.watch('src/js/**/*.ts', ['typescript']).on('change', function (e) { console.log('File "' + e.path + '" changed; js SCRIPTS task complete'); });
+		gulp.watch('src/js/**/*.js', ['javascript']).on('change', function (e) { console.log('File "' + e.path + '" changed; ts SCRIPTS task complete'); });
 		gulp.watch('src/views/**/*.html', ['views']).on('change', function (e) { console.log('File "' + e.path + '" changed; VIEW task complete'); });
 		gulp.watch('src/images/**/*', ['images']).on('change', function (e) { console.log('File "' + e.path + '" changed; IMAGE task complete'); });
 	});
@@ -291,5 +292,20 @@ gulp.task('watch', function() {
 
 // Run clean task first as dependency
 gulp.task('default', ['clean'], function () {
-	gulp.start('styles-bootstrap', 'map-bootstrap', 'bootstrap-components-css', 'styles-angular-ui', 'less', 'tinymce', 'scripts', 'documents', 'views', 'images', 'fonts-eot', 'fonts-svg', 'fonts-ttf', 'fonts-woff', 'fonts-otf');
+	gulp.start('styles-bootstrap',
+		'map-bootstrap',
+		'bootstrap-components-css',
+		'styles-angular-ui',
+		'less',
+		'tinymce',
+		'javascript',
+		'typescript',
+		'documents',
+		'views',
+		'images',
+		'fonts-eot',
+		'fonts-svg',
+		'fonts-ttf',
+		'fonts-woff',
+		'fonts-otf');
 });

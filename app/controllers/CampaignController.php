@@ -40,7 +40,7 @@ class CampaignController extends BaseController {
       }
 
     $user = Confide::User();
-    if(!$this->hasAbility([], ['calendar_view_campaigns_other'])) {
+    if(!$this->hasAbility([], ['calendar_view_campaigns_other'], $accountID)) {
       $query->where('user_id', $user->id);
     }
 
@@ -57,7 +57,7 @@ class CampaignController extends BaseController {
       return $this->responseAccessDenied();
     }
 
-    if(!$this->hasAbility([], ['calendar_execute_campaigns_own'])) {
+    if(!$this->hasAbility([], ['calendar_execute_campaigns_own'], $accountID)) {
       return $this->responseError('You do not have permission to create campaigns', 401);
     }
 
@@ -103,7 +103,7 @@ class CampaignController extends BaseController {
       ->find($id);
 
     $user = Confide::User();
-    if(!$this->hasAbility([], ['calendar_view_campaigns_other'])
+    if(!$this->hasAbility([], ['calendar_view_campaigns_other'], $accountID)
         && $campaign->user_id != $user->id) {
       return $this->responseError('You do no have permission to view this campaign', 401);
     }
@@ -120,7 +120,7 @@ class CampaignController extends BaseController {
     $campaign = Campaign::find($id);
 
     $user = Confide::User();
-    if(!$this->hasAbility([], ['calendar_edit_campaigns_other'])
+    if(!$this->hasAbility([], ['calendar_edit_campaigns_other'], $accountID)
         && $campaign->user_id != $user->id) {
       return $this->responseError('You do no have permission to edit this campaign', 401);
     }
@@ -258,7 +258,7 @@ class CampaignController extends BaseController {
     $campaign = Campaign::find($id);
 
     $user = Confide::User();
-    if(!$this->hasAbility([], ['calendar_edit_campaigns_other'])
+    if(!$this->hasAbility([], ['calendar_edit_campaigns_other'], $accountID)
         && $campaign->user_id != $user->id) {
       return $this->responseError('You do no have permission to delete this campaign', 401);
     }

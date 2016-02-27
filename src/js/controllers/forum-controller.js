@@ -1,7 +1,7 @@
 launch.module.controller('ForumController',
 [
-	'$scope', '$sce', '$rootScope', 'AuthService', '$routeParams', '$q', 'Restangular', 'NotificationService',
-	function ($scope, $sce, $rootScope, AuthService, $routeParams, $q, Restangular, notify) {
+	'$scope', '$sce', '$rootScope', 'AuthService', '$stateParams', '$q', 'Restangular', 'NotificationService',
+	function ($scope, $sce, $rootScope, AuthService, $stateParams, $q, Restangular, notify) {
 		var user = $scope.user = AuthService.userInfo();
 		$scope.user.name = $scope.user.displayName;
 		$scope.showNewThreadForm = false;

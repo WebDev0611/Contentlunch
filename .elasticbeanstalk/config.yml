@@ -1,0 +1,11 @@
+branch-defaults:
+  master:
+    environment: contentlaunch-prod
+    group_suffix: null
+global:
+  application_name: contentlaunch
+  default_ec2_keyname: marc_contentlaunch
+  default_platform: 64bit Amazon Linux 2015.09 v2.0.6 running PHP 5.6
+  default_region: us-east-1
+  profile: eb-cli
+  sc: git

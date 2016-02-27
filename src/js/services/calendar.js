@@ -106,7 +106,7 @@ function (contentStatuses,   $http,   $interpolate,   $compile,   $rootScope) {
                         container: 'body',
                         title: $interpolate('<div class="group">\
                                                 <div class="popover-close">&times;</div>\
-                                                <div class="calendar-node-popover-title-2"><a href="/calendar/campaigns/{{ id }}">{{ title }}</a></div>\
+                                                <div class="calendar-node-popover-title-2"><a href="#/calendar/campaigns/{{ id }}">{{ title }}</a></div>\
                                                 <div class="calendar-node-popover-date-2">{{ start.format() | date:"mediumDate" }} - {{ end.format() | date:"mediumDate" }}</div>\
                                              </div>')(event)
                     });

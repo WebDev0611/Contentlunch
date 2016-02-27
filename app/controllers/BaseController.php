@@ -41,21 +41,27 @@ class BaseController extends Controller {
     return Response::json(['errors' => ['Access Denied']], 401);
   }
 
+
+  protected function isGlobalAdmin() {
+    $user = Confide::user();
+    return $user->roles()->where('name','=','global_admin')->count() > 0;
+  }
+
   /**
    * Check if user has ability
    * @return boolean Can access
    */
-  protected function hasAbility($roles, $permissions = array(), $options = array())
+  protected function hasAbility($roles, $permissions = array(), $accountId, $options = array())
   {
     if (app()->environment() == 'testing') {
       return true;
     }
-    if ($this->hasRole('global_admin')) {
+    if ($this->isGlobalAdmin()) {
       return true;
     }
     $user = Confide::user();
     if ($user) {
-      return $user->ability($roles, $permissions, $options);
+      return $user->ability($roles, $permissions, $accountId, $options);
     }
     return false;
   }
@@ -65,24 +71,24 @@ class BaseController extends Controller {
    * @param string $roleName
    * @return boolean Has role
    */
-  protected function hasRole($roleName)
+  protected function hasRole($roleName, $account)
   {
+    $user = Confide::user();
+
     if (app()->environment() == 'testing') {
       return true;
     }
-    if (Entrust::hasRole('global_admin')) {
-      return true;
-    }
-    return Entrust::hasRole($roleName);
+
+    return $user->hasRole($roleName, $account);
   }
 
-  protected function hasPermission($permission)
+  protected function hasPermission($accountId, $permission)
   {
     $user = Confide::user();
     if ($user) {
-      $userObj = User::with('roles')->find($user->id);
+      $userObj = User::find($user->id);
       if ($userObj) {
-        return $userObj->can($permission);
+        return $userObj->can($permission, $accountId);
       }
     }
     return false;
@@ -90,18 +96,27 @@ class BaseController extends Controller {
 
   protected function inAccount($accountId)
   {
-    if ($this->hasRole('global_admin')) {
-      return true;
-    }
+
+    $account = Account::findOrFail($accountId);
+
+
+    // Make sure a user is logged in
     $user = Confide::user();
     if ($user) {
-      $id = DB::table('account_user')
-        ->where('account_id', $accountId)
-        ->where('user_id', $user->id)
-        ->pluck('id');
+
+      // First, lets check the actual account specified
+      $id = DB::table('account_user')->where('account_id', $accountId)->where('user_id', $user->id)->pluck('id');
       if ($id) {
         return true;
       }
+
+      // If the account is a client account, we also have to check the parent agency account.
+      $account = Account::find($accountId);
+      if($account->account_type == 'client') {
+        return $this->inAccount($account->parent_id);
+      }
+
+
     }
     return false;
   }

@@ -114,9 +114,9 @@ launch.module.directive('accountForm', function($modal, $window, $location, Auth
 
 			// Attempt to save payment info first
 			if (scope.selectedAccount.paymentType == 'CC' && !launch.utils.isBlank(scope.selectedAccount.creditCard.cardNumber) && !launch.utils.isValidPattern(scope.selectedAccount.creditCard.cardNumber, /\*/)) {
-				PaymentService.saveCreditCard(scope.selectedAccount.creditCard, function(r) { self.paymentResponseHandler(r, form); });
-			} else if (scope.selectedAccount.paymentType == 'ACH' && !launch.utils.isBlank(scope.selectedAccount.bankAccount.accountNumber) && !launch.utils.isValidPattern(scope.selectedAccount.bankAccount.accountNumber, /\*/)) {
-				PaymentService.saveBankAccount(scope.selectedAccount.bankAccount, function(r) { self.paymentResponseHandler(r, form); });
+				PaymentService.saveCreditCard(scope.selectedAccount.creditCard, function (r) {
+					self.paymentResponseHandler(r, form);
+				});
 			} else {
 				scope.doSaveAccount(form);
 			}
@@ -465,7 +465,8 @@ launch.module.directive('accountForm', function($modal, $window, $location, Auth
 			refreshMethod: '=refreshMethod',
 			afterSaveSuccess: '=afterSaveSuccess',
 			selfEditing: '=selfEditing',
-			creatingNew: '=creatingNew'
+			creatingNew: '=creatingNew',
+			ctrl: '=ctrl'
 		},
 		templateUrl: '/assets/views/directives/account-form.html'
 	};

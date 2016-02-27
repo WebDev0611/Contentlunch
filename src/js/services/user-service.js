@@ -1,5 +1,5 @@
 launch.module.factory('UserService', function($resource, $upload, AccountService, ModelMapperService, SessionService) {
-	var users = $resource('/api/user/:id', { id: '@id' }, {
+	var users = $resource('/api/account/:accountId/user/:id', { id: '@id' }, {
 		get: { method: 'GET', transformResponse: ModelMapperService.user.parseResponse },
 		query: { method: 'GET', isArray: true, transformResponse: ModelMapperService.user.parseResponse },
 		update: { method: 'PUT', transformRequest: ModelMapperService.user.formatRequest, transformResponse: ModelMapperService.user.parseResponse },
@@ -78,17 +78,17 @@ launch.module.factory('UserService', function($resource, $upload, AccountService
 
 			return usersCall.get(null, success, error);
 		},
-		get: function(id, callback) {
+		get: function(id, accountId, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return users.get({ id: id }, success, error);
+			return users.get({ id: id, accountId:accountId }, success, error);
 		},
 		update: function(user, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return users.update({ id: user.id }, user, success, error);
+			return users.update({ id: user.id, accountId:user.account.id }, user, success, error);
 		},
 		add: function(user, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
@@ -100,7 +100,7 @@ launch.module.factory('UserService', function($resource, $upload, AccountService
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;
 			var error = (!!callback && $.isFunction(callback.error)) ? callback.error : null;
 
-			return users.delete({ id: user.id }, user, success, error);
+			return users.delete({ id: user.id, accountId:user.account.id }, user, success, error);
 		},
 		forgotPassword: function(user, callback) {
 			var success = (!!callback && $.isFunction(callback.success)) ? callback.success : null;

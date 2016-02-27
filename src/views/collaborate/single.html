@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row align-right underline">
             <div class="col-sm-9">
-                <a href="/collaborate" class="btn btn-inverse">View All Concepts</a>
+                <a href="#/collaborate" class="btn btn-inverse">View All Concepts</a>
             </div>
         </div>
         <div class="row large-nudge-down">
@@ -34,12 +34,12 @@
                     <div ng-bind-html="selected.description"></div>
 
                     <div class="align-right">
-                        <a ng-href="/create/concept/edit/content/{{ selected.id }}" class="btn btn-create" ng-show="selected.conceptType == 'content'">
+                        <a ng-href="#/create/concept/edit/content/{{ selected.id }}" class="btn btn-create" ng-show="selected.conceptType == 'content'">
                             <img src="/assets/images/create.svg">
                             View in Create
                         </a>
 
-                        <a ng-href="/calendar/concept/edit/campaign/{{ selected.id }}" class="btn btn-calendar" ng-show="selected.conceptType == 'campaign'">
+                        <a ng-href="#/calendar/concept/edit/campaign/{{ selected.id }}" class="btn btn-calendar" ng-show="selected.conceptType == 'campaign'">
                             <img src="/assets/images/create.svg">
                             View in Calendar
                         </a>

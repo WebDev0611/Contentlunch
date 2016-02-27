@@ -54,7 +54,7 @@ class ForumThreadReplyController extends BaseController {
 
     public function destroy($threadID, $replyID) 
     {
-        if (!$this->hasRole('global_admin')) {
+        if (!$this->isGlobalAdmin()) {
             return $this->responseError('You do not have permission to delete threads', 401);   
         }
 

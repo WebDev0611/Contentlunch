@@ -1,5 +1,5 @@
 launch.module.controller('ContentController', [
-	'$scope', '$sce', '$routeParams', '$filter', '$location', '$modal', 'ecommercePlatforms', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', 'Restangular', function ($scope, $sce, $routeParams, $filter, $location, $modal, ecommercePlatforms, authService, accountService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService, Restangular) {
+	'$scope', '$sce', '$stateParams', '$filter', '$location', '$modal', 'ecommercePlatforms', 'AuthService', 'AccountService', 'UserService', 'ContentSettingsService', 'ContentService', 'ConnectionService', 'CampaignService', 'TaskService', 'NotificationService', 'Restangular', function ($scope, $sce, $stateParams, $filter, $location, $modal, ecommercePlatforms, authService, accountService, userService, contentSettingsService, contentService, connectionService, campaignService, taskService, notificationService, Restangular) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -55,7 +55,7 @@ launch.module.controller('ContentController', [
 		}
 
 		self.refreshContent = function() {
-			self.contentId = parseInt($routeParams.contentId);
+			self.contentId = parseInt($stateParams.contentId);
 			self.replaceFile = false;
 			self.uploadFile = null;
 

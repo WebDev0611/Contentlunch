@@ -48,8 +48,14 @@
 		</div>
 	</div>
 	<div class="col-md-9 right-pane">
-		<h2 class="right-pane-header" ng-show="!!selectedAccount">Account Settings</h2>
-		<div class="right-pane-content" ng-if="!!selectedAccount" account-form selected-account="selectedAccount" refresh-method="refreshMethod" after-save-success="afterSaveSuccess" self-editing="selfEditing()" creating-new="(isNaN(selectedAccount.id) || selectedAccount.id <= 0)"></div>
+		<h2 class="right-pane-header" ng-if="!!selectedAccount">Account Settings</h2>
+		<div class="right-pane-content" ng-if="!!selectedAccount" account-form
+			 selected-account="selectedAccount"
+			 refresh-method="refreshMethod"
+			 ctrl="ctrl"
+			 after-save-success="afterSaveSuccess"
+			 self-editing="selfEditing()"
+			 creating-new="(isNaN(selectedAccount.id) || selectedAccount.id <= 0)"></div>
 	</div>
 </div>
 

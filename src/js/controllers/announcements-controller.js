@@ -1,6 +1,5 @@
-angular.module('launch')
+angular.module('launch').controller('AnnouncementsController',
 
-.controller('AnnouncementsController', 
         ['$scope', '$rootScope', 'Restangular', 'NotificationService', 
 function ($scope,   $rootScope,   Restangular,   notify) {
     $scope.isLoaded = false;

@@ -3,6 +3,8 @@
 @import 'bootstrap-overrides.less';
 @import 'icons.less';
 
+@import 'agency.less';
+
 html, body {
 	height: 100%;
 }
@@ -104,6 +106,18 @@ header {
 							fill: #FFFFFF;
 						}
 				}
+
+				&.clients {
+					background-color: @clientsColor;
+					.dark {
+						background-color: @clientsColorDark;
+					}
+
+					.top-arrow {
+						border-top-color: @clientsColor;
+					}
+				}
+
 
 				&.home {
 					background-color: @accountsColor;

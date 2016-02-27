@@ -1,7 +1,8 @@
 <?php
 
 use Zizaco\Confide\ConfideUser;
-use Zizaco\Entrust\HasRole;
+use Launch\HasRole;
+
 
 class User extends ConfideUser {
   use HasRole;
@@ -20,9 +21,8 @@ class User extends ConfideUser {
 
   public static $rules = array(
     'username' => 'required|unique:users,username',
-    'email' => 'required|email',
+    'email' => 'required|unique:users,email|email',
     'password' => 'required|between:4,20|confirmed',
-    'password_confirmation' => 'min:4'
   );
 
   protected $softDelete = true;
@@ -42,11 +42,6 @@ class User extends ConfideUser {
     return 'remember_token';
   }
 
-  //protected function getDateFormat()
-  //{
-  //  return 'Y-m-d H:i:s';
-  //}
-
   public function accounts()
   {
   	return $this->belongsToMany('Account', 'account_user', 'user_id', 'account_id')->withTimestamps();
@@ -62,10 +57,6 @@ class User extends ConfideUser {
     return $this->hasMany('CampaignTask');
   }
 
-  public function zroles()
-  {
-    return $this->belongsToMany('Role', 'assigned_roles', 'id', 'user_id');
-  }
 
   public function image()
   {
@@ -117,46 +108,30 @@ class User extends ConfideUser {
     return $ret;
   }
 
-  /**
-   * Get this user's account ID, should belong to one account
-   */
-  public function getAccountID()
-  {
-    $accounts = $this->accounts;
-    if ($accounts) {
-      foreach ($accounts as $account) {
-        return $account->id;
-      }
-    }
-    return null;
-  }
 
-  public function scopeWithAccounts($query) {
+// Appears to be unused:
+//  public function scopeAccount($query, $id) {
+//    return $query->with('accounts')->where('accounts.id', $id);
+//    return $query->with(array('accounts' => function($query) use ($id) {
+//      $query->where('accounts.id', $id);
+//    }));
+//    return $query->accounts()->where('id', $id);
+//  }
 
-  }
-
-  public function scopeAccount($query, $id) {
-    return $query->with('accounts')->where('accounts.id', $id);
-    return $query->with(array('accounts' => function($query) use ($id) {
-      $query->where('accounts.id', $id);
-    }));
-    return $query->accounts()->where('id', $id);
-  }
-
-  /**
-   * Limit the query to users with assigned roles
-   * @param  object $query
-   * @param  array $roles Role ids to filter by
-   * @return object $query
-   */
-  public function scopeRoles($query, $roles) {
-    return $query->whereExists(function ($q) use ($roles) {
-      $q->select(DB::raw(1))
-        ->from('assigned_roles')
-        ->whereIn('role_id', $roles)
-        ->whereRaw('assigned_roles.user_id = users.id');
-    });
-  }
+//  /**
+//   * Limit the query to users with assigned roles
+//   * @param  object $query
+//   * @param  array $roles Role ids to filter by
+//   * @return object $query
+//   */
+//  public function scopeRoles($query, $roles) {
+//    return $query->whereExists(function ($q) use ($roles) {
+//      $q->select(DB::raw(1))
+//        ->from('assigned_roles')
+//        ->whereIn('role_id', $roles)
+//        ->whereRaw('assigned_roles.user_id = users.id');
+//    });
+//  }
 
   public function beforeSave($forced = false)
   {
@@ -179,4 +154,12 @@ class User extends ConfideUser {
 
     return $values;
   }
+
+  public function toJsonWithAccount($account) {
+    $rv = $this->toArray();
+    $rv['accounts'] = [$account->toArray()];
+    $rv['roles'] = $this->rolesForAccount($account)->get();
+    return json_encode($rv);
+  }
+
 }

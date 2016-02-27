@@ -4,6 +4,7 @@ use Zizaco\Entrust\EntrustRole;
 
 class Role extends EntrustRole
 {
+	protected $hidden = ['pivot'];
 
 	public $forceEntityHydrationFromInput = false;
 

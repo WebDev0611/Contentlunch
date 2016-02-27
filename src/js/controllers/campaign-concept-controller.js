@@ -1,5 +1,6 @@
 launch.module.controller('CampaignConceptController', [
-	'$scope', '$routeParams', '$filter', '$location', '$modal', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'CampaignService', 'NotificationService', 'AccountService', function ($scope, $routeParams, $filter, $location, $modal, authService, userService, contentSettingsService, contentService, campaignService, notificationService, accountService) {
+	'$scope', '$stateParams', '$filter', '$location', '$modal', 'AuthService', 'UserService', 'ContentSettingsService', 'ContentService', 'CampaignService', 'NotificationService', 'AccountService',
+	function ($scope, $stateParams, $filter, $location, $modal, authService, userService, contentSettingsService, contentService, campaignService, notificationService, accountService) {
 		var self = this;
 
 		self.loggedInUser = null;
@@ -24,7 +25,7 @@ launch.module.controller('CampaignConceptController', [
 		};
 
 		self.refreshConcept = function () {
-			var campaignId = parseInt($routeParams.campaignId);
+			var campaignId = parseInt($stateParams.campaignId);
 
 			if (isNaN(campaignId)) {
 				$scope.campaign = campaignService.getNewCampaignConcept(self.loggedInUser);
@@ -202,8 +203,8 @@ launch.module.controller('CampaignConceptController', [
 		$scope.$watch('campaign.user', self.filterCollaborators);
 
         $scope.refreshBrainstorms = function () {
-        	if (!isNaN($routeParams.campaignId)) {
-        		$scope.brainstorms = accountService.getBrainstorms(self.loggedInUser.account.id, 'campaign', $routeParams.campaignId, self.ajaxHandler);
+        	if (!isNaN($stateParams.campaignId)) {
+        		$scope.brainstorms = accountService.getBrainstorms(self.loggedInUser.account.id, 'campaign', $stateParams.campaignId, self.ajaxHandler);
         	}
         };
 

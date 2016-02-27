@@ -1,11 +1,11 @@
 launch.module.controller('ForumThreadController',
 [
-	'$scope', '$sce', '$rootScope', 'AuthService', '$routeParams', '$q', 'Restangular', '$location', 'NotificationService',
-	function ($scope, $sce, $rootScope, AuthService, $routeParams, $q, Restangular, $location, notify) {
+	'$scope', '$sce', '$rootScope', 'AuthService', '$stateParams', '$q', 'Restangular', '$location', 'NotificationService',
+	function ($scope, $sce, $rootScope, AuthService, $stateParams, $q, Restangular, $location, notify) {
 		var user = $scope.user = AuthService.userInfo();
 		$scope.user.name = $scope.user.displayName;
 
-		var Thread = Restangular.one('forum-thread', $routeParams.threadId);
+		var Thread = Restangular.one('forum-thread', $stateParams.threadId);
 		var Replies = Thread.all('reply');
 
 		$scope.canCreate = user.hasPrivilege('consult_execute_forum_create');
@@ -25,7 +25,7 @@ launch.module.controller('ForumThreadController',
 		// Reply CRUD
 		// -------------------------
 		$scope.createReply = function(reply) {
-			reply.forumThreadId = $routeParams.threadId;
+			reply.forumThreadId = $stateParams.threadId;
 			reply.userId = user.id;
 			reply.accountId = (user.account || { }).id;
 
