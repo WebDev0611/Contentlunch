@@ -21,3 +21,4 @@ Set up dev api keys in services.php
 
 Check php.ini session info lengths (http://stackoverflow.com/questions/26071747/how-to-set-session-timeout-in-laravel-4-2)
 
+Create .js files without .js.map info and minimized for production.
