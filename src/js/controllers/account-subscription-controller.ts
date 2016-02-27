@@ -36,7 +36,7 @@ module launchts {
                 key: 'pk_test_9WtB8kfnBxpSgEX7MMwOkA82',
                 image: '/assets/images/cl-wave.png',
                 locale: 'auto',
-                token: function (token) {
+                token: (token) => {
                     console.log("Made token!" + token);
                     // Use the token to create the charge with a server-side script.
                     // You can access the token ID with `token.id`
@@ -83,7 +83,7 @@ module launchts {
             });
         }
 
-        public changePaymentDetails($event) {
+        public changePaymentDetails = ($event) => {
             $event.preventDefault();
             this.pendingAction = this.setupPaymentDetails;
             this.stripeHandler.open({

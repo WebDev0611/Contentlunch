@@ -188,7 +188,7 @@ class UserController extends BaseController {
 			if (Session::get('impersonate_from') && Session::get('impersonate_from') != $userId) {
 				$user->impersonating = true;
 			}
-
+			$account->available_subscriptions = Subscription::where('active','=',1)->where('plan_type','=',$account->account_type)->get();
 			return $user->toJsonWithAccount($account);
 		}
 	}

@@ -131,13 +131,14 @@ launch.ModelMapper = function($location, authService, notificationService) {
 			account.email = dto.email;
 			account.phoneNumber = dto.phone;
 			account.strategy = dto.strategy;
-			account.userCount = parseInt(dto.count_users);
+			account.userCount = parseInt(dto.user_count);
 			account.clientCount = parseInt(dto.client_count);
 			account.created = dto.created_at;
 			account.updated = dto.updated_at;
 			account.paymentDate = dto.payment_date;
 			account.accountType = dto.account_type;
 			account.availableSubscriptions = dto.available_subscriptions;
+			account.subscriptionPlan = dto.subscription_plan;
 
 			account.subscription = {}; //self.subscription.fromDto(dto.account_subscription);
 

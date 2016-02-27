@@ -98,7 +98,7 @@ gulp.task('tinymce', function () {
     dir + 'themes/**/*'
   ], { base: dir })
     .pipe(gulp.dest('./public/assets/js/tinymce'));
-    
+
 });
 
 gulp.task('tinymce-scripts', function() {
