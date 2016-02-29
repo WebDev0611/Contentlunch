@@ -56,3 +56,9 @@ stunning.co for others
 
 
 
+# Login Sequence
+
+Upon login, the user is redirected to / and the AppController kicks in.  It's purpose is to determine this user's
+primary account and then redirect them to that account specific URL.  It will give preference to an agency acocunt over
+a client acocunt.
+
