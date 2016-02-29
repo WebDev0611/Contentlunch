@@ -1,20 +1,4 @@
-# Database
-
-Credentials are in commonkey.
-
-It's replicated in two availability zones for redundancy, performs regular backups, and we have all the nice managed features Amazon gives us.
-
-It's running MariaDB which is the open source MySql fork (Oracle bought MySql and essentially stopped working on it a few years ago, the MariaDB people picked it up to kept it going forward, think of it as a 10% faster MySql).
-
-SSH through one of the servers to access it (sequel pro makes this easy)
-
-# Redis
-
-Redis server using Elasticache and servers are pointing to that.
-As I talked with Micah, I plan on pointing the queue system to it instead of BeanstalkD (don't confuse with EB, totally different) but haven't tested that out yet so it's still todo.
-
 # Elastic Beanstalk
-
 
 ## Environments
 
@@ -32,6 +16,7 @@ db: cl_dev  [currently running a copy of cl_prod taken on 2/27/16]
 git branch: development
 redis: contentlaunch-prod.i9zt5p.0001.use1.cache.amazonaws.com (SAME AS PROD)
 redis cache prefix: cldev
+
 
 ## EB Primer
 
@@ -54,6 +39,23 @@ To update an evironment
 To check status
 
 eb status
+
+
+# Database
+
+Credentials are in commonkey.
+
+It's replicated in two availability zones for redundancy, performs regular backups, and we have all the nice managed features Amazon gives us.
+
+It's running MariaDB which is the open source MySql fork (Oracle bought MySql and essentially stopped working on it a few years ago, the MariaDB people picked it up to kept it going forward, think of it as a 10% faster MySql).
+
+SSH through one of the servers to access it (sequel pro makes this easy)
+
+# Redis
+
+Redis server using Elasticache and servers are pointing to that.
+As I talked with Micah, I plan on pointing the queue system to it instead of BeanstalkD (don't confuse with EB, totally different) but haven't tested that out yet so it's still todo.
+
 
 # Health Checks
 
