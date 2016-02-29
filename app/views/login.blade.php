@@ -62,5 +62,6 @@
 
 
 
+        <div class="subtle-footer">{{App::environment()}} | {{Config::get('app.version')}}</div>
     </body>
 </html>
