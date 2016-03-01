@@ -63,13 +63,18 @@ echo " Install XDebug"
 sudo yum install -y php-pecl-xdebug.x86_64
 echo " Install Redis"
 sudo yum install -y redis
+sudo yum install -y php-pecl-redis
 
-echo "[xdebug]" >> /etc/php.ini
-echo "zend_extension=\"/usr/lib64/php/modules/xdebug.so\"" >> /etc/php.ini
-echo "xdebug.remote_enble=1" >> /etc/php.ini
-echo "xdebug.idekey=marc" >> /etc/php.ini
-echo "xdebug.remote_autostart=1" >> /etc/php.ini
-echo "xdebug.remote_host=192.168.1.125" >> /etc/php.ini
+echo "[xdebug]" > /etc/php.d/xdebug.ini
+echo "zend_extension=\"/usr/lib64/php/modules/xdebug.so\"" >> /etc/php.d/xdebug.ini
+echo "xdebug.remote_enble=1" >> /etc/php.d/xdebug.ini
+echo "xdebug.idekey=cl" >> /etc/php.d/xdebug.ini
+echo "xdebug.remote_autostart=1" >> /etc/php.d/xdebug.ini
+echo "xdebug.remote_host=192.168.1.125" >> /etc/php.d/xdebug.ini
+
+echo "php_value session.save_handler \"redis\"" >> /etc/httpd/conf.d/php.conf
+echo "php_value session.save_path    \"tcp://localhost:6379\"" >> /etc/httpd/conf.d/php.conf
+
 
 echo -e "Done!\n"
 
