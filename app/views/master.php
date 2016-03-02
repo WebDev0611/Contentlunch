@@ -33,10 +33,10 @@
 
     <footer></footer>
 
-    <script async type="text/javascript" src="/assets/js/build.js?version=<?php echo Config::get('app.version') ?>"></script>
+    <script type="text/javascript" src="/assets/js/build.js?version=<?php echo Config::get('app.version') ?>"></script>
     <script async type="text/javascript" src="https://www.googleadservices.com/pagead/conversion_async.js" charset="utf-8"></script>
     <script async type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
-    <script async type="text/javascript" src="/assets/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="/assets/js/tinymce/tinymce.min.js"></script>
 
     <script type="text/javascript" src="/assets/js/launch-app.js?version=<?php echo Config::get('app.version') ?>"></script>
     <script type="text/javascript" src="/assets/js/launch-ts.js?version=<?php echo Config::get('app.version') ?>"></script>
