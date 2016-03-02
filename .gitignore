@@ -6,7 +6,6 @@
 /public/assets
 public/info.php
 composer.phar
-composer.lock
 .env.local.php
 .env.php
 .DS_Store
@@ -25,5 +24,3 @@ id_rsa*
 # ignore local configurations
 app/config/local/
 *.sublime-workspace
-
-
