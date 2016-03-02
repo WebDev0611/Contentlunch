@@ -166,9 +166,9 @@ class AccountConnectionsController extends BaseController {
     } catch (\Exception $e) {
       // User canceled the connection?
       if ($connection->type == 'promote') {
-        return Redirect::to('/account/promote');
+        return Redirect::to("/account/$accountID#/account/promote");
       } else {
-        return Redirect::to('/account/connections');
+        return Redirect::to("/account/$accountID#/account/connections");
       }
     }
     $connect = new AccountConnection;
@@ -211,22 +211,22 @@ class AccountConnectionsController extends BaseController {
     
     if ($success) {
       if ($connection->type == 'promote') {
-          return Redirect::to('/account/promote');
+          return Redirect::to("/account/$accountID#/account/promote");
       } else {
           // If we updated an existing connection,
           // the front end needs to display a message
           // to the user
           if ($existing) {
-            return Redirect::to('/account/connections?updated=' . $existing->id);
+            return Redirect::to("/account/$accountID#/account/connections?updated=" . $existing->id);
           } else {
             if ($connection->provider == 'wordpress') {
               $wordpressApi = new Launch\Connections\API\WordpressAPI($connect->toArray());
               if ($errorMessage = $wordpressApi->canNotConnect()) {
                 $connect->delete();
-                return Redirect::to('/account/connections?message=wordpress_error&error=' . urldecode($errorMessage));  
+                return Redirect::to("/account/$accountID#/account/connections?message=wordpress_error&error=" . urldecode($errorMessage));
               }  
             }
-            return Redirect::to('/account/connections');
+            return Redirect::to("/account/$accountID#/account/connections");
           }
       }
     }

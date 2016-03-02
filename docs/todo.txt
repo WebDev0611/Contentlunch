@@ -6,19 +6,23 @@ user->getAccountID has been removed, must fix LibraryUploadsController so an acc
 
 
 
-Make sure DNS registrations are looked after, don't want them expiring.
-
-
-
 1. Check mail / spf settings
 2. check www settings
 3. check hubspot domains
 
 
-set default=false in production
+set debug=false in production
 
-Set up dev api keys in services.php
+Set up dev api keys in services.php, verify the app api keys
 
 Check php.ini session info lengths (http://stackoverflow.com/questions/26071747/how-to-set-session-timeout-in-laravel-4-2)
 
 Create .js files without .js.map info and minimized for production.
+
+
+Audit all authentication for security (aws console, dns, etc.)
+
+
+Report back on OAuth errors better / more informative
+AccountConnectionController::~168
+

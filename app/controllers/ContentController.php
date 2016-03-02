@@ -73,7 +73,14 @@
                 $connections = Input::get('account_connections');
                 if ($connections) {
                     foreach ($connections as $connection) {
-                        $content->account_connections()->attach($connection['id']);
+                        $content->account_connections()->attach($connection['id'],
+                            [   "external_id"=>'',
+                                "likes"=>0,
+                                "shares"=>0,
+                                "comments"=>0,
+                                "views"=>0,
+                                "downloads"=>0,
+                                "conversions"=>0]);
                     }
                 }
                 // Attach related content
