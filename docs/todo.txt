@@ -32,3 +32,4 @@ AccountConnectionController::~168
 
 Set up description/icons on OAuth screens
 
+remove info.php
