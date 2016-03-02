@@ -1,9 +1,12 @@
 TODO:
 
-Agency accounts
+Agency accounts user->getAccountID has been removed, must fix LibraryUploadsController so an account is always passed to it
 
-user->getAccountID has been removed, must fix LibraryUploadsController so an account is always passed to it
 
+Set new secure passwords:
+ - Bluehost
+ - Any other active AWS account (+MFA)
+ - All active Stripe accounts
 
 
 1. Check mail / spf settings

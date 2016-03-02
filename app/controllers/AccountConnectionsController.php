@@ -164,11 +164,12 @@ class AccountConnectionsController extends BaseController {
       $service = new ServiceFactory($connection->provider);
       $settings = $service->getCallbackData();
     } catch (\Exception $e) {
+      Log::error($e->getMessage());
       // User canceled the connection?
       if ($connection->type == 'promote') {
-        return Redirect::to("/account/$accountID#/account/promote");
+        return Redirect::to("/account/$accountID#/account/promote?message=error&error=user_cancel");
       } else {
-        return Redirect::to("/account/$accountID#/account/connections");
+        return Redirect::to("/account/$accountID#/account/connections?message=error&error=user_cancel");
       }
     }
     $connect = new AccountConnection;
