@@ -142,8 +142,8 @@ return [
     ]
   ],
   'wordpress' => [
-    'key' => '36719',
-    'secret' => 'kfANNW247Psf1aX4ROWtvtnG5sSU9jw8fdWmdXJVKej5ROSekrKYm4RzTGh4Ueg8',
+    'key' => '45336',
+    'secret' => 'OLeVQ155M3pB01MN1mn1HadKRCq466nrPfUqzhybmOVWqQZm1dlIMZNxQ4HCwE8M',
     'scope' => [],
     'metric' => [
         'key' => 'likes',

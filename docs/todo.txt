@@ -26,3 +26,6 @@ Audit all authentication for security (aws console, dns, etc.)
 Report back on OAuth errors better / more informative
 AccountConnectionController::~168
 
+
+Set up description/icons on OAuth screens
+
