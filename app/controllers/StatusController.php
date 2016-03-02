@@ -7,7 +7,7 @@ class StatusController extends \BaseController {
     }
 
     protected function testRedis() {
-        $redis = Redis::connection();
+        $redis = LRedis::connection();
         $redis->set('healthtest', '1');
         $redis->get('healthtest');
     }

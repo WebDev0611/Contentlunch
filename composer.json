@@ -35,7 +35,8 @@
     "barryvdh/laravel-dompdf": "0.4.*",
     "phpunit/phpunit": "4.8",
     "brianium/paratest": "dev-master",
-    "stripe/stripe-php": "^3.7"
+    "stripe/stripe-php": "^3.7",
+    "vetruvet/laravel-phpredis": "1.*"
   },
   "autoload": {
     "classmap": [
