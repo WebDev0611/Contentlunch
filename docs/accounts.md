@@ -62,3 +62,7 @@ Upon login, the user is redirected to / and the AppController kicks in.  It's pu
 primary account and then redirect them to that account specific URL.  It will give preference to an agency acocunt over
 a client acocunt.
 
+# Watch out:
+
+- Many places in the code assume a single role per user/account
+- Many places in the code only looks at whether a person is a member of an account instead of checking the actual permissions the person has.  This is likely causing some possible privilege escalation.
