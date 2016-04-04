@@ -17,6 +17,18 @@ echo "|_|                                                                       
 
 if [ -f /etc/provisioned ]; then
     echo "Already Provisioned"
+    heading "Starting services";
+    echo " ╰─➤ Starting MySQL"
+    sudo systemctl start mysqld >&- 2>&-
+    sudo systemctl enable mysqld >&- 2>&-
+
+    echo " ╰─➤ Starting redis"
+    sudo systemctl start redis >&- 2>&-
+    sudo systemctl enable redis >&- 2>&-
+
+    echo " ╰─➤ Starting Apache"
+    sudo systemctl start httpd >&- 2>&-
+    echo -e "Done!\n"
     exit 0
 fi
 
@@ -42,9 +54,7 @@ sudo yum install -y -q sshpass >&- 2>&-
 echo " ╰─➤ Installing git"
 sudo yum install -y -q git >&- 2>&-
 echo " ╰─➤ Installing NodeJS"
-sudo yum install -y -q nodejs >&- 2>&-
-echo " ╰─➤ Installing npm"
-sudo yum install -y -q npm >&- 2>&-
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash && bash && nvm install 5.0
 echo " ╰─➤ Installing MySQL"
 sudo yum install -y -q mysql-server >&- 2>&-
 echo " ╰─➤ Installing php"
