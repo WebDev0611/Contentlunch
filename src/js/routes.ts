@@ -575,6 +575,60 @@ module launchts {
                             templateUrl: '/assets/views/subscription.html'
                         }
                     }
+                }).state('writeraccess', {
+                    url: '/writeraccess',
+                    parent: 'app',
+                    views: {
+                        mainContent: {
+                            controller: 'SubscriptionController',
+                            controllerAs: 'ctrl',
+                            templateUrl: '/assets/views/writeraccess/writeraccess.html'
+                        }
+                    }
+                })
+                .state('writeraccessAssets', {
+                    url: '/writeraccess/assets',
+                    parent: 'app',
+                    views: {
+                        mainContent: {
+                            controller: 'SubscriptionController',
+                            controllerAs: 'ctrl',
+                            templateUrl: '/assets/views/writeraccess/writeraccess-assets.html'
+                        }
+                    }
+                })
+                .state('writeraccessOrders', {
+                    url: '/writeraccess/orders',
+                    parent: 'app',
+                    views: {
+                        mainContent: {
+                            controller: 'SubscriptionController',
+                            controllerAs: 'ctrl',
+                            templateUrl: '/assets/views/writeraccess/writeraccess-orders.html'
+                        }
+                    }
+                })
+                .state('writeraccessProjects', {
+                    url: '/writeraccess/projects',
+                    parent: 'app',
+                    views: {
+                        mainContent: {
+                            controller: 'SubscriptionController',
+                            controllerAs: 'ctrl',
+                            templateUrl: '/assets/views/writeraccess/writeraccess-projects.html'
+                        }
+                    }
+                })
+                .state('writeraccessWriters', {
+                    url: '/writeraccess/writers',
+                    parent: 'app',
+                    views: {
+                        mainContent: {
+                            controller: 'SubscriptionController',
+                            controllerAs: 'ctrl',
+                            templateUrl: '/assets/views/writeraccess/writeraccess-writers.html'
+                        }
+                    }
                 })
                 .state('announce', {
                     url: '/announce',
