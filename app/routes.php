@@ -314,6 +314,9 @@ Route::group(['prefix' => 'api'], function()
       ]);
     });
 
+  Route::resource('keywordidea/', 'KeywordIdeaController');
+  Route::resource('keywordidea/search', 'KeywordIdeaController@search');
+
 });
 
 
