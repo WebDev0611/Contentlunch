@@ -36,7 +36,8 @@
     "phpunit/phpunit": "4.8",
     "brianium/paratest": "dev-master",
     "stripe/stripe-php": "^3.7",
-    "vetruvet/laravel-phpredis": "1.*"
+    "vetruvet/laravel-phpredis": "1.*",
+    "googleads/googleads-php-lib": "^8.3"
   },
   "autoload": {
     "classmap": [
