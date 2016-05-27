@@ -16,7 +16,7 @@ echo "/ /_/         \___/\____/_/ /_/\__/\___/_/ /_/\__/  /_/\__,_/\__,_/_/ /_/\
 echo "|_|                                                                                  "
 
 if [ -f /etc/provisioned ]; then
-    echo "Already Provisioned"
+    echo -e "\nAlready Provisioned"
     heading "Starting services";
     echo " ╰─➤ Starting MySQL"
     sudo systemctl start mysqld >&- 2>&-

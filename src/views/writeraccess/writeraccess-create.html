@@ -1,0 +1,108 @@
+<div class="view writeraccess">
+	<div class="col-md-3 left-pane">
+
+	</div>
+
+	<div class="col-md-9 right-pane">
+		<h2 class="right-pane-header"><img src="http://www.writeraccess.com/images/2014/logo-header.png" alt=""></h2>
+
+		<div class="right-pane-content">
+            <div class="measure-header" ng-include="'/assets/views/writeraccess/writeraccess-navigation.html'"></div>
+		</div>
+
+		<form method="POST" action="/api/writeraccess/orders/create" id="orderForm" name="orderForm" ng-init="getFormOptions()" class="orderForm ng-scope ng-valid ng-pristine">
+
+			<div id="order-flow-1" class="clearfix">
+				<a href="#/writeraccess/createOrder" class="btn btn-default btn-xl">I'll Write it!</a>
+				<a href="" ng-click="orderFlow(2)" class="btn btn-default btn-xl">Use ContentLaunch Writers</a>
+			</div>
+
+			<div id="order-flow-2" class="clearfix" style="display: none;">
+				<h2><span class="fa-stack numberedBall"><i class="fa fa-circle fa-stack-1x"></i><i class="fa fa-stack-1x fa-inverse">1</i></span> What would you like to order?</h2>
+				<div>
+					<div class="formGroup">
+						<div class="three-columns">
+							<div class="spaced">
+								<label for="assetType">Product Type</label>
+								<select id="assetType" name="assetType" ng-model="orderFormData.assetType" class="ng-pristine ng-valid" ng-change="updatePrice()">
+									<option ng-repeat="assetType in assetTypes track by $index" value="{{$index}}">{{assetType.name}}</option>
+								</select>
+							</div>
+
+							<div class="spaced">
+								<label for="wordcount">Word Count</label>
+								<select id="wordcount" name="wordcount" ng-model="orderFormData.wordcount" class="ng-pristine ng-valid" ng-change="updatePrice()">
+									<option ng-repeat="wordcount in wordcounts" value="{{wordcount.wordcount}}">{{wordcount.wordcount}}</option>
+								</select>
+							</div>
+							<div class="spaced">
+								<label for="writer_level">Writer Level</label>
+								<select id="writer_level" name="writer_level" ng-model="orderFormData.writer_level" class="ng-pristine ng-valid" ng-change="updatePrice()">
+									<option ng-repeat="writerLevel in writerLevels" value="{{writerLevel}}">{{writerLevel}} Star Writer</option>
+								</select>
+							</div>
+
+
+							<div class="spaced">
+								<label for="duedate">When does it need to be completed?</label>
+								<input type="text" id="duedate" name="duedate" ng-model="orderFormData.duedate" class="ng-pristine ng-valid" />
+							</div>
+
+							<div class="spaced">
+								<label for="title">Title</label>
+								<input type="text" id="title" name="title" ng-model="orderFormData.title" class="ng-pristine ng-valid" />
+							</div>
+
+							<div class="spaced">
+								<label for="title">Target Audience</label>
+								<input type="text" id="target" name="target" ng-model="orderFormData.target" class="ng-pristine ng-valid" />
+							</div>
+
+							<div class="spaced">
+								<label for="instructions">Project Instructions</label><br />
+								<textarea id="instructions" name="instructions" ng-model="orderFormData.instructions" class="ng-pristine ng-valid"></textarea>
+							</div>
+
+							<div class="spaced">
+								<label for="tone">Tone of Writing</label><br />
+								<textarea id="tone" name="tone" ng-model="orderFormData.tone" class="ng-pristine ng-valid"></textarea>
+							</div>
+
+							<div class="spaced">
+								<label for="Voice">Narrative Voice</label><br />
+								<textarea id="voice" name="voice" ng-model="orderFormData.voice" class="ng-pristine ng-valid"></textarea>
+							</div>
+
+							<div class="spaced">
+								<label>Card Number</label>
+								<input type="text" size="20"  autocomplete="off" class="card-number" />
+							</div>
+							<div class="spaced">
+								<label>CVC</label>
+								<input type="text" size="4" autocomplete="off" class="card-cvc" />
+							</div>
+							<div class="forspacedm-row">
+								<label>Expiration (MM/YYYY)</label>
+								<input type="text" size="2" class="card-expiry-month"/>
+								<span> / </span>
+								<input type="text" size="4" class="card-expiry-year"/>
+							</div>
+
+							<a href="" class="btn btn-default btn-xl">Previous</a>
+							<a href="" class="submit-button btn btn-default btn-xl" ng-click="submitOrder()">Submit Order</a>
+
+							<h6>Price: {{ price | currency}}</h6>
+
+							<code>
+								{{ orderFormData }}
+							</code>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+
+	</div>
+</div>

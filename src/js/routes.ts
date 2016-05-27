@@ -580,9 +580,20 @@ module launchts {
                     parent: 'app',
                     views: {
                         mainContent: {
-                            controller: 'SubscriptionController',
+                            controller: 'WriterAccessController',
                             controllerAs: 'ctrl',
                             templateUrl: '/assets/views/writeraccess/writeraccess.html'
+                        }
+                    }
+                })
+                .state('writeraccessCreateOrder', {
+                    url: '/writeraccess/createOrder',
+                    parent: 'app',
+                    views: {
+                        mainContent: {
+                            controller: 'WriterAccessController',
+                            controllerAs: 'ctrl',
+                            templateUrl: '/assets/views/writeraccess/writeraccess-create.html'
                         }
                     }
                 })
@@ -591,7 +602,7 @@ module launchts {
                     parent: 'app',
                     views: {
                         mainContent: {
-                            controller: 'SubscriptionController',
+                            controller: 'WriterAccessController',
                             controllerAs: 'ctrl',
                             templateUrl: '/assets/views/writeraccess/writeraccess-assets.html'
                         }
@@ -602,9 +613,20 @@ module launchts {
                     parent: 'app',
                     views: {
                         mainContent: {
-                            controller: 'SubscriptionController',
+                            controller: 'WriterAccessController',
                             controllerAs: 'ctrl',
                             templateUrl: '/assets/views/writeraccess/writeraccess-orders.html'
+                        }
+                    }
+                })
+                .state('writeraccessOrder', {
+                    url: '/writeraccess/order/:id',
+                    parent: 'app',
+                    views: {
+                        mainContent: {
+                            controller: 'WriterAccessController',
+                            controllerAs: 'ctrl',
+                            templateUrl: '/assets/views/writeraccess/writeraccess-order.html'
                         }
                     }
                 })
@@ -613,7 +635,7 @@ module launchts {
                     parent: 'app',
                     views: {
                         mainContent: {
-                            controller: 'SubscriptionController',
+                            controller: 'WriterAccessController',
                             controllerAs: 'ctrl',
                             templateUrl: '/assets/views/writeraccess/writeraccess-projects.html'
                         }
@@ -624,7 +646,7 @@ module launchts {
                     parent: 'app',
                     views: {
                         mainContent: {
-                            controller: 'SubscriptionController',
+                            controller: 'WriterAccessController',
                             controllerAs: 'ctrl',
                             templateUrl: '/assets/views/writeraccess/writeraccess-writers.html'
                         }

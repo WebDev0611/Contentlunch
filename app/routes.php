@@ -23,6 +23,7 @@ Route::get('debug_update_account/{accountId}', 'StripeWebhookController@debug_up
 
 Route::get('login', 'AuthController@login_page');
 Route::post('login', 'AuthController@process_login');
+Route::get('logout', 'AuthController@logout');
 
 Route::get('signup', 'AccountController@signup_page');
 Route::post('signup', 'AccountController@process_signup');
@@ -35,6 +36,21 @@ Route::post('signup', 'AccountController@process_signup');
  */
 Route::group(['prefix' => 'api'], function()
 {
+  Route::resource('writerAccessAssetTypes', 'WriterAccessAssetTypeController');
+  Route::resource('writerAccessPrices', 'WriterAccessPriceController');
+
+  Route::get('writeraccess/categories', 'WriterAccessController@categories');
+  Route::get('writeraccess/account', 'WriterAccessController@account');
+  Route::get('writeraccess/assetTypes', 'WriterAccessController@assetTypes');
+  Route::post('writeraccess/orders/create', 'WriterAccessController@createOrder');
+  Route::get('writeraccess/orders', 'WriterAccessController@orders');
+  Route::get('writeraccess/orders/{id}', 'WriterAccessController@orders');
+  Route::get('writeraccess/projects', 'WriterAccessController@projects');
+  Route::get('writeraccess/projects/{id}', 'WriterAccessController@projects');
+  Route::get('writeraccess/projects/create/{name}', 'WriterAccessController@createProject');
+  Route::get('writeraccess/expertises', 'WriterAccessController@expertises');
+  Route::get('writeraccess/fees', 'WriterAccessPriceController@index');
+  Route::get('writeraccess/fee', 'WriterAccessPriceController@fee');
 
   Route::resource('agency/{accountId}/client', 'AgencyController', [
       'only' => ['index', 'store', 'show', 'update', 'destroy']
@@ -309,6 +325,11 @@ Route::get('password/reset/{code}', 'AuthController@check_reset');
 // Generate the image and return it
 Route::get('image/{size}/{file}', 'UploadController@getImage')
   ->where('file', '.*');
+
+
+
+Route::resource('writerAccessPrices','WriterAccessPriceController');
+Route::resource('writerAccessAssetTypes','WriterAccessAssetTypeController');
 
 
 /**

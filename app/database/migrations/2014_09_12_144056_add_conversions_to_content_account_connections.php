@@ -13,7 +13,7 @@ class AddConversionsToContentAccountConnections extends Migration {
 	public function up()
 	{
         Schema::table('content_account_connections', function(Blueprint $table){
-            $table->integer('conversions')->after('downloads');
+            $table->integer('conversions')->default(0)->after('downloads');
         });
 	}
 

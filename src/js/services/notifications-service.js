@@ -35,11 +35,11 @@
             $(".ui-pnotify").hide().find(".ui-pnotify-closer").trigger("click");
 
             // Enabling generic messages unless debug=true
-            if(window.debug || location.search.includes("debug=true")){
+            //if(window.debug || location.search.includes("debug=true")){
                 msg = msg;
-            }else{
-                msg = "Looks like something went wrong. <br/>The ContentLaunch support team has been notified."
-            }
+            //}else{
+              //  msg = "Looks like something went wrong. <br/>The ContentLaunch support team has been notified."
+            //}
 			return self.notify(title, msg, timeout, 'error');
 		},
 		info: function(title, msg, timeout) {

@@ -20,7 +20,7 @@ if(window.location.hostname.indexOf('local') == -1) {
 
             $.post('/api/log_error', {log: JSON.stringify(log)});
 
-            NotificationService.error('Unexpected Error', 'Whoops, looks like something went wrong. <br/>The ContentLaunch support team has been notified.', 10000);
+            NotificationService.error('Unexpected Error', 'Whoops, looks like something went wrong. <br/>The ContentLaunch support team has been notified. <br /><pre>'+JSON.stringify(log)+'</pre>', 10000);
 
             console.error(exception);
 

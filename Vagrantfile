@@ -18,8 +18,8 @@ Vagrant.configure(2) do |config|
 
   # Provider-specific configurations
   config.vm.provider "virtualbox" do |v|
-    v.memory = 2024
-    v.cpus = 2
+    v.memory = 512
+    v.cpus = 1
     v.customize ["modifyvm", :id, "--nictype1", "virtio"]
   end
 

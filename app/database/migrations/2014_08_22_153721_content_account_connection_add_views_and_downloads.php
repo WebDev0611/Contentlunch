@@ -13,8 +13,8 @@ class ContentAccountConnectionAddViewsAndDownloads extends Migration {
 	public function up()
 	{
 		Schema::table('content_account_connections', function ($table) {
-            $table->integer('views')->after('comments');
-            $table->integer('downloads')->after('views');
+            $table->integer('views')->default(0)->after('comments');
+            $table->integer('downloads')->default(0)->after('views');
         });
 	}
 
