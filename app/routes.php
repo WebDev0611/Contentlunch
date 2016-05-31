@@ -330,6 +330,9 @@ Route::get('image/{size}/{file}', 'UploadController@getImage')
 //
 //})->where('all', '.*');
 
+//v2016 routes test
+Route::get('2016/','NewAccountController@index');
+
 
 Route::group(array('before' => 'auth'), function(){
   Route::get("/", "AppController@home");
