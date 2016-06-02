@@ -331,7 +331,12 @@ Route::get('image/{size}/{file}', 'UploadController@getImage')
 //})->where('all', '.*');
 
 //v2016 routes test
-Route::get('2016/','NewAccountController@index');
+Route::group(['prefix' => '2016'], function()
+{
+  Route::get('/home','NewAccountController@index');
+  Route::get('/plan','NewPlanController@index');
+  Route::get('/calendar','NewCalendarController@index');
+});
 
 
 Route::group(array('before' => 'auth'), function(){
