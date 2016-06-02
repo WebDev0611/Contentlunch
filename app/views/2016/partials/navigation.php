@@ -1,6 +1,6 @@
 <nav class="navigation">
     <a href="#" class="navigation-logo">
-        <img src="/images/logo.svg" alt="Content Launch">
+        <img src="/2016/images/logo.svg" alt="Content Launch">
     </a>
     <ul class="navigation-menu">
         <li>
