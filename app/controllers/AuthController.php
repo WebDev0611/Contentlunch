@@ -266,7 +266,7 @@ use \Carbon\Carbon;
             Confide::logout();
             Session::put('impersonate_from', false);
 
-            return ['success' => 'OK'];
+            return Redirect::to("/login");
         }
 
         /**

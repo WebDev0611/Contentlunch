@@ -143,4 +143,21 @@ class BaseController extends Controller {
     return true;
   }
 
+  /**
+   * Uesd to allow individual controllers to define a custom view
+   *
+   * @var string
+   */
+  public $contentView = "";
+
+  /**
+   * Formats the response to give either a JSON response for api URIs or a view with data attached.
+   *
+   * @param $data
+   * @return mixed
+   */
+  public function formatResponse($data = array()){
+    return (strpos(strtolower($_SERVER['REQUEST_URI']), 'api') !== false) ? $data : View::make($this->contentView, $data);
+  }
+
 }

@@ -102,10 +102,10 @@ class ContentCreateTable extends Migration {
       $table->increments('id');
       $table->integer('content_id');
       $table->integer('account_connection_id');
-      $table->string('external_id');
-      $table->integer('likes');
-      $table->integer('shares');
-      $table->integer('comments');
+      $table->string('external_id')->default("");
+      $table->integer('likes')->default(0);
+      $table->integer('shares')->default(0);
+      $table->integer('comments')->default(0);
       $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP')); $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
     });
 	}

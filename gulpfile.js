@@ -180,6 +180,7 @@ gulp.task('javascript', function() {
 			'./bower_components/fullcalendar/dist/fullcalendar.js',
 			'./bower_components/restangular/dist/restangular.js',
             './bower_components/checklist-model/checklist-model.js',
+            './src/js/lib/stripe-v1.js',
 		])
 		.pipe(sourcemaps.init())
   		  .pipe(concat('build.js'))

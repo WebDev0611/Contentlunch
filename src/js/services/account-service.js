@@ -5,7 +5,6 @@ launch.module.factory('AccountService', function($resource, $upload, ModelMapper
 		update: { method: 'PUT', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
 		insert: { method: 'POST', transformRequest: ModelMapperService.account.formatRequest, transformResponse: ModelMapperService.account.parseResponse },
 		register: { method: 'POST',
-			url: '/api/account/register',
 			transformRequest: ModelMapperService.account.formatRequest,
 			transformResponse: ModelMapperService.account.parseResponse },
 		delete: { method: 'DELETE' },

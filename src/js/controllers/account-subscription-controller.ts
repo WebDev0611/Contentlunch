@@ -91,7 +91,7 @@ module launchts {
                 panelLabel: 'Update',
                 email: this.userInfo.email
             });
-        }
+        };
 
 
         public collectPaymentDetails = function ($event, subscription_plan) {
@@ -99,7 +99,7 @@ module launchts {
             this.analyticsService.trackEvent('collectPayment', {'plan': subscription_plan.name});
             this.pendingAction = function (token) {
                 this.setupSubscription(token, subscription_plan)
-            }
+            };
             this.stripeHandler.open({
                 name: 'Content Launch',
                 description: subscription_plan.name,
