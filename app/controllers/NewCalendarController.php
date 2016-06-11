@@ -6,4 +6,7 @@ class NewCalendarController extends BaseController {
 		return View::make('2016.calendar.index');
 	}
 
+	public function campaigns(){
+		return View::make('2016.calendar.campaigns');
+	}
 }

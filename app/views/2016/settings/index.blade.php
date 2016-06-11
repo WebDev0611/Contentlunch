@@ -2,5 +2,9 @@
 
 
 @section('content')
+ <div class="workspace">
+    <div class="container-fluid">
     <p>Settings Layout.</p>
+    </div>
+    </div>
 @stop

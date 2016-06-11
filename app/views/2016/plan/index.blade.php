@@ -2,5 +2,9 @@
 
 
 @section('content')
-    <p>Plan Layout.</p>
+ <div class="workspace">
+    <div class="container-fluid">
+        <p>Plan Layout.</p>
+        </div>
+        </div>
 @stop

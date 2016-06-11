@@ -9,30 +9,30 @@
             </a>
         </li>
         <li>
-            <a href="/2016/analyze" class="navigation-menu-link active">
+            <a href="/2016/home" class="navigation-menu-link">
                 <i class="navigation-menu-icon icon-navigation-chart">
-                    <span>Analyze</span>
-                </i>
-            </a>
-        </li>
-        <li>
-            <a href="/2016/content" class="navigation-menu-link">
-                <i class="navigation-menu-icon icon-navigation-content">
-                    <span>Content</span>
+                    <span>Dashboard</span>
                 </i>
             </a>
         </li>
         <li>
             <a href="/2016/plan" class="navigation-menu-link">
+                <i class="navigation-menu-icon icon-navigation-content">
+                    <span>PLAN</span>
+                </i>
+            </a>
+        </li>
+        <li>
+            <a href="/2016/content" class="navigation-menu-link">
                 <i class="navigation-menu-icon icon-navigation-dashboard">
-                    <span>Plan</span>
+                    <span>CREATE</span>
                 </i>
             </a>
         </li>
         <li>
             <a href="/2016/calendar" class="navigation-menu-link">
                 <i class="navigation-menu-icon icon-navigation-calendar">
-                    <span>Calendar</span>
+                    <span>CALENDAR</span>
                 </i>
             </a>
         </li>

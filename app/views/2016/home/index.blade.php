@@ -1,5 +1,9 @@
 @extends('2016.layout.master')
 
 @section('content')
-    <p>Home Layout.</p>
+ <div class="workspace">
+    <div class="container-fluid">
+        User home area --
+    </div>
+</div>
 @stop
