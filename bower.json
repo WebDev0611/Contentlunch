@@ -47,6 +47,7 @@
   },
   "resolutions": {
     "tinymce": "~4.1.4",
-    "select2": "undefined-top"
+    "select2": "undefined-top",
+    "angular": "1.2.29"
   }
 }
