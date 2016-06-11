@@ -159,6 +159,7 @@ gulp.task('javascript', function() {
 			'./bower_components/lodash/dist/lodash.js',
 			'./bower_components/jquery/dist/jquery.js',
 			'./bower_components/jquery-ui/ui/jquery-ui.js',
+			'./bower_components/jquery.cookie/jquery.cookie.js',
 			'./bower_components/bootstrap/dist/js/bootstrap.js',
 			'./bower_components/select2/select2.js',
 			'./bower_components/jquery.dotdotdot/src/js/jquery.dotdotdot.js',
