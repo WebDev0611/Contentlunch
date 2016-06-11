@@ -334,8 +334,13 @@ Route::get('image/{size}/{file}', 'UploadController@getImage')
 Route::group(['prefix' => '2016'], function()
 {
   Route::get('/home','NewAccountController@index');
+  Route::get('/analyze','NewAnalyzeController@index');
   Route::get('/plan','NewPlanController@index');
   Route::get('/calendar','NewCalendarController@index');
+  Route::get('/content','NewContentController@index');
+  Route::get('/collaborate','NewCollaborateController@index');
+  Route::get('/onboarding','NewOnboardingController@index');
+
 });
 
 

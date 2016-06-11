@@ -8,9 +8,13 @@
 <link rel=stylesheet href=styles/main.css> 
 </head> 
 <body> 
-<?= View::make('2016.partials.navigation');?> 
-<?= View::make('2016.partials.search');?> 
-<workspace></workspace> 
+@include('2016.partials.navigation')
+
+@include('2016.partials.search')
+
+<workspace>
+	@yield('content','Hey there')
+</workspace> 
 
 </body> 
 </html> 
