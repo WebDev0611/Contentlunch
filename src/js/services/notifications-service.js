@@ -1,4 +1,4 @@
-﻿launch.module.factory('NotificationService', function() {
+launch.module.factory('NotificationService', function() {
 	var self = this;
 
 	self.defaultTimeout = 4000;
@@ -35,7 +35,7 @@
             $(".ui-pnotify").hide().find(".ui-pnotify-closer").trigger("click");
 
             // Enabling generic messages unless debug=true
-            if(window.debug || location.search.includes("debug=true")){
+            if(window.debug || location.search.includes("debug=true") || $.cookie("debug") == "true"){
                 msg = msg;
             }else{
                 msg = "Looks like something went wrong. <br/>The ContentLaunch support team has been notified."
