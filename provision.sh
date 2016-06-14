@@ -110,6 +110,12 @@ echo " ╰─➤ Installing bower"
 sudo npm install -g bower >&- 2>&-
 echo -e "Done!\n"
 
+heading "Installing pip"
+curl -O https://bootstrap.pypa.io/get-pip.py
+sudo python2.7 get-pip.py
+
+heading "Installing Elastic Beanstalk Tools"
+sudo pip install awsebcli
 
 heading "Configuring Apache";
 echo " ╰─➤ Setting user to 'vagrant'"
