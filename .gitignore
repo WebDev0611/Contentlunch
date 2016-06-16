@@ -24,3 +24,5 @@ id_rsa*
 # ignore local configurations
 app/config/local/
 *.sublime-workspace
+
+
