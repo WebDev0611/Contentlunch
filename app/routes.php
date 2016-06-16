@@ -365,6 +365,8 @@ Route::group(['prefix' => '2016'], function()
   Route::get('/analyze','NewAnalyzeController@index');
   Route::get('/plan','NewPlanController@index');
   Route::get('/calendar','NewCalendarController@index');
+  Route::get('/calendar/{year}/{month}','NewCalendarController@index');
+
   Route::get('/campaigns','NewCalendarController@campaigns');
   
   Route::get('/content','NewContentController@index');
