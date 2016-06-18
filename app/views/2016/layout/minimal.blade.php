@@ -15,19 +15,10 @@
 </head>
 <body>
 
-    @include('view.elements.navigation')
-
-    @include('view.elements.sidebar')
-
     @yield('content')
 
 <script src="/assets/js/vendor-2016.js"></script>
 <script src="/assets/js/plugins-2016.js"></script>
-
-<script src="scripts/forms.js"></script>
-<script src="scripts/render.js"></script>
-<script src="scripts/router.js"></script>
-<script src="scripts/syntheticevent.js"></script>
 
 </body>
 </html>

@@ -149,11 +149,12 @@ class AccountController extends BaseController {
 	}
 
 	public function signup_page() {
-		return View::make('signup');
+		return View::make('2016.onboarding.signup');
 	}
 
 
 	public function process_signup() {
+
 		$rules = array(
 			'password' => 'required|alphaNum|min:4', // password can only be alphanumeric and has to be greater than 3 characters
 			'full_name' => 'required|min:3',
@@ -188,7 +189,7 @@ class AccountController extends BaseController {
 					return $sub->errors()->all(':message');
 				}
 
-				return Redirect::route('account', [$account->id]);
+				return View::make('2016.onboarding.invite');
 
 			});
 		} catch(Exception $exception) {
