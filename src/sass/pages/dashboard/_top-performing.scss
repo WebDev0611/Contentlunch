@@ -1,0 +1,64 @@
+//------------------------------
+// *****************************
+// Top Performing
+// *****************************
+//------------------------------
+
+.dashboard-performing-container {
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+
+  &:hover {
+    background: #fbfcfd;
+  }
+}
+
+.dashboard-performing-cell {
+  display: table-cell;
+  padding: 15px 10px;
+  vertical-align: middle;
+  border-bottom: 1px solid #e6e9f1;
+
+  &:last-child {
+    width: 100px;
+    text-align: right;
+  }
+}
+
+.dashboard-performing-title {
+  margin: 0;
+  font-family: $source-sans-pro;
+  font-size: 16px;
+  color: #1d1131;
+  font-weight: bold;
+}
+
+.dashboard-performing-text {
+  display: inline-block;
+  font-family: $source-sans-pro;
+  font-size: 15px;
+  color: #8f8b96;
+  margin-bottom: 5px;
+
+  &.small {
+    font-size: 12px;
+  }
+  &.active {
+    color: #2482ff;
+  }
+}
+
+.dashboard-performing-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.dashboard-performing-strong {
+  font-family: $source-sans-pro;
+  font-weight: bold;
+  font-size: 18px;
+  color: #6944b7;
+  margin: 0;
+}

@@ -1,0 +1,40 @@
+//------------------------------
+// *****************************
+// Forms
+// *****************************
+//------------------------------
+
+// Variables
+$form-delimiter-border: 1px solid #d9d0ed;
+
+// Classes
+.form-delimiter {
+  position: relative;
+  width: 100%;
+  margin-top: 35px;
+  margin-bottom: 25px;
+  border-bottom: $form-delimiter-border;
+  color: #9d85d0;
+  font-family: $source-sans-pro;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-align: center;
+  > span {
+    display: inline-block;
+    padding: 4px;
+    position: absolute;
+    top: -12px;
+    left: 0;
+    right: 0;
+
+    em {
+      background: #ffffff;
+      padding: 0 4px;
+      font-style: normal;
+    }
+  }
+}
+
+.input-form-group {
+  margin-bottom: 40px;
+}

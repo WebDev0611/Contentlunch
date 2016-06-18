@@ -1,0 +1,124 @@
+//------------------------------
+// *****************************
+// Side Modal
+// *****************************
+//------------------------------
+
+.sidemodal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+.sidemodal {
+  position: fixed;
+  top: 0;
+  right: -40%;
+  bottom: 0;
+  height: 100%;
+  width: 30%;
+  min-width: 320px;
+  background: $base-color-white;
+  box-shadow: -3px 0px 5px -5px $base-color-black;
+  z-index: 1050;
+  overflow-y: auto;
+
+  @include transition($base-transition);
+
+  &.inset {
+    position: absolute;
+  }
+
+  &.large {
+    width: 50%;
+    right: -60%;
+  }
+
+  &.in {
+    right: 0;
+  }
+}
+
+.sidemodal-header {
+  position: relative;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #f0eff1;
+
+  @include clearfix;
+}
+
+.sidemodal-header-title {
+  position: relative;
+  color: #6944b7;
+  margin: 0;
+
+  &.large {
+    margin: 5px 0;
+  }
+}
+
+.sidemodal-close {
+  position: absolute;
+  top: 17px;
+  right: 20px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  color: #ccd0d5;
+
+  &:hover, &:focus {
+    text-decoration: none;
+    outline: none;
+  }
+
+  &.normal-flow {
+    position: relative;
+    margin: 5px 10px;
+    vertical-align: middle;
+    top: auto;
+    right: auto;
+  }
+}
+
+.sidemodal-link {
+  display: block;
+  font-size: 13px;
+  color: #2482ff;
+  font-family: $source-sans-pro;
+  font-weight: bold;
+  margin-bottom: 15px;
+
+  &:hover, &:focus {
+    color: #2482ff;
+    opacity: 0.8;
+    text-decoration: none;
+  }
+}
+
+.sidemodal-container {
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+
+.sidemodal-footer {
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+
+.sidemodal-list-items {
+  padding: 10px 5px;
+  margin-left: 0;
+  overflow-y: auto;
+  max-height: 200px;
+
+  > li {
+    list-style: none;
+    margin-bottom: 10px;
+  }
+}

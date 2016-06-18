@@ -45,6 +45,7 @@
     "spin.js": "~2.0.1",
     "fullcalendar": "~2.0.3",
     "jquery.cookie": "jquery-cookie#^1.4.1"
+    "bootstrap-sass-official": "^3.3.6"
   },
   "resolutions": {
     "tinymce": "~4.1.4",

@@ -25,4 +25,7 @@ id_rsa*
 app/config/local/
 *.sublime-workspace
 
-
+src/js/launch.js
+src/js/launch.js.map
+src/js/routes.js
+src/js/routes.js.map
