@@ -1,0 +1,203 @@
+//------------------------------
+// *****************************
+// Buttons
+// *****************************
+//------------------------------
+
+// Variables
+$button-default-color: #ffffff;
+$button-default-background: #6c7786;
+$button-primary-background: #2482ff;
+$button-outline-color: #6d7886;
+$button-outline-background: #6d7886;
+$button-outline-border: solid #6d7886;
+$button-disabled-opacity: 0.20;
+$button-switches-background: #f8f9fc;
+$button-switches-color: #c8c7cd;
+$button-switches-color-active: #2482ff;
+$button-switches-border: solid #dadfeb;
+$button-action-color: #2482ff;
+
+// Classes
+.button {
+  @extend .btn;
+
+  background: $button-default-background;
+  color: $button-default-color;
+  border-radius: 3px;
+  font-family: $source-code-pro;
+  font-weight: bold;
+  font-size: 13px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+
+  @include transition($base-transition);
+
+  &:hover, &:focus {
+    opacity: $base-opacity;
+    color: $button-default-color;
+    outline: none !important;
+  }
+
+  &[disabled] {
+    opacity: $button-disabled-opacity;
+    cursor: default;
+  }
+}
+
+.button-primary {
+  background: $button-primary-background;
+}
+
+.button-secondary {
+  border: 1px solid #dadfeb;
+  background: #ffffff;
+  color: #c8c7cd;
+
+  &:hover, &:focus {
+    color: #2482ff;
+    background: #ffffff;
+  }
+}
+
+.button-tertiary {
+  border: 0;
+  background: #e9ebed;
+  color: #6c7786;
+
+  &:hover, &:focus {
+    opacity: 0.8;
+    color: #6c7786;
+  }
+}
+
+.button-outline-primary {
+  background: transparent;
+  border: 2px $button-outline-border;
+  color: $button-outline-color;
+
+  &:hover, &:focus {
+    background: $button-outline-background;
+  }
+
+  &[disabled]:hover, &[disabled]:focus {
+    background: transparent;
+    color: $button-outline-color;
+  }
+}
+
+.button-outline-secondary {
+  background: transparent;
+  border: 1px $button-outline-border;
+  color: $button-outline-color;
+
+  &:hover, &:focus {
+    background: $button-outline-background;
+  }
+
+  &[disabled]:hover, &[disabled]:focus {
+    background: transparent;
+    color: $button-outline-color;
+  }
+}
+
+.button-switches {
+  border: 1px $button-switches-border;
+  background: $button-switches-background;
+  color: $button-switches-color;
+
+  &.active, &:hover, &:focus {
+    color: $button-switches-color-active;
+    background: $base-color-white;
+    box-shadow: none;
+  }
+}
+
+.button-action {
+  border: 0;
+  background: none;
+  font-size: 18px;
+  text-decoration: none;
+  text-shadow: none;
+  outline: none;
+  padding: 0;
+  color: $button-action-color;
+
+  &:hover, &:focus {
+    text-decoration: none;
+    text-shadow: none;
+    outline: none;
+    color: $button-action-color;
+    box-shadow: none;
+  }
+
+  &.large {
+    font-size: 22px;
+  }
+}
+
+.button-social {
+  text-transform: uppercase;
+
+  &.facebook {
+    background: #3b5998;
+  }
+  &.twitter {
+    background: #1DA1F2;
+  }
+  &.linkedin {
+    background: #0375B3;
+  }
+  &.email {
+    background: #89929e;
+  }
+  &.analytics {
+    background: #ee592e;
+  }
+}
+
+&.button-connected {
+  background: #d0e0a4;
+  color: #392c46;
+
+  &:hover, &:focus {
+    color: #392c46;
+    opacity: 0.8;
+  }
+}
+
+.button-micro {
+  padding: 2px 4px;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.button-small {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.button-large {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.button-extend {
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+}
+
+.button-input-group {
+  @extend .input-group-btn;
+
+  > .button {
+    border-radius: 0;
+    padding: 7px 14px;
+    margin-left: 2px !important;
+
+    > i {
+      vertical-align: middle;
+    }
+  }
+}

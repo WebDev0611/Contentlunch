@@ -1,0 +1,22 @@
+//------------------------------
+// *****************************
+// Headings
+// *****************************
+//------------------------------
+
+.heading-border {
+  position: relative;
+  color: #1d1131;
+  font-size: 16px;
+  font-family: $source-sans-pro;
+  margin: 35px 0;
+
+  &:after {
+    content: ' ';
+    display: block;
+    width: 40px;
+    height: 2px;
+    margin: 20px auto;
+    background: #e9e3f4;
+  }
+}

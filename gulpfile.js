@@ -20,7 +20,8 @@ var gulp = require('gulp'),
 		sourcemaps = require('gulp-sourcemaps'),
 	    notify = require('gulp-notify'),
 	    runSequence = require('run-sequence'),
-		server = lr();
+		server = lr()
+		$ = require("gulp-load-plugins")();
 
 var gutil = require('gulp-util');
 
@@ -154,6 +155,23 @@ gulp.task('typescript', function() {
 		.pipe(gulp.dest('public/assets/js'));
 });
 
+gulp.task("styles-2016", function () {
+	return gulp.src("src/sass/main.scss")
+			.pipe($.sourcemaps.init())
+			.pipe($.sass({
+				outputStyle: "nested", // libsass doesn"t support expanded yet
+				precision: 10,
+				includePaths: ["."],
+				onError: console.error.bind(console, "Sass error:")
+			}).on("error", $.sass.logError))
+			.pipe($.postcss([
+				require("autoprefixer")({browsers: ["> 1%"]})
+			]))
+			.pipe($.sourcemaps.write())
+			.pipe(rename('main-2016.css'))
+			.pipe(gulp.dest("./public/assets/css"));
+});
+
 gulp.task('javascript', function() {
 	gulp.src([
 			'./bower_components/lodash/dist/lodash.js',
@@ -187,6 +205,35 @@ gulp.task('javascript', function() {
   		  .pipe(concat('build.js'))
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest('./public/assets/js'));
+
+	gulp.src([
+				// New UI Dependencies
+				'./bower_components/jquery/dist/jquery.js'
+			])
+			.pipe(sourcemaps.init())
+			.pipe(concat('vendor-2016.js'))
+			.pipe(sourcemaps.write())
+			.pipe(gulp.dest('./public/assets/js'));
+
+	gulp.src([
+				// New UI Dependencies
+				'./bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',
+				'./bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js',
+				'./bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown.js',
+				'./bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js',
+				'./bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js',
+				'./bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js',
+				'./bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js',
+				'./bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js',
+				'./bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel.js',
+				'./bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js',
+				'./bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js',
+				'./bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js'
+			])
+			.pipe(sourcemaps.init())
+			.pipe(concat('plugins-2016.js'))
+			.pipe(sourcemaps.write())
+			.pipe(gulp.dest('./public/assets/js'));
 
 	return gulp.src(['src/js/app.js', 'src/js/**/*.js'])
 		  .pipe(sourcemaps.init())
@@ -298,6 +345,7 @@ gulp.task('watch', function() {
 
 gulp.task('default', function (callback) {
 	runSequence('clean', [
+			'styles-2016',
 			'styles-bootstrap',
 			'map-bootstrap',
 			'bootstrap-components-css',

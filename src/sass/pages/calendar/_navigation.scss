@@ -1,0 +1,53 @@
+//------------------------------
+// *****************************
+// Calendar Navigation
+// *****************************
+//------------------------------
+
+// Variables
+$calendar-navigation-background: #f8f9fc;
+$calendar-navigation-border: solid #dadfeb;
+$calendar-navigation-menu-background-active: #ffffff;
+$calendar-navigation-menu-color: #adacb3;
+$calendar-navigation-menu-color-active: #2481ff;
+$calendar-navigation-menu-border-top: solid #2481ff;
+$calendar-navigation-menu-border-sides: solid #dadfeb;
+
+// Classes
+.calendar-navigation {
+  height: 47px;
+  background: $calendar-navigation-background;
+  border-bottom: 1px $calendar-navigation-border;
+}
+
+.calendar-navigation-menu {
+  padding: 0 15px;
+  margin: 0;
+
+  > li {
+    position: relative;
+    display: inline-block;
+
+    > a {
+      display: block;
+      height: 47px;
+      line-height: 45px;
+      padding: 0 15px;
+      font-weight: bold;
+      font-family: $source-sans-pro;
+      font-size: 16px;
+      color: $calendar-navigation-menu-color;
+      border-left: 1px solid transparent;
+      border-right: 1px solid transparent;
+    }
+
+    &.active > a, &:hover > a, &:focus > a {
+      background: $calendar-navigation-menu-background-active;
+      color: $calendar-navigation-menu-color-active;
+      text-decoration: none;
+      border-top: 2px $calendar-navigation-menu-border-top;
+      border-left: 1px $calendar-navigation-menu-border-sides;
+      border-right: 1px $calendar-navigation-menu-border-sides;
+    }
+  }
+}

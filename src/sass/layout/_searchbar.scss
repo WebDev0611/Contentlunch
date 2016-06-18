@@ -1,0 +1,55 @@
+//------------------------------
+// *****************************
+// Search Bar
+// *****************************
+//------------------------------
+
+// Variables
+$search-bar-background: #ffffff;
+$search-bar-border: solid #c6cfe1;
+
+// Classes
+.search-bar {
+  height: 66px;
+  padding: 15px;
+  border-bottom: 1px $search-bar-border;
+  background: $search-bar-background;
+  margin-left: $navigation-space-left;
+}
+
+.search-bar-input {
+  @extend .form-control;
+
+  width: 100%;
+  height: 35px;
+  border: none;
+  box-shadow: none;
+  font-size: 15px;
+  font-family: $source-sans-pro;
+  background: url("../images/icons/magnifier.svg") no-repeat left 10px center;
+  background-size: 15px;
+  padding-left: 30px;
+
+  &:hover, &:focus {
+    box-shadow: none;
+  }
+}
+
+.search-bar-button {
+  @extend .button;
+
+  padding: 0 10px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 20px;
+}
+
+.search-bar-button-primary {
+  @extend .button;
+  @extend .button-primary;
+
+  text-transform: uppercase;
+  padding: 0 10px;
+  height: 35px;
+  line-height: 35px;
+}

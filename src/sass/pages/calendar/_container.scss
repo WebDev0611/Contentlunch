@@ -1,0 +1,19 @@
+//------------------------------
+// *****************************
+// Calendar Container
+// *****************************
+//------------------------------
+
+// Variables
+$calendar-container-background: #fbfcfd;
+$calendar-container-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.3);
+$calendar-container-border: solid #dadfeb;
+
+// Classes
+.calendar-container {
+  background: $calendar-container-background;
+  border-radius: 5px;
+  border: 1px $calendar-container-border;
+  overflow: hidden;
+  box-shadow: $calendar-container-shadow;
+}

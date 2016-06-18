@@ -1,0 +1,34 @@
+//------------------------------
+// *****************************
+// Tooltip
+// *****************************
+//------------------------------
+
+.tooltip-icon {
+  color: #ccd0d5;
+  cursor: pointer;
+
+  @include transition($base-transition);
+
+  &:hover, &:focus {
+    color: #6944b7;
+  }
+}
+
+.tooltip {
+  &.top .tooltip-arrow,
+  &.bottom .tooltip-arrow,
+  &.left .tooltip-arrow,
+  &.right .tooltip-arrow {
+    border-top-color: #9fa6b0;
+  }
+}
+
+.tooltip-inner {
+  background: #9fa6b0;
+  color: $base-color-white;
+  border-radius: 0;
+  font-family: $source-sans-pro;
+  font-size: 12px;
+}
+

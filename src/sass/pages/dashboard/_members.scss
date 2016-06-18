@@ -1,0 +1,48 @@
+//------------------------------
+// *****************************
+// Members
+// *****************************
+//------------------------------
+
+.dashboard-members-container {
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+
+  &:hover {
+    background: #fbfcfd;
+  }
+
+  &:last-child > .plan-ideas-cell {
+    border-bottom: 0;
+  }
+}
+
+.dashboard-members-cell {
+  display: table-cell;
+  padding: 15px 10px;
+  vertical-align: middle;
+  border-bottom: 1px solid #e6e9f1;
+
+  &:first-child {
+    text-align: center;
+  }
+}
+
+.dashboard-members-dropdown {
+  position: relative;
+}
+
+.dashboard-members-text {
+  display: block;
+  font-family: $source-sans-pro;
+  font-size: 13px;
+  color: #1d1131;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  &.small {
+    font-size: 12px;
+    color: #8f8b96;
+  }
+}

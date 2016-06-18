@@ -1,0 +1,139 @@
+//------------------------------
+// *****************************
+// Calendar Menu
+// *****************************
+//------------------------------
+
+// Variables
+$calendar-menu-navigator-link-color: #b6bdc9;
+$calendar-menu-navigator-link-color-hover: #2482ff;
+$calendar-menu-navigator-date-color: #1d1131;
+$calendar-menu-select-border: solid #dadfeb;
+$calendar-menu-select-button-color: #1d1131;
+$calendar-menu-select-button-color-active: #2482ff;
+$calendar-menu-select-button-border: solid #d68ae6;
+$calendar-menu-buttons-border: solid #dadfeb;
+$calendar-menu-buttons-color: #9fa6b0;
+$calendar-menu-buttons-color-active: #2482ff;
+$calendar-menu-dropdown-border: solid #dadfeb;
+
+// Classes
+.calendar-menu {
+  height: 45px;
+  background: $base-color-white;
+  border-bottom: 1px solid #dadfeb;
+}
+
+.calendar-menu-navigator {
+  display: inline-block;
+  width: 250%;
+  min-width: 200px;
+  max-width: 275px;
+  text-align: center;
+  padding: 15px 10px;
+  line-height: 1;
+
+  @include clearfix;
+}
+
+.calendar-menu-navigator-link {
+  font-size: 15px;
+  color: $calendar-menu-navigator-link-color;
+
+  @include transition($base-transition);
+
+  &:hover, &:focus {
+    text-decoration: none;
+    color: $calendar-menu-navigator-link-color-hover;
+  }
+}
+
+.calendar-menu-navigator-date {
+  font-family: $source-sans-pro;
+  font-weight: bold;
+  color: $calendar-menu-navigator-date-color;
+  font-size: 15px;
+}
+
+.calendar-menu-select {
+  @extend .dropdown;
+
+  width: 220px;
+  display: inline-block;
+  vertical-align: top;
+  border-left: 1px $calendar-menu-select-border;
+}
+
+.calendar-menu-select-button {
+  display: inline-block;
+  padding: 12px 15px;
+  vertical-align: top;
+  border: 0;
+  font-size: 15px;
+  color: $calendar-menu-select-button-color;
+  background: none;
+  outline: 0;
+  font-family: $source-sans-pro;
+  font-weight: bold;
+  border-left: 3px $calendar-menu-select-button-border;
+  width: 100%;
+  text-align: left;
+
+  @include clearfix;
+  @include transition($base-transition);
+
+  > span {
+    display: inline-block;
+    float: right;
+    margin-top: 10px;
+  }
+
+  &:hover, &:focus {
+    outline: 0;
+    color: $calendar-menu-select-button-color-active;
+  }
+}
+
+.calendar-menu-buttons {
+  display: inline-block;
+  padding: 12px 15px;
+  vertical-align: top;
+  border: 0;
+  font-size: 15px;
+  color: $calendar-menu-buttons-color;
+  background: none;
+  outline: 0;
+
+  @include transition($base-transition);
+
+  &:hover, &:focus {
+    outline: 0;
+    color: $calendar-menu-buttons-color-active;
+  }
+}
+
+.calendar-menu-dropdown {
+  @extend .dropdown;
+
+  display: inline-block;
+}
+
+.calender-menu-buttons-group {
+  display: inline-block;
+  vertical-align: top;
+
+  > * {
+    margin-left: -3px;
+    border-right: 1px $calendar-menu-buttons-border;
+
+    &:first-child {
+      border-left: 1px $calendar-menu-buttons-border;
+      margin-left: 0;
+    }
+  }
+}
+
+.calendar-menu-switch {
+  float: right;
+  padding: 6px 10px;
+}

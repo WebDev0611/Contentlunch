@@ -1,0 +1,92 @@
+//------------------------------
+// *****************************
+// Activity
+// *****************************
+//------------------------------
+
+.plan-activity-dark {
+  background: #f8f9fc;
+  height: 100%;
+  min-height: 100%;
+}
+
+.plan-activity-box-container {
+  display: table;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+
+  @include clearfix;
+}
+
+.plan-activity-box {
+  position: relative;
+  display: table-cell;
+  vertical-align: top;
+  padding: 5px;
+  background: #f8f9fc;
+  margin-bottom: 10px;
+  border-radius: 3px;
+}
+
+.plan-activity-box-light {
+  background: $base-color-white;
+}
+
+.plan-activity-box-img {
+  padding: 0 5px 0 0;
+  display: table-cell;
+  vertical-align: top;
+  width: 35px;
+  height: 35px;
+
+  overflow: hidden;
+
+
+  > img {
+    max-width: 100%;
+    border-radius: 50%;
+  }
+}
+
+.plan-activity-box-icon {
+  padding: 0 5px 0 0;
+  display: table-cell;
+  vertical-align: top;
+  width: 35px;
+
+  > i {
+    display: inline-block;
+    border: 1px solid #dadfeb;
+    border-radius: 50%;
+    vertical-align: top;
+    font-size: 18px;
+    color: #b0acb7;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+  }
+}
+
+.plan-activity-title {
+  font-family: $source-sans-pro;
+  font-size: 13px;
+  font-weight: normal;
+  color: #a3a2aa;
+
+  > a {
+    color: #a3a2aa;
+    font-weight: bold;
+
+    &:hover, &:focus {
+      text-decoration: none;
+    }
+  }
+}
+
+.plan-activity-dropdown {
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  margin-top: -10px;
+}

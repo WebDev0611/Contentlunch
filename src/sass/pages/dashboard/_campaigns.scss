@@ -1,0 +1,68 @@
+//------------------------------
+// *****************************
+// Campaigns
+// *****************************
+//------------------------------
+
+.dashboard-campaigns {
+  display: table;
+  border-left: 2px solid #1b6d85;
+  border-bottom: 1px solid #e7eaf2;
+}
+
+.dashboard-campaigns-cell {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 5px 0;
+
+  &:first-child {
+    width: 80px;
+    text-align: center;
+  }
+}
+
+.dashboard-campaign-images-list {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+
+  > li {
+    position: relative;
+    display: inline-block;
+    list-style: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    margin-left: -5px;
+    vertical-align: middle;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    > img {
+      max-width: 100%;
+    }
+  }
+}
+
+.dashboard-campaigns-title {
+  margin: 0;
+  font-family: $source-sans-pro;
+  font-size: 13px;
+  color: #1d1131;
+  font-weight: bold;
+}
+
+.dashboard-campaigns-text {
+  display: inline-block;
+  font-family: $source-sans-pro;
+  font-size: 15px;
+  color: #8f8b96;
+  margin-bottom: 5px;
+
+  &.small {
+    font-size: 12px;
+  }
+}
