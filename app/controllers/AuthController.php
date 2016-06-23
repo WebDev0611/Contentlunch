@@ -39,7 +39,7 @@ use \Carbon\Carbon;
         }
 
         public function login_page() {
-            return View::make('login');
+            return View::make('2016.account.login');
         }
 
 

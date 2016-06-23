@@ -4,7 +4,7 @@
 
     <div class="landing">
         <a href="#" class="landing-logo">
-            <img src="/images/logo-full.svg" alt="#">
+            <img src="/2016/images/logo-full.svg" alt="#">
         </a>
         <div class="container-fluid">
             <div class="row">
