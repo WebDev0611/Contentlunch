@@ -25,7 +25,11 @@ Route::get('login', 'AuthController@login_page');
 Route::post('login', 'AuthController@process_login');
 Route::get('logout', 'AuthController@logout');
 
+/* OnBoarding */
 Route::get('signup', 'AccountController@signup_page');
+Route::get('invite', 'AccountController@invite_page');
+Route::get('score', 'AccountController@score_page');
+Route::get('connect', 'AccountController@connect_page');
 Route::post('signup', 'AccountController@process_signup');
 
 /**

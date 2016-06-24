@@ -152,6 +152,17 @@ class AccountController extends BaseController {
 		return View::make('2016.onboarding.signup');
 	}
 
+	public function invite_page() {
+		return View::make('2016.onboarding.invite');
+	}
+
+	public function score_page() {
+		return View::make('2016.onboarding.score');
+	}
+
+	public function connect_page(){
+		return View::make('2016.onboarding.connect');
+	}
 
 	public function process_signup() {
 
