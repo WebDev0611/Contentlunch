@@ -87,18 +87,29 @@
                 <div class="btn-group">
                     <button type="button" class="button button-switches button-small active">Month</button>
                     <button type="button" class="button button-switches button-small">Week</button>
-                    <button type="button" class="button button-switches button-small">Day</button>
+                    <button type="button" class="button button-switches button-small" onclick="window.location='/2016/daily';">Day</button>
                 </div>
             </div>
         </div>
 
        {{$calendar}}
 
+       <script>
+       var campaigns = {{$campaigns}};
+       var user_id = {{$user_id}};
+       var account_id = {{$account_id}};
 
+       console.log('user_id: ');
+       console.log(user_id);
+       console.log('account_id:');
+       console.log(account_id);
+       console.log('Campaigns:');
+       console.log(campaigns);
+       </script>
 <!-- weekly -->
 <!--
 
-<table class="calendar">
+        <table class="calendar">
             <thead class="calendar-week">
                 <tr>
                     <th disabled></th>

@@ -1,6 +1,10 @@
 @extends('2016.layout.master')
 
 @section('content')
+<script>
+var campaigns = {{$campaigns}};
+console.log(campaigns);
+</script>
 <div class="workspace">
     <div class="calendar-container">
         <div class="calendar-navigation">
@@ -1068,3 +1072,4 @@
     </div>
 </div>
 @stop
+

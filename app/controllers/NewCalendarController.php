@@ -2,7 +2,17 @@
 
 class NewCalendarController extends BaseController {
 
-	public function index($year = 0, $month = 0){
+	protected function user_prep(){
+		$user = $user = Confide::user();
+		$this->user_id = $user->id;
+		$account_q = AccountUser::where('user_id',$this->user_id);
+		$account = $account_q->get();
+		$account_id = $account[0]->account_id;
+		$this->account_id = $account_id;
+	}
+
+	public function index($year = 0, $month = 0, $day = 0 ){
+		$this->user_prep();
 
 		/* draws a calendar */
 		function draw_calendar($month,$year){
@@ -83,6 +93,14 @@ class NewCalendarController extends BaseController {
 			$calendar_layout = draw_calendar( date('n'), date('Y') );
 		}
 
+		$number_of_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+		$campaigns_start_date = false;
+		$campaigns_end_date = false;
+		$campaigns_end = $year . '-'. $month . '-' . $number_of_days . ' 00:00:00';
+	
+		$campaigns = $this->pull_campaigns($campaigns_start_date, $campaigns_end_date, $campaigns_end);
+
 		$prev_month = ($month === 1) ? 12 : $month-1;
 
 		$next_month = ($month === 12) ? 1 : $month+1;
@@ -93,10 +111,113 @@ class NewCalendarController extends BaseController {
 			'default_year' => $default_year,
 			'next_month' => $next_month,
 			'prev_month' => $prev_month,
+			'campaigns' => json_encode($campaigns),
+			'user_id' => $this->user_id,
+			'account_id'=> $this->account_id
 			) );
 	}
 
-	public function campaigns(){
-		return View::make('2016.calendar.campaigns');
+	public function campaigns($year = 0 , $month = 0 ){
+		$this->user_prep();
+
+		$campaigns = $this->pull_campaigns();
+
+		return View::make('2016.calendar.campaigns', array(
+			'campaigns' => json_encode($campaigns),
+			'user_id' => $this->user_id,
+			'account_id'=> $this->account_id
+		));
+	}
+
+	public function weekly(){
+
+	}
+
+	public function daily($year = 0, $month = 0, $day = 0){
+		$this->user_prep();
+
+		if(!$day){
+			$day = date('d');
+		}
+
+		if(!$year){
+			$year = date('Y');
+		}
+
+		if(!$month){
+			$month = date('n');
+		}
+
+		$date_string =  strtotime($year . '-' . $month . '-' . $day);
+
+		$day_of_week = date('l', $date_string);
+		$display_month = date('F', $date_string);
+		$display_day = date('d', $date_string);
+
+		$next_day_string = date( "Y/m/d", strtotime( "+1 day", $date_string  ) );
+		$prev_day_string = date( "Y/m/d", strtotime( "-1 day",  $date_string ) );
+
+
+		$query_date_start = date("Y-m-d", $date_string) .' 00:00:00';
+		$query_date_end = date("Y-m-d", strtotime("+1 day", $date_string) ) . ' 00:00:00';
+
+		$content_q = Content::where('submit_date','>',$query_date_start)
+						->where('submit_date','<',$query_date_end);
+
+		$content = $content_q->get();
+
+		return View::make('2016.calendar.daily',array(
+			'display_month' => $display_month,
+			'numeric_month' => $month,
+			'display_year' => $year,
+			'display_day' => $display_day,
+			'display_day_of_week' => $day_of_week,
+
+			'next_day_string' => $next_day_string,
+			'prev_day_string' => $prev_day_string,
+
+			'user_id' => $this->user_id,
+			'account_id' => $this->account_id,
+
+			'content_items' => $content 
+		));
+	}
+
+	protected function pull_campaigns($start_date = false, $end_date = false, $end = false, $status = false){
+
+	 	$query = Campaign::where('account_id', $this->account_id)
+	      ->with('tags')
+	      ->with('user')
+	      ->with('campaign_type')
+	      ->with('guest_collaborators')
+	      ->with('collaborators.image');
+
+	    if ($status) {
+	      $query->where('status', $status);
+	    }
+
+	    if($end_date) {
+	      $query->where('end_date', '>=', $end_date);
+	    }
+
+	    if($start_date) {
+	        $query->where('end_date', '>=', $start_date);
+	    }
+
+	    if($end) {
+	        $query->where('start_date', '<=', $end);
+	    }
+
+	    $user = Confide::User();
+	    if(!$this->hasAbility([], ['calendar_view_campaigns_other'], $this->account_id)) {
+	      $query->where('user_id', $this->user_id);
+	    }
+
+	    $results = $query->get();
+	    // print_r($user->id);
+	    // print_r($results);
+	    // exit;
+	    return $results;
+
 	}
 }
