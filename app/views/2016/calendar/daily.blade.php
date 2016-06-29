@@ -107,7 +107,8 @@
        console.log(content_items);
        </script>
 
-
+       {{$daily_calendar}}
+       <!--
   <table class="calendar">
             <tbody class="calendar-day">
                 <tr>
@@ -251,7 +252,7 @@
                 </tr>
             </tbody>
         </table>
-
+-->
     </div>
 </div>
 

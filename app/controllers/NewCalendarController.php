@@ -192,7 +192,7 @@ class NewCalendarController extends BaseController {
 		$display_month = date('F', $date_string);
 		$display_day = date('d', $date_string);
 
-		echo $start_weekdate;
+	//	echo $start_weekdate;
 		
 
 		$next_week_string = date( "Y/m/d", strtotime( "+1 week", strtotime($start_weekdate) ) );
@@ -264,6 +264,28 @@ class NewCalendarController extends BaseController {
 
 		$content = $content_q->get();
 
+		function generate_daily_calendar(){
+			$daily_timetable = '<table class="calendar"><tbody class="calendar-day">';
+            
+			$start_time_row = date('H', strtotime('10:00:00') );
+			$end_time_row = date('H', strtotime('23:00:00') );
+
+			$curr_hour = $start_time_row;
+			for($curr_hour = $start_time_row; $curr_hour < $end_time_row; $curr_hour++){
+				$daily_timetable .= '<tr>';
+				//daily columns
+				$day_column = '<td disabled>' . date('gA', strtotime($curr_hour . ':00:00' ) ) .'</td>';
+				
+				//content goes here
+				$day_column .= '<td></td>';
+
+				$daily_timetable .= $day_column . '</tr>';
+			}
+			$daily_timetable .= '</tbody></table>';
+
+			return $daily_timetable;
+		}
+
 		return View::make('2016.calendar.daily',array(
 			'display_month' => $display_month,
 			'numeric_month' => $month,
@@ -277,7 +299,8 @@ class NewCalendarController extends BaseController {
 			'user_id' => $this->user_id,
 			'account_id' => $this->account_id,
 
-			'content_items' => $content 
+			'content_items' => $content,
+			'daily_calendar' => generate_daily_calendar()
 		));
 	}
 
