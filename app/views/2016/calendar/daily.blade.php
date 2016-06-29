@@ -86,7 +86,7 @@
                 <button type="button" class="button button-secondary button-small">Today</button>
                 <div class="btn-group">
                     <button type="button" class="button button-switches button-small" onclick="window.location = '/2016/calendar/{{$display_year}}/{{$numeric_month}}';">Month</button>
-                    <button type="button" class="button button-switches button-small">Week</button>
+                    <button type="button" class="button button-switches button-small" onclick="window.location='/2016/weekly';">Week</button>
                     <button type="button" class="button button-switches button-small active">Day</button>
                 </div>
             </div>

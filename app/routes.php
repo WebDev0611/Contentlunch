@@ -370,6 +370,9 @@ Route::group(['prefix' => '2016'], function()
   Route::get('/daily','NewCalendarController@daily');
   Route::get('/daily/{year}/{month}/{day}','NewCalendarController@daily');
 
+  Route::get('/weekly','NewCalendarController@weekly');
+  Route::get('/weekly/{year}/{month}/{day}','NewCalendarController@weekly');
+
   Route::get('/campaigns','NewCalendarController@campaigns');
   
   Route::get('/content','NewContentController@index');
