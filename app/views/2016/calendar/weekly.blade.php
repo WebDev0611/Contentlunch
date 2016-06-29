@@ -17,11 +17,11 @@
         </div>
         <div class="calendar-menu">
             <div class="calendar-menu-navigator">
-                <a href="/2016/daily/{{$prev_day_string}}" class="calendar-menu-navigator-link pull-left">
+                <a href="/2016/weekly/{{$prev_day_string}}" class="calendar-menu-navigator-link pull-left">
                     <i class="icon-arrow-right icon-flip-horizontal"></i>
                 </a>
-                <span class="calendar-menu-navigator-date">{{$display_day_of_week}}, {{$display_month}} {{$display_day}}, {{$display_year}}</span>
-                <a href="/2016/daily/{{$next_day_string}}" class="calendar-menu-navigator-link pull-right">
+                <span class="calendar-menu-navigator-date">{{$weekly_display_string}}</span>
+                <a href="/2016/weekly/{{$next_day_string}}" class="calendar-menu-navigator-link pull-right">
                     <i class="icon-arrow-right"></i>
                 </a>
             </div>
@@ -91,21 +91,6 @@
                 </div>
             </div>
         </div>
-
-      
-
-       <script>
-       var user_id = {{$user_id}};
-       var account_id = {{$account_id}};
-       var content_items = {{$content_items}};
-
-       console.log('user_id: ');
-       console.log(user_id);
-       console.log('account_id:');
-       console.log(account_id);
-       console.log('content items: ' );
-       console.log(content_items);
-       </script>
 
        {{$weekly_calendar}}
        <!--
@@ -409,6 +394,17 @@
     </div>
 </div>
 
+       <script>
+       var user_id = {{$user_id}};
+       var account_id = {{$account_id}};
+       var content_items = {{$content_items}};
 
+       console.log('user_id: ');
+       console.log(user_id);
+       console.log('account_id:');
+       console.log(account_id);
+       console.log('content items: ' );
+       console.log(content_items);
+       </script>
 
 @stop

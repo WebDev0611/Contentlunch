@@ -151,7 +151,7 @@ class NewCalendarController extends BaseController {
 		//echo 'week: ' . $week_number;
 
 		$start_weekdate = date('Y-m-d', $week_string );
-		$end_weekdate = date('Y-m-d', strtotime("+1 week", $week_string ) );
+		$end_weekdate = date('Y-m-d', strtotime("+6 days", $week_string ) );
 
 		$start_weektimestamp = $week_string;
 		$end_weektimestamp =  strtotime("+1 week",  $week_string  );
@@ -192,9 +192,15 @@ class NewCalendarController extends BaseController {
 		$display_month = date('F', $date_string);
 		$display_day = date('d', $date_string);
 
-		$next_day_string = date( "Y/m/d", strtotime( "+1 day", $date_string  ) );
-		$prev_day_string = date( "Y/m/d", strtotime( "-1 day",  $date_string ) );
+		echo $start_weekdate;
+		
 
+		$next_week_string = date( "Y/m/d", strtotime( "+1 week", strtotime($start_weekdate) ) );
+		$prev_week_string = date( "Y/m/d", strtotime( "-1 week", strtotime($start_weekdate) ) );
+
+		// echo "next week: " . $next_week_string;
+		// echo "prev week: " . $prev_week_string;
+		// exit;
 
 		$query_date_start = date("Y-m-d", $date_string) .' 00:00:00';
 		$query_date_end = date("Y-m-d", strtotime("+1 day", $date_string) ) . ' 00:00:00';
@@ -212,9 +218,10 @@ class NewCalendarController extends BaseController {
 			'display_year' => $year,
 			'display_day' => $display_day,
 			'display_day_of_week' => $day_of_week,
+			'weekly_display_string' => date('M j', strtotime($start_weekdate)) . '-' . date('M j', strtotime($end_weekdate)) . ' ' . $year, 
 
-			'next_day_string' => $next_day_string,
-			'prev_day_string' => $prev_day_string,
+			'next_day_string' => $next_week_string,
+			'prev_day_string' => $prev_week_string,
 
 			'user_id' => $this->user_id,
 			'account_id' => $this->account_id,
