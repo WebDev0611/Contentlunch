@@ -119,10 +119,13 @@ class AccountController extends BaseController {
 		}
 	}
 
-	protected function createAccount($autoLogin = false) {
+	protected function createAccount($autoLogin = true) {
 		/** Creates a brand new account
 		 *  If $autoLogin, the current user is logged in as that account.
 		 */
+
+		Log::info("Creating account.", $account);
+
 		$account = new Account;
 		$account->expiration_date = \Carbon\Carbon::now()->addDays(30);
 //		if (Input::has('payment_info')) {
@@ -130,19 +133,20 @@ class AccountController extends BaseController {
 //		}
 		if ($account->save()) {
 			$this->createRoles($account);
-			// Attach builtin roles, they can't be deleted
 
 			$user = $this->createSiteAdminUser($account);
+
 			if($autoLogin) {
 				Auth::login($user);
 			}
+
 			// Send account creation email
-			$this->resend_creation_email($account->id, false);
+			// Commenting this out since we are not sending account creation emails anymore.
+			//$this->resend_creation_email($account->id, false);
 
 			App::make('HasOffersController')->store($account->id);
 
 			$this->createAccountSettings($account);
-
 			return $account;
 		}
 		return $account;
