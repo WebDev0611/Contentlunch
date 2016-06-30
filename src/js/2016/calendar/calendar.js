@@ -3,6 +3,7 @@
 */
 
 (function(window,document,$){
+    'use strict';
 
     var activeCell = null;
     var appendTaskButton = function(cell){
@@ -39,3 +40,4 @@
     $('.calendar-day td').mouseover(activateDaily);
 
 })(window,document,jQuery); 
+
