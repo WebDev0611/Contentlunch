@@ -222,13 +222,15 @@ class NewCalendarController extends BaseController {
 		$start_weektimestamp = $week_string;
 		$end_weektimestamp =  strtotime("+1 week",  $week_string  );
 
-		function generate_weekly_calendar($start = 0){
+		function generate_weekly_calendar($year = 0, $month = 0, $day = 0, $start = 0){
 
+			$date_tracker = array();
 			//weekly header
 			$week_string = '<table class="calendar">';
 			$week_string .= '<thead class="calendar-week"><th disabled></th>';
 			$curr_time = $start;
 			for($d = 0; $d < 7; $d++){
+				$date_tracker[$d] = date('Y-m-d',$curr_time);
 				$week_string .= '<th>' . date('D j, M',$curr_time) . "</th>";
 				$curr_time = strtotime("+1 day", $curr_time);
 			}
@@ -244,7 +246,7 @@ class NewCalendarController extends BaseController {
 				//daily columns
 				$day_column = '<td disabled>' . date('gA', strtotime($curr_hour . ':00:00' ) ) .'</td>';
 				for($dc = 0; $dc < 7; $dc++){
-					$day_column .= '<td></td>';
+					$day_column .= '<td data-cell-date-time="' . $date_tracker[$dc] . ' ' . $curr_hour . ':00:00' . '"></td>';
 				}
 				$week_string .= $day_column . '</tr>';
 			}
@@ -252,7 +254,7 @@ class NewCalendarController extends BaseController {
 			return $week_string;
 		}
 
-		$weekly_calendar_string =  generate_weekly_calendar( $start_weektimestamp );
+		$weekly_calendar_string =  generate_weekly_calendar( $year, $month, $day, $start_weektimestamp );
 
 		$day_of_week = date('l', $date_string);
 		$display_month = date('F', $date_string);
