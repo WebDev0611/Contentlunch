@@ -151,7 +151,7 @@ class NewCalendarController extends BaseController {
 				//the months days table - header
 				$main_calendar_string .= '<table class="calendar-timeline-days"><thead><tr>';
 				for($d = 1; $d <= $days_in_month; $d++ ){
-					$main_calendar_string .= "<th>" . $d . "</th>\n";
+					$main_calendar_string .= '<th id="campaign-day-' . $year . '-' . $m . '-'. $d . '">' . $d . "</th>\n";
 				}
 				$main_calendar_string .= '</tr></thead>';
 				//end the header days
