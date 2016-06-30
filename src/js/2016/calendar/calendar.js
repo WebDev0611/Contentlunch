@@ -3,6 +3,7 @@
 */
 
 (function(window,document,$){
+
 	var activeCell = null;
 	var appendTaskButton = function(cell){
 		var taskButton = $('#calendar-dropdown-template').html();
@@ -13,7 +14,8 @@
 			$(this).remove();
 		});
 	};
-    var activateDayHover = function(){
+    
+    var activateMonthly = function(){
     	var selCellVal = $(this).data('cell-date');
     	var selCell = $(this);
     	if( $(activeCell).data('cell-date') !== selCellVal ){
@@ -22,8 +24,17 @@
     		activeCell = selCell;
     	}
    	};
+    var activateWeekly = function(){
+        var selCellVal = $(this).data('cell-date-time');
+        var selCell = $(this);
+        if( $(activeCell).data('cell-date-time') !== selCellVal ){
+            appendTaskButton(selCell);
+            removeTaskButton(activeCell);
+            activeCell = selCell;
+        }
+    };  
    	
-    $('.calendar-month-days td').mouseover(activateDayHover);
-    //$('.calendar-week-hours td').mouseover(activateDayHover);
+    $('.calendar-month-days td').mouseover(activateMontly);
+    $('.calendar-week-hours td').mouseover(activateWeekly);
 
 })(window,document,jQuery); 
