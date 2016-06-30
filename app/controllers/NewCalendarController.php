@@ -47,7 +47,7 @@ class NewCalendarController extends BaseController {
 					$calendar.= '<time class="calendar-month-date">'.$list_day.'</time>';
 
 					/** QUERY THE DATABASE FOR AN ENTRY FOR THIS DAY !!  IF MATCHES FOUND, PRINT THEM !! **/
-					$calendar.= str_repeat('<p> </p>',2);
+					//$calendar.= str_repeat('<p> </p>',2);
 					
 				$calendar.= '</td>';
 				if($running_day == 6):
@@ -336,7 +336,7 @@ class NewCalendarController extends BaseController {
 				$day_column = '<td disabled>' . date('gA', strtotime($curr_hour . ':00:00' ) ) .'</td>';
 				
 				//content goes here
-				$day_column .= '<td></td>';
+				$day_column .= '<td data-cell-time="' . $curr_hour . ':00:00' . '"></td>';
 
 				$daily_timetable .= $day_column . '</tr>';
 			}
