@@ -22,7 +22,7 @@ class NewCalendarController extends BaseController {
 
 			/* table headings */
 			$headings = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
-			$calendar.= '<thead><tr><th>'.implode('</th><th>',$headings).'</th></tr></thead><tbody class="calendar-month-days">';
+			$calendar.= '<thead class="calendar-month"><tr><th>'.implode('</th><th>',$headings).'</th></tr></thead><tbody class="calendar-month-days">';
 
 			/* days and weeks vars now ... */
 			$running_day = date('w',mktime(0,0,0,$month,1,$year));

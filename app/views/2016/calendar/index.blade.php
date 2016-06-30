@@ -83,7 +83,7 @@
                 </div>
             </div>
             <div class="calendar-menu-switch">
-                <button type="button" class="button button-secondary button-small">Today</button>
+                <button type="button" class="button button-secondary button-small" onclick="window.location='/2016/daily/<?= date('Y/m/d');?>';">Today</button>
                 <div class="btn-group">
                     <button type="button" class="button button-switches button-small active">Month</button>
                     <button type="button" class="button button-switches button-small" onclick="window.location='/2016/weekly';">Week</button>
