@@ -100,7 +100,10 @@ console.log(campaigns);
                 </button>
             </div>
         </div>
+
         <div class="calendar-timeline-container">
+        {{$campaign_calendar}}
+        <!-- 
             <table class="calendar-timeline">
                 <thead class="calendar-timeline-months">
                 <tr>
@@ -1068,6 +1071,8 @@ console.log(campaigns);
                 </tr>
                 </tbody>
             </table>
+            -->
+
         </div>
     </div>
 </div>

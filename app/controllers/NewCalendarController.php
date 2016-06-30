@@ -122,10 +122,76 @@ class NewCalendarController extends BaseController {
 
 		$campaigns = $this->pull_campaigns();
 
+		if(!$year){
+			$year = date('Y');
+		}
+		if(!$month){
+			$month = date('m');
+		}
+
+		function generate_campaign_calendar($year = 0){
+			//for each month, main container
+			$main_calendar_string = '<table class="calendar-timeline"><thead class="calendar-timeline-months"><tr>';
+			//calendar heading
+			for( $m = 1; $m < 13; $m++ ){
+				$main_calendar_string .= '<th>' . date('F', strtotime($year . '-' . $m ) ) . '</th>';
+			}
+			$main_calendar_string .= '</tr></thead>';
+			
+			//days for each of the months
+
+			$main_calendar_string .= '<tbody class="calendar-timeline-days-container"><tr>';
+			//this iterates month cells
+			for( $m = 1; $m < 13; $m++ ){
+				$main_calendar_string .= '<td>';
+
+				//get days in the month
+				$days_in_month = date('t', strtotime($year . '-' . $m ));
+
+				//the months days table - header
+				$main_calendar_string .= '<table class="calendar-timeline-days"><thead><tr>';
+				for($d = 1; $d <= $days_in_month; $d++ ){
+					$main_calendar_string .= "<th>" . $d . "</th>\n";
+				}
+				$main_calendar_string .= '</tr></thead>';
+				//end the header days
+
+				//create the days data holders
+				$main_calendar_string .= '<tbody><tr>';
+
+				//loop through and create the days - will need to identify this to backbone or resuse this logic
+				for($d = 1; $d <= $days_in_month; $d++ ){
+					$main_calendar_string .= "<td></td>\n";
+				}
+
+				//end of the days data holders
+				$main_calendar_string .= '</tr></tbody>';
+
+
+				//end of the months days and data
+				$main_calendar_string .= '</table>';
+
+
+
+				$main_calendar_string .= '</td>';
+			}
+
+			$main_calendar_string .= '</tr></tbody>';
+
+			//close the whole thiing up
+			$main_calendar_string .= '</table>';
+
+			return $main_calendar_string;
+		}
+
+		// echo generate_campaign_calendar($year);
+		// exit;
+
 		return View::make('2016.calendar.campaigns', array(
 			'campaigns' => json_encode($campaigns),
 			'user_id' => $this->user_id,
-			'account_id'=> $this->account_id
+			'account_id'=> $this->account_id,
+			'campaign_calendar' => generate_campaign_calendar($year)
 		));
 	}
 
@@ -190,17 +256,10 @@ class NewCalendarController extends BaseController {
 
 		$day_of_week = date('l', $date_string);
 		$display_month = date('F', $date_string);
-		$display_day = date('d', $date_string);
-
-	//	echo $start_weekdate;
-		
+		$display_day = date('d', $date_string);		
 
 		$next_week_string = date( "Y/m/d", strtotime( "+1 week", strtotime($start_weekdate) ) );
 		$prev_week_string = date( "Y/m/d", strtotime( "-1 week", strtotime($start_weekdate) ) );
-
-		// echo "next week: " . $next_week_string;
-		// echo "prev week: " . $prev_week_string;
-		// exit;
 
 		$query_date_start = date("Y-m-d", $date_string) .' 00:00:00';
 		$query_date_end = date("Y-m-d", strtotime("+1 day", $date_string) ) . ' 00:00:00';
@@ -209,8 +268,6 @@ class NewCalendarController extends BaseController {
 						->where('submit_date','<',$query_date_end);
 
 		$content = $content_q->get();
-
-		//$display_date = date()
 
 		return View::make('2016.calendar.weekly',array(
 			'display_month' => $display_month,
