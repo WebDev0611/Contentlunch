@@ -125,7 +125,5 @@
 </div>
 
 <script type="text/javascript">
-(function(){
-
-})(window,document,jQuery);
+//-- code here
 </script>

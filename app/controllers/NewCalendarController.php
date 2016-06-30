@@ -42,7 +42,7 @@ class NewCalendarController extends BaseController {
 
 			/* keep going with days.... */
 			for($list_day = 1; $list_day <= $days_in_month; $list_day++):
-				$calendar.= '<td>';
+				$calendar.= '<td data-cell-date="' . $year . '-' . $month . '-' . $list_day . '">';
 					/* add in the day number */ //<time class="calendar-month-date">13</time>
 					$calendar.= '<time class="calendar-month-date">'.$list_day.'</time>';
 
