@@ -19,6 +19,7 @@
 
 <script src="/assets/js/vendor-2016.js"></script>
 <script src="/assets/js/plugins-2016.js"></script>
+<script src="/assets/js/app-2016.js"></script>
 
 </body>
 </html>

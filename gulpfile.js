@@ -235,11 +235,17 @@ gulp.task('javascript', function() {
 			.pipe(sourcemaps.write())
 			.pipe(gulp.dest('./public/assets/js'));
 
+	gulp.src(['src/js/2016/**/*.js'])
+		  	.pipe(sourcemaps.init())
+			.pipe(concat('app-2016.js'))
+		  	.pipe(sourcemaps.write())
+		  	.pipe(gulp.dest('./public/assets/js'));
+
 	return gulp.src(['src/js/app.js', 'src/js/**/*.js'])
-		  .pipe(sourcemaps.init())
+		  	.pipe(sourcemaps.init())
 		    .pipe(concat('launch-app.js'))
-		  .pipe(sourcemaps.write())
-		  .pipe(gulp.dest('./public/assets/js'))
+		  	.pipe(sourcemaps.write())
+		  	.pipe(gulp.dest('./public/assets/js'))
 
 });
 
