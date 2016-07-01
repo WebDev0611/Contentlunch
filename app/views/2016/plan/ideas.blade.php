@@ -19,7 +19,7 @@
             <input type="text" class="plan-panel-search" placeholder="Quick Search">
             <div class="plan-ideas-container">
                 <div class="plan-ideas-cell">
-                    <img src="/images/avatar.jpg" alt="#" class="plan-ideas-img">
+                    <img src="/assets/images/avatar.jpg" alt="#" class="plan-ideas-img">
                 </div>
                 <div class="plan-ideas-cell">
                     <h5 class="plan-ideas-title">Write blog post on online banking</h5>
@@ -28,13 +28,13 @@
                 <div class="plan-ideas-cell">
                     <ul class="images-list">
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                     </ul>
                 </div>
@@ -65,7 +65,7 @@
             </div>
             <div class="plan-ideas-container">
                 <div class="plan-ideas-cell">
-                    <img src="/images/avatar.jpg" alt="#" class="plan-ideas-img">
+                    <img src="/assets/images/avatar.jpg" alt="#" class="plan-ideas-img">
                 </div>
                 <div class="plan-ideas-cell">
                     <h5 class="plan-ideas-title">Write blog post on online banking</h5>
@@ -74,13 +74,13 @@
                 <div class="plan-ideas-cell">
                     <ul class="images-list">
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                     </ul>
                 </div>
@@ -111,7 +111,7 @@
             </div>
             <div class="plan-ideas-container">
                 <div class="plan-ideas-cell">
-                    <img src="/images/avatar.jpg" alt="#" class="plan-ideas-img">
+                    <img src="/assets/images/avatar.jpg" alt="#" class="plan-ideas-img">
                 </div>
                 <div class="plan-ideas-cell">
                     <h5 class="plan-ideas-title">Write blog post on online banking</h5>
@@ -120,13 +120,13 @@
                 <div class="plan-ideas-cell">
                     <ul class="images-list">
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                     </ul>
                 </div>
@@ -157,7 +157,7 @@
             </div>
             <div class="plan-ideas-container">
                 <div class="plan-ideas-cell">
-                    <img src="/images/avatar.jpg" alt="#" class="plan-ideas-img">
+                    <img src="/assets/images/avatar.jpg" alt="#" class="plan-ideas-img">
                 </div>
                 <div class="plan-ideas-cell">
                     <h5 class="plan-ideas-title">Write blog post on online banking</h5>
@@ -166,13 +166,13 @@
                 <div class="plan-ideas-cell">
                     <ul class="images-list">
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                     </ul>
                 </div>
@@ -203,7 +203,7 @@
             </div>
             <div class="plan-ideas-container">
                 <div class="plan-ideas-cell">
-                    <img src="/images/avatar.jpg" alt="#" class="plan-ideas-img">
+                    <img src="/assets/images/avatar.jpg" alt="#" class="plan-ideas-img">
                 </div>
                 <div class="plan-ideas-cell">
                     <h5 class="plan-ideas-title">Write blog post on online banking</h5>
@@ -212,13 +212,13 @@
                 <div class="plan-ideas-cell">
                     <ul class="images-list">
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                         <li>
-                            <img src="/images/avatar.jpg" alt="#">
+                            <img src="/assets/images/avatar.jpg" alt="#">
                         </li>
                     </ul>
                 </div>
@@ -255,7 +255,7 @@
             <div class="panel-container">
                 <div class="plan-activity-box-container">
                     <div class="plan-activity-box-img">
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                     </div>
                     <div class="plan-activity-box">
                         <span class="plan-activity-title">
@@ -271,7 +271,7 @@
                 </div>
                 <div class="plan-activity-box-container">
                     <div class="plan-activity-box-img">
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                     </div>
                     <div class="plan-activity-box">
                         <span class="plan-activity-title">
@@ -299,7 +299,7 @@
                 </div>
                 <div class="plan-activity-box-container">
                     <div class="plan-activity-box-img">
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                     </div>
                     <div class="plan-activity-box">
                         <span class="plan-activity-title">
