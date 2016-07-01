@@ -381,6 +381,8 @@ Route::group(['prefix' => '2016'], function()
   Route::get('/collaborate','NewCollaborateController@index');
   Route::get('/onboarding','NewOnboardingController@index');
 
+  Route::get('/settings','NewSettingsController@index');
+
 });
 
 

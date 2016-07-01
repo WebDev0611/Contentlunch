@@ -44,7 +44,7 @@
             </a>
         </li>
     </ul>
-    <a href="#" class="navigation-settings">
+    <a href="/2016/settings" class="navigation-settings {{ ( Request::segment(2) == 'settings' ) ? 'active': ''  }}">
         <i class="navigation-menu-icon icon-cog"></i>
     </a>
 </nav>
