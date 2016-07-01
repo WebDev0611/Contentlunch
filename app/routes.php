@@ -362,12 +362,14 @@ Route::resource('writerAccessAssetTypes','WriterAccessAssetTypeController');
 Route::group(['prefix' => '2016'], function()
 {
   Route::get('/home','NewAccountController@index');
-  Route::get('/tasks','NewAccountController@tasks');
+  Route::get('/home/tasks','NewAccountController@tasks');
 
   Route::get('/analyze','NewAnalyzeController@index');
 
   Route::get('/plan','NewPlanController@index');
   Route::get('/plan/ideas','NewPlanController@ideas');
+  Route::get('/plan/parked','NewPlanController@parked');
+
   Route::get('/plan/editor','NewPlanController@editor');
   Route::get('/plan/trends','NewPlanController@trends');
   Route::get('/plan/prescription','NewPlanController@prescription'); 

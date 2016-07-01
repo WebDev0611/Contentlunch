@@ -21,4 +21,8 @@ class NewPlanController extends BaseController {
 	public function ideas(){
 		return View::make('2016.plan.ideas');
 	}
+
+	public function parked(){
+		return View::make('2016.plan.parked');
+	}
 }

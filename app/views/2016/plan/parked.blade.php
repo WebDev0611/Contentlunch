@@ -8,11 +8,11 @@
         <div class="panel-main">
             <div class="panel-header">
                 <ul class="panel-tabs text-center">
-                    <li class="active">
-                        <a href="javascript:;">Active Ideas</a>
-                    </li>
                     <li>
-                        <a href="/2016/plan/parked">Parked Ideas</a>
+                        <a href="/2016/plan/ideas">Active Ideas</a>
+                    </li>
+                    <li class="active">
+                        <a  href="javascript:;">Parked Ideas</a>
                     </li>
                 </ul>
             </div>

@@ -55,7 +55,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/2016/tasks">
+                            <a href="/2016/home/tasks">
                                 <i class="icon-itemlist"></i>
                             </a>
                         </li>
@@ -204,7 +204,7 @@
                     <div class="panel-header">
                         <h4 class="panel-sidebar-title-secondary">
                             Recent Ideas
-                            <a href="#">
+                            <a href="/2016/plan/ideas">
                                 See All
                                 <i class="icon-arrow-right"></i>
                             </a>
