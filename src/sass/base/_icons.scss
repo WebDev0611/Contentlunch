@@ -18,6 +18,41 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-idea-new:before {
+    content: "\e957";
+}
+.icon-type-blog:before {
+    content: "\e958";
+}
+.icon-type-facebook:before {
+    content: "\e959";
+}
+.icon-type-twitter:before {
+    content: "\e95a";
+}
+
+.icon-agency-chat:before {
+    content: "\e950";
+}
+.icon-close:before {
+    content: "\e951";
+}
+.icon-edit-pencil:before {
+    content: "\e952";
+}
+.icon-enlarge:before {
+    content: "\e953";
+}
+.icon-navigation-agency:before {
+    content: "\e954";
+}
+.icon-schedule:before {
+    content: "\e955";
+}
+.icon-trash:before {
+    content: "\e956";
+}
+
 .icon-flip-horizontal {
   display: inline-block;
   @include transform(scaleX(-1));

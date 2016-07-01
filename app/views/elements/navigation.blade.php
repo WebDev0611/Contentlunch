@@ -1,50 +1,50 @@
 <nav class="navigation">
     <a href="#" class="navigation-logo">
-        <img src="/images/logo.svg" alt="Content Launch">
+        <img src="/2016/images/logo.svg" alt="Content Launch">
     </a>
     <ul class="navigation-menu">
         <li>
-            <a href="#" class="navigation-menu-profile">
-                <img src="images/avatar.jpg" alt="#">
+            <a href="javascript:;" class="navigation-menu-profile ">
+                <img src="/2016/images/avatar.jpg" alt="#">
             </a>
         </li>
         <li>
-            <a href="/#/components" class="navigation-menu-link active">
+            <a href="/2016/home" class="navigation-menu-link {{ ( Request::segment(2) == 'home' ) ? 'active': ''  }}">
                 <i class="navigation-menu-icon icon-navigation-chart">
-                    <span>Graph</span>
+                    <span>Dashboard</span>
                 </i>
             </a>
         </li>
         <li>
-            <a href="#" class="navigation-menu-link">
+            <a href="/2016/plan" class="navigation-menu-link {{ ( Request::segment(2) == 'plan' ) ? 'active': ''  }}">
                 <i class="navigation-menu-icon icon-navigation-content">
-                    <span>Graph</span>
+                    <span>PLAN</span>
                 </i>
             </a>
         </li>
         <li>
-            <a href="#" class="navigation-menu-link">
+            <a href="/2016/content" class="navigation-menu-link {{ ( Request::segment(2) == 'content' ) ? 'active': ''  }}">
                 <i class="navigation-menu-icon icon-navigation-dashboard">
-                    <span>Graph</span>
+                    <span>CREATE</span>
                 </i>
             </a>
         </li>
         <li>
-            <a href="#" class="navigation-menu-link">
+            <a href="/2016/calendar" class="navigation-menu-link {{ ( Request::segment(2) == 'calendar' ) ? 'active': ''  }}">
                 <i class="navigation-menu-icon icon-navigation-calendar">
-                    <span>Calendar</span>
+                    <span>CALENDAR</span>
                 </i>
             </a>
         </li>
         <li>
-            <a href="#" class="navigation-menu-link">
+            <a href="/2016/collaborate" class="navigation-menu-link {{ ( Request::segment(2) == 'collaborate' ) ? 'active': ''  }}">
                 <i class="navigation-menu-icon icon-navigation-users">
-                    <span>Users</span>
+                    <span>Collaborate</span>
                 </i>
             </a>
         </li>
     </ul>
-    <a href="#" class="navigation-settings">
+    <a href="/2016/settings" class="navigation-settings {{ ( Request::segment(2) == 'settings' ) ? 'active': ''  }}">
         <i class="navigation-menu-icon icon-cog"></i>
     </a>
 </nav>

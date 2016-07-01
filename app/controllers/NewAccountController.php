@@ -6,4 +6,7 @@ class NewAccountController extends BaseController {
 		return View::make('2016.home.index');
 	}
 
+	public function tasks(){
+		return View::make('2016.home.list');
+	}
 }

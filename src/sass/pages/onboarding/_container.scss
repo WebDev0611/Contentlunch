@@ -11,4 +11,23 @@ $onboarding-container-background: #ffffff;
 .onboarding-container {
   background: $onboarding-container-background;
   padding: 30px;
+  border-radius: 6px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.onboarding-container .inner {
+  max-width: 620px;
+  margin: 0 auto;
+  
+  &.narrow {
+    max-width: 340px;
+  }
+}
+
+.onboarding-container .body {
+  padding-top: 35px;
+  
+  &.nopadding {
+    padding-top: 0;
+  }
 }

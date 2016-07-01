@@ -8,6 +8,7 @@
 $input-color: #392C46;
 $input-border: solid #A7A1AD;
 $input-border-focus: solid #837A8B;
+$input-border-focus-color: #837A8B;
 $input-strength-indicator-background: #f2f3f9;
 $input-strength-indicator-progressbar: #f2b7b6;
 
@@ -31,6 +32,19 @@ $input-strength-indicator-progressbar: #f2b7b6;
     outline: none;
     box-shadow: none;
     border-bottom: 1px $input-border-focus;
+    box-shadow: 0 1px 0 $input-border-focus-color;
+  }
+  
+  &.full {
+    border: 1px $input-border;
+    border-radius: 3px;
+    height: 38px;
+    padding-left: 12px;
+    
+    &:focus {
+      border-color: #7D7586;
+      box-shadow: none;
+    }
   }
 }
 
@@ -43,6 +57,7 @@ $input-strength-indicator-progressbar: #f2b7b6;
 
   &:focus {
     border: 1px $input-border-focus;
+    box-shadow: none;
   }
 }
 

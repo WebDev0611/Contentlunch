@@ -13,7 +13,7 @@
 .plan-activity-box-container {
   display: table;
   border-collapse: collapse;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 
   @include clearfix;
 }
@@ -22,10 +22,53 @@
   position: relative;
   display: table-cell;
   vertical-align: top;
-  padding: 5px;
+  padding: 9px 12px;
   background: #f8f9fc;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   border-radius: 3px;
+  
+  &:before {
+    content:"";
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-right: 5px solid #F8F9FC;
+    border-bottom: 5px solid transparent;
+    position: absolute;
+    left: -5px;
+    top: 10px;
+  }
+  
+  p {
+    line-height: 1.3em;
+    font-size: 15px;
+    margin: 0;
+    
+    &.plan-activity-title {
+      font-weight: normal;
+      color: #a3a2aa;
+      line-height: 1.1em;
+      font-size: 14px;
+
+      > a {
+        color: #a3a2aa;
+        font-weight: bold;
+
+        &:hover, &:focus {
+          text-decoration: none;
+          color: #666271;
+        }
+      }
+    }
+  }
+  
+}
+
+
+
+.plan-activity-box .plan-activity-title+.plan-activity-text {
+  margin-top: 4px;
 }
 
 .plan-activity-box-light {
@@ -36,8 +79,8 @@
   padding: 0 5px 0 0;
   display: table-cell;
   vertical-align: top;
-  width: 35px;
-  height: 35px;
+  width: 32px;
+  height: 32px;
 
   overflow: hidden;
 
@@ -46,6 +89,15 @@
     max-width: 100%;
     border-radius: 50%;
   }
+}
+
+.plan-activity-avatar {
+  display: table-cell;
+  width: 40px;
+}
+.plan-activity-avatar .plan-activity-box-img {
+  display: block;
+  padding: 0;
 }
 
 .plan-activity-box-icon {
@@ -68,21 +120,7 @@
   }
 }
 
-.plan-activity-title {
-  font-family: $source-sans-pro;
-  font-size: 13px;
-  font-weight: normal;
-  color: #a3a2aa;
 
-  > a {
-    color: #a3a2aa;
-    font-weight: bold;
-
-    &:hover, &:focus {
-      text-decoration: none;
-    }
-  }
-}
 
 .plan-activity-dropdown {
   position: absolute;

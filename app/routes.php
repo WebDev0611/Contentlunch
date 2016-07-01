@@ -314,6 +314,9 @@ Route::group(['prefix' => 'api'], function()
       ]);
     });
 
+  Route::resource('keywordidea/', 'KeywordIdeaController');
+  Route::resource('keywordidea/search', 'KeywordIdeaController@search');
+
 });
 
 
@@ -359,14 +362,38 @@ Route::resource('writerAccessAssetTypes','WriterAccessAssetTypeController');
 Route::group(['prefix' => '2016'], function()
 {
   Route::get('/home','NewAccountController@index');
+  Route::get('/home/tasks','NewAccountController@tasks');
+
   Route::get('/analyze','NewAnalyzeController@index');
+
   Route::get('/plan','NewPlanController@index');
+  Route::get('/plan/ideas','NewPlanController@ideas');
+  Route::get('/plan/parked','NewPlanController@parked');
+
+  Route::get('/plan/editor','NewPlanController@editor');
+  Route::get('/plan/trends','NewPlanController@trends');
+  Route::get('/plan/prescription','NewPlanController@prescription'); 
+
   Route::get('/calendar','NewCalendarController@index');
+  Route::get('/calendar/{year}/{month}','NewCalendarController@index');
+
+  Route::get('/daily','NewCalendarController@daily');
+  Route::get('/daily/{year}/{month}/{day}','NewCalendarController@daily');
+
+  Route::get('/weekly','NewCalendarController@weekly');
+  Route::get('/weekly/{year}/{month}/{day}','NewCalendarController@weekly');
+
   Route::get('/campaigns','NewCalendarController@campaigns');
   
   Route::get('/content','NewContentController@index');
   Route::get('/collaborate','NewCollaborateController@index');
   Route::get('/onboarding','NewOnboardingController@index');
+
+  Route::get('/settings','NewSettingsController@index');
+  Route::get('/settings/content','NewSettingsController@content');
+  Route::get('/settings/connections','NewSettingsController@connections');
+  Route::get('/settings/seo','NewSettingsController@seo');
+  Route::get('/settings/buying','NewSettingsController@buying');
 
 });
 

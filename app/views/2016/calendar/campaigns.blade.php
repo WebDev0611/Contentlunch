@@ -1,6 +1,10 @@
 @extends('2016.layout.master')
 
 @section('content')
+<script>
+var campaigns = {{$campaigns}};
+console.log(campaigns);
+</script>
 <div class="workspace">
     <div class="calendar-container">
         <div class="calendar-navigation">
@@ -96,7 +100,10 @@
                 </button>
             </div>
         </div>
+
         <div class="calendar-timeline-container">
+        {{$campaign_calendar}}
+        <!-- 
             <table class="calendar-timeline">
                 <thead class="calendar-timeline-months">
                 <tr>
@@ -1064,7 +1071,10 @@
                 </tr>
                 </tbody>
             </table>
+            -->
+
         </div>
     </div>
 </div>
 @stop
+
