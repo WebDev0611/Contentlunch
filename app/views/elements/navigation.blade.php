@@ -4,7 +4,7 @@
     </a>
     <ul class="navigation-menu">
         <li>
-            <a href="/2016/home" class="navigation-menu-profile ">
+            <a href="javascript:;" class="navigation-menu-profile ">
                 <img src="/2016/images/avatar.jpg" alt="#">
             </a>
         </li>
