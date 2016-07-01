@@ -70,7 +70,7 @@
                     </div>
                     <div class="dashboard-tasks-container">
                         <div class="dashboard-tasks-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-tasks-cell">
                             <h5 class="dashboard-tasks-title">
@@ -99,7 +99,7 @@
                     </div>
                     <div class="dashboard-tasks-container">
                         <div class="dashboard-tasks-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-tasks-cell">
                             <h5 class="dashboard-tasks-title">
@@ -130,7 +130,7 @@
                     </div>
                     <div class="dashboard-tasks-container">
                         <div class="dashboard-tasks-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-tasks-cell">
                             <h5 class="dashboard-tasks-title">
@@ -161,7 +161,7 @@
                     </div>
                     <div class="dashboard-tasks-container">
                         <div class="dashboard-tasks-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-tasks-cell">
                             <h5 class="dashboard-tasks-title">
@@ -192,7 +192,7 @@
                     </div>
                     <div class="dashboard-tasks-container">
                         <div class="dashboard-tasks-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-tasks-cell">
                             <h5 class="dashboard-tasks-title">
@@ -231,7 +231,7 @@
                     <div class="panel-container">
                         <div class="plan-activity-box-container">
                             <div class="plan-activity-box-img">
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/assets/images/avatar.jpg" alt="#">
                             </div>
                             <div class="plan-activity-box">
                                 <span class="plan-activity-title">
@@ -247,7 +247,7 @@
                         </div>
                         <div class="plan-activity-box-container">
                             <div class="plan-activity-box-img">
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/assets/images/avatar.jpg" alt="#">
                             </div>
                             <div class="plan-activity-box">
                                 <span class="plan-activity-title">
@@ -275,7 +275,7 @@
                         </div>
                         <div class="plan-activity-box-container">
                             <div class="plan-activity-box-img">
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/assets/images/avatar.jpg" alt="#">
                             </div>
                             <div class="plan-activity-box">
                                 <span class="plan-activity-title">
@@ -315,7 +315,7 @@
                     </div>
                     <div class="dashboard-ideas-container">
                         <div class="dashboard-ideas-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-ideas-cell">
                             <p class="dashboard-ideas-text">Content mix: post 16 social postings</p>
@@ -324,7 +324,7 @@
                     </div>
                     <div class="dashboard-ideas-container">
                         <div class="dashboard-ideas-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-ideas-cell">
                             <p class="dashboard-ideas-text">Content mix: post 16 social postings</p>
@@ -333,7 +333,7 @@
                     </div>
                     <div class="dashboard-ideas-container">
                         <div class="dashboard-ideas-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-ideas-cell">
                             <p class="dashboard-ideas-text">Content mix: post 16 social</p>
@@ -365,7 +365,7 @@
                     </div>
                     <div class="dashboard-members-container">
                         <div class="dashboard-ideas-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-members-cell">
                             <p class="dashboard-ideas-text">Jason Simmons</p>
@@ -380,7 +380,7 @@
                     </div>
                     <div class="dashboard-members-container">
                         <div class="dashboard-ideas-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-members-cell">
                             <p class="dashboard-ideas-text">Jason Simmons</p>
@@ -395,7 +395,7 @@
                     </div>
                     <div class="dashboard-members-container">
                         <div class="dashboard-ideas-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-members-cell">
                             <p class="dashboard-ideas-text">Jason Simmons</p>
@@ -410,7 +410,7 @@
                     </div>
                     <div class="dashboard-members-container">
                         <div class="dashboard-members-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-members-cell">
                             <p class="dashboard-ideas-text">Jason Simmons</p>
@@ -500,7 +500,7 @@
                     </div>
                     <div class="dashboard-tasks-container">
                         <div class="dashboard-tasks-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-tasks-cell">
                             <h5 class="dashboard-tasks-title">
@@ -529,7 +529,7 @@
                     </div>
                     <div class="dashboard-tasks-container">
                         <div class="dashboard-tasks-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-tasks-cell">
                             <h5 class="dashboard-tasks-title">
@@ -560,7 +560,7 @@
                     </div>
                     <div class="dashboard-tasks-container">
                         <div class="dashboard-tasks-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-tasks-cell">
                             <h5 class="dashboard-tasks-title">
@@ -591,7 +591,7 @@
                     </div>
                     <div class="dashboard-tasks-container">
                         <div class="dashboard-tasks-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-tasks-cell">
                             <h5 class="dashboard-tasks-title">
@@ -622,7 +622,7 @@
                     </div>
                     <div class="dashboard-tasks-container">
                         <div class="dashboard-tasks-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-tasks-cell">
                             <h5 class="dashboard-tasks-title">
@@ -666,7 +666,7 @@
                     </div>
                     <div class="dashboard-ideas-container">
                         <div class="dashboard-ideas-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-ideas-cell">
                             <p class="dashboard-ideas-text">Content mix: post 16 social postings</p>
@@ -675,7 +675,7 @@
                     </div>
                     <div class="dashboard-ideas-container">
                         <div class="dashboard-ideas-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-ideas-cell">
                             <p class="dashboard-ideas-text">Content mix: post 16 social postings</p>
@@ -684,7 +684,7 @@
                     </div>
                     <div class="dashboard-ideas-container">
                         <div class="dashboard-ideas-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-ideas-cell">
                             <p class="dashboard-ideas-text">Content mix: post 16 social</p>
@@ -718,30 +718,10 @@
                         <div class="dashboard-campaigns-cell">
                             <ul class="dashboard-campaign-images-list">
                                 <li>
-                                    <img src="/images/avatar.jpg" alt="#">
+                                    <img src="/assets/images/avatar.jpg" alt="#">
                                 </li>
                                 <li>
-                                    <img src="/images/avatar.jpg" alt="#">
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="dashboard-campaigns-cell">
-                            <p class="dashboard-campaigns-title">
-                                16 social postings on woman rights and movements around the world
-                            </p>
-                            <span class="dashboard-campaigns-text small">
-                                NEXT TASK: <strong>LAUNCH</strong>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="dashboard-campaigns">
-                        <div class="dashboard-campaigns-cell">
-                            <ul class="dashboard-campaign-images-list">
-                                <li>
-                                    <img src="/images/avatar.jpg" alt="#">
-                                </li>
-                                <li>
-                                    <img src="/images/avatar.jpg" alt="#">
+                                    <img src="/assets/images/avatar.jpg" alt="#">
                                 </li>
                             </ul>
                         </div>
@@ -758,10 +738,10 @@
                         <div class="dashboard-campaigns-cell">
                             <ul class="dashboard-campaign-images-list">
                                 <li>
-                                    <img src="/images/avatar.jpg" alt="#">
+                                    <img src="/assets/images/avatar.jpg" alt="#">
                                 </li>
                                 <li>
-                                    <img src="/images/avatar.jpg" alt="#">
+                                    <img src="/assets/images/avatar.jpg" alt="#">
                                 </li>
                             </ul>
                         </div>
@@ -778,10 +758,30 @@
                         <div class="dashboard-campaigns-cell">
                             <ul class="dashboard-campaign-images-list">
                                 <li>
-                                    <img src="/images/avatar.jpg" alt="#">
+                                    <img src="/assets/images/avatar.jpg" alt="#">
                                 </li>
                                 <li>
-                                    <img src="/images/avatar.jpg" alt="#">
+                                    <img src="/assets/images/avatar.jpg" alt="#">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="dashboard-campaigns-cell">
+                            <p class="dashboard-campaigns-title">
+                                16 social postings on woman rights and movements around the world
+                            </p>
+                            <span class="dashboard-campaigns-text small">
+                                NEXT TASK: <strong>LAUNCH</strong>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="dashboard-campaigns">
+                        <div class="dashboard-campaigns-cell">
+                            <ul class="dashboard-campaign-images-list">
+                                <li>
+                                    <img src="/assets/images/avatar.jpg" alt="#">
+                                </li>
+                                <li>
+                                    <img src="/assets/images/avatar.jpg" alt="#">
                                 </li>
                             </ul>
                         </div>
@@ -804,7 +804,7 @@
                     <div class="panel-container">
                         <div class="plan-activity-box-container">
                             <div class="plan-activity-box-img">
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/assets/images/avatar.jpg" alt="#">
                             </div>
                             <div class="plan-activity-box">
                                 <span class="plan-activity-title">
@@ -820,7 +820,7 @@
                         </div>
                         <div class="plan-activity-box-container">
                             <div class="plan-activity-box-img">
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/assets/images/avatar.jpg" alt="#">
                             </div>
                             <div class="plan-activity-box">
                                 <span class="plan-activity-title">
@@ -836,7 +836,7 @@
                         </div>
                         <div class="plan-activity-box-container">
                             <div class="plan-activity-box-img">
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/assets/images/avatar.jpg" alt="#">
                             </div>
                             <div class="plan-activity-box">
                                 <span class="plan-activity-title">
@@ -852,7 +852,7 @@
                         </div>
                         <div class="plan-activity-box-container">
                             <div class="plan-activity-box-img">
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/assets/images/avatar.jpg" alt="#">
                             </div>
                             <div class="plan-activity-box">
                                 <span class="plan-activity-title">
@@ -868,7 +868,7 @@
                         </div>
                         <div class="plan-activity-box-container">
                             <div class="plan-activity-box-img">
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/assets/images/avatar.jpg" alt="#">
                             </div>
                             <div class="plan-activity-box">
                                 <span class="plan-activity-title">
@@ -896,7 +896,7 @@
                     </div>
                     <div class="dashboard-members-container">
                         <div class="dashboard-ideas-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-members-cell">
                             <p class="dashboard-ideas-text">Jason Simmons</p>
@@ -911,7 +911,7 @@
                     </div>
                     <div class="dashboard-members-container">
                         <div class="dashboard-ideas-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-members-cell">
                             <p class="dashboard-ideas-text">Jason Simmons</p>
@@ -926,7 +926,7 @@
                     </div>
                     <div class="dashboard-members-container">
                         <div class="dashboard-ideas-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-members-cell">
                             <p class="dashboard-ideas-text">Jason Simmons</p>
@@ -941,7 +941,7 @@
                     </div>
                     <div class="dashboard-members-container">
                         <div class="dashboard-members-cell">
-                            <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
                         </div>
                         <div class="dashboard-members-cell">
                             <p class="dashboard-ideas-text">Jason Simmons</p>

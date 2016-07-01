@@ -88,25 +88,25 @@
                     <label for="Friend" class="checkbox-image">
                       <input id="Friend" type="checkbox">
                       <span>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </span>
                     </label>
                     <label for="Friend" class="checkbox-image">
                       <input id="Friend" type="checkbox">
                       <span>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </span>
                     </label>
                     <label for="Friend" class="checkbox-image">
                       <input id="Friend" type="checkbox">
                       <span>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </span>
                     </label>
                     <label for="Friend" class="checkbox-image">
                       <input id="Friend" type="checkbox">
                       <span>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </span>
                     </label>
                   </li>
@@ -367,13 +367,13 @@
                     <legend class="form-legend">Assigned</legend>
                     <ul class="images-list pull-left">
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                     </ul>
                     <div class="dropdown pull-right">
@@ -396,25 +396,25 @@
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                         </li>
@@ -461,7 +461,7 @@
                 <div class="checkcircle"><i class="icon-check-light"></i></div>
 
                 <div class="user-avatar">
-                  <img src="/images/avatar.jpg" alt="#">
+                  <img src="/assets/images/avatar.jpg" alt="#">
                 </div>
 
                 <p class="title">Assign Author</p>
@@ -485,13 +485,13 @@
                     <legend class="form-legend">Assigned</legend>
                     <ul class="images-list pull-left">
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                     </ul>
                     <div class="dropdown pull-right">
@@ -514,25 +514,25 @@
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                         </li>
@@ -566,7 +566,7 @@
                 <div class="checkcircle"><i class="icon-check-light"></i></div>
 
                 <div class="user-avatar">
-                  <img src="/images/avatar.jpg" alt="#">
+                  <img src="/assets/images/avatar.jpg" alt="#">
                 </div>
 
                 <p class="title">Submit Content</p>
@@ -589,13 +589,13 @@
                     <legend class="form-legend">Assigned</legend>
                     <ul class="images-list pull-left">
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                     </ul>
                     <div class="dropdown pull-right">
@@ -618,25 +618,25 @@
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                         </li>
@@ -671,7 +671,7 @@
                 <div class="checkcircle"><i class="icon-check-light"></i></div>
 
                 <div class="user-avatar">
-                  <img src="/images/avatar.jpg" alt="#">
+                  <img src="/assets/images/avatar.jpg" alt="#">
                 </div>
 
                 <p class="title">Review and Edit Content</p>
@@ -693,13 +693,13 @@
                     <legend class="form-legend">Assigned</legend>
                     <ul class="images-list pull-left">
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                     </ul>
                     <div class="dropdown pull-right">
@@ -722,25 +722,25 @@
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                         </li>
@@ -774,7 +774,7 @@
                 <div class="checkcircle"><i class="icon-check-light"></i></div>
 
                 <div class="user-avatar">
-                  <img src="/images/avatar.jpg" alt="#">
+                  <img src="/assets/images/avatar.jpg" alt="#">
                 </div>
 
                 <p class="title">Publish Content</p>
@@ -795,13 +795,13 @@
                     <legend class="form-legend">Assigned</legend>
                     <ul class="images-list pull-left">
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                     </ul>
                     <div class="dropdown pull-right">
@@ -824,25 +824,25 @@
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                         </li>
@@ -878,7 +878,7 @@
                 <div class="checkcircle"><i class="icon-check-light"></i></div>
 
                 <div class="user-avatar">
-                  <img src="/images/avatar.jpg" alt="#">
+                  <img src="/assets/images/avatar.jpg" alt="#">
                 </div>
 
                 <p class="title">Promote Content</p>
@@ -901,13 +901,13 @@
                     <legend class="form-legend">Assigned</legend>
                     <ul class="images-list pull-left">
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/avatar.jpg" alt="#">
                       </li>
                     </ul>
                     <div class="dropdown pull-right">
@@ -930,25 +930,25 @@
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/assets/images/avatar.jpg" alt="#">
                             </span>
                           </label>
                         </li>
@@ -986,7 +986,7 @@
             
             <div class="plan-activity-box-container">
               <div class="plan-activity-box-img">
-                <img src="/images/avatar.jpg" alt="#">
+                <img src="/assets/images/avatar.jpg" alt="#">
               </div>
               <div class="plan-activity-box">
                 <span class="plan-activity-title">
@@ -1002,7 +1002,7 @@
             </div>
             <div class="plan-activity-box-container">
               <div class="plan-activity-box-img">
-                <img src="/images/avatar.jpg" alt="#">
+                <img src="/assets/images/avatar.jpg" alt="#">
               </div>
               <div class="plan-activity-box">
                 <span class="plan-activity-title">
@@ -1030,7 +1030,7 @@
             </div>
             <div class="plan-activity-box-container">
               <div class="plan-activity-box-img">
-                <img src="/images/avatar.jpg" alt="#">
+                <img src="/assets/images/avatar.jpg" alt="#">
               </div>
               <div class="plan-activity-box">
                 <span class="plan-activity-title">
@@ -1097,7 +1097,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/assets/images/avatar.jpg" alt="#">
                     </div>
                     <p class="title">Jason Simmons</p>
                     <p class="email">jasonsimm@google.com</p>
@@ -1106,7 +1106,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/assets/images/avatar.jpg" alt="#">
                     </div>
                     <p class="title">Emily Blunt</p>
                     <p class="email">emilyblunt@yahoo.com</p>
@@ -1115,7 +1115,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/assets/images/avatar.jpg" alt="#">
                     </div>
                     <p class="title">Johan Rostock</p>
                     <p class="email">jrock@google.com</p>
@@ -1124,7 +1124,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/assets/images/avatar.jpg" alt="#">
                     </div>
                     <p class="title">Annie Sox</p>
                     <p class="email">asox@yahoo.com</p>
@@ -1133,7 +1133,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/assets/images/avatar.jpg" alt="#">
                     </div>
                     <p class="title">Jason Simmons</p>
                     <p class="email">jasonsimm@google.com</p>
@@ -1142,7 +1142,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/assets/images/avatar.jpg" alt="#">
                     </div>
                     <p class="title">Emily Blunt</p>
                     <p class="email">emilyblunt@yahoo.com</p>
@@ -1151,7 +1151,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/assets/images/avatar.jpg" alt="#">
                     </div>
                     <p class="title">Johan Rostock</p>
                     <p class="email">jrock@google.com</p>
@@ -1160,7 +1160,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/assets/images/avatar.jpg" alt="#">
                     </div>
                     <p class="title">Annie Sox</p>
                     <p class="email">asox@yahoo.com</p>
@@ -1182,7 +1182,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/assets/images/avatar.jpg" alt="#">
                     </div>
                     <p class="title">Johan Rostock</p>
                     <p class="email">jrock@google.com</p>
@@ -1191,7 +1191,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/assets/images/avatar.jpg" alt="#">
                     </div>
                     <p class="title">Annie Sox</p>
                     <p class="email">asox@yahoo.com</p>
@@ -1200,7 +1200,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/assets/images/avatar.jpg" alt="#">
                     </div>
                     <p class="title">Jason Simmons</p>
                     <p class="email">jasonsimm@google.com</p>

@@ -7,7 +7,7 @@
         <aside class="panel-sidebar right-separator">
             <div class="panel-container text-center">
                 <div class="settings-profile-image">
-                    <img src="/images/avatar.jpg" alt="#">
+                    <img src="/assets/images/avatar.jpg" alt="#">
                 </div>
                 <div class="settings-profile-info">
                     <h4>Storm Trooper</h4>

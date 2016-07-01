@@ -8,7 +8,7 @@
         <aside class="panel-sidebar right-separator">
             <div class="panel-container text-center">
                 <div class="settings-profile-image">
-                    <img src="/images/avatar.jpg" alt="#">
+                    <img src="/assets/images/avatar.jpg" alt="#">
                 </div>
                 <div class="settings-profile-info">
                     <h4>Storm Trooper</h4>
@@ -53,7 +53,7 @@
                         <a href="/2016/settings">Account Settings</a>
                     </li>
                     <li>
-                        <a href="/2016/settings/content">Content Connections</a>
+                        <a href="/2016/settings/connections">Content Connections</a>
                     </li>
                     <li class="active">
                         <a href="/2016/settings/content">Content Settings</a>
