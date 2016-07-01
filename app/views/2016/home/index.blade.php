@@ -50,12 +50,12 @@
                     <span>Writer / Editor Layout</span>
                     <ul class="dashboard-layout">
                         <li>
-                            <a href="#">
+                            <a href="/2016/home">
                                 <i class="icon-chart"></i>
                             </a>
                         </li>
                         <li class="active">
-                            <a href="#">
+                            <a href="/2016/tasks">
                                 <i class="icon-itemlist"></i>
                             </a>
                         </li>
