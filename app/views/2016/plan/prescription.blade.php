@@ -6,14 +6,14 @@
     <div class="panel">
         <div class="panel-header">
             <ul class="panel-tabs text-center">
-                <li>
-                    <a href="/#/plan/1">Topic Generator</a>
+                <li >
+                    <a href="/2016/plan">Topic Generator</a>
                 </li>
                 <li>
-                    <a href="/#/plan/2">Content Trends</a>
+                    <a href="/2016/plan/trends">Content Trends</a>
                 </li>
                 <li class="active">
-                    <a href="/#/plan/3">Content Prescription</a>
+                    <a href="/2016/plan/prescription">Content Prescription</a>
                 </li>
             </ul>
         </div>
