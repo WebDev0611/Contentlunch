@@ -49,12 +49,12 @@
                 <div class="dashboard-layout-container">
                     <span>Writer / Editor Layout</span>
                     <ul class="dashboard-layout">
-                        <li>
-                            <a href="/2016/home">
+                        <li class="active">
+                            <a href="javascript:;">
                                 <i class="icon-chart"></i>
                             </a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="/2016/tasks">
                                 <i class="icon-itemlist"></i>
                             </a>
