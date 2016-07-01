@@ -19,6 +19,14 @@ $button-switches-border: solid #dadfeb;
 $button-action-color: #2482ff;
 
 // Classes
+
+a {
+  transition: .2s all;
+}
+a:hover, a:focus {
+  text-decoration: none;
+}
+
 .button {
   @extend .btn;
 
@@ -30,6 +38,7 @@ $button-action-color: #2482ff;
   font-size: 13px;
   padding-top: 9px;
   padding-bottom: 9px;
+  letter-spacing: .05em;
 
   @include transition($base-transition);
 
@@ -113,15 +122,27 @@ $button-action-color: #2482ff;
   }
 }
 
+.actionbtnbox {
+  position: relative;
+  display: inline-block;
+}
+.actionbtnbox .dropdown-menu {
+  margin-right: -4px;
+  min-width: 160px;
+}
 .button-action {
   border: 0;
   background: none;
-  font-size: 18px;
+  font-size: 16px;
   text-decoration: none;
   text-shadow: none;
   outline: none;
   padding: 0;
   color: $button-action-color;
+  
+  .icon-add-circle {
+    font-size: 22px;
+  }
 
   &:hover, &:focus {
     text-decoration: none;
@@ -129,6 +150,7 @@ $button-action-color: #2482ff;
     outline: none;
     color: $button-action-color;
     box-shadow: none;
+    transform: scale(1.1);
   }
 
   &.large {
@@ -200,4 +222,34 @@ $button-action-color: #2482ff;
       vertical-align: middle;
     }
   }
+}
+
+.button-text {
+  font-weight: 700;
+  color: #2480FF;
+  font-size: 13px;
+  padding: 2px 8px;
+}
+
+.withendicon [class^="icon-"] {
+  margin-left: 8px;
+  font-size: 1.2em;
+  position: relative;
+  vertical-align: middle;
+  top: -1px;
+}
+.withstarticon [class^="icon-"] {
+  margin-right: 8px;
+  font-size: 1.2em;
+  position: relative;
+  vertical-align: middle;
+  top: -1px;
+}
+.button-text.withendicon [class^="icon-"],
+.button-text.withstarticon [class^="icon-"] {
+  font-size: 1em;
+}
+
+.btn-group .btn {
+  letter-spacing: 0;
 }

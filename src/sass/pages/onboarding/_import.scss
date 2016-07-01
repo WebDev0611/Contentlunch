@@ -62,6 +62,11 @@
   &.active {
     background: #f8f9fc;
   }
+  
+  .button {
+    letter-spacing: .03em;
+    text-transform: uppercase;
+  }
 }
 
 .onboarding-import-item-img {

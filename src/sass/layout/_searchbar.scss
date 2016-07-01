@@ -28,7 +28,7 @@ $search-bar-border: solid #c6cfe1;
   font-family: $source-sans-pro;
   background: url("../images/icons/magnifier.svg") no-repeat left 10px center;
   background-size: 15px;
-  padding-left: 30px;
+  padding-left: 34px;
 
   &:hover, &:focus {
     box-shadow: none;
@@ -41,7 +41,7 @@ $search-bar-border: solid #c6cfe1;
   padding: 0 10px;
   height: 35px;
   line-height: 35px;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .search-bar-button-primary {
@@ -52,4 +52,93 @@ $search-bar-border: solid #c6cfe1;
   padding: 0 10px;
   height: 35px;
   line-height: 35px;
+}
+
+.btn-create {
+  min-width: 150px;
+  text-align: left;
+  line-height: 32px;
+  padding: 0 15px;
+  
+  .caret {
+    float: right;
+    margin-top: 13px;
+  }
+}
+
+//-- Client Dropown
+.header-clients {
+  position: relative;
+  border-right: 1px solid #C6CFE1;
+  height: 66px;
+  margin-top: -15px;
+  margin-left: -15px;
+  padding-right: 50px;
+  
+  .dropdown-menu {
+    margin-top: -1px;
+    width: 100%;
+  }
+}
+.btn-addclient {
+  position: absolute;
+  right: 8px;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  color: rgba(29,17,49,.55);
+  border: 1px solid rgba(29,17,49,.15);
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 3px;
+  
+  &:hover {
+    background-color: #2482ff;
+    border-color: #2482ff;
+    color: #fff;
+  }
+}
+
+.dropdown-client .drop {
+  color: #392C46;
+  font-weight: 700;
+  min-height: 66px;
+  padding-top: 20px;
+  display:block;
+  padding-left: 15px;
+  font-size: 1.1em;
+  
+  .caret {
+    float: right;
+    margin-top: 11px;
+    opacity: .45;
+  }
+}
+.dropdown-client .company-logo {
+  display: inline-block;
+  width: 50px;
+  margin-right: 6px;
+  text-align: center;
+  
+  img {
+    max-height: 26px;
+    width: auto;
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+  }
+}
+
+.dropdown-client .dropdown-menu {
+  
+  > li > a {
+    padding: 12px 15px;
+    font-size: 1em;
+  }
+  
+  .company-logo img {
+    max-height: 20px;
+  }
+  
 }

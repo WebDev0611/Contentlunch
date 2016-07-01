@@ -49,26 +49,26 @@
         <div class="panel-main left-separator">
             <div class="panel-header">
                 <ul class="panel-tabs text-center">
-                    <li>
-                        <a href="/#/settings/1">Account Settings</a>
+                   <li >
+                        <a href="/2016/settings">Account Settings</a>
                     </li>
                     <li>
-                        <a href="/#/settings/2">Content Connections</a>
+                        <a href="/2016/settings/content">Content Connections</a>
                     </li>
                     <li class="active">
-                        <a href="/#/settings/3">Content Settings</a>
+                        <a href="/2016/settings/content">Content Settings</a>
                     </li>
                     <li>
-                        <a href="/#/settings/5">SEO Settings</a>
+                        <a href="/2016/settings/seo">SEO Settings</a>
                     </li>
                 </ul>
             </div>
             <ul class="settings-nav">
                 <li class="active">
-                    <a href="/#/settings/3">General Content</a>
+                    <a href="/2016/settings/content">General Content</a>
                 </li>
                 <li>
-                    <a href="/#/settings/4">Personas / Buying Stage</a>
+                    <a href="/2016/settings/buying">Personas / Buying Stage</a>
                 </li>
             </ul>
             <div class="panel-container">

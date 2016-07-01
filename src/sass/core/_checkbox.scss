@@ -22,7 +22,7 @@
     font-family: $source-sans-pro;
     font-weight: normal;
     font-size: 15px;
-    padding-left: 22px;
+    padding-left: 24px;
     vertical-align: middle;
     cursor: pointer;
     color: #392c46;
@@ -41,7 +41,7 @@
       border: 3px solid #ffffff;
       border-radius: 50%;
       line-height: 12px;
-      font-size: 7px;
+      font-size: 10px;
       font-family: $icon-fonts !important;
       speak: none;
       font-style: normal;
@@ -51,6 +51,7 @@
       color: #e0dee2;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      background-color: #fff;
 
       @include transition(0.2s);
     }
@@ -314,7 +315,7 @@
       border: 3px solid #ffffff;
       border-radius: 50%;
       line-height: 12px;
-      font-size: 7px;
+      font-size: 10px;
       font-family: $icon-fonts !important;
       speak: none;
       font-style: normal;
@@ -346,5 +347,60 @@
       background: #2482ff;
       color: #ffffff;
     }
+  }
+}
+
+.checkbox-ios {
+  position: relative;
+  margin-bottom: 5px;
+
+  span {
+    font-family: $source-sans-pro;
+    font-size: 15px;
+    color: #392c46;
+    vertical-align: middle;
+  }
+
+  input[type=checkbox], input[type=radio] {
+    appearance: none;
+    -webkit-appearance: none;
+    box-shadow: inset 0px 0px 0px 1px #e6e6e6;
+    border-radius: 15px;
+    background-color: #fff;
+    padding: 1px;
+    display: inline-block;
+    width: 45px;
+    height: 25px;
+    position: relative;
+    cursor: pointer;
+    transition: all .3s ease-out;
+    margin: 0px;
+    transform: scale(1);
+    -webkit-transform: scale(1); /* Adjust size here */
+    vertical-align: middle;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  input[type=checkbox]:checked, input[type=radio]:checked {
+    box-shadow: inset 0px 0px 0px 20px #2482ff;
+  }
+
+  input[type=checkbox]:after, input[type=radio]:after {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 15px;
+    box-shadow: 0px 1px 1px 1px rgba(0,0,0,.2);
+    cursor: pointer;
+    background-color: #fff;
+    transition: all 0.1s ease-in .1s;
+  }
+
+  input[type="checkbox"]:checked:after,input[type="radio"]:checked:after {
+    left: 22px;
   }
 }

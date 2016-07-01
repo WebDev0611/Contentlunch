@@ -1,0 +1,52 @@
+//------------------------------
+// *****************************
+// Tables
+// *****************************
+//------------------------------
+
+.table-list {
+  border-bottom: 1px solid #E7EAF2;
+  
+  >thead>tr>th {
+    border-bottom: none;
+    color: #9994A2;
+    font-size: .875em;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    line-height: 1.2em;
+  }
+  
+  >tbody>tr>td {
+    line-height: 1.2em;
+    padding: 16px;
+    font-size: 1.1em;
+    border-top-color: #E7EAF2;
+    
+    p {
+      margin: 0;
+    }
+  }
+  
+  .clientlogo {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    max-width: 120px;
+    max-height: 32px;
+   
+    img {
+      width: 100%;
+      height: auto;
+      margin-top: -2px;
+    }
+  }
+  
+  .title {
+    font-size: 1.2em;
+    font-weight: 700;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+}

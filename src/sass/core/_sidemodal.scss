@@ -28,6 +28,8 @@
   overflow-y: auto;
 
   @include transition($base-transition);
+  
+  transition: all 400ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
 
   &.inset {
     position: absolute;
@@ -104,6 +106,10 @@
 .sidemodal-container {
   padding: 0 20px;
   margin-bottom: 20px;
+  
+  &.nopadding {
+    padding: 0;
+  }
 }
 
 .sidemodal-footer {

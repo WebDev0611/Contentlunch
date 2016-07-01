@@ -53,18 +53,22 @@ $navigation-menu-link-background: #f2f3f9;
 .navigation-menu-profile {
   display: block;
   text-align: center;
-  padding: 0 15px;
-  height: 75px;
-  line-height: 75px;
+  padding-top: 15px;
+  min-height: 75px;
 
   > img {
     display: inline-block;
-    max-width: 100%;
+    max-width: 40px;
     border-radius: 50%;
     vertical-align: middle;
   }
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
 
-  &.active, &:hover, &:focus {
+  &.active, &:focus {
     text-decoration: none;
     color: $navigation-menu-link-color-active;
     background: $navigation-menu-link-background;
@@ -80,7 +84,12 @@ $navigation-menu-link-background: #f2f3f9;
 
   @include transition($base-transition);
 
-  &.active, &:hover, &:focus {
+  &:hover {
+    background-color: rgba(255,255,255,.1);
+    color: #fff;
+  }
+    
+  &.active, &:focus {
     text-decoration: none;
     color: $navigation-menu-link-color-active;
     background: $navigation-menu-link-background;
@@ -93,7 +102,7 @@ $navigation-menu-link-background: #f2f3f9;
 
 .navigation-menu-icon {
   display: inline-block;
-  font-size: 24px;
+  font-size: 28px;
   font-style: normal;
   line-height: 1;
   vertical-align: middle;
@@ -133,4 +142,27 @@ $navigation-menu-link-background: #f2f3f9;
     color: $navigation-menu-link-color-active;
     background: $navigation-menu-link-background;
   }
+}
+
+.app-type {
+  padding-bottom: 14px;
+  text-align: center;
+  margin-top: 0;
+  
+  p {
+    display: inline-block;
+    margin: 0;
+    line-height: 1em;
+    padding: 1px 3px;
+    font-size: .82em;
+    font-weight: 700;
+    text-transform: uppercase;
+    color:rgba(29,17,49,0.85);
+    
+    &.app-agency {
+      background-color: #A7DEF3;
+    }
+  }
+  
+  
 }

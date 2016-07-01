@@ -40,6 +40,8 @@
 @import "core/headings";
 @import "core/popover";
 @import "core/table-row";
+@import "core/modal";
+@import "core/tables";
 
 //------------------------------
 // *****************************
@@ -78,6 +80,7 @@
 @import "pages/onboarding/images";
 @import "pages/onboarding/import";
 @import "pages/onboarding/score";
+@import "pages/onboarding/plans";
 
 // Planing
 @import "pages/plan/activity";
@@ -94,5 +97,16 @@
 @import "pages/dashboard/top-performing";
 
 // Settings
+@import "pages/settings/settings";
+@import "pages/settings/import";
+@import "pages/settings/nav";
 
 // Create
+
+// Edit
+@import "pages/editor/editor";
+
+// Agency Dashboard
+@import "pages/agency/content-list";
+@import "pages/agency/panel-dash";
+@import "pages/agency/sidemodal-chat";

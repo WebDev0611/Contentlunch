@@ -47,16 +47,16 @@
             <div class="panel-header">
                 <ul class="panel-tabs text-center">
                     <li >
-                        <a href="/#/settings/1">Account Settings</a>
+                        <a href="/2016/settings">Account Settings</a>
                     </li>
                     <li class="active">
-                        <a href="/#/settings/2">Content Connections</a>
+                        <a href="/2016/settings/content">Content Connections</a>
                     </li>
                     <li>
-                        <a href="/#/settings/3">Content Settings</a>
+                        <a href="/2016/settings/content">Content Settings</a>
                     </li>
                     <li>
-                        <a href="/#/settings/5">SEO Settings</a>
+                        <a href="/2016/settings/seo">SEO Settings</a>
                     </li>
                 </ul>
             </div>

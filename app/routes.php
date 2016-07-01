@@ -382,6 +382,10 @@ Route::group(['prefix' => '2016'], function()
   Route::get('/onboarding','NewOnboardingController@index');
 
   Route::get('/settings','NewSettingsController@index');
+  Route::get('/settings/content','NewSettingsController@content');
+  Route::get('/settings/connections','NewSettingsController@connections');
+  Route::get('/settings/seo','NewSettingsController@seo');
+  Route::get('/settings/buying','NewSettingsController@buying');
 
 });
 
