@@ -33,6 +33,9 @@ if [ -f /etc/provisioned ]; then
 fi
 
 
+
+
+
 heading "Updating CentOS7 box"
 echo " ╰─➤ Installing epel-release"
 sudo yum install -y epel-release  >&- 2>&-
@@ -40,6 +43,10 @@ echo " ╰─➤ Downloading MySQL 5.6 Repo"
 sudo wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm  >&- 2>&-
 echo " ╰─➤ Registering MySQL 5.6 Repo"
 sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm >&- 2>&-
+echo " ╰─➤ Downloading PHP 5.5 Repo"
+sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm  >&- 2>&-
+echo " ╰─➤ Registering PHP 5.5 Repo"
+sudo rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm >&- 2>&-
 echo -e "Done!\n"
 
 heading "Installing yum packages";
@@ -57,23 +64,23 @@ echo " ╰─➤ Installing NodeJS"
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash && bash && nvm install 5.0
 echo " ╰─➤ Installing MySQL"
 sudo yum install -y -q mysql-server >&- 2>&-
-echo " ╰─➤ Installing php"
+echo " ╰─➤ Installing php55w"
 sudo yum install -y -q php >&- 2>&-
-echo " ╰─➤ Installing php-gd"
-sudo yum install -y -q php-gd >&- 2>&-
-echo " ╰─➤ Installing php-mysql"
-sudo yum install -y -q php-mysql >&- 2>&-
-echo " ╰─➤ Installing php-mcrypt"
-sudo yum install -y -q php-mcrypt >&- 2>&-
-echo " ╰─➤ Installing php-mbstring"
-sudo yum install -y -q php-mbstring >&- 2>&-
-echo " ╰─➤ Installing phpunit"
-sudo yum install -y -q phpunit >&- 2>&-
-echo " Install XDebug"
-sudo yum install -y php-pecl-xdebug.x86_64
+echo " ╰─➤ Installing php55w-gd"
+sudo yum install -y -q php55ww-gd >&- 2>&-
+echo " ╰─➤ Installing php55w-mysql"
+sudo yum install -y -q php55ww-mysql >&- 2>&-
+echo " ╰─➤ Installing php55w-mcrypt"
+sudo yum install -y -q php55ww-mcrypt >&- 2>&-
+echo " ╰─➤ Installing php55w-mbstring"
+sudo yum install -y -q php55w-mbstring >&- 2>&-
+#echo " ╰─➤ Installing phpunit"
+#sudo yum install -y -q phpunit >&- 2>&-
+#echo " Install XDebug"
+#sudo yum install -y php55w-pecl-xdebug.x86_64
 echo " Install Redis"
-sudo yum install -y redis
-sudo yum install -y php-pecl-redis
+sudo yum install -y -q redis  >&- 2>&-
+sudo yum install -y -q php55w-pecl-redis  >&- 2>&-
 
 echo "[xdebug]" > /etc/php.d/xdebug.ini
 echo "zend_extension=\"/usr/lib64/php/modules/xdebug.so\"" >> /etc/php.d/xdebug.ini
