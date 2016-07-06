@@ -1,7 +1,0 @@
-<div class="tier-tiles">
-	<div class="title">Tier {{ selectedSubscription.subscriptionLevel }}</div>
-	<div class="tile {{ module.name }}" ng-repeat="module in modules" ng-class="moduleActive(module)" ng-click="tileOnClick($event, component)">
-		<img ng-src="{{ imageSource(module) }}" />
-		{{ module.title }}
-	</div>
-</div>
