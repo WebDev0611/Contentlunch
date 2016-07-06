@@ -3,3 +3,15 @@
 Homestead.yaml
 Homestead.json
 .env
+**.DS_Store
+.idea/
+app/storage/.DS_Store
+contentlaunch.iml
+files.txt
+src/.DS_Store
+src/js/.DS_Store
+src/js/launch.js
+src/js/launch.js.map
+src/js/routes.js
+src/js/routes.js.map
+
