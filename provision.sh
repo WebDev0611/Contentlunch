@@ -8,7 +8,7 @@ echo -e "
 ================================================================"
 }
 
-echo "     __/ _//|\                   __             __     __                       __  "
+echo "     __/ _//|\                    __             __     __                       __  "
 echo "   _/_  /_/     _________  ____  / /____  ____  / /_   / /___ ___  ______  _____/ /_ "
 echo "  / /_/_/      / ___/ __ \/ __ \/ __/ _ \/ __ \/ __/  / / __ \`/ / / / __ \/ ___/ __ \ "
 echo " / //_/       / /__/ /_/ / / / / /_/  __/ / / / /_   / / /_/ / /_/ / / / / /__/ / / /"
@@ -35,6 +35,7 @@ fi
 
 
 
+echo " Running as $(whoami)"
 
 heading "Updating CentOS7 box"
 echo " ╰─➤ Installing epel-release"
@@ -60,24 +61,26 @@ echo " ╰─➤ Installing sshpass"
 sudo yum install -y -q sshpass >&- 2>&-
 echo " ╰─➤ Installing git"
 sudo yum install -y -q git >&- 2>&-
-echo " ╰─➤ Installing NodeJS"
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash && bash && nvm install 5.0
+echo " ╰─➤ Installing NodeJS Version Manager"
+curl -s https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash  >&- 2>&- && source ~/.bashrc
+echo " ╰─➤ Installing NodeJS 5.0"
+nvm install 5.0
 echo " ╰─➤ Installing MySQL"
 sudo yum install -y -q mysql-server >&- 2>&-
 echo " ╰─➤ Installing php55w"
-sudo yum install -y -q php >&- 2>&-
+sudo yum install -y -q php55w >&- 2>&-
 echo " ╰─➤ Installing php55w-gd"
-sudo yum install -y -q php55ww-gd >&- 2>&-
+sudo yum install -y -q php55w-gd >&- 2>&-
 echo " ╰─➤ Installing php55w-mysql"
-sudo yum install -y -q php55ww-mysql >&- 2>&-
+sudo yum install -y -q php55w-mysql >&- 2>&-
 echo " ╰─➤ Installing php55w-mcrypt"
-sudo yum install -y -q php55ww-mcrypt >&- 2>&-
+sudo yum install -y -q php55w-mcrypt >&- 2>&-
 echo " ╰─➤ Installing php55w-mbstring"
 sudo yum install -y -q php55w-mbstring >&- 2>&-
-#echo " ╰─➤ Installing phpunit"
-#sudo yum install -y -q phpunit >&- 2>&-
-#echo " Install XDebug"
-#sudo yum install -y php55w-pecl-xdebug.x86_64
+echo " ╰─➤ Installing phpunit"
+sudo yum install -y -q phpunit >&- 2>&-
+echo " Install XDebug"
+sudo yum install -y php55w-pecl-xdebug.x86_64
 echo " Install Redis"
 sudo yum install -y -q redis  >&- 2>&-
 sudo yum install -y -q php55w-pecl-redis  >&- 2>&-
@@ -112,9 +115,9 @@ echo -e "Done!\n"
 
 heading "Installing node packages"
 echo " ╰─➤ Installing gulp"
-sudo npm install -g gulp >&- 2>&-
+npm install -g gulp >&- 2>&-
 echo " ╰─➤ Installing bower"
-sudo npm install -g bower >&- 2>&-
+npm install -g bower >&- 2>&-
 echo -e "Done!\n"
 
 heading "Installing pip"
@@ -218,8 +221,8 @@ echo -e "Done!\n"
 
 heading "Complete!"
 echo -e "\nAccess the app with these URLs:\n"
-echo "	http://192.168.33.10/        -    Without editing your hosts file"
-echo "	http://contentlaunch.app/    -    If you added \"192.168.33.10  contentlaunch.app\" to your hosts file"
+echo "	http://192.168.33.16/           -    Without editing your hosts file"
+echo "	http://contentlaunch-2016.app/  -    If you added \"192.168.33.16  contentlaunch-2016.app\" to your hosts file"
 
 
 heading "Login Information"
