@@ -1,0 +1,23 @@
+//------------------------------
+// *****************************
+// Container
+// *****************************
+//------------------------------
+
+// Container Classes
+.workspace {
+  position: relative;
+  padding: 20px;
+  min-width: 1024px;
+  min-height: 100%;
+  margin-left: $navigation-space-left;
+}
+
+.row.tight {
+  margin-left: -7px;
+  margin-right: -7px;
+}
+.row.tight > [class^="col-"] {
+  padding-left: 7px;
+  padding-right: 7px;
+}

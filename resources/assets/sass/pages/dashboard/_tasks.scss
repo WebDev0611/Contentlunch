@@ -1,0 +1,102 @@
+//------------------------------
+// *****************************
+// Tasks
+// *****************************
+//------------------------------
+
+.dashboard-tasks-container {
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+
+  &:hover {
+    background: #fbfcfd;
+  }
+}
+
+.dashboard-tasks-cell {
+  display: table-cell;
+  padding: 15px 10px;
+  vertical-align: top;
+  border-bottom: 1px solid #e6e9f1;
+
+  &:last-child {
+    width: 100px;
+    text-align: right;
+  }
+}
+
+.dashboard-tasks-title {
+  margin: 0;
+  font-family: $source-sans-pro;
+  font-size: 16px;
+  color: #1d1131;
+  font-weight: bold;
+}
+
+.dashboard-tasks-text {
+  display: inline-block;
+  font-family: $source-sans-pro;
+  font-size: 15px;
+  color: #8f8b96;
+  margin-bottom: 5px;
+
+  &.small {
+    font-size: 12px;
+  }
+  &.active {
+    color: #2482ff;
+  }
+}
+
+.dashboard-tasks-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.dashboard-tasks-list {
+  padding: 0;
+  margin: 0;
+
+  > li {
+    display: inline-block;
+    list-style: none;
+    margin-right: 10px;
+    font-family: $source-sans-pro;
+    font-weight: normal;
+    color: #9a94a1;
+    font-size: 12px;
+
+    > a {
+      color: #8e8898;
+    }
+  }
+}
+
+.dashboard-tasks-list-icon {
+  display: inline-block;
+  width: 18px;
+  line-height: 18px;
+  text-align: center;
+  height: 18px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 8px;
+  vertical-align: top;
+
+  &.primary {
+    background: #16588d;
+  }
+  &.secondary {
+    background: #edad27;
+  }
+  &.tertiary {
+    background: #dad9df;
+  }
+  &.large {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+  }
+}

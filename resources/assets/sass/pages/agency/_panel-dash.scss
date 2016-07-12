@@ -1,0 +1,47 @@
+//------------------------------
+// *****************************
+// Panel Dashboard
+// *****************************
+//------------------------------
+
+.panel-dash {
+  padding: 25px 30px;
+  border-bottom: 1px solid #dadfeb;
+}
+.panel-dash h5 {
+  margin: 0;
+  margin-bottom: 8px;
+  font-size: 1.15em;
+  font-weight: 700;
+  color: #1D1131;
+}
+.panel-dash .chartbox {
+  background-color: #eee;
+  min-height: 200px;
+}
+
+
+.dash-content-score {
+  float: right;
+}
+.dash-content-score .dashboard-donut-chart  {
+  float: left;
+  margin-left: -70px;
+}
+.dash-content-score p {
+  margin: 0;
+  font-size: .9em;
+  padding-left: 10px;
+  padding-top: 15px;
+}
+
+.dash-content-score .dashboard-notification-box {
+  border-bottom-color: rgba(105,68,183,0.55);
+  width: 120px;
+  position: relative;
+  display: block;
+  overflow: visible;
+}
+.dash-content-score .dashboard-notification-box p {
+  line-height: 1.1em;
+}

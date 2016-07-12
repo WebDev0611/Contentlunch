@@ -1,0 +1,134 @@
+//------------------------------
+// *****************************
+// OnBoarding Connect
+// *****************************
+//------------------------------
+
+// Workspace Variables
+
+// Workspace Classes
+.onboarding-connect {
+  border: 1px solid #e3e7f0;
+  border-radius: 3px;
+  height: 400px;
+  min-height: 400px;
+  background: #f8f9fc;
+  margin-bottom: 20px;
+
+  @include clearfix;
+}
+
+.onboarding-connect-menu {
+  width: 20%;
+  float: left;
+  padding: 0;
+  margin: 0;
+
+  > li {
+    position: relative;
+    list-style: none;
+    text-align: center;
+    border-bottom: 1px solid #e3e7f0;
+
+    > a {
+      display: block;
+      color: #bfbfc5;
+      padding: 20px 0;
+      font-family: $source-sans-pro;
+      font-weight: normal;
+      font-size: 13px;
+
+      > i {
+        display: block;
+        font-size: 24px;
+        margin-bottom: 5px;
+      }
+
+      &:hover, &:focus {
+        text-decoration: none;
+      }
+    }
+
+    &.active {
+      background: $base-color-white;
+      border-left: 3px solid #6944b7;
+      margin-right: -1px;
+
+      > a {
+        color: #6944b7;
+
+      }
+    }
+  }
+}
+
+.onboarding-connect-container {
+  float: left;
+  width: 80%;
+  height: 100%;
+  background: $base-color-white;
+  border-left: 1px solid #e3e7f0;
+}
+
+.onboarding-connect-section {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-left: 15px;
+}
+
+.onboarding-connect-section-backdrop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: #ffffff;
+}
+
+.onboarding-connect-section-backdrop-content {
+  width: 100%;
+  padding: 40px;
+  text-align: center;
+
+  @include center-both;
+}
+
+.onboarding-connect-section-action {
+  height: 50px;
+  line-height: 50px;
+  border-bottom: 1px solid #f5f7fa;
+
+  @include clearfix;
+}
+
+.onboarding-connect-section-input {
+  @extend .input;
+
+  border: 0;
+  border-bottom: 1px solid #e3e7f0;
+  width: 100%;
+  padding: 5px 15px;
+  background: url("../images/icons/magnifier.svg") no-repeat left 10px center;
+  background-size: 15px;
+  padding-left: 30px;
+  font-family: $source-sans-pro;
+  font-size: 14px;
+  margin-bottom: 10px;
+
+  &:hover, &:focus {
+    outline: none;
+  }
+}
+
+.onboarding-connect-section-friendlist {
+  padding: 0;
+  margin: 0;
+  height: 295px;
+  overflow-y: auto;
+
+  > li {
+    list-style: none;
+    margin-bottom: 0;
+  }
+}

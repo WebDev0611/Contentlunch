@@ -1,0 +1,78 @@
+//------------------------------
+// *****************************
+// OnBoarding Import
+// *****************************
+//------------------------------
+
+// Workspace Variables
+
+// Workspace Classes
+.onboarding-import {
+  margin-bottom: 40px;
+}
+
+.onboarding-import-menu {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  border-top: 1px solid #c8cfe1;
+  border-bottom: 1px solid #c8cfe1;
+
+  > li {
+    position: relative;
+    display: inline-block;
+    list-style: none;
+
+    > a {
+      display: block;
+      color: #c9c7cb;
+      font-size: 16px;
+      font-family: $source-sans-pro;
+      padding: 15px;
+      font-weight: bold;
+
+      &:hover, &:focus {
+        text-decoration: none;
+        outline: none;
+      }
+    }
+
+    &.active {
+      margin-bottom: -1px;
+
+      > a {
+        color: #6944b7;
+        border-bottom: 2px solid #6944b7;
+      }
+    }
+  }
+}
+
+.onboarding-import-container {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.onboarding-import-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #e3e7f0;
+
+  @include clearfix;
+
+  &.active {
+    background: #f8f9fc;
+  }
+  
+  .button {
+    letter-spacing: .03em;
+    text-transform: uppercase;
+  }
+}
+
+.onboarding-import-item-img {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 5px;
+}

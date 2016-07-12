@@ -1,0 +1,255 @@
+//------------------------------
+// *****************************
+// Collaborate Influencers
+// *****************************
+//------------------------------
+
+// Classes
+.panel-contenthead {
+  padding: 8px 0;
+  text-align: center;
+  
+  p {
+    margin: 0;
+    line-height: 1.2em;
+    font-size: 1.1em;
+  }
+  
+  &.withfilter {
+    text-align: left;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: table;
+    width: 100%;
+    
+    > * {
+      display: table-cell;
+      vertical-align: middle;
+    }
+    
+    > .filter {
+      width: 280px;
+    }
+  }
+}
+
+.list-influencers {
+  margin: 0 -.5%;
+  overflow: hidden;
+  
+  > li {
+    border: 1px solid #E3E7F0;
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: top;
+    width: calc(24% - 4px);
+    margin: 0 .5%;
+    transition: .2s all;
+    padding: 0;
+    position: relative;
+    margin-bottom: 12px;
+    
+    &:hover {
+      background-color: #F8F9FC;
+    }
+    
+    p {
+      margin: 0;
+      line-height: 1.2em;
+    }
+    
+    .title {
+      font-weight: 700;
+      margin-bottom: 5px;
+      font-size: 1.2em;
+    }
+    
+    > .body {
+      padding: 15px 20px;
+      padding-bottom: 0;
+      min-height: 180px;
+    }
+    
+    > .foot {
+      padding: 12px 20px;
+      
+      .btn-group {
+        display: block;
+        overflow: hidden;
+        margin-top: 12px;
+      }
+      
+      .btn-group .button {
+        display: block;
+        width: 50%;
+      }
+    }
+  }
+  
+  .user-avatar {
+    width: 75px;
+    height: 75px;
+    margin-bottom: 8px;
+  }
+  
+}
+
+.btn-fav {
+  display: inline-block;
+  font-size: 1.8em;
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: rgba(108,119,134,.35);
+  
+  &:hover {
+    color: rgba(108,119,134,.75);
+  }
+  
+  .icon-star {
+    display: none;
+  }
+  
+  &.active {
+    color: #6944B7;
+    box-shadow: none;
+    
+    .icon-star {
+      display: inline-block;
+    }
+    
+    .icon-star-outline {
+      display: none;
+    }
+  }
+}
+
+
+#modal-influencerdetails {
+  padding-right: 0 !important;
+  margin-right: -17px !important;
+}
+.influencer-info {
+  
+  .list-soc {
+    margin: 15px 0;
+  }
+  
+  .influenceer-action {
+    margin-bottom: 15px;
+  }
+  
+  .button [class^="icon-"] {
+    margin-right: 8px;
+    font-size: 1.2em;
+    position: relative;
+    top: 2px;
+  }
+  
+  .btn-group {
+    display: block;
+    margin-bottom: 5px;
+    overflow: hidden;
+    
+    .button {
+      width: 50%;
+      
+      &:last-child {
+        border-left: 1px solid #fff;
+      }
+    }
+  }
+}
+
+.influencer-head  {
+  display: table;
+  width: 100%;
+  
+  &.smaller {
+    margin-bottom: 30px;
+    
+    .user-avatar {
+      width: 75px;
+      height: 75px;
+    }
+  }
+  
+  .user-avatar {
+    width: 100px;
+    height: 100px;
+  }  
+  
+  > * {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  
+  > .influencer-data {
+    padding-left: 20px;
+    
+    p {
+      line-height: 1.2em;
+      opacity: .65;
+      margin-bottom: 12px;
+      
+      &.title {
+        opacity: 1;
+        font-weight: 700;
+        font-size: 1.3em;
+        margin-bottom: 8px;
+      }
+    }
+    
+    
+  }
+}
+
+
+.list-soc {
+  color: #6C7786;
+
+  [class^="icon-"] {
+    margin-right: 6px;
+    opacity: .5;
+    position: relative;
+    top: 1px;
+    font-size: .9em;
+  }
+  
+  .badge {
+    background-color: #DADFEB;
+    border-radius: 3px;
+  }
+}
+
+.input-form-button.prefixed > input {
+  padding-left: 42px;
+}
+.input-form-button.prefixed .picto {
+  background-color:rgba(36,130,255,0.25);
+  color: #fff;
+  opacity: 1;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  line-height: 25px;
+  text-align: center;
+  left: 8px;
+}
+
+.btn-showmore {
+  background-color: #F8F9FC;
+  border-color: #E3E7F0;
+  padding: 8px 12px;
+  line-height: 1em;
+  color:rgba(108,119,134,.5);
+  max-width: 1100px;
+  display: block;
+  width: auto;
+  margin: 0 auto;
+}
+.btn-showmore:hover {
+  background-color: #fff;
+  border-color: rgba(108,119,134,.35);
+  color: rgba(108,119,134,.95);
+}

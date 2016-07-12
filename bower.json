@@ -1,0 +1,19 @@
+{
+  "name": "ContentLaunch",
+  "version": "0.2.0",
+  "authors": [
+    "Micah Potter <mpotter@nakedculture.co"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass-official": "^3.3.6"
+  }
+}

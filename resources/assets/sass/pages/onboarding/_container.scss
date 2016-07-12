@@ -1,0 +1,41 @@
+//------------------------------
+// *****************************
+// OnBoarding Container
+// *****************************
+//------------------------------
+
+// Workspace Variables
+$onboarding-container-background: #ffffff;
+
+// Workspace Classes
+.onboarding-container {
+  background: $onboarding-container-background;
+  padding: 30px;
+  border-radius: 6px;
+  max-width: 1000px;
+  margin: 0 auto;
+  
+  &.narrow {
+    max-width: 460px;
+  }
+}
+.onboarding-container .inner {
+  max-width: 620px;
+  margin: 0 auto;
+  
+  &.narrow {
+    max-width: 340px;
+  }
+  
+  &.supernarrow {
+    max-width: 280px;
+  }
+}
+
+.onboarding-container .body {
+  padding-top: 35px;
+  
+  &.nopadding {
+    padding-top: 0;
+  }
+}
