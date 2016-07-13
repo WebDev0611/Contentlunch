@@ -3,21 +3,20 @@
 namespace App\Http\Controllers;
 
 use View;
+use App\User;
+use Auth;
 
 class CalendarController extends Controller {
+	public $user_id;
+	public $account_id;
 
-	protected function user_prep(){
-		$user = $user = Confide::user();
-		$this->user_id = $user->id;
-		$account_q = AccountUser::where('user_id',$this->user_id);
-		$account = $account_q->get();
-		$account_id = $account[0]->account_id;
-		$this->account_id = $account_id;
-	}
+	public function __construct(){
+    	$user = Auth::user();
+    	$this->user_id = $user->id;
+    	$this->account_id = 0;
+	} 
 
 	public function index($year = 0, $month = 0, $day = 0 ){
-		$this->user_prep();
-
 		/* draws a calendar */
 		function draw_calendar($month,$year){
 
@@ -103,7 +102,9 @@ class CalendarController extends Controller {
 		$campaigns_end_date = false;
 		$campaigns_end = $year . '-'. $month . '-' . $number_of_days . ' 00:00:00';
 	
-		$campaigns = $this->pull_campaigns($campaigns_start_date, $campaigns_end_date, $campaigns_end);
+		//$campaigns = $this->pull_campaigns($campaigns_start_date, $campaigns_end_date, $campaigns_end);
+
+		$campaigns = array();
 
 		$prev_month = ($month === 1) ? 12 : $month-1;
 
@@ -122,7 +123,6 @@ class CalendarController extends Controller {
 	}
 
 	public function campaigns($year = 0 , $month = 0 ){
-		$this->user_prep();
 
 		$campaigns = $this->pull_campaigns();
 
@@ -200,7 +200,6 @@ class CalendarController extends Controller {
 	}
 
 	public function weekly($year = 0, $month = 0, $day = 0){
-		$this->user_prep();
 
 		if(!$day){
 			$day = date('d');
@@ -295,7 +294,6 @@ class CalendarController extends Controller {
 	}
 
 	public function daily($year = 0, $month = 0, $day = 0){
-		$this->user_prep();
 
 		if(!$day){
 			$day = date('d');

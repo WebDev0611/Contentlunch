@@ -62,7 +62,7 @@
        console.log(content_items);
        </script>
 
-       {{$daily_calendar}}
+       {!! $daily_calendar !!}
        <!--
   <table class="calendar">
             <tbody class="calendar-day">

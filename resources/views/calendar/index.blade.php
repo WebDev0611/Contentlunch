@@ -46,7 +46,7 @@
             @include('calendar.menu')
         </div>
 
-       {{$calendar}}
+       {!! $calendar !!}
 
        <script>
        var campaigns = {{$campaigns}};

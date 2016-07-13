@@ -47,7 +47,7 @@
 
         </div>
 
-       {{$weekly_calendar}}
+       {!! $weekly_calendar !!}
        <!--
    <table class="calendar">
             <thead class="calendar-week">

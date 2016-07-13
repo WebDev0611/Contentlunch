@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use View;
+use Auth;
 
 class SettingsController extends BaseController {
 
