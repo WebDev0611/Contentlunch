@@ -1,31 +1,6 @@
-/bootstrap/compiled.php
 /vendor
 /node_modules
-/bower_components
-/public/bower_components
-/public/assets
-public/info.php
-composer.phar
-.env.local.php
-.env.php
-.DS_Store
-Thumbs.db
-uploads/
-.vagrant/
-public/src
-.idea
-
-# each indiviual `vagrant up` will create ssh keys
-root_id_rsa*
-id_rsa*
-*.zsh*
-*.iml
-*.secret
-# ignore local configurations
-app/config/local/
-*.sublime-workspace
-
-src/js/launch.js
-src/js/launch.js.map
-src/js/routes.js
-src/js/routes.js.map
+/public/storage
+Homestead.yaml
+Homestead.json
+.env

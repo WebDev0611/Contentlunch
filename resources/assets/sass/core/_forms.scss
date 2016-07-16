@@ -1,0 +1,156 @@
+//------------------------------
+// *****************************
+// Forms
+// *****************************
+//------------------------------
+
+// Variables
+$form-delimiter-border: 1px solid #d9d0ed;
+
+// Classes
+.form-delimiter {
+  position: relative;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 45px;
+  margin-bottom: 35px;
+  border-bottom: $form-delimiter-border;
+  color: #9d85d0;
+  font-family: $source-sans-pro;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-align: center;
+  > span {
+    display: inline-block;
+    padding: 4px;
+    position: absolute;
+    top: -12px;
+    left: 0;
+    right: 0;
+
+    em {
+      background: #ffffff;
+      padding: 0 7px;
+      font-style: normal;
+      letter-spacing: .2em;
+    }
+  }
+}
+
+.input option:disabled,
+.input option[disabled] {
+  color:rgba(57,44,70,0.45);
+}
+
+.form-suffix {
+  position: relative;
+}
+.form-suffix .picto {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: .45;
+  font-size: 16px;
+}
+
+.form-suffix-login .picto {
+  font-size: 13px;
+  right: 12px;
+  opacity: .25;
+}
+
+.input-form-group {
+  margin-bottom: 40px;
+
+  &.tight {
+    margin-bottom: 20px;
+  }
+}
+.input-drop {
+  position: relative;
+}
+.help-block {
+  line-height: 1.2em;
+  opacity: .65;
+}
+
+.fileupload {
+  border: 1px dashed #A7A1AD;
+  border-radius: 4px;
+  position: relative;
+  transition: .2s all;
+  cursor: pointer;
+  min-height: 80px;
+
+  &.video {
+    background-color: #F8F9FC;
+    border: 1px dashed rgba(36,130,255,0.35);
+    min-height: 140px;
+
+    &:hover {
+      background-color: #fff;
+    }
+  }
+
+  &.compact {
+    min-height: 45px;
+
+    .picto {
+      font-size: 1.2em;
+    }
+  }
+}
+.fileupload:hover {
+  background-color: rgba(167,161,173,.1);
+}
+.fileupload .input[type="file"] {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.fileupload .picto {
+  font-size: 1.7em;
+  position: absolute;
+  left: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: .25;
+}
+.fileupload .msgtitle {
+  opacity: .45;
+  position: absolute;
+  left: 70px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  font-size: 1.1em;
+}
+.fileupload .msgblock {
+  min-width: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.range-form {
+  text-align: center;
+
+  > .input-group-addon {
+    background: none;
+    border-right: none;
+    padding: 0;
+    border: 0;
+
+    > button {
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+}
