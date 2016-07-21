@@ -28,10 +28,9 @@ Route::get('connect', 'OnboardingController@connect');
 Route::post('signup', 'OnboardingController@process_signup');
 
 
-Route::get('invite', 'OnboardingInviteController@invite');
+Route::get('invite', ['as' => 'inviteIndex', 'uses' =>'OnboardingInviteController@invite'] );
 Route::group(['prefix' => 'invite', /*'middleware' => ['auth']*/], function() {
-	Route::get('redirect', ['as' => 'redirectIndex', 'uses' => 'OnboardingInviteController@redirect'] );
-	Route::get('callback', ['as' => 'callbackIndex', 'uses' => 'OnboardingInviteController@callback'] );
+	Route::post('emails', ['as' => 'emailInvite', 'uses' => 'OnboardingInviteController@emailInvite'] );
 });
 
 
