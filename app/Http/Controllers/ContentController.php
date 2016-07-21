@@ -10,4 +10,8 @@ class ContentController extends Controller {
 		return View::make('content.index');
 	}
 
+	public function create(){
+		return View::make('content.create');	
+	}
+
 }

@@ -54,6 +54,7 @@ Route::get('/weekly/{year}/{month}/{day}','CalendarController@weekly');
 Route::get('/campaigns','CalendarController@campaigns');
 
 Route::get('/content','ContentController@index');
+Route::get('/create','ContentController@create');
 Route::get('/collaborate','CollaborateController@index');
 Route::get('/onboarding','OnboardingController@index');
 
