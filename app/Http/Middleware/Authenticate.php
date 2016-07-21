@@ -21,7 +21,9 @@ class Authenticate
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {
-                return redirect()->guest('login');
+                if ($request->server->get('REQUEST_URI') !== "/signup"){
+                    return redirect()->guest('login');
+                }
             }
         }
 
