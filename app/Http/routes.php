@@ -55,6 +55,10 @@ Route::get('/campaigns','CalendarController@campaigns');
 
 Route::get('/content','ContentController@index');
 Route::get('/create','ContentController@create');
+Route::get('/get_written','ContentController@get_written');
+Route::get('/get_written/{step}','ContentController@get_written');
+
+
 Route::get('/collaborate','CollaborateController@index');
 Route::get('/onboarding','OnboardingController@index');
 
