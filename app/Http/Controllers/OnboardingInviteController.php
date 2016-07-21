@@ -27,7 +27,7 @@ class OnboardingInviteController extends Controller
         Mail::send('emails.invite.email_invite', $data, function($message)  use ($data) {
                 $message->from("invites@contentlaunch.com", "Content Launch")->to('noreply@contentlaunch.com')
                 ->bcc($data['emails'])
-                ->subject('Content Launch Invite!');
+                ->subject('Check Out Content Launch');
             });
 
 /*
