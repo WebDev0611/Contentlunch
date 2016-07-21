@@ -56,8 +56,8 @@
                                         <div id="fb" class="onboarding-connect-section tab-pane active">
                                             <div class="onboarding-connect-section-backdrop">
                                                 <div class="onboarding-connect-section-backdrop-content">
-                                                    <p class="onboarding-text">Please connect to Facebook toinvite your friends to collaborate</p>
-                                                    <a href="#" class="button button-social facebook">
+                                                    <p class="onboarding-text">Please connect to Facebook to invite your friends to collaborate</p>
+                                                    <a href="{{ URL::to('invite/redirect') }}" class="button button-social facebook">
                                                         <i class="icon-facebook-mini"></i>
                                                         CONNECT
                                                     </a>

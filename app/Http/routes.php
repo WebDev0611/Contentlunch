@@ -23,10 +23,17 @@ Route::get('/', 'HomeController@index');
 
 /* OnBoarding */
 Route::get('signup', 'OnboardingController@signup');
-Route::get('invite', 'OnboardingController@invite');
 Route::get('score', 'OnboardingController@score');
 Route::get('connect', 'OnboardingController@connect');
 Route::post('signup', 'OnboardingController@process_signup');
+
+
+Route::get('invite', 'OnboardingInviteController@invite');
+Route::group(['prefix' => 'invite', /*'middleware' => ['auth']*/], function() {
+	Route::get('redirect', ['as' => 'redirectIndex', 'uses' => 'OnboardingInviteController@redirect'] );
+	Route::get('callback', ['as' => 'callbackIndex', 'uses' => 'OnboardingInviteController@callback'] );
+});
+
 
 
 Route::get('/home','AccountController@index');
