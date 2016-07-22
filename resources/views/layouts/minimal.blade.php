@@ -15,6 +15,7 @@
 </head>
 <body>
 
+   @include('partials.flash')
     @yield('content')
 
 <script src="/js/vendor.js"></script>

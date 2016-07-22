@@ -11,9 +11,9 @@ class OnboardingController extends Controller
         return View::make('onboarding.signup');
     }
 
-    public function invite() {
+/*    public function invite() {
         return View::make('onboarding.invite');
-    }
+    }*/
 
     public function score() {
         return View::make('onboarding.score');
