@@ -14,6 +14,10 @@ class ContentController extends Controller {
 		return View::make('content.create');	
 	}
 
+	public function edit(){
+		return View::make('content.editor');	
+	}
+
 	public function get_written($step = 1){
 
 		//need to do proper form validation, etc. 

@@ -83,7 +83,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button href="/#/onboarding/2" class="button button-extend text-uppercase">
+                                <button href="javascript:;" onclick="window.location.href='/edit';" class="button button-extend text-uppercase">
                                     CREATE CONTENT
                                 </button>
                             </div>
@@ -204,7 +204,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button href="/#/onboarding/2" class="button button-extend text-uppercase">
+                                <button href="javascript:;" onclick="window.location.href = '/get_written';" class="button button-extend text-uppercase">
                                     SUBMIT AND START ORDERING PROCESS
                                 </button>
                             </div>
