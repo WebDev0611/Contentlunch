@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use View;
 use Auth;
+use App\Http\Requests\Connection\ConnectionRequest;
 
 class SettingsController extends Controller {
 
@@ -17,7 +18,25 @@ class SettingsController extends Controller {
 	}
 
 	public function connections(){
-		return View::make('settings.connections');
+		$connectionType = [
+			'' => '-- Select One --',
+			'wordpress' => 'Wordpress',
+			'facebook' => 'Facebook',
+		];
+		return View::make('settings.connections', compact('connectionType'));
+
+	}	
+
+	public function connectionCreate(ConnectionRequest $request){
+		dd($request->input('connection_type'));
+
+
+		// - Lets get out of here
+		return redirect()->route('connectionIndex')->with([
+		    'flash_message' => 'You have created a new connection.',
+		    'flash_message_type' => 'success',
+		    'flash_message_important' => true
+		]);
 
 	}
 

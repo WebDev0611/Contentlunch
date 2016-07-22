@@ -14,11 +14,14 @@
 
 @include('elements.searchbar')
 
+@include('partials.flash')
 @yield('content')
 
 <script src="/js/vendor.js"></script>
 <script src="/js/plugins.js"></script>
 <script src="/js/app.js"></script>
+<!-- Page Specific JS -->
+@yield('scripts')
 
 </body>
 </html>
