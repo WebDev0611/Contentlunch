@@ -48,20 +48,8 @@
         </aside>
         <div class="panel-main left-separator">
             <div class="panel-header">
-                <ul class="panel-tabs text-center">
-                    <li >
-                        <a href="/settings">Account Settings</a>
-                    </li>
-                    <li>
-                        <a href="/settings/connections">Content Connections</a>
-                    </li>
-                    <li class="active">
-                        <a href="/settings/content">Content Settings</a>
-                    </li>
-                    <li>
-                        <a href="/settings/seo">SEO Settings</a>
-                    </li>
-                </ul>
+                <!-- navigation -->
+                @include('settings.partials.navigation')
             </div>
             <ul class="settings-nav">
                 <li>

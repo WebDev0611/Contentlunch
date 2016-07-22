@@ -1,6 +1,5 @@
 @extends('layouts.master')
 
-
 @section('content')
 <div class="workspace">
     <div class="panel clearfix">
@@ -45,20 +44,8 @@
         </aside>
         <div class="panel-main left-separator">
             <div class="panel-header">
-                <ul class="panel-tabs text-center">
-                    <li >
-                        <a href="/settings">Account Settings</a>
-                    </li>
-                    <li class="active">
-                        <a href="/settings/content">Content Connections</a>
-                    </li>
-                    <li>
-                        <a href="/settings/content">Content Settings</a>
-                    </li>
-                    <li>
-                        <a href="/settings/seo">SEO Settings</a>
-                    </li>
-                </ul>
+                <!-- navigation -->
+                @include('settings.partials.navigation')
             </div>
             <div class="panel-container">
                 <div class="row">
@@ -68,87 +55,36 @@
                                 <input type="text" class="settings-import-input" placeholder="Quick search your list of friends">
                                 <div class="settings-import-action">
                                     <span>
-                                        12 connections,
-                                        <strong>2 active</strong>
+                                        {{count($connections)}} connections,
+                                        <strong>{{$activeConnectionsCount}} active</strong>
                                     </span>
-                                    <button class="button button-small" data-target="#newConnection" data-toggle="modal">
+                                        <button class="button button-small" data-target="#newConnection" data-toggle="modal" id="newConnectionButton">
                                         <i class="icon-add"></i>
                                         NEW CONNECTION
                                     </button>
                                 </div>
                                 <div class="settings-import-list">
-                                    <div class="settings-import-item">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-small">Connect</button>
-                                        </div>
-                                    </div>
-                                    <div class="settings-import-item">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-small">Connect</button>
-                                        </div>
-                                    </div>
-                                    <div class="settings-import-item">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-small">Connect</button>
-                                        </div>
-                                    </div>
-                                    <div class="settings-import-item active">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-connected button-small">Connected</button>
-                                        </div>
-                                    </div>
-                                    <div class="settings-import-item active">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-connected button-small">Connected</button>
-                                        </div>
-                                    </div>
-                                    <div class="settings-import-item">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-small">Connect</button>
-                                        </div>
-                                    </div>
-                                    <div class="settings-import-item">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-small">Connect</button>
-                                        </div>
-                                    </div>
-                                    <div class="settings-import-item">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-small">Connect</button>
-                                        </div>
-                                    </div>
+
+                                            @if(count($connections) > 0)
+                                                        @foreach($connections as $con)
+                                                        <div class="settings-import-item">
+                                                            <div class="col-md-6">
+                                                                <img src="/images/{{$con->provider->slug}}.jpg" alt="#" class="settings-import-item-img">
+                                                                <span class="settings-import-item-title">{{$con->name}}</span>
+                                                            </div>
+                                                            <div class="col-md-6 text-right">
+                                                                @if($con->successful)
+                                                                        <button class="button button-connected button-small">Connected</button>
+                                                                @else
+                                                                        <button class="button button-small">Connect</button>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        @endforeach
+                                            @else
+                                                <div class="alert alert-info" role="alert"><p>You have no connections at this time.</p></div>
+                                            @endif
+
                                 </div>
                             </div>
                         </div>
@@ -166,13 +102,14 @@
     </div>
 </div>
 <div id="newConnection" class="sidemodal large">
+        {{ Form::open(array('url' => 'settings/connections/create')) }}
     <div class="sidemodal-header">
         <div class="row">
             <div class="col-md-6">
                 <h4 class="sidemodal-header-title large">New Connection</h4>
             </div>
             <div class="col-md-6 text-right">
-                <button type="button" class="button button-outline-primary button-small">Save</button>
+                <button type="submit" class="button button-outline-primary button-small">Save</button>
                 <button class="button button-primary button-small text-uppercase">Connect</button>
                 <button class="sidemodal-close normal-flow" data-dismiss="modal">
                     <i class="icon-remove"></i>
@@ -181,42 +118,94 @@
         </div>
     </div>
     <div class="sidemodal-container">
+    @if ($errors->any())
+        <div  class="alert alert-danger" id="formError">
+            <p><strong>Oops! We had some errors:</strong>
+                <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+                </ul>
+            </p>
+        </div>
+    @endif
         <div class="row">
             <div class="col-md-9">
                 <div class="input-form-group">
-                    <label for="#">Connection Name</label>
-                    <input type="text" class="input" placeholder="John's Blog">
+                    <label for="con_name">Connection Name</label>
+                    {{ Form::text('con_name', null, ['placeholder' => 'Connection Name', 'class' => 'input', 'id' => 'con_name']) }}
                 </div>
             </div>
             <div class="col-md-3">
-                <label for="#" class="checkbox-ios">
-                    <input type="checkbox">
+                <label for="con_active" class="checkbox-ios">
+                    {{ Form::checkbox('con_active', null, ['class' => 'input', 'id' => 'con_active']) }}
                     <span>Active</span>
                 </label>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-12">
                 <div class="input-form-group">
-                    <label for="#">Connection Type</label>
+                    <label for="connectionType">Connection Type</label>
                     <div class="select">
-                        <select name="" id="">
-                            <option value="#">Wordpress</option>
-                        </select>
+                        {!! Form::select('con_type', $connectiondd, null , array('class' => 'form-control', 'id' => 'connectionType')) !!}
                     </div>
                 </div>
             </div>
-            <div class="col-md-9">
-                <div class="input-form-group">
-                    <label for="#">API Key</label>
-                    <input type="text" class="input" placeholder="Pase from connection source">
-                </div>
-            </div>
         </div>
-        <div class="input-form-group">
-            <label for="#">URL</label>
-            <input type="text" class="input" placeholder="Pase URL">
+        <div id="templateContainer">
+            <!-- gets populated from JS -->
         </div>
     </div>
+        {{ Form::close() }}
 </div>
+<template id="wordpressTemplate">
+    <div class="row" >
+        <div class="col-md-12">
+            <div class="input-form-group">
+                <label for="api_key">API Key</label>
+                {{ Form::text('api_key', null, ['placeholder' => 'Pase from connection source', 'class' => 'input', 'id' => 'api_key']) }}
+            </div>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-md-12">
+            <div class="input-form-group">
+                <label for="api_url">URL</label>
+                {{ Form::text('api_url', null, ['placeholder' => 'Pase URL', 'class' => 'input', 'id' => 'api_url']) }}
+            </div>
+        </div>
+    </div>
+</template>
+
+@stop
+
+@section('scripts')
+<script type="text/javascript">
+$(function() {
+
+    if($("#connectionType").val() != "") {
+        $("#templateContainer").html($("#"+$("#connectionType").val()+"Template").html());
+    }
+
+
+    // because each API will have its own data it needs we need to be able to swap out the form fields
+    $("#connectionType").on('change', function(){
+        var $this = $(this),
+                value =  $(this).val();
+                // ensure we have a value
+                if(value) {
+                    // lets load the template into the container
+                    $("#templateContainer").html($("#"+value+"Template").html());
+                }
+    });
+
+        // # -- If we have form error lets open the panel again
+        // # -- Must be below other code
+        if ($('#formError').length > 0) {
+            $("#newConnectionButton").click();
+        }
+
+});
+</script>
 @stop
