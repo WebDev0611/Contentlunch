@@ -57,16 +57,16 @@ Route::get('/content','ContentController@index');
 Route::get('/collaborate','CollaborateController@index');
 Route::get('/onboarding','OnboardingController@index');
 
-Route::get('/settings','SettingsController@index');
+Route::get('/settings', ['as' => 'settingsIndex', 'uses' => 'SettingsController@index']);
 
 Route::group(['prefix' => 'settings'], function() {
-	Route::get('content','SettingsController@content');
+	Route::get('content',  ['as' => 'contentIndex', 'uses' => 'SettingsController@content']);
 	// - Connection Routes
 	Route::get('connections', ['as' => 'connectionIndex', 'uses' => 'SettingsController@connections']);
 	Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'SettingsController@connectionCreate'] );
 
 
-	Route::get('seo','SettingsController@seo');
+	Route::get('seo', ['as' => 'seoIndex', 'uses' =>'SettingsController@seo']);
 	Route::get('buying','SettingsController@buying');
 });
 

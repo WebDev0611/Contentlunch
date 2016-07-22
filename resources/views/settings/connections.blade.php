@@ -44,20 +44,8 @@
         </aside>
         <div class="panel-main left-separator">
             <div class="panel-header">
-                <ul class="panel-tabs text-center">
-                    <li >
-                        <a href="/settings">Account Settings</a>
-                    </li>
-                    <li class="active">
-                        <a href="/settings/content">Content Connections</a>
-                    </li>
-                    <li>
-                        <a href="/settings/content">Content Settings</a>
-                    </li>
-                    <li>
-                        <a href="/settings/seo">SEO Settings</a>
-                    </li>
-                </ul>
+                <!-- navigation -->
+                @include('settings.partials.navigation')
             </div>
             <div class="panel-container">
                 <div class="row">
@@ -67,87 +55,36 @@
                                 <input type="text" class="settings-import-input" placeholder="Quick search your list of friends">
                                 <div class="settings-import-action">
                                     <span>
-                                        12 connections,
-                                        <strong>2 active</strong>
+                                        {{count($connections)}} connections,
+                                        <strong>{{$activeConnectionsCount}} active</strong>
                                     </span>
-                                    <button class="button button-small" data-target="#newConnection" data-toggle="modal" id="newConnectionButton">
+                                        <button class="button button-small" data-target="#newConnection" data-toggle="modal" id="newConnectionButton">
                                         <i class="icon-add"></i>
                                         NEW CONNECTION
                                     </button>
                                 </div>
                                 <div class="settings-import-list">
-                                    <div class="settings-import-item">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-small">Connect</button>
-                                        </div>
-                                    </div>
-                                    <div class="settings-import-item">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-small">Connect</button>
-                                        </div>
-                                    </div>
-                                    <div class="settings-import-item">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-small">Connect</button>
-                                        </div>
-                                    </div>
-                                    <div class="settings-import-item active">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-connected button-small">Connected</button>
-                                        </div>
-                                    </div>
-                                    <div class="settings-import-item active">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-connected button-small">Connected</button>
-                                        </div>
-                                    </div>
-                                    <div class="settings-import-item">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-small">Connect</button>
-                                        </div>
-                                    </div>
-                                    <div class="settings-import-item">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-small">Connect</button>
-                                        </div>
-                                    </div>
-                                    <div class="settings-import-item">
-                                        <div class="col-md-6">
-                                            <img src="/images/avatar.jpg" alt="#" class="settings-import-item-img">
-                                            <span class="settings-import-item-title">Joomla</span>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <button class="button button-small">Connect</button>
-                                        </div>
-                                    </div>
+
+                                            @if(count($connections) > 0)
+                                                        @foreach($connections as $con)
+                                                        <div class="settings-import-item">
+                                                            <div class="col-md-6">
+                                                                <img src="/images/{{$con->provider->slug}}.jpg" alt="#" class="settings-import-item-img">
+                                                                <span class="settings-import-item-title">{{$con->name}}</span>
+                                                            </div>
+                                                            <div class="col-md-6 text-right">
+                                                                @if($con->successful)
+                                                                        <button class="button button-connected button-small">Connected</button>
+                                                                @else
+                                                                        <button class="button button-small">Connect</button>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        @endforeach
+                                            @else
+                                                <div class="alert alert-info" role="alert"><p>You have no connections at this time.</p></div>
+                                            @endif
+
                                 </div>
                             </div>
                         </div>
@@ -211,7 +148,7 @@
                 <div class="input-form-group">
                     <label for="connectionType">Connection Type</label>
                     <div class="select">
-                        {!! Form::select('connection_type', $connectionType, null , array('class' => 'form-control', 'id' => 'connectionType')) !!}
+                        {!! Form::select('con_type', $connectiondd, null , array('class' => 'form-control', 'id' => 'connectionType')) !!}
                     </div>
                 </div>
             </div>
@@ -223,7 +160,6 @@
         {{ Form::close() }}
 </div>
 <template id="wordpressTemplate">
-    {{ Form::hidden('connection_type', "wordpress") }}
     <div class="row" >
         <div class="col-md-12">
             <div class="input-form-group">
@@ -256,7 +192,7 @@ $(function() {
     // because each API will have its own data it needs we need to be able to swap out the form fields
     $("#connectionType").on('change', function(){
         var $this = $(this),
-                value = $this.val();
+                value =  $(this).val();
                 // ensure we have a value
                 if(value) {
                     // lets load the template into the container

@@ -47,20 +47,8 @@
         </aside>
         <div class="panel-main left-separator">
             <div class="panel-header">
-                <ul class="panel-tabs text-center">
-                 <li >
-                        <a href="/settings">Account Settings</a>
-                    </li>
-                    <li>
-                        <a href="/settings/content">Content Connections</a>
-                    </li>
-                    <li>
-                        <a href="/settings/content">Content Settings</a>
-                    </li>
-                    <li class="active">
-                        <a href="/settings/seo">SEO Settings</a>
-                    </li>
-                </ul>
+                <!-- navigation -->
+                @include('settings.partials.navigation')
             </div>
             <div class="panel-container">
                 <div class="row">

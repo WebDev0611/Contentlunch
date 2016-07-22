@@ -13,10 +13,10 @@ class  ConnectionRequest extends FormRequest {
 	{
 		return [
 			'con_name'		=> 'required',
-		            'connection_type' 	=> 'required',
+		            'con_type' 	=> 'required',
 		            // -- WORD PRESS 
-		            'api_key' 		=> 'required_if:connection_type,wordpress',
-		            'api_url' 		=> 'required_if:connection_type,wordpress'
+		            'api_key' 		=> 'required_if:con_type,wordpress',
+		            'api_url' 		=> 'required_if:con_type,wordpress'
 		];
 	}
 
@@ -24,7 +24,7 @@ class  ConnectionRequest extends FormRequest {
 	{
 		return [
 			'con_name.required' => 'Enter the connection name for the connection.',
-			'connection_type.required' => 'Please select a connection type.',
+			'con_type.required' => 'Please select a connection type.',
 			// - Wordpress
 			'api_key.required' => 'Enter your wordpress API key. You can find this key in Settings -> API.',
 			'api_url.required'  => 'Enter your API URL. This is normally.... {{domain}}/api ** find this out and update it**'

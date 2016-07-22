@@ -6,4 +6,3 @@
         {{ session('flash_message') }}
     </div>
 @endif
- No newline at end of file
