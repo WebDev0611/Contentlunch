@@ -61,7 +61,7 @@ Route::get('/weekly/{year}/{month}/{day}','CalendarController@weekly');
 
 Route::get('/campaigns','CalendarController@campaigns');
 
-Route::get('/content','ContentController@index');
+Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);
 Route::get('/create','ContentController@create');
 
 Route::get('/edit', ['as' => 'editIndex', 'uses' => 'ContentController@edit']);
@@ -82,7 +82,7 @@ Route::get('/onboarding','OnboardingController@index');
 Route::get('/settings', ['as' => 'settingsIndex', 'uses' => 'SettingsController@index']);
 
 Route::group(['prefix' => 'settings'], function() {
-	Route::get('content',  ['as' => 'contentIndex', 'uses' => 'SettingsController@content']);
+	Route::get('content',  ['as' => 'settingsContentIndex', 'uses' => 'SettingsController@content']);
 	// - Connection Routes
 	Route::get('connections', ['as' => 'connectionIndex', 'uses' => 'SettingsController@connections']);
 	Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'SettingsController@connectionCreate'] );

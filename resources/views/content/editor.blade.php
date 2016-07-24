@@ -9,7 +9,7 @@
             <!-- Main Pane -->
             <div class="panel-main">
 
-                  {{ Form::open(array('url' => 'edit')) }}
+                  {{ Form::open(array('url' => 'edit', 'files'=>'true')) }}
                 <!-- Panel Header -->
                 <div class="panel-header">
                     <div class="panel-options">
@@ -72,13 +72,13 @@
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="content_type">CONTENT TYPE</label>
-                                   {!! Form::select('content_type', $contenttypedd, null , array('class' => 'input selectpicker form-control', 'id' => 'contentType')) !!}
+                                   {!! Form::select('content_type', $contenttypedd, null , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-form-group input-drop">
                                     <label for="author">AUTHOR</label>
-                                   {!! Form::select('author', $authordd, null , array('class' => 'input form-control', 'id' => 'author')) !!}
+                                   {!! Form::select('author[]', $authordd, null , array('multiple' =>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'author',  'data-live-search' => 'true', 'title' => 'Choose All Authors' )) !!}
                                    <div class="hide">
                                               <input type="text" class="input" placeholder="Select author" data-toggle="dropdown">
                                               <ul class="dropdown-menu dropdown-menu-right">
@@ -181,7 +181,7 @@
 
                         <div class="input-form-group">
                             <label for="tags">TAGS</label>
-                            {!! Form::select('tags[]', $tagsdd, null , array('multiple'=>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'tags')) !!}
+                            {!! Form::select('tags[]', $tagsdd, null , array('multiple'=>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'tags', 'data-live-search' => 'true', 'title' => 'Select Tags')) !!}
                         </div>
 
                         <div class="input-form-group">
@@ -195,7 +195,7 @@
                             <div class="fileupload">
                                 <i class="icon-link picto"></i>
                                 <p class="msgtitle">Click to attach one or more files</p>
-                                <input type="file" class="input input-upload">
+                                <input type="file" class="input input-upload" multiple="" name="files[]">
                             </div>
                         </div>
 
@@ -301,7 +301,7 @@
                             <div class="fileupload">
                                 <i class="icon-content picto"></i>
                                 <p class="msgtitle">Click to upload one or more images</p>
-                                <input type="file" class="input input-upload">
+                                <input type="file" class="input input-upload" multiple="multiple" name="images[]">
                             </div>
                         </div>
 
@@ -311,8 +311,6 @@
                                 <em>Custom Fields</em>
                             </span>
                         </div>
-
-
                     </div>
 
                 </div>  <!-- End Panel Container -->
@@ -340,8 +338,7 @@
 
        $('.selectpicker').selectpicker({
             style : 'btn-white',
-            liveSearch: true,
-            size: 15
+            size: 10
         });
     });
 </script>
