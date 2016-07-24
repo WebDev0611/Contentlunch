@@ -12,4 +12,9 @@ class Connection extends Model {
     {
         return $this->belongsTo('App\Provider', 'provider_id');
     }
+    
+    public function contents()
+    {
+       return $this->hasMany('App\Content');
+    }
 }

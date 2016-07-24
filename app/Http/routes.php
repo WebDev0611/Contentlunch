@@ -61,7 +61,10 @@ Route::get('/campaigns','CalendarController@campaigns');
 
 Route::get('/content','ContentController@index');
 Route::get('/create','ContentController@create');
-Route::get('/edit','ContentController@edit');
+
+Route::get('/edit', ['as' => 'editIndex', 'uses' => 'ContentController@edit']);
+Route::post('/edit','ContentController@editStore');
+
 Route::get('/edit/{id}','ContentController@edit');
 Route::get('/get_written','ContentController@get_written');
 Route::get('/get_written/{step}','ContentController@get_written');
