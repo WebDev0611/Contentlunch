@@ -32,7 +32,9 @@ class CreateContentsTables extends Migration
             $table->string('meta_keywords')->nullable();
             $table->string('meta_description')->nullable();
             $table->boolean('archived')->default(0);
+            $table->boolean('ready_published')->default(0);
             $table->boolean('published')->default(0);
+            $table->boolean('written')->default(0);
             $table->integer('user_id')->unsigned(); // not negitive
             $table->timestamps();
         });
@@ -51,7 +53,6 @@ class CreateContentsTables extends Migration
         Schema::create('content_user', function (Blueprint $table) {
             $table->integer('content_id')->unsigned(); // not negitive
             $table->integer('user_id')->unsigned(); // not negitive
-            $table->timestamps();
         });
 
         // - Creating Tags Table
@@ -78,7 +79,6 @@ class CreateContentsTables extends Migration
         Schema::create('content_tag', function (Blueprint $table) {
             $table->integer('content_id')->unsigned(); // not negitive
             $table->integer('tag_id')->unsigned(); // not negitive
-            $table->timestamps();
         });
 
         // - Linking to self for related content
@@ -86,7 +86,6 @@ class CreateContentsTables extends Migration
             $table->increments('id');
             $table->integer('content_id');
             $table->integer('related_content_id');
-            $table->timestamps();
         });
 
     }
