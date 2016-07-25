@@ -112,3 +112,5 @@
   </div>
 </div>
 
+@include('agency.communication')
+
