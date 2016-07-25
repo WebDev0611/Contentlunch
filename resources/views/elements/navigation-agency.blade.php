@@ -1,7 +1,7 @@
 <nav class="navigation">
     <a href="#" class="navigation-logo">
         <img src="/images/logo.svg" alt="Content Launch">
-    </a>{{ Request::segment(1)}}
+    </a>
     <ul class="navigation-menu">
         <li>
             <a href="javascript:;" class="navigation-menu-profile">
