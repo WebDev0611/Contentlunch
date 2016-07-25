@@ -15,6 +15,7 @@ class AccountServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        //should have more directives for all account info
         Blade::directive('is_agency', function() {
             //needs to have the account info
             $test = User;
