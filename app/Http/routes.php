@@ -68,6 +68,10 @@ Route::get('/get_written/{step}','ContentController@get_written');
 
 
 Route::get('/collaborate','CollaborateController@index');
+Route::get('/collaborate/linkedin','CollaborateController@linkedin');
+Route::get('/collaborate/twitter','CollaborateController@twitter');
+Route::get('/collaborate/bookmarks','CollaborateController@bookmarks');
+
 Route::get('/onboarding','OnboardingController@index');
 
 Route::get('/settings', ['as' => 'settingsIndex', 'uses' => 'SettingsController@index']);
