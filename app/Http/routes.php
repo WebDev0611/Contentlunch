@@ -38,6 +38,8 @@ Route::group(['prefix' => 'invite', /*'middleware' => ['auth']*/], function() {
 Route::get('/home','AccountController@index');
 Route::get('/home/tasks','AccountController@tasks');
 
+Route::get('/agency','AgencyController@index');
+
 Route::get('/analyze','AnalyzeController@index');
 
 Route::get('/plan','PlanController@index');
