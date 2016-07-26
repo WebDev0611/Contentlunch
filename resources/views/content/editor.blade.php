@@ -319,7 +319,7 @@
             </div> <!-- End Main Pane -->
 
             <!-- Side Pane -->
-            <aside class="panel-sidebar hide">
+            <aside class="panel-sidebar">
               @include('content.partials.editor.sidebar')
             </aside> <!-- End Side Pane -->
 

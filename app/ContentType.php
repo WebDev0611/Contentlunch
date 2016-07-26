@@ -12,5 +12,16 @@ class ContentType extends Model {
     {
        return $this->hasMany('App\Content');
     }
+
+    // sure we can add variables to make it more dynamic
+    //  -- 
+    public static function dropdown()
+    {
+    	// - Create Content Type Drop Down Data
+	$contenttypedd = ['' => '-- Select Content Type --'];
+	$contenttypedd += ContentType::select('id','name')->orderBy('name', 'asc')->distinct()->lists('name', 'id')->toArray();
+	return $contenttypedd;
+
+    }
     
 }

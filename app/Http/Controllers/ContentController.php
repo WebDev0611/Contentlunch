@@ -29,39 +29,37 @@ class ContentController extends Controller {
 	public function create(){
 		return View::make('content.create');	
 	}
+	// this is technically create content
+	public function createContent(){
 
-	public function edit(){
-
-		// - Create Content Type Drop Down Data
-		$contenttypedd = ['' => '-- Select Content Type --'];
-		$contenttypedd += ContentType::select('id','name')->orderBy('name', 'asc')->distinct()->lists('name', 'id')->toArray();
-		// - Create Author Drop Down Data
-		//  ---- update sql query to pull ONLY team members once that is added
-		$authordd = ['' => '-- Select Author --'];
-		$authordd = User::select('id','name')->orderBy('name', 'asc')->distinct()->lists('name', 'id')->toArray();
-
-		// - Create Connections Drop Down Data
-		$connectionsdd = ['' => '-- Select Destination --'];
-		$connectionsdd += Connection::select('id','name')->where('active',1)->orderBy('name', 'asc')->distinct()->lists('name', 'id')->toArray();
-
-		// - Create Tags Drop Down Data
-		$tagsdd = Tag::select('id','tag')->orderBy('tag', 'asc')->distinct()->lists('tag', 'id')->toArray();
-
-		// - Create Related Content Drop Down Data
-		$stageddd = ['' => '-- Select a Buying Stage --'];
-		$stageddd += BuyingStage::select('id','name')->orderBy('name', 'asc')->distinct()->lists('name', 'id')->toArray();
-
-		// - Create Campaign Drop Down Data
-		$campaigndd = ['' => '-- Select an Campaign --'];
-		$campaigndd += Auth::user()->campaigns()->select('id','title')->where('status',1)->orderBy('title', 'asc')->distinct()->lists('title', 'id')->toArray();
-
-		// - Create Related Drop Down Data
-		$relateddd = ['' => '-- Select an Campaign --'];
-		$relateddd = Auth::user()->contents()->select('id','title')->orderBy('title', 'asc')->distinct()->lists('title', 'id')->toArray();
-
+		$tagsdd = Tag::dropdown();
+		$authordd = User::dropdown();
+		$relateddd = Content::dropdown();
+		$stageddd = BuyingStage::dropdown();
+		$campaigndd = Campaign::dropdown();
+		$connectionsdd = Connection::dropdown();
+		$contenttypedd = ContentType::dropdown();
 
 		return View::make('content.editor', compact('contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));	
 	}
+	// - edit content on page
+	public function editContent(Content $content){
+		//$content->title = "Hello This is a changed title.";
+		//$content->save();
+		//dd($content->adjustments);
+
+		$tagsdd = Tag::dropdown();
+		$authordd = User::dropdown();
+		$relateddd = Content::dropdown();
+		$stageddd = BuyingStage::dropdown();
+		$campaigndd = Campaign::dropdown();
+		$connectionsdd = Connection::dropdown();
+		$contenttypedd = ContentType::dropdown();
+
+		return View::make('content.editor', compact('content', 'contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));	
+	
+	}
+
 	public function editStore(ContentRequest $request) {
 		$content = new Content;
 		$content->title = $request->input('title');

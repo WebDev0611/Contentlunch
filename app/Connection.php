@@ -17,4 +17,15 @@ class Connection extends Model {
     {
        return $this->hasMany('App\Content');
     }
+
+
+    public static function dropdown() 
+    {
+
+            // - Create Connections Drop Down Data
+        $connectionsdd = ['' => '-- Select Destination --'];
+        $connectionsdd += Connection::select('id','name')->where('active',1)->orderBy('name', 'asc')->distinct()->lists('name', 'id')->toArray();
+        return $connectionsdd;
+    }
+
 }
