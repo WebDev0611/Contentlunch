@@ -4,8 +4,18 @@
     </a>
     <ul class="navigation-menu">
         <li>
-            <a href="javascript:;" class="navigation-menu-profile ">
-                <img src="/images/avatar.jpg" alt="#">
+            <a href="javascript:;" class="navigation-menu-profile">
+                <img src="images/avatar.jpg" alt="#">
+                <div class="app-type">
+                  <p class="app-agency">Agency</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="/agency" class="navigation-menu-link {{ ( Request::segment(1) == 'agency' ) ? 'active': ''  }}">
+                <i class="navigation-menu-icon icon-navigation-agency">
+                    <span>Agency</span>
+                </i>
             </a>
         </li>
         <li>
@@ -44,7 +54,7 @@
             </a>
         </li>
     </ul>
-    <a href="/settings" class="navigation-settings {{ ( Request::segment(2) == 'settings' ) ? 'active': ''  }}">
+    <a href="/settings" class="navigation-settings {{ ( Request::segment(1) == 'settings' ) ? 'active': ''  }}">
         <i class="navigation-menu-icon icon-cog"></i>
     </a>
 </nav>
