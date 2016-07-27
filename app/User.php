@@ -31,4 +31,26 @@ class User extends Authenticatable
     {
        return $this->hasMany('App\Connection');
     }
+
+    public function campaigns()
+    {
+       return $this->hasMany('App\Campaign');
+    }
+
+    public function contents()
+    {
+       return $this->hasMany('App\Content');
+    }
+
+
+    public static function dropdown()
+    {
+
+        // - Create Author Drop Down Data
+        //  ---- update sql query to pull ONLY team members once that is added
+        $authordd = ['' => '-- Select Author --'];
+        $authordd = User::select('id','name')->orderBy('name', 'asc')->distinct()->lists('name', 'id')->toArray();
+        return $authordd;
+    }
+
 }

@@ -5,9 +5,9 @@
     <div class="panel clearfix">
         <div class="panel-main">
             <div class="panel-header">
-                <h4 class="panel-container-title">20 Content Items</h4>
+                <h4 class="panel-container-title">{{$countContent}} Content Items</h4>
             </div>
-            <div class="panel-container-options">
+            <div class="panel-container-options hide">
                 <div class="row">
                     <div class="col-md-10">
                         <div class="row">
@@ -75,194 +75,80 @@
                     <i class="icon-share"></i>
                     PUBLISHED
                 </h4>
-                <div class="create-panel-table">
-                    <div class="create-panel-table-cell">
-                        <img src="/images/avatar.jpg" alt="" class="create-image">
-                    </div>
-                    <div class="create-panel-table-cell">
-                        <h5 class="dashboard-tasks-title">
-                            Write blog post on online banking
-                        </h5>
-                        <span class="dashboard-members-text small">3 DAYS AGO</span>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <i class="tooltip-icon large icon-arrange-mini" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lorem Ipsum"></i>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <span class="dashboard-performing-text small">
-                            UPDATED: <strong>05/05/2016</strong>
-                        </span>
-                    </div>
-                </div>
-                <div class="create-panel-table">
-                    <div class="create-panel-table-cell">
-                        <img src="/images/avatar.jpg" alt="" class="create-image">
-                    </div>
-                    <div class="create-panel-table-cell">
-                        <h5 class="dashboard-tasks-title">
-                            Write blog post on online banking
-                        </h5>
-                        <span class="dashboard-members-text small">3 DAYS AGO</span>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <i class="tooltip-icon large icon-arrange-mini" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lorem Ipsum"></i>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <span class="dashboard-performing-text small">
-                            UPDATED: <strong>05/05/2016</strong>
-                        </span>
-                    </div>
-                </div>
-                <div class="create-panel-table">
-                    <div class="create-panel-table-cell">
-                        <img src="/images/avatar.jpg" alt="" class="create-image">
-                    </div>
-                    <div class="create-panel-table-cell">
-                        <h5 class="dashboard-tasks-title">
-                            Write blog post on online banking
-                        </h5>
-                        <span class="dashboard-members-text small">3 DAYS AGO</span>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <i class="tooltip-icon large icon-arrange-mini" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lorem Ipsum"></i>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <span class="dashboard-performing-text small">
-                            UPDATED: <strong>05/05/2016</strong>
-                        </span>
-                    </div>
-                </div>
-                <div class="create-panel-table">
-                    <div class="create-panel-table-cell">
-                        <img src="/images/avatar.jpg" alt="" class="create-image">
-                    </div>
-                    <div class="create-panel-table-cell">
-                        <h5 class="dashboard-tasks-title">
-                            Write blog post on online banking
-                        </h5>
-                        <span class="dashboard-members-text small">3 DAYS AGO</span>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <i class="tooltip-icon large icon-arrange-mini" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lorem Ipsum"></i>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <span class="dashboard-performing-text small">
-                            UPDATED: <strong>05/05/2016</strong>
-                        </span>
-                    </div>
-                </div>
-                <div class="create-panel-table">
+                @if(count($published) > 0)
+                            @foreach($published as $pub)
+                              <div class="create-panel-table">
+                                <div class="create-panel-table-cell">
+                                    <img src="/images/avatar.jpg" alt="" class="create-image">
+                                </div>
+                                <div class="create-panel-table-cell">
+                                    <h5 class="dashboard-tasks-title">
+                                        {{$pub->title}}
+                                    </h5>
+                                    <span class="dashboard-members-text small">3 DAYS AGO</span>
+                                </div>
+                                <div class="create-panel-table-cell text-right">
+                                    <i class="tooltip-icon large icon-arrange-mini" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lorem Ipsum"></i>
+                                </div>
+                                <div class="create-panel-table-cell text-right">
+                                    <span class="dashboard-performing-text small">
+                                        UPDATED: <strong>05/05/2016</strong>
+                                    </span>
+                                </div>
+                            </div>
+                            @endforeach
+                @else
+                    <div class="alert alert-info" role="alert"><p>No Published Content at this moment.</p></div>
+                @endif
+
+
+                
+                <div class="create-panel-table hide">
                     <div class="create-panel-table-cell text-center">
                         <a href="#">13 More - Show All</a>
                     </div>
                 </div>
             </div>
+
+
+
+
             <div class="create-panel-container">
                 <h4 class="create-panel-heading">
                     <i class="icon-share"></i>
                     READY TO BE PUBLISHED
                 </h4>
-                <div class="create-panel-table border-left">
-                    <div class="create-panel-table-cell">
-                        <img src="/images/avatar.jpg" alt="" class="create-image">
-                    </div>
-                    <div class="create-panel-table-cell">
-                        <h5 class="dashboard-tasks-title">
-                            Write blog post on online banking
-                        </h5>
-                        <ul class="dashboard-tasks-list">
-                            <li>15 DAYS AGO</li>
-                            <li>NEXT TASK: <strong>PUBLISH</strong></li>
-                        </ul>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <i class="icon-arrange-mini"></i>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <span class="dashboard-performing-text small">
-                            LAUNCHED: <strong>05/05/2016</strong>
-                        </span>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <i class="create-panel-spaceship icon-spaceship-circle" data-toggle="modal" data-target="#launch"></i>
-                    </div>
-                </div>
-                <div class="create-panel-table border-left">
-                    <div class="create-panel-table-cell">
-                        <img src="/images/avatar.jpg" alt="" class="create-image">
-                    </div>
-                    <div class="create-panel-table-cell">
-                        <h5 class="dashboard-tasks-title">
-                            Write blog post on online banking
-                        </h5>
-                        <ul class="dashboard-tasks-list">
-                            <li>15 DAYS AGO</li>
-                            <li>NEXT TASK: <strong>PUBLISH</strong></li>
-                        </ul>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <i class="icon-arrange-mini"></i>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <span class="dashboard-performing-text small">
-                            LAUNCHED: <strong>05/05/2016</strong>
-                        </span>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <i class="create-panel-spaceship icon-spaceship-circle"></i>
-                    </div>
-                </div>
-                <div class="create-panel-table border-left">
-                    <div class="create-panel-table-cell">
-                        <img src="/images/avatar.jpg" alt="" class="create-image">
-                    </div>
-                    <div class="create-panel-table-cell">
-                        <h5 class="dashboard-tasks-title">
-                            Write blog post on online banking
-                        </h5>
-                        <ul class="dashboard-tasks-list">
-                            <li>15 DAYS AGO</li>
-                            <li>NEXT TASK: <strong>PUBLISH</strong></li>
-                        </ul>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <i class="icon-arrange-mini"></i>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <span class="dashboard-performing-text small">
-                            LAUNCHED: <strong>05/05/2016</strong>
-                        </span>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <i class="create-panel-spaceship icon-spaceship-circle"></i>
-                    </div>
-                </div>
-                <div class="create-panel-table border-left">
-                    <div class="create-panel-table-cell">
-                        <img src="/images/avatar.jpg" alt="" class="create-image">
-                    </div>
-                    <div class="create-panel-table-cell">
-                        <h5 class="dashboard-tasks-title">
-                            Write blog post on online banking
-                        </h5>
-                        <ul class="dashboard-tasks-list">
-                            <li>15 DAYS AGO</li>
-                            <li>NEXT TASK: <strong>PUBLISH</strong></li>
-                        </ul>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <i class="icon-arrange-mini"></i>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <span class="dashboard-performing-text small">
-                            LAUNCHED: <strong>05/05/2016</strong>
-                        </span>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <i class="create-panel-spaceship icon-spaceship-circle"></i>
-                    </div>
-                </div>
-                <div class="create-panel-table">
+
+                 @if(count($readyPublished) > 0)
+                            @foreach($readyPublished as $pub)
+                              <div class="create-panel-table">
+                                <div class="create-panel-table-cell">
+                                    <img src="/images/avatar.jpg" alt="" class="create-image">
+                                </div>
+                                <div class="create-panel-table-cell">
+                                    <h5 class="dashboard-tasks-title">
+                                        {{$pub->title}}
+                                    </h5>
+                                    <span class="dashboard-members-text small">3 DAYS AGO</span>
+                                </div>
+                                <div class="create-panel-table-cell text-right">
+                                    <i class="tooltip-icon large icon-arrange-mini" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lorem Ipsum"></i>
+                                </div>
+                                <div class="create-panel-table-cell text-right">
+                                    <span class="dashboard-performing-text small">
+                                        UPDATED: <strong>05/05/2016</strong>
+                                    </span>
+                                </div>
+                            </div>
+                            @endforeach
+                @else
+                    <div class="alert alert-info" role="alert"><p>No Content that is ready for publishing at this moment.</p></div>
+                @endif
+
+
+
+
+                <div class="create-panel-table hide">
                     <div class="create-panel-table-cell text-center">
                         <a href="#">13 More - Show All</a>
                     </div>
@@ -273,44 +159,37 @@
                     <i class="icon-share"></i>
                     BEING WRITTEN / EDITED
                 </h4>
-                <div class="create-panel-table">
-                    <div class="create-panel-table-cell">
-                        <img src="/images/avatar.jpg" alt="" class="create-image">
-                    </div>
-                    <div class="create-panel-table-cell">
-                        <h5 class="dashboard-tasks-title">
-                            Write blog post on online banking
-                            <span class="create-tag">
-                                EXTERNAL
-                            </span>
-                        </h5>
-                        <ul class="dashboard-tasks-list">
-                            <li>15 DAYS AGO</li>
-                            <li>NEXT TASK: <strong>PUBLISH</strong></li>
-                        </ul>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <i class="tooltip-icon large icon-arrange-mini" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lorem Ipsum"></i>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <span class="dashboard-performing-text small">
-                            LAUNCHED: <strong>05/05/2016</strong>
-                        </span>
-                    </div>
-                    <div class="create-panel-table-cell text-right">
-                        <div class="create-dropdown">
-                            <button type="button" class="button button-action" data-toggle="dropdown">
-                                <i class="icon-add-circle"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li>
-                                    <a href="#">Write It</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="create-panel-table">
+                
+                @if(count($written) > 0)
+                            @foreach($written as $pub)
+                              <div class="create-panel-table">
+                                <div class="create-panel-table-cell">
+                                    <img src="/images/avatar.jpg" alt="" class="create-image">
+                                </div>
+                                <div class="create-panel-table-cell">
+                                    <h5 class="dashboard-tasks-title">
+                                        {{$pub->title}}
+                                    </h5>
+                                    <span class="dashboard-members-text small">3 DAYS AGO</span>
+                                </div>
+                                <div class="create-panel-table-cell text-right">
+                                    <i class="tooltip-icon large icon-arrange-mini" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lorem Ipsum"></i>
+                                </div>
+                                <div class="create-panel-table-cell text-right">
+                                    <span class="dashboard-performing-text small">
+                                        UPDATED: <strong>05/05/2016</strong>
+                                    </span>
+                                </div>
+                            </div>
+                            @endforeach
+                @else
+                    <div class="alert alert-info" role="alert"><p>No Content being written at this moment.</p></div>
+                @endif
+
+
+
+
+                <div class="create-panel-table hide">
                     <div class="create-panel-table-cell text-center">
                         <a href="#">13 More - Show All</a>
                     </div>
