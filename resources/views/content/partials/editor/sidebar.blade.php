@@ -776,6 +776,7 @@
                     <!-- Tab 3: History -->
                     <div class="sidepanel tab-pane" role="tabpanel" id="sidetab-history">
                         <ul class="list-unstyled">
+                        @if(isset($content))
                         @foreach($content->adjustments as $user)
                             <li>
                             <div>{{$user->name }} -  {{$user->pivot->updated_at->diffForHumans() }}<a class="btn btn-link showChanges" data-class="changes-{{$user->pivot->id}}">Show Changes</a></div>
@@ -792,7 +793,6 @@
                                             <td>{{$before}}</td>
                                         </tr>
                                         @endforeach
-                                       
                                     </table>
                             </div>
                             <div class="changes-{{$user->pivot->id}} changes">
@@ -814,6 +814,7 @@
                             <hr/>
                             </li>
                         @endforeach
+                            @endif        
                         </ul>
                     </div>
 

@@ -184,7 +184,7 @@
 
                         <div class="input-form-group">
                             <label for="tags">TAGS</label>
-                            {!! Form::select('tags[]', $tagsdd,  $content->tags->lists('id')->toArray() , array('multiple'=>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'tags', 'data-live-search' => 'true', 'title' => 'Select Tags')) !!}
+                            {!! Form::select('tags[]', $tagsdd, @isset($content) ? $content->tags->lists('id')->toArray() : '' , array('multiple'=>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'tags', 'data-live-search' => 'true', 'title' => 'Select Tags')) !!}
                         </div>
 
                         <div class="input-form-group">
