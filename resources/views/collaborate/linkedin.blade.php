@@ -9,11 +9,11 @@
     <!-- Panel Header -->
     <div class="panel-header">
       <ul class="panel-tabs withborder text-center">
-        <li class="active">
-          <a href="javascript:;">Search for Influencers</a>
-        </li>
         <li>
-          <a href="/collaborate/linkedin">Search LinkedIn Connections</a>
+          <a href="/collaborate">Search for Influencers</a>
+        </li>
+        <li class="active">
+          <a href="javascript:;">Search LinkedIn Connections</a>
         </li>
         <li>
           <a href="/collaborate/twitter">Search Twitter</a>
@@ -50,8 +50,6 @@
       
       <!-- Influencers list -->
       <div class="inner wide">
-        
-      
         <ul class="list-inline list-influencers">
           <li>
             <a href="#" class="btn btn-fav"><i class="icon-star-outline"></i><i class="icon-star"></i></a>
@@ -62,7 +60,7 @@
             </div>
             <div class="foot">
               <ul class="list-inline list-soc">
-                <li><i class="icon-twitter2"></i>3,300</li>
+                <li><i class="icon-linkedin"></i>3,300</li>
                 <li><i class="icon-facebook-mini"></i>2,503</li>
               </ul>
               <div class="btn-group">
@@ -81,7 +79,7 @@
             </div>
             <div class="foot">
               <ul class="list-inline list-soc">
-                <li><i class="icon-twitter2"></i>3,300</li>
+                <li><i class="icon-linkedin"></i>3,300</li>
                 <li><i class="icon-facebook-mini"></i>2,503</li>
               </ul>
               <div class="btn-group">
@@ -100,7 +98,7 @@
             </div>
             <div class="foot">
               <ul class="list-inline list-soc">
-                <li><i class="icon-twitter2"></i>3,300</li>
+                <li><i class="icon-linkedin"></i>3,300</li>
                 <li><i class="icon-facebook-mini"></i>2,503</li>
               </ul>
               <div class="btn-group">
@@ -119,7 +117,7 @@
             </div>
             <div class="foot">
               <ul class="list-inline list-soc">
-                <li><i class="icon-twitter2"></i>3,300</li>
+                <li><i class="icon-linkedin"></i>3,300</li>
                 <li><i class="icon-facebook-mini"></i>2,503</li>
               </ul>
               <div class="btn-group">
@@ -138,7 +136,7 @@
             </div>
             <div class="foot">
               <ul class="list-inline list-soc">
-                <li><i class="icon-twitter2"></i>3,300</li>
+                <li><i class="icon-linkedin"></i>3,300</li>
                 <li><i class="icon-facebook-mini"></i>2,503</li>
               </ul>
               <div class="btn-group">
@@ -157,7 +155,7 @@
             </div>
             <div class="foot">
               <ul class="list-inline list-soc">
-                <li><i class="icon-twitter2"></i>3,300</li>
+                <li><i class="icon-linkedin"></i>3,300</li>
                 <li><i class="icon-facebook-mini"></i>2,503</li>
               </ul>
               <div class="btn-group">
@@ -169,7 +167,9 @@
 
         </ul>
         
-      </div> <!-- End Influencers list -->
+      </div><!-- End Influencers list -->
+      
+      <a href="#" class="button button-outline-secondary button-extend btn-showmore">SHOW MORE</a>
 
     </div> <!-- End Panel Content -->
     

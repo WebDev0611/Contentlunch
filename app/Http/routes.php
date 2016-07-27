@@ -38,6 +38,8 @@ Route::group(['prefix' => 'invite', /*'middleware' => ['auth']*/], function() {
 Route::get('/home','AccountController@index');
 Route::get('/home/tasks','AccountController@tasks');
 
+Route::get('/agency','AgencyController@index');
+
 Route::get('/analyze','AnalyzeController@index');
 
 Route::get('/plan','PlanController@index');
@@ -68,6 +70,10 @@ Route::get('/get_written/{step}','ContentController@get_written');
 
 
 Route::get('/collaborate','CollaborateController@index');
+Route::get('/collaborate/linkedin','CollaborateController@linkedin');
+Route::get('/collaborate/twitter','CollaborateController@twitter');
+Route::get('/collaborate/bookmarks','CollaborateController@bookmarks');
+
 Route::get('/onboarding','OnboardingController@index');
 
 Route::get('/settings', ['as' => 'settingsIndex', 'uses' => 'SettingsController@index']);

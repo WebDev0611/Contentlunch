@@ -269,10 +269,10 @@ class CalendarController extends Controller {
 		$query_date_start = date("Y-m-d", $date_string) .' 00:00:00';
 		$query_date_end = date("Y-m-d", strtotime("+1 day", $date_string) ) . ' 00:00:00';
 
-		$content_q = Content::where('submit_date','>',$query_date_start)
-						->where('submit_date','<',$query_date_end);
+//		$content_q = Content::where('submit_date','>',$query_date_start)
+//						->where('submit_date','<',$query_date_end);
 
-		$content = $content_q->get();
+		$content = '';// $content_q->get();
 
 		return View::make('calendar.weekly',array(
 			'display_month' => $display_month,
@@ -320,10 +320,10 @@ class CalendarController extends Controller {
 		$query_date_start = date("Y-m-d", $date_string) .' 00:00:00';
 		$query_date_end = date("Y-m-d", strtotime("+1 day", $date_string) ) . ' 00:00:00';
 
-		$content_q = Content::where('submit_date','>',$query_date_start)
-						->where('submit_date','<',$query_date_end);
+//		$content_q = Content::where('submit_date','>',$query_date_start)
+//						->where('submit_date','<',$query_date_end);
 
-		$content = $content_q->get();
+		$content = '';//$content_q->get();
 
 		function generate_daily_calendar(){
 			$daily_timetable = '<table class="calendar"><tbody class="calendar-day">';
