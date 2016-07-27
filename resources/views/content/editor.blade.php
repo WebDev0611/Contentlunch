@@ -8,8 +8,11 @@
 
             <!-- Main Pane -->
             <div class="panel-main">
-
-                  {{ Form::open(array('url' => 'edit', 'files'=>'true')) }}
+@if (isset($content))
+{!! Form::model($content, array('url' => url('edit') . '/' . $content->id)) !!}
+@else
+{{ Form::open(array('url' => 'edit', 'files'=>'true')) }}
+@endif
                 <!-- Panel Header -->
                 <div class="panel-header">
                     <div class="panel-options">
@@ -57,28 +60,28 @@
 
 
                     <div class="inner">
-  @if ($errors->any())
-        <div  class="alert alert-danger" id="formError">
-            <p><strong>Oops! We had some errors:</strong>
-                <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-                </ul>
-            </p>
-        </div>
-    @endif
+                      @if ($errors->any())
+                            <div  class="alert alert-danger" id="formError">
+                                <p><strong>Oops! We had some errors:</strong>
+                                    <ul>
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                    </ul>
+                                </p>
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="content_type">CONTENT TYPE</label>
-                                   {!! Form::select('content_type', $contenttypedd, null , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
+                                   {!! Form::select('content_type', $contenttypedd, @isset($content)? $content->content_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-form-group input-drop">
                                     <label for="author">AUTHOR</label>
-                                   {!! Form::select('author[]', $authordd, null , array('multiple' =>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'author',  'data-live-search' => 'true', 'title' => 'Choose All Authors' )) !!}
+                                   {!! Form::select('author[]', $authordd, @isset($content) ?  $content->authors->lists('id')->toArray() : '' , array('multiple' =>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'author',  'data-live-search' => 'true', 'title' => 'Choose All Authors' )) !!}
                                    <div class="hide">
                                               <input type="text" class="input" placeholder="Select author" data-toggle="dropdown">
                                               <ul class="dropdown-menu dropdown-menu-right">
@@ -127,7 +130,7 @@
                                 <div class="input-form-group">
                                     <label for="dueDate">DUE DATE</label>
                                     <div class='input-group date datetimepicker'>
-                                        {!! Form::text('due_date', null, array('class' => ' input form-control', 'id' => 'dueDate')) !!}
+                                        {!! Form::text('due_date', @isset($content)? $content->due_date : '', array('class' => ' input form-control', 'id' => 'dueDate')) !!}
                                         <span class="input-group-addon">
                                         <i class="icon-calendar picto"></i>
                                         </span>
@@ -144,14 +147,14 @@
 
                         <div class="input-form-group">
                             <label for="title">TITLE</label>
-                            {!! Form::text('title', null, array('placeholder' => 'Enter content title', 'class' => 'input input-larger form-control', 'id' => 'title')) !!}
+                            {!! Form::text('title', @isset($content)? $content->title : '', array('placeholder' => 'Enter content title', 'class' => 'input input-larger form-control', 'id' => 'title')) !!}
                         </div>
 
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="connections">CONTENT DESTINATION</label>
-                                   {!! Form::select('connections', $connectionsdd, null , array('class' => 'input form-control', 'id' => 'connections')) !!}
+                                   {!! Form::select('connections', $connectionsdd, @isset($content)? $content->connection_id : '' , array('class' => 'input form-control', 'id' => 'connections')) !!}
                                 </div>
                             </div>
                             <div class="col-sm-4 hide">
@@ -175,18 +178,18 @@
 
                         <!-- Editor container -->
                         <div class="editor" style="background-color: rgba(0,0,0,.1); min-height: 530px; margin-bottom: 25px;">
-                            {!! Form::textarea('content', null, array('placeholder' => 'Enter content', 'class' => 'input input-larger form-control', 'id' => 'title')) !!}
+                            {!! Form::textarea('content', @isset($content)? $content->body : '', array('placeholder' => 'Enter content', 'class' => 'input input-larger form-control', 'id' => 'title')) !!}
                         </div>
 
 
                         <div class="input-form-group">
                             <label for="tags">TAGS</label>
-                            {!! Form::select('tags[]', $tagsdd, null , array('multiple'=>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'tags', 'data-live-search' => 'true', 'title' => 'Select Tags')) !!}
+                            {!! Form::select('tags[]', $tagsdd,  $content->tags->lists('id')->toArray() , array('multiple'=>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'tags', 'data-live-search' => 'true', 'title' => 'Select Tags')) !!}
                         </div>
 
                         <div class="input-form-group">
                             <label for="related">RELATED CONTENT</label>
-                            {!! Form::select('related[]', $relateddd, null , array('multiple'=>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'related')) !!}
+                            {!! Form::select('related[]', $relateddd,  @isset($content)? $content->related->lists('id')->toArray() : ''  , array('multiple'=>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'related')) !!}
                         </div>
 
                         <div class="input-form-group">
@@ -229,7 +232,7 @@
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="campaign">CAMPAIGN</label>
-                                    {!! Form::select('campaign', $campaigndd, null , array('class' => 'input form-control', 'id' => 'campaign')) !!}
+                                    {!! Form::select('campaign', $campaigndd, @isset($content)? $content->campaign_id : '' , array('class' => 'input form-control', 'id' => 'campaign')) !!}
                                 </div>
                             </div>
                         </div>
@@ -247,13 +250,13 @@
                             <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="metaTitle">META TITLE TAG</label>
-                                    {!! Form::text('meta_title', null, array('placeholder' => 'Enter page title', 'class' => 'input input-larger form-control', 'id' => 'metaTitle')) !!}
+                                    {!! Form::text('meta_title', @isset($content)? $content->meta_title : '', array('placeholder' => 'Enter page title', 'class' => 'input input-larger form-control', 'id' => 'metaTitle')) !!}
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="input-form-group input-drop">
                                     <label for="metaKeywords">KEYWORDS</label>
-                                    {!! Form::text('meta_keywords', null, array('placeholder' => 'Separate by commas', 'class' => 'input input-larger form-control', 'id' => 'metaKeywords')) !!}
+                                    {!! Form::text('meta_keywords', @isset($content)? $content->meta_keywords : '', array('placeholder' => 'Separate by commas', 'class' => 'input input-larger form-control', 'id' => 'metaKeywords')) !!}
                                 </div>
                             </div>
                         </div>
@@ -263,7 +266,7 @@
                             <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="metaDescriptor">META DESCRIPTOR</label>
-                                    {!! Form::text('meta_descriptor', null, array('placeholder' => 'Enter page description', 'class' => 'input input-larger form-control', 'id' => 'metaDescriptor')) !!}
+                                    {!! Form::text('meta_descriptor', @isset($content)? $content->meta_description : '', array('placeholder' => 'Enter page description', 'class' => 'input input-larger form-control', 'id' => 'metaDescriptor')) !!}
                                 </div>
                             </div>
                             <div class="col-sm-6 hide">
@@ -340,6 +343,13 @@
             style : 'btn-white',
             size: 10
         });
+       $('.changes').hide();
+       $(".showChanges").on('click', function(){
+            var $this = $(this),
+                  divClass = $this.attr('data-class');
+
+            $("."+divClass).toggle();
+       });
     });
 </script>
 @stop

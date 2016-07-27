@@ -5,6 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Content extends Model {
 
+
+
     public static function boot()
     {
         parent::boot();
@@ -18,10 +20,18 @@ class Content extends Model {
     {
             $userId = $userId ?: Auth::id();
             $changed  = $this->getDirty();
-            $this->adjustments()->attach($userId, [
-                'before'  => json_encode(array_intersect_key($this->fresh()->toArray(), $changed)),
-                'after'     => json_encode($changed)
-              ]);
+            $fresh = $this->fresh()->toArray();
+
+            // - don't want to track file and images ( i don't think )
+            // -- removing the input fields i don't want to track and bloat the history
+            array_forget($changed, ['updated_at', 'files', 'images']);
+            array_forget($fresh, ['updated_at', 'files', 'images']);
+            if(count($changed) > 0) {
+                $this->adjustments()->attach($userId, [
+                    'before'  => json_encode(array_intersect_key($fresh, $changed)),
+                    'after'     => json_encode($changed)
+                ]);
+            }
 
     }
 
@@ -54,7 +64,7 @@ class Content extends Model {
     {
        return $this->belongsToMany('App\User', 'adjustments')
                           ->withTimestamps()
-                          ->withPivot(['before', 'after'])
+                          ->withPivot(['before', 'after','id'])
                           ->latest('pivot_updated_at');
     }
 
@@ -68,5 +78,7 @@ class Content extends Model {
           $relateddd = $user->contents()->select('id','title')->orderBy('title', 'asc')->distinct()->lists('title', 'id')->toArray();
           return $relateddd;
     }
+
+
 
 }

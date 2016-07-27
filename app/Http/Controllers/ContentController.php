@@ -44,9 +44,6 @@ class ContentController extends Controller {
 	}
 	// - edit content on page
 	public function editContent(Content $content){
-		//$content->title = "Hello This is a changed title.";
-		//$content->save();
-		//dd($content->adjustments);
 
 		$tagsdd = Tag::dropdown();
 		$authordd = User::dropdown();
@@ -55,13 +52,22 @@ class ContentController extends Controller {
 		$campaigndd = Campaign::dropdown();
 		$connectionsdd = Connection::dropdown();
 		$contenttypedd = ContentType::dropdown();
-
+		
 		return View::make('content.editor', compact('content', 'contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));	
 	
 	}
 
-	public function editStore(ContentRequest $request) {
+	public function editStore(ContentRequest $request, $id = null) {
+		// - Default to creating a new Content
 		$content = new Content;
+		if(is_numeric($id)) {
+			$content = Content::find($id);
+			$content->touch();
+			// - Remove all related, will attach back ( keeps pivot table clean )
+			$content->related()->detach();
+			$content->tags()->detach();
+			$content->authors()->detach();
+		}
 		$content->title = $request->input('title');
 		$content->body = $request->input('content');
 		$content->due_date = $request->input('due_date');

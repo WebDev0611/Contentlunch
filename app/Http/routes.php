@@ -67,6 +67,7 @@ Route::get('/create','ContentController@create');
 Route::get('/edit', ['as' => 'editIndex', 'uses' => 'ContentController@createContent']);
 Route::post('/edit','ContentController@editStore');
 Route::get('/edit/{content}','ContentController@editContent');
+Route::post('/edit/{content}','ContentController@editStore');
 
 Route::get('/get_written','ContentController@get_written');
 Route::get('/get_written/{step}','ContentController@get_written');
