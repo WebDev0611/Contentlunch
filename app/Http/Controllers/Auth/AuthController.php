@@ -37,6 +37,9 @@ class AuthController extends Controller
      */
     public function __construct()
     {
+        if(isset($_POST['redirect_url'])){
+            $this->redirectTo = $_POST['redirect_url'];
+        }
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
@@ -51,7 +54,9 @@ class AuthController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:8',
+            'company_name' => 'required',
+            'account_type' => 'required',
         ]);
     }
 
@@ -67,6 +72,8 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'company_name' => $data['company_name'],
+            'company_name' => $data['company_name'],
         ]);
     }
 }

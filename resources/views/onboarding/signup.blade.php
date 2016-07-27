@@ -11,10 +11,11 @@
                 <div class="onboarding-container">
                     @if($errors->count()>0)
                         <div class="alert alert-danger">
-                            <p>{{ $errors->first('full_name') }}</p>
                             <p>{{ $errors->first('name') }}</p>
                             <p>{{ $errors->first('email') }}</p>
                             <p>{{ $errors->first('password') }}</p>
+                            <p>{{ $errors->first('company_name') }}</p>
+                            <p>{{ $errors->first('account_type') }}</p>
                         </div>
                     @endif
                     <div class="row">
@@ -36,15 +37,16 @@
                             </div>
                         </div>
                     </div>
-                    {{ Form::open(array('url' => 'signup')) }}
+                    {{ Form::open(array('url' => 'register')) }}
+                    <input type="hidden" name="redirect_url" value="/invite">
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
                             <div class="row">
 
                                 <div class="col-md-8">
                                     <div class="input-form-group">
-                                        {{ Form::label('full_name', 'Full Name') }}
-                                        {{ Form::text('full_name', Input::old('full_name'), ['placeholder' => 'your name', 'class' => 'input']) }}
+                                        {{ Form::label('name', 'Full Name') }}
+                                        {{ Form::text('name', Input::old('name'), ['placeholder' => 'your name', 'class' => 'input']) }}
                                     </div>
                                     <div class="input-form-group">
                                         {{ Form::label('email', 'Email Address') }}
@@ -81,8 +83,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="input-form-group">
-                                        {{ Form::label('name', 'Company Name') }}
-                                        {{ Form::text('name', Input::old('name'), ['placeholder' => 'company name', 'class' => 'input']) }}
+                                        {{ Form::label('company_name', 'Company Name') }}
+                                        {{ Form::text('company_name', Input::old('company_name'), ['placeholder' => 'company name', 'class' => 'input']) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -112,12 +114,12 @@
 
 <div class="row">
     <div class="col-md-4 col-md-offset-3 col-sm-10 col-sm-offset-1">
-        {{ Form::open(array('url' => 'signup')) }}
+        {{ Form::open(array('url' => 'register')) }}
         <h1>Sign Up</h1>
 
         @if($errors->count()>0)
             <div class="alert alert-danger">
-                <p>{{ $errors->first('full_name') }}</p>
+                <p>{{ $errors->first('name') }}</p>
                 <p>{{ $errors->first('name') }}</p>
                 <p>{{ $errors->first('email') }}</p>
                 <p>{{ $errors->first('password') }}</p>
@@ -126,8 +128,8 @@
 
 
         <div class="form-group">
-            {{ Form::label('full_name', 'Full Name') }}
-            {{ Form::text('full_name', Input::old('full_name'), ['placeholder' => 'your name', 'class' => 'form-control']) }}
+            {{ Form::label('name', 'Full Name') }}
+            {{ Form::text('name', Input::old('name'), ['placeholder' => 'your name', 'class' => 'form-control']) }}
         </div>
 
 

@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use View;
+use App\User;
+use \Illuminate\Http\Request;
+use Hash;
 
 class OnboardingController extends Controller
 {
 
     public function signup() {
-        return View::make('onboarding.signup');
+        $user = new User;
+        return view('onboarding.signup')->with(compact('user'));
     }
 
-/*    public function invite() {
+    /*public function invite() {
         return View::make('onboarding.invite');
     }*/
 
@@ -22,4 +26,5 @@ class OnboardingController extends Controller
     public function connect(){
         return View::make('onboarding.connect');
     }
+
 }
