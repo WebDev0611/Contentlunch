@@ -62,6 +62,7 @@ Route::get('/weekly/{year}/{month}/{day}','CalendarController@weekly');
 Route::get('/campaigns','CalendarController@campaigns');
 
 Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);
+Route::get('/content/publish/{content}',  ['as' => 'contentPublish', 'uses' =>'ContentController@publish']);
 Route::get('/create','ContentController@create');
 
 Route::get('/edit', ['as' => 'editIndex', 'uses' => 'ContentController@createContent']);
