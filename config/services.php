@@ -45,4 +45,9 @@ return [
          // 'callback_domain' => 'http://contentlaunch.local'
          'redirect' => 'http://contentlaunch.local/invite/callback' // env('FACEBOOK_REDIRECT'),
     ],
+
+    'wordpress' => [
+        'client_id' => '48128', // ID from creating app on developer.wordpress.com
+        'client_secret' => 'TkkbiAexptm9hHvsuTy3EDffTkDG9atIW8gLGmcMMAeEZF7QxIC7lepo2j8hkNwn', // from developer.wordpress.com
+    ]
 ];

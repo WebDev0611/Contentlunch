@@ -163,16 +163,23 @@
     <div class="row" >
         <div class="col-md-12">
             <div class="input-form-group">
-                <label for="api_key">API Key</label>
-                {{ Form::text('api_key', null, ['placeholder' => 'Pase from connection source', 'class' => 'input', 'id' => 'api_key']) }}
+                <label for="api_url">Wordpress URL</label>
+                {{ Form::text('api[url]', null, ['placeholder' => 'Wordpress URL', 'class' => 'input', 'id' => 'api_url']) }}
+                <p class="help-block">wordpressdomain.com</p>
             </div>
         </div>
-    </div>
-    <div class="row" >
         <div class="col-md-12">
             <div class="input-form-group">
-                <label for="api_url">URL</label>
-                {{ Form::text('api_url', null, ['placeholder' => 'Pase URL', 'class' => 'input', 'id' => 'api_url']) }}
+                <label for="api_username">Wordpress.com Username</label>
+                {{ Form::text('api[username]', null, ['placeholder' => 'Username for wordpress.com', 'class' => 'input', 'id' => 'api_username']) }}
+                <p class="help-block">Enter your username for wordpress.com</p>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="input-form-group">
+                <label for="api_password">Wordpress.com Password</label>
+                {{ Form::text('api[password]', null, ['placeholder' => 'Password for wordpress.com', 'class' => 'input', 'id' => 'api_password']) }}
+                <p class="help-block">Enter your password for wordpress.com</p>
             </div>
         </div>
     </div>
