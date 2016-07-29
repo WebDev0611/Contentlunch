@@ -14,7 +14,11 @@ var elixir = require('laravel-elixir');
 elixir(function (mix) {
     mix
             .sass('main.scss')
-            .scripts(['./bower_components/jquery/dist/jquery.js'], "public/js/vendor.js")
+            .scripts([
+                './bower_components/jquery/dist/jquery.js',
+                './bower_components/underscore/underscore.js',
+                './bower_components/backbone/backbone.js'
+                ], "public/js/vendor.js")
             .scripts([
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js',
