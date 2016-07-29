@@ -36,7 +36,7 @@ Route::group(['prefix' => 'invite', /*'middleware' => ['auth']*/], function() {
 
 
 Route::get('/home','AccountController@index');
-Route::get('/home/tasks','AccountController@tasks');
+Route::get('/dashboard','AccountController@stats');
 
 Route::get('/agency','AgencyController@index');
 

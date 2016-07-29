@@ -6,6 +6,7 @@
 <meta name=description content="Content Launch"> 
 <meta name=viewport content="initial-scale=1.0,width=device-width"> 
 <link rel=stylesheet href=/css/main.css>
+<script src="/js/vendor.js"></script>
 </head> 
 <body> 
 
@@ -21,7 +22,6 @@
 @include('partials.flash')
 @yield('content')
 
-<script src="/js/vendor.js"></script>
 <script src="/js/plugins.js"></script>
 <script src="/js/app.js"></script>
 <!-- Page Specific JS -->

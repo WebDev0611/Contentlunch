@@ -55,7 +55,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/home/tasks">
+                            <a href="/home">
                                 <i class="icon-itemlist"></i>
                             </a>
                         </li>

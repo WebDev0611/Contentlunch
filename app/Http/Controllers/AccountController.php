@@ -8,10 +8,10 @@ class AccountController extends Controller {
 
 
 	public function index(){
-		return View::make('home.index');
+		return View::make('home.list');
 	}
 
-	public function tasks(){
-		return View::make('home.list');
+	public function stats(){
+		return View::make('home.index');
 	}
 }
