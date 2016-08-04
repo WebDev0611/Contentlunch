@@ -185,6 +185,13 @@
     </div>
 </template>
 
+<template id="facebookTemplate">
+    <div class="row" >
+        <div class="col-md-12">
+                <a href="{{route('connectionProvider', 'facebook')}}" class="btn btn-primary">Connect to Facebook</a>
+        </div>
+    </div>
+</template>
 @stop
 
 @section('scripts')
