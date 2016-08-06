@@ -193,3 +193,7 @@
     </div>
 </div>
 @stop
+
+@section('scripts')
+<script src="/js/topic.js"></script>
+@stop
