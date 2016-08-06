@@ -46,232 +46,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="tombstone">
-                        <div class="tombstone-image">
-                            <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
-                            <span>1 DAY AGO  ·  NYT.COM</span>
-                        </div>
-                        <div class="tombstone-container">
-                            <h3>Google self-driving car is tested on California highways</h3>
-                            <p>
-                                Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of
-                                electric cars, including a top of the line Tesla, went on...
-                            </p>
-                        </div>
-                        <div class="tombstone-social">
-                            <div class="tombstone-cell">
-                                <i class="icon-share"></i>
-                                35k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-facebook-mini"></i>
-                                12k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-twitter2"></i>
-                                4k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-google-plus"></i>
-                                10k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-youtube"></i>
-                                3k
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="tombstone">
-                        <div class="tombstone-image">
-                            <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
-                            <span>1 DAY AGO  ·  NYT.COM</span>
-                        </div>
-                        <div class="tombstone-container">
-                            <h3>Google self-driving car is tested on California highways</h3>
-                            <p>
-                                Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of
-                                electric cars, including a top of the line Tesla, went on...
-                            </p>
-                        </div>
-                        <div class="tombstone-social">
-                            <div class="tombstone-cell">
-                                <i class="icon-share"></i>
-                                35k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-facebook-mini"></i>
-                                12k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-twitter2"></i>
-                                4k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-google-plus"></i>
-                                10k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-youtube"></i>
-                                3k
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="tombstone tombstone-active">
-                        <div class="tombstone-image">
-                            <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
-                            <span>1 DAY AGO  ·  NYT.COM</span>
-                        </div>
-                        <div class="tombstone-container">
-                            <h3>Google self-driving car is tested on California highways</h3>
-                            <p>
-                                Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of
-                                electric cars, including a top of the line Tesla, went on...
-                            </p>
-                        </div>
-                        <div class="tombstone-social">
-                            <div class="tombstone-cell">
-                                <i class="icon-share"></i>
-                                35k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-facebook-mini"></i>
-                                12k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-twitter2"></i>
-                                4k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-google-plus"></i>
-                                10k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-youtube"></i>
-                                3k
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="tombstone">
-                        <div class="tombstone-image">
-                            <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
-                            <span>1 DAY AGO  ·  NYT.COM</span>
-                        </div>
-                        <div class="tombstone-container">
-                            <h3>Google self-driving car is tested on California highways</h3>
-                            <p>
-                                Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of
-                                electric cars, including a top of the line Tesla, went on...
-                            </p>
-                        </div>
-                        <div class="tombstone-social">
-                            <div class="tombstone-cell">
-                                <i class="icon-share"></i>
-                                35k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-facebook-mini"></i>
-                                12k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-twitter2"></i>
-                                4k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-google-plus"></i>
-                                10k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-youtube"></i>
-                                3k
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="tombstone">
-                        <div class="tombstone-image">
-                            <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
-                            <span>1 DAY AGO  ·  NYT.COM</span>
-                        </div>
-                        <div class="tombstone-container">
-                            <h3>Google self-driving car is tested on California highways</h3>
-                            <p>
-                                Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of
-                                electric cars, including a top of the line Tesla, went on...
-                            </p>
-                        </div>
-                        <div class="tombstone-social">
-                            <div class="tombstone-cell">
-                                <i class="icon-share"></i>
-                                35k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-facebook-mini"></i>
-                                12k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-twitter2"></i>
-                                4k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-google-plus"></i>
-                                10k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-youtube"></i>
-                                3k
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="tombstone tombstone-active">
-                        <div class="tombstone-image">
-                            <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
-                            <span>1 DAY AGO  ·  NYT.COM</span>
-                        </div>
-                        <div class="tombstone-container">
-                            <h3>Google self-driving car is tested on California highways</h3>
-                            <p>
-                                Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of
-                                electric cars, including a top of the line Tesla, went on...
-                            </p>
-                        </div>
-                        <div class="tombstone-social">
-                            <div class="tombstone-cell">
-                                <i class="icon-share"></i>
-                                35k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-facebook-mini"></i>
-                                12k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-twitter2"></i>
-                                4k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-google-plus"></i>
-                                10k
-                            </div>
-                            <div class="tombstone-cell">
-                                <i class="icon-youtube"></i>
-                                3k
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="row" id="trend-results"></div>
         </div>
     </div>
 </div>
@@ -402,5 +177,42 @@
     </div>
 </div>
 
-
+<script type="text/template" id="trend-result-template">
+   <div class="col-md-3">
+        <div class="tombstone">
+            <div class="tombstone-image">
+                <img src="<%= image %>" alt="">
+                <span><%= when %>  ·  <%= source %></span>
+            </div>
+            <div class="tombstone-container">
+                <h3><%= title %></h3>
+                <p>
+                    <%= body %>
+                </p>
+            </div>
+            <div class="tombstone-social">
+                <div class="tombstone-cell">
+                    <i class="icon-share"></i>
+                    35k
+                </div>
+                <div class="tombstone-cell">
+                    <i class="icon-facebook-mini"></i>
+                    12k
+                </div>
+                <div class="tombstone-cell">
+                    <i class="icon-twitter2"></i>
+                    4k
+                </div>
+                <div class="tombstone-cell">
+                    <i class="icon-google-plus"></i>
+                    10k
+                </div>
+                <div class="tombstone-cell">
+                    <i class="icon-youtube"></i>
+                    3k
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
 @stop

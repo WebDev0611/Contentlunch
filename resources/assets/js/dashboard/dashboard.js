@@ -1,16 +1,34 @@
-/* main tab view */
+(function($){
+    /* main tab view */
 
 var tab_container_view = Backbone.View.extend({
     initialize: function(){
+        this.active_tab = 0;
         console.log('tc init');
         this.template = _.template( $('#tab-container-template').html() );
-        this.render();
+        this.tab_menu = new tab_menu_view();
+
     },
     render: function(){
-        this.$el.append( this.template() );
+        this.$el.append( this.template() );        
+        //add the tab menu
+        this.$el.find('#tab-menu-container').append( this.tab_menu.render() );
+    },
+});
+
+var tab_menu_view = Backbone.View.extend({
+    initialize: function(){
+        console.log('tm init');
+        this.template = _.template( $('#tab-menu-template').html() );
+    },
+    render: function(){
+        return this.template();
     }
 });
 
+var my_tasks_view = Backbone.View.extend();
+var all_tasks_view = Backbone.View.extend();
+var campaigns_view = Backbone.View.extend();
 
 /* activity feed view */
 var activity_feed_view = Backbone.View.extend({
@@ -67,8 +85,12 @@ var campaigns_view = Backbone.View.extend({
 
 
 $(function(){
+    /*
     var tab_container = new tab_container_view({el: '#tab-container'});
+    tab_container.render();
     var activity_feed_container = new activity_feed_view({el: '#activity-feed-container'});
     var misc_container = new misc_container_view({el: '#misc-container'});
-
+    */
 });
+
+})(jQuery);

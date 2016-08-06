@@ -600,21 +600,7 @@
 
 <script type="text/template" id="tab-container-template">
     <div class="panel">
-        <div class="panel-header">
-            <ul class="panel-tabs spacing">
-                <li class="active">
-                    <a href="/#/">My tasks</a>
-                </li>
-                <li>
-                    <a href="/#/">All tasks</a>
-                </li>
-                <li>
-                    <a href="/#/">Campaigns</a>
-                </li>
-                <li>
-                    <a href="/#/">Recently Viewed</a>
-                </li>
-            </ul>
+        <div class="panel-header" id="tab-menu-container">
         </div>
 
         <div class="dashboard-tasks-container">
@@ -979,5 +965,25 @@
         </div>
     </div>
 </script>
+
+<script type="text/template" id="tab-menu-template">
+<ul class="panel-tabs spacing">
+    <li class="active" data-menu-tab="my-tasks">
+        <a href="javascript:;">My tasks</a>
+    </li>
+    <li  data-menu-tab="all-tasks">
+        <a href="javascript:;">All tasks</a>
+    </li>
+    <li data-menu-tab="campaigns">
+        <a href="javascript:;">Campaigns</a>
+    </li>
+    <!-- out for now 
+    <li>
+        <a href="javascript:;">Recently Viewed</a>
+    </li>
+    -->
+</ul>
+</script>
+
 
 @stop

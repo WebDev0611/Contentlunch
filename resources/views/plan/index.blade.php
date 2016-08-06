@@ -21,14 +21,14 @@
                 <i class="icon-arrow-right"></i>
             </a>
         </div>
-        <div class="panel-container">
+        <div class="panel-container" id="topic-generator">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="form-group">
                         <div class="input-form-button">
                             <input type="text" placeholder="Search..." class="input-search-icon">
                             <span class="input-form-button-action">
-                                <button class="button">SEARCH</button>
+                                <button class="button" id="topic-search">SEARCH</button>
                             </span>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                         <h5>Select one or more topics of interest from lists below to create an idea</h5>
                     </div>
                     <div class="col-md-6 text-right">
-                        <button type="button" class="button button-small text-uppercase">
+                        <button type="button" data-target="#createIdea" data-toggle="modal" class="button button-small text-uppercase">
                             <i class="icon-add-content icon-vertically-middle"></i>
                             Create Idea
                         </button>
@@ -51,121 +51,13 @@
                 <div class="col-md-6 panel-separator-vertical">
                     <div class="panel-separator">
                         <h5 class="panel-heading text-center">SHORT TAIL RESULTS</h5>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="dieselEngines1" class="checkbox-tag">
-                                    <input id="dieselEngines1" type="checkbox">
-                                    <span>Diesel engines</span>
-                                </label>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="dieselEngines2" class="checkbox-tag">
-                                    <input id="dieselEngines2" type="checkbox">
-                                    <span>Diesel engines</span>
-                                </label>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="dieselEngines3" class="checkbox-tag">
-                                    <input id="dieselEngines3" type="checkbox">
-                                    <span>Diesel engines</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="dieselEngines4" class="checkbox-tag">
-                                    <input id="dieselEngines4" type="checkbox">
-                                    <span>Diesel engines</span>
-                                </label>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="dieselEngines5" class="checkbox-tag">
-                                    <input id="dieselEngines5" type="checkbox">
-                                    <span>Diesel engines</span>
-                                </label>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="dieselEngines6" class="checkbox-tag">
-                                    <input id="dieselEngines6" type="checkbox">
-                                    <span>Diesel engines</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="dieselEngines7" class="checkbox-tag">
-                                    <input id="dieselEngines7" type="checkbox">
-                                    <span>Diesel engines</span>
-                                </label>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="dieselEngines8" class="checkbox-tag">
-                                    <input id="dieselEngines8" type="checkbox">
-                                    <span>Diesel engines</span>
-                                </label>
-                            </div>
-                        </div>
+                        <div class="row" id="short-tail-results"></div>
                     </div>
                 </div>
                 <div class="col-md-6 panel-separator-vertical">
                     <div class="panel-separator">
                         <h5 class="panel-heading text-center">LONG TAIL RESULTS</h5>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="dieselEngines9" class="checkbox-tag">
-                                    <input id="dieselEngines9" type="checkbox">
-                                    <span>Best cars of Geneva motor show</span>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="dieselEngines10" class="checkbox-tag">
-                                    <input id="dieselEngines10" type="checkbox">
-                                    <span>Best cars of Geneva motor show</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="dieselEngines11" class="checkbox-tag">
-                                    <input id="dieselEngines11" type="checkbox">
-                                    <span>Best cars of Geneva motor show</span>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="dieselEngines12" class="checkbox-tag">
-                                    <input id="dieselEngines12" type="checkbox">
-                                    <span>Best cars of Geneva motor show</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="dieselEngines13" class="checkbox-tag">
-                                    <input id="dieselEngines13" type="checkbox">
-                                    <span>Best cars of Geneva motor show</span>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="dieselEngines14" class="checkbox-tag">
-                                    <input id="dieselEngines14" type="checkbox">
-                                    <span>Best cars of Geneva motor show</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="dieselEngines15" class="checkbox-tag">
-                                    <input id="dieselEngines15" type="checkbox">
-                                    <span>Best cars of Geneva motor show</span>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="dieselEngines16" class="checkbox-tag">
-                                    <input id="dieselEngines16" type="checkbox">
-                                    <span>Best cars of Geneva motor show</span>
-                                </label>
-                            </div>
-                        </div>
+                        <div class="row" id="long-tail-results"></div>
                     </div>
                 </div>
             </div>
@@ -173,4 +65,131 @@
     </div>
 </div>
 
+
+<div id="createIdea" class="sidemodal large">
+    <div class="sidemodal-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="sidemodal-header-title large">Create an idea from 2 selected items</h4>
+            </div>
+            <div class="col-md-6 text-right">
+                <button type="button" class="button button-outline-primary button-small">PARK</button>
+                <button class="button button-primary button-small text-uppercase">Save</button>
+                <button class="sidemodal-close normal-flow" data-dismiss="modal">
+                    <i class="icon-remove"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="sidemodal-container">
+        <div class="input-form-group">
+            <label for="#">CONCEPT NAME</label>
+            <input type="text" class="input" placeholder="Enter your concept name">
+        </div>
+        <div class="input-form-group">
+            <label for="#">EXPLAIN YOUR IDEA</label>
+            <textarea rows="4" class="input" placeholder="Explain idea in a paragraph or so"></textarea>
+        </div>
+        <div class="input-form-group">
+            <label for="#">TAGS</label>
+            <input type="text" class="input" placeholder="Enter comma separated tags">
+        </div>
+        <div class="form-group">
+            <fieldset class="form-fieldset clearfix">
+                <legend class="form-legend">Collaborators</legend>
+                <ul class="images-list pull-left">
+                    <li>
+                        <img src="/assets/images/avatar.jpg" alt="#">
+                    </li>
+                    <li>
+                        <img src="/assets/images/avatar.jpg" alt="#">
+                    </li>
+                    <li>
+                        <img src="/assets/images/avatar.jpg" alt="#">
+                    </li>
+                </ul>
+                <div class="dropdown pull-right">
+                    <button type="button" class="button button-action large" data-toggle="dropdown">
+                        <i class="icon-add-circle"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li class="dropdown-header-secondary">
+                        <span class="dropdown-header-secondary-text">
+                            Select team member
+                        </span>
+                            <button class="button button-micro pull-right text-uppercase">
+                                Submit
+                            </button>
+                        </li>
+                        <li>
+                            <input type="text" class="dropdown-header-secondary-search" placeholder="Team Member Name">
+                        </li>
+                        <li>
+                            <label for="Friend" class="checkbox-image">
+                                <input id="Friend" type="checkbox">
+                            <span>
+                                <img src="/assets/images/avatar.jpg" alt="#">
+                            </span>
+                            </label>
+                            <label for="Friend" class="checkbox-image">
+                                <input id="Friend" type="checkbox">
+                            <span>
+                                <img src="/assets/images/avatar.jpg" alt="#">
+                            </span>
+                            </label>
+                            <label for="Friend" class="checkbox-image">
+                                <input id="Friend" type="checkbox">
+                            <span>
+                                <img src="/assets/images/avatar.jpg" alt="#">
+                            </span>
+                            </label>
+                            <label for="Friend" class="checkbox-image">
+                                <input id="Friend" type="checkbox">
+                            <span>
+                                <img src="/assets/images/avatar.jpg" alt="#">
+                            </span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </fieldset>
+        </div>
+        <div class="form-group">
+            <div class="select select-secondary">
+                <select name="" id="">
+                    <option value="#">Invite Guests</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-delimiter">
+            <span>
+                <em>Selected Content</em>
+            </span>
+        </div>
+        <div class="tombstone tombstone-horizontal tombstone-active clearfix">
+            <div class="tombstone-image">
+                <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
+            </div>
+            <div class="tombstone-container">
+                <h3>Google self-driving car is tested on California highways</h3>
+                <p>
+                    Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of
+                    electric cars, including a top of the line Tesla, went on...
+                </p>
+            </div>
+        </div>
+        <div class="tombstone tombstone-horizontal tombstone-active clearfix">
+            <div class="tombstone-image">
+                <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
+            </div>
+            <div class="tombstone-container">
+                <h3>Google self-driving car is tested on California highways</h3>
+                <p>
+                    Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of
+                    electric cars, including a top of the line Tesla, went on...
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 @stop
