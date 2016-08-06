@@ -24,7 +24,7 @@
                         <div class="input-form-button">
                             <input type="text" placeholder="Search..." class="input-search-icon">
                             <span class="input-form-button-action">
-                                <button class="button">SEARCH</button>
+                                <button class="button" id="trend-search">SEARCH</button>
                             </span>
                         </div>
                     </div>
@@ -218,5 +218,5 @@
 @stop
 
 @section('scripts')
-<script src="/js/topic.js"></script>
+<script src="/js/trends.js"></script>
 @stop
