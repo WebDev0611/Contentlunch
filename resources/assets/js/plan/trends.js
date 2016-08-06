@@ -8,7 +8,11 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 (function($){
 
-	var trend_result = Backbone.Model.extend();
+	var trend_result = Backbone.Model.extend({
+		defaults:{
+			selected: false
+		}
+	});
 
 	//place holder data
 	var dummy_data = [
@@ -35,12 +39,20 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		},
 	];
 
-	var topic_generator_view = Backbone.View.extend({
-		events: {
-			"click #topic-search": "search"
+	var create_message_view = Backbone.View.extend({
+		initialize: function(){
+			this.listenTo(this.collection,"change",this.render);
 		},
-		search: function(){
-			console.log('clicked search');
+		render: function(){
+			var selected = this.collection.filter(function(m){
+				return m.get('selected');
+			});
+
+			if(selected.length > 0 ){
+				this.$el.html('Create an idea from ' + selected.length + ' selected items');
+			}else{
+				this.$el.html('');
+			}
 		}
 	});
 
@@ -66,6 +78,11 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		},
 		active: function(){
 			this.$el.find('.tombstone').toggleClass('tombstone-active');
+			if( this.model.get('selected') ){
+				this.model.set('selected',false);
+			}else{
+				this.model.set('selected',true);
+			}
 		}
 	});
 
@@ -76,9 +93,9 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 	$(function(){
 
-		var trend_generator = new topic_generator_view({el:'#trend-generator'});
-
 		var results = new result_collection();
+
+		new create_message_view({el:"#create-alert", collection: results });
 
 		results.on('add',function(m){
 			var result = new result_view({model: m});

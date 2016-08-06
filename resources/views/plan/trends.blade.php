@@ -33,7 +33,7 @@
             <div class="panel-separator">
                 <div class="row">
                     <div class="col-md-6">
-                        <h5>Create an idea from 2 selected items</h5>
+                        <h5 id="create-alert"></h5>
                     </div>
                     <div class="col-md-6 text-right">
                         <button type="button" class="button button-outline-primary button-small text-uppercase">
