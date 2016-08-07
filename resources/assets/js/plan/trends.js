@@ -42,6 +42,8 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 	var create_message_view = Backbone.View.extend({
 		initialize: function(){
 			this.listenTo(this.collection,"change",this.render);
+			this.listenTo(this.collection,"update",this.render);
+
 		},
 		render: function(){
 			var selected = this.collection.filter(function(m){

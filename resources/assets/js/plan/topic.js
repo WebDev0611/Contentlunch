@@ -36,6 +36,8 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		},
 		render: function(){
 			this.$el.html( this.template(this.model.attributes) );
+			this.$el.hide();
+
 			return this;
 		},
 		removeFromDOM: function(){
@@ -63,17 +65,24 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			console.log('search clicked!');
 			long_tail_results.remove( long_tail_results.models );
 			short_tail_results.remove( short_tail_results.models );
+
+			setTimeout(function(){
+				short_tail_results.add(dummy_data_short);
+				long_tail_results.add(dummy_data_long);
+			},500);
 		});
 
 		long_tail_results.on('add',function(m){
 			var result = new result_view({model: m});
 			result.render();
+			result.$el.fadeIn();
 			$('#long-tail-results').append( result.el );
 		});
 
 		short_tail_results.on('add',function(m){
 			var result = new result_view({model: m});
 			result.render();
+			result.$el.fadeIn();
 			$('#short-tail-results').append( result.el );
 		});
 

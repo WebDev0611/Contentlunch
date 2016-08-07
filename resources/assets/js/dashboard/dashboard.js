@@ -85,12 +85,12 @@ var campaigns_view = Backbone.View.extend({
 
 
 $(function(){
-    /*
+    
     var tab_container = new tab_container_view({el: '#tab-container'});
     tab_container.render();
     var activity_feed_container = new activity_feed_view({el: '#activity-feed-container'});
     var misc_container = new misc_container_view({el: '#misc-container'});
-    */
+    
 });
 
 })(jQuery);

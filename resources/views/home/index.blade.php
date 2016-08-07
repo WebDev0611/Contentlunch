@@ -343,3 +343,7 @@
 </div>
 
 @stop
+
+@section('scripts')
+<script src="/js/dashboard.js"></script>
+@stop
