@@ -50,7 +50,7 @@
                 <div class="col-md-3">
                     <div class="tombstone">
                         <div class="tombstone-image">
-                            <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
+                            <img src="//i.imgur.com/MYB6HjU.jpg" alt="">
                             <span>1 DAY AGO  ·  NYT.COM</span>
                         </div>
                         <div class="tombstone-container">
@@ -87,7 +87,7 @@
                 <div class="col-md-3">
                     <div class="tombstone">
                         <div class="tombstone-image">
-                            <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
+                            <img src="//i.imgur.com/MYB6HjU.jpg" alt="">
                             <span>1 DAY AGO  ·  NYT.COM</span>
                         </div>
                         <div class="tombstone-container">
@@ -124,7 +124,7 @@
                 <div class="col-md-3">
                     <div class="tombstone tombstone-active">
                         <div class="tombstone-image">
-                            <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
+                            <img src="//i.imgur.com/MYB6HjU.jpg" alt="">
                             <span>1 DAY AGO  ·  NYT.COM</span>
                         </div>
                         <div class="tombstone-container">
@@ -161,7 +161,7 @@
                 <div class="col-md-3">
                     <div class="tombstone">
                         <div class="tombstone-image">
-                            <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
+                            <img src="//i.imgur.com/MYB6HjU.jpg" alt="">
                             <span>1 DAY AGO  ·  NYT.COM</span>
                         </div>
                         <div class="tombstone-container">
@@ -200,7 +200,7 @@
                 <div class="col-md-3">
                     <div class="tombstone">
                         <div class="tombstone-image">
-                            <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
+                            <img src="//i.imgur.com/MYB6HjU.jpg" alt="">
                             <span>1 DAY AGO  ·  NYT.COM</span>
                         </div>
                         <div class="tombstone-container">
@@ -237,7 +237,7 @@
                 <div class="col-md-3">
                     <div class="tombstone tombstone-active">
                         <div class="tombstone-image">
-                            <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
+                            <img src="//i.imgur.com/MYB6HjU.jpg" alt="">
                             <span>1 DAY AGO  ·  NYT.COM</span>
                         </div>
                         <div class="tombstone-container">
@@ -377,7 +377,7 @@
         </div>
         <div class="tombstone tombstone-horizontal tombstone-active clearfix">
             <div class="tombstone-image">
-                <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
+                <img src="//i.imgur.com/MYB6HjU.jpg" alt="">
             </div>
             <div class="tombstone-container">
                 <h3>Google self-driving car is tested on California highways</h3>
@@ -389,7 +389,7 @@
         </div>
         <div class="tombstone tombstone-horizontal tombstone-active clearfix">
             <div class="tombstone-image">
-                <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
+                <img src="//i.imgur.com/MYB6HjU.jpg" alt="">
             </div>
             <div class="tombstone-container">
                 <h3>Google self-driving car is tested on California highways</h3>
