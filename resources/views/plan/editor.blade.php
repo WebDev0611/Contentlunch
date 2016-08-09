@@ -140,7 +140,7 @@
                         </div>
                         <div class="tombstone tombstone-horizontal tombstone-active clearfix">
                             <div class="tombstone-image">
-                                <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
+                                <img src="//i.imgur.com/MYB6HjU.jpg" alt="">
                             </div>
                             <div class="tombstone-container">
                                 <h3>Google self-driving car is tested on California highways</h3>
@@ -152,7 +152,7 @@
                         </div>
                         <div class="tombstone tombstone-horizontal tombstone-active clearfix">
                             <div class="tombstone-image">
-                                <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
+                                <img src="//i.imgur.com/MYB6HjU.jpg" alt="">
                             </div>
                             <div class="tombstone-container">
                                 <h3>Google self-driving car is tested on California highways</h3>
