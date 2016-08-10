@@ -61,7 +61,21 @@ Route::get('/weekly/{year}/{month}/{day}','CalendarController@weekly');
 
 Route::get('/campaigns','CalendarController@campaigns');
 
+
 Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);
+Route::get('/content/publish/{content}',  ['as' => 'contentPublish', 'uses' =>'ContentController@publish']);
+
+//-- Facebook Callbacks
+//
+Route::get('callback/facebook',  ['as' => 'facebookProvider', 'uses' =>'Connections\FacebookController@callback']);
+
+
+// - Authorize
+Route::get('authorize/{provider}',  ['as' => 'connectionProvider', 'uses' =>'ConnectionController@redirectToProvider']);
+Route::get('login/{provider}',  ['as' => 'connectionCallback', 'uses' =>'ConnectionController@login']);
+
+
+
 Route::get('/create','ContentController@create');
 
 Route::get('/edit', ['as' => 'editIndex', 'uses' => 'ContentController@createContent']);
