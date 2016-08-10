@@ -40,7 +40,7 @@
         </a>
       </li>
       <li class="second">
-        <a href="#">
+        <a href="/create">
           <i class="icon-content-alert"></i>
           <p class="title">Content</p>
           <p>Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>
