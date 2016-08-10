@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Content\ContentRequest;
+use Launch\Connections\API\WordpressAPI;
 use Illuminate\Support\Facades\File;
 use App\ContentType;
 use App\BuyingStage;
@@ -29,6 +30,16 @@ class ContentController extends Controller {
 	public function create(){
 		return View::make('content.create');	
 	}
+
+
+	public function publish(Content $content)  {
+		// - this will need to be dynamic ( database provider table? )
+		// -- Once we hook up another API i will know how i should organize this
+		$class = 'Connections\API\\'.$content->connection->provider->class_name;
+		$create = (new $class($content))->createPost();
+		dd($create);
+	}
+
 	// this is technically create content
 	public function createContent(){
 
@@ -44,6 +55,7 @@ class ContentController extends Controller {
 	}
 	// - edit content on page
 	public function editContent(Content $content){
+
 
 		$tagsdd = Tag::dropdown();
 		$authordd = User::dropdown();

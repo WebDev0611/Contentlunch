@@ -54,6 +54,13 @@ class Content extends Model {
     {
        return $this->belongsTo('App\Campaign');
     }
+
+
+    // connection 
+    public function connection()
+    {
+       return $this->belongsTo('App\Connection');
+    }
     // - related content
     public function related()
     {
