@@ -1,6 +1,7 @@
-/* misc js */
-$(
-function(){
+/* misc js -- global or sitewide methods here */
+
+//handles the create modal for the site
+$(function(){
 	$('.btn-create').click(function(){
 		$('body').toggleClass('showcreate');
 	});

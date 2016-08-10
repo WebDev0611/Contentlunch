@@ -33,7 +33,7 @@
     
     <ul class="list-inline list-createmenu">
       <li class="first">
-        <a href="#">
+        <a href="/plan/editor">
           <i class="icon-idea"></i>
           <p class="title">New Idea</p>
           <p>Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>
