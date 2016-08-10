@@ -9,7 +9,7 @@
                 <div class="dashboard-notification-box">
                     <span class="dashboard-notification-box-count">
                         <i class="icon-checklist"></i>
-                        35
+                        <span id="incomplete-tasks"></span>
                     </span>
                     <span>Incomplete <br> Tasks</span>
                 </div>

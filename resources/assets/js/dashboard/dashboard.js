@@ -129,6 +129,7 @@
                     var t = new task_view({ model: m });
                     that.$el.find('.panel').append( t.render() );
             });
+            $('#incomplete-tasks').text( this.collection.length );
             return this;
         },
         show_my: function(){
