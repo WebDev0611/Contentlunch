@@ -33,7 +33,7 @@ elixir(function (mix) {
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js'
             ], "public/js/plugins.js")
-            .scripts(['resources/assets/js/content/*.js'], "public/js/app.js")
+            .scripts(['resources/assets/js/content/*.js','resources/assets/js/helpers.js'], "public/js/app.js")
             .scripts(['resources/assets/js/plan/topic.js'],"public/js/topic.js")
             .scripts(['resources/assets/js/plan/trends.js'],"public/js/trends.js")
             .scripts(['resources/assets/js/collaborate/influencers.js'],"public/js/influencers.js")

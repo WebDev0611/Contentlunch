@@ -50,6 +50,8 @@ Route::get('/plan/editor','PlanController@editor');
 Route::get('/plan/trends','PlanController@trends');
 Route::get('/plan/prescription','PlanController@prescription');
 
+Route::get('/idea','PlanController@editor');
+
 Route::get('/calendar','CalendarController@index');
 Route::get('/calendar/{year}/{month}','CalendarController@index');
 

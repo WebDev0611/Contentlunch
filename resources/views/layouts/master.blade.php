@@ -33,7 +33,7 @@
     
     <ul class="list-inline list-createmenu">
       <li class="first">
-        <a href="/plan/editor">
+        <a href="/idea">
           <i class="icon-idea"></i>
           <p class="title">New Idea</p>
           <p>Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>
@@ -47,14 +47,14 @@
         </a>
       </li>
       <li class="third">
-        <a href="#">
+        <a href="/campaigns">
           <i class="icon-alert"></i>
           <p class="title">Campaign</p>
           <p>Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>
         </a>
       </li>
       <li class="fourth">
-        <a href="#">
+        <a href="/calendar">
           <i class="icon-calendar"></i>
           <p class="title">Calendar Entry</p>
           <p>Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>

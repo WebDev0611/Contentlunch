@@ -124,7 +124,7 @@ class CalendarController extends Controller {
 
 	public function campaigns($year = 0 , $month = 0 ){
 
-		$campaigns = $this->pull_campaigns();
+		//$campaigns = $this->pull_campaigns();
 
 		if(!$year){
 			$year = date('Y');
@@ -192,7 +192,7 @@ class CalendarController extends Controller {
 		// exit;
 
 		return View::make('calendar.campaigns', array(
-			'campaigns' => json_encode($campaigns),
+			'campaigns' => '',// json_encode($campaigns),
 			'user_id' => $this->user_id,
 			'account_id'=> $this->account_id,
 			'campaign_calendar' => generate_campaign_calendar($year)
