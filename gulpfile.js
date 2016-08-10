@@ -17,7 +17,8 @@ elixir(function (mix) {
             .scripts([
                 './bower_components/jquery/dist/jquery.js',
                 './bower_components/underscore/underscore.js',
-                './bower_components/backbone/backbone.js'
+                './bower_components/backbone/backbone.js',
+                './bower_components/moment/moment.js'
                 ], "public/js/vendor.js")
             .scripts([
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',

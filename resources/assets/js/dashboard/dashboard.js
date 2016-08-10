@@ -9,7 +9,7 @@
         due:"2 DAYS",
         stage: "3",
         image: "/images/avatar.jpg",
-        timeago: "JUST NOW",
+        timeago: 1470169716000,
         user_id: 1
     },
 {
@@ -18,7 +18,7 @@
         due:"7 DAYS",
         stage: "3",
         image: "/images/avatar.jpg",
-        timeago: "JUST NOW",
+        timeago: 1470269716000,
         user_id: 1
     },
 {
@@ -27,7 +27,7 @@
         due:"2 DAYS",
         stage: "3",
         image: "/images/avatar.jpg",
-        timeago: "JUST NOW",
+        timeago: 1470369716000,
         user_id: 1
     },
 {
@@ -36,7 +36,7 @@
         due:"2 DAYS",
         stage: "3",
         image: "/images/avatar.jpg",
-        timeago: "JUST NOW",
+        timeago: 1470469716000,
         user_id: 2
     },
 {
@@ -45,7 +45,7 @@
         due:"2 DAYS",
         stage: "3",
         image: "/images/avatar.jpg",
-        timeago: "JUST NOW",
+        timeago: 1470569716000,
         user_id: 2
     },
 {
@@ -54,7 +54,7 @@
         due:"5 DAYS",
         stage: "3",
         image: "/images/avatar.jpg",
-        timeago: "JUST NOW",
+        timeago: 1470669716000,
         user_id: 2
     },
 {
@@ -63,7 +63,7 @@
         due:"7 DAYS",
         stage: "3",
         image: "/images/avatar.jpg",
-        timeago: "JUST NOW",
+        timeago: 1470769716000,
         user_id: 2
     },
 {
@@ -72,7 +72,7 @@
         due:"2 DAYS",
         stage: "3",
         image: "/images/avatar.jpg",
-        timeago: "JUST NOW",
+        timeago: 1470869716000,
         user_id: 2
     },
     ];
@@ -84,7 +84,7 @@
             due: "",
             stage: "",
             image: "",
-            timeago: "",
+            timeago: 1470869716000,
             active: false
         }
     });
@@ -120,6 +120,7 @@
                 $(e).remove();
             });
 
+            this.collection.sortBy('timeago');
             this.collection.each(function(m){
                     var t = new task_view({ model: m });
                     that.$el.find('.panel').append( t.render() );
