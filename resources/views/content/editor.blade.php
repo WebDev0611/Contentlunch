@@ -266,7 +266,7 @@
                             <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="metaDescriptor">META DESCRIPTOR</label>
-                                    {!! Form::text('meta_descriptor', @isset($content)? $content->meta_description : '', array('placeholder' => 'Enter page description', 'class' => 'input input-larger form-control', 'id' => 'metaDescriptor')) !!}
+                                    {!! Form::text('meta_descriptor', @isset($content) ? $content->meta_description : '', array('placeholder' => 'Enter page description', 'class' => 'input input-larger form-control', 'id' => 'metaDescriptor')) !!}
                                 </div>
                             </div>
                             <div class="col-sm-6 hide">
