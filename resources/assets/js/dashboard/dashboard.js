@@ -111,8 +111,12 @@
             this.active_user = my_user_id;
             console.log('tc init');
             
-            this.collection = new tasks_collection();
-
+            this.collection = new tasks_collection(dummy_task_data.filter(function(t){
+                return (t.user_id === my_user_id );
+            }).sort(function(a,b){
+                return b.timeago - a.timeago;
+            }) );
+            this.render();
         },
         render: function(){
             var that = this;
@@ -132,13 +136,17 @@
             this.$el.find('.my-tasks').addClass('active');
             this.collection.reset( dummy_task_data.filter(function(t){
                 return (t.user_id === my_user_id );
+            }).sort(function(a,b){
+                return b.timeago - a.timeago;
             }) );
             this.render();
         },
         show_all: function(){
             this.$el.find('.my-tasks').removeClass('active');
             this.$el.find('.all-tasks').addClass('active');
-            this.collection.reset( dummy_task_data );
+            this.collection.reset( dummy_task_data.sort(function(a,b){
+                return b.timeago - a.timeago;
+            }) );
             this.render();
         }
     });

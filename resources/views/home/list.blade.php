@@ -112,7 +112,24 @@
             </ul>
         </div>
         <div class="dashboard-tasks-cell">
-            <span class="dashboard-tasks-text small active"><%= timeago %></span>
+            <% 
+            var active = '';
+            if( (new Date().getTime() - timeago) <= 60*10*1000 ){
+                active = 'active';
+            } %>
+            <span class="dashboard-tasks-text small <%=active%>">
+                <% if( (new Date().getTime() - timeago) <= 60*10*1000 ){%>
+                    JUST NOW
+                <% }else{ %>
+                    <% if( ( new Date().getTime() - timeago ) / ( 60*60*1000 ) >= 24 ){ %>
+                        <%= Math.floor(( new Date().getTime() - timeago ) / (60*60*1000*24)) %> DAYS AGO
+                    <% }else if( (new Date().getTime() - timeago ) <= (60*60*1000) ){ %>
+                        <%= Math.floor(( new Date().getTime() - timeago ) / (60*1000)) %> MINUTES AGO
+                    <% }else{ %>
+                        <%= Math.floor(( new Date().getTime() - timeago ) / (60*60*1000)) %> HOURS AGO
+                    <% } %>
+                <% } %>
+            </span>
         </div>
     </div>
 </script>
