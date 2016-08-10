@@ -27,5 +27,43 @@
 <!-- Page Specific JS -->
 @yield('scripts')
 
+<!-- Create overlay -->
+<div class="create-overlay">
+  <div class="inner">
+    
+    <ul class="list-inline list-createmenu">
+      <li class="first">
+        <a href="#">
+          <i class="icon-idea"></i>
+          <p class="title">New Idea</p>
+          <p>Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>
+        </a>
+      </li>
+      <li class="second">
+        <a href="#">
+          <i class="icon-content-alert"></i>
+          <p class="title">Content</p>
+          <p>Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>
+        </a>
+      </li>
+      <li class="third">
+        <a href="#">
+          <i class="icon-alert"></i>
+          <p class="title">Campaign</p>
+          <p>Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>
+        </a>
+      </li>
+      <li class="fourth">
+        <a href="#">
+          <i class="icon-calendar"></i>
+          <p class="title">Calendar Entry</p>
+          <p>Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>
+        </a>
+      </li>
+    </ul>
+    
+  </div>
+</div>
+
 </body>
 </html>
