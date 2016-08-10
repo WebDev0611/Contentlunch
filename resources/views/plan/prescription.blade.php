@@ -15,6 +15,9 @@
                 <li class="active">
                     <a href="/plan/prescription">Content Prescription</a>
                 </li>
+                <li>
+                    <a href="/plan/ideas">Ideas</a>
+                </li>
             </ul>
         </div>
         <div class="row">
