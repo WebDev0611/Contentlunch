@@ -27,7 +27,7 @@ class SettingsController extends Controller {
 
 		// - Create Connection Drop Down Data
 		$connectiondd = ['' => '-- Select One --'];
-		$connectiondd += Provider::select('slug','name')->orderBy('name', 'asc')->distinct()->lists('name', 'slug')->toArray();
+		$connectiondd += Provider::select('slug','name')->where('class_name', '!=', '')->orderBy('name', 'asc')->distinct()->lists('name', 'slug')->toArray();
 
 		return View::make('settings.connections', compact('connectiondd', 'connections', 'activeConnectionsCount'));
 

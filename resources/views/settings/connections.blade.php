@@ -110,7 +110,7 @@
             </div>
             <div class="col-md-6 text-right">
                 <button type="submit" class="button button-outline-primary button-small">Save</button>
-                <button class="button button-primary button-small text-uppercase">Connect</button>
+                <button class="button button-primary button-small text-uppercase hidden">Connect</button>
                 <button class="sidemodal-close normal-flow" data-dismiss="modal">
                     <i class="icon-remove"></i>
                 </button>
@@ -178,7 +178,7 @@
         <div class="col-md-12">
             <div class="input-form-group">
                 <label for="api_password">Wordpress.com Password</label>
-                {{ Form::text('api[password]', null, ['placeholder' => 'Password for wordpress.com', 'class' => 'input', 'id' => 'api_password']) }}
+                {{ Form::password('api[password]', null, ['placeholder' => 'Password for wordpress.com', 'class' => 'input', 'id' => 'api_password']) }}
                 <p class="help-block">Enter your password for wordpress.com</p>
             </div>
         </div>
