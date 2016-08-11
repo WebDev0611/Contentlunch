@@ -37,7 +37,18 @@ class ContentController extends Controller {
 		// -- Once we hook up another API i will know how i should organize this
 		$class = 'Connections\API\\'.$content->connection->provider->class_name;
 		$create = (new $class($content))->createPost();
-		dd($create);
+		
+		$content->published = 1;
+		$content->ready_published = 0;
+		$content->written = 0;
+		$content->save();
+
+		// - Lets get out of here
+		return redirect()->route('contentIndex')->with([
+		    'flash_message' => "You have published ".$content->title." to " . $content->connection->provider->slug,
+		    'flash_message_type' => 'success',
+		    'flash_message_important' => true
+		]);
 	}
 
 	// this is technically create content

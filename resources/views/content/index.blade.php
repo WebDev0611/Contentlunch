@@ -132,7 +132,7 @@
                                     <span class="dashboard-members-text small">3 DAYS AGO</span>
                                 </div>
                                 <div class="create-panel-table-cell text-right">
-                                    <i class="tooltip-icon large icon-arrange-mini" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lorem Ipsum"></i>
+                                    <a href="{{ route('editContent', $pub->id) }}" class="tooltip-icon large icon-arrange-mini" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lorem Ipsum"></a>
                                 </div>
                                 <div class="create-panel-table-cell text-right">
                                     <span class="dashboard-performing-text small">

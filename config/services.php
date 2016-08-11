@@ -41,9 +41,7 @@ return [
     'facebook' => [
           'client_id' => '1155129404529083',
           'client_secret' => 'fbb293d213ed62512cc18d151a901ed7',
-         // 'scope' => ['email', 'publish_actions'],
-         // 'callback_domain' => 'http://contentlaunch.local'
-         'redirect' => 'http://contentlaunch.local/invite/callback' // env('FACEBOOK_REDIRECT'),
+         'redirect' => 'http://contentlaunch.local/callback/facebook' // env('FACEBOOK_REDIRECT'),
     ],
 
     'wordpress' => [
