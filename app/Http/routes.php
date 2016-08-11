@@ -36,7 +36,7 @@ Route::group(['prefix' => 'invite', /*'middleware' => ['auth']*/], function() {
 
 
 Route::get('/home','AccountController@index');
-Route::get('/home/tasks','AccountController@tasks');
+Route::get('/dashboard','AccountController@stats');
 
 Route::get('/agency','AgencyController@index');
 
@@ -49,6 +49,8 @@ Route::get('/plan/parked','PlanController@parked');
 Route::get('/plan/editor','PlanController@editor');
 Route::get('/plan/trends','PlanController@trends');
 Route::get('/plan/prescription','PlanController@prescription');
+
+Route::get('/idea','PlanController@editor');
 
 Route::get('/calendar','CalendarController@index');
 Route::get('/calendar/{year}/{month}','CalendarController@index');

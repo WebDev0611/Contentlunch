@@ -4,7 +4,7 @@
             <input type="text" class="search-bar-input" placeholder="Search anything (content, user, rating...)">
         </div>
         <div class="col-md-4 text-right">
-            <button class="search-bar-button-primary"  onclick="window.location.href = '/create';">
+            <button class="search-bar-button-primary btn-create">
                 Create
                 <span class="caret"></span>
             </button>

@@ -22,7 +22,7 @@
         </div>
         <div class="col-md-4 text-right">
           <div class="search-bar-actions">
-            <button class="search-bar-button-primary btn-create" onclick="window.location.href = '/create';">
+            <button class="search-bar-button-primary btn-create">
                 Create
                 <span class="caret"></span>
             </button>

@@ -55,7 +55,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/home/tasks">
+                            <a href="/home">
                                 <i class="icon-itemlist"></i>
                             </a>
                         </li>
@@ -342,4 +342,8 @@
     </div>
 </div>
 
+@stop
+
+@section('scripts')
+<script src="/js/dashboard.js"></script>
 @stop

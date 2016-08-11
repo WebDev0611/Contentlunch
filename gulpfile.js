@@ -14,7 +14,12 @@ var elixir = require('laravel-elixir');
 elixir(function (mix) {
     mix
             .sass('main.scss')
-            .scripts(['./bower_components/jquery/dist/jquery.js'], "public/js/vendor.js")
+            .scripts([
+                './bower_components/jquery/dist/jquery.js',
+                './bower_components/underscore/underscore.js',
+                './bower_components/backbone/backbone.js',
+                './bower_components/moment/moment.js'
+                ], "public/js/vendor.js")
             .scripts([
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js',
@@ -29,7 +34,12 @@ elixir(function (mix) {
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js'
             ], "public/js/plugins.js")
-            .scripts(['resources/assets/js/**/*.js'], "public/js/app.js")
+            .scripts(['resources/assets/js/content/*.js','resources/assets/js/helpers.js'], "public/js/app.js")
+            .scripts(['resources/assets/js/plan/topic.js'],"public/js/topic.js")
+            .scripts(['resources/assets/js/plan/trends.js'],"public/js/trends.js")
+            .scripts(['resources/assets/js/collaborate/influencers.js'],"public/js/influencers.js")
+
+            .scripts(['resources/assets/js/dashboard/dashboard.js'],"public/js/dashboard.js")
             .copy("resources/assets/images", "public/images")
             .copy("resources/assets/fonts", "public/fonts")
     ;

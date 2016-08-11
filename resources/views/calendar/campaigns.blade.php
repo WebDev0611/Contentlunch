@@ -102,7 +102,7 @@ console.log(campaigns);
         </div>
 
         <div class="calendar-timeline-container">
-        {{$campaign_calendar}}
+        {!! $campaign_calendar !!}
         <!-- 
             <table class="calendar-timeline">
                 <thead class="calendar-timeline-months">
