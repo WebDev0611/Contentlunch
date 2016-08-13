@@ -8,6 +8,15 @@
         <div class="panel-main">
             <div class="panel-header">
                 <ul class="panel-tabs text-center">
+                    <li>
+                        <a href="/plan">Topic Generator</a>
+                    </li>
+                    <li>
+                        <a href="/plan/trends">Content Trends</a>
+                    </li>
+                    <li>
+                        <a href="/plan/prescription">Content Prescription</a>
+                    </li>
                     <li class="active">
                         <a href="javascript:;">Active Ideas</a>
                     </li>

@@ -168,14 +168,80 @@
     });
 
     /* recent ideas view */
+    var dummy_ideas_data = [
+        {
+            image:'/images/avatar.jpg',
+            title: 'Content mix: post 16 soc',
+            timeago:'3 Days Ago'
+        },
+        {
+            image:'/images/avatar.jpg',
+            title: 'Content mix: post 16 soc',
+            timeago:'3 Days Ago'
+        },
+        {
+            image:'/images/avatar.jpg',
+            title: 'Content mix: post 16 soc',
+            timeago:'3 Days Ago'
+        },
+        {
+            image:'/images/avatar.jpg',
+            title: 'Content mix: post 16 soc',
+            timeago:'3 Days Ago'
+        },
+        {
+            image:'/images/avatar.jpg',
+            title: 'Content mix: post 16 soc',
+            timeago:'3 Days Ago'
+        },
+        {
+            image:'/images/avatar.jpg',
+            title: 'Content mix: post 16 soc',
+            timeago:'3 Days Ago'
+        },
+    ];
+
     var recent_ideas_view = Backbone.View.extend({
+        idea_views: [],
         initialize: function(){
-            this.template = _.template( $('#recent-ideas-template').html() );
+            var that = this;
+            this.collection.each(function(m){
+                that.idea_views.push( new recent_view({ model: m }) );
+            });
+            this.render();
         },
         render: function(){
-            return this.template();
+            var that = this;    
+            this.idea_views.forEach(function(v){
+                v.$el.hide();
+                v.$el.fadeIn();
+                that.$el.append( v.el );
+            });
+            return this;
         }
     });
+    var recent_view = Backbone.View.extend({
+        events:{
+            "mouseover": "show_hover",
+            "click": "show_hover"
+        },
+        template: _.template( $('#recent-template').html() ),
+        initialize: function(){
+            this.el = this.template(this.model.attributes);
+        },
+        render: function(){
+            return this;
+        },
+        show_hover: function(){
+            console.log('over!');
+            this.$el.find('.idea-hover').fadeIn();
+        }
+    });
+    var recent_idea_model = Backbone.Model.extend();
+    var recent_ideas_collection = Backbone.Collection.extend({
+        model: recent_idea_model
+    });
+
 
     /* team members view */
     var team_members_view = Backbone.View.extend({
@@ -192,9 +258,9 @@
             this.render();
         },
         render: function(){
-            var recent_ideas = new recent_ideas_view();
             var team_members = new team_members_view();
-            this.$el.append( recent_ideas.render() );
+
+            recent_ideas.render();
             this.$el.append( team_members.render() );
         }
     });
@@ -209,8 +275,11 @@
     $(function(){
         var tab_container = new tab_container_view({el: '#tab-container'});
         var activity_feed_container = new activity_feed_view({el: '#activity-feed-container'});
-        var misc_container = new misc_container_view({el: '#misc-container'});
-        
+
+//        var misc_container = new misc_container_view({el: '#misc-container'});
+
+        var recent_ideas = new recent_ideas_collection(dummy_ideas_data);
+        var ideas = new recent_ideas_view({el:'#recent-ideas',collection: recent_ideas});
     });
 
 })(jQuery);
