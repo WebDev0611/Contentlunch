@@ -70,19 +70,21 @@ Route::get('/content/publish/{content}',  ['as' => 'contentPublish', 'uses' =>'C
 //-- Facebook Callbacks
 //
 Route::get('callback/facebook',  ['as' => 'facebookProvider', 'uses' =>'Connections\FacebookController@callback']);
-
+Route::post('callback/facebook/account/save','Connections\FacebookController@saveAccount');
+// -----------
 
 // - Authorize
 Route::get('authorize/{provider}',  ['as' => 'connectionProvider', 'uses' =>'ConnectionController@redirectToProvider']);
 Route::get('login/{provider}',  ['as' => 'connectionCallback', 'uses' =>'ConnectionController@login']);
 
 
-
+// - Landing page for creating content
 Route::get('/create','ContentController@create');
-
+// - create form page
 Route::get('/edit', ['as' => 'editIndex', 'uses' => 'ContentController@createContent']);
 Route::post('/edit','ContentController@editStore');
-Route::get('/edit/{content}','ContentController@editContent');
+// - editing content form page
+Route::get('/edit/{content}', ['as' => 'editContent', 'uses' =>'ContentController@editContent']);
 Route::post('/edit/{content}','ContentController@editStore');
 
 Route::get('/get_written','ContentController@get_written');
