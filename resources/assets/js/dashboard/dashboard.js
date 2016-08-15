@@ -221,21 +221,29 @@
         }
     });
     var recent_view = Backbone.View.extend({
+        tagName: "div",
+        className: "dashboard-ideas-container",
         events:{
-            "mouseover": "show_hover",
-            "click": "show_hover"
+            "mouseenter": "show_hover",
+            "mouseleave": "hide_hover",
+
         },
         template: _.template( $('#recent-template').html() ),
         initialize: function(){
-            this.el = this.template(this.model.attributes);
+            this.$el.append( this.template(this.model.attributes) );
+            console.log( this );
         },
         render: function(){
             return this;
         },
         show_hover: function(){
             console.log('over!');
-            this.$el.find('.idea-hover').fadeIn();
-        }
+            this.$el.find('.idea-hover').toggleClass('hidden');
+        },
+        hide_hover: function(){
+            console.log('out!');
+            this.$el.find('.idea-hover').toggleClass('hidden');
+        },       
     });
     var recent_idea_model = Backbone.Model.extend();
     var recent_ideas_collection = Backbone.Collection.extend({
