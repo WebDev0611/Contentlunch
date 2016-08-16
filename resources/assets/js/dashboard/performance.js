@@ -245,11 +245,9 @@
             return this;
         },
         show_hover: function(){
-            console.log('over!');
             this.$el.find('.idea-hover').toggleClass('hidden');
         },
         hide_hover: function(){
-            console.log('out!');
             this.$el.find('.idea-hover').toggleClass('hidden');
         },       
     });

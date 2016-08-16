@@ -74,9 +74,17 @@
 
                 </div>
             </div>
-            <div class="col-md-3" id="activity-feed-container">
+            <div class="col-md-3">
+                <div class="panel max-height">
+                    <div class="panel-header">
+                        <h4 class="panel-sidebar-title-secondary">Activity Feed</h4>
+                    </div>
 
+                    <div class="panel-container" id="activity-feed-container"></div>
+
+                </div>
             </div>
+
             <div class="col-md-3" id="misc-container">
                 <div class="panel" id="recent-ideas">
                     <div class="panel-header">
@@ -146,83 +154,20 @@
     </div>
 </script>
 
-<script type="text/template" id="activity-feed-template">
-  <div class="panel">
-        <div class="panel-header">
-            <h4 class="panel-sidebar-title-secondary">Activity Feed</h4>
-        </div>
-        <div class="panel-container">
-            <div class="plan-activity-box-container">
-                <div class="plan-activity-box-img">
-                    <img src="/images/avatar.jpg" alt="#">
-                </div>
-                <div class="plan-activity-box">
-                    <span class="plan-activity-title">
-                        <a href="#">Jane</a> commented on
-                        <a href="#"> Write blog post</a> on
-                        <a href="#">online banking</a>
-                    </span>
-                    <p class="plan-activity-text">
-                        Suspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum.
-                        Etiam eget dolor...
-                    </p>
-                </div>
-            </div>
-            <div class="plan-activity-box-container">
-                <div class="plan-activity-box-img">
-                    <img src="/images/avatar.jpg" alt="#">
-                </div>
-                <div class="plan-activity-box">
-                    <span class="plan-activity-title">
-                        <a href="#">Jane</a> commented on
-                        <a href="#"> Write blog post</a> on
-                        <a href="#">online banking</a>
-                    </span>
-                    <p class="plan-activity-text">
-                        Suspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum.
-                        Etiam eget dolor...
-                    </p>
-                </div>
-            </div>
-            <div class="plan-activity-box-container">
-                <div class="plan-activity-box-icon">
-                    <i class="icon-edit"></i>
-                </div>
-                <div class="plan-activity-box">
-                    <span class="plan-activity-title">
-                        <a href="#">Jane</a> commented on
-                        <a href="#"> Write blog post</a> on
-                        <a href="#">online banking</a>
-                    </span>
-                </div>
-            </div>
-            <div class="plan-activity-box-container">
-                <div class="plan-activity-box-img">
-                    <img src="/images/avatar.jpg" alt="#">
-                </div>
-                <div class="plan-activity-box">
-                    <span class="plan-activity-title">
-                        <a href="#">Jane</a> commented on
-                        <a href="#"> Write blog post</a> on
-                        <a href="#">online banking</a>
-                    </span>
-                    <p class="plan-activity-text">
-                        Suspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum.
-                        Etiam eget dolor...
-                    </p>
-                    <div class="plan-activity-dropdown">
-                        <button type="button" class="button button-action" data-toggle="dropdown">
-                            <i class="icon-add-circle"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li>
-                                <a href="#">Write It</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+<script type="text/template" id="activity-item-template">
+    <div class="plan-activity-box-img">
+        <img src="<%= image %>" alt="#">
+    </div>
+    <div class="plan-activity-box">
+        <span class="plan-activity-title">
+            <a href="#"><%= who %></a> <%= action %>
+            <a href="#"> <%= title %></a> on
+            <a href="#"><%= content %></a>
+        </span>
+        <p class="plan-activity-text">
+            <%= body %>
+        </p>
     </div>
 </script>
 

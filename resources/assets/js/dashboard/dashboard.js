@@ -77,6 +77,50 @@
     },
     ];
 
+   var dummy_activity_data = [
+    {
+        image: "/images/avatar.jpg",
+        who: "Jane",
+        action: "commented on",
+        title: "Write blog post",
+        content: "online banking",
+        body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
+    },
+    {
+        image: "/images/avatar.jpg",
+        who: "Jane",
+        action: "commented on",
+        title: "Write blog post",
+        content: "online banking",
+        body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
+    },
+    {
+        image: "/images/avatar.jpg",
+        who: "Jane",
+        action: "commented on",
+        title: "Write blog post",
+        content: "online banking",
+        body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
+    },
+    {
+        image: "/images/avatar.jpg",
+        who: "Jane",
+        action: "commented on",
+        title: "Write blog post",
+        content: "online banking",
+        body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
+    },
+    {
+        image: "/images/avatar.jpg",
+        who: "Jane",
+        action: "commented on",
+        title: "Write blog post",
+        content: "online banking",
+        body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
+    },
+    ];
+
+
     var task_model = Backbone.Model.extend({
         defaults:{
             title: "",
@@ -156,14 +200,46 @@
     var all_tasks_view = Backbone.View.extend();
     var campaigns_view = Backbone.View.extend();
 
+    /* activity item model */
+    var activity_model = Backbone.Model.extend({
+        defaults: {
+            image: "/images/avatar.jpg",
+            who: "Jane",
+            action: "commented on",
+            title: "Write blog post",
+            content: "online banking",
+            body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
+        }
+    });
+
+    /* activity item collection */
+    var activity_collection = Backbone.Collection.extend({
+        model: activity_model
+    });
+
     /* activity feed view */
     var activity_feed_view = Backbone.View.extend({
         initialize: function(){
-            this.template = _.template( $('#activity-feed-template').html() );
+            console.log( this.collection.toJSON() );
             this.render();
         },
         render: function(){
-            this.$el.append( this.template() );
+            var view = this;
+            this.collection.each(function(m){
+                var activity_item = new activity_item_view({model: m});
+                view.$el.append( activity_item.$el );
+            });
+            return this;
+        }
+    });
+
+    /*activity item view */
+    var activity_item_view = Backbone.View.extend({
+        tagName: "div",
+        className: "plan-activity-box-container",
+        template: _.template( $('#activity-item-template').html() ),
+        initialize: function(){
+            this.$el.append( this.template( this.model.attributes ) );
         }
     });
 
@@ -282,7 +358,9 @@
 
     $(function(){
         var tab_container = new tab_container_view({el: '#tab-container'});
-        var activity_feed_container = new activity_feed_view({el: '#activity-feed-container'});
+
+       var activity_feed = new activity_collection(dummy_activity_data);
+       var activity_feed_container = new activity_feed_view({el: '#activity-feed-container', collection: activity_feed });
 
 //        var misc_container = new misc_container_view({el: '#misc-container'});
 
