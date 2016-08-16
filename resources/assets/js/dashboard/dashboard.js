@@ -120,6 +120,66 @@
     },
     ];
 
+    /* recent ideas view */
+    var dummy_ideas_data = [
+        {
+            image:'/images/avatar.jpg',
+            title: 'Content mix: post 16 soc',
+            timeago:'3 Days Ago'
+        },
+        {
+            image:'/images/avatar.jpg',
+            title: 'Content mix: post 16 soc',
+            timeago:'3 Days Ago'
+        },
+        {
+            image:'/images/avatar.jpg',
+            title: 'Content mix: post 16 soc',
+            timeago:'3 Days Ago'
+        },
+        {
+            image:'/images/avatar.jpg',
+            title: 'Content mix: post 16 soc',
+            timeago:'3 Days Ago'
+        },
+        {
+            image:'/images/avatar.jpg',
+            title: 'Content mix: post 16 soc',
+            timeago:'3 Days Ago'
+        },
+        {
+            image:'/images/avatar.jpg',
+            title: 'Content mix: post 16 soc',
+            timeago:'3 Days Ago'
+        },
+    ];
+
+    var dummy_team_data = [
+    // {
+    //    // name: "Jason Simmons",
+    //    // email: "jasonsimm@google.com",
+    //    // image: "/images/avatar.jpg",
+    //   //  num: "35"
+    // },
+    // {
+    //     name: "Jason Simmons",
+    //     email: "jasonsimm@google.com",
+    //     image: "/images/avatar.jpg",
+    //     num: "35"
+    // },
+    {
+        name: "Jane Samson",
+        email: "jsam@google.com",
+        image: "/images/avatar.jpg",
+        num: "35"
+    },
+    {
+        "name": "Jason Simmons",
+        "email": "jasonsimm@google.com",
+        "image": "/images/avatar.jpg",
+        "tasks": "35"
+    }
+    ];
 
     var task_model = Backbone.Model.extend({
         defaults:{
@@ -220,7 +280,6 @@
     /* activity feed view */
     var activity_feed_view = Backbone.View.extend({
         initialize: function(){
-            console.log( this.collection.toJSON() );
             this.render();
         },
         render: function(){
@@ -242,40 +301,6 @@
             this.$el.append( this.template( this.model.attributes ) );
         }
     });
-
-    /* recent ideas view */
-    var dummy_ideas_data = [
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-    ];
 
     var recent_ideas_view = Backbone.View.extend({
         idea_views: [],
@@ -307,17 +332,14 @@
         template: _.template( $('#recent-template').html() ),
         initialize: function(){
             this.$el.append( this.template(this.model.attributes) );
-            console.log( this );
         },
         render: function(){
             return this;
         },
         show_hover: function(){
-            console.log('over!');
             this.$el.find('.idea-hover').toggleClass('hidden');
         },
         hide_hover: function(){
-            console.log('out!');
             this.$el.find('.idea-hover').toggleClass('hidden');
         },       
     });
@@ -326,26 +348,46 @@
         model: recent_idea_model
     });
 
-
-    /* team members view */
-    var team_members_view = Backbone.View.extend({
-        initialize: function(){
-            this.template = _.template( $('#team-members-template').html() );
-        },
-        render: function(){
-            return this.template();
+    /*team member model */
+    var team_member_model = Backbone.Model.extend({
+        defaults:{
+            "name": "Jason Simmons",
+            "email": "jasonsimm@google.com",
+            "image": "/images/avatar.jpg",
+            "tasks": "35"
         }
     });
 
-    var misc_container_view = Backbone.View.extend({
+    /* team member collection */
+    var team_members_collection = Backbone.Collection.extend({
+        model: team_member_model
+    });
+
+    /* team member view */
+    var team_member_view = Backbone.View.extend({
+        tagName: "div",
+        className: "dashboard-members-container",
+        template: _.template( $('#team-member-template').html() ),
         initialize: function(){
+            this.$el.append( this.template(this.model.attributes) );
+        },
+        render: function(){
+            return this;
+        }
+    });
+
+    /* team members list view */
+    var team_members_view = Backbone.View.extend({
+        initialize: function(){
+            console.log(this);
             this.render();
         },
         render: function(){
-            var team_members = new team_members_view();
-
-            recent_ideas.render();
-            this.$el.append( team_members.render() );
+            var view = this;
+            this.collection.each(function(m){
+                var team_member = new team_member_view({model: m});
+                view.$el.append( team_member.$el );
+            });
         }
     });
 
@@ -362,10 +404,11 @@
        var activity_feed = new activity_collection(dummy_activity_data);
        var activity_feed_container = new activity_feed_view({el: '#activity-feed-container', collection: activity_feed });
 
-//        var misc_container = new misc_container_view({el: '#misc-container'});
-
         var recent_ideas = new recent_ideas_collection(dummy_ideas_data);
-        var ideas = new recent_ideas_view({el:'#recent-ideas',collection: recent_ideas});
+        var ideas = new recent_ideas_view({el:'#recent-ideas', collection: recent_ideas});
+
+        var team_members = new team_members_collection(dummy_team_data);
+        var team = new team_members_view({el: '#team-members-container', collection: team_members});
     });
 
 })(jQuery);

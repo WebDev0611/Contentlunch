@@ -86,6 +86,7 @@
             </div>
 
             <div class="col-md-3" id="misc-container">
+
                 <div class="panel" id="recent-ideas">
                     <div class="panel-header">
                         <h4 class="panel-sidebar-title-secondary">
@@ -96,9 +97,20 @@
                             </a>
                         </h4>
                     </div>
-
-
                 </div>
+
+                <div class="panel" id="team-members-container">
+                    <div class="panel-header">
+                        <h4 class="panel-sidebar-title-secondary">
+                            Team Members
+                            <a href="#">
+                                INVITE
+                                <i class="icon-edit-user"></i>
+                            </a>
+                        </h4>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -193,80 +205,21 @@
     </div>
 </script>
 
-<script type="text/template" id="team-members-template">
- <div class="panel">
-        <div class="panel-header">
-            <h4 class="panel-sidebar-title-secondary">
-                Team Members
-                <a href="#">
-                    INVITE
-                    <i class="icon-edit-user"></i>
-                </a>
-            </h4>
-        </div>
-        <div class="dashboard-members-container">
-            <div class="dashboard-ideas-cell">
-                <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
-            </div>
-            <div class="dashboard-members-cell">
-                <p class="dashboard-ideas-text">Jason Simmons</p>
-                <span class="dashboard-members-text small">jasonsimm@google.com</span>
-            </div>
-            <div class="dashboard-members-cell">
-                <span class="dashboard-ideas-text small">
-                    <i class="icon-checklist"></i>
-                    35
-                </span>
-            </div>
-        </div>
-        <div class="dashboard-members-container">
-            <div class="dashboard-ideas-cell">
-                <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
-            </div>
-            <div class="dashboard-members-cell">
-                <p class="dashboard-ideas-text">Jason Simmons</p>
-                <span class="dashboard-members-text small">jasonsimm@google.com</span>
-            </div>
-            <div class="dashboard-members-cell">
-                <span class="dashboard-ideas-text small">
-                    <i class="icon-checklist"></i>
-                    35
-                </span>
-            </div>
-        </div>
-        <div class="dashboard-members-container">
-            <div class="dashboard-ideas-cell">
-                <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
-            </div>
-            <div class="dashboard-members-cell">
-                <p class="dashboard-ideas-text">Jason Simmons</p>
-                <span class="dashboard-members-text small">jasonsimm@google.com</span>
-            </div>
-            <div class="dashboard-members-cell">
-                <span class="dashboard-ideas-text small">
-                    <i class="icon-checklist"></i>
-                    35
-                </span>
-            </div>
-        </div>
-        <div class="dashboard-members-container">
-            <div class="dashboard-members-cell">
-                <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
-            </div>
-            <div class="dashboard-members-cell">
-                <p class="dashboard-ideas-text">Jason Simmons</p>
-                <span class="dashboard-members-text small">jasonsimm@google.com</span>
-            </div>
-            <div class="dashboard-members-cell">
-                <span class="dashboard-ideas-text small">
-                    <i class="icon-checklist"></i>
-                    35
-                </span>
-            </div>
-        </div>
+<script type="text/template" id="team-member-template">
+    <div class="dashboard-ideas-cell">
+        <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
+    </div>
+    <div class="dashboard-members-cell">
+        <p class="dashboard-ideas-text"><%= name %></p>
+        <span class="dashboard-members-text small"><%= email %></span>
+    </div>
+    <div class="dashboard-members-cell">
+        <span class="dashboard-ideas-text small">
+            <i class="icon-checklist"></i>
+            <%= tasks %>
+        </span>
     </div>
 </script>
-
 
 @stop
 
