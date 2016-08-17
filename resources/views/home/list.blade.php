@@ -166,6 +166,24 @@
     </div>
 </script>
 
+<script type="text/template" id="campaign-template">
+    <div class="dashboard-tasks-container">
+        <div class="dashboard-tasks-cell">
+            <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
+        </div>
+        <div class="dashboard-tasks-cell">
+            <h5 class="dashboard-tasks-title">
+                <%= title %>
+            </h5>
+            <ul class="dashboard-tasks-list">
+                <li>DUE IN: <strong><%= due %></strong></li>
+            </ul>
+        </div>
+        <div class="dashboard-tasks-cell">
+           SOMETHING
+        </div>
+    </div>
+</script>
 
 <script type="text/template" id="activity-item-template">
     <div class="plan-activity-box-img">

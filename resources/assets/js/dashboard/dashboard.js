@@ -77,6 +77,27 @@
     },
     ];
 
+    var dummy_campaign_data = [
+    {
+        title: "CAMPAIGN 1",
+        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
+        due:"2 DAYS",
+        stage: "3",
+        image: "/images/avatar.jpg",
+        timeago: 1470169716000,
+        user_id: 1
+    },
+        {
+        title: "CAMPAIGN 2",
+        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
+        due:"7 DAYS",
+        stage: "3",
+        image: "/images/avatar.jpg",
+        timeago: 1470269716000,
+        user_id: 1
+    }
+    ];
+
    var dummy_activity_data = [
     {
         image: "/images/avatar.jpg",
@@ -204,61 +225,101 @@
         }
     });
 
+    /* campaign parts */
+    var campaign_model = Backbone.Model.extend();
+    var campaign_collection = Backbone.Collection.extend({
+        model: campaign_model
+    });
+    var campaign_view = Backbone.View.extend({
+        template: _.template( $('#campaign-template').html() ),
+        render: function(){
+            this.el = this.template(this.model.attributes);
+            return this.el;
+        }
+    });
+
 
     /* main tab view */
     var tab_container_view = Backbone.View.extend({
         events:{
             "click li.my-tasks": "show_my",
-            "click li.all-tasks": "show_all"
+            "click li.all-tasks": "show_all",
+            "click li.campaigns": "show_campaigns"
         },
         initialize: function(){
             this.active_user = my_user_id;
             console.log('tc init');
             
-            this.collection = new tasks_collection(dummy_task_data.filter(function(t){
+            this.collection.reset( this.collection.filter(function(t){
                 return (t.user_id === my_user_id );
             }).sort(function(a,b){
                 return b.timeago - a.timeago;
             }) );
-            this.render();
+
+            this.show_my();
         },
         render: function(){
             var that = this;
             $('.dashboard-tasks-container').each(function(i,e){
                 $(e).remove();
             });
-
-            this.collection.sortBy('timeago');
-            this.collection.each(function(m){
-                    var t = new task_view({ model: m });
-                    that.$el.find('.panel').append( t.render() );
-            });
-            $('#incomplete-tasks').text( this.collection.length );
             return this;
         },
         show_my: function(){
-            this.$el.find('.all-tasks').removeClass('active');
+            var view = this;
+            this.remove_active();
+            this.render();
             this.$el.find('.my-tasks').addClass('active');
             this.collection.reset( dummy_task_data.filter(function(t){
                 return (t.user_id === my_user_id );
             }).sort(function(a,b){
                 return b.timeago - a.timeago;
             }) );
-            this.render();
+            this.collection.sortBy('timeago');
+            this.collection.each(function(m){
+                    var t = new task_view({ model: m });
+                    view.$el.find('.panel').append( t.render() );
+            });
+            $('#incomplete-tasks').text( this.collection.length );
         },
         show_all: function(){
-            this.$el.find('.my-tasks').removeClass('active');
+            var view = this;
+            this.remove_active();
+            this.render();
             this.$el.find('.all-tasks').addClass('active');
             this.collection.reset( dummy_task_data.sort(function(a,b){
                 return b.timeago - a.timeago;
             }) );
-            this.render();
+            this.collection.sortBy('timeago');
+            this.collection.each(function(m){
+                    var t = new task_view({ model: m });
+                    view.$el.find('.panel').append( t.render() );
+            });
+            $('#incomplete-tasks').text( this.collection.length );
+        },
+        show_campaigns: function(){
+            var view = this;
+            this.remove_active();
+            this.render();          
+            this.$el.find('.campaigns').addClass('active');
+            console.log(this.campaigns.toJSON() );
+
+            this.campaigns.sortBy('timeago');
+            this.campaigns.each(function(m){
+
+                    var t = new campaign_view({ model: m });
+                    view.$el.find('.panel').append( t.render() );
+            });
+        },
+        remove_active: function(){
+            this.$el.find('.all-tasks').removeClass('active');
+            this.$el.find('.my-tasks').removeClass('active');
+            this.$el.find('.campaigns').removeClass('active');           
         }
     });
 
     var my_tasks_view = Backbone.View.extend();
     var all_tasks_view = Backbone.View.extend();
-    var campaigns_view = Backbone.View.extend();
 
     /* activity item model */
     var activity_model = Backbone.Model.extend({
@@ -391,15 +452,18 @@
         }
     });
 
-    /* campaigns view */
-    var campaigns_view = Backbone.View.extend({
-        initialize: function(){},
-        render: function(){}
-    });
-
 
     $(function(){
-        var tab_container = new tab_container_view({el: '#tab-container'});
+        var campaigns = new campaign_collection(dummy_campaign_data);
+        var tasks = new tasks_collection(dummy_task_data.filter(function(t){
+                return (t.user_id === my_user_id );
+            }).sort(function(a,b){
+                return b.timeago - a.timeago;
+            }) );
+
+        var tab_container = new tab_container_view({el: '#tab-container',collection: tasks});
+        tab_container.campaigns = campaigns;
+        tab_container.tasks = tasks;
 
        var activity_feed = new activity_collection(dummy_activity_data);
        var activity_feed_container = new activity_feed_view({el: '#activity-feed-container', collection: activity_feed });
