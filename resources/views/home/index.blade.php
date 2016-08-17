@@ -93,6 +93,11 @@
                             </li>
                         </ul>
                     </div>
+
+                    <div class="dashboard-content-box height-spec1">
+                        <ul class="list-unstyled list-content" id="tab-contents-cont">
+                        </ul>
+                    </div>
                 </div>
 
             </div>
@@ -149,24 +154,22 @@
 </script>
 
 <script type="text/template" id="content-item-template">
-    <div class="dashboard-performing-cell">
-        <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
+    <div class="list-avatar">
+      <div class="user-avatar">
+        <img src="<%= image %>"/>
+      </div>
     </div>
-    <div class="dashboard-performing-cell">
-        <h5 class="dashboard-performing-title">
-            <%= title %>
-        </h5>
+    <div class="list-title">
+      <p><a href="#"> <%= title %></a></p>
     </div>
-    <div class="dashboard-performing-cell">
-        <span class="dashboard-performing-text small">
-            LAUNCHED: <strong><%= launched %></strong>
-        </span>
+    <div class="list-datestamp">
+      <p><span>LAUNCHED:</span> <%= launched %></p>
     </div>
-    <div class="dashboard-performing-cell">
-        <i class="icon-arrange-mini"></i>
+    <div class="list-type">
+      <i class="icon-type-blog"></i>
     </div>
-    <div class="dashboard-performing-cell">
-        <h5 class="dashboard-performing-strong"><%= performance %></h5>
+    <div class="list-score">
+      <p><%= performance %></p>
     </div>
 </script>
 

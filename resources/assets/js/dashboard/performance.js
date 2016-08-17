@@ -128,8 +128,7 @@
 
     /* content item view */
     var content_item_view = Backbone.View.extend({
-        tagName: "div",
-        className: "dashboard-performing-container",
+        tagName: "li",
         template: _.template( $('#content-item-template').html() ),
         initialize: function(){
             this.$el.append( this.template(this.model.attributes) );
@@ -149,19 +148,25 @@
         },
         render:function(){
             var that = this;
-            this.content.each(function(m){
+            this.collection = this.collection || this.content || this.campaigns || [];
+            this.$el.find('#tab-contents-cont').html('');
+            this.collection.each(function(m){
                 var con = new content_item_view({model: m });
-                that.$el.append( con.$el );
+                that.$el.find('#tab-contents-cont').append( con.$el );
             });
            
         },
         show_content: function(){
+            this.collection = this.content || [];
             this.$el.find('.top-content').toggleClass('active');
             this.$el.find('.active-campaigns').toggleClass('active');
+            this.render();
         },
         show_campaigns: function(){
+            this.collection = this.campaigns || [];
             this.$el.find('.top-content').toggleClass('active');
             this.$el.find('.active-campaigns').toggleClass('active');
+            this.render();
         }
     });
 
