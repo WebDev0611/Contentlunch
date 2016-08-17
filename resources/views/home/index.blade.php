@@ -173,6 +173,25 @@
     </div>
 </script>
 
+<script type="text/template" id="campaign-item-template">
+    <div class="list-avatar">
+      <div class="user-avatar">
+        <img src="<%= image %>"/>
+      </div>
+    </div>
+    <div class="list-title">
+      <p><a href="#"> <%= title %></a></p>
+    </div>
+    <div class="list-datestamp">
+      <p><span>LAUNCHED:</span> <%= launched %></p>
+    </div>
+    <div class="list-type">
+      <i class="icon-type-blog"></i>
+    </div>
+    <div class="list-score">
+      <p><%= performance %></p>
+    </div>
+</script>
 
 <script type="text/template" id="activity-item-template">
     <div class="plan-activity-box-img">

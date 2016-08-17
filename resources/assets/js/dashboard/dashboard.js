@@ -247,9 +247,7 @@
             "click li.campaigns": "show_campaigns"
         },
         initialize: function(){
-            this.active_user = my_user_id;
-            console.log('tc init');
-            
+            this.active_user = my_user_id;            
             this.collection.reset( this.collection.filter(function(t){
                 return (t.user_id === my_user_id );
             }).sort(function(a,b){
@@ -302,11 +300,9 @@
             this.remove_active();
             this.render();          
             this.$el.find('.campaigns').addClass('active');
-            console.log(this.campaigns.toJSON() );
 
             this.campaigns.sortBy('timeago');
             this.campaigns.each(function(m){
-
                     var t = new campaign_view({ model: m });
                     view.$el.find('.panel').append( t.render() );
             });
@@ -440,7 +436,6 @@
     /* team members list view */
     var team_members_view = Backbone.View.extend({
         initialize: function(){
-            console.log(this);
             this.render();
         },
         render: function(){

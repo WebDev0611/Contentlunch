@@ -110,6 +110,28 @@
         body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
     },
     ];
+    var dummy_campaign_data = [
+    {
+        title: "CAMPAIGN 1",
+        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
+        launched:"2 DAYS",
+        stage: "3",
+        image: "/images/avatar.jpg",
+        timeago: 1470169716000,
+        user_id: 1,
+        performance: '40'
+    },
+        {
+        title: "CAMPAIGN 2",
+        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
+        launched:"7 DAYS",
+        stage: "3",
+        image: "/images/avatar.jpg",
+        timeago: 1470269716000,
+        user_id: 1,
+        performance: '55',
+    }
+    ];
 
 
     /* content item model */
@@ -142,31 +164,50 @@
     // /* main tab view */
     var tab_container_view = Backbone.View.extend({
         content:{},
+        campaigns:{},
+        active: 'content',
         events:{
             "click .top-content": "show_content",
             "click .active-campaigns": "show_campaigns"
         },
+        initialize: function(){
+          //  this.content || this.campaigns || [];
+        },
         render:function(){
             var that = this;
-            this.collection = this.collection || this.content || this.campaigns || [];
             this.$el.find('#tab-contents-cont').html('');
             this.collection.each(function(m){
-                var con = new content_item_view({model: m });
+                var con = null;
+                switch(this.active){
+                    case 'campaigns':
+                        con = new campaign_item_view({model: m });
+                    break;
+                    default:
+                        con = new content_item_view({model: m });
+                    break;
+
+                }
                 that.$el.find('#tab-contents-cont').append( con.$el );
             });
            
         },
         show_content: function(){
             this.collection = this.content || [];
-            this.$el.find('.top-content').toggleClass('active');
-            this.$el.find('.active-campaigns').toggleClass('active');
+            this.active = 'content';
+            this.remove_active();
+            this.$el.find('.top-content').addClass('active');
             this.render();
         },
         show_campaigns: function(){
             this.collection = this.campaigns || [];
-            this.$el.find('.top-content').toggleClass('active');
-            this.$el.find('.active-campaigns').toggleClass('active');
+            this.active = 'campaigns';
+            this.remove_active();
+            this.$el.find('.active-campaigns').addClass('active');
             this.render();
+        },
+        remove_active: function(){
+            this.$el.find('.top-content').removeClass('active');
+            this.$el.find('.active-campaigns').removeClass('active');          
         }
     });
 
@@ -261,16 +302,41 @@
         model: recent_idea_model
     });
 
+    /* campaign parts */
+    var campaign_model = Backbone.Model.extend({
+        defaults:{
+            title: "CAMPAIGN NAME",
+            body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
+            launched:"0 DAYS",
+            stage: "0",
+            image: "/images/avatar.jpg",
+            timeago: 1470169716000,
+            user_id: 1,
+            performance: '100'
+        }
+    });
+    var campaign_collection = Backbone.Collection.extend({
+        model: campaign_model
+    });
+
     /* campaigns view */
-    var campaigns_view = Backbone.View.extend({
-        initialize: function(){},
-        render: function(){}
+    var campaign_item_view = Backbone.View.extend({
+        tagName: "li",
+        template: _.template( $('#campaign-item-template').html() ),
+        initialize: function(){
+            this.$el.append( this.template(this.model.attributes) );
+            return this;
+        },
+        render: function(){
+            return this;
+        }
     });
 
      $(function(){
            var tab_container = new tab_container_view({el: '#tab-container'});
            tab_container.content = new content_collection(dummy_content_data);
-           tab_container.render();
+           tab_container.campaigns = new campaign_collection(dummy_campaign_data);
+           tab_container.show_content();
 
            var activity_feed = new activity_collection(dummy_activity_data);
            var activity_feed_container = new activity_feed_view({el: '#activity-feed-container', collection: activity_feed });
