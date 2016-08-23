@@ -13,6 +13,11 @@
         },
         {
             type:'task',
+            title: 'Content mix: post 3 blogs...',
+            date: 1471918205000
+        },
+        {
+            type:'task',
             title: 'Post 16 social postings',
             date: 1471419205000
         },
@@ -56,41 +61,37 @@
     var calendar_item_view = Backbone.View.extend({
         tagName: 'li',
         events:{
-            'click li': 'open_item'
+            'click': 'open_item'
         },
         template: _.template( $('#calendar-item-template').html() ),
+        initialize:function(){
+            this.render();
+        },
         render: function(){
-            this.$el.append( this.template(this.model.attributes ) );
+            this.$el.append( this.template(this.model.attributes) );
+            this.delegateEvents(['click']);
             return this;
         },
         open_item: function(){
+            this.$el.toggleClass('active');
+            this.$el.find('.calendar-task-list-popover').toggleClass('open');
             console.log('clicked calendar item!' + this.model.attributes);
         }
     });
 
     /* the cell that holds the events */
     var calendar_container_view = Backbone.View.extend({
-        events:{
-            'click':'clicked_test'
-        },
         template: _.template( $('#calendar-item-container').html() ),
         initialize: function(){
-            console.log('init' + this.el );
             this.$el.append(this.template());
         },
         render: function(){
             var view = this;
             this.collection.each(function(m){
                 var c_i = new calendar_item_view({model:m});
-                console.log(c_i);
-                view.$el.find('.calendar-task-list').append( c_i.render().$el );
+                view.$el.find('.calendar-task-list').append( c_i.$el );
             });
             return this;
-        },
-        clicked_test: function(){
-            console.log('clicked!');
-            console.log( this.$el.attr('id') );
-            console.log(this.collection.toJSON());
         }
     });
 
