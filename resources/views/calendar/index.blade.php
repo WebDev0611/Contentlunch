@@ -48,18 +48,7 @@
 
        {!! $calendar !!}
 
-       <script>
-       var campaigns = {{$campaigns}};
-       var user_id = {{$user_id}};
-       var account_id = {{$account_id}};
 
-       console.log('user_id: ');
-       console.log(user_id);
-       console.log('account_id:');
-       console.log(account_id);
-       console.log('Campaigns:');
-       console.log(campaigns);
-       </script>
 <!-- weekly -->
 <!--
 
