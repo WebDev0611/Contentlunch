@@ -8,7 +8,7 @@
     var dummy_calendar_data = [
         {
             type:'idea',
-            title: 'Content mix: post 3 blogs...',
+            title: 'Lorem ispum',
             date: 1471919205000
         },
         {
@@ -33,12 +33,32 @@
         },
         {
             type:'task',
-            title: 'Post 16 social postings',
+            title: 'Post 10 social postings',
             date: 1470419005000
         },
         {
             type:'idea',
-            title: 'Post 16 social postings',
+            title: 'Post 20 social postings',
+            date: 1470119205000
+        },
+        {
+            type:'idea',
+            title: 'Post 1 social postings',
+            date: 1470119205000
+        },
+        {
+            type:'idea',
+            title: 'Post 5 social postings',
+            date: 1470119205000
+        },
+        {
+            type:'task',
+            title: 'Post 9 social postings',
+            date: 1470119205000
+        },
+        {
+            type:'task',
+            title: 'Post 15 social postings',
             date: 1470119205000
         }
     ];
@@ -61,18 +81,20 @@
     var calendar_item_view = Backbone.View.extend({
         tagName: 'li',
         events:{
-            'click': 'open_item'
+            'click': 'open_item',
         },
         template: _.template( $('#calendar-item-template').html() ),
         initialize:function(){
+            this.$el.append( this.template( this.model.attributes ) );
             this.render();
         },
         render: function(){
-            this.$el.append( this.template(this.model.attributes) );
-            this.delegateEvents(['click']);
+           // this.delegateEvents(['click']);
             return this;
         },
-        open_item: function(){
+        open_item: function(event){
+            event.stopPropagation();
+            console.log('clicked');
             this.$el.toggleClass('active');
             this.$el.find('.calendar-task-list-popover').toggleClass('open');
         }
@@ -80,57 +102,49 @@
 
     /* the cell that holds the events */
     var calendar_container_view = Backbone.View.extend({
+        events:{
+            'mouseenter li': 'add_active',
+            'mouseleave li': 'hide_active'
+        },
         template: _.template( $('#calendar-item-container').html() ),
         initialize: function(){
-            this.$el.append(this.template());
-            if(this.collection.length > 0){
-                console.log(this);
-            }
+            console.log(this);
+            this.$el.append( this.template() );
+            this.$el.append( $('#calendar-dropdown-template').html() );
+            this.$el.find('.date-popup-label').text('Wed, Mar 4, 2016, 01 PM');
+            this.render();
         },
         render: function(){
             var view = this;
             this.collection.each(function(m){
                 var c_i = new calendar_item_view({model:m});
-                console.log(c_i.el);
                 view.$el.find('.calendar-task-list').append( c_i.$el );
             });
             return this;
+        },
+        show_tool: function(event){
+            event.stopPropagation();
+
+            this.$el.find('.calendar-schedule-dropdown-wrapper').fadeIn(100);
+        },
+        hide_tool: function(event){
+            event.stopPropagation();
+
+            this.$el.find('.calendar-schedule-dropdown-wrapper').fadeOut(100);
+        },
+        add_active: function(event){
+            event.stopPropagation();
+            console.log(this);
+            console.log('mouse over');
+            this.$el.addClass('active');
+        },
+        hide_active: function(event){
+            console.log(this);
+            event.stopPropagation();
+            console.log('hiding active');
+            this.$el.removeClass('active');
         }
     });
-
-    var activeCell = null;
-    var appendTaskButton = function(cell){
-        var taskButton = $('#calendar-dropdown-template').html();
-        $(cell).append(taskButton);
-    };
-    var removeTaskButton = function(cell){
-        $(cell).find('.calendar-schedule-dropdown-wrapper').fadeOut(200,function(){
-            $(this).remove();
-        });
-    };
-
-    var showCalActionOverlay = function(identifier){
-        var selCellVal = $(this).data(identifier);
-        var selCell = $(this);
-        if( $(activeCell).data(identifier) !== selCellVal && !$(this).attr('disabled') ){
-            appendTaskButton(selCell);
-            removeTaskButton(activeCell);
-            activeCell = selCell;
-        }
-    };
-    var activateMonthly = function(){
-        showCalActionOverlay.call(this,'cell-date');
-    };
-    var activateWeekly = function(){
-        showCalActionOverlay.call(this,'cell-date-time');
-    };      
-    var activateDaily = function(){
-        showCalActionOverlay.call(this,'cell-time');
-    };
-
-    $('.calendar-month-days td').mouseenter(activateMonthly);
-    $('.calendar-week-hours td').mouseenter(activateWeekly);
-    $('.calendar-day td').mouseenter(activateDaily);
 
     $(function(){
         var calendar_items = new calendar_item_collection(dummy_calendar_data);
@@ -162,12 +176,10 @@
             var d_string = $(c).data('cell-date') || $(c).data('cell-date-time');
             if(d_string){
                 var sel = '#date-' + d_string;
-                console.log(sel);
                 var col_set_group = day_containers[ d_string ] || hour_containers[ d_string ] || [];
                 var col = new calendar_item_collection( col_set_group );
-                console.log(col.toJSON());
                 cal_views[ d_string ] = new calendar_container_view({el: sel, collection: col });
-                cal_views[ d_string ].render();
+                //cal_views[ d_string ].render();
             }
         }); 
     });
