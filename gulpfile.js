@@ -39,6 +39,7 @@ elixir(function (mix) {
             .scripts(['resources/assets/js/plan/trends.js'],"public/js/trends.js")
             .scripts(['resources/assets/js/collaborate/influencers.js'],"public/js/influencers.js")
 
+            .scripts(['resources/assets/js/calendar/calendar.js'],"public/js/calendar.js")
             .scripts(['resources/assets/js/dashboard/dashboard.js'],"public/js/dashboard.js")
             .scripts(['resources/assets/js/dashboard/performance.js'],"public/js/performance.js")
 

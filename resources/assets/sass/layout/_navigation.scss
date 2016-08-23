@@ -95,7 +95,7 @@ $navigation-menu-link-background: #f2f3f9;
     background: $navigation-menu-link-background;
   }
 
-  &.active > .navigation-menu-icon > span {
+  .navigation-menu-icon > span {
     display: block;
   }
 }

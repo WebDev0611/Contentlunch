@@ -205,10 +205,16 @@ $panel-border-radius: 4px;
   font-weight: normal;
   font-size: 16px;
   line-height: 47px;
+  font-size: 14px;
 
   &:hover, &:focus {
     text-decoration: underline;
     color: #2482ff;
+  }
+  
+  .icon-arrow-right {
+    font-size: .7em;
+    margin-left: 4px;
   }
 }
 

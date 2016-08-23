@@ -520,3 +520,9 @@
 
 
 @stop
+
+@section('scripts')
+<script src="/js/calendar.js"></script>
+@stop
+
+@include('calendar.modals')
