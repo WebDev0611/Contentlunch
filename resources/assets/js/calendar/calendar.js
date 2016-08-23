@@ -35,9 +35,9 @@
         showCalActionOverlay.call(this,'cell-time');
     };
 
-    $('.calendar-month-days td').mouseover(activateMonthly);
-    $('.calendar-week-hours td').mouseover(activateWeekly);
-    $('.calendar-day td').mouseover(activateDaily);
+    $('.calendar-month-days td').mouseenter(activateMonthly);
+    $('.calendar-week-hours td').mouseenter(activateWeekly);
+    $('.calendar-day td').mouseenter(activateDaily);
 
 })(window,document,jQuery); 
 

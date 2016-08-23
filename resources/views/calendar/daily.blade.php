@@ -47,20 +47,6 @@
 
         </div>
 
-      
-
-       <script>
-       var user_id = {{$user_id}};
-       var account_id = {{$account_id}};
-       var content_items = {{$content_items}};
-
-       console.log('user_id: ');
-       console.log(user_id);
-       console.log('account_id:');
-       console.log(account_id);
-       console.log('content items: ' );
-       console.log(content_items);
-       </script>
 
        {!! $daily_calendar !!}
        <!--
@@ -217,3 +203,9 @@
 @include('calendar.create')
 
 @stop
+
+@section('scripts')
+<script src="/js/calendar.js"></script>
+@stop
+
+@include('calendar.modals')
