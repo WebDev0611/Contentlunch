@@ -45,12 +45,12 @@ class CalendarController extends Controller {
 
 			/* keep going with days.... */
 			for($list_day = 1; $list_day <= $days_in_month; $list_day++):
-				$calendar.= '<td data-cell-date="' . $year . '-' . $month . '-' . $list_day . '">';
+				$d_string = $year . '-' . $month . '-' . $list_day;
+				$calendar.= '<td id="date-' . $d_string . '" data-cell-date="' . $d_string . '">';
 					/* add in the day number */ //<time class="calendar-month-date">13</time>
 					$calendar.= '<time class="calendar-month-date">'.$list_day.'</time>';
 
-					/** QUERY THE DATABASE FOR AN ENTRY FOR THIS DAY !!  IF MATCHES FOUND, PRINT THEM !! **/
-					//$calendar.= str_repeat('<p> </p>',2);
+					/** BACKBONE RENDERS AFTER HERE !! **/
 					
 				$calendar.= '</td>';
 				if($running_day == 6):

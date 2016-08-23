@@ -515,3 +515,19 @@
 @stop
 
 @include('calendar.modals')
+
+<script type="text/template" id="calendar-item-template">
+    <% 
+    var _icon = 'primary icon-idea';
+    if(type == 'task') _icon = 'secondary icon-arrange-mini'
+    %>
+      <i class="calendar-task-list-icon <%= _icon %>"></i>
+      <%= title %>
+</script>
+
+<script type="text/template" id="calendar-item-container">
+<div class="calendar-schedule">
+  <ul class="calendar-task-list">
+ </ul>
+</div>
+</script>
