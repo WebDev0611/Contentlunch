@@ -75,7 +75,6 @@
         open_item: function(){
             this.$el.toggleClass('active');
             this.$el.find('.calendar-task-list-popover').toggleClass('open');
-            console.log('clicked calendar item!' + this.model.attributes);
         }
     });
 
@@ -84,11 +83,15 @@
         template: _.template( $('#calendar-item-container').html() ),
         initialize: function(){
             this.$el.append(this.template());
+            if(this.collection.length > 0){
+                console.log(this);
+            }
         },
         render: function(){
             var view = this;
             this.collection.each(function(m){
                 var c_i = new calendar_item_view({model:m});
+                console.log(c_i.el);
                 view.$el.find('.calendar-task-list').append( c_i.$el );
             });
             return this;
@@ -129,38 +132,40 @@
     $('.calendar-week-hours td').mouseenter(activateWeekly);
     $('.calendar-day td').mouseenter(activateDaily);
 
-
     $(function(){
         var calendar_items = new calendar_item_collection(dummy_calendar_data);
-        // calendar_items.each(function(i){
-        //     new calendar_item_view({ model: i});
-        // });
-
         var day_containers = {};
+        var hour_containers = {};
 
         calendar_items.each(function(i){
             var d = moment(i.get('date')).format('YYYY-M-DD');
+            var dt = moment(i.get('date')).format('YYYY-M-DD') + '-' + moment(i.get('date')).format('HH') + '0000';
             if( day_containers[d] ){
                 day_containers[d].push(i);
+                hour_containers[dt].push(i);
             }else{
                 day_containers[d] = [i];
+                hour_containers[dt] = [i];
             }
         });
-        console.log(day_containers);
-        //map calendar items to days
-        //selector for the container div/ul template
-        //calendar-item-container
 
-        //get all the table cells and set up view for each
-       // new calendar_container_view({el: sel})
         var cal_views = {};
-        $('tbody.calendar-month-days td').each(function(i,c){
-            var d_string = $(c).data('cell-date');
+        var page_cell_sel = 'tbody.calendar-month-days td';
+        if(window.location.pathname.indexOf('weekly') >= 0 ){
+            page_cell_sel = 'tbody.calendar-week-hours td';
+        }
+        if(window.location.pathname.indexOf('daily') >= 0 ){
+            page_cell_sel = 'tbody.calendar-day td';
+        }
+
+        $(page_cell_sel).each(function(i,c){
+            var d_string = $(c).data('cell-date') || $(c).data('cell-date-time');
             if(d_string){
                 var sel = '#date-' + d_string;
-                day_containers[ d_string ] = day_containers[ d_string ] || [];
+                console.log(sel);
+                var col_set_group = day_containers[ d_string ] || hour_containers[ d_string ] || [];
+                var col = new calendar_item_collection( col_set_group );
 
-                var col = new calendar_item_collection( day_containers[ d_string ] );
                 cal_views[ d_string ] = new calendar_container_view({el: sel, collection: col });
                 cal_views[ d_string ].render();
             }

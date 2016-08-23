@@ -62,4 +62,60 @@
 
 @include('calendar.modals')
 
+
+<script type="text/template" id="calendar-item-template">
+    <% 
+    var _icon = 'primary icon-idea';
+    if(type == 'task') _icon = 'secondary icon-arrange-mini'
+    %>
+      <i class="calendar-task-list-icon <%= _icon %>"></i>
+      <%= title %>
+      <div class="calendar-task-list-popover calendar-task-list-popover-bottom">
+          <i class="calendar-task-list-icon secondary icon-arrange-mini"></i>
+          <button class="calendar-task-list-popover-close">
+              <i class="icon-remove"></i>
+          </button>
+          <h5 class="calendar-task-list-popover-title">
+              Workout Secrets from Tinsel Town
+          </h5>
+          <p class="calendar-task-list-popover-text">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Accusantium asperiores dolores excepturi natus neque officiis quibusdam
+              rem, sunt voluptate voluptatum.
+          </p>
+          <div class="row">
+              <div class="calendar-task-list-popover-info col-md-6">
+                  Author
+                  <strong>Jenny Hurley</strong>
+              </div>
+              <div class="calendar-task-list-popover-info col-md-6">
+                  Due Date
+                  <strong>30/12/2017</strong>
+              </div>
+          </div>
+          <div class="calendar-task-list-popover-timeline">
+              <span class="active">
+                  <i class="icon-idea"></i>
+              </span>
+              <span class="active">
+                  <i class="icon-edit-content"></i>
+              </span>
+              <span>
+                  <i class="icon-content-alert"></i>
+              </span>
+              <span>
+                  <i class="icon-connect"></i>
+              </span>
+          </div>
+          <a href="#" class="button button-extend text-uppercase">Details</a>
+      </div>
+</script>
+
+<script type="text/template" id="calendar-item-container">
+<div class="calendar-schedule">
+    <ul class="calendar-task-list">
+    </ul>
+</div>
+</script>
+
 @stop
