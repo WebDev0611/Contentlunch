@@ -19,22 +19,22 @@
         {
             type:'task',
             title: 'Post 16 social postings',
-            date: 1471419205000
+            date: 1471414205000
         },
         {
             type:'task',
             title: 'Post 16 social postings',
-            date: 1471119205000
+            date: 1471119005000
         },
         {
             type:'task',
             title: 'Post 16 social postings',
-            date: 1471019205000
+            date: 1471019005000
         },
         {
             type:'task',
             title: 'Post 16 social postings',
-            date: 1470419205000
+            date: 1470419005000
         },
         {
             type:'idea',
@@ -148,7 +148,7 @@
                 hour_containers[dt] = [i];
             }
         });
-
+        console.log(hour_containers);
         var cal_views = {};
         var page_cell_sel = 'tbody.calendar-month-days td';
         if(window.location.pathname.indexOf('weekly') >= 0 ){
@@ -165,7 +165,7 @@
                 console.log(sel);
                 var col_set_group = day_containers[ d_string ] || hour_containers[ d_string ] || [];
                 var col = new calendar_item_collection( col_set_group );
-
+                console.log(col.toJSON());
                 cal_views[ d_string ] = new calendar_container_view({el: sel, collection: col });
                 cal_views[ d_string ].render();
             }

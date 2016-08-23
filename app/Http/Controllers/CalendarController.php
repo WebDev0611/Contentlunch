@@ -307,6 +307,8 @@ class CalendarController extends Controller {
 
 		if(!$month){
 			$month = date('n');
+		}elseif($month && $year){
+			$month = date('n', strtotime($year . '-' . $month) );
 		}
 
 		$date_string =  strtotime($year . '-' . $month . '-' . $day);
@@ -327,7 +329,7 @@ class CalendarController extends Controller {
 
 		$content = '';//$content_q->get();
 
-		function generate_daily_calendar(){
+		function generate_daily_calendar($year, $month, $day){
 			$daily_timetable = '<table class="calendar"><tbody class="calendar-day">';
             
 			$start_time_row = date('H', strtotime('10:00:00') );
@@ -340,7 +342,7 @@ class CalendarController extends Controller {
 				$day_column = '<td disabled>' . date('gA', strtotime($curr_hour . ':00:00' ) ) .'</td>';
 				
 				//content goes here
-				$day_column .= '<td data-cell-time="' . $curr_hour . ':00:00' . '"></td>';
+				$day_column .= '<td id="date-'.$year.'-'.$month.'-'.$day.'-' . $curr_hour . '0000' . '" data-cell-date-time="'.$year.'-'.$month.'-'.$day.'-' . $curr_hour . '0000' . '"></td>';
 
 				$daily_timetable .= $day_column . '</tr>';
 			}
@@ -363,7 +365,7 @@ class CalendarController extends Controller {
 			'account_id' => $this->account_id,
 
 			'content_items' => $content,
-			'daily_calendar' => generate_daily_calendar()
+			'daily_calendar' => generate_daily_calendar($year,$month,$day)
 		));
 	}
 
