@@ -35,9 +35,8 @@ class TrendsController extends Controller
         $form_params = array(
                 'search_type' => 'trending_now',
                 'api_key' => getenv('BUZZSUMO_KEY'),
-                'days' => '7',
+                'hours' => '24',
                 //region
-                'tld' => "com",
                 'count' => '40'
             );
 

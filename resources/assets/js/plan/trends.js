@@ -41,11 +41,8 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 	var create_message_view = Backbone.View.extend({
 		initialize: function(){
-			console.log('init message view');
-
 			this.listenTo(this.collection,"update",this.render);
 			this.listenTo(this.collection,"change",this.render);
-
 		},
 		render: function(){
 			var selected = this.collection.filter(function(m){
@@ -164,14 +161,27 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 					return m.attributes;
 				})
 			};
+			console.log('FORM CLICKED');
 			console.log(idea_obj);
 		}
 	});
 
+	var trend_search_view = Backbone.View.extend({
+		events:{
+			"click #trend-search": "search"
+		},
+		search: function(){
+			//console.log(this.collection.toJSON());
+			//get_trending_topics(search_val);
+		}
+	});
 	
-	//selected-trend-template
-
 	$(function(){
+
+		$('#trend-search').click(function(){
+			var search_val = $('#trend-search-input').val() || "";
+			get_trending_topics(search_val);
+		});
 
 		var results = new result_collection();
 
@@ -179,7 +189,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			topic = topic || '';
 			$.getJSON(trend_api_host,{topic: topic},function(res){
 				var trends_result = res.results;
-				console.log(trends_result[0]);
 
 				var format_share_res = function(shares){
 					//check if less than 1k
@@ -224,23 +233,21 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 						"video":t.video
 					};
 
-
 					return trend_obj;
 				});
 
 				results.remove( results.models );
 				results.add(new_trends);
-
+				return new_trends;
+			},
+			function(error){
+				console.log(error)
+				console.log('couldnt connect to the endpoint/error');
 			});
 		};
 
 		new create_message_view({el:"#create-alert", collection: results });
 		var create_idea = new create_idea_modal({el: '#createIdea', collection: results });
-
-		$('#trend-search').click(function(){
-			var search_val = $('#trend-search-input').val() || "";
-			get_trending_topics(search_val);
-		});
 
 		get_trending_topics();
 
