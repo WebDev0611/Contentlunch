@@ -18,8 +18,10 @@ elixir(function (mix) {
                 './bower_components/jquery/dist/jquery.js',
                 './bower_components/underscore/underscore.js',
                 './bower_components/backbone/backbone.js',
-                './bower_components/moment/moment.js'
+                './bower_components/moment/moment.js',
+                './bower_components/tinymce/tinymce.min.js',
                 ], "public/js/vendor.js")
+            .scripts(['resources/assets/js/content/*.js','resources/assets/js/helpers.js'], "public/js/app.js")
             .scripts([
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js',
@@ -42,6 +44,10 @@ elixir(function (mix) {
             .scripts(['resources/assets/js/calendar/calendar.js'],"public/js/calendar.js")
             .scripts(['resources/assets/js/dashboard/dashboard.js'],"public/js/dashboard.js")
             .scripts(['resources/assets/js/dashboard/performance.js'],"public/js/performance.js")
+
+            .copy('./bower_components/tinymce/themes', "public/js/themes")
+            .copy('./bower_components/tinymce/skins', "public/js/skins")
+            .copy('./bower_components/tinymce/plugins', "public/js/plugins")
 
             .copy("resources/assets/images", "public/images")
             .copy("resources/assets/fonts", "public/fonts")
