@@ -8,6 +8,8 @@ use App\Http\Requests;
 
 use App\Idea;
 
+use App\IdeaContent;
+
 use Auth;
 
 class IdeaController extends Controller
@@ -40,18 +42,47 @@ class IdeaController extends Controller
      */
     public function store(Request $request)
     {
-        $name = $request->input('name');
-        $text = $request->input('idea');
-        $tags = $request->input('tags');
+        $name     = $request->input('name');
+        $text     = $request->input('idea');
+        $tags     = $request->input('tags');
+        $contents = $request->input('content');
+        $status   = $request->input('status');
 
-        $idea = new Idea;
-        $idea->name = $name;
-        $idea->text = $text;
-        $idea->tags = $tags;
+        $idea         = new Idea;
+        $idea->name   = $name;
+        $idea->text   = $text;
+        $idea->tags   = $tags;
+        $idea->status = $status;
+
         $idea->user_id = Auth::id();
         $idea->save();
 
-        echo json_encode([$name,$text,$tags]);
+        $idea_contents = array();
+
+        if(!empty($contents) && is_array($contents)){
+            foreach($contents as $content){
+                $idea_content = new IdeaContent;
+                $idea_content->author = $content['author'];
+                $idea_content->body = $content['body'];
+                $idea_content->fb_shares = $content['fb_shares'];
+                $idea_content->google_shares = $content['google_shares'];
+                $idea_content->image = $content['image'];
+                $idea_content->link = $content['link'];
+                $idea_content->source = $content['source'];
+                $idea_content->title = $content['title'];
+                $idea_content->total_shares = $content['total_shares'];
+                $idea_content->tw_shares = $content['tw_shares'];
+
+                $idea_content->idea_id = $idea->id;
+                $idea_content->user_id = Auth::id();
+
+                $idea_content->save();
+                $idea_contents[] = $idea_content;
+            }
+        }
+
+        //do sanity/success checks here
+        echo json_encode([$idea->name,$idea->text,$idea->tags,$idea_contents]);
         exit;
         //
     }

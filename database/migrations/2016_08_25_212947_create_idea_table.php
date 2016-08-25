@@ -18,6 +18,7 @@ class CreateIdeaTable extends Migration
             $table->string('name');
             $table->string('text');
             $table->string('tags');
+            $table->enum('status',['parked','active'])->default('parked');
             $table->timestamps();
         });
     }

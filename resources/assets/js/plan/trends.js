@@ -10,7 +10,8 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 	var trend_api_host = '/trending';
 	var trend_result = Backbone.Model.extend({
 		defaults:{
-			selected: false
+			selected: false,
+			author: 'N/A'
 		}
 	});
 
@@ -133,7 +134,8 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 	var create_idea_modal = Backbone.View.extend({
 		events:{
-			"click .save-idea": "save"
+			"click .save-idea": "save",
+			"click .park-idea": "park"
 		},
 		initialize:function(){
 			this.listenTo(this.collection, "update", this.render);
@@ -150,13 +152,18 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			});
 			this.$el.find('.sidemodal-header-title').text('Create an idea from ' + selected.length + ' selected items');
 		},
+		hide_modal: function(){
+			this.$el.modal('hide');
+		},
 		save: function(){
+			var view = this;
 			//saves the form data
 			var content = this.collection.where({ selected: true });
 			var idea_obj = {
 				name: $('.idea-name').val(),
 				idea: $('.idea-text').val(),
 				tags: $('.idea-tags').val(),
+				status: 'active',
 				content: content.map(function(m){
 					return m.attributes;
 				})
@@ -170,12 +177,35 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 	        	},
 			    dataType: 'json',
 			    success: function (data) {
-					console.log('Back!!!');
-					console.log(data);
+					view.hide_modal();
 				}
 			});
-			console.log('FORM CLICKED');
-			console.log(idea_obj);
+		},
+		park: function(){
+			var view = this;
+			//saves the form data
+			var content = this.collection.where({ selected: true });
+			var idea_obj = {
+				name: $('.idea-name').val(),
+				idea: $('.idea-text').val(),
+				tags: $('.idea-tags').val(),
+				status: 'parked',
+				content: content.map(function(m){
+					return m.attributes;
+				})
+			};
+			$.ajax({
+			    url: '/ideas',
+			    type: 'post',
+			    data: idea_obj,
+				headers: {
+	            	'X-CSRF-TOKEN': $('input[name=_token]').val()
+	        	},
+			    dataType: 'json',
+			    success: function (data) {
+					view.hide_modal();
+				}
+			});
 		}
 	});
 
