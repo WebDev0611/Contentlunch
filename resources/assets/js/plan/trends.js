@@ -62,7 +62,8 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 	var result_view = Backbone.View.extend({
 		events:{
-			"click .tombstone": "active"
+			"click .tombstone": "active",
+			"click .tombstone-active": "inactive"
 		},
 		template: _.template( $('#trend-result-template').html() ),
 		initialize: function(){
@@ -88,12 +89,26 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			}
 		},
 		active: function(){
-			this.$el.find('.tombstone').toggleClass('tombstone-active');
-			if( this.model.get('selected') ){
-				this.model.set('selected',false);
-			}else{
-				this.model.set('selected',true);
-			}
+			this.model.set('selected',true);
+
+		},
+		inactive: function(){
+			this.model.set('selected',false);
+		}
+	});
+
+	var trend_results_view = Backbone.View.extend({
+		initialize: function(){
+			this.collection.on("update",this.render,this);
+		},
+		render: function(){
+			var view = this;
+			view.$el.html('');
+			this.collection.each(function(m){
+				var result = new result_view({model: m});
+				result.render();
+				view.$el.append(result.$el);
+			});
 		}
 	});
 
@@ -114,7 +129,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			return this;
 		},
 		unselect: function(){
-			console.log('clicked!!');
 			this.model.set('selected',false);
 			this.$el.toggleClass('tombstone-active');
 		}
@@ -205,19 +219,14 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		new create_message_view({el:"#create-alert", collection: results });
 		var create_idea = new create_idea_modal({el: '#createIdea', collection: results });
 
-		results.on('add',function(m){
-			var result = new result_view({model: m});
-			result.render();
-			$('#trend-results').append( result.el );
-			result.$el.fadeIn(500);
-		});
-
 		$('#trend-search').click(function(){
 			var search_val = $('#trend-search-input').val() || "";
 			get_trending_topics(search_val);
 		});
 
 		get_trending_topics();
+
+		new trend_results_view({el: '#trend-results', collection: results});
 	});
 
 })(jQuery);

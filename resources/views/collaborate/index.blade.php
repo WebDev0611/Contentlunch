@@ -80,7 +80,7 @@
           </div>
           <div class="influencer-data">
             <p class="title">Influencer name</p>
-            <p class="desc">Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor lectus nec vestibulum.</p>
+            <p class="desc"></p>
           </div>
         </div>
         
@@ -91,7 +91,7 @@
         
         <div class="influenceer-action">
           <div class="btn-group">
-            <button type="button" class="button button-default button-extend">INVITE</button>
+            <button type="button" class="button button-default button-extend invite-btn">INVITE</button>
             <button type="button" class="button button-default button-extend">DETAILS</button>
           </div>
           
@@ -99,8 +99,7 @@
         </div>        
         
         <div class="influencer-desc">
-          <p>In non lobortis sem, in posuere eros. Vivamus commodo erat sit amet maximus rhoncus. Vestibulum nec quam id dui maximus auctor. Etiam sodales accumsan dignissim. Quisque placerat massa nec dictum dignissim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus venenatis ipsum consequat erat interdum ornare. Sed nec bibendum ex, id mollis augue. In non sagittis metus, congue vulputate quam. Etiam fermentum semper metus, vitae commodo sapien dapibus non.</p>
-          <p>Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas pharetra arcu eu urna dapibus sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent sed lorem quis est tempor sollicitudin. Sed sed lacinia nisi. Vivamus eget malesuada lectus. Fusce rhoncus massa et consequat lacinia. Nulla dapibus vitae diam ut maximus. Mauris vitae tempus elit. Curabitur auctor dui sit amet odio luctus, eu accumsan purus bibendum. Etiam porta nisi at velit hendrerit tincidunt. Nulla et pellentesque diam.</p>
+          <p></p>
         </div>
         
       </div> <!-- End Influencer Info -->
@@ -131,11 +130,11 @@
       
       <div class="influencer-head smaller">
         <div class="influencer-pic">
-          <div class="user-avatar"><img src="/images/avatar-new.jpg" alt="Influencer Name"></div>
+          <div class="user-avatar"></div>
         </div>
         <div class="influencer-data">
-          <p class="title">Influencer name</p>
-          <p class="desc">Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor lectus nec vestibulum.</p>
+          <p class="title"></p>
+          <p class="desc"></p>
         </div>
       </div>
       

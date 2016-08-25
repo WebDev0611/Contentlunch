@@ -63,7 +63,8 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 	var influencer_data_modal = Backbone.View.extend({
 		events:{
-			"click .sidemodal-close": "dismiss"
+			"click .sidemodal-close": "dismiss",
+			"click .invite-btn":"invite"
 		},
 		initialize: function(){
 			console.log('new modal init!');
@@ -71,9 +72,11 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		},
 		render: function(){
 			this.$el.find('.title').text( this.model.get('title') );
-			this.$el.find('.desc').text( this.model.get('desc') );
+			this.$el.find('.desc').text( this.model.get('body') );
 			this.$el.find('.user-avatar').html('<img src="' + this.model.get('image') + '" alt="' + this.model.get('title') + '">');
-			//this.$el.find('.influencer-desc').text(this.model.get('desc') );
+			var roles = this.model.get('person_type');
+
+			this.$el.find('.influencer-desc').text( roles.join(', ') );
 
 			$('#modal-influencerdetails').modal('show');
 			return this;
@@ -81,6 +84,9 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		dismiss: function(){
 			$('#modal-influencerdetails').modal('hide');
 			//this.remove();
+		},
+		invite: function(){
+			new influencer_invite_modal({el:"#modal-inviteinfluencer", model: this.model});	
 		}
 	});
 
@@ -93,7 +99,10 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			this.render();
 		},
 		render: function(){
+			this.$el.find('.user-avatar').html('<img src="' + this.model.get('image') + '" alt="' + this.model.get('title') + '">');
 			this.$el.find('.title').text( this.model.get('title') );
+			this.$el.find('.desc').text( this.model.get('body') );
+
 			$('#modal-inviteinfluencer').modal('show');
 			return this;
 		},
@@ -156,11 +165,12 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			return {
 				title: i.name,
 				image: i.image,
-				body: i.display_bio,
-				desc: i.bio,
+				body: i.bio,
+				desc: i.display_bio,
 				twitter_num: i.num_followers,
 				facebook_num: 0,
 				twitter_link: (i.twitter_id_str) ? ('https://twitter.com/intent/user?user_id=' + i.twitter_id_str) : '',
+				person_type: i.person_type
 			};
 		};
 
