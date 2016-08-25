@@ -135,6 +135,9 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 	});
 
 	var create_idea_modal = Backbone.View.extend({
+		events:{
+			"click .save-idea": "save"
+		},
 		initialize:function(){
 			this.listenTo(this.collection, "update", this.render);
 			this.listenTo(this.collection, "change", this.render);
@@ -149,6 +152,19 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 				view.$el.find('#selected-content').append( sel_cont_view.el );
 			});
 			this.$el.find('.sidemodal-header-title').text('Create an idea from ' + selected.length + ' selected items');
+		},
+		save: function(){
+			//saves the form data
+			var content = this.collection.where({ selected: true });
+			var idea_obj = {
+				name: $('.idea-name').val(),
+				idea: $('.idea-text').val(),
+				tags: $('.idea-tags').val(),
+				content: content.map(function(m){
+					return m.attributes;
+				})
+			};
+			console.log(idea_obj);
 		}
 	});
 
@@ -199,6 +215,8 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 						"body": 'SDF DS FSDF SDFSDF SDF SDF SDFS DFSD FSF SDF ',
 						"when": format_time_ago(t.published_date),
 						"source": t.domain_name,
+						"link":t.og_url,
+						"author":t.author_name,
 						"total_shares": format_share_res( t.total_shares ),
 						"fb_shares": format_share_res(t.total_facebook_shares),
 						"tw_shares": format_share_res(t.twitter_shares),

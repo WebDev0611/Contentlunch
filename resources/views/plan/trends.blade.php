@@ -67,7 +67,7 @@
             <div class="tombstone-container">
                 <h3><%= title %></h3>
                 <p>
-                    <%= body %>
+                    <%= author %>
                 </p>
             </div>
             <div class="tombstone-social">
