@@ -56,6 +56,10 @@ Route::resource('/influencers', 'InfluencersController@search');
 
 Route::get('/idea','PlanController@editor');
 
+Route::resource('/ideas', 'IdeaController', ['only' => [
+    'index', 'show','store'
+]]);
+
 Route::get('/calendar','CalendarController@index');
 Route::get('/calendar/{year}/{month}','CalendarController@index');
 

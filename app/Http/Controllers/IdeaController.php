@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Idea;
+
+use Auth;
+
 class IdeaController extends Controller
 {
     /**
@@ -36,6 +40,19 @@ class IdeaController extends Controller
      */
     public function store(Request $request)
     {
+        $name = $request->input('name');
+        $text = $request->input('idea');
+        $tags = $request->input('tags');
+
+        $idea = new Idea;
+        $idea->name = $name;
+        $idea->text = $text;
+        $idea->tags = $tags;
+        $idea->user_id = Auth::id();
+        $idea->save();
+
+        echo json_encode([$name,$text,$tags]);
+        exit;
         //
     }
 

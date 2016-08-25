@@ -14,6 +14,7 @@ class CreateIdeaContentTable extends Migration
     {
         Schema::create('idea_content', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
             $table->integer('idea_id')->unsigned();
             $table->string('author');
             $table->mediumText('body');

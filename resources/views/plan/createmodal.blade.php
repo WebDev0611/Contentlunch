@@ -14,6 +14,7 @@
         </div>
     </div>
     <div class="sidemodal-container">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="input-form-group">
             <label for="#">CONCEPT NAME</label>
             <input type="text" class="input idea-name" placeholder="Enter your concept name">

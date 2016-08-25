@@ -161,6 +161,19 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 					return m.attributes;
 				})
 			};
+			$.ajax({
+			    url: '/ideas',
+			    type: 'post',
+			    data: idea_obj,
+				headers: {
+	            	'X-CSRF-TOKEN': $('input[name=_token]').val()
+	        	},
+			    dataType: 'json',
+			    success: function (data) {
+					console.log('Back!!!');
+					console.log(data);
+				}
+			});
 			console.log('FORM CLICKED');
 			console.log(idea_obj);
 		}
