@@ -25,7 +25,7 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="form-group">
                         <div class="input-form-button">
-                            <input type="text" placeholder="Search..." class="input-search-icon">
+                            <input type="text" id="trend-search-input" placeholder="Search..." class="input-search-icon">
                             <span class="input-form-button-action">
                                 <button class="button" id="trend-search">SEARCH</button>
                             </span>
@@ -73,23 +73,23 @@
             <div class="tombstone-social">
                 <div class="tombstone-cell">
                     <i class="icon-share"></i>
-                    35k
+                    <%= total_shares %>
                 </div>
                 <div class="tombstone-cell">
                     <i class="icon-facebook-mini"></i>
-                    12k
+                    <%= fb_shares %>
                 </div>
                 <div class="tombstone-cell">
                     <i class="icon-twitter2"></i>
-                    4k
+                    <%= tw_shares %>
                 </div>
                 <div class="tombstone-cell">
                     <i class="icon-google-plus"></i>
-                    10k
+                    <%= google_shares %>
                 </div>
                 <div class="tombstone-cell">
                     <i class="icon-youtube"></i>
-                    3k
+                    <%= video %>
                 </div>
             </div>
         </div>

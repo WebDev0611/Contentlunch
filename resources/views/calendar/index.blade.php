@@ -64,12 +64,12 @@
       <i class="calendar-task-list-icon <%= _icon %>"></i>
       <%= title %>
       <div class="calendar-task-list-popover calendar-task-list-popover-bottom">
-          <i class="calendar-task-list-icon secondary icon-arrange-mini"></i>
+          <i class="calendar-task-list-icon <%= _icon %>"></i>
           <button class="calendar-task-list-popover-close">
               <i class="icon-remove"></i>
           </button>
           <h5 class="calendar-task-list-popover-title">
-              Workout Secrets from Tinsel Town
+              <%= title %>
           </h5>
           <p class="calendar-task-list-popover-text">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -83,7 +83,7 @@
               </div>
               <div class="calendar-task-list-popover-info col-md-6">
                   Due Date
-                  <strong>30/12/2017</strong>
+                  <strong><%= date %></strong>
               </div>
           </div>
           <div class="calendar-task-list-popover-timeline">

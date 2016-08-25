@@ -2,7 +2,7 @@
     <div class="sidemodal-header">
         <div class="row">
             <div class="col-md-6">
-                <h4 class="sidemodal-header-title large">Create an idea from 2 selected items</h4>
+                <h4 class="sidemodal-header-title large"></h4>
             </div>
             <div class="col-md-6 text-right">
                 <button type="button" class="button button-outline-primary button-small park-idea">PARK</button>
@@ -93,10 +93,12 @@
                 </select>
             </div>
         </div>
-        <div class="form-delimiter" id="selected-content">
+        <div class="form-delimiter">
             <span>
                 <em>Selected Content</em>
             </span>
+        </div>
+        <div id="selected-content">
         </div>
         <!--
         <div class="tombstone tombstone-horizontal tombstone-active clearfix">
@@ -132,17 +134,17 @@
 <script type="text/template" id="selected-trend-template">
     <div class="tombstone tombstone-horizontal tombstone-active clearfix">
         <div class="tombstone-image">
-            <img src="http://i.imgur.com/MYB6HjU.jpg" alt="">
+            <img src="<%= image %>" alt="">
         </div>
         <div class="tombstone-container">
-            <h3>Google self-driving car is tested on California highways</h3>
+            <h3><%= title %></h3>
             <p>
-                Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of
-                electric cars, including a top of the line Tesla, went on...
+                <%= title %>
             </p>
         </div>
     </div>
 </script>
+
 <script type="text/template" id="selected-topic-template">
     <div class="tombstone tombstone-horizontal tombstone-active clearfix">
         <div class="tombstone-container">

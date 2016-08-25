@@ -50,6 +50,10 @@ Route::get('/plan/editor','PlanController@editor');
 Route::get('/plan/trends','PlanController@trends');
 Route::get('/plan/prescription','PlanController@prescription');
 
+Route::resource('/trending', 'TrendsController@trending');
+Route::resource('/influencers', 'InfluencersController@search');
+
+
 Route::get('/idea','PlanController@editor');
 
 Route::get('/calendar','CalendarController@index');

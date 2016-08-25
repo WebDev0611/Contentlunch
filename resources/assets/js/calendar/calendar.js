@@ -103,12 +103,14 @@
     /* the cell that holds the events */
     var calendar_container_view = Backbone.View.extend({
         events:{
-            'mouseenter li': 'add_active',
-            'mouseleave li': 'hide_active'
+        //    'mouseenter':'show_tool',
+        //    'mouseleave':'hide_tool',
+
+            'mouseenter li span': 'add_active',
+            'mouseleave li span': 'hide_active'
         },
         template: _.template( $('#calendar-item-container').html() ),
         initialize: function(){
-            console.log(this);
             this.$el.append( this.template() );
             this.$el.append( $('#calendar-dropdown-template').html() );
             this.$el.find('.date-popup-label').text('Wed, Mar 4, 2016, 01 PM');
@@ -123,24 +125,16 @@
             return this;
         },
         show_tool: function(event){
-            event.stopPropagation();
-
             this.$el.find('.calendar-schedule-dropdown-wrapper').fadeIn(100);
         },
         hide_tool: function(event){
-            event.stopPropagation();
-
             this.$el.find('.calendar-schedule-dropdown-wrapper').fadeOut(100);
         },
         add_active: function(event){
-            event.stopPropagation();
-            console.log(this);
             console.log('mouse over');
             this.$el.addClass('active');
         },
         hide_active: function(event){
-            console.log(this);
-            event.stopPropagation();
             console.log('hiding active');
             this.$el.removeClass('active');
         }

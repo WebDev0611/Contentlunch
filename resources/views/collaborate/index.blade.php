@@ -33,7 +33,7 @@
           <div class="form-group">
             <div class="input-form-button prefixed">
               <i class="icon-magnifier picto"></i>
-              <input type="text" placeholder="Search influencers to work on projects..." class="input-search-icon">
+              <input type="text" id="influencer-topic-val" placeholder="Search influencers to work on projects..." class="input-search-icon">
               <span class="input-form-button-action">
                 <button class="button" id="influencer-search">SEARCH</button>
               </span>
@@ -76,7 +76,7 @@
         
         <div class="influencer-head">
           <div class="influencer-pic">
-            <div class="user-avatar"><img src="/images/avatar-new.jpg" alt="Influencer Name"></div>
+            <div class="user-avatar"></div>
           </div>
           <div class="influencer-data">
             <p class="title">Influencer name</p>
@@ -196,12 +196,12 @@
     <div class="body">
       <div class="user-avatar"><img src="<%= image %>" alt="<%= title %>"/></div>
       <p class="title"><%= title %></p>
-      <p class="desc"><%= body %></p>
+      <p class="desc"><%= desc %></p>
     </div>
     <div class="foot">
       <ul class="list-inline list-soc">
-        <li><i class="icon-twitter2"></i><%= twitter_followers %></li>
-        <li><i class="icon-facebook-mini"></i><%= facebook_followers %></li>
+        <li><i class="icon-twitter2"></i><%= twitter_num %></li>
+        <li><i class="icon-facebook-mini"></i><%= facebook_num %></li>
       </ul>
       <div class="btn-group">
         <button type="button" class="button button-default invite">INVITE</button>
