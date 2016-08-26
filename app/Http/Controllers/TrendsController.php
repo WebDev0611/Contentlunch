@@ -8,6 +8,8 @@ use App\Http\Requests;
 
 use GuzzleHttp\Client;
 
+use Illuminate\Support\Facades\Redis;
+
 class TrendsController extends Controller
 {
     /**
@@ -28,30 +30,52 @@ class TrendsController extends Controller
     public function trending(Request $request)
     {
         $topic = $request->input('topic');
-       // print_r($topic);
-       // exit;
-        $api_url = 'http://api.buzzsumo.com/search/trends.json';
+        $topic_key = 'trends:';
 
-        $form_params = array(
-                'search_type' => 'trending_now',
-                'api_key' => getenv('BUZZSUMO_KEY'),
-                'hours' => '24',
-                //region
-                'count' => '40'
-            );
-
-        if(!empty($topic)){
-            $form_params['topic'] = urlencode($topic);
+        if(empty($topic)){
+            $topic_key .= "_";
+        }else{
+            $topic_key .= urlencode($topic);
         }
 
-        $client = new Client();
-        $res = $client->request('GET', $api_url, [
-            'form_params' => $form_params
-        ]);
-    
-        $data_body =  $res->getBody();
-        echo $data_body;
+        $topic_cache = Redis::get( $topic_key );
+        $output = '';
+
+        function get_data($t){
+            $api_url = 'http://api.buzzsumo.com/search/trends.json';
+
+            $form_params = array(
+                    'search_type' => 'trending_now',
+                    'api_key' => getenv('BUZZSUMO_KEY'),
+                    'hours' => '24',
+                    //region
+                    'count' => '40'
+                );
+
+            if(!empty($t)){
+                $form_params['topic'] = urlencode($t);
+            }
+
+            $client = new Client();
+            $res = $client->request('GET', $api_url, [
+                'form_params' => $form_params
+            ]);
         
+            $data_body =  $res->getBody();
+            return json_decode($data_body->getContents());
+        }
+
+        if( empty( unserialize($topic_cache) ) ){
+
+            $output = get_data($topic);
+            Redis::set($topic_key, serialize( $output ));
+            Redis::expire($topic_key, 60*10); //set cache for 10 min
+        }else{
+            $output = unserialize($topic_cache);
+        }
+
+
+        echo json_encode( $output );
         exit;
     }
 
