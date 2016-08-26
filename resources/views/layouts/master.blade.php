@@ -33,7 +33,7 @@
     
     <ul class="list-inline list-createmenu">
       <li class="first">
-        <a href="/idea">
+        <a href="/plan">
           <i class="icon-idea"></i>
           <p class="title">New Idea</p>
           <p>Conceptualize &amp; brainstorm a new content topic with your team!</p>

@@ -57,7 +57,15 @@
 
     	ideas.fetch({
     		success: function(res){
-    			//console.log(res);
+    			var updated_time = res.map(function(m){
+    				var a = m;
+    				a.created_at = a.created_at * 1000;
+    				a.updated_at = a.updated_at * 1000;
+    				console.log(a);
+    				return a;
+    			});
+
+    			ideas.reset(updated_time);
     		},
     		error: function(){
     			//console.log('ERROR RET');

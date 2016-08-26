@@ -23,6 +23,8 @@ class PlanController extends Controller {
 	}
 
 	public function editor($id = 0){
+		
+		//need to check against account info
 		$idea = Idea::where(['id' => $id ])
 					->first();
 

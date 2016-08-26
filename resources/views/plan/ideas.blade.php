@@ -39,23 +39,7 @@
             <div class="panel-container">
                 <div class="plan-activity-box-container">
                     <div class="plan-activity-box-img">
-                        <img src="/assets/images/avatar.jpg" alt="#">
-                    </div>
-                    <div class="plan-activity-box">
-                        <span class="plan-activity-title">
-                            <a href="#">Jane</a> commented on
-                            <a href="#"> Write blog post</a> on
-                            <a href="#">online banking</a>
-                        </span>
-                        <p class="plan-activity-text">
-                            Suspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum.
-                            Etiam eget dolor...
-                        </p>
-                    </div>
-                </div>
-                <div class="plan-activity-box-container">
-                    <div class="plan-activity-box-img">
-                        <img src="/assets/images/avatar.jpg" alt="#">
+                        <img src="/images/avatar.jpg" alt="#">
                     </div>
                     <div class="plan-activity-box">
                         <span class="plan-activity-title">
@@ -135,10 +119,10 @@
             </ul>
         </div>
         <div class="plan-ideas-cell">
-            <span class="plan-ideas-text">3 DAYS AGO</span>
+            <span class="plan-ideas-text"><%= format_time_ago(created_at) %></span>
         </div>
         <div class="plan-ideas-cell">
-            <span class="plan-ideas-text">UPDATED: 2 DAYS AGO</span>
+            <span class="plan-ideas-text">UPDATED: <%= format_time_ago(updated_at) %></span>
         </div>
         <div class="plan-ideas-cell">
             <div class="plan-ideas-dropdown">
