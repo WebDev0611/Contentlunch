@@ -8,37 +8,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 (function($){
 	var trend_api_host = '/trending';
-	var trend_result = Backbone.Model.extend({
-		defaults:{
-			selected: false,
-			author: 'N/A'
-		}
-	});
-
-	//place holder data
-	var dummy_data = [
-		{
-			title: "Google self-driving car is tested on California highways",
-			image: "http://i.imgur.com/MYB6HjU.jpg",
-			body: "Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of electric cars, including a top of the line Tesla, went on...",
-			when: "1 DAY AGO",
-			source: "NYT.COM"
-		},
-		{
-			title: "Google self-driving car is tested on California highways",
-			image: "http://i.imgur.com/MYB6HjU.jpg",
-			body: "Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of electric cars, including a top of the line Tesla, went on...",
-			when: "1 DAY AGO",
-			source: "NYT.COM"
-		},
-		{
-			title: "Google self-driving car is tested on California highways",
-			image: "http://i.imgur.com/MYB6HjU.jpg",
-			body: "Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of electric cars, including a top of the line Tesla, went on...",
-			when: "1 DAY AGO",
-			source: "NYT.COM"
-		},
-	];
 
 	var create_message_view = Backbone.View.extend({
 		initialize: function(){
@@ -56,62 +25,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 				this.$el.html('');
 			}
 		}
-	});
-
-	var result_view = Backbone.View.extend({
-		events:{
-			"click .tombstone": "active",
-			"click .tombstone-active": "inactive"
-		},
-		template: _.template( $('#trend-result-template').html() ),
-		initialize: function(){
-			this.listenTo(this.model, "remove", this.removeFromDOM);
-			this.listenTo(this.model, "change", this.update);
-		},
-		render: function(){
-			this.$el.html( this.template(this.model.attributes) );
-			//this.$el.hide();
-			return this;
-		},
-		removeFromDOM: function(){
-			var that = this;
-			this.$el.fadeOut(200,function(){
-				that.$el.remove();	
-			});
-		},
-		update: function(){
-			if( this.model.get('selected') ){
-				this.$el.find('.tombstone').addClass('tombstone-active');
-			}else{
-				this.$el.find('.tombstone').removeClass('tombstone-active');
-			}
-		},
-		active: function(){
-			this.model.set('selected',true);
-
-		},
-		inactive: function(){
-			this.model.set('selected',false);
-		}
-	});
-
-	var trend_results_view = Backbone.View.extend({
-		initialize: function(){
-			this.collection.on("update",this.render,this);
-		},
-		render: function(){
-			var view = this;
-			view.$el.html('');
-			this.collection.each(function(m){
-				var result = new result_view({model: m});
-				result.render();
-				view.$el.append(result.$el);
-			});
-		}
-	});
-
-	var result_collection = Backbone.Collection.extend({
-		model: trend_result
 	});
 
 	var create_idea_cont_view = Backbone.View.extend({
@@ -209,15 +122,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		}
 	});
 
-	var trend_search_view = Backbone.View.extend({
-		events:{
-			"click #trend-search": "search"
-		},
-		search: function(){
-			//console.log(this.collection.toJSON());
-			//get_trending_topics(search_val);
-		}
-	});
 	
 	$(function(){
 
@@ -226,7 +130,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			get_trending_topics(search_val);
 		});
 
-		var results = new result_collection();
+		var results = new trend_result_collection();
 
 		var get_trending_topics = function(topic){
 			topic = topic || '';
