@@ -4,8 +4,11 @@
 	var idea_model = Backbone.Model.extend();
     var ideas_collection = Backbone.Collection.extend({url: '/ideas',model:idea_model});
     var idea_view = Backbone.View.extend({
+    	className: "plan-ideas-container",
+    	events:{
+    		"click li#write-it-btn": "write"
+    	},
     	template: _.template( $('#idea-template').html() ),
-    	events:{},
     	initialize: function(){
     		this.render();
     	},
@@ -17,7 +20,12 @@
     			this.$el.find('#park-it-btn').show();
     		}
     		return this;
+    	},
+    	write: function(){
+    		console.log("write it clicked");
+    		window.location.href = '/idea/' + this.model.get('id');
     	}
+
     });
 
     var idea_container_view = Backbone.View.extend({
@@ -27,20 +35,17 @@
     		this.listenTo(this.collection,'update',this.updated);
     	},
     	updated: function(){
-    		console.log('update in view triggered');
     		this.render(this.status);
     	},
     	render: function(status){
-    		console.log('render called!');
     		this.status = status || 'active';
     		var view = this;
 
     		this.$el.html('');
     		var active = this.collection.where({status:this.status});
-    		console.log(active);
 
     		_.each(active,function(m){
-    			view.$el.append( new idea_view({model: m}).$el.html() );
+    			view.$el.append( new idea_view({model: m}).$el );
     		});
     		return this;
     	}

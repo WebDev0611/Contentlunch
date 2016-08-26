@@ -114,7 +114,6 @@
 
 
 <script type="text/template" id="idea-template">
-    <div class="plan-ideas-container">
         <div class="plan-ideas-cell">
             <img src="/images/avatar.jpg" alt="#" class="plan-ideas-img">
         </div>
@@ -146,21 +145,20 @@
                 <button type="button" class="button button-action" data-toggle="dropdown">
                     <i class="icon-add-circle"></i>
                 </button>
-                
+
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li id="write-it-btn">
-                        <a href="#">Write It</a>
+                        <a href="javascript:;">Write It</a>
                     </li>
                     <li id="park-it-btn">
-                        <a href="#">Park It</a>
+                        <a href="javascript:;">Park It</a>
                     </li>
                     <li id="socialize-it-btn">
-                        <a href="#">Socialize It</a>
+                        <a href="javascript:;">Socialize It</a>
                     </li>
                 </ul>
             </div>
         </div>
-    </div>
 </script>
 
 @stop
