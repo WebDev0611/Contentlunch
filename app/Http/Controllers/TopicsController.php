@@ -24,7 +24,7 @@ class TopicsController extends Controller
         if(!empty($keyword)){
             $results = $this->get_data( $keyword );
         }
-        echo json_encode([$keyword, $results]);
+        echo json_encode($results);
         exit;
         //
     }

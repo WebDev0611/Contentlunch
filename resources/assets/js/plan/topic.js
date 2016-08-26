@@ -128,15 +128,32 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		var long_tail_results = new long_tail_collection();
 		var short_tail_results = new short_tail_collection();
 
+		var map_result = function(m){
+			return {keyword: m.keyword};
+		};
+
 		$('#topic-search').click(function(){
 			console.log('search clicked!');
 			long_tail_results.remove( long_tail_results.models );
 			short_tail_results.remove( short_tail_results.models );
 
-			setTimeout(function(){
-				short_tail_results.add(dummy_data_short);
-				long_tail_results.add(dummy_data_long);
-			},500);
+
+
+
+			$.getJSON('/topics',{keyword: $('#topic-search-val').val() },function(res){
+				console.log("back from endpoint");
+				console.log("::");
+				console.log(res);
+
+				var topic_objs = res.results.map(map_result);
+				short_tail_results.add(topic_objs);
+			});
+
+			//setTimeout(function(){
+			//	short_tail_results.add(dummy_data_short);
+			//	long_tail_results.add(dummy_data_long);
+			//},500);
+
 		});
 
 		long_tail_results.on('add',function(m){
@@ -175,12 +192,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		long_tail_results.add(dummy_data_long);
 		short_tail_results.add(dummy_data_short);
 
-
-		$.getJSON('/topics',{keyword:'testing'},function(res){
-			console.log("back from endpoint");
-			console.log("::");
-			console.log(res);
-		});
 	});
 
 })(jQuery);
