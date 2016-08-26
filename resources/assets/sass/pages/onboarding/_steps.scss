@@ -133,3 +133,21 @@ $onboarding-step-primary: #2482ff;
 .onboarding-score-chart .donut-chart.primary .chart-center {
   background-color: #fff;
 }
+
+
+.list-roles {
+  margin-top: 22px;
+  
+  li {
+    width: 33.333333%;
+    margin-right: -4px;
+    vertical-align: top;
+    padding: 0 14px;
+
+    .title {
+      font-weight: 700;
+      font-size: 1.2em;
+      margin-top: 6px;
+    }
+  }
+}

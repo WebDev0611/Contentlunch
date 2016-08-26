@@ -716,7 +716,7 @@
 }
 
 // Doughnut Chart
-@mixin donut-chart($name, $perc, $size, $width, $base, $center, $color, $textColor: $color, $textSize: 18px) {
+@mixin donut-chart($name, $perc, $size, $width, $base, $center, $color, $textColor: $color, $textSize: 22px) {
 
   $color2: $color;
   $base2: $base;
@@ -766,9 +766,10 @@
           font-size: $textSize;
           line-height: $size - ($width * 2);
           color: $textColor;
+          font-weight: 700;
 
           &:after {
-            content: '#{$perc}%';
+            content: '5.1';
           }
         }
       }

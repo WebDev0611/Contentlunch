@@ -95,23 +95,23 @@
 </div>
 
 <script type="text/template" id="calendar-dropdown-template">
-     <div class="calendar-schedule-dropdown-wrapper">
+     <div class="calendar-schedule-dropdown-wrapper" style="display:none">
         <div class="calendar-schedule-dropdown">
             <button type="button" class="button button-action" data-toggle="dropdown">
                 <i class="icon-add-circle"></i>
             </button>
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li class="dropdown-header important">Wed, Mar 4, 2016, 01 PM</li>
+             <ul class="dropdown-menu dropdown-menu-right">
+                <li class="dropdown-header important date-popup-label">Wed, Mar 4, 2016, 01 PM</li>
                 <li>
-                    <a href="#">Add Idea</a>
+                  <a href="#" data-toggle="modal" data-target="#addIdeaCalendar">Add Idea</a>
                 </li>
                 <li>
-                    <a href="#">Add Content</a>
+                  <a href="#" data-toggle="modal" data-target="#addContentCalendar">Add Content</a>
                 </li>
                 <li>
-                    <a href="javascript:;" data-toggle="modal" data-target="#addTaskCalendar">Add Task</a>
+                  <a href="#" data-toggle="modal" data-target="#addTaskCalendar">Add Task</a>
                 </li>
-            </ul>
+              </ul>
         </div>
     </div>
 </script>

@@ -179,7 +179,7 @@
 
                         <!-- Editor container -->
                         <div class="editor" style="background-color: rgba(0,0,0,.1); min-height: 530px; margin-bottom: 25px;">
-                            {!! Form::textarea('content', @isset($content)? $content->body : '', array('placeholder' => 'Enter content', 'class' => 'input input-larger form-control', 'id' => 'title')) !!}
+                            {!! Form::textarea('content', @isset($content)? $content->body : '', array('placeholder' => 'Enter content', 'class' => 'input input-larger form-control wysiwyg', 'id' => 'title')) !!}
                         </div>
 
 
@@ -336,6 +336,13 @@
 <script type="text/javascript">
     $(function() {
 
+        tinymce.init({
+          selector: 'textarea.wysiwyg',  // change this value according to your HTML
+          plugin: 'a_tinymce_plugin',
+          a_plugin_option: true,
+          a_configuration_option: 400
+        });    
+            
         $('.datetimepicker').datetimepicker({
             format: 'YYYY-MM-DD'
         });

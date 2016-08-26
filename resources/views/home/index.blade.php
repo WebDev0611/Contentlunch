@@ -65,7 +65,8 @@
         </div>
         <div class="row">
             <div class="col-md-9">
-                <div class="panel">
+
+                <div class="panel" id="tab-container">
                     <div class="dashboard-stats">
                         <div class="row">
                             <div class="col-md-4">
@@ -84,123 +85,27 @@
                     </div>
                     <div class="panel-header">
                         <ul class="panel-tabs spacing">
-                            <li class="active">
-                                <a href="/#/">Top Performing Content</a>
+                            <li class="active top-content">
+                                <a href="javascript:;">Top Performing Content</a>
                             </li>
-                            <li>
-                                <a href="/#/">Active Campaigns</a>
+                            <li class="active-campaigns">
+                                <a href="javascript:;">Active Campaigns</a>
                             </li>
                         </ul>
                     </div>
-                    <div class="dashboard-performing-container">
-                        <div class="dashboard-performing-cell">
-                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <h5 class="dashboard-performing-title">
-                                Content mix: post 3 blogs, 16 social postings, 1 book per month
-                            </h5>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <span class="dashboard-performing-text small">
-                                LAUNCHED: <strong>05/05/2016</strong>
-                            </span>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <i class="icon-arrange-mini"></i>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <h5 class="dashboard-performing-strong">11K</h5>
-                        </div>
-                    </div>
-                    <div class="dashboard-performing-container">
-                        <div class="dashboard-performing-cell">
-                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <h5 class="dashboard-performing-title">
-                                Content mix: post 3 blogs, 16 social postings, 1 book per month
-                            </h5>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <span class="dashboard-performing-text small">
-                                LAUNCHED: <strong>05/05/2016</strong>
-                            </span>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <i class="icon-arrange-mini"></i>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <h5 class="dashboard-performing-strong">11K</h5>
-                        </div>
-                    </div>
-                    <div class="dashboard-performing-container">
-                        <div class="dashboard-performing-cell">
-                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <h5 class="dashboard-performing-title">
-                                Content mix: post 3 blogs, 16 social postings, 1 book per month
-                            </h5>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <span class="dashboard-performing-text small">
-                                LAUNCHED: <strong>05/05/2016</strong>
-                            </span>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <i class="icon-arrange-mini"></i>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <h5 class="dashboard-performing-strong">11K</h5>
-                        </div>
-                    </div>
-                    <div class="dashboard-performing-container">
-                        <div class="dashboard-performing-cell">
-                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <h5 class="dashboard-performing-title">
-                                Content mix: post 3 blogs, 16 social postings, 1 book per month
-                            </h5>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <span class="dashboard-performing-text small">
-                                LAUNCHED: <strong>05/05/2016</strong>
-                            </span>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <i class="icon-arrange-mini"></i>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <h5 class="dashboard-performing-strong">11K</h5>
-                        </div>
-                    </div>
-                    <div class="dashboard-performing-container">
-                        <div class="dashboard-performing-cell">
-                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <h5 class="dashboard-performing-title">
-                                Content mix: post 3 blogs, 16 social postings, 1 book per month
-                            </h5>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <span class="dashboard-performing-text small">
-                                LAUNCHED: <strong>05/05/2016</strong>
-                            </span>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <i class="icon-arrange-mini"></i>
-                        </div>
-                        <div class="dashboard-performing-cell">
-                            <h5 class="dashboard-performing-strong">11K</h5>
-                        </div>
+
+                    <div class="dashboard-content-box height-spec1">
+                        <ul class="list-unstyled list-content" id="tab-contents-cont">
+                        </ul>
                     </div>
                 </div>
+
             </div>
+
             <div class="col-md-3">
-                <div class="panel max-height">
+
+                <div class="panel max-height" id="recent-ideas">
+
                     <div class="panel-header">
                         <h4 class="panel-sidebar-title-secondary">
                             Recent Ideas
@@ -210,140 +115,101 @@
                             </a>
                         </h4>
                     </div>
-                    <div class="dashboard-ideas-container">
-                        <div class="dashboard-ideas-cell">
-                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
-                        </div>
-                        <div class="dashboard-ideas-cell">
-                            <p class="dashboard-ideas-text">Content mix: post 16 social postings</p>
-                            <span class="dashboard-ideas-text small">3 Days Ago</span>
-                        </div>
-                    </div>
-                    <div class="dashboard-ideas-container">
-                        <div class="dashboard-ideas-cell">
-                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
-                        </div>
-                        <div class="dashboard-ideas-cell">
-                            <p class="dashboard-ideas-text">Content mix: post 16 social postings</p>
-                            <span class="dashboard-ideas-text small">3 Days Ago</span>
-                        </div>
-                    </div>
-                    <div class="dashboard-ideas-container">
-                        <div class="dashboard-ideas-cell">
-                            <img src="/assets/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
-                        </div>
-                        <div class="dashboard-ideas-cell">
-                            <p class="dashboard-ideas-text">Content mix: post 16 social</p>
-                            <span class="dashboard-ideas-text small">3 Days Ago</span>
-                        </div>
-                        <div class="dashboard-ideas-cell">
-                            <div class="dashboard-ideas-dropdown">
-                                <button type="button" class="button button-action" data-toggle="dropdown">
-                                    <i class="icon-add-circle"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li>
-                                        <a href="#">Write It</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+  
                 </div>
+
                 <div class="panel max-height">
                     <div class="panel-header">
                         <h4 class="panel-sidebar-title-secondary">Activity Feed</h4>
                     </div>
-                    <div class="panel-container">
-                        <div class="plan-activity-box-container">
-                            <div class="plan-activity-box-img">
-                                <img src="/assets/images/avatar.jpg" alt="#">
-                            </div>
-                            <div class="plan-activity-box">
-                                <span class="plan-activity-title">
-                                    <a href="#">Jane</a> commented on
-                                    <a href="#"> Write blog post</a> on
-                                    <a href="#">online banking</a>
-                                </span>
-                                <p class="plan-activity-text">
-                                    Suspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum.
-                                    Etiam eget dolor...
-                                </p>
-                            </div>
-                        </div>
-                        <div class="plan-activity-box-container">
-                            <div class="plan-activity-box-img">
-                                <img src="/assets/images/avatar.jpg" alt="#">
-                            </div>
-                            <div class="plan-activity-box">
-                                <span class="plan-activity-title">
-                                    <a href="#">Jane</a> commented on
-                                    <a href="#"> Write blog post</a> on
-                                    <a href="#">online banking</a>
-                                </span>
-                                <p class="plan-activity-text">
-                                    Suspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum.
-                                    Etiam eget dolor...
-                                </p>
-                            </div>
-                        </div>
-                        <div class="plan-activity-box-container">
-                            <div class="plan-activity-box-img">
-                                <img src="/assets/images/avatar.jpg" alt="#">
-                            </div>
-                            <div class="plan-activity-box">
-                                <span class="plan-activity-title">
-                                    <a href="#">Jane</a> commented on
-                                    <a href="#"> Write blog post</a> on
-                                    <a href="#">online banking</a>
-                                </span>
-                                <p class="plan-activity-text">
-                                    Suspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum.
-                                    Etiam eget dolor...
-                                </p>
-                            </div>
-                        </div>
-                        <div class="plan-activity-box-container">
-                            <div class="plan-activity-box-img">
-                                <img src="/assets/images/avatar.jpg" alt="#">
-                            </div>
-                            <div class="plan-activity-box">
-                                <span class="plan-activity-title">
-                                    <a href="#">Jane</a> commented on
-                                    <a href="#"> Write blog post</a> on
-                                    <a href="#">online banking</a>
-                                </span>
-                                <p class="plan-activity-text">
-                                    Suspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum.
-                                    Etiam eget dolor...
-                                </p>
-                            </div>
-                        </div>
-                        <div class="plan-activity-box-container">
-                            <div class="plan-activity-box-img">
-                                <img src="/assets/images/avatar.jpg" alt="#">
-                            </div>
-                            <div class="plan-activity-box">
-                                <span class="plan-activity-title">
-                                    <a href="#">Jane</a> commented on
-                                    <a href="#"> Write blog post</a> on
-                                    <a href="#">online banking</a>
-                                </span>
-                                <p class="plan-activity-text">
-                                    Suspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum.
-                                    Etiam eget dolor...
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+
+                    <div class="panel-container" id="activity-feed-container"></div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<script type="text/template" id="recent-template">
+    <div class="dashboard-ideas-cell">
+        <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
+    </div>
+    <div class="dashboard-ideas-cell">
+        <p class="dashboard-ideas-text"><%= title %></p>
+        <span class="dashboard-ideas-text small"><%= timeago %></span>
+    </div>
+    <div class="dashboard-ideas-cell hidden idea-hover">
+        <div class="dashboard-ideas-dropdown">
+            <button type="button" class="button button-action" data-toggle="dropdown">
+                <i class="icon-add-circle"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li>
+                    <a href="#">Write It</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="content-item-template">
+    <div class="list-avatar">
+      <div class="user-avatar">
+        <img src="<%= image %>"/>
+      </div>
+    </div>
+    <div class="list-title">
+      <p><a href="#"> <%= title %></a></p>
+    </div>
+    <div class="list-datestamp">
+      <p><span>LAUNCHED:</span> <%= launched %></p>
+    </div>
+    <div class="list-type">
+      <i class="icon-type-blog"></i>
+    </div>
+    <div class="list-score">
+      <p><%= performance %></p>
+    </div>
+</script>
+
+<script type="text/template" id="campaign-item-template">
+    <div class="list-avatar">
+      <div class="user-avatar">
+        <img src="<%= image %>"/>
+      </div>
+    </div>
+    <div class="list-title">
+      <p><a href="#"> <%= title %></a></p>
+    </div>
+    <div class="list-datestamp">
+      <p><span>LAUNCHED:</span> <%= launched %></p>
+    </div>
+    <div class="list-type">
+      <i class="icon-type-blog"></i>
+    </div>
+    <div class="list-score">
+      <p><%= performance %></p>
+    </div>
+</script>
+
+<script type="text/template" id="activity-item-template">
+    <div class="plan-activity-box-img">
+        <img src="<%= image %>" alt="#">
+    </div>
+    <div class="plan-activity-box">
+        <span class="plan-activity-title">
+            <a href="#"><%= who %></a> <%= action %>
+            <a href="#"> <%= title %></a> on
+            <a href="#"><%= content %></a>
+        </span>
+        <p class="plan-activity-text">
+            <%= body %>
+        </p>
+    </div>
+</script>
 @stop
 
 @section('scripts')
-<script src="/js/dashboard.js"></script>
+<script src="/js/performance.js"></script>
 @stop

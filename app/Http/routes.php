@@ -50,7 +50,15 @@ Route::get('/plan/editor','PlanController@editor');
 Route::get('/plan/trends','PlanController@trends');
 Route::get('/plan/prescription','PlanController@prescription');
 
-Route::get('/idea','PlanController@editor');
+Route::resource('/trending', 'TrendsController@trending');
+Route::resource('/influencers', 'InfluencersController@search');
+
+
+Route::get('/idea/{id}','PlanController@editor');
+
+Route::resource('/ideas', 'IdeaController', ['only' => [
+    'index', 'show','store'
+]]);
 
 Route::get('/calendar','CalendarController@index');
 Route::get('/calendar/{year}/{month}','CalendarController@index');

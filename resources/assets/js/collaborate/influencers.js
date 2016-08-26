@@ -63,7 +63,8 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 	var influencer_data_modal = Backbone.View.extend({
 		events:{
-			"click .sidemodal-close": "dismiss"
+			"click .sidemodal-close": "dismiss",
+			"click .invite-btn":"invite"
 		},
 		initialize: function(){
 			console.log('new modal init!');
@@ -72,12 +73,20 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		render: function(){
 			this.$el.find('.title').text( this.model.get('title') );
 			this.$el.find('.desc').text( this.model.get('body') );
+			this.$el.find('.user-avatar').html('<img src="' + this.model.get('image') + '" alt="' + this.model.get('title') + '">');
+			var roles = this.model.get('person_type');
+
+			this.$el.find('.influencer-desc').text( roles.join(', ') );
+
 			$('#modal-influencerdetails').modal('show');
 			return this;
 		},
 		dismiss: function(){
 			$('#modal-influencerdetails').modal('hide');
 			//this.remove();
+		},
+		invite: function(){
+			new influencer_invite_modal({el:"#modal-inviteinfluencer", model: this.model});	
 		}
 	});
 
@@ -90,7 +99,10 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			this.render();
 		},
 		render: function(){
+			this.$el.find('.user-avatar').html('<img src="' + this.model.get('image') + '" alt="' + this.model.get('title') + '">');
 			this.$el.find('.title').text( this.model.get('title') );
+			this.$el.find('.desc').text( this.model.get('body') );
+
 			$('#modal-inviteinfluencer').modal('show');
 			return this;
 		},
@@ -138,8 +150,30 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 
 	$(function(){
+		var influ_api_host = '/influencers';
 
 		var results = new result_collection();
+
+		var search_influencers = function(topic){
+			$.getJSON(influ_api_host,{topic:topic},function(res){
+				console.log(res.results);
+				results.remove( results.models );
+				results.add( res.results.map(influencer_map) );
+			});
+		};
+		var influencer_map = function(i){
+			return {
+				title: i.name,
+				image: i.image,
+				body: i.bio,
+				desc: i.display_bio,
+				twitter_num: i.num_followers,
+				facebook_num: 0,
+				twitter_link: (i.twitter_id_str) ? ('https://twitter.com/intent/user?user_id=' + i.twitter_id_str) : '',
+				person_type: i.person_type
+			};
+		};
+
 
 		new invite_message_view({el:"#influencer-alert", collection: results });
 
@@ -152,13 +186,17 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 		$('#influencer-search').click(function(){
 			console.log('search clicked!');
-			results.remove( results.models );
-			setTimeout(function(){
-				results.add(dummy_data);
-			},500);
+			var top = $("#influencer-topic-val").val();
+
+			search_influencers(top);
+
+			// results.remove( results.models );
+			// setTimeout(function(){
+			// 	results.add(dummy_data);
+			// },500);
 		});
 
-		results.add(dummy_data);
+		//results.add(dummy_data);
 	});
 
 })(jQuery);

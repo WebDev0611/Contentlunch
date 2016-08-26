@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use View;
 
+use App\Idea;
+
+use App\IdeaContent;
+
 class PlanController extends Controller {
 
 	public function index(){
@@ -18,8 +22,19 @@ class PlanController extends Controller {
 		return View::make('plan.prescription');
 	}
 
-	public function editor(){
-		return View::make('plan.editor');
+	public function editor($id = 0){
+		
+		//need to check against account info
+		$idea = Idea::where(['id' => $id ])
+					->first();
+
+		$idea_content = IdeaContent::where(['idea_id'=> $id])->get();
+					
+
+		return View::make('plan.editor', ['name' => $idea->name, 
+										'text' => $idea->text, 
+										'tags' => $idea->tags, 
+										'contents' => $idea_content ]);
 	}
 	
 	public function ideas(){

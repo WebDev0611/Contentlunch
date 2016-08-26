@@ -10,6 +10,10 @@
   padding: 40px 0;
 }
 
+.landing-hero {
+  text-align: center;
+}
+
 .landing-logo {
   position: relative;
   display: block;
@@ -22,5 +26,9 @@
 
   &:hover, &:focus {
     text-decoration: none;
+  }
+  
+  &.bottom {
+    margin: 25px auto;
   }
 }

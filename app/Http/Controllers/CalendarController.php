@@ -45,12 +45,12 @@ class CalendarController extends Controller {
 
 			/* keep going with days.... */
 			for($list_day = 1; $list_day <= $days_in_month; $list_day++):
-				$calendar.= '<td data-cell-date="' . $year . '-' . $month . '-' . $list_day . '">';
+				$d_string = $year . '-' . $month . '-' . $list_day;
+				$calendar.= '<td id="date-' . $d_string . '" data-cell-date="' . $d_string . '">';
 					/* add in the day number */ //<time class="calendar-month-date">13</time>
 					$calendar.= '<time class="calendar-month-date">'.$list_day.'</time>';
 
-					/** QUERY THE DATABASE FOR AN ENTRY FOR THIS DAY !!  IF MATCHES FOUND, PRINT THEM !! **/
-					//$calendar.= str_repeat('<p> </p>',2);
+					/** BACKBONE RENDERS AFTER HERE !! **/
 					
 				$calendar.= '</td>';
 				if($running_day == 6):
@@ -87,6 +87,7 @@ class CalendarController extends Controller {
 		if($month !== 0 && $year !== 0){
 			$default_month = date('F', strtotime( $year . '-' . $month ) );
 			$default_year = $year;
+			$month = date('n', strtotime( $year . '-' . $month ) );
 			$calendar_layout = draw_calendar( $month, $year );
 
 		}else{
@@ -233,7 +234,7 @@ class CalendarController extends Controller {
 			$week_string .= '<thead class="calendar-week"><th disabled></th>';
 			$curr_time = $start;
 			for($d = 0; $d < 7; $d++){
-				$date_tracker[$d] = date('Y-m-d',$curr_time);
+				$date_tracker[$d] = date('Y-n-d',$curr_time);
 				$week_string .= '<th>' . date('D j, M',$curr_time) . "</th>";
 				$curr_time = strtotime("+1 day", $curr_time);
 			}
@@ -249,7 +250,7 @@ class CalendarController extends Controller {
 				//daily columns
 				$day_column = '<td disabled>' . date('gA', strtotime($curr_hour . ':00:00' ) ) .'</td>';
 				for($dc = 0; $dc < 7; $dc++){
-					$day_column .= '<td data-cell-date-time="' . $date_tracker[$dc] . ' ' . $curr_hour . ':00:00' . '"></td>';
+					$day_column .= '<td id="date-' . $date_tracker[$dc] . '-' . $curr_hour . '0000' . '" data-cell-date-time="' . $date_tracker[$dc] . '-' . $curr_hour . '0000' . '"></td>';
 				}
 				$week_string .= $day_column . '</tr>';
 			}
@@ -257,6 +258,7 @@ class CalendarController extends Controller {
 			return $week_string;
 		}
 
+		$month = date('n', $date_string);
 		$weekly_calendar_string =  generate_weekly_calendar( $year, $month, $day, $start_weektimestamp );
 
 		$day_of_week = date('l', $date_string);
@@ -305,6 +307,8 @@ class CalendarController extends Controller {
 
 		if(!$month){
 			$month = date('n');
+		}elseif($month && $year){
+			$month = date('n', strtotime($year . '-' . $month) );
 		}
 
 		$date_string =  strtotime($year . '-' . $month . '-' . $day);
@@ -325,7 +329,7 @@ class CalendarController extends Controller {
 
 		$content = '';//$content_q->get();
 
-		function generate_daily_calendar(){
+		function generate_daily_calendar($year, $month, $day){
 			$daily_timetable = '<table class="calendar"><tbody class="calendar-day">';
             
 			$start_time_row = date('H', strtotime('10:00:00') );
@@ -338,7 +342,7 @@ class CalendarController extends Controller {
 				$day_column = '<td disabled>' . date('gA', strtotime($curr_hour . ':00:00' ) ) .'</td>';
 				
 				//content goes here
-				$day_column .= '<td data-cell-time="' . $curr_hour . ':00:00' . '"></td>';
+				$day_column .= '<td id="date-'.$year.'-'.$month.'-'.$day.'-' . $curr_hour . '0000' . '" data-cell-date-time="'.$year.'-'.$month.'-'.$day.'-' . $curr_hour . '0000' . '"></td>';
 
 				$daily_timetable .= $day_column . '</tr>';
 			}
@@ -361,7 +365,7 @@ class CalendarController extends Controller {
 			'account_id' => $this->account_id,
 
 			'content_items' => $content,
-			'daily_calendar' => generate_daily_calendar()
+			'daily_calendar' => generate_daily_calendar($year,$month,$day)
 		));
 	}
 

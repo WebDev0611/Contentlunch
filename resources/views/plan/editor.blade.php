@@ -33,15 +33,15 @@
                     <div class="col-md-8 col-md-offset-2">
                         <div class="input-form-group">
                             <label for="#">CONCEPT NAME</label>
-                            <input type="text" class="input" placeholder="Enter your concept name">
+                            <input type="text" class="input" placeholder="Enter your concept name" value="{{$name}}">
                         </div>
                         <div class="input-form-group">
                             <label for="#">EXPLAIN YOUR IDEA</label>
-                            <textarea rows="4" class="input" placeholder="Explain idea in a paragraph or so"></textarea>
+                            <textarea rows="4" class="input" placeholder="Explain idea in a paragraph or so">{{$text}}</textarea>
                         </div>
                         <div class="input-form-group">
                             <label for="#">TAGS</label>
-                            <input type="text" class="input" placeholder="Enter comma separated tags">
+                            <input type="text" class="input" placeholder="Enter comma separated tags" value="{{$tags}}">
                         </div>
                         <div class="form-group">
                             <fieldset class="form-fieldset clearfix">
@@ -138,30 +138,20 @@
                                 <em>Selected Content</em>
                             </span>
                         </div>
+                        @foreach($contents as $content)
                         <div class="tombstone tombstone-horizontal tombstone-active clearfix">
                             <div class="tombstone-image">
-                                <img src="//i.imgur.com/MYB6HjU.jpg" alt="">
+                                <img src="{{$content->image}}" alt="">
                             </div>
                             <div class="tombstone-container">
-                                <h3>Google self-driving car is tested on California highways</h3>
+                                <h3>{{$content->title}}</h3>
                                 <p>
-                                    Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of
-                                    electric cars, including a top of the line Tesla, went on...
+                                    {{$content->link}}
                                 </p>
                             </div>
                         </div>
-                        <div class="tombstone tombstone-horizontal tombstone-active clearfix">
-                            <div class="tombstone-image">
-                                <img src="//i.imgur.com/MYB6HjU.jpg" alt="">
-                            </div>
-                            <div class="tombstone-container">
-                                <h3>Google self-driving car is tested on California highways</h3>
-                                <p>
-                                    Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of
-                                    electric cars, including a top of the line Tesla, went on...
-                                </p>
-                            </div>
-                        </div>
+                        @endforeach
+
                     </div>
                 </div>
             </div>
@@ -246,4 +236,8 @@
     </div>
 </div>
 
+@stop
+
+@section('scripts')
+<script src="/js/idea_editor.js"></script>
 @stop

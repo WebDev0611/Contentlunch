@@ -34,6 +34,15 @@
   .inner {
     max-width: 400px;
     margin: 0 auto;
+
+    &.wide {
+      max-width: 580px;
+    }
+  }
+
+  .inner.wide {
+    max-width: 500px;
+    margin: 0 auto;
   }
 
   .intro {
@@ -48,6 +57,17 @@
 
   .list-checks {
     padding-top: 5px;
+  }
+}
+
+.modal-footer {
+
+  &.centered {
+    text-align: center;
+
+    .btn {
+      min-width: 130px;
+    }
   }
 }
 

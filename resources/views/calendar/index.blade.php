@@ -47,470 +47,6 @@
         </div>
 
        {!! $calendar !!}
-
-       <script>
-       var campaigns = {{$campaigns}};
-       var user_id = {{$user_id}};
-       var account_id = {{$account_id}};
-
-       console.log('user_id: ');
-       console.log(user_id);
-       console.log('account_id:');
-       console.log(account_id);
-       console.log('Campaigns:');
-       console.log(campaigns);
-       </script>
-<!-- weekly -->
-<!--
-
-        <table class="calendar">
-            <thead class="calendar-week">
-                <tr>
-                    <th disabled></th>
-                    <th>Sunday, 1 Mar</th>
-                    <th>Monday, 2 Mar</th>
-                    <th>Tuesday, 3 Mar</th>
-                    <th>Wednesday, 4 Mar</th>
-                    <th>Thursday, 5 Mar</th>
-                    <th>Friday, 6 Mar</th>
-                    <th>Saturday, 7 Mar</th>
-                </tr>
-            </thead>
-            <tbody class="calendar-week-hours">
-                <tr>
-                    <td disabled>
-                        10 AM
-                    </td>
-                    <td>
-                        <div class="calendar-schedule">
-                            <ul class="calendar-task-list">
-                                <li>
-                                    <i class="calendar-task-list-icon primary icon-idea"></i>
-                                    Content mix: post 3 blogs...
-                                </li>
-                                <li>
-                                    <i class="calendar-task-list-icon secondary icon-arrange-mini"></i>
-                                    Post 16 social postings
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <div class="calendar-schedule">
-                            <ul class="calendar-task-list">
-                                <li>
-                                    <i class="calendar-task-list-icon primary icon-idea"></i>
-                                    Content mix: post 3 blogs...
-                                </li>
-                                <li>
-                                    <i class="calendar-task-list-icon secondary icon-arrange-mini"></i>
-                                    Post 16 social postings
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        11 AM
-                    </td>
-                    <td>
-                        <div class="calendar-schedule">
-                            <ul class="calendar-task-list">
-                                <li>
-                                    <i class="calendar-task-list-icon primary icon-idea"></i>
-                                    Content mix: post 3 blogs...
-                                </li>
-                                <li>
-                                    <i class="calendar-task-list-icon secondary icon-arrange-mini"></i>
-                                    Post 16 social postings
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <div class="calendar-schedule-dropdown-wrapper">
-                            <div class="calendar-schedule-dropdown">
-                                <button type="button" class="button button-action" data-toggle="dropdown">
-                                    <i class="icon-add-circle"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li class="dropdown-header important">Wed, Mar 4, 2016, 01 PM</li>
-                                    <li>
-                                        <a href="#">Add Idea</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Add Content</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Add Task</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        12 PM
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <div class="calendar-schedule">
-                            <ul class="calendar-task-list">
-                                <li>
-                                    <i class="calendar-task-list-icon primary icon-idea"></i>
-                                    Content mix: post 3 blogs...
-                                </li>
-                                <li>
-                                    <i class="calendar-task-list-icon secondary icon-arrange-mini"></i>
-                                    Post 16 social postings
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        01 PM
-                    </td>
-                    <td></td>
-                    <td>
-                        <div class="calendar-schedule">
-                            <ul class="calendar-task-list">
-                                <li>
-                                    <i class="calendar-task-list-icon primary icon-idea"></i>
-                                    Content mix: post 3 blogs...
-                                </li>
-                                <li>
-                                    <i class="calendar-task-list-icon secondary icon-arrange-mini"></i>
-                                    Post 16 social postings
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        02 PM
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <div class="calendar-schedule">
-                            <ul class="calendar-task-list">
-                                <li>
-                                    <i class="calendar-task-list-icon primary icon-idea"></i>
-                                    Content mix: post 3 blogs...
-                                </li>
-                                <li>
-                                    <i class="calendar-task-list-icon secondary icon-arrange-mini"></i>
-                                    Post 16 social postings
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        03 PM
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        04 PM
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        05 PM
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        06 PM
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <div class="calendar-schedule">
-                            <ul class="calendar-task-list">
-                                <li>
-                                    <i class="calendar-task-list-icon primary icon-idea"></i>
-                                    Content mix: post 3 blogs...
-                                </li>
-                                <li>
-                                    <i class="calendar-task-list-icon secondary icon-arrange-mini"></i>
-                                    Post 16 social postings
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        07 PM
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        08 PM
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        09 PM
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        10 PM
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <div class="calendar-schedule">
-                            <ul class="calendar-task-list">
-                                <li>
-                                    <i class="calendar-task-list-icon primary icon-idea"></i>
-                                    Content mix: post 3 blogs...
-                                </li>
-                                <li>
-                                    <i class="calendar-task-list-icon secondary icon-arrange-mini"></i>
-                                    Post 16 social postings
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-
--->
-
-<!-- daily -->
-<!--
-
-  <table class="calendar">
-            <tbody class="calendar-day">
-                <tr>
-                    <td disabled>
-                        10 AM
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        11 AM
-                    </td>
-                    <td>
-                        <div class="calendar-schedule">
-                            <ul class="calendar-task-list large">
-                                <li>
-                                    <img src="/images/avatar.jpg" class="calendar-task-list-icon large" />
-                                    Content mix: post 3 blogs...
-                                    <span class="calendar-task-list-icon-plain icon-facebook-mini"></span>
-                                </li>
-                                <li>
-                                    <img src="/images/avatar.jpg" class="calendar-task-list-icon large" />
-                                    Post 16 social postings
-                                    <span class="calendar-task-list-icon-plain icon-arrange-mini"></span>
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        12 PM
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        01 PM
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        02 PM
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        03 PM
-                    </td>
-                    <td>
-                        <div class="calendar-schedule">
-                            <ul class="calendar-task-list large">
-                                <li>
-                                    <i class="calendar-task-list-icon primary large icon-idea"></i>
-                                    Content mix: post 3 blogs...
-                                </li>
-                                <li>
-                                    <i class="calendar-task-list-icon secondary large icon-arrange-mini"></i>
-                                    Post 16 social postings
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        04 PM
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        05 PM
-                    </td>
-                    <td>
-                        <div class="calendar-schedule">
-                            <ul class="calendar-task-list large">
-                                <li>
-                                    <i class="calendar-task-list-icon primary large icon-idea"></i>
-                                    Content mix: post 3 blogs...
-                                </li>
-                                <li>
-                                    <i class="calendar-task-list-icon secondary large icon-arrange-mini"></i>
-                                    Post 16 social postings
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        06 PM
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        07 PM
-                    </td>
-                    <td>
-                        <div class="calendar-schedule-dropdown-wrapper">
-                            <div class="calendar-schedule-dropdown">
-                                <button type="button" class="button button-action" data-toggle="dropdown">
-                                    <i class="icon-add-circle"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li class="dropdown-header important">Wed, Mar 4, 2016, 01 PM</li>
-                                    <li>
-                                        <a href="#">Add Idea</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Add Content</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Add Task</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        08 PM
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        09 PM
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td disabled>
-                        10 PM
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-
--->
-
     </div>
 </div>
 
@@ -518,5 +54,65 @@
 @include('calendar.task')
 @include('calendar.create')
 
+@include('calendar.modals')
 
+<script type="text/template" id="calendar-item-template">
+    <% 
+    var _icon = 'primary icon-idea';
+    if(type == 'task') _icon = 'secondary icon-arrange-mini'
+    %>
+      <i class="calendar-task-list-icon <%= _icon %>"></i>
+      <%= title %>
+      <div class="calendar-task-list-popover calendar-task-list-popover-bottom">
+          <i class="calendar-task-list-icon <%= _icon %>"></i>
+          <button class="calendar-task-list-popover-close">
+              <i class="icon-remove"></i>
+          </button>
+          <h5 class="calendar-task-list-popover-title">
+              <%= title %>
+          </h5>
+          <p class="calendar-task-list-popover-text">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Accusantium asperiores dolores excepturi natus neque officiis quibusdam
+              rem, sunt voluptate voluptatum.
+          </p>
+          <div class="row">
+              <div class="calendar-task-list-popover-info col-md-6">
+                  Author
+                  <strong>Jenny Hurley</strong>
+              </div>
+              <div class="calendar-task-list-popover-info col-md-6">
+                  Due Date
+                  <strong><%= date %></strong>
+              </div>
+          </div>
+          <div class="calendar-task-list-popover-timeline">
+              <span class="active">
+                  <i class="icon-idea"></i>
+              </span>
+              <span class="active">
+                  <i class="icon-edit-content"></i>
+              </span>
+              <span>
+                  <i class="icon-content-alert"></i>
+              </span>
+              <span>
+                  <i class="icon-connect"></i>
+              </span>
+          </div>
+          <a href="#" class="button button-extend text-uppercase">Details</a>
+      </div>
+</script>
+
+<script type="text/template" id="calendar-item-container">
+<div class="calendar-schedule">
+    <ul class="calendar-task-list">
+    </ul>
+</div>
+</script>
+
+@stop
+
+@section('scripts')
+<script src="/js/calendar.js"></script>
 @stop

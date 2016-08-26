@@ -271,7 +271,7 @@
 
 .checkbox-tag {
   position: relative;
-  margin-bottom: 10px;
+  margin-bottom: 7px;
 
   > input[type="checkbox"] {
     display: none;
@@ -403,4 +403,16 @@
   input[type="checkbox"]:checked:after,input[type="radio"]:checked:after {
     left: 22px;
   }
+}
+
+
+.pane-results .checkbox-tag {
+  display: inline-block;
+  width: calc(32.5333333% - 4px);
+  margin: 0 .3%;
+}
+.pane-results.dual .checkbox-tag {
+  display: inline-block;
+  width: calc(49.4% - 4px);
+  margin: 0 .3%;
 }
