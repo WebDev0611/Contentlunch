@@ -1,39 +1,6 @@
 (function($){
     var my_user_id = 1;
 
-    var dummy_ideas_data = [
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-    ];
-
     /* dummy content data */
     var dummy_content_data = [
     {
@@ -254,54 +221,6 @@
         }
     });
 
-
-    /* recent ideas view */
-    var recent_ideas_view = Backbone.View.extend({
-        idea_views: [],
-        initialize: function(){
-            var that = this;
-            this.collection.each(function(m){
-                that.idea_views.push( new recent_view({ model: m }) );
-            });
-            this.render();
-        },
-        render: function(){
-            var that = this;    
-            this.idea_views.forEach(function(v){
-                v.$el.hide();
-                v.$el.fadeIn();
-                that.$el.append( v.el );
-            });
-            return this;
-        }
-    });
-    var recent_view = Backbone.View.extend({
-        tagName: "div",
-        className: "dashboard-ideas-container",
-        events:{
-            "mouseenter": "show_hover",
-            "mouseleave": "hide_hover",
-
-        },
-        template: _.template( $('#recent-template').html() ),
-        initialize: function(){
-            this.$el.append( this.template(this.model.attributes) );
-        },
-        render: function(){
-            return this;
-        },
-        show_hover: function(){
-            this.$el.find('.idea-hover').toggleClass('hidden');
-        },
-        hide_hover: function(){
-            this.$el.find('.idea-hover').toggleClass('hidden');
-        },       
-    });
-    var recent_idea_model = Backbone.Model.extend();
-    var recent_ideas_collection = Backbone.Collection.extend({
-        model: recent_idea_model
-    });
-
     /* campaign parts */
     var campaign_model = Backbone.Model.extend({
         defaults:{
@@ -343,8 +262,10 @@
 
 // //        var misc_container = new misc_container_view({el: '#misc-container'});
 
-           var recent_ideas = new recent_ideas_collection(dummy_ideas_data);
+           var recent_ideas = new recent_ideas_collection();
            var ideas = new recent_ideas_view({el:'#recent-ideas',collection: recent_ideas});
+           recent_ideas.fetch();
+
      });
 
 })(jQuery);

@@ -47,3 +47,49 @@ var idea_container_view = Backbone.View.extend({
 		return this;
 	}
 });
+
+var recent_ideas_view = Backbone.View.extend({
+    idea_views: [],
+    initialize: function(){
+        var that = this;
+        this.listenTo( this.collection,'update', this.render );
+        this.render();
+    },
+    render: function(){
+        var that = this;    
+        
+        this.collection.each(function(m){
+            that.idea_views.push( new recent_view({ model: m }) );
+        });
+
+        this.idea_views.forEach(function(v){
+            v.$el.hide();
+            v.$el.fadeIn();
+            that.$el.append( v.el );
+        });
+        return this;
+    }
+});
+
+var recent_view = Backbone.View.extend({
+    tagName: "div",
+    className: "dashboard-ideas-container",
+    events:{
+        "mouseenter": "show_hover",
+        "mouseleave": "hide_hover",
+
+    },
+    template: _.template( $('#idea-template').html() ),
+    initialize: function(){
+        this.$el.append( this.template(this.model.attributes) );
+    },
+    render: function(){
+        return this;
+    },
+    show_hover: function(){
+        this.$el.find('.idea-hover').toggleClass('hidden');
+    },
+    hide_hover: function(){
+        this.$el.find('.idea-hover').toggleClass('hidden');
+    },       
+});

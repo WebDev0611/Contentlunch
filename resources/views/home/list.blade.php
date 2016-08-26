@@ -201,13 +201,13 @@
     </div>
 </script>
 
-<script type="text/template" id="recent-template">
+<script type="text/template" id="idea-template">
     <div class="dashboard-ideas-cell">
-        <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
+        <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
     </div>
     <div class="dashboard-ideas-cell">
-        <p class="dashboard-ideas-text"><%= title %></p>
-        <span class="dashboard-ideas-text small"><%= timeago %></span>
+        <p class="dashboard-ideas-text"><%= name %></p>
+        <span class="dashboard-ideas-text small">TIME HERE</span>
     </div>
     <div class="dashboard-ideas-cell hidden idea-hover">
         <div class="dashboard-ideas-dropdown">
