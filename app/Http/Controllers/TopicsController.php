@@ -21,24 +21,47 @@ class TopicsController extends Controller
 
         $keyword = $request->input('keyword');
         $type = $request->input('terms');
-
-        $results = [];
-        if( !empty($keyword) ){
-
-            $results = $this->get_data( $keyword, $type);
+        
+        //set up the hash key
+        $topic_cache_key = 'topics:';
+        if(empty($keyword)){
+            $topic_cache_key .= '_';
         }else{
-            $results = $this->get_top( $type );
+            $topic_cache_key .= urlencode($keyword);
+        }
+        if(empty($type)){
+            $type = 'short';
+        }
+        $topic_cache_key .= ':' . $type;
+
+        //get the cache
+        $topic_cache = Redis::get( $topic_cache_key );
+        $results = [];
+
+        if( empty( unserialize($topic_cache) ) ){
+
+            if( !empty($keyword) ){
+                $results = $this->get_data( $keyword, $type);
+            }else{
+                $results = $this->get_top( $type );
+            }
+
+            Redis::set($topic_cache_key, serialize( $results ));
+            Redis::expire($topic_cache_key, 60*20); //set cache for 10 min
+        }else{
+            $results= unserialize($topic_cache);
         }
 
         echo json_encode($results);
         exit;
     }
 
+
     private function get_top( $length_flag = 'short' ){
         $api_url = 'http://api3.wordtracker.com/top?';
 
         $request_string = $api_url . 'app_id=' .getenv('WORDTRACKER_ID') . '&app_key=' . getenv('WORDTRACKER_KEY');
-        $request_string .= '&limit=' . 12;
+        $request_string .= '&limit=' . 8;
 
         if($length_flag == 'long'){
             $request_string .= '&terms=4'; 

@@ -69,7 +69,7 @@ class TrendsController extends Controller
 
             $output = get_data($topic);
             Redis::set($topic_key, serialize( $output ));
-            Redis::expire($topic_key, 60*10); //set cache for 10 min
+            Redis::expire($topic_key, 60*20); //set cache for 10 min
         }else{
             $output = unserialize($topic_cache);
         }

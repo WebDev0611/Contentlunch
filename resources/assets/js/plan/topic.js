@@ -138,40 +138,36 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			return {keyword: m.keyword};
 		};
 
-		$('#topic-search').click(function(){
-			console.log('search clicked!');
-			long_tail_results.remove( long_tail_results.models );
-			short_tail_results.remove( short_tail_results.models );
+		var get_topic_data = function(term = ''){
+			var short_obj = {terms: 'short'};
+			var long_obj = {terms: 'long'};
 
+			if(term.length > 2){
+				short_obj.keyword = term;
+				long_obj.keyword = term;
+			}
 
-			$.getJSON('/topics',{keyword: $('#topic-search-val').val(),terms:'short' },function(res){
-				console.log("back from endpoint");
-				console.log("::");
-				console.log(res);
-
+			$.getJSON('/topics',short_obj,function(res){
 				var topic_objs = res.results.map(map_result).sort(function(a,b){
 					return b.volume - a.volume;
 				});
-
 				short_tail_results.add(topic_objs);
 			});
 
-			$.getJSON('/topics',{keyword: $('#topic-search-val').val(),terms: 'long' },function(res){
-				console.log("back from endpoint");
-				console.log("::");
-				console.log(res);
-
+			$.getJSON('/topics',long_obj,function(res){
 				var topic_objs = res.results.map(map_result).sort(function(a,b){
 					return b.volume - a.volume;
 				});
 				
 				long_tail_results.add(topic_objs);
 			});
-			//setTimeout(function(){
-			//	short_tail_results.add(dummy_data_short);
-			//	long_tail_results.add(dummy_data_long);
-			//},500);
+		};
 
+		$('#topic-search').click(function(){
+			console.log('search clicked!');
+			long_tail_results.remove( long_tail_results.models );
+			short_tail_results.remove( short_tail_results.models );
+			get_topic_data( $('#topic-search-val').val() );
 		});
 
 		long_tail_results.on('add',function(m){
@@ -208,30 +204,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 		// long_tail_results.add(dummy_data_long);
 		// short_tail_results.add(dummy_data_short);
-		var get_topic_data = function(term = ''){
-			var short_obj = {terms: 'short'};
-			var long_obj = {terms: 'long'};
-
-			if(term.length > 2){
-				short_obj.keyword = term;
-				long_obj.keyword = term;
-			}
-
-			$.getJSON('/topics',short_obj,function(res){
-				var topic_objs = res.results.map(map_result).sort(function(a,b){
-					return b.volume - a.volume;
-				});
-				short_tail_results.add(topic_objs);
-			});
-
-			$.getJSON('/topics',long_obj,function(res){
-				var topic_objs = res.results.map(map_result).sort(function(a,b){
-					return b.volume - a.volume;
-				});
-				
-				long_tail_results.add(topic_objs);
-			});
-		};
 		get_topic_data();
 	});
 
