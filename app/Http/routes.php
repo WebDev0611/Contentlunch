@@ -52,6 +52,7 @@ Route::get('/plan/prescription','PlanController@prescription');
 
 Route::resource('/trending', 'TrendsController@trending');
 Route::resource('/influencers', 'InfluencersController@search');
+Route::resource('/topics', 'TopicsController@index');
 
 
 Route::get('/idea/{id}','PlanController@editor');

@@ -68,9 +68,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 	});
 
 
-
-
-
 	/* idea JS for the modal */
 	var selected_content = Backbone.Collection.extend({
 		model: topic_result
@@ -178,6 +175,12 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		long_tail_results.add(dummy_data_long);
 		short_tail_results.add(dummy_data_short);
 
+
+		$.getJSON('/topics',{keyword:'testing'},function(res){
+			console.log("back from endpoint");
+			console.log("::");
+			console.log(res);
+		});
 	});
 
 })(jQuery);
