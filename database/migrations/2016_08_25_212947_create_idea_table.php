@@ -15,6 +15,7 @@ class CreateIdeaTable extends Migration
         Schema::create('idea', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
+            $table->integer('account_id')->unsigned();
             $table->string('name');
             $table->string('text');
             $table->string('tags');
