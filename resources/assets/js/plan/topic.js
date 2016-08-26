@@ -8,7 +8,13 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 (function($){
 
-	var topic_result = Backbone.Model.extend();
+	var topic_result = Backbone.Model.extend({
+		defaults:{
+			keyword: '',
+			volume: 0,
+			timestamp: new Date().getTime()
+		}
+	});
 
 	//place holder data
 	var dummy_data_long = [
@@ -138,17 +144,29 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			short_tail_results.remove( short_tail_results.models );
 
 
-
-
-			$.getJSON('/topics',{keyword: $('#topic-search-val').val() },function(res){
+			$.getJSON('/topics',{keyword: $('#topic-search-val').val(),terms:'short' },function(res){
 				console.log("back from endpoint");
 				console.log("::");
 				console.log(res);
 
-				var topic_objs = res.results.map(map_result);
+				var topic_objs = res.results.map(map_result).sort(function(a,b){
+					return b.volume - a.volume;
+				});
+
 				short_tail_results.add(topic_objs);
 			});
 
+			$.getJSON('/topics',{keyword: $('#topic-search-val').val(),terms: 'long' },function(res){
+				console.log("back from endpoint");
+				console.log("::");
+				console.log(res);
+
+				var topic_objs = res.results.map(map_result).sort(function(a,b){
+					return b.volume - a.volume;
+				});
+				
+				long_tail_results.add(topic_objs);
+			});
 			//setTimeout(function(){
 			//	short_tail_results.add(dummy_data_short);
 			//	long_tail_results.add(dummy_data_long);
@@ -189,9 +207,33 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			console.log(new_idea.attributes.content.toJSON() );
 		});
 
-		long_tail_results.add(dummy_data_long);
-		short_tail_results.add(dummy_data_short);
+		// long_tail_results.add(dummy_data_long);
+		// short_tail_results.add(dummy_data_short);
+		(function(){
+			$.getJSON('/topics',{terms:'short' },function(res){
+				console.log("back from endpoint");
+				console.log("::");
+				console.log(res);
 
+				var topic_objs = res.results.map(map_result).sort(function(a,b){
+					return b.volume - a.volume;
+				});
+
+				short_tail_results.add(topic_objs);
+			});
+
+			$.getJSON('/topics',{terms: 'long' },function(res){
+				console.log("back from endpoint");
+				console.log("::");
+				console.log(res);
+
+				var topic_objs = res.results.map(map_result).sort(function(a,b){
+					return b.volume - a.volume;
+				});
+				
+				long_tail_results.add(topic_objs);
+			});
+		})();
 	});
 
 })(jQuery);

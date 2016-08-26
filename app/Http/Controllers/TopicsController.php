@@ -17,27 +17,53 @@ class TopicsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
+
         $keyword = $request->input('keyword');
+        $type = $request->input('terms');
+
         $results = [];
-        if(!empty($keyword)){
-            $results = $this->get_data( $keyword );
+        if( !empty($keyword) ){
+
+            $results = $this->get_data( $keyword, $type);
+        }else{
+            $results = $this->get_top( $type );
         }
+
         echo json_encode($results);
         exit;
-        //
     }
 
-    private function get_data($t){
+    private function get_top( $length_flag = 'short' ){
+        $api_url = 'http://api3.wordtracker.com/top?';
+
+        $request_string = $api_url . 'app_id=' .getenv('WORDTRACKER_ID') . '&app_key=' . getenv('WORDTRACKER_KEY');
+        $request_string .= '&limit=' . 12;
+
+        if($length_flag == 'long'){
+            $request_string .= '&terms=4'; 
+        }
+
+        $client = new Client();
+        $res = $client->request('GET', $request_string);
+    
+        $data_body =  $res->getBody();
+
+        return json_decode($data_body->getContents());       
+    }
+
+    private function get_data($t, $length_flag = 'short'){
         $api_url = 'http://api3.wordtracker.com/search?';
         $keywords = trim($t);
 
         $request_string = $api_url . 'app_id=' .getenv('WORDTRACKER_ID') . '&app_key=' . getenv('WORDTRACKER_KEY');
-        $request_string .= '&limit=' . 5;
+        $request_string .= '&limit=' . 12;
         $request_string .= '&keywords[]=' . urlencode($keywords);
-        
-      //  exit;
+
+        if($length_flag == 'long'){
+            $request_string .= '&terms=4'; 
+        }
+
         $client = new Client();
         $res = $client->request('GET', $request_string);
     
