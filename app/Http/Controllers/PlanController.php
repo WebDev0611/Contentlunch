@@ -25,9 +25,14 @@ class PlanController extends Controller {
 	public function editor($id = 0){
 		$idea = Idea::where(['id' => $id ])
 					->first();
+
+		$idea_content = IdeaContent::where(['idea_id'=> $id])->get();
 					
 
-		return View::make('plan.editor', ['name' => $idea->name, 'text' => $idea->text, 'tags' => $idea->tags]);
+		return View::make('plan.editor', ['name' => $idea->name, 
+										'text' => $idea->text, 
+										'tags' => $idea->tags, 
+										'contents' => $idea_content ]);
 	}
 	
 	public function ideas(){

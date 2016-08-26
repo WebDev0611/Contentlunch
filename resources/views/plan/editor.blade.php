@@ -138,30 +138,20 @@
                                 <em>Selected Content</em>
                             </span>
                         </div>
+                        @foreach($contents as $content)
                         <div class="tombstone tombstone-horizontal tombstone-active clearfix">
                             <div class="tombstone-image">
-                                <img src="//i.imgur.com/MYB6HjU.jpg" alt="">
+                                <img src="{{$content->image}}" alt="">
                             </div>
                             <div class="tombstone-container">
-                                <h3>Google self-driving car is tested on California highways</h3>
+                                <h3>{{$content->title}}</h3>
                                 <p>
-                                    Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of
-                                    electric cars, including a top of the line Tesla, went on...
+                                    {{$content->link}}
                                 </p>
                             </div>
                         </div>
-                        <div class="tombstone tombstone-horizontal tombstone-active clearfix">
-                            <div class="tombstone-image">
-                                <img src="//i.imgur.com/MYB6HjU.jpg" alt="">
-                            </div>
-                            <div class="tombstone-container">
-                                <h3>Google self-driving car is tested on California highways</h3>
-                                <p>
-                                    Visitors to Eat Streat enjoyed an additional treat with their lunch when a range of
-                                    electric cars, including a top of the line Tesla, went on...
-                                </p>
-                            </div>
-                        </div>
+                        @endforeach
+
                     </div>
                 </div>
             </div>
