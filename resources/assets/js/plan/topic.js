@@ -204,36 +204,35 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			}else{
 				new_idea.attributes.content.remove(l);
 			}
-			console.log(new_idea.attributes.content.toJSON() );
 		});
 
 		// long_tail_results.add(dummy_data_long);
 		// short_tail_results.add(dummy_data_short);
-		(function(){
-			$.getJSON('/topics',{terms:'short' },function(res){
-				console.log("back from endpoint");
-				console.log("::");
-				console.log(res);
+		var get_topic_data = function(term = ''){
+			var short_obj = {terms: 'short'};
+			var long_obj = {terms: 'long'};
 
+			if(term.length > 2){
+				short_obj.keyword = term;
+				long_obj.keyword = term;
+			}
+
+			$.getJSON('/topics',short_obj,function(res){
 				var topic_objs = res.results.map(map_result).sort(function(a,b){
 					return b.volume - a.volume;
 				});
-
 				short_tail_results.add(topic_objs);
 			});
 
-			$.getJSON('/topics',{terms: 'long' },function(res){
-				console.log("back from endpoint");
-				console.log("::");
-				console.log(res);
-
+			$.getJSON('/topics',long_obj,function(res){
 				var topic_objs = res.results.map(map_result).sort(function(a,b){
 					return b.volume - a.volume;
 				});
 				
 				long_tail_results.add(topic_objs);
 			});
-		})();
+		};
+		get_topic_data();
 	});
 
 })(jQuery);
