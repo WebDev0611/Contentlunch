@@ -22,6 +22,11 @@ class IdeaController extends Controller
     public function index()
     {
         //
+        $ideas = Idea::where('user_id', Auth::id())
+               ->get();
+
+        echo json_encode($ideas);
+        exit;
     }
 
     /**
