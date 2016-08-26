@@ -18,19 +18,21 @@
     	status: 'active',
     	events:{},
     	initialize: function(){
-    		this.listenTo(this.collection,'update',this.render);
-    		this.listenTo(this.collection,'change',this.render);
-
-    		this.render();
+    		this.listenTo(this.collection,'update',this.updated);
+    	},
+    	updated: function(){
+    		console.log('update in view triggered');
+    		this.render(this.status);
     	},
     	render: function(status){
+    		console.log('render called!');
     		this.status = status || 'active';
     		var view = this;
 
-    		console.log('idea container view render triggered');
-    		console.log(view.collection.toJSON());
     		this.$el.html('');
     		var active = this.collection.where({status:this.status});
+    		console.log(active);
+
     		_.each(active,function(m){
     			view.$el.append( new idea_view({model: m}).$el.html() );
     		});
@@ -44,14 +46,11 @@
 
     	ideas.fetch({
     		success: function(res){
-    			console.log(res);
+    			//console.log(res);
     		},
     		error: function(){
-    			console.log('ERROR RET');
+    			//console.log('ERROR RET');
     		}
-    	});
-    	ideas.on('update',function(){
-    		console.log('colleciton updated');
     	});
 
     	//main collection - view
@@ -59,7 +58,6 @@
     		el:'#idea-container',
     		collection: ideas 
     	});
-    	ic.render();
 
     	$('#parked-ideas-link').click(function(){
     		ic.render('parked');
