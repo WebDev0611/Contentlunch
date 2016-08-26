@@ -33,15 +33,15 @@
                     <div class="col-md-8 col-md-offset-2">
                         <div class="input-form-group">
                             <label for="#">CONCEPT NAME</label>
-                            <input type="text" class="input" placeholder="Enter your concept name">
+                            <input type="text" class="input" placeholder="Enter your concept name" value="{{$name}}">
                         </div>
                         <div class="input-form-group">
                             <label for="#">EXPLAIN YOUR IDEA</label>
-                            <textarea rows="4" class="input" placeholder="Explain idea in a paragraph or so"></textarea>
+                            <textarea rows="4" class="input" placeholder="Explain idea in a paragraph or so">{{$text}}</textarea>
                         </div>
                         <div class="input-form-group">
                             <label for="#">TAGS</label>
-                            <input type="text" class="input" placeholder="Enter comma separated tags">
+                            <input type="text" class="input" placeholder="Enter comma separated tags" value="{{$tags}}">
                         </div>
                         <div class="form-group">
                             <fieldset class="form-fieldset clearfix">
@@ -246,4 +246,8 @@
     </div>
 </div>
 
+@stop
+
+@section('scripts')
+<script src="/js/idea_editor.js"></script>
 @stop

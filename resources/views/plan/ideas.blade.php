@@ -146,14 +146,15 @@
                 <button type="button" class="button button-action" data-toggle="dropdown">
                     <i class="icon-add-circle"></i>
                 </button>
+                
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li>
+                    <li id="write-it-btn">
                         <a href="#">Write It</a>
                     </li>
-                    <li>
+                    <li id="park-it-btn">
                         <a href="#">Park It</a>
                     </li>
-                    <li>
+                    <li id="socialize-it-btn">
                         <a href="#">Socialize It</a>
                     </li>
                 </ul>

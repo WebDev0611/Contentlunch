@@ -36,16 +36,27 @@ elixir(function (mix) {
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js'
             ], "public/js/plugins.js")
+
+            /* content scripts and main app */
             .scripts(['resources/assets/js/content/*.js','resources/assets/js/helpers.js'], "public/js/app.js")
+
+            /* plan module scripts */
             .scripts(['resources/assets/js/plan/topic.js'],"public/js/topic.js")
             .scripts(['resources/assets/js/plan/trends.js'],"public/js/trends.js")
             .scripts(['resources/assets/js/plan/ideas.js'],"public/js/ideas.js")
+            .scripts(['resources/assets/js/plan/editor.js'],"public/js/idea_editor.js")
+
+            /* influencers scripts */
             .scripts(['resources/assets/js/collaborate/influencers.js'],"public/js/influencers.js")
 
+            /* calendar scripts */
             .scripts(['resources/assets/js/calendar/calendar.js'],"public/js/calendar.js")
+
+            /* home area scripts */
             .scripts(['resources/assets/js/dashboard/dashboard.js'],"public/js/dashboard.js")
             .scripts(['resources/assets/js/dashboard/performance.js'],"public/js/performance.js")
 
+            /* tiny mce assets */
             .copy('./bower_components/tinymce/themes', "public/js/themes")
             .copy('./bower_components/tinymce/skins', "public/js/skins")
             .copy('./bower_components/tinymce/plugins', "public/js/plugins")

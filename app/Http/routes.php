@@ -54,7 +54,7 @@ Route::resource('/trending', 'TrendsController@trending');
 Route::resource('/influencers', 'InfluencersController@search');
 
 
-Route::get('/idea','PlanController@editor');
+Route::get('/idea/{id}','PlanController@editor');
 
 Route::resource('/ideas', 'IdeaController', ['only' => [
     'index', 'show','store'

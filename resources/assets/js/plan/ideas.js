@@ -1,3 +1,4 @@
+/* the ideas tab/page */
 (function(document, $){
 
 	var idea_model = Backbone.Model.extend();
@@ -10,6 +11,11 @@
     	},
     	render: function(){
     		this.$el.html( this.template(this.model.attributes) );
+    		if(this.model.get('status') == 'parked'){
+    			this.$el.find('#park-it-btn').hide();
+    		}else{
+    			this.$el.find('#park-it-btn').show();
+    		}
     		return this;
     	}
     });
