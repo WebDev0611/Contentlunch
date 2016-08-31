@@ -123,10 +123,12 @@
                                             </div>
                                         </div>
                                         <div class="input-form-group">
-                                            <label for="#">CONTENT TYPE</label>
+                                            <label for="writer_access_asset_type">CONTENT TYPE</label>
                                             <div class="select">
-                                                <select name="" id="">
-                                                    <option value="#">Content Type</option>
+                                                <select name="writer_access_asset_type" id="writer_access_asset_type">
+                                                    @foreach($contentTypes  as $contentType)
+                                                        <option value="{{$contentType->writer_access_id}}">{{$contentType->name}}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -170,18 +172,14 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <label for="#">WRITER LEVEL</label>
-                                                    <div class="range-form input-group">
-                                                    <span class="input-group-addon">
-                                                        <button class="button button-small button-outline-secondary">
-                                                            <i class="icon-big-caret-left"></i>
-                                                        </button>
-                                                    </span>
-                                                        <input type="text" class="input" aria-label="Amount (to the nearest dollar)">
-                                                    <span class="input-group-addon">
-                                                        <button class="button button-small button-outline-secondary">
-                                                            <i class="icon-big-caret-right"></i>
-                                                        </button>
-                                                    </span>
+                                                    <div class="select">
+
+                                                        <select type="text" class="input" aria-label="Amount (to the nearest dollar)">
+                                                            <option value="4">4 Star Writer</option>
+                                                            <option value="5">5 Star Writer</option>
+                                                            <option value="6">6 Star Writer</option>
+                                                        </select>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -207,6 +205,10 @@
                                 <button href="javascript:;" onclick="window.location.href = '/get_written';" class="button button-extend text-uppercase">
                                     SUBMIT AND START ORDERING PROCESS
                                 </button>
+
+                                <script>
+                                    {{ $pricesJson }}
+                                </script>
                             </div>
                         </div>
                     </div>

@@ -16,12 +16,12 @@
                         <div class="panel">
 
                             <div class="panel onboarding-container">
-                                <div class="r">
+                                <div>
                                     <h4>
                                         Edit Price
                                     </h4>
                                 </div>
-                                <div class="">
+                                <div>
                                     {{ Form::open(['url' => 'writerAccessPrices/'.@$writerAccessPrice->id, 'method' =>'put', 'class'=>'form', 'role'=>'form']) }}
                                     {{-- @if(@$errors)
                                          <div role='alert' class='alert alert-danger'>

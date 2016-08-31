@@ -16,6 +16,7 @@ use App\Tag;
 use Storage;
 use View;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class ContentController extends Controller {
 
@@ -28,7 +29,11 @@ class ContentController extends Controller {
 	}
 
 	public function create(){
-		return View::make('content.create');	
+		$contentTypes = DB::table("writer_access_asset_types")->get();
+		$pricesJson = json_encode(DB::table("writer_access_prices")->get());
+
+
+		return View::make('content.create', compact("contentTypes", "pricesJson"));
 	}
 
 

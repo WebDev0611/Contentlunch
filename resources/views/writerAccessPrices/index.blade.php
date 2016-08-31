@@ -4,7 +4,7 @@
     <div class="workspace">
         <div class="container-fluid">
 
-            <h3 class="page-head">Writer Acccess Prices</h3>
+            <h3 class="page-head">Writer Access Prices</h3>
 
             <!-- Dashboard Content -->
             <div class="content">
@@ -23,7 +23,7 @@
 
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <p></p>
+                                                <p>Price Management</p>
                                             </div>
                                             <div class="col-md-6 text-right">
                                                 <button type="button" class="button button-small withstarticon"><i class="icon-add"></i>New Price</button>
@@ -34,7 +34,7 @@
                                 </div>
 
 
-                                <div class="dashboard-content-box height-double">
+                                <div class="dashboard-content-box">
                                     <table class='table table-striped table-bordered table-hover'>
                                         <tr>
                                             <th>Asset type</th>

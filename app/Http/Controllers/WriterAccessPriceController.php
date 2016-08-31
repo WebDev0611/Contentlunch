@@ -111,7 +111,11 @@ class WriterAccessPriceController extends Controller {
   {
     // Restrict to global admins
     if (!$this->isGlobalAdmin()) {
-      return $this->responseAccessDenied();
+      return redirect("writerAccessPrices/".$id."/edit")->with([
+          'flash_message' => 'You do not have sufficient privileges to make changes to this page.',
+          'flash_message_type' => 'danger',
+          'flash_message_important' => true
+      ]);
     }
 
     $input = $request->input("writer_access_price");

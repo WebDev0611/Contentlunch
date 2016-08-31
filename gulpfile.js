@@ -1,4 +1,5 @@
 var elixir = require('laravel-elixir');
+require('laravel-elixir-livereload');
 
 /*
  |--------------------------------------------------------------------------
@@ -63,6 +64,7 @@ elixir(function (mix) {
 
             .copy("resources/assets/images", "public/images")
             .copy("resources/assets/fonts", "public/fonts")
+            .livereload()
     ;
 
 });
