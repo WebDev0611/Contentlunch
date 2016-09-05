@@ -29,13 +29,14 @@ class TrendsController extends Controller
      */
     public function trending(Request $request)
     {
+
         $topic = $request->input('topic');
         $topic_key = 'trends:';
 
         if(empty($topic)){
             $topic_key .= "_";
         }else{
-            $topic_key .= urlencode($topic);
+            $topic_key .= str_replace(' ', ',',$topic);
         }
 
         $topic_cache = Redis::get( $topic_key );
@@ -53,7 +54,7 @@ class TrendsController extends Controller
                 );
 
             if(!empty($t)){
-                $form_params['topic'] = urlencode($t);
+                $form_params['topic'] = $t;
             }
 
             $client = new Client();
