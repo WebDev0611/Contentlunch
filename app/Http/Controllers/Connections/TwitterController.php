@@ -78,8 +78,6 @@ class TwitterController extends Controller
 
                 Session::put('access_token', $token);
 
-                dd($token);
-
                 return Redirect::to('/')
                     ->with('flash_notice', 'Congrats! You\'ve successfully signed in!');
             }
