@@ -194,25 +194,36 @@
         </div>
     </div>
 </template>
+
+<template id="twitterTemplate">
+    <div class="row" >
+        <div class="col-md-12">
+            <a href="{{ route('twitterLogin') }}" class="btn btn-primary">Connect to Twitter</a>
+        </div>
+    </div>
+</template>
 @stop
 
 @section('scripts')
 <script type="text/javascript">
 $(function() {
 
-    if($("#connectionType").val() != "") {
-        $("#templateContainer").html($("#"+$("#connectionType").val()+"Template").html());
+    var templateName;
+
+    if ($("#connectionType").val() != "") {
+        templateName = '#' + $('#connectionType').val() + 'Template';
+        $("#templateContainer").html($(templateName).html());
     }
 
     // because each API will have its own data it needs we need to be able to swap out the form fields
     $("#connectionType").on('change', function() {
-        var $this = $(this),
-            value = $(this).val();
+        var value = $(this).val();
 
         // ensure we have a value
-        if(value) {
+        if (value) {
             // lets load the template into the container
-            $("#templateContainer").html($("#"+value+"Template").html());
+            templateName = '#' + value + 'Template';
+            $("#templateContainer").html($(templateName).html());
         }
     });
 
