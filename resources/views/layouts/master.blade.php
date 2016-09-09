@@ -10,14 +10,8 @@
 </head> 
 <body> 
 
-@if( @is_agency )
-	@include('elements.navigation-agency')
-	@include('elements.searchbar-agency')
-@else
-	@include('elements.navigation')
-	@include('elements.searchbar')
-@endif
-
+@include('elements.navigation')
+@include('elements.searchbar')
 
 @include('partials.flash')
 @yield('content')
