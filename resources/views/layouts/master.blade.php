@@ -47,7 +47,7 @@
         </a>
       </li>
       <li class="third">
-        <a href="/campaigns">
+        <a href="/campaign">
           <i class="icon-alert"></i>
           <p class="title">Campaign</p>
           <p>Branding campaign? Product launch? Trade show? Capture it here!</p>
