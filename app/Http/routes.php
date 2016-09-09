@@ -64,6 +64,8 @@ Route::resource('/ideas', 'IdeaController', ['only' => [
 Route::get('/calendar','CalendarController@index');
 Route::get('/calendar/{year}/{month}','CalendarController@index');
 
+Route::get('/campaign','CampaignController@index');
+
 Route::get('/daily','CalendarController@daily');
 Route::get('/daily/{year}/{month}/{day}','CalendarController@daily');
 
