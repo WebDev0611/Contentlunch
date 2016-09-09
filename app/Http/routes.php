@@ -125,4 +125,7 @@ Route::group(['prefix' => 'settings'], function() {
 	Route::get('buying','SettingsController@buying');
 });
 
+Route::group(['prefix' => 'twitter'], function() {
+    Route::get('followers', [ 'uses' => 'Connections\TwitterController@userSearch' ]);
+});
 

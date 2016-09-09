@@ -23,25 +23,29 @@
         </li>
       </ul>
     </div> <!-- End Panel Header -->
-    
+
     <!-- Panel Content -->
     <div class="panel-container bottompadded">
-      
+
       <!-- Search bar -->
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
           <div class="form-group">
             <div class="input-form-button prefixed">
               <i class="icon-magnifier picto"></i>
-              <input type="text" placeholder="Search influencers to work on projects..." class="input-search-icon">
+              <input type="text"
+                id='twitterSearchField'
+                placeholder="Search influencers to work on projects..."
+                class="input-search-icon">
+
               <span class="input-form-button-action">
-                <button class="button">SEARCH</button>
+                <button id='twitterSearchButton' class="button">SEARCH</button>
               </span>
             </div>
           </div>
         </div>
       </div> <!-- End Search bar -->
-      
+
       <div class="panel-separator">
         <div class="panel-contenthead withfilter">
           <div class="results">
@@ -63,7 +67,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Influencers list -->
       <div class="inner wide">
         <ul class="list-inline list-influencers">
@@ -182,16 +186,16 @@
           </li>
 
         </ul>
-        
+
       </div><!-- End Influencers list -->
-      
+
       <a href="#" class="button button-outline-secondary button-extend btn-showmore">SHOW MORE</a>
 
     </div> <!-- End Panel Content -->
-    
+
   </div> <!-- End Panel -->
-  
-  
+
+
   <!-- Modal: Details -->
   <div id="modal-influencerdetails" class="sidemodal inset" style="display: none;">
     <div class="sidemodal-header">
@@ -201,10 +205,10 @@
       </button>
     </div>
     <div class="sidemodal-container">
-      
+
       <!-- Influencer Info -->
       <div class="influencer-info">
-        
+
         <div class="influencer-head">
           <div class="influencer-pic">
             <div class="user-avatar"><img src="/images/avatar-new.jpg" alt="Influencer Name"></div>
@@ -214,35 +218,35 @@
             <p class="desc">Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor lectus nec vestibulum.</p>
           </div>
         </div>
-        
+
         <ul class="list-inline list-soc">
           <li><i class="icon-twitter2"></i>3,300</li>
           <li><i class="icon-facebook-mini"></i>2,503</li>
         </ul>
-        
+
         <div class="influenceer-action">
           <div class="btn-group">
             <button type="button" class="button button-default button-extend">INVITE</button>
             <button type="button" class="button button-default button-extend">DETAILS</button>
           </div>
-          
+
           <button type="button" class="button button-outline-secondary button-extend"><i class="icon-star-outline"></i>BOOKMARK</button>
-        </div>        
-        
+        </div>
+
         <div class="influencer-desc">
           <p>In non lobortis sem, in posuere eros. Vivamus commodo erat sit amet maximus rhoncus. Vestibulum nec quam id dui maximus auctor. Etiam sodales accumsan dignissim. Quisque placerat massa nec dictum dignissim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus venenatis ipsum consequat erat interdum ornare. Sed nec bibendum ex, id mollis augue. In non sagittis metus, congue vulputate quam. Etiam fermentum semper metus, vitae commodo sapien dapibus non.</p>
           <p>Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas pharetra arcu eu urna dapibus sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent sed lorem quis est tempor sollicitudin. Sed sed lacinia nisi. Vivamus eget malesuada lectus. Fusce rhoncus massa et consequat lacinia. Nulla dapibus vitae diam ut maximus. Mauris vitae tempus elit. Curabitur auctor dui sit amet odio luctus, eu accumsan purus bibendum. Etiam porta nisi at velit hendrerit tincidunt. Nulla et pellentesque diam.</p>
         </div>
-        
+
       </div> <!-- End Influencer Info -->
-      
+
     </div>
   </div> <!-- End Modal: Details -->
-  
-  
+
+
   <!-- Modal: Invite Influencer -->
   <div id="modal-inviteinfluencer" class="sidemodal large" style="display: none">
-    
+
     <div class="sidemodal-header">
       <div class="row">
         <div class="col-md-6">
@@ -256,10 +260,10 @@
         </div>
       </div>
     </div>
-    
-    
+
+
     <div class="sidemodal-container">
-      
+
       <div class="influencer-head smaller">
         <div class="influencer-pic">
           <div class="user-avatar"><img src="/images/avatar-new.jpg" alt="Influencer Name"></div>
@@ -269,7 +273,7 @@
           <p class="desc">Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor lectus nec vestibulum.</p>
         </div>
       </div>
-      
+
       <div class="input-form-group">
         <label for="#">Invitation to partner with us</label>
         <select name="" class="input">
@@ -279,22 +283,22 @@
           <option>Idea 3</option>
         </select>
       </div>
-      
+
       <div class="input-form-group">
         <label for="#">Content project details</label>
         <textarea rows="1" class="input input-area" placeholder="Explain task"></textarea>
       </div>
-      
+
       <div class="input-form-group">
         <label for="#">What can we offer you</label>
         <textarea rows="1" class="input input-area" placeholder="Explain your offer"></textarea>
       </div>
-      
+
       <div class="input-form-group">
         <label for="#">Reference URL</label>
         <input type="text" class="input" placeholder="Paste URL">
       </div>
-      
+
       <div class="row">
         <div class="col-md-6">
           <div class="input-form-group">
@@ -309,16 +313,39 @@
           </div>
         </div>
       </div>
-      
+
       <div class="fileupload">
         <i class="icon-add-content picto"></i>
         <p class="msgtitle">Click to attach one or more documents</p>
         <input type="file" class="input input-upload">
       </div>
-      
+
     </div>
   </div> <!-- End Modal: Invite Influencer -->
-  
-  
 </div>
+@stop
+
+@section('scripts')
+<script type="text/javascript">
+(function() {
+
+    $('#twitterSearchButton').click(getTwitterFollowers);
+
+    function getTwitterFollowers() {
+        $.ajax({
+            method: 'get',
+            url: 'http://contentlaunch-2016.app/twitter/followers',
+            data: $.param({ query: getSearchValue() })
+        })
+        .then(function(response) {
+            console.log(response);
+        });
+    }
+
+    function getSearchValue() {
+        return $('#twitterSearchField').val();
+    }
+
+})();
+</script>
 @stop
