@@ -5,7 +5,7 @@
 
   <!-- Panel -->
   <div class="panel">
-    
+
     <!-- Panel Header -->
     <div class="panel-header">
       <ul class="panel-tabs withborder text-center">
@@ -70,123 +70,8 @@
 
       <!-- Influencers list -->
       <div class="inner wide">
-        <ul class="list-inline list-influencers">
-          <li>
-            <a href="#" class="btn btn-fav"><i class="icon-star-outline"></i><i class="icon-star"></i></a>
-            <div class="body">
-              <div class="user-avatar"><img src="/images/avatar-new.jpg" alt="Influencer Name"/></div>
-              <p class="title">Influencer name</p>
-              <p class="desc">Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>
-            </div>
-            <div class="foot">
-              <ul class="list-inline list-soc">
-                <li><i class="icon-linkedin"></i>3,300</li>
-                <li><i class="icon-facebook-mini"></i>2,503</li>
-              </ul>
-              <div class="btn-group">
-                <button type="button" class="button button-default" data-toggle="modal" data-target="#modal-inviteinfluencer">INVITE</button>
-                <button type="button" class="button button-outline-secondary" data-toggle="modal" data-target="#modal-influencerdetails">DETAILS</button>
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <a href="#" class="btn btn-fav"><i class="icon-star-outline"></i><i class="icon-star"></i></a>
-            <div class="body">
-              <div class="user-avatar"><img src="/images/avatar-new.jpg" alt="Influencer Name"/></div>
-              <p class="title">Influencer name</p>
-              <p class="desc">Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>
-            </div>
-            <div class="foot">
-              <ul class="list-inline list-soc">
-                <li><i class="icon-linkedin"></i>3,300</li>
-                <li><i class="icon-facebook-mini"></i>2,503</li>
-              </ul>
-              <div class="btn-group">
-                <button type="button" class="button button-default" data-toggle="modal" data-target="#modal-inviteinfluencer">INVITE</button>
-                <button type="button" class="button button-outline-secondary" data-toggle="modal" data-target="#modal-influencerdetails">DETAILS</button>
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <a href="#" class="btn btn-fav"><i class="icon-star-outline"></i><i class="icon-star"></i></a>
-            <div class="body">
-              <div class="user-avatar"><img src="/images/avatar-new.jpg" alt="Influencer Name"/></div>
-              <p class="title">Influencer name</p>
-              <p class="desc">Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>
-            </div>
-            <div class="foot">
-              <ul class="list-inline list-soc">
-                <li><i class="icon-linkedin"></i>3,300</li>
-                <li><i class="icon-facebook-mini"></i>2,503</li>
-              </ul>
-              <div class="btn-group">
-                <button type="button" class="button button-default" data-toggle="modal" data-target="#modal-inviteinfluencer">INVITE</button>
-                <button type="button" class="button button-outline-secondary"  data-toggle="modal" data-target="#modal-influencerdetails">DETAILS</button>
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <a href="#" class="btn btn-fav"><i class="icon-star-outline"></i><i class="icon-star"></i></a>
-            <div class="body">
-              <div class="user-avatar"><img src="/images/avatar-new.jpg" alt="Influencer Name"/></div>
-              <p class="title">Influencer name</p>
-              <p class="desc">Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>
-            </div>
-            <div class="foot">
-              <ul class="list-inline list-soc">
-                <li><i class="icon-linkedin"></i>3,300</li>
-                <li><i class="icon-facebook-mini"></i>2,503</li>
-              </ul>
-              <div class="btn-group">
-                <button type="button" class="button button-default" data-toggle="modal" data-target="#modal-inviteinfluencer">INVITE</button>
-                <button type="button" class="button button-outline-secondary"  data-toggle="modal" data-target="#modal-influencerdetails">DETAILS</button>
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <a href="#" class="btn btn-fav"><i class="icon-star-outline"></i><i class="icon-star"></i></a>
-            <div class="body">
-              <div class="user-avatar"><img src="/images/avatar-new.jpg" alt="Influencer Name"/></div>
-              <p class="title">Influencer name</p>
-              <p class="desc">Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>
-            </div>
-            <div class="foot">
-              <ul class="list-inline list-soc">
-                <li><i class="icon-linkedin"></i>3,300</li>
-                <li><i class="icon-facebook-mini"></i>2,503</li>
-              </ul>
-              <div class="btn-group">
-                <button type="button" class="button button-default" data-toggle="modal" data-target="#modal-inviteinfluencer">INVITE</button>
-                <button type="button" class="button button-outline-secondary"  data-toggle="modal" data-target="#modal-influencerdetails">DETAILS</button>
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <a href="#" class="btn btn-fav"><i class="icon-star-outline"></i><i class="icon-star"></i></a>
-            <div class="body">
-              <div class="user-avatar"><img src="/images/avatar-new.jpg" alt="Influencer Name"/></div>
-              <p class="title">Influencer name</p>
-              <p class="desc">Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...</p>
-            </div>
-            <div class="foot">
-              <ul class="list-inline list-soc">
-                <li><i class="icon-linkedin"></i>3,300</li>
-                <li><i class="icon-facebook-mini"></i>2,503</li>
-              </ul>
-              <div class="btn-group">
-                <button type="button" class="button button-default" data-toggle="modal" data-target="#modal-inviteinfluencer">INVITE</button>
-                <button type="button" class="button button-outline-secondary"  data-toggle="modal" data-target="#modal-influencerdetails">DETAILS</button>
-              </div>
-            </div>
-          </li>
-
+        <ul class="list-inline list-influencers" id='twitterUserList'>
         </ul>
-
       </div><!-- End Influencers list -->
 
       <a href="#" class="button button-outline-secondary button-extend btn-showmore">SHOW MORE</a>
@@ -323,29 +208,29 @@
     </div>
   </div> <!-- End Modal: Invite Influencer -->
 </div>
+
+<script type="text/template" id="twitterUserTemplate">
+    <a href="#" class="btn btn-fav"><i class="icon-star-outline"></i><i class="icon-star"></i></a>
+    <div class="body">
+        <div class="user-avatar">
+            <img src="<%= profile_image_url %>" alt="Influencer Name"/>
+        </div>
+        <p class="title"><%= name %> (@<%= screen_name %>)</p>
+        <p class="desc"><%= description %></p>
+    </div>
+    <div class="foot">
+        <ul class="list-inline list-soc">
+            <li><i class="icon-linkedin"></i>3,300</li>
+            <li><i class="icon-facebook-mini"></i>2,503</li>
+        </ul>
+        <div class="btn-group">
+            <button type="button" class="button button-default" data-toggle="modal" data-target="#modal-inviteinfluencer">INVITE</button>
+            <button type="button" class="button button-outline-secondary" data-toggle="modal" data-target="#modal-influencerdetails">DETAILS</button>
+        </div>
+    </div>
+</script>
 @stop
 
 @section('scripts')
-<script type="text/javascript">
-(function() {
-
-    $('#twitterSearchButton').click(getTwitterFollowers);
-
-    function getTwitterFollowers() {
-        $.ajax({
-            method: 'get',
-            url: 'http://contentlaunch-2016.app/twitter/followers',
-            data: $.param({ query: getSearchValue() })
-        })
-        .then(function(response) {
-            console.log(response);
-        });
-    }
-
-    function getSearchValue() {
-        return $('#twitterSearchField').val();
-    }
-
-})();
-</script>
+<script src="/js/twitter.js"></script>
 @stop
