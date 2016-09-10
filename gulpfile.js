@@ -49,6 +49,9 @@ elixir(function (mix) {
             /* influencers scripts */
             .scripts(['resources/assets/js/collaborate/influencers.js'],"public/js/influencers.js")
 
+            /* twitter scripts */
+            .scripts([ 'resources/assets/js/collaborate/twitter.js' ], 'public/js/twitter.js')
+
             /* calendar scripts */
             .scripts(['resources/assets/js/calendar/calendar.js'],"public/js/calendar.js")
 
