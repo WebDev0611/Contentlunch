@@ -106,17 +106,12 @@ class TwitterController extends Controller
 
     public function userSearch(Request $request)
     {
-        // $user = Auth::user();
-        // $connection = $user->connectionsBySlug('twitter')->first();
-        // $settings = $connection->getSettings();
-
-        // $response = Twitter::getUsersLookup([
-        //     'q' => $request->input('query')
-        // ]);
-
+        $page = $request->input('page');
 
         $response = Twitter::getUsersSearch([
-            'q' => $request->input('query')
+            'q' => $request->input('query'),
+            'count' => 20,
+            'page' => $page
         ]);
 
         return response()->json($response, 200);
