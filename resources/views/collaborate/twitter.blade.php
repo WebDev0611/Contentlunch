@@ -39,7 +39,7 @@
                 class="input-search-icon">
 
               <span class="input-form-button-action">
-                <button id='twitterSearchButton' class="button">SEARCH</button>
+                <a id='twitterSearchButton' class="button">SEARCH</a>
               </span>
             </div>
           </div>
@@ -49,21 +49,7 @@
       <div class="panel-separator">
         <div class="panel-contenthead withfilter">
           <div class="results">
-            <p>115 persons found - select person you want to invite to work on project</p>
-          </div>
-          <div class="filter">
-            <div class="row">
-              <div class="col-md-3 text-right">
-                <label class="select-horizontal-label">Sort by:</label>
-              </div>
-              <div class="col-md-8">
-                <div class="select select-small extend">
-                  <select name="#" id="#">
-                    <option value="#">Followers</option>
-                  </select>
-                </div>
-              </div>
-            </div>
+            <p><span class="result-count"></span> persons found - select person you want to invite to work on project</p>
           </div>
         </div>
       </div>
