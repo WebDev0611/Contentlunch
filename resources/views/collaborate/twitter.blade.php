@@ -115,7 +115,7 @@
 
 
   <!-- Modal: Invite Influencer -->
-  <div id="modal-inviteinfluencer" class="sidemodal large" style="display: none">
+  <div id="modal-invite-twitter-user" class="sidemodal large" style="display: none">
 
     <div class="sidemodal-header">
       <div class="row">

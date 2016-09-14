@@ -51,9 +51,37 @@
         },
 
         invite: function() {
-            // new TwitterInviteModal({ el: '#modal-invite-twitter-user', model: this.model });
+            new TwitterInviteModal({ el: '#modal-invite-twitter-user', model: this.model });
         }
     });
+
+    var TwitterInviteModal = Backbone.View.extend({
+        events: {
+            "click .sidemodal-close": "dismiss"
+        },
+        initialize: function() {
+            console.log('new modal init!');
+            this.render();
+        },
+        render: function() {
+            var title = this.model.get('name') + '(@' + this.model.get('screen_name') + ')';
+            var desc = this.model.get('description');
+            var avatar = "<img src='" + this.model.get('profile_image_url') + "' alt='" + this.model.get('name') + "'>";
+
+            this.$el.find('.title').text(title);
+            this.$el.find('.desc').text(desc);
+            this.$el.find('.user-avatar').html(avatar);
+            this.$el.find('.friends-count').html(this.model.get('friends_count'));
+            this.$el.find('.followers-count').html(this.model.get('followers_count'));
+
+            $('#modal-invite-twitter-user').modal('show');
+
+            return this;
+        },
+        dismiss: function() {
+            $('#modal-invite-twitter-user').modal('hide');
+        }
+    })
 
     var TwitterDataModal = Backbone.View.extend({
         events: {
@@ -87,7 +115,7 @@
         }
     });
 
-    var TwitterInviteMessageView = Backbone.View.extend({
+    var TwitterCollectionStatusView = Backbone.View.extend({
         initialize: function() {
             this.listenTo(this.collection,"change",this.render);
             this.listenTo(this.collection,"update",this.render);
@@ -102,7 +130,7 @@
         }
     });
 
-    new TwitterInviteMessageView({ el: '#twitter-alert', collection: listOfResults });
+    new TwitterCollectionStatusView({ el: '#twitter-alert', collection: listOfResults });
 
 
     /**
