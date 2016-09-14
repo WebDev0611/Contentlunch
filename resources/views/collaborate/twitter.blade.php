@@ -48,9 +48,7 @@
 
       <div class="panel-separator">
         <div class="panel-contenthead withfilter">
-          <div class="results">
-            <p><span class="result-count"></span> persons found - select person you want to invite to work on project</p>
-          </div>
+          <p id="twitter-alert"></p>
         </div>
       </div>
 

@@ -5,19 +5,17 @@
     var currentPage = 1;
     var PER_PAGE = 20;
 
+    /**
+     * Backbone Models
+     */
     var TwitterUser = Backbone.Model.extend({});
 
+
+    /**
+     * Backbone Collections
+     */
     var TwitterUserCollection = Backbone.Collection.extend({
         model: TwitterUser
-    });
-
-    var TwitterUserView = Backbone.View.extend({
-        template: _.template($('#twitterUserTemplate').html()),
-        tagName: 'li',
-        render: function() {
-            this.$el.html(this.template(this.model.toJSON()));
-            return this;
-        }
     });
 
     var listOfResults = new TwitterUserCollection();
@@ -30,12 +28,50 @@
         // result.$el.fadeIn(250);
     });
 
+
+    /**
+     * Backbone views
+     */
+    var TwitterUserView = Backbone.View.extend({
+        template: _.template($('#twitterUserTemplate').html()),
+        tagName: 'li',
+        render: function() {
+            this.$el.html(this.template(this.model.toJSON()));
+            return this;
+        }
+    });
+
+    var TwitterInviteMessageView = Backbone.View.extend({
+        initialize: function() {
+            this.listenTo(this.collection,"change",this.render);
+            this.listenTo(this.collection,"update",this.render);
+        },
+
+        render: function() {
+            if (this.collection.length > 0) {
+                this.$el.html(this.collection.length + " users found. Select the users you want to invite to work on the project");
+            } else {
+                this.$el.html('');
+            }
+        }
+    });
+
+    new TwitterInviteMessageView({ el: '#twitter-alert', collection: listOfResults });
+
+
+    /**
+     * jQuery bindings
+     */
     $('#twitterSearchButton').click(function() { getTwitterFollowers(); });
     $('.btn-showmore').click(showMore);
 
     $('.results').hide();
     $('.btn-showmore').hide();
 
+
+    /**
+     * Users Search & other functions
+     */
     function getTwitterFollowers(page) {
         page = page || 1;
 
