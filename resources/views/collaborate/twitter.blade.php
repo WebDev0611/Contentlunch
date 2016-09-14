@@ -89,8 +89,14 @@
         </div>
 
         <ul class="list-inline list-soc">
-          <li><i class="icon-twitter2"></i>3,300</li>
-          <li><i class="icon-facebook-mini"></i>2,503</li>
+            <li>
+                <span class="twitter-label">Following</span>
+                <span class="twitter-number friends-count"></span>
+            </li>
+            <li>
+                <span class="twitter-label">Followers</span>
+                <span class="twitter-number followers-count"></span>
+            </li>
         </ul>
 
         <div class="influenceer-action">

@@ -72,10 +72,8 @@
             this.$el.find('.title').text(title);
             this.$el.find('.desc').text(desc);
             this.$el.find('.user-avatar').html(avatar);
-
-            // var roles = this.model.get('person_type');
-
-            // this.$el.find('.influencer-desc').text( roles.join(', ') );
+            this.$el.find('.friends-count').html(this.model.get('friends_count'));
+            this.$el.find('.followers-count').html(this.model.get('followers_count'));
 
             $('#modal-twitter-user-details').modal('show');
 
