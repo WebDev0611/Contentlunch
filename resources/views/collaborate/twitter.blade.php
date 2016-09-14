@@ -66,7 +66,7 @@
 
 
   <!-- Modal: Details -->
-  <div id="modal-influencerdetails" class="sidemodal inset" style="display: none;">
+  <div id="modal-twitter-user-details" class="sidemodal inset" style="display: none;">
     <div class="sidemodal-header">
       <h4 class="sidemodal-header-title">About</h4>
       <button class="sidemodal-close" data-dismiss="modal">
@@ -216,8 +216,11 @@
             </li>
         </ul>
         <div class="btn-group">
-            <button type="button" class="button button-default" data-toggle="modal" data-target="#modal-inviteinfluencer">INVITE</button>
-            <button type="button" class="button button-outline-secondary" data-toggle="modal" data-target="#modal-influencerdetails">DETAILS</button>
+            <button type="button"
+              class="button button-default invite">INVITE</button>
+
+            <button type="button"
+              class="button button-outline-secondary details">DETAILS</button>
         </div>
     </div>
 </script>

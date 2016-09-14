@@ -33,11 +33,59 @@
      * Backbone views
      */
     var TwitterUserView = Backbone.View.extend({
+        events: {
+            'click .details': 'showDetails',
+            'click .invite': 'invite'
+        },
+
         template: _.template($('#twitterUserTemplate').html()),
         tagName: 'li',
         render: function() {
             this.$el.html(this.template(this.model.toJSON()));
             return this;
+        },
+
+        showDetails: function() {
+            console.log('HEUEHUHEE');
+            new TwitterDataModal({ el: "#modal-twitter-user-details", model: this.model });
+        },
+
+        invite: function() {
+            // new TwitterInviteModal({ el: '#modal-invite-twitter-user', model: this.model });
+        }
+    });
+
+    var TwitterDataModal = Backbone.View.extend({
+        events: {
+            "click .sidemodal-close": "dismiss",
+            "click .invite-btn": "invite"
+        },
+        initialize: function(){
+            console.log('new modal init!');
+            this.render();
+        },
+        render: function() {
+            var title = this.model.get('name') + '(@' + this.model.get('screen_name') + ')';
+            var desc = this.model.get('description');
+            var avatar = "<img src='" + this.model.get('profile_image_url') + "' alt='" + this.model.get('name') + "'>";
+
+            this.$el.find('.title').text(title);
+            this.$el.find('.desc').text(desc);
+            this.$el.find('.user-avatar').html(avatar);
+
+            // var roles = this.model.get('person_type');
+
+            // this.$el.find('.influencer-desc').text( roles.join(', ') );
+
+            $('#modal-twitter-user-details').modal('show');
+
+            return this;
+        },
+        dismiss: function(){
+            $('#modal-twitter-user-details').modal('hide');
+        },
+        invite: function(){
+            // new influencer_invite_modal({el:"#modal-inviteinfluencer", model: this.model});
         }
     });
 
