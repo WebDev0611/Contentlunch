@@ -108,11 +108,6 @@
           <button type="button" class="button button-outline-secondary button-extend"><i class="icon-star-outline"></i>BOOKMARK</button>
         </div>
 
-        <div class="influencer-desc">
-          <p>In non lobortis sem, in posuere eros. Vivamus commodo erat sit amet maximus rhoncus. Vestibulum nec quam id dui maximus auctor. Etiam sodales accumsan dignissim. Quisque placerat massa nec dictum dignissim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus venenatis ipsum consequat erat interdum ornare. Sed nec bibendum ex, id mollis augue. In non sagittis metus, congue vulputate quam. Etiam fermentum semper metus, vitae commodo sapien dapibus non.</p>
-          <p>Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas pharetra arcu eu urna dapibus sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent sed lorem quis est tempor sollicitudin. Sed sed lacinia nisi. Vivamus eget malesuada lectus. Fusce rhoncus massa et consequat lacinia. Nulla dapibus vitae diam ut maximus. Mauris vitae tempus elit. Curabitur auctor dui sit amet odio luctus, eu accumsan purus bibendum. Etiam porta nisi at velit hendrerit tincidunt. Nulla et pellentesque diam.</p>
-        </div>
-
       </div> <!-- End Influencer Info -->
 
     </div>
