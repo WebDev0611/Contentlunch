@@ -124,13 +124,13 @@ class ContentController extends Controller {
 		$conType = ContentType::find($contentType);
 		$conType->contents()->save($content);
 
-        if ($tweetContentType->id == $contentType) {
-            $this->publishToTwitter($content->body);
-        }
-
 		// - Save connection
 		$connection = Connection::find($request->input('connections'));
 		$connection->contents()->save($content);
+
+        if ($tweetContentType->id == $contentType) {
+            $this->publishToTwitter($content->body, $connection);
+        }
 
 		// Attach authors
 		$content->authors()->attach($request->input('author'));
@@ -196,20 +196,20 @@ class ContentController extends Controller {
 
 	}
 
-    private function publishToTwitter($message)
+    private function publishToTwitter($message, $connection)
     {
-        $twitterConnection = Connection::first();
-        $settings = $twitterConnection->getSettings();
+        $settings = $connection->getSettings();
 
         $requestToken = [
             'token' => $settings->oauth_token,
-            'secret' => $settings->oauth_token_secret
+            'secret' => $settings->oauth_token_secret,
+            'consumer_key' => env('TWITTER_CONSUMER_KEY'),
+            'consumer_secret' => env('TWITTER_CONSUMER_SECRET'),
         ];
 
+        Twitter::reconfig($requestToken);
+
         try {
-
-            // Twitter::reconfig($requestToken);
-
             $postedTweet = Twitter::postTweet([
                 'status' => $message,
                 'format' => 'json'
