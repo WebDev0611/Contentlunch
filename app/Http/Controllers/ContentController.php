@@ -16,6 +16,7 @@ use App\Tag;
 use Storage;
 use View;
 use Auth;
+use Twitter;
 
 class ContentController extends Controller {
 
@@ -28,7 +29,7 @@ class ContentController extends Controller {
 	}
 
 	public function create(){
-		return View::make('content.create');	
+		return View::make('content.create');
 	}
 
 
@@ -37,7 +38,7 @@ class ContentController extends Controller {
 		// -- Once we hook up another API i will know how i should organize this
 		$class = 'Connections\API\\'.$content->connection->provider->class_name;
 		$create = (new $class($content))->createPost();
-		
+
 		$content->published = 1;
 		$content->ready_published = 0;
 		$content->written = 0;
@@ -52,7 +53,7 @@ class ContentController extends Controller {
 	}
 
 	// this is technically create content
-	public function createContent(){
+	public function createContent() {
 
 		$tagsdd = Tag::dropdown();
 		$authordd = User::dropdown();
@@ -62,11 +63,11 @@ class ContentController extends Controller {
 		$connectionsdd = Connection::dropdown();
 		$contenttypedd = ContentType::dropdown();
 
-		return View::make('content.editor', compact('contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));	
+		return View::make('content.editor', compact('contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));
 	}
-	// - edit content on page
-	public function editContent(Content $content){
 
+	// - edit content on page
+	public function editContent(Content $content) {
 
 		$tagsdd = Tag::dropdown();
 		$authordd = User::dropdown();
@@ -75,15 +76,16 @@ class ContentController extends Controller {
 		$campaigndd = Campaign::dropdown();
 		$connectionsdd = Connection::dropdown();
 		$contenttypedd = ContentType::dropdown();
-		
-		return View::make('content.editor', compact('content', 'contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));	
-	
+
+		return View::make('content.editor', compact('content', 'contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));
+
 	}
 
 	public function editStore(ContentRequest $request, $id = null) {
 		// - Default to creating a new Content
 		$content = new Content;
-		if(is_numeric($id)) {
+
+		if (is_numeric($id)) {
 			$content = Content::find($id);
 			$content->touch();
 			// - Remove all related, will attach back ( keeps pivot table clean )
@@ -91,6 +93,7 @@ class ContentController extends Controller {
 			$content->tags()->detach();
 			$content->authors()->detach();
 		}
+
 		$content->title = $request->input('title');
 		$content->body = $request->input('content');
 		$content->due_date = $request->input('due_date');
@@ -102,26 +105,39 @@ class ContentController extends Controller {
 
 		// - Attach to the user
 		Auth::user()->contents()->save($content);
+
 		// IF compaign lets attach it
 		if($request->input('campaign')){
 			// - Save Campaign
 			$campaign = Campaign::find($request->input('campaign'));
 			$campaign->contents()->save($content);
 		}
+
 		// - Attach the related data
 		if($request->input('related')){
 			$content->related()->attach($request->input('related'));
 		}
+
 		// - Save Content Type
-		$conType = ContentType::find($request->input('content_type'));
+        $contentType = $request->input('content_type');
+        $tweetContentType = ContentType::where('name', 'Tweet')->first();
+		$conType = ContentType::find($contentType);
 		$conType->contents()->save($content);
+
+        if ($tweetContentType->id == $contentType) {
+            $this->publishToTwitter($content->body);
+        }
+
 		// - Save connection
 		$connection = Connection::find($request->input('connections'));
 		$connection->contents()->save($content);
+
 		// Attach authors
 		$content->authors()->attach($request->input('author'));
+
 		// Attach Tags
 		$content->tags()->attach($request->input('tags'));
+
 		// - Images
 		if($request->hasFile('images'))
 		{
@@ -179,19 +195,44 @@ class ContentController extends Controller {
 		]);
 
 	}
-	public function get_written($step = 1){
 
-		//need to do proper form validation, etc. 
+    private function publishToTwitter($message)
+    {
+        $twitterConnection = Connection::first();
+        $settings = $twitterConnection->getSettings();
+
+        $requestToken = [
+            'token' => $settings->oauth_token,
+            'secret' => $settings->oauth_token_secret
+        ];
+
+        try {
+
+            // Twitter::reconfig($requestToken);
+
+            $postedTweet = Twitter::postTweet([
+                'status' => $message,
+                'format' => 'json'
+            ]);
+        }
+        catch (Exception $e) {
+            dd(Twitter::logs());
+        }
+    }
+
+	public function get_written($step = 1) {
+
+		//need to do proper form validation, etc.
 		//this is just to get the UI spit out
-		
+
 		if($step == 1){
-			return View::make('content.get_written_1');	
+			return View::make('content.get_written_1');
 		}
 		if($step == 2){
-			return View::make('content.get_written_2');	
+			return View::make('content.get_written_2');
 		}
 		if($step == 3){
-			return View::make('content.get_written_3');		
+			return View::make('content.get_written_3');
 		}
 	}
 

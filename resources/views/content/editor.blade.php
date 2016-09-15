@@ -59,7 +59,6 @@
                         <li class="active"><i class="icon-idea"></i></li>
                     </ul>
 
-
                     <div class="inner">
                       @if ($errors->any())
                             <div  class="alert alert-danger" id="formError">
@@ -76,7 +75,7 @@
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="content_type">CONTENT TYPE</label>
-                                   {!! Form::select('content_type', $contenttypedd, @isset($content)? $content->content_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
+                                    {!! Form::select('content_type', $contenttypedd, @isset($content)? $content->content_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -155,7 +154,7 @@
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="connections">CONTENT DESTINATION</label>
-                                   {!! Form::select('connections', $connectionsdd, @isset($content)? $content->connection_id : '' , array('class' => 'input form-control', 'id' => 'connections')) !!}
+                                    {!! Form::select('connections', $connectionsdd, @isset($content)? $content->connection_id : '' , array('class' => 'input form-control', 'id' => 'connections')) !!}
                                 </div>
                             </div>
                             <div class="col-sm-4 hide">
@@ -341,8 +340,8 @@
           plugin: 'a_tinymce_plugin',
           a_plugin_option: true,
           a_configuration_option: 400
-        });    
-            
+        });
+
         $('.datetimepicker').datetimepicker({
             format: 'YYYY-MM-DD'
         });
