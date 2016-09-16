@@ -83,46 +83,46 @@
                                     <label for="author">AUTHOR</label>
                                    {!! Form::select('author[]', $authordd, @isset($content) ?  $content->authors->lists('id')->toArray() : '' , array('multiple' =>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'author',  'data-live-search' => 'true', 'title' => 'Choose All Authors' )) !!}
                                    <div class="hide">
-                                              <input type="text" class="input" placeholder="Select author" data-toggle="dropdown">
-                                              <ul class="dropdown-menu dropdown-menu-right">
-                                                  <li class="dropdown-header-secondary">
-                                                      <span class="dropdown-header-secondary-text">
-                                                        Select team member
-                                                      </span>
-                                                      <button class="button button-micro pull-right text-uppercase">
-                                                          Submit
-                                                      </button>
-                                                  </li>
-                                                  <li>
-                                                      <input type="text" class="dropdown-header-secondary-search" placeholder="Team Member Name">
-                                                  </li>
-                                                  <li>
-                                                      <label for="Friend" class="checkbox-image">
-                                                          <input id="Friend" type="checkbox">
-                                                          <span>
-                                                              <img src="/images/avatar.jpg" alt="#">
-                                                          </span>
-                                                      </label>
-                                                      <label for="Friend" class="checkbox-image">
-                                                          <input id="Friend" type="checkbox">
-                                                          <span>
-                                                              <img src="/images/avatar.jpg" alt="#">
-                                                          </span>
-                                                      </label>
-                                                      <label for="Friend" class="checkbox-image">
-                                                          <input id="Friend" type="checkbox">
-                                                          <span>
-                                                              <img src="/images/avatar.jpg" alt="#">
-                                                          </span>
-                                                      </label>
-                                                      <label for="Friend" class="checkbox-image">
-                                                          <input id="Friend" type="checkbox">
-                                                          <span>
-                                                              <img src="/images/avatar.jpg" alt="#">
-                                                          </span>
-                                                      </label>
-                                                  </li>
-                                              </ul>
+                                        <input type="text" class="input" placeholder="Select author" data-toggle="dropdown">
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li class="dropdown-header-secondary">
+                                                <span class="dropdown-header-secondary-text">
+                                                    Select team member
+                                                </span>
+                                                <button class="button button-micro pull-right text-uppercase">
+                                                    Submit
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <input type="text" class="dropdown-header-secondary-search" placeholder="Team Member Name">
+                                            </li>
+                                            <li>
+                                                <label for="Friend" class="checkbox-image">
+                                                    <input id="Friend" type="checkbox">
+                                                    <span>
+                                                        <img src="/images/avatar.jpg" alt="#">
+                                                    </span>
+                                                </label>
+                                                <label for="Friend" class="checkbox-image">
+                                                    <input id="Friend" type="checkbox">
+                                                    <span>
+                                                        <img src="/images/avatar.jpg" alt="#">
+                                                    </span>
+                                                </label>
+                                                <label for="Friend" class="checkbox-image">
+                                                    <input id="Friend" type="checkbox">
+                                                    <span>
+                                                        <img src="/images/avatar.jpg" alt="#">
+                                                    </span>
+                                                </label>
+                                                <label for="Friend" class="checkbox-image">
+                                                    <input id="Friend" type="checkbox">
+                                                    <span>
+                                                        <img src="/images/avatar.jpg" alt="#">
+                                                    </span>
+                                                </label>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -132,7 +132,7 @@
                                     <div class='input-group date datetimepicker'>
                                         {!! Form::text('due_date', @isset($content)? $content->due_date : '', array('class' => ' input form-control', 'id' => 'dueDate')) !!}
                                         <span class="input-group-addon">
-                                        <i class="icon-calendar picto"></i>
+                                            <i class="icon-calendar picto"></i>
                                         </span>
                                     </div>
 
