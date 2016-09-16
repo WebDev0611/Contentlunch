@@ -17,6 +17,7 @@ use Storage;
 use View;
 use Auth;
 use Twitter;
+use Session;
 
 class ContentController extends Controller {
 
@@ -207,16 +208,23 @@ class ContentController extends Controller {
             'consumer_secret' => env('TWITTER_CONSUMER_SECRET'),
         ];
 
+        $message = strip_tags($message);
+
+        Session::forget('access_token');
         Twitter::reconfig($requestToken);
 
         try {
-            $postedTweet = Twitter::postTweet([
-                'status' => $message,
-                'format' => 'json'
-            ]);
+            Twitter::postTweet([ 'status' => $message ]);
         }
         catch (Exception $e) {
-            dd(Twitter::logs());
+            $flashMessage  = "We couldn't post the content to Twitter using the connection [" . $settings->name . "]. ";
+            $flashMessage .= "Please make sure the connection is properly configured before trying again.";
+
+            return redirect()->route('editIndex')->with([
+                'flash_message' => $flashMessage,
+                'flash_message_type' => 'danger',
+                'flash_message_important' => true
+            ]);
         }
     }
 
