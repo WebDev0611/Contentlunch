@@ -129,7 +129,12 @@ class ContentController extends Controller {
 		$connection = Connection::find($request->input('connections'));
 		$connection->contents()->save($content);
 
-        if ($tweetContentType->id == $contentType) {
+        $dueDate = new Carbon\Carbon($content->due_date);
+
+        // TODO: add support to detect today in multiple timezones
+        if (($tweetContentType->id == $contentType) &&
+            ($dueDate->isToday()))
+        {
             $this->publishToTwitter($content->body, $connection);
         }
 
