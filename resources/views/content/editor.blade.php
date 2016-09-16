@@ -177,6 +177,10 @@
                         </div>
 
                         <!-- Editor container -->
+                        <div class="character-counter">
+                            <span class="count"></span> out of 140 characters
+                        </div>
+
                         <div class="editor" style="background-color: rgba(0,0,0,.1); min-height: 530px; margin-bottom: 25px;">
                             {!! Form::textarea('content', @isset($content)? $content->body : '', array('placeholder' => 'Enter content', 'class' => 'input input-larger form-control wysiwyg', 'id' => 'title')) !!}
                         </div>
@@ -335,27 +339,89 @@
 <script type="text/javascript">
     $(function() {
 
+        var CharacterCounterView = Backbone.View.extend({
+            characters: 0,
+
+            initialize: function() {
+                this.$el.hide();
+                this.render();
+            },
+
+            render: function() {
+                this.$el.find('.count').text(this.characters);
+
+                if (this.characters > 140) {
+                    this.invalidCount();
+                } else {
+                    this.validCount();
+                }
+
+                return this;
+            },
+
+            invalidCount: function() {
+                if (!this.$el.hasClass('invalid-count')) {
+                    this.$el.addClass('invalid-count');
+                }
+            },
+
+            validCount: function() {
+                if (this.$el.hasClass('invalid-count')) {
+                    this.$el.removeClass('invalid-count');
+                }
+            },
+
+            show: function() {
+                this.$el.slideDown('fast');
+            },
+
+            hide: function() {
+                this.$el.slideUp('fast');
+            },
+
+            update: function(content) {
+                var html = content;
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                var text = div.textContent || div.innerText || "";
+
+                this.characters = text.length;
+                this.render();
+            }
+        });
+
+        var characterCounter = new CharacterCounterView({ el: '.character-counter' });
+
+        characterCounter.hide();
+
         tinymce.init({
-          selector: 'textarea.wysiwyg',  // change this value according to your HTML
-          plugin: 'a_tinymce_plugin',
-          a_plugin_option: true,
-          a_configuration_option: 400
+            selector: 'textarea.wysiwyg',  // change this value according to your HTML
+            plugin: 'a_tinymce_plugin',
+            a_plugin_option: true,
+            a_configuration_option: 400,
+            setup: function(editor) {
+                editor.on('keyup', function(e) {
+                    characterCounter.show();
+                    characterCounter.update(editor.getContent());
+                });
+            }
         });
 
         $('.datetimepicker').datetimepicker({
             format: 'YYYY-MM-DD'
         });
 
-       $('.selectpicker').selectpicker({
+        $('.selectpicker').selectpicker({
             style : 'btn-white',
             size: 10
         });
-       $('.changes').hide();
-       $(".showChanges").on('click', function(){
-            var $this = $(this),
-                  divClass = $this.attr('data-class');
 
-            $("."+divClass).toggle();
+        $('.changes').hide();
+        $(".showChanges").on('click', function(){
+            var $this = $(this),
+                divClass = $this.attr('data-class');
+
+            $("." + divClass).toggle();
        });
     });
 </script>

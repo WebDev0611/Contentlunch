@@ -166,3 +166,11 @@ $form-delimiter-border: 1px solid #d9d0ed;
     }
   }
 }
+
+.character-counter {
+  color: inherit;
+
+  &.invalid-count {
+    color: #a94442;
+  }
+}
