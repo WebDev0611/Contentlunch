@@ -225,11 +225,7 @@
         }
     });
 
-    /* campaign parts */
-    var campaign_model = Backbone.Model.extend();
-    var campaign_collection = Backbone.Collection.extend({
-        model: campaign_model
-    });
+
     var campaign_view = Backbone.View.extend({
         template: _.template( $('#campaign-template').html() ),
         render: function(){
@@ -403,7 +399,9 @@
 
 
     $(function(){
-        var campaigns = new campaign_collection(dummy_campaign_data);
+        //from json via php
+        var campaigns = new campaign_collection(my_campaigns);
+
         var tasks = new tasks_collection(dummy_task_data.filter(function(t){
                 return (t.user_id === my_user_id );
             }).sort(function(a,b){

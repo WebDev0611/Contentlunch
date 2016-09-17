@@ -239,6 +239,9 @@
     </div>
 </script>
 
+<script>
+ var my_campaigns = {!! $mycampaigns !!};
+</script>
 @stop
 
 
