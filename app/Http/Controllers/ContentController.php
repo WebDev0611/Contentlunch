@@ -32,7 +32,11 @@ class ContentController extends Controller {
 
 	public function create(){
 		//$my_campaigns = Campaign::
-		return View::make('content.create',['contenttypedd'=> ContentType::dropdown() ]);
+		$my_campaigns = Auth::user()->campaigns()->get();
+		return View::make('content.create',[
+			'contenttypedd'=> ContentType::dropdown(), 
+			'campaigndd' => Campaign::dropdown()
+			]);
 	}
 
 
