@@ -89,6 +89,9 @@ elixir(function (mix) {
                 'resources/assets/js/dashboard/performance.js'
                 ],"public/js/performance.js")
 
+            /* twitter scripts */
+            .scripts([ 'resources/assets/js/collaborate/twitter.js' ], 'public/js/twitter.js')
+
             /* tiny mce assets */
             .copy('./bower_components/tinymce/themes', "public/js/themes")
             .copy('./bower_components/tinymce/skins', "public/js/skins")
