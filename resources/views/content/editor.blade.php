@@ -60,8 +60,8 @@
                     </ul>
 
                     <div class="inner">
-                      @if ($errors->any())
-                            <div  class="alert alert-danger" id="formError">
+                        @if ($errors->any())
+                            <div class="alert alert-danger" id="formError">
                                 <p><strong>Oops! We had some errors:</strong>
                                     <ul>
                                     @foreach($errors->all() as $error)
@@ -71,6 +71,18 @@
                                 </p>
                             </div>
                         @endif
+
+                        <div class="alert alert-danger" id="twitterError" style='display:none'>
+                            <p><strong>Oops! We had some errors:</strong>
+                                <ul>
+                                    <li>
+                                        You cannot post to Twitter with more than
+                                        <strong>140</strong> characters.
+                                    </li>
+                                </ul>
+                            </p>
+                        </div>
+
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="input-form-group">
@@ -423,6 +435,19 @@
 
             $("." + divClass).toggle();
        });
+
+        $('form').submit(function(event) {
+            var TWEET_CONTENT_TYPE = "17";
+            var MAX_TWEET_CHARACTERS = 140;
+            var selectedContentType = $('#contentType').val();
+
+            if (selectedContentType == TWEET_CONTENT_TYPE &&
+                characterCounter.characters >= MAX_TWEET_CHARACTERS)
+            {
+                $('#twitterError').slideDown('fast');
+                event.preventDefault();
+            }
+        });
     });
 </script>
 @stop
