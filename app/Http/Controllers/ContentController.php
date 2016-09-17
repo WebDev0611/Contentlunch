@@ -18,6 +18,7 @@ use View;
 use Auth;
 use Twitter;
 use Session;
+use Carbon\Carbon;
 
 class ContentController extends Controller {
 
@@ -30,7 +31,12 @@ class ContentController extends Controller {
 	}
 
 	public function create(){
-		return View::make('content.create');
+		//$my_campaigns = Campaign::
+		$my_campaigns = Auth::user()->campaigns()->get();
+		return View::make('content.create',[
+			'contenttypedd'=> ContentType::dropdown(), 
+			'campaigndd' => Campaign::dropdown()
+			]);
 	}
 
 
@@ -129,7 +135,7 @@ class ContentController extends Controller {
 		$connection = Connection::find($request->input('connections'));
 		$connection->contents()->save($content);
 
-        $dueDate = new Carbon\Carbon($content->due_date);
+        $dueDate = new Carbon($content->due_date);
 
         // TODO: add support to detect today in multiple timezones
         if (($tweetContentType->id == $contentType) &&

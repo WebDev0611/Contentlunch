@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
+use Campaign;
+use User;
+use Auth;
+use View;
+
 class HomeController extends Controller
 {
     /**
@@ -24,6 +29,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home.list');
+        $my_campaigns = Auth::user()->campaigns()->get();
+        return View::make('home.list',[
+            'mycampaigns' => $my_campaigns->toJson() 
+        ]);
     }
 }

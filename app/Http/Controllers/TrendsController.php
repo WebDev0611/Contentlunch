@@ -29,13 +29,14 @@ class TrendsController extends Controller
      */
     public function trending(Request $request)
     {
+
         $topic = $request->input('topic');
         $topic_key = 'trends:';
 
         if(empty($topic)){
             $topic_key .= "_";
         }else{
-            $topic_key .= urlencode($topic);
+            $topic_key .= str_replace(' ', ',',$topic);
         }
 
         $topic_cache = Redis::get( $topic_key );
@@ -47,13 +48,13 @@ class TrendsController extends Controller
             $form_params = array(
                     'search_type' => 'trending_now',
                     'api_key' => getenv('BUZZSUMO_KEY'),
-                    'hours' => '24',
+                    'days' => '3',
                     //region
                     'count' => '40'
                 );
 
             if(!empty($t)){
-                $form_params['topic'] = urlencode($t);
+                $form_params['topic'] = $t;
             }
 
             $client = new Client();
@@ -69,7 +70,7 @@ class TrendsController extends Controller
 
             $output = get_data($topic);
             Redis::set($topic_key, serialize( $output ));
-            Redis::expire($topic_key, 60*10); //set cache for 10 min
+            Redis::expire($topic_key, 60*20); //set cache for 10 min
         }else{
             $output = unserialize($topic_cache);
         }

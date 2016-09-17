@@ -47,19 +47,18 @@
                 <div class="create-tabs-wrapper tab-content">
                     <div id="WriteContent" class="create-tabs-content tab-pane active">
                         <div class="row">
+                        {{ Form::open(array('url' => 'edit', 'files'=>'true')) }}
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="input-form-group">
                                     <label for="#">Content Title</label>
-                                    <input type="text" class="input" placeholder="Content Title">
+                                    {!! Form::text('title', '', array('placeholder' => 'Enter content title', 'class' => 'input input-larger form-control', 'id' => 'title')) !!}
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-form-group">
                                             <label for="#">CONTENT TYPE</label>
                                             <div class="select">
-                                                <select name="" id="">
-                                                    <option value="#">Content Type</option>
-                                                </select>
+                                               {!! Form::select('content_type', $contenttypedd, @isset($content)? $content->content_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
                                             </div>
                                         </div>
                                     </div>
@@ -78,15 +77,14 @@
                                 <div class="input-form-group">
                                     <label for="#">Campaign</label>
                                     <div class="select">
-                                        <select name="" id="">
-                                            <option value="#">Add to campaign</option>
-                                        </select>
+                                        {!! Form::select('campaign', $campaigndd, @isset($content)? $content->campaign_id : '' , array('class' => 'input form-control', 'id' => 'campaign')) !!}
                                     </div>
                                 </div>
-                                <button href="javascript:;" onclick="window.location.href='/edit';" class="button button-extend text-uppercase">
+                                <button type="submit" class="button button-extend text-uppercase">
                                     CREATE CONTENT
                                 </button>
                             </div>
+                             {{ Form::close() }}
                         </div>
                     </div>
                     <div id="GetContentWritten" class="create-tabs-content tab-pane">

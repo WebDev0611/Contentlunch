@@ -52,6 +52,7 @@ Route::get('/plan/prescription','PlanController@prescription');
 
 Route::resource('/trending', 'TrendsController@trending');
 Route::resource('/influencers', 'InfluencersController@search');
+Route::resource('/topics', 'TopicsController@index');
 
 
 Route::get('/idea/{id}','PlanController@editor');
@@ -62,6 +63,9 @@ Route::resource('/ideas', 'IdeaController', ['only' => [
 
 Route::get('/calendar','CalendarController@index');
 Route::get('/calendar/{year}/{month}','CalendarController@index');
+
+Route::get('/campaign','CampaignController@index');
+Route::post('/campaign/create','CampaignController@create');
 
 Route::get('/daily','CalendarController@daily');
 Route::get('/daily/{year}/{month}/{day}','CalendarController@daily');

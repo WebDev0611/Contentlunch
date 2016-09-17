@@ -121,7 +121,7 @@
 
                  @if(count($readyPublished) > 0)
                             @foreach($readyPublished as $pub)
-                              <div class="create-panel-table">
+                              <div class="create-panel-table border-left">
                                 <div class="create-panel-table-cell">
                                     <img src="/images/avatar.jpg" alt="" class="create-image">
                                 </div>
@@ -139,6 +139,9 @@
                                         UPDATED: <strong>05/05/2016</strong>
                                     </span>
                                 </div>
+                                <div class="create-panel-table-cell text-right">
+                                    <i class="create-panel-spaceship icon-spaceship-circle" data-toggle="modal" data-target="#launch"></i>
+                                  </div>
                             </div>
                             @endforeach
                 @else

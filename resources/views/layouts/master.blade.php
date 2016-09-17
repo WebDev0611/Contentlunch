@@ -10,14 +10,8 @@
 </head> 
 <body> 
 
-@if( @is_agency )
-	@include('elements.navigation-agency')
-	@include('elements.searchbar-agency')
-@else
-	@include('elements.navigation')
-	@include('elements.searchbar')
-@endif
-
+@include('elements.navigation')
+@include('elements.searchbar')
 
 @include('partials.flash')
 @yield('content')
@@ -47,7 +41,7 @@
         </a>
       </li>
       <li class="third">
-        <a href="/campaigns">
+        <a href="/campaign">
           <i class="icon-alert"></i>
           <p class="title">Campaign</p>
           <p>Branding campaign? Product launch? Trade show? Capture it here!</p>
