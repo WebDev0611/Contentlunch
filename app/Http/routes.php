@@ -81,6 +81,12 @@ Route::get('callback/facebook',  ['as' => 'facebookProvider', 'uses' =>'Connecti
 Route::post('callback/facebook/account/save','Connections\FacebookController@saveAccount');
 // -----------
 
+//-- Twitter Callbacks
+//
+Route::get('twitter/login', [ 'as' => 'twitterLogin', 'uses' => 'Connections\TwitterController@login' ]);
+Route::get('callback/twitter', [ 'as' => 'twitterCallback', 'uses' => 'Connections\TwitterController@callback' ]);
+Route::get('twitter/error', [ 'as' => 'twitterError', 'uses' => 'Connections\TwitterController@error' ]);
+
 // - Authorize
 Route::get('authorize/{provider}',  ['as' => 'connectionProvider', 'uses' =>'ConnectionController@redirectToProvider']);
 Route::get('login/{provider}',  ['as' => 'connectionCallback', 'uses' =>'ConnectionController@login']);
@@ -119,4 +125,7 @@ Route::group(['prefix' => 'settings'], function() {
 	Route::get('buying','SettingsController@buying');
 });
 
+Route::group(['prefix' => 'twitter'], function() {
+    Route::get('followers', [ 'uses' => 'Connections\TwitterController@userSearch' ]);
+});
 

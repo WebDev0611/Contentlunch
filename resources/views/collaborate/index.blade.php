@@ -5,7 +5,7 @@
 
   <!-- Panel -->
   <div class="panel">
-    
+
     <!-- Panel Header -->
     <div class="panel-header">
       <ul class="panel-tabs withborder text-center">
@@ -23,10 +23,10 @@
         </li>
       </ul>
     </div> <!-- End Panel Header -->
-    
+
     <!-- Panel Content -->
     <div class="panel-container bottompadded">
-      
+
       <!-- Search bar -->
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -41,26 +41,26 @@
           </div>
         </div>
       </div> <!-- End Search bar -->
-      
+
       <div class="panel-separator">
         <div class="panel-contenthead">
           <p id="influencer-alert"></p>
         </div>
       </div>
-      
+
       <!-- Influencers list -->
       <div class="inner wide">
-        
-      
+
+
         <ul class="list-inline list-influencers" id="influencer-results"></ul>
-        
+
       </div> <!-- End Influencers list -->
 
     </div> <!-- End Panel Content -->
-    
+
   </div> <!-- End Panel -->
-  
-  
+
+
   <!-- Modal: Details -->
   <div id="modal-influencerdetails" class="sidemodal inset" style="display: none;">
     <div class="sidemodal-header">
@@ -70,10 +70,10 @@
       </button>
     </div>
     <div class="sidemodal-container">
-      
+
       <!-- Influencer Info -->
       <div class="influencer-info">
-        
+
         <div class="influencer-head">
           <div class="influencer-pic">
             <div class="user-avatar"></div>
@@ -83,34 +83,34 @@
             <p class="desc"></p>
           </div>
         </div>
-        
+
         <ul class="list-inline list-soc">
           <li><i class="icon-twitter2"></i>3,300</li>
           <li><i class="icon-facebook-mini"></i>2,503</li>
         </ul>
-        
+
         <div class="influenceer-action">
           <div class="btn-group">
             <button type="button" class="button button-default button-extend invite-btn">INVITE</button>
             <button type="button" class="button button-default button-extend">DETAILS</button>
           </div>
-          
+
           <button type="button" class="button button-outline-secondary button-extend"><i class="icon-star-outline"></i>BOOKMARK</button>
-        </div>        
-        
+        </div>
+
         <div class="influencer-desc">
           <p></p>
         </div>
-        
+
       </div> <!-- End Influencer Info -->
-      
+
     </div>
   </div> <!-- End Modal: Details -->
-  
-  
+
+
   <!-- Modal: Invite Influencer -->
   <div id="modal-inviteinfluencer" class="sidemodal large" style="display: none">
-    
+
     <div class="sidemodal-header">
       <div class="row">
         <div class="col-md-6">
@@ -124,10 +124,10 @@
         </div>
       </div>
     </div>
-    
-    
+
+
     <div class="sidemodal-container">
-      
+
       <div class="influencer-head smaller">
         <div class="influencer-pic">
           <div class="user-avatar"></div>
@@ -137,7 +137,7 @@
           <p class="desc"></p>
         </div>
       </div>
-      
+
       <div class="input-form-group">
         <label for="#">Invitation to partner with us</label>
         <select name="" class="input">
@@ -147,22 +147,22 @@
           <option>Idea 3</option>
         </select>
       </div>
-      
+
       <div class="input-form-group">
         <label for="#">Content project details</label>
         <textarea rows="1" class="input input-area" placeholder="Explain task"></textarea>
       </div>
-      
+
       <div class="input-form-group">
         <label for="#">What can we offer you</label>
         <textarea rows="1" class="input input-area" placeholder="Explain your offer"></textarea>
       </div>
-      
+
       <div class="input-form-group">
         <label for="#">Reference URL</label>
         <input type="text" class="input" placeholder="Paste URL">
       </div>
-      
+
       <div class="row">
         <div class="col-md-6">
           <div class="input-form-group">
@@ -177,17 +177,17 @@
           </div>
         </div>
       </div>
-      
+
       <div class="fileupload">
         <i class="icon-add-content picto"></i>
         <p class="msgtitle">Click to attach one or more documents</p>
         <input type="file" class="input input-upload">
       </div>
-      
+
     </div>
   </div> <!-- End Modal: Invite Influencer -->
-  
-  
+
+
 </div>
 
 <script type="text/template" id="influencer-template">

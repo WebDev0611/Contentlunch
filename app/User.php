@@ -53,4 +53,11 @@ class User extends Authenticatable
         return $authordd;
     }
 
+    public function connectionsBySlug($slug)
+    {
+        return $this->connections()
+            ->join('providers', '.providers.id', '=', 'connections.provider_id')
+            ->where('slug', $slug);
+    }
+
 }
