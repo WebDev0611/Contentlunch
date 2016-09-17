@@ -221,23 +221,6 @@
         }
     });
 
-    /* campaign parts */
-    var campaign_model = Backbone.Model.extend({
-        defaults:{
-            title: "CAMPAIGN NAME",
-            body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-            launched:"0 DAYS",
-            stage: "0",
-            image: "/images/avatar.jpg",
-            timeago: 1470169716000,
-            user_id: 1,
-            performance: '100'
-        }
-    });
-    var campaign_collection = Backbone.Collection.extend({
-        model: campaign_model
-    });
-
     /* campaigns view */
     var campaign_item_view = Backbone.View.extend({
         tagName: "li",
@@ -254,7 +237,7 @@
      $(function(){
            var tab_container = new tab_container_view({el: '#tab-container'});
            tab_container.content = new content_collection(dummy_content_data);
-           tab_container.campaigns = new campaign_collection(dummy_campaign_data);
+           tab_container.campaigns = new campaign_collection(my_campaigns);
            tab_container.show_content();
 
            var activity_feed = new activity_collection(dummy_activity_data);

@@ -208,6 +208,10 @@
         </p>
     </div>
 </script>
+
+<script>
+ var my_campaigns = {!! $mycampaigns !!};
+</script>
 @stop
 
 @section('scripts')

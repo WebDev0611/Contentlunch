@@ -20,6 +20,9 @@ class AccountController extends Controller {
 	}
 
 	public function stats(){
-		return View::make('home.index');
+		$my_campaigns = Auth::user()->campaigns()->get();
+		return View::make('home.index',[
+            'mycampaigns' => $my_campaigns->toJson() 
+        ]);
 	}
 }
