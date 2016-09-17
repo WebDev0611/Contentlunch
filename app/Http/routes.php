@@ -65,6 +65,7 @@ Route::get('/calendar','CalendarController@index');
 Route::get('/calendar/{year}/{month}','CalendarController@index');
 
 Route::get('/campaign','CampaignController@index');
+Route::post('/campaign/create','CampaignController@create');
 
 Route::get('/daily','CalendarController@daily');
 Route::get('/daily/{year}/{month}/{day}','CalendarController@daily');

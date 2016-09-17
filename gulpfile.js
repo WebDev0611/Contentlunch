@@ -63,6 +63,14 @@ elixir(function (mix) {
             /* influencers scripts */
             .scripts(['resources/assets/js/collaborate/influencers.js'],"public/js/influencers.js")
 
+            /* campaign scripts */
+            .scripts([
+                'resources/assets/js/models/campaigns.js',
+                'resources/assets/js/collections/campaigns.js',
+                'resources/assets/js/views/campaign.js',
+                'resources/assets/js/campaign/campaign.js'
+                ],"public/js/campaign.js")
+
             /* calendar scripts */
             .scripts(['resources/assets/js/calendar/calendar.js'],"public/js/calendar.js")
 

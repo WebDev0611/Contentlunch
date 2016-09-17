@@ -10,15 +10,16 @@
     <div class="panel-main">
       
       <!-- Panel Header -->
-      <div class="panel-header">
+      <div class="panel-header" id="create-campaign-form">
         <div class="panel-options">
           <div class="row">
             <div class="col-md-6">
               <h4>Campaign editor</h4>
             </div>
             <div class="col-md-6 text-right">
+              <input type="hidden" name="_token" value="{{ csrf_token() }}">
               <div class="head-actions">
-                <button type="button" class="button button-outline-secondary button-small delimited">SAVE</button>
+                <button type="button" class="button button-outline-secondary button-small delimited" id="save-campaign-button">SAVE</button>
 
                 <button type="button" class="button button-small disabled">LAUNCH</button>
 
@@ -189,7 +190,7 @@
               
                 <div class="input-form-group">
                   <label for="#">CAMPAIGN TITLE</label>
-                  <input type="text" class="input input-larger" placeholder="Enter campaign title">
+                  <input type="text" id="campaign-title" class="input input-larger" placeholder="Enter campaign title">
                 </div>
 
                 <div class="row">
@@ -198,7 +199,7 @@
                       <label for="#">START DATE</label>
                       <div class="form-suffix">
                         <i class="icon-calendar picto"></i>
-                        <input type="text" class="input" placeholder="Select date">
+                        <input type="text" class="input" id="start-date" placeholder="Select date">
                       </div>
                     </div>
                   </div>
@@ -207,7 +208,7 @@
                       <label for="#">END DATE</label>
                       <div class="form-suffix">
                         <i class="icon-calendar picto"></i>
-                        <input type="text" class="input" placeholder="Select date">
+                        <input type="text" class="input" id="end-date" placeholder="Select date">
                       </div>
                     </div>
                   </div>
@@ -220,7 +221,7 @@
                       <label for="#">OTHER DATE 1</label>
                       <div class="form-suffix">
                         <i class="icon-calendar picto"></i>
-                        <input type="text" class="input" placeholder="Select date">
+                        <input type="text" class="input"  id="other-date-1" placeholder="Select date">
                       </div>
                     </div>
                   </div>
@@ -229,7 +230,7 @@
                       <label for="#">OTHER DATE 2</label>
                       <div class="form-suffix">
                         <i class="icon-calendar picto"></i>
-                        <input type="text" class="input" placeholder="Select date">
+                        <input type="text" class="input" id="other-date-2" placeholder="Select date">
                       </div>
                     </div>
                   </div>
@@ -240,18 +241,15 @@
                   <div class="col-sm-4">
                     <div class="input-form-group">
                       <label for="#">CAMPAIGN TYPE</label>
-                      <select name="" class="input" >
+                      <select name="" class="input" id="campaign-types">
                         <option selected disabled>Select campaign type</option>
-                        <option>Type 1</option>
-                        <option>Type 2</option>
-                        <option>Type 3</option>
                       </select>
                     </div>
                   </div>
                   <div class="col-sm-4">
                     <div class="input-form-group">
                       <label for="#">CAMPAIGN BUDGET</label>
-                      <input type="text" class="input input-larger" placeholder="Enter budget in USD" value="$25,000.00">
+                      <input type="text" class="input input-larger" placeholder="Enter budget in USD" value="">
                     </div>
                   </div>
                   <div class="col-sm-4">
@@ -270,12 +268,12 @@
 
                 <div class="input-form-group">
                   <label for="#">CAMPAIGN DESCRIPTION</label>
-                  <textarea class="input input-larger input-area" placeholder="Enter campaign description"></textarea>
+                  <textarea id="campaign-description" class="input input-larger input-area" placeholder="Enter campaign description"></textarea>
                 </div>
 
                 <div class="input-form-group">
                   <label for="#">CAMPAIGN GOALS</label>
-                  <textarea class="input input-larger input-area" placeholder="Describe campaign goals"></textarea>
+                  <textarea id="campaign-goals" class="input input-larger input-area" placeholder="Describe campaign goals"></textarea>
                 </div>
 
                 <div class="input-form-group">
@@ -1222,4 +1220,11 @@
   </div>  <!-- End Panel Container -->
 
 </div>
+<script>
+  var campaign_types = {!! $campaign_types !!};
+</script>
+@stop
+
+@section('scripts')
+<script src="/js/campaign.js"></script>
 @stop
