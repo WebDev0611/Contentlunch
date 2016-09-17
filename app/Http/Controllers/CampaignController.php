@@ -36,7 +36,7 @@ class CampaignController extends Controller {
 		//$campaign->budget 		= $request->input('budget');
 		$campaign->status 		= (int)$request->input('status');
 		//$campaign->tags 		= $request->input('tags');
-
+		$campaign->user_id		= Auth::id();
 		$campaign->save();
 
 		echo json_encode($campaign);
