@@ -23,7 +23,6 @@ class TwitterController extends Controller
         $signInTwitter = true;
         $forceLogin = false;
 
-        // Make sure we make this request w/o tokens, overwrite the default values in case of login.
         Twitter::reconfig(['token' => '', 'secret' => '']);
 
         $token = Twitter::getRequestToken(route('twitterCallback'));
@@ -43,8 +42,6 @@ class TwitterController extends Controller
 
     public function callback()
     {
-        // You should set this route on your Twitter Application settings as the callback
-        // https://apps.twitter.com/app/YOUR-APP-ID/settings
         if (Session::has('oauth_request_token'))
         {
             $request_token = [
@@ -61,7 +58,6 @@ class TwitterController extends Controller
                 $oauth_verifier = Input::get('oauth_verifier');
             }
 
-            // getAccessToken() will reset the token for you
             $token = Twitter::getAccessToken($oauth_verifier);
 
             if (!isset($token['oauth_token_secret'])) {
@@ -72,22 +68,14 @@ class TwitterController extends Controller
             $credentials = Twitter::getCredentials();
 
             if (is_object($credentials) && !isset($credentials->error)) {
-                // $credentials contains the Twitter user object with all the info about the user.
-                // Add here your own user logic, store profiles, create new users on your tables...you name it!
-                // Typically you'll want to store at least, user id, name and access tokens
-                // if you want to be able to call the API on behalf of your users.
-
-                // This is also the moment to log in your users if you're using Laravel's Auth class
-                // Auth::login($user) should do the trick.
-
                 $this->registerConnection($token, $credentials);
 
                 return Redirect::route('connectionIndex')
-                    ->with('flash_notice', 'Congrats! You\'ve successfully signed in!');
+                    ->with('flash_notice', 'Congrats! You\'ve successfully signed in.');
             }
 
             return Redirect::route('connectionIndex')
-                ->with('flash_error', 'Crab! Something went wrong while signing you up!');
+                ->with('flash_error', 'Something went wrong while signing you up.');
         }
     }
 
