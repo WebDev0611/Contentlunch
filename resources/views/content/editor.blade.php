@@ -29,7 +29,7 @@
                                     @if (isset($content))
                                         <a href="{{ route('contentPublish', $content->id) }}" class="button button-small  ">PUBLISH</a>
                                     @endif
-                                    <div class="btn-group hidden">
+                                    <div class="btn-group">
                                         <button type="button" class="button button-small">SUBMIT</button>
                                         <button type="button" class="button button-small dropdown-toggle"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
