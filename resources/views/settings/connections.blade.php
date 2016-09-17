@@ -65,25 +65,25 @@
                                 </div>
                                 <div class="settings-import-list">
 
-                                            @if(count($connections) > 0)
-                                                        @foreach($connections as $con)
-                                                        <div class="settings-import-item">
-                                                            <div class="col-md-6">
-                                                                <img src="/images/{{$con->provider->slug}}.jpg" alt="#" class="settings-import-item-img">
-                                                                <span class="settings-import-item-title">{{$con->name}}</span>
-                                                            </div>
-                                                            <div class="col-md-6 text-right">
-                                                                @if($con->successful)
-                                                                        <button class="button button-connected button-small">Connected</button>
-                                                                @else
-                                                                        <button class="button button-small">Connect</button>
-                                                                @endif
-                                                            </div>
-                                                        </div>
-                                                        @endforeach
-                                            @else
-                                                <div class="alert alert-info" role="alert"><p>You have no connections at this time.</p></div>
-                                            @endif
+                                    @if(count($connections) > 0)
+                                        @foreach($connections as $con)
+                                        <div class="settings-import-item">
+                                            <div class="col-md-6">
+                                                <img src="/images/{{$con->provider->slug}}.jpg" alt="#" class="settings-import-item-img">
+                                                <span class="settings-import-item-title">{{$con->name}}</span>
+                                            </div>
+                                            <div class="col-md-6 text-right">
+                                                @if($con->successful)
+                                                    <button class="button button-connected button-small">Connected</button>
+                                                @else
+                                                    <button class="button button-small">Connect</button>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    @else
+                                        <div class="alert alert-info" role="alert"><p>You have no connections at this time.</p></div>
+                                    @endif
 
                                 </div>
                             </div>
@@ -101,8 +101,9 @@
         </div>
     </div>
 </div>
+
 <div id="newConnection" class="sidemodal large">
-        {{ Form::open(array('url' => 'settings/connections/create')) }}
+    {{ Form::open(array('url' => 'settings/connections/create')) }}
     <div class="sidemodal-header">
         <div class="row">
             <div class="col-md-6">
@@ -159,6 +160,7 @@
     </div>
         {{ Form::close() }}
 </div>
+
 <template id="wordpressTemplate">
     <div class="row" >
         <div class="col-md-12">
@@ -188,7 +190,15 @@
 <template id="facebookTemplate">
     <div class="row" >
         <div class="col-md-12">
-                <a href="{{route('connectionProvider', 'facebook')}}" class="btn btn-primary">Connect to Facebook</a>
+            <a href="{{route('connectionProvider', 'facebook')}}" class="btn btn-primary">Connect to Facebook</a>
+        </div>
+    </div>
+</template>
+
+<template id="twitterTemplate">
+    <div class="row" >
+        <div class="col-md-12">
+            <a href="{{ route('twitterLogin') }}" class="btn btn-primary">Connect to Twitter</a>
         </div>
     </div>
 </template>
@@ -198,28 +208,30 @@
 <script type="text/javascript">
 $(function() {
 
-    if($("#connectionType").val() != "") {
-        $("#templateContainer").html($("#"+$("#connectionType").val()+"Template").html());
+    var templateName;
+
+    if ($("#connectionType").val() != "") {
+        templateName = '#' + $('#connectionType').val() + 'Template';
+        $("#templateContainer").html($(templateName).html());
     }
 
-
     // because each API will have its own data it needs we need to be able to swap out the form fields
-    $("#connectionType").on('change', function(){
-        var $this = $(this),
-                value =  $(this).val();
-                // ensure we have a value
-                if(value) {
-                    // lets load the template into the container
-                    $("#templateContainer").html($("#"+value+"Template").html());
-                }
+    $("#connectionType").on('change', function() {
+        var value = $(this).val();
+
+        // ensure we have a value
+        if (value) {
+            // lets load the template into the container
+            templateName = '#' + value + 'Template';
+            $("#templateContainer").html($(templateName).html());
+        }
     });
 
-        // # -- If we have form error lets open the panel again
-        // # -- Must be below other code
-        if ($('#formError').length > 0) {
-            $("#newConnectionButton").click();
-        }
-
+    // # -- If we have form error lets open the panel again
+    // # -- Must be below other code
+    if ($('#formError').length > 0) {
+        $("#newConnectionButton").click();
+    }
 });
 </script>
 @stop

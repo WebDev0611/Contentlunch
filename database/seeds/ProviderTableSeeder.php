@@ -17,7 +17,7 @@ class ProviderTableSeeder extends Seeder
 	    	['Hubspot', 'hubspot', 'website',''],
 	    	['Act-on', 'act-on', 'website',''],
 	    	['Facebook', 'facebook', 'website','FacebookAPI'],
-	    	['Twitter', 'twitter', 'website',''],
+	    	['Twitter', 'twitter', 'website', 'TwitterAPI'],
 	    	['YouTube', 'youtube', 'website',''],
 	    	['Outbrain', 'outbrain', 'website',''],
 	    	['Dropbox', 'dropbox', 'website',''],
