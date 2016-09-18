@@ -25,7 +25,38 @@ var new_campaign_view = Backbone.View.extend({
 			$('#campaign-types').append( option );
         });
 	},
+	show_saved: function(d){
+ 		this.$el.append('<div class="col-md-12"><div class="alert alert-success" role="alert">Saved: ' + d.title +'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div></div>');
+	},
+	update_campaign: function(d){
+		var view = this;
+		console.log('clicked save');
+		$.ajax({
+		    url: '/campaign/update/'+d.id,
+		    type: 'post',
+		    data: {
+		    	title: $('#campaign-title').val(),
+				description: $('#campaign-description').val(),
+				start_date: $('#start-date').val(),
+				end_date: $('#end-date').val(),
+				goals: $('#campaign-goals').val(),
+				type: $('#campaign-types').val(),
+				budget: $('#campaign-budget').val()
+		    },
+			headers: {
+            	'X-CSRF-TOKEN': $('input[name=_token]').val()
+        	},
+		    dataType: 'json',
+		    success: function (data) {
+				console.log(data);
+				if(data.id){
+					view.show_saved(data);
+				}
+			}
+		});	
+	},
 	save_campaign: function(){
+		var view = this;
 		console.log('clicked save');
 		$.ajax({
 		    url: '/campaign/create',
@@ -45,7 +76,9 @@ var new_campaign_view = Backbone.View.extend({
 		    dataType: 'json',
 		    success: function (data) {
 				console.log(data);
-
+				if(data.id){
+					view.show_saved(data);
+				}
 			}
 		});
 	}
