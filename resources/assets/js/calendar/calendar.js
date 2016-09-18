@@ -9,57 +9,57 @@
         {
             type:'idea',
             title: 'Lorem ispum',
-            date: 1471919205000
+            date: new Date().getTime() + (1000 * 60 * 60 * 24 *3)
         },
         {
             type:'task',
             title: 'Content mix: post 3 blogs...',
-            date: 1471918205000
+            date: new Date().getTime() + (1000 * 60 * 60 * 24 *5)
         },
         {
             type:'task',
             title: 'Post 16 social postings',
-            date: 1471414205000
+            date: new Date().getTime() - (1000 * 60 * 60 * 24 *3)
         },
         {
             type:'task',
             title: 'Post 16 social postings',
-            date: 1471119005000
+             date: new Date().getTime() + (1000 * 60 * 60 * 24 *7)
         },
         {
             type:'task',
             title: 'Post 16 social postings',
-            date: 1471019005000
+            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
         },
         {
             type:'task',
             title: 'Post 10 social postings',
-            date: 1470419005000
+            date:new Date().getTime() - (1000 * 60 * 60 * 24 *6)
         },
         {
             type:'idea',
             title: 'Post 20 social postings',
-            date: 1470119205000
+            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
         },
         {
             type:'idea',
             title: 'Post 1 social postings',
-            date: 1470119205000
+            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
         },
         {
             type:'idea',
             title: 'Post 5 social postings',
-            date: 1470119205000
+            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
         },
         {
             type:'task',
             title: 'Post 9 social postings',
-            date: 1470119205000
+            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
         },
         {
             type:'task',
             title: 'Post 15 social postings',
-            date: 1470119205000
+            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
         }
     ];
 
@@ -103,8 +103,8 @@
     /* the cell that holds the events */
     var calendar_container_view = Backbone.View.extend({
         events:{
-        //    'mouseenter':'show_tool',
-        //    'mouseleave':'hide_tool',
+            // 'mouseenter':'show_tool',
+            // 'mouseleave':'hide_tool',
 
             'mouseenter li span': 'add_active',
             'mouseleave li span': 'hide_active'
@@ -141,18 +141,33 @@
     });
 
     $(function(){
-        var calendar_items = new calendar_item_collection(dummy_calendar_data);
+        var my_campaigns = new campaign_collection(campaigns.map(function(c){
+            c.date = c.start_date;
+            c.type = 'campaign';
+            return c;
+        }));
+        dummy_calendar_data.forEach(function(dcd){
+            my_campaigns.add(dcd);
+        });
+
+        var calendar_items = my_campaigns; //new calendar_item_collection( my_campaigns );
+        console.log(calendar_items);
+
         var day_containers = {};
         var hour_containers = {};
 
         calendar_items.each(function(i){
+            console.log(i);
             var d = moment(i.get('date')).format('YYYY-M-DD');
             var dt = moment(i.get('date')).format('YYYY-M-DD') + '-' + moment(i.get('date')).format('HH') + '0000';
             if( day_containers[d] ){
                 day_containers[d].push(i);
-                hour_containers[dt].push(i);
             }else{
                 day_containers[d] = [i];
+            }
+            if( hour_containers[dt] ){
+                hour_containers[dt].push(i);
+            }else{
                 hour_containers[dt] = [i];
             }
         });
