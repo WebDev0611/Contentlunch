@@ -57,7 +57,7 @@ var campaign_calendar_view = Backbone.View.extend({
 			//each item in the month group, should move the verticle buffering
 			var campaign = new campaign_model(c);
 			var campaign_runner = new campaign_calendar_view({model: campaign});
-			var offset = i * 40;
+			var offset = i * 60;
 			campaign_runner.render();
 			campaign_runner.$el.css('top',offset + 'px');
 			$(c.start_sel).append( campaign_runner.$el );

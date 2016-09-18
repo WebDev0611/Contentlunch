@@ -12,6 +12,8 @@ use App\Campaign;
 
 use App\CampaignType;
 
+use App\ContentType;
+
 class CampaignController extends Controller {
 
 	public function index(){
@@ -47,6 +49,17 @@ class CampaignController extends Controller {
 	}
 
 	public function edit(Request $request, $id = null ){
+		$campaign = new Campaign;
+		if (is_numeric($id)) {
+			$campaign = Campaign::find($id);
+		}
 
+		$campaign_types = CampaignType::all();
+		return View::make('campaign.index',
+			[
+				'campaigntypedd' => CampaignType::dropdown(),
+				'campaign_types' => $campaign_types->toJson(),
+				'campaign' => $campaign
+			]);
 	}
 }

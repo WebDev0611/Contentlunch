@@ -20,11 +20,11 @@ var new_campaign_view = Backbone.View.extend({
         });
 
         //cmpaign types
-        campaign_types.forEach(function(c){
-        	console.log(c);
-        	var option = $('<option />').text(c.name).val(c.id);
-			$('#campaign-types').append( option );
-        });
+   //      campaign_types.forEach(function(c){
+   //      	console.log(c);
+   //      	var option = $('<option />').text(c.name).val(c.id);
+			// $('#campaign-types').append( option );
+   //      });
 	},
 	show_saved: function(d){
  		this.$el.append('<div class="col-md-12"><div class="alert alert-success" role="alert">Saved: ' + d.title +'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div></div>');
