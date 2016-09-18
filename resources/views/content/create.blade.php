@@ -47,7 +47,7 @@
                 <div class="create-tabs-wrapper tab-content">
                     <div id="WriteContent" class="create-tabs-content tab-pane active">
                         <div class="row">
-                        {{ Form::open(array('url' => 'edit', 'files'=>'true')) }}
+                        {{ Form::open(['url' => '/create/new', 'method'=>'post']) }}
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="input-form-group">
                                     <label for="#">Content Title</label>
@@ -80,9 +80,8 @@
                                         {!! Form::select('campaign', $campaigndd, @isset($content)? $content->campaign_id : '' , array('class' => 'input form-control', 'id' => 'campaign')) !!}
                                     </div>
                                 </div>
-                                <button type="submit" class="button button-extend text-uppercase">
-                                    CREATE CONTENT
-                                </button>
+                                <input value="CREATE CONTENT" type="submit" class="button button-extend text-uppercase">
+                                    
                             </div>
                              {{ Form::close() }}
                         </div>

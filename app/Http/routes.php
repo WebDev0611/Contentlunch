@@ -98,6 +98,8 @@ Route::get('login/{provider}',  ['as' => 'connectionCallback', 'uses' =>'Connect
 
 // - Landing page for creating content
 Route::get('/create','ContentController@create');
+Route::post('/create/new','ContentController@store');
+
 // - create form page
 Route::get('/edit', ['as' => 'editIndex', 'uses' => 'ContentController@createContent']);
 Route::post('/edit','ContentController@editStore');
