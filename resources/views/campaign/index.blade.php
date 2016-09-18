@@ -249,7 +249,7 @@
                   <div class="col-sm-4">
                     <div class="input-form-group">
                       <label for="#">CAMPAIGN BUDGET</label>
-                      <input type="text" class="input input-larger" placeholder="Enter budget in USD" value="">
+                      <input type="text" name="campaign-budget" class="input input-larger" placeholder="Enter budget in USD" value="">
                     </div>
                   </div>
                   <div class="col-sm-4">
@@ -278,7 +278,7 @@
 
                 <div class="input-form-group">
                   <label for="#">TAGS</label>
-                  <input type="text" class="input input-larger" placeholder="Enter one or more tags">
+                  <input type="text" name="campaign-tags" class="input input-larger" placeholder="Enter one or more tags">
                 </div>
 
 

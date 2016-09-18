@@ -22,7 +22,7 @@ class CampaignController extends Controller {
 			]);
 	}
 
-
+	/*  needs validation! */
 	public function create(Request $request){
 
 		$campaign = new Campaign;
@@ -33,7 +33,7 @@ class CampaignController extends Controller {
 		$campaign->end_date 	= $request->input('end_date');
 		$campaign->goals 		= $request->input('goals');
 		$campaign->campaign_type_id = (int)$request->input('type');
-		//$campaign->budget 		= $request->input('budget');
+		$campaign->budget 		= $request->input('budget');
 		$campaign->status 		= (int)$request->input('status');
 		//$campaign->tags 		= $request->input('tags');
 		$campaign->user_id		= Auth::id();
@@ -41,5 +41,9 @@ class CampaignController extends Controller {
 
 		echo json_encode($campaign);
 		exit;
+	}
+
+	public function edit(Request $request, $id = null ){
+
 	}
 }

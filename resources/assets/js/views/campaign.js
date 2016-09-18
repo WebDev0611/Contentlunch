@@ -36,7 +36,8 @@ var new_campaign_view = Backbone.View.extend({
 				start_date: $('#start-date').val(),
 				end_date: $('#end-date').val(),
 				goals: $('#campaign-goals').val(),
-				type: $('#campaign-type').val()
+				type: $('#campaign-types').val(),
+				budget: $('#campaign-budget').val()
 		    },
 			headers: {
             	'X-CSRF-TOKEN': $('input[name=_token]').val()
@@ -44,6 +45,7 @@ var new_campaign_view = Backbone.View.extend({
 		    dataType: 'json',
 		    success: function (data) {
 				console.log(data);
+
 			}
 		});
 	}

@@ -183,6 +183,18 @@
                                         UPDATED: <strong>05/05/2016</strong>
                                     </span>
                                 </div>
+                                <div class="create-panel-table-cell text-right">
+                                    <div class="create-dropdown">
+                                        <button type="button" class="button button-action" data-toggle="dropdown">
+                                            <i class="icon-add-circle"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li>
+                                                <a href="javascript:;" onclick="location.href='/edit/{{$pub->id}}';">Write It</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                             @endforeach
                 @else
