@@ -31,19 +31,22 @@ var new_campaign_view = Backbone.View.extend({
 	},
 	update_campaign: function(){
 		var view = this;
-		console.log('clicked save');
-		$.ajax({
-		    url: '/campaign/edit/'+view.d.id,
-		    type: 'post',
-		    data: {
+		console.log('running update');
+		console.log(view.d);
+		var form_data = {
 		    	title: $('#campaign-title').val(),
 				description: $('#campaign-description').val(),
 				start_date: $('#start-date').val(),
 				end_date: $('#end-date').val(),
 				goals: $('#campaign-goals').val(),
-				type: $('#campaign-types').val(),
+				type: $('#campaign-types option:selected').val(),
 				budget: $('#campaign-budget').val()
-		    },
+		    };
+
+		$.ajax({
+		    url: '/campaign/edit/'+view.d.id,
+		    type: 'post',
+		    data: form_data,
 			headers: {
             	'X-CSRF-TOKEN': $('input[name=_token]').val()
         	},
@@ -60,7 +63,8 @@ var new_campaign_view = Backbone.View.extend({
 	save_campaign: function(){
 		var view = this;
 		console.log('clicked save');
-		if(view.d){
+		console.log(view.d);
+		if(!view.d){
 		$.ajax({
 		    url: '/campaign/create',
 		    type: 'post',
@@ -70,7 +74,7 @@ var new_campaign_view = Backbone.View.extend({
 				start_date: $('#start-date').val(),
 				end_date: $('#end-date').val(),
 				goals: $('#campaign-goals').val(),
-				type: $('#campaign-types').val(),
+				type: $("#campaign-types option:selected").val(),
 				budget: $('#campaign-budget').val()
 		    },
 			headers: {

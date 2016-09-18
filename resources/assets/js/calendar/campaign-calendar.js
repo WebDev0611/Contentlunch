@@ -5,7 +5,8 @@ var campaign_calendar_view = Backbone.View.extend({
 	template: _.template( $('#campaign-template').html() ),
 	events:{
 		'click': 'preview',
-		'click alendar-task-list-popover-close': 'dismiss'
+		'click alendar-task-list-popover-close': 'dismiss',
+		'click a.button': 'view_campaign'
 	},
 	render: function(){
 
@@ -22,6 +23,9 @@ var campaign_calendar_view = Backbone.View.extend({
 	},
 	dismiss: function(){
 		this.$el.find('.calendar-task-list-popover').toggleClass('open');
+	},
+	view_campaign: function(){
+		location.href = '/campaign/edit/' + this.model.get('id');
 	}
 });
 

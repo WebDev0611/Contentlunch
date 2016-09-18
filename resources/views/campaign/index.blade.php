@@ -190,8 +190,7 @@
               
                 <div class="input-form-group">
                   <label for="#">CAMPAIGN TITLE</label>
-                  <input type="text" id="campaign-title" class="input input-larger" placeholder="Enter campaign title">
- {!! Form::text('campaign-title', @isset($campaign)? $campaign->title : '', array('placeholder' => 'Enter content title', 'class' => 'input input-larger form-control', 'id' => 'campaign-title')) !!}
+ {!! Form::text('campaign-title', @isset($campaign)? $campaign->title : '', array('placeholder' => 'Enter campaign title', 'class' => 'input input-larger form-control', 'id' => 'campaign-title')) !!}
                 </div>
 
                 <div class="row">
@@ -242,7 +241,7 @@
                   <div class="col-sm-4">
                     <div class="input-form-group">
                       <label for="#">CAMPAIGN TYPE</label>
-                      {!! Form::select('campaign-type', $campaigntypedd, @isset($campaign)? $campaign->campaign_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'campaign-type', 'title' => 'Choose Campaign Type')) !!}
+                      {!! Form::select('campaign-type', $campaigntypedd, @isset($campaign)? $campaign->campaign_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'campaign-types', 'title' => 'Choose Campaign Type')) !!}
                     </div>
                   </div>
                   <div class="col-sm-4">
@@ -1221,6 +1220,7 @@
 </div>
 <script>
   var campaign_types = {!! $campaign_types !!};
+  var campaign = {!! $campaign->toJson() !!};
 </script>
 @stop
 

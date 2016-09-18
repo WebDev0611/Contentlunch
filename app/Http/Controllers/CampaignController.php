@@ -54,6 +54,23 @@ class CampaignController extends Controller {
 			$campaign = Campaign::find($id);
 		}
 
+		if($request->isMethod('post')){
+			$campaign->title 		= $request->input('title');
+			$campaign->description 	= $request->input('description');
+			$campaign->start_date 	= $request->input('start_date');
+			$campaign->end_date 	= $request->input('end_date');
+			$campaign->goals 		= $request->input('goals');
+			$campaign->campaign_type_id = (int)$request->input('type');
+			//$campaign->budget 		= $request->input('budget');
+			$campaign->status 		= (int)$request->input('status');
+			//$campaign->tags 		= $request->input('tags');
+			$campaign->user_id		= Auth::id();
+			$campaign->save();
+
+			echo $campaign->toJson();
+			exit;
+		}
+
 		$campaign_types = CampaignType::all();
 		return View::make('campaign.index',
 			[
