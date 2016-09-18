@@ -10,11 +10,13 @@ use App\Campaign;
 class CalendarController extends Controller {
 	public $user_id;
 	public $account_id;
+	public $campaigns;
 
 	public function __construct(){
     	$user = Auth::user();
     	$this->user_id = $user->id;
     	$this->account_id = 0;
+    	$this->campaigns = Auth::user()->campaigns()->get();
 	} 
 
 	public function index($year = 0, $month = 0, $day = 0 ){
@@ -118,7 +120,7 @@ class CalendarController extends Controller {
 			'default_year' => $default_year,
 			'next_month' => $next_month,
 			'prev_month' => $prev_month,
-			'campaigns' => json_encode($campaigns),
+			'campaigns' => $this->campaigns,
 			'user_id' => $this->user_id,
 			'account_id'=> $this->account_id
 			) );

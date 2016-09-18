@@ -118,4 +118,8 @@
 </div>
 </script>
 
+<script>
+var campaigns = {!! $campaigns !!};
+</script>
+
 @stop

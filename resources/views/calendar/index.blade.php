@@ -114,5 +114,8 @@
 @stop
 
 @section('scripts')
+<script>
+var campaigns = {!! $campaigns !!};
+</script>
 <script src="/js/calendar.js"></script>
 @stop
