@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use View;
 use App\User;
 use Auth;
+use App\Campaign;
 
 class CalendarController extends Controller {
 	public $user_id;
@@ -125,8 +126,7 @@ class CalendarController extends Controller {
 
 	public function campaigns($year = 0 , $month = 0 ){
 
-		//$campaigns = $this->pull_campaigns();
-
+		$campaigns = $this->pull_campaigns();
 		if(!$year){
 			$year = date('Y');
 		}
@@ -156,7 +156,7 @@ class CalendarController extends Controller {
 				//the months days table - header
 				$main_calendar_string .= '<table class="calendar-timeline-days"><thead><tr>';
 				for($d = 1; $d <= $days_in_month; $d++ ){
-					$main_calendar_string .= '<th id="campaign-day-' . $year . '-' . $m . '-'. $d . '">' . $d . "</th>\n";
+					$main_calendar_string .= '<th>' . $d . "</th>\n";
 				}
 				$main_calendar_string .= '</tr></thead>';
 				//end the header days
@@ -166,7 +166,7 @@ class CalendarController extends Controller {
 
 				//loop through and create the days - will need to identify this to backbone or resuse this logic
 				for($d = 1; $d <= $days_in_month; $d++ ){
-					$main_calendar_string .= "<td></td>\n";
+					$main_calendar_string .= '<td id="campaign-day-' . $year . '-' . $m . '-'. $d . '"></td>' . "\n";
 				}
 
 				//end of the days data holders
@@ -193,7 +193,7 @@ class CalendarController extends Controller {
 		// exit;
 
 		return View::make('calendar.campaigns', array(
-			'campaigns' => '',// json_encode($campaigns),
+			'campaigns' => $campaigns->toJson(),
 			'user_id' => $this->user_id,
 			'account_id'=> $this->account_id,
 			'campaign_calendar' => generate_campaign_calendar($year)
@@ -371,34 +371,7 @@ class CalendarController extends Controller {
 
 	protected function pull_campaigns($start_date = false, $end_date = false, $end = false, $status = false){
 
-	 	$query = Campaign::where('account_id', $this->account_id)
-	      ->with('tags')
-	      ->with('user')
-	      ->with('campaign_type')
-	      ->with('guest_collaborators')
-	      ->with('collaborators.image');
-
-	    if ($status) {
-	      $query->where('status', $status);
-	    }
-
-	    if($end_date) {
-	      $query->where('end_date', '>=', $end_date);
-	    }
-
-	    if($start_date) {
-	        $query->where('end_date', '>=', $start_date);
-	    }
-
-	    if($end) {
-	        $query->where('start_date', '<=', $end);
-	    }
-
-	    $user = Confide::User();
-	    if(!$this->hasAbility([], ['calendar_view_campaigns_other'], $this->account_id)) {
-	      $query->where('user_id', $this->user_id);
-	    }
-
+	 	$query = Campaign::where('user_id', Auth::id() );
 	    $results = $query->get();
 	    // print_r($user->id);
 	    // print_r($results);

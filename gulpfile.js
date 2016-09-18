@@ -73,6 +73,7 @@ elixir(function (mix) {
 
             /* calendar scripts */
             .scripts(['resources/assets/js/calendar/calendar.js'],"public/js/calendar.js")
+            .scripts(['resources/assets/js/calendar/campaign-calendar.js'],"public/js/campaign-calendar.js")
 
             /* home area scripts */
             .scripts([
