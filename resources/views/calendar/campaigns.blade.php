@@ -117,7 +117,7 @@ var campaigns = {!! $campaigns !!};
                 <i class="icon-remove"></i>
             </button>
             <h5 class="calendar-task-list-popover-title">
-                Print Campaign: UN
+                <%= description %>
                 <span class="calendar-task-list-popover-title-border"></span>
             </h5>
             <div class="calendar-task-list-popover-author">

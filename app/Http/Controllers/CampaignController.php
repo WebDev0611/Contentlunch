@@ -20,6 +20,8 @@ class CampaignController extends Controller {
 		$campaign_types = CampaignType::all();
 		return View::make('campaign.index',
 			[
+				'campaign' =>   new Campaign,
+				'campaigntypedd' => CampaignType::dropdown(),
 				'campaign_types' => $campaign_types->toJson()
 			]);
 	}
