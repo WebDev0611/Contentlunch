@@ -24,7 +24,6 @@ var campaign_calendar_view = Backbone.View.extend({
 		this.$el.find('.calendar-task-list-popover').toggleClass('open');
 	}
 });
-var campaign_model = Backbone.Model.extend();
 
 
 (function($){
@@ -49,18 +48,19 @@ var campaign_model = Backbone.Model.extend();
 
 	var last_item = null;
 	_.each(monthly_campaigns,function(mc,k){
-		console.log('rendering :' + k);
 		mc.map(function(c){
 			c.start_sel = '#campaign-day-' + moment(c.start_date).format('YYYY-M-D');
 			c.end_sel = '#campaign-day-' + moment(c.end_date).format('YYYY-M-D');
 			return c;
 		}).forEach(function(c,i){
-			//each item in the month group, should move the verticle buffering
 			console.log(i);
-			console.log('rendering inside that month: ' + c);
+			//each item in the month group, should move the verticle buffering
 			var campaign = new campaign_model(c);
 			var campaign_runner = new campaign_calendar_view({model: campaign});
-			$(c.start_sel).append( campaign_runner.render().$el );
+			var offset = i * 40;
+			campaign_runner.render();
+			campaign_runner.$el.css('top',offset + 'px');
+			$(c.start_sel).append( campaign_runner.$el );
 			last_item = c;
 		});
 	});

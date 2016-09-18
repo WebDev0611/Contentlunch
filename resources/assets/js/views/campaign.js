@@ -1,4 +1,5 @@
 var new_campaign_view = Backbone.View.extend({
+	d:null,
 	events:{
 		"click #save-campaign-button": 'save_campaign'
 	},
@@ -28,11 +29,11 @@ var new_campaign_view = Backbone.View.extend({
 	show_saved: function(d){
  		this.$el.append('<div class="col-md-12"><div class="alert alert-success" role="alert">Saved: ' + d.title +'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div></div>');
 	},
-	update_campaign: function(d){
+	update_campaign: function(){
 		var view = this;
 		console.log('clicked save');
 		$.ajax({
-		    url: '/campaign/update/'+d.id,
+		    url: '/campaign/edit/'+view.d.id,
 		    type: 'post',
 		    data: {
 		    	title: $('#campaign-title').val(),
@@ -50,6 +51,7 @@ var new_campaign_view = Backbone.View.extend({
 		    success: function (data) {
 				console.log(data);
 				if(data.id){
+					view.d = data;
 					view.show_saved(data);
 				}
 			}
@@ -58,6 +60,7 @@ var new_campaign_view = Backbone.View.extend({
 	save_campaign: function(){
 		var view = this;
 		console.log('clicked save');
+		if(view.d){
 		$.ajax({
 		    url: '/campaign/create',
 		    type: 'post',
@@ -77,9 +80,13 @@ var new_campaign_view = Backbone.View.extend({
 		    success: function (data) {
 				console.log(data);
 				if(data.id){
+					view.d = data;
 					view.show_saved(data);
 				}
 			}
 		});
+		}else{
+			view.update_campaign();
+		}
 	}
 });

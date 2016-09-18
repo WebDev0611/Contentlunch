@@ -132,7 +132,7 @@ var campaigns = {!! $campaigns !!};
                 </div>
                 <div class="calendar-task-list-popover-info col-md-6">
                     Due Date
-                    <strong>30/12/2017</strong>
+                    <strong><%= end_date %></strong>
                 </div>
             </div>
             <p class="calendar-task-list-popover-info">
