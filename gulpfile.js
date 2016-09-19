@@ -89,8 +89,10 @@ elixir(function (mix) {
             .scripts([
                 'resources/assets/js/models/ideas.js',
                 'resources/assets/js/models/campaigns.js',
+                'resources/assets/js/models/tasks.js',
                 'resources/assets/js/collections/ideas.js',
                 'resources/assets/js/collections/campaigns.js',
+                'resources/assets/js/collections/tasks.js',
                 'resources/assets/js/views/ideas.js',
                 'resources/assets/js/dashboard/dashboard.js'
                 ],"public/js/dashboard.js")

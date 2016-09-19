@@ -241,6 +241,8 @@
 
 <script>
  var my_campaigns = {!! $mycampaigns !!};
+ var my_tasks = {!! $tasks !!};
+
 </script>
 @stop
 

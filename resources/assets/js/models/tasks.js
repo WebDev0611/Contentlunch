@@ -10,5 +10,11 @@ var task_model = Backbone.Model.extend({
 		content_id: 0,
 		user_id: 0,
 		image: '/images/avatar.jpg',
+        title: "",
+        body: "",
+        due: "",
+        stage: "",
+        timeago: 1470869716000,
+        active: false
 	}
 });

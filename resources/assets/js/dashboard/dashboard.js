@@ -1,5 +1,4 @@
 (function($){
-    var my_user_id = 1;
 
     /* tasks JS */
     var dummy_task_data = [
@@ -202,21 +201,6 @@
     }
     ];
 
-    var task_model = Backbone.Model.extend({
-        defaults:{
-            title: "",
-            body: "",
-            due: "",
-            stage: "",
-            image: "",
-            timeago: 1470869716000,
-            active: false
-        }
-    });
-    var tasks_collection = Backbone.Collection.extend({
-        model: task_model
-    });
-
     var task_view = Backbone.View.extend({
         template: _.template( $('#task-template').html() ),
         render: function(){
@@ -243,12 +227,7 @@
             "click li.campaigns": "show_campaigns"
         },
         initialize: function(){
-            this.active_user = my_user_id;            
-            this.collection.reset( this.collection.filter(function(t){
-                return (t.user_id === my_user_id );
-            }).sort(function(a,b){
-                return b.timeago - a.timeago;
-            }) );
+            this.collection.reset( this.collection.models);
 
             this.show_my();
         },
@@ -264,11 +243,7 @@
             this.remove_active();
             this.render();
             this.$el.find('.my-tasks').addClass('active');
-            this.collection.reset( dummy_task_data.filter(function(t){
-                return (t.user_id === my_user_id );
-            }).sort(function(a,b){
-                return b.timeago - a.timeago;
-            }) );
+            this.collection.reset( this.collection.models );
             this.collection.sortBy('timeago');
             this.collection.each(function(m){
                     var t = new task_view({ model: m });
@@ -281,9 +256,7 @@
             this.remove_active();
             this.render();
             this.$el.find('.all-tasks').addClass('active');
-            this.collection.reset( dummy_task_data.sort(function(a,b){
-                return b.timeago - a.timeago;
-            }) );
+            this.collection.reset( this.collection.models );
             this.collection.sortBy('timeago');
             this.collection.each(function(m){
                     var t = new task_view({ model: m });
@@ -402,12 +375,13 @@
         //from json via php
         var campaigns = new campaign_collection(my_campaigns);
 
-        var tasks = new tasks_collection(dummy_task_data.filter(function(t){
-                return (t.user_id === my_user_id );
-            }).sort(function(a,b){
-                return b.timeago - a.timeago;
-            }) );
+        var tasks = new task_collection(my_tasks.map(function(t){
+            t.title = t.name;
+            t.due = t.due_date;
+            return t;
+        }));
 
+        console.log(tasks);
         var tab_container = new tab_container_view({el: '#tab-container',collection: tasks});
         tab_container.campaigns = campaigns;
         tab_container.tasks = tasks;
