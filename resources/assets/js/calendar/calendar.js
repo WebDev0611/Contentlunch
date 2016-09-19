@@ -103,8 +103,8 @@
     /* the cell that holds the events */
     var calendar_container_view = Backbone.View.extend({
         events:{
-            // 'mouseenter':'show_tool',
-            // 'mouseleave':'hide_tool',
+            'click':'show_tool',
+            'mouseleave':'hide_tool',
 
             'mouseenter li span': 'add_active',
             'mouseleave li span': 'hide_active'
