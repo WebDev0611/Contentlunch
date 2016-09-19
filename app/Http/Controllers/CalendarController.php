@@ -241,14 +241,14 @@ class CalendarController extends Controller {
 			$week_string .= '<thead class="calendar-week"><th disabled></th>';
 			$curr_time = $start;
 			for($d = 0; $d < 7; $d++){
-				$date_tracker[$d] = date('Y-n-d',$curr_time);
+				$date_tracker[$d] = date('Y-n-j',$curr_time);
 				$week_string .= '<th>' . date('D j, M',$curr_time) . "</th>";
 				$curr_time = strtotime("+1 day", $curr_time);
 			}
 			$week_string .= '</thead><tbody class="calendar-week-hours">';
 
 			//hourly rows
-			$start_time_row = date('H', strtotime('10:00:00') );
+			$start_time_row = date('H', strtotime('08:00:00') );
 			$end_time_row = date('H', strtotime('23:00:00') );
 
 			$curr_hour = $start_time_row;
