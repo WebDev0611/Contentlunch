@@ -110,7 +110,7 @@
                   <a href="#" data-toggle="modal" data-target="#addContentCalendar">Add Content</a>
                 </li>
                 <li>
-                  <a href="#" data-toggle="modal" data-target="#addTaskCalendar">Add Task</a>
+                  <a href="javascript:;" class="tool-add-task">Add Task</a>
                 </li>
               </ul>
         </div>

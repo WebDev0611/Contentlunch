@@ -50,7 +50,7 @@ class TaskController extends Controller
         $task->user_id = Auth::id();
         $task->save();
 
-        echo json_encode( $request->all() );
+        echo json_encode( $task );
     }
 
     /**

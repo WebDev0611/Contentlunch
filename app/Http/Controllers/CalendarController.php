@@ -202,7 +202,8 @@ class CalendarController extends Controller {
 			'campaigns' => $campaigns->toJson(),
 			'user_id' => $this->user_id,
 			'account_id'=> $this->account_id,
-			'campaign_calendar' => generate_campaign_calendar($year)
+			'campaign_calendar' => generate_campaign_calendar($year),
+			'tasks' => $this->tasks->toJson()
 		));
 	}
 
@@ -297,7 +298,8 @@ class CalendarController extends Controller {
 			'account_id' => $this->account_id,
 			'campaigns' => $this->campaigns->toJson(),
 			'content_items' => $content,
-			'weekly_calendar' => $weekly_calendar_string
+			'weekly_calendar' => $weekly_calendar_string,
+			'tasks' => $this->tasks->toJson()
 		));
 	}
 
@@ -371,7 +373,8 @@ class CalendarController extends Controller {
 			'account_id' => $this->account_id,
 			'campaigns' => $this->campaigns->toJson(),
 			'content_items' => $content,
-			'daily_calendar' => generate_daily_calendar($year,$month,$day)
+			'daily_calendar' => generate_daily_calendar($year,$month,$day),
+			'tasks' => $this->tasks->toJson()
 		));
 	}
 

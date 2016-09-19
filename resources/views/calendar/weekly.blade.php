@@ -118,5 +118,6 @@
 
 <script>
 var campaigns = {!! $campaigns !!};
+var tasks = {!! $tasks !!};
 </script>
 @stop

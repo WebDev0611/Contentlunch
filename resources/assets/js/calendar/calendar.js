@@ -86,6 +86,9 @@
         template: _.template( $('#calendar-item-template').html() ),
         initialize:function(){
             this.$el.append( this.template( this.model.attributes ) );
+            console.log('rendering...');
+            console.log(this.model.attributes.title);
+            console.log( this.model.attributes.type );
             this.render();
         },
         render: function(){
@@ -98,6 +101,7 @@
             this.$el.toggleClass('active');
             this.$el.find('.calendar-task-list-popover').toggleClass('open');
         }
+
     });
 
     /* the cell that holds the events */
@@ -105,6 +109,7 @@
         events:{
             'click':'show_tool',
             'mouseleave':'hide_tool',
+            'click .tool-add-task': 'show_task_modal',
 
             'mouseenter li span': 'add_active',
             'mouseleave li span': 'hide_active'
@@ -137,8 +142,20 @@
         hide_active: function(event){
             console.log('hiding active');
             this.$el.removeClass('active');
+        },
+        show_task_modal: function(){
+            //$('#task-start-date').val( );
+            //console.log(this.collection);
+            var dateStr = this.$el.attr('id').split('-');
+            console.log(dateStr);
+            $('#task-start-date').val( dateStr[1] + '-' + dateStr[2] + '-' + dateStr[3] );
+            $("#addTaskCalendar").modal('show');
         }
+       
+        
     });
+
+
 
     $(function(){
         var my_campaigns = new campaign_collection(campaigns.map(function(c){
@@ -147,9 +164,9 @@
             return c;
         }));
 
-        dummy_calendar_data.forEach(function(dcd){
-            my_campaigns.add(dcd);
-        });
+        // dummy_calendar_data.forEach(function(dcd){
+        //     my_campaigns.add(dcd);
+        // });
 
         tasks.map(function(t){
             t.date = t.start_date;
@@ -161,13 +178,13 @@
         });
 
         var calendar_items = my_campaigns; //new calendar_item_collection( my_campaigns );
-
+        console.log(calendar_items.toJSON());
         var day_containers = {};
         var hour_containers = {};
 
         calendar_items.each(function(i){
-            var d = moment(i.get('date')).format('YYYY-M-DD');
-            var dt = moment(i.get('date')).format('YYYY-M-DD') + '-' + moment(i.get('date')).format('HH') + '0000';
+            var d = moment(i.get('date')).format('YYYY-M-D');
+            var dt = moment(i.get('date')).format('YYYY-M-D') + '-' + moment(i.get('date')).format('HH') + '0000';
             if( day_containers[d] ){
                 day_containers[d].push(i);
             }else{
@@ -200,14 +217,17 @@
         }); 
 
         $('#task-start-date').datetimepicker({
-            format: 'YYYY-MM-DD'
+            format: 'YYYY-MM-DD HH:mm:ss',
+            sideBySide: true,
         });
 
         $('#task-due-date').datetimepicker({
-            format: 'YYYY-MM-DD'
+            format: 'YYYY-MM-DD HH:mm:ss',
+            sideBySide: true,
         });
 
-        $('#add-task-button').click(function(){
+        var  add_task = function(){
+        
             console.log('clicked');
             var task_data = {
                 name: $('#task-name').val(),
@@ -217,19 +237,24 @@
                 url: $('#task-url').val()
             };
 
-            $.ajax({
-                url: '/task/add',
-                type: 'post',
-                data: task_data,
-                headers: {
-                    'X-CSRF-TOKEN': $('input[name=_token]').val()
-                },
-                dataType: 'json',
-                success:function(res){
-                    console.log(res);
-                }
-            });
-        });
+            //need proper validation here
+            if(task_data.name.length>2){
+                $.ajax({
+                    url: '/task/add',
+                    type: 'post',
+                    data: task_data,
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name=_token]').val()
+                    },
+                    dataType: 'json',
+                    success:function(res){
+                        console.log(res);
+                        
+                    }
+                });
+            }
+        };
+        $('#add-task-button').click(add_task);
 
     });
 
