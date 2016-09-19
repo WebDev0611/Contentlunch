@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Task;
+
+use Auth;
+
 class TaskController extends Controller
 {
     /**
@@ -37,6 +41,16 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         //
+        $task = new Task;
+
+        $task->name = $request->input('name');
+        $task->explanation = $request->input('explanation');
+        $task->start_date = $request->input('start_date');
+        $task->due_date = $request->input('due_date');
+        $task->user_id = Auth::id();
+        $task->save();
+
+        echo json_encode( $request->all() );
     }
 
     /**

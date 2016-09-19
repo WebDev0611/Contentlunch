@@ -188,6 +188,41 @@
                 //cal_views[ d_string ].render();
             }
         }); 
+
+        $('#task-start-date').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+
+        $('#task-due-date').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+
+        $('#add-task-button').click(function(){
+            console.log('clicked');
+            var task_data = {
+                name: $('#task-name').val(),
+                start_date: $('#task-start-date').val(),
+                due_date: $('#task-due-date').val(),
+                explanation: $('#task-explanation').val(),
+                url: $('#task-url').val()
+            };
+
+            $.ajax({
+                url: '/task/add',
+                type: 'post',
+                data: task_data,
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name=_token]').val()
+                },
+                dataType: 'json',
+                success:function(res){
+                    console.log(res);
+                }
+            });
+        });
+
     });
+
+
 })(window,document,jQuery); 
 
