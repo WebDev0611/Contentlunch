@@ -116,6 +116,7 @@
 @section('scripts')
 <script>
 var campaigns = {!! $campaigns !!};
+var tasks = {!! $tasks !!};
 </script>
 <script src="/js/calendar.js"></script>
 @stop

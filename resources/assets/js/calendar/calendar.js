@@ -146,8 +146,18 @@
             c.type = 'campaign';
             return c;
         }));
+
         dummy_calendar_data.forEach(function(dcd){
             my_campaigns.add(dcd);
+        });
+
+        tasks.map(function(t){
+            t.date = t.start_date;
+            t.type = 'task';
+            t.title = t.name;
+            return t;
+        }).forEach(function(t){
+            my_campaigns.add(t);
         });
 
         var calendar_items = my_campaigns; //new calendar_item_collection( my_campaigns );

@@ -75,6 +75,8 @@ elixir(function (mix) {
             .scripts([
                 'resources/assets/js/models/campaigns.js',
                 'resources/assets/js/collections/campaigns.js',
+                'resources/assets/js/models/tasks.js',
+                'resources/assets/js/collections/tasks.js',
                 'resources/assets/js/calendar/calendar.js'
                 ],"public/js/calendar.js")
 

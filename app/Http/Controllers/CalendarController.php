@@ -6,17 +6,20 @@ use View;
 use App\User;
 use Auth;
 use App\Campaign;
+use App\Task;
 
 class CalendarController extends Controller {
 	public $user_id;
 	public $account_id;
 	public $campaigns;
+	public $tasks;
 
 	public function __construct(){
     	$user = Auth::user();
     	$this->user_id = $user->id;
     	$this->account_id = 0;
     	$this->campaigns = Auth::user()->campaigns()->get();
+    	$this->tasks = Auth::user()->tasks()->get();
 	} 
 
 	public function index($year = 0, $month = 0, $day = 0 ){
@@ -122,7 +125,8 @@ class CalendarController extends Controller {
 			'prev_month' => $prev_month,
 			'campaigns' => $this->campaigns,
 			'user_id' => $this->user_id,
-			'account_id'=> $this->account_id
+			'account_id'=> $this->account_id,
+			'tasks' => $this->tasks->toJson(),
 			) );
 	}
 
