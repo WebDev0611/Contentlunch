@@ -128,7 +128,7 @@ class CalendarController extends Controller {
 
 	public function campaigns($year = 0 , $month = 0 ){
 
-		$campaigns = $this->pull_campaigns();
+		$campaigns = $this->campaigns;
 		if(!$year){
 			$year = date('Y');
 		}
@@ -291,7 +291,7 @@ class CalendarController extends Controller {
 
 			'user_id' => $this->user_id,
 			'account_id' => $this->account_id,
-
+			'campaigns' => $this->campaigns->toJson(),
 			'content_items' => $content,
 			'weekly_calendar' => $weekly_calendar_string
 		));
@@ -365,7 +365,7 @@ class CalendarController extends Controller {
 
 			'user_id' => $this->user_id,
 			'account_id' => $this->account_id,
-
+			'campaigns' => $this->campaigns->toJson(),
 			'content_items' => $content,
 			'daily_calendar' => generate_daily_calendar($year,$month,$day)
 		));

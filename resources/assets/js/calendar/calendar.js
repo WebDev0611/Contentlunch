@@ -151,13 +151,11 @@
         });
 
         var calendar_items = my_campaigns; //new calendar_item_collection( my_campaigns );
-        console.log(calendar_items);
 
         var day_containers = {};
         var hour_containers = {};
 
         calendar_items.each(function(i){
-            console.log(i);
             var d = moment(i.get('date')).format('YYYY-M-DD');
             var dt = moment(i.get('date')).format('YYYY-M-DD') + '-' + moment(i.get('date')).format('HH') + '0000';
             if( day_containers[d] ){
@@ -171,7 +169,6 @@
                 hour_containers[dt] = [i];
             }
         });
-        console.log(hour_containers);
         var cal_views = {};
         var page_cell_sel = 'tbody.calendar-month-days td';
         if(window.location.pathname.indexOf('weekly') >= 0 ){
