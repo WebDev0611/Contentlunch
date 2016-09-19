@@ -67,6 +67,9 @@ Route::get('/calendar/{year}/{month}','CalendarController@index');
 Route::get('/campaign','CampaignController@index');
 Route::post('/campaign/create','CampaignController@create');
 
+Route::get('/campaign/edit/{campaign}','CampaignController@edit');
+Route::post('/campaign/edit/{campaign}','CampaignController@edit');
+
 Route::get('/daily','CalendarController@daily');
 Route::get('/daily/{year}/{month}/{day}','CalendarController@daily');
 
@@ -74,6 +77,8 @@ Route::get('/weekly','CalendarController@weekly');
 Route::get('/weekly/{year}/{month}/{day}','CalendarController@weekly');
 
 Route::get('/campaigns','CalendarController@campaigns');
+
+Route::resource('/task/add','TaskController@store');
 
 
 Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);
@@ -98,6 +103,8 @@ Route::get('login/{provider}',  ['as' => 'connectionCallback', 'uses' =>'Connect
 
 // - Landing page for creating content
 Route::get('/create','ContentController@create');
+Route::post('/create/new','ContentController@store');
+
 // - create form page
 Route::get('/edit', ['as' => 'editIndex', 'uses' => 'ContentController@createContent']);
 Route::post('/edit','ContentController@editStore');

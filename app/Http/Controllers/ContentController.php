@@ -19,6 +19,8 @@ use Auth;
 use Twitter;
 use Session;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+
 
 class ContentController extends Controller {
 
@@ -28,6 +30,18 @@ class ContentController extends Controller {
 		$readyPublished = Auth::user()->contents()->where('ready_published',1)->get();
 		$written = Auth::user()->contents()->where('written',1)->get();
 		return View::make('content.index', compact('published', 'readyPublished', 'written', 'countContent'));
+	}
+
+	public function store(Request $req){
+		$content = new Content;
+
+		$content->title = $req->input('title');
+		$content->content_type_id = $req->input('content_type');
+		$content->save();
+
+		// - Attach to the user
+		Auth::user()->contents()->save($content);
+		return redirect('edit/' . $content->id );
 	}
 
 	public function create(){

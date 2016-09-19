@@ -9,57 +9,57 @@
         {
             type:'idea',
             title: 'Lorem ispum',
-            date: 1471919205000
+            date: new Date().getTime() + (1000 * 60 * 60 * 24 *3)
         },
         {
             type:'task',
             title: 'Content mix: post 3 blogs...',
-            date: 1471918205000
+            date: new Date().getTime() + (1000 * 60 * 60 * 24 *5)
         },
         {
             type:'task',
             title: 'Post 16 social postings',
-            date: 1471414205000
+            date: new Date().getTime() - (1000 * 60 * 60 * 24 *3)
         },
         {
             type:'task',
             title: 'Post 16 social postings',
-            date: 1471119005000
+             date: new Date().getTime() + (1000 * 60 * 60 * 24 *7)
         },
         {
             type:'task',
             title: 'Post 16 social postings',
-            date: 1471019005000
+            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
         },
         {
             type:'task',
             title: 'Post 10 social postings',
-            date: 1470419005000
+            date:new Date().getTime() - (1000 * 60 * 60 * 24 *6)
         },
         {
             type:'idea',
             title: 'Post 20 social postings',
-            date: 1470119205000
+            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
         },
         {
             type:'idea',
             title: 'Post 1 social postings',
-            date: 1470119205000
+            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
         },
         {
             type:'idea',
             title: 'Post 5 social postings',
-            date: 1470119205000
+            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
         },
         {
             type:'task',
             title: 'Post 9 social postings',
-            date: 1470119205000
+            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
         },
         {
             type:'task',
             title: 'Post 15 social postings',
-            date: 1470119205000
+            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
         }
     ];
 
@@ -86,6 +86,9 @@
         template: _.template( $('#calendar-item-template').html() ),
         initialize:function(){
             this.$el.append( this.template( this.model.attributes ) );
+            console.log('rendering...');
+            console.log(this.model.attributes.title);
+            console.log( this.model.attributes.type );
             this.render();
         },
         render: function(){
@@ -98,13 +101,15 @@
             this.$el.toggleClass('active');
             this.$el.find('.calendar-task-list-popover').toggleClass('open');
         }
+
     });
 
     /* the cell that holds the events */
     var calendar_container_view = Backbone.View.extend({
         events:{
-        //    'mouseenter':'show_tool',
-        //    'mouseleave':'hide_tool',
+            'click':'show_tool',
+            'mouseleave':'hide_tool',
+            'click .tool-add-task': 'show_task_modal',
 
             'mouseenter li span': 'add_active',
             'mouseleave li span': 'hide_active'
@@ -137,26 +142,60 @@
         hide_active: function(event){
             console.log('hiding active');
             this.$el.removeClass('active');
+        },
+        show_task_modal: function(){
+            //$('#task-start-date').val( );
+            //console.log(this.collection);
+            var dateStr = this.$el.attr('id').split('-');
+            console.log(dateStr);
+            $('#task-start-date').val( dateStr[1] + '-' + dateStr[2] + '-' + dateStr[3] );
+            $("#addTaskCalendar").modal('show');
         }
+       
+        
     });
 
+
+
     $(function(){
-        var calendar_items = new calendar_item_collection(dummy_calendar_data);
+        var my_campaigns = new campaign_collection(campaigns.map(function(c){
+            c.date = c.start_date;
+            c.type = 'campaign';
+            return c;
+        }));
+
+        // dummy_calendar_data.forEach(function(dcd){
+        //     my_campaigns.add(dcd);
+        // });
+
+        tasks.map(function(t){
+            t.date = t.start_date;
+            t.type = 'task';
+            t.title = t.name;
+            return t;
+        }).forEach(function(t){
+            my_campaigns.add(t);
+        });
+
+        var calendar_items = my_campaigns; //new calendar_item_collection( my_campaigns );
+        console.log(calendar_items.toJSON());
         var day_containers = {};
         var hour_containers = {};
 
         calendar_items.each(function(i){
-            var d = moment(i.get('date')).format('YYYY-M-DD');
-            var dt = moment(i.get('date')).format('YYYY-M-DD') + '-' + moment(i.get('date')).format('HH') + '0000';
+            var d = moment(i.get('date')).format('YYYY-M-D');
+            var dt = moment(i.get('date')).format('YYYY-M-D') + '-' + moment(i.get('date')).format('HH') + '0000';
             if( day_containers[d] ){
                 day_containers[d].push(i);
-                hour_containers[dt].push(i);
             }else{
                 day_containers[d] = [i];
+            }
+            if( hour_containers[dt] ){
+                hour_containers[dt].push(i);
+            }else{
                 hour_containers[dt] = [i];
             }
         });
-        console.log(hour_containers);
         var cal_views = {};
         var page_cell_sel = 'tbody.calendar-month-days td';
         if(window.location.pathname.indexOf('weekly') >= 0 ){
@@ -176,6 +215,49 @@
                 //cal_views[ d_string ].render();
             }
         }); 
+
+        $('#task-start-date').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            sideBySide: true,
+        });
+
+        $('#task-due-date').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            sideBySide: true,
+        });
+
+        var  add_task = function(){
+        
+            console.log('clicked');
+            var task_data = {
+                name: $('#task-name').val(),
+                start_date: $('#task-start-date').val(),
+                due_date: $('#task-due-date').val(),
+                explanation: $('#task-explanation').val(),
+                url: $('#task-url').val()
+            };
+
+            //need proper validation here
+            if(task_data.name.length>2){
+                $.ajax({
+                    url: '/task/add',
+                    type: 'post',
+                    data: task_data,
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name=_token]').val()
+                    },
+                    dataType: 'json',
+                    success:function(res){
+                        console.log(res);
+                        
+                    }
+                });
+            }
+        };
+        $('#add-task-button').click(add_task);
+
     });
+
+
 })(window,document,jQuery); 
 

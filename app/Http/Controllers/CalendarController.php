@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use View;
 use App\User;
 use Auth;
+use App\Campaign;
+use App\Task;
 
 class CalendarController extends Controller {
 	public $user_id;
 	public $account_id;
+	public $campaigns;
+	public $tasks;
 
 	public function __construct(){
     	$user = Auth::user();
     	$this->user_id = $user->id;
     	$this->account_id = 0;
+    	$this->campaigns = Auth::user()->campaigns()->get();
+    	$this->tasks = Auth::user()->tasks()->get();
 	} 
 
 	public function index($year = 0, $month = 0, $day = 0 ){
@@ -117,16 +123,16 @@ class CalendarController extends Controller {
 			'default_year' => $default_year,
 			'next_month' => $next_month,
 			'prev_month' => $prev_month,
-			'campaigns' => json_encode($campaigns),
+			'campaigns' => $this->campaigns,
 			'user_id' => $this->user_id,
-			'account_id'=> $this->account_id
+			'account_id'=> $this->account_id,
+			'tasks' => $this->tasks->toJson(),
 			) );
 	}
 
 	public function campaigns($year = 0 , $month = 0 ){
 
-		//$campaigns = $this->pull_campaigns();
-
+		$campaigns = $this->campaigns;
 		if(!$year){
 			$year = date('Y');
 		}
@@ -156,7 +162,7 @@ class CalendarController extends Controller {
 				//the months days table - header
 				$main_calendar_string .= '<table class="calendar-timeline-days"><thead><tr>';
 				for($d = 1; $d <= $days_in_month; $d++ ){
-					$main_calendar_string .= '<th id="campaign-day-' . $year . '-' . $m . '-'. $d . '">' . $d . "</th>\n";
+					$main_calendar_string .= '<th>' . $d . "</th>\n";
 				}
 				$main_calendar_string .= '</tr></thead>';
 				//end the header days
@@ -166,7 +172,7 @@ class CalendarController extends Controller {
 
 				//loop through and create the days - will need to identify this to backbone or resuse this logic
 				for($d = 1; $d <= $days_in_month; $d++ ){
-					$main_calendar_string .= "<td></td>\n";
+					$main_calendar_string .= '<td id="campaign-day-' . $year . '-' . $m . '-'. $d . '"></td>' . "\n";
 				}
 
 				//end of the days data holders
@@ -193,10 +199,11 @@ class CalendarController extends Controller {
 		// exit;
 
 		return View::make('calendar.campaigns', array(
-			'campaigns' => '',// json_encode($campaigns),
+			'campaigns' => $campaigns->toJson(),
 			'user_id' => $this->user_id,
 			'account_id'=> $this->account_id,
-			'campaign_calendar' => generate_campaign_calendar($year)
+			'campaign_calendar' => generate_campaign_calendar($year),
+			'tasks' => $this->tasks->toJson()
 		));
 	}
 
@@ -234,14 +241,14 @@ class CalendarController extends Controller {
 			$week_string .= '<thead class="calendar-week"><th disabled></th>';
 			$curr_time = $start;
 			for($d = 0; $d < 7; $d++){
-				$date_tracker[$d] = date('Y-n-d',$curr_time);
+				$date_tracker[$d] = date('Y-n-j',$curr_time);
 				$week_string .= '<th>' . date('D j, M',$curr_time) . "</th>";
 				$curr_time = strtotime("+1 day", $curr_time);
 			}
 			$week_string .= '</thead><tbody class="calendar-week-hours">';
 
 			//hourly rows
-			$start_time_row = date('H', strtotime('10:00:00') );
+			$start_time_row = date('H', strtotime('08:00:00') );
 			$end_time_row = date('H', strtotime('23:00:00') );
 
 			$curr_hour = $start_time_row;
@@ -289,9 +296,10 @@ class CalendarController extends Controller {
 
 			'user_id' => $this->user_id,
 			'account_id' => $this->account_id,
-
+			'campaigns' => $this->campaigns->toJson(),
 			'content_items' => $content,
-			'weekly_calendar' => $weekly_calendar_string
+			'weekly_calendar' => $weekly_calendar_string,
+			'tasks' => $this->tasks->toJson()
 		));
 	}
 
@@ -363,42 +371,16 @@ class CalendarController extends Controller {
 
 			'user_id' => $this->user_id,
 			'account_id' => $this->account_id,
-
+			'campaigns' => $this->campaigns->toJson(),
 			'content_items' => $content,
-			'daily_calendar' => generate_daily_calendar($year,$month,$day)
+			'daily_calendar' => generate_daily_calendar($year,$month,$day),
+			'tasks' => $this->tasks->toJson()
 		));
 	}
 
 	protected function pull_campaigns($start_date = false, $end_date = false, $end = false, $status = false){
 
-	 	$query = Campaign::where('account_id', $this->account_id)
-	      ->with('tags')
-	      ->with('user')
-	      ->with('campaign_type')
-	      ->with('guest_collaborators')
-	      ->with('collaborators.image');
-
-	    if ($status) {
-	      $query->where('status', $status);
-	    }
-
-	    if($end_date) {
-	      $query->where('end_date', '>=', $end_date);
-	    }
-
-	    if($start_date) {
-	        $query->where('end_date', '>=', $start_date);
-	    }
-
-	    if($end) {
-	        $query->where('start_date', '<=', $end);
-	    }
-
-	    $user = Confide::User();
-	    if(!$this->hasAbility([], ['calendar_view_campaigns_other'], $this->account_id)) {
-	      $query->where('user_id', $this->user_id);
-	    }
-
+	 	$query = Campaign::where('user_id', Auth::id() );
 	    $results = $query->get();
 	    // print_r($user->id);
 	    // print_r($results);
