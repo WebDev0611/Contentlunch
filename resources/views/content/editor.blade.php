@@ -437,6 +437,8 @@
 <script type="text/javascript">
     $(function() {
 
+        var contentEditor;
+
         var CharacterCounterView = Backbone.View.extend({
             characters: 0,
 
@@ -478,13 +480,15 @@
             },
 
             update: function(content) {
-                var html = content;
-                var div = document.createElement("div");
-                div.innerHTML = html;
-                var text = div.textContent || div.innerText || "";
+                if (isTweet()) {
+                    var html = content;
+                    var div = document.createElement("div");
+                    div.innerHTML = html;
+                    var text = div.textContent || div.innerText || "";
 
-                this.characters = text.length;
-                this.render();
+                    this.characters = text.length;
+                    this.render();
+                }
             }
         });
 
@@ -498,12 +502,12 @@
             a_plugin_option: true,
             a_configuration_option: 400,
             setup: function(editor) {
-                editor.on('keyup', function(e) {
-                    characterCounter.show();
-                    characterCounter.update(editor.getContent());
-                });
+                contentEditor = editor;
+                editor.on('keyup', updateCount);
             }
         });
+
+        $('#contentType').change(updateCount);
 
         $('.datetimepicker').datetimepicker({
             format: 'YYYY-MM-DD'
@@ -534,6 +538,20 @@
                 event.preventDefault();
             }
         });
+
+        function updateCount(event) {
+            if (isTweet()) {
+                characterCounter.show();
+                characterCounter.update(contentEditor.getContent());
+            }
+        }
+
+        function isTweet() {
+            var TWEET = '17';
+            var selectedContentType = $('#contentType').val();
+
+            return selectedContentType == TWEET;
+        }
     });
 </script>
 @stop
