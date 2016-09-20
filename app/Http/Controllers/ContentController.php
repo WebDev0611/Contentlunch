@@ -57,7 +57,8 @@ class ContentController extends Controller {
 	public function publish(Content $content)  {
 		// - this will need to be dynamic ( database provider table? )
 		// -- Once we hook up another API i will know how i should organize this
-		$class = 'Connections\API\\'.$content->connection->provider->class_name;
+		$connectionName = $content->connection->provider->class_name;
+		$class = "Connections\API\\" . $connectionName;
 		$create = (new $class($content))->createPost();
 
 		$content->published = 1;
@@ -141,7 +142,10 @@ class ContentController extends Controller {
 
 		// - Save Content Type
         $contentType = $request->input('content_type');
+
         $tweetContentType = ContentType::where('name', 'Tweet')->first();
+		$facebookContentType = ContentType::where('name', 'Facebook Post')->first();
+
 		$conType = ContentType::find($contentType);
 		$conType->contents()->save($content);
 
@@ -157,6 +161,9 @@ class ContentController extends Controller {
         {
             $this->publishToTwitter($content->body, $connection);
         }
+		elseif ($facebookContentType->id == $contentType) {
+			$this->publish($content);
+		}
 
 		// Attach authors
 		$content->authors()->attach($request->input('author'));
@@ -167,7 +174,7 @@ class ContentController extends Controller {
 		// - Images
 		if($request->hasFile('images'))
 		{
-			foreach( $request->file('images') as $image ) {
+			foreach ($request->file('images') as $image) {
 				$filename   	= $image->getClientOriginalName();
 				$extension  	= $image->getClientOriginalExtension();
 				$mime       	= $image->getClientMimeType();

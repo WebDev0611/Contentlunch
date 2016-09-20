@@ -30,6 +30,7 @@ class FacebookAPI
             ]);
 
         }
+
         return $this->client;
     }
 
@@ -62,10 +63,11 @@ class FacebookAPI
         $content = $this->content;
         // - standardize return
         $response = [ 'success' => false, 'response' => [] ];
+
         try {
             // Compile data
             $postdata = [
-                'message' =>  $content->title . ' - '. $content->body
+                'message' =>  $this->formatPost($content)
             ];
 
             $client = $this->getClient();
@@ -89,5 +91,16 @@ class FacebookAPI
         }
 
         return $response;
+    }
+
+    private function formatPost($content)
+    {
+        $message = strip_tags($content->body);
+
+        if ($content->title) {
+            $message = strip_tags($content->title) . ' - ' . $message;
+        }
+
+        return $message;
     }
 }
