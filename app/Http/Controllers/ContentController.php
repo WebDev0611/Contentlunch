@@ -24,15 +24,18 @@ use Illuminate\Http\Request;
 
 class ContentController extends Controller {
 
-	public function index(){
-		$countContent =  Auth::user()->contents()->count();
-		$published =  Auth::user()->contents()->where('published',1)->get();
-		$readyPublished = Auth::user()->contents()->where('ready_published',1)->get();
-		$written = Auth::user()->contents()->where('written',1)->get();
-		return View::make('content.index', compact('published', 'readyPublished', 'written', 'countContent'));
-	}
+    public function index()
+    {
+        $countContent = Auth::user()->contents()->count();
+        $published = Auth::user()->contents()->where('published',1)->get();
+        $readyPublished = Auth::user()->contents()->where('ready_published',1)->get();
+        $written = Auth::user()->contents()->where('written',1)->get();
 
-	public function store(Request $req){
+        return View::make('content.index', compact('published', 'readyPublished', 'written', 'countContent'));
+    }
+
+	public function store(Request $req)
+    {
 		$content = new Content;
 
 		$content->title = $req->input('title');
@@ -48,6 +51,7 @@ class ContentController extends Controller {
     {
 		//$my_campaigns = Campaign::
         $my_campaigns = Auth::user()->campaigns()->get();
+
         return View::make('content.create',[
             'contenttypedd' => ContentType::dropdown(),
             'campaigndd' => Campaign::dropdown()
