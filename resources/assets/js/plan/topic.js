@@ -8,7 +8,13 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 (function($){
 
-	var topic_result = Backbone.Model.extend();
+	var topic_result = Backbone.Model.extend({
+		defaults:{
+			keyword: '',
+			volume: 0,
+			timestamp: new Date().getTime()
+		}
+	});
 
 	//place holder data
 	var dummy_data_long = [
@@ -66,9 +72,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 	var short_tail_collection = Backbone.Collection.extend({
 		model: topic_result
 	});
-
-
-
 
 
 	/* idea JS for the modal */
@@ -131,15 +134,40 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		var long_tail_results = new long_tail_collection();
 		var short_tail_results = new short_tail_collection();
 
+		var map_result = function(m){
+			return {keyword: m.keyword};
+		};
+
+		var get_topic_data = function(term = ''){
+			var short_obj = {terms: 'short'};
+			var long_obj = {terms: 'long'};
+
+			if(term.length > 2){
+				short_obj.keyword = term;
+				long_obj.keyword = term;
+			}
+
+			$.getJSON('/topics',short_obj,function(res){
+				var topic_objs = res.results.map(map_result).sort(function(a,b){
+					return b.volume - a.volume;
+				});
+				short_tail_results.add(topic_objs);
+			});
+
+			$.getJSON('/topics',long_obj,function(res){
+				var topic_objs = res.results.map(map_result).sort(function(a,b){
+					return b.volume - a.volume;
+				});
+				
+				long_tail_results.add(topic_objs);
+			});
+		};
+
 		$('#topic-search').click(function(){
 			console.log('search clicked!');
 			long_tail_results.remove( long_tail_results.models );
 			short_tail_results.remove( short_tail_results.models );
-
-			setTimeout(function(){
-				short_tail_results.add(dummy_data_short);
-				long_tail_results.add(dummy_data_long);
-			},500);
+			get_topic_data( $('#topic-search-val').val() );
 		});
 
 		long_tail_results.on('add',function(m){
@@ -172,12 +200,11 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			}else{
 				new_idea.attributes.content.remove(l);
 			}
-			console.log(new_idea.attributes.content.toJSON() );
 		});
 
-		long_tail_results.add(dummy_data_long);
-		short_tail_results.add(dummy_data_short);
-
+		// long_tail_results.add(dummy_data_long);
+		// short_tail_results.add(dummy_data_short);
+		get_topic_data();
 	});
 
 })(jQuery);

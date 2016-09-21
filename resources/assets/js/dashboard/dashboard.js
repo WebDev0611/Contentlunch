@@ -1,5 +1,4 @@
 (function($){
-    var my_user_id = 1;
 
     /* tasks JS */
     var dummy_task_data = [
@@ -202,21 +201,6 @@
     }
     ];
 
-    var task_model = Backbone.Model.extend({
-        defaults:{
-            title: "",
-            body: "",
-            due: "",
-            stage: "",
-            image: "",
-            timeago: 1470869716000,
-            active: false
-        }
-    });
-    var tasks_collection = Backbone.Collection.extend({
-        model: task_model
-    });
-
     var task_view = Backbone.View.extend({
         template: _.template( $('#task-template').html() ),
         render: function(){
@@ -225,11 +209,7 @@
         }
     });
 
-    /* campaign parts */
-    var campaign_model = Backbone.Model.extend();
-    var campaign_collection = Backbone.Collection.extend({
-        model: campaign_model
-    });
+
     var campaign_view = Backbone.View.extend({
         template: _.template( $('#campaign-template').html() ),
         render: function(){
@@ -247,12 +227,7 @@
             "click li.campaigns": "show_campaigns"
         },
         initialize: function(){
-            this.active_user = my_user_id;            
-            this.collection.reset( this.collection.filter(function(t){
-                return (t.user_id === my_user_id );
-            }).sort(function(a,b){
-                return b.timeago - a.timeago;
-            }) );
+            this.collection.reset( this.collection.models);
 
             this.show_my();
         },
@@ -268,11 +243,7 @@
             this.remove_active();
             this.render();
             this.$el.find('.my-tasks').addClass('active');
-            this.collection.reset( dummy_task_data.filter(function(t){
-                return (t.user_id === my_user_id );
-            }).sort(function(a,b){
-                return b.timeago - a.timeago;
-            }) );
+            this.collection.reset( this.collection.models );
             this.collection.sortBy('timeago');
             this.collection.each(function(m){
                     var t = new task_view({ model: m });
@@ -285,9 +256,7 @@
             this.remove_active();
             this.render();
             this.$el.find('.all-tasks').addClass('active');
-            this.collection.reset( dummy_task_data.sort(function(a,b){
-                return b.timeago - a.timeago;
-            }) );
+            this.collection.reset( this.collection.models );
             this.collection.sortBy('timeago');
             this.collection.each(function(m){
                     var t = new task_view({ model: m });
@@ -359,52 +328,6 @@
         }
     });
 
-    var recent_ideas_view = Backbone.View.extend({
-        idea_views: [],
-        initialize: function(){
-            var that = this;
-            this.collection.each(function(m){
-                that.idea_views.push( new recent_view({ model: m }) );
-            });
-            this.render();
-        },
-        render: function(){
-            var that = this;    
-            this.idea_views.forEach(function(v){
-                v.$el.hide();
-                v.$el.fadeIn();
-                that.$el.append( v.el );
-            });
-            return this;
-        }
-    });
-    var recent_view = Backbone.View.extend({
-        tagName: "div",
-        className: "dashboard-ideas-container",
-        events:{
-            "mouseenter": "show_hover",
-            "mouseleave": "hide_hover",
-
-        },
-        template: _.template( $('#recent-template').html() ),
-        initialize: function(){
-            this.$el.append( this.template(this.model.attributes) );
-        },
-        render: function(){
-            return this;
-        },
-        show_hover: function(){
-            this.$el.find('.idea-hover').toggleClass('hidden');
-        },
-        hide_hover: function(){
-            this.$el.find('.idea-hover').toggleClass('hidden');
-        },       
-    });
-    var recent_idea_model = Backbone.Model.extend();
-    var recent_ideas_collection = Backbone.Collection.extend({
-        model: recent_idea_model
-    });
-
     /*team member model */
     var team_member_model = Backbone.Model.extend({
         defaults:{
@@ -449,13 +372,16 @@
 
 
     $(function(){
-        var campaigns = new campaign_collection(dummy_campaign_data);
-        var tasks = new tasks_collection(dummy_task_data.filter(function(t){
-                return (t.user_id === my_user_id );
-            }).sort(function(a,b){
-                return b.timeago - a.timeago;
-            }) );
+        //from json via php
+        var campaigns = new campaign_collection(my_campaigns);
 
+        var tasks = new task_collection(my_tasks.map(function(t){
+            t.title = t.name;
+            t.due = t.due_date;
+            return t;
+        }));
+
+        console.log(tasks);
         var tab_container = new tab_container_view({el: '#tab-container',collection: tasks});
         tab_container.campaigns = campaigns;
         tab_container.tasks = tasks;
@@ -463,9 +389,9 @@
        var activity_feed = new activity_collection(dummy_activity_data);
        var activity_feed_container = new activity_feed_view({el: '#activity-feed-container', collection: activity_feed });
 
-        var recent_ideas = new recent_ideas_collection(dummy_ideas_data);
+        var recent_ideas = new recent_ideas_collection();
         var ideas = new recent_ideas_view({el:'#recent-ideas', collection: recent_ideas});
-
+        recent_ideas.fetch();
         var team_members = new team_members_collection(dummy_team_data);
         var team = new team_members_view({el: '#team-members-container', collection: team_members});
     });

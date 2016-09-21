@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php 
+namespace App;
 
 use Auth;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +17,7 @@ class Campaign extends Model {
     {
     	$user = $user ?: Auth::user();
 	// - Create Campaign Drop Down Data
-	$campaigndd = ['' => '-- Select an Campaign --'];
+	$campaigndd = ['' => '-- Select a Campaign --'];
 	$campaigndd += $user->campaigns()->select('id','title')->where('status',1)->orderBy('title', 'asc')->distinct()->lists('title', 'id')->toArray();
 	return $campaigndd;
 

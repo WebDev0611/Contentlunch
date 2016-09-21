@@ -43,20 +43,73 @@ elixir(function (mix) {
             .scripts(['resources/assets/js/content/*.js','resources/assets/js/helpers.js'], "public/js/app.js")
 
             /* plan module scripts */
+            /* trends */
             .scripts(['resources/assets/js/plan/topic.js'],"public/js/topic.js")
-            .scripts(['resources/assets/js/plan/trends.js'],"public/js/trends.js")
-            .scripts(['resources/assets/js/plan/ideas.js'],"public/js/ideas.js")
+            .scripts([
+                'resources/assets/js/models/trends.js',
+                'resources/assets/js/views/trends.js',
+                'resources/assets/js/collections/trends.js',
+                'resources/assets/js/plan/trends.js'
+                ],"public/js/trends.js")
+
+            /* ideas */
+            .scripts([
+                'resources/assets/js/models/ideas.js',
+                'resources/assets/js/collections/ideas.js',
+                'resources/assets/js/views/ideas.js',
+                'resources/assets/js/plan/ideas.js'
+                ],"public/js/ideas.js")
+
             .scripts(['resources/assets/js/plan/editor.js'],"public/js/idea_editor.js")
 
             /* influencers scripts */
             .scripts(['resources/assets/js/collaborate/influencers.js'],"public/js/influencers.js")
 
+            /* campaign scripts */
+            .scripts([
+                'resources/assets/js/models/campaigns.js',
+                'resources/assets/js/collections/campaigns.js',
+                'resources/assets/js/views/campaign.js',
+                'resources/assets/js/campaign/campaign.js'
+                ],"public/js/campaign.js")
+
             /* calendar scripts */
-            .scripts(['resources/assets/js/calendar/calendar.js'],"public/js/calendar.js")
+            .scripts([
+                'resources/assets/js/models/campaigns.js',
+                'resources/assets/js/collections/campaigns.js',
+                'resources/assets/js/models/tasks.js',
+                'resources/assets/js/collections/tasks.js',
+                'resources/assets/js/calendar/calendar.js'
+                ],"public/js/calendar.js")
+
+            .scripts([
+                'resources/assets/js/models/campaigns.js',
+                'resources/assets/js/calendar/campaign-calendar.js'
+                ],"public/js/campaign-calendar.js")
 
             /* home area scripts */
-            .scripts(['resources/assets/js/dashboard/dashboard.js'],"public/js/dashboard.js")
-            .scripts(['resources/assets/js/dashboard/performance.js'],"public/js/performance.js")
+            .scripts([
+                'resources/assets/js/models/ideas.js',
+                'resources/assets/js/models/campaigns.js',
+                'resources/assets/js/models/tasks.js',
+                'resources/assets/js/collections/ideas.js',
+                'resources/assets/js/collections/campaigns.js',
+                'resources/assets/js/collections/tasks.js',
+                'resources/assets/js/views/ideas.js',
+                'resources/assets/js/dashboard/dashboard.js'
+                ],"public/js/dashboard.js")
+
+            .scripts([
+                'resources/assets/js/models/ideas.js',
+                'resources/assets/js/models/campaigns.js',
+                'resources/assets/js/collections/ideas.js',
+                'resources/assets/js/collections/campaigns.js',
+                'resources/assets/js/views/ideas.js',
+                'resources/assets/js/dashboard/performance.js'
+                ],"public/js/performance.js")
+
+            /* twitter scripts */
+            .scripts([ 'resources/assets/js/collaborate/twitter.js' ], 'public/js/twitter.js')
 
             /* tiny mce assets */
             .copy('./bower_components/tinymce/themes', "public/js/themes")

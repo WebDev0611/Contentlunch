@@ -29,7 +29,7 @@
                                     @if (isset($content))
                                         <a href="{{ route('contentPublish', $content->id) }}" class="button button-small  ">PUBLISH</a>
                                     @endif
-                                    <div class="btn-group hidden">
+                                    <div class="btn-group">
                                         <button type="button" class="button button-small">SUBMIT</button>
                                         <button type="button" class="button button-small dropdown-toggle"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,10 +59,9 @@
                         <li class="active"><i class="icon-idea"></i></li>
                     </ul>
 
-
                     <div class="inner">
-                      @if ($errors->any())
-                            <div  class="alert alert-danger" id="formError">
+                        @if ($errors->any())
+                            <div class="alert alert-danger" id="formError">
                                 <p><strong>Oops! We had some errors:</strong>
                                     <ul>
                                     @foreach($errors->all() as $error)
@@ -72,11 +71,23 @@
                                 </p>
                             </div>
                         @endif
+
+                        <div class="alert alert-danger" id="twitterError" style='display:none'>
+                            <p><strong>Oops! We had some errors:</strong>
+                                <ul>
+                                    <li>
+                                        You cannot post to Twitter with more than
+                                        <strong>140</strong> characters.
+                                    </li>
+                                </ul>
+                            </p>
+                        </div>
+
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="content_type">CONTENT TYPE</label>
-                                   {!! Form::select('content_type', $contenttypedd, @isset($content)? $content->content_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
+                                    {!! Form::select('content_type', $contenttypedd, @isset($content)? $content->content_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -84,46 +95,46 @@
                                     <label for="author">AUTHOR</label>
                                    {!! Form::select('author[]', $authordd, @isset($content) ?  $content->authors->lists('id')->toArray() : '' , array('multiple' =>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'author',  'data-live-search' => 'true', 'title' => 'Choose All Authors' )) !!}
                                    <div class="hide">
-                                              <input type="text" class="input" placeholder="Select author" data-toggle="dropdown">
-                                              <ul class="dropdown-menu dropdown-menu-right">
-                                                  <li class="dropdown-header-secondary">
-                                                      <span class="dropdown-header-secondary-text">
-                                                        Select team member
-                                                      </span>
-                                                      <button class="button button-micro pull-right text-uppercase">
-                                                          Submit
-                                                      </button>
-                                                  </li>
-                                                  <li>
-                                                      <input type="text" class="dropdown-header-secondary-search" placeholder="Team Member Name">
-                                                  </li>
-                                                  <li>
-                                                      <label for="Friend" class="checkbox-image">
-                                                          <input id="Friend" type="checkbox">
-                                                          <span>
-                                                              <img src="/images/avatar.jpg" alt="#">
-                                                          </span>
-                                                      </label>
-                                                      <label for="Friend" class="checkbox-image">
-                                                          <input id="Friend" type="checkbox">
-                                                          <span>
-                                                              <img src="/images/avatar.jpg" alt="#">
-                                                          </span>
-                                                      </label>
-                                                      <label for="Friend" class="checkbox-image">
-                                                          <input id="Friend" type="checkbox">
-                                                          <span>
-                                                              <img src="/images/avatar.jpg" alt="#">
-                                                          </span>
-                                                      </label>
-                                                      <label for="Friend" class="checkbox-image">
-                                                          <input id="Friend" type="checkbox">
-                                                          <span>
-                                                              <img src="/images/avatar.jpg" alt="#">
-                                                          </span>
-                                                      </label>
-                                                  </li>
-                                              </ul>
+                                        <input type="text" class="input" placeholder="Select author" data-toggle="dropdown">
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li class="dropdown-header-secondary">
+                                                <span class="dropdown-header-secondary-text">
+                                                    Select team member
+                                                </span>
+                                                <button class="button button-micro pull-right text-uppercase">
+                                                    Submit
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <input type="text" class="dropdown-header-secondary-search" placeholder="Team Member Name">
+                                            </li>
+                                            <li>
+                                                <label for="Friend" class="checkbox-image">
+                                                    <input id="Friend" type="checkbox">
+                                                    <span>
+                                                        <img src="/images/avatar.jpg" alt="#">
+                                                    </span>
+                                                </label>
+                                                <label for="Friend" class="checkbox-image">
+                                                    <input id="Friend" type="checkbox">
+                                                    <span>
+                                                        <img src="/images/avatar.jpg" alt="#">
+                                                    </span>
+                                                </label>
+                                                <label for="Friend" class="checkbox-image">
+                                                    <input id="Friend" type="checkbox">
+                                                    <span>
+                                                        <img src="/images/avatar.jpg" alt="#">
+                                                    </span>
+                                                </label>
+                                                <label for="Friend" class="checkbox-image">
+                                                    <input id="Friend" type="checkbox">
+                                                    <span>
+                                                        <img src="/images/avatar.jpg" alt="#">
+                                                    </span>
+                                                </label>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -133,7 +144,7 @@
                                     <div class='input-group date datetimepicker'>
                                         {!! Form::text('due_date', @isset($content)? $content->due_date : '', array('class' => ' input form-control', 'id' => 'dueDate')) !!}
                                         <span class="input-group-addon">
-                                        <i class="icon-calendar picto"></i>
+                                            <i class="icon-calendar picto"></i>
                                         </span>
                                     </div>
 
@@ -155,7 +166,7 @@
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="connections">CONTENT DESTINATION</label>
-                                   {!! Form::select('connections', $connectionsdd, @isset($content)? $content->connection_id : '' , array('class' => 'input form-control', 'id' => 'connections')) !!}
+                                    {!! Form::select('connections', $connectionsdd, @isset($content)? $content->connection_id : '' , array('class' => 'input form-control', 'id' => 'connections')) !!}
                                 </div>
                             </div>
                             <div class="col-sm-4 hide">
@@ -178,6 +189,10 @@
                         </div>
 
                         <!-- Editor container -->
+                        <div class="character-counter">
+                            <span class="count"></span> out of 140 characters
+                        </div>
+
                         <div class="editor" style="background-color: rgba(0,0,0,.1); min-height: 530px; margin-bottom: 25px;">
                             {!! Form::textarea('content', @isset($content)? $content->body : '', array('placeholder' => 'Enter content', 'class' => 'input input-larger form-control wysiwyg', 'id' => 'title')) !!}
                         </div>
@@ -329,6 +344,92 @@
 
         </div>  <!-- End Panel Container -->
     </div>
+
+
+<div id="launch" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">LAUNCH CONTENT</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <p class="text-gray text-center">
+                            Here are the 5 content connections you can push out to, check the ones you want, and
+                            click launch and they go out in real time to be published.
+                            Need a “confirmation” screen as well.
+                        </p>
+                        <label for="dieselEngines1" class="checkbox-tag">
+                            <input id="dieselEngines1" type="checkbox">
+                            <span>Dwight’s Twitter Feed</span>
+                        </label>
+                        <label for="dieselEngines1" class="checkbox-tag">
+                            <input id="dieselEngines1" type="checkbox">
+                            <span>Dwight’s Twitter Feed</span>
+                        </label>
+                        <label for="dieselEngines1" class="checkbox-tag">
+                            <input id="dieselEngines1" type="checkbox">
+                            <span>Dwight’s Twitter Feed</span>
+                        </label>
+                        <label for="dieselEngines1" class="checkbox-tag">
+                            <input id="dieselEngines1" type="checkbox">
+                            <span>Dwight’s Twitter Feed</span>
+                        </label>
+                        <div class="form-group text-center">
+                            <a href="#" class="link-gray">
+                                ADD NEW
+                                <i class="icon-add"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <button class="button button-primary text-uppercase button-extend"  data-toggle="modal" data-target="#launchCompleted">LAUNCH</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="launchCompleted" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">CONTENT LAUNCHED</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 text-center">
+                        <i class="modal-icon-success icon-check-large"></i>
+                        <div class="form-group">
+                            <img src="/images/avatar.jpg" alt="#" class="create-image">
+                            <h4>Blog post on online banking</h4>
+                        </div>
+                        <p class="text-gray">IS NOW PUBLISHED TO:</p>
+                        <div class="modal-social">
+                            <span>
+                                <i class="icon-facebook-official"></i>
+                            </span>
+                            <span>
+                                <i class="icon-trello"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <button class="button text-uppercase button-extend">Go To Dashboard!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @stop
 
 
@@ -336,28 +437,104 @@
 <script type="text/javascript">
     $(function() {
 
+        var CharacterCounterView = Backbone.View.extend({
+            characters: 0,
+
+            initialize: function() {
+                this.$el.hide();
+                this.render();
+            },
+
+            render: function() {
+                this.$el.find('.count').text(this.characters);
+
+                if (this.characters > 140) {
+                    this.invalidCount();
+                } else {
+                    this.validCount();
+                }
+
+                return this;
+            },
+
+            invalidCount: function() {
+                if (!this.$el.hasClass('invalid-count')) {
+                    this.$el.addClass('invalid-count');
+                }
+            },
+
+            validCount: function() {
+                if (this.$el.hasClass('invalid-count')) {
+                    this.$el.removeClass('invalid-count');
+                }
+            },
+
+            show: function() {
+                this.$el.slideDown('fast');
+            },
+
+            hide: function() {
+                this.$el.slideUp('fast');
+            },
+
+            update: function(content) {
+                var html = content;
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                var text = div.textContent || div.innerText || "";
+
+                this.characters = text.length;
+                this.render();
+            }
+        });
+
+        var characterCounter = new CharacterCounterView({ el: '.character-counter' });
+
+        characterCounter.hide();
+
         tinymce.init({
-          selector: 'textarea.wysiwyg',  // change this value according to your HTML
-          plugin: 'a_tinymce_plugin',
-          a_plugin_option: true,
-          a_configuration_option: 400
-        });    
-            
+            selector: 'textarea.wysiwyg',  // change this value according to your HTML
+            plugin: 'a_tinymce_plugin',
+            a_plugin_option: true,
+            a_configuration_option: 400,
+            setup: function(editor) {
+                editor.on('keyup', function(e) {
+                    characterCounter.show();
+                    characterCounter.update(editor.getContent());
+                });
+            }
+        });
+
         $('.datetimepicker').datetimepicker({
             format: 'YYYY-MM-DD'
         });
 
-       $('.selectpicker').selectpicker({
+        $('.selectpicker').selectpicker({
             style : 'btn-white',
             size: 10
         });
-       $('.changes').hide();
-       $(".showChanges").on('click', function(){
-            var $this = $(this),
-                  divClass = $this.attr('data-class');
 
-            $("."+divClass).toggle();
+        $('.changes').hide();
+        $(".showChanges").on('click', function(){
+            var $this = $(this),
+                divClass = $this.attr('data-class');
+
+            $("." + divClass).toggle();
        });
+
+        $('form').submit(function(event) {
+            var TWEET_CONTENT_TYPE = "17";
+            var MAX_TWEET_CHARACTERS = 140;
+            var selectedContentType = $('#contentType').val();
+
+            if (selectedContentType == TWEET_CONTENT_TYPE &&
+                characterCounter.characters >= MAX_TWEET_CHARACTERS)
+            {
+                $('#twitterError').slideDown('fast');
+                event.preventDefault();
+            }
+        });
     });
 </script>
 @stop
+

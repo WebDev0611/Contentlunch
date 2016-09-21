@@ -52,6 +52,7 @@ Route::get('/plan/prescription','PlanController@prescription');
 
 Route::resource('/trending', 'TrendsController@trending');
 Route::resource('/influencers', 'InfluencersController@search');
+Route::resource('/topics', 'TopicsController@index');
 
 
 Route::get('/idea/{id}','PlanController@editor');
@@ -63,6 +64,12 @@ Route::resource('/ideas', 'IdeaController', ['only' => [
 Route::get('/calendar','CalendarController@index');
 Route::get('/calendar/{year}/{month}','CalendarController@index');
 
+Route::get('/campaign','CampaignController@index');
+Route::post('/campaign/create','CampaignController@create');
+
+Route::get('/campaign/edit/{campaign}','CampaignController@edit');
+Route::post('/campaign/edit/{campaign}','CampaignController@edit');
+
 Route::get('/daily','CalendarController@daily');
 Route::get('/daily/{year}/{month}/{day}','CalendarController@daily');
 
@@ -70,6 +77,8 @@ Route::get('/weekly','CalendarController@weekly');
 Route::get('/weekly/{year}/{month}/{day}','CalendarController@weekly');
 
 Route::get('/campaigns','CalendarController@campaigns');
+
+Route::resource('/task/add','TaskController@store');
 
 
 Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);
@@ -81,6 +90,12 @@ Route::get('callback/facebook',  ['as' => 'facebookProvider', 'uses' =>'Connecti
 Route::post('callback/facebook/account/save','Connections\FacebookController@saveAccount');
 // -----------
 
+//-- Twitter Callbacks
+//
+Route::get('twitter/login', [ 'as' => 'twitterLogin', 'uses' => 'Connections\TwitterController@login' ]);
+Route::get('callback/twitter', [ 'as' => 'twitterCallback', 'uses' => 'Connections\TwitterController@callback' ]);
+Route::get('twitter/error', [ 'as' => 'twitterError', 'uses' => 'Connections\TwitterController@error' ]);
+
 // - Authorize
 Route::get('authorize/{provider}',  ['as' => 'connectionProvider', 'uses' =>'ConnectionController@redirectToProvider']);
 Route::get('login/{provider}',  ['as' => 'connectionCallback', 'uses' =>'ConnectionController@login']);
@@ -88,6 +103,8 @@ Route::get('login/{provider}',  ['as' => 'connectionCallback', 'uses' =>'Connect
 
 // - Landing page for creating content
 Route::get('/create','ContentController@create');
+Route::post('/create/new','ContentController@store');
+
 // - create form page
 Route::get('/edit', ['as' => 'editIndex', 'uses' => 'ContentController@createContent']);
 Route::post('/edit','ContentController@editStore');
@@ -137,4 +154,7 @@ Route::group(['prefix' => 'writeraccess'], function() {
 Route::resource('writerAccessPrices','WriterAccessPriceController');
 Route::resource('writerAccessAssetTypes','WriterAccessAssetTypeController');
 
+Route::group(['prefix' => 'twitter'], function() {
+    Route::get('followers', [ 'uses' => 'Connections\TwitterController@userSearch' ]);
+});
 

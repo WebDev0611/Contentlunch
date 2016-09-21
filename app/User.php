@@ -42,6 +42,10 @@ class User extends Authenticatable
        return $this->hasMany('App\Content');
     }
 
+    public function tasks()
+    {
+       return $this->hasMany('App\Task');
+    }
 
     public static function dropdown()
     {
@@ -51,6 +55,13 @@ class User extends Authenticatable
         $authordd = ['' => '-- Select Author --'];
         $authordd = User::select('id','name')->orderBy('name', 'asc')->distinct()->lists('name', 'id')->toArray();
         return $authordd;
+    }
+
+    public function connectionsBySlug($slug)
+    {
+        return $this->connections()
+            ->join('providers', '.providers.id', '=', 'connections.provider_id')
+            ->where('slug', $slug);
     }
 
 }

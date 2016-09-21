@@ -77,12 +77,12 @@ $form-delimiter-border: 1px solid #d9d0ed;
 }
 .btn-helpblock {
   color: #337ab7;
-  
+
   [class^="icon-"] {
     font-size: .8em;
     margin-right: 2px;
   }
-  
+
   &:hover {
     opacity: 1;
   }
@@ -164,5 +164,13 @@ $form-delimiter-border: 1px solid #d9d0ed;
       border-radius: 0;
       box-shadow: none;
     }
+  }
+}
+
+.character-counter {
+  color: inherit;
+
+  &.invalid-count {
+    color: #a94442;
   }
 }
