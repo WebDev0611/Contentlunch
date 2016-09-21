@@ -143,7 +143,10 @@
                             </span>
                         </div>
                         <div class="create-panel-table-cell text-right">
-                            <i class="create-panel-spaceship icon-spaceship-circle" data-toggle="modal" data-target="#launch"></i>
+                            <i  class="create-panel-spaceship icon-spaceship-circle"
+                                data-toggle="modal"
+                                data-target="#launch">
+                            </i>
                         </div>
                     </div>
                     @endforeach
@@ -305,22 +308,14 @@
                             click launch and they go out in real time to be published.
                             Need a “confirmation” screen as well.
                         </p>
-                        <label for="dieselEngines1" class="checkbox-tag">
-                            <input id="dieselEngines1" type="checkbox">
-                            <span>Dwight’s Twitter Feed</span>
+
+                        @foreach ($connections as $conn)
+                        <label for="connection-{{ $conn->id }}" class="checkbox-tag">
+                            <input id="connection-{{ $conn->id }}" type="checkbox">
+                            <span>{{ $conn->name }}</span>
                         </label>
-                        <label for="dieselEngines1" class="checkbox-tag">
-                            <input id="dieselEngines1" type="checkbox">
-                            <span>Dwight’s Twitter Feed</span>
-                        </label>
-                        <label for="dieselEngines1" class="checkbox-tag">
-                            <input id="dieselEngines1" type="checkbox">
-                            <span>Dwight’s Twitter Feed</span>
-                        </label>
-                        <label for="dieselEngines1" class="checkbox-tag">
-                            <input id="dieselEngines1" type="checkbox">
-                            <span>Dwight’s Twitter Feed</span>
-                        </label>
+                        @endforeach
+
                         <div class="form-group text-center">
                             <a href="#" class="link-gray">
                                 ADD NEW

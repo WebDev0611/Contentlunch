@@ -30,8 +30,9 @@ class ContentController extends Controller {
         $published = Auth::user()->contents()->where('published',1)->orderBy('updated_at', 'desc')->get();
         $readyPublished = Auth::user()->contents()->where('ready_published',1)->orderBy('updated_at', 'desc')->get();
         $written = Auth::user()->contents()->where('written',1)->orderBy('updated_at', 'desc')->get();
+        $connections = Auth::user()->connections()->where('active', 1)->get();
 
-        return View::make('content.index', compact('published', 'readyPublished', 'written', 'countContent'));
+        return View::make('content.index', compact('published', 'readyPublished', 'written', 'countContent', 'connections'));
     }
 
 	public function store(Request $req)
