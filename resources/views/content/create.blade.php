@@ -103,11 +103,11 @@
                                                 <label for="#">NUMBER OF TITLES</label>
                                                 <div class="range-form input-group">
                                                     <span class="input-group-addon">
-                                                        <button class="button button-small button-outline-secondary">
+                                                        <button class="button button-small button-outline-secondary" disabled>
                                                             <i class="icon-big-caret-left"></i>
                                                         </button>
                                                     </span>
-                                                    <input type="text" class="input" aria-label="Amount (to the nearest dollar)">
+                                                    <input type="text" class="input" name="writer_access_count" id="writer_access_count" value="1" aria-label="Number of content titles to order.">
                                                     <span class="input-group-addon">
                                                         <button class="button button-small button-outline-secondary">
                                                             <i class="icon-big-caret-right"></i>
@@ -118,7 +118,7 @@
                                             <div class="col-md-6">
                                                 <div class="input-form-group">
                                                     <label for="#">Project Deadline</label>
-                                                    <input type="text" class="input" placeholder="Project Deadline">
+                                                    <input type="text" class="input datepicker" name="dealine" id="deadline" placeholder="Project Deadline!">
                                                 </div>
                                             </div>
                                         </div>
@@ -133,39 +133,11 @@
                                             </div>
                                         </div>
                                         <div class="input-form-group">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label for="#">MIN WORDS</label>
-                                                    <div class="range-form input-group">
-                                                    <span class="input-group-addon">
-                                                        <button class="button button-small button-outline-secondary">
-                                                            <i class="icon-big-caret-left"></i>
-                                                        </button>
-                                                    </span>
-                                                        <input type="text" class="input" aria-label="Amount (to the nearest dollar)">
-                                                    <span class="input-group-addon">
-                                                        <button class="button button-small button-outline-secondary">
-                                                            <i class="icon-big-caret-right"></i>
-                                                        </button>
-                                                    </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="#">MAXIMUM WORDS</label>
-                                                    <div class="range-form input-group">
-                                                    <span class="input-group-addon">
-                                                        <button class="button button-small button-outline-secondary">
-                                                            <i class="icon-big-caret-left"></i>
-                                                        </button>
-                                                    </span>
-                                                        <input type="text" class="input" aria-label="Amount (to the nearest dollar)">
-                                                    <span class="input-group-addon">
-                                                        <button class="button button-small button-outline-secondary">
-                                                            <i class="icon-big-caret-right"></i>
-                                                        </button>
-                                                    </span>
-                                                    </div>
-                                                </div>
+                                            <label for="writer_access_asset_type">WORD COUNT</label>
+                                            <div class="select">
+                                                <select name="writer_access_word_count" id="writer_access_word_count">
+
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="input-form-group">
@@ -174,7 +146,7 @@
                                                     <label for="#">WRITER LEVEL</label>
                                                     <div class="select">
 
-                                                        <select type="text" class="input" aria-label="Amount (to the nearest dollar)">
+                                                        <select type="text" class="input" name="writer_access_writer_level" id="writer_access_writer_level" aria-label="Amount (to the nearest dollar)">
                                                             <option value="4">4 Star Writer</option>
                                                             <option value="5">5 Star Writer</option>
                                                             <option value="6">6 Star Writer</option>
@@ -185,7 +157,7 @@
                                                 <div class="col-md-6">
                                                     <div class="input-form-group">
                                                         <label for="#">Base Priceline</label>
-                                                        <input type="text" class="input" placeholder="Base Priceline">
+                                                        <input type="text" class="input" disabled name="writer_access_base_price" id="writer_access_base_price"  placeholder="Base Priceline">
                                                     </div>
                                                 </div>
                                             </div>
@@ -194,11 +166,11 @@
                                     <div class="col-md-4">
                                         <div class="create-tabs-priceline">
                                             <span>TOTAL ORDER</span>
-                                            <h4>$40.70</h4>
+                                            <h4 id="total_cost">$40.70</h4>
                                         </div>
                                         <div class="create-tabs-priceline">
                                             <span>COST / ORDER</span>
-                                            <h4>$40.70</h4>
+                                            <h4 id="price_each">$40.70</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -206,8 +178,9 @@
                                     SUBMIT AND START ORDERING PROCESS
                                 </button>
 
-                                <script>
-                                    {{ $pricesJson }}
+                                <script type="text/javascript">
+                                    // This is brilliant... seriously!
+                                    var prices =  (function(){ return {!! $pricesJson !!}; })();
                                 </script>
                             </div>
                         </div>

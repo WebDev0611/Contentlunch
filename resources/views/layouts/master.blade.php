@@ -30,7 +30,6 @@
 <!-- Create overlay -->
 <div class="create-overlay">
   <div class="inner">
-    
     <ul class="list-inline list-createmenu">
       <li class="first">
         <a href="/plan">
@@ -64,12 +63,6 @@
     
   </div>
 </div>
-
-@if ( Config::get('app.debug') )
-  <script type="text/javascript">
-    document.write('<script src="/js/livereload.js?snipver=1" type="text/javascript"><\/script>')
-  </script>
-@endif
 
 </body>
 </html>

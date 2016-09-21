@@ -30,7 +30,43 @@ class ContentController extends Controller {
 
 	public function create(){
 		$contentTypes = DB::table("writer_access_asset_types")->get();
-		$pricesJson = json_encode(DB::table("writer_access_prices")->get());
+
+        $prices = DB::table("writer_access_prices")->distinct()->select("asset_type_id")->get();
+
+        $reformedPrices = [];
+        foreach($prices as $price){
+            if(!isset($reformedPrices[$price->asset_type_id])){
+                $reformedPrices[$price->asset_type_id] = [];
+
+                $wordcounts = DB::table("writer_access_prices")
+                    ->distinct()
+                    ->select("wordcount")
+                    ->where("asset_type_id", $price->asset_type_id)
+                    ->get();
+
+                foreach ($wordcounts as $wordcount){
+                    $reformedPrices[$price->asset_type_id][$wordcount->wordcount] = [];
+                    $writerLevels = DB::table("writer_access_prices")
+                        ->where("asset_type_id", $price->asset_type_id)
+                        ->where("wordcount", $wordcount->wordcount)
+                        ->get();
+
+                    foreach ($writerLevels as $writerLevel){
+                        $reformedPrices[$price->asset_type_id][$wordcount->wordcount][$writerLevel->writer_level] = $writerLevel->fee;
+                    }
+
+                }
+            }
+        }
+
+        //
+
+
+        //var_dump($reformedPrices);
+        //die();
+
+
+		$pricesJson = json_encode($reformedPrices);
 
 
 		return View::make('content.create', compact("contentTypes", "pricesJson"));
