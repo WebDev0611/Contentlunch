@@ -27,9 +27,9 @@ class ContentController extends Controller {
     public function index()
     {
         $countContent = Auth::user()->contents()->count();
-        $published = Auth::user()->contents()->where('published',1)->get();
-        $readyPublished = Auth::user()->contents()->where('ready_published',1)->get();
-        $written = Auth::user()->contents()->where('written',1)->get();
+        $published = Auth::user()->contents()->where('published',1)->orderBy('updated_at', 'desc')->get();
+        $readyPublished = Auth::user()->contents()->where('ready_published',1)->orderBy('updated_at', 'desc')->get();
+        $written = Auth::user()->contents()->where('written',1)->orderBy('updated_at', 'desc')->get();
 
         return View::make('content.index', compact('published', 'readyPublished', 'written', 'countContent'));
     }
