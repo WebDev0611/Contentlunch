@@ -44,14 +44,15 @@ class ContentController extends Controller {
 		return redirect('edit/' . $content->id );
 	}
 
-	public function create(){
+    public function create()
+    {
 		//$my_campaigns = Campaign::
-		$my_campaigns = Auth::user()->campaigns()->get();
-		return View::make('content.create',[
-			'contenttypedd'=> ContentType::dropdown(), 
-			'campaigndd' => Campaign::dropdown()
-			]);
-	}
+        $my_campaigns = Auth::user()->campaigns()->get();
+        return View::make('content.create',[
+            'contenttypedd' => ContentType::dropdown(),
+            'campaigndd' => Campaign::dropdown()
+        ]);
+    }
 
 
 	public function publish(Content $content)  {
@@ -114,6 +115,11 @@ class ContentController extends Controller {
 			$content->tags()->detach();
 			$content->authors()->detach();
 		}
+
+        $action = $request->input('action');
+
+        $content->ready_published = $action == 'ready_to_publish' ? 1 : 0;
+        $content->written = $action == 'written_content' ? 1 : 0;
 
 		$content->title = $request->input('title');
 		$content->body = $request->input('content');
