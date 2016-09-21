@@ -22,15 +22,25 @@
                             </div>
                             <div class="col-md-6 text-right">
                                 <div class="head-actions">
-                                    <button type="submit"
-                                            class="button button-outline-secondary button-small delimited">SAVE
+                                    <button
+                                        type="submit"
+                                        class="button button-outline-secondary button-small delimited"
+                                        name="action"
+                                        value="written_content">
+                                        SAVE
                                     </button>
 
                                     @if (isset($content))
-                                        <a href="{{ route('contentPublish', $content->id) }}" class="button button-small  ">PUBLISH</a>
+                                        <a href="{{ route('contentPublish', $content->id) }}" class="button button-small">PUBLISH</a>
                                     @endif
                                     <div class="btn-group">
-                                        <button type="button" class="button button-small">SUBMIT</button>
+                                        <button
+                                            type="submit"
+                                            class="button button-small"
+                                            name="action"
+                                            value="ready_to_publish">
+                                            SUBMIT
+                                        </button>
                                         <button type="button" class="button button-small dropdown-toggle"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="caret"></span>
