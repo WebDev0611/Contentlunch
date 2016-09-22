@@ -166,7 +166,7 @@ class ContentController extends Controller {
         if (($tweetContentType->id == $contentType) &&
             ($dueDate->isToday()))
         {
-            $this->publishToTwitter($content->body, $connection);
+            $this->publish($content);
         }
 
 		// Attach authors
@@ -230,39 +230,7 @@ class ContentController extends Controller {
 		    'flash_message_type' => 'success',
 		    'flash_message_important' => true
 		]);
-
 	}
-
-    private function publishToTwitter($message, $connection)
-    {
-        $settings = $connection->getSettings();
-
-        $requestToken = [
-            'token' => $settings->oauth_token,
-            'secret' => $settings->oauth_token_secret,
-            'consumer_key' => env('TWITTER_CONSUMER_KEY'),
-            'consumer_secret' => env('TWITTER_CONSUMER_SECRET'),
-        ];
-
-        $message = strip_tags($message);
-
-        Session::forget('access_token');
-        Twitter::reconfig($requestToken);
-
-        try {
-            Twitter::postTweet([ 'status' => $message ]);
-        }
-        catch (Exception $e) {
-            $flashMessage  = "We couldn't post the content to Twitter using the connection [" . $settings->name . "]. ";
-            $flashMessage .= "Please make sure the connection is properly configured before trying again.";
-
-            return redirect()->route('editIndex')->with([
-                'flash_message' => $flashMessage,
-                'flash_message_type' => 'danger',
-                'flash_message_important' => true
-            ]);
-        }
-    }
 
 	public function get_written($step = 1) {
 
