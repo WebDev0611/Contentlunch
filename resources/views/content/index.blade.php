@@ -83,16 +83,18 @@
                         </div>
                         <div class="create-panel-table-cell">
                             <h5 class="dashboard-tasks-title">
-                                {{$pub->title}}
+                                {{ $pub->title }}
                             </h5>
-                            <span class="dashboard-members-text small">3 DAYS AGO</span>
+                            <span class="dashboard-members-text small">
+                                {{ strtoupper($pub->created_at->diffForHumans()) }}
+                            </span>
                         </div>
                         <div class="create-panel-table-cell text-right">
                             <i class="tooltip-icon large icon-arrange-mini" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lorem Ipsum"></i>
                         </div>
                         <div class="create-panel-table-cell text-right">
                             <span class="dashboard-performing-text small">
-                                UPDATED: <strong>05/05/2016</strong>
+                                UPDATED: <strong>{{ $pub->updated_at->format('m/d/Y') }}</strong>
                             </span>
                         </div>
                     </div>
