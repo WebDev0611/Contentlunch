@@ -152,7 +152,6 @@ class ContentController extends Controller {
 
 		// - Save Content Type
         $contentType = $request->input('content_type');
-        $tweetContentType = ContentType::where('name', 'Tweet')->first();
 		$conType = ContentType::find($contentType);
 		$conType->contents()->save($content);
 
@@ -163,9 +162,7 @@ class ContentController extends Controller {
         $dueDate = new Carbon($content->due_date);
 
         // TODO: add support to detect today in multiple timezones
-        if (($tweetContentType->id == $contentType) &&
-            ($dueDate->isToday()))
-        {
+        if ($dueDate->isToday()) {
             $this->publish($content);
         }
 
