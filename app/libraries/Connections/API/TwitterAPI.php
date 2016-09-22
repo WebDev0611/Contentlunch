@@ -7,10 +7,17 @@ use Session;
 
 class TwitterAPI
 {
-    public function __construct($content = null)
+    public function __construct($content = null, $connection = null)
     {
         $this->client = null;
         $this->content = $content;
+
+        if ($connection) {
+            $this->connection = $connection;
+        }
+        else {
+            $this->connection = $this->content->connection;
+        }
     }
 
     private function setupTwitterConnection()

@@ -20,6 +20,7 @@ use Twitter;
 use Session;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Input;
 
 
 class ContentController extends Controller {
@@ -59,25 +60,55 @@ class ContentController extends Controller {
         ]);
     }
 
+    public function directPublish(Request $request, $contentId)
+    {
+        $content = Content::find($contentId);
+        $connections = collect(explode(',', $request->input('connections')))
+            ->map(function($connectionId) {
+                return Connection::find($connectionId);
+            });
 
-	public function publish(Content $content)  {
+        $response = response()->json([ 'data' => 'Content not found' ], 404);
+
+        if ($content) {
+            $data = [];
+
+            foreach ($connections as $connection) {
+                $data []= $this->publish($content, $connection);
+            }
+
+            $response = response()->json([ 'data' => 'Content published' ], 201);
+        }
+
+        return $response;
+    }
+
+	public function publish($content, $connection = null)  {
 		// - this will need to be dynamic ( database provider table? )
 		// -- Once we hook up another API i will know how i should organize this
-		$class = 'Connections\API\\'.$content->connection->provider->class_name;
-		$create = (new $class($content))->createPost();
+        if (!$connection) {
+            $connection = $content->connection;
+        }
+
+		$class = 'Connections\API\\'.$connection->provider->class_name;
+		$create = (new $class($content, $connection))->createPost();
 
 		$content->published = 1;
 		$content->ready_published = 0;
 		$content->written = 0;
 		$content->save();
+	}
 
-		// - Lets get out of here
+    public function publishAndRedirect(Content $content)
+    {
+        $this->publish($content);
+
 		return redirect()->route('contentIndex')->with([
 		    'flash_message' => "You have published ".$content->title." to " . $content->connection->provider->slug,
 		    'flash_message_type' => 'success',
 		    'flash_message_important' => true
 		]);
-	}
+    }
 
 	// this is technically create content
 	public function createContent() {
@@ -125,6 +156,7 @@ class ContentController extends Controller {
 
         $content->ready_published = $action == 'ready_to_publish' ? 1 : 0;
         $content->written = $action == 'written_content' ? 1 : 0;
+        $content->published = $action == 'publish' ? 1 : 0;
 
 		$content->title = $request->input('title');
 		$content->body = $request->input('content');
@@ -158,13 +190,6 @@ class ContentController extends Controller {
 		// - Save connection
 		$connection = Connection::find($request->input('connections'));
 		$connection->contents()->save($content);
-
-        $dueDate = new Carbon($content->due_date);
-
-        // TODO: add support to detect today in multiple timezones
-        if ($dueDate->isToday()) {
-            $this->publish($content);
-        }
 
 		// Attach authors
 		$content->authors()->attach($request->input('author'));
@@ -220,6 +245,8 @@ class ContentController extends Controller {
 				$content->attachments()->save($attachment);
 			}
 		}
+
+        $dueDate = new Carbon($content->due_date);
 
 		// - Lets get out of here
 		return redirect()->route('contentIndex')->with([

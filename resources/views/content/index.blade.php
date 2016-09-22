@@ -145,7 +145,8 @@
                             </span>
                         </div>
                         <div class="create-panel-table-cell text-right">
-                            <i  class="create-panel-spaceship icon-spaceship-circle"
+                            <i  class="create-panel-spaceship icon-spaceship-circle open-launch-menu"
+                                data-content="{{ $pub->id }}"
                                 data-toggle="modal"
                                 data-target="#launch">
                             </i>
@@ -306,14 +307,16 @@
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
                         <p class="text-gray text-center">
-                            Here are the 5 content connections you can push out to, check the ones you want, and
+                            Here are the content connections you can push out to, check the ones you want, and
                             click launch and they go out in real time to be published.
-                            Need a “confirmation” screen as well.
                         </p>
 
                         @foreach ($connections as $conn)
                         <label for="connection-{{ $conn->id }}" class="checkbox-tag">
-                            <input id="connection-{{ $conn->id }}" type="checkbox">
+                            <input
+                                id="connection-{{ $conn->id }}"
+                                class='connection-checkbox'
+                                type="checkbox">
                             <span>{{ $conn->name }}</span>
                         </label>
                         @endforeach
@@ -328,7 +331,12 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
-                        <button class="button button-primary text-uppercase button-extend" data-toggle="modal" data-target="#launchCompleted">LAUNCH</button>
+                        <button
+                            class="button button-primary text-uppercase button-extend"
+                            id='launchButton'>
+
+                            LAUNCH
+                        </button>
                     </div>
                 </div>
             </div>
@@ -371,4 +379,41 @@
         </div>
     </div>
 </div>
+@stop
+
+@section('scripts')
+<script>
+    (function() {
+
+        var selectedContentId = null;
+
+        $('#launchButton').click(function(event) {
+            publishContent(selectedContentId);
+            showLaunchCompleted();
+        });
+
+        $('.open-launch-menu').click(function(event) {
+            selectedContentId = $(this).data('content');
+        });
+
+        function publishContent() {
+            var connections = $('.connection-checkbox:checked')
+                .toArray()
+                .map(function(checkbox) {
+                    return checkbox.id.split('-')[1];
+                })
+                .join(',');
+
+            return $.ajax({
+                method: 'get',
+                url: '/content/publish/' + selectedContentId + '?connections=' + connections
+            });
+        }
+
+        function showLaunchCompleted() {
+            $('#launchCompleted').modal('show');
+        }
+
+    })();
+</script>
 @stop

@@ -82,7 +82,7 @@ Route::resource('/task/add','TaskController@store');
 
 
 Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);
-Route::get('/content/publish/{content}',  ['as' => 'contentPublish', 'uses' =>'ContentController@publish']);
+Route::get('/content/publish/{content}',  ['as' => 'contentPublish', 'uses' =>'ContentController@directPublish']);
 
 //-- Facebook Callbacks
 //
