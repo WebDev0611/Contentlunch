@@ -22,7 +22,7 @@ class TwitterAPI
 
     private function setupTwitterConnection()
     {
-        $settings = $this->content->connection->getSettings();
+        $settings = $this->connection->getSettings();
 
         Session::forget('access_token');
         Twitter::reconfig([

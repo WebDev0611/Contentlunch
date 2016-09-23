@@ -406,7 +406,7 @@
 
             return $.ajax({
                 method: 'get',
-                url: '/content/publish/' + selectedContentId + '?connections=' + connections
+                url: '/content/multipublish/' + selectedContentId + '?connections=' + connections
             });
         }
 

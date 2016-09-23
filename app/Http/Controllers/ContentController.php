@@ -83,7 +83,8 @@ class ContentController extends Controller {
         return $response;
     }
 
-	public function publish($content, $connection = null)  {
+	public function publish(Content $content, $connection = null)
+    {
 		// - this will need to be dynamic ( database provider table? )
 		// -- Once we hook up another API i will know how i should organize this
         if (!$connection) {
@@ -99,8 +100,10 @@ class ContentController extends Controller {
 		$content->save();
 	}
 
-    public function publishAndRedirect(Content $content)
+    public function publishAndRedirect(Request $request, $contentId)
     {
+        $content = Content::find($contentId);
+
         $this->publish($content);
 
 		return redirect()->route('contentIndex')->with([
