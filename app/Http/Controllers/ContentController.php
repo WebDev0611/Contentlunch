@@ -203,7 +203,7 @@ class ContentController extends Controller {
 		// - Images
 		if($request->hasFile('images'))
 		{
-			foreach( $request->file('images') as $image ) {
+			foreach ($request->file('images') as $image) {
 				$filename   	= $image->getClientOriginalName();
 				$extension  	= $image->getClientOriginalExtension();
 				$mime       	= $image->getClientMimeType();
