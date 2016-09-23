@@ -12,15 +12,16 @@ class  ContentRequest extends FormRequest {
 	public function rules()
 	{
 		return [
-			'content_type'		=> 'required',
-		            'author' 		=> 'required',
-		            'due_date' 		=> 'required',
-		            'title' 			=> 'required',
-		            'connections' 		=> 'required',
-		            'content' 		=> 'required',
-		            // -- WORD PRESS 
-		          //  'api_key' 		=> 'required_if:con_type,wordpress',
-		           // 'api_url' 		=> 'required_if:con_type,wordpress'
+            'content_type'	=> 'required',
+            'author' 		=> 'required',
+            'due_date' 		=> 'required',
+            'title' 		=> 'required',
+            'connections' 	=> 'required',
+            'content' 		=> 'required',
+
+            // -- WORD PRESS
+            //  'api_key' 		=> 'required_if:con_type,wordpress',
+            // 'api_url' 		=> 'required_if:con_type,wordpress'
 		];
 	}
 

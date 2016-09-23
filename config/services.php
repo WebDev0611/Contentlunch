@@ -38,10 +38,11 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
+
     'facebook' => [
-          'client_id' => '1155129404529083',
-          'client_secret' => 'fbb293d213ed62512cc18d151a901ed7',
-         'redirect' => 'http://contentlaunch.local/callback/facebook' // env('FACEBOOK_REDIRECT'),
+        'client_id' => env('FACEBOOK_APP_ID'),
+        'client_secret' => env('FACEBOOK_APP_SECRET'),
+        'redirect' => env('FACEBOOK_REDIRECT')
     ],
 
     'wordpress' => [

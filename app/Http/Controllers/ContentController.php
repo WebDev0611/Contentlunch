@@ -20,19 +20,24 @@ use Twitter;
 use Session;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Input;
 
 
 class ContentController extends Controller {
 
-	public function index(){
-		$countContent =  Auth::user()->contents()->count();
-		$published =  Auth::user()->contents()->where('published',1)->get();
-		$readyPublished = Auth::user()->contents()->where('ready_published',1)->get();
-		$written = Auth::user()->contents()->where('written',1)->get();
-		return View::make('content.index', compact('published', 'readyPublished', 'written', 'countContent'));
-	}
+    public function index()
+    {
+        $countContent = Auth::user()->contents()->count();
+        $published = Auth::user()->contents()->where('published',1)->orderBy('updated_at', 'desc')->get();
+        $readyPublished = Auth::user()->contents()->where('ready_published',1)->orderBy('updated_at', 'desc')->get();
+        $written = Auth::user()->contents()->where('written',1)->orderBy('updated_at', 'desc')->get();
+        $connections = Auth::user()->connections()->where('active', 1)->get();
 
-	public function store(Request $req){
+        return View::make('content.index', compact('published', 'readyPublished', 'written', 'countContent', 'connections'));
+    }
+
+	public function store(Request $req)
+    {
 		$content = new Content;
 
 		$content->title = $req->input('title');
@@ -44,34 +49,69 @@ class ContentController extends Controller {
 		return redirect('edit/' . $content->id );
 	}
 
-	public function create(){
+    public function create()
+    {
 		//$my_campaigns = Campaign::
-		$my_campaigns = Auth::user()->campaigns()->get();
-		return View::make('content.create',[
-			'contenttypedd'=> ContentType::dropdown(), 
-			'campaigndd' => Campaign::dropdown()
-			]);
-	}
+        $my_campaigns = Auth::user()->campaigns()->get();
 
+        return View::make('content.create',[
+            'contenttypedd' => ContentType::dropdown(),
+            'campaigndd' => Campaign::dropdown()
+        ]);
+    }
 
-	public function publish(Content $content)  {
+    public function directPublish(Request $request, $contentId)
+    {
+        $content = Content::find($contentId);
+        $connections = collect(explode(',', $request->input('connections')))
+            ->map(function($connectionId) {
+                return Connection::find($connectionId);
+            });
+
+        $response = response()->json([ 'data' => 'Content not found' ], 404);
+
+        if ($content) {
+            $data = [];
+
+            foreach ($connections as $connection) {
+                $data []= $this->publish($content, $connection);
+            }
+
+            $response = response()->json([ 'data' => 'Content published' ], 201);
+        }
+
+        return $response;
+    }
+
+	public function publish(Content $content, $connection = null)
+    {
 		// - this will need to be dynamic ( database provider table? )
 		// -- Once we hook up another API i will know how i should organize this
-		$class = 'Connections\API\\'.$content->connection->provider->class_name;
-		$create = (new $class($content))->createPost();
+        if (!$connection) {
+            $connection = $content->connection;
+        }
+
+		$class = 'Connections\API\\'.$connection->provider->class_name;
+		$create = (new $class($content, $connection))->createPost();
 
 		$content->published = 1;
 		$content->ready_published = 0;
 		$content->written = 0;
 		$content->save();
+	}
 
-		// - Lets get out of here
+    public function publishAndRedirect(Request $request, $contentId)
+    {
+        $content = Content::find($contentId);
+
+        $this->publish($content);
+
 		return redirect()->route('contentIndex')->with([
 		    'flash_message' => "You have published ".$content->title." to " . $content->connection->provider->slug,
 		    'flash_message_type' => 'success',
 		    'flash_message_important' => true
 		]);
-	}
+    }
 
 	// this is technically create content
 	public function createContent() {
@@ -115,6 +155,12 @@ class ContentController extends Controller {
 			$content->authors()->detach();
 		}
 
+        $action = $request->input('action');
+
+        $content->ready_published = $action == 'ready_to_publish' ? 1 : 0;
+        $content->written = $action == 'written_content' ? 1 : 0;
+        $content->published = $action == 'publish' ? 1 : 0;
+
 		$content->title = $request->input('title');
 		$content->body = $request->input('content');
 		$content->due_date = $request->input('due_date');
@@ -141,22 +187,12 @@ class ContentController extends Controller {
 
 		// - Save Content Type
         $contentType = $request->input('content_type');
-        $tweetContentType = ContentType::where('name', 'Tweet')->first();
 		$conType = ContentType::find($contentType);
 		$conType->contents()->save($content);
 
 		// - Save connection
 		$connection = Connection::find($request->input('connections'));
 		$connection->contents()->save($content);
-
-        $dueDate = new Carbon($content->due_date);
-
-        // TODO: add support to detect today in multiple timezones
-        if (($tweetContentType->id == $contentType) &&
-            ($dueDate->isToday()))
-        {
-            $this->publishToTwitter($content->body, $connection);
-        }
 
 		// Attach authors
 		$content->authors()->attach($request->input('author'));
@@ -167,7 +203,7 @@ class ContentController extends Controller {
 		// - Images
 		if($request->hasFile('images'))
 		{
-			foreach( $request->file('images') as $image ) {
+			foreach ($request->file('images') as $image) {
 				$filename   	= $image->getClientOriginalName();
 				$extension  	= $image->getClientOriginalExtension();
 				$mime       	= $image->getClientMimeType();
@@ -213,45 +249,15 @@ class ContentController extends Controller {
 			}
 		}
 
+        $dueDate = new Carbon($content->due_date);
+
 		// - Lets get out of here
 		return redirect()->route('contentIndex')->with([
 		    'flash_message' => 'You have created content titled '.$content->title.'.',
 		    'flash_message_type' => 'success',
 		    'flash_message_important' => true
 		]);
-
 	}
-
-    private function publishToTwitter($message, $connection)
-    {
-        $settings = $connection->getSettings();
-
-        $requestToken = [
-            'token' => $settings->oauth_token,
-            'secret' => $settings->oauth_token_secret,
-            'consumer_key' => env('TWITTER_CONSUMER_KEY'),
-            'consumer_secret' => env('TWITTER_CONSUMER_SECRET'),
-        ];
-
-        $message = strip_tags($message);
-
-        Session::forget('access_token');
-        Twitter::reconfig($requestToken);
-
-        try {
-            Twitter::postTweet([ 'status' => $message ]);
-        }
-        catch (Exception $e) {
-            $flashMessage  = "We couldn't post the content to Twitter using the connection [" . $settings->name . "]. ";
-            $flashMessage .= "Please make sure the connection is properly configured before trying again.";
-
-            return redirect()->route('editIndex')->with([
-                'flash_message' => $flashMessage,
-                'flash_message_type' => 'danger',
-                'flash_message_important' => true
-            ]);
-        }
-    }
 
 	public function get_written($step = 1) {
 
