@@ -201,48 +201,50 @@ class ContentController extends Controller {
 		$content->tags()->attach($request->input('tags'));
 
 		// - Images
-		if($request->hasFile('images'))
-		{
+
+		if ($request->hasFile('images')) {
+
 			foreach ($request->file('images') as $image) {
-				$filename   	= $image->getClientOriginalName();
-				$extension  	= $image->getClientOriginalExtension();
-				$mime       	= $image->getClientMimeType();
-				$fileDoc    	= time().'_'.$filename;
-				$path = 'attachment/'.Auth::id().'/images/';
-				$fullPath = $path.$fileDoc;
-				Storage::put($fullPath,  File::get($image));
+                $filename  = $image->getClientOriginalName();
+                $extension = $image->getClientOriginalExtension();
+                $mime      = $image->getClientMimeType();
+                $fileDoc   = time().'_'.$filename;
+                $path      = 'attachment/'.Auth::id().'/images/';
+                $fullPath  = $path.$fileDoc;
+				Storage::put($fullPath, File::get($image));
 
 				// - Caputure the upload
-				$attachment              	    = new Attachment;
-				$attachment->filepath     = $path;
-				$attachment->type   	    = 'image';
-				$attachment->filename   = $filename;
-				$attachment->extension = $extension;
-				$attachment->mime   	    = $mime;
+                $attachment            = new Attachment;
+                $attachment->filepath  = $path;
+                $attachment->type      = 'image';
+                $attachment->filename  = $filename;
+                $attachment->extension = $extension;
+                $attachment->mime      = $mime;
 				$attachment->save();
 				// attach image to content
 				$content->attachments()->save($attachment);
 			}
 		}
+
 		// - File Attachments
-		if($request->hasFile('files'))
-		{
-			foreach( $request->file('files') as $file ) {
-				$filename   	= $file->getClientOriginalName();
-				$extension  	= $file->getClientOriginalExtension();
-				$mime       	= $file->getClientMimeType();
-				$fileDoc    	= time().'_'.$filename;
-				$path = 'attachment/'.Auth::id().'/files/';
-				$fullPath = $path.$fileDoc;
+		if ($request->hasFile('files')) {
+
+			foreach ($request->file('files') as $file) {
+                $filename  = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $mime      = $file->getClientMimeType();
+                $fileDoc   = time().'_'.$filename;
+                $path      = 'attachment/'.Auth::id().'/files/';
+                $fullPath  = $path.$fileDoc;
 				Storage::put($fullPath,  File::get($file));
 
 				// - Caputure the upload
-				$attachment              	    = new Attachment;
-				$attachment->filepath     = $path;
-				$attachment->type   	    = 'file';
-				$attachment->filename   = $filename;
-				$attachment->extension = $extension;
-				$attachment->mime   	    = $mime;
+                $attachment            = new Attachment;
+                $attachment->filepath  = $path;
+                $attachment->type      = 'file';
+                $attachment->filename  = $filename;
+                $attachment->extension = $extension;
+                $attachment->mime      = $mime;
 				$attachment->save();
 				// attach image to content
 				$content->attachments()->save($attachment);

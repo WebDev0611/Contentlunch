@@ -8,11 +8,11 @@
 
             <!-- Main Pane -->
             <div class="panel-main">
-@if (isset($content))
-{!! Form::model($content, array('url' => url('edit') . '/' . $content->id)) !!}
-@else
-{{ Form::open(array('url' => 'edit', 'files'=>'true')) }}
-@endif
+                @if (isset($content))
+                    {!! Form::model($content, ['url' => url('edit') . '/' . $content->id, 'files' => 'true' ]) !!}
+                @else
+                    {{ Form::open(['url' => 'edit', 'files'=>'true']) }}
+                @endif
                 <!-- Panel Header -->
                 <div class="panel-header">
                     <div class="panel-options">
