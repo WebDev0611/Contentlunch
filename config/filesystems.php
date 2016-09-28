@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => 'local',
+    'default' => 's3',
 
     /*
     |--------------------------------------------------------------------------
@@ -56,10 +56,15 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key' => 'your-key',
-            'secret' => 'your-secret',
-            'region' => 'your-region',
-            'bucket' => 'your-bucket',
+            'key' => 'AKIAJK4VINT2FNEXBB3A',
+            'secret' => '3Hf/nobE0xSJ4fMDW+Wm9cXRzUS6WvwAoSSMNewH',
+            'region' => 'us-east-1',
+            'bucket' => 'elasticbeanstalk-us-east-1-244315376647',
+
+            // Access Key ID:
+            // AKIAJK4VINT2FNEXBB3A
+            // Secret Access Key:
+            // 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
         ],
 
     ],
