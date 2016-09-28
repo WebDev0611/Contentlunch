@@ -201,30 +201,7 @@ class ContentController extends Controller {
 		$content->tags()->attach($request->input('tags'));
 
 		// - Images
-
-		if ($request->hasFile('images')) {
-
-			foreach ($request->file('images') as $image) {
-                $filename  = $image->getClientOriginalName();
-                $extension = $image->getClientOriginalExtension();
-                $mime      = $image->getClientMimeType();
-                $fileDoc   = time().'_'.$filename;
-                $path      = 'attachment/'.Auth::id().'/images/';
-                $fullPath  = $path.$fileDoc;
-				Storage::put($fullPath, File::get($image));
-
-				// - Caputure the upload
-                $attachment            = new Attachment;
-                $attachment->filepath  = $path;
-                $attachment->type      = 'image';
-                $attachment->filename  = $filename;
-                $attachment->extension = $extension;
-                $attachment->mime      = $mime;
-				$attachment->save();
-				// attach image to content
-				$content->attachments()->save($attachment);
-			}
-		}
+        $this->handleImages($request, $content);
 
 		// - File Attachments
 		if ($request->hasFile('files')) {
@@ -238,9 +215,11 @@ class ContentController extends Controller {
                 $fullPath  = $path.$fileDoc;
 				Storage::put($fullPath,  File::get($file));
 
+                $url = Storage::url($fullPath);
+
 				// - Caputure the upload
                 $attachment            = new Attachment;
-                $attachment->filepath  = $path;
+                $attachment->filepath  = $url;
                 $attachment->type      = 'file';
                 $attachment->filename  = $filename;
                 $attachment->extension = $extension;
@@ -260,6 +239,35 @@ class ContentController extends Controller {
 		    'flash_message_important' => true
 		]);
 	}
+
+    private function handleImages($request, $content) {
+        if ($request->hasFile('images')) {
+
+            foreach ($request->file('images') as $image) {
+                $filename  = $image->getClientOriginalName();
+                $extension = $image->getClientOriginalExtension();
+                $mime      = $image->getClientMimeType();
+                $fileDoc   = time().'_'.$filename;
+                $path      = 'attachment/'.Auth::id().'/images/';
+                $fullPath  = $path.$fileDoc;
+
+                Storage::put($fullPath, File::get($image));
+
+                $url = Storage::url($fullPath);
+
+                // - Caputure the upload
+                $attachment            = new Attachment;
+                $attachment->filepath  = $fullPath;
+                $attachment->type      = 'image';
+                $attachment->filename  = $url;
+                $attachment->extension = $extension;
+                $attachment->mime      = $mime;
+                $attachment->save();
+                // attach image to content
+                $content->attachments()->save($attachment);
+            }
+        }
+    }
 
 	public function get_written($step = 1) {
 

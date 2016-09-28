@@ -47,4 +47,9 @@ class TwitterAPI
             $flashMessage .= "Please make sure the connection is properly configured before trying again.";
         }
     }
+
+    public function handleAttachments($content)
+    {
+        $attachments = $content->attachments;
+    }
 }
