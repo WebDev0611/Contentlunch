@@ -48,8 +48,22 @@ class TwitterAPI
         }
     }
 
-    public function handleAttachments($content)
+    public function uploadAttachments()
     {
-        $attachments = $content->attachments;
+        $attachments = $this->content->attachments;
+        $responses = [];
+
+        foreach ($attachments as $attachment) {
+            $url = $attachment->filePath;
+            $responses []= Twitter::uploadMedia([ 'media' => $this->base64file($url) ]);
+        }
+    }
+
+    private function base64file($url)
+    {
+        $client = new Guzzle\Http\Client();
+        $response = $client->get($url)->send();
+
+        return base64_encode($response->getBody()->getStream());
     }
 }
