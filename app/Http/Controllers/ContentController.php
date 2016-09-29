@@ -212,14 +212,29 @@ class ContentController extends Controller {
 		]);
 	}
 
+
+    /**
+     * Shortcut functions to remove possibility of error.
+     * Handling of images.
+     *
+     * @param  ContentRequest   $request        The Request instance
+     * @param  Content          $content        Content instance
+     */
     private function handleImages($request, $content)
     {
         return $this->handleAttachments($request, $content, 'image');
     }
 
+    /**
+     * Shortcut functions to remove possibility of error.
+     * Handling of files.
+     *
+     * @param  ContentRequest   $request        The Request instance
+     * @param  Content          $content        Content instance
+     */
     private function handleFiles($request, $content)
     {
-        return $this->handleAttachments($request, $content, 'file');
+        $this->handleAttachments($request, $content, 'file');
     }
 
     /**
