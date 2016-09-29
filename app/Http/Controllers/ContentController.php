@@ -202,35 +202,7 @@ class ContentController extends Controller {
 
 		// - Images
         $this->handleImages($request, $content);
-
-		// - File Attachments
-		if ($request->hasFile('files')) {
-
-			foreach ($request->file('files') as $file) {
-                $filename  = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
-                $mime      = $file->getClientMimeType();
-                $fileDoc   = time().'_'.$filename;
-                $path      = 'attachment/'.Auth::id().'/files/';
-                $fullPath  = $path.$fileDoc;
-				Storage::put($fullPath,  File::get($file));
-
-                $url = Storage::url($fullPath);
-
-				// - Caputure the upload
-                $attachment            = new Attachment;
-                $attachment->filepath  = $url;
-                $attachment->type      = 'file';
-                $attachment->filename  = $filename;
-                $attachment->extension = $extension;
-                $attachment->mime      = $mime;
-				$attachment->save();
-				// attach image to content
-				$content->attachments()->save($attachment);
-			}
-		}
-
-        $dueDate = new Carbon($content->due_date);
+        $this->handleFiles($request, $content);
 
 		// - Lets get out of here
 		return redirect()->route('contentIndex')->with([
@@ -240,30 +212,55 @@ class ContentController extends Controller {
 		]);
 	}
 
-    private function handleImages($request, $content) {
-        if ($request->hasFile('images')) {
+    private function handleImages($request, $content)
+    {
+        return $this->handleAttachments($request, $content, 'image');
+    }
 
-            foreach ($request->file('images') as $image) {
-                $filename  = $image->getClientOriginalName();
-                $extension = $image->getClientOriginalExtension();
-                $mime      = $image->getClientMimeType();
-                $fileDoc   = time().'_'.$filename;
-                $path      = 'attachment/'.Auth::id().'/images/';
-                $fullPath  = $path.$fileDoc;
+    private function handleFiles($request, $content)
+    {
+        return $this->handleAttachments($request, $content, 'file');
+    }
 
-                Storage::put($fullPath, File::get($image));
+    /**
+     * Function to upload files to S3 and save them in the database.
+     *
+     * @param  ContentRequest   $request        The Request instance
+     * @param  Content          $content        Content instance
+     * @param  string $filetype                 A string indicating the filetype.
+     *                                          Images should be 'image'. Everything else will
+     *                                          be treated as files.
+     * @return void
+     */
+    private function handleAttachments($request, $content, $filetype = 'file')
+    {
+        $path = 'attachment/' . Auth::id() . ($filetype == 'image' ? '/images/' : '/files/');
+        $requestField = $filetype == 'image' ? 'images' : 'files';
+
+        if ($request->hasFile($requestField)) {
+
+            foreach ($request->file($requestField) as $file) {
+
+                $filename  = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $mime      = $file->getClientMimeType();
+                $timestamp = Carbon::now('UTC')->format('Ymd_His');
+                $fileDoc   = $timestamp . '_' . $filename;
+                $fullPath  = $path . $fileDoc;
+
+                Storage::put($fullPath, File::get($file));
 
                 $url = Storage::url($fullPath);
 
                 // - Caputure the upload
                 $attachment            = new Attachment;
                 $attachment->filepath  = $fullPath;
-                $attachment->type      = 'image';
+                $attachment->type      = $filetype;
                 $attachment->filename  = $url;
                 $attachment->extension = $extension;
                 $attachment->mime      = $mime;
                 $attachment->save();
-                // attach image to content
+
                 $content->attachments()->save($attachment);
             }
         }
