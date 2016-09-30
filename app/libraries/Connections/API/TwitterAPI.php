@@ -43,11 +43,20 @@ class TwitterAPI
         $message = strip_tags($this->content->body);
 
         try {
-            Twitter::postTweet([ 'status' => $message ]);
+            $payload = [ 'status' => $message ];
+
+            if ($this->content->attachments) {
+                $payload['media_ids'] = $this->content->attachments
+                    ->pluck('twitter_media_id_string')
+                    ->filter()
+                    ->slice(0, 4)
+                    ->implode(',');
+            }
+
+            Twitter::postTweet($payload);
         }
         catch (Exception $e) {
-            $flashMessage  = "We couldn't post the content to Twitter using the connection [" . $settings->name . "]. ";
-            $flashMessage .= "Please make sure the connection is properly configured before trying again.";
+
         }
     }
 
@@ -60,21 +69,23 @@ class TwitterAPI
             if ($attachment->twitter_media_id_string) {
                 continue;
             }
-            $base64file = $this->base64file($attachment->filename, $attachment->mime);
-            try {
-                $response = Twitter::uploadMedia([ 'media_data' => $base64file ]);
-            } catch (Exception $e) {
 
+            $base64file = $this->base64file($attachment->filename);
+
+            try {
+
+                $response = Twitter::uploadMedia([ 'media_data' => $base64file ]);
+                $attachment->twitter_media_id_string = $response->media_id_string;
+                $attachment->save();
+
+            } catch (Exception $e) {
+                continue;
             }
         }
     }
 
-    private function base64file($url, $mimeType)
+    private function base64file($url)
     {
-        $client = new \Guzzle\Http\Client();
-        // $response = $client->get($url)->send();
-
-        // return base64_encode($response->getBody());
         return base64_encode(file_get_contents($url));
     }
 }
