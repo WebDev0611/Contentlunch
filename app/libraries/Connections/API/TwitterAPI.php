@@ -60,13 +60,20 @@ class TwitterAPI
         }
     }
 
+    /**
+     * Uploads attachments. Right now working only for images.
+     *
+     * @return void
+     */
     public function uploadAttachments()
     {
         $attachments = $this->content->attachments;
 
         foreach ($attachments as $attachment) {
 
-            if ($attachment->twitter_media_id_string) {
+            if (($attachment->twitter_media_id_string) ||
+                ($attachment->type != 'image'))
+            {
                 continue;
             }
 
