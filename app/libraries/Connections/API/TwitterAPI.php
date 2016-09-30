@@ -2,8 +2,10 @@
 
 namespace Connections\API;
 
+use Exception;
 use Twitter;
 use Session;
+use Log;
 
 class TwitterAPI
 {
@@ -36,6 +38,7 @@ class TwitterAPI
     public function createPost()
     {
         $this->setupTwitterConnection();
+        $this->uploadAttachments();
 
         $message = strip_tags($this->content->body);
 
@@ -51,19 +54,27 @@ class TwitterAPI
     public function uploadAttachments()
     {
         $attachments = $this->content->attachments;
-        $responses = [];
 
         foreach ($attachments as $attachment) {
-            $url = $attachment->filePath;
-            $responses []= Twitter::uploadMedia([ 'media' => $this->base64file($url) ]);
+
+            if ($attachment->twitter_media_id_string) {
+                continue;
+            }
+            $base64file = $this->base64file($attachment->filename, $attachment->mime);
+            try {
+                $response = Twitter::uploadMedia([ 'media_data' => $base64file ]);
+            } catch (Exception $e) {
+
+            }
         }
     }
 
-    private function base64file($url)
+    private function base64file($url, $mimeType)
     {
-        $client = new Guzzle\Http\Client();
-        $response = $client->get($url)->send();
+        $client = new \Guzzle\Http\Client();
+        // $response = $client->get($url)->send();
 
-        return base64_encode($response->getBody()->getStream());
+        // return base64_encode($response->getBody());
+        return base64_encode(file_get_contents($url));
     }
 }
