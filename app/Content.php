@@ -77,12 +77,34 @@ class Content extends Model
     public static function dropdown($user = null)
     {
         $user = $user ?: Auth::user();
-          // - Create Related Drop Down Data
-          $relateddd = ['' => '-- Select Related Content --'];
-          $relateddd = $user->contents()->select('id','title')->orderBy('title', 'asc')->distinct()->lists('title', 'id')->toArray();
-          return $relateddd;
+        // - Create Related Drop Down Data
+        $relateddd = ['' => '-- Select Related Content --'];
+        $relateddd = $user->contents()
+            ->select('id','title')
+            ->orderBy('title', 'asc')
+            ->distinct()
+            ->lists('title', 'id')
+            ->toArray();
+
+        return $relateddd;
     }
 
-
+    /**
+     * Configures the flags ready_published, written and published according to the
+     * $action string
+     */
+    public function configureAction($action = null)
+    {
+        if ($action) {
+            $this->ready_published = $action == 'ready_to_publish' ? 1 : 0;
+            $this->written = $action == 'written_content' ? 1 : 0;
+            $this->published = $action == 'publish' ? 1 : 0;
+        }
+        else {
+            $this->published = 0;
+            $this->ready_published = 0;
+            $this->written = 1;
+        }
+    }
 
 }

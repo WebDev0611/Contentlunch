@@ -157,9 +157,7 @@ class ContentController extends Controller {
 
         $action = $request->input('action');
 
-        $content->ready_published = $action == 'ready_to_publish' ? 1 : 0;
-        $content->written = $action == 'written_content' ? 1 : 0;
-        $content->published = $action == 'publish' ? 1 : 0;
+        $content->configureAction($request->input('action'));
 
 		$content->title = $request->input('title');
 		$content->body = $request->input('content');
