@@ -82,6 +82,7 @@ Route::resource('/task/add','TaskController@store');
 
 
 Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);
+Route::get('/content/delete/{content_id}', [ 'as' => 'contentDelete', 'uses' => 'ContentController@delete' ]);
 Route::get('/content/publish/{content}', ['as' => 'contentPublish', 'uses' =>'ContentController@publishAndRedirect' ]);
 Route::get('/content/multipublish/{content}', [ 'as' => 'contentMultiPublish', 'uses' => 'ContentController@directPublish' ]);
 

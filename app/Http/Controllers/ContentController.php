@@ -215,6 +215,32 @@ class ContentController extends Controller
         }
 	}
 
+    public function delete(Request $request, $content_id)
+    {
+        $content = Content::find($content_id);
+
+        if ($content) {
+            $content->related()->detach();
+            $content->tags()->detach();
+            $content->authors()->detach();
+            $content->attachments()->delete();
+            $content->delete();
+
+            return redirect()->route('contentIndex')->with([
+                'flash_message' => 'You have successfully deleted ' . $content->title . '.',
+                'flash_message_type' => 'success',
+                'flash_message_important' => true
+            ]);
+        }
+        else {
+            return redirect()->route('contentIndex')->with([
+                'flash_message' => 'Unable to delete content: not found.',
+                'flash_message_type' => 'danger',
+                'flash_message_important' => true
+            ]);
+        }
+    }
+
 
     /**
      * Shortcut functions to remove possibility of error.
