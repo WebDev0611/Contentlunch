@@ -203,12 +203,16 @@ class ContentController extends Controller
         $this->handleImages($request, $content);
         $this->handleFiles($request, $content);
 
-		// - Lets get out of here
-		return redirect()->route('contentIndex')->with([
-		    'flash_message' => 'You have created content titled '.$content->title.'.',
-		    'flash_message_type' => 'success',
-		    'flash_message_important' => true
-		]);
+        if ($content->published) {
+            return $this->publishAndRedirect($request, $content->id);
+        }
+        else {
+            return redirect()->route('contentIndex')->with([
+                'flash_message' => 'You have created content titled '.$content->title.'.',
+                'flash_message_type' => 'success',
+                'flash_message_important' => true
+            ]);
+        }
 	}
 
 
