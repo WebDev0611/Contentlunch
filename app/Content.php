@@ -66,7 +66,7 @@ class Content extends Model
 
     public function adjustments()
     {
-       return $this->belongsToMany('App\User', 'adjustments')
+        return $this->belongsToMany('App\User', 'adjustments')
                           ->withTimestamps()
                           ->withPivot(['before', 'after','id'])
                           ->latest('pivot_updated_at');

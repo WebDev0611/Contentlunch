@@ -23,7 +23,8 @@ use Illuminate\Http\Request;
 use Input;
 
 
-class ContentController extends Controller {
+class ContentController extends Controller
+{
 
     public function index()
     {
@@ -114,8 +115,8 @@ class ContentController extends Controller {
     }
 
 	// this is technically create content
-	public function createContent() {
-
+	public function createContent()
+    {
 		$tagsdd = Tag::dropdown();
 		$authordd = User::dropdown();
 		$relateddd = Content::dropdown();
@@ -128,8 +129,8 @@ class ContentController extends Controller {
 	}
 
 	// - edit content on page
-	public function editContent(Content $content) {
-
+	public function editContent(Content $content)
+    {
 		$tagsdd = Tag::dropdown();
 		$authordd = User::dropdown();
 		$relateddd = Content::dropdown();
@@ -139,10 +140,10 @@ class ContentController extends Controller {
 		$contenttypedd = ContentType::dropdown();
 
 		return View::make('content.editor', compact('content', 'contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));
-
 	}
 
-	public function editStore(ContentRequest $request, $id = null) {
+	public function editStore(ContentRequest $request, $id = null)
+    {
 		// - Default to creating a new Content
 		$content = new Content;
 
@@ -279,20 +280,19 @@ class ContentController extends Controller {
         }
     }
 
-	public function get_written($step = 1) {
-
+	public function get_written($step = 1)
+    {
 		//need to do proper form validation, etc.
 		//this is just to get the UI spit out
 
-		if($step == 1){
+        if ($step == 1) {
 			return View::make('content.get_written_1');
 		}
-		if($step == 2){
+		if ($step == 2) {
 			return View::make('content.get_written_2');
 		}
-		if($step == 3){
+		if ($step == 3) {
 			return View::make('content.get_written_3');
 		}
 	}
-
 }
