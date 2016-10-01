@@ -51,7 +51,7 @@
                                             <li><a href="#">Preview</a></li>
                                             <li><a href="#">Export to PDF</a></li>
                                             <li><a href="#">Park</a></li>
-                                            <li><a href="#">Delete</a></li>
+                                            <li><a href="{{ route('contentDelete', $content->id) }}">Delete</a></li>
                                         </ul>
                                     </div>
                                 </div>
