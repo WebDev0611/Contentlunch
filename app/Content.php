@@ -56,7 +56,7 @@ class Content extends Model
     // connection
     public function connection()
     {
-       return $this->belongsTo('App\Connection');
+        return $this->belongsTo('App\Connection');
     }
     // - related content
     public function related()
