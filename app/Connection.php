@@ -13,17 +13,19 @@ class Connection extends Model {
     {
         return $this->belongsTo('App\Provider', 'provider_id');
     }
-    
+
     public function contents()
     {
        return $this->hasMany('App\Content');
     }
+
     // - A Getter for settings so we can decode the JSON
-    public function getSettings() 
+    public function getSettings()
     {
         return json_decode($this->settings);
     }
-    public static function  getConnectionbySlug($slug) 
+
+    public static function  getConnectionbySlug($slug)
     {
         $result = Auth::user()->connections()->join('providers','.providers.id', '=', 'connections.provider_id')->where('slug',$slug)->select('settings')->first();
         // - return a value
@@ -34,7 +36,7 @@ class Connection extends Model {
         return [];
     }
 
-    public static function dropdown() 
+    public static function dropdown()
     {
             // - Create Connections Drop Down Data
         $connectionsdd = ['' => '-- Select Destination --'];

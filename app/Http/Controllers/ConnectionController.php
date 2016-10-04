@@ -37,17 +37,17 @@ class ConnectionController extends Controller {
 		// -publish_pages - A page access token with publish_pages permission can be used to publish new posts on behalf of that page. Posts will appear in the voice of the page.
 		// - publish_actions - A user access token with publish_actions permission can be used to publish new posts on behalf of that person. Posts will appear in the voice of the user.
 		// -- End Facebook
-		
-	}	
+
+	}
 
 	public function login($provider)
-	{  
+	{
 		// $user = Socialite::driver($provider)->user();
 		// dd($user);
-		// 
-		// 
-		// 
-		
+		//
+		//
+		//
+
 		 $fb = new Facebook ([
 			  'app_id' => Config::get('services.facebook.client_id'),
 			  'app_secret' => Config::get('services.facebook.client_secret'),
@@ -66,7 +66,7 @@ class ConnectionController extends Controller {
 		$conn->user_id = Auth::id();
 		$conn->settings = json_encode($settings);
 		$conn->save();
-		// get list of accounts to select one		
+		// get list of accounts to select one
 		$response = $fb->get('/me/accounts'); // - get a list of accounts
 
 		// - save selected
@@ -105,8 +105,6 @@ class ConnectionController extends Controller {
 		$conn = Connection::find(56);
 		$settings = json_decode($conn->settings);
 
-
-
 		$linkData = [
 		'message' => 'Test message front content launch website.',
 		//backdated_time
@@ -118,7 +116,6 @@ class ConnectionController extends Controller {
 		//$response = $fb->post('/691957114295469/feed', $linkData);
 		//$response = $fb->get('/me/accounts'); // - get a list of accounts
 		$response = $fb->get('/691957114295469?fields=access_token'); // get access token
-
 
 		//$response = $fb->post('/691957114295469/feed', $linkData, $accessToken->getValue());
 
