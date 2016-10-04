@@ -20,7 +20,14 @@ use Auth;
 
 class ConnectionController extends Controller {
 
-	public function redirectToProvider($provider){  
+	public function index()
+	{
+		return response()->json([
+			'data' => Connection::with('provider.contentType')->get()
+		]);
+	}
+
+	public function redirectToProvider($provider) {
 		$scope = [];
 		// break this out into some dynamic class maybe?
 		// -- need to see how this plays out

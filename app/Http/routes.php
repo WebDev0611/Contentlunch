@@ -142,3 +142,9 @@ Route::group(['prefix' => 'twitter'], function() {
     Route::get('followers', [ 'uses' => 'Connections\TwitterController@userSearch' ]);
 });
 
+/**
+ * AJAX Helpers
+ */
+Route::group([ 'prefix' => 'api', 'middleware' => [ ] ], function() {
+    Route::get('/connections', [ 'as' => 'connectionAjaxIndex', 'uses' => 'ConnectionController@index' ]);
+});
