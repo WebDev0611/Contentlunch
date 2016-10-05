@@ -98,7 +98,7 @@
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="content_type">CONTENT TYPE</label>
-                                    {!! Form::select('content_type', $contenttypedd, @isset($content)? $content->content_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
+                                    {!! Form::select('content_type', $contenttypedd, @isset($content) ? $content->content_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
                                 </div>
                             </div>
                             <div class="col-sm-4">
