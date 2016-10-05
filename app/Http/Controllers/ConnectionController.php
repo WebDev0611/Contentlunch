@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Content\ContentRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\ContentType;
 use App\BuyingStage;
@@ -20,12 +21,19 @@ use Auth;
 
 class ConnectionController extends Controller {
 
-	public function index()
-	{
-		return response()->json([
-			'data' => Connection::with('provider.contentType')->get()
-		]);
-	}
+    public function index(Request $request)
+    {
+        $contentTypeId = $request->get('content_type');
+
+        $data = Connection::selectRaw('connections.*, content_types.name as content_type, content_types.id as content_type_id')
+            ->join('content_types', 'content_types.provider_id', '=', 'connections.provider_id');
+
+        if ($contentTypeId) {
+            $data = $data->where('content_types.id', $contentTypeId);
+        }
+
+        return response()->json([ 'data' => $data->get() ]);
+    }
 
 	public function redirectToProvider($provider) {
 		$scope = [];
