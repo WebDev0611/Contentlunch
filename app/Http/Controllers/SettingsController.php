@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use View;
 use Auth;
-use App\Http\Requests\Connection\ConnectionRequest;
 use Crypt;
-use App\Provider;
-use App\Connection;
+use File;
+use Storage;
+use View;
+use Carbon\Carbon;
+
+use App\Http\Requests\Connection\ConnectionRequest;
 use App\Http\Requests\AccountSettings\AccountSettingsRequest;
+use App\Connection;
+use App\Provider;
+use App\Helpers;
 
 class SettingsController extends Controller {
 
@@ -20,7 +25,40 @@ class SettingsController extends Controller {
 
     public function update(AccountSettingsRequest $request)
     {
+        $user = Auth::user();
 
+        $user->email = $request->input('email');
+        $user->name = $request->input('name');
+
+        if ($request->hasFile('avatar')) {
+            $user->profile_image = $this->handleProfilePicture($request->file('avatar'));
+        }
+
+        $user->save();
+
+        return redirect()->route('settingsIndex')->with([
+            'flash_message' => "Account settings updated.",
+            'flash_message_type' => 'success',
+            'flash_message_important' => true
+        ]);
+    }
+
+    private function handleProfilePicture($file)
+    {
+        $user = Auth::user();
+        $path = 'attachment/' . $user->id . '/profile/';
+
+        // TODO: validate mime type
+        $mime      = $file->getClientMimeType();
+
+        $filename  = Helpers::slugify($user->name);
+        $timestamp = Carbon::now('UTC')->format('Ymd_His');
+        $fileDoc   = $timestamp . '_' . $filename;
+        $fullPath  = $path . $fileDoc;
+
+        Storage::put($fullPath, File::get($file));
+
+        return Storage::url($fullPath);
     }
 
 	public function content(){

@@ -13,10 +13,14 @@
         <aside class="panel-sidebar right-separator">
             <div class="panel-container text-center">
                 <div class="settings-profile-image">
-                    <img src="/assets/images/avatar.jpg" alt="#">
+                    @if ($user->profile_image)
+                        <img src="{{ $user->profile_image }}" alt="#">
+                    @else
+                        <img src="/assets/images/avatar.jpg" alt="#">
+                    @endif
                 </div>
                 <div class="settings-profile-info">
-                    <h4>Storm Trooper</h4>
+                    <h4>{{ $user->name }}</h4>
                     <span>New York, USA</span>
                 </div>
 
@@ -150,6 +154,22 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-delimiter">
+                            <span>
+                                <em>Profile Picture</em>
+                            </span>
+                        </div>
+
+
+                        <div class="input-form-group">
+                            <div class="fileupload">
+                                <i class="icon-content picto"></i>
+                                <p class="msgtitle">Click to upload your profile picture</p>
+                                <input type="file" class="input input-upload" name="avatar">
+                            </div>
+                        </div>
+
                         <div class="input-form-group">
                             <button type='submit' class="button button-extend">Save Changes</button>
                         </div>
