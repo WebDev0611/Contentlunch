@@ -4,6 +4,12 @@
 @section('content')
 <div class="workspace">
     <div class="panel clearfix">
+        {!!
+            Form::model($user, [
+                    'url' => route('settingsUpdate'),
+                    'files' => 'true'
+                ])
+        !!}
         <aside class="panel-sidebar right-separator">
             <div class="panel-container text-center">
                 <div class="settings-profile-image">
@@ -51,6 +57,18 @@
                 @include('settings.partials.navigation')
             </div>
             <div class="panel-container">
+                @if ($errors->any())
+                    <div class="alert alert-danger" id="formError">
+                        <p><strong>Oops! We had some errors:</strong>
+                            <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                            </ul>
+                        </p>
+                    </div>
+                @endif
+
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <div class="input-form-group text-right">
@@ -115,12 +133,13 @@
                             </div>
                         </div>
                         <div class="input-form-group">
-                            <button class="button button-extend">Save Changes</button>
+                            <button type='submit' class="button button-extend">Save Changes</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        {!! Form::close() !!}
     </div>
 </div>
 

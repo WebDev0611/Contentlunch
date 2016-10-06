@@ -8,19 +8,28 @@ use App\Http\Requests\Connection\ConnectionRequest;
 use Crypt;
 use App\Provider;
 use App\Connection;
+use App\Http\Requests\AccountSettings\AccountSettingsRequest;
 
 class SettingsController extends Controller {
 
-	public function index(){
-		return View::make('settings.index');
-	}
+    public function index()
+    {
+        $user = Auth::user();
+        return View::make('settings.index', compact('user'));
+    }
+
+    public function update(AccountSettingsRequest $request)
+    {
+
+    }
 
 	public function content(){
 		return View::make('settings.content');
 
 	}
 
-	public function connections(){
+    public function connections()
+    {
 		// Pulling Connection information
 		$connections = Auth::user()->connections()->get();
 		$activeConnectionsCount = Auth::user()->connections()->where('successful',1)->count();
@@ -31,7 +40,7 @@ class SettingsController extends Controller {
 
 		return View::make('settings.connections', compact('connectiondd', 'connections', 'activeConnectionsCount'));
 
-	}	
+	}
 
 	public function connectionCreate(ConnectionRequest $request){
 		// - Standard Inputs
@@ -57,7 +66,7 @@ class SettingsController extends Controller {
 		// - Store the conection data
 		$conn = new Connection;
 		$conn->name = $connName;
-		$conn->provider_id = Provider::findBySlug($connType)->id; 
+		$conn->provider_id = Provider::findBySlug($connType)->id;
 		$conn->active = ($connActive = 'on' ? 1 : 0);
 		$conn->settings = json_encode($dataArray);
 
@@ -70,7 +79,7 @@ class SettingsController extends Controller {
 		   $conn->successful = 1;
 		}*/
 		// --- BROKEN --
-		
+
 		$conn->save();
 
 		// - Attach to the user
