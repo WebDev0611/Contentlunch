@@ -550,6 +550,51 @@
             }
         });
 
+        $('#contentType').change(contentTypeChangeCallback);
+        $('#contentType').trigger('change');
+
+        function contentTypeChangeCallback() {
+            var contentType = $('#contentType').val();
+
+            $('#connections').html('');
+            addDropdownEmptyOption();
+
+            if (contentType) {
+                fetchConnections(contentType).then(updateContentDestinationDropdown);
+            }
+        }
+
+        function fetchConnections(contentType) {
+            return $.ajax({
+                method: 'get',
+                url: '/api/connections',
+                data: {
+                    content_type: contentType
+                }
+            });
+        }
+
+        function updateContentDestinationDropdown(response) {
+            for (var i = 0; i < response.data.length; i++) {
+                var connection = response.data[i];
+                var optionAttributes = {
+                    value: connection.id,
+                    text: connection.name
+                };
+
+                $('<option/>', optionAttributes).appendTo('#connections');
+            }
+        }
+
+        function addDropdownEmptyOption() {
+            var optionAttributes = {
+                value: "",
+                text: "-- Select Destination --"
+            };
+
+            $('<option/>', optionAttributes).appendTo("#connections");
+        }
+
         function updateCount(event) {
             if (isTweet()) {
                 characterCounter.show();
