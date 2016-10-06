@@ -125,14 +125,14 @@ Route::get('/collaborate/bookmarks','CollaborateController@bookmarks');
 
 Route::get('/onboarding','OnboardingController@index');
 
-Route::get('/settings', ['as' => 'settingsIndex', 'uses' => 'SettingsController@index']);
-
 Route::group(['prefix' => 'settings'], function() {
+    Route::get('/', [ 'as' => 'settingsIndex', 'uses' => 'SettingsController@index' ]);
+    Route::post('/', [ 'as' => 'settingsUpdate', 'uses' => 'SettingsController@update']);
 	Route::get('content',  ['as' => 'settingsContentIndex', 'uses' => 'SettingsController@content']);
-	// - Connection Routes
+
+    // Connection Routes
 	Route::get('connections', ['as' => 'connectionIndex', 'uses' => 'SettingsController@connections']);
 	Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'SettingsController@connectionCreate'] );
-
 
 	Route::get('seo', ['as' => 'seoIndex', 'uses' =>'SettingsController@seo']);
 	Route::get('buying','SettingsController@buying');
