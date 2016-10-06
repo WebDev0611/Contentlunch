@@ -8,11 +8,11 @@
 
             <!-- Main Pane -->
             <div class="panel-main">
-@if (isset($content))
-{!! Form::model($content, array('url' => url('edit') . '/' . $content->id)) !!}
-@else
-{{ Form::open(array('url' => 'edit', 'files'=>'true')) }}
-@endif
+                @if (isset($content))
+                    {!! Form::model($content, ['url' => url('edit') . '/' . $content->id, 'files' => 'true' ]) !!}
+                @else
+                    {{ Form::open(['url' => 'edit', 'files'=>'true']) }}
+                @endif
                 <!-- Panel Header -->
                 <div class="panel-header">
                     <div class="panel-options">
@@ -51,7 +51,7 @@
                                             <li><a href="#">Preview</a></li>
                                             <li><a href="#">Export to PDF</a></li>
                                             <li><a href="#">Park</a></li>
-                                            <li><a href="#">Delete</a></li>
+                                            <li><a href="{{ route('contentDelete', $content->id) }}">Delete</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="content_type">CONTENT TYPE</label>
-                                    {!! Form::select('content_type', $contenttypedd, @isset($content)? $content->content_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
+                                    {!! Form::select('content_type', $contenttypedd, @isset($content) ? $content->content_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -549,6 +549,51 @@
                 event.preventDefault();
             }
         });
+
+        $('#contentType').change(contentTypeChangeCallback);
+        $('#contentType').trigger('change');
+
+        function contentTypeChangeCallback() {
+            var contentType = $('#contentType').val();
+
+            $('#connections').html('');
+            addDropdownEmptyOption();
+
+            if (contentType) {
+                fetchConnections(contentType).then(updateContentDestinationDropdown);
+            }
+        }
+
+        function fetchConnections(contentType) {
+            return $.ajax({
+                method: 'get',
+                url: '/api/connections',
+                data: {
+                    content_type: contentType
+                }
+            });
+        }
+
+        function updateContentDestinationDropdown(response) {
+            for (var i = 0; i < response.data.length; i++) {
+                var connection = response.data[i];
+                var optionAttributes = {
+                    value: connection.id,
+                    text: connection.name
+                };
+
+                $('<option/>', optionAttributes).appendTo('#connections');
+            }
+        }
+
+        function addDropdownEmptyOption() {
+            var optionAttributes = {
+                value: "",
+                text: "-- Select Destination --"
+            };
+
+            $('<option/>', optionAttributes).appendTo("#connections");
+        }
 
         function updateCount(event) {
             if (isTweet()) {
