@@ -81,7 +81,16 @@
                             <div class="col-md-6">
                                 <div class="input-form-group">
                                     <label for="#">FULL NAME</label>
-                                    <input type="text" class="input" placeholder="Name Surname">
+                                    {!!
+                                        Form::text(
+                                            'name',
+                                            @isset($user) ? $user->name : '',
+                                            [
+                                                'class' => 'input',
+                                                'placeholder' => 'Name Surname'
+                                            ]
+                                        )
+                                    !!}
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -128,7 +137,16 @@
                             <div class="col-md-6">
                                 <div class="input-form-group">
                                     <label for="#">EMAIL ADDRESS</label>
-                                    <input type="text" class="input" placeholder="info@contentlaunch.com">
+                                    {!!
+                                        Form::text(
+                                            'email',
+                                            @isset($user) ? $user->email : '',
+                                            [
+                                                'class' => 'input',
+                                                'placeholder' => 'Your email here'
+                                            ]
+                                        )
+                                    !!}
                                 </div>
                             </div>
                         </div>
