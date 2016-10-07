@@ -3,6 +3,8 @@
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Helpers;
+
 class Content extends Model
 {
     /**
@@ -140,6 +142,47 @@ class Content extends Model
             $this->ready_published = 0;
             $this->written = 1;
         }
+    }
+
+    /**
+     * Returns a clean value to be used in the content history sidebar.
+     *
+     * @param  string $key
+     * @param  string $value
+     * @return string
+     */
+    public static function cleanedHistoryContent($key, $value)
+    {
+        switch ($key) {
+            case 'content_type_id':
+            case 'connection_id':
+            case 'buying_stage_id':
+            case 'campaign_id':
+            case 'user_id':
+                $formattedContent = Helpers::getRelatedContentString($key, $value);
+                break;
+
+            case 'body':
+                $formattedContent = $value ? strip_tags($value) : '-';
+                break;
+
+            case 'due_date':
+                $formattedContent = $value == '0000-00-00' ? 'Empty Date' : $value;
+                break;
+
+            case 'archived':
+            case 'ready_published':
+            case 'published':
+            case 'written':
+                $formattedContent = $value ? 'Yes' : 'No';
+                break;
+
+            default:
+                $formattedContent = $value ? $value : '-';
+                break;
+        }
+
+        return $formattedContent;
     }
 
     public function __toString()
