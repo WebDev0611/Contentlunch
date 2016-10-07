@@ -62,36 +62,38 @@ class Content extends Model
                 'after' => json_encode($changed)
             ]);
         }
-
     }
 
     public function authors()
     {
         return $this->belongsToMany('App\User');
     }
+
     // tag linking
     public function tags()
     {
         return $this->belongsToMany('App\Tag');
     }
-    // - holds images and files
+
+    // holds images and files
     public function attachments()
     {
         return $this->hasMany('App\Attachment');
     }
+
     // campaign
     public function campaign()
     {
         return $this->belongsTo('App\Campaign');
     }
 
-
     // connection
     public function connection()
     {
         return $this->belongsTo('App\Connection');
     }
-    // - related content
+
+    // related content
     public function related()
     {
        return $this->belongsToMany('App\Content', 'content_related', 'content_id', 'related_content_id');
@@ -100,17 +102,17 @@ class Content extends Model
     public function adjustments()
     {
         return $this->belongsToMany('App\User', 'adjustments')
-                          ->withTimestamps()
-                          ->withPivot(['before', 'after','id'])
-                          ->latest('pivot_updated_at');
+            ->withTimestamps()
+            ->withPivot(['before', 'after','id'])
+            ->latest('pivot_updated_at');
     }
 
-    // - Eek not sure if this make sense to pull user specific drop down from contents model
-    // -- maybe from user model with different function name
+    // Eek not sure if this make sense to pull user specific drop down from contents model
+    // maybe from user model with different function name
     public static function dropdown($user = null)
     {
         $user = $user ?: Auth::user();
-        // - Create Related Drop Down Data
+        // Create Related Drop Down Data
         $relateddd = ['' => '-- Select Related Content --'];
         $relateddd = $user->contents()
             ->select('id','title')
