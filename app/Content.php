@@ -108,4 +108,9 @@ class Content extends Model
         }
     }
 
+    public function __toString()
+    {
+        return $this->title;
+    }
+
 }
