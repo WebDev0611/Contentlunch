@@ -40,4 +40,8 @@ class ContentType extends Model {
         return $contenttypedd;
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
