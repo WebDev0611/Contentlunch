@@ -5,6 +5,33 @@ use Illuminate\Database\Eloquent\Model;
 
 class Content extends Model
 {
+    /**
+     * Human readable column names.
+     *
+     * @var array
+     */
+    private static $fieldNames = [
+        'id'               => 'ID',
+        'content_type_id'  => 'Content Type',
+        'due_date'         => 'Due Date',
+        'title'            => 'Title',
+        'connection_id'    => 'Connection',
+        'body'             => 'Body',
+        'buying_stage_id'  => 'Buying Stage',
+        'persona_id'       => 'Persona',
+        'campaign_id'      => 'Campaign',
+        'meta_title'       => 'Meta Title',
+        'meta_keywords'    => 'Meta Keywords',
+        'meta_description' => 'Meta Description',
+        'archived'         => 'Archived',
+        'ready_published'  => 'Ready to be published',
+        'published'        => 'Published',
+        'written'          => 'Written',
+        'user_id'          => 'Author',
+        'created_at'       => 'Create at',
+        'updated_at'       => 'Updated at',
+    ];
+
     public static function boot()
     {
         parent::boot();
@@ -13,14 +40,19 @@ class Content extends Model
         });
     }
 
+    public static function fieldName($key = null)
+    {
+        return Content::$fieldNames[$key];
+    }
+
     public function logChanges($userId = null)
     {
         $userId = $userId ?: Auth::id();
         $changed  = $this->getDirty();
         $fresh = $this->fresh()->toArray();
 
-        // - don't want to track file and images ( i don't think )
-        // -- removing the input fields i don't want to track and bloat the history
+        // don't want to track file and images ( i don't think )
+        // removing the input fields i don't want to track and bloat the history
         array_forget($changed, ['updated_at', 'files', 'images']);
         array_forget($fresh, ['updated_at', 'files', 'images']);
 
