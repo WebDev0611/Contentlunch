@@ -52,7 +52,7 @@ class SettingsController extends Controller {
         $mime      = $file->getClientMimeType();
 
         $extension = $file->getClientOriginalExtension();
-        $filename  = Helpers::slugify($user->name) . $extension;
+        $filename  = Helpers::slugify($user->name) . '.' . $extension;
         $timestamp = Carbon::now('UTC')->format('Ymd_His');
         $fileDoc   = $timestamp . '_' . $filename;
         $fullPath  = $path . $fileDoc;
