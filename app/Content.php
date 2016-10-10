@@ -3,8 +3,37 @@
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Helpers;
+
 class Content extends Model
 {
+    /**
+     * Human readable column names.
+     *
+     * @var array
+     */
+    private static $fieldNames = [
+        'id'               => 'ID',
+        'content_type_id'  => 'Content Type',
+        'due_date'         => 'Due Date',
+        'title'            => 'Title',
+        'connection_id'    => 'Connection',
+        'body'             => 'Body',
+        'buying_stage_id'  => 'Buying Stage',
+        'persona_id'       => 'Persona',
+        'campaign_id'      => 'Campaign',
+        'meta_title'       => 'Meta Title',
+        'meta_keywords'    => 'Meta Keywords',
+        'meta_description' => 'Meta Description',
+        'archived'         => 'Archived',
+        'ready_published'  => 'Ready to be published',
+        'published'        => 'Published',
+        'written'          => 'Written',
+        'user_id'          => 'Author',
+        'created_at'       => 'Create at',
+        'updated_at'       => 'Updated at',
+    ];
+
     public static function boot()
     {
         parent::boot();
@@ -13,14 +42,19 @@ class Content extends Model
         });
     }
 
+    public static function fieldName($key = null)
+    {
+        return Content::$fieldNames[$key];
+    }
+
     public function logChanges($userId = null)
     {
         $userId = $userId ?: Auth::id();
         $changed  = $this->getDirty();
         $fresh = $this->fresh()->toArray();
 
-        // - don't want to track file and images ( i don't think )
-        // -- removing the input fields i don't want to track and bloat the history
+        // don't want to track file and images ( i don't think )
+        // removing the input fields i don't want to track and bloat the history
         array_forget($changed, ['updated_at', 'files', 'images']);
         array_forget($fresh, ['updated_at', 'files', 'images']);
 
@@ -30,36 +64,38 @@ class Content extends Model
                 'after' => json_encode($changed)
             ]);
         }
-
     }
 
     public function authors()
     {
         return $this->belongsToMany('App\User');
     }
+
     // tag linking
     public function tags()
     {
         return $this->belongsToMany('App\Tag');
     }
-    // - holds images and files
+
+    // holds images and files
     public function attachments()
     {
         return $this->hasMany('App\Attachment');
     }
+
     // campaign
     public function campaign()
     {
         return $this->belongsTo('App\Campaign');
     }
 
-
     // connection
     public function connection()
     {
         return $this->belongsTo('App\Connection');
     }
-    // - related content
+
+    // related content
     public function related()
     {
        return $this->belongsToMany('App\Content', 'content_related', 'content_id', 'related_content_id');
@@ -68,17 +104,17 @@ class Content extends Model
     public function adjustments()
     {
         return $this->belongsToMany('App\User', 'adjustments')
-                          ->withTimestamps()
-                          ->withPivot(['before', 'after','id'])
-                          ->latest('pivot_updated_at');
+            ->withTimestamps()
+            ->withPivot(['before', 'after','id'])
+            ->latest('pivot_updated_at');
     }
 
-    // - Eek not sure if this make sense to pull user specific drop down from contents model
-    // -- maybe from user model with different function name
+    // Eek not sure if this make sense to pull user specific drop down from contents model
+    // maybe from user model with different function name
     public static function dropdown($user = null)
     {
         $user = $user ?: Auth::user();
-        // - Create Related Drop Down Data
+        // Create Related Drop Down Data
         $relateddd = ['' => '-- Select Related Content --'];
         $relateddd = $user->contents()
             ->select('id','title')
@@ -106,6 +142,52 @@ class Content extends Model
             $this->ready_published = 0;
             $this->written = 1;
         }
+    }
+
+    /**
+     * Returns a clean value to be used in the content history sidebar.
+     *
+     * @param  string $key
+     * @param  string $value
+     * @return string
+     */
+    public static function cleanedHistoryContent($key, $value)
+    {
+        switch ($key) {
+            case 'content_type_id':
+            case 'connection_id':
+            case 'buying_stage_id':
+            case 'campaign_id':
+            case 'user_id':
+                $formattedContent = Helpers::getRelatedContentString($key, $value);
+                break;
+
+            case 'body':
+                $formattedContent = $value ? strip_tags($value) : '-';
+                break;
+
+            case 'due_date':
+                $formattedContent = $value == '0000-00-00' ? 'Empty Date' : $value;
+                break;
+
+            case 'archived':
+            case 'ready_published':
+            case 'published':
+            case 'written':
+                $formattedContent = $value ? 'Yes' : 'No';
+                break;
+
+            default:
+                $formattedContent = $value ? $value : '-';
+                break;
+        }
+
+        return $formattedContent;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 
 }

@@ -40,8 +40,18 @@ class Connection extends Model {
     {
             // - Create Connections Drop Down Data
         $connectionsdd = ['' => '-- Select Destination --'];
-        $connectionsdd += Connection::select('id','name')->where('active',1)->orderBy('name', 'asc')->distinct()->lists('name', 'id')->toArray();
+        $connectionsdd += Connection::select('id','name')
+            ->where('active',1)
+            ->orderBy('name', 'asc')
+            ->distinct()
+            ->lists('name', 'id')
+            ->toArray();
+
         return $connectionsdd;
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
