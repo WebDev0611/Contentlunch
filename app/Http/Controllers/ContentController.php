@@ -77,7 +77,11 @@ class ContentController extends Controller
                 $data []= $this->publish($content, $connection);
             }
 
-            $response = response()->json([ 'data' => 'Content published' ], 201);
+            $response = response()
+                ->json([
+                    'data' => 'Content published',
+                    'content' => $content
+                ], 201);
         }
 
         return $response;
