@@ -223,7 +223,11 @@
             <div class="panel-container">
                 <div class="plan-activity-box-container">
                     <div class="plan-activity-box-img">
-                        <img src="/images/avatar.jpg" alt="#">
+                        @if (\Auth::user()->profile_image)
+                            <img src="{{ \Auth::user()->profile_image }}" alt="">
+                        @else
+                            <img src="/images/avatar.jpg" alt="#">
+                        @endif
                     </div>
                     <div class="plan-activity-box">
                         <span class="plan-activity-title">
