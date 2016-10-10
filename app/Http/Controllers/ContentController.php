@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Content\ContentRequest;
-use Launch\Connections\API\WordpressAPI;
 use Illuminate\Support\Facades\File;
 use App\ContentType;
 use App\BuyingStage;
