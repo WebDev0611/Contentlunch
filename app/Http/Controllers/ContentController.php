@@ -20,6 +20,7 @@ use Session;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Input;
+use Exception;
 
 
 class ContentController extends Controller
@@ -71,15 +72,27 @@ class ContentController extends Controller
         $response = response()->json([ 'data' => 'Content not found' ], 404);
 
         if ($content) {
-            $data = [];
+
+            $errors = [];
+            $connections_count = 0;
+            $connections_failed = 0;
 
             foreach ($connections as $connection) {
-                $data []= $this->publish($content, $connection);
+                $response = $this->publish($content, $connection);
+
+                if (!$response['success']) {
+                    $connectionName = (string) $connection;
+                    $errors []= [ $connectionName => $response['error'] ];
+                    $connections_failed++;
+                }
+
+                $connections_count++;
             }
 
             $response = response()
                 ->json([
                     'data' => 'Content published',
+                    'errors' => $errors,
                     'content' => $content
                 ], 201);
         }
@@ -102,6 +115,8 @@ class ContentController extends Controller
 		$content->ready_published = 0;
 		$content->written = 0;
 		$content->save();
+
+        return $create;
 	}
 
     public function publishAndRedirect(Request $request, $contentId)
