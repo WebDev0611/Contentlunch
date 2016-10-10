@@ -45,7 +45,7 @@ class TwitterAPI
         try {
             $payload = [ 'status' => $message ];
 
-            if ($this->content->attachments) {
+            if ($this->content->attachments->count()) {
                 $payload['media_ids'] = $this->content->attachments
                     ->pluck('twitter_media_id_string')
                     ->filter()
