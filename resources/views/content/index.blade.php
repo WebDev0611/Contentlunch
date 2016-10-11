@@ -223,7 +223,11 @@
             <div class="panel-container">
                 <div class="plan-activity-box-container">
                     <div class="plan-activity-box-img">
-                        <img src="/images/avatar.jpg" alt="#">
+                        @if (\Auth::user()->profile_image)
+                            <img src="{{ \Auth::user()->profile_image }}" alt="">
+                        @else
+                            <img src="/images/avatar.jpg" alt="#">
+                        @endif
                     </div>
                     <div class="plan-activity-box">
                         <span class="plan-activity-title">
@@ -357,7 +361,7 @@
                         <i class="modal-icon-success icon-check-large"></i>
                         <div class="form-group">
                             <img src="/images/avatar.jpg" alt="#" class="create-image">
-                            <h4>Blog post on online banking</h4>
+                            <h4></h4>
                         </div>
                         <p class="text-gray">IS NOW PUBLISHED TO:</p>
                         <div class="modal-social">
@@ -387,9 +391,24 @@
 
         var selectedContentId = null;
 
+        var ContentModel = Backbone.Model.extend({});
+
+        var LaunchCompletedView = Backbone.View.extend({
+            initialize: function() {
+                this.render();
+            },
+
+            render: function() {
+                var title = this.model.get('title');
+
+                this.$el.find('h4').text(title);
+                this.$el.modal('show');
+            }
+        });
+
         $('#launchButton').click(function(event) {
-            publishContent(selectedContentId);
-            showLaunchCompleted();
+            publishContent(selectedContentId)
+                .then(showLaunchCompleted);
         });
 
         $('.open-launch-menu').click(function(event) {
@@ -410,8 +429,12 @@
             });
         }
 
-        function showLaunchCompleted() {
-            $('#launchCompleted').modal('show');
+        function showLaunchCompleted(response) {
+            var content = new ContentModel(response.content);
+            var view = new LaunchCompletedView({
+                el: '#launchCompleted',
+                model: content
+            });
         }
 
     })();

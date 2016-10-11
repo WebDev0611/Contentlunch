@@ -41,11 +41,12 @@ class TwitterAPI
         $this->uploadAttachments();
 
         $message = strip_tags($this->content->body);
+        $response = [ 'success' => false, 'response' => [] ];
 
         try {
             $payload = [ 'status' => $message ];
 
-            if ($this->content->attachments) {
+            if ($this->content->attachments->count()) {
                 $payload['media_ids'] = $this->content->attachments
                     ->pluck('twitter_media_id_string')
                     ->filter()
@@ -53,11 +54,19 @@ class TwitterAPI
                     ->implode(',');
             }
 
-            Twitter::postTweet($payload);
+            $tweet = Twitter::postTweet($payload);
+
+            $response = [
+                'success' => true,
+                'response' => $tweet
+            ];
         }
         catch (Exception $e) {
-
+            $response['success'] = false;
+            $response['error'] = 'The Twitter API returned an error: ' . $e->getMessage();
         }
+
+        return $response;
     }
 
     /**
