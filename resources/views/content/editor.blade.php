@@ -232,12 +232,12 @@
 
                         <!-- Compaign Stage -->
 
+                        <!--
                         <div class="form-delimiter">
                             <span>
                                 <em>Campaign Stage</em>
                             </span>
                         </div>
-
 
                         <div class="row">
                             <div class="col-sm-4">
@@ -263,6 +263,7 @@
                                 </div>
                             </div>
                         </div>
+                        -->
 
 
                         <!-- SEO Information -->
