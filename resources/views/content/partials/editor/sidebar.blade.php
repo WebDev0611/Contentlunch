@@ -1,12 +1,14 @@
 <div class="panel-header">
     <ul class="panel-tabs withborder">
+        <!--
         <li class="active">
             <a href="#sidetab-tasks" role="tab" data-toggle="tab">Content Tasks</a>
         </li>
         <li>
             <a href="#sidetab-activity" role="tab" data-toggle="tab">Activity</a>
         </li>
-        <li>
+        -->
+        <li class='active'>
             <a href="#sidetab-history" role="tab" data-toggle="tab">History</a>
         </li>
     </ul>
@@ -16,7 +18,7 @@
 <div class="tab-content">
 
     <!-- Content Task Panel -->
-    <div role="tabpanel" class="sidepanel tab-pane active" id="sidetab-tasks">
+    <div role="tabpanel" class="sidepanel tab-pane" id="sidetab-tasks">
 
         <div class="content-tasks-box-container">
 
@@ -774,44 +776,44 @@
     </div>
 
     <!-- Tab 3: History -->
-    <div class="sidepanel tab-pane" role="tabpanel" id="sidetab-history">
+    <div class="sidepanel tab-pane active" role="tabpanel" id="sidetab-history">
         <ul class="list-unstyled">
         @if(isset($content))
         @foreach($content->adjustments as $user)
             <li>
             <div>{{ $user->name }} -  {{$user->pivot->updated_at->diffForHumans() }}<a class="btn btn-link showChanges" data-class="changes-{{$user->pivot->id}}">Show Changes</a></div>
             <div class="changes-{{$user->pivot->id}} changes">
-                    <h4 class="text-center">Before</h4>
-                    <table class="table table-striped">
-                        <tr>
-                            <th class="text-center">Field</th>
-                            <th class="text-center">Before</th>
-                        </tr>
-                        @foreach(json_decode($user->pivot->before) as $key => $before)
-                        <tr>
-                            <td><strong>{{ \App\Content::fieldName($key) }}</strong></td>
-                            <td>{{ \App\Content::cleanedHistoryContent($key, $before) }}</td>
-                        </tr>
-                        @endforeach
-                    </table>
+                <h4 class="text-center">Before</h4>
+                <table class="table table-striped">
+                    <tr>
+                        <th class="text-center">Field</th>
+                        <th class="text-center">Before</th>
+                    </tr>
+                    @foreach(json_decode($user->pivot->before) as $key => $before)
+                    <tr>
+                        <td><strong>{{ \App\Content::fieldName($key) }}</strong></td>
+                        <td>{{ \App\Content::cleanedHistoryContent($key, $before) }}</td>
+                    </tr>
+                    @endforeach
+                </table>
             </div>
             <div class="changes-{{$user->pivot->id}} changes">
-                    <h4 class="text-center">After</h4>
-                    <table class="table table-striped">
-                        <tr>
-                            <th class="text-center">Field</th>
-                            <th class="text-center">After</th>
-                        </tr>
-                        @foreach(json_decode($user->pivot->after) as $key => $after)
-                        <tr>
-                            <td><strong>{{ \App\Content::fieldName($key) }}</strong></td>
-                            <td>{{ \App\Content::cleanedHistoryContent($key, $after) }}</td>
-                        </tr>
-                        @endforeach
-                    </table>
+                <h4 class="text-center">After</h4>
+                <table class="table table-striped">
+                    <tr>
+                        <th class="text-center">Field</th>
+                        <th class="text-center">After</th>
+                    </tr>
+                    @foreach(json_decode($user->pivot->after) as $key => $after)
+                    <tr>
+                        <td><strong>{{ \App\Content::fieldName($key) }}</strong></td>
+                        <td>{{ \App\Content::cleanedHistoryContent($key, $after) }}</td>
+                    </tr>
+                    @endforeach
+                </table>
             </div>
 
-            <hr/>
+            <!-- <hr/> -->
             </li>
             @endforeach
             @endif
@@ -823,7 +825,7 @@
 
 
 <!-- Collaborators / Guests tabs -->
-<div class="sidepanel-head">
+<div class="sidepanel-head hide">
     <ul class="panel-tabs withborder withtopborder">
         <li class="active">
             <a href="#sidetab-collaborators" data-toggle="tab">Collaborators</a>
@@ -838,7 +840,7 @@
 </div>
 
 
-<div class="tab-content">
+<div class="tab-content hide">
 
     <!-- Tab 1: Collaborators -->
     <div class="sidepanel nopadding tab-pane active" id="sidetab-collaborators">
