@@ -825,7 +825,7 @@
 
 
 <!-- Collaborators / Guests tabs -->
-<div class="sidepanel-head">
+<div class="sidepanel-head hide">
     <ul class="panel-tabs withborder withtopborder">
         <li class="active">
             <a href="#sidetab-collaborators" data-toggle="tab">Collaborators</a>
@@ -840,7 +840,7 @@
 </div>
 
 
-<div class="tab-content">
+<div class="tab-content hide">
 
     <!-- Tab 1: Collaborators -->
     <div class="sidepanel nopadding tab-pane active" id="sidetab-collaborators">
