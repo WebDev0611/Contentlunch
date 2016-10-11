@@ -86,13 +86,13 @@ Route::get('/content/delete/{content_id}', [ 'as' => 'contentDelete', 'uses' => 
 Route::get('/content/publish/{content}', ['as' => 'contentPublish', 'uses' =>'ContentController@publishAndRedirect' ]);
 Route::get('/content/multipublish/{content}', [ 'as' => 'contentMultiPublish', 'uses' => 'ContentController@directPublish' ]);
 
-//-- Facebook Callbacks
+// Facebook Callbacks
 //
 Route::get('callback/facebook',  ['as' => 'facebookProvider', 'uses' =>'Connections\FacebookController@callback']);
 Route::post('callback/facebook/account/save','Connections\FacebookController@saveAccount');
 // -----------
 
-//-- Twitter Callbacks
+// Twitter Callbacks
 //
 Route::get('twitter/login', [ 'as' => 'twitterLogin', 'uses' => 'Connections\TwitterController@login' ]);
 Route::get('callback/twitter', [ 'as' => 'twitterCallback', 'uses' => 'Connections\TwitterController@callback' ]);
@@ -102,6 +102,8 @@ Route::get('twitter/error', [ 'as' => 'twitterError', 'uses' => 'Connections\Twi
 Route::get('authorize/{provider}',  ['as' => 'connectionProvider', 'uses' =>'ConnectionController@redirectToProvider']);
 Route::get('login/{provider}',  ['as' => 'connectionCallback', 'uses' =>'ConnectionController@login']);
 
+// Wordpress Callback
+Route::get('callback/wordpress', [ 'as' => 'wordpressCallback', 'uses' => 'WordpressController@callback' ]);
 
 // - Landing page for creating content
 Route::get('/create','ContentController@create');
