@@ -46,7 +46,10 @@ return [
     ],
 
     'wordpress' => [
-        'client_id' => '48128', // ID from creating app on developer.wordpress.com
-        'client_secret' => 'TkkbiAexptm9hHvsuTy3EDffTkDG9atIW8gLGmcMMAeEZF7QxIC7lepo2j8hkNwn', // from developer.wordpress.com
+        'client_id' => env('WORDPRESS_CLIENT_ID'),
+        'client_secret' => env('WORDPRESS_CLIENT_SECRET'),
+        'redirect' => env('WORDPRESS_REDIRECT')
+        // 'client_id' => '48128', // ID from creating app on developer.wordpress.com
+        // 'client_secret' => 'TkkbiAexptm9hHvsuTy3EDffTkDG9atIW8gLGmcMMAeEZF7QxIC7lepo2j8hkNwn', // from developer.wordpress.com
     ]
 ];
