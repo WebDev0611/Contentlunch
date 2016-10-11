@@ -1,9 +1,9 @@
-<?php 
+<?php
 namespace Connections\API;
 
 use Illuminate\Support\Facades\Config;
 
-class WordPressAPI 
+class WordPressAPI
 {
     // - dunno if needed
     protected $configKey = 'wordpress';
@@ -19,7 +19,7 @@ class WordPressAPI
 
     public function createPost(){
             $content = $this->content;
-            // - standardize return 
+            // - standardize return
             $response = ['success' => false, 'response' => []];
             try {
                     // - Tag Data
@@ -31,10 +31,10 @@ class WordPressAPI
                     }
                     // Compile data
                     $postdata = [
-                            'tite' =>  $content->title,
-                            'content' => $content->body,
-                            'tags' => $tags,
-                           // 'status' => "draft" // do we want the user to control this
+                        'tite' =>  $content->title,
+                        'content' => $content->body,
+                        'tags' => $tags,
+                       // 'status' => "draft" // do we want the user to control this
                     ];
 
                     // - Create Options and Header Data
@@ -59,11 +59,11 @@ class WordPressAPI
                     $response = [
                         'success'        => true,
                         'response'      => json_decode( $apiResponse )
-                    ];    
+                    ];
             } catch (ClientException $e) {
-                    $responseBody = json_decode($e->getResponse()->getBody(true));
-                    $response['success'] = false;
-                    $response['error'] = $responseBody->message;
+                $responseBody = json_decode($e->getResponse()->getBody(true));
+                $response['success'] = false;
+                $response['error'] = $responseBody->message;
             }
 
             return $response;
