@@ -31,6 +31,10 @@ class TrendsController extends Controller
     {
 
         $topic = $request->input('topic');
+        if(empty($topic)){
+            echo json_encode([]);
+            exit;
+        }
         $topic_key = 'trends:';
 
         if(empty($topic)){
@@ -41,27 +45,14 @@ class TrendsController extends Controller
 
         $topic_cache = Redis::get( $topic_key );
         $output = '';
-
+       
         function get_data($t){
-            $api_url = 'http://api.buzzsumo.com/search/trends.json';
-
-            $form_params = array(
-                    'search_type' => 'trending_now',
-                    'api_key' => getenv('BUZZSUMO_KEY'),
-                    'days' => '3',
-                    //region
-                    'count' => '40'
-                );
-
-            if(!empty($t)){
-                $form_params['topic'] = $t;
-            }
+            $api_url = 'https://api.rightrelevance.com/v2/articles/search?query=' . $t;
+            $api_url .= '&access_token=' . getenv('RIGHTRELEVANCE_TOKEN');
 
             $client = new Client();
-            $res = $client->request('GET', $api_url, [
-                'form_params' => $form_params
-            ]);
-        
+            $res = $client->request('GET', $api_url );
+  
             $data_body =  $res->getBody();
             return json_decode($data_body->getContents());
         }

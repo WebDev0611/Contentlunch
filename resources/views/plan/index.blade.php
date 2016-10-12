@@ -12,17 +12,17 @@
                 <li>
                     <a href="/plan/trends">Content Trends</a>
                 </li>
-                <li>
+               <!-- <li>
                     <a href="/plan/prescription">Content Prescription</a>
-                </li>
+                </li> -->
                 <li>
                     <a href="/plan/ideas">Ideas</a>
                 </li>
             </ul>
-            <a href="#" class="panel-tabs-link">
+            <!--<a href="#" class="panel-tabs-link">
                 Topic Generator Concierge
                 <i class="icon-arrow-right"></i>
-            </a>
+            </a>-->
         </div>
         <div class="panel-container" id="topic-generator">
             <div class="row">

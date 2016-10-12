@@ -64,6 +64,11 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 				view.$el.find('#selected-content').append( sel_cont_view.el );
 			});
 			this.$el.find('.sidemodal-header-title').text('Create an idea from ' + selected.length + ' selected items');
+			if( selected.length < 1 ){
+				this.$el.find('.form-delimiter').hide();
+			}else{
+				this.$el.find('.form-delimiter').show();
+			}
 		},
 		hide_modal: function(){
 			this.$el.modal('hide');
@@ -135,7 +140,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		var get_trending_topics = function(topic){
 			topic = topic || '';
 			$.getJSON(trend_api_host,{topic: topic},function(res){
-				var trends_result = res.results;
+				var trends_result = res.articles;
 
 				var format_share_res = function(shares){
 					//check if less than 1k
@@ -150,17 +155,17 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 					
 					var trend_obj = {
 						"title": t.title,
-						"image": t.thumbnail,
-						"body": 'SDF DS FSDF SDFSDF SDF SDF SDFS DFSD FSF SDF ',
-						"when": format_time_ago(t.published_date),
-						"source": t.domain_name,
-						"link":t.og_url,
-						"author":t.author_name,
-						"total_shares": format_share_res( t.total_shares ),
-						"fb_shares": format_share_res(t.total_facebook_shares),
-						"tw_shares": format_share_res(t.twitter_shares),
-						"google_shares": format_share_res(t.google_plus_shares),
-						"video":t.video
+						"image": t.image_url,
+						"body": t.excerpt,
+						"when": format_time_ago(t.earliest_known_date),
+						"source": t.source,
+						"link":t.url,
+						"author":'',
+						"total_shares": format_share_res( t.share_count ),
+						"fb_shares":0,
+						"tw_shares": 0,
+						"google_shares": 0,
+						"video": 0
 					};
 
 					return trend_obj;
@@ -179,7 +184,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		new create_message_view({el:"#create-alert", collection: results });
 		var create_idea = new create_idea_modal({el: '#createIdea', collection: results });
 
-		get_trending_topics();
+		//get_trending_topics();
 
 		new trend_results_view({el: '#trend-results', collection: results});
 	});
