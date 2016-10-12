@@ -162,7 +162,6 @@
 </div>
 
 <template id="wordpressTemplate">
-    {{ Form::hidden('provider', 'wordpress') }}
     <div class="row" >
         <div class="col-md-12">
             <div class="input-form-group">
@@ -172,12 +171,25 @@
             </div>
         </div>
     </div>
+    <div class="row" >
+        <div class="col-md-12">
+            <button
+                type='submit'
+                class="btn btn-primary">
+                Connect to WordPress
+            </button>
+        </div>
+    </div>
 </template>
 
 <template id="facebookTemplate">
     <div class="row" >
         <div class="col-md-12">
-            <a href="{{route('connectionProvider', 'facebook')}}" class="btn btn-primary">Connect to Facebook</a>
+            <button
+                type='submit'
+                class="btn btn-primary">
+                Connect to Facebook
+            </button>
         </div>
     </div>
 </template>
@@ -185,7 +197,11 @@
 <template id="twitterTemplate">
     <div class="row" >
         <div class="col-md-12">
-            <a href="{{ route('twitterLogin') }}" class="btn btn-primary">Connect to Twitter</a>
+            <button
+                type='submit'
+                class="btn btn-primary">
+                Connect to Twitter
+            </button>
         </div>
     </div>
 </template>

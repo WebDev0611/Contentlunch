@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Session;
+
 use oAuth\API\WordPressAuth;
 
-class WordpressController extends Controller
+class WordpressController extends BaseConnectionController
 {
     public function login()
     {
@@ -18,8 +20,12 @@ class WordpressController extends Controller
     public function callback(Request $request)
     {
         $code = $request->input('code');
-        $wordpress = new WordPressAuth;
+        $token = (new WordPressAuth)->codeForToken($code);
+        $connectionData = Session::get('connection_data');
+        $metaData = $connectionData['meta_data'];
 
-        dd([ 'response' => $wordpress->codeForToken($code) ]);
+        $connection = $this->getSessionConnection();
+
+        dd([ 'response' => $token ]);
     }
 }

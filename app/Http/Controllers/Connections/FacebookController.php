@@ -11,8 +11,9 @@ use Socialite;
 use Config;
 use App\Provider;
 use Auth;
+use Session;
 
-class FacebookController extends Controller
+class FacebookController extends BaseConnectionController
 {
     /*
         -- Need to redirect this, what hapens if they reload the page, it will all crash
@@ -36,16 +37,9 @@ class FacebookController extends Controller
             'user_token' => (string) $accessToken
         ];
 
-        // Quick and dirty attachment
-        $provider = Provider::findBySlug('facebook');
-
-        // save long user token
-        $conn = new Connection;
-        $conn->name = 'Facebook - '. $user->name;  // pull this dyanmically
-        $conn->provider_id = $provider->id;    // pull this dyanmically
-        $conn->user_id = Auth::id();
-        $conn->settings = json_encode($settings);
-        $conn->save();
+        $connection = $this->getSessionConnection();
+        $connection->settings = json_encode($settings);
+        $connection->save();
 
         $accountOptions = [];
         $accountList = $fb->get('/me/accounts');
