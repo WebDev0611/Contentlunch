@@ -22,7 +22,21 @@ class Connection extends Model {
     // - A Getter for settings so we can decode the JSON
     public function getSettings()
     {
-        return json_decode($this->settings);
+        return json_decode($this->settings ? $this->settings : "{}");
+    }
+
+    public function saveSettings(Array $elements)
+    {
+        $settings = $this->getSettings();
+
+        foreach ($elements as $key => $value) {
+            $settings->$key = $value;
+        }
+
+        $this->settings = json_encode($settings);
+        $this->save();
+
+        return $settings;
     }
 
     public static function  getConnectionbySlug($slug)
