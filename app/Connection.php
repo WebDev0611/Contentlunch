@@ -38,7 +38,7 @@ class Connection extends Model {
 
     public static function dropdown()
     {
-            // - Create Connections Drop Down Data
+        // - Create Connections Drop Down Data
         $connectionsdd = ['' => '-- Select Destination --'];
         $connectionsdd += Connection::select('id','name')
             ->where('active',1)
