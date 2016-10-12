@@ -103,7 +103,7 @@ Route::get('authorize/{provider}',  ['as' => 'connectionProvider', 'uses' =>'Con
 Route::get('login/{provider}',  ['as' => 'connectionCallback', 'uses' =>'ConnectionController@login']);
 
 // Wordpress Callback
-Route::get('callback/wordpress', [ 'as' => 'wordpressCallback', 'uses' => 'WordpressController@callback' ]);
+Route::get('callback/wordpress', [ 'as' => 'wordpressCallback', 'uses' => 'Connections\WordpressController@callback' ]);
 
 // - Landing page for creating content
 Route::get('/create','ContentController@create');

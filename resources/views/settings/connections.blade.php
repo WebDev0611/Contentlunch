@@ -162,26 +162,13 @@
 </div>
 
 <template id="wordpressTemplate">
+    {{ Form::hidden('provider', 'wordpress') }}
     <div class="row" >
         <div class="col-md-12">
             <div class="input-form-group">
                 <label for="api_url">Wordpress URL</label>
                 {{ Form::text('api[url]', null, ['placeholder' => 'Wordpress URL', 'class' => 'input', 'id' => 'api_url']) }}
                 <p class="help-block">wordpressdomain.com</p>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="input-form-group">
-                <label for="api_username">Wordpress.com Username</label>
-                {{ Form::text('api[username]', null, ['placeholder' => 'Username for wordpress.com', 'class' => 'input', 'id' => 'api_username']) }}
-                <p class="help-block">Enter your username for wordpress.com</p>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="input-form-group">
-                <label for="api_password">Wordpress.com Password</label>
-                {{ Form::password('api[password]', null, ['placeholder' => 'Password for wordpress.com', 'class' => 'input', 'id' => 'api_password']) }}
-                <p class="help-block">Enter your password for wordpress.com</p>
             </div>
         </div>
     </div>

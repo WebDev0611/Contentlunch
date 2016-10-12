@@ -78,7 +78,6 @@ class SettingsController extends Controller {
 		$connectiondd += Provider::select('slug','name')->where('class_name', '!=', '')->orderBy('name', 'asc')->distinct()->lists('name', 'slug')->toArray();
 
 		return View::make('settings.connections', compact('connectiondd', 'connections', 'activeConnectionsCount'));
-
 	}
 
 	public function connectionCreate(ConnectionRequest $request){
