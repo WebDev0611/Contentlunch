@@ -2,21 +2,28 @@
 namespace Connections\API;
 
 use Illuminate\Support\Facades\Config;
+use GuzzleHttp\Client;
 
 class WordPressAPI
 {
     // - dunno if needed
     protected $configKey = 'wordpress';
 
-    protected $base_url = 'https://public-api.wordpress.com/rest/v1.1';
+    protected $base_url = 'https://public-api.wordpress.com/rest/v1.2/';
 
-    public function __construct($content, $connection = null)
+    public function __construct($content = null, $connection = null)
     {
         $this->content = $content;
-        $this->connection = $connection ? $connection : $this->content->connection;
+        $this->connection = $connection ?
+            $connection :
+            ($this->content ? $this->content->connection : null);
 
-        $this->token = (new \oAuth\API\WordPressAuth)->getToken($content);
-        $this->domain = $content->connection->getSettings()->url;
+        $this->client = new Client([ 'base_uri' => $this->base_url ]);
+
+        // if ($content) {
+        //     $this->token = (new \oAuth\API\WordPressAuth)->getToken($content);
+        // }
+        // $this->domain = $content->connection->getSettings()->url;
     }
 
     public function createPost()
@@ -53,7 +60,7 @@ class WordPressAPI
                 ]
             ];
             // REST API url
-            $url = $this->base_url.'/sites/'.$this->domain.'/posts/new';
+            $url = $this->base_url.'sites/'.$this->domain.'/posts/new';
 
             $context  = stream_context_create($options);
             $apiResponse = file_get_contents($url, false, $context);
@@ -72,5 +79,12 @@ class WordPressAPI
         }
 
         return $response;
+    }
+
+    public function blogInfo($blogUrl)
+    {
+        $response = $this->client->get('sites/' . $blogUrl);
+
+        return json_decode((string) $response->getBody());
     }
 }
