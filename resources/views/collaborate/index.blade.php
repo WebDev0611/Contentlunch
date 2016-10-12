@@ -200,7 +200,7 @@
     <div class="foot">
       <ul class="list-inline list-soc">
         <li><i class="icon-twitter2"></i><%= twitter_num %></li>
-        <li><i class="icon-facebook-mini"></i><%= facebook_num %></li>
+        <!-- <li><i class="icon-facebook-mini"></i><%= facebook_num %></li> -->
       </ul>
       <div class="btn-group">
         <button type="button" class="button button-default invite">INVITE</button>

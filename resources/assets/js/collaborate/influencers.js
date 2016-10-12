@@ -74,9 +74,9 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			this.$el.find('.title').text( this.model.get('title') );
 			this.$el.find('.desc').text( this.model.get('body') );
 			this.$el.find('.user-avatar').html('<img src="' + this.model.get('image') + '" alt="' + this.model.get('title') + '">');
-			var roles = this.model.get('person_type');
+			//var roles = this.model.get('person_type');
 
-			this.$el.find('.influencer-desc').text( roles.join(', ') );
+			//this.$el.find('.influencer-desc').text( roles );
 
 			$('#modal-influencerdetails').modal('show');
 			return this;
@@ -164,13 +164,13 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		var influencer_map = function(i){
 			return {
 				title: i.name,
-				image: i.image,
-				body: i.bio,
-				desc: i.display_bio,
-				twitter_num: i.num_followers,
+				image: i.image_url,
+				body: i.description,
+				desc: i.description,
+				twitter_num: i.twitter_followers_count,
 				facebook_num: 0,
 				twitter_link: (i.twitter_id_str) ? ('https://twitter.com/intent/user?user_id=' + i.twitter_id_str) : '',
-				person_type: i.person_type
+				person_type: i.instance_type
 			};
 		};
 

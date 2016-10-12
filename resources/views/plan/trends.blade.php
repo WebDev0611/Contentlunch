@@ -12,9 +12,9 @@
                 <li class="active">
                     <a href="/plan/trends">Content Trends</a>
                 </li>
-                <li>
+               <!--<li>
                     <a href="/plan/prescription">Content Prescription</a>
-                </li>
+                </li> -->
                 <li>
                     <a href="/plan/ideas">Ideas</a>
                 </li>

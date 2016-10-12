@@ -15,9 +15,9 @@
                     <li>
                         <a href="/plan/trends">Content Trends</a>
                     </li>
-                    <li>
+                    <!--<li>
                         <a href="/plan/prescription">Content Prescription</a>
-                    </li>
+                    </li> -->
                     <li class="active">
                         <a href="javascript:;" id="active-ideas-link">Active Ideas</a>
                     </li>

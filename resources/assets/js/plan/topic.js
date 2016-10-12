@@ -50,14 +50,12 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			return this;
 		},
 		removeFromDOM: function(){
-			console.log('REMOVED!!');
 			var that = this;
 			this.$el.fadeOut(200,function(){
 				that.$el.remove();
 			});
 		},
 		select_content: function(){
-			console.log('content clicked!');
 			if( !this.model.get('selected') ){
 				this.model.set('selected',true);
 			}else{
@@ -80,12 +78,12 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 	});
 	var selected_content_view = Backbone.View.extend({
 		template: _.template( $('#selected-topic-template').html() ),
-		intialize: function(){
-			console.log(' new sel content view!');
-			this.el = this.template( this.model.attributes );
+		initialize: function(){
+			this.render();
 		},
 		render: function(){
-			return this;
+			console.log(this.model.attributes );
+			this.$el.html( this.template( this.model.attributes ) );
 		}
 	});
 
@@ -109,24 +107,52 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			this.render();
 		},
 		render:function(){
-			var that = this;
-			console.log('rendering');
-			this.model.attributes.content.each(function(m){
+			var view = this;
+			view.$el.find('#selected-content').html('');
+			view.model.attributes.content.each(function(m){
 				var sel_content = new selected_content_view({model:m});
-				that.$el.find('#selected-content').append( sel_content );
+				view.$el.find('#selected-content').append( sel_content.$el );
 			});
-			console.log(this.model.attributes);
+			if( view.model.attributes.content.length < 1 ){
+				view.$el.find('.form-delimiter').hide();
+			}else{
+				view.$el.find('.form-delimiter').show();
+			}
 		},
 		save: function(){
-			console.log('clicked save');
-			console.log(this.model.attributes);
-		}
+			var view = this;
+			//saves the form data
+			var content = this.model.attributes.content;
+			var idea_obj = {
+				name: $('.idea-name').val(),
+				idea: $('.idea-text').val(),
+				tags: $('.idea-tags').val(),
+				status: 'active',
+				content: content.map(function(m){
+					return m.attributes;
+				})
+			};
+
+			$.ajax({
+			    url: '/ideas',
+			    type: 'post',
+			    data: idea_obj,
+				headers: {
+	            	'X-CSRF-TOKEN': $('input[name=_token]').val()
+	        	},
+			    dataType: 'json',
+			    success: function (data) {
+					view.hide_modal();
+				}
+			});
+		},
+		hide_modal: function(){
+			this.$el.modal('hide');
+		},
 	});
 
 	var new_idea = new idea_model();
 	var idea_form = new create_idea_view({el: '#createIdea',model: new_idea});
-
-
 
 
 	/* main page event setup */
@@ -135,7 +161,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		var short_tail_results = new short_tail_collection();
 
 		var map_result = function(m){
-			return {keyword: m.keyword};
+			return {keyword: m.keyword,volume: m.volume};
 		};
 
 		var get_topic_data = function(term = ''){
@@ -164,7 +190,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		};
 
 		$('#topic-search').click(function(){
-			console.log('search clicked!');
 			long_tail_results.remove( long_tail_results.models );
 			short_tail_results.remove( short_tail_results.models );
 			get_topic_data( $('#topic-search-val').val() );
@@ -183,7 +208,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			}else{
 				new_idea.attributes.content.remove(l);
 			}
-			console.log(new_idea.attributes.content.toJSON() );
 		});
 
 
