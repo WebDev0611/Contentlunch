@@ -20,11 +20,6 @@ class WordpressController extends BaseConnectionController
         $this->api = new WordPressAPI;
     }
 
-    public function login()
-    {
-
-    }
-
     public function callback(Request $request)
     {
         $code = $request->input('code');
