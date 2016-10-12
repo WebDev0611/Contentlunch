@@ -17,4 +17,9 @@ abstract class BaseConnectionController extends Controller
         return $connection;
     }
 
+    public function cleanSessionConnection()
+    {
+        Session::forget('connection_data');
+    }
+
 }
