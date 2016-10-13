@@ -11,12 +11,13 @@ class  ConnectionRequest extends FormRequest {
 	 */
 	public function rules()
 	{
-		return [
-			'con_name'		=> 'required',
-		            'con_type' 	=> 'required',
-		            // -- WORD PRESS 
-		        //    'api_url' 		=> 'required_if:con_type,wordpress'
-		];
+        return [
+            'con_name' => 'required',
+            'con_type' 	=> 'required',
+
+            // WORD PRESS
+            // 'api_url' => 'required_if:con_type,wordpress'
+        ];
 	}
 
 	public function messages()

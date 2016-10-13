@@ -4,13 +4,23 @@
 @section('content')
 <div class="workspace">
     <div class="panel clearfix">
+        {!!
+            Form::model($user, [
+                    'url' => route('settingsUpdate'),
+                    'files' => 'true'
+                ])
+        !!}
         <aside class="panel-sidebar right-separator">
             <div class="panel-container text-center">
                 <div class="settings-profile-image">
-                    <img src="/assets/images/avatar.jpg" alt="#">
+                    @if ($user->profile_image)
+                        <img src="{{ $user->profile_image }}" alt="#">
+                    @else
+                        <img src="/assets/images/avatar.jpg" alt="#">
+                    @endif
                 </div>
                 <div class="settings-profile-info">
-                    <h4>Storm Trooper</h4>
+                    <h4>{{ $user->name }}</h4>
                     <span>New York, USA</span>
                 </div>
 
@@ -51,6 +61,18 @@
                 @include('settings.partials.navigation')
             </div>
             <div class="panel-container">
+                @if ($errors->any())
+                    <div class="alert alert-danger" id="formError">
+                        <p><strong>Oops! We had some errors:</strong>
+                            <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                            </ul>
+                        </p>
+                    </div>
+                @endif
+
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <div class="input-form-group text-right">
@@ -63,7 +85,16 @@
                             <div class="col-md-6">
                                 <div class="input-form-group">
                                     <label for="#">FULL NAME</label>
-                                    <input type="text" class="input" placeholder="Name Surname">
+                                    {!!
+                                        Form::text(
+                                            'name',
+                                            @isset($user) ? $user->name : '',
+                                            [
+                                                'class' => 'input',
+                                                'placeholder' => 'Name Surname'
+                                            ]
+                                        )
+                                    !!}
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -110,17 +141,43 @@
                             <div class="col-md-6">
                                 <div class="input-form-group">
                                     <label for="#">EMAIL ADDRESS</label>
-                                    <input type="text" class="input" placeholder="info@contentlaunch.com">
+                                    {!!
+                                        Form::text(
+                                            'email',
+                                            @isset($user) ? $user->email : '',
+                                            [
+                                                'class' => 'input',
+                                                'placeholder' => 'Your email here'
+                                            ]
+                                        )
+                                    !!}
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-delimiter">
+                            <span>
+                                <em>Profile Picture</em>
+                            </span>
+                        </div>
+
+
                         <div class="input-form-group">
-                            <button class="button button-extend">Save Changes</button>
+                            <div class="fileupload">
+                                <i class="icon-content picto"></i>
+                                <p class="msgtitle">Click to upload your profile picture</p>
+                                <input type="file" class="input input-upload" name="avatar">
+                            </div>
+                        </div>
+
+                        <div class="input-form-group">
+                            <button type='submit' class="button button-extend">Save Changes</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        {!! Form::close() !!}
     </div>
 </div>
 

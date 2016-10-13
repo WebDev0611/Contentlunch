@@ -2,8 +2,10 @@
 
 namespace Connections\API;
 
+use Exception;
 use Twitter;
 use Session;
+use Log;
 
 class TwitterAPI
 {
@@ -36,15 +38,70 @@ class TwitterAPI
     public function createPost()
     {
         $this->setupTwitterConnection();
+        $this->uploadAttachments();
 
         $message = strip_tags($this->content->body);
+        $response = [ 'success' => false, 'response' => [] ];
 
         try {
-            Twitter::postTweet([ 'status' => $message ]);
+            $payload = [ 'status' => $message ];
+
+            if ($this->content->attachments->count()) {
+                $payload['media_ids'] = $this->content->attachments
+                    ->pluck('twitter_media_id_string')
+                    ->filter()
+                    ->slice(0, 4)
+                    ->implode(',');
+            }
+
+            $tweet = Twitter::postTweet($payload);
+
+            $response = [
+                'success' => true,
+                'response' => $tweet
+            ];
         }
         catch (Exception $e) {
-            $flashMessage  = "We couldn't post the content to Twitter using the connection [" . $settings->name . "]. ";
-            $flashMessage .= "Please make sure the connection is properly configured before trying again.";
+            $response['success'] = false;
+            $response['error'] = 'The Twitter API returned an error: ' . $e->getMessage();
         }
+
+        return $response;
+    }
+
+    /**
+     * Uploads attachments. Right now working only for images.
+     *
+     * @return void
+     */
+    public function uploadAttachments()
+    {
+        $attachments = $this->content->attachments;
+
+        foreach ($attachments as $attachment) {
+
+            if (($attachment->twitter_media_id_string) ||
+                ($attachment->type != 'image'))
+            {
+                continue;
+            }
+
+            $base64file = $this->base64file($attachment->filename);
+
+            try {
+
+                $response = Twitter::uploadMedia([ 'media_data' => $base64file ]);
+                $attachment->twitter_media_id_string = $response->media_id_string;
+                $attachment->save();
+
+            } catch (Exception $e) {
+                continue;
+            }
+        }
+    }
+
+    private function base64file($url)
+    {
+        return base64_encode(file_get_contents($url));
     }
 }

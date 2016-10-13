@@ -174,3 +174,9 @@ $form-delimiter-border: 1px solid #d9d0ed;
     color: #a94442;
   }
 }
+
+body > .alert {
+  margin-left: 70px;
+  border-radius: 0px;
+  padding: 20px;
+}

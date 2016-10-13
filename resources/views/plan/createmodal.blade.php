@@ -27,6 +27,7 @@
             <label for="#">TAGS</label>
             <input type="text" class="input idea-tags" placeholder="Enter comma separated tags">
         </div>
+        <!--
         <div class="form-group">
             <fieldset class="form-fieldset clearfix">
                 <legend class="form-legend">Collaborators</legend>
@@ -94,6 +95,7 @@
                 </select>
             </div>
         </div>
+        -->
         <div class="form-delimiter">
             <span>
                 <em>Selected Content</em>
@@ -149,7 +151,7 @@
 <script type="text/template" id="selected-topic-template">
     <div class="tombstone tombstone-horizontal tombstone-active clearfix">
         <div class="tombstone-container">
-            <h3><=% keyword %></h3>
+            <h3 class="col-md-offset-1"><%= keyword %></h3>
         </div>
     </div>
 </script>

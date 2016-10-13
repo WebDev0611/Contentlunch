@@ -43,6 +43,7 @@
                             <label for="#">TAGS</label>
                             <input type="text" class="input" placeholder="Enter comma separated tags" value="{{$tags}}">
                         </div>
+                        <!--
                         <div class="form-group">
                             <fieldset class="form-fieldset clearfix">
                                 <legend class="form-legend">Collaborators</legend>
@@ -133,6 +134,7 @@
                                 </div>
                             </div>
                         </fieldset>
+                        -->
                         <div class="form-delimiter">
                             <span>
                                 <em>Selected Content</em>
@@ -156,6 +158,7 @@
                 </div>
             </div>
         </div>
+        <!--
         <aside class="panel-sidebar">
             <div class="panel-header">
                 <h4 class="panel-sidebar-title">Ideas activity feed</h4>
@@ -233,6 +236,7 @@
                 </div>
             </div>
         </aside>
+        -->
     </div>
 </div>
 

@@ -64,4 +64,8 @@ class User extends Authenticatable
             ->where('slug', $slug);
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

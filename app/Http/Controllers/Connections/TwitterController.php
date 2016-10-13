@@ -16,7 +16,7 @@ use App\TwitterConnection;
 use App\Provider;
 use Twitter;
 
-class TwitterController extends Controller
+class TwitterController extends BaseConnectionController
 {
     public function login()
     {
@@ -83,13 +83,8 @@ class TwitterController extends Controller
         $user = Auth::user();
         $provider = Provider::findBySlug('twitter');
 
-        $connection = Connection::create([
-            'name' => "Twitter - @" . $credentials->screen_name,
-            'provider_id' => $provider->id,
-            'user_id' => $user->id,
-            'settings' => json_encode($token),
-            'active' => '1'
-        ]);
+        $connection = $this->getSessionConnection();
+        $connection->settings = json_encode($token);
     }
 
     public function userSearch(Request $request)

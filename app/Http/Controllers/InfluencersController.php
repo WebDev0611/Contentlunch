@@ -21,18 +21,13 @@ class InfluencersController extends Controller
         $topic = $request->input('topic');
        // print_r($topic);
        // exit;
-        $api_url = 'http://api.buzzsumo.com/search/influencers.json';
+        $api_url = 'https://api.rightrelevance.com/v2/experts/search?query=' . $topic;
+        $api_url .= '&access_token=' . getenv('RIGHTRELEVANCE_TOKEN');
 
-        $form_params = array(
-                'q' => urlencode($topic),
-                'api_key' => getenv('BUZZSUMO_KEY'),
-            );
 
         if(!empty($topic)){
             $client = new Client();
-            $res = $client->request('GET', $api_url, [
-                'form_params' => $form_params
-            ]);
+            $res = $client->request('GET', $api_url );
         
             $data_body =  $res->getBody();
             echo $data_body;

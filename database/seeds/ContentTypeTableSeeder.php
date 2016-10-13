@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\ContentType;
 
 class ContentTypeTableSeeder extends Seeder
 {
@@ -11,34 +12,34 @@ class ContentTypeTableSeeder extends Seeder
      */
     public function run()
     {
-	$contentTypeArray =[
-		['audio-recording' , 'Audio Recording'],
-		['blog-post' , 'Blog Post'],
-		['casestudy' , 'Case Study'],
-		['ebook' , 'Ebook'],
-		['email' , 'Email'],
-		['facebook-post' , 'Facebook Post'],
-		['feature-article' , 'Feature Length Article'],
-		['google-drive-doc' , 'Google Drive Doc.'],
-		['google-plus-update' , 'Google+ Update'],
-		['newsletter' , 'Newsletter'],
-		['landing-page' , 'Landing Page'],
-		['linkedin-update' , 'Linkedin Update'],
-		['photo' , 'Photo'],
-		['salesforce-asset' , 'SalesForce Asset'],
-		['sales-letter' , 'Sales Letter'],
-		['sellsheet-content' , 'Sell Sheet Content'],
-		['tweet' , 'Tweet'],
-		['video' , 'Video'],
-		['website-page' , 'Website Page'],
-		['whitepaper' , 'Whitepaper'],
-		['workflow-email' , 'Workflow Email']
-	];
+        ContentType::truncate();
 
-	foreach ($contentTypeArray as $type) {
-	      $ct = new \App\ContentType;
-	      $ct->name = $type[1];
-	      $ct->save();
-	}
+        $contentTypeArray = [
+            [ 'name' => 'Blog Post',                'provider_id' =>  1 ],
+            [ 'name' => 'Facebook Post',            'provider_id' =>  5 ],
+            [ 'name' => 'Tweet',                    'provider_id' =>  6 ],
+            [ 'name' => 'Audio Recording',          'provider_id' =>  0 ],
+            [ 'name' => 'Case Study',               'provider_id' =>  0 ],
+            [ 'name' => 'Ebook',                    'provider_id' =>  0 ],
+            [ 'name' => 'Email',                    'provider_id' =>  0 ],
+            [ 'name' => 'Feature Length Article',   'provider_id' =>  0 ],
+            [ 'name' => 'Google Drive Doc.',        'provider_id' =>  0 ],
+            [ 'name' => 'Google+ Update',           'provider_id' =>  0 ],
+            [ 'name' => 'Newsletter',               'provider_id' =>  0 ],
+            [ 'name' => 'Landing Page',             'provider_id' =>  0 ],
+            [ 'name' => 'Linkedin Update',          'provider_id' =>  0 ],
+            [ 'name' => 'Photo',                    'provider_id' =>  0 ],
+            [ 'name' => 'SalesForce Asset',         'provider_id' =>  0 ],
+            [ 'name' => 'Sales Letter',             'provider_id' =>  0 ],
+            [ 'name' => 'Sell Sheet Content',       'provider_id' =>  0 ],
+            [ 'name' => 'Video',                    'provider_id' =>  0 ],
+            [ 'name' => 'Website Page',             'provider_id' =>  0 ],
+            [ 'name' => 'Whitepaper',               'provider_id' =>  0 ],
+            [ 'name' => 'Workflow Email',           'provider_id' =>  0 ],
+        ];
+
+        foreach ($contentTypeArray as $type) {
+            ContentType::create($type);
+        }
     }
 }

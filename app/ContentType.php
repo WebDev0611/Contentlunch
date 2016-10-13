@@ -4,24 +4,44 @@ use Illuminate\Database\Eloquent\Model;
 
 class ContentType extends Model {
 
-    protected $hidden = [ 'content_type_id', 'connection_id', 'created_at', 'updated_at', 'user_id', 'campaign_id'];
-    protected $fillable = ['title', 'body', 'buying_stage', 'user_id', 'settings'];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 
+    protected $fillable = [
+        'name',
+        'description',
+        'provider_id'
+    ];
+
+    public function provider()
+    {
+        return $this->belongsTo('App\Provider');
+    }
 
     public function contents()
     {
-       return $this->hasMany('App\Content');
+        return $this->hasMany('App\Content');
     }
 
     // sure we can add variables to make it more dynamic
-    //  -- 
+    //  --
     public static function dropdown()
     {
-    	// - Create Content Type Drop Down Data
-	$contenttypedd = ['' => '-- Select Content Type --'];
-	$contenttypedd += ContentType::select('id','name')->orderBy('name', 'asc')->distinct()->lists('name', 'id')->toArray();
-	return $contenttypedd;
+        // - Create Content Type Drop Down Data
+        $contenttypedd = ['' => '-- Select Content Type --'];
+        $contenttypedd += ContentType::select('id','name')
+            ->orderBy('name', 'asc')
+            ->distinct()
+            ->lists('name', 'id')
+            ->toArray();
 
+        return $contenttypedd;
     }
-    
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

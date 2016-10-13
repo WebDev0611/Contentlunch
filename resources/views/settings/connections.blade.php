@@ -170,19 +170,14 @@
                 <p class="help-block">wordpressdomain.com</p>
             </div>
         </div>
+    </div>
+    <div class="row" >
         <div class="col-md-12">
-            <div class="input-form-group">
-                <label for="api_username">Wordpress.com Username</label>
-                {{ Form::text('api[username]', null, ['placeholder' => 'Username for wordpress.com', 'class' => 'input', 'id' => 'api_username']) }}
-                <p class="help-block">Enter your username for wordpress.com</p>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="input-form-group">
-                <label for="api_password">Wordpress.com Password</label>
-                {{ Form::password('api[password]', null, ['placeholder' => 'Password for wordpress.com', 'class' => 'input', 'id' => 'api_password']) }}
-                <p class="help-block">Enter your password for wordpress.com</p>
-            </div>
+            <button
+                type='submit'
+                class="btn btn-primary">
+                Connect to WordPress
+            </button>
         </div>
     </div>
 </template>
@@ -190,7 +185,11 @@
 <template id="facebookTemplate">
     <div class="row" >
         <div class="col-md-12">
-            <a href="{{route('connectionProvider', 'facebook')}}" class="btn btn-primary">Connect to Facebook</a>
+            <button
+                type='submit'
+                class="btn btn-primary">
+                Connect to Facebook
+            </button>
         </div>
     </div>
 </template>
@@ -198,7 +197,11 @@
 <template id="twitterTemplate">
     <div class="row" >
         <div class="col-md-12">
-            <a href="{{ route('twitterLogin') }}" class="btn btn-primary">Connect to Twitter</a>
+            <button
+                type='submit'
+                class="btn btn-primary">
+                Connect to Twitter
+            </button>
         </div>
     </div>
 </template>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Content\ContentRequest;
-use Launch\Connections\API\WordpressAPI;
 use Illuminate\Support\Facades\File;
 use App\ContentType;
 use App\BuyingStage;
@@ -21,9 +20,11 @@ use Session;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Input;
+use Exception;
 
 
-class ContentController extends Controller {
+class ContentController extends Controller
+{
 
     public function index()
     {
@@ -71,13 +72,29 @@ class ContentController extends Controller {
         $response = response()->json([ 'data' => 'Content not found' ], 404);
 
         if ($content) {
-            $data = [];
+
+            $errors = [];
+            $connections_count = 0;
+            $connections_failed = 0;
 
             foreach ($connections as $connection) {
-                $data []= $this->publish($content, $connection);
+                $response = $this->publish($content, $connection);
+
+                if (!$response['success']) {
+                    $connectionName = (string) $connection;
+                    $errors []= [ $connectionName => $response['error'] ];
+                    $connections_failed++;
+                }
+
+                $connections_count++;
             }
 
-            $response = response()->json([ 'data' => 'Content published' ], 201);
+            $response = response()
+                ->json([
+                    'data' => 'Content published',
+                    'errors' => $errors,
+                    'content' => $content
+                ], 201);
         }
 
         return $response;
@@ -98,6 +115,8 @@ class ContentController extends Controller {
 		$content->ready_published = 0;
 		$content->written = 0;
 		$content->save();
+
+        return $create;
 	}
 
     public function publishAndRedirect(Request $request, $contentId)
@@ -114,8 +133,8 @@ class ContentController extends Controller {
     }
 
 	// this is technically create content
-	public function createContent() {
-
+	public function createContent()
+    {
 		$tagsdd = Tag::dropdown();
 		$authordd = User::dropdown();
 		$relateddd = Content::dropdown();
@@ -128,8 +147,8 @@ class ContentController extends Controller {
 	}
 
 	// - edit content on page
-	public function editContent(Content $content) {
-
+	public function editContent(Content $content)
+    {
 		$tagsdd = Tag::dropdown();
 		$authordd = User::dropdown();
 		$relateddd = Content::dropdown();
@@ -139,10 +158,10 @@ class ContentController extends Controller {
 		$contenttypedd = ContentType::dropdown();
 
 		return View::make('content.editor', compact('content', 'contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));
-
 	}
 
-	public function editStore(ContentRequest $request, $id = null) {
+	public function editStore(ContentRequest $request, $id = null)
+    {
 		// - Default to creating a new Content
 		$content = new Content;
 
@@ -157,9 +176,7 @@ class ContentController extends Controller {
 
         $action = $request->input('action');
 
-        $content->ready_published = $action == 'ready_to_publish' ? 1 : 0;
-        $content->written = $action == 'written_content' ? 1 : 0;
-        $content->published = $action == 'publish' ? 1 : 0;
+        $content->configureAction($request->input('action'));
 
 		$content->title = $request->input('title');
 		$content->body = $request->input('content');
@@ -201,78 +218,129 @@ class ContentController extends Controller {
 		$content->tags()->attach($request->input('tags'));
 
 		// - Images
-		if($request->hasFile('images'))
-		{
-			foreach ($request->file('images') as $image) {
-				$filename   	= $image->getClientOriginalName();
-				$extension  	= $image->getClientOriginalExtension();
-				$mime       	= $image->getClientMimeType();
-				$fileDoc    	= time().'_'.$filename;
-				$path = 'attachment/'.Auth::id().'/images/';
-				$fullPath = $path.$fileDoc;
-				Storage::put($fullPath,  File::get($image));
+        $this->handleImages($request, $content);
+        $this->handleFiles($request, $content);
 
-				// - Caputure the upload
-				$attachment              	    = new Attachment;
-				$attachment->filepath     = $path;
-				$attachment->type   	    = 'image';
-				$attachment->filename   = $filename;
-				$attachment->extension = $extension;
-				$attachment->mime   	    = $mime;
-				$attachment->save();
-				// attach image to content
-				$content->attachments()->save($attachment);
-			}
-		}
-		// - File Attachments
-		if($request->hasFile('files'))
-		{
-			foreach( $request->file('files') as $file ) {
-				$filename   	= $file->getClientOriginalName();
-				$extension  	= $file->getClientOriginalExtension();
-				$mime       	= $file->getClientMimeType();
-				$fileDoc    	= time().'_'.$filename;
-				$path = 'attachment/'.Auth::id().'/files/';
-				$fullPath = $path.$fileDoc;
-				Storage::put($fullPath,  File::get($file));
-
-				// - Caputure the upload
-				$attachment              	    = new Attachment;
-				$attachment->filepath     = $path;
-				$attachment->type   	    = 'file';
-				$attachment->filename   = $filename;
-				$attachment->extension = $extension;
-				$attachment->mime   	    = $mime;
-				$attachment->save();
-				// attach image to content
-				$content->attachments()->save($attachment);
-			}
-		}
-
-        $dueDate = new Carbon($content->due_date);
-
-		// - Lets get out of here
-		return redirect()->route('contentIndex')->with([
-		    'flash_message' => 'You have created content titled '.$content->title.'.',
-		    'flash_message_type' => 'success',
-		    'flash_message_important' => true
-		]);
+        if ($content->published) {
+            return $this->publishAndRedirect($request, $content->id);
+        }
+        else {
+            return redirect()->route('contentIndex')->with([
+                'flash_message' => 'You have created content titled '.$content->title.'.',
+                'flash_message_type' => 'success',
+                'flash_message_important' => true
+            ]);
+        }
 	}
 
-	public function get_written($step = 1) {
+    public function delete(Request $request, $content_id)
+    {
+        $content = Content::find($content_id);
 
+        if ($content) {
+            $content->related()->detach();
+            $content->tags()->detach();
+            $content->authors()->detach();
+            $content->attachments()->delete();
+            $content->delete();
+
+            return redirect()->route('contentIndex')->with([
+                'flash_message' => 'You have successfully deleted ' . $content->title . '.',
+                'flash_message_type' => 'success',
+                'flash_message_important' => true
+            ]);
+        }
+        else {
+            return redirect()->route('contentIndex')->with([
+                'flash_message' => 'Unable to delete content: not found.',
+                'flash_message_type' => 'danger',
+                'flash_message_important' => true
+            ]);
+        }
+    }
+
+
+    /**
+     * Shortcut functions to remove possibility of error.
+     * Handling of images.
+     *
+     * @param  ContentRequest   $request        The Request instance
+     * @param  Content          $content        Content instance
+     */
+    private function handleImages($request, $content)
+    {
+        return $this->handleAttachments($request, $content, 'image');
+    }
+
+    /**
+     * Shortcut functions to remove possibility of error.
+     * Handling of files.
+     *
+     * @param  ContentRequest   $request        The Request instance
+     * @param  Content          $content        Content instance
+     */
+    private function handleFiles($request, $content)
+    {
+        $this->handleAttachments($request, $content, 'file');
+    }
+
+    /**
+     * Function to upload files to S3 and save them in the database.
+     *
+     * @param  ContentRequest   $request        The Request instance
+     * @param  Content          $content        Content instance
+     * @param  string $filetype                 A string indicating the filetype.
+     *                                          Images should be 'image'. Everything else will
+     *                                          be treated as files.
+     * @return void
+     */
+    private function handleAttachments($request, $content, $filetype = 'file')
+    {
+        $path = 'attachment/' . Auth::id() . ($filetype == 'image' ? '/images/' : '/files/');
+        $requestField = $filetype == 'image' ? 'images' : 'files';
+
+        if ($request->hasFile($requestField)) {
+
+            foreach ($request->file($requestField) as $file) {
+
+                $filename  = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $mime      = $file->getClientMimeType();
+                $timestamp = Carbon::now('UTC')->format('Ymd_His');
+                $fileDoc   = $timestamp . '_' . $filename;
+                $fullPath  = $path . $fileDoc;
+
+                Storage::put($fullPath, File::get($file));
+
+                $url = Storage::url($fullPath);
+
+                // - Caputure the upload
+                $attachment            = new Attachment;
+                $attachment->filepath  = $fullPath;
+                $attachment->type      = $filetype;
+                $attachment->filename  = $url;
+                $attachment->extension = $extension;
+                $attachment->mime      = $mime;
+                $attachment->save();
+
+                $content->attachments()->save($attachment);
+            }
+        }
+    }
+
+	public function get_written($step = 1)
+    {
 		//need to do proper form validation, etc.
 		//this is just to get the UI spit out
 
-		if($step == 1){
+        if ($step == 1) {
 			return View::make('content.get_written_1');
 		}
-		if($step == 2){
+		if ($step == 2) {
 			return View::make('content.get_written_2');
 		}
-		if($step == 3){
+		if ($step == 3) {
 			return View::make('content.get_written_3');
 		}
 	}
-
 }

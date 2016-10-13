@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Content\ContentRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\ContentType;
 use App\BuyingStage;
@@ -17,37 +18,48 @@ use Storage;
 use View;
 use Config;
 use Auth;
+use Redirect;
 
 class ConnectionController extends Controller {
 
-	public function redirectToProvider($provider){  
-		$scope = [];
-		// break this out into some dynamic class maybe?
-		// -- need to see how this plays out
-		switch ($provider)
-		{
+    public function index(Request $request)
+    {
+        $contentTypeId = $request->get('content_type');
+
+        $data = Connection::selectRaw('connections.*, content_types.name as content_type, content_types.id as content_type_id')
+            ->join('content_types', 'content_types.provider_id', '=', 'connections.provider_id');
+
+        if ($contentTypeId) {
+            $data = $data->where('content_types.id', $contentTypeId);
+        }
+
+        return response()->json([ 'data' => $data->get() ]);
+    }
+
+	public function redirectToProvider($provider)
+	{
+		switch ($provider) {
 			case "facebook":
-				$scope = ["publish_pages","manage_pages"];
-			break;
+				$scope = ["publish_pages", "manage_pages"];
+				return Socialite::driver($provider)->scopes($scope)->redirect();
 
+			case 'twitter':
+				return Redirect::route('twitterLogin');
 
+			case 'wordpress':
+				$url = (new \oAuth\API\WordPressAuth)->getAuthorizationUrl();
+				return Redirect::to($url);
 		}
-		return Socialite::driver($provider)->scopes($scope)->redirect();
-		// - Facebook
-		// -publish_pages - A page access token with publish_pages permission can be used to publish new posts on behalf of that page. Posts will appear in the voice of the page.
-		// - publish_actions - A user access token with publish_actions permission can be used to publish new posts on behalf of that person. Posts will appear in the voice of the user.
-		// -- End Facebook
-		
-	}	
+	}
 
 	public function login($provider)
-	{  
+	{
 		// $user = Socialite::driver($provider)->user();
 		// dd($user);
-		// 
-		// 
-		// 
-		
+		//
+		//
+		//
+
 		 $fb = new Facebook ([
 			  'app_id' => Config::get('services.facebook.client_id'),
 			  'app_secret' => Config::get('services.facebook.client_secret'),
@@ -66,7 +78,7 @@ class ConnectionController extends Controller {
 		$conn->user_id = Auth::id();
 		$conn->settings = json_encode($settings);
 		$conn->save();
-		// get list of accounts to select one		
+		// get list of accounts to select one
 		$response = $fb->get('/me/accounts'); // - get a list of accounts
 
 		// - save selected
@@ -105,8 +117,6 @@ class ConnectionController extends Controller {
 		$conn = Connection::find(56);
 		$settings = json_decode($conn->settings);
 
-
-
 		$linkData = [
 		'message' => 'Test message front content launch website.',
 		//backdated_time
@@ -118,7 +128,6 @@ class ConnectionController extends Controller {
 		//$response = $fb->post('/691957114295469/feed', $linkData);
 		//$response = $fb->get('/me/accounts'); // - get a list of accounts
 		$response = $fb->get('/691957114295469?fields=access_token'); // get access token
-
 
 		//$response = $fb->post('/691957114295469/feed', $linkData, $accessToken->getValue());
 

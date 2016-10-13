@@ -82,16 +82,17 @@ Route::resource('/task/add','TaskController@store');
 
 
 Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);
+Route::get('/content/delete/{content_id}', [ 'as' => 'contentDelete', 'uses' => 'ContentController@delete' ]);
 Route::get('/content/publish/{content}', ['as' => 'contentPublish', 'uses' =>'ContentController@publishAndRedirect' ]);
 Route::get('/content/multipublish/{content}', [ 'as' => 'contentMultiPublish', 'uses' => 'ContentController@directPublish' ]);
 
-//-- Facebook Callbacks
+// Facebook Callbacks
 //
 Route::get('callback/facebook',  ['as' => 'facebookProvider', 'uses' =>'Connections\FacebookController@callback']);
 Route::post('callback/facebook/account/save','Connections\FacebookController@saveAccount');
 // -----------
 
-//-- Twitter Callbacks
+// Twitter Callbacks
 //
 Route::get('twitter/login', [ 'as' => 'twitterLogin', 'uses' => 'Connections\TwitterController@login' ]);
 Route::get('callback/twitter', [ 'as' => 'twitterCallback', 'uses' => 'Connections\TwitterController@callback' ]);
@@ -101,6 +102,8 @@ Route::get('twitter/error', [ 'as' => 'twitterError', 'uses' => 'Connections\Twi
 Route::get('authorize/{provider}',  ['as' => 'connectionProvider', 'uses' =>'ConnectionController@redirectToProvider']);
 Route::get('login/{provider}',  ['as' => 'connectionCallback', 'uses' =>'ConnectionController@login']);
 
+// Wordpress Callback
+Route::get('callback/wordpress', [ 'as' => 'wordpressCallback', 'uses' => 'Connections\WordpressController@callback' ]);
 
 // - Landing page for creating content
 Route::get('/create','ContentController@create');
@@ -124,14 +127,14 @@ Route::get('/collaborate/bookmarks','CollaborateController@bookmarks');
 
 Route::get('/onboarding','OnboardingController@index');
 
-Route::get('/settings', ['as' => 'settingsIndex', 'uses' => 'SettingsController@index']);
-
 Route::group(['prefix' => 'settings'], function() {
+    Route::get('/', [ 'as' => 'settingsIndex', 'uses' => 'SettingsController@index' ]);
+    Route::post('/', [ 'as' => 'settingsUpdate', 'uses' => 'SettingsController@update']);
 	Route::get('content',  ['as' => 'settingsContentIndex', 'uses' => 'SettingsController@content']);
-	// - Connection Routes
+
+    // Connection Routes
 	Route::get('connections', ['as' => 'connectionIndex', 'uses' => 'SettingsController@connections']);
 	Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'SettingsController@connectionCreate'] );
-
 
 	Route::get('seo', ['as' => 'seoIndex', 'uses' =>'SettingsController@seo']);
 	Route::get('buying','SettingsController@buying');
@@ -141,3 +144,9 @@ Route::group(['prefix' => 'twitter'], function() {
     Route::get('followers', [ 'uses' => 'Connections\TwitterController@userSearch' ]);
 });
 
+/**
+ * AJAX Helpers
+ */
+Route::group([ 'prefix' => 'api', 'middleware' => [ ] ], function() {
+    Route::get('/connections', [ 'as' => 'connectionAjaxIndex', 'uses' => 'ConnectionController@index' ]);
+});
