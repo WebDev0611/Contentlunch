@@ -18,6 +18,7 @@ use Storage;
 use View;
 use Config;
 use Auth;
+use Redirect;
 
 class ConnectionController extends Controller {
 
@@ -35,24 +36,20 @@ class ConnectionController extends Controller {
         return response()->json([ 'data' => $data->get() ]);
     }
 
-	public function redirectToProvider($provider) {
-		$scope = [];
-		// break this out into some dynamic class maybe?
-		// -- need to see how this plays out
-		switch ($provider)
-		{
+	public function redirectToProvider($provider)
+	{
+		switch ($provider) {
 			case "facebook":
-				$scope = ["publish_pages","manage_pages"];
-			break;
+				$scope = ["publish_pages", "manage_pages"];
+				return Socialite::driver($provider)->scopes($scope)->redirect();
 
+			case 'twitter':
+				return Redirect::route('twitterLogin');
 
+			case 'wordpress':
+				$url = (new \oAuth\API\WordPressAuth)->getAuthorizationUrl();
+				return Redirect::to($url);
 		}
-		return Socialite::driver($provider)->scopes($scope)->redirect();
-		// - Facebook
-		// -publish_pages - A page access token with publish_pages permission can be used to publish new posts on behalf of that page. Posts will appear in the voice of the page.
-		// - publish_actions - A user access token with publish_actions permission can be used to publish new posts on behalf of that person. Posts will appear in the voice of the user.
-		// -- End Facebook
-
 	}
 
 	public function login($provider)

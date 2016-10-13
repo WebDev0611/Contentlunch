@@ -15,12 +15,13 @@ class ContentTypeTableSeeder extends Seeder
         ContentType::truncate();
 
         $contentTypeArray = [
+            [ 'name' => 'Blog Post',                'provider_id' =>  1 ],
+            [ 'name' => 'Facebook Post',            'provider_id' =>  5 ],
+            [ 'name' => 'Tweet',                    'provider_id' =>  6 ],
             [ 'name' => 'Audio Recording',          'provider_id' =>  0 ],
-            [ 'name' => 'Blog Post',                'provider_id' =>  0 ],
             [ 'name' => 'Case Study',               'provider_id' =>  0 ],
             [ 'name' => 'Ebook',                    'provider_id' =>  0 ],
             [ 'name' => 'Email',                    'provider_id' =>  0 ],
-            [ 'name' => 'Facebook Post',            'provider_id' =>  5 ],
             [ 'name' => 'Feature Length Article',   'provider_id' =>  0 ],
             [ 'name' => 'Google Drive Doc.',        'provider_id' =>  0 ],
             [ 'name' => 'Google+ Update',           'provider_id' =>  0 ],
@@ -31,7 +32,6 @@ class ContentTypeTableSeeder extends Seeder
             [ 'name' => 'SalesForce Asset',         'provider_id' =>  0 ],
             [ 'name' => 'Sales Letter',             'provider_id' =>  0 ],
             [ 'name' => 'Sell Sheet Content',       'provider_id' =>  0 ],
-            [ 'name' => 'Tweet',                    'provider_id' =>  6 ],
             [ 'name' => 'Video',                    'provider_id' =>  0 ],
             [ 'name' => 'Website Page',             'provider_id' =>  0 ],
             [ 'name' => 'Whitepaper',               'provider_id' =>  0 ],
