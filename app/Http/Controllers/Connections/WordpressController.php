@@ -41,7 +41,7 @@ class WordpressController extends BaseConnectionController
         $connection = $this->saveConnectionSettings($token);
 
         return redirect()->route('connectionIndex')->with([
-            'flash_message' => "Wordpress connection " . $connection->name . " created successfully.",
+            'flash_message' => "Wordpress connection <strong>" . $connection->name . "</strong> created successfully.",
             'flash_message_type' => 'success',
             'flash_message_important' => true
         ]);
