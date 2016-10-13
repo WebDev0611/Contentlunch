@@ -15,6 +15,7 @@ use App\Tag;
 use Storage;
 use View;
 use Auth;
+use Illuminate\Support\Facades\DB;
 use Twitter;
 use Session;
 use Carbon\Carbon;
@@ -50,16 +51,47 @@ class ContentController extends Controller
 		return redirect('edit/' . $content->id );
 	}
 
-    public function create()
-    {
-		//$my_campaigns = Campaign::
-        $my_campaigns = Auth::user()->campaigns()->get();
+	public function create(){
 
-        return View::make('content.create',[
-            'contenttypedd' => ContentType::dropdown(),
-            'campaigndd' => Campaign::dropdown()
-        ]);
-    }
+		$contentTypes = DB::table("writer_access_asset_types")->get();
+
+        $prices = DB::table("writer_access_prices")->distinct()->select("asset_type_id")->get();
+
+        $reformedPrices = [];
+        foreach($prices as $price){
+            if(!isset($reformedPrices[$price->asset_type_id])){
+                $reformedPrices[$price->asset_type_id] = [];
+
+                $wordcounts = DB::table("writer_access_prices")
+                    ->distinct()
+                    ->select("wordcount")
+                    ->where("asset_type_id", $price->asset_type_id)
+                    ->get();
+
+                foreach ($wordcounts as $wordcount){
+                    $reformedPrices[$price->asset_type_id][$wordcount->wordcount] = [];
+                    $writerLevels = DB::table("writer_access_prices")
+                        ->where("asset_type_id", $price->asset_type_id)
+                        ->where("wordcount", $wordcount->wordcount)
+                        ->get();
+
+                    foreach ($writerLevels as $writerLevel){
+                        $reformedPrices[$price->asset_type_id][$wordcount->wordcount][$writerLevel->writer_level] = $writerLevel->fee;
+                    }
+
+                }
+            }
+        }
+
+		$pricesJson = json_encode($reformedPrices);
+
+        $contenttypedd = ContentType::dropdown();
+        $campaigndd = Campaign::dropdown();
+
+		return View::make('content.create', compact("contentTypes", "pricesJson", "contenttypedd", "campaigndd"));
+
+
+	}
 
     public function directPublish(Request $request, $contentId)
     {

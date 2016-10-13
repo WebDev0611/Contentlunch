@@ -140,6 +140,24 @@ Route::group(['prefix' => 'settings'], function() {
 	Route::get('buying','SettingsController@buying');
 });
 
+Route::group(['prefix' => 'writeraccess'], function() {
+	Route::get('categories', 'WriterAccessController@categories');
+	Route::get('account', 'WriterAccessController@account');
+	Route::get('assetTypes', 'WriterAccessController@assetTypes');
+	Route::post('orders/create', 'WriterAccessController@createOrder');
+	Route::get('orders', 'WriterAccessController@orders');
+	Route::get('orders/{id}', 'WriterAccessController@orders');
+	Route::get('projects', 'WriterAccessController@projects');
+	Route::get('projects/{id}', 'WriterAccessController@projects');
+	Route::get('projects/create/{name}', 'WriterAccessController@createProject');
+	Route::get('expertises', 'WriterAccessController@expertises');
+	Route::get('fees', 'WriterAccessPriceController@index');
+	Route::get('fee', 'WriterAccessPriceController@fee');
+});
+
+Route::resource('writerAccessPrices','WriterAccessPriceController');
+Route::resource('writerAccessAssetTypes','WriterAccessAssetTypeController');
+
 Route::group(['prefix' => 'twitter'], function() {
     Route::get('followers', [ 'uses' => 'Connections\TwitterController@userSearch' ]);
 });
