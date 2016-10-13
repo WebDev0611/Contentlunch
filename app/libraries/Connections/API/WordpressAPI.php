@@ -29,6 +29,8 @@ class WordPressAPI
     public function createPost()
     {
         $content = $this->content;
+        $connectionSettings = $this->connection->getSettings();
+
         // - standardize return
         $response = ['success' => false, 'response' => []];
         try {
@@ -44,7 +46,6 @@ class WordPressAPI
                 'tite' =>  $content->title,
                 'content' => $content->body,
                 'tags' => $tags,
-               // 'status' => "draft" // do we want the user to control this
             ];
 
             // - Create Options and Header Data
@@ -53,14 +54,14 @@ class WordPressAPI
                     'method'  => 'POST',
                     'ignore_errors' => true,
                     'header' => [
-                        0 => 'authorization: Bearer '. $this->token,
+                        0 => 'authorization: Bearer '. $connectionSettings->access_token,
                         1 => 'Content-Type: application/x-www-form-urlencoded',
                     ],
                     'content' => http_build_query($postdata)
                 ]
             ];
             // REST API url
-            $url = $this->base_url.'sites/'.$this->domain.'/posts/new';
+            $url = $this->base_url.'sites/' . $connectionSettings->blog_id . '/posts/new';
 
             $context  = stream_context_create($options);
             $apiResponse = file_get_contents($url, false, $context);
