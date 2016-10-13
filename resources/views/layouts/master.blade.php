@@ -24,7 +24,6 @@
 <!-- Create overlay -->
 <div class="create-overlay">
   <div class="inner">
-    
     <ul class="list-inline list-createmenu">
       <li class="first">
         <a href="/plan">
