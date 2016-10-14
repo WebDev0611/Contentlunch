@@ -1,4 +1,5 @@
 var elixir = require('laravel-elixir');
+require('laravel-elixir-livereload');
 
 /*
  |--------------------------------------------------------------------------
@@ -34,7 +35,8 @@ elixir(function (mix) {
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js',
-                './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js'
+                './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
+                './bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js'
             ], "public/js/plugins.js")
 
             /* content scripts and main app */
@@ -118,4 +120,5 @@ elixir(function (mix) {
             .copy("resources/assets/fonts", "public/fonts")
     ;
 
+    mix.livereload();
 });

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,13 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-
-        $this->call(UsersTableSeeder::class);
-        $this->call(ProviderTableSeeder::class);
-        $this->call(ContentTypeTableSeeder::class);
-        $this->call(CampaignTypeTableSeeder::class);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        Model::unguard();
+
+        $this->call('WriterAccessPriceSeeder');
+        $this->call('WriterAccessAssetTypeSeeder');
+        $this->call('UsersTableSeeder');
+        $this->call('ProviderTableSeeder');
+        $this->call('ContentTypeTableSeeder');
+        $this->call('CampaignTypeTableSeeder');
     }
 }
