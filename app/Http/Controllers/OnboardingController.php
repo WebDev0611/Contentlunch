@@ -9,8 +9,8 @@ use Hash;
 
 class OnboardingController extends Controller
 {
-
-    public function signup() {
+    public function signup()
+    {
         $user = new User;
         return view('onboarding.signup')->with(compact('user'));
     }
@@ -19,12 +19,13 @@ class OnboardingController extends Controller
         return View::make('onboarding.invite');
     }*/
 
-    public function score() {
+    public function score()
+    {
         return View::make('onboarding.score');
     }
 
-    public function connect(){
+    public function connect()
+    {
         return View::make('onboarding.connect');
     }
-
 }

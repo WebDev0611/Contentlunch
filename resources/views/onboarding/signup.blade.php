@@ -37,7 +37,7 @@
                             </div>
                         </div>
                     </div>
-                    {{ Form::open(array('url' => 'register')) }}
+                    {{ Form::open([ 'url' => 'register', 'files' => 'true' ]) }}
                     <input type="hidden" name="redirect_url" value="/invite">
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
@@ -70,7 +70,7 @@
                                         <img src="/images/avatar.jpg" alt="#">
                                         <label for="upload" class="onboarding-avatar-button">
                                             <i class="icon-add"></i>
-                                            <input id="upload" type="file">
+                                            <input id="upload" name='avatar' type="file">
                                             <span>Upload Avatar</span>
                                         </label>
                                     </div>
