@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Crypt;
-use File;
-use Storage;
 use View;
 use Session;
 use Carbon\Carbon;
@@ -32,7 +30,7 @@ class SettingsController extends Controller {
         $user->name = $request->input('name');
 
         if ($request->hasFile('avatar')) {
-            $user->profile_image = $this->handleProfilePicture($request->file('avatar'));
+            $user->profile_image = Helpers::handleProfilePicture($user, $request->file('avatar'));
         }
 
         $user->save();
@@ -44,28 +42,9 @@ class SettingsController extends Controller {
         ]);
     }
 
-    private function handleProfilePicture($file)
+	public function content()
     {
-        $user = Auth::user();
-        $path = 'attachment/' . $user->id . '/profile/';
-
-        // TODO: validate mime type
-        $mime      = $file->getClientMimeType();
-
-        $extension = $file->getClientOriginalExtension();
-        $filename  = Helpers::slugify($user->name) . '.' . $extension;
-        $timestamp = Carbon::now('UTC')->format('Ymd_His');
-        $fileDoc   = $timestamp . '_' . $filename;
-        $fullPath  = $path . $fileDoc;
-
-        Storage::put($fullPath, File::get($file));
-
-        return Storage::url($fullPath);
-    }
-
-	public function content(){
 		return View::make('settings.content');
-
 	}
 
     public function connections()
