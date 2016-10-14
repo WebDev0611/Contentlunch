@@ -160,8 +160,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        Thujohn\Twitter\TwitterServiceProvider::class
-
+        Thujohn\Twitter\TwitterServiceProvider::class,
     ],
 
     /*
@@ -213,6 +212,7 @@ return [
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Twitter' => Thujohn\Twitter\Facades\Twitter::class,
+
     ],
 
 ];
