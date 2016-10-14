@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c8cbc0cb70307523874a1c6a86ae646a",
-    "content-hash": "e6fe000694c7953f0737a8b7b4b7335e",
+    "hash": "366485be925066eadbfff28f49c4c0bb",
+    "content-hash": "87677a3abc6a5caf64bdef80cd3d74f9",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -2600,6 +2600,51 @@
             "time": "2016-09-01 10:05:43"
         },
         {
+            "name": "weblee/mandrill",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/weblee/Mandrill.git",
+                "reference": "809dedb3f8df717e59a8818d236be24028d1e458"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/weblee/Mandrill/zipball/809dedb3f8df717e59a8818d236be24028d1e458",
+                "reference": "809dedb3f8df717e59a8818d236be24028d1e458",
+                "shasum": ""
+            },
+            "require": {
+                "mandrill/mandrill": "1.0.*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Weblee\\Mandrill\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lee Smith",
+                    "email": "lee@weblee.co.uk"
+                }
+            ],
+            "description": "Laravel 5 Mandrill API Wrapper",
+            "keywords": [
+                "email",
+                "laravel",
+                "mandrill"
+            ],
+            "time": "2016-04-05 10:44:17"
+        },
+        {
             "name": "zizaco/entrust",
             "version": "5.2.x-dev",
             "source": {
@@ -4044,7 +4089,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "zizaco/entrust": 20
+        "zizaco/entrust": 20,
+        "weblee/mandrill": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
