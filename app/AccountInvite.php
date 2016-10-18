@@ -14,6 +14,11 @@ class AccountInvite extends Model
         return $this->belongsTo('App\Account');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     public function getRouteKeyName()
     {
         return 'token';
@@ -21,6 +26,6 @@ class AccountInvite extends Model
 
     public function isUsed()
     {
-        return (boolean) User::where('email', $this->email)->count();
+        return (boolean) $this->user_id;
     }
 }

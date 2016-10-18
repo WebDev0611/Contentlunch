@@ -25,6 +25,7 @@
                 <!-- Onboarding content -->
                 <div class="body">
                     {{ Form::hidden('account_id', $invite->account_id) }}
+                    {{ Form::hidden('invite_id', $invite->id) }}
 
                     <div class="input-form-group">
                         {{ Form::label('name', 'Full Name') }}

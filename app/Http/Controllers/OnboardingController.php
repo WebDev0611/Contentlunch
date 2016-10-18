@@ -49,14 +49,10 @@ class OnboardingController extends Controller
 
     public function createWithInvite(InvitedAccountRequest $request)
     {
-        $user = User::create([
-            'name' => $request->input('name'),
-            'password' => bcrypt($request->input('password')),
-            'email' => $request->input('email'),
-            'account_id' => $request->input('account_id')
-        ]);
-
+        $user = $this->createInvitedUser($request);
         Auth::login($user);
+
+        $this->markInviteAsUsed($request, $user);
 
         $account = Account::find($request->account_id)->first();
 
@@ -64,6 +60,23 @@ class OnboardingController extends Controller
             'flash_message' => 'Welcome to ContentLaunch! You\'re now part of the ' . $account->name . ' account!',
             'flash_message_type' => 'success',
             'flash_message_important' => true
+        ]);
+    }
+
+    private function markInviteAsUsed($request, $user)
+    {
+        $invite = AccountInvite::find($request->invite_id);
+        $invite->user()->associate($user);
+        $invite->save();
+    }
+
+    private function createInvitedUser($request)
+    {
+        return User::create([
+            'name' => $request->input('name'),
+            'password' => bcrypt($request->input('password')),
+            'email' => $request->input('email'),
+            'account_id' => $request->input('account_id')
         ]);
     }
 }
