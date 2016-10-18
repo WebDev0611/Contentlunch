@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class AccountInvite extends Model
 {
@@ -16,5 +17,10 @@ class AccountInvite extends Model
     public function getRouteKeyName()
     {
         return 'token';
+    }
+
+    public function isUsed()
+    {
+        return (boolean) User::where('email', $this->email)->count();
     }
 }
