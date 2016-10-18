@@ -8,6 +8,13 @@
         {{ Form::open([ 'url' => 'signup/invite' ]) }}
         <!-- Onboarding pane -->
         <div class="onboarding-container">
+            @if($errors->count()>0)
+                <div class="alert alert-danger">
+                    <p>{{ $errors->first('name') }}</p>
+                    <p>{{ $errors->first('email') }}</p>
+                    <p>{{ $errors->first('password') }}</p>
+                </div>
+            @endif
             <div class="inner narrow">
                 <h3 class="text-center">
                     Welcome to ContentLaunch
