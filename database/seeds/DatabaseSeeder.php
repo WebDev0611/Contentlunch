@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call('ContentTypeTableSeeder');
         $this->call('CampaignTypeTableSeeder');
 
-        Model::guard();
+        Model::reguard();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
