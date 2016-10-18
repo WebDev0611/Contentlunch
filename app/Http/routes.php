@@ -29,7 +29,7 @@ Route::post('signup', 'OnboardingController@process_signup');
 
 Route::model('invite', 'App\AccountInvite');
 Route::post('signup/invite', 'OnboardingController@createWithInvite');
-Route::get('signup/invite/{invite}', 'OnboardingController@signupWithInvite');
+Route::get('signup/invite/{invite}', [ 'as' => 'signupWithInvite', 'uses' => 'OnboardingController@signupWithInvite' ]);
 
 Route::group([ 'prefix' => 'invite' ], function() {
     Route::get('/', [ 'as' => 'inviteIndex', 'uses' =>'OnboardingInviteController@invite' ]);

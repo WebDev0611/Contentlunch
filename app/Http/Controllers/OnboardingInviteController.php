@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\emailInviteRequest;
 use View;
 use Mail;
 use Auth;
+
+use App\Http\Requests\emailInviteRequest;
+use App\AccountInvite;
 
 class OnboardingInviteController extends Controller
 {
@@ -18,25 +20,38 @@ class OnboardingInviteController extends Controller
 
     public function emailInvite(emailInviteRequest $request)
     {
-        $emails = $request->input('emails');
+        $emails = collect(explode(',', $request->input('emails')))
+            ->map(function($email) {
+                return trim($email);
+            })
+            ->toArray();
 
-        $data = [
-            'name' => Auth::user()->name,
-            'emails' =>  explode(',', $emails)
-        ];
+        $account = Auth::user()->account;
 
-        Mail::send('emails.invite.email_invite', $data, function($message)  use ($data) {
-            $message->from("invites@contentlaunch.com", "Content Launch")
-                ->to('noreply@contentlaunch.com')
-                ->bcc($data['emails'])
-                ->subject('Check Out Content Launch');
-        });
+        foreach ($emails as $email) {
+            $link = $this->createInviteUrl($email, $account);
+
+            Mail::send('emails.invite.email_invite', compact('link'), function($message) use ($email) {
+                $message->from("invites@contentlaunch.com", "Content Launch")
+                    ->to($email)
+                    ->subject('Check Out Content Launch');
+            });
+        }
 
         return redirect()->route('inviteIndex')->with([
-            'flash_message' => 'You have sent ' . count($data['emails']) .' invite(s) about content launch out. Thanks!.',
+            'flash_message' => 'You have sent ' . count($emails) . ' invite(s) about content launch out. Thanks!',
             'flash_message_type' => 'success',
             'flash_message_important' => true
         ]);
     }
 
+    private function createInviteUrl($email, $account)
+    {
+        $accountInvite = AccountInvite::create([
+            'email' => $email,
+            'account_id' => $account->id,
+        ]);
+
+        return route('signupWithInvite', $accountInvite);
+    }
 }
