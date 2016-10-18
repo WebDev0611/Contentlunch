@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use View;
 use App\User;
+use App\Account;
+use App\AccountInvite;
 use \Illuminate\Http\Request;
 use Hash;
 
@@ -29,8 +31,21 @@ class OnboardingController extends Controller
         return View::make('onboarding.connect');
     }
 
-    public function signupWithInvite(\App\AccountInvite $invite)
+    public function signupWithInvite(AccountInvite $invite)
     {
-        dd($invite);
+        if ($invite->isUsed()) {
+            throw new \NotFoundHttpException;
+        }
+
+        $data = [
+            'invite' => $invite
+        ];
+
+        return View::make('onboarding.invite_signup', $data);
+    }
+
+    public function createWithInvite(Request $request)
+    {
+        dd($request->input());
     }
 }

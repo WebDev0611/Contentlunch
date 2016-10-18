@@ -28,6 +28,7 @@ Route::get('connect', 'OnboardingController@connect');
 Route::post('signup', 'OnboardingController@process_signup');
 
 Route::model('invite', 'App\AccountInvite');
+Route::post('signup/invite', 'OnboardingController@createWithInvite');
 Route::get('signup/invite/{invite}', 'OnboardingController@signupWithInvite');
 
 Route::group([ 'prefix' => 'invite' ], function() {
