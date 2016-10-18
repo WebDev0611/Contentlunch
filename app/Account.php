@@ -12,4 +12,9 @@ class Account extends Model
     {
         return $this->hasMany('App\User');
     }
+
+    public function invites()
+    {
+        return $this->hasMany('App\AccountInvite');
+    }
 }
