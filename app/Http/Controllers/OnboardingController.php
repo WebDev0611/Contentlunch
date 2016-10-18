@@ -37,14 +37,10 @@ class OnboardingController extends Controller
     public function signupWithInvite(AccountInvite $invite)
     {
         if ($invite->isUsed()) {
-            throw new \NotFoundHttpException;
+            return View::make('onboarding.invite_used');
         }
 
-        $data = [
-            'invite' => $invite
-        ];
-
-        return View::make('onboarding.invite_signup', $data);
+        return View::make('onboarding.invite_signup', compact('invite'));
     }
 
     public function createWithInvite(InvitedAccountRequest $request)
