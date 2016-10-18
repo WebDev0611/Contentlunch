@@ -47,6 +47,11 @@ class User extends Authenticatable
        return $this->hasMany('App\Task');
     }
 
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
+
     public static function dropdown()
     {
 
