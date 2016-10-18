@@ -28,4 +28,9 @@ class OnboardingController extends Controller
     {
         return View::make('onboarding.connect');
     }
+
+    public function signupWithInvite(\App\AccountInvite $invite)
+    {
+        dd($invite);
+    }
 }

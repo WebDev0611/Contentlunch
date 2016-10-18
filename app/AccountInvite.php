@@ -12,4 +12,9 @@ class AccountInvite extends Model
     {
         return $this->belongsTo('App\Account');
     }
+
+    public function getRouteKeyName()
+    {
+        return 'token';
+    }
 }

@@ -27,13 +27,13 @@ Route::get('score', 'OnboardingController@score');
 Route::get('connect', 'OnboardingController@connect');
 Route::post('signup', 'OnboardingController@process_signup');
 
+Route::model('invite', 'App\AccountInvite');
+Route::get('signup/invite/{invite}', 'OnboardingController@signupWithInvite');
 
-Route::get('invite', ['as' => 'inviteIndex', 'uses' =>'OnboardingInviteController@invite'] );
-Route::group(['prefix' => 'invite', /*'middleware' => ['auth']*/], function() {
-	Route::post('emails', ['as' => 'emailInvite', 'uses' => 'OnboardingInviteController@emailInvite'] );
+Route::group([ 'prefix' => 'invite' ], function() {
+    Route::get('/', [ 'as' => 'inviteIndex', 'uses' =>'OnboardingInviteController@invite' ]);
+	Route::post('emails', [ 'as' => 'emailInvite', 'uses' => 'OnboardingInviteController@emailInvite' ]);
 });
-
-
 
 Route::get('/home','AccountController@index');
 Route::get('/dashboard','AccountController@stats');
