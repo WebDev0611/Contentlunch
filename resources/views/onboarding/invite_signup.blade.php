@@ -54,9 +54,9 @@
                         }}
                     </div>
                     <div class="input-form-group">
-                        {{ Form::label('confirm_password', 'Confirm your password') }}
+                        {{ Form::label('password_confirmation', 'Confirm your password') }}
                         {{
-                            Form::password('confirm_password', [
+                            Form::password('password_confirmation', [
                                 'placeholder' => 'Confirm your password',
                                 'class' => 'input full'
                             ])

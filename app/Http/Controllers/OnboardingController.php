@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use \Illuminate\Http\Request;
 use View;
+use Hash;
+use Auth;
+
 use App\User;
 use App\Account;
 use App\AccountInvite;
-use \Illuminate\Http\Request;
-use Hash;
+use App\Http\Requests\Onboarding\InvitedAccountRequest;
 
 class OnboardingController extends Controller
 {
@@ -44,8 +47,23 @@ class OnboardingController extends Controller
         return View::make('onboarding.invite_signup', $data);
     }
 
-    public function createWithInvite(Request $request)
+    public function createWithInvite(InvitedAccountRequest $request)
     {
-        dd($request->input());
+        $user = User::create([
+            'name' => $request->input('name'),
+            'password' => bcrypt($request->input('password')),
+            'email' => $request->input('email'),
+            'account_id' => $request->input('account_id')
+        ]);
+
+        Auth::login($user);
+
+        $account = Account::find($request->account_id)->first();
+
+        return redirect('/')->with([
+            'flash_message' => 'Welcome to ContentLaunch! You\'re now part of the ' . $account->name . ' account!',
+            'flash_message_type' => 'success',
+            'flash_message_important' => true
+        ]);
     }
 }
