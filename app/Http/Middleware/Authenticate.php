@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\Auth;
 class Authenticate
 {
     /**
+     * List of URLs exempt from authentication.
+     */
+    protected $allowedUrls = [
+        'signup',
+        'signup/invite'
+    ];
+
+    /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -21,12 +29,19 @@ class Authenticate
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {
-                if ($request->server->get('REQUEST_URI') !== "/signup"){
+                if (!$this->isUrlAllowed($request->path())) {
                     return redirect()->guest('login');
                 }
             }
         }
 
         return $next($request);
+    }
+
+    protected function isUrlAllowed($requestUrl)
+    {
+        $regex = '#' . implode('|', $this->allowedUrls) . '#';
+
+        return (boolean) preg_match($regex, $requestUrl);
     }
 }
