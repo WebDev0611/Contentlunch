@@ -4,10 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use App\Helpers;
 
 class AccountInvite extends Model
 {
-    public $fillable = [ 'email', 'token', 'account_id' ];
+    public $fillable = [ 'email', 'account_id' ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function($invite) {
+            $invite->generateToken();
+        });
+    }
 
     public function account()
     {
@@ -27,5 +36,10 @@ class AccountInvite extends Model
     public function isUsed()
     {
         return (boolean) $this->user_id;
+    }
+
+    public function generateToken()
+    {
+        $this->token = str_replace('-', '', Helpers::uuid());
     }
 }
