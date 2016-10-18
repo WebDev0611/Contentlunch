@@ -27,6 +27,7 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="onboarding-connect">
                                     <ul class="onboarding-connect-menu">
+                                        <!--
                                         <li >
                                             <a href="#fb" data-toggle="tab">
                                                 <i class="icon-facebook-mini"></i>
@@ -45,6 +46,7 @@
                                                 LinkedIn
                                             </a>
                                         </li>
+                                        -->
                                         <li class="active">
                                             <a href="#em" data-toggle="tab">
                                                 <i class="icon-envelope"></i>
@@ -53,6 +55,7 @@
                                         </li>
                                     </ul>
                                     <div class="onboarding-connect-container tab-content">
+                                        <!--
                                         <div id="fb" class="onboarding-connect-section tab-pane ">
                                             <div class="onboarding-connect-section-backdrop">
                                                 <div class="onboarding-connect-section-backdrop-content">
@@ -82,27 +85,36 @@
                                                 </a>
                                             </div>
                                         </div>
+                                        -->
+
                                         <div id="em" class="onboarding-connect-section tab-pane active">
                                             <div class="onboarding-connect-section-backdrop-content">
 
-                                                    @if ($errors->any())
-                                                        <div  class="alert alert-danger">
-                                                            <p><strong>Error:</strong>
-                                                                @foreach($errors->all() as $error)
-                                                                    {{ $error }}
-                                                                @endforeach
-                                                            </p>
-                                                        </div>
-                                                    @endif
+                                                @if ($errors->any())
+                                                    <div  class="alert alert-danger">
+                                                        <p><strong>Error:</strong>
+                                                            @foreach($errors->all() as $error)
+                                                                {{ $error }}
+                                                            @endforeach
+                                                        </p>
+                                                    </div>
+                                                @endif
 
 
                                                 {{ Form::open(array('url' => 'invite/emails')) }}
-                                                <p class="onboarding-text">Invite friends by email</p>
-                                                <div class="form-group">
-                                                    <input type="text" class="input input-tertiary" name="emails" placeholder="Enter comma delimited email addresses">
-                                                </div>
-                                                {{ Form::submit('SEND INVITE(S)', ['class' => 'button button-extend text-uppercase']) }}
-                                            {{ Form::close() }}
+                                                    <p class="onboarding-text">Invite friends by email</p>
+                                                    <div class="form-group">
+                                                        <input type="text"
+                                                            class="input input-tertiary"
+                                                            name="emails"
+                                                            placeholder="Enter comma delimited email addresses">
+                                                    </div>
+                                                    {{
+                                                        Form::submit('SEND INVITE(S)', [
+                                                            'class' => 'button button-extend text-uppercase'
+                                                        ])
+                                                    }}
+                                                {{ Form::close() }}
                                             </div>
                                         </div>
                                     </div>
@@ -111,7 +123,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-md-offset-3">
-                                <a href="/#/onboarding/3" class="button button-extend text-uppercase" disabled>Next Step</a>
+                                <a href="/#/onboarding/3" class="button button-extend text-uppercase">Next Step</a>
                             </div>
                         </div>
                     </div>
