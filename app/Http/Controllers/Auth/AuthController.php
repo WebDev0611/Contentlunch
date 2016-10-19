@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Account;
 use App\Helpers;
 
 class AuthController extends Controller
@@ -71,12 +72,15 @@ class AuthController extends Controller
 
     protected function create(array $data)
     {
+        $account = Account::create([
+            'name' => $data['company_name']
+        ]);
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'company_name' => $data['company_name'],
-            'company_name' => $data['company_name'],
+            'account_id' => $account->id
         ]);
 
         if (collect($data)->has('avatar')) {
