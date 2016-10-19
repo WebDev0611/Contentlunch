@@ -100,7 +100,13 @@
                             <div class="col-md-6">
                                 <div class="input-form-group">
                                     <label for="#">ACCOUNT NAME</label>
-                                    <input type="text" class="input" placeholder="Account name">
+                                    {!!
+                                        Form::text('account_name', $user->account->name,
+                                            [
+                                                'class'=> 'input',
+                                                'placeholder' => 'Account Name'
+                                            ])
+                                    !!}
                                 </div>
                             </div>
                         </div>

@@ -29,6 +29,9 @@ class SettingsController extends Controller {
         $user->email = $request->input('email');
         $user->name = $request->input('name');
 
+        $user->account->name = $request->input('account_name');
+        $user->account->save();
+
         if ($request->hasFile('avatar')) {
             $user->profile_image = Helpers::handleProfilePicture($user, $request->file('avatar'));
         }
