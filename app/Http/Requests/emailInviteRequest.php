@@ -11,12 +11,8 @@ class  emailInviteRequest extends FormRequest {
 	 */
 	public function rules()
 	{
-
-               /* $file       = $this->file('csv_import');
-                $mime       = $file->getClientMimeType();
-                echo $mime;die;*/
 		return [
-		            'emails' 		=> 'required',
+			'emails' => 'required',
 		];
 	}
 

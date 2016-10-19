@@ -14,7 +14,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'account_id'
     ];
 
     /**
@@ -45,6 +45,11 @@ class User extends Authenticatable
     public function tasks()
     {
        return $this->hasMany('App\Task');
+    }
+
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
     }
 
     public static function dropdown()
