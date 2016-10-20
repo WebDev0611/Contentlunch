@@ -46,16 +46,17 @@
                                                     <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
                                                     <span class="onboarding-import-item-title">WordPress</span>
                                                 </div>
-                                                @if (!$hasWordPress)
+
                                                 <div class="col-md-6 text-right">
+                                                    @if (!$hasWordPress)
                                                     <a  href="{{ route('connectionProvider', 'wordpress') }}"
                                                         class="button button-small">
                                                         Connect
                                                     </a>
+                                                    @else
+                                                    <div class="button button-connected button-small">Connected</div>
+                                                    @endif
                                                 </div>
-                                                @else
-                                                <div class="button button-connected button-small">Connected</div>
-                                                @endif
                                             </div>
                                         </div>
                                         <div id="connections" class="onboarding-import-list tab-pane active">
@@ -64,17 +65,19 @@
                                                     <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
                                                     <span class="onboarding-import-item-title">Facebook</span>
                                                 </div>
-                                                @if (!$hasFacebook)
+
                                                 <div class="col-md-6 text-right">
+                                                    @if (!$hasFacebook)
                                                     <a  href="{{ route('connectionProvider', 'facebook') }}"
                                                         class="button button-small">
                                                         Connect
                                                     </a>
+                                                    @else
+                                                    <div class="button button-connected button-small">Connected</div>
+                                                    @endif
                                                 </div>
-                                                @else
-                                                <div class="button button-connected button-small">Connected</div>
-                                                @endif
                                             </div>
+
                                             <div class="onboarding-import-item @if ($hasTwitter) active @endif">
                                                 <div class="col-md-6">
                                                     <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
