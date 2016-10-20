@@ -3,6 +3,7 @@
  */
 function scorePassword(pass) {
     var score = 0;
+
     if (!pass)
         return score;
 
@@ -25,9 +26,11 @@ function scorePassword(pass) {
     for (var check in variations) {
         variationCount += (variations[check] == true) ? 1 : 0;
     }
-    score += (variationCount - 1) * 15;
 
-    return parseInt(score);
+    score += (variationCount - 1) * 15;
+    score = parseInt(score);
+
+    return score > 98 ? 98 : score;
 }
 
 /*
@@ -47,7 +50,7 @@ function checkPassStrength(pass) {
 /*
     Update the Password strength indicator
  */
-function updatePasswordStrengthIndicator(pass){
+function updatePasswordStrengthIndicator(pass) {
     $(".input-strength-indicator span").css({
         'background-color': checkPassStrength(pass),
         'width': scorePassword(pass)+"%"

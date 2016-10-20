@@ -179,6 +179,6 @@
 -->
 @stop
 
-
-
-
+@section('scripts')
+<script src="js/onboarding.js"></script>
+@stop
