@@ -18,6 +18,13 @@ abstract class BaseConnectionController extends Controller
         return $connection;
     }
 
+    public function getSessionConnectionMetadata()
+    {
+        $connectionData = Session::get('connection_data');
+
+        return $connectionData ? $connectionData['meta_data'] : null;
+    }
+
     public function cleanSessionConnection()
     {
         Session::forget('connection_data');
