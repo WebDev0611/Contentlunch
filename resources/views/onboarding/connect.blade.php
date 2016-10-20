@@ -46,38 +46,49 @@
                                                     <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
                                                     <span class="onboarding-import-item-title">WordPress</span>
                                                 </div>
+                                                @if (!$hasWordPress)
                                                 <div class="col-md-6 text-right">
                                                     <a  href="{{ route('connectionProvider', 'wordpress') }}"
                                                         class="button button-small">
                                                         Connect
                                                     </a>
                                                 </div>
+                                                @else
+                                                <div class="button button-connected button-small">Connected</div>
+                                                @endif
                                             </div>
                                         </div>
                                         <div id="connections" class="onboarding-import-list tab-pane active">
-                                            <div class="onboarding-import-item">
+                                            <div class="onboarding-import-item @if ($hasFacebook) active @endif">
                                                 <div class="col-md-6">
                                                     <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
                                                     <span class="onboarding-import-item-title">Facebook</span>
                                                 </div>
+                                                @if (!$hasFacebook)
                                                 <div class="col-md-6 text-right">
                                                     <a  href="{{ route('connectionProvider', 'facebook') }}"
                                                         class="button button-small">
                                                         Connect
                                                     </a>
                                                 </div>
+                                                @else
+                                                <div class="button button-connected button-small">Connected</div>
+                                                @endif
                                             </div>
-                                            <div class="onboarding-import-item">
+                                            <div class="onboarding-import-item @if ($hasTwitter) active @endif">
                                                 <div class="col-md-6">
                                                     <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
                                                     <span class="onboarding-import-item-title">Twitter</span>
                                                 </div>
                                                 <div class="col-md-6 text-right">
-                                                    <a  href="{{ route('connectionProvider', 'twitter') }}"
+                                                    @if (!$hasTwitter)
+                                                    <a  href="{{ route('connectionProvider', [ 'twitter', 'redirect_route' => 'onboardingConnect' ]) }}"
                                                         class="button button-small">
                                                         Connect
                                                     </a>
-                                                    <!-- <button class="button button-connected button-small">Connected</button> -->
+                                                    @else
+                                                    <div class="button button-connected button-small">Connected</div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

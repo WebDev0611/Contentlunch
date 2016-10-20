@@ -27,7 +27,7 @@ class AccountController extends Controller {
         $my_tasks = Auth::user()->tasks->get();
 
 		return View::make('home.index',[
-            'mycampaigns' => $my_campaigns->toJson() 
+            'mycampaigns' => $my_campaigns->toJson()
         ]);
 	}
 }

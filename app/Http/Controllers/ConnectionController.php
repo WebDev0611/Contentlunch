@@ -36,8 +36,12 @@ class ConnectionController extends Controller {
         return response()->json([ 'data' => $data->get() ]);
     }
 
-	public function redirectToProvider($provider)
+	public function redirectToProvider(Request $request, $provider)
 	{
+		if ($request->get('redirect_route')) {
+			\Session::put('redirect_route', $request->get('redirect_route'));
+		}
+
 		switch ($provider) {
 			case "facebook":
 				$scope = ["publish_pages", "manage_pages"];

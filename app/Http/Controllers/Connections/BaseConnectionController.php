@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Connections;
 use App\Http\Controllers\Controller;
 use App\Connection;
 use Session;
+use Redirect;
 
 abstract class BaseConnectionController extends Controller
 {
@@ -20,6 +21,14 @@ abstract class BaseConnectionController extends Controller
     public function cleanSessionConnection()
     {
         Session::forget('connection_data');
+    }
+
+    protected function redirectRoute()
+    {
+        $redirectUrl = Session::get('redirect_route');
+        Session::forget('redirect_route');
+
+        return $redirectUrl ? $redirectUrl : 'connectionIndex';
     }
 
 }

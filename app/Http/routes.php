@@ -30,7 +30,8 @@ Route::post('signup', 'OnboardingController@process_signup');
 Route::get('invite', [ 'as' => 'inviteIndex', 'uses' =>'OnboardingInviteController@invite' ]);
 Route::post('invite/emails', [ 'as' => 'emailInvite', 'uses' => 'OnboardingInviteController@emailInvite' ]);
 
-Route::get('connect', 'OnboardingController@connect');
+Route::get('connect', [ 'as' => 'onboardingConnect', 'uses' => 'OnboardingController@connect' ]);
+
 Route::get('score', 'OnboardingController@score');
 
 /**
