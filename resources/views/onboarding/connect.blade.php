@@ -49,7 +49,7 @@
 
                                                 <div class="col-md-6 text-right">
                                                     @if (!$hasWordPress)
-                                                    <a  href="{{ route('connectionProvider', 'wordpress') }}"
+                                                    <a  href="{{ route('connectionProvider', [ 'wordpress', 'redirect_route' => 'onboardingConnect' ]) }}"
                                                         class="button button-small">
                                                         Connect
                                                     </a>
@@ -68,7 +68,7 @@
 
                                                 <div class="col-md-6 text-right">
                                                     @if (!$hasFacebook)
-                                                    <a  href="{{ route('connectionProvider', 'facebook') }}"
+                                                    <a  href="{{ route('connectionProvider', [ 'facebook', 'redirect_route' => 'onboardingConnect' ]) }}"
                                                         class="button button-small">
                                                         Connect
                                                     </a>
