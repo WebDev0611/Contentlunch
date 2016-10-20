@@ -38,6 +38,7 @@
                                             <a href="#connections" data-toggle="tab">Content Connections</a>
                                         </li>
                                     </ul>
+
                                     <div class="onboarding-import-container tab-content">
                                         <div id="services" class="onboarding-import-list tab-pane">
                                             <div class="onboarding-import-item">
@@ -46,7 +47,10 @@
                                                     <span class="onboarding-import-item-title">WordPress</span>
                                                 </div>
                                                 <div class="col-md-6 text-right">
-                                                    <button class="button button-small">Connect</button>
+                                                    <a  href="{{ route('connectionProvider', 'wordpress') }}"
+                                                        class="button button-small">
+                                                        Connect
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -54,19 +58,26 @@
                                             <div class="onboarding-import-item">
                                                 <div class="col-md-6">
                                                     <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
-                                                    <span class="onboarding-import-item-title">Joomla</span>
+                                                    <span class="onboarding-import-item-title">Facebook</span>
                                                 </div>
                                                 <div class="col-md-6 text-right">
-                                                    <button class="button button-small">Connect</button>
+                                                    <a  href="{{ route('connectionProvider', 'facebook') }}"
+                                                        class="button button-small">
+                                                        Connect
+                                                    </a>
                                                 </div>
                                             </div>
-                                            <div class="onboarding-import-item active">
+                                            <div class="onboarding-import-item">
                                                 <div class="col-md-6">
                                                     <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
-                                                    <span class="onboarding-import-item-title">Joomla</span>
+                                                    <span class="onboarding-import-item-title">Twitter</span>
                                                 </div>
                                                 <div class="col-md-6 text-right">
-                                                    <button class="button button-connected button-small">Connected</button>
+                                                    <a  href="{{ route('connectionProvider', 'twitter') }}"
+                                                        class="button button-small">
+                                                        Connect
+                                                    </a>
+                                                    <!-- <button class="button button-connected button-small">Connected</button> -->
                                                 </div>
                                             </div>
                                         </div>
