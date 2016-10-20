@@ -60,24 +60,6 @@
                                                     <button class="button button-small">Connect</button>
                                                 </div>
                                             </div>
-                                            <div class="onboarding-import-item">
-                                                <div class="col-md-6">
-                                                    <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
-                                                    <span class="onboarding-import-item-title">Joomla</span>
-                                                </div>
-                                                <div class="col-md-6 text-right">
-                                                    <button class="button button-small">Connect</button>
-                                                </div>
-                                            </div>
-                                            <div class="onboarding-import-item">
-                                                <div class="col-md-6">
-                                                    <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
-                                                    <span class="onboarding-import-item-title">Joomla</span>
-                                                </div>
-                                                <div class="col-md-6 text-right">
-                                                    <button class="button button-small">Connect</button>
-                                                </div>
-                                            </div>
                                             <div class="onboarding-import-item active">
                                                 <div class="col-md-6">
                                                     <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
@@ -85,42 +67,6 @@
                                                 </div>
                                                 <div class="col-md-6 text-right">
                                                     <button class="button button-connected button-small">Connected</button>
-                                                </div>
-                                            </div>
-                                            <div class="onboarding-import-item active">
-                                                <div class="col-md-6">
-                                                    <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
-                                                    <span class="onboarding-import-item-title">Joomla</span>
-                                                </div>
-                                                <div class="col-md-6 text-right">
-                                                    <button class="button button-connected button-small">Connected</button>
-                                                </div>
-                                            </div>
-                                            <div class="onboarding-import-item">
-                                                <div class="col-md-6">
-                                                    <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
-                                                    <span class="onboarding-import-item-title">Joomla</span>
-                                                </div>
-                                                <div class="col-md-6 text-right">
-                                                    <button class="button button-small">Connect</button>
-                                                </div>
-                                            </div>
-                                            <div class="onboarding-import-item">
-                                                <div class="col-md-6">
-                                                    <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
-                                                    <span class="onboarding-import-item-title">Joomla</span>
-                                                </div>
-                                                <div class="col-md-6 text-right">
-                                                    <button class="button button-small">Connect</button>
-                                                </div>
-                                            </div>
-                                            <div class="onboarding-import-item">
-                                                <div class="col-md-6">
-                                                    <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
-                                                    <span class="onboarding-import-item-title">Joomla</span>
-                                                </div>
-                                                <div class="col-md-6 text-right">
-                                                    <button class="button button-small">Connect</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -130,7 +76,11 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-md-offset-3">
-                                <a href="/#/onboarding/5" class="button button-extend text-uppercase">Next Step</a>
+                                <a href="{{ url('score') }}"
+                                   class="button button-extend text-uppercase">
+
+                                   Next Step
+                                </a>
                             </div>
                         </div>
                     </div>

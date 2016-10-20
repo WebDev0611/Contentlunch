@@ -123,7 +123,8 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-md-offset-3">
-                                <a href="/#/onboarding/3" class="button button-extend text-uppercase">Next Step</a>
+                                <a href="{{ url('connect') }}"
+                                    class="button button-extend text-uppercase">Next Step</a>
                             </div>
                         </div>
                     </div>
