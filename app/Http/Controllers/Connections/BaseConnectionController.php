@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Connections;
 
+use Auth;
+use Session;
 use App\Http\Controllers\Controller;
 use App\Connection;
-use Session;
-use Redirect;
+use App\Provider;
 
 abstract class BaseConnectionController extends Controller
 {
-
     public function getSessionConnection()
     {
         $connection_data = Session::get('connection_data');
@@ -31,4 +31,26 @@ abstract class BaseConnectionController extends Controller
         return $redirectUrl ? $redirectUrl : 'connectionIndex';
     }
 
+    protected function saveConnection(array $settings, $providerSlug)
+    {
+        $jsonEncodedSettings = json_encode($settings);
+        $connection = $this->getSessionConnection();
+
+        if (!$connection) {
+            $provider = Provider::findBySlug($providerSlug);
+            $connection = Connection::create([
+                'name' => $provider->name . ' Connection',
+                'active' => true,
+                'successful' => true,
+                'settings' => $jsonEncodedSettings,
+                'provider_id' => $provider->id,
+                'user_id' => Auth::user()->id,
+            ]);
+        } else {
+            $connection->settings = $settings;
+            $connection->save();
+        }
+
+        return $connection;
+    }
 }

@@ -68,7 +68,7 @@ class TwitterController extends BaseConnectionController
             $redirectUrl = $this->redirectRoute();
 
             if (is_object($credentials) && !isset($credentials->error)) {
-                $this->registerConnection($token, $credentials);
+                $this->saveConnection($token, 'twitter');
 
                 return Redirect::route($redirectUrl)
                     ->with('flash_notice', 'Congrats! You\'ve successfully signed in.');
@@ -76,30 +76,6 @@ class TwitterController extends BaseConnectionController
 
             return Redirect::route($redirectUrl)
                 ->with('flash_error', 'Something went wrong while signing you up.');
-        }
-    }
-
-    private function registerConnection($token, $credentials) {
-        $user = Auth::user();
-        $provider = Provider::findBySlug('twitter');
-        $settings = json_encode($token);
-
-        $connection = $this->getSessionConnection();
-
-        if (!$connection) {
-            $twitterProvider = \App\Provider::findBySlug('twitter');
-            $connection = Connection::create([
-                'name' => 'Twitter Connection',
-                'active' => true,
-                'successful' => true,
-                'settings' => $settings,
-                'provider_id' => $twitterProvider->id,
-                'user_id' => Auth::user()->id
-            ]);
-        }
-        else {
-            $connection->settings = $settings;
-            $connection->save();
         }
     }
 

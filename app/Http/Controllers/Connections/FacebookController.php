@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers\Connections;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Facebook\Facebook;
-use App\Http\Requests;
 use App\Connection;
 use Socialite;
 use Config;
-use App\Provider;
-use Auth;
-use Session;
 
 class FacebookController extends BaseConnectionController
 {
@@ -23,32 +18,32 @@ class FacebookController extends BaseConnectionController
     {
         // - get user data
         $user = Socialite::driver('facebook')->user();
+
         $fb = new Facebook([
             'app_id' => Config::get('services.facebook.client_id'),
             'app_secret' => Config::get('services.facebook.client_secret'),
             'default_graph_version' => 'v2.5',
-            'default_access_token' =>  $user->token
+            'default_access_token' => $user->token,
         ]);
+
         // - Lets get long lived access token
         $oAuth2Client = $fb->getOAuth2Client();
         $accessToken = $oAuth2Client->getLongLivedAccessToken($user->token);
 
         $settings = [
-            'user_token' => (string) $accessToken
+            'user_token' => (string) $accessToken,
         ];
 
-        $connection = $this->getSessionConnection();
-        $connection->settings = json_encode($settings);
-        $connection->save();
+        $connection = $this->saveConnection($settings, 'facebook');
 
         $accountOptions = [];
         $accountList = $fb->get('/me/accounts');
 
         foreach ($accountList->getGraphEdge() as $graphNode) {
-            $accountOptions[$graphNode['id'] ] = $graphNode['name'] ;
+            $accountOptions[$graphNode['id']] = $graphNode['name'];
         }
 
-        $connection_id = $conn->id;
+        $connection_id = $connection->id;
 
         return view('settings.connections.facebook.select_account', compact('accountOptions', 'connection_id'));
         // - Get App Approval from User to Post on Page / Get User Data
@@ -65,7 +60,8 @@ class FacebookController extends BaseConnectionController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function saveAccount(Request $request)
@@ -77,18 +73,16 @@ class FacebookController extends BaseConnectionController
             'app_id' => Config::get('services.facebook.client_id'),
             'app_secret' => Config::get('services.facebook.client_secret'),
             'default_graph_version' => 'v2.5',
-            'default_access_token' =>  $connection->getSettings()->user_token
+            'default_access_token' => $connection->getSettings()->user_token,
         ]);
-
 
         $response = $fb->get('/'.$request->input('facebook_account').'?fields=access_token');
         $data = $response->getGraphNode();
 
-
         $settings = json_decode($connection->settings, true);
         $pageSettings = [
             'page_token' => $data['access_token'],
-            'page_id' => $data['id']
+            'page_id' => $data['id'],
         ];
 
         $settings = array_merge($settings, $pageSettings);
