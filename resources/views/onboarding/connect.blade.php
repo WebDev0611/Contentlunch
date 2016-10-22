@@ -16,8 +16,8 @@
                                 Invite team members with whom you will collaborate
                             </h5>
                             <h5 class="onboarding-text text-center">
-                                Connect as many services you use. Based on informationfrom your social and publishing
-                                platforms we calculate your CL score
+                                Connect as many services you use. Based on information from your social
+                                and publishing platforms we calculate your CL score
                             </h5>
                             <div class="onboarding-step">
                                 <span class="onboarding-step-point active"></span>
@@ -49,14 +49,35 @@
 
                                             <div class="col-md-6 text-right">
                                                 @if (!$hasWordPress)
-                                                <a  href="{{ route('connectionProvider', [ 'wordpress', 'redirect_route' => 'onboardingConnect' ]) }}"
-                                                    class="button button-small">
+                                                <a href
+                                                   id='wordpress_connect_button'
+                                                   class="button button-small">
                                                     Connect
                                                 </a>
                                                 @else
                                                 <div class="button button-connected button-small">Connected</div>
                                                 @endif
                                             </div>
+
+                                            @if (!$hasWordPress)
+                                            <div
+                                                style='display:none'
+                                                id='wordPressConnectUrl'
+                                                data-url="{{ route('connectionProvider', [ 'wordpress', 'redirect_route' => 'onboardingConnect', 'wordpress_blog_url' => '' ]) }}"></div>
+
+                                            <div class="row onboarding-import-item-additional-info" id='wordpressOnboardingInfo'>
+                                                <div class="col-md-12">
+                                                    <div class="input-form-group">
+                                                        <label for="api_url">Wordpress URL</label>
+                                                        <input type="text" id='wordpressUrl' class="input">
+                                                        <p class="help-block">wordpressdomain.com</p>
+                                                    </div>
+                                                    <div class="alert alert-danger alert-no-margin" style='display:none' id='wordPressBlogFeedback'>
+                                                        Please enter a valid Wordpress blog url
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
                                         </div>
                                     </div>
                                     <div id="connections" class="onboarding-import-list tab-pane active">
@@ -114,9 +135,36 @@
     </div>
 </div>
 
-
 @stop
 
+@section('scripts')
+<script>
+    (function() {
 
+        $('#wordpress_connect_button').click(handleWordPressConnect);
+        $('#wordpressUrl').on('keyup keypress keydown', hideErrorFeedbacks);
 
+        function handleWordPressConnect(event) {
+            event.stopPropagation();
+            event.preventDefault();
 
+            var wordPressUrl = $('#wordPressConnectUrl').data('url');
+            var blogUrl = $('#wordpressUrl').val();
+
+            if (blogUrl) {
+                document.location.href = wordPressUrl + blogUrl;
+            } else {
+                showErrorFeedbacks();
+            }
+        }
+
+        function showErrorFeedbacks() {
+            $('#wordPressBlogFeedback').slideDown('fast');
+        }
+
+        function hideErrorFeedbacks() {
+            $('#wordPressBlogFeedback').slideUp('fast');
+        }
+    })();
+</script>
+@endsection

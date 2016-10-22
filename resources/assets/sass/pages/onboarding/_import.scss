@@ -62,10 +62,14 @@
   &.active {
     background: #f8f9fc;
   }
-  
+
   .button {
     letter-spacing: .03em;
     text-transform: uppercase;
+  }
+
+  &-additional-info {
+    padding-left: 58px;
   }
 }
 

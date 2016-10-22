@@ -42,7 +42,7 @@ class WordpressController extends BaseConnectionController
         $connection = $this->saveConnection($tokenArray);
 
         return redirect()->route($redirectRoute)->with([
-            'flash_message' => 'Wordpress connection <strong>'.$connection->name.'</strong> created successfully.',
+            'flash_message' => 'Wordpress connection '.$connection->name.' created successfully.',
             'flash_message_type' => 'success',
             'flash_message_important' => true,
         ]);
@@ -50,15 +50,26 @@ class WordpressController extends BaseConnectionController
 
     protected function saveConnection(array $tokenArray, $providerSlug = null)
     {
-        $metaData = $this->getSessionConnectionMetadata();
-
-        $url = $this->formatUrl($metaData['url']);
+        $url = $this->getBlogUrl();
         $blogInfo = $this->api->blogInfo($url);
 
         $tokenArray['blog_url'] = $url;
         $tokenArray['blog_id'] = $blogInfo->ID;
 
         return parent::saveConnection($tokenArray, 'wordpress');
+    }
+
+    private function getBlogUrl()
+    {
+        $metaData = $this->getSessionConnectionMetadata();
+
+        if (!collect($metaData)->has('url')) {
+            $url = \Session::get('wordpress_blog_url');
+        } else {
+            $url = $metaData['url'];
+        }
+
+        return $this->formatUrl($url);
     }
 
     private function formatUrl($url)

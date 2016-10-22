@@ -22,6 +22,10 @@
   padding-right: 7px;
 }
 
-.alert{
+.alert {
   margin: 20px 30px 0 100px;
+
+  &-no-margin {
+    margin: 0;
+  }
 }
