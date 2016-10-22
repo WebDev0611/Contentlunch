@@ -21,20 +21,26 @@ Route::auth();
 Route::get('/', 'HomeController@index');
 
 
-/* OnBoarding */
+/**
+ * Onboarding process
+ */
 Route::get('signup', 'OnboardingController@signup');
-Route::get('score', 'OnboardingController@score');
-Route::get('connect', 'OnboardingController@connect');
 Route::post('signup', 'OnboardingController@process_signup');
 
+Route::get('invite', [ 'as' => 'inviteIndex', 'uses' =>'OnboardingInviteController@invite' ]);
+Route::post('invite/emails', [ 'as' => 'emailInvite', 'uses' => 'OnboardingInviteController@emailInvite' ]);
+
+Route::get('connect', [ 'as' => 'onboardingConnect', 'uses' => 'OnboardingController@connect' ]);
+
+Route::get('score', 'OnboardingController@score');
+
+/**
+ * Onboarding - Account Invite redeeming
+ */
 Route::model('invite', 'App\AccountInvite');
 Route::post('signup/invite', 'OnboardingController@createWithInvite');
 Route::get('signup/invite/{invite}', [ 'as' => 'signupWithInvite', 'uses' => 'OnboardingController@signupWithInvite' ]);
 
-Route::group([ 'prefix' => 'invite' ], function() {
-    Route::get('/', [ 'as' => 'inviteIndex', 'uses' =>'OnboardingInviteController@invite' ]);
-	Route::post('emails', [ 'as' => 'emailInvite', 'uses' => 'OnboardingInviteController@emailInvite' ]);
-});
 
 Route::get('/home','AccountController@index');
 Route::get('/dashboard','AccountController@stats');

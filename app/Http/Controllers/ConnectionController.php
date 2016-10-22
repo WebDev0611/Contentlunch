@@ -36,8 +36,22 @@ class ConnectionController extends Controller {
         return response()->json([ 'data' => $data->get() ]);
     }
 
-	public function redirectToProvider($provider)
+    private function saveParametersToSession(Request $request)
+    {
+        $parameters = $request->input();
+        $allowedKeys = collect([ 'redirect_route', 'wordpress_blog_url' ]);
+
+        foreach ($parameters as $key => $value) {
+            if ($allowedKeys->contains($key)) {
+                \Session::put($key, $value);
+            }
+        }
+    }
+
+	public function redirectToProvider(Request $request, $provider)
 	{
+        $this->saveParametersToSession($request);
+
 		switch ($provider) {
 			case "facebook":
 				$scope = ["publish_pages", "manage_pages"];

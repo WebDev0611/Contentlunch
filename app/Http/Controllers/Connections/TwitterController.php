@@ -53,8 +53,7 @@ class TwitterController extends BaseConnectionController
 
             $oauth_verifier = false;
 
-            if (Input::has('oauth_verifier'))
-            {
+            if (Input::has('oauth_verifier')) {
                 $oauth_verifier = Input::get('oauth_verifier');
             }
 
@@ -66,25 +65,18 @@ class TwitterController extends BaseConnectionController
             }
 
             $credentials = Twitter::getCredentials();
+            $redirectUrl = $this->redirectRoute();
 
             if (is_object($credentials) && !isset($credentials->error)) {
-                $this->registerConnection($token, $credentials);
+                $this->saveConnection($token, 'twitter');
 
-                return Redirect::route('connectionIndex')
+                return Redirect::route($redirectUrl)
                     ->with('flash_notice', 'Congrats! You\'ve successfully signed in.');
             }
 
-            return Redirect::route('connectionIndex')
+            return Redirect::route($redirectUrl)
                 ->with('flash_error', 'Something went wrong while signing you up.');
         }
-    }
-
-    private function registerConnection($token, $credentials) {
-        $user = Auth::user();
-        $provider = Provider::findBySlug('twitter');
-
-        $connection = $this->getSessionConnection();
-        $connection->settings = json_encode($token);
     }
 
     public function userSearch(Request $request)

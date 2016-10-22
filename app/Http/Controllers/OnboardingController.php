@@ -31,7 +31,13 @@ class OnboardingController extends Controller
 
     public function connect()
     {
-        return View::make('onboarding.connect');
+        $hasTwitter = (boolean) Auth::user()->connectionsBySlug('twitter')->count();
+        $hasFacebook = (boolean) Auth::user()->connectionsBySlug('facebook')->count();
+        $hasWordPress = (boolean) Auth::user()->connectionsBySlug('wordpress')->count();
+
+        return View::make('onboarding.connect',
+            compact('hasTwitter', 'hasFacebook', 'hasWordPress')
+        );
     }
 
     public function signupWithInvite(AccountInvite $invite)

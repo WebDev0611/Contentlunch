@@ -3,11 +3,7 @@
 namespace App\Http\Controllers\Connections;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Session;
-
 use oAuth\API\WordPressAuth;
 use Connections\API\WordPressAPI;
 use Redirect;
@@ -16,59 +12,69 @@ class WordpressController extends BaseConnectionController
 {
     public function __construct()
     {
-        $this->auth = new WordPressAuth;
-        $this->api = new WordPressAPI;
+        $this->auth = new WordPressAuth();
+        $this->api = new WordPressAPI();
     }
 
     public function callback(Request $request)
     {
         $code = $request->input('code');
         $token = $this->auth->codeForToken($code);
+        $redirectRoute = $this->redirectRoute();
 
         if (collect($token)->has('error')) {
             $connection = $this->getSessionConnection();
-            $connection->delete();
+
+            if ($connection) {
+                $connection->delete();
+            }
 
             $this->cleanSessionConnection();
 
-            return redirect()->route('connectionIndex')->with([
-                'flash_message' => "There was an error with your authentication, please try again",
+            return redirect()->route($redirectRoute)->with([
+                'flash_message' => 'There was an error with your authentication, please try again',
                 'flash_message_type' => 'danger',
-                'flash_message_important' => true
+                'flash_message_important' => true,
             ]);
         }
 
-        $connection = $this->saveConnectionSettings($token);
+        $tokenArray = (array) $token;
+        $connection = $this->saveConnection($tokenArray);
 
-        return redirect()->route('connectionIndex')->with([
-            'flash_message' => "Wordpress connection <strong>" . $connection->name . "</strong> created successfully.",
+        return redirect()->route($redirectRoute)->with([
+            'flash_message' => 'Wordpress connection '.$connection->name.' created successfully.',
             'flash_message_type' => 'success',
-            'flash_message_important' => true
+            'flash_message_important' => true,
         ]);
     }
 
-    private function saveConnectionSettings($token)
+    protected function saveConnection(array $tokenArray, $providerSlug = null)
     {
-        $connectionData = Session::get('connection_data');
-        $metaData = $connectionData['meta_data'];
-
-        $url = $this->formatUrl($metaData['url']);
-
+        $url = $this->getBlogUrl();
         $blogInfo = $this->api->blogInfo($url);
 
-        $token->blog_url = $url;
-        $token->blog_id = $blogInfo->ID;
+        $tokenArray['blog_url'] = $url;
+        $tokenArray['blog_id'] = $blogInfo->ID;
 
-        $connection = $this->getSessionConnection();
-        $tokenArray = (array) $token;
-        $connection->saveSettings($tokenArray);
+        return parent::saveConnection($tokenArray, 'wordpress');
+    }
 
-        return $connection;
+    private function getBlogUrl()
+    {
+        $metaData = $this->getSessionConnectionMetadata();
+
+        if (!collect($metaData)->has('url')) {
+            $url = \Session::get('wordpress_blog_url');
+        } else {
+            $url = $metaData['url'];
+        }
+
+        return $this->formatUrl($url);
     }
 
     private function formatUrl($url)
     {
-        $disallowed = [ 'http://', 'https://' ];
+        $disallowed = ['http://', 'https://'];
 
         foreach ($disallowed as $d) {
             if (strpos($url, $d) === 0) {
