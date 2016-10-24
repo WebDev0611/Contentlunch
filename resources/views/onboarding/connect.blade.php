@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
                             <h5 class="onboarding-step-text text-center">
-                                Invite team members with whom you will collaborate
+                                Configure your content connections
                             </h5>
                             <h5 class="onboarding-text text-center">
                                 Connect as many services you use. Based on information from your social
@@ -89,7 +89,11 @@
 
                                             <div class="col-md-6 text-right">
                                                 @if (!$hasFacebook)
-                                                <a  href="{{ route('connectionProvider', [ 'facebook', 'redirect_route' => 'onboardingConnect' ]) }}"
+                                                <a  href="{{ route('connectionProvider', [
+                                                        'facebook',
+                                                        'facebook_view' => 'onboarding.connect_facebook',
+                                                        'redirect' => 'onboardingConnect'
+                                                    ]) }}"
                                                     class="button button-small">
                                                     Connect
                                                 </a>
@@ -106,7 +110,10 @@
                                             </div>
                                             <div class="col-md-6 text-right">
                                                 @if (!$hasTwitter)
-                                                <a  href="{{ route('connectionProvider', [ 'twitter', 'redirect_route' => 'onboardingConnect' ]) }}"
+                                                <a  href="{{ route('connectionProvider', [
+                                                        'twitter',
+                                                        'redirect' => 'onboardingConnect'
+                                                    ]) }}"
                                                     class="button button-small">
                                                     Connect
                                                 </a>
