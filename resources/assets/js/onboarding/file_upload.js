@@ -14,15 +14,14 @@
         },
 
         startLoading: function() {
-            var image = this.$el.find('img');
-            image.addClass('loading');
+            this.$el.addClass('loading');
         },
 
         finishLoading: function(response) {
             var image = this.$el.find('img');
 
             image.attr('src', response.image);
-            image.removeClass('loading');
+            this.$el.removeClass('loading');
         }
     })
 
