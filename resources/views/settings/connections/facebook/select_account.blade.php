@@ -57,18 +57,19 @@
                                         Facebook Accounts
                                     </span>
                                 </div>
+                                {{ Form::open(array('url' => 'callback/facebook/account/save')) }}
                                 <div class="settings-import-list">
-
-                             {{ Form::open(array('url' => 'callback/facebook/account/save')) }}
-                                <div class="input-form-group">
-                                    <label for="content_type">CONTENT TYPE</label>
-                                   {!! Form::select('facebook_account', $accountOptions, '' , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Facebook Account')) !!}
+                                    <div class="input-form-group">
+                                        <label for="content_type">CONTENT TYPE</label>
+                                        {!! Form::select('facebook_account', $accountOptions, '' , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Facebook Account')) !!}
+                                    </div>
                                 </div>
-                            </div>
-                                 
-                                <input type="hidden" value="{{$connection_id}}" name="connection_id"> 
-                <button type="submit" class="button button-outline-primary button-small">Save</button>
-        {{ Form::close() }}    
+
+                                <input type="hidden" value="{{$connection_id}}" name="connection_id">
+                                <button type="submit" class="button button-outline-primary button-small">
+                                    Save
+                                </button>
+                                {{ Form::close() }}
 
                                 </div>
                             </div>

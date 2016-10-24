@@ -20,10 +20,6 @@ class OnboardingController extends Controller
         return view('onboarding.signup')->with(compact('user'));
     }
 
-    /*public function invite() {
-        return View::make('onboarding.invite');
-    }*/
-
     public function score()
     {
         return View::make('onboarding.score');

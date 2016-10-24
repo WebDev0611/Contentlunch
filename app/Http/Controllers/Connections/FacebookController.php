@@ -1,30 +1,44 @@
 <?php
 
-namespace App\Http\Controllers\Connections;
+namespace app\Http\Controllers\Connections;
 
 use Illuminate\Http\Request;
 use Facebook\Facebook;
 use App\Connection;
 use Socialite;
 use Config;
+use Session;
 
 class FacebookController extends BaseConnectionController
 {
+    private function facebookInstance($token)
+    {
+        return new Facebook([
+            'app_id' => Config::get('services.facebook.client_id'),
+            'app_secret' => Config::get('services.facebook.client_secret'),
+            'default_graph_version' => 'v2.5',
+            'default_access_token' => $token,
+        ]);
+    }
+
+    private function getSelectAccountView()
+    {
+        $redirectView = Session::get('facebook_view');
+        $defaultView = 'settings.connections.facebook.select_account';
+
+        return $redirectView ? $redirectView : $defaultView;
+    }
+
     /*
         -- Need to redirect this, what hapens if they reload the page, it will all crash
         -- redirect with passing connection ID ( incase they are making more then 2 connection to a facebook page )
      */
-    public function callback()
+    public function callback(Request $request)
     {
         // - get user data
         $user = Socialite::driver('facebook')->user();
 
-        $fb = new Facebook([
-            'app_id' => Config::get('services.facebook.client_id'),
-            'app_secret' => Config::get('services.facebook.client_secret'),
-            'default_graph_version' => 'v2.5',
-            'default_access_token' => $user->token,
-        ]);
+        $fb = $this->facebookInstance($user->token);
 
         // - Lets get long lived access token
         $oAuth2Client = $fb->getOAuth2Client();
@@ -45,7 +59,7 @@ class FacebookController extends BaseConnectionController
 
         $connection_id = $connection->id;
 
-        return view('settings.connections.facebook.select_account', compact('accountOptions', 'connection_id'));
+        return view($this->getSelectAccountView(), compact('accountOptions', 'connection_id'));
         // - Get App Approval from User to Post on Page / Get User Data
         // - Get User Token
         // - Convert to LongLivedToken
@@ -66,15 +80,9 @@ class FacebookController extends BaseConnectionController
      */
     public function saveAccount(Request $request)
     {
-        // dd($request->all());
         $connection = Connection::find($request->input('connection_id'));
 
-        $fb = new Facebook([
-            'app_id' => Config::get('services.facebook.client_id'),
-            'app_secret' => Config::get('services.facebook.client_secret'),
-            'default_graph_version' => 'v2.5',
-            'default_access_token' => $connection->getSettings()->user_token,
-        ]);
+        $fb = $this->facebookInstance($connection->getSettings()->user_token);
 
         $response = $fb->get('/'.$request->input('facebook_account').'?fields=access_token');
         $data = $response->getGraphNode();
@@ -91,6 +99,6 @@ class FacebookController extends BaseConnectionController
         $connection->active = 1;
         $connection->save();
 
-        return redirect()->route('connectionIndex');
+        return redirect()->route($this->redirectRoute());
     }
 }
