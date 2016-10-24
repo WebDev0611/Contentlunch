@@ -1,19 +1,38 @@
 (function() {
 
-    $('#upload').change(function() {
-        var form = $('form')[0];
-        var formData = new FormData(form);
-        fileUpload(formData);
+    var AvatarView = Backbone.View.extend({
+        events: {
+            'change #upload': 'upload'
+        },
+
+        upload: function() {
+            var form = $('form')[0];
+            var formData = new FormData(form);
+            fileUpload(formData)
+                .then(this.finishLoading.bind(this));
+            this.startLoading();
+        },
+
+        startLoading: function() {
+            var image = this.$el.find('img');
+            image.addClass('loading');
+        },
+
+        finishLoading: function(response) {
+            var image = this.$el.find('img');
+
+            image.attr('src', response.image);
+            image.removeClass('loading');
+        }
     })
 
+    var view = new AvatarView({ el: '#signup-onboarding-avatar' });
+
     function fileUpload(formData) {
-        $.ajax({
+        return $.ajax({
             type: 'post',
             url: 'signup/photo_upload',
             data: formData,
-            success: function (data) {
-                console.log(data);
-            },
             processData: false,
             contentType: false
         });

@@ -7,6 +7,7 @@
 // Classes
 .onboarding-avatar {
   margin-bottom: 15px;
+  position: relative;
 
   > img {
     position: relative;
@@ -15,6 +16,12 @@
     height: 150px;
     border-radius: 50%;
     margin: 0 auto;
+    transition: all .1s linear;
+    opacity: 1;
+
+    &.loading {
+      opacity: 0.3;
+    }
   }
 }
 

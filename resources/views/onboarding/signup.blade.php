@@ -66,7 +66,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="onboarding-avatar">
+                                    <div class="onboarding-avatar" id='signup-onboarding-avatar'>
                                         <img src="/images/avatar.jpg" alt="#">
                                         <label for="upload" class="onboarding-avatar-button">
                                             <i class="icon-add"></i>
