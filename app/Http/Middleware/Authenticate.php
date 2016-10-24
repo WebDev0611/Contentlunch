@@ -25,11 +25,13 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        $isUrlAllowed = $this->isUrlAllowed($request->path());
+
         if (Auth::guard($guard)->guest()) {
-            if ($request->ajax() || $request->wantsJson()) {
+            if (($request->ajax() || $request->wantsJson()) && !$isUrlAllowed) {
                 return response('Unauthorized.', 401);
             } else {
-                if (!$this->isUrlAllowed($request->path())) {
+                if (!$isUrlAllowed) {
                     return redirect()->guest('login');
                 }
             }

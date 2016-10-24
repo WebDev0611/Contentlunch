@@ -37,7 +37,7 @@
                             </div>
                         </div>
                     </div>
-                    {{ Form::open([ 'url' => 'register', 'files' => 'true' ]) }}
+                    {{ Form::open([ 'url' => 'register', 'name' => 'signup_form', 'files' => 'true' ]) }}
                     <input type="hidden" name="redirect_url" value="/invite">
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
@@ -109,74 +109,6 @@
         </div>
     </div>
 </div>
-
-<!--
-
-<div class="row">
-    <div class="col-md-4 col-md-offset-3 col-sm-10 col-sm-offset-1">
-        {{ Form::open(array('url' => 'register')) }}
-        <h1>Sign Up</h1>
-
-        @if($errors->count()>0)
-            <div class="alert alert-danger">
-                <p>{{ $errors->first('name') }}</p>
-                <p>{{ $errors->first('name') }}</p>
-                <p>{{ $errors->first('email') }}</p>
-                <p>{{ $errors->first('password') }}</p>
-            </div>
-        @endif
-
-
-        <div class="form-group">
-            {{ Form::label('name', 'Full Name') }}
-            {{ Form::text('name', Input::old('name'), ['placeholder' => 'your name', 'class' => 'form-control']) }}
-        </div>
-
-
-        <div class="form-group">
-            {{ Form::label('name', 'Company Name') }}
-            {{ Form::text('name', Input::old('name'), ['placeholder' => 'company name', 'class' => 'form-control']) }}
-        </div>
-
-
-        <div class="form-group">
-            {{ Form::label('email', 'Email Address') }}
-            {{ Form::text('email', Input::old('email'), ['placeholder' => 'email', 'class' => 'form-control']) }}
-        </div>
-
-
-
-        <div class="form-group">
-            {{ Form::label('password', 'Password') }}
-            {{ Form::password('password', ['class' => 'form-control']) }}
-        </div>
-
-        <label class="control-label">How will you use Content Launch?</label>
-
-        <div>
-            <label>
-                <input type="radio"
-                       name="account_type"
-                       id="optHowUse1" value="single" checked>
-                To market my company.
-            </label>
-        </div>
-        <div>
-            <label>
-                <input type="radio" name="account_type" id="optHowUse2" value="agency" >
-                To market one or more of my clients (Agency Mode)
-            </label>
-        </div>
-
-        <hr/>
-
-        <p class="center">By clicking Sign Up, you agree to our <a target="_blank" href="terms.html">Terms &amp; Conditions.</a></p>
-
-        <p>{{ Form::submit('Sign Up', ['class' => 'btn btn-default']) }}</p>
-        {{ Form::close() }}
-    </div>
-</div>
--->
 @stop
 
 @section('scripts')

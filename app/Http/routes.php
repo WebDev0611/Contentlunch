@@ -26,6 +26,7 @@ Route::get('/', 'HomeController@index');
  */
 Route::get('signup', 'OnboardingController@signup');
 Route::post('signup', 'OnboardingController@process_signup');
+Route::post('signup/photo_upload', 'OnboardingController@signupPhotoUpload');
 
 Route::get('invite', [ 'as' => 'inviteIndex', 'uses' =>'OnboardingInviteController@invite' ]);
 Route::post('invite/emails', [ 'as' => 'emailInvite', 'uses' => 'OnboardingInviteController@emailInvite' ]);
