@@ -8,6 +8,7 @@ use Session;
 use App\Http\Requests\Connection\ConnectionRequest;
 use App\Http\Requests\AccountSettings\AccountSettingsRequest;
 use App\Connection;
+use App\Country;
 use App\Provider;
 use App\Helpers;
 
@@ -16,8 +17,9 @@ class SettingsController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $countries = Country::dropdown();
 
-        return View::make('settings.index', compact('user'));
+        return View::make('settings.index', compact('user', 'countries'));
     }
 
     public function update(AccountSettingsRequest $request)
@@ -26,6 +28,8 @@ class SettingsController extends Controller
 
         $user->email = $request->input('email');
         $user->name = $request->input('name');
+        $user->city = $request->input('city');
+        $user->country_code = $request->input('country_code');
 
         $user->account->name = $request->input('account_name');
         $user->account->save();

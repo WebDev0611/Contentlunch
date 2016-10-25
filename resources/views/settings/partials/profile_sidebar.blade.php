@@ -9,7 +9,10 @@
             </div>
             <div class="settings-profile-info">
                 <h4>{{ $user->name }}</h4>
-                <span>New York, USA</span>
+                <span>
+                    {{ $user->city }}{{ $user->city && $user->country ? ',' : '' }}
+                    {{ $user->country ? $user->country->country_name : '' }}
+                </span>
             </div>
 
             <span class="settings-profile-subscription">Paid Subscription</span>

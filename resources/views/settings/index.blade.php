@@ -73,17 +73,31 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="input-form-group">
-                                    <label for="#">CITY</label>
-                                    <input type="text" class="input" placeholder="Houston">
+                                    <label for="city">CITY</label>
+                                    {!!
+                                        Form::text(
+                                            'city',
+                                            $user->city,
+                                            [
+                                                'class' => 'input',
+                                                'placeholder' => 'Houston'
+                                            ]
+                                        )
+                                    !!}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-form-group">
-                                    <label for="#">COUNTRY</label>
+                                    <label for="country_code">COUNTRY</label>
                                     <div class="select">
-                                        <select name="" id="">
-                                            <option value="#">USA</option>
-                                        </select>
+                                        {!!
+                                            Form::select(
+                                                'country_code',
+                                                $countries,
+                                                $user->country_code,
+                                                [ 'id' => 'country-selector' ]
+                                            )
+                                        !!}
                                     </div>
                                 </div>
                             </div>
