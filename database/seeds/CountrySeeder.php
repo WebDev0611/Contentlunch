@@ -11,6 +11,7 @@ class CountrySeeder extends Seeder
      */
     public function run()
     {
+        DB::table('countries')->truncate();
         DB::table('countries')->insert([
             [ 'country_code' => 'AD', 'country_name' => 'Andorra' ],
             [ 'country_code' => 'AE', 'country_name' => 'United Arab Emirates' ],
