@@ -10,51 +10,7 @@
                     'files' => 'true'
                 ])
         !!}
-        <aside class="panel-sidebar right-separator">
-            <div class="panel-container text-center">
-                <div class="settings-profile-image">
-                    @if ($user->profile_image)
-                        <img src="{{ $user->profile_image }}" alt="#">
-                    @else
-                        <img src="/assets/images/avatar.jpg" alt="#">
-                    @endif
-                </div>
-                <div class="settings-profile-info">
-                    <h4>{{ $user->name }}</h4>
-                    <span>New York, USA</span>
-                </div>
-
-                <span class="settings-profile-subscription">Paid Subscription</span>
-
-                <label for="#">Paid Monthly</label>
-                <h3 class="settings-profile-heading">$700</h3>
-
-                <label for="#">Max Users</label>
-                <h3 class="settings-profile-heading">$700</h3>
-
-                <div class="form-group">
-                    <a href="#" class="text-blue text-uppercase">
-                        Upgrade Subscription
-                    </a>
-                </div>
-                <div class="form-group">
-                    <label for="#">Payment Info</label>
-                    <span>
-                        VISA X-1203
-                        <a href="#" class="text-blue text-uppercase">
-                            <i class="icon-edit"></i>
-                            Edit
-                        </a>
-                    </span>
-                </div>
-                <div class="form-group">
-                    <label for="AutoRenew" class="checkbox-primary text-inline">
-                        <input id="AutoRenew" type="checkbox">
-                        <span>Auto Renew</span>
-                    </label>
-                </div>
-            </div>
-        </aside>
+        @include('settings.partials.profile_sidebar')
         <div class="panel-main left-separator">
             <div class="panel-header">
                 <!-- navigation -->
@@ -82,16 +38,75 @@
                             </label>
                         </div>
                         <div class="row">
+                            <div class="col-md-8">
+                                <!-- <div class="col-md-12"> -->
+                                    <div class="input-form-group">
+                                        <label for="#">FULL NAME</label>
+                                        {!!
+                                            Form::text(
+                                                'name',
+                                                @isset($user) ? $user->name : '',
+                                                [
+                                                    'class' => 'input',
+                                                    'placeholder' => 'Name Surname'
+                                                ]
+                                            )
+                                        !!}
+                                    </div>
+                                <!-- </div> -->
+                                <!-- <div class="col-md-12"> -->
+                                    <div class="input-form-group">
+                                        <label for="#">ACCOUNT NAME</label>
+                                        {!!
+                                            Form::text('account_name', $user->account->name,
+                                                [
+                                                    'class'=> 'input',
+                                                    'placeholder' => 'Account Name'
+                                                ])
+                                        !!}
+                                    </div>
+                                <!-- </div> -->
+                            </div>
+                            <div class="col-md-4">
+                                <div class="onboarding-avatar" id='settings-avatar'>
+                                    <div class="loading-icon loading-icon-center"></div>
+                                    @if ($user->profile_image)
+                                        <img src="{{ $user->profile_image }}" alt="#">
+                                    @else
+                                        <img src="/images/avatar.jpg" alt="#">
+                                    @endif
+                                    <label for="upload" class="onboarding-avatar-button">
+                                        <i class="icon-add"></i>
+                                        <input id="upload" name='avatar' type="file">
+                                        <span>Upload Avatar</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-form-group">
+                            <label for="#">ADDRESS</label>
+                            {!!
+                                Form::text(
+                                    'address',
+                                    $user->address,
+                                    [
+                                        'class' => 'input',
+                                        'placholder' => 'Account holder address'
+                                    ]
+                                )
+                            !!}
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="input-form-group">
-                                    <label for="#">FULL NAME</label>
+                                    <label for="city">CITY</label>
                                     {!!
                                         Form::text(
-                                            'name',
-                                            @isset($user) ? $user->name : '',
+                                            'city',
+                                            $user->city,
                                             [
                                                 'class' => 'input',
-                                                'placeholder' => 'Name Surname'
+                                                'placeholder' => 'Houston'
                                             ]
                                         )
                                     !!}
@@ -99,35 +114,16 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="input-form-group">
-                                    <label for="#">ACCOUNT NAME</label>
-                                    {!!
-                                        Form::text('account_name', $user->account->name,
-                                            [
-                                                'class'=> 'input',
-                                                'placeholder' => 'Account Name'
-                                            ])
-                                    !!}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-form-group">
-                            <label for="#">ADDRESS</label>
-                            <input type="text" class="input" placeholder="Account holder address">
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="input-form-group">
-                                    <label for="#">CITY</label>
-                                    <input type="text" class="input" placeholder="Houston">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-form-group">
-                                    <label for="#">COUNTRY</label>
+                                    <label for="country_code">COUNTRY</label>
                                     <div class="select">
-                                        <select name="" id="">
-                                            <option value="#">USA</option>
-                                        </select>
+                                        {!!
+                                            Form::select(
+                                                'country_code',
+                                                $countries,
+                                                $user->country_code,
+                                                [ 'id' => 'country-selector' ]
+                                            )
+                                        !!}
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +137,16 @@
                             <div class="col-md-6">
                                 <div class="input-form-group">
                                     <label for="#">PHONE NUMBER</label>
-                                    <input type="text" class="input" placeholder="+1 212 123455">
+                                    {!!
+                                        Form::text(
+                                            'phone',
+                                            $user->phone ? $user->phone : '',
+                                            [
+                                                'class' => 'input',
+                                                'placholder' => '+1 212 123455'
+                                            ]
+                                        )
+                                    !!}
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -160,7 +165,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <!--
                         <div class="form-delimiter">
                             <span>
                                 <em>Profile Picture</em>
@@ -175,6 +180,7 @@
                                 <input type="file" class="input input-upload" name="avatar">
                             </div>
                         </div>
+                        -->
 
                         <div class="input-form-group">
                             <button type='submit' class="button button-extend">Save Changes</button>
@@ -187,4 +193,23 @@
     </div>
 </div>
 
+@stop
+
+@section('scripts')
+<script src="/js/avatar_view.js"></script>
+<script>
+
+    var view = new AvatarView({ el: '#settings-avatar' });
+
+    function fileUpload(formData) {
+        return $.ajax({
+            type: 'post',
+            url: 'signup/photo_upload',
+            data: formData,
+            processData: false,
+            contentType: false
+        });
+    }
+
+</script>
 @stop

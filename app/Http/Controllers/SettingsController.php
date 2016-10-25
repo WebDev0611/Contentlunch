@@ -3,97 +3,128 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use Crypt;
 use View;
 use Session;
-use Carbon\Carbon;
-
 use App\Http\Requests\Connection\ConnectionRequest;
 use App\Http\Requests\AccountSettings\AccountSettingsRequest;
 use App\Connection;
+use App\Country;
 use App\Provider;
 use App\Helpers;
 
-class SettingsController extends Controller {
-
+class SettingsController extends Controller
+{
     public function index()
     {
         $user = Auth::user();
-        return View::make('settings.index', compact('user'));
+        $countries = Country::dropdown();
+
+        return View::make('settings.index', compact('user', 'countries'));
     }
 
     public function update(AccountSettingsRequest $request)
+    {
+        $this->saveUser($request);
+        $this->saveUserAvatar($request);
+
+        return redirect()->route('settingsIndex')->with([
+            'flash_message' => 'Account settings updated.',
+            'flash_message_type' => 'success',
+            'flash_message_important' => true,
+        ]);
+    }
+
+    private function saveUserAvatar(AccountSettingsRequest $request)
+    {
+        $user = Auth::user();
+
+        if ($request->hasFile('avatar')) {
+            $user->profile_image = Helpers::handleProfilePicture($user, $request->file('avatar'));
+            $user->save();
+        }
+    }
+
+    private function saveUser(AccountSettingsRequest $request)
     {
         $user = Auth::user();
 
         $user->email = $request->input('email');
         $user->name = $request->input('name');
+        $user->city = $request->input('city');
+        $user->country_code = $request->input('country_code');
+        $user->address = $request->input('address');
+        $user->phone = $request->input('phone');
+        $user->save();
 
         $user->account->name = $request->input('account_name');
         $user->account->save();
-
-        if ($request->hasFile('avatar')) {
-            $user->profile_image = Helpers::handleProfilePicture($user, $request->file('avatar'));
-        }
-
-        $user->save();
-
-        return redirect()->route('settingsIndex')->with([
-            'flash_message' => "Account settings updated.",
-            'flash_message_type' => 'success',
-            'flash_message_important' => true
-        ]);
     }
 
-	public function content()
+    public function content()
     {
-		return View::make('settings.content');
-	}
+        $user = Auth::user();
+        return View::make('settings.content', compact('user'));
+    }
 
     public function connections()
     {
-		// Pulling Connection information
-		$connections = Auth::user()->connections()->get();
-		$activeConnectionsCount = Auth::user()->connections()->where('successful',1)->count();
+        $user = Auth::user();
 
-		// - Create Connection Drop Down Data
-		$connectiondd = ['' => '-- Select One --'];
-		$connectiondd += Provider::select('slug','name')->where('class_name', '!=', '')->orderBy('name', 'asc')->distinct()->lists('name', 'slug')->toArray();
+        // Pulling Connection information
+        $connections = $user->connections()->get();
+        $activeConnectionsCount = $user->connections()->where('successful', 1)->count();
 
-		return View::make('settings.connections', compact('connectiondd', 'connections', 'activeConnectionsCount'));
-	}
+        // - Create Connection Drop Down Data
+        $connectiondd = ['' => '-- Select One --'];
+        $connectiondd += Provider::select('slug', 'name')
+            ->where('class_name', '!=', '')
+            ->orderBy('name', 'asc')
+            ->distinct()
+            ->lists('name', 'slug')
+            ->toArray();
 
-	public function connectionCreate(ConnectionRequest $request)
+        return View::make('settings.connections', compact(
+            'user',
+            'connectiondd',
+            'connections',
+            'activeConnectionsCount'
+        ));
+    }
+
+    public function connectionCreate(ConnectionRequest $request)
     {
-		$connName = $request->input('con_name');
-		$connType = $request->input('con_type');
-		$connActive = $request->input('con_active');
+        $connName = $request->input('con_name');
+        $connType = $request->input('con_type');
+        $connActive = $request->input('con_active');
 
         // - Store the conection data
-        $conn = new Connection;
+        $conn = new Connection();
         $conn->name = $connName;
         $conn->provider_id = Provider::findBySlug($connType)->id;
         $conn->active = $connActive == 'on' ? 1 : 0;
-		$conn->save();
+        $conn->save();
 
         // - Attach to the user
         Auth::user()->connections()->save($conn);
 
         Session::put('connection_data', [
             'meta_data' => $request->input('api'),
-            'connection_id' => $conn->id
+            'connection_id' => $conn->id,
         ]);
 
-		// - Lets get out of here
-		return redirect()->route('connectionProvider', $connType);
-	}
+        // - Lets get out of here
+        return redirect()->route('connectionProvider', $connType);
+    }
 
-	public function seo() {
-		return View::make('settings.seo');
-	}
+    public function seo()
+    {
+        $user = Auth::user();
+        return View::make('settings.seo', compact('user'));
+    }
 
-	public function buying() {
-		return View::make('settings.buying');
-	}
-
+    public function buying()
+    {
+        $user = Auth::user();
+        return View::make('settings.buying', compact('user'));
+    }
 }

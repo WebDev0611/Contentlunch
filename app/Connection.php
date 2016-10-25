@@ -39,11 +39,17 @@ class Connection extends Model {
         return $settings;
     }
 
-    public static function  getConnectionbySlug($slug)
+    public static function getConnectionbySlug($slug)
     {
-        $result = Auth::user()->connections()->join('providers','.providers.id', '=', 'connections.provider_id')->where('slug',$slug)->select('settings')->first();
+        $result = Auth::user()
+            ->connections()
+            ->join('providers','.providers.id', '=', 'connections.provider_id')
+            ->where('slug',$slug)
+            ->select('settings')
+            ->first();
+
         // - return a value
-        if(count($result) > 0 ) {
+        if (count($result) > 0) {
             $key = $result->toArray();
             return json_decode($key['settings']);
         }

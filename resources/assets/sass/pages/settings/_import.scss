@@ -25,6 +25,15 @@
   &.active {
     background: #f8f9fc;
   }
+
+  [class^="icon-"], [class*=" icon-"] {
+    font-size: 26px;
+    position: relative;
+    margin-right: 10px;
+    top: 7px;
+    margin-top: -3px;
+    display: inline-block;
+  }
 }
 
 .settings-import-item-img {

@@ -3,45 +3,7 @@
 @section('content')
 <div class="workspace">
     <div class="panel clearfix">
-        <aside class="panel-sidebar right-separator">
-            <div class="panel-container text-center">
-                <div class="settings-profile-image">
-                    <img src="/assets/images/avatar.jpg" alt="#">
-                </div>
-                <div class="settings-profile-info">
-                    <h4>Storm Trooper</h4>
-                    <span>New York, USA</span>
-                </div>
-                <span class="settings-profile-subscription">Paid Subscription</span>
-                <label for="#">Paid Monthly</label>
-                <h3 class="settings-profile-heading">$700</h3>
-
-                <label for="#">Max Users</label>
-                <h3 class="settings-profile-heading">$700</h3>
-
-                <div class="form-group">
-                    <a href="#" class="text-blue text-uppercase">
-                        Upgrade Subscription
-                    </a>
-                </div>
-                <div class="form-group">
-                    <label for="#">Payment Info</label>
-                    <span>
-                        VISA X-1203
-                        <a href="#" class="text-blue text-uppercase">
-                            <i class="icon-edit"></i>
-                            Edit
-                        </a>
-                    </span>
-                </div>
-                <div class="form-group">
-                    <label for="AutoRenew" class="checkbox-primary text-inline">
-                        <input id="AutoRenew" type="checkbox">
-                        <span>Auto Renew</span>
-                    </label>
-                </div>
-            </div>
-        </aside>
+        @include('settings.partials.profile_sidebar')
         <div class="panel-main left-separator">
             <div class="panel-header">
                 <!-- navigation -->
@@ -52,15 +14,27 @@
                     <div class="col-md-8 col-md-offset-2">
                         <div class="settings-import">
                             <div class="settings-import-container">
-                                <input type="text" class="settings-import-input" placeholder="Quick search your list of friends">
+                                <!--
+                                <input
+                                    type="text"
+                                    class="settings-import-input"
+                                    placeholder="Quick search your list of friends">
+                                -->
+
                                 <div class="settings-import-action">
                                     <span>
                                         {{count($connections)}} connections,
                                         <strong>{{$activeConnectionsCount}} active</strong>
                                     </span>
-                                        <button class="button button-small" data-target="#newConnection" data-toggle="modal" id="newConnectionButton">
+                                    <button
+                                        class="button button-small"
+                                        data-target="#newConnection"
+                                        data-toggle="modal"
+                                        id="newConnectionButton">
+
                                         <i class="icon-add"></i>
                                         NEW CONNECTION
+
                                     </button>
                                 </div>
                                 <div class="settings-import-list">
@@ -69,11 +43,11 @@
                                         @foreach($connections as $con)
                                         <div class="settings-import-item">
                                             <div class="col-md-6">
-                                                <img src="/images/{{$con->provider->slug}}.jpg" alt="#" class="settings-import-item-img">
-                                                <span class="settings-import-item-title">{{$con->name}}</span>
+                                                <span class="icon-social-{{ $con->provider->slug }}"></span>
+                                                <span class="settings-import-item-title">{{ $con->name }}</span>
                                             </div>
                                             <div class="col-md-6 text-right">
-                                                @if($con->successful)
+                                                @if ($con->successful)
                                                     <button class="button button-connected button-small">Connected</button>
                                                 @else
                                                     <button class="button button-small">Connect</button>

@@ -11,6 +11,7 @@ use App\User;
 use App\Account;
 use App\AccountInvite;
 use App\Http\Requests\Onboarding\InvitedAccountRequest;
+Use App\Helpers;
 
 class OnboardingController extends Controller
 {
@@ -18,6 +19,20 @@ class OnboardingController extends Controller
     {
         $user = new User;
         return view('onboarding.signup')->with(compact('user'));
+    }
+
+    public function signupPhotoUpload(Request $request)
+    {
+        if ($request->hasFile('avatar')) {
+            $filename = str_random(16);
+            $path = 'attachment/_tmp/';
+            $imageUrl = Helpers::handleUpload($request->file('avatar'), $filename, $path);
+
+            return response()->json([ 'image' => $imageUrl ]);
+        } else {
+            return response()->json([ 'error' => true, 'message' => 'File not sent correctly' ], 400);
+        }
+
     }
 
     public function score()

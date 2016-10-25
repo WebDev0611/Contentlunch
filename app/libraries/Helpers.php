@@ -73,15 +73,19 @@ class Helpers {
     public static function handleProfilePicture($user, $file)
     {
         $path = 'attachment/' . $user->id . '/profile/';
+        $filename  = self::slugify($user->name);
 
-        // TODO: validate mime type
-        $mime      = $file->getClientMimeType();
+        return self::handleUpload($file, $filename, $path);
+    }
+
+    public static function handleUpload($file, $filename, $path)
+    {
+        $mime = $file->getClientMimeType();
 
         $extension = $file->getClientOriginalExtension();
-        $filename  = self::slugify($user->name) . '.' . $extension;
+        $filename = $filename . '.' . $extension;
         $timestamp = Carbon::now('UTC')->format('Ymd_His');
-        $fileDoc   = $timestamp . '_' . $filename;
-        $fullPath  = $path . $fileDoc;
+        $fullPath  = $path . $timestamp . '_' . $filename;
 
         Storage::put($fullPath, File::get($file));
 
