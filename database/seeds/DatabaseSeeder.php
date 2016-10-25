@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Model::unguard();
 
+        $this->call('CountrySeeder');
         $this->call('WriterAccessPriceSeeder');
         $this->call('WriterAccessAssetTypeSeeder');
         $this->call('UsersTableSeeder');
