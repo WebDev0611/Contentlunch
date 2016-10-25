@@ -45,14 +45,17 @@ class SettingsController extends Controller
 
     public function content()
     {
-        return View::make('settings.content');
+        $user = Auth::user();
+        return View::make('settings.content', compact('user'));
     }
 
     public function connections()
     {
+        $user = Auth::user();
+
         // Pulling Connection information
-        $connections = Auth::user()->connections()->get();
-        $activeConnectionsCount = Auth::user()->connections()->where('successful', 1)->count();
+        $connections = $user->connections()->get();
+        $activeConnectionsCount = $user->connections()->where('successful', 1)->count();
 
         // - Create Connection Drop Down Data
         $connectiondd = ['' => '-- Select One --'];
@@ -63,7 +66,12 @@ class SettingsController extends Controller
             ->lists('name', 'slug')
             ->toArray();
 
-        return View::make('settings.connections', compact('connectiondd', 'connections', 'activeConnectionsCount'));
+        return View::make('settings.connections', compact(
+            'user',
+            'connectiondd',
+            'connections',
+            'activeConnectionsCount'
+        ));
     }
 
     public function connectionCreate(ConnectionRequest $request)
@@ -93,11 +101,13 @@ class SettingsController extends Controller
 
     public function seo()
     {
-        return View::make('settings.seo');
+        $user = Auth::user();
+        return View::make('settings.seo', compact('user'));
     }
 
     public function buying()
     {
-        return View::make('settings.buying');
+        $user = Auth::user();
+        return View::make('settings.buying', compact('user'));
     }
 }
