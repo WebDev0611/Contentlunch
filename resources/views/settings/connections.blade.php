@@ -14,10 +14,12 @@
                     <div class="col-md-8 col-md-offset-2">
                         <div class="settings-import">
                             <div class="settings-import-container">
+                                <!--
                                 <input
                                     type="text"
                                     class="settings-import-input"
                                     placeholder="Quick search your list of friends">
+                                -->
 
                                 <div class="settings-import-action">
                                     <span>
