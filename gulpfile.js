@@ -16,7 +16,7 @@ elixir(function (mix) {
     mix
             .sass('main.scss')
             .scripts([
-                './bower_components/jquery/dist/jquery.js',
+                './bower_components/jquery/jquery.min.js',
                 './bower_components/underscore/underscore.js',
                 './bower_components/backbone/backbone.js',
                 './bower_components/moment/moment.js',
@@ -36,7 +36,7 @@ elixir(function (mix) {
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
-                './bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js'
+                './bower_components/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js'
             ], "public/js/plugins.js")
 
             /* content scripts and main app */
