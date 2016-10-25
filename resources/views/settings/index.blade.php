@@ -68,7 +68,16 @@
                         </div>
                         <div class="input-form-group">
                             <label for="#">ADDRESS</label>
-                            <input type="text" class="input" placeholder="Account holder address">
+                            {!!
+                                Form::text(
+                                    'address',
+                                    $user->address,
+                                    [
+                                        'class' => 'input',
+                                        'placholder' => 'Account holder address'
+                                    ]
+                                )
+                            !!}
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -111,7 +120,16 @@
                             <div class="col-md-6">
                                 <div class="input-form-group">
                                     <label for="#">PHONE NUMBER</label>
-                                    <input type="text" class="input" placeholder="+1 212 123455">
+                                    {!!
+                                        Form::text(
+                                            'phone',
+                                            $user->phone ? $user->phone : '',
+                                            [
+                                                'class' => 'input',
+                                                'placholder' => '+1 212 123455'
+                                            ]
+                                        )
+                                    !!}
                                 </div>
                             </div>
                             <div class="col-md-6">

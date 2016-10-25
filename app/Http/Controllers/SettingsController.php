@@ -24,27 +24,40 @@ class SettingsController extends Controller
 
     public function update(AccountSettingsRequest $request)
     {
-        $user = Auth::user();
-
-        $user->email = $request->input('email');
-        $user->name = $request->input('name');
-        $user->city = $request->input('city');
-        $user->country_code = $request->input('country_code');
-
-        $user->account->name = $request->input('account_name');
-        $user->account->save();
-
-        if ($request->hasFile('avatar')) {
-            $user->profile_image = Helpers::handleProfilePicture($user, $request->file('avatar'));
-        }
-
-        $user->save();
+        $this->saveUser($request);
+        $this->saveUserAvatar($request);
 
         return redirect()->route('settingsIndex')->with([
             'flash_message' => 'Account settings updated.',
             'flash_message_type' => 'success',
             'flash_message_important' => true,
         ]);
+    }
+
+    private function saveUserAvatar(AccountSettingsRequest $request)
+    {
+        $user = Auth::user();
+
+        if ($request->hasFile('avatar')) {
+            $user->profile_image = Helpers::handleProfilePicture($user, $request->file('avatar'));
+            $user->save();
+        }
+    }
+
+    private function saveUser(AccountSettingsRequest $request)
+    {
+        $user = Auth::user();
+
+        $user->email = $request->input('email');
+        $user->name = $request->input('name');
+        $user->city = $request->input('city');
+        $user->country_code = $request->input('country_code');
+        $user->address = $request->input('address');
+        $user->phone = $request->input('phone');
+        $user->save();
+
+        $user->account->name = $request->input('account_name');
+        $user->account->save();
     }
 
     public function content()
