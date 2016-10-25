@@ -52,6 +52,9 @@ elixir(function (mix) {
                 'resources/assets/js/plan/trends.js'
                 ],"public/js/trends.js")
 
+            /* Avatar View */
+            .scripts([ 'resources/assets/js/views/avatar.js' ], 'public/js/avatar_view.js')
+
             /* Onboarding */
             .scripts([
                 'resources/assets/js/onboarding/*.js'

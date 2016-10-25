@@ -113,5 +113,6 @@
 @stop
 
 @section('scripts')
+<script src="js/avatar_view.js"></script>
 <script src="js/onboarding.js"></script>
 @stop
