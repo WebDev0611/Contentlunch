@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Account');
     }
 
+    public function country()
+    {
+        return $this->belongsTo('App\Country', 'country_code', 'country_code');
+    }
+
     public static function dropdown()
     {
 
