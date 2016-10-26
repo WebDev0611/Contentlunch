@@ -122,6 +122,8 @@ Route::get('/edit', ['as' => 'editIndex', 'uses' => 'ContentController@createCon
 Route::post('/edit','ContentController@editStore');
 
 Route::post('/edit/images', [ 'as' => 'imageContent', 'uses' => 'ContentController@images']);
+Route::post('/edit/attachments', ['as' => 'attachmentContent', 'uses' => 'ContentController@attachments']);
+
 // - editing content form page
 Route::get('/edit/{content}', ['as' => 'editContent', 'uses' =>'ContentController@editContent']);
 Route::post('/edit/{content}','ContentController@editStore');

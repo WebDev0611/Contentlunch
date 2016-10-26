@@ -222,10 +222,7 @@
                         <div class="input-form-group">
                             <label for="#">ATTACHMENTS</label>
 
-                            <div class="fileupload">
-                                <i class="icon-link picto"></i>
-                                <p class="msgtitle">Click to attach one or more files</p>
-                                <input type="file" class="input input-upload" multiple="" name="files[]">
+                            <div class="dropzone" id='attachment-uploader'>
                             </div>
                         </div>
 
@@ -330,10 +327,6 @@
 
                         <div class="input-form-group">
                             <div class="dropzone" id='image-uploader'>
-                                <!-- <i class="icon-content picto"></i> -->
-                                <!-- <p class="msgtitle">Click to upload one or more images</p> -->
-                                <!-- <input type="file" id='image-uploader' class="input input-upload" multiple="multiple" name="images[]"> -->
-                                <!-- <div class="input input-upload" id="image-upload"></div> -->
                             </div>
                         </div>
 
@@ -456,8 +449,28 @@
 <script type='text/javascript'>
     (function() {
 
-        // <input type="file" class="input input-upload" multiple="multiple" name="images[]">
-        var dropzone = new Dropzone('#image-uploader', { url: '/edit/images' });
+        var imageUploader = new Dropzone('#image-uploader', { url: '/edit/images' });
+        var attachmentUploader = new Dropzone('#attachment-uploader', { url: '/edit/attachments' });
+
+        imageUploader.on('success', function(file, response) {
+            var hiddenField = $('<input/>', {
+                name: 'images[]',
+                type: 'hidden',
+                value: response.file
+            });
+
+            hiddenField.appendTo($('form'));
+        });
+
+        attachmentUploader.on('success', function(file, response) {
+            var hiddenField = $('<input/>', {
+                name: 'attachments[]',
+                type: 'hidden',
+                value: response.file
+            });
+
+            hiddenField.appendTo($('form'));
+        });
 
     })();
 </script>

@@ -187,7 +187,7 @@ class ContentController extends Controller
     {
         $url = Helpers::handleTmpUpload($file);
 
-        return response()->json([ 'image' => $url ]);
+        return response()->json([ 'file' => $url ]);
     }
 
     private function attachmentValidator($input)
