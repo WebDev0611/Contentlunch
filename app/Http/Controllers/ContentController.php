@@ -159,29 +159,34 @@ class ContentController extends Controller
     // this is technically create content
     public function createContent()
     {
-        $tagsdd = Tag::dropdown();
-        $authordd = User::dropdown();
-        $relateddd = Content::dropdown();
-        $stageddd = BuyingStage::dropdown();
-        $campaigndd = Campaign::dropdown();
-        $connectionsdd = Connection::dropdown();
-        $contenttypedd = ContentType::dropdown();
+        $data = [
+            'tagsdd' => Tag::dropdown(),
+            'authordd' => User::dropdown(),
+            'relateddd' => Content::dropdown(),
+            'stageddd' => BuyingStage::dropdown(),
+            'campaigndd' => Campaign::dropdown(),
+            'connectionsdd' => Connection::dropdown(),
+            'contenttypedd' => ContentType::dropdown(),
+        ];
 
-        return View::make('content.editor', compact('contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));
+        return View::make('content.editor', $data);
     }
 
     // - edit content on page
     public function editContent(Content $content)
     {
-        $tagsdd = Tag::dropdown();
-        $authordd = User::dropdown();
-        $relateddd = Content::dropdown();
-        $stageddd = BuyingStage::dropdown();
-        $campaigndd = Campaign::dropdown();
-        $connectionsdd = Connection::dropdown();
-        $contenttypedd = ContentType::dropdown();
+        $data = [
+            'content' => $content,
+            'tagsdd' => Tag::dropdown(),
+            'authordd' => User::dropdown(),
+            'relateddd' => Content::dropdown(),
+            'stageddd' => BuyingStage::dropdown(),
+            'campaigndd' => Campaign::dropdown(),
+            'connectionsdd' => Connection::dropdown(),
+            'contenttypedd' => ContentType::dropdown(),
+        ];
 
-        return View::make('content.editor', compact('content', 'contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));
+        return View::make('content.editor', $data);
     }
 
     public function editStore(ContentRequest $request, $id = null)
