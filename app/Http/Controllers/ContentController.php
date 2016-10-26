@@ -16,95 +16,87 @@ use Storage;
 use View;
 use Auth;
 use Illuminate\Support\Facades\DB;
-use Twitter;
-use Session;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Input;
-use Exception;
-
 
 class ContentController extends Controller
 {
-
     public function index()
     {
         $countContent = Auth::user()->contents()->count();
-        $published = Auth::user()->contents()->where('published',1)->orderBy('updated_at', 'desc')->get();
-        $readyPublished = Auth::user()->contents()->where('ready_published',1)->orderBy('updated_at', 'desc')->get();
-        $written = Auth::user()->contents()->where('written',1)->orderBy('updated_at', 'desc')->get();
+        $published = Auth::user()->contents()->where('published', 1)->orderBy('updated_at', 'desc')->get();
+        $readyPublished = Auth::user()->contents()->where('ready_published', 1)->orderBy('updated_at', 'desc')->get();
+        $written = Auth::user()->contents()->where('written', 1)->orderBy('updated_at', 'desc')->get();
         $connections = Auth::user()->connections()->where('active', 1)->get();
 
         return View::make('content.index', compact('published', 'readyPublished', 'written', 'countContent', 'connections'));
     }
 
-	public function store(Request $req)
+    public function store(Request $req)
     {
-		$content = new Content;
+        $content = new Content();
 
-		$content->title = $req->input('title');
-		$content->content_type_id = $req->input('content_type');
-		$content->save();
+        $content->title = $req->input('title');
+        $content->content_type_id = $req->input('content_type');
+        $content->save();
 
-		// - Attach to the user
-		Auth::user()->contents()->save($content);
-		return redirect('edit/' . $content->id );
-	}
+        // - Attach to the user
+        Auth::user()->contents()->save($content);
 
-	public function create(){
+        return redirect('edit/'.$content->id);
+    }
 
-		$contentTypes = DB::table("writer_access_asset_types")->get();
+    public function create()
+    {
+        $contentTypes = DB::table('writer_access_asset_types')->get();
 
-        $prices = DB::table("writer_access_prices")->distinct()->select("asset_type_id")->get();
+        $prices = DB::table('writer_access_prices')->distinct()->select('asset_type_id')->get();
 
         $reformedPrices = [];
-        foreach($prices as $price){
-            if(!isset($reformedPrices[$price->asset_type_id])){
+        foreach ($prices as $price) {
+            if (!isset($reformedPrices[$price->asset_type_id])) {
                 $reformedPrices[$price->asset_type_id] = [];
 
-                $wordcounts = DB::table("writer_access_prices")
+                $wordcounts = DB::table('writer_access_prices')
                     ->distinct()
-                    ->select("wordcount")
-                    ->where("asset_type_id", $price->asset_type_id)
+                    ->select('wordcount')
+                    ->where('asset_type_id', $price->asset_type_id)
                     ->get();
 
-                foreach ($wordcounts as $wordcount){
+                foreach ($wordcounts as $wordcount) {
                     $reformedPrices[$price->asset_type_id][$wordcount->wordcount] = [];
-                    $writerLevels = DB::table("writer_access_prices")
-                        ->where("asset_type_id", $price->asset_type_id)
-                        ->where("wordcount", $wordcount->wordcount)
+                    $writerLevels = DB::table('writer_access_prices')
+                        ->where('asset_type_id', $price->asset_type_id)
+                        ->where('wordcount', $wordcount->wordcount)
                         ->get();
 
-                    foreach ($writerLevels as $writerLevel){
+                    foreach ($writerLevels as $writerLevel) {
                         $reformedPrices[$price->asset_type_id][$wordcount->wordcount][$writerLevel->writer_level] = $writerLevel->fee;
                     }
-
                 }
             }
         }
 
-		$pricesJson = json_encode($reformedPrices);
+        $pricesJson = json_encode($reformedPrices);
 
         $contenttypedd = ContentType::dropdown();
         $campaigndd = Campaign::dropdown();
 
-		return View::make('content.create', compact("contentTypes", "pricesJson", "contenttypedd", "campaigndd"));
-
-
-	}
+        return View::make('content.create', compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd'));
+    }
 
     public function directPublish(Request $request, $contentId)
     {
         $content = Content::find($contentId);
         $connections = collect(explode(',', $request->input('connections')))
-            ->map(function($connectionId) {
+            ->map(function ($connectionId) {
                 return Connection::find($connectionId);
             });
 
-        $response = response()->json([ 'data' => 'Content not found' ], 404);
+        $response = response()->json(['data' => 'Content not found'], 404);
 
         if ($content) {
-
             $errors = [];
             $connections_count = 0;
             $connections_failed = 0;
@@ -114,42 +106,42 @@ class ContentController extends Controller
 
                 if (!$response['success']) {
                     $connectionName = (string) $connection;
-                    $errors []= [ $connectionName => $response['error'] ];
-                    $connections_failed++;
+                    $errors [] = [$connectionName => $response['error']];
+                    ++$connections_failed;
                 }
 
-                $connections_count++;
+                ++$connections_count;
             }
 
             $response = response()
                 ->json([
                     'data' => 'Content published',
                     'errors' => $errors,
-                    'content' => $content
+                    'content' => $content,
                 ], 201);
         }
 
         return $response;
     }
 
-	public function publish(Content $content, $connection = null)
+    public function publish(Content $content, $connection = null)
     {
-		// - this will need to be dynamic ( database provider table? )
-		// -- Once we hook up another API i will know how i should organize this
+        // - this will need to be dynamic ( database provider table? )
+        // -- Once we hook up another API i will know how i should organize this
         if (!$connection) {
             $connection = $content->connection;
         }
 
-		$class = 'Connections\API\\'.$connection->provider->class_name;
-		$create = (new $class($content, $connection))->createPost();
+        $class = 'Connections\API\\'.$connection->provider->class_name;
+        $create = (new $class($content, $connection))->createPost();
 
-		$content->published = 1;
-		$content->ready_published = 0;
-		$content->written = 0;
-		$content->save();
+        $content->published = 1;
+        $content->ready_published = 0;
+        $content->written = 0;
+        $content->save();
 
         return $create;
-	}
+    }
 
     public function publishAndRedirect(Request $request, $contentId)
     {
@@ -157,113 +149,112 @@ class ContentController extends Controller
 
         $this->publish($content);
 
-		return redirect()->route('contentIndex')->with([
-		    'flash_message' => "You have published ".$content->title." to " . $content->connection->provider->slug,
-		    'flash_message_type' => 'success',
-		    'flash_message_important' => true
-		]);
+        return redirect()->route('contentIndex')->with([
+            'flash_message' => 'You have published '.$content->title.' to '.$content->connection->provider->slug,
+            'flash_message_type' => 'success',
+            'flash_message_important' => true,
+        ]);
     }
 
-	// this is technically create content
-	public function createContent()
+    // this is technically create content
+    public function createContent()
     {
-		$tagsdd = Tag::dropdown();
-		$authordd = User::dropdown();
-		$relateddd = Content::dropdown();
-		$stageddd = BuyingStage::dropdown();
-		$campaigndd = Campaign::dropdown();
-		$connectionsdd = Connection::dropdown();
-		$contenttypedd = ContentType::dropdown();
+        $tagsdd = Tag::dropdown();
+        $authordd = User::dropdown();
+        $relateddd = Content::dropdown();
+        $stageddd = BuyingStage::dropdown();
+        $campaigndd = Campaign::dropdown();
+        $connectionsdd = Connection::dropdown();
+        $contenttypedd = ContentType::dropdown();
 
-		return View::make('content.editor', compact('contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));
-	}
+        return View::make('content.editor', compact('contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));
+    }
 
-	// - edit content on page
-	public function editContent(Content $content)
+    // - edit content on page
+    public function editContent(Content $content)
     {
-		$tagsdd = Tag::dropdown();
-		$authordd = User::dropdown();
-		$relateddd = Content::dropdown();
-		$stageddd = BuyingStage::dropdown();
-		$campaigndd = Campaign::dropdown();
-		$connectionsdd = Connection::dropdown();
-		$contenttypedd = ContentType::dropdown();
+        $tagsdd = Tag::dropdown();
+        $authordd = User::dropdown();
+        $relateddd = Content::dropdown();
+        $stageddd = BuyingStage::dropdown();
+        $campaigndd = Campaign::dropdown();
+        $connectionsdd = Connection::dropdown();
+        $contenttypedd = ContentType::dropdown();
 
-		return View::make('content.editor', compact('content', 'contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));
-	}
+        return View::make('content.editor', compact('content', 'contenttypedd', 'authordd', 'connectionsdd', 'tagsdd', 'relateddd', 'stageddd', 'campaigndd'));
+    }
 
-	public function editStore(ContentRequest $request, $id = null)
+    public function editStore(ContentRequest $request, $id = null)
     {
-		// - Default to creating a new Content
-		$content = new Content;
+        // - Default to creating a new Content
+        $content = new Content();
 
-		if (is_numeric($id)) {
-			$content = Content::find($id);
-			$content->touch();
-			// - Remove all related, will attach back ( keeps pivot table clean )
-			$content->related()->detach();
-			$content->tags()->detach();
-			$content->authors()->detach();
-		}
+        if (is_numeric($id)) {
+            $content = Content::find($id);
+            $content->touch();
+            // - Remove all related, will attach back ( keeps pivot table clean )
+            $content->related()->detach();
+            $content->tags()->detach();
+            $content->authors()->detach();
+        }
 
         $action = $request->input('action');
 
         $content->configureAction($request->input('action'));
 
-		$content->title = $request->input('title');
-		$content->body = $request->input('content');
-		$content->due_date = $request->input('due_date');
-		$content->meta_title = $request->input('meta_title');
-		$content->meta_keywords = $request->input('meta_keywords');
-		$content->meta_description = $request->input('meta_descriptor');
-		$content->written = 1;
-		$content->save();
+        $content->title = $request->input('title');
+        $content->body = $request->input('content');
+        $content->due_date = $request->input('due_date');
+        $content->meta_title = $request->input('meta_title');
+        $content->meta_keywords = $request->input('meta_keywords');
+        $content->meta_description = $request->input('meta_descriptor');
+        $content->written = 1;
+        $content->save();
 
-		// - Attach to the user
-		Auth::user()->contents()->save($content);
+        // - Attach to the user
+        Auth::user()->contents()->save($content);
 
-		// IF compaign lets attach it
-		if($request->input('campaign')){
-			// - Save Campaign
-			$campaign = Campaign::find($request->input('campaign'));
-			$campaign->contents()->save($content);
-		}
+        // IF compaign lets attach it
+        if ($request->input('campaign')) {
+            // - Save Campaign
+            $campaign = Campaign::find($request->input('campaign'));
+            $campaign->contents()->save($content);
+        }
 
-		// - Attach the related data
-		if($request->input('related')){
-			$content->related()->attach($request->input('related'));
-		}
+        // - Attach the related data
+        if ($request->input('related')) {
+            $content->related()->attach($request->input('related'));
+        }
 
-		// - Save Content Type
+        // - Save Content Type
         $contentType = $request->input('content_type');
-		$conType = ContentType::find($contentType);
-		$conType->contents()->save($content);
+        $conType = ContentType::find($contentType);
+        $conType->contents()->save($content);
 
-		// - Save connection
-		$connection = Connection::find($request->input('connections'));
-		$connection->contents()->save($content);
+        // - Save connection
+        $connection = Connection::find($request->input('connections'));
+        $connection->contents()->save($content);
 
-		// Attach authors
-		$content->authors()->attach($request->input('author'));
+        // Attach authors
+        $content->authors()->attach($request->input('author'));
 
-		// Attach Tags
-		$content->tags()->attach($request->input('tags'));
+        // Attach Tags
+        $content->tags()->attach($request->input('tags'));
 
-		// - Images
+        // - Images
         $this->handleImages($request, $content);
         $this->handleFiles($request, $content);
 
         if ($content->published) {
             return $this->publishAndRedirect($request, $content->id);
-        }
-        else {
+        } else {
             return redirect()->route('contentIndex')->with([
                 'flash_message' => 'You have created content titled '.$content->title.'.',
                 'flash_message_type' => 'success',
-                'flash_message_important' => true
+                'flash_message_important' => true,
             ]);
         }
-	}
+    }
 
     public function delete(Request $request, $content_id)
     {
@@ -277,27 +268,25 @@ class ContentController extends Controller
             $content->delete();
 
             return redirect()->route('contentIndex')->with([
-                'flash_message' => 'You have successfully deleted ' . $content->title . '.',
+                'flash_message' => 'You have successfully deleted '.$content->title.'.',
                 'flash_message_type' => 'success',
-                'flash_message_important' => true
+                'flash_message_important' => true,
             ]);
-        }
-        else {
+        } else {
             return redirect()->route('contentIndex')->with([
                 'flash_message' => 'Unable to delete content: not found.',
                 'flash_message_type' => 'danger',
-                'flash_message_important' => true
+                'flash_message_important' => true,
             ]);
         }
     }
-
 
     /**
      * Shortcut functions to remove possibility of error.
      * Handling of images.
      *
-     * @param  ContentRequest   $request        The Request instance
-     * @param  Content          $content        Content instance
+     * @param ContentRequest $request The Request instance
+     * @param Content        $content Content instance
      */
     private function handleImages($request, $content)
     {
@@ -308,8 +297,8 @@ class ContentController extends Controller
      * Shortcut functions to remove possibility of error.
      * Handling of files.
      *
-     * @param  ContentRequest   $request        The Request instance
-     * @param  Content          $content        Content instance
+     * @param ContentRequest $request The Request instance
+     * @param Content        $content Content instance
      */
     private function handleFiles($request, $content)
     {
@@ -319,40 +308,37 @@ class ContentController extends Controller
     /**
      * Function to upload files to S3 and save them in the database.
      *
-     * @param  ContentRequest   $request        The Request instance
-     * @param  Content          $content        Content instance
-     * @param  string $filetype                 A string indicating the filetype.
-     *                                          Images should be 'image'. Everything else will
-     *                                          be treated as files.
-     * @return void
+     * @param ContentRequest $request  The Request instance
+     * @param Content        $content  Content instance
+     * @param string         $filetype A string indicating the filetype.
+     *                                 Images should be 'image'. Everything else will
+     *                                 be treated as files
      */
     private function handleAttachments($request, $content, $filetype = 'file')
     {
-        $path = 'attachment/' . Auth::id() . ($filetype == 'image' ? '/images/' : '/files/');
+        $path = 'attachment/'.Auth::id().($filetype == 'image' ? '/images/' : '/files/');
         $requestField = $filetype == 'image' ? 'images' : 'files';
 
         if ($request->hasFile($requestField)) {
-
             foreach ($request->file($requestField) as $file) {
-
-                $filename  = $file->getClientOriginalName();
+                $filename = $file->getClientOriginalName();
                 $extension = $file->getClientOriginalExtension();
-                $mime      = $file->getClientMimeType();
+                $mime = $file->getClientMimeType();
                 $timestamp = Carbon::now('UTC')->format('Ymd_His');
-                $fileDoc   = $timestamp . '_' . $filename;
-                $fullPath  = $path . $fileDoc;
+                $fileDoc = $timestamp.'_'.$filename;
+                $fullPath = $path.$fileDoc;
 
                 Storage::put($fullPath, File::get($file));
 
                 $url = Storage::url($fullPath);
 
                 // - Caputure the upload
-                $attachment            = new Attachment;
-                $attachment->filepath  = $fullPath;
-                $attachment->type      = $filetype;
-                $attachment->filename  = $url;
+                $attachment = new Attachment();
+                $attachment->filepath = $fullPath;
+                $attachment->type = $filetype;
+                $attachment->filename = $url;
                 $attachment->extension = $extension;
-                $attachment->mime      = $mime;
+                $attachment->mime = $mime;
                 $attachment->save();
 
                 $content->attachments()->save($attachment);
@@ -360,19 +346,19 @@ class ContentController extends Controller
         }
     }
 
-	public function get_written($step = 1)
+    public function get_written($step = 1)
     {
-		//need to do proper form validation, etc.
-		//this is just to get the UI spit out
+        //need to do proper form validation, etc.
+        //this is just to get the UI spit out
 
         if ($step == 1) {
-			return View::make('content.get_written_1');
-		}
-		if ($step == 2) {
-			return View::make('content.get_written_2');
-		}
-		if ($step == 3) {
-			return View::make('content.get_written_3');
-		}
-	}
+            return View::make('content.get_written_1');
+        }
+        if ($step == 2) {
+            return View::make('content.get_written_2');
+        }
+        if ($step == 3) {
+            return View::make('content.get_written_3');
+        }
+    }
 }
