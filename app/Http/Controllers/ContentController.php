@@ -12,13 +12,15 @@ use App\Campaign;
 use App\Content;
 use App\User;
 use App\Tag;
+use App\Helpers;
 use Storage;
 use View;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Input;
+use Validator;
+use Response;
 
 class ContentController extends Controller
 {
@@ -153,6 +155,52 @@ class ContentController extends Controller
             'flash_message' => 'You have published '.$content->title.' to '.$content->connection->provider->slug,
             'flash_message_type' => 'success',
             'flash_message_important' => true,
+        ]);
+    }
+
+    /**
+     * Asynchronous attachments and images uploads
+     */
+    public function images(Request $request)
+    {
+        $validation = $this->imageValidator($request->all());
+
+        if ($validation->fails()) {
+            return response()->json($validation->errors(), 400);
+        }
+
+        return $this->handleAsyncUploads($request->file('file'));
+    }
+
+    public function attachments(Request $request)
+    {
+        $validation = $this->attachmentValidator($request->all());
+
+        if ($validation->fails()) {
+            return response()->json($validation->errors(), 400);
+        }
+
+        return $this->handleAsyncUploads($request->file('file'));
+    }
+
+    private function handleAsyncUploads($file)
+    {
+        $url = Helpers::handleTmpUpload($file);
+
+        return response()->json([ 'image' => $url ]);
+    }
+
+    private function attachmentValidator($input)
+    {
+        return Validator::make($input, [
+            'file' => 'file|max:20000'
+        ]);
+    }
+
+    private function imageValidator($input)
+    {
+        return Validator::make($input, [
+            'file' => 'image|max:3000'
         ]);
     }
 

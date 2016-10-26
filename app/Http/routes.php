@@ -120,6 +120,8 @@ Route::post('/create/new','ContentController@store');
 // - create form page
 Route::get('/edit', ['as' => 'editIndex', 'uses' => 'ContentController@createContent']);
 Route::post('/edit','ContentController@editStore');
+
+Route::post('/edit/images', [ 'as' => 'imageContent', 'uses' => 'ContentController@images']);
 // - editing content form page
 Route::get('/edit/{content}', ['as' => 'editContent', 'uses' =>'ContentController@editContent']);
 Route::post('/edit/{content}','ContentController@editStore');

@@ -78,6 +78,14 @@ class Helpers {
         return self::handleUpload($file, $filename, $path);
     }
 
+    public static function handleTmpUpload($file)
+    {
+        $filename = str_random(32);
+        $path = 'attachment/_tmp/';
+
+        return self::handleUpload($file, $filename, $path);
+    }
+
     public static function handleUpload($file, $filename, $path)
     {
         $mime = $file->getClientMimeType();
