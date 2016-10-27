@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Storage;
 use File;
+use Config;
 
 class Helpers {
 
@@ -78,10 +79,12 @@ class Helpers {
         return self::handleUpload($file, $filename, $path);
     }
 
-    public static function handleTmpUpload($file)
+    public static function handleTmpUpload($file, $useOwnFileName = false)
     {
-        $filename = str_random(32);
         $path = 'attachment/_tmp/';
+        $filename = $useOwnFileName ?
+            self::slugify($file->getClientOriginalName()) :
+            str_random(32);
 
         return self::handleUpload($file, $filename, $path);
     }
@@ -98,6 +101,25 @@ class Helpers {
         Storage::put($fullPath, File::get($file));
 
         return Storage::url($fullPath);
+    }
+
+    public static function s3Path($fullUrl)
+    {
+        $bucket = Config::get('filesystems.disks.s3.bucket') . '/';
+        $splitUrl = explode($bucket, $fullUrl);
+
+        return $splitUrl[1];
+    }
+
+    public static function extensionFromS3Path($s3Path)
+    {
+        $extension = collect(explode('.', $s3Path))->last();
+
+        if (strstr($extension, '/')) {
+            $extension = '';
+        }
+
+        return $extension;
     }
 
     /**

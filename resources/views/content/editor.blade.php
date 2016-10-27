@@ -464,7 +464,7 @@
 
         attachmentUploader.on('success', function(file, response) {
             var hiddenField = $('<input/>', {
-                name: 'attachments[]',
+                name: 'files[]',
                 type: 'hidden',
                 value: response.file
             });

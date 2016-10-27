@@ -158,51 +158,6 @@ class ContentController extends Controller
         ]);
     }
 
-    /**
-     * Asynchronous attachments and images uploads
-     */
-    public function images(Request $request)
-    {
-        $validation = $this->imageValidator($request->all());
-
-        if ($validation->fails()) {
-            return response()->json($validation->errors(), 400);
-        }
-
-        return $this->handleAsyncUploads($request->file('file'));
-    }
-
-    public function attachments(Request $request)
-    {
-        $validation = $this->attachmentValidator($request->all());
-
-        if ($validation->fails()) {
-            return response()->json($validation->errors(), 400);
-        }
-
-        return $this->handleAsyncUploads($request->file('file'));
-    }
-
-    private function handleAsyncUploads($file)
-    {
-        $url = Helpers::handleTmpUpload($file);
-
-        return response()->json([ 'file' => $url ]);
-    }
-
-    private function attachmentValidator($input)
-    {
-        return Validator::make($input, [
-            'file' => 'file|max:20000'
-        ]);
-    }
-
-    private function imageValidator($input)
-    {
-        return Validator::make($input, [
-            'file' => 'image|max:3000'
-        ]);
-    }
 
     // this is technically create content
     public function createContent()
@@ -343,7 +298,22 @@ class ContentController extends Controller
      */
     private function handleImages($request, $content)
     {
-        return $this->handleAttachments($request, $content, 'image');
+        $images = $request->input('images') ? $request->input('images') : [];
+        $path = 'attachment/' . Auth::id() . '/images/';
+
+        foreach ($images as $fileUrl) {
+            if (!$fileUrl) {
+                continue;
+            }
+
+            $fileName = substr(strstr($fileUrl, '_tmp/'), 5);
+            $newPath = $path . $fileName;
+            $s3Path = Helpers::s3Path($fileUrl);
+            Storage::move($s3Path, $newPath);
+
+            $attachment = $this->saveAttachment($newPath, 'image');
+            $content->attachments()->save($attachment);
+        }
     }
 
     /**
@@ -355,7 +325,79 @@ class ContentController extends Controller
      */
     private function handleFiles($request, $content)
     {
-        $this->handleAttachments($request, $content, 'file');
+        $files = $request->input('files') ? $request->input('files') : [];
+        $path = 'attachment/' . Auth::id() . '/files/';
+
+        foreach ($files as $fileUrl) {
+            if (!$fileUrl) {
+                continue;
+            }
+
+            $fileName = substr(strstr($fileUrl, '_tmp/'), 5);
+            $newPath = $path . $fileName;
+            $s3Path = Helpers::s3Path($fileUrl);
+            Storage::move($s3Path, $newPath);
+
+            $attachment = $this->saveAttachment($newPath, 'file');
+            $content->attachments()->save($attachment);
+        }
+    }
+
+    private function saveAttachment($s3Path, $fileType)
+    {
+        return Attachment::create([
+            'filepath' => $s3Path,
+            'filename' => Storage::url($s3Path),
+            'type' => $fileType,
+            'extension' => Helpers::extensionFromS3Path($s3Path),
+            'mime' => Storage::mimeType($s3Path)
+        ]);
+    }
+
+    /**
+     * Asynchronous attachments and images uploads
+     */
+    public function images(Request $request)
+    {
+        $validation = $this->imageValidator($request->all());
+
+        if ($validation->fails()) {
+            return response()->json($validation->errors(), 400);
+        }
+
+        return $this->handleAsyncUploads($request->file('file'));
+    }
+
+    public function attachments(Request $request)
+    {
+        $validation = $this->attachmentValidator($request->all());
+
+        if ($validation->fails()) {
+            return response()->json($validation->errors(), 400);
+        }
+
+        return $this->handleAsyncUploads($request->file('file'));
+    }
+
+    private function handleAsyncUploads($file)
+    {
+        $url = Helpers::handleTmpUpload($file, true);
+
+        return response()->json([ 'file' => $url ]);
+    }
+
+    private function attachmentValidator($input)
+    {
+        return Validator::make($input, [
+            'file' => 'file|max:20000'
+        ]);
+    }
+
+    private function imageValidator($input)
+    {
+        return Validator::make($input, [
+            'file' => 'image|max:3000'
+        ]);
     }
 
     /**
