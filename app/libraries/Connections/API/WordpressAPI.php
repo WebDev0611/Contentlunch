@@ -106,10 +106,24 @@ class WordpressAPI
         return json_decode((string) $response->getBody());
     }
 
-    public function uploadMedia($attachmentsCollection)
+    private function getMediaUrls()
     {
-        $mediaUrls = $attachmentsCollection->pluck('filename')->toArray();
-        $mediaUploadUrl = 'https://public-api.wordpress.com/rest/v1.1/sites/' . $this->settings()->blog_url . '/media/new';
+        return $this->content
+            ->attachments
+            ->where('type', 'image')
+            ->pluck('filename')
+            ->toArray();
+    }
+
+    private function getMediaUploadUrl()
+    {
+        return 'https://public-api.wordpress.com/rest/v1.1/sites/' . $this->settings()->blog_url . '/media/new';
+    }
+
+    public function uploadAttachments()
+    {
+        $mediaUrls = $this->getMediaUrls();
+        $mediaUploadUrl = $this->getMediaUploadUrl();
 
         $response = ['success' => false, 'response' => []];
 
