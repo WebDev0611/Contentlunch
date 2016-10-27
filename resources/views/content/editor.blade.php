@@ -334,10 +334,23 @@
 
                         <div class="form-delimiter">
                             <span>
-                                <em>Image</em>
+                                <em>Images</em>
                             </span>
                         </div>
 
+                        @if (isset($content))
+                        <div class="input-form-group">
+                            <ul class="form-image-list">
+                                @foreach ($images as $image)
+                                <li>
+                                    <a href="{{ $image->filename }}">
+                                        <img src="{{ $image->filename }}" alt="">
+                                    </a>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
 
                         <div class="input-form-group">
                             <div class="dropzone" id='image-uploader'>
