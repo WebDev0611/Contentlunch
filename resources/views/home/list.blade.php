@@ -18,23 +18,23 @@
                 <div class="dashboard-notification-box">
                     <span class="dashboard-notification-box-count">
                         <i class="icon-idea"></i>
-                        5
+                        0
                     </span>
-                    <span>New Ideas<br> Posted</span>
+                    <span>New Ideas <br> Posted</span>
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="dashboard-notification-box">
                     <span class="dashboard-notification-box-count">
                         <i class="icon-navigation-dashboard"></i>
-                        5
+                        0
                     </span>
-                    <span>New Content <br>Pieces Posted</span>
+                    <span>New Content <br> Pieces Posted</span>
                 </div>
             </div>
-            <div class="col-md-6 text-right">
+            <div class="col-md-3 text-right">
                 <div class="dashboard-layout-container">
-                    <span>Writer / Editor Layout</span>
+                    <span>Writer / Editor Layout</span>
                     <ul class="dashboard-layout">
                         <li>
                             <a href="/dashboard">
@@ -61,9 +61,9 @@
                             <li  class="all-tasks">
                                 <a href="#">All tasks</a>
                             </li>
-                            <li class="campaigns">
+                            <!--<li class="campaigns">
                                 <a href="#">Campaigns</a>
-                            </li>
+                            </li> -->
                             <!-- out for now 
                             <li>
                                 <a href="javascript:;">Recently Viewed</a>
@@ -74,6 +74,7 @@
 
                 </div>
             </div>
+            <!--
             <div class="col-md-3">
                 <div class="panel max-height">
                     <div class="panel-header">
@@ -84,7 +85,7 @@
 
                 </div>
             </div>
-
+            -->
             <div class="col-md-3" id="misc-container">
 
                 <div class="panel" id="recent-ideas">
@@ -130,7 +131,11 @@
                 <%= body %>
             </span>
             <ul class="dashboard-tasks-list">
-                <li>DUE IN: <strong><%= due %></strong></li>
+                <li>
+                    <% if(due && due != '0000-00-00 00:00:00'){ %>
+                    DUE IN: <strong><%= due %></strong>
+                    <% } %>
+                </li>
                 <li>
                     STAGE:
                     <i class="dashboard-tasks-list-icon primary icon-idea"></i>
@@ -146,19 +151,19 @@
         <div class="dashboard-tasks-cell">
             <% 
             var active = '';
-            if( (new Date().getTime() - timeago) <= 60*10*1000 ){
+            if( (currenttime - timeago) <= 60*10*1000 ){
                 active = 'active';
             } %>
             <span class="dashboard-tasks-text small <%=active%>">
-                <% if( (new Date().getTime() - timeago) <= 60*10*1000 ){%>
+                <% if( (currenttime - timeago) <= 60*10*1000 ){%>
                     JUST NOW
                 <% }else{ %>
-                    <% if( ( new Date().getTime() - timeago ) / ( 60*60*1000 ) >= 24 ){ %>
-                        <%= Math.floor(( new Date().getTime() - timeago ) / (60*60*1000*24)) %> DAYS AGO
-                    <% }else if( (new Date().getTime() - timeago ) <= (60*60*1000) ){ %>
-                        <%= Math.floor(( new Date().getTime() - timeago ) / (60*1000)) %> MINUTES AGO
+                    <% if( ( currenttime - timeago ) / ( 60*60*1000 ) >= 24 ){ %>
+                        <%= Math.floor(( currenttime - timeago ) / (60*60*1000*24)) %> DAYS AGO
+                    <% }else if( (currenttime - timeago ) <= (60*60*1000) ){ %>
+                        <%= Math.floor(( currenttime - timeago ) / (60*1000)) %> MINUTES AGO
                     <% }else{ %>
-                        <%= Math.floor(( new Date().getTime() - timeago ) / (60*60*1000)) %> HOURS AGO
+                        <%= Math.floor((currenttime - timeago ) / (60*60*1000)) %> HOURS AGO
                     <% } %>
                 <% } %>
             </span>

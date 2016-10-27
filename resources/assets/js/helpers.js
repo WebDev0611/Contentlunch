@@ -31,3 +31,59 @@ var format_time_ago = function(time){
 		return 'JUST NOW';
 	}
 };
+
+//handles the task modal for the site
+$(function(){
+
+	$('.add-task-action').click(function(){
+	 $("#addTaskModal").modal('show');
+	});
+
+    $('#task-start-date').datetimepicker({
+        format: 'YYYY-MM-DD',
+        sideBySide: true,
+    });
+
+    $('#task-due-date').datetimepicker({
+        format: 'YYYY-MM-DD',
+        sideBySide: true,
+    });
+});
+
+//adds the task from any page
+var  add_task = function(callback){
+
+	console.log('clicked');
+	var task_data = {
+	    name: $('#task-name').val(),
+	    start_date: $('#task-start-date').val(),
+	    due_date: $('#task-due-date').val(),
+	    explanation: $('#task-explanation').val(),
+	    url: $('#task-url').val()
+	};
+
+	//need proper validation here
+	if(task_data.name.length>2){
+	    $.ajax({
+	        url: '/task/add',
+	        type: 'post',
+	        data: task_data,
+	        headers: {
+	            'X-CSRF-TOKEN': $('input[name=_token]').val()
+	        },
+	        dataType: 'json',
+	        success:function(res){
+	            console.log(res);
+            	$('#task-name').val('');
+    			$('#task-start-date').val('');
+    			$('#task-due-date').val('');
+    			$('#task-explanation').val('');
+    			$('#task-url').val('');
+
+	            if('function'=== typeof callback){
+	            	callback(res);
+	            }
+	        }
+	    });
+	}
+};

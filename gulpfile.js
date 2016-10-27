@@ -16,7 +16,7 @@ elixir(function (mix) {
     mix
             .sass('main.scss')
             .scripts([
-                './bower_components/jquery/dist/jquery.js',
+                './bower_components/jquery/jquery.min.js',
                 './bower_components/underscore/underscore.js',
                 './bower_components/backbone/backbone.js',
                 './bower_components/moment/moment.js',
@@ -36,11 +36,16 @@ elixir(function (mix) {
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
-                './bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js'
+                './bower_components/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js'
             ], "public/js/plugins.js")
 
             /* content scripts and main app */
-            .scripts(['resources/assets/js/content/*.js','resources/assets/js/helpers.js'], "public/js/app.js")
+            .scripts([
+                'resources/assets/js/models/tasks.js',
+                'resources/assets/js/collections/tasks.js',
+                'resources/assets/js/content/*.js',
+                'resources/assets/js/helpers.js'
+                ], "public/js/app.js")
 
             /* plan module scripts */
             /* trends */
@@ -85,8 +90,6 @@ elixir(function (mix) {
             .scripts([
                 'resources/assets/js/models/campaigns.js',
                 'resources/assets/js/collections/campaigns.js',
-                'resources/assets/js/models/tasks.js',
-                'resources/assets/js/collections/tasks.js',
                 'resources/assets/js/calendar/calendar.js'
                 ],"public/js/calendar.js")
 
