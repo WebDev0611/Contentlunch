@@ -298,22 +298,7 @@ class ContentController extends Controller
      */
     private function handleImages($request, $content)
     {
-        $images = $request->input('images') ? $request->input('images') : [];
-        $path = 'attachment/' . Auth::id() . '/images/';
-
-        foreach ($images as $fileUrl) {
-            if (!$fileUrl) {
-                continue;
-            }
-
-            $fileName = substr(strstr($fileUrl, '_tmp/'), 5);
-            $newPath = $path . $fileName;
-            $s3Path = Helpers::s3Path($fileUrl);
-            Storage::move($s3Path, $newPath);
-
-            $attachment = $this->saveAttachment($newPath, 'image');
-            $content->attachments()->save($attachment);
-        }
+        $this->handleAttachments($request->input('images'), $content, 'image');
     }
 
     /**
@@ -325,8 +310,22 @@ class ContentController extends Controller
      */
     private function handleFiles($request, $content)
     {
-        $files = $request->input('files') ? $request->input('files') : [];
-        $path = 'attachment/' . Auth::id() . '/files/';
+        $this->handleAttachments($request->input('files'), $content, 'file');
+    }
+
+    /**
+     * Function to upload files to S3 and save them in the database.
+     *
+     * @param ContentRequest $request  The Request instance
+     * @param Content        $content  Content instance
+     * @param string         $filetype A string indicating the filetype.
+     *                                 Images should be 'image'. Everything else will
+     *                                 be treated as files
+     */
+    private function handleAttachments($files, $content, $fileType = 'file')
+    {
+        $files = $files ? $files : [];
+        $path = 'attachment/' . Auth::id() . ($fileType == 'image' ? '/images/' : '/files/');
 
         foreach ($files as $fileUrl) {
             if (!$fileUrl) {
@@ -338,7 +337,7 @@ class ContentController extends Controller
             $s3Path = Helpers::s3Path($fileUrl);
             Storage::move($s3Path, $newPath);
 
-            $attachment = $this->saveAttachment($newPath, 'file');
+            $attachment = $this->saveAttachment($newPath, $fileType);
             $content->attachments()->save($attachment);
         }
     }
@@ -400,46 +399,7 @@ class ContentController extends Controller
         ]);
     }
 
-    /**
-     * Function to upload files to S3 and save them in the database.
-     *
-     * @param ContentRequest $request  The Request instance
-     * @param Content        $content  Content instance
-     * @param string         $filetype A string indicating the filetype.
-     *                                 Images should be 'image'. Everything else will
-     *                                 be treated as files
-     */
-    private function handleAttachments($request, $content, $filetype = 'file')
-    {
-        $path = 'attachment/'.Auth::id().($filetype == 'image' ? '/images/' : '/files/');
-        $requestField = $filetype == 'image' ? 'images' : 'files';
 
-        if ($request->hasFile($requestField)) {
-            foreach ($request->file($requestField) as $file) {
-                $filename = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
-                $mime = $file->getClientMimeType();
-                $timestamp = Carbon::now('UTC')->format('Ymd_His');
-                $fileDoc = $timestamp.'_'.$filename;
-                $fullPath = $path.$fileDoc;
-
-                Storage::put($fullPath, File::get($file));
-
-                $url = Storage::url($fullPath);
-
-                // - Caputure the upload
-                $attachment = new Attachment();
-                $attachment->filepath = $fullPath;
-                $attachment->type = $filetype;
-                $attachment->filename = $url;
-                $attachment->extension = $extension;
-                $attachment->mime = $mime;
-                $attachment->save();
-
-                $content->attachments()->save($attachment);
-            }
-        }
-    }
 
     public function get_written($step = 1)
     {
