@@ -187,6 +187,8 @@ class ContentController extends Controller
             'campaigndd' => Campaign::dropdown(),
             'connectionsdd' => Connection::dropdown(),
             'contenttypedd' => ContentType::dropdown(),
+            'files' => $content->attachments()->where('type', 'file')->get(),
+            'images' => $content->attachments()->where('type', 'image')->get()
         ];
 
         return View::make('content.editor', $data);
