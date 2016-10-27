@@ -118,7 +118,7 @@ class WordpressAPI
             $options = [
                 'http' => [
                     'method' => 'POST',
-                    'ignore_errors' => true,
+                    'ignore_errors' => false,
                     'header' => $this->headers(),
                     'content' => http_build_query([
                         'media_urls' => $mediaUrls
@@ -126,19 +126,8 @@ class WordpressAPI
                 ],
             ];
 
-            // REST API url
-            $client = new Client([
-                'base_uri' => $mediaUploadUrl
-            ]);
-
-            $response = $client->request('POST', $mediaUploadUrl, [
-                'headers' => $this->headers()
-            ]);
-
-            // $context = stream_context_create($options);
-            // $apiResponse = file_get_contents($mediaUploadUrl, false, $context);
-
-            var_dump($response);
+            $context = stream_context_create($options);
+            $apiResponse = file_get_contents($mediaUploadUrl, false, $context);
 
             $response = [
                 'success' => true,
@@ -154,6 +143,5 @@ class WordpressAPI
         }
 
         return $response;
-
     }
 }
