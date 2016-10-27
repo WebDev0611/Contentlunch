@@ -1,10 +1,10 @@
 <?php
+
 namespace Connections\API;
 
-use Illuminate\Support\Facades\Config;
 use GuzzleHttp\Client;
 
-class WordPressAPI
+class WordpressAPI
 {
     // - dunno if needed
     protected $configKey = 'wordpress';
@@ -18,7 +18,7 @@ class WordPressAPI
             $connection :
             ($this->content ? $this->content->connection : null);
 
-        $this->client = new Client([ 'base_uri' => $this->base_url ]);
+        $this->client = new Client(['base_uri' => $this->base_url]);
 
         // if ($content) {
         //     $this->token = (new \oAuth\API\WordPressAuth)->getToken($content);
@@ -33,6 +33,7 @@ class WordPressAPI
 
         // - standardize return
         $response = ['success' => false, 'response' => []];
+
         try {
             // - Tag Data
             $tags = [];
@@ -43,7 +44,7 @@ class WordPressAPI
             }
             // Compile data
             $postdata = [
-                'tite' =>  $content->title,
+                'tite' => $content->title,
                 'content' => $content->body,
                 'tags' => $tags,
             ];
@@ -51,28 +52,27 @@ class WordPressAPI
             // - Create Options and Header Data
             $options = [
                 'http' => [
-                    'method'  => 'POST',
+                    'method' => 'POST',
                     'ignore_errors' => true,
                     'header' => [
-                        0 => 'authorization: Bearer '. $connectionSettings->access_token,
+                        0 => 'authorization: Bearer '.$connectionSettings->access_token,
                         1 => 'Content-Type: application/x-www-form-urlencoded',
                     ],
-                    'content' => http_build_query($postdata)
-                ]
+                    'content' => http_build_query($postdata),
+                ],
             ];
             // REST API url
-            $url = $this->base_url.'sites/' . $connectionSettings->blog_id . '/posts/new';
+            $url = $this->base_url.'sites/'.$connectionSettings->blog_id.'/posts/new';
 
-            $context  = stream_context_create($options);
+            $context = stream_context_create($options);
             $apiResponse = file_get_contents($url, false, $context);
 
-            dd([ 'apiResponse' => $apiResponse ]);
+            dd(['apiResponse' => $apiResponse]);
 
             $response = [
                 'success' => true,
-                'response' => json_decode($apiResponse)
+                'response' => json_decode($apiResponse),
             ];
-
         } catch (ClientException $e) {
             $responseBody = json_decode($e->getResponse()->getBody(true));
             $response['success'] = false;
@@ -84,7 +84,7 @@ class WordPressAPI
 
     public function blogInfo($blogUrl)
     {
-        $response = $this->client->get('sites/' . $blogUrl);
+        $response = $this->client->get('sites/'.$blogUrl);
 
         return json_decode((string) $response->getBody());
     }
