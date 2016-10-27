@@ -324,25 +324,27 @@ class ContentController extends Controller
      */
     private function handleAttachments($files, $content, $fileType = 'file')
     {
-        $files = $files ? $files : [];
-        $path = 'attachment/' . Auth::id() . ($fileType == 'image' ? '/images/' : '/files/');
+        $files = collect($files)->filter()->flatten()->toArray();
+        $userFolder = 'attachment/' . Auth::id() . ($fileType == 'image' ? '/images/' : '/files/');
 
         foreach ($files as $fileUrl) {
-            if (!$fileUrl) {
-                continue;
-            }
-
-            $fileName = substr(strstr($fileUrl, '_tmp/'), 5);
-            $newPath = $path . $fileName;
-            $s3Path = Helpers::s3Path($fileUrl);
-            Storage::move($s3Path, $newPath);
-
-            $attachment = $this->saveAttachment($newPath, $fileType);
+            $newPath = $this->moveFileToUserFolder($fileUrl, $userFolder);
+            $attachment = $this->createAttachment($newPath, $fileType);
             $content->attachments()->save($attachment);
         }
     }
 
-    private function saveAttachment($s3Path, $fileType)
+    private function moveFileToUserFolder($fileUrl, $userFolder)
+    {
+        $fileName = substr(strstr($fileUrl, '_tmp/'), 5);
+        $newPath = $userFolder . $fileName;
+        $s3Path = Helpers::s3Path($fileUrl);
+        Storage::move($s3Path, $newPath);
+
+        return $newPath;
+    }
+
+    private function createAttachment($s3Path, $fileType)
     {
         return Attachment::create([
             'filepath' => $s3Path,
@@ -398,8 +400,6 @@ class ContentController extends Controller
             'file' => 'image|max:3000'
         ]);
     }
-
-
 
     public function get_written($step = 1)
     {
