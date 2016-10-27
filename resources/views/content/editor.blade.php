@@ -219,9 +219,23 @@
                             {!! Form::select('related[]', $relateddd,  @isset($content)? $content->related->lists('id')->toArray() : ''  , array('multiple'=>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'related')) !!}
                         </div>
 
-                        <div class="input-form-group">
-                            <label for="#">ATTACHMENTS</label>
+                        <div class="form-delimiter">
+                            <span>
+                                <em>Attachments</em>
+                            </span>
+                        </div>
 
+                        @if (isset($content))
+                        <div class="input-form-group">
+                            <ul>
+                                @foreach ($files as $file)
+                                <li><a href="{{ $file->filename }}">{{ $file->name }}</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
+
+                        <div class="input-form-group">
                             <div class="dropzone" id='attachment-uploader'>
                             </div>
                         </div>
