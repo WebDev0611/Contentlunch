@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
         $this->call('ContentTypeTableSeeder');
         $this->call('CampaignTypeTableSeeder');
 
+        // Depends on the User Seeder and the Campaign Type Seeder
+        $this->call('CampaignSeeder');
+
         Model::reguard();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
