@@ -56,9 +56,10 @@ class WordpressAPI
     private function postData()
     {
         return [
-            'tite' => $this->content->title,
+            'title' => $this->content->title,
             'content' => $this->content->body,
-            'tags' => $this->tags()
+            'tags' => $this->tags(),
+            'media_urls' => $this->getMediaUrls()
         ];
     }
 
