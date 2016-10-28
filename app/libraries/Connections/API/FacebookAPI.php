@@ -4,11 +4,10 @@ namespace Connections\API;
 
 use Illuminate\Support\Facades\Config;
 use Facebook\Facebook;
+use Exception;
 
 class FacebookAPI
 {
-    // - dunno if needed
-    protected $configKey = 'facebook';
     protected $client;
     protected $content;
     protected $connection;
@@ -32,6 +31,10 @@ class FacebookAPI
 
     public function createPost()
     {
+        $uploadedAttachments = $this->uploadAttachments()->filter(function($response) {
+            return $response['success'];
+        });
+
         try {
 
             $payload = [ 'message' => $this->formatPost() ];
@@ -68,10 +71,24 @@ class FacebookAPI
 
         $responses = collect($mediaUrls)->map(function($imageUrl) {
 
-            $payload = [ 'url' => $imageUrl ];
-            $response = $this->client->post($this->uploadUrl(), $payload);
+            $payload = [ 'source' => $this->client->fileToUpload($imageUrl) ];
 
-            return json_decode($response->getGraphNode());
+            try {
+
+                $facebookResponse = $this->client->post($this->uploadUrl(), $payload);
+
+                $response = [
+                    'success' => true,
+                    'response' => json_decode($facebookResponse->getGraphNode()),
+                ];
+
+            } catch (\Facebook\Exceptions\FacebookResponseException $e) {
+                $response = $this->errorResponse($e, 'Graph returned an error');
+            } catch (\Facebook\Exceptions\FacebookSDKException $e) {
+                $response = $this->errorResponse($e, 'Facebook SDK returned and error');
+            }
+
+            return $response;
         });
 
         return $responses;
