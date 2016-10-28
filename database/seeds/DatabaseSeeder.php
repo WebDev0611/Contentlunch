@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call('WriterAccessPriceSeeder');
         $this->call('WriterAccessAssetTypeSeeder');
         $this->call('UsersTableSeeder');
+        $this->call('BuyingStageSeeder');
         $this->call('ProviderTableSeeder');
         $this->call('ContentTypeTableSeeder');
         $this->call('CampaignTypeTableSeeder');
