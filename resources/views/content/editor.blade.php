@@ -98,14 +98,39 @@
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="content_type">CONTENT TYPE</label>
-                                    {!! Form::select('content_type', $contenttypedd, @isset($content) ? $content->content_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
+                                    {!!
+                                        Form::select(
+                                            'content_type',
+                                            $contentTypeDropdown,
+                                            @isset($content) ? $content->content_type_id : '',
+                                            [
+                                                'class' => 'input selectpicker form-control',
+                                                'id' => 'contentType',
+                                                'data-live-search' => 'true',
+                                                'title' => 'Choose Content Type'
+                                            ]
+                                        )
+                                    !!}
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-form-group input-drop">
                                     <label for="author">AUTHOR</label>
-                                   {!! Form::select('author[]', $authordd, @isset($content) ?  $content->authors->lists('id')->toArray() : '' , array('multiple' =>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'author',  'data-live-search' => 'true', 'title' => 'Choose All Authors' )) !!}
-                                   <div class="hide">
+                                    {!!
+                                        Form::select(
+                                            'author[]',
+                                            $authorDropdown,
+                                            @isset($content) ? $content->authors->lists('id')->toArray() : '',
+                                            [
+                                                'multiple' =>'multiple',
+                                                'class' => 'input selectpicker form-control',
+                                                'id' => 'author',
+                                                'data-live-search' => 'true',
+                                                'title' => 'Choose All Authors'
+                                            ]
+                                        )
+                                    !!}
+                                    <div class="hide">
                                         <input type="text" class="input" placeholder="Select author" data-toggle="dropdown">
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <li class="dropdown-header-secondary">
@@ -170,14 +195,31 @@
 
                         <div class="input-form-group">
                             <label for="title">TITLE</label>
-                            {!! Form::text('title', @isset($content)? $content->title : '', array('placeholder' => 'Enter content title', 'class' => 'input input-larger form-control', 'id' => 'title')) !!}
+                            {!!
+                                Form::text(
+                                    'title',
+                                    @isset($content) ? $content->title : '',
+                                    [
+                                        'placeholder' => 'Enter content title',
+                                        'class' => 'input input-larger form-control',
+                                        'id' => 'title'
+                                    ]
+                                )
+                            !!}
                         </div>
 
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="connections">CONTENT DESTINATION</label>
-                                    {!! Form::select('connections', $connectionsdd, @isset($content)? $content->connection_id : '' , array('class' => 'input form-control', 'id' => 'connections')) !!}
+                                    {!!
+                                        Form::select(
+                                            'connections',
+                                            $connections,
+                                            @isset($content) ? $content->connection_id : '',
+                                            [ 'class' => 'input form-control', 'id' => 'connections']
+                                        )
+                                    !!}
                                 </div>
                             </div>
                             <div class="col-sm-4 hide">
@@ -193,8 +235,9 @@
                             </div>
                             <div class="col-sm-4 hide">
                                 <label>&nbsp;</label>
-                                <button class="button button-outline-secondary button-extend withstarticon"><i
-                                            class="icon-person-aura"></i>INVITE INFLUENCERS
+                                <button
+                                    class="button button-outline-secondary button-extend withstarticon">
+                                    <i class="icon-person-aura"></i>INVITE INFLUENCERS
                                 </button>
                             </div>
                         </div>
@@ -211,12 +254,23 @@
 
                         <div class="input-form-group">
                             <label for="tags">TAGS</label>
-                            {!! Form::select('tags[]', $tagsdd, @isset($content) ? $content->tags->lists('id')->toArray() : '' , array('multiple'=>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'tags', 'data-live-search' => 'true', 'title' => 'Select Tags')) !!}
+                            {!! Form::select('tags[]', $tagsDropdown, @isset($content) ? $content->tags->lists('id')->toArray() : '' , array('multiple'=>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'tags', 'data-live-search' => 'true', 'title' => 'Select Tags')) !!}
                         </div>
 
                         <div class="input-form-group">
                             <label for="related">RELATED CONTENT</label>
-                            {!! Form::select('related[]', $relateddd,  @isset($content)? $content->related->lists('id')->toArray() : ''  , array('multiple'=>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'related')) !!}
+                            {!!
+                                Form::select(
+                                    'related[]',
+                                    $relatedContentDropdown,
+                                    @isset($content)? $content->related->lists('id')->toArray() : '',
+                                    [
+                                        'multiple'=> 'multiple',
+                                        'class' => 'input selectpicker form-control',
+                                        'id' => 'related'
+                                    ]
+                                )
+                            !!}
                         </div>
 
                         <div class="form-delimiter">
@@ -243,7 +297,6 @@
 
                         <!-- Compaign Stage -->
 
-                        <!--
                         <div class="form-delimiter">
                             <span>
                                 <em>Campaign Stage</em>
@@ -254,7 +307,17 @@
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="buyingStage">BUYING STAGE</label>
-                                    {!! Form::select('buying_stage', $stageddd, null , array('class' => 'input form-control', 'id' => 'buyingStage')) !!}
+                                    {!!
+                                        Form::select(
+                                            'buying_stage',
+                                            $buyingStageDropdown,
+                                            null,
+                                            [
+                                                'class' => 'input form-control',
+                                                'id' => 'buyingStage'
+                                            ]
+                                        )
+                                    !!}
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -270,12 +333,20 @@
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="campaign">CAMPAIGN</label>
-                                    {!! Form::select('campaign', $campaigndd, @isset($content)? $content->campaign_id : '' , array('class' => 'input form-control', 'id' => 'campaign')) !!}
+                                    {!!
+                                        Form::select(
+                                            'campaign',
+                                            $campaignDropdown,
+                                            @isset($content) ? $content->campaign_id : '' ,
+                                            [
+                                                'class' => 'input form-control',
+                                                'id' => 'campaign'
+                                            ]
+                                        )
+                                    !!}
                                 </div>
                             </div>
                         </div>
-                        -->
-
 
                         <!-- SEO Information -->
 
@@ -289,13 +360,33 @@
                             <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="metaTitle">META TITLE TAG</label>
-                                    {!! Form::text('meta_title', @isset($content)? $content->meta_title : '', array('placeholder' => 'Enter page title', 'class' => 'input input-larger form-control', 'id' => 'metaTitle')) !!}
+                                    {!!
+                                        Form::text(
+                                            'meta_title',
+                                            @isset($content) ? $content->meta_title : '',
+                                            [
+                                                'placeholder' => 'Enter page title',
+                                                'class' => 'input input-larger form-control',
+                                                'id' => 'metaTitle'
+                                            ]
+                                        )
+                                    !!}
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="input-form-group input-drop">
                                     <label for="metaKeywords">KEYWORDS</label>
-                                    {!! Form::text('meta_keywords', @isset($content)? $content->meta_keywords : '', array('placeholder' => 'Separate by commas', 'class' => 'input input-larger form-control', 'id' => 'metaKeywords')) !!}
+                                    {!!
+                                        Form::text(
+                                            'meta_keywords',
+                                            @isset($content) ? $content->meta_keywords : '',
+                                            [
+                                                'placeholder' => 'Separate by commas',
+                                                'class' => 'input input-larger form-control',
+                                                'id' => 'metaKeywords'
+                                            ]
+                                        )
+                                    !!}
                                 </div>
                             </div>
                         </div>
@@ -305,7 +396,17 @@
                             <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="metaDescriptor">META DESCRIPTOR</label>
-                                    {!! Form::text('meta_descriptor', @isset($content) ? $content->meta_description : '', array('placeholder' => 'Enter page description', 'class' => 'input input-larger form-control', 'id' => 'metaDescriptor')) !!}
+                                    {!!
+                                        Form::text(
+                                            'meta_descriptor',
+                                            @isset($content) ? $content->meta_description : '',
+                                            [
+                                                'placeholder' => 'Enter page description',
+                                                'class' => 'input input-larger form-control',
+                                                'id' => 'metaDescriptor'
+                                            ]
+                                        )
+                                    !!}
                                 </div>
                             </div>
                             <div class="col-sm-6 hide">
