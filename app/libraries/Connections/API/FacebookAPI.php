@@ -31,13 +31,16 @@ class FacebookAPI
 
     public function createPost()
     {
-        $uploadedAttachments = $this->uploadAttachments()->filter(function($response) {
-            return $response['success'];
-        });
+        $attachmentIDs = $this->uploadAttachments()
+            ->filter(function($response) { return $response['success']; })
+            ->map(function($response) { return $response['response']->id; });
 
         try {
 
-            $payload = [ 'message' => $this->formatPost() ];
+            $payload = [
+                'message' => $this->formatPost(),
+                'object_attachment' => $attachmentIDs[0]
+            ];
             $facebookResponse = $this->client->post($this->createPostUrl(), $payload);
 
             $response = [
@@ -54,11 +57,11 @@ class FacebookAPI
         return $response;
     }
 
-    private function formatPost($content)
+    private function formatPost()
     {
         $message = strip_tags($this->content->body);
 
-        if ($content->title) {
+        if ($this->content->title) {
             $message = strip_tags($this->content->title).' - '.$message;
         }
 
