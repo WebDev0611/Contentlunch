@@ -311,7 +311,7 @@
                                         Form::select(
                                             'buying_stage',
                                             $buyingStageDropdown,
-                                            null,
+                                            @isset($content) ? $content->buying_stage_id : '',
                                             [
                                                 'class' => 'input form-control',
                                                 'id' => 'buyingStage'

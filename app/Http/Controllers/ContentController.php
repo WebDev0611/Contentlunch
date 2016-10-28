@@ -198,24 +198,16 @@ class ContentController extends Controller
     {
         $content = is_numeric($id) ? Content::find($id) : new Content();
         $content = $this->detachRelatedContent($content);
-        $content = $this->saveContentDataAndAttachToUser($request, $content);
+        $content = $this->saveContentAndAttachToUser($request, $content);
 
-        // IF compaign lets attach it
-        if ($request->input('campaign')) {
-            // - Save Campaign
-            $campaign = Campaign::find($request->input('campaign'));
-            $campaign->contents()->save($content);
-        }
+        $this->saveContentCampaign($request, $content);
+        $this->saveContentBuyingStage($request, $content);
+        $this->saveContentType($request, $content);
 
         // - Attach the related data
         if ($request->input('related')) {
             $content->related()->attach($request->input('related'));
         }
-
-        // - Save Content Type
-        $contentType = $request->input('content_type');
-        $conType = ContentType::find($contentType);
-        $conType->contents()->save($content);
 
         // - Save connection
         $connection = Connection::find($request->input('connections'));
@@ -227,7 +219,6 @@ class ContentController extends Controller
         // Attach Tags
         $content->tags()->attach($request->input('tags'));
 
-        // - Images
         $this->handleImages($request, $content);
         $this->handleFiles($request, $content);
 
@@ -242,7 +233,16 @@ class ContentController extends Controller
         }
     }
 
-    private function saveContentDataAndAttachToUser($request, $content)
+    private function detachRelatedContent($content)
+    {
+        $content->related()->detach();
+        $content->tags()->detach();
+        $content->authors()->detach();
+
+        return $content;
+    }
+
+    private function saveContentAndAttachToUser($request, $content)
     {
         $content->configureAction($request->input('action'));
 
@@ -260,13 +260,26 @@ class ContentController extends Controller
         return $content;
     }
 
-    private function detachRelatedContent($content)
+    private function saveContentCampaign($request, $content)
     {
-        $content->related()->detach();
-        $content->tags()->detach();
-        $content->authors()->detach();
+        if ($request->input('campaign')) {
+            $campaign = Campaign::find($request->input('campaign'));
+            $campaign->contents()->save($content);
+        }
+    }
 
-        return $content;
+    private function saveContentBuyingStage($request, $content)
+    {
+        if ($request->input('buying_stage')) {
+            $buyingStage = BuyingStage::find($request->input('buying_stage'));
+            $buyingStage->contents()->save($content);
+        }
+    }
+
+    private function saveContentType($request, $content)
+    {
+        $conType = ContentType::find($request->input('content_type'));
+        $conType->contents()->save($content);
     }
 
     public function delete(Request $request, $content_id)

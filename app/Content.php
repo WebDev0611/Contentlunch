@@ -83,19 +83,22 @@ class Content extends Model
         return $this->hasMany('App\Attachment');
     }
 
+    public function buying_stage()
+    {
+        return $this->belongsTo('App\BuyingStage');
+    }
+
     // campaign
     public function campaign()
     {
         return $this->belongsTo('App\Campaign');
     }
 
-    // connection
     public function connection()
     {
         return $this->belongsTo('App\Connection');
     }
 
-    // related content
     public function related()
     {
        return $this->belongsToMany('App\Content', 'content_related', 'content_id', 'related_content_id');

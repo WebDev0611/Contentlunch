@@ -8,9 +8,13 @@ class BuyingStage extends Model
 {
     public $fillable = [ 'name' ];
 
+    public function contents()
+    {
+        return $this->hasMany('App\Content');
+    }
+
     public static function dropdown()
     {
-        // - Create Related Content Drop Down Data
         $buyingStageDropdown = ['' => '-- Select a Buying Stage --'];
         $buyingStageDropdown += self::select('id', 'name')
             ->orderBy('name', 'asc')
