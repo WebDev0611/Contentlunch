@@ -304,7 +304,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="buyingStage">BUYING STAGE</label>
                                     {!!
@@ -320,8 +320,9 @@
                                     !!}
                                 </div>
                             </div>
+                            <!--
                             <div class="col-sm-4">
-                                <div class="input-form-group input-drop hide">
+                                <div class="input-form-group input-drop">
                                     <label for="#">PERSONA</label>
                                     <select name="" class="input">
                                         <option selected disabled>Select Persona</option>
@@ -330,7 +331,8 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            -->
+                            <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="campaign">CAMPAIGN</label>
                                     {!!
@@ -409,7 +411,8 @@
                                     !!}
                                 </div>
                             </div>
-                            <div class="col-sm-6 hide">
+                            <!--
+                            <div class="col-sm-6">
                                 <div class="input-form-group input-drop">
                                     <label>&nbsp;</label>
                                     <div class="row">
@@ -428,6 +431,7 @@
                                     </div>
                                 </div>
                             </div>
+                            -->
                         </div>
 
 
