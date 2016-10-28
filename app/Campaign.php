@@ -1,10 +1,23 @@
 <?php
+
 namespace App;
 
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 
-class Campaign extends Model {
+class Campaign extends Model
+{
+    public $fillable = [
+        'user_id',
+        'title',
+        'status',
+        'campaign_type_id',
+        'start_date',
+        'end_date',
+        'is_recurring',
+        'description',
+        'goals',
+    ];
 
     public function contents()
     {
@@ -17,10 +30,16 @@ class Campaign extends Model {
     {
         $user = $user ?: Auth::user();
         // - Create Campaign Drop Down Data
-        $campaigndd = ['' => '-- Select a Campaign --'];
-        $campaigndd += $user->campaigns()->select('id','title')->where('status',1)->orderBy('title', 'asc')->distinct()->lists('title', 'id')->toArray();
+        $campaignDropdown = ['' => '-- Select a Campaign --'];
+        $campaignDropdown += $user->campaigns()
+            ->select('id', 'title')
+            ->where('status', 1)
+            ->orderBy('title', 'asc')
+            ->distinct()
+            ->lists('title', 'id')
+            ->toArray();
 
-        return $campaigndd;
+        return $campaignDropdown;
     }
 
     public function __toString()
