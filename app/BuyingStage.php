@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class BuyingStage extends Model
 {
+    public $fillable = [ 'name' ];
+
     public static function dropdown()
     {
         // - Create Related Content Drop Down Data
