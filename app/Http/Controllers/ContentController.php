@@ -163,13 +163,13 @@ class ContentController extends Controller
     public function createContent()
     {
         $data = [
-            'tagsdd' => Tag::dropdown(),
-            'authordd' => User::dropdown(),
-            'relateddd' => Content::dropdown(),
-            'stageddd' => BuyingStage::dropdown(),
-            'campaigndd' => Campaign::dropdown(),
-            'connectionsdd' => Connection::dropdown(),
-            'contenttypedd' => ContentType::dropdown(),
+            'tagsDropdown' => Tag::dropdown(),
+            'authorDropdown' => User::dropdown(),
+            'relatedContentDropdown' => Content::dropdown(),
+            'buyingStageDropdown' => BuyingStage::dropdown(),
+            'campaignDropdown' => Campaign::dropdown(),
+            'connections' => Connection::dropdown(),
+            'contentTypeDropdown' => ContentType::dropdown(),
         ];
 
         return View::make('content.editor', $data);
@@ -180,13 +180,13 @@ class ContentController extends Controller
     {
         $data = [
             'content' => $content,
-            'tagsdd' => Tag::dropdown(),
-            'authordd' => User::dropdown(),
-            'relateddd' => Content::dropdown(),
-            'stageddd' => BuyingStage::dropdown(),
-            'campaigndd' => Campaign::dropdown(),
-            'connectionsdd' => Connection::dropdown(),
-            'contenttypedd' => ContentType::dropdown(),
+            'tagsDropdown' => Tag::dropdown(),
+            'authorDropdown' => User::dropdown(),
+            'relatedContentDropdown' => Content::dropdown(),
+            'buyingStageDropdown' => BuyingStage::dropdown(),
+            'campaignDropdown' => Campaign::dropdown(),
+            'connections' => Connection::dropdown(),
+            'contentTypeDropdown' => ContentType::dropdown(),
             'files' => $content->attachments()->where('type', 'file')->get(),
             'images' => $content->attachments()->where('type', 'image')->get()
         ];
@@ -196,33 +196,9 @@ class ContentController extends Controller
 
     public function editStore(ContentRequest $request, $id = null)
     {
-        // - Default to creating a new Content
-        $content = new Content();
-
-        if (is_numeric($id)) {
-            $content = Content::find($id);
-            $content->touch();
-            // - Remove all related, will attach back ( keeps pivot table clean )
-            $content->related()->detach();
-            $content->tags()->detach();
-            $content->authors()->detach();
-        }
-
-        $action = $request->input('action');
-
-        $content->configureAction($request->input('action'));
-
-        $content->title = $request->input('title');
-        $content->body = $request->input('content');
-        $content->due_date = $request->input('due_date');
-        $content->meta_title = $request->input('meta_title');
-        $content->meta_keywords = $request->input('meta_keywords');
-        $content->meta_description = $request->input('meta_descriptor');
-        $content->written = 1;
-        $content->save();
-
-        // - Attach to the user
-        Auth::user()->contents()->save($content);
+        $content = is_numeric($id) ? Content::find($id) : new Content();
+        $content = $this->detachRelatedContent($content);
+        $content = $this->saveContentDataAndAttachToUser($request, $content);
 
         // IF compaign lets attach it
         if ($request->input('campaign')) {
@@ -266,14 +242,39 @@ class ContentController extends Controller
         }
     }
 
+    private function saveContentDataAndAttachToUser($request, $content)
+    {
+        $content->configureAction($request->input('action'));
+
+        $content->title = $request->input('title');
+        $content->body = $request->input('content');
+        $content->due_date = $request->input('due_date');
+        $content->meta_title = $request->input('meta_title');
+        $content->meta_keywords = $request->input('meta_keywords');
+        $content->meta_description = $request->input('meta_descriptor');
+        $content->written = 1;
+        $content->save();
+
+        Auth::user()->contents()->save($content);
+
+        return $content;
+    }
+
+    private function detachRelatedContent($content)
+    {
+        $content->related()->detach();
+        $content->tags()->detach();
+        $content->authors()->detach();
+
+        return $content;
+    }
+
     public function delete(Request $request, $content_id)
     {
         $content = Content::find($content_id);
 
         if ($content) {
-            $content->related()->detach();
-            $content->tags()->detach();
-            $content->authors()->detach();
+            $this->detachRelatedContent($content);
             $content->attachments()->delete();
             $content->delete();
 
