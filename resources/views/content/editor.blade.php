@@ -219,13 +219,24 @@
                             {!! Form::select('related[]', $relateddd,  @isset($content)? $content->related->lists('id')->toArray() : ''  , array('multiple'=>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'related')) !!}
                         </div>
 
-                        <div class="input-form-group">
-                            <label for="#">ATTACHMENTS</label>
+                        <div class="form-delimiter">
+                            <span>
+                                <em>Attachments</em>
+                            </span>
+                        </div>
 
-                            <div class="fileupload">
-                                <i class="icon-link picto"></i>
-                                <p class="msgtitle">Click to attach one or more files</p>
-                                <input type="file" class="input input-upload" multiple="" name="files[]">
+                        @if (isset($content))
+                        <div class="input-form-group">
+                            <ul>
+                                @foreach ($files as $file)
+                                <li><a href="{{ $file->filename }}">{{ $file->name }}</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
+
+                        <div class="input-form-group">
+                            <div class="dropzone" id='attachment-uploader'>
                             </div>
                         </div>
 
@@ -323,16 +334,26 @@
 
                         <div class="form-delimiter">
                             <span>
-                                <em>Image</em>
+                                <em>Images</em>
                             </span>
                         </div>
 
+                        @if (isset($content))
+                        <div class="input-form-group">
+                            <ul class="form-image-list">
+                                @foreach ($images as $image)
+                                <li>
+                                    <a href="{{ $image->filename }}">
+                                        <img src="{{ $image->filename }}" alt="">
+                                    </a>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
 
                         <div class="input-form-group">
-                            <div class="fileupload">
-                                <i class="icon-content picto"></i>
-                                <p class="msgtitle">Click to upload one or more images</p>
-                                <input type="file" class="input input-upload" multiple="multiple" name="images[]">
+                            <div class="dropzone" id='image-uploader'>
                             </div>
                         </div>
 
@@ -445,7 +466,41 @@
 @stop
 
 
+@section('styles')
+<link rel="stylesheet" href="/css/plugins/dropzone/basic.min.css">
+<link rel="stylesheet" href="/css/plugins/dropzone/dropzone.min.css">
+@stop
+
 @section('scripts')
+<script src="/js/plugins/dropzone/plugin.min.js"></script>
+<script type='text/javascript'>
+    (function() {
+
+        var imageUploader = new Dropzone('#image-uploader', { url: '/edit/images' });
+        var attachmentUploader = new Dropzone('#attachment-uploader', { url: '/edit/attachments' });
+
+        imageUploader.on('success', function(file, response) {
+            var hiddenField = $('<input/>', {
+                name: 'images[]',
+                type: 'hidden',
+                value: response.file
+            });
+
+            hiddenField.appendTo($('form'));
+        });
+
+        attachmentUploader.on('success', function(file, response) {
+            var hiddenField = $('<input/>', {
+                name: 'files[]',
+                type: 'hidden',
+                value: response.file
+            });
+
+            hiddenField.appendTo($('form'));
+        });
+
+    })();
+</script>
 <script type="text/javascript">
     $(function() {
 
