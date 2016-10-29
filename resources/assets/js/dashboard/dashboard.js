@@ -19,61 +19,7 @@
         image: "/images/avatar.jpg",
         timeago: 1470269716000,
         user_id: 1
-    },
-{
-        title: "Write LinkedIn article",
-        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-        due:"2 DAYS",
-        stage: "3",
-        image: "/images/avatar.jpg",
-        timeago: 1470369716000,
-        user_id: 1
-    },
-{
-        title: "Content mix: post 7 blogs, 16 social postings, 1 book per month",
-        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-        due:"2 DAYS",
-        stage: "3",
-        image: "/images/avatar.jpg",
-        timeago: 1470469716000,
-        user_id: 2
-    },
-{
-        title: "Content mix: post 3 blogs, 16 social postings, 1 book per month",
-        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-        due:"2 DAYS",
-        stage: "3",
-        image: "/images/avatar.jpg",
-        timeago: 1470569716000,
-        user_id: 2
-    },
-{
-        title: "Content mix: post 1 blogs, 16 social postings, 1 book per month",
-        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-        due:"5 DAYS",
-        stage: "3",
-        image: "/images/avatar.jpg",
-        timeago: 1470669716000,
-        user_id: 2
-    },
-{
-        title: "Content mix: post 1 blogs, 16 social postings, 1 book per month",
-        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-        due:"7 DAYS",
-        stage: "3",
-        image: "/images/avatar.jpg",
-        timeago: 1470769716000,
-        user_id: 2
-    },
-{
-        title: "Content mix: post 1 blogs, 16 social postings, 1 book per month",
-        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-        due:"2 DAYS",
-        stage: "3",
-        image: "/images/avatar.jpg",
-        timeago: 1470869716000,
-        user_id: 2
-    },
+    }
     ];
 
     var dummy_campaign_data = [
@@ -122,22 +68,6 @@
         content: "online banking",
         body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
     },
-    {
-        image: "/images/avatar.jpg",
-        who: "Jane",
-        action: "commented on",
-        title: "Write blog post",
-        content: "online banking",
-        body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
-    },
-    {
-        image: "/images/avatar.jpg",
-        who: "Jane",
-        action: "commented on",
-        title: "Write blog post",
-        content: "online banking",
-        body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
-    },
     ];
 
     /* recent ideas view */
@@ -157,36 +87,9 @@
             title: 'Content mix: post 16 soc',
             timeago:'3 Days Ago'
         },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
     ];
 
     var dummy_team_data = [
-    // {
-    //    // name: "Jason Simmons",
-    //    // email: "jasonsimm@google.com",
-    //    // image: "/images/avatar.jpg",
-    //   //  num: "35"
-    // },
-    // {
-    //     name: "Jason Simmons",
-    //     email: "jasonsimm@google.com",
-    //     image: "/images/avatar.jpg",
-    //     num: "35"
-    // },
     {
         name: "Jane Samson",
         email: "jsam@google.com",
@@ -227,8 +130,12 @@
             "click li.campaigns": "show_campaigns"
         },
         initialize: function(){
-            this.collection.reset( this.collection.models);
-
+            var v = this;
+            v.collection.reset( this.collection.models);
+            v.collection.on('update',function(){
+                console.log('updated the collection');
+                v.show_my();
+            });
             this.show_my();
         },
         render: function(){
@@ -245,10 +152,21 @@
             this.$el.find('.my-tasks').addClass('active');
             this.collection.reset( this.collection.models );
             this.collection.sortBy('timeago');
-            this.collection.each(function(m){
-                    var t = new task_view({ model: m });
-                    view.$el.find('.panel').append( t.render() );
-            });
+            if(this.collection.length > 0){
+                this.collection.each(function(m){
+                        var t = new task_view({ model: m });
+                        view.$el.find('.panel').append( t.render() );
+                });
+            }else{
+                var create_lang = $('<div class="dashboard-tasks-container">' +
+                    '<div class="dashboard-tasks-cell">' +
+                    '<h5 class="dashboard-tasks-title">No tasks: </h5> <a href="#">create one now</a>' +
+                    '</div>'+
+                    '</div>').click(function(){
+                        $('#addTaskModal').modal('show');
+                    });
+                view.$el.find('.panel').append(create_lang);
+            }
             $('#incomplete-tasks').text( this.collection.length );
         },
         show_all: function(){
@@ -256,12 +174,25 @@
             this.remove_active();
             this.render();
             this.$el.find('.all-tasks').addClass('active');
+
             this.collection.reset( this.collection.models );
-            this.collection.sortBy('timeago');
-            this.collection.each(function(m){
+            if(this.collection.length > 0){
+                this.collection.sortBy('timeago');
+                this.collection.each(function(m){
                     var t = new task_view({ model: m });
                     view.$el.find('.panel').append( t.render() );
-            });
+                });
+            }else{
+                var create_lang = $('<div class="dashboard-tasks-container">' +
+                    '<div class="dashboard-tasks-cell">' +
+                    '<h5 class="dashboard-tasks-title">No tasks: </h5> <a href="#">create one now</a>' +
+                    '</div>'+
+                    '</div>').click(function(){
+                        $('#addTaskModal').modal('show');
+                    });
+                view.$el.find('.panel').append(create_lang);
+                
+            }
             $('#incomplete-tasks').text( this.collection.length );
         },
         show_campaigns: function(){
@@ -375,25 +306,42 @@
         //from json via php
         var campaigns = new campaign_collection(my_campaigns);
 
-        var tasks = new task_collection(my_tasks.map(function(t){
+        var task_map = function(t){
             t.title = t.name;
             t.due = t.due_date;
+            t.body = t.explanation;
+            t.timeago = moment(t.created_at).format('x');
+            t.currenttime = moment.utc().format('x');
+            console.log(t.currenttime);
+            console.log(new Date().getTime());
             return t;
-        }));
+        };
+
+        var tasks = new task_collection(my_tasks.map(task_map));
 
         console.log(tasks);
         var tab_container = new tab_container_view({el: '#tab-container',collection: tasks});
         tab_container.campaigns = campaigns;
         tab_container.tasks = tasks;
 
-       var activity_feed = new activity_collection(dummy_activity_data);
-       var activity_feed_container = new activity_feed_view({el: '#activity-feed-container', collection: activity_feed });
+     //  var activity_feed = new activity_collection(dummy_activity_data);
+     //  var activity_feed_container = new activity_feed_view({el: '#activity-feed-container', collection: activity_feed });
 
         var recent_ideas = new recent_ideas_collection();
         var ideas = new recent_ideas_view({el:'#recent-ideas', collection: recent_ideas});
         recent_ideas.fetch();
-        var team_members = new team_members_collection(dummy_team_data);
+
+        var team_members = new team_members_collection(); //dummy_team_data
         var team = new team_members_view({el: '#team-members-container', collection: team_members});
+
+        //runs the action to submit the task
+        $('#add-task-button').click(function(){
+            console.log('cliked add task');
+            add_task(function(t){
+                tasks.add( new task_model( task_map(t) ) );
+                $('#addTaskModal').modal('hide');
+            });
+        });
     });
 
 })(jQuery);

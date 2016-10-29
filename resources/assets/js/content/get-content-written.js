@@ -45,13 +45,11 @@
         updatePrice();
     });
 
-    if($deadlineDateInput.length > 0){
-        $deadlineDateInput.datepicker({autoclose: true});
-    }
+    $deadlineDateInput.datetimepicker({autoclose: true});
 
     function updatePrice(){
         console.log(this);
-        prices = prices || false;
+        var prices = prices || {};
         if(!prices){
             console.error("Prices array was not found");
             return;

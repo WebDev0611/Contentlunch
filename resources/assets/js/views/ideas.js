@@ -3,7 +3,8 @@
 var idea_view = Backbone.View.extend({
 	className: "plan-ideas-container",
 	events:{
-		"click li#write-it-btn": "write"
+		"click li#write-it-btn": "write",
+        "click li#park-it-btn": "park"
 	},
 	template: _.template( $('#idea-template').html() ),
 	initialize: function(){
@@ -21,7 +22,13 @@ var idea_view = Backbone.View.extend({
 	write: function(){
 		console.log("write it clicked");
 		window.location.href = '/idea/' + this.model.get('id');
-	}
+	},
+    park: function(){
+        $.post('/idea/park/'+this.model.attributes.id, function(res){
+            console.log('parked' + this.model.attributes.id);
+            console.log(res);
+        });
+    }
 
 });
 
@@ -58,10 +65,13 @@ var recent_ideas_view = Backbone.View.extend({
     render: function(){
         var that = this;    
         
-        this.collection.each(function(m){
-            that.idea_views.push( new recent_view({ model: m }) );
-        });
-
+        if(this.collection.length > 0){
+        	this.collection.each(function(m){
+            	that.idea_views.push( new recent_view({ model: m }) );
+        	});
+    	}else{
+    		that.$el.append( $('<div class="dashboard-ideas-container"><div class="dashboard-ideas-cell">0 Ideas: <a href="/plan">Create One</a></div></div>') );
+    	}
         this.idea_views.forEach(function(v){
             v.$el.hide();
             v.$el.fadeIn();

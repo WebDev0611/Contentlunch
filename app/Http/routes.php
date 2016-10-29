@@ -62,11 +62,11 @@ Route::resource('/trending', 'TrendsController@trending');
 Route::resource('/influencers', 'InfluencersController@search');
 Route::resource('/topics', 'TopicsController@index');
 
-
 Route::get('/idea/{id}','PlanController@editor');
+Route::post('/idea/park/{id}','IdeaController@park');
 
 Route::resource('/ideas', 'IdeaController', ['only' => [
-    'index', 'show','store'
+    'index', 'show','store','park','activate'
 ]]);
 
 Route::get('/calendar','CalendarController@index');

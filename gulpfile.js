@@ -40,7 +40,12 @@ elixir(function (mix) {
             ], "public/js/plugins.js")
 
             /* content scripts and main app */
-            .scripts(['resources/assets/js/content/*.js','resources/assets/js/helpers.js'], "public/js/app.js")
+            .scripts([
+                'resources/assets/js/models/tasks.js',
+                'resources/assets/js/collections/tasks.js',
+                'resources/assets/js/content/*.js',
+                'resources/assets/js/helpers.js'
+                ], "public/js/app.js")
 
             /* plan module scripts */
             /* trends */
@@ -85,8 +90,6 @@ elixir(function (mix) {
             .scripts([
                 'resources/assets/js/models/campaigns.js',
                 'resources/assets/js/collections/campaigns.js',
-                'resources/assets/js/models/tasks.js',
-                'resources/assets/js/collections/tasks.js',
                 'resources/assets/js/calendar/calendar.js'
                 ],"public/js/calendar.js")
 

@@ -158,6 +158,7 @@
                 </div>
             </div>
         </div>
+        <? print_r($contents);?>
         <!--
         <aside class="panel-sidebar">
             <div class="panel-header">
