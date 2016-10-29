@@ -45,10 +45,11 @@
         updatePrice();
     });
 
-    $deadlineDateInput.datepicker({autoclose: true});
+    $deadlineDateInput.datetimepicker({autoclose: true});
 
     function updatePrice(){
         console.log(this);
+        var prices = prices || {};
         if(!prices){
             console.error("Prices array was not found");
             return;
@@ -85,7 +86,7 @@
         $totalCost.text(formatCurrency(price*parseInt($countInput.val(), 10)));
     }
 
-    updatePrice.call(document.getElementById("writer_access_asset_type"));
+   // updatePrice.call(document.getElementById("writer_access_asset_type"));
 
 
 })(jQuery);

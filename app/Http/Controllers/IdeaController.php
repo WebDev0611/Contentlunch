@@ -39,6 +39,23 @@ class IdeaController extends Controller
         //
     }
 
+    // Parks the idea
+    public function park(Request $request){
+        $idea_id = $request->input('idea_id');
+        $idea = Idea::first($idea_id);
+        $idea->status = 'parked';
+        $idea->save();
+        echo json_encode($idea);
+        exit;
+    }
+
+    public function activate(Request $request){
+        $idea_id = $request->input('idea_id');
+        $idea = new Idea($idea_id);
+        $idea->status = 'active';
+        $idea->save();
+    }
+
     /**
      * Store a newly created resource in storage.
      *

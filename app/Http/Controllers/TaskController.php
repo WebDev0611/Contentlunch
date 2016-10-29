@@ -49,6 +49,7 @@ class TaskController extends Controller
         $task->due_date = $request->input('due_date');
         $task->user_id = Auth::id();
         $task->account_id = Auth::user()->account->id;
+        $task->status = 'open';
         $task->save();
 
         echo json_encode( $task );

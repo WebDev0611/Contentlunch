@@ -32,6 +32,7 @@
 
         </div>
 
+        <!--
         <aside class="panel-sidebar">
             <div class="panel-header">
                 <h4 class="panel-sidebar-title">Ideas activity feed</h4>
@@ -93,6 +94,7 @@
                 </div>
             </div>
         </aside>
+        -->
     </div>
 </div>
 
@@ -106,6 +108,8 @@
             <span class="plan-ideas-text"><%= text %></span>
         </div>
         <div class="plan-ideas-cell">
+        <!--
+
             <ul class="images-list">
                 <li>
                     <img src="/images/avatar.jpg" alt="#">
@@ -117,6 +121,8 @@
                     <img src="/images/avatar.jpg" alt="#">
                 </li>
             </ul>
+        -->
+
         </div>
         <div class="plan-ideas-cell">
             <span class="plan-ideas-text"><%= format_time_ago(created_at) %></span>
@@ -137,9 +143,11 @@
                     <li id="park-it-btn">
                         <a href="javascript:;">Park It</a>
                     </li>
+                    <!--
+                    //should pre populate a create content form with the relevant data
                     <li id="socialize-it-btn">
                         <a href="javascript:;">Socialize It</a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>

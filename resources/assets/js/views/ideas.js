@@ -3,7 +3,8 @@
 var idea_view = Backbone.View.extend({
 	className: "plan-ideas-container",
 	events:{
-		"click li#write-it-btn": "write"
+		"click li#write-it-btn": "write",
+        "click li#park-it-btn": "park"
 	},
 	template: _.template( $('#idea-template').html() ),
 	initialize: function(){
@@ -21,7 +22,13 @@ var idea_view = Backbone.View.extend({
 	write: function(){
 		console.log("write it clicked");
 		window.location.href = '/idea/' + this.model.get('id');
-	}
+	},
+    park: function(){
+        $.post('/idea/park/'+this.model.attributes.id, function(res){
+            console.log('parked' + this.model.attributes.id);
+            console.log(res);
+        });
+    }
 
 });
 
