@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\CampaignType;
 
 class CampaignTypeTableSeeder extends Seeder
 {
@@ -12,37 +11,29 @@ class CampaignTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        CampaignType::truncate();
-
-        $campaignTypeArray = [
-            ['audio-recording' , 'Audio Recording'],
-            ['blog-post' , 'Blog Post'],
-            ['casestudy' , 'Case Study'],
-            ['ebook' , 'Ebook'],
-            ['email' , 'Email'],
-            ['facebook-post' , 'Facebook Post'],
-            ['feature-article' , 'Feature Length Article'],
-            ['google-drive-doc' , 'Google Drive Doc.'],
-            ['google-plus-update' , 'Google+ Update'],
-            ['newsletter' , 'Newsletter'],
-            ['landing-page' , 'Landing Page'],
-            ['linkedin-update' , 'Linkedin Update'],
-            ['photo' , 'Photo'],
-            ['salesforce-asset' , 'SalesForce Asset'],
-            ['sales-letter' , 'Sales Letter'],
-            ['sellsheet-content' , 'Sell Sheet Content'],
-            ['tweet' , 'Tweet'],
-            ['video' , 'Video'],
-            ['website-page' , 'Website Page'],
-            ['whitepaper' , 'Whitepaper'],
-            ['workflow-email' , 'Workflow Email']
-        ];
-
-        foreach ($campaignTypeArray as $type) {
-            $ct = new CampaignType;
-            $ct->key = $type[0];
-            $ct->name = $type[1];
-            $ct->save();
-        }
+        DB::table('campaign_types')->truncate();
+        DB::table('campaign_types')->insert([
+            ['key' => 'audio-recording', 'name' => 'Audio Recording'],
+            ['key' => 'blog-post', 'name' => 'Blog Post'],
+            ['key' => 'casestudy', 'name' => 'Case Study'],
+            ['key' => 'ebook', 'name' => 'Ebook'],
+            ['key' => 'email', 'name' => 'Email'],
+            ['key' => 'facebook-post', 'name' => 'Facebook Post'],
+            ['key' => 'feature-article', 'name' => 'Feature Length Article'],
+            ['key' => 'google-drive-doc', 'name' => 'Google Drive Doc.'],
+            ['key' => 'google-plus-update', 'name' => 'Google+ Update'],
+            ['key' => 'newsletter', 'name' => 'Newsletter'],
+            ['key' => 'landing-page', 'name' => 'Landing Page'],
+            ['key' => 'linkedin-update', 'name' => 'Linkedin Update'],
+            ['key' => 'photo', 'name' => 'Photo'],
+            ['key' => 'salesforce-asset', 'name' => 'SalesForce Asset'],
+            ['key' => 'sales-letter', 'name' => 'Sales Letter'],
+            ['key' => 'sellsheet-content', 'name' => 'Sell Sheet Content'],
+            ['key' => 'tweet', 'name' => 'Tweet'],
+            ['key' => 'video', 'name' => 'Video'],
+            ['key' => 'website-page', 'name' => 'Website Page'],
+            ['key' => 'whitepaper', 'name' => 'Whitepaper'],
+            ['key' => 'workflow-email', 'name' => 'Workflow Email']
+        ]);
     }
 }

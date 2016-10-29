@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Auth;
 
 class User extends Authenticatable
 {
@@ -59,12 +60,16 @@ class User extends Authenticatable
 
     public static function dropdown()
     {
+        $authorDropdown = ['' => '-- Select Author --'];
+        $authorDropdown += Auth::user()->account
+            ->users()
+            ->select('name', 'id')
+            ->orderBy('name', 'asc')
+            ->distinct()
+            ->lists('name', 'id')
+            ->toArray();
 
-        // - Create Author Drop Down Data
-        //  ---- update sql query to pull ONLY team members once that is added
-        $authordd = ['' => '-- Select Author --'];
-        $authordd = User::select('id','name')->orderBy('name', 'asc')->distinct()->lists('name', 'id')->toArray();
-        return $authordd;
+        return $authorDropdown;
     }
 
     public function connectionsBySlug($slug)
