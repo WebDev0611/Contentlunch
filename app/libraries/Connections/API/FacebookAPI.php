@@ -4,110 +4,153 @@ namespace Connections\API;
 
 use Illuminate\Support\Facades\Config;
 use Facebook\Facebook;
+use Exception;
 
 class FacebookAPI
 {
-    // - dunno if needed
-    protected $configKey = 'facebook';
+    protected $client;
+    protected $content;
+    protected $connection;
 
-    public function __construct($content = null, $connection = null)
+    public function __construct($content, $connection = null)
     {
-        $this->client = null;
         $this->content = $content;
-
-        if ($connection) {
-            $this->connection = $connection;
-        }
-        else {
-            $this->connection = $this->content->connection;
-        }
+        $this->connection = $connection ? $connection : $this->content->connection;
+        $this->client = $this->getClient();
     }
 
-    // Instantiate a new facebook Service using USER token
-    // -- https://developers.facebook.com/docs/php/Facebook/5.0.0
     public function getClient()
     {
-        if (!$this->client) {
-
-            $this->client = new Facebook ([
-                'app_id' => Config::get('services.facebook.client_id'), // content launch app id
-                'app_secret' => Config::get('services.facebook.client_secret'), // content launch secret id
-                'default_graph_version' => 'v2.5',
-                'default_access_token' =>  $this->content->connection->getSettings()->page_token
-            ]);
-
-        }
-
-        return $this->client;
+        return new Facebook([
+            'app_id' => Config::get('services.facebook.client_id'), // content launch app id
+            'app_secret' => Config::get('services.facebook.client_secret'), // content launch secret id
+            'default_graph_version' => 'v2.5',
+            'default_access_token' => $this->settings()->page_token,
+        ]);
     }
-
-   /* public function getUserToken($provider)
-    {
-        $user = $this->getUser($provider);
-        return $user->token;
-    }
-
-    public function getAccounts()
-    {
-        $client = $this->getClient();
-        // Get Account List
-        $response = $client->get('/me/accounts');
-        return  $response->getGraphEdge();
-    }
-
-    public function getLongLivedAccessToken($user)
-    {
-        $client = $this->getClient();
-        $oAuth2Client = $client->getOAuth2Client();
-        $accessToken = $oAuth2Client->getLongLivedAccessToken($user->token);
-        //$dateToken = $accessToken->getExpiresAt();
-        return (string)  $accessToken;
-    }*/
-
 
     public function createPost()
     {
-        $content = $this->content;
-        // - standardize return
-        $response = [ 'success' => false, 'response' => [] ];
+        $attachmentIDs = $this->uploadAttachments()
+            ->filter(function($response) { return $response['success']; })
+            ->map(function($response) { return $response['response']->id; });
 
         try {
-            // Compile data
-            $postdata = [
-                'message' =>  $this->formatPost($content)
-            ];
 
-            $client = $this->getClient();
-            $page_id = $content->connection->getSettings()->page_id;
-            $response = $client->post('/'.$page_id.'/feed', $postdata);
+            $payload = [
+                'message' => $this->formatPost(),
+                'object_attachment' => $attachmentIDs[0]
+            ];
+            $facebookResponse = $this->client->post($this->createPostUrl(), $payload);
 
             $response = [
                 'success' => true,
-                'response' => json_decode($response->getGraphNode())
+                'response' => json_decode($facebookResponse->getGraphNode()),
             ];
-        }
-        catch(\Facebook\Exceptions\FacebookResponseException $e) {
-            $responseBody = json_decode($e->getMessage());
-            $response['success'] = false;
-            $response['error'] = 'Graph returned an error:'. $responseBody;
-        }
-        catch(\Facebook\Exceptions\FacebookSDKException $e) {
-            $responseBody = json_decode($e->getMessage());
-            $response['success'] = false;
-            $response['error'] = 'Facebook SDK returned an error: ' . $responseBody;
+
+        } catch (\Facebook\Exceptions\FacebookResponseException $e) {
+            $response = $this->errorResponse($e, 'Graph returned an error');
+        } catch (\Facebook\Exceptions\FacebookSDKException $e) {
+            $response = $this->errorResponse($e, 'Facebook SDK returned and error');
         }
 
         return $response;
     }
 
-    private function formatPost($content)
+    private function formatPost()
     {
-        $message = strip_tags($content->body);
+        $message = strip_tags($this->content->body);
 
-        if ($content->title) {
-            $message = strip_tags($content->title) . ' - ' . $message;
+        if ($this->content->title) {
+            $message = strip_tags($this->content->title).' - '.$message;
         }
 
         return $message;
     }
+
+    public function uploadAttachments()
+    {
+        $mediaUrls = $this->getMediaUrls();
+
+        $responses = collect($mediaUrls)->map(function($imageUrl) {
+
+            $payload = [ 'source' => $this->client->fileToUpload($imageUrl) ];
+
+            try {
+
+                $facebookResponse = $this->client->post($this->uploadUrl(), $payload);
+
+                $response = [
+                    'success' => true,
+                    'response' => json_decode($facebookResponse->getGraphNode()),
+                ];
+
+            } catch (\Facebook\Exceptions\FacebookResponseException $e) {
+                $response = $this->errorResponse($e, 'Graph returned an error');
+            } catch (\Facebook\Exceptions\FacebookSDKException $e) {
+                $response = $this->errorResponse($e, 'Facebook SDK returned and error');
+            }
+
+            return $response;
+        });
+
+        return $responses;
+    }
+
+    private function getMediaUrls()
+    {
+        return $this->content
+            ->attachments
+            ->where('type', 'image')
+            ->pluck('filename')
+            ->toArray();
+    }
+
+    private function errorResponse($exception, $error)
+    {
+        return [
+            'success' => false,
+            'error' => $error . ': ' . json_decode($exception->getMessage()),
+            'response' => []
+        ];
+    }
+
+    private function uploadUrl()
+    {
+        return '/' . $this->settings()->page_id . '/photos';
+    }
+
+    private function createPostUrl()
+    {
+        return '/' . $this->settings()->page_id . '/feed';
+    }
+
+    protected function settings()
+    {
+        return $this->connection->getSettings();
+    }
+
+    /* public function getUserToken($provider)
+     {
+         $user = $this->getUser($provider);
+         return $user->token;
+     }
+
+     public function getAccounts()
+     {
+         $client = $this->getClient();
+         // Get Account List
+         $response = $client->get('/me/accounts');
+         return  $response->getGraphEdge();
+     }
+
+     public function getLongLivedAccessToken($user)
+     {
+         $client = $this->getClient();
+         $oAuth2Client = $client->getOAuth2Client();
+         $accessToken = $oAuth2Client->getLongLivedAccessToken($user->token);
+         //$dateToken = $accessToken->getExpiresAt();
+         return (string)  $accessToken;
+     }*/
+
 }

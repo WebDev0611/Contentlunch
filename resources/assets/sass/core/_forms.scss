@@ -180,3 +180,19 @@ body > .alert {
   border-radius: 0px;
   padding: 20px;
 }
+
+.form-image-list {
+  list-style: none;
+  padding: 0;
+
+  @include clearfix;
+
+  li {
+    float: left;
+    overflow: hidden;
+
+    img {
+      width: 90px;
+    }
+  }
+}

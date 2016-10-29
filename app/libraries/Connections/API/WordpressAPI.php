@@ -1,10 +1,11 @@
 <?php
+
 namespace Connections\API;
 
-use Illuminate\Support\Facades\Config;
 use GuzzleHttp\Client;
+use Storage;
 
-class WordPressAPI
+class WordpressAPI
 {
     // - dunno if needed
     protected $configKey = 'wordpress';
@@ -18,7 +19,7 @@ class WordPressAPI
             $connection :
             ($this->content ? $this->content->connection : null);
 
-        $this->client = new Client([ 'base_uri' => $this->base_url ]);
+        $this->client = new Client([ 'base_uri' => $this->baseUrl() ]);
 
         // if ($content) {
         //     $this->token = (new \oAuth\API\WordPressAuth)->getToken($content);
@@ -26,51 +27,68 @@ class WordPressAPI
         // $this->domain = $content->connection->getSettings()->url;
     }
 
+    public function baseUrl()
+    {
+        return $this->base_url . 'sites/' . $this->settings()->blog_url;
+    }
+
+    public function settings()
+    {
+        return $this->connection->getSettings();
+    }
+
+    public function headers()
+    {
+        return [
+            0 => 'authorization: Bearer ' . $this->settings()->access_token,
+            1 => 'Content-Type: application/x-www-form-urlencoded',
+        ];
+    }
+
+    private function tags()
+    {
+        return $this->content->tags->map(function($tag) {
+                return trim($tag->tag);
+            })
+            ->toArray();
+    }
+
+    private function postData()
+    {
+        return [
+            'title' => $this->content->title,
+            'content' => $this->content->body,
+            'tags' => $this->tags(),
+            'media_urls' => $this->getMediaUrls()
+        ];
+    }
+
+
     public function createPost()
     {
-        $content = $this->content;
-        $connectionSettings = $this->connection->getSettings();
-
         // - standardize return
         $response = ['success' => false, 'response' => []];
-        try {
-            // - Tag Data
-            $tags = [];
-            if ($content->tags) {
-                foreach ($content->tags as $tag) {
-                    $tags[] = trim($tag->tag);
-                }
-            }
-            // Compile data
-            $postdata = [
-                'tite' =>  $content->title,
-                'content' => $content->body,
-                'tags' => $tags,
-            ];
 
+        try {
             // - Create Options and Header Data
             $options = [
                 'http' => [
-                    'method'  => 'POST',
+                    'method' => 'POST',
                     'ignore_errors' => true,
-                    'header' => [
-                        0 => 'authorization: Bearer '. $connectionSettings->access_token,
-                        1 => 'Content-Type: application/x-www-form-urlencoded',
-                    ],
-                    'content' => http_build_query($postdata)
-                ]
+                    'header' => $this->headers(),
+                    'content' => http_build_query($this->postData()),
+                ],
             ];
+
             // REST API url
-            $url = $this->base_url.'sites/' . $connectionSettings->blog_id . '/posts/new';
+            $url = $this->baseUrl() . '/posts/new';
 
-            $context  = stream_context_create($options);
+            $context = stream_context_create($options);
             $apiResponse = file_get_contents($url, false, $context);
-
-            dd([ 'apiResponse' => $apiResponse ]);
 
             $response = [
                 'success' => true,
-                'response' => json_decode($apiResponse)
+                'response' => json_decode($apiResponse),
             ];
 
         } catch (ClientException $e) {
@@ -84,8 +102,61 @@ class WordPressAPI
 
     public function blogInfo($blogUrl)
     {
-        $response = $this->client->get('sites/' . $blogUrl);
+        $response = $this->client->get($blogUrl);
 
         return json_decode((string) $response->getBody());
+    }
+
+    private function getMediaUrls()
+    {
+        return $this->content
+            ->attachments
+            ->where('type', 'image')
+            ->pluck('filename')
+            ->toArray();
+    }
+
+    private function getMediaUploadUrl()
+    {
+        return 'https://public-api.wordpress.com/rest/v1.1/sites/' . $this->settings()->blog_url . '/media/new';
+    }
+
+    public function uploadAttachments()
+    {
+        $mediaUrls = $this->getMediaUrls();
+        $mediaUploadUrl = $this->getMediaUploadUrl();
+
+        $response = ['success' => false, 'response' => []];
+
+        try {
+            // - Create Options and Header Data
+            $options = [
+                'http' => [
+                    'method' => 'POST',
+                    'ignore_errors' => false,
+                    'header' => $this->headers(),
+                    'content' => http_build_query([
+                        'media_urls' => $mediaUrls
+                    ]),
+                ],
+            ];
+
+            $context = stream_context_create($options);
+            $apiResponse = file_get_contents($mediaUploadUrl, false, $context);
+
+            $response = [
+                'success' => true,
+                'response' => json_decode($apiResponse),
+            ];
+
+        } catch (ClientException $e) {
+
+            $responseBody = json_decode($e->getResponse()->getBody(true));
+            $response['success'] = false;
+            $response['error'] = $responseBody->message;
+
+        }
+
+        return $response;
     }
 }
