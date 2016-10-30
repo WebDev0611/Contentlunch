@@ -15,6 +15,7 @@
                 </span>
             </div>
 
+            <!--
             <span class="settings-profile-subscription">Paid Subscription</span>
 
             <label for="#">Paid Monthly</label>
@@ -44,5 +45,6 @@
                     <span>Auto Renew</span>
                 </label>
             </div>
+            -->
         </div>
     </aside>
