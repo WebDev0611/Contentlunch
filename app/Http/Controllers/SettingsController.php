@@ -63,6 +63,7 @@ class SettingsController extends Controller
     public function content()
     {
         $user = Auth::user();
+
         return View::make('settings.content', compact('user'));
     }
 
@@ -93,13 +94,12 @@ class SettingsController extends Controller
 
     public function connectionCreate(ConnectionRequest $request)
     {
-        $connName = $request->input('con_name');
         $connType = $request->input('con_type');
         $connActive = $request->input('con_active');
 
         // - Store the conection data
         $conn = new Connection();
-        $conn->name = $connName;
+        $conn->name = $request->input('con_name');
         $conn->provider_id = Provider::findBySlug($connType)->id;
         $conn->active = $connActive == 'on' ? 1 : 0;
         $conn->save();
@@ -119,12 +119,14 @@ class SettingsController extends Controller
     public function seo()
     {
         $user = Auth::user();
+
         return View::make('settings.seo', compact('user'));
     }
 
     public function buying()
     {
         $user = Auth::user();
+
         return View::make('settings.buying', compact('user'));
     }
 }
