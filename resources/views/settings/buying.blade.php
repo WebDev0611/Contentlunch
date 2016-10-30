@@ -11,14 +11,7 @@
                 <!-- navigation -->
                 @include('settings.partials.navigation')
             </div>
-            <ul class="settings-nav">
-                <li>
-                    <a href="/settings/content">General Content</a>
-                </li>
-                <li class="active">
-                    <a href="javascript:;">Personas / Buying Stage</a>
-                </li>
-            </ul>
+            @include('settings.partials.navigation_content')
             <div class="panel-container">
                 <div class="row">
                     <div class="col-md-8">
