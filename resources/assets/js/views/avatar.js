@@ -12,7 +12,7 @@ var AvatarView = Backbone.View.extend({
         this.startLoading();
     },
 
-    fileupload: function(formData) {
+    fileUpload: function(formData) {
         return $.ajax({
             type: 'post',
             url: 'signup/photo_upload',
