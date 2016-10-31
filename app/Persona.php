@@ -24,4 +24,9 @@ class Persona extends Model
 
         return $personaDropdown;
     }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
