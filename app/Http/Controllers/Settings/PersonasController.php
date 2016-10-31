@@ -19,12 +19,18 @@ class PersonasController extends Controller
 
     public function create(Request $request)
     {
-        dd($request->all());
-
         $persona = Persona::create([
-            'name' => $request->input('name')
+            'name' => $request->input('name'),
+            'description' => $request->input('description')
         ]);
 
         return response()->json([ 'data' => $persona ], 201);
+    }
+
+    public function delete(Request $request, $persona)
+    {
+        $persona->delete();
+
+        return response()->json([], 200);
     }
 }
