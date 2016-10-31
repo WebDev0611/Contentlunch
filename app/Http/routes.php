@@ -11,6 +11,10 @@
 |
 */
 
+Route::model('invite', 'App\AccountInvite');
+Route::model('persona', 'App\Persona');
+Route::model('buyingStage', 'App\BuyingStage');
+
 /* Login/Logout */
 /*Route::get('login', 'AuthController@login');
 Route::post('login', 'AuthController@login');
@@ -38,7 +42,6 @@ Route::get('score', 'OnboardingController@score');
 /**
  * Onboarding - Account Invite redeeming
  */
-Route::model('invite', 'App\AccountInvite');
 Route::post('signup/invite', 'OnboardingController@createWithInvite');
 Route::get('signup/invite/{invite}', [ 'as' => 'signupWithInvite', 'uses' => 'OnboardingController@signupWithInvite' ]);
 
@@ -143,13 +146,23 @@ Route::group(['prefix' => 'settings'], function() {
     Route::get('/', [ 'as' => 'settingsIndex', 'uses' => 'SettingsController@index' ]);
     Route::post('/', [ 'as' => 'settingsUpdate', 'uses' => 'SettingsController@update']);
 	Route::get('content',  ['as' => 'settingsContentIndex', 'uses' => 'SettingsController@content']);
+	Route::get('buying', ['as' => 'settingsBuyingIndex', 'uses' => 'SettingsController@buying']);
 
     // Connection Routes
-	Route::get('connections', ['as' => 'connectionIndex', 'uses' => 'SettingsController@connections']);
-	Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'SettingsController@connectionCreate'] );
+    Route::get('connections', ['as' => 'connectionIndex', 'uses' => 'SettingsController@connections']);
+    Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'SettingsController@connectionCreate'] );
 
-	Route::get('seo', ['as' => 'seoIndex', 'uses' =>'SettingsController@seo']);
-	Route::get('buying','SettingsController@buying');
+    Route::get('seo', ['as' => 'seoIndex', 'uses' =>'SettingsController@seo']);
+
+    Route::post('personas', 'Settings\PersonasController@create');
+    Route::get('personas', 'Settings\PersonasController@index');
+    Route::delete('personas/{persona}', 'Settings\PersonasController@delete');
+
+    Route::post('buying_stages', 'Settings\BuyingStagesController@create');
+    Route::get('buying_stages', 'Settings\BuyingStagesController@index');
+    Route::delete('buying_stages/{buyingStage}', 'Settings\BuyingStagesController@delete');
+
+
 });
 
 Route::group(['prefix' => 'writeraccess'], function() {

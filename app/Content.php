@@ -88,6 +88,11 @@ class Content extends Model
         return $this->belongsTo('App\BuyingStage');
     }
 
+    public function persona()
+    {
+        return $this->belongsTo('App\Persona');
+    }
+
     // campaign
     public function campaign()
     {
