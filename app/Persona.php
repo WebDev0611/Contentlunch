@@ -13,7 +13,7 @@ class Persona extends Model
         return $this->hasMany('App\Content');
     }
 
-    public function dropdown()
+    public static function dropdown()
     {
         $personaDropdown = ['' => '-- Select a Buying Stage --'];
         $personaDropdown += self::select('id', 'name')
