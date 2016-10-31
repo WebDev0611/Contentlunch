@@ -119,6 +119,9 @@ elixir(function (mix) {
                 'resources/assets/js/dashboard/performance.js'
                 ],"public/js/performance.js")
 
+            /* settings scripts */
+            .scripts([ 'resources/assets/js/settings/*.js' ], 'public/js/settings.js')
+
             /* twitter scripts */
             .scripts([ 'resources/assets/js/collaborate/twitter.js' ], 'public/js/twitter.js')
 

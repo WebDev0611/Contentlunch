@@ -1,59 +1,62 @@
-<div class="row">
-    <div class="col-md-8">
-        <p class="settings-text">
-            These Personas will be used in content and can be changed as needed.
-        </p>
+<div id="personas-view">
+    <div class="row">
+        <div class="col-md-8">
+            <p class="settings-text">
+                These Personas will be used in content and can be changed as needed.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <button class="button button-small pull-right" id='new-persona'>
+                <i class="icon-add"></i>
+                New Persona
+            </button>
+        </div>
     </div>
-    <div class="col-md-4">
-        <button class="button button-small pull-right">
-            <i class="icon-add"></i>
-            New Persona
-        </button>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="settings-table">
+                <thead>
+                    <tr>
+                        <th>NAME</th>
+                        <th>DESCRIPTION</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CMO</td>
+                        <td>
+                            Description of how a CMO acts  at the Suspect Stage.
+                            Notice how there is no “more” link in any of the descriptions on this row.
+                        </td>
+                        <td>
+                            <a href="#">
+                                <i class="icon-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <table class="settings-table">
-            <thead>
-                <tr>
-                    <th>NAME</th>
-                    <th>SUSPECTS</th>
-                    <th>PROSPECTS</th>
-                    <th>LEADS</th>
-                    <th>OPPORTUNITIES</th>
-                    <th>CREATE STAGE</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>CMO</td>
-                    <td>
-                        Description of how a CMO acts  at the Suspect Stage.
-                        Notice how there is no “more” link in any of the descriptions on this row.
-                    </td>
-                    <td>
-                        Description of how a CMO acts  at the Suspect Stage.
-                        This is the expanded des- cription of the Prospect CMO.
-                    </td>
-                    <td>
-                        Description of how a CMO acts  at the Suspect Stage.
-                    </td>
-                    <td>
-                        Description of how a CMO acts  at the Suspect Stage.
-                        This may be more than the 3 rows and is shown here in expanded state.
-                    </td>
-                    <td>
-                        <a href="#">
-                            <i class="icon-trash"></i>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-8 col-md-offset-2">
-        <div class="input-form-group">
-            <button class="button button-extend">Save Changes</button>
+
+<div id="modal-new-persona" class="sidemodal large" style="display: none">
+
+    <div class="sidemodal-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="sidemodal-header-title large">Create new Persona</h4>
+            </div>
+            <div class="col-md-6 text-right">
+                <button class="button button-primary button-small text-uppercase">Save</button>
+                <button class="sidemodal-close normal-flow" data-dismiss="modal">
+                    <i class="icon-remove"></i>
+                </button>
+            </div>
         </div>
+    </div>
+
+    <div class="sidemodal-container">
     </div>
 </div>

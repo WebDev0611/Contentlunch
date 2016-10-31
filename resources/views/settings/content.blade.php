@@ -46,14 +46,5 @@
 @stop
 
 @section('scripts')
-<script>
-    (function() {
-
-        $('.settings-nav a').click(function(e) {
-            e.preventDefault();
-            $(this).tab('show');
-        });
-
-    })();
-</script>
+<script src="/js/settings.js"></script>
 @stop
