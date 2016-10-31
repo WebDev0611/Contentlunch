@@ -49,7 +49,6 @@
                 <h4 class="sidemodal-header-title large">Create new Persona</h4>
             </div>
             <div class="col-md-6 text-right">
-                <button class="button button-primary button-small text-uppercase">Save</button>
                 <button class="sidemodal-close normal-flow" data-dismiss="modal">
                     <i class="icon-remove"></i>
                 </button>
@@ -58,5 +57,44 @@
     </div>
 
     <div class="sidemodal-container">
+        <div class="row">
+            <div class="col-md-12">
+                {{ Form::hidden('_token', csrf_token()) }}
+                <div class="input-form-group">
+                    <label for="persona-name">Persona Name</label>
+                    {{
+                        Form::text(
+                            'persona-name',
+                            null,
+                            [
+                                'placeholder' => 'Persona name',
+                                'class' => 'input',
+                                'id' => 'persona-name'
+                            ]
+                        )
+                    }}
+                </div>
+                <div class="input-form-group">
+                    <label for="persona-description">Description</label>
+                    {{
+                        Form::text(
+                            'persona-description',
+                            null,
+                            [
+                                'class' => 'input',
+                                'id' => 'persona-description'
+                            ]
+                        )
+                    }}
+                </div>
+                <div class="input-form-group" >
+                    <button
+                        id='submit-persona'
+                        class="button button-primary button-small text-uppercase">
+                        Create Persona
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
