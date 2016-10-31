@@ -8,6 +8,11 @@ class Persona extends Model
 {
     public $fillable = [ 'name', 'description' ];
 
+    public function contents()
+    {
+        return $this->hasMany('App\Content');
+    }
+
     public function dropdown()
     {
         $personaDropdown = ['' => '-- Select a Buying Stage --'];
