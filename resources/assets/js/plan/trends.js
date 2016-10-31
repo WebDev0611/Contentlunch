@@ -48,7 +48,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 	var create_idea_modal = Backbone.View.extend({
 		events:{
 			"click .save-idea": "save",
-			//"click .park-idea": "park"
+			"click .park-idea": "park"
 		},
 		initialize:function(){
 			this.listenTo(this.collection, "update", this.render);

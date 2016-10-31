@@ -25,8 +25,7 @@ class IdeaController extends Controller
         $ideas = Idea::where('user_id', Auth::id())
                ->get();
 
-        echo json_encode($ideas);
-        exit;
+        return response()->json($ideas);
     }
 
     /**
@@ -40,20 +39,26 @@ class IdeaController extends Controller
     }
 
     // Parks the idea
-    public function park(Request $request){
-        $idea_id = $request->input('idea_id');
-        $idea = Idea::first($idea_id);
+    public function park(Request $request, $id){
+        $idea = Idea::where([['id',$id],['user_id',Auth::id()]])->first();
         $idea->status = 'parked';
         $idea->save();
-        echo json_encode($idea);
-        exit;
+        return response()->json($idea);
     }
 
-    public function activate(Request $request){
-        $idea_id = $request->input('idea_id');
-        $idea = new Idea($idea_id);
+    public function activate(Request $request, $id){
+        $idea = Idea::where([['id',$id],['user_id',Auth::id()]])->first();
         $idea->status = 'active';
         $idea->save();
+        return response()->json($idea);
+
+    }
+
+    public function reject(Request $request,$id){
+        $idea = Idea::where([['id',$id],['user_id',Auth::id()]])->first();
+        $idea->status = 'rejected';
+        $idea->save();
+        return response()->json($idea);
     }
 
     /**
@@ -77,6 +82,7 @@ class IdeaController extends Controller
         $idea->status = $status;
 
         $idea->user_id = Auth::id();
+        $idea->account_id = Auth::account_id();
         $idea->save();
 
         $idea_contents = array();
@@ -119,8 +125,7 @@ class IdeaController extends Controller
         }
 
         //do sanity/success checks here
-        echo json_encode([$idea->name,$idea->text,$idea->tags,$idea_contents]);
-        exit;
+        return response()->json([$idea->name,$idea->text,$idea->tags,$idea_contents]);
         //
     }
 
@@ -155,7 +160,14 @@ class IdeaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $idea = Idea::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
         //
+        $idea->name     = $request->input('name');
+        $idea->text     = $request->input('idea');
+        $idea->tags     = $request->input('tags');
+        $idea->save();
+
+        return response()->json($idea);
     }
 
     /**

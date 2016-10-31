@@ -5,7 +5,11 @@
     <ul class="navigation-menu">
         <li>
             <a href="javascript:;" class="navigation-menu-profile ">
-                <img src="/images/avatar.jpg" alt="#">
+                @if (\Auth::user()->profile_image)
+                    <img src="{{ \Auth::user()->profile_image }}" alt="">
+                @else
+                    <img src="/images/avatar.jpg" alt="#">
+                @endif
             </a>
         </li>
         <li>

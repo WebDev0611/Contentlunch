@@ -73,7 +73,8 @@ elixir(function (mix) {
                 'resources/assets/js/plan/ideas.js'
                 ],"public/js/ideas.js")
 
-            .scripts(['resources/assets/js/plan/editor.js'],"public/js/idea_editor.js")
+            .scripts(['resources/assets/js/models/ideas.js',
+                'resources/assets/js/plan/editor.js'],"public/js/idea_editor.js")
 
             /* influencers scripts */
             .scripts(['resources/assets/js/collaborate/influencers.js'],"public/js/influencers.js")
