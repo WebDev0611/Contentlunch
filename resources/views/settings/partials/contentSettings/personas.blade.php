@@ -14,7 +14,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <table class="settings-table">
+            <table class="settings-table" id='personasTable'>
                 <thead>
                     <tr>
                         <th>NAME</th>
@@ -23,23 +23,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>CMO</td>
-                        <td>
-                            Description of how a CMO acts  at the Suspect Stage.
-                            Notice how there is no “more” link in any of the descriptions on this row.
-                        </td>
-                        <td>
-                            <a href="#">
-                                <i class="icon-trash"></i>
-                            </a>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<script type='text/template' id='personaRowTemplate'>
+    <td><%= name %></td>
+    <td><%= description %></td>
+    <td>
+        <a href="#">
+            <i class="icon-trash"></i>
+        </a>
+    </td>
+</script>
 
 <div id="modal-new-persona" class="sidemodal large" style="display: none">
 

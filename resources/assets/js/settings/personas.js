@@ -3,6 +3,41 @@
 // personas.js
 (function() {
 
+    var Persona = Backbone.Model.extend({});
+
+    var PersonaCollection = Backbone.Collection.extend({
+        model: Persona
+    });
+
+    var personas = new PersonaCollection();
+
+    personas.on('add', function(model) {
+        var persona = new PersonaRowView({ model: model });
+        persona.render();
+
+        $('#personasTable tbody').append(persona.el);
+    });
+
+    var PersonaRowView = Backbone.View.extend({
+        template: _.template($('#personaRowTemplate').html()),
+        tagName: 'tr',
+        render: function() {
+            this.$el.html(this.template(this.model.toJSON()));
+
+            return this;
+        }
+    });
+
+    var PersonasView = Backbone.View.extend({
+        events: {
+            "click #new-persona": 'openModal'
+        },
+
+        openModal: function() {
+            new PersonasModalView({ el: '#modal-new-persona' });
+        }
+    });
+
     var PersonasModalView = Backbone.View.extend({
         events: {
             "click .sidemodal-close": "dismiss",
@@ -52,16 +87,26 @@
         }
     });
 
-    var PersonasView = Backbone.View.extend({
-        events: {
-            "click #new-persona": 'openModal'
-        },
-
-        openModal: function() {
-            new PersonasModalView({ el: '#modal-new-persona' });
-        }
-    });
-
     new PersonasView({ el: '#personas-view' });
+
+    populateTable();
+
+    function populateTable() {
+        getPersonas().then(function(response) {
+            var models = response.data.map(function(persona) {
+                return new Persona(persona);
+            })
+
+            personas.remove(personas.models);
+            personas.add(models);
+        });
+    }
+
+    function getPersonas() {
+        return $.ajax({
+            method: 'get',
+            url: 'personas'
+        });
+    }
 
 })();
