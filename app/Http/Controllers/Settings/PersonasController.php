@@ -31,6 +31,6 @@ class PersonasController extends Controller
     {
         $persona->delete();
 
-        return response()->json([ 'hehehe' => $persona ], 200);
+        return response()->json([], 200);
     }
 }

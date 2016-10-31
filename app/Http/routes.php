@@ -13,6 +13,7 @@
 
 Route::model('invite', 'App\AccountInvite');
 Route::model('persona', 'App\Persona');
+Route::model('buyingStage', 'App\BuyingStage');
 
 /* Login/Logout */
 /*Route::get('login', 'AuthController@login');
@@ -156,6 +157,12 @@ Route::group(['prefix' => 'settings'], function() {
     Route::post('personas', 'Settings\PersonasController@create');
     Route::get('personas', 'Settings\PersonasController@index');
     Route::delete('personas/{persona}', 'Settings\PersonasController@delete');
+
+    Route::post('buying_stages', 'Settings\BuyingStagesController@create');
+    Route::get('buying_stages', 'Settings\BuyingStagesController@index');
+    Route::delete('buying_stages/{buyingStage}', 'Settings\BuyingStagesController@delete');
+
+
 });
 
 Route::group(['prefix' => 'writeraccess'], function() {
