@@ -7,4 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Persona extends Model
 {
     public $fillable = [ 'name', 'description' ];
+
+    public function dropdown()
+    {
+        $personaDropdown = ['' => '-- Select a Buying Stage --'];
+        $personaDropdown += self::select('id', 'name')
+            ->orderBy('name', 'asc')
+            ->distinct()
+            ->lists('name', 'id')
+            ->toArray();
+
+        return $personaDropdown;
+    }
 }
