@@ -64,6 +64,9 @@ Route::resource('/topics', 'TopicsController@index');
 
 Route::get('/idea/{id}','PlanController@editor');
 Route::post('/idea/park/{id}','IdeaController@park');
+Route::post('/idea/update/{id}','IdeaController@update');
+Route::post('/idea/reject/{id}','IdeaController@reject');
+Route::post('/idea/activate/{id}','IdeaController@activate');
 
 Route::resource('/ideas', 'IdeaController', ['only' => [
     'index', 'show','store','park','activate'

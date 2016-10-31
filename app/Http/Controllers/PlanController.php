@@ -8,6 +8,7 @@ use App\Idea;
 
 use App\IdeaContent;
 
+use Auth;
 class PlanController extends Controller {
 
 	public function index(){
@@ -28,13 +29,14 @@ class PlanController extends Controller {
 		$idea = Idea::where(['id' => $id ])
 					->first();
 
-		$idea_content = IdeaContent::where(['idea_id'=> $id])->get();
+		$idea_content = IdeaContent::where(['idea_id'=> $id,'user_id'=> Auth::id() ])->get();
 					
 
 		return View::make('plan.editor', ['name' => $idea->name, 
 										'text' => $idea->text, 
 										'tags' => $idea->tags, 
-										'contents' => $idea_content ]);
+										'contents' => $idea_content,
+										'idea_obj' => $idea ]);
 	}
 	
 	public function ideas(){

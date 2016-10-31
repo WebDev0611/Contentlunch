@@ -119,7 +119,10 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 				view.$el.find('.form-delimiter').show();
 			}
 		},
-		save: function(){
+		park: function(){
+			this.save('parked');
+		},
+		save: function(status){
 			var view = this;
 			//saves the form data
 			var content = this.model.attributes.content;
@@ -127,7 +130,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 				name: $('.idea-name').val(),
 				idea: $('.idea-text').val(),
 				tags: $('.idea-tags').val(),
-				status: 'active',
+				status: status || 'active',
 				content: content.map(function(m){
 					return m.attributes;
 				})
