@@ -1,59 +1,98 @@
-<div class="row">
-    <div class="col-md-8">
-        <p class="settings-text">
-            These Buying Stages will be used in content and can be changed as needed.
-        </p>
+{{ Form::hidden('_token', csrf_token()) }}
+<div id="buying-stages-view">
+    <div class="row">
+        <div class="col-md-8">
+            <p class="settings-text">
+                These Buying Stages will be used in content and can be changed as needed.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <button class="button button-small pull-right" id='new-buying-stage'>
+                <i class="icon-add"></i>
+                New Buying Stage
+            </button>
+        </div>
     </div>
-    <div class="col-md-4">
-        <button class="button button-small pull-right">
-            <i class="icon-add"></i>
-            New Stage
-        </button>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="settings-table" id='buyingStagesTable'>
+                <thead>
+                    <tr>
+                        <th>NAME</th>
+                        <th>DESCRIPTION</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <table class="settings-table">
-            <thead>
-                <tr>
-                    <th>NAME</th>
-                    <th>SUSPECTS</th>
-                    <th>PROSPECTS</th>
-                    <th>LEADS</th>
-                    <th>OPPORTUNITIES</th>
-                    <th>CREATE STAGE</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>CMO</td>
-                    <td>
-                        Description of how a CMO acts  at the Suspect Stage.
-                        Notice how there is no “more” link in any of the descriptions on this row.
-                    </td>
-                    <td>
-                        Description of how a CMO acts  at the Suspect Stage.
-                        This is the expanded des- cription of the Prospect CMO.
-                    </td>
-                    <td>
-                        Description of how a CMO acts  at the Suspect Stage.
-                    </td>
-                    <td>
-                        Description of how a CMO acts  at the Suspect Stage.
-                        This may be more than the 3 rows and is shown here in expanded state.
-                    </td>
-                    <td>
-                        <a href="#">
-                            <i class="icon-trash"></i>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
+<script type='text/template' id='buyingStageRowTemplate'>
+    <td><%= name %></td>
+    <td><%= description %></td>
+    <td>
+        <a href class='delete'>
+            <i class="icon-trash"></i>
+        </a>
+    </td>
+</script>
+
+<div id="modal-new-buying-stage" class="sidemodal large" style="display: none">
+
+    <div class="sidemodal-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="sidemodal-header-title large">Create new Buying Stage</h4>
+            </div>
+            <div class="col-md-6 text-right">
+                <button class="sidemodal-close normal-flow" data-dismiss="modal">
+                    <i class="icon-remove"></i>
+                </button>
+            </div>
+        </div>
     </div>
-    <div class="col-md-8 col-md-offset-2">
-        <div class="input-form-group">
-            <button class="button button-extend">Save Changes</button>
+
+    <div class="sidemodal-container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-form-group">
+                    <label for="buying-stage-name">Buying Stage Name</label>
+                    {{
+                        Form::text(
+                            'buying-stage-name',
+                            null,
+                            [
+                                'placeholder' => 'Buying Stage name',
+                                'class' => 'input',
+                                'id' => 'buying-stage-name'
+                            ]
+                        )
+                    }}
+                </div>
+                <div class="input-form-group">
+                    <label for="buying-stage-description">Description</label>
+                    {{
+                        Form::text(
+                            'buying-stage-description',
+                            null,
+                            [
+                                'class' => 'input',
+                                'id' => 'buying-stage-description'
+                            ]
+                        )
+                    }}
+                </div>
+                <div class="input-form-group" >
+                    <button
+                        id='submit-buying-stage'
+                        class="button button-primary button-small text-uppercase">
+                        Create Buying Stage
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
