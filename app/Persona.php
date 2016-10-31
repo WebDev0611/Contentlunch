@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Persona extends Model
 {
-    public $fillable = [ 'name' ];
+    public $fillable = [ 'name', 'description' ];
 }
