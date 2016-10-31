@@ -12,6 +12,7 @@ use App\Campaign;
 use App\Content;
 use App\User;
 use App\Tag;
+use App\Persona;
 use App\Helpers;
 use Storage;
 use View;
@@ -167,6 +168,7 @@ class ContentController extends Controller
             'authorDropdown' => User::dropdown(),
             'relatedContentDropdown' => Content::dropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
+            'personaDropdown' => Persona::dropdown(),
             'campaignDropdown' => Campaign::dropdown(),
             'connections' => Connection::dropdown(),
             'contentTypeDropdown' => ContentType::dropdown(),
@@ -184,6 +186,7 @@ class ContentController extends Controller
             'authorDropdown' => User::dropdown(),
             'relatedContentDropdown' => Content::dropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
+            'personaDropdown' => Persona::dropdown(),
             'campaignDropdown' => Campaign::dropdown(),
             'connections' => Connection::dropdown(),
             'contentTypeDropdown' => ContentType::dropdown(),
@@ -202,6 +205,7 @@ class ContentController extends Controller
 
         $this->saveContentCampaign($request, $content);
         $this->saveContentBuyingStage($request, $content);
+        $this->saveContentPersona($request, $content);
         $this->saveContentType($request, $content);
 
         // - Attach the related data
@@ -273,6 +277,14 @@ class ContentController extends Controller
         if ($request->input('buying_stage')) {
             $buyingStage = BuyingStage::find($request->input('buying_stage'));
             $buyingStage->contents()->save($content);
+        }
+    }
+
+    private function saveContentPersona($request, $content)
+    {
+        if ($request->input('persona')) {
+            $persona = Persona::find($request->input('persona'));
+            $persona->contents()->save($content);
         }
     }
 
