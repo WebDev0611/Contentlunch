@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BuyingStage extends Model
 {
-    public $fillable = [ 'name' ];
+    public $fillable = [ 'name', 'description' ];
 
     public function contents()
     {

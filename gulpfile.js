@@ -16,7 +16,7 @@ elixir(function (mix) {
     mix
             .sass('main.scss')
             .scripts([
-                './bower_components/jquery/jquery.min.js',
+                './bower_components/jquery/dist/jquery.min.js',
                 './bower_components/underscore/underscore.js',
                 './bower_components/backbone/backbone.js',
                 './bower_components/moment/moment.js',
@@ -119,6 +119,9 @@ elixir(function (mix) {
                 'resources/assets/js/views/ideas.js',
                 'resources/assets/js/dashboard/performance.js'
                 ],"public/js/performance.js")
+
+            /* settings scripts */
+            .scripts([ 'resources/assets/js/settings/*.js' ], 'public/js/settings.js')
 
             /* twitter scripts */
             .scripts([ 'resources/assets/js/collaborate/twitter.js' ], 'public/js/twitter.js')

@@ -304,7 +304,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="buyingStage">BUYING STAGE</label>
                                     {!!
@@ -320,19 +320,25 @@
                                     !!}
                                 </div>
                             </div>
-                            <!--
+
                             <div class="col-sm-4">
                                 <div class="input-form-group input-drop">
                                     <label for="#">PERSONA</label>
-                                    <select name="" class="input">
-                                        <option selected disabled>Select Persona</option>
-                                        <option>CMO</option>
-                                        <option>Persona 2</option>
-                                    </select>
+                                    {!!
+                                        Form::select(
+                                            'persona',
+                                            $personaDropdown,
+                                            @isset($content) ? $content->persona_id : '',
+                                            [
+                                                'class' => 'input form-control',
+                                                'id' => 'persona'
+                                            ]
+                                        )
+                                    !!}
                                 </div>
                             </div>
-                            -->
-                            <div class="col-sm-6">
+
+                            <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="campaign">CAMPAIGN</label>
                                     {!!

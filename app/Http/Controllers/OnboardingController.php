@@ -23,14 +23,15 @@ class OnboardingController extends Controller
 
     public function signupPhotoUpload(Request $request)
     {
-        if ($request->hasFile('avatar')) {
-            $imageUrl = Helpers::handleTmpUpload($request->file('avatar'), $filename, $path);
+        $response = response()->json([ 'error' => true, 'message' => 'File not sent correctly' ], 400);
 
-            return response()->json([ 'image' => $imageUrl ]);
-        } else {
-            return response()->json([ 'error' => true, 'message' => 'File not sent correctly' ], 400);
+        if ($request->hasFile('avatar')) {
+            $response = [
+                'image' => Helpers::handleTmpUpload($request->file('avatar'))
+            ];
         }
 
+        return $response;
     }
 
     public function score()
