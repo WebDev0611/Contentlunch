@@ -152,6 +152,7 @@ Route::group(['prefix' => 'settings'], function() {
     Route::get('seo', ['as' => 'seoIndex', 'uses' =>'SettingsController@seo']);
 
     Route::post('personas', 'Settings\PersonasController@create');
+    Route::get('personas', 'Settings\PersonasController@index');
 });
 
 Route::group(['prefix' => 'writeraccess'], function() {
