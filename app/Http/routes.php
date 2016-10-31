@@ -11,6 +11,9 @@
 |
 */
 
+Route::model('invite', 'App\AccountInvite');
+Route::model('persona', 'App\Persona');
+
 /* Login/Logout */
 /*Route::get('login', 'AuthController@login');
 Route::post('login', 'AuthController@login');
@@ -38,7 +41,6 @@ Route::get('score', 'OnboardingController@score');
 /**
  * Onboarding - Account Invite redeeming
  */
-Route::model('invite', 'App\AccountInvite');
 Route::post('signup/invite', 'OnboardingController@createWithInvite');
 Route::get('signup/invite/{invite}', [ 'as' => 'signupWithInvite', 'uses' => 'OnboardingController@signupWithInvite' ]);
 
@@ -153,6 +155,7 @@ Route::group(['prefix' => 'settings'], function() {
 
     Route::post('personas', 'Settings\PersonasController@create');
     Route::get('personas', 'Settings\PersonasController@index');
+    Route::delete('personas/{persona}', 'Settings\PersonasController@delete');
 });
 
 Route::group(['prefix' => 'writeraccess'], function() {

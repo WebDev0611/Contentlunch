@@ -1,3 +1,4 @@
+{{ Form::hidden('_token', csrf_token()) }}
 <div id="personas-view">
     <div class="row">
         <div class="col-md-8">
@@ -33,7 +34,7 @@
     <td><%= name %></td>
     <td><%= description %></td>
     <td>
-        <a href="#">
+        <a href class='delete'>
             <i class="icon-trash"></i>
         </a>
     </td>
@@ -57,7 +58,6 @@
     <div class="sidemodal-container">
         <div class="row">
             <div class="col-md-12">
-                {{ Form::hidden('_token', csrf_token()) }}
                 <div class="input-form-group">
                     <label for="persona-name">Persona Name</label>
                     {{

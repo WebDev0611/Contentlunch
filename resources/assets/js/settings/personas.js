@@ -12,12 +12,34 @@
     var personaCollection = new PersonaCollection();
 
     var PersonaRowView = Backbone.View.extend({
+        events: {
+            'click .delete': 'delete'
+        },
+
         template: _.template($('#personaRowTemplate').html()),
+
         tagName: 'tr',
+
         render: function() {
             this.$el.html(this.template(this.model.toJSON()));
 
             return this;
+        },
+
+        delete: function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            this.sendDeleteRequest();
+            this.remove();
+        },
+
+        sendDeleteRequest: function() {
+            return $.ajax({
+                method: 'delete',
+                url: '/settings/personas/' + this.model.id,
+                headers: getHeaders()
+            });
         }
     });
 
@@ -85,13 +107,6 @@
             });
         },
 
-        headers: function() {
-            return {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': this.$el.find('input[name=_token]').val()
-            }
-        },
-
         submitAndShowFeedback: function() {
             this.submit()
                 .then(this.createPersonaAndDismiss.bind(this));
@@ -112,7 +127,7 @@
             return $.ajax({
                 type: 'post',
                 url: '/settings/personas',
-                headers: this.headers(),
+                headers: getHeaders(),
                 data: this.payload(),
                 processData: false,
                 contentType: false
@@ -121,5 +136,12 @@
     });
 
     new PersonasView({ el: '#personas-view', collection: personaCollection });
+
+    function getHeaders() {
+        return {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('input[name=_token]').val()
+        };
+    }
 
 })();

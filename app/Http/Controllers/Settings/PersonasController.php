@@ -27,10 +27,10 @@ class PersonasController extends Controller
         return response()->json([ 'data' => $persona ], 201);
     }
 
-    public function delete(Request $request, $persona)
+    public function delete(Request $request, Persona $persona)
     {
         $persona->delete();
 
-        return response()->json([], 200);
+        return response()->json([ 'hehehe' => $persona ], 200);
     }
 }
