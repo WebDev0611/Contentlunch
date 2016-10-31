@@ -9,14 +9,7 @@
         model: Persona
     });
 
-    var personas = new PersonaCollection();
-
-    personas.on('add', function(model) {
-        var persona = new PersonaRowView({ model: model });
-        persona.render();
-
-        $('#personasTable tbody').append(persona.el);
-    });
+    var personaCollection = new PersonaCollection();
 
     var PersonaRowView = Backbone.View.extend({
         template: _.template($('#personaRowTemplate').html()),
@@ -31,6 +24,34 @@
     var PersonasView = Backbone.View.extend({
         events: {
             "click #new-persona": 'openModal'
+        },
+
+        initialize: function () {
+            this.listenTo(this.collection, 'add', this.addToCollection)
+            this.getPersonas().then(this.populateTable.bind(this));
+        },
+
+        addToCollection: function(model) {
+            var persona = new PersonaRowView({ model: model });
+            persona.render();
+
+            $('#personasTable tbody').append(persona.el);
+        },
+
+        populateTable: function(response) {
+            var models = response.data.map(function(persona) {
+                return new Persona(persona);
+            })
+
+            this.collection.remove(this.collection.models);
+            this.collection.add(models);
+        },
+
+        getPersonas: function() {
+            return $.ajax({
+                method: 'get',
+                url: 'personas'
+            });
         },
 
         openModal: function() {
@@ -72,7 +93,19 @@
         },
 
         submitAndShowFeedback: function() {
-            this.submit();
+            this.submit()
+                .then(this.createPersonaAndDismiss.bind(this));
+        },
+
+        createPersonaAndDismiss: function(response) {
+            var persona = new Persona({
+                id: response.data.id,
+                name: response.data.name,
+                description: response.data.description
+            });
+
+            personaCollection.add(persona);
+            this.dismiss();
         },
 
         submit: function() {
@@ -87,26 +120,6 @@
         }
     });
 
-    new PersonasView({ el: '#personas-view' });
-
-    populateTable();
-
-    function populateTable() {
-        getPersonas().then(function(response) {
-            var models = response.data.map(function(persona) {
-                return new Persona(persona);
-            })
-
-            personas.remove(personas.models);
-            personas.add(models);
-        });
-    }
-
-    function getPersonas() {
-        return $.ajax({
-            method: 'get',
-            url: 'personas'
-        });
-    }
+    new PersonasView({ el: '#personas-view', collection: personaCollection });
 
 })();
