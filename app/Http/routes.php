@@ -45,7 +45,6 @@ Route::get('score', 'OnboardingController@score');
 Route::post('signup/invite', 'OnboardingController@createWithInvite');
 Route::get('signup/invite/{invite}', [ 'as' => 'signupWithInvite', 'uses' => 'OnboardingController@signupWithInvite' ]);
 
-
 Route::get('/home','AccountController@index');
 Route::get('/dashboard','AccountController@stats');
 
@@ -93,7 +92,7 @@ Route::get('/weekly/{year}/{month}/{day}','CalendarController@weekly');
 Route::get('/campaigns','CalendarController@campaigns');
 
 Route::resource('/task/add','TaskController@store');
-
+Route::post('task/attachments', 'TaskAttachmentController@store');
 
 Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);
 Route::get('/content/delete/{content_id}', [ 'as' => 'contentDelete', 'uses' => 'ContentController@delete' ]);
