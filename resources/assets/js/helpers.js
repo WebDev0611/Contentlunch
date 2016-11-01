@@ -53,17 +53,17 @@ $(function(){
 //adds the task from any page
 var add_task = function(callback) {
 
-	//need proper validation here
-	if (isTaskDataValid()) {
+    //need proper validation here
+    if (isTaskDataValid()) {
         $.ajax({
-	        url: '/task/add',
-	        type: 'post',
-	        data: getTaskData(),
-	        headers: getCSRFHeader(),
-	        dataType: 'json',
-	        success: addedTaskCallback(callback)
-	    });
-	}
+            url: '/task/add',
+            type: 'post',
+            data: getTaskData(),
+            headers: getCSRFHeader(),
+            dataType: 'json',
+            success: addedTaskCallback(callback)
+        });
+    }
 };
 
 function isTaskDataValid() {
