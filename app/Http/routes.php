@@ -92,7 +92,7 @@ Route::get('/weekly/{year}/{month}/{day}','CalendarController@weekly');
 Route::get('/campaigns','CalendarController@campaigns');
 
 Route::resource('/task/add','TaskController@store');
-Route::post('task/attachments', 'TaskAttachmentController@store');
+Route::post('task/attachments', 'TaskAttachmentsController@store');
 
 Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);
 Route::get('/content/delete/{content_id}', [ 'as' => 'contentDelete', 'uses' => 'ContentController@delete' ]);

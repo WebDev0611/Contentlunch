@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Helpers;
+use Validator;
 
 class TaskAttachmentsController extends Controller
 {
@@ -25,7 +26,7 @@ class TaskAttachmentsController extends Controller
 
         $fileUrl = Helpers::handleTmpUpload($request->file('file'), true);
 
-        return response()->json([ 'file' => $url ]);
+        return response()->json([ 'file' => $fileUrl ]);
     }
 
     private function attachmentValidator($input)
