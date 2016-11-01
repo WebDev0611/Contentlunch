@@ -66,5 +66,23 @@
 <!-- Page Specific JS -->
 @yield('scripts')
 
+<script type="text/javascript">
+    var TaskattachmentUploader = new Dropzone('#task-attachment-uploader', {
+        headers: { 'X-CSRF-TOKEN': $('input[name=_token]').val() },
+        url: '/task/attachments'
+    });
+
+    TaskattachmentUploader.on('success', function(file, response) {
+        var hiddenField = $('<input/>', {
+            class: 'task-attached-files',
+            name: 'files[]',
+            type: 'hidden',
+            value: response.file
+        });
+
+        hiddenField.appendTo($('#addTaskModal'));
+    });
+</script>
+
 </body>
 </html>
