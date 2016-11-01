@@ -44,7 +44,8 @@
                                         'title' => 'Choose Facebook Account'
                                     ])
                                 !!}
-                                <input type="hidden" value="{{ $connection_id }}" name="connection_id">
+                                {!! Form::hidden('connection_id', $connection_id) !!}
+                                {!! Form::hidden('onboarding', true) !!}
                             </div>
                         </div>
                     </div>
