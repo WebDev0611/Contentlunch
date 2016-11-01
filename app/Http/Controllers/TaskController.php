@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
-
 use App\Task;
-
+use App\Helpers;
+use App\Attachment;
 use Auth;
+use Storage;
 
 class TaskController extends Controller
 {
@@ -40,19 +40,53 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $task = new Task;
+        $task = Task::create([
+            'name' => $request->input('name'),
+            'explanation' => $request->input('explanation'),
+            'start_date' => $request->input('start_date'),
+            'due_date' => $request->input('due_date'),
+            'user_id' => Auth::id(),
+            'account_id' => Auth::user()->account->id,
+            'status' => 'open',
+        ]);
 
-        $task->name = $request->input('name');
-        $task->explanation = $request->input('explanation');
-        $task->start_date = $request->input('start_date');
-        $task->due_date = $request->input('due_date');
-        $task->user_id = Auth::id();
-        $task->account_id = Auth::user()->account->id;
-        $task->status = 'open';
-        $task->save();
+        $this->saveAttachments($request, $task);
 
-        echo json_encode( $task );
+        return response()->json($task);
+    }
+
+    private function saveAttachments($request, $task)
+    {
+        $fileUrls = $request->input('attachments');
+        $userId = Auth::id();
+        $userFolder = "/attachments/$userId/tasks/";
+
+        foreach ($fileUrls as $fileUrl) {
+            $movedS3Path = $this->moveFileToUserFolder($fileUrl, $userFolder);
+            $attachment = $this->createAttachment($movedS3Path);
+            $task->attachments()->save($attachment);
+        }
+    }
+
+    private function createAttachment($movedS3Path)
+    {
+        return Attachment::create([
+            'filePath' => $movedS3Path,
+            'filename' => Storage::url($movedS3Path),
+            'type' => 'file',
+            'extension' => Helpers::extensionFromS3Path($movedS3Path),
+            'mime' => Storage::mimeType($movedS3Path)
+        ]);
+    }
+
+    private function moveFileToUserFolder($fileUrl, $userFolder)
+    {
+        $fileName = substr(strstr($fileUrl, '_tmp/'), 5);
+        $newPath = $userFolder . $fileName;
+        $s3Path = Helpers::s3Path($fileUrl);
+        Storage::move($s3Path, $newPath);
+
+        return $newPath;
     }
 
     /**

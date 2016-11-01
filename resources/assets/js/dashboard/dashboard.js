@@ -1,109 +1,5 @@
 (function($){
 
-    /* tasks JS */
-    var dummy_task_data = [
-    {
-        title: "Content mix: post 5 blogs, 2 social postings, 1 book per month",
-        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-        due:"2 DAYS",
-        stage: "3",
-        image: "/images/avatar.jpg",
-        timeago: 1470169716000,
-        user_id: 1
-    },
-{
-        title: "Twitter Update",
-        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-        due:"7 DAYS",
-        stage: "3",
-        image: "/images/avatar.jpg",
-        timeago: 1470269716000,
-        user_id: 1
-    }
-    ];
-
-    var dummy_campaign_data = [
-    {
-        title: "CAMPAIGN 1",
-        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-        due:"2 DAYS",
-        stage: "3",
-        image: "/images/avatar.jpg",
-        timeago: 1470169716000,
-        user_id: 1
-    },
-        {
-        title: "CAMPAIGN 2",
-        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-        due:"7 DAYS",
-        stage: "3",
-        image: "/images/avatar.jpg",
-        timeago: 1470269716000,
-        user_id: 1
-    }
-    ];
-
-   var dummy_activity_data = [
-    {
-        image: "/images/avatar.jpg",
-        who: "Jane",
-        action: "commented on",
-        title: "Write blog post",
-        content: "online banking",
-        body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
-    },
-    {
-        image: "/images/avatar.jpg",
-        who: "Jane",
-        action: "commented on",
-        title: "Write blog post",
-        content: "online banking",
-        body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
-    },
-    {
-        image: "/images/avatar.jpg",
-        who: "Jane",
-        action: "commented on",
-        title: "Write blog post",
-        content: "online banking",
-        body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
-    },
-    ];
-
-    /* recent ideas view */
-    var dummy_ideas_data = [
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-    ];
-
-    var dummy_team_data = [
-    {
-        name: "Jane Samson",
-        email: "jsam@google.com",
-        image: "/images/avatar.jpg",
-        num: "35"
-    },
-    {
-        "name": "Jason Simmons",
-        "email": "jasonsimm@google.com",
-        "image": "/images/avatar.jpg",
-        "tasks": "35"
-    }
-    ];
-
     var task_view = Backbone.View.extend({
         template: _.template( $('#task-template').html() ),
         render: function(){
@@ -112,7 +8,6 @@
         }
     });
 
-
     var campaign_view = Backbone.View.extend({
         template: _.template( $('#campaign-template').html() ),
         render: function(){
@@ -120,7 +15,6 @@
             return this.el;
         }
     });
-
 
     /* main tab view */
     var tab_container_view = Backbone.View.extend({
@@ -131,7 +25,7 @@
         },
         initialize: function(){
             var v = this;
-            v.collection.reset( this.collection.models);
+            v.collection.reset(this.collection.models);
             v.collection.on('update',function(){
                 console.log('updated the collection');
                 v.show_my();
@@ -152,22 +46,24 @@
             this.$el.find('.my-tasks').addClass('active');
             this.collection.reset( this.collection.models );
             this.collection.sortBy('timeago');
-            if(this.collection.length > 0){
-                this.collection.each(function(m){
-                        var t = new task_view({ model: m });
-                        view.$el.find('.panel').append( t.render() );
+
+            if (this.collection.length > 0) {
+                this.collection.each(function(model) {
+                    var taskElement = new task_view({ model: model });
+                    view.$el.find('.panel').append(taskElement.render());
                 });
-            }else{
+            } else {
                 var create_lang = $('<div class="dashboard-tasks-container">' +
                     '<div class="dashboard-tasks-cell">' +
                     '<h5 class="dashboard-tasks-title">No tasks: </h5> <a href="#">create one now</a>' +
                     '</div>'+
-                    '</div>').click(function(){
-                        $('#addTaskModal').modal('show');
-                    });
+                    '</div>').click(this.show_add_task_modal.bind(this));
                 view.$el.find('.panel').append(create_lang);
             }
             $('#incomplete-tasks').text( this.collection.length );
+        },
+        show_add_task_modal: function() {
+            $('#addTaskModal').modal('show');
         },
         show_all: function(){
             var view = this;
@@ -176,29 +72,27 @@
             this.$el.find('.all-tasks').addClass('active');
 
             this.collection.reset( this.collection.models );
-            if(this.collection.length > 0){
+            if (this.collection.length > 0) {
                 this.collection.sortBy('timeago');
                 this.collection.each(function(m){
                     var t = new task_view({ model: m });
                     view.$el.find('.panel').append( t.render() );
                 });
-            }else{
+            } else {
                 var create_lang = $('<div class="dashboard-tasks-container">' +
                     '<div class="dashboard-tasks-cell">' +
                     '<h5 class="dashboard-tasks-title">No tasks: </h5> <a href="#">create one now</a>' +
                     '</div>'+
-                    '</div>').click(function(){
-                        $('#addTaskModal').modal('show');
-                    });
+                    '</div>').click(this.show_add_task_modal.bind(this));
+
                 view.$el.find('.panel').append(create_lang);
-                
             }
             $('#incomplete-tasks').text( this.collection.length );
         },
         show_campaigns: function(){
             var view = this;
             this.remove_active();
-            this.render();          
+            this.render();
             this.$el.find('.campaigns').addClass('active');
 
             this.campaigns.sortBy('timeago');
@@ -210,7 +104,7 @@
         remove_active: function(){
             this.$el.find('.all-tasks').removeClass('active');
             this.$el.find('.my-tasks').removeClass('active');
-            this.$el.find('.campaigns').removeClass('active');           
+            this.$el.find('.campaigns').removeClass('active');
         }
     });
 
@@ -320,7 +214,7 @@
         var tasks = new task_collection(my_tasks.map(task_map));
 
         console.log(tasks);
-        var tab_container = new tab_container_view({el: '#tab-container',collection: tasks});
+        var tab_container = new tab_container_view({el: '#tab-container', collection: tasks});
         tab_container.campaigns = campaigns;
         tab_container.tasks = tasks;
 
@@ -332,16 +226,17 @@
         recent_ideas.fetch();
 
         var team_members = new team_members_collection(); //dummy_team_data
-        var team = new team_members_view({el: '#team-members-container', collection: team_members});
+        var team = new team_members_view({ el: '#team-members-container', collection: team_members });
 
         //runs the action to submit the task
-        $('#add-task-button').click(function(){
-            console.log('cliked add task');
-            add_task(function(t){
-                tasks.add( new task_model( task_map(t) ) );
-                $('#addTaskModal').modal('hide');
-            });
+        $('#add-task-button').click(function() {
+            add_task(addTaskCallback);
         });
+
+        function addTaskCallback(task) {
+            tasks.add(new task_model(task_map(task)));
+            $('#addTaskModal').modal('hide');
+        }
     });
 
 })(jQuery);

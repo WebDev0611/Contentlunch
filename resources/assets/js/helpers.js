@@ -5,9 +5,9 @@ $(function(){
 	$('.btn-create').click(function(){
 		$('body').toggleClass('showcreate');
 	});
-	
+
 	$('div.create-overlay').click(function(){
-		$('body').toggleClass('showcreate'); 
+		$('body').toggleClass('showcreate');
 	});
 
 	$('div.create-overlay li').click(function(event){
@@ -51,39 +51,64 @@ $(function(){
 });
 
 //adds the task from any page
-var  add_task = function(callback){
+var add_task = function(callback) {
 
-	console.log('clicked');
-	var task_data = {
-	    name: $('#task-name').val(),
-	    start_date: $('#task-start-date').val(),
-	    due_date: $('#task-due-date').val(),
-	    explanation: $('#task-explanation').val(),
-	    url: $('#task-url').val()
-	};
-
-	//need proper validation here
-	if(task_data.name.length>2){
-	    $.ajax({
-	        url: '/task/add',
-	        type: 'post',
-	        data: task_data,
-	        headers: {
-	            'X-CSRF-TOKEN': $('input[name=_token]').val()
-	        },
-	        dataType: 'json',
-	        success:function(res){
-	            console.log(res);
-            	$('#task-name').val('');
-    			$('#task-start-date').val('');
-    			$('#task-due-date').val('');
-    			$('#task-explanation').val('');
-    			$('#task-url').val('');
-
-	            if('function'=== typeof callback){
-	            	callback(res);
-	            }
-	        }
-	    });
-	}
+    //need proper validation here
+    if (isTaskDataValid()) {
+        $.ajax({
+            url: '/task/add',
+            type: 'post',
+            data: getTaskData(),
+            headers: getCSRFHeader(),
+            dataType: 'json',
+            success: addedTaskCallback(callback)
+        });
+    }
 };
+
+function isTaskDataValid() {
+    return getTaskData().name.length > 2;
+}
+
+function addedTaskCallback(callback) {
+    return function(res) {
+        clearTaskInputs();
+
+        if ('function' === typeof callback) {
+            callback(res);
+        }
+    }
+}
+
+function getCSRFHeader() {
+    return {
+        'X-CSRF-TOKEN': $('input[name=_token]').val()
+    };
+}
+
+function getTaskData() {
+    return {
+        name: $('#task-name').val(),
+        start_date: $('#task-start-date').val(),
+        due_date: $('#task-due-date').val(),
+        explanation: $('#task-explanation').val(),
+        url: $('#task-url').val(),
+        attachments: getTaskAttachments()
+    }
+}
+
+function getTaskAttachments() {
+    var fileInputs = $('#addTaskModal *[name=\'files[]\']');
+
+    return fileInputs.toArray().map(function(element, index) {
+        return element.value;
+    });
+}
+
+function clearTaskInputs() {
+    $('#task-name').val('');
+    $('#task-start-date').val('');
+    $('#task-due-date').val('');
+    $('#task-explanation').val('');
+    $('#task-url').val('');
+}

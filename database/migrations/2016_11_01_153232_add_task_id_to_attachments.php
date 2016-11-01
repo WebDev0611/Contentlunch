@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIdeasStatus extends Migration
+class AddTaskIdToAttachments extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,8 @@ class AddIdeasStatus extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('idea', function (Blueprint $table) {
-            $table->enum('status',['parked','active','rejected'])->default('active');
+        Schema::table('attachments', function (Blueprint $table) {
+            $table->integer('task_id')->unsigned()->nullable();
         });
     }
 
@@ -25,8 +24,8 @@ class AddIdeasStatus extends Migration
      */
     public function down()
     {
-        Schema::table('idea', function (Blueprint $table) {
-            $table->dropColumn('status');
+        Schema::table('attachments', function (Blueprint $table) {
+            $table->dropColumn('task_id');
         });
     }
 }
