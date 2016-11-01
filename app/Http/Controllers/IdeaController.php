@@ -53,14 +53,16 @@ class IdeaController extends Controller
     }
 
     // Parks the idea
-    public function park(Request $request, $id){
+    public function park(Request $request){
+        $id = $request->input('idea_id');
         $idea = Idea::where([['id',$id],['user_id',Auth::id()]])->first();
         $idea->status = 'parked';
         $idea->save();
         return response()->json($idea);
     }
 
-    public function activate(Request $request, $id){
+    public function activate(Request $request){
+        $id = $request->input('idea_id');
         $idea = Idea::where([['id',$id],['user_id',Auth::id()]])->first();
         $idea->status = 'active';
         $idea->save();

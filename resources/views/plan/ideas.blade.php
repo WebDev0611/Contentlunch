@@ -137,11 +137,17 @@
                 </button>
 
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li id="write-it-btn">
+                    <!--<li id="write-it-btn">
                         <a href="javascript:;">Write It</a>
-                    </li>
+                    </li> -->
                     <li id="park-it-btn">
                         <a href="javascript:;">Park It</a>
+                    </li>
+                  <li id="edit-it-btn">
+                        <a href="javascript:;">Edit It</a>
+                    </li>
+                   <li id="unpark-it-btn">
+                        <a href="javascript:;">Unpark It</a>
                     </li>
                     <!--
                     //should pre populate a create content form with the relevant data

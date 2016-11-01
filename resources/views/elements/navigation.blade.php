@@ -29,7 +29,7 @@
         <li>
             <a href="/content" class="navigation-menu-link {{ ( Request::segment(1) == 'content' ) ? 'active': ''  }}">
                 <i class="navigation-menu-icon icon-navigation-dashboard">
-                    <span>CREATE</span>
+                    <span>CONTENT</span>
                 </i>
             </a>
         </li>

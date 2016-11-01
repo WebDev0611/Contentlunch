@@ -4,7 +4,9 @@ var idea_view = Backbone.View.extend({
 	className: "plan-ideas-container",
 	events:{
 		"click li#write-it-btn": "write",
-        "click li#park-it-btn": "park"
+        "click li#edit-it-btn": "edit",
+        "click li#park-it-btn": "park",
+        "click li#unpark-it-btn": "activate",
 	},
 	template: _.template( $('#idea-template').html() ),
 	initialize: function(){
@@ -15,19 +17,46 @@ var idea_view = Backbone.View.extend({
 		if(this.model.get('status') == 'parked'){
 			this.$el.find('#park-it-btn').hide();
 		}else{
+            this.$el.find('#unpark-it-btn').hide();
 			this.$el.find('#park-it-btn').show();
 		}
 		return this;
 	},
+    edit: function(){
+        console.log("write it clicked");
+        window.location.href = '/idea/' + this.model.get('id');
+    },
 	write: function(){
 		console.log("write it clicked");
 		window.location.href = '/idea/' + this.model.get('id');
 	},
     park: function(){
-        $.post('/idea/park/'+this.model.attributes.id, function(res){
-            console.log('parked' + this.model.attributes.id);
-            console.log(res);
-        });
+        return $.ajax({
+            url: '/idea/park',
+            data: {idea_id:this.model.get('id')},
+            type:'post',
+            headers: {
+                'X-CSRF-TOKEN': $('input[name=_token]').val()
+            }
+            })
+            .then(function(res){
+                console.log('parked' + this.model.attributes.id);
+                 console.log(res);
+            });
+    },
+    activate: function(){
+        return $.ajax({
+            url: '/idea/activate',
+            data: {idea_id:this.model.get('id')},
+            type:'post',
+            headers: {
+                'X-CSRF-TOKEN': $('input[name=_token]').val()
+            }
+            })
+            .then(function(res){
+                console.log('parked' + this.model.attributes.id);
+                 console.log(res);
+            });
     }
 
 });
