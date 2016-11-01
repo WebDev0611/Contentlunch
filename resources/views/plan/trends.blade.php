@@ -39,9 +39,10 @@
                         <h5 id="create-alert"></h5>
                     </div>
                     <div class="col-md-6 text-right">
+                    <!--
                         <button type="button" class="button button-outline-primary button-small text-uppercase">
                             CURATE IT
-                        </button>
+                        </button> -->
                         <button type="button" data-target="#createIdea" data-toggle="modal" class="button button-small text-uppercase">
                             <i class="icon-add-content icon-vertically-middle"></i>
                             Create Idea
