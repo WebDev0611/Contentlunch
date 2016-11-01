@@ -25,6 +25,7 @@
                             </p>
                         </a>
                     </li>
+                    <!--
                     <li>
                         <a href="#ImportContent" data-toggle="tab">
                             <i class="icon-export"></i>
@@ -43,6 +44,7 @@
                             </p>
                         </a>
                     </li>
+                    -->
                 </ul>
                 <div class="create-tabs-wrapper tab-content">
                     <div id="WriteContent" class="create-tabs-content tab-pane active">

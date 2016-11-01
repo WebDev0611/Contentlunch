@@ -64,13 +64,13 @@ var recent_ideas_view = Backbone.View.extend({
     },
     render: function(){
         var that = this;    
-        
-        if(this.collection.length > 0){
-        	this.collection.each(function(m){
+        if(that.collection.length > 0){
+            that.$el.find('.idea-empty').remove();
+        	that.collection.each(function(m){
             	that.idea_views.push( new recent_view({ model: m }) );
         	});
     	}else{
-    		that.$el.append( $('<div class="dashboard-ideas-container"><div class="dashboard-ideas-cell">0 Ideas: <a href="/plan">Create One</a></div></div>') );
+    		that.$el.append( $('<div class="dashboard-ideas-container idea-empty"><div class="dashboard-ideas-cell">0 Ideas: <a href="/plan">Create One</a></div></div>') );
     	}
         this.idea_views.forEach(function(v){
             v.$el.hide();

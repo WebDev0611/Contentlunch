@@ -9,7 +9,7 @@
                 <div class="dashboard-notification-box">
                     <span class="dashboard-notification-box-count">
                         <i class="icon-checklist"></i>
-                        <span id="incomplete-tasks"></span>
+                        <span id="incomplete-tasks">0</span>
                     </span>
                     <span>Incomplete <br> Tasks</span>
                 </div>
@@ -18,7 +18,7 @@
                 <div class="dashboard-notification-box">
                     <span class="dashboard-notification-box-count">
                         <i class="icon-idea"></i>
-                        0
+                        <span class="idea-count">0</span>
                     </span>
                     <span>New Ideas <br> Posted</span>
                 </div>

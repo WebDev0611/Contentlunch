@@ -41,6 +41,7 @@ elixir(function (mix) {
 
             /* content scripts and main app */
             .scripts([
+                'resources/assets/js/noautodiscover.js',
                 'resources/assets/js/models/tasks.js',
                 'resources/assets/js/collections/tasks.js',
                 'resources/assets/js/content/*.js',

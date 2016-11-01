@@ -578,12 +578,10 @@
 
 
 @section('styles')
-<link rel="stylesheet" href="/css/plugins/dropzone/basic.min.css">
-<link rel="stylesheet" href="/css/plugins/dropzone/dropzone.min.css">
+
 @stop
 
 @section('scripts')
-<script src="/js/plugins/dropzone/plugin.min.js"></script>
 <script type='text/javascript'>
     (function() {
 
