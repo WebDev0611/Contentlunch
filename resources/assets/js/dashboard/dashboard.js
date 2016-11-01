@@ -1,109 +1,5 @@
 (function($){
 
-    /* tasks JS */
-    var dummy_task_data = [
-    {
-        title: "Content mix: post 5 blogs, 2 social postings, 1 book per month",
-        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-        due:"2 DAYS",
-        stage: "3",
-        image: "/images/avatar.jpg",
-        timeago: 1470169716000,
-        user_id: 1
-    },
-{
-        title: "Twitter Update",
-        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-        due:"7 DAYS",
-        stage: "3",
-        image: "/images/avatar.jpg",
-        timeago: 1470269716000,
-        user_id: 1
-    }
-    ];
-
-    var dummy_campaign_data = [
-    {
-        title: "CAMPAIGN 1",
-        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-        due:"2 DAYS",
-        stage: "3",
-        image: "/images/avatar.jpg",
-        timeago: 1470169716000,
-        user_id: 1
-    },
-        {
-        title: "CAMPAIGN 2",
-        body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
-        due:"7 DAYS",
-        stage: "3",
-        image: "/images/avatar.jpg",
-        timeago: 1470269716000,
-        user_id: 1
-    }
-    ];
-
-   var dummy_activity_data = [
-    {
-        image: "/images/avatar.jpg",
-        who: "Jane",
-        action: "commented on",
-        title: "Write blog post",
-        content: "online banking",
-        body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
-    },
-    {
-        image: "/images/avatar.jpg",
-        who: "Jane",
-        action: "commented on",
-        title: "Write blog post",
-        content: "online banking",
-        body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
-    },
-    {
-        image: "/images/avatar.jpg",
-        who: "Jane",
-        action: "commented on",
-        title: "Write blog post",
-        content: "online banking",
-        body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
-    },
-    ];
-
-    /* recent ideas view */
-    var dummy_ideas_data = [
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-        {
-            image:'/images/avatar.jpg',
-            title: 'Content mix: post 16 soc',
-            timeago:'3 Days Ago'
-        },
-    ];
-
-    var dummy_team_data = [
-    {
-        name: "Jane Samson",
-        email: "jsam@google.com",
-        image: "/images/avatar.jpg",
-        num: "35"
-    },
-    {
-        "name": "Jason Simmons",
-        "email": "jasonsimm@google.com",
-        "image": "/images/avatar.jpg",
-        "tasks": "35"
-    }
-    ];
-
     var task_view = Backbone.View.extend({
         template: _.template( $('#task-template').html() ),
         render: function(){
@@ -112,7 +8,6 @@
         }
     });
 
-
     var campaign_view = Backbone.View.extend({
         template: _.template( $('#campaign-template').html() ),
         render: function(){
@@ -120,7 +15,6 @@
             return this.el;
         }
     });
-
 
     /* main tab view */
     var tab_container_view = Backbone.View.extend({
