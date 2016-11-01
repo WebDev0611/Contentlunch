@@ -14,6 +14,11 @@ class Attachment extends Model
         return $this->hasOne('App\Content');
     }
 
+    public function task()
+    {
+        return $this->hasOne('App\Task');
+    }
+
     public function getNameAttribute()
     {
         $pattern = "/attachment\/(\d+\/(files|images)|_tmp)\//";
