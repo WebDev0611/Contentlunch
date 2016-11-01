@@ -34,9 +34,9 @@ var format_time_ago = function(time){
 
 
     //task side modal
-    Dropzone.autoDiscover = false;
+Dropzone.autoDiscover = false;
 
-    
+
 //handles the task modal for the site
 $(function(){
 
@@ -52,22 +52,6 @@ $(function(){
     $('#task-due-date').datetimepicker({
         format: 'YYYY-MM-DD',
         sideBySide: true,
-    });
- 
-    var TaskattachmentUploader = new Dropzone('#task-attachment-uploader', {
-        headers: { 'X-CSRF-TOKEN': $('input[name=_token]').val() },
-        url: '/task/attachments'
-    });
-
-    TaskattachmentUploader.on('success', function(file, response) {
-        var hiddenField = $('<input/>', {
-            class: 'task-attached-files',
-            name: 'files[]',
-            type: 'hidden',
-            value: response.file
-        });
-
-        hiddenField.appendTo($('#addTaskModal'));
     });
 
 });

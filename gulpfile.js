@@ -21,6 +21,7 @@ elixir(function (mix) {
                 './bower_components/backbone/backbone.js',
                 './bower_components/moment/moment.js',
                 './bower_components/tinymce/tinymce.min.js',
+                './bower_components/dropzone/dist/dropzone.js',
                 ], "public/js/vendor.js")
             .scripts([
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',
@@ -40,7 +41,6 @@ elixir(function (mix) {
 
             /* content scripts and main app */
             .scripts([
-                './bower_components/dropzone/dist/dropzone.js',
                 'resources/assets/js/models/tasks.js',
                 'resources/assets/js/collections/tasks.js',
                 'resources/assets/js/content/*.js',
