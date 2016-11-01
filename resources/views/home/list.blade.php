@@ -262,7 +262,10 @@ var my_tasks = {!! $tasks !!};
 <script type='text/javascript'>
     (function() {
 
-        var attachmentUploader = new Dropzone('#task-attachment-uploader', { url: '/task/attachments' });
+        var attachmentUploader = new Dropzone('#task-attachment-uploader', {
+            headers: { 'X-CSRF-TOKEN': $('input[name=_token]').val() },
+            url: '/task/attachments'
+        });
 
         attachmentUploader.on('success', function(file, response) {
             var hiddenField = $('<input/>', {
@@ -271,7 +274,7 @@ var my_tasks = {!! $tasks !!};
                 value: response.file
             });
 
-            hiddenField.appendTo($('form'));
+            hiddenField.appendTo($('#addTaskModal'));
         });
 
     })();
