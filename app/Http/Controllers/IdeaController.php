@@ -10,7 +10,21 @@ use App\Idea;
 
 use App\IdeaContent;
 
+use App\User;
+
+use App\Tag;
+
+use App\Persona;
+
+use App\Helpers;
+
+use Storage;
+
+use View;
+
 use Auth;
+
+use Illuminate\Support\Facades\DB;
 
 class IdeaController extends Controller
 {
@@ -82,7 +96,7 @@ class IdeaController extends Controller
         $idea->status = $status;
 
         $idea->user_id = Auth::id();
-        $idea->account_id = Auth::account_id();
+        $idea->account_id = Auth::user()->account->id;
         $idea->save();
 
         $idea_contents = array();
