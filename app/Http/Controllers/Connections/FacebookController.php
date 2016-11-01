@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Controllers\Connections;
+namespace App\Http\Controllers\Connections;
 
 use Illuminate\Http\Request;
 use Facebook\Facebook;
