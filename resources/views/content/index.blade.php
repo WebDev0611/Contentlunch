@@ -216,6 +216,7 @@
                 </div>
             </div>
         </div>
+        <!--
         <aside class="panel-sidebar">
             <div class="panel-header">
                 <h4 class="panel-sidebar-title">Ideas activity feed</h4>
@@ -297,6 +298,7 @@
                 </div>
             </div>
         </aside>
+        -->
     </div>
 </div>
 

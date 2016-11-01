@@ -212,6 +212,10 @@
         };
 
         var tasks = new task_collection(my_tasks.map(task_map));
+        $('#incomplete-tasks').text(my_tasks.length);
+        tasks.on('update',function(c){
+            $('#incomplete-tasks').text(c.length);
+        });
 
         console.log(tasks);
         var tab_container = new tab_container_view({el: '#tab-container', collection: tasks});
@@ -222,6 +226,9 @@
      //  var activity_feed_container = new activity_feed_view({el: '#activity-feed-container', collection: activity_feed });
 
         var recent_ideas = new recent_ideas_collection();
+        recent_ideas.on('update',function(c){
+            $('.idea-count').text(c.length);
+        });
         var ideas = new recent_ideas_view({el:'#recent-ideas', collection: recent_ideas});
         recent_ideas.fetch();
 

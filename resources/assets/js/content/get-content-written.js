@@ -1,5 +1,6 @@
 (function($){
 
+    /*
     function formatCurrency(total) {
         var neg = false;
         if(total < 0) {
@@ -88,7 +89,7 @@
 
    // updatePrice.call(document.getElementById("writer_access_asset_type"));
 
-
+    */
 })(jQuery);
 
 

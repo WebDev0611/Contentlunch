@@ -33,14 +33,11 @@ var format_time_ago = function(time){
 };
 
 
-    //task side modal
-Dropzone.autoDiscover = false;
-
-
 //handles the task modal for the site
 $(function(){
 
 	$('.add-task-action').click(function(){
+        console.log('clicked');
 	 $("#addTaskModal").modal('show');
 	});
 
