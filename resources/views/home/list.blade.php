@@ -269,6 +269,7 @@ var my_tasks = {!! $tasks !!};
 
         attachmentUploader.on('success', function(file, response) {
             var hiddenField = $('<input/>', {
+                class: 'task-attached-files',
                 name: 'files[]',
                 type: 'hidden',
                 value: response.file

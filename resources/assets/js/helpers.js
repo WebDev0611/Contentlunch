@@ -92,8 +92,17 @@ function getTaskData() {
         start_date: $('#task-start-date').val(),
         due_date: $('#task-due-date').val(),
         explanation: $('#task-explanation').val(),
-        url: $('#task-url').val()
+        url: $('#task-url').val(),
+        attachments: getTaskAttachments()
     }
+}
+
+function getTaskAttachments() {
+    var fileInputs = $('#addTaskModal *[name=\'files[]\']');
+
+    return fileInputs.toArray().map(function(element, index) {
+        return element.value;
+    });
 }
 
 function clearTaskInputs() {
