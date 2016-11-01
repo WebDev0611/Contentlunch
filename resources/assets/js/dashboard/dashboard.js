@@ -237,6 +237,7 @@
             tasks.add(new task_model(task_map(task)));
             $('#addTaskModal').modal('hide');
         }
+
     });
 
 })(jQuery);

@@ -22,7 +22,6 @@ elixir(function (mix) {
                 './bower_components/moment/moment.js',
                 './bower_components/tinymce/tinymce.min.js',
                 ], "public/js/vendor.js")
-            .scripts(['resources/assets/js/content/*.js','resources/assets/js/helpers.js'], "public/js/app.js")
             .scripts([
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js',
@@ -36,11 +35,12 @@ elixir(function (mix) {
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
-                './bower_components/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js'
+                './bower_components/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
             ], "public/js/plugins.js")
 
             /* content scripts and main app */
             .scripts([
+                './bower_components/dropzone/dist/dropzone.js',
                 'resources/assets/js/models/tasks.js',
                 'resources/assets/js/collections/tasks.js',
                 'resources/assets/js/content/*.js',

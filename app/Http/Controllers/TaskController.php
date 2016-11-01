@@ -60,11 +60,12 @@ class TaskController extends Controller
         $fileUrls = $request->input('attachments');
         $userId = Auth::id();
         $userFolder = "/attachments/$userId/tasks/";
-
-        foreach ($fileUrls as $fileUrl) {
-            $movedS3Path = $this->moveFileToUserFolder($fileUrl, $userFolder);
-            $attachment = $this->createAttachment($movedS3Path);
-            $task->attachments()->save($attachment);
+        if(!empty($fileUrls)){
+            foreach ($fileUrls as $fileUrl) {
+                $movedS3Path = $this->moveFileToUserFolder($fileUrl, $userFolder);
+                $attachment = $this->createAttachment($movedS3Path);
+                $task->attachments()->save($attachment);
+            }
         }
     }
 

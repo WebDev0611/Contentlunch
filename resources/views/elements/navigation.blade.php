@@ -33,6 +33,7 @@
                 </i>
             </a>
         </li>
+        <!--
         <li>
             <a href="/calendar" class="navigation-menu-link {{ ( Request::segment(1) == 'calendar' ) ? 'active': ''  }}">
                 <i class="navigation-menu-icon icon-navigation-calendar">
@@ -47,6 +48,7 @@
                 </i>
             </a>
         </li>
+        -->
     </ul>
     <a href="/settings" class="navigation-settings {{ ( Request::segment(2) == 'settings' ) ? 'active': ''  }}">
         <i class="navigation-menu-icon icon-cog"></i>

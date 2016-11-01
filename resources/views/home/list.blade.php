@@ -33,6 +33,7 @@
                 </div>
             </div>
             <div class="col-md-3 text-right">
+            <!--
                 <div class="dashboard-layout-container">
                     <span>Writer / Editor Layout</span>
                     <ul class="dashboard-layout">
@@ -48,6 +49,7 @@
                         </li>
                     </ul>
                 </div>
+                -->
             </div>
         </div>
         <div class="row">
@@ -252,32 +254,9 @@ var my_tasks = {!! $tasks !!};
 @stop
 
 @section('styles')
-<link rel="stylesheet" href="/css/plugins/dropzone/basic.min.css">
-<link rel="stylesheet" href="/css/plugins/dropzone/dropzone.min.css">
+
 @stop
 
 @section('scripts')
-<script src="/js/plugins/dropzone/plugin.min.js"></script>
 <script src="/js/dashboard.js"></script>
-<script type='text/javascript'>
-    (function() {
-
-        var attachmentUploader = new Dropzone('#task-attachment-uploader', {
-            headers: { 'X-CSRF-TOKEN': $('input[name=_token]').val() },
-            url: '/task/attachments'
-        });
-
-        attachmentUploader.on('success', function(file, response) {
-            var hiddenField = $('<input/>', {
-                class: 'task-attached-files',
-                name: 'files[]',
-                type: 'hidden',
-                value: response.file
-            });
-
-            hiddenField.appendTo($('#addTaskModal'));
-        });
-
-    })();
-</script>
 @stop

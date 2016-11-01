@@ -7,6 +7,9 @@
     <meta name=description content="Content Launch">
     <meta name=viewport content="initial-scale=1.0,width=device-width">
     <link rel=stylesheet href=/css/main.css>
+
+    <link rel="stylesheet" href="/css/plugins/dropzone/basic.min.css">
+    <link rel="stylesheet" href="/css/plugins/dropzone/dropzone.min.css">
     @yield('styles')
 </head>
 <body>
@@ -35,6 +38,7 @@
           <p>Start writing your content or have our team of writers do it for you!</p>
         </a>
       </li>
+      <!--
       <li class="third">
         <a href="/campaign">
           <i class="icon-alert"></i>
@@ -48,7 +52,7 @@
           <p class="title">Calendar Entry</p>
           <p>Schedule your content, your tasks, your workflow and more! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
         </a>
-      </li>
+      </li>-->
     </ul>
 
   </div>
