@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
-
 use App\Task;
-
 use Auth;
+use Storage;
+use Helpers;
 
 class TaskController extends Controller
 {
@@ -40,7 +39,6 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $task = new Task;
 
         $task->name = $request->input('name');
@@ -52,7 +50,31 @@ class TaskController extends Controller
         $task->status = 'open';
         $task->save();
 
+        $this->saveAttachments($request, $task->id);
+
         echo json_encode( $task );
+    }
+
+    private function saveAttachments($request, $taskId)
+    {
+        $fileUrls = $request->input('attachments');
+        $userId = Auth::id();
+        $userFolder = "/attachments/$userId/tasks/";
+
+        foreach ($fileUrls as $fileUrl) {
+            $movedUrl = $this->moveFileToUserFolder($fileUrl, $userFolder);
+        }
+        dd($fileUrls);
+    }
+
+    private function moveFileToUserFolder($fileUrl, $userFolder)
+    {
+        $fileName = substr(strstr($fileUrl, '_tmp/'), 5);
+        $newPath = $userFolder . $fileName;
+        $s3Path = Helpers::s3Path($fileUrl);
+        Storage::move($s3Path, $newPath);
+
+        return $newPath;
     }
 
     /**
