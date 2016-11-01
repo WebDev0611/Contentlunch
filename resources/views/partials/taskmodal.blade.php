@@ -87,12 +87,17 @@
         </div>
         -->
         <label for="fileUpload" class="file-upload-container">
-            <input id="fileUpload" type="file" class="file-upload">
+            <input id="fileUpload" name='file' type="file" class="file-upload">
             <span>
                 <i class="icon-add-content"></i>
                 Attach one or more documents
             </span>
         </label>
+
+        <div class="input-form-group">
+            <div class="dropzone" id='task-attachment-uploader'>
+            </div>
+        </div>
         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
     </div>
 </div>

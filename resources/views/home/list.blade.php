@@ -64,7 +64,7 @@
                             <!--<li class="campaigns">
                                 <a href="#">Campaigns</a>
                             </li> -->
-                            <!-- out for now 
+                            <!-- out for now
                             <li>
                                 <a href="javascript:;">Recently Viewed</a>
                             </li>
@@ -149,7 +149,7 @@
             </ul>
         </div>
         <div class="dashboard-tasks-cell">
-            <% 
+            <%
             var active = '';
             if( (currenttime - timeago) <= 60*10*1000 ){
                 active = 'active';
@@ -245,13 +245,35 @@
 </script>
 
 <script>
- var my_campaigns = {!! $mycampaigns !!};
- var my_tasks = {!! $tasks !!};
+var my_campaigns = {!! $mycampaigns !!};
+var my_tasks = {!! $tasks !!};
 
 </script>
 @stop
 
+@section('styles')
+<link rel="stylesheet" href="/css/plugins/dropzone/basic.min.css">
+<link rel="stylesheet" href="/css/plugins/dropzone/dropzone.min.css">
+@stop
 
 @section('scripts')
+<script src="/js/plugins/dropzone/plugin.min.js"></script>
 <script src="/js/dashboard.js"></script>
+<script type='text/javascript'>
+    (function() {
+
+        var attachmentUploader = new Dropzone('#task-attachment-uploader', { url: '/task/attachments' });
+
+        attachmentUploader.on('success', function(file, response) {
+            var hiddenField = $('<input/>', {
+                name: 'files[]',
+                type: 'hidden',
+                value: response.file
+            });
+
+            hiddenField.appendTo($('form'));
+        });
+
+    })();
+</script>
 @stop
