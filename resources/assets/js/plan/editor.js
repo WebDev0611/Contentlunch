@@ -54,8 +54,9 @@
 	    	var v = this;
 	        console.log('clicked park');
         	return $.ajax({
-        		url: '/idea/park/' + v.model.get('id'),
+        		url: '/idea/park',
         		type:'post',
+        		data:{idea_id: v.model.get('id')},
         		headers: {
                 	'X-CSRF-TOKEN': $('input[name=_token]').val()
             	}
