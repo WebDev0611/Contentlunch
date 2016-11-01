@@ -155,7 +155,7 @@
 
         $.ajax({
             method: 'get',
-            url: 'http://contentlaunch-2016.app/twitter/followers',
+            url: '/twitter/followers',
             data: $.param({
                 query: getSearchValue(),
                 page: page,
