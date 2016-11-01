@@ -25,6 +25,8 @@ class AddIdeasStatus extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('idea', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 }
