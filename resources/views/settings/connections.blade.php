@@ -47,7 +47,7 @@
                                                 <span class="settings-import-item-title">{{ $con->name }}</span>
                                             </div>
                                             <div class="col-md-6 text-right">
-                                                @if ($con->successful)
+                                                @if ($con->active)
                                                     <button class="button button-connected button-small">Connected</button>
                                                 @else
                                                     <button class="button button-small">Connect</button>
