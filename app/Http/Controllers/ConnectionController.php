@@ -17,10 +17,14 @@ class ConnectionController extends Controller
     {
         $contentTypeId = $request->get('content_type');
 
-        $data = Connection::selectRaw('connections.*, content_types.name as content_type, content_types.id as content_type_id')
-            ->join('content_types', 'content_types.provider_id', '=', 'connections.provider_id')
-            ->join('users', 'connections.user_id', '=', 'users.id')
-            ->where('users.id', '=', Auth::id());
+        $data = Auth::user()
+            ->account
+            ->connections()
+            ->selectRaw(
+                'connections.*,
+                content_types.name as content_type,
+                content_types.id as content_type_id')
+            ->join('content_types', 'content_types.provider_id', '=', 'connections.provider_id');
 
         if ($contentTypeId) {
             $data = $data->where('content_types.id', $contentTypeId);

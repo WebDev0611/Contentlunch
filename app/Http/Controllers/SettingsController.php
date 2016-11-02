@@ -72,17 +72,11 @@ class SettingsController extends Controller
         $user = Auth::user();
 
         // Pulling Connection information
-        $connections = $user->connections()->get();
-        $activeConnectionsCount = $user->connections()->where('successful', 1)->count();
+        $connections = $user->accountConnections()->get();
+        $activeConnectionsCount = $user->accountConnections()->where('active', 1)->count();
 
         // - Create Connection Drop Down Data
-        $connectiondd = ['' => '-- Select One --'];
-        $connectiondd += Provider::select('slug', 'name')
-            ->where('class_name', '!=', '')
-            ->orderBy('name', 'asc')
-            ->distinct()
-            ->lists('name', 'slug')
-            ->toArray();
+        $connectiondd = ['' => '-- Select One --'] + $this->providerDropdown();
 
         return View::make('settings.connections', compact(
             'user',
@@ -90,6 +84,16 @@ class SettingsController extends Controller
             'connections',
             'activeConnectionsCount'
         ));
+    }
+
+    private function providerDropdown()
+    {
+        return Provider::select('slug', 'name')
+            ->where('class_name', '!=', '')
+            ->orderBy('name', 'asc')
+            ->distinct()
+            ->lists('name', 'slug')
+            ->toArray();
     }
 
     public function connectionCreate(ConnectionRequest $request)
