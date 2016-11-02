@@ -8,6 +8,7 @@ use App\Connection;
 use Socialite;
 use Config;
 use Session;
+use Auth;
 
 class FacebookController extends BaseConnectionController
 {
@@ -36,13 +37,13 @@ class FacebookController extends BaseConnectionController
     public function callback(Request $request)
     {
         // - get user data
-        $user = Socialite::driver('facebook')->user();
+        $facebookUser = Socialite::driver('facebook')->user();
 
-        $fb = $this->facebookInstance($user->token);
+        $fb = $this->facebookInstance($facebookUser->token);
 
         // - Lets get long lived access token
         $oAuth2Client = $fb->getOAuth2Client();
-        $accessToken = $oAuth2Client->getLongLivedAccessToken($user->token);
+        $accessToken = $oAuth2Client->getLongLivedAccessToken($facebookUser->token);
 
         $settings = [
             'user_token' => (string) $accessToken,
@@ -58,8 +59,9 @@ class FacebookController extends BaseConnectionController
         }
 
         $connection_id = $connection->id;
+        $user = Auth::user();
 
-        return view($this->getSelectAccountView(), compact('accountOptions', 'connection_id'));
+        return view($this->getSelectAccountView(), compact('accountOptions', 'connection_id', 'user'));
         // - Get App Approval from User to Post on Page / Get User Data
         // - Get User Token
         // - Convert to LongLivedToken
