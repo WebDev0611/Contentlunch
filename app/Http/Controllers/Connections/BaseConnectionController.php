@@ -54,7 +54,7 @@ abstract class BaseConnectionController extends Controller
                 'user_id' => Auth::user()->id,
             ]);
         } else {
-            $connection->settings = $settings;
+            $connection->settings = $jsonEncodedSettings;
             $connection->save();
         }
 
