@@ -192,6 +192,4 @@ Route::group(['prefix' => 'twitter'], function() {
 /**
  * AJAX Helpers
  */
-Route::group([ 'prefix' => 'api', 'middleware' => [ ] ], function() {
-    Route::get('/connections', [ 'as' => 'connectionAjaxIndex', 'uses' => 'ConnectionController@index' ]);
-});
+Route::get('/api/connections', [ 'as' => 'connectionAjaxIndex', 'uses' => 'ConnectionController@index' ]);
