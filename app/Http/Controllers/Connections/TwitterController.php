@@ -10,6 +10,7 @@ use Session;
 use Redirect;
 use Input;
 use Auth;
+use Exception;
 
 use App\Connection;
 use App\TwitterConnection;
@@ -57,25 +58,33 @@ class TwitterController extends BaseConnectionController
                 $oauth_verifier = Input::get('oauth_verifier');
             }
 
-            $token = Twitter::getAccessToken($oauth_verifier);
+            try {
+                $token = Twitter::getAccessToken($oauth_verifier);
+            } catch (Exception $e) {
+                return Redirect::route($this->redirectRoute())
+                    ->with('flash_message_type', 'danger')
+                    ->with('flash_message', 'The connection request was denied by the user.');
+            }
 
             if (!isset($token['oauth_token_secret'])) {
-                return Redirect::route('twitterLogin')
-                    ->with('flash_error', 'We could not log you in on Twitter.');
+                return Redirect::route($this->redirectRoute())
+                    ->with('flash_message_type', 'danger')
+                    ->with('flash_message', 'We could not log you in on Twitter.');
             }
 
             $credentials = Twitter::getCredentials();
-            $redirectUrl = $this->redirectRoute();
 
             if (is_object($credentials) && !isset($credentials->error)) {
                 $this->saveConnection($token, 'twitter');
 
-                return Redirect::route($redirectUrl)
+                return Redirect::route($this->redirectRoute())
+                    ->with('flash_message_type', 'success')
                     ->with('flash_notice', 'Congrats! You\'ve successfully signed in.');
             }
 
-            return Redirect::route($redirectUrl)
-                ->with('flash_error', 'Something went wrong while signing you up.');
+            return Redirect::route($this->redirectRoute())
+                ->with('flash_message_type', 'danger')
+                ->with('flash_message', 'Something went wrong while signing you up.');
         }
     }
 
