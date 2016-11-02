@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use \Illuminate\Http\Request;
 use Validator;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Session;
+use Auth;
+use Storage;
 
 use App\Http\Controllers\Controller;
 use App\User;
@@ -64,6 +68,34 @@ class AuthController extends Controller
     }
 
     /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->saveFileUrlToSession($request->file('avatar'));
+            $this->throwValidationException($request, $validator);
+        }
+
+        Auth::guard($this->getGuard())->login($this->create($request->all()));
+
+        return redirect($this->redirectPath());
+    }
+
+    private function saveFileUrlToSession($file)
+    {
+        if ($file) {
+            $tempUrl = Helpers::handleTmpUpload($file);
+            Session::put('avatar_temp_url', $tempUrl);
+        }
+    }
+
+    /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
@@ -83,11 +115,32 @@ class AuthController extends Controller
             'account_id' => $account->id
         ]);
 
-        if (collect($data)->has('avatar')) {
-            $user->profile_image = Helpers::handleProfilePicture($user, $data['avatar']);
-            $user->save();
-        }
+        $this->handleProfilePicture($user, $data);
 
         return $user;
+    }
+
+    private function handleProfilePicture($user, $data)
+    {
+        if (collect($data)->has('avatar')) {
+
+            $user->profile_image = Helpers::handleProfilePicture($user, $data['avatar']);
+
+        } elseif ($fileUrl = Session::get('avatar_temp_url')) {
+
+            $user->profile_image = $this->movedProfileImage($user->id, $fileUrl);
+            Session::forget('avatar_temp_url');
+
+        }
+
+        $user->save();
+    }
+
+    private function movedProfileImage($userId, $fileUrl)
+    {
+        $newS3Path = Helpers::userImagesFolder($userId);
+        $profileS3Path = Helpers::moveFileToFolder($fileUrl, $newS3Path);
+
+        return Storage::url($profileS3Path);
     }
 }

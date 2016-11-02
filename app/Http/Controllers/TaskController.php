@@ -59,7 +59,7 @@ class TaskController extends Controller
     {
         $fileUrls = $request->input('attachments');
         $userId = Auth::id();
-        $userFolder = "/attachments/$userId/tasks/";
+        $userFolder = "/attachment/$userId/tasks/";
         if(!empty($fileUrls)){
             foreach ($fileUrls as $fileUrl) {
                 $movedS3Path = $this->moveFileToUserFolder($fileUrl, $userFolder);

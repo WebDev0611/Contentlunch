@@ -68,7 +68,11 @@
                                 <div class="col-md-4">
                                     <div class="onboarding-avatar" id='signup-onboarding-avatar'>
                                         <div class="loading-icon loading-icon-center"></div>
-                                        <img src="/images/avatar.jpg" alt="#">
+                                        @if ($avatarUrl)
+                                            <img src="{{ $avatarUrl }}" alt="">
+                                        @else
+                                            <img src="/images/avatar.jpg" alt="#">
+                                        @endif
                                         <label for="upload" class="onboarding-avatar-button">
                                             <i class="icon-add"></i>
                                             <input id="upload" name='avatar' type="file">

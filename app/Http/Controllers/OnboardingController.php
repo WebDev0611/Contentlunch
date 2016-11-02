@@ -18,7 +18,9 @@ class OnboardingController extends Controller
     public function signup()
     {
         $user = new User;
-        return view('onboarding.signup')->with(compact('user'));
+        $avatarUrl = session('avatar_temp_url');
+
+        return view('onboarding.signup', compact('user', 'avatarUrl'));
     }
 
     public function signupPhotoUpload(Request $request)
