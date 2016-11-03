@@ -42,9 +42,9 @@ class FacebookController extends BaseConnectionController
         try {
             $accessToken = $this->getLongLivedAccessToken();
         } catch (Exception $e) {
-            return redirect()->route($this->redirectRoute())
-                ->with('flash_message_type', 'danger')
-                ->with('flash_message', 'The connection request was denied by the user.');
+            $this->cleanSessionConnection();
+
+            return $this->redirectWithError('The connection request was denied by the user.');
         }
 
         $settings = [

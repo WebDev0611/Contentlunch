@@ -37,8 +37,30 @@ abstract class BaseConnectionController extends Controller
         return $connectionData ? $connectionData['meta_data'] : null;
     }
 
+    protected function redirectWithSuccess($message)
+    {
+        return redirect()->route($this->redirectRoute())->with([
+            'flash_message' => $message,
+            'flash_message_type' => 'success',
+            'flash_message_important' => true,
+        ]);
+    }
+
+    protected function redirectWithError($message)
+    {
+        return redirect()->route($this->redirectRoute())->with([
+            'flash_message' => $message,
+            'flash_message_type' => 'danger',
+            'flash_message_important' => true,
+        ]);
+    }
+
     public function cleanSessionConnection()
     {
+        $connection = $this->getSessionConnection();
+        if ($connection) {
+            $connection->delete();
+        }
         Session::forget('connection_data');
     }
 

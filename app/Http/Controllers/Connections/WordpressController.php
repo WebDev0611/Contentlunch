@@ -23,6 +23,8 @@ class WordpressController extends BaseConnectionController
                 'You need to authorize ContentLaunch if you want to use the WordPress connection' :
                 $request->input('error_description');
 
+            $this->cleanSessionConnection();
+
             return $this->redirectWithError($errorMessage);
         }
 
@@ -38,33 +40,6 @@ class WordpressController extends BaseConnectionController
         $connection = $this->saveConnection($token);
 
         return $this->redirectWithSuccess('Wordpress connection '.$connection->name.' created successfully.');
-    }
-
-    public function cleanSessionConnection()
-    {
-        $connection = $this->getSessionConnection();
-        if ($connection) {
-            $connection->delete();
-        }
-        Session::forget('connection_data');
-    }
-
-    private function redirectWithSuccess($message)
-    {
-        return redirect()->route($this->redirectRoute())->with([
-            'flash_message' => $message,
-            'flash_message_type' => 'success',
-            'flash_message_important' => true,
-        ]);
-    }
-
-    private function redirectWithError($message)
-    {
-        return redirect()->route($this->redirectRoute())->with([
-            'flash_message' => $message,
-            'flash_message_type' => 'danger',
-            'flash_message_important' => true,
-        ]);
     }
 
     protected function saveConnection(array $tokenArray, $providerSlug = null)
