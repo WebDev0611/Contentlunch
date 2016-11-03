@@ -18,32 +18,51 @@ class WordpressController extends BaseConnectionController
 
     public function callback(Request $request)
     {
-        $code = $request->input('code');
-        $token = $this->auth->codeForToken($code);
-        $redirectRoute = $this->redirectRoute();
+        if ($error = $request->has('error')) {
+            $errorMessage = $error == 'access_denied' ?
+                'You need to authorize ContentLaunch if you want to use the WordPress connection' :
+                $request->input('error_description');
 
-        if (collect($token)->has('error')) {
-            $connection = $this->getSessionConnection();
-
-            if ($connection) {
-                $connection->delete();
-            }
-
-            $this->cleanSessionConnection();
-
-            return redirect()->route($redirectRoute)->with([
-                'flash_message' => 'There was an error with your authentication, please try again',
-                'flash_message_type' => 'danger',
-                'flash_message_important' => true,
-            ]);
+            return $this->redirectWithError($errorMessage);
         }
 
-        $tokenArray = (array) $token;
-        $connection = $this->saveConnection($tokenArray);
+        $code = $request->input('code');
+        $token = $this->auth->codeForToken($code);
 
-        return redirect()->route($redirectRoute)->with([
-            'flash_message' => 'Wordpress connection '.$connection->name.' created successfully.',
+        if (collect($token)->has('error')) {
+            $this->cleanSessionConnection();
+
+            return $this->redirectWithError('There was an error with your authentication, please try again');
+        }
+        $tokenArray = (array) $token;
+        $connection = $this->saveConnection($token);
+
+        return $this->redirectWithSuccess('Wordpress connection '.$connection->name.' created successfully.');
+    }
+
+    public function cleanSessionConnection()
+    {
+        $connection = $this->getSessionConnection();
+        if ($connection) {
+            $connection->delete();
+        }
+        Session::forget('connection_data');
+    }
+
+    private function redirectWithSuccess($message)
+    {
+        return redirect()->route($this->redirectRoute())->with([
+            'flash_message' => $message,
             'flash_message_type' => 'success',
+            'flash_message_important' => true,
+        ]);
+    }
+
+    private function redirectWithError($message)
+    {
+        return redirect()->route($this->redirectRoute())->with([
+            'flash_message' => $message,
+            'flash_message_type' => 'danger',
             'flash_message_important' => true,
         ]);
     }
