@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Connections;
 
+use Illuminate\Http\Request;
 use Auth;
 use Session;
 use App\Http\Controllers\Controller;
@@ -10,6 +11,17 @@ use App\Provider;
 
 abstract class BaseConnectionController extends Controller
 {
+    protected $isOnboarding;
+
+    public function __construct(Request $request)
+    {
+        if ($request->input('onboarding')) {
+            $this->isOnboarding = true;
+        } else {
+            $this->isOnboarding = session('redirect_route') == 'onboardingConnect';
+        }
+    }
+
     public function getSessionConnection()
     {
         $connection_data = Session::get('connection_data');

@@ -9,6 +9,7 @@ use Socialite;
 use Config;
 use Session;
 use Auth;
+use Exception;
 
 class FacebookController extends BaseConnectionController
 {
@@ -92,7 +93,6 @@ class FacebookController extends BaseConnectionController
      */
     public function saveAccount(Request $request)
     {
-        $this->isOnboarding = $request->input('onboarding') ? true : false;
         $connection = Connection::find($request->input('connection_id'));
 
         $fb = $this->facebookInstance($connection->getSettings()->user_token);
