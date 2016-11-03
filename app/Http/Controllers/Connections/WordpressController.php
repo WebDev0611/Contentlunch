@@ -10,7 +10,7 @@ use Redirect;
 
 class WordpressController extends BaseConnectionController
 {
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->auth = new WordPressAuth();
         $this->api = new WordPressAPI();
@@ -64,7 +64,7 @@ class WordpressController extends BaseConnectionController
         $metaData = $this->getSessionConnectionMetadata();
 
         if (!collect($metaData)->has('url')) {
-            $url = \Session::get('wordpress_blog_url');
+            $url = session('wordpress_blog_url');
         } else {
             $url = $metaData['url'];
         }

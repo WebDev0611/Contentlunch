@@ -4,8 +4,9 @@ namespace Connections\API;
 
 use GuzzleHttp\Client;
 use Storage;
+use Exception;
 
-class WordpressAPI
+class WordPressAPI
 {
     // - dunno if needed
     protected $configKey = 'wordpress';
@@ -29,12 +30,18 @@ class WordpressAPI
 
     public function baseUrl()
     {
-        return $this->base_url . 'sites/' . $this->settings()->blog_url;
+        $settings = $this->settings();
+
+        return $settings ?
+            $this->base_url . 'sites/' . $settings->blog_url :
+            $this->base_url . 'sites/';
     }
 
     public function settings()
     {
-        return $this->connection->getSettings();
+        return $this->connection ?
+            $this->connection->getSettings() :
+            null;
     }
 
     public function headers()
