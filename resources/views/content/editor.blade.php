@@ -733,10 +733,18 @@
             return $.ajax({
                 method: 'get',
                 url: '/api/connections',
+                headers: getHeaders(),
                 data: {
                     content_type: contentType
                 }
             });
+        }
+
+        function getHeaders() {
+            return {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': $('input[name=_token]').val()
+            };
         }
 
         function updateContentDestinationDropdown(response) {

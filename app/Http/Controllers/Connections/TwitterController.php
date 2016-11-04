@@ -10,6 +10,7 @@ use Session;
 use Redirect;
 use Input;
 use Auth;
+use Exception;
 
 use App\Connection;
 use App\TwitterConnection;
@@ -57,25 +58,29 @@ class TwitterController extends BaseConnectionController
                 $oauth_verifier = Input::get('oauth_verifier');
             }
 
-            $token = Twitter::getAccessToken($oauth_verifier);
+            try {
+                $token = Twitter::getAccessToken($oauth_verifier);
+            } catch (Exception $e) {
+                $this->cleanSessionConnection();
+
+                return $this->redirectWithError('The connection request was denied by the user.');
+            }
 
             if (!isset($token['oauth_token_secret'])) {
-                return Redirect::route('twitterLogin')
-                    ->with('flash_error', 'We could not log you in on Twitter.');
+                $this->cleanSessionConnection();
+                return $this->redirectWithError('We could not log you in on Twitter.');
             }
 
             $credentials = Twitter::getCredentials();
-            $redirectUrl = $this->redirectRoute();
 
             if (is_object($credentials) && !isset($credentials->error)) {
                 $this->saveConnection($token, 'twitter');
 
-                return Redirect::route($redirectUrl)
-                    ->with('flash_notice', 'Congrats! You\'ve successfully signed in.');
+                return $this->redirectWithSuccess('Congrats! You\'ve successfully signed in.');
             }
 
-            return Redirect::route($redirectUrl)
-                ->with('flash_error', 'Something went wrong while signing you up.');
+            $this->cleanSessionConnection();
+            return $this->redirectWithError('Something went wrong while signing you up.');
         }
     }
 

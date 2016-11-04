@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Country', 'country_code', 'country_code');
     }
 
+    public function accountConnections()
+    {
+        return $this->account->connections();
+    }
+
     public static function dropdown()
     {
         $authorDropdown = ['' => '-- Select Author --'];

@@ -8,9 +8,13 @@ use App\Connection;
 use Socialite;
 use Config;
 use Session;
+use Auth;
+use Exception;
 
 class FacebookController extends BaseConnectionController
 {
+    protected $fb;
+
     private function facebookInstance($token)
     {
         return new Facebook([
@@ -35,14 +39,13 @@ class FacebookController extends BaseConnectionController
      */
     public function callback(Request $request)
     {
-        // - get user data
-        $user = Socialite::driver('facebook')->user();
+        try {
+            $accessToken = $this->getLongLivedAccessToken();
+        } catch (Exception $e) {
+            $this->cleanSessionConnection();
 
-        $fb = $this->facebookInstance($user->token);
-
-        // - Lets get long lived access token
-        $oAuth2Client = $fb->getOAuth2Client();
-        $accessToken = $oAuth2Client->getLongLivedAccessToken($user->token);
+            return $this->redirectWithError('The connection request was denied by the user.');
+        }
 
         $settings = [
             'user_token' => (string) $accessToken,
@@ -51,15 +54,16 @@ class FacebookController extends BaseConnectionController
         $connection = $this->saveConnection($settings, 'facebook');
 
         $accountOptions = [];
-        $accountList = $fb->get('/me/accounts');
+        $accountList = $this->fb->get('/me/accounts');
 
         foreach ($accountList->getGraphEdge() as $graphNode) {
             $accountOptions[$graphNode['id']] = $graphNode['name'];
         }
 
         $connection_id = $connection->id;
+        $user = Auth::user();
 
-        return view($this->getSelectAccountView(), compact('accountOptions', 'connection_id'));
+        return view($this->getSelectAccountView(), compact('accountOptions', 'connection_id', 'user'));
         // - Get App Approval from User to Post on Page / Get User Data
         // - Get User Token
         // - Convert to LongLivedToken
@@ -71,6 +75,15 @@ class FacebookController extends BaseConnectionController
         // - Ready to use
     }
 
+    private function getLongLivedAccessToken()
+    {
+        $facebookUser = Socialite::driver('facebook')->user();
+        $this->fb = $this->facebookInstance($facebookUser->token);
+        $oAuth2Client = $this->fb->getOAuth2Client();
+
+        return $oAuth2Client->getLongLivedAccessToken($facebookUser->token);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -80,7 +93,6 @@ class FacebookController extends BaseConnectionController
      */
     public function saveAccount(Request $request)
     {
-        $this->isOnboarding = $request->input('onboarding') ? true : false;
         $connection = Connection::find($request->input('connection_id'));
 
         $fb = $this->facebookInstance($connection->getSettings()->user_token);

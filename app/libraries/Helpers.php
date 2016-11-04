@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Storage;
 use File;
 use Config;
+use Auth;
 
 class Helpers {
 
@@ -89,6 +90,38 @@ class Helpers {
         return self::handleUpload($file, $filename, $path);
     }
 
+    public static function userImagesFolder($userId = null)
+    {
+        if (!$userId) {
+            $userId = Auth::id();
+        }
+
+        return "attachment/$userId/images";
+    }
+
+    public static function userFilesFolder($userId = null)
+    {
+        if (!$userId) {
+            $userId = Auth::id();
+        }
+
+        return "attachment/$userId/files";
+    }
+
+    public static function userTasksFolder($userId = null)
+    {
+        if (!$userId) {
+            $userId = Auth::id();
+        }
+
+        return "attachment/$userId/files";
+    }
+
+    public static function tempFolder()
+    {
+        return 'attachment/_tmp/';
+    }
+
     public static function handleUpload($file, $filename, $path)
     {
         $mime = $file->getClientMimeType();
@@ -101,6 +134,16 @@ class Helpers {
         Storage::put($fullPath, File::get($file));
 
         return Storage::url($fullPath);
+    }
+
+    public static function moveFileToFolder($fileUrl, $folder)
+    {
+        $fileName = substr(strstr($fileUrl, '_tmp/'), 5);
+        $newPath = $folder . $fileName;
+        $s3Path = Helpers::s3Path($fileUrl);
+        Storage::move($s3Path, $newPath);
+
+        return $newPath;
     }
 
     public static function s3Path($fullUrl)

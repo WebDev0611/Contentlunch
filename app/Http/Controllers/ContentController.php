@@ -353,7 +353,9 @@ class ContentController extends Controller
     private function handleAttachments($files, $content, $fileType = 'file')
     {
         $files = collect($files)->filter()->flatten()->toArray();
-        $userFolder = 'attachment/' . Auth::id() . ($fileType == 'image' ? '/images/' : '/files/');
+        $userFolder = $fileType == 'image' ?
+            Helpers::userImagesFolder() :
+            Helpers::userFilesFolder();
 
         foreach ($files as $fileUrl) {
             $newPath = $this->moveFileToUserFolder($fileUrl, $userFolder);

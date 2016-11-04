@@ -47,7 +47,7 @@
                                                 <span class="settings-import-item-title">{{ $con->name }}</span>
                                             </div>
                                             <div class="col-md-6 text-right">
-                                                @if ($con->successful)
+                                                @if ($con->active)
                                                     <button class="button button-connected button-small">Connected</button>
                                                 @else
                                                     <button class="button button-small">Connect</button>
@@ -77,7 +77,7 @@
 </div>
 
 <div id="newConnection" class="sidemodal large">
-    {{ Form::open(array('url' => 'settings/connections/create')) }}
+    {{ Form::open([ 'url' => 'settings/connections/create' ]) }}
     <div class="sidemodal-header">
         <div class="row">
             <div class="col-md-6">
@@ -132,7 +132,7 @@
             <!-- gets populated from JS -->
         </div>
     </div>
-        {{ Form::close() }}
+    {{ Form::close() }}
 </div>
 
 <template id="wordpressTemplate">

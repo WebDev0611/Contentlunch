@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Connections;
 
+use Illuminate\Http\Request;
 use Auth;
 use Session;
 use App\Http\Controllers\Controller;
@@ -10,6 +11,17 @@ use App\Provider;
 
 abstract class BaseConnectionController extends Controller
 {
+    protected $isOnboarding;
+
+    public function __construct(Request $request)
+    {
+        if ($request->input('onboarding')) {
+            $this->isOnboarding = true;
+        } else {
+            $this->isOnboarding = session('redirect_route') == 'onboardingConnect';
+        }
+    }
+
     public function getSessionConnection()
     {
         $connection_data = Session::get('connection_data');
@@ -25,8 +37,30 @@ abstract class BaseConnectionController extends Controller
         return $connectionData ? $connectionData['meta_data'] : null;
     }
 
+    protected function redirectWithSuccess($message)
+    {
+        return redirect()->route($this->redirectRoute())->with([
+            'flash_message' => $message,
+            'flash_message_type' => 'success',
+            'flash_message_important' => true,
+        ]);
+    }
+
+    protected function redirectWithError($message)
+    {
+        return redirect()->route($this->redirectRoute())->with([
+            'flash_message' => $message,
+            'flash_message_type' => 'danger',
+            'flash_message_important' => true,
+        ]);
+    }
+
     public function cleanSessionConnection()
     {
+        $connection = $this->getSessionConnection();
+        if ($connection) {
+            $connection->delete();
+        }
         Session::forget('connection_data');
     }
 
@@ -54,7 +88,7 @@ abstract class BaseConnectionController extends Controller
                 'user_id' => Auth::user()->id,
             ]);
         } else {
-            $connection->settings = $settings;
+            $connection->settings = $jsonEncodedSettings;
             $connection->save();
         }
 
