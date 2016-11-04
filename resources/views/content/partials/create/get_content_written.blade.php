@@ -111,18 +111,21 @@
             events: {
                 'click #writer_access_count_inc': 'increaseWriterAccessCount',
                 'click #writer_access_count_dec': 'decreaseWriterAccessCount',
-                'change #writer_access_asset_type': 'populateWordCountSelect',
+                'change #writer_access_asset_type': 'render',
+                'change #writer_access_word_count': 'calculateOrderPrices',
+                'change #writer_access_writer_level': 'calculateOrderPrices',
             },
 
             initialize: function() {
                 this.orderCount = 1;
+                this.$el.find('#writer_access_count').val(this.orderCount);
                 this.render();
             },
 
             render: function () {
-                this.$el.find('#writer_access_count').val(this.orderCount);
                 this.renderOrdersButton();
                 this.populateWordCountSelect();
+                this.calculateOrderPrices();
             },
 
             increaseWriterAccessCount: function() {
@@ -162,6 +165,28 @@
 
                     element.appendTo('#writer_access_word_count');
                 }
+            },
+
+            wordCount: function() {
+                return parseInt(this.$el.find('#writer_access_word_count').val());
+            },
+
+            writerLevel: function() {
+                return parseInt(this.$el.find('#writer_access_writer_level').val());
+            },
+
+            basePrice: function() {
+                var wordCount = this.wordCount();
+                var writerLevel = this.writerLevel();
+
+                return prices[this.assetId][wordCount][writerLevel];
+            },
+
+            calculateOrderPrices: function() {
+                var orderPrice = this.basePrice();
+                var totalPrice = orderPrice * this.orderCount;
+
+                this.$el.find('#price_each').text(orderPrice);
             },
         });
 
