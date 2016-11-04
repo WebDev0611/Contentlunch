@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-8 col-md-offset-2" id='writerAccessForm'>
         <div class="input-form-group">
             <label for="#">PROJECT NAME</label>
             <input type="text" class="input" placeholder="Enter project name">
@@ -8,16 +8,22 @@
             <div class="col-md-8">
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="#">NUMBER OF TITLES</label>
+                        <label for="#">NUMBER OF ORDERS</label>
                         <div class="range-form input-group">
                             <span class="input-group-addon">
-                                <button class="button button-small button-outline-secondary" disabled>
+                                <button class="button button-small button-outline-secondary" id='writer_access_count_dec'>
                                     <i class="icon-big-caret-left"></i>
                                 </button>
                             </span>
-                            <input type="text" class="input" name="writer_access_count" id="writer_access_count" value="1" aria-label="Number of content titles to order.">
+                            <input type="text"
+                                class="input"
+                                name="writer_access_count"
+                                id="writer_access_count"
+                                value="1"
+                                aria-label="Number of content titles to order.">
+
                             <span class="input-group-addon">
-                                <button class="button button-small button-outline-secondary">
+                                <button class="button button-small button-outline-secondary" id='writer_access_count_inc'>
                                     <i class="icon-big-caret-right"></i>
                                 </button>
                             </span>
@@ -26,7 +32,12 @@
                     <div class="col-md-6">
                         <div class="input-form-group">
                             <label for="#">Project Deadline</label>
-                            <input type="text" class="input datepicker" name="dealine" id="deadline" placeholder="Project Deadline!">
+                            <input
+                                type="text"
+                                class="input datepicker"
+                                name="dealine"
+                                id="deadline"
+                                placeholder="Project Deadline!">
                         </div>
                     </div>
                 </div>
@@ -35,7 +46,9 @@
                     <div class="select">
                         <select name="writer_access_asset_type" id="writer_access_asset_type">
                             @foreach($contentTypes  as $contentType)
-                                <option value="{{$contentType->writer_access_id}}">{{$contentType->name}}</option>
+                                <option value="{{ $contentType->writer_access_id }}">
+                                    {{ $contentType->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -73,11 +86,11 @@
             </div>
             <div class="col-md-4">
                 <div class="create-tabs-priceline">
-                    <span>TOTAL ORDER</span>
+                    <span>TOTAL COST</span>
                     <h4 id="total_cost">$40.70</h4>
                 </div>
                 <div class="create-tabs-priceline">
-                    <span>COST / ORDER</span>
+                    <span>COST PER ORDER</span>
                     <h4 id="price_each">$40.70</h4>
                 </div>
             </div>
@@ -85,10 +98,56 @@
         <button href="javascript:;" onclick="window.location.href = '/get_written';" class="button button-extend text-uppercase">
             SUBMIT AND START ORDERING PROCESS
         </button>
-
-        <script type="text/javascript">
-            // This is brilliant... seriously!
-            var prices =  (function(){ return {!! $pricesJson !!}; })();
-        </script>
     </div>
 </div>
+
+@section('scripts')
+<script type="text/javascript">
+    var prices =  (function() { return {!! $pricesJson !!}; })();
+
+    (function() {
+
+        var WriterAccessView = Backbone.View.extend({
+            events: {
+                'click #writer_access_count_inc': 'increaseWriterAccessCount',
+                'click #writer_access_count_dec': 'decreaseWriterAccessCount'
+            },
+
+            initialize: function() {
+                this.orderCount = 1;
+                this.render();
+            },
+
+            render: function () {
+                this.$el.find('#writer_access_count').val(this.orderCount);
+                this.renderOrdersButton();
+            },
+
+            increaseWriterAccessCount: function() {
+                this.orderCount++;
+                this.render();
+            },
+
+            decreaseWriterAccessCount: function() {
+                if (this.orderCount > 2) {
+                    this.orderCount--;
+                } else {
+                    this.orderCount = 1;
+                }
+                this.render();
+            },
+
+            renderOrdersButton: function() {
+                if (this.orderCount == 1) {
+                    this.$el.find('#writer_access_count_dec').prop('disabled', true);
+                } else {
+                    this.$el.find('#writer_access_count_dec').prop('disabled', false);
+                }
+            }
+        });
+
+        var writerAccessForm = new WriterAccessView({ el: '#writerAccessForm' });
+
+    })();
+</script>
+@stop

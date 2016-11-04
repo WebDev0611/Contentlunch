@@ -14,6 +14,7 @@ use App\User;
 use App\Tag;
 use App\Persona;
 use App\Helpers;
+use App\WriterAccessPrice;
 use Storage;
 use View;
 use Auth;
@@ -57,15 +58,12 @@ class ContentController extends Controller
         $prices = DB::table('writer_access_prices')->distinct()->select('asset_type_id')->get();
 
         $reformedPrices = [];
+
         foreach ($prices as $price) {
             if (!isset($reformedPrices[$price->asset_type_id])) {
                 $reformedPrices[$price->asset_type_id] = [];
 
-                $wordcounts = DB::table('writer_access_prices')
-                    ->distinct()
-                    ->select('wordcount')
-                    ->where('asset_type_id', $price->asset_type_id)
-                    ->get();
+                $wordcounts = WriterAccessPrice::availableWordcountsByAssetType($price->asset_type_id);
 
                 foreach ($wordcounts as $wordcount) {
                     $reformedPrices[$price->asset_type_id][$wordcount->wordcount] = [];
@@ -86,7 +84,9 @@ class ContentController extends Controller
         $contenttypedd = ContentType::dropdown();
         $campaigndd = Campaign::dropdown();
 
-        return View::make('content.create', compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd'));
+        $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd');
+
+        return View::make('content.create', $data);
     }
 
     public function directPublish(Request $request, $contentId)
