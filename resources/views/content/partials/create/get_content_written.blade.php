@@ -118,14 +118,18 @@
 
             initialize: function() {
                 this.orderCount = 1;
-                this.$el.find('#writer_access_count').val(this.orderCount);
                 this.render();
             },
 
             render: function () {
                 this.renderOrdersButton();
+                this.renderOrdersCount();
                 this.populateWordCountSelect();
                 this.calculateOrderPrices();
+            },
+
+            renderOrdersCount: function() {
+                this.$el.find('#writer_access_count').val(this.orderCount);
             },
 
             increaseWriterAccessCount: function() {
@@ -186,7 +190,12 @@
                 var orderPrice = this.basePrice();
                 var totalPrice = orderPrice * this.orderCount;
 
-                this.$el.find('#price_each').text(orderPrice);
+                this.$el.find('#price_each').text(this.formatPrice(orderPrice));
+                this.$el.find('#total_cost').text(this.formatPrice(totalPrice));
+            },
+
+            formatPrice: function(price) {
+                return '$ ' + price + '.00';
             },
         });
 
