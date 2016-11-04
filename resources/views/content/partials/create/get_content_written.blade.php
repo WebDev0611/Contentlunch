@@ -110,7 +110,8 @@
         var WriterAccessView = Backbone.View.extend({
             events: {
                 'click #writer_access_count_inc': 'increaseWriterAccessCount',
-                'click #writer_access_count_dec': 'decreaseWriterAccessCount'
+                'click #writer_access_count_dec': 'decreaseWriterAccessCount',
+                'change #writer_access_asset_type': 'populateWordCountSelect',
             },
 
             initialize: function() {
@@ -121,6 +122,7 @@
             render: function () {
                 this.$el.find('#writer_access_count').val(this.orderCount);
                 this.renderOrdersButton();
+                this.populateWordCountSelect();
             },
 
             increaseWriterAccessCount: function() {
@@ -143,7 +145,24 @@
                 } else {
                     this.$el.find('#writer_access_count_dec').prop('disabled', false);
                 }
-            }
+            },
+
+            populateWordCountSelect: function() {
+                this.assetId = this.$el.find('#writer_access_asset_type').val();
+                var pricesObject = prices[this.assetId];
+                var wordcounts = Object.keys(pricesObject);
+                this.$el.find('#writer_access_word_count').html('');
+
+                for (var i = 0; i < wordcounts.length; i++) {
+                    var wordcount = wordcounts[i];
+                    var element = $('<option>', {
+                        value: wordcount,
+                        text: wordcount
+                    })
+
+                    element.appendTo('#writer_access_word_count');
+                }
+            },
         });
 
         var writerAccessForm = new WriterAccessView({ el: '#writerAccessForm' });
