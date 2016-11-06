@@ -56,7 +56,7 @@
                                     {!! Form::text('title', '', array('placeholder' => 'Enter content title', 'class' => 'input input-larger form-control', 'id' => 'title')) !!}
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="input-form-group">
                                             <label for="#">CONTENT TYPE</label>
                                             <div class="select">
@@ -64,6 +64,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!--
                                     <div class="col-md-6">
                                         <div class="input-form-group">
                                             <label for="#">TEMPLATE</label>
@@ -73,15 +74,15 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div>
-
+                                <!--
                                 <div class="input-form-group">
                                     <label for="#">Campaign</label>
                                     <div class="select">
                                         {!! Form::select('campaign', $campaigndd, @isset($content)? $content->campaign_id : '' , array('class' => 'input form-control', 'id' => 'campaign')) !!}
                                     </div>
-                                </div>
+                                </div>-->
                                 <input value="CREATE CONTENT" type="submit" class="button button-extend text-uppercase">
                                     
                             </div>
