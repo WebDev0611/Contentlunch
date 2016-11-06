@@ -11,9 +11,10 @@
             <button class="search-bar-button add-task-action">
                 <i class="icon-checklist"></i>
             </button>
+            <!--
             <button class="search-bar-button">
                 <i class="icon-users"></i>
-            </button>
+            </button>-->
             <!--
             <button class="search-bar-button">
                 <i class="icon-chat"></i>
