@@ -13,7 +13,7 @@
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
                                 <h5 class="onboarding-step-text text-center">
-                                    Peliminary Content Score
+                                    Welcome to ContentLaunch
                                 </h5>
                                 <div class="onboarding-step">
                                     <span class="onboarding-step-point active"></span>
@@ -21,12 +21,31 @@
                                     <span class="onboarding-step-point active"></span>
                                     <span class="onboarding-step-point active"></span>
                                 </div>
+                                <!--
                                 <h5 class="onboarding-text text-center">
                                     Sed a ornare nibh. Phasellus sed erat ultrices nunc maximus ornare nec sed massa.
                                     Sed lobortis sed nunc quis varius.
-                                </h5>
+                                </h5>-->
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2 text-center">
+                                <div class="onboarding-score">
+                                    <div class="onboarding-score-chart">
+                        Thanks for taking time to invite co-workers and set up your content connections! 
+
+                                    </div>
+                                </div>
+                                <p>
+That takes care of your on-boarding to Content Launch. 
+</p><p>
+Didn't have time to take care of these tasks now? No problem, you can do it later. 
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <!--
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2 text-center">
                                 <div class="onboarding-score">
@@ -42,6 +61,8 @@
                                 </p>
                             </div>
                         </div>
+                        -->
+                        <!--
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="onboarding-score-section-row text-center">
@@ -63,10 +84,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="row">
                             <div class="col-md-6 col-md-offset-3">
-                                <a href="/#/onboarding/1" class="button button-extend text-uppercase">
+                                <a href="/" class="button button-extend text-uppercase">
                                     GET ME TO THE APP
                                 </a>
                             </div>
