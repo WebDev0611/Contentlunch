@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 hide">
                         <label for="#">NUMBER OF ORDERS</label>
                         <div class="range-form input-group">
                             <span class="input-group-addon">
@@ -29,13 +29,13 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="input-form-group">
                             <label for="#">Project Deadline</label>
                             <input
                                 type="text"
                                 class="input datepicker"
-                                name="dealine"
+                                name="deadline"
                                 id="deadline"
                                 placeholder="Project Deadline!">
                         </div>
@@ -54,15 +54,17 @@
                     </div>
                 </div>
                 <div class="input-form-group">
-                    <label for="writer_access_asset_type">WORD COUNT</label>
-                    <div class="select">
-                        <select name="writer_access_word_count" id="writer_access_word_count">
 
-                        </select>
-                    </div>
-                </div>
-                <div class="input-form-group">
                     <div class="row">
+                        <div class="col-md-6">
+                            <label for="writer_access_asset_type">WORD COUNT</label>
+                            <div class="select">
+                                <select name="writer_access_word_count" id="writer_access_word_count">
+
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="col-md-6">
                             <label for="#">WRITER LEVEL</label>
                             <div class="select">
@@ -72,13 +74,6 @@
                                     <option value="5">5 Star Writer</option>
                                     <option value="6">6 Star Writer</option>
                                 </select>
-
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-form-group">
-                                <label for="#">Base Priceline</label>
-                                <input type="text" class="input" disabled name="writer_access_base_price" id="writer_access_base_price"  placeholder="Base Priceline">
                             </div>
                         </div>
                     </div>

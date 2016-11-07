@@ -50,7 +50,7 @@ class WriterAccessController extends Controller {
 
         // Create the users project if it doesn't already exist.
         if(empty(Auth::user()->writer_access_Project_id)){
-            echo "Crteating project";
+            echo "Creating project";
             $this->createProject();
         }
 
