@@ -34,14 +34,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="input-form-group">
-                                <label for="#">Upload Files</label>
-                                <div class="fileupload">
-                                    <i class="icon-link picto"></i>
-                                    <p class="msgtitle">Click to attach one or more files</p>
-                                    <input type="file" class="input input-upload">
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="row">
