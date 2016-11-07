@@ -32,12 +32,28 @@
                     <div class="col-md-12">
                         <div class="input-form-group">
                             <label for="#">Project Deadline</label>
-                            <input
+<!--                             <input
                                 type="text"
                                 class="input datepicker"
                                 name="deadline"
                                 id="deadline"
-                                placeholder="Project Deadline!">
+                                placeholder="Project Deadline!"> -->
+
+                            <div class='input-group date datetimepicker'>
+                                {!!
+                                    Form::text(
+                                        'due_date',
+                                        '',
+                                        [
+                                            'class' => ' input form-control',
+                                            'id' => 'dueDate'
+                                        ]
+                                    )
+                                !!}
+                                <span class="input-group-addon">
+                                    <i class="icon-calendar picto"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -100,7 +116,13 @@
 <script type="text/javascript">
     var prices =  (function() { return {!! $pricesJson !!}; })();
 
+    $('.datetimepicker').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+
     (function() {
+
+
 
         var WriterAccessView = Backbone.View.extend({
             events: {
