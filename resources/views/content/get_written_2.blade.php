@@ -27,43 +27,43 @@
                                 <label for="#">WHO IS YOUR TARGET AUDIENCE</label>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label for="B2B" class="radio-secondary">
-                                            <input id="B2B" type="radio">
+                                        <label class="radio-secondary">
+                                            <input name='target_audience' value='customers' type="radio">
                                             <span>Customers</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="B2B" class="radio-secondary">
-                                            <input id="B2B" type="radio">
+                                        <label class="radio-secondary">
+                                            <input name='target_audience' value='prospect_customers' type="radio">
                                             <span>Prospect Customers</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="B2B" class="radio-secondary">
-                                            <input id="B2B" type="radio">
+                                        <label class="radio-secondary">
+                                            <input name='target_audience' value='knowledge_seekers' type="radio">
                                             <span>Knowledge Seekers</span>
                                         </label>
                                     </div>
                                 </div>
                             </div>
                             <div class="input-form-group">
-                                <label for="#">WHAT IS THEIR COMPREGENSION LEVEL</label>
+                                <label for="#">WHAT IS THEIR COMPREHENSION LEVEL</label>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label for="B2B" class="radio-secondary">
-                                            <input id="B2B" type="radio">
+                                        <label class="radio-secondary">
+                                            <input name='comprehension' value='newbies' type="radio">
                                             <span>Newbies</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="B2B" class="radio-secondary">
-                                            <input id="B2B" type="radio">
+                                        <label class="radio-secondary">
+                                            <input name='comprehension' value='basic_knowledge' type="radio">
                                             <span>Basic Knowledge</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="B2B" class="radio-secondary">
-                                            <input id="B2B" type="radio">
+                                        <label class="radio-secondary">
+                                            <input name='comprehension' value='gurus' type="radio">
                                             <span>Gurus</span>
                                         </label>
                                     </div>
@@ -71,94 +71,33 @@
                             </div>
                             <div class="input-form-group">
                                 <label for="#">WHAT IS YOUR TARGET DEMOGRAPHIC</label>
-                                <div class="row">
+                                @for ($i = 0; $i < 12; $i++)
+                                    @if ($i % 3 == 0)
+                                        <div class="row">
+                                    @endif
+
                                     <div class="col-md-4">
-                                        <label for="dieselEngines2" class="checkbox-tag">
-                                            <input id="dieselEngines2" type="checkbox">
+                                        <label class="checkbox-tag">
+                                            <input type="checkbox">
                                             <span>Diesel engines</span>
                                         </label>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label for="dieselEngines2" class="checkbox-tag">
-                                            <input id="dieselEngines2" type="checkbox">
-                                            <span>Diesel engines</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="dieselEngines2" class="checkbox-tag">
-                                            <input id="dieselEngines2" type="checkbox">
-                                            <span>Diesel engines</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="dieselEngines2" class="checkbox-tag">
-                                            <input id="dieselEngines2" type="checkbox">
-                                            <span>Diesel engines</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="dieselEngines2" class="checkbox-tag">
-                                            <input id="dieselEngines2" type="checkbox">
-                                            <span>Diesel engines</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="dieselEngines2" class="checkbox-tag">
-                                            <input id="dieselEngines2" type="checkbox">
-                                            <span>Diesel engines</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="dieselEngines2" class="checkbox-tag">
-                                            <input id="dieselEngines2" type="checkbox">
-                                            <span>Diesel engines</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="dieselEngines2" class="checkbox-tag">
-                                            <input id="dieselEngines2" type="checkbox">
-                                            <span>Diesel engines</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="dieselEngines2" class="checkbox-tag">
-                                            <input id="dieselEngines2" type="checkbox">
-                                            <span>Diesel engines</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="dieselEngines2" class="checkbox-tag">
-                                            <input id="dieselEngines2" type="checkbox">
-                                            <span>Diesel engines</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="dieselEngines2" class="checkbox-tag">
-                                            <input id="dieselEngines2" type="checkbox">
-                                            <span>Diesel engines</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="dieselEngines2" class="checkbox-tag">
-                                            <input id="dieselEngines2" type="checkbox">
-                                            <span>Diesel engines</span>
-                                        </label>
-                                    </div>
-                                </div>
+
+                                    @if ($i % 3 == 2)
+                                        </div>
+                                    @endif
+                                @endfor
                             </div>
                             <div class="input-form-group">
                                 <label for="#">OTHER</label>
-                                <input type="text" class="input" placeholder="Separate by commas">
+                                <input type="text" class="input" name='other_demographic' placeholder="Separate by commas">
                             </div>
                             <div class="input-form-group">
                                 <label for="#">DESCRIBE YOUR AUDIENCE</label>
-                                <textarea class="input" placeholder="Who are your customers and what are their characteristics"></textarea>
+                                <textarea
+                                    class="input"
+                                    placeholder="Who are your customers and what are their characteristics">
+                                </textarea>
                             </div>
                             <div class="form-delimiter">
                                 <span>
@@ -167,42 +106,42 @@
                             </div>
                             <div class="input-form-group">
                                 <label for="#">WHICH CATEGORY BEST MATCHES THE TONE YOU SEEK</label>
-                                <div class="row">
+                                <div class="form-group row">
                                     <div class="col-md-4">
-                                        <label for="B2B" class="radio-secondary">
-                                            <input id="B2B" type="radio">
+                                        <label class="radio-secondary">
+                                            <input name='tone_radio' value='Extremely Informal' type="radio">
                                             <span>Extremely Informal</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="B2B" class="radio-secondary">
-                                            <input id="B2B" type="radio">
+                                        <label class="radio-secondary">
+                                            <input name='tone_radio' value='Journalistic' type="radio">
                                             <span>Journalistic</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="B2B" class="radio-secondary">
-                                            <input id="B2B" type="radio">
+                                        <label class="radio-secondary">
+                                            <input name='tone_radio' value='Business Formal' type="radio">
                                             <span>Business Formal</span>
                                         </label>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group row">
                                     <div class="col-md-4">
-                                        <label for="B2B" class="radio-secondary">
-                                            <input id="B2B" type="radio">
+                                        <label class="radio-secondary">
+                                            <input name='tone_radio' value='Everyday Informal' type="radio">
                                             <span>Everyday Informal</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="B2B" class="radio-secondary">
-                                            <input id="B2B" type="radio">
+                                        <label class="radio-secondary">
+                                            <input name='tone_radio' value='Business / Copywriting' type="radio">
                                             <span>Business / Copywriting</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="B2B" class="radio-secondary">
-                                            <input id="B2B" type="radio">
+                                        <label class="radio-secondary">
+                                            <input name='tone_radio' value='Other' type="radio">
                                             <span>Other</span>
                                         </label>
                                     </div>
@@ -210,7 +149,10 @@
                             </div>
                             <div class="input-form-group">
                                 <label for="#">DESCRIBE YOUR DESIRED TONE OF VOICE</label>
-                                <textarea class="input" placeholder="Explain the tone of voice you are seeking in your orders"></textarea>
+                                <textarea
+                                    class="input"
+                                    placeholder="Explain the tone of voice you are seeking in your orders">
+                                </textarea>
                             </div>
                             <div class="form-delimiter">
                                 <span>
