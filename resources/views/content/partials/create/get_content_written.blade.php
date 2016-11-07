@@ -84,7 +84,7 @@
                     <span>TOTAL COST</span>
                     <h4 id="total_cost">$40.70</h4>
                 </div>
-                <div class="create-tabs-priceline">
+                <div class="create-tabs-priceline hide">
                     <span>COST PER ORDER</span>
                     <h4 id="price_each">$40.70</h4>
                 </div>
