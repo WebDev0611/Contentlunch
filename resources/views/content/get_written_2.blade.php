@@ -101,14 +101,6 @@
                                     placeholder="Explain the tone of voice you are seeking in your orders">
                                 </textarea>
                             </div>
-                            <div class="form-delimiter">
-                                <span>
-                                    <em>SEO Instruction</em>
-                                </span>
-                            </div>
-                            <div class="input-form-group">
-                                <textarea class="input" placeholder="Enter any special SEO instructions"></textarea>
-                            </div>
                         </div>
                     </div>
                     <div class="row">
