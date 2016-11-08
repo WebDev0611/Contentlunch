@@ -136,7 +136,6 @@ Route::post('/edit/{content}','ContentController@editStore');
 Route::get('/get_written','ContentController@get_written');
 Route::get('/get_written/{step}','ContentController@get_written');
 
-
 Route::get('/collaborate','CollaborateController@index');
 Route::get('/collaborate/linkedin','CollaborateController@linkedin');
 Route::get('/collaborate/twitter','CollaborateController@twitter');
