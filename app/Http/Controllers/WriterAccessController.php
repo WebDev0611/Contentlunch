@@ -45,9 +45,8 @@ class WriterAccessController extends Controller
      */
     public function __construct()
     {
-
         // Set the project name for writer access calls
-        $this->apiProject = preg_replace('#https?://#', '', Request::root()).'-user-'.Auth::user()->id;
+        $this->apiProject = $this->getProjectName();
 
         // Create the users project if it doesn't already exist.
         if (empty(Auth::user()->writer_access_Project_id)) {
@@ -57,6 +56,11 @@ class WriterAccessController extends Controller
 
         // Set the projectid for writer access calls
         $this->apiProjectId = Auth::user()->writer_access_Project_id;
+    }
+
+    private function getProjectName()
+    {
+        return preg_replace('#https?://#', '', Request::root()) . '-user-' . Auth::user()->id;
     }
 
     /**
@@ -135,6 +139,7 @@ class WriterAccessController extends Controller
         } else {
             $params['assetType'] = $_POST['assetType'];
         }
+
         if (!isset($_POST['wordcount'])) {
             $errors['wordcount'] = "Missing required parameter 'wordcount'.";
         } else {
@@ -142,11 +147,13 @@ class WriterAccessController extends Controller
             $params['minwords'] = $wordcount - ($wordcount * .1);
             $params['maxwords'] = $wordcount + ($wordcount * .1);
         }
+
         if (!isset($_POST['writer_level'])) {
             $errors['writer_level'] = "Missing required parameter 'writer_level'.";
         } else {
             $params['writer'] = $_POST['writer_level'];
         }
+
         if (!isset($_POST['duedate'])) {
             $errors['duedate'] = "Missing required parameter 'duedate'.";
         } else {
@@ -158,7 +165,9 @@ class WriterAccessController extends Controller
             $hours = $diff->h;
             $hours = $hours + ($diff->days * 24);
 
-            // NOTE: WriterAccess expects to see 4, 12, or increments of 24 hours. We are only going to worry about full days or a half day if submitted for next day duedates.
+            // NOTE: WriterAccess expects to see 4, 12, or increments of 24 hours.
+            // We are only going to worry about full days or a half day if submitted
+            // for next day duedates.
 
             //round down to the nearest 24 hours
             $hours = $hours - $hours % 24;
@@ -168,26 +177,31 @@ class WriterAccessController extends Controller
 
             $params['hourstocomplete'] = $hours;
         }
+
         if (!isset($_POST['title'])) {
             $errors['title'] = "Missing required parameter 'title'.";
         } else {
             $params['title'] = $_POST['title'];
         }
+
         if (!isset($_POST['instructions'])) {
             $errors['instructions'] = "Missing required parameter 'instructions'.";
         } else {
             $params['instructions'] = $_POST['instructions'];
         }
+
         if (!isset($_POST['target'])) {
             $errors['target'] = "Missing required parameter 'target'.";
         } else {
             $params['instructions'] .= "\nTarget Audience: \n".$_POST['target'];
         }
+
         if (!isset($_POST['tone'])) {
             $errors['tone'] = "Missing required parameter 'tone'.";
         } else {
             $params['instructions'] .= "\nTone of Writing: \n".$_POST['tone'];
         }
+
         if (!isset($_POST['voice'])) {
             $errors['voice'] = "Missing required parameter 'voice'.";
         } else {
