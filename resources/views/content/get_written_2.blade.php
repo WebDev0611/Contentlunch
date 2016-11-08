@@ -46,59 +46,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="input-form-group">
-                                <label for="#">WHAT IS THEIR COMPREHENSION LEVEL</label>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label class="radio-secondary">
-                                            <input name='comprehension' value='newbies' type="radio">
-                                            <span>Newbies</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="radio-secondary">
-                                            <input name='comprehension' value='basic_knowledge' type="radio">
-                                            <span>Basic Knowledge</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="radio-secondary">
-                                            <input name='comprehension' value='gurus' type="radio">
-                                            <span>Gurus</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="input-form-group">
-                                <label for="#">WHAT IS YOUR TARGET DEMOGRAPHIC</label>
-                                @for ($i = 0; $i < 12; $i++)
-                                    @if ($i % 3 == 0)
-                                        <div class="row">
-                                    @endif
-
-                                    <div class="col-md-4">
-                                        <label class="checkbox-tag">
-                                            <input type="checkbox">
-                                            <span>Diesel engines</span>
-                                        </label>
-                                    </div>
-
-                                    @if ($i % 3 == 2)
-                                        </div>
-                                    @endif
-                                @endfor
-                            </div>
-                            <div class="input-form-group">
-                                <label for="#">OTHER</label>
-                                <input type="text" class="input" name='other_demographic' placeholder="Separate by commas">
-                            </div>
-                            <div class="input-form-group">
-                                <label for="#">DESCRIBE YOUR AUDIENCE</label>
-                                <textarea
-                                    class="input"
-                                    placeholder="Who are your customers and what are their characteristics">
-                                </textarea>
-                            </div>
                             <div class="form-delimiter">
                                 <span>
                                     <em>Tone of Writing</em>
