@@ -27,10 +27,13 @@
                                 <textarea name="#" id="#" class="input" placeholder="Enter instructions writer should follow (i.e. tone of the article, target group,specific things to mention / omit etc.)"></textarea>
                             </div>
                             <div class="input-form-group">
-                                <label for="#">NARRATIVE VOICE</label>
+                                <label>NARRATIVE VOICE</label>
                                 <div class="select">
-                                    <select name="" id="">
-                                        <option value="#">First Person Plural</option>
+                                    <select name="narrative_voice">
+                                        <option value="First Person Plural">First Person Plural</option>
+                                        <option value="First Person Singular">First Person Singular</option>
+                                        <option value="Second Person">Second Person</option>
+                                        <option value="Third Person">Third Person</option>
                                     </select>
                                 </div>
                             </div>
