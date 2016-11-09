@@ -119,7 +119,7 @@ Route::get('login/{provider}',  ['as' => 'connectionCallback', 'uses' =>'Connect
 Route::get('callback/wordpress', [ 'as' => 'wordpressCallback', 'uses' => 'Connections\WordpressController@callback' ]);
 
 // - Landing page for creating content
-Route::get('/create','ContentController@create');
+Route::get('/create', 'ContentController@create');
 Route::post('/create/new','ContentController@store');
 
 // - create form page
@@ -179,6 +179,8 @@ Route::group(['prefix' => 'writeraccess'], function() {
 	Route::get('expertises', 'WriterAccessController@expertises');
 	Route::get('fees', 'WriterAccessPriceController@index');
 	Route::get('fee', 'WriterAccessPriceController@fee');
+
+    Route::post('partials', 'WriterAccessPartialOrderController@store');
 });
 
 Route::resource('writerAccessPrices','WriterAccessPriceController');
