@@ -2,7 +2,10 @@
     <div class="col-md-8 col-md-offset-2" id='writerAccessForm'>
         <div class="input-form-group">
             <label for="#">PROJECT NAME</label>
-            <input type="text" class="input" placeholder="Enter project name">
+            {!!
+                Form::text('project_name', null,
+                    [ 'class' => 'input form-control', 'placeholder' => 'Enter project name' ])
+            !!}
         </div>
         <div class="row">
             <div class="col-md-8">
@@ -32,23 +35,10 @@
                     <div class="col-md-12">
                         <div class="input-form-group">
                             <label for="#">Project Deadline</label>
-<!--                             <input
-                                type="text"
-                                class="input datepicker"
-                                name="deadline"
-                                id="deadline"
-                                placeholder="Project Deadline!"> -->
-
                             <div class='input-group date datetimepicker'>
                                 {!!
-                                    Form::text(
-                                        'due_date',
-                                        '',
-                                        [
-                                            'class' => ' input form-control',
-                                            'id' => 'dueDate'
-                                        ]
-                                    )
+                                    Form::text('due_date', null,
+                                        [ 'class' => ' input form-control', 'id' => 'dueDate' ])
                                 !!}
                                 <span class="input-group-addon">
                                     <i class="icon-calendar picto"></i>
