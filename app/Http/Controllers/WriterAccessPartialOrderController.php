@@ -56,12 +56,10 @@ class WriterAccessPartialOrderController extends Controller
             'project_name' => 'required|max:255',
             'due_date' => 'required',
             'writer_access_asset_type' => 'required',
-            'wordcount' => 'required',
-            'writer_level' => 'required'
+            'writer_access_word_count' => 'required',
+            'writer_access_writer_level' => 'required'
         ]);
     }
-
-    public function
 
     /**
      * Display the specified resource.

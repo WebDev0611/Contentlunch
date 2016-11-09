@@ -1,5 +1,20 @@
 <div class="row">
+
+
+    {!! Form::open([ 'url' => 'writeraccess/partials' ]) !!}
     <div class="col-md-8 col-md-offset-2" id='writerAccessForm'>
+        @if ($errors->any())
+            <div class="alert alert-danger alert-forms" id="formError">
+                <p><strong>Oops! We had some errors:</strong>
+                    <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                    </ul>
+                </p>
+            </div>
+        @endif
+
         <div class="input-form-group">
             <label for="#">PROJECT NAME</label>
             {!!
@@ -10,6 +25,8 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
+                    <!-- Hidden while we do not implement bulk ordering -->
+                    <!--
                     <div class="col-md-6 hide">
                         <label for="#">NUMBER OF ORDERS</label>
                         <div class="range-form input-group">
@@ -32,6 +49,7 @@
                             </span>
                         </div>
                     </div>
+                    -->
                     <div class="col-md-12">
                         <div class="input-form-group">
                             <label for="#">Project Deadline</label>
@@ -75,7 +93,12 @@
                             <label for="#">WRITER LEVEL</label>
                             <div class="select">
 
-                                <select type="text" class="input" name="writer_access_writer_level" id="writer_access_writer_level" aria-label="Amount (to the nearest dollar)">
+                                <select type="text"
+                                    class="input"
+                                    name="writer_access_writer_level"
+                                    id="writer_access_writer_level"
+                                    aria-label="Writer Level">
+
                                     <option value="4">4 Star Writer</option>
                                     <option value="5">5 Star Writer</option>
                                     <option value="6">6 Star Writer</option>
@@ -96,10 +119,12 @@
                 </div>
             </div>
         </div>
-        <button href="javascript:;" onclick="window.location.href = '/get_written';" class="button button-extend text-uppercase">
-            SUBMIT AND START ORDERING PROCESS
-        </button>
+        <input
+            type="submit"
+            class='button button-extend text-uppercase'
+            value='Submit and start ordering process'>
     </div>
+    {!! Form::close() !!}
 </div>
 
 @section('scripts')
