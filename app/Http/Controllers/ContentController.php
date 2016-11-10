@@ -430,15 +430,4 @@ class ContentController extends Controller
             'file' => 'image|max:3000'
         ]);
     }
-
-    public function get_written($step = 1)
-    {
-        $order = session('order');
-
-        if (($step >= 1) && ($step <= 3)) {
-            $view = 'content.get_written_' . $step;
-        }
-
-        return view($view, compact('order'));
-    }
 }
