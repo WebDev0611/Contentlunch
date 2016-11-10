@@ -189,6 +189,11 @@ Route::group(['prefix' => 'writeraccess'], function() {
         'as' => 'orderAudience',
         'uses' => 'WriterAccessPartialOrderController@orderAudience'
     ]);
+
+    Route::get('partials/order_review/{id}', [
+        'as' => 'orderReview',
+        'uses' => 'WriterAccessPartialOrderController@orderReview'
+    ]);
 });
 
 Route::resource('writerAccessPrices','WriterAccessPriceController');

@@ -13,7 +13,8 @@ class WriterAccessPartialOrderController extends Controller
 {
     protected $steps = [
         1 => 'orderSetup',
-        2 => 'orderAudience'
+        2 => 'orderAudience',
+        3 => 'orderReview'
     ];
 
     public function orderSetup(Request $request, $orderId)
@@ -28,6 +29,13 @@ class WriterAccessPartialOrderController extends Controller
         $order = WriterAccessPartialOrder::findOrFail($orderId);
 
         return view('content.get_written_2', compact('order'));
+    }
+
+    public function orderReview(Request $request, $orderId)
+    {
+        $order = WriterAccessPartialOrder::findOrFail($orderId);
+
+        return view('content.get_written_3', compact('order'));
     }
 
 
