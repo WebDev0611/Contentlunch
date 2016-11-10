@@ -2,9 +2,13 @@
     <div class="sidemodal-header">
         <div class="row">
             <div class="col-md-6">
-                <h4 class="sidemodal-header-title large"></h4>
+                <h4 class="sidemodal-header-title large">Create Idea</h4>
+                <div id="idea-status-alert" class="alert hidden">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div id="idea-status-text"></div>
+                </div>
             </div>
-            <div class="col-md-6 text-right">
+            <div class="col-md-6 text-right" id="idea-menu">
                 <button type="button" class="button button-outline-primary button-small park-idea">PARK</button>
                 <button class="button button-primary button-small text-uppercase save-idea">Save</button>
                 <button class="sidemodal-close normal-flow" data-dismiss="modal">

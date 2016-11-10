@@ -120,10 +120,21 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			}
 		},
 		park: function(){
-			this.save('parked');
+			this.store('parked');
 		},
-		save: function(status){
+		save: function(){
+			this.store('active');
+		},
+		store: function(status){
 			var view = this;
+			$('#idea-status-alert').addClass('hidden');
+			if( $('.idea-name').val().length < 1 ){
+				view.show_error('Idea title required');
+				return;
+			}
+			var loadingIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
+			console.log('loading image here');
+			$('#idea-menu').prepend(loadingIMG);
 			//saves the form data
 			var content = this.model.attributes.content;
 			var idea_obj = {
@@ -145,13 +156,31 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 	        	},
 			    dataType: 'json',
 			    success: function (data) {
+					$(loadingIMG).remove();
 					view.hide_modal();
+					view.clear_form();
+					view.render();
 				}
 			});
 		},
 		hide_modal: function(){
 			this.$el.modal('hide');
 		},
+		show_error: function(msg){
+			$('#idea-status-alert')
+				.toggleClass('hidden')
+				.toggleClass('alert-danger')
+				.show();
+
+			$('#idea-status-text').text(msg);
+		},
+		clear_form: function(){
+			this.model.attributes.content.reset([]);
+			$('.idea-name').val('');
+			$('.idea-text').val('');
+			$('.idea-tags').val('');
+			console.log(this.model.attributes.content.toJSON());
+		}
 	});
 
 	var new_idea = new idea_model();

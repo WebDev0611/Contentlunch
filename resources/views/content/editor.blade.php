@@ -781,6 +781,16 @@
 
             return selectedContentType == TWEET;
         }
+
+                //runs the action to submit the task
+        $('#add-task-button').click(function() {
+            add_task(addTaskCallback);
+        });
+
+        function addTaskCallback(task) {
+            tasks.add(new task_model(task_map(task)));
+            $('#addTaskModal').modal('hide');
+        }
     });
 </script>
 @stop
