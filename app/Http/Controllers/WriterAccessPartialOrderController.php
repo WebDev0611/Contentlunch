@@ -154,6 +154,22 @@ class WriterAccessPartialOrderController extends Controller
 
     public function submit(Request $request, WriterAccessPartialOrder $order)
     {
+        $validation = $this->validateCard($request->all());
 
+        if ($validation->fails()) {
+            return redirect()->route('orderSubmit')->with('errors', $validation->errors());
+        }
+
+        return redirect()->route('orderSubmit');
+    }
+
+    private function validateCard(array $data)
+    {
+        return Validator::make($data, [
+            'number' => 'required',
+            'card_name' => 'required',
+            'expiration' => 'required|date_format:mm/YYYY',
+            'cvv' => 'required',
+        ]);
     }
 }

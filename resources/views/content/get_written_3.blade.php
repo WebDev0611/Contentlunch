@@ -16,6 +16,7 @@
                             </div>
                         </div>
                     </div>
+                    {!! Form::open([ 'url' => "orders/$order->id/submit" ]) !!}
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="purchase-assignment">
@@ -80,26 +81,37 @@
                                     --}}
                                 </tfoot>
                             </table>
+                            @if ($errors->any())
+                                <div class="alert alert-danger alert-forms" id="formError">
+                                    <p><strong>Oops! We had some errors:</strong>
+                                        <ul>
+                                        @foreach($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                        </ul>
+                                    </p>
+                                </div>
+                            @endif
                             <h4 class="purchase-title">Make deposit via Stripe</h4>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="#">CARD NUMBER</label>
-                                        <input type="text" class="input" placeholder="Card number">
+                                        {{ Form::text('card_number', null, ['class' => 'input', 'placeholder' => 'Card Number']) }}
                                     </div>
                                     <div class="form-group">
                                         <label for="#">NAME ON CARD</label>
-                                        <input type="text" class="input" placeholder="Name on Card">
+                                        {{ Form::text('card_name', null, ['class' => 'input', 'placeholder' => 'Name on Card']) }}
                                     </div>
                                     <div class="input-form-group">
                                         <div class="row">
                                             <div class="col-md-8">
                                                 <label for="#">VALID UNTIL</label>
-                                                <input type="text" class="input" placeholder="MM/YYYY">
+                                                {{ Form::text('expiration', null, ['class' => 'input', 'placeholder' => 'MM/YYYY']) }}
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="#">CVV</label>
-                                                <input type="text" class="input">
+                                                {{ Form::text('cvv', null, ['class' => 'input']) }}
                                             </div>
                                         </div>
                                     </div>
@@ -112,9 +124,13 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
-                            <a href="/#/create/5" class="button button-primary button-extend text-uppercase">Submit Order</a>
+                            <input
+                                type="submit"
+                                class='button button-primary button-extend text-uppercase'
+                                value='Submit Order'>
                         </div>
                     </div>
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
