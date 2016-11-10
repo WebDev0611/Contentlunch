@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use Validator;
 use Illuminate\Http\Request;
+use Stripe\Stripe;
 
 use App\Http\Requests;
 use App\WriterAccessPartialOrder;
@@ -151,14 +152,8 @@ class WriterAccessPartialOrderController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function submit(Request $request, WriterAccessPartialOrder $order)
     {
-        //
+
     }
 }

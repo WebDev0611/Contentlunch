@@ -181,6 +181,11 @@ Route::group(['prefix' => 'writeraccess'], function() {
     Route::post('partials', 'WriterAccessPartialOrderController@store');
     Route::post('partials/{id}', 'WriterAccessPartialOrderController@update');
 
+    Route::post('orders/{writerAccessPartialOrder}/submit', [
+        'as' => 'orderSubmit',
+        'uses' => 'WriterAccessPartialOrderController@submit'
+    ]);
+
     /**
      * Writer Access form pages.
      */

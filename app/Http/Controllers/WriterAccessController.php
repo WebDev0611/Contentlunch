@@ -119,9 +119,10 @@ class WriterAccessController extends Controller
 
     public function createOrder()
     {
-        $params = [];
-        $params['apiProject'] = $this->apiProject;
-        $params['projectid'] = $this->apiProjectId;
+        $params = [
+            'apiProject' => $this->apiProject,
+            'projectId' => $this->apiProjectId
+        ];
 
         $errors = [];
 
