@@ -63,7 +63,7 @@ class WriterAccessPartialOrderController extends Controller
         $order = WriterAccessPartialOrder::create([
             'project_name' => $data['project_name'],
             'duedate' => $data['due_date'],
-            'asset_type' => $data['writer_access_asset_type'],
+            'asset_type_id' => $data['writer_access_asset_type'],
             'wordcount' => $data['writer_access_word_count'],
             'writer_level' => $data['writer_access_writer_level'],
         ]);
