@@ -183,7 +183,7 @@ Route::group(['prefix' => 'writeraccess'], function() {
 
     Route::post('orders/{writerAccessPartialOrder}/submit', [
         'as' => 'orderSubmit',
-        'uses' => 'WriterAccessPartialOrderController@submit'
+        'uses' => 'WriterAccessController@orderSubmit'
     ]);
 
     /**

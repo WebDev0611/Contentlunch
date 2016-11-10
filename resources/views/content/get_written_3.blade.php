@@ -16,7 +16,7 @@
                             </div>
                         </div>
                     </div>
-                    {!! Form::open([ 'url' => "orders/$order->id/submit" ]) !!}
+                    {!! Form::open([ 'url' => "writeraccess/orders/$order->id/submit" ]) !!}
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="purchase-assignment">
@@ -97,7 +97,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="#">CARD NUMBER</label>
-                                        {{ Form::text('card_number', null, ['class' => 'input', 'placeholder' => 'Card Number']) }}
+                                        {{ Form::text('number', null, ['class' => 'input', 'placeholder' => 'Card Number']) }}
                                     </div>
                                     <div class="form-group">
                                         <label for="#">NAME ON CARD</label>

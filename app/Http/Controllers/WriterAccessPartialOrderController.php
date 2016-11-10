@@ -6,6 +6,7 @@ use Auth;
 use Validator;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
+use Stripe\Charge;
 
 use App\Http\Requests;
 use App\WriterAccessPartialOrder;
@@ -149,27 +150,6 @@ class WriterAccessPartialOrderController extends Controller
         return Validator::make($data, [
             'target_audience' => 'required',
             'tone_voice' => 'required'
-        ]);
-    }
-
-    public function submit(Request $request, WriterAccessPartialOrder $order)
-    {
-        $validation = $this->validateCard($request->all());
-
-        if ($validation->fails()) {
-            return redirect()->route('orderSubmit')->with('errors', $validation->errors());
-        }
-
-        return redirect()->route('orderSubmit');
-    }
-
-    private function validateCard(array $data)
-    {
-        return Validator::make($data, [
-            'number' => 'required',
-            'card_name' => 'required',
-            'expiration' => 'required|date_format:mm/YYYY',
-            'cvv' => 'required',
         ]);
     }
 }

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
-use Request;
+use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\WriterAccessPartialOrder;
+use Validator;
 
 /**
  * Class WriterAccessController.
@@ -43,10 +45,10 @@ class WriterAccessController extends Controller
     /**
      * WriterAccessController constructor.
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
         // Set the project name for writer access calls
-        $this->apiProject = $this->getProjectName();
+        $this->apiProject = $this->getProjectName($request->root());
 
         // Create the users project if it doesn't already exist.
         if (empty(Auth::user()->writer_access_Project_id)) {
@@ -58,9 +60,9 @@ class WriterAccessController extends Controller
         $this->apiProjectId = Auth::user()->writer_access_Project_id;
     }
 
-    private function getProjectName()
+    private function getProjectName($requestRoot)
     {
-        return preg_replace('#https?://#', '', Request::root()) . '-user-' . Auth::user()->id;
+        return preg_replace('#https?://#', '', $requestRoot) . '-user-' . Auth::user()->id;
     }
 
     /**
@@ -117,12 +119,91 @@ class WriterAccessController extends Controller
         return $this->get($url);
     }
 
-    public function createOrder()
+    public function orderSubmit(Request $request, WriterAccessPartialOrder $order)
     {
-        $params = [
+        $validation = $this->validateCard($request->all());
+
+        if ($validation->fails()) {
+            return redirect()
+                ->route('orderReview', $order)
+                ->with('errors', $validation->errors());
+        }
+
+        $params = array_merge($this->projectInfo(), $order->writerAccessFormat());
+        $card = $this->createCardArray($request->all());
+
+        $response = $this->post('/orders', $params);
+        $responseContent = json_decode($response->getContent());
+
+        dd($responseContent);
+
+        // // NOW THAT ALL THE DATA LOOKS GOOD, LET'S TRY TO CREATE THE ORDER
+        // $response = $this->post('/orders', array_merge($params));
+        // $responseContent = json_decode($response->getContent());
+
+        // if (isset($responseContent->fault)) {
+        //     $errors['writeraccess_fault'] = $responseContent->fault;
+        // }
+
+        // // Get/create stripe customer
+        // $customer = \Stripe\Customer::create(array(
+        //     'email' => Auth::user()->email,
+        //     'source' => $token,
+        // ));
+
+        // // Try to charge the card
+        // try {
+        //     $charge = \Stripe\Charge::create(array(
+        //         'customer' => $customer->id,
+        //         'amount' => $price * 100, // Stripe processes cents for the ammount
+        //         'currency' => 'usd',
+        //     ));
+        // } catch (Stripe_CardError $e) {
+        //     $errors['Payment Declined'] = 'Your card was declined, please try another card to complete the order.';
+        // }
+
+        // // Stop here if we find errors
+        // if (count($errors) > 0) {
+        //     $errors['debug'] = $params;
+
+        //     return array(['errors' => $errors]);
+        // }
+
+        // return $this->post('/orders', array_merge($params));
+
+        return redirect()->route('orderSubmit');
+    }
+
+    private function createCardArray(array $data)
+    {
+        return [
+            'number' => $data['number'],
+            'exp_month' => explode('/', $data['expiration'])[0],
+            'exp_year' => explode('/', $data['expiration'])[1],
+        ];
+    }
+
+    private function validateCard(array $data)
+    {
+        return Validator::make($data, [
+            'number' => 'required',
+            'card_name' => 'required|max:16',
+            'expiration' => 'required|date_format:m/Y',
+            'cvv' => 'required',
+        ]);
+    }
+
+    public function projectInfo()
+    {
+        return [
             'apiProject' => $this->apiProject,
             'projectId' => $this->apiProjectId
         ];
+    }
+
+    public function createOrder()
+    {
+        $params = $this->projectInfo();
 
         $errors = [];
 
@@ -158,25 +239,7 @@ class WriterAccessController extends Controller
         if (!isset($_POST['duedate'])) {
             $errors['duedate'] = "Missing required parameter 'duedate'.";
         } else {
-            $today = new DateTime(date('Y-m-d H:i:s'));
-            $duedate = new DateTime(date($_POST['duedate']));
-
-            $diff = $duedate->diff($today);
-
-            $hours = $diff->h;
-            $hours = $hours + ($diff->days * 24);
-
-            // NOTE: WriterAccess expects to see 4, 12, or increments of 24 hours.
-            // We are only going to worry about full days or a half day if submitted
-            // for next day duedates.
-
-            //round down to the nearest 24 hours
-            $hours = $hours - $hours % 24;
-
-            //Set $hours to 12 if rounding down == 0
-            $hours = $hours == 0 ? 12 : $hours;
-
-            $params['hourstocomplete'] = $hours;
+            $params['hourstocomplete'] = $this->createDueDate($_POST['duedate']);
         }
 
         if (!isset($_POST['title'])) {
@@ -292,6 +355,29 @@ class WriterAccessController extends Controller
         }
 
         return $this->post('/orders', array_merge($params));
+    }
+
+    public function createDueDate($date)
+    {
+        $today = new DateTime(date('Y-m-d H:i:s'));
+        $duedate = new DateTime(date($date));
+
+        $diff = $duedate->diff($today);
+
+        $hours = $diff->h;
+        $hours = $hours + ($diff->days * 24);
+
+        // NOTE: WriterAccess expects to see 4, 12, or increments of 24 hours.
+        // We are only going to worry about full days or a half day if submitted
+        // for next day duedates.
+
+        //round down to the nearest 24 hours
+        $hours = $hours - $hours % 24;
+
+        //Set $hours to 12 if rounding down == 0
+        $hours = $hours == 0 ? 12 : $hours;
+
+        return $hours;
     }
 
     /**

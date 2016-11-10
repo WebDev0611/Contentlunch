@@ -40,4 +40,58 @@ class WriterAccessPartialOrder extends Model
             ->first()
             ->fee;
     }
+
+    public function writerAccessFormat()
+    {
+        return [
+            'assetType' => $this->asset_type_id,
+            'minwords' => $this->minwords,
+            'maxwords' => $this->maxwords,
+            'writer' => $this->writer_level,
+            'hourstocomplete' => $this->hours,
+            'title' => $this->content_title,
+            'instructions' => $this->createInstructions()
+        ];
+    }
+
+    public function getMinwordsAttribute()
+    {
+        return (int) ($this->wordcount - ($this->wordcount * .1));
+    }
+
+    public function getMaxwordsAttribute()
+    {
+        return (int) ($this->wordcount + ($this->wordcount * .1));
+    }
+
+    public function getHoursAttribute()
+    {
+        $today = new \Carbon\Carbon(date('Y-m-d H:i:s'));
+        $duedate = new \Carbon\Carbon(date($this->duedate));
+
+        $diff = $duedate->diff($today);
+
+        $hours = $diff->h;
+        $hours = $hours + ($diff->days * 24);
+
+        // NOTE: WriterAccess expects to see 4, 12, or increments of 24 hours.
+        // We are only going to worry about full days or a half day if submitted
+        // for next day duedates.
+
+        //round down to the nearest 24 hours
+        $hours = $hours - $hours % 24;
+
+        //Set $hours to 12 if rounding down == 0
+        $hours = $hours == 0 ? 12 : $hours;
+
+        return $hours;
+    }
+
+    private function createInstructions()
+    {
+        return "$this->instructions \n" .
+            "\nTarget Audience: \n$this->target_audience\n" .
+            "\nTone of Writing: \n$this->tone_of_writing\n" .
+            "\nNarrative Voice: \n$this->narrative_voice\n";
+    }
 }
