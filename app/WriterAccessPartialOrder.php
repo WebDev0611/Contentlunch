@@ -34,11 +34,12 @@ class WriterAccessPartialOrder extends Model
 
     public function getPriceAttribute()
     {
-        return WriterAccessPrice::where('asset_type_id', $this->asset_type_id)
+        $price = WriterAccessPrice::where('asset_type_id', $this->asset_type_id)
             ->where('writer_level', $this->writer_level)
             ->where('wordcount', $this->wordcount)
-            ->first()
-            ->fee;
+            ->first();
+
+        return $price ? $price : 0;
     }
 
     public function writerAccessFormat()

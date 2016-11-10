@@ -135,7 +135,16 @@ class WriterAccessController extends Controller
         $response = $this->post('/orders', $params);
         $responseContent = json_decode($response->getContent());
 
-        dd($responseContent);
+        if (isset($responseContent->fault)) {
+            $writerAccessErrors = [ $responseContent->fault ];
+            dd($writerAccessErrors);
+
+            return redirect()
+                ->route('orderReview', $order)
+                ->with('writerAccessErrors', [ $responseContent->fault ]);
+        }
+
+        // Auth::user()->update([ 'writer_access_Project_id' => $responseContent]);
 
         // // NOW THAT ALL THE DATA LOOKS GOOD, LET'S TRY TO CREATE THE ORDER
         // $response = $this->post('/orders', array_merge($params));

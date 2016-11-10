@@ -92,6 +92,19 @@
                                     </p>
                                 </div>
                             @endif
+
+                            @if (null !== @$writerAccessErrors)
+                                <div class="alert alert-danger alert-forms" id="formError">
+                                    <p><strong>Oops! We had some errors:</strong>
+                                        <ul>
+                                        @foreach($writerAccessErrors as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                        </ul>
+                                    </p>
+                                </div>
+                            @endif
+
                             <h4 class="purchase-title">Make deposit via Stripe</h4>
                             <div class="row">
                                 <div class="col-md-6">
