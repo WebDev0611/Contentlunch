@@ -181,6 +181,7 @@ Route::group(['prefix' => 'writeraccess'], function() {
 	Route::get('fee', 'WriterAccessPriceController@fee');
 
     Route::post('partials', 'WriterAccessPartialOrderController@store');
+    Route::post('partials/{id}', 'WriterAccessPartialOrderController@update');
 });
 
 Route::resource('writerAccessPrices','WriterAccessPriceController');

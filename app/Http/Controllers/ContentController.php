@@ -433,17 +433,12 @@ class ContentController extends Controller
 
     public function get_written($step = 1)
     {
-        //need to do proper form validation, etc.
-        //this is just to get the UI spit out
+        $order = session('order');
 
-        if ($step == 1) {
-            return View::make('content.get_written_1');
+        if (($step >= 1) && ($step <= 3)) {
+            $view = 'content.get_written_' . $step;
         }
-        if ($step == 2) {
-            return View::make('content.get_written_2');
-        }
-        if ($step == 3) {
-            return View::make('content.get_written_3');
-        }
+
+        return view($view, compact('order'));
     }
 }
