@@ -2,6 +2,8 @@
 
 @section('content')
 <div class="workspace">
+    {!! Form::open([ 'url' => 'writeraccess/partials/' . $order->id ]) !!}
+    {!! Form::hidden('step', 2) !!}
     <h4 class="text-center">Get Content Written</h4>
     <div class="container-fluid">
         <div class="row">
@@ -16,6 +18,17 @@
                             </div>
                         </div>
                     </div>
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-forms" id="formError">
+                            <p><strong>Oops! We had some errors:</strong>
+                                <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                                </ul>
+                            </p>
+                        </div>
+                    @endif
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="form-delimiter">
@@ -24,23 +37,23 @@
                                 </span>
                             </div>
                             <div class="input-form-group">
-                                <label for="#">WHO IS YOUR TARGET AUDIENCE</label>
+                                <label>WHO IS YOUR TARGET AUDIENCE</label>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label class="radio-secondary">
-                                            <input name='target_audience' value='customers' type="radio">
+                                            <input name='target_audience' value='Customers' type="radio">
                                             <span>Customers</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="radio-secondary">
-                                            <input name='target_audience' value='prospect_customers' type="radio">
+                                            <input name='target_audience' value='Prospect Customers' type="radio">
                                             <span>Prospect Customers</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="radio-secondary">
-                                            <input name='target_audience' value='knowledge_seekers' type="radio">
+                                            <input name='target_audience' value='Knowledge Seekers' type="radio">
                                             <span>Knowledge Seekers</span>
                                         </label>
                                     </div>
@@ -52,23 +65,23 @@
                                 </span>
                             </div>
                             <div class="input-form-group">
-                                <label for="#">WHICH CATEGORY BEST MATCHES THE TONE YOU SEEK</label>
+                                <label>WHICH CATEGORY BEST MATCHES THE TONE YOU SEEK</label>
                                 <div class="form-group row">
                                     <div class="col-md-4">
                                         <label class="radio-secondary">
-                                            <input name='tone_radio' value='Extremely Informal' type="radio">
+                                            <input name='tone_voice' value='Extremely Informal' type="radio">
                                             <span>Extremely Informal</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="radio-secondary">
-                                            <input name='tone_radio' value='Journalistic' type="radio">
+                                            <input name='tone_voice' value='Journalistic' type="radio">
                                             <span>Journalistic</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="radio-secondary">
-                                            <input name='tone_radio' value='Business Formal' type="radio">
+                                            <input name='tone_voice' value='Business Formal' type="radio">
                                             <span>Business Formal</span>
                                         </label>
                                     </div>
@@ -76,28 +89,29 @@
                                 <div class="form-group row">
                                     <div class="col-md-4">
                                         <label class="radio-secondary">
-                                            <input name='tone_radio' value='Everyday Informal' type="radio">
+                                            <input name='tone_voice' value='Everyday Informal' type="radio">
                                             <span>Everyday Informal</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="radio-secondary">
-                                            <input name='tone_radio' value='Business / Copywriting' type="radio">
+                                            <input name='tone_voice' value='Business / Copywriting' type="radio">
                                             <span>Business / Copywriting</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="radio-secondary">
-                                            <input name='tone_radio' value='Other' type="radio">
+                                            <input name='tone_voice' value='Other' type="radio">
                                             <span>Other</span>
                                         </label>
                                     </div>
                                 </div>
                             </div>
                             <div class="input-form-group">
-                                <label for="#">DESCRIBE YOUR DESIRED TONE OF VOICE</label>
+                                <label>DESCRIBE YOUR DESIRED TONE OF VOICE</label>
                                 <textarea
                                     class="input"
+                                    name='tone_voice_description'
                                     placeholder="Explain the tone of voice you are seeking in your orders">
                                 </textarea>
                             </div>
@@ -105,12 +119,16 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
-                            <a href="/get_written/3" class="button button-extend text-uppercase">Next Step</a>
+                            <input
+                                type="submit"
+                                class="button button-extend text-uppercase"
+                                value='Next Step'>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    {!! Form::close() !!}
 </div>
 @stop

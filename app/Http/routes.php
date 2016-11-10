@@ -182,6 +182,16 @@ Route::group(['prefix' => 'writeraccess'], function() {
 
     Route::post('partials', 'WriterAccessPartialOrderController@store');
     Route::post('partials/{id}', 'WriterAccessPartialOrderController@update');
+
+    Route::get('partials/order_setup/{id}', [
+        'as' => 'orderSetup',
+        'uses' => 'WriterAccessPartialOrderController@orderSetup'
+    ]);
+
+    Route::get('partials/order_audience/{id}', [
+        'as' => 'orderAudience',
+        'uses' => 'WriterAccessPartialOrderController@orderAudience'
+    ]);
 });
 
 Route::resource('writerAccessPrices','WriterAccessPriceController');

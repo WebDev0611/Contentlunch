@@ -11,6 +11,26 @@ use App\WriterAccessPartialOrder;
 
 class WriterAccessPartialOrderController extends Controller
 {
+    protected $steps = [
+        1 => 'orderSetup',
+        2 => 'orderAudience'
+    ];
+
+    public function orderSetup(Request $request, $orderId)
+    {
+        $order = WriterAccessPartialOrder::findOrFail($orderId);
+
+        return view('content.get_written_1', compact('order'));
+    }
+
+    public function orderAudience(Request $request, $orderId)
+    {
+        $order = WriterAccessPartialOrder::findOrFail($orderId);
+
+        return view('content.get_written_2', compact('order'));
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -26,9 +46,8 @@ class WriterAccessPartialOrderController extends Controller
         }
 
         $order = $this->createOrder($request->all());
-        session([ 'order' => $order ]);
 
-        return redirect('/get_written/1');
+        return redirect()->route('orderSetup', $order->id);
     }
 
     private function createOrder(array $data)
@@ -70,24 +89,26 @@ class WriterAccessPartialOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $orderId)
     {
         $validation = $this->validateCurrentStep($request);
         $currentStep = $request->input('step');
 
         if ($validation->fails()) {
-            return redirect('get_written/' . $currentStep)->with('errors', $validation->errors());
+            return redirect()
+                ->route($this->steps[$currentStep], $orderId)
+                ->with('errors', $validation->errors());
         }
 
-        $order = $this->updateOrder($id, $request->all());
+        $order = $this->updateOrder($orderId, $request->all());
 
-        return $this->redirectToNextStep($currentStep)->with('order', $order);
+        return $this->redirectToNextStep($currentStep, $orderId);
     }
 
-    private function redirectToNextStep($currentStep)
+    private function redirectToNextStep($currentStep, $orderId)
     {
         $nextStep = $currentStep + 1;
-        return redirect("get_written/$nextStep");;
+        return redirect()->route($this->steps[$nextStep], $orderId);
     }
 
     private function updateOrder($orderId, array $data)
@@ -105,6 +126,7 @@ class WriterAccessPartialOrderController extends Controller
 
         switch ($currentStep) {
             case 1: return $this->validateStepOne($request->all());
+            case 2: return $this->ValidateStepTwo($request->all());
             default:
                 break;
         }
@@ -116,6 +138,14 @@ class WriterAccessPartialOrderController extends Controller
             'content_title' => 'required|max:255',
             'instructions' => 'required',
             'narrative_voice' => 'required'
+        ]);
+    }
+
+    private function validateStepTwo(array $data)
+    {
+        return Validator::make($data, [
+            'target_audience' => 'required',
+            'tone_voice' => 'required'
         ]);
     }
 
