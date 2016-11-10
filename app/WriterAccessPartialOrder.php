@@ -9,7 +9,6 @@ class WriterAccessPartialOrder extends Model
     public $table = 'writer_access_partial_orders';
 
     protected $fillable = [
-        'user_id',
         'project_name',
         'duedate',
         'asset_type_id',
@@ -22,4 +21,8 @@ class WriterAccessPartialOrder extends Model
         'tone_of_writing',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
