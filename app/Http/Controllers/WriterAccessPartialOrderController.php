@@ -17,24 +17,18 @@ class WriterAccessPartialOrderController extends Controller
         3 => 'orderReview'
     ];
 
-    public function orderSetup(Request $request, $orderId)
+    public function orderSetup(Request $request, WriterAccessPartialOrder $order)
     {
-        $order = WriterAccessPartialOrder::findOrFail($orderId);
-
         return view('content.get_written_1', compact('order'));
     }
 
-    public function orderAudience(Request $request, $orderId)
+    public function orderAudience(Request $request, WriterAccessPartialOrder $order)
     {
-        $order = WriterAccessPartialOrder::findOrFail($orderId);
-
         return view('content.get_written_2', compact('order'));
     }
 
-    public function orderReview(Request $request, $orderId)
+    public function orderReview(Request $request, WriterAccessPartialOrder $order)
     {
-        $order = WriterAccessPartialOrder::findOrFail($orderId);
-
         return view('content.get_written_3', compact('order'));
     }
 

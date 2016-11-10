@@ -14,6 +14,7 @@
 Route::model('invite', 'App\AccountInvite');
 Route::model('persona', 'App\Persona');
 Route::model('buyingStage', 'App\BuyingStage');
+Route::model('writerAccessPartialOrder', 'App\WriterAccessPartialOrder');
 
 /* Login/Logout */
 /*Route::get('login', 'AuthController@login');
@@ -180,17 +181,20 @@ Route::group(['prefix' => 'writeraccess'], function() {
     Route::post('partials', 'WriterAccessPartialOrderController@store');
     Route::post('partials/{id}', 'WriterAccessPartialOrderController@update');
 
-    Route::get('partials/order_setup/{id}', [
+    /**
+     * Writer Access form pages.
+     */
+    Route::get('partials/order_setup/{writerAccessPartialOrder}', [
         'as' => 'orderSetup',
         'uses' => 'WriterAccessPartialOrderController@orderSetup'
     ]);
 
-    Route::get('partials/order_audience/{id}', [
+    Route::get('partials/order_audience/{writerAccessPartialOrder}', [
         'as' => 'orderAudience',
         'uses' => 'WriterAccessPartialOrderController@orderAudience'
     ]);
 
-    Route::get('partials/order_review/{id}', [
+    Route::get('partials/order_review/{writerAccessPartialOrder}', [
         'as' => 'orderReview',
         'uses' => 'WriterAccessPartialOrderController@orderReview'
     ]);
