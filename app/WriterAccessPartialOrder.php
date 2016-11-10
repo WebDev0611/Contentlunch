@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\WriterAccessPrice;
 
 class WriterAccessPartialOrder extends Model
 {
@@ -24,5 +25,19 @@ class WriterAccessPartialOrder extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function assetType()
+    {
+        return $this->belongsTo('App\WriterAccessAssetType', 'asset_type_id', 'writer_access_id');
+    }
+
+    public function getPriceAttribute()
+    {
+        return WriterAccessPrice::where('asset_type_id', $this->asset_type_id)
+            ->where('writer_level', $this->writer_level)
+            ->where('wordcount', $this->wordcount)
+            ->first()
+            ->fee;
     }
 }

@@ -24,30 +24,31 @@
                                         <span>Assignment:</span>
                                     </div>
                                     <div class="col-md-6 text-right">
-                                        <span>Blog Post</span>
+                                        <span>{{ $order->assetType->name }}</span>
                                     </div>
                                 </div>
-                                <h4>Blog post on Car Sales industry, including proofreading</h4>
+                                <h4>{{ $order->project_name }}</h4>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <span>
                                             DUE DATE
-                                            <strong>03/10/2016</strong>
+                                            <strong>{{ $order->duedate }}</strong>
                                         </span>
                                     </div>
                                     <div class="col-md-4">
                                         <span>
                                             AUTHOR
-                                            <strong>Author Name</strong>
+                                            <strong>{{ $order->user->name }}</strong>
                                         </span>
                                     </div>
                                     <div class="col-md-4">
                                         <span>
                                             WORD COUNT
-                                            <strong>330 words</strong>
+                                            <strong>{{ $order->wordcount }} words</strong>
                                         </span>
                                     </div>
                                 </div>
+                                <!--
                                 <hr>
                                 <a href="#fullDetails" data-toggle="collapse" class="purchase-order-more">
                                     <i><span class="caret"></span></i>
@@ -56,28 +57,27 @@
                                 <div class="collapse" id="fullDetails">
 
                                 </div>
+                                -->
                             </div>
                             <h4 class="purchase-title">Assignment Cost</h4>
                             <table class="purchase-order">
                                 <tbody>
                                     <tr>
-                                        <td>330 words article</td>
-                                        <td>$115.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Proofreading 330 words article</td>
-                                        <td>$55.00</td>
+                                        <td>{{ $order->wordcount }} words article</td>
+                                        <td>${{ $order->price }}.00</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <td>TOTAL</td>
-                                        <td>$170.00</td>
+                                        <td>${{ $order->price }}.00</td>
                                     </tr>
+                                    {{--
                                     <tr>
                                         <td><strong>Deposit</strong></td>
-                                        <td><strong>$50.00</strong></td>
+                                        <td><strong>${{ $order->price}}.00</strong></td>
                                     </tr>
+                                    --}}
                                 </tfoot>
                             </table>
                             <h4 class="purchase-title">Make deposit via Stripe</h4>
