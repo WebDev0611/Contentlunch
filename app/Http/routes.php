@@ -23,7 +23,10 @@ Route::get('logout', 'AuthController@logout');
 */
 Route::auth();
 
-Route::get('/', 'HomeController@index');
+Route::get('/', [
+    'as' => 'dashboard',
+    'uses' => 'HomeController@index'
+]);
 
 
 /**
@@ -160,8 +163,6 @@ Route::group(['prefix' => 'settings'], function() {
     Route::post('buying_stages', 'Settings\BuyingStagesController@create');
     Route::get('buying_stages', 'Settings\BuyingStagesController@index');
     Route::delete('buying_stages/{buyingStage}', 'Settings\BuyingStagesController@delete');
-
-
 });
 
 Route::group(['prefix' => 'writeraccess'], function() {

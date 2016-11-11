@@ -39,7 +39,7 @@ class WriterAccessPartialOrder extends Model
             ->where('wordcount', $this->wordcount)
             ->first();
 
-        return $price ? $price : 0;
+        return $price ? $price->fee : 0;
     }
 
     public function writerAccessFormat()
@@ -90,9 +90,21 @@ class WriterAccessPartialOrder extends Model
 
     private function createInstructions()
     {
-        return "$this->instructions \n" .
-            "\nTarget Audience: \n$this->target_audience\n" .
-            "\nTone of Writing: \n$this->tone_of_writing\n" .
-            "\nNarrative Voice: \n$this->narrative_voice\n";
+        if (getenv('APP_ENV') == 'local') {
+
+            return "Please ignore this order. \n" .
+                "$this->instructions \n" .
+                "\nTarget Audience: \n$this->target_audience\n" .
+                "\nTone of Writing: \n$this->tone_of_writing\n" .
+                "\nNarrative Voice: \n$this->narrative_voice\n";
+
+        } else {
+
+            return "$this->instructions \n" .
+                "\nTarget Audience: \n$this->target_audience\n" .
+                "\nTone of Writing: \n$this->tone_of_writing\n" .
+                "\nNarrative Voice: \n$this->narrative_voice\n";
+
+        }
     }
 }

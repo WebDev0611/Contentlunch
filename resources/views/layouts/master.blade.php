@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="/css/plugins/dropzone/basic.min.css">
     <link rel="stylesheet" href="/css/plugins/dropzone/dropzone.min.css">
     @yield('styles')
+
+    @yield('scripts.head')
 </head>
 <body>
 

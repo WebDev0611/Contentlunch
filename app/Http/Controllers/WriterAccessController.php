@@ -130,75 +130,57 @@ class WriterAccessController extends Controller
         }
 
         $params = array_merge($this->projectInfo(), $order->writerAccessFormat());
-        $card = $this->createCardArray($request->all());
 
         $response = $this->post('/orders', $params);
         $responseContent = json_decode($response->getContent());
 
         if (isset($responseContent->fault)) {
             $writerAccessErrors = [ $responseContent->fault ];
-            dd($writerAccessErrors);
 
             return redirect()
                 ->route('orderReview', $order)
-                ->with('writerAccessErrors', [ $responseContent->fault ]);
+                ->with([
+                    'flash_message' => $responseContent->fault,
+                    'flash_message_type' => 'danger',
+                ]);
         }
 
-        // Auth::user()->update([ 'writer_access_Project_id' => $responseContent]);
+        $this->initStripe();
+        $stripeToken = $request->input('stripeToken');
+        $orderPrice = $order->price * 100;
 
-        // // NOW THAT ALL THE DATA LOOKS GOOD, LET'S TRY TO CREATE THE ORDER
-        // $response = $this->post('/orders', array_merge($params));
-        // $responseContent = json_decode($response->getContent());
+        $customer = \Stripe\Customer::create([
+            'email' => Auth::user()->email,
+            'source' => $stripeToken
+        ]);
 
-        // if (isset($responseContent->fault)) {
-        //     $errors['writeraccess_fault'] = $responseContent->fault;
-        // }
+        try {
+            $charge = \Stripe\Charge::create([
+                'customer' => $customer->id,
+                'amount' => $orderPrice,
+                'currency' => 'usd'
+            ]);
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('orderReview', $order)
+                ->with([
+                    'flash_message' => $e->getMessage(),
+                    'flash_message_type' => 'danger'
+                ]);
+        }
 
-        // // Get/create stripe customer
-        // $customer = \Stripe\Customer::create(array(
-        //     'email' => Auth::user()->email,
-        //     'source' => $token,
-        // ));
-
-        // // Try to charge the card
-        // try {
-        //     $charge = \Stripe\Charge::create(array(
-        //         'customer' => $customer->id,
-        //         'amount' => $price * 100, // Stripe processes cents for the ammount
-        //         'currency' => 'usd',
-        //     ));
-        // } catch (Stripe_CardError $e) {
-        //     $errors['Payment Declined'] = 'Your card was declined, please try another card to complete the order.';
-        // }
-
-        // // Stop here if we find errors
-        // if (count($errors) > 0) {
-        //     $errors['debug'] = $params;
-
-        //     return array(['errors' => $errors]);
-        // }
-
-        // return $this->post('/orders', array_merge($params));
-
-        return redirect()->route('orderSubmit');
-    }
-
-    private function createCardArray(array $data)
-    {
-        return [
-            'number' => $data['number'],
-            'exp_month' => explode('/', $data['expiration'])[0],
-            'exp_year' => explode('/', $data['expiration'])[1],
-        ];
+        return redirect()
+            ->route('contentIndex')
+            ->with([
+                'flash_message' => 'Payment successful. Your order is being processed.',
+                'flash_message_type' => 'success'
+            ]);
     }
 
     private function validateCard(array $data)
     {
         return Validator::make($data, [
-            'number' => 'required',
-            'card_name' => 'required|max:16',
-            'expiration' => 'required|date_format:m/Y',
-            'cvv' => 'required',
+            'stripeToken' => 'required'
         ]);
     }
 
