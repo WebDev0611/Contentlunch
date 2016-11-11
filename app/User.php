@@ -63,6 +63,11 @@ class User extends Authenticatable
         return $this->account->connections();
     }
 
+    public function partialWriterAccessOrders()
+    {
+        return $this->hasMany('App\WriterAccessPartialOrder');
+    }
+
     public static function dropdown()
     {
         $authorDropdown = ['' => '-- Select Author --'];

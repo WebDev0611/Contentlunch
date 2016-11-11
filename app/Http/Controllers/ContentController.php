@@ -14,6 +14,7 @@ use App\User;
 use App\Tag;
 use App\Persona;
 use App\Helpers;
+use App\WriterAccessPrice;
 use Storage;
 use View;
 use Auth;
@@ -57,15 +58,12 @@ class ContentController extends Controller
         $prices = DB::table('writer_access_prices')->distinct()->select('asset_type_id')->get();
 
         $reformedPrices = [];
+
         foreach ($prices as $price) {
             if (!isset($reformedPrices[$price->asset_type_id])) {
                 $reformedPrices[$price->asset_type_id] = [];
 
-                $wordcounts = DB::table('writer_access_prices')
-                    ->distinct()
-                    ->select('wordcount')
-                    ->where('asset_type_id', $price->asset_type_id)
-                    ->get();
+                $wordcounts = WriterAccessPrice::availableWordcountsByAssetType($price->asset_type_id);
 
                 foreach ($wordcounts as $wordcount) {
                     $reformedPrices[$price->asset_type_id][$wordcount->wordcount] = [];
@@ -86,7 +84,9 @@ class ContentController extends Controller
         $contenttypedd = ContentType::dropdown();
         $campaigndd = Campaign::dropdown();
 
-        return View::make('content.create', compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd'));
+        $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd');
+
+        return View::make('content.create', $data);
     }
 
     public function directPublish(Request $request, $contentId)
@@ -429,21 +429,5 @@ class ContentController extends Controller
         return Validator::make($input, [
             'file' => 'image|max:3000'
         ]);
-    }
-
-    public function get_written($step = 1)
-    {
-        //need to do proper form validation, etc.
-        //this is just to get the UI spit out
-
-        if ($step == 1) {
-            return View::make('content.get_written_1');
-        }
-        if ($step == 2) {
-            return View::make('content.get_written_2');
-        }
-        if ($step == 3) {
-            return View::make('content.get_written_3');
-        }
     }
 }

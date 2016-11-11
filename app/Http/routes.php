@@ -14,6 +14,7 @@
 Route::model('invite', 'App\AccountInvite');
 Route::model('persona', 'App\Persona');
 Route::model('buyingStage', 'App\BuyingStage');
+Route::model('writerAccessPartialOrder', 'App\WriterAccessPartialOrder');
 
 /* Login/Logout */
 /*Route::get('login', 'AuthController@login');
@@ -22,7 +23,10 @@ Route::get('logout', 'AuthController@logout');
 */
 Route::auth();
 
-Route::get('/', 'HomeController@index');
+Route::get('/', [
+    'as' => 'dashboard',
+    'uses' => 'HomeController@index'
+]);
 
 
 /**
@@ -119,7 +123,7 @@ Route::get('login/{provider}',  ['as' => 'connectionCallback', 'uses' =>'Connect
 Route::get('callback/wordpress', [ 'as' => 'wordpressCallback', 'uses' => 'Connections\WordpressController@callback' ]);
 
 // - Landing page for creating content
-Route::get('/create','ContentController@create');
+Route::get('/create', 'ContentController@create');
 Route::post('/create/new','ContentController@store');
 
 // - create form page
@@ -132,10 +136,6 @@ Route::post('/edit/attachments', ['as' => 'attachmentContent', 'uses' => 'Conten
 // - editing content form page
 Route::get('/edit/{content}', ['as' => 'editContent', 'uses' =>'ContentController@editContent']);
 Route::post('/edit/{content}','ContentController@editStore');
-
-Route::get('/get_written','ContentController@get_written');
-Route::get('/get_written/{step}','ContentController@get_written');
-
 
 Route::get('/collaborate','CollaborateController@index');
 Route::get('/collaborate/linkedin','CollaborateController@linkedin');
@@ -163,8 +163,6 @@ Route::group(['prefix' => 'settings'], function() {
     Route::post('buying_stages', 'Settings\BuyingStagesController@create');
     Route::get('buying_stages', 'Settings\BuyingStagesController@index');
     Route::delete('buying_stages/{buyingStage}', 'Settings\BuyingStagesController@delete');
-
-
 });
 
 Route::group(['prefix' => 'writeraccess'], function() {
@@ -180,6 +178,32 @@ Route::group(['prefix' => 'writeraccess'], function() {
 	Route::get('expertises', 'WriterAccessController@expertises');
 	Route::get('fees', 'WriterAccessPriceController@index');
 	Route::get('fee', 'WriterAccessPriceController@fee');
+
+    Route::post('partials', 'WriterAccessPartialOrderController@store');
+    Route::post('partials/{id}', 'WriterAccessPartialOrderController@update');
+
+    Route::post('orders/{writerAccessPartialOrder}/submit', [
+        'as' => 'orderSubmit',
+        'uses' => 'WriterAccessController@orderSubmit'
+    ]);
+
+    /**
+     * Writer Access form pages.
+     */
+    Route::get('partials/order_setup/{writerAccessPartialOrder}', [
+        'as' => 'orderSetup',
+        'uses' => 'WriterAccessPartialOrderController@orderSetup'
+    ]);
+
+    Route::get('partials/order_audience/{writerAccessPartialOrder}', [
+        'as' => 'orderAudience',
+        'uses' => 'WriterAccessPartialOrderController@orderAudience'
+    ]);
+
+    Route::get('partials/order_review/{writerAccessPartialOrder}', [
+        'as' => 'orderReview',
+        'uses' => 'WriterAccessPartialOrderController@orderReview'
+    ]);
 });
 
 Route::resource('writerAccessPrices','WriterAccessPriceController');

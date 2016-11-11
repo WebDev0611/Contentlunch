@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('scripts.head')
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+@stop
+
 @section('content')
 <div class="workspace">
     <h4 class="text-center">Get Content Written</h4>
@@ -16,6 +20,7 @@
                             </div>
                         </div>
                     </div>
+                    {!! Form::open([ 'url' => "writeraccess/orders/$order->id/submit" ]) !!}
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="purchase-assignment">
@@ -24,30 +29,31 @@
                                         <span>Assignment:</span>
                                     </div>
                                     <div class="col-md-6 text-right">
-                                        <span>Blog Post</span>
+                                        <span>{{ $order->assetType->name }}</span>
                                     </div>
                                 </div>
-                                <h4>Blog post on Car Sales industry, including proofreading</h4>
+                                <h4>{{ $order->project_name }}</h4>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <span>
                                             DUE DATE
-                                            <strong>03/10/2016</strong>
+                                            <strong>{{ $order->duedate }}</strong>
                                         </span>
                                     </div>
                                     <div class="col-md-4">
                                         <span>
                                             AUTHOR
-                                            <strong>Author Name</strong>
+                                            <strong>{{ $order->user->name }}</strong>
                                         </span>
                                     </div>
                                     <div class="col-md-4">
                                         <span>
                                             WORD COUNT
-                                            <strong>330 words</strong>
+                                            <strong>{{ $order->wordcount }} words</strong>
                                         </span>
                                     </div>
                                 </div>
+                                <!--
                                 <hr>
                                 <a href="#fullDetails" data-toggle="collapse" class="purchase-order-more">
                                     <i><span class="caret"></span></i>
@@ -56,50 +62,66 @@
                                 <div class="collapse" id="fullDetails">
 
                                 </div>
+                                -->
                             </div>
                             <h4 class="purchase-title">Assignment Cost</h4>
                             <table class="purchase-order">
                                 <tbody>
                                     <tr>
-                                        <td>330 words article</td>
-                                        <td>$115.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Proofreading 330 words article</td>
-                                        <td>$55.00</td>
+                                        <td>{{ $order->wordcount }} words article</td>
+                                        <td>${{ $order->price }}.00</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <td>TOTAL</td>
-                                        <td>$170.00</td>
+                                        <td>${{ $order->price }}.00</td>
                                     </tr>
+                                    {{--
                                     <tr>
                                         <td><strong>Deposit</strong></td>
-                                        <td><strong>$50.00</strong></td>
+                                        <td><strong>${{ $order->price}}.00</strong></td>
                                     </tr>
+                                    --}}
                                 </tfoot>
                             </table>
+                            @if ($errors->any())
+                                <div class="alert alert-danger alert-forms" id="formError">
+                                    <p><strong>Oops! We had some errors:</strong>
+                                        <ul>
+                                        @foreach($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                        </ul>
+                                    </p>
+                                </div>
+                            @endif
+
+                            <div
+                                id="paymentErrors"
+                                class='alert alert-danger alert-forms'
+                                style='display:none'></div>
+
                             <h4 class="purchase-title">Make deposit via Stripe</h4>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="#">CARD NUMBER</label>
-                                        <input type="text" class="input" placeholder="Card number">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="#">NAME ON CARD</label>
-                                        <input type="text" class="input" placeholder="Name on Card">
+                                    <div class="input-form-group">
+                                        <label>CARD NUMBER</label>
+                                        <input type="text" data-stripe='number' class='input' placeholder='Card Number'>
                                     </div>
                                     <div class="input-form-group">
                                         <div class="row">
-                                            <div class="col-md-8">
-                                                <label for="#">VALID UNTIL</label>
-                                                <input type="text" class="input" placeholder="MM/YYYY">
+                                            <div class="col-md-5">
+                                                <label>Expiration month</label>
+                                                <input type="text" data-stripe='exp-month' placeholder='MM' class='input'>
                                             </div>
                                             <div class="col-md-4">
-                                                <label for="#">CVV</label>
-                                                <input type="text" class="input">
+                                                <label>Expiration year</label>
+                                                <input type="text" data-stripe='exp-year' placeholder='YYYY' class='input'>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="#">CVC</label>
+                                                <input type="text" class="input" data-stripe='cvc'>
                                             </div>
                                         </div>
                                     </div>
@@ -110,14 +132,53 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 col-md-offset-3">
-                            <a href="/#/create/5" class="button button-primary button-extend text-uppercase">Submit Order</a>
+                    <div class="input-form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <input
+                                    type="submit"
+                                    class='button button-primary button-extend text-uppercase'
+                                    value='Submit Order'>
+                            </div>
                         </div>
                     </div>
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
     </div>
 </div>
+@stop
+
+@section('scripts')
+<script>
+    (function() {
+        Stripe.setPublishableKey("{{ getenv('STRIPE_PUBLISHABLE_KEY') }}");
+
+        function stripeResponseHandler(status, response) {
+            var $form = $('form');
+
+            if (response.error) {
+                $form.find('input[type=submit]').prop('disabled', false);
+                $('#paymentErrors')
+                    .text(response.error.message)
+                    .slideDown('fast');
+            } else {
+                var token = response.id;
+                $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+                $form.get(0).submit();
+            }
+        }
+
+        $('form').submit(function(e) {
+            var $form = $(this);
+
+            $form.find('input[type=submit]').prop('disabled', true);
+
+            Stripe.card.createToken($form, stripeResponseHandler);
+
+            return false;
+        });
+    })();
+</script>
 @stop
