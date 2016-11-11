@@ -148,7 +148,7 @@ Route::group(['prefix' => 'settings'], function() {
     Route::get('/', [ 'as' => 'settingsIndex', 'uses' => 'SettingsController@index' ]);
     Route::post('/', [ 'as' => 'settingsUpdate', 'uses' => 'SettingsController@update']);
 	Route::get('content',  ['as' => 'settingsContentIndex', 'uses' => 'SettingsController@content']);
-	Route::get('buying', ['as' => 'settingsBuyingIndex', 'uses' => 'SettingsController@buying']);
+	Route::get('buying', ['as' => 'settingsBuyingIndex', 'uses' => 'SettingsController@content']);
 
     // Connection Routes
     Route::get('connections', ['as' => 'connectionIndex', 'uses' => 'SettingsController@connections']);
