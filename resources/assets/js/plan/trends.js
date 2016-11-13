@@ -80,6 +80,8 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		     this.collection.each(function(m){
 		     	m.set('selected',false);
 		     });
+			$('.save-idea').prop('disabled',false);
+			$('.park-idea').prop('disabled',false);
 		},
 		save: function(){
 			this.store('active');
@@ -94,9 +96,15 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 				.show();
 
 			$('#idea-status-text').text(msg);
+			$('.save-idea').prop('disabled',false);
+			$('.park-idea').prop('disabled',false);
 		},
 		store: function(action){
 			var view = this;
+
+			$('.save-idea').prop('disabled',true);
+			$('.park-idea').prop('disabled',true);
+
 			$('#idea-status-alert').addClass('hidden');
 			if( $('.idea-name').val().length < 1 ){
 				view.show_error('Idea title required');
@@ -145,9 +153,12 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 		var get_trending_topics = function(topic){
 			topic = topic || '';
+			var loadingGIF = $('<img src="/images/loading.gif" style="max-height:30px" />');
+			$(loadingGIF).insertAfter('#trend-search');
+
 			$.getJSON(trend_api_host,{topic: topic},function(res){
 				var trends_result = res.articles;
-
+				$(loadingGIF).remove();
 				var format_share_res = function(shares){
 					//check if less than 1k
 					if(shares < 1000){
@@ -193,6 +204,17 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		//get_trending_topics();
 
 		new trend_results_view({el: '#trend-results', collection: results});
+
+
+		//task method
+        //runs the action to submit the task
+        $('#add-task-button').click(function() {
+            add_task(addTaskCallback);
+        });
+
+        function addTaskCallback(task) {
+            $('#addTaskModal').modal('hide');
+        }
 	});
 
 })(jQuery);

@@ -439,6 +439,15 @@
             });
         }
 
+        //tasks
+        $('#add-task-button').click(function() {
+            add_task(addTaskCallback);
+        });
+
+        function addTaskCallback(task) {
+            $('#addTaskModal').modal('hide');
+        }
+        
     })();
 </script>
 @stop

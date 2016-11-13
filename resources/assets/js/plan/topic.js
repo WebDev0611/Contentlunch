@@ -127,6 +127,8 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		},
 		store: function(status){
 			var view = this;
+			$('.park-idea').prop('disabled',true);
+			$('.save-idea').prop('disabled',true);
 			$('#idea-status-alert').addClass('hidden');
 			if( $('.idea-name').val().length < 1 ){
 				view.show_error('Idea title required');
@@ -173,13 +175,22 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 				.show();
 
 			$('#idea-status-text').text(msg);
+			$('.park-idea').prop('disabled',false);
+			$('.save-idea').prop('disabled',false);
 		},
 		clear_form: function(){
-			this.model.attributes.content.reset([]);
+			var view = this;
+			this.model.attributes.content.each(function(m){
+				if(m){
+					m.set('selected',false);
+					view.model.attributes.content.remove(m);
+				}
+			});
 			$('.idea-name').val('');
 			$('.idea-text').val('');
 			$('.idea-tags').val('');
-			console.log(this.model.attributes.content.toJSON());
+			$('.park-idea').prop('disabled',false);
+			$('.save-idea').prop('disabled',false);
 		}
 	});
 
@@ -261,6 +272,16 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		// long_tail_results.add(dummy_data_long);
 		// short_tail_results.add(dummy_data_short);
 		get_topic_data();
+
+		//task method
+		//runs the action to submit the task
+		$('#add-task-button').click(function() {
+		    add_task(addTaskCallback);
+		});
+
+		function addTaskCallback(task) {
+		    $('#addTaskModal').modal('hide');
+		}
 	});
 
 })(jQuery);
