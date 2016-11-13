@@ -2,9 +2,12 @@
 
 @section('content')
 <div class="workspace">
+
     <h4 class="text-center">Get Content Written</h4>
     <div class="container-fluid">
         <div class="row">
+            {!! Form::open([ 'url' => 'writeraccess/partials/' . $order->id ]) !!}
+            {!! Form::hidden('step', 1) !!}
             <div class="col-md-8 col-md-offset-2">
                 <div class="onboarding-container">
                     <div class="row">
@@ -16,41 +19,64 @@
                             </div>
                         </div>
                     </div>
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-forms" id="formError">
+                            <p><strong>Oops! We had some errors:</strong>
+                                <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                                </ul>
+                            </p>
+                        </div>
+                    @endif
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="input-form-group">
                                 <label for="#">CONTENT TITLE</label>
-                                <input type="text" class="input" placeholder="Enter content title (visible to writer)">
+                                {!!
+                                    Form::text('content_title', null, [
+                                        'class' => 'input',
+                                        'placeholder' => "Enter content title (visible to writer)"
+                                    ])
+                                !!}
                             </div>
                             <div class="input-form-group">
                                 <label for="#">INSTRUCTIONS</label>
-                                <textarea name="#" id="#" class="input" placeholder="Enter instructions writer should follow (i.e. tone of the article, target group,specific things to mention / omit etc.)"></textarea>
+                                {!!
+                                    Form::textarea('instructions', null, [
+                                        'class' => 'input',
+                                        'rows' => 3,
+                                        'placeholder' => 'Enter instructions writer should follow ' .
+                                            '(i.e. tone of the article, target group, specific things ' .
+                                            'to mention / omit etc.)'
+                                    ])
+                                !!}
                             </div>
                             <div class="input-form-group">
-                                <label for="#">NARRATIVE VOICE</label>
+                                <label>NARRATIVE VOICE</label>
                                 <div class="select">
-                                    <select name="" id="">
-                                        <option value="#">First Person Plural</option>
+                                    <select name="narrative_voice">
+                                        <option value="First Person Plural">First Person Plural</option>
+                                        <option value="First Person Singular">First Person Singular</option>
+                                        <option value="Second Person">Second Person</option>
+                                        <option value="Third Person">Third Person</option>
                                     </select>
-                                </div>
-                            </div>
-                            <div class="input-form-group">
-                                <label for="#">Upload Files</label>
-                                <div class="fileupload">
-                                    <i class="icon-link picto"></i>
-                                    <p class="msgtitle">Click to attach one or more files</p>
-                                    <input type="file" class="input input-upload">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
-                            <a href="/get_written/2" class="button button-extend text-uppercase">Next Step</a>
+                            <input
+                                type="submit"
+                                class='button button-extend text-uppercase'
+                                value='Next Step'>
                         </div>
                     </div>
                 </div>
             </div>
+            {!! Form::close() !!}
         </div>
     </div>
 </div>
