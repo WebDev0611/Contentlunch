@@ -19,17 +19,15 @@
                             <div class="col-md-6 text-right">
                                 <div class="head-actions">
                                     <button
-                                        type="submit"
                                         class="button button-outline-secondary button-small delimited"
-                                        name="action">
+                                        id="update-task">
                                         UPDATE
                                     </button>
 
                                     <div class="btn-group">
                                         <button
-                                            type="submit"
                                             class="button button-small"
-                                            name="action">
+                                            id="close-task">
                                             CLOSE TASK
                                         </button>
                                     </div>
@@ -118,7 +116,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                 </div>  <!-- End Panel Container -->
@@ -127,6 +124,13 @@
 
             <!-- Side Pane -->
             <aside class="panel-sidebar">
+                <div id="task-status-message">
+                    <div class="alert alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                        <div id="task-status-text"></div>
+                    </div>
+                </div>
                 <!-- side bar here -->
             </aside> <!-- End Side Pane -->
 
@@ -142,7 +146,50 @@
 
 @section('scripts')
 <script type='text/javascript'>
+(function($){
+    var taskForm = {
+        update_task: function(){
+            var form_data = {
+                name: $('#name').val(),
+                start_date: $('#start_date').val(),
+                due_date: $('#due_date').val(),
+                explanation: $('#explanation').val(),
+                _token: '{{ csrf_token() }}'
+            };
 
+            $.post('/task/update/{{$task->id}}',form_data,function(res){
+                console.log(res);
+                if(res.success){
+                    $('#task-status-message').find('.alert').addClass('alert-success');
+                    $('#task-status-text').find('.alert').text('Updated task ' + form_data.name);
+                }
+            });
+        },
+        close_task: function(){
+            var form_data = {
+                name: $('#name').val()
+            };
+            $.post('/task/close/{{$task->id}}',{
+                    _token: '{{ csrf_token() }}'
+                },function(res){
+                if(res.success){
+                    $('#task-status-message').find('.alert').addClass('alert-success');
+                    $('#task-status-text').find('.alert').text('Closed task ' + form_data.name);
+
+                }
+            });
+        }
+    };
+
+    $(function(){
+        $('#close-task').click(function(){
+            taskForm.close_task();
+        });
+        $('#update-task').click(function(){
+            taskForm.update_task();
+        });
+    });
+})(jQuery);
 </script>
 
 @stop
