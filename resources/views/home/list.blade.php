@@ -146,7 +146,7 @@
                     <i class="dashboard-tasks-list-icon tertiary icon-share"></i>
                 </li>
                 <li>
-                    <a href="#"><strong>Edit Content</strong></a>
+                    <a href="/task/show/<%= id %>"><strong>View Task</strong></a>
                 </li>
             </ul>
         </div>

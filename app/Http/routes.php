@@ -97,6 +97,7 @@ Route::get('/campaigns','CalendarController@campaigns');
 
 Route::resource('/task/add','TaskController@store');
 Route::post('task/attachments', 'TaskAttachmentsController@store');
+Route::get('task/show/{id}', 'TaskController@show');
 
 Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);
 Route::get('/content/delete/{content_id}', [ 'as' => 'contentDelete', 'uses' => 'ContentController@delete' ]);

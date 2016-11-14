@@ -9,6 +9,7 @@ use App\Helpers;
 use App\Attachment;
 use Auth;
 use Storage;
+use View;
 
 class TaskController extends Controller
 {
@@ -99,6 +100,8 @@ class TaskController extends Controller
     public function show($id)
     {
         //
+        $task = Task::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
+        return View::make('task/index',['task'=>$task]);
     }
 
     /**
