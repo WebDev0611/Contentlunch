@@ -12,7 +12,7 @@
                             <i class="icon-edit-content"></i>
                             <h3>Write Content</h3>
                             <p>
-                                Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...
+                                Create your blogs, ebooks, landing pages & more!
                             </p>
                         </a>
                     </li>
@@ -21,7 +21,7 @@
                             <i class="icon-edit-user"></i>
                             <h3>Get Content Written</h3>
                             <p>
-                                Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...
+                                Have our team of writers produce your content!
                             </p>
                         </a>
                     </li>

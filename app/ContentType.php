@@ -29,15 +29,15 @@ class ContentType extends Model {
     //  --
     public static function dropdown()
     {
-        // - Create Content Type Drop Down Data
-        $contenttypedd = ['' => '-- Select Content Type --'];
-        $contenttypedd += ContentType::select('id','name')
+        $contentTypeOptions = ['' => '-- Select Content Type --'];
+        $contentTypeOptions += ContentType::select('id','name')
+            ->where('provider_id', '!=', '0')
             ->orderBy('name', 'asc')
             ->distinct()
             ->lists('name', 'id')
             ->toArray();
 
-        return $contenttypedd;
+        return $contentTypeOptions;
     }
 
     public function __toString()

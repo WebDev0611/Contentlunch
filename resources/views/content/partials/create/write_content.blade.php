@@ -6,7 +6,7 @@
             {!! Form::text('title', '', array('placeholder' => 'Enter content title', 'class' => 'input input-larger form-control', 'id' => 'title')) !!}
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="input-form-group">
                     <label for="#">CONTENT TYPE</label>
                     <div class="select">
@@ -14,6 +14,7 @@
                     </div>
                 </div>
             </div>
+            <!--
             <div class="col-md-6">
                 <div class="input-form-group">
                     <label for="#">TEMPLATE</label>
@@ -24,6 +25,7 @@
                     </div>
                 </div>
             </div>
+            -->
         </div>
 
         <div class="input-form-group">
