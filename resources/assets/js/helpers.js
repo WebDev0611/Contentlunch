@@ -54,10 +54,13 @@ $(function(){
 });
 
 //adds the task from any page
+var loadIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
 var add_task = function(callback) {
+    //so hacky ;)
 
     //need proper validation here
     if (isTaskDataValid()) {
+        $('#task-menu').prepend(loadIMG);
         $.ajax({
             url: '/task/add',
             type: 'post',
@@ -75,6 +78,7 @@ function isTaskDataValid() {
 
 function addedTaskCallback(callback) {
     return function(res) {
+        $(loadIMG).remove();
         clearTaskInputs();
 
         if ('function' === typeof callback) {

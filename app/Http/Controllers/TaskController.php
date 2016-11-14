@@ -9,6 +9,7 @@ use App\Helpers;
 use App\Attachment;
 use Auth;
 use Storage;
+use View;
 
 class TaskController extends Controller
 {
@@ -99,6 +100,8 @@ class TaskController extends Controller
     public function show($id)
     {
         //
+        $task = Task::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
+        return View::make('task/index',['task'=>$task]);
     }
 
     /**
@@ -107,8 +110,9 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+
         //
     }
 
@@ -121,6 +125,36 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $task = Task::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
+        
+        $task->name = $request->input('name');
+        $task->explanation = $request->input('explanation');
+        $task->start_date = $request->input('start_date');
+        $task->due_date = $request->input('due_date');
+
+        $task->save();
+    
+        return response()->json(['success' => true, 'task' => $task ]);
+        //
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function close(Request $request, $id)
+    {           
+
+        $task = Task::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
+        $task->status = 'closed';
+        $task->save();
+
+        return response()->json(['success' => true, 'task' => $task ]);
         //
     }
 

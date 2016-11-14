@@ -23,11 +23,9 @@ var idea_view = Backbone.View.extend({
 		return this;
 	},
     edit: function(){
-        console.log("write it clicked");
         window.location.href = '/idea/' + this.model.get('id');
     },
 	write: function(){
-		console.log("write it clicked");
 		window.location.href = '/idea/' + this.model.get('id');
 	},
     park: function(){
@@ -41,7 +39,7 @@ var idea_view = Backbone.View.extend({
             })
             .then(function(res){
                 console.log('parked' + this.model.attributes.id);
-                 console.log(res);
+                //show msg
             });
     },
     activate: function(){
@@ -55,7 +53,7 @@ var idea_view = Backbone.View.extend({
             })
             .then(function(res){
                 console.log('parked' + this.model.attributes.id);
-                 console.log(res);
+                //show msg
             });
     }
 

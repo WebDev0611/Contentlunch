@@ -11,7 +11,6 @@
     				var a = m;
     				a.created_at = a.created_at * 1000;
     				a.updated_at = a.updated_at * 1000;
-    				console.log(a);
     				return a;
     			});
 
@@ -38,6 +37,15 @@
     		$(this).parent().addClass('active');
 			$('#parked-ideas-link').parent().removeClass('active');
     	});
+
+        //tasks
+        $('#add-task-button').click(function() {
+            add_task(addTaskCallback);
+        });
+
+        function addTaskCallback(task) {
+            $('#addTaskModal').modal('hide');
+        }
     });
 
 

@@ -48,3 +48,16 @@
 @section('scripts')
 <script src="/js/settings.js"></script>
 @stop
+
+<script type="text/javascript">
+    $(function(){
+        //tasks
+        $('#add-task-button').click(function() {
+            add_task(addTaskCallback);
+        });
+
+        function addTaskCallback(task) {
+            $('#addTaskModal').modal('hide');
+        }
+    });
+</script>

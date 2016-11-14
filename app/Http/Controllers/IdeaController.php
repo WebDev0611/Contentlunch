@@ -24,6 +24,8 @@ use View;
 
 use Auth;
 
+use App\Content;
+
 use Illuminate\Support\Facades\DB;
 
 class IdeaController extends Controller
@@ -186,6 +188,14 @@ class IdeaController extends Controller
         return response()->json($idea);
     }
 
+    //converts the idea to a piece of content
+    public function ideaconvert(Request $request){
+        $idea = Idea::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
+
+        $new_content = new Content;
+
+    }
+    
     /**
      * Remove the specified resource from storage.
      *
