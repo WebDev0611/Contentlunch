@@ -48,9 +48,9 @@
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right">
-                                            <li><a href="#">Preview</a></li>
-                                            <li><a href="#">Export to PDF</a></li>
-                                            <li><a href="#">Park</a></li>
+                                            {{-- <li><a href="#">Preview</a></li> --}}
+                                            {{-- <li><a href="#">Export to PDF</a></li> --}}
+                                            {{-- <li><a href="#">Park</a></li> --}}
                                             <li><a href="{{ route('contentDelete', $content->id) }}">Delete</a></li>
                                         </ul>
                                     </div>
