@@ -1,4 +1,9 @@
-<div class="modal fade" id="modal-invite-client" tabindex="-1" role="dialog" aria-labelledby="Invite Client">
+<div class="modal fade"
+    id="modal-invite-client"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="Invite Client">
+
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
