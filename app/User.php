@@ -77,6 +77,11 @@ class User extends Authenticatable
         return $this->account->isAgencyAccount();
     }
 
+    public function agencyAccount()
+    {
+        return $this->account()->where('account_type_id', 2)->first();
+    }
+
     public static function dropdown()
     {
         $authorDropdown = ['' => '-- Select Author --'];
