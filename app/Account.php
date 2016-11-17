@@ -23,4 +23,19 @@ class Account extends Model
     {
         return $this->hasManyThrough('App\Connection', 'App\User');
     }
+
+    public function parentAccount()
+    {
+        return $this->belongsTo('App\Account', 'parent_account_id');
+    }
+
+    public function childAccounts()
+    {
+        return $this->hasMany('App\Account', 'parent_account_id');
+    }
+
+    public function isAgencyAccount()
+    {
+        return $this->account_type_id == 2;
+    }
 }

@@ -68,6 +68,15 @@ class User extends Authenticatable
         return $this->hasMany('App\WriterAccessPartialOrder');
     }
 
+    public function belongsToAgencyAccount()
+    {
+        // This later will have to be refactored to
+        // handle a user being in several different
+        // accounts.
+
+        return $this->account->isAgencyAccount();
+    }
+
     public static function dropdown()
     {
         $authorDropdown = ['' => '-- Select Author --'];

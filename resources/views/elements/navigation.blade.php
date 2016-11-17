@@ -3,6 +3,21 @@
         <img src="/images/logo.svg" alt="Content Launch">
     </a>
     <ul class="navigation-menu">
+        {{-- <li>
+            <a href="#" class="navigation-menu-profile">
+                <img src="images/avatar.jpg" alt="#">
+                <div class="app-type">
+                  <p class="app-agency">Agency</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="/#/components" class="navigation-menu-link active">
+                <i class="navigation-menu-icon icon-navigation-agency">
+                    <span>Agency</span>
+                </i>
+            </a>
+        </li> --}}
         <li>
             <a href="javascript:;" class="navigation-menu-profile ">
                 @if (\Auth::user()->profile_image)
@@ -10,31 +25,46 @@
                 @else
                     <img src="/images/avatar.jpg" alt="#">
                 @endif
+
+                @if (\Auth::user()->belongsToAgencyAccount())
+                    <div class="app-type">
+                        <p class="app-agency">Agency</p>
+                    </div>
+                @endif
             </a>
         </li>
+        @if (\Auth::user()->belongsToAgencyAccount())
         <li>
-            <a href="/home" class="navigation-menu-link {{ ( Request::segment(1) == 'home' ) ? 'active': ''  }}">
+            <a href="/agency" class="navigation-menu-link {{ Request::segment(1) != 'agency' ?: 'active' }}">
+                <i class="navigation-menu-icon icon-navigation-agency">
+                    <span>Agency</span>
+                </i>
+            </a>
+        </li>
+        @endif
+        <li>
+            <a href="/home" class="navigation-menu-link {{ Request::segment(1) != 'home' ?: 'active' }}">
                 <i class="navigation-menu-icon icon-navigation-chart">
                     <span>Dashboard</span>
                 </i>
             </a>
         </li>
         <li>
-            <a href="/plan" class="navigation-menu-link {{ ( Request::segment(1) == 'plan' ) ? 'active': ''  }}">
+            <a href="/plan" class="navigation-menu-link {{ Request::segment(1) != 'plan' ?: 'active' }}">
                 <i class="navigation-menu-icon icon-navigation-content">
                     <span>PLAN</span>
                 </i>
             </a>
         </li>
         <li>
-            <a href="/content" class="navigation-menu-link {{ ( Request::segment(1) == 'content' ) ? 'active': ''  }}">
+            <a href="/content" class="navigation-menu-link {{ Request::segment(1) != 'content' ?: 'active' }}">
                 <i class="navigation-menu-icon icon-navigation-dashboard">
                     <span>CONTENT</span>
                 </i>
             </a>
         </li>
         <li>
-            <a href="/calendar" class="navigation-menu-link {{ ( Request::segment(1) == 'calendar' ) ? 'active': ''  }}">
+            <a href="/calendar" class="navigation-menu-link {{ Request::segment(1) != 'calendar' ?: 'active' }}">
                 <i class="navigation-menu-icon icon-navigation-calendar">
                     <span>CALENDAR</span>
                 </i>
@@ -42,7 +72,7 @@
         </li>
         <!--
         <li>
-            <a href="/collaborate" class="navigation-menu-link {{ ( Request::segment(1) == 'collaborate' ) ? 'active': ''  }}">
+            <a href="/collaborate" class="navigation-menu-link {{ Request::segment(1) == 'collaborate' ? 'active': ''  }}">
                 <i class="navigation-menu-icon icon-navigation-users">
                     <span>Collaborate</span>
                 </i>
@@ -50,7 +80,7 @@
         </li>
         -->
     </ul>
-    <a href="/settings" class="navigation-settings {{ ( Request::segment(2) == 'settings' ) ? 'active': ''  }}">
+    <a href="/settings" class="navigation-settings {{ Request::segment(2) == 'settings' ? 'active': ''  }}">
         <i class="navigation-menu-icon icon-cog"></i>
     </a>
 </nav>
