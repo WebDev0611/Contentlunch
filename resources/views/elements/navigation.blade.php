@@ -35,7 +35,7 @@
         </li>
         @if (\Auth::user()->belongsToAgencyAccount())
         <li>
-            <a href="/agency" class="navigation-menu-link {{ Request::segment(1) != 'agency' ?: 'active' }}">
+            <a href="/agencies" class="navigation-menu-link {{ Request::segment(1) != 'agency' ?: 'active' }}">
                 <i class="navigation-menu-icon icon-navigation-agency">
                     <span>Agency</span>
                 </i>

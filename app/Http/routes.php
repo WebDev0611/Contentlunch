@@ -52,7 +52,10 @@ Route::get('signup/invite/{invite}', [ 'as' => 'signupWithInvite', 'uses' => 'On
 Route::get('/home','AccountController@index');
 Route::get('/dashboard','AccountController@stats');
 
-Route::get('/agency','AgencyController@index');
+Route::group([ 'prefix' => 'agencies' ], function() {
+    Route::get('/', [ 'as' => 'agencyIndex', 'uses' => 'AgencyController@index' ]);
+    Route::post('/', [ 'as' => 'agencyStore', 'uses' => 'AgencyController@store' ]);
+});
 
 Route::get('/analyze','AnalyzeController@index');
 

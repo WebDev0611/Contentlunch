@@ -12,6 +12,18 @@
             <div class="row tight">
                 <!-- Main Column -->
                 <div class="col-md-9">
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-forms" id="formError">
+                            <p><strong>Oops! We had some errors:</strong>
+                                <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                                </ul>
+                            </p>
+                        </div>
+                    @endif
+
                     @include('agency.partials.clients_list')
                 </div> <!-- End Main Column -->
 
@@ -27,6 +39,7 @@
     </div>
 </div>
 
-<!-- Modal -->
+
 @include('agency.partials.invite_guest_modal')
+@include('agency.partials.create_subaccount_modal')
 @stop

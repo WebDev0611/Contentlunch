@@ -15,9 +15,9 @@
                             type="button"
                             class="button button-small withstarticon"
                             data-toggle="modal"
-                            data-target="#modal-invite-client">
+                            data-target="#create-subaccount">
 
-                            <i class="icon-add"></i> NEW CLIENT
+                            <i class="icon-add"></i> NEW SUB-ACCOUNT
                         </button>
                     </div>
                 </div>
