@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Account;
+use App\User;
+use App\AccountType;
+use App\AccountUser;
 
 class UsersTableSeeder extends Seeder
 {
@@ -11,42 +15,47 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        Account::truncate();
+        AccountUser::truncate();
+        User::truncate();
+
         $password = bcrypt('launch123');
-        $account = factory(App\Account::class)->create([
+        $account = factory(Account::class)->create([
             'name' => 'Sample Agency Account',
-            'account_type_id' => 2
+            'account_type_id' => AccountType::AGENCY
         ]);
 
-        DB::table('users')->truncate();
-        DB::table('users')->insert([
+        $users = [
             [
-                'name' => 'Admin Istrator',
+                'name' => 'Administrator',
                 'email' => 'admin@test.com',
                 'password' => $password,
                 'is_admin' => true,
-                'account_id' => $account->id
             ],
             [
-                'name' => 'Man Ager',
+                'name' => 'Manager',
                 'email' => 'manager@test.com',
                 'password' => $password,
                 'is_admin' => false,
-                'account_id' => $account->id
             ],
             [
-                'name' => 'Cre Ator',
+                'name' => 'Creator',
                 'email' => 'creator@test.com',
                 'password' => $password,
                 'is_admin' => false,
-                'account_id' => $account->id
             ],
             [
-                'name' => 'Ed Itor',
+                'name' => 'Editor',
                 'email' => 'editor@test.com',
                 'password' => $password,
                 'is_admin' => false,
-                'account_id' => $account->id
             ]
-        ]);
+        ];
+
+        collect($users)->each(function($userArray) use ($account) {
+            $user = User::create($userArray);
+            $account->users()->attach($user);
+            $account->save();
+        });
     }
 }
