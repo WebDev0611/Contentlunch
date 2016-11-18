@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Auth;
+use App\AccountType;
 
 class User extends Authenticatable
 {
@@ -53,6 +54,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Account');
     }
 
+    public function accounts()
+    {
+        return $this->belongsToMany('App\Account');
+    }
+
     public function country()
     {
         return $this->belongsTo('App\Country', 'country_code', 'country_code');
@@ -70,16 +76,16 @@ class User extends Authenticatable
 
     public function belongsToAgencyAccount()
     {
-        // This later will have to be refactored to
-        // handle a user being in several different
-        // accounts.
-
-        return $this->account->isAgencyAccount();
+        return (boolean) $this->accounts()
+            ->where('account_type_id', AccountType::AGENCY)
+            ->count();
     }
 
     public function agencyAccount()
     {
-        return $this->account()->where('account_type_id', 2)->first();
+        return $this->accounts()
+            ->where('account_type_id', AccountType::AGENCY)
+            ->first();
     }
 
     public static function dropdown()

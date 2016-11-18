@@ -112,8 +112,9 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'account_id' => $account->id
         ]);
+
+        $account->users()->attach($user);
 
         $this->handleProfilePicture($user, $data);
 

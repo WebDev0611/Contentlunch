@@ -15,7 +15,7 @@ class Account extends Model
 
     public function users()
     {
-        return $this->hasMany('App\User');
+        return $this->belongsToMany('App\User', 'account_user', 'account_id', 'user_id');
     }
 
     public function invites()
