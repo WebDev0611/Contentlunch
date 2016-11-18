@@ -14,7 +14,7 @@ class CreateAccountsUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounts_users', function (Blueprint $table) {
+        Schema::create('account_user', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('account_id')->unsigned();
             $table->integer('user_id')->unsigned();
@@ -46,7 +46,7 @@ class CreateAccountsUsersTable extends Migration
             })
             ->toArray();
 
-        DB::table('accounts_users')->insert($accountsUsers);
+        DB::table('account_user')->insert($accountsUsers);
     }
 
     /**
@@ -56,6 +56,6 @@ class CreateAccountsUsersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('accounts_users');
+        Schema::drop('account_user');
     }
 }
