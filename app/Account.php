@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model
 {
-    public $fillable = [ 'name' ];
+    public $fillable = [
+        'name',
+        'account_type_id',
+        'parent_account_id',
+    ];
 
     public function users()
     {
