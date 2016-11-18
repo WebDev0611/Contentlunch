@@ -11,7 +11,7 @@
 
             <div class="row tight">
                 <!-- Main Column -->
-                <div class="col-md-9">
+                <div class="col-md-12">
                     @if ($errors->any())
                         <div class="alert alert-danger alert-forms" id="formError">
                             <p><strong>Oops! We had some errors:</strong>
@@ -27,9 +27,11 @@
                     @include('agency.partials.clients_list')
                 </div> <!-- End Main Column -->
 
+                {{--
                 <div class="col-md-3">
                     @include('agency.partials.invited_guests_sidebar')
                 </div>
+                --}}
             </div>
 
 
