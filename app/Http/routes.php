@@ -106,6 +106,8 @@ Route::get('/content/delete/{content_id}', [ 'as' => 'contentDelete', 'uses' => 
 Route::get('/content/publish/{content}', ['as' => 'contentPublish', 'uses' =>'ContentController@publishAndRedirect' ]);
 Route::get('/content/multipublish/{content}', [ 'as' => 'contentMultiPublish', 'uses' => 'ContentController@directPublish' ]);
 
+Route::get('/content/my', 'ContentController@my');
+
 // Facebook Callbacks
 //
 Route::get('callback/facebook',  ['as' => 'facebookProvider', 'uses' =>'Connections\FacebookController@callback']);
