@@ -219,15 +219,12 @@ class ContentController extends Controller
         $this->saveContentBuyingStage($request, $content);
         $this->saveContentPersona($request, $content);
         $this->saveContentType($request, $content);
+        $this->saveConnections($request, $content);
 
         // - Attach the related data
         if ($request->input('related')) {
             $content->related()->attach($request->input('related'));
         }
-
-        // - Save connection
-        $connection = Connection::find($request->input('connections'));
-        $connection->contents()->save($content);
 
         // Attach authors
         $content->authors()->attach($request->input('author'));
@@ -293,6 +290,14 @@ class ContentController extends Controller
         Auth::user()->contents()->save($content);
 
         return $content;
+    }
+
+    private function saveConnections($request, $content)
+    {
+        if ($request->has('connections')) {
+            $connection = Connection::find($request->input('connections'));
+            $connection->contents()->save($content);
+        }
     }
 
     private function saveContentCampaign($request, $content)
