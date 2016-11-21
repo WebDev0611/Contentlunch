@@ -197,8 +197,20 @@ class ContentController extends Controller
         return View::make('content.editor', $data);
     }
 
-    public function editStore(ContentRequest $request, $id = null)
+    public function editStore(Request $request, $id = null)
     {
+        if ($request->input('action') == 'written_content') {
+            $validation = $this->onSaveValidation($request->all());
+        } else {
+            $validation = $this->onSubmitValidation($request->all());
+        }
+
+        if ($validation->fails()) {
+            $urlId = $id ? "/$id" : '';
+
+            return redirect("/edit" . $urlId)->with('errors', $validation->errors());
+        }
+
         $content = is_numeric($id) ? Content::find($id) : new Content();
         $content = $this->detachRelatedContent($content);
         $content = $this->saveContentAndAttachToUser($request, $content);
@@ -207,15 +219,12 @@ class ContentController extends Controller
         $this->saveContentBuyingStage($request, $content);
         $this->saveContentPersona($request, $content);
         $this->saveContentType($request, $content);
+        $this->saveConnections($request, $content);
 
         // - Attach the related data
         if ($request->input('related')) {
             $content->related()->attach($request->input('related'));
         }
-
-        // - Save connection
-        $connection = Connection::find($request->input('connections'));
-        $connection->contents()->save($content);
 
         // Attach authors
         $content->authors()->attach($request->input('author'));
@@ -235,6 +244,25 @@ class ContentController extends Controller
                 'flash_message_important' => true,
             ]);
         }
+    }
+
+    private function onSubmitValidation(array $requestData)
+    {
+        return Validator::make($requestData, [
+            'content_type' => 'required',
+            'author' => 'required',
+            'due_date' => 'required',
+            'title' => 'required',
+            'connections' => 'required',
+            'content' => 'required',
+        ]);
+    }
+
+    private function onSaveValidation(array $requestData)
+    {
+        return Validator::make($requestData, [
+            'title' => 'required'
+        ]);
     }
 
     private function detachRelatedContent($content)
@@ -262,6 +290,14 @@ class ContentController extends Controller
         Auth::user()->contents()->save($content);
 
         return $content;
+    }
+
+    private function saveConnections($request, $content)
+    {
+        if ($request->has('connections')) {
+            $connection = Connection::find($request->input('connections'));
+            $connection->contents()->save($content);
+        }
     }
 
     private function saveContentCampaign($request, $content)
