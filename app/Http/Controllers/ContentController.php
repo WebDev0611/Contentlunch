@@ -197,8 +197,20 @@ class ContentController extends Controller
         return View::make('content.editor', $data);
     }
 
-    public function editStore(ContentRequest $request, $id = null)
+    public function editStore(Request $request, $id = null)
     {
+        if ($request->input('action') == 'written_content') {
+            $validation = $this->onSaveValidation($request->all());
+        } else {
+            $validation = $this->onSubmitValidation($request->all());
+        }
+
+        if ($validation->fails()) {
+            $urlId = $id ? "/$id" : '';
+
+            return redirect("/edit" . $urlId)->with('errors', $validation->errors());
+        }
+
         $content = is_numeric($id) ? Content::find($id) : new Content();
         $content = $this->detachRelatedContent($content);
         $content = $this->saveContentAndAttachToUser($request, $content);
@@ -235,6 +247,25 @@ class ContentController extends Controller
                 'flash_message_important' => true,
             ]);
         }
+    }
+
+    private function onSubmitValidation(array $requestData)
+    {
+        return Validator::make($requestData, [
+            'content_type' => 'required',
+            'author' => 'required',
+            'due_date' => 'required',
+            'title' => 'required',
+            'connections' => 'required',
+            'content' => 'required',
+        ]);
+    }
+
+    private function onSaveValidation(array $requestData)
+    {
+        return Validator::make($requestData, [
+            'title' => 'required'
+        ]);
     }
 
     private function detachRelatedContent($content)
