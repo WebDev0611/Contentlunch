@@ -321,7 +321,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-4">
+                            <div class="col-sm-offset-4 col-sm-4">
                                 <div class="input-form-group input-drop">
                                     <label for="#">PERSONA</label>
                                     {!!
@@ -338,6 +338,7 @@
                                 </div>
                             </div>
 
+                            {{--
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="campaign">CAMPAIGN</label>
@@ -354,6 +355,7 @@
                                     !!}
                                 </div>
                             </div>
+                            --}}
                         </div>
 
                         <!-- SEO Information -->
