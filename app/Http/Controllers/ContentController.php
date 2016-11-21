@@ -317,6 +317,13 @@ class ContentController extends Controller
         }
     }
 
+    public function my()
+    {
+        $content = Auth::user()->contents()->get();
+
+        return response()->json($content);
+    }
+
     /**
      * Shortcut functions to remove possibility of error.
      * Handling of images.

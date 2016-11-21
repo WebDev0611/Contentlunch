@@ -49,8 +49,10 @@
 
             if (this.collection.length > 0) {
                 this.collection.each(function(model) {
-                    var taskElement = new task_view({ model: model });
-                    view.$el.find('.panel').append(taskElement.render());
+                    if(model.get('status') === 'open'){
+                        var taskElement = new task_view({ model: model });
+                        view.$el.find('.panel').append(taskElement.render());
+                    }
                 });
             } else {
                 var create_lang = $('<div class="dashboard-tasks-container">' +
@@ -75,8 +77,10 @@
             if (this.collection.length > 0) {
                 this.collection.sortBy('timeago');
                 this.collection.each(function(m){
-                    var t = new task_view({ model: m });
-                    view.$el.find('.panel').append( t.render() );
+                    if(m.get('status') === 'open'){
+                        var t = new task_view({ model: m });
+                        view.$el.find('.panel').append( t.render() );
+                    }
                 });
             } else {
                 var create_lang = $('<div class="dashboard-tasks-container">' +
@@ -206,8 +210,7 @@
             t.body = t.explanation;
             t.timeago = moment(t.created_at).format('x');
             t.currenttime = moment.utc().format('x');
-            console.log(t.currenttime);
-            console.log(new Date().getTime());
+            t.status = t.status;
             return t;
         };
 

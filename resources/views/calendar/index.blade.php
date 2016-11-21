@@ -54,8 +54,6 @@
 @include('calendar.task')
 @include('calendar.create')
 
-@include('calendar.modals')
-
 <script type="text/template" id="calendar-item-template">
     <% 
     var _icon = 'primary icon-idea';
@@ -111,7 +109,7 @@
 </div>
 </script>
 
-@stop
+
 
 @section('scripts')
 <script>
@@ -119,4 +117,8 @@ var campaigns = {!! $campaigns !!};
 var tasks = {!! $tasks !!};
 </script>
 <script src="/js/calendar.js"></script>
+@stop
+
+@include('calendar.modals')
+
 @stop

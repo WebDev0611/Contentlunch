@@ -15,12 +15,29 @@ class CalendarController extends Controller {
 	public $tasks;
 
 	public function __construct(){
+        $this->middleware('auth');
+
     	$user = Auth::user();
     	$this->user_id = $user->id;
     	$this->account_id = 0;
     	$this->campaigns = Auth::user()->campaigns()->get();
     	$this->tasks = Auth::user()->tasks()->get();
 	} 
+
+	//pulls all calendars for the user
+	public function my(){
+
+	}
+
+	//creates a new calendar
+	public function create(Request $request){
+
+	}
+
+	//add item to the calendar
+	public function add_to_calendar(){
+
+	}
 
 	public function index($year = 0, $month = 0, $day = 0 ){
 		/* draws a calendar */
