@@ -6,13 +6,20 @@
                     <div class="dropdown-client">
                         <a href="#" class="drop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="company-logo"><img src="/images/logo-client-fake.jpg" alt="XX"></span>
-                            Company Name
+                            {{ $selectedAccount->name }}
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#"><span class="company-logo"><img src="/images/logo-client-fake.jpg" alt="XX"></span>Company 2</a></li>
-                            <li><a href="#"><span class="company-logo"><img src="/images/logo-client-fake2.jpg" alt="XX"></span>Company 3</a></li>
-                            <li><a href="#"><span class="company-logo"><img src="/images/logo-client-fake2.jpg" alt="XX"></span>Company 4</a></li>
+                            @foreach ($accountsList as $account)
+                                <li>
+                                    <a href="#">
+                                        <span class="company-logo">
+                                            <img src="/images/logo-client-fake.jpg" alt="XX">
+                                        </span>
+                                        {{ $account->name }}
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                         <a href="#" class="btn-addclient"
                             data-toggle="modal"
