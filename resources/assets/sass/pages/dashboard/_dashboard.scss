@@ -1,0 +1,130 @@
+//------------------------------
+// *****************************
+// Dashboard
+// *****************************
+//------------------------------
+
+.dashboard-notification-box {
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+  height: 60px;
+  table-layout: auto;
+  border-bottom: 2px solid #7fb3fa;
+  margin-bottom: 20px;
+  margin-top: 0;
+  padding: 0;
+  background: $base-color-white;
+  overflow: hidden;
+
+  > span {
+    display: table-cell;
+    padding: 0 5px;
+    vertical-align: middle;
+    color: #1d1131;
+    font-family: $source-sans-pro;
+    font-size: 14px;
+    line-height: 1;
+
+  }
+}
+
+.dashboard-content-score {
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+  height: 60px;
+  table-layout: auto;
+  border-bottom: 2px solid #a18ecf;
+  margin-bottom: 20px;
+  margin-top: 0;
+  padding: 0;
+  background: $base-color-white;
+  overflow: hidden;
+
+  > span {
+    display: table-cell;
+    padding: 0 5px;
+    vertical-align: middle;
+    color: #1d1131;
+    font-family: $source-sans-pro;
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+.dashboard-donut-chart {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+
+  .slice {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .chart-center {
+    position: absolute;
+    border-radius: 50%;
+
+    span {
+      display: block;
+      text-align: center;
+    }
+  }
+}
+
+@include donut-chart('.primary', 91, 60px, 5px, #c6cfe1, #f2f3f9, #6944b7);
+
+.dashboard-notification-box-count {
+  font-size: 34px !important;
+  padding: 0 0 0 10px !important;
+
+  > i {
+    display: inline-block;
+    font-size: 20px;
+    color: #9cc7ff;
+  }
+}
+
+.dashboard-layout-container {
+  padding: 5px 0;
+}
+
+.dashboard-layout {
+  padding: 2px;
+  border-radius: 2px;
+  background: #6944b7;
+  display: inline-block;
+  margin: 0 5px;
+
+  > li {
+    display: inline-block;
+    list-style: none;
+
+    > a {
+      display: inline-block;
+      height: 40px;
+      width: 50px;
+      line-height: 40px;
+      text-align: center;
+      color: #ad98d7;
+      border-radius: 2px;
+
+      > i {
+        vertical-align: middle;
+        font-size: 20px;
+      }
+    }
+
+    &.active > a, &:hover > a {
+      background: #ffffff;
+      color: #6944b7;
+      text-decoration: none;
+    }
+  }
+}
+

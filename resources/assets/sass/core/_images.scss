@@ -1,0 +1,30 @@
+//------------------------------
+// *****************************
+// Images
+// *****************************
+//------------------------------
+
+.images-list {
+  padding: 0;
+  margin: 0;
+
+  > li {
+    position: relative;
+    display: inline-block;
+    list-style: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    margin-left: -5px;
+    vertical-align: middle;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    > img {
+      max-width: 100%;
+    }
+  }
+}

@@ -1,0 +1,49 @@
+//------------------------------
+// *****************************
+// Calendar Day
+// *****************************
+//------------------------------
+
+// Variables
+$calendar-day-cell-border: solid #dadfeb;
+$calendar-day-disabled-cell-background: #f8f9fa;
+$calendar-day-disabled-cell-color: #6944b7;
+
+// Classes
+.calendar-day {
+  tr:first-child td {
+    border-top: 0;
+  }
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  td {
+    height: 70px;
+    background: $base-color-white;
+    border: 1px $calendar-day-cell-border;
+    padding: 0;
+    vertical-align: top;
+
+    @include clearfix;
+
+    &[disabled] {
+      width: 70px;
+      background: $calendar-day-disabled-cell-background;
+      text-align: center;
+      font-size: 14px;
+      font-family: $source-sans-pro;
+      color: $calendar-day-disabled-cell-color;
+      font-weight: normal;
+      padding-top: 5px;
+      vertical-align: top;
+    }
+
+    &:first-child {
+      border-left: 0;
+    }
+    &:last-child {
+      border-right: 0;
+    }
+  }
+}

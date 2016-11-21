@@ -1,0 +1,77 @@
+//------------------------------
+// *****************************
+// Purchase
+// *****************************
+//------------------------------
+
+.purchase-assignment {
+  background: #f7f5fb;
+  border: 1px solid #b8a6dd;
+  border-radius: 2px;
+  padding: 15px;
+  margin-bottom: 40px;
+
+  hr {
+    margin: 10px 0;
+  }
+
+  span {
+    color: #b7b1be;
+
+    > strong {
+      display: inline-block;
+      margin-left: 5px;
+      color: #392c46;
+    }
+  }
+}
+
+.purchase-order-more {
+  color: #9a92a2;
+  font-size: 14px;
+
+  > i {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    color: #9a92a2;
+    border: 1px solid #9a92a2;
+    border-radius: 50%;
+
+    > span {
+      vertical-align: middle;
+    }
+  }
+}
+
+.purchase-title {
+  color: #2481ff;
+}
+
+.purchase-order {
+  width: 100%;
+  margin-bottom: 40px;
+
+  tr {
+
+    &:first-child td {
+      border-top: 1px solid #e7e4e9;
+    }
+  }
+
+  td {
+    padding: 10px;
+
+    border-bottom: 1px solid #e7e4e9;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+  tfoot td {
+    background: #f7f7f8;
+  }
+}

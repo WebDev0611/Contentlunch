@@ -1,0 +1,59 @@
+//------------------------------
+// *****************************
+// OnBoarding Steps
+// *****************************
+//------------------------------
+
+// Variables
+$create-step-point-background: #f0eff1;
+$create-step-point-background-active: #2482ff;
+$create-step-text-color: #2482ff;
+$create-step-primary: #2482ff;
+
+// Classes
+.create-step {
+  max-width: 540px;
+  margin: 20px auto;
+  margin-bottom: 45px;
+  text-align: center;
+
+  @include clearfix;
+}
+
+.create-step-point {
+  position: relative;
+  display: inline-block;
+  height: 2px;
+  width: 25%;
+  background: $create-step-point-background;
+
+  &:after {
+    content: " ";
+    position: absolute;
+    right: -6px;
+    margin-top: -5px;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    z-index: 10;
+    background: $create-step-point-background;
+  }
+
+  &.active {
+    background: $create-step-point-background-active;
+
+    &:after {
+      background: $create-step-point-background-active;
+    }
+  }
+
+  &:first-child {
+    width: 12px;
+    background: none;
+
+    &.active {
+      background: none;
+    }
+  }
+}

@@ -1,0 +1,103 @@
+//------------------------------
+// *****************************
+// OnBoarding Steps
+// *****************************
+//------------------------------
+
+
+// Classes
+.plans {
+  display: flex;
+  max-width: 680px;
+  margin: 0 auto;
+  margin-top: 35px;
+}
+.plans > * {
+  flex: 1;
+  border: 1px solid #C6C1CA;
+  border-radius: 4px;
+  margin-left: -1px;
+  padding: 30px 25px;
+  box-shadow: 0 -4px 0 rgba(105,68,183,0.25);
+  transition: .2s all;
+  position: relative;
+  background-color: #fff;
+}
+.plan:hover {
+  border-color: #6944B7;
+  z-index: 5;
+  box-shadow: 0 -4px 0 rgba(105,68,183,0.85), 0 0 8px 1px rgba(0,0,0,.1);
+  transform: scale(1.006);
+}
+.plan1 {
+  margin-top: 40px;
+}
+.plan1 .list-planfeats {
+  min-height: 160px;
+}
+.plan2 {
+  margin-top: 20px;
+}
+.plan2 .list-planfeats {
+  min-height: 180px;
+}
+.plans .title {
+  text-align: center;
+  color: #6944B7;
+  font-size: 1.2em;
+}
+.plans .desc {
+  text-align: center;
+  line-height: 1.2em;
+  margin-bottom: 25px;
+  opacity: .45;
+}
+.list-planfeats {
+  min-height: 200px;
+  
+  > li {
+    position: relative;
+    padding-left: 24px;
+    margin: 3px 0;
+    
+    &:before {
+      content: "\e913";
+      font-family: "icomoon";
+      position: absolute;
+      left: 0;
+      font-size: .8em;
+      margin-top: 3px;
+      opacity: .65;
+    }
+  }
+}
+
+.plan-price {
+  padding-top: 20px;
+  text-align: center;
+  min-height: 100px;
+  
+  > p {
+    line-height: 1.2em;
+    
+    &:not(.smaller) {
+      font-size: 1.6em;
+    }
+  }
+  
+}
+
+.withline {
+  position: relative;
+}
+.withline:after {
+  content: "";
+  display: table;
+  margin: 10px auto;
+  width: 23px;
+  height: 1px;
+  background-color:rgba(108,119,134,0.3);
+}
+.currency {
+  font-size: .9em;
+}

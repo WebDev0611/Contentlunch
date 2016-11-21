@@ -1,0 +1,153 @@
+//------------------------------
+// *****************************
+// OnBoarding Steps
+// *****************************
+//------------------------------
+
+// Variables
+$onboarding-step-point-background: #f0eff1;
+$onboarding-step-point-background-active: #6844b7;
+$onboarding-step-text-color: #6844b7;
+$onboarding-step-primary: #2482ff;
+
+// Classes
+.onboarding-step {
+  max-width: 540px;
+  margin: 20px auto;
+  margin-bottom: 45px;
+  text-align: center;
+
+  @include clearfix;
+}
+
+.onboarding-step-point {
+  position: relative;
+  display: inline-block;
+  height: 2px;
+  width: 25%;
+  background: $onboarding-step-point-background;
+
+  &:after {
+    content: " ";
+    position: absolute;
+    right: -6px;
+    margin-top: -5px;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    z-index: 10;
+    background: $onboarding-step-point-background;
+  }
+
+  &.active {
+    background: $onboarding-step-point-background-active;
+
+    &:after {
+      background: $onboarding-step-point-background-active;
+    }
+  }
+
+  &:first-child {
+    width: 12px;
+    background: none;
+
+    &.active {
+      background: none;
+    }
+  }
+}
+
+.onboarding-step-text {
+  font-family: $source-sans-pro;
+  color: $onboarding-step-text-color;
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.onboarding-step-head {
+  color: $onboarding-step-primary;
+  font-size: 1.15em;
+  margin-top: 1.8em;
+  margin-bottom: 1em;
+}
+.invoice-content {
+  border: 1px solid #B8A6DD;
+  background-color: #F7F5FB;
+  border-radius: 4px;
+  padding: 12px 20px;
+  margin-bottom: 45px;
+  
+  p {
+    line-height: 1.2em;
+    margin: 4px 0;
+    
+    &.title {
+      font-size: 1.25em;
+    }
+  }
+  
+  .smaller {
+    font-size: .85em;
+    opacity: .65;
+  }
+  
+  table>tbody>tr>td {
+    vertical-align: top;
+    padding: 0 6px;
+  }
+  
+  .checkbox-primary {
+    margin-top: 10px;
+  }
+}
+
+.tbl-right {
+  text-align: right;
+}
+.tbl-total,
+.tbl-total p {
+  font-weight: 700;
+}
+
+.security-badges {
+  text-align: center;
+  margin-bottom: -20px;
+  padding-top: 10px;
+}
+
+.onboarding-score-chart {
+  padding: 20px 0;
+}
+.onboarding-score-chart p {
+  line-height: 1.1em;
+  letter-spacing: .03em;
+}
+.onboarding-score-chart .dashboard-donut-chart {
+  margin: 0 auto;
+  margin-bottom: 8px;
+}
+.onboarding-score-chart .donut-chart.primary {
+  background-color: #EBEDF5;
+}
+.onboarding-score-chart .donut-chart.primary .chart-center {
+  background-color: #fff;
+}
+
+
+.list-roles {
+  margin-top: 22px;
+  
+  li {
+    width: 33.333333%;
+    margin-right: -4px;
+    vertical-align: top;
+    padding: 0 14px;
+
+    .title {
+      font-weight: 700;
+      font-size: 1.2em;
+      margin-top: 6px;
+    }
+  }
+}

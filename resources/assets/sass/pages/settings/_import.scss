@@ -1,0 +1,78 @@
+//------------------------------
+// *****************************
+// OnBoarding Import
+// *****************************
+//------------------------------
+
+// Workspace Variables
+
+// Workspace Classes
+.settings-import {
+  margin-bottom: 40px;
+}
+
+.settings-import-container {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.settings-import-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #e3e7f0;
+
+  @include clearfix;
+
+  &.active {
+    background: #f8f9fc;
+  }
+
+  [class^="icon-"], [class*=" icon-"] {
+    font-size: 26px;
+    position: relative;
+    margin-right: 10px;
+    top: 7px;
+    margin-top: -3px;
+    display: inline-block;
+  }
+}
+
+.settings-import-item-img {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.settings-import-input {
+  @extend .input;
+
+  border: 0;
+  border-bottom: 1px solid #e3e7f0;
+  width: 100%;
+  padding: 5px 15px;
+  background: url("../images/icons/magnifier.svg") no-repeat left 10px center;
+  background-size: 15px;
+  padding-left: 30px;
+  font-family: $source-sans-pro;
+  font-size: 14px;
+  margin-bottom: 0;
+  height: 40px;
+
+  &:hover, &:focus {
+    outline: none;
+  }
+}
+
+.settings-import-action {
+  height: 50px;
+  line-height: 50px;
+  border-bottom: 1px solid #e3e7f0;
+
+  > button {
+    float: right;
+    margin: 10px 0;
+  }
+
+  @include clearfix;
+}

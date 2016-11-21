@@ -1,0 +1,94 @@
+//------------------------------
+// *****************************
+// Select
+// *****************************
+//------------------------------
+
+.select {
+  position: relative;
+  display: block;
+  height: 34px;
+  border: 0;
+  border-bottom: 1px solid #a7a1ad;
+  border-radius: 0;
+  width: 100%;
+
+  > select {
+    width: 100%;
+    border: none;
+    background: none;
+    font-weight: normal;
+    outline: none;
+    height: 100%;
+    padding: 0 12px;
+    margin: 0;
+    font-size: 17px;
+    font-family: $source-sans-pro;
+    color: #392C46;
+
+    > option {
+      font-size: 14px;
+    }
+  }
+
+  &::after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    z-index: 2;
+    pointer-events: none;
+    display: none;
+    width: 20px;
+    height: 15px;
+    margin-top: -6px;
+    background: url("../images/icons/caret.svg") no-repeat center;
+    background-size: 10px;
+  }
+}
+
+.select-secondary {
+  border: 1px solid #c6cfe1;
+  height: 40px;
+
+  > select {
+    font-size: 14px;
+  }
+
+  &:hover, &:focus {
+    border: 1px solid #c6cfe1;
+  }
+}
+
+.select-small {
+  display: inline-block;
+  height: 30px;
+  width: auto;
+
+  > select {
+    font-size: 12px;
+  }
+
+  &.extend {
+    width: 100%;
+  }
+}
+
+.select-horizontal-label {
+  margin: 10px 0;
+}
+
+@supports (-webkit-appearance: none) or (appearance: none ) or ((-moz-appearance: none ) and (mask-type: alpha)) {
+  .select::after {
+    display: block;
+  }
+
+  .select select {
+    padding-right: 2em;
+    background: none;
+    border: 1px solid transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+}

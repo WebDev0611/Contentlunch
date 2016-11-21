@@ -1,0 +1,81 @@
+//------------------------------
+// *****************************
+// Images
+// *****************************
+//------------------------------
+
+// Classes
+.onboarding-avatar {
+  margin-bottom: 15px;
+  position: relative;
+
+  > img {
+    position: relative;
+    display: block;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 0 auto;
+    transition: all .1s linear;
+    opacity: 1;
+  }
+
+  .loading-icon {
+    position: absolute;
+    width: 100%;
+    height: 80%;
+    opacity: 0;
+    transition: all .1s linear;
+  }
+
+  &.loading {
+    .loading-icon {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    > img {
+      opacity: 0.3;
+    }
+  }
+}
+
+.onboarding-avatar-button {
+  text-align: center;
+  cursor: pointer;
+
+  > input[type="file"] {
+    display: none;
+    visibility: hidden;
+  }
+
+  > i {
+    position: relative;
+    top: -25px;
+    font-size: 24px;
+    color: #b3afba;
+  }
+
+  > span {
+    display: block;
+    font-family: $source-sans-pro;
+    font-weight: bold;
+    color: #c9c7cb;
+    font-size: 16px;
+    text-transform: capitalize;
+  }
+}
+
+.loading-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-image: url('../images/ring.gif');
+  background-repeat: no-repeat;
+  background-position: center center;
+
+  &-center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

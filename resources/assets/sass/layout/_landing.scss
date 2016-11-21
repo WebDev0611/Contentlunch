@@ -1,0 +1,34 @@
+//------------------------------
+// *****************************
+// Container
+// *****************************
+//------------------------------
+
+// Workspace Classes
+.landing {
+  min-height: 100%;
+  padding: 40px 0;
+}
+
+.landing-hero {
+  text-align: center;
+}
+
+.landing-logo {
+  position: relative;
+  display: block;
+  margin: 0 auto 40px auto;
+  width: 180px;
+
+  > img {
+    max-width: 100%;
+  }
+
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+  
+  &.bottom {
+    margin: 25px auto;
+  }
+}

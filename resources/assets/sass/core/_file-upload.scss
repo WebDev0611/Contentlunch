@@ -1,0 +1,31 @@
+//------------------------------
+// *****************************
+// File Upload
+// *****************************
+//------------------------------
+
+// Variables
+
+// Classes
+.file-upload-container {
+  padding: 20px;
+  border: 1px dashed #b8b3bd;
+  border-radius: 5px;
+}
+
+.file-upload {
+  display: none !important;
+  visibility: hidden;
+
+  + span {
+    font-size: 14px;
+
+    > i {
+      display: inline-block;
+      margin: 0 5px;
+      color: #dddce0;
+      font-size: 28px;
+      vertical-align: middle;
+    }
+  }
+}

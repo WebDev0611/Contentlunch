@@ -11,16 +11,15 @@ Vagrant.configure(2) do |config|
   #config.vm.network "forwarded_port", guest: 3306, host: 3307
 
   # Create a private network, which allows host-only access to the machine.
-  config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.network "private_network", ip: "192.168.33.16"
 
   # Share an additional folder to the guest VM.
   # config.vm.synced_folder "../data", "/vagrant_data"
 
   # Provider-specific configurations
   config.vm.provider "virtualbox" do |v|
-    v.memory = 2024
-    v.cpus = 2
-    v.customize ["modifyvm", :id, "--nictype1", "virtio"]
+    v.memory = 512
+    v.cpus = 1
   end
 
   config.vm.provider "virtualbox" do |v|

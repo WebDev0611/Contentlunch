@@ -1,0 +1,53 @@
+//------------------------------
+// *****************************
+// Ideas
+// *****************************
+//------------------------------
+
+.dashboard-ideas-container {
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+  transition: .2s all;
+
+  &:hover {
+    background: #fbfcfd;
+  }
+
+  &:last-child > .plan-ideas-cell {
+    border-bottom: 0;
+  }
+}
+
+.dashboard-ideas-cell {
+  display: table-cell;
+  padding: 12px 6px;
+  vertical-align: middle;
+  border-bottom: 1px solid #e6e9f1;
+
+  &:first-child {
+    text-align: right;
+    width: 48px;
+  }
+}
+
+.dashboard-ideas-dropdown {
+  position: relative;
+}
+
+.dashboard-ideas-text {
+  display: block;
+  font-family: $source-sans-pro;
+  font-size: 15px;
+  color: #1d1131;
+  line-height: 1.2em;
+  margin-top: 0;
+  margin-bottom: 2px;
+
+  &.small {
+    font-size: 12px;
+    opacity: .45;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+  }
+}
