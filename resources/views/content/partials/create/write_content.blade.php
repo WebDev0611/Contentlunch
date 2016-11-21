@@ -28,12 +28,15 @@
             -->
         </div>
 
+        {{--
         <div class="input-form-group">
             <label for="#">Campaign</label>
             <div class="select">
                 {!! Form::select('campaign', $campaigndd, @isset($content)? $content->campaign_id : '' , array('class' => 'input form-control', 'id' => 'campaign')) !!}
             </div>
         </div>
+        --}}
+
         <input value="CREATE CONTENT" type="submit" class="button button-extend text-uppercase">
 
     </div>
