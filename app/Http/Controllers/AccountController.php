@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use User;
+use Illuminate\Http\Request;
 use Auth;
-use View;
+
+use App\Account;
 
 class AccountController extends Controller
 {
@@ -13,7 +14,7 @@ class AccountController extends Controller
         $my_campaigns = Auth::user()->campaigns()->get();
         $my_tasks = Auth::user()->tasks()->get();
 
-        return View::make('home.list', [
+        return view('home.list', [
             'mycampaigns' => $my_campaigns->toJson(),
             'tasks' => $my_tasks->toJson(),
         ]);
@@ -24,8 +25,13 @@ class AccountController extends Controller
         $my_campaigns = Auth::user()->campaigns()->get();
         $my_tasks = Auth::user()->tasks->get();
 
-        return View::make('home.index', [
+        return view('home.index', [
             'mycampaigns' => $my_campaigns->toJson(),
         ]);
+    }
+
+    public function selectAccount(Request $request, Account $account)
+    {
+        return response()->json([ 'account' => $account->id ]);
     }
 }

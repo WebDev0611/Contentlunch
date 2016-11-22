@@ -13,6 +13,7 @@
 
 Route::model('invite', 'App\AccountInvite');
 Route::model('persona', 'App\Persona');
+Route::model('account', 'App\Account');
 Route::model('buyingStage', 'App\BuyingStage');
 Route::model('writerAccessPartialOrder', 'App\WriterAccessPartialOrder');
 
@@ -55,6 +56,7 @@ Route::get('/dashboard','AccountController@stats');
 Route::group([ 'prefix' => 'agencies' ], function() {
     Route::get('/', [ 'as' => 'agencyIndex', 'uses' => 'AgencyController@index' ]);
     Route::post('/', [ 'as' => 'agencyStore', 'uses' => 'AgencyController@store' ]);
+    Route::post('/select/{account}', [ 'as' => 'accountSelect', 'uses' => 'AccountController@selectAccount' ]);
 });
 
 Route::get('/analyze','AnalyzeController@index');
