@@ -32,6 +32,8 @@ class AccountController extends Controller
 
     public function selectAccount(Request $request, Account $account)
     {
+        Account::selectAccount($account);
+
         return response()->json([ 'account' => $account->id ]);
     }
 }

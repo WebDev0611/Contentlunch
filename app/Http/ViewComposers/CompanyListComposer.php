@@ -4,10 +4,11 @@ namespace App\Http\ViewComposers;
 
 use Illuminate\View\View;
 use App\Repositories\UserRepository;
+use Session;
+use Auth;
 
 use App\Account;
 use App\AccountType;
-use Auth;
 
 class CompanyListComposer
 {
@@ -46,14 +47,12 @@ class CompanyListComposer
 
     private function selectedAccount()
     {
-        $selectedAccountId = session('selected_account_id');
-
-        if (!$selectedAccountId) {
+        if (!Session::has('selected_account_id')) {
             $accountsList = $this->accountsList();
             $selectedAccountId = $accountsList[0]->id;
-            session([ 'selected_account_id' => $selectedAccountId ]);
+            Account::selectAccount($accountsList[0]);
         }
 
-        return Account::find($selectedAccountId);
+        return Account::getSelectedAccount();
     }
 }

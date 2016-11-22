@@ -42,4 +42,16 @@ class Account extends Model
     {
         return $this->account_type_id == 2;
     }
+
+    public static function selectAccount(Account $account)
+    {
+        session([ 'selected_account_id' => $account->id ]);
+    }
+
+    public static function getSelectedAccount()
+    {
+        $accountId = session('selected_account_id');
+
+        return self::find($accountId);
+    }
 }
