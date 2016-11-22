@@ -60,6 +60,12 @@
     </div>
 </div>
 
+{{--
+    This is a token to help us with our ajax calls,
+    to make sure all pages have tokens.
+--}}
+{{ csrf_field() }}
+
 @include('partials.taskmodal')
 
 <script src="/js/vendor.js"></script>
@@ -69,21 +75,77 @@
 @yield('scripts')
 
 <script type="text/javascript">
-    var TaskattachmentUploader = new Dropzone('#task-attachment-uploader', {
-        headers: { 'X-CSRF-TOKEN': $('input[name=_token]').val() },
-        url: '/task/attachments'
-    });
 
-    TaskattachmentUploader.on('success', function(file, response) {
-        var hiddenField = $('<input/>', {
-            class: 'task-attached-files',
-            name: 'files[]',
-            type: 'hidden',
-            value: response.file
+    (function() {
+
+        var TaskattachmentUploader = new Dropzone('#task-attachment-uploader', {
+            headers: getCSRFHeader(),
+            url: '/task/attachments'
         });
 
-        hiddenField.appendTo($('#addTaskModal'));
-    });
+        TaskattachmentUploader.on('success', function(file, response) {
+            var hiddenField = $('<input/>', {
+                class: 'task-attached-files',
+                name: 'files[]',
+                type: 'hidden',
+                value: response.file
+            });
+
+            hiddenField.appendTo($('#addTaskModal'));
+        });
+
+    })();
+</script>
+<script type='text/javascript'>
+
+    (function() {
+
+        $('.account-selector').click(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var accountId = $(this).data('account-id');
+
+            addLoadingGIF();
+            fadeOutMainSelector();
+            selectAccount(accountId).then(switchToSelectedAccount);
+        });
+
+        function fadeOutMainSelector() {
+            $('.account-selector-main span').animate({ opacity: 0.3 }, 200);
+        }
+
+        function addLoadingGIF() {
+            var loadingGIF = $('<img>', {
+                class: 'loading-gif',
+                src: '/images/ring.gif',
+                style: 'max-height:30px'
+            });
+
+            $('.account-selector-main').prepend(loadingGIF);
+        }
+
+        function selectAccount(accountId) {
+            return $.ajax({
+                headers: getCSRFHeader(),
+                method: 'post',
+                url: '/agencies/select/' + accountId,
+            });
+        }
+
+        function switchToSelectedAccount(response) {
+            var selectedAccount = $('.account-selector[data-account-id=' + response.account + ']');
+
+            $('.account-selector-main')
+                .fadeOut('fast', function() {
+                    $(this).html(selectedAccount.html());
+                })
+                .fadeIn('fast')
+                .animate({ opacity: 1 }, 200);
+        }
+
+    })();
+
 </script>
 
 </body>

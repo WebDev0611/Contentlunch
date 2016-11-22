@@ -5,18 +5,22 @@
                 <div class="header-clients">
                     <div class="dropdown-client">
                         <a href="#" class="drop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="company-logo"><img src="/images/logo-client-fake.jpg" alt="XX"></span>
-                            {{ $selectedAccount->name }}
+                            <span class='account-selector-main'>
+                                <span class="company-logo">
+                                    <img src="/images/logo-client-fake.jpg" alt="XX">
+                                </span>
+                                <span>{{ $selectedAccount->name }}</span>
+                            </span>
                             <span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="account-selector-list dropdown-menu">
                             @foreach ($accountsList as $account)
                                 <li>
-                                    <a href="#">
+                                    <a href="#" data-account-id="{{ $account->id }}" class='account-selector'>
                                         <span class="company-logo">
                                             <img src="/images/logo-client-fake.jpg" alt="XX">
                                         </span>
-                                        {{ $account->name }}
+                                        <span>{{ $account->name }}</span>
                                     </a>
                                 </li>
                             @endforeach

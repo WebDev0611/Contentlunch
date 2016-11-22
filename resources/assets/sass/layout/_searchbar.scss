@@ -59,7 +59,7 @@ $search-bar-border: solid #c6cfe1;
   text-align: left;
   line-height: 32px;
   padding: 0 15px;
-  
+
   .caret {
     float: right;
     margin-top: 13px;
@@ -74,7 +74,7 @@ $search-bar-border: solid #c6cfe1;
   margin-top: -15px;
   margin-left: -15px;
   padding-right: 50px;
-  
+
   .dropdown-menu {
     margin-top: -1px;
     width: 100%;
@@ -93,7 +93,7 @@ $search-bar-border: solid #c6cfe1;
   top: 50%;
   transform: translateY(-50%);
   border-radius: 3px;
-  
+
   &:hover {
     background-color: #2482ff;
     border-color: #2482ff;
@@ -109,7 +109,7 @@ $search-bar-border: solid #c6cfe1;
   display:block;
   padding-left: 15px;
   font-size: 1.1em;
-  
+
   .caret {
     float: right;
     margin-top: 11px;
@@ -121,7 +121,7 @@ $search-bar-border: solid #c6cfe1;
   width: 50px;
   margin-right: 6px;
   text-align: center;
-  
+
   img {
     max-height: 26px;
     width: auto;
@@ -131,14 +131,18 @@ $search-bar-border: solid #c6cfe1;
 }
 
 .dropdown-client .dropdown-menu {
-  
+
   > li > a {
     padding: 12px 15px;
     font-size: 1em;
   }
-  
+
   .company-logo img {
     max-height: 20px;
   }
-  
+
+}
+
+.account-selector-main {
+  position: relative;
 }
