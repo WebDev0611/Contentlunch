@@ -23,6 +23,11 @@ class Account extends Model
         return $this->hasMany('App\AccountInvite');
     }
 
+    public function contents()
+    {
+        return $this->hasManyThrough('App\Content', 'App\User');
+    }
+
     public function connections()
     {
         return $this->hasManyThrough('App\Connection', 'App\User');

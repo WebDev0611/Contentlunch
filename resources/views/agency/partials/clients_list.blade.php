@@ -31,7 +31,7 @@
                     <tr>
                         <th>Client</th>
                         <th># of Projects</th>
-                        <th>Invited Guests</th>
+                        <th>Collaborators</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -44,8 +44,8 @@
                             </div>
                             <p class="title">{{ $account->name }}</p>
                         </td>
-                        <td>15</td>
-                        <td>2</td>
+                        <td>{{ $account->contents->count() }}</td>
+                        <td>{{ $account->users->count() }}</td>
                         <td class="tbl-right">
                             {{-- <div class="actionbtnbox">
                                 <button
