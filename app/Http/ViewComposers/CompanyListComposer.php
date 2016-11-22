@@ -53,6 +53,6 @@ class CompanyListComposer
             Account::selectAccount($accountsList[0]);
         }
 
-        return Account::getSelectedAccount();
+        return Account::selectedAccount();
     }
 }

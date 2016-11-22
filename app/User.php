@@ -39,19 +39,9 @@ class User extends Authenticatable
        return $this->hasMany('App\Campaign');
     }
 
-    public function contents()
-    {
-       return $this->hasMany('App\Content');
-    }
-
     public function tasks()
     {
        return $this->hasMany('App\Task');
-    }
-
-    public function account()
-    {
-        return $this->belongsTo('App\Account');
     }
 
     public function accounts()

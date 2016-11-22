@@ -25,12 +25,12 @@ class Account extends Model
 
     public function contents()
     {
-        return $this->hasManyThrough('App\Content', 'App\User');
+        return $this->hasMany('App\Content');
     }
 
     public function connections()
     {
-        return $this->hasManyThrough('App\Connection', 'App\User');
+        return $this->hasMany('App\Connection');
     }
 
     public function parentAccount()
@@ -53,7 +53,7 @@ class Account extends Model
         session([ 'selected_account_id' => $account->id ]);
     }
 
-    public static function getSelectedAccount()
+    public static function selectedAccount()
     {
         $accountId = session('selected_account_id');
 

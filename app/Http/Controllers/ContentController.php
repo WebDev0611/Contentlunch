@@ -11,6 +11,7 @@ use App\Attachment;
 use App\Campaign;
 use App\Content;
 use App\User;
+use App\Account;
 use App\Tag;
 use App\Persona;
 use App\Helpers;
@@ -19,7 +20,6 @@ use Storage;
 use View;
 use Auth;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 use Response;
@@ -28,13 +28,38 @@ class ContentController extends Controller
 {
     public function index()
     {
-        $countContent = Auth::user()->contents()->count();
-        $published = Auth::user()->contents()->where('published', 1)->orderBy('updated_at', 'desc')->get();
-        $readyPublished = Auth::user()->contents()->where('ready_published', 1)->orderBy('updated_at', 'desc')->get();
-        $written = Auth::user()->contents()->where('written', 1)->orderBy('updated_at', 'desc')->get();
-        $connections = Auth::user()->connections()->where('active', 1)->get();
+        $selectedAccount = Account::selectedAccount();
 
-        return View::make('content.index', compact('published', 'readyPublished', 'written', 'countContent', 'connections'));
+        $countContent = $selectedAccount
+            ->contents()
+            ->count();
+
+        $published = $selectedAccount
+            ->contents()
+            ->where('published', 1)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        $readyPublished = $selectedAccount
+            ->contents()
+            ->where('ready_published', 1)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        $written = $selectedAccount
+            ->contents()
+            ->where('written', 1)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        $connections = $selectedAccount
+            ->connections()
+            ->where('active', 1)
+            ->get();
+
+        return view('content.index', compact(
+            'published', 'readyPublished', 'written', 'countContent', 'connections'
+        ));
     }
 
     public function store(Request $req)
@@ -86,7 +111,7 @@ class ContentController extends Controller
 
         $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd');
 
-        return View::make('content.create', $data);
+        return view('content.create', $data);
     }
 
     public function directPublish(Request $request, $contentId)
@@ -159,7 +184,6 @@ class ContentController extends Controller
         ]);
     }
 
-
     // this is technically create content
     public function createContent()
     {
@@ -174,7 +198,7 @@ class ContentController extends Controller
             'contentTypeDropdown' => ContentType::dropdown(),
         ];
 
-        return View::make('content.editor', $data);
+        return view('content.editor', $data);
     }
 
     // - edit content on page
@@ -191,10 +215,10 @@ class ContentController extends Controller
             'connections' => Connection::dropdown(),
             'contentTypeDropdown' => ContentType::dropdown(),
             'files' => $content->attachments()->where('type', 'file')->get(),
-            'images' => $content->attachments()->where('type', 'image')->get()
+            'images' => $content->attachments()->where('type', 'image')->get(),
         ];
 
-        return View::make('content.editor', $data);
+        return view('content.editor', $data);
     }
 
     public function editStore(ContentRequest $request, $id = null)
@@ -367,7 +391,7 @@ class ContentController extends Controller
     private function moveFileToUserFolder($fileUrl, $userFolder)
     {
         $fileName = substr(strstr($fileUrl, '_tmp/'), 5);
-        $newPath = $userFolder . $fileName;
+        $newPath = $userFolder.$fileName;
         $s3Path = Helpers::s3Path($fileUrl);
         Storage::move($s3Path, $newPath);
 
@@ -381,12 +405,12 @@ class ContentController extends Controller
             'filename' => Storage::url($s3Path),
             'type' => $fileType,
             'extension' => Helpers::extensionFromS3Path($s3Path),
-            'mime' => Storage::mimeType($s3Path)
+            'mime' => Storage::mimeType($s3Path),
         ]);
     }
 
     /**
-     * Asynchronous attachments and images uploads
+     * Asynchronous attachments and images uploads.
      */
     public function images(Request $request)
     {
@@ -414,20 +438,20 @@ class ContentController extends Controller
     {
         $url = Helpers::handleTmpUpload($file, true);
 
-        return response()->json([ 'file' => $url ]);
+        return response()->json(['file' => $url]);
     }
 
     private function attachmentValidator($input)
     {
         return Validator::make($input, [
-            'file' => 'file|max:20000'
+            'file' => 'file|max:20000',
         ]);
     }
 
     private function imageValidator($input)
     {
         return Validator::make($input, [
-            'file' => 'image|max:3000'
+            'file' => 'image|max:3000',
         ]);
     }
 }
