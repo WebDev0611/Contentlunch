@@ -190,8 +190,8 @@ class ContentController extends Controller
     {
         $data = [
             'tagsDropdown' => Tag::dropdown(),
-            'authorDropdown' => User::dropdown(),
-            'relatedContentDropdown' => Content::dropdown(),
+            'authorDropdown' => $this->selectedAccount->authorsDropdown(),
+            'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
             'personaDropdown' => Persona::dropdown(),
             'campaignDropdown' => Campaign::dropdown(),
