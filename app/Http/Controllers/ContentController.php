@@ -238,7 +238,7 @@ class ContentController extends Controller
 
         $content = is_numeric($id) ? Content::find($id) : new Content();
         $content = $this->detachRelatedContent($content);
-        $content = $this->saveContentAndAttachToUser($request, $content);
+        $content = $this->saveContentAndAttachToAccount($request, $content);
 
         $this->saveContentCampaign($request, $content);
         $this->saveContentBuyingStage($request, $content);
@@ -299,7 +299,7 @@ class ContentController extends Controller
         return $content;
     }
 
-    private function saveContentAndAttachToUser($request, $content)
+    private function saveContentAndAttachToAccount($request, $content)
     {
         $content->configureAction($request->input('action'));
 
@@ -312,7 +312,7 @@ class ContentController extends Controller
         $content->written = 1;
         $content->save();
 
-        Auth::user()->contents()->save($content);
+        $this->selectedAccount->contents()->save($content);
 
         return $content;
     }
