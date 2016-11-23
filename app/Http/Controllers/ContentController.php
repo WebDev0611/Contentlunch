@@ -26,33 +26,36 @@ use Response;
 
 class ContentController extends Controller
 {
+    public function __construct(Request $request)
+    {
+        $this->selectedAccount = Account::selectedAccount();
+    }
+
     public function index()
     {
-        $selectedAccount = Account::selectedAccount();
-
-        $countContent = $selectedAccount
+        $countContent = $this->selectedAccount
             ->contents()
             ->count();
 
-        $published = $selectedAccount
+        $published = $this->selectedAccount
             ->contents()
             ->where('published', 1)
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        $readyPublished = $selectedAccount
+        $readyPublished = $this->selectedAccount
             ->contents()
             ->where('ready_published', 1)
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        $written = $selectedAccount
+        $written = $this->selectedAccount
             ->contents()
             ->where('written', 1)
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        $connections = $selectedAccount
+        $connections = $this->selectedAccount
             ->connections()
             ->where('active', 1)
             ->get();
@@ -62,16 +65,14 @@ class ContentController extends Controller
         ));
     }
 
-    public function store(Request $req)
+    public function store(Request $request)
     {
-        $content = new Content();
+        $content = Content::create([
+            'title' => $request->input('title'),
+            'content_type_id' => $request->input('content_type'),
+        ]);
 
-        $content->title = $req->input('title');
-        $content->content_type_id = $req->input('content_type');
-        $content->save();
-
-        // - Attach to the user
-        Auth::user()->contents()->save($content);
+        $this->selectedAccount->contents()->save($content);
 
         return redirect('edit/'.$content->id);
     }
@@ -207,8 +208,8 @@ class ContentController extends Controller
         $data = [
             'content' => $content,
             'tagsDropdown' => Tag::dropdown(),
-            'authorDropdown' => User::dropdown(),
-            'relatedContentDropdown' => Content::dropdown(),
+            'authorDropdown' => $this->selectedAccount->authorsDropdown(),
+            'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
             'personaDropdown' => Persona::dropdown(),
             'campaignDropdown' => Campaign::dropdown(),

@@ -59,4 +59,31 @@ class Account extends Model
 
         return self::find($accountId);
     }
+
+    public function authorsDropdown()
+    {
+        $authorDropdown = ['' => '-- Select Author --'];
+        $authorDropdown += $this->users()
+            ->select('users.name', 'users.id')
+            ->orderBy('name', 'asc')
+            ->distinct()
+            ->lists('name', 'id')
+            ->toArray();
+
+        return $authorDropdown;
+    }
+
+    public function relatedContentsDropdown()
+    {
+        // Create Related Drop Down Data
+        $dropdown = ['' => '-- Select Related Content --'];
+        $dropdown += $this->contents()
+            ->select('contents.id','contents.title')
+            ->orderBy('title', 'asc')
+            ->distinct()
+            ->lists('title', 'id')
+            ->toArray();
+
+        return $dropdown;
+    }
 }

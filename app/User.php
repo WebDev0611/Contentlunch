@@ -78,20 +78,6 @@ class User extends Authenticatable
             ->first();
     }
 
-    public static function dropdown()
-    {
-        $authorDropdown = ['' => '-- Select Author --'];
-        $authorDropdown += Auth::user()->account
-            ->users()
-            ->select('name', 'id')
-            ->orderBy('name', 'asc')
-            ->distinct()
-            ->lists('name', 'id')
-            ->toArray();
-
-        return $authorDropdown;
-    }
-
     public function connectionsBySlug($slug)
     {
         return $this->connections()
