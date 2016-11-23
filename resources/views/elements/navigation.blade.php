@@ -63,13 +63,14 @@
                 </i>
             </a>
         </li>
+        <!--
         <li>
             <a href="/calendar" class="navigation-menu-link {{ Request::segment(1) != 'calendar' ?: 'active' }}">
                 <i class="navigation-menu-icon icon-navigation-calendar">
                     <span>CALENDAR</span>
                 </i>
             </a>
-        </li>
+        </li>-->
         <!--
         <li>
             <a href="/collaborate" class="navigation-menu-link {{ Request::segment(1) == 'collaborate' ? 'active': ''  }}">

@@ -138,6 +138,7 @@
                     DUE IN: <strong><%= due %></strong>
                     <% } %>
                 </li>
+                <!--
                 <li>
                     STAGE:
                     <i class="dashboard-tasks-list-icon primary icon-idea"></i>
@@ -145,6 +146,7 @@
                     <i class="dashboard-tasks-list-icon tertiary icon-alert"></i>
                     <i class="dashboard-tasks-list-icon tertiary icon-share"></i>
                 </li>
+                -->
                 <li>
                     <a href="/task/show/<%= id %>"><strong>View Task</strong></a>
                 </li>

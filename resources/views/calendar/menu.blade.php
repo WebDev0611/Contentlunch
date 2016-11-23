@@ -2,6 +2,7 @@
                 <button class="calendar-menu-buttons" data-toggle="modal" data-target="#createCalendarModal">
                     <i class="icon-calendar-add"></i>
                 </button>
+                <!--
                 <div class="calendar-menu-dropdown">
                     <button class="calendar-menu-buttons" data-toggle="dropdown">
                         <i class="icon-calendar-view"></i>
@@ -18,7 +19,8 @@
                             <a href="#">Manage Access</a>
                         </li>
                     </ul>
-                </div>
+                </div>-->
+                <!--
                 <button class="calendar-menu-buttons" data-toggle="modal" data-target="#filterModal">
                     <i class="icon-cone"></i>
                 </button>
@@ -49,7 +51,7 @@
                             <a href="#">To Excel</a>
                         </li>
                     </ul>
-                </div>
+                </div>-->
             </div>
             <div class="calendar-menu-switch">
                 <button type="button" class="button button-secondary button-small" onclick="window.location='/daily/<?= date('Y/m/d');?>';">Today</button>

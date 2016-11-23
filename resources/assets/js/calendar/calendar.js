@@ -15,51 +15,6 @@
             type:'task',
             title: 'Content mix: post 3 blogs...',
             date: new Date().getTime() + (1000 * 60 * 60 * 24 *5)
-        },
-        {
-            type:'task',
-            title: 'Post 16 social postings',
-            date: new Date().getTime() - (1000 * 60 * 60 * 24 *3)
-        },
-        {
-            type:'task',
-            title: 'Post 16 social postings',
-             date: new Date().getTime() + (1000 * 60 * 60 * 24 *7)
-        },
-        {
-            type:'task',
-            title: 'Post 16 social postings',
-            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
-        },
-        {
-            type:'task',
-            title: 'Post 10 social postings',
-            date:new Date().getTime() - (1000 * 60 * 60 * 24 *6)
-        },
-        {
-            type:'idea',
-            title: 'Post 20 social postings',
-            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
-        },
-        {
-            type:'idea',
-            title: 'Post 1 social postings',
-            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
-        },
-        {
-            type:'idea',
-            title: 'Post 5 social postings',
-            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
-        },
-        {
-            type:'task',
-            title: 'Post 9 social postings',
-            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
-        },
-        {
-            type:'task',
-            title: 'Post 15 social postings',
-            date:new Date().getTime() + (1000 * 60 * 60 * 24 *1)
         }
     ];
 
@@ -86,9 +41,6 @@
         template: _.template( $('#calendar-item-template').html() ),
         initialize:function(){
             this.$el.append( this.template( this.model.attributes ) );
-            console.log('rendering...');
-            console.log(this.model.attributes.title);
-            console.log( this.model.attributes.type );
             this.render();
         },
         render: function(){
@@ -97,11 +49,19 @@
         },
         open_item: function(event){
             event.stopPropagation();
-            console.log('clicked');
             this.$el.toggleClass('active');
             this.$el.find('.calendar-task-list-popover').toggleClass('open');
         }
 
+    });
+
+    /* the popup tool */
+    var calendar_popup_tool = Backbone.View.extend({
+        events:{
+
+        },
+        initialize: function(){},
+        render: function(){}
     });
 
     /* the cell that holds the events */
@@ -117,8 +77,6 @@
         template: _.template( $('#calendar-item-container').html() ),
         initialize: function(){
             this.$el.append( this.template() );
-            this.$el.append( $('#calendar-dropdown-template').html() );
-            this.$el.find('.date-popup-label').text('Wed, Mar 4, 2016, 01 PM');
             this.render();
         },
         render: function(){
@@ -130,10 +88,15 @@
             return this;
         },
         show_tool: function(event){
+            //tool needs to be a view
+            console.log( this.$el.data('cell-date') );
+            this.$el.append( $('#calendar-dropdown-template').html() );
+            this.$el.find('.date-popup-label').text('Wed, Mar 4, 2016, 01 PM');
+
             this.$el.find('.calendar-schedule-dropdown-wrapper').fadeIn(100);
         },
         hide_tool: function(event){
-            this.$el.find('.calendar-schedule-dropdown-wrapper').fadeOut(100);
+            this.$el.find('.calendar-schedule-dropdown-wrapper').remove();
         },
         add_active: function(event){
             console.log('mouse over');
@@ -144,17 +107,16 @@
             this.$el.removeClass('active');
         },
         show_task_modal: function(){
+            $("#addTaskModal").modal('show');
+            
             //$('#task-start-date').val( );
             //console.log(this.collection);
-            var dateStr = this.$el.attr('id').split('-');
-            console.log(dateStr);
-            $('#task-start-date').val( dateStr[1] + '-' + dateStr[2] + '-' + dateStr[3] );
-            $("#addTaskCalendar").modal('show');
+            // var dateStr = this.$el.attr('id').split('-');
+            // $('#task-start-date').val( dateStr[1] + '-' + dateStr[2] + '-' + dateStr[3] );
+            // $("#addTaskCalendar").modal('show');
         }
        
-        
     });
-
 
 
     $(function(){
@@ -178,7 +140,6 @@
         });
 
         var calendar_items = my_campaigns; //new calendar_item_collection( my_campaigns );
-        console.log(calendar_items.toJSON());
         var day_containers = {};
         var hour_containers = {};
 
@@ -216,47 +177,107 @@
             }
         }); 
 
-        $('#task-start-date').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            sideBySide: true,
-        });
+        // $('#task-start-date').datetimepicker({
+        //     format: 'YYYY-MM-DD HH:mm:ss',
+        //     sideBySide: true,
+        // });
 
-        $('#task-due-date').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            sideBySide: true,
-        });
+        // $('#task-due-date').datetimepicker({
+        //     format: 'YYYY-MM-DD HH:mm:ss',
+        //     sideBySide: true,
+        // });
 
-        var  add_task = function(){
-        
-            console.log('clicked');
-            var task_data = {
-                name: $('#task-name').val(),
-                start_date: $('#task-start-date').val(),
-                due_date: $('#task-due-date').val(),
-                explanation: $('#task-explanation').val(),
-                url: $('#task-url').val()
-            };
+        // var  add_task = function(){
+        //     var task_data = {
+        //         name: $('#task-name').val(),
+        //         start_date: $('#task-start-date').val(),
+        //         due_date: $('#task-due-date').val(),
+        //         explanation: $('#task-explanation').val(),
+        //         url: $('#task-url').val()
+        //     };
 
-            //need proper validation here
-            if(task_data.name.length>2){
-                $.ajax({
-                    url: '/task/add',
-                    type: 'post',
-                    data: task_data,
-                    headers: {
-                        'X-CSRF-TOKEN': $('input[name=_token]').val()
-                    },
-                    dataType: 'json',
-                    success:function(res){
-                        console.log(res);
+        //     //need proper validation here
+        //     if(task_data.name.length>2){
+        //         $.ajax({
+        //             url: '/task/add',
+        //             type: 'post',
+        //             data: task_data,
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('input[name=_token]').val()
+        //             },
+        //             dataType: 'json',
+        //             success:function(res){
+        //                 console.log(res);
                         
-                    }
-                });
-            }
-        };
-        $('#add-task-button').click(add_task);
+        //             }
+        //         });
+        //     }
+        // };
+        // $('#add-task-button').click(add_task);
+    var drop_down_calendar_tool = Backbone.View.extend({
+        events:{},
+        initialize: function(){},
+        render: function(){},
 
     });
+    
+    var calendar_idea_view = Backbone.View.extend({
+        events: {
+            "click":"add_to_calendar"
+        },
+        tagName: 'li',
+        template: _.template( $('#calendar-idea-template').html() ),
+        initialize: function(){},
+        render: function(){
+            console.log(this.model.attributes);
+            this.$el.html( this.template( this.model.attributes) );
+            return this;
+        },
+        add_to_calendar: function(){
+
+        }
+    });
+
+    var calendar_content_view = Backbone.View.extend({
+        events:{
+            "click": "add_to_calendar"
+        },
+        tagName: 'li',
+        template: _.template( $('#calendar-content-template').html() ),
+        initialize: function(){},
+        render: function(){
+            console.log(this.model.attributes);
+            this.$el.html( this.template( this.model.attributes) );
+            return this;
+        },
+        add_to_calendar: function(){
+
+        }
+    });
+
+    var my_ideas = new ideas_collection();
+    my_ideas.on('update',function(c){
+        $('#calendar-idea-list').html('');
+        my_ideas.each(function(m){
+            var i_v = new calendar_idea_view({model:m});
+            $('#calendar-idea-list').append( i_v.render().$el );
+        });
+      console.log(c.toJSON());
+    });
+    my_ideas.fetch();
+
+
+    var my_content = new content_collection();
+    my_content.on('update',function(c){
+        $('#calendar-content-list').html('');
+        my_content.each(function(m){
+            var c_v = new calendar_content_view({model:m});
+            $('#calendar-content-list').append( c_v.render().$el );
+        });
+      console.log(c.toJSON());
+    });
+    my_content.fetch();
+  });
 
 
 })(window,document,jQuery); 

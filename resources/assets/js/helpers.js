@@ -37,7 +37,6 @@ var format_time_ago = function(time){
 $(function(){
 
 	$('.add-task-action').click(function(){
-        console.log('clicked');
 	 $("#addTaskModal").modal('show');
 	});
 
