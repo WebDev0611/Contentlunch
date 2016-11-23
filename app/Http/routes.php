@@ -11,6 +11,9 @@
 |
 */
 
+/**
+ * Route Models
+ */
 Route::model('invite', 'App\AccountInvite');
 Route::model('persona', 'App\Persona');
 Route::model('account', 'App\Account');
