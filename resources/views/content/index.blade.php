@@ -70,6 +70,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="create-panel-container">
                 <h4 class="create-panel-heading">
                     <i class="icon-share"></i>
@@ -81,7 +82,7 @@
                         <div class="create-panel-table-cell">
                             <img src="/images/avatar.jpg" alt="" class="create-image">
                         </div>
-                        <div class="create-panel-table-cell">
+                        <div class="create-panel-table-cell create-panel-table-cell-large">
                             <h5 class="dashboard-tasks-title">
                                 {{ $pub->title }}
                             </h5>
@@ -175,7 +176,7 @@
                         <div class="create-panel-table-cell">
                             <img src="/images/avatar.jpg" alt="" class="create-image">
                         </div>
-                        <div class="create-panel-table-cell">
+                        <div class="create-panel-table-cell create-panel-table-cell-large">
                             <h5 class="dashboard-tasks-title">
                                 {{ $pub->title }}
                             </h5>
@@ -447,7 +448,7 @@
         function addTaskCallback(task) {
             $('#addTaskModal').modal('hide');
         }
-        
+
     })();
 </script>
 @stop
