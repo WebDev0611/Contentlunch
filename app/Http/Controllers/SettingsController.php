@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Auth;
 use View;
 use Session;
+
+use App\Account;
 use App\Http\Requests\Connection\ConnectionRequest;
 use App\Http\Requests\AccountSettings\AccountSettingsRequest;
 use App\Connection;
@@ -67,16 +69,16 @@ class SettingsController extends Controller
     public function connections()
     {
         $user = Auth::user();
+        $account = Account::selectedAccount();
 
-        // Pulling Connection information
-        $connections = $user->accountConnections()->get();
-        $activeConnectionsCount = $user->accountConnections()->where('active', 1)->count();
+        $connections = $account->connections()->get();
+        $activeConnectionsCount = $account->connections()->where('active', 1)->count();
 
-        // - Create Connection Drop Down Data
         $connectiondd = ['' => '-- Select One --'] + $this->providerDropdown();
 
         return View::make('settings.connections', compact(
             'user',
+            'account',
             'connectiondd',
             'connections',
             'activeConnectionsCount'
