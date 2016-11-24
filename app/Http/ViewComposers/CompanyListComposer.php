@@ -20,7 +20,7 @@ class CompanyListComposer
      */
     public function __construct()
     {
-        //
+        $this->user = Auth::user();
     }
 
     /**
@@ -39,10 +39,15 @@ class CompanyListComposer
 
     private function accountsList()
     {
-        $agencyAccount = Auth::user()->agencyAccount();
-        $childAccounts = $agencyAccount->childAccounts;
+        if ($this->user->belongsToAgencyAccount()) {
+            $agencyAccount = Auth::user()->agencyAccount();
+            $childAccounts = $agencyAccount->childAccounts;
+            $accounts = $agencyAccount->childAccounts->merge([ $agencyAccount ]);
+        } else {
+            $accounts = Auth::user()->accounts;
+        }
 
-        return $agencyAccount->childAccounts->merge([ $agencyAccount ]);
+        return $accounts;
     }
 
     private function selectedAccount()
