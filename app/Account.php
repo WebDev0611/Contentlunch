@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Auth;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
@@ -56,6 +57,12 @@ class Account extends Model
     public static function selectedAccount()
     {
         $accountId = session('selected_account_id');
+
+        if (!$accountId) {
+            $account = Auth::user()->accounts[0];
+            self::selectAccount($account);
+            $accountId = $account->id;
+        }
 
         return self::find($accountId);
     }
