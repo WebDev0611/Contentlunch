@@ -55,9 +55,6 @@ class SettingsController extends Controller
         $user->address = $request->input('address');
         $user->phone = $request->input('phone');
         $user->save();
-
-        $user->account->name = $request->input('account_name');
-        $user->account->save();
     }
 
     public function content()
