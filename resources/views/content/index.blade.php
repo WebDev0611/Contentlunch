@@ -207,7 +207,7 @@
                     </div>
                     @endforeach
                 @else
-                    <div class="alert alert-info" role="alert"><p>No Content being written at this moment.</p></div>
+                    <div class="alert alert-info alert-forms" role="alert"><p>No Content being written at this moment.</p></div>
                 @endif
 
                 <div class="create-panel-table hide">
