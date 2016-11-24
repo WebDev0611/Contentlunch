@@ -44,6 +44,16 @@ class Account extends Model
         return $this->hasMany('App\Account', 'parent_account_id');
     }
 
+    public function personas()
+    {
+        return $this->hasMany('App\Persona');
+    }
+
+    public function buyingStages()
+    {
+        return $this->hasMany('App\BuyingStage');
+    }
+
     public function isAgencyAccount()
     {
         return $this->account_type_id == 2;
