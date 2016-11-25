@@ -4,12 +4,8 @@ namespace App\Http\Controllers;
 
 use Auth;
 use View;
-use Session;
-
 use App\Account;
-use App\Http\Requests\Connection\ConnectionRequest;
 use App\Http\Requests\AccountSettings\AccountSettingsRequest;
-use App\Connection;
 use App\Country;
 use App\Provider;
 use App\Helpers;
