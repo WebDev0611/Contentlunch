@@ -37,6 +37,11 @@ class Account extends Model
         return $this->hasMany('App\Connection');
     }
 
+    public function campaigns()
+    {
+        return $this->hasMany('App\Campaign');
+    }
+
     public function parentAccount()
     {
         return $this->belongsTo('App\Account', 'parent_account_id');
