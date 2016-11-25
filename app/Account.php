@@ -14,6 +14,9 @@ class Account extends Model
         'parent_account_id',
     ];
 
+    /**
+     * Relationships
+     */
     public function users()
     {
         return $this->belongsToMany('App\User', 'account_user', 'account_id', 'user_id');
@@ -54,6 +57,19 @@ class Account extends Model
         return $this->hasMany('App\BuyingStage');
     }
 
+    public function tasks()
+    {
+        return $this->hasMany('App\Task');
+    }
+
+    public function ideas()
+    {
+        return $this->hasMany('App\Idea');
+    }
+
+    /**
+     * Agency related helper methods
+     */
     public function isAgencyAccount()
     {
         return $this->account_type_id == 2;
