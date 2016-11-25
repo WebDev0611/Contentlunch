@@ -134,6 +134,7 @@
         }
 
         function switchToSelectedAccount(response) {
+            location.reload(true);
             var selectedAccount = $('.account-selector[data-account-id=' + response.account + ']');
 
             $('.account-selector-main')
