@@ -95,44 +95,6 @@ class SettingsController extends Controller
             ->toArray();
     }
 
-    public function connectionCreate(ConnectionRequest $request)
-    {
-        $connection = $this->createConnection($request);
-
-        Auth::user()->connections()->save($connection);
-
-        $this->clearConnectionsInSession();
-
-        Session::put('connection_data', [
-            'meta_data' => $request->input('api'),
-            'connection_id' => $connection->id,
-        ]);
-
-        // - Lets get out of here
-        return redirect()->route('connectionProvider', $request->input('con_type'));
-    }
-
-    private function createConnection($request)
-    {
-        $connActive = $request->input('con_active');
-        $connType = $request->input('con_type');
-
-        $connection = Connection::create([
-            'name' => $request->input('con_name'),
-            'provider_id' => Provider::findBySlug($connType)->id,
-            'active' => $connActive == 'on' ? 1 : 0
-        ]);
-
-        return $connection;
-    }
-
-    private function clearConnectionsInSession()
-    {
-        Session::forget('connection_data');
-        Session::forget('redirect_route');
-        Session::forget('facebook_view');
-    }
-
     public function seo()
     {
         $user = Auth::user();

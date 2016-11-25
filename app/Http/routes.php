@@ -165,7 +165,7 @@ Route::group(['prefix' => 'settings'], function() {
 
     // Connection Routes
     Route::get('connections', ['as' => 'connectionIndex', 'uses' => 'SettingsController@connections']);
-    Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'SettingsController@connectionCreate'] );
+    Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'ConnectionController@store'] );
 
     Route::get('seo', ['as' => 'seoIndex', 'uses' =>'SettingsController@seo']);
 
