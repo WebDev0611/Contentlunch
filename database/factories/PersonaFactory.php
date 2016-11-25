@@ -5,7 +5,15 @@ $factory->define(App\Persona::class, function (Faker\Generator $faker) {
         'name' => ucwords($faker->word),
         'description' => $faker->realText(200),
         'account_id' => function (array $buyingStage) {
-            return factory(App\Account::class)->create()->id;
+            $accounts = App\Account::all();
+
+            if ($accounts->isEmpty()) {
+                $account = factory(App\Account::class)->create();
+            } else {
+                $account = $faker->randomElement($accounts);
+            }
+
+            return $account->id;
         }
     ];
 });
