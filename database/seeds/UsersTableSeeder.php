@@ -53,8 +53,7 @@ class UsersTableSeeder extends Seeder
         ];
 
         collect($users)->each(function($userArray) use ($account) {
-            $user = User::create($userArray);
-            $account->users()->attach($user);
+            $account->users()->create($userArray);
             $account->save();
         });
     }
