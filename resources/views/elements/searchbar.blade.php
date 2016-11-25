@@ -47,7 +47,7 @@
         <div class="col-md-4 text-right">
             <button class="search-bar-button-primary btn-create">
                 Create
-                <span class="caret"></span>
+                {{-- <span class="caret"></span> --}}
             </button>
             <button class="search-bar-button add-task-action">
                 <i class="icon-checklist"></i>
