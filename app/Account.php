@@ -98,6 +98,13 @@ class Account extends Model
         return self::find($accountId);
     }
 
+    public function connectionsBySlug($slug)
+    {
+        return $this->connections()
+            ->join('providers', '.providers.id', '=', 'connections.provider_id')
+            ->where('slug', $slug);
+    }
+
     public function authorsDropdown()
     {
         $authorDropdown = ['' => '-- Select Author --'];
