@@ -52,10 +52,11 @@
             <button class="search-bar-button add-task-action">
                 <i class="icon-checklist"></i>
             </button>
+
+            <a href='/logout' class="search-bar-button">
+                Logout
+            </a>
             <!--
-            <button class="search-bar-button">
-                <i class="icon-users"></i>
-            </button>
 
             <button class="search-bar-button">
                 <i class="icon-chat"></i>
