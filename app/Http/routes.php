@@ -11,8 +11,12 @@
 |
 */
 
+/**
+ * Route Models
+ */
 Route::model('invite', 'App\AccountInvite');
 Route::model('persona', 'App\Persona');
+Route::model('account', 'App\Account');
 Route::model('buyingStage', 'App\BuyingStage');
 Route::model('writerAccessPartialOrder', 'App\WriterAccessPartialOrder');
 
@@ -52,7 +56,11 @@ Route::get('signup/invite/{invite}', [ 'as' => 'signupWithInvite', 'uses' => 'On
 Route::get('/home','AccountController@index');
 Route::get('/dashboard','AccountController@stats');
 
-Route::get('/agency','AgencyController@index');
+Route::group([ 'prefix' => 'agencies' ], function() {
+    Route::get('/', [ 'as' => 'agencyIndex', 'uses' => 'AgencyController@index' ]);
+    Route::post('/', [ 'as' => 'agencyStore', 'uses' => 'AgencyController@store' ]);
+    Route::post('/select/{account}', [ 'as' => 'accountSelect', 'uses' => 'AccountController@selectAccount' ]);
+});
 
 Route::get('/analyze','AnalyzeController@index');
 
@@ -157,7 +165,7 @@ Route::group(['prefix' => 'settings'], function() {
 
     // Connection Routes
     Route::get('connections', ['as' => 'connectionIndex', 'uses' => 'SettingsController@connections']);
-    Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'SettingsController@connectionCreate'] );
+    Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'ConnectionController@store'] );
 
     Route::get('seo', ['as' => 'seoIndex', 'uses' =>'SettingsController@seo']);
 

@@ -96,7 +96,12 @@
                                     <div class="input-form-group">
                                         <label for="#">How will you use Content Launch?</label>
                                         <div class="select">
-                                            {{ Form::select('account_type', ['single'=>'To market my company', 'agency'=>'To market one or more of my clients (Agency Mode)']) }}
+                                            {{
+                                                Form::select('account_type', [
+                                                    \App\AccountType::COMPANY => 'To market my company',
+                                                    \App\AccountType::AGENCY => 'To market one or more of my clients (Agency Mode)'
+                                                ])
+                                            }}
                                         </div>
                                     </div>
                                 </div>

@@ -10,6 +10,18 @@ $factory->define(App\Campaign::class, function (Faker\Generator $faker) {
 
             return $faker->randomElement($userIds);
         },
+        'account_id' => function(array $campaignData) {
+            $user = App\User::find($campaignData['user_id']);
+
+            if ($user->accounts->isEmpty()) {
+                $account = factory(App\Account::class)->create();
+                $user->accounts()->attach($account);
+            } else {
+                $account = $user->accounts[0];
+            }
+
+            return $account->id;
+        },
         'title' => $faker->sentence(3),
         'status' => rand(0, 1),
         'campaign_type_id' => function() use ($faker) {

@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Account;
+use App\User;
+use App\AccountType;
+use App\AccountUser;
 
 class UsersTableSeeder extends Seeder
 {
@@ -11,39 +15,46 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $password = bcrypt('launch123');
-        $account = factory(App\Account::class)->create();
+        Account::truncate();
+        AccountUser::truncate();
+        User::truncate();
 
-        DB::table('users')->truncate();
-        DB::table('users')->insert([
-            [
-                'name' => 'Admin Istrator',
-                'email' => 'admin@test.com',
-                'password' => bcrypt('launch123'),
-                'is_admin' => true,
-                'account_id' => $account->id
-            ],
-            [
-                'name' => 'Man Ager',
-                'email' => 'manager@test.com',
-                'password' => bcrypt('launch123'),
-                'is_admin' => false,
-                'account_id' => $account->id
-            ],
-            [
-                'name' => 'Cre Ator',
-                'email' => 'creator@test.com',
-                'password' => bcrypt('launch123'),
-                'is_admin' => false,
-                'account_id' => $account->id
-            ],
-            [
-                'name' => 'Ed Itor',
-                'email' => 'editor@test.com',
-                'password' => bcrypt('launch123'),
-                'is_admin' => false,
-                'account_id' => $account->id
-            ]
+        $password = bcrypt('launch123');
+        $account = factory(Account::class)->create([
+            'name' => 'Sample Agency Account',
+            'account_type_id' => AccountType::AGENCY
         ]);
+
+        $users = [
+            [
+                'name' => 'Administrator',
+                'email' => 'admin@test.com',
+                'password' => $password,
+                'is_admin' => true,
+            ],
+            [
+                'name' => 'Manager',
+                'email' => 'manager@test.com',
+                'password' => $password,
+                'is_admin' => false,
+            ],
+            [
+                'name' => 'Creator',
+                'email' => 'creator@test.com',
+                'password' => $password,
+                'is_admin' => false,
+            ],
+            [
+                'name' => 'Editor',
+                'email' => 'editor@test.com',
+                'password' => $password,
+                'is_admin' => false,
+            ]
+        ];
+
+        collect($users)->each(function($userArray) use ($account) {
+            $account->users()->create($userArray);
+            $account->save();
+        });
     }
 }

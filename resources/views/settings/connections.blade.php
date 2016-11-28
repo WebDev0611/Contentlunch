@@ -56,7 +56,9 @@
                                         </div>
                                         @endforeach
                                     @else
-                                        <div class="alert alert-info" role="alert"><p>You have no connections at this time.</p></div>
+                                        <div class="alert alert-info alert-forms" role="alert">
+                                            <p>You have no connections at this time.</p>
+                                        </div>
                                     @endif
 
                                 </div>

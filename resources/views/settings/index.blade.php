@@ -31,41 +31,54 @@
 
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
+                        {{--
                         <div class="input-form-group text-right">
                             <label for="#" class="checkbox-ios">
                                 <span>Account Active</span>
                                 <input type="checkbox">
                             </label>
                         </div>
+                        --}}
                         <div class="row">
                             <div class="col-md-8">
-                                <!-- <div class="col-md-12"> -->
-                                    <div class="input-form-group">
-                                        <label for="#">FULL NAME</label>
-                                        {!!
-                                            Form::text(
-                                                'name',
-                                                @isset($user) ? $user->name : '',
-                                                [
-                                                    'class' => 'input',
-                                                    'placeholder' => 'Name Surname'
-                                                ]
-                                            )
-                                        !!}
-                                    </div>
-                                <!-- </div> -->
-                                <!-- <div class="col-md-12"> -->
-                                    <div class="input-form-group">
-                                        <label for="#">ACCOUNT NAME</label>
-                                        {!!
-                                            Form::text('account_name', $user->account->name,
-                                                [
-                                                    'class'=> 'input',
-                                                    'placeholder' => 'Account Name'
-                                                ])
-                                        !!}
-                                    </div>
-                                <!-- </div> -->
+                                <div class="input-form-group">
+                                    <label for="#">FULL NAME</label>
+                                    {!!
+                                        Form::text(
+                                            'name',
+                                            @isset($user) ? $user->name : '',
+                                            [
+                                                'class' => 'input',
+                                                'placeholder' => 'Name Surname'
+                                            ]
+                                        )
+                                    !!}
+                                </div>
+                                <div class="input-form-group">
+                                    <label for="#">ADDRESS</label>
+                                    {!!
+                                        Form::text(
+                                            'address',
+                                            $user->address,
+                                            [
+                                                'class' => 'input',
+                                                'placholder' => 'Account holder address'
+                                            ]
+                                        )
+                                    !!}
+                                </div>
+                                {{--
+                                <div class="input-form-group">
+                                    <label for="#">ACCOUNT NAME</label>
+                                     {!!
+                                        Form::text('account_name', $user->account->name,
+                                            [
+                                                'class'=> 'input',
+                                                'placeholder' => 'Account Name'
+                                            ])
+                                    !!}
+                                </div>
+                                --}}
                             </div>
                             <div class="col-md-4">
                                 <div class="onboarding-avatar" id='settings-avatar'>
@@ -83,19 +96,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="input-form-group">
-                            <label for="#">ADDRESS</label>
-                            {!!
-                                Form::text(
-                                    'address',
-                                    $user->address,
-                                    [
-                                        'class' => 'input',
-                                        'placholder' => 'Account holder address'
-                                    ]
-                                )
-                            !!}
-                        </div>
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="input-form-group">

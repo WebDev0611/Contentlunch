@@ -7,19 +7,24 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Persona;
+use App\Account;
 
 class PersonasController extends Controller
 {
     public function index()
     {
+        $selectedAccount = Account::selectedAccount();
+
         return response()->json([
-            'data' => Persona::all()
+            'data' => $selectedAccount->personas
         ]);
     }
 
     public function create(Request $request)
     {
-        $persona = Persona::create([
+        $selectedAccount = Account::selectedAccount();
+
+        $persona = $selectedAccount->personas()->create([
             'name' => $request->input('name'),
             'description' => $request->input('description')
         ]);

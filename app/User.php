@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Auth;
+use App\AccountType;
 
 class User extends Authenticatable
 {
@@ -15,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'account_id'
+        'name', 'email', 'password'
     ];
 
     /**
@@ -38,19 +39,14 @@ class User extends Authenticatable
        return $this->hasMany('App\Campaign');
     }
 
-    public function contents()
-    {
-       return $this->hasMany('App\Content');
-    }
-
     public function tasks()
     {
        return $this->hasMany('App\Task');
     }
 
-    public function account()
+    public function accounts()
     {
-        return $this->belongsTo('App\Account');
+        return $this->belongsToMany('App\Account');
     }
 
     public function country()
@@ -68,18 +64,18 @@ class User extends Authenticatable
         return $this->hasMany('App\WriterAccessPartialOrder');
     }
 
-    public static function dropdown()
+    public function belongsToAgencyAccount()
     {
-        $authorDropdown = ['' => '-- Select Author --'];
-        $authorDropdown += Auth::user()->account
-            ->users()
-            ->select('name', 'id')
-            ->orderBy('name', 'asc')
-            ->distinct()
-            ->lists('name', 'id')
-            ->toArray();
+        return (boolean) $this->accounts()
+            ->where('account_type_id', AccountType::AGENCY)
+            ->count();
+    }
 
-        return $authorDropdown;
+    public function agencyAccount()
+    {
+        return $this->accounts()
+            ->where('account_type_id', AccountType::AGENCY)
+            ->first();
     }
 
     public function connectionsBySlug($slug)

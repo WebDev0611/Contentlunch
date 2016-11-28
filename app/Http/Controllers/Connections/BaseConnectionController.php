@@ -8,6 +8,7 @@ use Session;
 use App\Http\Controllers\Controller;
 use App\Connection;
 use App\Provider;
+use App\Account;
 
 abstract class BaseConnectionController extends Controller
 {
@@ -79,7 +80,7 @@ abstract class BaseConnectionController extends Controller
 
         if (!$connection) {
             $provider = Provider::findBySlug($providerSlug);
-            $connection = Connection::create([
+            $connection = Account::selectedAccount()->connections()->create([
                 'name' => $provider->name . ' Connection',
                 'active' => true,
                 'successful' => true,

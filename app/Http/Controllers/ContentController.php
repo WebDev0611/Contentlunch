@@ -11,6 +11,7 @@ use App\Attachment;
 use App\Campaign;
 use App\Content;
 use App\User;
+use App\Account;
 use App\Tag;
 use App\Persona;
 use App\Helpers;
@@ -19,34 +20,59 @@ use Storage;
 use View;
 use Auth;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 use Response;
 
 class ContentController extends Controller
 {
-    public function index()
+    public function __construct(Request $request)
     {
-        $countContent = Auth::user()->contents()->count();
-        $published = Auth::user()->contents()->where('published', 1)->orderBy('updated_at', 'desc')->get();
-        $readyPublished = Auth::user()->contents()->where('ready_published', 1)->orderBy('updated_at', 'desc')->get();
-        $written = Auth::user()->contents()->where('written', 1)->orderBy('updated_at', 'desc')->get();
-        $connections = Auth::user()->connections()->where('active', 1)->get();
-
-        return View::make('content.index', compact('published', 'readyPublished', 'written', 'countContent', 'connections'));
+        $this->selectedAccount = Account::selectedAccount();
     }
 
-    public function store(Request $req)
+    public function index()
     {
-        $content = new Content();
+        $countContent = $this->selectedAccount
+            ->contents()
+            ->count();
 
-        $content->title = $req->input('title');
-        $content->content_type_id = $req->input('content_type');
-        $content->save();
+        $published = $this->selectedAccount
+            ->contents()
+            ->where('published', 1)
+            ->orderBy('updated_at', 'desc')
+            ->get();
 
-        // - Attach to the user
-        Auth::user()->contents()->save($content);
+        $readyPublished = $this->selectedAccount
+            ->contents()
+            ->where('ready_published', 1)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        $written = $this->selectedAccount
+            ->contents()
+            ->where('written', 1)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        $connections = $this->selectedAccount
+            ->connections()
+            ->where('active', 1)
+            ->get();
+
+        return view('content.index', compact(
+            'published', 'readyPublished', 'written', 'countContent', 'connections'
+        ));
+    }
+
+    public function store(Request $request)
+    {
+        $content = Content::create([
+            'title' => $request->input('title'),
+            'content_type_id' => $request->input('content_type'),
+        ]);
+
+        $this->selectedAccount->contents()->save($content);
 
         return redirect('edit/'.$content->id);
     }
@@ -86,7 +112,7 @@ class ContentController extends Controller
 
         $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd');
 
-        return View::make('content.create', $data);
+        return view('content.create', $data);
     }
 
     public function directPublish(Request $request, $contentId)
@@ -159,14 +185,13 @@ class ContentController extends Controller
         ]);
     }
 
-
     // this is technically create content
     public function createContent()
     {
         $data = [
             'tagsDropdown' => Tag::dropdown(),
-            'authorDropdown' => User::dropdown(),
-            'relatedContentDropdown' => Content::dropdown(),
+            'authorDropdown' => $this->selectedAccount->authorsDropdown(),
+            'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
             'personaDropdown' => Persona::dropdown(),
             'campaignDropdown' => Campaign::dropdown(),
@@ -174,7 +199,7 @@ class ContentController extends Controller
             'contentTypeDropdown' => ContentType::dropdown(),
         ];
 
-        return View::make('content.editor', $data);
+        return view('content.editor', $data);
     }
 
     // - edit content on page
@@ -183,18 +208,18 @@ class ContentController extends Controller
         $data = [
             'content' => $content,
             'tagsDropdown' => Tag::dropdown(),
-            'authorDropdown' => User::dropdown(),
-            'relatedContentDropdown' => Content::dropdown(),
+            'authorDropdown' => $this->selectedAccount->authorsDropdown(),
+            'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
             'personaDropdown' => Persona::dropdown(),
             'campaignDropdown' => Campaign::dropdown(),
             'connections' => Connection::dropdown(),
             'contentTypeDropdown' => ContentType::dropdown(),
             'files' => $content->attachments()->where('type', 'file')->get(),
-            'images' => $content->attachments()->where('type', 'image')->get()
+            'images' => $content->attachments()->where('type', 'image')->get(),
         ];
 
-        return View::make('content.editor', $data);
+        return view('content.editor', $data);
     }
 
     public function editStore(Request $request, $id = null)
@@ -213,7 +238,7 @@ class ContentController extends Controller
 
         $content = is_numeric($id) ? Content::find($id) : new Content();
         $content = $this->detachRelatedContent($content);
-        $content = $this->saveContentAndAttachToUser($request, $content);
+        $content = $this->saveContentAndAttachToAccount($request, $content);
 
         $this->saveContentCampaign($request, $content);
         $this->saveContentBuyingStage($request, $content);
@@ -274,7 +299,7 @@ class ContentController extends Controller
         return $content;
     }
 
-    private function saveContentAndAttachToUser($request, $content)
+    private function saveContentAndAttachToAccount($request, $content)
     {
         $content->configureAction($request->input('action'));
 
@@ -287,7 +312,7 @@ class ContentController extends Controller
         $content->written = 1;
         $content->save();
 
-        Auth::user()->contents()->save($content);
+        $this->selectedAccount->contents()->save($content);
 
         return $content;
     }
@@ -410,7 +435,7 @@ class ContentController extends Controller
     private function moveFileToUserFolder($fileUrl, $userFolder)
     {
         $fileName = substr(strstr($fileUrl, '_tmp/'), 5);
-        $newPath = $userFolder . $fileName;
+        $newPath = $userFolder.$fileName;
         $s3Path = Helpers::s3Path($fileUrl);
         Storage::move($s3Path, $newPath);
 
@@ -424,12 +449,12 @@ class ContentController extends Controller
             'filename' => Storage::url($s3Path),
             'type' => $fileType,
             'extension' => Helpers::extensionFromS3Path($s3Path),
-            'mime' => Storage::mimeType($s3Path)
+            'mime' => Storage::mimeType($s3Path),
         ]);
     }
 
     /**
-     * Asynchronous attachments and images uploads
+     * Asynchronous attachments and images uploads.
      */
     public function images(Request $request)
     {
@@ -457,20 +482,20 @@ class ContentController extends Controller
     {
         $url = Helpers::handleTmpUpload($file, true);
 
-        return response()->json([ 'file' => $url ]);
+        return response()->json(['file' => $url]);
     }
 
     private function attachmentValidator($input)
     {
         return Validator::make($input, [
-            'file' => 'file|max:20000'
+            'file' => 'file|max:20000',
         ]);
     }
 
     private function imageValidator($input)
     {
         return Validator::make($input, [
-            'file' => 'image|max:3000'
+            'file' => 'image|max:3000',
         ]);
     }
 }

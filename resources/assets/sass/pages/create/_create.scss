@@ -106,6 +106,10 @@
     color: #84828d;
     font-weight: bold;
   }
+
+  &-large {
+    width: 400px;
+  }
 }
 
 .create-image {
@@ -173,7 +177,7 @@
   transition: .2s all;
   opacity: 0;
   visibility: hidden;
-  
+
   .inner {
     position: absolute;
     max-width: 1100px;
@@ -184,7 +188,7 @@
     transform: translateX(-50%);
     transition: all 350ms cubic-bezier(0.165, 0.840, 0.440, 1.000);
   }
-  
+
   .list-createmenu > li {
     display: inline-block;
     width: 25%;
@@ -193,7 +197,7 @@
     transform: translateY(-30px);
     opacity: 0;
     transition: all 200ms ease;
-    
+
     &.second {
       transition: all 200ms ease 50ms;
     }
@@ -203,7 +207,7 @@
     &.fourth {
       transition: all 200ms ease 150ms;
     }
-    
+
     > a {
       display: block;
       background-color: #fff;
@@ -213,11 +217,11 @@
       color:rgba(57,44,70,0.65);
       min-height: 180px;
       transition: all 250ms cubic-bezier(0.165, 0.840, 0.440, 1.000);
-      
+
       &:hover {
         box-shadow: 0 0 0 4px rgba(255,255,255,.55);
       }
-      
+
       p {
         margin: 0;
         max-width: 190px;
@@ -231,7 +235,7 @@
         font-weight: 700;
         font-size: 1.1em;
       }
-      
+
       [class^="icon-"] {
         font-size: 2.4em;
         color: #2482FF;
@@ -241,16 +245,16 @@
 }
 
 .showcreate {
-  
+
   .create-overlay {
     opacity: 1;
     visibility: visible;
-    
+
     .list-createmenu > li {
       transform: translateY(0);
       opacity: 1;
     }
-    
+
   }
-  
+
 }

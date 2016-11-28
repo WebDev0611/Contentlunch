@@ -3,22 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Connection;
-use App\Content;
-use Socialite;
-use App\User;
 use Config;
 use Auth;
 use Redirect;
+use Socialite;
+use Session;
+
+use App\Http\Requests\Connection\ConnectionRequest;
+use App\Connection;
+use App\Provider;
+use App\Content;
+use App\User;
+use App\Account;
 
 class ConnectionController extends Controller
 {
+    public function __construct(Request $request)
+    {
+        $this->selectedAccount = Account::selectedAccount();
+    }
+
     public function index(Request $request)
     {
         $contentTypeId = $request->get('content_type');
 
-        $data = Auth::user()
-            ->account
+        $data = $this->selectedAccount
             ->connections()
             ->selectRaw(
                 'connections.*,
@@ -123,5 +132,43 @@ class ConnectionController extends Controller
 
         $graphNode2 = $responsefb->getGraphNode();
         echo 'Posted with id: '.$graphNode2['id'];
+    }
+
+    public function store(ConnectionRequest $request)
+    {
+        $connection = $this->createConnection($request);
+
+        $this->selectedAccount->connections()->save($connection);
+
+        $this->clearConnectionsInSession();
+
+        Session::put('connection_data', [
+            'meta_data' => $request->input('api'),
+            'connection_id' => $connection->id,
+        ]);
+
+        // - Lets get out of here
+        return redirect()->route('connectionProvider', $request->input('con_type'));
+    }
+
+    private function createConnection($request)
+    {
+        $connActive = $request->input('con_active');
+        $connType = $request->input('con_type');
+
+        $connection = Connection::create([
+            'name' => $request->input('con_name'),
+            'provider_id' => Provider::findBySlug($connType)->id,
+            'active' => $connActive == 'on' ? 1 : 0
+        ]);
+
+        return $connection;
+    }
+
+    private function clearConnectionsInSession()
+    {
+        Session::forget('connection_data');
+        Session::forget('redirect_route');
+        Session::forget('facebook_view');
     }
 }

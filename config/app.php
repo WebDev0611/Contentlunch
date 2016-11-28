@@ -162,6 +162,8 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Thujohn\Twitter\TwitterServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
+
+        App\Providers\ComposerServiceProvider::class,
     ],
 
     /*

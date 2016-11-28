@@ -7,19 +7,24 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\BuyingStage;
+use App\Account;
 
 class BuyingStagesController extends Controller
 {
     public function index()
     {
+        $selectedAccount = Account::selectedAccount();
+
         return response()->json([
-            'data' => BuyingStage::all()
+            'data' => $selectedAccount->buyingStages
         ]);
     }
 
     public function create(Request $request)
     {
-        $buyingStage = BuyingStage::create([
+        $selectedAccount = Account::selectedAccount();
+
+        $buyingStage = $selectedAccount->buyingStages()->create([
             'name' => $request->input('name'),
             'description' => $request->input('description')
         ]);

@@ -69,6 +69,7 @@ class OnboardingController extends Controller
         $this->markInviteAsUsed($request, $user);
 
         $account = Account::find($request->account_id)->first();
+        $account->users()->attach($user);
 
         return redirect('/')->with([
             'flash_message' => 'Welcome to ContentLaunch! You\'re now part of the ' . $account->name . ' account!',
@@ -90,7 +91,6 @@ class OnboardingController extends Controller
             'name' => $request->input('name'),
             'password' => bcrypt($request->input('password')),
             'email' => $request->input('email'),
-            'account_id' => $request->input('account_id')
         ]);
     }
 }
