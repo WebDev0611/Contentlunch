@@ -31,7 +31,13 @@
                                     </button>
 
                                     @if (isset($content))
-                                        <a href="{{ route('contentPublish', $content->id) }}" class="button button-small">PUBLISH</a>
+                                        <button
+                                            type='submit'
+                                            class="button button-small"
+                                            name="action"
+                                            value="publish">
+                                            PUBLISH
+                                        </button>
                                     @endif
 
                                     <div class="btn-group">
