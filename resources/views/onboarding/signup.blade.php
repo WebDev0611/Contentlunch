@@ -37,7 +37,14 @@
                             </div>
                         </div>
                     </div>
-                    {{ Form::open([ 'url' => 'register', 'name' => 'signup_form', 'files' => 'true' ]) }}
+                    {{
+                        Form::open([
+                            'url' => 'register',
+                            'name' => 'signup_form',
+                            'files' => 'true',
+                            'id' => 'profile_settings',
+                        ])
+                    }}
                     <input type="hidden" name="redirect_url" value="/invite">
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">

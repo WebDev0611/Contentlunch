@@ -6,7 +6,7 @@ var AvatarView = Backbone.View.extend({
     upload: function() {
         console.log('upload triggerd');
 
-        var form = $('form')[0];
+        var form = $('form#profile_settings')[0];
         var formData = new FormData(form);
         this.fileUpload(formData).then(this.finishLoading.bind(this));
         this.startLoading();

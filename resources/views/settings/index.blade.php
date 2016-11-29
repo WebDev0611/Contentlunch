@@ -6,9 +6,10 @@
     <div class="panel clearfix">
         {!!
             Form::model($user, [
-                    'url' => route('settingsUpdate'),
-                    'files' => 'true'
-                ])
+                'url' => route('settingsUpdate'),
+                'files' => 'true',
+                'id' => 'profile_settings',
+            ])
         !!}
         @include('settings.partials.profile_sidebar')
         <div class="panel-main left-separator">
