@@ -204,14 +204,19 @@
         //from json via php
         var campaigns = new campaign_collection(my_campaigns);
 
-        var task_map = function(t){
-            t.title = t.name;
-            t.due = t.due_date;
-            t.body = t.explanation;
-            t.timeago = moment(t.created_at).format('x');
-            t.currenttime = moment.utc().format('x');
-            t.status = t.status;
-            return t;
+        var task_map = function(task) {
+            task.title = task.name;
+            task.due = task.due_date;
+            task.body = task.explanation;
+            task.timeago = moment(task.created_at).format('x');
+            task.currenttime = moment.utc().format('x');
+            task.status = task.status;
+
+            if (task.user.profile_image) {
+                task.image = task.user.profile_image;
+            }
+
+            return task;
         };
 
         var tasks = new task_collection(my_tasks.map(task_map));
