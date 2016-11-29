@@ -202,16 +202,6 @@
 
     var view = new AvatarView({ el: '#settings-avatar' });
 
-    function fileUpload(formData) {
-        return $.ajax({
-            type: 'post',
-            url: 'signup/photo_upload',
-            data: formData,
-            processData: false,
-            contentType: false
-        });
-    }
-
     $(function(){
         //tasks
         $('#add-task-button').click(function() {
