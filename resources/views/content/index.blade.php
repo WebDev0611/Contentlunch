@@ -368,12 +368,7 @@
                         </div>
                         <p class="text-gray">IS NOW PUBLISHED TO:</p>
                         <div class="modal-social">
-                            <span>
-                                <i class="icon-facebook-official"></i>
-                            </span>
-                            <span>
-                                <i class="icon-trello"></i>
-                            </span>
+
                         </div>
                     </div>
                 </div>
@@ -399,16 +394,29 @@
         var ContentModel = Backbone.Model.extend({});
 
         var LaunchCompletedView = Backbone.View.extend({
-            initialize: function() {
+            initialize: function(options) {
+                this.publishedConnections = options.publishedConnections;
                 this.render();
             },
 
             render: function() {
                 var title = this.model.get('title');
 
+                this.addConnectionIcons();
                 this.$el.find('h4').text(title);
                 this.$el.modal('show');
-            }
+            },
+
+            addConnectionIcons: function() {
+                this.publishedConnections.forEach(function(connectionName) {
+                    var element = this.createConnectionIcon(connectionName);
+                    this.$el.find('.modal-social').append(element);
+                }.bind(this));
+            },
+
+            createConnectionIcon: function(connectionName) {
+                return $('<span />', { class: 'icon-social-' + connectionName });
+            },
         });
 
         $('#launchButton').click(function(event) {
@@ -438,7 +446,8 @@
             var content = new ContentModel(response.content);
             var view = new LaunchCompletedView({
                 el: '#launchCompleted',
-                model: content
+                model: content,
+                publishedConnections: response.published_connections,
             });
         }
 
