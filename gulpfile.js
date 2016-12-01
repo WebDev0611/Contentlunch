@@ -1,3 +1,8 @@
+/*
+ | Disables elixir notifications
+ */
+process.env.DISABLE_NOTIFIER = true;
+
 var elixir = require('laravel-elixir');
 require('laravel-elixir-livereload');
 
@@ -96,7 +101,7 @@ elixir(function (mix) {
                 'resources/assets/js/collections/campaigns.js',
                 'resources/assets/js/collections/ideas.js',
                 'resources/assets/js/collections/content.js',
-                
+
                 'resources/assets/js/calendar/calendar.js'
                 ],"public/js/calendar.js")
 
@@ -114,8 +119,9 @@ elixir(function (mix) {
                 'resources/assets/js/collections/campaigns.js',
                 'resources/assets/js/collections/tasks.js',
                 'resources/assets/js/views/ideas.js',
-                'resources/assets/js/dashboard/dashboard.js'
-                ],"public/js/dashboard.js")
+                'resources/assets/js/views/team_member_invite_modal.js',
+                'resources/assets/js/dashboard/dashboard.js',
+            ],"public/js/dashboard.js")
 
             .scripts([
                 'resources/assets/js/models/ideas.js',
