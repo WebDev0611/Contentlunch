@@ -17,10 +17,14 @@
 
                     <div class="input-form-group">
                         <label for="#">Invite</label>
-                        <input type="text" class="input" placeholder="One or more e-mail addresses">
+                        <input type="text" class="email-invites input" placeholder="One or more e-mail addresses separated by commas">
                     </div>
 
-                    <button class="button button-extend text-uppercase">
+                    <div class="alert alert-danger alert-forms" style='display:none'>
+                        Please enter one or more email addresses.
+                    </div>
+
+                    <button class="send-invitation button button-extend text-uppercase">
                         Send Invitation
                     </button>
                 </div>

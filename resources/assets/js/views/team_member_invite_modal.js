@@ -1,6 +1,9 @@
 var teamMemberInviteModalView = Backbone.View.extend({
+    events: {
+        'click .send-invitation': 'sendInvites'
+    },
+
     initialize: function() {
-        console.log('team member invite modal initialized');
         this.render();
     },
 
@@ -8,6 +11,24 @@ var teamMemberInviteModalView = Backbone.View.extend({
         this.$el.modal('show');
 
         return this;
-    }
+    },
+
+    sendInvites: function() {
+        var emails = this.$el.find('.email-invites').val();
+
+        if (!emails) {
+            this.$el.find('.alert').slideDown('fast');
+            return;
+        }
+
+        return $.ajax({
+            headers: getCSRFHeader(),
+            method: 'post',
+            url: '/invite/emails',
+            data: {
+                emails: emails
+            }
+        });
+    },
 
 });
