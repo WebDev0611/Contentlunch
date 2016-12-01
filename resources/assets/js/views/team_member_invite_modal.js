@@ -1,12 +1,13 @@
-var teamMemberInviteModalView = Backbone.view.extend({
-    template: _.template($('#modal-invite-team-member-template').html()),
-
+var teamMemberInviteModalView = Backbone.View.extend({
     initialize: function() {
+        console.log('team member invite modal initialized');
         this.render();
     },
 
     render: function() {
-        this.$el.find('.modal').modal('show');
+        this.$el.modal('show');
+
+        return this;
     }
 
-})
+});

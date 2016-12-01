@@ -187,15 +187,24 @@
 
     /* team members list view */
     var team_members_view = Backbone.View.extend({
-        initialize: function(){
+        events:{
+            "click .team-member-modal-opener": "openTeamMemberInviteModal",
+        },
+
+        initialize: function() {
             this.render();
         },
-        render: function(){
+
+        render: function() {
             var view = this;
             this.collection.each(function(m){
                 var team_member = new team_member_view({model: m});
                 view.$el.append( team_member.$el );
             });
+        },
+
+        openTeamMemberInviteModal: function() {
+            var modal = new teamMemberInviteModalView({ el: '#modal-invite-team-member' });
         }
     });
 
@@ -236,7 +245,10 @@
         recent_ideas.fetch();
 
         var team_members = new team_members_collection(); //dummy_team_data
-        var team = new team_members_view({ el: '#team-members-container', collection: team_members });
+        var team = new team_members_view({
+            el: '#team-members-container',
+            collection: team_members
+        });
 
         //runs the action to submit the task
         $('#add-task-button').click(function() {
