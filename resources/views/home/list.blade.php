@@ -106,7 +106,7 @@
                     <div class="panel-header">
                         <h4 class="panel-sidebar-title-secondary">
                             Team Members
-                            <a href="#" data-toggle="modal" data-target="#modal-invite-teammember">
+                            <a href="#" class='team-member-modal-opener'>
                                 INVITE
                                 <i class="icon-edit-user"></i>
                             </a>
@@ -120,37 +120,7 @@
     </div>
 </div>
 
-<div class="modal fade"
-    id="modal-invite-teammember"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="Invite Client">
-
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Invite Team Member</h4>
-            </div>
-            <div class="modal-body">
-
-                <div class="inner">
-                    <p class="intro">Invite team members to ContentLaunch to share content, plans and more.</p>
-
-                    <div class="input-form-group">
-                        <label for="#">Invite</label>
-                        <input type="text" class="input" placeholder="One or more e-mail addresses">
-                    </div>
-
-                    <button class="button button-extend text-uppercase">
-                        Send Invitation
-                    </button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@include('home.partials.invite_team_member_modal')
 
 <script type="text/template" id="task-template">
     <div class="dashboard-tasks-container">
