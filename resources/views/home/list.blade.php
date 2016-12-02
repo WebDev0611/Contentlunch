@@ -106,7 +106,7 @@
                     <div class="panel-header">
                         <h4 class="panel-sidebar-title-secondary">
                             Team Members
-                            <a href="#">
+                            <a href="#" class='team-member-modal-opener'>
                                 INVITE
                                 <i class="icon-edit-user"></i>
                             </a>
@@ -119,6 +119,8 @@
         </div>
     </div>
 </div>
+
+@include('home.partials.invite_team_member_modal')
 
 <script type="text/template" id="task-template">
     <div class="dashboard-tasks-container">
