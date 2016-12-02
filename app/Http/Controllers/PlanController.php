@@ -2,48 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use View;
-
 use App\Idea;
-
 use App\IdeaContent;
-
 use Auth;
-class PlanController extends Controller {
 
-	public function index(){
-		return View::make('plan.index');
-	}
+class PlanController extends Controller
+{
+    public function index()
+    {
+        return view('plan.index');
+    }
 
-	public function trends(){
-		return View::make('plan.trends');
-	}
+    public function trends()
+    {
+        return view('plan.trends');
+    }
 
-	public function prescription(){
-		return View::make('plan.prescription');
-	}
+    public function prescription()
+    {
+        return view('plan.prescription');
+    }
 
-	public function editor($id = 0){
-		
-		//need to check against account info
-		$idea = Idea::where(['id' => $id ])
-					->first();
+    public function editor($id = 0)
+    {
+        //need to check against account info
+        $idea = Idea::where(['id' => $id ])->first();
 
-		$idea_content = IdeaContent::where(['idea_id'=> $id,'user_id'=> Auth::id() ])->get();
-					
+        $idea_content = IdeaContent::where([ 'idea_id' => $id, 'user_id' => Auth::id() ])->get();
 
-		return View::make('plan.editor', ['name' => $idea->name, 
-										'text' => $idea->text, 
-										'tags' => $idea->tags, 
-										'contents' => $idea_content,
-										'idea_obj' => $idea ]);
-	}
-	
-	public function ideas(){
-		return View::make('plan.ideas');
-	}
+        $data = [
+            'name' => $idea->name,
+            'text' => $idea->text,
+            'tags' => $idea->tags,
+            'contents' => $idea_content,
+            'idea_obj' => $idea,
+        ];
 
-	public function parked(){
-		return View::make('plan.parked');
-	}
+        return view('plan.editor', $data);
+    }
+
+    public function ideas()
+    {
+        return view('plan.ideas');
+    }
+
+    public function parked()
+    {
+        return view('plan.parked');
+    }
 }

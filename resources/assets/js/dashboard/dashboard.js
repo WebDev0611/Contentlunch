@@ -187,15 +187,24 @@
 
     /* team members list view */
     var team_members_view = Backbone.View.extend({
-        initialize: function(){
+        events:{
+            "click .team-member-modal-opener": "openTeamMemberInviteModal",
+        },
+
+        initialize: function() {
             this.render();
         },
-        render: function(){
+
+        render: function() {
             var view = this;
             this.collection.each(function(m){
                 var team_member = new team_member_view({model: m});
                 view.$el.append( team_member.$el );
             });
+        },
+
+        openTeamMemberInviteModal: function() {
+            var modal = new teamMemberInviteModalView({ el: '#modal-invite-team-member' });
         }
     });
 
@@ -204,14 +213,19 @@
         //from json via php
         var campaigns = new campaign_collection(my_campaigns);
 
-        var task_map = function(t){
-            t.title = t.name;
-            t.due = t.due_date;
-            t.body = t.explanation;
-            t.timeago = moment(t.created_at).format('x');
-            t.currenttime = moment.utc().format('x');
-            t.status = t.status;
-            return t;
+        var task_map = function(task) {
+            task.title = task.name;
+            task.due = task.due_date;
+            task.body = task.explanation;
+            task.timeago = moment(task.created_at).format('x');
+            task.currenttime = moment.utc().format('x');
+            task.status = task.status;
+
+            if (task.user.profile_image) {
+                task.image = task.user.profile_image;
+            }
+
+            return task;
         };
 
         var tasks = new task_collection(my_tasks.map(task_map));
@@ -236,7 +250,10 @@
         recent_ideas.fetch();
 
         var team_members = new team_members_collection(); //dummy_team_data
-        var team = new team_members_view({ el: '#team-members-container', collection: team_members });
+        var team = new team_members_view({
+            el: '#team-members-container',
+            collection: team_members
+        });
 
         //runs the action to submit the task
         $('#add-task-button').click(function() {

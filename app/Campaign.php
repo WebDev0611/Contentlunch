@@ -9,6 +9,7 @@ class Campaign extends Model
 {
     public $fillable = [
         'user_id',
+        'account_id',
         'title',
         'status',
         'campaign_type_id',
@@ -22,6 +23,11 @@ class Campaign extends Model
     public function contents()
     {
         return $this->hasMany('App\Content');
+    }
+
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
     }
 
     // - Eek not sure if this make sense to pull user specific drop down from compaign model

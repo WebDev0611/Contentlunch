@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use Auth;
 use View;
-use Session;
-use App\Http\Requests\Connection\ConnectionRequest;
+use App\Account;
 use App\Http\Requests\AccountSettings\AccountSettingsRequest;
-use App\Connection;
 use App\Country;
 use App\Provider;
 use App\Helpers;
@@ -55,9 +53,6 @@ class SettingsController extends Controller
         $user->address = $request->input('address');
         $user->phone = $request->input('phone');
         $user->save();
-
-        $user->account->name = $request->input('account_name');
-        $user->account->save();
     }
 
     public function content()
@@ -70,16 +65,16 @@ class SettingsController extends Controller
     public function connections()
     {
         $user = Auth::user();
+        $account = Account::selectedAccount();
 
-        // Pulling Connection information
-        $connections = $user->accountConnections()->get();
-        $activeConnectionsCount = $user->accountConnections()->where('active', 1)->count();
+        $connections = $account->connections()->get();
+        $activeConnectionsCount = $account->connections()->where('active', 1)->count();
 
-        // - Create Connection Drop Down Data
         $connectiondd = ['' => '-- Select One --'] + $this->providerDropdown();
 
         return View::make('settings.connections', compact(
             'user',
+            'account',
             'connectiondd',
             'connections',
             'activeConnectionsCount'
@@ -94,44 +89,6 @@ class SettingsController extends Controller
             ->distinct()
             ->lists('name', 'slug')
             ->toArray();
-    }
-
-    public function connectionCreate(ConnectionRequest $request)
-    {
-        $connection = $this->createConnection($request);
-
-        Auth::user()->connections()->save($connection);
-
-        $this->clearConnectionsInSession();
-
-        Session::put('connection_data', [
-            'meta_data' => $request->input('api'),
-            'connection_id' => $connection->id,
-        ]);
-
-        // - Lets get out of here
-        return redirect()->route('connectionProvider', $request->input('con_type'));
-    }
-
-    private function createConnection($request)
-    {
-        $connActive = $request->input('con_active');
-        $connType = $request->input('con_type');
-
-        $connection = Connection::create([
-            'name' => $request->input('con_name'),
-            'provider_id' => Provider::findBySlug($connType)->id,
-            'active' => $connActive == 'on' ? 1 : 0
-        ]);
-
-        return $connection;
-    }
-
-    private function clearConnectionsInSession()
-    {
-        Session::forget('connection_data');
-        Session::forget('redirect_route');
-        Session::forget('facebook_view');
     }
 
     public function seo()

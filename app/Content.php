@@ -15,6 +15,7 @@ class Content extends Model
     private static $fieldNames = [
         'id'               => 'ID',
         'content_type_id'  => 'Content Type',
+        'account_id'       => 'Account',
         'due_date'         => 'Due Date',
         'title'            => 'Title',
         'connection_id'    => 'Connection',
@@ -32,6 +33,11 @@ class Content extends Model
         'user_id'          => 'Author',
         'created_at'       => 'Create at',
         'updated_at'       => 'Updated at',
+    ];
+
+    public $fillable = [
+        'title',
+        'content_type_id',
     ];
 
     public static function boot()
@@ -115,23 +121,6 @@ class Content extends Model
             ->withTimestamps()
             ->withPivot(['before', 'after','id'])
             ->latest('pivot_updated_at');
-    }
-
-    // Eek not sure if this make sense to pull user specific drop down from contents model
-    // maybe from user model with different function name
-    public static function dropdown($user = null)
-    {
-        $user = $user ?: Auth::user();
-        // Create Related Drop Down Data
-        $relateddd = ['' => '-- Select Related Content --'];
-        $relateddd = $user->contents()
-            ->select('id','title')
-            ->orderBy('title', 'asc')
-            ->distinct()
-            ->lists('title', 'id')
-            ->toArray();
-
-        return $relateddd;
     }
 
     /**

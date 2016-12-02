@@ -1,6 +1,6 @@
 <ul class="panel-tabs text-center">
     <li class="{{ (Request::is('settings') ? 'active' : '') }}">
-        <a  href="{{ route('settingsIndex') }}">Account Settings</a>
+        <a  href="{{ route('settingsIndex') }}">User Settings</a>
     </li>
     <li class="{{ (Request::is('settings/connections') ? 'active' : '') }}">
         <a  href="{{ route('connectionIndex') }}">Content Connections</a>

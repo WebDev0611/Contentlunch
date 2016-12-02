@@ -104,20 +104,31 @@ class AuthController extends Controller
 
     protected function create(array $data)
     {
-        $account = Account::create([
-            'name' => $data['company_name']
-        ]);
+        $account = $this->createAccount($data);
+        $user = $this->createUser($data);
 
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'account_id' => $account->id
-        ]);
+        $account->users()->attach($user);
 
         $this->handleProfilePicture($user, $data);
 
         return $user;
+    }
+
+    private function createUser(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
+    }
+
+    private function createAccount(array $data)
+    {
+        return Account::create([
+            'name' => $data['company_name'],
+            'account_type_id' => $data['account_type'],
+        ]);
     }
 
     private function handleProfilePicture($user, $data)

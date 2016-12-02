@@ -118,4 +118,3 @@ function clearTaskInputs() {
     $('#task-explanation').val('');
     $('#task-url').val('');
 }
-

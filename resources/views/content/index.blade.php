@@ -70,6 +70,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="create-panel-container">
                 <h4 class="create-panel-heading">
                     <i class="icon-share"></i>
@@ -81,7 +82,7 @@
                         <div class="create-panel-table-cell">
                             <img src="/images/avatar.jpg" alt="" class="create-image">
                         </div>
-                        <div class="create-panel-table-cell">
+                        <div class="create-panel-table-cell create-panel-table-cell-large">
                             <h5 class="dashboard-tasks-title">
                                 {{ $pub->title }}
                             </h5>
@@ -100,7 +101,7 @@
                     </div>
                     @endforeach
                 @else
-                    <div class="alert alert-info" role="alert"><p>No Published Content at this moment.</p></div>
+                    <div class="alert alert-info alert-forms" role="alert"><p>No Published Content at this moment.</p></div>
                 @endif
 
                 <div class="create-panel-table hide">
@@ -154,7 +155,7 @@
                     </div>
                     @endforeach
                 @else
-                    <div class="alert alert-info" role="alert"><p>No Content that is ready for publishing at this moment.</p></div>
+                    <div class="alert alert-info alert-forms" role="alert"><p>No Content that is ready for publishing at this moment.</p></div>
                 @endif
 
                 <div class="create-panel-table hide">
@@ -175,7 +176,7 @@
                         <div class="create-panel-table-cell">
                             <img src="/images/avatar.jpg" alt="" class="create-image">
                         </div>
-                        <div class="create-panel-table-cell">
+                        <div class="create-panel-table-cell create-panel-table-cell-large">
                             <h5 class="dashboard-tasks-title">
                                 {{ $pub->title }}
                             </h5>
@@ -206,7 +207,7 @@
                     </div>
                     @endforeach
                 @else
-                    <div class="alert alert-info" role="alert"><p>No Content being written at this moment.</p></div>
+                    <div class="alert alert-info alert-forms" role="alert"><p>No Content being written at this moment.</p></div>
                 @endif
 
                 <div class="create-panel-table hide">
@@ -367,18 +368,15 @@
                         </div>
                         <p class="text-gray">IS NOW PUBLISHED TO:</p>
                         <div class="modal-social">
-                            <span>
-                                <i class="icon-facebook-official"></i>
-                            </span>
-                            <span>
-                                <i class="icon-trello"></i>
-                            </span>
+
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
-                        <button class="button text-uppercase button-extend">Go To Dashboard!</button>
+                        <a href="{{ route('dashboard') }}" class="button text-uppercase button-extend">
+                            Go to Dashboard
+                        </a>
                     </div>
                 </div>
             </div>
@@ -396,16 +394,29 @@
         var ContentModel = Backbone.Model.extend({});
 
         var LaunchCompletedView = Backbone.View.extend({
-            initialize: function() {
+            initialize: function(options) {
+                this.publishedConnections = options.publishedConnections;
                 this.render();
             },
 
             render: function() {
                 var title = this.model.get('title');
 
+                this.addConnectionIcons();
                 this.$el.find('h4').text(title);
                 this.$el.modal('show');
-            }
+            },
+
+            addConnectionIcons: function() {
+                this.publishedConnections.forEach(function(connectionName) {
+                    var element = this.createConnectionIcon(connectionName);
+                    this.$el.find('.modal-social').append(element);
+                }.bind(this));
+            },
+
+            createConnectionIcon: function(connectionName) {
+                return $('<span />', { class: 'icon-social-' + connectionName });
+            },
         });
 
         $('#launchButton').click(function(event) {
@@ -435,7 +446,8 @@
             var content = new ContentModel(response.content);
             var view = new LaunchCompletedView({
                 el: '#launchCompleted',
-                model: content
+                model: content,
+                publishedConnections: response.published_connections,
             });
         }
 
@@ -447,7 +459,7 @@
         function addTaskCallback(task) {
             $('#addTaskModal').modal('hide');
         }
-        
+
     })();
 </script>
 @stop

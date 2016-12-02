@@ -10,6 +10,7 @@ use App\Attachment;
 use Auth;
 use Storage;
 use View;
+use App\Account;
 
 class TaskController extends Controller
 {
@@ -47,7 +48,7 @@ class TaskController extends Controller
             'start_date' => $request->input('start_date'),
             'due_date' => $request->input('due_date'),
             'user_id' => Auth::id(),
-            'account_id' => Auth::user()->account->id,
+            'account_id' => Account::selectedAccount()->id,
             'status' => 'open',
         ]);
 
@@ -127,14 +128,14 @@ class TaskController extends Controller
     {
 
         $task = Task::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
-        
+
         $task->name = $request->input('name');
         $task->explanation = $request->input('explanation');
         $task->start_date = $request->input('start_date');
         $task->due_date = $request->input('due_date');
 
         $task->save();
-    
+
         return response()->json(['success' => true, 'task' => $task ]);
         //
     }
@@ -148,7 +149,7 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function close(Request $request, $id)
-    {           
+    {
 
         $task = Task::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
         $task->status = 'closed';

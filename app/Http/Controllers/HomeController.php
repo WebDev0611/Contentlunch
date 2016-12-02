@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use Illuminate\Http\Request;
-
 use Campaign;
 use User;
 use Auth;
-use View;
+
+use App\Account;
+use App\Http\Requests;
 
 class HomeController extends Controller
 {
@@ -29,11 +29,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $my_campaigns = Auth::user()->campaigns()->get();
-        $my_tasks = Auth::user()->tasks()->get();
-        return View::make('home.list',[
-            'mycampaigns' => $my_campaigns->toJson(),
-            'tasks' => $my_tasks->toJson()
+        $selectedAccount = Account::selectedAccount();
+        $myCampaigns = Auth::user()->campaigns()->get();
+        $myTasks = $selectedAccount->tasks()->with('user')->get();
+
+        return view('home.list',[
+            'mycampaigns' => $myCampaigns->toJson(),
+            'tasks' => $myTasks->toJson(),
         ]);
     }
 }

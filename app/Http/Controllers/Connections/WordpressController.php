@@ -36,8 +36,10 @@ class WordpressController extends BaseConnectionController
 
             return $this->redirectWithError('There was an error with your authentication, please try again');
         }
+
+
         $tokenArray = (array) $token;
-        $connection = $this->saveConnection($token);
+        $connection = $this->saveConnection($tokenArray);
 
         return $this->redirectWithSuccess('Wordpress connection '.$connection->name.' created successfully.');
     }

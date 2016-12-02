@@ -3,30 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-
-use App\Idea;
-
-use App\IdeaContent;
-
-use App\User;
-
-use App\Tag;
-
-use App\Persona;
-
-use App\Helpers;
-
+use Illuminate\Support\Facades\DB;
 use Storage;
-
 use View;
-
 use Auth;
 
+use App\Account;
+use App\Http\Requests;
+use App\Idea;
+use App\IdeaContent;
+use App\User;
+use App\Tag;
+use App\Persona;
+use App\Helpers;
 use App\Content;
-
-use Illuminate\Support\Facades\DB;
 
 class IdeaController extends Controller
 {
@@ -37,9 +27,10 @@ class IdeaController extends Controller
      */
     public function index()
     {
-        //
-        $ideas = Idea::where('user_id', Auth::id())
-               ->get();
+        $ideas = Account::selectedAccount()
+            ->ideas()
+            ->with('user')
+            ->get();
 
         return response()->json($ideas);
     }
@@ -100,7 +91,7 @@ class IdeaController extends Controller
         $idea->status = $status;
 
         $idea->user_id = Auth::id();
-        $idea->account_id = Auth::user()->account->id;
+        $idea->account_id = Account::selectedAccount()->id;
         $idea->save();
 
         $idea_contents = array();
@@ -195,7 +186,7 @@ class IdeaController extends Controller
         $new_content = new Content;
 
     }
-    
+
     /**
      * Remove the specified resource from storage.
      *
