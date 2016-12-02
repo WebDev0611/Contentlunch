@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Campaign;
 use User;
 use Auth;
-use View;
 
 use App\Account;
 use App\Http\Requests;
@@ -32,11 +31,11 @@ class HomeController extends Controller
     {
         $selectedAccount = Account::selectedAccount();
         $myCampaigns = Auth::user()->campaigns()->get();
-        $myTasks = $selectedAccount->tasks;
+        $myTasks = $selectedAccount->tasks()->with('user')->get();
 
-        return View::make('home.list',[
+        return view('home.list',[
             'mycampaigns' => $myCampaigns->toJson(),
-            'tasks' => $myTasks->toJson()
+            'tasks' => $myTasks->toJson(),
         ]);
     }
 }

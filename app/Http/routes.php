@@ -53,7 +53,7 @@ Route::get('score', 'OnboardingController@score');
 Route::post('signup/invite', 'OnboardingController@createWithInvite');
 Route::get('signup/invite/{invite}', [ 'as' => 'signupWithInvite', 'uses' => 'OnboardingController@signupWithInvite' ]);
 
-Route::get('/home','AccountController@index');
+Route::get('/home','HomeController@index');
 Route::get('/dashboard','AccountController@stats');
 
 Route::group([ 'prefix' => 'agencies' ], function() {

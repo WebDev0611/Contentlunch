@@ -212,7 +212,8 @@
 
 <script type="text/template" id="idea-template">
     <div class="dashboard-ideas-cell">
-        <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
+        <% var profile_image = user.profile_image || "/images/avatar.jpg" %>
+        <img src="<%= profile_image %>" alt="#" class="dashboard-tasks-img">
     </div>
     <div class="dashboard-ideas-cell">
         <p class="dashboard-ideas-text"><%= name %></p>

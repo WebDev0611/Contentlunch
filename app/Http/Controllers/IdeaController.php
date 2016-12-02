@@ -27,7 +27,10 @@ class IdeaController extends Controller
      */
     public function index()
     {
-        $ideas = Account::selectedAccount()->ideas;
+        $ideas = Account::selectedAccount()
+            ->ideas()
+            ->with('user')
+            ->get();
 
         return response()->json($ideas);
     }

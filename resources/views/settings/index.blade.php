@@ -6,9 +6,10 @@
     <div class="panel clearfix">
         {!!
             Form::model($user, [
-                    'url' => route('settingsUpdate'),
-                    'files' => 'true'
-                ])
+                'url' => route('settingsUpdate'),
+                'files' => 'true',
+                'id' => 'profile_settings',
+            ])
         !!}
         @include('settings.partials.profile_sidebar')
         <div class="panel-main left-separator">
@@ -201,16 +202,6 @@
 <script>
 
     var view = new AvatarView({ el: '#settings-avatar' });
-
-    function fileUpload(formData) {
-        return $.ajax({
-            type: 'post',
-            url: 'signup/photo_upload',
-            data: formData,
-            processData: false,
-            contentType: false
-        });
-    }
 
     $(function(){
         //tasks
