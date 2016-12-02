@@ -127,8 +127,9 @@ class ContentController extends Controller
 
         if ($content) {
             $errors = [];
-            $connections_count = 0;
-            $connections_failed = 0;
+            $connectionsCount = 0;
+            $failedConnections = 0;
+            $publishedConnections = [];
 
             foreach ($connections as $connection) {
                 $response = $this->publish($content, $connection);
@@ -136,18 +137,20 @@ class ContentController extends Controller
                 if (!$response['success']) {
                     $connectionName = (string) $connection;
                     $errors [] = [$connectionName => $response['error']];
-                    ++$connections_failed;
+                    ++$failedConnections;
+                } else {
+                    $publishedConnections[] = $connection->provider->slug;
                 }
 
-                ++$connections_count;
+                ++$connectionsCount;
             }
 
-            $response = response()
-                ->json([
-                    'data' => 'Content published',
-                    'errors' => $errors,
-                    'content' => $content,
-                ], 201);
+            $response = response()->json([
+                'data' => 'Content published',
+                'errors' => $errors,
+                'content' => $content,
+                'published_connections' => $publishedConnections,
+            ], 201);
         }
 
         return $response;
