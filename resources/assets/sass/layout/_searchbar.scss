@@ -15,6 +15,15 @@ $search-bar-border: solid #c6cfe1;
   border-bottom: 1px $search-bar-border;
   background: $search-bar-background;
   margin-left: $navigation-space-left;
+
+  .support-icon {
+    font-size: 26px;
+    display: inline-block;
+    margin-right: 10px;
+    margin-top: -10px;
+    position: relative;
+    top: 6px;
+  }
 }
 
 .search-bar-input {
