@@ -14,7 +14,8 @@ class AddAccountIdToPersonasTable extends Migration
     {
         Schema::table('personas', function (Blueprint $table) {
             $table->integer('account_id')
-                ->unsigned();
+                ->unsigned()
+                ->nullable();
 
             $table->foreign('account_id')
                 ->references('id')
