@@ -231,4 +231,4 @@ Route::group(['prefix' => 'twitter'], function() {
  */
 Route::get('/api/connections', [ 'as' => 'connectionAjaxIndex', 'uses' => 'ConnectionController@index' ]);
 
-Route::get('/search', [ 'as' => 'searchIndex', 'uses' => 'SearchController@index' ]);
+Route::post('/search', [ 'as' => 'searchIndex', 'uses' => 'SearchController@index' ]);
