@@ -14,6 +14,7 @@
                             </li>
                             <li><a href="#users" data-toggle='tab'>Users</a></li>
                             <li><a href="#tasks" data-toggle='tab'>Tasks</a></li>
+                            <li><a href="#ideas" data-toggle='tab'>Ideas</a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
@@ -33,6 +34,12 @@
                             <div role="tabpanel" class="tab-pane" id='tasks'>
                                 <div class="panel-container">
                                     tasks
+                                </div>
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id='ideas'>
+                                <div class="panel-container">
+                                    ideas
                                 </div>
                             </div>
                         </div>
