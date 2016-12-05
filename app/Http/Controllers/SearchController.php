@@ -7,6 +7,7 @@ use Validator;
 use DB;
 
 use App\Content;
+use App\User;
 
 class SearchController extends Controller
 {
@@ -23,9 +24,13 @@ class SearchController extends Controller
         }
 
         $searchTerm = $request->input('search');
-        $contents = $this->searchContent($searchTerm);
 
-        return view('search.index', compact('contents'));
+        $data = [
+            'contents' => $this->searchContent($searchTerm),
+            'users' => $this->searchUsers($searchTerm),
+        ];
+
+        return view('search.index', $data);
     }
 
     private function validateRequest(Request $request)
@@ -37,8 +42,17 @@ class SearchController extends Controller
 
     private function searchContent($term)
     {
-        return Content::where('title', 'like', '%' . $term . '%')
-            ->orWhere('body', 'like', '%' . $term . '%')
-            ->get();
+        // Search content the user has access to
+        // return Content::where('title', 'like', '%' . $term . '%')
+        //     ->orWhere('body', 'like', '%' . $term . '%')
+        //     ->get();
+        return Content::all();
+    }
+
+    private function searchUsers($term)
+    {
+        // return User::where('name', 'like', '%' . $term . '%')
+        //     ->get();
+        return User::all();
     }
 }
