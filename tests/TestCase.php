@@ -1,7 +1,12 @@
 <?php
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Artisan;
+
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
+    use DatabaseTransactions;
+
     /**
      * The base URL to use while testing the application.
      *
@@ -21,5 +26,13 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         return $app;
+    }
+
+    public function setUp()
+    {
+        parent::setUp();
+        Artisan::call('migrate');
+        Artisan::call('db:seed', [ '--class' => 'AccountTypeSeeder' ]);
+        Artisan::call('db:seed', [ '--class' => 'UsersTableSeeder' ]);
     }
 }
