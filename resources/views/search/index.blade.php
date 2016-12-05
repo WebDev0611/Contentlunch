@@ -21,13 +21,13 @@
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id='content'>
                                 <div class="panel-container">
-                                    content
+                                    @include('search.partials.content_search_tab')
                                 </div>
                             </div>
 
                             <div role="tabpanel" class="tab-pane" id='users'>
                                 <div class="panel-container">
-                                    users
+                                    @include('search.partials.user_search_tab')
                                 </div>
                             </div>
 
