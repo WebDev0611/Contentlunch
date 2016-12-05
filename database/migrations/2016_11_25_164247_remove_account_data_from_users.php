@@ -13,7 +13,7 @@ class RemoveAccountDataFromUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('account_type');
+            // $table->dropColumn('account_type');
             $table->dropColumn('company_name');
         });
     }
@@ -26,7 +26,7 @@ class RemoveAccountDataFromUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('account_type')->nullable();
+            // $table->string('account_type')->nullable();
             $table->string('company_name')->nullable();
         });
     }
