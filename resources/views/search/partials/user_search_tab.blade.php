@@ -1,4 +1,4 @@
-@foreach ($users as $user)
+@forelse ($users as $user)
     <div class="search-item">
         <div class="row">
             <div class="col-sm-1">
@@ -19,4 +19,8 @@
             </div>
         </div>
     </div>
-@endforeach
+@empty
+    <div class="alert alert-info alert-forms">
+        No users found with the search term <strong>{{ $searchTerm }}</strong>.
+    </div>
+@endforelse
