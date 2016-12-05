@@ -9,6 +9,7 @@ use DB;
 use App\Content;
 use App\User;
 use App\Task;
+use App\Idea;
 
 class SearchController extends Controller
 {
@@ -30,6 +31,7 @@ class SearchController extends Controller
             'contents' => $this->searchContent($searchTerm),
             'users' => $this->searchUsers($searchTerm),
             'tasks' => $this->searchTasks($searchTerm),
+            'ideas' => $this->searchIdeas($searchTerm),
         ];
 
         return view('search.index', $data);
@@ -61,5 +63,10 @@ class SearchController extends Controller
     private function searchTasks($term)
     {
         return Task::all();
+    }
+
+    private function searchIdeas($term)
+    {
+        return Idea::all();
     }
 }

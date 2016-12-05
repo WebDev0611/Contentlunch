@@ -39,7 +39,7 @@
 
                             <div role="tabpanel" class="tab-pane" id='ideas'>
                                 <div class="panel-container">
-                                    ideas
+                                    @include('search.partials.idea_search_tab')
                                 </div>
                             </div>
                         </div>
