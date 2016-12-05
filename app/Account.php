@@ -6,6 +6,8 @@ use Auth;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
+use App\AccountType;
+
 class Account extends Model
 {
     public $fillable = [
@@ -77,7 +79,7 @@ class Account extends Model
      */
     public function isAgencyAccount()
     {
-        return $this->account_type_id == 2;
+        return $this->account_type_id == AccountType::AGENCY;
     }
 
     public static function selectAccount(Account $account)
