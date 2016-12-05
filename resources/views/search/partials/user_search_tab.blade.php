@@ -2,7 +2,7 @@
     <div class="search-item">
         <div class="row">
             <div class="col-sm-1">
-                <img src="/images/avatar.jpg" alt="#" class="search-item-img">
+                <img src="{{ $user->profile_image ?: '/images/avatar.jpg' }}" alt="#" class="search-item-img">
             </div>
             <div class="col-sm-11">
                 <h5 class="dashboard-tasks-title">
