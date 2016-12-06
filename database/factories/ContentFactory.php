@@ -15,8 +15,10 @@ $factory->define(App\Content::class, function (Faker\Generator $faker) {
             return factory(App\Account::class)->create()->id;
         },
 
-        'connection_id' => function() use ($faker) {
-            return factory(App\Connection::class)->create()->id;
+        'connection_id' => function($content) use ($faker) {
+            return factory(App\Connection::class)->create([
+                'account_id' => $content['account_id']
+            ])->id;
         },
 
         'user_id' => function($content) use ($faker) {
