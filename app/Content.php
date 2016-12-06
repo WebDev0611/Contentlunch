@@ -188,7 +188,7 @@ class Content extends Model
         return $this->title;
     }
 
-    public static function search($searchTerm, $account)
+    public static function search($term, $account)
     {
         return $account
             ->contents()
