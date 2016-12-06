@@ -11,7 +11,7 @@
                 STATUS: <strong>{{ strtoupper($idea->status) }}</strong>
             </li>
             <li>
-                <a href="#"><strong>Edit Idea</strong></a>
+                <a href="{{ route('ideaEditor', $idea->id) }}"><strong>Edit Idea</strong></a>
             </li>
         </ul>
     </div>

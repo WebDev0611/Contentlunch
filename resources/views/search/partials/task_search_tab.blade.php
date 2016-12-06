@@ -21,7 +21,7 @@
                 @endif
             </li>
             <li>
-                <a href="#"><strong>Edit Task</strong></a>
+                <a href="{{ route('taskShow', $task->id) }}"><strong>Edit Task</strong></a>
             </li>
         </ul>
     </div>

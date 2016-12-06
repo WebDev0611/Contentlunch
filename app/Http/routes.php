@@ -77,7 +77,7 @@ Route::resource('/trending', 'TrendsController@trending');
 Route::resource('/influencers', 'InfluencersController@search');
 Route::resource('/topics', 'TopicsController@index');
 
-Route::get('/idea/{id}','PlanController@editor');
+Route::get('/idea/{id}', [ 'as' => 'ideaEditor', 'uses' => 'PlanController@editor' ]);
 Route::post('/idea/park','IdeaController@park');
 Route::post('/idea/update/{id}','IdeaController@update');
 Route::post('/idea/reject/{id}','IdeaController@reject');
@@ -106,7 +106,7 @@ Route::get('/campaigns','CalendarController@campaigns');
 
 Route::resource('/task/add','TaskController@store');
 Route::post('task/attachments', 'TaskAttachmentsController@store');
-Route::get('task/show/{id}', 'TaskController@show');
+Route::get('task/show/{id}', [ 'as' => 'taskShow', 'uses' => 'TaskController@show' ]);
 Route::post('task/update/{id}', 'TaskController@update');
 Route::post('task/close/{id}', 'TaskController@close');
 
