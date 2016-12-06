@@ -13,8 +13,10 @@ class AccountTypeSeeder extends Seeder
      */
     public function run()
     {
-        AccountType::truncate();
-        factory(AccountType::class)->create([ 'name' => 'Company Account' ]);
-        factory(AccountType::class)->create([ 'name' => 'Agency Account' ]);
+        DB::table('account_types')->truncate();
+        DB::table('account_types')->insert([
+            [ 'name' => 'Company Account' ],
+            [ 'name' => 'Agency Account' ]
+        ]);
     }
 }

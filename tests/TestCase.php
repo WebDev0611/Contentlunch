@@ -1,13 +1,25 @@
 <?php
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Artisan;
+
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
+    use DatabaseTransactions;
+
     /**
      * The base URL to use while testing the application.
      *
      * @var string
      */
     protected $baseUrl = 'http://localhost';
+
+    protected $seeders = [
+        'AccountTypeSeeder',
+        'ContentTypeTableSeeder',
+        'UsersTableSeeder',
+        'ProviderTableSeeder',
+    ];
 
     /**
      * Creates the application.
@@ -21,5 +33,25 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         return $app;
+    }
+
+    public function setUp()
+    {
+        parent::setUp();
+        Artisan::call('migrate');
+        $this->runSeeders();
+        // DB::enableQueryLog();
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+    }
+
+    protected function runSeeders()
+    {
+        foreach ($this->seeders as $seeder) {
+            Artisan::call('db:seed', [ '--class' => $seeder ]);
+        }
     }
 }

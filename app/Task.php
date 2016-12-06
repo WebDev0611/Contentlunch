@@ -25,4 +25,19 @@ class Task extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public static function search($term, $account = null)
+    {
+        if (!$account) {
+            $account = Account::selectedAccount();
+        }
+
+        return $account
+            ->tasks()
+            ->where(function($q) use ($term) {
+                $q->orWhere('name', 'like', '%' . $term . '%')
+                  ->orWhere('explanation', 'like', '%' . $term . '%');
+            })
+            ->get();
+    }
 }

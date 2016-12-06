@@ -10,8 +10,7 @@
             <div class="settings-profile-info">
                 <h4>{{ $user->name }}</h4>
                 <span>
-                    {{ $user->city }}{{ $user->city && $user->country ? ',' : '' }}
-                    {{ $user->country ? $user->country->country_name : '' }}
+                    {{ $user->location }}
                 </span>
             </div>
 

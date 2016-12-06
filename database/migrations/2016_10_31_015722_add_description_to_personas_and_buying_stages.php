@@ -13,11 +13,11 @@ class AddDescriptionToPersonasAndBuyingStages extends Migration
     public function up()
     {
         Schema::table('personas', function (Blueprint $table) {
-            $table->string('description');
+            $table->string('description')->nullable();
         });
 
         Schema::table('buying_stages', function (Blueprint $table) {
-            $table->string('description');
+            $table->string('description')->nullable();
         });
     }
 

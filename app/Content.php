@@ -2,8 +2,10 @@
 
 use Auth;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 use App\Helpers;
+use App\Account;
 
 class Content extends Model
 {
@@ -185,6 +187,29 @@ class Content extends Model
     public function __toString()
     {
         return $this->title;
+    }
+
+    public function getDueDateDiffAttribute()
+    {
+        $carbonObject = new Carbon($this->due_date);
+
+        return $carbonObject->diffForHumans();
+    }
+
+    public static function search($term, $account = null)
+    {
+        if (!$account) {
+            $account = Account::selectedAccount();
+        }
+
+        return $account
+            ->contents()
+            ->where(function($q) use ($term) {
+                $q
+                    ->orWhere('title', 'like', '%' . $term . '%')
+                    ->orWhere('body', 'like', '%' . $term . '%');
+            })
+            ->get();
     }
 
 }

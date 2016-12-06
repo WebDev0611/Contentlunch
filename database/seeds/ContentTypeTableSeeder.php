@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\ContentType;
 
 class ContentTypeTableSeeder extends Seeder
 {
@@ -12,9 +11,8 @@ class ContentTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        ContentType::truncate();
-
-        $contentTypeArray = [
+        DB::table('content_types')->truncate();
+        DB::table('content_types')->insert([
             [ 'name' => 'Blog Post',                'provider_id' =>  1 ],
             [ 'name' => 'Facebook Post',            'provider_id' =>  5 ],
             [ 'name' => 'Tweet',                    'provider_id' =>  6 ],
@@ -36,10 +34,6 @@ class ContentTypeTableSeeder extends Seeder
             [ 'name' => 'Website Page',             'provider_id' =>  0 ],
             [ 'name' => 'Whitepaper',               'provider_id' =>  0 ],
             [ 'name' => 'Workflow Email',           'provider_id' =>  0 ],
-        ];
-
-        foreach ($contentTypeArray as $type) {
-            ContentType::create($type);
-        }
+        ]);
     }
 }

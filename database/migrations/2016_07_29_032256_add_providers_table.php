@@ -13,7 +13,7 @@ class AddProvidersTable extends Migration
     public function up()
     {
         Schema::table('providers', function (Blueprint $table) {
-            $table->text('class_name');
+            $table->text('class_name')->default('');
         });
     }
 
