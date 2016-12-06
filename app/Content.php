@@ -188,8 +188,12 @@ class Content extends Model
         return $this->title;
     }
 
-    public static function search($term, $account)
+    public static function search($term, $account = null)
     {
+        if (!$account) {
+            $account = Account::selectedAccount();
+        }
+
         return $account
             ->contents()
             ->where(function($q) use ($term) {

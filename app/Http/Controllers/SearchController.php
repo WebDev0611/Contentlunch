@@ -32,8 +32,8 @@ class SearchController extends Controller
         $data = [
             'contents' => Content::search($searchTerm, $this->selectedAccount),
             'users' => User::search($searchTerm, $this->selectedAccount),
-            'tasks' => $this->searchTasks($searchTerm),
-            'ideas' => $this->searchIdeas($searchTerm),
+            'tasks' => Task::search($searchTerm, $this->selectedAccount),
+            'ideas' => Idea::search($searchTerm, $this->selectedAccount),
             'searchTerm' => $searchTerm,
         ];
 
@@ -54,32 +54,5 @@ class SearchController extends Controller
         return Validator::make($request->all(), [
             'search' => 'required'
         ]);
-    }
-
-    private function searchContent($term)
-    {
-        return $this->selectedAccount
-            ->contents()
-            ->where('title', 'like', '%' . $term . '%')
-            ->orWhere('body', 'like', '%' . $term . '%')
-            ->get();
-    }
-
-    private function searchTasks($term)
-    {
-        return $this->selectedAccount
-            ->tasks()
-            ->where('name', 'like', '%' . $term . '%')
-            ->orWhere('explanation', 'like', '%' . $term . '%')
-            ->get();
-    }
-
-    private function searchIdeas($term)
-    {
-        return $this->selectedAccount
-            ->ideas()
-            ->where('name', 'like', '%' . $term . '%')
-            ->orWhere('text', 'like', '%' . $term . '%')
-            ->get();
     }
 }
