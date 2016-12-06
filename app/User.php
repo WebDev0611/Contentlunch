@@ -91,6 +91,15 @@ class User extends Authenticatable
         return $this->name;
     }
 
+    public function getLocationAttribute()
+    {
+        $location = $this->city ?: '';
+        $location .= $this->city && $this->country ? ', ' : '';
+        $location .= $this->country ? $this->country->country_name : '';
+
+        return $location;
+    }
+
     public static function search($term, $account = null)
     {
         if (!$account) {

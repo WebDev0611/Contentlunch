@@ -9,11 +9,11 @@
                     {{ $user->name }}
                 </h5>
                 <span class="dashboard-tasks-text">
-                    Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...
+                    {{ $user->location }}
                 </span>
                 <ul class="dashboard-tasks-list">
                     <li>
-                        <a href="#"><strong>Invite User</strong></a>
+                        <a href="{{ route('inviteUser', $user) }}"><strong>Invite User</strong></a>
                     </li>
                 </ul>
             </div>

@@ -18,6 +18,7 @@ Route::model('invite', 'App\AccountInvite');
 Route::model('persona', 'App\Persona');
 Route::model('account', 'App\Account');
 Route::model('buyingStage', 'App\BuyingStage');
+Route::model('user', 'App\User');
 Route::model('writerAccessPartialOrder', 'App\WriterAccessPartialOrder');
 
 /* Login/Logout */
@@ -32,7 +33,6 @@ Route::get('/', [
     'uses' => 'HomeController@index'
 ]);
 
-
 /**
  * Onboarding process
  */
@@ -42,6 +42,7 @@ Route::post('signup/photo_upload', 'OnboardingController@signupPhotoUpload');
 
 Route::get('invite', [ 'as' => 'inviteIndex', 'uses' =>'OnboardingInviteController@invite' ]);
 Route::post('invite/emails', [ 'as' => 'emailInvite', 'uses' => 'OnboardingInviteController@emailInvite' ]);
+Route::get('invite/{user}', [ 'as' => 'inviteUser', 'uses' => 'OnboardingInviteController@inviteUser' ]);
 
 Route::get('connect', [ 'as' => 'onboardingConnect', 'uses' => 'OnboardingController@connect' ]);
 
