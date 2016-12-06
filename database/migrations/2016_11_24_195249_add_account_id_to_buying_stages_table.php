@@ -14,7 +14,8 @@ class AddAccountIdToBuyingStagesTable extends Migration
     {
         Schema::table('buying_stages', function (Blueprint $table) {
             $table->integer('account_id')
-                ->unsigned();
+                ->unsigned()
+                ->nullable();
 
             $table->foreign('account_id')
                 ->references('id')
