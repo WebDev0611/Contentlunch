@@ -192,8 +192,11 @@ class Content extends Model
     {
         return $account
             ->contents()
-            ->where('title', 'like', '%' . $term . '%')
-            ->orWhere('body', 'like', '%' . $term . '%')
+            ->where(function($q) use ($term) {
+                $q
+                    ->orWhere('title', 'like', '%' . $term . '%')
+                    ->orWhere('body', 'like', '%' . $term . '%');
+            })
             ->get();
     }
 
