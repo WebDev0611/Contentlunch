@@ -40,6 +40,13 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         parent::setUp();
         Artisan::call('migrate');
         $this->runSeeders();
+        // DB::enableQueryLog();
+    }
+
+    public function tearDown()
+    {
+        Artisan::call('migrate:reset');
+        parent::tearDown();
     }
 
     protected function runSeeders()
