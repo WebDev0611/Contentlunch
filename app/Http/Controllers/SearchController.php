@@ -31,7 +31,7 @@ class SearchController extends Controller
 
         $data = [
             'contents' => Content::search($searchTerm, $this->selectedAccount),
-            'users' => $this->searchUsers($searchTerm),
+            'users' => User::search($searchTerm, $this->selectedAccount),
             'tasks' => $this->searchTasks($searchTerm),
             'ideas' => $this->searchIdeas($searchTerm),
             'searchTerm' => $searchTerm,
@@ -62,14 +62,6 @@ class SearchController extends Controller
             ->contents()
             ->where('title', 'like', '%' . $term . '%')
             ->orWhere('body', 'like', '%' . $term . '%')
-            ->get();
-    }
-
-    private function searchUsers($term)
-    {
-        return $this->selectedAccount
-            ->users()
-            ->where('name', 'like', '%' . $term . '%')
             ->get();
     }
 

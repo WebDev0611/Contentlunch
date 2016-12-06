@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Auth;
 use App\AccountType;
+use App\Account;
 
 class User extends Authenticatable
 {
@@ -88,5 +89,17 @@ class User extends Authenticatable
     public function __toString()
     {
         return $this->name;
+    }
+
+    public static function search($term, $account = null)
+    {
+        if (!$account) {
+            $account = Account::selectedAccount();
+        }
+
+        return $account
+            ->users()
+            ->where('name', 'like', '%' . $term . '%')
+            ->get();
     }
 }
