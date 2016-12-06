@@ -2,6 +2,7 @@
 
 use Auth;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 use App\Helpers;
 use App\Account;
@@ -186,6 +187,13 @@ class Content extends Model
     public function __toString()
     {
         return $this->title;
+    }
+
+    public function getDueDateDiffAttribute()
+    {
+        $carbonObject = new Carbon($this->due_date);
+
+        return $carbonObject->diffForHumans();
     }
 
     public static function search($term, $account = null)

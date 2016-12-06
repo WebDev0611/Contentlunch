@@ -5,12 +5,16 @@
             {{ $content->title }}
         </h5>
         <span class="dashboard-tasks-text">
-            Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...
+            {!! $content->body !!}
         </span>
         <ul class="dashboard-tasks-list">
-            <li>DUE IN: <strong>2 DAYS</strong></li>
+            <li>DUE IN:
+                <strong>{{ strtoupper($content->dueDateDiff) }}</strong>
+            </li>
             <li>
-                <a href="#"><strong>Edit Content</strong></a>
+                <a href="{{ route('editContent', $content) }}">
+                    <strong>Edit Content</strong>
+                </a>
             </li>
         </ul>
     </div>
