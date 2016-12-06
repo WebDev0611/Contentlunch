@@ -30,7 +30,7 @@ class SearchController extends Controller
         $searchTerm = $request->input('search');
 
         $data = [
-            'contents' => $this->searchContent($searchTerm),
+            'contents' => Content::search($searchTerm, $this->selectedAccount),
             'users' => $this->searchUsers($searchTerm),
             'tasks' => $this->searchTasks($searchTerm),
             'ideas' => $this->searchIdeas($searchTerm),

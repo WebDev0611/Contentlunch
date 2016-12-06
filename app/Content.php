@@ -4,6 +4,7 @@ use Auth;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Helpers;
+use App\Account;
 
 class Content extends Model
 {
@@ -185,6 +186,15 @@ class Content extends Model
     public function __toString()
     {
         return $this->title;
+    }
+
+    public static function search($searchTerm, $account)
+    {
+        return $account
+            ->contents()
+            ->where('title', 'like', '%' . $term . '%')
+            ->orWhere('body', 'like', '%' . $term . '%')
+            ->get();
     }
 
 }
