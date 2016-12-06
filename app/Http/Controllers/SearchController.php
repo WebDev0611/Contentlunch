@@ -35,6 +35,7 @@ class SearchController extends Controller
             'tasks' => Task::search($searchTerm, $this->selectedAccount),
             'ideas' => Idea::search($searchTerm, $this->selectedAccount),
             'searchTerm' => $searchTerm,
+            'selectedAccount' => $this->selectedAccount,
         ];
 
         return view('search.index', $data);

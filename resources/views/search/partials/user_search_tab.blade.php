@@ -13,7 +13,9 @@
                 </span>
                 <ul class="dashboard-tasks-list">
                     <li>
-                        <a href="{{ route('inviteUser', $user) }}"><strong>Invite User</strong></a>
+                        <a href="{{ route('inviteUser', $user) }}">
+                            <strong>Invite User to {{ $selectedAccount->name }}</strong>
+                        </a>
                     </li>
                 </ul>
             </div>
