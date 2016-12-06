@@ -33,6 +33,8 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         parent::setUp();
         Artisan::call('migrate');
         Artisan::call('db:seed', [ '--class' => 'AccountTypeSeeder' ]);
+        Artisan::call('db:seed', [ '--class' => 'ContentTypeTableSeeder' ]);
         Artisan::call('db:seed', [ '--class' => 'UsersTableSeeder' ]);
+        Artisan::call('db:seed', [ '--class' => 'ProviderTableSeeder' ]);
     }
 }
