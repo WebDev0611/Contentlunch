@@ -31,10 +31,11 @@ class WordPressAPI
     public function baseUrl()
     {
         $settings = $this->settings();
-
-        return $settings ?
+        $url = $settings ?
             $this->base_url . 'sites/' . $settings->blog_url :
             $this->base_url . 'sites/';
+
+        return rtrim($url, '/');
     }
 
     public function settings()
