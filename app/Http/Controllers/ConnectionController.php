@@ -171,4 +171,24 @@ class ConnectionController extends Controller
         Session::forget('redirect_route');
         Session::forget('facebook_view');
     }
+
+    public function delete(Request $request, Connection $connection)
+    {
+        $selectedAccount = Account::selectedAccount();
+
+        if ($connection->belongsToAccount($selectedAccount)) {
+            $connection->delete();
+            $flashMessage = 'You have successfully disconnected ' . $connection->name . '.';
+            $flashMessageType = 'success';
+        } else {
+            $flashMessage = 'Your account does not have access to the connection ' . $connection->name . '.';
+            $flashMessageType = 'danger';
+        }
+
+        return redirect()->route('connectionIndex')->with([
+            'flash_message' => $flashMessage,
+            'flash_message_type' => $flashMessageType,
+            'flash_message_important' => true,
+        ]);
+    }
 }

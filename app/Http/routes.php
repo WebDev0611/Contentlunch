@@ -20,6 +20,7 @@ Route::model('account', 'App\Account');
 Route::model('buyingStage', 'App\BuyingStage');
 Route::model('user', 'App\User');
 Route::model('writerAccessPartialOrder', 'App\WriterAccessPartialOrder');
+Route::model('connection', 'App\Connection');
 
 /* Login/Logout */
 /*Route::get('login', 'AuthController@login');
@@ -167,6 +168,7 @@ Route::group(['prefix' => 'settings'], function() {
     // Connection Routes
     Route::get('connections', ['as' => 'connectionIndex', 'uses' => 'SettingsController@connections']);
     Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'ConnectionController@store'] );
+    Route::delete('connections/{connection}', [ 'as' => 'deactivateConnection', 'uses' => 'ConnectionController@delete' ]);
 
     Route::get('seo', ['as' => 'seoIndex', 'uses' =>'SettingsController@seo']);
 

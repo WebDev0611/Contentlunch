@@ -74,4 +74,9 @@ class Connection extends Model {
     {
         return $this->name;
     }
+
+    public function belongsToAccount(\App\Account $account)
+    {
+        return $this->account_id == $account->id;
+    }
 }
