@@ -15,7 +15,7 @@
             Connect
         </a>
         @else
-        <div class="button button-connected button-small">Connected</div>
+            <div class="button button-connected button-small">Connected</div>
         @endif
     </div>
 </div>

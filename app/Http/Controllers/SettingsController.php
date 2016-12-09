@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use View;
 use App\Account;
 use App\Http\Requests\AccountSettings\AccountSettingsRequest;
 use App\Country;
@@ -17,7 +16,7 @@ class SettingsController extends Controller
         $user = Auth::user();
         $countries = Country::dropdown();
 
-        return View::make('settings.index', compact('user', 'countries'));
+        return view('settings.index', compact('user', 'countries'));
     }
 
     public function update(AccountSettingsRequest $request)
@@ -59,7 +58,7 @@ class SettingsController extends Controller
     {
         $user = Auth::user();
 
-        return View::make('settings.content', compact('user'));
+        return view('settings.content', compact('user'));
     }
 
     public function connections()
@@ -72,7 +71,7 @@ class SettingsController extends Controller
 
         $connectiondd = ['' => '-- Select One --'] + $this->providerDropdown();
 
-        return View::make('settings.connections', compact(
+        return view('settings.connections', compact(
             'user',
             'account',
             'connectiondd',
@@ -95,13 +94,13 @@ class SettingsController extends Controller
     {
         $user = Auth::user();
 
-        return View::make('settings.seo', compact('user'));
+        return view('settings.seo', compact('user'));
     }
 
     public function buying()
     {
         $user = Auth::user();
 
-        return View::make('settings.buying', compact('user'));
+        return view('settings.buying', compact('user'));
     }
 }

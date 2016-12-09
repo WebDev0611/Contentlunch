@@ -50,6 +50,14 @@ class AuthController extends Controller
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
+    public function logout()
+    {
+        Auth::guard($this->getGuard())->logout();
+        Session::flush();
+
+        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
