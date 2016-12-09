@@ -3,6 +3,8 @@
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Account;
+
 class Connection extends Model {
 
     protected $hidden = [ 'created_at', 'updated_at' ];
@@ -60,7 +62,8 @@ class Connection extends Model {
     {
         // - Create Connections Drop Down Data
         $connectionsdd = ['' => '-- Select Destination --'];
-        $connectionsdd += Connection::select('id','name')
+        $connectionsdd += Account::selectedAccount()->connections()
+            ->select('id','name')
             ->where('active',1)
             ->orderBy('name', 'asc')
             ->distinct()
