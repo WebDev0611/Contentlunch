@@ -67,8 +67,7 @@ class TrendsController extends Controller
         }
 
 
-        echo json_encode( $output );
-        exit;
+        return response()->json( $output );
     }
 
     /**
