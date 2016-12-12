@@ -32,6 +32,11 @@ class WriterAccessPartialOrder extends Model
         return $this->belongsTo('App\WriterAccessAssetType', 'asset_type_id', 'writer_access_id');
     }
 
+    public function uploads()
+    {
+        return $this->hasMany('App\WriterAccessUpload', 'writer_access_partial_order_id');
+    }
+
     public function getPriceAttribute()
     {
         $price = WriterAccessPrice::where('asset_type_id', $this->asset_type_id)
