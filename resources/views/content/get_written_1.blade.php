@@ -64,6 +64,27 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="form-delimiter">
+                                <span>
+                                    <em>Attachments</em>
+                                </span>
+                            </div>
+
+                            {{-- @if (isset($content))
+                            <div class="input-form-group">
+                                <ul>
+                                    @foreach ($files as $file)
+                                    <li><a href="{{ $file->filename }}">{{ $file->name }}</a></li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif --}}
+
+                            <div class="input-form-group">
+                                <div class="dropzone" id='attachment-uploader'>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -80,4 +101,24 @@
         </div>
     </div>
 </div>
+@stop
+
+@section('scripts')
+<script type='text/javascript'>
+    (function() {
+
+        var fileUploader = new Dropzone('#image-uploader', { url: '/edit/images' });
+
+        fileUploader.on('success', function(file, response) {
+            var hiddenField = $('<input/>', {
+                name: 'images[]',
+                type: 'hidden',
+                value: response.file
+            });
+
+            hiddenField.appendTo($('form'));
+        });
+
+    })();
+</script>
 @stop
