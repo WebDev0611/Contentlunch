@@ -203,33 +203,46 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		var long_tail_results = new long_tail_collection();
 		var short_tail_results = new short_tail_collection();
 
+		var sf = function(r){
+			if( r.keyword.split(' ').length <= 3 ){
+				return true;
+			}else{
+				return false;
+			}
+		};
+		var lf = function(r){
+			if( r.keyword.split(' ').length >= 2 ){
+				return true;
+			}else{
+				return false;
+			}
+		};
+		var v_sort = function(a,b){
+			return b.volume - a.volume;
+		};
 		var map_result = function(m){
 			return {keyword: m.keyword,volume: m.volume};
 		};
 
 		var get_topic_data = function(term = ''){
-			var short_obj = {terms: 'short'};
-			var long_obj = {terms: 'long'};
+			var search_obj = {};
 
-			if(term.length > 2){
-				short_obj.keyword = term;
-				long_obj.keyword = term;
+			if(term.length > 3){
+				var ldIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
+				$('span.input-form-button-action').append(ldIMG);
+				search_obj.keyword = term;
+			
+
+				$.getJSON('/topics',search_obj,function(res){
+					$('span.input-form-button-action img').remove();
+
+					var lt = res.results.filter(lf).map(map_result).sort(v_sort);
+					var st = res.results.filter(sf).map(map_result).sort(v_sort);
+
+					short_tail_results.add(st);
+					long_tail_results.add(lt);
+				});
 			}
-
-			$.getJSON('/topics',short_obj,function(res){
-				var topic_objs = res.results.map(map_result).sort(function(a,b){
-					return b.volume - a.volume;
-				});
-				short_tail_results.add(topic_objs);
-			});
-
-			$.getJSON('/topics',long_obj,function(res){
-				var topic_objs = res.results.map(map_result).sort(function(a,b){
-					return b.volume - a.volume;
-				});
-				
-				long_tail_results.add(topic_objs);
-			});
 		};
 
 		$('#topic-search').click(function(){
@@ -271,7 +284,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 		// long_tail_results.add(dummy_data_long);
 		// short_tail_results.add(dummy_data_short);
-		get_topic_data();
+		//get_topic_data();
 
 		//task method
 		//runs the action to submit the task
