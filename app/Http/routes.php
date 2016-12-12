@@ -18,7 +18,9 @@ Route::model('invite', 'App\AccountInvite');
 Route::model('persona', 'App\Persona');
 Route::model('account', 'App\Account');
 Route::model('buyingStage', 'App\BuyingStage');
+Route::model('user', 'App\User');
 Route::model('writerAccessPartialOrder', 'App\WriterAccessPartialOrder');
+Route::model('connection', 'App\Connection');
 
 /* Login/Logout */
 /*Route::get('login', 'AuthController@login');
@@ -32,7 +34,6 @@ Route::get('/', [
     'uses' => 'HomeController@index'
 ]);
 
-
 /**
  * Onboarding process
  */
@@ -42,6 +43,7 @@ Route::post('signup/photo_upload', 'OnboardingController@signupPhotoUpload');
 
 Route::get('invite', [ 'as' => 'inviteIndex', 'uses' =>'OnboardingInviteController@invite' ]);
 Route::post('invite/emails', [ 'as' => 'emailInvite', 'uses' => 'OnboardingInviteController@emailInvite' ]);
+Route::get('invite/{user}', [ 'as' => 'inviteUser', 'uses' => 'OnboardingInviteController@inviteUser' ]);
 
 Route::get('connect', [ 'as' => 'onboardingConnect', 'uses' => 'OnboardingController@connect' ]);
 
@@ -76,7 +78,7 @@ Route::resource('/trending', 'TrendsController@trending');
 Route::resource('/influencers', 'InfluencersController@search');
 Route::resource('/topics', 'TopicsController@index');
 
-Route::get('/idea/{id}','PlanController@editor');
+Route::get('/idea/{id}', [ 'as' => 'ideaEditor', 'uses' => 'PlanController@editor' ]);
 Route::post('/idea/park','IdeaController@park');
 Route::post('/idea/update/{id}','IdeaController@update');
 Route::post('/idea/reject/{id}','IdeaController@reject');
@@ -105,7 +107,7 @@ Route::get('/campaigns','CalendarController@campaigns');
 
 Route::resource('/task/add','TaskController@store');
 Route::post('task/attachments', 'TaskAttachmentsController@store');
-Route::get('task/show/{id}', 'TaskController@show');
+Route::get('task/show/{id}', [ 'as' => 'taskShow', 'uses' => 'TaskController@show' ]);
 Route::post('task/update/{id}', 'TaskController@update');
 Route::post('task/close/{id}', 'TaskController@close');
 
@@ -166,6 +168,7 @@ Route::group(['prefix' => 'settings'], function() {
     // Connection Routes
     Route::get('connections', ['as' => 'connectionIndex', 'uses' => 'SettingsController@connections']);
     Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'ConnectionController@store'] );
+    Route::delete('connections/{connection}', [ 'as' => 'deactivateConnection', 'uses' => 'ConnectionController@delete' ]);
 
     Route::get('seo', ['as' => 'seoIndex', 'uses' =>'SettingsController@seo']);
 
@@ -230,3 +233,5 @@ Route::group(['prefix' => 'twitter'], function() {
  * AJAX Helpers
  */
 Route::get('/api/connections', [ 'as' => 'connectionAjaxIndex', 'uses' => 'ConnectionController@index' ]);
+
+Route::post('/search', [ 'as' => 'searchIndex', 'uses' => 'SearchController@index' ]);

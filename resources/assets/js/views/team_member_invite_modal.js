@@ -27,8 +27,28 @@ var teamMemberInviteModalView = Backbone.View.extend({
             url: '/invite/emails',
             data: {
                 emails: emails
-            }
-        });
+            },
+        })
+        .then(this.hideModal.bind(this))
+        .then(this.showFeedback.bind(this));
     },
+
+    hideModal: function(response) {
+        this.$el.modal('hide');
+    },
+
+    showFeedback: function(response) {
+        var alert = "<div class='alert alert-success alert-forms' id='dashboard-feedback' style='display:none'>" +
+            "Invites sent!" +
+        "</div>";
+
+        $('#dashboard-feedback').remove();
+        $(alert).prependTo('.workspace .container-fluid');
+        $('#dashboard-feedback').slideDown();
+
+        setTimeout(function() {
+            $('#dashboard-feedback').slideUp();
+        }, 3000);
+    }
 
 });

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Provider;
 
 class ProviderTableSeeder extends Seeder
 {
@@ -12,49 +11,194 @@ class ProviderTableSeeder extends Seeder
      */
     public function run()
     {
-        Provider::truncate();
-
-        $providersArray = [
-            ['Wordpress', 'wordpress', 'blog', 'WordPressAPI'],
-            ['Linkedin', 'linkedin', 'website',''],
-            ['Hubspot', 'hubspot', 'website',''],
-            ['Act-on', 'act-on', 'website',''],
-            ['Facebook', 'facebook', 'website','FacebookAPI'],
-            ['Twitter', 'twitter', 'website', 'TwitterAPI'],
-            ['YouTube', 'youtube', 'website',''],
-            ['Outbrain', 'outbrain', 'website',''],
-            ['Dropbox', 'dropbox', 'website',''],
-            ['Google Drive', 'google-drive', 'website',''],
-            ['Slideshare', 'slideshare', 'website',''],
-            ['Tumblr', 'tumblr', 'website',''],
-            ['Google+', 'google+', 'website',''],
-            ['Soundcloud', 'soundcloud', 'website',''],
-            ['Blogger', 'blogger', 'website',''],
-            ['Google Analytics', 'google-analytics', 'website',''],
-            ['Drupal', 'drupal', 'website',''],
-            ['Salesforce', 'salesforce', 'website',''],
-            ['Nimble', 'nimble', 'website',''],
-            ['Hootsuite', 'hootsuite', 'website',''],
-            ['ReadyTalk', 'readytalk', 'website',''],
-            ['Constant Contact', 'constant-contact', 'website',''],
-            ['Mailchimp', 'mailchimp', 'website',''],
-            ['Exact Target', 'exact-target', 'website',''],
-            ['Vertical Response', 'vertical-response', 'website',''],
-            ['Marketo', 'Marketo', 'website',''],
-            ['Eloqua', 'Eloqua', 'website',''],
-            ['Joomla', 'joomla', 'website',''],
-            ['SmartShoot', 'smartshoot', 'website',''],
-            ['SharpSpring', 'sharpspring', 'website',''],
-            ['Orbtr', 'orbtr', 'website','']
-        ];
-
-        foreach ($providersArray as $data) {
-              $pro = new Provider;
-              $pro->name = $data[0];
-              $pro->slug = $data[1];
-              $pro->type = $data[2];
-              $pro->class_name = $data[3];
-              $pro->save();
-        }
+        DB::table('providers')->truncate();
+        DB::table('providers')->insert([
+            [
+                'name' => 'Wordpress',
+                'slug' => 'wordpress',
+                'type' => 'blog',
+                'class_name' => 'WordPressAPI'
+            ],
+            [
+                'name' => 'Linkedin',
+                'slug' => 'linkedin',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Hubspot',
+                'slug' => 'hubspot',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Act-on',
+                'slug' => 'act-on',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Facebook',
+                'slug' => 'facebook',
+                'type' => 'website',
+                'class_name' => 'FacebookAPI'
+            ],
+            [
+                'name' => 'Twitter',
+                'slug' => 'twitter',
+                'type' => 'website',
+                'class_name' => 'TwitterAPI'
+            ],
+            [
+                'name' => 'YouTube',
+                'slug' => 'youtube',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Outbrain',
+                'slug' => 'outbrain',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Dropbox',
+                'slug' => 'dropbox',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Google Drive',
+                'slug' => 'google-drive',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Slideshare',
+                'slug' => 'slideshare',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Tumblr',
+                'slug' => 'tumblr',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Google+',
+                'slug' => 'google+',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Soundcloud',
+                'slug' => 'soundcloud',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Blogger',
+                'slug' => 'blogger',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Google Analytics',
+                'slug' => 'google-analytics',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Drupal',
+                'slug' => 'drupal',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Salesforce',
+                'slug' => 'salesforce',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Nimble',
+                'slug' => 'nimble',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Hootsuite',
+                'slug' => 'hootsuite',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'ReadyTalk',
+                'slug' => 'readytalk',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Constant Contact',
+                'slug' => 'constant-contact',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Mailchimp',
+                'slug' => 'mailchimp',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Exact Target',
+                'slug' => 'exact-target',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Vertical Response',
+                'slug' => 'vertical-response',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Marketo',
+                'slug' => 'Marketo',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Eloqua',
+                'slug' => 'Eloqua',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Joomla',
+                'slug' => 'joomla',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'SmartShoot',
+                'slug' => 'smartshoot',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'SharpSpring',
+                'slug' => 'sharpspring',
+                'type' => 'website',
+                'class_name' => ''
+            ],
+            [
+                'name' => 'Orbtr',
+                'slug' => 'orbtr',
+                'type' => 'website',
+                'class_name' => ''
+            ]
+        ]);
     }
 }

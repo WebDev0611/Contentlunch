@@ -10,6 +10,7 @@ use Auth;
 use App\Http\Requests\emailInviteRequest;
 use App\AccountInvite;
 use App\Account;
+use App\User;
 
 class OnboardingInviteController extends Controller
 {
@@ -68,5 +69,17 @@ class OnboardingInviteController extends Controller
         ]);
 
         return route('signupWithInvite', $accountInvite);
+    }
+
+    public function inviteUser(Request $request, User $user)
+    {
+        $account = Account::selectedAccount();
+        $this->sendInvite($user->email);
+
+        return redirect()->route('dashboard')->with([
+            'flash_message' => 'An invite has been sent to ' . $user->name . ' to join the account ' . $account->name . '.',
+            'flash_message_type' => 'success',
+            'flash_message_important' => true
+        ]);
     }
 }

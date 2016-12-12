@@ -13,7 +13,7 @@ class AddProfileImageColumn extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('profile_image')->after('password');
+            $table->string('profile_image')->after('password')->nullable();
         });
     }
 

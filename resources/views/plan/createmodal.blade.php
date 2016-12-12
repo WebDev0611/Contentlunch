@@ -9,8 +9,8 @@
                 </div>
             </div>
             <div class="col-md-6 text-right" id="idea-menu">
-                <button type="button" class="button button-outline-primary button-small park-idea">PARK</button>
                 <button class="button button-primary button-small text-uppercase save-idea">Save</button>
+                <button type="button" class="button button-outline-primary button-small park-idea">PARK</button>
                 <button class="sidemodal-close normal-flow" data-dismiss="modal">
                     <i class="icon-remove"></i>
                 </button>

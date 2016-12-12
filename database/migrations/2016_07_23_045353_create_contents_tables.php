@@ -45,7 +45,7 @@ class CreateContentsTables extends Migration
         Schema::create('content_types', function ($table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->default('');
             $table->integer('provider_id')->unsigned(); // not negitive
             $table->timestamps();
         });

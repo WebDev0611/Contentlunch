@@ -36,15 +36,17 @@
             </div>
 
             <div class="col-md-5">
-                <input type="text" class="search-bar-input" placeholder="Search anything (content, user, rating...)">
+                @include('elements.searchbar-form-field')
             </div>
         @else
             <div class="col-md-8">
-                <input type="text" class="search-bar-input" placeholder="Search anything (content, user, rating...)">
+                @include('elements.searchbar-form-field')
             </div>
         @endif
 
         <div class="col-md-4 text-right">
+            <a href="https://contentlaunch.uservoice.com/" class="support-icon icon-question" title="Support" target="_blank"''>
+            </a>
             <button class="search-bar-button-primary btn-create">
                 Create
                 {{-- <span class="caret"></span> --}}

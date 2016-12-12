@@ -1,0 +1,22 @@
+//------------------------------
+// *****************************
+// Search Results Page
+// *****************************
+//------------------------------
+
+.search-item {
+    border-bottom: 1px solid #e6e9f1;
+    margin: 0 -30px 20px -30px;
+    padding: 0 30px 20px 30px;
+
+    &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+}
+
+.search-item-img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+}
