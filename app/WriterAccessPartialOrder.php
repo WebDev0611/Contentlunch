@@ -95,21 +95,21 @@ class WriterAccessPartialOrder extends Model
 
     private function createInstructions()
     {
+        $instructions = "$this->instructions \n" .
+            "\nTarget Audience: \n$this->target_audience\n" .
+            "\nTone of Writing: \n$this->tone_of_writing\n" .
+            "\nNarrative Voice: \n$this->narrative_voice\n" .
+            "\nAttachments: \n$this->attachments";
+
         if (getenv('APP_ENV') == 'local') {
-
-            return "Please ignore this order. \n" .
-                "$this->instructions \n" .
-                "\nTarget Audience: \n$this->target_audience\n" .
-                "\nTone of Writing: \n$this->tone_of_writing\n" .
-                "\nNarrative Voice: \n$this->narrative_voice\n";
-
-        } else {
-
-            return "$this->instructions \n" .
-                "\nTarget Audience: \n$this->target_audience\n" .
-                "\nTone of Writing: \n$this->tone_of_writing\n" .
-                "\nNarrative Voice: \n$this->narrative_voice\n";
-
+            $instructions = "Please ignore this order. \n" . $instructions;
         }
+
+        return $instructions;
+    }
+
+    public function getAttachmentsAttribute()
+    {
+        return $this->uploads->pluck('file_path')->implode("\n");
     }
 }

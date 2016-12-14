@@ -7,7 +7,9 @@ use Validator;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Charge;
+use Storage;
 
+use App\Helpers;
 use App\Http\Requests;
 use App\WriterAccessPartialOrder;
 
@@ -33,7 +35,6 @@ class WriterAccessPartialOrderController extends Controller
     {
         return view('content.get_written_3', compact('order'));
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -118,10 +119,30 @@ class WriterAccessPartialOrderController extends Controller
     private function updateOrder($orderId, array $data)
     {
         $order = WriterAccessPartialOrder::find($orderId);
+
+        if (collect($data)->has('attachments')) {
+            foreach ($data['attachments'] as $fileUrl) {
+                $newUrl = $this->moveFileToUserFolder($fileUrl, Helpers::userFilesFolder());
+                $order->uploads()->create([
+                    'file_path' => $newUrl
+                ]);
+            }
+        }
+
         $order->update($data);
         $order->save();
 
         return $order;
+    }
+
+    private function moveFileToUserFolder($fileUrl, $userFolder)
+    {
+        $fileName = substr(strstr($fileUrl, '_tmp/'), 5);
+        $newPath = $userFolder.$fileName;
+        $s3Path = Helpers::s3Path($fileUrl);
+        Storage::move($s3Path, $newPath);
+
+        return Storage::url($newPath);
     }
 
     private function validateCurrentStep(Request $request)

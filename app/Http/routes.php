@@ -209,10 +209,7 @@ Route::group(['prefix' => 'writeraccess'], function() {
         'uses' => 'WriterAccessPartialOrderController@orderSetup'
     ]);
 
-    Route::post('partials/upload/{writerAccessPartialOrder}', [
-        'as' => 'orderUpload',
-        'uses' => 'WriterAccessPartialOrderController@orderUpload'
-    ]);
+    Route::post('partials/upload/{writerAccessPartialOrder}', 'WriterAccessUploadController@store');
 
     Route::get('partials/order_audience/{writerAccessPartialOrder}', [
         'as' => 'orderAudience',
