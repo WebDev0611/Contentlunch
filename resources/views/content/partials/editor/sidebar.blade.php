@@ -44,15 +44,15 @@
         <li>
             <a href="#sidetab-guests" data-toggle="tab">Guests</a>
         </li>
+        --}}
         <li class="tablink">
             <a href="#" class="btn button-text"><i class="icon-add-person"></i></a>
         </li>
-        --}}
     </ul>
 </div>
 
 
-<div class="tab-content hide">
+<div class="tab-content">
     <!-- Tab 1: Collaborators -->
     <div class="sidepanel nopadding tab-pane active" id="sidetab-collaborators">
         @include('content.partials.editor.sidebar_collaborators')

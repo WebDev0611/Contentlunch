@@ -1,78 +1,21 @@
 <div class="sidepanel-body">
     <div class="pane-users">
         <ul class="list-unstyled list-users">
-            <li>
-                <a href="#">
-                    <div class="user-avatar">
-                        <img src="/images/avatar.jpg" alt="#">
-                    </div>
-                    <p class="title">Jason Simmons</p>
-                    <p class="email">jasonsimm@google.com</p>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="user-avatar">
-                        <img src="/images/avatar.jpg" alt="#">
-                    </div>
-                    <p class="title">Emily Blunt</p>
-                    <p class="email">emilyblunt@yahoo.com</p>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="user-avatar">
-                        <img src="/images/avatar.jpg" alt="#">
-                    </div>
-                    <p class="title">Johan Rostock</p>
-                    <p class="email">jrock@google.com</p>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="user-avatar">
-                        <img src="/images/avatar.jpg" alt="#">
-                    </div>
-                    <p class="title">Annie Sox</p>
-                    <p class="email">asox@yahoo.com</p>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="user-avatar">
-                        <img src="/images/avatar.jpg" alt="#">
-                    </div>
-                    <p class="title">Jason Simmons</p>
-                    <p class="email">jasonsimm@google.com</p>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="user-avatar">
-                        <img src="/images/avatar.jpg" alt="#">
-                    </div>
-                    <p class="title">Emily Blunt</p>
-                    <p class="email">emilyblunt@yahoo.com</p>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="user-avatar">
-                        <img src="/images/avatar.jpg" alt="#">
-                    </div>
-                    <p class="title">Johan Rostock</p>
-                    <p class="email">jrock@google.com</p>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="user-avatar">
-                        <img src="/images/avatar.jpg" alt="#">
-                    </div>
-                    <p class="title">Annie Sox</p>
-                    <p class="email">asox@yahoo.com</p>
-                </a>
-            </li>
+            @foreach ($content->authors as $author)
+                <li>
+                    <a href="#">
+                        <div class="user-avatar">
+                            @if ($author->profile_image)
+                                <img src="{{ $author->profile_image }}" alt="#">
+                            @else
+                                <img src="/images/avatar.jpg" alt="#">
+                            @endif
+                        </div>
+                        <p class="title">{{ $author->name }}</p>
+                        <p class="email">{{ $author->email }}</p>
+                    </a>
+                </li>
+            @endforeach
         </ul>
     </div>
 </div>
