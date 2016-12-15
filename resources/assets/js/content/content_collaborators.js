@@ -1,5 +1,8 @@
 (function() {
 
+    /**
+     * Models and data
+     */
     var fakeData = [
         {
             name: 'Admin',
@@ -30,12 +33,57 @@
         },
     });
 
+    /**
+     * Views
+     */
     var CollaboratorView = Backbone.View.extend({
         template: _.template($('#sidebar-collaborator-view').html()),
         tagName: 'li',
         render: function() {
             this.$el.html(this.template(this.model.toJSON()));
             return this;
+        },
+    });
+
+    var SidebarView = Backbone.View.extend({
+        events: {
+            'click #add-person-to-content': 'openAddPersonModal',
+        },
+
+        initialize: function() {
+            this.render();
+        },
+        render: function() {
+            return this;
+        },
+
+        openAddPersonModal: function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var modal = new AddCollaboratorModalView();
+            modal.render();
+            $('body').prepend(modal.el);
+            modal.showModal();
+        },
+    });
+
+    new SidebarView({ el: '#editor-panel-sidebar' });
+
+    var AddCollaboratorModalView = Backbone.View.extend({
+        template: _.template($('#sidebar-collaborator-modal-view').html()),
+
+        initialize: function() {
+            this.render();
+        },
+
+        render: function() {
+            this.$el.html(this.template());
+            this.$el.on('hidden.bs.modal', this.remove.bind(this));
+            return this;
+        },
+
+        showModal: function() {
+            this.$el.find('.modal').modal('show');
         },
     });
 

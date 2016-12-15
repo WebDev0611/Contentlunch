@@ -490,7 +490,7 @@
             </div> <!-- End Main Pane -->
 
             <!-- Side Pane -->
-            <aside class="panel-sidebar">
+            <aside class="panel-sidebar" id='editor-panel-sidebar'>
                 @include('content.partials.editor.sidebar')
             </aside> <!-- End Side Pane -->
 

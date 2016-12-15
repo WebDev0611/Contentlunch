@@ -15,7 +15,6 @@
     </ul>
 </div>
 
-
 <div class="tab-content">
     <!-- Content Task Panel -->
     <div role="tabpanel" class="sidepanel tab-pane" id="sidetab-tasks">
@@ -33,7 +32,6 @@
     </div>
 </div>
 
-
 <!-- Collaborators / Guests tabs -->
 <div class="sidepanel-head">
     <ul class="panel-tabs withborder withtopborder">
@@ -46,7 +44,7 @@
         </li>
         --}}
         <li class="tablink">
-            <a href="#" class="btn button-text"><i class="icon-add-person"></i></a>
+            <a href="#" id='add-person-to-content' class="btn button-text"><i class="icon-add-person"></i></a>
         </li>
     </ul>
 </div>
