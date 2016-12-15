@@ -18,7 +18,10 @@
 
 <script type='text/template' id='sidebar-collaborator-checkbox'>
     <label class="checkbox-tag">
-        <input type="checkbox">
+        <input type="checkbox"
+            <% if (is_collaborator) { %>
+            checked=checked
+            <% } %>>
         <span><%= name %> (<%= email %>)</span>
     </label>
 </script>
