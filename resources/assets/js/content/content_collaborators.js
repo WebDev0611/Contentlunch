@@ -87,20 +87,8 @@
             users: []
         },
 
-        fetchData: function() {
-            $.ajax({
-                method: 'get',
-                url: '/api/contents/' + contentId + '/collaborators',
-                headers: getCSRFHeader(),
-            })
-            .then(function(response) {
-                this.data.users = response.data;
-                this.data.isLoading = false;
-                this.renderCheckboxes();
-            }.bind(this));
-        },
-
         initialize: function() {
+            this.clearList();
             this.render();
             this.fetchData();
         },
@@ -110,9 +98,41 @@
             return this;
         },
 
+        getList: function() {
+            return this.$el.find('.collaborators-list');
+        },
+
+        fetchData: function() {
+            this.addLoadingGif();
+
+            $.ajax({
+                method: 'get',
+                url: '/api/contents/' + contentId + '/collaborators',
+                headers: getCSRFHeader(),
+            })
+            .then(function(response) {
+                this.clearList();
+                this.data.users = response.data;
+                this.data.isLoading = false;
+                this.renderCheckboxes();
+            }.bind(this));
+        },
+
+        clearList: function() {
+            // this.getList().html('');
+        },
+
+        addLoadingGif: function() {
+            var loadingGIF = $('<img>', {
+                class: 'loading-relative',
+                src: '/images/ring.gif',
+            });
+
+            this.getList().append(loadingGIF);
+        },
+
         renderCheckboxes: function() {
-            var collaboratorsList = this.$el.find('.collaborators-list');
-            console.log(this.data);
+            var collaboratorsList = this.getList();
 
             this.data.users.forEach(function(user) {
                 var userCheckbox = new CollaboratorModalView({

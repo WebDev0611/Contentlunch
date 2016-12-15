@@ -20,9 +20,12 @@
     <label class="checkbox-tag">
         <input type="checkbox"
             <% if (is_collaborator) { %>
-            checked=checked
+                checked=checked
+            <% } %>
+            <% if (is_logged_user) { %>
+                disabled="disabled"
             <% } %>>
-        <span><%= name %> (<%= email %>)</span>
+        <span><%= name %></span>
     </label>
 </script>
 
@@ -43,12 +46,7 @@
                                 Select the users you want to collaborate with.
                             </p>
                             <div class="collaborators-list">
-                                <% _.each(users, function(user) { %>
-                                <label class="checkbox-tag">
-                                    <input type="checkbox">
-                                    <span><%= user.name %> (<%= user.email %>)</span>
-                                </label>
-                                <% }); %>
+
                             </div>
                             <!--
                             <div class="form-group text-center">
