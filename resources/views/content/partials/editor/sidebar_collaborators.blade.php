@@ -34,33 +34,28 @@
                                 click launch and they go out in real time to be published.
                                 Need a “confirmation” screen as well.
                             </p>
-                            <label for="dieselEngines1" class="checkbox-tag">
-                                <input id="dieselEngines1" type="checkbox">
-                                <span>Dwight’s Twitter Feed</span>
+                            <% _.each(users, function(user) { %>
+                            <label class="checkbox-tag">
+                                <input type="checkbox">
+                                <span><%= user.name %> (<%= user.email %>)</span>
                             </label>
-                            <label for="dieselEngines1" class="checkbox-tag">
-                                <input id="dieselEngines1" type="checkbox">
-                                <span>Dwight’s Twitter Feed</span>
-                            </label>
-                            <label for="dieselEngines1" class="checkbox-tag">
-                                <input id="dieselEngines1" type="checkbox">
-                                <span>Dwight’s Twitter Feed</span>
-                            </label>
-                            <label for="dieselEngines1" class="checkbox-tag">
-                                <input id="dieselEngines1" type="checkbox">
-                                <span>Dwight’s Twitter Feed</span>
-                            </label>
+                            <% }); %>
+                            <!--
                             <div class="form-group text-center">
                                 <a href="#" class="link-gray">
                                     ADD NEW
                                     <i class="icon-add"></i>
                                 </a>
                             </div>
+                            -->
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
-                            <button class="button button-primary text-uppercase button-extend"  data-toggle="modal" data-target="#launchCompleted">LAUNCH</button>
+                            <button
+                                class="button button-primary text-uppercase button-extend invite-users"
+                                data-toggle="modal"
+                                data-target="#launchCompleted">Invite Users</button>
                         </div>
                     </div>
                 </div>

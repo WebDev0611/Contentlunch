@@ -71,13 +71,26 @@
 
     var AddCollaboratorModalView = Backbone.View.extend({
         template: _.template($('#sidebar-collaborator-modal-view').html()),
+        data: {
+            users: [
+                {
+                    name: 'Admin',
+                    email: 'admin@test.com',
+                    profile_image: 'https://s3.amazonaws.com/elasticbeanstalk-us-east-1-244315376647/attachment/1/profile/20161129_212514_administrator.jpg'
+                },
+                {
+                    name: 'John Wick',
+                    email: 'john@wick.com',
+                },
+            ]
+        },
 
         initialize: function() {
             this.render();
         },
 
         render: function() {
-            this.$el.html(this.template());
+            this.$el.html(this.template(this.data));
             this.$el.on('hidden.bs.modal', this.remove.bind(this));
             return this;
         },
