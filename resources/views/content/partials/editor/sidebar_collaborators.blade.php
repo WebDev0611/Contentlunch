@@ -30,9 +30,7 @@
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
                             <p class="text-gray text-center">
-                                Here are the 5 content connections you can push out to, check the ones you want, and
-                                click launch and they go out in real time to be published.
-                                Need a “confirmation” screen as well.
+                                Select the users you want to collaborate with.
                             </p>
                             <% _.each(users, function(user) { %>
                             <label class="checkbox-tag">
