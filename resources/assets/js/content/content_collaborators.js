@@ -3,6 +3,8 @@
     /**
      * Models and data
      */
+    var contentId = $('input[name=content_id]').val();
+
     var fakeData = [
         {
             name: 'Admin',
@@ -69,33 +71,62 @@
 
     new SidebarView({ el: '#editor-panel-sidebar' });
 
+    var CollaboratorModalView = Backbone.View.extend({
+        template: _.template($('#sidebar-collaborator-checkbox').html()),
+        tagName: 'div',
+        render: function() {
+            this.$el.html(this.template(this.model.toJSON()));
+            return this;
+        },
+    })
+
     var AddCollaboratorModalView = Backbone.View.extend({
         template: _.template($('#sidebar-collaborator-modal-view').html()),
         data: {
-            users: [
-                {
-                    name: 'Admin',
-                    email: 'admin@test.com',
-                    profile_image: 'https://s3.amazonaws.com/elasticbeanstalk-us-east-1-244315376647/attachment/1/profile/20161129_212514_administrator.jpg'
-                },
-                {
-                    name: 'John Wick',
-                    email: 'john@wick.com',
-                },
-            ]
+            isLoading: true,
+            users: []
+        },
+
+        fetchData: function() {
+            $.ajax({
+                method: 'get',
+                url: '/api/contents/' + contentId + '/collaborators',
+                headers: getCSRFHeader(),
+            })
+            .then(function(response) {
+                this.data.users = response.data;
+                this.data.isLoading = false;
+                this.renderCheckboxes();
+            }.bind(this));
         },
 
         initialize: function() {
             this.render();
+            this.fetchData();
         },
 
         render: function() {
             this.$el.html(this.template(this.data));
-            this.$el.on('hidden.bs.modal', this.remove.bind(this));
             return this;
         },
 
+        renderCheckboxes: function() {
+            var collaboratorsList = this.$el.find('.collaborators-list');
+            console.log(this.data);
+
+            this.data.users.forEach(function(user) {
+                var userCheckbox = new CollaboratorModalView({
+                    model: new CollaboratorModel(user)
+                });
+
+                userCheckbox.render();
+
+                collaboratorsList.append(userCheckbox.el);
+            });
+        },
+
         showModal: function() {
+            this.$el.on('hidden.bs.modal', this.remove.bind(this));
             this.$el.find('.modal').modal('show');
         },
     });

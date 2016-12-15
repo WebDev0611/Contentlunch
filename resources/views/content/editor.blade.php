@@ -13,6 +13,7 @@
                 @else
                     {{ Form::open(['url' => 'edit', 'files'=>'true']) }}
                 @endif
+                {{ Form::hidden('content_id', $content->id) }}
                 <!-- Panel Header -->
                 <div class="panel-header">
                     <div class="panel-options">

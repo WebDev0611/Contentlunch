@@ -16,7 +16,14 @@
     </a>
 </script>
 
-<script type='text/template' id='sidebar-collaborator-modal-view' style='display:none'>
+<script type='text/template' id='sidebar-collaborator-checkbox'>
+    <label class="checkbox-tag">
+        <input type="checkbox">
+        <span><%= name %> (<%= email %>)</span>
+    </label>
+</script>
+
+<script type='text/template' id='sidebar-collaborator-modal-view'>
     <div id="launch" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -32,12 +39,14 @@
                             <p class="text-gray text-center">
                                 Select the users you want to collaborate with.
                             </p>
-                            <% _.each(users, function(user) { %>
-                            <label class="checkbox-tag">
-                                <input type="checkbox">
-                                <span><%= user.name %> (<%= user.email %>)</span>
-                            </label>
-                            <% }); %>
+                            <div class="collaborators-list">
+                                <% _.each(users, function(user) { %>
+                                <label class="checkbox-tag">
+                                    <input type="checkbox">
+                                    <span><%= user.name %> (<%= user.email %>)</span>
+                                </label>
+                                <% }); %>
+                            </div>
                             <!--
                             <div class="form-group text-center">
                                 <a href="#" class="link-gray">
