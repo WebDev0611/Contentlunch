@@ -24,7 +24,7 @@
                     <button type="button" class="modal-close close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title">LAUNCH CONTENT</h4>
+                    <h4 class="modal-title">INVITE COLLABORATORS</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
