@@ -74,18 +74,21 @@ class Content extends Model
         }
     }
 
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
+
     public function authors()
     {
         return $this->belongsToMany('App\User');
     }
 
-    // tag linking
     public function tags()
     {
         return $this->belongsToMany('App\Tag');
     }
 
-    // holds images and files
     public function attachments()
     {
         return $this->hasMany('App\Attachment');
@@ -101,7 +104,6 @@ class Content extends Model
         return $this->belongsTo('App\Persona');
     }
 
-    // campaign
     public function campaign()
     {
         return $this->belongsTo('App\Campaign');
