@@ -27,6 +27,11 @@ class ContentCollaboratorsController extends Controller
 
     public function update(Request $request, Content $content)
     {
+        $content->authors()->detach();
+        $content->authors()->attach($request->input('authors'));
 
+        return response()->json([
+            'data' => Content::find($content->id)->authors()->get()
+        ]);
     }
 }
