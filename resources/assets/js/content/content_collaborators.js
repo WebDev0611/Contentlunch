@@ -27,11 +27,25 @@
         model: CollaboratorModel,
 
         populateList: function(data) {
-            this.add(data.map(this.createCollaboratorModel));
+            this.fetchData().then(function(response) {
+                this.add(response.data.map(this.createCollaboratorModel));
+            }.bind(this));
+        },
+
+        fetchData: function() {
+            return $.ajax({
+                method: 'get',
+                url: '/api/contents/' + contentId + '/collaborators',
+                headers: getCSRFHeader(),
+            });
         },
 
         createCollaboratorModel: function(collaborator) {
-            return new CollaboratorModel(collaborator);
+            return new CollaboratorModel({
+                name: collaborator.name,
+                profile_image: collaborator.profile_image || '/images/avatar.jpg',
+                email: collaborator.email,
+            });
         },
     });
 
@@ -180,6 +194,6 @@
         $('#sidebar-collaborator-list').append(result.el);
     });
 
-    collaborators.populateList(fakeData);
+    collaborators.populateList();
 
 })();
