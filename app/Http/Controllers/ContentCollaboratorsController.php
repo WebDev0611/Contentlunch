@@ -24,4 +24,9 @@ class ContentCollaboratorsController extends Controller
 
         return response()->json([ 'data' => $collaborators ]);
     }
+
+    public function update(Request $request, Content $content)
+    {
+
+    }
 }

@@ -235,5 +235,6 @@ Route::group(['prefix' => 'twitter'], function() {
  */
 Route::get('/api/connections', 'ConnectionController@index');
 Route::get('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@index');
+Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@update');
 
 Route::post('/search', [ 'as' => 'searchIndex', 'uses' => 'SearchController@index' ]);
