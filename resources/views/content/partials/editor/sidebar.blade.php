@@ -43,9 +43,11 @@
             <a href="#sidetab-guests" data-toggle="tab">Guests</a>
         </li>
         --}}
+        @if ($isCollaborator)
         <li class="tablink">
             <a href="#" id='add-person-to-content' class="btn button-text"><i class="icon-add-person"></i></a>
         </li>
+        @endif
     </ul>
 </div>
 
