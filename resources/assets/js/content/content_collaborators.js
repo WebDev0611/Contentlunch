@@ -5,18 +5,6 @@
      */
     var contentId = $('input[name=content_id]').val();
 
-    var fakeData = [
-        {
-            name: 'Admin',
-            email: 'admin@test.com',
-            profile_image: 'https://s3.amazonaws.com/elasticbeanstalk-us-east-1-244315376647/attachment/1/profile/20161129_212514_administrator.jpg'
-        },
-        {
-            name: 'John Wick',
-            email: 'john@wick.com',
-        },
-    ];
-
     var CollaboratorModel = Backbone.Model.extend({
         defaults: {
             profile_image: '/images/avatar.jpg'
