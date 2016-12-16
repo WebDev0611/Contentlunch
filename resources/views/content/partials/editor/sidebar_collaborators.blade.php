@@ -31,7 +31,7 @@
 </script>
 
 <script type='text/template' id='sidebar-collaborator-modal-view'>
-    <div id="launch" class="modal fade" tabindex="-1" role="dialog">
+    <div id="launch" class="modal fade" tabindex="-1" role="dialog" id='sidebar-collaborator-modal'>
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -47,7 +47,7 @@
                                 Select the users you want to collaborate with.
                             </p>
                             <div class="collaborators-list">
-
+                                <img src="/images/ring.gif" class='loading-relative' alt="">
                             </div>
                             <!--
                             <div class="form-group text-center">
@@ -64,7 +64,7 @@
                             <button
                                 class="button button-primary text-uppercase button-extend invite-users"
                                 data-toggle="modal"
-                                data-target="#launchCompleted">Invite Users</button>
+                                data-target="#sidebar-collaborator-modal">Invite Users</button>
                         </div>
                     </div>
                 </div>

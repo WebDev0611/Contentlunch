@@ -140,10 +140,32 @@
             this.$el.find('.modal').modal('show');
         },
 
-        submit: function() {
-            var checked = this.$el.find(':checked');
-            console.log(checked);
+        dismissModal: function() {
+            this.$el.find('.modal').modal('hide');
         },
+
+        submit: function() {
+            $.ajax({
+                method: 'post',
+                url: '/api/contents/' + contentId + '/collaborators',
+                headers: getCSRFHeader(),
+                data: {
+                    authors: this.getCheckedCollaborators()
+                },
+            })
+            .then(function(response) {
+                console.log(response);
+                this.dismissModal();
+            }.bind(this));
+        },
+
+        getCheckedCollaborators: function() {
+            return this.$el.find(':checked')
+                .toArray()
+                .map(function(checkbox) {
+                    return $(checkbox).data('id');
+                });
+        }
     });
 
     var collaborators = new CollaboratorCollection();
