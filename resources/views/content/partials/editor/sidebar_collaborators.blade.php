@@ -19,6 +19,7 @@
 <script type='text/template' id='sidebar-collaborator-checkbox'>
     <label class="checkbox-tag">
         <input type="checkbox"
+            data-id='<%= id %>'
             <% if (is_collaborator) { %>
                 checked=checked
             <% } %>

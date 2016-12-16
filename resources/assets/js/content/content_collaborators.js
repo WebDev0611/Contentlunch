@@ -81,6 +81,9 @@
     })
 
     var AddCollaboratorModalView = Backbone.View.extend({
+        events: {
+            'click .invite-users': 'submit',
+        },
         template: _.template($('#sidebar-collaborator-modal-view').html()),
         data: {
             isLoading: true,
@@ -119,7 +122,7 @@
         },
 
         clearList: function() {
-            // this.getList().html('');
+            this.getList().html('');
         },
 
         addLoadingGif: function() {
@@ -148,6 +151,11 @@
         showModal: function() {
             this.$el.on('hidden.bs.modal', this.remove.bind(this));
             this.$el.find('.modal').modal('show');
+        },
+
+        submit: function() {
+            var checked = this.$el.find(':checked');
+            console.log(checked);
         },
     });
 
