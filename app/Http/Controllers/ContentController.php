@@ -220,6 +220,7 @@ class ContentController extends Controller
             'contentTypeDropdown' => ContentType::dropdown(),
             'files' => $content->attachments()->where('type', 'file')->get(),
             'images' => $content->attachments()->where('type', 'image')->get(),
+            'isCollaborator' => Auth::user()->isCollaborator($content),
         ];
 
         return view('content.editor', $data);

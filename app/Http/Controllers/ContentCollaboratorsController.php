@@ -14,6 +14,7 @@ class ContentCollaboratorsController extends Controller
     {
         $possibleCollaborators = $content->account->users;
         $currentCollaborators = $content->authors->keyBy('id');
+        $showCurrentCollaboratorsOnly = $request->input('current_collaborators') === '1';
 
         $collaborators = $possibleCollaborators->map(function($user) use ($currentCollaborators) {
             $user->is_collaborator = $currentCollaborators->has($user->id);
@@ -21,6 +22,12 @@ class ContentCollaboratorsController extends Controller
 
             return $user;
         });
+
+        if ($showCurrentCollaboratorsOnly) {
+            $collaborators = $collaborators->filter(function($user) {
+                return $user->is_collaborator;
+            })->values();
+        }
 
         return response()->json([ 'data' => $collaborators ]);
     }

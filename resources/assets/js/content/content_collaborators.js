@@ -23,7 +23,7 @@
         fetchData: function() {
             return $.ajax({
                 method: 'get',
-                url: '/api/contents/' + contentId + '/collaborators',
+                url: '/api/contents/' + contentId + '/collaborators?current_collaborators=1',
                 headers: getCSRFHeader(),
             });
         },
@@ -156,7 +156,7 @@
                 },
             })
             .then(function(response) {
-                console.log(response);
+                collaborators.populateList();
                 this.dismissModal();
             }.bind(this));
         },
