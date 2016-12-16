@@ -86,7 +86,6 @@
         },
         template: _.template($('#sidebar-collaborator-modal-view').html()),
         data: {
-            isLoading: true,
             users: []
         },
 
@@ -106,8 +105,6 @@
         },
 
         fetchData: function() {
-            this.addLoadingGif();
-
             $.ajax({
                 method: 'get',
                 url: '/api/contents/' + contentId + '/collaborators',
@@ -116,22 +113,12 @@
             .then(function(response) {
                 this.clearList();
                 this.data.users = response.data;
-                this.data.isLoading = false;
                 this.renderCheckboxes();
             }.bind(this));
         },
 
         clearList: function() {
             this.getList().html('');
-        },
-
-        addLoadingGif: function() {
-            var loadingGIF = $('<img>', {
-                class: 'loading-relative',
-                src: '/images/ring.gif',
-            });
-
-            this.getList().append(loadingGIF);
         },
 
         renderCheckboxes: function() {
