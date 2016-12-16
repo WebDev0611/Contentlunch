@@ -241,6 +241,15 @@ class ContentController extends Controller
         }
 
         $content = is_numeric($id) ? Content::find($id) : new Content();
+
+        if (!Auth::user()->isCollaborator($content)) {
+            return redirect()->route('contentIndex')->with([
+                'flash_message' => 'You don\'t have permission to edit this content.',
+                'flash_message_type' => 'danger',
+                'flash_message_important' => true,
+            ]);
+        }
+
         $content = $this->detachRelatedContent($content);
         $content = $this->saveContentAndAttachToAccount($request, $content);
 
