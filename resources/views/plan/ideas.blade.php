@@ -126,10 +126,10 @@
 
         </div>
         <div class="plan-ideas-cell">
-            <span class="plan-ideas-text"><%= format_time_ago(created_at) %></span>
+            <span class="plan-ideas-text"><%= created_diff.toUpperCase() %></span>
         </div>
         <div class="plan-ideas-cell">
-            <span class="plan-ideas-text">UPDATED: <%= format_time_ago(updated_at) %></span>
+            <span class="plan-ideas-text">UPDATED: <%= updated_diff.toUpperCase() %></span>
         </div>
         <div class="plan-ideas-cell">
             <div class="plan-ideas-dropdown">

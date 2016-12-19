@@ -25,6 +25,7 @@
             $(this).parent().addClass('active');
             $('#active-ideas-link').parent().removeClass('active');
         });
+
         $('#active-ideas-link').click(function(){
             ic.render('active');
             $(this).parent().addClass('active');
