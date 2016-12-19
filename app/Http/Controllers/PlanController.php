@@ -25,11 +25,14 @@ class PlanController extends Controller
         return view('plan.prescription');
     }
 
-    public function editor(Request $request, $id = 0)
+    public function editor(Request $request, Idea $idea)
     {
-        $idea = Idea::where(['id' => $id ])->first();
+        // $idea = Idea::where(['id' => $id ])->first();
 
-        $idea_content = IdeaContent::where([ 'idea_id' => $id, 'user_id' => Auth::id() ])->get();
+        $idea_content = IdeaContent::where([
+            'idea_id' => $idea->id,
+            'user_id' => Auth::id()
+        ])->get();
 
         $data = [
             'name' => $idea->name,
