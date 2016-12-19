@@ -48,98 +48,17 @@
                         </div>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-                        <!--
+
                         <div class="form-group">
-                            <fieldset class="form-fieldset clearfix">
-                                <legend class="form-legend">Collaborators</legend>
-                                <ul class="images-list pull-left">
-                                    <li>
-                                        <img src="/images/avatar.jpg" alt="#">
-                                    </li>
-                                    <li>
-                                        <img src="/images/avatar.jpg" alt="#">
-                                    </li>
-                                    <li>
-                                        <img src="/images/avatar.jpg" alt="#">
-                                    </li>
-                                </ul>
-                                <div class="dropdown pull-right">
-                                    <button type="button" class="button button-action large" data-toggle="dropdown">
-                                        <i class="icon-add-circle"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li class="dropdown-header-secondary">
-                                            <span class="dropdown-header-secondary-text">
-                                                Select team member
-                                            </span>
-                                            <button class="button button-micro pull-right text-uppercase">
-                                                Submit
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <input type="text" class="dropdown-header-secondary-search" placeholder="Team Member Name">
-                                        </li>
-                                        <li>
-                                            <label for="Friend" class="checkbox-image">
-                                                <input id="Friend" type="checkbox">
-                                                <span>
-                                                    <img src="/images/avatar.jpg" alt="#">
-                                                </span>
-                                            </label>
-                                            <label for="Friend" class="checkbox-image">
-                                                <input id="Friend" type="checkbox">
-                                                <span>
-                                                    <img src="/images/avatar.jpg" alt="#">
-                                                </span>
-                                            </label>
-                                            <label for="Friend" class="checkbox-image">
-                                                <input id="Friend" type="checkbox">
-                                                <span>
-                                                    <img src="/images/avatar.jpg" alt="#">
-                                                </span>
-                                            </label>
-                                            <label for="Friend" class="checkbox-image">
-                                                <input id="Friend" type="checkbox">
-                                                <span>
-                                                    <img src="/images/avatar.jpg" alt="#">
-                                                </span>
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </fieldset>
+                            @include('plan.partials.invite_collaborators')
                         </div>
-                        <fieldset class="form-fieldset">
-                            <legend class="form-legend">Invite Guests</legend>
-                            <div class="form-group">
-                                <input type="text" class="input input-secondary" placeholder="Enter one of more addresses">
-                            </div>
-                            <div class="form-group">
-                                <button class="button button-tertiary button-extend text-uppercase">Submit</button>
-                            </div>
-                            <label for="#">Allow Access To</label>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label for="B2B" class="radio-secondary">
-                                        <input id="B2B" type="radio">
-                                        <span>Initial idea</span>
-                                    </label>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="B2B" class="radio-secondary">
-                                        <input id="B2B" type="radio">
-                                        <span>Calendar</span>
-                                    </label>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="B2B" class="radio-secondary">
-                                        <input id="B2B" type="radio">
-                                        <span>Content Draft</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </fieldset>
-                        -->
+
+                        {{--
+                        <div class="form-group">
+                            @include('plan.partials.invite_guests')
+                        </div>
+                        --}}
+
                         <div class="form-delimiter">
                             <span>
                                 <em>Selected Content</em>
