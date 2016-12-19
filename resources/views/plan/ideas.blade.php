@@ -101,7 +101,8 @@
 
 <script type="text/template" id="idea-template">
         <div class="plan-ideas-cell">
-            <img src="<%= user.profile_image %>" alt="#" class="plan-ideas-img">
+            <% var avatar = user.profile_image || '/images/avatar.jpg'; %>
+            <img src="<%= avatar %>" alt="#" class="plan-ideas-img">
         </div>
         <div class="plan-ideas-cell">
             <h5 class="plan-ideas-title"><%= name %></h5>

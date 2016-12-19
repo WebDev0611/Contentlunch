@@ -1,30 +1,23 @@
 /* the ideas tab/page */
-(function(document, $){
+(function(document, $) {
 
     //kicks off the app
-    $(function(){
+    $(function() {
     	var ideas = new ideas_collection();
 
     	ideas.fetch({
-    		success: function(res){
-    			var updated_time = res.map(function(m){
-    				var a = m;
-    				a.created_at = a.created_at * 1000;
-    				a.updated_at = a.updated_at * 1000;
-    				return a;
-    			});
-
-    			ideas.reset(updated_time);
+		success: function(response) {
+			ideas.reset(response);
     		},
-    		error: function(){
-    			//console.log('ERROR RET');
+		error: function() {
+
     		}
     	});
 
     	//main collection - view
-    	var ic = new idea_container_view({ 
+	var ic = new idea_container_view({
     		el:'#idea-container',
-    		collection: ideas 
+		collection: ideas
     	});
 
     	$('#parked-ideas-link').click(function(){
