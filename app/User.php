@@ -7,6 +7,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Auth;
 use App\AccountType;
 use App\Account;
+use App\Content;
 
 class User extends Authenticatable
 {
@@ -110,5 +111,13 @@ class User extends Authenticatable
             ->users()
             ->where('name', 'like', '%' . $term . '%')
             ->get();
+    }
+
+    public function isCollaborator(Content $content)
+    {
+        return (boolean) $content
+            ->authors()
+            ->where('id', $this->id)
+            ->count();
     }
 }

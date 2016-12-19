@@ -8,6 +8,7 @@
         <div class="row">
             {!! Form::open([ 'url' => 'writeraccess/partials/' . $order->id ]) !!}
             {!! Form::hidden('step', 1) !!}
+            {!! Form::hidden('order_id', $order->id) !!}
             <div class="col-md-8 col-md-offset-2">
                 <div class="onboarding-container">
                     <div class="row">
@@ -64,6 +65,27 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="form-delimiter">
+                                <span>
+                                    <em>Attachments</em>
+                                </span>
+                            </div>
+
+                            {{-- @if (isset($content))
+                            <div class="input-form-group">
+                                <ul>
+                                    @foreach ($files as $file)
+                                    <li><a href="{{ $file->filename }}">{{ $file->name }}</a></li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif --}}
+
+                            <div class="input-form-group">
+                                <div class="dropzone" id='attachment-uploader'>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -80,4 +102,35 @@
         </div>
     </div>
 </div>
+@stop
+
+@section('scripts')
+<script type='text/javascript'>
+    (function() {
+
+        var fileUploader = new Dropzone('#attachment-uploader', {
+            headers: getCSRFHeader(),
+            url: getUploadUrl(),
+        });
+
+        fileUploader.on('success', function(file, response) {
+            var hiddenField = $('<input/>', {
+                name: 'attachments[]',
+                type: 'hidden',
+                value: response.file
+            });
+
+            hiddenField.appendTo($('form'));
+        });
+
+        function getUploadUrl() {
+            return '/writeraccess/partials/upload/' + getOrderId();
+        }
+
+        function getOrderId() {
+            return $('input[name=order_id]').val();
+        }
+
+    })();
+</script>
 @stop
