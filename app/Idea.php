@@ -27,9 +27,14 @@ class Idea extends Model
         return $this->belongsTo('App\Account');
     }
 
-    public function getTimeAgoAttribute()
+    public function getCreatedAtDiffAttribute()
     {
         return $this->created_at->diffForHumans();
+    }
+
+    public function getUpdatedAtDiffAttribute()
+    {
+        return $this->updated_at->diffForHumans();
     }
 
     public static function search($term, $account = null)

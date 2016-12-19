@@ -30,7 +30,13 @@ class IdeaController extends Controller
         $ideas = Account::selectedAccount()
             ->ideas()
             ->with('user')
-            ->get();
+            ->get()
+            ->map(function($idea) {
+                $idea->created_diff = $idea->createdAtDiff;
+                $idea->updated_diff = $idea->updatedAtDiff;
+
+                return $idea;
+            });
 
         return response()->json($ideas);
     }
