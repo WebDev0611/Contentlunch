@@ -46,7 +46,6 @@
         },
 
         showDetails: function() {
-            console.log('HEUEHUHEE');
             new TwitterDataModal({ el: "#modal-twitter-user-details", model: this.model });
         },
 

@@ -14,13 +14,14 @@
 /**
  * Route Models
  */
-Route::model('invite', 'App\AccountInvite');
-Route::model('persona', 'App\Persona');
 Route::model('account', 'App\Account');
+Route::model('invite', 'App\AccountInvite');
 Route::model('buyingStage', 'App\BuyingStage');
+Route::model('connection', 'App\Connection');
+Route::model('content', 'App\Content');
+Route::model('persona', 'App\Persona');
 Route::model('user', 'App\User');
 Route::model('writerAccessPartialOrder', 'App\WriterAccessPartialOrder');
-Route::model('connection', 'App\Connection');
 
 /* Login/Logout */
 /*Route::get('login', 'AuthController@login');
@@ -234,6 +235,8 @@ Route::group(['prefix' => 'twitter'], function() {
 /**
  * AJAX Helpers
  */
-Route::get('/api/connections', [ 'as' => 'connectionAjaxIndex', 'uses' => 'ConnectionController@index' ]);
+Route::get('/api/connections', 'ConnectionController@index');
+Route::get('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@index');
+Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@update');
 
 Route::post('/search', [ 'as' => 'searchIndex', 'uses' => 'SearchController@index' ]);
