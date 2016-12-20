@@ -22,6 +22,11 @@ class Idea extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function collaborators()
+    {
+        return $this->belongsToMany('App\User');
+    }
+
     public function account()
     {
         return $this->belongsTo('App\Account');
