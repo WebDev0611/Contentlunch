@@ -23,7 +23,7 @@
         fetchData: function() {
             return $.ajax({
                 method: 'get',
-                url: '/api/contents/' + contentId + '/collaborators?current_collaborators=1',
+                url: '/api/contents/' + contentId + '/collaborators',
                 headers: getCSRFHeader(),
             });
         },
@@ -109,7 +109,7 @@
         fetchData: function() {
             $.ajax({
                 method: 'get',
-                url: '/api/contents/' + contentId + '/collaborators',
+                url: '/api/contents/' + contentId + '/collaborators?possible_collaborators=1',
                 headers: getCSRFHeader(),
             })
             .then(function(response) {
@@ -156,6 +156,7 @@
                 },
             })
             .then(function(response) {
+                $('#sidebar-collaborator-list').html('');
                 collaborators.populateList();
                 this.dismissModal();
             }.bind(this));
