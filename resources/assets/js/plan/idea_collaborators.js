@@ -42,6 +42,9 @@
     });
 
     var AddCollaboratorModalView = Backbone.View.extend({
+        events: {
+            'click .invite-users': 'submit',
+        },
         template: _.template($('#ideas-collaborator-modal-view').html()),
         data: {
             users: []
@@ -98,6 +101,34 @@
             this.$el.on('hidden.bs.modal', this.remove.bind(this));
             this.$el.find('.modal').modal('show');
         },
+
+        dismissModal: function() {
+            this.$el.find('.modal').modal('hide');
+        },
+
+        submit: function() {
+            $.ajax({
+                method: 'post',
+                url: '/api/ideas/' + idea_obj.id + '/collaborators',
+                headers: getCSRFHeader(),
+                data: {
+                    collaborators: this.getCheckedCollaborators()
+                },
+            })
+            .then(function(response) {
+                $('#sidebar-collaborator-list').html('');
+                collaborators.populateList();
+                this.dismissModal();
+            }.bind(this));
+        },
+
+        getCheckedCollaborators: function() {
+            return this.$el.find(':checked')
+                .toArray()
+                .map(function(checkbox) {
+                    return $(checkbox).data('id');
+                });
+        }
     });
 
     $('#open-collab-modal').click(function(event) {
