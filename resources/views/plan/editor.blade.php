@@ -34,7 +34,7 @@
             <div class="panel-container">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                        {{ csrf_field() }}
                         <div class="input-form-group">
                             <label for="#">CONCEPT NAME</label>
                             <input type="text" id="idea-name" class="input" placeholder="Enter your concept name" value="{{$name}}">

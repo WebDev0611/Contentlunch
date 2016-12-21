@@ -14,8 +14,21 @@
     <button type="button" id='open-collab-modal' class="button button-action large pull-right">
         <i class="icon-add-circle"></i>
     </button>
-
 </fieldset>
+
+<script type='text/template' id='ideas-collaborator-checkbox'>
+    <label class="checkbox-tag">
+        <input type="checkbox"
+            data-id='<%= id %>'
+            <% if (is_collaborator) { %>
+                checked=checked
+            <% } %>
+            <% if (is_logged_user) { %>
+                disabled="disabled"
+            <% } %>>
+        <span><%= name %></span>
+    </label>
+</script>
 
 <script type='text/template' id='ideas-collaborator-modal-view'>
     <div id="launch" class="modal fade" tabindex="-1" role="dialog" id='ideas-collaborator-modal'>
