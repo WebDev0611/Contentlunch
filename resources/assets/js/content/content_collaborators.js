@@ -1,5 +1,9 @@
 (function() {
 
+    if (!isContentEditorPage()) {
+        return false;
+    }
+
     /**
      * Models and data
      */
@@ -184,5 +188,9 @@
     });
 
     collaborators.populateList();
+
+    function isContentEditorPage() {
+        return $('#sidebar-collaborator-modal-view').length > 0 && $('#sidebar-collaborator-view').length > 0;
+    }
 
 })();
