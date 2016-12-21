@@ -48,7 +48,6 @@
                         </div>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-
                         <div class="form-group">
                             @include('plan.partials.invite_collaborators')
                         </div>

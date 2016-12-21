@@ -11,48 +11,43 @@
             <img src="/images/avatar.jpg" alt="#">
         </li>
     </ul>
-    <div class="dropdown pull-right">
-        <button type="button" class="button button-action large" data-toggle="dropdown">
-            <i class="icon-add-circle"></i>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-right">
-            <li class="dropdown-header-secondary">
-                <span class="dropdown-header-secondary-text">
-                    Select team member
-                </span>
-                <button class="button button-micro pull-right text-uppercase">
-                    Submit
-                </button>
-            </li>
-            <li>
-                <input type="text" class="dropdown-header-secondary-search" placeholder="Team Member Name">
-            </li>
-            <li>
-                <label for="Friend" class="checkbox-image">
-                    <input id="Friend" type="checkbox">
-                    <span>
-                        <img src="/images/avatar.jpg" alt="#">
-                    </span>
-                </label>
-                <label for="Friend" class="checkbox-image">
-                    <input id="Friend" type="checkbox">
-                    <span>
-                        <img src="/images/avatar.jpg" alt="#">
-                    </span>
-                </label>
-                <label for="Friend" class="checkbox-image">
-                    <input id="Friend" type="checkbox">
-                    <span>
-                        <img src="/images/avatar.jpg" alt="#">
-                    </span>
-                </label>
-                <label for="Friend" class="checkbox-image">
-                    <input id="Friend" type="checkbox">
-                    <span>
-                        <img src="/images/avatar.jpg" alt="#">
-                    </span>
-                </label>
-            </li>
-        </ul>
-    </div>
+    <button type="button" class="button button-action large pull-right">
+        <i class="icon-add-circle"></i>
+    </button>
+
 </fieldset>
+
+<script type='text/template' id='ideas-collaborator-modal-view'>
+    <div id="launch" class="modal fade" tabindex="-1" role="dialog" id='ideas-collaborator-modal'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="modal-close close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">INVITE COLLABORATORS</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <p class="text-gray text-center">
+                                Select the users you want to collaborate with.
+                            </p>
+                            <div class="collaborators-list">
+                                <img src="/images/ring.gif" class='loading-relative' alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <button
+                                class="button button-primary text-uppercase button-extend invite-users"
+                                data-toggle="modal"
+                                data-target="#ideas-collaborator-modal">Invite Users</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
