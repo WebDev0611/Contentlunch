@@ -34,6 +34,7 @@
             <div class="panel-container">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         <div class="input-form-group">
                             <label for="#">CONCEPT NAME</label>
                             <input type="text" id="idea-name" class="input" placeholder="Enter your concept name" value="{{$name}}">
@@ -46,7 +47,6 @@
                             <label for="#">TAGS</label>
                             <input type="text"  id="idea-tags" class="input" placeholder="Enter comma separated tags" value="{{$tags}}">
                         </div>
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
                         <div class="form-group">
                             @include('plan.partials.invite_collaborators')

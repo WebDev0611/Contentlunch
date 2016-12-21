@@ -11,7 +11,7 @@
             <img src="/images/avatar.jpg" alt="#">
         </li>
     </ul>
-    <button type="button" class="button button-action large pull-right">
+    <button type="button" id='open-collab-modal' class="button button-action large pull-right">
         <i class="icon-add-circle"></i>
     </button>
 
