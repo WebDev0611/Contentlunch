@@ -56,4 +56,11 @@ class Idea extends Model
             })
             ->get();
     }
+
+    public function hasCollaborator(User $user)
+    {
+        return $this->collaborators()
+            ->where('id', $user->id)
+            ->count();
+    }
 }
