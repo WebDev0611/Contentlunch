@@ -44,7 +44,7 @@
             })
             .then(function(res) {
                 this.show_alert(true, 'Idea has been rejected!');
-            }.bind(this)).
+            }.bind(this));
         },
 
         park_idea: function() {
