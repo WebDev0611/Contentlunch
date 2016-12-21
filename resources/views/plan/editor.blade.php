@@ -64,20 +64,24 @@
                                 <em>Selected Content</em>
                             </span>
                         </div>
-                        @foreach($contents as $content)
-                        <div class="tombstone tombstone-horizontal tombstone-active clearfix">
-                            <div class="tombstone-image">
-                                <img src="{{$content->image}}" alt="">
-                            </div>
-                            <div class="tombstone-container">
-                                <h3>{{$content->title}}</h3>
-                                <p>
-                                    {{$content->link}}
-                                </p>
-                            </div>
-                        </div>
-                        @endforeach
 
+                        @forelse ($contents as $content)
+                            <div class="tombstone tombstone-horizontal tombstone-active clearfix">
+                                <div class="tombstone-image">
+                                    <img src="{{$content->image}}" alt="">
+                                </div>
+                                <div class="tombstone-container">
+                                    <h3>{{$content->title}}</h3>
+                                    <p>
+                                        {{$content->link}}
+                                    </p>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="form-group">
+                                <div class="alert alert-info alert-forms">No content attached yet</div>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
