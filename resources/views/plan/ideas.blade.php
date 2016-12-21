@@ -129,7 +129,7 @@
                 <li id="park-it-btn">
                     <a href="javascript:;">Park It</a>
                 </li>
-              <li id="edit-it-btn">
+                <li id="edit-it-btn">
                     <a href="javascript:;">Edit It</a>
                 </li>
                <li id="unpark-it-btn">
