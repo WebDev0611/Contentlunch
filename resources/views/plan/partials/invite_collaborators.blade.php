@@ -3,9 +3,12 @@
     <ul class="images-list pull-left" id='ideas-collaborator-list'>
 
     </ul>
+
+    @if ($is_collaborator)
     <button type="button" id='open-collab-modal' class="button button-action large pull-right">
         <i class="icon-add-circle"></i>
     </button>
+    @endif
 </fieldset>
 
 <script type='text/template' id='ideas-collaborator-checkbox'>
