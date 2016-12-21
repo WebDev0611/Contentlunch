@@ -2,6 +2,9 @@
 
 
 @section('content')
+@php
+    $disabled = $is_collaborator ? '' : 'disabled="disabled"';
+@endphp
 <div class="workspace">
     <div class="row">
         <div id="responses" class="col-md-12"></div>
@@ -15,17 +18,20 @@
                             <h4>Idea editor</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            <button type="button" class="button button-outline-secondary button-small save-idea">SAVE</button>
+                            <button {{ $disabled }} type="button" class="button button-outline-secondary button-small save-idea">SAVE</button>
                             <div class="btn-group">
-                                <button type="button" class="button button-small">WRITE IT</button>
-                                <button type="button" class="button button-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button {{ $disabled }} type="button" class="button button-small">WRITE IT</button>
+                                <button {{ $disabled }} type="button" class="button button-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="caret"></span>
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
+
+                                @if ($is_collaborator)
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li><a href="#" class="reject-idea">Reject Idea</a></li>
                                     <li><a href="#" class="park-idea">Park Idea</a></li>
                                 </ul>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -37,15 +43,15 @@
                         {{ csrf_field() }}
                         <div class="input-form-group">
                             <label for="#">CONCEPT NAME</label>
-                            <input type="text" id="idea-name" class="input" placeholder="Enter your concept name" value="{{$name}}">
+                            <input {{ $disabled }} type="text" id="idea-name" class="input" placeholder="Enter your concept name" value="{{$name}}">
                         </div>
                         <div class="input-form-group">
                             <label for="#">EXPLAIN YOUR IDEA</label>
-                            <textarea rows="4" id="idea-text" class="input" placeholder="Explain idea in a paragraph or so">{{$text}}</textarea>
+                            <textarea {{ $disabled }} rows="4" id="idea-text" class="input" placeholder="Explain idea in a paragraph or so">{{$text}}</textarea>
                         </div>
                         <div class="input-form-group">
                             <label for="#">TAGS</label>
-                            <input type="text"  id="idea-tags" class="input" placeholder="Enter comma separated tags" value="{{$tags}}">
+                            <input {{ $disabled }} type="text"  id="idea-tags" class="input" placeholder="Enter comma separated tags" value="{{$tags}}">
                         </div>
 
                         <div class="form-group">
