@@ -40,6 +40,7 @@ class PlanController extends Controller
             'tags' => $idea->tags,
             'contents' => $idea_content,
             'idea_obj' => $idea,
+            'is_collaborator' => $idea->hasCollaborator(Auth::user()),
         ];
 
         return view('plan.editor', $data);
