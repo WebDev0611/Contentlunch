@@ -32,6 +32,17 @@
         },
     });
 
+    var CollaboratorView = Backbone.View.extend({
+        template: _.template(
+            "<img src='<%= profile_image %>' title='<%= name %>' alt='<%= name %>'>"
+        ),
+        tagName: 'li',
+        render: function() {
+            this.$el.html(this.template(this.model.toJSON()));
+            return this;
+        },
+    })
+
     var CollaboratorModalView = Backbone.View.extend({
         template: _.template($('#ideas-collaborator-checkbox').html()),
         tagName: 'div',
@@ -136,5 +147,19 @@
         var collabModal = new AddCollaboratorModalView();
         collabModal.showModal();
     });
+
+    var collaborators = new CollaboratorCollection();
+
+    collaborators.on('add', function(model) {
+        var result = new CollaboratorView({
+            model: model
+        });
+
+        result.render();
+
+        $('#ideas-collaborator-list').append(result.el);
+    });
+
+    collaborators.populateList();
 
 })();

@@ -1,15 +1,7 @@
 <fieldset class="form-fieldset clearfix">
     <legend class="form-legend">Collaborators</legend>
-    <ul class="images-list pull-left">
-        <li>
-            <img src="/images/avatar.jpg" alt="#">
-        </li>
-        <li>
-            <img src="/images/avatar.jpg" alt="#">
-        </li>
-        <li>
-            <img src="/images/avatar.jpg" alt="#">
-        </li>
+    <ul class="images-list pull-left" id='ideas-collaborator-list'>
+
     </ul>
     <button type="button" id='open-collab-modal' class="button button-action large pull-right">
         <i class="icon-add-circle"></i>
