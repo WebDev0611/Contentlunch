@@ -32,6 +32,11 @@ class Idea extends Model
         return $this->belongsTo('App\Account');
     }
 
+    public function contents()
+    {
+        return $this->belongsToMany('App\Content');
+    }
+
     public function getCreatedAtDiffAttribute()
     {
         return $this->created_at->diffForHumans();
