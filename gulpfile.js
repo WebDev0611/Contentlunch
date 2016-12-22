@@ -76,11 +76,14 @@ elixir(function (mix) {
                 'resources/assets/js/models/ideas.js',
                 'resources/assets/js/collections/ideas.js',
                 'resources/assets/js/views/ideas.js',
-                'resources/assets/js/plan/ideas.js'
-                ],"public/js/ideas.js")
+                'resources/assets/js/plan/ideas.js',
+            ],"public/js/ideas.js")
 
-            .scripts(['resources/assets/js/models/ideas.js',
-                'resources/assets/js/plan/editor.js'],"public/js/idea_editor.js")
+            .scripts([
+                'resources/assets/js/models/ideas.js',
+                'resources/assets/js/plan/editor.js',
+                'resources/assets/js/plan/idea_collaborators.js',
+            ],"public/js/idea_editor.js")
 
             /* influencers scripts */
             .scripts(['resources/assets/js/collaborate/influencers.js'],"public/js/influencers.js")

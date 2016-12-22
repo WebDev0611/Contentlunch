@@ -15,10 +15,11 @@
  * Route Models
  */
 Route::model('account', 'App\Account');
-Route::model('invite', 'App\AccountInvite');
 Route::model('buyingStage', 'App\BuyingStage');
 Route::model('connection', 'App\Connection');
 Route::model('content', 'App\Content');
+Route::model('idea', 'App\Idea');
+Route::model('invite', 'App\AccountInvite');
 Route::model('persona', 'App\Persona');
 Route::model('user', 'App\User');
 Route::model('writerAccessPartialOrder', 'App\WriterAccessPartialOrder');
@@ -79,9 +80,9 @@ Route::resource('/trending', 'TrendsController@trending');
 Route::resource('/influencers', 'InfluencersController@search');
 Route::resource('/topics', 'TopicsController@index');
 
-Route::get('/idea/{id}', [ 'as' => 'ideaEditor', 'uses' => 'PlanController@editor' ]);
+Route::get('/idea/{idea}', [ 'as' => 'ideaEditor', 'uses' => 'PlanController@editor' ]);
 Route::post('/idea/park','IdeaController@park');
-Route::post('/idea/update/{id}','IdeaController@update');
+Route::post('/idea/update/{idea}','IdeaController@update');
 Route::post('/idea/reject/{id}','IdeaController@reject');
 Route::post('/idea/activate','IdeaController@activate');
 Route::get('/idea/write/{idea}', 'IdeaController@write');
@@ -239,5 +240,7 @@ Route::group(['prefix' => 'twitter'], function() {
 Route::get('/api/connections', 'ConnectionController@index');
 Route::get('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@index');
 Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@update');
+Route::get('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@index');
+Route::post('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@update');
 
 Route::post('/search', [ 'as' => 'searchIndex', 'uses' => 'SearchController@index' ]);

@@ -113,11 +113,4 @@ class User extends Authenticatable
             ->get();
     }
 
-    public function isCollaborator(Content $content)
-    {
-        return (boolean) $content
-            ->authors()
-            ->where('id', $this->id)
-            ->count();
-    }
 }

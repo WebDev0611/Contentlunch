@@ -22,9 +22,24 @@ class Idea extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function collaborators()
+    {
+        return $this->belongsToMany('App\User');
+    }
+
     public function account()
     {
         return $this->belongsTo('App\Account');
+    }
+
+    public function getCreatedAtDiffAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
+    public function getUpdatedAtDiffAttribute()
+    {
+        return $this->updated_at->diffForHumans();
     }
 
     public static function search($term, $account = null)
@@ -40,5 +55,12 @@ class Idea extends Model
                   ->orWhere('text', 'like', '%' . $term . '%');
             })
             ->get();
+    }
+
+    public function hasCollaborator(User $user)
+    {
+        return $this->collaborators()
+            ->where('users.id', $user->id)
+            ->count();
     }
 }

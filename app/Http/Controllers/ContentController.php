@@ -220,7 +220,7 @@ class ContentController extends Controller
             'contentTypeDropdown' => ContentType::dropdown(),
             'files' => $content->attachments()->where('type', 'file')->get(),
             'images' => $content->attachments()->where('type', 'image')->get(),
-            'isCollaborator' => Auth::user()->isCollaborator($content),
+            'isCollaborator' => $content->hasCollaborator(Auth::user()),
         ];
 
         return view('content.editor', $data);
@@ -242,7 +242,7 @@ class ContentController extends Controller
 
         $content = is_numeric($id) ? Content::find($id) : new Content();
 
-        if (!Auth::user()->isCollaborator($content)) {
+        if (!$content->hasCollaborator(Auth::user())) {
             return redirect()->route('contentIndex')->with([
                 'flash_message' => 'You don\'t have permission to edit this content.',
                 'flash_message_type' => 'danger',
