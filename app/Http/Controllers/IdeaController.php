@@ -180,7 +180,8 @@ class IdeaController extends Controller
     }
 
     //converts the idea to a piece of content
-    public function ideaconvert(Request $request){
+    public function write(Request $request, Idea $idea)
+    {
         $idea = Idea::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
 
         $new_content = new Content;
