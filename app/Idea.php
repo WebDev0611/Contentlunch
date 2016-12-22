@@ -64,8 +64,16 @@ class Idea extends Model
 
     public function hasCollaborator(User $user)
     {
-        return $this->collaborators()
+        $isAuthor = $this->user_id == $user->id;
+        $isCollaborator = (boolean) $this->collaborators()
             ->where('users.id', $user->id)
             ->count();
+
+        if ($isAuthor && !$isCollaborator) {
+            $this->collaborators()->attach($user);
+            $isCollaborator = true;
+        }
+
+        return $isCollaborator;
     }
 }
