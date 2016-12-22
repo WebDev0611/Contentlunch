@@ -27,8 +27,6 @@ class PlanController extends Controller
 
     public function editor(Request $request, Idea $idea)
     {
-        // $idea = Idea::where(['id' => $id ])->first();
-
         $idea_content = IdeaContent::where([
             'idea_id' => $idea->id,
             'user_id' => Auth::id()
