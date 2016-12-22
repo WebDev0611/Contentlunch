@@ -34,7 +34,7 @@ var idea_view = Backbone.View.extend({
     },
 
     write: function() {
-        window.location.href = '/idea/' + this.model.get('id');
+        window.location.href = '/idea/write/' + this.model.get('id');
     },
 
     park: function() {
