@@ -130,11 +130,11 @@ var recent_view = Backbone.View.extend({
     events:{
         "mouseenter": "show_hover",
         "mouseleave": "hide_hover",
-
     },
-    template: _.template( $('#idea-template').html() ),
+    template: _.template($('#idea-template').html()),
+
     initialize: function() {
-        this.$el.append( this.template(this.model.attributes) );
+        this.$el.append(this.template(this.model.attributes));
     },
     render: function() {
         return this;
