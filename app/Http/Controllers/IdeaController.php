@@ -160,12 +160,62 @@ class IdeaController extends Controller
         return response()->json($idea);
     }
 
-    //converts the idea to a piece of content
+    /**
+     * Converts the idea to a piece of content and redirects the
+     * user to edit it.
+     *
+     * @param  Request $request
+     * @param  Idea    $idea
+     * @return \Illuminate\Http\Redirect
+     */
     public function write(Request $request, Idea $idea)
     {
-        $idea = Idea::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
+        if (!$this->isLoggedUserCollaborator($idea)) {
+            return $this->redirectWithoutPermission();
+        }
 
-        $new_content = new Content;
+        $content = $this->createContentFromIdea($idea);
 
+        return $this->redirectToContentEditor($content);
+    }
+
+    private function createContentFromIdea(Idea $idea)
+    {
+        $newContent = Content::create([
+            'title' => $idea->name,
+            'text' => $idea->text,
+        ]);
+
+        $newContent->authors()->attach(Auth::user());
+        $idea->contents()->attach($newContent);
+
+        Account::selectedAccount()->contents()->save($newContent);
+
+        return $newContent;
+    }
+
+    private function redirectWithoutPermission()
+    {
+        return redirect('/')->with([
+            'flash_message' => 'You don\'t have the permission to do that.',
+            'flash_message_type' => 'danger',
+            'flash_message_important' => true,
+        ]);
+    }
+
+    private function redirectToContentEditor(Content $content)
+    {
+        return redirect()
+            ->route('editContent', $content)
+            ->with([
+                'flash_message' => 'Content was created successfully.',
+                'flash_message_type' => 'success',
+                'flash_message_important' => true,
+            ]);
+    }
+
+    private function isLoggedUserCollaborator(Idea $idea)
+    {
+        return $idea->hasCollaborator(Auth::user());
     }
 }
