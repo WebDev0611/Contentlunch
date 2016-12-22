@@ -82,7 +82,7 @@ Route::resource('/topics', 'TopicsController@index');
 
 Route::get('/idea/{idea}', [ 'as' => 'ideaEditor', 'uses' => 'PlanController@editor' ]);
 Route::post('/idea/park','IdeaController@park');
-Route::post('/idea/update/{id}','IdeaController@update');
+Route::post('/idea/update/{idea}','IdeaController@update');
 Route::post('/idea/reject/{id}','IdeaController@reject');
 Route::post('/idea/activate','IdeaController@activate');
 
