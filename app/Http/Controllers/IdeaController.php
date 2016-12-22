@@ -39,7 +39,11 @@ class IdeaController extends Controller
     public function park(Request $request)
     {
         $id = $request->input('idea_id');
-        $idea = Idea::where([['id', $id], ['user_id', Auth::id()]])->first();
+        $idea = Idea::where([
+            'id' => $id,
+            'user_id' => Auth::id(),
+        ])->first();
+
         $idea->status = 'parked';
         $idea->save();
 
@@ -49,7 +53,11 @@ class IdeaController extends Controller
     public function activate(Request $request)
     {
         $id = $request->input('idea_id');
-        $idea = Idea::where([['id', $id], ['user_id', Auth::id()]])->first();
+        $idea = Idea::where([
+            'id' => $id,
+            'user_id' => Auth::id(),
+        ])->first();
+
         $idea->status = 'active';
         $idea->save();
 
@@ -58,7 +66,11 @@ class IdeaController extends Controller
 
     public function reject(Request $request, $id)
     {
-        $idea = Idea::where([['id', $id], ['user_id', Auth::id()]])->first();
+        $idea = Idea::where([
+            'id' => $id,
+            'user_id' => Auth::id(),
+        ])->first();
+
         $idea->status = 'rejected';
         $idea->save();
 
