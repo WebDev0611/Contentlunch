@@ -29,6 +29,7 @@ class IdeaController extends Controller
     {
         $ideas = Account::selectedAccount()
             ->ideas()
+            ->orderBy('created_at', 'desc')
             ->with('user')
             ->get()
             ->map(function($idea) {
