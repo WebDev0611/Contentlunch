@@ -219,7 +219,7 @@
     </div>
     <div class="dashboard-ideas-cell">
         <p class="dashboard-ideas-text"><%= name %></p>
-        <span class="dashboard-ideas-text small">TIME HERE</span>
+        <span class="dashboard-ideas-text small"><%= created_diff %></span>
     </div>
     <div class="dashboard-ideas-cell hidden idea-hover">
         <div class="dashboard-ideas-dropdown">
