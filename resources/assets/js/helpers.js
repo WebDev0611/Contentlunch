@@ -100,8 +100,9 @@ function getTaskData() {
         due_date: $('#task-due-date').val(),
         explanation: $('#task-explanation').val(),
         url: $('#task-url').val(),
-        attachments: getTaskAttachments()
-    }
+        attachments: getTaskAttachments(),
+        assigned_users: getTaskAssignments(),
+    };
 }
 
 function getTaskAttachments() {
@@ -110,6 +111,14 @@ function getTaskAttachments() {
     return fileInputs.toArray().map(function(element, index) {
         return element.value;
     });
+}
+
+function getTaskAssignments() {
+    return $('#task-assignment :checked')
+        .toArray()
+        .map(function(checkbox) {
+            return $(checkbox).data('id');
+        });
 }
 
 function clearTaskInputs() {
