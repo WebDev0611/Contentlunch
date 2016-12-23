@@ -226,7 +226,7 @@ class ContentController extends Controller
         return view('content.editor', $data);
     }
 
-    public function editStore(Request $request, $id = null)
+    public function editStore(Request $request, Content $content)
     {
         if ($request->input('action') == 'written_content') {
             $validation = $this->onSaveValidation($request->all());
@@ -239,8 +239,6 @@ class ContentController extends Controller
 
             return redirect("/edit" . $urlId)->with('errors', $validation->errors());
         }
-
-        $content = is_numeric($id) ? Content::find($id) : new Content();
 
         if (!$content->hasCollaborator(Auth::user())) {
             return redirect()->route('contentIndex')->with([
@@ -264,9 +262,6 @@ class ContentController extends Controller
             $content->related()->attach($request->input('related'));
         }
 
-        // Attach authors
-        $content->authors()->attach($request->input('author'));
-
         // Attach Tags
         $content->tags()->attach($request->input('tags'));
 
@@ -288,7 +283,6 @@ class ContentController extends Controller
     {
         return Validator::make($requestData, [
             'content_type' => 'required',
-            'author' => 'required',
             'due_date' => 'required',
             'title' => 'required',
             'connections' => 'required',
@@ -299,7 +293,7 @@ class ContentController extends Controller
     private function onSaveValidation(array $requestData)
     {
         return Validator::make($requestData, [
-            'title' => 'required'
+            'title' => 'required',
         ]);
     }
 
@@ -307,7 +301,6 @@ class ContentController extends Controller
     {
         $content->related()->detach();
         $content->tags()->detach();
-        $content->authors()->detach();
 
         return $content;
     }
