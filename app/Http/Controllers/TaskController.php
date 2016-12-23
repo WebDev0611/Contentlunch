@@ -52,9 +52,15 @@ class TaskController extends Controller
             'status' => 'open',
         ]);
 
+        $this->saveAssignedUsers($request, $task);
         $this->saveAttachments($request, $task);
 
         return response()->json($task);
+    }
+
+    private function saveAssignedUsers($request, $task)
+    {
+        $task->assignedUsers()->attach($request->input('assigned_users'));
     }
 
     private function saveAttachments($request, $task)
@@ -136,8 +142,9 @@ class TaskController extends Controller
 
         $task->save();
 
+        $this->saveAssignedUsers($request, $task);
+
         return response()->json(['success' => true, 'task' => $task ]);
-        //
     }
 
 
@@ -150,13 +157,11 @@ class TaskController extends Controller
      */
     public function close(Request $request, $id)
     {
-
         $task = Task::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
         $task->status = 'closed';
         $task->save();
 
         return response()->json(['success' => true, 'task' => $task ]);
-        //
     }
 
     /**
