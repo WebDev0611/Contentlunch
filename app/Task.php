@@ -45,4 +45,11 @@ class Task extends Model
             })
             ->get();
     }
+
+    public function isAssignedTo(User $user)
+    {
+        return (boolean) $this->assignedUsers()
+            ->where('users.id', $user->id)
+            ->count();
+    }
 }
