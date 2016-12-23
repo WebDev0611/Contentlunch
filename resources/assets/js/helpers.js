@@ -34,10 +34,10 @@ var format_time_ago = function(time){
 
 
 //handles the task modal for the site
-$(function(){
+$(function() {
 
 	$('.add-task-action').click(function(){
-	 $("#addTaskModal").modal('show');
+        $("#addTaskModal").modal('show');
 	});
 
     $('#task-start-date').datetimepicker({
@@ -54,13 +54,14 @@ $(function(){
 
 //adds the task from any page
 var loadIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
-var add_task = function(callback) {
+function add_task(callback) {
     //so hacky ;)
 
     //need proper validation here
     if (isTaskDataValid()) {
         $('#task-menu').prepend(loadIMG);
-        $.ajax({
+
+        return $.ajax({
             url: '/task/add',
             type: 'post',
             data: getTaskData(),
