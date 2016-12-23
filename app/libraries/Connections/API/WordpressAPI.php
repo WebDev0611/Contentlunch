@@ -110,7 +110,7 @@ class WordPressAPI
 
     public function blogInfo($blogUrl)
     {
-        $response = $this->client->get($blogUrl);
+        $response = $this->client->get('sites/' . $blogUrl);
 
         return json_decode((string) $response->getBody());
     }
