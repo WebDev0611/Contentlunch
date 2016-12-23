@@ -106,9 +106,12 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        //
-        $task = Task::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
-        return View::make('task/index',['task'=>$task]);
+        $task = Task::where([
+            'id'=> $id,
+            'user_id' => Auth::id()
+        ])->first();
+
+        return view('task/index', compact('task'));
     }
 
     /**
@@ -132,8 +135,10 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $task = Task::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
+        $task = Task::where([
+            'id'=> $id,
+            'user_id' => Auth::id()
+        ])->first();
 
         $task->name = $request->input('name');
         $task->explanation = $request->input('explanation');
