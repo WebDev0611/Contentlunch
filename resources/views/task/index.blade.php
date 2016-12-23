@@ -112,12 +112,30 @@
                                                 'id' => 'explanation'
                                             ]
                                         )
-                                    !!}                               
+                                    !!}
                                 </div>
                             </div>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                             <input type="hidden" name="task_id" value="{{ $task->id }}" />
                         </div>
+
+                        <div class="input-form-group">
+                            <label for="#">Assign Task To</label>
+                            <ul class="sidemodal-list-items" id='task-assignment-non-modal'>
+                                @foreach (\App\Account::selectedAccount()->users as $user)
+                                    @php
+                                        $isChecked = $task->isAssignedTo($user) ? 'checked="checked"' : '';
+                                    @endphp
+                                    <li>
+                                        <label class="checkbox-primary">
+                                            <input name='assigned_users[]' type="checkbox" data-id='{{ $user->id }}' {{ $isChecked }}>
+                                            <span>{{ $user->name }}</span>
+                                        </label>
+                                    </li>
+                                @endforeach
+                            <ul>
+                        </div>
+
                     </div>
 
                 </div>  <!-- End Panel Container -->

@@ -43,53 +43,24 @@
             <label for="#">Reference URL</label>
             <input type="text" class="input" name="task-url" id="task-url" placeholder="Paste URL">
         </div>
-        <!--
+
         <div class="input-form-group">
             <label for="#">Assign Task To</label>
-            <div class="dropdown">
-                <input type="text" class="input" placeholder="Select one or more Team Members" data-toggle="dropdown">
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <li class="dropdown-header-secondary">
-                        <span class="dropdown-header-secondary-text">
-                            Select team member
-                        </span>
-                        <button class="button button-micro pull-right text-uppercase">
-                            Submit
-                        </button>
-                    </li>
+            <ul class="sidemodal-list-items" id='task-assignment'>
+                @foreach (\App\Account::selectedAccount()->users as $user)
+                    @php
+                        $isChecked = $user->id == Auth::id() ? 'checked="checked"' : '';
+                    @endphp
                     <li>
-                        <input type="text" class="dropdown-header-secondary-search" placeholder="Team Member Name">
-                    </li>
-                    <li>
-                        <label for="Friend" class="checkbox-image">
-                            <input id="Friend" type="checkbox">
-                            <span>
-                                <img src="/images/avatar.jpg" alt="#">
-                            </span>
-                        </label>
-                        <label for="Friend" class="checkbox-image">
-                            <input id="Friend" type="checkbox">
-                            <span>
-                                <img src="/images/avatar.jpg" alt="#">
-                            </span>
-                        </label>
-                        <label for="Friend" class="checkbox-image">
-                            <input id="Friend" type="checkbox">
-                            <span>
-                                <img src="/images/avatar.jpg" alt="#">
-                            </span>
-                        </label>
-                        <label for="Friend" class="checkbox-image">
-                            <input id="Friend" type="checkbox">
-                            <span>
-                                <img src="/images/avatar.jpg" alt="#">
-                            </span>
+                        <label class="checkbox-primary">
+                            <input type="checkbox" data-id='{{ $user->id }}' {{ $isChecked }}>
+                            <span>{{ $user->name }}</span>
                         </label>
                     </li>
-                </ul>
-            </div>
+                @endforeach
+            <ul>
         </div>
-        -->
+
         <div class="input-form-group">
             <label>Attach one or more documents</label>
             <div class="dropzone" id='task-attachment-uploader'>
