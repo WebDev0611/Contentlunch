@@ -26,6 +26,11 @@ class Task extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function assignedUsers()
+    {
+        return $this->belongsToMany('App\User');
+    }
+
     public static function search($term, $account = null)
     {
         if (!$account) {
