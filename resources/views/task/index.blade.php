@@ -92,7 +92,12 @@
                             <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="url">REFERENCE URL</label>
-                                    <input type="text" placeholder="http://example.com" class="form-control input-larger input " id="url" name="url" value="{{$task->url}}" /> 
+                                    <input type="text"
+                                        placeholder="http://example.com"
+                                        class="form-control input-larger input"
+                                        id="url"
+                                        name="url"
+                                        value="{{ $task->url }}" />
                                 </div>
                             </div>
                         </div>
