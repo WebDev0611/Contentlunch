@@ -20,6 +20,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->selectedAccount = Account::selectedAccount();
     }
 
     /**
@@ -29,13 +30,32 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $selectedAccount = Account::selectedAccount();
-        $myCampaigns = Auth::user()->campaigns()->get();
-        $myTasks = $selectedAccount->tasks()->with('user')->get();
-
         return view('home.list',[
-            'mycampaigns' => $myCampaigns->toJson(),
-            'tasks' => $myTasks->toJson(),
+            'mycampaigns' => $this->myCampaigns()->toJson(),
+            'tasks' => $this->loggedUserTasks()->toJson(),
+            'accountTasks' => $this->accountTasks()->toJson(),
         ]);
+    }
+
+    protected function myCampaigns()
+    {
+        return Auth::user()->campaigns()->get();
+    }
+
+    protected function accountTasks()
+    {
+        return $this->selectedAccount
+            ->tasks()
+            ->with('user')
+            ->get();
+    }
+
+    protected function loggedUserTasks()
+    {
+        return Auth::user()
+            ->assignedTasks()
+            ->with('user')
+            ->distinct()
+            ->get();
     }
 }
