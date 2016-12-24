@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\WriterAccessPartialOrder;
 use Validator;
+use Config;
 
 /**
  * Class WriterAccessController.
@@ -35,8 +36,8 @@ class WriterAccessController extends Controller
     private function initStripe()
     {
         $stripe = [
-            'secret_key' => 'sk_test_LWaM9Mld4dpcRtIeDCH7K72t',
-            'publishable_key' => 'pk_test_9WtB8kfnBxpSgEX7MMwOkA82',
+            'secret_key' => Config::get('services.stripe.secret'),
+            'publishable_key' => Config::get('services.stripe.key'),
         ];
 
         Stripe::setApiKey($stripe['secret_key']);
@@ -100,6 +101,7 @@ class WriterAccessController extends Controller
         $url = null;
         $queryString = '';
         $parameters['project'] = $this->apiProjectId;
+
         if (isset($_GET['status'])) {
             if (isset($_GET['status'])) {
                 $parameters['status'] = $_GET['status'];
