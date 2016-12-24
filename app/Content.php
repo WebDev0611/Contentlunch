@@ -214,4 +214,10 @@ class Content extends Model
             ->get();
     }
 
+    public function hasCollaborator(User $user)
+    {
+        return (boolean) $this->authors()
+            ->where('users.id', $user->id)
+            ->count();
+    }
 }
