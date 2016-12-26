@@ -85,6 +85,7 @@ Route::post('/idea/park','IdeaController@park');
 Route::post('/idea/update/{idea}','IdeaController@update');
 Route::post('/idea/reject/{id}','IdeaController@reject');
 Route::post('/idea/activate','IdeaController@activate');
+Route::get('/idea/write/{idea}', 'IdeaController@write');
 
 Route::resource('/ideas', 'IdeaController', ['only' => [
     'index', 'show','store','park','activate'
@@ -145,7 +146,7 @@ Route::post('/create/new','ContentController@store');
 
 // - create form page
 Route::get('/edit', ['as' => 'editIndex', 'uses' => 'ContentController@createContent']);
-Route::post('/edit','ContentController@editStore');
+Route::post('/edit', 'ContentController@editStore');
 
 Route::post('/edit/images', [ 'as' => 'imageContent', 'uses' => 'ContentController@images']);
 Route::post('/edit/attachments', ['as' => 'attachmentContent', 'uses' => 'ContentController@attachments']);

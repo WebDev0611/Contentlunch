@@ -32,6 +32,11 @@ class Idea extends Model
         return $this->belongsTo('App\Account');
     }
 
+    public function contents()
+    {
+        return $this->belongsToMany('App\Content');
+    }
+
     public function getCreatedAtDiffAttribute()
     {
         return $this->created_at->diffForHumans();
@@ -59,8 +64,16 @@ class Idea extends Model
 
     public function hasCollaborator(User $user)
     {
-        return $this->collaborators()
+        $isAuthor = $this->user_id == $user->id;
+        $isCollaborator = (boolean) $this->collaborators()
             ->where('users.id', $user->id)
             ->count();
+
+        if ($isAuthor && !$isCollaborator) {
+            $this->collaborators()->attach($user);
+            $isCollaborator = true;
+        }
+
+        return $isCollaborator;
     }
 }
