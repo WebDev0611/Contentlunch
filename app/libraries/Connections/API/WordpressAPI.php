@@ -67,7 +67,8 @@ class WordPressAPI
             'title' => $this->content->title,
             'content' => $this->content->body,
             'tags' => $this->tags(),
-            'media_urls' => $this->getMediaUrls()
+            'media_urls' => $this->getMediaUrls(),
+            'status' => 'draft',
         ];
     }
 
@@ -75,7 +76,10 @@ class WordPressAPI
     public function createPost()
     {
         // - standardize return
-        $response = ['success' => false, 'response' => []];
+        $response = [
+            'success' => false,
+            'response' => []
+        ];
 
         try {
             // - Create Options and Header Data
@@ -110,7 +114,7 @@ class WordPressAPI
 
     public function blogInfo($blogUrl)
     {
-        $response = $this->client->get($blogUrl);
+        $response = $this->client->get('sites/' . $blogUrl);
 
         return json_decode((string) $response->getBody());
     }
