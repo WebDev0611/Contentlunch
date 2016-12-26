@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Session;
 use Auth;
 use Storage;
+use Mail;
 
 use App\Http\Controllers\Controller;
 use App\User;
@@ -118,6 +119,7 @@ class AuthController extends Controller
         $account->users()->attach($user);
 
         $this->handleProfilePicture($user, $data);
+        $this->sendSignupEmail($user);
 
         return $user;
     }
@@ -137,6 +139,15 @@ class AuthController extends Controller
             'name' => $data['company_name'],
             'account_type_id' => $data['account_type'],
         ]);
+    }
+
+    private function sendSignupEmail(User $user)
+    {
+        Mail::send('emails.signup', compact('user'), function($message) use ($user) {
+            $message->from("no-reply@contentlaunch.com", "Content Launch")
+                ->to($user->email)
+                ->subject('Welcome to Content Launch');
+        });
     }
 
     private function handleProfilePicture($user, $data)
