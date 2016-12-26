@@ -115,7 +115,7 @@
                             </a>
                         </h4>
                     </div>
-  
+
                 </div>
 
                 <div class="panel max-height">

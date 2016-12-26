@@ -57,10 +57,8 @@
         switchCollection: function(collection) {
             this.render();
 
-            this.collection.reset(collection.models);
-
-            if (this.collection.length > 0) {
-                this.append_open_tasks();
+            if (collection.length > 0) {
+                this.append_open_tasks(collection);
             } else {
                 this.append_empty_message();
             }
@@ -68,15 +66,15 @@
             $('#incomplete-tasks').text(this.collection.length);
         },
 
-        append_open_tasks: function() {
-            this.open_tasks().forEach(function(model) {
+        append_open_tasks: function(collection) {
+            this.open_tasks(collection).forEach(function(model) {
                 var taskView = new task_view({ model: model });
                 this.$el.find('.panel').append(taskView.render());
             }.bind(this));
         },
 
-        open_tasks: function() {
-            return this.collection.filter(function(model) {
+        open_tasks: function(collection) {
+            return collection.filter(function(model) {
                 return model.get('status') === 'open';
             });
         },
@@ -141,15 +139,17 @@
 
     /* activity feed view */
     var activity_feed_view = Backbone.View.extend({
-        initialize: function(){
+        initialize: function() {
             this.render();
         },
+
         render: function(){
             var view = this;
-            this.collection.each(function(m){
-                var activity_item = new activity_item_view({model: m});
-                view.$el.append( activity_item.$el );
+            this.collection.each(function(model) {
+                var activity_item = new activity_item_view({ model: model });
+                view.$el.append(activity_item.$el);
             });
+
             return this;
         }
     });
@@ -158,9 +158,9 @@
     var activity_item_view = Backbone.View.extend({
         tagName: "div",
         className: "plan-activity-box-container",
-        template: _.template( $('#activity-item-template').html() ),
-        initialize: function(){
-            this.$el.append( this.template( this.model.attributes ) );
+        template: _.template($('#activity-item-template').html()),
+        initialize: function() {
+            this.$el.append(this.template(this.model.attributes));
         }
     });
 
