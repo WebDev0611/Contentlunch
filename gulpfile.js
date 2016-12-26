@@ -42,11 +42,11 @@ elixir(function (mix) {
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js',
                 './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
-                './bower_components/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+                'resources/assets/js/plugins/*.js',
             ], "public/js/plugins.js")
 
             /* content scripts and main app */
-            .scripts([
+            .babel([
                 'resources/assets/js/noautodiscover.js',
                 'resources/assets/js/models/tasks.js',
                 'resources/assets/js/collections/tasks.js',
@@ -56,8 +56,8 @@ elixir(function (mix) {
 
             /* plan module scripts */
             /* trends */
-            .scripts(['resources/assets/js/plan/topic.js'],"public/js/topic.js")
-            .scripts([
+            .babel(['resources/assets/js/plan/topic.js'],"public/js/topic.js")
+            .babel([
                 'resources/assets/js/models/trends.js',
                 'resources/assets/js/views/trends.js',
                 'resources/assets/js/collections/trends.js',
@@ -65,34 +65,34 @@ elixir(function (mix) {
             ],"public/js/trends.js")
 
             /* Avatar View */
-            .scripts([ 'resources/assets/js/views/avatar.js' ], 'public/js/avatar_view.js')
+            .babel([ 'resources/assets/js/views/avatar.js' ], 'public/js/avatar_view.js')
 
             /* Onboarding */
-            .scripts([
+            .babel([
                 'resources/assets/js/onboarding/*.js'
             ], 'public/js/onboarding.js')
 
             /* ideas */
-            .scripts([
+            .babel([
                 'resources/assets/js/models/ideas.js',
                 'resources/assets/js/collections/ideas.js',
                 'resources/assets/js/views/ideas.js',
                 'resources/assets/js/plan/ideas.js',
             ],"public/js/ideas.js")
 
-            .scripts([
+            .babel([
                 'resources/assets/js/models/ideas.js',
                 'resources/assets/js/plan/editor.js',
                 'resources/assets/js/plan/idea_collaborators.js',
-            ],"public/js/idea_editor.js")
+            ], "public/js/idea_editor.js")
 
             /* influencers scripts */
-            .scripts([
-                'resources/assets/js/collaborate/influencers.js
+            .babel([
+                'resources/assets/js/collaborate/influencers.js',
             ], "public/js/influencers.js")
 
             /* campaign scripts */
-            .scripts([
+            .babel([
                 'resources/assets/js/models/campaigns.js',
                 'resources/assets/js/collections/campaigns.js',
                 'resources/assets/js/views/campaign.js',
@@ -100,24 +100,23 @@ elixir(function (mix) {
             ],"public/js/campaign.js")
 
             /* calendar scripts */
-            .scripts([
+            .babel([
                 'resources/assets/js/models/campaigns.js',
                 'resources/assets/js/models/ideas.js',
                 'resources/assets/js/models/content.js',
                 'resources/assets/js/collections/campaigns.js',
                 'resources/assets/js/collections/ideas.js',
                 'resources/assets/js/collections/content.js',
-
                 'resources/assets/js/calendar/calendar.js'
             ],"public/js/calendar.js")
 
-            .scripts([
+            .babel([
                 'resources/assets/js/models/campaigns.js',
                 'resources/assets/js/calendar/campaign-calendar.js'
             ],"public/js/campaign-calendar.js")
 
             /* home area scripts */
-            .scripts([
+            .babel([
                 'resources/assets/js/models/ideas.js',
                 'resources/assets/js/models/campaigns.js',
                 'resources/assets/js/models/tasks.js',
@@ -129,7 +128,7 @@ elixir(function (mix) {
                 'resources/assets/js/dashboard/dashboard.js',
             ],"public/js/dashboard.js")
 
-            .scripts([
+            .babel([
                 'resources/assets/js/models/ideas.js',
                 'resources/assets/js/models/campaigns.js',
                 'resources/assets/js/collections/ideas.js',
@@ -139,17 +138,17 @@ elixir(function (mix) {
             ],"public/js/performance.js")
 
             /* settings scripts */
-            .scripts([
+            .babel([
                 'resources/assets/js/settings/*.js'
             ], 'public/js/settings.js')
 
             /* task editor */
-            .scripts([
+            .babel([
                 'resources/assets/js/task/*.js'
             ], 'public/js/task_editor.js')
 
             /* twitter scripts */
-            .scripts([
+            .babel([
                 'resources/assets/js/collaborate/twitter.js'
             ], 'public/js/twitter.js')
 
