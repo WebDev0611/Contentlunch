@@ -30,19 +30,15 @@ class IdeaController extends Controller
         $ideas = Account::selectedAccount()
             ->ideas()
             ->with('user')
-            ->get();
+            ->get()
+            ->map(function($idea) {
+                $idea->created_diff = $idea->createdAtDiff;
+                $idea->updated_diff = $idea->updatedAtDiff;
+
+                return $idea;
+            });
 
         return response()->json($ideas);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     // Parks the idea
@@ -94,6 +90,8 @@ class IdeaController extends Controller
         $idea->account_id = Account::selectedAccount()->id;
         $idea->save();
 
+        $idea->collaborators()->attach(Auth::user());
+
         $idea_contents = array();
 
         if(!empty($contents) && is_array($contents)){
@@ -139,42 +137,25 @@ class IdeaController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Idea $idea)
     {
-        $idea = Idea::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
-        //
-        $idea->name     = $request->input('name');
-        $idea->text     = $request->input('idea');
-        $idea->tags     = $request->input('tags');
-        $idea->save();
+        $response = response()->json([ 'error' => 'User not authorized' ], 403);
+
+        if ($idea->hasCollaborator(Auth::user())) {
+            $idea->update([
+                'name' => $request->input('name'),
+                'idea' => $request->input('idea'),
+                'tags' => $request->input('tags'),
+            ]);
+
+            $response = response()->json($idea);
+        }
 
         return response()->json($idea);
     }
@@ -185,16 +166,5 @@ class IdeaController extends Controller
 
         $new_content = new Content;
 
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

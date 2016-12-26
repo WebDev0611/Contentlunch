@@ -1,14 +1,5 @@
 (function() {
 
-    if (!isContentEditorPage()) {
-        return false;
-    }
-
-    /**
-     * Models and data
-     */
-    var contentId = $('input[name=content_id]').val();
-
     var CollaboratorModel = Backbone.Model.extend({
         defaults: {
             profile_image: '/images/avatar.jpg'
@@ -27,7 +18,7 @@
         fetchData: function() {
             return $.ajax({
                 method: 'get',
-                url: '/api/contents/' + contentId + '/collaborators',
+                url: '/api/ideas/' + idea_obj.id + '/collaborators',
                 headers: getCSRFHeader(),
             });
         },
@@ -41,90 +32,66 @@
         },
     });
 
-    /**
-     * Views
-     */
     var CollaboratorView = Backbone.View.extend({
-        template: _.template($('#sidebar-collaborator-view').html()),
+        template: _.template(
+            "<img src='<%= profile_image %>' title='<%= name %>' alt='<%= name %>'>"
+        ),
         tagName: 'li',
-        render: function() {
-            this.$el.html(this.template(this.model.toJSON()));
-            return this;
-        },
-    });
-
-    var SidebarView = Backbone.View.extend({
-        events: {
-            'click #add-person-to-content': 'openAddPersonModal',
-        },
-
-        initialize: function() {
-            this.render();
-        },
-        render: function() {
-            return this;
-        },
-
-        openAddPersonModal: function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            var modal = new AddCollaboratorModalView();
-            modal.render();
-            $('body').prepend(modal.el);
-            modal.showModal();
-        },
-    });
-
-    new SidebarView({ el: '#editor-panel-sidebar' });
-
-    var CollaboratorModalView = Backbone.View.extend({
-        template: _.template($('#sidebar-collaborator-checkbox').html()),
-        tagName: 'div',
         render: function() {
             this.$el.html(this.template(this.model.toJSON()));
             return this;
         },
     })
 
+    var CollaboratorModalView = Backbone.View.extend({
+        template: _.template($('#ideas-collaborator-checkbox').html()),
+        tagName: 'div',
+        render: function() {
+            this.$el.html(this.template(this.model.toJSON()));
+            return this;
+        },
+    });
+
     var AddCollaboratorModalView = Backbone.View.extend({
         events: {
             'click .invite-users': 'submit',
         },
-        template: _.template($('#sidebar-collaborator-modal-view').html()),
+        template: _.template($('#ideas-collaborator-modal-view').html()),
         data: {
             users: []
         },
 
         initialize: function() {
-            this.clearList();
             this.render();
             this.fetchData();
         },
 
-        render: function() {
-            this.$el.html(this.template(this.data));
-            return this;
-        },
-
-        getList: function() {
-            return this.$el.find('.collaborators-list');
-        },
-
         fetchData: function() {
-            $.ajax({
+            return $.ajax({
                 method: 'get',
-                url: '/api/contents/' + contentId + '/collaborators?possible_collaborators=1',
+                url: '/api/ideas/' + idea_obj.id + '/collaborators?possible_collaborators=1',
                 headers: getCSRFHeader(),
             })
             .then(function(response) {
                 this.clearList();
                 this.data.users = response.data;
                 this.renderCheckboxes();
-            }.bind(this));
+            }.bind(this));;
+        },
+
+        render: function() {
+            this.$el.html(this.template(this.data));
+            $('body').prepend(this.el);
+
+            return this;
         },
 
         clearList: function() {
             this.getList().html('');
+        },
+
+        getList: function() {
+            return this.$el.find('.collaborators-list');
         },
 
         renderCheckboxes: function() {
@@ -153,10 +120,10 @@
         submit: function() {
             $.ajax({
                 method: 'post',
-                url: '/api/contents/' + contentId + '/collaborators',
+                url: '/api/ideas/' + idea_obj.id + '/collaborators',
                 headers: getCSRFHeader(),
                 data: {
-                    authors: this.getCheckedCollaborators()
+                    collaborators: this.getCheckedCollaborators()
                 },
             })
             .then(function(response) {
@@ -175,6 +142,12 @@
         }
     });
 
+    $('#open-collab-modal').click(function(event) {
+        event.preventDefault();
+        var collabModal = new AddCollaboratorModalView();
+        collabModal.showModal();
+    });
+
     var collaborators = new CollaboratorCollection();
 
     collaborators.on('add', function(model) {
@@ -184,13 +157,9 @@
 
         result.render();
 
-        $('#sidebar-collaborator-list').append(result.el);
+        $('#ideas-collaborator-list').append(result.el);
     });
 
     collaborators.populateList();
-
-    function isContentEditorPage() {
-        return $('#sidebar-collaborator-modal-view').length > 0 && $('#sidebar-collaborator-view').length > 0;
-    }
 
 })();
