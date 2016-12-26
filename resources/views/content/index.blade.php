@@ -374,7 +374,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
-                        <a href="{{ route('dashboard') }}" class="button text-uppercase button-extend">
+                        <a href="{{ route('contentIndex') }}" class="button text-uppercase button-extend">
                             Go to Dashboard
                         </a>
                     </div>
