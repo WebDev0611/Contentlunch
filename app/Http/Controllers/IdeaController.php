@@ -197,6 +197,7 @@ class IdeaController extends Controller
         $newContent = Content::create([
             'title' => $idea->name,
             'text' => $idea->text,
+            'written' => 1,
         ]);
 
         $newContent->authors()->attach(Auth::user());
