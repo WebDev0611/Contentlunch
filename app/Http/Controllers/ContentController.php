@@ -115,9 +115,8 @@ class ContentController extends Controller
         return view('content.create', $data);
     }
 
-    public function directPublish(Request $request, $contentId)
+    public function directPublish(Request $request, Content $content)
     {
-        $content = Content::find($contentId);
         $connections = collect(explode(',', $request->input('connections')))
             ->map(function ($connectionId) {
                 return Connection::find($connectionId);
