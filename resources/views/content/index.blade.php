@@ -5,7 +5,7 @@
     <div class="panel clearfix">
         <div class="panel-main">
             <div class="panel-header">
-                <h4 class="panel-container-title">{{$countContent}} Content Items</h4>
+                <h4 class="panel-container-title">{{ $countContent }} Content Items</h4>
             </div>
 
             {{-- @include('content.partials.dashboard.filter') --}}
