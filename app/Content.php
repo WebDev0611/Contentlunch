@@ -220,4 +220,10 @@ class Content extends Model
             ->where('users.id', $user->id)
             ->count();
     }
+
+    public function author() {
+        $author = $this->authors()->orderBy('created_at')->first();
+
+        return $author ? $author : null;
+    }
 }
