@@ -30,6 +30,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    const DEFAULT_PROFILE_IMAGE = '/images/avatar.jpg';
 
     public function connections()
     {
