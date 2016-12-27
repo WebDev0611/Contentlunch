@@ -1,8 +1,8 @@
 <div class="create-panel-table">
-    <div class="create-panel-table-cell">
+    <div class="create-panel-table-cell cell-size-5">
         @include('content.partials.avatar')
     </div>
-    <div class="create-panel-table-cell create-panel-table-cell-large">
+    <div class="create-panel-table-cell cell-size-70">
         <h5 class="dashboard-tasks-title">
             {{ $content->title }}
         </h5>
@@ -10,15 +10,15 @@
             {{ strtoupper($content->created_at->diffForHumans()) }}
         </span>
     </div>
-    <div class="create-panel-table-cell text-right">
+    <div class="create-panel-table-cell text-center cell-size-5">
         <i class="tooltip-icon large icon-arrange-mini" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lorem Ipsum"></i>
     </div>
-    <div class="create-panel-table-cell text-right">
+    <div class="create-panel-table-cell text-right cell-size-15">
         <span class="dashboard-performing-text small">
             UPDATED: <strong>{{ $content->updated_at->format('m/d/Y') }}</strong>
         </span>
     </div>
-    <div class="create-panel-table-cell text-right">
+    <div class="create-panel-table-cell text-right cell-size-5">
         <div class="create-dropdown">
             <button type="button" class="button button-action" data-toggle="dropdown">
                 <i class="icon-add-circle"></i>
