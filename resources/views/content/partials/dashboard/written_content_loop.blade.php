@@ -10,12 +10,13 @@
             {{ strtoupper($content->present()->createdAt) }}
         </span>
     </div>
-    <div class="create-panel-table-cell text-center cell-size-5">
-        <i class="tooltip-icon large {{ $content->present()->contentIcon }}"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="{{ $content->present()->contentType }}"
-            data-original-title="{{ $content->present()->contentType }}"></i>
+    <div class="create-panel-table-cell text-center cell-size-5"
+        data-toggle="tooltip"
+        data-placement="top"
+        title="{{ $content->present()->contentType }}"
+        data-original-title="{{ $content->present()->contentType }}">
+
+        <i class="tooltip-icon large {{ $content->present()->contentIcon }}"></i>
     </div>
     <div class="create-panel-table-cell text-right cell-size-15">
         <span class="dashboard-performing-text small @if($content->isDueDateCritical()) critical @endif">
