@@ -80,6 +80,11 @@ class Content extends Model
         }
     }
 
+    public function contentType()
+    {
+        return $this->belongsTo('App\ContentType');
+    }
+
     public function account()
     {
         return $this->belongsTo('App\Account');
