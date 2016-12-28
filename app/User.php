@@ -2,16 +2,20 @@
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
-use Auth;
-use App\AccountType;
 use App\Account;
+use App\AccountType;
 use App\Content;
+use App\Presenters\UserPresenter;
+use Auth;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laracasts\Presenter\PresentableTrait;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
 {
-    use EntrustUserTrait;
+    use EntrustUserTrait, PresentableTrait;
+
+    protected $presenter = UserPresenter::class;
     /**
      * The attributes that are mass assignable.
      *
@@ -91,15 +95,6 @@ class User extends Authenticatable
     public function __toString()
     {
         return $this->name;
-    }
-
-    public function getLocationAttribute()
-    {
-        $location = $this->city ?: '';
-        $location .= $this->city && $this->country ? ', ' : '';
-        $location .= $this->country ? $this->country->country_name : '';
-
-        return $location;
     }
 
     public static function search($term, $account = null)
