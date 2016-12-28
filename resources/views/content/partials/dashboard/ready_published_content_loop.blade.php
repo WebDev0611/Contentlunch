@@ -4,7 +4,7 @@
     </div>
     <div class="create-panel-table-cell cell-size-75">
         <h5 class="dashboard-tasks-title">
-            {{ $content->title }}
+            <a href="{{ route('editContent', $content) }}">{{ $content->present()->title }}</a>
         </h5>
         <span class="dashboard-members-text small">
             {{ strtoupper($content->present()->createdAt) }}
