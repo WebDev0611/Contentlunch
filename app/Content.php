@@ -3,12 +3,18 @@
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Laracasts\Presenter\PresentableTrait;
 
 use App\Helpers;
 use App\Account;
 
+
 class Content extends Model
 {
+    use PresentableTrait;
+
+    public $presenter = \App\Presenters\ContentPresenter::class;
+
     /**
      * Human readable column names.
      *
@@ -189,13 +195,6 @@ class Content extends Model
     public function __toString()
     {
         return $this->title;
-    }
-
-    public function getDueDateDiffAttribute()
-    {
-        $carbonObject = new Carbon($this->due_date);
-
-        return $carbonObject->diffForHumans();
     }
 
     public static function search($term, $account = null)
