@@ -30,4 +30,24 @@ class ContentPresenter extends Presenter {
     {
         return $this->entity->title ? $this->entity->title : 'Untitled Content';
     }
+
+    public function contentIcon()
+    {
+        $contentIcon = '';
+
+        if ($this->entity->contentType) {
+            $contentType = $this->entity->contentType->name;
+            $contentTypeSlug = strtolower(explode(' ', $contentType)[0]);
+            $contentIcon = 'icon-type-' . $contentTypeSlug;
+        }
+
+        return $contentIcon;
+    }
+
+    public function contentType()
+    {
+        return $this->entity->contentType ?
+            $this->entity->contentType->name :
+            'No content type specified';
+    }
 }
