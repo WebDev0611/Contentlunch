@@ -20,11 +20,7 @@
         </li> --}}
         <li>
             <a href="javascript:;" class="navigation-menu-profile ">
-                @if (\Auth::user()->profile_image)
-                    <img src="{{ \Auth::user()->profile_image }}" alt="">
-                @else
-                    <img src="/images/avatar.jpg" alt="#">
-                @endif
+                <img src="{{ \Auth::user()->present()->profile_image }}" alt="">
 
                 @if (\Auth::user()->belongsToAgencyAccount())
                     <div class="app-type">
