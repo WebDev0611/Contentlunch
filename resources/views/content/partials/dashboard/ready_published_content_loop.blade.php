@@ -7,7 +7,7 @@
             {{ $content->title }}
         </h5>
         <span class="dashboard-members-text small">
-            {{ strtoupper($content->created_at->diffForHumans()) }}
+            {{ strtoupper($content->present()->createdAt) }}
         </span>
     </div>
     <div class="create-panel-table-cell cell-size-5 text-center">
@@ -21,7 +21,7 @@
     </div>
     <div class="create-panel-table-cell cell-size-15 text-right">
         <span class="dashboard-performing-text small">
-            UPDATED: <strong>{{ $content->updated_at->format('m/d/Y') }}</strong>
+            DUE: <strong>{{ strtoupper($content->present()->dueDate) }}</strong>
         </span>
     </div>
     <div class="create-panel-table-cell cell-size-5 text-right">
