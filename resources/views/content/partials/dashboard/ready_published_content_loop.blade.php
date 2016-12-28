@@ -11,13 +11,11 @@
         </span>
     </div>
     <div class="create-panel-table-cell cell-size-5 text-center">
-        <a href="{{ route('editContent', $content->id) }}"
-           class="tooltip-icon large icon-arrange-mini"
-           data-toggle="tooltip"
-           data-placement="top"
-           title=""
-           data-original-title="Lorem Ipsum">
-        </a>
+        <i class="tooltip-icon large {{ $content->present()->contentIcon }}"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="{{ $content->present()->contentType }}"
+            data-original-title="{{ $content->present()->contentType }}"></i>
     </div>
     <div class="create-panel-table-cell cell-size-15 text-right">
         <span class="dashboard-performing-text small @if ($content->isDueDateCritical()) critical @endif">
