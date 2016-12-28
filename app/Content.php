@@ -225,4 +225,14 @@ class Content extends Model
 
         return $author ? $author : null;
     }
+
+    public function dueDateDiffFromToday()
+    {
+        return Carbon::now()->diffInDays(new Carbon($this->due_date));
+    }
+
+    public function isDueDateCritical()
+    {
+        return $this->dueDateDiffFromToday() <= 2;
+    }
 }
