@@ -20,7 +20,7 @@
         </a>
     </div>
     <div class="create-panel-table-cell cell-size-15 text-right">
-        <span class="dashboard-performing-text small">
+        <span class="dashboard-performing-text small @if ($content->isDueDateCritical()) critical @endif">
             DUE: <strong>{{ strtoupper($content->present()->dueDate) }}</strong>
         </span>
     </div>

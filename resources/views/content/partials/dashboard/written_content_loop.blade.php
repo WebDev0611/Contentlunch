@@ -14,7 +14,7 @@
         <i class="tooltip-icon large icon-arrange-mini" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lorem Ipsum"></i>
     </div>
     <div class="create-panel-table-cell text-right cell-size-15">
-        <span class="dashboard-performing-text small">
+        <span class="dashboard-performing-text small @if($content->isDueDateCritical()) critical @endif">
             DUE: <strong>{{ strtoupper($content->present()->dueDate) }}</strong>
         </span>
     </div>
