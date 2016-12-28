@@ -25,4 +25,9 @@ class ContentPresenter extends Presenter {
     {
         return $this->updated_at->diffForHumans();
     }
+
+    public function title()
+    {
+        return $this->entity->title ? $this->entity->title : 'Untitled Content';
+    }
 }
