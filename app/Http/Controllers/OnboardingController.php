@@ -68,7 +68,7 @@ class OnboardingController extends Controller
 
         $this->markInviteAsUsed($request, $user);
 
-        $account = Account::find($request->account_id)->first();
+        $account = Account::find($request->input('account_id'))->first();
         $account->users()->attach($user);
 
         return redirect('/')->with([
