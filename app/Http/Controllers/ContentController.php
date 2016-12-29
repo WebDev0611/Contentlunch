@@ -363,24 +363,35 @@ class ContentController extends Controller
     public function delete(Request $request, $content_id)
     {
         $content = Content::find($content_id);
+        $redirect = $this->redirectDeleteFailed();
 
         if ($content) {
             $this->detachRelatedContent($content);
             $content->attachments()->delete();
             $content->delete();
-
-            return redirect()->route('contentIndex')->with([
-                'flash_message' => 'You have successfully deleted '.$content->title.'.',
-                'flash_message_type' => 'success',
-                'flash_message_important' => true,
-            ]);
-        } else {
-            return redirect()->route('contentIndex')->with([
-                'flash_message' => 'Unable to delete content: not found.',
-                'flash_message_type' => 'danger',
-                'flash_message_important' => true,
-            ]);
+            $redirect = $this->redirectDeleteSuccessful($content);
         }
+
+        return $redirect;
+    }
+
+    protected function redirectDeleteSuccessful($content)
+    {
+       return redirect()->route('contentIndex')->with([
+           'flash_message' => 'You have successfully deleted '.$content->title.'.',
+           'flash_message_type' => 'success',
+           'flash_message_important' => true,
+       ]);
+    }
+
+    protected function redirectDeleteFailed()
+    {
+        return redirect()->route('contentIndex')->with([
+            'flash_message' => 'Unable to delete content: not found.',
+            'flash_message_type' => 'danger',
+            'flash_message_important' => true,
+        ]);
+
     }
 
     public function my()

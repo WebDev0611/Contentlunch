@@ -1,15 +1,16 @@
 <?php
 
-namespace app\Http\Controllers;
+namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use Storage;
-use Auth;
+
 use App\Account;
+use App\Content;
 use App\Idea;
 use App\IdeaContent;
 use App\User;
-use App\Content;
 
 class IdeaController extends Controller
 {

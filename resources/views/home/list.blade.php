@@ -252,9 +252,9 @@
 </script>
 
 <script>
-var my_campaigns = {!! $mycampaigns !!};
-var my_tasks = {!! $tasks !!};
-
+    var my_campaigns = {!! $mycampaigns !!};
+    var my_tasks = {!! $tasks !!};
+    var account_tasks = {!! $accountTasks !!};
 </script>
 @stop
 

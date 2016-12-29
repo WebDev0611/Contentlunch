@@ -23,76 +23,76 @@
             "click li.all-tasks": "show_all",
             "click li.campaigns": "show_campaigns"
         },
-        initialize: function(){
-            var v = this;
-            v.collection.reset(this.collection.models);
-            v.collection.on('update',function(){
-                console.log('updated the collection');
-                v.show_my();
-            });
+
+        initialize: function(options) {
+            this.allTasks = options.allTasks;
+            this.myTasks = options.myTasks;
             this.show_my();
         },
-        render: function(){
-            var that = this;
-            $('.dashboard-tasks-container').each(function(i,e){
-                $(e).remove();
+
+        render: function() {
+            $('.dashboard-tasks-container').each(function(index, element) {
+                $(element).remove();
             });
+
             return this;
         },
-        show_my: function(){
-            var view = this;
-            this.remove_active();
-            this.render();
-            this.$el.find('.my-tasks').addClass('active');
-            this.collection.reset( this.collection.models );
-            this.collection.sortBy('timeago');
 
-            if (this.collection.length > 0) {
-                this.collection.each(function(model) {
-                    if(model.get('status') === 'open'){
-                        var taskElement = new task_view({ model: model });
-                        view.$el.find('.panel').append(taskElement.render());
-                    }
-                });
-            } else {
-                var create_lang = $('<div class="dashboard-tasks-container">' +
-                    '<div class="dashboard-tasks-cell">' +
-                    '<h5 class="dashboard-tasks-title">No tasks: </h5> <a href="#">create one now</a>' +
-                    '</div>'+
-                    '</div>').click(this.show_add_task_modal.bind(this));
-                view.$el.find('.panel').append(create_lang);
-            }
-            $('#incomplete-tasks').text( this.collection.length );
-        },
         show_add_task_modal: function() {
             $('#addTaskModal').modal('show');
         },
-        show_all: function(){
-            var view = this;
+
+        show_all: function() {
             this.remove_active();
-            this.render();
             this.$el.find('.all-tasks').addClass('active');
-
-            this.collection.reset( this.collection.models );
-            if (this.collection.length > 0) {
-                this.collection.sortBy('timeago');
-                this.collection.each(function(m){
-                    if(m.get('status') === 'open'){
-                        var t = new task_view({ model: m });
-                        view.$el.find('.panel').append( t.render() );
-                    }
-                });
-            } else {
-                var create_lang = $('<div class="dashboard-tasks-container">' +
-                    '<div class="dashboard-tasks-cell">' +
-                    '<h5 class="dashboard-tasks-title">No tasks: </h5> <a href="#">create one now</a>' +
-                    '</div>'+
-                    '</div>').click(this.show_add_task_modal.bind(this));
-
-                view.$el.find('.panel').append(create_lang);
-            }
-            $('#incomplete-tasks').text( this.collection.length );
+            this.switchCollection(this.allTasks);
         },
+
+        show_my: function() {
+            this.remove_active();
+            this.$el.find('.my-tasks').addClass('active');
+            this.switchCollection(this.myTasks);
+        },
+
+        switchCollection: function(collection) {
+            this.render();
+
+            if (collection.length > 0) {
+                this.append_open_tasks(collection);
+            } else {
+                this.append_empty_message();
+            }
+
+            $('#incomplete-tasks').text(this.collection.length);
+        },
+
+        append_open_tasks: function(collection) {
+            this.open_tasks(collection).forEach(function(model) {
+                var taskView = new task_view({ model: model });
+                this.$el.find('.panel').append(taskView.render());
+            }.bind(this));
+        },
+
+        open_tasks: function(collection) {
+            return collection.filter(function(model) {
+                return model.get('status') === 'open';
+            });
+        },
+
+        append_empty_message: function() {
+            this.$el.find('.panel').append(this.empty_tasks_text());
+        },
+
+        empty_tasks_text: function() {
+            return $(
+                '<div class="dashboard-tasks-container">' +
+                    '<div class="dashboard-tasks-cell">' +
+                        '<h5 class="dashboard-tasks-title">No tasks: </h5> <a href="#">create one now</a>' +
+                    '</div>'+
+                '</div>'
+            ).click(this.show_add_task_modal.bind(this));
+        },
+
         show_campaigns: function(){
             var view = this;
             this.remove_active();
@@ -100,12 +100,17 @@
             this.$el.find('.campaigns').addClass('active');
 
             this.campaigns.sortBy('timeago');
-            this.campaigns.each(function(m){
-                    var t = new campaign_view({ model: m });
-                    view.$el.find('.panel').append( t.render() );
-            });
+            this.append_campaigns();
         },
-        remove_active: function(){
+
+        append_campaigns: function() {
+            this.campaigns.each(function(model) {
+                var campaignView = new campaign_view({ model: model });
+                this.$el.find('.panel').append(campaignView.render());
+            }.bind(this));
+        },
+
+        remove_active: function() {
             this.$el.find('.all-tasks').removeClass('active');
             this.$el.find('.my-tasks').removeClass('active');
             this.$el.find('.campaigns').removeClass('active');
@@ -134,15 +139,17 @@
 
     /* activity feed view */
     var activity_feed_view = Backbone.View.extend({
-        initialize: function(){
+        initialize: function() {
             this.render();
         },
+
         render: function(){
             var view = this;
-            this.collection.each(function(m){
-                var activity_item = new activity_item_view({model: m});
-                view.$el.append( activity_item.$el );
+            this.collection.each(function(model) {
+                var activity_item = new activity_item_view({ model: model });
+                view.$el.append(activity_item.$el);
             });
+
             return this;
         }
     });
@@ -151,9 +158,9 @@
     var activity_item_view = Backbone.View.extend({
         tagName: "div",
         className: "plan-activity-box-container",
-        template: _.template( $('#activity-item-template').html() ),
-        initialize: function(){
-            this.$el.append( this.template( this.model.attributes ) );
+        template: _.template($('#activity-item-template').html()),
+        initialize: function() {
+            this.$el.append(this.template(this.model.attributes));
         }
     });
 
@@ -229,13 +236,24 @@
         };
 
         var tasks = new task_collection(my_tasks.map(task_map));
+        var all_tasks = new task_collection(account_tasks.map(task_map));
+
+        var taskUpdateCallback = function(collection) {
+            $('#incomplete-tasks').text(collection.length);
+        };
+
         $('#incomplete-tasks').text(my_tasks.length);
-        tasks.on('update',function(c){
-            $('#incomplete-tasks').text(c.length);
+
+        tasks.on('update', taskUpdateCallback);
+        all_tasks.on('update', taskUpdateCallback);
+
+        var tab_container = new tab_container_view({
+            el: '#tab-container',
+            collection: tasks,
+            myTasks: tasks,
+            allTasks: all_tasks,
         });
 
-        console.log(tasks);
-        var tab_container = new tab_container_view({el: '#tab-container', collection: tasks});
         tab_container.campaigns = campaigns;
         tab_container.tasks = tasks;
 

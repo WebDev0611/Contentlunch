@@ -26,6 +26,11 @@ class Task extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function assignedUsers()
+    {
+        return $this->belongsToMany('App\User');
+    }
+
     public static function search($term, $account = null)
     {
         if (!$account) {
@@ -39,5 +44,12 @@ class Task extends Model
                   ->orWhere('explanation', 'like', '%' . $term . '%');
             })
             ->get();
+    }
+
+    public function isAssignedTo(User $user)
+    {
+        return (boolean) $this->assignedUsers()
+            ->where('users.id', $user->id)
+            ->count();
     }
 }

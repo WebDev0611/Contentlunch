@@ -89,6 +89,10 @@ class Account extends Model
 
     public static function selectedAccount()
     {
+        if (!Auth::user()) {
+            return null;
+        }
+
         $accountId = session('selected_account_id');
 
         if (!$accountId) {
