@@ -155,6 +155,24 @@ class Content extends Model
         }
     }
 
+    public function setReadyPublished()
+    {
+        $this->configureAction('ready_to_publish');
+        $this->save();
+    }
+
+    public function setWritten()
+    {
+        $this->configureAction('written_content');
+        $this->save();
+    }
+
+    public function setPublished()
+    {
+        $this->configureAction('publish');
+        $this->save();
+    }
+
     /**
      * Returns a clean value to be used in the content history sidebar.
      *
