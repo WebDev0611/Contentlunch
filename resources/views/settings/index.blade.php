@@ -84,11 +84,8 @@
                             <div class="col-md-4">
                                 <div class="onboarding-avatar" id='settings-avatar'>
                                     <div class="loading-icon loading-icon-center"></div>
-                                    @if ($user->profile_image)
-                                        <img src="{{ $user->profile_image }}" alt="#">
-                                    @else
-                                        <img src="/images/avatar.jpg" alt="#">
-                                    @endif
+                                    <img src="{{ $user->present()->profile_image }}" alt="#">
+
                                     <label for="upload" class="onboarding-avatar-button">
                                         <i class="icon-add"></i>
                                         <input id="upload" name='avatar' type="file">

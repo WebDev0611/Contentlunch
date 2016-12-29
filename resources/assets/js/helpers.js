@@ -15,6 +15,9 @@ $(function(){
 	});
 });
 
+// Initialize tooltips.
+$('[data-toggle="tooltip"]').tooltip();
+
 var format_time_ago = function(time){
 	var cur = moment();
 	var hours_ago = cur.diff( moment(time*1000) ,'hours');

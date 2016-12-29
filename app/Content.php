@@ -1,14 +1,19 @@
 <?php namespace App;
 
-use Auth;
-use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
-
-use App\Helpers;
 use App\Account;
+use App\Helpers;
+use App\Presenters\ContentPresenter;
+use Auth;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class Content extends Model
 {
+    use PresentableTrait;
+
+    public $presenter = ContentPresenter::class;
+
     /**
      * Human readable column names.
      *
@@ -72,6 +77,11 @@ class Content extends Model
                 'after' => json_encode($changed)
             ]);
         }
+    }
+
+    public function contentType()
+    {
+        return $this->belongsTo('App\ContentType');
     }
 
     public function account()
@@ -191,13 +201,6 @@ class Content extends Model
         return $this->title;
     }
 
-    public function getDueDateDiffAttribute()
-    {
-        $carbonObject = new Carbon($this->due_date);
-
-        return $carbonObject->diffForHumans();
-    }
-
     public static function search($term, $account = null)
     {
         if (!$account) {
@@ -219,5 +222,21 @@ class Content extends Model
         return (boolean) $this->authors()
             ->where('users.id', $user->id)
             ->count();
+    }
+
+    public function author() {
+        $author = $this->authors()->orderBy('created_at')->first();
+
+        return $author ? $author : null;
+    }
+
+    public function dueDateDiffFromToday()
+    {
+        return Carbon::now()->diffInDays(new Carbon($this->due_date));
+    }
+
+    public function isDueDateCritical()
+    {
+        return $this->dueDateDiffFromToday() <= 2;
     }
 }

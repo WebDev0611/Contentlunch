@@ -47,6 +47,9 @@
   &.active {
     color: #2482ff;
   }
+  &.critical {
+    color: #FB8579;
+  }
 }
 
 .dashboard-performing-img {
