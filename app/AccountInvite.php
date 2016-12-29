@@ -42,4 +42,11 @@ class AccountInvite extends Model
     {
         $this->token = str_replace('-', '', Helpers::uuid());
     }
+
+    public function createUser(array $userData)
+    {
+        $user = User::create($userData);
+        $this->user()->associate($user);
+        $user->accounts()->attach($this->account_id);
+    }
 }
