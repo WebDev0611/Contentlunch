@@ -48,4 +48,27 @@ class AccountInviteTest extends TestCase
         $this->assertTrue($usedInvite->isUsed());
         $this->assertFalse($unusedInvite->isUsed());
     }
+
+    public function testUserCreationWorks()
+    {
+        $invite = factory(AccountInvite::class)->create([
+            'account_id' => $this->account->id,
+        ]);
+
+        $createdUser = $invite->createUser([
+            'email' => 'invited.user@email.com',
+            'password' => 'launch123',
+            'name' => 'John Testings',
+        ]);
+
+        $user = User::where('email', 'invited.user@email.com')->first();
+
+        $this->assertEquals($user->accounts()->count(), 1);
+        $this->assertEquals($user->accounts()->first()->id, $this->account->id);
+        $this->assertEquals($user->email, 'invited.user@email.com');
+        $this->assertEquals('John Testings', $user->name);
+        $this->assertTrue(Hash::check('launch123', $user->password));
+        $this->assertTrue($invite->isUsed());
+        $this->assertEquals($invite->user->id, $user->id);
+    }
 }
