@@ -45,8 +45,15 @@ class AccountInvite extends Model
 
     public function createUser(array $userData)
     {
-        $user = User::create($userData);
+        $user = User::create([
+            'name' => $userData['name'],
+            'password' => bcrypt($userData['password']),
+            'email' => $userData['email'],
+        ]);
+
         $this->user()->associate($user);
         $user->accounts()->attach($this->account_id);
+
+        return $user;
     }
 }
