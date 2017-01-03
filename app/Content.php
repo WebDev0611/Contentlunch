@@ -129,6 +129,11 @@ class Content extends Model
        return $this->belongsToMany('App\Content', 'content_related', 'content_id', 'related_content_id');
     }
 
+    public function tasks()
+    {
+        return $this->belongsToMany('App\Task');
+    }
+
     public function adjustments()
     {
         return $this->belongsToMany('App\User', 'adjustments')
