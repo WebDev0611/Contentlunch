@@ -37,6 +37,11 @@ class Task extends Model
         return $this->belongsToMany('App\User');
     }
 
+    public function contents()
+    {
+        return $this->belongsToMany('App\Content');
+    }
+
     public static function search($term, $account = null)
     {
         if (!$account) {
