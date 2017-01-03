@@ -383,15 +383,12 @@
                         </div>
                         @endif
 
-                        @if ($isCollaborator)
-                        <div class="input-form-group">
+                        <div class="input-form-group @if (!$isCollaborator) hide @endif">
                             <div class="dropzone" id='attachment-uploader'>
                             </div>
                         </div>
-                        @endif
 
                         <!-- Compaign Stage -->
-
                         <div class="form-delimiter">
                             <span>
                                 <em>Campaign Stage</em>
@@ -595,13 +592,10 @@
                         </div>
                         @endif
 
-                        @if ($isCollaborator)
-                        <div class="input-form-group">
+                        <div class="input-form-group @if (!$isCollaborator) hide @endif">
                             <div class="dropzone" id='image-uploader'>
                             </div>
                         </div>
-                        @endif
-
 
                         <div class="form-delimiter hide">
                             <span>

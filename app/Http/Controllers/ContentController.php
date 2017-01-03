@@ -207,6 +207,8 @@ class ContentController extends Controller
     // - edit content on page
     public function editContent(Content $content)
     {
+        $this->ensureCollaboratorsExists($content);
+
         $data = [
             'content' => $content,
             'tagsDropdown' => Tag::dropdown(),
@@ -223,6 +225,13 @@ class ContentController extends Controller
         ];
 
         return view('content.editor', $data);
+    }
+
+    protected function ensureCollaboratorsExists(Content $content)
+    {
+        if ($content->collaborators->isEmpty()) {
+            $content->collaborators()->attach(Auth::user());
+        }
     }
 
     public function editStore(Request $request, Content $content)
