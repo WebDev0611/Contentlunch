@@ -6,6 +6,7 @@ use \Illuminate\Http\Request;
 use View;
 use Hash;
 use Auth;
+use Session;
 
 use App\User;
 use App\Account;
@@ -65,13 +66,21 @@ class OnboardingController extends Controller
     {
         $invite = AccountInvite::find($request->invite_id);
         $user = $this->createInvitedUser($invite, $request);
-        Auth::login($user);
+
+        $this->createNewUserSession($user);
 
         return redirect('/')->with([
             'flash_message' => 'Welcome to ContentLaunch! You\'re now part of the ' . $invite->account->name . ' account!',
             'flash_message_type' => 'success',
             'flash_message_important' => true
         ]);
+    }
+
+    protected function createNewUserSession($user)
+    {
+        Auth::logout();
+        Session::flush();
+        Auth::login($user);
     }
 
     private function createInvitedUser(AccountInvite $invite, $request)

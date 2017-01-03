@@ -180,7 +180,7 @@ class WriterAccessPriceController extends Controller
         $writerAccessPrice = WriterAccessPrice::where('asset_type_id', $asset_type_id)
             ->where('writer_level', $writer_level)
             ->where('wordcount', $wordcount)
-            ->first()
+            ->first();
 
         return $writerAccessPrice ? $writerAccessPrice : $this->responseError('Record not found');
     }
