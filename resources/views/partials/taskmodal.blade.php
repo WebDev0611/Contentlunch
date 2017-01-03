@@ -61,6 +61,15 @@
             <ul>
         </div>
 
+        @if (@$content)
+        <div class="input-form-group">
+            <label class='checkbox-primary'>
+                <input type="checkbox" data-id='{{ $content->id }}' checked='checked' name='is_content_task' id='is_content_task'>
+                <span>Assign this Task to this piece of content</span>
+            </label>
+        </div>
+        @endif
+
         <div class="input-form-group">
             <label>Attach one or more documents</label>
             <div class="dropzone" id='task-attachment-uploader'>

@@ -2,7 +2,9 @@
 
     <div class="twocols">
         <p class="intro">Tasks to be completed on this content piece</p>
-        <a href="#newtask" class="btn button-text withendicon" data-toggle="collapse">NEW TASK<i class="icon-add"></i></a>
+        <a href="#newtask" class="btn button-text withendicon add-task-action" data-content-id="{{ $content->id }}">
+            NEW TASK<i class="icon-add"></i>
+        </a>
     </div>
 
     <!-- New Task -->
@@ -129,7 +131,6 @@
         <div class="task-actions">
             <ul class="list-inline list-actions">
                 <li><a href="#task-{{ $task->id }}" data-toggle="collapse"><i class="icon-edit-pencil"></i></a></li>
-                <li><a href="#task-{{ $task->id }}" data-toggle="collapse"><i class="icon-schedule"></i></a></li>
                 <li><a href="#"><i class="icon-trash"></i></a></li>
             </ul>
         </div>
