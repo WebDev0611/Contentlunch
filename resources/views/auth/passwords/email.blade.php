@@ -18,7 +18,7 @@
 
                     <div class="body">
                         @if (session('status'))
-                            <div class="alert alert-success">
+                            <div class="alert alert-success alert-forms">
                                 {{ session('status') }}
                             </div>
                         @endif
@@ -33,8 +33,8 @@
                                     <input  id="email"  name="email" type="email" class="input full" placeholder="Email address" value="{{ old('email') }}">
                                     @if ($errors->has('email'))
                                         <span class="help-block">
-                                                    <strong>{{ $errors->first('email') }}</strong>
-                                                </span>
+                                            <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
                                     @endif
                                 </div>
                             </div>
