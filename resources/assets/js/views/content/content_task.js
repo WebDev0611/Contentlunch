@@ -13,7 +13,7 @@ var ContentTaskView = Backbone.View.extend({
                 </div>
 
                 <p class="title"><%= name %></p>
-                <p><%= due_date %></p>
+                <p><%= due_date_diff %></p>
             </div>
 
             <div class="task-actions">
