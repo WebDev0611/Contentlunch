@@ -49,6 +49,16 @@ class TaskController extends Controller
         $this->saveAttachments($request, $task);
         $this->saveAsContentTask($request, $task);
 
+        return $this->taskResponse($task);
+    }
+
+    protected function taskResponse($task)
+    {
+        $task = Task::with('user')->find($task->id);
+
+        $task->due_date = $task->present()->dueDate();
+        $task->user->profile_image = $task->user->present()->profile_image;
+
         return response()->json($task);
     }
 
