@@ -910,13 +910,18 @@
             return selectedContentType == TWEET;
         }
 
-                //runs the action to submit the task
+        //runs the action to submit the task
         $('#add-task-button').click(function() {
             add_task(addTaskCallback);
         });
 
         function addTaskCallback(task) {
-            tasks.add(new task_model(task_map(task)));
+            var element = new ContentTaskView({ model: new task_model(task) });
+
+            element.render();
+
+            $('.content-tasks-box-container').append(element.el);
+
             $('#addTaskModal').modal('hide');
         }
     });
