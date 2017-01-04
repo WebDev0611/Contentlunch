@@ -864,18 +864,42 @@
             return selectedContentType == TWEET;
         }
 
-        //runs the action to submit the task
+        /**
+         * Content task handling
+         */
+
+        var tasks = new task_collection();
+
+        tasks.on('add', function(task) {
+            var element = new ContentTaskView({ model: task });
+            element.render();
+            $('.content-tasks-box-container').append(element.el);
+        });
+
+        fetchTasks();
+
+        function fetchTasks() {
+            return $.ajax({
+                url: '/api/contents/' + contentId() + '/tasks',
+                method: 'get',
+            })
+            .then(function(response) {
+                tasks.add(response.map(function(task) {
+                    return new task_model(task);
+                }));
+            });
+        }
+
+        function contentId() {
+            return $('input[name=content_id]').val();
+        }
+
         $('#add-task-button').click(function() {
             add_task(addTaskCallback);
         });
 
         function addTaskCallback(task) {
-            var element = new ContentTaskView({ model: new task_model(task) });
-
-            element.render();
-
-            $('.content-tasks-box-container').append(element.el);
-
+            tasks.add(new task_model(task));
             $('#addTaskModal').modal('hide');
         }
     });

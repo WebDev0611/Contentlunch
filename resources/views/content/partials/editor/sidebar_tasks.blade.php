@@ -113,6 +113,7 @@
     </div> <!-- End New Task -->
 
     <!-- Task -->
+    {{--
     @foreach ($tasks as $task)
     <div class="task">
         <div class="body">
@@ -216,4 +217,5 @@
         </div>
     </div>
     @endforeach
+    --}}
 </div>
