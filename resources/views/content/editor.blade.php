@@ -843,58 +843,12 @@
             }
         });
 
-       // $('#contentType').change(contentTypeChangeCallback);
-        //$('#contentType').trigger('change');
-
-        // function contentTypeChangeCallback() {
-        //     var contentType = $('#contentType').val();
-
-        //     $('#connections').html('');
-        //     addDropdownEmptyOption();
-
-        //     if (contentType) {
-        //         fetchConnections(contentType).then(updateContentDestinationDropdown);
-        //     }
-        // }
-
-        // function fetchConnections(contentType) {
-        //     return $.ajax({
-        //         method: 'get',
-        //         url: '/api/connections',
-        //         headers: getHeaders(),
-        //         data: {
-        //             content_type: contentType
-        //         }
-        //     });
-        // }
-
         function getHeaders() {
             return {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': $('input[name=_token]').val()
             };
         }
-
-        // function updateContentDestinationDropdown(response) {
-        //     for (var i = 0; i < response.data.length; i++) {
-        //         var connection = response.data[i];
-        //         var optionAttributes = {
-        //             value: connection.id,
-        //             text: connection.name
-        //         };
-
-        //    //     $('<option/>', optionAttributes).appendTo('#connections');
-        //     }
-        // }
-
-        // function addDropdownEmptyOption() {
-        //     var optionAttributes = {
-        //         value: "",
-        //         text: "-- Select Destination --"
-        //     };
-
-        //     $('<option/>', optionAttributes).appendTo("#connections");
-        // }
 
         function updateCount(event) {
             if (isTweet()) {
