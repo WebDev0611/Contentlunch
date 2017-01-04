@@ -240,6 +240,7 @@ Route::group(['prefix' => 'twitter'], function() {
 Route::get('/api/connections', 'ConnectionController@index');
 Route::get('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@index');
 Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@update');
+Route::get('/api/contents/{content}/tasks', 'ContentTasksController@index');
 Route::get('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@index');
 Route::post('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@update');
 

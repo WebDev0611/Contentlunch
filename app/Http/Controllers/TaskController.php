@@ -56,7 +56,7 @@ class TaskController extends Controller
     {
         $task = Task::with('user')->find($task->id);
 
-        $task->due_date = $task->present()->dueDate();
+        $task->due_date_diff = $task->present()->dueDate();
         $task->user->profile_image = $task->user->present()->profile_image;
 
         return response()->json($task);
