@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Account;
+use App\Attachment;
+use App\Content;
+use App\Helpers;
 use App\Http\Requests;
 use App\Task;
-use App\Helpers;
-use App\Attachment;
 use Auth;
+use Illuminate\Http\Request;
 use Storage;
 use View;
-use App\Account;
 
 class TaskController extends Controller
 {
@@ -42,7 +43,18 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $task = Task::create([
+        $task = $this->createTaskFromRequest($request);
+
+        $this->saveAssignedUsers($request, $task);
+        $this->saveAttachments($request, $task);
+        $this->saveAsContentTask($request, $task);
+
+        return response()->json($task);
+    }
+
+    protected function createTaskFromRequest(Request $request)
+    {
+        return Task::create([
             'name' => $request->input('name'),
             'explanation' => $request->input('explanation'),
             'start_date' => $request->input('start_date'),
@@ -51,19 +63,14 @@ class TaskController extends Controller
             'account_id' => Account::selectedAccount()->id,
             'status' => 'open',
         ]);
-
-        $this->saveAssignedUsers($request, $task);
-        $this->saveAttachments($request, $task);
-
-        return response()->json($task);
     }
 
-    private function saveAssignedUsers($request, $task)
+    private function saveAssignedUsers(Request $request, Task $task)
     {
         $task->assignedUsers()->attach($request->input('assigned_users'));
     }
 
-    private function saveAttachments($request, $task)
+    private function saveAttachments(Request $request, Task $task)
     {
         $fileUrls = $request->input('attachments');
         $userId = Auth::id();
@@ -96,6 +103,15 @@ class TaskController extends Controller
         Storage::move($s3Path, $newPath);
 
         return $newPath;
+    }
+
+    protected function saveAsContentTask(Request $request, Task $task)
+    {
+        $contentId = $request->input('content_id');
+
+        if ($contentId && Content::find($contentId)->count()) {
+            $task->contents()->attach($contentId);
+        }
     }
 
     /**
