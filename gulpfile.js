@@ -48,8 +48,9 @@ elixir(function (mix) {
             /* content scripts and main app */
             .babel([
                 'resources/assets/js/noautodiscover.js',
-                'resources/assets/js/models/tasks.js',
-                'resources/assets/js/collections/tasks.js',
+                'resources/assets/js/models/**/*.js',
+                'resources/assets/js/collections/**/*.js',
+                'resources/assets/js/views/**/*.js',
                 'resources/assets/js/content/*.js',
                 'resources/assets/js/helpers.js'
             ], "public/js/app.js")
