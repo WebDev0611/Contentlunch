@@ -184,10 +184,6 @@ class IdeaController extends Controller
      */
     public function write(Request $request, Idea $idea)
     {
-        if (!$this->isLoggedUserCollaborator($idea)) {
-            return $this->redirectWithoutPermission();
-        }
-
         $content = $this->createContentFromIdea($idea);
 
         return $this->redirectToContentEditor($content);
