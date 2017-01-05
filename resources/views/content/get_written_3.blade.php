@@ -32,7 +32,7 @@
                                         <span>{{ $order->assetType->name }}</span>
                                     </div>
                                 </div>
-                                <h4>{{ $order->project_name }}</h4>
+                                <h4>{{ $order->content_title }}</h4>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <span>
