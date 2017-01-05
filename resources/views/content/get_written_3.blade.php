@@ -68,14 +68,14 @@
                             <table class="purchase-order">
                                 <tbody>
                                     <tr>
-                                        <td>{{ $order->wordcount }} words article</td>
-                                        <td>${{ $order->price }}.00</td>
+                                        <td>{{ $order->present()->description }}</td>
+                                        <td>{{ $order->present()->price }}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <td>TOTAL</td>
-                                        <td>${{ $order->price }}.00</td>
+                                        <td>{{ $order->present()->price }}</td>
                                     </tr>
                                     {{--
                                     <tr>
