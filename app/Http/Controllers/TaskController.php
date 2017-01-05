@@ -11,6 +11,7 @@ use App\Task;
 use Auth;
 use Illuminate\Http\Request;
 use Storage;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use View;
 
 class TaskController extends Controller
@@ -130,12 +131,13 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $task = Task::where([
-            'id'=> $id,
-            'user_id' => Auth::id()
-        ])->first();
+        $task = Task::findOrFail($id);
+
+        if (!$task->canBeEditedBy(Auth::user())) {
+            abort(404);
+        }
 
         return view('task/index', compact('task'));
     }
