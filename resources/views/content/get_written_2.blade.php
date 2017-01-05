@@ -112,8 +112,7 @@
                                 <textarea
                                     class="input"
                                     name='tone_voice_description'
-                                    placeholder="Explain the tone of voice you are seeking in your orders">
-                                </textarea>
+                                    placeholder="Explain the tone of voice you are seeking in your orders"></textarea>
                             </div>
                         </div>
                     </div>
