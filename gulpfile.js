@@ -27,6 +27,7 @@ elixir(function (mix) {
                 './bower_components/moment/moment.js',
                 './bower_components/tinymce/tinymce.min.js',
                 './bower_components/dropzone/dist/dropzone.js',
+                './bower_components/sweetalert2/dist/sweetalert2.min.js',
             ], "public/js/vendor.js")
 
             .scripts([
@@ -157,6 +158,9 @@ elixir(function (mix) {
             .copy('./bower_components/tinymce/themes', "public/js/themes")
             .copy('./bower_components/tinymce/skins', "public/js/skins")
             .copy('./bower_components/tinymce/plugins', "public/js/plugins")
+
+            /* SweetAlert2 assets */
+            .copy('./bower_components/sweetalert2/dist/sweetalert2.min.css', 'public/css/plugins/sweetalert2/')
 
             .copy("resources/assets/images", "public/images")
             .copy("resources/assets/fonts", "public/fonts")
