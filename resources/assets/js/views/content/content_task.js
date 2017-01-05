@@ -22,7 +22,7 @@ var ContentTaskView = Backbone.View.extend({
 
             <div class="task-actions">
                 <ul class="list-inline list-actions">
-                    <li><a class='task-edit' href="#task-<%= id %>" data-toggle="collapse"><i class="icon-edit-pencil"></i></a></li>
+                    <li><a class='task-edit' target="_blank" href="/task/show/<%= id %>"><i class="icon-edit-pencil"></i></a></li>
                     <li><a class='task-remove' href="#"><i class="icon-trash"></i></a></li>
                 </ul>
             </div>
