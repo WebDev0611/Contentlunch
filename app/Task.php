@@ -63,4 +63,16 @@ class Task extends Model
             ->where('users.id', $user->id)
             ->count();
     }
+
+    public function canBeDeletedBy(User $user)
+    {
+        return ($this->user_id === $user->id || $this->hasAssignedUser($user));
+    }
+
+    public function hasAssignedUser(User $user)
+    {
+        return (boolean) $this->assignedUsers()
+            ->where('users.id', $user->id)
+            ->count();
+    }
 }

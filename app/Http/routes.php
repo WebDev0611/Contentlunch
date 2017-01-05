@@ -21,6 +21,7 @@ Route::model('content', 'App\Content');
 Route::model('idea', 'App\Idea');
 Route::model('invite', 'App\AccountInvite');
 Route::model('persona', 'App\Persona');
+Route::model('task', 'App\Task');
 Route::model('user', 'App\User');
 Route::model('writerAccessPartialOrder', 'App\WriterAccessPartialOrder');
 
@@ -113,6 +114,7 @@ Route::post('task/attachments', 'TaskAttachmentsController@store');
 Route::get('task/show/{id}', [ 'as' => 'taskShow', 'uses' => 'TaskController@show' ]);
 Route::post('task/update/{id}', 'TaskController@update');
 Route::post('task/close/{id}', 'TaskController@close');
+Route::delete('task/{task}', 'TaskController@destroy');
 
 Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);
 Route::get('/content/delete/{content_id}', [ 'as' => 'contentDelete', 'uses' => 'ContentController@delete' ]);
