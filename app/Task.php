@@ -2,10 +2,16 @@
 
 namespace App;
 
+use App\Presenters\TaskPresenter;
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class Task extends Model
 {
+    use PresentableTrait;
+
+    protected $presenter = TaskPresenter::class;
+
     public $fillable = [
         'name',
         'explanation',
@@ -31,6 +37,11 @@ class Task extends Model
         return $this->belongsToMany('App\User');
     }
 
+    public function contents()
+    {
+        return $this->belongsToMany('App\Content');
+    }
+
     public static function search($term, $account = null)
     {
         if (!$account) {
@@ -47,6 +58,23 @@ class Task extends Model
     }
 
     public function isAssignedTo(User $user)
+    {
+        return (boolean) $this->assignedUsers()
+            ->where('users.id', $user->id)
+            ->count();
+    }
+
+    public function canBeDeletedBy(User $user)
+    {
+        return ($this->user_id === $user->id || $this->hasAssignedUser($user));
+    }
+
+    public function canBeEditedBy(User $user)
+    {
+        return ($this->user_id === $user->id || $this->hasAssignedUser($user));
+    }
+
+    public function hasAssignedUser(User $user)
     {
         return (boolean) $this->assignedUsers()
             ->where('users.id', $user->id)

@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Account;
+use App\Attachment;
+use App\Content;
+use App\Helpers;
 use App\Http\Requests;
 use App\Task;
-use App\Helpers;
-use App\Attachment;
 use Auth;
+use Illuminate\Http\Request;
 use Storage;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use View;
-use App\Account;
 
 class TaskController extends Controller
 {
@@ -42,7 +44,28 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $task = Task::create([
+        $task = $this->createTaskFromRequest($request);
+
+        $this->saveAssignedUsers($request, $task);
+        $this->saveAttachments($request, $task);
+        $this->saveAsContentTask($request, $task);
+
+        return $this->taskResponse($task);
+    }
+
+    protected function taskResponse($task)
+    {
+        $task = Task::with('user')->find($task->id);
+
+        $task->due_date_diff = $task->present()->dueDate();
+        $task->user->profile_image = $task->user->present()->profile_image;
+
+        return response()->json($task);
+    }
+
+    protected function createTaskFromRequest(Request $request)
+    {
+        return Task::create([
             'name' => $request->input('name'),
             'explanation' => $request->input('explanation'),
             'start_date' => $request->input('start_date'),
@@ -51,19 +74,14 @@ class TaskController extends Controller
             'account_id' => Account::selectedAccount()->id,
             'status' => 'open',
         ]);
-
-        $this->saveAssignedUsers($request, $task);
-        $this->saveAttachments($request, $task);
-
-        return response()->json($task);
     }
 
-    private function saveAssignedUsers($request, $task)
+    private function saveAssignedUsers(Request $request, Task $task)
     {
         $task->assignedUsers()->attach($request->input('assigned_users'));
     }
 
-    private function saveAttachments($request, $task)
+    private function saveAttachments(Request $request, Task $task)
     {
         $fileUrls = $request->input('attachments');
         $userId = Auth::id();
@@ -98,18 +116,28 @@ class TaskController extends Controller
         return $newPath;
     }
 
+    protected function saveAsContentTask(Request $request, Task $task)
+    {
+        $contentId = $request->input('content_id');
+
+        if ($contentId && Content::find($contentId)->count()) {
+            $task->contents()->attach($contentId);
+        }
+    }
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $task = Task::where([
-            'id'=> $id,
-            'user_id' => Auth::id()
-        ])->first();
+        $task = Task::findOrFail($id);
+
+        if (!$task->canBeEditedBy(Auth::user())) {
+            abort(404);
+        }
 
         return view('task/index', compact('task'));
     }
@@ -175,8 +203,15 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        //
+        $response = response()->json([ 'data' => 'Permission denied' ], 403);
+
+        if ($task->canBeDeletedBy(Auth::user())) {
+            $task->delete();
+            $response = response()->json([ 'data' => 'Resource deleted' ], 201);
+        }
+
+        return $response;
     }
 }

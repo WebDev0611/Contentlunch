@@ -1,5 +1,51 @@
 /* ideas views */
 
+var IdeaTemplate = `
+    <div class="plan-ideas-cell">
+        <% var avatar = user.profile_image || '/images/avatar.jpg'; %>
+        <img src="<%= avatar %>" alt="#" class="plan-ideas-img">
+    </div>
+    <div class="plan-ideas-cell">
+        <h5 class="plan-ideas-title"><%= name %></h5>
+        <span class="plan-ideas-text"><%= text %></span>
+    </div>
+
+    <div class="plan-ideas-cell">
+        <span class="plan-ideas-text"><%= created_diff.toUpperCase() %></span>
+    </div>
+    <div class="plan-ideas-cell">
+        <span class="plan-ideas-text">UPDATED: <%= updated_diff.toUpperCase() %></span>
+    </div>
+
+    <div class="plan-ideas-cell">
+        <div class="plan-ideas-dropdown">
+            <button type="button" class="button button-action" data-toggle="dropdown">
+                <i class="icon-add-circle"></i>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-right">
+                <!--<li id="write-it-btn">
+                    <a href="javascript:;">Write It</a>
+                </li> -->
+                <li id="park-it-btn">
+                    <a href="javascript:;">Park It</a>
+                </li>
+                <li id="edit-it-btn">
+                    <a href="javascript:;">Edit It</a>
+                </li>
+               <li id="unpark-it-btn">
+                    <a href="javascript:;">Unpark It</a>
+                </li>
+                <!--
+                //should pre populate a create content form with the relevant data
+                <li id="socialize-it-btn">
+                    <a href="javascript:;">Socialize It</a>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+`;
+
 var idea_view = Backbone.View.extend({
     className: "plan-ideas-container",
 
@@ -10,7 +56,7 @@ var idea_view = Backbone.View.extend({
         "click li#unpark-it-btn": "activate",
     },
 
-    template: _.template($('#idea-template').html()),
+    template: _.template(IdeaTemplate),
 
     initialize: function() {
         this.render();
@@ -131,7 +177,7 @@ var recent_view = Backbone.View.extend({
         "mouseenter": "show_hover",
         "mouseleave": "hide_hover",
     },
-    template: _.template($('#idea-template').html()),
+    template: _.template(IdeaTemplate),
 
     initialize: function() {
         this.$el.append(this.template(this.model.attributes));
