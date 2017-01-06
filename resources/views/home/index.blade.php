@@ -131,28 +131,6 @@
     </div>
 </div>
 
-<script type="text/template" id="idea-template">
-    <div class="dashboard-ideas-cell">
-        <img src="/images/avatar.jpg" alt="#" class="dashboard-tasks-img">
-    </div>
-    <div class="dashboard-ideas-cell">
-        <p class="dashboard-ideas-text"><%= name %></p>
-        <span class="dashboard-ideas-text small">TIME HERE</span>
-    </div>
-    <div class="dashboard-ideas-cell hidden idea-hover">
-        <div class="dashboard-ideas-dropdown">
-            <button type="button" class="button button-action" data-toggle="dropdown">
-                <i class="icon-add-circle"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li>
-                    <a href="#">Write It</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</script>
-
 <script type="text/template" id="content-item-template">
     <div class="list-avatar">
       <div class="user-avatar">

@@ -272,7 +272,11 @@
         recent_ideas.on('update',function(c){
             $('.idea-count').text(c.length);
         });
-        var ideas = new recent_ideas_view({el:'#recent-ideas', collection: recent_ideas});
+        var ideas = new recent_ideas_view({
+            el:'#recent-ideas',
+            collection: recent_ideas
+        });
+
         recent_ideas.fetch();
 
         var team_members = new team_members_collection(); //dummy_team_data
