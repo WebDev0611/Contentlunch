@@ -136,9 +136,7 @@
             </span>
             <ul class="dashboard-tasks-list">
                 <li>
-                    <% if(due && due != '0000-00-00 00:00:00'){ %>
                     DUE IN: <strong><%= due %></strong>
-                    <% } %>
                 </li>
                 <!--
                 <li>
@@ -154,24 +152,9 @@
                 </li>
             </ul>
         </div>
-        <div class="dashboard-tasks-cell">
-            <%
-            var active = '';
-            if( (currenttime - timeago) <= 60*10*1000 ){
-                active = 'active';
-            } %>
-            <span class="dashboard-tasks-text small <%=active%>">
-                <% if( (currenttime - timeago) <= 60*10*1000 ){%>
-                    JUST NOW
-                <% }else{ %>
-                    <% if( ( currenttime - timeago ) / ( 60*60*1000 ) >= 24 ){ %>
-                        <%= Math.floor(( currenttime - timeago ) / (60*60*1000*24)) %> DAYS AGO
-                    <% }else if( (currenttime - timeago ) <= (60*60*1000) ){ %>
-                        <%= Math.floor(( currenttime - timeago ) / (60*1000)) %> MINUTES AGO
-                    <% }else{ %>
-                        <%= Math.floor((currenttime - timeago ) / (60*60*1000)) %> HOURS AGO
-                    <% } %>
-                <% } %>
+        <div class="dashboard-tasks-cell cell-size-15">
+            <span class="dashboard-tasks-text small <%= active %>">
+                <%= created_at_diff.toUpperCase() %>
             </span>
         </div>
     </div>

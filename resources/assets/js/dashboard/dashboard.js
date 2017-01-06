@@ -2,7 +2,8 @@
 
     var task_view = Backbone.View.extend({
         template: _.template( $('#task-template').html() ),
-        render: function(){
+
+        render: function() {
             this.el = this.template(this.model.attributes);
             return this.el;
         }
@@ -220,20 +221,27 @@
         //from json via php
         var campaigns = new campaign_collection(my_campaigns);
 
-        var task_map = function(task) {
+        function createdInLast10Minutes(task) {
+            const currentTime = moment.utc().format('x');
+            const timeAgo = moment(task.created_at).format('x');
+
+            return (currentTime - timeAgo) <= 60 * 10 * 1000;
+        }
+
+        function task_map(task) {
+            console.log(task.created_at);
             task.title = task.name;
-            task.due = task.due_date;
+            task.due = moment(task.due_date).format('MM/DD/YYYY');
             task.body = task.explanation;
-            task.timeago = moment(task.created_at).format('x');
-            task.currenttime = moment.utc().format('x');
             task.status = task.status;
+            task.active = createdInLast10Minutes(task) ? 'active' : '';
 
             if (task.user.profile_image) {
                 task.image = task.user.profile_image;
             }
 
             return task;
-        };
+        }
 
         var tasks = new task_collection(my_tasks.map(task_map));
         var all_tasks = new task_collection(account_tasks.map(task_map));
