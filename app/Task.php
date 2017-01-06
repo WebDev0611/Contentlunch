@@ -2,10 +2,16 @@
 
 namespace App;
 
+use App\Presenters\TaskPresenter;
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class Task extends Model
 {
+    use PresentableTrait;
+
+    protected $presenter = TaskPresenter::class;
+
     public $fillable = [
         'name',
         'explanation',
