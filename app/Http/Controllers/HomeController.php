@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Campaign;
-use User;
-use Auth;
-
 use App\Account;
 use App\Http\Requests;
+use App\Task;
+use Auth;
+use Campaign;
+use Illuminate\Http\Request;
+use User;
 
 class HomeController extends Controller
 {
@@ -30,11 +30,26 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home.list',[
-            'mycampaigns' => $this->myCampaigns()->toJson(),
-            'tasks' => $this->loggedUserTasks()->toJson(),
-            'accountTasks' => $this->accountTasks()->toJson(),
-        ]);
+        $tasks = $this->loggedUserTasks()->map(function($task) {
+                return $this->addDueDateDiffs($task);
+            })->toJson();
+
+        $accountTasks = $this->accountTasks()->map(function($task) {
+                return $this->addDueDateDiffs($task);
+            })->toJson();
+
+        $mycampaigns = $this->myCampaigns()->toJson();
+
+        return view('home.list', compact('mycampaigns', 'tasks', 'accountTasks'));
+    }
+
+    protected function addDueDateDiffs(Task $task)
+    {
+        $task->due_date_diff = $task->present()->dueDate;
+        $task->updated_at_diff = $task->present()->updatedAt;
+        $task->created_at_diff = $task->present()->createdAt;
+
+        return $task;
     }
 
     protected function myCampaigns()
