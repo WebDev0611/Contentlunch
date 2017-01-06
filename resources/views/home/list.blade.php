@@ -121,13 +121,12 @@
 </div>
 
 @include('home.partials.invite_team_member_modal')
-
 <script type="text/template" id="task-template">
     <div class="dashboard-tasks-container">
-        <div class="dashboard-tasks-cell">
+        <div class="dashboard-tasks-cell cell-size-5">
             <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
         </div>
-        <div class="dashboard-tasks-cell">
+        <div class="dashboard-tasks-cell cell-size-80">
             <h5 class="dashboard-tasks-title">
                 <%= title %>
             </h5>
