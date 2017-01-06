@@ -210,7 +210,7 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li>
-                    <a href="/ideas/write/<%= id %>">Write It</a>
+                    <a href="/idea/write/<%= id %>">Write It</a>
                 </li>
             </ul>
         </div>
