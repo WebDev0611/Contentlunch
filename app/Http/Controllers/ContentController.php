@@ -244,9 +244,7 @@ class ContentController extends Controller
         }
 
         if ($validation->fails()) {
-            $urlId = $id ? "/$id" : '';
-
-            return redirect("/edit" . $urlId)->with('errors', $validation->errors());
+            return redirect("/edit/$content->id")->with('errors', $validation->errors());
         }
 
         if (!$content->hasCollaborator(Auth::user())) {
