@@ -1,15 +1,15 @@
 <div class="panel-header">
     <ul class="panel-tabs withborder">
         {{--
-        <li class="active">
-            <a href="#sidetab-tasks" role="tab" data-toggle="tab">Content Tasks</a>
-        </li>
         <li>
             <a href="#sidetab-activity" role="tab" data-toggle="tab">Activity</a>
         </li>
         --}}
 
-        <li class='active'>
+        <li class="active">
+            <a href="#sidetab-tasks" role='tab' data-toggle='tab'>Content Tasks</a>
+        </li>
+        <li>
             <a href="#sidetab-history" role="tab" data-toggle="tab">History</a>
         </li>
     </ul>
@@ -17,7 +17,7 @@
 
 <div class="tab-content">
     <!-- Content Task Panel -->
-    <div role="tabpanel" class="sidepanel tab-pane" id="sidetab-tasks">
+    <div class="sidepanel tab-pane active" role="tabpanel" id="sidetab-tasks">
         @include('content.partials.editor.sidebar_tasks')
     </div> <!-- End Content Task Panel -->
 
@@ -27,7 +27,7 @@
     </div>
 
     <!-- Tab 3: History -->
-    <div class="sidepanel tab-pane active" role="tabpanel" id="sidetab-history">
+    <div class="sidepanel tab-pane" role="tabpanel" id="sidetab-history">
         @include('content.partials.editor.sidebar_history')
     </div>
 </div>

@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="/css/plugins/dropzone/basic.min.css">
     <link rel="stylesheet" href="/css/plugins/dropzone/dropzone.min.css">
+    <link rel="stylesheet" href="/css/plugins/sweetalert2/sweetalert2.min.css">
     @yield('styles')
 
     @yield('scripts.head')

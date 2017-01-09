@@ -39,7 +39,7 @@ var format_time_ago = function(time){
 //handles the task modal for the site
 $(function() {
 
-	$('.add-task-action').click(function(){
+	$('.add-task-action').click(function() {
         $("#addTaskModal").modal('show');
 	});
 
@@ -57,6 +57,7 @@ $(function() {
 
 //adds the task from any page
 var loadIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
+
 function add_task(callback) {
     //so hacky ;)
 
@@ -105,7 +106,19 @@ function getTaskData() {
         url: $('#task-url').val(),
         attachments: getTaskAttachments(),
         assigned_users: getTaskAssignments(),
+        content_id: getContentId(),
     };
+}
+
+function getContentId() {
+    var element = $('#is_content_task');
+    var contentId = null;
+
+    if ((element.length) && (element.val() === 'on')) {
+        contentId = element.data('id');
+    }
+
+    return contentId;
 }
 
 function getTaskAttachments() {

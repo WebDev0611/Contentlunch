@@ -222,6 +222,7 @@ class ContentController extends Controller
             'files' => $content->attachments()->where('type', 'file')->get(),
             'images' => $content->attachments()->where('type', 'image')->get(),
             'isCollaborator' => $content->hasCollaborator(Auth::user()),
+            'tasks' => $content->tasks()->with('user')->get(),
         ];
 
         return view('content.editor', $data);
@@ -243,9 +244,7 @@ class ContentController extends Controller
         }
 
         if ($validation->fails()) {
-            $urlId = $id ? "/$id" : '';
-
-            return redirect("/edit" . $urlId)->with('errors', $validation->errors());
+            return redirect("/edit/$content->id")->with('errors', $validation->errors());
         }
 
         if (!$content->hasCollaborator(Auth::user())) {

@@ -843,58 +843,12 @@
             }
         });
 
-       // $('#contentType').change(contentTypeChangeCallback);
-        //$('#contentType').trigger('change');
-
-        // function contentTypeChangeCallback() {
-        //     var contentType = $('#contentType').val();
-
-        //     $('#connections').html('');
-        //     addDropdownEmptyOption();
-
-        //     if (contentType) {
-        //         fetchConnections(contentType).then(updateContentDestinationDropdown);
-        //     }
-        // }
-
-        // function fetchConnections(contentType) {
-        //     return $.ajax({
-        //         method: 'get',
-        //         url: '/api/connections',
-        //         headers: getHeaders(),
-        //         data: {
-        //             content_type: contentType
-        //         }
-        //     });
-        // }
-
         function getHeaders() {
             return {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': $('input[name=_token]').val()
             };
         }
-
-        // function updateContentDestinationDropdown(response) {
-        //     for (var i = 0; i < response.data.length; i++) {
-        //         var connection = response.data[i];
-        //         var optionAttributes = {
-        //             value: connection.id,
-        //             text: connection.name
-        //         };
-
-        //    //     $('<option/>', optionAttributes).appendTo('#connections');
-        //     }
-        // }
-
-        // function addDropdownEmptyOption() {
-        //     var optionAttributes = {
-        //         value: "",
-        //         text: "-- Select Destination --"
-        //     };
-
-        //     $('<option/>', optionAttributes).appendTo("#connections");
-        // }
 
         function updateCount(event) {
             if (isTweet()) {
@@ -910,13 +864,42 @@
             return selectedContentType == TWEET;
         }
 
-                //runs the action to submit the task
+        /**
+         * Content task handling
+         */
+
+        var tasks = new task_collection();
+
+        tasks.on('add', function(task) {
+            var element = new ContentTaskView({ model: task });
+            element.render();
+            $('.content-tasks-box-container').append(element.el);
+        });
+
+        fetchTasks();
+
+        function fetchTasks() {
+            return $.ajax({
+                url: '/api/contents/' + contentId() + '/tasks',
+                method: 'get',
+            })
+            .then(function(response) {
+                tasks.add(response.map(function(task) {
+                    return new task_model(task);
+                }));
+            });
+        }
+
+        function contentId() {
+            return $('input[name=content_id]').val();
+        }
+
         $('#add-task-button').click(function() {
             add_task(addTaskCallback);
         });
 
         function addTaskCallback(task) {
-            tasks.add(new task_model(task_map(task)));
+            tasks.add(new task_model(task));
             $('#addTaskModal').modal('hide');
         }
     });

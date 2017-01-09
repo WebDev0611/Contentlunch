@@ -97,7 +97,7 @@
                                         class="form-control input-larger input"
                                         id="url"
                                         name="url"
-                                        value="{{ $task->url }}" />
+                                        value="{{ @isset($task) ? $task->url : '' }}" />
                                 </div>
                             </div>
                         </div>
