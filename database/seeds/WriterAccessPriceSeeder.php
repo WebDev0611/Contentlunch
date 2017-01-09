@@ -79,20 +79,20 @@ class WriterAccessPriceSeeder extends Seeder{
 
 
             // Email
-            ['asset_type_id' => 30, 'writer_level' => 6, 'wordcount' => 500, 'fee' => 250],
-            ['asset_type_id' => 30, 'writer_level' => 6, 'wordcount' => 750, 'fee' => 350],
-            ['asset_type_id' => 30, 'writer_level' => 6, 'wordcount' => 1000, 'fee' => 450],
-            ['asset_type_id' => 30, 'writer_level' => 6, 'wordcount' => 1200, 'fee' => 550],
+            ['asset_type_id' => 30, 'writer_level' => 6, 'wordcount' => 200, 'fee' => 55],
+            ['asset_type_id' => 30, 'writer_level' => 6, 'wordcount' => 400, 'fee' => 90],
+            ['asset_type_id' => 30, 'writer_level' => 6, 'wordcount' => 600, 'fee' => 130],
+            ['asset_type_id' => 30, 'writer_level' => 6, 'wordcount' => 800, 'fee' => 150],
 
-            ['asset_type_id' => 30, 'writer_level' => 5, 'wordcount' => 500, 'fee' => 200],
-            ['asset_type_id' => 30, 'writer_level' => 5, 'wordcount' => 750, 'fee' => 300],
-            ['asset_type_id' => 30, 'writer_level' => 5, 'wordcount' => 1000, 'fee' => 400],
-            ['asset_type_id' => 30, 'writer_level' => 5, 'wordcount' => 1200, 'fee' => 500],
+            ['asset_type_id' => 30, 'writer_level' => 5, 'wordcount' => 200, 'fee' => 45],
+            ['asset_type_id' => 30, 'writer_level' => 5, 'wordcount' => 400, 'fee' => 80],
+            ['asset_type_id' => 30, 'writer_level' => 5, 'wordcount' => 600, 'fee' => 120],
+            ['asset_type_id' => 30, 'writer_level' => 5, 'wordcount' => 800, 'fee' => 140],
 
-            ['asset_type_id' => 30, 'writer_level' => 4, 'wordcount' => 500, 'fee' => 150],
-            ['asset_type_id' => 30, 'writer_level' => 4, 'wordcount' => 750, 'fee' => 250],
-            ['asset_type_id' => 30, 'writer_level' => 4, 'wordcount' => 1000, 'fee' => 350],
-            ['asset_type_id' => 30, 'writer_level' => 4, 'wordcount' => 1200, 'fee' => 450],
+            ['asset_type_id' => 30, 'writer_level' => 4, 'wordcount' => 200, 'fee' => 35],
+            ['asset_type_id' => 30, 'writer_level' => 4, 'wordcount' => 400, 'fee' => 70],
+            ['asset_type_id' => 30, 'writer_level' => 4, 'wordcount' => 600, 'fee' => 110],
+            ['asset_type_id' => 30, 'writer_level' => 4, 'wordcount' => 800, 'fee' => 130],
 
 
             // Website page
