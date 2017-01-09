@@ -112,7 +112,9 @@ class FacebookController extends BaseConnectionController
         $connection->active = 1;
         $connection->save();
 
-        return redirect()->route($this->redirectRoute());
+        return redirect()
+            ->route($this->redirectRoute())
+            ->with($this->flashMessage("You've successfully connected to Facebook."));
     }
 
     protected function redirectRoute()
