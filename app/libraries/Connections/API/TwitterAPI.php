@@ -14,12 +14,7 @@ class TwitterAPI
         $this->client = null;
         $this->content = $content;
 
-        if ($connection) {
-            $this->connection = $connection;
-        }
-        else {
-            $this->connection = $this->content->connection;
-        }
+        $this->connection = $connection ? $connection : $this->content->connection;
     }
 
     private function setupTwitterConnection()
