@@ -473,7 +473,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="metaTitle">META TITLE TAG</label>
                                     @php
@@ -496,7 +496,7 @@
                                     !!}
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="input-form-group input-drop">
                                     <label for="metaKeywords">KEYWORDS</label>
                                     @php
@@ -519,13 +519,10 @@
                                     !!}
                                 </div>
                             </div>
-                        </div>
 
-
-                        <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="input-form-group">
-                                    <label for="metaDescriptor">META DESCRIPTOR</label>
+                                    <label for="metaDescriptor">META DESCRIPTION TAG</label>
                                     @php
                                         $metaDescriptorOptions = [
                                             'placeholder' => 'Enter page description',
