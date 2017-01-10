@@ -525,7 +525,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="input-form-group">
-                                    <label for="metaDescriptor">META DESCRIPTOR</label>
+                                    <label for="metaDescriptor">META DESCRIPTION TAG</label>
                                     @php
                                         $metaDescriptorOptions = [
                                             'placeholder' => 'Enter page description',
