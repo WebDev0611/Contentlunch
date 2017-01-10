@@ -115,14 +115,15 @@
                                 <div class="input-form-group">
                                     <label for="country_code">COUNTRY</label>
                                     <div class="select">
-                                        {!!
-                                            Form::select(
-                                                'country_code',
-                                                $countries,
-                                                $user->country_code,
-                                                [ 'id' => 'country-selector' ]
-                                            )
-                                        !!}
+                                        @php
+                                            $countryOptions = [
+                                                'id' => 'country-selector',
+                                                'class' => 'input selectpicker form-control',
+                                                'data-live-search' => true,
+                                                'title' => 'Choose your country',
+                                            ];
+                                        @endphp
+                                        {!! Form::select('country_code', $countries, $user->country_code, $countryOptions) !!}
                                     </div>
                                 </div>
                             </div>
