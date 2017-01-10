@@ -15,8 +15,10 @@ class WriterAccessAssetTypeSeeder extends Seeder
             ['writer_access_id' => 13, 'name' => 'White paper'],
             ['writer_access_id' => 1, 'name' => 'Case Study'],
             ['writer_access_id' => 30, 'name' => 'Email'],
+            // Landing page missing
             ['writer_access_id' => 26, 'name' => 'Website Page'],
             ['writer_access_id' => 8, 'name' => 'Press Release'],
+            // Sales letter missing
             ['writer_access_id' => 31, 'name' => 'Newsletter'],
             ['writer_access_id' => 32, 'name' => 'Product Description'],
             ['writer_access_id' => 9, 'name' => 'Script (Video)'],
