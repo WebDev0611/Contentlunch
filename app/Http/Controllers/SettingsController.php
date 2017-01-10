@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Account;
-use App\Http\Requests\AccountSettings\AccountSettingsRequest;
-use App\Country;
-use App\Provider;
 use App\Helpers;
+use App\Http\Requests\AccountSettings\AccountSettingsRequest;
+use App\Presenters\CountryPresenter;
+use App\Provider;
+use Auth;
 
 class SettingsController extends Controller
 {
     public function index()
     {
         $user = Auth::user();
-        $countries = Country::dropdown();
+        $countries = CountryPresenter::dropdown();
 
         return view('settings.index', compact('user', 'countries'));
     }

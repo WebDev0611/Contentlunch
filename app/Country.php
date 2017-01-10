@@ -2,17 +2,13 @@
 
 namespace App;
 
+use App\Presenters\CountryPresenter;
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class Country extends Model
 {
-    public static function dropdown()
-    {
-        $dropdown = [ '' => '-- Select a Country --' ];
-        $dropdown += Country::orderBy('country_name', 'asc')
-            ->lists('country_name', 'country_code')
-            ->toArray();
+    use PresentableTrait;
 
-        return $dropdown;
-    }
+    protected $presenter = CountryPresenter::class;
 }
