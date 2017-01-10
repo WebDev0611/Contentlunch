@@ -76,7 +76,7 @@ class TwitterController extends BaseConnectionController
             if (is_object($credentials) && !isset($credentials->error)) {
                 $this->saveConnection($token, 'twitter');
 
-                return $this->redirectWithSuccess('Congrats! You\'ve successfully signed in.');
+                return $this->redirectWithSuccess("You've successfully connected to Twitter.");
             }
 
             $this->cleanSessionConnection();
