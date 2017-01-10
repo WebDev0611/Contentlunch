@@ -2,11 +2,17 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Presenters\WriterAccessPartialOrderPresenter;
 use App\WriterAccessPrice;
+use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class WriterAccessPartialOrder extends Model
 {
+    use PresentableTrait;
+
+    protected $presenter = WriterAccessPartialOrderPresenter::class;
+
     public $table = 'writer_access_partial_orders';
 
     protected $fillable = [
