@@ -19,7 +19,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
         $this->selectedAccount = Account::selectedAccount();
     }
 
