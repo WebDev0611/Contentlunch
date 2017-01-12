@@ -48,22 +48,28 @@ class WriterAccessController extends Controller
      */
     public function __construct(Request $request)
     {
+        $user = Auth::user();
+
         // Set the project name for writer access calls
-        $this->apiProject = $this->getProjectName($request->root());
+        $this->apiProject = $user ?
+            $this->getProjectName($request->root(), $user) :
+            null;
 
         // Create the users project if it doesn't already exist.
-        if (empty(Auth::user()->writer_access_Project_id)) {
+        if ($user && empty($user->writer_access_Project_id)) {
             echo 'Creating project';
             $this->createProject();
         }
 
         // Set the projectid for writer access calls
-        $this->apiProjectId = Auth::user()->writer_access_Project_id;
+        $this->apiProjectId = $user ?
+            $user->writer_access_Project_id :
+            null;
     }
 
-    private function getProjectName($requestRoot)
+    private function getProjectName($requestRoot, User $user)
     {
-        return preg_replace('#https?://#', '', $requestRoot) . '-user-' . Auth::user()->id;
+        return preg_replace('#https?://#', '', $requestRoot) . '-user-' . $user->id;
     }
 
     /**
