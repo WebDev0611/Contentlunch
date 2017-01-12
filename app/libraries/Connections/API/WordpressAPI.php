@@ -64,13 +64,16 @@ class WordPressAPI
 
     private function postData()
     {
+        $mediaUrls = $this->getMediaUrls();
+        $featuredImage = $mediaUrls->shift();
+
         return [
             'title' => $this->content->title,
             'content' => $this->content->body,
             'tags' => $this->tags(),
-            'media_urls' => $this->getMediaUrls(),
+            'media_urls' => $mediaUrls->toArray(),
             'status' => 'draft',
-            'featured_image' => $this->getFeaturedImage(),
+            'featured_image' => $featuredImage,
             'tags' => $this->content->tags->pluck('tag')->implode(','),
         ];
     }
@@ -122,20 +125,12 @@ class WordPressAPI
         return json_decode((string) $response->getBody());
     }
 
-    protected function getFeaturedImage()
-    {
-        $mediaUrls = $this->getMediaUrls();
-
-        return $mediaUrls[0];
-    }
-
     private function getMediaUrls()
     {
         return $this->content
             ->attachments
             ->where('type', 'image')
-            ->pluck('filename')
-            ->toArray();
+            ->pluck('filename');
     }
 
     private function getMediaUploadUrl()
@@ -145,7 +140,7 @@ class WordPressAPI
 
     public function uploadAttachments()
     {
-        $mediaUrls = $this->getMediaUrls();
+        $mediaUrls = $this->getMediaUrls()->toArray();
         $mediaUploadUrl = $this->getMediaUploadUrl();
 
         $response = ['success' => false, 'response' => []];
