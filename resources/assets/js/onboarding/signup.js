@@ -10,7 +10,7 @@ function scorePassword(pass) {
 
     // award every unique letter until 5 repetitions
     let letters = new Object();
-    for (var i=0; i<pass.length; i++) {
+    for (let i = 0; i < pass.length; i++) {
         letters[pass[i]] = (letters[pass[i]] || 0) + 1;
         score += 5.0 / letters[pass[i]];
     }
@@ -39,13 +39,18 @@ function scorePassword(pass) {
     Returns a color based on password strength.
  */
 function checkPassStrength(pass) {
-    var score = scorePassword(pass);
-    if (score > 80)
+    const score = scorePassword(pass);
+
+    if (score > 80) {
         return "#77FF77";
-    if (score >= 40)
+    }
+    if (score >= 40) {
         return "#FFBB77";
-    if (score < 40)
+    }
+    if (score < 40) {
         return "#FF7777";
+    }
+
     return "";
 }
 
