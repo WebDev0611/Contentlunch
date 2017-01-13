@@ -101,21 +101,6 @@
         }
     });
 
-    var my_tasks_view = Backbone.View.extend();
-    var all_tasks_view = Backbone.View.extend();
-
-    /* activity item model */
-    var activity_model = Backbone.Model.extend({
-        defaults: {
-            image: "/images/avatar.jpg",
-            who: "Jane",
-            action: "commented on",
-            title: "Write blog post",
-            content: "online banking",
-            body: "uspendisse tincidunt eu lectus nec Suspen disse tincidunt eu lectus nec  vestibulum. Etiam eget dolor..."
-        }
-    });
-
     /* activity item collection */
     var activity_collection = Backbone.Collection.extend({
         model: activity_model
