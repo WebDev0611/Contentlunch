@@ -1,14 +1,5 @@
 (function($){
 
-    var task_view = Backbone.View.extend({
-        template: _.template( $('#task-template').html() ),
-
-        render: function() {
-            this.el = this.template(this.model.attributes);
-            return this.el;
-        }
-    });
-
     var campaign_view = Backbone.View.extend({
         template: _.template( $('#campaign-template').html() ),
         render: function(){
