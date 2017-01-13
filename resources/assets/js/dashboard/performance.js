@@ -7,31 +7,31 @@
         image:"/images/avatar.jpg",
         title: "Content mix: post 3 blogs, 16 social postings, 1 book per month",
         launched:"05/05/2016",
-        performance:"11K"  
+        performance:"11K"
     },
     {
         image:"/images/avatar.jpg",
         title: "Post 1 blog, 1 book per month",
         launched:"05/05/2016",
-        performance:"11K"  
+        performance:"11K"
     },
     {
         image:"/images/avatar.jpg",
         title: " 16 social postings",
         launched:"05/05/2016",
-        performance:"11K"  
+        performance:"11K"
     },
     {
         image:"/images/avatar.jpg",
         title: "Content mix: post 3 blogs, 16 social postings, 1 book per month",
         launched:"05/05/2016",
-        performance:"11K"  
+        performance:"11K"
     },
     {
         image:"/images/avatar.jpg",
         title: "Content mix: post 2 blogs, 20 social postings",
         launched:"05/05/2016",
-        performance:"11K"  
+        performance:"11K"
     },
     ];
 
@@ -156,7 +156,7 @@
                 }
                 that.$el.find('#tab-contents-cont').append( con.$el );
             });
-           
+
         },
         show_content: function(){
             this.collection = this.content || [];
