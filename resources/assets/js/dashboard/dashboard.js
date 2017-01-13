@@ -1,10 +1,4 @@
 (function($){
-
-    /* activity item collection */
-    var activity_collection = Backbone.Collection.extend({
-        model: activity_model
-    });
-
     /* activity feed view */
     var activity_feed_view = Backbone.View.extend({
         initialize: function() {
