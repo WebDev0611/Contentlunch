@@ -1,12 +1,12 @@
 var CharacterCounterView = Backbone.View.extend({
     characters: 0,
 
-    initialize: function() {
+    initialize() {
         this.$el.hide();
         this.render();
     },
 
-    render: function() {
+    render() {
         this.$el.find('.count').text(this.characters);
 
         if (this.characters > 140) {
@@ -18,41 +18,41 @@ var CharacterCounterView = Backbone.View.extend({
         return this;
     },
 
-    invalidCount: function() {
+    invalidCount() {
         if (!this.$el.hasClass('invalid-count')) {
             this.$el.addClass('invalid-count');
         }
     },
 
-    validCount: function() {
+    validCount() {
         if (this.$el.hasClass('invalid-count')) {
             this.$el.removeClass('invalid-count');
         }
     },
 
-    show: function() {
+    show() {
         this.$el.slideDown('fast');
     },
 
-    hide: function() {
+    hide() {
         this.$el.slideUp('fast');
     },
 
-    update: function(content) {
+    update(content) {
         if (this.isTweet()) {
-            var html = content;
-            var div = document.createElement("div");
+            let html = content;
+            let div = document.createElement("div");
             div.innerHTML = html;
-            var text = div.textContent || div.innerText || "";
+            let text = div.textContent || div.innerText || "";
 
             this.characters = text.length;
             this.render();
         }
     },
 
-    isTweet: function() {
-        var TWEET = '3';
-        var selectedContentType = $('#contentType').length ? $('#contentType').val() : 0;
+    isTweet() {
+        const TWEET = '3';
+        const selectedContentType = $('#contentType').length ? $('#contentType').val() : 0;
 
         return selectedContentType == TWEET;
     }
