@@ -121,31 +121,11 @@
 </div>
 
 @include('home.partials.invite_team_member_modal')
-<script type="text/template" id="team-member-template">
-    <div class="dashboard-ideas-cell">
-        <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
-    </div>
-    <div class="dashboard-members-cell">
-        <p class="dashboard-ideas-text"><%= name %></p>
-        <span class="dashboard-members-text small"><%= email %></span>
-    </div>
-    <div class="dashboard-members-cell">
-        <span class="dashboard-ideas-text small">
-            <i class="icon-checklist"></i>
-            <%= tasks %>
-        </span>
-    </div>
-</script>
-
 <script>
     var my_campaigns = {!! $mycampaigns !!};
     var my_tasks = {!! $tasks !!};
     var account_tasks = {!! $accountTasks !!};
 </script>
-@stop
-
-@section('styles')
-
 @stop
 
 @section('scripts')
