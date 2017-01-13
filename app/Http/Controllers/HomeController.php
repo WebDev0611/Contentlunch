@@ -30,47 +30,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $tasks = $this->loggedUserTasks()->map(function($task) {
-                return $this->addDueDateDiffs($task);
-            })->toJson();
-
-        $accountTasks = $this->accountTasks()->map(function($task) {
-                return $this->addDueDateDiffs($task);
-            })->toJson();
+        $tasks = Task::userTasks(Auth::user())->toJson();
+        $accountTasks = Task::accountTasks($this->selectedAccount)->toJson();
 
         $mycampaigns = $this->myCampaigns()->toJson();
 
         return view('home.list', compact('mycampaigns', 'tasks', 'accountTasks'));
     }
 
-    protected function addDueDateDiffs(Task $task)
-    {
-        $task->due_date_diff = $task->present()->dueDate;
-        $task->updated_at_diff = $task->present()->updatedAt;
-        $task->created_at_diff = $task->present()->createdAt;
-
-        return $task;
-    }
-
     protected function myCampaigns()
     {
         return Auth::user()->campaigns()->get();
-    }
-
-    protected function accountTasks()
-    {
-        return $this->selectedAccount
-            ->tasks()
-            ->with('user')
-            ->get();
-    }
-
-    protected function loggedUserTasks()
-    {
-        return Auth::user()
-            ->assignedTasks()
-            ->with('user')
-            ->distinct()
-            ->get();
     }
 }
