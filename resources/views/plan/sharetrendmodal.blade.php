@@ -24,10 +24,6 @@
             <label for="connectionType">CHOOSE CONNECTION</label>
             <div class="select">
                 <select class="form-control" id="connectionType" name="con_type">
-                    <option value="" selected="selected">-- Select One --</option>
-                    <option value="facebook">Facebook</option>
-                    <option value="twitter">Twitter</option>
-                    <option value="wordpress">Wordpress</option>
                 </select>
             </div>
         </div>
