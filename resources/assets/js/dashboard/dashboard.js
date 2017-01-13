@@ -1,15 +1,4 @@
 (function($){
-
-    /*activity item view */
-    var activity_item_view = Backbone.View.extend({
-        tagName: "div",
-        className: "plan-activity-box-container",
-        template: _.template($('#activity-item-template').html()),
-        initialize: function() {
-            this.$el.append(this.template(this.model.attributes));
-        }
-    });
-
     /*team member model */
     var team_member_model = Backbone.Model.extend({
         defaults:{

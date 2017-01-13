@@ -121,22 +121,6 @@
 </div>
 
 @include('home.partials.invite_team_member_modal')
-<script type="text/template" id="activity-item-template">
-    <div class="plan-activity-box-img">
-        <img src="<%= image %>" alt="#">
-    </div>
-    <div class="plan-activity-box">
-        <span class="plan-activity-title">
-            <a href="#"><%= who %></a> <%= action %>
-            <a href="#"> <%= title %></a> on
-            <a href="#"><%= content %></a>
-        </span>
-        <p class="plan-activity-text">
-            <%= body %>
-        </p>
-    </div>
-</script>
-
 <script type="text/template" id="team-member-template">
     <div class="dashboard-ideas-cell">
         <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
