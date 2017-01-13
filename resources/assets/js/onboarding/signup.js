@@ -2,28 +2,30 @@
     Scores a password
  */
 function scorePassword(pass) {
-    var score = 0;
+    let score = 0;
 
-    if (!pass)
+    if (!pass) {
         return score;
+    }
 
     // award every unique letter until 5 repetitions
-    var letters = new Object();
+    let letters = new Object();
     for (var i=0; i<pass.length; i++) {
         letters[pass[i]] = (letters[pass[i]] || 0) + 1;
         score += 5.0 / letters[pass[i]];
     }
 
     // bonus points for mixing it up
-    var variations = {
+    const variations = {
         digits: /\d/.test(pass),
         lower: /[a-z]/.test(pass),
         upper: /[A-Z]/.test(pass),
         nonWords: /\W/.test(pass),
     };
 
-    variationCount = 0;
-    for (var check in variations) {
+    let variationCount = 0;
+
+    for (let check in variations) {
         variationCount += (variations[check] == true) ? 1 : 0;
     }
 
