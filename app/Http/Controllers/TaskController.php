@@ -6,7 +6,6 @@ use App\Account;
 use App\Attachment;
 use App\Content;
 use App\Helpers;
-use App\Http\Requests;
 use App\Task;
 use Auth;
 use Illuminate\Http\Request;
@@ -21,10 +20,19 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $shouldReturnAccountTasks = $request->input('account_tasks') == '1';
+
+        if ($shouldReturnAccountTasks) {
+            $tasks = Task::accountTasks(Account::selectedAccount());
+        } else {
+            $tasks = Task::userTasks(Auth::user());
+        }
+
+        return response()->json([ 'data' => $tasks ]);
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -245,5 +245,6 @@ Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsContro
 Route::get('/api/contents/{content}/tasks', 'ContentTasksController@index');
 Route::get('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@index');
 Route::post('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@update');
+Route::get('/api/tasks', 'TaskController@index');
 
 Route::post('/search', [ 'as' => 'searchIndex', 'uses' => 'SearchController@index' ]);
