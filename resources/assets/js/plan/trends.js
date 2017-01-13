@@ -303,18 +303,43 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
             $(event.relatedTarget).closest(".tombstone").trigger("click");
         });
 
+        // Change event for selecting a connection to share a trend with.
         $("#connectionType").on("change", function(event){
-            console.log("changed");
-           if($(this).val() === "twitter"){
+            var $this = $(this);
+
+           if($this.find("option[value="+$this.val()+"]").data("type") === "Tweet") {
                $(".hash-tags").closest(".input-form-group").removeClass("hide");
-                $(".character-limit-label").removeClass("hide");
-                $(".post-text").attr("maxLength", 140);
+               $(".character-limit-label").removeClass("hide");
+               $(".post-text").attr("maxLength", 140);
+           }else if($this.val() === "new"){
+               window.location.href = "/settings/connections";
            }else{
                $(".hash-tags").closest(".input-form-group").addClass("hide");
                $(".character-limit-label").addClass("hide");
                $(".post-text").removeAttr("maxlength");
            }
         });
+
+        // Populate connection options.
+        $.ajax({
+            url: "/api/connections",
+            success: function(response) {
+                var connections = response.data,
+                    $options = $("<div>");
+
+                $options.append($("<option>", {value: "none", text: "-- Select Connection --", selected: true}));
+
+                for(var i=0; i<connections.length; i++){
+                    $options.append($("<option>", {value: connections[i].id, text: connections[i].name, "data-type": connections[i].content_type }));
+                }
+
+                $("#connectionType").append($options.html());
+                $("#connectionType").append($("<option>", {value: "new", text: "-- Add New Connection --"}));
+            }
+        });
+
+
+
 
 		//task method
         //runs the action to submit the task
