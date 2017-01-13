@@ -1,20 +1,4 @@
 (function($){
-    /* activity feed view */
-    var activity_feed_view = Backbone.View.extend({
-        initialize: function() {
-            this.render();
-        },
-
-        render: function(){
-            var view = this;
-            this.collection.each(function(model) {
-                var activity_item = new activity_item_view({ model: model });
-                view.$el.append(activity_item.$el);
-            });
-
-            return this;
-        }
-    });
 
     /*activity item view */
     var activity_item_view = Backbone.View.extend({
