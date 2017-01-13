@@ -59,9 +59,6 @@ $(function() {
 var loadIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
 
 function add_task(callback) {
-    //so hacky ;)
-
-    //need proper validation here
     if (isTaskDataValid()) {
         $('#task-menu').prepend(loadIMG);
 
@@ -94,6 +91,14 @@ function addedTaskCallback(callback) {
 function getCSRFHeader() {
     return {
         'X-CSRF-TOKEN': $('input[name=_token]').val()
+    };
+}
+
+function getJsonHeader() {
+    return {
+        'X-CSRF-TOKEN': $('input[name=_token]').val(),
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
     };
 }
 

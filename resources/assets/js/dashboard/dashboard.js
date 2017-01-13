@@ -26,9 +26,9 @@
     var tasks = new task_collection(my_tasks.map(task_map));
     var all_tasks = new task_collection(account_tasks.map(task_map));
 
-    var taskUpdateCallback = function(collection) {
+    function taskUpdateCallback(collection) {
         $('#incomplete-tasks').text(collection.length);
-    };
+    }
 
     $('#incomplete-tasks').text(my_tasks.length);
 
@@ -45,13 +45,47 @@
     tab_container.campaigns = campaigns;
     tab_container.tasks = tasks;
 
+    //runs the action to submit the task
+    $('#add-task-button').click(function() {
+        add_task(addTaskCallback);
+    });
+
+    function addTaskCallback(task) {
+        let myTasksPromise = fetchMyTasks();
+        let accountTasksPromise = fetchAccountTasks();
+
+        $.when(myTasksPromise, accountTasksPromise).done((myTasksResponse, accountResponse) => {
+            tasks.reset(myTasksResponse[0].data.map(task_map));
+            all_tasks.reset(accountResponse[0].data.map(task_map));
+            tab_container.show_my();
+        });
+
+        $('#addTaskModal').modal('hide');
+    }
+
+    function fetchMyTasks() {
+        return $.ajax({
+            url: '/api/tasks',
+            method: 'get',
+            headers: getJsonHeader(),
+        })
+    }
+
+    function fetchAccountTasks() {
+        return $.ajax({
+            url: '/api/tasks',
+            method: 'get',
+            data: { 'account_tasks': '1' },
+            headers: getJsonHeader(),
+        })
+    }
+
  //  var activity_feed = new activity_collection(dummy_activity_data);
  //  var activity_feed_container = new activity_feed_view({el: '#activity-feed-container', collection: activity_feed });
 
     var recent_ideas = new recent_ideas_collection();
-    recent_ideas.on('update',function(c){
-        $('.idea-count').text(c.length);
-    });
+    recent_ideas.on('update', (collection) => $('.idea-count').text(collection.length));
+
     var ideas = new recent_ideas_view({
         el:'#recent-ideas',
         collection: recent_ideas
@@ -66,14 +100,5 @@
         collection: team_members
     });
 
-    //runs the action to submit the task
-    $('#add-task-button').click(function() {
-        add_task(addTaskCallback);
-    });
-
-    function addTaskCallback(task) {
-        tasks.add(new task_model(task_map(task)));
-        $('#addTaskModal').modal('hide');
-    }
 
 })(jQuery);
