@@ -1,13 +1,5 @@
 (function($){
 
-    var campaign_view = Backbone.View.extend({
-        template: _.template( $('#campaign-template').html() ),
-        render: function(){
-            this.el = this.template(this.model.attributes);
-            return this.el;
-        }
-    });
-
     /* main tab view */
     var tab_container_view = Backbone.View.extend({
         events:{
@@ -97,7 +89,7 @@
 
         append_campaigns: function() {
             this.campaigns.each(function(model) {
-                var campaignView = new campaign_view({ model: model });
+                var campaignView = new dashboard_campaign_view({ model: model });
                 this.$el.find('.panel').append(campaignView.render());
             }.bind(this));
         },
