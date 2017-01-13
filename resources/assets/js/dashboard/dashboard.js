@@ -1,19 +1,4 @@
 (function($){
-    /*team member model */
-    var team_member_model = Backbone.Model.extend({
-        defaults:{
-            "name": "Jason Simmons",
-            "email": "jasonsimm@google.com",
-            "image": "/images/avatar.jpg",
-            "tasks": "35"
-        }
-    });
-
-    /* team member collection */
-    var team_members_collection = Backbone.Collection.extend({
-        model: team_member_model
-    });
-
     /* team member view */
     var team_member_view = Backbone.View.extend({
         tagName: "div",
