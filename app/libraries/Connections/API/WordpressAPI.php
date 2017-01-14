@@ -16,16 +16,17 @@ class WordPressAPI
     public function __construct($content = null, $connection = null)
     {
         $this->content = $content;
-        $this->connection = $connection ?
-            $connection :
-            ($this->content ? $this->content->connection : null);
-
+        $this->connection = $this->getConnection($connection);
         $this->client = new Client([ 'base_uri' => $this->baseUrl() ]);
+    }
 
-        // if ($content) {
-        //     $this->token = (new \oAuth\API\WordPressAuth)->getToken($content);
-        // }
-        // $this->domain = $content->connection->getSettings()->url;
+    protected function getConnection($connection = null)
+    {
+        if (!$connection) {
+            $connection = $this->content ? $this->content->connection : null;
+        }
+
+        return $connection;
     }
 
     public function baseUrl()
@@ -63,36 +64,41 @@ class WordPressAPI
 
     private function postData()
     {
+        $mediaUrls = $this->getMediaUrls();
+        $featuredImage = $mediaUrls->shift();
+
         return [
             'title' => $this->content->title,
             'content' => $this->content->body,
             'tags' => $this->tags(),
-            'media_urls' => $this->getMediaUrls(),
+            'media_urls' => $mediaUrls->toArray(),
             'status' => 'draft',
+            'featured_image' => $featuredImage,
+            'tags' => $this->content->tags->pluck('tag')->implode(','),
         ];
     }
 
+    protected function createOptionsAndHeaderData()
+    {
+        return [
+            'http' => [
+                'method' => 'POST',
+                'ignore_errors' => true,
+                'header' => $this->headers(),
+                'content' => http_build_query($this->postData()),
+            ],
+        ];
+    }
 
     public function createPost()
     {
-        // - standardize return
         $response = [
             'success' => false,
             'response' => []
         ];
 
         try {
-            // - Create Options and Header Data
-            $options = [
-                'http' => [
-                    'method' => 'POST',
-                    'ignore_errors' => true,
-                    'header' => $this->headers(),
-                    'content' => http_build_query($this->postData()),
-                ],
-            ];
-
-            // REST API url
+            $options = $this->createOptionsAndHeaderData();
             $url = $this->baseUrl() . '/posts/new';
 
             $context = stream_context_create($options);
@@ -124,8 +130,7 @@ class WordPressAPI
         return $this->content
             ->attachments
             ->where('type', 'image')
-            ->pluck('filename')
-            ->toArray();
+            ->pluck('filename');
     }
 
     private function getMediaUploadUrl()
@@ -135,7 +140,7 @@ class WordPressAPI
 
     public function uploadAttachments()
     {
-        $mediaUrls = $this->getMediaUrls();
+        $mediaUrls = $this->getMediaUrls()->toArray();
         $mediaUploadUrl = $this->getMediaUploadUrl();
 
         $response = ['success' => false, 'response' => []];
