@@ -13,28 +13,23 @@ use Illuminate\Support\Facades\Auth;
 class Controller extends BaseController
 {
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     /**
      * Formats the response to give either a JSON response for api URIs or a view with data attached.
      *
      * @param $data
+     *
      * @return mixed
      */
-    public function formatResponse($data = array()){
-        return (strpos(strtolower($_SERVER['REQUEST_URI']), 'api') !== false) ? $data : View::make($this->contentView, $data);
+    public function formatResponse($data = array())
+    {
+        return strpos(strtolower($_SERVER['REQUEST_URI']), 'api') !== false ?
+            $data :
+            View::make($this->contentView, $data);
     }
 
-    function isGlobalAdmin(){
-        return Auth::user()->is_admin == 1 ? true : false;
+    public function isGlobalAdmin()
+    {
+        return Auth::user()->is_admin == 1;
     }
-
 }

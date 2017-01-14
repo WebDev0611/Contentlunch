@@ -15,14 +15,15 @@ class CalendarController extends Controller {
 	public $tasks;
 
 	public function __construct(){
-        $this->middleware('auth');
+		$user = Auth::user();
 
-    	$user = Auth::user();
-    	$this->user_id = $user->id;
-    	$this->account_id = 0;
-    	$this->campaigns = Auth::user()->campaigns()->get();
-    	$this->tasks = Auth::user()->tasks()->get();
-	} 
+		if ($user) {
+			$this->user_id = $user->id;
+			$this->account_id = 0;
+			$this->campaigns = Auth::user()->campaigns()->get();
+			$this->tasks = Auth::user()->tasks()->get();
+		}
+	}
 
 	//pulls all calendars for the user
 	public function my(){
@@ -74,7 +75,7 @@ class CalendarController extends Controller {
 					$calendar.= '<time class="calendar-month-date">'.$list_day.'</time>';
 
 					/** BACKBONE RENDERS AFTER HERE !! **/
-					
+
 				$calendar.= '</td>';
 				if($running_day == 6):
 					$calendar.= '</tr>';
@@ -99,7 +100,7 @@ class CalendarController extends Controller {
 
 			/* end the table */
 			$calendar.= '</tbody></table>';
-			
+
 			/* all done, return result */
 			return $calendar;
 		}
@@ -125,7 +126,7 @@ class CalendarController extends Controller {
 		$campaigns_start_date = false;
 		$campaigns_end_date = false;
 		$campaigns_end = $year . '-'. $month . '-' . $number_of_days . ' 00:00:00';
-	
+
 		//$campaigns = $this->pull_campaigns($campaigns_start_date, $campaigns_end_date, $campaigns_end);
 
 		$campaigns = array();
@@ -135,7 +136,7 @@ class CalendarController extends Controller {
 		$next_month = ($month === 12) ? 1 : $month+1;
 
 		return View::make('calendar.index', array(
-			'calendar' => $calendar_layout, 
+			'calendar' => $calendar_layout,
 			'default_month' => $default_month,
 			'default_year' => $default_year,
 			'next_month' => $next_month,
@@ -165,7 +166,7 @@ class CalendarController extends Controller {
 				$main_calendar_string .= '<th>' . date('F', strtotime($year . '-' . $m ) ) . '</th>';
 			}
 			$main_calendar_string .= '</tr></thead>';
-			
+
 			//days for each of the months
 
 			$main_calendar_string .= '<tbody class="calendar-timeline-days-container"><tr>';
@@ -287,7 +288,7 @@ class CalendarController extends Controller {
 
 		$day_of_week = date('l', $date_string);
 		$display_month = date('F', $date_string);
-		$display_day = date('d', $date_string);		
+		$display_day = date('d', $date_string);
 
 		$next_week_string = date( "Y/m/d", strtotime( "+1 week", strtotime($start_weekdate) ) );
 		$prev_week_string = date( "Y/m/d", strtotime( "-1 week", strtotime($start_weekdate) ) );
@@ -306,7 +307,7 @@ class CalendarController extends Controller {
 			'display_year' => $year,
 			'display_day' => $display_day,
 			'display_day_of_week' => $day_of_week,
-			'weekly_display_string' => date('M j', strtotime($start_weekdate)) . '-' . date('M j', strtotime($end_weekdate)) . ' ' . $year, 
+			'weekly_display_string' => date('M j', strtotime($start_weekdate)) . '-' . date('M j', strtotime($end_weekdate)) . ' ' . $year,
 
 			'next_day_string' => $next_week_string,
 			'prev_day_string' => $prev_week_string,
@@ -356,7 +357,7 @@ class CalendarController extends Controller {
 
 		function generate_daily_calendar($year, $month, $day){
 			$daily_timetable = '<table class="calendar"><tbody class="calendar-day">';
-            
+
 			$start_time_row = date('H', strtotime('10:00:00') );
 			$end_time_row = date('H', strtotime('23:00:00') );
 
@@ -365,7 +366,7 @@ class CalendarController extends Controller {
 				$daily_timetable .= '<tr>';
 				//daily columns
 				$day_column = '<td disabled>' . date('gA', strtotime($curr_hour . ':00:00' ) ) .'</td>';
-				
+
 				//content goes here
 				$day_column .= '<td id="date-'.$year.'-'.$month.'-'.$day.'-' . $curr_hour . '0000' . '" data-cell-date-time="'.$year.'-'.$month.'-'.$day.'-' . $curr_hour . '0000' . '"></td>';
 
