@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Content\ContentRequest;
 use Illuminate\Support\Facades\File;
+use Input;
 use App\ContentType;
 use App\BuyingStage;
 use App\Connection;
@@ -115,6 +116,34 @@ class ContentController extends Controller
         return view('content.create', $data);
     }
 
+    public function trendShare(Request $request, Connection $connection)
+    {
+        $input = Input::all();
+        $response = response()->json(['data' => 'Content not found'], 404);
+        $content = $input['postText'];
+
+        $errors = [];
+        $publishedConnections = [];
+
+        $response = $this->publishString($content, $connection);
+
+        if (!$response['success']) {
+            $connectionName = (string) $connection;
+            $errors [] = [$connectionName => $response['error']];
+        } else {
+            $publishedConnections[] = $connection->provider->slug;
+        }
+
+        $response = response()->json([
+            'data' => 'Content published',
+            'errors' => $errors,
+            'content' => $content,
+            'published_connections' => $publishedConnections,
+        ], 201);
+
+        return $response;
+    }
+
     public function directPublish(Request $request, Content $content)
     {
         $connections = collect(explode(',', $request->input('connections')))
@@ -170,6 +199,14 @@ class ContentController extends Controller
         $content->ready_published = 0;
         $content->written = 0;
         $content->save();
+
+        return $create;
+    }
+
+    public function publishString(String $content, Connection $connection = null)
+    {
+        $class = 'Connections\API\\'.$connection->provider->class_name;
+        $create = (new $class($content, $connection))->createPost();
 
         return $create;
     }

@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="col-md-6 text-right" id="idea-menu">
-                <button class="button button-primary button-small text-uppercase save-idea">
+                <button class="button button-primary button-small text-uppercase share-trend">
                     <i class="icon-share icon-vertically-middle"></i>&nbsp;Share</button>
                 <button class="sidemodal-close normal-flow" data-dismiss="modal">
                     <i class="icon-remove"></i>

@@ -143,7 +143,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
     var share_trend_modal = Backbone.View.extend({
         events:{
-            "click .save-idea": "save"
+            "click .share-trend": "share"
         },
         initialize:function(){
             this.listenTo(this.collection, "update", this.render);
@@ -155,7 +155,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
             view.$el.find('#selected-content').html('');
 
             selected.forEach(function(m){
-                console.log(m);
                 var sel_cont_view = new create_idea_cont_view({model: m});
                 view.$el.find('#selected-content').append( sel_cont_view.el );
             });
@@ -165,6 +164,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
             }else{
                 this.$el.find('.form-delimiter').show();
             }
+
         },
         hide_modal: function(){
             this.$el.modal('hide');
@@ -177,9 +177,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
             });
             $('.save-idea').prop('disabled',false);
         },
-        save: function(){
-            this.store('active');
-        },
+
         show_error: function(msg){
             $('#idea-status-alert')
                 .toggleClass('hidden')
@@ -187,51 +185,26 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
                 .show();
 
             $('#idea-status-text').text(msg);
-            $('.save-idea').prop('disabled',false);
+            $('.share-trend').prop('disabled',false);
         },
-        store: function(action){
-            var view = this;
-
-            $('.save-idea').prop('disabled',true);
-            $('#idea-status-alert').addClass('hidden');
-
-            var loadingIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
-            console.log('loading image here');
-            $('#idea-menu').prepend(loadingIMG);
-            //saves the form data
-            var content = this.collection.where({ selected: true });
-            var idea_obj = {
-                idea: $('.idea-text').val(),
-                tags: $('.hash-tags').val(),
-                status: action,
-                content: content.map(function(m){
-                    return m.attributes;
-                })
-            };
-            $.ajax({
-                url: '/ideas',
-                type: 'post',
-                data: idea_obj,
-                headers: {
-                    'X-CSRF-TOKEN': $('input[name=_token]').val()
-                },
-                dataType: 'json',
-                success: function (data) {
-                    $(loadingIMG).remove();
-                    view.hide_modal();
-                    view.clear_form();
-                }
-            });
-        }
     });
 
 	
 	$(function(){
+        var trends = [],
+            selectedTrend = {};
 
-		$('#trend-search').click(function(){
-			var search_val = $('#trend-search-input').val() || "";
-			get_trending_topics(search_val);
-		});
+        $('#trend-search').on("click", function(e){
+            var search_val = $('#trend-search-input').val() || "";
+            get_trending_topics(search_val);
+        });
+
+        $('#trend-search-input').on("keyup", function(e){
+            if(!!e.keyCode && e.keyCode !== 13){
+                return;
+            }
+            $('#trend-search').click();
+        });
 
 		var results = new trend_result_collection();
 
@@ -255,6 +228,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 				var new_trends = trends_result.map(function(t){
 					
 					var trend_obj = {
+					    "id": t.id,
 						"title": t.title,
 						"image": t.image_url,
 						"body": t.excerpt,
@@ -274,12 +248,74 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 				results.remove( results.models );
 				results.add(new_trends);
+				trends = new_trends;
 				return new_trends;
 			},
 			function(error){
 				console.log(error)
 				console.log('couldnt connect to the endpoint/error');
 			});
+
+            $('#shareTrendModal').on('show.bs.modal', function (event) {
+                // Clear the selected status of all trend articles.
+                $(".tombstone-active").trigger("click");
+
+                // Then reselect only the one we want to share.
+                selectedTrend = $(event.relatedTarget).closest(".tombstone").trigger("click").data("trend-id");
+            });
+
+            // Change event for selecting a connection to share a trend with.
+            $("#connectionType").on("change", function(event){
+                var $this = $(this);
+
+                if($this.find("option[value="+$this.val()+"]").data("type") === "Tweet") {
+                    $(".hash-tags").closest(".input-form-group").removeClass("hide");
+                    $(".character-limit-label").removeClass("hide");
+                    $(".post-text").attr("maxLength", 140);
+                }else if($this.val() === "new"){
+                    window.location.href = "/settings/connections";
+                }else{
+                    $(".hash-tags").closest(".input-form-group").addClass("hide");
+                    $(".character-limit-label").addClass("hide");
+                    $(".post-text").removeAttr("maxlength");
+                }
+            });
+
+            $(".share-trend").on("click", function(){
+
+                var trend = trends.find(function(trend){ return trend.id === selectedTrend }),
+                    postText = $(".post-text").val() + " " + trend.link;
+
+                $.ajax({
+                    headers: getCSRFHeader(),
+                    method: 'post',
+                    url: "/api/trends/share/30",
+                    data: {
+                        postText: postText
+                    },
+                    success: function(res){
+                        console.log(res);
+                    }
+                });
+            });
+
+            // Populate connection options.
+            $.ajax({
+                url: "/api/connections",
+                success: function(response) {
+                    var connections = response.data,
+                        $options = $("<div>");
+
+                    $options.append($("<option>", {value: "none", text: "-- Select Connection --", selected: true}));
+
+                    for(var i=0; i<connections.length; i++){
+                        $options.append($("<option>", {value: connections[i].id, text: connections[i].name, "data-type": connections[i].content_type }));
+                    }
+
+                    $("#connectionType").append($options.html());
+                    $("#connectionType").append($("<option>", {value: "new", text: "-- Add New Connection --"}));
+                }
+            });
 		};
 
 		new create_message_view({el:"#create-alert", collection: results });
@@ -289,57 +325,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		//get_trending_topics();
 
 		new trend_results_view({el: '#trend-results', collection: results});
-
-        /*$(".tombstone-share").on("click.share", "document", function(e) {
-            e.stopPropagation();
-            alert("Jesus is king");
-        });*/
-
-        $('#shareTrendModal').on('show.bs.modal', function (event) {
-            // Clear the selected status of all trend articles.
-            $(".tombstone-active").trigger("click");
-
-            // Then reselect only the one we want to share.
-            $(event.relatedTarget).closest(".tombstone").trigger("click");
-        });
-
-        // Change event for selecting a connection to share a trend with.
-        $("#connectionType").on("change", function(event){
-            var $this = $(this);
-
-           if($this.find("option[value="+$this.val()+"]").data("type") === "Tweet") {
-               $(".hash-tags").closest(".input-form-group").removeClass("hide");
-               $(".character-limit-label").removeClass("hide");
-               $(".post-text").attr("maxLength", 140);
-           }else if($this.val() === "new"){
-               window.location.href = "/settings/connections";
-           }else{
-               $(".hash-tags").closest(".input-form-group").addClass("hide");
-               $(".character-limit-label").addClass("hide");
-               $(".post-text").removeAttr("maxlength");
-           }
-        });
-
-        // Populate connection options.
-        $.ajax({
-            url: "/api/connections",
-            success: function(response) {
-                var connections = response.data,
-                    $options = $("<div>");
-
-                $options.append($("<option>", {value: "none", text: "-- Select Connection --", selected: true}));
-
-                for(var i=0; i<connections.length; i++){
-                    $options.append($("<option>", {value: connections[i].id, text: connections[i].name, "data-type": connections[i].content_type }));
-                }
-
-                $("#connectionType").append($options.html());
-                $("#connectionType").append($("<option>", {value: "new", text: "-- Add New Connection --"}));
-            }
-        });
-
-
-
 
 		//task method
         //runs the action to submit the task

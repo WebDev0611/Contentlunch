@@ -7,7 +7,7 @@ var trend_result_view = Backbone.View.extend({
 	},
 	template: _.template(`
 		<div class="col-md-3">
-		     <div class="tombstone">
+		     <div class="tombstone" data-trend-id="<%= id %>">
 				 <button type="button" data-target="#shareTrendModal" data-toggle="modal" class="button button-primary button-small text-uppercase tombstone-share">
 					<i class="icon-share icon-vertically-middle"></i>&nbsp;SHARE
 				</button>
