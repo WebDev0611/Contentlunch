@@ -740,59 +740,6 @@
 
         var contentEditor;
 
-        var CharacterCounterView = Backbone.View.extend({
-            characters: 0,
-
-            initialize: function() {
-                this.$el.hide();
-                this.render();
-            },
-
-            render: function() {
-                this.$el.find('.count').text(this.characters);
-
-                if (this.characters > 140) {
-                    this.invalidCount();
-                } else {
-                    this.validCount();
-                }
-
-                return this;
-            },
-
-            invalidCount: function() {
-                if (!this.$el.hasClass('invalid-count')) {
-                    this.$el.addClass('invalid-count');
-                }
-            },
-
-            validCount: function() {
-                if (this.$el.hasClass('invalid-count')) {
-                    this.$el.removeClass('invalid-count');
-                }
-            },
-
-            show: function() {
-                this.$el.slideDown('fast');
-            },
-
-            hide: function() {
-                this.$el.slideUp('fast');
-            },
-
-            update: function(content) {
-                if (isTweet()) {
-                    var html = content;
-                    var div = document.createElement("div");
-                    div.innerHTML = html;
-                    var text = div.textContent || div.innerText || "";
-
-                    this.characters = text.length;
-                    this.render();
-                }
-            }
-        });
-
         var characterCounter = new CharacterCounterView({ el: '.character-counter' });
 
         characterCounter.hide();
@@ -848,23 +795,15 @@
         }
 
         function updateCount(event) {
-            if (isTweet()) {
+            if (characterCounter.isTweet()) {
                 characterCounter.show();
                 characterCounter.update(contentEditor.getContent());
             }
         }
 
-        function isTweet() {
-            var TWEET = '17';
-            var selectedContentType = $('#contentType').val();
-
-            return selectedContentType == TWEET;
-        }
-
         /**
          * Content task handling
          */
-
         var tasks = new task_collection();
 
         tasks.on('add', function(task) {
