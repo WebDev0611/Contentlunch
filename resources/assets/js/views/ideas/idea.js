@@ -15,21 +15,21 @@ var idea_view = Backbone.View.extend({
             <% var avatar = user.profile_image || '/images/avatar.jpg'; %>
             <img src="<%= avatar %>" alt="#" class="plan-ideas-img">
         </div>
-        <div class="plan-ideas-cell cell-size-25">
+        <div class="plan-ideas-cell cell-size-35">
             <h5 class="plan-ideas-title"><%= name %></h5>
             <span class="plan-ideas-text"><%= text %></span>
         </div>
 
-        <div class="plan-ideas-cell">
+        <div class="plan-ideas-cell cell-size-25">
             <span class="plan-ideas-text"><%= created_diff.toUpperCase() %></span>
         </div>
-        <div class="plan-ideas-cell">
+        <div class="plan-ideas-cell cell-size-25">
             <span class="plan-ideas-text">UPDATED: <%= updated_diff.toUpperCase() %></span>
         </div>
 
-        <div class="plan-ideas-cell">
+        <div class="plan-ideas-cell cell-size-10">
             <div class="plan-ideas-dropdown">
-                <button type="button" class="button button-action" data-toggle="dropdown">
+                <button type="button" class="button button-action pull-right" data-toggle="dropdown">
                     <i class="icon-add-circle"></i>
                 </button>
 
