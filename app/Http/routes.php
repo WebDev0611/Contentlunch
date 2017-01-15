@@ -238,6 +238,7 @@ Route::group([ 'middleware' => 'auth' ], function() {
     Route::get('/api/contents/{content}/tasks', 'ContentTasksController@index');
     Route::get('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@index');
     Route::post('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@update');
+    Route::get('/api/account/members', 'AccountCollaboratorsController@index');
     Route::get('/api/tasks', 'TaskController@index');
 
     Route::post('/search', [ 'as' => 'searchIndex', 'uses' => 'SearchController@index' ]);
