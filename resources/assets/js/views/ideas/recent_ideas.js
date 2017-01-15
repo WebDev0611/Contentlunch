@@ -33,7 +33,7 @@ var recent_ideas_view = Backbone.View.extend({
 
     appendToIdeaViews() {
         this.$el.find('.idea-empty').remove();
-        this.collection.each((model) => this.idea_views.push(new recent_view({ model: model })));
+        this.collection.each((model) => this.idea_views.push(new recent_idea_view({ model: model })));
     },
 
     appendIdeas() {
