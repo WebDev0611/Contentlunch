@@ -109,6 +109,5 @@ var idea_view = Backbone.View.extend({
             console.log('parked' + this.model.attributes.id);
         });
     }
-
 });
 
