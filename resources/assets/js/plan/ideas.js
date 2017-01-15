@@ -3,20 +3,13 @@
 
     var ideas = new ideas_collection();
 
-    ideas.fetch({
-        success: function(response) {
-            ideas.reset(response);
-        },
-        error: function() {
-
-        }
-    });
-
     //main collection - view
     var ic = new idea_container_view({
-        el:'#idea-container',
+        el: '#idea-container',
         collection: ideas
     });
+
+    ideas.fetch().then(response => ideas.reset(response));
 
     $('#parked-ideas-link').click(function(){
         ic.render('parked');
