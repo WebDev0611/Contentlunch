@@ -16,6 +16,7 @@ class AccountCollaboratorsController extends Controller
             ->map(function($user) {
                 $user->profile_image = $user->present()->profile_image;
                 $user->location = $user->present()->location;
+                $user->total_tasks = $user->tasks()->count();
 
                 return $user;
             });
