@@ -112,33 +112,6 @@ var idea_view = Backbone.View.extend({
 
 });
 
-var idea_container_view = Backbone.View.extend({
-    status: 'active',
-    events: {},
-
-    initialize: function() {
-        this.listenTo(this.collection,'update',this.updated);
-    },
-
-    updated: function() {
-        this.render(this.status);
-    },
-
-    render: function(status) {
-        this.status = status || 'active';
-        var view = this;
-
-        this.$el.html('');
-        var active = this.collection.where({status:this.status});
-
-        active.forEach(function(model) {
-            view.$el.append(new idea_view({ model: model }).$el);
-        });
-
-        return this;
-    }
-});
-
 var recent_ideas_view = Backbone.View.extend({
     idea_views: [],
 
