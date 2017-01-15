@@ -2,9 +2,9 @@
 
 var team_member_model = Backbone.Model.extend({
     defaults:{
-        "name": "Jason Simmons",
-        "email": "jasonsimm@google.com",
+        "name": "Unnamed user",
+        "email": "No email added",
         "image": "/images/avatar.jpg",
-        "tasks": "35"
+        "tasks": "0"
     }
 });
