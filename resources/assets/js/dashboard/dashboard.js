@@ -1,4 +1,4 @@
-(function($){
+(function($) {
     //from json via php
     var campaigns = new campaign_collection(my_campaigns);
 
@@ -94,6 +94,8 @@
     recent_ideas.fetch();
 
     var team_members = new team_members_collection(); //dummy_team_data
+
+    team_members.fetch();
 
     var team = new team_member_list_view({
         el: '#team-members-container',
