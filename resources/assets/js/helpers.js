@@ -88,15 +88,19 @@ function addedTaskCallback(callback) {
     }
 }
 
+function getToken() {
+    return $('input[name=_token]').val();
+}
+
 function getCSRFHeader() {
     return {
-        'X-CSRF-TOKEN': $('input[name=_token]').val()
+        'X-CSRF-TOKEN': getToken()
     };
 }
 
 function getJsonHeader() {
     return {
-        'X-CSRF-TOKEN': $('input[name=_token]').val(),
+        'X-CSRF-TOKEN': getToken(),
         'Content-Type': 'application/json',
         'Accept': 'application/json',
     };
