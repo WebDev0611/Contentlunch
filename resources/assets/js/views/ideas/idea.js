@@ -56,11 +56,11 @@ var idea_view = Backbone.View.extend({
         </div>
     `),
 
-    initialize: function() {
+    initialize() {
         this.render();
     },
 
-    render: function() {
+    render() {
         this.$el.html(this.template(this.model.attributes));
 
         if (this.model.get('status') == 'parked') {
@@ -73,15 +73,15 @@ var idea_view = Backbone.View.extend({
         return this;
     },
 
-    edit: function() {
+    edit() {
         window.location.href = '/idea/' + this.model.get('id');
     },
 
-    write: function() {
+    write() {
         window.location.href = '/idea/write/' + this.model.get('id');
     },
 
-    park: function() {
+    park() {
         return $.ajax({
             url: '/idea/park',
             data: {idea_id:this.model.get('id')},
@@ -96,7 +96,7 @@ var idea_view = Backbone.View.extend({
         });
     },
 
-    activate: function() {
+    activate() {
         return $.ajax({
             url: '/idea/activate',
             data: {idea_id:this.model.get('id')},
