@@ -93,14 +93,13 @@
 
     recent_ideas.fetch();
 
-    var team_members = new team_members_collection(); //dummy_team_data
-
-    team_members.fetch();
+    var team_members = new team_members_collection();
 
     var team = new team_member_list_view({
         el: '#team-members-container',
         collection: team_members
     });
 
+    team_members.fetch().then(team.render.bind(team));
 
 })(jQuery);

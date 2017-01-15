@@ -5,7 +5,7 @@ var team_member_view = Backbone.View.extend({
     className: "dashboard-members-container",
     template: _.template(`
         <div class="dashboard-ideas-cell">
-            <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
+            <img src="<%= profile_image %>" alt="#" class="dashboard-tasks-img">
         </div>
         <div class="dashboard-members-cell">
             <p class="dashboard-ideas-text"><%= name %></p>
@@ -20,10 +20,12 @@ var team_member_view = Backbone.View.extend({
     `),
 
     initialize() {
-        this.$el.append( this.template(this.model.attributes) );
+        this.render();
     },
 
     render() {
+        this.$el.html(this.template(this.model.attributes));
+
         return this;
     }
 });
