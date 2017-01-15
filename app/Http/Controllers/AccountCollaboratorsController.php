@@ -20,6 +20,6 @@ class AccountCollaboratorsController extends Controller
                 return $user;
             });
 
-        return response()->json([ 'data' => $users ]);
+        return response()->json($users);
     }
 }
