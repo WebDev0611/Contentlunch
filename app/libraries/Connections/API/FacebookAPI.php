@@ -31,17 +31,8 @@ class FacebookAPI
 
     public function createPost()
     {
-        $attachmentIDs = $this->uploadAttachments()
-            ->filter(function($response) { return $response['success']; })
-            ->map(function($response) { return $response['response']->id; });
-
         try {
-
-            $payload = [
-                'message' => $this->formatPost(),
-                'object_attachment' => $attachmentIDs[0]
-            ];
-            $facebookResponse = $this->client->post($this->createPostUrl(), $payload);
+            $facebookResponse = $this->client->post($this->createPostUrl(), $this->payload());
 
             $response = [
                 'success' => true,
@@ -55,6 +46,23 @@ class FacebookAPI
         }
 
         return $response;
+    }
+
+    protected function payload()
+    {
+        $attachmentIDs = $this->uploadAttachments()
+            ->filter(function($response) { return $response['success']; })
+            ->map(function($response) { return $response['response']->id; });
+
+        $payload = [
+            'message' => $this->formatPost()
+        ];
+
+        if (!$attachmentIDs->isEmpty()) {
+            $payload['object_attachment'] = $attachmentIDs[0];
+        }
+
+        return $payload;
     }
 
     private function formatPost()
