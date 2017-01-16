@@ -1,16 +1,20 @@
 <div id="shareTrendModal" class="sidemodal large">
     <div class="sidemodal-header">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <h4 class="sidemodal-header-title large">Share Article</h4>
-                <div id="idea-status-alert" class="alert hidden">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <div id="idea-status-text"></div>
+                <div id="trend-share-alert" class="alert collapse alert-danger alert-dismissable">
+                    <button type="button" class="close" onclick="$('#trend-share-alert').slideUp()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div id="trend-status-text"></div>
                 </div>
             </div>
-            <div class="col-md-6 text-right" id="idea-menu">
-                <button class="button button-primary button-small text-uppercase share-trend">
-                    <i class="icon-share icon-vertically-middle"></i>&nbsp;Share</button>
+            <div class="col-md-4 text-right" id="idea-menu">
+                <button class="button button-primary button-small text-uppercase share-trend" disabled>
+                    <i class="icon-share icon-vertically-middle"></i>&nbsp;Share
+                </button>
+
+                <img id="trend-share-loading" src="/images/loading.gif" style="display: none; max-height:30px;" />
+
                 <button class="sidemodal-close normal-flow" data-dismiss="modal">
                     <i class="icon-remove"></i>
                 </button>
@@ -45,6 +49,39 @@
         <div id="selected-content">
         </div>
 
+    </div>
+</div>
+
+<div id="trendShareCompleted" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">ARTICLE SHARED</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 text-center">
+                        <i class="modal-icon-success icon-check-large"></i>
+                        <div class="form-group">
+                            <img src="/images/avatar.jpg" alt="#" class="create-image">
+                            <h4 class="article-title"></h4>
+                        </div>
+                        <p class="text-gray">IS NOW PUBLISHED TO:</p>
+                        <div class="modal-social">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <a href="{{ route('contentIndex') }}" class="button text-uppercase button-extend">
+                            Go to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

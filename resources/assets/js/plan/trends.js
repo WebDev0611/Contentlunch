@@ -143,20 +143,26 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
     var share_trend_modal = Backbone.View.extend({
         events:{
-            "click .share-trend": "share"
+            "click .share-trend": "share",
+            "change #connectionType": "connectionTypeUpdate"
         },
-        initialize:function(){
+        selectedTrend: null,
+        selectedConnection: null,
+        initialize: function() {
+            this.$el.on("show.bs.modal", this.updateTrendSelection.bind(this));
             this.listenTo(this.collection, "update", this.render);
             this.listenTo(this.collection, "change", this.render);
+            this.populateConnections();
+            this.render();
         },
-        render:function(){
-            var view = this;
-            var selected = this.collection.where({selected: true});
-            view.$el.find('#selected-content').html('');
 
-            selected.forEach(function(m){
-                var sel_cont_view = new create_idea_cont_view({model: m});
-                view.$el.find('#selected-content').append( sel_cont_view.el );
+        render: function() {
+            let selected = this.collection.where({selected: true});
+            this.$el.find('#selected-content').html('');
+
+            selected.forEach(m => {
+                let sel_cont_view = new create_idea_cont_view({model: m});
+                this.$el.find('#selected-content').append( sel_cont_view.el );
             });
 
             if( selected.length < 1 ){
@@ -164,35 +170,143 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
             }else{
                 this.$el.find('.form-delimiter').show();
             }
+        },
 
+        populateConnections: function() {
+            let $connectionTypeSelect = $("#connectionType");
+            if($connectionTypeSelect.find("option").length === 0){
+                $.ajax({
+                    url: "/api/connections",
+                    success: function(response) {
+                        var connections = response.data,
+                            $options = $("<div>");
+
+                        $options.append($("<option>", {value: "none", text: "-- Select Connection --", selected: true}));
+
+                        for(var i=0; i<connections.length; i++){
+                            $options.append($("<option>", {
+                                value: connections[i].id,
+                                text: connections[i].name,
+                                "data-type": connections[i].content_type }));
+                        }
+
+                        $options.append($("<option>", {value: "new", text: "-- Add New Connection --"}));
+
+                        $connectionTypeSelect.append($options.html());
+                    }
+                });
+            }
         },
-        hide_modal: function(){
-            this.$el.modal('hide');
-        },
-        clear_form: function(){
-            $('.post-text').val('');
-            $('.hashtags').val('');
+
+        reset: function() {
+            this.$el.find("#connectionType").val("none");
+            this.$el.find('.post-text').val('');
+            this.$el.find('.hashtags').val('');
             this.collection.each(function(m){
                 m.set('selected',false);
             });
-            $('.save-idea').prop('disabled',false);
+            this.selectedConnection = null;
+            this.selectedTrend = null;
         },
 
-        show_error: function(msg){
-            $('#idea-status-alert')
-                .toggleClass('hidden')
-                .toggleClass('alert-danger')
-                .show();
-
-            $('#idea-status-text').text(msg);
-            $('.share-trend').prop('disabled',false);
+        connectionTypeUpdate: function() {
+            let $connectionSelect = this.$el.find("#connectionType"),
+                $selectedOption = $connectionSelect.find("option:selected");
+            this.selectedConnection = {id: $selectedOption.val(), name: $selectedOption.text()};
+            this.$el.find(".share-trend").attr("disabled", $selectedOption.val() === "none" || $selectedOption.val() === "new");
+            if($selectedOption.data("type") === "Tweet") {
+                this.$el.find(".hash-tags").closest(".input-form-group").removeClass("hide");
+                this.$el.find(".character-limit-label").removeClass("hide");
+                this.$el.find(".post-text").attr("maxLength", 140);
+            }else if(this.$el.val() === "new"){
+                window.location.href = "/settings/connections";
+            }else{
+                this.$el.find(".hash-tags").closest(".input-form-group").addClass("hide");
+                this.$el.find(".character-limit-label").addClass("hide");
+                this.$el.find(".post-text").removeAttr("maxlength");
+            }
         },
+
+        updateTrendSelection: function(event) {
+            // Clear the selected status of all trend articles.
+            $(".tombstone-active").trigger("click");
+
+            // Then reselect only the one we want to share and grab it's id.
+            this.selectedTrend = $(event.relatedTarget).closest(".tombstone").trigger("click").data("trend-id");
+        },
+
+        handleSuccess: function(res){
+            let $trendShareCompletedModal = $("#trendShareCompleted");
+            console.log(res);
+            this.reset();
+            this.$el.modal('hide');
+
+            $trendShareCompletedModal.find(".article-title").text(res.trend.attributes.title);
+            $trendShareCompletedModal.find('.modal-social ').html("")
+                .append($('<span />', { class: 'icon-social-' + res.published_connections[0] }))
+                .append($('<div />', { class: 'connection-name', text: this.selectedConnection.name  }));
+            $trendShareCompletedModal.modal();
+        },
+
+        handleError: function(errors){
+            let errorText = "";
+
+            if(typeof errors === "string"){
+                errorText = errors;
+            }else{
+                for(let i=0; i<errors.length; i++){
+                    errorText += errors[i][Object.keys(errors[i])[0]];
+                    if(errors[i+1]){
+                        errorText += "<br />";
+                    }
+                }
+            }
+
+            this.$el.find('#trend-status-text').html(errorText);
+            this.$el.find('#trend-share-alert').slideDown();
+
+        },
+
+        loading: function(loading){
+            if(loading){
+                this.$el.find("#trend-share-loading").show();
+                this.$el.find(".share-trend").hide();
+            }else{
+                this.$el.find("#trend-share-loading").hide();
+                this.$el.find(".share-trend").show();
+            }
+        },
+
+        share: function() {
+            let trend = this.collection.find(trend => { return trend.id === this.selectedTrend }),
+                postText = $(".post-text").val() + " " + trend.attributes.link;
+
+            this.loading(true);
+
+            $.ajax({
+                headers: getCSRFHeader(),
+                method: 'post',
+                url: `/api/trends/share/${this.selectedConnection.id}`,
+                data: { postText: postText },
+                success: res => {
+                    if(!res.errors.length){
+                        res.trend = trend;
+                        this.handleSuccess(res);
+                    }else{
+                        this.handleError(res.errors);
+                    }
+                },
+                error: error => {
+                    this.handleError("We've run into an error. Please try again later.");
+                },
+                complete: () => {
+                    this.loading(false);
+                }
+            });
+        }
     });
-
 	
 	$(function(){
-        var trends = [],
-            selectedTrend = {};
 
         $('#trend-search').on("click", function(e){
             var search_val = $('#trend-search-input').val() || "";
@@ -248,7 +362,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 				results.remove( results.models );
 				results.add(new_trends);
-				trends = new_trends;
 				return new_trends;
 			},
 			function(error){
@@ -256,66 +369,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 				console.log('couldnt connect to the endpoint/error');
 			});
 
-            $('#shareTrendModal').on('show.bs.modal', function (event) {
-                // Clear the selected status of all trend articles.
-                $(".tombstone-active").trigger("click");
-
-                // Then reselect only the one we want to share.
-                selectedTrend = $(event.relatedTarget).closest(".tombstone").trigger("click").data("trend-id");
-            });
-
-            // Change event for selecting a connection to share a trend with.
-            $("#connectionType").on("change", function(event){
-                var $this = $(this);
-
-                if($this.find("option[value="+$this.val()+"]").data("type") === "Tweet") {
-                    $(".hash-tags").closest(".input-form-group").removeClass("hide");
-                    $(".character-limit-label").removeClass("hide");
-                    $(".post-text").attr("maxLength", 140);
-                }else if($this.val() === "new"){
-                    window.location.href = "/settings/connections";
-                }else{
-                    $(".hash-tags").closest(".input-form-group").addClass("hide");
-                    $(".character-limit-label").addClass("hide");
-                    $(".post-text").removeAttr("maxlength");
-                }
-            });
-
-            $(".share-trend").on("click", function(){
-
-                var trend = trends.find(function(trend){ return trend.id === selectedTrend }),
-                    postText = $(".post-text").val() + " " + trend.link;
-
-                $.ajax({
-                    headers: getCSRFHeader(),
-                    method: 'post',
-                    url: "/api/trends/share/30",
-                    data: {
-                        postText: postText
-                    },
-                    success: function(res){
-                        console.log(res);
-                    }
-                });
-            });
-
-            // Populate connection options.
-            $.ajax({
-                url: "/api/connections",
-                success: function(response) {
-                    var connections = response.data,
-                        $options = $("<div>");
-
-                    $options.append($("<option>", {value: "none", text: "-- Select Connection --", selected: true}));
-
-                    for(var i=0; i<connections.length; i++){
-                        $options.append($("<option>", {value: connections[i].id, text: connections[i].name, "data-type": connections[i].content_type }));
-                    }
-
-                    $("#connectionType").append($options.html());
-                    $("#connectionType").append($("<option>", {value: "new", text: "-- Add New Connection --"}));
-                }
-            });
 		};
 
 		new create_message_view({el:"#create-alert", collection: results });
