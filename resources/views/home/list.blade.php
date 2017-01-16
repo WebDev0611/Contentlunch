@@ -121,104 +121,11 @@
 </div>
 
 @include('home.partials.invite_team_member_modal')
-<script type="text/template" id="task-template">
-    <div class="dashboard-tasks-container">
-        <div class="dashboard-tasks-cell cell-size-5">
-            <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
-        </div>
-        <div class="dashboard-tasks-cell cell-size-80">
-            <h5 class="dashboard-tasks-title">
-                <%= title %>
-            </h5>
-            <span class="dashboard-tasks-text">
-                <%= body %>
-            </span>
-            <ul class="dashboard-tasks-list">
-                <li>
-                    DUE IN: <strong><%= due %></strong>
-                </li>
-                <!--
-                <li>
-                    STAGE:
-                    <i class="dashboard-tasks-list-icon primary icon-idea"></i>
-                    <i class="dashboard-tasks-list-icon tertiary icon-content"></i>
-                    <i class="dashboard-tasks-list-icon tertiary icon-alert"></i>
-                    <i class="dashboard-tasks-list-icon tertiary icon-share"></i>
-                </li>
-                -->
-                <li>
-                    <a href="/task/show/<%= id %>"><strong>View Task</strong></a>
-                </li>
-            </ul>
-        </div>
-        <div class="dashboard-tasks-cell cell-size-15">
-            <span class="dashboard-tasks-text small <%= active %>">
-                <%= created_at_diff.toUpperCase() %>
-            </span>
-        </div>
-    </div>
-</script>
-
-<script type="text/template" id="campaign-template">
-    <div class="dashboard-tasks-container">
-        <div class="dashboard-tasks-cell">
-            <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
-        </div>
-        <div class="dashboard-tasks-cell">
-            <h5 class="dashboard-tasks-title">
-                <%= title %>
-            </h5>
-            <ul class="dashboard-tasks-list">
-                <li>DUE IN: <strong><%= due %></strong></li>
-            </ul>
-        </div>
-        <div class="dashboard-tasks-cell">
-           SOMETHING
-        </div>
-    </div>
-</script>
-
-<script type="text/template" id="activity-item-template">
-    <div class="plan-activity-box-img">
-        <img src="<%= image %>" alt="#">
-    </div>
-    <div class="plan-activity-box">
-        <span class="plan-activity-title">
-            <a href="#"><%= who %></a> <%= action %>
-            <a href="#"> <%= title %></a> on
-            <a href="#"><%= content %></a>
-        </span>
-        <p class="plan-activity-text">
-            <%= body %>
-        </p>
-    </div>
-</script>
-
-<script type="text/template" id="team-member-template">
-    <div class="dashboard-ideas-cell">
-        <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
-    </div>
-    <div class="dashboard-members-cell">
-        <p class="dashboard-ideas-text"><%= name %></p>
-        <span class="dashboard-members-text small"><%= email %></span>
-    </div>
-    <div class="dashboard-members-cell">
-        <span class="dashboard-ideas-text small">
-            <i class="icon-checklist"></i>
-            <%= tasks %>
-        </span>
-    </div>
-</script>
-
 <script>
     var my_campaigns = {!! $mycampaigns !!};
     var my_tasks = {!! $tasks !!};
     var account_tasks = {!! $accountTasks !!};
 </script>
-@stop
-
-@section('styles')
-
 @stop
 
 @section('scripts')

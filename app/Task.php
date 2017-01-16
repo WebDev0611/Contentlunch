@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Account;
 use App\Presenters\TaskPresenter;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -79,5 +81,37 @@ class Task extends Model
         return (boolean) $this->assignedUsers()
             ->where('users.id', $user->id)
             ->count();
+    }
+
+    public static function accountTasks(Account $account)
+    {
+        return $account
+            ->tasks()
+            ->with('user')
+            ->get()
+            ->map(function($task) {
+                $task->addDueDateDiffs();
+                return $task;
+            });
+    }
+
+    public static function userTasks(User $user)
+    {
+        return $user
+            ->assignedTasks()
+            ->with('user')
+            ->distinct()
+            ->get()
+            ->map(function($task) {
+                $task->addDueDateDiffs();
+                return $task;
+            });
+    }
+
+    protected function addDueDateDiffs()
+    {
+        $this->due_date_diff = $this->present()->dueDate;
+        $this->updated_at_diff = $this->present()->updatedAt;
+        $this->created_at_diff = $this->present()->createdAt;
     }
 }
