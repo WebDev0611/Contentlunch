@@ -4,26 +4,28 @@ var team_member_view = Backbone.View.extend({
     tagName: "div",
     className: "dashboard-members-container",
     template: _.template(`
-        <div class="dashboard-ideas-cell">
-            <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
+        <div class="dashboard-ideas-cell cell-size-5">
+            <img src="<%= profile_image %>" alt="#" class="dashboard-tasks-img">
         </div>
-        <div class="dashboard-members-cell">
+        <div class="dashboard-members-cell cell-size-75">
             <p class="dashboard-ideas-text"><%= name %></p>
             <span class="dashboard-members-text small"><%= email %></span>
         </div>
-        <div class="dashboard-members-cell">
-            <span class="dashboard-ideas-text small">
+        <div class="dashboard-members-cell cell-size-20">
+            <span class="dashboard-ideas-text small" style='float:right' title='This user has <%= total_tasks %> assigned task(s)'>
                 <i class="icon-checklist"></i>
-                <%= tasks %>
+                <%= total_tasks %>
             </span>
         </div>
     `),
 
     initialize() {
-        this.$el.append( this.template(this.model.attributes) );
+        this.render();
     },
 
     render() {
+        this.$el.html(this.template(this.model.attributes));
+
         return this;
     }
 });
