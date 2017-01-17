@@ -12,10 +12,11 @@ class FacebookAPI
     protected $content;
     protected $connection;
 
-    public function __construct($content, $connection = null)
+    public function __construct($content, $connection = null, $link = null)
     {
         $this->content = $content;
         $this->connection = $connection ? $connection : $this->content->connection;
+        $this->link = $link;
         $this->client = $this->getClient();
     }
 
@@ -55,7 +56,8 @@ class FacebookAPI
             ->map(function($response) { return $response['response']->id; });
 
         $payload = [
-            'message' => $this->formatPost()
+            'message' => $this->formatPost(),
+            'link' => $this->link ? $this->link : ""
         ];
 
         if (!$attachmentIDs->isEmpty()) {

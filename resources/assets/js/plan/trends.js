@@ -1,4 +1,4 @@
-var camelize = function(str) {
+let camelize = function(str) {
 return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
 if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
 return index == 0 ? match.toLowerCase() : match.toUpperCase();
@@ -7,15 +7,15 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 
 (function($){
-	var trend_api_host = '/trending';
+	let trend_api_host = '/trending';
 
-	var create_message_view = Backbone.View.extend({
+	let create_message_view = Backbone.View.extend({
 		initialize: function(){
 			this.listenTo(this.collection,"update",this.render);
 			this.listenTo(this.collection,"change",this.render);
 		},
 		render: function(){
-			var selected = this.collection.filter(function(m){
+			let selected = this.collection.filter(function(m){
 				return m.get('selected');
 			});
 
@@ -27,7 +27,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		}
 	});
 
-	var create_idea_cont_view = Backbone.View.extend({
+	let create_idea_cont_view = Backbone.View.extend({
 		events:{
 			"click": "unselect"
 		},
@@ -45,7 +45,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		}
 	});
 
-    var create_idea_modal = Backbone.View.extend({
+    let create_idea_modal = Backbone.View.extend({
         events:{
             "click .save-idea": "save",
             "click .park-idea": "park"
@@ -55,12 +55,12 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
             this.listenTo(this.collection, "change", this.render);
         },
         render:function(){
-            var view = this;
-            var selected = this.collection.where({selected: true});
+            let view = this;
+            let selected = this.collection.where({selected: true});
             view.$el.find('#selected-content').html('');
 
             selected.forEach(function(m){
-                var sel_cont_view = new create_idea_cont_view({model: m});
+                let sel_cont_view = new create_idea_cont_view({model: m});
                 view.$el.find('#selected-content').append( sel_cont_view.el );
             });
             this.$el.find('.sidemodal-header-title').text('Create an idea from ' + selected.length + ' selected items');
@@ -100,7 +100,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
             $('.park-idea').prop('disabled',false);
         },
         store: function(action){
-            var view = this;
+            let view = this;
 
             $('.save-idea').prop('disabled',true);
             $('.park-idea').prop('disabled',true);
@@ -110,12 +110,12 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
                 view.show_error('Idea title required');
                 return;
             }
-            var loadingIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
+            let loadingIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
             console.log('loading image here');
             $('#idea-menu').prepend(loadingIMG);
             //saves the form data
-            var content = this.collection.where({ selected: true });
-            var idea_obj = {
+            let content = this.collection.where({ selected: true });
+            let idea_obj = {
                 name: $('.idea-name').val(),
                 idea: $('.idea-text').val(),
                 tags: $('.idea-tags').val(),
@@ -141,7 +141,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
         }
     });
 
-    var share_trend_modal = Backbone.View.extend({
+    let share_trend_modal = Backbone.View.extend({
         events:{
             "click .share-trend": "share",
             "change #connectionType": "connectionTypeUpdate"
@@ -178,12 +178,12 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
                 $.ajax({
                     url: "/api/connections",
                     success: function(response) {
-                        var connections = response.data,
+                        let connections = response.data,
                             $options = $("<div>");
 
                         $options.append($("<option>", {value: "none", text: "-- Select Connection --", selected: true}));
 
-                        for(var i=0; i<connections.length; i++){
+                        for(let i=0; i<connections.length; i++){
                             $options.append($("<option>", {
                                 value: connections[i].id,
                                 text: connections[i].name,
@@ -199,6 +199,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
         },
 
         reset: function() {
+            this.$el.find('#trend-share-alert').hide();
             this.$el.find("#connectionType").val("none");
             this.$el.find('.post-text').val('');
             this.$el.find('.hashtags').val('');
@@ -237,8 +238,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
         handleSuccess: function(res){
             let $trendShareCompletedModal = $("#trendShareCompleted");
-            console.log(res);
-            this.reset();
             this.$el.modal('hide');
 
             $trendShareCompletedModal.find(".article-title").text(res.trend.attributes.title);
@@ -246,6 +245,8 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
                 .append($('<span />', { class: 'icon-social-' + res.published_connections[0] }))
                 .append($('<div />', { class: 'connection-name', text: this.selectedConnection.name  }));
             $trendShareCompletedModal.modal();
+
+            this.reset();
         },
 
         handleError: function(errors){
@@ -287,7 +288,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
                 headers: getCSRFHeader(),
                 method: 'post',
                 url: `/api/trends/share/${this.selectedConnection.id}`,
-                data: { postText: postText },
+                data: { postText: postText, link:  trend.attributes.link},
                 success: res => {
                     if(!res.errors.length){
                         res.trend = trend;
@@ -309,7 +310,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 	$(function(){
 
         $('#trend-search').on("click", function(e){
-            var search_val = $('#trend-search-input').val() || "";
+            let search_val = $('#trend-search-input').val() || "";
             get_trending_topics(search_val);
         });
 
@@ -320,17 +321,17 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
             $('#trend-search').click();
         });
 
-		var results = new trend_result_collection();
+		let results = new trend_result_collection();
 
-		var get_trending_topics = function(topic){
+		let get_trending_topics = function(topic){
 			topic = topic || '';
-			var loadingGIF = $('<img src="/images/loading.gif" style="max-height:30px" />');
+			let loadingGIF = $('<img src="/images/loading.gif" style="max-height:30px" />');
 			$(loadingGIF).insertAfter('#trend-search');
 
 			$.getJSON(trend_api_host,{topic: topic},function(res){
-				var trends_result = res.articles;
+				let trends_result = res.articles;
 				$(loadingGIF).remove();
-				var format_share_res = function(shares){
+				let format_share_res = function(shares){
 					//check if less than 1k
 					if(shares < 1000){
 						return shares;
@@ -339,9 +340,9 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 					}
 				};
 
-				var new_trends = trends_result.map(function(t){
+				let new_trends = trends_result.map(function(t){
 					
-					var trend_obj = {
+					let trend_obj = {
 					    "id": t.id,
 						"title": t.title,
 						"image": t.image_url,
@@ -372,8 +373,8 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 		};
 
 		new create_message_view({el:"#create-alert", collection: results });
-		var create_idea = new create_idea_modal({el: '#createIdea', collection: results });
-		var share_trend = new share_trend_modal({el: '#shareTrendModal', collection: results });
+		let create_idea = new create_idea_modal({el: '#createIdea', collection: results });
+		let share_trend = new share_trend_modal({el: '#shareTrendModal', collection: results });
 
 		//get_trending_topics();
 
