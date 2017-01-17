@@ -152,4 +152,7 @@ function clearTaskInputs() {
     $('#task-due-date').val('');
     $('#task-explanation').val('');
     $('#task-url').val('');
+
+    $('.task-attached-files').remove();
+    window.taskAttachmentUploader.removeAllFiles();
 }
