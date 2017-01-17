@@ -48,8 +48,8 @@
                     <div class="col-md-2">
                         <i class="icon-notification"></i>
                         <p>
-                            Content Connections are ut auctor nunc eu ante efficitur scelerisque.
-                            Etiam ac neque molestie, placerat elit nec, blandit dui. Sed mattis fringilla rhoncus.
+                            Content Connections are the channels that your content is
+                            published to. Use the list on the left to manage them.
                         </p>
                     </div>
                 </div>
