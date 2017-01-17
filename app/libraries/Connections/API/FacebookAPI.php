@@ -55,7 +55,8 @@ class FacebookAPI
             ->map(function($response) { return $response['response']->id; });
 
         $payload = [
-            'message' => $this->formatPost()
+            'message' => $this->formatPost(),
+            'link' => $this->content->link ? $this->content->link : ""
         ];
 
         if (!$attachmentIDs->isEmpty()) {
@@ -67,6 +68,10 @@ class FacebookAPI
 
     private function formatPost()
     {
+        if($this->content->type == "trend"){
+            return strip_tags($this->content->body);
+        }
+
         $message = strip_tags($this->content->body);
 
         if ($this->content->title) {
@@ -107,6 +112,10 @@ class FacebookAPI
 
     private function getMediaUrls()
     {
+        if($this->content->type == "trend"){
+            return [];
+        }
+
         return $this->content
             ->attachments
             ->where('type', 'image')

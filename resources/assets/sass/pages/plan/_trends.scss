@@ -1,0 +1,33 @@
+//------------------------------
+// *****************************
+// Trends
+// *****************************
+//------------------------------
+
+
+#trendShareCompleted{
+
+  .modal-social span{
+    margin-left: -10px;
+  }
+
+  .modal-social span, .connection-name {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+}
+
+#shareTrendModal{
+
+  #trend-share-alert{
+    margin: 20px -200px 10px 30px;
+  }
+
+  #trend-share-loading{
+    margin-right: 30px;
+  }
+
+}
+
+

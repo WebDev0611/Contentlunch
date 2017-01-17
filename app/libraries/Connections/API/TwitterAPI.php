@@ -33,15 +33,20 @@ class TwitterAPI
     public function createPost()
     {
         $this->setupTwitterConnection();
-        $this->uploadAttachments();
 
-        $message = strip_tags($this->content->body);
+        if($this->content->type == "trend"){
+            $message = strip_tags($this->content->body);
+        }else{
+            $this->uploadAttachments();
+            $message = strip_tags($this->content->body);
+        }
+
         $response = [ 'success' => false, 'response' => [] ];
 
         try {
             $payload = [ 'status' => $message ];
 
-            if ($this->content->attachments->count()) {
+            if ($this->content->type != "trend" && $this->content->attachments->count()) {
                 $payload['media_ids'] = $this->content->attachments
                     ->pluck('twitter_media_id_string')
                     ->filter()
