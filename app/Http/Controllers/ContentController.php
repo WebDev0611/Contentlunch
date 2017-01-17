@@ -118,13 +118,11 @@ class ContentController extends Controller
 
     public function trendShare(Request $request, Connection $connection)
     {
-        $input = Input::all();
-        $content = $input['postText'];
-        $link = $input['link'];
+        $content = (object)Input::all();
         $errors = [];
         $publishedConnections = [];
 
-        $response = $this->publishString($content, $connection, $link);
+        $response = $this->publishTrend($content, $connection);
 
         if (!$response['success']) {
             $connectionName = (string) $connection;
@@ -136,7 +134,7 @@ class ContentController extends Controller
         $response = response()->json([
             'data' => 'Content published',
             'errors' => $errors,
-            'content' => $content,
+            'content' => $content->body,
             'published_connections' => $publishedConnections,
         ], 201);
 
@@ -202,10 +200,10 @@ class ContentController extends Controller
         return $create;
     }
 
-    public function publishString(String $content, Connection $connection = null, String $link = null)
+    public function publishTrend($content, Connection $connection = null)
     {
         $class = 'Connections\API\\'.$connection->provider->class_name;
-        $create = (new $class($content, $connection, $link))->createPost();
+        $create = (new $class($content, $connection))->createPost();
 
         return $create;
     }

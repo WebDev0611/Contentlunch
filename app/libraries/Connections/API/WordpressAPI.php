@@ -13,7 +13,7 @@ class WordPressAPI
 
     protected $base_url = 'https://public-api.wordpress.com/rest/v1.2/';
 
-    public function __construct($content = null, $connection = null)
+    public function __construct($content = null, $connection = null, $link = null)
     {
         $this->content = $content;
         $this->connection = $this->getConnection($connection);
@@ -56,6 +56,10 @@ class WordPressAPI
 
     private function tags()
     {
+        if($this->content->type === "trend"){
+            return [];
+        }
+
         return $this->content->tags->map(function($tag) {
                 return trim($tag->tag);
             })
@@ -65,16 +69,15 @@ class WordPressAPI
     private function postData()
     {
         $mediaUrls = $this->getMediaUrls();
-        $featuredImage = $mediaUrls->shift();
+        $featuredImage = $mediaUrls[0];
 
         return [
             'title' => $this->content->title,
             'content' => $this->content->body,
             'tags' => $this->tags(),
-            'media_urls' => $mediaUrls->toArray(),
+            'media_urls' => $mediaUrls,
             'status' => 'draft',
             'featured_image' => $featuredImage,
-            'tags' => $this->content->tags->pluck('tag')->implode(','),
         ];
     }
 
@@ -127,10 +130,15 @@ class WordPressAPI
 
     private function getMediaUrls()
     {
+        if($this->content->type === "trend"){
+            return [$this->content->image];
+        }
+
         return $this->content
             ->attachments
             ->where('type', 'image')
-            ->pluck('filename');
+            ->pluck('filename')
+            ->toArray();
     }
 
     private function getMediaUploadUrl()

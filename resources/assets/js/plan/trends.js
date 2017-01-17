@@ -280,15 +280,19 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
         share: function() {
             let trend = this.collection.find(trend => { return trend.id === this.selectedTrend }),
-                postText = $(".post-text").val() + " " + trend.attributes.link;
+                data = trend.attributes;
 
             this.loading(true);
+
+            data.body = $(".post-text").val() + " " + trend.attributes.link;
+            data.type = "trend";
+            data.connection = this.selectedConnection.id;
 
             $.ajax({
                 headers: getCSRFHeader(),
                 method: 'post',
                 url: `/api/trends/share/${this.selectedConnection.id}`,
-                data: { postText: postText, link:  trend.attributes.link},
+                data: data,
                 success: res => {
                     if(!res.errors.length){
                         res.trend = trend;

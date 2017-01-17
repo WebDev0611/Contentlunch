@@ -12,11 +12,10 @@ class FacebookAPI
     protected $content;
     protected $connection;
 
-    public function __construct($content, $connection = null, $link = null)
+    public function __construct($content, $connection = null)
     {
         $this->content = $content;
         $this->connection = $connection ? $connection : $this->content->connection;
-        $this->link = $link;
         $this->client = $this->getClient();
     }
 
@@ -57,7 +56,7 @@ class FacebookAPI
 
         $payload = [
             'message' => $this->formatPost(),
-            'link' => $this->link ? $this->link : ""
+            'link' => $this->content->link ? $this->content->link : ""
         ];
 
         if (!$attachmentIDs->isEmpty()) {
@@ -69,8 +68,8 @@ class FacebookAPI
 
     private function formatPost()
     {
-        if(gettype($this->content) == "string"){
-            return strip_tags($this->content);
+        if($this->content->type == "trend"){
+            return strip_tags($this->content->body);
         }
 
         $message = strip_tags($this->content->body);
@@ -113,7 +112,7 @@ class FacebookAPI
 
     private function getMediaUrls()
     {
-        if(gettype($this->content) == "string"){
+        if($this->content->type == "trend"){
             return [];
         }
 
