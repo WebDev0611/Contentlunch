@@ -67,6 +67,10 @@ class FacebookAPI
 
     private function formatPost()
     {
+        if(gettype($this->content) == "string"){
+            return strip_tags($this->content);
+        }
+
         $message = strip_tags($this->content->body);
 
         if ($this->content->title) {
@@ -107,6 +111,10 @@ class FacebookAPI
 
     private function getMediaUrls()
     {
+        if(gettype($this->content) == "string"){
+            return [];
+        }
+
         return $this->content
             ->attachments
             ->where('type', 'image')
