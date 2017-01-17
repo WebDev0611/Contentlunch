@@ -19,8 +19,13 @@
 
                     <div class="input-form-group">
                         <label>Account Name</label>
-                        {{ Form::text('account_name', null,
-                            [ 'class' => 'input', 'placeholder' => 'e.g.: Marketing Account for the First Order']) }}
+                        @php
+                            $formOptions = [
+                                'class' => 'input',
+                                'placeholder' => 'Your client\'s company name',
+                            ];
+                        @endphp
+                        {{ Form::text('account_name', null, $formOptions) }}
                     </div>
 
                     <input type="submit"
