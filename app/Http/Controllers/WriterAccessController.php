@@ -50,21 +50,18 @@ class WriterAccessController extends Controller
     {
         $user = Auth::user();
 
-        // Set the project name for writer access calls
-        $this->apiProject = $user ?
-            $this->getProjectName($request->root(), $user) :
-            null;
+        if ($user) {
+            // Set the project name for writer access calls
+            $this->apiProject = $this->getProjectName($request->root(), $user);
 
-        // Create the users project if it doesn't already exist.
-        if ($user && empty($user->writer_access_Project_id)) {
-            echo 'Creating project';
-            $this->createProject();
+            // Create the users project if it doesn't already exist.
+            if (empty($user->writer_access_Project_id)) {
+                $this->createProject();
+            }
+
+            // Set the projectid for writer access calls
+            $this->apiProjectId = $user->writer_access_Project_id;
         }
-
-        // Set the projectid for writer access calls
-        $this->apiProjectId = $user ?
-            $user->writer_access_Project_id :
-            null;
     }
 
     private function getProjectName($requestRoot, User $user)
@@ -132,49 +129,22 @@ class WriterAccessController extends Controller
         $validation = $this->validateCard($request->all());
 
         if ($validation->fails()) {
-            return redirect()
-                ->route('orderReview', $order)
-                ->with('errors', $validation->errors());
+            return redirect()->route('orderReview', $order)->with('errors', $validation->errors());
         }
 
-        $params = array_merge($this->projectInfo(), $order->writerAccessFormat());
-
-        $response = $this->post('/orders', $params);
-        $responseContent = json_decode($response->getContent());
+        $responseContent = $this->createWriterAccessOrder($order);
 
         if (isset($responseContent->fault)) {
-            $writerAccessErrors = [ $responseContent->fault ];
-
-            return redirect()
-                ->route('orderReview', $order)
-                ->with([
-                    'flash_message' => $responseContent->fault,
-                    'flash_message_type' => 'danger',
-                ]);
+            return $this->redirectToOrderReview($order, $responseContent->fault, 'danger');
         }
 
         $this->initStripe();
-        $stripeToken = $request->input('stripeToken');
-        $orderPrice = $order->price * 100;
-
-        $customer = \Stripe\Customer::create([
-            'email' => Auth::user()->email,
-            'source' => $stripeToken
-        ]);
+        $customer = $this->createStripeCustomer($request);
 
         try {
-            $charge = \Stripe\Charge::create([
-                'customer' => $customer->id,
-                'amount' => $orderPrice,
-                'currency' => 'usd'
-            ]);
+            $charge = $this->createStripeCharge($customer, $order);
         } catch (\Exception $e) {
-            return redirect()
-                ->route('orderReview', $order)
-                ->with([
-                    'flash_message' => $e->getMessage(),
-                    'flash_message_type' => 'danger'
-                ]);
+            return $this->redirectToOrderReview($order, $e->getMessage(), 'danger');
         }
 
         return redirect()
@@ -185,10 +155,47 @@ class WriterAccessController extends Controller
             ]);
     }
 
+    protected function redirectToOrderReview($order, $message, $message_type = 'success')
+    {
+        return redirect()
+            ->route('orderReview', $order)
+            ->with([
+                'flash_message' => $message,
+                'flash_message_type' => $message_type,
+            ]);
+    }
+
+    protected function createStripeCharge($customer, WriterAccessPartialOrder $order)
+    {
+        return \Stripe\Charge::create([
+            'customer' => $customer->id,
+            'amount' => $order->price * 100,
+            'currency' => 'usd'
+        ]);
+    }
+
+    protected function createStripeCustomer(Request $request)
+    {
+        $stripeToken = $request->input('stripe-token');
+
+        return \Stripe\Customer::create([
+            'email' => Auth::user()->email,
+            'source' => $stripeToken
+        ]);
+    }
+
+    protected function createWriterAccessOrder(WriterAccessPartialOrder $order)
+    {
+        $params = array_merge($this->projectInfo(), $order->writerAccessFormat());
+        $response = $this->post('/orders', $params);
+
+        return json_decode($response->getContent());
+    }
+
     private function validateCard(array $data)
     {
         return Validator::make($data, [
-            'stripeToken' => 'required'
+            'stripe-token' => 'required'
         ]);
     }
 
@@ -386,7 +393,7 @@ class WriterAccessController extends Controller
     {
         $user = User::find(Auth::user()->id);
 
-        $response = $this->post('/projects', array('projectname' => $this->apiProject));
+        $response = $this->post('/projects', [ 'projectname' => $this->apiProject ]);
         $responseContent = json_decode($response->getContent());
 
         if (!isset($responseContent->fault)) {
