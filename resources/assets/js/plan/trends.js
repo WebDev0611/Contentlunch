@@ -219,7 +219,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
                 this.$el.find(".hash-tags").closest(".input-form-group").removeClass("hide");
                 this.$el.find(".character-limit-label").removeClass("hide");
                 this.$el.find(".post-text").attr("maxLength", 140);
-            }else if(this.$el.val() === "new"){
+            }else if($selectedOption.val() === "new"){
                 window.location.href = "/settings/connections";
             }else{
                 this.$el.find(".hash-tags").closest(".input-form-group").addClass("hide");
