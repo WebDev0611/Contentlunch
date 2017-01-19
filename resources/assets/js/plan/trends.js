@@ -158,6 +158,10 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
         render: function() {
             let selected = this.collection.where({selected: true});
+            if(!selected.length){
+                this.$el.modal("hide");
+                return;
+            }
             this.$el.find('#selected-content').html('');
 
             selected.forEach(m => {
@@ -216,13 +220,13 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
             this.selectedConnection = {id: $selectedOption.val(), name: $selectedOption.text()};
             this.$el.find(".share-trend").attr("disabled", $selectedOption.val() === "none" || $selectedOption.val() === "new");
             if($selectedOption.data("type") === "Tweet") {
-                this.$el.find(".hash-tags").closest(".input-form-group").removeClass("hide");
+                //this.$el.find(".hash-tags").closest(".input-form-group").removeClass("hide");
                 this.$el.find(".character-limit-label").removeClass("hide");
                 this.$el.find(".post-text").attr("maxLength", 140);
             }else if($selectedOption.val() === "new"){
                 window.location.href = "/settings/connections";
             }else{
-                this.$el.find(".hash-tags").closest(".input-form-group").addClass("hide");
+                //this.$el.find(".hash-tags").closest(".input-form-group").addClass("hide");
                 this.$el.find(".character-limit-label").addClass("hide");
                 this.$el.find(".post-text").removeAttr("maxlength");
             }
