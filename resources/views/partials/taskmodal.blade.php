@@ -54,8 +54,8 @@
                         $isChecked = $user->id == Auth::id() ? 'checked="checked"' : '';
                     @endphp
                     <li>
-                        <label class="checkbox-primary">
-                            <input type="checkbox" data-id='{{ $user->id }}' {{ $isChecked }}>
+                        <label class="radio-secondary">
+                            <input type="radio" name='task-assignment' data-id='{{ $user->id }}' {{ $isChecked }}>
                             <span>{{ $user->name }}</span>
                         </label>
                     </li>
