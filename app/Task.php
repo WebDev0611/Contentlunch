@@ -24,14 +24,19 @@ class Task extends Model
         'status',
     ];
 
-    public function attachments()
-    {
-        return $this->hasMany('App\Attachment');
-    }
-
     public function account()
     {
         return $this->belongsTo('App\Account');
+    }
+
+    public function adjustments()
+    {
+        return $this->hasMany('App\TaskAdjusment');
+    }
+
+    public function attachments()
+    {
+        return $this->hasMany('App\Attachment');
     }
 
     public function user()
