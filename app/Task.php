@@ -93,6 +93,11 @@ class Task extends Model
             ->count();
     }
 
+    public function close()
+    {
+        $this->update([ 'status' => 'closed' ]);
+    }
+
     public static function accountTasks(Account $account)
     {
         return $account
