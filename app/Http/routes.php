@@ -106,7 +106,7 @@ Route::group([ 'middleware' => 'auth' ], function() {
     Route::post('task/attachments', 'TaskAttachmentsController@store');
     Route::get('task/show/{id}', [ 'as' => 'taskShow', 'uses' => 'TaskController@show' ]);
     Route::post('task/update/{id}', 'TaskController@update');
-    Route::post('task/close/{id}', 'TaskController@close');
+    Route::post('task/close/{task}', 'TaskController@close');
     Route::delete('task/{task}', 'TaskController@destroy');
 
     Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);
