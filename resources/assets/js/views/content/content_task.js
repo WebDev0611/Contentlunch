@@ -17,7 +17,12 @@ var ContentTaskView = Backbone.View.extend({
                     <img src="<%= user.profile_image %>" alt="<%= user.name %>" title="<%= user.name %>">
                 </div>
 
-                <p class="title"><%= name %></p>
+                <p class="title">
+                    <a href="/task/show/<%= id %>">
+                        <%= name %>
+                    </a>
+                </p>
+
                 <p><%= due_date_diff %></p>
             </div>
 
