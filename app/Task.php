@@ -7,6 +7,7 @@ use App\Presenters\TaskPresenter;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
+use Auth;
 
 class Task extends Model
 {
@@ -24,6 +25,33 @@ class Task extends Model
         'status',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+        static::updating(function($task) {
+            $task->logChanges();
+        });
+    }
+
+    public function logChanges($userId = null)
+    {
+        $userId = $userId ?: Auth::id();
+        $changed  = $this->getDirty();
+        $fresh = $this->fresh()->toArray();
+
+        array_forget($changed, ['updated_at' ]);
+        array_forget($fresh, ['updated_at' ]);
+
+        if (count($changed) > 0) {
+            $this->adjustments()->create([
+                'user_id' => $userId,
+                'before' => json_encode(array_intersect_key($fresh, $changed)),
+                'after' => json_encode($changed)
+            ]);
+        }
+    }
+
+
     public function account()
     {
         return $this->belongsTo('App\Account');
@@ -31,7 +59,7 @@ class Task extends Model
 
     public function adjustments()
     {
-        return $this->hasMany('App\TaskAdjusment');
+        return $this->hasMany('App\TaskAdjustment');
     }
 
     public function attachments()
