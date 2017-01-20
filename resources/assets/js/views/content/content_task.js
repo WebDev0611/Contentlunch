@@ -3,12 +3,13 @@
 var ContentTaskView = Backbone.View.extend({
     events: {
         'click .task-remove': 'removeTask',
+        'click .checkcircle': 'closeTask',
     },
 
     template: _.template(`
         <div class="task">
             <div class="body">
-                <div class="checkcircle">
+                <div class="checkcircle pointer">
                     <i class="icon-check-light"></i>
                 </div>
 
@@ -117,6 +118,10 @@ var ContentTaskView = Backbone.View.extend({
         this.$el.html(this.template(this.model.attributes));
 
         return this;
+    },
+
+    closeTask() {
+        this.$el.find('.task').addClass('completed');
     },
 
     removeTask() {

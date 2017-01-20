@@ -19,6 +19,9 @@ $button-switches-border: solid #dadfeb;
 $button-action-color: #2482ff;
 
 // Classes
+.pointer {
+  cursor: pointer;
+}
 
 a {
   transition: .2s all;
