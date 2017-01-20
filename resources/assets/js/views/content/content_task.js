@@ -121,7 +121,15 @@ var ContentTaskView = Backbone.View.extend({
     },
 
     closeTask() {
+        let taskId = this.model.get('id');
+
         this.$el.find('.task').addClass('completed');
+
+        return $.ajax({
+            method: 'post',
+            headers: getJsonHeader(),
+            url: `/task/close/${taskId}`,
+        });
     },
 
     removeTask() {
