@@ -14,7 +14,7 @@ class CreateTaskAdjustmentsTable extends Migration
     {
         Schema::create('task_adjustments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->index()->unsigned();
+            $table->integer('user_id')->index()->unsigned()->nullable();
             $table->integer('task_id')->index()->unsigned();
             $table->text('before');
             $table->text('after');
