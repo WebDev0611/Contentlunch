@@ -29,9 +29,19 @@ class Task extends Model
         return $this->hasMany('App\Attachment');
     }
 
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
+
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function users()
+    {
+        return $this->account->users();
     }
 
     public function assignedUsers()
