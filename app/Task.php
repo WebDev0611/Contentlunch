@@ -162,4 +162,13 @@ class Task extends Model
         $this->updated_at_diff = $this->present()->updatedAt;
         $this->created_at_diff = $this->present()->createdAt;
     }
+
+    public function statusAdjustments()
+    {
+        return $this->adjustments()
+            ->get()
+            ->filter(function($adjustment) {
+                return $adjustment->hasKey('status');
+            });
+    }
 }
