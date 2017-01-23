@@ -400,8 +400,10 @@ class ContentController extends Controller
 
     private function saveContentType($request, $content)
     {
-        $conType = ContentType::find($request->input('content_type'));
-        $conType->contents()->save($content);
+        if ($request->input('content_type')) {
+            $conType = ContentType::find($request->input('content_type'));
+            $conType->contents()->save($content);
+        }
     }
 
     public function delete(Request $request, $content_id)
