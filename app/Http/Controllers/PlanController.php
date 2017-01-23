@@ -33,11 +33,8 @@ class PlanController extends Controller
         ])->get();
 
         $data = [
-            'name' => $idea->name,
-            'text' => $idea->text,
-            'tags' => $idea->tags,
             'contents' => $idea_content,
-            'idea_obj' => $idea,
+            'idea' => $idea,
             'is_collaborator' => $idea->hasCollaborator(Auth::user()),
         ];
 
