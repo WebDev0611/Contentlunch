@@ -367,7 +367,7 @@ class WriterAccessController extends Controller
         $hours = $hours + ($diff->days * 24);
 
         // NOTE: WriterAccess expects to see 4, 12, or increments of 24 hours.
-        // We are only going to worry about full days or a half day if submitted
+         // We are only going to worry about full days or a half day if submitted
         // for next day duedates.
 
         //round down to the nearest 24 hours

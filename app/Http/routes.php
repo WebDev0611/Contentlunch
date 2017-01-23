@@ -193,6 +193,10 @@ Route::group([ 'middleware' => 'auth' ], function() {
         Route::get('fees', 'WriterAccessPriceController@index');
         Route::get('fee', 'WriterAccessPriceController@fee');
 
+        Route::get('bulk-orders', 'WriterAccessBulkOrderStatusController@index');
+        Route::get('bulk-orders/status/{id}', 'WriterAccessBulkOrderStatusController@status');
+        Route::get('bulk-orders/sample', 'WriterAccessBulkOrderStatusController@sample');
+
         Route::post('partials', 'WriterAccessPartialOrderController@store');
         Route::post('partials/{id}', 'WriterAccessPartialOrderController@update');
 
