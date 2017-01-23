@@ -38,6 +38,8 @@ class ContentController extends Controller
             ->contents()
             ->count();
 
+        $this->selectedAccount->cleanContentWithoutStatus();
+
         $published = $this->selectedAccount
             ->contents()
             ->where('published', 1)
