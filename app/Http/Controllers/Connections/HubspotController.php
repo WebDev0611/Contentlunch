@@ -17,7 +17,6 @@ class HubspotController extends BaseConnectionController
     public function __construct(Request $request)
     {
         $this->auth = new HubspotAuth();
-        $this->api = new HubspotAPI();
     }
 
     public function callback(Request $request)

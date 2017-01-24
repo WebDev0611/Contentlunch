@@ -161,6 +161,18 @@
         </div>
     </div>
 </template>
+
+<template id="hubspotTemplate">
+    <div class="row" >
+        <div class="col-md-12">
+            <button
+                    type='submit'
+                    class="btn btn-primary">
+                Connect to HubSpot
+            </button>
+        </div>
+    </div>
+</template>
 @stop
 
 @section('scripts')

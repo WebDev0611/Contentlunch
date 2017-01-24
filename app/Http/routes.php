@@ -228,6 +228,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('writerAccessPrices', 'WriterAccessPriceController');
     Route::resource('writerAccessAssetTypes', 'WriterAccessAssetTypeController');
 
+
     Route::group(['prefix' => 'twitter'], function () {
         Route::get('followers', ['uses' => 'Connections\TwitterController@userSearch']);
     });
