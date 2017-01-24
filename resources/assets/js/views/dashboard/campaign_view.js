@@ -11,7 +11,11 @@ var dashboard_campaign_view = Backbone.View.extend({
                     <%= title %>
                 </h5>
                 <ul class="dashboard-tasks-list">
-                    <li>DUE IN: <strong><%= due %></strong></li>
+                    <% if (due !== "Invalid date") { %>
+                        <li>
+                            DUE DATE: <strong><%= due %></strong>
+                        </li>
+                    <% } %>
                 </ul>
             </div>
             <div class="dashboard-tasks-cell">
