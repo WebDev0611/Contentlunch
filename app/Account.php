@@ -69,6 +69,11 @@ class Account extends Model
         return $this->hasMany('App\BuyingStage');
     }
 
+    public function tags()
+    {
+        return $this->hasMany('App\Tag');
+    }
+
     public function tasks()
     {
         return $this->hasMany('App\Task');
