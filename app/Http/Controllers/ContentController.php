@@ -223,8 +223,8 @@ class ContentController extends Controller
     public function createContent()
     {
         $data = [
-            'tagsDropdown' => $this->selectedAccount->present()->tagsDropdown,
             'tagsJson' => $this->selectedAccount->present()->tagsJson,
+            'contentTagsJson' => collect([])->toJson(),
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
@@ -244,8 +244,8 @@ class ContentController extends Controller
 
         $data = [
             'content' => $content,
-            'tagsDropdown' => $this->selectedAccount->present()->tagsDropdown,
             'tagsJson' => $this->selectedAccount->present()->tagsJson,
+            'contentTagsJson' => $content->present()->tagsJson,
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
