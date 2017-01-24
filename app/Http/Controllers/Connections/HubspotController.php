@@ -11,16 +11,13 @@ use oAuth\API\HubspotAuth;
 use Connections\API\HubspotAPI;
 use Redirect;
 
-class HubspotController extends BaseConnectionController
-{
+class HubspotController extends BaseConnectionController {
 
-    public function __construct(Request $request)
-    {
+    public function __construct (Request $request) {
         $this->auth = new HubspotAuth();
     }
 
-    public function callback(Request $request)
-    {
+    public function callback (Request $request) {
         if ($error = $request->has('error')) {
             $this->cleanSessionConnection();
 
@@ -37,8 +34,14 @@ class HubspotController extends BaseConnectionController
         }
 
 
-        $tokenArray = (array) $token;
+        $tokenArray = (array)$token;
         $connection = $this->saveConnection($tokenArray, 'hubspot');
+
+        return $this->redirectWithSuccess("You've successfully connected to HubSpot.");
+    }
+
+    public function saveRefreshedToken ($tokenArray) {
+        $this->saveConnection($tokenArray, 'hubspot');
 
         return $this->redirectWithSuccess("You've successfully connected to HubSpot.");
     }

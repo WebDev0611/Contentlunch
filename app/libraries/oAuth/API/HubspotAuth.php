@@ -38,7 +38,7 @@ class HubspotAuth {
     public function codeForToken ($code) {
         $curl = curl_init($this->accessTokenEndpoint);
         curl_setopt($curl, CURLOPT_POST, true);
-         curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($this->tokenPostData($code)));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($this->tokenPostData($code)));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/x-www-form-urlencoded;charset=utf-8'
@@ -56,6 +56,30 @@ class HubspotAuth {
             'client_secret' => $this->client_secret,
             'code' => $code,
             'grant_type' => 'authorization_code'
+        ];
+    }
+
+    public function refreshToken($refreshToken) {
+        $curl = curl_init($this->accessTokenEndpoint);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($this->tokenPostRefreshData($refreshToken)));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/x-www-form-urlencoded;charset=utf-8'
+        ));
+
+        $auth = curl_exec($curl);
+
+        return json_decode($auth);
+    }
+
+    public function tokenPostRefreshData ($code) {
+        return [
+            'client_id' => $this->client_id,
+            'redirect_uri' => $this->redirect,
+            'client_secret' => $this->client_secret,
+            'refresh_token' => $code,
+            'grant_type' => 'refresh_token'
         ];
     }
 
