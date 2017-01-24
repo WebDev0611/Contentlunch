@@ -12,6 +12,7 @@ use App\ContentType;
 use App\Helpers;
 use App\Http\Requests\Content\ContentRequest;
 use App\Persona;
+use App\Tag;
 use App\User;
 use App\WriterAccessPrice;
 use Auth;
@@ -297,14 +298,12 @@ class ContentController extends Controller
         $this->saveContentPersona($request, $content);
         $this->saveContentType($request, $content);
         $this->saveConnections($request, $content);
+        $this->saveContentTags($request, $content);
 
         // - Attach the related data
         if ($request->input('related')) {
             $content->related()->attach($request->input('related'));
         }
-
-        // Attach Tags
-        $content->tags()->attach($request->input('tags'));
 
         $this->handleImages($request, $content);
         $this->handleFiles($request, $content);
@@ -400,6 +399,25 @@ class ContentController extends Controller
     {
         $conType = ContentType::find($request->input('content_type'));
         $conType->contents()->save($content);
+    }
+
+    private function saveContentTags($request, $content)
+    {
+        if ($request->input('tags')) {
+            $content->tags()->detach();
+
+            $tagsArray = explode(',', $request->input('tags'));
+            collect($tagsArray)
+                ->filter(function($tagString) { return $tagString !== ""; })
+                ->map(function($tagString) {
+                    return $this->selectedAccount
+                        ->tags()
+                        ->firstOrCreate([ 'tag' => $tagString ]);
+                })
+                ->each(function($tag) use ($content) {
+                    $content->tags()->attach($tag);
+                });
+        }
     }
 
     public function delete(Request $request, $content_id)
