@@ -50,4 +50,20 @@ class ContentPresenter extends Presenter {
             $this->entity->contentType->name :
             'No content type specified';
     }
+
+    public function contentStatusIcon()
+    {
+        $content = $this->entity;
+        $status = 1;
+
+        if ($content->published == '1') {
+            $status = 4;
+        } else if ($content->ready_published == '1') {
+            $status = 3;
+        } else if ($content->written == '1') {
+            $status = 2;
+        }
+
+        return $status;
+    }
 }
