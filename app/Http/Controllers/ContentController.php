@@ -22,7 +22,6 @@ use Input;
 use Response;
 use Storage;
 use Validator;
-use View;
 
 class ContentController extends Controller
 {
