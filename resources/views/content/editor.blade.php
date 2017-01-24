@@ -321,6 +321,7 @@
                             @php
                                 $tagsOptions = [
                                     'id' => 'tag-editor',
+                                    'name' => 'tags',
                                 ];
 
                                 if (!$isCollaborator) {
