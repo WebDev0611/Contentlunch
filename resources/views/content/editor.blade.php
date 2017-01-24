@@ -317,31 +317,18 @@
                             @endif
                         </div>
 
-
                         <div class="input-form-group">
-                            <label for="tags">TAGS</label>
                             @php
                                 $tagsOptions = [
-                                    'multiple' => 'multiple',
-                                    'class' => 'input selectpicker form-control',
-                                    'id' => 'tags',
-                                    'data-live-search' => 'true',
-                                    'title' => 'Select Tags'
+                                    'id' => 'tag-editor',
                                 ];
 
                                 if (!$isCollaborator) {
                                     $tagsOptions['disabled'] = 'disabled';
                                 }
-
                             @endphp
-                            {!!
-                                Form::select(
-                                    'tags[]',
-                                    $tagsDropdown,
-                                    @isset($content) ? $content->tags->lists('id')->toArray() : '',
-                                    $tagsOptions
-                                )
-                            !!}
+                            <label>TAGS</label>
+                            {!! Form::text('tag-editor', '', $tagsOptions) !!}
                         </div>
 
                         <div class="input-form-group">
@@ -707,6 +694,23 @@
 @stop
 
 @section('scripts')
+<script type='text/javascript'>
+    (function() {
+
+        var source = {!! $tagsJson !!} || [];
+        var contentTags = {!! $contentTagsJson !!};
+
+        $('#tag-editor').tagEditor({
+            placeholder: 'Select tags...',
+            initialTags: contentTags,
+            autocomplete: {
+                source: source,
+                minLength: 1,
+            },
+        });
+
+    })();
+</script>
 <script type='text/javascript'>
     (function() {
 
