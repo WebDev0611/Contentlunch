@@ -79,7 +79,7 @@ Route::group([ 'middleware' => 'auth' ], function() {
     Route::post('/idea/update/{idea}','IdeaController@update');
     Route::post('/idea/reject/{id}','IdeaController@reject');
     Route::post('/idea/activate','IdeaController@activate');
-    Route::get('/idea/write/{idea}', 'IdeaController@write');
+    Route::get('/idea/write/{idea}', [ 'as' => 'ideaWrite', 'uses' => 'IdeaController@write' ]);
 
     Route::resource('/ideas', 'IdeaController', ['only' => [
         'index', 'show','store','park','activate'
