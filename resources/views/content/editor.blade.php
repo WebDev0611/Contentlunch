@@ -817,6 +817,7 @@
         function fetchTasks() {
             return $.ajax({
                 url: '/api/contents/' + contentId() + '/tasks',
+                data: { open: '1' },
                 method: 'get',
             })
             .then(function(response) {

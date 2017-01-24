@@ -7,6 +7,7 @@ use App\Presenters\TaskPresenter;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
+use Auth;
 
 class Task extends Model
 {
@@ -24,6 +25,43 @@ class Task extends Model
         'status',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+        static::updating(function($task) {
+            $task->logChanges();
+        });
+    }
+
+    public function logChanges($userId = null)
+    {
+        $userId = $userId ?: Auth::id();
+        $changed  = $this->getDirty();
+        $fresh = $this->fresh()->toArray();
+
+        array_forget($changed, ['updated_at' ]);
+        array_forget($fresh, ['updated_at' ]);
+
+        if (count($changed) > 0) {
+            $this->adjustments()->create([
+                'user_id' => $userId,
+                'before' => json_encode(array_intersect_key($fresh, $changed)),
+                'after' => json_encode($changed)
+            ]);
+        }
+    }
+
+
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
+
+    public function adjustments()
+    {
+        return $this->hasMany('App\TaskAdjustment');
+    }
+
     public function attachments()
     {
         return $this->hasMany('App\Attachment');
@@ -32,6 +70,11 @@ class Task extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function users()
+    {
+        return $this->account->users();
     }
 
     public function assignedUsers()
@@ -83,6 +126,11 @@ class Task extends Model
             ->count();
     }
 
+    public function close()
+    {
+        $this->update([ 'status' => 'closed' ]);
+    }
+
     public static function accountTasks(Account $account)
     {
         return $account
@@ -113,5 +161,14 @@ class Task extends Model
         $this->due_date_diff = $this->present()->dueDate;
         $this->updated_at_diff = $this->present()->updatedAt;
         $this->created_at_diff = $this->present()->createdAt;
+    }
+
+    public function statusAdjustments()
+    {
+        return $this->adjustments()
+            ->get()
+            ->filter(function($adjustment) {
+                return $adjustment->hasKey('status');
+            });
     }
 }

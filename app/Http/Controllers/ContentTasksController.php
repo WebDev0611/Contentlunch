@@ -14,10 +14,16 @@ class ContentTasksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Content $content)
+    public function index(Request $request, Content $content)
     {
-        $tasks = $content
-            ->tasks()
+        $openTasks = $request->input('open') == '1';
+        $tasks = $content->tasks();
+
+        if ($openTasks) {
+            $tasks = $tasks->where('status', '=', 'open');
+        }
+
+        $tasks = $tasks
             ->with('user')
             ->with('assignedUsers')
             ->get()
