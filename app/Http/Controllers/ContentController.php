@@ -1,29 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers;
 
+use App\Account;
+use App\Attachment;
+use App\BuyingStage;
+use App\Campaign;
+use App\Connection;
+use App\Content;
+use App\ContentType;
+use App\Helpers;
 use App\Http\Requests\Content\ContentRequest;
+use App\Persona;
+use App\User;
+use App\WriterAccessPrice;
+use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Input;
-use App\ContentType;
-use App\BuyingStage;
-use App\Connection;
-use App\Attachment;
-use App\Campaign;
-use App\Content;
-use App\User;
-use App\Account;
-use App\Tag;
-use App\Persona;
-use App\Helpers;
-use App\WriterAccessPrice;
-use Storage;
-use View;
-use Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-use Validator;
 use Response;
+use Storage;
+use Validator;
+use View;
 
 class ContentController extends Controller
 {
@@ -118,7 +117,7 @@ class ContentController extends Controller
 
     public function trendShare(Request $request, Connection $connection)
     {
-        $content = (object)Input::all();
+        $content = (object) Input::all();
         $errors = [];
         $publishedConnections = [];
 
@@ -225,7 +224,8 @@ class ContentController extends Controller
     public function createContent()
     {
         $data = [
-            'tagsDropdown' => Tag::dropdown(),
+            'tagsDropdown' => $this->selectedAccount->present()->tagsDropdown,
+            'tagsJson' => $this->selectedAccount->present()->tagsJson,
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
@@ -245,7 +245,8 @@ class ContentController extends Controller
 
         $data = [
             'content' => $content,
-            'tagsDropdown' => Tag::dropdown(),
+            'tagsDropdown' => $this->selectedAccount->present()->tagsDropdown,
+            'tagsJson' => $this->selectedAccount->present()->tagsJson,
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
@@ -419,7 +420,7 @@ class ContentController extends Controller
 
     protected function redirectDeleteSuccessful($content)
     {
-       return redirect()->route('contentIndex')->with([
+        return redirect()->route('contentIndex')->with([
            'flash_message' => 'You have successfully deleted '.$content->title.'.',
            'flash_message_type' => 'success',
            'flash_message_important' => true,
@@ -433,7 +434,6 @@ class ContentController extends Controller
             'flash_message_type' => 'danger',
             'flash_message_important' => true,
         ]);
-
     }
 
     public function my()
