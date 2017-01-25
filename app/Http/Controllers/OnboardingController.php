@@ -56,10 +56,32 @@ class OnboardingController extends Controller
     public function signupWithInvite(AccountInvite $invite)
     {
         if ($invite->isUsed()) {
-            return View::make('onboarding.invite_used');
+            return view('onboarding.invite_used');
+        } else if (Auth::check()) {
+            return $this->useInviteForLoggedUser($invite);
         }
 
-        return View::make('onboarding.invite_signup', compact('invite'));
+        return view('onboarding.invite_signup', compact('invite'));
+    }
+
+    protected function useInviteForLoggedUser(AccountInvite $invite)
+    {
+        $userBelongsToAccount = (boolean) $invite->account->users()->find(Auth::id());
+
+        if ($userBelongsToAccount) {
+            $message = "You are already a member of the {$invite->account->name} account.";
+            $type = "danger";
+        } else {
+            $message = "You're now part of the {$invite->account->name} account.";
+            $type = "success";
+            $invite->attachUser(Auth::user());
+        }
+
+        return redirect('/')->with([
+            'flash_message' => $message,
+            'flash_message_type' => $type,
+            'flash_message_important' => true,
+        ]);
     }
 
     public function createWithInvite(InvitedAccountRequest $request)
@@ -70,7 +92,7 @@ class OnboardingController extends Controller
         $this->createNewUserSession($user);
 
         return redirect('/')->with([
-            'flash_message' => 'Welcome to ContentLaunch! You\'re now part of the ' . $invite->account->name . ' account!',
+            'flash_message' => "Welcome to ContentLaunch! You're now part of the {$invite->account->name} account!",
             'flash_message_type' => 'success',
             'flash_message_important' => true
         ]);

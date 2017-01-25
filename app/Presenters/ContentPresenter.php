@@ -58,4 +58,20 @@ class ContentPresenter extends Presenter {
             ->lists('tag')
             ->toJson();
     }
+
+    public function contentStatusIcon()
+    {
+        $content = $this->entity;
+        $status = 1;
+
+        if ($content->published == '1') {
+            $status = 4;
+        } else if ($content->ready_published == '1') {
+            $status = 3;
+        } else if ($content->written == '1') {
+            $status = 2;
+        }
+
+        return $status;
+    }
 }

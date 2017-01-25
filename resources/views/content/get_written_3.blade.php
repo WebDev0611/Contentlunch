@@ -20,7 +20,7 @@
                             </div>
                         </div>
                     </div>
-                    {!! Form::open([ 'url' => "writeraccess/orders/$order->id/submit" ]) !!}
+                    {!! Form::open([ 'id' => 'order-checkout', 'url' => "writeraccess/orders/$order->id/submit" ]) !!}
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="purchase-assignment">
@@ -156,7 +156,7 @@
         Stripe.setPublishableKey("{{ getenv('STRIPE_PUBLISHABLE_KEY') }}");
 
         function stripeResponseHandler(status, response) {
-            var $form = $('form');
+            var $form = $('#order-checkout');
 
             if (response.error) {
                 $form.find('input[type=submit]').prop('disabled', false);
@@ -165,12 +165,12 @@
                     .slideDown('fast');
             } else {
                 var token = response.id;
-                $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+                $form.append($('<input type="hidden" name="stripe-token" />').val(token));
                 $form.get(0).submit();
             }
         }
 
-        $('form').submit(function(e) {
+        $('#order-checkout').submit(function(e) {
             var $form = $(this);
 
             $form.find('input[type=submit]').prop('disabled', true);

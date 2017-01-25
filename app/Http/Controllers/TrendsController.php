@@ -47,8 +47,16 @@ class TrendsController extends Controller
         $output = '';
        
         function get_data($t){
-            $api_url = 'https://api.rightrelevance.com/v2/articles/search?query=' . $t;
-            $api_url .= '&access_token=' . getenv('RIGHTRELEVANCE_TOKEN');
+            $api_url = "https://api.rightrelevance.com/v2/articles/search?";
+
+            $params = array(
+                "days" => "365",
+                "rgroup" => "large",
+                "query" => $t,
+                "access_token" => getenv('RIGHTRELEVANCE_TOKEN')
+            );
+
+            $api_url .= http_build_query($params);
 
             $client = new Client();
             $res = $client->request('GET', $api_url );

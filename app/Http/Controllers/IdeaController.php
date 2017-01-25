@@ -87,65 +87,59 @@ class IdeaController extends Controller
      */
     public function store(Request $request)
     {
-        $name = $request->input('name');
-        $text = $request->input('idea');
-        $tags = $request->input('tags');
-        $contents = $request->input('content');
-        $status = $request->input('status');
-
-        $idea = new Idea();
-        $idea->name = $name;
-        $idea->text = $text;
-        $idea->tags = $tags;
-        $idea->status = $status;
-
-        $idea->user_id = Auth::id();
-        $idea->account_id = Account::selectedAccount()->id;
-        $idea->save();
+        $idea = Idea::create([
+            'name' => $request->input('name'),
+            'text' => $request->input('idea'),
+            'tags' => $request->input('tags'),
+            'status' => $request->input('status'),
+            'user_id' => Auth::id(),
+            'account_id' => Account::selectedAccount()->id,
+        ]);
 
         $idea->collaborators()->attach(Auth::user());
 
-        $idea_contents = array();
-
-        if (!empty($contents) && is_array($contents)) {
-            foreach ($contents as $content) {
-                //if its just keywords
-                if (isset($content['keyword'])) {
-                    $idea_content = new IdeaContent();
-                    $idea_content->title = 'Trending Topic';
-                    $idea_content->body = $content['keyword'];
-
-                    $idea_content->idea_id = $idea->id;
-                    $idea_content->user_id = Auth::id();
-
-                    $idea_content->save();
-                    $idea_contents[] = $idea_content;
-
-                //if its actual content trends
-                } else {
-                    $idea_content = new IdeaContent();
-                    $idea_content->author = $content['author'];
-                    $idea_content->body = $content['body'];
-                    $idea_content->fb_shares = $content['fb_shares'];
-                    $idea_content->google_shares = $content['google_shares'];
-                    $idea_content->image = $content['image'];
-                    $idea_content->link = $content['link'];
-                    $idea_content->source = $content['source'];
-                    $idea_content->title = $content['title'];
-                    $idea_content->total_shares = $content['total_shares'];
-                    $idea_content->tw_shares = $content['tw_shares'];
-
-                    $idea_content->idea_id = $idea->id;
-                    $idea_content->user_id = Auth::id();
-
-                    $idea_content->save();
-                    $idea_contents[] = $idea_content;
-                }
-            }
-        }
+        $idea_contents = $this->createIdeaContents($idea, $request->input('content'));
 
         //do sanity/success checks here
-        return response()->json([$idea->name, $idea->text, $idea->tags, $idea_contents]);
+        return response()->json([
+            $idea->name,
+            $idea->text,
+            $idea->tags,
+            $idea_contents,
+        ]);
+    }
+
+    protected function createIdeaContents($idea, $contents = [])
+    {
+        return collect($contents)->map(function($content) use ($idea) {
+
+            if (isset($content['keyword'])) {
+
+                return IdeaContent::create([
+                    'title' => $content['keyword'],
+                    'body' => $content['keyword'],
+                    'idea_id' => $idea->id,
+                    'user_id' => Auth::id(),
+                ]);
+
+            } else {
+
+                return IdeaContent::create([
+                    'author' => $content['author'],
+                    'body' => $content['body'],
+                    'fb_shares' => $content['fb_shares'],
+                    'google_shares' => $content['google_shares'],
+                    'image' => $content['image'],
+                    'link' => $content['link'],
+                    'source' => $content['source'],
+                    'title' => $content['title'],
+                    'total_shares' => $content['total_shares'],
+                    'tw_shares' => $content['tw_shares'],
+                    'idea_id' => $idea->id,
+                    'user_id' => Auth::id(),
+                ]);
+            }
+        });
     }
 
     /**
@@ -194,7 +188,6 @@ class IdeaController extends Controller
         $newContent = Content::create([
             'title' => $idea->name,
             'text' => $idea->text,
-            'written' => 1,
         ]);
 
         $newContent->authors()->attach(Auth::user());

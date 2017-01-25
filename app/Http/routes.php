@@ -28,16 +28,16 @@ Route::model('writerAccessPartialOrder', 'App\WriterAccessPartialOrder');
 /* Login/Logout */
 Route::auth();
 
+/**
+ * Onboarding - Account Invite redeeming
+ */
+Route::post('signup/invite', 'OnboardingController@createWithInvite');
+Route::get('signup/invite/{invite}', [ 'as' => 'signupWithInvite', 'uses' => 'OnboardingController@signupWithInvite' ]);
+
 Route::group([ 'middleware' => 'guest' ], function() {
     Route::get('signup', 'OnboardingController@signup');
     Route::post('signup', 'OnboardingController@process_signup');
     Route::post('signup/photo_upload', 'OnboardingController@signupPhotoUpload');
-
-    /**
-     * Onboarding - Account Invite redeeming
-     */
-    Route::post('signup/invite', 'OnboardingController@createWithInvite');
-    Route::get('signup/invite/{invite}', [ 'as' => 'signupWithInvite', 'uses' => 'OnboardingController@signupWithInvite' ]);
 });
 
 Route::group([ 'middleware' => 'auth' ], function() {
@@ -79,7 +79,7 @@ Route::group([ 'middleware' => 'auth' ], function() {
     Route::post('/idea/update/{idea}','IdeaController@update');
     Route::post('/idea/reject/{id}','IdeaController@reject');
     Route::post('/idea/activate','IdeaController@activate');
-    Route::get('/idea/write/{idea}', 'IdeaController@write');
+    Route::get('/idea/write/{idea}', [ 'as' => 'ideaWrite', 'uses' => 'IdeaController@write' ]);
 
     Route::resource('/ideas', 'IdeaController', ['only' => [
         'index', 'show','store','park','activate'
@@ -106,7 +106,7 @@ Route::group([ 'middleware' => 'auth' ], function() {
     Route::post('task/attachments', 'TaskAttachmentsController@store');
     Route::get('task/show/{id}', [ 'as' => 'taskShow', 'uses' => 'TaskController@show' ]);
     Route::post('task/update/{id}', 'TaskController@update');
-    Route::post('task/close/{id}', 'TaskController@close');
+    Route::post('task/close/{task}', 'TaskController@close');
     Route::delete('task/{task}', 'TaskController@destroy');
 
     Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);

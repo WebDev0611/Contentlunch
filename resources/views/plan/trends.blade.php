@@ -81,7 +81,7 @@
                     <i class="icon-share"></i>
                     <%= total_shares %>
                 </div>
-                <div class="tombstone-cell">
+                <!--<div class="tombstone-cell">
                     <i class="icon-facebook-mini"></i>
                     <%= fb_shares %>
                 </div>
@@ -96,7 +96,7 @@
                 <div class="tombstone-cell">
                     <i class="icon-youtube"></i>
                     <%= video %>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>

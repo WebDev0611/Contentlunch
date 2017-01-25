@@ -196,13 +196,23 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function close(Request $request, $id)
+    public function close(Request $request, Task $task)
     {
-        $task = Task::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
-        $task->status = 'closed';
-        $task->save();
+        $response = response()->json([ 'success' => false ], 403);
 
-        return response()->json(['success' => true, 'task' => $task ]);
+        if ($this->loggedUserCanClose($task)) {
+            $task->update([ 'status' => 'closed' ]);
+            $response = response()->json(['success' => true, 'task' => $task ]);
+        }
+
+        return $response;
+    }
+
+    protected function loggedUserCanClose(Task $task)
+    {
+        return $task->users->filter(function($user) {
+            return $user->id == Auth::id();
+        });
     }
 
     /**

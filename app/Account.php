@@ -147,4 +147,16 @@ class Account extends Model
 
         return $dropdown;
     }
+
+    public function cleanContentWithoutStatus()
+    {
+        $this->contents()
+            ->where('written', 0)
+            ->where('ready_published', 0)
+            ->where('published', 0)
+            ->get()
+            ->each(function($content) {
+                $content->update([ 'written' => 1 ]);
+            });
+    }
 }

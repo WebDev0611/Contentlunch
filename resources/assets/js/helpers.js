@@ -18,19 +18,19 @@ $(function(){
 // Initialize tooltips.
 $('[data-toggle="tooltip"]').tooltip();
 
-var format_time_ago = function(time){
+function format_time_ago(time) {
 	var cur = moment();
-	var hours_ago = cur.diff( moment(time*1000) ,'hours');
-	var days_ago = cur.diff( moment(time*1000) ,'days');
-	var minutes_ago = cur.diff( moment(time*1000) ,'minutes');
+	var hours_ago = cur.diff(moment(time*1000), 'hours');
+	var days_ago = cur.diff(moment(time*1000), 'days');
+	var minutes_ago = cur.diff(moment(time*1000),'minutes');
 
-	if(days_ago > 0){
+	if (days_ago > 0) {
 		return days_ago + ' DAYS AGO';
-	}else if(hours_ago > 0){
+	} else if (hours_ago > 0) {
 		return hours_ago + ' HOURS AGO';
-	}else if(minutes_ago > 0){
+	} else if (minutes_ago > 0) {
 		return minutes_ago + ' MINUTES AGO';
-	}else{
+	} else {
 		return 'JUST NOW';
 	}
 };
@@ -152,4 +152,7 @@ function clearTaskInputs() {
     $('#task-due-date').val('');
     $('#task-explanation').val('');
     $('#task-url').val('');
+
+    $('.task-attached-files').remove();
+    window.taskAttachmentUploader.removeAllFiles();
 }

@@ -39,3 +39,16 @@
 
 @include('agency.partials.invite_guest_modal')
 @stop
+
+@section('scripts')
+<script>
+    (function() {
+        $('#add-task-button').click(function() {
+            add_task(function() {
+                $('#addTaskModal').modal('hide');
+            });
+        });
+    })();
+</script>
+@stop
+

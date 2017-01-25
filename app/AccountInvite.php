@@ -51,9 +51,15 @@ class AccountInvite extends Model
             'email' => $userData['email'],
         ]);
 
-        $this->user()->associate($user);
-        $user->accounts()->attach($this->account_id);
+        $this->attachUser($user);
 
         return $user;
+    }
+
+    public function attachUser(User $user)
+    {
+        $user->accounts()->attach($this->account_id);
+        $this->user()->associate($user);
+        $this->save();
     }
 }

@@ -79,12 +79,12 @@
 
     (function() {
 
-        var TaskattachmentUploader = new Dropzone('#task-attachment-uploader', {
+        window.taskAttachmentUploader = new Dropzone('#task-attachment-uploader', {
             headers: getCSRFHeader(),
             url: '/task/attachments'
         });
 
-        TaskattachmentUploader.on('success', function(file, response) {
+        window.taskAttachmentUploader.on('success', function(file, response) {
             var hiddenField = $('<input/>', {
                 class: 'task-attached-files',
                 name: 'files[]',

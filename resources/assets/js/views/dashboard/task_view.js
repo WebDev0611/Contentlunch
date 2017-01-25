@@ -8,15 +8,21 @@ var task_view = Backbone.View.extend({
             </div>
             <div class="dashboard-tasks-cell cell-size-80">
                 <h5 class="dashboard-tasks-title">
-                    <%= title %>
+                    <a href="/task/show/<%= id %>">
+                        <%= title %>
+                    </a>
                 </h5>
                 <span class="dashboard-tasks-text">
                     <%= body %>
                 </span>
                 <ul class="dashboard-tasks-list">
+                <% if (due !== "Invalid date") { %>
                     <li>
-                        DUE IN: <strong><%= due %></strong>
+                        DUE DATE: <strong><%= due %></strong>
                     </li>
+                <% } %>
+                
+                    
                     <!--
                     <li>
                         STAGE:

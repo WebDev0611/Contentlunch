@@ -267,4 +267,39 @@ class Content extends Model
     {
         return $this->dueDateDiffFromToday() <= 2;
     }
+
+    public function history()
+    {
+        return $this->contentTasksHistory()
+            ->merge($this->contentAdjustments())
+            ->sort(function($adjustmentA, $adjustmentB) {
+                return $adjustmentA['date']->lt($adjustmentB['date']) ? 1 : -1;
+            });
+    }
+
+    protected function contentAdjustments()
+    {
+        return $this->adjustments
+            ->map(function($adjustmentUser) {
+                return [
+                    'type' => 'content',
+                    'adjustment' => $adjustmentUser,
+                    'date' => $adjustmentUser->pivot->created_at,
+                ];
+            });
+    }
+
+    protected function contentTasksHistory()
+    {
+        return $this->tasks
+            ->map(function($task) { return $task->statusAdjustments(); })
+            ->flatten(1)
+            ->map(function($taskAdjustment) {
+                return [
+                    'type' => 'content_task',
+                    'adjustment' => $taskAdjustment,
+                    'date' => $taskAdjustment->created_at,
+                ];
+            });
+    }
 }
