@@ -135,7 +135,7 @@
             </span>
             <ul class="dashboard-tasks-list">
                 <li>
-                    DUE IN: <strong><%= due %></strong>
+                    DUE ON: <strong><%= due %></strong>
                 </li>
                 <!--
                 <li>
@@ -169,7 +169,7 @@
                 <%= title %>
             </h5>
             <ul class="dashboard-tasks-list">
-                <li>DUE IN: <strong><%= due %></strong></li>
+                <li>DUE ON: <strong><%= due %></strong></li>
             </ul>
         </div>
         <div class="dashboard-tasks-cell">
