@@ -1,6 +1,6 @@
 <div class="onboarding-import-item">
     <div class="col-md-6">
-        <img src="/images/avatar.jpg" alt="#" class="onboarding-import-item-img">
+        <img src="/images/cl-avatar2.png" alt="#" class="onboarding-import-item-img">
         <span class="onboarding-import-item-title">WordPress</span>
     </div>
 

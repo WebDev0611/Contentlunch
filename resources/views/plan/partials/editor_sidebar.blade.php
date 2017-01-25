@@ -5,7 +5,7 @@
     <div class="panel-container plan-activity-dark">
         <div class="plan-activity-box-container">
             <div class="plan-activity-box-img">
-                <img src="/images/avatar.jpg" alt="#">
+                <img src="/images/cl-avatar2.png" alt="#">
             </div>
             <div class="plan-activity-box plan-activity-box-light">
                 <span class="plan-activity-title">
@@ -21,7 +21,7 @@
         </div>
         <div class="plan-activity-box-container">
             <div class="plan-activity-box-img">
-                <img src="/images/avatar.jpg" alt="#">
+                <img src="/images/cl-avatar2.png" alt="#">
             </div>
             <div class="plan-activity-box plan-activity-box-light">
                 <span class="plan-activity-title">
@@ -49,7 +49,7 @@
         </div>
         <div class="plan-activity-box-container">
             <div class="plan-activity-box-img">
-                <img src="/images/avatar.jpg" alt="#">
+                <img src="/images/cl-avatar2.png" alt="#">
             </div>
             <div class="plan-activity-box plan-activity-box-light">
                 <span class="plan-activity-title">

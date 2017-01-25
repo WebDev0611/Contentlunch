@@ -40,7 +40,7 @@
             <div class="panel-container">
                 <div class="plan-activity-box-container">
                     <div class="plan-activity-box-img">
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                     </div>
                     <div class="plan-activity-box">
                         <span class="plan-activity-title">
@@ -68,7 +68,7 @@
                 </div>
                 <div class="plan-activity-box-container">
                     <div class="plan-activity-box-img">
-                        <img src="/assets/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/cl-avatar2.png" alt="#">
                     </div>
                     <div class="plan-activity-box">
                         <span class="plan-activity-title">

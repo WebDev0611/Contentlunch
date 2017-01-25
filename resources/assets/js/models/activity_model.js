@@ -2,7 +2,7 @@
 
 var activity_model = Backbone.Model.extend({
     defaults: {
-        image: "/images/avatar.jpg",
+        image: "/images/cl-avatar2.png",
         who: "Jane",
         action: "commented on",
         title: "Write blog post",

@@ -9,7 +9,7 @@ var task_model = Backbone.Model.extend({
 		campaign_id: 0,
 		content_id: 0,
 		user_id: 0,
-		image: '/images/avatar.jpg',
+		image: '/images/cl-avatar2.png',
         title: "",
         body: "",
         due: "",

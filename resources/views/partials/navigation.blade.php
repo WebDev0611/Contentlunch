@@ -5,7 +5,7 @@
     <ul class="navigation-menu">
         <li>
             <a href="/home" class="navigation-menu-profile">
-                <img src="/images/avatar.jpg" alt="#">
+                <img src="/images/cl-avatar2.png" alt="#">
             </a>
         </li>
         <li>

@@ -6,7 +6,7 @@ var campaign_model = Backbone.Model.extend({
 		goals: 'Goals go here',
 		status: 0,
 		campaign_type: 0,
-		image: '/images/avatar.jpg',
+		image: '/images/cl-avatar2.png',
 		due: '0 Days',
         body:"Suspendisse tincidunt eu lectus nec vestibulum. Etiam tincidunt eu lectus nec eget...",
         launched:"0 DAYS",
