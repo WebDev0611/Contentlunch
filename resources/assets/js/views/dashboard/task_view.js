@@ -18,7 +18,7 @@ var task_view = Backbone.View.extend({
                 <ul class="dashboard-tasks-list">
                 <% if (due !== "Invalid date") { %>
                     <li>
-                        DUE DATE: <strong><%= due %></strong>
+                        DUE ON: <strong><%= due %></strong>
                     </li>
                 <% } %>
                 
