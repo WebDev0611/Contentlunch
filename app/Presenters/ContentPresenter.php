@@ -51,6 +51,14 @@ class ContentPresenter extends Presenter {
             'No content type specified';
     }
 
+    public function tagsJson()
+    {
+        return $this->entity
+            ->tags()
+            ->lists('tag')
+            ->toJson();
+    }
+
     public function contentStatusIcon()
     {
         $content = $this->entity;

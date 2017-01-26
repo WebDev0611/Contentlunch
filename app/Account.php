@@ -2,14 +2,19 @@
 
 namespace App;
 
+use App\AccountType;
+use App\Presenters\AccountPresenter;
 use Auth;
 use DB;
 use Illuminate\Database\Eloquent\Model;
-
-use App\AccountType;
+use Laracasts\Presenter\PresentableTrait;
 
 class Account extends Model
 {
+    use PresentableTrait;
+
+    protected $presenter = AccountPresenter::class;
+
     public $fillable = [
         'name',
         'account_type_id',
@@ -62,6 +67,11 @@ class Account extends Model
     public function buyingStages()
     {
         return $this->hasMany('App\BuyingStage');
+    }
+
+    public function tags()
+    {
+        return $this->hasMany('App\Tag');
     }
 
     public function tasks()
