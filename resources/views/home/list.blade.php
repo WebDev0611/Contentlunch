@@ -121,6 +121,7 @@
 </div>
 
 @include('home.partials.invite_team_member_modal')
+
 <script>
     var my_campaigns = {!! $mycampaigns !!};
     var my_tasks = {!! $tasks !!};
