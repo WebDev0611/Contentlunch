@@ -134,7 +134,7 @@
                     <div class="col-md-6 col-md-offset-3 text-center">
                         <i class="modal-icon-success icon-check-large"></i>
                         <div class="form-group">
-                            <img src="/images/avatar.jpg" alt="#" class="create-image">
+                            <img src="/images/cl-avatar2.png" alt="#" class="create-image">
                             <h4></h4>
                         </div>
                         <p class="text-gray">IS NOW PUBLISHED TO:</p>

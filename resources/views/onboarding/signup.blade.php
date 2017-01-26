@@ -78,7 +78,7 @@
                                         @if ($avatarUrl)
                                             <img src="{{ $avatarUrl }}" alt="">
                                         @else
-                                            <img src="/images/avatar.jpg" alt="#">
+                                            <img src="/images/cl-avatar2.png" alt="#">
                                         @endif
                                         <label for="upload" class="onboarding-avatar-button">
                                             <i class="icon-add"></i>

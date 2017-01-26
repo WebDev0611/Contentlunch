@@ -9,12 +9,6 @@
      */
     var contentId = $('input[name=content_id]').val();
 
-    var CollaboratorModel = Backbone.Model.extend({
-        defaults: {
-            profile_image: '/images/avatar.jpg'
-        }
-    });
-
     var CollaboratorCollection = Backbone.Collection.extend({
         model: CollaboratorModel,
 
@@ -35,7 +29,7 @@
         createCollaboratorModel: function(collaborator) {
             return new CollaboratorModel({
                 name: collaborator.name,
-                profile_image: collaborator.profile_image || '/images/avatar.jpg',
+                profile_image: collaborator.profile_image || '/images/cl-avatar2.png',
                 email: collaborator.email,
             });
         },

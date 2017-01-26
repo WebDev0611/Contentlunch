@@ -2,7 +2,7 @@
 
     var CollaboratorModel = Backbone.Model.extend({
         defaults: {
-            profile_image: '/images/avatar.jpg'
+            profile_image: '/images/cl-avatar2.png'
         }
     });
 
@@ -26,7 +26,7 @@
         createCollaboratorModel: function(collaborator) {
             return new CollaboratorModel({
                 name: collaborator.name,
-                profile_image: collaborator.profile_image || '/images/avatar.jpg',
+                profile_image: collaborator.profile_image || '/images/cl-avatar2.png',
                 email: collaborator.email,
             });
         },

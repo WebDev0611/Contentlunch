@@ -59,25 +59,25 @@
                         <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                         </label>
                         <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                         </label>
                         <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                         </label>
                         <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                         </label>
                     </li>
