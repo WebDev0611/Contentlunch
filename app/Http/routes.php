@@ -32,9 +32,9 @@ Route::auth();
  * Onboarding - Account Invite redeeming
  */
 Route::post('signup/invite', 'OnboardingController@createWithInvite');
-Route::get('signup/invite/{invite}', ['as' => 'signupWithInvite', 'uses' => 'OnboardingController@signupWithInvite']);
+Route::get('signup/invite/{invite}', [ 'as' => 'signupWithInvite', 'uses' => 'OnboardingController@signupWithInvite' ]);
 
-Route::group(['middleware' => 'guest'], function () {
+Route::group([ 'middleware' => 'guest' ], function() {
     Route::get('signup', 'OnboardingController@signup');
     Route::post('signup', 'OnboardingController@process_signup');
     Route::post('signup/photo_upload', 'OnboardingController@signupPhotoUpload');
@@ -74,12 +74,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/influencers', 'InfluencersController@search');
     Route::resource('/topics', 'TopicsController@index');
 
-    Route::get('/idea/{idea}', ['as' => 'ideaEditor', 'uses' => 'PlanController@editor']);
-    Route::post('/idea/park', 'IdeaController@park');
-    Route::post('/idea/update/{idea}', 'IdeaController@update');
-    Route::post('/idea/reject/{id}', 'IdeaController@reject');
-    Route::post('/idea/activate', 'IdeaController@activate');
-    Route::get('/idea/write/{idea}', 'IdeaController@write');
+    Route::get('/idea/{idea}', [ 'as' => 'ideaEditor', 'uses' => 'PlanController@editor' ]);
+    Route::post('/idea/park','IdeaController@park');
+    Route::post('/idea/update/{idea}','IdeaController@update');
+    Route::post('/idea/reject/{id}','IdeaController@reject');
+    Route::post('/idea/activate','IdeaController@activate');
+    Route::get('/idea/write/{idea}', [ 'as' => 'ideaWrite', 'uses' => 'IdeaController@write' ]);
 
     Route::resource('/ideas', 'IdeaController', ['only' => [
         'index', 'show', 'store', 'park', 'activate'
@@ -242,6 +242,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/api/contents/{content}/tasks', 'ContentTasksController@index');
     Route::get('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@index');
     Route::post('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@update');
-
-    Route::post('/search', ['as' => 'searchIndex', 'uses' => 'SearchController@index']);
+    Route::get('/api/account/members', 'AccountCollaboratorsController@index');
+    Route::get('/api/tasks', 'TaskController@index');
+    Route::post('/api/trends/share/{connection}', [ 'as' => 'trendShare', 'uses' => 'ContentController@trendShare' ]);
+    Route::post('/search', [ 'as' => 'searchIndex', 'uses' => 'SearchController@index' ]);
 });
