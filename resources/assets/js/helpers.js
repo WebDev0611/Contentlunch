@@ -44,12 +44,12 @@ $(function() {
 	});
 
     $('#task-start-date').datetimepicker({
-        format: 'YYYY-MM-DD',
+        format: 'DD/MM/YY',
         sideBySide: true,
     });
 
     $('#task-due-date').datetimepicker({
-        format: 'YYYY-MM-DD',
+        format: 'DD/MM/YY',
         sideBySide: true,
     });
 
