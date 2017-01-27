@@ -2,48 +2,15 @@
 
 namespace App\Presenters;
 
-use Laracasts\Presenter\Presenter;
+use App\Presenters\Helpers\BasePresenter;
+use App\Presenters\Helpers\CreatedAtPresenter;
+use App\Presenters\Helpers\DueDatePresenter;
+use App\Presenters\Helpers\UpdatedAtPresenter;
 use Carbon\Carbon;
 
-class ContentPresenter extends Presenter {
-
-    public function dueDate()
-    {
-        if ($this->due_date !== '0000-00-00') {
-            return (new Carbon($this->due_date))->diffForHumans();
-        } else {
-            return "No due date set";
-        }
-    }
-
-    public function dueDateFormat($format = 'm/d/Y')
-    {
-        if ($this->due_date !== '0000-00-00') {
-            return (new Carbon($this->due_date))->format($format);
-        } else {
-            return "No due date set";
-        }
-    }
-
-    public function createdAt()
-    {
-        return $this->created_at->diffForHumans();
-    }
-
-    public function createdAtFormat($format = 'm/d/Y')
-    {
-        return $this->created_at->format($format);
-    }
-
-    public function updatedAt()
-    {
-        return $this->updated_at->diffForHumans();
-    }
-
-    public function updatedAtFormat($format = 'm/d/Y')
-    {
-        return $this->updated_at->format($format);
-    }
+class ContentPresenter extends BasePresenter
+{
+    use UpdatedAtPresenter, CreatedAtPresenter, DueDatePresenter;
 
     public function title()
     {
