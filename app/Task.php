@@ -9,7 +9,6 @@ use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 use Laracasts\Presenter\PresentableTrait;
-use Log;
 
 class Task extends Model
 {
@@ -135,7 +134,6 @@ class Task extends Model
         $this->assignedUsers()->sync($userIds);
 
         $newUsers->each(function($user) {
-            Log::info([ 'user' => $user->name ]);
             $this->sendAssignedEmails($user);
         });
     }
@@ -162,7 +160,7 @@ class Task extends Model
         Mail::send('emails.task_assignment', [ 'task' => $this ], function($message) use ($user) {
             $message->from("no-reply@contentlaunch.com", "Content Launch")
                 ->to($user->email)
-                ->subject('You were assigned to the task ' . $this->name);
+                ->subject('Task assigned to you: ' . $this->name);
         });
     }
 
