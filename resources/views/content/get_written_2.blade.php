@@ -41,8 +41,8 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label class="radio-secondary">
-                                            <input name='target_audience' value='Prospect Customers' type="radio">
-                                            <span>Prospect Customers</span>
+                                            <input name='target_audience' value='Prospects' type="radio">
+                                            <span>Prospects</span>
                                         </label>
                                     </div>
                                     <div class="col-md-4">
