@@ -16,14 +16,33 @@ class ContentPresenter extends Presenter {
         }
     }
 
+    public function dueDateFormat($format = 'm/d/Y')
+    {
+        if ($this->due_date !== '0000-00-00') {
+            return (new Carbon($this->due_date))->format($format);
+        } else {
+            return "No due date set";
+        }
+    }
+
     public function createdAt()
     {
         return $this->created_at->diffForHumans();
     }
 
+    public function createdAtFormat($format = 'm/d/Y')
+    {
+        return $this->created_at->format($format);
+    }
+
     public function updatedAt()
     {
         return $this->updated_at->diffForHumans();
+    }
+
+    public function updatedAtFormat($format = 'm/d/Y')
+    {
+        return $this->updated_at->format($format);
     }
 
     public function title()
