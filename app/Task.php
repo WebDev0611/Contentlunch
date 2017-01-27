@@ -5,9 +5,11 @@ namespace App;
 use App\Account;
 use App\Presenters\TaskPresenter;
 use App\User;
-use Illuminate\Database\Eloquent\Model;
-use Laracasts\Presenter\PresentableTrait;
 use Auth;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
+use Laracasts\Presenter\PresentableTrait;
+use Log;
 
 class Task extends Model
 {
@@ -124,6 +126,44 @@ class Task extends Model
         return (boolean) $this->assignedUsers()
             ->where('users.id', $user->id)
             ->count();
+    }
+
+    public function assignUsers(array $userIds)
+    {
+        $newUsers = $this->newUsers($userIds);
+
+        $this->assignedUsers()->sync($userIds);
+
+        $newUsers->each(function($user) {
+            Log::info([ 'user' => $user->name ]);
+            $this->sendAssignedEmails($user);
+        });
+    }
+
+    protected function newUsers($userIds)
+    {
+        $currentAssignedUsers = $this->assignedUsers()->get()->map(function($user) {
+            return $user->id;
+        });
+
+        $newUsers = collect($userIds)
+            ->filter(function($userId) use ($currentAssignedUsers) {
+                return $currentAssignedUsers->search($userId) === false;
+            })
+            ->map(function($userId) {
+                return User::find($userId);
+            });
+
+        return $newUsers;
+    }
+
+    protected function sendAssignedEmails($user)
+    {
+        Mail::send('emails.task_assignment', [ 'task' => $this ], function($message) use ($user) {
+            $message->from("no-reply@contentlaunch.com", "Content Launch")
+                ->to($user->email)
+                ->subject('You were assigned to the task ' . $this->name);
+        });
     }
 
     public function close()
