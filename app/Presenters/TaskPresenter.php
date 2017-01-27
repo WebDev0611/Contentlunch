@@ -16,6 +16,15 @@ class TaskPresenter extends Presenter {
         }
     }
 
+    public function dueDateFormat()
+    {
+        if (!$this->isEmptyDate($this->due_date)) {
+            return (new Carbon($this->due_date))->format('m/d/Y');
+        } else {
+            return "No due date set";
+        }
+    }
+
     public function startDate()
     {
         if (!$this->isEmptyDate($this->start_date)) {
