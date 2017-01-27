@@ -48,10 +48,16 @@
                                 <div class="input-form-group">
                                     <label for="start_date">START DATE</label>
                                     <div class='input-group date datetimepicker'>
-                                        {!! Form::text('start_date', @isset($task)? $task->start_date : '', array('class' => ' input form-control', 'id' => 'start_date')) !!}
-                                        <span class="input-group-addon">
-                                            <i class="icon-calendar picto"></i>
-                                        </span>
+                                        {!!
+                                            Form::text(
+                                                'start_date',
+                                                @isset($task) ? $task->present()->startDateFormat() : '',
+                                                [
+                                                    'class' => 'input input-calendar',
+                                                    'placeholder' => 'Select start date',
+                                                    'id' => 'start_date'
+                                                ])
+                                        !!}
                                     </div>
 
                                 </div>
@@ -61,10 +67,16 @@
                                 <div class="input-form-group">
                                     <label for="due_date">DUE DATE</label>
                                     <div class='input-group date datetimepicker'>
-                                        {!! Form::text('due_date', @isset($task)? $task->due_date : '', array('class' => ' input form-control', 'id' => 'due_date')) !!}
-                                        <span class="input-group-addon">
-                                            <i class="icon-calendar picto"></i>
-                                        </span>
+                                        {!!
+                                            Form::text(
+                                                'due_date',
+                                                @isset($task)? $task->present()->dueDateFormat : '',
+                                                [
+                                                    'class' => ' input input-calendar',
+                                                    'placeholder' => 'Select due date',
+                                                    'id' => 'due_date'
+                                                ])
+                                        !!}
                                     </div>
 
                                 </div>
@@ -167,6 +179,5 @@
 
 @section('scripts')
 <script type='text/javascript' src="/js/task_editor.js"></script>
-
 @stop
 

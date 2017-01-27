@@ -1,4 +1,7 @@
-(function($){
+(function($) {
+
+    setUpDatepickers();
+
     var taskForm = {
         notify: $('<div class="alert alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button><div id="task-status-text"></div></div>'),
 
@@ -93,4 +96,16 @@
             $('#addTaskModal').modal('hide');
         }
     });
+
+    function setUpDatepickers() {
+        $('#start_date').datetimepicker({
+            format: 'YYYY-MM-DD',
+            sideBySide: true,
+        });
+
+        $('#due_date').datetimepicker({
+            format: 'YYYY-MM-DD',
+            sideBySide: true,
+        });
+    }
 })(jQuery);
