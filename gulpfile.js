@@ -89,7 +89,8 @@ elixir(function (mix) {
             .babel('resources/assets/js/dashboard/performance.js', "public/js/performance.js")
 
             /* settings scripts */
-            .babel('resources/assets/js/settings/*.js', 'public/js/settings.js')
+            .babel('resources/assets/js/settings/content/*.js', 'public/js/content-settings.js')
+            .babel('resources/assets/js/settings/account/*.js', 'public/js/account-settings.js')
 
             /* task editor */
             .babel('resources/assets/js/task/*.js', 'public/js/task_editor.js')

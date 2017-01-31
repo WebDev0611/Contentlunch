@@ -177,6 +177,8 @@ Route::group([ 'middleware' => 'auth' ], function() {
         Route::post('buying_stages', 'Settings\BuyingStagesController@create');
         Route::get('buying_stages', 'Settings\BuyingStagesController@index');
         Route::delete('buying_stages/{buyingStage}', 'Settings\BuyingStagesController@delete');
+
+        Route::get('account', [ 'as' => 'settingsAccount', 'uses' => 'AccountSettingsController@index' ]);
     });
 
     Route::group(['prefix' => 'writeraccess'], function() {
