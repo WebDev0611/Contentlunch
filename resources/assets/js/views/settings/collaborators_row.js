@@ -61,7 +61,30 @@ var collaborator_row = Backbone.View.extend({
                 headers: getCSRFHeader(),
             });
         })
-        .then(response => { this.$el.remove(); })
-        .catch(() => {})
+        .then(response => this.$el.remove())
+        .catch(response => {
+            if (_.isObject(response)) {
+                this.$el.animate({ opacity: 1.0}, 200);
+                this.showErrorFeedback(response.status);
+            }
+        });
+    },
+
+    showErrorFeedback(status) {
+        let message = 'There was an unexpected error while trying to remove this user.';
+
+        switch (status) {
+            case 404:
+                message = 'The user does not belong to that account.';
+                break;
+
+            case 403:
+                message = 'You cannot remove yourself from the account.';
+                break;
+
+            default:
+        }
+
+        return swal('Error', message, 'error');
     },
 });
