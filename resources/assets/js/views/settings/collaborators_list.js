@@ -5,8 +5,9 @@ var collaborators_list = Backbone.View.extend({
         <table class="table table-list">
             <thead>
                 <tr>
-                    <th>Collaborator</th>
                     <th></th>
+                    <th>Collaborator</th>
+                    <th colspan=2></th>
                 </tr>
             </thead>
             <tbody>
@@ -15,22 +16,22 @@ var collaborators_list = Backbone.View.extend({
         </table>
     `),
 
-    initialize: function initialize() {
+    initialize() {
         this.listenTo(this.collection, "change", this.render);
         this.listenTo(this.collection, "update", this.render);
     },
 
-    render: function render() {
+    render() {
         this.$el.html(this.template());
 
         this.collection.models.forEach(collaborator => {
             let model = new CollaboratorModel(collaborator);
             let view = new collaborator_row({ model });
-            view.render();
 
-            this.$el.find('tbody').append(view.el);
+            this.$('tbody').append(view.render().$el);
+            view.delegateEvents();
         });
 
         return this;
-    }
+    },
 });
