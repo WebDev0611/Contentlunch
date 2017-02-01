@@ -241,6 +241,7 @@ Route::group([ 'middleware' => 'auth' ], function() {
     Route::get('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@index');
     Route::post('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@update');
     Route::get('/api/account/members', 'AccountCollaboratorsController@index');
+    Route::delete('/api/account/members/{id}', 'AccountCollaboratorsController@delete');
     Route::get('/api/tasks', 'TaskController@index');
     Route::post('/api/trends/share/{connection}', [ 'as' => 'trendShare', 'uses' => 'ContentController@trendShare' ]);
     Route::post('/search', [ 'as' => 'searchIndex', 'uses' => 'SearchController@index' ]);
