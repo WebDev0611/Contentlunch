@@ -43,8 +43,25 @@ var collaborator_row = Backbone.View.extend({
     },
 
     removeUser() {
-        console.log('piroca');
-        let id = this.model.get('id');
-        console.log('id: ' + id);
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        })
+        .then(() => {
+            this.$el.animate({ opacity: 0.5 }, 200);
+
+            return $.ajax({
+                url: '/api/account/members/' + this.model.get('id'),
+                method: 'delete',
+                headers: getCSRFHeader(),
+            });
+        })
+        .then(response => { this.$el.remove(); })
+        .catch(() => {})
     },
 });
