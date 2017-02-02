@@ -12,6 +12,7 @@ use App\ContentType;
 use App\Helpers;
 use App\Http\Requests\Content\ContentRequest;
 use App\Persona;
+use App\Presenters\CampaignPresenter;
 use App\Tag;
 use App\User;
 use App\WriterAccessPrice;
@@ -110,7 +111,7 @@ class ContentController extends Controller
         $pricesJson = json_encode($reformedPrices);
 
         $contenttypedd = ContentType::dropdown();
-        $campaigndd = Campaign::dropdown();
+        $campaigndd = CampaignPresenter::dropdown();
 
         $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd');
 
@@ -232,7 +233,7 @@ class ContentController extends Controller
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
             'personaDropdown' => Persona::dropdown(),
-            'campaignDropdown' => Campaign::dropdown(),
+            'campaignDropdown' => CampaignPresenter::dropdown(),
             'connections' => Connection::dropdown(),
             'contentTypeDropdown' => ContentType::dropdown(),
         ];
@@ -253,7 +254,7 @@ class ContentController extends Controller
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
             'personaDropdown' => Persona::dropdown(),
-            'campaignDropdown' => Campaign::dropdown(),
+            'campaignDropdown' => CampaignPresenter::dropdown(),
             'connections' => Connection::dropdown(),
             'contentTypeDropdown' => ContentType::dropdown(),
             'files' => $content->attachments()->where('type', 'file')->get(),
