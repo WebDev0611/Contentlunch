@@ -79,7 +79,7 @@
                 {!!
                     Form::select(
                         'campaign-type',
-                        $campaigntypedd,
+                        $campaignTypesDropdown,
                         @isset($campaign)? $campaign->campaign_type_id : '',
                         [
                             'class' => 'input selectpicker form-control',

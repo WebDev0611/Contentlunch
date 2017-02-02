@@ -89,7 +89,7 @@
 
 </div>
 <script>
-    var campaign_types = {!! $campaign_types !!};
+    var campaign_types = {!! $campaignTypes !!};
     var campaign = {!! $campaign->toJson() !!};
 </script>
 @stop

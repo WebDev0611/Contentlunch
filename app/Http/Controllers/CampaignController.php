@@ -13,14 +13,15 @@ class CampaignController extends Controller
 {
     public function index()
     {
-        $campaign_types = CampaignType::all();
-
-        return view('campaign.index', [
+        $data = [
             'campaign' => new Campaign(),
-            'contents' => Content::take(5)->get(),
-            'campaigntypedd' => CampaignTypePresenter::dropdown(),
-            'campaign_types' => $campaign_types->toJson(),
-        ]);
+            'readyToPublishContent' => collect([]),
+            'beingWrittenContent' => collect([]),
+            'campaignTypesDropdown' => CampaignTypePresenter::dropdown(),
+            'campaignTypes' => CampaignType::all()->toJson(),
+        ];
+
+        return view('campaign.index', $data);
     }
 
     /*
