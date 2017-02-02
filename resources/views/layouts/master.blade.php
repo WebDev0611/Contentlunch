@@ -40,7 +40,6 @@
                     <p>Start writing your content or have our team of writers do it for you!</p>
                 </a>
             </li>
-            <!--
             <li class="third">
                 <a href="/campaign">
                     <i class="icon-alert"></i>
@@ -48,6 +47,7 @@
                     <p>Branding campaign? Product launch? Trade show? Capture it here!</p>
                 </a>
             </li>
+            <!--
             <li class="fourth">
                 <a href="/calendar">
                     <i class="icon-calendar"></i>
