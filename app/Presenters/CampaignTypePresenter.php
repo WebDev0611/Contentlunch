@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 
+use App\CampaignType;
 use Laracasts\Presenter\Presenter;
 
 class CampaignTypePresenter extends Presenter
