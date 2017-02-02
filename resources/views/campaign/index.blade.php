@@ -62,7 +62,7 @@
             </ul>
 
             <!-- Panel Container -->
-            <div class="panel-container nopadding relative">
+            <div class="panel-container relative">
 
                 <!-- Tab Content -->
                 <div class="tab-content">
