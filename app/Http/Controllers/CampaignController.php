@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Campaign;
 use App\CampaignType;
+use App\Content;
 use App\Presenters\CampaignTypePresenter;
 use Auth;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class CampaignController extends Controller
 
         return view('campaign.index', [
             'campaign' => new Campaign(),
+            'contents' => Content::take(5)->get(),
             'campaigntypedd' => CampaignTypePresenter::dropdown(),
             'campaign_types' => $campaign_types->toJson(),
         ]);
