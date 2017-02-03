@@ -3,12 +3,12 @@
         <label for="#">CAMPAIGN TITLE</label>
         {!!
             Form::text(
-                'campaign-title',
+                'title',
                 @isset($campaign) ? $campaign->title : '',
                 [
                     'placeholder' => 'Enter campaign title',
                     'class' => 'input input-larger form-control',
-                    'id' => 'campaign-title'
+                    'id' => 'campaign-title',
                 ])
         !!}
     </div>
@@ -21,11 +21,12 @@
                     <i class="icon-calendar picto"></i>
                     {!!
                         Form::text(
-                            'start-date',
+                            'start_date',
                             @isset($campaign) ? $campaign->start_date : '',
                             [
                                 'class' => 'input form-control',
-                                'id' => 'start-date'
+                                'id' => 'start-date',
+                                'name' => 'start_date',
                             ])
                     !!}
                 </div>
@@ -39,11 +40,11 @@
                     <i class="icon-calendar picto"></i>
                     {!!
                         Form::text(
-                            'end-date',
+                            'end_date',
                             @isset($campaign) ? $campaign->end_date : '',
                             [
                                 'class' => 'input form-control',
-                                'id' => 'end-date'
+                                'id' => 'end-date',
                             ])
                     !!}
                 </div>
@@ -57,32 +58,43 @@
                 <label for="#">CAMPAIGN TYPE</label>
                 {!!
                     Form::select(
-                        'campaign-type',
+                        'type',
                         $campaignTypesDropdown,
                         @isset($campaign)? $campaign->campaign_type_id : '',
                         [
                             'class' => 'input selectpicker form-control',
                             'id' => 'campaign-types',
-                            'title' => 'Choose Campaign Type'
+                            'title' => 'Choose Campaign Type',
                         ])
                 !!}
             </div>
         </div>
+        {{--
         <div class="col-sm-4">
             <div class="input-form-group">
                 <label for="#">CAMPAIGN BUDGET</label>
                 <input type="text" name="campaign-budget" class="input input-larger" placeholder="Enter budget in USD" value="">
             </div>
         </div>
+        --}}
         <div class="col-sm-4">
             <div class="input-form-group">
                 <label for="#">STATUS</label>
-                <select name="" class="input" >
-                    <option selected disabled>Set campaign status</option>
-                    <option>Active</option>
-                    <option>Paused</option>
-                    <option>Inactive</option>
-                </select>
+                {!!
+                    Form::select(
+                        'status',
+                        [
+                            '0' => 'Inactive',
+                            '1' => 'Active',
+                            '2' => 'Paused',
+                        ],
+                        null,
+                        [
+                            'placeholder' => 'Set Campaign status',
+                            'class' => 'input',
+                        ]
+                    )
+                !!}
             </div>
         </div>
     </div>
@@ -90,12 +102,12 @@
         <label for="#">CAMPAIGN DESCRIPTION</label>
         {!!
             Form::textarea(
-                'campaign-description',
+                'description',
                 @isset($campaign) ? $campaign->description : '',
                 [
                     'placeholder' => 'Enter Campaign Description',
                     'class' => 'input input-larger form-control',
-                    'id' => 'campaign-description'
+                    'id' => 'campaign-description',
                 ])
         !!}
     </div>
@@ -103,7 +115,7 @@
         <label for="#">CAMPAIGN GOALS</label>
         {!!
             Form::textarea(
-                'campaign-goals',
+                'goals',
                 @isset($campaign)? $campaign->goals : '',
                 [
                     'placeholder' => 'Enter Campaign Goals',
@@ -112,10 +124,13 @@
                 ])
         !!}
     </div>
+    {{--
     <div class="input-form-group">
         <label for="#">TAGS</label>
         <input type="text" name="campaign-tags" class="input input-larger" placeholder="Enter one or more tags">
     </div>
+    --}}
+
     <!-- Attachments -->
     <div class="form-delimiter">
         <span>
