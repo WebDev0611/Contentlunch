@@ -11,10 +11,10 @@
 
             <!-- Content Tabs -->
             <ul class="panel-tabs centered even withborder">
-                <li class="active">
+                <li class="">
                     <a href="#contenttab-content" role="tab" data-toggle="tab">Content</a>
                 </li>
-                <li>
+                <li class='active'>
                     <a href="#contenttab-campaign" role="tab" data-toggle="tab">Campaign Editor</a>
                 </li>
             </ul>
@@ -26,12 +26,12 @@
                 <div class="tab-content">
 
                     <!-- Tab1: Content -->
-                    <div role="tabpanel" class="tab-pane active" id="contenttab-content">
+                    <div role="tabpanel" class="tab-pane" id="contenttab-content">
                         @include('campaign.partials.content_tab')
                     </div>
 
                     <!-- Tab2: Campaign Info -->
-                    <div role="tabpanel" class="tab-pane" id="contenttab-campaign">
+                    <div role="tabpanel" class="tab-pane active" id="contenttab-campaign">
                         @include('campaign.partials.header')
                         @include('campaign.partials.campaign_tab')
                     </div>

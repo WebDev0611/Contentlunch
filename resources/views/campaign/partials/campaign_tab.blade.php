@@ -54,27 +54,6 @@
     <div class="row">
         <div class="col-sm-4">
             <div class="input-form-group">
-                <label for="#">OTHER DATE 1</label>
-                <div class="form-suffix">
-                    <i class="icon-calendar picto"></i>
-                    <input type="text" class="input"  id="other-date-1" placeholder="Select date">
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="input-form-group">
-                <label for="#">OTHER DATE 2</label>
-                <div class="form-suffix">
-                    <i class="icon-calendar picto"></i>
-                    <input type="text" class="input" id="other-date-2" placeholder="Select date">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="input-form-group">
                 <label for="#">CAMPAIGN TYPE</label>
                 {!!
                     Form::select(
