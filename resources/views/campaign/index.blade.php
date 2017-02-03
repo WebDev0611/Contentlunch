@@ -32,8 +32,10 @@
 
                     <!-- Tab2: Campaign Info -->
                     <div role="tabpanel" class="tab-pane active" id="contenttab-campaign">
-                        @include('campaign.partials.header')
-                        @include('campaign.partials.campaign_tab')
+                        {{ Form::open([ 'url' => '/campaign' ]) }}
+                            @include('campaign.partials.header')
+                            @include('campaign.partials.campaign_tab')
+                        {{ Form::close() }}
                     </div>
 
                 </div> <!-- End Tab Content -->

@@ -89,6 +89,7 @@ Route::group([ 'middleware' => 'auth' ], function() {
     Route::get('/calendar/{year}/{month}','CalendarController@index');
 
     Route::get('/campaign','CampaignController@index');
+    Route::post('/campaign', 'CampaignController@create');
     Route::post('/campaign/create','CampaignController@create');
 
     Route::get('/campaign/edit/{campaign}','CampaignController@edit');

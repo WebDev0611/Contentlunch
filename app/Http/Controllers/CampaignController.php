@@ -8,6 +8,7 @@ use App\Content;
 use App\Presenters\CampaignTypePresenter;
 use Auth;
 use Illuminate\Http\Request;
+use Validator;
 
 class CampaignController extends Controller
 {
@@ -24,13 +25,15 @@ class CampaignController extends Controller
         return view('campaign.index', $data);
     }
 
-    /*
-        needs validation!
-        needs error handling
-    */
     public function create(Request $request)
     {
-        $campaign = Campaign::create([
+        $validation = $this->createValidation($request->all());
+
+        if ($validation->fails()) {
+            return redirect('/campaign')->with('errors', $validation->errors());
+        }
+
+        $campaign = Account::selected()->campaigns()->create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'start_date' => $request->input('start_date'),
@@ -39,11 +42,20 @@ class CampaignController extends Controller
             'campaign_type_id' => (int) $request->input('type'),
             'status' => (int) $request->input('status'),
             'user_id' => Auth::id(),
-            // 'budget' => $request->input('budget'),
-            // 'tags' => $request->input('tags'),
         ]);
 
-        return response()->json($campaign);
+        return redirect('/campaign')->with([
+            'flash_message' => "Campaign created: $campaign->title",
+            'flash_message_type' => 'success',
+        ]);
+    }
+
+    protected function createValidation(array $requestData)
+    {
+        return Validator::make($requestData, [
+            'title' => 'required',
+            'status' => 'required',
+        ]);
     }
 
     public function edit(Request $request, $id = null)

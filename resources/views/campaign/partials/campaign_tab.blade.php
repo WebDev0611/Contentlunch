@@ -1,4 +1,6 @@
 <div class="inner toppadded">
+    @include('partials.error')
+
     <div class="input-form-group">
         <label for="#">CAMPAIGN TITLE</label>
         {!!
@@ -80,15 +82,18 @@
         <div class="col-sm-4">
             <div class="input-form-group">
                 <label for="#">STATUS</label>
+                @php
+                    $options = [
+                        '0' => 'Inactive',
+                        '1' => 'Active',
+                        '2' => 'Paused',
+                    ];
+                @endphp
                 {!!
                     Form::select(
                         'status',
-                        [
-                            '0' => 'Inactive',
-                            '1' => 'Active',
-                            '2' => 'Paused',
-                        ],
-                        null,
+                        $options,
+                        '0',
                         [
                             'placeholder' => 'Set Campaign status',
                             'class' => 'input',

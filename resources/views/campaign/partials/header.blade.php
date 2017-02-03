@@ -2,10 +2,11 @@
     <div class="row">
         <div class="col-md-offset-6 col-md-6 text-right">
             <div class="head-actions">
-                <button
-                    type="button"
-                    class="button button-outline-secondary button-small delimited"
-                    id="save-campaign-button">SAVE</button>
+                {{
+                    Form::submit('SAVE', [
+                        'class' => 'button button-outline-secondary button-small delimited',
+                    ])
+                }}
 
                 <div class="btn-group">
                     <button
