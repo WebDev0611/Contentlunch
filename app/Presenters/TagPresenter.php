@@ -2,10 +2,10 @@
 
 namespace App\Presenters;
 
+use App\Presenters\Helpers\BasePresenter;
 use App\Tag;
-use Laracasts\Presenter\Presenter;
 
-class TagPresenter extends Presenter
+class TagPresenter extends BasePresenter
 {
     public static function dropdown()
     {
