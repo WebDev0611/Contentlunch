@@ -1,13 +1,15 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+use App\Task;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-use App\Task;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class TaskTest extends TestCase
 {
+    use MailTracking;
+
     public function setUp()
     {
         parent::setUp();
@@ -48,5 +50,35 @@ class TaskTest extends TestCase
     {
         $this->assertEquals(1, Task::search('this is the new narrative', $this->account)->count());
         $this->assertEquals(1, Task::search('this is the gran finale', $this->account)->count());
+    }
+
+    public function testSendsEmailsToAssignedUsers()
+    {
+        $userA = factory(User::class)->create([ 'name' => 'User A', 'email' => 'userA@test.com' ]);
+        $userB = factory(User::class)->create([ 'name' => 'User B', 'email' => 'userB@test.com' ]);
+        $userC = factory(User::class)->create([ 'name' => 'User C', 'email' => 'userC@test.com' ]);
+        $userD = factory(User::class)->create([ 'name' => 'User D', 'email' => 'userD@test.com' ]);
+
+        $task = factory(Task::class)->create();
+        $task->assignedUsers()->attach([ $userA->id, $userB->id ]);
+
+        $this->assertEquals(2, $task->assignedUsers()->count());
+
+        $this->assertTrue($task->hasAssignedUser($userA));
+        $this->assertTrue($task->hasAssignedUser($userB));
+        $this->assertFalse($task->hasAssignedUser($userC));
+        $this->assertFalse($task->hasAssignedUser($userD));
+
+        $task->assignUsers([ $userA->id, $userC->id ]);
+
+        $this->seeEmailsSent(1);
+        $this->seeEmailTo($userC->email);
+
+        $this->assertEquals(2, $task->assignedUsers()->count());
+
+        $this->assertTrue($task->hasAssignedUser($userA));
+        $this->assertFalse($task->hasAssignedUser($userB));
+        $this->assertTrue($task->hasAssignedUser($userC));
+        $this->assertFalse($task->hasAssignedUser($userD));
     }
 }
