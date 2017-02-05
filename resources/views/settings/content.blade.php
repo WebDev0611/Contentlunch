@@ -47,7 +47,6 @@
 
 @section('scripts')
 <script src="/js/content-settings.js"></script>
-@stop
 
 <script type="text/javascript">
     $(function(){
@@ -61,3 +60,5 @@
         }
     });
 </script>
+@stop
+

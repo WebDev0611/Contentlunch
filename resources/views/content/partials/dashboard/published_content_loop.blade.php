@@ -20,7 +20,7 @@
     </div>
     <div class="create-panel-table-cell text-right cell-size-15">
         <span class="dashboard-performing-text small">
-            UPDATED: <strong>{{ strtoupper($content->present()->updatedAt) }}</strong>
+            UPDATED: <strong>{{ strtoupper($content->present()->updatedAtFormat) }}</strong>
         </span>
     </div>
 </div>

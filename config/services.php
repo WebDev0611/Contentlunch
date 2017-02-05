@@ -49,5 +49,11 @@ return [
         'client_id' => env('WORDPRESS_CLIENT_ID'),
         'client_secret' => env('WORDPRESS_CLIENT_SECRET'),
         'redirect' => env('WORDPRESS_REDIRECT')
-    ]
+    ],
+
+    'hubspot' => [
+        'client_id' => env('HUBSPOT_CLIENT_ID'),
+        'client_secret' => env('HUBSPOT_CLIENT_SECRET'),
+        'redirect' => env('HUBSPOT_REDIRECT')
+    ],
 ];
