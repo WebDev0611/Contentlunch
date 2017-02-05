@@ -46,7 +46,7 @@
 @stop
 
 @section('scripts')
-<script src="/js/settings.js"></script>
+<script src="/js/content-settings.js"></script>
 
 <script type="text/javascript">
     $(function(){

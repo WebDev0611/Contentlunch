@@ -5,8 +5,11 @@
     <li class="{{ (Request::is('settings/connections') ? 'active' : '') }}">
         <a  href="{{ route('connectionIndex') }}">Content Connections</a>
     </li>
-    <li class="{{ Request::is('settings/content') ? 'active' : '' }}">
+    <li class="{{ Request::is('settings/buying') ? 'active' : '' }}">
         <a  href="{{ route('settingsBuyingIndex') }}">Content Settings</a>
+    </li>
+    <li class="{{ Request::is('settings/account') ? 'active' : '' }}">
+        <a href="{{ route('settingsAccount') }}">Account Settings</a>
     </li>
     <!--
     <li class="{{ (Request::is('settings/seo') ? 'active' : '') }}">
