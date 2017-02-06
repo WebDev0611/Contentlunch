@@ -67,6 +67,15 @@
   &.purple {
     background: #6944b7;
   }
+  &.icon-type-blog, &.icon-type-hubspot {
+    background: #16588d;
+  }
+  &.icon-type-facebook {
+    background: #3E5B99;
+  }
+  &.icon-type-twitter {
+    background: #1DA1F2;
+  }
 }
 
 .calendar-task-list-icon-plain {

@@ -242,4 +242,6 @@ Route::group([ 'middleware' => 'auth' ], function() {
     Route::get('/api/tasks', 'TaskController@index');
     Route::post('/api/trends/share/{connection}', [ 'as' => 'trendShare', 'uses' => 'ContentController@trendShare' ]);
     Route::post('/search', [ 'as' => 'searchIndex', 'uses' => 'SearchController@index' ]);
+    Route::get('/api/content-types', 'ContentController@getContentTypes');
+
 });

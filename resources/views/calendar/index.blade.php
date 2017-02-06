@@ -57,8 +57,8 @@
     <% 
     var _icon = 'primary icon-idea';
     if(type == 'task') _icon = 'secondary icon-arrange-mini'
-    if(type == 'content') _icon = 'primary icon-content-alert'
     if(type == 'idea') _icon = 'purple icon-idea'
+    if(type == 'content') _icon = type_class
     %>
       <i class="calendar-task-list-icon <%= _icon %>"></i>
       <%= title %>
@@ -99,10 +99,10 @@
               <span class="active">
                   <i class="icon-idea"></i>
               </span>
-              <span <% if (type == 'content' && (content_status == 'written' || content_status == 'ready_published')) { %> class="active" <% } %>>
+              <span <% if (type == 'content' && (content_status == 'written' || content_status == 'ready_published' || content_status == 'published')) { %> class="active" <% } %>>
                   <i class="icon-edit-content"></i>
               </span>
-              <span <% if (type == 'content' && content_status == 'ready_published') { %> class="active" <% } %>>
+              <span <% if (type == 'content' && (content_status == 'ready_published' || content_status == 'published')) { %> class="active" <% } %>>
                   <i class="icon-content-alert"></i>
               </span>
               <span <% if (type == 'content' && content_status == 'published') { %> class="active" <% } %>>

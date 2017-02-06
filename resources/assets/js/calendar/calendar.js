@@ -217,12 +217,21 @@
 
 
         // Content
+        let cotent_types = new content_type_collection();
+        cotent_types.fetch().then(response => cotent_types.reset(response));
+        let types = [];
+
+        cotent_types.on('update', function (type) {
+            type.forEach(function (i) {
+                types.push(i.toJSON());
+            });
+        });
+
         var my_content = new content_collection();
         my_content.fetch().then(response => my_content.reset(response));
-
         my_content.on('update', function (content) {
             // Exclude wrong content
-            content = new task_collection(content.toJSON().map(content_map).filter(function(c) {
+            content = new task_collection(content.toJSON().map(content_map).filter(function (c) {
                 return c.content_status !== null;
             }));
             content.forEach(function (i) {
@@ -232,27 +241,34 @@
         });
 
         function content_map(c) {
-            // TODO make published content appear on published date, and unpublished content on due date
+            // TODO make published content appear on published date, and unpublished content on creation date
             c.date = c.created_at;
             c.type = 'content';
             c.details_url = '/edit/' + c.id;
             c.explanation = c.body.substr(0, 140) + ' ...';
             c.due = moment(c.due_date).format('MM/DD/YYYY');
 
-            if(c.published == '1') {
+            // Published status
+            if (c.published == '1') {
                 c.content_status = 'published';
                 c.content_status_text = 'published';
             }
-            else if(c.ready_published == '1') {
+            else if (c.ready_published == '1') {
                 c.content_status = 'ready_published';
                 c.content_status_text = 'ready for publishing';
             }
-            else if(c.written == '1') {
+            else if (c.written == '1') {
                 c.content_status = 'written';
                 c.content_status_text = 'being written';
             } else {
                 c.content_status = null;
             }
+
+            // Get content type slug
+            var type = $.grep(types, function (e) {
+                return e.id == c.content_type_id;
+            });
+            c.type_class = (type[0] != null) ? 'icon-type-' + type[0].provider.slug : 'primary icon-content-alert';
 
             // TODO content user
             c.author = 'Ivo'; //i.user.name;
@@ -263,18 +279,26 @@
             return c;
         }
 
+        function fetchContentTypes() {
+            return $.ajax({
+                url: '/api/content-types',
+                method: 'get',
+                headers: getJsonHeader(),
+            })
+        }
+
 
         /*
-        my_content.on('update', function (c) {
-            $('#calendar-content-list').html('');
-            my_content.each(function (m) {
-                var c_v = new calendar_content_view({model: m});
-                $('#calendar-content-list').append(c_v.render().$el);
-            });
-            console.log(c.toJSON());
-        });
-        my_content.fetch();
-        */
+         my_content.on('update', function (c) {
+         $('#calendar-content-list').html('');
+         my_content.each(function (m) {
+         var c_v = new calendar_content_view({model: m});
+         $('#calendar-content-list').append(c_v.render().$el);
+         });
+         console.log(c.toJSON());
+         });
+         my_content.fetch();
+         */
 
 
         // Render

@@ -265,6 +265,10 @@ class ContentController extends Controller
         return view('content.editor', $data);
     }
 
+    public function getContentTypes() {
+        return ContentType::with('provider')->get();
+    }
+
     protected function ensureCollaboratorsExists(Content $content)
     {
         if ($content->collaborators->isEmpty()) {
@@ -579,4 +583,5 @@ class ContentController extends Controller
             'file' => 'image|max:3000',
         ]);
     }
+
 }
