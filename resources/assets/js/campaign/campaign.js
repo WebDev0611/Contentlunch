@@ -9,7 +9,7 @@
         $('#end-date').datetimepicker({ format });
     }
 
-    let collaborators = new team_members_collection();
+    let collaborators = new CampaignCollaboratorsCollection();
 
     collaborators.on('add', collaborator => {
         let model = new CollaboratorModel(collaborator);
@@ -18,23 +18,11 @@
     });
 
     if (campaign && campaign.id) {
-        fetchCampaignCollaborators(campaign.id)
-            .then(populateCollaboratorsList);
-    }
-
-    function fetchCampaignCollaborators(campaignId) {
-        return $.ajax({
-            url: `/api/campaigns/${campaignId}/collaborators`,
-            headers: getJsonHeader(),
+        collaborators.populateList(campaign.id).then(response => {
+            if (response.data.length) {
+                $('#collaborators-sidebar-alert').slideUp('fast');
+            }
         });
-    }
-
-    function populateCollaboratorsList(response) {
-        if (response.data.length) {
-            $('#collaborators-sidebar-alert').slideUp('fast');
-            collaborators.remove(collaborators.models);
-            collaborators.add(response.data);
-        }
     }
 
 })();
