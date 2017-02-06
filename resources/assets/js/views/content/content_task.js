@@ -3,12 +3,13 @@
 var ContentTaskView = Backbone.View.extend({
     events: {
         'click .task-remove': 'removeTask',
+        'click .checkcircle': 'closeTask',
     },
 
     template: _.template(`
         <div class="task">
             <div class="body">
-                <div class="checkcircle">
+                <div class="checkcircle pointer">
                     <i class="icon-check-light"></i>
                 </div>
 
@@ -16,7 +17,12 @@ var ContentTaskView = Backbone.View.extend({
                     <img src="<%= user.profile_image %>" alt="<%= user.name %>" title="<%= user.name %>">
                 </div>
 
-                <p class="title"><%= name %></p>
+                <p class="title">
+                    <a href="/task/show/<%= id %>">
+                        <%= name %>
+                    </a>
+                </p>
+
                 <p><%= due_date_diff %></p>
             </div>
 
@@ -33,13 +39,13 @@ var ContentTaskView = Backbone.View.extend({
                         <legend class="form-legend">Assigned</legend>
                         <ul class="images-list pull-left">
                             <li>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </li>
                             <li>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </li>
                             <li>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </li>
                         </ul>
                         <div class="dropdown pull-right">
@@ -64,25 +70,25 @@ var ContentTaskView = Backbone.View.extend({
                                     <label for="Friend" class="checkbox-image">
                                         <input id="Friend" type="checkbox">
                                         <span>
-                                            <img src="/images/avatar.jpg" alt="#">
+                                            <img src="/images/cl-avatar2.png" alt="#">
                                         </span>
                                     </label>
                                     <label for="Friend" class="checkbox-image">
                                         <input id="Friend" type="checkbox">
                                         <span>
-                                            <img src="/images/avatar.jpg" alt="#">
+                                            <img src="/images/cl-avatar2.png" alt="#">
                                         </span>
                                     </label>
                                     <label for="Friend" class="checkbox-image">
                                         <input id="Friend" type="checkbox">
                                         <span>
-                                            <img src="/images/avatar.jpg" alt="#">
+                                            <img src="/images/cl-avatar2.png" alt="#">
                                         </span>
                                     </label>
                                     <label for="Friend" class="checkbox-image">
                                         <input id="Friend" type="checkbox">
                                         <span>
-                                            <img src="/images/avatar.jpg" alt="#">
+                                            <img src="/images/cl-avatar2.png" alt="#">
                                         </span>
                                     </label>
                                 </li>
@@ -117,6 +123,18 @@ var ContentTaskView = Backbone.View.extend({
         this.$el.html(this.template(this.model.attributes));
 
         return this;
+    },
+
+    closeTask() {
+        let taskId = this.model.get('id');
+
+        this.$el.find('.task').addClass('completed');
+
+        return $.ajax({
+            method: 'post',
+            headers: getJsonHeader(),
+            url: `/task/close/${taskId}`,
+        });
     },
 
     removeTask() {

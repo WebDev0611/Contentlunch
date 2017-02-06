@@ -81,11 +81,14 @@
                 <!-- Panel Container -->
                 <div class="panel-container padded relative">
                     <!-- Stages widget -->
+                    @php
+                        $status = $content->present()->contentStatusIcon();
+                    @endphp
                     <ul class="list-unstyled list-stages list-stages-side">
-                        <li><i class="icon-connect"></i></li>
-                        <li><i class="icon-alert"></i></li>
-                        <li class="active"><i class="icon-edit"></i></li>
-                        <li class="active"><i class="icon-idea"></i></li>
+                        <li @if ($status >= 4) class='active' @endif><i class="icon-connect"></i></li>
+                        <li @if ($status >= 3) class='active' @endif><i class="icon-alert"></i></li>
+                        <li @if ($status >= 2) class='active' @endif><i class="icon-edit"></i></li>
+                        <li @if ($status >= 1) class='active' @endif><i class="icon-idea"></i></li>
                     </ul>
 
                     <div class="inner">
@@ -175,25 +178,25 @@
                                                 <label for="Friend" class="checkbox-image">
                                                     <input id="Friend" type="checkbox">
                                                     <span>
-                                                        <img src="/images/avatar.jpg" alt="#">
+                                                        <img src="/images/cl-avatar2.png" alt="#">
                                                     </span>
                                                 </label>
                                                 <label for="Friend" class="checkbox-image">
                                                     <input id="Friend" type="checkbox">
                                                     <span>
-                                                        <img src="/images/avatar.jpg" alt="#">
+                                                        <img src="/images/cl-avatar2.png" alt="#">
                                                     </span>
                                                 </label>
                                                 <label for="Friend" class="checkbox-image">
                                                     <input id="Friend" type="checkbox">
                                                     <span>
-                                                        <img src="/images/avatar.jpg" alt="#">
+                                                        <img src="/images/cl-avatar2.png" alt="#">
                                                     </span>
                                                 </label>
                                                 <label for="Friend" class="checkbox-image">
                                                     <input id="Friend" type="checkbox">
                                                     <span>
-                                                        <img src="/images/avatar.jpg" alt="#">
+                                                        <img src="/images/cl-avatar2.png" alt="#">
                                                     </span>
                                                 </label>
                                             </li>
@@ -317,31 +320,19 @@
                             @endif
                         </div>
 
-
                         <div class="input-form-group">
-                            <label for="tags">TAGS</label>
                             @php
                                 $tagsOptions = [
-                                    'multiple' => 'multiple',
-                                    'class' => 'input selectpicker form-control',
-                                    'id' => 'tags',
-                                    'data-live-search' => 'true',
-                                    'title' => 'Select Tags'
+                                    'id' => 'tag-editor',
+                                    'name' => 'tags',
                                 ];
 
                                 if (!$isCollaborator) {
                                     $tagsOptions['disabled'] = 'disabled';
                                 }
-
                             @endphp
-                            {!!
-                                Form::select(
-                                    'tags[]',
-                                    $tagsDropdown,
-                                    @isset($content) ? $content->tags->lists('id')->toArray() : '',
-                                    $tagsOptions
-                                )
-                            !!}
+                            <label>TAGS</label>
+                            {!! Form::text('tag-editor', '', $tagsOptions) !!}
                         </div>
 
                         <div class="input-form-group">
@@ -676,7 +667,7 @@
                     <div class="col-md-6 col-md-offset-3 text-center">
                         <i class="modal-icon-success icon-check-large"></i>
                         <div class="form-group">
-                            <img src="/images/avatar.jpg" alt="#" class="create-image">
+                            <img src="/images/cl-avatar2.png" alt="#" class="create-image">
                             <h4>Blog post on online banking</h4>
                         </div>
                         <p class="text-gray">IS NOW PUBLISHED TO:</p>
@@ -707,6 +698,23 @@
 @stop
 
 @section('scripts')
+<script type='text/javascript'>
+    (function() {
+
+        var source = {!! $tagsJson !!} || [];
+        var contentTags = {!! $contentTagsJson !!};
+
+        $('#tag-editor').tagEditor({
+            placeholder: 'Select tags...',
+            initialTags: contentTags,
+            autocomplete: {
+                source: source,
+                minLength: 1,
+            },
+        });
+
+    })();
+</script>
 <script type='text/javascript'>
     (function() {
 
@@ -817,6 +825,7 @@
         function fetchTasks() {
             return $.ajax({
                 url: '/api/contents/' + contentId() + '/tasks',
+                data: { open: '1' },
                 method: 'get',
             })
             .then(function(response) {

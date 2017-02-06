@@ -36,10 +36,10 @@
             <label for="#">POST TEXT <span class="character-limit-label hide"> (140 Character or less)</span></label>
             <textarea rows="4" class="input post-text" placeholder="What would you like to say about this article?"></textarea>
         </div>
-        <div class="input-form-group hide">
+       <!-- <div class="input-form-group hide">
             <label for="#">HASH TAGS</label>
             <input type="text" class="input hash-tags" placeholder="Enter comma separated hash tags.">
-        </div>
+        </div>-->
 
         <div class="form-delimiter">
             <span>
@@ -64,7 +64,7 @@
                     <div class="col-md-6 col-md-offset-3 text-center">
                         <i class="modal-icon-success icon-check-large"></i>
                         <div class="form-group">
-                            <img src="/images/avatar.jpg" alt="#" class="create-image">
+                            <img src="/images/cl-avatar2.png" alt="#" class="create-image">
                             <h4 class="article-title"></h4>
                         </div>
                         <p class="text-gray">IS NOW PUBLISHED TO:</p>

@@ -2,28 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
+use App\Attachment;
+use App\BuyingStage;
+use App\Campaign;
+use App\Connection;
+use App\Content;
+use App\ContentType;
+use App\Helpers;
 use App\Http\Requests\Content\ContentRequest;
+use App\Persona;
+use App\Tag;
+use App\User;
+use App\WriterAccessPrice;
+use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Input;
-use App\ContentType;
-use App\BuyingStage;
-use App\Connection;
-use App\Attachment;
-use App\Campaign;
-use App\Content;
-use App\User;
-use App\Account;
-use App\Tag;
-use App\Persona;
-use App\Helpers;
-use App\WriterAccessPrice;
-use Storage;
-use View;
-use Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-use Validator;
 use Response;
+use Storage;
+use Validator;
 
 class ContentController extends Controller
 {
@@ -37,6 +36,8 @@ class ContentController extends Controller
         $countContent = $this->selectedAccount
             ->contents()
             ->count();
+
+        $this->selectedAccount->cleanContentWithoutStatus();
 
         $published = $this->selectedAccount
             ->contents()
@@ -118,7 +119,7 @@ class ContentController extends Controller
 
     public function trendShare(Request $request, Connection $connection)
     {
-        $content = (object)Input::all();
+        $content = (object) Input::all();
         $errors = [];
         $publishedConnections = [];
 
@@ -225,7 +226,8 @@ class ContentController extends Controller
     public function createContent()
     {
         $data = [
-            'tagsDropdown' => Tag::dropdown(),
+            'tagsJson' => $this->selectedAccount->present()->tagsJson,
+            'contentTagsJson' => collect([])->toJson(),
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
@@ -245,7 +247,8 @@ class ContentController extends Controller
 
         $data = [
             'content' => $content,
-            'tagsDropdown' => Tag::dropdown(),
+            'tagsJson' => $this->selectedAccount->present()->tagsJson,
+            'contentTagsJson' => $content->present()->tagsJson,
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
@@ -297,14 +300,12 @@ class ContentController extends Controller
         $this->saveContentPersona($request, $content);
         $this->saveContentType($request, $content);
         $this->saveConnections($request, $content);
+        $this->saveContentTags($request, $content);
 
         // - Attach the related data
         if ($request->input('related')) {
             $content->related()->attach($request->input('related'));
         }
-
-        // Attach Tags
-        $content->tags()->attach($request->input('tags'));
 
         $this->handleImages($request, $content);
         $this->handleFiles($request, $content);
@@ -398,8 +399,29 @@ class ContentController extends Controller
 
     private function saveContentType($request, $content)
     {
-        $conType = ContentType::find($request->input('content_type'));
-        $conType->contents()->save($content);
+        if ($request->input('content_type')) {
+            $conType = ContentType::find($request->input('content_type'));
+            $conType->contents()->save($content);
+        }
+    }
+
+    private function saveContentTags($request, $content)
+    {
+        if ($request->input('tags')) {
+            $content->tags()->detach();
+
+            $tagsArray = explode(',', $request->input('tags'));
+            collect($tagsArray)
+                ->filter(function($tagString) { return $tagString !== ""; })
+                ->map(function($tagString) {
+                    return $this->selectedAccount
+                        ->tags()
+                        ->firstOrCreate([ 'tag' => $tagString ]);
+                })
+                ->each(function($tag) use ($content) {
+                    $content->tags()->attach($tag);
+                });
+        }
     }
 
     public function delete(Request $request, $content_id)
@@ -419,7 +441,7 @@ class ContentController extends Controller
 
     protected function redirectDeleteSuccessful($content)
     {
-       return redirect()->route('contentIndex')->with([
+        return redirect()->route('contentIndex')->with([
            'flash_message' => 'You have successfully deleted '.$content->title.'.',
            'flash_message_type' => 'success',
            'flash_message_important' => true,
@@ -433,7 +455,6 @@ class ContentController extends Controller
             'flash_message_type' => 'danger',
             'flash_message_important' => true,
         ]);
-
     }
 
     public function my()

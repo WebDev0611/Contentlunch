@@ -8,7 +8,7 @@
 
     <!-- Main Pane -->
     <div class="panel-main">
-      
+
       <!-- Panel Header -->
       <div class="panel-header" id="create-campaign-form">
         <div class="panel-options">
@@ -41,7 +41,7 @@
           </div>
         </div>
       </div> <!-- End Panel Header -->
-      
+
       <!-- Content Tabs -->
       <ul class="panel-tabs centered even withborder">
         <li class="active">
@@ -51,30 +51,30 @@
           <a href="#contenttab-campaign" role="tab" data-toggle="tab">Campaign Info</a>
         </li>
       </ul>
-      
-      
+
+
       <!-- Panel Container -->
       <div class="panel-container nopadding relative">
-        
-  
-          
+
+
+
           <!-- Tab Content -->
           <div class="tab-content">
-            
-            
+
+
             <!-- Tab1: Content -->
             <div role="tabpanel" class="tab-pane active" id="contenttab-content">
-              
-              
+
+
               <!-- Panel Ready to be Published -->
               <div class="content-panel">
                 <p class="panel-head"><span class="picto"><i class="icon-alert"></i></span> READY TO BE PUBLISHED</p>
-              
+
                 <ul class="list-unstyled list-content bordered">
                   <li class="list-alert">
                     <div class="list-avatar">
                       <div class="user-avatar">
-                        <img src="/images/avatar.jpg">
+                        <img src="/images/cl-avatar2.png">
                       </div>
                     </div>
                     <div class="list-title">
@@ -93,7 +93,7 @@
                   <li>
                     <div class="list-avatar">
                       <div class="user-avatar">
-                        <img src="/images/avatar.jpg">
+                        <img src="/images/cl-avatar2.png">
                       </div>
                     </div>
                     <div class="list-title">
@@ -109,7 +109,7 @@
                   <li>
                     <div class="list-avatar">
                       <div class="user-avatar">
-                        <img src="/images/avatar.jpg">
+                        <img src="/images/cl-avatar2.png">
                       </div>
                     </div>
                     <div class="list-title">
@@ -126,21 +126,21 @@
                     </div>
                   </li>
                 </ul>
-                
+
 
               </div>
-              
-              
+
+
               <!-- Panel Being Edited / Written -->
               <div class="content-panel">
                 <p class="panel-head"><span class="picto"><i class="icon-edit"></i></span> BEING EDITED / WRITTEN</p>
-              
+
                 <ul class="list-unstyled list-content bordered">
                   <li class="list-external">
                     <div class="progressbar" style="width: 35%"></div>
                     <div class="list-avatar">
                       <div class="user-avatar">
-                        <img src="/images/avatar.jpg">
+                        <img src="/images/cl-avatar2.png">
                       </div>
                     </div>
                     <div class="list-title">
@@ -160,7 +160,7 @@
                     <div class="progressbar" style="width: 85%"></div>
                     <div class="list-avatar">
                       <div class="user-avatar">
-                        <img src="/images/avatar.jpg">
+                        <img src="/images/cl-avatar2.png">
                       </div>
                     </div>
                     <div class="list-title">
@@ -174,20 +174,20 @@
                     </div>
                   </li>
                 </ul>
-                
+
 
               </div>
-              
-              
-              
+
+
+
             </div>
 
-            
+
             <!-- Tab2: Campaign Info -->
             <div role="tabpanel" class="tab-pane" id="contenttab-campaign">
-              
+
               <div class="inner toppadded">
-              
+
                 <div class="input-form-group">
                   <label for="#">CAMPAIGN TITLE</label>
  {!! Form::text('campaign-title', @isset($campaign)? $campaign->title : '', array('placeholder' => 'Enter campaign title', 'class' => 'input input-larger form-control', 'id' => 'campaign-title')) !!}
@@ -298,21 +298,21 @@
                     <input type="file" class="input input-upload">
                   </div>
                 </div>
-                
+
                </div>
-              
+
             </div>
-            
+
           </div> <!-- End Tab Content -->
 
-          
+
       </div>  <!-- End Panel Container -->
-      
+
     </div> <!-- End Main Pane -->
 
     <!-- Side Pane -->
     <aside class="panel-sidebar">
-      
+
       <div class="panel-header">
         <ul class="panel-tabs withborder">
           <li class="active">
@@ -326,13 +326,13 @@
           </li>
         </ul>
       </div>
-      
-      
-      
-      
-      
+
+
+
+
+
       <div class="tab-content">
-        
+
         <!-- Content Task Panel -->
         <div role="tabpanel" class="sidepanel tab-pane active" id="sidetab-tasks">
 
@@ -342,33 +342,33 @@
               <p class="intro">Tasks to be completed on this content piece</p>
               <a href="#newtask" class="btn button-text withendicon" data-toggle="collapse">NEW TASK<i class="icon-add"></i></a>
             </div>
-            
-            
+
+
             <!-- New Task -->
             <div class="task new collapse" id="newtask">
 
               <p class="title">New task</p>
 
               <div class="task-content">
-                
+
                 <div class="input-form-group">
                   <label for="#">Task name</label>
                   <input type="text" class="input" placeholder="Enter name">
                 </div>
-                
+
 
                 <div class="form-group">
                   <fieldset class="form-fieldset clearfix">
                     <legend class="form-legend">Assigned</legend>
                     <ul class="images-list pull-left">
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                     </ul>
                     <div class="dropdown pull-right">
@@ -391,25 +391,25 @@
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                         </li>
@@ -425,7 +425,7 @@
                     <input type="text" class="input" placeholder="Due date and time">
                   </div>
                 </div>
-                
+
                 <div class="input-form-group">
                   <label for="#">Completed by</label>
                   <select name="" class="input">
@@ -444,7 +444,7 @@
               </div>
 
             </div> <!-- End New Task -->
-            
+
 
             <h5>Content Creation</h5>
 
@@ -456,7 +456,7 @@
                 <div class="checkcircle"><i class="icon-check-light"></i></div>
 
                 <div class="user-avatar">
-                  <img src="/images/avatar.jpg" alt="#">
+                  <img src="/images/cl-avatar2.png" alt="#">
                 </div>
 
                 <p class="title">Assign Author</p>
@@ -480,13 +480,13 @@
                     <legend class="form-legend">Assigned</legend>
                     <ul class="images-list pull-left">
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                     </ul>
                     <div class="dropdown pull-right">
@@ -509,25 +509,25 @@
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                         </li>
@@ -561,7 +561,7 @@
                 <div class="checkcircle"><i class="icon-check-light"></i></div>
 
                 <div class="user-avatar">
-                  <img src="/images/avatar.jpg" alt="#">
+                  <img src="/images/cl-avatar2.png" alt="#">
                 </div>
 
                 <p class="title">Submit Content</p>
@@ -584,13 +584,13 @@
                     <legend class="form-legend">Assigned</legend>
                     <ul class="images-list pull-left">
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                     </ul>
                     <div class="dropdown pull-right">
@@ -613,25 +613,25 @@
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                         </li>
@@ -666,7 +666,7 @@
                 <div class="checkcircle"><i class="icon-check-light"></i></div>
 
                 <div class="user-avatar">
-                  <img src="/images/avatar.jpg" alt="#">
+                  <img src="/images/cl-avatar2.png" alt="#">
                 </div>
 
                 <p class="title">Review and Edit Content</p>
@@ -688,13 +688,13 @@
                     <legend class="form-legend">Assigned</legend>
                     <ul class="images-list pull-left">
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                     </ul>
                     <div class="dropdown pull-right">
@@ -717,25 +717,25 @@
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                         </li>
@@ -769,7 +769,7 @@
                 <div class="checkcircle"><i class="icon-check-light"></i></div>
 
                 <div class="user-avatar">
-                  <img src="/images/avatar.jpg" alt="#">
+                  <img src="/images/cl-avatar2.png" alt="#">
                 </div>
 
                 <p class="title">Publish Content</p>
@@ -790,13 +790,13 @@
                     <legend class="form-legend">Assigned</legend>
                     <ul class="images-list pull-left">
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                     </ul>
                     <div class="dropdown pull-right">
@@ -819,25 +819,25 @@
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                         </li>
@@ -873,7 +873,7 @@
                 <div class="checkcircle"><i class="icon-check-light"></i></div>
 
                 <div class="user-avatar">
-                  <img src="/images/avatar.jpg" alt="#">
+                  <img src="/images/cl-avatar2.png" alt="#">
                 </div>
 
                 <p class="title">Promote Content</p>
@@ -896,13 +896,13 @@
                     <legend class="form-legend">Assigned</legend>
                     <ul class="images-list pull-left">
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                       <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                       </li>
                     </ul>
                     <div class="dropdown pull-right">
@@ -925,25 +925,25 @@
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                           <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                              <img src="/images/avatar.jpg" alt="#">
+                              <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                           </label>
                         </li>
@@ -972,16 +972,16 @@
           </div>
 
         </div> <!-- End Content Task Panel -->
-        
-        
+
+
         <!-- Tab 2: Activity -->
         <div class="sidepanel tab-pane" role="tabpanel" id="sidetab-activity">
-          
+
           <div class="pane-activity">
-            
+
             <div class="plan-activity-box-container">
               <div class="plan-activity-box-img">
-                <img src="/images/avatar.jpg" alt="#">
+                <img src="/images/cl-avatar2.png" alt="#">
               </div>
               <div class="plan-activity-box">
                 <span class="plan-activity-title">
@@ -997,7 +997,7 @@
             </div>
             <div class="plan-activity-box-container">
               <div class="plan-activity-box-img">
-                <img src="/images/avatar.jpg" alt="#">
+                <img src="/images/cl-avatar2.png" alt="#">
               </div>
               <div class="plan-activity-box">
                 <span class="plan-activity-title">
@@ -1025,7 +1025,7 @@
             </div>
             <div class="plan-activity-box-container">
               <div class="plan-activity-box-img">
-                <img src="/images/avatar.jpg" alt="#">
+                <img src="/images/cl-avatar2.png" alt="#">
               </div>
               <div class="plan-activity-box">
                 <span class="plan-activity-title">
@@ -1049,22 +1049,22 @@
                 </div>
               </div>
             </div>
-            
+
           </div>
-          
+
         </div>
-        
+
         <!-- Tab 3: History -->
         <div class="sidepanel tab-pane" role="tabpanel" id="sidetab-history">
           <p>This is history</p>
         </div>
-        
-        
+
+
       </div>
-      
-      
-      
-      
+
+
+
+
       <!-- Collaborators / Guests tabs -->
       <div class="sidepanel-head">
         <ul class="panel-tabs withborder withtopborder">
@@ -1079,10 +1079,10 @@
           </li>
         </ul>
       </div>
-      
-      
+
+
       <div class="tab-content">
-        
+
         <!-- Tab 1: Collaborators -->
         <div class="sidepanel nopadding tab-pane active" id="sidetab-collaborators">
 
@@ -1092,7 +1092,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/images/cl-avatar2.png" alt="#">
                     </div>
                     <p class="title">Jason Simmons</p>
                     <p class="email">jasonsimm@google.com</p>
@@ -1101,7 +1101,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/images/cl-avatar2.png" alt="#">
                     </div>
                     <p class="title">Emily Blunt</p>
                     <p class="email">emilyblunt@yahoo.com</p>
@@ -1110,7 +1110,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/images/cl-avatar2.png" alt="#">
                     </div>
                     <p class="title">Johan Rostock</p>
                     <p class="email">jrock@google.com</p>
@@ -1119,7 +1119,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/images/cl-avatar2.png" alt="#">
                     </div>
                     <p class="title">Annie Sox</p>
                     <p class="email">asox@yahoo.com</p>
@@ -1128,7 +1128,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/images/cl-avatar2.png" alt="#">
                     </div>
                     <p class="title">Jason Simmons</p>
                     <p class="email">jasonsimm@google.com</p>
@@ -1137,7 +1137,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/images/cl-avatar2.png" alt="#">
                     </div>
                     <p class="title">Emily Blunt</p>
                     <p class="email">emilyblunt@yahoo.com</p>
@@ -1146,7 +1146,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/images/cl-avatar2.png" alt="#">
                     </div>
                     <p class="title">Johan Rostock</p>
                     <p class="email">jrock@google.com</p>
@@ -1155,7 +1155,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/images/cl-avatar2.png" alt="#">
                     </div>
                     <p class="title">Annie Sox</p>
                     <p class="email">asox@yahoo.com</p>
@@ -1166,18 +1166,18 @@
           </div>
 
         </div> <!-- Tab 1: Collaborators -->
-        
-        
+
+
         <!-- Tab 2: Guests -->
         <div class="sidepanel nopadding tab-pane" id="sidetab-guests">
-          
+
           <div class="sidepanel-body">
             <div class="pane-users">
               <ul class="list-unstyled list-users">
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/images/cl-avatar2.png" alt="#">
                     </div>
                     <p class="title">Johan Rostock</p>
                     <p class="email">jrock@google.com</p>
@@ -1186,7 +1186,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/images/cl-avatar2.png" alt="#">
                     </div>
                     <p class="title">Annie Sox</p>
                     <p class="email">asox@yahoo.com</p>
@@ -1195,7 +1195,7 @@
                 <li>
                   <a href="#">
                     <div class="user-avatar">
-                      <img src="/images/avatar.jpg" alt="#">
+                      <img src="/images/cl-avatar2.png" alt="#">
                     </div>
                     <p class="title">Jason Simmons</p>
                     <p class="email">jasonsimm@google.com</p>
@@ -1204,15 +1204,15 @@
               </ul>
             </div>
           </div>
-          
+
         </div>
-        
-        
+
+
       </div>
-      
-      
-      
-      
+
+
+
+
     </aside> <!-- End Side Pane -->
 
   </div>  <!-- End Panel Container -->

@@ -12,7 +12,7 @@ var idea_view = Backbone.View.extend({
 
     template: _.template(`
         <div class="plan-ideas-cell cell-size-5">
-            <% var avatar = user.profile_image || '/images/avatar.jpg'; %>
+            <% var avatar = user.profile_image || '/images/cl-avatar2.png'; %>
             <img src="<%= avatar %>" alt="#" class="plan-ideas-img">
         </div>
         <div class="plan-ideas-cell cell-size-35">

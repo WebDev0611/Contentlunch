@@ -32,6 +32,11 @@ class IdeaCollaboratorsController extends Controller
             $collaborators = $collaborators->filter(function($user) {
                 return $user->is_collaborator;
             })->values();
+        } else {
+            // Exclude the logged user from possible collaborators list
+            $collaborators = $collaborators->filter(function($user) {
+                return $user->id !== Auth::user()->id;
+            })->values();
         }
 
         return response()->json([ 'data' => $collaborators ]);
@@ -47,6 +52,9 @@ class IdeaCollaboratorsController extends Controller
     public function update(Request $request, Idea $idea)
     {
         $idea->collaborators()->detach();
+
+        // Always attach current user
+        $idea->collaborators()->attach(Auth::user()->id);
         $idea->collaborators()->attach($request->input('collaborators'));
 
         return response()->json([

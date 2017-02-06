@@ -7,6 +7,7 @@ use Auth;
 
 use App\Http\Requests;
 use App\Content;
+use Illuminate\Support\Facades\Response;
 
 class ContentCollaboratorsController extends Controller
 {
@@ -27,6 +28,11 @@ class ContentCollaboratorsController extends Controller
             $collaborators = $collaborators->filter(function($user) {
                 return $user->is_collaborator;
             })->values();
+        } else {
+            // Exclude the logged user from possible collaborators list
+            $collaborators = $collaborators->filter(function($user) {
+                return $user->id !== Auth::user()->id;
+            })->values();
         }
 
         return response()->json([ 'data' => $collaborators ]);
@@ -35,6 +41,9 @@ class ContentCollaboratorsController extends Controller
     public function update(Request $request, Content $content)
     {
         $content->authors()->detach();
+
+        // Always attach current user
+        $content->authors()->attach(Auth::user()->id);
         $content->authors()->attach($request->input('authors'));
 
         return response()->json([

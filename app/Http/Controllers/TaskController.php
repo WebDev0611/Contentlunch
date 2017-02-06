@@ -86,7 +86,7 @@ class TaskController extends Controller
 
     private function saveAssignedUsers(Request $request, Task $task)
     {
-        $task->assignedUsers()->attach($request->input('assigned_users'));
+        $task->assignUsers($request->input('assigned_users'));
     }
 
     private function saveAttachments(Request $request, Task $task)
@@ -176,12 +176,12 @@ class TaskController extends Controller
             'user_id' => Auth::id()
         ])->first();
 
-        $task->name = $request->input('name');
-        $task->explanation = $request->input('explanation');
-        $task->start_date = $request->input('start_date');
-        $task->due_date = $request->input('due_date');
-
-        $task->save();
+        $task->update([
+            'name' => $request->input('name'),
+            'explanation' => $request->input('explanation'),
+            'start_date' => $request->input('start_date'),
+            'due_date' => $request->input('due_date'),
+        ]);
 
         $this->saveAssignedUsers($request, $task);
 
@@ -196,13 +196,23 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function close(Request $request, $id)
+    public function close(Request $request, Task $task)
     {
-        $task = Task::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
-        $task->status = 'closed';
-        $task->save();
+        $response = response()->json([ 'success' => false ], 403);
 
-        return response()->json(['success' => true, 'task' => $task ]);
+        if ($this->loggedUserCanClose($task)) {
+            $task->update([ 'status' => 'closed' ]);
+            $response = response()->json(['success' => true, 'task' => $task ]);
+        }
+
+        return $response;
+    }
+
+    protected function loggedUserCanClose(Task $task)
+    {
+        return $task->users->filter(function($user) {
+            return $user->id == Auth::id();
+        });
     }
 
     /**

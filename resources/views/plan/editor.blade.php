@@ -20,7 +20,7 @@
                         <div class="col-md-6 text-right">
                             <button {{ $disabled }} type="button" class="button button-outline-secondary button-small save-idea">SAVE</button>
                             <div class="btn-group">
-                                <button {{ $disabled }} type="button" class="button button-small">WRITE IT</button>
+                                <a {{ $disabled }} href="{{ route('ideaWrite', $idea) }}" class="button button-small">WRITE IT</a>
                                 <button {{ $disabled }} type="button" class="button button-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="caret"></span>
                                     <span class="sr-only">Toggle Dropdown</span>
@@ -43,15 +43,29 @@
                         {{ csrf_field() }}
                         <div class="input-form-group">
                             <label for="#">CONCEPT NAME</label>
-                            <input {{ $disabled }} type="text" id="idea-name" class="input" placeholder="Enter your concept name" value="{{$name}}">
+                            <input {{ $disabled }}
+                                type="text"
+                                id="idea-name"
+                                class="input"
+                                placeholder="Enter your concept name"
+                                value="{{ $idea->name}}">
                         </div>
                         <div class="input-form-group">
                             <label for="#">EXPLAIN YOUR IDEA</label>
-                            <textarea {{ $disabled }} rows="4" id="idea-text" class="input" placeholder="Explain idea in a paragraph or so">{{$text}}</textarea>
+                            <textarea {{ $disabled }}
+                                rows="4"
+                                id="idea-text"
+                                class="input"
+                                placeholder="Explain idea in a paragraph or so">{{ $idea->text }}</textarea>
                         </div>
                         <div class="input-form-group">
                             <label for="#">TAGS</label>
-                            <input {{ $disabled }} type="text"  id="idea-tags" class="input" placeholder="Enter comma separated tags" value="{{$tags}}">
+                            <input {{ $disabled }}
+                                type="text"
+                                id="idea-tags"
+                                class="input"
+                                placeholder="Enter comma separated tags"
+                                value="{{ $idea->tags }}">
                         </div>
 
                         <div class="form-group">
@@ -100,7 +114,7 @@
 
 @section('scripts')
 <script type="text/javascript">
-var idea_obj = {!!$idea_obj!!};
+var idea_obj = {!! $idea !!};
 </script>
 <script src="/js/idea_editor.js"></script>
 @stop

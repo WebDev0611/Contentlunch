@@ -7,6 +7,7 @@ class WriterAccessPriceSeeder extends Seeder{
 
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('writer_access_prices')->truncate();
         DB::table('writer_access_prices')->insert([
 
@@ -187,6 +188,7 @@ class WriterAccessPriceSeeder extends Seeder{
             ['asset_type_id' => 10, 'writer_level' => 4, 'wordcount' => 20000, 'fee' => 2900],
 
         ]);
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $this->command->info('Added Writer Access Prices');
     }

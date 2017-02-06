@@ -2,10 +2,10 @@
 
 namespace App\Presenters;
 
-use Laracasts\Presenter\Presenter;
+use App\Presenters\Helpers\BasePresenter;
 
-class UserPresenter extends Presenter {
-
+class UserPresenter extends BasePresenter
+{
     public function profile_image()
     {
         return $this->entity->profile_image ?

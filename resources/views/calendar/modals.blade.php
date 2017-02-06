@@ -23,19 +23,19 @@
     </div>
   -->
     <div class="sidemodal-scollable withsearch">
-      
+
       <ul class="list-unstyled list-content" id="calendar-idea-list">
       </ul>
     </div>
-    
-    
+
+
   </div>
-</div>  
+</div>
 
 <script type="text/template" id="calendar-idea-template">
       <div class="list-avatar">
         <div class="user-avatar">
-          <img src="/images/avatar.jpg">
+          <img src="/images/cl-avatar2.png">
         </div>
       </div>
           <div class="list-title">
@@ -71,13 +71,13 @@
     </div>
   -->
     <div class="sidemodal-scollable withsearch">
-      
+
       <ul class="list-unstyled list-content" id="calendar-content-list">
 
         <li>
           <div class="list-avatar">
             <div class="user-avatar">
-              <img src="/images/avatar.jpg">
+              <img src="/images/cl-avatar2.png">
             </div>
           </div>
           <div class="list-title">
@@ -94,15 +94,15 @@
 
       </ul>
     </div>
-    
-    
+
+
   </div>
 </div>  <!-- End Sidemodal: Add content -->
 
 <script type="text/template" id="calendar-content-template">
       <div class="list-avatar">
         <div class="user-avatar">
-          <img src="/images/avatar.jpg">
+          <img src="/images/cl-avatar2.png">
         </div>
       </div>
       <div class="list-title">
