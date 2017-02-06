@@ -1,7 +1,7 @@
 <div class="panel-header">
     <ul class="panel-tabs withborder">
         <li class="active">
-            <a href="#sidetab-tasks" role="tab" data-toggle="tab">Content Tasks</a>
+            <a href="#sidetab-tasks" role="tab" data-toggle="tab">Campaign Tasks</a>
         </li>
         {{--
         <li>

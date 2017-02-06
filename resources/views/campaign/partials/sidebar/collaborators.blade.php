@@ -1,17 +1,9 @@
 <div class="sidepanel-body">
+    <div class="alert alert-info alert-sidebar">
+        There are no other users on this account.
+    </div>
     <div class="pane-users">
-        <ul class="list-unstyled list-users">
-            @for ($i = 0; $i < 10; $i++)
-            <li>
-                <a href="#">
-                    <div class="user-avatar">
-                        <img src="/images/cl-avatar2.png" alt="#">
-                    </div>
-                    <p class="title">Jason Simmons</p>
-                    <p class="email">jasonsimm@google.com</p>
-                </a>
-            </li>
-            @endfor
+        <ul class="list-unstyled list-users campaign-collaborator">
         </ul>
     </div>
 </div>

@@ -12,7 +12,7 @@ var NewCampaignView = Backbone.View.extend({
 
     configureDatePicker() {
         $('#start-date').datetimepicker({ format: this.dateFormat });
-        $('#end-date').datetimepicker({ format: this.dateFormat );
+        $('#end-date').datetimepicker({ format: this.dateFormat });
     },
 
     show_saved(d) {
