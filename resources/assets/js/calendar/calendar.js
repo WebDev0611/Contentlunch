@@ -241,7 +241,6 @@
         });
 
         function content_map(c) {
-            // TODO make published content appear on published date, and unpublished content on creation date
             c.date = c.created_at;
             c.type = 'content';
             c.details_url = '/edit/' + c.id;
@@ -252,6 +251,7 @@
             if (c.published == '1') {
                 c.content_status = 'published';
                 c.content_status_text = 'published';
+                c.date = c.updated_at;
             }
             else if (c.ready_published == '1') {
                 c.content_status = 'ready_published';
@@ -278,28 +278,6 @@
 
             return c;
         }
-
-        function fetchContentTypes() {
-            return $.ajax({
-                url: '/api/content-types',
-                method: 'get',
-                headers: getJsonHeader(),
-            })
-        }
-
-
-        /*
-         my_content.on('update', function (c) {
-         $('#calendar-content-list').html('');
-         my_content.each(function (m) {
-         var c_v = new calendar_content_view({model: m});
-         $('#calendar-content-list').append(c_v.render().$el);
-         });
-         console.log(c.toJSON());
-         });
-         my_content.fetch();
-         */
-
 
         // Render
         // var calendar_items = my_campaigns; //new calendar_item_collection( my_campaigns );
