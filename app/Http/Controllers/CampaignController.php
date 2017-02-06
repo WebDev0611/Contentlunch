@@ -12,7 +12,7 @@ use Validator;
 
 class CampaignController extends Controller
 {
-    public function index()
+    public function create()
     {
         $data = [
             'campaign' => new Campaign(),
@@ -25,7 +25,21 @@ class CampaignController extends Controller
         return view('campaign.index', $data);
     }
 
-    public function create(Request $request)
+
+    public function edit(Request $request, Campaign $campaign)
+    {
+        $data = [
+            'campaign' => $campaign,
+            'readyToPublishContent' => collect([]),
+            'beingWrittenContent' => collect([]),
+            'campaignTypesDropdown' => CampaignTypePresenter::dropdown(),
+            'campaignTypes' => CampaignType::all()->toJson(),
+        ];
+
+        return view('campaign.index', $data);
+    }
+
+    public function store(Request $request)
     {
         $validation = $this->createValidation($request->all());
 
@@ -44,7 +58,7 @@ class CampaignController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect('/campaign')->with([
+        return redirect()->route('dashboard')->with([
             'flash_message' => "Campaign created: $campaign->title",
             'flash_message_type' => 'success',
         ]);
@@ -58,37 +72,28 @@ class CampaignController extends Controller
         ]);
     }
 
-    public function edit(Request $request, $id = null)
+    public function update(Request $request, Campaign $campaign)
     {
-        $campaign = new Campaign();
+        $validation = $this->createValidation($request->all());
 
-        if (is_numeric($id)) {
-            $campaign = Campaign::find($id);
+        if ($validation->fails()) {
+            return redirect('/campaign')->with('errors', $validation->errors());
         }
 
-        if ($request->isMethod('post')) {
-            $campaign->title = $request->input('title');
-            $campaign->description = $request->input('description');
-            $campaign->start_date = $request->input('start_date');
-            $campaign->end_date = $request->input('end_date');
-            $campaign->goals = $request->input('goals');
-            $campaign->campaign_type_id = (int) $request->input('type');
-            //$campaign->budget 		= $request->input('budget');
-            $campaign->status = (int) $request->input('status');
-            //$campaign->tags 		= $request->input('tags');
-            $campaign->user_id = Auth::id();
-            $campaign->save();
+        $campaign->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'start_date' => $request->input('start_date'),
+            'end_date' => $request->input('end_date'),
+            'goals' => $request->input('goals'),
+            'campaign_type_id' => (int) $request->input('type'),
+            'status' => (int) $request->input('status'),
+            'user_id' => Auth::id(),
+        ]);
 
-            echo $campaign->toJson();
-            exit;
-        }
-
-        $campaign_types = CampaignType::all();
-
-        return view('campaign.index', [
-            'campaigntypedd' => CampaignTypePresenter::dropdown(),
-            'campaign_types' => $campaign_types->toJson(),
-            'campaign' => $campaign,
+        return redirect()->route('dashboard')->with([
+            'flash_message' => "Campaign updated: $campaign->title",
+            'flash_message_type' => 'success',
         ]);
     }
 }

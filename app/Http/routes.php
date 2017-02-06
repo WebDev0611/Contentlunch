@@ -89,12 +89,10 @@ Route::group([ 'middleware' => 'auth' ], function() {
     Route::get('/calendar','CalendarController@index');
     Route::get('/calendar/{year}/{month}','CalendarController@index');
 
-    Route::get('/campaign','CampaignController@index');
-    Route::post('/campaign', 'CampaignController@create');
-    Route::post('/campaign/create','CampaignController@create');
-
-    Route::get('/campaign/edit/{campaign}','CampaignController@edit');
-    Route::post('/campaign/edit/{campaign}','CampaignController@edit');
+    Route::get('/campaign','CampaignController@create');
+    Route::post('/campaign', 'CampaignController@store');
+    Route::get('/campaign/{campaign}', 'CampaignController@edit');
+    Route::post('/campaign/{campaign}','CampaignController@update');
 
     Route::get('/daily','CalendarController@daily');
     Route::get('/daily/{year}/{month}/{day}','CalendarController@daily');
