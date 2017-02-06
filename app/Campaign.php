@@ -26,14 +26,24 @@ class Campaign extends Model
         'goals',
     ];
 
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
+
+    public function collaborators()
+    {
+        return $this->belongsToMany('App\User');
+    }
+
     public function contents()
     {
         return $this->hasMany('App\Content');
     }
 
-    public function account()
+    public function creator()
     {
-        return $this->belongsTo('App\Account');
+        return $this->belongsTo('App\User');
     }
 
     public function __toString()
