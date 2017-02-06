@@ -459,7 +459,9 @@ class ContentController extends Controller
 
     public function my()
     {
-        $content = Auth::user()->contents()->get();
+        $content = $this->selectedAccount
+            ->contents()
+            ->get();
 
         return response()->json($content);
     }

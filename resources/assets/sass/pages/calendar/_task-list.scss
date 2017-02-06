@@ -64,6 +64,9 @@
     height: 20px;
     line-height: 20px;
   }
+  &.purple {
+    background: #6944b7;
+  }
 }
 
 .calendar-task-list-icon-plain {
@@ -209,6 +212,10 @@
     font-weight: bold;
     color: #392c46;
     text-transform: none;
+
+    &.upper {
+      text-transform: uppercase;
+    }
   }
 }
 

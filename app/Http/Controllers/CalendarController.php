@@ -22,6 +22,10 @@ class CalendarController extends Controller {
 			$this->account_id = 0;
 			$this->campaigns = Auth::user()->campaigns()->get();
 			$this->tasks = Auth::user()->tasks()->get();
+
+			foreach ($this->tasks as $task) {
+				$task->user = $user;
+			}
 		}
 	}
 
