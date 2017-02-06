@@ -26,6 +26,7 @@ class WriterAccessPartialOrder extends Model
         'narrative_voice',
         'target_audience',
         'tone_of_writing',
+        'bulk_file'
     ];
 
     public function user()

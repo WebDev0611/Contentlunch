@@ -8,19 +8,18 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Excel;
 use Exception;
 use App\WriterAccessBulkOrderStatus;
 use App\Jobs\WriterAccessBulkOrder;
+use Illuminate\Support\Facades\Auth;
 
 class WriterAccessBulkOrderStatusController extends Controller {
 
     public function index(){
-
         $bulkOrderStatuses = WriterAccessBulkOrderStatus::get();
-
         return response()->json($bulkOrderStatuses);
-
     }
 
     public function status($id = null){
@@ -28,34 +27,15 @@ class WriterAccessBulkOrderStatusController extends Controller {
         return isset($bulkOrderStatus[0]) ? response()->json($bulkOrderStatus[0]) : array("error"=>"No status found for id '".$id."'.");
     }
 
-    public function sample(){
-        try{
-            $user = Auth()->user();;
+    public function show(Request $request, $id){
+        $bulkOrderStatus = WriterAccessBulkOrderStatus::findOrFail($id);
 
-            $workbook = Excel::load("/Users/zkghsyv/Desktop/bulk_sample.xlsx")->get();
-
-            $bulkOrderStatus =  WriterAccessBulkOrderStatus::create([
-                "total_orders " => count($workbook),
-                "status_percentage " => 0,
-                "completed_orders " => 0,
-                "completed " => false,
-            ]);
-
-            $job = (new WriterAccessBulkOrder($bulkOrderStatus->id, $user, $workbook));
-
-            $this->dispatch($job);
-
-            return response()->json(array(
-                "user" => $user,
-                "bulkOrderStatus" => $bulkOrderStatus,
-                "workbook" => $workbook,
-                "job" => $job
-            ));
-        }catch(Exception $e){
-            return response()->json(array(
-                "error" => $e->getMessage(),
-                "stack" => json_encode($e->getTrace())
-            ));
+        if (!$bulkOrderStatus) {
+            abort(404);
         }
+
+        return view('writerAccessBulkOrderStatuses.show', compact('bulkOrderStatus'));
     }
+
+
 }

@@ -2,8 +2,12 @@
 
 namespace App\Jobs;
 
+use App\Http\Controllers\WriterAccessBulkOrderStatusController;
+use App\Http\Controllers\WriterAccessController;
+use Illuminate\Http\Request;
 use App\User;
 use App\WriterAccessBulkOrderStatus;
+use App\DTO\Order;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,18 +22,20 @@ class WriterAccessBulkOrder extends Job implements ShouldQueue
     private $user;
     private $orders;
     private $failedOrders = [];
+    private $originalRequest;
 
     /**
      * WriterAccessBulkOrder constructor.
      * @param Integer $bulkOrderStatusId
      * @param User $user
-     * @param RowCollection $orders
+     * @param Order[] $orders
+     * @param Request $originalRequest
      */
-    public function __construct($bulkOrderStatusId, User $user, RowCollection $orders){
+    public function __construct($bulkOrderStatusId, User $user, array $orders, Request $originalRequest){
         $this->bulkOrderStatus = WriterAccessBulkOrderStatus::find($bulkOrderStatusId);
         $this->user = $user;
         $this->orders = $orders;
-
+        $this->originalRequest = $originalRequest;
     }
 
     /**
@@ -65,12 +71,15 @@ class WriterAccessBulkOrder extends Job implements ShouldQueue
     /**
      * Places a single order through WriterAccess for the order details provided.
      * 
-     * @param $order
+     * @param Order $order
      * @return bool
      */
     public function placeOrder($order){
-        echo "Placing order for '".$order->content_title."'.\n\n:";
-        sleep(1);
-        return true;
+        echo "\nPlacing order for '".$order->getTitle()."'.\n";
+
+        $writerAccessController = new WriterAccessController($this->originalRequest);
+
+        echo $writerAccessController->createOrder($order->toArray());
+
     }
 }

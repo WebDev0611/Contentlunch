@@ -20,7 +20,8 @@
                             </div>
                         </div>
                     </div>
-                    {!! Form::open([ 'id' => 'order-checkout', 'url' => "writeraccess/orders/$order->id/submit" ]) !!}
+
+                    {!! Form::open([ 'id'=>'orderFrom', 'url' => "writeraccess/orders/$order->id/submit" ]) !!}
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="purchase-assignment">
@@ -156,7 +157,7 @@
         Stripe.setPublishableKey("{{ getenv('STRIPE_PUBLISHABLE_KEY') }}");
 
         function stripeResponseHandler(status, response) {
-            var $form = $('#order-checkout');
+            var $form = $('#orderForm');
 
             if (response.error) {
                 $form.find('input[type=submit]').prop('disabled', false);
@@ -170,7 +171,7 @@
             }
         }
 
-        $('#order-checkout').submit(function(e) {
+        $('#orderForm').submit(function(e) {
             var $form = $(this);
 
             $form.find('input[type=submit]').prop('disabled', true);
