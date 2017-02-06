@@ -16,6 +16,7 @@
  */
 Route::model('account', 'App\Account');
 Route::model('buyingStage', 'App\BuyingStage');
+Route::model('campaign', 'App\Campaign');
 Route::model('connection', 'App\Connection');
 Route::model('content', 'App\Content');
 Route::model('idea', 'App\Idea');
@@ -234,6 +235,7 @@ Route::group([ 'middleware' => 'auth' ], function() {
      * AJAX Helpers
      */
     Route::get('/api/connections', 'ConnectionController@index');
+    Route::get('/api/campaigns/{campaign}/collaborators', 'CampaignCollaboratorsController@index');
     Route::get('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@index');
     Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@update');
     Route::get('/api/contents/{content}/tasks', 'ContentTasksController@index');
