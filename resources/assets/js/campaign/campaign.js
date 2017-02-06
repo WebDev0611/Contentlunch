@@ -18,15 +18,23 @@
     });
 
     if (campaign && campaign.id) {
-        fetchCampaignCollaborators(campaign.id);
+        fetchCampaignCollaborators(campaign.id)
+            .then(populateCollaboratorsList);
     }
 
     function fetchCampaignCollaborators(campaignId) {
         return $.ajax({
             url: `/api/campaigns/${campaignId}/collaborators`,
             headers: getJsonHeader(),
-        })
-        .then(response => collaborators.reset(response));
+        });
+    }
+
+    function populateCollaboratorsList(response) {
+        if (response.data.length) {
+            $('#collaborators-sidebar-alert').slideUp('fast');
+            collaborators.remove(collaborators.models);
+            collaborators.add(response.data);
+        }
     }
 
 })();
