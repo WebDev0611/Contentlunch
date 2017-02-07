@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Account;
 use App\Attachment;
+use App\Campaign;
 use App\Content;
 use App\Helpers;
 use App\Task;
@@ -57,6 +58,7 @@ class TaskController extends Controller
         $this->saveAssignedUsers($request, $task);
         $this->saveAttachments($request, $task);
         $this->saveAsContentTask($request, $task);
+        $this->saveAsCampaignTask($request, $task);
 
         return $this->taskResponse($task);
     }
@@ -130,6 +132,15 @@ class TaskController extends Controller
 
         if ($contentId && Content::find($contentId)->count()) {
             $task->contents()->attach($contentId);
+        }
+    }
+
+    protected function saveAsCampaignTask(Request $request, Task $task)
+    {
+        $campaignId = $request->input('campaignId');
+
+        if ($campaignId && Campaign::find($campaignId)->count()) {
+            $task->campaigns()->attach($campaignId);
         }
     }
 
