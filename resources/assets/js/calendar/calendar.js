@@ -114,8 +114,8 @@
         show_task_modal: function () {
             var cell_date = this.$el.data('cell-date');
 
-            $('#task-start-date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD'));
-            $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('YYYY-MM-DD'));
+            $('#task-start-date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD HH:mm'));
+            $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('YYYY-MM-DD HH:mm'));
 
             if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
                 cell_date = this.$el.data('cell-date-time');
@@ -138,12 +138,13 @@
             return c;
         }));
 
-        // Ideas
-        ideas = new ideas_collection(ideas.map(idea_map));
-        ideas.forEach(function (i) {
-            my_campaigns.add(i);
-        });
+        // Declarations
+        var ideas = new ideas_collection();
+        var tasks = new task_collection();
+        var my_content = new content_collection();
 
+
+        // Maps
         function idea_map(i) {
             i.date = i.created_at;
             i.type = 'idea';
@@ -156,63 +157,6 @@
             }
 
             return i;
-        }
-
-        function fetchMyIdeas() {
-            return $.ajax({
-                url: '/ideas',
-                method: 'get',
-                headers: getJsonHeader(),
-            })
-        }
-
-
-        // Tasks
-
-        tasks = new task_collection(tasks.map(task_map));
-        tasks.forEach(function (t) {
-            my_campaigns.add(t);
-        });
-
-        $('#add-task-button').click(function () {
-            add_task(addTaskCallback);
-        });
-
-        function addTaskCallback() {
-            let myTasksPromise = fetchMyTasks();
-            let myIdeasPromise = fetchMyIdeas();
-            let myContentPromise = fetchMyContent();
-
-            $.when(myTasksPromise, myIdeasPromise, myContentPromise).done((myTasksResponse, myIdeasResponse, myContentResponse) => {
-                tasks.reset(myTasksResponse[0].data.map(task_map));
-                ideas.reset(myIdeasResponse[0].map(idea_map));
-                my_content.reset(myContentResponse[0].map(content_map).filter(function (c) {
-                    return c.content_status != null;
-                }));
-
-                my_campaigns.reset();
-                tasks.forEach(function (t) {
-                    my_campaigns.add(t);
-                });
-                ideas.forEach(function (t) {
-                    my_campaigns.add(t);
-                });
-                my_content.forEach(function (t) {
-                    my_campaigns.add(t);
-                });
-
-                renderCalendarItems(my_campaigns);
-            });
-
-            $('#addTaskModal').modal('hide');
-        }
-
-        function fetchMyTasks() {
-            return $.ajax({
-                url: '/api/tasks',
-                method: 'get',
-                headers: getJsonHeader(),
-            })
         }
 
         function task_map(t) {
@@ -229,29 +173,6 @@
 
             return t;
         }
-
-
-        // Content
-
-        let content_types = new content_type_collection();
-        content_types.fetch().then(response => content_types.reset(response));
-        let types = [];
-
-        content_types.on('update', function (type) {
-            type.forEach(function (i) {
-                types.push(i.toJSON());
-            });
-
-            my_content = new content_collection(my_content.map(content_map).filter(function (c) {
-                return c.content_status != null;
-            }));
-
-            my_content.forEach(function (c) {
-                my_campaigns.add(c);
-            });
-
-            renderCalendarItems(my_campaigns);
-        });
 
         function content_map(c) {
             c.date = c.created_at;
@@ -295,12 +216,84 @@
             return c;
         }
 
+        // Fetch methods
+        function fetchMyIdeas() {
+            return $.ajax({
+                url: '/ideas',
+                method: 'get',
+                headers: getJsonHeader(),
+            })
+        }
+
+        function fetchMyTasks() {
+            return $.ajax({
+                url: '/api/tasks',
+                method: 'get',
+                headers: getJsonHeader(),
+            })
+        }
+
         function fetchMyContent() {
             return $.ajax({
                 url: '/content/my',
                 method: 'get',
                 headers: getJsonHeader(),
             })
+        }
+
+
+        // Add new task
+        $('#add-task-button').click(function () {
+            add_task(addCallback);
+        });
+
+        // Content types
+        let content_types = new content_type_collection();
+        content_types.fetch().then(response => content_types.reset(response));
+        let types = [];
+
+        content_types.on('update', function (type) {
+            type.forEach(function (i) {
+                types.push(i.toJSON());
+            });
+
+            addCallback();
+        });
+
+
+        function addCallback() {
+
+            $('#calendar-loading-gif').show();
+
+            let myTasksPromise = fetchMyTasks();
+            let myIdeasPromise = fetchMyIdeas();
+            let myContentPromise = fetchMyContent();
+
+            $.when(myTasksPromise, myIdeasPromise, myContentPromise).done((myTasksResponse, myIdeasResponse, myContentResponse) => {
+                tasks.reset(myTasksResponse[0].data.map(task_map));
+                ideas.reset(myIdeasResponse[0].map(idea_map));
+                my_content.reset(myContentResponse[0].map(content_map).filter(function (c) {
+                    return c.content_status != null;
+                }));
+
+                my_campaigns.reset();
+
+                tasks.forEach(function (t) {
+                    my_campaigns.add(t);
+                });
+                ideas.forEach(function (t) {
+                    my_campaigns.add(t);
+                });
+                my_content.forEach(function (t) {
+                    my_campaigns.add(t);
+                });
+
+                renderCalendarItems(my_campaigns);
+
+                $('#calendar-loading-gif').fadeOut();
+            });
+
+            $('#addTaskModal').modal('hide');
         }
 
 

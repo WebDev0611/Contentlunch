@@ -50,6 +50,11 @@
     </div>
 </div>
 
+<div id="calendar-loading-gif">
+    <img src="{{asset('images/loading.gif')}}" alt="">
+    <p>Loading your calendar content...</p>
+</div>
+
 @include('calendar.filter')
 @include('calendar.create')
 
@@ -158,9 +163,6 @@
 @section('scripts')
 <script>
 var campaigns = {!! $campaigns !!};
-var tasks = {!! $tasks !!};
-var ideas = {!! $ideas !!};
-var my_content = {!! $my_content !!};
 </script>
 <script src="/js/calendar.js"></script>
 @stop
