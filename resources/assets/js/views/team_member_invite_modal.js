@@ -43,7 +43,7 @@ var teamMemberInviteModalView = Backbone.View.extend({
         "</div>";
 
         $('#dashboard-feedback').remove();
-        $(alert).prependTo('.workspace .container-fluid');
+        $(alert).prependTo('.workspace');
         $('#dashboard-feedback').slideDown();
 
         setTimeout(function() {

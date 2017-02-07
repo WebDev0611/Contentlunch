@@ -6,6 +6,7 @@
     <title>Content Launch</title>
     <meta name=description content="Content Launch">
     <meta name=viewport content="initial-scale=1.0,width=device-width">
+    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" >
     <link rel=stylesheet href=/css/main.css>
 
     <link rel="stylesheet" href="/css/plugins/dropzone/basic.min.css">
