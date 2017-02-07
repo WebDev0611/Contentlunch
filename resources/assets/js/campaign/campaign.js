@@ -14,7 +14,7 @@
     collaborators.on('add', collaborator => {
         let model = new CollaboratorModel(collaborator);
         let view = new CampaignCollaboratorView({ model });
-        $('.campaign-collaborator').append(view.render().el);
+        $('.campaign-collaborators').append(view.render().el);
     });
 
     if (campaign && campaign.id) {
@@ -24,5 +24,16 @@
             }
         });
     }
+
+    $('#campaign-add-person').click(event => {
+        event.preventDefault();
+        let modal = new AddCampaignCollaboratorModal({
+            campaignId: campaign ? campaign.id : null,
+            collection: collaborators,
+        });
+
+        $('body').prepend(modal.render().el);
+        modal.showModal();
+    });
 
 })();

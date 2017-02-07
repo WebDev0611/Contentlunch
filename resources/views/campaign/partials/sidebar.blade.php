@@ -42,7 +42,7 @@
         </li>
         --}}
         <li class="tablink">
-            <a href="#" class="btn button-text"><i class="icon-add-person"></i></a>
+            <a href="#" id='campaign-add-person' class="btn button-text"><i class="icon-add-person"></i></a>
         </li>
     </ul>
 </div>
