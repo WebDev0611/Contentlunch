@@ -46,4 +46,9 @@ $calendar-day-disabled-cell-color: #6944b7;
       border-right: 0;
     }
   }
+
+  .calendar-task-list > li {
+    font-size: 14px;
+    padding: 6px;
+  }
 }

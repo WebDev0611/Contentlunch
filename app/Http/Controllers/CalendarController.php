@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use View;
+use App\Account;
 use App\User;
 use Auth;
 use App\Campaign;
@@ -21,11 +22,9 @@ class CalendarController extends Controller {
 			$this->user_id = $user->id;
 			$this->account_id = 0;
 			$this->campaigns = Auth::user()->campaigns()->get();
-			$this->tasks = Auth::user()->tasks()->get();
-
-			foreach ($this->tasks as $task) {
-				$task->user = $user;
-			}
+			$this->tasks = Auth::user()->tasks()->with('user')->get();
+			$this->ideas = Auth::user()->ideas()->with('user')->get();
+			$this->my_content = Account::selectedAccount()->contents()->with('authors')->get();
 		}
 	}
 
@@ -149,6 +148,8 @@ class CalendarController extends Controller {
 			'user_id' => $this->user_id,
 			'account_id'=> $this->account_id,
 			'tasks' => $this->tasks->toJson(),
+			'ideas' => $this->ideas->toJson(),
+			'my_content' => $this->my_content->toJson(),
 			) );
 	}
 
@@ -321,7 +322,9 @@ class CalendarController extends Controller {
 			'campaigns' => $this->campaigns->toJson(),
 			'content_items' => $content,
 			'weekly_calendar' => $weekly_calendar_string,
-			'tasks' => $this->tasks->toJson()
+			'tasks' => $this->tasks->toJson(),
+            'ideas' => $this->ideas->toJson(),
+            'my_content' => $this->my_content->toJson(),
 		));
 	}
 
@@ -330,6 +333,7 @@ class CalendarController extends Controller {
 		if(!$day){
 			$day = date('d');
 		}
+        $day = intval($day);
 
 		if(!$year){
 			$year = date('Y');
@@ -396,7 +400,9 @@ class CalendarController extends Controller {
 			'campaigns' => $this->campaigns->toJson(),
 			'content_items' => $content,
 			'daily_calendar' => generate_daily_calendar($year,$month,$day),
-			'tasks' => $this->tasks->toJson()
+			'tasks' => $this->tasks->toJson(),
+            'ideas' => $this->ideas->toJson(),
+            'my_content' => $this->my_content->toJson(),
 		));
 	}
 

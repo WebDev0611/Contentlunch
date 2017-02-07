@@ -465,6 +465,7 @@ class ContentController extends Controller
     {
         $content = $this->selectedAccount
             ->contents()
+            ->with('authors')
             ->get();
 
         return response()->json($content);

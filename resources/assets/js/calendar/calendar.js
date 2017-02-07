@@ -91,7 +91,13 @@
         },
         show_tool: function (event) {
             this.$el.append($('#calendar-dropdown-template').html());
-            this.$el.find('.date-popup-label').text(moment(this.$el.data('cell-date'), "YYYY-M-D").format('dddd, MMM Do YYYY'));
+            var popup_label_text = moment(this.$el.data('cell-date'), "YYYY-M-D").format('dddd, MMM Do YYYY');
+
+            if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
+                popup_label_text = moment(this.$el.data('cell-date-time'), "YYYY-M-D-HHmmss").format('dddd, MMM Do YYYY HH:mm');
+            }
+
+            this.$el.find('.date-popup-label').text(popup_label_text);
             this.$el.find('.calendar-schedule-dropdown-wrapper').fadeIn(100);
         },
         hide_tool: function (event) {
@@ -110,6 +116,13 @@
 
             $('#task-start-date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD'));
             $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('YYYY-MM-DD'));
+
+            if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
+                cell_date = this.$el.data('cell-date-time');
+                $('#task-start-date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm'));
+                $('#task-due-date').val(moment(cell_date, "YYYY-M-D-HHmmss").add(1, 'days').format('YYYY-MM-DD HH:mm'));
+            }
+
             $("#addTaskModal").modal('show');
 
             // $("#addTaskCalendar").modal('show');
@@ -135,19 +148,24 @@
             add_task(addTaskCallback);
         });
 
-        function addTaskCallback(task) {
+        function addTaskCallback() {
             let myTasksPromise = fetchMyTasks();
             let myIdeasPromise = fetchMyIdeas();
+            let myContentPromise = fetchMyContent();
 
-            $.when(myTasksPromise, myIdeasPromise).done((myTasksResponse, myIdeasResponse) => {
+            $.when(myTasksPromise, myIdeasPromise, myContentPromise).done((myTasksResponse, myIdeasResponse, myContentResponse) => {
                 tasks.reset(myTasksResponse[0].data.map(task_map));
-                my_ideas.reset(myIdeasResponse[0].map(idea_map));
+                ideas.reset(myIdeasResponse[0].map(idea_map));
+                my_content.reset(myContentResponse[0].map(content_map));
 
                 my_campaigns.reset();
                 tasks.forEach(function (t) {
                     my_campaigns.add(t);
                 });
-                my_ideas.forEach(function (t) {
+                ideas.forEach(function (t) {
+                    my_campaigns.add(t);
+                });
+                my_content.forEach(function (t) {
                     my_campaigns.add(t);
                 });
 
@@ -182,15 +200,9 @@
 
 
         // Ideas
-        var my_ideas = new ideas_collection();
-        my_ideas.fetch().then(response => my_ideas.reset(response));
-
-        my_ideas.on('update', function (ideas) {
-            ideas = new task_collection(ideas.toJSON().map(idea_map));
-            ideas.forEach(function (i) {
-                my_campaigns.add(i);
-            });
-            renderCalendarItems(my_campaigns);
+        ideas = new ideas_collection(ideas.map(idea_map));
+        ideas.forEach(function (i) {
+            my_campaigns.add(i);
         });
 
         function idea_map(i) {
@@ -217,26 +229,22 @@
 
 
         // Content
-        let cotent_types = new content_type_collection();
-        cotent_types.fetch().then(response => cotent_types.reset(response));
+        let content_types = new content_type_collection();
+        content_types.fetch().then(response => content_types.reset(response));
         let types = [];
 
-        cotent_types.on('update', function (type) {
+        content_types.on('update', function (type) {
             type.forEach(function (i) {
                 types.push(i.toJSON());
             });
-        });
 
-        var my_content = new content_collection();
-        my_content.fetch().then(response => my_content.reset(response));
-        my_content.on('update', function (content) {
-            // Exclude wrong content
-            content = new task_collection(content.toJSON().map(content_map).filter(function (c) {
-                return c.content_status !== null;
+            my_content = new content_collection(my_content.map(content_map).filter(function (c) {
+                return c.content_status != null;
             }));
-            content.forEach(function (i) {
-                my_campaigns.add(i);
+            my_content.forEach(function (c) {
+                my_campaigns.add(c);
             });
+
             renderCalendarItems(my_campaigns);
         });
 
@@ -262,6 +270,7 @@
                 c.content_status_text = 'being written';
             } else {
                 c.content_status = null;
+                c.content_status_text = '';
             }
 
             // Get content type slug
@@ -270,21 +279,28 @@
             });
             c.type_class = (type[0] != null) ? 'icon-type-' + type[0].provider.slug : 'primary icon-content-alert';
 
-            // TODO content user
-            c.author = 'Ivo'; //i.user.name;
-            // if (i.user.profile_image) {
-            //     i.user_image = i.user.profile_image;
-            // }
+            c.author = '';
+            c.authors.forEach(function (author) {
+                c.author += author.name + '<br>';
+            });
+            if (c.author.profile_image) {
+                c.user_image = c.author.profile_image;
+            }
 
             return c;
         }
 
-        // Render
-        // var calendar_items = my_campaigns; //new calendar_item_collection( my_campaigns );
-        renderCalendarItems(my_campaigns);
+        function fetchMyContent() {
+            return $.ajax({
+                url: '/content/my',
+                method: 'get',
+                headers: getJsonHeader(),
+            })
+        }
 
+
+        // RENDER
         function renderCalendarItems(calendar_items) {
-
             var day_containers = {};
             var hour_containers = {};
 
@@ -322,7 +338,10 @@
                     cal_views[d_string].render();
                 }
             });
+
+            console.log('render done');
         }
+
 
         $('#task-start-date').datetimepicker({
             format: 'YYYY-MM-DD HH:mm:ss',
