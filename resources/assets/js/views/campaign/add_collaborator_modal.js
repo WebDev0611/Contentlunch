@@ -134,21 +134,13 @@ var AddCampaignCollaboratorModal = Backbone.View.extend({
         let field = $('input[name=collaborators]');
         let selected = this.getCheckedCollaborators();
 
-        if (field.length) {
-            field.val(selected.join(','));
-        } else {
-            let el = $('<input>', {
-                type: 'hidden',
-                name: 'collaborators',
-                val: selected.join(','),
-            });
+        field.val(selected.join(','));
 
-            this.data.form.append(el);
-            this.data.parentList.html('');
+        this.data.parentList.html('');
 
-            let newUsers = selected.map(userId => _.find(this.data.users, { id: userId }));
-            this.collection.add(newUsers);
-        }
+        let newUsers = selected.map(userId => _.find(this.data.users, { id: userId }));
+        this.collection.reset();
+        this.collection.add(newUsers);
     },
 
     refreshCollaborators(response) {

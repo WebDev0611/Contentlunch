@@ -149,4 +149,10 @@
             <input type="file" class="input input-upload">
         </div>
     </div>
+
+    @if ($campaign->collaborators->isEmpty() && !$campaign->id)
+        {{ Form::hidden('collaborators', Auth::id()) }}
+    @else
+        {{ Form::hidden('collaborators', $campaign->present()->collaboratorsIDs) }}
+    @endif
 </div>
