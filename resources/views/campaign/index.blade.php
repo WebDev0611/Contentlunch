@@ -32,7 +32,7 @@
 
                     <!-- Tab2: Campaign Info -->
                     <div role="tabpanel" class="tab-pane active" id="contenttab-campaign">
-                        {{ Form::open([ 'url' => '/campaign' ]) }}
+                        {{ Form::open([ 'url' => '/campaign', 'id' => 'campaign_editor' ]) }}
                             @include('campaign.partials.header')
                             @include('campaign.partials.campaign_tab')
                         {{ Form::close() }}

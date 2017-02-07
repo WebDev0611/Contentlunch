@@ -12,17 +12,25 @@
     let collaborators = new CampaignCollaboratorsCollection();
 
     collaborators.on('add', collaborator => {
+        appendCollaborator(collaborator);
+        hideAlert();
+    });
+
+    function appendCollaborator(collaborator) {
         let model = new CollaboratorModel(collaborator);
         let view = new CampaignCollaboratorView({ model });
         $('.campaign-collaborators').append(view.render().el);
-    });
+    }
+
+    function hideAlert() {
+        let $alert = $('#collaborators-sidebar-alert');
+        if ($alert.is(':visible')) {
+            $alert.slideUp('fast');
+        }
+    }
 
     if (campaign && campaign.id) {
-        collaborators.populateList(campaign.id).then(response => {
-            if (response.data.length) {
-                $('#collaborators-sidebar-alert').slideUp('fast');
-            }
-        });
+        collaborators.populateList(campaign.id);
     }
 
     $('#campaign-add-person').click(event => {
@@ -30,6 +38,8 @@
         let modal = new AddCampaignCollaboratorModal({
             campaignId: campaign ? campaign.id : null,
             collection: collaborators,
+            form: $('#campaign_editor'),
+            parentList: $('.campaign-collaborators'),
         });
 
         $('body').prepend(modal.render().el);

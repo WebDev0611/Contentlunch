@@ -49,6 +49,8 @@ var AddCampaignCollaboratorModal = Backbone.View.extend({
     initialize(options) {
         this.data.campaignId = options.campaignId;
         this.data.collection = options.collection;
+        this.data.form = options.form;
+        this.data.parentList = options.parentList;
         this.clearList();
         this.render();
         this.fetchData();
@@ -77,7 +79,6 @@ var AddCampaignCollaboratorModal = Backbone.View.extend({
             headers: getCSRFHeader(),
         })
         .then(function(response) {
-            debugger;
             this.clearList();
             this.data.users = response.data;
             this.renderCheckboxes();
@@ -109,6 +110,15 @@ var AddCampaignCollaboratorModal = Backbone.View.extend({
     },
 
     submit() {
+        if (this.data.campaignId) {
+            this.saveCollaboratorsToAPI().then(this.refreshCollaborators().bind(this))
+        } else {
+            this.saveCollaboratorsToDOM();
+            this.dismissModal();
+        }
+    },
+
+    saveCollaboratorsToAPI() {
         return $.ajax({
             method: 'post',
             url: `/api/campaigns/${this.campaignId}/collaborators`,
@@ -116,12 +126,34 @@ var AddCampaignCollaboratorModal = Backbone.View.extend({
             data: {
                 authors: this.getCheckedCollaborators()
             },
-        })
-        .then(response => {
-            $('#sidebar-collaborator-list').html('');
-            this.collection.populateList(this.campaignId);
-            this.dismissModal();
         });
+    },
+
+    saveCollaboratorsToDOM() {
+        let field = $('input[name=collaborators]');
+        let selected = this.getCheckedCollaborators();
+
+        if (field.length) {
+            field.val(selected.join(','));
+        } else {
+            let el = $('<input>', {
+                type: 'hidden',
+                name: 'collaborators',
+                val: selected.join(','),
+            });
+
+            this.data.form.append(el);
+            this.data.parentList.html('');
+
+            let newUsers = selected.map(userId => _.find(this.data.users, { id: userId }));
+            this.collection.add(newUsers);
+        }
+    },
+
+    refreshCollaborators(response) {
+        this.data.parentList.html('');
+        this.collection.populateList(this.campaignId);
+        this.dismissModal();
     },
 
     getCheckedCollaborators() {
