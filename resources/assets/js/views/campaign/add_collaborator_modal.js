@@ -91,6 +91,7 @@ var AddCampaignCollaboratorModal = Backbone.View.extend({
 
     renderCheckboxes() {
         this.data.users.forEach(function(user) {
+            user.is_collaborator = user.is_collaborator || (!this.data.campaignId && user.is_logged_user);
             let model = new CollaboratorModel(user);
             let userCheckbox = new CollaboratorModalView({ model });
 
