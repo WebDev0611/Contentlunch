@@ -46,7 +46,17 @@ class CampaignController extends Controller
             return redirect('/campaign')->with('errors', $validation->errors());
         }
 
-        $campaign = Account::selected()->campaigns()->create([
+        $campaign = $this->createCampaign($request);
+
+        return redirect()->route('dashboard')->with([
+            'flash_message' => "Campaign created: $campaign->title",
+            'flash_message_type' => 'success',
+        ]);
+    }
+
+    protected function createCampaign(Request $request)
+    {
+        return Account::selected()->campaigns()->create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'start_date' => $request->input('start_date'),
@@ -55,11 +65,6 @@ class CampaignController extends Controller
             'campaign_type_id' => (int) $request->input('type'),
             'status' => (int) $request->input('status'),
             'user_id' => Auth::id(),
-        ]);
-
-        return redirect()->route('dashboard')->with([
-            'flash_message' => "Campaign created: $campaign->title",
-            'flash_message_type' => 'success',
         ]);
     }
 

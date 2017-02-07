@@ -7,6 +7,11 @@ use Laracasts\Presenter\Presenter;
 
 class CampaignPresenter extends Presenter
 {
+    public function collaboratorsIDs()
+    {
+        return $this->entity->collaborators->pluck('id')->implode(',');
+    }
+
     public static function dropdown($user = null)
     {
         $user = $user ?: Auth::user();
