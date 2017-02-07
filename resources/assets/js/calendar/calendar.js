@@ -138,7 +138,37 @@
             return c;
         }));
 
+        // Ideas
+        ideas = new ideas_collection(ideas.map(idea_map));
+        ideas.forEach(function (i) {
+            my_campaigns.add(i);
+        });
+
+        function idea_map(i) {
+            i.date = i.created_at;
+            i.type = 'idea';
+            i.title = i.name;
+            i.author = i.user.name;
+            i.details_url = '/idea/' + i.id;
+            i.explanation = i.text;
+            if (i.user.profile_image) {
+                i.user_image = i.user.profile_image;
+            }
+
+            return i;
+        }
+
+        function fetchMyIdeas() {
+            return $.ajax({
+                url: '/ideas',
+                method: 'get',
+                headers: getJsonHeader(),
+            })
+        }
+
+
         // Tasks
+
         tasks = new task_collection(tasks.map(task_map));
         tasks.forEach(function (t) {
             my_campaigns.add(t);
@@ -156,7 +186,9 @@
             $.when(myTasksPromise, myIdeasPromise, myContentPromise).done((myTasksResponse, myIdeasResponse, myContentResponse) => {
                 tasks.reset(myTasksResponse[0].data.map(task_map));
                 ideas.reset(myIdeasResponse[0].map(idea_map));
-                my_content.reset(myContentResponse[0].map(content_map));
+                my_content.reset(myContentResponse[0].map(content_map).filter(function (c) {
+                    return c.content_status != null;
+                }));
 
                 my_campaigns.reset();
                 tasks.forEach(function (t) {
@@ -199,36 +231,8 @@
         }
 
 
-        // Ideas
-        ideas = new ideas_collection(ideas.map(idea_map));
-        ideas.forEach(function (i) {
-            my_campaigns.add(i);
-        });
-
-        function idea_map(i) {
-            i.date = i.created_at;
-            i.type = 'idea';
-            i.title = i.name;
-            i.author = i.user.name;
-            i.details_url = '/idea/' + i.id;
-            i.explanation = i.text;
-            if (i.user.profile_image) {
-                i.user_image = i.user.profile_image;
-            }
-
-            return i;
-        }
-
-        function fetchMyIdeas() {
-            return $.ajax({
-                url: '/ideas',
-                method: 'get',
-                headers: getJsonHeader(),
-            })
-        }
-
-
         // Content
+
         let content_types = new content_type_collection();
         content_types.fetch().then(response => content_types.reset(response));
         let types = [];
@@ -241,6 +245,7 @@
             my_content = new content_collection(my_content.map(content_map).filter(function (c) {
                 return c.content_status != null;
             }));
+
             my_content.forEach(function (c) {
                 my_campaigns.add(c);
             });
@@ -273,7 +278,7 @@
                 c.content_status_text = '';
             }
 
-            // Get content type slug
+            //Get content type slug
             var type = $.grep(types, function (e) {
                 return e.id == c.content_type_id;
             });
