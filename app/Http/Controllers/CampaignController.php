@@ -25,7 +25,6 @@ class CampaignController extends Controller
         return view('campaign.index', $data);
     }
 
-
     public function edit(Request $request, Campaign $campaign)
     {
         $data = [
