@@ -155,4 +155,8 @@
     @else
         {{ Form::hidden('collaborators', $campaign->present()->collaboratorsIDs) }}
     @endif
+
+    @if (!$campaign->id)
+        {{ Form::hidden('tasks') }}
+    @endif
 </div>

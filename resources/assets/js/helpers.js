@@ -116,14 +116,26 @@ function getTaskData() {
         attachments: getTaskAttachments(),
         assigned_users: getTaskAssignments(),
         content_id: getContentId(),
+        campaign_id: getCampaignId(),
     };
+}
+
+function getCampaignId() {
+    let element = $('#is_campaign_task');
+    let campaignId = null;
+
+    if (element.length && element.val() === 'on') {
+        campaignId = element.data('id');
+    }
+
+    return campaignId;
 }
 
 function getContentId() {
     var element = $('#is_content_task');
     var contentId = null;
 
-    if ((element.length) && (element.val() === 'on')) {
+    if (element.length && element.val() === 'on') {
         contentId = element.data('id');
     }
 

@@ -67,7 +67,16 @@
         <div class="input-form-group">
             <label class='checkbox-primary'>
                 <input type="checkbox" data-id='{{ $content->id }}' checked='checked' name='is_content_task' id='is_content_task'>
-                <span>Assign this Task to this piece of content</span>
+                <span>Assign Task to current piece of content</span>
+            </label>
+        </div>
+        @endif
+
+        @if (@$campaign)
+        <div class="input-form-group">
+            <label class='checkbox-primary'>
+                <input type="checkbox" data-id='{{ @$campaign->id }}' checked='checked' name='is_campaign_task' id='is_campaign_task'>
+                <span>Assign Task to current Campaign</span>
             </label>
         </div>
         @endif
