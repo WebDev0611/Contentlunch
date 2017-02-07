@@ -45,6 +45,8 @@ class CampaignCollaboratorsController extends Controller
         return $possibleCollaborators->map(function($user) use ($currentCollaborators) {
             $user->is_collaborator = $currentCollaborators->has($user->id);
             $user->is_logged_user = $user->id === Auth::id();
+            $user->profile_image = $user->present()->profile_image;
+            $user->location = $user->present()->location;
 
             return $user;
         });
