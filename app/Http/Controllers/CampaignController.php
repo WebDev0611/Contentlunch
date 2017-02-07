@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Campaign;
 use App\CampaignType;
 use App\Content;
@@ -40,31 +41,20 @@ class CampaignController extends Controller
 
     public function store(Request $request)
     {
-        $validation = $this->createValidation($request->all());
+        $data = $request->all();
+        $validation = $this->createValidation($data);
 
         if ($validation->fails()) {
             return redirect('/campaign')->with('errors', $validation->errors());
         }
 
-        $campaign = $this->createCampaign($request);
+        $campaign = $this->createCampaign($data);
+
+        $this->saveCollaborators($data, $campaign);
 
         return redirect()->route('dashboard')->with([
             'flash_message' => "Campaign created: $campaign->title",
             'flash_message_type' => 'success',
-        ]);
-    }
-
-    protected function createCampaign(Request $request)
-    {
-        return Account::selected()->campaigns()->create([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'start_date' => $request->input('start_date'),
-            'end_date' => $request->input('end_date'),
-            'goals' => $request->input('goals'),
-            'campaign_type_id' => (int) $request->input('type'),
-            'status' => (int) $request->input('status'),
-            'user_id' => Auth::id(),
         ]);
     }
 
@@ -74,6 +64,26 @@ class CampaignController extends Controller
             'title' => 'required',
             'status' => 'required',
         ]);
+    }
+
+    protected function createCampaign(array $requestData)
+    {
+        return Account::selectedAccount()->campaigns()->create([
+            'title' => $requestData['title'],
+            'description' => $requestData['description'],
+            'start_date' => $requestData['start_date'],
+            'end_date' => $requestData['end_date'],
+            'goals' => $requestData['goals'],
+            'campaign_type_id' => (int) $requestData['type'],
+            'status' => (int) $requestData['status'],
+            'user_id' => Auth::id(),
+        ]);
+    }
+
+    protected function saveCollaborators(array $requestData, Campaign $campaign)
+    {
+        $collaborators = explode(',', $requestData['collaborators']);
+        $campaign->collaborators()->sync($collaborators);
     }
 
     public function update(Request $request, Campaign $campaign)
