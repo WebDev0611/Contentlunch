@@ -33,7 +33,7 @@ class Campaign extends Model
 
     public function collaborators()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User')->withTimestamps();
     }
 
     public function contents()
@@ -44,6 +44,11 @@ class Campaign extends Model
     public function creator()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function tasks()
+    {
+        return $this->belongsToMany('App\Task')->withTimestamps();
     }
 
     public function __toString()

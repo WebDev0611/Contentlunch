@@ -62,9 +62,24 @@ class Task extends Model
         return $this->hasMany('App\TaskAdjustment');
     }
 
+    public function assignedUsers()
+    {
+        return $this->belongsToMany('App\User');
+    }
+
     public function attachments()
     {
         return $this->hasMany('App\Attachment');
+    }
+
+    public function campaign()
+    {
+        return $this->belongsToMany('App\Campaign');
+    }
+
+    public function contents()
+    {
+        return $this->belongsToMany('App\Content');
     }
 
     public function user()
@@ -75,16 +90,6 @@ class Task extends Model
     public function users()
     {
         return $this->account->users();
-    }
-
-    public function assignedUsers()
-    {
-        return $this->belongsToMany('App\User');
-    }
-
-    public function contents()
-    {
-        return $this->belongsToMany('App\Content');
     }
 
     public static function search($term, $account = null)
