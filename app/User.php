@@ -36,19 +36,14 @@ class User extends Authenticatable
 
     const DEFAULT_PROFILE_IMAGE = '/images/cl-avatar2.png';
 
-    public function connections()
+    public function accounts()
     {
-       return $this->hasMany('App\Connection');
+        return $this->belongsToMany('App\Account');
     }
 
-    public function campaigns()
+    public function accountConnections()
     {
-       return $this->hasMany('App\Campaign');
-    }
-
-    public function tasks()
-    {
-       return $this->hasMany('App\Task');
+        return $this->account->connections();
     }
 
     public function assignedTasks()
@@ -56,9 +51,14 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Task');
     }
 
-    public function accounts()
+    public function campaigns()
     {
-        return $this->belongsToMany('App\Account');
+       return $this->hasMany('App\Campaign');
+    }
+
+    public function connections()
+    {
+       return $this->hasMany('App\Connection');
     }
 
     public function country()
@@ -66,9 +66,9 @@ class User extends Authenticatable
         return $this->belongsTo('App\Country', 'country_code', 'country_code');
     }
 
-    public function accountConnections()
+    public function tasks()
     {
-        return $this->account->connections();
+       return $this->hasMany('App\Task');
     }
 
     public function partialWriterAccessOrders()
