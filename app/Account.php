@@ -94,7 +94,7 @@ class Account extends Model
 
     public static function selectAccount(Account $account)
     {
-        session([ 'selected_account_id' => $account->id ]);
+        Auth::user()->selectedAccount()->associate($account->id);
     }
 
     public static function selectedAccount()
@@ -103,7 +103,7 @@ class Account extends Model
             return null;
         }
 
-        $accountId = session('selected_account_id');
+        $accountId = Auth::user()->selected_account_id;
 
         if (!$accountId) {
             $account = Auth::user()->accounts[0];

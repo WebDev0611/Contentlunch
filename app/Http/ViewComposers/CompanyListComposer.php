@@ -52,7 +52,7 @@ class CompanyListComposer
 
     private function selectedAccount()
     {
-        if (!Session::has('selected_account_id')) {
+        if (!Auth::user()->selectedAccount) {
             $accountsList = $this->accountsList();
             $selectedAccountId = $accountsList[0]->id;
             Account::selectAccount($accountsList[0]);

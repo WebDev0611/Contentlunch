@@ -76,6 +76,11 @@ class User extends Authenticatable
         return $this->hasMany('App\WriterAccessPartialOrder');
     }
 
+    public function selectedAccount()
+    {
+        return $this->belongsTo('App\Account');
+    }
+
     public function belongsToAgencyAccount()
     {
         return (boolean) $this->accounts()
