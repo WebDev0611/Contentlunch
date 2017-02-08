@@ -1,5 +1,14 @@
 (function() {
 
+    $('#add-task-button').click(function() {
+        add_task(addTaskCallback);
+    });
+
+    function addTaskCallback(task) {
+        // tasks.add(new task_model(task));
+        $('#addTaskModal').modal('hide');
+    }
+
     configureDatePicker();
 
     function configureDatePicker() {

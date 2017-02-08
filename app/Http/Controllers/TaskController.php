@@ -96,7 +96,8 @@ class TaskController extends Controller
         $fileUrls = $request->input('attachments');
         $userId = Auth::id();
         $userFolder = "/attachment/$userId/tasks/";
-        if(!empty($fileUrls)){
+
+        if (!empty($fileUrls)) {
             foreach ($fileUrls as $fileUrl) {
                 $movedS3Path = $this->moveFileToUserFolder($fileUrl, $userFolder);
                 $attachment = $this->createAttachment($movedS3Path);
@@ -137,7 +138,7 @@ class TaskController extends Controller
 
     protected function saveAsCampaignTask(Request $request, Task $task)
     {
-        $campaignId = $request->input('campaignId');
+        $campaignId = $request->input('campaign_id');
 
         if ($campaignId && Campaign::find($campaignId)->count()) {
             $task->campaigns()->attach($campaignId);
