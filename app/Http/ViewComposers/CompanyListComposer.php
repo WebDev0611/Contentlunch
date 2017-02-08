@@ -40,9 +40,18 @@ class CompanyListComposer
     private function accountsList()
     {
         if ($this->user->belongsToAgencyAccount()) {
-            $agencyAccount = Auth::user()->agencyAccount();
-            $childAccounts = $agencyAccount->childAccounts;
-            $accounts = $agencyAccount->childAccounts->merge([ $agencyAccount ]);
+            $agencyAccounts = Auth::user()
+                ->accounts()
+                ->where('account_type_id', AccountType::AGENCY)
+                ->get();
+
+            $childAccounts = $agencyAccounts
+                ->map(function($agencyAccount) {
+                    return $agencyAccount->childAccounts;
+                })
+                ->flatten(1);
+
+            $accounts = $agencyAccounts->merge($childAccounts);
         } else {
             $accounts = Auth::user()->accounts;
         }
