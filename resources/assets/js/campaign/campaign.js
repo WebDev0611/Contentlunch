@@ -1,5 +1,9 @@
 (function() {
 
+    //
+    // Campaign tasks setup
+    //
+
     $('#add-task-button').click(function() {
         add_task(addTaskCallback);
     });
@@ -9,6 +13,10 @@
         $('#addTaskModal').modal('hide');
     }
 
+    //
+    // Datepickers configuration
+    //
+
     configureDatePicker();
 
     function configureDatePicker() {
@@ -17,6 +25,10 @@
         $('#start-date').datetimepicker({ format });
         $('#end-date').datetimepicker({ format });
     }
+
+    //
+    // Collaborators
+    //
 
     let collaborators = new CampaignCollaboratorsCollection();
 
