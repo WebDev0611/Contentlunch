@@ -64,6 +64,18 @@
     height: 20px;
     line-height: 20px;
   }
+  &.purple {
+    background: #6944b7;
+  }
+  &.icon-type-blog, &.icon-type-hubspot, &.icon-type-wordpress {
+    background: #16588d;
+  }
+  &.icon-type-facebook {
+    background: #3E5B99;
+  }
+  &.icon-type-twitter {
+    background: #1DA1F2;
+  }
 }
 
 .calendar-task-list-icon-plain {
@@ -209,6 +221,10 @@
     font-weight: bold;
     color: #392c46;
     text-transform: none;
+
+    &.upper {
+      text-transform: uppercase;
+    }
   }
 }
 

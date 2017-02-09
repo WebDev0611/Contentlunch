@@ -265,6 +265,10 @@ class ContentController extends Controller
         return view('content.editor', $data);
     }
 
+    public function getContentTypes() {
+        return ContentType::with('provider')->get();
+    }
+
     protected function ensureCollaboratorsExists(Content $content)
     {
         if ($content->collaborators->isEmpty()) {
@@ -459,7 +463,10 @@ class ContentController extends Controller
 
     public function my()
     {
-        $content = Auth::user()->contents()->get();
+        $content = $this->selectedAccount
+            ->contents()
+            ->with('authors')
+            ->get();
 
         return response()->json($content);
     }
@@ -577,4 +584,5 @@ class ContentController extends Controller
             'file' => 'image|max:3000',
         ]);
     }
+
 }
