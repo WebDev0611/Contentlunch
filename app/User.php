@@ -51,6 +51,11 @@ class User extends Authenticatable
        return $this->hasMany('App\Task');
     }
 
+    public function calendars()
+    {
+        return $this->hasMany('App\Calendar');
+    }
+
     public function ideas()
     {
         return $this->hasMany('App\Idea');

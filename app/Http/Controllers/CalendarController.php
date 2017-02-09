@@ -27,8 +27,8 @@ class CalendarController extends Controller {
 	}
 
 	//pulls all calendars for the user
-	public function my(){
-
+	public function my(Request $request){
+        return $request->user()->calendars();
 	}
 
 	//creates a new calendar
