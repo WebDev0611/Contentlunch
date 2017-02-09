@@ -239,8 +239,9 @@ Route::group(['middleware' => 'auth'], function () {
      * AJAX Helpers
      */
     Route::get('/api/connections', 'ConnectionController@index');
-    Route::get('/api/campaigns/{campaign}/collaborators', 'CampaignCollaboratorsController@index');
     Route::get('/api/campaigns/collaborators', 'CampaignCollaboratorsController@accountCollaborators');
+    Route::get('/api/campaigns/{campaign}/collaborators', 'CampaignCollaboratorsController@index');
+    Route::get('/api/campaigns/{campaign}/tasks', 'CampaignTasksController@index');
     Route::get('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@index');
     Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@update');
     Route::get('/api/contents/{content}/tasks', 'ContentTasksController@index');
