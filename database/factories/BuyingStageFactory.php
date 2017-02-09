@@ -10,7 +10,7 @@ $factory->define(App\BuyingStage::class, function (Faker\Generator $faker) {
             if ($accounts->isEmpty()) {
                 $account = factory(App\Account::class)->create();
             } else {
-                $account = $faker->randomElement($accounts->all());
+                $account = $faker->randomElement($accounts);
             }
 
             return $account->id;

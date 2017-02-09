@@ -244,5 +244,4 @@ Route::group([ 'middleware' => 'auth' ], function() {
     Route::post('/search', [ 'as' => 'searchIndex', 'uses' => 'SearchController@index' ]);
     Route::get('/api/content-types', 'ContentController@getContentTypes');
 
-    Route::get('c1', 'CalendarController@my');
 });
