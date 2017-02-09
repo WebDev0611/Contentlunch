@@ -2,9 +2,9 @@
 
 namespace App\Presenters;
 
-use Laracasts\Presenter\Presenter;
+use App\Presenters\Helpers\BasePresenter;
 
-class WriterAccessPartialOrderPresenter extends Presenter
+class WriterAccessPartialOrderPresenter extends BasePresenter
 {
     public function assetType()
     {

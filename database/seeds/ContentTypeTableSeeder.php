@@ -16,6 +16,7 @@ class ContentTypeTableSeeder extends Seeder
             [ 'name' => 'Blog Post',                'provider_id' =>  1 ],
             [ 'name' => 'Facebook Post',            'provider_id' =>  5 ],
             [ 'name' => 'Tweet',                    'provider_id' =>  6 ],
+            [ 'name' => 'HubSpot Blog Post',        'provider_id' =>  3 ],
             [ 'name' => 'Audio Recording',          'provider_id' =>  0 ],
             [ 'name' => 'Case Study',               'provider_id' =>  0 ],
             [ 'name' => 'Ebook',                    'provider_id' =>  0 ],

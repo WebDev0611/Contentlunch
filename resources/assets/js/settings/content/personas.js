@@ -38,7 +38,7 @@
             return $.ajax({
                 method: 'delete',
                 url: '/settings/personas/' + this.model.id,
-                headers: getHeaders()
+                headers: getJsonHeader()
             });
         }
     });
@@ -127,7 +127,7 @@
             return $.ajax({
                 type: 'post',
                 url: '/settings/personas',
-                headers: getHeaders(),
+                headers: getJsonHeader(),
                 data: this.payload(),
                 processData: false,
                 contentType: false
@@ -136,12 +136,5 @@
     });
 
     new PersonasView({ el: '#personas-view', collection: personaCollection });
-
-    function getHeaders() {
-        return {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': $('input[name=_token]').val()
-        };
-    }
 
 })();

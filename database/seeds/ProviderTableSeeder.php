@@ -29,7 +29,7 @@ class ProviderTableSeeder extends Seeder
                 'name' => 'Hubspot',
                 'slug' => 'hubspot',
                 'type' => 'website',
-                'class_name' => ''
+                'class_name' => 'HubspotAPI'
             ],
             [
                 'name' => 'Act-on',

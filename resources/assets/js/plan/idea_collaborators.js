@@ -97,6 +97,16 @@
         renderCheckboxes: function() {
             var collaboratorsList = this.getList();
 
+            // If there are no possible collaborators
+            if (this.data.users.length === 0) {
+                $('.empty-collaborators-message').show();
+                $('.button.invite-users').hide();
+                var modal = new teamMemberInviteModalView({ el: '#launch' });
+            } else {
+                $('.empty-collaborators-message').hide();
+                $('.button.invite-users').show();
+            }
+
             this.data.users.forEach(function(user) {
                 var userCheckbox = new CollaboratorModalView({
                     model: new CollaboratorModel(user)
@@ -127,7 +137,7 @@
                 },
             })
             .then(function(response) {
-                $('#sidebar-collaborator-list').html('');
+                $('#ideas-collaborator-list').html('');
                 collaborators.populateList();
                 this.dismissModal();
             }.bind(this));
