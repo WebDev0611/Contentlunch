@@ -214,4 +214,26 @@ class Task extends Model
                 return $adjustment->hasKey('status');
             });
     }
+
+    // $resource can be any model with a many to many relationship
+    // with tasks
+    public static function resourceTasks($resource, $openTasks = false)
+    {
+        $tasks = $resource->tasks();
+
+        if ($openTasks) {
+            $tasks = $tasks->where('status', '=', 'open');
+        }
+
+        return $tasks
+            ->with('user')
+            ->with('assignedUsers')
+            ->get()
+            ->map(function($task) {
+                $task->due_date_diff = $task->present()->dueDate;
+                $task->user->profile_image = $task->user->present()->profile_image;
+
+                return $task;
+            });
+    }
 }
