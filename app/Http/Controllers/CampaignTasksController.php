@@ -18,6 +18,6 @@ class CampaignTasksController extends Controller
         $openTasks = $request->input('open') == '1';
         $tasks = Task::resourceTasks($campaign, $openTasks);
 
-        return response()->json($tasks);
+        return response()->json([ 'data' => $tasks ]);
     }
 }
