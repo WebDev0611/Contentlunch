@@ -1,19 +1,6 @@
 (function() {
 
     //
-    // Campaign tasks setup
-    //
-
-    $('#add-task-button').click(function() {
-        add_task(addTaskCallback);
-    });
-
-    function addTaskCallback(task) {
-        // tasks.add(new task_model(task));
-        $('#addTaskModal').modal('hide');
-    }
-
-    //
     // Datepickers configuration
     //
 
@@ -27,6 +14,32 @@
     }
 
     //
+    // Campaign tasks setup
+    //
+
+    $('#add-task-button').click(function() {
+        add_task(addTaskCallback);
+    });
+
+    function addTaskCallback(task) {
+        tasks.add(task);
+        $('#addTaskModal').modal('hide');
+    }
+
+    let tasks = new CampaignTasksCollection();
+
+    tasks.on('add', model => {
+        // let model = new task_model(task);
+        let view = new ContentTaskView({ model });
+
+        $('#campaign-tasks-list').append(view.el);
+    });
+
+    if (campaign && campaign.id) {
+        tasks.populateList(campaign.id);
+    }
+
+    //
     // Collaborators
     //
 
@@ -34,7 +47,7 @@
 
     collaborators.on('add', collaborator => {
         appendCollaborator(collaborator);
-        hideAlert();
+        hideCollaboratorsAlert();
     });
 
     function appendCollaborator(collaborator) {
@@ -43,7 +56,7 @@
         $('.campaign-collaborators').append(view.render().el);
     }
 
-    function hideAlert() {
+    function hideCollaboratorsAlert() {
         let $alert = $('#collaborators-sidebar-alert');
         if ($alert.is(':visible')) {
             $alert.slideUp('fast');
