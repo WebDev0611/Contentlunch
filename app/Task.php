@@ -73,7 +73,7 @@ class Task extends Model
         return $this->hasMany('App\Attachment');
     }
 
-    public function campaign()
+    public function campaigns()
     {
         return $this->belongsToMany('App\Campaign');
     }
