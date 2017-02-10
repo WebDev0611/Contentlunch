@@ -13,6 +13,13 @@ use Validator;
 
 class CampaignController extends Controller
 {
+    public function index(Request $request)
+    {
+        $campaigns = Account::selectedAccount()->campaigns;
+
+        return response()->json([ 'data' => $campaigns ]);
+    }
+
     public function create()
     {
         $data = [
