@@ -113,7 +113,6 @@ class CampaignController extends Controller
             'goals' => $request->input('goals'),
             'campaign_type_id' => (int) $request->input('type'),
             'status' => (int) $request->input('status'),
-            'user_id' => Auth::id(),
         ]);
 
         return redirect()->route('dashboard')->with([
