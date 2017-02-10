@@ -24,12 +24,23 @@
     function addTaskCallback(task) {
         tasks.add(task);
         $('#addTaskModal').modal('hide');
+
+        if (!campaign.id) {
+            addTaskToDom(task);
+        }
+    }
+
+    function addTaskToDom(task) {
+        let element = $('[name=tasks]');
+        let tasks = element.val().split(',').filter(taskId => taskId !== "");
+
+        tasks.push(task.id);
+        element.val(tasks.join(','));
     }
 
     let tasks = new CampaignTasksCollection();
 
     tasks.on('add', model => {
-        // let model = new task_model(task);
         let view = new ContentTaskView({ model });
 
         $('#campaign-tasks-list').append(view.el);
