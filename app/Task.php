@@ -174,6 +174,7 @@ class Task extends Model
         return $account
             ->tasks()
             ->with('user')
+            ->with('assignedUsers')
             ->get()
             ->map(function($task) {
                 $task->addDueDateDiffs();

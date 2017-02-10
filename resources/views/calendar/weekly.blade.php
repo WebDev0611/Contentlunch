@@ -100,6 +100,14 @@
                   <strong class='upper'><%= content_status_text %></strong>
               </div>
                <% } %>
+               <% if (type == 'task' && typeof(assigned_to) !== "undefined" && assigned_to !== null) { %>
+              <div class="calendar-task-list-popover-author col-md-6">
+                <span class="text-uppercase">Assigned to</span>
+                    <%  _.each(assigned_to, function(usr){ %>
+                        <strong><%= assigned_to %></strong>
+                    <% }); %>
+              </div>
+              <% } %>
           </div>
           <% if (type != 'task') { %>
           <div class="calendar-task-list-popover-timeline">

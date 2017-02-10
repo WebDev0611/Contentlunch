@@ -170,6 +170,10 @@
             if (t.user.profile_image) {
                 t.user_image = t.user.profile_image;
             }
+            t.assigned_to = [];
+            t.assigned_users.forEach(function (i) {
+                t.assigned_to.push(i.name);
+            });
 
             return t;
         }
@@ -227,7 +231,7 @@
 
         function fetchMyTasks() {
             return $.ajax({
-                url: '/api/tasks',
+                url: '/api/tasks?account_tasks=1',
                 method: 'get',
                 headers: getJsonHeader(),
             })
