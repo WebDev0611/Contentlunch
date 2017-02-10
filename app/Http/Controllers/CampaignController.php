@@ -51,6 +51,7 @@ class CampaignController extends Controller
         $campaign = $this->createCampaign($data);
 
         $this->saveCollaborators($data, $campaign);
+        $this->saveTasks($data, $campaign);
 
         return redirect()->route('dashboard')->with([
             'flash_message' => "Campaign created: $campaign->title",
@@ -84,6 +85,16 @@ class CampaignController extends Controller
     {
         $collaborators = explode(',', $requestData['collaborators']);
         $campaign->collaborators()->sync($collaborators);
+    }
+
+    protected function saveTasks(array $requestData, Campaign $campaign)
+    {
+        $tasks = collect(explode(',', $requestData['tasks']))
+            ->filter(function($taskId) { return $taskId !== ""; });
+
+        if (!$tasks->isEmpty()) {
+            $campaign->tasks()->sync($tasks->toArray());
+        }
     }
 
     public function update(Request $request, Campaign $campaign)
