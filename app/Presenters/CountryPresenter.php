@@ -3,9 +3,9 @@
 namespace App\Presenters;
 
 use App\Country;
-use Laracasts\Presenter\Presenter;
+use App\Presenters\Helpers\BasePresenter;
 
-class CountryPresenter extends Presenter
+class CountryPresenter extends BasePresenter
 {
     public static function dropdown()
     {

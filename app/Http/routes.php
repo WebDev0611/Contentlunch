@@ -40,35 +40,35 @@ Route::group([ 'middleware' => 'guest' ], function() {
     Route::post('signup/photo_upload', 'OnboardingController@signupPhotoUpload');
 });
 
-Route::group([ 'middleware' => 'auth' ], function() {
-    Route::get('/', [ 'as' => 'dashboard', 'uses' => 'HomeController@index']);
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', ['as' => 'dashboard', 'uses' => 'HomeController@index']);
 
-    Route::get('invite', [ 'as' => 'inviteIndex', 'uses' =>'OnboardingInviteController@invite' ]);
-    Route::post('invite/emails', [ 'as' => 'emailInvite', 'uses' => 'OnboardingInviteController@emailInvite' ]);
-    Route::get('invite/{user}', [ 'as' => 'inviteUser', 'uses' => 'OnboardingInviteController@inviteUser' ]);
+    Route::get('invite', ['as' => 'inviteIndex', 'uses' => 'OnboardingInviteController@invite']);
+    Route::post('invite/emails', ['as' => 'emailInvite', 'uses' => 'OnboardingInviteController@emailInvite']);
+    Route::get('invite/{user}', ['as' => 'inviteUser', 'uses' => 'OnboardingInviteController@inviteUser']);
 
-    Route::get('connect', [ 'as' => 'onboardingConnect', 'uses' => 'OnboardingController@connect' ]);
+    Route::get('connect', ['as' => 'onboardingConnect', 'uses' => 'OnboardingController@connect']);
 
     Route::get('score', 'OnboardingController@score');
 
-    Route::get('/home','HomeController@index');
-    Route::get('/dashboard','AccountController@stats');
+    Route::get('/home', 'HomeController@index');
+    Route::get('/dashboard', 'AccountController@stats');
 
-    Route::group([ 'prefix' => 'agencies' ], function() {
-        Route::get('/', [ 'as' => 'agencyIndex', 'uses' => 'AgencyController@index' ]);
-        Route::post('/', [ 'as' => 'agencyStore', 'uses' => 'AgencyController@store' ]);
-        Route::post('/select/{account}', [ 'as' => 'accountSelect', 'uses' => 'AccountController@selectAccount' ]);
+    Route::group(['prefix' => 'agencies'], function () {
+        Route::get('/', ['as' => 'agencyIndex', 'uses' => 'AgencyController@index']);
+        Route::post('/', ['as' => 'agencyStore', 'uses' => 'AgencyController@store']);
+        Route::post('/select/{account}', ['as' => 'accountSelect', 'uses' => 'AccountController@selectAccount']);
     });
 
-    Route::get('/analyze','AnalyzeController@index');
+    Route::get('/analyze', 'AnalyzeController@index');
 
-    Route::get('/plan','PlanController@index');
-    Route::get('/plan/ideas','PlanController@ideas');
-    Route::get('/plan/parked','PlanController@parked');
+    Route::get('/plan', 'PlanController@index');
+    Route::get('/plan/ideas', 'PlanController@ideas');
+    Route::get('/plan/parked', 'PlanController@parked');
 
-    Route::get('/plan/editor','PlanController@editor');
-    Route::get('/plan/trends','PlanController@trends');
-    Route::get('/plan/prescription','PlanController@prescription');
+    Route::get('/plan/editor', 'PlanController@editor');
+    Route::get('/plan/trends', 'PlanController@trends');
+    Route::get('/plan/prescription', 'PlanController@prescription');
 
     Route::resource('/trending', 'TrendsController@trending');
     Route::resource('/influencers', 'InfluencersController@search');
@@ -82,93 +82,96 @@ Route::group([ 'middleware' => 'auth' ], function() {
     Route::get('/idea/write/{idea}', [ 'as' => 'ideaWrite', 'uses' => 'IdeaController@write' ]);
 
     Route::resource('/ideas', 'IdeaController', ['only' => [
-        'index', 'show','store','park','activate'
+        'index', 'show', 'store', 'park', 'activate'
     ]]);
 
-    Route::get('/calendar','CalendarController@index');
-    Route::get('/calendar/{year}/{month}','CalendarController@index');
+    Route::get('/calendar', 'CalendarController@index');
+    Route::get('/calendar/{year}/{month}', 'CalendarController@index');
 
-    Route::get('/campaign','CampaignController@index');
-    Route::post('/campaign/create','CampaignController@create');
+    Route::get('/campaign', 'CampaignController@index');
+    Route::post('/campaign/create', 'CampaignController@create');
 
-    Route::get('/campaign/edit/{campaign}','CampaignController@edit');
-    Route::post('/campaign/edit/{campaign}','CampaignController@edit');
+    Route::get('/campaign/edit/{campaign}', 'CampaignController@edit');
+    Route::post('/campaign/edit/{campaign}', 'CampaignController@edit');
 
-    Route::get('/daily','CalendarController@daily');
-    Route::get('/daily/{year}/{month}/{day}','CalendarController@daily');
+    Route::get('/daily', 'CalendarController@daily');
+    Route::get('/daily/{year}/{month}/{day}', 'CalendarController@daily');
 
-    Route::get('/weekly','CalendarController@weekly');
-    Route::get('/weekly/{year}/{month}/{day}','CalendarController@weekly');
+    Route::get('/weekly', 'CalendarController@weekly');
+    Route::get('/weekly/{year}/{month}/{day}', 'CalendarController@weekly');
 
-    Route::get('/campaigns','CalendarController@campaigns');
+    Route::get('/campaigns', 'CalendarController@campaigns');
 
-    Route::resource('/task/add','TaskController@store');
+    Route::resource('/task/add', 'TaskController@store');
     Route::post('task/attachments', 'TaskAttachmentsController@store');
-    Route::get('task/show/{id}', [ 'as' => 'taskShow', 'uses' => 'TaskController@show' ]);
+    Route::get('task/show/{id}', ['as' => 'taskShow', 'uses' => 'TaskController@show']);
     Route::post('task/update/{id}', 'TaskController@update');
     Route::post('task/close/{task}', 'TaskController@close');
     Route::delete('task/{task}', 'TaskController@destroy');
 
-    Route::get('/content',  ['as' => 'contentIndex', 'uses' =>'ContentController@index']);
-    Route::get('/content/delete/{content_id}', [ 'as' => 'contentDelete', 'uses' => 'ContentController@delete' ]);
-    Route::get('/content/publish/{content}', ['as' => 'contentPublish', 'uses' =>'ContentController@publishAndRedirect' ]);
-    Route::get('/content/multipublish/{content}', [ 'as' => 'contentMultiPublish', 'uses' => 'ContentController@directPublish' ]);
+    Route::get('/content', ['as' => 'contentIndex', 'uses' => 'ContentController@index']);
+    Route::get('/content/delete/{content_id}', ['as' => 'contentDelete', 'uses' => 'ContentController@delete']);
+    Route::get('/content/publish/{content}', ['as' => 'contentPublish', 'uses' => 'ContentController@publishAndRedirect']);
+    Route::get('/content/multipublish/{content}', ['as' => 'contentMultiPublish', 'uses' => 'ContentController@directPublish']);
 
     Route::get('/content/my', 'ContentController@my');
 
     // Facebook Callbacks
     //
-    Route::get('callback/facebook',  ['as' => 'facebookProvider', 'uses' =>'Connections\FacebookController@callback']);
-    Route::post('callback/facebook/account/save','Connections\FacebookController@saveAccount');
+    Route::get('callback/facebook', ['as' => 'facebookProvider', 'uses' => 'Connections\FacebookController@callback']);
+    Route::post('callback/facebook/account/save', 'Connections\FacebookController@saveAccount');
     // -----------
 
     // Twitter Callbacks
     //
-    Route::get('twitter/login', [ 'as' => 'twitterLogin', 'uses' => 'Connections\TwitterController@login' ]);
-    Route::get('callback/twitter', [ 'as' => 'twitterCallback', 'uses' => 'Connections\TwitterController@callback' ]);
-    Route::get('twitter/error', [ 'as' => 'twitterError', 'uses' => 'Connections\TwitterController@error' ]);
+    Route::get('twitter/login', ['as' => 'twitterLogin', 'uses' => 'Connections\TwitterController@login']);
+    Route::get('callback/twitter', ['as' => 'twitterCallback', 'uses' => 'Connections\TwitterController@callback']);
+    Route::get('twitter/error', ['as' => 'twitterError', 'uses' => 'Connections\TwitterController@error']);
 
     // - Authorize
-    Route::get('authorize/{provider}',  ['as' => 'connectionProvider', 'uses' =>'ConnectionController@redirectToProvider']);
-    Route::get('login/{provider}',  ['as' => 'connectionCallback', 'uses' =>'ConnectionController@login']);
+    Route::get('authorize/{provider}', ['as' => 'connectionProvider', 'uses' => 'ConnectionController@redirectToProvider']);
+    Route::get('login/{provider}', ['as' => 'connectionCallback', 'uses' => 'ConnectionController@login']);
 
     // Wordpress Callback
-    Route::get('callback/wordpress', [ 'as' => 'wordpressCallback', 'uses' => 'Connections\WordpressController@callback' ]);
+    Route::get('callback/wordpress', ['as' => 'wordpressCallback', 'uses' => 'Connections\WordpressController@callback']);
+
+    // HubSpot Callback
+    Route::get('callback/hubspot', ['as' => 'hubspotCallback', 'uses' => 'Connections\HubspotController@callback']);
 
     // - Landing page for creating content
     Route::get('/create', 'ContentController@create');
-    Route::post('/create/new','ContentController@store');
+    Route::post('/create/new', 'ContentController@store');
 
     // - create form page
     Route::get('/edit', ['as' => 'editIndex', 'uses' => 'ContentController@createContent']);
     Route::post('/edit', 'ContentController@editStore');
 
-    Route::post('/edit/images', [ 'as' => 'imageContent', 'uses' => 'ContentController@images']);
+    Route::post('/edit/images', ['as' => 'imageContent', 'uses' => 'ContentController@images']);
     Route::post('/edit/attachments', ['as' => 'attachmentContent', 'uses' => 'ContentController@attachments']);
 
     // - editing content form page
-    Route::get('/edit/{content}', ['as' => 'editContent', 'uses' =>'ContentController@editContent']);
-    Route::post('/edit/{content}','ContentController@editStore');
+    Route::get('/edit/{content}', ['as' => 'editContent', 'uses' => 'ContentController@editContent']);
+    Route::post('/edit/{content}', 'ContentController@editStore');
 
-    Route::get('/collaborate','CollaborateController@index');
-    Route::get('/collaborate/linkedin','CollaborateController@linkedin');
-    Route::get('/collaborate/twitter','CollaborateController@twitter');
-    Route::get('/collaborate/bookmarks','CollaborateController@bookmarks');
+    Route::get('/collaborate', 'CollaborateController@index');
+    Route::get('/collaborate/linkedin', 'CollaborateController@linkedin');
+    Route::get('/collaborate/twitter', 'CollaborateController@twitter');
+    Route::get('/collaborate/bookmarks', 'CollaborateController@bookmarks');
 
-    Route::get('/onboarding','OnboardingController@index');
+    Route::get('/onboarding', 'OnboardingController@index');
 
-    Route::group(['prefix' => 'settings'], function() {
-        Route::get('/', [ 'as' => 'settingsIndex', 'uses' => 'SettingsController@index' ]);
-        Route::post('/', [ 'as' => 'settingsUpdate', 'uses' => 'SettingsController@update']);
-        Route::get('content',  ['as' => 'settingsContentIndex', 'uses' => 'SettingsController@content']);
+    Route::group(['prefix' => 'settings'], function () {
+        Route::get('/', ['as' => 'settingsIndex', 'uses' => 'SettingsController@index']);
+        Route::post('/', ['as' => 'settingsUpdate', 'uses' => 'SettingsController@update']);
+        Route::get('content', ['as' => 'settingsContentIndex', 'uses' => 'SettingsController@content']);
         Route::get('buying', ['as' => 'settingsBuyingIndex', 'uses' => 'SettingsController@content']);
 
         // Connection Routes
         Route::get('connections', ['as' => 'connectionIndex', 'uses' => 'SettingsController@connections']);
-        Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'ConnectionController@store'] );
-        Route::delete('connections/{connection}', [ 'as' => 'deactivateConnection', 'uses' => 'ConnectionController@delete' ]);
+        Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'ConnectionController@store']);
+        Route::delete('connections/{connection}', ['as' => 'deactivateConnection', 'uses' => 'ConnectionController@delete']);
 
-        Route::get('seo', ['as' => 'seoIndex', 'uses' =>'SettingsController@seo']);
+        Route::get('seo', ['as' => 'seoIndex', 'uses' => 'SettingsController@seo']);
 
         Route::post('personas', 'Settings\PersonasController@create');
         Route::get('personas', 'Settings\PersonasController@index');
@@ -177,9 +180,11 @@ Route::group([ 'middleware' => 'auth' ], function() {
         Route::post('buying_stages', 'Settings\BuyingStagesController@create');
         Route::get('buying_stages', 'Settings\BuyingStagesController@index');
         Route::delete('buying_stages/{buyingStage}', 'Settings\BuyingStagesController@delete');
+
+        Route::get('account', [ 'as' => 'settingsAccount', 'uses' => 'AccountSettingsController@index' ]);
     });
 
-    Route::group(['prefix' => 'writeraccess'], function() {
+    Route::group(['prefix' => 'writeraccess'], function () {
         Route::get('categories', 'WriterAccessController@categories');
         Route::get('account', 'WriterAccessController@account');
         Route::get('assetTypes', 'WriterAccessController@assetTypes');
@@ -222,11 +227,12 @@ Route::group([ 'middleware' => 'auth' ], function() {
         ]);
     });
 
-    Route::resource('writerAccessPrices','WriterAccessPriceController');
-    Route::resource('writerAccessAssetTypes','WriterAccessAssetTypeController');
+    Route::resource('writerAccessPrices', 'WriterAccessPriceController');
+    Route::resource('writerAccessAssetTypes', 'WriterAccessAssetTypeController');
 
-    Route::group(['prefix' => 'twitter'], function() {
-        Route::get('followers', [ 'uses' => 'Connections\TwitterController@userSearch' ]);
+
+    Route::group(['prefix' => 'twitter'], function () {
+        Route::get('followers', ['uses' => 'Connections\TwitterController@userSearch']);
     });
 
     /**
@@ -239,6 +245,7 @@ Route::group([ 'middleware' => 'auth' ], function() {
     Route::get('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@index');
     Route::post('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@update');
     Route::get('/api/account/members', 'AccountCollaboratorsController@index');
+    Route::delete('/api/account/members/{id}', 'AccountCollaboratorsController@delete');
     Route::get('/api/tasks', 'TaskController@index');
     Route::post('/api/trends/share/{connection}', [ 'as' => 'trendShare', 'uses' => 'ContentController@trendShare' ]);
     Route::post('/search', [ 'as' => 'searchIndex', 'uses' => 'SearchController@index' ]);

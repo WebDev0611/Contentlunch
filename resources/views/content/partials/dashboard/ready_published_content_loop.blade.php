@@ -2,7 +2,7 @@
     <div class="create-panel-table-cell cell-size-5">
         @include('content.partials.avatar')
     </div>
-    <div class="create-panel-table-cell cell-size-75">
+    <div class="create-panel-table-cell cell-size-65">
         <h5 class="dashboard-tasks-title">
             <a href="{{ route('editContent', $content) }}">{{ $content->present()->title }}</a>
         </h5>
@@ -20,10 +20,10 @@
     </div>
     <div class="create-panel-table-cell cell-size-15 text-right">
         <span class="dashboard-performing-text small @if ($content->isDueDateCritical()) critical @endif">
-            DUE: <strong>{{ strtoupper($content->present()->dueDate) }}</strong>
+            DUE: <strong>{{ strtoupper($content->present()->dueDateFormat) }}</strong>
         </span>
     </div>
-    <div class="create-panel-table-cell cell-size-5 text-right">
+    <div class="create-panel-table-cell cell-size-15 text-right">
         <i  class="create-panel-spaceship icon-spaceship-circle open-launch-menu"
             data-content="{{ $content->id }}"
             data-toggle="modal"
