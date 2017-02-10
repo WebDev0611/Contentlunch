@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Calendar;
+use App\ContentType;
+use Illuminate\Http\Request;
 use View;
 use App\Account;
 use App\User;
@@ -28,12 +32,26 @@ class CalendarController extends Controller {
 
 	//pulls all calendars for the user
 	public function my(Request $request){
-        return $request->user()->calendars();
+        return $request->user()->calendars()->with('contentTypes')->get();
 	}
 
 	//creates a new calendar
 	public function create(Request $request){
+		$contentTypesIds = ContentType::where('provider_id', '!=', 0)->pluck('id');
+        //$contentTypesIds = $request->input('content_type_ids');
+        $colors = $request->input('colors');
+        $account = Account::selectedAccount();
 
+		$cal = new Calendar();
+		$cal->name = $request->input('name');
+        $cal->account_id = $account->id;
+
+		$newCalendar = $request->user()->calendars()->save($cal);
+		$newCalendar = Calendar::find($newCalendar->id);
+		$newCalendar->contentTypes()->sync($contentTypesIds->toArray());
+
+		$newCalendar->save();
+		return $newCalendar;
 	}
 
 	//add item to the calendar
