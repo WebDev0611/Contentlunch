@@ -231,7 +231,9 @@ class Task extends Model
             ->get()
             ->map(function($task) {
                 $task->due_date_diff = $task->present()->dueDate;
-                $task->user->profile_image = $task->user->present()->profile_image;
+                $task->user_profile_image = $task->user ?
+                    $task->user->present()->profile_image :
+                    User::DEFAULT_PROFILE_IMAGE;
 
                 return $task;
             });
