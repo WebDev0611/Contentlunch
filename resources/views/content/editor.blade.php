@@ -795,13 +795,6 @@
             }
         });
 
-        function getHeaders() {
-            return {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': $('input[name=_token]').val()
-            };
-        }
-
         function updateCount(event) {
             if (characterCounter.isTweet()) {
                 characterCounter.show();
