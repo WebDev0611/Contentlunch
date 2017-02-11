@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Attachment;
 use App\Campaign;
 use App\CampaignType;
 use App\Content;
+use App\Helpers;
 use App\Presenters\CampaignTypePresenter;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Validator;
 
 class CampaignController extends Controller
@@ -59,6 +62,7 @@ class CampaignController extends Controller
 
         $this->saveCollaborators($data, $campaign);
         $this->saveTasks($data, $campaign);
+        $this->handleAttachments($request->input('files'), $campaign);
 
         return redirect()->route('dashboard')->with([
             'flash_message' => "Campaign created: $campaign->title",
@@ -122,9 +126,43 @@ class CampaignController extends Controller
             'status' => (int) $request->input('status'),
         ]);
 
+        $this->handleAttachments($request->input('files'), $campaign);
+
         return redirect()->route('dashboard')->with([
             'flash_message' => "Campaign updated: $campaign->title",
             'flash_message_type' => 'success',
+        ]);
+    }
+
+    private function handleAttachments($files, $campaign)
+    {
+        $files = collect($files)->filter()->flatten()->toArray();
+
+        foreach ($files as $fileUrl) {
+            $newPath = $this->moveFileToUserFolder($fileUrl, Helpers::userFilesFolder());
+            $attachment = $this->createAttachment($newPath, $fileType);
+            $campaign->attachments()->save($attachment);
+        }
+    }
+
+    private function moveFileToUserFolder($fileUrl, $userFolder)
+    {
+        $fileName = substr(strstr($fileUrl, '_tmp/'), 5);
+        $newPath = $userFolder.$fileName;
+        $s3Path = Helpers::s3Path($fileUrl);
+        Storage::move($s3Path, $newPath);
+
+        return $newPath;
+    }
+
+    private function createAttachment($s3Path, $fileType)
+    {
+        return Attachment::create([
+            'filepath' => $s3Path,
+            'filename' => Storage::url($s3Path),
+            'type' => $fileType,
+            'extension' => Helpers::extensionFromS3Path($s3Path),
+            'mime' => Storage::mimeType($s3Path),
         ]);
     }
 }
