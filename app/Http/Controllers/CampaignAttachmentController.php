@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
+use Validator;
 
 class CampaignAttachmentController extends Controller
 {

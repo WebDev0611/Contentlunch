@@ -62,7 +62,7 @@ class CampaignController extends Controller
 
         $this->saveCollaborators($data, $campaign);
         $this->saveTasks($data, $campaign);
-        $this->handleAttachments($request->input('files'), $campaign);
+        $this->handleAttachments($request->input('attachments'), $campaign);
 
         return redirect()->route('dashboard')->with([
             'flash_message' => "Campaign created: $campaign->title",
@@ -126,7 +126,7 @@ class CampaignController extends Controller
             'status' => (int) $request->input('status'),
         ]);
 
-        $this->handleAttachments($request->input('files'), $campaign);
+        $this->handleAttachments($request->input('attachments'), $campaign);
 
         return redirect()->route('dashboard')->with([
             'flash_message' => "Campaign updated: $campaign->title",
@@ -140,7 +140,7 @@ class CampaignController extends Controller
 
         foreach ($files as $fileUrl) {
             $newPath = $this->moveFileToUserFolder($fileUrl, Helpers::userFilesFolder());
-            $attachment = $this->createAttachment($newPath, $fileType);
+            $attachment = $this->createAttachment($newPath);
             $campaign->attachments()->save($attachment);
         }
     }
@@ -155,12 +155,12 @@ class CampaignController extends Controller
         return $newPath;
     }
 
-    private function createAttachment($s3Path, $fileType)
+    private function createAttachment($s3Path)
     {
         return Attachment::create([
             'filepath' => $s3Path,
             'filename' => Storage::url($s3Path),
-            'type' => $fileType,
+            'type' => 'file',
             'extension' => Helpers::extensionFromS3Path($s3Path),
             'mime' => Storage::mimeType($s3Path),
         ]);

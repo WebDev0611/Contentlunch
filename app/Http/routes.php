@@ -92,8 +92,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/campaign','CampaignController@create');
     Route::post('/campaign', 'CampaignController@store');
     Route::get('/campaign/{campaign}', 'CampaignController@edit');
+    Route::post('/campaign/attachments', 'CampaignAttachmentController@store');
     Route::post('/campaign/{campaign}','CampaignController@update');
-    Route::post('/campaign/attachment', 'CampaignAttachmentController@store');
 
     Route::get('/daily', 'CalendarController@daily');
     Route::get('/daily/{year}/{month}/{day}', 'CalendarController@daily');
