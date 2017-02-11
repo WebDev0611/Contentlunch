@@ -23,10 +23,16 @@ class CampaignController extends Controller
         return response()->json([ 'data' => $campaigns ]);
     }
 
-    public function create()
+    public function create(Request $request)
+    {
+        return $this->edit($request, new Campaign());
+    }
+
+    public function edit(Request $request, Campaign $campaign)
     {
         $data = [
-            'campaign' => new Campaign(),
+            'campaign' => $campaign,
+            'attachments' => $this->campaignAttachments($campaign),
             'readyToPublishContent' => collect([]),
             'beingWrittenContent' => collect([]),
             'campaignTypesDropdown' => CampaignTypePresenter::dropdown(),
@@ -36,17 +42,11 @@ class CampaignController extends Controller
         return view('campaign.index', $data);
     }
 
-    public function edit(Request $request, Campaign $campaign)
+    protected function campaignAttachments(Campaign $campaign)
     {
-        $data = [
-            'campaign' => $campaign,
-            'readyToPublishContent' => collect([]),
-            'beingWrittenContent' => collect([]),
-            'campaignTypesDropdown' => CampaignTypePresenter::dropdown(),
-            'campaignTypes' => CampaignType::all()->toJson(),
-        ];
-
-        return view('campaign.index', $data);
+        return $campaign->attachments()
+            ->where('filepath', '<>', '')
+            ->get();
     }
 
     public function store(Request $request)
