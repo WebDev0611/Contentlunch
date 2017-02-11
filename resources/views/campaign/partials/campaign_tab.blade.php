@@ -142,15 +142,14 @@
             <em>Attachments</em>
         </span>
     </div>
+
+    {{-- <div class="input-form-group @if (!$isCollaborator) hide @endif"> --}}
     <div class="input-form-group">
-        <div class="fileupload">
-            <i class="icon-link picto"></i>
-            <p class="msgtitle">Click to attach one or more files</p>
-            <input type="file" class="input input-upload">
+        <div class="dropzone" id='attachment-uploader'>
         </div>
     </div>
 
-    @if ($campaign->collaborators->isEmpty() && !$campaign->id)
+   @if ($campaign->collaborators->isEmpty() && !$campaign->id)
         {{ Form::hidden('collaborators', Auth::id()) }}
     @else
         {{ Form::hidden('collaborators', $campaign->present()->collaboratorsIDs) }}

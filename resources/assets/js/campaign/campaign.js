@@ -1,6 +1,26 @@
 (function() {
 
     //
+    // Attachments configuration
+    //
+
+    let attachmentUploader = new Dropzone('#attachment-uploader', {
+        headers: getCSRFHeader(),
+        url: '/edit/attachments',
+    });
+
+    attachmentUploader.on('success', function(file, response) {
+        var hiddenField = $('<input/>', {
+            name: 'attachments[]',
+            type: 'hidden',
+            value: response.file
+        });
+
+        hiddenField.appendTo($('form'));
+    });
+
+
+    //
     // Datepickers configuration
     //
 
