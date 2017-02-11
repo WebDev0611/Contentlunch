@@ -31,6 +31,11 @@ class Campaign extends Model
         return $this->belongsTo('App\Account');
     }
 
+    public function attachments()
+    {
+        return $this->belongsToMany('App\Attachment')->withTimestamps();
+    }
+
     public function collaborators()
     {
         return $this->belongsToMany('App\User')->withTimestamps();
