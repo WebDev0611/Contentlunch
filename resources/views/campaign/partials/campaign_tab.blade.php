@@ -137,6 +137,16 @@
         </span>
     </div>
 
+    @if (!$attachments->isEmpty())
+    <div class="input-form-group">
+        <ul>
+            @foreach ($attachments as $file)
+            <li><a href="{{ $file->filename }}">{{ $file->name }}</a></li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
     {{-- <div class="input-form-group @if (!$isCollaborator) hide @endif"> --}}
     <div class="input-form-group">
         <div class="dropzone" id='attachment-uploader'>
