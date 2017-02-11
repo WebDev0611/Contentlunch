@@ -129,12 +129,6 @@
                 ])
         !!}
     </div>
-    {{--
-    <div class="input-form-group">
-        <label for="#">TAGS</label>
-        <input type="text" name="campaign-tags" class="input input-larger" placeholder="Enter one or more tags">
-    </div>
-    --}}
 
     <!-- Attachments -->
     <div class="form-delimiter">
