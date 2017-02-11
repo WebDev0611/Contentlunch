@@ -489,15 +489,6 @@ class ContentController extends Controller
         $this->handleAttachments($request->input('files'), $content, 'file');
     }
 
-    /**
-     * Function to upload files to S3 and save them in the database.
-     *
-     * @param ContentRequest $request  The Request instance
-     * @param Content        $content  Content instance
-     * @param string         $filetype A string indicating the filetype.
-     *                                 Images should be 'image'. Everything else will
-     *                                 be treated as files
-     */
     private function handleAttachments($files, $content, $fileType = 'file')
     {
         $files = collect($files)->filter()->flatten()->toArray();
