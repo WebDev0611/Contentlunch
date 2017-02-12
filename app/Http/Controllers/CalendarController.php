@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use View;
+use App\Account;
 use App\User;
 use Auth;
 use App\Campaign;
@@ -21,7 +22,7 @@ class CalendarController extends Controller {
 			$this->user_id = $user->id;
 			$this->account_id = 0;
 			$this->campaigns = Auth::user()->campaigns()->get();
-			$this->tasks = Auth::user()->tasks()->get();
+			$this->tasks = Auth::user()->tasks()->with('user')->get();
 		}
 	}
 
@@ -144,7 +145,6 @@ class CalendarController extends Controller {
 			'campaigns' => $this->campaigns,
 			'user_id' => $this->user_id,
 			'account_id'=> $this->account_id,
-			'tasks' => $this->tasks->toJson(),
 			) );
 	}
 
@@ -316,8 +316,7 @@ class CalendarController extends Controller {
 			'account_id' => $this->account_id,
 			'campaigns' => $this->campaigns->toJson(),
 			'content_items' => $content,
-			'weekly_calendar' => $weekly_calendar_string,
-			'tasks' => $this->tasks->toJson()
+			'weekly_calendar' => $weekly_calendar_string
 		));
 	}
 
@@ -326,6 +325,7 @@ class CalendarController extends Controller {
 		if(!$day){
 			$day = date('d');
 		}
+        $day = intval($day);
 
 		if(!$year){
 			$year = date('Y');
@@ -391,8 +391,7 @@ class CalendarController extends Controller {
 			'account_id' => $this->account_id,
 			'campaigns' => $this->campaigns->toJson(),
 			'content_items' => $content,
-			'daily_calendar' => generate_daily_calendar($year,$month,$day),
-			'tasks' => $this->tasks->toJson()
+			'daily_calendar' => generate_daily_calendar($year,$month,$day)
 		));
 	}
 

@@ -11,5 +11,5 @@ use Carbon\Carbon;
 
 class TaskPresenter extends BasePresenter
 {
-    use UpdatedAtPresenter, CreatedAtPresenter, DueDatePresenter, StartDatePresenter;
+    use DueDatePresenter, StartDatePresenter, UpdatedAtPresenter, CreatedAtPresenter;
 }

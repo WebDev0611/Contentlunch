@@ -66,6 +66,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Country', 'country_code', 'country_code');
     }
 
+    public function ideas()
+    {
+        return $this->hasMany('App\Idea');
+    }
+
     public function tasks()
     {
        return $this->hasMany('App\Task');

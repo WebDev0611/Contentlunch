@@ -19,4 +19,8 @@ var campaign_collection = Backbone.Collection.extend({
             headers: getJsonHeader(),
         });
     },
+
+    modelId: function (attrs) {
+        return attrs.type + "-" + attrs.id;
+    }
 });
