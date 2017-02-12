@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Presenters\CampaignPresenter;
+use App\User;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
@@ -59,5 +60,18 @@ class Campaign extends Model
     public function __toString()
     {
         return $this->title;
+    }
+
+    public function hasCollaborator(User $user)
+    {
+        $isNewCampaign = !$this->id;
+
+        if ($isNewCampaign) {
+            return true;
+        }
+
+        return (boolean) $this->collaborators()
+            ->where('users.id', $user->id)
+            ->count();;
     }
 }
