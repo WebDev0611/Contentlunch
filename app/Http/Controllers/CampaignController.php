@@ -37,6 +37,7 @@ class CampaignController extends Controller
             'beingWrittenContent' => collect([]),
             'campaignTypesDropdown' => CampaignTypePresenter::dropdown(),
             'campaignTypes' => CampaignType::all()->toJson(),
+            'isCollaborator' => $campaign->hasCollaborator(Auth::user()),
         ];
 
         return view('campaign.index', $data);
