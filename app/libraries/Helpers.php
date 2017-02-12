@@ -193,5 +193,14 @@ class Helpers {
             mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
         );
     }
+
+    public static function isCollaborator(array $options, $isCollaborator = true)
+    {
+        if (!$isCollaborator) {
+            $options['disabled'] = 'disabled';
+        }
+
+        return $options;
+    }
 }
 
