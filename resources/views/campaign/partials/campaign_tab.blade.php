@@ -3,16 +3,14 @@
 
     <div class="input-form-group">
         <label for="#">CAMPAIGN TITLE</label>
-        {!!
-            Form::text(
-                'title',
-                @isset($campaign) ? $campaign->title : '',
-                [
-                    'placeholder' => 'Enter campaign title',
-                    'class' => 'input input-larger form-control',
-                    'id' => 'campaign-title',
-                ])
-        !!}
+        @php
+            $titleOptions = \App\Helpers::isCollaborator([
+                'placeholder' => 'Enter campaign title',
+                'class' => 'input input-larger form-control',
+                'id' => 'campaign-title',
+            ], $isCollaborator);
+        @endphp
+        {!! Form::text('title', $campaign->title, $titleOptions) !!}
     </div>
 
     <div class="row">
@@ -21,16 +19,13 @@
                 <label for="#">START DATE</label>
                 <div class="form-suffix">
                     <i class="icon-calendar picto"></i>
-                    {!!
-                        Form::text(
-                            'start_date',
-                            @isset($campaign) ? $campaign->start_date : '',
-                            [
-                                'class' => 'input form-control',
-                                'id' => 'start-date',
-                                'name' => 'start_date',
-                            ])
-                    !!}
+                    @php
+                        $startDateOptions = \App\Helpers::isCollaborator([
+                            'class' => 'input form-control',
+                            'id' => 'start-date',
+                        ], $isCollaborator);
+                    @endphp
+                    {!! Form::text('start_date', $campaign->start_date, $startDateOptions) !!}
                 </div>
             </div>
         </div>
@@ -40,15 +35,13 @@
                 <label for="#">END DATE</label>
                 <div class="form-suffix">
                     <i class="icon-calendar picto"></i>
-                    {!!
-                        Form::text(
-                            'end_date',
-                            @isset($campaign) ? $campaign->end_date : '',
-                            [
-                                'class' => 'input form-control',
-                                'id' => 'end-date',
-                            ])
-                    !!}
+                    @php
+                        $endDateOptions = \App\Helpers::isCollaborator([
+                            'class' => 'input form-control',
+                            'id' => 'end-date',
+                        ], $isCollaborator);
+                    @endphp
+                    {!! Form::text('end_date', $campaign->end_date, $endDateOptions) !!}
                 </div>
             </div>
         </div>
@@ -62,12 +55,12 @@
                     Form::select(
                         'type',
                         $campaignTypesDropdown,
-                        @isset($campaign)? $campaign->campaign_type_id : '',
-                        [
+                        @$campaign ? $campaign->campaign_type_id : '',
+                        \App\Helpers::isCollaborator([
                             'class' => 'input selectpicker form-control',
                             'id' => 'campaign-types',
                             'title' => 'Choose Campaign Type',
-                        ])
+                        ], $isCollaborator))
                 !!}
             </div>
         </div>
@@ -88,46 +81,37 @@
                         '1' => 'Active',
                         '2' => 'Paused',
                     ];
+
+                    $statusOptions = \App\Helpers::isCollaborator([
+                        'placeholder' => 'Set Campaign status',
+                        'class' => 'input',
+                    ], $isCollaborator);
                 @endphp
-                {!!
-                    Form::select(
-                        'status',
-                        $options,
-                        '0',
-                        [
-                            'placeholder' => 'Set Campaign status',
-                            'class' => 'input',
-                        ]
-                    )
-                !!}
+                {!! Form::select('status', $options, '0', $statusOptions) !!}
             </div>
         </div>
     </div>
     <div class="input-form-group">
         <label for="#">CAMPAIGN DESCRIPTION</label>
-        {!!
-            Form::textarea(
-                'description',
-                @isset($campaign) ? $campaign->description : '',
-                [
-                    'placeholder' => 'Enter Campaign Description',
-                    'class' => 'input input-larger form-control',
-                    'id' => 'campaign-description',
-                ])
-        !!}
+        @php
+            $descriptionOptions = \App\Helpers::isCollaborator([
+                'placeholder' => 'Enter Campaign Description',
+                'class' => 'input input-larger form-control',
+                'id' => 'campaign-description',
+            ], $isCollaborator);
+        @endphp
+        {!! Form::textarea('description', $campaign->description, $descriptionOptions) !!}
     </div>
     <div class="input-form-group">
         <label for="#">CAMPAIGN GOALS</label>
-        {!!
-            Form::textarea(
-                'goals',
-                @isset($campaign)? $campaign->goals : '',
-                [
-                    'placeholder' => 'Enter Campaign Goals',
-                    'class' => 'input input-larger form-control',
-                    'id' => 'campaign-goals'
-                ])
-        !!}
+        @php
+            $goalsOptions = \App\Helpers::isCollaborator([
+                'placeholder' => 'Enter Campaign Goals',
+                'class' => 'input input-larger form-control',
+                'id' => 'campaign-goals'
+            ], $isCollaborator);
+        @endphp
+        {!! Form::textarea('goals', $campaign->goals, $goalsOptions) !!}
     </div>
 
     <!-- Attachments -->
@@ -147,8 +131,7 @@
     </div>
     @endif
 
-    {{-- <div class="input-form-group @if (!$isCollaborator) hide @endif"> --}}
-    <div class="input-form-group">
+    <div class="input-form-group @if (!$isCollaborator) hide @endif">
         <div class="dropzone" id='attachment-uploader'>
         </div>
     </div>
