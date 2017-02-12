@@ -47,6 +47,16 @@ class Campaign extends Model
         return $this->hasMany('App\Content');
     }
 
+    public function contentsWritten()
+    {
+        return $this->hasMany('App\Content')->where('written', '1');
+    }
+
+    public function contentsReady()
+    {
+        return $this->hasMany('App\Content')->where('ready_published', '1');
+    }
+
     public function creator()
     {
         return $this->belongsTo('App\User');
@@ -72,6 +82,6 @@ class Campaign extends Model
 
         return (boolean) $this->collaborators()
             ->where('users.id', $user->id)
-            ->count();;
+            ->count();
     }
 }

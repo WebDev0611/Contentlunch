@@ -33,8 +33,8 @@ class CampaignController extends Controller
         $data = [
             'campaign' => $campaign,
             'attachments' => $this->campaignAttachments($campaign),
-            'readyToPublishContent' => collect([]),
-            'beingWrittenContent' => collect([]),
+            'readyToPublishContent' => $campaign->contentsReady,
+            'beingWrittenContent' => $campaign->contentsWritten,
             'campaignTypesDropdown' => CampaignTypePresenter::dropdown(),
             'campaignTypes' => CampaignType::all()->toJson(),
             'isCollaborator' => $campaign->hasCollaborator(Auth::user()),
