@@ -21,6 +21,7 @@ elixir(function (mix) {
     mix
             .sass('main.scss')
             .scripts([
+                './bower_components/vue/dist/vue.js',
                 './bower_components/jquery/dist/jquery.min.js',
                 './bower_components/underscore/underscore.js',
                 './bower_components/backbone/backbone.js',
