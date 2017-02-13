@@ -38,33 +38,50 @@ class CalendarController extends Controller
         return $request->user()->calendars()->with('contentTypes')->get();
     }
 
-    //creates a new calendar
-    public function create(Request $request)
+    // saves new calendar
+    private function store($user, $account_id, $input)
     {
-        //$contentTypesIds = ContentType::where('provider_id', '!=', 0)->pluck('id');
-
         $cal = new Calendar();
-        $cal->name = $request->input('name');
-        $cal->color = $request->input('color');
-        $cal->show_ideas = ($request->input('show_ideas') == '1') ? true : false;
-        $cal->show_tasks = ($request->input('show_tasks') == '1') ? true : false;
-        $cal->account_id = Account::selectedAccount()->id;
+        $cal->name = $input['name'];
+        $cal->account_id = $account_id;
 
-        $newCalendar = $request->user()->calendars()->save($cal);
-        $newCalendar->contentTypes()->sync($request->input('content_type_ids'));
+        $cal->color = (!empty($input['color'])) ? $input['color'] : null;
+        $cal->show_ideas = (!empty($input['show_ideas']) && $input['show_ideas'] == '1') ? true : false;
+        $cal->show_tasks = (!empty($input['show_tasks']) && $input['show_tasks'] == '1') ? true : false;
+
+        $newCalendar = $user->calendars()->save($cal);
+        $newCalendar->contentTypes()->sync($input['content_type_ids']);
         $newCalendar->save();
 
         return $newCalendar;
     }
 
-    //add item to the calendar
-    public function add_to_calendar()
+    // Creates default calendar for the user
+    private function create_default(Request $request)
     {
+        $input['name'] = 'Personal Calendar';
+        $input['color'] = 'd68ae6';
+        $input['show_ideas'] = true;
+        $input['show_tasks'] = true;
+        $input['content_type_ids'] = ContentType::where('provider_id', '!=', 0)->pluck('id')->toArray();
 
+        return $this->store($request->user(), Account::selectedAccount()->id, $input);
     }
 
-    public function index($year = 0, $month = 0, $day = 0)
+    //creates a new calendar
+    public function create(Request $request)
     {
+        return $this->store($request->user(), Account::selectedAccount()->id, $request->all());
+    }
+
+    // show monthly
+    public function index(Request $request, $year = 0, $month = 0, $day = 0)
+    {
+        // If user doesn't have a calendar yet, create one
+        if (count($this->my($request)) == 0) {
+            $this->create_default($request);
+        }
+
         /* draws a calendar */
         function draw_calendar($month, $year)
         {
