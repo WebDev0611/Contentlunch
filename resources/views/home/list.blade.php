@@ -58,14 +58,14 @@
                         <div class="panel-header">
                             <ul class="panel-tabs spacing">
                                 <li class="active my-tasks">
-                                    <a href="#">My tasks</a>
+                                    <a href="#my-tasks" role='tab' data-toggle='tab'>My tasks</a>
                                 </li>
-                                <li  class="all-tasks">
-                                    <a href="#">All tasks</a>
+                                <li class="all-tasks">
+                                    <a href="#all-tasks" role='tab' data-toggle='tab'>All tasks</a>
                                 </li>
-                                <!--<li class="campaigns">
-                                    <a href="#">Campaigns</a>
-                                </li> -->
+                                <li class="campaigns">
+                                    <a href="#campaigns" role='tab' data-toggle='tab'>Campaigns</a>
+                                </li>
                                 <!-- out for now
                                 <li>
                                     <a href="javascript:;">Recently Viewed</a>
@@ -73,7 +73,17 @@
                                 -->
                             </ul>
                         </div>
-
+                        <div class="tab-content">
+                            <div class="tab-pane active" role='tabpanel' id='my-tasks'>
+                                My Tasks
+                            </div>
+                            <div class="tab-pane" role='tabpanel' id='all-tasks'>
+                                All Tasks
+                            </div>
+                            <div class="tab-pane" role='tabpanel' id='campaigns'>
+                                <campaign-list></campaign-list>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!--
@@ -89,7 +99,6 @@
                 </div>
                 -->
                 <div class="col-md-3" id="misc-container">
-
                     <div class="panel" id="recent-ideas">
                         <div class="panel-header">
                             <h4 class="panel-sidebar-title-secondary">
