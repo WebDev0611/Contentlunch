@@ -13,7 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Model::unguard();
 
         $this->call('CountrySeeder');
@@ -30,6 +29,5 @@ class DatabaseSeeder extends Seeder
         $this->call('CampaignSeeder');
 
         Model::reguard();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

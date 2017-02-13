@@ -11,6 +11,11 @@ class PersonaSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        App\Persona::truncate();
         factory(App\Persona::class, 5)->create();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
