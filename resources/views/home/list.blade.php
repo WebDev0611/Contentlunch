@@ -6,13 +6,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-2">
-                    <div class="dashboard-notification-box">
-                    <span class="dashboard-notification-box-count">
-                        <i class="icon-checklist"></i>
-                        <span id="incomplete-tasks">0</span>
-                    </span>
-                        <span>Incomplete <br> Tasks</span>
-                    </div>
+                    <incomplete-task-counter></incomplete-task-counter>
                 </div>
                 <div class="col-md-2">
                     <div class="dashboard-notification-box">
