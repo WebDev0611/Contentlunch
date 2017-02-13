@@ -75,10 +75,10 @@
                         </div>
                         <div class="tab-content">
                             <div class="tab-pane active" role='tabpanel' id='my-tasks'>
-                                My Tasks
+                                <tasks-list user-only='true'></tasks-list>
                             </div>
                             <div class="tab-pane" role='tabpanel' id='all-tasks'>
-                                All Tasks
+                                <tasks-list></tasks-list>
                             </div>
                             <div class="tab-pane" role='tabpanel' id='campaigns'>
                                 <campaign-list></campaign-list>
@@ -130,13 +130,17 @@
     </div>
 
     @include('home.partials.invite_team_member_modal')
-    <script>
-        var my_campaigns = {!! $mycampaigns !!};
-        var my_tasks = {!! $tasks !!};
-        var account_tasks = {!! $accountTasks !!};
-    </script>
 @stop
 
 @section('scripts')
+    <script>
+        // var my_campaigns = {!! $mycampaigns !!};
+        // var my_tasks = {!! $tasks !!};
+        // var account_tasks = {!! $accountTasks !!};
+
+        var my_campaigns = [];
+        var my_tasks = [];
+        var account_tasks = [];
+    </script>
     <script src="/js/dashboard.js"></script>
 @stop
