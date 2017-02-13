@@ -346,9 +346,22 @@
 
         // Add new calendar
         $('#add-calendar-button').click(function () {
-            add_calendar(function(){
+            let newCalPromise = add_calendar(function(){
                 $('#createCalendarModal').modal('hide');
             });
+
+            $.when(newCalPromise).done((newCalResponse) => {
+                let redirectUrl = '/index';
+                if (window.location.pathname.indexOf('weekly') >= 0) {
+                    redirectUrl = '/weekly';
+                }
+                if (window.location.pathname.indexOf('daily') >= 0) {
+                    redirectUrl = '/daily';
+                }
+                window.location = redirectUrl + '/' + newCalResponse.id;
+            });
+
+
         });
 
         var drop_down_calendar_tool = Backbone.View.extend({

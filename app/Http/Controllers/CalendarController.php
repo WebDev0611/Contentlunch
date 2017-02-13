@@ -47,7 +47,7 @@ class CalendarController extends Controller
     }
 
     // show monthly
-    public function index( $id, $year = 0, $month = 0, $day = 0)
+    public function index(Request $request, $id, $year = 0, $month = 0, $day = 0)
     {
         /* draws a calendar */
         function draw_calendar($month, $year)
@@ -151,6 +151,7 @@ class CalendarController extends Controller
 
         return View::make('calendar.index', array(
             'cal' => Calendar::find($id),
+            'my' => $this->my($request),
             'calendar' => $calendar_layout,
             'default_month' => $default_month,
             'default_year' => $default_year,
@@ -241,7 +242,7 @@ class CalendarController extends Controller
         ));
     }
 
-    public function weekly($id, $year = 0, $month = 0, $day = 0)
+    public function weekly(Request $request, $id, $year = 0, $month = 0, $day = 0)
     {
 
         if (!$day) {
@@ -322,6 +323,7 @@ class CalendarController extends Controller
 
         return View::make('calendar.weekly', array(
             'cal' => Calendar::find($id),
+            'my' => $this->my($request),
             'display_month' => $display_month,
             'numeric_month' => $month,
             'display_year' => $year,
@@ -342,7 +344,7 @@ class CalendarController extends Controller
         ));
     }
 
-    public function daily($id, $year = 0, $month = 0, $day = 0)
+    public function daily(Request $request, $id, $year = 0, $month = 0, $day = 0)
     {
         if (!$day) {
             $day = date('d');
@@ -403,6 +405,7 @@ class CalendarController extends Controller
 
         return View::make('calendar.daily', array(
             'cal' => Calendar::find($id),
+            'my' => $this->my($request),
             'display_month' => $display_month,
             'numeric_month' => $month,
             'display_year' => $year,

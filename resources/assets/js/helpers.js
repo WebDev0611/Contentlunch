@@ -160,6 +160,7 @@ function clearTaskInputs() {
 
 // Calendar helpers
 function add_calendar(callback) {
+
     if (isCalendarDataValid()) {
         $('#add-calendar-button').prepend(loadIMG);
 

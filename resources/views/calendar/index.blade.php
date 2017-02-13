@@ -17,30 +17,26 @@
         </div>
         <div class="calendar-menu">
             <div class="calendar-menu-navigator">
-                <a href="/calendar/{{$default_year}}/{{$prev_month}}" class="calendar-menu-navigator-link pull-left">
+                <a href="/calendar/{{$cal->id}}/{{$default_year}}/{{$prev_month}}" class="calendar-menu-navigator-link pull-left">
                     <i class="icon-arrow-right icon-flip-horizontal"></i>
                 </a>
                 <span class="calendar-menu-navigator-date">{{$default_month}} {{$default_year}}</span>
-                <a href="/calendar/{{$default_year}}/{{$next_month}}" class="calendar-menu-navigator-link pull-right">
+                <a href="/calendar/{{$cal->id}}/{{$default_year}}/{{$next_month}}" class="calendar-menu-navigator-link pull-right">
                     <i class="icon-arrow-right"></i>
                 </a>
             </div>
             <div class="calendar-menu-select">
                 <button class="calendar-menu-select-button" data-toggle="dropdown">
-                    Calendar name
+                    {{$cal->name}}
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li class="dropdown-header">Calendars</li>
-                    <li>
-                        <a href="#">Work Calendar</a>
-                    </li>
-                    <li>
-                        <a href="#">Personal Calendar</a>
-                    </li>
-                    <li>
-                        <a href="#">Family Calendar</a>
-                    </li>
+                    @foreach($my as $myCalendar)
+                        <li>
+                            <a href="{{route('calendarMonthly', $myCalendar->id)}}">{{$myCalendar->name}}</a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
             @include('calendar.menu')
@@ -59,7 +55,7 @@
 @include('calendar.create')
 
 <script type="text/template" id="calendar-item-template">
-    <% 
+    <%
     var _icon = 'primary icon-idea';
     if(type == 'task') _icon = 'secondary icon-arrange-mini'
     if(type == 'idea') _icon = 'purple icon-idea'
@@ -171,6 +167,8 @@
 @section('scripts')
 <script>
 var campaigns = {!! $campaigns !!};
+var calendar = {!! $cal !!};
+var my = {!! $my !!};
 </script>
 <script src="/js/calendar.js"></script>
 @stop
