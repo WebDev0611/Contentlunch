@@ -346,7 +346,9 @@
 
         // Add new calendar
         $('#add-calendar-button').click(function () {
-            add_calendar(function(){});
+            add_calendar(function(){
+                $('#createCalendarModal').modal('hide');
+            });
         });
 
         var drop_down_calendar_tool = Backbone.View.extend({

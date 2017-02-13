@@ -215,6 +215,8 @@ function addedCalendarCallback(callback) {
 
 function clearCalendarInputs() {
     $('#calendar_name').val('');
+    $('#show_tasks:checked').click();
+    $('#show_ideas:checked').click();
     $('.checkbox-color input:checked').click();
     $('.checkbox-content-types input:checked').click();
 }

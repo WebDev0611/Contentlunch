@@ -42,20 +42,16 @@ class CalendarController extends Controller
     public function create(Request $request)
     {
         //$contentTypesIds = ContentType::where('provider_id', '!=', 0)->pluck('id');
-        $contentTypesIds = $request->input('content_type_ids');
-        $account = Account::selectedAccount();
 
         $cal = new Calendar();
         $cal->name = $request->input('name');
         $cal->color = $request->input('color');
         $cal->show_ideas = ($request->input('show_ideas') == '1') ? true : false;
         $cal->show_tasks = ($request->input('show_tasks') == '1') ? true : false;
-        $cal->account_id = $account->id;
+        $cal->account_id = Account::selectedAccount()->id;
 
         $newCalendar = $request->user()->calendars()->save($cal);
-        $newCalendar = Calendar::find($newCalendar->id);
-        $newCalendar->contentTypes()->sync($contentTypesIds);
-
+        $newCalendar->contentTypes()->sync($request->input('content_type_ids'));
         $newCalendar->save();
 
         return $newCalendar;
