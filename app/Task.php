@@ -179,6 +179,8 @@ class Task extends Model
         return $account
             ->tasks()
             ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->where('status', '<>', 'archived')
             ->get()
             ->map(function($task) {
                 $task->addDueDateDiffs();
@@ -191,6 +193,8 @@ class Task extends Model
         return $user
             ->assignedTasks()
             ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->where('status', '<>', 'archived')
             ->distinct()
             ->get()
             ->map(function($task) {
