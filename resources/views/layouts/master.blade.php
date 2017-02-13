@@ -39,6 +39,14 @@
 
 <script src="/js/vendor.js"></script>
 <script src="/js/plugins.js"></script>
+
+<script type='text/javascript'>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('input[name=_token]').val()
+        }
+    });
+</script>
 <script src="/js/app.js"></script>
 <!-- Page Specific JS -->
 @yield('scripts')
@@ -118,7 +126,7 @@
 
 </script>
 <script>
-    var vueApp = new Vue({ el: '#root' });
+    new Vue({ el: '#root' });
 </script>
 
 </body>

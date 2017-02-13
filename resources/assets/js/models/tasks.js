@@ -6,8 +6,6 @@ var task_model = Backbone.Model.extend({
 		explanation: 'Explanation Text Here',
 		url: 'https://google.com',
 		account_id: 0,
-		campaign_id: 0,
-		content_id: 0,
 		user_id: 0,
 		image: '/images/cl-avatar2.png',
         title: "",

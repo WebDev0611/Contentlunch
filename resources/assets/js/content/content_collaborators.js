@@ -71,15 +71,6 @@
 
     new SidebarView({ el: '#editor-panel-sidebar' });
 
-    var CollaboratorModalView = Backbone.View.extend({
-        template: _.template($('#sidebar-collaborator-checkbox').html()),
-        tagName: 'div',
-        render: function() {
-            this.$el.html(this.template(this.model.toJSON()));
-            return this;
-        },
-    })
-
     var AddCollaboratorModalView = Backbone.View.extend({
         events: {
             'click .invite-users': 'submit',
