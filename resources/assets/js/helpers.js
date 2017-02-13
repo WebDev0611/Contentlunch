@@ -37,9 +37,8 @@ function format_time_ago(time) {
 
 
 //handles the task modal for the site
-$(function () {
-
-    $('.add-task-action').click(function () {
+$(function() {
+ 	$('.add-task-action').click(function() {
         $("#addTaskModal").modal('show');
     });
 
@@ -49,7 +48,6 @@ $(function () {
     });
 
     $('#task-due-date').datetimepicker({
-        //format: 'DD/MM/YY',
         format: 'YYYY-MM-DD HH:mm',
         sideBySide: true,
     });
