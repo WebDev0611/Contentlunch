@@ -145,17 +145,14 @@
              <ul class="dropdown-menu dropdown-menu-right">
                 <li class="dropdown-header important date-popup-label"></li>
 
-                <!--
+                <li>
+                  <a href="javascript:;" class="tool-add-task">Add Task</a>
+                </li>
                 <li>
                   <a href="#" data-toggle="modal" data-target="#addIdeaCalendar">Add Idea</a>
                 </li>
                 <li>
                   <a href="#" data-toggle="modal" data-target="#addContentCalendar">Add Content</a>
-                </li>
-                -->
-
-                <li>
-                  <a href="javascript:;" class="tool-add-task">Add Task</a>
                 </li>
 
               </ul>

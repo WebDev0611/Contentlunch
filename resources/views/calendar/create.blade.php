@@ -67,8 +67,6 @@
             </label>
         </div>
 
-
-        <!--
         <fieldset class="form-fieldset">
             <legend class="form-legend">Invite Guests</legend>
             <div class="form-group">
@@ -91,7 +89,7 @@
                 <span>Tasks</span>
             </label>
         </fieldset>
-        -->
+
 
     </div>
     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
