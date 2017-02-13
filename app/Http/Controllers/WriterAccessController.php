@@ -6,8 +6,6 @@ use App\WriterAccessPrice;
 use DateTime;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Collections\RowCollection;
-use Psy\Exception\ErrorException;
 use Stripe\Stripe;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -59,14 +57,18 @@ class WriterAccessController extends Controller
 
     /**
      * WriterAccessController constructor.
+     * @param Request $request
+     * @param User $user
+     * @param string $apiProject
+     * @param int $apiProjectId
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request, $user = null, $apiProject = null, $apiProjectId = null)
     {
-        $user = Auth::user();
+        $user = $user ? $user : Auth::user();
 
         if ($user) {
             // Set the project name for writer access calls
-            $this->apiProject = $this->getProjectName($request->root(), $user);
+            $this->apiProject = $apiProject ? $apiProject : $this->getProjectName($request->root(), $user);
 
             // Create the users project if it doesn't already exist.
             if (empty($user->writer_access_Project_id)) {
@@ -74,7 +76,7 @@ class WriterAccessController extends Controller
             }
 
             // Set the projectid for writer access calls
-            $this->apiProjectId = $user->writer_access_Project_id;
+            $this->apiProjectId = $apiProjectId ? $apiProjectId : $user->writer_access_Project_id;
         }
     }
 
@@ -252,6 +254,7 @@ class WriterAccessController extends Controller
         ));
 
         // Try to charge the card
+        $charge = null;
         try {
             $charge = \Stripe\Charge::create(array(
                 'customer' => $customer->id,
@@ -260,6 +263,7 @@ class WriterAccessController extends Controller
             ));
         } catch (Stripe_CardError $e) {
             $errors['Payment Declined'] = 'Your card was declined, please try another card to complete the order.';
+            $errors['Stripe Charge'] = $charge;
         }
 
         // Stop here if we find errors
@@ -287,6 +291,20 @@ class WriterAccessController extends Controller
         }
 
         return response()->json($response->getContent());
+    }
+
+    public function queuedOrderSubmit(Order $order)
+    {
+        try{
+            $response = $this->post('/orders', array_merge($order->toArray()));
+
+            $responseContent = json_decode($response->getContent());
+        }catch(Exception $e){
+            echo $e->getMessage();
+            echo $e->getStack();
+        }
+
+        return $responseContent;
     }
 
     private function createDueDate($date)
@@ -349,47 +367,64 @@ class WriterAccessController extends Controller
     }
 
     public function bulkOrderSubmit(Request $request, WriterAccessPartialOrder $orderDetails){
+
         try{
 
             $user = Auth::user();
             $orders = [];
+            $price = 0.00;
+
             if(file_exists($orderDetails['bulk_file'])){
+                $stripeToken = $request->input('stripe-token', false);
+
+                if(!$stripeToken){
+                    throw new Exception("Missing Stripe Token.");
+                }
+
                 $uploadRows = Excel::load($orderDetails['bulk_file'])->get();
                 foreach($uploadRows as $row){
+
                     $order = new Order();
+                    if(env("WRITER_ACCESS_TEST_WRITER_ID", false)){
+                        $order->setTargetwriter(env("WRITER_ACCESS_TEST_WRITER_ID"));
+                    }
                     $errors = [];
                     $tmpOrderArray = $orderDetails->toArray();
+                    $tmpOrderArray['projectid'] = $this->apiProjectId;
                     $tmpOrderArray['title'] = $row->content_title;
                     $tmpOrderArray['instructions'] = $row->instructions;
                     $this->validateOrderDetails($order, $errors, $tmpOrderArray);
-
                     if(count($errors) === 0){
                         $orders[] = $order;
+                        $price = $price + $order->getPrice();
                     }
                 }
+
             }else{
-                $error = new ErrorException();
+                $error = new Exception();
                 return response()->json(array(
                     "error" => "Bulk import file not found: ".$orderDetails['bulk_file'],
-                    "orderDetails" => json_encode($orderDetails),
-                    "stack" => json_encode($error->getTrace())
+                    "orderDetails" => $orderDetails,
+                    "stack" => $error->getTrace()
                 ));
             }
 
+            //return response()->json($orders);
+
             $bulkOrderStatus =  WriterAccessBulkOrderStatus::create();
 
-            $job = (new WriterAccessBulkOrder($bulkOrderStatus->id, $user, $orders, $request));
+            $job = (new WriterAccessBulkOrder($bulkOrderStatus->id, $user, $orders, $this->apiProject, $this->apiProjectId, $stripeToken, Config::get('services.stripe.secret'), $price));
 
             $this->dispatch($job);
 
             return redirect()
-                ->route('writerAccessBulkOrderStatuses.show'.$bulkOrderStatus->id)
+                ->to('/writeraccess/bulk-order/'.$bulkOrderStatus->id)
                 ->with("orders", $orders);
 
         }catch(Exception $e){
             return response()->json(array(
                 "error" => $e->getMessage(),
-                "stack" => json_encode($e->getTrace())
+                "stack" => $e->getTrace()
             ));
         }
     }
@@ -435,10 +470,12 @@ class WriterAccessController extends Controller
      *
      * @return Response
      */
-    private function post($apiPath, $postFields = null, $cache_key)
+    private function post($apiPath, $postFields = null, $cache_key = null)
     {
         $url = $this->apiUrl.$apiPath;
         $fields_string = '';
+
+        echo "\nURL:\n".$url."\n\n";
 
         if (isset($postFields)) {
             foreach ($postFields as $key => $value) {
@@ -461,6 +498,9 @@ class WriterAccessController extends Controller
             }
 
             $output = curl_exec($curl);
+            echo "\n\nOutput\n";
+            echo json_encode($fields_string)."\n";
+            echo $output."\n";
             curl_close($curl);
 
             Redis::set($redis_key, serialize( $output ));
@@ -551,19 +591,18 @@ class WriterAccessController extends Controller
      * @param array $orderDetails
      */
     private function validateOrderDetails(Order &$order, array &$errors, array $orderDetails){
-        // Validate Token
-        if (isset($orderDetails['stripe-token'])) {
-            $order->setStripeToken($orderDetails['stripe-token']);
+        // Validate projectid
+        if (!isset($orderDetails['projectid'])) {
+            $errors['projectid'] = "Missing required parameter 'projectid'.";
         } else {
-            $errors['token'] = 'The order cannot be processed. You have not been charged. '.
-                'Please confirm that you have JavaScript enabled and try again.';
+            $order->setProjectid(intval($orderDetails['projectid']));
         }
 
-        // Validate Post Data
-        if (!isset($orderDetails['assetType'])) {
-            $errors['assetType'] = "Missing required parameter 'assetType'.";
+        // Validate asset type
+        if (!isset($orderDetails['asset_type_id'])) {
+            $errors['asset_type_id'] = "Missing required parameter 'assetType'.";
         } else {
-            $order->setAssetid(intval($orderDetails['assetType']));
+            $order->setAssetid(intval($orderDetails['asset_type_id']));
         }
 
         // Validate wordcount
@@ -583,9 +622,9 @@ class WriterAccessController extends Controller
         }
 
         // If assetType, wordcount, and writer_level are present, then try to get the price for the order.
-        $writerAccessPrice = isset($errors['assetType'], $errors['wordcount'], $errors['writer_level'])
-            ? $writerAccessPrice = WriterAccessPrice::where('asset_type_id', $orderDetails['assetType'])
-                ->where('writer_level', $orderDetails['writer'])
+        $writerAccessPrice = !isset($errors['asset_type_id'], $errors['wordcount'], $errors['writer_level'])
+            ? $writerAccessPrice = WriterAccessPrice::where('asset_type_id', $orderDetails['asset_type_id'])
+                ->where('writer_level', $orderDetails['writer_level'])
                 ->where('wordcount', $orderDetails['wordcount'])
                 ->first()
             : null
@@ -615,18 +654,18 @@ class WriterAccessController extends Controller
         // Validate instructions
         if (!isset($orderDetails['instructions'])) {
             $errors['instructions'] = "Missing required parameter 'instructions'.";
-        } elseif (!isset($orderDetails['target'])) {
-            $errors['target'] = "Missing required parameter 'target'.";
-        } elseif (!isset($orderDetails['tone'])) {
-            $errors['tone'] = "Missing required parameter 'tone'.";
-        } elseif (!isset($orderDetails['voice'])) {
-            $errors['voice'] = "Missing required parameter 'voice'.";
+        } elseif (!isset($orderDetails['target_audience'])) {
+            $errors['target_audience'] = "Missing required parameter 'target_audience'.";
+        } elseif (!isset($orderDetails['tone_of_writing'])) {
+            $errors['tone_of_writing'] = "Missing required parameter 'tone_of_writing'.";
+        } elseif (!isset($orderDetails['narrative_voice'])) {
+            $errors['narrative_voice'] = "Missing required parameter 'narrative_voice'.";
         } else {
             $order->setInstructions(
                 $orderDetails['instructions'] .
-                "\nTarget Audience: \n".$orderDetails['target'] .
-                "\nTone of Writing: \n".$orderDetails['tone'] .
-                "\nNarrative Voice: \n".$orderDetails['voice']
+                "\nTarget Audience: \n".$orderDetails['target_audience'] .
+                "\nTone of Writing: \n".$orderDetails['tone_of_writing'] .
+                "\nNarrative Voice: \n".$orderDetails['narrative_voice']
             );
         }
     }

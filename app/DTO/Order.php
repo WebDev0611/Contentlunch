@@ -718,6 +718,36 @@ class Order
      * @return array
      */
     public function toArray() {
-        return (array) $this;
+        return array (
+            "projectid" => $this->projectid,
+            "hourstocomplete" => $this->hourstocomplete,
+            "writer" => $this->writer,
+            "minwords" => $this->minwords,
+            "maxwords" => $this->maxwords,
+            "status" => $this->status,
+            "title" => $this->title,
+            "text" => $this->text,
+            "instructions" => $this->instructions,
+            "categoryid" => $this->categoryid,
+            "assetid" => $this->assetid,
+            "expertiseid" => $this->expertiseid,
+            "hourstoexpire" => $this->hourstoexpire,
+            "hourstoapprovejon" => $this->hourstoapprovejon,
+            "hourstorevise" => $this->hourstorevise,
+            "paidreview" => $this->paidreview,
+            "maxhours" => $this->maxhours,
+            "required" => $this->required,
+            "optional" => $this->optional,
+            "seo" => $this->seo,
+            "special" => $this->special,
+            "lovelist" => $this->lovelist,
+            "targetwriter" => $this->targetwriter,
+            "allowhtml" => $this->allowhtml,
+            "notes" => $this->notes,
+            "bonus" => $this->bonus,
+            "rating" => $this->rating,
+            "stripeToken" => $this->stripeToken,
+            "price" => $this->price,
+        );
     }
 }

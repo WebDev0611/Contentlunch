@@ -114,6 +114,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/content/publish/{content}', ['as' => 'contentPublish', 'uses' => 'ContentController@publishAndRedirect']);
     Route::get('/content/multipublish/{content}', ['as' => 'contentMultiPublish', 'uses' => 'ContentController@directPublish']);
 
+    Route::get('/content/orders', 'ContentController@orders');
     Route::get('/content/my', 'ContentController@my');
 
     // Facebook Callbacks

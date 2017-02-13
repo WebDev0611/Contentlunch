@@ -5,8 +5,19 @@
     <div class="panel clearfix">
         <div class="panel-main">
             <div class="panel-header">
-                <h4 class="panel-container-title">{{ $countContent }} Content Items</h4>
+                <ul class="panel-tabs spacing">
+                    <li class="active">
+                        <a href="/content">All Content</a>
+                    </li>
+                    <li>
+                        <a href="/content/orders">Writing Orders in Process</a>
+                    </li>
+                </ul>
             </div>
+            {{--<div class="panel-header">
+                <h4 class="panel-container-title">{{ $countContent }} Content Items</h4>
+            </div>--}}
+
 
             {{-- @include('content.partials.dashboard.filter') --}}
 

@@ -44,8 +44,8 @@
 
                         <div class="row">
                             <div class="col-sm-12 col-md-10 col-md-offset-1">
-                                <div class="input-form-group">
-                                    <label for="start_date">Please stand by while we process your order.</label>
+                                <div class="input-form-group text-center">
+                                    <label for="start_date" style="margin-bottom: 20px;">Please stand by while we process your order.</label>
 
 
                                     <div class="progress">
@@ -54,6 +54,9 @@
                                         </div>
                                     </div>
 
+                                    <div class="loading-icon text-center" style="margin-left: 50%;">
+                                        <img style="width: 50px; margin-left: -50%;" src="/images/loading.gif" alt="">
+                                    </div>
                                 </div>
                             </div>
 
@@ -85,7 +88,6 @@
         (function($){
             var $progressBar = $(".progress-bar");
             var intervalId = setInterval(function(){
-                console.log("Jesus Saves all");
                 $.ajax({
                     url: "/writeraccess/bulk-orders/status/{{$bulkOrderStatus->id}}",
                     success: function(data){
@@ -97,7 +99,10 @@
 
                         if(data.status_percentage === 100){
                             clearInterval(intervalId);
-                            console.log("You should be redirected to Jesus.");
+                            setTimeout(function(){
+                                window.location.href = "/content/orders";
+                            }, 2000);
+
                         }
                     }
                 });

@@ -21,7 +21,7 @@
                         </div>
                     </div>
 
-                    {!! Form::open([ 'id'=>'orderFrom', 'url' => "writeraccess/orders/$order->id/submit" ]) !!}
+                    {!! Form::open([ 'id'=>'orderForm', 'url' => "writeraccess/orders/$order->id/submit" ]) !!}
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="purchase-assignment">
@@ -158,7 +158,7 @@
 
         function stripeResponseHandler(status, response) {
             var $form = $('#orderForm');
-
+            console.log(response);
             if (response.error) {
                 $form.find('input[type=submit]').prop('disabled', false);
                 $('#paymentErrors')
@@ -173,6 +173,7 @@
 
         $('#orderForm').submit(function(e) {
             var $form = $(this);
+            console.log(e);
 
             $form.find('input[type=submit]').prop('disabled', true);
 
