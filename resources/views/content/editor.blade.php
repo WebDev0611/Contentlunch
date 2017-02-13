@@ -191,6 +191,22 @@
                             !!}
                         </div>
 
+                        <div class="input-form-group flexible-fields flexible-fields-email">
+                            <label>SUBJECT</label>
+                            @php
+                                $emailSubjectOptions = [
+                                    'placeholder' => 'Enter email subject',
+                                    'class' => 'input input-larger form-control',
+                                    'id' => 'email_subject'
+                                ];
+
+                                if (!$isCollaborator) {
+                                    $titleOptions['disabled'] = 'disabled';
+                                }
+                            @endphp
+                            {!! Form::text('email_subject', @isset($content) ? $content->email_subject : '', $emailSubjectOptions) !!}
+                        </div>
+
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="input-form-group">
