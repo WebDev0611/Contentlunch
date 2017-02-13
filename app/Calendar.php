@@ -30,14 +30,17 @@ class Calendar extends Model
         $this->show_tasks = (!empty($input['show_tasks']) && $input['show_tasks'] == '1') ? true : false;
 
         $newCalendar = $user->calendars()->save($this);
-        $newCalendar->contentTypes()->sync($input['content_type_ids']);
-        $newCalendar->save();
+        if (!empty($input['content_type_ids'])) {
+            $newCalendar->contentTypes()->sync($input['content_type_ids']);
+            $newCalendar->save();
+        }
 
         return $newCalendar;
     }
 
     // Creates default calendar for the user
-    public static function createDefaultCalendar(Request $request) {
+    public static function createDefaultCalendar(Request $request)
+    {
         $input['name'] = 'Personal Calendar';
         $input['color'] = 'd68ae6';
         $input['show_ideas'] = true;
@@ -45,6 +48,7 @@ class Calendar extends Model
         $input['content_type_ids'] = ContentType::where('provider_id', '!=', 0)->pluck('id')->toArray();
 
         $cal = new Calendar();
+
         return $cal->store($request->user(), Account::selectedAccount()->id, $input);
     }
 }

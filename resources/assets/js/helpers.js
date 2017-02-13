@@ -186,7 +186,7 @@ function isCalendarDataValid() {
     }
 
     return false;
-}
+}c
 
 function getCalendarData() {
     let data = {};
@@ -207,6 +207,15 @@ function addedCalendarCallback(callback) {
     return function (res) {
         $(loadIMG).remove();
         clearCalendarInputs();
+
+        let redirectUrl = '/calendar';
+        if (window.location.pathname.indexOf('weekly') >= 0) {
+            redirectUrl = '/weekly';
+        }
+        if (window.location.pathname.indexOf('daily') >= 0) {
+            redirectUrl = '/daily';
+        }
+        window.location = redirectUrl + '/' + res.id;
 
         if ('function' === typeof callback) {
             callback(res);

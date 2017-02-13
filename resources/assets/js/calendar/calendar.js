@@ -142,13 +142,11 @@
             return e.id == calendar.id;
         });
         var this_calendar = this_calendar_arr[0];
-        console.log(this_calendar);
 
         // Declarations
         var ideas = new ideas_collection();
         var tasks = new task_collection();
         var my_content = new content_collection();
-
 
         // Maps
         function idea_map(i) {
@@ -359,22 +357,9 @@
 
         // Add new calendar
         $('#add-calendar-button').click(function () {
-            let newCalPromise = add_calendar(function () {
+            add_calendar(function () {
                 $('#createCalendarModal').modal('hide');
             });
-
-            $.when(newCalPromise).done((newCalResponse) => {
-                let redirectUrl = '/calendar';
-                if (window.location.pathname.indexOf('weekly') >= 0) {
-                    redirectUrl = '/weekly';
-                }
-                if (window.location.pathname.indexOf('daily') >= 0) {
-                    redirectUrl = '/daily';
-                }
-                window.location = redirectUrl + '/' + newCalResponse.id;
-            });
-
-
         });
 
         var drop_down_calendar_tool = Backbone.View.extend({
