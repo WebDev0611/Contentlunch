@@ -57,7 +57,7 @@ class Campaign extends Model
         return $this->hasMany('App\Content')->where('ready_published', '1');
     }
 
-    public function creator()
+    public function user()
     {
         return $this->belongsTo('App\User');
     }
