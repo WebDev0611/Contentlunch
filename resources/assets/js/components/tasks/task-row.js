@@ -36,7 +36,7 @@ Vue.component('task-row', {
                 </ul>
             </div>
             <div class="dashboard-tasks-cell cell-size-15">
-                <span class="dashboard-tasks-text small">
+                <span class="dashboard-tasks-text small" :class="{ active: active }">
                     {{ task.created_at_diff }}
                 </span>
             </div>
