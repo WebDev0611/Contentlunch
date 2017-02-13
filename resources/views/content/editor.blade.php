@@ -142,69 +142,7 @@
                                     !!}
                                 </div>
                             </div>
-                            {{--
-                            <div class="col-sm-4">
-                                <div class="input-form-group input-drop">
-                                    <label for="author">AUTHOR</label>
-                                    {!!
-                                        Form::select(
-                                            'author[]',
-                                            $authorDropdown,
-                                            @isset($content) ? $content->authors->lists('id')->toArray() : '',
-                                            [
-                                                'multiple' =>'multiple',
-                                                'class' => 'input selectpicker form-control',
-                                                'id' => 'author',
-                                                'data-live-search' => 'true',
-                                                'title' => 'Choose All Authors'
-                                            ]
-                                        )
-                                    !!}
-                                    <div class="hide">
-                                        <input type="text" class="input" placeholder="Select author" data-toggle="dropdown">
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li class="dropdown-header-secondary">
-                                                <span class="dropdown-header-secondary-text">
-                                                    Select team member
-                                                </span>
-                                                <button class="button button-micro pull-right text-uppercase">
-                                                    Submit
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <input type="text" class="dropdown-header-secondary-search" placeholder="Team Member Name">
-                                            </li>
-                                            <li>
-                                                <label for="Friend" class="checkbox-image">
-                                                    <input id="Friend" type="checkbox">
-                                                    <span>
-                                                        <img src="/images/cl-avatar2.png" alt="#">
-                                                    </span>
-                                                </label>
-                                                <label for="Friend" class="checkbox-image">
-                                                    <input id="Friend" type="checkbox">
-                                                    <span>
-                                                        <img src="/images/cl-avatar2.png" alt="#">
-                                                    </span>
-                                                </label>
-                                                <label for="Friend" class="checkbox-image">
-                                                    <input id="Friend" type="checkbox">
-                                                    <span>
-                                                        <img src="/images/cl-avatar2.png" alt="#">
-                                                    </span>
-                                                </label>
-                                                <label for="Friend" class="checkbox-image">
-                                                    <input id="Friend" type="checkbox">
-                                                    <span>
-                                                        <img src="/images/cl-avatar2.png" alt="#">
-                                                    </span>
-                                                </label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            --}}
+
                             <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="dueDate">DUE DATE</label>
