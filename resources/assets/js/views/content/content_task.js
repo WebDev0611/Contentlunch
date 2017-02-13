@@ -14,7 +14,7 @@ var ContentTaskView = Backbone.View.extend({
                 </div>
 
                 <div class="user-avatar">
-                    <img src="<%= user.profile_image %>" alt="<%= user.name %>" title="<%= user.name %>">
+                    <img src="<%= user_profile_image %>" alt="<%= user.name %>" title="<%= user.name %>">
                 </div>
 
                 <p class="title">

@@ -666,4 +666,3 @@
 </script>
 <script src="/js/content.js"></script>
 @stop
-

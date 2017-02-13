@@ -23,7 +23,7 @@
 
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
-                            <a href="#" class="button button-extend text-uppercase">Back to home</a>
+                            <a href="/" class="button button-extend text-uppercase">Back to home</a>
                         </div>
                     </div>
                     <p>&nbsp;</p>

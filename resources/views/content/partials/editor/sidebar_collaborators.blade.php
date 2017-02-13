@@ -16,20 +16,6 @@
     </a>
 </script>
 
-<script type='text/template' id='sidebar-collaborator-checkbox'>
-    <label class="checkbox-tag">
-        <input type="checkbox"
-            data-id='<%= id %>'
-            <% if (is_collaborator) { %>
-                checked=checked
-            <% } %>
-            <% if (is_logged_user) { %>
-                disabled="disabled"
-            <% } %>>
-        <span><%= name %></span>
-    </label>
-</script>
-
 <script type='text/template' id='sidebar-collaborator-modal-view'>
     <div id="launch" class="modal fade" tabindex="-1" role="dialog" id='sidebar-collaborator-modal'>
         <div class="modal-dialog">

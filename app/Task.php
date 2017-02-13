@@ -63,9 +63,24 @@ class Task extends Model
         return $this->hasMany('App\TaskAdjustment');
     }
 
+    public function assignedUsers()
+    {
+        return $this->belongsToMany('App\User');
+    }
+
     public function attachments()
     {
         return $this->hasMany('App\Attachment');
+    }
+
+    public function campaigns()
+    {
+        return $this->belongsToMany('App\Campaign');
+    }
+
+    public function contents()
+    {
+        return $this->belongsToMany('App\Content');
     }
 
     public function user()
@@ -76,16 +91,6 @@ class Task extends Model
     public function users()
     {
         return $this->account->users();
-    }
-
-    public function assignedUsers()
-    {
-        return $this->belongsToMany('App\User');
-    }
-
-    public function contents()
-    {
-        return $this->belongsToMany('App\Content');
     }
 
     public static function search($term, $account = null)
@@ -174,6 +179,8 @@ class Task extends Model
         return $account
             ->tasks()
             ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->where('status', 'open')
             ->get()
             ->map(function($task) {
                 $task->addDueDateDiffs();
@@ -186,6 +193,8 @@ class Task extends Model
         return $user
             ->assignedTasks()
             ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->where('status', 'open')
             ->distinct()
             ->get()
             ->map(function($task) {
@@ -207,6 +216,30 @@ class Task extends Model
             ->get()
             ->filter(function($adjustment) {
                 return $adjustment->hasKey('status');
+            });
+    }
+
+    // $resource can be any model with a many to many relationship
+    // with tasks
+    public static function resourceTasks($resource, $openTasks = false)
+    {
+        $tasks = $resource->tasks();
+
+        if ($openTasks) {
+            $tasks = $tasks->where('status', '=', 'open');
+        }
+
+        return $tasks
+            ->with('user')
+            ->with('assignedUsers')
+            ->get()
+            ->map(function($task) {
+                $task->due_date_diff = $task->present()->dueDate;
+                $task->user_profile_image = $task->user ?
+                    $task->user->present()->profile_image :
+                    User::DEFAULT_PROFILE_IMAGE;
+
+                return $task;
             });
     }
 }

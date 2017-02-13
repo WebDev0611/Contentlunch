@@ -13,6 +13,7 @@ use App\Helpers;
 use App\Http\Requests\Content\ContentRequest;
 use App\Persona;
 use App\Presenters\ContentTypePresenter;
+use App\Presenters\CampaignPresenter;
 use App\Tag;
 use App\User;
 use App\WriterAccessPrice;
@@ -111,7 +112,7 @@ class ContentController extends Controller
         $pricesJson = json_encode($reformedPrices);
 
         $contenttypedd = ContentTypePresenter::dropdown();
-        $campaigndd = Campaign::dropdown();
+        $campaigndd = CampaignPresenter::dropdown();
 
         $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd');
 
@@ -233,7 +234,7 @@ class ContentController extends Controller
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
             'personaDropdown' => Persona::dropdown(),
-            'campaignDropdown' => Campaign::dropdown(),
+            'campaignDropdown' => CampaignPresenter::dropdown(),
             'connections' => Connection::dropdown(),
             'contentTypeDropdown' => ContentTypePresenter::dropdown(),
         ];
@@ -254,7 +255,7 @@ class ContentController extends Controller
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
             'personaDropdown' => Persona::dropdown(),
-            'campaignDropdown' => Campaign::dropdown(),
+            'campaignDropdown' => CampaignPresenter::dropdown(),
             'connections' => Connection::dropdown(),
             'contentTypeDropdown' => ContentTypePresenter::dropdown(),
             'files' => $content->attachments()->where('type', 'file')->get(),
@@ -496,15 +497,6 @@ class ContentController extends Controller
         $this->handleAttachments($request->input('files'), $content, 'file');
     }
 
-    /**
-     * Function to upload files to S3 and save them in the database.
-     *
-     * @param ContentRequest $request  The Request instance
-     * @param Content        $content  Content instance
-     * @param string         $filetype A string indicating the filetype.
-     *                                 Images should be 'image'. Everything else will
-     *                                 be treated as files
-     */
     private function handleAttachments($files, $content, $fileType = 'file')
     {
         $files = collect($files)->filter()->flatten()->toArray();

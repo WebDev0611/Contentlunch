@@ -16,6 +16,7 @@
  */
 Route::model('account', 'App\Account');
 Route::model('buyingStage', 'App\BuyingStage');
+Route::model('campaign', 'App\Campaign');
 Route::model('connection', 'App\Connection');
 Route::model('content', 'App\Content');
 Route::model('idea', 'App\Idea');
@@ -88,11 +89,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/calendar', 'CalendarController@index');
     Route::get('/calendar/{year}/{month}', 'CalendarController@index');
 
-    Route::get('/campaign', 'CampaignController@index');
-    Route::post('/campaign/create', 'CampaignController@create');
-
-    Route::get('/campaign/edit/{campaign}', 'CampaignController@edit');
-    Route::post('/campaign/edit/{campaign}', 'CampaignController@edit');
+    Route::get('/campaign','CampaignController@create');
+    Route::post('/campaign', 'CampaignController@store');
+    Route::get('/campaign/{campaign}', 'CampaignController@edit');
+    Route::post('/campaign/attachments', 'CampaignAttachmentController@store');
+    Route::post('/campaign/{campaign}','CampaignController@update');
 
     Route::get('/daily', 'CalendarController@daily');
     Route::get('/daily/{year}/{month}/{day}', 'CalendarController@daily');
@@ -239,6 +240,10 @@ Route::group(['middleware' => 'auth'], function () {
      * AJAX Helpers
      */
     Route::get('/api/connections', 'ConnectionController@index');
+    Route::get('/api/campaigns', 'CampaignController@index');
+    Route::get('/api/campaigns/collaborators', 'CampaignCollaboratorsController@accountCollaborators');
+    Route::get('/api/campaigns/{campaign}/collaborators', 'CampaignCollaboratorsController@index');
+    Route::get('/api/campaigns/{campaign}/tasks', 'CampaignTasksController@index');
     Route::get('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@index');
     Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@update');
     Route::get('/api/contents/{content}/tasks', 'ContentTasksController@index');

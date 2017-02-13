@@ -45,7 +45,10 @@
         @endif
 
         <div class="col-md-4 text-right">
-            <a href="https://contentlaunch.uservoice.com/" class="support-icon icon-question" title="Support" target="_blank"''>
+            <a  href="https://contentlaunch.uservoice.com/"
+                class="support-icon icon-question"
+                title="Support"
+                target="_blank">
             </a>
             <button class="search-bar-button-primary btn-create">
                 Create
