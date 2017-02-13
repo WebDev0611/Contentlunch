@@ -13,414 +13,438 @@ use Auth;
 use App\Campaign;
 use App\Task;
 
-class CalendarController extends Controller {
-	public $user_id;
-	public $account_id;
-	public $campaigns;
-	public $tasks;
+class CalendarController extends Controller
+{
+    public $user_id;
+    public $account_id;
+    public $campaigns;
+    public $tasks;
 
-	public function __construct(){
-		$user = Auth::user();
+    public function __construct()
+    {
+        $user = Auth::user();
 
-		if ($user) {
-			$this->user_id = $user->id;
-			$this->account_id = 0;
-			$this->campaigns = Auth::user()->campaigns()->get();
-			$this->tasks = Auth::user()->tasks()->with('user')->get();
-		}
-	}
+        if ($user) {
+            $this->user_id = $user->id;
+            $this->account_id = 0;
+            $this->campaigns = Auth::user()->campaigns()->get();
+            $this->tasks = Auth::user()->tasks()->with('user')->get();
+        }
+    }
 
-	//pulls all calendars for the user
-	public function my(Request $request){
+    //pulls all calendars for the user
+    public function my(Request $request)
+    {
         return $request->user()->calendars()->with('contentTypes')->get();
-	}
+    }
 
-	//creates a new calendar
-	public function create(Request $request){
-		$contentTypesIds = ContentType::where('provider_id', '!=', 0)->pluck('id');
-        //$contentTypesIds = $request->input('content_type_ids');
-        $colors = $request->input('colors');
+    //creates a new calendar
+    public function create(Request $request)
+    {
+        //$contentTypesIds = ContentType::where('provider_id', '!=', 0)->pluck('id');
+        $contentTypesIds = $request->input('content_type_ids');
         $account = Account::selectedAccount();
 
-		$cal = new Calendar();
-		$cal->name = $request->input('name');
+        $cal = new Calendar();
+        $cal->name = $request->input('name');
+        $cal->color = $request->input('color');
+        $cal->show_ideas = ($request->input('show_ideas') == '1') ? true : false;
+        $cal->show_tasks = ($request->input('show_tasks') == '1') ? true : false;
         $cal->account_id = $account->id;
 
-		$newCalendar = $request->user()->calendars()->save($cal);
-		$newCalendar = Calendar::find($newCalendar->id);
-		$newCalendar->contentTypes()->sync($contentTypesIds->toArray());
+        $newCalendar = $request->user()->calendars()->save($cal);
+        $newCalendar = Calendar::find($newCalendar->id);
+        $newCalendar->contentTypes()->sync($contentTypesIds);
 
-		$newCalendar->save();
-		return $newCalendar;
-	}
+        $newCalendar->save();
 
-	//add item to the calendar
-	public function add_to_calendar(){
+        return $newCalendar;
+    }
 
-	}
+    //add item to the calendar
+    public function add_to_calendar()
+    {
 
-	public function index($year = 0, $month = 0, $day = 0 ){
-		/* draws a calendar */
-		function draw_calendar($month,$year){
+    }
 
-			/* draw table */
-			$calendar = '<table class="calendar">';
+    public function index($year = 0, $month = 0, $day = 0)
+    {
+        /* draws a calendar */
+        function draw_calendar($month, $year)
+        {
 
-			/* table headings */
-			$headings = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
-			$calendar.= '<thead class="calendar-month"><tr><th>'.implode('</th><th>',$headings).'</th></tr></thead><tbody class="calendar-month-days">';
+            /* draw table */
+            $calendar = '<table class="calendar">';
 
-			/* days and weeks vars now ... */
-			$running_day = date('w',mktime(0,0,0,$month,1,$year));
-			$days_in_month = date('t',mktime(0,0,0,$month,1,$year));
-			$days_in_this_week = 1;
-			$day_counter = 0;
-			$dates_array = array();
+            /* table headings */
+            $headings = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+            $calendar .= '<thead class="calendar-month"><tr><th>' . implode('</th><th>',
+                    $headings) . '</th></tr></thead><tbody class="calendar-month-days">';
 
-			/* row for week one */
-			$calendar.= '<tr>';
+            /* days and weeks vars now ... */
+            $running_day = date('w', mktime(0, 0, 0, $month, 1, $year));
+            $days_in_month = date('t', mktime(0, 0, 0, $month, 1, $year));
+            $days_in_this_week = 1;
+            $day_counter = 0;
+            $dates_array = array();
 
-			/* print "blank" days until the first of the current week */
-			for($x = 0; $x < $running_day; $x++):
-				$calendar.= '<td disabled> </td>';
-				$days_in_this_week++;
-			endfor;
+            /* row for week one */
+            $calendar .= '<tr>';
 
-			/* keep going with days.... */
-			for($list_day = 1; $list_day <= $days_in_month; $list_day++):
-				$d_string = $year . '-' . $month . '-' . $list_day;
-				$calendar.= '<td id="date-' . $d_string . '" data-cell-date="' . $d_string . '">';
-					/* add in the day number */ //<time class="calendar-month-date">13</time>
-					$calendar.= '<time class="calendar-month-date">'.$list_day.'</time>';
+            /* print "blank" days until the first of the current week */
+            for ($x = 0; $x < $running_day; $x++):
+                $calendar .= '<td disabled> </td>';
+                $days_in_this_week++;
+            endfor;
 
-					/** BACKBONE RENDERS AFTER HERE !! **/
+            /* keep going with days.... */
+            for ($list_day = 1; $list_day <= $days_in_month; $list_day++):
+                $d_string = $year . '-' . $month . '-' . $list_day;
+                $calendar .= '<td id="date-' . $d_string . '" data-cell-date="' . $d_string . '">';
+                /* add in the day number */ //<time class="calendar-month-date">13</time>
+                $calendar .= '<time class="calendar-month-date">' . $list_day . '</time>';
 
-				$calendar.= '</td>';
-				if($running_day == 6):
-					$calendar.= '</tr>';
-					if(($day_counter+1) != $days_in_month):
-						$calendar.= '<tr>';
-					endif;
-					$running_day = -1;
-					$days_in_this_week = 0;
-				endif;
-				$days_in_this_week++; $running_day++; $day_counter++;
-			endfor;
+                /** BACKBONE RENDERS AFTER HERE !! **/
 
-			/* finish the rest of the days in the week */
-			if($days_in_this_week < 8):
-				for($x = 1; $x <= (8 - $days_in_this_week); $x++):
-					$calendar.= '<td disabled> </td>';
-				endfor;
-			endif;
+                $calendar .= '</td>';
+                if ($running_day == 6):
+                    $calendar .= '</tr>';
+                    if (($day_counter + 1) != $days_in_month):
+                        $calendar .= '<tr>';
+                    endif;
+                    $running_day = -1;
+                    $days_in_this_week = 0;
+                endif;
+                $days_in_this_week++;
+                $running_day++;
+                $day_counter++;
+            endfor;
 
-			/* final row */
-			$calendar.= '</tr>';
+            /* finish the rest of the days in the week */
+            if ($days_in_this_week < 8):
+                for ($x = 1; $x <= (8 - $days_in_this_week); $x++):
+                    $calendar .= '<td disabled> </td>';
+                endfor;
+            endif;
 
-			/* end the table */
-			$calendar.= '</tbody></table>';
+            /* final row */
+            $calendar .= '</tr>';
 
-			/* all done, return result */
-			return $calendar;
-		}
+            /* end the table */
+            $calendar .= '</tbody></table>';
 
-		$default_month = date('F');
-		$default_year = date('Y');
+            /* all done, return result */
 
-		if($month !== 0 && $year !== 0){
-			$default_month = date('F', strtotime( $year . '-' . $month ) );
-			$default_year = $year;
-			$month = date('n', strtotime( $year . '-' . $month ) );
-			$calendar_layout = draw_calendar( $month, $year );
+            return $calendar;
+        }
 
-		}else{
-			$year = $default_year;
-			$month = date('m', strtotime( $year . '-' . $default_month ) );
+        $default_month = date('F');
+        $default_year = date('Y');
 
-			$calendar_layout = draw_calendar( date('n'), date('Y') );
-		}
+        if ($month !== 0 && $year !== 0) {
+            $default_month = date('F', strtotime($year . '-' . $month));
+            $default_year = $year;
+            $month = date('n', strtotime($year . '-' . $month));
+            $calendar_layout = draw_calendar($month, $year);
 
-		$number_of_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        } else {
+            $year = $default_year;
+            $month = date('m', strtotime($year . '-' . $default_month));
 
-		$campaigns_start_date = false;
-		$campaigns_end_date = false;
-		$campaigns_end = $year . '-'. $month . '-' . $number_of_days . ' 00:00:00';
+            $calendar_layout = draw_calendar(date('n'), date('Y'));
+        }
 
-		//$campaigns = $this->pull_campaigns($campaigns_start_date, $campaigns_end_date, $campaigns_end);
+        $number_of_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
-		$campaigns = array();
+        $campaigns_start_date = false;
+        $campaigns_end_date = false;
+        $campaigns_end = $year . '-' . $month . '-' . $number_of_days . ' 00:00:00';
 
-		$prev_month = ($month === 1) ? 12 : $month-1;
+        //$campaigns = $this->pull_campaigns($campaigns_start_date, $campaigns_end_date, $campaigns_end);
 
-		$next_month = ($month === 12) ? 1 : $month+1;
+        $campaigns = array();
 
-		return View::make('calendar.index', array(
-			'calendar' => $calendar_layout,
-			'default_month' => $default_month,
-			'default_year' => $default_year,
-			'next_month' => $next_month,
-			'prev_month' => $prev_month,
-			'campaigns' => $this->campaigns,
-			'user_id' => $this->user_id,
-			'account_id'=> $this->account_id,
-			) );
-	}
+        $prev_month = ($month === 1) ? 12 : $month - 1;
 
-	public function campaigns($year = 0 , $month = 0 ){
+        $next_month = ($month === 12) ? 1 : $month + 1;
 
-		$campaigns = $this->campaigns;
-		if(!$year){
-			$year = date('Y');
-		}
-		if(!$month){
-			$month = date('m');
-		}
+        return View::make('calendar.index', array(
+            'calendar' => $calendar_layout,
+            'default_month' => $default_month,
+            'default_year' => $default_year,
+            'next_month' => $next_month,
+            'prev_month' => $prev_month,
+            'campaigns' => $this->campaigns,
+            'user_id' => $this->user_id,
+            'account_id' => $this->account_id,
+            // TODO add these fields to monthly and daily
+            'available_content_types' => ContentType::where('provider_id', '!=', 0)->get()
+        ));
+    }
 
-		function generate_campaign_calendar($year = 0){
-			//for each month, main container
-			$main_calendar_string = '<table class="calendar-timeline"><thead class="calendar-timeline-months"><tr>';
-			//calendar heading
-			for( $m = 1; $m < 13; $m++ ){
-				$main_calendar_string .= '<th>' . date('F', strtotime($year . '-' . $m ) ) . '</th>';
-			}
-			$main_calendar_string .= '</tr></thead>';
+    public function campaigns($year = 0, $month = 0)
+    {
 
-			//days for each of the months
+        $campaigns = $this->campaigns;
+        if (!$year) {
+            $year = date('Y');
+        }
+        if (!$month) {
+            $month = date('m');
+        }
 
-			$main_calendar_string .= '<tbody class="calendar-timeline-days-container"><tr>';
-			//this iterates month cells
-			for( $m = 1; $m < 13; $m++ ){
-				$main_calendar_string .= '<td>';
+        function generate_campaign_calendar($year = 0)
+        {
+            //for each month, main container
+            $main_calendar_string = '<table class="calendar-timeline"><thead class="calendar-timeline-months"><tr>';
+            //calendar heading
+            for ($m = 1; $m < 13; $m++) {
+                $main_calendar_string .= '<th>' . date('F', strtotime($year . '-' . $m)) . '</th>';
+            }
+            $main_calendar_string .= '</tr></thead>';
 
-				//get days in the month
-				$days_in_month = date('t', strtotime($year . '-' . $m ));
+            //days for each of the months
 
-				//the months days table - header
-				$main_calendar_string .= '<table class="calendar-timeline-days"><thead><tr>';
-				for($d = 1; $d <= $days_in_month; $d++ ){
-					$main_calendar_string .= '<th>' . $d . "</th>\n";
-				}
-				$main_calendar_string .= '</tr></thead>';
-				//end the header days
+            $main_calendar_string .= '<tbody class="calendar-timeline-days-container"><tr>';
+            //this iterates month cells
+            for ($m = 1; $m < 13; $m++) {
+                $main_calendar_string .= '<td>';
 
-				//create the days data holders
-				$main_calendar_string .= '<tbody><tr>';
+                //get days in the month
+                $days_in_month = date('t', strtotime($year . '-' . $m));
 
-				//loop through and create the days - will need to identify this to backbone or resuse this logic
-				for($d = 1; $d <= $days_in_month; $d++ ){
-					$main_calendar_string .= '<td id="campaign-day-' . $year . '-' . $m . '-'. $d . '"></td>' . "\n";
-				}
+                //the months days table - header
+                $main_calendar_string .= '<table class="calendar-timeline-days"><thead><tr>';
+                for ($d = 1; $d <= $days_in_month; $d++) {
+                    $main_calendar_string .= '<th>' . $d . "</th>\n";
+                }
+                $main_calendar_string .= '</tr></thead>';
+                //end the header days
 
-				//end of the days data holders
-				$main_calendar_string .= '</tr></tbody>';
+                //create the days data holders
+                $main_calendar_string .= '<tbody><tr>';
+
+                //loop through and create the days - will need to identify this to backbone or resuse this logic
+                for ($d = 1; $d <= $days_in_month; $d++) {
+                    $main_calendar_string .= '<td id="campaign-day-' . $year . '-' . $m . '-' . $d . '"></td>' . "\n";
+                }
+
+                //end of the days data holders
+                $main_calendar_string .= '</tr></tbody>';
 
 
-				//end of the months days and data
-				$main_calendar_string .= '</table>';
+                //end of the months days and data
+                $main_calendar_string .= '</table>';
 
 
+                $main_calendar_string .= '</td>';
+            }
 
-				$main_calendar_string .= '</td>';
-			}
+            $main_calendar_string .= '</tr></tbody>';
 
-			$main_calendar_string .= '</tr></tbody>';
+            //close the whole thiing up
+            $main_calendar_string .= '</table>';
 
-			//close the whole thiing up
-			$main_calendar_string .= '</table>';
+            return $main_calendar_string;
+        }
 
-			return $main_calendar_string;
-		}
+        // echo generate_campaign_calendar($year);
+        // exit;
 
-		// echo generate_campaign_calendar($year);
-		// exit;
+        return View::make('calendar.campaigns', array(
+            'campaigns' => $campaigns->toJson(),
+            'user_id' => $this->user_id,
+            'account_id' => $this->account_id,
+            'campaign_calendar' => generate_campaign_calendar($year),
+            'tasks' => $this->tasks->toJson()
+        ));
+    }
 
-		return View::make('calendar.campaigns', array(
-			'campaigns' => $campaigns->toJson(),
-			'user_id' => $this->user_id,
-			'account_id'=> $this->account_id,
-			'campaign_calendar' => generate_campaign_calendar($year),
-			'tasks' => $this->tasks->toJson()
-		));
-	}
+    public function weekly($year = 0, $month = 0, $day = 0)
+    {
 
-	public function weekly($year = 0, $month = 0, $day = 0){
+        if (!$day) {
+            $day = date('d');
+        }
 
-		if(!$day){
-			$day = date('d');
-		}
+        if (!$year) {
+            $year = date('Y');
+        }
 
-		if(!$year){
-			$year = date('Y');
-		}
+        if (!$month) {
+            $month = date('n');
+        }
 
-		if(!$month){
-			$month = date('n');
-		}
+        $date_string = strtotime($year . '-' . $month . '-' . $day);
 
-		$date_string =  strtotime($year . '-' . $month . '-' . $day);
+        $week_number = date('W', $date_string);
+        $week_string = strtotime($year . 'W' . $week_number);
+        //echo 'week: ' . $week_number;
 
-		$week_number = date('W', $date_string);
-		$week_string = strtotime( $year . 'W' . $week_number );
-		//echo 'week: ' . $week_number;
+        $start_weekdate = date('Y-m-d', $week_string);
+        $end_weekdate = date('Y-m-d', strtotime("+6 days", $week_string));
 
-		$start_weekdate = date('Y-m-d', $week_string );
-		$end_weekdate = date('Y-m-d', strtotime("+6 days", $week_string ) );
+        $start_weektimestamp = $week_string;
+        $end_weektimestamp = strtotime("+1 week", $week_string);
 
-		$start_weektimestamp = $week_string;
-		$end_weektimestamp =  strtotime("+1 week",  $week_string  );
+        function generate_weekly_calendar($year = 0, $month = 0, $day = 0, $start = 0)
+        {
 
-		function generate_weekly_calendar($year = 0, $month = 0, $day = 0, $start = 0){
+            $date_tracker = array();
+            //weekly header
+            $week_string = '<table class="calendar">';
+            $week_string .= '<thead class="calendar-week"><th disabled></th>';
+            $curr_time = $start;
+            for ($d = 0; $d < 7; $d++) {
+                $date_tracker[$d] = date('Y-n-j', $curr_time);
+                $week_string .= '<th>' . date('D j, M', $curr_time) . "</th>";
+                $curr_time = strtotime("+1 day", $curr_time);
+            }
+            $week_string .= '</thead><tbody class="calendar-week-hours">';
 
-			$date_tracker = array();
-			//weekly header
-			$week_string = '<table class="calendar">';
-			$week_string .= '<thead class="calendar-week"><th disabled></th>';
-			$curr_time = $start;
-			for($d = 0; $d < 7; $d++){
-				$date_tracker[$d] = date('Y-n-j',$curr_time);
-				$week_string .= '<th>' . date('D j, M',$curr_time) . "</th>";
-				$curr_time = strtotime("+1 day", $curr_time);
-			}
-			$week_string .= '</thead><tbody class="calendar-week-hours">';
+            //hourly rows
+            $start_time_row = date('H', strtotime('08:00:00'));
+            $end_time_row = date('H', strtotime('23:00:00'));
 
-			//hourly rows
-			$start_time_row = date('H', strtotime('08:00:00') );
-			$end_time_row = date('H', strtotime('23:00:00') );
+            $curr_hour = $start_time_row;
+            for ($curr_hour = $start_time_row; $curr_hour < $end_time_row; $curr_hour++) {
+                $week_string .= '<tr>';
+                //daily columns
+                $day_column = '<td disabled>' . date('gA', strtotime($curr_hour . ':00:00')) . '</td>';
+                for ($dc = 0; $dc < 7; $dc++) {
+                    $day_column .= '<td id="date-' . $date_tracker[$dc] . '-' . $curr_hour . '0000' . '" data-cell-date-time="' . $date_tracker[$dc] . '-' . $curr_hour . '0000' . '"></td>';
+                }
+                $week_string .= $day_column . '</tr>';
+            }
+            $week_string .= '</tbody></table>';
 
-			$curr_hour = $start_time_row;
-			for($curr_hour = $start_time_row; $curr_hour < $end_time_row; $curr_hour++){
-				$week_string .= '<tr>';
-				//daily columns
-				$day_column = '<td disabled>' . date('gA', strtotime($curr_hour . ':00:00' ) ) .'</td>';
-				for($dc = 0; $dc < 7; $dc++){
-					$day_column .= '<td id="date-' . $date_tracker[$dc] . '-' . $curr_hour . '0000' . '" data-cell-date-time="' . $date_tracker[$dc] . '-' . $curr_hour . '0000' . '"></td>';
-				}
-				$week_string .= $day_column . '</tr>';
-			}
-			$week_string .= '</tbody></table>';
-			return $week_string;
-		}
+            return $week_string;
+        }
 
-		$month = date('n', $date_string);
-		$weekly_calendar_string =  generate_weekly_calendar( $year, $month, $day, $start_weektimestamp );
+        $month = date('n', $date_string);
+        $weekly_calendar_string = generate_weekly_calendar($year, $month, $day, $start_weektimestamp);
 
-		$day_of_week = date('l', $date_string);
-		$display_month = date('F', $date_string);
-		$display_day = date('d', $date_string);
+        $day_of_week = date('l', $date_string);
+        $display_month = date('F', $date_string);
+        $display_day = date('d', $date_string);
 
-		$next_week_string = date( "Y/m/d", strtotime( "+1 week", strtotime($start_weekdate) ) );
-		$prev_week_string = date( "Y/m/d", strtotime( "-1 week", strtotime($start_weekdate) ) );
+        $next_week_string = date("Y/m/d", strtotime("+1 week", strtotime($start_weekdate)));
+        $prev_week_string = date("Y/m/d", strtotime("-1 week", strtotime($start_weekdate)));
 
-		$query_date_start = date("Y-m-d", $date_string) .' 00:00:00';
-		$query_date_end = date("Y-m-d", strtotime("+1 day", $date_string) ) . ' 00:00:00';
+        $query_date_start = date("Y-m-d", $date_string) . ' 00:00:00';
+        $query_date_end = date("Y-m-d", strtotime("+1 day", $date_string)) . ' 00:00:00';
 
 //		$content_q = Content::where('submit_date','>',$query_date_start)
 //						->where('submit_date','<',$query_date_end);
 
-		$content = '';// $content_q->get();
+        $content = '';// $content_q->get();
 
-		return View::make('calendar.weekly',array(
-			'display_month' => $display_month,
-			'numeric_month' => $month,
-			'display_year' => $year,
-			'display_day' => $display_day,
-			'display_day_of_week' => $day_of_week,
-			'weekly_display_string' => date('M j', strtotime($start_weekdate)) . '-' . date('M j', strtotime($end_weekdate)) . ' ' . $year,
+        return View::make('calendar.weekly', array(
+            'display_month' => $display_month,
+            'numeric_month' => $month,
+            'display_year' => $year,
+            'display_day' => $display_day,
+            'display_day_of_week' => $day_of_week,
+            'weekly_display_string' => date('M j', strtotime($start_weekdate)) . '-' . date('M j',
+                    strtotime($end_weekdate)) . ' ' . $year,
 
-			'next_day_string' => $next_week_string,
-			'prev_day_string' => $prev_week_string,
+            'next_day_string' => $next_week_string,
+            'prev_day_string' => $prev_week_string,
 
-			'user_id' => $this->user_id,
-			'account_id' => $this->account_id,
-			'campaigns' => $this->campaigns->toJson(),
-			'content_items' => $content,
-			'weekly_calendar' => $weekly_calendar_string
-		));
-	}
+            'user_id' => $this->user_id,
+            'account_id' => $this->account_id,
+            'campaigns' => $this->campaigns->toJson(),
+            'content_items' => $content,
+            'weekly_calendar' => $weekly_calendar_string
+        ));
+    }
 
-	public function daily($year = 0, $month = 0, $day = 0){
+    public function daily($year = 0, $month = 0, $day = 0)
+    {
 
-		if(!$day){
-			$day = date('d');
-		}
+        if (!$day) {
+            $day = date('d');
+        }
         $day = intval($day);
 
-		if(!$year){
-			$year = date('Y');
-		}
+        if (!$year) {
+            $year = date('Y');
+        }
 
-		if(!$month){
-			$month = date('n');
-		}elseif($month && $year){
-			$month = date('n', strtotime($year . '-' . $month) );
-		}
+        if (!$month) {
+            $month = date('n');
+        } elseif ($month && $year) {
+            $month = date('n', strtotime($year . '-' . $month));
+        }
 
-		$date_string =  strtotime($year . '-' . $month . '-' . $day);
+        $date_string = strtotime($year . '-' . $month . '-' . $day);
 
-		$day_of_week = date('l', $date_string);
-		$display_month = date('F', $date_string);
-		$display_day = date('d', $date_string);
+        $day_of_week = date('l', $date_string);
+        $display_month = date('F', $date_string);
+        $display_day = date('d', $date_string);
 
-		$next_day_string = date( "Y/m/d", strtotime( "+1 day", $date_string  ) );
-		$prev_day_string = date( "Y/m/d", strtotime( "-1 day",  $date_string ) );
+        $next_day_string = date("Y/m/d", strtotime("+1 day", $date_string));
+        $prev_day_string = date("Y/m/d", strtotime("-1 day", $date_string));
 
 
-		$query_date_start = date("Y-m-d", $date_string) .' 00:00:00';
-		$query_date_end = date("Y-m-d", strtotime("+1 day", $date_string) ) . ' 00:00:00';
+        $query_date_start = date("Y-m-d", $date_string) . ' 00:00:00';
+        $query_date_end = date("Y-m-d", strtotime("+1 day", $date_string)) . ' 00:00:00';
 
 //		$content_q = Content::where('submit_date','>',$query_date_start)
 //						->where('submit_date','<',$query_date_end);
 
-		$content = '';//$content_q->get();
+        $content = '';//$content_q->get();
 
-		function generate_daily_calendar($year, $month, $day){
-			$daily_timetable = '<table class="calendar"><tbody class="calendar-day">';
+        function generate_daily_calendar($year, $month, $day)
+        {
+            $daily_timetable = '<table class="calendar"><tbody class="calendar-day">';
 
-			$start_time_row = date('H', strtotime('10:00:00') );
-			$end_time_row = date('H', strtotime('23:00:00') );
+            $start_time_row = date('H', strtotime('10:00:00'));
+            $end_time_row = date('H', strtotime('23:00:00'));
 
-			$curr_hour = $start_time_row;
-			for($curr_hour = $start_time_row; $curr_hour < $end_time_row; $curr_hour++){
-				$daily_timetable .= '<tr>';
-				//daily columns
-				$day_column = '<td disabled>' . date('gA', strtotime($curr_hour . ':00:00' ) ) .'</td>';
+            $curr_hour = $start_time_row;
+            for ($curr_hour = $start_time_row; $curr_hour < $end_time_row; $curr_hour++) {
+                $daily_timetable .= '<tr>';
+                //daily columns
+                $day_column = '<td disabled>' . date('gA', strtotime($curr_hour . ':00:00')) . '</td>';
 
-				//content goes here
-				$day_column .= '<td id="date-'.$year.'-'.$month.'-'.$day.'-' . $curr_hour . '0000' . '" data-cell-date-time="'.$year.'-'.$month.'-'.$day.'-' . $curr_hour . '0000' . '"></td>';
+                //content goes here
+                $day_column .= '<td id="date-' . $year . '-' . $month . '-' . $day . '-' . $curr_hour . '0000' . '" data-cell-date-time="' . $year . '-' . $month . '-' . $day . '-' . $curr_hour . '0000' . '"></td>';
 
-				$daily_timetable .= $day_column . '</tr>';
-			}
-			$daily_timetable .= '</tbody></table>';
+                $daily_timetable .= $day_column . '</tr>';
+            }
+            $daily_timetable .= '</tbody></table>';
 
-			return $daily_timetable;
-		}
+            return $daily_timetable;
+        }
 
-		return View::make('calendar.daily',array(
-			'display_month' => $display_month,
-			'numeric_month' => $month,
-			'display_year' => $year,
-			'display_day' => $display_day,
-			'display_day_of_week' => $day_of_week,
+        return View::make('calendar.daily', array(
+            'display_month' => $display_month,
+            'numeric_month' => $month,
+            'display_year' => $year,
+            'display_day' => $display_day,
+            'display_day_of_week' => $day_of_week,
 
-			'next_day_string' => $next_day_string,
-			'prev_day_string' => $prev_day_string,
+            'next_day_string' => $next_day_string,
+            'prev_day_string' => $prev_day_string,
 
-			'user_id' => $this->user_id,
-			'account_id' => $this->account_id,
-			'campaigns' => $this->campaigns->toJson(),
-			'content_items' => $content,
-			'daily_calendar' => generate_daily_calendar($year,$month,$day)
-		));
-	}
+            'user_id' => $this->user_id,
+            'account_id' => $this->account_id,
+            'campaigns' => $this->campaigns->toJson(),
+            'content_items' => $content,
+            'daily_calendar' => generate_daily_calendar($year, $month, $day)
+        ));
+    }
 
-	protected function pull_campaigns($start_date = false, $end_date = false, $end = false, $status = false){
+    protected function pull_campaigns($start_date = false, $end_date = false, $end = false, $status = false)
+    {
 
-	 	$query = Campaign::where('user_id', Auth::id() );
-	    $results = $query->get();
-	    // print_r($user->id);
-	    // print_r($results);
-	    // exit;
-	    return $results;
+        $query = Campaign::where('user_id', Auth::id());
+        $results = $query->get();
+        // print_r($user->id);
+        // print_r($results);
+        // exit;
+        return $results;
 
-	}
+    }
 }

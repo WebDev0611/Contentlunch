@@ -87,6 +87,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/calendar', 'CalendarController@index');
     Route::get('/calendar/{year}/{month}', 'CalendarController@index');
+    Route::get('/calendar/my', 'CalendarController@my');
+    Route::post('/calendar/add', 'CalendarController@create');
 
     Route::get('/campaign', 'CampaignController@index');
     Route::post('/campaign/create', 'CampaignController@create');
@@ -250,7 +252,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/api/trends/share/{connection}', [ 'as' => 'trendShare', 'uses' => 'ContentController@trendShare' ]);
     Route::post('/search', [ 'as' => 'searchIndex', 'uses' => 'SearchController@index' ]);
     Route::get('/api/content-types', 'ContentController@getContentTypes');
-
-    Route::get('c-1', 'CalendarController@my');
 
 });

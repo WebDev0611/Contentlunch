@@ -344,15 +344,9 @@
             console.log('render done');
         }
 
-
-        $('#task-start-date').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            sideBySide: true,
-        });
-
-        $('#task-due-date').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            sideBySide: true,
+        // Add new calendar
+        $('#add-calendar-button').click(function () {
+            add_calendar(function(){});
         });
 
         var drop_down_calendar_tool = Backbone.View.extend({
@@ -361,7 +355,6 @@
             },
             render: function () {
             },
-
         });
     });
 
