@@ -18,7 +18,10 @@ class CampaignController extends Controller
 {
     public function index(Request $request)
     {
-        $campaigns = Account::selectedAccount()->campaigns;
+        $campaigns = Account::selectedAccount()
+            ->campaigns()
+            ->with('user')
+            ->get();
 
         return response()->json([ 'data' => $campaigns ]);
     }
