@@ -3,7 +3,8 @@
 Vue.component('tasks-list', {
     template: `
         <div>
-            <div class="dashboard-tasks-container">
+            <loading v-if='!loaded'></loading>
+            <div class="dashboard-tasks-container" v-if="!tasks.length && loaded">
                 <div class="dashboard-tasks-cell">
                     <h5 class="dashboard-tasks-title">No tasks: </h5>
                     <a href @click="openTaskModal">create one now</a>
@@ -23,17 +24,16 @@ Vue.component('tasks-list', {
     },
 
     created() {
-        this.fetchTasks().then(response => {
-            this.tasks = response.data;
-            this.loaded = true;
-        });
+        this.fetchTasks();
     },
 
     methods: {
         fetchTasks() {
-            return $.get('/api/tasks', {
-                account_tasks: this.userOnly ? 1 : 0,
-            });
+            $.get('/api/tasks', { account_tasks: this.userOnly ? 1 : 0, })
+                .then(response => {
+                    this.tasks = response.data;
+                    this.loaded = true;
+                });
         },
 
         openTaskModal(event) {
