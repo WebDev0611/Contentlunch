@@ -179,6 +179,7 @@ class Task extends Model
         return $account
             ->tasks()
             ->with('user')
+            ->with('assignedUsers')
             ->orderBy('created_at', 'desc')
             ->where('status', 'open')
             ->get()
