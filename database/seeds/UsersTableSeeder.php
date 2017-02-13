@@ -15,6 +15,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Account::truncate();
         AccountUser::truncate();
         User::truncate();
@@ -56,5 +57,7 @@ class UsersTableSeeder extends Seeder
             $account->users()->create($userArray);
             $account->save();
         });
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
