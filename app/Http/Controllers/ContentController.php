@@ -12,6 +12,7 @@ use App\ContentType;
 use App\Helpers;
 use App\Http\Requests\Content\ContentRequest;
 use App\Persona;
+use App\Presenters\ContentTypePresenter;
 use App\Tag;
 use App\User;
 use App\WriterAccessPrice;
@@ -109,7 +110,7 @@ class ContentController extends Controller
 
         $pricesJson = json_encode($reformedPrices);
 
-        $contenttypedd = ContentType::dropdown();
+        $contenttypedd = ContentTypePresenter::dropdown();
         $campaigndd = Campaign::dropdown();
 
         $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd');
@@ -234,7 +235,7 @@ class ContentController extends Controller
             'personaDropdown' => Persona::dropdown(),
             'campaignDropdown' => Campaign::dropdown(),
             'connections' => Connection::dropdown(),
-            'contentTypeDropdown' => ContentType::dropdown(),
+            'contentTypeDropdown' => ContentTypePresenter::dropdown(),
         ];
 
         return view('content.editor', $data);
@@ -255,7 +256,7 @@ class ContentController extends Controller
             'personaDropdown' => Persona::dropdown(),
             'campaignDropdown' => Campaign::dropdown(),
             'connections' => Connection::dropdown(),
-            'contentTypeDropdown' => ContentType::dropdown(),
+            'contentTypeDropdown' => ContentTypePresenter::dropdown(),
             'files' => $content->attachments()->where('type', 'file')->get(),
             'images' => $content->attachments()->where('type', 'image')->get(),
             'isCollaborator' => $content->hasCollaborator(Auth::user()),
