@@ -180,7 +180,7 @@ class Task extends Model
             ->tasks()
             ->with('user')
             ->orderBy('created_at', 'desc')
-            ->where('status', '<>', 'archived')
+            ->where('status', 'open')
             ->get()
             ->map(function($task) {
                 $task->addDueDateDiffs();
@@ -194,7 +194,7 @@ class Task extends Model
             ->assignedTasks()
             ->with('user')
             ->orderBy('created_at', 'desc')
-            ->where('status', '<>', 'archived')
+            ->where('status', 'open')
             ->distinct()
             ->get()
             ->map(function($task) {
