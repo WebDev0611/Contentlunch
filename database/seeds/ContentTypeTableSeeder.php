@@ -11,6 +11,8 @@ class ContentTypeTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         DB::table('content_types')->truncate();
         DB::table('content_types')->insert([
             [ 'name' => 'Blog Post',              'provider_id' =>  1, 'active' => true ],
@@ -37,5 +39,7 @@ class ContentTypeTableSeeder extends Seeder
             [ 'name' => 'Whitepaper',             'provider_id' =>  0, 'active' => false ],
             [ 'name' => 'Workflow Email',         'provider_id' =>  0, 'active' => false ],
         ]);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

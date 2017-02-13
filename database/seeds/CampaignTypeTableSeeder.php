@@ -11,6 +11,8 @@ class CampaignTypeTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         DB::table('campaign_types')->truncate();
         DB::table('campaign_types')->insert([
             ['key' => 'audio-recording', 'name' => 'Audio Recording'],
@@ -35,5 +37,7 @@ class CampaignTypeTableSeeder extends Seeder
             ['key' => 'whitepaper', 'name' => 'Whitepaper'],
             ['key' => 'workflow-email', 'name' => 'Workflow Email']
         ]);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
