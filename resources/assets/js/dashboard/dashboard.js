@@ -29,3 +29,18 @@
     team_members.fetch().then(team.render.bind(team));
 
 })(jQuery);
+
+function setUpTask() {
+    $('#add-task-button').click(function() {
+        console.log('hehehe');
+        add_task(addTaskCallback);
+    });
+
+    function addTaskCallback(task) {
+        $('#addTaskModal').modal('hide');
+    }
+}
+
+$(document).ready(function() {
+    setUpTask();
+});
