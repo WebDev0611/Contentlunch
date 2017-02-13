@@ -126,7 +126,7 @@
 
 </script>
 <script>
-    var vueApp = new Vue({ el: '#root' });
+    new Vue({ el: '#root' });
 </script>
 
 </body>
