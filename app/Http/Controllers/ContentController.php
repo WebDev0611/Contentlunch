@@ -362,7 +362,7 @@ class ContentController extends Controller
         $content->meta_title = $request->input('meta_title');
         $content->meta_keywords = $request->input('meta_keywords');
         $content->meta_description = $request->input('meta_descriptor');
-        $content->written = 1;
+        $content->email_subject = $request->input('email_subject');
         $content->save();
 
         $this->selectedAccount->contents()->save($content);
