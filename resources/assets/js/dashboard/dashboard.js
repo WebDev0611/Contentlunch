@@ -32,19 +32,6 @@
 
     $('#incomplete-tasks').text(my_tasks.length);
 
-    tasks.on('update', taskUpdateCallback);
-    all_tasks.on('update', taskUpdateCallback);
-
-    // var tab_container = new dashboard_tab_container_view({
-    //     el: '#tab-container',
-    //     collection: tasks,
-    //     myTasks: tasks,
-    //     allTasks: all_tasks,
-    // });
-
-    // tab_container.campaigns = campaigns;
-    // tab_container.tasks = tasks;
-
     //runs the action to submit the task
     $('#add-task-button').click(function() {
         add_task(addTaskCallback);
