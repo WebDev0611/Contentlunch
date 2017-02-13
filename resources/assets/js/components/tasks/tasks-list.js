@@ -29,7 +29,7 @@ Vue.component('tasks-list', {
 
     methods: {
         fetchTasks() {
-            $.get('/api/tasks', { account_tasks: this.userOnly ? 1 : 0, })
+            $.get('/api/tasks', { account_tasks: this.userOnly ? 0 : 1, })
                 .then(response => {
                     this.tasks = response.data;
                     this.loaded = true;
