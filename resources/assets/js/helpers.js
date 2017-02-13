@@ -186,7 +186,7 @@ function isCalendarDataValid() {
     }
 
     return false;
-}c
+}
 
 function getCalendarData() {
     let data = {};
