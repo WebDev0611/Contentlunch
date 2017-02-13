@@ -38,6 +38,7 @@ function format_time_ago(time) {
 
 //handles the task modal for the site
 $(function() {
+
  	$('.add-task-action').click(function() {
         $("#addTaskModal").modal('show');
     });
@@ -51,8 +52,11 @@ $(function() {
         format: 'YYYY-MM-DD HH:mm',
         sideBySide: true,
     });
-
 });
+
+function openTaskModal() {
+    $("#addTaskModal").modal('show');
+}
 
 //adds the task from any page
 var loadIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
@@ -115,14 +119,26 @@ function getTaskData() {
         attachments: getTaskAttachments(),
         assigned_users: getTaskAssignments(),
         content_id: getContentId(),
+        campaign_id: getCampaignId(),
     };
+}
+
+function getCampaignId() {
+    let element = $('#is_campaign_task');
+    let campaignId = null;
+
+    if (element.length && element.val() === 'on') {
+        campaignId = element.data('id');
+    }
+
+    return campaignId;
 }
 
 function getContentId() {
     var element = $('#is_content_task');
     var contentId = null;
 
-    if ((element.length) && (element.val() === 'on')) {
+    if (element.length && element.val() === 'on') {
         contentId = element.data('id');
     }
 

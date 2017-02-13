@@ -9,6 +9,6 @@ class BasePresenter extends Presenter
 {
     protected function isEmptyDate($date)
     {
-        return $date === '0000-00-00 00:00:00';
+        return $date === '0000-00-00 00:00:00' || $date === '0000-00-00';
     }
 }

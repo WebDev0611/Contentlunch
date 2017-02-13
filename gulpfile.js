@@ -21,6 +21,7 @@ elixir(function (mix) {
     mix
             .sass('main.scss')
             .scripts([
+                './bower_components/vue/dist/vue.js',
                 './bower_components/jquery/dist/jquery.min.js',
                 './bower_components/underscore/underscore.js',
                 './bower_components/backbone/backbone.js',
@@ -51,6 +52,7 @@ elixir(function (mix) {
                 'resources/assets/js/noautodiscover.js',
                 'resources/assets/js/models/**/*.js',
                 'resources/assets/js/collections/**/*.js',
+                'resources/assets/js/components/**/*.js',
                 'resources/assets/js/views/**/*.js',
                 'resources/assets/js/content/*.js',
                 'resources/assets/js/helpers.js'
