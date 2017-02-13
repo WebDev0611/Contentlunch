@@ -85,8 +85,14 @@ Route::group(['middleware' => 'auth'], function () {
         'index', 'show', 'store', 'park', 'activate'
     ]]);
 
-    Route::get('/calendar', 'CalendarController@index');
-    Route::get('/calendar/{year}/{month}', 'CalendarController@index');
+    Route::group(['middleware' => [ 'auth', 'calendar']], function () {
+        Route::get('/calendar/{id?}', ['as' => 'calendarMonthly', 'uses' => 'CalendarController@index']);
+        Route::get('/calendar/{id?}/{year}/{month}', 'CalendarController@index');
+        Route::get('/daily/{id?}', ['as' => 'calendarDaily', 'uses' => 'CalendarController@daily']);
+        Route::get('/daily/{id?}/{year}/{month}/{day}', 'CalendarController@daily');
+        Route::get('/weekly/{id?}', ['as' => 'calendarWeekly', 'uses' => 'CalendarController@weekly']);
+        Route::get('/weekly/{id?}/{year}/{month}/{day}', 'CalendarController@weekly');
+    });
     Route::get('/calendar/my', 'CalendarController@my');
     Route::post('/calendar/add', 'CalendarController@create');
 
@@ -95,12 +101,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/campaign/edit/{campaign}', 'CampaignController@edit');
     Route::post('/campaign/edit/{campaign}', 'CampaignController@edit');
-
-    Route::get('/daily', 'CalendarController@daily');
-    Route::get('/daily/{year}/{month}/{day}', 'CalendarController@daily');
-
-    Route::get('/weekly', 'CalendarController@weekly');
-    Route::get('/weekly/{year}/{month}/{day}', 'CalendarController@weekly');
 
     Route::get('/campaigns', 'CalendarController@campaigns');
 
