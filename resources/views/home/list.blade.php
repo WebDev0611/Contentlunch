@@ -127,14 +127,5 @@
 @stop
 
 @section('scripts')
-    <script>
-        // var my_campaigns = {!! $mycampaigns !!};
-        // var my_tasks = {!! $tasks !!};
-        // var account_tasks = {!! $accountTasks !!};
-
-        var my_campaigns = [];
-        var my_tasks = [];
-        var account_tasks = [];
-    </script>
     <script src="/js/dashboard.js"></script>
 @stop
