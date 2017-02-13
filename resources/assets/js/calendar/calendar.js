@@ -138,6 +138,12 @@
             return c;
         }));
 
+        var this_calendar_arr = $.grep(my, function (e) {
+            return e.id == calendar.id;
+        });
+        var this_calendar = this_calendar_arr[0];
+        console.log(this_calendar);
+
         // Declarations
         var ideas = new ideas_collection();
         var tasks = new task_collection();
@@ -274,10 +280,17 @@
             let myContentPromise = fetchMyContent();
 
             $.when(myTasksPromise, myIdeasPromise, myContentPromise).done((myTasksResponse, myIdeasResponse, myContentResponse) => {
-                tasks.reset(myTasksResponse[0].data.map(task_map));
-                ideas.reset(myIdeasResponse[0].map(idea_map));
+                tasks.reset(myTasksResponse[0].data.map(task_map).filter(function () {
+                    return this_calendar.show_tasks == "1";
+                }));
+                ideas.reset(myIdeasResponse[0].map(idea_map).filter(function () {
+                    return this_calendar.show_ideas == "1";
+                }));
                 my_content.reset(myContentResponse[0].map(content_map).filter(function (c) {
-                    return c.content_status != null;
+                    var has_content_type = $.grep(this_calendar.content_types, function (e) {
+                        return e.id == c.content_type_id;
+                    });
+                    return c.content_status != null && has_content_type.length > 0;
                 }));
 
                 my_campaigns.reset();
@@ -346,12 +359,12 @@
 
         // Add new calendar
         $('#add-calendar-button').click(function () {
-            let newCalPromise = add_calendar(function(){
+            let newCalPromise = add_calendar(function () {
                 $('#createCalendarModal').modal('hide');
             });
 
             $.when(newCalPromise).done((newCalResponse) => {
-                let redirectUrl = '/index';
+                let redirectUrl = '/calendar';
                 if (window.location.pathname.indexOf('weekly') >= 0) {
                     redirectUrl = '/weekly';
                 }
