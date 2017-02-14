@@ -117,6 +117,9 @@
     {{ Form::close() }}
 </div>
 
+@stop
+
+@section('scripts')
 <template id="wordpressTemplate">
     <div class="row" >
         <div class="col-md-12">
@@ -173,9 +176,6 @@
         </div>
     </div>
 </template>
-@stop
-
-@section('scripts')
 <script type="text/javascript">
 $(function() {
 
