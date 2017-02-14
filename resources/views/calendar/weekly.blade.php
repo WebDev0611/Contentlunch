@@ -54,8 +54,10 @@
 
 @include('calendar.filter')
 @include('calendar.create')
+@include('calendar.modals')
+@stop
 
-
+@section('scripts')
 <script type="text/template" id="calendar-item-template">
     <%
     var _icon = 'primary icon-idea';
@@ -128,18 +130,18 @@
 </script>
 
 <script type="text/template" id="calendar-item-container">
-<div class="calendar-schedule">
-    <ul class="calendar-task-list t-task">
-    </ul>
-    <ul class="calendar-task-list t-idea">
-    </ul>
-    <ul class="calendar-task-list t-content">
-    </ul>
-</div>
+    <div class="calendar-schedule">
+        <ul class="calendar-task-list t-task">
+        </ul>
+        <ul class="calendar-task-list t-idea">
+        </ul>
+        <ul class="calendar-task-list t-content">
+        </ul>
+    </div>
 </script>
 
 <script type="text/template" id="calendar-dropdown-template">
-     <div class="calendar-schedule-dropdown-wrapper" style="display:none">
+    <div class="calendar-schedule-dropdown-wrapper" style="display:none">
         <div class="calendar-schedule-dropdown">
             <button type="button" class="button button-action" data-toggle="dropdown">
                 <i class="icon-add-circle"></i>
@@ -161,16 +163,10 @@
         </div>
     </div>
 </script>
-
-@section('scripts')
 <script>
 var campaigns = {!! $campaigns !!};
 var calendar = {!! $cal !!};
 var my = {!! $my !!};
 </script>
 <script src="/js/calendar.js"></script>
-@stop
-
-@include('calendar.modals')
-
 @stop
