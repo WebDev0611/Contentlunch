@@ -26,6 +26,6 @@ class WriterAccessAssetTypeSeeder extends Seeder
             ['writer_access_id' => 10, 'name' => 'Speech']
         ]);
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-  }
+    }
 
 }
