@@ -21,7 +21,14 @@ class CampaignController extends Controller
         $campaigns = Account::selectedAccount()
             ->campaigns()
             ->with('user')
-            ->get();
+            ->get()
+            ->map(function($campaign) {
+                $campaign->updated_at_diff = $campaign->present()->updatedAt;
+                $campaign->started = $campaign->present()->startDateFormat('M j, Y');
+                $campaign->ending = $campaign->present()->endDateFormat('M j, Y');
+
+                return $campaign;
+            });
 
         return response()->json([ 'data' => $campaigns ]);
     }
