@@ -8,6 +8,7 @@ class WriterAccessAssetTypeSeeder extends Seeder
 
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('writer_access_asset_types')->truncate();
         DB::table('writer_access_asset_types')->insert([
             ['writer_access_id' => 2, 'name' => 'Blog post'],
@@ -24,6 +25,7 @@ class WriterAccessAssetTypeSeeder extends Seeder
             ['writer_access_id' => 9, 'name' => 'Script (Video)'],
             ['writer_access_id' => 10, 'name' => 'Speech']
         ]);
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
   }
 
 }
