@@ -1,46 +1,47 @@
 /* misc js -- global or sitewide methods here */
 
 //handles the create modal for the site
-$(function(){
-	$('.btn-create').click(function(){
-		$('body').toggleClass('showcreate');
-	});
+$(function () {
+    $('.btn-create').click(function () {
+        $('body').toggleClass('showcreate');
+    });
 
-	$('div.create-overlay').click(function(){
-		$('body').toggleClass('showcreate');
-	});
+    $('div.create-overlay').click(function () {
+        $('body').toggleClass('showcreate');
+    });
 
-	$('div.create-overlay li').click(function(event){
- 		event.stopPropagation();
-	});
+    $('div.create-overlay li').click(function (event) {
+        event.stopPropagation();
+    });
 });
 
 // Initialize tooltips.
 $('[data-toggle="tooltip"]').tooltip();
 
 function format_time_ago(time) {
-	var cur = moment();
-	var hours_ago = cur.diff(moment(time*1000), 'hours');
-	var days_ago = cur.diff(moment(time*1000), 'days');
-	var minutes_ago = cur.diff(moment(time*1000),'minutes');
+    var cur = moment();
+    var hours_ago = cur.diff(moment(time * 1000), 'hours');
+    var days_ago = cur.diff(moment(time * 1000), 'days');
+    var minutes_ago = cur.diff(moment(time * 1000), 'minutes');
 
-	if (days_ago > 0) {
-		return days_ago + ' DAYS AGO';
-	} else if (hours_ago > 0) {
-		return hours_ago + ' HOURS AGO';
-	} else if (minutes_ago > 0) {
-		return minutes_ago + ' MINUTES AGO';
-	} else {
-		return 'JUST NOW';
-	}
+    if (days_ago > 0) {
+        return days_ago + ' DAYS AGO';
+    } else if (hours_ago > 0) {
+        return hours_ago + ' HOURS AGO';
+    } else if (minutes_ago > 0) {
+        return minutes_ago + ' MINUTES AGO';
+    } else {
+        return 'JUST NOW';
+    }
 };
 
 
 //handles the task modal for the site
 $(function() {
-	$('.add-task-action').click(function() {
+
+ 	$('.add-task-action').click(function() {
         $("#addTaskModal").modal('show');
-	});
+    });
 
     $('#task-start-date').datetimepicker({
         format: 'YYYY-MM-DD HH:mm',
@@ -80,7 +81,7 @@ function isTaskDataValid() {
 }
 
 function addedTaskCallback(callback) {
-    return function(res) {
+    return function (res) {
         $(loadIMG).remove();
         clearTaskInputs();
 
@@ -147,7 +148,7 @@ function getContentId() {
 function getTaskAttachments() {
     var fileInputs = $('#addTaskModal *[name=\'files[]\']');
 
-    return fileInputs.toArray().map(function(element, index) {
+    return fileInputs.toArray().map(function (element, index) {
         return element.value;
     });
 }
@@ -155,7 +156,7 @@ function getTaskAttachments() {
 function getTaskAssignments() {
     return $('#task-assignment :checked')
         .toArray()
-        .map(function(checkbox) {
+        .map(function (checkbox) {
             return $(checkbox).data('id');
         });
 }
@@ -170,3 +171,84 @@ function clearTaskInputs() {
     $('.task-attached-files').remove();
     window.taskAttachmentUploader.removeAllFiles();
 }
+
+// Calendar helpers
+function add_calendar(callback) {
+
+    if (isCalendarDataValid()) {
+        $('#add-calendar-button').prepend(loadIMG);
+
+        return $.ajax({
+            url: '/calendar/add',
+            type: 'post',
+            data: getCalendarData(),
+            headers: getCSRFHeader(),
+            dataType: 'json',
+            success: addedCalendarCallback(callback)
+        });
+    }
+};
+
+function isCalendarDataValid() {
+    let data = getCalendarData();
+
+    let name_ok = data.name.length > 2;
+    let content_ok = data.content_type_ids.length > 0;
+
+    if (name_ok && (data.show_tasks != null || data.show_ideas != null || content_ok)) {
+        return true;
+    }
+
+    return false;
+}
+
+function getCalendarData() {
+    let data = {};
+    data.name = $('#calendar_name').val();
+    data.color = $('.checkbox-color input:checked').val();
+    data.show_tasks = $('#show_tasks:checked').val();
+    data.show_ideas = $('#show_ideas:checked').val();
+
+    data.content_type_ids = [];
+    $('.checkbox-content-types input:checked').each(function () {
+        data.content_type_ids.push($(this).val());
+    });
+
+    return data;
+}
+
+function addedCalendarCallback(callback) {
+    return function (res) {
+        $(loadIMG).remove();
+        clearCalendarInputs();
+
+        let redirectUrl = '/calendar';
+        if (window.location.pathname.indexOf('weekly') >= 0) {
+            redirectUrl = '/weekly';
+        }
+        if (window.location.pathname.indexOf('daily') >= 0) {
+            redirectUrl = '/daily';
+        }
+        window.location = redirectUrl + '/' + res.id;
+
+        if ('function' === typeof callback) {
+            callback(res);
+        }
+    }
+}
+
+function clearCalendarInputs() {
+    $('#calendar_name').val('');
+    $('#show_tasks:checked').click();
+    $('#show_ideas:checked').click();
+    $('.checkbox-color input:checked').click();
+    $('.checkbox-content-types input:checked').click();
+}
+
+// Allow only one color to be selected
+$(".checkbox-color input").change(function () {
+    let that = $(this);
+    // unchecking with .attr method doesn't work here so we improvise
+    $('.checkbox-color input:checked').click();
+    $('#' + that.id).click();
+});

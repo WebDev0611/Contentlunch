@@ -74,6 +74,7 @@
 
       <ul class="list-unstyled list-content" id="calendar-content-list">
 
+<!--
         <li>
           <div class="list-avatar">
             <div class="user-avatar">
@@ -90,7 +91,7 @@
             <i class="icon-type-blog"></i>
           </div>
         </li>
-
+-->
 
       </ul>
     </div>

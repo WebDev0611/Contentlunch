@@ -25,6 +25,11 @@ class ContentType extends Model {
         return $this->hasMany('App\Content');
     }
 
+    public function calendars()
+    {
+        return $this->belongsToMany('App\Calendar');
+    }
+
     // sure we can add variables to make it more dynamic
     //  --
     public static function dropdown()

@@ -138,11 +138,15 @@
             return c;
         }));
 
+        var this_calendar_arr = $.grep(my, function (e) {
+            return e.id == calendar.id;
+        });
+        var this_calendar = this_calendar_arr[0];
+
         // Declarations
         var ideas = new ideas_collection();
         var tasks = new task_collection();
         var my_content = new content_collection();
-
 
         // Maps
         function idea_map(i) {
@@ -170,6 +174,10 @@
             if (t.user.profile_image) {
                 t.user_image = t.user.profile_image;
             }
+            t.assigned_to = [];
+            t.assigned_users.forEach(function (i) {
+                t.assigned_to.push(i.name);
+            });
 
             return t;
         }
@@ -227,7 +235,7 @@
 
         function fetchMyTasks() {
             return $.ajax({
-                url: '/api/tasks',
+                url: '/api/tasks?account_tasks=1',
                 method: 'get',
                 headers: getJsonHeader(),
             })
@@ -270,10 +278,17 @@
             let myContentPromise = fetchMyContent();
 
             $.when(myTasksPromise, myIdeasPromise, myContentPromise).done((myTasksResponse, myIdeasResponse, myContentResponse) => {
-                tasks.reset(myTasksResponse[0].data.map(task_map));
-                ideas.reset(myIdeasResponse[0].map(idea_map));
+                tasks.reset(myTasksResponse[0].data.map(task_map).filter(function () {
+                    return this_calendar.show_tasks == "1";
+                }));
+                ideas.reset(myIdeasResponse[0].map(idea_map).filter(function () {
+                    return this_calendar.show_ideas == "1";
+                }));
                 my_content.reset(myContentResponse[0].map(content_map).filter(function (c) {
-                    return c.content_status != null;
+                    var has_content_type = $.grep(this_calendar.content_types, function (e) {
+                        return e.id == c.content_type_id;
+                    });
+                    return c.content_status != null && has_content_type.length > 0;
                 }));
 
                 my_campaigns.reset();
@@ -340,15 +355,11 @@
             console.log('render done');
         }
 
-
-        $('#task-start-date').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            sideBySide: true,
-        });
-
-        $('#task-due-date').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            sideBySide: true,
+        // Add new calendar
+        $('#add-calendar-button').click(function () {
+            add_calendar(function () {
+                $('#createCalendarModal').modal('hide');
+            });
         });
 
         var drop_down_calendar_tool = Backbone.View.extend({
@@ -357,7 +368,6 @@
             },
             render: function () {
             },
-
         });
     });
 
