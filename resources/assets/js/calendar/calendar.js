@@ -114,18 +114,16 @@
         show_task_modal: function () {
             var cell_date = this.$el.data('cell-date');
 
-            $('#task-start-date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD HH:mm'));
-            $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('YYYY-MM-DD HH:mm'));
-
             if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
                 cell_date = this.$el.data('cell-date-time');
                 $('#task-start-date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm'));
                 $('#task-due-date').val(moment(cell_date, "YYYY-M-D-HHmmss").add(1, 'days').format('YYYY-MM-DD HH:mm'));
+            } else {
+                $('#task-start-date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD HH:mm'));
+                $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('YYYY-MM-DD HH:mm'));
             }
 
             $("#addTaskModal").modal('show');
-
-            // $("#addTaskCalendar").modal('show');
         }
 
     });
@@ -211,7 +209,26 @@
             var type = $.grep(types, function (e) {
                 return e.id == c.content_type_id;
             });
-            c.type_class = (type[0] != null) ? 'icon-type-' + type[0].provider.slug : 'primary icon-content-alert';
+
+            c.type_class = 'primary icon-content-alert';
+            if (type[0] != null  && type[0].provider != null) {
+                c.type_class = 'icon-type-' + type[0].provider.slug;
+            }
+
+            /*
+            TODO: add proper classes to types without provider
+            if (type[0] != null) {
+                if (type[0].provider != null) {
+                    c.type_class = 'icon-type-' + type[0].provider.slug;
+                } else {
+                    if (type[0].name.substring(0, type[0].name.indexOf(" ")).length > 0) {
+
+                    } else {
+
+                    }
+                }
+            }
+            */
 
             c.author = '';
             c.authors.forEach(function (author) {
@@ -290,6 +307,7 @@
                     });
                     return c.content_status != null && has_content_type.length > 0;
                 }));
+
 
                 my_campaigns.reset();
 
@@ -371,5 +389,6 @@
         });
     });
 
-})(window, document, jQuery);
+})
+(window, document, jQuery);
 
