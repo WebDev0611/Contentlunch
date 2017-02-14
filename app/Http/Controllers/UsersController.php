@@ -48,7 +48,6 @@ class UsersController extends Controller
         $user = User::create($request->all());
 
         return redirect('/admin/users')->with($user);
-
     }
 
     /**
@@ -59,7 +58,6 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-
         $user = User::findOrFail($id);
 
         return view('users.edit')->with(compact('user'));
@@ -87,6 +85,5 @@ class UsersController extends Controller
         $user->update($form);
 
         return redirect('/admin/users');
-
     }
 }

@@ -25,13 +25,13 @@
                             </p>
                         </a>
                     </li>
-                    <!--
+
                     <li>
                         <a href="#ImportContent" data-toggle="tab">
                             <i class="icon-export"></i>
                             <h3>Import Content</h3>
                             <p>
-                                Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...
+                                Import content from a file or a web source
                             </p>
                         </a>
                     </li>
@@ -40,11 +40,11 @@
                             <i class="icon-entry"></i>
                             <h3>Upload Content</h3>
                             <p>
-                                Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...
+                                Upload content in any format from your computer
                             </p>
                         </a>
                     </li>
-                    -->
+
                 </ul>
                 <div class="create-tabs-wrapper tab-content">
                     <div id="WriteContent" class="create-tabs-content tab-pane active">

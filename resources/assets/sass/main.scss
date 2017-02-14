@@ -63,6 +63,8 @@
 
 @import "plugins/datetimepicker";
 @import "plugins/select";
+@import "plugins/jquery-ui";
+@import "plugins/tageditor";
 
 //------------------------------
 // *****************************
@@ -96,6 +98,7 @@
 @import "pages/plan/activity";
 @import "pages/plan/ideas";
 @import "pages/plan/utilities";
+@import "pages/plan/trends";
 
 // Dashboard
 @import "pages/dashboard/dashboard";

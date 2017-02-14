@@ -2,11 +2,18 @@
 
 namespace App;
 
+use App\Presenters\CampaignPresenter;
+use App\User;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class Campaign extends Model
 {
+    use PresentableTrait;
+
+    protected $presenter = CampaignPresenter::class;
+
     public $fillable = [
         'user_id',
         'account_id',
@@ -20,36 +27,61 @@ class Campaign extends Model
         'goals',
     ];
 
-    public function contents()
-    {
-        return $this->hasMany('App\Content');
-    }
-
     public function account()
     {
         return $this->belongsTo('App\Account');
     }
 
-    // - Eek not sure if this make sense to pull user specific drop down from compaign model
-    // -- maybe from user model with different function name
-    public static function dropdown($user = null)
+    public function attachments()
     {
-        $user = $user ?: Auth::user();
-        // - Create Campaign Drop Down Data
-        $campaignDropdown = ['' => '-- Select a Campaign --'];
-        $campaignDropdown += $user->campaigns()
-            ->select('id', 'title')
-            ->where('status', 1)
-            ->orderBy('title', 'asc')
-            ->distinct()
-            ->lists('title', 'id')
-            ->toArray();
+        return $this->belongsToMany('App\Attachment')->withTimestamps();
+    }
 
-        return $campaignDropdown;
+    public function collaborators()
+    {
+        return $this->belongsToMany('App\User')->withTimestamps();
+    }
+
+    public function contents()
+    {
+        return $this->hasMany('App\Content');
+    }
+
+    public function contentsWritten()
+    {
+        return $this->hasMany('App\Content')->where('written', '1');
+    }
+
+    public function contentsReady()
+    {
+        return $this->hasMany('App\Content')->where('ready_published', '1');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function tasks()
+    {
+        return $this->belongsToMany('App\Task')->withTimestamps();
     }
 
     public function __toString()
     {
         return $this->title;
+    }
+
+    public function hasCollaborator(User $user)
+    {
+        $isNewCampaign = !$this->id;
+
+        if ($isNewCampaign) {
+            return true;
+        }
+
+        return (boolean) $this->collaborators()
+            ->where('users.id', $user->id)
+            ->count();
     }
 }

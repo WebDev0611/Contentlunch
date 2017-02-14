@@ -48,10 +48,16 @@
                                 <div class="input-form-group">
                                     <label for="start_date">START DATE</label>
                                     <div class='input-group date datetimepicker'>
-                                        {!! Form::text('start_date', @isset($task)? $task->start_date : '', array('class' => ' input form-control', 'id' => 'start_date')) !!}
-                                        <span class="input-group-addon">
-                                            <i class="icon-calendar picto"></i>
-                                        </span>
+                                        {!!
+                                            Form::text(
+                                                'start_date',
+                                                @isset($task) ? $task->present()->startDateFormat() : '',
+                                                [
+                                                    'class' => 'input input-calendar',
+                                                    'placeholder' => 'Select start date',
+                                                    'id' => 'start_date'
+                                                ])
+                                        !!}
                                     </div>
 
                                 </div>
@@ -61,10 +67,16 @@
                                 <div class="input-form-group">
                                     <label for="due_date">DUE DATE</label>
                                     <div class='input-group date datetimepicker'>
-                                        {!! Form::text('due_date', @isset($task)? $task->due_date : '', array('class' => ' input form-control', 'id' => 'due_date')) !!}
-                                        <span class="input-group-addon">
-                                            <i class="icon-calendar picto"></i>
-                                        </span>
+                                        {!!
+                                            Form::text(
+                                                'due_date',
+                                                @isset($task)? $task->present()->dueDateFormat : '',
+                                                [
+                                                    'class' => ' input input-calendar',
+                                                    'placeholder' => 'Select due date',
+                                                    'id' => 'due_date'
+                                                ])
+                                        !!}
                                     </div>
 
                                 </div>
@@ -92,7 +104,12 @@
                             <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="url">REFERENCE URL</label>
-                                    <input type="text" placeholder="http://example.com" class="form-control input-larger input " id="url" name="url" value="{{$task->url}}" /> 
+                                    <input type="text"
+                                        placeholder="http://example.com"
+                                        class="form-control input-larger input"
+                                        id="url"
+                                        name="url"
+                                        value="{{ @isset($task) ? $task->url : '' }}" />
                                 </div>
                             </div>
                         </div>
@@ -112,12 +129,30 @@
                                                 'id' => 'explanation'
                                             ]
                                         )
-                                    !!}                               
+                                    !!}
                                 </div>
                             </div>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                             <input type="hidden" name="task_id" value="{{ $task->id }}" />
                         </div>
+
+                        <div class="input-form-group">
+                            <label for="#">Assign Task To</label>
+                            <ul class="sidemodal-list-items" id='task-assignment-non-modal'>
+                                @foreach (\App\Account::selectedAccount()->users as $user)
+                                    @php
+                                        $isChecked = $task->isAssignedTo($user) ? 'checked="checked"' : '';
+                                    @endphp
+                                    <li>
+                                        <label class="checkbox-primary">
+                                            <input name='assigned_users[]' type="checkbox" data-id='{{ $user->id }}' {{ $isChecked }}>
+                                            <span>{{ $user->name }}</span>
+                                        </label>
+                                    </li>
+                                @endforeach
+                            <ul>
+                        </div>
+
                     </div>
 
                 </div>  <!-- End Panel Container -->
@@ -144,6 +179,5 @@
 
 @section('scripts')
 <script type='text/javascript' src="/js/task_editor.js"></script>
-
 @stop
 

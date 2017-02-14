@@ -2,19 +2,24 @@
 
 namespace App;
 
+use App\Presenters\TagPresenter;
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class Tag extends Model
 {
-    protected $hidden = ['id', 'created_at', 'updated_at'];
+    use PresentableTrait;
+
+    protected $presenter = TagPresenter::class;
     protected $fillable = [ 'tag' ];
 
-    public static function dropdown()
+    public function contents()
     {
-        return self::select('id', 'tag')
-            ->orderBy('tag', 'asc')
-            ->distinct()
-            ->lists('tag', 'id')
-            ->toArray();
+        return $this->belongsToMany('App\Content');
+    }
+
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
     }
 }

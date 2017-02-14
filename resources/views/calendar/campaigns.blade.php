@@ -121,7 +121,7 @@ var campaigns = {!! $campaigns !!};
                 <span class="calendar-task-list-popover-title-border"></span>
             </h5>
             <div class="calendar-task-list-popover-author">
-                <img src="/images/avatar.jpg" alt="#">
+                <img src="/images/cl-avatar2.png" alt="#">
                 <span class="text-uppercase">Author</span>
                 <strong>Storm Trooper</strong>
             </div>

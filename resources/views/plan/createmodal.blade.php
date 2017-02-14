@@ -37,13 +37,13 @@
                 <legend class="form-legend">Collaborators</legend>
                 <ul class="images-list pull-left">
                     <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                     </li>
                     <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                     </li>
                     <li>
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                     </li>
                 </ul>
                 <div class="dropdown pull-right">
@@ -66,25 +66,25 @@
                             <label for="Friend" class="checkbox-image">
                                 <input id="Friend" type="checkbox">
                             <span>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                             </label>
                             <label for="Friend" class="checkbox-image">
                                 <input id="Friend" type="checkbox">
                             <span>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                             </label>
                             <label for="Friend" class="checkbox-image">
                                 <input id="Friend" type="checkbox">
                             <span>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                             </label>
                             <label for="Friend" class="checkbox-image">
                                 <input id="Friend" type="checkbox">
                             <span>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                             </label>
                         </li>

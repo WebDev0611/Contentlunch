@@ -137,8 +137,6 @@
 
     (function() {
 
-
-
         var WriterAccessView = Backbone.View.extend({
             events: {
                 'click #writer_access_count_inc': 'increaseWriterAccessCount',
@@ -187,10 +185,10 @@
             },
 
             populateWordCountSelect: function() {
-                this.assetId = this.$el.find('#writer_access_asset_type').val();
-                var pricesObject = prices[this.assetId];
+                var assetId = this.getAssetId();
+                var pricesObject = prices[assetId];
                 var wordcounts = Object.keys(pricesObject);
-                this.$el.find('#writer_access_word_count').html('');
+                this.clearWordCount();
 
                 for (var i = 0; i < wordcounts.length; i++) {
                     var wordcount = wordcounts[i];
@@ -203,6 +201,14 @@
                 }
             },
 
+            getAssetId: function() {
+                return this.$el.find('#writer_access_asset_type').val();
+            },
+
+            clearWordCount: function() {
+                this.$el.find('#writer_access_word_count').html('');
+            },
+
             wordCount: function() {
                 return parseInt(this.$el.find('#writer_access_word_count').val());
             },
@@ -212,10 +218,11 @@
             },
 
             basePrice: function() {
+                var assetId = this.getAssetId();
                 var wordCount = this.wordCount();
                 var writerLevel = this.writerLevel();
 
-                return prices[this.assetId][wordCount][writerLevel];
+                return prices[assetId][wordCount][writerLevel];
             },
 
             calculateOrderPrices: function() {

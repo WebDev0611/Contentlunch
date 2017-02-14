@@ -59,25 +59,25 @@
                         <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                         </label>
                         <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                         </label>
                         <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                         </label>
                         <label for="Friend" class="checkbox-image">
                             <input id="Friend" type="checkbox">
                             <span>
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="/images/cl-avatar2.png" alt="#">
                             </span>
                         </label>
                     </li>
@@ -94,25 +94,3 @@
         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
     </div>
 </div>
-
-<script type="text/template" id="calendar-dropdown-template">
-     <div class="calendar-schedule-dropdown-wrapper" style="display:none">
-        <div class="calendar-schedule-dropdown">
-            <button type="button" class="button button-action" data-toggle="dropdown">
-                <i class="icon-add-circle"></i>
-            </button>
-             <ul class="dropdown-menu dropdown-menu-right">
-                <li class="dropdown-header important date-popup-label">Wed, Mar 4, 2016, 01 PM</li>
-                <li>
-                  <a href="#" data-toggle="modal" data-target="#addIdeaCalendar">Add Idea</a>
-                </li>
-                <li>
-                  <a href="#" data-toggle="modal" data-target="#addContentCalendar">Add Content</a>
-                </li>
-                <li>
-                  <a href="javascript:;" class="tool-add-task">Add Task</a>
-                </li>
-              </ul>
-        </div>
-    </div>
-</script>

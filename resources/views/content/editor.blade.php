@@ -13,6 +13,7 @@
                 @else
                     {{ Form::open(['url' => 'edit', 'files'=>'true']) }}
                 @endif
+                {{ Form::hidden('content_id', $content->id) }}
                 <!-- Panel Header -->
                 <div class="panel-header">
                     <div class="panel-options">
@@ -26,6 +27,9 @@
                                         type="submit"
                                         class="button button-outline-secondary button-small delimited"
                                         name="action"
+                                        @if (!$isCollaborator)
+                                        disabled="disabled"
+                                        @endif
                                         value="written_content">
                                         SAVE
                                     </button>
@@ -35,6 +39,9 @@
                                             type='submit'
                                             class="button button-small"
                                             name="action"
+                                            @if (!$isCollaborator)
+                                            disabled="disabled"
+                                            @endif
                                             value="publish">
                                             PUBLISH
                                         </button>
@@ -45,9 +52,13 @@
                                             type="submit"
                                             class="button button-small"
                                             name="action"
+                                            @if (!$isCollaborator)
+                                            disabled="disabled"
+                                            @endif
                                             value="ready_to_publish">
                                             SUBMIT
                                         </button>
+                                        @if ($isCollaborator)
                                         <button type="button" class="button button-small dropdown-toggle"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="caret"></span>
@@ -59,6 +70,7 @@
                                             {{-- <li><a href="#">Park</a></li> --}}
                                             <li><a href="{{ route('contentDelete', $content->id) }}">Delete</a></li>
                                         </ul>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -69,11 +81,14 @@
                 <!-- Panel Container -->
                 <div class="panel-container padded relative">
                     <!-- Stages widget -->
+                    @php
+                        $status = $content->present()->contentStatusIcon();
+                    @endphp
                     <ul class="list-unstyled list-stages list-stages-side">
-                        <li><i class="icon-connect"></i></li>
-                        <li><i class="icon-alert"></i></li>
-                        <li class="active"><i class="icon-edit"></i></li>
-                        <li class="active"><i class="icon-idea"></i></li>
+                        <li @if ($status >= 4) class='active' @endif><i class="icon-connect"></i></li>
+                        <li @if ($status >= 3) class='active' @endif><i class="icon-alert"></i></li>
+                        <li @if ($status >= 2) class='active' @endif><i class="icon-edit"></i></li>
+                        <li @if ($status >= 1) class='active' @endif><i class="icon-idea"></i></li>
                     </ul>
 
                     <div class="inner">
@@ -101,95 +116,54 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="content_type">CONTENT TYPE</label>
+                                    @php
+                                        $contentTypeOptions = [
+                                            'class' => 'input selectpicker form-control',
+                                            'id' => 'contentType',
+                                            'data-live-search' => 'true',
+                                            'title' => 'Choose Content Type',
+                                        ];
+
+                                        if (!$isCollaborator) {
+                                            $contentTypeOptions['disabled'] = 'disabled';
+                                        }
+
+                                    @endphp
                                     {!!
                                         Form::select(
                                             'content_type',
                                             $contentTypeDropdown,
                                             @isset($content) ? $content->content_type_id : '',
-                                            [
-                                                'class' => 'input selectpicker form-control',
-                                                'id' => 'contentType',
-                                                'data-live-search' => 'true',
-                                                'title' => 'Choose Content Type'
-                                            ]
+                                            $contentTypeOptions
                                         )
                                     !!}
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="input-form-group input-drop">
-                                    <label for="author">AUTHOR</label>
-                                    {!!
-                                        Form::select(
-                                            'author[]',
-                                            $authorDropdown,
-                                            @isset($content) ? $content->authors->lists('id')->toArray() : '',
-                                            [
-                                                'multiple' =>'multiple',
-                                                'class' => 'input selectpicker form-control',
-                                                'id' => 'author',
-                                                'data-live-search' => 'true',
-                                                'title' => 'Choose All Authors'
-                                            ]
-                                        )
-                                    !!}
-                                    <div class="hide">
-                                        <input type="text" class="input" placeholder="Select author" data-toggle="dropdown">
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li class="dropdown-header-secondary">
-                                                <span class="dropdown-header-secondary-text">
-                                                    Select team member
-                                                </span>
-                                                <button class="button button-micro pull-right text-uppercase">
-                                                    Submit
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <input type="text" class="dropdown-header-secondary-search" placeholder="Team Member Name">
-                                            </li>
-                                            <li>
-                                                <label for="Friend" class="checkbox-image">
-                                                    <input id="Friend" type="checkbox">
-                                                    <span>
-                                                        <img src="/images/avatar.jpg" alt="#">
-                                                    </span>
-                                                </label>
-                                                <label for="Friend" class="checkbox-image">
-                                                    <input id="Friend" type="checkbox">
-                                                    <span>
-                                                        <img src="/images/avatar.jpg" alt="#">
-                                                    </span>
-                                                </label>
-                                                <label for="Friend" class="checkbox-image">
-                                                    <input id="Friend" type="checkbox">
-                                                    <span>
-                                                        <img src="/images/avatar.jpg" alt="#">
-                                                    </span>
-                                                </label>
-                                                <label for="Friend" class="checkbox-image">
-                                                    <input id="Friend" type="checkbox">
-                                                    <span>
-                                                        <img src="/images/avatar.jpg" alt="#">
-                                                    </span>
-                                                </label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
+
+                            <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="dueDate">DUE DATE</label>
                                     <div class='input-group date datetimepicker'>
-                                        {!! Form::text('due_date', @isset($content)? $content->due_date : '', array('class' => ' input form-control', 'id' => 'dueDate')) !!}
+                                        @php
+                                            $dueDateOptions = [
+                                                'class' => ' input form-control',
+                                                'id' => 'dueDate'
+                                            ];
+
+                                            if (!$isCollaborator) {
+                                                $dueDateOptions['disabled'] = 'disabled';
+                                            }
+                                        @endphp
+                                        {!!
+                                            Form::text('due_date', @isset($content)? $content->due_date : '', $dueDateOptions)
+                                        !!}
                                         <span class="input-group-addon">
                                             <i class="icon-calendar picto"></i>
                                         </span>
                                     </div>
-
 
                                    <!--  <div class="form-suffix">
                                         <i class="icon-calendar picto"></i>
@@ -201,29 +175,58 @@
 
                         <div class="input-form-group">
                             <label for="title">TITLE</label>
+                            @php
+                                $titleOptions = [
+                                    'placeholder' => 'Enter content title',
+                                    'class' => 'input input-larger form-control',
+                                    'id' => 'title'
+                                ];
+
+                                if (!$isCollaborator) {
+                                    $titleOptions['disabled'] = 'disabled';
+                                }
+                            @endphp
                             {!!
-                                Form::text(
-                                    'title',
-                                    @isset($content) ? $content->title : '',
-                                    [
-                                        'placeholder' => 'Enter content title',
-                                        'class' => 'input input-larger form-control',
-                                        'id' => 'title'
-                                    ]
-                                )
+                                Form::text('title', @isset($content) ? $content->title : '', $titleOptions)
                             !!}
+                        </div>
+
+                        <div class="input-form-group flexible-fields flexible-fields-email">
+                            <label>SUBJECT</label>
+                            @php
+                                $emailSubjectOptions = [
+                                    'placeholder' => 'Enter email subject',
+                                    'class' => 'input input-larger form-control',
+                                    'id' => 'email_subject'
+                                ];
+
+                                if (!$isCollaborator) {
+                                    $titleOptions['disabled'] = 'disabled';
+                                }
+                            @endphp
+                            {!! Form::text('email_subject', @isset($content) ? $content->email_subject : '', $emailSubjectOptions) !!}
                         </div>
 
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="connections">CONTENT DESTINATION</label>
+                                    @php
+                                        $connectionsOptions = [
+                                            'class' => 'input form-control',
+                                            'id' => 'connections'
+                                        ];
+
+                                        if (!$isCollaborator) {
+                                            $connectionsOptions['disabled'] = 'disabled';
+                                        }
+                                    @endphp
                                     {!!
                                         Form::select(
                                             'connections',
                                             $connections,
                                             @isset($content) ? $content->connection_id : '',
-                                            [ 'class' => 'input form-control', 'id' => 'connections']
+                                            $connectionsOptions
                                         )
                                     !!}
                                 </div>
@@ -253,28 +256,58 @@
                             <span class="count"></span> out of 140 characters
                         </div>
 
-                        <div class="editor" style="background-color: rgba(0,0,0,.1); min-height: 530px; margin-bottom: 25px;">
-                            {!! Form::textarea('content', @isset($content)? $content->body : '', array('placeholder' => 'Enter content', 'class' => 'input input-larger form-control wysiwyg', 'id' => 'title')) !!}
+                        <div class="editor" style="min-height: 530px; margin-bottom: 25px;">
+                            <label>CONTENT BODY</label>
+                            @php
+                                $contentOptions = [
+                                    'placeholder' => 'Enter content',
+                                    'class' => 'input input-larger form-control wysiwyg',
+                                    'id' => 'title'
+                                ];
+                            @endphp
+                            @if ($isCollaborator)
+                                {!!
+                                    Form::textarea('content', @isset($content)? $content->body : '', $contentOptions)
+                                !!}
+                            @else
+                                {!! @isset($content) ? $content->body : '' !!}
+                            @endif
                         </div>
 
-
                         <div class="input-form-group">
-                            <label for="tags">TAGS</label>
-                            {!! Form::select('tags[]', $tagsDropdown, @isset($content) ? $content->tags->lists('id')->toArray() : '' , array('multiple'=>'multiple', 'class' => 'input selectpicker form-control', 'id' => 'tags', 'data-live-search' => 'true', 'title' => 'Select Tags')) !!}
+                            @php
+                                $tagsOptions = [
+                                    'id' => 'tag-editor',
+                                    'name' => 'tags',
+                                ];
+
+                                if (!$isCollaborator) {
+                                    $tagsOptions['disabled'] = 'disabled';
+                                }
+                            @endphp
+                            <label>TAGS</label>
+                            {!! Form::text('tag-editor', '', $tagsOptions) !!}
                         </div>
 
                         <div class="input-form-group">
                             <label for="related">RELATED CONTENT</label>
+                            @php
+                                $relatedContentOptions = [
+                                    'multiple'=> 'multiple',
+                                    'class' => 'input selectpicker form-control',
+                                    'id' => 'related'
+                                ];
+
+                                if (!$isCollaborator) {
+                                    $relatedContentOptions['disabled'] = 'disabled';
+                                }
+                            @endphp
                             {!!
                                 Form::select(
                                     'related[]',
                                     $relatedContentDropdown,
                                     @isset($content)? $content->related->lists('id')->toArray() : '',
-                                    [
-                                        'multiple'=> 'multiple',
-                                        'class' => 'input selectpicker form-control',
-                                        'id' => 'related'
-                                    ]
+                                    $relatedContentOptions
                                 )
                             !!}
                         </div>
@@ -295,14 +328,12 @@
                         </div>
                         @endif
 
-                        <div class="input-form-group">
+                        <div class="input-form-group @if (!$isCollaborator) hide @endif">
                             <div class="dropzone" id='attachment-uploader'>
                             </div>
                         </div>
 
-
                         <!-- Compaign Stage -->
-
                         <div class="form-delimiter">
                             <span>
                                 <em>Campaign Stage</em>
@@ -313,15 +344,22 @@
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="buyingStage">BUYING STAGE</label>
+                                    @php
+                                        $options = [
+                                            'class' => 'input form-control',
+                                            'id' => 'buyingStage'
+                                        ];
+
+                                        if (!$isCollaborator) {
+                                            $options['disabled'] = 'disabled';
+                                        }
+                                    @endphp
                                     {!!
                                         Form::select(
                                             'buying_stage',
                                             $buyingStageDropdown,
                                             @isset($content) ? $content->buying_stage_id : '',
-                                            [
-                                                'class' => 'input form-control',
-                                                'id' => 'buyingStage'
-                                            ]
+                                            $options
                                         )
                                     !!}
                                 </div>
@@ -330,15 +368,22 @@
                             <div class="col-sm-offset-4 col-sm-4">
                                 <div class="input-form-group input-drop">
                                     <label for="#">PERSONA</label>
+                                    @php
+                                        $options = [
+                                            'class' => 'input form-control',
+                                            'id' => 'persona'
+                                        ];
+
+                                        if (!$isCollaborator) {
+                                            $options['disabled'] = 'disabled';
+                                        }
+                                    @endphp
                                     {!!
                                         Form::select(
                                             'persona',
                                             $personaDropdown,
                                             @isset($content) ? $content->persona_id : '',
-                                            [
-                                                'class' => 'input form-control',
-                                                'id' => 'persona'
-                                            ]
+                                            $options
                                         )
                                     !!}
                                 </div>
@@ -373,54 +418,72 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="metaTitle">META TITLE TAG</label>
+                                    @php
+                                        $metaTitleTagsOptions = [
+                                            'placeholder' => 'Enter page title',
+                                            'class' => 'input input-larger form-control',
+                                            'id' => 'metaTitle'
+                                        ];
+
+                                        if (!$isCollaborator) {
+                                            $metaTitleTagsOptions['disabled'] = 'disabled';
+                                        }
+                                    @endphp
                                     {!!
                                         Form::text(
                                             'meta_title',
                                             @isset($content) ? $content->meta_title : '',
-                                            [
-                                                'placeholder' => 'Enter page title',
-                                                'class' => 'input input-larger form-control',
-                                                'id' => 'metaTitle'
-                                            ]
+                                            $metaTitleTagsOptions
                                         )
                                     !!}
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="input-form-group input-drop">
                                     <label for="metaKeywords">KEYWORDS</label>
+                                    @php
+                                        $keywordOptions = [
+                                            'placeholder' => 'Separate by commas',
+                                            'class' => 'input input-larger form-control',
+                                            'id' => 'metaKeywords'
+                                        ];
+
+                                        if (!$isCollaborator) {
+                                            $keywordOptions['disabled'] = 'disabled';
+                                        }
+                                    @endphp
                                     {!!
                                         Form::text(
                                             'meta_keywords',
                                             @isset($content) ? $content->meta_keywords : '',
-                                            [
-                                                'placeholder' => 'Separate by commas',
-                                                'class' => 'input input-larger form-control',
-                                                'id' => 'metaKeywords'
-                                            ]
+                                            $keywordOptions
                                         )
                                     !!}
                                 </div>
                             </div>
-                        </div>
 
-
-                        <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="input-form-group">
-                                    <label for="metaDescriptor">META DESCRIPTOR</label>
+                                    <label for="metaDescriptor">META DESCRIPTION TAG</label>
+                                    @php
+                                        $metaDescriptorOptions = [
+                                            'placeholder' => 'Enter page description',
+                                            'class' => 'input input-larger form-control',
+                                            'id' => 'metaDescriptor'
+                                        ];
+
+                                        if (!$isCollaborator) {
+                                            $metaDescriptorOptions['disabled'] = 'disabled';
+                                        }
+                                    @endphp
                                     {!!
                                         Form::text(
                                             'meta_descriptor',
                                             @isset($content) ? $content->meta_description : '',
-                                            [
-                                                'placeholder' => 'Enter page description',
-                                                'class' => 'input input-larger form-control',
-                                                'id' => 'metaDescriptor'
-                                            ]
+                                            $metaDescriptorOptions
                                         )
                                     !!}
                                 </div>
@@ -471,11 +534,10 @@
                         </div>
                         @endif
 
-                        <div class="input-form-group">
+                        <div class="input-form-group @if (!$isCollaborator) hide @endif">
                             <div class="dropzone" id='image-uploader'>
                             </div>
                         </div>
-
 
                         <div class="form-delimiter hide">
                             <span>
@@ -490,7 +552,7 @@
             </div> <!-- End Main Pane -->
 
             <!-- Side Pane -->
-            <aside class="panel-sidebar">
+            <aside class="panel-sidebar" id='editor-panel-sidebar'>
                 @include('content.partials.editor.sidebar')
             </aside> <!-- End Side Pane -->
 
@@ -559,7 +621,7 @@
                     <div class="col-md-6 col-md-offset-3 text-center">
                         <i class="modal-icon-success icon-check-large"></i>
                         <div class="form-group">
-                            <img src="/images/avatar.jpg" alt="#" class="create-image">
+                            <img src="/images/cl-avatar2.png" alt="#" class="create-image">
                             <h4>Blog post on online banking</h4>
                         </div>
                         <p class="text-gray">IS NOW PUBLISHED TO:</p>
@@ -584,222 +646,23 @@
 </div>
 @stop
 
-
-@section('styles')
-
-@stop
-
 @section('scripts')
 <script type='text/javascript'>
     (function() {
 
-        var imageUploader = new Dropzone('#image-uploader', { url: '/edit/images' });
-        var attachmentUploader = new Dropzone('#attachment-uploader', { url: '/edit/attachments' });
+        var source = {!! $tagsJson !!} || [];
+        var contentTags = {!! $contentTagsJson !!};
 
-        imageUploader.on('success', function(file, response) {
-            var hiddenField = $('<input/>', {
-                name: 'images[]',
-                type: 'hidden',
-                value: response.file
-            });
-
-            hiddenField.appendTo($('form'));
-        });
-
-        attachmentUploader.on('success', function(file, response) {
-            var hiddenField = $('<input/>', {
-                name: 'files[]',
-                type: 'hidden',
-                value: response.file
-            });
-
-            hiddenField.appendTo($('form'));
+        $('#tag-editor').tagEditor({
+            placeholder: 'Select tags...',
+            initialTags: contentTags,
+            autocomplete: {
+                source: source,
+                minLength: 1,
+            },
         });
 
     })();
 </script>
-<script type="text/javascript">
-    $(function() {
-
-        var contentEditor;
-
-        var CharacterCounterView = Backbone.View.extend({
-            characters: 0,
-
-            initialize: function() {
-                this.$el.hide();
-                this.render();
-            },
-
-            render: function() {
-                this.$el.find('.count').text(this.characters);
-
-                if (this.characters > 140) {
-                    this.invalidCount();
-                } else {
-                    this.validCount();
-                }
-
-                return this;
-            },
-
-            invalidCount: function() {
-                if (!this.$el.hasClass('invalid-count')) {
-                    this.$el.addClass('invalid-count');
-                }
-            },
-
-            validCount: function() {
-                if (this.$el.hasClass('invalid-count')) {
-                    this.$el.removeClass('invalid-count');
-                }
-            },
-
-            show: function() {
-                this.$el.slideDown('fast');
-            },
-
-            hide: function() {
-                this.$el.slideUp('fast');
-            },
-
-            update: function(content) {
-                if (isTweet()) {
-                    var html = content;
-                    var div = document.createElement("div");
-                    div.innerHTML = html;
-                    var text = div.textContent || div.innerText || "";
-
-                    this.characters = text.length;
-                    this.render();
-                }
-            }
-        });
-
-        var characterCounter = new CharacterCounterView({ el: '.character-counter' });
-
-        characterCounter.hide();
-
-        tinymce.init({
-            selector: 'textarea.wysiwyg',  // change this value according to your HTML
-            plugin: 'a_tinymce_plugin',
-            a_plugin_option: true,
-            a_configuration_option: 400,
-            setup: function(editor) {
-                contentEditor = editor;
-                editor.on('keyup', updateCount);
-            }
-        });
-
-        $('#contentType').change(updateCount);
-
-        $('.datetimepicker').datetimepicker({
-            format: 'YYYY-MM-DD'
-        });
-
-        $('.selectpicker').selectpicker({
-            style : 'btn-white',
-            size: 10
-        });
-
-        $('.changes').hide();
-        $(".showChanges").on('click', function(){
-            var $this = $(this),
-                divClass = $this.attr('data-class');
-
-            $("." + divClass).toggle();
-       });
-
-        $('form').submit(function(event) {
-            var TWEET_CONTENT_TYPE = "17";
-            var MAX_TWEET_CHARACTERS = 140;
-            var selectedContentType = $('#contentType').val();
-
-            if (selectedContentType == TWEET_CONTENT_TYPE &&
-                characterCounter.characters >= MAX_TWEET_CHARACTERS)
-            {
-                $('#twitterError').slideDown('fast');
-                event.preventDefault();
-            }
-        });
-
-       // $('#contentType').change(contentTypeChangeCallback);
-        //$('#contentType').trigger('change');
-
-        // function contentTypeChangeCallback() {
-        //     var contentType = $('#contentType').val();
-
-        //     $('#connections').html('');
-        //     addDropdownEmptyOption();
-
-        //     if (contentType) {
-        //         fetchConnections(contentType).then(updateContentDestinationDropdown);
-        //     }
-        // }
-
-        // function fetchConnections(contentType) {
-        //     return $.ajax({
-        //         method: 'get',
-        //         url: '/api/connections',
-        //         headers: getHeaders(),
-        //         data: {
-        //             content_type: contentType
-        //         }
-        //     });
-        // }
-
-        function getHeaders() {
-            return {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': $('input[name=_token]').val()
-            };
-        }
-
-        // function updateContentDestinationDropdown(response) {
-        //     for (var i = 0; i < response.data.length; i++) {
-        //         var connection = response.data[i];
-        //         var optionAttributes = {
-        //             value: connection.id,
-        //             text: connection.name
-        //         };
-
-        //    //     $('<option/>', optionAttributes).appendTo('#connections');
-        //     }
-        // }
-
-        // function addDropdownEmptyOption() {
-        //     var optionAttributes = {
-        //         value: "",
-        //         text: "-- Select Destination --"
-        //     };
-
-        //     $('<option/>', optionAttributes).appendTo("#connections");
-        // }
-
-        function updateCount(event) {
-            if (isTweet()) {
-                characterCounter.show();
-                characterCounter.update(contentEditor.getContent());
-            }
-        }
-
-        function isTweet() {
-            var TWEET = '17';
-            var selectedContentType = $('#contentType').val();
-
-            return selectedContentType == TWEET;
-        }
-
-                //runs the action to submit the task
-        $('#add-task-button').click(function() {
-            add_task(addTaskCallback);
-        });
-
-        function addTaskCallback(task) {
-            tasks.add(new task_model(task_map(task)));
-            $('#addTaskModal').modal('hide');
-        }
-    });
-</script>
+<script src="/js/content.js"></script>
 @stop
-

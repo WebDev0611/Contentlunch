@@ -5,7 +5,7 @@
     <ul class="navigation-menu">
         <li>
             <a href="javascript:;" class="navigation-menu-profile">
-                <img src="/images/avatar.jpg" alt="#">
+                <img src="/images/cl-avatar2.png" alt="#">
                 <div class="app-type">
                   <p class="app-agency">Agency</p>
                 </div>

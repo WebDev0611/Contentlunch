@@ -9,7 +9,7 @@
         </span>
         <ul class="dashboard-tasks-list">
             <li>DUE IN:
-                <strong>{{ strtoupper($content->dueDateDiff) }}</strong>
+                <strong>{{ strtoupper($content->present()->dueDate) }}</strong>
             </li>
             <li>
                 <a href="{{ route('editContent', $content) }}">

@@ -2,21 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Storage;
-use View;
 use Auth;
+use Illuminate\Http\Request;
+use Storage;
 
 use App\Account;
-use App\Http\Requests;
+use App\Content;
 use App\Idea;
 use App\IdeaContent;
 use App\User;
-use App\Tag;
-use App\Persona;
-use App\Helpers;
-use App\Content;
 
 class IdeaController extends Controller
 {
@@ -29,172 +23,203 @@ class IdeaController extends Controller
     {
         $ideas = Account::selectedAccount()
             ->ideas()
+            ->orderBy('created_at', 'desc')
             ->with('user')
-            ->get();
+            ->get()
+            ->map(function ($idea) {
+                $idea->created_diff = $idea->createdAtDiff;
+                $idea->updated_diff = $idea->updatedAtDiff;
+
+                return $idea;
+            });
 
         return response()->json($ideas);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     // Parks the idea
-    public function park(Request $request){
+    public function park(Request $request)
+    {
         $id = $request->input('idea_id');
-        $idea = Idea::where([['id',$id],['user_id',Auth::id()]])->first();
+        $idea = Idea::where([
+            'id' => $id,
+            'user_id' => Auth::id(),
+        ])->first();
+
         $idea->status = 'parked';
         $idea->save();
+
         return response()->json($idea);
     }
 
-    public function activate(Request $request){
+    public function activate(Request $request)
+    {
         $id = $request->input('idea_id');
-        $idea = Idea::where([['id',$id],['user_id',Auth::id()]])->first();
+        $idea = Idea::where([
+            'id' => $id,
+            'user_id' => Auth::id(),
+        ])->first();
+
         $idea->status = 'active';
         $idea->save();
-        return response()->json($idea);
 
+        return response()->json($idea);
     }
 
-    public function reject(Request $request,$id){
-        $idea = Idea::where([['id',$id],['user_id',Auth::id()]])->first();
+    public function reject(Request $request, $id)
+    {
+        $idea = Idea::where([
+            'id' => $id,
+            'user_id' => Auth::id(),
+        ])->first();
+
         $idea->status = 'rejected';
         $idea->save();
+
         return response()->json($idea);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $name     = $request->input('name');
-        $text     = $request->input('idea');
-        $tags     = $request->input('tags');
-        $contents = $request->input('content');
-        $status   = $request->input('status');
+        $idea = Idea::create([
+            'name' => $request->input('name'),
+            'text' => $request->input('idea'),
+            'tags' => $request->input('tags'),
+            'status' => $request->input('status'),
+            'user_id' => Auth::id(),
+            'account_id' => Account::selectedAccount()->id,
+        ]);
 
-        $idea         = new Idea;
-        $idea->name   = $name;
-        $idea->text   = $text;
-        $idea->tags   = $tags;
-        $idea->status = $status;
+        $idea->collaborators()->attach(Auth::user());
 
-        $idea->user_id = Auth::id();
-        $idea->account_id = Account::selectedAccount()->id;
-        $idea->save();
-
-        $idea_contents = array();
-
-        if(!empty($contents) && is_array($contents)){
-            foreach($contents as $content){
-                //if its just keywords
-                if(isset($content['keyword'])){
-                    $idea_content = new IdeaContent;
-                    $idea_content->title = "Trending Topic";
-                    $idea_content->body = $content['keyword'];
-
-                    $idea_content->idea_id = $idea->id;
-                    $idea_content->user_id = Auth::id();
-
-                    $idea_content->save();
-                    $idea_contents[] = $idea_content;
-
-                //if its actual content trends
-                }else{
-                    $idea_content = new IdeaContent;
-                    $idea_content->author = $content['author'];
-                    $idea_content->body = $content['body'];
-                    $idea_content->fb_shares = $content['fb_shares'];
-                    $idea_content->google_shares = $content['google_shares'];
-                    $idea_content->image = $content['image'];
-                    $idea_content->link = $content['link'];
-                    $idea_content->source = $content['source'];
-                    $idea_content->title = $content['title'];
-                    $idea_content->total_shares = $content['total_shares'];
-                    $idea_content->tw_shares = $content['tw_shares'];
-
-                    $idea_content->idea_id = $idea->id;
-                    $idea_content->user_id = Auth::id();
-
-                    $idea_content->save();
-                    $idea_contents[] = $idea_content;
-                }
-            }
-        }
+        $idea_contents = $this->createIdeaContents($idea, $request->input('content'));
 
         //do sanity/success checks here
-        return response()->json([$idea->name,$idea->text,$idea->tags,$idea_contents]);
-        //
+        return response()->json([
+            $idea->name,
+            $idea->text,
+            $idea->tags,
+            $idea_contents,
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    protected function createIdeaContents($idea, $contents = [])
     {
-        //
-    }
+        return collect($contents)->map(function($content) use ($idea) {
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+            if (isset($content['keyword'])) {
+
+                return IdeaContent::create([
+                    'title' => $content['keyword'],
+                    'body' => $content['keyword'],
+                    'idea_id' => $idea->id,
+                    'user_id' => Auth::id(),
+                ]);
+
+            } else {
+
+                return IdeaContent::create([
+                    'author' => $content['author'],
+                    'body' => $content['body'],
+                    'fb_shares' => $content['fb_shares'],
+                    'google_shares' => $content['google_shares'],
+                    'image' => $content['image'],
+                    'link' => $content['link'],
+                    'source' => $content['source'],
+                    'title' => $content['title'],
+                    'total_shares' => $content['total_shares'],
+                    'tw_shares' => $content['tw_shares'],
+                    'idea_id' => $idea->id,
+                    'user_id' => Auth::id(),
+                ]);
+            }
+        });
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Idea $idea)
     {
-        $idea = Idea::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
-        //
-        $idea->name     = $request->input('name');
-        $idea->text     = $request->input('idea');
-        $idea->tags     = $request->input('tags');
-        $idea->save();
+        $response = response()->json(['error' => 'User not authorized'], 403);
+
+        if ($idea->hasCollaborator(Auth::user())) {
+            $idea->update([
+                'name' => $request->input('name'),
+                'idea' => $request->input('idea'),
+                'tags' => $request->input('tags'),
+            ]);
+
+            $response = response()->json($idea);
+        }
 
         return response()->json($idea);
     }
 
-    //converts the idea to a piece of content
-    public function ideaconvert(Request $request){
-        $idea = Idea::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
+    /**
+     * Converts the idea to a piece of content and redirects the
+     * user to edit it.
+     *
+     * @param Request $request
+     * @param Idea    $idea
+     *
+     * @return \Illuminate\Http\Redirect
+     */
+    public function write(Request $request, Idea $idea)
+    {
+        $content = $this->createContentFromIdea($idea);
 
-        $new_content = new Content;
-
+        return $this->redirectToContentEditor($content);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    private function createContentFromIdea(Idea $idea)
     {
-        //
+        $newContent = Content::create([
+            'title' => $idea->name,
+            'text' => $idea->text,
+        ]);
+
+        $newContent->authors()->attach(Auth::user());
+        $idea->contents()->attach($newContent);
+
+        Account::selectedAccount()->contents()->save($newContent);
+
+        return $newContent;
+    }
+
+    private function redirectWithoutPermission()
+    {
+        return redirect('/')->with([
+            'flash_message' => 'You don\'t have the permission to do that.',
+            'flash_message_type' => 'danger',
+            'flash_message_important' => true,
+        ]);
+    }
+
+    private function redirectToContentEditor(Content $content)
+    {
+        return redirect()
+            ->route('editContent', $content)
+            ->with([
+                'flash_message' => 'Content was created successfully.',
+                'flash_message_type' => 'success',
+                'flash_message_important' => true,
+            ]);
+    }
+
+    private function isLoggedUserCollaborator(Idea $idea)
+    {
+        return $idea->hasCollaborator(Auth::user());
     }
 }

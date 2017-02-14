@@ -40,7 +40,7 @@
             <div class="panel-container">
                 <div class="plan-activity-box-container">
                     <div class="plan-activity-box-img">
-                        <img src="/images/avatar.jpg" alt="#">
+                        <img src="/images/cl-avatar2.png" alt="#">
                     </div>
                     <div class="plan-activity-box">
                         <span class="plan-activity-title">
@@ -68,7 +68,7 @@
                 </div>
                 <div class="plan-activity-box-container">
                     <div class="plan-activity-box-img">
-                        <img src="/assets/images/avatar.jpg" alt="#">
+                        <img src="/assets/images/cl-avatar2.png" alt="#">
                     </div>
                     <div class="plan-activity-box">
                         <span class="plan-activity-title">
@@ -97,67 +97,6 @@
         -->
     </div>
 </div>
-
-
-<script type="text/template" id="idea-template">
-        <div class="plan-ideas-cell">
-            <img src="<%= user.profile_image %>" alt="#" class="plan-ideas-img">
-        </div>
-        <div class="plan-ideas-cell">
-            <h5 class="plan-ideas-title"><%= name %></h5>
-            <span class="plan-ideas-text"><%= text %></span>
-        </div>
-        <div class="plan-ideas-cell">
-        <!--
-
-            <ul class="images-list">
-                <li>
-                    <img src="/images/avatar.jpg" alt="#">
-                </li>
-                <li>
-                    <img src="/images/avatar.jpg" alt="#">
-                </li>
-                <li>
-                    <img src="/images/avatar.jpg" alt="#">
-                </li>
-            </ul>
-        -->
-
-        </div>
-        <div class="plan-ideas-cell">
-            <span class="plan-ideas-text"><%= format_time_ago(created_at) %></span>
-        </div>
-        <div class="plan-ideas-cell">
-            <span class="plan-ideas-text">UPDATED: <%= format_time_ago(updated_at) %></span>
-        </div>
-        <div class="plan-ideas-cell">
-            <div class="plan-ideas-dropdown">
-                <button type="button" class="button button-action" data-toggle="dropdown">
-                    <i class="icon-add-circle"></i>
-                </button>
-
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <!--<li id="write-it-btn">
-                        <a href="javascript:;">Write It</a>
-                    </li> -->
-                    <li id="park-it-btn">
-                        <a href="javascript:;">Park It</a>
-                    </li>
-                  <li id="edit-it-btn">
-                        <a href="javascript:;">Edit It</a>
-                    </li>
-                   <li id="unpark-it-btn">
-                        <a href="javascript:;">Unpark It</a>
-                    </li>
-                    <!--
-                    //should pre populate a create content form with the relevant data
-                    <li id="socialize-it-btn">
-                        <a href="javascript:;">Socialize It</a>
-                    </li> -->
-                </ul>
-            </div>
-        </div>
-</script>
 
 @stop
 

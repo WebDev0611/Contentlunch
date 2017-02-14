@@ -2,27 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Content\ContentRequest;
-use Illuminate\Support\Facades\File;
-use App\ContentType;
-use App\BuyingStage;
-use App\Connection;
-use App\Attachment;
-use App\Campaign;
-use App\Content;
-use App\User;
 use App\Account;
-use App\Tag;
-use App\Persona;
+use App\Attachment;
+use App\BuyingStage;
+use App\Campaign;
+use App\Connection;
+use App\Content;
+use App\ContentType;
 use App\Helpers;
+use App\Http\Requests\Content\ContentRequest;
+use App\Persona;
+use App\Presenters\ContentTypePresenter;
+use App\Presenters\CampaignPresenter;
+use App\Tag;
+use App\User;
 use App\WriterAccessPrice;
-use Storage;
-use View;
 use Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Input;
 use Response;
+use Storage;
+use Validator;
 
 class ContentController extends Controller
 {
@@ -36,6 +38,8 @@ class ContentController extends Controller
         $countContent = $this->selectedAccount
             ->contents()
             ->count();
+
+        $this->selectedAccount->cleanContentWithoutStatus();
 
         $published = $this->selectedAccount
             ->contents()
@@ -63,6 +67,45 @@ class ContentController extends Controller
         return view('content.index', compact(
             'published', 'readyPublished', 'written', 'countContent', 'connections'
         ));
+    }
+
+    public function orders(Request $request)
+    {
+
+        $writerAccess = new WriterAccessController($request);
+        $approved = [];
+        $inProgress = [];
+        $open = [];
+        $pendingApproval = [];
+
+        $orders = json_decode($writerAccess->orders()->getContent())->orders;
+
+        foreach ($orders as $order){
+            //var_dump($order->status);
+            switch ($order->status){
+                case "Approved" :
+                    $approved[] = $order;
+                case "In Progress" :
+                    $inProgress[] = $order;
+                case "Open" :
+                    $open[] = $order;
+                case "Pending Approval" :
+                    $pendingApproval[] = $order;
+            }
+        }
+
+        $countOrders = count($orders);
+
+        $connections = $this->selectedAccount
+            ->connections()
+            ->where('active', 1)
+            ->get();
+
+
+        return view('content.orders', compact(
+            'orders', 'countOrders', 'approved', 'inProgress', 'open', 'pendingApproval', 'connections'
+        ));
+
     }
 
     public function store(Request $request)
@@ -107,17 +150,41 @@ class ContentController extends Controller
 
         $pricesJson = json_encode($reformedPrices);
 
-        $contenttypedd = ContentType::dropdown();
-        $campaigndd = Campaign::dropdown();
+        $contenttypedd = ContentTypePresenter::dropdown();
+        $campaigndd = CampaignPresenter::dropdown();
 
         $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd');
 
         return view('content.create', $data);
     }
 
-    public function directPublish(Request $request, $contentId)
+    public function trendShare(Request $request, Connection $connection)
     {
-        $content = Content::find($contentId);
+        $content = (object) Input::all();
+        $errors = [];
+        $publishedConnections = [];
+
+        $response = $this->publishTrend($content, $connection);
+
+        if (!$response['success']) {
+            $connectionName = (string) $connection;
+            $errors [] = [$connectionName => $response['error']];
+        } else {
+            $publishedConnections[] = $connection->provider->slug;
+        }
+
+        $response = response()->json([
+            'data' => 'Content published',
+            'errors' => $errors,
+            'content' => $content->body,
+            'published_connections' => $publishedConnections,
+        ], 201);
+
+        return $response;
+    }
+
+    public function directPublish(Request $request, Content $content)
+    {
         $connections = collect(explode(',', $request->input('connections')))
             ->map(function ($connectionId) {
                 return Connection::find($connectionId);
@@ -175,6 +242,14 @@ class ContentController extends Controller
         return $create;
     }
 
+    public function publishTrend($content, Connection $connection = null)
+    {
+        $class = 'Connections\API\\'.$connection->provider->class_name;
+        $create = (new $class($content, $connection))->createPost();
+
+        return $create;
+    }
+
     public function publishAndRedirect(Request $request, $contentId)
     {
         $content = Content::find($contentId);
@@ -192,14 +267,15 @@ class ContentController extends Controller
     public function createContent()
     {
         $data = [
-            'tagsDropdown' => Tag::dropdown(),
+            'tagsJson' => $this->selectedAccount->present()->tagsJson,
+            'contentTagsJson' => collect([])->toJson(),
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
             'personaDropdown' => Persona::dropdown(),
-            'campaignDropdown' => Campaign::dropdown(),
+            'campaignDropdown' => CampaignPresenter::dropdown(),
             'connections' => Connection::dropdown(),
-            'contentTypeDropdown' => ContentType::dropdown(),
+            'contentTypeDropdown' => ContentTypePresenter::dropdown(),
         ];
 
         return view('content.editor', $data);
@@ -208,24 +284,40 @@ class ContentController extends Controller
     // - edit content on page
     public function editContent(Content $content)
     {
+        $this->ensureCollaboratorsExists($content);
+
         $data = [
             'content' => $content,
-            'tagsDropdown' => Tag::dropdown(),
+            'tagsJson' => $this->selectedAccount->present()->tagsJson,
+            'contentTagsJson' => $content->present()->tagsJson,
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
             'personaDropdown' => Persona::dropdown(),
-            'campaignDropdown' => Campaign::dropdown(),
+            'campaignDropdown' => CampaignPresenter::dropdown(),
             'connections' => Connection::dropdown(),
-            'contentTypeDropdown' => ContentType::dropdown(),
+            'contentTypeDropdown' => ContentTypePresenter::dropdown(),
             'files' => $content->attachments()->where('type', 'file')->get(),
             'images' => $content->attachments()->where('type', 'image')->get(),
+            'isCollaborator' => $content->hasCollaborator(Auth::user()),
+            'tasks' => $content->tasks()->with('user')->get(),
         ];
 
         return view('content.editor', $data);
     }
 
-    public function editStore(Request $request, $id = null)
+    public function getContentTypes() {
+        return ContentType::with('provider')->get();
+    }
+
+    protected function ensureCollaboratorsExists(Content $content)
+    {
+        if ($content->collaborators->isEmpty()) {
+            $content->collaborators()->attach(Auth::user());
+        }
+    }
+
+    public function editStore(Request $request, Content $content)
     {
         if ($request->input('action') == 'written_content') {
             $validation = $this->onSaveValidation($request->all());
@@ -234,12 +326,17 @@ class ContentController extends Controller
         }
 
         if ($validation->fails()) {
-            $urlId = $id ? "/$id" : '';
-
-            return redirect("/edit" . $urlId)->with('errors', $validation->errors());
+            return redirect("/edit/$content->id")->with('errors', $validation->errors());
         }
 
-        $content = is_numeric($id) ? Content::find($id) : new Content();
+        if (!$content->hasCollaborator(Auth::user())) {
+            return redirect()->route('contentIndex')->with([
+                'flash_message' => 'You don\'t have permission to edit this content.',
+                'flash_message_type' => 'danger',
+                'flash_message_important' => true,
+            ]);
+        }
+
         $content = $this->detachRelatedContent($content);
         $content = $this->saveContentAndAttachToAccount($request, $content);
 
@@ -248,17 +345,12 @@ class ContentController extends Controller
         $this->saveContentPersona($request, $content);
         $this->saveContentType($request, $content);
         $this->saveConnections($request, $content);
+        $this->saveContentTags($request, $content);
 
         // - Attach the related data
         if ($request->input('related')) {
             $content->related()->attach($request->input('related'));
         }
-
-        // Attach authors
-        $content->authors()->attach($request->input('author'));
-
-        // Attach Tags
-        $content->tags()->attach($request->input('tags'));
 
         $this->handleImages($request, $content);
         $this->handleFiles($request, $content);
@@ -278,7 +370,6 @@ class ContentController extends Controller
     {
         return Validator::make($requestData, [
             'content_type' => 'required',
-            'author' => 'required',
             'due_date' => 'required',
             'title' => 'required',
             'connections' => 'required',
@@ -289,7 +380,7 @@ class ContentController extends Controller
     private function onSaveValidation(array $requestData)
     {
         return Validator::make($requestData, [
-            'title' => 'required'
+            'title' => 'required',
         ]);
     }
 
@@ -297,7 +388,6 @@ class ContentController extends Controller
     {
         $content->related()->detach();
         $content->tags()->detach();
-        $content->authors()->detach();
 
         return $content;
     }
@@ -312,7 +402,7 @@ class ContentController extends Controller
         $content->meta_title = $request->input('meta_title');
         $content->meta_keywords = $request->input('meta_keywords');
         $content->meta_description = $request->input('meta_descriptor');
-        $content->written = 1;
+        $content->email_subject = $request->input('email_subject');
         $content->save();
 
         $this->selectedAccount->contents()->save($content);
@@ -354,36 +444,70 @@ class ContentController extends Controller
 
     private function saveContentType($request, $content)
     {
-        $conType = ContentType::find($request->input('content_type'));
-        $conType->contents()->save($content);
+        if ($request->input('content_type')) {
+            $conType = ContentType::find($request->input('content_type'));
+            $conType->contents()->save($content);
+        }
+    }
+
+    private function saveContentTags($request, $content)
+    {
+        if ($request->input('tags')) {
+            $content->tags()->detach();
+
+            $tagsArray = explode(',', $request->input('tags'));
+            collect($tagsArray)
+                ->filter(function($tagString) { return $tagString !== ""; })
+                ->map(function($tagString) {
+                    return $this->selectedAccount
+                        ->tags()
+                        ->firstOrCreate([ 'tag' => $tagString ]);
+                })
+                ->each(function($tag) use ($content) {
+                    $content->tags()->attach($tag);
+                });
+        }
     }
 
     public function delete(Request $request, $content_id)
     {
         $content = Content::find($content_id);
+        $redirect = $this->redirectDeleteFailed();
 
         if ($content) {
             $this->detachRelatedContent($content);
             $content->attachments()->delete();
             $content->delete();
-
-            return redirect()->route('contentIndex')->with([
-                'flash_message' => 'You have successfully deleted '.$content->title.'.',
-                'flash_message_type' => 'success',
-                'flash_message_important' => true,
-            ]);
-        } else {
-            return redirect()->route('contentIndex')->with([
-                'flash_message' => 'Unable to delete content: not found.',
-                'flash_message_type' => 'danger',
-                'flash_message_important' => true,
-            ]);
+            $redirect = $this->redirectDeleteSuccessful($content);
         }
+
+        return $redirect;
+    }
+
+    protected function redirectDeleteSuccessful($content)
+    {
+        return redirect()->route('contentIndex')->with([
+           'flash_message' => 'You have successfully deleted '.$content->title.'.',
+           'flash_message_type' => 'success',
+           'flash_message_important' => true,
+       ]);
+    }
+
+    protected function redirectDeleteFailed()
+    {
+        return redirect()->route('contentIndex')->with([
+            'flash_message' => 'Unable to delete content: not found.',
+            'flash_message_type' => 'danger',
+            'flash_message_important' => true,
+        ]);
     }
 
     public function my()
     {
-        $content = Auth::user()->contents()->get();
+        $content = $this->selectedAccount
+            ->contents()
+            ->with('authors')
+            ->get();
 
         return response()->json($content);
     }
@@ -412,15 +536,6 @@ class ContentController extends Controller
         $this->handleAttachments($request->input('files'), $content, 'file');
     }
 
-    /**
-     * Function to upload files to S3 and save them in the database.
-     *
-     * @param ContentRequest $request  The Request instance
-     * @param Content        $content  Content instance
-     * @param string         $filetype A string indicating the filetype.
-     *                                 Images should be 'image'. Everything else will
-     *                                 be treated as files
-     */
     private function handleAttachments($files, $content, $fileType = 'file')
     {
         $files = collect($files)->filter()->flatten()->toArray();
@@ -501,4 +616,5 @@ class ContentController extends Controller
             'file' => 'image|max:3000',
         ]);
     }
+
 }

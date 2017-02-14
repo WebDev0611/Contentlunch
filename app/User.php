@@ -2,15 +2,20 @@
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
-use Auth;
-use App\AccountType;
 use App\Account;
+use App\AccountType;
+use App\Content;
+use App\Presenters\UserPresenter;
+use Auth;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laracasts\Presenter\PresentableTrait;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
 {
-    use EntrustUserTrait;
+    use EntrustUserTrait, PresentableTrait;
+
+    protected $presenter = UserPresenter::class;
     /**
      * The attributes that are mass assignable.
      *
@@ -29,30 +34,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
-    public function connections()
-    {
-       return $this->hasMany('App\Connection');
-    }
-
-    public function campaigns()
-    {
-       return $this->hasMany('App\Campaign');
-    }
-
-    public function tasks()
-    {
-       return $this->hasMany('App\Task');
-    }
+    const DEFAULT_PROFILE_IMAGE = '/images/cl-avatar2.png';
 
     public function accounts()
     {
         return $this->belongsToMany('App\Account');
-    }
-
-    public function country()
-    {
-        return $this->belongsTo('App\Country', 'country_code', 'country_code');
     }
 
     public function accountConnections()
@@ -60,9 +46,49 @@ class User extends Authenticatable
         return $this->account->connections();
     }
 
+    public function calendars()
+    {
+        return $this->hasMany('App\Calendar');
+    }
+    
+    public function assignedTasks()
+    {
+        return $this->belongsToMany('App\Task');
+    }
+
+    public function campaigns()
+    {
+       return $this->hasMany('App\Campaign');
+    }
+
+    public function connections()
+    {
+       return $this->hasMany('App\Connection');
+    }
+
+    public function country()
+    {
+        return $this->belongsTo('App\Country', 'country_code', 'country_code');
+    }
+
+    public function ideas()
+    {
+        return $this->hasMany('App\Idea');
+    }
+
+    public function tasks()
+    {
+       return $this->hasMany('App\Task');
+    }
+
     public function partialWriterAccessOrders()
     {
         return $this->hasMany('App\WriterAccessPartialOrder');
+    }
+
+    public function selectedAccount()
+    {
+        return $this->belongsTo('App\Account');
     }
 
     public function belongsToAgencyAccount()
@@ -91,15 +117,6 @@ class User extends Authenticatable
         return $this->name;
     }
 
-    public function getLocationAttribute()
-    {
-        $location = $this->city ?: '';
-        $location .= $this->city && $this->country ? ', ' : '';
-        $location .= $this->country ? $this->country->country_name : '';
-
-        return $location;
-    }
-
     public static function search($term, $account = null)
     {
         if (!$account) {
@@ -111,4 +128,5 @@ class User extends Authenticatable
             ->where('name', 'like', '%' . $term . '%')
             ->get();
     }
+
 }

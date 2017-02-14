@@ -20,7 +20,8 @@
                             </div>
                         </div>
                     </div>
-                    {!! Form::open([ 'url' => "writeraccess/orders/$order->id/submit" ]) !!}
+
+                    {!! Form::open([ 'id'=>'orderForm', 'url' => "writeraccess/orders/$order->id/submit" ]) !!}
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="purchase-assignment">
@@ -32,7 +33,7 @@
                                         <span>{{ $order->assetType->name }}</span>
                                     </div>
                                 </div>
-                                <h4>{{ $order->project_name }}</h4>
+                                <h4>{{ $order->content_title }}</h4>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <span>
@@ -68,14 +69,14 @@
                             <table class="purchase-order">
                                 <tbody>
                                     <tr>
-                                        <td>{{ $order->wordcount }} words article</td>
-                                        <td>${{ $order->price }}.00</td>
+                                        <td>{{ $order->present()->description }}</td>
+                                        <td>{{ $order->present()->price }}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <td>TOTAL</td>
-                                        <td>${{ $order->price }}.00</td>
+                                        <td>{{ $order->present()->price }}</td>
                                     </tr>
                                     {{--
                                     <tr>
@@ -156,8 +157,8 @@
         Stripe.setPublishableKey("{{ getenv('STRIPE_PUBLISHABLE_KEY') }}");
 
         function stripeResponseHandler(status, response) {
-            var $form = $('form');
-
+            var $form = $('#orderForm');
+            console.log(response);
             if (response.error) {
                 $form.find('input[type=submit]').prop('disabled', false);
                 $('#paymentErrors')
@@ -165,13 +166,14 @@
                     .slideDown('fast');
             } else {
                 var token = response.id;
-                $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+                $form.append($('<input type="hidden" name="stripe-token" />').val(token));
                 $form.get(0).submit();
             }
         }
 
-        $('form').submit(function(e) {
+        $('#orderForm').submit(function(e) {
             var $form = $(this);
+            console.log(e);
 
             $form.find('input[type=submit]').prop('disabled', true);
 

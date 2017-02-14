@@ -2,13 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\WriterAccessPrice;
+use DateTime;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use Exception;
+use App\WriterAccessBulkOrderStatus;
+use App\Jobs\WriterAccessBulkOrder;
 use App\User;
 use App\WriterAccessPartialOrder;
-use Validator;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Config;
+use App\DTO\Order;
+use Illuminate\Support\Facades\Redis;
 
 /**
  * Class WriterAccessController.
@@ -31,12 +40,16 @@ class WriterAccessController extends Controller
      * @var string
      */
     private $apiProjectId = '';
+    /**
+     * @var string
+     */
+    private $apiUrl = 'https://writeraccess.com/api';
 
     private function initStripe()
     {
         $stripe = [
-            'secret_key' => 'sk_test_LWaM9Mld4dpcRtIeDCH7K72t',
-            'publishable_key' => 'pk_test_9WtB8kfnBxpSgEX7MMwOkA82',
+            'secret_key' => Config::get('services.stripe.secret'),
+            'publishable_key' => Config::get('services.stripe.key'),
         ];
 
         Stripe::setApiKey($stripe['secret_key']);
@@ -44,25 +57,32 @@ class WriterAccessController extends Controller
 
     /**
      * WriterAccessController constructor.
+     * @param Request $request
+     * @param User $user
+     * @param string $apiProject
+     * @param int $apiProjectId
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request, $user = null, $apiProject = null, $apiProjectId = null)
     {
-        // Set the project name for writer access calls
-        $this->apiProject = $this->getProjectName($request->root());
+        $user = $user ? $user : Auth::user();
 
-        // Create the users project if it doesn't already exist.
-        if (empty(Auth::user()->writer_access_Project_id)) {
-            echo 'Creating project';
-            $this->createProject();
+        if ($user) {
+            // Set the project name for writer access calls
+            $this->apiProject = $apiProject ? $apiProject : $this->getProjectName($request->root(), $user);
+
+            // Create the users project if it doesn't already exist.
+            if (empty($user->writer_access_Project_id)) {
+                $this->createProject();
+            }
+
+            // Set the projectid for writer access calls
+            $this->apiProjectId = $apiProjectId ? $apiProjectId : $user->writer_access_Project_id;
         }
-
-        // Set the projectid for writer access calls
-        $this->apiProjectId = Auth::user()->writer_access_Project_id;
     }
 
-    private function getProjectName($requestRoot)
+    private function getProjectName($requestRoot, User $user)
     {
-        return preg_replace('#https?://#', '', $requestRoot) . '-user-' . Auth::user()->id;
+        return preg_replace('#https?://#', '', $requestRoot) . '-user-' . $user->id;
     }
 
     /**
@@ -100,6 +120,7 @@ class WriterAccessController extends Controller
         $url = null;
         $queryString = '';
         $parameters['project'] = $this->apiProjectId;
+
         if (isset($_GET['status'])) {
             if (isset($_GET['status'])) {
                 $parameters['status'] = $_GET['status'];
@@ -121,52 +142,30 @@ class WriterAccessController extends Controller
 
     public function orderSubmit(Request $request, WriterAccessPartialOrder $order)
     {
+        // Intercept and take the bulk order path.
+        if($order->content_title === "wa-bulk-order" && $order->instructions === "wa-bulk-order"){
+            return $this->bulkOrderSubmit($request, $order);
+        }
+
         $validation = $this->validateCard($request->all());
 
         if ($validation->fails()) {
-            return redirect()
-                ->route('orderReview', $order)
-                ->with('errors', $validation->errors());
+            return redirect()->route('orderReview', $order)->with('errors', $validation->errors());
         }
 
-        $params = array_merge($this->projectInfo(), $order->writerAccessFormat());
-
-        $response = $this->post('/orders', $params);
-        $responseContent = json_decode($response->getContent());
+        $responseContent = $this->createWriterAccessOrder($order);
 
         if (isset($responseContent->fault)) {
-            $writerAccessErrors = [ $responseContent->fault ];
-
-            return redirect()
-                ->route('orderReview', $order)
-                ->with([
-                    'flash_message' => $responseContent->fault,
-                    'flash_message_type' => 'danger',
-                ]);
+            return $this->redirectToOrderReview($order, $responseContent->fault, 'danger');
         }
 
         $this->initStripe();
-        $stripeToken = $request->input('stripeToken');
-        $orderPrice = $order->price * 100;
-
-        $customer = \Stripe\Customer::create([
-            'email' => Auth::user()->email,
-            'source' => $stripeToken
-        ]);
+        $customer = $this->createStripeCustomer($request);
 
         try {
-            $charge = \Stripe\Charge::create([
-                'customer' => $customer->id,
-                'amount' => $orderPrice,
-                'currency' => 'usd'
-            ]);
+            $charge = $this->createStripeCharge($customer, $order);
         } catch (\Exception $e) {
-            return redirect()
-                ->route('orderReview', $order)
-                ->with([
-                    'flash_message' => $e->getMessage(),
-                    'flash_message_type' => 'danger'
-                ]);
+            return $this->redirectToOrderReview($order, $e->getMessage(), 'danger');
         }
 
         return redirect()
@@ -177,10 +176,47 @@ class WriterAccessController extends Controller
             ]);
     }
 
+    protected function redirectToOrderReview($order, $message, $message_type = 'success')
+    {
+        return redirect()
+            ->route('orderReview', $order)
+            ->with([
+                'flash_message' => $message,
+                'flash_message_type' => $message_type,
+            ]);
+    }
+
+    protected function createStripeCharge($customer, WriterAccessPartialOrder $order)
+    {
+        return \Stripe\Charge::create([
+            'customer' => $customer->id,
+            'amount' => $order->price * 100,
+            'currency' => 'usd'
+        ]);
+    }
+
+    protected function createStripeCustomer(Request $request)
+    {
+        $stripeToken = $request->input('stripe-token');
+
+        return \Stripe\Customer::create([
+            'email' => Auth::user()->email,
+            'source' => $stripeToken
+        ]);
+    }
+
+    protected function createWriterAccessOrder(WriterAccessPartialOrder $order)
+    {
+        $params = array_merge($this->projectInfo(), $order->writerAccessFormat());
+        $response = $this->post('/orders', $params);
+
+        return json_decode($response->getContent());
+    }
+
     private function validateCard(array $data)
     {
         return Validator::make($data, [
-            'stripeToken' => 'required'
+            'stripe-token' => 'required'
         ]);
     }
 
@@ -192,122 +228,56 @@ class WriterAccessController extends Controller
         ];
     }
 
-    public function createOrder()
+    public function createOrder($orderDetails = null)
     {
-        $params = $this->projectInfo();
+        if(!$orderDetails){
+            $orderDetails = $_POST;
+        }
 
         $errors = [];
+        $order = new Order();
 
-        // Validate Token
-        if (isset($_POST['stripeToken'])) {
-            $token = $_POST['stripeToken'];
-        } else {
-            $errors['token'] = 'The order cannot be processed. You have not been charged.
-                        Please confirm that you have JavaScript enabled and try again.';
-        }
+        $order->setProjectid($this->apiProjectId);
 
-        // Validate Post Data
-        if (!isset($_POST['assetType'])) {
-            $errors['assetType'] = "Missing required parameter 'assetType'.";
-        } else {
-            $params['assetType'] = $_POST['assetType'];
-        }
+        $this->validateOrderDetails($order, $errors, $orderDetails);
 
-        if (!isset($_POST['wordcount'])) {
-            $errors['wordcount'] = "Missing required parameter 'wordcount'.";
-        } else {
-            $wordcount = intval($_POST['wordcount']);
-            $params['minwords'] = $wordcount - ($wordcount * .1);
-            $params['maxwords'] = $wordcount + ($wordcount * .1);
-        }
-
-        if (!isset($_POST['writer_level'])) {
-            $errors['writer_level'] = "Missing required parameter 'writer_level'.";
-        } else {
-            $params['writer'] = $_POST['writer_level'];
-        }
-
-        if (!isset($_POST['duedate'])) {
-            $errors['duedate'] = "Missing required parameter 'duedate'.";
-        } else {
-            $params['hourstocomplete'] = $this->createDueDate($_POST['duedate']);
-        }
-
-        if (!isset($_POST['title'])) {
-            $errors['title'] = "Missing required parameter 'title'.";
-        } else {
-            $params['title'] = $_POST['title'];
-        }
-
-        if (!isset($_POST['instructions'])) {
-            $errors['instructions'] = "Missing required parameter 'instructions'.";
-        } else {
-            $params['instructions'] = $_POST['instructions'];
-        }
-
-        if (!isset($_POST['target'])) {
-            $errors['target'] = "Missing required parameter 'target'.";
-        } else {
-            $params['instructions'] .= "\nTarget Audience: \n".$_POST['target'];
-        }
-
-        if (!isset($_POST['tone'])) {
-            $errors['tone'] = "Missing required parameter 'tone'.";
-        } else {
-            $params['instructions'] .= "\nTone of Writing: \n".$_POST['tone'];
-        }
-
-        if (!isset($_POST['voice'])) {
-            $errors['voice'] = "Missing required parameter 'voice'.";
-        } else {
-            $params['instructions'] .= "\nNarrative Voice: \n".$_POST['voice'];
-        }
-
-        // Get the price of the order (never trust this part coming from the front end)
-        $price = null;
-        if ($WriterAccessPrice = WriterAccessPrice::where('asset_type_id', $params['assetType'])
-            ->where('writer_level', $params['writer'])
-            ->where('wordcount', $_POST['wordcount'])
-            ->first()) {
-            $price = $WriterAccessPrice->fee;
-        } else {
-            $errors['generic'] = 'Error processing form. Please try again later.';
-        }
-
-        /*
-        Writer Access API Requried Param Checklist:
-            [√] projectid
-            [√] hourstocomplete
-            [√] writer
-            [√] minwords
-            [√] maxwords
-            [√] title
-            [√] instructions
-
-        Sample Data:
-            {
-                "assetType": 0,
-                "wordcount": "500",
-                "writer_level": "5",
-                "duedate": "10/18/2016",
-                "title": "Test - Order",
-                "target": "Everyone",
-                "instructions": "Please ignore this order",
-                "tone": "Writing tone goes here",
-                "Voice": "Professional on the topic"
-            }
-
-        */
-
-        // Stop here if we find errors
+        // Stop here if we found errors
         if (count($errors) > 0) {
-            $errors['debug'] = $params;
-
+            $errors['debug'] = $order->toArray();
             return array(['errors' => $errors]);
         }
 
+        // Get/create stripe customer
+        $customer = \Stripe\Customer::create(array(
+            'email' => Auth::user()->email,
+            'source' => $order->getStripeToken(),
+        ));
+
+        // Try to charge the card
+        $charge = null;
+        try {
+            $charge = \Stripe\Charge::create(array(
+                'customer' => $customer->id,
+                'amount' => $order->getPrice() * 100, // Stripe processes cents for the ammount
+                'currency' => 'usd',
+            ));
+        } catch (Stripe_CardError $e) {
+            $errors['Payment Declined'] = 'Your card was declined, please try another card to complete the order.';
+            $errors['Stripe Charge'] = $charge;
+        }
+
+        // Stop here if we find errors
+        if (count($errors) > 0) {
+            $errors['debug'] = $order->toArray();
+            return array(['errors' => $errors]);
+        }
+
+        if(env("WRITER_ACCESS_TEST_WRITER_ID", false)){
+            $params['targetwriter'] = env("WRITER_ACCESS_TEST_WRITER_ID");
+        }
+
         // NOW THAT ALL THE DATA LOOKS GOOD, LET'S TRY TO CREATE THE ORDER
-        $response = $this->post('/orders', array_merge($params));
+        $response = $this->post('/orders', array_merge($order->toArray()));
         $responseContent = json_decode($response->getContent());
 
         if (isset($responseContent->fault)) {
@@ -316,39 +286,28 @@ class WriterAccessController extends Controller
 
         // Stop here if we find errors
         if (count($errors) > 0) {
-            $errors['debug'] = $params;
-
+            $errors['debug'] = $order->toArray();
             return array(['errors' => $errors]);
         }
 
-        // Get/create stripe customer
-        $customer = \Stripe\Customer::create(array(
-            'email' => Auth::user()->email,
-            'source' => $token,
-        ));
-
-        // Try to charge the card
-        try {
-            $charge = \Stripe\Charge::create(array(
-                'customer' => $customer->id,
-                'amount' => $price * 100, // Stripe processes cents for the ammount
-                'currency' => 'usd',
-            ));
-        } catch (Stripe_CardError $e) {
-            $errors['Payment Declined'] = 'Your card was declined, please try another card to complete the order.';
-        }
-
-        // Stop here if we find errors
-        if (count($errors) > 0) {
-            $errors['debug'] = $params;
-
-            return array(['errors' => $errors]);
-        }
-
-        return $this->post('/orders', array_merge($params));
+        return response()->json($response->getContent());
     }
 
-    public function createDueDate($date)
+    public function queuedOrderSubmit(Order $order)
+    {
+        try{
+            $response = $this->post('/orders', array_merge($order->toArray()));
+
+            $responseContent = json_decode($response->getContent());
+        }catch(Exception $e){
+            echo $e->getMessage();
+            echo $e->getStack();
+        }
+
+        return $responseContent;
+    }
+
+    private function createDueDate($date)
     {
         $today = new DateTime(date('Y-m-d H:i:s'));
         $duedate = new DateTime(date($date));
@@ -378,7 +337,7 @@ class WriterAccessController extends Controller
     {
         $user = User::find(Auth::user()->id);
 
-        $response = $this->post('/projects', array('projectname' => $this->apiProject));
+        $response = $this->post('/projects', [ 'projectname' => $this->apiProject ]);
         $responseContent = json_decode($response->getContent());
 
         if (!isset($responseContent->fault)) {
@@ -407,6 +366,73 @@ class WriterAccessController extends Controller
         return $this->get('/expertises');
     }
 
+    public function bulkOrderSubmit(Request $request, WriterAccessPartialOrder $orderDetails){
+
+        try{
+
+            $user = Auth::user();
+            $orders = [];
+            $price = 0.00;
+
+            if(file_exists($orderDetails['bulk_file'])){
+                $stripeToken = $request->input('stripe-token', false);
+
+                if(!$stripeToken){
+                    throw new Exception("Missing Stripe Token.");
+                }
+
+                $uploadRows = Excel::load($orderDetails['bulk_file'])->get();
+                foreach($uploadRows as $row){
+
+                    $order = new Order();
+                    if(env("WRITER_ACCESS_TEST_WRITER_ID", false)){
+                        $order->setTargetwriter(env("WRITER_ACCESS_TEST_WRITER_ID"));
+                    }
+                    $errors = [];
+                    $tmpOrderArray = $orderDetails->toArray();
+                    $tmpOrderArray['projectid'] = $this->apiProjectId;
+                    $tmpOrderArray['title'] = $row->content_title;
+                    $tmpOrderArray['instructions'] = $row->instructions;
+                    $this->validateOrderDetails($order, $errors, $tmpOrderArray);
+                    if(count($errors) === 0){
+                        $orders[] = $order;
+                        $price = $price + $order->getPrice();
+                    }
+                }
+
+            }else{
+                $error = new Exception();
+                return response()->json(array(
+                    "error" => "Bulk import file not found: ".$orderDetails['bulk_file'],
+                    "orderDetails" => $orderDetails,
+                    "stack" => $error->getTrace()
+                ));
+            }
+
+            //return response()->json($orders);
+
+            $bulkOrderStatus =  WriterAccessBulkOrderStatus::create();
+
+            $job = (new WriterAccessBulkOrder($bulkOrderStatus->id, $user, $orders, $this->apiProject, $this->apiProjectId, $stripeToken, Config::get('services.stripe.secret'), $price));
+
+            $this->dispatch($job);
+
+            return redirect()
+                ->to('/writeraccess/bulk-order/'.$bulkOrderStatus->id)
+                ->with("orders", $orders);
+
+        }catch(Exception $e){
+            return response()->json(array(
+                "error" => $e->getMessage(),
+                "stack" => $e->getTrace()
+            ));
+        }
+    }
+
+    public function deleteOrder($id){
+        return $this->delete('/orders/'.$id);
+    }
+
     /**
      * @param $apiPath
      *
@@ -414,39 +440,81 @@ class WriterAccessController extends Controller
      */
     private function get($apiPath)
     {
-        $curl = $this->init_curl();
-        curl_setopt($curl, CURLOPT_URL, 'https://writeraccess.com/api'.$apiPath);
-        $output = curl_exec($curl);
-        curl_close($curl);
+        $url = $this->apiUrl.$apiPath;
 
-        return (new Response($output))->header('Content-Type', 'application/json');
+        $redis_key = $url;
+        $redis_cache = Redis::get( $redis_key );
+        if( empty( unserialize($redis_cache) && !isset($_GET['fresh']) ) ){
+            $curl = $this->init_curl();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            $output = curl_exec($curl);
+            curl_close($curl);
+
+            Redis::set($redis_key, serialize( $output ));
+            Redis::expire($redis_key, 60*20); //set cache for 20 min
+        }else{
+            $output = unserialize($redis_cache);
+        }
+
+
+        if($output === false){
+            return (new Response(["error"=>"API call failed."]))->header('Content-Type', 'application/json');
+        }else {
+            return (new Response($output))->header('Content-Type', 'application/json');
+        }
     }
 
     /**
      * @param $apiPath
-     * @param null $postFields
+     * @param array $postFields
      *
      * @return Response
      */
-    private function post($apiPath, $postFields = null)
+    private function post($apiPath, $postFields = null, $cache_key = null)
     {
-        $curl = $this->init_curl();
-        curl_setopt($curl, CURLOPT_URL, 'https://writeraccess.com/api'.$apiPath);
+        $url = $this->apiUrl.$apiPath;
+        $fields_string = '';
+
+        echo "\nURL:\n".$url."\n\n";
 
         if (isset($postFields)) {
-            $fields_string = '';
             foreach ($postFields as $key => $value) {
-                $fields_string .= $key.'='.$value.'&';
+                $fields_string .= $key . '=' . $value . '&';
             }
-            rtrim($fields_string, '&');
-            curl_setopt($curl, CURLOPT_POST, count($postFields));
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $fields_string);
         }
 
-        $output = curl_exec($curl);
-        curl_close($curl);
+        $redis_key = $url.$cache_key;
 
-        return (new Response($output))->header('Content-Type', 'application/json');
+        $redis_cache = Redis::get( $redis_key );
+        if( empty( unserialize($redis_cache) ) ){
+
+            $curl = $this->init_curl();
+            curl_setopt($curl, CURLOPT_URL, $url);
+
+            if (isset($postFields)) {
+                rtrim($fields_string, '&');
+                curl_setopt($curl, CURLOPT_POST, count($postFields));
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $fields_string);
+            }
+
+            $output = curl_exec($curl);
+            echo "\n\nOutput\n";
+            echo json_encode($fields_string)."\n";
+            echo $output."\n";
+            curl_close($curl);
+
+            Redis::set($redis_key, serialize( $output ));
+            Redis::expire($redis_key, 0); //Set cache with no expiration. We never want to post the same info twice.
+        }else{
+            $output = unserialize($redis_cache);
+        }
+
+        if($output === false){
+            return (new Response(["error"=>"API call failed."]))->header('Content-Type', 'application/json');
+        }else{
+            return (new Response($output))->header('Content-Type', 'application/json');
+        }
+
     }
 
     /**
@@ -457,14 +525,18 @@ class WriterAccessController extends Controller
     private function delete($apiPath)
     {
         $curl = $this->init_curl();
-        curl_setopt($curl, CURLOPT_URL, 'https://writeraccess.com/api'.$apiPath);
+        curl_setopt($curl, CURLOPT_URL, $this->apiUrl.$apiPath);
 
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
 
         $output = curl_exec($curl);
         curl_close($curl);
 
-        return (new Response($output))->header('Content-Type', 'application/json');
+        if($output === false){
+            return (new Response(["error"=>"API call failed."]))->header('Content-Type', 'application/json');
+        }else{
+            return (new Response($output))->header('Content-Type', 'application/json');
+        }
     }
 
     /**
@@ -510,5 +582,91 @@ class WriterAccessController extends Controller
     public function setApiProject($apiProject)
     {
         $this->apiProject = $apiProject;
+    }
+
+    /**
+     * Validates order details and modifies the passed $order and $errors accordingly.
+     * @param Order $order
+     * @param array $errors
+     * @param array $orderDetails
+     */
+    private function validateOrderDetails(Order &$order, array &$errors, array $orderDetails){
+        // Validate projectid
+        if (!isset($orderDetails['projectid'])) {
+            $errors['projectid'] = "Missing required parameter 'projectid'.";
+        } else {
+            $order->setProjectid(intval($orderDetails['projectid']));
+        }
+
+        // Validate asset type
+        if (!isset($orderDetails['asset_type_id'])) {
+            $errors['asset_type_id'] = "Missing required parameter 'assetType'.";
+        } else {
+            $order->setAssetid(intval($orderDetails['asset_type_id']));
+        }
+
+        // Validate wordcount
+        if (!isset($orderDetails['wordcount'])) {
+            $errors['wordcount'] = "Missing required parameter 'wordcount'.";
+        } else {
+            $wordcount = intval($orderDetails['wordcount']);
+            $order->setMinwords(($wordcount - ($wordcount * .1)) < 50 ? 50 : $wordcount - ($wordcount * .1));
+            $order->setMaxwords($wordcount + ($wordcount * .1));
+        }
+
+        // validate writer_level
+        if (!isset($orderDetails['writer_level'])) {
+            $errors['writer_level'] = "Missing required parameter 'writer_level'.";
+        } else {
+            $order->setWriter(intval($orderDetails['writer_level']));
+        }
+
+        // If assetType, wordcount, and writer_level are present, then try to get the price for the order.
+        $writerAccessPrice = !isset($errors['asset_type_id'], $errors['wordcount'], $errors['writer_level'])
+            ? $writerAccessPrice = WriterAccessPrice::where('asset_type_id', $orderDetails['asset_type_id'])
+                ->where('writer_level', $orderDetails['writer_level'])
+                ->where('wordcount', $orderDetails['wordcount'])
+                ->first()
+            : null
+        ;
+
+        // Validate that a price was found.
+        if ($writerAccessPrice) {
+            $order->setPrice($writerAccessPrice->fee);
+        } else {
+            $errors['price'] = 'Error processing form. Please try again later.';
+        }
+
+        // Validate duedate
+        if (!isset($orderDetails['duedate'])) {
+            $errors['duedate'] = "Missing required parameter 'duedate'.";
+        } else {
+            $order->setHourstocomplete(intval($this->createDueDate($orderDetails['duedate'])));
+        }
+
+        // Validate title
+        if (!isset($orderDetails['title'])) {
+            $errors['title'] = "Missing required parameter 'title'.";
+        } else {
+            $order->setTitle($orderDetails['title']);
+        }
+
+        // Validate instructions
+        if (!isset($orderDetails['instructions'])) {
+            $errors['instructions'] = "Missing required parameter 'instructions'.";
+        } elseif (!isset($orderDetails['target_audience'])) {
+            $errors['target_audience'] = "Missing required parameter 'target_audience'.";
+        } elseif (!isset($orderDetails['tone_of_writing'])) {
+            $errors['tone_of_writing'] = "Missing required parameter 'tone_of_writing'.";
+        } elseif (!isset($orderDetails['narrative_voice'])) {
+            $errors['narrative_voice'] = "Missing required parameter 'narrative_voice'.";
+        } else {
+            $order->setInstructions(
+                $orderDetails['instructions'] .
+                "\nTarget Audience: \n".$orderDetails['target_audience'] .
+                "\nTone of Writing: \n".$orderDetails['tone_of_writing'] .
+                "\nNarrative Voice: \n".$orderDetails['narrative_voice']
+            );
+        }
     }
 }

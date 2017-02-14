@@ -1,8 +1,14 @@
 <?php namespace App;
 
+use App\Presenters\ContentTypePresenter;
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
-class ContentType extends Model {
+class ContentType extends Model
+{
+    use PresentableTrait;
+
+    protected $presenter = ContentTypePresenter::class;
 
     protected $hidden = [
         'created_at',
@@ -23,6 +29,11 @@ class ContentType extends Model {
     public function contents()
     {
         return $this->hasMany('App\Content');
+    }
+
+    public function calendars()
+    {
+        return $this->belongsToMany('App\Calendar');
     }
 
     // sure we can add variables to make it more dynamic

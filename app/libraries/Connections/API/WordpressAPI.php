@@ -13,19 +13,20 @@ class WordPressAPI
 
     protected $base_url = 'https://public-api.wordpress.com/rest/v1.2/';
 
-    public function __construct($content = null, $connection = null)
+    public function __construct($content = null, $connection = null, $link = null)
     {
         $this->content = $content;
-        $this->connection = $connection ?
-            $connection :
-            ($this->content ? $this->content->connection : null);
-
+        $this->connection = $this->getConnection($connection);
         $this->client = new Client([ 'base_uri' => $this->baseUrl() ]);
+    }
 
-        // if ($content) {
-        //     $this->token = (new \oAuth\API\WordPressAuth)->getToken($content);
-        // }
-        // $this->domain = $content->connection->getSettings()->url;
+    protected function getConnection($connection = null)
+    {
+        if (!$connection) {
+            $connection = $this->content ? $this->content->connection : null;
+        }
+
+        return $connection;
     }
 
     public function baseUrl()
@@ -55,6 +56,10 @@ class WordPressAPI
 
     private function tags()
     {
+        if($this->content->type === "trend"){
+            return [];
+        }
+
         return $this->content->tags->map(function($tag) {
                 return trim($tag->tag);
             })
@@ -63,32 +68,40 @@ class WordPressAPI
 
     private function postData()
     {
+        $mediaUrls = $this->getMediaUrls();
+        $featuredImage = $mediaUrls[0];
+
         return [
             'title' => $this->content->title,
             'content' => $this->content->body,
             'tags' => $this->tags(),
-            'media_urls' => $this->getMediaUrls()
+            'media_urls' => $mediaUrls,
+            'status' => 'draft',
+            'featured_image' => $featuredImage,
         ];
     }
 
+    protected function createOptionsAndHeaderData()
+    {
+        return [
+            'http' => [
+                'method' => 'POST',
+                'ignore_errors' => true,
+                'header' => $this->headers(),
+                'content' => http_build_query($this->postData()),
+            ],
+        ];
+    }
 
     public function createPost()
     {
-        // - standardize return
-        $response = ['success' => false, 'response' => []];
+        $response = [
+            'success' => false,
+            'response' => []
+        ];
 
         try {
-            // - Create Options and Header Data
-            $options = [
-                'http' => [
-                    'method' => 'POST',
-                    'ignore_errors' => true,
-                    'header' => $this->headers(),
-                    'content' => http_build_query($this->postData()),
-                ],
-            ];
-
-            // REST API url
+            $options = $this->createOptionsAndHeaderData();
             $url = $this->baseUrl() . '/posts/new';
 
             $context = stream_context_create($options);
@@ -110,13 +123,17 @@ class WordPressAPI
 
     public function blogInfo($blogUrl)
     {
-        $response = $this->client->get($blogUrl);
+        $response = $this->client->get('sites/' . $blogUrl);
 
         return json_decode((string) $response->getBody());
     }
 
     private function getMediaUrls()
     {
+        if($this->content->type === "trend"){
+            return [$this->content->image];
+        }
+
         return $this->content
             ->attachments
             ->where('type', 'image')
@@ -131,7 +148,7 @@ class WordPressAPI
 
     public function uploadAttachments()
     {
-        $mediaUrls = $this->getMediaUrls();
+        $mediaUrls = $this->getMediaUrls()->toArray();
         $mediaUploadUrl = $this->getMediaUploadUrl();
 
         $response = ['success' => false, 'response' => []];

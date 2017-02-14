@@ -40,6 +40,10 @@
   }
 }
 
+.tombstone-share{
+  display: none;
+}
+
 .tombstone-active {
   border: 2px solid #a7cdff;
   background: #f1f3fa;
@@ -76,6 +80,14 @@
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  .tombstone-share {
+    position: absolute;
+    top: 10px;
+    right: 11px;
+    display: inline-block;
+    z-index: 10;
   }
 }
 

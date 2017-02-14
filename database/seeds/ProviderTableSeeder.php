@@ -11,6 +11,7 @@ class ProviderTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('providers')->truncate();
         DB::table('providers')->insert([
             [
@@ -29,7 +30,7 @@ class ProviderTableSeeder extends Seeder
                 'name' => 'Hubspot',
                 'slug' => 'hubspot',
                 'type' => 'website',
-                'class_name' => ''
+                'class_name' => 'HubspotAPI'
             ],
             [
                 'name' => 'Act-on',
@@ -200,5 +201,6 @@ class ProviderTableSeeder extends Seeder
                 'class_name' => ''
             ]
         ]);
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

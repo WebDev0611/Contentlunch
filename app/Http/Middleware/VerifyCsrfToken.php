@@ -2,7 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
+
+
+use Closure;
+use Illuminate\Session\TokenMismatchException;
 
 class VerifyCsrfToken extends BaseVerifier
 {
@@ -15,4 +21,14 @@ class VerifyCsrfToken extends BaseVerifier
         'edit/images',
         'edit/attachments'
     ];
+
+
+    public function handle($request, Closure $next){
+
+        if (env("BYPASS_CSRF_CHECK", false)) {
+            return $next($request);
+        }
+
+        return parent::handle($request, $next);
+    }
 }

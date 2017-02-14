@@ -56,11 +56,16 @@
 </div>
 
 @include('plan.createmodal')
-
+@include('plan.sharetrendmodal')
 
 <script type="text/template" id="trend-result-template">
    <div class="col-md-3">
         <div class="tombstone">
+
+            <button type="button" data-target="#shareTrendModal" data-toggle="modal" class="button button-primary button-small text-uppercase tombstone-share">
+                <i class="icon-share icon-vertically-middle"></i>&nbsp;SHARE
+            </button>
+
             <div class="tombstone-image">
                 <img src="<%= image %>" alt="">
                 <span><%= when %>  ·  <%= source %></span>
@@ -76,7 +81,7 @@
                     <i class="icon-share"></i>
                     <%= total_shares %>
                 </div>
-                <div class="tombstone-cell">
+                <!--<div class="tombstone-cell">
                     <i class="icon-facebook-mini"></i>
                     <%= fb_shares %>
                 </div>
@@ -91,11 +96,12 @@
                 <div class="tombstone-cell">
                     <i class="icon-youtube"></i>
                     <%= video %>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
 </script>
+
 @stop
 
 @section('scripts')

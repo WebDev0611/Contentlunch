@@ -20,11 +20,7 @@
         </li> --}}
         <li>
             <a href="javascript:;" class="navigation-menu-profile ">
-                @if (\Auth::user()->profile_image)
-                    <img src="{{ \Auth::user()->profile_image }}" alt="">
-                @else
-                    <img src="/images/avatar.jpg" alt="#">
-                @endif
+                <img src="{{ \Auth::user()->present()->profile_image }}" alt="">
 
                 @if (\Auth::user()->belongsToAgencyAccount())
                     <div class="app-type">
@@ -59,18 +55,17 @@
         <li>
             <a href="/content" class="navigation-menu-link {{ Request::segment(1) != 'content' ?: 'active' }}">
                 <i class="navigation-menu-icon icon-navigation-dashboard">
-                    <span>CONTENT</span>
+                    <span>CREATE</span>
                 </i>
             </a>
         </li>
-        <!--
         <li>
             <a href="/calendar" class="navigation-menu-link {{ Request::segment(1) != 'calendar' ?: 'active' }}">
                 <i class="navigation-menu-icon icon-navigation-calendar">
                     <span>CALENDAR</span>
                 </i>
             </a>
-        </li>-->
+        </li>
         <!--
         <li>
             <a href="/collaborate" class="navigation-menu-link {{ Request::segment(1) == 'collaborate' ? 'active': ''  }}">

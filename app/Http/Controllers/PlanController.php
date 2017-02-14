@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 use App\Idea;
 use App\IdeaContent;
 use Auth;
@@ -23,19 +25,17 @@ class PlanController extends Controller
         return view('plan.prescription');
     }
 
-    public function editor($id = 0)
+    public function editor(Request $request, Idea $idea)
     {
-        //need to check against account info
-        $idea = Idea::where(['id' => $id ])->first();
-
-        $idea_content = IdeaContent::where([ 'idea_id' => $id, 'user_id' => Auth::id() ])->get();
+        $idea_content = IdeaContent::where([
+            'idea_id' => $idea->id,
+            'user_id' => Auth::id()
+        ])->get();
 
         $data = [
-            'name' => $idea->name,
-            'text' => $idea->text,
-            'tags' => $idea->tags,
             'contents' => $idea_content,
-            'idea_obj' => $idea,
+            'idea' => $idea,
+            'is_collaborator' => $idea->hasCollaborator(Auth::user()),
         ];
 
         return view('plan.editor', $data);

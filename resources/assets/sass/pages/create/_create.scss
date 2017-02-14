@@ -87,13 +87,10 @@
   display: table-cell;
   border-bottom: 1px solid #e7eaf2;
   vertical-align: middle;
+  float: none;
   padding: 10px 15px;
 
   @include transition(0.2s);
-
-  &:first-child {
-    width: 50px;
-  }
 
   &:hover {
     background: #fbfcfd;
@@ -106,9 +103,12 @@
     color: #84828d;
     font-weight: bold;
   }
+}
 
-  &-large {
-    width: 400px;
+@for $i from 1 to 20 {
+  $j: $i * 5;
+  .cell-size-#{$j} {
+    width: percentage($j / 100);
   }
 }
 
@@ -161,6 +161,15 @@
     > i {
       line-height: 1;
     }
+  }
+
+  > span.icon-social-hubspot {
+    background-size: 80% !important;
+    background: transparent url("/images/hubspot-icon-light.png") no-repeat center center;
+    width: 30px;
+    height: 30px;
+    vertical-align: bottom;
+    border: 6px solid #ccd0d5;
   }
 }
 
@@ -258,3 +267,46 @@
   }
 
 }
+
+#waOrderTabs{
+  margin-bottom: 30px;
+}
+
+.bulk-order-step {
+  text-align: center;
+
+  .bulk-sample-link, .content{
+    display: inline-block;
+    padding: 10px 0;
+
+    &:hover{
+      background-color: #f5f5f5;
+    }
+  }
+
+  .bulk-step-image{
+    width: 100px;
+    margin: 10px 50px;
+  }
+}
+
+.order-content-form-divider{
+  margin: 10px 20px 45px;
+}
+
+
+#bulk-uploader{
+ /* background-image: url('/images/bulk_add_details.svg'); */
+  border: none;
+  color: grey;
+  padding: 10px 0;
+  &:hover{
+    background-color: #f5f5f5;
+  }
+
+  .dz-message{
+    margin: 0;
+  }
+}
+
+

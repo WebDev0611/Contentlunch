@@ -8,7 +8,7 @@
         <div class="col-md-6 text-right">
             @if ($con->active)
                 {{ Form::open([ 'url' => route('deactivateConnection', $con), 'method' => 'delete' ]) }}
-                <button type='submit' class="button button-small">Disconnect</a>
+                <button type='submit' class="button button-small">Disconnect</button>
                 {{ Form::close() }}
             @else
                 <button class="button button-small">Connect</button>

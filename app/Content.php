@@ -1,14 +1,19 @@
 <?php namespace App;
 
-use Auth;
-use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
-
-use App\Helpers;
 use App\Account;
+use App\Helpers;
+use App\Presenters\ContentPresenter;
+use Auth;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class Content extends Model
 {
+    use PresentableTrait;
+
+    public $presenter = ContentPresenter::class;
+
     /**
      * Human readable column names.
      *
@@ -74,18 +79,31 @@ class Content extends Model
         }
     }
 
+    public function contentType()
+    {
+        return $this->belongsTo('App\ContentType');
+    }
+
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
+
     public function authors()
     {
         return $this->belongsToMany('App\User');
     }
 
-    // tag linking
+    public function collaborators()
+    {
+        return $this->belongsToMany('App\User');
+    }
+
     public function tags()
     {
         return $this->belongsToMany('App\Tag');
     }
 
-    // holds images and files
     public function attachments()
     {
         return $this->hasMany('App\Attachment');
@@ -101,7 +119,6 @@ class Content extends Model
         return $this->belongsTo('App\Persona');
     }
 
-    // campaign
     public function campaign()
     {
         return $this->belongsTo('App\Campaign');
@@ -115,6 +132,11 @@ class Content extends Model
     public function related()
     {
        return $this->belongsToMany('App\Content', 'content_related', 'content_id', 'related_content_id');
+    }
+
+    public function tasks()
+    {
+        return $this->belongsToMany('App\Task');
     }
 
     public function adjustments()
@@ -141,6 +163,24 @@ class Content extends Model
             $this->ready_published = 0;
             $this->written = 1;
         }
+    }
+
+    public function setReadyPublished()
+    {
+        $this->configureAction('ready_to_publish');
+        $this->save();
+    }
+
+    public function setWritten()
+    {
+        $this->configureAction('written_content');
+        $this->save();
+    }
+
+    public function setPublished()
+    {
+        $this->configureAction('publish');
+        $this->save();
     }
 
     /**
@@ -189,13 +229,6 @@ class Content extends Model
         return $this->title;
     }
 
-    public function getDueDateDiffAttribute()
-    {
-        $carbonObject = new Carbon($this->due_date);
-
-        return $carbonObject->diffForHumans();
-    }
-
     public static function search($term, $account = null)
     {
         if (!$account) {
@@ -212,4 +245,61 @@ class Content extends Model
             ->get();
     }
 
+    public function hasCollaborator(User $user)
+    {
+        return (boolean) $this->authors()
+            ->where('users.id', $user->id)
+            ->count();
+    }
+
+    public function author() {
+        $author = $this->authors()->orderBy('created_at')->first();
+
+        return $author ? $author : null;
+    }
+
+    public function dueDateDiffFromToday()
+    {
+        return Carbon::now()->diffInDays(new Carbon($this->due_date));
+    }
+
+    public function isDueDateCritical()
+    {
+        return $this->dueDateDiffFromToday() <= 2;
+    }
+
+    public function history()
+    {
+        return $this->contentTasksHistory()
+            ->merge($this->contentAdjustments())
+            ->sort(function($adjustmentA, $adjustmentB) {
+                return $adjustmentA['date']->lt($adjustmentB['date']) ? 1 : -1;
+            });
+    }
+
+    protected function contentAdjustments()
+    {
+        return $this->adjustments
+            ->map(function($adjustmentUser) {
+                return [
+                    'type' => 'content',
+                    'adjustment' => $adjustmentUser,
+                    'date' => $adjustmentUser->pivot->created_at,
+                ];
+            });
+    }
+
+    protected function contentTasksHistory()
+    {
+        return $this->tasks
+            ->map(function($task) { return $task->statusAdjustments(); })
+            ->flatten(1)
+            ->map(function($taskAdjustment) {
+                return [
+                    'type' => 'content_task',
+                    'adjustment' => $taskAdjustment,
+                    'date' => $taskAdjustment->created_at,
+                ];
+            });
+    }
 }

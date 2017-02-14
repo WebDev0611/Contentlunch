@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Campaign;
-use User;
-use Auth;
-
 use App\Account;
 use App\Http\Requests;
+use App\Task;
+use Auth;
+use Campaign;
+use Illuminate\Http\Request;
+use User;
 
 class HomeController extends Controller
 {
@@ -19,7 +19,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->selectedAccount = Account::selectedAccount();
     }
 
     /**
@@ -29,13 +29,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $selectedAccount = Account::selectedAccount();
-        $myCampaigns = Auth::user()->campaigns()->get();
-        $myTasks = $selectedAccount->tasks()->with('user')->get();
+        $tasks = Task::userTasks(Auth::user())->toJson();
+        $accountTasks = Task::accountTasks($this->selectedAccount)->toJson();
 
-        return view('home.list',[
-            'mycampaigns' => $myCampaigns->toJson(),
-            'tasks' => $myTasks->toJson(),
-        ]);
+        $mycampaigns = $this->myCampaigns()->toJson();
+
+        return view('home.list', compact('mycampaigns', 'tasks', 'accountTasks'));
+    }
+
+    protected function myCampaigns()
+    {
+        return Auth::user()->campaigns()->get();
     }
 }

@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Task;
-use App\Helpers;
-use App\Attachment;
-use Auth;
-use Storage;
-use View;
 use App\Account;
+use App\Attachment;
+use App\Campaign;
+use App\Content;
+use App\Helpers;
+use App\Task;
+use Auth;
+use Illuminate\Http\Request;
+use Storage;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use View;
 
 class TaskController extends Controller
 {
@@ -19,10 +21,19 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $shouldReturnAccountTasks = $request->input('account_tasks') == '1';
+
+        if ($shouldReturnAccountTasks) {
+            $tasks = Task::accountTasks(Account::selectedAccount());
+        } else {
+            $tasks = Task::userTasks(Auth::user());
+        }
+
+        return response()->json([ 'data' => $tasks ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -42,7 +53,29 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $task = Task::create([
+        $task = $this->createTaskFromRequest($request);
+
+        $this->saveAssignedUsers($request, $task);
+        $this->saveAttachments($request, $task);
+        $this->saveAsContentTask($request, $task);
+        $this->saveAsCampaignTask($request, $task);
+
+        return $this->taskResponse($task);
+    }
+
+    protected function taskResponse($task)
+    {
+        $task = Task::with('user')->find($task->id);
+
+        $task->due_date_diff = $task->present()->dueDate();
+        $task->user->profile_image = $task->user->present()->profile_image;
+
+        return response()->json($task);
+    }
+
+    protected function createTaskFromRequest(Request $request)
+    {
+        return Task::create([
             'name' => $request->input('name'),
             'explanation' => $request->input('explanation'),
             'start_date' => $request->input('start_date'),
@@ -51,18 +84,20 @@ class TaskController extends Controller
             'account_id' => Account::selectedAccount()->id,
             'status' => 'open',
         ]);
-
-        $this->saveAttachments($request, $task);
-
-        return response()->json($task);
     }
 
-    private function saveAttachments($request, $task)
+    private function saveAssignedUsers(Request $request, Task $task)
+    {
+        $task->assignUsers($request->input('assigned_users'));
+    }
+
+    private function saveAttachments(Request $request, Task $task)
     {
         $fileUrls = $request->input('attachments');
         $userId = Auth::id();
         $userFolder = "/attachment/$userId/tasks/";
-        if(!empty($fileUrls)){
+
+        if (!empty($fileUrls)) {
             foreach ($fileUrls as $fileUrl) {
                 $movedS3Path = $this->moveFileToUserFolder($fileUrl, $userFolder);
                 $attachment = $this->createAttachment($movedS3Path);
@@ -92,17 +127,39 @@ class TaskController extends Controller
         return $newPath;
     }
 
+    protected function saveAsContentTask(Request $request, Task $task)
+    {
+        $contentId = $request->input('content_id');
+
+        if ($contentId && Content::find($contentId)->count()) {
+            $task->contents()->attach($contentId);
+        }
+    }
+
+    protected function saveAsCampaignTask(Request $request, Task $task)
+    {
+        $campaignId = $request->input('campaign_id');
+
+        if ($campaignId && Campaign::find($campaignId)->count()) {
+            $task->campaigns()->attach($campaignId);
+        }
+    }
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
-        $task = Task::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
-        return View::make('task/index',['task'=>$task]);
+        $task = Task::findOrFail($id);
+
+        if (!$task->canBeEditedBy(Auth::user())) {
+            abort(404);
+        }
+
+        return view('task/index', compact('task'));
     }
 
     /**
@@ -126,18 +183,21 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $task = Task::where([
+            'id'=> $id,
+            'user_id' => Auth::id()
+        ])->first();
 
-        $task = Task::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
+        $task->update([
+            'name' => $request->input('name'),
+            'explanation' => $request->input('explanation'),
+            'start_date' => $request->input('start_date'),
+            'due_date' => $request->input('due_date'),
+        ]);
 
-        $task->name = $request->input('name');
-        $task->explanation = $request->input('explanation');
-        $task->start_date = $request->input('start_date');
-        $task->due_date = $request->input('due_date');
-
-        $task->save();
+        $this->saveAssignedUsers($request, $task);
 
         return response()->json(['success' => true, 'task' => $task ]);
-        //
     }
 
 
@@ -148,15 +208,23 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function close(Request $request, $id)
+    public function close(Request $request, Task $task)
     {
+        $response = response()->json([ 'success' => false ], 403);
 
-        $task = Task::where(['id'=> $id, 'user_id' => Auth::id() ])->first();
-        $task->status = 'closed';
-        $task->save();
+        if ($this->loggedUserCanClose($task)) {
+            $task->update([ 'status' => 'closed' ]);
+            $response = response()->json(['success' => true, 'task' => $task ]);
+        }
 
-        return response()->json(['success' => true, 'task' => $task ]);
-        //
+        return $response;
+    }
+
+    protected function loggedUserCanClose(Task $task)
+    {
+        return $task->users->filter(function($user) {
+            return $user->id == Auth::id();
+        });
     }
 
     /**
@@ -165,8 +233,15 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        //
+        $response = response()->json([ 'data' => 'Permission denied' ], 403);
+
+        if ($task->canBeDeletedBy(Auth::user())) {
+            $task->delete();
+            $response = response()->json([ 'data' => 'Resource deleted' ], 201);
+        }
+
+        return $response;
     }
 }

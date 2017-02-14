@@ -9,6 +9,11 @@ class Attachment extends Model
     public $fillable = [ 'filepath', 'filename', 'type', 'extension', 'mime' ];
     public $appends = [ 'name' ];
 
+    public function campaigns()
+    {
+        return $this->belongsToMany('App\Campaign')->withTimestamps();
+    }
+
     public function contents()
     {
         return $this->hasOne('App\Content');

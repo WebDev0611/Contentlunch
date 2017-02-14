@@ -6,6 +6,7 @@ use \Illuminate\Http\Request;
 use View;
 use Hash;
 use Auth;
+use Session;
 
 use App\User;
 use App\Account;
@@ -46,50 +47,70 @@ class OnboardingController extends Controller
         $hasTwitter = (boolean) Auth::user()->connectionsBySlug('twitter')->count();
         $hasFacebook = (boolean) Auth::user()->connectionsBySlug('facebook')->count();
         $hasWordPress = (boolean) Auth::user()->connectionsBySlug('wordpress')->count();
+        $hasHubspot = (boolean) Auth::user()->connectionsBySlug('hubspot')->count();
 
         return View::make('onboarding.connect',
-            compact('hasTwitter', 'hasFacebook', 'hasWordPress')
+            compact('hasTwitter', 'hasFacebook', 'hasWordPress', 'hasHubspot')
         );
     }
 
     public function signupWithInvite(AccountInvite $invite)
     {
         if ($invite->isUsed()) {
-            return View::make('onboarding.invite_used');
+            return view('onboarding.invite_used');
+        } else if (Auth::check()) {
+            return $this->useInviteForLoggedUser($invite);
         }
 
-        return View::make('onboarding.invite_signup', compact('invite'));
+        return view('onboarding.invite_signup', compact('invite'));
+    }
+
+    protected function useInviteForLoggedUser(AccountInvite $invite)
+    {
+        $userBelongsToAccount = (boolean) $invite->account->users()->find(Auth::id());
+
+        if ($userBelongsToAccount) {
+            $message = "You are already a member of the {$invite->account->name} account.";
+            $type = "danger";
+        } else {
+            $message = "You're now part of the {$invite->account->name} account.";
+            $type = "success";
+            $invite->attachUser(Auth::user());
+        }
+
+        return redirect('/')->with([
+            'flash_message' => $message,
+            'flash_message_type' => $type,
+            'flash_message_important' => true,
+        ]);
     }
 
     public function createWithInvite(InvitedAccountRequest $request)
     {
-        $user = $this->createInvitedUser($request);
-        Auth::login($user);
+        $invite = AccountInvite::find($request->invite_id);
+        $user = $this->createInvitedUser($invite, $request);
 
-        $this->markInviteAsUsed($request, $user);
-
-        $account = Account::find($request->account_id)->first();
-        $account->users()->attach($user);
+        $this->createNewUserSession($user);
 
         return redirect('/')->with([
-            'flash_message' => 'Welcome to ContentLaunch! You\'re now part of the ' . $account->name . ' account!',
+            'flash_message' => "Welcome to ContentLaunch! You're now part of the {$invite->account->name} account!",
             'flash_message_type' => 'success',
             'flash_message_important' => true
         ]);
     }
 
-    private function markInviteAsUsed($request, $user)
+    protected function createNewUserSession($user)
     {
-        $invite = AccountInvite::find($request->invite_id);
-        $invite->user()->associate($user);
-        $invite->save();
+        Auth::logout();
+        Session::flush();
+        Auth::login($user);
     }
 
-    private function createInvitedUser($request)
+    private function createInvitedUser(AccountInvite $invite, $request)
     {
-        return User::create([
+        return $invite->createUser([
             'name' => $request->input('name'),
-            'password' => bcrypt($request->input('password')),
+            'password' => $request->input('password'),
             'email' => $request->input('email'),
         ]);
     }

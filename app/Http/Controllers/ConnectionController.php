@@ -16,15 +16,12 @@ use App\Content;
 use App\User;
 use App\Account;
 
-class ConnectionController extends Controller
-{
-    public function __construct(Request $request)
-    {
+class ConnectionController extends Controller {
+    public function __construct (Request $request) {
         $this->selectedAccount = Account::selectedAccount();
     }
 
-    public function index(Request $request)
-    {
+    public function index (Request $request) {
         $contentTypeId = $request->get('content_type');
 
         $data = $this->selectedAccount
@@ -42,8 +39,7 @@ class ConnectionController extends Controller
         return response()->json(['data' => $data->get()]);
     }
 
-    private function saveParametersToSession(Request $request)
-    {
+    private function saveParametersToSession (Request $request) {
         $parameters = $request->input();
         $allowedKeys = collect([
             'redirect_route',
@@ -58,8 +54,7 @@ class ConnectionController extends Controller
         }
     }
 
-    public function redirectToProvider(Request $request, $provider)
-    {
+    public function redirectToProvider (Request $request, $provider) {
         $this->saveParametersToSession($request);
 
         switch ($provider) {
@@ -71,6 +66,12 @@ class ConnectionController extends Controller
             case 'twitter':
                 return Redirect::route('twitterLogin');
 
+            case 'hubspot':
+                $scope = ['contacts', 'content', 'files'];
+                $url = (new \oAuth\API\HubspotAuth())->getAuthorizationUrl($scope);
+
+                return Redirect::to($url);
+
             case 'wordpress':
                 $url = (new \oAuth\API\WordPressAuth())->getAuthorizationUrl();
 
@@ -78,8 +79,7 @@ class ConnectionController extends Controller
         }
     }
 
-    public function login($provider)
-    {
+    public function login ($provider) {
         $fb = new Facebook([
             'app_id' => Config::get('services.facebook.client_id'),
             'app_secret' => Config::get('services.facebook.client_secret'),
@@ -90,7 +90,7 @@ class ConnectionController extends Controller
         $oAuth2Client = $fb->getOAuth2Client();
         $accessToken = $oAuth2Client->getLongLivedAccessToken($user->token);
         $settings = [
-            'token' => (string) $accessToken,
+            'token' => (string)$accessToken,
         ];
 
         $conn = new Connection();
@@ -106,36 +106,35 @@ class ConnectionController extends Controller
         $settings = json_decode($conn->settings);
 
         $linkData = [
-	        'message' => 'Test message front content launch website.',
+            'message' => 'Test message front content launch website.',
         ];
 
         try {
-	        $response = $fb->get('/691957114295469?fields=access_token'); // get access token
+            $response = $fb->get('/691957114295469?fields=access_token'); // get access token
         } catch (\Facebook\Exceptions\FacebookResponseException $e) {
-            echo 'Graph returned an error: '.$e->getMessage();
+            echo 'Graph returned an error: ' . $e->getMessage();
             exit;
         } catch (\Facebook\Exceptions\FacebookSDKException $e) {
-            echo 'Facebook SDK returned an error: '.$e->getMessage();
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
             exit;
         }
 
         $graphNode = $response->getGraphNode();
 
         $fbpage = new \Facebook\Facebook([
-			'app_id' => Config::get('services.facebook.client_id'),
-			'app_secret' => Config::get('services.facebook.client_secret'),
-			'default_graph_version' => 'v2.5',
-			'default_access_token' => $graphNode['access_token'],
+            'app_id' => Config::get('services.facebook.client_id'),
+            'app_secret' => Config::get('services.facebook.client_secret'),
+            'default_graph_version' => 'v2.5',
+            'default_access_token' => $graphNode['access_token'],
         ]);
 
         $responsefb = $fbpage->post('/691957114295469/feed', $linkData);
 
         $graphNode2 = $responsefb->getGraphNode();
-        echo 'Posted with id: '.$graphNode2['id'];
+        echo 'Posted with id: ' . $graphNode2['id'];
     }
 
-    public function store(ConnectionRequest $request)
-    {
+    public function store (ConnectionRequest $request) {
         $connection = $this->createConnection($request);
 
         $this->selectedAccount->connections()->save($connection);
@@ -151,8 +150,7 @@ class ConnectionController extends Controller
         return redirect()->route('connectionProvider', $request->input('con_type'));
     }
 
-    private function createConnection($request)
-    {
+    private function createConnection ($request) {
         $connActive = $request->input('con_active');
         $connType = $request->input('con_type');
 
@@ -165,15 +163,13 @@ class ConnectionController extends Controller
         return $connection;
     }
 
-    private function clearConnectionsInSession()
-    {
+    private function clearConnectionsInSession () {
         Session::forget('connection_data');
         Session::forget('redirect_route');
         Session::forget('facebook_view');
     }
 
-    public function delete(Request $request, Connection $connection)
-    {
+    public function delete (Request $request, Connection $connection) {
         $selectedAccount = Account::selectedAccount();
 
         if ($connection->belongsToAccount($selectedAccount)) {

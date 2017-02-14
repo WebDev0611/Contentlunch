@@ -31,20 +31,15 @@
                         <div class="col-md-8 col-md-offset-2">
                             <div class="onboarding-import">
                                 <ul class="onboarding-import-menu">
-                                    <li>
-                                        <a href="#services" data-toggle="tab">Import Services</a>
-                                    </li>
                                     <li class="active">
                                         <a href="#connections" data-toggle="tab">Content Connections</a>
                                     </li>
                                 </ul>
 
                                 <div class="onboarding-import-container tab-content">
-                                    <div id="services" class="onboarding-import-list tab-pane">
-                                        @include('onboarding.partials.services')
-                                    </div>
                                     <div id="connections" class="onboarding-import-list tab-pane active">
                                         @include('onboarding.partials.connections')
+                                        @include('onboarding.partials.services')
                                     </div>
                                 </div>
                             </div>

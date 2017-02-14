@@ -2,14 +2,19 @@
 
 namespace App;
 
+use App\AccountType;
+use App\Presenters\AccountPresenter;
 use Auth;
 use DB;
 use Illuminate\Database\Eloquent\Model;
-
-use App\AccountType;
+use Laracasts\Presenter\PresentableTrait;
 
 class Account extends Model
 {
+    use PresentableTrait;
+
+    protected $presenter = AccountPresenter::class;
+
     public $fillable = [
         'name',
         'account_type_id',
@@ -64,6 +69,11 @@ class Account extends Model
         return $this->hasMany('App\BuyingStage');
     }
 
+    public function tags()
+    {
+        return $this->hasMany('App\Tag');
+    }
+
     public function tasks()
     {
         return $this->hasMany('App\Task');
@@ -84,12 +94,16 @@ class Account extends Model
 
     public static function selectAccount(Account $account)
     {
-        session([ 'selected_account_id' => $account->id ]);
+        Auth::user()->selectedAccount()->associate($account->id);
     }
 
     public static function selectedAccount()
     {
-        $accountId = session('selected_account_id');
+        if (!Auth::user()) {
+            return null;
+        }
+
+        $accountId = Auth::user()->selected_account_id;
 
         if (!$accountId) {
             $account = Auth::user()->accounts[0];
@@ -132,5 +146,17 @@ class Account extends Model
             ->toArray();
 
         return $dropdown;
+    }
+
+    public function cleanContentWithoutStatus()
+    {
+        $this->contents()
+            ->where('written', 0)
+            ->where('ready_published', 0)
+            ->where('published', 0)
+            ->get()
+            ->each(function($content) {
+                $content->update([ 'written' => 1 ]);
+            });
     }
 }

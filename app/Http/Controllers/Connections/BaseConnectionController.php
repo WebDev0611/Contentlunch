@@ -38,6 +38,15 @@ abstract class BaseConnectionController extends Controller
         return $connectionData ? $connectionData['meta_data'] : null;
     }
 
+    protected function flashMessage($message, $type = 'success')
+    {
+        return [
+            'flash_message' => $message,
+            'flash_message_type' => $type,
+            'flash_message_important' => true,
+        ];
+    }
+
     protected function redirectWithSuccess($message)
     {
         return redirect()->route($this->redirectRoute())->with([

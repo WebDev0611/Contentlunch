@@ -13,10 +13,14 @@ class AccountTypeSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         DB::table('account_types')->truncate();
         DB::table('account_types')->insert([
             [ 'name' => 'Company Account' ],
             [ 'name' => 'Agency Account' ]
         ]);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="create-social-box active" data-toggle="modal" data-target="#basecamp">
+                <div class="create-social-box {{-- active --}}" data-toggle="modal" {{--data-target="#basecamp"--}}>
                     <span>Trello</span>
                     <i class="icon-trello"></i>
                 </div>

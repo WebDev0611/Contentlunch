@@ -54,10 +54,10 @@
                 </div>-->
             </div>
             <div class="calendar-menu-switch">
-                <button type="button" class="button button-secondary button-small" onclick="window.location='/daily/<?= date('Y/m/d');?>';">Today</button>
+                <button type="button" class="button button-secondary button-small" onclick="window.location='/daily/{{ $cal->id }}/{{ date('Y/m/d') }}';">Today</button>
                 <div class="btn-group">
-                    <button type="button" class="button button-switches button-small {{(Request::segment(1) == 'calendar' ) ? 'active' : '' }}" onclick="window.location='/calendar/<?= date('Y/m');?>';">Month</button>
-                    <button type="button" class="button button-switches button-small {{(Request::segment(1) == 'weekly' ) ? 'active' : '' }}" onclick="window.location='/weekly';">Week</button>
-                    <button type="button" class="button button-switches button-small {{(Request::segment(1) == 'daily' ) ? 'active' : '' }}" onclick="window.location='/daily';">Day</button>
+                    <button type="button" class="button button-switches button-small {{(Request::segment(1) == 'calendar' ) ? 'active' : '' }}" onclick="window.location='/calendar/{{ $cal->id }}/{{ date('Y/m') }}';">Month</button>
+                    <button type="button" class="button button-switches button-small {{(Request::segment(1) == 'weekly' ) ? 'active' : '' }}" onclick="window.location='/weekly/{{ $cal->id }}';">Week</button>
+                    <button type="button" class="button button-switches button-small {{(Request::segment(1) == 'daily' ) ? 'active' : '' }}" onclick="window.location='/daily/{{ $cal->id }}';">Day</button>
                 </div>
             </div>

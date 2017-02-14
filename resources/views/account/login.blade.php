@@ -12,7 +12,7 @@
                     <div class="onboarding-container">
                         <div class="row">
                             <div class="col-sm-10 col-sm-offset-1">
-                                {{ Form::open(array('url' => 'login')) }}
+                                {{ Form::open(['url' => 'login']) }}
                                 <h1>Login</h1>
 
                                 @if( $errors->count() > 0 )
@@ -46,9 +46,4 @@
             </div>
         </div>
     </div>
-
 @stop
-
-
-
-

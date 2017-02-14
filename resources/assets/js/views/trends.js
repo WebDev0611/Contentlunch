@@ -5,7 +5,47 @@ var trend_result_view = Backbone.View.extend({
 		"click .tombstone": "active",
 		"click .tombstone-active": "inactive"
 	},
-	template: _.template( $('#trend-result-template').html() ),
+	template: _.template(`
+		<div class="col-md-3">
+		     <div class="tombstone" data-trend-id="<%= id %>">
+				 <button type="button" data-target="#shareTrendModal" data-toggle="modal" class="button button-primary button-small text-uppercase tombstone-share">
+					<i class="icon-share icon-vertically-middle"></i>&nbsp;SHARE
+				</button>
+		         <div class="tombstone-image">
+		             <img src="<%= image %>" alt="">
+		             <span><%= when %>  ·  <%= source %></span>
+		         </div>
+		         <div class="tombstone-container">
+		             <h3><%= title %></h3>
+		             <p>
+		                 <%= author %>
+		             </p>
+		         </div>
+		         <div class="tombstone-social">
+		             <div class="tombstone-cell">
+		                 <i class="icon-share"></i>
+		                 <%= total_shares %>
+		             </div>
+		             <!--<div class="tombstone-cell">
+		                 <i class="icon-facebook-mini"></i>
+		                 <%= fb_shares %>
+		             </div>
+		             <div class="tombstone-cell">
+		                 <i class="icon-twitter2"></i>
+		                 <%= tw_shares %>
+		             </div>
+		             <div class="tombstone-cell">
+		                 <i class="icon-google-plus"></i>
+		                 <%= google_shares %>
+		             </div>
+		             <div class="tombstone-cell">
+		                 <i class="icon-youtube"></i>
+		                 <%= video %>
+		             </div>-->
+		         </div>
+		     </div>
+		 </div>
+	`),
 	initialize: function(){
 		this.listenTo(this.model, "remove", this.removeFromDOM);
 		this.listenTo(this.model, "change", this.update);
@@ -18,7 +58,7 @@ var trend_result_view = Backbone.View.extend({
 	removeFromDOM: function(){
 		var that = this;
 		this.$el.fadeOut(200,function(){
-			that.$el.remove();	
+			that.$el.remove();
 		});
 	},
 	update: function(){
