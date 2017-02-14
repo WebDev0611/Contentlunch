@@ -24,8 +24,8 @@ class CampaignController extends Controller
             ->get()
             ->map(function($campaign) {
                 $campaign->updated_at_diff = $campaign->present()->updatedAt;
-                $campaign->started = $campaign->present()->startDate;
-                $campaign->ending = $campaign->present()->endDate;
+                $campaign->started = $campaign->present()->startDateFormat('M j, Y');
+                $campaign->ending = $campaign->present()->endDateFormat('M j, Y');
 
                 return $campaign;
             });
