@@ -12,6 +12,7 @@ use App\ContentType;
 use App\Helpers;
 use App\Http\Requests\Content\ContentRequest;
 use App\Persona;
+use App\Presenters\ContentTypePresenter;
 use App\Presenters\CampaignPresenter;
 use App\Tag;
 use App\User;
@@ -110,7 +111,7 @@ class ContentController extends Controller
 
         $pricesJson = json_encode($reformedPrices);
 
-        $contenttypedd = ContentType::dropdown();
+        $contenttypedd = ContentTypePresenter::dropdown();
         $campaigndd = CampaignPresenter::dropdown();
 
         $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd');
@@ -235,7 +236,7 @@ class ContentController extends Controller
             'personaDropdown' => Persona::dropdown(),
             'campaignDropdown' => CampaignPresenter::dropdown(),
             'connections' => Connection::dropdown(),
-            'contentTypeDropdown' => ContentType::dropdown(),
+            'contentTypeDropdown' => ContentTypePresenter::dropdown(),
         ];
 
         return view('content.editor', $data);
@@ -256,7 +257,7 @@ class ContentController extends Controller
             'personaDropdown' => Persona::dropdown(),
             'campaignDropdown' => CampaignPresenter::dropdown(),
             'connections' => Connection::dropdown(),
-            'contentTypeDropdown' => ContentType::dropdown(),
+            'contentTypeDropdown' => ContentTypePresenter::dropdown(),
             'files' => $content->attachments()->where('type', 'file')->get(),
             'images' => $content->attachments()->where('type', 'image')->get(),
             'isCollaborator' => $content->hasCollaborator(Auth::user()),
@@ -362,7 +363,7 @@ class ContentController extends Controller
         $content->meta_title = $request->input('meta_title');
         $content->meta_keywords = $request->input('meta_keywords');
         $content->meta_description = $request->input('meta_descriptor');
-        $content->written = 1;
+        $content->email_subject = $request->input('email_subject');
         $content->save();
 
         $this->selectedAccount->contents()->save($content);

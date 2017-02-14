@@ -3,7 +3,8 @@
 use Illuminate\Database\Seeder;
 use App\WriterAccessPrice;
 
-class WriterAccessPriceSeeder extends Seeder{
+class WriterAccessPriceSeeder extends Seeder
+{
 
     public function run()
     {

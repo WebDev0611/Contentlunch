@@ -142,69 +142,7 @@
                                     !!}
                                 </div>
                             </div>
-                            {{--
-                            <div class="col-sm-4">
-                                <div class="input-form-group input-drop">
-                                    <label for="author">AUTHOR</label>
-                                    {!!
-                                        Form::select(
-                                            'author[]',
-                                            $authorDropdown,
-                                            @isset($content) ? $content->authors->lists('id')->toArray() : '',
-                                            [
-                                                'multiple' =>'multiple',
-                                                'class' => 'input selectpicker form-control',
-                                                'id' => 'author',
-                                                'data-live-search' => 'true',
-                                                'title' => 'Choose All Authors'
-                                            ]
-                                        )
-                                    !!}
-                                    <div class="hide">
-                                        <input type="text" class="input" placeholder="Select author" data-toggle="dropdown">
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li class="dropdown-header-secondary">
-                                                <span class="dropdown-header-secondary-text">
-                                                    Select team member
-                                                </span>
-                                                <button class="button button-micro pull-right text-uppercase">
-                                                    Submit
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <input type="text" class="dropdown-header-secondary-search" placeholder="Team Member Name">
-                                            </li>
-                                            <li>
-                                                <label for="Friend" class="checkbox-image">
-                                                    <input id="Friend" type="checkbox">
-                                                    <span>
-                                                        <img src="/images/cl-avatar2.png" alt="#">
-                                                    </span>
-                                                </label>
-                                                <label for="Friend" class="checkbox-image">
-                                                    <input id="Friend" type="checkbox">
-                                                    <span>
-                                                        <img src="/images/cl-avatar2.png" alt="#">
-                                                    </span>
-                                                </label>
-                                                <label for="Friend" class="checkbox-image">
-                                                    <input id="Friend" type="checkbox">
-                                                    <span>
-                                                        <img src="/images/cl-avatar2.png" alt="#">
-                                                    </span>
-                                                </label>
-                                                <label for="Friend" class="checkbox-image">
-                                                    <input id="Friend" type="checkbox">
-                                                    <span>
-                                                        <img src="/images/cl-avatar2.png" alt="#">
-                                                    </span>
-                                                </label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            --}}
+
                             <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="dueDate">DUE DATE</label>
@@ -251,6 +189,22 @@
                             {!!
                                 Form::text('title', @isset($content) ? $content->title : '', $titleOptions)
                             !!}
+                        </div>
+
+                        <div class="input-form-group flexible-fields flexible-fields-email">
+                            <label>SUBJECT</label>
+                            @php
+                                $emailSubjectOptions = [
+                                    'placeholder' => 'Enter email subject',
+                                    'class' => 'input input-larger form-control',
+                                    'id' => 'email_subject'
+                                ];
+
+                                if (!$isCollaborator) {
+                                    $titleOptions['disabled'] = 'disabled';
+                                }
+                            @endphp
+                            {!! Form::text('email_subject', @isset($content) ? $content->email_subject : '', $emailSubjectOptions) !!}
                         </div>
 
                         <div class="row">
@@ -692,11 +646,6 @@
 </div>
 @stop
 
-
-@section('styles')
-
-@stop
-
 @section('scripts')
 <script type='text/javascript'>
     (function() {
@@ -715,132 +664,5 @@
 
     })();
 </script>
-<script type='text/javascript'>
-    (function() {
-
-        var imageUploader = new Dropzone('#image-uploader', { url: '/edit/images' });
-        var attachmentUploader = new Dropzone('#attachment-uploader', { url: '/edit/attachments' });
-
-        imageUploader.on('success', function(file, response) {
-            var hiddenField = $('<input/>', {
-                name: 'images[]',
-                type: 'hidden',
-                value: response.file
-            });
-
-            hiddenField.appendTo($('form'));
-        });
-
-        attachmentUploader.on('success', function(file, response) {
-            var hiddenField = $('<input/>', {
-                name: 'files[]',
-                type: 'hidden',
-                value: response.file
-            });
-
-            hiddenField.appendTo($('form'));
-        });
-
-    })();
-</script>
-<script type="text/javascript">
-    $(function() {
-
-        var contentEditor;
-
-        var characterCounter = new CharacterCounterView({ el: '.character-counter' });
-
-        characterCounter.hide();
-
-        tinymce.init({
-            selector: 'textarea.wysiwyg',  // change this value according to your HTML
-            plugin: 'a_tinymce_plugin',
-            a_plugin_option: true,
-            a_configuration_option: 400,
-            setup: function(editor) {
-                contentEditor = editor;
-                editor.on('keyup', updateCount);
-            }
-        });
-
-        $('#contentType').change(updateCount);
-
-        $('.datetimepicker').datetimepicker({
-            format: 'YYYY-MM-DD'
-        });
-
-        $('.selectpicker').selectpicker({
-            style : 'btn-white',
-            size: 10
-        });
-
-        $('.changes').hide();
-        $(".showChanges").on('click', function(){
-            var $this = $(this),
-                divClass = $this.attr('data-class');
-
-            $("." + divClass).toggle();
-       });
-
-        $('form').submit(function(event) {
-            var TWEET_CONTENT_TYPE = "17";
-            var MAX_TWEET_CHARACTERS = 140;
-            var selectedContentType = $('#contentType').val();
-
-            if (selectedContentType == TWEET_CONTENT_TYPE &&
-                characterCounter.characters >= MAX_TWEET_CHARACTERS)
-            {
-                $('#twitterError').slideDown('fast');
-                event.preventDefault();
-            }
-        });
-
-        function updateCount(event) {
-            if (characterCounter.isTweet()) {
-                characterCounter.show();
-                characterCounter.update(contentEditor.getContent());
-            }
-        }
-
-        /**
-         * Content task handling
-         */
-        var tasks = new task_collection();
-
-        tasks.on('add', function(task) {
-            var element = new ContentTaskView({ model: task });
-            element.render();
-            $('.content-tasks-box-container').append(element.el);
-        });
-
-        fetchTasks();
-
-        function fetchTasks() {
-            return $.ajax({
-                url: '/api/contents/' + contentId() + '/tasks',
-                data: { open: '1' },
-                method: 'get',
-            })
-            .then(function(response) {
-                tasks.add(response.map(function(task) {
-                    return new task_model(task);
-                }));
-            });
-        }
-
-        function contentId() {
-            return $('input[name=content_id]').val();
-        }
-
-        $('#add-task-button').click(function() {
-            add_task(addTaskCallback);
-        });
-
-        function addTaskCallback(task) {
-            tasks.add(new task_model(task));
-            $('#addTaskModal').modal('hide');
-        }
-    });
-</script>
+<script src="/js/content.js"></script>
 @stop
-

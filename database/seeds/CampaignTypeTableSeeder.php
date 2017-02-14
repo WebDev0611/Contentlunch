@@ -12,6 +12,7 @@ class CampaignTypeTableSeeder extends Seeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         DB::table('campaign_types')->truncate();
         DB::table('campaign_types')->insert([
             [ 'key' => 'awareness-campaign', 'name' => 'Awareness campaign' ],
@@ -21,6 +22,7 @@ class CampaignTypeTableSeeder extends Seeder
             [ 'key' => 'webinar-campaign', 'name' => 'Webinar campaign' ],
             [ 'key' => 'trade-show', 'name' => 'Trade show' ],
         ]);
+
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

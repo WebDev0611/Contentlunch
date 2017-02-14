@@ -54,7 +54,6 @@ elixir(function (mix) {
                 'resources/assets/js/collections/**/*.js',
                 'resources/assets/js/components/**/*.js',
                 'resources/assets/js/views/**/*.js',
-                'resources/assets/js/content/*.js',
                 'resources/assets/js/helpers.js'
             ], "public/js/app.js")
 
@@ -68,6 +67,9 @@ elixir(function (mix) {
 
             /* Onboarding */
             .babel('resources/assets/js/onboarding/*.js', 'public/js/onboarding.js')
+
+            /* Content Editor */
+            .babel('resources/assets/js/content/*.js', 'public/js/content.js')
 
             /* ideas */
             .babel('resources/assets/js/plan/ideas.js', "public/js/ideas.js")

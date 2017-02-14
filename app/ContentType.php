@@ -1,8 +1,14 @@
 <?php namespace App;
 
+use App\Presenters\ContentTypePresenter;
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
-class ContentType extends Model {
+class ContentType extends Model
+{
+    use PresentableTrait;
+
+    protected $presenter = ContentTypePresenter::class;
 
     protected $hidden = [
         'created_at',
