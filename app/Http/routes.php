@@ -117,6 +117,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/content/publish/{content}', ['as' => 'contentPublish', 'uses' => 'ContentController@publishAndRedirect']);
     Route::get('/content/multipublish/{content}', ['as' => 'contentMultiPublish', 'uses' => 'ContentController@directPublish']);
 
+    Route::get('/content/orders', 'ContentController@orders');
     Route::get('/content/my', 'ContentController@my');
 
     // Facebook Callbacks
@@ -191,15 +192,21 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('categories', 'WriterAccessController@categories');
         Route::get('account', 'WriterAccessController@account');
         Route::get('assetTypes', 'WriterAccessController@assetTypes');
-        Route::post('orders/create', 'WriterAccessController@createOrder');
+        Route::post('orders', 'WriterAccessController@createOrder');
         Route::get('orders', 'WriterAccessController@orders');
         Route::get('orders/{id}', 'WriterAccessController@orders');
+        Route::delete('orders/{id}', 'WriterAccessController@deleteOrder');
         Route::get('projects', 'WriterAccessController@projects');
         Route::get('projects/{id}', 'WriterAccessController@projects');
         Route::get('projects/create/{name}', 'WriterAccessController@createProject');
         Route::get('expertises', 'WriterAccessController@expertises');
         Route::get('fees', 'WriterAccessPriceController@index');
         Route::get('fee', 'WriterAccessPriceController@fee');
+
+        Route::get('bulk-order/{id}', 'WriterAccessBulkOrderStatusController@show');
+        Route::get('bulk-orders', 'WriterAccessBulkOrderStatusController@index');
+        Route::get('bulk-orders/status/{id}', 'WriterAccessBulkOrderStatusController@status');
+        Route::get('bulk-orders/sample', 'WriterAccessBulkOrderStatusController@sample');
 
         Route::post('partials', 'WriterAccessPartialOrderController@store');
         Route::post('partials/{id}', 'WriterAccessPartialOrderController@update');

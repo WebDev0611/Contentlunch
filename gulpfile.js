@@ -102,6 +102,9 @@ elixir(function (mix) {
             /* twitter scripts */
             .babel('resources/assets/js/collaborate/twitter.js', 'public/js/twitter.js')
 
+            /* WriterAccess scripts */
+            .babel('resources/assets/js/writer_access/bulk_order_status.js', 'public/js/writer_access/bulk_order_status.js')
+
             /* tiny mce assets */
             .copy('./bower_components/tinymce/themes', "public/js/themes")
             .copy('./bower_components/tinymce/skins', "public/js/skins")
@@ -112,7 +115,8 @@ elixir(function (mix) {
 
             .copy("resources/assets/images", "public/images")
             .copy("resources/assets/fonts", "public/fonts")
+            .copy("resources/assets/downloads", "public/downloads")
     ;
-
     mix.livereload();
 });
+

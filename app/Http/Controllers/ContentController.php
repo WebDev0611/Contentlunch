@@ -69,6 +69,45 @@ class ContentController extends Controller
         ));
     }
 
+    public function orders(Request $request)
+    {
+
+        $writerAccess = new WriterAccessController($request);
+        $approved = [];
+        $inProgress = [];
+        $open = [];
+        $pendingApproval = [];
+
+        $orders = json_decode($writerAccess->orders()->getContent())->orders;
+
+        foreach ($orders as $order){
+            //var_dump($order->status);
+            switch ($order->status){
+                case "Approved" :
+                    $approved[] = $order;
+                case "In Progress" :
+                    $inProgress[] = $order;
+                case "Open" :
+                    $open[] = $order;
+                case "Pending Approval" :
+                    $pendingApproval[] = $order;
+            }
+        }
+
+        $countOrders = count($orders);
+
+        $connections = $this->selectedAccount
+            ->connections()
+            ->where('active', 1)
+            ->get();
+
+
+        return view('content.orders', compact(
+            'orders', 'countOrders', 'approved', 'inProgress', 'open', 'pendingApproval', 'connections'
+        ));
+
+    }
+
     public function store(Request $request)
     {
         $content = Content::create([

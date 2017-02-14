@@ -33,27 +33,71 @@
                     @endif
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
-                            <div class="input-form-group">
-                                <label for="#">CONTENT TITLE</label>
-                                {!!
-                                    Form::text('content_title', null, [
-                                        'class' => 'input',
-                                        'placeholder' => "Enter content title (visible to writer)"
-                                    ])
-                                !!}
+                            <div data-example-id="togglable-tabs">
+                                <ul class="nav nav-tabs" id="waOrderTabs" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a href="#singleOrder" role="tab" id="singleOrderTab" data-toggle="tab">Single Content Title</a>
+                                    </li>
+                                    <li role="presentation" class="">
+                                        <a href="#bulkOrder" role="tab" id="bulkOrderTab" data-toggle="tab">Multiple Content Titles</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="waOrderTabContent">
+                                    <div class="tab-pane fade active in" role="tabpanel" id="singleOrder" aria-labelledby="home-tab">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="input-form-group">
+                                                    <label for="#">CONTENT TITLE</label>
+                                                    {!!
+                                                        Form::text('content_title', null, [
+                                                            'class' => 'input',
+                                                            'placeholder' => "Enter content title (visible to writer)"
+                                                        ])
+                                                    !!}
+                                                </div>
+                                                <div class="input-form-group">
+                                                    <label for="#">INSTRUCTIONS</label>
+                                                    {!!
+                                                        Form::textarea('instructions', null, [
+                                                            'class' => 'input',
+                                                            'rows' => 3,
+                                                            'placeholder' => 'Enter instructions writer should follow ' .'(i.e. tone of the article, target group, specific things ' .'to mention / omit etc.)'
+                                                        ])
+                                                    !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" role="tabpanel" id="bulkOrder">
+                                        <div class="row">
+                                            <div class="col-md-4 bulk-order-step">
+                                                <h4 class="text-center">STEP 1</h4>
+                                                <a href="/downloads/bulk_sample.xlsx" class="bulk-sample-link">
+                                                    <img src="/images/excel_download.svg" alt="" class="bulk-step-image"> <br />
+                                                    Download the template.
+                                                </a>
+                                            </div>
+                                            <div class="col-md-4 bulk-order-step">
+                                                <h4 class="text-center">STEP 2</h4>
+                                                <div class="content">
+                                                    <img src="/images/bulk_add_details.svg" alt="" class="bulk-step-image"> <br />
+                                                    Add order details <br /> to the template.
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 bulk-order-step">
+                                                <h4 class="text-center">STEP 3</h4>
+                                                <div class="input-form-group">
+                                                    <div class="dropzone" id='bulk-uploader'>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="input-form-group">
-                                <label for="#">INSTRUCTIONS</label>
-                                {!!
-                                    Form::textarea('instructions', null, [
-                                        'class' => 'input',
-                                        'rows' => 3,
-                                        'placeholder' => 'Enter instructions writer should follow ' .
-                                            '(i.e. tone of the article, target group, specific things ' .
-                                            'to mention / omit etc.)'
-                                    ])
-                                !!}
-                            </div>
+
+                            <hr class="order-content-form-divider" />
+
                             <div class="input-form-group">
                                 <label>NARRATIVE VOICE</label>
                                 <div class="select">
@@ -66,13 +110,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-delimiter">
-                                <span>
-                                    <em>Attachments</em>
-                                </span>
-                            </div>
 
-                            {{-- @if (isset($content))
+                           <!-- {{-- @if (isset($content))
                             <div class="input-form-group">
                                 <ul>
                                     @foreach ($files as $file)
@@ -81,11 +120,11 @@
                                 </ul>
                             </div>
                             @endif --}}
-
-                            <div class="input-form-group">
+-->
+                            <!--<div class="input-form-group">
                                 <div class="dropzone" id='attachment-uploader'>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <div class="row">
@@ -107,15 +146,46 @@
 @section('scripts')
 <script type='text/javascript'>
     (function() {
+        var $contentTitleInput = $("input[name='content_title']"),
+            $instructionsInput = $("textarea[name='instructions']"),
+            $contentTitleOrigVal = "",
+            $instructionsOrigVal = "",
 
-        var fileUploader = new Dropzone('#attachment-uploader', {
+            placeHolderText = "wa-bulk-order";
+
+         fileUploader = new Dropzone('#bulk-uploader', {
             headers: getCSRFHeader(),
             url: getUploadUrl(),
+            dictDefaultMessage: "Drop the edited file here."
+        });
+
+        $("#singleOrderTab").on("click", function(){
+            $contentTitleInput.val($contentTitleOrigVal);
+            $instructionsInput.val($instructionsOrigVal);
+
+        });
+
+        $("#bulkOrderTab").on("click", function(){
+            setTimeout(function(){
+                $contentTitleOrigVal = $contentTitleInput.val();
+                $contentTitleInput.val(placeHolderText);
+                $instructionsOrigVal = $instructionsInput.val();
+                $instructionsInput.val(placeHolderText);
+            }, 500);
+        });
+
+        $("#bulk-uploader .dz-message").before($("<img>", {
+            src: "/images/excel_upload.png",
+            class: "bulk-step-image"
+        }));
+
+        fileUploader.on("drop", function(e){
+           $("#bulk-uploader .bulk-step-image").hide();
         });
 
         fileUploader.on('success', function(file, response) {
             var hiddenField = $('<input/>', {
-                name: 'attachments[]',
+                name: 'bulkOrderFile',
                 type: 'hidden',
                 value: response.file
             });
