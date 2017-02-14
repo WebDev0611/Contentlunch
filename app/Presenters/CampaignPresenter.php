@@ -2,11 +2,16 @@
 
 namespace App\Presenters;
 
+use App\Presenters\Helpers\BasePresenter;
+use App\Presenters\Helpers\EndDatePresenter;
+use App\Presenters\Helpers\StartDatePresenter;
+use App\Presenters\Helpers\UpdatedAtPresenter;
 use Illuminate\Support\Facades\Auth;
-use Laracasts\Presenter\Presenter;
 
-class CampaignPresenter extends Presenter
+class CampaignPresenter extends BasePresenter
 {
+    use StartDatePresenter, EndDatePresenter, UpdatedAtPresenter;
+
     public function collaboratorsIDs()
     {
         return $this->entity->collaborators->pluck('id')->implode(',');
