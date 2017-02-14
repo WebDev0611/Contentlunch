@@ -39,7 +39,6 @@
                                 <div class="onboarding-import-container tab-content">
                                     <div id="connections" class="onboarding-import-list tab-pane active">
                                         @include('onboarding.partials.connections')
-                                        @include('onboarding.partials.services')
                                     </div>
                                 </div>
                             </div>
