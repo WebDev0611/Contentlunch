@@ -231,11 +231,24 @@ var camelize = function(str) {
 			}
 		};
 
-		$('#topic-search').click(function(){
-			long_tail_results.remove( long_tail_results.models );
-			short_tail_results.remove( short_tail_results.models );
-			get_topic_data( $('#topic-search-val').val() );
-		});
+        const topicSearch = () => {
+            long_tail_results.remove(long_tail_results.models);
+            short_tail_results.remove(short_tail_results.models);
+            get_topic_data($('#topic-search-val').val());
+        }
+
+        const topicInputKeyUpHandler = event => {
+            const keyCode = event.keyCode;
+            const ENTER_KEY = 13;
+            const value = $('#topic-search-val').val();
+
+            if (keyCode === ENTER_KEY && value) {
+                topicSearch();
+            }
+        }
+
+        $('#topic-search').click(topicSearch);
+        $('#topic-search-val').keyup(topicInputKeyUpHandler);
 
 		long_tail_results.on('add',function(m){
 			var result = new result_view({model: m});
