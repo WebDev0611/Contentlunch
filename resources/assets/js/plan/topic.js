@@ -81,34 +81,40 @@ var camelize = function(str) {
 	});
 
 	var create_idea_view = Backbone.View.extend({
-		events:{
+		events: {
 			"click .save-idea": "save",
 			"click .park-idea": "park"
 		},
-		initialize: function(){
+
+		initialize(){
 			this.listenTo(this.model.attributes.content,'update',this.render);
 			this.render();
 		},
-		render:function(){
+
+		render() {
 			var view = this;
+
 			view.$el.find('#selected-content').html('');
 			view.model.attributes.content.each(function(m){
 				var sel_content = new selected_content_view({model:m});
 				view.$el.find('#selected-content').append( sel_content.$el );
 			});
-			if( view.model.attributes.content.length < 1 ){
+
+			if (view.model.attributes.content.length < 1) {
 				view.$el.find('.form-delimiter').hide();
-			}else{
+			} else {
 				view.$el.find('.form-delimiter').show();
 			}
 		},
-		park: function(){
+		park(){
 			this.store('parked');
 		},
-		save: function(){
+
+		save() {
 			this.store('active');
 		},
-		store: function(status){
+
+		store(status) {
 			var view = this;
 			$('.park-idea').prop('disabled',true);
 			$('.save-idea').prop('disabled',true);
@@ -136,9 +142,6 @@ var camelize = function(str) {
 			    url: '/ideas',
 			    type: 'post',
 			    data: idea_obj,
-				headers: {
-	            	'X-CSRF-TOKEN': $('input[name=_token]').val()
-	        	},
 			    dataType: 'json',
 			    success: function (data) {
 					$(loadingIMG).remove();
@@ -214,9 +217,9 @@ var camelize = function(str) {
 				var ldIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
 				$('span.input-form-button-action').append(ldIMG);
 				search_obj.keyword = term;
-			
 
-				$.getJSON('/topics',search_obj,function(res){
+
+				$.getJSON('/topics', search_obj, function(res) {
 					$('span.input-form-button-action img').remove();
 
 					var lt = res.results.filter(lf).map(map_result).sort(v_sort);
@@ -265,8 +268,6 @@ var camelize = function(str) {
 			}
 		});
 
-		// long_tail_results.add(dummy_data_long);
-		// short_tail_results.add(dummy_data_short);
 		//get_topic_data();
 
 		//task method

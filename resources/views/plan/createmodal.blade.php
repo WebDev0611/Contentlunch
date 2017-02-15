@@ -4,7 +4,10 @@
             <div class="col-md-6">
                 <h4 class="sidemodal-header-title large">Create Idea</h4>
                 <div id="idea-status-alert" class="alert hidden">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <div id="idea-status-text"></div>
                 </div>
             </div>
