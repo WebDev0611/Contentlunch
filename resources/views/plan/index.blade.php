@@ -43,7 +43,11 @@
                         <h5>Select one or more topics of interest from lists below to create an idea</h5>
                     </div>
                     <div class="col-md-6 text-right">
-                        <button type="button" data-target="#createIdea" data-toggle="modal" class="button button-small text-uppercase">
+                        <button type="button"
+                            data-target="#createIdea"
+                            data-toggle="modal"
+                            class="button button-small text-uppercase">
+
                             <i class="icon-add-content icon-vertically-middle"></i>
                             Create Idea
                         </button>
