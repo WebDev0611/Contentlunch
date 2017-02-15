@@ -34,11 +34,11 @@ Route::auth();
  */
 Route::post('signup/invite', 'OnboardingController@createWithInvite');
 Route::get('signup/invite/{invite}', [ 'as' => 'signupWithInvite', 'uses' => 'OnboardingController@signupWithInvite' ]);
+Route::post('signup/photo_upload', 'OnboardingController@signupPhotoUpload');
 
 Route::group([ 'middleware' => 'guest' ], function() {
     Route::get('signup', 'OnboardingController@signup');
     Route::post('signup', 'OnboardingController@process_signup');
-    Route::post('signup/photo_upload', 'OnboardingController@signupPhotoUpload');
 });
 
 Route::group(['middleware' => 'auth'], function () {
