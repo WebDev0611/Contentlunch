@@ -23,7 +23,8 @@ class WriterAccessPartialOrderController extends Controller
 
     public function orderSetup(Request $request, WriterAccessPartialOrder $order)
     {
-        return view('content.get_written_1', compact('order'));
+        $showBulkOrderOption = env("WRITER_ACCESS_BULK_ORDERS", false);
+        return view('content.get_written_1', compact('order', 'showBulkOrderOption'));
     }
 
     public function orderAudience(Request $request, WriterAccessPartialOrder $order)
