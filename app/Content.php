@@ -38,7 +38,7 @@ class Content extends Model
         'published'        => 'Published',
         'written'          => 'Written',
         'user_id'          => 'Author',
-        'email_subject'   => 'Email Subject',
+        'email_subject'    => 'Email Subject',
         'created_at'       => 'Create at',
         'updated_at'       => 'Updated at',
     ];

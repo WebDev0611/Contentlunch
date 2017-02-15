@@ -57,6 +57,8 @@
             'click': 'show_tool',
             'mouseleave': 'hide_tool',
             'click .tool-add-task': 'show_task_modal',
+            'click .tool-add-idea': 'show_idea_modal',
+            'click .tool-add-content': 'show_content_modal',
 
             'mouseenter li span': 'add_active',
             'mouseleave li span': 'hide_active'
@@ -124,8 +126,14 @@
             }
 
             $("#addTaskModal").modal('show');
+        },
+        show_idea_modal: function () {
+            $("#createIdea").modal('show');
+        },
+        show_content_modal: function () {
+            console.log('add content');
+            //$("#createIdea").modal('show');
         }
-
     });
 
 
@@ -380,6 +388,63 @@
             });
         });
 
+
+        // Ideas
+        $('.save-idea').click(function () {
+            store_idea('active');
+        });
+        $('.park-idea').click(function () {
+            store_idea('parked');
+        });
+        function store_idea(action){
+            $('.save-idea').prop('disabled',true);
+            $('.park-idea').prop('disabled',true);
+
+            $('#idea-status-alert').addClass('hidden');
+            if( $('.idea-name').val().length < 1 ){
+                $('#idea-status-alert')
+                    .toggleClass('hidden')
+                    .toggleClass('alert-danger')
+                    .show();
+
+                $('#idea-status-text').text('Idea title required');
+                $('.save-idea').prop('disabled',false);
+                $('.park-idea').prop('disabled',false);
+
+                return;
+            }
+
+            let loadingIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
+            $('#idea-menu').prepend(loadingIMG);
+
+            //saves the form data
+            let content = this.collection.where({ selected: true });
+            let idea_obj = {
+                name: $('.idea-name').val(),
+                idea: $('.idea-text').val(),
+                tags: $('.idea-tags').val(),
+                status: action,
+                content: content.map(function(m){
+                    return m.attributes;
+                })
+            };
+            $.ajax({
+                url: '/ideas',
+                type: 'post',
+                data: idea_obj,
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name=_token]').val()
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $(loadingIMG).remove();
+                    view.hide_modal();
+                    view.clear_form();
+                }
+            });
+        }
+
+        /*
         var drop_down_calendar_tool = Backbone.View.extend({
             events: {},
             initialize: function () {
@@ -387,6 +452,7 @@
             render: function () {
             },
         });
+        */
     });
 
 })
