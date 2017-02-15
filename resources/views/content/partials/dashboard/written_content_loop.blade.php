@@ -30,7 +30,7 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li>
-                    <a href="javascript:;" onclick="location.href='/edit/{{$content->id}}';">Write It</a>
+                    <a href="javascript:;" onclick="location.href='/edit/{{$content->id}}';">Edit It</a>
                 </li>
             </ul>
         </div>
