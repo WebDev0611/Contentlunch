@@ -21,7 +21,6 @@
                 url: '/idea/update/' + this.model.get('id'),
                 data: this.get_form_data(),
                 type: 'post',
-                headers: getCSRFHeader(),
             })
             .then(function(res) {
                 this.show_alert(true, 'Successfully saved the idea: ' + res.name);
