@@ -253,6 +253,17 @@
   }
 }
 
+.calendar-task-list-popover-contents {
+  margin-bottom: 20px;
+
+  @include clearfix;
+
+  .btn {
+    padding: 2px 4px;
+  }
+}
+
+
 .calendar-task-list-popover-timeline {
   margin-bottom: 20px;
   text-align: center;

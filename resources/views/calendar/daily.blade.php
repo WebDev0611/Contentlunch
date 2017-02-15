@@ -109,7 +109,7 @@
               </div>
               <% } %>
               <% if (type == 'task' && typeof(contents) !== "undefined" && contents !== null && contents.length > 0) { %>
-              <div class="calendar-task-list-popover-author col-md-6">
+              <div class="calendar-task-list-popover-contents col-md-6">
                   <span class="text-uppercase">Belongs to</span>
                   <%  _.each(contents, function(content){ %>
                   <a href="/edit/<%= content.id %>"><button class="btn-sm btn-primary"><%= content.title %></button></a>
