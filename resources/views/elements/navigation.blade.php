@@ -1,25 +1,10 @@
 <nav class="navigation">
-    <a href="#" class="navigation-logo">
+    <a href="/" class="navigation-logo">
         <img src="/images/logo.svg" alt="Content Launch">
     </a>
     <ul class="navigation-menu">
-        {{-- <li>
-            <a href="#" class="navigation-menu-profile">
-                <img src="images/avatar.jpg" alt="#">
-                <div class="app-type">
-                  <p class="app-agency">Agency</p>
-                </div>
-            </a>
-        </li>
         <li>
-            <a href="/#/components" class="navigation-menu-link active">
-                <i class="navigation-menu-icon icon-navigation-agency">
-                    <span>Agency</span>
-                </i>
-            </a>
-        </li> --}}
-        <li>
-            <a href="javascript:;" class="navigation-menu-profile ">
+            <a class="navigation-menu-profile">
                 <img src="{{ \Auth::user()->present()->profile_image }}" alt="">
 
                 @if (\Auth::user()->belongsToAgencyAccount())
