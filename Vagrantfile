@@ -9,7 +9,7 @@ Vagrant.configure(2) do |config|
   # Create a forwarded port mapping - The private_network below didn't work for me, but this forwarded version does.
   #config.vm.network "forwarded_port", guest: 80, host: 8080
   #config.vm.network "forwarded_port", guest: 3306, host: 3307
-  config.vm.network "forwarded_port", guest: 80, host: 4569
+  #config.vm.network "forwarded_port", guest: 80, host: 4569
 
   # Create a private network, which allows host-only access to the machine.
   config.vm.network "private_network", ip: "192.168.33.16"
