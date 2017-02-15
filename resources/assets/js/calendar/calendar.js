@@ -57,6 +57,8 @@
             'click': 'show_tool',
             'mouseleave': 'hide_tool',
             'click .tool-add-task': 'show_task_modal',
+            'click .tool-add-idea': 'show_idea_modal',
+            'click .tool-add-content': 'show_content_modal',
 
             'mouseenter li span': 'add_active',
             'mouseleave li span': 'hide_active'
@@ -124,8 +126,38 @@
             }
 
             $("#addTaskModal").modal('show');
-        }
+        },
+        show_idea_modal: function () {
+            $("#createIdea .form-delimiter").hide();
+            var cell_date = this.$el.data('cell-date');
 
+            if (!$('#idea_date').length) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    id: 'idea_date',
+                }).appendTo('#createIdea');
+            }
+
+            if (!$('#idea_date_info').length) {
+                $('<h4>').attr({
+                    id: 'idea_date_info',
+                }).prependTo('#createIdea .sidemodal-container');
+            }
+
+            if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
+                cell_date = this.$el.data('cell-date-time');
+                $('#idea_date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm:ss'));
+            } else {
+                $('#idea_date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD') + ' ' + moment().format('HH:mm:ss'));
+            }
+
+            $('#idea_date_info').html(moment($('#idea_date').val(), "YYYY-MM-DD HH:mm:ss").format('YYYY-MM-DD [at] HH:mm'));
+            $("#createIdea").modal('show');
+        },
+        show_content_modal: function () {
+            console.log('add content');
+            //$("#createIdea").modal('show');
+        }
     });
 
 
@@ -211,24 +243,24 @@
             });
 
             c.type_class = 'primary icon-content-alert';
-            if (type[0] != null  && type[0].provider != null) {
+            if (type[0] != null && type[0].provider != null) {
                 c.type_class = 'icon-type-' + type[0].provider.slug;
             }
 
             /*
-            TODO: add proper classes to types without provider
-            if (type[0] != null) {
-                if (type[0].provider != null) {
-                    c.type_class = 'icon-type-' + type[0].provider.slug;
-                } else {
-                    if (type[0].name.substring(0, type[0].name.indexOf(" ")).length > 0) {
+             TODO: add proper classes to types without provider
+             if (type[0] != null) {
+             if (type[0].provider != null) {
+             c.type_class = 'icon-type-' + type[0].provider.slug;
+             } else {
+             if (type[0].name.substring(0, type[0].name.indexOf(" ")).length > 0) {
 
-                    } else {
+             } else {
 
-                    }
-                }
-            }
-            */
+             }
+             }
+             }
+             */
 
             c.author = '';
             c.authors.forEach(function (author) {
@@ -308,7 +340,6 @@
                     return c.content_status != null && has_content_type.length > 0;
                 }));
 
-
                 my_campaigns.reset();
 
                 tasks.forEach(function (t) {
@@ -380,13 +411,24 @@
             });
         });
 
-        var drop_down_calendar_tool = Backbone.View.extend({
-            events: {},
-            initialize: function () {
-            },
-            render: function () {
-            },
+        // Ideas
+        $('.save-idea').click(function () {
+            store_idea('active', addCallback);
         });
+        $('.park-idea').click(function () {
+            store_idea('parked', addCallback);
+        });
+
+
+        /*
+         var drop_down_calendar_tool = Backbone.View.extend({
+         events: {},
+         initialize: function () {
+         },
+         render: function () {
+         },
+         });
+         */
     });
 
 })

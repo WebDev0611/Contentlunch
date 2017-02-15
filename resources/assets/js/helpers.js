@@ -37,9 +37,9 @@ function format_time_ago(time) {
 
 
 //handles the task modal for the site
-$(function() {
+$(function () {
 
- 	$('.add-task-action').click(function() {
+    $('.add-task-action').click(function () {
         $("#addTaskModal").modal('show');
     });
 
@@ -252,3 +252,68 @@ $(".checkbox-color input").change(function () {
     $('.checkbox-color input:checked').click();
     $('#' + that.id).click();
 });
+
+function store_idea(action, callback) {
+    $('.save-idea').prop('disabled', true);
+    $('.park-idea').prop('disabled', true);
+
+    $('#idea-status-alert').addClass('hidden');
+    if ($('.idea-name').val().length < 1) {
+        $('#idea-status-alert')
+            .toggleClass('hidden')
+            .toggleClass('alert-danger')
+            .show();
+
+        $('#idea-status-text').text('Idea title required');
+        $('.save-idea').prop('disabled', false);
+        $('.park-idea').prop('disabled', false);
+
+        return;
+    }
+
+    $('#idea-menu').prepend(loadIMG);
+
+
+    //saves the form data
+    //let content = this.collection.where({selected: true});
+    let idea_obj = {
+        name: $('.idea-name').val(),
+        idea: $('.idea-text').val(),
+        tags: $('.idea-tags').val(),
+        created_at: $('#idea_date').val(),
+        status: action,
+        /*
+         content: content.map(function (m) {
+         return m.attributes;
+         })
+         */
+    };
+    return $.ajax({
+        url: '/ideas',
+        type: 'post',
+        data: idea_obj,
+        headers: getCSRFHeader(),
+        dataType: 'json',
+        success: addedIdeaCallback(callback)
+    });
+}
+
+function clearIdeaInputs() {
+    $('.idea-name').val('');
+    $('.idea-text').val('');
+    $('.idea-tags').val('');
+}
+
+function addedIdeaCallback(callback) {
+    return function (res) {
+        $(loadIMG).remove();
+        $("#createIdea").modal('hide');
+        clearIdeaInputs();
+        $('.save-idea').prop('disabled', false);
+        $('.park-idea').prop('disabled', false);
+
+        if ('function' === typeof callback) {
+            callback(res);
+        }
+    }
+}

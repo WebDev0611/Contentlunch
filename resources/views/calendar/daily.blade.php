@@ -54,8 +54,8 @@
 
 @include('calendar.filter')
 @include('calendar.create')
-@include('calendar.modals')
 
+@include('plan.createmodal')
 @stop
 
 
@@ -100,6 +100,12 @@
                   <strong class='upper'><%= content_status_text %></strong>
               </div>
                <% } %>
+              <% if (type == 'idea') { %>
+              <div class="calendar-task-list-popover-info col-md-6">
+                  Status
+                  <strong class='upper'><%= status %></strong>
+              </div>
+              <% } %>
               <% if (type == 'task' && typeof(assigned_to) !== "undefined" && assigned_to !== null) { %>
               <div class="calendar-task-list-popover-author col-md-6">
                 <span class="text-uppercase">Assigned to</span>
@@ -159,14 +165,14 @@
              <ul class="dropdown-menu dropdown-menu-right">
                 <li class="dropdown-header important date-popup-label"></li>
 
-                <li>
-                  <a href="javascript:;" class="tool-add-task">Add Task</a>
-                </li>
                  <li>
-                     <a href="/plan" {{-- data-toggle="modal" data-target="#addIdeaCalendar" --}}>Add Idea</a>
+                     <a href="javascript:;" class="tool-add-task">Add Task</a>
                  </li>
                  <li>
-                     <a href="/create" {{-- data-toggle="modal" data-target="#addContentCalendar" --}}>Add Content</a>
+                     <a href="javascript:;" class="tool-add-idea" >Add Idea</a>
+                 </li>
+                 <li>
+                     <a href="javascript:;" class="tool-add-content">Add Content</a>
                  </li>
 
               </ul>

@@ -87,6 +87,8 @@ class IdeaController extends Controller
      */
     public function store(Request $request)
     {
+
+
         $idea = Idea::create([
             'name' => $request->input('name'),
             'text' => $request->input('idea'),
@@ -95,6 +97,12 @@ class IdeaController extends Controller
             'user_id' => Auth::id(),
             'account_id' => Account::selectedAccount()->id,
         ]);
+
+        // Check if we're overriding created_at field
+        if($request->has('created_at')) {
+            $idea->created_at = $request->input('created_at');
+            $idea->save();
+        }
 
         $idea->collaborators()->attach(Auth::user());
 
