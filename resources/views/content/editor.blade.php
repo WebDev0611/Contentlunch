@@ -146,29 +146,13 @@
                             <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="dueDate">DUE DATE</label>
-                                    <div class='input-group date datetimepicker'>
-                                        @php
-                                            $dueDateOptions = [
-                                                'class' => ' input form-control',
-                                                'id' => 'dueDate'
-                                            ];
-
-                                            if (!$isCollaborator) {
-                                                $dueDateOptions['disabled'] = 'disabled';
-                                            }
-                                        @endphp
-                                        {!!
-                                            Form::text('due_date', @isset($content)? $content->due_date : '', $dueDateOptions)
-                                        !!}
-                                        <span class="input-group-addon">
-                                            <i class="icon-calendar picto"></i>
-                                        </span>
-                                    </div>
-
-                                   <!--  <div class="form-suffix">
-                                        <i class="icon-calendar picto"></i>
-                                        <input type="text" class="input datetimepicker" placeholder="Select date">
-                                    </div> -->
+                                    @php
+                                        $dueDateOptions = \App\Helpers::isCollaborator([
+                                            'class' => 'input-calendar datetimepicker input form-control',
+                                            'id' => 'dueDate'
+                                        ], $isCollaborator);
+                                    @endphp
+                                    {!! Form::text('due_date', @isset($content)? $content->due_date : '', $dueDateOptions) !!}
                                 </div>
                             </div>
                         </div>
