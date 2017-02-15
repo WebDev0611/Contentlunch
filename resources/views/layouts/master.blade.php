@@ -126,7 +126,8 @@
 
 </script>
 <script>
-    if (document.location.pathname == '/') {
+    var path = document.location.pathname
+    if (path === '/' || path == '/home') {
         new Vue({ el: '#root' });
     }
 </script>
