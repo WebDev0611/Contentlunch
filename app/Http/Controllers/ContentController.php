@@ -18,6 +18,7 @@ use App\Tag;
 use App\User;
 use App\WriterAccessPrice;
 use Auth;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -78,10 +79,37 @@ class ContentController extends Controller
         $open = [];
         $pendingApproval = [];
 
-        $orders = json_decode($writerAccess->orders()->getContent())->orders;
+        try{
+            $orders = json_decode(utf8_encode($writerAccess->orders()->getContent()))->orders;
+
+        }catch(Exception $e){
+            $orders = [];
+            /*switch (json_last_error()) {
+                case JSON_ERROR_NONE:
+                    echo ' - No errors';
+                    break;
+                case JSON_ERROR_DEPTH:
+                    echo ' - Maximum stack depth exceeded';
+                    break;
+                case JSON_ERROR_STATE_MISMATCH:
+                    echo ' - Underflow or the modes mismatch';
+                    break;
+                case JSON_ERROR_CTRL_CHAR:
+                    echo ' - Unexpected control character found';
+                    break;
+                case JSON_ERROR_SYNTAX:
+                    echo ' - Syntax error, malformed JSON';
+                    break;
+                case JSON_ERROR_UTF8:
+                    echo ' - Malformed UTF-8 characters, possibly incorrectly encoded';
+                    break;
+                default:
+                    echo ' - Unknown error';
+                    break;
+            }*/
+        }
 
         foreach ($orders as $order){
-            //var_dump($order->status);
             switch ($order->status){
                 case "Approved" :
                     $approved[] = $order;
@@ -93,6 +121,7 @@ class ContentController extends Controller
                     $pendingApproval[] = $order;
             }
         }
+
 
         $countOrders = count($orders);
 

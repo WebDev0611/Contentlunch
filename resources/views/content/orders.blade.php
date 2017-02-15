@@ -37,7 +37,7 @@
 
                 @include('content.partials.dashboard.order_filter')
 
-                <div class="create-panel-container no-padding order-container hide-over-10">
+                <div class="create-panel-container {{$countOrders !== 0 ? "no-padding" : ""}} order-container hide-over-10">
 
                     @forelse ($orders as $order)
                         @include('content.partials.dashboard.orders_loop')
@@ -62,10 +62,10 @@
             </div>
             <aside class="panel-sidebar">
                 <div class="panel-header">
-                    <h4 class="panel-sidebar-title">Ideas activity feed</h4>
+                    <h4 class="panel-sidebar-title">Orders activity feed</h4>
                 </div>
                 <div class="panel-container">
-                    <div class="plan-activity-box-container">
+                    {{--<div class="plan-activity-box-container">
                         <div class="plan-activity-box-img">
                             <img src="/images/avatar.jpg" alt="#">
                         </div>
@@ -134,7 +134,8 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    </div>--}}
+                    <div class="alert alert-info alert-forms" role="alert"><p>No activity to show.</p></div>
                 </div>
             </aside>
         </div>
