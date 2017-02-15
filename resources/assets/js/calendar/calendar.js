@@ -129,6 +129,21 @@
         },
         show_idea_modal: function () {
             $("#createIdea .form-delimiter").hide();
+            var cell_date = this.$el.data('cell-date');
+
+            if(!$('#idea_date').length) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    id: 'idea_date',
+                }).appendTo('#createIdea');
+            }
+
+            if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
+                cell_date = this.$el.data('cell-date-time');
+                $('#idea_date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm:ss'));
+            } else {
+                $('#idea_date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD HH:mm:ss'));
+            }
             $("#createIdea").modal('show');
         },
         show_content_modal: function () {

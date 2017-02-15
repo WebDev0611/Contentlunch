@@ -290,6 +290,9 @@ class CalendarController extends Controller
 
             $curr_hour = $start_time_row;
             for ($curr_hour = $start_time_row; $curr_hour < $end_time_row; $curr_hour++) {
+                if($curr_hour < 10 && $curr_hour[0] != '0') {
+                    $curr_hour = '0' . $curr_hour;
+                }
                 $week_string .= '<tr>';
                 //daily columns
                 $day_column = '<td disabled>' . date('gA', strtotime($curr_hour . ':00:00')) . '</td>';
@@ -389,6 +392,9 @@ class CalendarController extends Controller
 
             $curr_hour = $start_time_row;
             for ($curr_hour = $start_time_row; $curr_hour < $end_time_row; $curr_hour++) {
+                if($curr_hour < 10 && $curr_hour[0] != '0') {
+                    $curr_hour = '0' . $curr_hour;
+                }
                 $daily_timetable .= '<tr>';
                 //daily columns
                 $day_column = '<td disabled>' . date('gA', strtotime($curr_hour . ':00:00')) . '</td>';

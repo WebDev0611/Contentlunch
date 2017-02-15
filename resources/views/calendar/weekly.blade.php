@@ -54,7 +54,8 @@
 
 @include('calendar.filter')
 @include('calendar.create')
-@include('calendar.modals')
+
+@include('plan.createmodal')
 @stop
 
 @section('scripts')
@@ -163,15 +164,15 @@
              <ul class="dropdown-menu dropdown-menu-right">
                 <li class="dropdown-header important date-popup-label"></li>
 
-                <li>
-                  <a href="javascript:;" class="tool-add-task">Add Task</a>
-                </li>
                  <li>
-                  <a href="/plan" {{-- data-toggle="modal" data-target="#addIdeaCalendar" --}}>Add Idea</a>
-                </li>
-                <li>
-                  <a href="/create" {{-- data-toggle="modal" data-target="#addContentCalendar" --}}>Add Content</a>
-                </li>
+                     <a href="javascript:;" class="tool-add-task">Add Task</a>
+                 </li>
+                 <li>
+                     <a href="javascript:;" class="tool-add-idea" >Add Idea</a>
+                 </li>
+                 <li>
+                     <a href="javascript:;" class="tool-add-content">Add Content</a>
+                 </li>
 
               </ul>
         </div>

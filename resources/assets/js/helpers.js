@@ -37,9 +37,9 @@ function format_time_ago(time) {
 
 
 //handles the task modal for the site
-$(function() {
+$(function () {
 
- 	$('.add-task-action').click(function() {
+    $('.add-task-action').click(function () {
         $("#addTaskModal").modal('show');
     });
 
@@ -271,8 +271,8 @@ function store_idea(action, callback) {
         return;
     }
 
-    let loadingIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
-    $('#idea-menu').prepend(loadingIMG);
+    $('#idea-menu').prepend(loadIMG);
+
 
     //saves the form data
     //let content = this.collection.where({selected: true});
@@ -280,6 +280,7 @@ function store_idea(action, callback) {
         name: $('.idea-name').val(),
         idea: $('.idea-text').val(),
         tags: $('.idea-tags').val(),
+        created_at: $('#idea_date').val(),
         status: action,
         /*
          content: content.map(function (m) {
@@ -287,17 +288,13 @@ function store_idea(action, callback) {
          })
          */
     };
-    $.ajax({
+    return $.ajax({
         url: '/ideas',
         type: 'post',
         data: idea_obj,
-        headers: {
-            'X-CSRF-TOKEN': $('input[name=_token]').val()
-        },
+        headers: getCSRFHeader(),
         dataType: 'json',
-        success: function (data) {
-            addedIdeaCallback(callback)
-        }
+        success: addedIdeaCallback(callback)
     });
 }
 
@@ -308,12 +305,12 @@ function clearIdeaInputs() {
 }
 
 function addedIdeaCallback(callback) {
-    console.log('addedIdeaCallback');
-
     return function (res) {
-        $(loadingIMG).remove();
+        $(loadIMG).remove();
         $("#createIdea").modal('hide');
         clearIdeaInputs();
+        $('.save-idea').prop('disabled', false);
+        $('.park-idea').prop('disabled', false);
 
         if ('function' === typeof callback) {
             callback(res);
