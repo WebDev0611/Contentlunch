@@ -180,6 +180,7 @@ class Task extends Model
             ->tasks()
             ->with('user')
             ->with('assignedUsers')
+            ->with('contents')
             ->orderBy('created_at', 'desc')
             ->where('status', 'open')
             ->get()

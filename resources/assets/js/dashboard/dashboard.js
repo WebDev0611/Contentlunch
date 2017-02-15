@@ -32,7 +32,6 @@
 
 function setUpTask() {
     $('#add-task-button').click(function() {
-        console.log('hehehe');
         add_task(addTaskCallback);
     });
 
