@@ -252,3 +252,71 @@ $(".checkbox-color input").change(function () {
     $('.checkbox-color input:checked').click();
     $('#' + that.id).click();
 });
+
+function store_idea(action, callback) {
+    $('.save-idea').prop('disabled', true);
+    $('.park-idea').prop('disabled', true);
+
+    $('#idea-status-alert').addClass('hidden');
+    if ($('.idea-name').val().length < 1) {
+        $('#idea-status-alert')
+            .toggleClass('hidden')
+            .toggleClass('alert-danger')
+            .show();
+
+        $('#idea-status-text').text('Idea title required');
+        $('.save-idea').prop('disabled', false);
+        $('.park-idea').prop('disabled', false);
+
+        return;
+    }
+
+    let loadingIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
+    $('#idea-menu').prepend(loadingIMG);
+
+    //saves the form data
+    //let content = this.collection.where({selected: true});
+    let idea_obj = {
+        name: $('.idea-name').val(),
+        idea: $('.idea-text').val(),
+        tags: $('.idea-tags').val(),
+        status: action,
+        /*
+         content: content.map(function (m) {
+         return m.attributes;
+         })
+         */
+    };
+    $.ajax({
+        url: '/ideas',
+        type: 'post',
+        data: idea_obj,
+        headers: {
+            'X-CSRF-TOKEN': $('input[name=_token]').val()
+        },
+        dataType: 'json',
+        success: function (data) {
+            addedIdeaCallback(callback)
+        }
+    });
+}
+
+function clearIdeaInputs() {
+    $('.idea-name').val('');
+    $('.idea-text').val('');
+    $('.idea-tags').val('');
+}
+
+function addedIdeaCallback(callback) {
+    console.log('addedIdeaCallback');
+
+    return function (res) {
+        $(loadingIMG).remove();
+        $("#createIdea").modal('hide');
+        clearIdeaInputs();
+
+        if ('function' === typeof callback) {
+            callback(res);
+        }
+    }
+}

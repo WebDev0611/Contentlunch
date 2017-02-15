@@ -100,6 +100,12 @@
                   <strong class='upper'><%= content_status_text %></strong>
               </div>
                <% } %>
+              <% if (type == 'idea') { %>
+              <div class="calendar-task-list-popover-info col-md-6">
+                  Status
+                  <strong class='upper'><%= status %></strong>
+              </div>
+              <% } %>
               <% if (type == 'task' && typeof(assigned_to) !== "undefined" && assigned_to !== null) { %>
               <div class="calendar-task-list-popover-author col-md-6">
                 <span class="text-uppercase">Assigned to</span>

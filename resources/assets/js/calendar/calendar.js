@@ -128,6 +128,7 @@
             $("#addTaskModal").modal('show');
         },
         show_idea_modal: function () {
+            $("#createIdea .form-delimiter").hide();
             $("#createIdea").modal('show');
         },
         show_content_modal: function () {
@@ -219,24 +220,24 @@
             });
 
             c.type_class = 'primary icon-content-alert';
-            if (type[0] != null  && type[0].provider != null) {
+            if (type[0] != null && type[0].provider != null) {
                 c.type_class = 'icon-type-' + type[0].provider.slug;
             }
 
             /*
-            TODO: add proper classes to types without provider
-            if (type[0] != null) {
-                if (type[0].provider != null) {
-                    c.type_class = 'icon-type-' + type[0].provider.slug;
-                } else {
-                    if (type[0].name.substring(0, type[0].name.indexOf(" ")).length > 0) {
+             TODO: add proper classes to types without provider
+             if (type[0] != null) {
+             if (type[0].provider != null) {
+             c.type_class = 'icon-type-' + type[0].provider.slug;
+             } else {
+             if (type[0].name.substring(0, type[0].name.indexOf(" ")).length > 0) {
 
-                    } else {
+             } else {
 
-                    }
-                }
-            }
-            */
+             }
+             }
+             }
+             */
 
             c.author = '';
             c.authors.forEach(function (author) {
@@ -316,7 +317,6 @@
                     return c.content_status != null && has_content_type.length > 0;
                 }));
 
-
                 my_campaigns.reset();
 
                 tasks.forEach(function (t) {
@@ -388,71 +388,24 @@
             });
         });
 
-
         // Ideas
         $('.save-idea').click(function () {
-            store_idea('active');
+            store_idea('active', addCallback);
         });
         $('.park-idea').click(function () {
-            store_idea('parked');
+            store_idea('parked', addCallback);
         });
-        function store_idea(action){
-            $('.save-idea').prop('disabled',true);
-            $('.park-idea').prop('disabled',true);
 
-            $('#idea-status-alert').addClass('hidden');
-            if( $('.idea-name').val().length < 1 ){
-                $('#idea-status-alert')
-                    .toggleClass('hidden')
-                    .toggleClass('alert-danger')
-                    .show();
-
-                $('#idea-status-text').text('Idea title required');
-                $('.save-idea').prop('disabled',false);
-                $('.park-idea').prop('disabled',false);
-
-                return;
-            }
-
-            let loadingIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
-            $('#idea-menu').prepend(loadingIMG);
-
-            //saves the form data
-            let content = this.collection.where({ selected: true });
-            let idea_obj = {
-                name: $('.idea-name').val(),
-                idea: $('.idea-text').val(),
-                tags: $('.idea-tags').val(),
-                status: action,
-                content: content.map(function(m){
-                    return m.attributes;
-                })
-            };
-            $.ajax({
-                url: '/ideas',
-                type: 'post',
-                data: idea_obj,
-                headers: {
-                    'X-CSRF-TOKEN': $('input[name=_token]').val()
-                },
-                dataType: 'json',
-                success: function (data) {
-                    $(loadingIMG).remove();
-                    view.hide_modal();
-                    view.clear_form();
-                }
-            });
-        }
 
         /*
-        var drop_down_calendar_tool = Backbone.View.extend({
-            events: {},
-            initialize: function () {
-            },
-            render: function () {
-            },
-        });
-        */
+         var drop_down_calendar_tool = Backbone.View.extend({
+         events: {},
+         initialize: function () {
+         },
+         render: function () {
+         },
+         });
+         */
     });
 
 })
