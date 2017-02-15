@@ -236,7 +236,7 @@ class WriterAccessController extends Controller
         }
 
         return redirect()
-            ->route('contentOrders')
+            ->route('contentOrders', ['fresh' => true])
             ->with([
                 'flash_message' => 'Payment successful. Your order is complete.',
                 'flash_message_type' => 'success'
