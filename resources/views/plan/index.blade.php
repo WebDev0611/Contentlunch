@@ -68,11 +68,11 @@
     </div>
 </div>
 
-
 @include('plan.createmodal')
 
 @stop
 
 @section('scripts')
+@include('plan.partials.backbone_templates')
 <script src="/js/topic.js"></script>
 @stop
