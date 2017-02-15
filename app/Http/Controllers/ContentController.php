@@ -18,6 +18,7 @@ use App\Tag;
 use App\User;
 use App\WriterAccessPrice;
 use Auth;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -78,7 +79,11 @@ class ContentController extends Controller
         $open = [];
         $pendingApproval = [];
 
-        $orders = json_decode($writerAccess->orders()->getContent())->orders;
+        try{
+            $orders = json_decode($writerAccess->orders()->getContent())->orders;
+        }catch(Exception $e){
+            $orders = [];
+        }
 
         foreach ($orders as $order){
             //var_dump($order->status);
