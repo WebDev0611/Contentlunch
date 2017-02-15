@@ -131,19 +131,27 @@
             $("#createIdea .form-delimiter").hide();
             var cell_date = this.$el.data('cell-date');
 
-            if(!$('#idea_date').length) {
+            if (!$('#idea_date').length) {
                 $('<input>').attr({
                     type: 'hidden',
                     id: 'idea_date',
                 }).appendTo('#createIdea');
             }
 
+            if (!$('#idea_date_info').length) {
+                $('<h4>').attr({
+                    id: 'idea_date_info',
+                }).prependTo('#createIdea .sidemodal-container');
+            }
+
             if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
                 cell_date = this.$el.data('cell-date-time');
                 $('#idea_date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm:ss'));
             } else {
-                $('#idea_date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD HH:mm:ss'));
+                $('#idea_date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD') + ' ' + moment().format('HH:mm:ss'));
             }
+
+            $('#idea_date_info').html(moment($('#idea_date').val(), "YYYY-MM-DD HH:mm:ss").format('YYYY-MM-DD [at] HH:mm'));
             $("#createIdea").modal('show');
         },
         show_content_modal: function () {
