@@ -100,7 +100,7 @@ class WriterAccessController extends Controller
             }
 
             // Set the projectid for writer access calls
-            $this->apiProjectId = $apiProjectId ? $apiProjectId : $user->writer_access_Project_id = "zero" ? 0 : $user->writer_access_Project_id;
+            $this->apiProjectId = $apiProjectId ? $apiProjectId : $user->writer_access_Project_id === "zero" ? 0 : $user->writer_access_Project_id;
         }
     }
 
