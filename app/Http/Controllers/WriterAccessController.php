@@ -100,7 +100,7 @@ class WriterAccessController extends Controller
             }
 
             // Set the projectid for writer access calls
-            $this->apiProjectId = $apiProjectId ? $apiProjectId : $user->writer_access_Project_id;
+            $this->apiProjectId = $apiProjectId ? $apiProjectId : $user->writer_access_Project_id = "zero" ? 0 : $user->writer_access_Project_id;
         }
     }
 
@@ -143,7 +143,10 @@ class WriterAccessController extends Controller
         $parameters = [];
         $url = null;
         $queryString = '';
-        $parameters['project'] = $this->apiProjectId;
+
+        if($this->apiProjectId !== 0){
+            $parameters['project'] = $this->apiProjectId;
+        }
 
         if (isset($_GET['status'])) {
             if (isset($_GET['status'])) {
@@ -151,17 +154,15 @@ class WriterAccessController extends Controller
             }
         }
 
-        if (count($parameters > 0)) {
+        if (count($parameters) > 0) {
             $queryString = '?'.http_build_query($parameters);
         }
 
         if (isset($id)) {
-            $url = '/orders/'.$id.$queryString;
+            return $this->post('/orders/'.$id."/previewfull");
         } else {
-            $url = '/orders'.$queryString;
+            return $this->get('/orders'.$queryString);
         }
-
-        return $this->get($url);
     }
 
     /**
@@ -452,8 +453,10 @@ class WriterAccessController extends Controller
 
         if (isset($postFields)) {
             foreach ($postFields as $key => $value) {
+                str_replace(" ", "%20", $value);
                 $fields_string .= $key . '=' . $value . '&';
             }
+            rtrim($fields_string, '&');
         }
 
         $redis_key = $url.$cache_key;
@@ -462,13 +465,24 @@ class WriterAccessController extends Controller
         if( empty( unserialize($redis_cache) ) ){
 
             $curl = $this->init_curl();
-            curl_setopt($curl, CURLOPT_URL, $url);
 
-            if (isset($postFields)) {
-                rtrim($fields_string, '&');
-                curl_setopt($curl, CURLOPT_POST, count($postFields));
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $fields_string);
-            }
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POST => count($postFields),
+                CURLOPT_POSTFIELDS => $fields_string,
+                CURLOPT_HTTPHEADER => array(
+                    "accept: application/json",
+                    "authorization: Basic am9uQGNvbnRlbnRsYXVuY2guY29tOjQwMDJkNzY4M2JkYjVmYWRkZTQ2NzMxNGJkZDQ3N2Y2",
+                    "content-type: application/x-www-form-urlencoded"
+                ),
+            ));
+
 
             $output = curl_exec($curl);
             curl_close($curl);

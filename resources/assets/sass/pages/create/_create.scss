@@ -60,6 +60,9 @@
 
   &.border-left {
     border-left: 2px solid #f7877d;
+    &.border-green{
+      border-left: 2px solid #7df78e;
+    }
   }
 }
 

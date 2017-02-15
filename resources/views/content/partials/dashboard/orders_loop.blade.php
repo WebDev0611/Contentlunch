@@ -1,5 +1,5 @@
 
-<div class="create-panel-table border-left order-list-row"
+<div class="create-panel-table border-left {{$order->status === "Approved" || $order->status === "In Progress"  ? "border-green" : ""}} order-list-row"
      title="{{ $order->title }}"
      data-original-title="{{ $order->title }}"
      data-status="{{ $order->status }}"
