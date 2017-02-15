@@ -99,12 +99,21 @@
     background: #fbfcfd;
   }
 
+  &.avatar{
+    width: 62px;
+  }
+
   > a {
     display: block;
     font-family: $source-sans-pro;
     font-size: 12px;
     color: #84828d;
     font-weight: bold;
+
+    i.large{
+      font-size: 26px;
+    }
+
   }
 }
 

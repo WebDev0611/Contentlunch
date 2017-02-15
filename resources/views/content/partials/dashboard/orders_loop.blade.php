@@ -4,7 +4,7 @@
      data-original-title="{{ $order->title }}"
      data-status="{{ $order->status }}"
      data-writer="{{ $order->writer ? $order->writer->name : "None" }}">
-    <div class="create-panel-table-cell">
+    <div class="create-panel-table-cell avatar">
         <img src="/images/cl-avatar2.png" alt="" class="create-image"><br />
         {{--<small>{{$order->writer ? $order->writer->name : "None"}}</small>--}}
     </div>
@@ -17,15 +17,21 @@
             <li>WRITER: <strong>{{$order->writer ? $order->writer->name : "None"}}</strong></li>
         </ul>
     </div>
-    <div class="create-panel-table-cell text-right">
-        <i class="icon-arrange-mini"></i>
+    <div class="create-panel-table-cell text-right  ">
+        @if ($order->status === "Approved" || $order->status === "In Progress")
+            <a href="/content/orders/{{$order->id}}" >
+                <i class="icon-edit large"></i>
+            </a>
+        @else
+            <span class="red small">Not yet approved.</span>
+        @endif
     </div>
-    <div class="create-panel-table-cell text-right">
+    {{--<div class="create-panel-table-cell text-right">
         <span class="dashboard-performing-text small">
-            LAUNCHED: <strong>05/05/2016</strong>
+            --}}{{--LAUNCHED: <strong>05/05/2016</strong>--}}{{--
         </span>
     </div>
     <div class="create-panel-table-cell text-right">
-        <i class="create-panel-spaceship icon-spaceship-circle"></i>
-    </div>
+        --}}{{--<i class="create-panel-spaceship icon-spaceship-circle"></i>--}}{{--
+    </div>--}}
 </div>
