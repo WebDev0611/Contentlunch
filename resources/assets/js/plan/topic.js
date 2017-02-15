@@ -1,12 +1,12 @@
 var camelize = function(str) {
-return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
-if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
-return index == 0 ? match.toLowerCase() : match.toUpperCase();
-});
+    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+        if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+        return index == 0 ? match.toLowerCase() : match.toUpperCase();
+    });
 };
 
 
-(function($){
+(function($) {
 
 	var topic_result = Backbone.Model.extend({
 		defaults:{
@@ -15,23 +15,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			timestamp: new Date().getTime()
 		}
 	});
-
-	//place holder data
-	var dummy_data_long = [
-		{keyword: "Diesel Engines"},
-		{keyword: "Gasoline Engines"},
-		{keyword: "Auto Service"},
-		{keyword: "Diesel Trucks"},
-		{keyword: "Turbo Diesel"},
-	];
-	
-	var dummy_data_short = [
-		{keyword: "Diesel Engine Maintenance"},
-		{keyword: "Gasoline Engines Mileage"},
-		{keyword: "Auto Service in California"},
-		{keyword: "Most Reliable Diesel Trucks"},
-		{keyword: "Turbo Diesel Efficiency"},
-	];
 
 	var result_view = Backbone.View.extend({
 		className: "col-md-6",
