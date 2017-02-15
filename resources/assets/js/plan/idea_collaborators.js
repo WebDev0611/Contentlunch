@@ -34,7 +34,7 @@
 
     var CollaboratorView = Backbone.View.extend({
         template: _.template(
-            "<img src='<%= profile_image %>' title='<%= name %>' alt='<%= name %>'>"
+            "<img src='<%= profile_image %>' title='<%= name %>' alt='<%= name %>'> <p><%= name %></p>"
         ),
         tagName: 'li',
         render: function() {
