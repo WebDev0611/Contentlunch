@@ -341,7 +341,8 @@ class WriterAccessController extends Controller
         $responseContent = json_decode($response->getContent());
 
         if (!isset($responseContent->fault)) {
-            $user->writer_access_Project_id = $responseContent->projects[0]->id;
+            $this->apiProjectId = $responseContent->projects[0]->id;
+            $user->writer_access_Project_id = $this->apiProjectId;
             $user->save();
         } else {
             header('Content-type: application/json');
@@ -475,8 +476,6 @@ class WriterAccessController extends Controller
         $url = $this->apiUrl.$apiPath;
         $fields_string = '';
 
-        echo "\nURL:\n".$url."\n\n";
-
         if (isset($postFields)) {
             foreach ($postFields as $key => $value) {
                 $fields_string .= $key . '=' . $value . '&';
@@ -498,9 +497,6 @@ class WriterAccessController extends Controller
             }
 
             $output = curl_exec($curl);
-            echo "\n\nOutput\n";
-            echo json_encode($fields_string)."\n";
-            echo $output."\n";
             curl_close($curl);
 
             Redis::set($redis_key, serialize( $output ));
