@@ -84,7 +84,7 @@
               <div class="calendar-task-list-popover-info col-md-6">
                   Author
                   <% if (typeof(user_image) !== "undefined" && user_image !== null) { %>
-                    <img src="user_image" width="50">
+                     <img src="<%= user_image %>" width="50" class="popover-user-image">
                   <% } %>
                   <strong><%= author %></strong>
               </div>
