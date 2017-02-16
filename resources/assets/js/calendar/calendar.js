@@ -131,24 +131,12 @@
             $("#createIdea .form-delimiter").hide();
             var cell_date = this.$el.data('cell-date');
 
-            if (!$('#idea_date').length) {
-                $('<input>').attr({
-                    type: 'hidden',
-                    id: 'idea_date',
-                }).appendTo('#createIdea');
-            }
+            this.append_date_input_field('idea_date', 'createIdea');
 
             if (!$('#idea_date_info').length) {
                 $('<h4>').attr({
                     id: 'idea_date_info',
                 }).prependTo('#createIdea .sidemodal-container');
-            }
-
-            if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
-                cell_date = this.$el.data('cell-date-time');
-                $('#idea_date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm:ss'));
-            } else {
-                $('#idea_date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD') + ' ' + moment().format('HH:mm:ss'));
             }
 
             $('#idea_date_info').html(moment($('#idea_date').val(), "YYYY-MM-DD HH:mm:ss").format('YYYY-MM-DD [at] HH:mm'));
@@ -157,9 +145,25 @@
         show_content_modal: function () {
             console.log('add content');
             //$("#createIdea").modal('show');
+        },
+        append_date_input_field: function(fieldId, selectorId) {
+            if (!$('#' + fieldId).length) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    id: fieldId,
+                }).appendTo('#' + selectorId);
+            }
+
+            var cell_date = this.$el.data('cell-date');
+
+            if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
+                cell_date = this.$el.data('cell-date-time');
+                $('#' + fieldId).val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm:ss'));
+            } else {
+                $('#' + fieldId).val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD') + ' ' + moment().format('HH:mm:ss'));
+            }
         }
     });
-
 
     $(function () {
         var my_campaigns = new campaign_collection(campaigns.map(function (c) {
