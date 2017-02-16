@@ -14,12 +14,14 @@ var teamMemberInviteModalView = Backbone.View.extend({
     },
 
     sendInvites() {
-        var emails = this.$el.find('.email-invites').val();
+        let emails = this.$el.find('.email-invites').val();
 
         if (!emails) {
             this.$el.find('.alert').slideDown('fast');
             return;
         }
+
+        this.emailsCount = emails.split(',').length;
 
         return $.ajax({
             headers: getCSRFHeader(),
@@ -38,12 +40,15 @@ var teamMemberInviteModalView = Backbone.View.extend({
     },
 
     showFeedback(response) {
-        var alert = "<div class='alert alert-success alert-forms' id='dashboard-feedback' style='display:none'>" +
-            "Invites sent!" +
-        "</div>";
+        const alert = _.template(`
+            <div class='alert alert-success alert-forms' id='dashboard-feedback' style='display:none'>
+                <%= emailsCount > 1 ? 'Invites' : 'Invite' %> sent!
+            </div>
+        `);
+        const element = alert({ emailsCount : this.emailsCount });
 
         $('#dashboard-feedback').remove();
-        $(alert).prependTo('.workspace');
+        $(element).prependTo('.workspace');
         $('#dashboard-feedback').slideDown();
 
         setTimeout(function() {
