@@ -129,24 +129,14 @@
         },
         show_idea_modal: function () {
             $("#createIdea .form-delimiter").hide();
-            var cell_date = this.$el.data('cell-date');
-
-            this.append_date_input_field('idea_date', 'createIdea');
-
-            if (!$('#idea_date_info').length) {
-                $('<h4>').attr({
-                    id: 'idea_date_info',
-                }).prependTo('#createIdea .sidemodal-container');
-            }
-
-            $('#idea_date_info').html(moment($('#idea_date').val(), "YYYY-MM-DD HH:mm:ss").format('YYYY-MM-DD [at] HH:mm'));
+            this.append_date_input_field('idea_date', 'idea_date_info', 'createIdea');
             $("#createIdea").modal('show');
         },
         show_content_modal: function () {
-            console.log('add content');
-            //$("#createIdea").modal('show');
+            this.append_date_input_field('content_date', 'content_date_info', 'addContentModal');
+            $("#addContentModal").modal('show');
         },
-        append_date_input_field: function(fieldId, selectorId) {
+        append_date_input_field: function(fieldId, fieldInfoId, selectorId) {
             if (!$('#' + fieldId).length) {
                 $('<input>').attr({
                     type: 'hidden',
@@ -162,6 +152,14 @@
             } else {
                 $('#' + fieldId).val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD') + ' ' + moment().format('HH:mm:ss'));
             }
+
+            if (!$('#' + fieldInfoId).length) {
+                $('<h4>').attr({
+                    id: fieldInfoId,
+                }).prependTo('#' + selectorId + ' .sidemodal-container');
+            }
+
+            $('#' + fieldInfoId).html(moment($('#' + fieldId).val(), "YYYY-MM-DD HH:mm:ss").format('YYYY-MM-DD [at] HH:mm'));
         }
     });
 
