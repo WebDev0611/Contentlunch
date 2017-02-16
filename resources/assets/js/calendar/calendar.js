@@ -129,37 +129,39 @@
         },
         show_idea_modal: function () {
             $("#createIdea .form-delimiter").hide();
-            var cell_date = this.$el.data('cell-date');
-
-            if (!$('#idea_date').length) {
-                $('<input>').attr({
-                    type: 'hidden',
-                    id: 'idea_date',
-                }).appendTo('#createIdea');
-            }
-
-            if (!$('#idea_date_info').length) {
-                $('<h4>').attr({
-                    id: 'idea_date_info',
-                }).prependTo('#createIdea .sidemodal-container');
-            }
-
-            if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
-                cell_date = this.$el.data('cell-date-time');
-                $('#idea_date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm:ss'));
-            } else {
-                $('#idea_date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD') + ' ' + moment().format('HH:mm:ss'));
-            }
-
-            $('#idea_date_info').html(moment($('#idea_date').val(), "YYYY-MM-DD HH:mm:ss").format('YYYY-MM-DD [at] HH:mm'));
+            this.append_date_input_field('idea_date', 'idea_date_info', 'createIdea');
             $("#createIdea").modal('show');
         },
         show_content_modal: function () {
-            console.log('add content');
-            //$("#createIdea").modal('show');
+            this.append_date_input_field('content_date', 'content_date_info', 'addContentModal');
+            $("#addContentModal").modal('show');
+        },
+        append_date_input_field: function(fieldId, fieldInfoId, selectorId) {
+            if (!$('#' + fieldId).length) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    id: fieldId,
+                }).appendTo('#' + selectorId);
+            }
+
+            var cell_date = this.$el.data('cell-date');
+
+            if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
+                cell_date = this.$el.data('cell-date-time');
+                $('#' + fieldId).val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm:ss'));
+            } else {
+                $('#' + fieldId).val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD') + ' ' + moment().format('HH:mm:ss'));
+            }
+
+            if (!$('#' + fieldInfoId).length) {
+                $('<h4>').attr({
+                    id: fieldInfoId,
+                }).prependTo('#' + selectorId + ' .sidemodal-container');
+            }
+
+            $('#' + fieldInfoId).html(moment($('#' + fieldId).val(), "YYYY-MM-DD HH:mm:ss").format('YYYY-MM-DD [at] HH:mm'));
         }
     });
-
 
     $(function () {
         var my_campaigns = new campaign_collection(campaigns.map(function (c) {
@@ -419,6 +421,17 @@
             store_idea('parked', addCallback);
         });
 
+        // Content
+        tinymce.init({
+            selector: 'textarea.wysiwyg',  // change this value according to your HTML
+            plugin: 'a_tinymce_plugin',
+            a_plugin_option: true,
+            a_configuration_option: 400
+        });
+
+        $('#add-content-button').click(function () {
+            store_content(addCallback);
+        });
 
         /*
          var drop_down_calendar_tool = Backbone.View.extend({

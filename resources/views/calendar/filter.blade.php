@@ -1,4 +1,4 @@
-    <div id="filterModal" class="sidemodal inset">
+    <div id="filterModal" class="sidemodal large">
         <div class="sidemodal-header">
             <h4 class="sidemodal-header-title">Filter Calendar</h4>
             <button class="sidemodal-close" data-dismiss="modal">
