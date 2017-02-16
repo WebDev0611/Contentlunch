@@ -161,7 +161,7 @@ class CalendarController extends Controller
             'campaigns' => $this->campaigns,
             'user_id' => $this->user_id,
             'account_id' => $this->account_id,
-            'available_content_types' => ContentType::where('provider_id', '!=', 0)->get(),
+            'available_content_types' => ContentType::where('active', '!=', 0)->get(),
             'contenttypedd' => ContentTypePresenter::dropdown()
         ));
     }
@@ -342,7 +342,7 @@ class CalendarController extends Controller
 
             'user_id' => $this->user_id,
             'account_id' => $this->account_id,
-            'available_content_types' => ContentType::where('provider_id', '!=', 0)->get(),
+            'available_content_types' => ContentType::where('active', '!=', 0)->get(),
             'contenttypedd' => ContentTypePresenter::dropdown(),
             'campaigns' => $this->campaigns->toJson(),
             'content_items' => $content,
@@ -426,7 +426,7 @@ class CalendarController extends Controller
 
             'user_id' => $this->user_id,
             'account_id' => $this->account_id,
-            'available_content_types' => ContentType::where('provider_id', '!=', 0)->get(),
+            'available_content_types' => ContentType::where('active', '!=', 0)->get(),
             'contenttypedd' => ContentTypePresenter::dropdown(),
             'campaigns' => $this->campaigns->toJson(),
             'content_items' => $content,

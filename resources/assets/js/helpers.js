@@ -324,45 +324,57 @@ function addedIdeaCallback(callback) {
 }
 
 // Content
-function store_content(action, callback) {
+function store_content(callback) {
     $('#add-content-button').prop('disabled', true);
 
     $('#content-status-alert').addClass('hidden');
-    if ($('#content-title').val().length < 1) {
+    if ($('#content-title').val().length < 1 || $("#content-type-id option:selected").val().length < 1) {
         $('#content-status-alert')
             .toggleClass('hidden')
             .toggleClass('alert-danger')
             .show();
 
-        $('#content-status-text').text('Idea title required');
+        $('#content-status-text').text('Content title required \r\n Content type required');
         $('#add-content-button').prop('disabled', false);
 
         return;
     }
 
-    $('#idea-menu').prepend(loadIMG);
-
+    $('#content-menu').prepend(loadIMG);
 
     //saves the form data
-    //let content = this.collection.where({selected: true});
-    let idea_obj = {
-        name: $('.idea-name').val(),
-        idea: $('.idea-text').val(),
-        tags: $('.idea-tags').val(),
-        created_at: $('#idea_date').val(),
-        status: action,
-        /*
-         content: content.map(function (m) {
-         return m.attributes;
-         })
-         */
+    let content_obj = {
+        title: $('#content-title').val(),
+        content_type: $( "#content-type-id option:selected" ).val(),
+        due_date: $('#content-due-date').val(),
+        body: tinyMCE.get('content-body').getContent(),
+        created_at: $('#content_date').val()
     };
     return $.ajax({
-        url: '/ideas',
+        url: '/create/new',
         type: 'post',
-        data: idea_obj,
+        data: content_obj,
         headers: getCSRFHeader(),
         dataType: 'json',
-        success: addedIdeaCallback(callback)
+        success: addedContentCallback(callback)
     });
+}
+
+function addedContentCallback(callback) {
+    return function (res) {
+        $(loadIMG).remove();
+        $("#addContentModal").modal('hide');
+        clearContentInputs();
+        $('#add-content-button').prop('disabled', false);
+
+        if ('function' === typeof callback) {
+            callback(res);
+        }
+    }
+}
+
+function clearContentInputs() {
+    $('#content-title').val('');
+    $('#content-due-date').val('');
+    tinyMCE.get('content-body').setContent('');
 }

@@ -421,6 +421,17 @@
             store_idea('parked', addCallback);
         });
 
+        // Content
+        tinymce.init({
+            selector: 'textarea.wysiwyg',  // change this value according to your HTML
+            plugin: 'a_tinymce_plugin',
+            a_plugin_option: true,
+            a_configuration_option: 400
+        });
+
+        $('#add-content-button').click(function () {
+            store_content(addCallback);
+        });
 
         /*
          var drop_down_calendar_tool = Backbone.View.extend({
