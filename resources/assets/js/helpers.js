@@ -52,6 +52,10 @@ $(function () {
         format: 'YYYY-MM-DD HH:mm',
         sideBySide: true,
     });
+
+    $('#content-due-date').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
 });
 
 function openTaskModal() {
@@ -253,6 +257,7 @@ $(".checkbox-color input").change(function () {
     $('#' + that.id).click();
 });
 
+// Idea
 function store_idea(action, callback) {
     $('.save-idea').prop('disabled', true);
     $('.park-idea').prop('disabled', true);
@@ -316,4 +321,48 @@ function addedIdeaCallback(callback) {
             callback(res);
         }
     }
+}
+
+// Content
+function store_content(action, callback) {
+    $('#add-content-button').prop('disabled', true);
+
+    $('#content-status-alert').addClass('hidden');
+    if ($('#content-title').val().length < 1) {
+        $('#content-status-alert')
+            .toggleClass('hidden')
+            .toggleClass('alert-danger')
+            .show();
+
+        $('#content-status-text').text('Idea title required');
+        $('#add-content-button').prop('disabled', false);
+
+        return;
+    }
+
+    $('#idea-menu').prepend(loadIMG);
+
+
+    //saves the form data
+    //let content = this.collection.where({selected: true});
+    let idea_obj = {
+        name: $('.idea-name').val(),
+        idea: $('.idea-text').val(),
+        tags: $('.idea-tags').val(),
+        created_at: $('#idea_date').val(),
+        status: action,
+        /*
+         content: content.map(function (m) {
+         return m.attributes;
+         })
+         */
+    };
+    return $.ajax({
+        url: '/ideas',
+        type: 'post',
+        data: idea_obj,
+        headers: getCSRFHeader(),
+        dataType: 'json',
+        success: addedIdeaCallback(callback)
+    });
 }

@@ -146,6 +146,12 @@ class ContentController extends Controller
 
         $this->selectedAccount->contents()->save($content);
 
+        if($request->ajax()) {
+            $content->due_date = $request->input('due_date');
+            $content->body = $request->input('body');
+            return $content->save();
+        }
+
         return redirect('edit/'.$content->id);
     }
 

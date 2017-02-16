@@ -27,15 +27,31 @@
             <label for="#">Content Title</label>
             <input type="text" name="content-title" id="content-title" class="input" placeholder="Enter Content Title">
         </div>
-        <div class="input-form-group">
-            <label for="#">Due Date</label>
-            <input type="text" name="content-due-date" id="content-due-date" class="input input-calendar"
-                   placeholder="Select Date">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-form-group">
+                    <label for="dueDate">Due Date</label>
+                    <input class="input-calendar datetimepicker input form-control" id="content-due-date"
+                           name="content-due-date" type="text" value="">
+                </div>
+            </div>
         </div>
+
         <div class="input-form-group">
             <label for="#">Content Type</label>
-            <select class="input" name="content-type" id="content-type">
-            </select>
+
+            <div class="select">
+                {!! Form::select('content-type-id', $contenttypedd, @isset($content)? $content->content_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'content-type-id', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
+            </div>
+        </div>
+
+        <div class="input-form-group">
+            <label for="dueDate">Content</label>
+            <div class="editor" style="min-height: 330px;">
+                <textarea placeholder="Enter content" class="input input-larger form-control wysiwyg" id="content-body"
+                          name="content-body" cols="50" rows="10"></textarea>
+            </div>
         </div>
 
         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
