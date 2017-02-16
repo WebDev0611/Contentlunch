@@ -122,7 +122,7 @@ var AddCampaignCollaboratorModal = Backbone.View.extend({
     saveCollaboratorsToAPI() {
         return $.ajax({
             method: 'post',
-            url: `/api/campaigns/${this.campaignId}/collaborators`,
+            url: `/api/campaigns/${this.data.campaignId}/collaborators`,
             headers: getCSRFHeader(),
             data: {
                 authors: this.getCheckedCollaborators()
@@ -145,7 +145,7 @@ var AddCampaignCollaboratorModal = Backbone.View.extend({
 
     refreshCollaborators(response) {
         this.data.parentList.html('');
-        this.collection.populateList(this.campaignId);
+        this.collection.populateList(this.data.campaignId);
         this.dismissModal();
     },
 
