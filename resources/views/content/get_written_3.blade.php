@@ -143,6 +143,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="input-form-group loading" style='display:none'>
+                        <img src="/images/ring.gif" class='loading-relative' alt="">
+                    </div>
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -158,7 +161,7 @@
 
         function stripeResponseHandler(status, response) {
             var $form = $('#orderForm');
-            console.log(response);
+
             if (response.error) {
                 $form.find('input[type=submit]').prop('disabled', false);
                 $('#paymentErrors')
@@ -171,11 +174,19 @@
             }
         }
 
+        function disableForm($form) {
+            $form.find('input').prop('disabled', true);
+        }
+
+        function showLoading() {
+            $('.loading').fadeIn('fast');
+        }
+
         $('#orderForm').submit(function(e) {
             var $form = $(this);
-            console.log(e);
 
-            $form.find('input[type=submit]').prop('disabled', true);
+            disableForm($form);
+            showLoading();
 
             Stripe.card.createToken($form, stripeResponseHandler);
 
