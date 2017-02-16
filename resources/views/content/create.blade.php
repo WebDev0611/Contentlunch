@@ -31,7 +31,7 @@
                             <i class="icon-export"></i>
                             <h3>Import Content</h3>
                             <p>
-                                Import content from a file or a web source
+                                Import content from a file or a web source. <br>
                             </p>
                         </a>
                     </li>
