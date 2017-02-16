@@ -3,17 +3,17 @@ var teamMemberInviteModalView = Backbone.View.extend({
         'click .send-invitation': 'sendInvites'
     },
 
-    initialize: function() {
+    initialize() {
         this.render();
     },
 
-    render: function() {
+    render() {
         this.$el.modal('show');
 
         return this;
     },
 
-    sendInvites: function() {
+    sendInvites() {
         var emails = this.$el.find('.email-invites').val();
 
         if (!emails) {
@@ -33,11 +33,11 @@ var teamMemberInviteModalView = Backbone.View.extend({
         .then(this.showFeedback.bind(this));
     },
 
-    hideModal: function(response) {
+    hideModal(response) {
         this.$el.modal('hide');
     },
 
-    showFeedback: function(response) {
+    showFeedback(response) {
         var alert = "<div class='alert alert-success alert-forms' id='dashboard-feedback' style='display:none'>" +
             "Invites sent!" +
         "</div>";
