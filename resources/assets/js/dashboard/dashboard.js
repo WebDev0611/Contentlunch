@@ -1,4 +1,6 @@
-(function($) {
+$(document).ready(function() {
+
+    setUpTask();
 
     function taskUpdateCallback(collection) {
         $('#incomplete-tasks').text(collection.length);
@@ -10,10 +12,12 @@
     //  var activity_feed_container = new activity_feed_view({el: '#activity-feed-container', collection: activity_feed });
 
     var recent_ideas = new recent_ideas_collection();
-    recent_ideas.on('update', (collection) => $('.idea-count').text(collection.length));
+    recent_ideas.on('update', function (collection) {
+        return $('.idea-count').text(collection.length);
+    });
 
     var ideas = new recent_ideas_view({
-        el:'#recent-ideas',
+        el: '#recent-ideas',
         collection: recent_ideas
     });
 
@@ -28,18 +32,13 @@
 
     team_members.fetch().then(team.render.bind(team));
 
-})(jQuery);
+    function setUpTask() {
+        $('#add-task-button').click(function () {
+            add_task(addTaskCallback);
+        });
 
-function setUpTask() {
-    $('#add-task-button').click(function() {
-        add_task(addTaskCallback);
-    });
-
-    function addTaskCallback(task) {
-        $('#addTaskModal').modal('hide');
+        function addTaskCallback(task) {
+            $('#addTaskModal').modal('hide');
+        }
     }
-}
-
-$(document).ready(function() {
-    setUpTask();
 });
