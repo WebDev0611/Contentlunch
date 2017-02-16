@@ -11,7 +11,7 @@
     <p>
         You can log into your private account at: <br>
         <br>
-        <a href="http://app.contentlaunch.com">http://app.contentlaunch.com</a>
+        <a href="https://app.contentlaunch.com">http://app.contentlaunch.com</a>
         <br>
         Email: {{ $user->email }} <br>
         Password: <strong>Your chosen password</strong>
