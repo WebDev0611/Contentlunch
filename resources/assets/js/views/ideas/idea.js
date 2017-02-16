@@ -60,8 +60,9 @@ var idea_view = Backbone.View.extend({
 
     render() {
         this.$el.html(this.template(this.model.attributes));
+        const status = this.model.get('status');
 
-        if (this.model.get('status') == 'parked') {
+        if (status == 'parked') {
             this.$el.find('#park-it-btn').hide();
         } else {
             this.$el.find('#unpark-it-btn').hide();
@@ -82,29 +83,26 @@ var idea_view = Backbone.View.extend({
     park() {
         return $.ajax({
             url: '/idea/park',
-            data: {idea_id:this.model.get('id')},
+            data: {
+                idea_id: this.model.get('id')
+            },
             type:'post',
-            headers: {
-                'X-CSRF-TOKEN': $('input[name=_token]').val()
-            }
         })
-        .then(function(res) {
-            console.log('parked' + this.model.attributes.id);
-            //show msg
+        .then(res => {
+            location.reload();
         });
     },
 
     activate() {
         return $.ajax({
             url: '/idea/activate',
-            data: {idea_id:this.model.get('id')},
+            data: {
+                idea_id: this.model.get('id')
+            },
             type:'post',
-            headers: {
-                'X-CSRF-TOKEN': $('input[name=_token]').val()
-            }
         })
-        .then(function(res) {
-            console.log('parked' + this.model.attributes.id);
+        .then(res => {
+            location.reload();
         });
     }
 });

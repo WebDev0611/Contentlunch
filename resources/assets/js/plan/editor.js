@@ -8,15 +8,15 @@
             "click .park-idea": 'park_idea'
         },
 
-        initialize: function() {
+        initialize() {
             console.log(this.model.attributes);
         },
 
-        render: function() {
+        render() {
             return this;
         },
 
-        save_idea: function() {
+        save_idea() {
             return $.ajax({
                 url: '/idea/update/' + this.model.get('id'),
                 data: this.get_form_data(),
@@ -27,7 +27,7 @@
             }.bind(this));
         },
 
-        get_form_data: function() {
+        get_form_data() {
             return {
                 name: $('#idea-name').val(),
                 idea: $('#idea-text').val(),
@@ -35,7 +35,7 @@
             };
         },
 
-        reject_idea: function() {
+        reject_idea() {
             return $.ajax({
                 url: '/idea/reject/' + this.model.get('id'),
                 type: 'post',
@@ -46,7 +46,7 @@
             }.bind(this));
         },
 
-        park_idea: function() {
+        park_idea() {
             return $.ajax({
                 url: '/idea/park',
                 type:'post',
@@ -60,7 +60,7 @@
             }.bind(this));
         },
 
-        show_alert: function(status,text) {
+        show_alert(status,text) {
             var alert_button =  $('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
             var alert_text = $('<div class="alert alert-success alert-forms alert-dismissable" role="alert" />').text(text).append(alert_button);
             $('#responses').append( alert_text );
