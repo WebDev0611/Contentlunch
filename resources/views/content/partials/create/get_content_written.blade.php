@@ -53,15 +53,13 @@
                     <div class="col-md-12">
                         <div class="input-form-group">
                             <label for="#">Project Deadline</label>
-                            <div class='input-group date datetimepicker'>
-                                {!!
-                                    Form::text('due_date', null,
-                                        [ 'class' => ' input form-control', 'id' => 'dueDate' ])
-                                !!}
-                                <span class="input-group-addon">
-                                    <i class="icon-calendar picto"></i>
-                                </span>
-                            </div>
+                            @php
+                                $dueDateOptions = [
+                                    'class' => 'input-calendar datetimepicker input form-control',
+                                    'id' => 'dueDate'
+                                ];
+                            @endphp
+                            {!! Form::text('due_date', null, $dueDateOptions) !!}
                         </div>
                     </div>
                 </div>
@@ -132,7 +130,7 @@
     var prices =  (function() { return {!! $pricesJson !!}; })();
 
     $('.datetimepicker').datetimepicker({
-        format: 'YYYY-MM-DD'
+        format: 'MM-DD-YYYY'
     });
 
     (function() {
