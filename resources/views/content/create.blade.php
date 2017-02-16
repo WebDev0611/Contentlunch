@@ -55,10 +55,12 @@
                         @include('content.partials.create.get_content_written')
                     </div>
                     <div id="ImportContent" class="create-tabs-content tab-pane">
-                        @include('content.partials.create.import_content')
+                        {{-- @include('content.partials.create.import_content') --}}
+                        @include('content.partials.create.coming_soon')
                     </div>
                     <div id="UploadContent" class="create-tabs-content tab-pane">
-                        @include('content.partials.create.upload_content')
+                        {{-- @include('content.partials.create.upload_content') --}}
+                        @include('content.partials.create.coming_soon')
                     </div>
                 </div>
             </div>
