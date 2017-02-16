@@ -45,7 +45,7 @@ class Calendar extends Model
         $input['color'] = 'd68ae6';
         $input['show_ideas'] = true;
         $input['show_tasks'] = true;
-        $input['content_type_ids'] = ContentType::where('provider_id', '!=', 0)->pluck('id')->toArray();
+        $input['content_type_ids'] = ContentType::where('active', '!=', 0)->pluck('id')->toArray();
 
         $cal = new Calendar();
 

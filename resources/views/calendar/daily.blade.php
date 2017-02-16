@@ -54,6 +54,7 @@
 
 @include('calendar.filter')
 @include('calendar.create')
+@include('calendar.contentmodal')
 
 @include('plan.createmodal')
 @stop
@@ -88,12 +89,12 @@
                   <% } %>
                   <strong><%= author %></strong>
               </div>
-              <% if (type == 'task') { %>
+              <% if (typeof(due) !== "undefined" && due !== null) { %>
               <div class="calendar-task-list-popover-info col-md-6">
                   Due Date
                   <strong><%= due %></strong>
               </div>
-               <% } %>
+              <% } %>
                <% if (type == 'content') { %>
               <div class="calendar-task-list-popover-info col-md-6">
                   Status
