@@ -345,7 +345,7 @@ function store_content(callback) {
     //saves the form data
     let content_obj = {
         title: $('#content-title').val(),
-        content_type: $( "#content-type-id option:selected" ).val(),
+        content_type: $("#content-type-id option:selected").val(),
         due_date: $('#content-due-date').val(),
         body: tinyMCE.get('content-body').getContent(),
         created_at: $('#content_date').val()
@@ -377,4 +377,62 @@ function clearContentInputs() {
     $('#content-title').val('');
     $('#content-due-date').val('');
     tinyMCE.get('content-body').setContent('');
+}
+
+
+// Invite guests
+function send_invites() {
+    $('#invite-guests .alert').hide();
+    $('#invite-guests-button').prepend(loadIMG);
+    let emails = $('#invite-guests .email-invites').val();
+
+    if (!emails) {
+        console.log('no');
+        $('#invite-guests .alert').slideDown('fast');
+        $(loadIMG).remove();
+        return;
+    }
+
+    let emailsCount = emails.split(',').length;
+
+    return $.ajax({
+        headers: getCSRFHeader(),
+        method: 'post',
+        url: '/invite/emails',
+        data: {
+            emails: emails
+        },
+        success: function (result) {
+            show_feedback(true, emailsCount)
+        },
+        error: function(result) {
+            show_feedback(false)
+        },
+        complete: function() {
+            $(loadIMG).remove()
+        }
+    });
+}
+
+function show_feedback(ok, emailsCount = 0) {
+    const alert_ok = _.template(`
+            <div class='alert alert-success alert-forms' id='dashboard-feedback' style='display:none'>
+                <%= emailsCount > 1 ? 'Invites' : 'Invite' %> sent!
+            </div>
+        `);
+    const alert_error = _.template(`
+            <div class='alert alert-danger alert-forms' id='dashboard-feedback' style='display:none'>
+                There was an issue with provided email adress(es)
+            </div>
+        `);
+
+    const element = ok ? alert_ok({ emailsCount : emailsCount }) : alert_error({});
+
+    $('#dashboard-feedback').remove();
+    $(element).prependTo('#invite-guests');
+    $('#dashboard-feedback').slideDown();
+
+    setTimeout(function() {
+        $('#dashboard-feedback').slideUp();
+    }, 3000);
 }
