@@ -254,25 +254,10 @@
                 return e.id == c.content_type_id;
             });
 
-            c.type_class = 'primary icon-content-alert';
-            if (type[0] != null && type[0].provider != null) {
-                c.type_class = 'icon-type-' + type[0].provider.slug;
+            c.type_class = 'primary icon-content-alert ';
+            if (type[0] != null && type[0].slug != null) {
+                c.type_class += 'icon-' + type[0].slug;
             }
-
-            /*
-             TODO: add proper classes to types without provider
-             if (type[0] != null) {
-             if (type[0].provider != null) {
-             c.type_class = 'icon-type-' + type[0].provider.slug;
-             } else {
-             if (type[0].name.substring(0, type[0].name.indexOf(" ")).length > 0) {
-
-             } else {
-
-             }
-             }
-             }
-             */
 
             c.author = '';
             c.authors.forEach(function (author) {
@@ -323,7 +308,9 @@
 
         content_types.on('update', function (type) {
             type.forEach(function (i) {
-                types.push(i.toJSON());
+                let el = i.toJSON();
+                el.slug = el.name.toLowerCase().split(' ').join('-');
+                types.push(el);
             });
 
             addCallback();

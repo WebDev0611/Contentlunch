@@ -67,14 +67,40 @@
   &.purple {
     background: #6944b7;
   }
-  &.icon-type-blog, &.icon-type-hubspot, &.icon-type-wordpress {
+  &.icon-blog-post, &.icon-hubspot-blog-post {
     background: #16588d;
+
+    &:before {
+      content: "\e958";
+    }
   }
-  &.icon-type-facebook {
+  &.icon-facebook-post {
     background: #3E5B99;
+
+    &:before {
+      content: "\e959";
+    }
   }
-  &.icon-type-twitter {
+  &.icon-tweet {
     background: #1DA1F2;
+
+    &:before{
+      content: "\e95a";
+    }
+  }
+  &.icon-email {
+    background: #6c7786;
+
+    &:before {
+      content: "\e91e";
+    }
+  }
+  &.icon-website-page {
+    background: #39AAB3;
+
+    &:before {
+      content: "\e914";
+    }
   }
 }
 
