@@ -146,8 +146,10 @@
 
     ga('create', 'UA-92080489-1', 'auto');
     ga('send', 'pageview');
-
 </script>
+
+@include('layouts.partials.js_user')
+@include('layouts.partials.intercom')
 
 </body>
 </html>

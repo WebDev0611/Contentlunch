@@ -69,5 +69,9 @@ desired effect
 
 </script>
 
+@include('layouts.partials.js_user')
+@include('layouts.partials.intercom')
+
+
 </body>
 </html>
