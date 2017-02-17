@@ -15,8 +15,8 @@ var ContentTaskView = Backbone.View.extend({
 
 
                 <div class="user-avatar">
-                <% if (typeof(user_profile_image) !== "undefined" && user_profile_image !== null ) { %>
-                    <img src="<%= user_profile_image %>" alt="<%= user.name %>" title="<%= user.name %>">
+                <% if (typeof(user.profile_image) !== "undefined" && user.profile_image !== null ) { %>
+                    <img src="<%= user.profile_image %>" alt="<%= user.name %>" title="<%= user.name %>">
                 <% } else { %>
                     <img src="/images/cl-avatar2.png" alt="<%= user.name %>" title="<%= user.name %>">
                 <% } %>

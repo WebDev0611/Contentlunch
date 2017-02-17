@@ -136,7 +136,7 @@
             this.append_date_input_field('content_date', 'content_date_info', 'addContentModal');
             $("#addContentModal").modal('show');
         },
-        append_date_input_field: function(fieldId, fieldInfoId, selectorId) {
+        append_date_input_field: function (fieldId, fieldInfoId, selectorId) {
             if (!$('#' + fieldId).length) {
                 $('<input>').attr({
                     type: 'hidden',
@@ -218,7 +218,17 @@
             c.date = c.created_at;
             c.type = 'content';
             c.details_url = '/edit/' + c.id;
-            c.explanation = c.body.substr(0, 140) + ' ...';
+
+            // Limit popup text to 30 words
+            let str_text = '';
+            if (/<[a-z][\s\S]*>/i.test(c.body)) {
+                // If text contains formatted html
+                str_text = jQuery(c.body).text();
+            } else {
+                str_text = c.body;
+            }
+            c.explanation = str_text.split(" ").splice(0, 30).join(" ") + '...';
+
             c.due = moment(c.due_date).format('MM/DD/YYYY');
 
             // Published status
@@ -244,25 +254,10 @@
                 return e.id == c.content_type_id;
             });
 
-            c.type_class = 'primary icon-content-alert';
-            if (type[0] != null && type[0].provider != null) {
-                c.type_class = 'icon-type-' + type[0].provider.slug;
+            c.type_class = 'primary icon-content-alert ';
+            if (type[0] != null && type[0].slug != null) {
+                c.type_class += 'icon-' + type[0].slug;
             }
-
-            /*
-             TODO: add proper classes to types without provider
-             if (type[0] != null) {
-             if (type[0].provider != null) {
-             c.type_class = 'icon-type-' + type[0].provider.slug;
-             } else {
-             if (type[0].name.substring(0, type[0].name.indexOf(" ")).length > 0) {
-
-             } else {
-
-             }
-             }
-             }
-             */
 
             c.author = '';
             c.authors.forEach(function (author) {
@@ -313,7 +308,9 @@
 
         content_types.on('update', function (type) {
             type.forEach(function (i) {
-                types.push(i.toJSON());
+                let el = i.toJSON();
+                el.slug = el.name.toLowerCase().split(' ').join('-');
+                types.push(el);
             });
 
             addCallback();
