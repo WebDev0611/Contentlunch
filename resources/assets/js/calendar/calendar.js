@@ -136,7 +136,7 @@
             this.append_date_input_field('content_date', 'content_date_info', 'addContentModal');
             $("#addContentModal").modal('show');
         },
-        append_date_input_field: function(fieldId, fieldInfoId, selectorId) {
+        append_date_input_field: function (fieldId, fieldInfoId, selectorId) {
             if (!$('#' + fieldId).length) {
                 $('<input>').attr({
                     type: 'hidden',
@@ -218,7 +218,17 @@
             c.date = c.created_at;
             c.type = 'content';
             c.details_url = '/edit/' + c.id;
-            c.explanation = c.body.substr(0, 140) + ' ...';
+
+            // Limit popup text to 30 words
+            let str_text = '';
+            if (/<[a-z][\s\S]*>/i.test(c.body)) {
+                // If text contains formatted html
+                str_text = jQuery(c.body).text();
+            } else {
+                str_text = c.body;
+            }
+            c.explanation = str_text.split(" ").splice(0, 30).join(" ") + '...';
+
             c.due = moment(c.due_date).format('MM/DD/YYYY');
 
             // Published status
