@@ -313,5 +313,9 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
     ga('send', 'pageview');
 
 </script>
+
+@include('layouts.partials.js_user')
+@include('layouts.partials.intercom')
+
 </body>
 </html>
