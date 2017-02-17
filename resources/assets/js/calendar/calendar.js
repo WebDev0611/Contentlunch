@@ -433,6 +433,11 @@
             store_content(addCallback);
         });
 
+        // Invites
+        $('#invite-guests-button').click(function () {
+            send_invites();
+        });
+
         /*
          var drop_down_calendar_tool = Backbone.View.extend({
          events: {},

@@ -67,14 +67,21 @@
             </label>
         </div>
 
-        <fieldset class="form-fieldset">
+        <fieldset class="form-fieldset" id="invite-guests">
             <legend class="form-legend">Invite Guests</legend>
             <div class="form-group">
-                <input type="text" class="input input-secondary" placeholder="Enter one of more addresses">
+                <input type="text" class="input input-secondary email-invites" placeholder="Enter one of more addresses separated by commas">
             </div>
+
+            <div class="alert alert-danger alert-forms" style="display: none;">
+                Please enter one or more email addresses.
+            </div>
+
             <div class="form-group">
-                <button class="button button-tertiary button-extend text-uppercase">Submit</button>
+                <button class="button button-tertiary button-extend text-uppercase" id="invite-guests-button">Submit</button>
             </div>
+
+            <!--
             <label for="#">Allow Access To</label>
             <label for="AllowAccessIdeas" class="checkbox-primary checkbox-allow-access">
                 <input id="AllowAccessIdeas" type="checkbox">
@@ -88,6 +95,7 @@
                 <input id="AllowAccessTasks" type="checkbox">
                 <span>Tasks</span>
             </label>
+            -->
         </fieldset>
 
 
