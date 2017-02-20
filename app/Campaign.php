@@ -14,6 +14,10 @@ class Campaign extends Model
 
     protected $presenter = CampaignPresenter::class;
 
+    const INACTIVE = 0;
+    const ACTIVE = 1;
+    const PAUSED = 2;
+
     public $fillable = [
         'user_id',
         'account_id',
@@ -70,6 +74,21 @@ class Campaign extends Model
     public function __toString()
     {
         return $this->title;
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', static::ACTIVE);
+    }
+
+    public function scopeInactive($query)
+    {
+        return $query->where('status', static::INACTIVE);
+    }
+
+    public function scopePaused($query)
+    {
+        return $query->where('status', static::PAUSED);
     }
 
     public function hasCollaborator(User $user)

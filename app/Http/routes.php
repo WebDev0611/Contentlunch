@@ -122,6 +122,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/content/orders/delete/{id}', ['as' => 'orderDelete', 'uses' => 'ContentController@orderDelete']);
     Route::get('/content/my', 'ContentController@my');
 
+    Route::get('/content/campaigns', 'CampaignController@dashboardIndex');
+
     // Facebook Callbacks
     //
     Route::get('callback/facebook', ['as' => 'facebookProvider', 'uses' => 'Connections\FacebookController@callback']);

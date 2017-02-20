@@ -12,6 +12,12 @@
   &:hover {
     background: #fbfcfd;
   }
+
+  &.dashboard-container-borders:first-child {
+    .dashboard-tasks-cell {
+      border-top: 1px solid #e6e9f1;
+    }
+  }
 }
 
 .dashboard-tasks-cell {
