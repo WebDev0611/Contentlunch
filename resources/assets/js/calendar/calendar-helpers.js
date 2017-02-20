@@ -1,4 +1,11 @@
 // Calendar helpers
+function get_this_calendar() {
+    let this_calendar_arr = $.grep(my, function (e) {
+        return e.id == calendar.id;
+    });
+    return this_calendar_arr[0];
+}
+
 function add_calendar(callback) {
 
     if (isCalendarDataValid()) {
@@ -257,4 +264,20 @@ function show_feedback(ok, emailsCount = 0) {
     setTimeout(function () {
         $('#dashboard-feedback').slideUp();
     }, 3000);
+}
+
+// Filter
+function reset_filter(this_calendar) {
+    $('#filter-type-tasks, #filter-type-ideas, .filter-content-type option').removeAttr('selected');
+    if (this_calendar.show_tasks == "1") {
+        $('#filter-type-tasks').attr('selected', 'selected');
+    }
+    if (this_calendar.show_ideas == "1") {
+        $('#filter-type-ideas').attr('selected', 'selected');
+    }
+    $.each(this_calendar.content_types, function (key, type) {
+        if (type.active == '1') {
+            $('#filter-type-id-' + type.id).attr('selected', 'selected');
+        }
+    });
 }

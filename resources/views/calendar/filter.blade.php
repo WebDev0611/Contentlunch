@@ -6,7 +6,7 @@
         </button>
     </div>
     <div class="sidemodal-container">
-        <a href="#" class="sidemodal-link text-right text-uppercase">Clear Filters</a>
+        <a href="#" id="clear-filters-btn" class="sidemodal-link text-right text-uppercase">Clear Filters</a>
 
 
         <!--
@@ -26,7 +26,7 @@
             <label for="#">Content Type</label>
 
             <div class="input-group filter-content-type">
-                <select class="multipleSelect" multiple data-user-option-allowed="false" >
+                <select class="multipleSelect" multiple data-user-option-allowed="false">
                     <option id="filter-type-tasks" value="tasks">Tasks</option>
                     <option id="filter-type-ideas" value="ideas">Ideas</option>
 
@@ -36,7 +36,7 @@
                     @endforeach
                 </select>
 
-                <span class="button-input-group">
+                <span class="button-input-group" >
                       <button class="button button-outline-secondary button-small" type="button" id="filter-plus-btn">
                           <i class="icon-add"></i>
                       </button>

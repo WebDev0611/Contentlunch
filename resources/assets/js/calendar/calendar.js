@@ -170,10 +170,7 @@
             return c;
         }));
 
-        var this_calendar_arr = $.grep(my, function (e) {
-            return e.id == calendar.id;
-        });
-        var this_calendar = this_calendar_arr[0];
+        var this_calendar = get_this_calendar();
 
         // Declarations
         var ideas = new ideas_collection();
@@ -431,36 +428,28 @@
             store_content(addCallback);
         });
 
-
         // Invites
         $('#invite-guests-button').click(function () {
             send_invites();
         });
 
-
         // Filter
-        // select content types on filter modal
-        if (this_calendar.show_tasks == "1") {
-            $('#filter-type-tasks').attr('selected', 'selected');
-        }
-        if (this_calendar.show_ideas == "1") {
-            $('#filter-type-ideas').attr('selected', 'selected');
-        }
-        $.each(this_calendar.content_types, function (key, type) {
-            if (type.active == '1') {
-                $('#filter-type-id-' + type.id).attr('selected', 'selected');
-            }
-        });
+        reset_filter(this_calendar);
 
-        $('.multipleSelect').fastselect();
-        console.log(this_calendar);
+        var multiple_select = $('.multipleSelect');
+        multiple_select.fastselect();
+
+        $('#filter-plus-btn').click(function () {
+            // TODO: not working
+            multiple_select.focus();
+        });
 
         $('#apply-filters').click(function () {
             let filter_content_types = [];
             this_calendar.show_tasks = '0';
             this_calendar.show_ideas = '0';
 
-            $.each($('.multipleSelect').find(":selected"), function (key, item) {
+            $.each(multiple_select.find(":selected"), function (key, item) {
                 switch (item.value) {
                     case 'tasks':
                         this_calendar.show_tasks = '1';
@@ -475,6 +464,12 @@
             });
 
             this_calendar.content_types = filter_content_types;
+            $("#filterModal").modal('hide');
+            addCallback();
+        });
+
+        $('#clear-filters-btn').click(function () {
+            reset_filter(this_calendar);
             $("#filterModal").modal('hide');
             addCallback();
         });
