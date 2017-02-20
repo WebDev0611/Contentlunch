@@ -18,7 +18,21 @@ class CampaignController extends Controller
 {
     public function index(Request $request)
     {
-        $campaigns = Account::selectedAccount()
+        return response()->json([
+            'data' => $this->accountCampaigns()
+        ]);
+    }
+
+    public function dashboardIndex()
+    {
+        return view('content.campaigns', [
+            'campaigns' => $this->accountCampaigns()
+        ]);
+    }
+
+    protected function accountCampaigns()
+    {
+        return Account::selectedAccount()
             ->campaigns()
             ->with('user')
             ->get()
@@ -29,8 +43,6 @@ class CampaignController extends Controller
 
                 return $campaign;
             });
-
-        return response()->json([ 'data' => $campaigns ]);
     }
 
     public function create(Request $request)
