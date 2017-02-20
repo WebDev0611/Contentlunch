@@ -65,7 +65,7 @@ function addedCalendarCallback(callback) {
         window.location = redirectUrl + '/' + res.id;
 
         if ('function' === typeof callback) {
-            callback(res);
+            callback();
         }
     }
 }
@@ -147,7 +147,7 @@ function addedIdeaCallback(callback) {
         $('.park-idea').prop('disabled', false);
 
         if ('function' === typeof callback) {
-            callback(res);
+            callback();
         }
     }
 }
@@ -197,7 +197,7 @@ function addedContentCallback(callback) {
         $('#add-content-button').prop('disabled', false);
 
         if ('function' === typeof callback) {
-            callback(res);
+            callback();
         }
     }
 }

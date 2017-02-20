@@ -315,9 +315,9 @@
         });
 
 
-        function addCallback(new_calendar = null) {
+        function addCallback(new_calendar = null, has_calendar = false) {
 
-            var this_calendar = new_calendar == null ? get_this_calendar() : new_calendar;
+            var this_calendar = (new_calendar != null && has_calendar == true) ? new_calendar : get_this_calendar();
 
             $('#calendar-loading-gif').show();
 
@@ -448,10 +448,10 @@
         });
 
         $('#apply-filters').click(function () {
-            let filter_content_types = [];
             let new_calendar = {
-                'show_tasks' : 0,
-                'show_ideas' : 0,
+                'show_tasks': 0,
+                'show_ideas': 0,
+                'content_types': []
             };
 
             $.each(multiple_select.find(":selected"), function (key, item) {
@@ -463,14 +463,13 @@
                         new_calendar.show_ideas = '1';
                         break;
                     default:
-                        filter_content_types.push({'id': item.value, 'name': item.text});
+                        new_calendar.content_types.push({'id': item.value, 'name': item.text});
                         break;
                 }
             });
 
-            new_calendar.content_types = filter_content_types;
             $("#filterModal").modal('hide');
-            addCallback(new_calendar);
+            addCallback(new_calendar, true);
         });
 
         $('#clear-filters-btn').click(function () {
