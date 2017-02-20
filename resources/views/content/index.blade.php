@@ -4,16 +4,8 @@
 <div class="workspace">
     <div class="panel clearfix">
         <div class="panel-main">
-            <div class="panel-header">
-                <ul class="panel-tabs spacing">
-                    <li class="active">
-                        <a href="/content">All Content</a>
-                    </li>
-                    <li>
-                        <a href="/content/orders">Writing Orders in Process</a>
-                    </li>
-                </ul>
-            </div>
+            @include('content.partials.dashboard.panel_tabs')
+
             {{--<div class="panel-header">
                 <h4 class="panel-container-title">{{ $countContent }} Content Items</h4>
             </div>--}}
