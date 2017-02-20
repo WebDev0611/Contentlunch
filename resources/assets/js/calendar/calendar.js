@@ -455,7 +455,29 @@
         $('.multipleSelect').fastselect();
         console.log(this_calendar);
 
-        
+        $('#apply-filters').click(function () {
+            let filter_content_types = [];
+            this_calendar.show_tasks = '0';
+            this_calendar.show_ideas = '0';
+
+            $.each($('.multipleSelect').find(":selected"), function (key, item) {
+                switch (item.value) {
+                    case 'tasks':
+                        this_calendar.show_tasks = '1';
+                        break;
+                    case 'ideas':
+                        this_calendar.show_ideas = '1';
+                        break;
+                    default:
+                        filter_content_types.push({'id': item.value, 'name': item.text});
+                        break;
+                }
+            });
+
+            this_calendar.content_types = filter_content_types;
+            $("#filterModal").modal('hide');
+            addCallback();
+        });
 
 
         /*
