@@ -213,7 +213,7 @@
 
             return t;
         }
-        
+
         function content_map(c) {
             c.date = c.created_at;
             c.type = 'content';
@@ -418,6 +418,7 @@
             store_idea('parked', addCallback);
         });
 
+
         // Content
         tinymce.init({
             selector: 'textarea.wysiwyg',  // change this value according to your HTML
@@ -430,10 +431,16 @@
             store_content(addCallback);
         });
 
+
         // Invites
         $('#invite-guests-button').click(function () {
             send_invites();
         });
+
+
+        // Filter
+        $('.multipleSelect').fastselect();
+        
 
         /*
          var drop_down_calendar_tool = Backbone.View.extend({
