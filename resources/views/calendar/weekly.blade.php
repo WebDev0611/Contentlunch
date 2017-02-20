@@ -59,6 +59,10 @@
 @include('plan.createmodal')
 @stop
 
+@section('styles')
+    <link rel="stylesheet" href="/css/plugins/fastselect/fastselect.min.css">
+@stop
+
 @section('scripts')
 <script type="text/template" id="calendar-item-template">
     <%

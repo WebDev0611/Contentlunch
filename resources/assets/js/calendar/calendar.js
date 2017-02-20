@@ -16,7 +16,10 @@
 
     /* calendar item collection */
     var calendar_item_collection = Backbone.Collection.extend({
-        model: calendar_item_model
+        model: calendar_item_model,
+        modelId: function (attrs) {
+            return attrs.type + "-" + attrs.id;
+        }
     });
 
     /* calendar item view */
@@ -469,7 +472,7 @@
         });
 
         $('#clear-filters-btn').click(function () {
-            reset_filter(this_calendar);
+            reset_filter(get_this_calendar());
             $("#filterModal").modal('hide');
             addCallback();
         });

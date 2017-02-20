@@ -267,15 +267,15 @@ function show_feedback(ok, emailsCount = 0) {
 }
 
 // Filter
-function reset_filter(this_calendar) {
+function reset_filter(t_calendar) {
     $('#filter-type-tasks, #filter-type-ideas, .filter-content-type option').removeAttr('selected');
-    if (this_calendar.show_tasks == "1") {
+    if (t_calendar.show_tasks == "1") {
         $('#filter-type-tasks').attr('selected', 'selected');
     }
-    if (this_calendar.show_ideas == "1") {
+    if (t_calendar.show_ideas == "1") {
         $('#filter-type-ideas').attr('selected', 'selected');
     }
-    $.each(this_calendar.content_types, function (key, type) {
+    $.each(t_calendar.content_types, function (key, type) {
         if (type.active == '1') {
             $('#filter-type-id-' + type.id).attr('selected', 'selected');
         }
