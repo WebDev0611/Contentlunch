@@ -24,6 +24,15 @@
   &.no-padding {
     padding-left: 0;
     padding-right: 0;
+
+    .create-panel-heading {
+      margin-left: 10px;
+    }
+
+    .alert {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
   }
 }
 
