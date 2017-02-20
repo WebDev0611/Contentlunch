@@ -439,8 +439,24 @@
 
 
         // Filter
+        // select content types on filter modal
+        if (this_calendar.show_tasks == "1") {
+            $('#filter-type-tasks').attr('selected', 'selected');
+        }
+        if (this_calendar.show_ideas == "1") {
+            $('#filter-type-ideas').attr('selected', 'selected');
+        }
+        $.each(this_calendar.content_types, function (key, type) {
+            if (type.active == '1') {
+                $('#filter-type-id-' + type.id).attr('selected', 'selected');
+            }
+        });
+
         $('.multipleSelect').fastselect();
+        console.log(this_calendar);
+
         
+
 
         /*
          var drop_down_calendar_tool = Backbone.View.extend({
