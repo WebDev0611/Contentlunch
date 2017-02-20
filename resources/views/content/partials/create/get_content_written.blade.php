@@ -108,7 +108,7 @@
             </div>
             <div class="col-md-4">
                 <div class="create-tabs-priceline">
-                    <span>TOTAL COST</span>
+                    <span>TOTAL EACH</span>
                     <h4 id="total_cost">$40.70</h4>
                 </div>
                 <div class="create-tabs-priceline hide">

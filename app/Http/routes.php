@@ -118,6 +118,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/content/multipublish/{content}', ['as' => 'contentMultiPublish', 'uses' => 'ContentController@directPublish']);
 
     Route::get('/content/orders', ['as' => 'contentOrders', 'uses' => 'ContentController@orders']);
+    Route::get('/content/orders/{id}', ['as' => 'contentOrder', 'uses' => 'ContentController@order']);
+    Route::get('/content/orders/delete/{id}', ['as' => 'orderDelete', 'uses' => 'ContentController@orderDelete']);
     Route::get('/content/my', 'ContentController@my');
 
     // Facebook Callbacks
@@ -192,6 +194,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('categories', 'WriterAccessController@categories');
         Route::get('account', 'WriterAccessController@account');
         Route::get('assetTypes', 'WriterAccessController@assetTypes');
+        Route::post('comment/{id}', 'WriterAccessController@postComment');
         Route::post('orders', 'WriterAccessController@createOrder');
         Route::get('orders', 'WriterAccessController@orders');
         Route::get('orders/{id}', 'WriterAccessController@orders');

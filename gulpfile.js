@@ -23,6 +23,7 @@ elixir(function (mix) {
             .scripts([
                 './bower_components/vue/dist/vue.js',
                 './bower_components/jquery/dist/jquery.min.js',
+                './bower_components/jquery-sticky/jquery.sticky.js',
                 './bower_components/underscore/underscore.js',
                 './bower_components/backbone/backbone.js',
                 './bower_components/moment/moment.js',
@@ -101,9 +102,6 @@ elixir(function (mix) {
 
             /* twitter scripts */
             .babel('resources/assets/js/collaborate/twitter.js', 'public/js/twitter.js')
-
-            /* WriterAccess scripts */
-            .babel('resources/assets/js/writer_access/bulk_order_status.js', 'public/js/writer_access/bulk_order_status.js')
 
             /* tiny mce assets */
             .copy('./bower_components/tinymce/themes', "public/js/themes")
