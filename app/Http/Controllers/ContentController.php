@@ -154,7 +154,7 @@ class ContentController extends Controller
             $content->setWritten();
             $this->ensureCollaboratorsExists($content);
             if($content->save()) {
-                return $response;
+                return $content;
             }
 
             return response()->json(['status' => 'error saving'], 500);

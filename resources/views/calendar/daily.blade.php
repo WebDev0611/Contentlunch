@@ -186,4 +186,5 @@ var calendar = {!! $cal !!};
 var my = {!! $my !!};
 </script>
 <script src="/js/calendar.js"></script>
+<script src="/js/calendar-helpers.js"></script>
 @stop

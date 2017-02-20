@@ -87,6 +87,7 @@ elixir(function (mix) {
             /* calendar scripts */
             .babel('resources/assets/js/calendar/calendar.js', "public/js/calendar.js")
             .babel('resources/assets/js/calendar/campaign-calendar.js', "public/js/campaign-calendar.js")
+            .babel('resources/assets/js/calendar/calendar-helpers.js', "public/js/calendar-helpers.js")
 
             /* home area scripts */
             .babel('resources/assets/js/dashboard/dashboard.js', "public/js/dashboard.js")

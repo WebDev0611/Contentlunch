@@ -213,7 +213,7 @@
 
             return t;
         }
-
+        
         function content_map(c) {
             c.date = c.created_at;
             c.type = 'content';
