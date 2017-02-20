@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Carbon\Carbon;
 use Validator;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
@@ -47,11 +48,15 @@ class WriterAccessPartialOrderController extends Controller
     {
         $validator = $this->creationValidator($request->all());
 
+        $params = $request->all();
+
+        $params["due_date"] = Carbon::createFromFormat("m-d-Y", $params["due_date"])->format("Y-m-d");
+
         if ($validator->fails()) {
             return redirect('/create')->with('errors', $validator->errors());
         }
 
-        $order = $this->createOrder($request->all());
+        $order = $this->createOrder($params);
 
         return redirect()->route('orderSetup', $order->id);
     }

@@ -24,17 +24,7 @@
     <div class="workspace">
         <div class="panel clearfix">
             <div class="panel-main">
-                <div class="panel-header">
-                    <ul class="panel-tabs spacing">
-                        <li>
-                            <a href="/content">All Content</a>
-                        </li>
-                        <li class="active">
-                            <a href="/content/orders">Writing Orders in Process</a>
-                        </li>
-                    </ul>
-                </div>
-
+                @include('content.partials.dashboard.panel_tabs')
                 @include('content.partials.dashboard.order_filter')
 
                 <div class="create-panel-container {{$countOrders !== 0 ? "no-padding" : ""}} order-container hide-over-10">

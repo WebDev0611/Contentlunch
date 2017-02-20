@@ -166,6 +166,22 @@ class WriterAccessController extends Controller
     }
 
     /**
+     * Return an array of comment for the order id passed.
+     * @param $id
+     * @return Response
+     */
+    public function comments($id)
+    {
+        return $this->get('/orders/'.$id."/comments");
+    }
+
+    public function postComment(Request $request, $id)
+    {
+        $comment = $request->input("comment");
+        return $this->post('/orders/'.$id."?action=revise", ["notes"=>$comment]);
+    }
+
+    /**
      * @return Response
      */
     public function projects()

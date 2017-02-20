@@ -21,7 +21,6 @@ use Auth;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Input;
 use Response;
 use Storage;
@@ -137,10 +136,88 @@ class ContentController extends Controller
 
     }
 
+    public function order(Request $request, $id)
+    {
+
+        $writerAccess = new WriterAccessController($request);
+        $error = null;
+
+        try{
+            $data1 = json_decode(utf8_encode($writerAccess->orders($id)->getContent()));
+            $data2 = json_decode(utf8_encode($writerAccess->comments($id)->getContent()));
+            /*$data2 = json_decode('{
+            "orders": [ {
+                "id": 7865, "comments": [
+                    {
+                        "timestamp": "2011-04-06T08:20:01",
+                        "writer": {
+                            "id": 1310,
+                            "name": "Tim G",
+                            "note": "A note from a Writer"
+                        }
+                    },
+                    {
+                        "timestamp": "2011-04-06T08:20:01",
+                        "editor": {
+                            "id": 2653,
+                            "name": "Caitlin W",
+                            "note": "A note from an Editor"
+                        }
+                    },
+                    {
+                        "timestamp": "2011-04-09T11:15:09",
+                        "client": {
+                            "note": "A note from the client"
+                        }
+                    }
+                ]
+            }
+        ]}');*/
+
+            if(isset($data1->fault) || isset($data2->fault)){
+                return redirect()->route('contentOrders')->with([
+                    'flash_message' => isset($data1->fault) ? $data1->fault : $data2->fault,
+                    'flash_message_type' => 'danger',
+                    'flash_message_important' => true,
+                ]);
+            }
+
+
+          /*  var_dump($data1);
+            die();*/
+
+            $order = $data1->order;
+            $writer = $data1->writer;
+            $preview = $data1->preview;
+            $comments = $data2->orders[0]->comments;
+
+        }catch(Exception $e){
+            $order = null;
+            $writer = null;
+            $preview = null;
+            return redirect()->route('contentOrders')->with([
+                'flash_message' => $e->getMessage(),
+                'flash_message_type' => 'danger',
+                'flash_message_important' => true,
+            ]);
+        }
+
+        $connections = $this->selectedAccount
+            ->connections()
+            ->where('active', 1)
+            ->get();
+
+        return view('content.order', compact(
+            'order', 'connections', 'writer', 'preview', 'comments'
+        ));
+
+    }
+
     public function store(Request $request)
     {
         $content = Content::create([
             'title' => $request->input('title'),
+            'body' => $request->input('body'),
             'content_type_id' => $request->input('content_type'),
         ]);
 

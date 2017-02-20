@@ -1,5 +1,5 @@
 
-<div class="create-panel-table border-left {{$order->status === "Approved" || $order->status === "In Progress"  ? "border-green" : ""}} order-list-row"
+<div class="create-panel-table border-left {{$order->status === "Approved" || $order->status === "Pending Approval"  ? "border-green" : ""}} order-list-row"
      title="{{ $order->title }}"
      data-original-title="{{ $order->title }}"
      data-status="{{ $order->status }}"
@@ -18,12 +18,12 @@
         </ul>
     </div>
     <div class="create-panel-table-cell text-right  ">
-        @if ($order->status === "Approved" || $order->status === "In Progress")
+        @if ($order->status === "Approved" || $order->status === "Pending Approval")
             <a href="/content/orders/{{$order->id}}" >
                 <i class="icon-edit large"></i>
             </a>
         @else
-            <span class="red small">Not yet approved.</span>
+            <span class="red small">Order in progress</span>
         @endif
     </div>
     {{--<div class="create-panel-table-cell text-right">

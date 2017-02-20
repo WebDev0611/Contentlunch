@@ -18,10 +18,34 @@ class CampaignController extends Controller
 {
     public function index(Request $request)
     {
-        $campaigns = Account::selectedAccount()
+        $campaignCollection = Account::selectedAccount()
             ->campaigns()
             ->with('user')
-            ->get()
+            ->get();
+
+        return response()->json([
+            'data' => $this->addDates($campaignCollection)
+        ]);
+    }
+
+    public function dashboardIndex()
+    {
+        $account = Account::selectedAccount();
+
+        $activeCampaigns = $account->campaigns()->active()->with('user')->get();
+        $inactiveCampaigns = $account->campaigns()->inactive()->with('user')->get();
+        $pausedCampaigns = $account->campaigns()->paused()->with('user')->get();
+
+        return view('content.campaigns', [
+            'activeCampaigns' => $this->addDates($activeCampaigns),
+            'inactiveCampaigns' => $this->addDates($inactiveCampaigns),
+            'pausedCampaigns' => $this->addDates($pausedCampaigns),
+        ]);
+    }
+
+    protected function addDates($campaignCollection)
+    {
+        return $campaignCollection
             ->map(function($campaign) {
                 $campaign->updated_at_diff = $campaign->present()->updatedAt;
                 $campaign->started = $campaign->present()->startDateFormat('M j, Y');
@@ -29,8 +53,6 @@ class CampaignController extends Controller
 
                 return $campaign;
             });
-
-        return response()->json([ 'data' => $campaigns ]);
     }
 
     public function create(Request $request)
