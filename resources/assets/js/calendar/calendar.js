@@ -173,8 +173,6 @@
             return c;
         }));
 
-        var this_calendar = get_this_calendar();
-
         // Declarations
         var ideas = new ideas_collection();
         var tasks = new task_collection();
@@ -317,7 +315,9 @@
         });
 
 
-        function addCallback() {
+        function addCallback(new_calendar = null) {
+
+            var this_calendar = new_calendar == null ? get_this_calendar() : new_calendar;
 
             $('#calendar-loading-gif').show();
 
@@ -437,7 +437,7 @@
         });
 
         // Filter
-        reset_filter(this_calendar);
+        reset_filter();
 
         var multiple_select = $('.multipleSelect');
         multiple_select.fastselect();
@@ -449,16 +449,18 @@
 
         $('#apply-filters').click(function () {
             let filter_content_types = [];
-            this_calendar.show_tasks = '0';
-            this_calendar.show_ideas = '0';
+            let new_calendar = {
+                'show_tasks' : 0,
+                'show_ideas' : 0,
+            };
 
             $.each(multiple_select.find(":selected"), function (key, item) {
                 switch (item.value) {
                     case 'tasks':
-                        this_calendar.show_tasks = '1';
+                        new_calendar.show_tasks = '1';
                         break;
                     case 'ideas':
-                        this_calendar.show_ideas = '1';
+                        new_calendar.show_ideas = '1';
                         break;
                     default:
                         filter_content_types.push({'id': item.value, 'name': item.text});
@@ -466,17 +468,16 @@
                 }
             });
 
-            this_calendar.content_types = filter_content_types;
+            new_calendar.content_types = filter_content_types;
             $("#filterModal").modal('hide');
-            addCallback();
+            addCallback(new_calendar);
         });
 
         $('#clear-filters-btn').click(function () {
-            reset_filter(get_this_calendar());
             $("#filterModal").modal('hide');
             addCallback();
+            reset_filter();
         });
-
 
         /*
          var drop_down_calendar_tool = Backbone.View.extend({
