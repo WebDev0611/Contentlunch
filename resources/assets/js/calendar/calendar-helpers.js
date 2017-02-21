@@ -283,3 +283,27 @@ function reset_filter() {
         }
     });
 }
+
+function get_filtered_calendar(multiple_select) {
+    let new_calendar = {
+        'show_tasks': 0,
+        'show_ideas': 0,
+        'content_types': []
+    };
+
+    $.each(multiple_select.find(":selected"), function (key, item) {
+        switch (item.value) {
+            case 'tasks':
+                new_calendar.show_tasks = '1';
+                break;
+            case 'ideas':
+                new_calendar.show_ideas = '1';
+                break;
+            default:
+                new_calendar.content_types.push({'id': item.value, 'name': item.text});
+                break;
+        }
+    });
+
+    return new_calendar;
+}
