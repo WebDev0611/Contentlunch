@@ -217,7 +217,7 @@ class ContentController extends Controller
     {
         $content = Content::create([
             'title' => $request->input('title'),
-            'body' => $request->input('body'),
+            'body' => $request->has('body') ? $request->input('body') : "",
             'content_type_id' => $request->input('content_type'),
         ]);
 
