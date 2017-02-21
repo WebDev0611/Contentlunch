@@ -114,6 +114,49 @@
         {!! Form::textarea('goals', $campaign->goals, $goalsOptions) !!}
     </div>
 
+    <div class="form-delimiter">
+        <span>
+            <em>Content Pieces</em>
+        </span>
+    </div>
+
+    <div class="input-form-group">
+        @forelse ($availableContents as $content)
+            <div class="create-panel-table border-left">
+                <label class="create-panel-table-cell cell-size-5">
+                    <input type="checkbox" name="newContent[]" value="{{ $content->id }}">
+                </label>
+                <div class="create-panel-table-cell cell-size-5">
+                    @include('content.partials.avatar')
+                </div>
+                <div class="create-panel-table-cell cell-size-60">
+                    <h5 class="dashboard-tasks-title">
+                        <a href="{{ route('editContent', $content) }}">{{ $content->present()->title }}</a>
+                    </h5>
+                    <span class="dashboard-members-text small">
+                        {{ strtoupper($content->present()->createdAt) }}
+                    </span>
+                </div>
+                <div class="create-panel-table-cell text-center cell-size-5">
+                    <i class="tooltip-icon large {{ $content->present()->contentIcon }}"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="{{ $content->present()->contentType }}"
+                        data-original-title="{{ $content->present()->contentType }}"></i>
+                </div>
+                <div class="create-panel-table-cell cell-size-15 text-right">
+                    <span class="dashboard-performing-text small @if ($content->isDueDateCritical()) critical @endif">
+                        DUE: <strong>{{ strtoupper($content->present()->dueDateFormat) }}</strong>
+                    </span>
+                </div>
+            </div>
+        @empty
+            <div class="alert alert-info alert-forms">
+                No new content pieces available to be selected
+            </div>
+        @endforelse
+    </div>
+
     <!-- Attachments -->
     <div class="form-delimiter">
         <span>
@@ -136,7 +179,7 @@
         </div>
     </div>
 
-   @if ($campaign->collaborators->isEmpty() && !$campaign->id)
+    @if ($campaign->collaborators->isEmpty() && !$campaign->id)
         {{ Form::hidden('collaborators', Auth::id()) }}
     @else
         {{ Form::hidden('collaborators', $campaign->present()->collaboratorsIDs) }}
