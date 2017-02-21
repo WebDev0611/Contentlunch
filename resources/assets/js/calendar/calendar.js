@@ -454,8 +454,7 @@
         });
 
         $('#filter-plus-btn').click(function () {
-            // TODO: not working
-            multiple_select.focus();
+            $('.fstElement.fstMultipleMode').toggleClass('fstResultsOpened fstActive');
         });
 
         $('#save-as-new').click(function () {
