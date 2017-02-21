@@ -2,6 +2,7 @@
                 <button class="calendar-menu-buttons" data-toggle="modal" data-target="#createCalendarModal">
                     <i class="icon-calendar-add"></i>
                 </button>
+
                 <!--
                 <div class="calendar-menu-dropdown">
                     <button class="calendar-menu-buttons" data-toggle="dropdown">
@@ -20,10 +21,12 @@
                         </li>
                     </ul>
                 </div>-->
-                <!--
+
                 <button class="calendar-menu-buttons" data-toggle="modal" data-target="#filterModal">
                     <i class="icon-cone"></i>
                 </button>
+
+                <!--
                 <div class="calendar-menu-dropdown">
                     <button class="calendar-menu-buttons" data-toggle="dropdown">
                         <i class="icon-reverse-direction"></i>

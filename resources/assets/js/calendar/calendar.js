@@ -16,7 +16,10 @@
 
     /* calendar item collection */
     var calendar_item_collection = Backbone.Collection.extend({
-        model: calendar_item_model
+        model: calendar_item_model,
+        modelId: function (attrs) {
+            return attrs.type + "-" + attrs.id;
+        }
     });
 
     /* calendar item view */
@@ -170,11 +173,6 @@
             return c;
         }));
 
-        var this_calendar_arr = $.grep(my, function (e) {
-            return e.id == calendar.id;
-        });
-        var this_calendar = this_calendar_arr[0];
-
         // Declarations
         var ideas = new ideas_collection();
         var tasks = new task_collection();
@@ -317,7 +315,9 @@
         });
 
 
-        function addCallback() {
+        function addCallback(new_calendar = null, has_calendar = false) {
+
+            var this_calendar = (new_calendar != null && has_calendar == true) ? new_calendar : get_this_calendar();
 
             $('#calendar-loading-gif').show();
 
@@ -418,6 +418,7 @@
             store_idea('parked', addCallback);
         });
 
+
         // Content
         tinymce.init({
             selector: 'textarea.wysiwyg',  // change this value according to your HTML
@@ -433,6 +434,48 @@
         // Invites
         $('#invite-guests-button').click(function () {
             send_invites();
+        });
+
+        // Filter
+        reset_filter();
+
+        var multiple_select = $('.multipleSelect');
+        multiple_select.fastselect();
+
+        $('#filter-plus-btn').click(function () {
+            // TODO: not working
+            multiple_select.focus();
+        });
+
+        $('#apply-filters').click(function () {
+            let new_calendar = {
+                'show_tasks': 0,
+                'show_ideas': 0,
+                'content_types': []
+            };
+
+            $.each(multiple_select.find(":selected"), function (key, item) {
+                switch (item.value) {
+                    case 'tasks':
+                        new_calendar.show_tasks = '1';
+                        break;
+                    case 'ideas':
+                        new_calendar.show_ideas = '1';
+                        break;
+                    default:
+                        new_calendar.content_types.push({'id': item.value, 'name': item.text});
+                        break;
+                }
+            });
+
+            $("#filterModal").modal('hide');
+            addCallback(new_calendar, true);
+        });
+
+        $('#clear-filters-btn').click(function () {
+            $("#filterModal").modal('hide');
+            addCallback();
+            reset_filter();
         });
 
         /*
