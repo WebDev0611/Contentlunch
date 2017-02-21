@@ -20,6 +20,7 @@ class CampaignController extends Controller
     {
         $campaignCollection = Account::selectedAccount()
             ->campaigns()
+            ->orderBy('created_at', 'desc')
             ->with('user')
             ->get();
 
@@ -32,9 +33,9 @@ class CampaignController extends Controller
     {
         $account = Account::selectedAccount();
 
-        $activeCampaigns = $account->campaigns()->active()->with('user')->get();
-        $inactiveCampaigns = $account->campaigns()->inactive()->with('user')->get();
-        $pausedCampaigns = $account->campaigns()->paused()->with('user')->get();
+        $activeCampaigns = $account->campaigns()->active()->orderBy('created_at', 'desc')->with('user')->get();
+        $inactiveCampaigns = $account->campaigns()->inactive()->orderBy('created_at', 'desc')->with('user')->get();
+        $pausedCampaigns = $account->campaigns()->paused()->orderBy('created_at', 'desc')->with('user')->get();
 
         return view('content.campaigns', [
             'activeCampaigns' => $this->addDates($activeCampaigns),
@@ -70,6 +71,7 @@ class CampaignController extends Controller
             'campaignTypesDropdown' => CampaignTypePresenter::dropdown(),
             'campaignTypes' => CampaignType::all()->toJson(),
             'isCollaborator' => $campaign->hasCollaborator(Auth::user()),
+            'availableContents' => $campaign->availableContents(),
         ];
 
         return view('campaign.index', $data);
@@ -96,11 +98,19 @@ class CampaignController extends Controller
         $this->saveCollaborators($data, $campaign);
         $this->saveTasks($data, $campaign);
         $this->handleAttachments($request->input('attachments'), $campaign);
+        $this->addNewContent($data, $campaign);
 
         return redirect()->route('dashboard')->with([
             'flash_message' => "Campaign created: $campaign->title",
             'flash_message_type' => 'success',
         ]);
+    }
+
+    protected function addNewContent(array $requestData, Campaign $campaign)
+    {
+        if ($contents = $requestData['newContent']) {
+            $campaign->contents()->saveMany(Content::find($contents));
+        }
     }
 
     protected function createValidation(array $requestData)
@@ -160,6 +170,7 @@ class CampaignController extends Controller
         ]);
 
         $this->handleAttachments($request->input('attachments'), $campaign);
+        $this->addNewContent($data, $campaign);
 
         return redirect()->route('dashboard')->with([
             'flash_message' => "Campaign updated: $campaign->title",
