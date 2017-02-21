@@ -217,16 +217,14 @@ class ContentController extends Controller
     {
         $content = Content::create([
             'title' => $request->input('title'),
-            'body' => $request->has('body') ? $request->input('body') : "",
+            'body' => $request->input('body'),
             'content_type_id' => $request->input('content_type'),
         ]);
 
         $this->selectedAccount->contents()->save($content);
 
         if($request->ajax()) {
-            $response =  response()->json(['status' => 'ok'], 200);
             $content->due_date = $request->input('due_date');
-            $content->body = $request->input('body');
             $content->created_at = $request->input('created_at');
             $content->setWritten();
             $this->ensureCollaboratorsExists($content);
