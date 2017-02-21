@@ -103,4 +103,15 @@ class Campaign extends Model
             ->where('users.id', $user->id)
             ->count();
     }
+
+    public function availableContents()
+    {
+        return Account::selectedAccount()
+            ->contents()
+            ->where('campaign_id', null)
+            ->where('archived', false)
+            ->where('published', false)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
 }
