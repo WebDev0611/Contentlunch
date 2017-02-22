@@ -2,9 +2,11 @@
 
 namespace oAuth\API;
 
-use GuzzleHttp\Client;
 use Config;
 use Crypt;
+use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class WordPressAuth
 {

@@ -31,6 +31,11 @@ abstract class BaseConnectionController extends Controller
         return $connection;
     }
 
+    public function deleteSessionConnection()
+    {
+        return $this->getSessionConnection()->delete();
+    }
+
     public function getSessionConnectionMetadata()
     {
         $connectionData = Session::get('connection_data');
