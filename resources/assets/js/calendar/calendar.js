@@ -418,7 +418,6 @@
             store_idea('parked', addCallback);
         });
 
-
         // Content
         tinymce.init({
             selector: 'textarea.wysiwyg',  // change this value according to your HTML
@@ -442,32 +441,8 @@
         var multiple_select = $('.multipleSelect');
         multiple_select.fastselect();
 
-        $('#filter-plus-btn').click(function () {
-            // TODO: not working
-            multiple_select.focus();
-        });
-
         $('#apply-filters').click(function () {
-            let new_calendar = {
-                'show_tasks': 0,
-                'show_ideas': 0,
-                'content_types': []
-            };
-
-            $.each(multiple_select.find(":selected"), function (key, item) {
-                switch (item.value) {
-                    case 'tasks':
-                        new_calendar.show_tasks = '1';
-                        break;
-                    case 'ideas':
-                        new_calendar.show_ideas = '1';
-                        break;
-                    default:
-                        new_calendar.content_types.push({'id': item.value, 'name': item.text});
-                        break;
-                }
-            });
-
+            let new_calendar = get_filtered_calendar(multiple_select);
             $("#filterModal").modal('hide');
             addCallback(new_calendar, true);
         });
@@ -476,6 +451,27 @@
             $("#filterModal").modal('hide');
             addCallback();
             reset_filter();
+        });
+
+        $('#filter-plus-btn').click(function () {
+            $('.fstElement.fstMultipleMode').toggleClass('fstResultsOpened fstActive');
+        });
+
+        $('#save-as-new').click(function () {
+            let new_calendar = get_filtered_calendar(multiple_select);
+            $('#show_tasks, #show_ideas, .checkbox-content-types input').removeAttr('checked');
+            if (new_calendar.show_tasks == "1") {
+                $('#show_tasks').attr('checked', 'checked');
+            }
+            if (new_calendar.show_ideas == "1") {
+                $('#show_ideas').attr('checked', 'checked');
+            }
+            $.each(new_calendar.content_types, function (key, type) {
+                $('#content_type_' + type.id).attr('checked', 'checked');
+            });
+            $("#filterModal").modal('hide');
+            $("#createCalendarModal").modal('show');
+            $('#calendar_name').focus();
         });
 
         /*

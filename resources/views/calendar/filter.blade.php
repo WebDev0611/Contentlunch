@@ -58,7 +58,7 @@
             </button>
         </div>
         <div class="form-group">
-            <button class="button button-outline-secondary button-extend text-uppercase">
+            <button class="button button-outline-secondary button-extend text-uppercase" id="save-as-new">
                 Save as new Calendar
             </button>
         </div>
