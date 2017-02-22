@@ -145,7 +145,10 @@ class WriterAccessController extends Controller
         $queryString = '';
 
         if($this->apiProjectId !== 0){
-            $parameters['project'] = $this->apiProjectId;
+            $parameters['project'] = $this->getApiProjectId();
+        }else{
+            $this->createProject();
+            $parameters['project'] = $this->getApiProjectId();
         }
 
         if (isset($_GET['status'])) {
@@ -347,7 +350,7 @@ class WriterAccessController extends Controller
      */
     private function createProject()
     {
-        $user = User::find(Auth::user()->id);
+        $user = Auth::user();
 
         $response = $this->post('/projects', [ 'projectname' => $this->apiProject ]);
         $responseContent = json_decode($response->getContent());

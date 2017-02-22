@@ -214,7 +214,7 @@ class Order
      * @param int $projectid
      * @return Order
      */
-    public function setProjectid(int $projectid)
+    public function setProjectid(integer $projectid)
     {
         $this->projectid = $projectid;
         return $this;
@@ -232,7 +232,7 @@ class Order
      * @param int $hourstocomplete
      * @return Order
      */
-    public function setHourstocomplete(int $hourstocomplete)
+    public function setHourstocomplete(integer $hourstocomplete)
     {
         $this->hourstocomplete = $hourstocomplete;
         return $this;
@@ -250,7 +250,7 @@ class Order
      * @param int $writer
      * @return Order
      */
-    public function setWriter(int $writer)
+    public function setWriter(integer $writer)
     {
         $this->writer = $writer;
         return $this;
@@ -268,7 +268,7 @@ class Order
      * @param int $minwords
      * @return Order
      */
-    public function setMinwords(int $minwords)
+    public function setMinwords(integer $minwords)
     {
         $this->minwords = $minwords;
         return $this;
@@ -286,7 +286,7 @@ class Order
      * @param int $maxwords
      * @return Order
      */
-    public function setMaxwords(int $maxwords)
+    public function setMaxwords(integer $maxwords)
     {
         $this->maxwords = $maxwords;
         return $this;
@@ -372,7 +372,7 @@ class Order
      * @param int $categoryid
      * @return Order
      */
-    public function setCategoryid(int $categoryid)
+    public function setCategoryid(integer $categoryid)
     {
         $this->categoryid = $categoryid;
         return $this;
@@ -390,7 +390,7 @@ class Order
      * @param int $assetid
      * @return Order
      */
-    public function setAssetid(int $assetid)
+    public function setAssetid(integer $assetid)
     {
         $this->assetid = $assetid;
         return $this;
@@ -408,7 +408,7 @@ class Order
      * @param int $expertiseid
      * @return Order
      */
-    public function setExpertiseid(int $expertiseid)
+    public function setExpertiseid(integer $expertiseid)
     {
         $this->expertiseid = $expertiseid;
         return $this;
@@ -426,7 +426,7 @@ class Order
      * @param int $hourstoexpire
      * @return Order
      */
-    public function setHourstoexpire(int $hourstoexpire)
+    public function setHourstoexpire(integer $hourstoexpire)
     {
         $this->hourstoexpire = $hourstoexpire;
         return $this;
@@ -444,7 +444,7 @@ class Order
      * @param int $hourstoapprovejon
      * @return Order
      */
-    public function setHourstoapprovejon(int $hourstoapprovejon)
+    public function setHourstoapprovejon(integer $hourstoapprovejon)
     {
         $this->hourstoapprovejon = $hourstoapprovejon;
         return $this;
@@ -462,7 +462,7 @@ class Order
      * @param int $hourstorevise
      * @return Order
      */
-    public function setHourstorevise(int $hourstorevise)
+    public function setHourstorevise(integer $hourstorevise)
     {
         $this->hourstorevise = $hourstorevise;
         return $this;
@@ -480,7 +480,7 @@ class Order
      * @param int $paidreview
      * @return Order
      */
-    public function setPaidreview(int $paidreview)
+    public function setPaidreview(integer $paidreview)
     {
         $this->paidreview = $paidreview;
         return $this;
@@ -498,7 +498,7 @@ class Order
      * @param int $maxhours
      * @return Order
      */
-    public function setMaxhours(int $maxhours)
+    public function setMaxhours(integer $maxhours)
     {
         $this->maxhours = $maxhours;
         return $this;
@@ -606,7 +606,7 @@ class Order
      * @param int $targetwriter
      * @return Order
      */
-    public function setTargetwriter(int $targetwriter)
+    public function setTargetwriter(integer $targetwriter)
     {
         $this->targetwriter = $targetwriter;
         return $this;
@@ -673,7 +673,7 @@ class Order
     /**
      * @param int $rating
      */
-    public function setRating(int $rating)
+    public function setRating(integer $rating)
     {
         $this->rating = $rating;
     }
