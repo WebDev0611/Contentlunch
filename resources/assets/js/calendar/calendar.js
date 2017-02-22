@@ -225,7 +225,7 @@
             } else {
                 str_text = c.body;
             }
-            c.explanation = str_text.split(" ").splice(0, 30).join(" ") + '...';
+            c.explanation = str_text != null ? (str_text.split(" ").splice(0, 30).join(" ") + '...') : '';
 
             c.due = moment(c.due_date).format('MM/DD/YYYY');
 
