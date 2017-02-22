@@ -1,18 +1,18 @@
+.btn-upgrade, .btn-hide {
+  background-color: #6944B6;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  padding: 8px 18px;
+}
+
 .freemium-notification, .freemium-notification-2 {
   margin-top: 0;
   border-radius: 0;
   position: relative;
   padding: 20px;
-
-  .btn-upgrade {
-    background-color: #6944B6;
-    color: #fff;
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 12px;
-    letter-spacing: 1.5px;
-    padding: 8px 18px;
-  }
 
   a.close {
     position: absolute;
@@ -28,7 +28,7 @@
     opacity: 0.6;
   }
 
-  .height-60{
+  .height-60 {
     height: 60px;
   }
 }
@@ -80,5 +80,72 @@
   a.close {
     text-align: center;
     z-index: 1;
+  }
+}
+
+#freemium-modal {
+  left: 80px;
+  right: inherit;
+  outline: none;
+  overflow: hidden;
+  width: 400px;
+
+  .modal-dialog {
+    width: 100%;
+  }
+
+  .modal-body {
+    padding: 20px 50px 30px;
+  }
+
+  img {
+    width: 50%;
+  }
+
+  h4 {
+    color: #6546B7;
+  }
+
+  p {
+    margin-top: 15px;
+  }
+
+  .btn {
+    width: 48%;
+    letter-spacing: 1px;
+
+    &.btn-upgrade {
+      margin-right: 1%;
+    }
+
+    &.btn-hide {
+      background-color: #fff;
+      color: #6C7784;
+      border-color: #6C7784;
+      font-weight: 900;
+    }
+  }
+}
+
+.popup-pointer {
+  display: none;
+  position: absolute;
+  left: 60px;
+  top: 80px;
+  z-index: 1100;
+  width: 40px;
+  height: 40px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  box-shadow: 0px 0px 2px 2px #888;
+  background: #fff;
+
+  .play-left {
+    width: 12px;
+    height: 16px;
+    border-top: 8px solid transparent;
+    border-right: 12px solid #6944B6;
+    border-bottom: 8px solid transparent;
+    margin: 12px !important;
   }
 }
