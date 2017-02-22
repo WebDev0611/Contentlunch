@@ -24,6 +24,9 @@
                 <i class="icon-arrow-right"></i>
             </a>-->
         </div>
+
+        @include('elements.freemium-alert', ['restriction' => ['name' => 'topics', 'limit' => 'ten']])
+
         <div class="panel-container" id="topic-generator">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">

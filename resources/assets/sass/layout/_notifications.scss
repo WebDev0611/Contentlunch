@@ -1,0 +1,44 @@
+.freemium-notification {
+  margin-top: 0;
+  padding: 20px;
+  text-align: center;
+  background-color: #F0EDF8;
+  border-color: #F0EDF8;
+  border-radius: 0;
+  position: relative;
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #3A3049;
+  }
+
+  p {
+    color: #665E73;
+  }
+
+  .btn-upgrade {
+    margin-bottom: -45px;
+    background-color: #6944B6;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    padding: 8px 18px;
+  }
+
+  a.close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 30px;
+    font-weight: 200;
+    color: #6B7785;
+    border: 1px solid #6B7785;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    opacity: 0.6;
+  }
+}

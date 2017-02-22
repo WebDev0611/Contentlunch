@@ -33,9 +33,14 @@ class WordpressController extends BaseConnectionController
             return $this->redirectWithError('There was an error with your authentication, please try again');
         }
 
-
         $tokenArray = (array) $token;
-        $connection = $this->saveConnection($tokenArray);
+
+        try {
+            $connection = $this->saveConnection($tokenArray);
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            $this->deleteSessionConnection();
+            return $this->redirectWithError('We were not able to access that blog, please verify that the JetPack plugin is installed correctly.');
+        }
 
         return $this->redirectWithSuccess("You've successfully connected to WordPress.");
     }

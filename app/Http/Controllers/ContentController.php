@@ -224,14 +224,12 @@ class ContentController extends Controller
         $this->selectedAccount->contents()->save($content);
 
         if($request->ajax()) {
-            $response =  response()->json(['status' => 'ok'], 200);
             $content->due_date = $request->input('due_date');
-            $content->body = $request->input('body');
             $content->created_at = $request->input('created_at');
             $content->setWritten();
             $this->ensureCollaboratorsExists($content);
             if($content->save()) {
-                return $response;
+                return $content;
             }
 
             return response()->json(['status' => 'error saving'], 500);
