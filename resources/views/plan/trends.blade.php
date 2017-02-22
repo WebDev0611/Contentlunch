@@ -20,6 +20,9 @@
                 </li>
             </ul>
         </div>
+
+        @include('elements.freemium-alert-2', ['restriction' => 'use only ten trends per month'])
+
         <div class="panel-container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">

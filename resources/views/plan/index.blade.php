@@ -25,7 +25,7 @@
             </a>-->
         </div>
 
-        @include('elements.freemium-alert', ['restriction' => ['name' => 'topics', 'limit' => 'ten']])
+        @include('elements.freemium-alert', ['restriction' => 'create only ten topics per month'])
 
         <div class="panel-container" id="topic-generator">
             <div class="row">

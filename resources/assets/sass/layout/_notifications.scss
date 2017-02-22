@@ -1,24 +1,10 @@
-.freemium-notification {
+.freemium-notification, .freemium-notification-2 {
   margin-top: 0;
-  padding: 20px;
-  text-align: center;
-  background-color: #F0EDF8;
-  border-color: #F0EDF8;
   border-radius: 0;
   position: relative;
-
-  h4 {
-    margin-top: 0;
-    margin-bottom: 5px;
-    color: #3A3049;
-  }
-
-  p {
-    color: #665E73;
-  }
+  padding: 20px;
 
   .btn-upgrade {
-    margin-bottom: -45px;
     background-color: #6944B6;
     color: #fff;
     text-transform: uppercase;
@@ -40,5 +26,59 @@
     width: 32px;
     height: 32px;
     opacity: 0.6;
+  }
+
+  .height-60{
+    height: 60px;
+  }
+}
+
+.freemium-notification {
+  text-align: center;
+  background-color: #F0EDF8;
+  border-color: #F0EDF8;
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #3A3049;
+  }
+
+  p {
+    color: #665E73;
+  }
+
+  .btn-upgrade {
+    margin-bottom: -45px;
+  }
+}
+
+.freemium-notification-2 {
+  padding-left: 15%;
+  background-color: #FEFDDF;
+  border-color: #FEFDDF;
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #6944B6;
+    font-weight: 900;
+  }
+
+  p {
+    color: #3F3747;
+    font-size: 16px;
+  }
+
+  .btn-upgrade {
+    font-size: 13px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  a.close {
+    text-align: center;
+    z-index: 1;
   }
 }
