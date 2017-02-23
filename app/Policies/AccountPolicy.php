@@ -19,4 +19,12 @@ class AccountPolicy
 
         return ($emailsCount + $currentUsersCount) < $maxUsersCount;
     }
+
+    public function createSubaccount(User $user, Account $account)
+    {
+        $currentSubaccounts = $account->childAccounts()->count();
+        $maxSubaccounts = Limit::whereName('subaccounts_per_account')->first()->value;
+
+        return ($currentSubaccounts < $maxSubaccounts) && $account->isAgencyAccount();
+    }
 }
