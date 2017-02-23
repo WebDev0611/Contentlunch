@@ -18,4 +18,13 @@ class AccountSettingsController extends Controller
 
         return view('settings.account', $data);
     }
+
+    public function showSubscription(){
+        $data = [
+            'user' => Auth::user(),
+            'account' => Account::selectedAccount(),
+        ];
+
+        return view('settings.subscription', $data);
+    }
 }
