@@ -2,10 +2,6 @@
 
 namespace App\Providers;
 
-use App\Content;
-use App\Idea;
-use App\Policies\ContentPolicy;
-use App\Policies\IdeaPolicy;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -17,8 +13,11 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Idea::class => IdeaPolicy::class,
-        Content::class => ContentPolicy::class,
+        \App\Idea::class => \App\Policies\IdeaPolicy::class,
+        \App\Content::class => \App\Policies\ContentPolicy::class,
+        \App\Calendar::class => \App\Policies\CalendarPolicy::class,
+        \App\Campaign::class => \App\Policies\CampaignPolicy::class,
+        \App\Account::class => \App\Policies\AccountPolicy::class,
     ];
 
     /**
