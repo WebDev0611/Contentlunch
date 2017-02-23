@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Content;
 use App\Idea;
+use App\Policies\ContentPolicy;
 use App\Policies\IdeaPolicy;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -16,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Idea::class => IdeaPolicy::class,
+        Content::class => ContentPolicy::class,
     ];
 
     /**
