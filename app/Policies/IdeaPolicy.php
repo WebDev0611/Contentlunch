@@ -19,4 +19,12 @@ class IdeaPolicy
 
         return $topicSearches <= $maxTopicSearches;
     }
+
+    public function searchTrends(User $user)
+    {
+        $trendSearches = $user->limits()->monthly()->whereName('trend_search')->count();
+        $maxTrendSearches = Limit::whereName('trend_search')->first()->value;
+
+        return $trendSearches <= $maxTrendSearches;
+    }
 }
