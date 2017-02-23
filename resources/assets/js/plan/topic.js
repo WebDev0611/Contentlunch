@@ -152,6 +152,8 @@ var camelize = function(str) {
 			})
 			.catch(response => {
 				$(loadingIMG).remove();
+				view.hide_modal();
+				view.clear_form();
 				swal('Error!', response.responseJSON.data, 'error');
 			});
 		},
