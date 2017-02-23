@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Idea;
 use GuzzleHttp\Client;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 
 class TrendsController extends Controller
 {
     public function trending(Request $request)
     {
-        if (Auth::user()->cant('searchTrends', App\Idea::class)) {
+        if (Auth::user()->cant('searchTrends', Idea::class)) {
             return response()->json([
-                'data' => 'You exceeded your content trend searches limit.'
+                'data' => 'You exceeded your content trend searches limit.',
             ], 403);
         }
         Auth::user()->addToLimit('trend_search');
