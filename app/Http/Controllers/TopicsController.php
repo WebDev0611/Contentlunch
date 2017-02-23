@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 
 class TopicsController extends Controller
@@ -15,6 +16,13 @@ class TopicsController extends Controller
      */
     public function index(Request $request)
     {
+        if (Auth::user()->cant('search', App\Idea::class)) {
+            return response()->json([
+                'data' => 'You exceeded your topic searches limit.'
+            ], 403);
+        }
+        Auth::user()->addToLimit('topic_search');
+
         $keyword = $request->input('keyword');
 
         //set up the hash key
@@ -50,8 +58,6 @@ class TopicsController extends Controller
         $request_string .= '&limit='. 16;
         $request_string .= '&keywords[]='.urlencode($keywords);
 
-       // echo $request_string;
-       // exit;
         $client = new Client();
         $res = $client->request('GET', $request_string);
 

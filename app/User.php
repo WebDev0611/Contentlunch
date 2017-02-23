@@ -5,6 +5,7 @@ namespace App;
 use App\Account;
 use App\AccountType;
 use App\Content;
+use App\Limit;
 use App\Presenters\UserPresenter;
 use Auth;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -82,7 +83,7 @@ class User extends Authenticatable
 
     public function limits()
     {
-        return $this->hasMany('App\Limit');
+        return $this->belongsToMany('App\Limit')->withTimestamps();
     }
 
     public function tasks()
@@ -136,5 +137,16 @@ class User extends Authenticatable
             ->users()
             ->where('name', 'like', '%' . $term . '%')
             ->get();
+    }
+
+    public function addToLimit($limitName)
+    {
+        $limit = Limit::whereName($limitName)->first();
+
+        if (!$limit) {
+            throw new Exception("$limitName is not a valid name on the limits table", 1);
+        }
+
+        $this->limits()->attach($limit);
     }
 }

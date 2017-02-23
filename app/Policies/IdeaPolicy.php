@@ -3,7 +3,9 @@
 namespace App\Policies;
 
 use App\Idea;
+use App\Limit;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class IdeaPolicy
@@ -12,6 +14,13 @@ class IdeaPolicy
 
     public function search(User $user)
     {
-        return true;
+        $topicSearches = $user->limits()
+            ->monthly()
+            ->whereName('topic_search')
+            ->count();
+
+        $maxTopicSearches = Limit::whereName('topic_search')->first()->value;
+
+        return $topicSearches <= $maxTopicSearches;
     }
 }
