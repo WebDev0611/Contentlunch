@@ -143,17 +143,23 @@ var camelize = function(str) {
 			    type: 'post',
 			    data: idea_obj,
 			    dataType: 'json',
-			    success: function (data) {
-					$(loadingIMG).remove();
-					view.hide_modal();
-					view.clear_form();
-					view.render();
-				}
+			})
+			.then(function (data) {
+				$(loadingIMG).remove();
+				view.hide_modal();
+				view.clear_form();
+				view.render();
+			})
+			.catch(response => {
+				$(loadingIMG).remove();
+				swal('Error!', response.responseJSON.data, 'error');
 			});
 		},
+
 		hide_modal: function(){
 			this.$el.modal('hide');
 		},
+
 		show_error: function(msg){
 			$('#idea-status-alert')
 				.toggleClass('hidden')

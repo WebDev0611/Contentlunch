@@ -108,7 +108,8 @@ let camelize = function(str) {
             $('.park-idea').prop('disabled',true);
 
             $('#idea-status-alert').addClass('hidden');
-            if( $('.idea-name').val().length < 1 ){
+
+            if ($('.idea-name').val().length < 1) {
                 view.show_error('Idea title required');
                 return;
             }
@@ -122,24 +123,23 @@ let camelize = function(str) {
                 idea: $('.idea-text').val(),
                 tags: $('.idea-tags').val(),
                 status: action,
-                content: content.map(function(m){
-                    return m.attributes;
-                })
+                content: content.map(model => model.attributes)
             };
             $.ajax({
                 url: '/ideas',
                 type: 'post',
                 data: idea_obj,
-                headers: {
-                    'X-CSRF-TOKEN': $('input[name=_token]').val()
-                },
                 dataType: 'json',
-                success: function (data) {
-                    $(loadingIMG).remove();
-                    view.hide_modal();
-                    view.clear_form();
-                }
-            });
+            })
+            .then(data => {
+                $(loadingIMG).remove();
+                view.hide_modal();
+                view.clear_form();
+            })
+            .catch(response => {
+                $(loadingIMG).remove();
+                swal('Error!', response.responseJSON.data, 'error');
+            });;
         }
     });
 
