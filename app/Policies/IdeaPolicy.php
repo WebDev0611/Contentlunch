@@ -17,7 +17,7 @@ class IdeaPolicy
         $topicSearches = $user->limits()->monthly()->whereName('topic_search')->count();
         $maxTopicSearches = Limit::whereName('topic_search')->first()->value;
 
-        return $topicSearches <= $maxTopicSearches;
+        return $topicSearches < $maxTopicSearches;
     }
 
     public function searchTrends(User $user)
@@ -25,6 +25,14 @@ class IdeaPolicy
         $trendSearches = $user->limits()->monthly()->whereName('trend_search')->count();
         $maxTrendSearches = Limit::whereName('trend_search')->first()->value;
 
-        return $trendSearches <= $maxTrendSearches;
+        return $trendSearches < $maxTrendSearches;
+    }
+
+    public function create(User $user)
+    {
+        $ideas = $user->ideas()->monthly()->count();
+        $maxIdeas = Limit::whereName('ideas_created')->first()->value;
+
+        return $ideas < $maxIdeas;
     }
 }
