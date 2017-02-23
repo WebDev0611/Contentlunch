@@ -26,29 +26,8 @@ class TrendsController extends Controller
         $topic_cache = Redis::get($topic_key);
         $output = '';
 
-        function get_data($t)
-        {
-            $api_url = 'https://api.rightrelevance.com/v2/articles/search?';
-
-            $params = array(
-                'days' => '365',
-                'rgroup' => 'large',
-                'query' => $t,
-                'access_token' => getenv('RIGHTRELEVANCE_TOKEN'),
-            );
-
-            $api_url .= http_build_query($params);
-
-            $client = new Client();
-            $res = $client->request('GET', $api_url);
-
-            $data_body = $res->getBody();
-
-            return json_decode($data_body->getContents());
-        }
-
         if (empty(unserialize($topic_cache))) {
-            $output = get_data($topic);
+            $output = $this->getData($topic);
             Redis::set($topic_key, serialize($output));
             Redis::expire($topic_key, 60 * 20); //set cache for 10 min
         } else {
@@ -56,5 +35,26 @@ class TrendsController extends Controller
         }
 
         return response()->json($output);
+    }
+
+    protected function getData($topic)
+    {
+        $api_url = 'https://api.rightrelevance.com/v2/articles/search?';
+
+        $params = [
+            'days' => '365',
+            'rgroup' => 'large',
+            'query' => $topic,
+            'access_token' => getenv('RIGHTRELEVANCE_TOKEN'),
+        ];
+
+        $api_url .= http_build_query($params);
+
+        $client = new Client();
+        $res = $client->request('GET', $api_url);
+
+        $data_body = $res->getBody();
+
+        return json_decode($data_body->getContents());
     }
 }
