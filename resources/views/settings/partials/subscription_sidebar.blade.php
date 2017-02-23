@@ -15,9 +15,11 @@
         <span class="settings-profile-subscription free">FREE Version</span>
 
         <label for="#">Paid Monthly</label>
+
         <h3 class="settings-profile-heading">$99</h3>
 
         <label for="#">Max Users</label>
+
         <h3 class="settings-profile-heading">20</h3>
 
         <div class="form-group">
@@ -25,8 +27,10 @@
                 Upgrade Subscription
             </a>
         </div>
-        <div class="form-group">
-            <label for="#">Payment Info</label>
+
+        @if(isset($userCard))
+            <div class="form-group">
+                <label for="#">Payment Info</label>
             <span>
                 {{$userCard->brand}} XXX-{{$userCard->last4}}
                 <a href="#" class="text-blue text-uppercase" id="edit-payment">
@@ -34,8 +38,8 @@
                     Edit
                 </a>
             </span>
-        </div>
-
+            </div>
+        @endif
 
     </div>
 </aside>
