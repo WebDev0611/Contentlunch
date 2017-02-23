@@ -340,9 +340,9 @@ let camelize = function(str) {
                 .catch(showErrorFeedback);
         };
 
-        function showErrorFeedback(error) {
-            console.log(error)
-            console.log('couldnt connect to the endpoint/error');
+        function showErrorFeedback(response) {
+            $(loadingGif).remove();
+            swal('Error!', response.responseJSON.data, 'error');
         }
 
         function addTrendsToCollections(res) {
