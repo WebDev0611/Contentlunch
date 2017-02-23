@@ -48,30 +48,36 @@
 
                                             <div class="row">
                                                 <div class="col-md-4">
-                                        <span>
-                                            DUE DATE
-                                            <strong>XXXXXXXXXX</strong>
-                                        </span>
+                                                    <span>
+                                                        DUE DATE
+                                                        <strong>XXXXXXXXXX</strong>
+                                                    </span>
                                                 </div>
                                                 <div class="col-md-4">
-                                        <span>
-                                            AUTHOR
-                                            <strong>XXXXXXXXX</strong>
-                                        </span>
+                                                    <span>
+                                                        AUTHOR
+                                                        <strong>XXXXXXXXX</strong>
+                                                    </span>
                                                 </div>
                                                 <div class="col-md-4">
-                                        <span>
-                                            WORD COUNT
-                                            <strong>XXXXXXXXXXXXXXX</strong>
-                                        </span>
+                                                    <span>
+                                                        WORD COUNT
+                                                        <strong>XXXXXXXXXXXXXXX</strong>
+                                                    </span>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="AutoRenew" class="checkbox-primary text-inline">
-                                                    <input id="AutoRenew" type="checkbox">
-                                                    <span>Auto Renew</span>
-                                                </label>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="auto_renew" class="checkbox-primary text-inline">
+                                                        <input id="auto_renew" type="checkbox" name="auto_renew" value="1">
+                                                        <span>Auto Renew</span>
+                                                    </label>
+                                                </div>
                                             </div>
+
+                                            <input type="hidden" name="stripe-customer-id" value="{{$user->stripe_customer_id}}">
+
                                         </div>
 
 
@@ -150,7 +156,7 @@
 
 @section('scripts')
     <script>
-        (function() {
+        (function () {
             Stripe.setPublishableKey("{{ getenv('STRIPE_PUBLISHABLE_KEY') }}");
 
             function stripeResponseHandler(status, response) {
@@ -170,7 +176,7 @@
                 }
             }
 
-            $('#subscriptionForm').submit(function(e) {
+            $('#subscriptionForm').submit(function (e) {
                 var $form = $(this);
 
                 $('#submit-btn').prop('disabled', true);

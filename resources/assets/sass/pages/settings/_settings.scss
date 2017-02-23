@@ -35,14 +35,24 @@
 }
 
 .settings-profile-subscription {
+
   display: inline-block;
   padding: 8px 14px;
   color: $base-color-white;
   font-size: 14px;
   font-family: $source-sans-pro;
-  background: #b4a1db;
   border-radius: 2px;
   margin-bottom: 20px;
+
+  &.paid{
+    background: #b4a1db;
+  }
+
+  &.free {
+    background: #F1F5F9;
+    color: #666;
+  }
+
 }
 
 .settings-profile-heading {

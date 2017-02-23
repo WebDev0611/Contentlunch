@@ -21,10 +21,19 @@ class AccountSettingsController extends Controller {
     }
 
     public function showSubscription () {
+        $user = Auth::user();
+
         $data = [
-            'user' => Auth::user(),
+            'user' => $user,
             'account' => Account::selectedAccount(),
         ];
+
+        if(!empty($user->stripe_customer_id)) {
+            // Get user's first saved card
+            Stripe::setApiKey(Config::get('services.stripe.secret'));
+            $customer = \Stripe\Customer::retrieve($user->stripe_customer_id);
+            $data['userCard'] = $customer->sources->data[0];
+        }
 
         return view('settings.subscription', $data);
     }
@@ -38,24 +47,18 @@ class AccountSettingsController extends Controller {
             return redirect()->route('subscription')->with('errors', $validation->errors());
         }
 
-        // Try to charge their card
         try {
             $this->initStripe();
-            $customer = $this->createStripeCustomer($request);
-        } catch (\Stripe\Error\Base $e) {
-            return $this->redirectToSubscription($e->getMessage(), 'danger');
-        } catch (Exception $e) {
-            return $this->redirectToSubscription($e->getMessage(), 'danger');
-        }
-
-        // Save Stripe customer ID
-        $user = Auth::user();
-        $user->stripe_customer_id = $customer->id;
-        $user->save();
-
-        try {
+            $customerId = !empty($request->input('stripe-customer-id')) ? $request->input('stripe-customer-id') : $this->createStripeCustomer($request)->id;
             $order = new \Stripe\Order(); // TODO
-            $charge = $this->createStripeCharge($customer, $order);
+
+            // Handle one-time payment or subscription
+            if($request->has('auto_renew') && $request->input('auto_renew') == '1'){
+                $charge = $this->createStripeCharge($customerId, $order);
+            } else {
+                $charge = $this->createStripeCharge($customerId, $order);
+            }
+
         } catch (\Stripe\Error\Base $e) {
             return $this->redirectToSubscription($e->getMessage(), 'danger');
         } catch (\Exception $e) {
@@ -65,6 +68,11 @@ class AccountSettingsController extends Controller {
         if ($charge->status !== "succeeded") {
             throw new Exception("Card not authorized");
         }
+
+        // Save Stripe customer ID
+        $user = Auth::user();
+        $user->stripe_customer_id = $customerId;
+        $user->save();
 
         // TODO update databadse
         return $this->redirectToSubscription('Payment successful. Account upgrade is complete!');
@@ -90,9 +98,9 @@ class AccountSettingsController extends Controller {
         ]);
     }
 
-    protected function createStripeCharge ($customer, \Stripe\Order $order) {
+    protected function createStripeCharge ($customerId, \Stripe\Order $order) {
         return \Stripe\Charge::create([
-            'customer' => $customer->id,
+            'customer' => $customerId,
             'amount' => 99 * 100, //TODO
             'currency' => 'usd',
             'description' => 'ContentLaunch Plan Subscription',
