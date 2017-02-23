@@ -10,6 +10,13 @@ class TrendsController extends Controller
 {
     public function trending(Request $request)
     {
+        if (Auth::user()->cant('searchTrends', App\Idea::class)) {
+            return response()->json([
+                'data' => 'You exceeded your content trend searches limit.'
+            ], 403);
+        }
+        Auth::user()->addToLimit('trend_search');
+
         $topic = $request->input('topic');
         if (empty($topic)) {
             echo json_encode([]);
