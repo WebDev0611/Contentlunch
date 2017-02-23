@@ -120,6 +120,7 @@
                                         <div class="col-md-6 col-md-offset-3">
                                             <input
                                                     type="submit"
+                                                    id="submit-btn"
                                                     class='button button-primary button-extend text-uppercase'
                                                     value='Submit Order'>
                                         </div>
@@ -161,6 +162,7 @@
                             .text(response.error.message)
                             .slideDown('fast');
                     $('.loading').fadeOut('fast');
+                    $('#submit-btn').prop('disabled', false);
                 } else {
                     var token = response.id;
                     $form.append($('<input type="hidden" name="stripe-token" />').val(token));
@@ -168,14 +170,10 @@
                 }
             }
 
-            function disableForm($form) {
-                $form.find('input').prop('disabled', true);
-            }
-
             $('#subscriptionForm').submit(function(e) {
                 var $form = $(this);
 
-                disableForm($form);
+                $('#submit-btn').prop('disabled', true);
                 $('.loading').fadeIn('fast');
 
                 Stripe.card.createToken($form, stripeResponseHandler);

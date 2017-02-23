@@ -6,9 +6,8 @@ use App\Account;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
-use Stripe\ApiRequestor;
-use Stripe\HttpClient\CurlClient;
 use Stripe\Stripe;
 
 class AccountSettingsController extends Controller {
@@ -39,38 +38,36 @@ class AccountSettingsController extends Controller {
             return redirect()->route('subscription')->with('errors', $validation->errors());
         }
 
-        return 'a';
-
-        // Try to charge their card before making the order...
-        $this->initStripe();
-        $user = Auth::user();
-
-        // Get/create stripe customer
+        // Try to charge their card
         try {
-            if ($user->stripe_customer_id !== null) {
-                $customerId = $user->stripe_customer_id;
-            } else {
-                $customer = $this->createStripeCustomer($request);
-                $customerId = $customer->id;
-                $user->stripe_customer_id = $customerId;
-                $user->save();
-            }
+            $this->initStripe();
+            $customer = $this->createStripeCustomer($request);
+        } catch (\Stripe\Error\Base $e) {
+            return $this->redirectToSubscription($e->getMessage(), 'danger');
         } catch (Exception $e) {
-            echo $e->getMessage();
-            echo $e->getTrace();
-            // TODO: We need to do something here to let the user know we could not process the payment.
-            die();
+            return $this->redirectToSubscription($e->getMessage(), 'danger');
         }
 
+        // Save Stripe customer ID
+        $user = Auth::user();
+        $user->stripe_customer_id = $customer->id;
+        $user->save();
+
         try {
+            $order = new \Stripe\Order(); // TODO
             $charge = $this->createStripeCharge($customer, $order);
+        } catch (\Stripe\Error\Base $e) {
+            return $this->redirectToSubscription($e->getMessage(), 'danger');
         } catch (\Exception $e) {
             return $this->redirectToSubscription($e->getMessage(), 'danger');
         }
 
-        if($charge->status !== "succeeded"){
+        if ($charge->status !== "succeeded") {
             throw new Exception("Card not authorized");
         }
+
+        // TODO update databadse
+        return $this->redirectToSubscription('Payment successful. Account upgrade is complete!');
     }
 
     private function validateCard (array $data) {
@@ -81,7 +78,7 @@ class AccountSettingsController extends Controller {
 
     private function initStripe () {
         Stripe::setApiKey(Config::get('services.stripe.secret'));
-        ApiRequestor::setHttpClient(new CurlClient(array(CURLOPT_PROXY => '')));
+        \Stripe\ApiRequestor::setHttpClient(new \Stripe\HttpClient\CurlClient(array(CURLOPT_PROXY => '')));
     }
 
     protected function createStripeCustomer (Request $request) {
@@ -93,17 +90,16 @@ class AccountSettingsController extends Controller {
         ]);
     }
 
-    protected function createStripeCharge ($customer, Order $order) {
+    protected function createStripeCharge ($customer, \Stripe\Order $order) {
         return \Stripe\Charge::create([
             'customer' => $customer->id,
-            'amount' => $order->getPrice() * 100,
+            'amount' => 99 * 100, //TODO
             'currency' => 'usd',
             'description' => 'ContentLaunch Plan Subscription',
         ]);
     }
 
-    protected function redirectToSubscription($message, $message_type = 'success')
-    {
+    protected function redirectToSubscription ($message, $message_type = 'success') {
         return redirect()
             ->route('subscription')
             ->with([
