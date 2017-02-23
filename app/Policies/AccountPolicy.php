@@ -11,9 +11,9 @@ class AccountPolicy
 {
     use HandlesAuthorization;
 
-    public function invite(User $user, array $emails)
+    public function invite(User $user, Account $account, array $emails)
     {
-        $currentUsersCount = Account::selectedAccount()->users()->count();
+        $currentUsersCount = $account->users()->count();
         $emailsCount = collect($emails)->count();
         $maxUsersCount = Limit::whereName('users_per_account')->first()->value;
 
