@@ -11,21 +11,22 @@ let camelize = function(str) {
     const loadingGif = $('<img src="/images/loading.gif" style="max-height:30px" />');
 
 	let create_message_view = Backbone.View.extend({
-		initialize: function(){
+
+		initialize() {
 			this.listenTo(this.collection,"update",this.render);
 			this.listenTo(this.collection,"change",this.render);
 		},
-		render: function(){
-			let selected = this.collection.filter(function(m){
-				return m.get('selected');
-			});
 
-			if(selected.length > 0 ){
-				this.$el.html('Create an idea from ' + selected.length + ' selected items');
-			}else{
-				this.$el.html('');
-			}
-		}
+		render() {
+			let selected = this.selectedCount();
+            let message = selected > 0 ? `Create an idea from ${selected.length} selected items` : '';
+
+			this.$el.html(message);
+		},
+
+        selectedCount() {
+            return this.collection.filter(model => model.get('selected')).length;
+        }
 	});
 
 	let create_idea_cont_view = Backbone.View.extend({
