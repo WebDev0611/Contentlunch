@@ -303,6 +303,11 @@ class ContentController extends Controller
 
     public function directPublish(Request $request, Content $content)
     {
+        if (Auth::user()->cant('launch', Content::class)) {
+            return response()->json([ 'data' => 'You\'ve reached the limit of content launches for the month.'], 403);
+        }
+        Auth::user()->addToLimit('content_launch');
+
         $connections = collect(explode(',', $request->input('connections')))
             ->map(function ($connectionId) {
                 return Connection::find($connectionId);
