@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Calendar;
 use App\ContentType;
 use App\Presenters\ContentTypePresenter;
@@ -42,8 +41,15 @@ class CalendarController extends Controller
     //creates a new calendar
     public function create(Request $request)
     {
-        // TODO add limitation to 1 calendar for free users
+        if (Auth::user()->cant('create', Calendar::class)) {
+            return response()->json([
+                'data' => 'You have reached the maximum amount of calendars allowed for free accounts.'
+            ], 403);
+        }
+        Auth::user()->addToLimit('calendars');
+
         $cal = new Calendar();
+
         return $cal->store($request->user(), Account::selectedAccount()->id, $request->all());
     }
 
