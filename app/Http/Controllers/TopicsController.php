@@ -16,7 +16,7 @@ class TopicsController extends Controller
      */
     public function index(Request $request)
     {
-        if (Auth::user()->cant('search', App\Idea::class)) {
+        if (Auth::user()->cant('searchTopics', App\Idea::class)) {
             return response()->json([
                 'data' => 'You exceeded your topic searches limit.'
             ], 403);

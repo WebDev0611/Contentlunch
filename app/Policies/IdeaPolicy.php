@@ -12,13 +12,9 @@ class IdeaPolicy
 {
     use HandlesAuthorization;
 
-    public function search(User $user)
+    public function searchTopics(User $user)
     {
-        $topicSearches = $user->limits()
-            ->monthly()
-            ->whereName('topic_search')
-            ->count();
-
+        $topicSearches = $user->limits()->monthly()->whereName('topic_search')->count();
         $maxTopicSearches = Limit::whereName('topic_search')->first()->value;
 
         return $topicSearches <= $maxTopicSearches;
