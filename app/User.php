@@ -144,7 +144,7 @@ class User extends Authenticatable
         $limit = Limit::whereName($limitName)->first();
 
         if (!$limit) {
-            throw new Exception("$limitName is not a valid name on the limits table", 1);
+            throw new \Exception("$limitName is not a valid name on the limits table", 1);
         }
 
         $this->limits()->attach($limit);
