@@ -16,7 +16,6 @@ class WriterAccessPartialOrder extends Model
     public $table = 'writer_access_partial_orders';
 
     protected $fillable = [
-        'project_name',
         'duedate',
         'asset_type_id',
         'wordcount',
@@ -26,7 +25,8 @@ class WriterAccessPartialOrder extends Model
         'narrative_voice',
         'target_audience',
         'tone_of_writing',
-        'bulk_file'
+        'bulk_file',
+        'order_count'
     ];
 
     public function user()
