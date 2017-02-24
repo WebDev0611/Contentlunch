@@ -1,4 +1,4 @@
-<li class="left clearfix">
+<li class="right clearfix">
     <span class="comment-img pull-right">
         <img src="/images/cl-avatar2.png" alt="User Avatar" class="img-circle"/>
     </span>
