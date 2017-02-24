@@ -15,10 +15,10 @@ function add_calendar(callback) {
             url: '/calendar/add',
             type: 'post',
             data: getCalendarData(),
-            headers: getCSRFHeader(),
             dataType: 'json',
-            success: addedCalendarCallback(callback)
-        });
+        })
+        .then(addedCalendarCallback(callback))
+        .catch(showErrorFeedback);
     }
 };
 
@@ -55,19 +55,30 @@ function addedCalendarCallback(callback) {
         $(loadIMG).remove();
         clearCalendarInputs();
 
-        let redirectUrl = '/calendar';
-        if (window.location.pathname.indexOf('weekly') >= 0) {
-            redirectUrl = '/weekly';
-        }
-        if (window.location.pathname.indexOf('daily') >= 0) {
-            redirectUrl = '/daily';
-        }
-        window.location = redirectUrl + '/' + res.id;
+        window.location = calendarRedirectUrl(res.id);
 
         if ('function' === typeof callback) {
             callback();
         }
     }
+}
+
+function calendarRedirectUrl(calendarId) {
+    let redirectUrl = '/calendar';
+
+    if (window.location.pathname.indexOf('weekly') >= 0) {
+        redirectUrl = '/weekly';
+    }
+    if (window.location.pathname.indexOf('daily') >= 0) {
+        redirectUrl = '/daily';
+    }
+
+    return redirectUrl + '/' + calendarId;
+}
+
+function showErrorFeedback(response) {
+    $(loadIMG).remove();
+    swal('Error!', response.responseJSON.data, 'error');
 }
 
 function clearCalendarInputs() {

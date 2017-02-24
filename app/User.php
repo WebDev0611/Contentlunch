@@ -5,15 +5,20 @@ namespace App;
 use App\Account;
 use App\AccountType;
 use App\Content;
+use App\Limit;
 use App\Presenters\UserPresenter;
 use Auth;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laracasts\Presenter\PresentableTrait;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
 {
-    use EntrustUserTrait, PresentableTrait;
+    use PresentableTrait, Authorizable, EntrustUserTrait {
+        Authorizable::can insteadof EntrustUserTrait;
+        EntrustUserTrait::can as hasPermission;
+    }
 
     protected $presenter = UserPresenter::class;
     /**
@@ -50,7 +55,7 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Calendar');
     }
-    
+
     public function assignedTasks()
     {
         return $this->belongsToMany('App\Task');
@@ -74,6 +79,11 @@ class User extends Authenticatable
     public function ideas()
     {
         return $this->hasMany('App\Idea');
+    }
+
+    public function limits()
+    {
+        return $this->belongsToMany('App\Limit')->withTimestamps();
     }
 
     public function tasks()
@@ -129,4 +139,14 @@ class User extends Authenticatable
             ->get();
     }
 
+    public function addToLimit($limitName)
+    {
+        $limit = Limit::whereName($limitName)->first();
+
+        if (!$limit) {
+            throw new \Exception("$limitName is not a valid name on the limits table", 1);
+        }
+
+        $this->limits()->attach($limit);
+    }
 }

@@ -86,6 +86,14 @@ class CampaignController extends Controller
 
     public function store(Request $request)
     {
+        if (Auth::user()->cant('create', Campaign::class)) {
+            return back()->with([
+                'flash_message' => 'You have reached maximum number of campaigns for a free account. Please upgrade to continue.',
+                'flash_message_type' => 'danger',
+            ]);
+        }
+        Auth::user()->addToLimit('campaigns');
+
         $data = $request->all();
         $validation = $this->createValidation($data);
 

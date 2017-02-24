@@ -32,7 +32,8 @@ var teamMemberInviteModalView = Backbone.View.extend({
             },
         })
         .then(this.hideModal.bind(this))
-        .then(this.showFeedback.bind(this));
+        .then(this.showFeedback.bind(this))
+        .catch(response => swal('Error!', response.responseJSON.data, 'error'));
     },
 
     hideModal(response) {
