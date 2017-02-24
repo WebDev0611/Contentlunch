@@ -22,12 +22,6 @@
 
         <h3 class="settings-profile-heading">20</h3>
 
-        <div class="form-group">
-            <a href="#" class="text-blue text-uppercase">
-                Upgrade Subscription
-            </a>
-        </div>
-
         @if(isset($userCard))
             <div class="form-group">
                 <label for="#">Payment Info</label>

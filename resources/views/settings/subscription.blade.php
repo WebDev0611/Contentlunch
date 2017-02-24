@@ -177,15 +177,13 @@
                                     </div>
                                 </div>
 
-
                             </div>
+
+                            {!! Form::open([ 'id'=>'subscriptionForm', 'route' => 'subscription' ]) !!}
 
 
                             <div class="col-md-10  stripe-container">
-
-                                {!! Form::open([ 'id'=>'subscriptionForm', 'route' => 'subscription' ]) !!}
                                 <div class="row">
-
                                     <div class="col-md-12">
 
                                         <div
@@ -234,30 +232,32 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="input-form-group">
-                                    <div class="row">
-                                        <div class="col-md-6 col-md-offset-3">
-                                            <label for="auto_renew" class="checkbox-tag">
-                                                <input id="auto_renew" type="checkbox" name="auto_renew"
-                                                       value="1">
-                                                <span>Auto Renew</span>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-6 col-md-offset-3">
-                                            <input
-                                                    type="submit"
-                                                    id="submit-btn"
-                                                    class='button button-primary button-extend text-uppercase'
-                                                    value='Submit Order'>
-                                        </div>
+                            </div>
+
+
+                            <div class="input-form-group">
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-2">
+                                        <label for="auto_renew" class="checkbox-tag">
+                                            <input id="auto_renew" type="checkbox" name="auto_renew"
+                                                   value="1">
+                                            <span>Auto Renew</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6 col-md-offset-2">
+                                        <input
+                                                type="submit"
+                                                id="submit-btn"
+                                                class='button button-primary button-extend text-uppercase'
+                                                value='Submit Order'>
                                     </div>
                                 </div>
-                                <div class="input-form-group loading" style='display:none'>
-                                    <img src="/images/ring.gif" class='loading-relative' alt="">
-                                </div>
-                                {!! Form::close() !!}
-
                             </div>
+                            <div class="input-form-group loading" style='display:none'>
+                                <img src="/images/ring.gif" class='loading-relative' alt="">
+                            </div>
+
+                            {!! Form::close() !!}
 
                         </div>
 
