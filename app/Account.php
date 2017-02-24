@@ -84,6 +84,11 @@ class Account extends Model
         return $this->hasMany('App\Idea');
     }
 
+    public function subscriptions()
+    {
+        return $this->hasMany('App\Subscription');
+    }
+
     /**
      * Agency related helper methods
      */

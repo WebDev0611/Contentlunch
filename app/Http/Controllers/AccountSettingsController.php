@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Account;
 use App\Http\Requests;
+use App\Subscription;
+use App\SubscriptionType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -44,7 +46,7 @@ class AccountSettingsController extends Controller {
     }
 
     public function submitSubscription (Request $request) {
-
+        
         // Validate the stripe token
         $validation = $this->validateCard($request->all());
         if ($validation->fails()) {
@@ -57,7 +59,7 @@ class AccountSettingsController extends Controller {
 
             // Handle one-time payment or subscription
             if ($request->has('auto_renew') && $request->input('auto_renew') == '1') {
-                $plan = $this->createStripePlan($request);
+                $plan = $this->getStripePlan($request);
                 $subscription = $this->createStripeSubscription($customerId, $plan->id);
             } else {
                 $charge = $this->createStripeCharge($customerId, $request);
@@ -74,10 +76,23 @@ class AccountSettingsController extends Controller {
 
         // Save Stripe customer ID
         $user = Auth::user();
-        $user->stripe_customer_id = $customerId; // TODO change to account
+        $user->stripe_customer_id = $customerId;
         $user->save();
 
-        // TODO update databadse about subscription data
+        // create new subscription and save it to DB
+        $sub = new Subscription();
+        $sub->account()->associate(Account::selectedAccount());
+        $sub->subscriptionType()->associate(SubscriptionType::where('slug', $request->input('plan-name'))->first());
+        $sub->active = true;
+        $sub->auto_renew = $request->has('auto_renew') && $request->input('auto_renew') == '1';
+        $sub->start_date = date("Y-m-d H:i:s");
+        if ($request->input('plan-type') == "month") {
+            $sub->expiration_date = date('Y-m-d H:i:s', strtotime(date("Y-m-d") . ' + 30 days'));
+        } elseif ($request->input('plan-type') == "year") {
+            $sub->expiration_date = date('Y-m-d H:i:s', strtotime(date("Y-m-d") . ' + 365 days'));
+        }
+        $sub->save();
+
         return $this->redirectToSubscription('Payment successful. Account upgrade is complete!');
     }
 
@@ -106,33 +121,40 @@ class AccountSettingsController extends Controller {
             'customer' => $customerId,
             'amount' => $request->input('plan-price') * 100,
             'currency' => 'usd',
-            'description' => 'ContentLaunch Plan Charge - ' . $request->input('plan-name') . '-' .  $request->input('plan-type'),
+            'description' => 'ContentLaunch Plan Charge - ' . $request->input('plan-name') . '-' . $request->input('plan-type'),
         ]);
     }
 
-    protected function createStripePlan ($request) {
-        $planData = [];
-        if ($request->input('plan-type') == 'month') {
-            $planData = [
-                "name" => "CL Subscription Month Plan - " . $request->input('plan-name'),
-                "id" => $request->input('plan-name') . "-monthly",
-                "interval" => "month",
-                "currency" => "usd",
-                "amount" => $request->input('plan-price') * 100,
-            ];
-        } elseif ($request->input('plan-type') == 'year') {
-            $planData = [
-                "name" => "CL Subscription Annual Plan - " . $request->input('plan-name'),
-                "id" => $request->input('plan-name') . "-annually",
-                "interval" => "year",
-                "currency" => "usd",
-                "amount" => $request->input('plan-price') * 100,
-            ];
-        } else {
-            throw new \Exception("Plan error");
+    // Try to get existing plan from Stripe by id, or create a new one if it doesn't exist
+    protected function getStripePlan ($request) {
+
+        $planType = $request->input('plan-type');
+        $planName = $request->input('plan-name');
+
+        if ($planType != 'month' && $planType != 'year') {
+            throw new \Exception("Plan type error");
         }
 
-        return \Stripe\Plan::create($planData);
+        $planId = $planType == 'month' ? $planName . "-monthly" : $planName . "-annually";
+        Stripe::setApiKey(Config::get('services.stripe.secret'));
+
+        try {
+            $plan = \Stripe\Plan::retrieve($planId);
+        } catch (\Stripe\Error\Base $e) {
+            Log::error($e->getMessage());
+        }
+
+        if(!empty($plan)) {
+            return $plan;
+        }
+
+        return \Stripe\Plan::create([
+            "name" => "CL Subscription Plan - " . $planId,
+            "id" => $planId,
+            "interval" => $planType,
+            "currency" => "usd",
+            "amount" => $request->input('plan-price') * 100,
+        ]);
     }
 
     protected function createStripeSubscription ($customerId, $planId) {
