@@ -7,6 +7,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Stripe\Stripe;
 
@@ -31,8 +32,12 @@ class AccountSettingsController extends Controller {
         if (!empty($user->stripe_customer_id)) {
             // Get user's first saved card
             Stripe::setApiKey(Config::get('services.stripe.secret'));
-            $customer = \Stripe\Customer::retrieve($user->stripe_customer_id);
-            $data['userCard'] = $customer->sources->data[0];
+            try {
+                $customer = \Stripe\Customer::retrieve($user->stripe_customer_id);
+                $data['userCard'] = isset($customer) ? $customer->sources->data[0] : null;
+            } catch (\Stripe\Error\Base $e) {
+                Log::error($e->getMessage());
+            }
         }
 
         return view('settings.subscription', $data);
@@ -40,7 +45,6 @@ class AccountSettingsController extends Controller {
 
     public function submitSubscription (Request $request) {
 
-        return $request->all();
         // Validate the stripe token
         $validation = $this->validateCard($request->all());
         if ($validation->fails()) {
@@ -53,10 +57,10 @@ class AccountSettingsController extends Controller {
 
             // Handle one-time payment or subscription
             if ($request->has('auto_renew') && $request->input('auto_renew') == '1') {
-                $plan = $this->createStripePlan('year'); // TODO - load variable from request object
+                $plan = $this->createStripePlan($request);
                 $subscription = $this->createStripeSubscription($customerId, $plan->id);
             } else {
-                $charge = $this->createStripeCharge($customerId);
+                $charge = $this->createStripeCharge($customerId, $request);
             }
         } catch (\Stripe\Error\Base $e) {
             return $this->redirectToSubscription($e->getMessage(), 'danger');
@@ -70,7 +74,7 @@ class AccountSettingsController extends Controller {
 
         // Save Stripe customer ID
         $user = Auth::user();
-        $user->stripe_customer_id = $customerId;
+        $user->stripe_customer_id = $customerId; // TODO change to account
         $user->save();
 
         // TODO update databadse about subscription data
@@ -97,32 +101,32 @@ class AccountSettingsController extends Controller {
         ]);
     }
 
-    protected function createStripeCharge ($customerId) {
+    protected function createStripeCharge ($customerId, $request) {
         return \Stripe\Charge::create([
             'customer' => $customerId,
-            'amount' => 99 * 100, //TODO amount
+            'amount' => $request->input('plan-price') * 100,
             'currency' => 'usd',
-            'description' => 'ContentLaunch Plan Subscription',
+            'description' => 'ContentLaunch Plan Charge - ' . $request->input('plan-name') . '-' .  $request->input('plan-type'),
         ]);
     }
 
-    protected function createStripePlan ($plan = 'month') {
+    protected function createStripePlan ($request) {
         $planData = [];
-        if ($plan == 'month') {
+        if ($request->input('plan-type') == 'month') {
             $planData = [
-                "name" => "CL Subscription Month Plan",
-                "id" => "pro-monthly",
+                "name" => "CL Subscription Month Plan - " . $request->input('plan-name'),
+                "id" => $request->input('plan-name') . "-monthly",
                 "interval" => "month",
                 "currency" => "usd",
-                "amount" => 99 * 100, // TODO amount
+                "amount" => $request->input('plan-price') * 100,
             ];
-        } elseif ($plan == 'year') {
+        } elseif ($request->input('plan-type') == 'year') {
             $planData = [
-                "name" => "CL Subscription Annual Plan",
-                "id" => "pro-annually",
+                "name" => "CL Subscription Annual Plan - " . $request->input('plan-name'),
+                "id" => $request->input('plan-name') . "-annually",
                 "interval" => "year",
                 "currency" => "usd",
-                "amount" => 1065 * 100, // TODO amount
+                "amount" => $request->input('plan-price') * 100,
             ];
         } else {
             throw new \Exception("Plan error");

@@ -70,7 +70,7 @@
 
                                                         <label for="plan-1" class="checkbox-tag plan">
                                                             <input id="plan-1" type="checkbox" plan-name="basic"
-                                                                   plan-type="month">
+                                                                   plan-type="month" plan-price="99">
                                                             <span>Sign me up!</span>
                                                         </label>
                                                     </div>
@@ -96,7 +96,7 @@
 
                                                         <label for="plan-2" class="checkbox-tag plan">
                                                             <input id="plan-2" type="checkbox" plan-name="basic"
-                                                                   plan-type="year">
+                                                                   plan-type="year" plan-price="1069">
                                                             <span>Sign me up!</span>
                                                         </label>
                                                     </div>
@@ -141,7 +141,7 @@
 
                                                         <label for="plan-3" class="checkbox-tag plan">
                                                             <input id="plan-3" type="checkbox" plan-name="pro"
-                                                                   plan-type="month">
+                                                                   plan-type="month" plan-price="199">
                                                             <span>Sign me up!</span>
                                                         </label>
                                                     </div>
@@ -167,7 +167,7 @@
 
                                                         <label for="plan-4" class="checkbox-tag plan">
                                                             <input id="plan-4" type="checkbox" plan-name="pro"
-                                                                   plan-type="year">
+                                                                   plan-type="year" plan-price="2149">
                                                             <span>Sign me up!</span>
                                                         </label>
                                                     </div>
@@ -314,18 +314,21 @@
                 var $form = $('#subscriptionForm');
                 if (this.checked) {
                     $(this).parent('.plan').addClass('selected');
-                    if (!$('input[name="plan-name"]').val() && !$('input[name="plan-type"]').val()) {
+                    if (!$('input[name="plan-name"]').val() || !$('input[name="plan-type"]').val() || !$('input[name="plan-price"]').val()) {
                         $form.append($('<input type="hidden" name="plan-name" />'));
                         $form.append($('<input type="hidden" name="plan-type" />'));
+                        $form.append($('<input type="hidden" name="plan-price" />'));
                     }
                     $('input[name="plan-name"]').val($(this).attr('plan-name'));
                     $('input[name="plan-type"]').val($(this).attr('plan-type'));
+                    $('input[name="plan-price"]').val($(this).attr('plan-price'));
 
                     $('#submit-btn').show();
                     $('#submit-btn').prop('disabled', false);
                 } else {
                     $('input[name="plan-name"]').remove();
                     $('input[name="plan-type"]').remove();
+                    $('input[name="plan-price"]').remove();
                     $('#submit-btn').prop('disabled', true);
                 }
             });
