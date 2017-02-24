@@ -40,6 +40,7 @@ class AccountSettingsController extends Controller {
 
     public function submitSubscription (Request $request) {
 
+        return $request->all();
         // Validate the stripe token
         $validation = $this->validateCard($request->all());
         if ($validation->fails()) {
