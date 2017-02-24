@@ -26,5 +26,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->call('App\Tasks\DailyReport@sendEmailReport')
+            ->dailyAt('10:00')
+            ->timezone('America/Los_Angeles');
     }
 }

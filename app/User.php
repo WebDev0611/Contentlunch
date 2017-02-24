@@ -91,6 +91,14 @@ class User extends Authenticatable
        return $this->hasMany('App\Task');
     }
 
+    public function scopeCreatedSinceYesterday($query)
+    {
+        return $query->whereBetween('created_at', [
+            \Carbon\Carbon::now()->subDay(),
+            \Carbon\Carbon::now(),
+        ]);
+    }
+
     public function partialWriterAccessOrders()
     {
         return $this->hasMany('App\WriterAccessPartialOrder');
