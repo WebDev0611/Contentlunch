@@ -22,19 +22,21 @@
                             <div class="col-md-6 text-right">
                                 <div class="head-actions">
                                     <a
-                                        class="button button-outline-secondary button-small delimited"
+                                        @if($order->status === "Approved") disabled @endif
+                                        class="button button-outline-secondary button-small delimited approve"
                                         name="action"
-                                        value="written_content">
-                                        APPROVE
+                                        value="written_content"
+                                        @if($order->status !== "Approved")href="/content/orders/approve/{{ $order->id }}" @endif>
+                                        <img src="/images/icons/check-large.svg" alt="Approve">@if($order->status === "Approved") APPROVED @else APPROVE @endif
                                     </a>
 
 
                                     <button
                                             type="submit"
-                                            class="button button-outline-secondary button-small delimited"
+                                            class="button button-outline-secondary button-small delimited launch"
                                             name="action"
                                             value="written_content">
-                                        LAUNCH
+                                        <img src="/images/icons/spaceship-circle.svg" alt="Launch"> LAUNCH
                                     </button>
                                 </div>
                             </div>
@@ -63,6 +65,35 @@
                                 </p>
                             </div>
                         @endif
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="input-form-group">
+                                    <label for="content_type">WRITER</label>
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <img class="img-circle" id="writer-img" src="{{ $writer->photo }}" alt="{{ $writer->name }}">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            {{ $writer->name }} <br />
+                                            {{ $writer->location }} <br />
+                                            @for($i=0; $i<$writer->rating; $i++)
+                                                <img class="rating-star" src="/images/icons/star.svg" alt="">
+                                            @endfor
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="input-form-group">
+                                    <label for="dueDate">STATUS</label>
+                                    @if($order->status === "Approved") APPROVED ({{ Carbon\Carbon::parse($order->approved)->diffForHumans() }}) @else Pending Approval @endif
+                                    {{--<input class="input-calendar input form-control" type="text" readonly value="{{ $order-> }}">--}}
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="input-form-group">
                             <label for="title">TITLE</label>
@@ -138,6 +169,19 @@
 
 @section('styles')
     <style>
+        a.approve img, button.launch img{
+            width: 20px;
+            margin-right: 2px;
+        }
+
+        #writer-img{
+            width: 60px;
+        }
+
+        .rating-star{
+            width: 12px;
+        }
+
         .comment-sidebar{
 
         }
