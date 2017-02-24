@@ -472,8 +472,7 @@ class WriterAccessController extends Controller
 
         if (isset($postFields)) {
             foreach ($postFields as $key => $value) {
-                str_replace(" ", "%20", $value);
-                $fields_string .= $key . '=' . $value . '&';
+                $fields_string .= $key . '=' . url_encode($value) . '&';
             }
             rtrim($fields_string, '&');
         }
