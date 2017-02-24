@@ -82,6 +82,7 @@ class Account extends Model {
         return $this->subscriptions()
             ->where('start_date', '<=', $dt)
             ->where('expiration_date', '>=', $dt)
+            ->where('valid', '=', 1)
             ->get();
     }
 

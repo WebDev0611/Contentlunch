@@ -16,8 +16,8 @@ class CreateSubscriptionTypesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('slug');
-            $table->decimal('price_month', 8, 2);
-            $table->decimal('price_year', 8, 2);
+            $table->decimal('price', 8, 2);
+            $table->integer('limit_users');
             $table->text('description');
             $table->timestamps();
         });

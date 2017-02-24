@@ -13,17 +13,31 @@ class SubscriptionTypesTableSeeder extends Seeder {
         DB::table('subscription_types')->truncate();
         DB::table('subscription_types')->insert([
             [
-                'name' => 'Basic',
-                'slug' => 'basic',
-                'price_month' => 99.00,
-                'price_year' => 1069.00,
+                'name' => 'Basic Monthly',
+                'slug' => 'basic-monthly',
+                'price' => 99.00,
+                'limit_users' => 5,
                 'description' => 'Basic plan restricts the number of users in the account to 5. All other functionalities are unlimited.'
             ],
             [
-                'name' => 'Pro',
-                'slug' => 'pro',
-                'price_month' => 199.00,
-                'price_year' => 2149.00,
+                'name' => 'Basic Annually',
+                'slug' => 'basic-annually',
+                'price' => 1069.00,
+                'limit_users' => 5,
+                'description' => 'Basic plan restricts the number of users in the account to 5. All other functionalities are unlimited.'
+            ],
+            [
+                'name' => 'Pro Monthly',
+                'slug' => 'pro-monthly',
+                'price' => 199.00,
+                'limit_users' => 10,
+                'description' => 'Pro plan restricts the number of users in the account to 10. All other functionalities are unlimited.'
+            ],
+            [
+                'name' => 'Pro Annually',
+                'slug' => 'pro-annually',
+                'price' => 2149.00,
+                'limit_users' => 10,
                 'description' => 'Pro plan restricts the number of users in the account to 10. All other functionalities are unlimited.'
             ]
         ]);

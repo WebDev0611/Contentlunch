@@ -14,11 +14,11 @@
 
         <span class="settings-profile-subscription free">FREE Version</span>
 
-        @if($account->activeSubscriptions())
+        @if(!$account->activeSubscriptions()->isEmpty())
 
             <label for="#">Paid Monthly</label>
 
-            <h3 class="settings-profile-heading">${{$account->activeSubscriptions()[0]->subscriptionType->price_month}}</h3>
+            <h3 class="settings-profile-heading">${{$account->activeSubscriptions()[0]->subscriptionType->price}}</h3>
 
             <label for="#">Start Date</label>
 

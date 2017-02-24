@@ -37,7 +37,7 @@
                                 <div class="col-md-6">
 
                                     <div class="plan-selector">
-                                        <h1>Basic</h1>
+                                        <h2>Basic</h2>
 
                                         <div class="panel with-nav-tabs panel-default">
                                             <div class="panel-heading">
@@ -109,7 +109,7 @@
                                 <div class="col-md-6">
 
                                     <div class="plan-selector">
-                                        <h1>Pro</h1>
+                                        <h2>Pro</h2>
 
                                         <div class="panel with-nav-tabs panel-default">
                                             <div class="panel-heading">
