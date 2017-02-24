@@ -64,13 +64,15 @@
                                                         </ul>
                                                         <div class="amount">
                                                             <span class="dollar">$</span>
-                                                            <span class="number">99</span>
+                                                            <span class="number">{{ number_format($planPrices['basic-monthly']) }}</span>
                                                         </div>
                                                         <p class="amount-info">Paid monthly</p>
 
                                                         <label for="plan-1" class="checkbox-tag plan">
                                                             <input id="plan-1" type="checkbox" plan-name="basic"
-                                                                   plan-type="month" plan-price="99">
+                                                                   plan-type="month"
+                                                                   plan-price="{{$planPrices['basic-monthly']}}"
+                                                                   plan-slug="basic-monthly">
                                                             <span>Sign me up!</span>
                                                         </label>
                                                     </div>
@@ -90,13 +92,15 @@
 
                                                         <div class="amount">
                                                             <span class="dollar">$</span>
-                                                            <span class="number">1,069</span>
+                                                            <span class="number">{{ number_format($planPrices['basic-annually']) }}</span>
                                                         </div>
                                                         <p class="amount-info">Paid annually</p>
 
                                                         <label for="plan-2" class="checkbox-tag plan">
                                                             <input id="plan-2" type="checkbox" plan-name="basic"
-                                                                   plan-type="year" plan-price="1069">
+                                                                   plan-type="year"
+                                                                   plan-price="{{$planPrices['basic-annually']}}"
+                                                                   plan-slug="basic-annually">
                                                             <span>Sign me up!</span>
                                                         </label>
                                                     </div>
@@ -135,13 +139,15 @@
 
                                                         <div class="amount">
                                                             <span class="dollar">$</span>
-                                                            <span class="number">199</span>
+                                                            <span class="number">{{ number_format($planPrices['pro-monthly']) }}</span>
                                                         </div>
                                                         <p class="amount-info">Paid monthly</p>
 
                                                         <label for="plan-3" class="checkbox-tag plan">
                                                             <input id="plan-3" type="checkbox" plan-name="pro"
-                                                                   plan-type="month" plan-price="199">
+                                                                   plan-type="month"
+                                                                   plan-price="{{$planPrices['pro-monthly']}}"
+                                                                   plan-slug="pro-monthly">
                                                             <span>Sign me up!</span>
                                                         </label>
                                                     </div>
@@ -161,13 +167,15 @@
 
                                                         <div class="amount">
                                                             <span class="dollar">$</span>
-                                                            <span class="number">2,149</span>
+                                                            <span class="number">{{ number_format($planPrices['pro-annually']) }}</span>
                                                         </div>
                                                         <p class="amount-info">Paid annaully</p>
 
                                                         <label for="plan-4" class="checkbox-tag plan">
                                                             <input id="plan-4" type="checkbox" plan-name="pro"
-                                                                   plan-type="year" plan-price="2149">
+                                                                   plan-type="year"
+                                                                   plan-price="{{ $planPrices['pro-annually'] }}"
+                                                                   plan-slug="pro-annually">
                                                             <span>Sign me up!</span>
                                                         </label>
                                                     </div>
@@ -182,7 +190,7 @@
                             {!! Form::open([ 'id'=>'subscriptionForm', 'route' => 'subscription' ]) !!}
 
 
-                            <div class="col-md-10  stripe-container">
+                            <div class="col-md-10  stripe-container @if(isset($userCard)) hidden @endif">
                                 <div class="row">
                                     <div class="col-md-12">
 
@@ -253,8 +261,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="input-form-group loading" style='display:none'>
-                                <img src="/images/ring.gif" class='loading-relative' alt="">
+
+                            <div class="col-md-10">
+                                <div class="input-form-group loading" style='display:none'>
+                                    <img src="/images/ring.gif" class='loading-relative' alt="">
+                                </div>
                             </div>
 
                             {!! Form::close() !!}
@@ -314,21 +325,21 @@
                 var $form = $('#subscriptionForm');
                 if (this.checked) {
                     $(this).parent('.plan').addClass('selected');
-                    if (!$('input[name="plan-name"]').val() || !$('input[name="plan-type"]').val() || !$('input[name="plan-price"]').val()) {
+                    if (!$('input[name="plan-name"]').val() || !$('input[name="plan-type"]').val() || !$('input[name="plan-price"]').val() || !$('input[name="plan-slug"]').val()) {
                         $form.append($('<input type="hidden" name="plan-name" />'));
                         $form.append($('<input type="hidden" name="plan-type" />'));
                         $form.append($('<input type="hidden" name="plan-price" />'));
+                        $form.append($('<input type="hidden" name="plan-slug" />'));
                     }
                     $('input[name="plan-name"]').val($(this).attr('plan-name'));
                     $('input[name="plan-type"]').val($(this).attr('plan-type'));
                     $('input[name="plan-price"]').val($(this).attr('plan-price'));
+                    $('input[name="plan-slug"]').val($(this).attr('plan-slug'));
 
                     $('#submit-btn').show();
                     $('#submit-btn').prop('disabled', false);
                 } else {
-                    $('input[name="plan-name"]').remove();
-                    $('input[name="plan-type"]').remove();
-                    $('input[name="plan-price"]').remove();
+                    $('input[name="plan-name"], input[name="plan-type"], input[name="plan-price"], input[name="plan-slug"]').remove();
                     $('#submit-btn').prop('disabled', true);
                 }
             });

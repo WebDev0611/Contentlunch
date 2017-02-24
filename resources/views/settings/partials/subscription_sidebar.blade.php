@@ -10,11 +10,10 @@
             </span>
         </div>
 
-        <span class="settings-profile-subscription paid">Paid Subscription</span>
-
-        <span class="settings-profile-subscription free">FREE Version</span>
 
         @if(!$account->activeSubscriptions()->isEmpty())
+
+            <span class="settings-profile-subscription paid">Paid Subscription</span>
 
             <label for="#">Paid Monthly</label>
 
@@ -27,6 +26,18 @@
             <label for="#">Expiration Date</label>
 
             <h3 class="settings-profile-heading">{{$account->activeSubscriptions()[0]->expiration_date}}</h3>
+
+            <label for="#">Max Users</label>
+
+            <h3 class="settings-profile-heading">{{$account->activeSubscriptions()[0]->subscriptionType->limit_users}}</h3>
+
+        @else
+
+            <span class="settings-profile-subscription free">FREE Version</span>
+
+            <label for="#">Paid Monthly</label>
+
+            <h3 class="settings-profile-heading">$0.00</h3>
 
             <label for="#">Max Users</label>
 
