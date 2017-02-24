@@ -147,11 +147,16 @@
   background-color: rgba(242, 243, 249, .5);
 }
 
-#subscriptionForm {
 
+.stripe-container {
+  padding: 0 40px;
 }
 
 .plan-selector {
+  h1{
+    text-align: center;
+  }
+
   .panel-heading {
     margin: 0;
     padding: 0;
@@ -173,11 +178,19 @@
         }
       }
     }
+
+    .label {
+      position: absolute;
+      top: 3px;
+      right: 5px;
+      text-transform: uppercase;
+    }
   }
 
   .panel-body {
+    text-align: center;
+
     .amount {
-      text-align: center;
       padding-top: 10px;
 
       .dollar {
@@ -191,8 +204,24 @@
       }
     }
 
-    .checkbox-tag span {
-      text-align: center;
+    .amount-info {
+      font-style: italic;
+    }
+
+    .description {
+      list-style-type: none;
+      padding-left: 0;
+
+      .bestvalue{
+        color:#2482ff;
+      }
+    }
+
+    .plan.selected {
+      border-color: #6944B7;
+      z-index: 5;
+      box-shadow: 0 -4px 0 rgba(105, 68, 183, 0.85), 0 0 8px 1px rgba(0, 0, 0, 0.1);
+      transform: scale(1.006);
     }
   }
 }

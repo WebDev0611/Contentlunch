@@ -44,33 +44,57 @@
                                                 <ul class="nav nav-tabs">
                                                     <li class="active"><a href="#tab-basic-month" data-toggle="tab"><h5>
                                                                 Monthly</h5></a></li>
-                                                    <li><a href="#tab-basic-year" data-toggle="tab"><h5>Annually</h5>
-                                                        </a></li>
+                                                    <li class="highlight"><a href="#tab-basic-year" data-toggle="tab">
+                                                            <h5>Annually</h5>
+                                                        </a> <span class="label label-success">Best Value -10%</span>
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <div class="panel-body">
                                                 <div class="tab-content">
                                                     <div class="tab-pane fade in active" id="tab-basic-month">
+
+                                                        <ul class="description">
+                                                            <li><strong>Unlimited</strong> campaigns</li>
+                                                            <li><strong>Unlimited</strong> content launches</li>
+                                                            <li><strong>Unlimited</strong> tasks, ideas, and calendars
+                                                            </li>
+                                                            <li><strong>Unlimited</strong> subaccounts</li>
+                                                            <li><h4>Up to <strong>5</strong> users</h4></li>
+                                                        </ul>
                                                         <div class="amount">
                                                             <span class="dollar">$</span>
                                                             <span class="number">99</span>
                                                         </div>
-                                                        <p class="amount-info"></p>
+                                                        <p class="amount-info">Paid monthly</p>
 
-                                                        <label for="plan-1" class="checkbox-tag">
+                                                        <label for="plan-1" class="checkbox-tag plan">
                                                             <input id="plan-1" type="checkbox" plan-name="basic"
                                                                    plan-type="month">
                                                             <span>Sign me up!</span>
                                                         </label>
                                                     </div>
                                                     <div class="tab-pane fade" id="tab-basic-year">
+
+                                                        <ul class="description">
+                                                            <li class="bestvalue"><h4>You save <strong>10%</strong></h4>
+                                                            </li>
+
+                                                            <li><strong>Unlimited</strong> campaigns</li>
+                                                            <li><strong>Unlimited</strong> content launches</li>
+                                                            <li><strong>Unlimited</strong> tasks, ideas, and calendars
+                                                            </li>
+                                                            <li><strong>Unlimited</strong> subaccounts</li>
+                                                            <li><h4>Up to <strong>5</strong> users</h4></li>
+                                                        </ul>
+
                                                         <div class="amount">
                                                             <span class="dollar">$</span>
                                                             <span class="number">1,069</span>
                                                         </div>
-                                                        <p class="amount-info"></p>
+                                                        <p class="amount-info">Paid annually</p>
 
-                                                        <label for="plan-2" class="checkbox-tag">
+                                                        <label for="plan-2" class="checkbox-tag plan">
                                                             <input id="plan-2" type="checkbox" plan-name="basic"
                                                                    plan-type="year">
                                                             <span>Sign me up!</span>
@@ -93,32 +117,55 @@
                                                     <li class="active"><a href="#tab-pro-month" data-toggle="tab"><h5>
                                                                 Monthly</h5></a></li>
                                                     <li><a href="#tab-pro-year" data-toggle="tab"><h5>Annually</h5></a>
-                                                    </li>
+                                                        <span class="label label-success">Best Value -10%</span></li>
                                                 </ul>
                                             </div>
                                             <div class="panel-body">
                                                 <div class="tab-content">
                                                     <div class="tab-pane fade in active" id="tab-pro-month">
+
+                                                        <ul class="description">
+                                                            <li><strong>Unlimited</strong> campaigns</li>
+                                                            <li><strong>Unlimited</strong> content launches</li>
+                                                            <li><strong>Unlimited</strong> tasks, ideas, and calendars
+                                                            </li>
+                                                            <li><strong>Unlimited</strong> subaccounts</li>
+                                                            <li><h4>Up to <strong>10</strong> users</h4></li>
+                                                        </ul>
+
                                                         <div class="amount">
                                                             <span class="dollar">$</span>
                                                             <span class="number">199</span>
                                                         </div>
-                                                        <p class="amount-info"></p>
+                                                        <p class="amount-info">Paid monthly</p>
 
-                                                        <label for="plan-3" class="checkbox-tag">
+                                                        <label for="plan-3" class="checkbox-tag plan">
                                                             <input id="plan-3" type="checkbox" plan-name="pro"
                                                                    plan-type="month">
                                                             <span>Sign me up!</span>
                                                         </label>
                                                     </div>
                                                     <div class="tab-pane fade" id="tab-pro-year">
+
+                                                        <ul class="description">
+                                                            <li class="bestvalue"><h4>You save <strong>10%</strong></h4>
+                                                            </li>
+
+                                                            <li><strong>Unlimited</strong> campaigns</li>
+                                                            <li><strong>Unlimited</strong> content launches</li>
+                                                            <li><strong>Unlimited</strong> tasks, ideas, and calendars
+                                                            </li>
+                                                            <li><strong>Unlimited</strong> subaccounts</li>
+                                                            <li><h4>Up to <strong>10</strong> users</h4></li>
+                                                        </ul>
+
                                                         <div class="amount">
                                                             <span class="dollar">$</span>
                                                             <span class="number">2,149</span>
                                                         </div>
-                                                        <p class="amount-info"></p>
+                                                        <p class="amount-info">Paid annaully</p>
 
-                                                        <label for="plan-4" class="checkbox-tag">
+                                                        <label for="plan-4" class="checkbox-tag plan">
                                                             <input id="plan-4" type="checkbox" plan-name="pro"
                                                                    plan-type="year">
                                                             <span>Sign me up!</span>
@@ -134,60 +181,12 @@
                             </div>
 
 
-                            <div class="col-md-8">
+                            <div class="col-md-10  stripe-container">
 
                                 {!! Form::open([ 'id'=>'subscriptionForm', 'route' => 'subscription' ]) !!}
                                 <div class="row">
 
-
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="purchase-assignment">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <span>Assignment:</span>
-                                                </div>
-                                                <div class="col-md-6 text-right">
-                                                    <span>XXXXXXXXXXXX</span>
-                                                </div>
-                                            </div>
-                                            <h4>XXXXXXXXXXX</h4>
-
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <span>
-                                                        DUE DATE
-                                                        <strong>XXXXXXXXXX</strong>
-                                                    </span>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <span>
-                                                        AUTHOR
-                                                        <strong>XXXXXXXXX</strong>
-                                                    </span>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <span>
-                                                        WORD COUNT
-                                                        <strong>XXXXXXXXXXXXXXX</strong>
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label for="auto_renew" class="checkbox-primary text-inline">
-                                                        <input id="auto_renew" type="checkbox" name="auto_renew"
-                                                               value="1">
-                                                        <span>Auto Renew</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                            <input type="hidden" name="stripe-customer-id"
-                                                   value="{{$user->stripe_customer_id}}">
-
-                                        </div>
-
+                                    <div class="col-md-12">
 
                                         <div
                                                 id="paymentErrors"
@@ -221,16 +220,29 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+
                                             </div>
                                             <div class="col-md-6">
                                                 <img src="/images/stripe.png" alt=""
                                                      class="img-responsive center-block">
                                             </div>
+
+                                            <input type="hidden" name="stripe-customer-id"
+                                                   value="{{$user->stripe_customer_id}}">
+
                                         </div>
                                     </div>
                                 </div>
                                 <div class="input-form-group">
                                     <div class="row">
+                                        <div class="col-md-6 col-md-offset-3">
+                                            <label for="auto_renew" class="checkbox-tag">
+                                                <input id="auto_renew" type="checkbox" name="auto_renew"
+                                                       value="1">
+                                                <span>Auto Renew</span>
+                                            </label>
+                                        </div>
                                         <div class="col-md-6 col-md-offset-3">
                                             <input
                                                     type="submit"
@@ -295,11 +307,13 @@
             });
 
             // Allow only 1 subscription plan to be selected
-            $('.checkbox-tag input[type="checkbox"]').on('change', function () {
-                $('.checkbox-tag input[type="checkbox"]').not(this).prop('checked', false);
+            $('.checkbox-tag.plan input[type="checkbox"]').on('change', function () {
+                $('.checkbox-tag.plan input[type="checkbox"]').not(this).prop('checked', false);
+                $('.plan').removeClass('selected');
 
                 var $form = $('#subscriptionForm');
                 if (this.checked) {
+                    $(this).parent('.plan').addClass('selected');
                     if (!$('input[name="plan-name"]').val() && !$('input[name="plan-type"]').val()) {
                         $form.append($('<input type="hidden" name="plan-name" />'));
                         $form.append($('<input type="hidden" name="plan-type" />'));
