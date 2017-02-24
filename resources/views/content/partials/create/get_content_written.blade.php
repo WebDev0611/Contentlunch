@@ -15,54 +15,9 @@
             </div>
         @endif
 
-        <div class="input-form-group">
-            <label for="#">PROJECT NAME</label>
-            {!!
-                Form::text('project_name', null,
-                    [ 'class' => 'input form-control', 'placeholder' => 'Enter project name' ])
-            !!}
-        </div>
+        count
         <div class="row">
             <div class="col-md-8">
-                <div class="row">
-                    <!-- Hidden while we do not implement bulk ordering -->
-                    <!--
-                    <div class="col-md-6 hide">
-                        <label for="#">NUMBER OF ORDERS</label>
-                        <div class="range-form input-group">
-                            <span class="input-group-addon">
-                                <button class="button button-small button-outline-secondary" id='writer_access_count_dec'>
-                                    <i class="icon-big-caret-left"></i>
-                                </button>
-                            </span>
-                            <input type="text"
-                                class="input"
-                                name="writer_access_count"
-                                id="writer_access_count"
-                                value="1"
-                                aria-label="Number of content titles to order.">
-
-                            <span class="input-group-addon">
-                                <button class="button button-small button-outline-secondary" id='writer_access_count_inc'>
-                                    <i class="icon-big-caret-right"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                    -->
-                    <div class="col-md-12">
-                        <div class="input-form-group">
-                            <label for="#">Project Deadline</label>
-                            @php
-                                $dueDateOptions = [
-                                    'class' => 'input-calendar datetimepicker input form-control',
-                                    'id' => 'dueDate'
-                                ];
-                            @endphp
-                            {!! Form::text('due_date', null, $dueDateOptions) !!}
-                        </div>
-                    </div>
-                </div>
                 <div class="input-form-group">
                     <label for="writer_access_asset_type">CONTENT TYPE</label>
                     <div class="select">
@@ -105,13 +60,59 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+
+
+
+
+
+
+
+                    <div class="col-md-6">
+                        <div class="input-form-group">
+                            <label for="#">NUMBER OF ORDERS</label>
+                            <div class="range-form input-group">
+                                <span class="input-group-addon">
+                                    <button class="button button-small button-outline-secondary" id='writer_access_count_dec'>
+                                        <i class="icon-big-caret-left"></i>
+                                    </button>
+                                </span>
+                                <input type="text"
+                                       class="input"
+                                       name="writer_access_order_count"
+                                       id="writer_access_order_count"
+                                       value="1"
+                                       aria-label="Number of content titles to order.">
+
+                                <span class="input-group-addon">
+                                    <button class="button button-small button-outline-secondary" id='writer_access_count_inc'>
+                                        <i class="icon-big-caret-right"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="input-form-group">
+                            <label for="#">Project Deadline</label>
+                            @php
+                                $dueDateOptions = [
+                                    'class' => 'input-calendar datetimepicker input form-control',
+                                    'id' => 'dueDate'
+                                ];
+                            @endphp
+                            {!! Form::text('due_date', null, $dueDateOptions) !!}
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4">
                 <div class="create-tabs-priceline">
-                    <span>TOTAL EACH</span>
+                    <span>TOTAL</span>
                     <h4 id="total_cost">$40.70</h4>
                 </div>
-                <div class="create-tabs-priceline hide">
+                <div class="create-tabs-priceline">
                     <span>COST PER ORDER</span>
                     <h4 id="price_each">$40.70</h4>
                 </div>
@@ -157,15 +158,17 @@
             },
 
             renderOrdersCount: function() {
-                this.$el.find('#writer_access_count').val(this.orderCount);
+                this.$el.find('#writer_access_order_count').val(this.orderCount);
             },
 
-            increaseWriterAccessCount: function() {
+            increaseWriterAccessCount: function(e) {
+                e.preventDefault();
                 this.orderCount++;
                 this.render();
             },
 
-            decreaseWriterAccessCount: function() {
+            decreaseWriterAccessCount: function(e) {
+                e.preventDefault();
                 if (this.orderCount > 2) {
                     this.orderCount--;
                 } else {
