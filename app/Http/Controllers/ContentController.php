@@ -147,7 +147,7 @@ class ContentController extends Controller
             /*$data1 = json_decode('{
                 "order": {
                     "id": 783140, 
-                    "status": "Pending Approval",
+                    "status": "Pending Approval", 
                     "approved": "2017-02-03T15:15:43", 
                     "autoapproved": true, 
                     "approvedwords": 62, 

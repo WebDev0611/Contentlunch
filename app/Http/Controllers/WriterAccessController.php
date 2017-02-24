@@ -184,6 +184,27 @@ class WriterAccessController extends Controller
         return $this->post('/orders/'.$id."?action=revise", ["notes"=>$comment]);
     }
 
+    public function orderApprove(Request $request, $id)
+    {
+        $data = json_decode(utf8_decode($this->post('/orders/'.$id."?action=approve")->content()));
+
+        if(isset($data->fault)){
+            return redirect()
+                ->route('contentOrder', $id)
+                ->with([
+                    'flash_message' => $data->fault,
+                    'flash_message_type' => "danger",
+                ]);
+        }else{
+            return redirect()
+                ->route('contentOrder', $id)
+                ->with([
+                    'flash_message' => "Order has been approved successfully.",
+                    'flash_message_type' => "success",
+                ]);
+        }
+    }
+
     /**
      * @return Response
      */

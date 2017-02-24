@@ -119,6 +119,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/content/orders', ['as' => 'contentOrders', 'uses' => 'ContentController@orders']);
     Route::get('/content/orders/{id}', ['as' => 'contentOrder', 'uses' => 'ContentController@order']);
+    Route::get('/content/orders/approve/{id}', ['as' => 'orderApprove', 'uses' => 'WriterAccessController@orderApprove']);
     Route::get('/content/orders/delete/{id}', ['as' => 'orderDelete', 'uses' => 'ContentController@orderDelete']);
     Route::get('/content/my', 'ContentController@my');
 
