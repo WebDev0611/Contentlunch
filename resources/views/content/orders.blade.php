@@ -166,7 +166,6 @@
                     $showAllPanel.show();
                 }
             }else{
-                debugger;
                 $showAllPanel.hide();
                 $allOrderListRows.addClass("hide");
                 $matchingOrderListRows.removeClass("hide");
