@@ -28,7 +28,7 @@ class AccountSettingsController extends Controller {
 
         $data = [
             'user' => $user,
-            'account' => Account::selectedAccount(),
+            'account' => Account::selectedAccount()
         ];
 
         if (!empty($user->stripe_customer_id)) {
@@ -83,13 +83,12 @@ class AccountSettingsController extends Controller {
         $sub = new Subscription();
         $sub->account()->associate(Account::selectedAccount());
         $sub->subscriptionType()->associate(SubscriptionType::where('slug', $request->input('plan-name'))->first());
-        $sub->active = true;
         $sub->auto_renew = $request->has('auto_renew') && $request->input('auto_renew') == '1';
-        $sub->start_date = date("Y-m-d H:i:s");
+        $sub->start_date = date("Y-m-d");
         if ($request->input('plan-type') == "month") {
-            $sub->expiration_date = date('Y-m-d H:i:s', strtotime(date("Y-m-d") . ' + 30 days'));
+            $sub->expiration_date = date('Y-m-d', strtotime(date("Y-m-d") . ' + 30 days'));
         } elseif ($request->input('plan-type') == "year") {
-            $sub->expiration_date = date('Y-m-d H:i:s', strtotime(date("Y-m-d") . ' + 365 days'));
+            $sub->expiration_date = date('Y-m-d', strtotime(date("Y-m-d") . ' + 365 days'));
         }
         $sub->save();
 

@@ -14,21 +14,25 @@
 
         <span class="settings-profile-subscription free">FREE Version</span>
 
-        <label for="#">Paid Monthly</label>
+        @if($account->activeSubscriptions())
 
-        <h3 class="settings-profile-heading">$99</h3>
+            <label for="#">Paid Monthly</label>
 
-        <label for="#">Start Date</label>
+            <h3 class="settings-profile-heading">${{$account->activeSubscriptions()[0]->subscriptionType->price_month}}</h3>
 
-        <h3 class="settings-profile-heading">2</h3>
+            <label for="#">Start Date</label>
 
-        <label for="#">Expiration Date</label>
+            <h3 class="settings-profile-heading">{{$account->activeSubscriptions()[0]->start_date}}</h3>
 
-        <h3 class="settings-profile-heading">2</h3>
+            <label for="#">Expiration Date</label>
 
-        <label for="#">Max Users</label>
+            <h3 class="settings-profile-heading">{{$account->activeSubscriptions()[0]->expiration_date}}</h3>
 
-        <h3 class="settings-profile-heading">2</h3>
+            <label for="#">Max Users</label>
+
+            <h3 class="settings-profile-heading">2</h3>
+
+        @endif
 
         @if(isset($userCard))
             <div class="form-group">
