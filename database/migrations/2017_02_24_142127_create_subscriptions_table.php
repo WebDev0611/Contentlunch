@@ -19,7 +19,6 @@ class CreateSubscriptionsTable extends Migration
             $table->date('start_date');
             $table->date('expiration_date');
             $table->boolean('auto_renew');
-            $table->boolean('active');
             $table->timestamps();
 
             $table->foreign('account_id')

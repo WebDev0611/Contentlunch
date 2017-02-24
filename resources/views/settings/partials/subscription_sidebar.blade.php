@@ -18,9 +18,17 @@
 
         <h3 class="settings-profile-heading">$99</h3>
 
+        <label for="#">Start Date</label>
+
+        <h3 class="settings-profile-heading">2</h3>
+
+        <label for="#">Expiration Date</label>
+
+        <h3 class="settings-profile-heading">2</h3>
+
         <label for="#">Max Users</label>
 
-        <h3 class="settings-profile-heading">20</h3>
+        <h3 class="settings-profile-heading">2</h3>
 
         @if(isset($userCard))
             <div class="form-group">
