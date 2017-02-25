@@ -195,7 +195,8 @@
 
         $('#launchButton').click(function(event) {
             publishContent(selectedContentId)
-                .then(showLaunchCompleted);
+                .then(showLaunchCompleted)
+                .catch(showFeedbackError);
         });
 
         $('.open-launch-menu').click(function(event) {
@@ -223,6 +224,10 @@
                 model: content,
                 publishedConnections: response.published_connections,
             });
+        }
+
+        function showFeedbackError(response) {
+            swal('Error!', response.responseJSON.data, 'error');
         }
 
         //tasks

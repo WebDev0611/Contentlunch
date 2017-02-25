@@ -87,7 +87,10 @@ class IdeaController extends Controller
      */
     public function store(Request $request)
     {
-
+        if (Auth::user()->cant('create', Idea::class)) {
+            return response()->json([ 'data' => 'You reached the limit of created ideas per month.'], 403);
+        }
+        Auth::user()->addToLimit('ideas_created');
 
         $idea = Idea::create([
             'name' => $request->input('name'),
@@ -99,7 +102,7 @@ class IdeaController extends Controller
         ]);
 
         // Check if we're overriding created_at field
-        if($request->has('created_at')) {
+        if ($request->has('created_at')) {
             $idea->created_at = $request->input('created_at');
             $idea->save();
         }

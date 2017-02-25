@@ -132,32 +132,10 @@
 @section('scripts')
 <script type='text/javascript'>
     (function() {
-        var $contentTitleInput = $("input[name='content_title']"),
-            $instructionsInput = $("textarea[name='instructions']"),
-            $contentTitleOrigVal = "",
-            $instructionsOrigVal = "",
-
-            placeHolderText = "wa-bulk-order";
-
          fileUploader = new Dropzone('#bulk-uploader', {
             headers: getCSRFHeader(),
             url: getUploadUrl(),
             dictDefaultMessage: "Drop the edited file here."
-        });
-
-        $("#singleOrderTab").on("click", function(){
-            $contentTitleInput.val($contentTitleOrigVal);
-            $instructionsInput.val($instructionsOrigVal);
-
-        });
-
-        $("#bulkOrderTab").on("click", function(){
-            setTimeout(function(){
-                $contentTitleOrigVal = $contentTitleInput.val();
-                $contentTitleInput.val(placeHolderText);
-                $instructionsOrigVal = $instructionsInput.val();
-                $instructionsInput.val(placeHolderText);
-            }, 500);
         });
 
         $("#bulk-uploader .dz-message").before($("<img>", {

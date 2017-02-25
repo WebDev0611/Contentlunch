@@ -225,7 +225,7 @@ class WriterAccessController extends Controller
     public function orderSubmit(Request $request, WriterAccessPartialOrder $partialOrder)
     {
         // Intercept and take the bulk order path.
-        if($partialOrder->content_title === "wa-bulk-order" && $partialOrder->instructions === "wa-bulk-order"){
+        if($partialOrder->order_count > 1){
             return $this->bulkOrderSubmit($request, $partialOrder);
         }
 
@@ -569,9 +569,9 @@ class WriterAccessController extends Controller
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_PROXY, '');
         curl_setopt($curl, CURLOPT_USERPWD,  $this->apiUsername.':'.$this->apiPassword);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-
         return $curl;
     }
 

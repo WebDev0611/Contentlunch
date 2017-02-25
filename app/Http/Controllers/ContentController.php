@@ -71,6 +71,12 @@ class ContentController extends Controller
 
     public function orders(Request $request)
     {
+        if($request->input("bulksuccess") === "true"){
+            return redirect()->route('contentOrders', "fresh")->with([
+                'flash_message' => "Your content orders have been placed successfully." ,
+                'flash_message_type' => 'success',
+            ]);
+        }
 
         $writerAccess = new WriterAccessController($request);
         $approved = [];
@@ -367,6 +373,11 @@ class ContentController extends Controller
 
     public function directPublish(Request $request, Content $content)
     {
+        if (Auth::user()->cant('launch', Content::class)) {
+            return response()->json([ 'data' => 'You\'ve reached the limit of content launches for the month.'], 403);
+        }
+        Auth::user()->addToLimit('content_launch');
+
         $connections = collect(explode(',', $request->input('connections')))
             ->map(function ($connectionId) {
                 return Connection::find($connectionId);
