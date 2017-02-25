@@ -166,11 +166,18 @@ class WriterAccessPartialOrderController extends Controller
 
     private function validateStepOne(array $data)
     {
-        return Validator::make($data, [
-            'content_title' => 'required|max:255',
-            'instructions' => 'required',
+        $order = WriterAccessPartialOrder::find($data['order_id']);
+
+        $validationArray = [
             'narrative_voice' => 'required'
-        ]);
+        ];
+
+        if($order->order_count === 1){
+            $validationArray['content_title'] = 'required|max:255';
+            $validationArray['instructions'] = 'required';
+        }
+
+        return Validator::make($data, $validationArray);
     }
 
     private function validateStepTwo(array $data)

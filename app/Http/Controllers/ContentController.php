@@ -71,6 +71,12 @@ class ContentController extends Controller
 
     public function orders(Request $request)
     {
+        if($request->input("bulksuccess") === "true"){
+            return redirect()->route('contentOrders', "fresh")->with([
+                'flash_message' => "Your content orders have been placed successfully." ,
+                'flash_message_type' => 'success',
+            ]);
+        }
 
         $writerAccess = new WriterAccessController($request);
         $approved = [];
