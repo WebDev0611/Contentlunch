@@ -3,10 +3,13 @@
 namespace App;
 
 use App\Helpers;
+use App\Traits\FindsBySlug;
 use Illuminate\Database\Eloquent\Model;
 
 class SubscriptionType extends Model
 {
+    use FindsBySlug;
+
     protected $fillable = [
         'name',
         'slug',
