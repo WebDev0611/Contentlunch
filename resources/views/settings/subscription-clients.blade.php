@@ -46,7 +46,7 @@
                                             <th>Client</th>
                                             <th>Status</th>
                                             <th>Expiration date</th>
-                                            <th>Options</th>
+                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>

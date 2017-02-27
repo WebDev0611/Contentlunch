@@ -43,7 +43,7 @@
 
                                     <div class="plan-selector plan-basic">
                                         <h2>Basic
-                                            @if (strpos($activeSubscription->subscriptionType->slug, 'basic') !== false)
+                                            @if (isset($activeSubscription) && strpos($activeSubscription->subscriptionType->slug, 'basic') !== false)
                                                 <span class="label label-primary current-plan">CURRENT PLAN</span>
                                             @endif
                                         </h2>
@@ -121,7 +121,7 @@
 
                                     <div class="plan-selector plan-pro">
                                         <h2>Pro
-                                            @if (strpos($activeSubscription->subscriptionType->slug, 'pro') !== false)
+                                            @if (isset($activeSubscription) && strpos($activeSubscription->subscriptionType->slug, 'pro') !== false)
                                                 <span class="label label-primary current-plan">CURRENT PLAN</span>
                                             @endif
                                         </h2>
@@ -297,9 +297,12 @@
 
 @section('scripts')
     <script>
-    @if(isset($activeSubscription))
-        {!! 'var subscriptionTypeSlug="' . $activeSubscription->subscriptionType->slug . '";' !!}
-    @endif
+    (function () {
+        Stripe.setPublishableKey("{{ getenv('STRIPE_PUBLISHABLE_KEY') }}");
+    })();
+        @if(isset($activeSubscription))
+            {!! 'var subscriptionTypeSlug="' . $activeSubscription->subscriptionType->slug . '";' !!}
+        @endif
     </script>
     <script src="/js/subscriptions.js"></script>
 @stop

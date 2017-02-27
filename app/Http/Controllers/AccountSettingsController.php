@@ -32,6 +32,11 @@ class AccountSettingsController extends Controller {
 
     public function showSubscriptionClients ()
     {
+        $account = Account::selectedAccount();
+        if(!$account->isAgencyAccount() || $account->activeSubscriptions()->isEmpty()) {
+            return redirect(route('subscription'));
+        }
+
         $data = $this->prepareData();
         $data['accounts'] = Auth::user()->agencyAccount()->childAccounts;
 

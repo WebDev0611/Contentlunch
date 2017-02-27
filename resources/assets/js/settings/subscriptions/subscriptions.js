@@ -1,9 +1,8 @@
 (function () {
     $('#submit-btn').prop('disabled', true);
-    Stripe.setPublishableKey("{{ getenv('STRIPE_PUBLISHABLE_KEY') }}");
 
     // Disable current subscription selection
-    if(subscriptionTypeSlug != null) {
+    if(typeof subscriptionTypeSlug != 'undefined' && subscriptionTypeSlug != null) {
         if (subscriptionTypeSlug.indexOf("basic") >= 0) {
             $("<div />").addClass('disabled-overlay').appendTo($(".plan-selector.plan-basic"));
         } else if (subscriptionTypeSlug.indexOf("pro") >= 0) {
