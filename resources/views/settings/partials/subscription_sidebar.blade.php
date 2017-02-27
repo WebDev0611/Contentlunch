@@ -21,11 +21,11 @@
 
             <label for="#">Start Date</label>
 
-            <h3 class="settings-profile-heading">{{$account->activeSubscriptions()[0]->start_date}}</h3>
+            <h3 class="settings-profile-heading">{{date_format(date_create($account->activeSubscriptions()[0]->start_date), "n-j-y") }}</h3>
 
             <label for="#">Expiration Date</label>
 
-            <h3 class="settings-profile-heading">{{$account->activeSubscriptions()[0]->expiration_date}}</h3>
+            <h3 class="settings-profile-heading">{{date_format(date_create($account->activeSubscriptions()[0]->expiration_date), "n-j-y") }}</h3>
 
             <label for="#">Max Users</label>
 
