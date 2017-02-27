@@ -21,4 +21,13 @@ class UserPresenter extends BasePresenter
 
         return $location;
     }
+
+    public function accountList()
+    {
+        return $this->entity->accounts()
+            ->orderBy('accounts.created_at')
+            ->get()
+            ->pluck('name')
+            ->implode(', ');
+    }
 }

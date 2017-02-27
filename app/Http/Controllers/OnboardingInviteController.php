@@ -23,21 +23,22 @@ class OnboardingInviteController extends Controller
     {
         $emails = $this->emailsFromRequest($request);
 
+        if (Auth::user()->cant('invite', [ Account::selectedAccount(), $emails ])) {
+            return $this->unauthorizedFeedback($request);
+        }
+
         foreach ($emails as $email) {
             $this->sendInvite($email);
         }
 
-        if ($request->ajax()) {
-            $feedback = response()->json([ 'success' => true ], 201);
-        } else {
-            $feedback = redirect()->route('inviteIndex')->with([
-                'flash_message' => 'You have sent ' . count($emails) . ' invite(s) about content launch out. Thanks!',
-                'flash_message_type' => 'success',
-                'flash_message_important' => true
-            ]);
-        }
+        return $this->successFeedback($request, $emails);
+    }
 
-        return $feedback;
+    private function emailsFromRequest($request)
+    {
+        return collect(explode(',', $request->input('emails')))
+            ->map(function($email) { return trim($email); })
+            ->toArray();
     }
 
     private function sendInvite($email)
@@ -51,15 +52,6 @@ class OnboardingInviteController extends Controller
         });
     }
 
-    private function emailsFromRequest($request)
-    {
-        return collect(explode(',', $request->input('emails')))
-            ->map(function($email) {
-                return trim($email);
-            })
-            ->toArray();
-    }
-
     private function createInviteUrl($email)
     {
         $account = Account::selectedAccount();
@@ -69,6 +61,37 @@ class OnboardingInviteController extends Controller
         ]);
 
         return route('signupWithInvite', $accountInvite);
+    }
+
+    protected function unauthorizedFeedback($request)
+    {
+        $message = 'This account has reached the maximum number of users for free accounts.';
+        $feedback = redirect()->route('inviteIndex')->with([
+            'flash_message' => $message,
+            'flash_message_type' => 'danger',
+            'flash_message_important' => true,
+        ]);
+
+        if ($request->ajax()) {
+            $feedback = response()->json([ 'data' => $message ], 403);
+        }
+
+        return $feedback;
+    }
+
+    protected function successFeedback($request, $emails)
+    {
+        $feedback = response()->json([ 'success' => true ], 201);
+
+        if (!$request->ajax()) {
+            $feedback = redirect()->route('inviteIndex')->with([
+                'flash_message' => 'You have sent ' . count($emails) . ' invite(s) about content launch out. Thanks!',
+                'flash_message_type' => 'success',
+                'flash_message_important' => true
+            ]);
+        }
+
+        return $feedback;
     }
 
     public function inviteUser(Request $request, User $user)

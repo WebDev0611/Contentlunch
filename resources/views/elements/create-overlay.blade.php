@@ -22,7 +22,7 @@
                     <p>Branding campaign? Product launch? Trade show? Capture it here!</p>
                 </a>
             </li>
-            <!--
+
             <li class="fourth">
                 <a href="/calendar">
                     <i class="icon-calendar"></i>
@@ -30,7 +30,7 @@
                     <p>Schedule your content, your tasks, your workflow and more! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
                 </a>
             </li>
-            -->
+
         </ul>
 
     </div>

@@ -100,7 +100,7 @@
                         if(data.status_percentage === 100){
                             clearInterval(intervalId);
                             setTimeout(function(){
-                                window.location.href = "/content/orders";
+                                window.location.href = "/content/orders?bulksuccess=true";
                             }, 2000);
 
                         }

@@ -25,6 +25,7 @@ class WriterAccessPartialOrderController extends Controller
     public function orderSetup(Request $request, WriterAccessPartialOrder $order)
     {
         $showBulkOrderOption = env("WRITER_ACCESS_BULK_ORDERS", false);
+
         return view('content.get_written_1', compact('order', 'showBulkOrderOption'));
     }
 
@@ -64,11 +65,11 @@ class WriterAccessPartialOrderController extends Controller
     private function createOrder(array $data)
     {
         $order = WriterAccessPartialOrder::create([
-            'project_name' => $data['project_name'],
             'duedate' => $data['due_date'],
             'asset_type_id' => $data['writer_access_asset_type'],
             'wordcount' => $data['writer_access_word_count'],
             'writer_level' => $data['writer_access_writer_level'],
+            'order_count' => $data['writer_access_order_count'],
         ]);
 
         $order->user()->associate(Auth::user())->save();
@@ -85,11 +86,11 @@ class WriterAccessPartialOrderController extends Controller
     protected function creationValidator(array $data)
     {
         return Validator::make($data, [
-            'project_name' => 'required|max:255',
             'due_date' => 'required',
             'writer_access_asset_type' => 'required',
             'writer_access_word_count' => 'required',
-            'writer_access_writer_level' => 'required'
+            'writer_access_writer_level' => 'required',
+            'writer_access_order_count' => 'required'
         ]);
     }
 
@@ -165,11 +166,18 @@ class WriterAccessPartialOrderController extends Controller
 
     private function validateStepOne(array $data)
     {
-        return Validator::make($data, [
-            'content_title' => 'required|max:255',
-            'instructions' => 'required',
+        $order = WriterAccessPartialOrder::find($data['order_id']);
+
+        $validationArray = [
             'narrative_voice' => 'required'
-        ]);
+        ];
+
+        if($order->order_count === 1){
+            $validationArray['content_title'] = 'required|max:255';
+            $validationArray['instructions'] = 'required';
+        }
+
+        return Validator::make($data, $validationArray);
     }
 
     private function validateStepTwo(array $data)

@@ -47,6 +47,14 @@ class Idea extends Model
         return $this->updated_at->diffForHumans();
     }
 
+    public function scopeMonthly($query)
+    {
+        return $query->whereBetween('idea.created_at', [
+            \Carbon\Carbon::now()->subMonth(),
+            \Carbon\Carbon::now(),
+        ]);
+    }
+
     public static function search($term, $account = null)
     {
         if (!$account) {

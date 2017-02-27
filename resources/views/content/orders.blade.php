@@ -23,7 +23,7 @@
 @section('content')
     <div class="workspace">
         <div class="panel clearfix">
-            <div class="panel-main">
+            <div class="panel">
                 @include('content.partials.dashboard.panel_tabs')
                 @include('content.partials.dashboard.order_filter')
 
@@ -50,7 +50,7 @@
                     </div>
                 </div>
             </div>
-            <aside class="panel-sidebar">
+            <aside class="panel-sidebar hide">
                 <div class="panel-header">
                     <h4 class="panel-sidebar-title">Orders activity feed</h4>
                 </div>
@@ -166,7 +166,6 @@
                     $showAllPanel.show();
                 }
             }else{
-                debugger;
                 $showAllPanel.hide();
                 $allOrderListRows.addClass("hide");
                 $matchingOrderListRows.removeClass("hide");

@@ -1,30 +1,32 @@
 let camelize = function(str) {
-return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
-if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
-return index == 0 ? match.toLowerCase() : match.toUpperCase();
-});
+    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+        if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+        return index == 0 ? match.toLowerCase() : match.toUpperCase();
+    });
 };
 
-
-(function($){
+(function($) {
 	let trend_api_host = '/trending';
 
+    const loadingGif = $('<img src="/images/loading.gif" style="max-height:30px" />');
+
 	let create_message_view = Backbone.View.extend({
-		initialize: function(){
+
+		initialize() {
 			this.listenTo(this.collection,"update",this.render);
 			this.listenTo(this.collection,"change",this.render);
 		},
-		render: function(){
-			let selected = this.collection.filter(function(m){
-				return m.get('selected');
-			});
 
-			if(selected.length > 0 ){
-				this.$el.html('Create an idea from ' + selected.length + ' selected items');
-			}else{
-				this.$el.html('');
-			}
-		}
+		render() {
+			let selected = this.selectedCount();
+            let message = selected > 0 ? `Create an idea from ${selected.length} selected items` : '';
+
+			this.$el.html(message);
+		},
+
+        selectedCount() {
+            return this.collection.filter(model => model.get('selected')).length;
+        }
 	});
 
 	let create_idea_cont_view = Backbone.View.extend({
@@ -106,7 +108,8 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
             $('.park-idea').prop('disabled',true);
 
             $('#idea-status-alert').addClass('hidden');
-            if( $('.idea-name').val().length < 1 ){
+
+            if ($('.idea-name').val().length < 1) {
                 view.show_error('Idea title required');
                 return;
             }
@@ -120,24 +123,25 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
                 idea: $('.idea-text').val(),
                 tags: $('.idea-tags').val(),
                 status: action,
-                content: content.map(function(m){
-                    return m.attributes;
-                })
+                content: content.map(model => model.attributes)
             };
             $.ajax({
                 url: '/ideas',
                 type: 'post',
                 data: idea_obj,
-                headers: {
-                    'X-CSRF-TOKEN': $('input[name=_token]').val()
-                },
                 dataType: 'json',
-                success: function (data) {
-                    $(loadingIMG).remove();
-                    view.hide_modal();
-                    view.clear_form();
-                }
-            });
+            })
+            .then(data => {
+                $(loadingIMG).remove();
+                view.hide_modal();
+                view.clear_form();
+            })
+            .catch(response => {
+                $(loadingIMG).remove();
+                view.hide_modal();
+                view.clear_form();
+                swal('Error!', response.responseJSON.data, 'error');
+            });;
         }
     });
 
@@ -314,7 +318,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
             });
         }
     });
-	
+
 	$(function(){
 
         $('#trend-search').on("click", function(e){
@@ -331,54 +335,52 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 
 		let results = new trend_result_collection();
 
-		let get_trending_topics = function(topic){
-			topic = topic || '';
-			let loadingGIF = $('<img src="/images/loading.gif" style="max-height:30px" />');
-			$(loadingGIF).insertAfter('#trend-search');
+		let get_trending_topics = function(topic = '') {
+			$(loadingGif).insertAfter('#trend-search');
 
-			$.getJSON(trend_api_host,{topic: topic},function(res){
-				let trends_result = res.articles;
-				$(loadingGIF).remove();
-				let format_share_res = function(shares){
-					//check if less than 1k
-					if(shares < 1000){
-						return shares;
-					}else{
-						return Math.floor(shares/1000) + 'K'
-					}
-				};
+            $.getJSON(trend_api_host, { topic })
+                .then(addTrendsToCollections)
+                .catch(showErrorFeedback);
+        };
 
-				let new_trends = trends_result.map(function(t){
-					
-					let trend_obj = {
-					    "id": t.id,
-						"title": t.title,
-						"image": t.image_url,
-						"body": t.excerpt,
-						"when": format_time_ago(t.earliest_known_date),
-						"source": t.source,
-						"link":t.url,
-						"author":'',
-						"total_shares": format_share_res( t.share_count ),
-						"fb_shares":0,
-						"tw_shares": 0,
-						"google_shares": 0,
-						"video": 0
-					};
+        function showErrorFeedback(response) {
+            $(loadingGif).remove();
+            swal('Error!', response.responseJSON.data, 'error');
+        }
 
-					return trend_obj;
-				});
+        function addTrendsToCollections(res) {
+            let trends_result = res.articles;
 
-				results.remove( results.models );
-				results.add(new_trends);
-				return new_trends;
-			},
-			function(error){
-				console.log(error)
-				console.log('couldnt connect to the endpoint/error');
-			});
+            $(loadingGif).remove();
 
-		};
+            let new_trends = trends_result.map(trendMap);
+
+            results.remove(results.models);
+            results.add(new_trends);
+
+            return new_trends;
+        }
+
+        function trendMap(trend) {
+            const formatShare = shares => shares < 1000 ? shares : Math.floor(shares/1000) + 'K';
+
+            return {
+                "id": trend.id,
+                "title": trend.title,
+                "image": trend.image_url,
+                "body": trend.excerpt,
+                "when": format_time_ago(trend.earliest_known_date),
+                "source": trend.source,
+                "link":trend.url,
+                "author":'',
+                "total_shares": formatShare(trend.share_count),
+                "fb_shares":0,
+                "tw_shares": 0,
+                "google_shares": 0,
+                "video": 0
+            };
+        }
+
 
 		new create_message_view({el:"#create-alert", collection: results });
 		let create_idea = new create_idea_modal({el: '#createIdea', collection: results });

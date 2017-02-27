@@ -214,7 +214,7 @@ class Order
      * @param int $projectid
      * @return Order
      */
-    public function setProjectid(integer $projectid)
+    public function setProjectid($projectid)
     {
         $this->projectid = $projectid;
         return $this;
@@ -232,7 +232,7 @@ class Order
      * @param int $hourstocomplete
      * @return Order
      */
-    public function setHourstocomplete(integer $hourstocomplete)
+    public function setHourstocomplete($hourstocomplete)
     {
         $this->hourstocomplete = $hourstocomplete;
         return $this;
@@ -250,7 +250,7 @@ class Order
      * @param int $writer
      * @return Order
      */
-    public function setWriter(integer $writer)
+    public function setWriter($writer)
     {
         $this->writer = $writer;
         return $this;
@@ -268,7 +268,7 @@ class Order
      * @param int $minwords
      * @return Order
      */
-    public function setMinwords(integer $minwords)
+    public function setMinwords($minwords)
     {
         $this->minwords = $minwords;
         return $this;
@@ -286,7 +286,7 @@ class Order
      * @param int $maxwords
      * @return Order
      */
-    public function setMaxwords(integer $maxwords)
+    public function setMaxwords($maxwords)
     {
         $this->maxwords = $maxwords;
         return $this;
@@ -303,7 +303,7 @@ class Order
     /**
      * @param string $status
      */
-    public function setStatus(string $status)
+    public function setStatus($status)
     {
         $this->status = $status;
     }
@@ -327,7 +327,7 @@ class Order
     /**
      * @param string $text
      */
-    public function setText(string $text)
+    public function setText($text)
     {
         $this->text = $text;
     }
@@ -336,7 +336,7 @@ class Order
      * @param string $title
      * @return Order
      */
-    public function setTitle(string $title)
+    public function setTitle($title)
     {
         $this->title = $title;
         return $this;
@@ -354,7 +354,7 @@ class Order
      * @param string $instructions
      * @return Order
      */
-    public function setInstructions(string $instructions)
+    public function setInstructions($instructions)
     {
         $this->instructions = $instructions;
         return $this;
@@ -372,7 +372,7 @@ class Order
      * @param int $categoryid
      * @return Order
      */
-    public function setCategoryid(integer $categoryid)
+    public function setCategoryid($categoryid)
     {
         $this->categoryid = $categoryid;
         return $this;
@@ -390,7 +390,7 @@ class Order
      * @param int $assetid
      * @return Order
      */
-    public function setAssetid(integer $assetid)
+    public function setAssetid($assetid)
     {
         $this->assetid = $assetid;
         return $this;
@@ -408,7 +408,7 @@ class Order
      * @param int $expertiseid
      * @return Order
      */
-    public function setExpertiseid(integer $expertiseid)
+    public function setExpertiseid($expertiseid)
     {
         $this->expertiseid = $expertiseid;
         return $this;
@@ -426,7 +426,7 @@ class Order
      * @param int $hourstoexpire
      * @return Order
      */
-    public function setHourstoexpire(integer $hourstoexpire)
+    public function setHourstoexpire($hourstoexpire)
     {
         $this->hourstoexpire = $hourstoexpire;
         return $this;
@@ -444,7 +444,7 @@ class Order
      * @param int $hourstoapprovejon
      * @return Order
      */
-    public function setHourstoapprovejon(integer $hourstoapprovejon)
+    public function setHourstoapprovejon($hourstoapprovejon)
     {
         $this->hourstoapprovejon = $hourstoapprovejon;
         return $this;
@@ -462,7 +462,7 @@ class Order
      * @param int $hourstorevise
      * @return Order
      */
-    public function setHourstorevise(integer $hourstorevise)
+    public function setHourstorevise($hourstorevise)
     {
         $this->hourstorevise = $hourstorevise;
         return $this;
@@ -480,7 +480,7 @@ class Order
      * @param int $paidreview
      * @return Order
      */
-    public function setPaidreview(integer $paidreview)
+    public function setPaidreview($paidreview)
     {
         $this->paidreview = $paidreview;
         return $this;
@@ -498,7 +498,7 @@ class Order
      * @param int $maxhours
      * @return Order
      */
-    public function setMaxhours(integer $maxhours)
+    public function setMaxhours($maxhours)
     {
         $this->maxhours = $maxhours;
         return $this;
@@ -516,7 +516,7 @@ class Order
      * @param string $required
      * @return Order
      */
-    public function setRequired(string $required)
+    public function setRequired($required)
     {
         $this->required = $required;
         return $this;
@@ -534,7 +534,7 @@ class Order
      * @param string $optional
      * @return Order
      */
-    public function setOptional(string $optional)
+    public function setOptional($optional)
     {
         $this->optional = $optional;
         return $this;
@@ -552,7 +552,7 @@ class Order
      * @param string $seo
      * @return Order
      */
-    public function setSeo(string $seo)
+    public function setSeo($seo)
     {
         $this->seo = $seo;
         return $this;
@@ -570,7 +570,7 @@ class Order
      * @param string $special
      * @return Order
      */
-    public function setSpecial(string $special)
+    public function setSpecial($special)
     {
         $this->special = $special;
         return $this;
@@ -588,7 +588,7 @@ class Order
      * @param boolean $lovelist
      * @return Order
      */
-    public function setLovelist(boolean $lovelist)
+    public function setLovelist($lovelist)
     {
         $this->lovelist = $lovelist;
         return $this;
@@ -606,7 +606,7 @@ class Order
      * @param int $targetwriter
      * @return Order
      */
-    public function setTargetwriter(integer $targetwriter)
+    public function setTargetwriter($targetwriter)
     {
         $this->targetwriter = $targetwriter;
         return $this;
@@ -624,7 +624,7 @@ class Order
      * @param boolean $allowhtml
      * @return Order
      */
-    public function setAllowhtml(boolean $allowhtml)
+    public function setAllowhtml($allowhtml)
     {
         $this->allowhtml = $allowhtml;
         return $this;
@@ -641,7 +641,7 @@ class Order
     /**
      * @param string $notes
      */
-    public function setNotes(string $notes)
+    public function setNotes($notes)
     {
         $this->notes = $notes;
     }
@@ -657,7 +657,7 @@ class Order
     /**
      * @param float $bonus
      */
-    public function setBonus(float $bonus)
+    public function setBonus($bonus)
     {
         $this->bonus = $bonus;
     }
@@ -673,7 +673,7 @@ class Order
     /**
      * @param int $rating
      */
-    public function setRating(integer $rating)
+    public function setRating($rating)
     {
         $this->rating = $rating;
     }
@@ -689,7 +689,7 @@ class Order
     /**
      * @param string $stripeToken
      */
-    public function setStripeToken(string $stripeToken)
+    public function setStripeToken($stripeToken)
     {
         $this->stripeToken = $stripeToken;
     }
@@ -705,7 +705,7 @@ class Order
     /**
      * @param float $price
      */
-    public function setPrice(float $price)
+    public function setPrice($price)
     {
         $this->price = $price;
     }
