@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call('ContentTypeTableSeeder');
         $this->call('CampaignTypeTableSeeder');
         $this->call('LimitsSeeder');
+        $this->call('SubscriptionTypesTableSeeder');
 
         // Depends on the User Seeder and the Campaign Type Seeder
         $this->call('CampaignSeeder');

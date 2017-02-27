@@ -13,3 +13,4 @@ Homestead.json
 .idea
 .DS_Store
 .vscode
+_ide_helper.php

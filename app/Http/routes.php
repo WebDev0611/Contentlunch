@@ -243,6 +243,11 @@ Route::group(['middleware' => 'auth'], function () {
         ]);
     });
 
+    Route::group(['prefix' => 'subscription'], function () {
+        Route::get('/', ['as' => 'subscription', 'uses' => 'AccountSettingsController@showSubscription']);
+        Route::post('/', ['uses' => 'AccountSettingsController@submitSubscription']);
+    });
+
     Route::resource('writerAccessPrices', 'WriterAccessPriceController');
     Route::resource('writerAccessAssetTypes', 'WriterAccessAssetTypeController');
 

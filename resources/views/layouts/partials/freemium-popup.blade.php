@@ -14,7 +14,7 @@
                     of searches and you can create single Campaign only. To remove limitation switch to paid
                     account.</p>
 
-                <a href="#">
+                <a href="{{route('subscription')}}">
                     <button type="button" class="btn btn-default btn-upgrade">Upgrade now</button>
                 </a>
                 <button type="button" class="btn btn-default btn-hide" data-dismiss="modal">Hide</button>
@@ -28,8 +28,13 @@
     $(document).ready(function () {
         var hidePopupCookieName = 'hide_freemium_popup';
         var hidePopupCookie = readCookie(hidePopupCookieName);
+        var premiumAccount = false;
 
-        if (hidePopupCookie == null || hidePopupCookie != '1') {
+        @if(!App\Account::selectedAccount()->activeSubscriptions()->isEmpty())
+        {!! 'premiumAccount = true;' !!}
+        @endif
+
+        if (premiumAccount == false && (hidePopupCookie == null || hidePopupCookie != '1')) {
             $('.popup-pointer').show();
             $('#freemium-modal').modal({
                 backdrop: 'static',

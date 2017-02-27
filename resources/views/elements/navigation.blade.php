@@ -4,7 +4,7 @@
     </a>
     <ul class="navigation-menu">
         <li>
-            <a class="navigation-menu-profile">
+            <a href="{{route('subscription')}}" class="navigation-menu-profile navigation-menu-link {{ Request::segment(1) != 'subscription' ?: 'active' }}">
                 <img src="{{ \Auth::user()->present()->profile_image }}" alt="">
 
                 @if (\Auth::user()->belongsToAgencyAccount())
@@ -16,7 +16,7 @@
         </li>
         @if (\Auth::user()->belongsToAgencyAccount())
         <li>
-            <a href="/agencies" class="navigation-menu-link {{ Request::segment(1) != 'agency' ?: 'active' }}">
+            <a href="/agencies" class="navigation-menu-link {{ Request::segment(1) != 'agencies' ?: 'active' }}">
                 <i class="navigation-menu-icon icon-navigation-agency">
                     <span>Agency</span>
                 </i>

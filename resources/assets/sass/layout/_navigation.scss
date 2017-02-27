@@ -53,8 +53,9 @@ $navigation-menu-link-background: #f2f3f9;
 .navigation-menu-profile {
   display: block;
   text-align: center;
-  padding-top: 15px;
+  line-height: normal!important;
   min-height: 75px;
+  padding-top: 15px;
 
   > img {
     display: inline-block;

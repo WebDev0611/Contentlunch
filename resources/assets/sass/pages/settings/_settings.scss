@@ -40,9 +40,17 @@
   color: $base-color-white;
   font-size: 14px;
   font-family: $source-sans-pro;
-  background: #b4a1db;
   border-radius: 2px;
   margin-bottom: 20px;
+
+  &.paid {
+    background: #b4a1db;
+  }
+
+  &.free {
+    background: #F1F5F9;
+    color: #666;
+  }
 }
 
 .settings-profile-heading {
@@ -88,56 +96,135 @@
     > a {
       color: #dadde1;
     }
-    
+
     &.tbl-center {
       text-align: center;
     }
-    
+
     &.tbl-left {
       text-align: left;
     }
-    
+
     .checkbox-primary {
       margin: 0;
       padding-left: 20px;
     }
   }
-  
+
   .list-unstyled.list-checks li {
     margin: 4px 0;
   }
-  
+
   .list-checks {
     margin: 0;
-    
+
     li {
       padding-left: 0;
       padding-right: 10px;
     }
-    
+
     .checkbox-primary > span {
       padding-left: 2px;
     }
-    
+
     .input {
       display: inline-block;
-      
+
       &.input-date {
         width: 80px;
       }
     }
-    
+
   }
-  
-  
+
   &.centered td {
     vertical-align: middle;
   }
-  
+
 }
 
 .settings-table.table-striped > tbody > tr:nth-of-type(odd) {
   background-color: rgba(242, 243, 249, .5);
+}
+
+
+.stripe-container {
+  padding: 0 40px;
+}
+
+.plan-selector {
+  h2{
+    text-align: center;
+  }
+
+  .panel-heading {
+    margin: 0;
+    padding: 0;
+
+    .nav-tabs {
+      border-bottom: 0;
+
+      h5 {
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      > li {
+        width: 50%;
+        text-align: center;
+
+        > a {
+          border: 0;
+        }
+      }
+    }
+
+    .label {
+      position: absolute;
+      top: 3px;
+      right: 5px;
+      text-transform: uppercase;
+    }
+  }
+
+  .panel-body {
+    text-align: center;
+
+    .amount {
+      padding-top: 10px;
+
+      .dollar {
+        font-size: 46px;
+        vertical-align: middle;
+      }
+
+      .number {
+        font-size: 56px;
+        vertical-align: middle;
+        font-weight: 600;
+      }
+    }
+
+    .amount-info {
+      font-style: italic;
+    }
+
+    .description {
+      list-style-type: none;
+      padding-left: 0;
+
+      .bestvalue{
+        color:#2482ff;
+      }
+    }
+
+    .plan.selected {
+      border-color: #6944B7;
+      z-index: 5;
+      box-shadow: 0 -4px 0 rgba(105, 68, 183, 0.85), 0 0 8px 1px rgba(0, 0, 0, 0.1);
+      transform: scale(1.006);
+    }
+  }
 }
 
 .head-padded {
