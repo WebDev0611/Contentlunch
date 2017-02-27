@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Helpers;
+use App\Limit;
 use App\Traits\FindsBySlug;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,11 +30,16 @@ class SubscriptionType extends Model
 
     public function limits()
     {
-        return $this->belongsToMany('App\Limit');
+        return $this->belongsToMany('App\Limit')->withPivot('value');
     }
 
     public function subscriptions()
     {
         return $this->hasMany('App\Subscription');
+    }
+
+    public function addLimit(Limit $limit, $value = 0)
+    {
+        return $this->limits()->attach($limit, [ 'value' => $value ]);
     }
 }
