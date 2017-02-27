@@ -25,16 +25,23 @@ class AccountSettingsController extends Controller {
 
     public function showSubscription () {
         $user = Auth::user();
+        $account = Account::selectedAccount();
 
         $data = [
             'user' => $user,
-            'account' => Account::selectedAccount()
+            'account' => $account
         ];
 
+        // Get plan prices
         foreach(SubscriptionType::all() as $subscriptionType) {
             $planPrices[$subscriptionType->slug] = number_format($subscriptionType->price, 0, '', '');
         }
         $data['planPrices'] = $planPrices;
+
+        // Get Active subscription (latest)
+        if(!$account->activeSubscriptions()->isEmpty()) {
+            $data['activeSubscription'] = $account->activeSubscriptions()[0];
+        }
 
         if (!empty($user->stripe_customer_id)) {
             // Get user's first saved card

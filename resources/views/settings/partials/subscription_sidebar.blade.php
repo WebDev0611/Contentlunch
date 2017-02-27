@@ -10,27 +10,26 @@
             </span>
         </div>
 
-
-        @if(!$account->activeSubscriptions()->isEmpty())
+        @if(!empty($activeSubscription))
 
             <span class="settings-profile-subscription paid">Paid Subscription</span>
 
-            <label for="#">{{$account->activeSubscriptions()[0]->subscriptionType->name}}</label>
-            <h3 class="settings-profile-heading">${{$account->activeSubscriptions()[0]->subscriptionType->price}}</h3>
+            <label for="#">{{$activeSubscription->subscriptionType->name}}</label>
+            <h3 class="settings-profile-heading">${{$activeSubscription->subscriptionType->price}}</h3>
 
             <label for="#">Start Date</label>
-            <h3 class="settings-profile-heading">{{date_format(date_create($account->activeSubscriptions()[0]->start_date), "n-j-y") }}</h3>
+            <h3 class="settings-profile-heading">{{date_format(date_create($activeSubscription->start_date), "n-j-y") }}</h3>
 
             <label for="#">Expiration Date</label>
-            <h3 class="settings-profile-heading">{{date_format(date_create($account->activeSubscriptions()[0]->expiration_date), "n-j-y") }}</h3>
+            <h3 class="settings-profile-heading">{{date_format(date_create($activeSubscription->expiration_date), "n-j-y") }}</h3>
 
             <label for="#">Max Users</label>
-            <h3 class="settings-profile-heading">{{$account->activeSubscriptions()[0]->subscriptionType->limit_users}}</h3>
+            <h3 class="settings-profile-heading">{{$activeSubscription->subscriptionType->limit_users}}</h3>
 
             @if($account->isAgencyAccount ())
 
                 <label for="#">Clients</label>
-                <h3 class="settings-profile-heading">{{$account->activeSubscriptions()[0]->subscriptionType->limit_users}}</h3>
+                <h3 class="settings-profile-heading">{{count($user->agencyAccount()->childAccounts)}}</h3>
 
             @endif
 
