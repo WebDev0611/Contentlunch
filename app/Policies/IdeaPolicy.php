@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Account;
 use App\Idea;
 use App\Limit;
 use App\User;
@@ -11,6 +12,14 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class IdeaPolicy
 {
     use HandlesAuthorization;
+
+    public function before (User $user)
+    {
+        if (!Account::selectedAccount()->activeSubscriptions()->isEmpty())
+        {
+            return true;
+        }
+    }
 
     public function searchTopics(User $user)
     {
