@@ -98,6 +98,7 @@ elixir(function (mix) {
             /* settings scripts */
             .babel('resources/assets/js/settings/content/*.js', 'public/js/content-settings.js')
             .babel('resources/assets/js/settings/account/*.js', 'public/js/account-settings.js')
+            .babel('resources/assets/js/settings/subscriptions/*.js', 'public/js/subscriptions.js')
 
             /* task editor */
             .babel('resources/assets/js/task/*.js', 'public/js/task_editor.js')

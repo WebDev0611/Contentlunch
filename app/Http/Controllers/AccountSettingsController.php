@@ -118,7 +118,7 @@ class AccountSettingsController extends Controller {
 
     private function validateCard (array $data) {
         return Validator::make($data, [
-            'stripe-token' => 'required'
+            'stripe-token' => 'required_without:stripe-customer-id'
         ]);
     }
 

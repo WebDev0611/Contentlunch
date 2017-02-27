@@ -83,7 +83,7 @@ class Account extends Model {
             ->where('start_date', '<=', $dt)
             ->where('expiration_date', '>=', $dt)
             ->where('valid', '=', 1)
-            ->orderBy('updated_at')
+            ->orderBy('updated_at', 'desc')
             ->get();
     }
 
