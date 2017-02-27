@@ -5,11 +5,11 @@ namespace App;
 use App\AccountType;
 use App\Presenters\AccountPresenter;
 use Auth;
-use DB;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
 
-class Account extends Model {
+class Account extends Model
+{
     use PresentableTrait;
 
     protected $presenter = AccountPresenter::class;
@@ -21,84 +21,97 @@ class Account extends Model {
     ];
 
     /**
-     * Relationships
+     * Relationships.
      */
-    public function users () {
+    public function users()
+    {
         return $this->belongsToMany('App\User', 'account_user', 'account_id', 'user_id');
     }
 
-    public function invites () {
+    public function invites()
+    {
         return $this->hasMany('App\AccountInvite');
     }
 
-    public function contents () {
+    public function contents()
+    {
         return $this->hasMany('App\Content');
     }
 
-    public function connections () {
+    public function connections()
+    {
         return $this->hasMany('App\Connection');
     }
 
-    public function campaigns () {
+    public function campaigns()
+    {
         return $this->hasMany('App\Campaign');
     }
 
-    public function parentAccount () {
+    public function parentAccount()
+    {
         return $this->belongsTo('App\Account', 'parent_account_id');
     }
 
-    public function childAccounts () {
+    public function childAccounts()
+    {
         return $this->hasMany('App\Account', 'parent_account_id');
     }
 
-    public function personas () {
+    public function personas()
+    {
         return $this->hasMany('App\Persona');
     }
 
-    public function buyingStages () {
+    public function buyingStages()
+    {
         return $this->hasMany('App\BuyingStage');
     }
 
-    public function tags () {
+    public function tags()
+    {
         return $this->hasMany('App\Tag');
     }
 
-    public function tasks () {
+    public function tasks()
+    {
         return $this->hasMany('App\Task');
     }
 
-    public function ideas () {
+    public function ideas()
+    {
         return $this->hasMany('App\Idea');
     }
 
-    public function subscriptions () {
+    public function subscriptions()
+    {
         return $this->hasMany('App\Subscription');
     }
 
     // Returns all active subscriptions for the account
-    public function activeSubscriptions () {
-        $dt = date("Y-m-d");
-
+    public function activeSubscriptions()
+    {
         return $this->subscriptions()
-            ->where('start_date', '<=', $dt)
-            ->where('expiration_date', '>=', $dt)
-            ->where('valid', '=', 1)
+            ->active()
             ->orderBy('updated_at', 'desc')
             ->get();
     }
 
     /**
-     * Agency related helper methods
+     * Agency related helper methods.
      */
-    public function isAgencyAccount () {
+    public function isAgencyAccount()
+    {
         return $this->account_type_id == AccountType::AGENCY;
     }
 
-    public static function selectAccount (Account $account) {
+    public static function selectAccount(Account $account)
+    {
         Auth::user()->selectedAccount()->associate($account->id);
     }
 
-    public static function selectedAccount () {
+    public static function selectedAccount()
+    {
         if (!Auth::user()) {
             return null;
         }
@@ -114,13 +127,15 @@ class Account extends Model {
         return self::find($accountId);
     }
 
-    public function connectionsBySlug ($slug) {
+    public function connectionsBySlug($slug)
+    {
         return $this->connections()
             ->join('providers', '.providers.id', '=', 'connections.provider_id')
             ->where('slug', $slug);
     }
 
-    public function authorsDropdown () {
+    public function authorsDropdown()
+    {
         $authorDropdown = ['' => '-- Select Author --'];
         $authorDropdown += $this->users()
             ->select('users.name', 'users.id')
@@ -132,7 +147,8 @@ class Account extends Model {
         return $authorDropdown;
     }
 
-    public function relatedContentsDropdown () {
+    public function relatedContentsDropdown()
+    {
         // Create Related Drop Down Data
         $dropdown = ['' => '-- Select Related Content --'];
         $dropdown += $this->contents()
@@ -145,7 +161,8 @@ class Account extends Model {
         return $dropdown;
     }
 
-    public function cleanContentWithoutStatus () {
+    public function cleanContentWithoutStatus()
+    {
         $this->contents()
             ->where('written', 0)
             ->where('ready_published', 0)
