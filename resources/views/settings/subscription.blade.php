@@ -36,8 +36,10 @@
 
                                 <div class="col-md-6">
 
-                                    <div class="plan-selector">
-                                        <h2>Basic</h2>
+                                    <div class="plan-selector plan-basic">
+                                        <h2>Basic
+                                        <span class="label label-primary current-plan">CURRENT PLAN</span>
+                                        </h2>
 
                                         <div class="panel with-nav-tabs panel-default">
                                             <div class="panel-heading">
@@ -110,7 +112,7 @@
 
                                 <div class="col-md-6">
 
-                                    <div class="plan-selector">
+                                    <div class="plan-selector plan-pro">
                                         <h2>Pro</h2>
 
                                         <div class="panel with-nav-tabs panel-default">
@@ -186,7 +188,7 @@
                             {!! Form::open([ 'id'=>'subscriptionForm', 'route' => 'subscription' ]) !!}
 
 
-                            <div class="col-md-10  stripe-container @if(!empty($user->stripe_customer_id)) hidden @endif">
+                            <div class="col-md-10  stripe-container" @if(!empty($user->stripe_customer_id)) style="display:none" @endif>
                                 <div class="row">
                                     <div class="col-md-12">
 
@@ -283,5 +285,10 @@
 @stop
 
 @section('scripts')
+    <script>
+    @if(isset($activeSubscription))
+        {!! 'var subscriptionTypeSlug="' . $activeSubscription->subscriptionType->slug . '";' !!}
+    @endif
+    </script>
     <script src="/js/subscriptions.js"></script>
 @stop
