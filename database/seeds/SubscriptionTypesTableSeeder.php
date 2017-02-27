@@ -13,6 +13,14 @@ class SubscriptionTypesTableSeeder extends Seeder {
         DB::table('subscription_types')->truncate();
         DB::table('subscription_types')->insert([
             [
+                'name' => 'Trial',
+                'slug' => 'trial',
+                'price' => 0,
+                'price_per_client' => 0,
+                'limit_users' => 3,
+                'description' => 'Two week trial period.'
+            ],
+            [
                 'name' => 'Basic Monthly',
                 'slug' => 'basic-monthly',
                 'price' => 99.00,
