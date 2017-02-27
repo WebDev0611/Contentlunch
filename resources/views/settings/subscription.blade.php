@@ -59,7 +59,6 @@
                                                             <li><strong>Unlimited</strong> content launches</li>
                                                             <li><strong>Unlimited</strong> tasks, ideas, and calendars
                                                             </li>
-                                                            <li><strong>Unlimited</strong> subaccounts</li>
                                                             <li><h4>Up to <strong>5</strong> users</h4></li>
                                                         </ul>
                                                         <div class="amount">
@@ -86,7 +85,6 @@
                                                             <li><strong>Unlimited</strong> content launches</li>
                                                             <li><strong>Unlimited</strong> tasks, ideas, and calendars
                                                             </li>
-                                                            <li><strong>Unlimited</strong> subaccounts</li>
                                                             <li><h4>Up to <strong>5</strong> users</h4></li>
                                                         </ul>
 
@@ -133,7 +131,6 @@
                                                             <li><strong>Unlimited</strong> content launches</li>
                                                             <li><strong>Unlimited</strong> tasks, ideas, and calendars
                                                             </li>
-                                                            <li><strong>Unlimited</strong> subaccounts</li>
                                                             <li><h4>Up to <strong>10</strong> users</h4></li>
                                                         </ul>
 
@@ -161,7 +158,6 @@
                                                             <li><strong>Unlimited</strong> content launches</li>
                                                             <li><strong>Unlimited</strong> tasks, ideas, and calendars
                                                             </li>
-                                                            <li><strong>Unlimited</strong> subaccounts</li>
                                                             <li><h4>Up to <strong>10</strong> users</h4></li>
                                                         </ul>
 

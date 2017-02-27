@@ -16,6 +16,7 @@ class SubscriptionTypesTableSeeder extends Seeder {
                 'name' => 'Basic Monthly',
                 'slug' => 'basic-monthly',
                 'price' => 99.00,
+                'price_per_client' => 99.00,
                 'limit_users' => 5,
                 'description' => 'Basic plan restricts the number of users in the account to 5. All other functionalities are unlimited.'
             ],
@@ -23,6 +24,7 @@ class SubscriptionTypesTableSeeder extends Seeder {
                 'name' => 'Basic Annually',
                 'slug' => 'basic-annually',
                 'price' => 1069.00,
+                'price_per_client' => 99.00,
                 'limit_users' => 5,
                 'description' => 'Basic plan restricts the number of users in the account to 5. All other functionalities are unlimited.'
             ],
@@ -30,6 +32,7 @@ class SubscriptionTypesTableSeeder extends Seeder {
                 'name' => 'Pro Monthly',
                 'slug' => 'pro-monthly',
                 'price' => 199.00,
+                'price_per_client' => 99.00,
                 'limit_users' => 10,
                 'description' => 'Pro plan restricts the number of users in the account to 10. All other functionalities are unlimited.'
             ],
@@ -37,6 +40,7 @@ class SubscriptionTypesTableSeeder extends Seeder {
                 'name' => 'Pro Annually',
                 'slug' => 'pro-annually',
                 'price' => 2149.00,
+                'price_per_client' => 99.00,
                 'limit_users' => 10,
                 'description' => 'Pro plan restricts the number of users in the account to 10. All other functionalities are unlimited.'
             ]
