@@ -15,7 +15,7 @@
 
             <span class="settings-profile-subscription paid">Paid Subscription</span>
 
-            <label for="#">Paid Monthly</label>
+            <label for="#">{{$account->activeSubscriptions()[0]->subscriptionType->name}}</label>
             <h3 class="settings-profile-heading">${{$account->activeSubscriptions()[0]->subscriptionType->price}}</h3>
 
             <label for="#">Start Date</label>
