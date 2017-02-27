@@ -30,7 +30,9 @@ class SubscriptionType extends Model
 
     public function limits()
     {
-        return $this->belongsToMany('App\Limit')->withPivot('value');
+        return $this->belongsToMany('App\Limit')
+            ->withPivot('value')
+            ->withTimestamps();
     }
 
     public function subscriptions()
@@ -41,5 +43,17 @@ class SubscriptionType extends Model
     public function addLimit(Limit $limit, $value = 0)
     {
         return $this->limits()->attach($limit, [ 'value' => $value ]);
+    }
+
+    public function hasLimit($name)
+    {
+        return $this->limit($name) !== null;
+    }
+
+    public function limit($name)
+    {
+        return ($limit = $this->limits()->whereName($name)->first())
+            ? $limit->pivot->value
+            : null;
     }
 }
