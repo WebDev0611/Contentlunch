@@ -17,8 +17,8 @@ class LimitsSeeder extends Seeder
             [ 'name' => 'content_edits', 'display_name' => 'Maximum content edits per user', 'value' => 0 ],
             [ 'name' => 'influencer_search', 'display_name' => 'Maximum influencer searches per month', 'value' => 5 ],
             [ 'name' => 'calendars', 'display_name' => 'Maximum calendars per user', 'value' => 1 ],
-            [ 'name' => 'users_per_account', 'display_name' => 'Maximum users per account', 'value' => 5 ],
-            [ 'name' => 'subaccounts_per_account', 'display_name' => 'Maximum subaccounts per account', 'value' => 3 ],
+            [ 'name' => 'users_per_account', 'display_name' => 'Maximum users per account', 'value' => 3 ],
+            [ 'name' => 'subaccounts_per_account', 'display_name' => 'Maximum subaccounts per account', 'value' => 2 ],
         ]);
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
