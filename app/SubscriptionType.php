@@ -27,6 +27,11 @@ class SubscriptionType extends Model
         });
     }
 
+    public function limits()
+    {
+        return $this->belongsToMany('App\Limit');
+    }
+
     public function subscriptions()
     {
         return $this->hasMany('App\Subscription');
