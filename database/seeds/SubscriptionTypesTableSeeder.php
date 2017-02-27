@@ -11,7 +11,8 @@ class SubscriptionTypesTableSeeder extends Seeder {
      */
     public function run () {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Type::truncate();
+        DB::table('subscription_types')->truncate();
+        DB::table('limit_subscription_type')->truncate();
 
         $limits = Limit::all()->keyBy('name');
 
