@@ -7,7 +7,6 @@
         if (subscriptionTypeSlug.indexOf("basic") >= 0) {
             $("<div />").addClass('disabled-overlay').appendTo($(".plan-selector.plan-basic"));
         } else if (subscriptionTypeSlug.indexOf("pro") >= 0) {
-            $("<div />").addClass('disabled-overlay').appendTo($(".plan-selector.plan-basic"));
             $("<div />").addClass('disabled-overlay').appendTo($(".plan-selector.plan-pro"));
         }
     }

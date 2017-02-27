@@ -38,7 +38,9 @@
 
                                     <div class="plan-selector plan-basic">
                                         <h2>Basic
-                                        <span class="label label-primary current-plan">CURRENT PLAN</span>
+                                            @if (strpos($activeSubscription->subscriptionType->slug, 'basic') !== false)
+                                                <span class="label label-primary current-plan">CURRENT PLAN</span>
+                                            @endif
                                         </h2>
 
                                         <div class="panel with-nav-tabs panel-default">
@@ -113,7 +115,11 @@
                                 <div class="col-md-6">
 
                                     <div class="plan-selector plan-pro">
-                                        <h2>Pro</h2>
+                                        <h2>Pro
+                                            @if (strpos($activeSubscription->subscriptionType->slug, 'pro') !== false)
+                                                <span class="label label-primary current-plan">CURRENT PLAN</span>
+                                            @endif
+                                        </h2>
 
                                         <div class="panel with-nav-tabs panel-default">
                                             <div class="panel-heading">
