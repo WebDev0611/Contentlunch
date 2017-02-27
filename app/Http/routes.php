@@ -245,6 +245,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'subscription'], function () {
         Route::get('/', ['as' => 'subscription', 'uses' => 'AccountSettingsController@showSubscription']);
         Route::post('/', ['uses' => 'AccountSettingsController@submitSubscription']);
+        Route::get('clients', ['as' => 'subscription-clients', 'uses' => 'AccountSettingsController@showSubscriptionClients']);
     });
 
     Route::resource('writerAccessPrices', 'WriterAccessPriceController');

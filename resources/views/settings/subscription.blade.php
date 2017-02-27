@@ -12,6 +12,11 @@
 
             <div class="panel-main left-separator">
 
+                <div class="panel-header">
+                    <!-- navigation -->
+                    @include('settings.partials.subscription_navigation')
+                </div>
+
                 <div class="panel-container col-md-8">
                     @if ($errors->any())
                         <div class="alert alert-danger" id="formError">
