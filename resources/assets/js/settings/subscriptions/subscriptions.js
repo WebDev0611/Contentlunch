@@ -1,6 +1,14 @@
 (function () {
     $('#submit-btn').prop('disabled', true);
-    Stripe.setPublishableKey(StripePublishableKey);
+
+    // Disable current subscription selection
+    if (typeof subscriptionTypeSlug != 'undefined' && subscriptionTypeSlug != null) {
+        if (subscriptionTypeSlug.indexOf("basic") >= 0) {
+            $("<div />").addClass('disabled-overlay').appendTo($(".plan-selector.plan-basic"));
+        } else if (subscriptionTypeSlug.indexOf("pro") >= 0) {
+            $("<div />").addClass('disabled-overlay').appendTo($(".plan-selector.plan-pro"));
+        }
+    }
 
     function stripeResponseHandler(status, response) {
         var $form = $('#subscriptionForm');
@@ -62,5 +70,11 @@
             $('input[name="plan-name"], input[name="plan-type"], input[name="plan-price"], input[name="plan-slug"]').remove();
             $('#submit-btn').prop('disabled', true);
         }
+    });
+
+    $('#edit-payment').click(function () {
+        var $subscriptionForm = $('#subscriptionForm');
+        $subscriptionForm.find('input[name="stripe-customer-id"]').remove();
+        $subscriptionForm.find('.stripe-container').show();
     });
 })();

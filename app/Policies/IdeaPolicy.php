@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Account;
 use App\Idea;
 use App\Limit;
 use App\User;

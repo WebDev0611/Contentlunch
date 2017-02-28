@@ -12,6 +12,11 @@
 
             <div class="panel-main left-separator">
 
+                <div class="panel-header">
+                    <!-- navigation -->
+                    @include('settings.partials.subscription_navigation')
+                </div>
+
                 <div class="panel-container col-md-8">
                     @if ($errors->any())
                         <div class="alert alert-danger" id="formError">
@@ -36,8 +41,12 @@
 
                                 <div class="col-md-6">
 
-                                    <div class="plan-selector">
-                                        <h2>Basic</h2>
+                                    <div class="plan-selector plan-basic">
+                                        <h2>Basic
+                                            @if (isset($activeSubscription) && strpos($activeSubscription->subscriptionType->slug, 'basic') !== false)
+                                                <span class="label label-primary current-plan">CURRENT PLAN</span>
+                                            @endif
+                                        </h2>
 
                                         <div class="panel with-nav-tabs panel-default">
                                             <div class="panel-heading">
@@ -110,8 +119,12 @@
 
                                 <div class="col-md-6">
 
-                                    <div class="plan-selector">
-                                        <h2>Pro</h2>
+                                    <div class="plan-selector plan-pro">
+                                        <h2>Pro
+                                            @if (isset($activeSubscription) && strpos($activeSubscription->subscriptionType->slug, 'pro') !== false)
+                                                <span class="label label-primary current-plan">CURRENT PLAN</span>
+                                            @endif
+                                        </h2>
 
                                         <div class="panel with-nav-tabs panel-default">
                                             <div class="panel-heading">
@@ -184,7 +197,9 @@
                             </div>
 
                             {!! Form::open([ 'id'=>'subscriptionForm', 'route' => 'subscription' ]) !!}
-                            <div class="col-md-10  stripe-container @if(!empty($user->stripe_customer_id)) hidden @endif">
+
+                            <div class="col-md-10  stripe-container" @if(!empty($user->stripe_customer_id)) style="display:none" @endif>
+
                                 <div class="row">
                                     <div class="col-md-12">
 
@@ -278,7 +293,12 @@
 
 @section('scripts')
     <script>
-        var StripePublishableKey = "{{ getenv('STRIPE_PUBLISHABLE_KEY') }}";
+    (function () {
+        Stripe.setPublishableKey("{{ getenv('STRIPE_PUBLISHABLE_KEY') }}");
+    })();
+    @if(isset($activeSubscription))
+        {!! 'var subscriptionTypeSlug="' . $activeSubscription->subscriptionType->slug . '";' !!}
+    @endif
     </script>
     <script src="/js/subscriptions.js"></script>
 @stop

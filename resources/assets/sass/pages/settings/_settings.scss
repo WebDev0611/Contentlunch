@@ -147,14 +147,16 @@
   background-color: rgba(242, 243, 249, .5);
 }
 
-
 .stripe-container {
   padding: 0 40px;
 }
 
 .plan-selector {
-  h2{
-    text-align: center;
+  text-align: center;
+
+  .label.current-plan{
+    font-size: 10px;
+    vertical-align: middle;
   }
 
   .panel-heading {
@@ -213,8 +215,8 @@
       list-style-type: none;
       padding-left: 0;
 
-      .bestvalue{
-        color:#2482ff;
+      .bestvalue {
+        color: #2482ff;
       }
     }
 
@@ -225,6 +227,17 @@
       transform: scale(1.006);
     }
   }
+}
+
+.disabled-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0.6;
+  z-index: 999;
+  background: #fff;
 }
 
 .head-padded {
