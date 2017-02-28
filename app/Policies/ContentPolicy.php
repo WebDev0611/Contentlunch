@@ -12,14 +12,6 @@ class ContentPolicy extends BasePolicy
 {
     use HandlesAuthorization;
 
-    public function before (User $user)
-    {
-        if (!Account::selectedAccount()->activeSubscriptions()->isEmpty())
-        {
-            return true;
-        }
-    }
-
     public function launch(User $user)
     {
         if (!$this->account->hasLimit('content_launch')) {

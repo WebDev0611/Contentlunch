@@ -23,8 +23,8 @@
             <label for="#">Expiration Date</label>
             <h3 class="settings-profile-heading">{{date_format(date_create($activeSubscription->expiration_date), "n-j-y") }}</h3>
 
-            <label for="#">Max Users</label>
-            <h3 class="settings-profile-heading">{{$activeSubscription->subscriptionType->limit_users}}</h3>
+            <label for="#">Users</label>
+            <h3 class="settings-profile-heading">{{count($account->users)}}/{{$account->limit('users_per_account')}}</h3>
 
             @if($account->isAgencyAccount ())
 

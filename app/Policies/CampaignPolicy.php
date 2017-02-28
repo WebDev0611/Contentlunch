@@ -11,14 +11,6 @@ class CampaignPolicy extends BasePolicy
 {
     use HandlesAuthorization;
 
-    public function before (User $user)
-    {
-        if (!Account::selectedAccount()->activeSubscriptions()->isEmpty())
-        {
-            return true;
-        }
-    }
-
     public function create(User $user)
     {
         if (!$this->account->hasLimit('campaigns')) {

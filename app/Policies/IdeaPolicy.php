@@ -13,14 +13,6 @@ class IdeaPolicy extends BasePolicy
 {
     use HandlesAuthorization;
 
-    public function before (User $user)
-    {
-        if (!Account::selectedAccount()->activeSubscriptions()->isEmpty())
-        {
-            return true;
-        }
-    }
-
     public function searchTopics(User $user)
     {
         if (!$this->account->hasLimit('topic_search')) {
