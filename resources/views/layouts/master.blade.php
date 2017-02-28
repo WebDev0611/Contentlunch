@@ -76,7 +76,7 @@
 </script>
 <script type='text/javascript'>
 
-    (function() {
+    $(document).ready(function() {
 
         $('.account-selector').click(function(event) {
             event.preventDefault();
@@ -123,7 +123,7 @@
                 .animate({ opacity: 1 }, 200);
         }
 
-    })();
+    });
 
 </script>
 <script>
