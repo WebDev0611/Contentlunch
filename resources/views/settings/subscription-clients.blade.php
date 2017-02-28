@@ -44,9 +44,9 @@
                                         <thead>
                                         <tr>
                                             <th>Client</th>
-                                            <th>Status</th>
+                                            <th>Start date</th>
                                             <th>Expiration date</th>
-                                            <th></th>
+                                            <th>Paid</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -58,11 +58,17 @@
                                                     </div>
                                                     <p class="title">{{ $account->name }}</p>
                                                 </td>
-                                                <td>{{ $account->contents->count() }}</td>
-                                                <td>{{ $account->users->count() }}</td>
-                                                <td>
-                                                    <button class="btn btn-primary">Renew</button>
-                                                </td>
+
+                                                @if(!$account->activeSubscriptions()->isEmpty())
+                                                    <td>{{ $account->activeSubscriptions()[0]->start_date }}</td>
+                                                    <td>{{ $account->activeSubscriptions()[0]->expiration_date }}</td>
+                                                    <td>${{ number_format($account->activeSubscriptions()[0]->subscriptionType->price_per_client) }}</td>
+                                                @else
+                                                    <td>{{ $account->created_at }}</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                @endif
+
                                             </tr>
                                         @endforeach
                                         </tbody>
