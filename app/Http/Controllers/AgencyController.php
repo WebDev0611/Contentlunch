@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Limit;
 use App\Subscription;
+use App\SubscriptionType;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Config;
@@ -51,7 +52,9 @@ class AgencyController extends Controller {
 
         if (!$agencyAccount->activeSubscriptions()->isEmpty())
         {
-            if($agencyAccount->childAccounts()->count() > Limit::whereName('subaccounts_per_account')->first()->value){
+            // Allow agency to use free sub-accounts limitation
+            $freeSubaccountsLimit = SubscriptionType::whereSlug('free')->first()->limit('subaccounts_per_account');
+            if($agencyAccount->childAccounts()->count() > $freeSubaccountsLimit){
                 // Make a new Stripe payment and a subscription for the client on paid account
                 $this->makeNewClientSubscription($agencyAccount, $newAccount);
             }

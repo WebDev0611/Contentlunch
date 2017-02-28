@@ -34,8 +34,8 @@ class SubscriptionTypesTableSeeder extends Seeder {
         $free->addLimit($limits['content_edits'], 0);
         $free->addLimit($limits['influencer_search'], 5);
         $free->addLimit($limits['calendars'], 1);
-        $free->addLimit($limits['users_per_account'], 3);
-        $free->addLimit($limits['subaccounts_per_account'], 2);
+        $free->addLimit($limits['users_per_account'], 2);
+        $free->addLimit($limits['subaccounts_per_account'], 3);
 
         /**
          * Trial plan
@@ -55,8 +55,8 @@ class SubscriptionTypesTableSeeder extends Seeder {
         $trial->addLimit($limits['content_edits'], 0);
         $trial->addLimit($limits['influencer_search'], 5);
         $trial->addLimit($limits['calendars'], 1);
-        $trial->addLimit($limits['users_per_account'], 3);
-        $trial->addLimit($limits['subaccounts_per_account'], 2);
+        $trial->addLimit($limits['users_per_account'], 2);
+        $trial->addLimit($limits['subaccounts_per_account'], 3);
 
         /**
          * Basic Plan
