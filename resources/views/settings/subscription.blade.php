@@ -297,16 +297,12 @@
 
 @section('scripts')
     <script>
-
     (function () {
         Stripe.setPublishableKey("{{ getenv('STRIPE_PUBLISHABLE_KEY') }}");
     })();
-        @if(isset($activeSubscription))
-            {!! 'var subscriptionTypeSlug="' . $activeSubscription->subscriptionType->slug . '";' !!}
-        @endif
-
-        var StripePublishableKey = "{{ getenv('STRIPE_PUBLISHABLE_KEY') }}";
-
+    @if(isset($activeSubscription))
+        {!! 'var subscriptionTypeSlug="' . $activeSubscription->subscriptionType->slug . '";' !!}
+    @endif
     </script>
     <script src="/js/subscriptions.js"></script>
 @stop
