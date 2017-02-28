@@ -5,6 +5,7 @@ namespace App;
 use App\AccountType;
 use App\Presenters\AccountPresenter;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -108,6 +109,7 @@ class Account extends Model
     public static function selectAccount(Account $account)
     {
         Auth::user()->selectedAccount()->associate($account->id);
+        $account->ensureAccountHasSubscription();
     }
 
     public static function selectedAccount()
@@ -173,15 +175,26 @@ class Account extends Model
             });
     }
 
-    public function subscribe($subTypeSlug, $attributes = [])
+    public function subscribe(SubscriptionType $subscriptionType, $attributes = [], $proxyToParent = true)
     {
-        $sub = $this->subscriptions()->create($attributes);
-        $sub->subscriptionType()->associate(SubscriptionType::findBySlug($subTypeSlug));
+        $account = $proxyToParent ? $this->proxyToParent() : $this;
+        $account->deactivateOldSubscriptions($proxyToParent);
+
+        $default = [
+            'start_date' => Carbon::now(),
+            'auto_renew' => 0,
+            'valid' => 1,
+            'subscription_type_id' => $subscriptionType->id,
+        ];
+
+        return $account->subscriptions()->create(array_merge($default, $attributes));
     }
 
-    public function subscriptionType()
+    public function subscriptionType($proxyToParent = true)
     {
-        $subscription = $this->subscriptions()->active()->latest()->first();
+        $account = $proxyToParent ? $this->proxyToParent() : $this;
+
+        $subscription = $account->subscriptions()->active()->latest()->first();
         $free = SubscriptionType::findBySlug('free');
 
         $subType = $subscription
@@ -191,13 +204,38 @@ class Account extends Model
         return $subType ?: $free;
     }
 
-    public function limit($limitName)
+    public function proxyToParent()
     {
-        return $this->subscriptionType()->limit($limitName);
+        return $this->parentAccount ?: $this;
     }
 
-    public function hasLimit($limitName)
+    public function limit($limitName, $proxyToParent = true)
     {
-        return $this->subscriptionType()->hasLimit($limitName);
+        $account = $proxyToParent ? $this->proxyToParent() : $this;
+
+        return $account->subscriptionType()->limit($limitName);
+    }
+
+    public function hasLimit($limitName, $proxyToParent = true)
+    {
+        $account = $proxyToParent ? $this->proxyToParent() : $this;
+
+        return $account->subscriptionType()->hasLimit($limitName);
+    }
+
+    public function ensureAccountHasSubscription($proxyToParent = true)
+    {
+        $account = $proxyToParent ? $this->proxyToParent() : $this;
+
+        if ($account->activeSubscriptions()) {
+            $account->subscribe(SubscriptionType::findBySlug('free'));
+        }
+    }
+
+    public function deactivateOldSubscriptions($proxyToParent = true)
+    {
+        $account = $proxyToParent ? $this->proxyToParent() : $this;
+
+        return $account->update([ 'valid' => 0 ]);
     }
 }
