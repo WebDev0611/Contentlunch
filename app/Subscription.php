@@ -18,12 +18,12 @@ class Subscription extends Model
 
     public function subscriptionType()
     {
-        return $this->belongsTo('App\subscriptionType');
+        return $this->belongsTo(SubscriptionType::class);
     }
 
     public function account()
     {
-        return $this->belongsTo('App\Account');
+        return $this->belongsTo(Account::class);
     }
 
     public function scopeActive($query)
