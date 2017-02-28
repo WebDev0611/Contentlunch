@@ -108,7 +108,7 @@ class Account extends Model
 
     public static function selectAccount(Account $account)
     {
-        Auth::user()->selectedAccount()->associate($account->id);
+        Auth::user()->selectedAccount()->associate($account->id)->save();
         $account->ensureAccountHasSubscription();
     }
 
