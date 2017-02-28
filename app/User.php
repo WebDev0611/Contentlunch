@@ -41,6 +41,9 @@ class User extends Authenticatable
 
     const DEFAULT_PROFILE_IMAGE = '/images/cl-avatar2.png';
 
+    /**
+     * User model relationships
+     */
     public function accounts()
     {
         return $this->belongsToMany('App\Account');
@@ -86,19 +89,6 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Limit')->withTimestamps();
     }
 
-    public function tasks()
-    {
-       return $this->hasMany('App\Task');
-    }
-
-    public function scopeCreatedSinceYesterday($query)
-    {
-        return $query->whereBetween('created_at', [
-            \Carbon\Carbon::now()->subDay(),
-            \Carbon\Carbon::now(),
-        ]);
-    }
-
     public function partialWriterAccessOrders()
     {
         return $this->hasMany('App\WriterAccessPartialOrder');
@@ -109,6 +99,25 @@ class User extends Authenticatable
         return $this->belongsTo('App\Account');
     }
 
+    public function tasks()
+    {
+       return $this->hasMany('App\Task');
+    }
+
+    /**
+     * User model custom scopes
+     */
+    public function scopeCreatedSinceYesterday($query)
+    {
+        return $query->whereBetween('created_at', [
+            \Carbon\Carbon::now()->subDay(),
+            \Carbon\Carbon::now(),
+        ]);
+    }
+
+    /**
+     * Helper methods
+     */
     public function belongsToAgencyAccount()
     {
         return (boolean) $this->accounts()

@@ -8,7 +8,7 @@ use App\Limit;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ContentPolicy
+class ContentPolicy extends BasePolicy
 {
     use HandlesAuthorization;
 
@@ -22,8 +22,12 @@ class ContentPolicy
 
     public function launch(User $user)
     {
+        if (!$this->account->hasLimit('content_launch')) {
+            return true;
+        }
+
         $launches = $user->limits()->monthly()->whereName('content_launch')->count();
-        $maxLaunches = Limit::whereName('content_launch')->first()->value;
+        $maxLaunches = $this->account->limit('content_launch');
 
         return $launches < $maxLaunches;
     }

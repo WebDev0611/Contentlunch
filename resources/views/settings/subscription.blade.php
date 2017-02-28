@@ -197,9 +197,13 @@
                             </div>
 
                             {!! Form::open([ 'id'=>'subscriptionForm', 'route' => 'subscription' ]) !!}
+<<<<<<< HEAD
 
 
                             <div class="col-md-10  stripe-container" @if(!empty($user->stripe_customer_id)) style="display:none" @endif>
+=======
+                            <div class="col-md-10  stripe-container @if(!empty($user->stripe_customer_id)) hidden @endif">
+>>>>>>> development
                                 <div class="row">
                                     <div class="col-md-12">
 
@@ -235,8 +239,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-
                                             </div>
                                             <div class="col-md-6">
                                                 <img src="/images/stripe.png" alt=""
@@ -247,8 +249,6 @@
                                                 <input type="hidden" name="stripe-customer-id"
                                                        value="{{$user->stripe_customer_id}}">
                                             @endif
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -297,12 +297,16 @@
 
 @section('scripts')
     <script>
+
     (function () {
         Stripe.setPublishableKey("{{ getenv('STRIPE_PUBLISHABLE_KEY') }}");
     })();
         @if(isset($activeSubscription))
             {!! 'var subscriptionTypeSlug="' . $activeSubscription->subscriptionType->slug . '";' !!}
         @endif
+
+        var StripePublishableKey = "{{ getenv('STRIPE_PUBLISHABLE_KEY') }}";
+
     </script>
     <script src="/js/subscriptions.js"></script>
 @stop

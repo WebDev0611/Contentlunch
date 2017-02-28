@@ -53,11 +53,13 @@ class AccountSettingsController extends Controller {
             return redirect()->route('subscription')->with('errors', $validation->errors());
         }
 
+        $isAutoRenew = $request->has('auto_renew') && $request->input('auto_renew') == '1';
+
         // Prepare empty subscription object
         $sub = new Subscription();
         $sub->account()->associate(Account::selectedAccount());
         $sub->subscriptionType()->associate(SubscriptionType::where('slug', $request->input('plan-slug'))->first());
-        $sub->auto_renew = $request->has('auto_renew') && $request->input('auto_renew') == '1';
+        $sub->auto_renew = $isAutoRenew;
 
         // Stripe
         try
@@ -66,8 +68,7 @@ class AccountSettingsController extends Controller {
             $customerId = !empty($request->input('stripe-customer-id')) ? $request->input('stripe-customer-id') : $this->createStripeCustomer($request)->id;
 
             // Handle one-time payment or subscription
-            if ($request->has('auto_renew') && $request->input('auto_renew') == '1')
-            {
+            if ($isAutoRenew) {
                 // Stripe Subscription
                 $plan = $this->getStripePlan($request);
                 $subscription = $this->createStripeSubscription($customerId, $plan->id);

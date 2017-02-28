@@ -9,7 +9,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class IdeaPolicy
+class IdeaPolicy extends BasePolicy
 {
     use HandlesAuthorization;
 
@@ -23,24 +23,36 @@ class IdeaPolicy
 
     public function searchTopics(User $user)
     {
+        if (!$this->account->hasLimit('topic_search')) {
+            return true;
+        }
+
         $topicSearches = $user->limits()->monthly()->whereName('topic_search')->count();
-        $maxTopicSearches = Limit::whereName('topic_search')->first()->value;
+        $maxTopicSearches = $this->account->limit('topic_search');
 
         return $topicSearches < $maxTopicSearches;
     }
 
     public function searchTrends(User $user)
     {
+        if (!$this->account->hasLimit('trend_search')) {
+            return true;
+        }
+
         $trendSearches = $user->limits()->monthly()->whereName('trend_search')->count();
-        $maxTrendSearches = Limit::whereName('trend_search')->first()->value;
+        $maxTrendSearches = $this->account->limit('trend_search');
 
         return $trendSearches < $maxTrendSearches;
     }
 
     public function create(User $user)
     {
+        if (!$this->account->hasLimit('ideas_created')) {
+            return true;
+        }
+
         $ideas = $user->ideas()->monthly()->count();
-        $maxIdeas = Limit::whereName('ideas_created')->first()->value;
+        $maxIdeas = $this->account->limit('ideas_created');
 
         return $ideas < $maxIdeas;
     }

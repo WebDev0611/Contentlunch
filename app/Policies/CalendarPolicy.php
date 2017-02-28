@@ -21,8 +21,12 @@ class CalendarPolicy {
 
     public function create (User $user)
     {
+        if (!$this->account->hasLimit('calendars')) {
+            return true;
+        }
+
         $calendars = $user->calendars()->count();
-        $maxCalendars = Limit::whereName('calendars')->first()->value;
+        $maxCalendars = $this->account->limit('calendars');
 
         return $calendars < $maxCalendars;
     }
