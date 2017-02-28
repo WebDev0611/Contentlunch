@@ -20,7 +20,7 @@ class SubscriptionTypesTableSeeder extends Seeder {
          * Free plan
          */
         $free = Type::create([
-            'name' => 'Trial',
+            'name' => 'Free',
             'price' => 0,
             'price_per_client' => 0,
             'limit_users' => 3,
