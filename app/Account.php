@@ -182,10 +182,13 @@ class Account extends Model
     public function subscriptionType()
     {
         $subscription = $this->subscriptions()->active()->latest()->first();
+        $free = SubscriptionType::findBySlug('free');
 
         $subType = $subscription
             ? $subscription->subscriptionType
-            : SubscriptionType::findBySlug('free');
+            : $free;
+
+        return $subType ?: $free;
     }
 
     public function limit($limitName)
