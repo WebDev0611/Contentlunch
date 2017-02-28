@@ -12,13 +12,13 @@ function add_calendar(callback) {
         $('#add-calendar-button').prepend(loadIMG);
 
         return $.ajax({
-            url: '/calendar/add',
-            type: 'post',
-            data: getCalendarData(),
-            dataType: 'json',
-        })
-        .then(addedCalendarCallback(callback))
-        .catch(showErrorFeedback);
+                url: '/calendar/add',
+                type: 'post',
+                data: getCalendarData(),
+                dataType: 'json',
+            })
+            .then(addedCalendarCallback(callback))
+            .catch(showErrorFeedback);
     }
 };
 
@@ -140,7 +140,7 @@ function store_idea(action, callback) {
         headers: getCSRFHeader(),
         dataType: 'json',
         success: addedIdeaCallback(callback)
-    });
+    }).catch(showErrorFeedback);
 }
 
 function clearIdeaInputs() {
