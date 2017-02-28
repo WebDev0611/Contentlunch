@@ -197,13 +197,9 @@
                             </div>
 
                             {!! Form::open([ 'id'=>'subscriptionForm', 'route' => 'subscription' ]) !!}
-<<<<<<< HEAD
-
 
                             <div class="col-md-10  stripe-container" @if(!empty($user->stripe_customer_id)) style="display:none" @endif>
-=======
-                            <div class="col-md-10  stripe-container @if(!empty($user->stripe_customer_id)) hidden @endif">
->>>>>>> development
+
                                 <div class="row">
                                     <div class="col-md-12">
 
