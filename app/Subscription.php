@@ -28,9 +28,15 @@ class Subscription extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('start_date', '<=', Carbon::now())
-            ->where('expiration_date', '>=', Carbon::now())
-            ->where('valid', '=', 1);
+        return $query->where('valid', '=', 1)
+            ->where(function($q) {
+               $q->where('start_date', '<=', Carbon::now())
+                 ->where('expiration_date', '>=', Carbon::now());
+            })
+            ->orWhere(function($q) {
+                $q->where('start_date', '<=', Carbon::now())
+                  ->where('expiration_date', '0000-00-00');
+            });
     }
 
     public function scopeLatest($query)

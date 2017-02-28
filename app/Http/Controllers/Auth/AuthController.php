@@ -45,7 +45,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        if(isset($_POST['redirect_url'])){
+        if (isset($_POST['redirect_url'])) {
             $this->redirectTo = $_POST['redirect_url'];
         }
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
