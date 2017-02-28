@@ -60,11 +60,11 @@
                                                 </td>
 
                                                 @if(!$account->activeSubscriptions()->isEmpty())
-                                                    <td>{{ $account->activeSubscriptions()[0]->start_date }}</td>
-                                                    <td>{{ $account->activeSubscriptions()[0]->expiration_date }}</td>
+                                                    <td>{{ date_format(date_create($account->activeSubscriptions()[0]->start_date), "n-j-y") }}</td>
+                                                    <td>{{ date_format(date_create($account->activeSubscriptions()[0]->expiration_date), "n-j-y") }}</td>
                                                     <td>${{ number_format($account->activeSubscriptions()[0]->subscriptionType->price_per_client) }}</td>
                                                 @else
-                                                    <td>{{ $account->created_at }}</td>
+                                                    <td>{{ date_format(date_create($account->created_at), "n-j-y") }}</td>
                                                     <td>-</td>
                                                     <td>-</td>
                                                 @endif

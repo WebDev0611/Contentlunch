@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Limit;
 use App\Subscription;
 use Illuminate\Http\Request;
 use Auth;
@@ -50,8 +51,10 @@ class AgencyController extends Controller {
 
         if (!$agencyAccount->activeSubscriptions()->isEmpty())
         {
-            // Make a new Stripe payment and a subscription for the client on paid account
-            $this->makeNewClientSubscription($agencyAccount, $newAccount);
+            if($agencyAccount->childAccounts()->count() > Limit::whereName('subaccounts_per_account')->first()->value){
+                // Make a new Stripe payment and a subscription for the client on paid account
+                $this->makeNewClientSubscription($agencyAccount, $newAccount);
+            }
         }
 
         return redirect()->route('agencyIndex')->with([
