@@ -93,7 +93,7 @@ class Account extends Model
     {
         return $this->subscriptions()
             ->active()
-            ->orderBy('updated_at', 'desc')
+            ->latest()
             ->get();
     }
 
@@ -171,5 +171,30 @@ class Account extends Model
             ->each(function ($content) {
                 $content->update(['written' => 1]);
             });
+    }
+
+    public function subscribe($subTypeSlug, $attributes = [])
+    {
+        $sub = $this->subscriptions()->create($attributes);
+        $sub->subscriptionType()->associate(SubscriptionType::findBySlug($subTypeSlug));
+    }
+
+    public function subscriptionType()
+    {
+        $subscription = $this->subscriptions()->active()->latest()->first();
+
+        $subType = $subscription
+            ? $subscription->subscriptionType
+            : SubscriptionType::findBySlug('free');
+    }
+
+    public function limit($limitName)
+    {
+        return $this->subscriptionType()->limit($limitName);
+    }
+
+    public function hasLimit($limitName)
+    {
+        return $this->subscriptionType()->hasLimit($limitName);
     }
 }

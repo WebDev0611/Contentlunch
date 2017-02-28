@@ -32,4 +32,9 @@ class Subscription extends Model
             ->where('expiration_date', '>=', Carbon::now())
             ->where('valid', '=', 1);
     }
+
+    public function scopeLatest($query)
+    {
+        return $query->orderBy('updated_at', 'desc');
+    }
 }
