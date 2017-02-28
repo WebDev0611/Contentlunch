@@ -41,12 +41,12 @@
             <h3 class="settings-profile-heading">$0.00</h3>
 
             <label for="#">Max Users</label>
-            <h3 class="settings-profile-heading">{{ App\Limit::whereName('users_per_account')->first()->value }}</h3>
+            <h3 class="settings-profile-heading">{{ $account->limit('users_per_account') }}</h3>
 
             @if($account->isAgencyAccount ())
 
                 <label for="#">Clients</label>
-                <h3 class="settings-profile-heading">{{ count($user->agencyAccount()->childAccounts) }}/{{ App\Limit::whereName('subaccounts_per_account')->first()->value }}</h3>
+                <h3 class="settings-profile-heading">{{ count($user->agencyAccount()->childAccounts) }}/{{ $account->limit('subaccounts_per_account') }}</h3>
 
             @endif
 
