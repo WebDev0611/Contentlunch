@@ -43,45 +43,7 @@
         }
     });
 
-    var BuyingStagesView = Backbone.View.extend({
-        events: {
-            "click #new-buying-stage": 'openModal'
-        },
-
-        initialize: function () {
-            this.listenTo(this.collection, 'add', this.addToCollection)
-            this.getBuyingStages().then(this.populateTable.bind(this));
-        },
-
-        addToCollection: function(model) {
-            var buyingStage = new BuyingStageRowView({ model: model });
-            buyingStage.render();
-
-            $('#buyingStagesTable tbody').append(buyingStage.el);
-        },
-
-        populateTable: function(response) {
-            var models = response.data.map(function(buyingStage) {
-                return new BuyingStage(buyingStage);
-            })
-
-            this.collection.remove(this.collection.models);
-            this.collection.add(models);
-        },
-
-        getBuyingStages: function() {
-            return $.ajax({
-                method: 'get',
-                url: 'buying_stages'
-            });
-        },
-
-        openModal: function() {
-            new PersonasModalView({ el: '#modal-new-buying-stage' });
-        }
-    });
-
-    var PersonasModalView = Backbone.View.extend({
+    var BuyingModalView = Backbone.View.extend({
         events: {
             "click .sidemodal-close": "dismiss",
             "click #submit-buying-stage": "submitAndShowFeedback"
@@ -91,8 +53,11 @@
             this.render();
         },
 
-        render: function() {
+        showModal() {
             $('#modal-new-buying-stage').modal('show');
+        },
+
+        render: function() {
             return this;
         },
 
@@ -134,6 +99,48 @@
             });
         }
     });
+
+    var Modal = new BuyingModalView({ el: '#modal-new-buying-stage' });
+
+    var BuyingStagesView = Backbone.View.extend({
+        events: {
+            "click #new-buying-stage": 'openModal'
+        },
+
+        initialize: function () {
+            this.listenTo(this.collection, 'add', this.addToCollection)
+            this.getBuyingStages().then(this.populateTable.bind(this));
+        },
+
+        addToCollection: function(model) {
+            var buyingStage = new BuyingStageRowView({ model: model });
+            buyingStage.render();
+
+            $('#buyingStagesTable tbody').append(buyingStage.el);
+        },
+
+        populateTable: function(response) {
+            var models = response.data.map(function(buyingStage) {
+                return new BuyingStage(buyingStage);
+            })
+
+            this.collection.remove(this.collection.models);
+            this.collection.add(models);
+        },
+
+        getBuyingStages: function() {
+            return $.ajax({
+                method: 'get',
+                url: 'buying_stages'
+            });
+        },
+
+        openModal: function() {
+            Modal.showModal();
+        }
+    });
+
+
 
     new BuyingStagesView({ el: '#buying-stages-view', collection: buyingStageCollection });
 

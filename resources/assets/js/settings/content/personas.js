@@ -43,76 +43,41 @@
         }
     });
 
-    var PersonasView = Backbone.View.extend({
-        events: {
-            "click #new-persona": 'openModal'
-        },
-
-        initialize: function () {
-            this.listenTo(this.collection, 'add', this.addToCollection)
-            this.getPersonas().then(this.populateTable.bind(this));
-        },
-
-        addToCollection: function(model) {
-            var persona = new PersonaRowView({ model: model });
-            persona.render();
-
-            $('#personasTable tbody').append(persona.el);
-        },
-
-        populateTable: function(response) {
-            var models = response.data.map(function(persona) {
-                return new Persona(persona);
-            })
-
-            this.collection.remove(this.collection.models);
-            this.collection.add(models);
-        },
-
-        getPersonas: function() {
-            return $.ajax({
-                method: 'get',
-                url: 'personas'
-            });
-        },
-
-        openModal: function() {
-            new PersonasModalView({ el: '#modal-new-persona' });
-        }
-    });
-
     var PersonasModalView = Backbone.View.extend({
         events: {
             "click .sidemodal-close": "dismiss",
             "click #submit-persona": "submitAndShowFeedback"
         },
 
-        initialize: function() {
+        initialize() {
             this.render();
         },
 
-        render: function() {
-            $('#modal-new-persona').modal('show');
+        render() {
             return this;
         },
 
-        dismiss: function() {
+        showModal() {
+            $('#modal-new-persona').modal('show');
+        },
+
+        dismiss() {
             $('#modal-new-persona').modal('hide');
         },
 
-        payload: function() {
+        payload() {
             return JSON.stringify({
                 name: this.$el.find('#persona-name').val(),
                 description: this.$el.find('#persona-description').val(),
             });
         },
 
-        submitAndShowFeedback: function() {
+        submitAndShowFeedback() {
             this.submit()
                 .then(this.createPersonaAndDismiss.bind(this));
         },
 
-        createPersonaAndDismiss: function(response) {
+        createPersonaAndDismiss(response) {
             var persona = new Persona({
                 id: response.data.id,
                 name: response.data.name,
@@ -123,7 +88,7 @@
             this.dismiss();
         },
 
-        submit: function() {
+        submit() {
             return $.ajax({
                 type: 'post',
                 url: '/settings/personas',
@@ -134,6 +99,48 @@
             });
         }
     });
+
+    var Modal = new PersonasModalView({ el: '#modal-new-persona' });
+
+    var PersonasView = Backbone.View.extend({
+        events: {
+            "click #new-persona": 'openModal'
+        },
+
+        initialize() {
+            this.listenTo(this.collection, 'add', this.addToCollection)
+            this.getPersonas().then(this.populateTable.bind(this));
+        },
+
+        addToCollection(model) {
+            var persona = new PersonaRowView({ model: model });
+            persona.render();
+
+            $('#personasTable tbody').append(persona.el);
+        },
+
+        populateTable(response) {
+            var models = response.data.map(function(persona) {
+                return new Persona(persona);
+            })
+
+            this.collection.remove(this.collection.models);
+            this.collection.add(models);
+        },
+
+        getPersonas() {
+            return $.ajax({
+                method: 'get',
+                url: 'personas'
+            });
+        },
+
+        openModal() {
+            Modal.showModal();
+        }
+    });
+
+
 
     new PersonasView({ el: '#personas-view', collection: personaCollection });
 

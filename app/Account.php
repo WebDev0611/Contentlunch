@@ -93,6 +93,7 @@ class Account extends Model
     public function activeSubscriptions()
     {
         return $this->subscriptions()
+            ->with('SubscriptionType')
             ->active()
             ->latest()
             ->get();
@@ -188,6 +189,16 @@ class Account extends Model
         ];
 
         return $account->subscriptions()->create(array_merge($default, $attributes));
+    }
+
+    public function startTrial()
+    {
+        if ($this->activeSubscriptions()->isEmpty()) {
+            $attributes = [ 'expiration_date' => Carbon::now()->addDays(14) ];
+            $trialPlan = SubscriptionType::findBySlug('trial');
+
+            $this->subscribe($trialPlan, $attributes, false);
+        }
     }
 
     public function subscriptionType($proxyToParent = true)
