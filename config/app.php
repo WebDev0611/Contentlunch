@@ -152,6 +152,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        PragmaRX\Firewall\Vendor\Laravel\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -218,7 +219,7 @@ return [
         'Twitter' => Thujohn\Twitter\Facades\Twitter::class,
         'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-
+        'Firewall' => PragmaRX\Firewall\Vendor\Laravel\Facade::class,
     ],
 
 ];

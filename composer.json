@@ -21,7 +21,9 @@
         "sentry/sentry-laravel": "^0.4.1",
         "laracasts/presenter": "^0.2.1",
         "maatwebsite/excel": "~2.1.0",
-        "ryanwinchester/hubspot-php": "^1.0"
+        "ryanwinchester/hubspot-php": "^1.0",
+        "pragmarx/firewall": "^1.0",
+        "geoip2/geoip2": "^2.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -278,3 +278,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/api/content-types', 'ContentController@getContentTypes');
 
 });
+
+Route::group(['middleware' => 'fw-block-bl'], function ()
+{
+    Route::get('/404');
+});

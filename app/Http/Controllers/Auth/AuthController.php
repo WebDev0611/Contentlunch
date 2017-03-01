@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use \Illuminate\Http\Request;
+use PragmaRX\Firewall\Firewall;
 use Validator;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;

@@ -53,6 +53,13 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
         ],
+
+        'fw-block-bl' => [
+            \PragmaRX\Firewall\Middleware\FirewallBlacklist::class,
+        ],
+        'fw-allow-wl' => [
+            \PragmaRX\Firewall\Middleware\FirewallWhitelist::class,
+        ],
     ];
 
     /**
