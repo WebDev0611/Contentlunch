@@ -10,6 +10,9 @@ use Redirect;
 
 class WordpressController extends BaseConnectionController
 {
+    public $auth;
+    public $api;
+
     public function __construct(Request $request)
     {
         $this->auth = new WordPressAuth();
