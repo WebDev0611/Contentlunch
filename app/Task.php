@@ -190,10 +190,13 @@ class Task extends Model
             });
     }
 
-    public static function userTasks(User $user)
+    public static function userTasks(User $user, Account $account = null)
     {
         return $user
             ->assignedTasks()
+            ->when($account, function($query) use ($account) {
+                return $query->where('account_id', $account->id);
+            })
             ->with('user')
             ->orderBy('created_at', 'desc')
             ->where('status', 'open')
