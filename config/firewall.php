@@ -95,7 +95,7 @@ return [
         'counrty:hk',      // Hong Kong
         'counrty:hm',      // Heard and McDonald Islands
         'counrty:hn',      // Honduras
-        'counrty:hr',      // Croatia
+        //'counrty:hr',      // Croatia
         'counrty:ht',      // Haiti
         'counrty:hu',      // Hungary
         'counrty:id',      // Indonesia
