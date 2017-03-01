@@ -16,16 +16,17 @@
                 ';path=/;expires='+new Date(0).toUTCString();i=d.indexOf('.');if(i<0)break;d=d.slice(i+1)}}};
     })(window,document,window['_fs_namespace'],'script','user');
 
-    @php $user = Illuminate\Support\Facades\Auth::user(); @endphp
+    @php $user = Auth::user(); @endphp
     @if( isset( $user ) )
-            FS.identify( (function(){return {{ $user->id }} })(), {
-            displayName: (function(){return {{ $user->name  }} })(),
-            email: (function(){return {{ $user->email  }} })(),
-            created_at: (function(){return {{ $user->created_at  }} })(),
-            city: (function(){return {{ $user->city  }} })(),
-            address: (function(){return {{ $user->address  }} })(),
-            phone: (function(){return {{ $user->phone  }} })(),
-            account_type: (function(){return {{ $user->account_type  }} })()
+
+            FS.identify('{{ $user->id }}', {
+            displayName: '{{ $user->name }}',
+            email: '{{ $user->email }}',
+            created_at: '{{ $user->created_at }}',
+            city: '{{ $user->city }}',
+            address: '{{ $user->address }}',
+            phone: '{{ $user->phone }}',
+            account_type: '{{ $user->account_type }}'
 
         });
     @endif
