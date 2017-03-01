@@ -135,10 +135,14 @@ class AuthController extends Controller
 
     private function createAccount(array $data)
     {
-        return Account::create([
+        $account = Account::create([
             'name' => $data['company_name'],
             'account_type_id' => $data['account_type'],
         ]);
+
+        $account->startTrial();
+
+        return $account;
     }
 
     private function sendSignupEmail(User $user)
