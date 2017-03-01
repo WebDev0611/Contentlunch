@@ -23,7 +23,7 @@ class SubscriptionTypesTableSeeder extends Seeder {
             'name' => 'Free',
             'price' => 0,
             'price_per_client' => 0,
-            'description' => 'Two week trial period.'
+            'description' => 'Free account.'
         ]);
 
         $free->addLimit($limits['topic_search'], 10);
