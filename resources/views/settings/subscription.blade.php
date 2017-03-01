@@ -43,7 +43,7 @@
 
                                     <div class="plan-selector plan-basic">
                                         <h2>Basic
-                                            @if (isset($activeSubscription) && strpos($activeSubscription->subscriptionType->slug, 'basic') !== false)
+                                            @if (strpos($activeSubscription->subscriptionType->slug, 'basic') !== false)
                                                 <span class="label label-primary current-plan">CURRENT PLAN</span>
                                             @endif
                                         </h2>
@@ -121,7 +121,7 @@
 
                                     <div class="plan-selector plan-pro">
                                         <h2>Pro
-                                            @if (isset($activeSubscription) && strpos($activeSubscription->subscriptionType->slug, 'pro') !== false)
+                                            @if (strpos($activeSubscription->subscriptionType->slug, 'pro') !== false)
                                                 <span class="label label-primary current-plan">CURRENT PLAN</span>
                                             @endif
                                         </h2>

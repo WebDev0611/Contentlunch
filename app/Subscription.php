@@ -26,6 +26,11 @@ class Subscription extends Model
         return $this->belongsTo(Account::class);
     }
 
+    public function isPaid ()
+    {
+        return $this->subscriptionType->slug != 'free' && $this->subscriptionType->slug != 'trial';
+    }
+
     public function scopeActive($query)
     {
         return $query->where('valid', '=', 1)
@@ -42,5 +47,13 @@ class Subscription extends Model
     public function scopeLatest($query)
     {
         return $query->orderBy('updated_at', 'desc');
+    }
+
+    public function scopePaid($query)
+    {
+        return $query->whereHas('subscriptionType', function ($q) {
+            $q->where('slug', '<>', 'free')
+                ->where('slug', '<>', 'trial');
+        });
     }
 }

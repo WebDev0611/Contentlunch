@@ -10,7 +10,7 @@
             </span>
         </div>
 
-        @if(!empty($activeSubscription))
+        @if($activeSubscription->isPaid())
 
             <span class="settings-profile-subscription paid">Paid Subscription</span>
 
