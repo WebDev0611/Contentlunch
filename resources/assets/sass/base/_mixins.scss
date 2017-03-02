@@ -137,6 +137,9 @@
   @include prefix(border-bottom-left-radius, $bottom-left-radius, 'webkit' 'moz');
 }
 
+@mixin border-radius($radius) {
+  @include prefix(border-radius, $radius, 'webkit' 'moz');
+}
 
 /// Box-sizing helper
 /// @access public

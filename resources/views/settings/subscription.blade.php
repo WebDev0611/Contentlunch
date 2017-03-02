@@ -31,172 +31,242 @@
                     @endif
                 </div>
 
-                <div class="row">
+                <div class="col-md-10 col-md-offset-1">
 
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="row ">
+                        <div class="col-md-10 ">
+                            <div class="col-md-8 col-md-offset-2 text-center">
+                                <h3>Start Content Launch Subscription</h3>
+                                <p>Thanks for choosing Content Launch. With paid version you will get many benefits.
+                                To start your subscription please complete the transaction below.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
-                        <div class="row">
+                    <div class="row">
+                        <div class="col-md-10 ">
+                            <div class="col-md-4 col-md-offset-4 text-center">
+                                <div class="billing-buttons">
+                                    <button type="button" class="btn btn-default monthly selected">Monthly Billing</button>
+                                    <button type="button" class="btn btn-default annually">Annual Billing</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                            <div class="col-md-10">
+                    {!! Form::open([ 'id'=>'subscriptionForm', 'route' => 'subscription' ]) !!}
 
-                                <div class="col-md-6">
+                    <div class="row">
 
-                                    <div class="plan-selector plan-basic">
-                                        <h2>Basic
-                                            @if (strpos($activeSubscription->subscriptionType->slug, 'basic') !== false)
-                                                <span class="label label-primary current-plan">CURRENT PLAN</span>
+                            <div class="col-md-10 no-padding">
+                                <div class="plan-selector plan-free plan-trial col-md-4">
+
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-body">
+
+                                            @if ($activeSubscription->subscriptionType->slug == 'free' || $activeSubscription->subscriptionType->slug == 'trial')
+                                                <span class="label current-plan">CURRENT PLAN</span>
                                             @endif
-                                        </h2>
 
-                                        <div class="panel with-nav-tabs panel-default">
-                                            <div class="panel-heading">
-                                                <ul class="nav nav-tabs">
-                                                    <li class="active"><a href="#tab-basic-month" data-toggle="tab"><h5>
-                                                                Monthly</h5></a></li>
-                                                    <li class="highlight"><a href="#tab-basic-year" data-toggle="tab">
-                                                            <h5>Annually</h5>
-                                                        </a> <span class="label label-success">Best Value -10%</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div class="tab-content">
-                                                    <div class="tab-pane fade in active" id="tab-basic-month">
+                                            <div class="tab-pane fade in active">
 
-                                                        <ul class="description">
-                                                            <li><strong>Unlimited</strong> campaigns</li>
-                                                            <li><strong>Unlimited</strong> content launches</li>
-                                                            <li><strong>Unlimited</strong> tasks, ideas, and calendars
-                                                            </li>
-                                                            <li><h4>Up to <strong>5</strong> users</h4></li>
-                                                        </ul>
-                                                        <div class="amount">
-                                                            <span class="dollar">$</span>
-                                                            <span class="number">{{ number_format($planPrices['basic-monthly']) }}</span>
-                                                        </div>
-                                                        <p class="amount-info">Paid monthly</p>
-
-                                                        <label for="plan-1" class="checkbox-tag plan">
-                                                            <input id="plan-1" type="checkbox" plan-name="basic"
-                                                                   plan-type="month"
-                                                                   plan-price="{{$planPrices['basic-monthly']}}"
-                                                                   plan-slug="basic-monthly">
-                                                            <span>Sign me up!</span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="tab-pane fade" id="tab-basic-year">
-
-                                                        <ul class="description">
-                                                            <li class="bestvalue"><h4>You save <strong>10%</strong></h4>
-                                                            </li>
-
-                                                            <li><strong>Unlimited</strong> campaigns</li>
-                                                            <li><strong>Unlimited</strong> content launches</li>
-                                                            <li><strong>Unlimited</strong> tasks, ideas, and calendars
-                                                            </li>
-                                                            <li><h4>Up to <strong>5</strong> users</h4></li>
-                                                        </ul>
-
-                                                        <div class="amount">
-                                                            <span class="dollar">$</span>
-                                                            <span class="number">{{ number_format($planPrices['basic-annually']) }}</span>
-                                                        </div>
-                                                        <p class="amount-info">Paid annually</p>
-
-                                                        <label for="plan-2" class="checkbox-tag plan">
-                                                            <input id="plan-2" type="checkbox" plan-name="basic"
-                                                                   plan-type="year"
-                                                                   plan-price="{{$planPrices['basic-annually']}}"
-                                                                   plan-slug="basic-annually">
-                                                            <span>Sign me up!</span>
-                                                        </label>
-                                                    </div>
+                                                <h3 class="plan-title">Standard</h3>
+                                                <hr/>
+                                                <div class="amount">
+                                                    <span>FREE</span>
                                                 </div>
+                                                <p class="amount-info"></p>
+
+                                                @php
+                                                $freePlan = App\SubscriptionType::whereSlug('free')->first();
+                                                @endphp
+                                                <ul class="description">
+                                                    <li>Up to <strong>{{ $freePlan->limit('campaigns') }}</strong> campaigns</li>
+                                                    <li>Up to <strong>{{ $freePlan->limit('content_launch') }}</strong> content launches</li>
+                                                    <li>Up to <strong>{{ $freePlan->limit('topic_search') }}</strong> topic searches
+                                                    <li>Up to <strong>{{ $freePlan->limit('calendars') }}</strong> calendars
+                                                    </li>
+                                                    <li><h4>Up to <strong>{{ $freePlan->limit('users_per_account') }}</strong> users</h4></li>
+                                                </ul>
+
+                                                <label for="plan-0" class="checkbox-tag plan">
+                                                    <input id="plan-0" type="checkbox" plan-name="free"
+                                                           plan-type=""
+                                                           plan-price="{{$planPrices['free']}}"
+                                                           plan-slug="free">
+                                                    <span>Select</span>
+                                                </label>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
 
-                                    <div class="plan-selector plan-pro">
-                                        <h2>Pro
-                                            @if (strpos($activeSubscription->subscriptionType->slug, 'pro') !== false)
-                                                <span class="label label-primary current-plan">CURRENT PLAN</span>
+                                <div class="plan-selector plan-basic-monthly col-md-4">
+
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-body">
+
+                                            @if ($activeSubscription->subscriptionType->slug == 'basic-monthly')
+                                                <span class="label current-plan">CURRENT PLAN</span>
                                             @endif
-                                        </h2>
 
-                                        <div class="panel with-nav-tabs panel-default">
-                                            <div class="panel-heading">
-                                                <ul class="nav nav-tabs">
-                                                    <li class="active"><a href="#tab-pro-month" data-toggle="tab"><h5>
-                                                                Monthly</h5></a></li>
-                                                    <li><a href="#tab-pro-year" data-toggle="tab"><h5>Annually</h5></a>
-                                                        <span class="label label-success">Best Value -10%</span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div class="tab-content">
-                                                    <div class="tab-pane fade in active" id="tab-pro-month">
+                                            <div class="tab-pane fade in active">
 
-                                                        <ul class="description">
-                                                            <li><strong>Unlimited</strong> campaigns</li>
-                                                            <li><strong>Unlimited</strong> content launches</li>
-                                                            <li><strong>Unlimited</strong> tasks, ideas, and calendars
-                                                            </li>
-                                                            <li><h4>Up to <strong>10</strong> users</h4></li>
-                                                        </ul>
-
-                                                        <div class="amount">
-                                                            <span class="dollar">$</span>
-                                                            <span class="number">{{ number_format($planPrices['pro-monthly']) }}</span>
-                                                        </div>
-                                                        <p class="amount-info">Paid monthly</p>
-
-                                                        <label for="plan-3" class="checkbox-tag plan">
-                                                            <input id="plan-3" type="checkbox" plan-name="pro"
-                                                                   plan-type="month"
-                                                                   plan-price="{{$planPrices['pro-monthly']}}"
-                                                                   plan-slug="pro-monthly">
-                                                            <span>Sign me up!</span>
-                                                        </label>
+                                                    <h3 class="plan-title">Basic</h3>
+                                                    <hr/>
+                                                    <div class="amount">
+                                                        <span>${{ number_format($planPrices['basic-monthly']) }}</span>
                                                     </div>
-                                                    <div class="tab-pane fade" id="tab-pro-year">
+                                                    <p class="amount-info">monthly</p>
 
-                                                        <ul class="description">
-                                                            <li class="bestvalue"><h4>You save <strong>10%</strong></h4>
-                                                            </li>
+                                                    <ul class="description">
+                                                        <li><strong>Unlimited</strong> campaigns</li>
+                                                        <li><strong>Unlimited</strong> content launches</li>
+                                                        <li><strong>Unlimited</strong> tasks, ideas, and calendars
+                                                        </li>
+                                                        <li><h4>Up to <strong>{{ App\SubscriptionType::whereSlug('basic-monthly')->first()->limit('users_per_account') }}</strong> users</h4></li>
+                                                    </ul>
 
-                                                            <li><strong>Unlimited</strong> campaigns</li>
-                                                            <li><strong>Unlimited</strong> content launches</li>
-                                                            <li><strong>Unlimited</strong> tasks, ideas, and calendars
-                                                            </li>
-                                                            <li><h4>Up to <strong>10</strong> users</h4></li>
-                                                        </ul>
-
-                                                        <div class="amount">
-                                                            <span class="dollar">$</span>
-                                                            <span class="number">{{ number_format($planPrices['pro-annually']) }}</span>
-                                                        </div>
-                                                        <p class="amount-info">Paid annaully</p>
-
-                                                        <label for="plan-4" class="checkbox-tag plan">
-                                                            <input id="plan-4" type="checkbox" plan-name="pro"
-                                                                   plan-type="year"
-                                                                   plan-price="{{ $planPrices['pro-annually'] }}"
-                                                                   plan-slug="pro-annually">
-                                                            <span>Sign me up!</span>
-                                                        </label>
-                                                    </div>
+                                                    <label for="plan-1" class="checkbox-tag plan">
+                                                        <input id="plan-1" type="checkbox" plan-name="basic"
+                                                               plan-type="month"
+                                                               plan-price="{{$planPrices['basic-monthly']}}"
+                                                               plan-slug="basic-monthly">
+                                                        <span>Select</span>
+                                                    </label>
                                                 </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="plan-selector plan-basic-annually col-md-4" style="display: none;">
+
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-body">
+
+                                            @if ($activeSubscription->subscriptionType->slug == 'basic-annually')
+                                                <span class="label current-plan">CURRENT PLAN</span>
+                                            @endif
+
+                                            <div class="tab-pane fade in active">
+
+                                                    <h3 class="plan-title">Basic</h3>
+                                                    <hr/>
+                                                    <div class="amount">
+                                                        <span>${{ number_format($planPrices['basic-annually']) }}</span>
+                                                    </div>
+                                                    <p class="amount-info">annually</p>
+
+                                                    <ul class="description">
+                                                        <li><strong>Unlimited</strong> campaigns</li>
+                                                        <li><strong>Unlimited</strong> content launches</li>
+                                                        <li><strong>Unlimited</strong> tasks, ideas, and calendars
+                                                        </li>
+                                                        <li><h4>Up to <strong>{{ App\SubscriptionType::whereSlug('basic-annually')->first()->limit('users_per_account') }}</strong> users</h4></li>
+                                                    </ul>
+
+                                                    <label for="plan-2" class="checkbox-tag plan">
+                                                        <input id="plan-2" type="checkbox" plan-name="basic"
+                                                               plan-type="year"
+                                                               plan-price="{{$planPrices['basic-annually']}}"
+                                                               plan-slug="basic-annually">
+                                                        <span>Select</span>
+                                                    </label>
+                                                </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="plan-selector plan-pro-monthly col-md-4">
+
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-body">
+
+                                            @if ($activeSubscription->subscriptionType->slug == 'pro-monthly')
+                                                <span class="label current-plan">CURRENT PLAN</span>
+                                            @endif
+
+                                            <div class="tab-pane fade in active">
+
+                                                <h3 class="plan-title">Pro</h3>
+                                                <hr/>
+                                                <div class="amount">
+                                                    <span>${{ number_format($planPrices['pro-monthly']) }}</span>
+                                                </div>
+                                                <p class="amount-info">monthly</p>
+
+                                                <ul class="description">
+                                                    <li><strong>Unlimited</strong> campaigns</li>
+                                                    <li><strong>Unlimited</strong> content launches</li>
+                                                    <li><strong>Unlimited</strong> tasks, ideas, and calendars
+                                                    </li>
+                                                    <li><h4>Up to <strong>{{ App\SubscriptionType::whereSlug('pro-monthly')->first()->limit('users_per_account') }}</strong> users</h4></li>
+                                                </ul>
+
+                                                <label for="plan-3" class="checkbox-tag plan">
+                                                    <input id="plan-3" type="checkbox" plan-name="pro"
+                                                           plan-type="month"
+                                                           plan-price="{{$planPrices['pro-monthly']}}"
+                                                           plan-slug="pro-monthly">
+                                                    <span>Select</span>
+                                                </label>
                                             </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="plan-selector plan-pro-annually col-md-4" style="display: none;">
+
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-body">
+
+                                            @if ($activeSubscription->subscriptionType->slug == 'pro-annually')
+                                                <span class="label current-plan">CURRENT PLAN</span>
+                                            @endif
+
+                                            <div class="tab-pane fade in active">
+
+                                                <h3 class="plan-title">Pro</h3>
+                                                <hr/>
+                                                <div class="amount">
+                                                    <span>${{ number_format($planPrices['pro-annually']) }}</span>
+                                                </div>
+                                                <p class="amount-info">annually</p>
+
+                                                <ul class="description">
+                                                    <li><strong>Unlimited</strong> campaigns</li>
+                                                    <li><strong>Unlimited</strong> content launches</li>
+                                                    <li><strong>Unlimited</strong> tasks, ideas, and calendars
+                                                    </li>
+                                                    <li><h4>Up to <strong>{{ App\SubscriptionType::whereSlug('pro-annually')->first()->limit('users_per_account') }}</strong> users</h4></li>
+                                                </ul>
+
+                                                <label for="plan-4" class="checkbox-tag plan">
+                                                    <input id="plan-4" type="checkbox" plan-name="pro"
+                                                           plan-type="year"
+                                                           plan-price="{{$planPrices['pro-annually']}}"
+                                                           plan-slug="pro-annually">
+                                                    <span>Select</span>
+                                                </label>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
-
-                            {!! Form::open([ 'id'=>'subscriptionForm', 'route' => 'subscription' ]) !!}
 
                             <div class="col-md-10  stripe-container" @if(!empty($user->stripe_customer_id)) style="display:none" @endif>
 
@@ -250,24 +320,30 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-10">
+                                <div class="input-form-group">
+                                    <div class="row">
+                                        <div class="col-md-6 @if(isset($userCard)) col-md-offset-3  @endif">
+                                            <label for="auto_renew" class="checkbox-tag">
+                                                <input id="auto_renew" type="checkbox" name="auto_renew"
+                                                       value="1">
+                                                <span>Auto Renew</span>
+                                            </label>
+                                        </div>
 
-                            <div class="input-form-group">
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-2">
-                                        <label for="auto_renew" class="checkbox-tag">
-                                            <input id="auto_renew" type="checkbox" name="auto_renew"
-                                                   value="1">
-                                            <span>Auto Renew</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-6 col-md-offset-2">
-                                        <input
-                                                type="submit"
-                                                id="submit-btn"
-                                                class='button button-primary button-extend text-uppercase'
-                                                value='Submit Order'>
                                     </div>
                                 </div>
+                            </div>
+
+                        </div>
+
+                    <div class="row">
+                            <div class="col-md-10">
+                                <input
+                                        type="submit"
+                                        id="submit-btn"
+                                        class='button button-primary button-extend text-uppercase'
+                                        value='Submit Payment'>
                             </div>
 
                             <div class="col-md-10">
@@ -276,11 +352,9 @@
                                 </div>
                             </div>
 
-                            {!! Form::close() !!}
-
                         </div>
 
-                    </div>
+                    {!! Form::close() !!}
 
                 </div>
 

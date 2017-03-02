@@ -7,6 +7,7 @@ use App\Presenters\AccountPresenter;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 use Laracasts\Presenter\PresentableTrait;
 
 class Account extends Model
@@ -191,6 +192,11 @@ class Account extends Model
 
     public function subscribe(SubscriptionType $subscriptionType, $attributes = [], $proxyToParent = true)
     {
+        $mailData = [
+            'oldPlanName' => $this->subscriptionType()->name,
+            'newPlanName' => $subscriptionType->name
+        ];
+
         $account = $proxyToParent ? $this->proxyToParent() : $this;
         $account->deactivateOldSubscriptions($proxyToParent);
 
@@ -200,6 +206,14 @@ class Account extends Model
             'valid' => 1,
             'subscription_type_id' => $subscriptionType->id,
         ];
+
+        // Notice all users on the account about subscription change
+        $emails = $account->users()->pluck('email')->toArray();
+        Mail::send('emails.new_subscription', $mailData, function($message) use ($emails) {
+            $message->from("no-reply@contentlaunch.com", "Content Launch")
+                ->to($emails)
+                ->subject('Subscription Plan Change');
+        });
 
         return $account->subscriptions()->create(array_merge($default, $attributes));
     }

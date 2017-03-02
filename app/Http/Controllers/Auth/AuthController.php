@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use \Illuminate\Http\Request;
-use PragmaRX\Firewall\Firewall;
 use Validator;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -70,7 +69,13 @@ class AuthController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'email' => [
+                'regex:/^([\w-.]+@(?!(gmail|outlook|yahoo|live|msn|hotmail)\.com$)([\w-]+.)+[\w-]{2,4})?$/',
+                "required",
+                "email",
+                "max:255",
+                "unique:users",
+            ],
             'password' => 'required|min:8',
             'company_name' => 'required',
             'account_type' => 'required',

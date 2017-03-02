@@ -97,6 +97,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'email' => [
+            'regex' => 'Please use your corporate email address to sign up for an account.',
+        ],
     ],
 
     /*
