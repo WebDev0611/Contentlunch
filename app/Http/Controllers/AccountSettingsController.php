@@ -34,7 +34,7 @@ class AccountSettingsController extends Controller {
     {
         $account = Account::selectedAccount();
 
-        if (!$account->isAgencyAccount() && $account->isSubAccount()) {
+        if (!$account->isAgencyAccount() && !$account->isSubAccount()) {
             return redirect(route('subscription'));
         }
 
@@ -193,14 +193,17 @@ class AccountSettingsController extends Controller {
 
         if($account->parentAccount == null){
             $activeSubscription = $account->activeSubscriptions()->first();
+            $usersOnAccount = $account->users;
         } else {
             $activeSubscription = $account->parentAccount->activeSubscriptions()->first();
+            $usersOnAccount = $account->parentAccount->users;
         }
 
         $data = [
             'user'    => $user,
             'account' => $account,
-            'activeSubscription' => $activeSubscription
+            'activeSubscription' => $activeSubscription,
+            'usersOnAccount' => $usersOnAccount
         ];
 
         // Get plan prices

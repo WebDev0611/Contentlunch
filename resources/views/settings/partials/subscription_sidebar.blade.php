@@ -24,7 +24,7 @@
             <h3 class="settings-profile-heading">{{date_format(date_create($activeSubscription->expiration_date), "n-j-y") }}</h3>
 
             <label for="#">Users</label>
-            <h3 class="settings-profile-heading">{{count($account->users)}}/{{$account->limit('users_per_account')}}</h3>
+            <h3 class="settings-profile-heading">{{count($usersOnAccount)}}/{{$account->limit('users_per_account')}}</h3>
 
             @if($account->isAgencyAccount() || $account->isSubAccount())
 
