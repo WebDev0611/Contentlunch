@@ -3,11 +3,8 @@
 
     // Disable current subscription selection
     if (typeof subscriptionTypeSlug != 'undefined' && subscriptionTypeSlug != null) {
-        if (subscriptionTypeSlug.indexOf("basic") >= 0) {
-            $("<div />").addClass('disabled-overlay').appendTo($(".plan-selector.plan-basic"));
-        } else if (subscriptionTypeSlug.indexOf("pro") >= 0) {
-            $("<div />").addClass('disabled-overlay').appendTo($(".plan-selector.plan-pro"));
-        }
+        var planSelector = $(".plan-selector.plan-" + subscriptionTypeSlug);
+        $("<div />").addClass('disabled-overlay').appendTo(planSelector);
     }
 
     function stripeResponseHandler(status, response) {
@@ -48,11 +45,13 @@
     // Allow only 1 subscription plan to be selected
     $('.checkbox-tag.plan input[type="checkbox"]').on('change', function () {
         $('.checkbox-tag.plan input[type="checkbox"]').not(this).prop('checked', false);
-        $('.plan').removeClass('selected');
+        $('.plan-selector').removeClass('selected');
+        $('.checkbox-tag span').html('Select');
 
         var $form = $('#subscriptionForm');
         if (this.checked) {
-            $(this).parent('.plan').addClass('selected');
+            $(this).closest('.plan-selector').addClass('selected');
+            $(this).next('span').html('Selected');
             if (!$('input[name="plan-name"]').val() || !$('input[name="plan-type"]').val() || !$('input[name="plan-price"]').val() || !$('input[name="plan-slug"]').val()) {
                 $form.append($('<input type="hidden" name="plan-name" />'));
                 $form.append($('<input type="hidden" name="plan-type" />'));
@@ -76,5 +75,23 @@
         var $subscriptionForm = $('#subscriptionForm');
         $subscriptionForm.find('input[name="stripe-customer-id"]').remove();
         $subscriptionForm.find('.stripe-container').show();
+    });
+
+    // Switch monthly/annually plans
+    $('.billing-buttons .btn').click(function() {
+        var monthlyPlans = $('.plan-basic-monthly, .plan-pro-monthly');
+        var annualPlans =$('.plan-basic-annually, .plan-pro-annually');
+
+        if ($(this).hasClass("monthly")) {
+            $(this).addClass('selected');
+            $('.billing-buttons .btn.annually').removeClass('selected');
+            annualPlans.hide();
+            monthlyPlans.show();
+        } else if ($(this).hasClass("annually")) {
+            $(this).addClass('selected');
+            $('.billing-buttons .btn.monthly').removeClass('selected');
+            monthlyPlans.hide();
+            annualPlans.show();
+        }
     });
 })();
