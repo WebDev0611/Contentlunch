@@ -34,7 +34,7 @@ class AccountSettingsController extends Controller {
     {
         $account = Account::selectedAccount();
 
-        if (!$account->isAgencyAccount()) {
+        if (!$account->isAgencyAccount() && $account->parentAccount == null) {
             return redirect(route('subscription'));
         }
 
@@ -54,11 +54,8 @@ class AccountSettingsController extends Controller {
 
         $isAutoRenew = $request->has('auto_renew') && $request->input('auto_renew') == '1';
 
-        // Prepare empty subscription object //TODO convert to Account->subscribe method
-        $sub = new Subscription();
-        $sub->account()->associate(Account::selectedAccount());
-        $sub->subscriptionType()->associate(SubscriptionType::where('slug', $request->input('plan-slug'))->first());
-        $sub->auto_renew = $isAutoRenew;
+        $subscriptionData = [];
+        $subscriptionData['auto_renew'] = $isAutoRenew;
 
         // Stripe
         try {
@@ -71,19 +68,19 @@ class AccountSettingsController extends Controller {
                 $plan = $this->getStripePlan($request);
                 $subscription = $this->createStripeSubscription($customerId, $plan->id);
 
-                $sub->start_date = date('Y-m-d', $subscription->current_period_start);
-                $sub->expiration_date = date('Y-m-d', $subscription->current_period_end);
+                $subscriptionData['start_date'] = date('Y-m-d', $subscription->current_period_start);
+                $subscriptionData['expiration_date'] = date('Y-m-d', $subscription->current_period_end);
             }
             else {
                 // Stripe Charge
                 $charge = $this->createStripeCharge($customerId, $request);
 
-                $sub->start_date = date("Y-m-d");
+                $subscriptionData['start_date'] = date("Y-m-d");
                 if ($request->input('plan-type') == "month") {
-                    $sub->expiration_date = date('Y-m-d', strtotime(date("Y-m-d") . ' + 30 days'));
+                    $subscriptionData['expiration_date'] = date('Y-m-d', strtotime(date("Y-m-d") . ' + 30 days'));
                 }
                 elseif ($request->input('plan-type') == "year") {
-                    $sub->expiration_date = date('Y-m-d', strtotime(date("Y-m-d") . ' + 365 days'));
+                    $subscriptionData['expiration_date'] = date('Y-m-d', strtotime(date("Y-m-d") . ' + 365 days'));
                 }
             }
         } catch (\Stripe\Error\Base $e) {
@@ -101,8 +98,9 @@ class AccountSettingsController extends Controller {
         $user->stripe_customer_id = $customerId;
         $user->save();
 
-        // Save new subscription to DB
-        $sub->save();
+        // Save new subscription
+        $subscriptionType = SubscriptionType::where('slug', $request->input('plan-slug'))->first();
+        Account::selectedAccount()->subscribe($subscriptionType, $subscriptionData);
 
         return $this->redirectToSubscription('Payment successful. Account upgrade is complete!');
     }
@@ -193,10 +191,16 @@ class AccountSettingsController extends Controller {
         $user = Auth::user();
         $account = Account::selectedAccount();
 
+        if($account->parentAccount == null){
+            $activeSubscription = $account->activeSubscriptions()->first();
+        } else {
+            $activeSubscription = $account->parentAccount->activeSubscriptions()->first();
+        }
+
         $data = [
             'user'    => $user,
             'account' => $account,
-            'activeSubscription' => $account->activeSubscriptions()->first()
+            'activeSubscription' => $activeSubscription
         ];
 
         // Get plan prices

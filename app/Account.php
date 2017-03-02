@@ -99,6 +99,15 @@ class Account extends Model
             ->get();
     }
 
+    public function activePaidSubscriptions() {
+        return $this->subscriptions()
+            ->with('SubscriptionType')
+            ->active()
+            ->paid()
+            ->latest()
+            ->get();
+    }
+
     /**
      * Agency related helper methods.
      */
