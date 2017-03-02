@@ -26,7 +26,7 @@
             <label for="#">Users</label>
             <h3 class="settings-profile-heading">{{count($account->users)}}/{{$account->limit('users_per_account')}}</h3>
 
-            @if($account->isAgencyAccount() || $account->parentAccount != null)
+            @if($account->isAgencyAccount() || $account->isSubAccount())
 
                 <label for="#">Clients</label>
                 <h3 class="settings-profile-heading">{{count($user->agencyAccount()->childAccounts)}}</h3>
@@ -43,7 +43,7 @@
             <label for="#">Max Users</label>
             <h3 class="settings-profile-heading">{{ $account->limit('users_per_account') }}</h3>
 
-            @if($account->isAgencyAccount () || $account->parentAccount != null)
+            @if($account->isAgencyAccount () || $account->isSubAccount())
 
                 <label for="#">Clients</label>
                 <h3 class="settings-profile-heading">{{ count($user->agencyAccount()->childAccounts) }}/{{ $account->limit('subaccounts_per_account') }}</h3>

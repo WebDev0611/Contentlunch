@@ -116,6 +116,10 @@ class Account extends Model
         return $this->account_type_id == AccountType::AGENCY;
     }
 
+    public function isSubAccount() {
+        return $this->parentAccount != null;
+    }
+
     public static function selectAccount(Account $account)
     {
         Auth::user()->selectedAccount()->associate($account->id)->save();

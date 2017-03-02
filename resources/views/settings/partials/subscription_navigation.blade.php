@@ -2,7 +2,9 @@
     <li class="{{ (Request::is('subscription') ? 'active' : '') }}">
         <a href="{{ route('subscription') }}">Subscription</a>
     </li>
-    <li class="{{ (Request::is('subscription/clients') ? 'active' : '') }}">
-        <a href="{{ route('subscription-clients') }}">Clients subscriptions</a>
-    </li>
+    @if($account->isAgencyAccount() || $account->isSubAccount())
+        <li class="{{ (Request::is('subscription/clients') ? 'active' : '') }}">
+            <a href="{{ route('subscription-clients') }}">Clients subscriptions</a>
+        </li>
+    @endif
 </ul>

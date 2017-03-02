@@ -34,7 +34,7 @@ class AccountSettingsController extends Controller {
     {
         $account = Account::selectedAccount();
 
-        if (!$account->isAgencyAccount() && $account->parentAccount == null) {
+        if (!$account->isAgencyAccount() && $account->isSubAccount()) {
             return redirect(route('subscription'));
         }
 
