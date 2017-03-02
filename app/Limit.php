@@ -32,7 +32,7 @@ class Limit extends Model
     {
         $limit = static::findByName($limitName);
 
-        return $limit ? $limit->feedbackMessage
+        return $limit ? $limit->feedback_message
                       : static::GENERIC_FEEDBACK_MESSAGE;
     }
 }
