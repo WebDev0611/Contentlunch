@@ -7,6 +7,7 @@ use App\Presenters\AccountPresenter;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 use Laracasts\Presenter\PresentableTrait;
 
 class Account extends Model
@@ -99,12 +100,25 @@ class Account extends Model
             ->get();
     }
 
+    public function activePaidSubscriptions() {
+        return $this->subscriptions()
+            ->with('SubscriptionType')
+            ->active()
+            ->paid()
+            ->latest()
+            ->get();
+    }
+
     /**
      * Agency related helper methods.
      */
     public function isAgencyAccount()
     {
         return $this->account_type_id == AccountType::AGENCY;
+    }
+
+    public function isSubAccount() {
+        return $this->parentAccount != null;
     }
 
     public static function selectAccount(Account $account)
@@ -178,6 +192,11 @@ class Account extends Model
 
     public function subscribe(SubscriptionType $subscriptionType, $attributes = [], $proxyToParent = true)
     {
+        $mailData = [
+            'oldPlanName' => $this->subscriptionType()->name,
+            'newPlanName' => $subscriptionType->name
+        ];
+
         $account = $proxyToParent ? $this->proxyToParent() : $this;
         $account->deactivateOldSubscriptions($proxyToParent);
 
@@ -187,6 +206,14 @@ class Account extends Model
             'valid' => 1,
             'subscription_type_id' => $subscriptionType->id,
         ];
+
+        // Notice all users on the account about subscription change
+        $emails = $account->users()->pluck('email')->toArray();
+        Mail::send('emails.new_subscription', $mailData, function($message) use ($emails) {
+            $message->from("no-reply@contentlaunch.com", "Content Launch")
+                ->to($emails)
+                ->subject('Subscription Plan Change');
+        });
 
         return $account->subscriptions()->create(array_merge($default, $attributes));
     }
@@ -238,7 +265,7 @@ class Account extends Model
     {
         $account = $proxyToParent ? $this->proxyToParent() : $this;
 
-        if ($account->activeSubscriptions()) {
+        if ($account->activeSubscriptions()->isEmpty()) {
             $account->subscribe(SubscriptionType::findBySlug('free'));
         }
     }

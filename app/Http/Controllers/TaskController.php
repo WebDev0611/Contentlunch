@@ -11,14 +11,21 @@ use App\Task;
 use Auth;
 use Illuminate\Http\Request;
 use Storage;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use View;
 
 class TaskController extends Controller
 {
+    protected $selectedAccount;
+
+    public function __construct()
+    {
+        $this->selectedAccount = Account::selectedAccount();
+    }
+
     /**
      * Display a listing of the resource.
      *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -26,9 +33,9 @@ class TaskController extends Controller
         $shouldReturnAccountTasks = $request->input('account_tasks') == '1';
 
         if ($shouldReturnAccountTasks) {
-            $tasks = Task::accountTasks(Account::selectedAccount());
+            $tasks = Task::accountTasks($this->selectedAccount);
         } else {
-            $tasks = Task::userTasks(Auth::user());
+            $tasks = Task::userTasks(Auth::user(), $this->selectedAccount);
         }
 
         return response()->json([ 'data' => $tasks ]);

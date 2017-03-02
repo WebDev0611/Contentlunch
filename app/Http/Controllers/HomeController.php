@@ -12,10 +12,10 @@ use User;
 
 class HomeController extends Controller
 {
+    protected $selectedAccount;
+
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -29,16 +29,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $tasks = Task::userTasks(Auth::user())->toJson();
-        $accountTasks = Task::accountTasks($this->selectedAccount)->toJson();
-
-        $mycampaigns = $this->myCampaigns()->toJson();
-
-        return view('home.list', compact('mycampaigns', 'tasks', 'accountTasks'));
-    }
-
-    protected function myCampaigns()
-    {
-        return Auth::user()->campaigns()->get();
+        return view('home.list');
     }
 }

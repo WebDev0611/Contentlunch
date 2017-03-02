@@ -3,16 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Account;
-use App\Http\Requests;
-use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 
 class AccountCollaboratorsController extends Controller
 {
-    public function index(Request $request)
+    protected $request;
+    protected $selectedAccount;
+
+    public function __construct(Request $request)
     {
-        $users = Account::selectedAccount()
+        $this->request = $request;
+        $this->selectedAccount = Account::selectedAccount();
+    }
+
+    public function index()
+    {
+        $account = $this->selectedAccount->parentAccount ?: $this->selectedAccount;
+
+        $users = $account
             ->users()
             ->get()
             ->map(function($user) {
