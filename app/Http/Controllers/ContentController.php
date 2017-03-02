@@ -28,6 +28,8 @@ use Validator;
 
 class ContentController extends Controller
 {
+    protected $selectedAccount;
+
     public function __construct(Request $request)
     {
         $this->selectedAccount = Account::selectedAccount();
@@ -445,9 +447,26 @@ class ContentController extends Controller
 
     public function publishAndRedirect(Request $request, $contentId)
     {
+        if (Auth::user()->cant('launch', Content::class)) {
+            return redirect()->route('contentIndex')->with([
+                'flash_message' => "You have reached the limit of content launches for the month.",
+                'flash_message_type' => 'danger',
+                'flash_message_important' => true,
+            ]);
+        }
+        Auth::user()->addToLimit('content_launch');
+
         $content = Content::find($contentId);
 
-        $this->publish($content);
+        try {
+            $this->publish($content);
+        }
+        catch (Exception $e) {
+            return redirect()->route('contentIndex')->with([
+                'flash_message' => $e->getMessage(),
+                'flash_message_type' => 'danger',
+            ]);
+        }
 
         return redirect()->route('contentIndex')->with([
             'flash_message' => 'You have published '.$content->title.' to '.$content->connection->provider->slug,

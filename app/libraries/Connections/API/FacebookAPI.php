@@ -2,9 +2,8 @@
 
 namespace Connections\API;
 
-use Illuminate\Support\Facades\Config;
+use Config;
 use Facebook\Facebook;
-use Exception;
 
 class FacebookAPI
 {
@@ -21,6 +20,13 @@ class FacebookAPI
 
     public function getClient()
     {
+        if (!$this->settings()) {
+            throw new \Exception(
+                "There was an issue while connecting to Facebook. " .
+                "Please check that you have the appropriate permissions."
+            );
+        }
+
         return new Facebook([
             'app_id' => Config::get('services.facebook.client_id'), // content launch app id
             'app_secret' => Config::get('services.facebook.client_secret'), // content launch secret id
