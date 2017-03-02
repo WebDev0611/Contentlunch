@@ -8,6 +8,7 @@ return [
      */
 
     'blacklist' => [
+        //'::1',             // Localhost test
         'counrty:ad',      // Andorra, Principality of
         'counrty:ae',      // United Arab Emirates
         'counrty:af',      // Afghanistan, Islamic State of
@@ -17,20 +18,15 @@ return [
         'counrty:am',      // Armenia
         'counrty:an',      // Netherlands Antilles
         'counrty:ao',      // Angola
-        'counrty:aq',      // Antarctica
-        'counrty:at',      // Austria
-        'counrty:aw',      // Aruba
         'counrty:az',      // Azerbaidjan
         'counrty:ba',      // Bosnia-Herzegovina
         'counrty:bb',      // Barbados
         'counrty:bd',      // Bangladesh
-        'counrty:be',      // Belgium
         'counrty:bf',      // Burkina Faso
         'counrty:bg',      // Bulgaria
         'counrty:bh',      // Bahrain
         'counrty:bi',      // Burundi
         'counrty:bj',      // Benin
-        'counrty:bm',      // Bermuda
         'counrty:bn',      // Brunei Darussalam
         'counrty:bo',      // Bolivia
         'counrty:bt',      // Bhutan
@@ -42,7 +38,6 @@ return [
         'counrty:cf',      // Central African Republic
         'counrty:cd',      // Congo, The Democratic Republic of the
         'counrty:cg',      // Congo
-        'counrty:ch',      // Switzerland
         'counrty:ck',      // Cook Islands
         'counrty:cl',      // Chile
         'counrty:cm',      // Cameroon
@@ -55,9 +50,7 @@ return [
         'counrty:cx',      // Christmas Island
         'counrty:cy',      // Cyprus
         'counrty:cz',      // Czech Republic
-        'counrty:de',      // Germany
         'counrty:dj',      // Djibouti
-        'counrty:dk',      // Denmark
         'counrty:dm',      // Dominica
         'counrty:do',      // Dominican Republic
         'counrty:dz',      // Algeria
@@ -66,17 +59,12 @@ return [
         'counrty:eg',      // Egypt
         'counrty:eh',      // Western Sahara
         'counrty:er',      // Eritrea
-        'counrty:es',      // Spain
         'counrty:et',      // Ethiopia
-        'counrty:fi',      // Finland
         'counrty:fj',      // Fiji
         'counrty:fk',      // Falkland Islands
         'counrty:fm',      // Micronesia
         'counrty:fo',      // Faroe Islands
-        'counrty:fr',      // France
-        'counrty:fx',      // France (European Territory)
         'counrty:ga',      // Gabon
-        'counrty:gb',      // Great Britain
         'counrty:gd',      // Grenada
         'counrty:ge',      // Georgia
         'counrty:gf',      // French Guyana
@@ -95,17 +83,14 @@ return [
         'counrty:hk',      // Hong Kong
         'counrty:hm',      // Heard and McDonald Islands
         'counrty:hn',      // Honduras
-        //'counrty:hr',      // Croatia
         'counrty:ht',      // Haiti
         'counrty:hu',      // Hungary
         'counrty:id',      // Indonesia
-        'counrty:ie',      // Ireland
         'counrty:il',      // Israel
         'counrty:in',      // India
         'counrty:iq',      // Iraq
         'counrty:ir',      // Iran
         'counrty:is',      // Iceland
-        'counrty:it',      // Italy
         'counrty:jo',      // Jordan
         'counrty:jp',      // Japan
         'counrty:ke',      // Kenya
@@ -131,7 +116,6 @@ return [
         'counrty:lv',      // Latvia
         'counrty:ly',      // Libya
         'counrty:ma',      // Morocco
-        'counrty:mc',      // Monaco
         'counrty:md',      // Moldavia
         'counrty:mg',      // Madagascar
         'counrty:mh',      // Marshall Islands
@@ -148,7 +132,6 @@ return [
         'counrty:mu',      // Mauritius
         'counrty:mv',      // Maldives
         'counrty:mw',      // Malawi
-        'counrty:mx',      // Mexico
         'counrty:my',      // Malaysia
         'counrty:mz',      // Mozambique
         'counrty:na',      // Namibia
@@ -163,10 +146,8 @@ return [
         'counrty:nr',      // Nauru
         'counrty:nt',      // Neutral Zone
         'counrty:nu',      // Niue
-        'counrty:nz',      // New Zealand
         'counrty:om',      // Oman
         'counrty:pa',      // Panama
-        'counrty:pe',      // Peru
         'counrty:pf',      // Polynesia (French)
         'counrty:pg',      // Papua New Guinea
         'counrty:ph',      // Philippines
