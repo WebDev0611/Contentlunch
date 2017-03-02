@@ -3,19 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Account;
-use App\Http\Requests;
 use App\Subscription;
 use App\SubscriptionType;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
+use Auth;
+use Config;
+use Log;
+use Validator;
 use Stripe\Stripe;
 
 class AccountSettingsController extends Controller {
 
-    public function index (Request $request)
+    public function index()
     {
         $data = [
             'user'    => Auth::user(),
