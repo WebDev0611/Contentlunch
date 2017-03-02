@@ -78,7 +78,11 @@ function calendarRedirectUrl(calendarId) {
 
 function showErrorFeedback(response) {
     $(loadIMG).remove();
-    swal('Error!', response.responseJSON.data, 'error');
+    if (response.status === 403) {
+        showUpgradeAlert(response.responseJSON.data);
+    } else {
+        swal('Error!', response.responseJSON.data, 'error');
+    }
 }
 
 function clearCalendarInputs() {

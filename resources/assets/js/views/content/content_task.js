@@ -180,11 +180,7 @@ var ContentTaskView = Backbone.View.extend({
 
     handleErrors(response = null) {
         if (_.isObject(response)) {
-            return swal(
-                'Error!',
-                response.responseJSON.data,
-                'error'
-            );
+            return swal('Error!', response.responseJSON.data, 'error');
         }
     }
 });
