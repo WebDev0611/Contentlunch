@@ -33,25 +33,42 @@
 
                 <div class="col-md-10 col-md-offset-1">
 
-                    {!! Form::open([ 'id'=>'subscriptionForm', 'route' => 'subscription' ]) !!}
-
                     <div class="row ">
-                        <div class="col-md-3 col-md-offset-4 text-center">
-                            <div class="billing-buttons">
-                                <button type="button" class="btn btn-default monthly selected">Monthly Billing</button>
-                                <button type="button" class="btn btn-default annually">Annual Billing</button>
+                        <div class="col-md-10 ">
+                            <div class="col-md-8 col-md-offset-2 text-center">
+                                <h3>Start Content Launch Subscription</h3>
+                                <p>Thanks for choosing Content Launch. With paid version you will get many benefits.
+                                To start your subscription please complete the transaction below.
+                                </p>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
+                        <div class="col-md-10 ">
+                            <div class="col-md-4 col-md-offset-4 text-center">
+                                <div class="billing-buttons">
+                                    <button type="button" class="btn btn-default monthly selected">Monthly Billing</button>
+                                    <button type="button" class="btn btn-default annually">Annual Billing</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {!! Form::open([ 'id'=>'subscriptionForm', 'route' => 'subscription' ]) !!}
+
+                    <div class="row">
 
                             <div class="col-md-10 no-padding">
-                                <div class="plan-selector plan-free col-md-4">
+                                <div class="plan-selector plan-free plan-trial col-md-4">
 
                                     <div class="panel panel-default">
 
                                         <div class="panel-body">
+
+                                            @if ($activeSubscription->subscriptionType->slug == 'free' || $activeSubscription->subscriptionType->slug == 'trial')
+                                                <span class="label current-plan">CURRENT PLAN</span>
+                                            @endif
 
                                             <div class="tab-pane fade in active">
 
@@ -94,6 +111,10 @@
 
                                         <div class="panel-body">
 
+                                            @if ($activeSubscription->subscriptionType->slug == 'basic-monthly')
+                                                <span class="label current-plan">CURRENT PLAN</span>
+                                            @endif
+
                                             <div class="tab-pane fade in active">
 
                                                     <h3 class="plan-title">Basic</h3>
@@ -129,6 +150,10 @@
                                     <div class="panel panel-default">
 
                                         <div class="panel-body">
+
+                                            @if ($activeSubscription->subscriptionType->slug == 'basic-annually')
+                                                <span class="label current-plan">CURRENT PLAN</span>
+                                            @endif
 
                                             <div class="tab-pane fade in active">
 
@@ -206,6 +231,10 @@
                                     <div class="panel panel-default">
 
                                         <div class="panel-body">
+
+                                            @if ($activeSubscription->subscriptionType->slug == 'pro-annually')
+                                                <span class="label current-plan">CURRENT PLAN</span>
+                                            @endif
 
                                             <div class="tab-pane fade in active">
 
@@ -294,7 +323,7 @@
                             <div class="col-md-10">
                                 <div class="input-form-group">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 @if(isset($userCard)) col-md-offset-3  @endif">
                                             <label for="auto_renew" class="checkbox-tag">
                                                 <input id="auto_renew" type="checkbox" name="auto_renew"
                                                        value="1">

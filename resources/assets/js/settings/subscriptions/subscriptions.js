@@ -46,7 +46,7 @@
     $('.checkbox-tag.plan input[type="checkbox"]').on('change', function () {
         $('.checkbox-tag.plan input[type="checkbox"]').not(this).prop('checked', false);
         $('.plan-selector').removeClass('selected');
-        $('.checkbox-tag span').html('Select');
+        $('.plan-selector .checkbox-tag span').html('Select');
 
         var $form = $('#subscriptionForm');
         if (this.checked) {

@@ -51,6 +51,12 @@ class AccountSettingsController extends Controller {
             return redirect()->route('subscription')->with('errors', $validation->errors());
         }
 
+        // If free plan is selected: TODO: what should we do if a user downgrades to a free plan?
+        if($request->input('plan-slug') == 'free'){
+            Account::selectedAccount()->subscribe(SubscriptionType::whereSlug('free')->first());
+            return $this->redirectToSubscription('Account upgrade is complete!');
+        }
+
         $isAutoRenew = $request->has('auto_renew') && $request->input('auto_renew') == '1';
 
         $subscriptionData = [];
