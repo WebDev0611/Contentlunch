@@ -99,12 +99,25 @@ class Account extends Model
             ->get();
     }
 
+    public function activePaidSubscriptions() {
+        return $this->subscriptions()
+            ->with('SubscriptionType')
+            ->active()
+            ->paid()
+            ->latest()
+            ->get();
+    }
+
     /**
      * Agency related helper methods.
      */
     public function isAgencyAccount()
     {
         return $this->account_type_id == AccountType::AGENCY;
+    }
+
+    public function isSubAccount() {
+        return $this->parentAccount != null;
     }
 
     public static function selectAccount(Account $account)
@@ -238,7 +251,7 @@ class Account extends Model
     {
         $account = $proxyToParent ? $this->proxyToParent() : $this;
 
-        if ($account->activeSubscriptions()) {
+        if ($account->activeSubscriptions()->isEmpty()) {
             $account->subscribe(SubscriptionType::findBySlug('free'));
         }
     }

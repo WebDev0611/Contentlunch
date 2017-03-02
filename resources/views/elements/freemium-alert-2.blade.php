@@ -1,4 +1,4 @@
-@if(App\Account::selectedAccount()->activeSubscriptions()->isEmpty())
+@if(App\Account::selectedAccount()->activePaidSubscriptions()->isEmpty())
 <div class="alert alert-info alert-forms freemium-notification-2 alert-dismissable">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 

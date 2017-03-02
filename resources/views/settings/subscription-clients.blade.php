@@ -59,15 +59,15 @@
                                                     <p class="title">{{ $account->name }}</p>
                                                 </td>
 
-                                                @if(!$account->activeSubscriptions()->isEmpty())
-                                                    <td>{{ date_format(date_create($account->activeSubscriptions()[0]->start_date), "n-j-y") }}</td>
-                                                    <td>{{ date_format(date_create($account->activeSubscriptions()[0]->expiration_date), "n-j-y") }}</td>
-                                                    <td>${{ number_format($account->activeSubscriptions()[0]->subscriptionType->price_per_client) }}</td>
+                                                <td>{{ date_format(date_create($account->parentAccount->activeSubscriptions()->first()->start_date), "n-j-y") }}</td>
+
+                                                @if($account->parentAccount->activeSubscriptions()->first()->expiration_date == '0000-00-00')
+                                                    <td>-</td>
                                                 @else
-                                                    <td>{{ date_format(date_create($account->created_at), "n-j-y") }}</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
+                                                    <td>{{ date_format(date_create($account->parentAccount->activeSubscriptions()->first()->expiration_date), "n-j-y") }}</td>
+
                                                 @endif
+                                                <td>${{ number_format($account->parentAccount->activeSubscriptions()->first()->subscriptionType->price_per_client) }}</td>
 
                                             </tr>
                                         @endforeach
@@ -91,10 +91,5 @@
 @stop
 
 @section('scripts')
-    <script>
-        @if(isset($activeSubscription))
-            {!! 'var subscriptionTypeSlug="' . $activeSubscription->subscriptionType->slug . '";' !!}
-        @endif
-    </script>
     <script src="/js/subscriptions.js"></script>
 @stop

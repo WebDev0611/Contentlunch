@@ -30,7 +30,7 @@
         var hidePopupCookie = readCookie(hidePopupCookieName);
         var premiumAccount = false;
 
-        @if(!App\Account::selectedAccount()->activeSubscriptions()->isEmpty())
+        @if(!App\Account::selectedAccount()->activePaidSubscriptions()->isEmpty())
         {!! 'premiumAccount = true;' !!}
         @endif
 

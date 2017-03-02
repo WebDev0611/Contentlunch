@@ -10,7 +10,7 @@
             </span>
         </div>
 
-        @if(!empty($activeSubscription))
+        @if($activeSubscription->isPaid())
 
             <span class="settings-profile-subscription paid">Paid Subscription</span>
 
@@ -24,9 +24,9 @@
             <h3 class="settings-profile-heading">{{date_format(date_create($activeSubscription->expiration_date), "n-j-y") }}</h3>
 
             <label for="#">Users</label>
-            <h3 class="settings-profile-heading">{{count($account->users)}}/{{$account->limit('users_per_account')}}</h3>
+            <h3 class="settings-profile-heading">{{count($usersOnAccount)}}/{{$account->limit('users_per_account')}}</h3>
 
-            @if($account->isAgencyAccount ())
+            @if($account->isAgencyAccount() || $account->isSubAccount())
 
                 <label for="#">Clients</label>
                 <h3 class="settings-profile-heading">{{count($user->agencyAccount()->childAccounts)}}</h3>
@@ -43,7 +43,7 @@
             <label for="#">Max Users</label>
             <h3 class="settings-profile-heading">{{ $account->limit('users_per_account') }}</h3>
 
-            @if($account->isAgencyAccount ())
+            @if($account->isAgencyAccount () || $account->isSubAccount())
 
                 <label for="#">Clients</label>
                 <h3 class="settings-profile-heading">{{ count($user->agencyAccount()->childAccounts) }}/{{ $account->limit('subaccounts_per_account') }}</h3>
