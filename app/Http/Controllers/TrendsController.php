@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Idea;
+use App\Limit;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,9 +14,7 @@ class TrendsController extends Controller
     public function trending(Request $request)
     {
         if (Auth::user()->cant('searchTrends', Idea::class)) {
-            return response()->json([
-                'data' => 'You exceeded your content trend searches limit.',
-            ], 403);
+            return response()->json(['data' => Limit::feedbackMessage('trend_search')], 403);
         }
         Auth::user()->addToLimit('trend_search');
 

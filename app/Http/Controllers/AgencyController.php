@@ -27,14 +27,13 @@ class AgencyController extends Controller {
 
     public function store (Request $request)
     {
-        if (Auth::user()->cant('createSubaccount', Auth::user()->agencyAccount()))
-        {
+        if (Auth::user()->cant('createSubaccount', Auth::user()->agencyAccount())) {
             return redirect()->route('agencyIndex')->with([
-                'flash_message'      => 'This account has reached the maximum number of subaccounts on the current plan.' .
-                    'Please upgrade your account plan or remove a subaccount to continue.',
+                'flash_message' => Limit::feedbackMessage('subaccounts_per_account'),
                 'flash_message_type' => 'danger',
             ]);
         }
+        Auth::user()->addToLimit('subaccounts_per_account');
 
         $validation = $this->validator($request->all());
 

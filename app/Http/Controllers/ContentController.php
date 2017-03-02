@@ -11,9 +11,10 @@ use App\Content;
 use App\ContentType;
 use App\Helpers;
 use App\Http\Requests\Content\ContentRequest;
+use App\Limit;
 use App\Persona;
-use App\Presenters\ContentTypePresenter;
 use App\Presenters\CampaignPresenter;
+use App\Presenters\ContentTypePresenter;
 use App\Tag;
 use App\User;
 use App\WriterAccessPrice;
@@ -154,64 +155,64 @@ class ContentController extends Controller
             $data1 = json_decode(utf8_encode($writerAccess->orders($id)->getContent()));
             /*$data1 = json_decode('{
                 "order": {
-                    "id": 783140, 
-                    "status": "Pending Approval", 
-                    "approved": "2017-02-03T15:15:43", 
-                    "autoapproved": true, 
-                    "approvedwords": 62, 
-                    "approvedrating": null, 
+                    "id": 783140,
+                    "status": "Pending Approval",
+                    "approved": "2017-02-03T15:15:43",
+                    "autoapproved": true,
+                    "approvedwords": 62,
+                    "approvedrating": null,
                     "project": {
-                        "id": 46264, 
+                        "id": 46264,
                         "name": "localhost:8888-user-20"
-                    }, 
-                    "category": null, 
-                    "asset": null, 
+                    },
+                    "category": null,
+                    "asset": null,
                     "expertise": {
-                        "id": 1, 
-                        "name": 
+                        "id": 1,
+                        "name":
                         "Generalist"
-                    }, 
-                    "title": "TEST:Justatest", 
-                    "instructions": "Thisisjustatest.TargetAudience:ProspectCustomersToneofWriting:AuthoritativeNarrativeVoice:FirstPersonSingular", 
-                    "special": "", 
-                    "required": "", 
-                    "optional": "", 
-                    "seo": "", 
-                    "allowhtml": true, 
-                    "complexity": 0, 
-                    "writertype": 4, 
-                    "minwords": 50, 
-                    "maxwords": 62, 
-                    "paidreview": false, 
-                    "hourstoexpire": null, 
-                    "hourstocomplete": 12, 
-                    "hourstoapprove": 120, 
-                    "hourstorevise": 24, 
-                    "maxcost": 3.968, 
+                    },
+                    "title": "TEST:Justatest",
+                    "instructions": "Thisisjustatest.TargetAudience:ProspectCustomersToneofWriting:AuthoritativeNarrativeVoice:FirstPersonSingular",
+                    "special": "",
+                    "required": "",
+                    "optional": "",
+                    "seo": "",
+                    "allowhtml": true,
+                    "complexity": 0,
+                    "writertype": 4,
+                    "minwords": 50,
+                    "maxwords": 62,
+                    "paidreview": false,
+                    "hourstoexpire": null,
+                    "hourstocomplete": 12,
+                    "hourstoapprove": 120,
+                    "hourstorevise": 24,
+                    "maxcost": 3.968,
                     "recipients": {
-                        "lovelist": false, 
-                        "team": null, 
+                        "lovelist": false,
+                        "team": null,
                         "writer": null
-                    }, 
+                    },
                     "writer": {
-                        "id": 2811, 
+                        "id": 2811,
                         "name": "Susan H B"
-                    }, 
-                    "editor": null, 
+                    },
+                    "editor": null,
                     "layout": 0
-                }, 
+                },
                 "writer": {
-                    "id": 2811, 
-                    "name": "Susan H B", 
-                    "location": "Simi Valley CA", 
-                    "rating": 4, 
+                    "id": 2811,
+                    "name": "Susan H B",
+                    "location": "Simi Valley CA",
+                    "rating": 4,
                     "photo": "//www.writeraccess.com/upload/thumbs/3409-Water%20lilies.jpg"
-                }, 
+                },
                 "preview": {
-                    "id": 783140, 
-                    "status": "Approved", 
-                    "allowhtml": "true", 
-                    "title": "Moisturizing the Face is a Major Key to Preventing Wrinkles", 
+                    "id": 783140,
+                    "status": "Approved",
+                    "allowhtml": "true",
+                    "title": "Moisturizing the Face is a Major Key to Preventing Wrinkles",
                     "text": "Getting older involves dealing with different issues including the appearance of fine lines and wrinkles. One way I address this issue is to moisturize my face every day. Soap containing moisturizing cream does not furnish ample ammunition. In addition, I use a moderately priced facial cream that performs all the necessary tricks.\n", "source": "", "copyscape": "\n\n\tid=783140\n\t52\n\t0\n\thttp://view.copyscape.com/search/r9zy0h1z09\n\n"
                 }
             }');*/
@@ -376,7 +377,7 @@ class ContentController extends Controller
     public function directPublish(Request $request, Content $content)
     {
         if (Auth::user()->cant('launch', Content::class)) {
-            return response()->json([ 'data' => 'You\'ve reached the limit of content launches for the month.'], 403);
+            return response()->json([ 'data' => Limit::feedbackMessage('content_launch') ], 403);
         }
         Auth::user()->addToLimit('content_launch');
 
@@ -449,9 +450,8 @@ class ContentController extends Controller
     {
         if (Auth::user()->cant('launch', Content::class)) {
             return redirect()->route('contentIndex')->with([
-                'flash_message' => "You have reached the limit of content launches for the month.",
+                'flash_message' => Limit::feedbackMessage('content_launch'),
                 'flash_message_type' => 'danger',
-                'flash_message_important' => true,
             ]);
         }
         Auth::user()->addToLimit('content_launch');
