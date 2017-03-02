@@ -175,3 +175,15 @@ function clearTaskInputs() {
     $('.task-attached-files').remove();
     window.taskAttachmentUploader.removeAllFiles();
 }
+
+function showUpgradeAlert(message) {
+    return swal({
+        title: 'Error',
+        type: 'info',
+        text: message,
+        showCloseButton: true,
+        showCancelButton: true,
+        confirmButtonColor: "#6944B6",
+        confirmButtonText: `<a style="color:#fff" href="/subscription">Upgrade now</a>`,
+    });
+}

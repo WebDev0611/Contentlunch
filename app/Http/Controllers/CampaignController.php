@@ -8,6 +8,7 @@ use App\Campaign;
 use App\CampaignType;
 use App\Content;
 use App\Helpers;
+use App\Limit;
 use App\Presenters\CampaignTypePresenter;
 use Auth;
 use Illuminate\Http\Request;
@@ -88,7 +89,7 @@ class CampaignController extends Controller
     {
         if (Auth::user()->cant('create', Campaign::class)) {
             return back()->with([
-                'flash_message' => 'You have reached maximum number of campaigns for a free account. Please upgrade to continue.',
+                'flash_message' => Limit::feedbackMessage('campaigns'),
                 'flash_message_type' => 'danger',
             ]);
         }

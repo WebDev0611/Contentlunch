@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Calendar;
-use App\ContentType;
-use App\Presenters\ContentTypePresenter;
-use Illuminate\Http\Request;
-use View;
 use App\Account;
+use App\Calendar;
+use App\Campaign;
+use App\ContentType;
+use App\Limit;
+use App\Presenters\ContentTypePresenter;
+use App\Task;
 use App\User;
 use Auth;
-use App\Campaign;
-use App\Task;
+use Illuminate\Http\Request;
+use View;
 
 class CalendarController extends Controller
 {
@@ -42,9 +43,7 @@ class CalendarController extends Controller
     public function create(Request $request)
     {
         if (Auth::user()->cant('create', Calendar::class)) {
-            return response()->json([
-                'data' => 'You have reached the maximum amount of calendars allowed for free accounts.'
-            ], 403);
+            return response()->json([ 'data' => Limit::feedbackMessage('calendars') ], 403);
         }
         Auth::user()->addToLimit('calendars');
 

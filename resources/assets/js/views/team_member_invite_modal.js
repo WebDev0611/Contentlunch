@@ -33,7 +33,13 @@ var teamMemberInviteModalView = Backbone.View.extend({
         })
         .then(this.hideModal.bind(this))
         .then(this.showFeedback.bind(this))
-        .catch(response => swal('Error!', response.responseJSON.data, 'error'));
+        .catch(response => {
+            if (response.status === 403) {
+                showUpgradeAlert(response.responseJSON.data);
+            } else {
+                swal('Error!', response.responseJSON.data, 'error')
+            }
+        });
     },
 
     hideModal(response) {

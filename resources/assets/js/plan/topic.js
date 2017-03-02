@@ -138,7 +138,7 @@ var camelize = function(str) {
 				})
 			};
 
-			$.ajax({
+			return $.ajax({
 			    url: '/ideas',
 			    type: 'post',
 			    data: idea_obj,
@@ -154,7 +154,12 @@ var camelize = function(str) {
 				$(loadingIMG).remove();
 				view.hide_modal();
 				view.clear_form();
-				swal('Error!', response.responseJSON.data, 'error');
+
+                if (response.status === 403) {
+                    showUpgradeAlert(response.responseJSON.data);
+                } else {
+                    swal('Error!', response.responseJSON.data, 'error');
+                }
 			});
 		},
 
@@ -242,7 +247,12 @@ var camelize = function(str) {
 					})
 					.catch(response => {
 						$('span.input-form-button-action img').remove();
-						swal('Error!', response.responseJSON.data, 'error');
+
+						if (response.status === 403) {
+						    showUpgradeAlert(response.responseJSON.data);
+						} else {
+						    swal('Error!', response.responseJSON.data, 'error');
+						}
 					});
 			}
 		};

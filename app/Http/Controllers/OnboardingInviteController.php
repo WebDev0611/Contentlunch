@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use Mail;
-use Auth;
-
-use App\Http\Requests\emailInviteRequest;
-use App\AccountInvite;
 use App\Account;
+use App\AccountInvite;
+use App\Http\Requests\emailInviteRequest;
+use App\Limit;
 use App\User;
+use Auth;
+use Illuminate\Http\Request;
+use Mail;
 
 class OnboardingInviteController extends Controller
 {
@@ -65,7 +64,7 @@ class OnboardingInviteController extends Controller
 
     protected function unauthorizedFeedback($request)
     {
-        $message = 'This account has reached the maximum number of users for free accounts.';
+        $message = Limit::feedbackMessage('users_per_account');
         $feedback = redirect()->route('inviteIndex')->with([
             'flash_message' => $message,
             'flash_message_type' => 'danger',

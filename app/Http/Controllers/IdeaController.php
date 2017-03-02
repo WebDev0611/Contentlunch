@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use Illuminate\Http\Request;
-use Storage;
-
 use App\Account;
 use App\Content;
 use App\Idea;
 use App\IdeaContent;
+use App\Limit;
 use App\User;
+use Auth;
+use Illuminate\Http\Request;
+use Storage;
 
 class IdeaController extends Controller
 {
@@ -88,7 +88,7 @@ class IdeaController extends Controller
     public function store(Request $request)
     {
         if (Auth::user()->cant('create', Idea::class)) {
-            return response()->json([ 'data' => 'You reached the limit of created ideas per month.'], 403);
+            return response()->json([ 'data' => Limit::feedbackMessage('ideas_created') ], 403);
         }
         Auth::user()->addToLimit('ideas_created');
 

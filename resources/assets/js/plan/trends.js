@@ -140,7 +140,11 @@ let camelize = function(str) {
                 $(loadingIMG).remove();
                 view.hide_modal();
                 view.clear_form();
-                swal('Error!', response.responseJSON.data, 'error');
+                if (response.status === 403) {
+                    showUpgradeAlert(response.responseJSON.data);
+                } else {
+                    swal('Error!', response.responseJSON.data, 'error');
+                }
             });;
         }
     });
@@ -345,7 +349,11 @@ let camelize = function(str) {
 
         function showErrorFeedback(response) {
             $(loadingGif).remove();
-            swal('Error!', response.responseJSON.data, 'error');
+            if (response.status === 403) {
+                showUpgradeAlert(response.responseJSON.data);
+            } else {
+                swal('Error!', response.responseJSON.data, 'error');
+            }
         }
 
         function addTrendsToCollections(res) {
