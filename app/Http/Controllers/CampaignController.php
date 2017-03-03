@@ -179,7 +179,7 @@ class CampaignController extends Controller
         ]);
 
         $this->handleAttachments($request->input('attachments'), $campaign);
-        $this->addNewContent($data, $campaign);
+        $this->addNewContent($request->all(), $campaign);
 
         return redirect()->route('dashboard')->with([
             'flash_message' => "Campaign updated: $campaign->title",
