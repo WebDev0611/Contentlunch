@@ -38,9 +38,7 @@
                                     </button>
                                 </div>
                                 <div class="settings-import-list">
-
                                     @include('settings.partials.connection_list')
-
                                 </div>
                             </div>
                         </div>
@@ -59,7 +57,7 @@
 </div>
 
 <div id="newConnection" class="sidemodal large">
-    {{ Form::open([ 'url' => 'settings/connections/create' ]) }}
+    {{ Form::open([ 'route' => 'connections.store']) }}
     <div class="sidemodal-header">
         <div class="row">
             <div class="col-md-6">

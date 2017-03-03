@@ -178,8 +178,8 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
 
             // Connection Routes
             Route::get('connections', ['as' => 'connectionIndex', 'uses' => 'SettingsController@connections']);
-            Route::post('connections/create', ['as' => 'createConnection', 'uses' => 'ConnectionController@store']);
-            Route::delete('connections/{connection}', ['as' => 'deactivateConnection', 'uses' => 'ConnectionController@delete']);
+            Route::post('connections/create', 'ConnectionController@store')->name('connections.store');
+            Route::delete('connections/{connection}', 'ConnectionController@delete')->name('connections.destroy');
 
             Route::get('seo', ['as' => 'seoIndex', 'uses' => 'SettingsController@seo']);
 

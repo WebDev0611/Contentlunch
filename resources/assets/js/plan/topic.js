@@ -86,7 +86,7 @@ var camelize = function(str) {
 			"click .park-idea": "park"
 		},
 
-		initialize(){
+		initialize() {
 			this.listenTo(this.model.attributes.content,'update',this.render);
 			this.render();
 		},
@@ -106,7 +106,7 @@ var camelize = function(str) {
 				view.$el.find('.form-delimiter').show();
 			}
 		},
-		park(){
+		park() {
 			this.store('parked');
 		},
 
