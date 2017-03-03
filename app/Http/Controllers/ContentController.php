@@ -562,7 +562,7 @@ class ContentController extends Controller
         $this->handleImages($request, $content);
         $this->handleFiles($request, $content);
 
-        if ($content->published) {
+        if ($request->action == 'publish') {
             return $this->publishAndRedirect($request, $content->id);
         } else {
             $content->configureAction($request->input('action'));
