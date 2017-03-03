@@ -128,7 +128,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
 
         // Facebook Callbacks
         //
-        Route::get('callback/facebook', ['as' => 'facebookProvider', 'uses' => 'Connections\FacebookController@callback']);
+        Route::get('callback/facebook', 'Connections\FacebookController@callback');
         Route::post('callback/facebook/account/save', 'Connections\FacebookController@saveAccount');
         // -----------
 
@@ -177,7 +177,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
             Route::get('buying', ['as' => 'settingsBuyingIndex', 'uses' => 'SettingsController@content']);
 
             // Connection Routes
-            Route::get('connections', ['as' => 'connectionIndex', 'uses' => 'SettingsController@connections']);
+            Route::get('connections', 'SettingsController@connections')->name('connectionIndex');
             Route::post('connections/create', 'ConnectionController@store')->name('connections.store');
             Route::delete('connections/{connection}', 'ConnectionController@delete')->name('connections.destroy');
 
