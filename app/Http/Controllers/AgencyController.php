@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Stripe\Stripe;
 use Validator;
 
@@ -29,7 +30,7 @@ class AgencyController extends Controller {
     {
         if (Auth::user()->cant('createSubaccount', Auth::user()->agencyAccount())) {
             return redirect()->route('agencyIndex')->with([
-                'flash_message' => Limit::feedbackMessage('subaccounts_per_account'),
+                'flash_message'      => Limit::feedbackMessage('subaccounts_per_account'),
                 'flash_message_type' => 'danger',
             ]);
         }
@@ -37,8 +38,7 @@ class AgencyController extends Controller {
 
         $validation = $this->validator($request->all());
 
-        if ($validation->fails())
-        {
+        if ($validation->fails()) {
             return redirect()->route('agencyIndex')->with('errors', $validation->errors());
         }
 
@@ -49,7 +49,15 @@ class AgencyController extends Controller {
             'parent_account_id' => $agencyAccount->id
         ]);
 
-        // Make a new Stripe payment and a subscription for the client on paid account
+        // Notice all users on the account about subscription change
+        $emails = $agencyAccount->users()->pluck('email')->toArray();
+        Mail::send('emails.new_subaccount', ['accName' => $newAccount->name], function($message) use ($emails) {
+            $message->from("no-reply@contentlaunch.com", "Content Launch")
+                ->to($emails)
+                ->subject('New sub-account added');
+        });
+
+        // Make a new Stripe subscription
         $this->makeNewClientSubscription($agencyAccount, $newAccount);
 
         return redirect()->route('agencyIndex')->with([
@@ -73,31 +81,26 @@ class AgencyController extends Controller {
             ->where('stripe_customer_id', '<>', '')
             ->first();
 
-        // Allow agency to use free sub-accounts limitation
+        // Allow agency to use free sub-accounts limit
         $freeSubscriptionType = SubscriptionType::whereSlug('free')->first();
-        if($agencyAccount->childAccounts()->count() <= $freeSubscriptionType->limit('subaccounts_per_account')){
-            $newAccount->subscribe($freeSubscriptionType);
-        } else {
+        if ($agencyAccount->childAccounts()->count() > $freeSubscriptionType->limit('subaccounts_per_account')) {
+
             // Prepare empty subscription object
             $subscriptionData = [];
             $subscriptionData['auto_renew'] = 1;
 
-            try
-            {
+            try {
                 Stripe::setApiKey(Config::get('services.stripe.secret'));
                 \Stripe\ApiRequestor::setHttpClient(new \Stripe\HttpClient\CurlClient([CURLOPT_PROXY => '']));
                 $planSlug = 'agency-client';
 
-                try
-                {
+                try {
                     $plan = \Stripe\Plan::retrieve($planSlug);
-                } catch (\Stripe\Error\Base $e)
-                {
+                } catch (\Stripe\Error\Base $e) {
                     Log::error($e->getMessage());
                 }
 
-                if (empty($plan))
-                {
+                if (empty($plan)) {
                     $plan = \Stripe\Plan::create([
                         "name"     => "CL Subscription Plan - " . $planSlug,
                         "id"       => $planSlug,
@@ -111,33 +114,27 @@ class AgencyController extends Controller {
                     "customer" => $payUser->stripe_customer_id,
                     "plan"     => $plan->id,
                     "metadata" => [
-                        'accountName' => $newAccount->name,
-                        'accountId' => $newAccount->id,
+                        'accountName'       => $newAccount->name,
+                        'accountId'         => $newAccount->id,
                         'parentAccountName' => $newAccount->parentAccount->name,
-                        'parentAccountId' => $newAccount->parentAccount->id
+                        'parentAccountId'   => $newAccount->parentAccount->id
                     ]
                 ]);
                 $subscriptionData['start_date'] = date('Y-m-d', $subscription->current_period_start);
                 $subscriptionData['expiration_date'] = date('Y-m-d', $subscription->current_period_end);
-            } catch (\Stripe\Error\Base $e)
-            {
+            } catch (\Stripe\Error\Base $e) {
                 return redirect()
                     ->route('subscription')
                     ->with(['flash_message' => $e->getMessage(), 'flash_message_type' => 'danger']);
-            } catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 return redirect()
                     ->route('subscription')
                     ->with(['flash_message' => $e->getMessage(), 'flash_message_type' => 'danger']);
             }
 
-            if ($subscription->status !== "active")
-            {
+            if ($subscription->status !== "active") {
                 throw new \Exception("Card not authorized");
             }
-
-            // Save new subscription
-            $newAccount->subscribe($currentSubscription->subscriptionType, $subscriptionData);
         }
     }
 }
