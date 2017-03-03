@@ -24,7 +24,7 @@ class WordpressController extends BaseConnectionController
         if ($error = $request->has('error')) {
             $this->cleanSessionConnection();
 
-            return $this->redirectWithError($this->errorMessage($error));
+            return $this->redirectWithError($this->errorMessage($request, $error));
         }
 
         $code = $request->input('code');
@@ -48,14 +48,14 @@ class WordpressController extends BaseConnectionController
         return $this->redirectWithSuccess("You've successfully connected to WordPress.");
     }
 
-    protected function errorMessage($error)
+    protected function errorMessage(Request $request, $error)
     {
         return $error == 'access_denied' ?
             'You need to authorize ContentLaunch if you want to use the WordPress connection' :
             $request->input('error_description');
     }
 
-    protected function saveConnection(array $tokenArray, $providerSlug = null)
+    protected function saveConnection(array $tokenArray, $providerSlug = null, $saveConnection = true)
     {
         $url = $this->getBlogUrl();
         $blogInfo = $this->api->blogInfo($url);
@@ -63,7 +63,7 @@ class WordpressController extends BaseConnectionController
         $tokenArray['blog_url'] = $url;
         $tokenArray['blog_id'] = $blogInfo->ID;
 
-        return parent::saveConnection($tokenArray, 'wordpress');
+        return parent::saveConnection($tokenArray, 'wordpress', $saveConnection);
     }
 
     private function getBlogUrl()
