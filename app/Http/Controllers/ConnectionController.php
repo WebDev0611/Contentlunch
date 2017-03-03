@@ -12,11 +12,12 @@ use Session;
 use App\Http\Requests\Connection\ConnectionRequest;
 use App\Connection;
 use App\Provider;
-use App\Content;
-use App\User;
 use App\Account;
 
-class ConnectionController extends Controller {
+class ConnectionController extends Controller
+{
+    protected $selectedAccount;
+
     public function __construct (Request $request) {
         $this->selectedAccount = Account::selectedAccount();
     }
@@ -26,6 +27,8 @@ class ConnectionController extends Controller {
 
         $data = $this->selectedAccount
             ->connections()
+            ->active()
+            ->succesful()
             ->selectRaw(
                 'connections.*,
                 content_types.name as content_type,
@@ -151,16 +154,12 @@ class ConnectionController extends Controller {
     }
 
     private function createConnection ($request) {
-        $connActive = $request->input('con_active');
-        $connType = $request->input('con_type');
-
-        $connection = Connection::create([
-            'name' => $request->input('con_name'),
-            'provider_id' => Provider::findBySlug($connType)->id,
-            'active' => $connActive == 'on' ? 1 : 0
+        return Connection::create([
+            'name' => $request->con_name,
+            'provider_id' => Provider::findBySlug($request->con_type)->id,
+            'active' => false,
+            'succesful' => false,
         ]);
-
-        return $connection;
     }
 
     private function clearConnectionsInSession () {

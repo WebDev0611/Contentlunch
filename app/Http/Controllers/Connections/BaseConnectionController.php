@@ -87,26 +87,35 @@ abstract class BaseConnectionController extends Controller
         return $redirectUrl ? $redirectUrl : 'connectionIndex';
     }
 
-    protected function saveConnection(array $settings, $providerSlug)
+    protected function saveConnection(array $settings, $providerSlug, $activateAccount = true)
     {
         $jsonEncodedSettings = json_encode($settings);
         $connection = $this->getSessionConnection();
 
         if (!$connection) {
             $provider = Provider::findBySlug($providerSlug);
-            $connection = Account::selectedAccount()->connections()->create([
+            $createArray = [
                 'name' => $provider->name . ' Connection',
-                'active' => true,
-                'successful' => true,
                 'settings' => $jsonEncodedSettings,
                 'provider_id' => $provider->id,
                 'user_id' => Auth::user()->id,
-            ]);
+            ];
+            $createArray = $this->activateConnection($createArray, $activateAccount);
+            $connection = Account::selectedAccount()->connections()->create($createArray);
         } else {
-            $connection->settings = $jsonEncodedSettings;
-            $connection->save();
+            $updateArray = $this->activateConnection([ 'settings' => $jsonEncodedSettings ], $activateAccount);
+            $connection->update($updateArray);
         }
 
         return $connection;
+    }
+
+    private function activateConnection(array $connectionData, $activateAccount = true)
+    {
+        if ($activateAccount) {
+            $connectionData = collect([ 'active' => true, 'successful' => true ])->merge($connectionData)->toArray();
+        }
+
+        return $connectionData;
     }
 }

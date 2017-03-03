@@ -51,7 +51,8 @@ class FacebookController extends BaseConnectionController
             'user_token' => (string) $accessToken,
         ];
 
-        $connection = $this->saveConnection($settings, 'facebook');
+        $activateConnection = false;
+        $connection = $this->saveConnection($settings, 'facebook', $activateConnection);
 
         $accountOptions = [];
         $accountList = $this->fb->get('/me/accounts');
@@ -88,7 +89,6 @@ class FacebookController extends BaseConnectionController
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     *
      * @return \Illuminate\Http\Response
      */
     public function saveAccount(Request $request)
@@ -108,9 +108,11 @@ class FacebookController extends BaseConnectionController
 
         $settings = array_merge($settings, $pageSettings);
 
-        $connection->settings = json_encode($settings);
-        $connection->active = 1;
-        $connection->save();
+        $connection->update([
+            'settings' => json_encode($settings),
+            'active' => true,
+            'succesful' => true,
+        ]);
 
         return redirect()
             ->route($this->redirectRoute())

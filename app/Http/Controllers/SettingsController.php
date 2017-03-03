@@ -66,8 +66,8 @@ class SettingsController extends Controller
         $user = Auth::user();
         $account = Account::selectedAccount();
 
-        $connections = $account->connections()->get();
-        $activeConnectionsCount = $account->connections()->where('active', 1)->count();
+        $connections = $account->connections()->active()->get();
+        $activeConnectionsCount = $connections->count();
 
         $connectiondd = ['' => '-- Select One --'] + $this->providerDropdown();
 
