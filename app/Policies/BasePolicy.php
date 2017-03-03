@@ -6,7 +6,7 @@ use App\Account;
 
 class BasePolicy
 {
-    protected $account;
+    public $account;
 
     function __construct()
     {
