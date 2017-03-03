@@ -154,8 +154,8 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::post('/create/new', 'ContentController@store');
 
         // - create form page
-        Route::get('/edit', ['as' => 'editIndex', 'uses' => 'ContentController@createContent']);
-        Route::post('/edit', 'ContentController@editStore');
+        Route::get('/edit', 'ContentController@createContent')->name('content.edit');
+        Route::post('/edit', 'ContentController@editStore')->name('content.store');
 
         Route::post('/edit/images', ['as' => 'imageContent', 'uses' => 'ContentController@images']);
         Route::post('/edit/attachments', ['as' => 'attachmentContent', 'uses' => 'ContentController@attachments']);
