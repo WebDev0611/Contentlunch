@@ -7,12 +7,23 @@
         <div class="modal-content">
             <div class="modal-body">
 
-                <h4>You are using free version of the</h4>
-                <img src="{{asset('images/logo-full.svg')}}" alt="cl-logo">
+                @if(App\Account::selectedAccount()->activeSubscriptions()->first()->subscriptionType->slug == 'trial')
 
-                <p>You can still use all app features but not without limits. Certain functionality is limited by number
-                    of searches and you can create single Campaign only. To remove limitation switch to paid
-                    account.</p>
+                    <h4>You are using the free trial version of</h4>
+                    <img src="{{asset('images/logo-full.svg')}}" alt="cl-logo">
+
+                    <p>You can try out all features of the app, but some functionality is limited during the
+                        free trial. To remove the limitation, switch to a paid account. Thanks!</p>
+
+                @elseif(App\Account::selectedAccount()->activeSubscriptions()->first()->subscriptionType->slug == 'free')
+
+                    <h4>You are using the free version of</h4>
+                    <img src="{{asset('images/logo-full.svg')}}" alt="cl-logo">
+
+                    <p>You can try out all features of the app, but some functionality is limited.
+                        To remove the limitation, switch to a paid account. Thanks!</p>
+
+                @endif
 
                 <a href="{{route('subscription')}}">
                     <button type="button" class="btn btn-default btn-upgrade">Upgrade now</button>

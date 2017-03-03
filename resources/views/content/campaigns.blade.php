@@ -6,6 +6,8 @@
             <div class="panel-main">
                 @include('content.partials.dashboard.panel_tabs')
 
+                @include('elements.freemium-alert', ['restriction' => 'create only three campaigns'])
+
                 <div class="create-panel-container no-padding">
                     <h4 class="create-panel-heading">
                         ACTIVE

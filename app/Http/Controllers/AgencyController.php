@@ -45,7 +45,7 @@ class AgencyController extends Controller {
         $agencyAccount = Auth::user()->agencyAccount();
         $newAccount = Account::create([
             'name'              => $request->input('account_name'),
-            'account_type_id'   => AccountType::COMPANY,
+            'account_type_id'   => AccountType::AGENCY,
             'parent_account_id' => $agencyAccount->id
         ]);
 

@@ -93,7 +93,8 @@ class Account extends Model
     // Returns all active subscriptions for the account
     public function activeSubscriptions()
     {
-        return $this->subscriptions()
+        $acc = $this->parentAccount == null ? $this : $this->parentAccount;
+        return $acc->subscriptions()
             ->with('SubscriptionType')
             ->active()
             ->latest()
@@ -101,7 +102,8 @@ class Account extends Model
     }
 
     public function activePaidSubscriptions() {
-        return $this->subscriptions()
+        $acc = $this->parentAccount == null ? $this : $this->parentAccount;
+        return $acc->subscriptions()
             ->with('SubscriptionType')
             ->active()
             ->paid()
