@@ -36,9 +36,9 @@
                     <div class="row ">
                         <div class="col-md-10 ">
                             <div class="col-md-8 col-md-offset-2 text-center">
-                                <h3>Start Content Launch Subscription</h3>
-                                <p>Thanks for choosing Content Launch. With paid version you will get many benefits.
-                                To start your subscription please complete the transaction below.
+                                <h3>Get a Content Launch Subscription!</h3>
+                                <p>Thanks for choosing Content Launch. With a paid account, you will enjoy dozens of great features.
+                                To begin your subscription, please complete the transaction below. Thanks!
                                 </p>
                             </div>
                         </div>
@@ -83,10 +83,10 @@
                                                 $freePlan = App\SubscriptionType::whereSlug('free')->first();
                                                 @endphp
                                                 <ul class="description">
-                                                    <li>Up to <strong>{{ $freePlan->limit('campaigns') }}</strong> campaigns</li>
-                                                    <li>Up to <strong>{{ $freePlan->limit('content_launch') }}</strong> content launches</li>
-                                                    <li>Up to <strong>{{ $freePlan->limit('topic_search') }}</strong> topic searches
-                                                    <li>Up to <strong>{{ $freePlan->limit('calendars') }}</strong> calendars
+                                                    <li>Up to <strong>{{ $freePlan->limit('campaigns') }}</strong> campaigns/mo</li>
+                                                    <li>Up to <strong>{{ $freePlan->limit('content_launch') }}</strong> content launches/mo</li>
+                                                    <li>Up to <strong>{{ $freePlan->limit('topic_search') }}</strong> topic searches/mo
+                                                    <li>Up to <strong>{{ $freePlan->limit('calendars') }}</strong> calendar
                                                     </li>
                                                     <li><h4>Up to <strong>{{ $freePlan->limit('users_per_account') }}</strong> users</h4></li>
                                                 </ul>
