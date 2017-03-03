@@ -162,7 +162,7 @@
                 }).prependTo('#' + selectorId + ' .sidemodal-container');
             }
 
-            $('#' + fieldInfoId).html(moment($('#' + fieldId).val(), "YYYY-MM-DD HH:mm:ss").format('YYYY-MM-DD [at] HH:mm'));
+            $('#' + fieldInfoId).html(moment($('#' + fieldId).val(), "YYYY-MM-DD HH:mm:ss").format('M/D/YY [at] h:mm a'));
         }
     });
 

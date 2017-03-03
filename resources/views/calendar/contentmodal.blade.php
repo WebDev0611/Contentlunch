@@ -1,4 +1,4 @@
-<div id="addContentModal" class="sidemodal large">
+<div id="addContentModal" class="sidemodal medium">
     <div class="sidemodal-header">
         <div class="row">
             <div class="col-md-6">
@@ -43,14 +43,6 @@
 
             <div class="select">
                 {!! Form::select('content-type-id', $contenttypedd, @isset($content)? $content->content_type_id : ''  , array('class' => 'input selectpicker form-control', 'id' => 'content-type-id', 'data-live-search' => 'true', 'title' => 'Choose Content Type')) !!}
-            </div>
-        </div>
-
-        <div class="input-form-group">
-            <label for="dueDate">Content</label>
-            <div class="editor" style="min-height: 330px;">
-                <textarea placeholder="Enter content" class="input input-larger form-control wysiwyg" id="content-body"
-                          name="content-body" cols="50" rows="10"></textarea>
             </div>
         </div>
 

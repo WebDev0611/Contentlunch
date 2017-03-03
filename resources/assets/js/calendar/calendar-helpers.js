@@ -191,7 +191,6 @@ function store_content(callback) {
         title: $('#content-title').val(),
         content_type: $("#content-type-id option:selected").val(),
         due_date: $('#content-due-date').val(),
-        body: tinyMCE.get('content-body').getContent(),
         created_at: $('#content_date').val()
     };
     return $.ajax({
@@ -220,7 +219,6 @@ function addedContentCallback(callback) {
 function clearContentInputs() {
     $('#content-title').val('');
     $('#content-due-date').val('');
-    tinyMCE.get('content-body').setContent('');
 }
 
 
