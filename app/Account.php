@@ -278,4 +278,9 @@ class Account extends Model
 
         return $account->update([ 'valid' => 0 ]);
     }
+
+    public function getUsers($proxyToParent = true)
+    {
+        return $this->proxyToParent()->users()->get();
+    }
 }
