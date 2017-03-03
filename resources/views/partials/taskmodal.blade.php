@@ -63,7 +63,13 @@
             <ul>
         </div>
 
-        @if (@$content)
+        @php
+            $route = \Route::getCurrentRoute()->getName();
+            $isContentEditRoute = $route === 'content.edit';
+            $isCampaignEditRoute = $route === 'campaign.edit' || $route === 'campaign.create';
+        @endphp
+
+        @if ($isContentEditRoute)
         <div class="input-form-group">
             <label class='checkbox-primary'>
                 <input type="checkbox" data-id='{{ $content->id }}' checked='checked' name='is_content_task' id='is_content_task'>
@@ -72,7 +78,7 @@
         </div>
         @endif
 
-        @if (@$campaign)
+        @if (@$isCampaignEditRoute)
         <div class="input-form-group">
             <label class='checkbox-primary'>
                 <input type="checkbox" data-id='{{ @$campaign->id }}' checked='checked' name='is_campaign_task' id='is_campaign_task'>
