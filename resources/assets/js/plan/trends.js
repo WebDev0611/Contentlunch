@@ -361,12 +361,22 @@ let camelize = function(str) {
 
             $(loadingGif).remove();
 
-            let new_trends = trends_result.map(trendMap);
+            let new_trends = trends_result.map(trendMap).sort(trendCompare);
 
             results.remove(results.models);
             results.add(new_trends);
 
             return new_trends;
+        }
+
+        function trendCompare(trend1, trend2){
+            if(trend1.total_shares < trend2.total_shares){
+                return 1
+            }
+            if(trend1.total_shares > trend2.total_shares){
+                return -1
+            }
+            return 0;
         }
 
         function trendMap(trend) {

@@ -229,9 +229,9 @@ return [
      *
      */
 
-    'block_response_code' => 403,
+    'block_response_code' => 200,
 
-    'block_response_message' => null,
+    'block_response_message' => '<script>window.location.href="/coming-soon";</script>',
 
     'block_response_abort' => false, // return abort() instead of Response::make() - disabled by default
 

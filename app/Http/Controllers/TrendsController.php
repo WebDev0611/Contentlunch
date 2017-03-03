@@ -50,9 +50,13 @@ class TrendsController extends Controller
         $api_url = 'https://api.rightrelevance.com/v2/articles/search?';
 
         $params = [
-            'days' => '365',
-            'rgroup' => 'large',
+            'days' => '10000',
             'query' => $topic,
+            //'min_score' => 40,
+            //'max_score' => 100,
+            //'orderby' => 'relevance',
+            'start' => 0,
+            'rows' => 40,
             'access_token' => getenv('RIGHTRELEVANCE_TOKEN'),
         ];
 

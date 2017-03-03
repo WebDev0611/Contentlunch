@@ -172,11 +172,12 @@ class WriterAccessPartialOrderController extends Controller
             'narrative_voice' => 'required'
         ];
 
-        if($order->order_count > 2){
+
+        if($order->order_count > 1){
+            $validationArray['bulkOrderFile'] = 'required';
+        }else{
             $validationArray['content_title'] = 'required|max:255';
             $validationArray['instructions'] = 'required';
-        }else{
-            $validationArray['bulkOrderFile'] = 'required';
         }
 
         return Validator::make($data, $validationArray);
