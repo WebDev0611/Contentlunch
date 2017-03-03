@@ -565,6 +565,9 @@ class ContentController extends Controller
         if ($content->published) {
             return $this->publishAndRedirect($request, $content->id);
         } else {
+            $content->configureAction($request->input('action'));
+            $content->save();
+
             return redirect()->route('contentIndex')->with([
                 'flash_message' => 'You have created content titled '.$content->title.'.',
                 'flash_message_type' => 'success',
@@ -601,8 +604,6 @@ class ContentController extends Controller
 
     private function saveContentAndAttachToAccount($request, $content)
     {
-        $content->configureAction($request->input('action'));
-
         $content->title = $request->input('title');
         $content->body = $request->input('content');
         $content->due_date = $request->input('due_date');
