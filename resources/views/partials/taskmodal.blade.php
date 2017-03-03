@@ -49,7 +49,7 @@
         <div class="input-form-group">
             <label for="#">Assign Task To</label>
             <ul class="sidemodal-list-items" id='task-assignment'>
-                @foreach (\App\Account::selectedAccount()->users as $user)
+                @foreach (\App\Account::selectedAccount()->getUsers() as $user)
                     @php
                         $isChecked = $user->id == Auth::id() ? 'checked="checked"' : '';
                     @endphp
