@@ -8,10 +8,9 @@ use Exception;
 
 class WordPressAPI
 {
-    // - dunno if needed
-    protected $configKey = 'wordpress';
-
     protected $base_url = 'https://public-api.wordpress.com/rest/v1.2/';
+    protected $connection;
+    protected $content;
 
     public function __construct($content = null, $connection = null, $link = null)
     {
@@ -117,6 +116,8 @@ class WordPressAPI
             $response['success'] = false;
             $response['error'] = $responseBody->message;
         }
+
+        $this->content->setPublished();
 
         return $response;
     }

@@ -9,6 +9,10 @@ use Log;
 
 class TwitterAPI
 {
+    protected $client;
+    protected $content;
+    protected $connection;
+
     public function __construct($content = null, $connection = null)
     {
         $this->client = null;
@@ -65,6 +69,8 @@ class TwitterAPI
             $response['success'] = false;
             $response['error'] = 'The Twitter API returned an error: ' . $e->getMessage();
         }
+
+        $this->content->setPublished();
 
         return $response;
     }

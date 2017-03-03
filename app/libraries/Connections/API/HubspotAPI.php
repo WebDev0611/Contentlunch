@@ -13,12 +13,10 @@ use Storage;
 use Exception;
 
 
-class HubspotAPI {
-
+class HubspotAPI
+{
     protected $configKey = 'hubspot';
-
     protected $base_url = 'https://api.hubapi.com';
-
     private $blog;
 
     public function __construct ($content = null, $connection = null) {
@@ -26,7 +24,6 @@ class HubspotAPI {
         $this->content = $content;
         $this->connection = $connection ? $connection : $this->content->connection;
     }
-
 
     public function createPost () {
         // Refresh connection token
@@ -76,6 +73,8 @@ class HubspotAPI {
             $response['success'] = false;
             $response['error'] = $responseBody->message;
         }
+
+        $this->content->setPublished();
 
         return $response;
     }

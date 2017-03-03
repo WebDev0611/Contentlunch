@@ -430,11 +430,6 @@ class ContentController extends Controller
         $class = 'Connections\API\\'.$connection->provider->class_name;
         $create = (new $class($content, $connection))->createPost();
 
-        $content->published = 1;
-        $content->ready_published = 0;
-        $content->written = 0;
-        $content->save();
-
         return $create;
     }
 

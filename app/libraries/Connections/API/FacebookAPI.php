@@ -51,6 +51,8 @@ class FacebookAPI
             $response = $this->errorResponse($e, 'Facebook SDK returned and error');
         }
 
+        $this->content->setPublished();
+
         return $response;
     }
 
