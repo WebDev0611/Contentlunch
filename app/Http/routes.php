@@ -98,11 +98,12 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::get('/calendar/my', 'CalendarController@my');
         Route::post('/calendar/add', 'CalendarController@create');
 
-        Route::get('/campaign', 'CampaignController@create');
-        Route::post('/campaign', 'CampaignController@store');
-        Route::get('/campaign/{campaign}', 'CampaignController@edit');
-        Route::post('/campaign/attachments', 'CampaignAttachmentController@store');
-        Route::post('/campaign/{campaign}', 'CampaignController@update');
+        Route::get('/campaign', 'CampaignController@create')->name('campaigns.create');
+        Route::post('/campaign', 'CampaignController@store')->name('campaigns.store');
+        Route::get('/campaign/{campaign}', 'CampaignController@edit')->name('campaigns.edit');
+        Route::post('/campaign/{campaign}', 'CampaignController@update')->name('campaigns.update');
+
+        Route::post('/campaign/attachments', 'CampaignAttachmentController@store')->name('campaign_attachments.store');
 
         Route::get('/campaigns', 'CalendarController@campaigns');
 
