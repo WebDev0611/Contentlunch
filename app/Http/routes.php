@@ -281,3 +281,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
     });
 
 });
+
+Route::get('/coming-soon',  function () {
+    return view('coming-soon', ['name' => 'James']);
+});
