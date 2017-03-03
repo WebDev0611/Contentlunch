@@ -21,6 +21,16 @@ class Connection extends Model {
        return $this->hasMany('App\Content');
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
+
+    public function scopeSuccesful($query)
+    {
+        return $query->where('successful', true);
+    }
+
     // - A Getter for settings so we can decode the JSON
     public function getSettings()
     {
