@@ -67,17 +67,23 @@ class WordPressAPI
 
     private function postData()
     {
-        $mediaUrls = $this->getMediaUrls();
-        $featuredImage = $mediaUrls[0];
+        if ($mediaUrls = $this->getMediaUrls()) {
+            $featuredImage = $mediaUrls[0];
 
-        return [
+            $mediaData = [
+                'media_urls' => $mediaUrls,
+                'featured_image' => $featuredImage,
+            ];
+        } else {
+            $mediaData = [];
+        }
+
+        return array_merge($mediaData, [
             'title' => $this->content->title,
             'content' => $this->content->body,
             'tags' => $this->tags(),
-            'media_urls' => $mediaUrls,
             'status' => 'draft',
-            'featured_image' => $featuredImage,
-        ];
+        ]);
     }
 
     protected function createOptionsAndHeaderData()
