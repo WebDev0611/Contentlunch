@@ -150,4 +150,14 @@ var campaigns = {!! $campaigns !!};
 
 @section('scripts')
 <script src="/js/campaign-calendar.js"></script>
+<script>
+    //tasks
+    $('#add-task-button').click(function() {
+        add_task(addTaskCallback);
+    });
+
+    function addTaskCallback(task) {
+        $('#addTaskModal').modal('hide');
+    }
+</script>
 @stop

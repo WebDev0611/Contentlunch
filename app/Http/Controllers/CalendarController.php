@@ -28,7 +28,7 @@ class CalendarController extends Controller
         if ($user) {
             $this->user_id = $user->id;
             $this->account_id = 0;
-            $this->campaigns = Auth::user()->campaigns()->get();
+            $this->campaigns = Account::selectedAccount()->campaigns()->get();
             $this->tasks = Auth::user()->tasks()->with('user')->get();
         }
     }
