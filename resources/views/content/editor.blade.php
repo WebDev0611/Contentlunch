@@ -395,13 +395,13 @@
 
                         <!-- SEO Information -->
 
-                        <div class="form-delimiter">
+                        <div class="form-delimiter flexible-fields-hide flexible-fields-hide-email">
                             <span>
                                 <em>SEO Information</em>
                             </span>
                         </div>
 
-                        <div class="row">
+                        <div class="row flexible-fields-hide flexible-fields-hide-email">
                             <div class="col-sm-4">
                                 <div class="input-form-group">
                                     <label for="metaTitle">META TITLE TAG</label>
