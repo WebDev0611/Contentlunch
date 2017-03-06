@@ -18,6 +18,10 @@ $onboarding-container-background: #ffffff;
   &.narrow {
     max-width: 460px;
   }
+
+  .later {
+    margin-top: 20px;
+  }
 }
 .onboarding-container .inner {
   max-width: 620px;

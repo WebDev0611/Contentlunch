@@ -127,6 +127,14 @@
                                     class="button button-extend text-uppercase">Next Step</a>
                             </div>
                         </div>
+
+                        <div class="row later">
+                            <div class="col-md-6 col-md-offset-3 margin-20">
+                                <div class="text-center">
+                                    <a href="{{ url('connect') }}">Do this step later</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

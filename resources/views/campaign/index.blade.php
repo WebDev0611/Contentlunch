@@ -11,11 +11,11 @@
 
             <!-- Content Tabs -->
             <ul class="panel-tabs centered even withborder">
-                <li class="">
-                    <a href="#contenttab-content" role="tab" data-toggle="tab">Content</a>
-                </li>
                 <li class='active'>
                     <a href="#contenttab-campaign" role="tab" data-toggle="tab">Campaign Editor</a>
+                </li>
+                <li class="">
+                    <a href="#contenttab-content" role="tab" data-toggle="tab">Content</a>
                 </li>
             </ul>
 
