@@ -43,7 +43,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
     });
 
     Route::group(['middleware' => 'auth'], function () {
-        Route::get('/', ['as' => 'dashboard', 'uses' => 'HomeController@index']);
+        Route::get('/', 'HomeController@index')->name('dashboard');
 
         Route::get('invite', ['as' => 'inviteIndex', 'uses' => 'OnboardingInviteController@invite']);
         Route::post('invite/emails', ['as' => 'emailInvite', 'uses' => 'OnboardingInviteController@emailInvite']);
