@@ -13,7 +13,7 @@ class ContentCollaboratorsController extends Controller
 {
     public function index(Request $request, Content $content)
     {
-        $possibleCollaborators = $content->account->users;
+        $possibleCollaborators = $content->account->proxyToParent()->users;
         $currentCollaborators = $content->authors->keyBy('id');
         $showPossibleCollaborators = $request->input('possible_collaborators') === '1';
 
