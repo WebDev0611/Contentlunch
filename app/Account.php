@@ -101,6 +101,11 @@ class Account extends Model
             ->get();
     }
 
+    public function activeSubscription()
+    {
+        return $this->activeSubscriptions()->first();
+    }
+
     public function activePaidSubscriptions() {
         $acc = $this->parentAccount == null ? $this : $this->parentAccount;
         return $acc->subscriptions()
