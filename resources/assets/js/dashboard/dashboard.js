@@ -39,6 +39,7 @@ $(document).ready(function() {
 
         function addTaskCallback(task) {
             $('#addTaskModal').modal('hide');
+            window.location.reload();
         }
     }
 });

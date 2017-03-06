@@ -45,8 +45,7 @@ class IdeaController extends Controller
             'user_id' => Auth::id(),
         ])->first();
 
-        $idea->status = 'parked';
-        $idea->save();
+        $idea->park();
 
         return response()->json($idea);
     }
@@ -59,8 +58,7 @@ class IdeaController extends Controller
             'user_id' => Auth::id(),
         ])->first();
 
-        $idea->status = 'active';
-        $idea->save();
+        $idea->activate();
 
         return response()->json($idea);
     }
@@ -72,8 +70,7 @@ class IdeaController extends Controller
             'user_id' => Auth::id(),
         ])->first();
 
-        $idea->status = 'rejected';
-        $idea->save();
+        $idea->reject();
 
         return response()->json($idea);
     }
@@ -157,9 +154,10 @@ class IdeaController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int                      $id
-     *
+     * @param Idea $idea
      * @return \Illuminate\Http\Response
+     * @internal param int $id
+     *
      */
     public function update(Request $request, Idea $idea)
     {
@@ -183,13 +181,13 @@ class IdeaController extends Controller
      * user to edit it.
      *
      * @param Request $request
-     * @param Idea    $idea
-     *
-     * @return \Illuminate\Http\Redirect
+     * @param Idea $idea
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function write(Request $request, Idea $idea)
     {
         $content = $this->createContentFromIdea($idea);
+        $idea->park();
 
         return $this->redirectToContentEditor($content);
     }

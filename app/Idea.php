@@ -55,6 +55,21 @@ class Idea extends Model
         ]);
     }
 
+    public function park()
+    {
+        $this->update([ 'status' => 'parked' ]);
+    }
+
+    public function activate()
+    {
+        $this->update([ 'status' => 'active' ]);
+    }
+
+    public function reject()
+    {
+        $this->update([ 'status' => 'rejected' ]);
+    }
+
     public static function search($term, $account = null)
     {
         if (!$account) {
