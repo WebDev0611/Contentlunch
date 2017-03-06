@@ -58,7 +58,7 @@ $calendar-menu-dropdown-border: solid #dadfeb;
 .calendar-menu-select {
   @extend .dropdown;
 
-  width: 220px;
+  width: auto;
   display: inline-block;
   vertical-align: top;
   border-left: 1px $calendar-menu-select-border;
