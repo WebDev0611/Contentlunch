@@ -14,7 +14,7 @@
     <li class="{{ Request::is('settings/subscription') ? 'active' : '' }}">
         <a href="{{ route('subscription') }}">Subscription</a>
     </li>
-    @if($account->isAgencyAccount() || $account->isSubAccount())
+    @if(isset($account) && ($account->isAgencyAccount() || $account->isSubAccount()))
         <li class="{{ (Request::is('settings/subscription/clients') ? 'active' : '') }}">
             <a href="{{ route('subscription-clients') }}">Clients subscriptions</a>
         </li>
