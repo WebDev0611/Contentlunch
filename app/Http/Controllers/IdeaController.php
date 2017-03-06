@@ -181,13 +181,13 @@ class IdeaController extends Controller
      * user to edit it.
      *
      * @param Request $request
-     * @param Idea    $idea
-     *
-     * @return \Illuminate\Http\Redirect
+     * @param Idea $idea
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function write(Request $request, Idea $idea)
     {
         $content = $this->createContentFromIdea($idea);
+        $idea->park();
 
         return $this->redirectToContentEditor($content);
     }
