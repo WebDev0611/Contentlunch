@@ -154,9 +154,10 @@ class IdeaController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int                      $id
-     *
+     * @param Idea $idea
      * @return \Illuminate\Http\Response
+     * @internal param int $id
+     *
      */
     public function update(Request $request, Idea $idea)
     {
