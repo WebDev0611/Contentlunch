@@ -117,7 +117,7 @@ class CampaignController extends Controller
 
     protected function addNewContent(array $requestData, Campaign $campaign)
     {
-        if (isset($requestData['newContent']) && $contents = $requestData['newContent']) {
+        if (collect($requestData)->has('newContent') && $contents = $requestData['newContent']) {
             $campaign->contents()->saveMany(Content::find($contents));
         }
     }
