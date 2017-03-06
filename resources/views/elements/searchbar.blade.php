@@ -58,6 +58,14 @@
                 <i class="icon-checklist"></i>
             </button>
 
+            @if(App\Account::selectedAccount()->activePaidSubscriptions()->isEmpty())
+                <a href="{{route('subscription')}}">
+                    <button class="btn btn-warning">
+                        Upgrade
+                    </button>
+                </a>
+            @endif
+
             <a href='/logout' class="search-bar-button">
                 Logout
             </a>
