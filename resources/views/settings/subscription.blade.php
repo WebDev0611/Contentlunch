@@ -46,7 +46,7 @@
 
                     <div class="row">
                         <div class="col-md-10 ">
-                            <div class="col-md-4 col-md-offset-4 text-center">
+                            <div class="col-md-6 col-md-offset-3 text-center">
                                 <div class="billing-buttons">
                                     <button type="button" class="btn btn-default monthly selected">Monthly Billing</button>
                                     <button type="button" class="btn btn-default annually">Annual Billing</button>

@@ -68,6 +68,7 @@
     @include border-radius(6px);
     padding-left: 25px;
     padding-right: 25px;
+    min-height: 430px;
 
     .plan-title {
       color: #6944b8;
@@ -94,6 +95,11 @@
     .description {
       padding: 20px 30px 15px;
       text-align: left;
+      min-height: 200px;
+
+      @media (max-width: 1480px) {
+        min-height: 300px;
+      }
 
       .bestvalue {
         color: #2482ff;
