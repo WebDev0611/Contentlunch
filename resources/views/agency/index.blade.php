@@ -58,7 +58,7 @@
             }
         }
 
-        @if(Session::has('flash_message'))
+        @if(Session::has('flash_message') && Session::has('flash_message_type') && session('flash_message_type') == 'danger')
             {!! 'showErrorFeedback("'.session('flash_message').'");' !!}
         @endif
 
