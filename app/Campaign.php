@@ -91,6 +91,36 @@ class Campaign extends Model
         return $query->where('status', static::PAUSED);
     }
 
+    public function activate()
+    {
+        return $this->update([ 'status' => static::ACTIVE ]);
+    }
+
+    public function isActive()
+    {
+        return $this->status == static::ACTIVE;
+    }
+
+    public function deactivate()
+    {
+        return $this->update([ 'status' => static::INACTIVE ]);
+    }
+
+    public function isInactive()
+    {
+        return $this->status == static::INACTIVE;
+    }
+
+    public function pause()
+    {
+        return $this->update([ 'status' => static::PAUSED ]);
+    }
+
+    public function isPaused()
+    {
+        return $this->status == static::PAUSED;
+    }
+
     public function hasCollaborator(User $user)
     {
         $isNewCampaign = !$this->id;

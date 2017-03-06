@@ -102,6 +102,10 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::post('/campaign', 'CampaignController@store')->name('campaigns.store');
         Route::get('/campaign/{campaign}', 'CampaignController@edit')->name('campaigns.edit');
         Route::post('/campaign/{campaign}', 'CampaignController@update')->name('campaigns.update');
+        Route::get('/campaign/{campaign/park', 'CampaignController@park')->name('campaigns.park');
+        Route::get('/campaign/{campaign}/deactivate', 'CampaignController@deactivate')->name('campaigns.deactivate');
+        Route::get('/campaign/{campaign}/activate', 'CampaignController@activate')->name('campaigns.activate');
+        Route::get('/campaign/{campaign}/delete', 'CampaignController@destroy')->name('campaigns.destroy');
 
         Route::post('/campaign/attachments', 'CampaignAttachmentController@store')->name('campaign_attachments.store');
 

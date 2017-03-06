@@ -218,4 +218,89 @@ class CampaignController extends Controller
             'mime' => Storage::mimeType($s3Path),
         ]);
     }
+
+    protected function permissionDeniedRedirect($campaign)
+    {
+        return redirect()->route('campaigns.edit', $campaign)->with([
+            'feedback_message' => "You don't have sufficient permissions to do this.",
+            'feedback_message_type' => 'danger',
+        ]);
+    }
+
+    /**
+     * Parks a specific campaign.
+     *
+     * @param Campaign $campaign
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function park(Campaign $campaign)
+    {
+        if (Auth::user()->cant('edit', $campaign)) {
+            return $this->permissionDeniedRedirect($campaign);
+        }
+
+        $campaign->pause();
+
+        return redirect()->route('campaigns.index')->with([
+            'feedback_message' => 'Campaign parked.',
+            'feedback_message_type' => 'success',
+        ]);
+    }
+
+    /**
+     * Deactivates campaign.
+     * @param Campaign $campaign
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deactivate(Campaign $campaign)
+    {
+        if (Auth::user()->cant('edit', $campaign)) {
+            return $this->permissionDeniedRedirect($campaign);
+        }
+
+        $campaign->deactivate();
+
+        return redirect()->route('campaigns.index')->with([
+            'feedback_message' => 'Campaign deactivated.',
+            'feedback_message_type' => 'success',
+        ]);
+    }
+
+    /**
+     * Activates a campaign.
+     * @param Campaign $campaign
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function activate(Campaign $campaign)
+    {
+        if (Auth::user()->cant('edit', $campaign)) {
+           return $this->permissionDeniedRedirect($campaign);
+        }
+
+        $campaign->activate();
+
+        return redirect()->route('campaigns.index')->with([
+            'feedback_message' => 'Campaign activated.',
+            'feedback_message_type' => 'success',
+        ]);
+    }
+
+    /**
+     * Deletes a campaign.
+     * @param Campaign $campaign
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Campaign $campaign)
+    {
+        if (Auth::user()->cant('destroy', $campaign)) {
+            return $this->permissionDeniedRedirect($campaign);
+        }
+
+        $campaign->delete();
+
+        return redirect()->route('campaigns.index')->with([
+            'feedback_message' => 'Campaign deleted.',
+            'feedback_message_type' => 'success',
+        ]);
+    }
 }
