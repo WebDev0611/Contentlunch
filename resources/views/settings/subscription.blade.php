@@ -14,7 +14,7 @@
 
                 <div class="panel-header">
                     <!-- navigation -->
-                    @include('settings.partials.subscription_navigation')
+                    @include('settings.partials.navigation')
                 </div>
 
                 <div class="panel-container col-md-8">

@@ -193,6 +193,12 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
             Route::delete('buying_stages/{buyingStage}', 'Settings\BuyingStagesController@delete');
 
             Route::get('account', ['as' => 'settingsAccount', 'uses' => 'AccountSettingsController@index']);
+
+            Route::group(['prefix' => 'subscription'], function () {
+                Route::get('/', ['as' => 'subscription', 'uses' => 'AccountSettingsController@showSubscription']);
+                Route::post('/', ['uses' => 'AccountSettingsController@submitSubscription']);
+                Route::get('clients', ['as' => 'subscription-clients', 'uses' => 'AccountSettingsController@showSubscriptionClients']);
+            });
         });
 
         Route::group(['prefix' => 'writeraccess'], function () {
@@ -243,12 +249,6 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
                 'as' => 'orderReview',
                 'uses' => 'WriterAccessPartialOrderController@orderReview'
             ]);
-        });
-
-        Route::group(['prefix' => 'subscription'], function () {
-            Route::get('/', ['as' => 'subscription', 'uses' => 'AccountSettingsController@showSubscription']);
-            Route::post('/', ['uses' => 'AccountSettingsController@submitSubscription']);
-            Route::get('clients', ['as' => 'subscription-clients', 'uses' => 'AccountSettingsController@showSubscriptionClients']);
         });
 
         Route::resource('writerAccessPrices', 'WriterAccessPriceController');

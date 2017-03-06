@@ -14,9 +14,10 @@ class SettingsController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $account = Account::selectedAccount();
         $countries = CountryPresenter::dropdown();
 
-        return view('settings.index', compact('user', 'countries'));
+        return view('settings.index', compact('user', 'account', 'countries'));
     }
 
     public function update(AccountSettingsRequest $request)
@@ -57,8 +58,9 @@ class SettingsController extends Controller
     public function content()
     {
         $user = Auth::user();
+        $account = Account::selectedAccount();
 
-        return view('settings.content', compact('user'));
+        return view('settings.content', compact('user', 'account'));
     }
 
     public function connections()
