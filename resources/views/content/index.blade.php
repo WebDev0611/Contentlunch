@@ -13,7 +13,7 @@
 
             {{-- @include('content.partials.dashboard.filter') --}}
 
-            @include('elements.freemium-alert', ['restriction' => 'launch only five content pieces per month'])
+            @include('elements.freemium-alert', ['restriction' => 'launch 5 content pieces'])
 
             <div class="create-panel-container">
                 <h4 class="create-panel-heading">

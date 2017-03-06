@@ -21,7 +21,7 @@
             </ul>
         </div>
 
-        @include('elements.freemium-alert-2', ['restriction' => 'use only ten trends per month'])
+        @include('elements.freemium-alert-2', ['restriction' => 'search for 10 content trends'])
 
         <div class="panel-container">
             <div class="row">

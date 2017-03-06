@@ -16,8 +16,8 @@
                                 Configure your content connections
                             </h5>
                             <h5 class="onboarding-text text-center">
-                                Connect as many services you use. Based on information from your social
-                                and publishing platforms we calculate your CL score
+                                These are the places you can distribute content to. <br>
+                                Connect now or do this step later.
                             </h5>
                             <div class="onboarding-step">
                                 <span class="onboarding-step-point active"></span>
