@@ -34,7 +34,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
      * Onboarding - Account Invite redeeming
      */
     Route::post('signup/invite', 'OnboardingController@createWithInvite');
-    Route::get('signup/invite/{invite}', ['as' => 'signupWithInvite', 'uses' => 'OnboardingController@signupWithInvite']);
+    Route::get('signup/invite/{invite}', 'OnboardingController@signupWithInvite')->name('signupWithInvite');
     Route::post('signup/photo_upload', 'OnboardingController@signupPhotoUpload');
 
     Route::group(['middleware' => 'guest'], function () {
@@ -45,11 +45,11 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/', 'HomeController@index')->name('dashboard');
 
-        Route::get('invite', ['as' => 'inviteIndex', 'uses' => 'OnboardingInviteController@invite']);
-        Route::post('invite/emails', ['as' => 'emailInvite', 'uses' => 'OnboardingInviteController@emailInvite']);
-        Route::get('invite/{user}', ['as' => 'inviteUser', 'uses' => 'OnboardingInviteController@inviteUser']);
+        Route::get('invite', 'OnboardingInviteController@invite')->name('inviteIndex');
+        Route::post('invite/emails', 'OnboardingInviteController@emailInvite')->name('emailInvite');
+        Route::get('invite/{user}', 'OnboardingInviteController@inviteUser')->name('inviteUser');
 
-        Route::get('connect', ['as' => 'onboardingConnect', 'uses' => 'OnboardingController@connect']);
+        Route::get('connect', 'OnboardingController@connect')->name('onboardingConnect');
 
         Route::get('score', 'OnboardingController@score');
 
@@ -57,9 +57,9 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::get('/dashboard', 'AccountController@stats');
 
         Route::group(['prefix' => 'agencies'], function () {
-            Route::get('/', ['as' => 'agencyIndex', 'uses' => 'AgencyController@index']);
-            Route::post('/', ['as' => 'agencyStore', 'uses' => 'AgencyController@store']);
-            Route::post('/select/{account}', ['as' => 'accountSelect', 'uses' => 'AccountController@selectAccount']);
+            Route::get('/', 'AgencyController@index')->name('agencyIndex');
+            Route::post('/', 'AgencyController@store')->name('agencyStore');
+            Route::post('/select/{account}', 'AccountController@selectAccount')->name('accountSelect');
         });
 
         Route::get('/analyze', 'AnalyzeController@index');
@@ -76,23 +76,23 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::resource('/influencers', 'InfluencersController@search');
         Route::resource('/topics', 'TopicsController@index');
 
-        Route::get('/idea/{idea}', ['as' => 'ideaEditor', 'uses' => 'PlanController@editor']);
+        Route::get('/idea/{idea}', 'PlanController@editor')->name('ideaEditor');
         Route::post('/idea/park', 'IdeaController@park');
         Route::post('/idea/update/{idea}', 'IdeaController@update');
         Route::post('/idea/reject/{id}', 'IdeaController@reject');
         Route::post('/idea/activate', 'IdeaController@activate');
-        Route::get('/idea/write/{idea}', ['as' => 'ideaWrite', 'uses' => 'IdeaController@write']);
+        Route::get('/idea/write/{idea}', 'IdeaController@write')->name('ideaWrite');
 
         Route::resource('/ideas', 'IdeaController', ['only' => [
             'index', 'show', 'store', 'park', 'activate'
         ]]);
 
         Route::group(['middleware' => ['auth', 'calendar']], function () {
-            Route::get('/calendar/{id?}', ['as' => 'calendarMonthly', 'uses' => 'CalendarController@index']);
+            Route::get('/calendar/{id?}', 'CalendarController@index')->name('calendarMonthly');
             Route::get('/calendar/{id?}/{year}/{month}', 'CalendarController@index');
-            Route::get('/daily/{id?}', ['as' => 'calendarDaily', 'uses' => 'CalendarController@daily']);
+            Route::get('/daily/{id?}', 'CalendarController@daily')->name('calendarDaily');
             Route::get('/daily/{id?}/{year}/{month}/{day}', 'CalendarController@daily');
-            Route::get('/weekly/{id?}', ['as' => 'calendarWeekly', 'uses' => 'CalendarController@weekly']);
+            Route::get('/weekly/{id?}', 'CalendarController@weekly')->name('calendarWeekly');
             Route::get('/weekly/{id?}/{year}/{month}/{day}', 'CalendarController@weekly');
         });
         Route::get('/calendar/my', 'CalendarController@my');
@@ -109,20 +109,20 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
 
         Route::resource('/task/add', 'TaskController@store');
         Route::post('task/attachments', 'TaskAttachmentsController@store');
-        Route::get('task/show/{id}', ['as' => 'taskShow', 'uses' => 'TaskController@show']);
+        Route::get('task/show/{id}', 'TaskController@show')->name('taskShow');
         Route::post('task/update/{id}', 'TaskController@update');
         Route::post('task/close/{task}', 'TaskController@close');
         Route::delete('task/{task}', 'TaskController@destroy');
 
-        Route::get('/content', ['as' => 'contentIndex', 'uses' => 'ContentController@index']);
-        Route::get('/content/delete/{content_id}', ['as' => 'contentDelete', 'uses' => 'ContentController@delete']);
-        Route::get('/content/publish/{content}', ['as' => 'contentPublish', 'uses' => 'ContentController@publishAndRedirect']);
-        Route::get('/content/multipublish/{content}', ['as' => 'contentMultiPublish', 'uses' => 'ContentController@directPublish']);
+        Route::get('/content', 'ContentController@index')->name('contentIndex');
+        Route::get('/content/delete/{content_id}', 'ContentController@delete')->name('contentDelete');
+        Route::get('/content/publish/{content}', 'ContentController@publishAndRedirect')->name('contentPublish');
+        Route::get('/content/multipublish/{content}', 'ContentController@directPublish')->name('contentMultiPublish');
 
-        Route::get('/content/orders', ['as' => 'contentOrders', 'uses' => 'ContentController@orders']);
-        Route::get('/content/orders/{id}', ['as' => 'contentOrder', 'uses' => 'ContentController@order']);
-        Route::get('/content/orders/approve/{id}', ['as' => 'orderApprove', 'uses' => 'WriterAccessController@orderApprove']);
-        Route::get('/content/orders/delete/{id}', ['as' => 'orderDelete', 'uses' => 'ContentController@orderDelete']);
+        Route::get('/content/orders', 'ContentController@orders')->name('contentOrders');
+        Route::get('/content/orders/{id}', 'ContentController@order')->name('contentOrder');
+        Route::get('/content/orders/approve/{id}', 'WriterAccessController@orderApprove')->name('orderApprove');
+        Route::get('/content/orders/delete/{id}', 'ContentController@orderDelete')->name('orderDelete');
         Route::get('/content/my', 'ContentController@my');
 
         Route::get('/content/campaigns', 'CampaignController@dashboardIndex');
@@ -135,19 +135,19 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
 
         // Twitter Callbacks
         //
-        Route::get('twitter/login', ['as' => 'twitterLogin', 'uses' => 'Connections\TwitterController@login']);
-        Route::get('callback/twitter', ['as' => 'twitterCallback', 'uses' => 'Connections\TwitterController@callback']);
-        Route::get('twitter/error', ['as' => 'twitterError', 'uses' => 'Connections\TwitterController@error']);
+        Route::get('twitter/login', 'Connections\TwitterController@login')->name('twitterLogin');
+        Route::get('callback/twitter', 'Connections\TwitterController@callback')->name('twitterCallback');
+        Route::get('twitter/error', 'Connections\TwitterController@error')->name('twitterError');
 
         // - Authorize
-        Route::get('authorize/{provider}', ['as' => 'connectionProvider', 'uses' => 'ConnectionController@redirectToProvider']);
-        Route::get('login/{provider}', ['as' => 'connectionCallback', 'uses' => 'ConnectionController@login']);
+        Route::get('authorize/{provider}', 'ConnectionController@redirectToProvider')->name('connectionProvider');
+        Route::get('login/{provider}', 'ConnectionController@login')->name('connectionCallback');
 
         // Wordpress Callback
-        Route::get('callback/wordpress', ['as' => 'wordpressCallback', 'uses' => 'Connections\WordpressController@callback']);
+        Route::get('callback/wordpress', 'Connections\WordpressController@callback')->name('wordpressCallback');
 
         // HubSpot Callback
-        Route::get('callback/hubspot', ['as' => 'hubspotCallback', 'uses' => 'Connections\HubspotController@callback']);
+        Route::get('callback/hubspot', 'Connections\HubspotController@callback')->name('hubspotCallback');
 
         // - Landing page for creating content
         Route::get('/create', 'ContentController@create');
@@ -157,11 +157,11 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::get('/edit', 'ContentController@createContent')->name('content.edit');
         Route::post('/edit', 'ContentController@editStore')->name('content.store');
 
-        Route::post('/edit/images', ['as' => 'imageContent', 'uses' => 'ContentController@images']);
-        Route::post('/edit/attachments', ['as' => 'attachmentContent', 'uses' => 'ContentController@attachments']);
+        Route::post('/edit/images', 'ContentController@images')->name('imageContent');
+        Route::post('/edit/attachments', 'ContentController@attachments')->name('attachmentContent');
 
         // - editing content form page
-        Route::get('/edit/{content}', ['as' => 'editContent', 'uses' => 'ContentController@editContent']);
+        Route::get('/edit/{content}', 'ContentController@editContent')->name('editContent');
         Route::post('/edit/{content}', 'ContentController@editStore');
 
         Route::get('/collaborate', 'CollaborateController@index');
@@ -172,17 +172,17 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::get('/onboarding', 'OnboardingController@index');
 
         Route::group(['prefix' => 'settings'], function () {
-            Route::get('/', ['as' => 'settingsIndex', 'uses' => 'SettingsController@index']);
-            Route::post('/', ['as' => 'settingsUpdate', 'uses' => 'SettingsController@update']);
-            Route::get('content', ['as' => 'settingsContentIndex', 'uses' => 'SettingsController@content']);
-            Route::get('buying', ['as' => 'settingsBuyingIndex', 'uses' => 'SettingsController@content']);
+            Route::get('/', 'SettingsController@index')->name('settingsIndex');
+            Route::post('/', 'SettingsController@update')->name('settingsUpdate');
+            Route::get('content', 'SettingsController@content')->name('settingsContentIndex');
+            Route::get('buying', 'SettingsController@content')->name('settingsBuyingIndex');
 
             // Connection Routes
             Route::get('connections', 'SettingsController@connections')->name('connectionIndex');
             Route::post('connections/create', 'ConnectionController@store')->name('connections.store');
             Route::delete('connections/{connection}', 'ConnectionController@delete')->name('connections.destroy');
 
-            Route::get('seo', ['as' => 'seoIndex', 'uses' => 'SettingsController@seo']);
+            Route::get('seo', 'SettingsController@seo')->name('seoIndex');
 
             Route::post('personas', 'Settings\PersonasController@create');
             Route::get('personas', 'Settings\PersonasController@index');
@@ -192,12 +192,12 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
             Route::get('buying_stages', 'Settings\BuyingStagesController@index');
             Route::delete('buying_stages/{buyingStage}', 'Settings\BuyingStagesController@delete');
 
-            Route::get('account', ['as' => 'settingsAccount', 'uses' => 'AccountSettingsController@index']);
+            Route::get('account', 'AccountSettingsController@index')->name('settingsAccount');
 
             Route::group(['prefix' => 'subscription'], function () {
-                Route::get('/', ['as' => 'subscription', 'uses' => 'AccountSettingsController@showSubscription']);
-                Route::post('/', ['uses' => 'AccountSettingsController@submitSubscription']);
-                Route::get('clients', ['as' => 'subscription-clients', 'uses' => 'AccountSettingsController@showSubscriptionClients']);
+                Route::get('/', 'AccountSettingsController@showSubscription')->name('subscription');
+                Route::post('/', 'AccountSettingsController@submitSubscription');
+                Route::get('clients', 'AccountSettingsController@showSubscriptionClients')->name('subscription-clients');
             });
         });
 
@@ -233,22 +233,10 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
             /**
              * Writer Access form pages.
              */
-            Route::get('partials/order_setup/{writerAccessPartialOrder}', [
-                'as' => 'orderSetup',
-                'uses' => 'WriterAccessPartialOrderController@orderSetup'
-            ]);
-
+            Route::get('partials/order_setup/{writerAccessPartialOrder}', 'WriterAccessPartialOrderController@orderSetup')->name('orderSetup');
             Route::post('partials/upload/{writerAccessPartialOrder}', 'WriterAccessUploadController@store');
-
-            Route::get('partials/order_audience/{writerAccessPartialOrder}', [
-                'as' => 'orderAudience',
-                'uses' => 'WriterAccessPartialOrderController@orderAudience'
-            ]);
-
-            Route::get('partials/order_review/{writerAccessPartialOrder}', [
-                'as' => 'orderReview',
-                'uses' => 'WriterAccessPartialOrderController@orderReview'
-            ]);
+            Route::get('partials/order_audience/{writerAccessPartialOrder}', 'WriterAccessPartialOrderController@orderAudience')->name('orderAudience');
+            Route::get('partials/order_review/{writerAccessPartialOrder}', 'WriterAccessPartialOrderController@orderReview')->name('orderReview');
         });
 
         Route::resource('writerAccessPrices', 'WriterAccessPriceController');
@@ -275,8 +263,8 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::get('/api/account/members', 'AccountCollaboratorsController@index');
         Route::delete('/api/account/members/{id}', 'AccountCollaboratorsController@delete');
         Route::get('/api/tasks', 'TaskController@index');
-        Route::post('/api/trends/share/{connection}', ['as' => 'trendShare', 'uses' => 'ContentController@trendShare']);
-        Route::post('/search', ['as' => 'searchIndex', 'uses' => 'SearchController@index']);
+        Route::post('/api/trends/share/{connection}', 'ContentController@trendShare')->name('trendShare');
+        Route::post('/search', 'SearchController@index')->name('searchIndex');
         Route::get('/api/content-types', 'ContentController@getContentTypes');
 
     });
