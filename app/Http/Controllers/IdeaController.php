@@ -45,8 +45,7 @@ class IdeaController extends Controller
             'user_id' => Auth::id(),
         ])->first();
 
-        $idea->status = 'parked';
-        $idea->save();
+        $idea->park();
 
         return response()->json($idea);
     }
@@ -59,8 +58,7 @@ class IdeaController extends Controller
             'user_id' => Auth::id(),
         ])->first();
 
-        $idea->status = 'active';
-        $idea->save();
+        $idea->activate();
 
         return response()->json($idea);
     }
@@ -72,8 +70,7 @@ class IdeaController extends Controller
             'user_id' => Auth::id(),
         ])->first();
 
-        $idea->status = 'rejected';
-        $idea->save();
+        $idea->reject();
 
         return response()->json($idea);
     }
