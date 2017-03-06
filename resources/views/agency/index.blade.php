@@ -48,6 +48,20 @@
                 $('#addTaskModal').modal('hide');
             });
         });
+
+        function showErrorFeedback(response) {
+            $(loadIMG).remove();
+            if (response.status === 403) {
+                showUpgradeAlert(response);
+            } else {
+                swal('Error!', response, 'error');
+            }
+        }
+
+        @if(Session::has('flash_message'))
+            {!! 'showErrorFeedback("'.session('flash_message').'");' !!}
+        @endif
+
     })();
 </script>
 @stop
