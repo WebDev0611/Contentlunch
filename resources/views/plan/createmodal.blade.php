@@ -34,75 +34,20 @@
             <label for="#">TAGS</label>
             <input type="text" class="input idea-tags" placeholder="Enter comma separated tags">
         </div>
-        <!--
+
         <div class="form-group">
             <fieldset class="form-fieldset clearfix">
                 <legend class="form-legend">Collaborators</legend>
-                <ul class="images-list pull-left">
-                    <li>
-                        <img src="/images/cl-avatar2.png" alt="#">
-                    </li>
-                    <li>
-                        <img src="/images/cl-avatar2.png" alt="#">
-                    </li>
-                    <li>
-                        <img src="/images/cl-avatar2.png" alt="#">
-                    </li>
+                <ul class="images-list pull-left" id='ideas-collaborator-list'>
+
                 </ul>
-                <div class="dropdown pull-right">
-                    <button type="button" class="button button-action large" data-toggle="dropdown">
-                        <i class="icon-add-circle"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="dropdown-header-secondary">
-                        <span class="dropdown-header-secondary-text">
-                            Select team member
-                        </span>
-                            <button class="button button-micro pull-right text-uppercase">
-                                Submit
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" class="dropdown-header-secondary-search" placeholder="Team Member Name">
-                        </li>
-                        <li>
-                            <label for="Friend" class="checkbox-image">
-                                <input id="Friend" type="checkbox">
-                            <span>
-                                <img src="/images/cl-avatar2.png" alt="#">
-                            </span>
-                            </label>
-                            <label for="Friend" class="checkbox-image">
-                                <input id="Friend" type="checkbox">
-                            <span>
-                                <img src="/images/cl-avatar2.png" alt="#">
-                            </span>
-                            </label>
-                            <label for="Friend" class="checkbox-image">
-                                <input id="Friend" type="checkbox">
-                            <span>
-                                <img src="/images/cl-avatar2.png" alt="#">
-                            </span>
-                            </label>
-                            <label for="Friend" class="checkbox-image">
-                                <input id="Friend" type="checkbox">
-                            <span>
-                                <img src="/images/cl-avatar2.png" alt="#">
-                            </span>
-                            </label>
-                        </li>
-                    </ul>
-                </div>
+
+                <button type="button" id='open-collab-modal' class="button button-action large pull-right">
+                    <i class="icon-add-circle"></i>
+                </button>
             </fieldset>
         </div>
-        <div class="form-group">
-            <div class="select select-secondary">
-                <select name="" id="">
-                    <option value="#">Invite Guests</option>
-                </select>
-            </div>
-        </div>
-        -->
+
         <div class="form-delimiter">
             <span>
                 <em>Selected Content</em>
