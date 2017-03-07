@@ -1,17 +1,3 @@
-<script type="text/template" id="selected-trend-template">
-    <div class="tombstone tombstone-horizontal tombstone-active clearfix">
-        <div class="tombstone-image">
-            <img src="<%= image %>" alt="">
-        </div>
-        <div class="tombstone-container">
-            <h3><%= title %></h3>
-            <p>
-                <%= title %>
-            </p>
-        </div>
-    </div>
-</script>
-
 <script type="text/template" id="selected-topic-template">
     <div class="tombstone tombstone-horizontal tombstone-active clearfix">
         <div class="tombstone-container">
