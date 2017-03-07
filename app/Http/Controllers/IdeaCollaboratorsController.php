@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -13,12 +14,23 @@ class IdeaCollaboratorsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
+     * @param Idea $idea
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, Idea $idea)
     {
-        $possibleCollaborators = $idea->account->users;
-        $currentCollaborators = $idea->collaborators->keyBy('id');
+        $collaborators = $idea->id
+            ? $this->getCollaborators($request, $idea)
+            : $this->getCollaborators($request);
+
+        return response()->json(['data' => $collaborators]);
+    }
+
+    protected function getCollaborators(Request $request, Idea $idea = null)
+    {
+        $possibleCollaborators = $idea ? $idea->account->users : Account::selectedAccount()->users;
+        $currentCollaborators = $idea ? $idea->collaborators->keyBy('id') : collect([]);
         $showPossibleCollaborators = $request->input('possible_collaborators') === '1';
 
         $collaborators = $possibleCollaborators->map(function($user) use ($currentCollaborators) {
@@ -39,7 +51,7 @@ class IdeaCollaboratorsController extends Controller
             })->values();
         }
 
-        return response()->json([ 'data' => $collaborators ]);
+        return $collaborators;
     }
 
     /**
