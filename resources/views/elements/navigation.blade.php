@@ -5,12 +5,15 @@
     <ul class="navigation-menu">
         <li>
             <a href="{{route('subscription')}}" class="navigation-menu-profile navigation-menu-link {{ Request::segment(1) != 'subscription' ?: 'active' }}">
-                <img src="{{ \Auth::user()->present()->profile_image }}" alt="">
 
                 @if (\Auth::user()->belongsToAgencyAccount())
+                    <img src="{{ App\Account::selectedAccount()->present()->account_image }}" alt="{{ App\Account::selectedAccount()->name }}">
+
                     <div class="app-type">
                         <p class="app-agency">Agency</p>
                     </div>
+                @else
+                    <img src="{{ \Auth::user()->present()->profile_image }}" alt="">
                 @endif
             </a>
         </li>

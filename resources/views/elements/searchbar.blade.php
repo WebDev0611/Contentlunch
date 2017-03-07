@@ -7,7 +7,7 @@
                         <a href="#" class="drop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class='account-selector-main'>
                                 <span class="company-logo">
-                                    <img src="/images/logo-client-fake.jpg" alt="XX">
+                                    <img src="{{ $selectedAccount->present()->account_image }}" alt="{{ $selectedAccount->name }}">
                                 </span>
                                 <span>{{ $selectedAccount->name }}</span>
                             </span>
@@ -18,7 +18,7 @@
                                 <li>
                                     <a href="#" data-account-id="{{ $account->id }}" class='account-selector'>
                                         <span class="company-logo">
-                                            <img src="/images/logo-client-fake.jpg" alt="XX">
+                                            <img src="{{ $account->present()->account_image }}" alt="{{ $account->name }}">
                                         </span>
                                         <span>{{ $account->name }}</span>
                                     </a>
