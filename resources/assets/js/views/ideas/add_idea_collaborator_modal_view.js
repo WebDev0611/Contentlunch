@@ -60,25 +60,34 @@ var AddIdeaCollaboratorModalView = Backbone.View.extend({
     `),
 
     data: {
-        users: []
+        users: [],
     },
 
-    initialize() {
+    idea: {},
+
+    initialize(options = {}) {
+        this.idea = options.idea || {};
+        this.collaborators = options.collaborators || [];
         this.render();
         this.fetchData();
+    },
+
+    getUrl() {
+        return _.has(this.idea, 'id')
+            ? `/api/ideas/${this.idea.id}/collaborators`
+            : `/api/ideas/collaborators`;
     },
 
     fetchData() {
         return $.ajax({
             method: 'get',
-            url: '/api/ideas/' + idea_obj.id + '/collaborators?possible_collaborators=1',
-            headers: getCSRFHeader(),
+            url: this.getUrl() + '?possible_collaborators=1',
         })
-            .then(function(response) {
-                this.clearList();
-                this.data.users = response.data;
-                this.renderCheckboxes();
-            }.bind(this));;
+        .then(function(response) {
+            this.clearList();
+            this.data.users = response.data;
+            this.renderCheckboxes();
+        }.bind(this));
     },
 
     render() {
@@ -130,17 +139,22 @@ var AddIdeaCollaboratorModalView = Backbone.View.extend({
     },
 
     submit() {
+        if (!_.has(this.idea, 'id')) {
+            Backbone.trigger('idea_collaborators:selected', this.getCheckedCollaborators());
+            this.dismissModal();
+            return;
+        }
+
         $.ajax({
             method: 'post',
-            url: '/api/ideas/' + idea_obj.id + '/collaborators',
-            headers: getCSRFHeader(),
+            url: this.getUrl(),
             data: {
                 collaborators: this.getCheckedCollaborators()
             },
         })
         .then(function(response) {
             $('#ideas-collaborator-list').html('');
-            collaborators.populateList();
+            this.collaborators.populateList();
             this.dismissModal();
         }.bind(this));
     },
