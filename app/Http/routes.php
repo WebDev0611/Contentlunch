@@ -263,8 +263,11 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::get('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@index');
         Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@update');
         Route::get('/api/contents/{content}/tasks', 'ContentTasksController@index');
+
+        Route::get('/api/ideas/collaborators', 'IdeaCollaboratorsController@index');
         Route::get('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@index');
         Route::post('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@update');
+
         Route::get('/api/account/members', 'AccountCollaboratorsController@index');
         Route::delete('/api/account/members/{id}', 'AccountCollaboratorsController@delete');
         Route::get('/api/tasks', 'TaskController@index');
