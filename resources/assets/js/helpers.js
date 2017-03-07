@@ -124,6 +124,7 @@ function getTaskData() {
         assigned_users: getTaskAssignments(),
         content_id: getContentId(),
         campaign_id: getCampaignId(),
+        calendar_id: getCalendarId()
     };
 }
 
@@ -147,6 +148,17 @@ function getContentId() {
     }
 
     return contentId;
+}
+
+function getCalendarId() {
+    let element = $('#is_calendar_task');
+    let calendarId = null;
+
+    if (element.length && element.val() === 'on') {
+        calendarId = element.data('id');
+    }
+
+    return calendarId;
 }
 
 function getTaskAttachments() {

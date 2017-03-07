@@ -25,6 +25,11 @@ class Calendar extends Model
         return $this->belongsToMany('App\ContentType');
     }
 
+    public function tasks()
+    {
+        return $this->hasMany('App\Task');
+    }
+
     public function store($user, $account_id, $input)
     {
         $this->name = $input['name'];

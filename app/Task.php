@@ -58,6 +58,11 @@ class Task extends Model
         return $this->belongsTo('App\Account');
     }
 
+    public function calendar()
+    {
+        return $this->belongsTo('App\Calendar');
+    }
+
     public function adjustments()
     {
         return $this->hasMany('App\TaskAdjustment');
