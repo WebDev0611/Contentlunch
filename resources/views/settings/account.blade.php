@@ -35,7 +35,7 @@
 
                         <div class="row">
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 vertically-middle">
                                 <div class="onboarding-avatar" id='settings-avatar'>
                                     <div class="loading-icon loading-icon-center"></div>
                                     <img src="{{ $account->present()->account_image }}" alt="#">
@@ -48,7 +48,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 vertically-middle">
                                 <div class="input-form-group">
                                     <label for="#">ACCOUNT NAME</label>
                                     {!!
@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-3 pull-right">
+                            <div class="col-md-3 col-md-offset-7">
                                 <div class="input-form-group">
                                     <button type='submit' class="button button-extend">Save Changes</button>
                                 </div>

@@ -422,3 +422,9 @@ $panel-border-radius: 4px;
   margin-bottom: 14px;
   margin-top: -6px;
 }
+
+.vertically-middle {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}
