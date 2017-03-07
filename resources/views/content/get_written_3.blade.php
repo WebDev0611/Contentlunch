@@ -33,7 +33,11 @@
                                         <span>{{ $order->assetType->name }}</span>
                                     </div>
                                 </div>
-                                <h4>{{ $order->content_title }}</h4>
+                                @if($order->order_count > 1)
+                                    <h4>Multiple Content Titles</h4>
+                                    @else
+                                    <h4>{{ $order->content_title }}</h4>
+                                @endif
                                 <div class="row">
                                     <div class="col-md-4">
                                         <span>
@@ -43,7 +47,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <span>
-                                            AUTHOR
+                                            ORDERED BY
                                             <strong>{{ $order->user->name }}</strong>
                                         </span>
                                     </div>

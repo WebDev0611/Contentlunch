@@ -51,7 +51,7 @@ class WriterAccessPartialOrder extends Model
             ->where('wordcount', $this->wordcount)
             ->first();
 
-        return $price ? $price->fee : 0;
+        return $price ? $price->fee * $this->order_count : 0;
     }
 
     public function writerAccessFormat()
