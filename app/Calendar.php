@@ -15,6 +15,11 @@ class Calendar extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
+
     public function contentTypes()
     {
         return $this->belongsToMany('App\ContentType');

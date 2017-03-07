@@ -15,7 +15,7 @@ class CalendarMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $userCalendars = $request->user()->calendars()->with('contentTypes')->get();
+        $accountCalendars = \App\Account::selectedAccount()->calendars()->with('contentTypes')->get();
         $action = 'calendar';
         if (strpos($request->route()->getActionName(), 'weekly') !== false) {
             $action = 'weekly';
@@ -25,21 +25,21 @@ class CalendarMiddleware
         }
 
         if ($request->route('id') !== null) {
-            if ($userCalendars->contains($request->route('id'))) {
+            if ($accountCalendars->contains($request->route('id'))) {
                 return $next($request);
             }
             else {
-                abort(404);
+                return redirect(route('calendarMonthly'));
             }
         }
-        else if (count($userCalendars) == 0) {
+        else if (count($accountCalendars) == 0) {
             // If user doesn't have a calendar yet, create one
             $calendar = Calendar::createDefaultCalendar($request);
 
             return redirect($action . '/' . $calendar->id);
         }
         else {
-            return redirect($action . '/' . $userCalendars->first()->id);
+            return redirect($action . '/' . $accountCalendars->first()->id);
         }
     }
 }

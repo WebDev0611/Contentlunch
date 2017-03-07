@@ -36,7 +36,7 @@ class CalendarController extends Controller
     //pulls all calendars for the user
     public function my(Request $request)
     {
-        return $request->user()->calendars()->with('contentTypes')->get();
+        return Account::selectedAccount()->calendars()->with('contentTypes')->get();
     }
 
     //creates a new calendar
