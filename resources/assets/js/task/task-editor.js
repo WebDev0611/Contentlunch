@@ -7,21 +7,21 @@
 
         loader: $('<img src="/images/loading.gif" style="max-height:30px;" id="loader" />'),
 
-        show_success: function(msg){
+        show_success(msg) {
             $('#task-status-message').append(this.notify);
             $('#task-status-text').text(msg);
             $('#task-status-message').find('.alert').addClass('alert-success');
         },
 
-        show_load: function(){
+        show_load() {
             $('.head-actions').prepend(this.loader);
         },
 
-        hide_load: function(){
+        hide_load() {
             $('#loader').remove();
         },
 
-        update_task: function(){
+        update_task() {
             this.show_load();
             var formData = this.form_data();
 
@@ -38,11 +38,11 @@
             }.bind(this));
         },
 
-        task_id: function() {
+        task_id() {
             return $('input[name=task_id]').val();
         },
 
-        form_data: function() {
+        form_data() {
             return {
                 name: $('#name').val(),
                 start_date: $('#start_date').val(),
@@ -53,7 +53,7 @@
             };
         },
 
-        assigned_users: function() {
+        assigned_users() {
             return $('#task-assignment-non-modal :checked')
                 .toArray()
                 .map(function(checkbox) {
@@ -61,7 +61,7 @@
                 });
         },
 
-        close_task: function(){
+        close_task() {
             var t = this;
             var form_data = {
                 name: $('#name').val()
@@ -78,11 +78,11 @@
         }
     };
 
-    $(function(){
-        $('#close-task').click(function(){
+    $(function() {
+        $('#close-task').click(function() {
             taskForm.close_task();
         });
-        $('#update-task').click(function(){
+        $('#update-task').click(function() {
             taskForm.update_task();
         });
 

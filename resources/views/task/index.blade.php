@@ -172,11 +172,6 @@
 
 @stop
 
-
-@section('styles')
-
-@stop
-
 @section('scripts')
 <script type='text/javascript' src="/js/task_editor.js"></script>
 @stop
