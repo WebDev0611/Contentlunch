@@ -1,3 +1,5 @@
+'use strict';
+
 var camelize = function(str) {
     return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
         if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
@@ -22,27 +24,33 @@ var camelize = function(str) {
 		events: {
 			"click input": "select_content"
 		},
-		template: _.template('<label for="<%= camelize(keyword) %>" class="checkbox-tag"><input id="<%= camelize(keyword) %>" type="checkbox"><span><%= keyword %></span></label>'),
-		initialize: function(){
-			//console.log('init!');
-			//console.log(this.model.attributes);
+
+		template: _.template(`
+            <label for="<%= camelize(keyword) %>" class="checkbox-tag">
+                <input id="<%= camelize(keyword) %>" type="checkbox">
+                <span><%= keyword %></span>
+            </label>
+        `),
+
+		initialize() {
 			this.listenTo(this.model, "remove", this.removeFromDOM);
 		},
-		render: function(){
-			this.$el.html( this.template(this.model.attributes) );
+
+		render() {
+			this.$el.html(this.template(this.model.attributes));
 			return this;
 		},
-		removeFromDOM: function(){
+
+		removeFromDOM() {
 			var that = this;
-			this.$el.fadeOut(200,function(){
-				that.$el.remove();
-			});
+			this.$el.fadeOut(200, () => that.$el.remove());
 		},
-		select_content: function(){
-			if( !this.model.get('selected') ){
-				this.model.set('selected',true);
-			}else{
-				this.model.set('selected',false);
+
+		select_content() {
+			if (!this.model.get('selected')) {
+				this.model.set('selected', true);
+			} else {
+				this.model.set('selected', false);
 			}
 		}
 	});
@@ -60,13 +68,14 @@ var camelize = function(str) {
 		model: topic_result
 	});
 	var selected_content_view = Backbone.View.extend({
-		template: _.template( $('#selected-topic-template').html() ),
-		initialize: function(){
+		template: _.template($('#selected-topic-template').html()),
+
+		initialize() {
 			this.render();
 		},
-		render: function(){
-			//console.log(this.model.attributes );
-			this.$el.html( this.template( this.model.attributes ) );
+
+		render() {
+			this.$el.html(this.template(this.model.attributes));
 		}
 	});
 
@@ -115,46 +124,55 @@ var camelize = function(str) {
 			this.store('active');
 		},
 
-		store(status) {
-			var view = this;
-			$('.park-idea').prop('disabled',true);
-			$('.save-idea').prop('disabled',true);
-			$('#idea-status-alert').addClass('hidden');
-			if( $('.idea-name').val().length < 1 ){
-				view.show_error('Idea title required');
+        disableForm() {
+            $('.park-idea').prop('disabled',true);
+            $('.save-idea').prop('disabled',true);
+            $('#idea-status-alert').addClass('hidden');
+        },
+
+        formIsValid() {
+            return $('.idea-name').val().length > 1;
+        },
+
+        formData() {
+            return {
+                name: $('.idea-name').val(),
+                idea: $('.idea-text').val(),
+                tags: $('.idea-tags').val(),
+                status: status || 'active',
+                content: this.model.attributes.content.map(model => model.attributes),
+            };
+        },
+
+        store(status) {
+            let view = this;
+
+            this.disableForm();
+
+			if (!this.formIsValid()) {
+				this.show_error('Idea title required');
 				return;
 			}
+
 			var loadingIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
-			console.log('loading image here');
 			$('#idea-menu').prepend(loadingIMG);
-			//saves the form data
-			var content = this.model.attributes.content;
-			var idea_obj = {
-				name: $('.idea-name').val(),
-				idea: $('.idea-text').val(),
-				tags: $('.idea-tags').val(),
-				status: status || 'active',
-				content: content.map(function(m){
-					return m.attributes;
-				})
-			};
 
 			return $.ajax({
 			    url: '/ideas',
 			    type: 'post',
-			    data: idea_obj,
+			    data: this.formData(),
 			    dataType: 'json',
 			})
 			.then(function (data) {
 				$(loadingIMG).remove();
-				view.hide_modal();
-				view.clear_form();
+				view.hideModal();
+				view.clearForm();
 				view.render();
 			})
 			.catch(response => {
 				$(loadingIMG).remove();
-				view.hide_modal();
-				view.clear_form();
+				view.hideModal();
+				view.clearForm();
 
                 if (response.status === 403) {
                     showUpgradeAlert(response.responseJSON.data);
@@ -164,11 +182,11 @@ var camelize = function(str) {
 			});
 		},
 
-		hide_modal: function(){
+		hideModal() {
 			this.$el.modal('hide');
 		},
 
-		show_error: function(msg){
+		show_error(msg) {
 			$('#idea-status-alert')
 				.toggleClass('hidden')
 				.toggleClass('alert-danger')
@@ -178,25 +196,30 @@ var camelize = function(str) {
 			$('.park-idea').prop('disabled',false);
 			$('.save-idea').prop('disabled',false);
 		},
-		clear_form: function(){
-			var view = this;
-			this.model.attributes.content.each(function(m){
-				if(m){
-					m.set('selected',false);
-					view.model.attributes.content.remove(m);
-				}
-			});
+
+		clearForm() {
+		    this.deselectModels();
+
 			$('.idea-name').val('');
 			$('.idea-text').val('');
 			$('.idea-tags').val('');
 			$('.park-idea').prop('disabled',false);
 			$('.save-idea').prop('disabled',false);
-		}
+		},
+
+        deselectModels() {
+		    let view = this;
+            this.model.attributes.content.each(function(model) {
+                if (model) {
+                    model.set('selected',false);
+                    view.model.attributes.content.remove(model);
+                }
+            });
+        }
 	});
 
 	var new_idea = new idea_model();
-	var idea_form = new create_idea_view({el: '#createIdea',model: new_idea});
-
+	var idea_form = new create_idea_view({ el: '#createIdea', model: new_idea });
 
 	/* main page event setup */
 	$(function(){
