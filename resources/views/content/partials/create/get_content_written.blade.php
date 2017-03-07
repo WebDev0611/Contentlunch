@@ -15,7 +15,6 @@
             </div>
         @endif
 
-        count
         <div class="row">
             <div class="col-md-8">
                 <div class="input-form-group">
