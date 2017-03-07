@@ -54,7 +54,7 @@
                                             <tr>
                                                 <td>
                                                     <div class="clientlogo">
-                                                        <img src="/images/logo-client-fake.jpg" alt="XX"/>
+                                                        <img src="{{ $account->present()->account_image }}" alt="{{ $account->name }}"/>
                                                     </div>
                                                     <p class="title">{{ $account->name }}</p>
                                                 </td>
