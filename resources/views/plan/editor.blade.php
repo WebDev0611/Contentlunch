@@ -69,7 +69,18 @@
                         </div>
 
                         <div class="form-group">
-                            @include('plan.partials.invite_collaborators')
+                            <fieldset class="form-fieldset clearfix">
+                                <legend class="form-legend">Collaborators</legend>
+                                <ul class="images-list pull-left" id='ideas-collaborator-list'>
+
+                                </ul>
+
+                                @if ($is_collaborator)
+                                    <button type="button" id='open-collab-modal' class="button button-action large pull-right">
+                                        <i class="icon-add-circle"></i>
+                                    </button>
+                                @endif
+                            </fieldset>
                         </div>
 
                         {{--

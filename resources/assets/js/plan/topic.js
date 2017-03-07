@@ -106,6 +106,7 @@ var camelize = function(str) {
 				view.$el.find('.form-delimiter').show();
 			}
 		},
+
 		park() {
 			this.store('parked');
 		},
