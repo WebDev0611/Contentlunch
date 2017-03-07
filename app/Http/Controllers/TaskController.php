@@ -156,7 +156,7 @@ class TaskController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return View
      */
     public function show(Request $request, $id)
     {
@@ -166,7 +166,7 @@ class TaskController extends Controller
             abort(404);
         }
 
-        return view('task/index', compact('task'));
+        return view('task.index', compact('task'));
     }
 
     /**
