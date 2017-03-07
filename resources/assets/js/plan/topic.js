@@ -54,7 +54,6 @@
 		model: topic_result
 	});
 
-
 	/* idea JS for the modal */
 	var selected_content = Backbone.Collection.extend({
 		model: topic_result
@@ -84,10 +83,12 @@
 	var create_idea_view = Backbone.View.extend({
 		events: {
 			"click .save-idea": "save",
-			"click .park-idea": "park"
+			"click .park-idea": "park",
+            "click #open-collab-modal": "openCollabModal"
 		},
 
 		initialize() {
+		    this.listenTo(Backbone, 'idea_collaborators:selected', data => console.log(data));
 			this.listenTo(this.model.attributes.content,'update',this.render);
 			this.render();
 		},
@@ -142,7 +143,7 @@
             this.disableForm();
 
 			if (!this.formIsValid()) {
-				this.show_error('Idea title required');
+				this.showError('Idea title required');
 				return;
 			}
 
@@ -178,7 +179,7 @@
 			this.$el.modal('hide');
 		},
 
-		show_error(msg) {
+		showError(msg) {
 			$('#idea-status-alert')
 				.toggleClass('hidden')
 				.toggleClass('alert-danger')
@@ -207,6 +208,11 @@
                     view.model.attributes.content.remove(model);
                 }
             });
+        },
+
+        openCollabModal() {
+            var collabModal = new AddIdeaCollaboratorModalView();
+            collabModal.showModal();
         }
 	});
 
