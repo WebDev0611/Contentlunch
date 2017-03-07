@@ -25,18 +25,35 @@
 	});
 
 	let create_idea_cont_view = Backbone.View.extend({
-		events:{
+		events: {
 			"click": "unselect"
 		},
-		template: _.template( $('#selected-trend-template').html() ),
-		initialize: function(){
+
+		template: _.template(`
+		    <div class="tombstone tombstone-horizontal tombstone-active clearfix">
+                <div class="tombstone-image">
+                    <img src="<%= image %>" alt="">
+                </div>
+                <div class="tombstone-container">
+                    <h3><%= title %></h3>
+                    <p>
+                        <%= title %>
+                    </p>
+                </div>
+            </div>
+        `),
+
+		initialize() {
 			this.render();
 		},
-		render: function(){
-			this.$el.html(this.template( this.model.attributes ) );
+
+		render() {
+			this.$el.html(this.template(this.model.attributes));
+
 			return this;
 		},
-		unselect: function(){
+
+		unselect() {
 			this.model.set('selected',false);
 			this.$el.toggleClass('tombstone-active');
 		}
@@ -47,46 +64,60 @@
             "click .save-idea": "save",
             "click .park-idea": "park"
         },
-        initialize:function(){
+
+        initialize() {
             this.listenTo(this.collection, "update", this.render);
             this.listenTo(this.collection, "change", this.render);
         },
-        render:function(){
+
+        render() {
             let view = this;
             let selected = this.collection.where({selected: true});
             view.$el.find('#selected-content').html('');
 
-            selected.forEach(function(m){
-                let sel_cont_view = new create_idea_cont_view({model: m});
+            selected.forEach(function(model) {
+                let sel_cont_view = new create_idea_cont_view({ model });
                 view.$el.find('#selected-content').append( sel_cont_view.el );
             });
+
             this.$el.find('.sidemodal-header-title').text('Create an idea from ' + selected.length + ' selected items');
-            if( selected.length < 1 ){
+            if (selected.length < 1) {
                 this.$el.find('.form-delimiter').hide();
-            }else{
+            } else {
                 this.$el.find('.form-delimiter').show();
             }
         },
-        hide_modal: function(){
+
+        hideModal() {
             this.$el.modal('hide');
         },
-        clear_form: function(){
+
+        deselectModels() {
+            this.collection.each(function(model){
+                model.set('selected',false);
+            });
+        },
+
+        clearForm() {
+            this.deselectModels();
+
             $('.idea-name').val('');
             $('.idea-text').val('');
             $('.idea-tags').val('');
-            this.collection.each(function(m){
-                m.set('selected',false);
-            });
+
             $('.save-idea').prop('disabled',false);
             $('.park-idea').prop('disabled',false);
         },
-        save: function(){
+
+        save() {
             this.store('active');
         },
-        park: function(){
+
+        park() {
             this.store('parked');
         },
-        show_error: function(msg){
+
+        showError(msg) {
             $('#idea-status-alert')
                 .toggleClass('hidden')
                 .toggleClass('alert-danger')
@@ -96,51 +127,64 @@
             $('.save-idea').prop('disabled',false);
             $('.park-idea').prop('disabled',false);
         },
-        store: function(action){
-            let view = this;
 
+        disableForm() {
             $('.save-idea').prop('disabled',true);
             $('.park-idea').prop('disabled',true);
 
             $('#idea-status-alert').addClass('hidden');
+        },
 
-            if ($('.idea-name').val().length < 1) {
-                view.show_error('Idea title required');
-                return;
-            }
-            let loadingIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
-            console.log('loading image here');
-            $('#idea-menu').prepend(loadingIMG);
-            //saves the form data
+        formIsValid() {
+            return $('.idea-name').val().length > 1
+        },
+
+        formData() {
             let content = this.collection.where({ selected: true });
-            let idea_obj = {
+
+            return {
                 name: $('.idea-name').val(),
                 idea: $('.idea-text').val(),
                 tags: $('.idea-tags').val(),
                 status: action,
                 content: content.map(model => model.attributes)
             };
+        },
+
+        store(action) {
+            let view = this;
+
+            this.disableForm();
+
+            if (!this.formIsValid()) {
+                view.showError('Idea title required');
+                return;
+            }
+
+            let loadingIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
+            $('#idea-menu').prepend(loadingIMG);
+
             $.ajax({
                 url: '/ideas',
                 type: 'post',
-                data: idea_obj,
+                data: this.formData(),
                 dataType: 'json',
             })
             .then(data => {
                 $(loadingIMG).remove();
-                view.hide_modal();
-                view.clear_form();
+                view.hideModal();
+                view.clearForm();
             })
             .catch(response => {
                 $(loadingIMG).remove();
-                view.hide_modal();
-                view.clear_form();
+                view.hideModal();
+                view.clearForm();
                 if (response.status === 403) {
                     showUpgradeAlert(response.responseJSON.data);
                 } else {
                     swal('Error!', response.responseJSON.data, 'error');
                 }
-            });;
+            });
         }
     });
 
@@ -149,9 +193,11 @@
             "click .share-trend": "share",
             "change #connectionType": "connectionTypeUpdate"
         },
+
         selectedTrend: null,
         selectedConnection: null,
-        initialize: function() {
+
+        initialize() {
             this.$el.on("show.bs.modal", this.updateTrendSelection.bind(this));
             this.listenTo(this.collection, "update", this.render);
             this.listenTo(this.collection, "change", this.render);
@@ -161,7 +207,7 @@
 
         render: function() {
             let selected = this.collection.where({selected: true});
-            if(!selected.length){
+            if (!selected.length) {
                 this.$el.modal("hide");
                 return;
             }
