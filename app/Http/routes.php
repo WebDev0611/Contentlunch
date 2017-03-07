@@ -197,6 +197,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
             Route::delete('buying_stages/{buyingStage}', 'Settings\BuyingStagesController@delete');
 
             Route::get('account', 'AccountSettingsController@index')->name('settingsAccount');
+            Route::post('account', 'AccountSettingsController@update');
 
             Route::group(['prefix' => 'subscription'], function () {
                 Route::get('/', 'AccountSettingsController@showSubscription')->name('subscription');

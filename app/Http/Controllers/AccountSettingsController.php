@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Helpers;
 use App\Subscription;
 use App\SubscriptionType;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ use Stripe\Stripe;
 
 class AccountSettingsController extends Controller {
 
-    public function index()
+    public function index ()
     {
         $data = [
             'user'    => Auth::user(),
@@ -22,6 +23,33 @@ class AccountSettingsController extends Controller {
         ];
 
         return view('settings.account', $data);
+    }
+
+    public function update (Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route('settingsAccount'))
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $account = Account::selectedAccount();
+        $account->name = $request->input('name');
+        if ($request->hasFile('avatar')) {
+            $account->account_image = Helpers::handleAccountPicture($account, $request->file('avatar'));
+        }
+
+        $account->save();
+
+        return redirect()->route('settingsAccount')->with([
+            'flash_message'           => 'Account settings updated.',
+            'flash_message_type'      => 'success',
+            'flash_message_important' => true,
+        ]);
     }
 
     public function showSubscription ()
@@ -52,8 +80,9 @@ class AccountSettingsController extends Controller {
         }
 
         // If free plan is selected: TODO: handle plan downgrade
-        if($request->input('plan-slug') == 'free'){
+        if ($request->input('plan-slug') == 'free') {
             Account::selectedAccount()->subscribe(SubscriptionType::whereSlug('free')->first());
+
             return $this->redirectToSubscription('Account upgrade is complete!');
         }
 
@@ -196,19 +225,20 @@ class AccountSettingsController extends Controller {
         $user = Auth::user();
         $account = Account::selectedAccount();
 
-        if($account->parentAccount == null){
+        if ($account->parentAccount == null) {
             $activeSubscription = $account->activeSubscriptions()->first();
             $usersOnAccount = $account->users;
-        } else {
+        }
+        else {
             $activeSubscription = $account->parentAccount->activeSubscriptions()->first();
             $usersOnAccount = $account->parentAccount->users;
         }
 
         $data = [
-            'user'    => $user,
-            'account' => $account,
+            'user'               => $user,
+            'account'            => $account,
             'activeSubscription' => $activeSubscription,
-            'usersOnAccount' => $usersOnAccount
+            'usersOnAccount'     => $usersOnAccount
         ];
 
         // Get plan prices

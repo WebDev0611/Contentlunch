@@ -22,6 +22,8 @@ class Account extends Model
         'parent_account_id',
     ];
 
+    const DEFAULT_ACCOUNT_IMAGE = '/images/logo-client-fake.jpg';
+
     /**
      * Relationships.
      */

@@ -80,6 +80,14 @@ class Helpers {
         return self::handleUpload($file, $filename, $path);
     }
 
+    public static function handleAccountPicture($account, $file)
+    {
+        $path = 'attachment/' . $account->id . '/account/';
+        $filename  = self::slugify($account->name);
+
+        return self::handleUpload($file, $filename, $path);
+    }
+
     public static function handleTmpUpload($file, $useOwnFileName = false)
     {
         $path = 'attachment/_tmp/';

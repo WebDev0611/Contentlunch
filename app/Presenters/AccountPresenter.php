@@ -6,6 +6,13 @@ use App\Presenters\Helpers\BasePresenter;
 
 class AccountPresenter extends BasePresenter
 {
+    public function account_image()
+    {
+        return $this->entity->account_image ?
+            $this->entity->account_image :
+            \App\Account::DEFAULT_ACCOUNT_IMAGE;
+    }
+
     public function tagsDropdown()
     {
         return $this->entity
