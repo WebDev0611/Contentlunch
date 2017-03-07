@@ -99,12 +99,12 @@
 
     function setUpDatepickers() {
         $('#start_date').datetimepicker({
-            format: 'DD/MM/YY',
+            format: 'DD/MM/YYYY',
             sideBySide: true,
         });
 
         $('#due_date').datetimepicker({
-            format: 'DD/MM/YY',
+            format: 'DD/MM/YYYY',
             sideBySide: true,
         });
     }
