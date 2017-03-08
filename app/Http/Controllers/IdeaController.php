@@ -81,26 +81,23 @@ class IdeaController extends Controller
         Auth::user()->addToLimit('ideas_created');
 
         $idea = Idea::create([
-            'name' => $request->input('name'),
-            'text' => $request->input('idea'),
-            'tags' => $request->input('tags'),
-            'status' => $request->input('status'),
+            'name' => $request->name,
+            'text' => $request->idea,
+            'tags' => $request->tags,
+            'status' => $request->status,
             'user_id' => Auth::id(),
             'account_id' => Account::selectedAccount()->id,
         ]);
 
-        // Check if we're overriding created_at field
-        if ($request->has('created_at')) {
-            $idea->created_at = $request->input('created_at');
-            $idea->save();
+        if ($request->collaborators) {
+            $idea->collaborators()->sync($request->collaborators);
+        } else {
+            $idea->collaborators()->attach(Auth::user());
         }
-
-        $idea->collaborators()->attach(Auth::user());
 
         $idea_contents = $this->createIdeaContents($idea, $request->input('content'));
         $this->saveAsCalendarIdea($request, $idea);
 
-        //do sanity/success checks here
         return response()->json([
             $idea->name,
             $idea->text,
