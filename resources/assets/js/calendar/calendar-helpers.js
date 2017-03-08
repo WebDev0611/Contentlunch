@@ -85,6 +85,17 @@ function showErrorFeedback(response) {
     }
 }
 
+function getCalendarId() {
+    let element = $('#is_calendar_item');
+    let calendarId = null;
+
+    if (element.length && element.val() === 'on') {
+        calendarId = element.data('id');
+    }
+
+    return calendarId;
+}
+
 function clearCalendarInputs() {
     $('#calendar_name').val('');
     $('#show_tasks:checked').click();
@@ -122,14 +133,6 @@ function store_idea(action, callback) {
 
     $('#idea-menu').prepend(loadIMG);
 
-    // get calendar id
-    let cal_element = $('#is_calendar_item');
-    let calendarId = null;
-
-    if (cal_element.length && cal_element.val() === 'on') {
-        calendarId = cal_element.data('id');
-    }
-
     //saves the form data
     //let content = this.collection.where({selected: true});
     let idea_obj = {
@@ -137,7 +140,7 @@ function store_idea(action, callback) {
         idea: $('.idea-text').val(),
         tags: $('.idea-tags').val(),
         created_at: $('#idea_date').val(),
-        calendar_id: calendarId,
+        calendar_id: getCalendarId(),
         status: action,
         /*
          content: content.map(function (m) {
@@ -199,6 +202,7 @@ function store_content(callback) {
         title: $('#content-title').val(),
         content_type: $("#content-type-id option:selected").val(),
         due_date: $('#content-due-date').val(),
+        calendar_id: getCalendarId(),
         created_at: $('#content_date').val()
     };
     return $.ajax({

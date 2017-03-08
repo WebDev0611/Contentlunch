@@ -18,18 +18,11 @@ class IdeaController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $calendar = Calendar::find($request->input('calendar_id'));
-
-        if($request->has('calendar_id') && $calendar->count()) {
-            $ideas = Idea::calendarIdeas($calendar);
-        } else {
-            $ideas = Idea::accountIdeas(Account::selectedAccount());
-        }
+        $ideas = Idea::accountIdeas(Account::selectedAccount());
 
         return response()->json($ideas);
     }

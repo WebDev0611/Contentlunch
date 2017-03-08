@@ -279,7 +279,7 @@
         // Fetch methods
         function fetchMyIdeas() {
             return $.ajax({
-                url: '/ideas?calendar_id=' + calendar.id,
+                url: '/calendar/' + calendar.id + '/ideas',
                 method: 'get',
                 headers: getJsonHeader(),
             })
@@ -287,7 +287,7 @@
 
         function fetchMyTasks() {
             return $.ajax({
-                url: '/api/tasks?calendar_id=' + calendar.id,
+                url: '/calendar/' + calendar.id + '/tasks',
                 method: 'get',
                 headers: getJsonHeader(),
             })
@@ -295,7 +295,7 @@
 
         function fetchMyContent() {
             return $.ajax({
-                url: '/content/my?calendar_id=' + calendar.id,
+                url: '/calendar/' + calendar.id + '/contents',
                 method: 'get',
                 headers: getJsonHeader(),
             })

@@ -252,6 +252,16 @@ class Content extends Model
             ->get();
     }
 
+    public static function calendarContents(Calendar $calendar)
+    {
+        $content = $calendar
+            ->contents()
+            ->with('authors')
+            ->get();
+
+        return $content;
+    }
+
     public function hasCollaborator(User $user)
     {
         return (boolean) $this->authors()
