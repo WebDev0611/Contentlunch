@@ -105,7 +105,7 @@ class IdeaController extends Controller
         }
 
         $idea_contents = $this->createIdeaContents($idea, $request->input('content'));
-        
+
         return response()->json([
             $idea->name,
             $idea->text,
