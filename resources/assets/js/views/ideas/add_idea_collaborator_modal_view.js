@@ -26,18 +26,14 @@ var AddIdeaCollaboratorModalView = Backbone.View.extend({
                                 </div>
                                 <div class="empty-collaborators-message text-center" style="display:none">
                                     <p>We couldn't find any other account members. Please use the field below to invite friends.</p>
-
                                     <div class="inner">
-
                                         <div class="input-form-group">
                                             <label for="#">Invite</label>
                                             <input type="text" class="email-invites input" placeholder="One or more e-mail addresses separated by commas">
                                         </div>
-
                                         <div class="alert alert-danger alert-forms" style='display:none'>
                                             Please enter one or more email addresses.
                                         </div>
-
                                         <button class="send-invitation button button-extend text-uppercase">
                                             Send Invitation
                                         </button>
