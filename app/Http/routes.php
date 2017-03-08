@@ -94,6 +94,9 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
             Route::get('/daily/{id?}/{year}/{month}/{day}', 'CalendarController@daily');
             Route::get('/weekly/{id?}', 'CalendarController@weekly')->name('calendarWeekly');
             Route::get('/weekly/{id?}/{year}/{month}/{day}', 'CalendarController@weekly');
+            Route::get('/calendar/{id}/contents', 'CalendarController@getContents');
+            Route::get('/calendar/{id}/tasks', 'CalendarController@getTasks');
+            Route::get('/calendar/{id}/ideas', 'CalendarController@getIdeas');
         });
         Route::get('/calendar/my', 'CalendarController@my');
         Route::post('/calendar/add', 'CalendarController@create');

@@ -42,6 +42,11 @@ class Account extends Model
         return $this->hasMany('App\Content');
     }
 
+    public function calendars()
+    {
+        return $this->hasMany('App\Calendar');
+    }
+
     public function connections()
     {
         return $this->hasMany('App\Connection');

@@ -87,6 +87,14 @@
                         break;
                 }
             });
+
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'is_calendar_item',
+                value: 'on',
+                'data-id' : calendar.id
+            }).appendTo('#addTaskModal, #createIdea, #addContentModal');
+
             return this;
         },
         empty: function () {
@@ -271,7 +279,7 @@
         // Fetch methods
         function fetchMyIdeas() {
             return $.ajax({
-                url: '/ideas',
+                url: '/calendar/' + calendar.id + '/ideas',
                 method: 'get',
                 headers: getJsonHeader(),
             })
@@ -279,7 +287,7 @@
 
         function fetchMyTasks() {
             return $.ajax({
-                url: '/api/tasks?account_tasks=1',
+                url: '/calendar/' + calendar.id + '/tasks',
                 method: 'get',
                 headers: getJsonHeader(),
             })
@@ -287,7 +295,7 @@
 
         function fetchMyContent() {
             return $.ajax({
-                url: '/content/my',
+                url: '/calendar/' + calendar.id + '/contents',
                 method: 'get',
                 headers: getJsonHeader(),
             })

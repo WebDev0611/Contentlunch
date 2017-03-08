@@ -91,6 +91,11 @@ class Content extends Model
         return $this->belongsTo('App\Account');
     }
 
+    public function calendar()
+    {
+        return $this->belongsTo('App\Calendar');
+    }
+
     public function authors()
     {
         return $this->belongsToMany('App\User');
@@ -245,6 +250,16 @@ class Content extends Model
                     ->orWhere('body', 'like', '%' . $term . '%');
             })
             ->get();
+    }
+
+    public static function calendarContents(Calendar $calendar)
+    {
+        $content = $calendar
+            ->contents()
+            ->with('authors')
+            ->get();
+
+        return $content;
     }
 
     public function hasCollaborator(User $user)

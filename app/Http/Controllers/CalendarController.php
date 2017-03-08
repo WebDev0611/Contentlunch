@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Account;
 use App\Calendar;
 use App\Campaign;
+use App\Content;
 use App\ContentType;
+use App\Idea;
 use App\Limit;
 use App\Presenters\ContentTypePresenter;
 use App\Task;
@@ -14,15 +16,17 @@ use Auth;
 use Illuminate\Http\Request;
 use View;
 
-class CalendarController extends Controller
-{
+class CalendarController extends Controller {
+
     public $user_id;
+    public $account;
     public $account_id;
     public $campaigns;
     public $tasks;
 
-    public function __construct()
+    public function __construct ()
     {
+        $this->account = Account::selectedAccount();
         $user = Auth::user();
 
         if ($user) {
@@ -34,16 +38,16 @@ class CalendarController extends Controller
     }
 
     //pulls all calendars for the user
-    public function my(Request $request)
+    public function my (Request $request)
     {
-        return $request->user()->calendars()->with('contentTypes')->get();
+        return Account::selectedAccount()->calendars()->with('contentTypes')->get();
     }
 
     //creates a new calendar
-    public function create(Request $request)
+    public function create (Request $request)
     {
         if (Auth::user()->cant('create', Calendar::class)) {
-            return response()->json([ 'data' => Limit::feedbackMessage('calendars') ], 403);
+            return response()->json(['data' => Limit::feedbackMessage('calendars')], 403);
         }
         Auth::user()->addToLimit('calendars');
 
@@ -53,17 +57,17 @@ class CalendarController extends Controller
     }
 
     // show monthly
-    public function index(Request $request, $id, $year = 0, $month = 0, $day = 0)
+    public function index (Request $request, $id, $year = 0, $month = 0, $day = 0)
     {
         /* draws a calendar */
-        function draw_calendar($month, $year)
+        function draw_calendar ($month, $year)
         {
 
             /* draw table */
             $calendar = '<table class="calendar">';
 
             /* table headings */
-            $headings = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+            $headings = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             $calendar .= '<thead class="calendar-month"><tr><th>' . implode('</th><th>',
                     $headings) . '</th></tr></thead><tbody class="calendar-month-days">';
 
@@ -72,7 +76,7 @@ class CalendarController extends Controller
             $days_in_month = date('t', mktime(0, 0, 0, $month, 1, $year));
             $days_in_this_week = 1;
             $day_counter = 0;
-            $dates_array = array();
+            $dates_array = [];
 
             /* row for week one */
             $calendar .= '<tr>';
@@ -149,29 +153,29 @@ class CalendarController extends Controller
 
         //$campaigns = $this->pull_campaigns($campaigns_start_date, $campaigns_end_date, $campaigns_end);
 
-        $campaigns = array();
+        $campaigns = [];
 
         $prev_month = ($month === 1) ? 12 : $month - 1;
 
         $next_month = ($month === 12) ? 1 : $month + 1;
 
-        return View::make('calendar.index', array(
-            'cal' => Calendar::find($id),
-            'my' => $this->my($request),
-            'calendar' => $calendar_layout,
-            'default_month' => $default_month,
-            'default_year' => $default_year,
-            'next_month' => $next_month,
-            'prev_month' => $prev_month,
-            'campaigns' => $this->campaigns,
-            'user_id' => $this->user_id,
-            'account_id' => $this->account_id,
+        return View::make('calendar.index', [
+            'cal'                     => Calendar::find($id),
+            'my'                      => $this->my($request),
+            'calendar'                => $calendar_layout,
+            'default_month'           => $default_month,
+            'default_year'            => $default_year,
+            'next_month'              => $next_month,
+            'prev_month'              => $prev_month,
+            'campaigns'               => $this->campaigns,
+            'user_id'                 => $this->user_id,
+            'account_id'              => $this->account_id,
             'available_content_types' => ContentType::where('active', '!=', 0)->get(),
-            'contenttypedd' => ContentTypePresenter::dropdown()
-        ));
+            'contenttypedd'           => ContentTypePresenter::dropdown()
+        ]);
     }
 
-    public function campaigns($year = 0, $month = 0)
+    public function campaigns ($year = 0, $month = 0)
     {
 
         $campaigns = $this->campaigns;
@@ -182,7 +186,7 @@ class CalendarController extends Controller
             $month = date('m');
         }
 
-        function generate_campaign_calendar($year = 0)
+        function generate_campaign_calendar ($year = 0)
         {
             //for each month, main container
             $main_calendar_string = '<table class="calendar-timeline"><thead class="calendar-timeline-months"><tr>';
@@ -240,16 +244,16 @@ class CalendarController extends Controller
         // echo generate_campaign_calendar($year);
         // exit;
 
-        return View::make('calendar.campaigns', array(
-            'campaigns' => $campaigns->toJson(),
-            'user_id' => $this->user_id,
-            'account_id' => $this->account_id,
+        return View::make('calendar.campaigns', [
+            'campaigns'         => $campaigns->toJson(),
+            'user_id'           => $this->user_id,
+            'account_id'        => $this->account_id,
             'campaign_calendar' => generate_campaign_calendar($year),
-            'tasks' => $this->tasks->toJson()
-        ));
+            'tasks'             => $this->tasks->toJson()
+        ]);
     }
 
-    public function weekly(Request $request, $id, $year = 0, $month = 0, $day = 0)
+    public function weekly (Request $request, $id, $year = 0, $month = 0, $day = 0)
     {
 
         if (!$day) {
@@ -276,10 +280,10 @@ class CalendarController extends Controller
         $start_weektimestamp = $week_string;
         $end_weektimestamp = strtotime("+1 week", $week_string);
 
-        function generate_weekly_calendar($year = 0, $month = 0, $day = 0, $start = 0)
+        function generate_weekly_calendar ($year = 0, $month = 0, $day = 0, $start = 0)
         {
 
-            $date_tracker = array();
+            $date_tracker = [];
             //weekly header
             $week_string = '<table class="calendar">';
             $week_string .= '<thead class="calendar-week"><th disabled></th>';
@@ -297,7 +301,7 @@ class CalendarController extends Controller
 
             $curr_hour = $start_time_row;
             for ($curr_hour = $start_time_row; $curr_hour < $end_time_row; $curr_hour++) {
-                if($curr_hour < 10 && $curr_hour[0] != '0') {
+                if ($curr_hour < 10 && $curr_hour[0] != '0') {
                     $curr_hour = '0' . $curr_hour;
                 }
                 $week_string .= '<tr>';
@@ -331,31 +335,31 @@ class CalendarController extends Controller
 
         $content = '';// $content_q->get();
 
-        return View::make('calendar.weekly', array(
-            'cal' => Calendar::find($id),
-            'my' => $this->my($request),
-            'display_month' => $display_month,
-            'numeric_month' => $month,
-            'display_year' => $year,
-            'display_day' => $display_day,
-            'display_day_of_week' => $day_of_week,
+        return View::make('calendar.weekly', [
+            'cal'                   => Calendar::find($id),
+            'my'                    => $this->my($request),
+            'display_month'         => $display_month,
+            'numeric_month'         => $month,
+            'display_year'          => $year,
+            'display_day'           => $display_day,
+            'display_day_of_week'   => $day_of_week,
             'weekly_display_string' => date('M j', strtotime($start_weekdate)) . '-' . date('M j',
                     strtotime($end_weekdate)) . ' ' . $year,
 
             'next_day_string' => $next_week_string,
             'prev_day_string' => $prev_week_string,
 
-            'user_id' => $this->user_id,
-            'account_id' => $this->account_id,
+            'user_id'                 => $this->user_id,
+            'account_id'              => $this->account_id,
             'available_content_types' => ContentType::where('active', '!=', 0)->get(),
-            'contenttypedd' => ContentTypePresenter::dropdown(),
-            'campaigns' => $this->campaigns->toJson(),
-            'content_items' => $content,
-            'weekly_calendar' => $weekly_calendar_string
-        ));
+            'contenttypedd'           => ContentTypePresenter::dropdown(),
+            'campaigns'               => $this->campaigns->toJson(),
+            'content_items'           => $content,
+            'weekly_calendar'         => $weekly_calendar_string
+        ]);
     }
 
-    public function daily(Request $request, $id, $year = 0, $month = 0, $day = 0)
+    public function daily (Request $request, $id, $year = 0, $month = 0, $day = 0)
     {
         if (!$day) {
             $day = date('d');
@@ -391,7 +395,7 @@ class CalendarController extends Controller
 
         $content = '';//$content_q->get();
 
-        function generate_daily_calendar($year, $month, $day)
+        function generate_daily_calendar ($year, $month, $day)
         {
             $daily_timetable = '<table class="calendar"><tbody class="calendar-day">';
 
@@ -400,7 +404,7 @@ class CalendarController extends Controller
 
             $curr_hour = $start_time_row;
             for ($curr_hour = $start_time_row; $curr_hour < $end_time_row; $curr_hour++) {
-                if($curr_hour < 10 && $curr_hour[0] != '0') {
+                if ($curr_hour < 10 && $curr_hour[0] != '0') {
                     $curr_hour = '0' . $curr_hour;
                 }
                 $daily_timetable .= '<tr>';
@@ -417,29 +421,68 @@ class CalendarController extends Controller
             return $daily_timetable;
         }
 
-        return View::make('calendar.daily', array(
-            'cal' => Calendar::find($id),
-            'my' => $this->my($request),
-            'display_month' => $display_month,
-            'numeric_month' => $month,
-            'display_year' => $year,
-            'display_day' => $display_day,
+        return View::make('calendar.daily', [
+            'cal'                 => Calendar::find($id),
+            'my'                  => $this->my($request),
+            'display_month'       => $display_month,
+            'numeric_month'       => $month,
+            'display_year'        => $year,
+            'display_day'         => $display_day,
             'display_day_of_week' => $day_of_week,
 
             'next_day_string' => $next_day_string,
             'prev_day_string' => $prev_day_string,
 
-            'user_id' => $this->user_id,
-            'account_id' => $this->account_id,
+            'user_id'                 => $this->user_id,
+            'account_id'              => $this->account_id,
             'available_content_types' => ContentType::where('active', '!=', 0)->get(),
-            'contenttypedd' => ContentTypePresenter::dropdown(),
-            'campaigns' => $this->campaigns->toJson(),
-            'content_items' => $content,
-            'daily_calendar' => generate_daily_calendar($year, $month, $day)
-        ));
+            'contenttypedd'           => ContentTypePresenter::dropdown(),
+            'campaigns'               => $this->campaigns->toJson(),
+            'content_items'           => $content,
+            'daily_calendar'          => generate_daily_calendar($year, $month, $day)
+        ]);
     }
 
-    protected function pull_campaigns($start_date = false, $end_date = false, $end = false, $status = false)
+    public function getContents ($id)
+    {
+        if($this->account->calendars()->first()->id == $id) {
+            // Display all account contents on the first calendar, regardless of calendar assignment)
+            $content = $this->account
+                ->contents()
+                ->with('authors')
+                ->get();
+        } else {
+            $content = Content::calendarContents(Calendar::find($id));
+        }
+
+        return response()->json($content);
+    }
+
+    public function getTasks ($id)
+    {
+        if($this->account->calendars()->first()->id == $id) {
+            // Display all account tasks on the first calendar, regardless of calendar assignment)
+            $tasks = Task::accountTasks($this->account);
+        } else {
+            $tasks = Task::calendarTasks(Calendar::find($id));
+        }
+
+        return response()->json(['data' => $tasks]);
+    }
+
+    public function getIdeas ($id)
+    {
+        if($this->account->calendars()->first()->id == $id) {
+            // Display all account ideas on the first calendar, regardless of calendar assignment)
+            $ideas = Idea::accountIdeas($this->account);
+        } else {
+            $ideas = Idea::calendarIdeas(Calendar::find($id));
+        }
+
+        return response()->json($ideas);
+    }
+
+    protected function pull_campaigns ($start_date = false, $end_date = false, $end = false, $status = false)
     {
 
         $query = Campaign::where('user_id', Auth::id());

@@ -58,6 +58,11 @@ class Task extends Model
         return $this->belongsTo('App\Account');
     }
 
+    public function calendar()
+    {
+        return $this->belongsTo('App\Calendar');
+    }
+
     public function adjustments()
     {
         return $this->hasMany('App\TaskAdjustment');
@@ -201,6 +206,22 @@ class Task extends Model
             ->orderBy('created_at', 'desc')
             ->where('status', 'open')
             ->distinct()
+            ->get()
+            ->map(function($task) {
+                $task->addDueDateDiffs();
+                return $task;
+            });
+    }
+
+    public static function calendarTasks(Calendar $calendar)
+    {
+        return $calendar
+            ->tasks()
+            ->with('user')
+            ->with('assignedUsers')
+            ->with('contents')
+            ->orderBy('created_at', 'desc')
+            ->where('status', 'open')
             ->get()
             ->map(function($task) {
                 $task->addDueDateDiffs();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Account;
 use App\Attachment;
 use App\BuyingStage;
+use App\Calendar;
 use App\Campaign;
 use App\Connection;
 use App\Content;
@@ -295,6 +296,7 @@ class ContentController extends Controller
         ]);
 
         $this->selectedAccount->contents()->save($content);
+        $this->saveAsCalendarContent($request, $content);
 
         if($request->ajax()) {
             $content->due_date = $request->input('due_date');
@@ -708,6 +710,17 @@ class ContentController extends Controller
             'flash_message_type' => 'danger',
             'flash_message_important' => true,
         ]);
+    }
+
+    protected function saveAsCalendarContent(Request $request, Content $content)
+    {
+        $calendarId = $request->input('calendar_id');
+        $calendar = Calendar::find($calendarId);
+
+        if ($calendarId && $calendar->count()) {
+            $content->calendar()->associate($calendar);
+            $content->save();
+        }
     }
 
     public function my()

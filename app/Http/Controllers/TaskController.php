@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Account;
 use App\Attachment;
+use App\Calendar;
 use App\Campaign;
 use App\Content;
 use App\Helpers;
@@ -66,6 +67,7 @@ class TaskController extends Controller
         $this->saveAttachments($request, $task);
         $this->saveAsContentTask($request, $task);
         $this->saveAsCampaignTask($request, $task);
+        $this->saveAsCalendarTask($request, $task);
 
         return $this->taskResponse($task);
     }
@@ -149,6 +151,17 @@ class TaskController extends Controller
 
         if ($campaignId && Campaign::find($campaignId)->count()) {
             $task->campaigns()->attach($campaignId);
+        }
+    }
+
+    protected function saveAsCalendarTask(Request $request, Task $task)
+    {
+        $calendarId = $request->input('calendar_id');
+        $calendar = Calendar::find($calendarId);
+
+        if ($calendarId && $calendar->count()) {
+            $task->calendar()->associate($calendar);
+            $task->save();
         }
     }
 
