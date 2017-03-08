@@ -87,6 +87,8 @@
             "click #open-collab-modal": "openCollabModal"
 		},
 
+        collaborators: [],
+
 		initialize() {
 		    this.listenTo(Backbone, 'idea_collaborators:selected', this.saveCollaborators.bind(this));
 			this.listenTo(this.model.attributes.content,'update',this.render);
