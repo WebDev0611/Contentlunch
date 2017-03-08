@@ -113,8 +113,6 @@
                 `);
                 let $el = $(template(user));
 
-                debugger;
-
                 $list.append($el);
             });
         },
