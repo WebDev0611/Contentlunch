@@ -158,6 +158,7 @@
                 tags: $('.idea-tags').val(),
                 status: status || 'active',
                 content: this.model.attributes.content.map(model => model.attributes),
+                collaborators: this.collaborators.map(user => user.id),
             };
         },
 
