@@ -213,6 +213,22 @@ class Task extends Model
             });
     }
 
+    public static function calendarTasks(Calendar $calendar)
+    {
+        return $calendar
+            ->tasks()
+            ->with('user')
+            ->with('assignedUsers')
+            ->with('contents')
+            ->orderBy('created_at', 'desc')
+            ->where('status', 'open')
+            ->get()
+            ->map(function($task) {
+                $task->addDueDateDiffs();
+                return $task;
+            });
+    }
+
     protected function addDueDateDiffs()
     {
         $this->due_date_diff = $this->present()->dueDate;

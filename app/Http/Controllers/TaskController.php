@@ -32,8 +32,11 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $shouldReturnAccountTasks = $request->input('account_tasks') == '1';
+        $calendar = Calendar::find($request->input('calendar_id'));
 
-        if ($shouldReturnAccountTasks) {
+        if($request->has('calendar_id') && $calendar->count()) {
+            $tasks = Task::calendarTasks($calendar);
+        } else if ($shouldReturnAccountTasks) {
             $tasks = Task::accountTasks($this->selectedAccount);
         } else {
             $tasks = Task::userTasks(Auth::user(), $this->selectedAccount);
