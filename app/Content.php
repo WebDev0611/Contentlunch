@@ -91,6 +91,11 @@ class Content extends Model
         return $this->belongsTo('App\Account');
     }
 
+    public function calendar()
+    {
+        return $this->belongsTo('App\Calendar');
+    }
+
     public function authors()
     {
         return $this->belongsToMany('App\User');

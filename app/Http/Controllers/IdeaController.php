@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Calendar;
 use App\Content;
 use App\Idea;
 use App\IdeaContent;
@@ -14,24 +15,21 @@ use Storage;
 
 class IdeaController extends Controller
 {
+
     /**
      * Display a listing of the resource.
-     *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $ideas = Account::selectedAccount()
-            ->ideas()
-            ->orderBy('created_at', 'desc')
-            ->with('user')
-            ->get()
-            ->map(function ($idea) {
-                $idea->created_diff = $idea->createdAtDiff;
-                $idea->updated_diff = $idea->updatedAtDiff;
+        $calendar = Calendar::find($request->input('calendar_id'));
 
-                return $idea;
-            });
+        if($request->has('calendar_id') && $calendar->count()) {
+            $ideas = Idea::calendarIdeas($calendar);
+        } else {
+            $ideas = Idea::accountIdeas(Account::selectedAccount());
+        }
 
         return response()->json($ideas);
     }

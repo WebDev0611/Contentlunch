@@ -32,6 +32,11 @@ class Idea extends Model
         return $this->belongsTo('App\Account');
     }
 
+    public function calendar()
+    {
+        return $this->belongsTo('App\Calendar');
+    }
+
     public function contents()
     {
         return $this->belongsToMany('App\Content');
@@ -98,5 +103,39 @@ class Idea extends Model
         }
 
         return $isCollaborator;
+    }
+
+    public static function accountIdeas(Account $account)
+    {
+        $ideas = $account
+            ->ideas()
+            ->orderBy('created_at', 'desc')
+            ->with('user')
+            ->get()
+            ->map(function ($idea) {
+                $idea->created_diff = $idea->createdAtDiff;
+                $idea->updated_diff = $idea->updatedAtDiff;
+
+                return $idea;
+            });
+
+        return $ideas;
+    }
+
+    public static function calendarIdeas(Calendar $calendar)
+    {
+        $ideas = $calendar
+            ->ideas()
+            ->orderBy('created_at', 'desc')
+            ->with('user')
+            ->get()
+            ->map(function ($idea) {
+                $idea->created_diff = $idea->createdAtDiff;
+                $idea->updated_diff = $idea->updatedAtDiff;
+
+                return $idea;
+            });
+
+        return $ideas;
     }
 }

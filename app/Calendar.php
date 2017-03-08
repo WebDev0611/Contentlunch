@@ -30,6 +30,16 @@ class Calendar extends Model
         return $this->hasMany('App\Task');
     }
 
+    public function contents()
+    {
+        return $this->hasMany('App\Content');
+    }
+
+    public function ideas()
+    {
+        return $this->hasMany('App\Idea');
+    }
+
     public function store($user, $account_id, $input)
     {
         $this->name = $input['name'];
