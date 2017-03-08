@@ -86,3 +86,7 @@
     width: 680px;
   }
 }
+
+.modal-open .modal {
+  z-index: 9999;
+}
