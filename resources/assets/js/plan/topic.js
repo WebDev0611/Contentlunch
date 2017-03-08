@@ -238,8 +238,8 @@
         },
 
         openCollabModal() {
-            var collabModal = new AddIdeaCollaboratorModalView();
-            collabModal.showModal();
+            this.collabModal = this.collabModal || new AddIdeaCollaboratorModalView();
+            this.collabModal.showModal();
         }
 	});
 
