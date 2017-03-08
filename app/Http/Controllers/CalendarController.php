@@ -19,12 +19,14 @@ use View;
 class CalendarController extends Controller {
 
     public $user_id;
+    public $account;
     public $account_id;
     public $campaigns;
     public $tasks;
 
     public function __construct ()
     {
+        $this->account = Account::selectedAccount();
         $user = Auth::user();
 
         if ($user) {
@@ -443,21 +445,39 @@ class CalendarController extends Controller {
 
     public function getContents ($id)
     {
-        $content = Content::calendarContents(Calendar::find($id));
+        if($this->account->calendars()->first()->id == Calendar::find($id)->id) {
+            // Display all account tasks on the first calendar, regardless of calendar assignment)
+            $content = $this->account
+                ->contents()
+                ->with('authors')
+                ->get();
+        } else {
+            $content = Content::calendarContents(Calendar::find($id));
+        }
 
         return response()->json($content);
     }
 
     public function getTasks ($id)
     {
-        $tasks = Task::calendarTasks(Calendar::find($id));
+        if($this->account->calendars()->first()->id == Calendar::find($id)->id) {
+            // Display all account tasks on the first calendar, regardless of calendar assignment)
+            $tasks = Task::accountTasks($this->account);
+        } else {
+            $tasks = Task::calendarTasks(Calendar::find($id));
+        }
 
         return response()->json(['data' => $tasks]);
     }
 
     public function getIdeas ($id)
     {
-        $ideas = Idea::calendarIdeas(Calendar::find($id));
+        if($this->account->calendars()->first()->id == Calendar::find($id)->id) {
+            // Display all account ideas on the first calendar, regardless of calendar assignment)
+            $ideas = Idea::accountIdeas($this->account);
+        } else {
+            $ideas = Idea::calendarIdeas(Calendar::find($id));
+        }
 
         return response()->json($ideas);
     }
