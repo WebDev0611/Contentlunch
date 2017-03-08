@@ -249,27 +249,14 @@
 		var long_tail_results = new long_tail_collection();
 		var short_tail_results = new short_tail_collection();
 
-		var sf = function(r){
-			if( r.keyword.split(' ').length <= 3 ){
-				return true;
-			}else{
-				return false;
-			}
-		};
-		var lf = function(r) {
-			if( r.keyword.split(' ').length >= 2 ){
-				return true;
-			}else{
-				return false;
-			}
-		};
-
-		var v_sort = function(a,b) {
-			return b.volume - a.volume;
-		};
-
-		var map_result = function(m){
-			return {keyword: m.keyword,volume: m.volume};
+		const sf = r => r.keyword.split(' ').length <= 3;
+		const lf = r => r.keyword.split(' ').length >= 2;
+		const v_sort = (a, b) => b.volume - a.volume;
+		const map_result = model => {
+			return {
+				keyword: model.keyword,
+				volume: model.volume,
+			};
 		};
 
 		var get_topic_data = function(term = '') {
