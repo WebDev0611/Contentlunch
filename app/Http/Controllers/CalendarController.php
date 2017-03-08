@@ -445,8 +445,8 @@ class CalendarController extends Controller {
 
     public function getContents ($id)
     {
-        if($this->account->calendars()->first()->id == Calendar::find($id)->id) {
-            // Display all account tasks on the first calendar, regardless of calendar assignment)
+        if($this->account->calendars()->first()->id == $id) {
+            // Display all account contents on the first calendar, regardless of calendar assignment)
             $content = $this->account
                 ->contents()
                 ->with('authors')
@@ -460,7 +460,7 @@ class CalendarController extends Controller {
 
     public function getTasks ($id)
     {
-        if($this->account->calendars()->first()->id == Calendar::find($id)->id) {
+        if($this->account->calendars()->first()->id == $id) {
             // Display all account tasks on the first calendar, regardless of calendar assignment)
             $tasks = Task::accountTasks($this->account);
         } else {
@@ -472,7 +472,7 @@ class CalendarController extends Controller {
 
     public function getIdeas ($id)
     {
-        if($this->account->calendars()->first()->id == Calendar::find($id)->id) {
+        if($this->account->calendars()->first()->id == $id) {
             // Display all account ideas on the first calendar, regardless of calendar assignment)
             $ideas = Idea::accountIdeas($this->account);
         } else {
