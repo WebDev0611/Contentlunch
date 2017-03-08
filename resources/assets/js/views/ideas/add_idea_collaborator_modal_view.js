@@ -140,7 +140,7 @@ var AddIdeaCollaboratorModalView = Backbone.View.extend({
 
     submit() {
         if (!_.has(this.idea, 'id')) {
-            Backbone.trigger('idea_collaborators:selected', this.getCheckedCollaborators());
+            this.sendSelectedViaEvent();
             this.dismissModal();
             return;
         }
@@ -157,6 +157,13 @@ var AddIdeaCollaboratorModalView = Backbone.View.extend({
             this.collaborators.populateList();
             this.dismissModal();
         }.bind(this));
+    },
+
+    sendSelectedViaEvent() {
+        let checked = this.getCheckedCollaborators();
+        let users = this.data.users.filter(user => checked.indexOf(user.id) >= 0);
+
+        Backbone.trigger('idea_collaborators:selected', users);
     },
 
     getCheckedCollaborators() {
