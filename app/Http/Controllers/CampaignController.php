@@ -241,7 +241,7 @@ class CampaignController extends Controller
 
         $campaign->pause();
 
-        return redirect()->route('campaigns.index')->with([
+        return redirect()->route('campaigns.edit', $campaign)->with([
             'feedback_message' => 'Campaign parked.',
             'feedback_message_type' => 'success',
         ]);
@@ -260,7 +260,7 @@ class CampaignController extends Controller
 
         $campaign->deactivate();
 
-        return redirect()->route('campaigns.index')->with([
+        return redirect()->route('campaigns.edit', $campaign)->with([
             'feedback_message' => 'Campaign deactivated.',
             'feedback_message_type' => 'success',
         ]);
@@ -279,7 +279,7 @@ class CampaignController extends Controller
 
         $campaign->activate();
 
-        return redirect()->route('campaigns.index')->with([
+        return redirect()->route('campaigns.edit', $campaign)->with([
             'feedback_message' => 'Campaign activated.',
             'feedback_message_type' => 'success',
         ]);
@@ -298,7 +298,7 @@ class CampaignController extends Controller
 
         $campaign->delete();
 
-        return redirect()->route('campaigns.index')->with([
+        return redirect()->route('contentIndex')->with([
             'feedback_message' => 'Campaign deleted.',
             'feedback_message_type' => 'success',
         ]);
