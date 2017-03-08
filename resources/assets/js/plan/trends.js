@@ -62,10 +62,14 @@
     let create_idea_modal = Backbone.View.extend({
         events:{
             "click .save-idea": "save",
-            "click .park-idea": "park"
+            "click .park-idea": "park",
+            "click #open-collab-modal": "openCollabModal"
         },
 
+        collaborators: [],
+
         initialize() {
+            this.listenTo(Backbone, 'idea_collaborators:selected', this.saveCollaborators.bind(this));
             this.listenTo(this.collection, "update", this.render);
             this.listenTo(this.collection, "change", this.render);
         },
@@ -86,6 +90,30 @@
             } else {
                 this.$el.find('.form-delimiter').show();
             }
+        },
+
+        saveCollaborators(users) {
+            this.collaborators = users;
+            this.renderCollaborators();
+        },
+
+        renderCollaborators() {
+            let $list = this.$el.find('#ideas-collaborator-list');
+
+            $list.html('');
+            this.collaborators.forEach(user => {
+                user.profile_image = user.profile_image || '/images/cl-avatar2.png';
+
+                let template = _.template(`
+                    <li>
+                        <img src="<%= profile_image %>" title="<%= name %>" alt="<%= name %>">
+                        <p><%= name %></p>
+                    </li>
+                `);
+                let $el = $(template(user));
+
+                $list.append($el);
+            });
         },
 
         hideModal() {
@@ -139,7 +167,7 @@
             return $('.idea-name').val().length > 1
         },
 
-        formData() {
+        formData(action) {
             let content = this.collection.where({ selected: true });
 
             return {
@@ -147,7 +175,8 @@
                 idea: $('.idea-text').val(),
                 tags: $('.idea-tags').val(),
                 status: action,
-                content: content.map(model => model.attributes)
+                content: content.map(model => model.attributes),
+                collaborators: this.collaborators.map(user => user.id),
             };
         },
 
@@ -167,7 +196,7 @@
             $.ajax({
                 url: '/ideas',
                 type: 'post',
-                data: this.formData(),
+                data: this.formData(action),
                 dataType: 'json',
             })
             .then(data => {
@@ -185,7 +214,12 @@
                     swal('Error!', response.responseJSON.data, 'error');
                 }
             });
-        }
+        },
+
+        openCollabModal() {
+            this.collabModal = this.collabModal || new AddIdeaCollaboratorModalView();
+            this.collabModal.showModal();
+        },
     });
 
     let share_trend_modal = Backbone.View.extend({
