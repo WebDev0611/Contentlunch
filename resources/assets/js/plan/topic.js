@@ -265,9 +265,9 @@
 			var search_obj = {};
 
 			if (term.length > 3) {
-				var ldIMG = $('<img src="/images/loading.gif" style="max-height:30px;" />');
+				var loadingGif = $('<img src="/images/loading.gif" style="max-height:30px;" />');
 
-				$('span.input-form-button-action').append(ldIMG);
+				$('span.input-form-button-action').append(loadingGif);
 				search_obj.keyword = term;
 
 
