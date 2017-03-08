@@ -107,13 +107,11 @@
 
                 let template = _.template(`
                     <li>
-                        <img src="<%= profile_image %>" title="<%= name %>" alt="<%= name %>"> 
+                        <img src="<%= profile_image %>" title="<%= name %>" alt="<%= name %>">
                         <p><%= name %></p>
-                    </li>                    
+                    </li>
                 `);
                 let $el = $(template(user));
-
-                debugger;
 
                 $list.append($el);
             });
