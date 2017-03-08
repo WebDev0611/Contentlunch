@@ -87,6 +87,14 @@
                         break;
                 }
             });
+
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'is_calendar_item',
+                value: 'on',
+                'data-id' : calendar.id
+            }).appendTo('#addTaskModal, #createIdea, #addContentModal');
+
             return this;
         },
         empty: function () {
@@ -129,12 +137,6 @@
             }
 
             $("#addTaskModal").modal('show');
-            $('<input>').attr({
-                type: 'hidden',
-                id: 'is_calendar_task',
-                value: 'on',
-                'data-id' : calendar.id
-            }).appendTo('#addTaskModal');
         },
         show_idea_modal: function () {
             $("#createIdea .form-delimiter").hide();

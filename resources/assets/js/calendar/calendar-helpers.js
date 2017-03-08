@@ -122,6 +122,13 @@ function store_idea(action, callback) {
 
     $('#idea-menu').prepend(loadIMG);
 
+    // get calendar id
+    let cal_element = $('#is_calendar_item');
+    let calendarId = null;
+
+    if (cal_element.length && cal_element.val() === 'on') {
+        calendarId = cal_element.data('id');
+    }
 
     //saves the form data
     //let content = this.collection.where({selected: true});
@@ -130,6 +137,7 @@ function store_idea(action, callback) {
         idea: $('.idea-text').val(),
         tags: $('.idea-tags').val(),
         created_at: $('#idea_date').val(),
+        calendar_id: calendarId,
         status: action,
         /*
          content: content.map(function (m) {

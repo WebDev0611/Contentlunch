@@ -151,7 +151,7 @@ function getContentId() {
 }
 
 function getCalendarId() {
-    let element = $('#is_calendar_task');
+    let element = $('#is_calendar_item');
     let calendarId = null;
 
     if (element.length && element.val() === 'on') {

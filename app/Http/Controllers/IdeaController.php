@@ -105,6 +105,7 @@ class IdeaController extends Controller
         $idea->collaborators()->attach(Auth::user());
 
         $idea_contents = $this->createIdeaContents($idea, $request->input('content'));
+        $this->saveAsCalendarIdea($request, $idea);
 
         //do sanity/success checks here
         return response()->json([
@@ -146,6 +147,17 @@ class IdeaController extends Controller
                 ]);
             }
         });
+    }
+
+    protected function saveAsCalendarIdea(Request $request, Idea $idea)
+    {
+        $calendarId = $request->input('calendar_id');
+        $calendar = Calendar::find($calendarId);
+
+        if ($calendarId && $calendar->count()) {
+            $idea->calendar()->associate($calendar);
+            $idea->save();
+        }
     }
 
     /**
