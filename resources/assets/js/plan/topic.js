@@ -88,18 +88,44 @@
 		},
 
 		initialize() {
-		    this.listenTo(Backbone, 'idea_collaborators:selected', data => console.log(data));
+		    this.listenTo(Backbone, 'idea_collaborators:selected', this.saveCollaborators.bind(this));
 			this.listenTo(this.model.attributes.content,'update',this.render);
 			this.render();
 		},
+
+        saveCollaborators(users) {
+		    this.collaborators = users;
+            this.renderCollaborators();
+        },
+
+        renderCollaborators() {
+            let $list = this.$el.find('#ideas-collaborator-list');
+
+            $list.html('');
+            this.collaborators.forEach(user => {
+                user.profile_image = user.profile_image || '/images/cl-avatar2.png';
+
+                let template = _.template(`
+                    <li>
+                        <img src="<%= profile_image %>" title="<%= name %>" alt="<%= name %>">
+                        <p><%= name %></p>
+                    </li>
+                `);
+                let $el = $(template(user));
+
+                debugger;
+
+                $list.append($el);
+            });
+        },
 
 		render() {
 			var view = this;
 
 			view.$el.find('#selected-content').html('');
-			view.model.attributes.content.each(function(m){
-				var sel_content = new selected_content_view({model:m});
-				view.$el.find('#selected-content').append( sel_content.$el );
+			view.model.attributes.content.each(function(model){
+				var selectedContent = new selected_content_view({ model });
+				view.$el.find('#selected-content').append(selectedContent.$el);
 			});
 
 			if (view.model.attributes.content.length < 1) {
