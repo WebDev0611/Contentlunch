@@ -8,6 +8,7 @@ function get_this_calendar() {
 
 function add_calendar(callback) {
 
+    $('.new-calendar-error').remove();
     if (isCalendarDataValid()) {
         $('#add-calendar-button').prepend(loadIMG);
 
@@ -30,6 +31,13 @@ function isCalendarDataValid() {
 
     if (name_ok && (data.show_tasks != null || data.show_ideas != null || content_ok)) {
         return true;
+    } else {
+        $( "#createCalendarModal .sidemodal-container" ).append($(
+            '<p>Calendar name has to be at least 3 characters long</p>' +
+            '<p>At least 1 content type has to be selected</p>')
+            .attr({
+            class: 'new-calendar-error text-danger'
+        }));
     }
 
     return false;
