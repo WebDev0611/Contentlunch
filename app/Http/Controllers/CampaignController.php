@@ -99,6 +99,7 @@ class CampaignController extends Controller
         $validation = $this->createValidation($data);
 
         if ($validation->fails()) {
+            $request->flash();
             return redirect('/campaign')->with('errors', $validation->errors());
         }
 
@@ -165,6 +166,7 @@ class CampaignController extends Controller
         $validation = $this->createValidation($request->all());
 
         if ($validation->fails()) {
+            $request->flash();
             return redirect('/campaign')->with('errors', $validation->errors());
         }
 
