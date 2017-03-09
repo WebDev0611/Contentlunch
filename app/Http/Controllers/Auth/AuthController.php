@@ -110,6 +110,13 @@ class AuthController extends Controller
         }
     }
 
+    protected  function authenticated(Request $request)
+    {
+        Account::selectedAccount()->ensureAccountHasSubscription();
+
+        return redirect()->intended( $this->redirectPath() );
+    }
+
     /**
      * Create a new user instance after a valid registration.
      *
