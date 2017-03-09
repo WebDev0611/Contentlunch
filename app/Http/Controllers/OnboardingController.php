@@ -88,6 +88,13 @@ class OnboardingController extends Controller
     public function createWithInvite(InvitedAccountRequest $request)
     {
         $invite = AccountInvite::find($request->invite_id);
+        $account = $invite->account;
+
+        if ((new User)->cant('join', $account)) {
+            $this->notifyUserCountExceeded($request, $account);
+            abort(404);
+        }
+
         $user = $this->createInvitedUser($invite, $request);
 
         $this->createNewUserSession($user);
@@ -97,6 +104,17 @@ class OnboardingController extends Controller
             'flash_message_type' => 'success',
             'flash_message_important' => true
         ]);
+    }
+
+    protected function notifyUserCountExceeded(Request $request, Account $account)
+    {
+        $sendTo = $account->users()->first();
+
+        Mail::send('emails.exceeded_user_count', [ 'email' => $request->email ], function ($message) use ($sendTo) {
+            $message->from('no-reply@contentlaunch.com', 'Content Launch')
+                ->to($sendTo->email)
+                ->subject('User limit reached');
+        });
     }
 
     protected function createNewUserSession($user)

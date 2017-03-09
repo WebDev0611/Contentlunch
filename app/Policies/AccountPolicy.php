@@ -12,6 +12,18 @@ class AccountPolicy extends BasePolicy
 {
     use HandlesAuthorization;
 
+    public function join(User $user, Account $account)
+    {
+        if (!$account->hasLimit('users_per_account')) {
+            return true;
+        }
+
+        $currentUsers = $account->users()->count();
+        $maxUsersCount = $account->limit('users_per_account');
+
+        return $currentUsers < $maxUsersCount;
+    }
+
     public function invite(User $user, Account $account, array $emails)
     {
         if (!$account->hasLimit('users_per_account')) {
@@ -23,7 +35,7 @@ class AccountPolicy extends BasePolicy
 
         $maxUsersCount = $account->limit('users_per_account');
 
-        return ($emailsCount + $currentUsersCount) <= $maxUsersCount;
+        return ($emailsCount + $currentUsersCount) < $maxUsersCount;
     }
 
     public function createSubaccount(User $user, Account $account)
