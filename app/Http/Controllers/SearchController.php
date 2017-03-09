@@ -14,6 +14,8 @@ use App\Idea;
 
 class SearchController extends Controller
 {
+    protected $selectedAccount;
+
     public function __construct(Request $request)
     {
         $this->selectedAccount = Account::selectedAccount();
