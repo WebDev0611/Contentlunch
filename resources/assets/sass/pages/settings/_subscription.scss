@@ -80,6 +80,33 @@
       }
     }
 
+    @media (min-width: 1481px) and (max-width: 1527px) {
+      .is-account &{
+        min-height: 535px;
+      }
+    }
+
+    @media (min-width: 1528px) and (max-width: 1576px) {
+      min-height: 480px;
+      .is-account &{
+        min-height: 535px;
+      }
+    }
+
+    @media (min-width: 1577px) and (max-width: 1604px) {
+      min-height: 465px;
+      .is-account &{
+        min-height: 510px;
+      }
+    }
+
+    @media (min-width: 1605px) and (max-width: 1770px) {
+      min-height: 450px;
+      .is-account &{
+        min-height: 490px;
+      }
+    }
+
     .plan-title {
       color: #6944b8;
       font-weight: 900;
