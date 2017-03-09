@@ -2,7 +2,7 @@
     @include('partials.error')
 
     <div class="input-form-group">
-        <label for="#">CAMPAIGN TITLE</label>
+        <label for="#">CAMPAIGN TITLE *</label>
         @php
             $titleOptions = \App\Helpers::isCollaborator([
                 'placeholder' => 'Enter campaign title',
