@@ -74,7 +74,7 @@
         --}}
         <div class="col-sm-4">
             <div class="input-form-group">
-                <label for="#">STATUS</label>
+                <label for="#">STATUS *</label>
                 @php
                     $options = [
                         '0' => 'Inactive',
