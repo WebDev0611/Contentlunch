@@ -1,4 +1,4 @@
-/* 
+/*
  ------ // Calendar JS // ----
  */
 
@@ -129,11 +129,11 @@
 
             if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
                 cell_date = this.$el.data('cell-date-time');
-                $('#task-start-date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm'));
-                $('#task-due-date').val(moment(cell_date, "YYYY-M-D-HHmmss").add(1, 'days').format('YYYY-MM-DD HH:mm'));
+                $('#task-start-date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('MM/DD/YYYY HH:mm'));
+                $('#task-due-date').val(moment(cell_date, "YYYY-M-D-HHmmss").add(1, 'days').format('MM/DD/YYYY HH:mm'));
             } else {
-                $('#task-start-date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD HH:mm'));
-                $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('YYYY-MM-DD HH:mm'));
+                $('#task-start-date').val(moment(cell_date, "YYYY-M-D").format('MM/DD/YYYY HH:mm'));
+                $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('MM/DD/YYYY HH:mm'));
             }
 
             $("#addTaskModal").modal('show');
@@ -170,7 +170,11 @@
                 }).prependTo('#' + selectorId + ' .sidemodal-container');
             }
 
-            $('#' + fieldInfoId).html(moment($('#' + fieldId).val(), "YYYY-MM-DD HH:mm:ss").format('M/D/YY [at] h:mm a'));
+            let value = $(`#${fieldId}`).val();
+            let momentObject = moment(value, "YYYY-MM-DD HH:mm:ss");
+            let formattedString = momentObject.format('MM/DD/YYYY [at] h:mm a');
+
+            $('#' + fieldInfoId).html(formattedString);
         }
     });
 
