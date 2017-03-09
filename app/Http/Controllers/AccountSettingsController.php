@@ -244,8 +244,10 @@ class AccountSettingsController extends Controller {
         // Get plan prices
         foreach (SubscriptionType::all() as $subscriptionType) {
             $planPrices[$subscriptionType->slug] = number_format($subscriptionType->price, 0, '', '');
+            $planClientPrices[$subscriptionType->slug] = number_format($subscriptionType->price_per_client, 0, '', '');
         }
         $data['planPrices'] = $planPrices;
+        $data['planClientPrices'] = $planClientPrices;
 
         if (!empty($user->stripe_customer_id)) {
             // Get user's first saved card

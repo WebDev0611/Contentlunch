@@ -70,6 +70,16 @@
     padding-right: 25px;
     min-height: 430px;
 
+    .is-account &{
+      min-height: 485px;
+    }
+
+    @media (max-width: 1480px) {
+      .is-account &{
+        min-height: 575px;
+      }
+    }
+
     .plan-title {
       color: #6944b8;
       font-weight: 900;
@@ -82,23 +92,38 @@
       border: 2px solid #c2bfc6;
     }
 
-    .amount {
+    .amount, .amount-small {
       color: #4d565b;
       font-weight: 900;
       font-size: 26px;
     }
 
-    .amount-info {
+    .amount-small{
+      font-size: 20px;
+    }
+
+    .amount-info, .amount-info-small {
       color: #4d565b;
+      margin-bottom: 0;
+    }
+
+    .amount-info-small {
+      font-size: 13px;
     }
 
     .description {
-      padding: 20px 30px 15px;
+      padding: 30px 20px 15px;
       text-align: left;
       min-height: 200px;
 
       @media (max-width: 1480px) {
         min-height: 300px;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+
+      li{
+        line-height: 26px;
       }
 
       .bestvalue {
@@ -199,4 +224,12 @@ p.no-card {
 
 #subscriptionForm {
   margin-bottom: 50px;
+}
+
+.margin-agency-free {
+  margin: 26% 0;
+
+  @media (max-width: 1480px) {
+    margin: 50% 0;
+  }
 }

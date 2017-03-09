@@ -59,7 +59,7 @@
 
                     <div class="row">
 
-                            <div class="col-md-10 no-padding">
+                            <div class="col-md-10 no-padding @if($account->isAgencyAccount()) is-account @endif">
                                 <div class="plan-selector plan-free plan-trial col-md-4">
 
                                     <div class="panel panel-default">
@@ -78,6 +78,10 @@
                                                     <span>FREE</span>
                                                 </div>
                                                 <p class="amount-info"></p>
+
+                                                @if($account->isAgencyAccount())
+                                                    <div class="margin-agency-free"></div>
+                                                @endif
 
                                                 @php
                                                 $freePlan = App\SubscriptionType::whereSlug('free')->first();
@@ -117,29 +121,37 @@
 
                                             <div class="tab-pane fade in active">
 
-                                                    <h3 class="plan-title">Basic</h3>
-                                                    <hr/>
-                                                    <div class="amount">
-                                                        <span>${{ number_format($planPrices['basic-monthly']) }}</span>
-                                                    </div>
-                                                    <p class="amount-info">monthly</p>
-
-                                                    <ul class="description">
-                                                        <li><strong>Unlimited</strong> campaigns</li>
-                                                        <li><strong>Unlimited</strong> content launches</li>
-                                                        <li><strong>Unlimited</strong> tasks, ideas, and calendars
-                                                        </li>
-                                                        <li><h4>Up to <strong>{{ App\SubscriptionType::whereSlug('basic-monthly')->first()->limit('users_per_account') }}</strong> users</h4></li>
-                                                    </ul>
-
-                                                    <label for="plan-1" class="checkbox-tag plan">
-                                                        <input id="plan-1" type="checkbox" plan-name="basic"
-                                                               plan-type="month"
-                                                               plan-price="{{$planPrices['basic-monthly']}}"
-                                                               plan-slug="basic-monthly">
-                                                        <span>Select</span>
-                                                    </label>
+                                                <h3 class="plan-title">Basic</h3>
+                                                <hr/>
+                                                <div class="amount">
+                                                    <span>${{ number_format($planPrices['basic-monthly']) }}</span>
                                                 </div>
+                                                <p class="amount-info">monthly</p>
+
+                                                @if($account->isAgencyAccount())
+                                                    <h4 class="text-no-margin">+</h4>
+                                                    <div class="amount-small">
+                                                        <span>${{ number_format($planClientPrices['basic-monthly']) }}</span>
+                                                    </div>
+                                                    <p class="amount-info-small">per agency client/mo</p>
+                                                @endif
+
+                                                <ul class="description">
+                                                    <li><strong>Unlimited</strong> campaigns</li>
+                                                    <li><strong>Unlimited</strong> content launches</li>
+                                                    <li><strong>Unlimited</strong> tasks, ideas, and calendars
+                                                    </li>
+                                                    <li><h4>Up to <strong>{{ App\SubscriptionType::whereSlug('basic-monthly')->first()->limit('users_per_account') }}</strong> users</h4></li>
+                                                </ul>
+
+                                                <label for="plan-1" class="checkbox-tag plan">
+                                                    <input id="plan-1" type="checkbox" plan-name="basic"
+                                                           plan-type="month"
+                                                           plan-price="{{$planPrices['basic-monthly']}}"
+                                                           plan-slug="basic-monthly">
+                                                    <span>Select</span>
+                                                </label>
+                                            </div>
 
                                         </div>
                                     </div>
@@ -157,29 +169,37 @@
 
                                             <div class="tab-pane fade in active">
 
-                                                    <h3 class="plan-title">Basic</h3>
-                                                    <hr/>
-                                                    <div class="amount">
-                                                        <span>${{ number_format($planPrices['basic-annually']) }}</span>
-                                                    </div>
-                                                    <p class="amount-info">annually</p>
-
-                                                    <ul class="description">
-                                                        <li><strong>Unlimited</strong> campaigns</li>
-                                                        <li><strong>Unlimited</strong> content launches</li>
-                                                        <li><strong>Unlimited</strong> tasks, ideas, and calendars
-                                                        </li>
-                                                        <li><h4>Up to <strong>{{ App\SubscriptionType::whereSlug('basic-annually')->first()->limit('users_per_account') }}</strong> users</h4></li>
-                                                    </ul>
-
-                                                    <label for="plan-2" class="checkbox-tag plan">
-                                                        <input id="plan-2" type="checkbox" plan-name="basic"
-                                                               plan-type="year"
-                                                               plan-price="{{$planPrices['basic-annually']}}"
-                                                               plan-slug="basic-annually">
-                                                        <span>Select</span>
-                                                    </label>
+                                                <h3 class="plan-title">Basic</h3>
+                                                <hr/>
+                                                <div class="amount">
+                                                    <span>${{ number_format($planPrices['basic-annually']) }}</span>
                                                 </div>
+                                                <p class="amount-info">annually</p>
+
+                                                @if($account->isAgencyAccount())
+                                                    <h4 class="text-no-margin">+</h4>
+                                                    <div class="amount-small">
+                                                        <span>${{ number_format($planClientPrices['basic-annually']) }}</span>
+                                                    </div>
+                                                    <p class="amount-info-small">per agency client/mo</p>
+                                                @endif
+
+                                                <ul class="description">
+                                                    <li><strong>Unlimited</strong> campaigns</li>
+                                                    <li><strong>Unlimited</strong> content launches</li>
+                                                    <li><strong>Unlimited</strong> tasks, ideas, and calendars
+                                                    </li>
+                                                    <li><h4>Up to <strong>{{ App\SubscriptionType::whereSlug('basic-annually')->first()->limit('users_per_account') }}</strong> users</h4></li>
+                                                </ul>
+
+                                                <label for="plan-2" class="checkbox-tag plan">
+                                                    <input id="plan-2" type="checkbox" plan-name="basic"
+                                                           plan-type="year"
+                                                           plan-price="{{$planPrices['basic-annually']}}"
+                                                           plan-slug="basic-annually">
+                                                    <span>Select</span>
+                                                </label>
+                                            </div>
 
                                         </div>
                                     </div>
@@ -204,6 +224,14 @@
                                                     <span>${{ number_format($planPrices['pro-monthly']) }}</span>
                                                 </div>
                                                 <p class="amount-info">monthly</p>
+
+                                                @if($account->isAgencyAccount())
+                                                    <h4 class="text-no-margin">+</h4>
+                                                    <div class="amount-small">
+                                                        <span>${{ number_format($planClientPrices['pro-monthly']) }}</span>
+                                                    </div>
+                                                    <p class="amount-info-small">per agency client/mo</p>
+                                                @endif
 
                                                 <ul class="description">
                                                     <li><strong>Unlimited</strong> campaigns</li>
@@ -244,6 +272,14 @@
                                                     <span>${{ number_format($planPrices['pro-annually']) }}</span>
                                                 </div>
                                                 <p class="amount-info">annually</p>
+
+                                                @if($account->isAgencyAccount())
+                                                    <h4 class="text-no-margin">+</h4>
+                                                    <div class="amount-small">
+                                                        <span>${{ number_format($planClientPrices['pro-annually']) }}</span>
+                                                    </div>
+                                                    <p class="amount-info-small">per agency client/mo</p>
+                                                @endif
 
                                                 <ul class="description">
                                                     <li><strong>Unlimited</strong> campaigns</li>
