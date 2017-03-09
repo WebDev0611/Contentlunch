@@ -275,7 +275,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::delete('/api/account/members/{id}', 'AccountCollaboratorsController@delete');
         Route::get('/api/tasks', 'TaskController@index');
         Route::post('/api/trends/share/{connection}', 'ContentController@trendShare')->name('trendShare');
-        Route::post('/search', 'SearchController@index')->name('searchIndex');
+        Route::post('/search', 'SearchController@index')->name('search.index');
         Route::get('/api/content-types', 'ContentController@getContentTypes');
 
     });
