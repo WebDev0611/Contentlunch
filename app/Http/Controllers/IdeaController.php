@@ -89,6 +89,11 @@ class IdeaController extends Controller
             'account_id' => Account::selectedAccount()->id,
         ]);
 
+        if ($request->has('created_at')) {
+            $idea->created_at = $request->input('created_at');
+            $idea->save();
+        }
+
         if ($request->collaborators) {
             $idea->collaborators()->sync($request->collaborators);
         } else {
