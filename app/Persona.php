@@ -16,7 +16,9 @@ class Persona extends Model
     public static function dropdown()
     {
         $personaDropdown = ['' => '-- Select a Persona --'];
-        $personaDropdown += self::select('id', 'name')
+        $personaDropdown += Account::selectedAccount()
+            ->personas()
+            ->select('id', 'name')
             ->orderBy('name', 'asc')
             ->distinct()
             ->lists('name', 'id')

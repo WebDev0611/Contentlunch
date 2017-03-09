@@ -32,12 +32,11 @@
 
                     <!-- Tab2: Campaign Info -->
                     <div role="tabpanel" class="tab-pane active" id="contenttab-campaign">
-                        @php
-                            $url = $campaign->id ?
-                                "/campaign/$campaign->id" :
-                                "/campaign";
-                        @endphp
-                        {{ Form::open([ 'url' => $url, 'id' => 'campaign_editor' ]) }}
+                        @if(isset($campaign))
+                            {{ Form::model($campaign, [ 'route' => [ 'campaigns.update', $campaign ], 'id' => 'campaign_editor' ]) }}
+                        @else
+                            {{ Form::open([ 'route' => 'campaigns.store', 'id' => 'campaign_editor' ]) }}
+                        @endif
                             @include('campaign.partials.header')
                             @include('campaign.partials.campaign_tab')
                         {{ Form::close() }}

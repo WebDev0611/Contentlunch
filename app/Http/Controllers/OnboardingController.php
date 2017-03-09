@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use \Illuminate\Http\Request;
+use Mail;
 use View;
 use Hash;
 use Auth;
@@ -54,10 +55,13 @@ class OnboardingController extends Controller
         );
     }
 
-    public function signupWithInvite(AccountInvite $invite)
+    public function signupWithInvite(Request $request, AccountInvite $invite)
     {
         if ($invite->isUsed()) {
             return view('onboarding.invite_used');
+        } else if ((new User)->can('join', $invite->account)) {
+            $this->notifyUserCountExceeded($invite, $invite->account);
+            abort(404);
         } else if (Auth::check()) {
             return $this->useInviteForLoggedUser($invite);
         }
@@ -88,6 +92,13 @@ class OnboardingController extends Controller
     public function createWithInvite(InvitedAccountRequest $request)
     {
         $invite = AccountInvite::find($request->invite_id);
+        $account = $invite->account;
+
+        if ((new User)->cant('join', $account)) {
+            $this->notifyUserCountExceeded($invite, $account);
+            abort(404);
+        }
+
         $user = $this->createInvitedUser($invite, $request);
 
         $this->createNewUserSession($user);
@@ -97,6 +108,17 @@ class OnboardingController extends Controller
             'flash_message_type' => 'success',
             'flash_message_important' => true
         ]);
+    }
+
+    protected function notifyUserCountExceeded(AccountInvite $invite, Account $account)
+    {
+        $sendTo = $account->proxyToParent()->users->first();
+
+        Mail::send('emails.exceeded_user_count', [ 'email' => $invite->email ], function ($message) use ($sendTo) {
+            $message->from('no-reply@contentlaunch.com', 'Content Launch')
+                ->to($sendTo->email)
+                ->subject('User limit reached');
+        });
     }
 
     protected function createNewUserSession($user)
@@ -109,9 +131,9 @@ class OnboardingController extends Controller
     private function createInvitedUser(AccountInvite $invite, $request)
     {
         return $invite->createUser([
-            'name' => $request->input('name'),
-            'password' => $request->input('password'),
-            'email' => $request->input('email'),
+            'name' => $request->name,
+            'password' => $request->password,
+            'email' => $request->email,
         ]);
     }
 }

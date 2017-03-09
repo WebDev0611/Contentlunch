@@ -2,7 +2,7 @@
     @include('partials.error')
 
     <div class="input-form-group">
-        <label for="#">CAMPAIGN TITLE</label>
+        <label for="#">CAMPAIGN TITLE *</label>
         @php
             $titleOptions = \App\Helpers::isCollaborator([
                 'placeholder' => 'Enter campaign title',
@@ -10,7 +10,7 @@
                 'id' => 'campaign-title',
             ], $isCollaborator);
         @endphp
-        {!! Form::text('title', $campaign->title, $titleOptions) !!}
+        {!! Form::text('title', old('title'), $titleOptions) !!}
     </div>
 
     <div class="row">
@@ -25,7 +25,7 @@
                             'id' => 'start-date',
                         ], $isCollaborator);
                     @endphp
-                    {!! Form::text('start_date', $campaign->start_date, $startDateOptions) !!}
+                    {!! Form::text('start_date', old('start_date'), $startDateOptions) !!}
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                             'id' => 'end-date',
                         ], $isCollaborator);
                     @endphp
-                    {!! Form::text('end_date', $campaign->end_date, $endDateOptions) !!}
+                    {!! Form::text('end_date', old('end_date'), $endDateOptions) !!}
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
                     Form::select(
                         'type',
                         $campaignTypesDropdown,
-                        @$campaign ? $campaign->campaign_type_id : '',
+                        old('campaign_type_id'),
                         \App\Helpers::isCollaborator([
                             'class' => 'input selectpicker form-control',
                             'id' => 'campaign-types',
@@ -74,7 +74,7 @@
         --}}
         <div class="col-sm-4">
             <div class="input-form-group">
-                <label for="#">STATUS</label>
+                <label for="#">STATUS *</label>
                 @php
                     $options = [
                         '0' => 'Inactive',
@@ -87,7 +87,7 @@
                         'class' => 'input',
                     ], $isCollaborator);
                 @endphp
-                {!! Form::select('status', $options, '0', $statusOptions) !!}
+                {!! Form::select('status', $options, old('status'), $statusOptions) !!}
             </div>
         </div>
     </div>
@@ -100,7 +100,7 @@
                 'id' => 'campaign-description',
             ], $isCollaborator);
         @endphp
-        {!! Form::textarea('description', $campaign->description, $descriptionOptions) !!}
+        {!! Form::textarea('description', old('description'), $descriptionOptions) !!}
     </div>
     <div class="input-form-group">
         <label for="#">CAMPAIGN GOALS</label>
@@ -111,7 +111,7 @@
                 'id' => 'campaign-goals'
             ], $isCollaborator);
         @endphp
-        {!! Form::textarea('goals', $campaign->goals, $goalsOptions) !!}
+        {!! Form::textarea('goals', old('goals'), $goalsOptions) !!}
     </div>
 
     <div class="form-delimiter">
@@ -124,7 +124,14 @@
         @forelse ($availableContents as $content)
             <div class="create-panel-table border-left">
                 <label class="create-panel-table-cell cell-size-5">
-                    <input type="checkbox" name="newContent[]" value="{{ $content->id }}">
+                    @php
+                        $newContent = collect(old('newContent'));
+                        $checked = $newContent->search($content->id) !== false;
+                    @endphp
+                    <input type="checkbox"
+                           name="newContent[]"
+                           value="{{ $content->id }}"
+                           @if($checked) checked @endif >
                 </label>
                 <div class="create-panel-table-cell cell-size-5">
                     @include('content.partials.avatar')
