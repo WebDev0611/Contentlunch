@@ -13,12 +13,7 @@
         <ul class="dashboard-tasks-list">
             <li>
                 DUE IN:
-                @if ($task->due_date != "0000-00-00 00:00:00")
-                    {{ $dateObject = new \Carbon\Carbon($task->due_date) }}
-                    <strong>{{ strtoupper($dateObject->diffForHumans()) }}</strong>
-                @else
-                    <strong>NO DUE DATE PROVIDED</strong>
-                @endif
+                <strong>{{ $task->present()->dueDateFormat }}</strong>
             </li>
             <li>
                 <a href="{{ route('taskShow', $task->id) }}"><strong>Edit Task</strong></a>
