@@ -16,7 +16,9 @@ class BuyingStage extends Model
     public static function dropdown()
     {
         $buyingStageDropdown = ['' => '-- Select a Buying Stage --'];
-        $buyingStageDropdown += self::select('id', 'name')
+        $buyingStageDropdown += Account::selectedAccount()
+            ->buyingStages()
+            ->select('id', 'name')
             ->orderBy('name', 'asc')
             ->distinct()
             ->lists('name', 'id')
