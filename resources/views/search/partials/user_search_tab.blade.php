@@ -9,7 +9,7 @@
                     {{ $user->name }}
                 </h5>
                 <span class="dashboard-tasks-text">
-                    {{ $user->location }}
+                    {{ $user->present()->location }}
                 </span>
                 <ul class="dashboard-tasks-list">
                     <li>
