@@ -76,7 +76,7 @@ class AuthController extends Controller
                 "max:255",
                 "unique:users",
             ],
-            'password' => 'required|min:8',
+            'password' => 'required|min:8|confirmed',
             'company_name' => 'required',
             'account_type' => 'required',
         ]);
