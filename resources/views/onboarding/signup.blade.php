@@ -71,6 +71,9 @@
                                             special and both upper and lower case
                                         </p>
                                     </div>
+                                    <div class="input-form-group">
+                                        {{ Form::password('password_confirmation', ['placeholder' => 'repeat password','class' => 'input']) }}
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="onboarding-avatar" id='signup-onboarding-avatar'>

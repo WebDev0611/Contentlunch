@@ -129,11 +129,11 @@
 
             if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
                 cell_date = this.$el.data('cell-date-time');
-                $('#task-start-date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('MM/DD/YYYY HH:mm'));
-                $('#task-due-date').val(moment(cell_date, "YYYY-M-D-HHmmss").add(1, 'days').format('MM/DD/YYYY HH:mm'));
+                $('#task-start-date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm'));
+                $('#task-due-date').val(moment(cell_date, "YYYY-M-D-HHmmss").add(1, 'days').format('YYYY-MM-DD HH:mm'));
             } else {
-                $('#task-start-date').val(moment(cell_date, "YYYY-M-D").format('MM/DD/YYYY HH:mm'));
-                $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('MM/DD/YYYY HH:mm'));
+                $('#task-start-date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD HH:mm'));
+                $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('YYYY-MM-DD HH:mm'));
             }
 
             $("#addTaskModal").modal('show');
@@ -172,7 +172,7 @@
 
             let value = $(`#${fieldId}`).val();
             let momentObject = moment(value, "YYYY-MM-DD HH:mm:ss");
-            let formattedString = momentObject.format('MM/DD/YYYY [at] h:mm a');
+            let formattedString = momentObject.format('MM-DD-YY [at] h:mm a');
 
             $('#' + fieldInfoId).html(formattedString);
         }
@@ -211,7 +211,7 @@
             t.title = t.name;
             t.author = t.user.name;
             t.details_url = '/task/show/' + t.id;
-            t.due = moment(t.due_date).format('MM/DD/YYYY');
+            t.due = moment(t.due_date).format('MM-DD-YY');
             t.status = t.status;
             if (t.user.profile_image) {
                 t.user_image = t.user.profile_image;
@@ -239,7 +239,7 @@
             }
             c.explanation = str_text != null ? (str_text.split(" ").splice(0, 30).join(" ") + '...') : '';
 
-            c.due = moment(c.due_date).format('MM/DD/YYYY');
+            c.due = moment(c.due_date).format('MM-DD-YY');
 
             // Published status
             if (c.published == '1') {
