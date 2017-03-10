@@ -8,9 +8,10 @@
         loader: $('<img src="/images/loading.gif" style="max-height:30px;" id="loader" />'),
 
         show_success(msg) {
-            $('#task-status-message').append(this.notify);
+            let $status = $('#task-status-message');
+            $status.append(this.notify);
             $('#task-status-text').text(msg);
-            $('#task-status-message').find('.alert').addClass('alert-success');
+            $status.find('.alert').addClass('alert-success');
         },
 
         show_load() {
@@ -23,12 +24,12 @@
 
         update_task() {
             this.show_load();
-            var formData = this.form_data();
+            let formData = this.form_data();
 
             return $.ajax({
                 method: 'post',
                 url: '/task/update/' + this.task_id(),
-                data: formData,
+                data:  formData,
             })
             .then(function(response) {
                 if (response.success) {
@@ -45,8 +46,8 @@
         form_data() {
             return {
                 name: $('#name').val(),
-                start_date: $('#start_date').val(),
-                due_date: $('#due_date').val(),
+                start_date: (new moment($('#start_date').val())).format('YYYY-MM-DD'),
+                due_date: (new moment($('#due_date').val())).format('YYYY-MM-DD'),
                 explanation: $('#explanation').val(),
                 assigned_users: this.assigned_users(),
                 _token: $('input[name=_token]').val(),
