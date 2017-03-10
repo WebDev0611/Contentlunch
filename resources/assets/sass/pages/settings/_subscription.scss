@@ -160,6 +160,11 @@
 
     label.checkbox-tag {
       @include border-radius(4px);
+      position: absolute;
+      bottom: 35px;
+      left: 0;
+      padding: 0 15%;
+      width: 100%;
 
       span {
         @include border-radius(4px);
@@ -192,10 +197,9 @@
     }
 
     label.checkbox-tag {
-      background: #fff;
-
       span {
         color: #6f717e;
+        background: #fff;
       }
     }
   }
