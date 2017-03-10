@@ -76,3 +76,20 @@
         </div>
     </div>
 @endsection
+
+@section('scripts')
+    <script>
+        var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        var emailInput = $("#email");
+
+        $('form').on('submit', function(e) {
+            $('.email-error').remove();
+
+            if (!regex.test(emailInput.val())) {
+                e.preventDefault(e);
+                emailInput.closest('.input-form-group').addClass('has-error');
+                emailInput.after($( '<span class="help-block email-error"><strong>Invalid email address</strong></span>'));
+            }
+        });
+    </script>
+@endsection
