@@ -59,7 +59,7 @@ class OnboardingController extends Controller
     {
         if ($invite->isUsed()) {
             return view('onboarding.invite_used');
-        } else if ((new User)->can('join', $invite->account)) {
+        } else if ((new User)->cant('join', $invite->account)) {
             $this->notifyUserCountExceeded($invite, $invite->account);
             abort(404);
         } else if (Auth::check()) {

@@ -35,7 +35,7 @@ class AccountPolicy extends BasePolicy
 
         $maxUsersCount = $account->limit('users_per_account');
 
-        return ($emailsCount + $currentUsersCount) < $maxUsersCount;
+        return ($emailsCount + $currentUsersCount) <= $maxUsersCount;
     }
 
     public function createSubaccount(User $user, Account $account)
