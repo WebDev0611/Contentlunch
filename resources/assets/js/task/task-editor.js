@@ -44,10 +44,12 @@
         },
 
         form_data() {
+            const formatDate = dateString => moment(dateString, 'MM/DD/YYYY').format('YYYY-MM-DD');
+
             return {
                 name: $('#name').val(),
-                start_date: (new moment($('#start_date').val())).format('YYYY-MM-DD'),
-                due_date: (new moment($('#due_date').val())).format('YYYY-MM-DD'),
+                start_date: formatDate($('#start_date').val()),
+                due_date: formatDate($('#due_date').val()),
                 explanation: $('#explanation').val(),
                 assigned_users: this.assigned_users(),
                 _token: $('input[name=_token]').val(),
