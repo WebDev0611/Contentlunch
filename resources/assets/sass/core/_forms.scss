@@ -191,6 +191,10 @@ body > .alert {
     float: left;
     overflow: hidden;
 
+    .form-list-image-link {
+      display: block;
+    }
+
     img {
       width: 90px;
     }

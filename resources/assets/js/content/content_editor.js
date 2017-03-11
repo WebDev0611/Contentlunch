@@ -96,4 +96,8 @@ $(function() {
         tasks.add(new task_model(task));
         $('#addTaskModal').modal('hide');
     }
+
+    $('.attachment-delete').click(function(event) {
+        event.preventDefault();
+    });
 });

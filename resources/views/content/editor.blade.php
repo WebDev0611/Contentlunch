@@ -306,7 +306,14 @@
                         <div class="input-form-group">
                             <ul>
                                 @foreach ($files as $file)
-                                <li><a href="{{ $file->filename }}">{{ $file->name }}</a></li>
+                                <li>
+                                    <a href="{{ $file->filename }}">{{ $file->name }}</a>
+                                    <a data-id="{{ $file->id }}"
+                                       class="attachment-delete btn btn-default btn-xs"
+                                       href="#">
+                                        <span class="icon icon-trash"></span>
+                                    </a>
+                                </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -508,10 +515,13 @@
                         <div class="input-form-group">
                             <ul class="form-image-list">
                                 @foreach ($images as $image)
-                                <li>
-                                    <a href="{{ $image->filename }}">
+                                <li class="text-right">
+                                    <a class="form-list-image-link" href="{{ $image->filename }}">
                                         <img src="{{ $image->filename }}" alt="">
                                     </a>
+                                    <a data-id="{{ $image->id }}"
+                                       class="image-delete btn btn-default btn-xs"
+                                       href="#"><span class="icon icon-trash"></span></a>
                                 </li>
                                 @endforeach
                             </ul>
