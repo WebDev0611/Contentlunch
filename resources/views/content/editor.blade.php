@@ -134,9 +134,9 @@
                                     @endphp
                                     {!!
                                         Form::select(
-                                            'content_type',
+                                            'content_type_id',
                                             $contentTypeDropdown,
-                                            @isset($content) ? $content->content_type_id : '',
+                                            old('content_type_id'),
                                             $contentTypeOptions
                                         )
                                     !!}
@@ -152,7 +152,7 @@
                                             'id' => 'dueDate'
                                         ], $isCollaborator);
                                     @endphp
-                                    {!! Form::text('due_date', @isset($content)? $content->due_date : '', $dueDateOptions) !!}
+                                    {!! Form::text('due_date', old('due_date'), $dueDateOptions) !!}
                                 </div>
                             </div>
                         </div>
@@ -171,7 +171,7 @@
                                 }
                             @endphp
                             {!!
-                                Form::text('title', @isset($content) ? $content->title : '', $titleOptions)
+                                Form::text('title', old('title') ?? $content->title, $titleOptions)
                             !!}
                         </div>
 
@@ -188,7 +188,7 @@
                                     $titleOptions['disabled'] = 'disabled';
                                 }
                             @endphp
-                            {!! Form::text('email_subject', @isset($content) ? $content->email_subject : '', $emailSubjectOptions) !!}
+                            {!! Form::text('email_subject', old('email_subject'), $emailSubjectOptions) !!}
                         </div>
 
                         <div class="row">
@@ -207,9 +207,9 @@
                                     @endphp
                                     {!!
                                         Form::select(
-                                            'connections',
+                                            'connection_id',
                                             $connections,
-                                            @isset($content) ? $content->connection_id : '',
+                                            old('connection_id'),
                                             $connectionsOptions
                                         )
                                     !!}
@@ -251,7 +251,7 @@
                             @endphp
                             @if ($isCollaborator)
                                 {!!
-                                    Form::textarea('content', @isset($content)? $content->body : '', $contentOptions)
+                                    Form::textarea('body', old('body'), $contentOptions)
                                 !!}
                             @else
                                 {!! @isset($content) ? $content->body : '' !!}
@@ -262,7 +262,6 @@
                             @php
                                 $tagsOptions = [
                                     'id' => 'tag-editor',
-                                    'name' => 'tags',
                                 ];
 
                                 if (!$isCollaborator) {
@@ -270,7 +269,7 @@
                                 }
                             @endphp
                             <label>TAGS</label>
-                            {!! Form::text('tag-editor', '', $tagsOptions) !!}
+                            {!! Form::text('tags', old('tags') !== '[]' ? old('tags') : '', $tagsOptions) !!}
                         </div>
 
                         <div class="input-form-group">
@@ -290,7 +289,7 @@
                                 Form::select(
                                     'related[]',
                                     $relatedContentDropdown,
-                                    @isset($content)? $content->related->lists('id')->toArray() : '',
+                                    old('related') ?? @isset($content)? $content->related->lists('id')->toArray() : '',
                                     $relatedContentOptions
                                 )
                             !!}
@@ -347,9 +346,9 @@
                                     @endphp
                                     {!!
                                         Form::select(
-                                            'buying_stage',
+                                            'buying_stage_id',
                                             $buyingStageDropdown,
-                                            @isset($content) ? $content->buying_stage_id : '',
+                                            old('buying_stage_id'),
                                             $options
                                         )
                                     !!}
@@ -371,9 +370,9 @@
                                     @endphp
                                     {!!
                                         Form::select(
-                                            'persona',
+                                            'persona_id',
                                             $personaDropdown,
-                                            @isset($content) ? $content->persona_id : '',
+                                            old('persona_id'),
                                             $options
                                         )
                                     !!}
@@ -426,7 +425,7 @@
                                     {!!
                                         Form::text(
                                             'meta_title',
-                                            @isset($content) ? $content->meta_title : '',
+                                            old('meta_title'),
                                             $metaTitleTagsOptions
                                         )
                                     !!}
@@ -446,13 +445,7 @@
                                             $keywordOptions['disabled'] = 'disabled';
                                         }
                                     @endphp
-                                    {!!
-                                        Form::text(
-                                            'meta_keywords',
-                                            @isset($content) ? $content->meta_keywords : '',
-                                            $keywordOptions
-                                        )
-                                    !!}
+                                    {!! Form::text('meta_keywords', old('meta_keywords'), $keywordOptions) !!}
                                 </div>
                             </div>
 
@@ -470,13 +463,7 @@
                                             $metaDescriptorOptions['disabled'] = 'disabled';
                                         }
                                     @endphp
-                                    {!!
-                                        Form::text(
-                                            'meta_descriptor',
-                                            @isset($content) ? $content->meta_description : '',
-                                            $metaDescriptorOptions
-                                        )
-                                    !!}
+                                    {!! Form::text('meta_descriptor', old('meta_descriptor'), $metaDescriptorOptions) !!}
                                 </div>
                             </div>
                             <!--

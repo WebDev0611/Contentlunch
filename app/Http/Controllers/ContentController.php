@@ -535,6 +535,7 @@ class ContentController extends Controller
         }
 
         if ($validation->fails()) {
+            $request->flash();
             return redirect("/edit/$content->id")->with('errors', $validation->errors());
         }
 
@@ -606,13 +607,13 @@ class ContentController extends Controller
 
     private function saveContentAndAttachToAccount($request, $content)
     {
-        $content->title = $request->input('title');
-        $content->body = $request->input('content');
-        $content->due_date = $request->input('due_date');
-        $content->meta_title = $request->input('meta_title');
-        $content->meta_keywords = $request->input('meta_keywords');
-        $content->meta_description = $request->input('meta_descriptor');
-        $content->email_subject = $request->input('email_subject');
+        $content->title = $request->title;
+        $content->body = $request->body;
+        $content->due_date = $request->due_date;
+        $content->meta_title = $request->meta_title;
+        $content->meta_keywords = $request->meta_keywords;
+        $content->meta_description = $request->meta_descriptor;
+        $content->email_subject = $request->email_subject;
         $content->save();
 
         $this->selectedAccount->contents()->save($content);
@@ -622,40 +623,40 @@ class ContentController extends Controller
 
     private function saveConnections($request, $content)
     {
-        if ($request->has('connections')) {
-            $connection = Connection::find($request->input('connections'));
+        if ($request->connection_id) {
+            $connection = Connection::find($request->connection_id);
             $connection->contents()->save($content);
         }
     }
 
     private function saveContentCampaign($request, $content)
     {
-        if ($request->input('campaign')) {
-            $campaign = Campaign::find($request->input('campaign'));
+        if ($request->campaign_id) {
+            $campaign = Campaign::find($request->campaign_id);
             $campaign->contents()->save($content);
         }
     }
 
     private function saveContentBuyingStage($request, $content)
     {
-        if ($request->input('buying_stage')) {
-            $buyingStage = BuyingStage::find($request->input('buying_stage'));
+        if ($request->buying_stage_id) {
+            $buyingStage = BuyingStage::find($request->buying_stage_id);
             $buyingStage->contents()->save($content);
         }
     }
 
     private function saveContentPersona($request, $content)
     {
-        if ($request->input('persona')) {
-            $persona = Persona::find($request->input('persona'));
+        if ($request->persona_id) {
+            $persona = Persona::find($request->persona_id);
             $persona->contents()->save($content);
         }
     }
 
     private function saveContentType($request, $content)
     {
-        if ($request->input('content_type')) {
-            $conType = ContentType::find($request->input('content_type'));
+        if ($request->content_type_id) {
+            $conType = ContentType::find($request->content_type_id);
             $conType->contents()->save($content);
         }
     }
