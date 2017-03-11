@@ -97,7 +97,27 @@ $(function() {
         $('#addTaskModal').modal('hide');
     }
 
-    $('.attachment-delete').click(function(event) {
+    $('.attachment-delete, .image-delete').click(function(event) {
         event.preventDefault();
+        let $this = $(this);
+
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this.",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!'
+        }).then(function () {
+            let $li = $this.parents('li');
+            let attachmentId = $this.data('id');
+
+            $.ajax({
+                method: 'delete',
+                url: `/api/attachments/${attachmentId}`,
+            });
+
+            $li.slideUp('fast'); // Optimistic feedback.
+        });
+
     });
 });
