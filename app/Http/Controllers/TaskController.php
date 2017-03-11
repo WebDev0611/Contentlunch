@@ -31,7 +31,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $shouldReturnAccountTasks = $request->input('account_tasks') == '1';
+        $shouldReturnAccountTasks = $request->account_tasks == '1';
 
         if ($shouldReturnAccountTasks) {
             $tasks = Task::accountTasks($this->selectedAccount);
