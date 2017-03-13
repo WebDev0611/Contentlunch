@@ -44,28 +44,26 @@
             <label for="#">Max Users</label>
             <h3 class="settings-profile-heading">{{ $account->limit('users_per_account') }}</h3>
 
-            @if($account->isAgencyAccount () || $account->isSubAccount())
-
+            @if ($account->isAgencyAccount () || $account->isSubAccount())
                 <label for="#">Clients</label>
-                <h3 class="settings-profile-heading">{{ count($user->agencyAccount()->childAccounts) }}
-                    /{{ $account->limit('subaccounts_per_account') }}</h3>
-
+                <h3 class="settings-profile-heading">
+                    {{ count($this->user()->agencyAccount()->childAccounts) }}
+                    /{{ $account->limit('subaccounts_per_account') }}
+                </h3>
             @endif
-
         @endif
-
 
         <div class="form-group">
             <label for="#">Payment Info</label>
             <span>
-                @if(isset($userCard))
-                    {{$userCard->brand}} XXX-{{$userCard->last4}}
+                @if (isset($userCard))
+                    {{ $userCard->brand }} XXX-{{ $userCard->last4 }}
                     <a href="#" class="text-blue text-uppercase" id="edit-payment">
                         <i class="icon-edit"></i>
                         Edit
                     </a>
                 @else
-                    <p class="no-card">Payment has not been made yet</p>
+                    <p class="no-card">No Credit Card configured</p>
                 @endif
             </span>
         </div>

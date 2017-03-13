@@ -3,12 +3,14 @@
 namespace App\Http\ViewComposers;
 
 use App\Account;
+use App\User;
 use Auth;
 use Config;
 use Log;
 use Stripe\Customer;
 use Stripe\Error\Base;
 use Stripe\Stripe;
+use Illuminate\View\View;
 
 class SettingsSidebarComposer
 {
@@ -24,7 +26,10 @@ class SettingsSidebarComposer
         $this->account = Account::selectedAccount();
     }
 
-    public function compose($view)
+    /**
+     * @param View $view
+     */
+    public function compose(View $view)
     {
         $view->with([
             'account' => $this->account,
