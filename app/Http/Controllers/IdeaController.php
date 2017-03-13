@@ -54,13 +54,8 @@ class IdeaController extends Controller
         return response()->json($idea);
     }
 
-    public function reject(Request $request, $id)
+    public function reject(Request $request, Idea $idea)
     {
-        $idea = Idea::where([
-            'id' => $id,
-            'user_id' => Auth::id(),
-        ])->first();
-
         $idea->reject();
 
         return response()->json($idea);
