@@ -76,16 +76,15 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::resource('/influencers', 'InfluencersController@search');
         Route::resource('/topics', 'TopicsController@index');
 
-        Route::get('/idea/{idea}', 'PlanController@editor')->name('ideaEditor')->middleware('can:show,idea');
+        Route::get('/idea/{idea}', 'IdeaController@edit')->name('ideas.edit')->middleware('can:show,idea');
+        Route::post('/idea/{idea}/activate', 'IdeaController@activate')->name('ideas.activate')->middleware('can:update,idea');
         Route::post('/idea/{idea}/park', 'IdeaController@park')->name('ideas.park')->middleware('can:update,idea');
-        Route::post('/idea/update/{idea}', 'IdeaController@update')->middleware('can:update,idea');
-        Route::post('/idea/reject/{idea}', 'IdeaController@reject')->middleware('can:update,idea');
-        Route::post('/idea/activate', 'IdeaController@activate');
-        Route::get('/idea/write/{idea}', 'IdeaController@write')->name('ideaWrite')->middleware('can:update,idea');
+        Route::post('/idea/{idea}/update', 'IdeaController@update')->name('ideas.update')->middleware('can:update,idea');
+        Route::post('/idea/{idea}/reject', 'IdeaController@reject')->name('ideas.reject')->middleware('can:update,idea');
+        Route::get('/idea/{idea}/write', 'IdeaController@write')->name('ideas.write')->middleware('can:write,idea');
 
         Route::post('/ideas', 'IdeaController@store')->name('ideas.store');
         Route::get('/ideas', 'IdeaController@index')->name('ideas.index');
-        Route::get('/ideas/{idea}', 'IdeaController@show')->name('ideas.update')->middleware('can:show,idea');
 
         Route::group(['middleware' => ['auth', 'calendar']], function () {
             Route::get('/calendar/{id?}', 'CalendarController@index')->name('calendarMonthly');

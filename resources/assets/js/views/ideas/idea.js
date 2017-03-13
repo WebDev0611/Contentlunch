@@ -77,33 +77,15 @@ var idea_view = Backbone.View.extend({
     },
 
     write() {
-        window.location.href = '/idea/write/' + this.model.get('id');
+        window.location.href = '/idea/' + this.model.get('id') + '/write/';
     },
 
     park() {
-        return $.ajax({
-            url: '/idea/park',
-            data: {
-                idea_id: this.model.get('id')
-            },
-            type:'post',
-        })
-        .then(res => {
-            location.reload();
-        });
+        return $.post('/idea/' + this.model.get('id') + '/park').then(res => location.reload());
     },
 
     activate() {
-        return $.ajax({
-            url: '/idea/activate',
-            data: {
-                idea_id: this.model.get('id')
-            },
-            type:'post',
-        })
-        .then(res => {
-            location.reload();
-        });
+        return $.post('/idea/' + this.model.get('id') + '/activate').then(res => location.reload());
     }
 });
 

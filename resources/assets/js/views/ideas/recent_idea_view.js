@@ -23,7 +23,7 @@ var recent_idea_view = Backbone.View.extend({
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li>
-                        <a href="/idea/write/<%= id %>">Write It</a>
+                        <a href="/idea/<%= id %>/write">Write It</a>
                     </li>
                 </ul>
             </div>

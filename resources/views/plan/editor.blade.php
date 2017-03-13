@@ -20,7 +20,7 @@
                         <div class="col-md-6 text-right">
                             <button {{ $disabled }} type="button" class="button button-outline-secondary button-small save-idea">SAVE</button>
                             <div class="btn-group">
-                                <a {{ $disabled }} href="{{ route('ideaWrite', $idea) }}" class="button button-small">WRITE IT</a>
+                                <a {{ $disabled }} href="{{ route('ideas.write', $idea) }}" class="button button-small">WRITE IT</a>
                                 <button {{ $disabled }} type="button" class="button button-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="caret"></span>
                                     <span class="sr-only">Toggle Dropdown</span>

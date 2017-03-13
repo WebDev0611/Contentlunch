@@ -25,22 +25,6 @@ class PlanController extends Controller
         return view('plan.prescription');
     }
 
-    public function editor(Idea $idea)
-    {
-        $idea_content = IdeaContent::where([
-            'idea_id' => $idea->id,
-            'user_id' => Auth::id()
-        ])->get();
-
-        $data = [
-            'contents' => $idea_content,
-            'idea' => $idea,
-            'is_collaborator' => $idea->hasCollaborator(Auth::user()),
-        ];
-
-        return view('plan.editor', $data);
-    }
-
     public function ideas()
     {
         return view('plan.ideas');

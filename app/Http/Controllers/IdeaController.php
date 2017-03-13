@@ -150,6 +150,28 @@ class IdeaController extends Controller
     }
 
     /**
+     * Shows idea editor
+     *
+     * @param Idea $idea
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit(Idea $idea)
+    {
+        $idea_content = IdeaContent::where([
+            'idea_id' => $idea->id,
+            'user_id' => Auth::id()
+        ])->get();
+
+        $data = [
+            'contents' => $idea_content,
+            'idea' => $idea,
+            'is_collaborator' => $idea->hasCollaborator(Auth::user()),
+        ];
+
+        return view('plan.editor', $data);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request

@@ -3,9 +3,9 @@
     //view for the editor
     var idea_editor_view = Backbone.View.extend({
         events: {
-            "click .save-idea": 'save_idea',
-            "click .reject-idea": 'reject_idea',
-            "click .park-idea": 'park_idea'
+            "click .save-idea": 'saveIdea',
+            "click .reject-idea": 'rejectIdea',
+            "click .park-idea": 'parkIdea'
         },
 
         initialize() {
@@ -16,18 +16,16 @@
             return this;
         },
 
-        save_idea() {
+        saveIdea() {
             return $.ajax({
-                url: '/idea/update/' + this.model.get('id'),
-                data: this.get_form_data(),
+                url: '/idea/' + this.model.get('id') + '/update',
+                data: this.formData(),
                 type: 'post',
             })
-            .then(function(res) {
-                this.showAlert('Successfully saved the idea: ' + res.name);
-            }.bind(this));
+            .then(res => this.showAlert('Successfully saved the idea: ' + res.name));
         },
 
-        get_form_data() {
+        formData() {
             return {
                 name: $('#idea-name').val(),
                 idea: $('#idea-text').val(),
@@ -35,18 +33,12 @@
             };
         },
 
-        reject_idea() {
-            return $.ajax({
-                url: '/idea/reject/' + this.model.get('id'),
-                type: 'post',
-                headers: getCSRFHeader(),
-            })
-            .then(function(res) {
-                this.showAlert('Idea has been rejected!');
-            }.bind(this));
+        rejectIdea() {
+            return $.post('/idea/' + this.model.get('id') + '/reject/')
+                .then(res => this.showAlert('Idea has been rejected!'));
         },
 
-        park_idea() {
+        parkIdea() {
             return $.post('/idea/' + this.model.get('id') + '/park')
                 .then(res => this.showAlert('Idea has been parked!'));
         },
