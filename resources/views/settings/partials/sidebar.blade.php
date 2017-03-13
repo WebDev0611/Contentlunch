@@ -15,17 +15,16 @@
             <span class="settings-profile-subscription paid">Paid Subscription</span>
 
             <label for="#">{{ $activeSubscription->subscriptionType->name }}</label>
-            <h3 class="settings-profile-heading">${{number_format($activeSubscription->subscriptionType->price)}}</h3>
+            <h3 class="settings-profile-heading">{{ $activeSubscription->present()->price }}</h3>
 
             <label for="#">Start Date</label>
-            <h3 class="settings-profile-heading">{{date_format(date_create($activeSubscription->start_date), "n-j-y") }}</h3>
+            <h3 class="settings-profile-heading">{{ $activeSubscription->present()->startDateFormat }}</h3>
 
             <label for="#">Expiration Date</label>
-            <h3 class="settings-profile-heading">{{date_format(date_create($activeSubscription->expiration_date), "n-j-y") }}</h3>
+            <h3 class="settings-profile-heading">{{ $activeSubscription->present()->expirationDateFormat  }}</h3>
 
             <label for="#">Users</label>
-            <h3 class="settings-profile-heading">{{count($usersOnAccount)}}
-                /{{$account->limit('users_per_account')}}</h3>
+            <h3 class="settings-profile-heading">{{ $account->present()->usersCountStatus }}</h3>
 
             @if ($account->isAgencyAccount() || $account->isSubAccount())
 
@@ -47,8 +46,7 @@
             @if ($account->isAgencyAccount () || $account->isSubAccount())
                 <label for="#">Clients</label>
                 <h3 class="settings-profile-heading">
-                    {{ count($this->user()->agencyAccount()->childAccounts) }}
-                    /{{ $account->limit('subaccounts_per_account') }}
+                    {{ $account->present()->subAccountsStatus }}
                 </h3>
             @endif
         @endif
