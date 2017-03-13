@@ -189,15 +189,23 @@ function addedIdeaCallback(callback) {
 // Content
 function store_content(callback) {
     $('#add-content-button').prop('disabled', true);
+    let contentTitle = $('#content-title').val();
+    let contentType = $("#content-type-id option:selected").val();
 
     $('#content-status-alert').addClass('hidden');
-    if ($('#content-title').val().length < 1 || $("#content-type-id option:selected").val().length < 1) {
+    $('#content-status-text').text('');
+
+    if (contentTitle.length < 1 || contentType.length < 1) {
         $('#content-status-alert')
             .toggleClass('hidden')
-            .toggleClass('alert-danger')
             .show();
 
-        $('#content-status-text').text('Content title required \r\n Content type required');
+        if (contentTitle.length < 1) {
+            $('#content-status-text').text('Content title required');
+        } else if(contentType.length < 1) {
+            $('#content-status-text').text('Content type required');
+        }
+
         $('#add-content-button').prop('disabled', false);
 
         return;

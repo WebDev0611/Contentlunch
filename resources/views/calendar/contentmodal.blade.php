@@ -5,13 +5,6 @@
                 <h4 class="sidemodal-header-title large">Create Content</h4>
 
                 <h5>Add a quick content piece to your calendar, you'll be able to edit it later.</h5>
-
-                <div id="content-status-alert" class="alert hidden">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <div id="content-status-text"></div>
-                </div>
             </div>
             <div class="col-md-6 text-right" id="content-menu">
                 <button class="button button-primary button-small text-uppercase" id="add-content-button">Add Content
@@ -19,6 +12,15 @@
                 <button class="sidemodal-close normal-flow" data-dismiss="modal">
                     <i class="icon-remove"></i>
                 </button>
+            </div>
+
+            <div class="col-md-12">
+                <div id="content-status-alert" class="alert hidden alert-danger">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div id="content-status-text"></div>
+                </div>
             </div>
         </div>
     </div>
