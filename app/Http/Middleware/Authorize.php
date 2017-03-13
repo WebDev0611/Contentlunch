@@ -19,8 +19,14 @@ class Authorize extends \Illuminate\Foundation\Http\Middleware\Authorize
      */
     public function handle($request, Closure $next, $ability, $model = null)
     {
+        $isAjax = $request->ajax() || $request->wantsJson();
+
         if ($this->gate->denies($ability, $this->getGateArguments($request, $model))) {
-            abort(404);
+            if ($isAjax) {
+                return response()->json(['error' => 'User not authorized'], 403);
+            } else {
+                abort(404);
+            }
         }
 
         return $next($request);
