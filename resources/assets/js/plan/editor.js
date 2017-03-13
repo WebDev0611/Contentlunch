@@ -23,7 +23,7 @@
                 type: 'post',
             })
             .then(function(res) {
-                this.show_alert(true, 'Successfully saved the idea: ' + res.name);
+                this.showAlert('Successfully saved the idea: ' + res.name);
             }.bind(this));
         },
 
@@ -42,25 +42,16 @@
                 headers: getCSRFHeader(),
             })
             .then(function(res) {
-                this.show_alert(true, 'Idea has been rejected!');
+                this.showAlert('Idea has been rejected!');
             }.bind(this));
         },
 
         park_idea() {
-            return $.ajax({
-                url: '/idea/park',
-                type:'post',
-                data: {
-                    idea_id: this.model.get('id')
-                },
-                headers: getCSRFHeader(),
-            })
-            .then(function(res) {
-                this.show_alert(true,'Idea has been parked!');
-            }.bind(this));
+            return $.post('/idea/' + this.model.get('id') + '/park')
+                .then(res => this.showAlert('Idea has been parked!'));
         },
 
-        show_alert(status,text) {
+        showAlert(text) {
             var alert_button =  $('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
             var alert_text = $('<div class="alert alert-success alert-forms alert-dismissable" role="alert" />').text(text).append(alert_button);
             $('#responses').append( alert_text );

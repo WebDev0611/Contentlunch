@@ -27,15 +27,14 @@ class IdeaController extends Controller
         return response()->json($ideas);
     }
 
-    // Parks the idea
-    public function park(Request $request)
+    /**
+     * Parks an idea.
+     *
+     * @param Idea $idea
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function park(Idea $idea)
     {
-        $id = $request->input('idea_id');
-        $idea = Idea::where([
-            'id' => $id,
-            'user_id' => Auth::id(),
-        ])->first();
-
         $idea->park();
 
         return response()->json($idea);
