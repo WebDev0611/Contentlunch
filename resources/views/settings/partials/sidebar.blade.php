@@ -1,20 +1,20 @@
 <aside class="panel-sidebar right-separator">
     <div class="panel-container text-center">
         <div class="settings-profile-image">
-            <img src="{{ $user->present()->profile_image }}" alt="#">
+            <img src="{{ Auth::user()->present()->profile_image }}" alt="#">
         </div>
         <div class="settings-profile-info">
-            <h4>{{ $user->name }}</h4>
+            <h4>{{ Auth::user()->name }}</h4>
             <span>
-                {{ $user->present()->location }}
+                {{ Auth::user()->present()->location }}
             </span>
         </div>
 
-        @if($activeSubscription->isPaid())
+        @if ($activeSubscription->isPaid())
 
             <span class="settings-profile-subscription paid">Paid Subscription</span>
 
-            <label for="#">{{$activeSubscription->subscriptionType->name}}</label>
+            <label for="#">{{ $activeSubscription->subscriptionType->name }}</label>
             <h3 class="settings-profile-heading">${{number_format($activeSubscription->subscriptionType->price)}}</h3>
 
             <label for="#">Start Date</label>
@@ -27,7 +27,7 @@
             <h3 class="settings-profile-heading">{{count($usersOnAccount)}}
                 /{{$account->limit('users_per_account')}}</h3>
 
-            @if($account->isAgencyAccount() || $account->isSubAccount())
+            @if ($account->isAgencyAccount() || $account->isSubAccount())
 
                 <label for="#">Clients</label>
                 <h3 class="settings-profile-heading">{{count($user->agencyAccount()->childAccounts)}}</h3>

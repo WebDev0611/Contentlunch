@@ -15,6 +15,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('elements.searchbar', \App\Http\ViewComposers\CompanyListComposer::class);
+        View::composer('settings.partials.subscription_sidebar', \App\Http\ViewComposers\SettingsSidebarComposer::class);
     }
 
     /**
