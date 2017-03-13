@@ -39,6 +39,7 @@ class Content extends Model
         'written'          => 'Written',
         'user_id'          => 'Author',
         'email_subject'    => 'Email Subject',
+        'calendar_id'      => 'Calendar',
         'created_at'       => 'Create at',
         'updated_at'       => 'Updated at',
     ];
