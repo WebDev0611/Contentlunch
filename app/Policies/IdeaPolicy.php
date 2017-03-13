@@ -37,6 +37,16 @@ class IdeaPolicy extends BasePolicy
         return $trendSearches < $maxTrendSearches;
     }
 
+    public function show(User $user, Idea $idea)
+    {
+        return $idea->user->id == $user->id || $idea->hasCollaborator($user) || $idea->account->hasUser($user);
+    }
+
+    public function update(User $user, Idea $idea)
+    {
+        return $idea->user->id == $user->id || $idea->hasCollaborator($user);
+    }
+
     public function create(User $user)
     {
         if (!$this->account->hasLimit('ideas_created')) {

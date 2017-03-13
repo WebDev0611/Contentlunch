@@ -124,6 +124,17 @@ class Account extends Model
     }
 
     /**
+     * Checks if a user belongs to an account.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function hasUser(User $user)
+    {
+        return (boolean) $this->proxyToParent()->users()->whereUserId($user->id)->count();
+    }
+
+    /**
      * Agency related helper methods.
      */
     public function isAgencyAccount()
