@@ -2,11 +2,17 @@
 
 namespace App;
 
+use App\Presenters\SubscriptionPresenter;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class Subscription extends Model
 {
+    use PresentableTrait;
+
+    protected $presenter = SubscriptionPresenter::class;
+
     protected $fillable = [
         'account_id',
         'subscription_type_id',
