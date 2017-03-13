@@ -193,6 +193,6 @@
     @endif
 
     @if (!$campaign->id)
-        {{ Form::hidden('tasks') }}
+        {{ Form::hidden('tasks', '') }}
     @endif
 </div>
