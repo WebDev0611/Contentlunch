@@ -40,14 +40,15 @@ class AuthController extends Controller
 
     /**
      * Create a new authentication controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
         if (isset($_POST['redirect_url'])) {
             $this->redirectTo = $_POST['redirect_url'];
+        } else if ($redirectUri = session('redirect_url')) {
+            $this->redirectTo = $redirectUri;
         }
+
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
@@ -114,7 +115,7 @@ class AuthController extends Controller
     {
         Account::selectedAccount()->ensureAccountHasSubscription();
 
-        return redirect()->intended( $this->redirectPath() );
+        return redirect()->intended($this->redirectPath());
     }
 
     /**

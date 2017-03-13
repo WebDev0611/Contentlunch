@@ -15,8 +15,7 @@ class CompanyListComposer
     /**
      * Create a new profile composer.
      *
-     * @param  UserRepository  $users
-     * @return void
+     * @internal param UserRepository $users
      */
     public function __construct()
     {

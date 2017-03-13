@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 
+use App\Account;
 use App\Presenters\Helpers\BasePresenter;
 
 class AccountPresenter extends BasePresenter
@@ -10,7 +11,7 @@ class AccountPresenter extends BasePresenter
     {
         return $this->entity->account_image ?
             $this->entity->account_image :
-            \App\Account::DEFAULT_ACCOUNT_IMAGE;
+            Account::DEFAULT_ACCOUNT_IMAGE;
     }
 
     public function tagsDropdown()
@@ -33,5 +34,21 @@ class AccountPresenter extends BasePresenter
             ->distinct()
             ->lists('tag')
             ->toJson();
+    }
+
+    public function usersCountStatus()
+    {
+        $usersCount = $this->entity->users->count();
+        $limit = $this->entity->limit('users_per_account');
+
+        return "{$usersCount}/{$limit}";
+    }
+
+    public function subAccountsStatus()
+    {
+        $childAccounts = $this->entity->proxyToParent()->childAccounts->count();
+        $limit = $this->entity->limit('subaccounts_per_account');
+
+        return "{$childAccounts}/{$limit}";
     }
 }

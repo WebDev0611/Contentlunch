@@ -8,7 +8,7 @@
     <div class="workspace">
         <div class="panel clearfix">
 
-            @include('settings.partials.subscription_sidebar')
+            @include('settings.partials.sidebar')
 
             <div class="panel-main left-separator">
 

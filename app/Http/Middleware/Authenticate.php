@@ -20,6 +20,8 @@ class Authenticate
         $isAjax = $request->ajax() || $request->wantsJson();
 
         if (Auth::guard($guard)->guest()) {
+            session([ 'redirect_url' => $request->getRequestUri() ]);
+
             if ($isAjax) {
                 return response('Unauthorized.', 401);
             } else {

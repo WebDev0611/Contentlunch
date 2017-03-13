@@ -171,7 +171,7 @@
                                 }
                             @endphp
                             {!!
-                                Form::text('title', old('title') ?? $content->title, $titleOptions)
+                                Form::text('title', old('title') ?: $content->title, $titleOptions)
                             !!}
                         </div>
 
@@ -289,7 +289,7 @@
                                 Form::select(
                                     'related[]',
                                     $relatedContentDropdown,
-                                    old('related') ?? @isset($content)? $content->related->lists('id')->toArray() : '',
+                                    old('related') ?: @isset($content) ? $content->related->lists('id')->toArray() : '',
                                     $relatedContentOptions
                                 )
                             !!}
