@@ -45,6 +45,15 @@
         @endif
 
         <div class="col-md-4 text-right">
+
+            @if(App\Account::selectedAccount()->activePaidSubscriptions()->isEmpty())
+                <a href="{{route('subscription')}}">
+                    <button class="btn btn-warning">
+                        Upgrade
+                    </button>
+                </a>
+            @endif
+
             <a  href="https://contentlaunch.uservoice.com/"
                 class="support-icon icon-question"
                 title="Support"
@@ -57,14 +66,6 @@
             <button class="search-bar-button add-task-action">
                 <i class="icon-checklist"></i>
             </button>
-
-            @if(App\Account::selectedAccount()->activePaidSubscriptions()->isEmpty())
-                <a href="{{route('subscription')}}">
-                    <button class="btn btn-warning">
-                        Upgrade
-                    </button>
-                </a>
-            @endif
 
             <a href='/logout' class="search-bar-button">
                 Logout
