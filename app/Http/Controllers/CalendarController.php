@@ -32,7 +32,11 @@ class CalendarController extends Controller {
         if ($user) {
             $this->user_id = $user->id;
             $this->account_id = 0;
-            $this->campaigns = Account::selectedAccount()->campaigns()->get();
+            $this->campaigns = Account::selectedAccount()
+                ->campaigns()
+                ->with('collaborators')
+                ->with('contents')
+                ->get();
             $this->tasks = Auth::user()->tasks()->with('user')->get();
         }
     }
@@ -245,7 +249,7 @@ class CalendarController extends Controller {
         // exit;
 
         return View::make('calendar.campaigns', [
-            'campaigns'         => $campaigns->toJson(),
+            'campaigns'         => $this->campaigns->toJson(),
             'user_id'           => $this->user_id,
             'account_id'        => $this->account_id,
             'campaign_calendar' => generate_campaign_calendar($year),

@@ -117,13 +117,21 @@ var campaigns = {!! $campaigns !!};
                 <i class="icon-remove"></i>
             </button>
             <h5 class="calendar-task-list-popover-title">
-                <%= description %>
+                <%= title %>
                 <span class="calendar-task-list-popover-title-border"></span>
             </h5>
+            <p class="calendar-task-list-popover-text">
+              <%= explanation %>
+          </p>
             <div class="calendar-task-list-popover-author">
-                <img src="/images/cl-avatar2.png" alt="#">
-                <span class="text-uppercase">Author</span>
-                <strong>Storm Trooper</strong>
+                  <span class="text-uppercase">Collaborators</span>
+
+                  <% if (typeof(user_image) !== "undefined" && user_image !== null) { %>
+                    <img src="<%= user_image %>" width="50" class="popover-user-image">
+                  <% } else { %>
+                    <img src="/images/cl-avatar2.png" alt="#">
+                  <%  } %>
+                  <strong><%= author %></strong>
             </div>
             <div class="row">
                 <div class="calendar-task-list-popover-info col-md-6">
@@ -131,18 +139,22 @@ var campaigns = {!! $campaigns !!};
                     <strong><%= start_date %></strong>
                 </div>
                 <div class="calendar-task-list-popover-info col-md-6">
-                    Due Date
+                    End Date
                     <strong><%= end_date %></strong>
                 </div>
             </div>
             <p class="calendar-task-list-popover-info">
                 Content
-                <strong>Print Ad Washington Post</strong>
-                <strong>Print Ad New York Times</strong>
-                <strong>Print Ad Metro</strong>
-                <a href="#" class="button button-outline-secondary button-micro">+5 More</a>
+                <% if (typeof(contents) !== "undefined" && contents !== null && contents.length) {
+                contents.forEach(function (content) { %>
+                    <strong><%= content.title %></strong>
+                <% });
+                } else { %>
+                <div class="clearfix"></div>
+                <i>Currently no content</i>
+                <% } %>
             </p>
-            <a href="#" class="button button-extend text-uppercase">Details</a>
+            <a href="<%= details_url %>" class="button button-extend text-uppercase">Details</a>
         </div>
     </div>
 </script>
