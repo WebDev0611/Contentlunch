@@ -52,6 +52,7 @@
                 due_date: formatDate($('#due_date').val()),
                 explanation: $('#explanation').val(),
                 assigned_users: this.assigned_users(),
+                attachments:  this.attachments(),
                 _token: $('input[name=_token]').val(),
             };
         },
@@ -62,6 +63,13 @@
                 .map(function(checkbox) {
                     return $(checkbox).data('id');
                 });
+        },
+
+        attachments(){
+            return $('input[name="files[]"]')
+                .map(function() {
+                    return this.value;
+                }).get();
         },
 
         close_task() {
@@ -112,3 +120,41 @@
         });
     }
 })(jQuery);
+
+(function () {
+
+    $('.attachment-delete').click(function (event) {
+        event.preventDefault();
+        var $this = $(this);
+
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this.",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!'
+        }).then(function () {
+            var $li = $this.parents('li');
+            var attachmentId = $this.data('id');
+
+            $.ajax({
+                method: 'delete',
+                url: '/api/attachments/' + attachmentId
+            });
+
+            $li.slideUp('fast'); // Optimistic feedback.
+        });
+    });
+
+    var attachmentUploader = new Dropzone('#attachment-uploader', { url: '/edit/attachments' });
+
+    attachmentUploader.on('success', function (file, response) {
+        var hiddenField = $('<input/>', {
+            name: 'files[]',
+            type: 'hidden',
+            value: response.file
+        });
+
+        hiddenField.appendTo($('.panel-container'));
+    });
+})();

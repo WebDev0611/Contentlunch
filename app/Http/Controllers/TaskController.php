@@ -104,7 +104,7 @@ class TaskController extends Controller
     {
         $fileUrls = $request->input('attachments');
         $userId = Auth::id();
-        $userFolder = "/attachment/$userId/tasks/";
+        $userFolder = "attachment/$userId/tasks/";
 
         if (!empty($fileUrls)) {
             foreach ($fileUrls as $fileUrl) {
@@ -216,6 +216,7 @@ class TaskController extends Controller
         ]);
 
         $this->saveAssignedUsers($request, $task);
+        $this->saveAttachments($request, $task);
 
         return response()->json(['success' => true, 'task' => $task ]);
     }

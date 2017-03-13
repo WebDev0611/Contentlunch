@@ -150,7 +150,33 @@
                                         </label>
                                     </li>
                                 @endforeach
-                            <ul>
+                            </ul>
+                        </div>
+
+                        <div class="form-delimiter">
+                            <span>
+                                <em>Attachments</em>
+                            </span>
+                        </div>
+
+                        <div class="input-form-group">
+                            <ul class="form-image-list">
+                                @foreach ($task->attachments as $image)
+                                    <li class="text-right">
+                                        <a class="form-list-image-link" href="{{ $image->filename }}">
+                                            <img src="{{ $image->filename }}" alt="">
+                                        </a>
+                                        <a data-id="{{ $image->id }}"
+                                           class="attachment-delete btn btn-default btn-xs"
+                                           href="#"><span class="icon icon-trash"></span></a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                        <div class="input-form-group ">
+                            <div class="dropzone" id='attachment-uploader'>
+                            </div>
                         </div>
 
                     </div>
@@ -175,4 +201,3 @@
 @section('scripts')
 <script type='text/javascript' src="/js/task_editor.js"></script>
 @stop
-
