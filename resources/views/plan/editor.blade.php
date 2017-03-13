@@ -112,6 +112,36 @@
                                 <div class="alert alert-info alert-forms">No content attached yet</div>
                             </div>
                         @endforelse
+
+                        <div class="form-delimiter">
+                            <span>
+                                <em>Created Content</em>
+                            </span>
+                        </div>
+
+                        @forelse ($idea->contents as $content)
+                            <a href="{{route('editContent', $content->id)}}">
+                                <div class="tombstone tombstone-horizontal  clearfix">
+                                    <div class="tombstone-image">
+                                    @if(!$content->attachments()->where('type', 'image')->get()->isEmpty())
+                                            <img src="{{$content->attachments()->where('type', 'image')->first()->filename }}" alt="">
+                                    @endif
+                                    </div>
+                                    <div class="tombstone-container">
+                                        <h3>{{$content->title}}</h3>
+                                        <p>
+                                            {{$content->link}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        @empty
+                            <div class="form-group">
+                                <div class="alert alert-info alert-forms">No created content yet</div>
+                            </div>
+                        @endforelse
+
+
                     </div>
                 </div>
             </div>
