@@ -34,7 +34,6 @@ class SettingsSidebarComposer
         $view->with([
             'account' => $this->account,
             'activeSubscription' => $this->activeSubscription(),
-            'usersOnAccount' => $this->usersOnAccount(),
             'userCard' => $this->userCard(),
         ]);
     }
@@ -42,11 +41,6 @@ class SettingsSidebarComposer
     protected function activeSubscription()
     {
         return $this->account->proxyToParent()->activeSubscriptions()->first();
-    }
-
-    protected function usersOnAccount()
-    {
-        return $this->account->proxyToParent()->users()->get();
     }
 
     protected function userCard()
