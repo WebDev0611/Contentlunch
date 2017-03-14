@@ -22,7 +22,7 @@ var campaigns = {!! $campaigns !!};
                     Calendar name
                     <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-right">
+                <ul class="dropdown-menu dropdown-menu-left">
                     <li class="dropdown-header">Calendars</li>
                     <li>
                         <a href="#">Work Calendar</a>
