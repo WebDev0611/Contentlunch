@@ -582,11 +582,12 @@ class ContentController extends Controller
     private function onSubmitValidation(array $requestData)
     {
         return Validator::make($requestData, [
-            'content_type' => 'required',
+            'content_type_id' => 'required|exists:content_types,id',
             'due_date' => 'required',
             'title' => 'required',
-            'connections' => 'required',
-            'content' => 'required',
+            'connection_id' => 'required|exists:connections,id',
+            'content_id' => 'required|exists:contents,id',
+            'body' => 'required'
         ]);
     }
 
