@@ -28,7 +28,7 @@
   overflow-y: auto;
 
   @include transition($base-transition);
-  
+
   transition: all 400ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
 
   &.inset {
@@ -48,11 +48,10 @@
 .sidemodal-header {
   position: relative;
   padding: 15px 20px;
-  margin-bottom: 20px;
   border-bottom: 1px solid #f0eff1;
 
   @include clearfix;
-  
+
   p {
     margin: 0;
     color: rgba(0,0,0,.45);
@@ -113,9 +112,8 @@
 }
 
 .sidemodal-container {
-  padding: 0 40px;
-  margin-bottom: 20px;
-  
+  padding: 20px 40px;
+
   &.nopadding {
     padding: 0;
   }
@@ -146,7 +144,7 @@
   right: 0;
   bottom: 0;
   overflow-y: auto;
-  
+
   &.withsearch {
     top: 114px;
   }
