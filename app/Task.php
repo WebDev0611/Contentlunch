@@ -18,6 +18,7 @@ class Task extends Model
 
     public $fillable = [
         'name',
+        'url',
         'explanation',
         'start_date',
         'due_date',

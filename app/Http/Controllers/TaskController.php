@@ -86,6 +86,7 @@ class TaskController extends Controller
     {
         return Task::create([
             'name' => $request->input('name'),
+            'url' => $request->input('url'),
             'explanation' => $request->input('explanation'),
             'start_date' => $request->input('start_date'),
             'due_date' => $request->input('due_date'),
@@ -210,6 +211,7 @@ class TaskController extends Controller
 
         $task->update([
             'name' => $request->input('name'),
+            'url' => $request->input('url'),
             'explanation' => $request->input('explanation'),
             'start_date' => $request->input('start_date'),
             'due_date' => $request->input('due_date'),

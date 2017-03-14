@@ -48,6 +48,7 @@
                 name: $('#name').val(),
                 start_date: $('#start_date').val(),
                 due_date: $('#due_date').val(),
+                url: $('#url').val(),
                 explanation: $('#explanation').val(),
                 assigned_users: this.assigned_users(),
                 attachments:  this.attachments(),
