@@ -136,16 +136,16 @@
                 $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('YYYY-MM-DD HH:mm'));
             }
 
-            $("#addTaskModal").modal('show');
+            $("#addTaskModal").modal({ backdrop: 'static' });
         },
         show_idea_modal: function () {
             $("#createIdea .form-delimiter").hide();
             this.append_date_input_field('idea_date', 'idea_date_info', 'createIdea');
-            $("#createIdea").modal('show');
+            $("#createIdea").modal({ backdrop: 'static' });
         },
         show_content_modal: function () {
             this.append_date_input_field('content_date', 'content_date_info', 'addContentModal');
-            $("#addContentModal").modal('show');
+            $("#addContentModal").modal({ backdrop: 'static' });
         },
         append_date_input_field: function (fieldId, fieldInfoId, selectorId) {
             if (!$('#' + fieldId).length) {

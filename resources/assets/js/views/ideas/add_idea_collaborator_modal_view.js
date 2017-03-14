@@ -127,7 +127,7 @@ var AddIdeaCollaboratorModalView = Backbone.View.extend({
 
     showModal() {
         this.$el.on('hidden.bs.modal', this.remove.bind(this));
-        this.$el.find('.modal').modal('show');
+        this.$el.find('.modal').modal({ backdrop: 'static' });
     },
 
     dismissModal() {

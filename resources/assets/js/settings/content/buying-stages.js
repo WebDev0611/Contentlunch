@@ -54,7 +54,7 @@
         },
 
         showModal() {
-            $('#modal-new-buying-stage').modal('show');
+            $('#modal-new-buying-stage').modal({ backdrop: 'static' });
         },
 
         render: function() {

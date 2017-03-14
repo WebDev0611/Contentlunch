@@ -1,4 +1,4 @@
-/* misc js -- global or sitewide methods here */
+'use strict';
 
 //handles the create modal for the site
 $(function () {
@@ -40,7 +40,7 @@ function format_time_ago(time) {
 $(function () {
 
     $('.add-task-action').click(function () {
-        $("#addTaskModal").modal('show');
+        $("#addTaskModal").modal({ backdrop: 'static' });
     });
 
     $('#task-start-date').datetimepicker({
@@ -59,7 +59,7 @@ $(function () {
 });
 
 function openTaskModal() {
-    $("#addTaskModal").modal('show');
+    $("#addTaskModal").modal({ backdrop: 'static' });
 }
 
 //adds the task from any page
