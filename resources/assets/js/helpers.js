@@ -206,3 +206,8 @@ function camelize(str) {
         return index == 0 ? match.toLowerCase() : match.toUpperCase();
     });
 }
+
+let $el = $('[data-toggle="modal"]');
+if ($el.length) {
+    $el.data('backdrop', 'static');
+}
