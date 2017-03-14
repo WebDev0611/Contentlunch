@@ -44,12 +44,10 @@
         },
 
         form_data() {
-            const formatDate = dateString => moment(dateString, 'MM/DD/YYYY').format('YYYY-MM-DD');
-
             return {
                 name: $('#name').val(),
-                start_date: formatDate($('#start_date').val()),
-                due_date: formatDate($('#due_date').val()),
+                start_date: $('#start_date').val(),
+                due_date: $('#due_date').val(),
                 explanation: $('#explanation').val(),
                 assigned_users: this.assigned_users(),
                 attachments:  this.attachments(),
@@ -110,13 +108,13 @@
 
     function setUpDatepickers() {
         $('#start_date').datetimepicker({
-            format: 'DD/MM/YYYY',
-            sideBySide: true,
+            format: 'YYYY-MM-DD HH:mm',
+            sideBySide: true
         });
 
         $('#due_date').datetimepicker({
-            format: 'DD/MM/YYYY',
-            sideBySide: true,
+            format: 'YYYY-MM-DD HH:mm',
+            sideBySide: true
         });
     }
 })(jQuery);
