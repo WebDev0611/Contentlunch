@@ -169,14 +169,12 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Task $task
      * @return View
      */
-    public function show(Request $request, $id)
+    public function show(Task $task)
     {
-        $task = Task::findOrFail($id);
-
-        if (!$task->canBeEditedBy(Auth::user())) {
+        if (Auth::user()->cant('show', $task)) {
             abort(404);
         }
 
@@ -191,7 +189,6 @@ class TaskController extends Controller
      */
     public function edit(Request $request, $id)
     {
-
         //
     }
 

@@ -13,11 +13,12 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        \App\Idea::class => \App\Policies\IdeaPolicy::class,
-        \App\Content::class => \App\Policies\ContentPolicy::class,
-        \App\Calendar::class => \App\Policies\CalendarPolicy::class,
-        \App\Campaign::class => \App\Policies\CampaignPolicy::class,
-        \App\Account::class => \App\Policies\AccountPolicy::class,
+        'App\Idea' => 'App\Policies\IdeaPolicy',
+        'App\Content' => 'App\Policies\ContentPolicy',
+        'App\Calendar' => 'App\Policies\CalendarPolicy',
+        'App\Campaign' => 'App\Policies\CampaignPolicy',
+        'App\Account' => 'App\Policies\AccountPolicy',
+        'App\Task' => 'App\Policies\TaskPolicy',
     ];
 
     /**
