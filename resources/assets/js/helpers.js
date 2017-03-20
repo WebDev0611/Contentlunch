@@ -196,7 +196,7 @@ function showUpgradeAlert(message) {
         showCloseButton: true,
         showCancelButton: true,
         confirmButtonColor: "#6944B6",
-        confirmButtonText: `<a style="color:#fff" href="/subscription">Upgrade now</a>`,
+        confirmButtonText: `<a style="color:#fff" href="/settings/subscription">Upgrade now</a>`,
     });
 }
 

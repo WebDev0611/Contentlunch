@@ -51,7 +51,7 @@
                                         {!!
                                             Form::text(
                                                 'start_date',
-                                                @isset($task) ? $task->present()->startDateFormat() : '',
+                                                @isset($task) ? $task->present()->startDateFormat('Y-m-d H:i') : '',
                                                 [
                                                     'class' => 'input input-calendar',
                                                     'placeholder' => 'Select start date',
@@ -70,7 +70,7 @@
                                         {!!
                                             Form::text(
                                                 'due_date',
-                                                @isset($task)? $task->present()->dueDateFormat : '',
+                                                @isset($task)? $task->present()->dueDateFormat('Y-m-d H:i') : '',
                                                 [
                                                     'class' => ' input input-calendar',
                                                     'placeholder' => 'Select due date',
