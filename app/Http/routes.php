@@ -203,7 +203,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
 
             Route::group(['prefix' => 'subscription'], function () {
                 Route::get('/', 'AccountSettingsController@showSubscription')->name('subscription');
-                Route::post('/', 'AccountSettingsController@submitSubscription');
+                Route::post('/', 'AccountSettingsController@submitSubscription')->name('subscription.store');
                 Route::get('clients', 'AccountSettingsController@showSubscriptionClients')->name('subscription-clients');
             });
         });
