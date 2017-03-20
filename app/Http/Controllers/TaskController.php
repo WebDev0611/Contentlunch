@@ -246,14 +246,15 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Task $task
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
     public function destroy(Task $task)
     {
         $response = response()->json([ 'data' => 'Permission denied' ], 403);
 
-        if ($task->canBeDeletedBy(Auth::user())) {
+        if (Auth::user()->can('destroy', $task)) {
             $task->delete();
             $response = response()->json([ 'data' => 'Resource deleted' ], 201);
         }
