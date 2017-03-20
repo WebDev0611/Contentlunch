@@ -90,7 +90,7 @@ var campaign_calendar_view = Backbone.View.extend({
             last_item = c;
         });
     });
-    var first_pos = $(last_item.start_sel).position();
+    var first_pos = last_item != null ? $(last_item.start_sel).position() : {left : 0, top: 0};
     $('.calendar-timeline-container').scrollLeft(first_pos.left)
 
 })(jQuery);
