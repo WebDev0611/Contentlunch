@@ -588,6 +588,11 @@ class ContentController extends Controller
             'connection_id' => 'required|exists:connections,id',
             'content_id' => 'required|exists:contents,id',
             'body' => 'required'
+            ],
+            [
+            'content_type_id.required' => 'The content type is required.',
+            'body.required' => 'The content body field is required.',
+            'connection_id.required' => 'The content destination is required.'
         ]);
     }
 
