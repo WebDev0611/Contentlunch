@@ -131,7 +131,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::get('/content/orders/delete/{id}', 'ContentController@orderDelete')->name('orderDelete');
         Route::get('/content/my', 'ContentController@my');
 
-        Route::get('/content/campaigns', 'CampaignController@dashboardIndex');
+        Route::get('/content/campaigns', 'CampaignController@dashboardIndex')->name('campaigns.index');
 
         // Facebook Callbacks
         //
