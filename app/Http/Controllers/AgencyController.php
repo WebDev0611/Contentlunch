@@ -49,7 +49,7 @@ class AgencyController extends Controller {
             'parent_account_id' => $agencyAccount->id
         ]);
 
-        // Notice all users on the account about subscription change
+        // Notice all users on the account about new subaccount
         $emails = $agencyAccount->users()->pluck('email')->toArray();
         Mail::send('emails.new_subaccount', ['accName' => $newAccount->name], function($message) use ($emails) {
             $message->from("no-reply@contentlaunch.com", "Content Launch")

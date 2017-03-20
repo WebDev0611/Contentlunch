@@ -299,7 +299,7 @@ class Account extends Model
     {
         $account = $proxyToParent ? $this->proxyToParent() : $this;
 
-        return $account->update([ 'valid' => 0 ]);
+        return $account->subscriptions()->update([ 'valid' => 0 ]);
     }
 
     public function getUsers($proxyToParent = true)
