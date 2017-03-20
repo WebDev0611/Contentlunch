@@ -120,11 +120,6 @@ class Task extends Model
             ->count();
     }
 
-    public function canBeEditedBy(User $user)
-    {
-        return ($this->user_id === $user->id || $this->hasAssignedUser($user));
-    }
-
     public function hasAssignedUser(User $user)
     {
         return (boolean) $this->assignedUsers()
