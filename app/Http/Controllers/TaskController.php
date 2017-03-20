@@ -198,17 +198,13 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param Task $task
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Task $task)
     {
-        $task = Task::where([
-            'id'=> $id,
-            'user_id' => Auth::id()
-        ])->first();
-
         $task->update([
             'name' => $request->input('name'),
             'url' => $request->input('url'),
