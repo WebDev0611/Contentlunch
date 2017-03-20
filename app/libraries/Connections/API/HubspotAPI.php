@@ -39,7 +39,7 @@ class HubspotAPI
             'oauth2' => true,
             'base_url' => $this->base_url
         ], null,
-            ['http_errors' => false],
+            ['http_errors' => getenv('APP_ENV') == 'local' ? true : false],
             false
         );
 
@@ -59,7 +59,6 @@ class HubspotAPI
 
             if ($createResponse->getStatusCode() == '201') {
 
-                // TODO: If we scheduled the date for publishing, we have to make another call to the API
                 // $blogPostId = json_decode($createResponse->getBody()->getContents())->id;
                 // $hubspot->blogPosts()->publishAction($blogPostId, 'schedule-publish');
 
@@ -67,14 +66,14 @@ class HubspotAPI
                     'success' => true,
                     'response' => json_encode($createResponse),
                 ];
+
+                $this->content->setPublished();
             }
         } catch (ClientException $e) {
             $responseBody = json_decode($e->getResponse()->getBody(true));
             $response['success'] = false;
             $response['error'] = $responseBody->message;
         }
-
-        $this->content->setPublished();
 
         return $response;
     }
