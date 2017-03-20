@@ -10,6 +10,7 @@ use App\Content;
 use App\Helpers;
 use App\Limit;
 use App\Presenters\CampaignTypePresenter;
+use App\Traits\Redirectable;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -17,6 +18,8 @@ use Validator;
 
 class CampaignController extends Controller
 {
+    use Redirectable;
+
     public function index(Request $request)
     {
         $campaignCollection = Account::selectedAccount()
@@ -110,10 +113,7 @@ class CampaignController extends Controller
         $this->handleAttachments($request->input('attachments'), $campaign);
         $this->addNewContent($data, $campaign);
 
-        return redirect()->route('dashboard')->with([
-            'flash_message' => "Campaign created: $campaign->title",
-            'flash_message_type' => 'success',
-        ]);
+        return $this->success('dashboard', "Campaign created: {$campaign->title}");
     }
 
     protected function addNewContent(array $requestData, Campaign $campaign)
@@ -183,10 +183,7 @@ class CampaignController extends Controller
         $this->handleAttachments($request->input('attachments'), $campaign);
         $this->addNewContent($request->all(), $campaign);
 
-        return redirect()->route('dashboard')->with([
-            'flash_message' => "Campaign updated: $campaign->title",
-            'flash_message_type' => 'success',
-        ]);
+        return $this->success('dashboard', "Campaign updated: $campaign->title");
     }
 
     private function handleAttachments($files, $campaign)
@@ -223,10 +220,7 @@ class CampaignController extends Controller
 
     protected function permissionDeniedRedirect($campaign)
     {
-        return redirect()->route('campaigns.edit', $campaign)->with([
-            'feedback_message' => "You don't have sufficient permissions to do this.",
-            'feedback_message_type' => 'danger',
-        ]);
+        return $this->danger('campaigns.edit', "You don't have sufficient permissions to do this.");
     }
 
     /**
@@ -243,10 +237,7 @@ class CampaignController extends Controller
 
         $campaign->pause();
 
-        return redirect()->route('campaigns.edit', $campaign)->with([
-            'feedback_message' => 'Campaign parked.',
-            'feedback_message_type' => 'success',
-        ]);
+        return $this->success('campaigns.index', 'Campaign parked.');
     }
 
     /**
@@ -262,10 +253,7 @@ class CampaignController extends Controller
 
         $campaign->deactivate();
 
-        return redirect()->route('campaigns.edit', $campaign)->with([
-            'feedback_message' => 'Campaign deactivated.',
-            'feedback_message_type' => 'success',
-        ]);
+        return $this->success(['campaigns.edit', $campaign], 'Campaign deactivated.');
     }
 
     /**
@@ -281,10 +269,7 @@ class CampaignController extends Controller
 
         $campaign->activate();
 
-        return redirect()->route('campaigns.edit', $campaign)->with([
-            'feedback_message' => 'Campaign activated.',
-            'feedback_message_type' => 'success',
-        ]);
+        return $this->success(['campaigns.edit', $campaign], 'Campaign activated.');
     }
 
     /**
@@ -300,9 +285,6 @@ class CampaignController extends Controller
 
         $campaign->delete();
 
-        return redirect()->route('contentIndex')->with([
-            'feedback_message' => 'Campaign deleted.',
-            'feedback_message_type' => 'success',
-        ]);
+        return $this->success('campaigns.index', 'Campaign deleted.');
     }
 }
