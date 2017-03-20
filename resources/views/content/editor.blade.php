@@ -463,7 +463,7 @@
                                             $metaDescriptorOptions['disabled'] = 'disabled';
                                         }
                                     @endphp
-                                    {!! Form::text('meta_descriptor', old('meta_descriptor'), $metaDescriptorOptions) !!}
+                                    {!! Form::text('meta_description', old('meta_description'), $metaDescriptorOptions) !!}
                                 </div>
                             </div>
                             <!--

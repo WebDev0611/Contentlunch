@@ -613,7 +613,7 @@ class ContentController extends Controller
         $content->due_date = $request->due_date;
         $content->meta_title = $request->meta_title;
         $content->meta_keywords = $request->meta_keywords;
-        $content->meta_description = $request->meta_descriptor;
+        $content->meta_description = $request->meta_description;
         $content->email_subject = $request->email_subject;
         $content->save();
 
