@@ -269,7 +269,7 @@
                                 }
                             @endphp
                             <label>TAGS</label>
-                            {!! Form::text('tags', old('tags') !== '[]' ? old('tags') : '', $tagsOptions) !!}
+                            {!! Form::text('tags', old('tags') ?: '', $tagsOptions) !!}
                         </div>
 
                         <div class="input-form-group">
