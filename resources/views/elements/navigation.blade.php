@@ -10,7 +10,7 @@
                     <img src="{{ App\Account::selectedAccount()->present()->account_image }}" alt="{{ App\Account::selectedAccount()->name }}">
 
                     <div class="app-type">
-                        <p class="app-agency">Agency</p>
+                        <p class="app-agency">Subscribe</p>
                     </div>
                 @else
                     <img src="{{ \Auth::user()->present()->profile_image }}" alt="">
