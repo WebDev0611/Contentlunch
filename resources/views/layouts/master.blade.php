@@ -52,28 +52,6 @@
 <!-- Page Specific JS -->
 @yield('scripts')
 
-<script type="text/javascript">
-
-    (function() {
-
-        window.taskAttachmentUploader = new Dropzone('#task-attachment-uploader', {
-            headers: getCSRFHeader(),
-            url: '/task/attachments'
-        });
-
-        window.taskAttachmentUploader.on('success', function(file, response) {
-            var hiddenField = $('<input/>', {
-                class: 'task-attached-files',
-                name: 'files[]',
-                type: 'hidden',
-                value: response.file
-            });
-
-            hiddenField.appendTo($('#addTaskModal'));
-        });
-
-    })();
-</script>
 <script type='text/javascript'>
 
     $(document).ready(function() {
@@ -126,11 +104,35 @@
     });
 
 </script>
+
 <script>
     var path = document.location.pathname
     if (path === '/' || path == '/home') {
         new Vue({ el: '#root' });
     }
+</script>
+
+<script type="text/javascript">
+
+    (function() {
+
+        window.taskAttachmentUploader = new Dropzone('#task-attachment-uploader', {
+            headers: getCSRFHeader(),
+            url: '/task/attachments'
+        });
+
+        window.taskAttachmentUploader.on('success', function(file, response) {
+            var hiddenField = $('<input/>', {
+                class: 'task-attached-files',
+                name: 'files[]',
+                type: 'hidden',
+                value: response.file
+            });
+
+            hiddenField.appendTo($('#addTaskModal'));
+        });
+
+    })();
 </script>
 
 @if (Config::get('app.debug') && getenv('APP_ENV', 'production') === 'local')
