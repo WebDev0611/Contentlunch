@@ -144,4 +144,19 @@ class Campaign extends Model
             ->orderBy('created_at', 'desc')
             ->get();
     }
+
+    public static function search($term, $account = null)
+    {
+        if (!$account) {
+            $account = Account::selectedAccount();
+        }
+
+        return $account
+            ->campaigns()
+            ->where(function($q) use ($term) {
+                $q->orWhere('title', 'like', '%' . $term . '%')
+                    ->orWhere('description', 'like', '%' . $term . '%');
+            })
+            ->get();
+    }
 }

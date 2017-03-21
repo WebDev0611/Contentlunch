@@ -15,6 +15,7 @@
                             <li><a href="#users" data-toggle='tab'>Users</a></li>
                             <li><a href="#tasks" data-toggle='tab'>Tasks</a></li>
                             <li><a href="#ideas" data-toggle='tab'>Ideas</a></li>
+                            <li><a href="#campaigns" data-toggle='tab'>Campaigns</a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
@@ -40,6 +41,12 @@
                             <div role="tabpanel" class="tab-pane" id='ideas'>
                                 <div class="panel-container">
                                     @include('search.partials.idea_search_tab')
+                                </div>
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id='campaigns'>
+                                <div class="panel-container">
+                                    @include('search.partials.campaign_search_tab')
                                 </div>
                             </div>
                         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Campaign;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
@@ -36,6 +37,7 @@ class SearchController extends Controller
             'users' => User::search($searchTerm, $this->selectedAccount),
             'tasks' => Task::search($searchTerm, $this->selectedAccount),
             'ideas' => Idea::search($searchTerm, $this->selectedAccount),
+            'campaigns' => Campaign::search($searchTerm, $this->selectedAccount),
             'searchTerm' => $searchTerm,
             'selectedAccount' => $this->selectedAccount,
         ];
