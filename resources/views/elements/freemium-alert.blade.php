@@ -1,7 +1,7 @@
 @if(App\Account::selectedAccount()->activeSubscriptions()->first()->subscriptionType->slug == 'trial')
 
 <div class="alert alert-info alert-forms freemium-notification alert-dismissable">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    {{-- <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> --}}
 
         <h4>You are using the 2 week free trial of ContentLaunch</h4>
 
@@ -16,7 +16,7 @@
 @elseif(App\Account::selectedAccount()->activeSubscriptions()->first()->subscriptionType->slug == 'free')
 
     <div class="alert alert-info alert-forms freemium-notification alert-dismissable">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{-- <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> --}}
 
         <h4>You are using the free version of ContentLaunch</h4>
 
