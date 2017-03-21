@@ -53,7 +53,7 @@
                 <label for="#">CAMPAIGN TYPE</label>
                 {!!
                     Form::select(
-                        'type',
+                        'campaign_type_id',
                         $campaignTypesDropdown,
                         old('campaign_type_id'),
                         \App\Helpers::isCollaborator([

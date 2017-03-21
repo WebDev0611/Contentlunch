@@ -139,7 +139,7 @@ class CampaignController extends Controller
             'start_date' => $requestData['start_date'],
             'end_date' => $requestData['end_date'],
             'goals' => $requestData['goals'],
-            'campaign_type_id' => (int) $requestData['type'],
+            'campaign_type_id' => (int) $requestData['campaign_type_id'],
             'status' => (int) $requestData['status'],
             'user_id' => Auth::id(),
         ]);
@@ -176,7 +176,7 @@ class CampaignController extends Controller
             'start_date' => $request->input('start_date'),
             'end_date' => $request->input('end_date'),
             'goals' => $request->input('goals'),
-            'campaign_type_id' => (int) $request->input('type'),
+            'campaign_type_id' => (int) $request->input('campaign_type_id'),
             'status' => (int) $request->input('status'),
         ]);
 
