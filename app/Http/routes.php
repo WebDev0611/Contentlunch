@@ -125,6 +125,11 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::get('/content/publish/{content}', 'ContentController@publishAndRedirect')->name('contentPublish');
         Route::get('/content/multipublish/{content}', 'ContentController@directPublish')->name('contentMultiPublish');
 
+
+        Route::get('/content/archived', 'ArchivedContentController@index')->name('archived_contents.index');
+
+
+
         Route::get('/content/orders', 'ContentController@orders')->name('content_orders.index');
         Route::get('/content/orders/{id}', 'ContentController@order')->name('contentOrder');
         Route::get('/content/orders/approve/{id}', 'WriterAccessController@orderApprove')->name('orderApprove');

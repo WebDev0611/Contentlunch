@@ -247,16 +247,20 @@
             c.due = moment(c.due_date).format('MM-DD-YY');
 
             // Published status
-            if (c.published == '1') {
+            if (c.content_status_id == '4') {
+                c.content_status = 'archived';
+                c.content_status_text = 'archived';
+            }
+            else if (c.content_status_id == '3') {
                 c.content_status = 'published';
                 c.content_status_text = 'published';
                 c.date = c.updated_at;
             }
-            else if (c.ready_published == '1') {
+            else if (c.content_status_id == '2') {
                 c.content_status = 'ready_published';
                 c.content_status_text = 'ready for publishing';
             }
-            else if (c.written == '1') {
+            else if (c.content_status_id == '1') {
                 c.content_status = 'written';
                 c.content_status_text = 'being written';
             } else {

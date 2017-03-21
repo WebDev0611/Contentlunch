@@ -81,14 +81,11 @@
                 <!-- Panel Container -->
                 <div class="panel-container padded relative">
                     <!-- Stages widget -->
-                    @php
-                        $status = $content->present()->contentStatusIcon();
-                    @endphp
                     <ul class="list-unstyled list-stages list-stages-side">
-                        <li @if ($status >= 4) class='active' @endif><i class="icon-connect"></i></li>
-                        <li @if ($status >= 3) class='active' @endif><i class="icon-alert"></i></li>
-                        <li @if ($status >= 2) class='active' @endif><i class="icon-edit"></i></li>
-                        <li @if ($status >= 1) class='active' @endif><i class="icon-idea"></i></li>
+                        <li @if ($content->content_status_id >= 3) class='active' @endif><i class="icon-connect"></i></li>
+                        <li @if ($content->content_status_id >= 2) class='active' @endif><i class="icon-alert"></i></li>
+                        <li @if ($content->content_status_id >= 1) class='active' @endif><i class="icon-edit"></i></li>
+                        <li @if ($content->content_status_id >= 0) class='active' @endif><i class="icon-idea"></i></li>
                     </ul>
 
                     <div class="inner">
