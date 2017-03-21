@@ -180,7 +180,7 @@ class ConnectionController extends Controller
             $flashMessageType = 'danger';
         }
 
-        return redirect()->route('connectionIndex')->with([
+        return redirect()->route('connections.index')->with([
             'flash_message' => $flashMessage,
             'flash_message_type' => $flashMessageType,
             'flash_message_important' => true,

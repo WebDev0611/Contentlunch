@@ -446,7 +446,7 @@ class ContentController extends Controller
     public function publishAndRedirect(Request $request, $contentId)
     {
         if (Auth::user()->cant('launch', Content::class)) {
-            return redirect()->route('contentIndex')->with([
+            return redirect()->route('contents.index')->with([
                 'flash_message' => Limit::feedbackMessage('content_launch'),
                 'flash_message_type' => 'danger',
             ]);
@@ -459,13 +459,13 @@ class ContentController extends Controller
             $this->publish($content);
         }
         catch (Exception $e) {
-            return redirect()->route('contentIndex')->with([
+            return redirect()->route('contents.index')->with([
                 'flash_message' => $e->getMessage(),
                 'flash_message_type' => 'danger',
             ]);
         }
 
-        return redirect()->route('contentIndex')->with([
+        return redirect()->route('contents.index')->with([
             'flash_message' => 'You have published '.$content->title.' to '.$content->connection->provider->slug,
             'flash_message_type' => 'success',
             'flash_message_important' => true,
@@ -540,7 +540,7 @@ class ContentController extends Controller
         }
 
         if (!$content->hasCollaborator(Auth::user())) {
-            return redirect()->route('contentIndex')->with([
+            return redirect()->route('contents.index')->with([
                 'flash_message' => 'You don\'t have permission to edit this content.',
                 'flash_message_type' => 'danger',
                 'flash_message_important' => true,
@@ -571,7 +571,7 @@ class ContentController extends Controller
             $content->configureAction($request->input('action'));
             $content->save();
 
-            return redirect()->route('contentIndex')->with([
+            return redirect()->route('contents.index')->with([
                 'flash_message' => 'You have created content titled '.$content->title.'.',
                 'flash_message_type' => 'success',
                 'flash_message_important' => true,
@@ -703,7 +703,7 @@ class ContentController extends Controller
 
     protected function redirectDeleteSuccessful($content)
     {
-        return redirect()->route('contentIndex')->with([
+        return redirect()->route('contents.index')->with([
            'flash_message' => 'You have successfully deleted '.$content->title.'.',
            'flash_message_type' => 'success',
            'flash_message_important' => true,
@@ -712,7 +712,7 @@ class ContentController extends Controller
 
     protected function redirectDeleteFailed()
     {
-        return redirect()->route('contentIndex')->with([
+        return redirect()->route('contents.index')->with([
             'flash_message' => 'Unable to delete content: not found.',
             'flash_message_type' => 'danger',
             'flash_message_important' => true,
