@@ -39,38 +39,17 @@ class ContentController extends Controller
 
     public function index()
     {
-        $countContent = $this->selectedAccount
-            ->contents()
-            ->count();
-
         $this->selectedAccount->cleanContentWithoutStatus();
 
-        $published = $this->selectedAccount
-            ->contents()
-            ->where('published', 1)
-            ->orderBy('updated_at', 'desc')
-            ->get();
+        $data = [
+            'countContent' => $this->selectedAccount->contents()->count(),
+            'published' => $this->selectedAccount->contents()->published()->recentlyUpdated()->get(),
+            'readyPublished' => $this->selectedAccount->contents()->readyToPublish()->recentlyUpdated()->get(),
+            'written' => $this->selectedAccount->contents()->written()->recentlyUpdated()->get(),
+            'connections' => $this->selectedAccount->connections()->active()->get(),
+        ];
 
-        $readyPublished = $this->selectedAccount
-            ->contents()
-            ->where('ready_published', 1)
-            ->orderBy('updated_at', 'desc')
-            ->get();
-
-        $written = $this->selectedAccount
-            ->contents()
-            ->where('written', 1)
-            ->orderBy('updated_at', 'desc')
-            ->get();
-
-        $connections = $this->selectedAccount
-            ->connections()
-            ->where('active', 1)
-            ->get();
-
-        return view('content.index', compact(
-            'published', 'readyPublished', 'written', 'countContent', 'connections'
-        ));
+        return view('content.index', $data);
     }
 
     public function orders(Request $request)

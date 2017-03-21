@@ -181,12 +181,12 @@ class Content extends Model
 
     public function scopeWritten($query)
     {
-        return $query->where('written_content', true);
+        return $query->where('written', true);
     }
 
     public function scopePublished($query)
     {
-        return $query->where('publish', true);
+        return $query->where('published', true);
     }
 
     public function setReadyPublished()
