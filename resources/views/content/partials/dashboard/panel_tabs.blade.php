@@ -1,13 +1,13 @@
 <div class="panel-header">
     <ul class="panel-tabs spacing">
         <li class="{{ !Request::segment(2) ? 'active' : '' }}">
-            <a href="/content">All Content</a>
+            <a href="{{ route('contents.index') }}">All Content</a>
         </li>
         <li class="{{ Request::segment(2) === 'orders' ? 'active' : '' }}">
-            <a href="/content/orders">Writing Orders in Process</a>
+            <a href="{{ route('content_orders.index') }}">Writing Orders in Process</a>
         </li>
         <li class="{{ Request::segment(2) === 'campaigns' ? 'active' : '' }}">
-            <a href="/content/campaigns">Campaigns</a>
+            <a href="{{ route('campaigns.index') }}">Campaigns</a>
         </li>
     </ul>
 </div>
