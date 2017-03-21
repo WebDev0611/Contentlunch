@@ -3,6 +3,7 @@
 use App\Account;
 use App\Helpers;
 use App\Presenters\ContentPresenter;
+use App\Traits\Orderable;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Laracasts\Presenter\PresentableTrait;
 
 class Content extends Model
 {
-    use PresentableTrait;
+    use PresentableTrait, Orderable;
 
     public $presenter = ContentPresenter::class;
 
@@ -171,6 +172,21 @@ class Content extends Model
             $this->ready_published = 0;
             $this->written = 1;
         }
+    }
+
+    public function scopeReadyToPublish($query)
+    {
+        return $query->where('ready_published', true);
+    }
+
+    public function scopeWritten($query)
+    {
+        return $query->where('written_content', true);
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('publish', true);
     }
 
     public function setReadyPublished()
