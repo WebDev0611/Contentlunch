@@ -13,11 +13,11 @@ function add_calendar(callback) {
         $('#add-calendar-button').prepend(loadIMG);
 
         return $.ajax({
-                url: '/calendar/add',
-                type: 'post',
-                data: getCalendarData(),
-                dataType: 'json',
-            })
+            url: '/calendar/add',
+            type: 'post',
+            data: getCalendarData(),
+            dataType: 'json',
+        })
             .then(addedCalendarCallback(callback))
             .catch(showErrorFeedback);
     }
@@ -29,18 +29,23 @@ function isCalendarDataValid() {
     let name_ok = data.name.length > 2;
     let content_ok = data.content_type_ids.length > 0;
 
-    if (name_ok && (data.show_tasks != null || data.show_ideas != null || content_ok)) {
-        return true;
-    } else {
-        $( "#createCalendarModal .sidemodal-container" ).append($(
-            '<p>Calendar name has to be at least 3 characters long</p>' +
-            '<p>At least 1 content type has to be selected</p>')
-            .attr({
+    let modalContainer = $("#createCalendarModal .sidemodal-container");
+    let errorShown = false;
+
+    if (!name_ok) {
+        modalContainer.append($('<p>Calendar name has to be at least 3 characters long</p>').attr({
             class: 'new-calendar-error text-danger'
         }));
+        errorShown = true;
+    }
+    if(data.show_tasks == null && data.show_ideas == null && !content_ok){
+        modalContainer.append($('<p>At least 1 content type has to be selected</p>').attr({
+            class: 'new-calendar-error text-danger'
+        }));
+        errorShown = true;
     }
 
-    return false;
+    return !errorShown;
 }
 
 function getCalendarData() {
@@ -202,7 +207,7 @@ function store_content(callback) {
 
         if (contentTitle.length < 1) {
             $('#content-status-text').text('Content title required');
-        } else if(contentType.length < 1) {
+        } else if (contentType.length < 1) {
             $('#content-status-text').text('Content type required');
         }
 
