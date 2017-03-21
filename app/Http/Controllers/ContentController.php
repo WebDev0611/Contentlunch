@@ -55,7 +55,7 @@ class ContentController extends Controller
     public function orders(Request $request)
     {
         if($request->input("bulksuccess") === "true"){
-            return redirect()->route('contentOrders', "fresh")->with([
+            return redirect()->route('content_orders.index', "fresh")->with([
                 'flash_message' => "Your content orders have been placed successfully." ,
                 'flash_message_type' => 'success',
             ]);
@@ -228,7 +228,7 @@ class ContentController extends Controller
         ]}');*/
 
             if(isset($data1->fault) || isset($data2->fault)){
-                return redirect()->route('contentOrders')->with([
+                return redirect()->route('content_orders.index')->with([
                     'flash_message' => isset($data1->fault) ? $data1->fault : $data2->fault,
                     'flash_message_type' => 'danger',
                     'flash_message_important' => true,
@@ -248,7 +248,7 @@ class ContentController extends Controller
             $order = null;
             $writer = null;
             $preview = null;
-            return redirect()->route('contentOrders')->with([
+            return redirect()->route('content_orders.index')->with([
                 'flash_message' => $e->getMessage(),
                 'flash_message_type' => 'danger',
                 'flash_message_important' => true,
