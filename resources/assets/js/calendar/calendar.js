@@ -27,6 +27,7 @@
         tagName: 'li',
         events: {
             'click': 'open_item',
+            'click .calendar-task-list-popover-close': 'close_item'
         },
         template: _.template($('#calendar-item-template').html()),
         initialize: function () {
@@ -34,15 +35,19 @@
             this.render();
         },
         render: function () {
-            // this.delegateEvents(['click']);
+            //this.delegateEvents(['click']);
             return this;
         },
         open_item: function (event) {
             event.stopPropagation();
             this.$el.toggleClass('active');
-            this.$el.find('.calendar-task-list-popover').toggleClass('open');
+            $('.calendar-task-list-popover').removeClass('open');
+            this.$el.find('.calendar-task-list-popover').addClass('open');
+        },
+        close_item: function (event) {
+            event.stopPropagation();
+            this.$el.find('.calendar-task-list-popover').removeClass('open');
         }
-
     });
 
     /* the popup tool */
