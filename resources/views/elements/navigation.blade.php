@@ -8,12 +8,14 @@
 
                 @if (\Auth::user()->belongsToAgencyAccount())
                     <img src="{{ App\Account::selectedAccount()->present()->account_image }}" alt="{{ App\Account::selectedAccount()->name }}">
+                @else
+                    <img src="{{ \Auth::user()->present()->profile_image }}" alt="">
+                @endif
 
+                @if(App\Account::selectedAccount()->activePaidSubscriptions()->isEmpty())
                     <div class="app-type">
                         <p class="app-agency">Subscribe</p>
                     </div>
-                @else
-                    <img src="{{ \Auth::user()->present()->profile_image }}" alt="">
                 @endif
             </a>
         </li>

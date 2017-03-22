@@ -135,8 +135,8 @@ $search-bar-border: solid #c6cfe1;
   text-align: center;
 
   img {
-    max-height: 26px;
-    width: auto;
+    height: 34px;
+    width: 34px;
     border-radius: 50%;
   }
 }
@@ -149,7 +149,8 @@ $search-bar-border: solid #c6cfe1;
   }
 
   .company-logo img {
-    max-height: 20px;
+    height: 34px;
+    width: 34px;
   }
 
 }

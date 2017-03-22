@@ -114,7 +114,7 @@
               <div class="calendar-task-list-popover-author col-md-6">
                 <span class="text-uppercase">Assigned to</span>
                     <%  _.each(assigned_to, function(usr){ %>
-                        <strong><%= assigned_to %></strong>
+                        <strong><%= usr %></strong>
                     <% }); %>
               </div>
               <% } %>
