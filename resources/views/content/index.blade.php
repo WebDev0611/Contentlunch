@@ -17,7 +17,7 @@
 
             <div class="create-panel-container">
                 <h4 class="create-panel-heading">
-                    <i class="icon-share"></i>
+                    <i class="icon-connect"></i>
                     PUBLISHED
                 </h4>
 
@@ -36,7 +36,7 @@
 
             <div class="create-panel-container">
                 <h4 class="create-panel-heading">
-                    <i class="icon-share"></i>
+                    <i class="icon-content-alert"></i>
                     READY TO BE PUBLISHED
                 </h4>
 
@@ -54,7 +54,7 @@
             </div>
             <div class="create-panel-container">
                 <h4 class="create-panel-heading">
-                    <i class="icon-share"></i>
+                    <i class="icon-edit-content"></i>
                     BEING WRITTEN / EDITED
                 </h4>
 
