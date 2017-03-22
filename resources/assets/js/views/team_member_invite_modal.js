@@ -1,6 +1,7 @@
 var teamMemberInviteModalView = Backbone.View.extend({
     events: {
-        'click .send-invitation': 'sendInvites'
+        'click .send-invitation': 'sendInvites',
+        'hidden.bs.modal': 'teardown'
     },
 
     initialize() {
@@ -13,6 +14,11 @@ var teamMemberInviteModalView = Backbone.View.extend({
         return this;
     },
 
+    teardown(){
+        this.$el.find('.email-invites').val('');
+        this.$el.removeData().unbind();
+    },
+
     sendInvites() {
         let emails = this.$el.find('.email-invites').val();
 
@@ -23,6 +29,10 @@ var teamMemberInviteModalView = Backbone.View.extend({
 
         this.emailsCount = emails.split(',').length;
 
+        let sendButton = this.$el.find('.send-invitation');
+        let sendButtonText = sendButton.text();
+        sendButton.attr("disabled", true).text('Sending...');
+
         return $.ajax({
             headers: getCSRFHeader(),
             method: 'post',
@@ -30,6 +40,9 @@ var teamMemberInviteModalView = Backbone.View.extend({
             data: {
                 emails: emails
             },
+            complete: function (data) {
+                sendButton.attr("disabled", false).text(sendButtonText)
+            }
         })
         .then(this.hideModal.bind(this))
         .then(this.showFeedback.bind(this))
@@ -42,7 +55,7 @@ var teamMemberInviteModalView = Backbone.View.extend({
         });
     },
 
-    hideModal(response) {
+    hideModal() {
         this.$el.modal('hide');
     },
 
