@@ -16,6 +16,8 @@ var campaigns = {!! $campaigns !!};
                 </li>
             </ul>
         </div>
+
+        {{--
         <div class="calendar-menu">
             <div class="calendar-menu-select">
                 <button class="calendar-menu-select-button" data-toggle="dropdown">
@@ -99,7 +101,7 @@ var campaigns = {!! $campaigns !!};
                 </button>
             </div>
         </div>
-
+        --}}
         <div class="calendar-timeline-container">
         {!! $campaign_calendar !!}
         </div>
