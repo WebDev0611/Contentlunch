@@ -114,9 +114,9 @@
         {!! Form::textarea('goals', old('goals'), $goalsOptions) !!}
     </div>
 
-    <div class="form-delimiter">
+    <div class="form-delimiter longer">
         <span>
-            <em>Content Pieces</em>
+            <em>Content Pieces (to bring into campaign)</em>
         </span>
     </div>
 

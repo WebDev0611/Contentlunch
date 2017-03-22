@@ -36,6 +36,10 @@ $form-delimiter-border: 1px solid #d9d0ed;
       letter-spacing: .2em;
     }
   }
+
+  &.longer{
+    max-width: 460px;
+  }
 }
 
 .input option:disabled,
