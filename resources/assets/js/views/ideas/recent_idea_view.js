@@ -42,8 +42,8 @@ var recent_idea_view = Backbone.View.extend({
     },
 
     formatModel() {
-        this.model.attributes.created_diff = moment(this.model.get('created_at'))
-            .format('MM/DD/YYYY h:mma');
+        this.model.attributes.created_diff = moment.utc(this.model.get('created_at'))
+            .local().format('MM/DD/YYYY h:mma');
     },
 
     showHover() {
