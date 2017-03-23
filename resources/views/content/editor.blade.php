@@ -27,7 +27,7 @@
                                         type="submit"
                                         class="button button-outline-secondary button-small delimited"
                                         name="action"
-                                        @if (!$isCollaborator)
+                                        @if (!$isCollaborator || (isset($content) && $content->published))
                                         disabled="disabled"
                                         @endif
                                         value="written_content">
@@ -39,7 +39,7 @@
                                             type='submit'
                                             class="button button-small"
                                             name="action"
-                                            @if (!$isCollaborator)
+                                            @if (!$isCollaborator || (isset($content) && $content->published))
                                             disabled="disabled"
                                             @endif
                                             value="publish">
@@ -52,7 +52,7 @@
                                             type="submit"
                                             class="button button-small"
                                             name="action"
-                                            @if (!$isCollaborator)
+                                            @if (!$isCollaborator || (isset($content) && $content->published))
                                             disabled="disabled"
                                             @endif
                                             value="ready_to_publish">
@@ -60,7 +60,11 @@
                                         </button>
                                         @if ($isCollaborator)
                                         <button type="button" class="button button-small dropdown-toggle"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                @if (isset($content) && $content->published)
+                                                disabled="disabled"
+                                                @endif
+                                        >
                                             <span class="caret"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
