@@ -95,6 +95,11 @@ class FacebookController extends BaseConnectionController
     {
         $connection = Connection::find($request->input('connection_id'));
 
+        if(!$request->has('facebook_account') || empty($request->input('facebook_account'))){
+            $connection->delete();
+            return redirect()->route($this->redirectRoute());
+        }
+
         $fb = $this->facebookInstance($connection->getSettings()->user_token);
 
         $response = $fb->get('/'.$request->input('facebook_account').'?fields=access_token');

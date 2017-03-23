@@ -46,7 +46,7 @@ class OnboardingController extends Controller
     public function connect()
     {
         $hasTwitter = (boolean) Auth::user()->connectionsBySlug('twitter')->count();
-        $hasFacebook = (boolean) Auth::user()->connectionsBySlug('facebook')->count();
+        $hasFacebook = (boolean) Auth::user()->connectionsBySlug('facebook')->whereActive(true)->count();
         $hasWordPress = (boolean) Auth::user()->connectionsBySlug('wordpress')->count();
         $hasHubspot = (boolean) Auth::user()->connectionsBySlug('hubspot')->count();
 
