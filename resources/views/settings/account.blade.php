@@ -88,4 +88,16 @@
 <script>
     var view = new AvatarView({ el: '#settings-avatar' });
 </script>
+<script>
+    $(function(){
+        //tasks
+        $('#add-task-button').click(function() {
+            add_task(addTaskCallback);
+        });
+
+        function addTaskCallback(task) {
+            $('#addTaskModal').modal('hide');
+        }
+    });
+</script>
 @stop
