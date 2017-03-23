@@ -53,12 +53,12 @@ class Campaign extends Model
 
     public function contentsWritten()
     {
-        return $this->hasMany('App\Content')->where('written', '1');
+        return $this->hasMany('App\Content')->where('content_status_id', ContentStatus::BEING_WRITTEN);
     }
 
     public function contentsReady()
     {
-        return $this->hasMany('App\Content')->where('ready_published', '1');
+        return $this->hasMany('App\Content')->where('content_status_id', ContentStatus::READY);
     }
 
     public function user()
@@ -139,8 +139,6 @@ class Campaign extends Model
         return Account::selectedAccount()
             ->contents()
             ->where('campaign_id', null)
-            ->where('archived', false)
-            ->where('published', false)
             ->orderBy('created_at', 'desc')
             ->get();
     }
