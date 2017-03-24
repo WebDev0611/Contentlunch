@@ -176,6 +176,8 @@
                 $('#paymentErrors')
                     .text(response.error.message)
                     .slideDown('fast');
+                showLoading(false);
+                disableForm($form, false);
             } else {
                 var token = response.id;
                 $form.append($('<input type="hidden" name="stripe-token" />').val(token));
@@ -183,12 +185,12 @@
             }
         }
 
-        function disableForm($form) {
-            $form.find('input').prop('disabled', true);
+        function disableForm($form, disabled = true) {
+            $form.find('input').prop('disabled', disabled);
         }
 
-        function showLoading() {
-            $('.loading').fadeIn('fast');
+        function showLoading(show = true) {
+            show ? $('.loading').fadeIn('fast') : $('.loading').fadeOut('fast');
         }
 
         $('#orderForm').submit(function(e) {
