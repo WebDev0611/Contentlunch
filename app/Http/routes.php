@@ -186,6 +186,8 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
             Route::get('content', 'SettingsController@content')->name('content_settings.index');
             Route::get('buying', 'SettingsController@content')->name('buying_settings.index');
 
+            Route::get('email/verify/{confirmationCode}', 'SettingsController@verifyUserEmail');
+
             // Connection Routes
             Route::get('connections', 'SettingsController@connections')->name('connections.index');
             Route::post('connections/create', 'ConnectionController@store')->name('connections.store');
