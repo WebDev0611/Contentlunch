@@ -214,33 +214,36 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         });
 
         Route::group(['prefix' => 'writeraccess'], function () {
-            Route::get('categories', 'WriterAccessController@categories');
-            Route::get('account', 'WriterAccessController@account');
-            Route::get('assetTypes', 'WriterAccessController@assetTypes');
-            Route::post('comment/{id}', 'WriterAccessController@postComment');
-            Route::post('orders', 'WriterAccessController@createOrder');
-            Route::get('orders', 'WriterAccessController@orders');
-            Route::get('orders/{id}', 'WriterAccessController@orders');
-            Route::delete('orders/{id}', 'WriterAccessController@deleteOrder');
-            Route::get('projects', 'WriterAccessController@projects');
-            Route::get('projects/{id}', 'WriterAccessController@projects');
-            Route::get('projects/create/{name}', 'WriterAccessController@createProject');
-            Route::get('expertises', 'WriterAccessController@expertises');
-            Route::get('fees', 'WriterAccessPriceController@index');
-            Route::get('fee', 'WriterAccessPriceController@fee');
+            Route::get('categories', 'WriterAccessController@categories')->name('writeraccess_categories.index');
 
-            Route::get('bulk-order/{id}', 'WriterAccessBulkOrderStatusController@show');
-            Route::get('bulk-orders', 'WriterAccessBulkOrderStatusController@index');
-            Route::get('bulk-orders/status/{id}', 'WriterAccessBulkOrderStatusController@status');
-            Route::get('bulk-orders/sample', 'WriterAccessBulkOrderStatusController@sample');
+            Route::get('account', 'WriterAccessController@account')->name('writeraccess_accounts.show');
 
-            Route::post('partials', 'WriterAccessPartialOrderController@store');
-            Route::post('partials/{id}', 'WriterAccessPartialOrderController@update');
+            Route::get('assetTypes', 'WriterAccessController@assetTypes')->name('writeraccess_types.index');
 
-            Route::post('orders/{writerAccessPartialOrder}/submit', [
-                'as' => 'orderSubmit',
-                'uses' => 'WriterAccessController@orderSubmit'
-            ]);
+            Route::post('comment/{id}', 'WriterAccessController@postComment')->name('writeraccess_comments.store');
+
+            Route::post('orders', 'WriterAccessController@createOrder')->name('writeraccess_orders.store');
+            Route::get('orders', 'WriterAccessController@orders')->name('writeraccess_orders.index');
+            Route::get('orders/{id}', 'WriterAccessController@orders')->name('writeraccess_orders.show');
+            Route::delete('orders/{id}', 'WriterAccessController@deleteOrder')->name('writeraccess_orders.destroy');
+
+            Route::get('projects', 'WriterAccessController@projects')->name('writeraccess_projects.index');
+            Route::get('projects/{id}', 'WriterAccessController@projects')->name('writeraccess_projects.show');
+            Route::get('projects/create/{name}', 'WriterAccessController@createProject')->name('writeraccess_projects.store');
+
+            Route::get('expertises', 'WriterAccessController@expertises')->name('writeraccess_expertises.index');
+            Route::get('fees', 'WriterAccessPriceController@index')->name('writeraccess_fees.index');
+            Route::get('fee', 'WriterAccessPriceController@fee')->name('writeraccess_fees.show');
+
+            Route::get('bulk-order/{id}', 'WriterAccessBulkOrderStatusController@show')->name('writeraccess_bulkorders.show');
+            Route::get('bulk-orders', 'WriterAccessBulkOrderStatusController@index')->name('writeraccess_bulkorders.index');
+            Route::get('bulk-orders/status/{id}', 'WriterAccessBulkOrderStatusController@status')->name('writeraccess_bulkorders.status');
+            Route::get('bulk-orders/sample', 'WriterAccessBulkOrderStatusController@sample')->name('writeraccess_bulkorders.sample');
+
+            Route::post('partials', 'WriterAccessPartialOrderController@store')->name('writeraccess_partials.store');
+            Route::post('partials/{id}', 'WriterAccessPartialOrderController@update')->name('writeraccess_partials.update');
+
+            Route::post('orders/{writerAccessPartialOrder}/submit', 'WriterAccessController@orderSubmit')->name('orderSubmit');
 
             /**
              * Writer Access form pages.
