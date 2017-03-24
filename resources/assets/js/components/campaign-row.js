@@ -19,7 +19,7 @@ Vue.component('campaign-row', {
             <div class="dashboard-tasks-cell cell-size-20">
                 <ul class="dashboard-tasks-list">
                     <li>
-                        STARTED: <br />
+                        START DATE: <br />
                         <strong>{{ campaign.started.toUpperCase() }}</strong>
                     </li>
                 </ul>
@@ -27,7 +27,7 @@ Vue.component('campaign-row', {
             <div class="dashboard-tasks-cell cell-size-20">
                 <div class="dashboard-tasks-list">
                     <li>
-                        ENDING: <br />
+                        END DATE: <br />
                         <strong>{{ campaign.ending.toUpperCase() }}</strong>
                     </li>
                 </div>

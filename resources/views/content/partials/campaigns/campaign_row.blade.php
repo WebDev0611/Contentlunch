@@ -15,18 +15,18 @@
     <div class="dashboard-tasks-cell cell-size-20">
         <ul class="dashboard-tasks-list">
             <li>
-                STARTED: <br />
+                START DATE: <br />
                 <strong>{{ strtoupper($campaign->started) }}</strong>
             </li>
         </ul>
     </div>
     <div class="dashboard-tasks-cell cell-size-20">
-        <div class="dashboard-tasks-list">
+        <ul class="dashboard-tasks-list">
             <li>
-                ENDING: <br />
+                END DATE: <br />
                 <strong>{{ strtoupper($campaign->ending) }}</strong>
             </li>
-        </div>
+        </ul>
     </div>
     <div></div>
 </div>
