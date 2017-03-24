@@ -65,15 +65,20 @@ class ArchivedContentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Archives a specific piece of content.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param Content $content
      * @return \Illuminate\Http\Response
+     * @internal param Request $request
      */
-    public function update(Request $request, $id)
+    public function update(Content $content)
     {
-        //
+        $content->setArchived();
+
+        return redirect()->route('archived_contents.index')->with([
+            'flash_message' => 'Content archived',
+            'flash_message_type' => 'success',
+        ]);
     }
 
     /**
