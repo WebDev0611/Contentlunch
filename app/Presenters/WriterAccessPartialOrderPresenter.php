@@ -18,6 +18,11 @@ class WriterAccessPartialOrderPresenter extends BasePresenter
 
     public function price()
     {
-        return "$" . $this->entity->price . ".00";
+        return "$" . number_format((float)$this->entity->price, 2, '.', ',');
+    }
+
+    public function fee()
+    {
+        return "$" . number_format((float)$this->entity->fee, 2, '.', ',');
     }
 }

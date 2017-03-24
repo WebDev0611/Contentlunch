@@ -69,18 +69,23 @@
                                 </div>
                                 -->
                             </div>
+
                             <h4 class="purchase-title">Assignment Cost</h4>
                             <table class="purchase-order">
                                 <tbody>
                                     <tr>
                                         <td>{{ $order->present()->description }}</td>
-                                        <td>{{ $order->present()->price }}</td>
+                                        <td>{{ $order->present()->fee }}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
+                                    <tr class="ordercount">
+                                        <td><strong>Number of orders</strong></td>
+                                        <td><strong>{{ $order->order_count }}</strong></td>
+                                    </tr>
                                     <tr>
-                                        <td>TOTAL</td>
-                                        <td>{{ $order->present()->price }}</td>
+                                        <td><strong>TOTAL</strong></td>
+                                        <td><strong>{{ $order->present()->price }}</strong></td>
                                     </tr>
                                     {{--
                                     <tr>

@@ -44,14 +44,19 @@ class WriterAccessPartialOrder extends Model
         return $this->hasMany('App\WriterAccessUpload', 'writer_access_partial_order_id');
     }
 
-    public function getPriceAttribute()
+    public function getFeeAttribute ()
     {
         $price = WriterAccessPrice::where('asset_type_id', $this->asset_type_id)
             ->where('writer_level', $this->writer_level)
             ->where('wordcount', $this->wordcount)
             ->first();
 
-        return $price ? $price->fee * $this->order_count : 0;
+        return $price ? $price->fee : 0;
+    }
+
+    public function getPriceAttribute()
+    {
+        return $this->fee * $this->order_count;
     }
 
     public function writerAccessFormat()
