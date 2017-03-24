@@ -3,6 +3,7 @@
 namespace App\Http\Requests\AccountSettings;
 
 use App\Http\Requests\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AccountSettingsRequest extends Request
 {
@@ -25,7 +26,7 @@ class AccountSettingsRequest extends Request
     {
         return [
             'name' => 'required',
-            'email' => 'required|email'
+            'email' => 'required|email|unique:users,email,' . Auth::user()->id
         ];
     }
 
