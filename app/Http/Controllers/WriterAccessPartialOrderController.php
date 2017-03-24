@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\WriterAccess\CreateOrderRequest;
 use Auth;
 use Carbon\Carbon;
 use Validator;
@@ -42,22 +43,12 @@ class WriterAccessPartialOrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateOrderRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateOrderRequest $request)
     {
-        $validator = $this->creationValidator($request->all());
-
-        $params = $request->all();
-
-        $params["due_date"] = Carbon::createFromFormat("m-d-Y", $params["due_date"])->format("Y-m-d");
-
-        if ($validator->fails()) {
-            return redirect('/create')->with('errors', $validator->errors());
-        }
-
-        $order = $this->createOrder($params);
+        $order = $this->createOrder($request->all());
 
         return redirect()->route('orderSetup', $order->id);
     }
@@ -78,27 +69,10 @@ class WriterAccessPartialOrderController extends Controller
     }
 
     /**
-     * Validator for the first step of the Writer Access flow.
-     *
-     * @param  array  $data Data from the request
-     * @return Validator    Validator object
-     */
-    protected function creationValidator(array $data)
-    {
-        return Validator::make($data, [
-            'due_date' => 'required',
-            'writer_access_asset_type' => 'required',
-            'writer_access_word_count' => 'required',
-            'writer_access_writer_level' => 'required',
-            'writer_access_order_count' => 'required'
-        ]);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $orderId
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $orderId)

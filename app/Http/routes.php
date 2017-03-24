@@ -240,7 +240,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
             Route::get('bulk-orders/status/{id}', 'WriterAccessBulkOrderStatusController@status')->name('writeraccess_bulkorders.status');
             Route::get('bulk-orders/sample', 'WriterAccessBulkOrderStatusController@sample')->name('writeraccess_bulkorders.sample');
 
-            Route::post('partials', 'WriterAccessPartialOrderController@store')->name('writeraccess_partials.store');
+            Route::post('partials', 'WriterAccessPartialOrderController@store')->name('writeraccess_partials.store')->middleware('format_date:due_date,m-d-Y');
             Route::post('partials/{id}', 'WriterAccessPartialOrderController@update')->name('writeraccess_partials.update');
 
             Route::post('orders/{writerAccessPartialOrder}/submit', 'WriterAccessController@orderSubmit')->name('orderSubmit');
