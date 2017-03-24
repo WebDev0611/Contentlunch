@@ -79,5 +79,6 @@ class Kernel extends HttpKernel
         'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
         'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
         'calendar' => \App\Http\Middleware\CalendarMiddleware::class,
+        'format_date' => \App\Http\Middleware\ConvertDateFormat::class,
     ];
 }
