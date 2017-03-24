@@ -308,10 +308,7 @@ class ContentController extends Controller
 
                 foreach ($wordcounts as $wordcount) {
                     $reformedPrices[$price->asset_type_id][$wordcount->wordcount] = [];
-                    $writerLevels = DB::table('writer_access_prices')
-                        ->where('asset_type_id', $price->asset_type_id)
-                        ->where('wordcount', $wordcount->wordcount)
-                        ->get();
+                    $writerLevels = $this->getWriterLevels($price->asset_type_id, $wordcount->wordcount);
 
                     foreach ($writerLevels as $writerLevel) {
                         $reformedPrices[$price->asset_type_id][$wordcount->wordcount][$writerLevel->writer_level] = $writerLevel->fee;
@@ -328,6 +325,14 @@ class ContentController extends Controller
         $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd');
 
         return view('content.create', $data);
+    }
+
+    protected function getWriterLevels($assetTypeId, $wordcount)
+    {
+        return DB::table('writer_access_prices')
+            ->where('asset_type_id', $assetTypeId)
+            ->where('wordcount', $wordcount)
+            ->get();
     }
 
     public function trendShare(Request $request, Connection $connection)
