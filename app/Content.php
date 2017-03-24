@@ -3,6 +3,7 @@
 use App\Account;
 use App\Helpers;
 use App\Presenters\ContentPresenter;
+use App\Traits\Orderable;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Laracasts\Presenter\PresentableTrait;
 
 class Content extends Model
 {
-    use PresentableTrait;
+    use PresentableTrait, Orderable;
 
     public $presenter = ContentPresenter::class;
 
@@ -33,6 +34,7 @@ class Content extends Model
         'meta_title'       => 'Meta Title',
         'meta_keywords'    => 'Meta Keywords',
         'meta_description' => 'Meta Description',
+        'content_status_id' => 'Content Status',
         'archived'         => 'Archived',
         'ready_published'  => 'Ready to be published',
         'published'        => 'Published',
@@ -142,6 +144,11 @@ class Content extends Model
        return $this->belongsToMany('App\Content', 'content_related', 'content_id', 'related_content_id');
     }
 
+    public function status()
+    {
+        return $this->belongsTo('App\ContentStatus', 'content_status_id');
+    }
+
     public function tasks()
     {
         return $this->belongsToMany('App\Task');
@@ -161,34 +168,56 @@ class Content extends Model
      */
     public function configureAction($action = null)
     {
-        if ($action) {
-            $this->ready_published = $action == 'ready_to_publish' ? 1 : 0;
-            $this->written = $action == 'written_content' ? 1 : 0;
-            $this->published = $action == 'publish' ? 1 : 0;
+        $status = ContentStatus::BEING_WRITTEN;
+
+        switch ($action) {
+            case 'ready_to_publish': $status = ContentStatus::READY; break;
+            case 'publish': $status = ContentStatus::PUBLISHED; break;
+            case 'archived': $status = ContentStatus::ARCHIVED; break;
+            default: break;
         }
-        else {
-            $this->published = 0;
-            $this->ready_published = 0;
-            $this->written = 1;
-        }
+
+        $this->status()->associate($status)->save();
+    }
+
+    public function scopeReadyToPublish($query)
+    {
+        return $query->where('content_status_id', ContentStatus::READY);
+    }
+
+    public function scopeWritten($query)
+    {
+        return $query->where('content_status_id', ContentStatus::BEING_WRITTEN);
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('content_status_id', ContentStatus::PUBLISHED);
+    }
+
+    public function scopeArchived($query)
+    {
+        return $query->where('content_status_id', ContentStatus::ARCHIVED);
     }
 
     public function setReadyPublished()
     {
         $this->configureAction('ready_to_publish');
-        $this->save();
     }
 
     public function setWritten()
     {
         $this->configureAction('written_content');
-        $this->save();
     }
 
     public function setPublished()
     {
         $this->configureAction('publish');
-        $this->save();
+    }
+
+    public function setArchived()
+    {
+        $this->configureAction('archived');
     }
 
     /**
@@ -222,6 +251,10 @@ class Content extends Model
             case 'published':
             case 'written':
                 $formattedContent = $value ? 'Yes' : 'No';
+                break;
+
+            case 'content_status_id':
+                $formattedContent = $value ? ContentStatus::find($value)->name : '-';
                 break;
 
             default:

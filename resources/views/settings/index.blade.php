@@ -6,7 +6,7 @@
     <div class="panel clearfix">
         {!!
             Form::model($user, [
-                'url' => route('settingsUpdate'),
+                'url' => route('settings.update'),
                 'files' => 'true',
                 'id' => 'profile_settings',
             ])

@@ -206,12 +206,10 @@ class Account extends Model
     public function cleanContentWithoutStatus()
     {
         $this->contents()
-            ->where('written', 0)
-            ->where('ready_published', 0)
-            ->where('published', 0)
+            ->where('content_status_id', 0)
             ->get()
             ->each(function ($content) {
-                $content->update(['written' => 1]);
+                $content->update(['content_status_id' => 1]);
             });
     }
 

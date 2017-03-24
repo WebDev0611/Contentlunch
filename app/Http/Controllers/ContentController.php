@@ -39,44 +39,23 @@ class ContentController extends Controller
 
     public function index()
     {
-        $countContent = $this->selectedAccount
-            ->contents()
-            ->count();
-
         $this->selectedAccount->cleanContentWithoutStatus();
 
-        $published = $this->selectedAccount
-            ->contents()
-            ->where('published', 1)
-            ->orderBy('updated_at', 'desc')
-            ->get();
+        $data = [
+            'countContent' => $this->selectedAccount->contents()->count(),
+            'published' => $this->selectedAccount->contents()->published()->recentlyUpdated()->get(),
+            'readyPublished' => $this->selectedAccount->contents()->readyToPublish()->recentlyUpdated()->get(),
+            'written' => $this->selectedAccount->contents()->written()->recentlyUpdated()->get(),
+            'connections' => $this->selectedAccount->connections()->active()->get(),
+        ];
 
-        $readyPublished = $this->selectedAccount
-            ->contents()
-            ->where('ready_published', 1)
-            ->orderBy('updated_at', 'desc')
-            ->get();
-
-        $written = $this->selectedAccount
-            ->contents()
-            ->where('written', 1)
-            ->orderBy('updated_at', 'desc')
-            ->get();
-
-        $connections = $this->selectedAccount
-            ->connections()
-            ->where('active', 1)
-            ->get();
-
-        return view('content.index', compact(
-            'published', 'readyPublished', 'written', 'countContent', 'connections'
-        ));
+        return view('content.index', $data);
     }
 
     public function orders(Request $request)
     {
         if($request->input("bulksuccess") === "true"){
-            return redirect()->route('contentOrders', "fresh")->with([
+            return redirect()->route('content_orders.index', "fresh")->with([
                 'flash_message' => "Your content orders have been placed successfully." ,
                 'flash_message_type' => 'success',
             ]);
@@ -249,7 +228,7 @@ class ContentController extends Controller
         ]}');*/
 
             if(isset($data1->fault) || isset($data2->fault)){
-                return redirect()->route('contentOrders')->with([
+                return redirect()->route('content_orders.index')->with([
                     'flash_message' => isset($data1->fault) ? $data1->fault : $data2->fault,
                     'flash_message_type' => 'danger',
                     'flash_message_important' => true,
@@ -269,7 +248,7 @@ class ContentController extends Controller
             $order = null;
             $writer = null;
             $preview = null;
-            return redirect()->route('contentOrders')->with([
+            return redirect()->route('content_orders.index')->with([
                 'flash_message' => $e->getMessage(),
                 'flash_message_type' => 'danger',
                 'flash_message_important' => true,
@@ -446,7 +425,7 @@ class ContentController extends Controller
     public function publishAndRedirect(Request $request, $contentId)
     {
         if (Auth::user()->cant('launch', Content::class)) {
-            return redirect()->route('contentIndex')->with([
+            return redirect()->route('contents.index')->with([
                 'flash_message' => Limit::feedbackMessage('content_launch'),
                 'flash_message_type' => 'danger',
             ]);
@@ -459,13 +438,13 @@ class ContentController extends Controller
             $this->publish($content);
         }
         catch (Exception $e) {
-            return redirect()->route('contentIndex')->with([
+            return redirect()->route('contents.index')->with([
                 'flash_message' => $e->getMessage(),
                 'flash_message_type' => 'danger',
             ]);
         }
 
-        return redirect()->route('contentIndex')->with([
+        return redirect()->route('contents.index')->with([
             'flash_message' => 'You have published '.$content->title.' to '.$content->connection->provider->slug,
             'flash_message_type' => 'success',
             'flash_message_important' => true,
@@ -540,7 +519,7 @@ class ContentController extends Controller
         }
 
         if (!$content->hasCollaborator(Auth::user())) {
-            return redirect()->route('contentIndex')->with([
+            return redirect()->route('contents.index')->with([
                 'flash_message' => 'You don\'t have permission to edit this content.',
                 'flash_message_type' => 'danger',
                 'flash_message_important' => true,
@@ -571,7 +550,7 @@ class ContentController extends Controller
             $content->configureAction($request->input('action'));
             $content->save();
 
-            return redirect()->route('contentIndex')->with([
+            return redirect()->route('contents.index')->with([
                 'flash_message' => 'You have created content titled '.$content->title.'.',
                 'flash_message_type' => 'success',
                 'flash_message_important' => true,
@@ -703,7 +682,7 @@ class ContentController extends Controller
 
     protected function redirectDeleteSuccessful($content)
     {
-        return redirect()->route('contentIndex')->with([
+        return redirect()->route('contents.index')->with([
            'flash_message' => 'You have successfully deleted '.$content->title.'.',
            'flash_message_type' => 'success',
            'flash_message_important' => true,
@@ -712,7 +691,7 @@ class ContentController extends Controller
 
     protected function redirectDeleteFailed()
     {
-        return redirect()->route('contentIndex')->with([
+        return redirect()->route('contents.index')->with([
             'flash_message' => 'Unable to delete content: not found.',
             'flash_message_type' => 'danger',
             'flash_message_important' => true,

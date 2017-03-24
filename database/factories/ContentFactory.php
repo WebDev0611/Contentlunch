@@ -1,7 +1,7 @@
 <?php
 
 $factory->define(App\Content::class, function (Faker\Generator $faker) {
-    $status = $faker->randomElement([ 'ready_published', 'published', 'written' ]);
+    $status = $faker->randomElement([1, 2, 3, 4]);
 
     return [
         'content_type_id' => function() use ($faker) {
@@ -34,8 +34,6 @@ $factory->define(App\Content::class, function (Faker\Generator $faker) {
         'meta_description' => $faker->text,
         'due_date' => $faker->dateTimeBetween('now', '1 month')->format('Y-m-d'),
         'title' => $faker->sentence,
-        'ready_published' => $status == 'ready_published',
-        'published' => $status == 'published',
-        'written' => $status == 'written',
+        'content_status_id' => $status,
     ];
 });

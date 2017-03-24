@@ -120,12 +120,15 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::post('task/close/{task}', 'TaskController@close');
         Route::delete('task/{task}', 'TaskController@destroy');
 
-        Route::get('/content', 'ContentController@index')->name('contentIndex');
+        Route::get('/content', 'ContentController@index')->name('contents.index');
         Route::get('/content/delete/{content_id}', 'ContentController@delete')->name('contentDelete');
         Route::get('/content/publish/{content}', 'ContentController@publishAndRedirect')->name('contentPublish');
         Route::get('/content/multipublish/{content}', 'ContentController@directPublish')->name('contentMultiPublish');
 
-        Route::get('/content/orders', 'ContentController@orders')->name('contentOrders');
+        Route::get('/content/archived', 'ArchivedContentController@index')->name('archived_contents.index');
+        Route::get('/content/{content}/archive', 'ArchivedContentController@update')->name('archived_contents.update');
+
+        Route::get('/content/orders', 'ContentController@orders')->name('content_orders.index');
         Route::get('/content/orders/{id}', 'ContentController@order')->name('contentOrder');
         Route::get('/content/orders/approve/{id}', 'WriterAccessController@orderApprove')->name('orderApprove');
         Route::get('/content/orders/delete/{id}', 'ContentController@orderDelete')->name('orderDelete');
@@ -178,17 +181,17 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::get('/onboarding', 'OnboardingController@index');
 
         Route::group(['prefix' => 'settings'], function () {
-            Route::get('/', 'SettingsController@index')->name('settingsIndex');
-            Route::post('/', 'SettingsController@update')->name('settingsUpdate');
-            Route::get('content', 'SettingsController@content')->name('settingsContentIndex');
-            Route::get('buying', 'SettingsController@content')->name('settingsBuyingIndex');
+            Route::get('/', 'SettingsController@index')->name('settings.index');
+            Route::post('/', 'SettingsController@update')->name('settings.update');
+            Route::get('content', 'SettingsController@content')->name('content_settings.index');
+            Route::get('buying', 'SettingsController@content')->name('buying_settings.index');
 
             // Connection Routes
-            Route::get('connections', 'SettingsController@connections')->name('connectionIndex');
+            Route::get('connections', 'SettingsController@connections')->name('connections.index');
             Route::post('connections/create', 'ConnectionController@store')->name('connections.store');
             Route::delete('connections/{connection}', 'ConnectionController@delete')->name('connections.destroy');
 
-            Route::get('seo', 'SettingsController@seo')->name('seoIndex');
+            Route::get('seo', 'SettingsController@seo')->name('seo_settings.index');
 
             Route::post('personas', 'Settings\PersonasController@create');
             Route::get('personas', 'Settings\PersonasController@index');
