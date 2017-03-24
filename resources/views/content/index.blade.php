@@ -103,13 +103,6 @@
                             <span>{{ $conn->name }}</span>
                         </label>
                         @endforeach
-
-                        <div class="form-group text-center">
-                            <a href="#" class="link-gray">
-                                ADD NEW
-                                <i class="icon-add"></i>
-                            </a>
-                        </div>
                     </div>
                 </div>
                 <div class="row">
