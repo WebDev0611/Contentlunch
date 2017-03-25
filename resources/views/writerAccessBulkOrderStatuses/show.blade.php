@@ -89,7 +89,7 @@
             var $progressBar = $(".progress-bar");
             var intervalId = setInterval(function(){
                 $.ajax({
-                    url: "/writeraccess/bulk-orders/status/{{$bulkOrderStatus->id}}",
+                    url: "/get_content_written/bulk-orders/status/{{$bulkOrderStatus->id}}",
                     success: function(data){
                         $progressBar
                             .attr("aria-valuenow", data.status_percentage)

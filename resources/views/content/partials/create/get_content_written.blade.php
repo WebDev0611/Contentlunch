@@ -1,7 +1,7 @@
 <div class="row">
 
 
-    {!! Form::open([ 'url' => 'writeraccess/partials' ]) !!}
+    {!! Form::open([ 'url' => 'get_content_written/partials' ]) !!}
     <div class="col-md-8 col-md-offset-2" id='writerAccessForm'>
         @if ($errors->any())
             <div class="alert alert-danger alert-forms" id="formError">

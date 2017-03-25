@@ -437,7 +437,7 @@ class WriterAccessController extends Controller
             $this->dispatch($job);
 
             return redirect()
-                ->to('/writeraccess/bulk-order/'.$bulkOrderStatus->id)
+                ->to('/get_content_written/bulk-order/'.$bulkOrderStatus->id)
                 ->with("orders", $orders);
 
         }catch(Exception $e){

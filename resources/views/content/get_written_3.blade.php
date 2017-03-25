@@ -21,7 +21,7 @@
                         </div>
                     </div>
 
-                    {!! Form::open([ 'id'=>'orderForm', 'url' => "writeraccess/orders/$order->id/submit" ]) !!}
+                    {!! Form::open([ 'id'=>'orderForm', 'route' => ['writeraccess_orders.submit', $order] ]) !!}
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="purchase-assignment">

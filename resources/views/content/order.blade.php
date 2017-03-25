@@ -270,7 +270,7 @@
             var comment = $("#commentInput").val(),
                 orderId = $('[data-order-id]').data("order-id");
             $.ajax({
-                url: "/writeraccess/comment/"+orderId,
+                url: "/get_content_written/comment/"+orderId,
                 method: "POST",
                 data: {comment: comment},
                 success: function(data){

@@ -20,7 +20,7 @@ class VerifyCsrfToken extends BaseVerifier
     protected $except = [
         'edit/images',
         'edit/attachments',
-        'writeraccess/orders/*/submit',
+        'get_content_written/orders/*/submit',
         'subscription'
     ];
 

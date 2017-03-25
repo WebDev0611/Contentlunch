@@ -6,7 +6,7 @@
     <h4 class="text-center">Get Content Written</h4>
     <div class="container-fluid">
         <div class="row">
-            {!! Form::open([ 'url' => 'writeraccess/partials/' . $order->id ]) !!}
+            {!! Form::open([ 'url' => route('writeraccess_partials.update', $order->id) ]) !!}
             {!! Form::hidden('step', 1) !!}
             {!! Form::hidden('order_id', $order->id) !!}
             <div class="col-md-8 col-md-offset-2">
@@ -158,7 +158,7 @@
         });
 
         function getUploadUrl() {
-            return '/writeraccess/partials/upload/' + getOrderId();
+            return '/get_content_written/partials/upload/' + getOrderId();
         }
 
         function getOrderId() {

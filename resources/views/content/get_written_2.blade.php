@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="workspace">
-    {!! Form::open([ 'url' => 'writeraccess/partials/' . $order->id ]) !!}
+    {!! Form::open([ 'url' => route('writeraccess_partials.update', $order->id) ]) !!}
     {!! Form::hidden('step', 2) !!}
     <h4 class="text-center">Get Content Written</h4>
     <div class="container-fluid">

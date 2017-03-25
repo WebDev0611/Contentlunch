@@ -213,7 +213,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
             });
         });
 
-        Route::group(['prefix' => 'writeraccess'], function () {
+        Route::group(['prefix' => 'get_content_written'], function () {
             Route::get('categories', 'WriterAccessController@categories')->name('writeraccess_categories.index');
 
             Route::get('account', 'WriterAccessController@account')->name('writeraccess_accounts.show');
@@ -226,6 +226,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
             Route::get('orders', 'WriterAccessController@orders')->name('writeraccess_orders.index');
             Route::get('orders/{id}', 'WriterAccessController@orders')->name('writeraccess_orders.show');
             Route::delete('orders/{id}', 'WriterAccessController@deleteOrder')->name('writeraccess_orders.destroy');
+            Route::post('orders/{writerAccessPartialOrder}/submit', 'WriterAccessController@orderSubmit')->name('writeraccess_orders.submit');
 
             Route::get('projects', 'WriterAccessController@projects')->name('writeraccess_projects.index');
             Route::get('projects/{id}', 'WriterAccessController@projects')->name('writeraccess_projects.show');
@@ -242,8 +243,6 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
 
             Route::post('partials', 'WriterAccessPartialOrderController@store')->name('writeraccess_partials.store')->middleware('format_date:due_date,m-d-Y');
             Route::post('partials/{id}', 'WriterAccessPartialOrderController@update')->name('writeraccess_partials.update');
-
-            Route::post('orders/{writerAccessPartialOrder}/submit', 'WriterAccessController@orderSubmit')->name('orderSubmit');
 
             /**
              * Writer Access form pages.
