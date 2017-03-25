@@ -3,17 +3,7 @@
 
     {!! Form::open([ 'url' => 'get_content_written/partials' ]) !!}
     <div class="col-md-8 col-md-offset-2" id='writerAccessForm'>
-        @if ($errors->any())
-            <div class="alert alert-danger alert-forms" id="formError">
-                <p><strong>Oops! We had some errors:</strong>
-                    <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                    </ul>
-                </p>
-            </div>
-        @endif
+        @include('partials.error')
 
         <div class="row">
             <div class="col-md-8">
