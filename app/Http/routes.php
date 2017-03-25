@@ -159,12 +159,12 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::get('callback/hubspot', 'Connections\HubspotController@callback')->name('hubspotCallback');
 
         // - Landing page for creating content
-        Route::get('/create', 'ContentController@create');
-        Route::post('/create/new', 'ContentController@store');
+        Route::get('/create', 'ContentController@create')->name('contents.create');
+        Route::post('/create/new', 'ContentController@store')->name('contents.store');
 
         // - create form page
         Route::get('/edit', 'ContentController@createContent')->name('content.edit');
-        Route::post('/edit', 'ContentController@editStore')->name('content.store');
+        Route::post('/edit', 'ContentController@editStore')->name('content.update');
 
         Route::post('/edit/images', 'ContentController@images')->name('imageContent');
         Route::post('/edit/attachments', 'ContentController@attachments')->name('attachmentContent');

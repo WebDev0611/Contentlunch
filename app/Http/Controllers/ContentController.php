@@ -268,6 +268,15 @@ class ContentController extends Controller
 
     public function store(Request $request)
     {
+        if (!$request->ajax()) {
+            $validator = $this->onSaveValidation($request->all());
+
+            if ($validator->fails()) {
+                $request->flash();
+                return redirect()->back()->withErrors($validator, 'content');
+            }
+        }
+
         $content = Content::create([
             'title' => $request->input('title'),
             'body' => $request->input('body'),
@@ -277,11 +286,12 @@ class ContentController extends Controller
         $this->selectedAccount->contents()->save($content);
         $this->saveAsCalendarContent($request, $content);
 
-        if($request->ajax()) {
+        if ($request->ajax()) {
             $content->due_date = $request->input('due_date');
             $content->created_at = $request->input('created_at');
             $content->setWritten();
             $this->ensureCollaboratorsExists($content);
+
             if($content->save()) {
                 return $content;
             }
@@ -291,6 +301,8 @@ class ContentController extends Controller
 
         return redirect('edit/'.$content->id);
     }
+
+
 
     public function create()
     {
@@ -571,9 +583,9 @@ class ContentController extends Controller
             'title' => 'required',
             'connection_id' => 'required|exists:connections,id',
             'content_id' => 'required|exists:contents,id',
-            'body' => 'required'
-            ],
-            [
+            'body' => 'required',
+        ],
+        [
             'content_type_id.required' => 'The content type is required.',
             'body.required' => 'The content body field is required.',
             'connection_id.required' => 'The content destination is required.'
@@ -583,7 +595,11 @@ class ContentController extends Controller
     private function onSaveValidation(array $requestData)
     {
         return Validator::make($requestData, [
+            'content_type_id' => 'required|exists:content_types,id',
             'title' => 'required',
+        ],
+        [
+            'content_type_id.required' => 'The content type is required.',
         ]);
     }
 
