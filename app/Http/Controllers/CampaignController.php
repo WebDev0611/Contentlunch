@@ -170,15 +170,7 @@ class CampaignController extends Controller
             return redirect('/campaign')->with('errors', $validation->errors());
         }
 
-        $campaign->update([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'start_date' => $request->input('start_date'),
-            'end_date' => $request->input('end_date'),
-            'goals' => $request->input('goals'),
-            'campaign_type_id' => (int) $request->input('campaign_type_id'),
-            'status' => (int) $request->input('status'),
-        ]);
+        $campaign->update($request->all());
 
         $this->handleAttachments($request->input('attachments'), $campaign);
         $this->addNewContent($request->all(), $campaign);
