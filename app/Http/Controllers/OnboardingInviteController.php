@@ -42,12 +42,16 @@ class OnboardingInviteController extends Controller
 
     private function sendInvite($email)
     {
-        $link = $this->createInviteUrl($email);
+        $data = [
+            'link' => $this->createInviteUrl($email),
+            'user' => Auth::user(),
+            'account' => Account::selectedAccount(),
+        ];
 
-        Mail::send('emails.invite.email_invite', compact('link'), function($message) use ($email) {
+        Mail::send('emails.invite.email_invite', $data, function($message) use ($email) {
             $message->from("invites@contentlaunch.com", "Content Launch")
                 ->to($email)
-                ->subject('Check Out Content Launch');
+                ->subject('You\'ve been invited to Content Launch');
         });
     }
 
