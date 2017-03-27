@@ -16,7 +16,7 @@
                 {{ Form::hidden('content_id', $content->id) }}
                 <!-- Panel Header -->
                 @php
-                    $isPublished = isset($content) && $content->status->slug == 'published';
+                    $isPublished = isset($content) && $content->status  && $content->status->slug == 'published';
                 @endphp
                 <div class="panel-header">
                     <div class="panel-options">
