@@ -50,7 +50,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach ($accounts as $account)
+                                        @foreach ($accounts as $key => $account)
                                             <tr>
                                                 <td>
                                                     <div class="clientlogo">
@@ -65,9 +65,14 @@
                                                     <td>-</td>
                                                 @else
                                                     <td>{{ date_format(date_create($account->parentAccount->activeSubscriptions()->first()->expiration_date), "n-j-y") }}</td>
-
                                                 @endif
-                                                <td>${{ number_format($account->parentAccount->activeSubscriptions()->first()->subscriptionType->price_per_client) }}</td>
+
+                                                @if($key < App\SubscriptionType::findBySlug('free')->limit('subaccounts_per_account'))
+                                                    <td>$0/mo</td>
+                                                @else
+                                                    <td>${{ number_format($account->parentAccount->activeSubscriptions()->first()->subscriptionType->price_per_client) }}/mo</td>
+                                                @endif
+
 
                                             </tr>
                                         @endforeach
