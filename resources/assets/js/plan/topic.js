@@ -251,8 +251,8 @@
 		var long_tail_results = new long_tail_collection();
 		var short_tail_results = new short_tail_collection();
 
-		const sf = r => r.keyword.split(' ').length <= 3;
-		const lf = r => r.keyword.split(' ').length >= 2;
+		const shortTailFilter = result => result.keyword.split(' ').length <= 2;
+		const longTailFilter = result => result.keyword.split(' ').length >= 3;
 		const v_sort = (a, b) => b.volume - a.volume;
 		const map_result = model => {
 			return {
@@ -261,43 +261,47 @@
 			};
 		};
 
-		var get_topic_data = function(term = '') {
-			var search_obj = {};
+		var getTopicData = function(keyword = '') {
+			if (keyword.length < 4) {
+			    swal('Error!', 'The searched term is too short', 'error');
+            }
 
-			if (term.length > 3) {
-				var loadingGif = $('<img src="/images/loading.gif" style="max-height:30px;" />');
+            appendLoadingGif();
 
-				$('span.input-form-button-action').append(loadingGif);
-				search_obj.keyword = term;
+            $.getJSON('/topics', { keyword })
+                .then(populateLists)
+                .catch(showErrorFeedback);
+        };
 
+        function appendLoadingGif() {
+            const loadingGif = $('<img src="/images/loading.gif" style="max-height:30px;" />');
+            $('span.input-form-button-action').append(loadingGif);
+        }
 
-				$.getJSON('/topics', search_obj)
-					.then(res => {
-						$('span.input-form-button-action img').remove();
+        function populateLists(response) {
+            $('span.input-form-button-action img').remove();
 
-						var lt = res.results.filter(lf).map(map_result).sort(v_sort);
-						var st = res.results.filter(sf).map(map_result).sort(v_sort);
+            var longTailResults = response.results.filter(longTailFilter).map(map_result).sort(v_sort);
+            var shortTailResults = response.results.filter(shortTailFilter).map(map_result).sort(v_sort);
 
-						short_tail_results.add(st);
-						long_tail_results.add(lt);
-					})
-					.catch(response => {
-						$('span.input-form-button-action img').remove();
+            short_tail_results.add(shortTailResults);
+            long_tail_results.add(longTailResults);
+        }
 
-						if (response.status === 403) {
-						    showUpgradeAlert(response.responseJSON.data);
-						} else {
-						    swal('Error!', response.responseJSON.data, 'error');
-						}
-					});
-			}
-		};
+        function showErrorFeedback(response) {
+            $('span.input-form-button-action img').remove();
+            if (response.status === 403) {
+                showUpgradeAlert(response.responseJSON.data);
+            } else {
+                swal('Error!', response.responseJSON.data, 'error');
+            }
+        }
 
         const topicSearch = () => {
             long_tail_results.remove(long_tail_results.models);
             short_tail_results.remove(short_tail_results.models);
-            get_topic_data($('#topic-search-val').val());
-        }
+            getTopicData($('#topic-search-val').val());
+        };
 
         const topicInputKeyUpHandler = event => {
             const keyCode = event.keyCode;
@@ -307,7 +311,7 @@
             if (keyCode === ENTER_KEY && value) {
                 topicSearch();
             }
-        }
+        };
 
         $('#topic-search').click(topicSearch);
         $('#topic-search-val').keyup(topicInputKeyUpHandler);
@@ -344,7 +348,7 @@
 			}
 		});
 
-		//get_topic_data();
+		//getTopicData();
 
 		//task method
 		//runs the action to submit the task
