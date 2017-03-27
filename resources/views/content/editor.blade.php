@@ -15,6 +15,9 @@
                 @endif
                 {{ Form::hidden('content_id', $content->id) }}
                 <!-- Panel Header -->
+                @php
+                    $isPublished = isset($content) && $content->status->slug == 'published';
+                @endphp
                 <div class="panel-header">
                     <div class="panel-options">
                         <div class="row">
@@ -27,7 +30,7 @@
                                         type="submit"
                                         class="button button-outline-secondary button-small delimited"
                                         name="action"
-                                        @if (!$isCollaborator || (isset($content) && $content->status->slug == 'published'))
+                                        @if (!$isCollaborator || $isPublished)
                                         disabled="disabled"
                                         @endif
                                         value="written_content">
@@ -39,7 +42,7 @@
                                             type='submit'
                                             class="button button-small"
                                             name="action"
-                                            @if (!$isCollaborator || (isset($content) && $content->status->slug == 'published'))
+                                            @if (!$isCollaborator || $isPublished)
                                             disabled="disabled"
                                             @endif
                                             value="publish">
@@ -52,19 +55,19 @@
                                             type="submit"
                                             class="button button-small"
                                             name="action"
-                                            @if (!$isCollaborator || (isset($content) && $content->status->slug == 'published'))
+                                            @if (!$isCollaborator || $isPublished)
                                             disabled="disabled"
                                             @endif
                                             value="ready_to_publish">
                                             SUBMIT
                                         </button>
+
                                         @if ($isCollaborator)
                                         <button type="button" class="button button-small dropdown-toggle"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                                @if (isset($content) && $content->status->slug == 'published')
+                                                @if ($isPublished)
                                                 disabled="disabled"
-                                                @endif
-                                        >
+                                                @endif>
                                             <span class="caret"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -129,7 +132,7 @@
                                             'title' => 'Choose Content Type',
                                         ];
 
-                                        if (!$isCollaborator) {
+                                        if (!$isCollaborator || $isPublished) {
                                             $contentTypeOptions['disabled'] = 'disabled';
                                         }
 
@@ -149,10 +152,14 @@
                                 <div class="input-form-group">
                                     <label for="dueDate">DUE DATE</label>
                                     @php
-                                        $dueDateOptions = \App\Helpers::isCollaborator([
+                                        $dueDateOptions = [
                                             'class' => 'input-calendar datetimepicker input form-control',
                                             'id' => 'dueDate'
-                                        ], $isCollaborator);
+                                        ];
+
+                                        if (!$isCollaborator || $isPublished) {
+                                            $dueDateOptions['disabled'] = 'disabled';
+                                        }
                                     @endphp
                                     {!! Form::text('due_date', old('due_date'), $dueDateOptions) !!}
                                 </div>
@@ -168,7 +175,7 @@
                                     'id' => 'title'
                                 ];
 
-                                if (!$isCollaborator) {
+                                if (!$isCollaborator || $isPublished) {
                                     $titleOptions['disabled'] = 'disabled';
                                 }
                             @endphp
@@ -186,7 +193,7 @@
                                     'id' => 'email_subject'
                                 ];
 
-                                if (!$isCollaborator) {
+                                if (!$isCollaborator || $isPublished) {
                                     $titleOptions['disabled'] = 'disabled';
                                 }
                             @endphp
@@ -203,7 +210,7 @@
                                             'id' => 'connections'
                                         ];
 
-                                        if (!$isCollaborator) {
+                                        if (!$isCollaborator || $isPublished) {
                                             $connectionsOptions['disabled'] = 'disabled';
                                         }
                                     @endphp
@@ -251,7 +258,7 @@
                                     'id' => 'title'
                                 ];
                             @endphp
-                            @if ($isCollaborator)
+                            @if ($isCollaborator && !$isPublished)
                                 {!!
                                     Form::textarea('body', old('body'), $contentOptions)
                                 !!}
@@ -265,13 +272,13 @@
                                 $tagsOptions = [
                                     'id' => 'tag-editor',
                                 ];
-
-                                if (!$isCollaborator) {
-                                    $tagsOptions['disabled'] = 'disabled';
-                                }
                             @endphp
                             <label>TAGS</label>
-                            {!! Form::text('tags', old('tags') ?: '', $tagsOptions) !!}
+                            @if ($isCollaborator && !$isPublished)
+                                {!! Form::text('tags', old('tags') ?: '', $tagsOptions) !!}
+                            @else
+                                {!! Form::text('tags', $content->present()->tags, [ 'class' => 'form-control', 'disabled' => 'disabled']) !!}
+                            @endif
                         </div>
 
                         <div class="input-form-group">
@@ -283,7 +290,7 @@
                                     'id' => 'related'
                                 ];
 
-                                if (!$isCollaborator) {
+                                if (!$isCollaborator || $isPublished) {
                                     $relatedContentOptions['disabled'] = 'disabled';
                                 }
                             @endphp
@@ -320,7 +327,7 @@
                         </div>
                         @endif
 
-                        <div class="input-form-group @if (!$isCollaborator) hide @endif">
+                        <div class="input-form-group @if (!$isCollaborator || $isPublished) hide @endif">
                             <div class="dropzone" id='attachment-uploader'>
                             </div>
                         </div>
@@ -342,7 +349,7 @@
                                             'id' => 'buyingStage'
                                         ];
 
-                                        if (!$isCollaborator) {
+                                        if (!$isCollaborator || $isPublished) {
                                             $options['disabled'] = 'disabled';
                                         }
                                     @endphp
@@ -366,7 +373,7 @@
                                             'id' => 'persona'
                                         ];
 
-                                        if (!$isCollaborator) {
+                                        if (!$isCollaborator || $isPublished) {
                                             $options['disabled'] = 'disabled';
                                         }
                                     @endphp
@@ -420,7 +427,7 @@
                                             'id' => 'metaTitle'
                                         ];
 
-                                        if (!$isCollaborator) {
+                                        if (!$isCollaborator || $isPublished) {
                                             $metaTitleTagsOptions['disabled'] = 'disabled';
                                         }
                                     @endphp
@@ -443,7 +450,7 @@
                                             'id' => 'metaKeywords'
                                         ];
 
-                                        if (!$isCollaborator) {
+                                        if (!$isCollaborator || $isPublished) {
                                             $keywordOptions['disabled'] = 'disabled';
                                         }
                                     @endphp
@@ -461,7 +468,7 @@
                                             'id' => 'metaDescriptor'
                                         ];
 
-                                        if (!$isCollaborator) {
+                                        if (!$isCollaborator || $isPublished) {
                                             $metaDescriptorOptions['disabled'] = 'disabled';
                                         }
                                     @endphp
@@ -517,7 +524,7 @@
                         </div>
                         @endif
 
-                        <div class="input-form-group @if (!$isCollaborator) hide @endif">
+                        <div class="input-form-group @if (!$isCollaborator || $isPublished) hide @endif">
                             <div class="dropzone" id='image-uploader'>
                             </div>
                         </div>
