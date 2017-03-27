@@ -43,12 +43,6 @@
         },
     })
 
-    $('#open-collab-modal').click(function(event) {
-        event.preventDefault();
-        var collabModal = new AddIdeaCollaboratorModalView();
-        collabModal.showModal();
-    });
-
     var collaborators = new CollaboratorCollection();
 
     collaborators.on('add', function(model) {
@@ -62,5 +56,11 @@
     });
 
     collaborators.populateList();
+
+    $('#open-collab-modal').click(function(event) {
+        event.preventDefault();
+        var collabModal = new AddIdeaCollaboratorModalView({idea : idea_obj, collaborators: collaborators});
+        collabModal.showModal();
+    });
 
 })();

@@ -141,6 +141,9 @@ var AddIdeaCollaboratorModalView = Backbone.View.extend({
             return;
         }
 
+        let inviteBtn = this.$el.find('button.invite-users');
+        inviteBtn.attr('disabled', 'disabled');
+
         $.ajax({
             method: 'post',
             url: this.getUrl(),
@@ -151,6 +154,7 @@ var AddIdeaCollaboratorModalView = Backbone.View.extend({
         .then(function(response) {
             $('#ideas-collaborator-list').html('');
             this.collaborators.populateList();
+            inviteBtn.removeAttr('disabled');
             this.dismissModal();
         }.bind(this));
     },
