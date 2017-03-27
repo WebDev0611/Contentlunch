@@ -630,6 +630,9 @@
 @stop
 
 @section('scripts')
+<script>
+    var TWEET_CONTENT_TYPE = {!! App\ContentType::whereName('Tweet')->first()->id !!};
+</script>
 <script type='text/javascript'>
     (function() {
 

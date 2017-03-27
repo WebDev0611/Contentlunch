@@ -39,7 +39,6 @@ $(function() {
    });
 
     $('form').submit(function(event) {
-        var TWEET_CONTENT_TYPE = "17";
         var MAX_TWEET_CHARACTERS = 140;
         var selectedContentType = $('#contentType').val();
 
@@ -55,6 +54,8 @@ $(function() {
         if (characterCounter.isTweet()) {
             characterCounter.show();
             characterCounter.update(contentEditor.getContent());
+        } else {
+            characterCounter.hide();
         }
     }
 
