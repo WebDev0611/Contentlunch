@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Auth;
 
 class CampaignCollaboratorsController extends Controller
 {
+    /**
+     * Listing of campaign collaborators.
+     *
+     * @param Request $request
+     * @param Campaign $campaign
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(Request $request, Campaign $campaign)
     {
         $possibleCollaborators = $campaign->account->users;
@@ -50,5 +57,19 @@ class CampaignCollaboratorsController extends Controller
 
             return $user;
         });
+    }
+
+    /**
+     * Updates campaign collaborators.
+     *
+     * @param Request $request
+     * @param Campaign $campaign
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, Campaign $campaign)
+    {
+        $campaign->collaborators()->sync($request->input('authors'));
+
+        return response()->json(['data' => 'ok']);
     }
 }
