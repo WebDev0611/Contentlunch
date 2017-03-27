@@ -14,7 +14,7 @@
 		className: "col-md-6",
 		tagName: "div",
 		events: {
-			"click input": "select_content"
+			"click input": "selectContent"
 		},
 
 		template: _.template(`
@@ -25,7 +25,7 @@
         `),
 
 		initialize() {
-			this.listenTo(this.model, "remove", this.removeFromDOM);
+			// this.listenTo(this.model, "remove", this.removeFromDOM);
 		},
 
 		render() {
@@ -38,7 +38,7 @@
 			this.$el.fadeOut(200, () => that.$el.remove());
 		},
 
-		select_content() {
+		selectContent() {
 			if (!this.model.get('selected')) {
 				this.model.set('selected', true);
 			} else {
@@ -312,13 +312,14 @@
         $('#topic-search').click(topicSearch);
         $('#topic-search-val').keyup(topicInputKeyUpHandler);
 
-		long_tail_results.on('add',function(m){
-			var result = new result_view({model: m});
+		long_tail_results.on('add', function(model) {
+			let result = new result_view({ model });
 			result.render();
 			result.$el.hide();
 			result.$el.fadeIn();
 			$('#long-tail-results').append( result.el );
 		});
+
 		long_tail_results.on('change', function(l){
 			if(l.get('selected')){
 				new_idea.attributes.content.add(l);
