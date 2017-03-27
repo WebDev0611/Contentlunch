@@ -158,4 +158,14 @@
 var idea_obj = {!! $idea !!};
 </script>
 <script src="/js/idea_editor.js"></script>
+<script>
+    //tasks
+    $('#add-task-button').click(function() {
+        add_task(addTaskCallback);
+    });
+
+    function addTaskCallback(task) {
+        $('#addTaskModal').modal('hide');
+    }
+</script>
 @stop
