@@ -259,18 +259,20 @@
             }
         },
 
-        populateConnections: function() {
+        populateConnections() {
             let $connectionTypeSelect = $("#connectionType");
-            if($connectionTypeSelect.find("option").length === 0){
+
+            if ($connectionTypeSelect.find("option").length === 0) {
                 $.ajax({
                     url: "/api/connections",
+
                     success: function(response) {
                         let connections = response.data,
                             $options = $("<div>");
 
                         $options.append($("<option>", {value: "none", text: "-- Select Connection --", selected: true}));
 
-                        for(let i=0; i<connections.length; i++){
+                        for (let i = 0; i < connections.length; i++) {
                             $options.append($("<option>", {
                                 value: connections[i].id,
                                 text: connections[i].name,
