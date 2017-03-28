@@ -23,9 +23,14 @@ class ConnectionController extends Controller
     }
 
     public function index (Request $request) {
-        $contentTypeId = $request->get('content_type');
+        return response()->json([
+            'data' => $this->accountConnections($request)
+        ]);
+    }
 
-        $data = $this->selectedAccount
+    protected function accountConnections($request)
+    {
+        return $this->selectedAccount
             ->connections()
             ->active()
             ->succesful()
@@ -33,13 +38,11 @@ class ConnectionController extends Controller
                 'connections.*,
                 content_types.name as content_type,
                 content_types.id as content_type_id')
-            ->join('content_types', 'content_types.provider_id', '=', 'connections.provider_id');
-
-        if ($contentTypeId) {
-            $data = $data->where('content_types.id', $contentTypeId);
-        }
-
-        return response()->json(['data' => $data->get()]);
+            ->join('content_types', 'content_types.provider_id', '=', 'connections.provider_id')
+            ->when($request->input('content_type'), function($query) use ($request) {
+                $query->where('content_types.id', $request->input('content_type'));
+            })
+            ->get();
     }
 
     private function saveParametersToSession (Request $request) {
