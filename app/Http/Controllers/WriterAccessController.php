@@ -274,6 +274,7 @@ class WriterAccessController extends Controller
 
         if (isset($responseContent->fault)) {
             $errorData = [
+                'partial_order_id' => $partialOrder->id,
                 'user_name' => Auth::user()->name,
                 'user_email' => Auth::user()->email,
                 'acc_id' => Auth::user()->selectedAccount->id,

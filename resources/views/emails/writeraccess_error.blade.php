@@ -9,6 +9,7 @@
         This is an automatic email notification from Content Launch app triggered by WriterAccess error when trying to place the order.
         <br><br>
         <b>Order details:</b> <br>
+        Partial Order ID: {{ $data['partial_order_id'] }} <br>
         User name: {{ $data['user_name'] }} <br>
         User email: {{ $data['user_email'] }} <br>
         Account ID: {{ $data['acc_id'] }} <br>
