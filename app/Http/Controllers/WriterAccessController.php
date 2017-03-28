@@ -6,6 +6,7 @@ use App\WriterAccessPrice;
 use DateTime;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Stripe\Stripe;
 use Stripe\ApiRequestor;
 use Stripe\HttpClient\CurlClient;
@@ -267,13 +268,23 @@ class WriterAccessController extends Controller
             return $this->redirectToOrderReview($partialOrder, "We're sorry, your card was declined. Please try another card.", 'danger');
         }
 
-
         // Now that they've paid, lets create the order.
         $response = $this->post('/orders', $order->toArray());
         $responseContent = json_decode($response->getContent());
 
         if (isset($responseContent->fault)) {
-            return $this->redirectToOrderReview($partialOrder, $responseContent->fault, 'danger');
+            $errorData['user_name'] = Auth::user()->name;
+            $errorData['user_email'] = Auth::user()->email;
+            $errorData['acc_id'] = Auth::user()->selectedAccount->id;
+            $errorData['api_response'] = $responseContent->fault;
+            Mail::send('emails.writeraccess_error', ['data' => $errorData], function($message) {
+                $message->from("no-reply@contentlaunch.com", "Content Launch")
+                    ->to('jon@contentlaunch.com')
+                    ->subject('WriterAccess API error occurred');
+            });
+
+            $errorMsg = 'An error occurred while trying to place your order. Please contact ContentLaunch support for more info. Thanks.';
+            return $this->redirectToOrderReview($partialOrder, $errorMsg, 'danger');
         }
 
         return redirect()
