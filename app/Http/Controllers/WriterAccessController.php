@@ -273,10 +273,13 @@ class WriterAccessController extends Controller
         $responseContent = json_decode($response->getContent());
 
         if (isset($responseContent->fault)) {
-            $errorData['user_name'] = Auth::user()->name;
-            $errorData['user_email'] = Auth::user()->email;
-            $errorData['acc_id'] = Auth::user()->selectedAccount->id;
-            $errorData['api_response'] = $responseContent->fault;
+            $errorData = [
+                'user_name' => Auth::user()->name,
+                'user_email' => Auth::user()->email,
+                'acc_id' => Auth::user()->selectedAccount->id,
+                'api_response' => $responseContent->fault
+            ];
+
             Mail::send('emails.writeraccess_error', ['data' => $errorData], function($message) {
                 $message->from("no-reply@contentlaunch.com", "Content Launch")
                     ->to('jon@contentlaunch.com')
