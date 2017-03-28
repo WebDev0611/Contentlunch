@@ -52,9 +52,7 @@
                                         </div>
                                         <div class="col-md-4 bulk-order-step">
                                             <h4 class="text-center">STEP 3</h4>
-                                            <div class="input-form-group">
-                                                <div class="dropzone" id='bulk-uploader'>
-                                                </div>
+                                            <div class="dropzone" id='bulk-uploader'>
                                             </div>
                                         </div>
                                     </div>
@@ -138,14 +136,10 @@
             dictDefaultMessage: "Drop the edited file here."
         });
 
-        $("#bulk-uploader .dz-message").before($("<img>", {
-            src: "/images/excel_upload.png",
-            class: "bulk-step-image"
-        }));
+        var hideUploaderImage = function() { return $("#bulk-uploader").addClass('no-background'); };
 
-        fileUploader.on("drop", function(e){
-           $("#bulk-uploader .bulk-step-image").hide();
-        });
+        fileUploader.on("drop", hideUploaderImage);
+        fileUploader.on('addedfile', hideUploaderImage);
 
         fileUploader.on('success', function(file, response) {
             var hiddenField = $('<input/>', {
