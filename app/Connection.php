@@ -8,8 +8,7 @@ use App\Account;
 class Connection extends Model {
 
     protected $hidden = [ 'created_at', 'updated_at' ];
-    protected $fillable = ['name', 'provider_id', 'active', 'user_id', 'settings'];
-
+    protected $fillable = ['name', 'provider_id', 'active', 'successful', 'user_id', 'account_id', 'settings'];
 
     public function provider()
     {
