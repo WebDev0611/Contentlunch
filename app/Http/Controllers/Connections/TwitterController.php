@@ -4,17 +4,10 @@ namespace App\Http\Controllers\Connections;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Session;
 use Redirect;
 use Input;
-use Auth;
 use Exception;
-
-use App\Connection;
-use App\TwitterConnection;
-use App\Provider;
 use Twitter;
 
 class TwitterController extends BaseConnectionController

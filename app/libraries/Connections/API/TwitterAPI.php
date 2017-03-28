@@ -5,7 +5,6 @@ namespace Connections\API;
 use Exception;
 use Twitter;
 use Session;
-use Log;
 
 class TwitterAPI
 {

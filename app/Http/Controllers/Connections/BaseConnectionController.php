@@ -113,7 +113,8 @@ abstract class BaseConnectionController extends Controller
     private function activateConnection(array $connectionData, $activateAccount = true)
     {
         if ($activateAccount) {
-            $connectionData = collect([ 'active' => true, 'successful' => true ])->merge($connectionData)->toArray();
+            $connectionData['active'] = true;
+            $connectionData['successful'] = true;
         }
 
         return $connectionData;
