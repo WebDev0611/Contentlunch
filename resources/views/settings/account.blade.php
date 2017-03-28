@@ -17,8 +17,11 @@
                 @include('settings.partials.navigation')
             </div>
 
+            @include('elements.freemium-alert', ['restriction' => 'try out all features of the app, but some functionality is limited'])
+
             <div class="panel-container">
-                @if ($errors->any())
+
+            @if ($errors->any())
                     <div class="alert alert-danger" id="formError">
                         <p><strong>Oops! We had some errors:</strong>
                         <ul>

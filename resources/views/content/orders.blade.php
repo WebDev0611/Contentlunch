@@ -22,14 +22,19 @@
 
 @section('content')
     <div class="workspace">
+
         <div class="panel clearfix">
+
             <div class="panel">
                 @include('content.partials.dashboard.panel_tabs')
+
+                @include('elements.freemium-alert', ['restriction' => 'try out all features of the app, but some functionality is limited'])
+
                 @include('content.partials.dashboard.order_filter')
 
                 <div class="create-panel-container {{$countOrders !== 0 ? "no-padding" : ""}} order-container hide-over-10">
 
-                    @forelse ($orders as $order)
+                @forelse ($orders as $order)
                         @include('content.partials.dashboard.orders_loop')
                     @empty
                         <div class="alert alert-info alert-forms" role="alert"><p>No orders at this moment.</p></div>

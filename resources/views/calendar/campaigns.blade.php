@@ -6,6 +6,9 @@ var campaigns = {!! $campaigns !!};
 </script>
 <div class="workspace">
     <div class="calendar-container">
+
+        @include('elements.freemium-alert', ['restriction' => 'create only one calendar'])
+
         <div class="calendar-navigation">
             <ul class="calendar-navigation-menu">
                 <li>

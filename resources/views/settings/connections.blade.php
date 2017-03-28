@@ -9,6 +9,9 @@
                 <!-- navigation -->
                 @include('settings.partials.navigation')
             </div>
+
+            @include('elements.freemium-alert', ['restriction' => 'try out all features of the app, but some functionality is limited'])
+
             <div class="panel-container">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">

@@ -26,6 +26,9 @@
                     </li>
                 </ul>
             </div>
+
+            @include('elements.freemium-alert', ['restriction' => 'create only ten ideas per month'])
+
             <input type="text" class="plan-panel-search" placeholder="Quick Search">
             <div id="idea-container">
             </div>

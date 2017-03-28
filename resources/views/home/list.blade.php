@@ -2,9 +2,13 @@
 
 @section('content')
 
+    @include('elements.freemium-alert', ['restriction' => 'try out all features of the app, but some functionality is limited'])
+
     <div class="workspace">
         <div class="container-fluid">
+
             <div class="row">
+
                 <div class="col-md-2">
                     <incomplete-task-counter></incomplete-task-counter>
                 </div>
