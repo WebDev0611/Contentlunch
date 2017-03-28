@@ -22,7 +22,7 @@ class Connection extends Model {
 
     public function scopeActive($query)
     {
-        return $query->where('active', true);
+        return $query->where("connections.active", true);
     }
 
     public function scopeSuccesful($query)
