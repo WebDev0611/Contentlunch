@@ -251,8 +251,8 @@
 		var long_tail_results = new long_tail_collection();
 		var short_tail_results = new short_tail_collection();
 
-		const shortTailFilter = result => result.keyword.split(' ').length <= 2;
-		const longTailFilter = result => result.keyword.split(' ').length >= 3;
+		const shortTailFilter = result => result.keyword.split(' ').length <= 3;
+		const longTailFilter = result => result.keyword.split(' ').length >= 4;
 		const v_sort = (a, b) => b.volume - a.volume;
 		const map_result = model => {
 			return {
