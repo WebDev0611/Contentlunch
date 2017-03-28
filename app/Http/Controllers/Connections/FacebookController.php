@@ -126,6 +126,6 @@ class FacebookController extends BaseConnectionController
 
     protected function redirectRoute()
     {
-        return $this->isOnboarding ? 'onboardingConnect' : 'connectionIndex';
+        return $this->isOnboarding ? 'onboardingConnect' : 'connections.index';
     }
 }
