@@ -63,11 +63,16 @@ class TaskController extends Controller
     {
         $task = $this->createTaskFromRequest($request);
 
-        $this->saveAssignedUsers($request, $task);
         $this->saveAttachments($request, $task);
         $this->saveAsContentTask($request, $task);
         $this->saveAsCampaignTask($request, $task);
         $this->saveAsCalendarTask($request, $task);
+
+        if (!$assignedUsers = $request->input('assigned_users')) {
+            $assignedUsers = [ Auth::id() ];
+        }
+
+        $task->assignUsers($assignedUsers);
 
         return $this->taskResponse($task);
     }
@@ -94,11 +99,6 @@ class TaskController extends Controller
             'account_id' => Account::selectedAccount()->id,
             'status' => 'open',
         ]);
-    }
-
-    private function saveAssignedUsers(Request $request, Task $task)
-    {
-        $task->assignUsers($request->input('assigned_users'));
     }
 
     private function saveAttachments(Request $request, Task $task)
@@ -210,7 +210,8 @@ class TaskController extends Controller
             'due_date' => $request->input('due_date'),
         ]);
 
-        $this->saveAssignedUsers($request, $task);
+        $task->assignUsers($request->input('assigned_users', []));
+
         $this->saveAttachments($request, $task);
 
         return response()->json(['success' => true, 'task' => $task ]);
