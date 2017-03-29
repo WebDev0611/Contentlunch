@@ -57,9 +57,6 @@ class WriterAccessBulkOrder extends Job implements ShouldQueue
     public function handle(){
         echo "\nHandling the Bulk order\n";
 
-        return response('stop bulk', 200);
-
-
         if(count($this->orders) === 0){
             echo "\nNo orders found.\n\n";
             return;
