@@ -403,9 +403,7 @@ class WriterAccessController extends Controller
     }
 
     public function bulkOrderSubmit(Request $request, WriterAccessPartialOrder $orderDetails){
-
         try{
-
             $user = Auth::user();
             $orders = [];
             $price = 0.00;
@@ -418,6 +416,7 @@ class WriterAccessController extends Controller
                 }
 
                 $uploadRows = Excel::load($orderDetails['bulk_file'])->get();
+
                 foreach($uploadRows as $row){
 
                     $order = new Order();
@@ -456,7 +455,7 @@ class WriterAccessController extends Controller
                 ->with("orders", $orders);
 
         }catch(Exception $e){
-            return redirect()->route('orderReview', $order)->with('errors', $e->getMessage());
+            return $this->redirectToOrderReview($orderDetails, $e->getMessage(), 'danger');
         }
     }
 

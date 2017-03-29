@@ -38,7 +38,7 @@ class WriterAccessBulkOrder extends Job implements ShouldQueue
      * @param Order[] $orders
      * @param Request $originalRequest
      */
-    public function __construct($bulkOrderStatusId, User $user, array $orders, $apiProject = null, $apiProjectId = null, string $stripeToken, string $stripeApiKey, float $totalOrderPrice){
+    public function __construct($bulkOrderStatusId, User $user, array $orders, $apiProject = null, $apiProjectId = null, $stripeToken, $stripeApiKey, $totalOrderPrice){
         $this->bulkOrderStatus = WriterAccessBulkOrderStatus::find($bulkOrderStatusId);
         $this->user = $user;
         $this->orders = $orders;
@@ -56,6 +56,9 @@ class WriterAccessBulkOrder extends Job implements ShouldQueue
      */
     public function handle(){
         echo "\nHandling the Bulk order\n";
+
+        return response('stop bulk', 200);
+
 
         if(count($this->orders) === 0){
             echo "\nNo orders found.\n\n";
