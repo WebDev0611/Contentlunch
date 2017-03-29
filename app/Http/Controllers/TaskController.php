@@ -98,7 +98,13 @@ class TaskController extends Controller
 
     private function saveAssignedUsers(Request $request, Task $task)
     {
-        $task->assignUsers($request->input('assigned_users'));
+        $assignedUsers = $request->input('assigned_users');
+
+        if (!$assignedUsers) {
+            $assignedUsers = [ Auth::user()->id ];
+        }
+
+        $task->assignUsers($assignedUsers);
     }
 
     private function saveAttachments(Request $request, Task $task)
