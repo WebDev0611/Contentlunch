@@ -221,11 +221,12 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param Task $task
      * @return \Illuminate\Http\Response
+     * @internal param Request $request
+     * @internal param int $id
      */
-    public function close(Request $request, Task $task)
+    public function close(Task $task)
     {
         $response = response()->json([ 'success' => false ], 403);
 
