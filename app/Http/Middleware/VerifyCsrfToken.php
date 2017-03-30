@@ -21,7 +21,8 @@ class VerifyCsrfToken extends BaseVerifier
         'edit/images',
         'edit/attachments',
         'get_content_written/orders/*/submit',
-        'subscription'
+        'subscription',
+        'stripe-webhook'
     ];
 
 
