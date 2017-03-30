@@ -126,7 +126,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
 
         Route::resource('/task/add', 'TaskController@store');
         Route::post('task/attachments', 'TaskAttachmentsController@store');
-        Route::get('task/show/{task}', 'TaskController@show')->name('taskShow');
+        Route::get('task/show/{task}', 'TaskController@edit')->name('tasks.edit');
         Route::post('task/update/{task}', 'TaskController@update');
         Route::post('task/close/{task}', 'TaskController@close');
         Route::delete('task/{task}', 'TaskController@destroy');

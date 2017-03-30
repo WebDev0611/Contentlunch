@@ -167,29 +167,24 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for editing the specified resource.
      *
      * @param Task $task
      * @return View
+     * @internal param int $id
      */
-    public function show(Task $task)
+    public function edit(Task $task)
     {
         if (Auth::user()->cant('show', $task)) {
             abort(404);
         }
 
-        return view('task.index', compact('task'));
-    }
+        $data = [
+            'task' => $task,
+            'assignableUsers' => Account::selectedAccount()->getUsers(),
+        ];
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, $id)
-    {
-        //
+        return view('task.index', $data);
     }
 
     /**

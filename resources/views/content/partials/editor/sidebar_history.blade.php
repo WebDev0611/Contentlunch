@@ -50,7 +50,7 @@
                         $task = $adjustment['adjustment']->task;
                     @endphp
                     {{ $adjustment['adjustment']->statusChangeDescription() }}
-                    <a href="{{ route('taskShow', $task->id) }}" target="_blank" class="btn btn-link showChanges">Show Task</a>
+                    <a href="{{ route('tasks.edit', $task->id) }}" target="_blank" class="btn btn-link showChanges">Show Task</a>
                 </div>
             @endif
         </li>
