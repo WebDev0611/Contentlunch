@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -12,32 +13,46 @@ class StripeController extends Controller {
 
     public function webhook (Request $request)
     {
-        return response('ok', 200);
         Stripe::setApiKey(Config::get('services.stripe.secret'));
 
-        $event_json = json_decode($request->all());
-        $event = \Stripe\Event::retrieve($event_json->id);
+        $event = \Stripe\Event::retrieve($request->id);
 
         if (isset($event)) {
+
+            $customer = \Stripe\Customer::retrieve($event->data->object->customer);
+            $user = User::whereEmail($customer->email)->firstOrFail();
+
             switch ($event->type) {
                 case 'invoice.payment_failed' :
-                    $customer = \Stripe\Customer::retrieve($event->data->object->customer);
                     $email = $customer->email;
                     $amount = sprintf('$%0.2f', $event->data->object->amount_due / 100.0);
-                    // TODO
                     break;
                 case 'customer.subscription.updated':
-                    // TODO
+                    $this->updateSubscription();
                     break;
                 case 'customer.subscription.deleted':
-                    // TODO
+                    $this->deleteSubscription();
+                    break;
+                default:
+                    // Return 2xx status for events that we're not dealing with, so Stripe doesn't have to re-send them
+                    return response('ignoring', 202);
                     break;
             }
 
             return response($event, 200);
         }
         else {
-            return response('error', 404);
+            return response('error', 400);
         }
+    }
+
+    private function updateSubscription ()
+    {
+
+    }
+
+    private function deleteSubscription ()
+    {
+
     }
 }
