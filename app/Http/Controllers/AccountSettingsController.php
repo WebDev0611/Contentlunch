@@ -100,7 +100,15 @@ class AccountSettingsController extends Controller {
             if ($isAutoRenew) {
                 // Stripe Subscription
                 $plan = $this->getStripePlan($request);
-                $subscription = $this->createStripeSubscription($customerId, $plan->id);
+                $currentStripeSubscription = $this->getCurrentStripeSubscription($customerId);
+
+                if($currentStripeSubscription !== null){
+                    // update current subscription
+                    $subscription = $this->updateStripeSubscription($currentStripeSubscription, $plan->id);
+                } else {
+                    // create new subscription
+                    $subscription = $this->createStripeSubscription($customerId, $plan->id);
+                }
 
                 $subscriptionData['start_date'] = date('Y-m-d', $subscription->current_period_start);
                 $subscriptionData['expiration_date'] = date('Y-m-d', $subscription->current_period_end);
@@ -202,12 +210,29 @@ class AccountSettingsController extends Controller {
         ]);
     }
 
+    protected function getCurrentStripeSubscription($customerId) {
+        try {
+            $subscriptionList = \Stripe\Subscription::all(['customer' => $customerId, 'status' => 'active']);
+        } catch (\Stripe\Error\Base $e) {
+            Log::error($e->getMessage());
+        }
+
+        return (count($subscriptionList->data) > 0) ? $subscriptionList->data[0] : null;
+    }
+
     protected function createStripeSubscription ($customerId, $planId)
     {
         return \Stripe\Subscription::create([
             "customer" => $customerId,
             "plan"     => $planId,
         ]);
+    }
+
+    protected function updateStripeSubscription ($subscription, $planId)
+    {
+        $subscription->plan = $planId;
+        $subscription->save();
+        return $subscription;
     }
 
     protected function redirectToSubscription ($message, $message_type = 'success')
