@@ -211,3 +211,13 @@ let $el = $('[data-toggle="modal"]');
 if ($el.length) {
     $el.data('backdrop', 'static');
 }
+
+$('.logout-button').click(function(event) {
+    event.preventDefault();
+
+    if (typeof Intercom !== 'undefined') {
+        Intercom('shutdown');
+    }
+
+    location.href = this.href;
+});

@@ -67,7 +67,7 @@
                 <i class="icon-checklist"></i>
             </button>
 
-            <a href='/logout' class="search-bar-button">
+            <a href='/logout' class="logout-button search-bar-button">
                 Logout
             </a>
             <!--
