@@ -17,8 +17,9 @@ class StripeController extends Controller {
 
         $event = \Stripe\Event::retrieve($request->id);
 
-        if (isset($event)) {
+        if (isset($event) && isset($event->data->object->customer)) {
 
+            $event = \Stripe\Event::retrieve($event->id); // Verify the event by fetching it from Stripe
             $customer = \Stripe\Customer::retrieve($event->data->object->customer);
             $user = User::whereEmail($customer->email)->firstOrFail();
 
@@ -27,15 +28,14 @@ class StripeController extends Controller {
                     $email = $customer->email;
                     $amount = sprintf('$%0.2f', $event->data->object->amount_due / 100.0);
                     break;
+                case 'customer.subscription.created':
+                    $this->createSubscription();
+                    break;
                 case 'customer.subscription.updated':
                     $this->updateSubscription();
                     break;
                 case 'customer.subscription.deleted':
                     $this->deleteSubscription();
-                    break;
-                default:
-                    // Return 2xx status for events that we're not dealing with, so Stripe doesn't have to re-send them
-                    return response('ignoring', 202);
                     break;
             }
 
@@ -44,6 +44,11 @@ class StripeController extends Controller {
         else {
             return response('error', 400);
         }
+    }
+
+    private function createSubscription ()
+    {
+
     }
 
     private function updateSubscription ()

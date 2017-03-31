@@ -79,7 +79,7 @@ class AccountSettingsController extends Controller {
             return redirect()->route('subscription')->with('errors', $validation->errors());
         }
 
-        // If free plan is selected: TODO: handle plan downgrade
+        // If free plan is selected: TODO: handle plan downgrade: remove Stripe subscription if it exists
         if ($request->input('plan-slug') == 'free') {
             Account::selectedAccount()->subscribe(SubscriptionType::whereSlug('free')->first());
 
@@ -110,6 +110,7 @@ class AccountSettingsController extends Controller {
                     $subscription = $this->createStripeSubscription($customerId, $plan->id);
                 }
 
+                $subscriptionData['stripe_subscription_id'] = $subscription->id;
                 $subscriptionData['start_date'] = date('Y-m-d', $subscription->current_period_start);
                 $subscriptionData['expiration_date'] = date('Y-m-d', $subscription->current_period_end);
             }

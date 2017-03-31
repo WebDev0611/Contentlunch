@@ -20,6 +20,7 @@ class Subscription extends Model
         'expiration_date',
         'auto_renew',
         'valid',
+        'stripe_subscription_id'
     ];
 
     public function subscriptionType()
