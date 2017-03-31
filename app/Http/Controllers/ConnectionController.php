@@ -33,7 +33,6 @@ class ConnectionController extends Controller
         return $this->selectedAccount
             ->connections()
             ->active()
-            ->succesful()
             ->selectRaw(
                 'connections.*,
                 content_types.name as content_type,
