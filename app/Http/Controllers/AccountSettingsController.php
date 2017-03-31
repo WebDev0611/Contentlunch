@@ -96,19 +96,15 @@ class AccountSettingsController extends Controller {
             $this->initStripe();
             $customerId = !empty($request->input('stripe-customer-id')) ? $request->input('stripe-customer-id') : $this->createStripeCustomer($request)->id;
 
-            // Handle one-time payment or subscription
+            // Handle one-time payment (charge) or subscription
             if ($isAutoRenew) {
                 // Stripe Subscription
                 $plan = $this->getStripePlan($request);
                 $currentStripeSubscription = $this->getCurrentStripeSubscription($customerId);
 
-                if($currentStripeSubscription !== null){
-                    // update current subscription
-                    $subscription = $this->updateStripeSubscription($currentStripeSubscription, $plan->id);
-                } else {
-                    // create new subscription
-                    $subscription = $this->createStripeSubscription($customerId, $plan->id);
-                }
+                $subscription = ($currentStripeSubscription !== null) ?
+                    $this->updateStripeSubscription($currentStripeSubscription, $plan->id) : // update current subscription
+                    $this->createStripeSubscription($customerId, $plan->id);                 // create new subscription
 
                 $subscriptionData['stripe_subscription_id'] = $subscription->id;
                 $subscriptionData['start_date'] = date('Y-m-d', $subscription->current_period_start);
@@ -141,7 +137,7 @@ class AccountSettingsController extends Controller {
         $user->stripe_customer_id = $customerId;
         $user->save();
 
-        // Save new subscription
+        // Save new subscription TODO: move this to Stripe webhook controller (on "customer.subscription.created" action)
         $subscriptionType = SubscriptionType::where('slug', $request->input('plan-slug'))->first();
         Account::selectedAccount()->subscribe($subscriptionType, $subscriptionData);
 
@@ -211,7 +207,8 @@ class AccountSettingsController extends Controller {
         ]);
     }
 
-    protected function getCurrentStripeSubscription($customerId) {
+    protected function getCurrentStripeSubscription ($customerId)
+    {
         try {
             $subscriptionList = \Stripe\Subscription::all(['customer' => $customerId, 'status' => 'active']);
         } catch (\Stripe\Error\Base $e) {
@@ -233,6 +230,7 @@ class AccountSettingsController extends Controller {
     {
         $subscription->plan = $planId;
         $subscription->save();
+
         return $subscription;
     }
 
