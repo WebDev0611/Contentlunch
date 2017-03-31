@@ -45,7 +45,7 @@ class OnboardingInviteController extends Controller
         $data = [
             'link' => $this->createInviteUrl($email),
             'user' => Auth::user(),
-            'account' => Account::selectedAccount(),
+            'account' => Account::selectedAccount()->proxyToParent(),
         ];
 
         Mail::send('emails.invite.email_invite', $data, function($message) use ($email) {
@@ -57,7 +57,7 @@ class OnboardingInviteController extends Controller
 
     private function createInviteUrl($email)
     {
-        $account = Account::selectedAccount();
+        $account = Account::selectedAccount()->proxyToParent();
         $accountInvite = AccountInvite::create([
             'email' => $email,
             'account_id' => $account->id,

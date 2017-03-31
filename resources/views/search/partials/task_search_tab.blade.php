@@ -16,7 +16,7 @@
                 <strong>{{ $task->present()->dueDateFormat }}</strong>
             </li>
             <li>
-                <a href="{{ route('taskShow', $task->id) }}"><strong>Edit Task</strong></a>
+                <a href="{{ route('tasks.edit', $task->id) }}"><strong>Edit Task</strong></a>
             </li>
         </ul>
     </div>

@@ -139,7 +139,7 @@
                         <div class="input-form-group">
                             <label for="#">Assign Task To</label>
                             <ul class="sidemodal-list-items" id='task-assignment-non-modal'>
-                                @foreach (\App\Account::selectedAccount()->users as $user)
+                                @foreach ($assignableUsers as $user)
                                     @php
                                         $isChecked = $task->isAssignedTo($user) ? 'checked="checked"' : '';
                                     @endphp

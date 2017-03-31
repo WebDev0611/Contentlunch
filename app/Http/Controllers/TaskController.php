@@ -63,11 +63,16 @@ class TaskController extends Controller
     {
         $task = $this->createTaskFromRequest($request);
 
-        $this->saveAssignedUsers($request, $task);
         $this->saveAttachments($request, $task);
         $this->saveAsContentTask($request, $task);
         $this->saveAsCampaignTask($request, $task);
         $this->saveAsCalendarTask($request, $task);
+
+        if (!$assignedUsers = $request->input('assigned_users')) {
+            $assignedUsers = [ Auth::id() ];
+        }
+
+        $task->assignUsers($assignedUsers);
 
         return $this->taskResponse($task);
     }
@@ -94,11 +99,6 @@ class TaskController extends Controller
             'account_id' => Account::selectedAccount()->id,
             'status' => 'open',
         ]);
-    }
-
-    private function saveAssignedUsers(Request $request, Task $task)
-    {
-        $task->assignUsers($request->input('assigned_users'));
     }
 
     private function saveAttachments(Request $request, Task $task)
@@ -167,29 +167,24 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for editing the specified resource.
      *
      * @param Task $task
      * @return View
+     * @internal param int $id
      */
-    public function show(Task $task)
+    public function edit(Task $task)
     {
         if (Auth::user()->cant('show', $task)) {
             abort(404);
         }
 
-        return view('task.index', compact('task'));
-    }
+        $data = [
+            'task' => $task,
+            'assignableUsers' => Account::selectedAccount()->getUsers(),
+        ];
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, $id)
-    {
-        //
+        return view('task.index', $data);
     }
 
     /**
@@ -210,7 +205,8 @@ class TaskController extends Controller
             'due_date' => $request->input('due_date'),
         ]);
 
-        $this->saveAssignedUsers($request, $task);
+        $task->assignUsers($request->input('assigned_users', []));
+
         $this->saveAttachments($request, $task);
 
         return response()->json(['success' => true, 'task' => $task ]);
@@ -220,11 +216,12 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param Task $task
      * @return \Illuminate\Http\Response
+     * @internal param Request $request
+     * @internal param int $id
      */
-    public function close(Request $request, Task $task)
+    public function close(Task $task)
     {
         $response = response()->json([ 'success' => false ], 403);
 

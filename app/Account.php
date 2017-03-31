@@ -302,6 +302,6 @@ class Account extends Model
 
     public function getUsers($proxyToParent = true)
     {
-        return $this->proxyToParent()->users()->get();
+        return $proxyToParent ? $this->proxyToParent()->users()->get() : $this->users()->get();
     }
 }
