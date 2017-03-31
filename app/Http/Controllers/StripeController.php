@@ -19,24 +19,21 @@ class StripeController extends Controller {
         $event = \Stripe\Event::retrieve($request->id);
 
         if (isset($event) && isset($event->data->object->customer)) {
-
             $event = \Stripe\Event::retrieve($event->id); // Verify the event by fetching it from Stripe
-            $customer = \Stripe\Customer::retrieve($event->data->object->customer);
-            $user = User::whereEmail($customer->email)->firstOrFail();
+            $object = $event->data->object;
 
             switch ($event->type) {
                 case 'invoice.payment_failed' :
-                    $email = $customer->email;
-                    $amount = sprintf('$%0.2f', $event->data->object->amount_due / 100.0);
+                    $this->failedPayment($object);
                     break;
                 case 'customer.subscription.created':
-                    $this->createSubscription($event);
+                    $this->createSubscription($object);
                     break;
                 case 'customer.subscription.updated':
-                    $this->updateSubscription($event);
+                    $this->updateSubscription($object);
                     break;
                 case 'customer.subscription.deleted':
-                    $this->deleteSubscription($event);
+                    $this->deleteSubscription($object);
                     break;
             }
 
@@ -47,24 +44,31 @@ class StripeController extends Controller {
         }
     }
 
-    private function createSubscription ($event)
+    private function createSubscription ($object)
     {
 
     }
 
-    private function updateSubscription ($event)
+    private function updateSubscription ($object)
     {
-        $subscription = Subscription::where('stripe_subscription_id', '=', $event->data->object->id)
-        ->active()
-        ->firstOrFail();
+        $subscription = Subscription::where('stripe_subscription_id', '=', $object->id)
+            ->active()
+            ->firstOrFail();
 
-        $subscription->start_date = date('Y-m-d', $event->data->object->current_period_start);
-        $subscription->expiration_date = date('Y-m-d', $event->data->object->current_period_end);
+        $subscription->start_date = date('Y-m-d', $object->current_period_start);
+        $subscription->expiration_date = date('Y-m-d', $object->current_period_end);
         $subscription->save();
     }
 
-    private function deleteSubscription ($event)
+    private function deleteSubscription ($object)
     {
 
+    }
+
+    private function failedPayment ($object)
+    {
+        //$customer = \Stripe\Customer::retrieve($object->customer);
+        //$email = $customer->email;
+        //$amount = sprintf('$%0.2f', $object->amount_due / 100.0);
     }
 }
