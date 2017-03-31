@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Subscription;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -29,13 +30,13 @@ class StripeController extends Controller {
                     $amount = sprintf('$%0.2f', $event->data->object->amount_due / 100.0);
                     break;
                 case 'customer.subscription.created':
-                    $this->createSubscription();
+                    $this->createSubscription($event);
                     break;
                 case 'customer.subscription.updated':
-                    $this->updateSubscription();
+                    $this->updateSubscription($event);
                     break;
                 case 'customer.subscription.deleted':
-                    $this->deleteSubscription();
+                    $this->deleteSubscription($event);
                     break;
             }
 
@@ -46,17 +47,23 @@ class StripeController extends Controller {
         }
     }
 
-    private function createSubscription ()
+    private function createSubscription ($event)
     {
 
     }
 
-    private function updateSubscription ()
+    private function updateSubscription ($event)
     {
+        $subscription = Subscription::where('stripe_subscription_id', '=', $event->data->object->id)
+        ->active()
+        ->firstOrFail();
 
+        $subscription->start_date = date('Y-m-d', $event->data->object->current_period_start);
+        $subscription->expiration_date = date('Y-m-d', $event->data->object->current_period_end);
+        $subscription->save();
     }
 
-    private function deleteSubscription ()
+    private function deleteSubscription ($event)
     {
 
     }
