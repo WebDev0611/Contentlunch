@@ -113,7 +113,7 @@ class CampaignController extends Controller
         $this->handleAttachments($request->input('attachments'), $campaign);
         $this->addNewContent($data, $campaign);
 
-        return $this->success('dashboard', "Campaign created: {$campaign->title}");
+        return $this->success('campaigns.index', "Campaign created: {$campaign->title}");
     }
 
     protected function addNewContent(array $requestData, Campaign $campaign)
@@ -175,7 +175,7 @@ class CampaignController extends Controller
         $this->handleAttachments($request->input('attachments'), $campaign);
         $this->addNewContent($request->all(), $campaign);
 
-        return $this->success('dashboard', "Campaign updated: $campaign->title");
+        return $this->success('campaigns.index', "Campaign updated: $campaign->title");
     }
 
     private function handleAttachments($files, $campaign)
