@@ -2,9 +2,13 @@
 
 use App\Limit;
 use App\SubscriptionType as Type;
+use App\User;
 use Illuminate\Database\Seeder;
 
-class SubscriptionTypesTableSeeder extends Seeder {
+class SubscriptionTypesTableSeeder extends Seeder
+{
+    protected $limits;
+
     /**
      * Run the database seeds.
      * @return void
@@ -14,11 +18,19 @@ class SubscriptionTypesTableSeeder extends Seeder {
         DB::table('subscription_types')->truncate();
         DB::table('limit_subscription_type')->truncate();
 
-        $limits = Limit::all()->keyBy('name');
+        $this->limits = Limit::all()->keyBy('name');
 
-        /**
-         * Free plan
-         */
+        $this->createFreePlan();
+        $this->createTrialPlan();
+        $this->createBasicPlan();
+        $this->createProPlan();
+        $this->setAdminAsPro();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+    }
+
+    protected function createFreePlan()
+    {
         $free = Type::create([
             'name' => 'Free',
             'price' => 0,
@@ -26,20 +38,20 @@ class SubscriptionTypesTableSeeder extends Seeder {
             'description' => 'Free account.'
         ]);
 
-        $free->addLimit($limits['topic_search'], 10);
-        $free->addLimit($limits['trend_search'], 10);
-        $free->addLimit($limits['ideas_created'], 10);
-        $free->addLimit($limits['content_launch'], 5);
-        $free->addLimit($limits['campaigns'], 3);
-        $free->addLimit($limits['content_edits'], 0);
-        $free->addLimit($limits['influencer_search'], 5);
-        $free->addLimit($limits['calendars'], 1);
-        $free->addLimit($limits['users_per_account'], 2);
-        $free->addLimit($limits['subaccounts_per_account'], 3);
+        $free->addLimit($this->limits['topic_search'], 10);
+        $free->addLimit($this->limits['trend_search'], 10);
+        $free->addLimit($this->limits['ideas_created'], 10);
+        $free->addLimit($this->limits['content_launch'], 5);
+        $free->addLimit($this->limits['campaigns'], 3);
+        $free->addLimit($this->limits['content_edits'], 0);
+        $free->addLimit($this->limits['influencer_search'], 5);
+        $free->addLimit($this->limits['calendars'], 1);
+        $free->addLimit($this->limits['users_per_account'], 2);
+        $free->addLimit($this->limits['subaccounts_per_account'], 3);
+    }
 
-        /**
-         * Trial plan
-         */
+    protected function createTrialPlan()
+    {
         $trial = Type::create([
             'name' => 'Trial',
             'price' => 0,
@@ -47,20 +59,20 @@ class SubscriptionTypesTableSeeder extends Seeder {
             'description' => 'Two week trial period.'
         ]);
 
-        $trial->addLimit($limits['topic_search'], 10);
-        $trial->addLimit($limits['trend_search'], 10);
-        $trial->addLimit($limits['ideas_created'], 10);
-        $trial->addLimit($limits['content_launch'], 5);
-        $trial->addLimit($limits['campaigns'], 3);
-        $trial->addLimit($limits['content_edits'], 0);
-        $trial->addLimit($limits['influencer_search'], 5);
-        $trial->addLimit($limits['calendars'], 1);
-        $trial->addLimit($limits['users_per_account'], 2);
-        $trial->addLimit($limits['subaccounts_per_account'], 3);
+        $trial->addLimit($this->limits['topic_search'], 10);
+        $trial->addLimit($this->limits['trend_search'], 10);
+        $trial->addLimit($this->limits['ideas_created'], 10);
+        $trial->addLimit($this->limits['content_launch'], 5);
+        $trial->addLimit($this->limits['campaigns'], 3);
+        $trial->addLimit($this->limits['content_edits'], 0);
+        $trial->addLimit($this->limits['influencer_search'], 5);
+        $trial->addLimit($this->limits['calendars'], 1);
+        $trial->addLimit($this->limits['users_per_account'], 2);
+        $trial->addLimit($this->limits['subaccounts_per_account'], 3);
+    }
 
-        /**
-         * Basic Plan
-         */
+    public function createBasicPlan()
+    {
         $basicMonthly = Type::create([
             'name' => 'Basic Monthly',
             'price' => 99.00,
@@ -75,12 +87,12 @@ class SubscriptionTypesTableSeeder extends Seeder {
             'description' => 'Basic plan restricts the number of users in the account to 5. All other functionalities are unlimited.'
         ]);
 
-        $basicMonthly->addLimit($limits['users_per_account'], 5);
-        $basicAnnually->addLimit($limits['users_per_account'], 5);
+        $basicMonthly->addLimit($this->limits['users_per_account'], 5);
+        $basicAnnually->addLimit($this->limits['users_per_account'], 5);
+    }
 
-        /**
-         * Pro Plan
-         */
+    public function createProPlan()
+    {
         $proMonthly = Type::create([
             'name' => 'Pro Monthly',
             'price' => 199.00,
@@ -95,9 +107,15 @@ class SubscriptionTypesTableSeeder extends Seeder {
             'description' => 'Pro plan restricts the number of users in the account to 10. All other functionalities are unlimited.'
         ]);
 
-        $proMonthly->addLimit($limits['users_per_account'], 10);
-        $proAnnually->addLimit($limits['users_per_account'], 10);
+        $proMonthly->addLimit($this->limits['users_per_account'], 10);
+        $proAnnually->addLimit($this->limits['users_per_account'], 10);
+    }
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+    protected function setAdminAsPro()
+    {
+        User::first()
+            ->accounts()
+            ->first()
+            ->subscribe(Type::findBySlug('pro-annually'));
     }
 }
