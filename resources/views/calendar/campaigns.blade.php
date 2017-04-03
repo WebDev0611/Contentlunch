@@ -150,13 +150,15 @@ var campaigns = {!! $campaigns !!};
             </div>
             <p class="calendar-task-list-popover-info">
                 Content
-                <% if (typeof(contents) !== "undefined" && contents !== null && contents.length) {
-                contents.forEach(function (content) { %>
-                    <strong><%= content.title %></strong>
-                <% });
-                } else { %>
-                <div class="clearfix"></div>
-                <i>Currently no content</i>
+                <% if (typeof(contents) !== "undefined" && contents !== null && contents.length) { %>
+                    <ul>
+                    <% contents.forEach(function (content) { %>
+                        <li><strong><%= content.title %></strong></li>
+                    <% }); %>
+                    </ul>
+                <% } else { %>
+                    <div class="clearfix"></div>
+                    <i>Currently no content</i>
                 <% } %>
             </p>
             <a href="<%= details_url %>" class="button button-extend text-uppercase">Details</a>
