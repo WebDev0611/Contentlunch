@@ -37,9 +37,9 @@ class TwitterAPI
     {
         $this->setupTwitterConnection();
 
-        if($this->content->type == "trend"){
+        if ($this->content->type == "trend") {
             $message = strip_tags($this->content->body);
-        }else{
+        } else {
             $this->uploadAttachments();
             $message = strip_tags($this->content->body);
         }
@@ -69,7 +69,9 @@ class TwitterAPI
             $response['error'] = 'The Twitter API returned an error: ' . $e->getMessage();
         }
 
-        $this->content->setPublished();
+        if (method_exists($this->content, 'setPublished')) {
+            $this->content->setPublished();
+        }
 
         return $response;
     }
