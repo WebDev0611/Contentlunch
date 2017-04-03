@@ -307,3 +307,16 @@ Route::get('/coming-soon',  function () {
 });
 
 Route::post('/stripe-webhook', 'StripeController@webhook');
+
+Route::get('/testmail',  function () {
+    $mailData = [
+        'confirmation_code' => 'dfhodfhdoifdsfsdf23123'
+    ];
+    Mail::send('emails.email_verify', $mailData, function($message) {
+        $message->from("no-reply@contentlaunch.com", "Content Launch")
+            ->to('noasdasd@sakdaosdk.ccc')
+            ->subject('Testing subject 123');
+    });
+    return response('sent', 200);
+});
+
