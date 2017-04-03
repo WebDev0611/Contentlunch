@@ -247,14 +247,14 @@
 	var idea_form = new create_idea_view({ el: '#createIdea', model: new_idea });
 
 	/* main page event setup */
-	$(function(){
+	$(function() {
 		var long_tail_results = new long_tail_collection();
 		var short_tail_results = new short_tail_collection();
 
 		const shortTailFilter = result => result.keyword.split(' ').length <= 3;
 		const longTailFilter = result => result.keyword.split(' ').length >= 4;
-		const v_sort = (a, b) => b.volume - a.volume;
-		const map_result = model => {
+		const volumeSort = (a, b) => b.volume - a.volume;
+		const mapResult = model => {
 			return {
 				keyword: model.keyword,
 				volume: model.volume,
@@ -280,12 +280,20 @@
 
         function populateLists(response) {
             $('span.input-form-button-action img').remove();
+            clearResults();
 
-            var longTailResults = response.results.filter(longTailFilter).map(map_result).sort(v_sort);
-            var shortTailResults = response.results.filter(shortTailFilter).map(map_result).sort(v_sort);
+            var longTailResults = response.results.filter(longTailFilter).map(mapResult).sort(volumeSort);
+            var shortTailResults = response.results.filter(shortTailFilter).map(mapResult).sort(volumeSort);
 
             short_tail_results.add(shortTailResults);
             long_tail_results.add(longTailResults);
+        }
+
+        function clearResults() {
+            $('#short-tail-results').html('');
+            $('#long-tail-results').html('');
+            long_tail_results.remove(long_tail_results.models);
+            short_tail_results.remove(short_tail_results.models);
         }
 
         function showErrorFeedback(response) {
@@ -297,11 +305,7 @@
             }
         }
 
-        const topicSearch = () => {
-            long_tail_results.remove(long_tail_results.models);
-            short_tail_results.remove(short_tail_results.models);
-            getTopicData($('#topic-search-val').val());
-        };
+        const topicSearch = () => getTopicData($('#topic-search-val').val());
 
         const topicInputKeyUpHandler = event => {
             const keyCode = event.keyCode;
@@ -325,9 +329,9 @@
 		});
 
 		long_tail_results.on('change', function(l){
-			if(l.get('selected')){
+			if (l.get('selected')) {
 				new_idea.attributes.content.add(l);
-			}else{
+			} else {
 				new_idea.attributes.content.remove(l);
 			}
 		});

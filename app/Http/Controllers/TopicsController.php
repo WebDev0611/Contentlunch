@@ -35,7 +35,6 @@ class TopicsController extends Controller
 
         // Get the cache
         $topic_cache = Redis::get($topic_cache_key);
-        $results = [];
 
         if (empty(unserialize($topic_cache))) {
             $results = $this->get_data($keyword);
