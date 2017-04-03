@@ -1,20 +1,37 @@
-<!DOCTYPE html>
-<html lang="en-US">
-<head>
-    <meta charset="utf-8">
-</head>
-<body>
-    <h2>Notification: WriterAccess API error occurred</h2>
+@php
+    $staticData = ['title' => 'WriterAccess API error occurred'];
+@endphp
+
+@extends('emails.layouts.master', $staticData)
+@section('content')
     <p>
-        This is an automatic email notification from Content Launch app triggered by WriterAccess error when trying to place the order.
-        <br><br>
-        <b>Order details:</b> <br>
-        Partial Order ID: {{ $data['partial_order_id'] }} <br>
-        User name: {{ $data['user_name'] }} <br>
-        User email: {{ $data['user_email'] }} <br>
-        Account ID: {{ $data['acc_id'] }} <br>
-        Timestamp: {{ date('M-d-Y H:i:s') }} <br>
-        WriterAccess response: {{ $data['api_response'] }} <br>
+        This is an automatic email notification from Content Launch app triggered by WriterAccess error when trying to place the order.<br><br>
+        <b>Order details:</b>
     </p>
-</body>
-</html>
+    <table>
+        <tr>
+            <td><b>Partial Order ID:</b></td>
+            <td>{{ $data['partial_order_id'] }}</td>
+        </tr>
+        <tr>
+            <td><b>User name:</b></td>
+            <td>{{ $data['user_name'] }}</td>
+        </tr>
+        <tr>
+            <td><b>User email:</b></td>
+            <td>{{ $data['user_email'] }}</td>
+        </tr>
+        <tr>
+            <td><b>Account ID:</b></td>
+            <td>{{ $data['acc_id'] }}</td>
+        </tr>
+        <tr>
+            <td><b>Timestamp:</b></td>
+            <td>{{ date('M-d-Y H:i:s') }}</td>
+        </tr>
+        <tr>
+            <td><b>WriterAccess response:</b></td>
+            <td>{{ $data['api_response'] }}</td>
+        </tr>
+    </table>
+@endsection

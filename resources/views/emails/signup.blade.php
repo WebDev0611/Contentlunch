@@ -1,20 +1,18 @@
-<!DOCTYPE html>
-<html lang="en-US">
-<head>
-<meta charset="utf-8">
-</head>
-<body>
-    <h2>Welcome to Content Launch!</h2>
+@php
+    $staticData = ['title' => 'Welcome to Content Launch!'];
+@endphp
+
+@extends('emails.layouts.master', $staticData)
+@section('content')
     <p>
-        Thank you for signing up at ContentLaunch!
+        Thank you for signing up at ContentLaunch! <br>
+        You can log into your private account:
     </p>
+    <a href="{{ route('login') }}">
+        <button>Click here to login</button>
+    </a>
     <p>
-        You can log into your private account at: <br>
-        <br>
-        <a href="{{ route('login') }}">{{ route('login') }}</a>
-        <br>
         Email: {{ $user->email }} <br>
         Password: <strong>Your chosen password</strong>
     </p>
-</body>
-</html>
+@endsection

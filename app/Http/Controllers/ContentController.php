@@ -268,13 +268,12 @@ class ContentController extends Controller
 
     public function store(Request $request)
     {
-        if (!$request->ajax()) {
-            $validator = $this->onSaveValidation($request->all());
+        $validator = $this->onSaveValidation($request->all());
 
-            if ($validator->fails()) {
-                $request->flash();
-                return redirect()->back()->withErrors($validator, 'content');
-            }
+        if ($validator->fails()) {
+            $request->flash();
+            return $request->ajax() ? response()->json($validator->messages(), 400) :
+                redirect()->back()->withErrors($validator, 'content');
         }
 
         $content = Content::create([
