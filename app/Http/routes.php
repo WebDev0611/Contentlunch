@@ -307,20 +307,3 @@ Route::get('/coming-soon',  function () {
 });
 
 Route::post('/stripe-webhook', 'StripeController@webhook');
-
-Route::get('/testmail',  function () {
-    $errorData = [
-        'partial_order_id' => 34,
-        'user_name' => Auth::user()->name,
-        'user_email' => Auth::user()->email,
-        'acc_id' => Auth::user()->selectedAccount->id,
-        'api_response' => 'The templates come with the PSD — Photoshop Document — source files to tweak and modify. In addition to responsive templates, Stamplia offers a variety of templates for newsletters'
-    ];
-    Mail::send('emails.writeraccess_error', ['data' => $errorData], function($message) {
-        $message->from("no-reply@contentlaunch.com", "Content Launch")
-            ->to('noasdasd@sakdaosdk.ccc')
-            ->subject('Testing subject 123');
-    });
-    return response('sent', 200);
-});
-
