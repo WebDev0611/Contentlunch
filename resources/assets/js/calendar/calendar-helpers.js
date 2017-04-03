@@ -221,7 +221,7 @@ function store_content(callback) {
     //saves the form data
     let content_obj = {
         title: $('#content-title').val(),
-        content_type: $("#content-type-id option:selected").val(),
+        content_type_id: $("#content-type-id option:selected").val(),
         due_date: $('#content-due-date').val(),
         calendar_id: getCalendarId(),
         created_at: $('#content_date').val()
@@ -232,7 +232,22 @@ function store_content(callback) {
         data: content_obj,
         headers: getCSRFHeader(),
         dataType: 'json',
-        success: addedContentCallback(callback)
+        success: addedContentCallback(callback),
+        error: function (xhr, ajaxOptions, thrownError) {
+            $(loadIMG).remove();
+
+            let errorMsg = '';
+            let responseObj = JSON.parse(xhr.responseText);
+            $.each(responseObj, function( index, value ) {
+                errorMsg += value;
+            });
+
+            $('#content-status-alert')
+                .toggleClass('hidden')
+                .show();
+            $('#content-status-text').text(errorMsg);
+            $('#add-content-button').prop('disabled', false);
+        }
     });
 }
 
