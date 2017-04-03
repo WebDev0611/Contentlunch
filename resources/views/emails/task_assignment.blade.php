@@ -1,14 +1,25 @@
-<!DOCTYPE html>
-<html lang="en-US">
-<head>
-<meta charset="utf-8">
-</head>
-<body>
-    <h2>Assigned to you: {{ $task->name }}</h2>
+@php
+    $staticData = ['title' => 'Task assigned to you'];
+@endphp
+
+@extends('emails.layouts.master', $staticData)
+@section('content')
     <p>
-        Task: <a href="{{ route('tasks.edit', $task->id) }}">{{ $task->name }}</a>
-        Due date: {{ $task->present()->dueDateFormat() }}
-        Description: {{ $task->explanation }}
+        You've recently been assigned a task:
     </p>
-</body>
-</html>
+
+    <table>
+        <tr>
+            <td><b>Task:</b></td>
+            <td><a href="{{ route('tasks.edit', $task->id) }}">{{ $task->name }}</a></td>
+        </tr>
+        <tr>
+            <td><b>Due date:</b></td>
+            <td>{{ $task->present()->dueDateFormat() }}</td>
+        </tr>
+        <tr>
+            <td><b>Description:</b></td>
+            <td>{{ $task->explanation }}</td>
+        </tr>
+    </table>
+@endsection

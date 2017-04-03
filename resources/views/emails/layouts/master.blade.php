@@ -9,9 +9,11 @@
         .logo{margin: 10px 0 30px;}
         h3{margin: 0 auto 20px;font-size:16px;}
         p{font-size:14px;line-height: 24px;}
-        button {text-align: center; padding: 3px 30px; margin-top:10px; background-color: #2482ff; color:#fff; border: none;}
+        button {text-align: center; padding: 4px 30px; margin-top:10px; background-color: #2482ff; color:#fff; border: none;}
         a button {cursor:pointer;}
-        .thanks{text-align: left; padding-left: 20px;}
+        .thanks{text-align: left; padding-left: 20px;margin-top: 40px;}
+        table{text-align: left;font-size:14px;}
+        table td{vertical-align: top; padding: 5px;}
     </style>
 </head>
 <body>
@@ -25,7 +27,7 @@
     @yield('content')
 
     <p class="thanks">
-        Thanks,<br>
+        Best regards,<br>
         Content Launch Team
     </p>
 </div>
