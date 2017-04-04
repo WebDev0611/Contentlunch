@@ -62,7 +62,13 @@
         },
 
         dismiss() {
+            this.clearForm();
             $('#modal-new-persona').modal('hide');
+        },
+
+        clearForm() {
+            this.$el.find('#persona-name').val('');
+            this.$el.find('#persona-description').val('');
         },
 
         payload() {
