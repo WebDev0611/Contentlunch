@@ -108,8 +108,7 @@
                                             'city',
                                             $user->city,
                                             [
-                                                'class' => 'input',
-                                                'placeholder' => 'Houston'
+                                                'class' => 'input'
                                             ]
                                         )
                                     !!}
