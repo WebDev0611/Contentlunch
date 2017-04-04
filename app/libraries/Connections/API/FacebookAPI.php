@@ -135,7 +135,7 @@ class FacebookAPI
     {
         return [
             'success' => false,
-            'error' => $error . ': ' . json_decode($exception->getMessage()),
+            'error' => $error . ': ' . $exception->getMessage(),
             'response' => []
         ];
     }

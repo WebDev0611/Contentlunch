@@ -64,7 +64,7 @@ class ConnectionController extends Controller
 
         switch ($provider) {
             case 'facebook':
-                $scope = ['publish_pages', 'manage_pages'];
+                $scope = ['manage_pages', 'publish_pages', 'publish_actions', 'pages_show_list'];
 
                 return Socialite::driver($provider)->scopes($scope)->redirect();
 

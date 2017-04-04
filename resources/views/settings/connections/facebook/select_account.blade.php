@@ -20,9 +20,8 @@
                                     </span>
                                 </div>
                                 {{ Form::open(array('url' => 'callback/facebook/account/save')) }}
-                                <div class="settings-import-list">
+                                <div class="settings-import-list" style="min-height: 160px;">
                                     <div class="input-form-group">
-                                        <label for="content_type">CONTENT TYPE</label>
                                         {!! Form::select('facebook_account', $accountOptions, '' , array('class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Facebook Account')) !!}
                                     </div>
                                 </div>

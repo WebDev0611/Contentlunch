@@ -410,7 +410,7 @@ class ContentController extends Controller
                 'errors' => $errors,
                 'content' => $content,
                 'published_connections' => $publishedConnections,
-            ], 201);
+            ], empty($errors) ? 201 : 500);
         }
 
         return $response;
