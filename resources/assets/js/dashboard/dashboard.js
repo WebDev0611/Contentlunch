@@ -23,6 +23,13 @@ $(document).ready(function() {
 
     recent_ideas.fetch();
 
+    var recent_content = new content_collection();
+    recent_content.on('update', function (collection) {
+        return $('.content-count').text(collection.length);
+    });
+
+    recent_content.fetch();
+
     var team_members = new team_members_collection();
 
     var team = new team_member_list_view({

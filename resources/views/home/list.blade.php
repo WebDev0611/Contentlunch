@@ -25,7 +25,7 @@
                     <div class="dashboard-notification-box">
                     <span class="dashboard-notification-box-count">
                         <i class="icon-navigation-dashboard"></i>
-                        0
+                        <span class="content-count">0</span>
                     </span>
                         <span>New Content <br> Pieces Posted</span>
                     </div>
