@@ -63,7 +63,7 @@
                 Create
                 {{-- <span class="caret"></span> --}}
             </button>
-            <button class="search-bar-button add-task-action">
+            <button class="search-bar-button add-task-action" title="Create a Task">
                 <i class="icon-checklist"></i>
             </button>
 
