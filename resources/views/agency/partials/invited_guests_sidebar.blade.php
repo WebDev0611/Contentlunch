@@ -8,7 +8,9 @@
     <div class="panel-container nopadding height-double">
         <div class="dashboard-ideas-container">
             <div class="dashboard-ideas-cell">
-                <img src="/images/cl-avatar2.png" alt="#" class="dashboard-tasks-img">
+                <div class="dashboard-tasks-img-wrapper">
+                    <img src="/images/cl-avatar2.png" alt="#" class="dashboard-tasks-img">
+                </div>
             </div>
             <div class="dashboard-ideas-cell">
                 <p class="dashboard-ideas-text">Content mix: post 16 social postings</p>
@@ -17,7 +19,9 @@
         </div>
         <div class="dashboard-ideas-container">
             <div class="dashboard-ideas-cell">
-                <img src="/images/cl-avatar2.png" alt="#" class="dashboard-tasks-img">
+                <div class="dashboard-tasks-img-wrapper">
+                    <img src="/images/cl-avatar2.png" alt="#" class="dashboard-tasks-img">
+                </div>
             </div>
             <div class="dashboard-ideas-cell">
                 <p class="dashboard-ideas-text">Content mix: post 16 social postings</p>
@@ -26,7 +30,9 @@
         </div>
         <div class="dashboard-ideas-container">
             <div class="dashboard-ideas-cell">
-                <img src="/images/cl-avatar2.png" alt="#" class="dashboard-tasks-img">
+                <div class="dashboard-tasks-img-wrapper">
+                    <img src="/images/cl-avatar2.png" alt="#" class="dashboard-tasks-img">
+                </div>
             </div>
             <div class="dashboard-ideas-cell">
                 <p class="dashboard-ideas-text">Content mix: post 16 social</p>

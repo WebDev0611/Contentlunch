@@ -9,8 +9,10 @@ var recent_idea_view = Backbone.View.extend({
     },
     template: _.template(`
         <div class="dashboard-ideas-cell cell-size-5">
-            <% var profile_image = user.profile_image || "/images/cl-avatar2.png" %>
-            <img src="<%= profile_image %>" alt="#" class="dashboard-tasks-img">
+            <div class="dashboard-tasks-img-wrapper">
+                <% var profile_image = user.profile_image || "/images/cl-avatar2.png" %>
+                <img src="<%= profile_image %>" alt="#" class="dashboard-tasks-img">
+            </div>
         </div>
         <div class="dashboard-ideas-cell cell-size-80">
             <p class="dashboard-ideas-text"><%= name %></p>

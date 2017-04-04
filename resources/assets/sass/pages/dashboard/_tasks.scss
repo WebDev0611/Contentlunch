@@ -59,10 +59,18 @@
   }
 }
 
-.dashboard-tasks-img {
+.dashboard-tasks-img-wrapper {
   width: 32px;
   height: 32px;
+  overflow: hidden;
   border-radius: 50%;
+  text-align: center;
+  position: relative;
+}
+
+.dashboard-tasks-img {
+  width: 40px;
+  position: relative;
 }
 
 .dashboard-tasks-list {

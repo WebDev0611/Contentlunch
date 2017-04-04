@@ -9,7 +9,9 @@ var collaborator_row = Backbone.View.extend({
 
     template: _.template(`
         <td class='cell-size-5'>
-            <img src="<%= profile_image %>" alt="#" class="dashboard-tasks-img">
+            <div class="dashboard-tasks-img-wrapper">
+                <img src="<%= profile_image %>" alt="#" class="dashboard-tasks-img">
+            </div>
         </td>
         <td>
             <p class='title'><%= name %></p>

@@ -4,7 +4,9 @@ var task_view = Backbone.View.extend({
     template: _.template(`
         <div class="dashboard-tasks-container">
             <div class="dashboard-tasks-cell cell-size-5">
-                <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
+                <div class="dashboard-tasks-img-wrapper">
+                    <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
+                </div>
             </div>
             <div class="dashboard-tasks-cell cell-size-80">
                 <h5 class="dashboard-tasks-title">

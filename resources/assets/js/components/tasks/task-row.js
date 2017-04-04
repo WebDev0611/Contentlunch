@@ -4,7 +4,9 @@ Vue.component('task-row', {
     template: `
         <div class="dashboard-tasks-container">
             <div class="dashboard-tasks-cell cell-size-5">
-                <img :src="task.profile_image" alt="#" class="dashboard-tasks-img">
+                <div class="dashboard-tasks-img-wrapper">
+                    <img :src="task.profile_image" alt="#" class="dashboard-tasks-img">
+                </div>
             </div>
             <div class="dashboard-tasks-cell cell-size-80">
                 <h5 class="dashboard-tasks-title">

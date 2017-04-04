@@ -5,7 +5,9 @@ var team_member_view = Backbone.View.extend({
     className: "dashboard-members-container",
     template: _.template(`
         <div class="dashboard-ideas-cell cell-size-5">
-            <img src="<%= profile_image %>" alt="#" class="dashboard-tasks-img">
+            <div class="dashboard-tasks-img-wrapper">
+                <img src="<%= profile_image %>" alt="#" class="dashboard-tasks-img">
+            </div>
         </div>
         <div class="dashboard-members-cell cell-size-75">
             <p class="dashboard-ideas-text"><%= name %></p>

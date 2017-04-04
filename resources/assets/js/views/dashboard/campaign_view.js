@@ -4,7 +4,9 @@ var dashboard_campaign_view = Backbone.View.extend({
     template: _.template(`
         <div class="dashboard-tasks-container">
             <div class="dashboard-tasks-cell">
-                <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
+                <div class="dashboard-tasks-img-wrapper">
+                    <img src="<%= image %>" alt="#" class="dashboard-tasks-img">
+                </div>
             </div>
             <div class="dashboard-tasks-cell">
                 <h5 class="dashboard-tasks-title">
