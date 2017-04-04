@@ -255,7 +255,8 @@
                                 $contentOptions = [
                                     'placeholder' => 'Enter content',
                                     'class' => 'input input-larger form-control wysiwyg',
-                                    'id' => 'title'
+                                    'id' => 'title',
+                                    'rows' => '20'
                                 ];
                             @endphp
                             @if ($isCollaborator && !$isPublished)
