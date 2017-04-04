@@ -87,8 +87,10 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="onboarding-avatar" id='settings-avatar'>
-                                    <div class="loading-icon loading-icon-center"></div>
-                                    <img src="{{ $user->present()->profile_image }}" alt="#">
+                                    <div class="onboarding-image-wrapper">
+                                        <div class="loading-icon loading-icon-center"></div>
+                                        <img src="{{ $user->present()->profile_image }}" alt="#">
+                                    </div>
 
                                     <label for="upload" class="onboarding-avatar-button">
                                         <i class="icon-add"></i>
