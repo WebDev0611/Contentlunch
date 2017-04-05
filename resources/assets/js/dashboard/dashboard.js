@@ -13,7 +13,7 @@ $(document).ready(function() {
 
     var recent_ideas = new recent_ideas_collection();
     recent_ideas.on('update', function (collection) {
-        return $('.idea-count').text(collection.length);
+        return $('.idea-count').text(this.last30Days().length);
     });
 
     var ideas = new recent_ideas_view({
@@ -25,9 +25,8 @@ $(document).ready(function() {
 
     var recent_content = new content_collection();
     recent_content.on('update', function (collection) {
-        return $('.content-count').text(collection.length);
+        return $('.content-count').text(this.last30Days().length);
     });
-
     recent_content.fetch();
 
     var team_members = new team_members_collection();
