@@ -161,10 +161,13 @@ class WriterAccessBulkOrder extends Job implements ShouldQueue
         echo "\nThe response";
         var_dump($response);
 
-        if(isset( $response->fault)){
+        if(isset($response->fault)){
             echo "\nError: " . $response->fault . "\n";
             return false;
-        }else{
+        } else if(isset($response->error)){
+            echo "\nError: " . $response->error . "\n";
+            return false;
+        } else{
             echo "\nComplete!\n";
             return true;
         }
