@@ -13,20 +13,6 @@ $factory->define(App\Task::class, function (Faker\Generator $faker) {
             return $user->id;
         },
 
-        'content_id' => function($task) use ($faker) {
-            return factory(App\Content::class)->create([
-                'account_id' => $task['account_id'],
-                'user_id' => $task['user_id'],
-            ])->id;
-        },
-
-        'campaign_id' => function($task) use ($faker) {
-            return factory(App\Campaign::class)->create([
-                'account_id' => $task['account_id'],
-                'user_id' => $task['user_id'],
-            ])->id;
-        },
-
         'url' => $faker->imageUrl(200, 200, 'sports'),
         'name' => $faker->sentence,
         'explanation' => $faker->realText,
