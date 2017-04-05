@@ -29,7 +29,7 @@ class AddEmailConfirmationFieldsToUsersTable extends Migration
     {
         Schema::table('users', function(Blueprint $table)
         {
-            $table->dropColumn(['new_email, email_confirmation_code']);
+            $table->dropColumn(['new_email', 'email_confirmation_code']);
         });
     }
 }

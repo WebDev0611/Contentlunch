@@ -13,7 +13,7 @@ class RemoveLimitUserFromSubscriptionTypes extends Migration
     public function up()
     {
         Schema::table('subscription_types', function (Blueprint $table) {
-            $table->dropColumn('limit_users');
+            $table->dropColumn([ 'limit_users' ]);
         });
     }
 
@@ -25,7 +25,7 @@ class RemoveLimitUserFromSubscriptionTypes extends Migration
     public function down()
     {
         Schema::table('subscription_types', function (Blueprint $table) {
-            $table->integer('limit_users');
+            $table->integer('limit_users')->nullable();
         });
     }
 }

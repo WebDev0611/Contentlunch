@@ -27,8 +27,7 @@ class AddOnboardingFieldsToUsers extends Migration
     public function down()
     {
         Schema::table('users', function ($table) {
-            $table->dropColumn('company_name');
-            $table->dropColumn('account_type');
+            $table->dropColumn(['company_name', 'account_type']);
         });
     }
 }

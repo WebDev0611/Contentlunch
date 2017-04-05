@@ -13,7 +13,7 @@ class AddOrderCountToWriterAccessPartialOrders extends Migration
     public function up()
     {
         Schema::table('writer_access_partial_orders', function (Blueprint $table) {
-            $table->string('order_count');
+            $table->string('order_count')->nullable();
         });
     }
 
