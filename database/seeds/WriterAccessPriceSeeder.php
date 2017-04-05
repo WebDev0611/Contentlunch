@@ -1,15 +1,20 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\WriterAccessPrice;
-
-class WriterAccessPriceSeeder extends Seeder
+class WriterAccessPriceSeeder extends BaseSeeder
 {
-
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $this->disableForeignKeys();
+
         DB::table('writer_access_prices')->truncate();
+        $this->insertWriterAccessPrices();
+
+        $this->enableForeignKeys();
+        $this->command->info('Added Writer Access Prices');
+    }
+
+    public function insertWriterAccessPrices()
+    {
         DB::table('writer_access_prices')->insert([
 
             // Blog Post
@@ -189,8 +194,5 @@ class WriterAccessPriceSeeder extends Seeder
             ['asset_type_id' => 10, 'writer_level' => 4, 'wordcount' => 20000, 'fee' => 2900],
 
         ]);
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        $this->command->info('Added Writer Access Prices');
     }
 }

@@ -1,13 +1,19 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
-class LimitsSeeder extends Seeder
+class LimitsSeeder extends BaseSeeder
 {
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $this->disableForeignKeys();
+
         DB::table('limits')->truncate();
+        $this->insertLimits();
+
+        $this->enableForeignKeys();
+    }
+
+    public function insertLimits()
+    {
         DB::table('limits')->insert([
             [
                 'name' => 'topic_search',
@@ -60,6 +66,5 @@ class LimitsSeeder extends Seeder
                 'feedback_message' => 'Looks like you\'ll need to upgrade to a paid account in order to add another sub-account.',
             ],
         ]);
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

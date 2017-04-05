@@ -18,7 +18,11 @@ trait DueDatePresenter
     public function dueDateFormat($format = 'm/d/Y')
     {
         if (!$this->isEmptyDate($this->due_date)) {
-            return (new Carbon($this->due_date))->format($format);
+            $carbonDate = gettype($this->due_date) == 'string'
+                ? new Carbon($this->due_date)
+                : $this->due_date;
+
+            return $carbonDate->format($format);
         } else {
             return "No due date set";
         }

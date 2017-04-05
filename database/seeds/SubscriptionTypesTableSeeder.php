@@ -3,9 +3,8 @@
 use App\Limit;
 use App\SubscriptionType as Type;
 use App\User;
-use Illuminate\Database\Seeder;
 
-class SubscriptionTypesTableSeeder extends Seeder
+class SubscriptionTypesTableSeeder extends BaseSeeder
 {
     protected $limits;
 
@@ -14,7 +13,8 @@ class SubscriptionTypesTableSeeder extends Seeder
      * @return void
      */
     public function run () {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $this->disableForeignKeys();
+
         DB::table('subscription_types')->truncate();
         DB::table('limit_subscription_type')->truncate();
 
@@ -26,7 +26,7 @@ class SubscriptionTypesTableSeeder extends Seeder
         $this->createProPlan();
         $this->setAdminAsPro();
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $this->enableForeignKeys();
     }
 
     protected function createFreePlan()

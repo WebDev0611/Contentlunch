@@ -31,8 +31,7 @@ class AlterAccountsTableToAddAgencyInfo extends Migration
         Schema::table('accounts', function (Blueprint $table) {
             $table->dropForeign('account_type_fk');
             $table->dropForeign('parent_account_fk');
-            $table->dropColumn('account_type_id');
-            $table->dropColumn('parent_account_id');
+            $table->dropColumn(['account_type_id', 'parent_account_id']);
         });
     }
 }

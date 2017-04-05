@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
-class ProviderTableSeeder extends Seeder
+class ProviderTableSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -11,8 +9,16 @@ class ProviderTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $this->disableForeignKeys();
+
         DB::table('providers')->truncate();
+        $this->insertProviders();
+
+        $this->enableForeignKeys();
+    }
+
+    public function insertProviders()
+    {
         DB::table('providers')->insert([
             [
                 'name' => 'Wordpress',
@@ -201,6 +207,5 @@ class ProviderTableSeeder extends Seeder
                 'class_name' => ''
             ]
         ]);
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

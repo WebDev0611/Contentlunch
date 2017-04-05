@@ -31,8 +31,7 @@ class AddsCountryAndCityInfoToUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('country_code');
-            $table->dropColumn('city');
+            $table->dropColumn(['country_code', 'city']);
         });
 
         Schema::drop('countries');

@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
-class BuyingStageSeeder extends Seeder
+class BuyingStageSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -11,11 +9,11 @@ class BuyingStageSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $this->disableForeignKeys();
 
         App\BuyingStage::truncate();
         factory(App\BuyingStage::class, 5)->create();
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $this->enableForeignKeys();
     }
 }

@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
-class ContentTypeTableSeeder extends Seeder
+class ContentTypeTableSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -11,9 +9,16 @@ class ContentTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $this->disableForeignKeys();
 
         DB::table('content_types')->truncate();
+        $this->insertContentTypes();
+
+        $this->enableForeignKeys();
+    }
+
+    public function insertContentTypes()
+    {
         DB::table('content_types')->insert([
             [ 'name' => 'Blog Post',              'provider_id' =>  1, 'active' => true ],
             [ 'name' => 'Facebook Post',          'provider_id' =>  5, 'active' => true ],
@@ -39,7 +44,5 @@ class ContentTypeTableSeeder extends Seeder
             [ 'name' => 'Whitepaper',             'provider_id' =>  0, 'active' => false ],
             [ 'name' => 'Workflow Email',         'provider_id' =>  0, 'active' => false ],
         ]);
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

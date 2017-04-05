@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
-class CountrySeeder extends Seeder
+class CountrySeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -11,8 +9,16 @@ class CountrySeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $this->disableForeignKeys();
+
         DB::table('countries')->truncate();
+        $this->insertCountries();
+
+        $this->enableForeignKeys();
+    }
+
+    public function insertCountries()
+    {
         DB::table('countries')->insert([
             [ 'country_code' => 'AD', 'country_name' => 'Andorra', 'priority' => 0 ],
             [ 'country_code' => 'AE', 'country_name' => 'United Arab Emirates', 'priority' => 0 ],
@@ -267,6 +273,5 @@ class CountrySeeder extends Seeder
             [ 'country_code' => 'ZM', 'country_name' => 'Zambia', 'priority' => 0 ],
             [ 'country_code' => 'ZW', 'country_name' => 'Zimbabwe', 'priority' => 0 ],
         ]);
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

@@ -13,7 +13,7 @@ class AddBulkFileToWriterAccessPartialOrders extends Migration
     public function up()
     {
         Schema::table('writer_access_partial_orders', function (Blueprint $table) {
-            $table->string('bulk_file');
+            $table->string('bulk_file')->nullable();
         });
     }
 

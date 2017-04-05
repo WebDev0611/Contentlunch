@@ -13,7 +13,14 @@ class RemovingUniqueFlagFromEmail extends Migration
     public function up()
     {
         Schema::table('account_invites', function (Blueprint $table) {
-            $table->string('email')->change();
+            $schemaBuilder = Schema::getConnection()
+                ->getDoctrineSchemaManager()
+                ->listTableDetails('account_invites');
+
+            if ($schemaBuilder->hasIndex('account_invites_email_unique')) {
+                $table->dropIndex('account_invites_email_unique');
+            }
+
         });
     }
 
@@ -25,7 +32,13 @@ class RemovingUniqueFlagFromEmail extends Migration
     public function down()
     {
         Schema::table('account_invites', function (Blueprint $table) {
-            $table->string('email')->unique()->change();
+            $schemaBuilder = Schema::getConnection()
+                ->getDoctrineSchemaManager()
+                ->listTableDetails('account_invites');
+
+            if (!$schemaBuilder->hasIndex('account_invites_email_unique')) {
+                $table->unique('email');
+            }
         });
     }
 }

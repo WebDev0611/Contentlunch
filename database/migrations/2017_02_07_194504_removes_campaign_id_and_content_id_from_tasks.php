@@ -13,8 +13,7 @@ class RemovesCampaignIdAndContentIdFromTasks extends Migration
     public function up()
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->dropColumn('content_id');
-            $table->dropColumn('campaign_id');
+            $table->dropColumn(['content_id', 'campaign_id']);
         });
     }
 
@@ -26,8 +25,8 @@ class RemovesCampaignIdAndContentIdFromTasks extends Migration
     public function down()
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->integer('content_id');
-            $table->integer('campaign_id');
+            $table->integer('content_id')->nullable();
+            $table->integer('campaign_id')->nullable();
         });
     }
 }
