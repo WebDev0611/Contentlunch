@@ -62,7 +62,12 @@ class StripeController extends Controller {
 
     private function deleteSubscription ($object)
     {
+        $subscription = Subscription::where('stripe_subscription_id', '=', $object->id)
+            ->active()
+            ->firstOrFail();
 
+        $subscription->valid = false;
+        $subscription->save();
     }
 
     private function failedPayment ($object)
