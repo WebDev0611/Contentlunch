@@ -49,6 +49,11 @@ class WriterAccessController extends Controller
      * @var string
      */
     private $apiUrl = 'https://writeraccess.com/api';
+    /**
+     * @var string
+     */
+    private $sandboxApiUrl = 'https://staging.writeraccess.com/api';
+
 
     private function initStripe()
     {
@@ -91,12 +96,12 @@ class WriterAccessController extends Controller
     {
         $user = $user ? $user : Auth::user();
 
-        if ($user) {
-            // Set environment API URL
-            if(env('APP_ENV', 'production') != 'production') {
-                $this->apiUrl = 'https://staging.writeraccess.com/api';
-            }
+        // Set environment API URL
+        if(env('APP_ENV', 'production') != 'production') {
+            $this->apiUrl = $this->sandboxApiUrl;
+        }
 
+        if ($user) {
             // Set the project name for writer access calls
             $this->apiProject = $apiProject ? $apiProject : $this->getProjectName($request->root(), $user);
 
@@ -540,7 +545,6 @@ class WriterAccessController extends Controller
                     "content-type: application/x-www-form-urlencoded"
                 ),
             ));
-
 
             $output = curl_exec($curl);
             curl_close($curl);
