@@ -1,10 +1,6 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
-use App\AccountType;
-
-class AccountTypeSeeder extends Seeder
+class AccountTypeSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +9,7 @@ class AccountTypeSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $this->disableForeignKeys();
 
         DB::table('account_types')->truncate();
         DB::table('account_types')->insert([
@@ -21,6 +17,6 @@ class AccountTypeSeeder extends Seeder
             [ 'name' => 'Agency Account' ]
         ]);
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $this->enableForeignKeys();
     }
 }

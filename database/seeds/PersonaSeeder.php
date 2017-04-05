@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
-class PersonaSeeder extends Seeder
+class PersonaSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -11,11 +9,11 @@ class PersonaSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $this->disableForeignKeys();
 
         App\Persona::truncate();
         factory(App\Persona::class, 5)->create();
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $this->enableForeignKeys();
     }
 }
