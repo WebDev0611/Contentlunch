@@ -3,7 +3,7 @@
 var ContentTaskView = Backbone.View.extend({
     events: {
         'click .task-remove': 'removeTask',
-        'click .checkcircle': 'closeTask',
+        'click .checkcircle': 'toggleTask',
     },
 
     template: _.template(`
@@ -12,7 +12,6 @@ var ContentTaskView = Backbone.View.extend({
                 <div class="checkcircle pointer">
                     <i class="icon-check-light"></i>
                 </div>
-
 
                 <div class="user-avatar">
                 <% if (typeof(user.profile_image) !== "undefined" && user.profile_image !== null ) { %>
@@ -130,15 +129,33 @@ var ContentTaskView = Backbone.View.extend({
         return this;
     },
 
-    closeTask() {
-        let taskId = this.model.get('id');
+    toggleTask() {
+        if (this.model.get('status') == 'open') {
+            this.closeTask();
+        } else {
+            this.closeTask();
+        }
+    },
 
+    closeTask() {
+        this.model.set('closed');
         this.$el.find('.task').addClass('completed');
 
         return $.ajax({
             method: 'post',
             headers: getJsonHeader(),
-            url: `/task/close/${taskId}`,
+            url: `/task/close/${this.model.get('id')}`,
+        });
+    },
+
+    openTask() {
+        this.model.set('open');
+        this.$el.find('.task').removeClass('completed');
+
+        return $.ajax({
+            method: 'post',
+            headers: getJsonHeader(),
+            url: `/task/close/${this.model.get('id')}`,
         });
     },
 

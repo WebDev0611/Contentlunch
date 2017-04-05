@@ -164,9 +164,28 @@ class Task extends Model
         });
     }
 
+    public function scopeClosed($query)
+    {
+        return $query->where('status', 'closed');
+    }
+
     public function close()
     {
         $this->update([ 'status' => 'closed' ]);
+
+        return $this;
+    }
+
+    public function scopeOpen($query)
+    {
+        return $query->where('status', 'open');
+    }
+
+    public function open()
+    {
+        $this->update([ 'status' => 'open' ]);
+
+        return $this;
     }
 
     public static function accountTasks(Account $account)
