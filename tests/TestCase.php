@@ -19,6 +19,8 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         'ContentTypeTableSeeder',
         'UsersTableSeeder',
         'ProviderTableSeeder',
+        'LimitsSeeder',
+        'SubscriptionTypesTableSeeder',
     ];
 
     /**
