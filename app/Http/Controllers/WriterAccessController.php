@@ -92,6 +92,11 @@ class WriterAccessController extends Controller
         $user = $user ? $user : Auth::user();
 
         if ($user) {
+            // Set environment API URL
+            if(env('APP_ENV', 'production') != 'production') {
+                $this->apiUrl = 'https://staging.writeraccess.com/api';
+            }
+
             // Set the project name for writer access calls
             $this->apiProject = $apiProject ? $apiProject : $this->getProjectName($request->root(), $user);
 
