@@ -124,7 +124,8 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
 
         Route::get('/campaigns', 'CalendarController@campaigns');
 
-        Route::resource('/task/add', 'TaskController@store');
+        Route::post('/task/add', 'TaskController@store')->middleware('format_datetime:due_date,m/d/Y H:i')
+                                                        ->middleware('format_datetime:start_date,m/d/Y H:i');
         Route::post('task/attachments', 'TaskAttachmentsController@store');
         Route::get('task/show/{task}', 'TaskController@edit')->name('tasks.edit');
         Route::post('task/update/{task}', 'TaskController@update');
