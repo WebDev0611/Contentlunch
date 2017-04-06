@@ -282,7 +282,7 @@ class WriterAccessController extends Controller
         $response = $this->post('/orders', $order->toArray());
         $responseContent = json_decode($response->getContent());
 
-        if (isset($responseContent->fault)) {
+        if (isset($responseContent->fault) || isset($responseContent->error)) {
             $errorData = [
                 'partial_order_id' => $partialOrder->id,
                 'user_name' => Auth::user()->name,
