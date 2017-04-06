@@ -62,28 +62,15 @@ $(function() {
     /**
      * Content task handling
      */
-    var tasks = new task_collection();
+    let tasks = new task_collection();
 
     tasks.on('add', function(task) {
-        var element = new ContentTaskView({ model: task });
+        let element = new ContentTaskView({ model: task });
         element.render();
         $('.content-tasks-box-container').append(element.el);
     });
 
-    fetchTasks();
-
-    function fetchTasks() {
-        return $.ajax({
-            url: '/api/contents/' + contentId() + '/tasks',
-            data: { open: '1' },
-            method: 'get',
-        })
-        .then(function(response) {
-            tasks.add(response.map(function(task) {
-                return new task_model(task);
-            }));
-        });
-    }
+    tasks.populateList(contentId(), false);
 
     function contentId() {
         return $('input[name=content_id]').val();

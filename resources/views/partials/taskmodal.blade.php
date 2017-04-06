@@ -65,7 +65,7 @@
 
         @php
             $route = \Route::getCurrentRoute()->getName();
-            $isContentEditRoute = $route === 'content.edit';
+            $isContentEditRoute = $route === 'content.create' || $route === 'editContent';
             $isCampaignEditRoute = $route === 'campaigns.edit' || $route === 'campaigns.create';
         @endphp
 

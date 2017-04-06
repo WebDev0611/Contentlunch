@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
-class CampaignTypeTableSeeder extends Seeder
+class CampaignTypeTableSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +9,7 @@ class CampaignTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $this->disableForeignKeys();
 
         DB::table('campaign_types')->truncate();
         DB::table('campaign_types')->insert([
@@ -23,6 +21,6 @@ class CampaignTypeTableSeeder extends Seeder
             [ 'key' => 'trade-show', 'name' => 'Trade show' ],
         ]);
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $this->enableForeignKeys();
     }
 }

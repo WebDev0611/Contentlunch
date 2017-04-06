@@ -1,12 +1,11 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Account;
 use App\User;
 use App\AccountType;
 use App\AccountUser;
 
-class UsersTableSeeder extends Seeder
+class UsersTableSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -15,11 +14,19 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $this->disableForeignKeys();
+
         Account::truncate();
         AccountUser::truncate();
         User::truncate();
 
+        $this->insertBasicUsers();
+
+        $this->enableForeignKeys();
+    }
+
+    public function insertBasicUsers()
+    {
         $password = bcrypt('launch123');
         $account = factory(Account::class)->create([
             'name' => 'Sample Agency Account',
@@ -57,7 +64,5 @@ class UsersTableSeeder extends Seeder
             $account->users()->create($userArray);
             $account->save();
         });
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

@@ -129,6 +129,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::get('task/show/{task}', 'TaskController@edit')->name('tasks.edit');
         Route::post('task/update/{task}', 'TaskController@update');
         Route::post('task/close/{task}', 'TaskController@close');
+        Route::post('task/open/{task}', 'TaskController@open');
         Route::delete('task/{task}', 'TaskController@destroy');
 
         Route::get('/content', 'ContentController@index')->name('contents.index');
@@ -174,7 +175,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::post('/create/new', 'ContentController@store')->name('contents.store');
 
         // - create form page
-        Route::get('/edit', 'ContentController@createContent')->name('content.edit');
+        Route::get('/edit', 'ContentController@createContent')->name('content.create');
         Route::post('/edit', 'ContentController@editStore')->name('content.update');
 
         Route::post('/edit/images', 'ContentController@images')->name('imageContent');

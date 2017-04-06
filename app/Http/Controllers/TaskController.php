@@ -223,14 +223,24 @@ class TaskController extends Controller
      */
     public function close(Task $task)
     {
-        $response = response()->json([ 'success' => false ], 403);
-
-        if ($this->loggedUserCanClose($task)) {
-            $task->update([ 'status' => 'closed' ]);
-            $response = response()->json(['success' => true, 'task' => $task ]);
+        if (Auth::user()->cant('update', $task)) {
+            return response()->json([ 'success' => false ], 403);
         }
 
-        return $response;
+        $task->close();
+
+        return response()->json(['success' => true, 'task' => $task ]);;
+    }
+
+    public function open(Task $task)
+    {
+        if (Auth::user()->cant('update', $task)) {
+            return response()->json([ 'success' => false ], 403);
+        }
+
+        $task->open();
+
+        return response()->json(['success' => true, 'task' => $task ]);
     }
 
     protected function loggedUserCanClose(Task $task)

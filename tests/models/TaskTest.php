@@ -10,6 +10,8 @@ class TaskTest extends TestCase
 {
     use MailTracking;
 
+    protected $account;
+
     public function setUp()
     {
         parent::setUp();
@@ -80,5 +82,17 @@ class TaskTest extends TestCase
         $this->assertFalse($task->hasAssignedUser($userB));
         $this->assertTrue($task->hasAssignedUser($userC));
         $this->assertFalse($task->hasAssignedUser($userD));
+    }
+
+    public function testOpensAndClosesTasks()
+    {
+        $task = factory(Task::class)->create([ 'status' => 'closed' ]);
+        $task->open();
+
+        $this->assertEquals('open', $task->status);
+
+        $task->close();
+
+        $this->assertEquals('closed', $task->status);
     }
 }

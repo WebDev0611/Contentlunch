@@ -1,11 +1,11 @@
 <?php
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Artisan;
 
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseTransactions, DatabaseMigrations;
 
     /**
      * The base URL to use while testing the application.
@@ -19,6 +19,8 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         'ContentTypeTableSeeder',
         'UsersTableSeeder',
         'ProviderTableSeeder',
+        'LimitsSeeder',
+        'SubscriptionTypesTableSeeder',
     ];
 
     /**
@@ -38,13 +40,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function setUp()
     {
         parent::setUp();
-        Artisan::call('migrate');
         $this->runSeeders();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
     }
 
     protected function runSeeders()

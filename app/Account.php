@@ -228,6 +228,7 @@ class Account extends Model
             'auto_renew' => 0,
             'valid' => 1,
             'subscription_type_id' => $subscriptionType->id,
+            'expiration_date' => '0000-00-00',
         ];
 
         // Notice all users on the account about subscription change

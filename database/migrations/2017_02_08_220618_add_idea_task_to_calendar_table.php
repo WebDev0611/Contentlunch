@@ -26,8 +26,7 @@ class AddIdeaTaskToCalendarTable extends Migration
     public function down()
     {
         Schema::table('calendar', function (Blueprint $table) {
-            $table->dropColumn('show_ideas');
-            $table->dropColumn('show_tasks');
+            $table->dropColumn(['show_ideas', 'show_tasks']);
         });
     }
 }
