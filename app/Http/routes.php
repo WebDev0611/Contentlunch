@@ -175,7 +175,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::post('/create/new', 'ContentController@store')->name('contents.store');
 
         // - create form page
-        Route::get('/edit', 'ContentController@createContent')->name('content.edit');
+        Route::get('/edit', 'ContentController@createContent')->name('content.create');
         Route::post('/edit', 'ContentController@editStore')->name('content.update');
 
         Route::post('/edit/images', 'ContentController@images')->name('imageContent');
