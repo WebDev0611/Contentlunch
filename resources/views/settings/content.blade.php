@@ -12,7 +12,7 @@
                 @include('settings.partials.navigation')
             </div>
 
-            @include('elements.freemium-alert', ['restriction' => 'try out all features of the app, but some functionality is limited'])
+            @include('elements.freemium-alert')
 
             <ul class="settings-nav">
                 <!-- <li class="active"><a href="#content" data-toggle='tab'>General Content</a></li> -->

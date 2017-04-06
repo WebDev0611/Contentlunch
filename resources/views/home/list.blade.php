@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('elements.freemium-alert', ['restriction' => 'try out all features of the app, but some functionality is limited'])
+    @include('elements.freemium-alert')
 
     <div class="workspace">
         <div class="container-fluid">

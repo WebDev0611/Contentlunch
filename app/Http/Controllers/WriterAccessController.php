@@ -401,7 +401,7 @@ class WriterAccessController extends Controller
         $response = $this->post('/projects', [ 'projectname' => $this->apiProject ]);
         $responseContent = json_decode($response->getContent());
 
-        if (!isset($responseContent->fault)) {
+        if (!isset($responseContent->fault) && !isset($responseContent->error)) {
             $this->apiProjectId = $responseContent->projects[0]->id;
             $user->writer_access_Project_id = $this->apiProjectId;
             $user->save();
