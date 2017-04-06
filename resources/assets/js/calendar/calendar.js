@@ -169,6 +169,14 @@
             $("#addContentModal").modal({ backdrop: 'static' });
         },
 
+        append_date_input_field(fieldId, fieldInfoId, selectorId) {
+            let $field = this.get_field_element(fieldId, selectorId);
+            let $fieldInfo =  this.get_field_info_element(fieldInfoId, selectorId);
+
+            $field.val(this.formatDateValue());
+            $fieldInfo.html(this.formatDateString($field.val()));
+        },
+
         get_field_element(fieldId, selectorId) {
             let $field = $('#' + fieldId);
 
@@ -194,26 +202,19 @@
             return $fieldInfo;
         },
 
-        append_date_input_field(fieldId, fieldInfoId, selectorId) {
-            let $field = this.get_field_element(fieldId, selectorId);
-            let $fieldInfo =  this.get_field_info_element(fieldInfoId, selectorId);
+        formatDateValue() {
             let cell_date = this.$el.data('cell-date');
 
             if (isWeeklyCalendar() || isDailyCalendar()) {
                 cell_date = this.$el.data('cell-date-time');
-                $field.val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm:ss'));
+                return moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm:ss');
             } else {
-                $field.val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD') + ' ' + moment().format('HH:mm:ss'));
+                return moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD') + ' ' + moment().format('HH:mm:ss');
             }
-
-            $fieldInfo.html(this.formatDateString($field));
         },
 
-        formatDateString($field) {
-            let value = $field.val();
-            let momentObject = moment(value, "YYYY-MM-DD HH:mm:ss");
-
-            return momentObject.format('MM-DD-YY [at] h:mm a');
+        formatDateString(value) {
+            return moment(value, "YYYY-MM-DD HH:mm:ss").format('MM-DD-YY [at] h:mm a');
         }
     });
 
