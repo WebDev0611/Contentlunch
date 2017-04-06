@@ -27,7 +27,7 @@
     configureDatePicker();
 
     function configureDatePicker() {
-        let format = 'YYYY-MM-DD';
+        let format = 'MM/DD/YYYY';
 
         $('#start-date').datetimepicker({ format });
         $('#end-date').datetimepicker({ format });
