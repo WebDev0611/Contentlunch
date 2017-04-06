@@ -76,11 +76,14 @@
             'mouseenter li span': 'add_active',
             'mouseleave li span': 'hide_active'
         },
+
         template: _.template($('#calendar-item-container').html()),
+
         initialize: function () {
             this.empty();
             this.$el.append(this.template());
         },
+
         render: function () {
             var view = this;
             this.collection.each(function (m) {
@@ -107,11 +110,13 @@
 
             return this;
         },
+
         empty: function () {
             var view = this;
             view.$el.find('.calendar-schedule').remove();
             return this;
         },
+
         show_tool: function (event) {
             this.$el.append($('#calendar-dropdown-template').html());
             var popup_label_text = moment(this.$el.data('cell-date'), "YYYY-M-D").format('dddd, MMM Do YYYY');
@@ -123,17 +128,21 @@
             this.$el.find('.date-popup-label').text(popup_label_text);
             this.$el.find('.calendar-schedule-dropdown-wrapper').fadeIn(100);
         },
+
         hide_tool: function (event) {
             this.$el.find('.calendar-schedule-dropdown-wrapper').remove();
         },
+
         add_active: function (event) {
             //console.log('mouse over');
             this.$el.addClass('active');
         },
+
         hide_active: function (event) {
             //console.log('hiding active');
             this.$el.removeClass('active');
         },
+
         show_task_modal: function () {
             let cell_date = this.$el.data('cell-date');
 
@@ -148,43 +157,63 @@
 
             $("#addTaskModal").modal({ backdrop: 'static' });
         },
+
         show_idea_modal: function () {
             $("#createIdea .form-delimiter").hide();
             this.append_date_input_field('idea_date', 'idea_date_info', 'createIdea');
             $("#createIdea").modal({ backdrop: 'static' });
         },
+
         show_content_modal: function () {
             this.append_date_input_field('content_date', 'content_date_info', 'addContentModal');
             $("#addContentModal").modal({ backdrop: 'static' });
         },
-        append_date_input_field: function (fieldId, fieldInfoId, selectorId) {
-            if (!$('#' + fieldId).length) {
-                $('<input>').attr({
+
+        get_field_element(fieldId, selectorId) {
+            let $field = $('#' + fieldId);
+
+            if (!$field.length) {
+                $field = $('<input>').attr({
                     type: 'hidden',
                     id: fieldId,
                 }).appendTo('#' + selectorId);
             }
 
-            var cell_date = this.$el.data('cell-date');
+            return $field;
+        },
 
-            if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
-                cell_date = this.$el.data('cell-date-time');
-                $('#' + fieldId).val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm:ss'));
-            } else {
-                $('#' + fieldId).val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD') + ' ' + moment().format('HH:mm:ss'));
-            }
+        get_field_info_element(fieldInfoId, selectorId) {
+            let $fieldInfo = $('#' + fieldInfoId);
 
-            if (!$('#' + fieldInfoId).length) {
-                $('<h4>').attr({
+            if (!$fieldInfo.length) {
+                $fieldInfo = $('<h4>').attr({
                     id: fieldInfoId,
                 }).prependTo('#' + selectorId + ' .sidemodal-container');
             }
 
-            let value = $(`#${fieldId}`).val();
-            let momentObject = moment(value, "YYYY-MM-DD HH:mm:ss");
-            let formattedString = momentObject.format('MM-DD-YY [at] h:mm a');
+            return $fieldInfo;
+        },
 
-            $('#' + fieldInfoId).html(formattedString);
+        append_date_input_field(fieldId, fieldInfoId, selectorId) {
+            let $field = this.get_field_element(fieldId, selectorId);
+            let $fieldInfo =  this.get_field_info_element(fieldInfoId, selectorId);
+            let cell_date = this.$el.data('cell-date');
+
+            if (isWeeklyCalendar() || isDailyCalendar()) {
+                cell_date = this.$el.data('cell-date-time');
+                $field.val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm:ss'));
+            } else {
+                $field.val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD') + ' ' + moment().format('HH:mm:ss'));
+            }
+
+            $fieldInfo.html(this.formatDateString($field));
+        },
+
+        formatDateString($field) {
+            let value = $field.val();
+            let momentObject = moment(value, "YYYY-MM-DD HH:mm:ss");
+
+            return momentObject.format('MM-DD-YY [at] h:mm a');
         }
     });
 
