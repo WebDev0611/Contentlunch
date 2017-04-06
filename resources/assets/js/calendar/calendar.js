@@ -1,9 +1,14 @@
+'use strict';
+
 /*
  ------ // Calendar JS // ----
  */
 
 (function (window, document, $) {
     'use strict';
+
+    const isDailyCalendar = () => window.location.pathname.indexOf('daily') >= 0;
+    const isWeeklyCalendar = () => window.location.pathname.indexOf('weekly') >= 0;
 
     /* calendar item model */
     var calendar_item_model = Backbone.Model.extend({
@@ -130,15 +135,15 @@
             this.$el.removeClass('active');
         },
         show_task_modal: function () {
-            var cell_date = this.$el.data('cell-date');
+            let cell_date = this.$el.data('cell-date');
 
-            if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
+            if (isWeeklyCalendar() || isDailyCalendar()) {
                 cell_date = this.$el.data('cell-date-time');
-                $('#task-start-date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm'));
-                $('#task-due-date').val(moment(cell_date, "YYYY-M-D-HHmmss").add(1, 'days').format('YYYY-MM-DD HH:mm'));
+                $('#task-start-date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('MM/DD/YYYY HH:mm'));
+                $('#task-due-date').val(moment(cell_date, "YYYY-M-D-HHmmss").add(1, 'days').format('MM/DD/YYYY HH:mm'));
             } else {
-                $('#task-start-date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD HH:mm'));
-                $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('YYYY-MM-DD HH:mm'));
+                $('#task-start-date').val(moment(cell_date, "YYYY-M-D").format('MM/DD/YYYY HH:mm'));
+                $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('MM/DD/YYYY HH:mm'));
             }
 
             $("#addTaskModal").modal({ backdrop: 'static' });
@@ -508,4 +513,3 @@
 
 })
 (window, document, jQuery);
-
