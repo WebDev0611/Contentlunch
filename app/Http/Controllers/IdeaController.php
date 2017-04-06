@@ -40,13 +40,14 @@ class IdeaController extends Controller
         return response()->json($idea);
     }
 
-    public function activate(Request $request)
+    public function activate(Request $request, Idea $idea = null)
     {
-        $id = $request->input('idea_id');
-        $idea = Idea::where([
-            'id' => $id,
-            'user_id' => Auth::id(),
-        ])->first();
+        if($request->has('idea_id')) {
+            $idea = Idea::where([
+                'id' => $request->input('idea_id'),
+                'user_id' => Auth::id(),
+            ])->first();
+        }
 
         $idea->activate();
 

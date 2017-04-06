@@ -29,7 +29,11 @@
                                 @if ($is_collaborator)
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li><a href="#" class="reject-idea">Reject Idea</a></li>
-                                    <li><a href="#" class="park-idea">Park Idea</a></li>
+                                    @if($idea->status == 'active')
+                                        <li><a href="#" class="park-idea">Park Idea</a></li>
+                                    @elseif($idea->status == 'parked')
+                                        <li><a href="#" class="activate-idea">Unpark Idea</a></li>
+                                    @endif
                                 </ul>
                                 @endif
                             </div>

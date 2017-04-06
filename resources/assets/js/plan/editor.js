@@ -5,7 +5,8 @@
         events: {
             "click .save-idea": 'saveIdea',
             "click .reject-idea": 'rejectIdea',
-            "click .park-idea": 'parkIdea'
+            "click .park-idea": 'parkIdea',
+            "click .activate-idea": 'activateIdea'
         },
 
         initialize() {
@@ -41,6 +42,11 @@
         parkIdea() {
             return $.post('/idea/' + this.model.get('id') + '/park')
                 .then(res => this.showAlert('Idea has been parked!'));
+        },
+
+        activateIdea() {
+            return $.post('/idea/' + this.model.get('id') + '/activate')
+                .then(res => this.showAlert('Idea has been activated!'));
         },
 
         showAlert(text) {
