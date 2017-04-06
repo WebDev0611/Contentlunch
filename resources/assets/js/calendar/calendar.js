@@ -118,7 +118,10 @@
         },
 
         show_tool(event) {
-            this.$el.append($('#calendar-dropdown-template').html());
+            if (!this.$el.find('.calendar-schedule-dropdown-wrapper').length) {
+                this.$el.append($('#calendar-dropdown-template').html());
+            }
+
             let popup_label_text = moment(this.$el.data('cell-date'), "YYYY-M-D").format('dddd, MMM Do YYYY');
 
             if (isWeeklyCalendar() || isDailyCalendar()) {
