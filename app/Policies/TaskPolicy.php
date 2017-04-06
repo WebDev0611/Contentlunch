@@ -12,12 +12,12 @@ class TaskPolicy
 
     public function destroy(User $user, Task $task)
     {
-        return $task->user_id === $user->id || $task->hasAssignedUser($user);
+        return $task->user_id == $user->id || $task->hasAssignedUser($user);
     }
 
     public function update(User $user, Task $task)
     {
-        return $task->user_id === $user->id || $task->hasAssignedUser($user);
+        return $task->user_id == $user->id || $task->hasAssignedUser($user);
     }
 
     public function show(User $user, Task $task)

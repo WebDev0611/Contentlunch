@@ -25,7 +25,7 @@ class RemoveProjectNameFromWriterAccessPartialOrders extends Migration
     public function down()
     {
         Schema::table('writer_access_partial_orders', function (Blueprint $table) {
-            $table->string('project_name');
+            $table->string('project_name')->nullable();
         });
     }
 }

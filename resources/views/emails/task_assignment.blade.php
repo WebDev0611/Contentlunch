@@ -15,7 +15,7 @@
         </tr>
         <tr>
             <td><b>Due date:</b></td>
-            <td>{{ $task->present()->dueDateFormat() }}</td>
+            <td>{{ $task->present()->dueDateFormat }}</td>
         </tr>
         <tr>
             <td><b>Description:</b></td>

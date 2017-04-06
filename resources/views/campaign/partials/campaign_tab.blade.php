@@ -24,8 +24,11 @@
                             'class' => 'input form-control',
                             'id' => 'start-date',
                         ], $isCollaborator);
+                        $startDate = $campaign
+                            ? $campaign->present()->startDateFormat
+                            : '';
                     @endphp
-                    {!! Form::text('start_date', old('start_date'), $startDateOptions) !!}
+                    {!! Form::text('start_date', old('start_date', $startDate), $startDateOptions) !!}
                 </div>
             </div>
         </div>
@@ -40,8 +43,11 @@
                             'class' => 'input form-control',
                             'id' => 'end-date',
                         ], $isCollaborator);
+                        $endDate = $campaign
+                            ? $campaign->present()->endDateFormat
+                            : '';
                     @endphp
-                    {!! Form::text('end_date', old('end_date'), $endDateOptions) !!}
+                    {!! Form::text('end_date', old('end_date', $endDate), $endDateOptions) !!}
                 </div>
             </div>
         </div>

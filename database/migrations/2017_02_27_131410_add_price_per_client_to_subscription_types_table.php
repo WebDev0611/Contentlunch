@@ -13,7 +13,7 @@ class AddPricePerClientToSubscriptionTypesTable extends Migration
     public function up()
     {
         Schema::table('subscription_types', function (Blueprint $table) {
-            $table->decimal('price_per_client', 8, 2)->after('price');
+            $table->decimal('price_per_client', 8, 2)->after('price')->nullable();
         });
     }
 

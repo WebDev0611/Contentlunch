@@ -3,8 +3,8 @@
 var CampaignTasksCollection = Backbone.Collection.extend({
     model: task_model,
 
-    populateList(campaignId) {
-        return this.fetchData(campaignId).then(response => {
+    populateList(campaignId, openTasks = true) {
+        return this.fetchData(campaignId, openTasks).then(response => {
             this.remove(this.models);
             this.add(response.data.map(task => new task_model(task)));
 
@@ -12,13 +12,13 @@ var CampaignTasksCollection = Backbone.Collection.extend({
         });
     },
 
-    fetchData(campaignId) {
+    fetchData(campaignId, openTasks) {
         return $.ajax({
             method: 'get',
             url: `/api/campaigns/${campaignId}/tasks`,
             headers: getJsonHeader(),
             data: {
-                open: '1'
+                open: openTasks ? '1' : '0',
             },
         });
     },

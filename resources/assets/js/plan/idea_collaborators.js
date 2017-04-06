@@ -32,10 +32,13 @@
         },
     });
 
-    var CollaboratorView = Backbone.View.extend({
-        template: _.template(
-            "<img src='<%= profile_image %>' title='<%= name %>' alt='<%= name %>'> <p><%= name %></p>"
-        ),
+    let CollaboratorView = Backbone.View.extend({
+        template: _.template(`
+            <div class="profile-image-wrapper">
+                <img src='<%= profile_image %>' title='<%= name %>' alt='<%= name %>'>
+            </div>
+            <p><%= name %></p>
+        `),
         tagName: 'li',
         render: function() {
             this.$el.html(this.template(this.model.toJSON()));
@@ -43,10 +46,10 @@
         },
     })
 
-    var collaborators = new CollaboratorCollection();
+    let collaborators = new CollaboratorCollection();
 
     collaborators.on('add', function(model) {
-        var result = new CollaboratorView({
+        let result = new CollaboratorView({
             model: model
         });
 

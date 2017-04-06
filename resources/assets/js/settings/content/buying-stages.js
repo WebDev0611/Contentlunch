@@ -62,7 +62,13 @@
         },
 
         dismiss: function() {
+            this.clearForm();
             $('#modal-new-buying-stage').modal('hide');
+        },
+
+        clearForm() {
+            this.$el.find('#buying-stage-name').val('');
+            this.$el.find('#buying-stage-description').val('');
         },
 
         payload: function() {

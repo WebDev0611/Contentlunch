@@ -1,3 +1,5 @@
+'use strict';
+
 /*
  ------ // Calendar JS // ----
  */
@@ -5,8 +7,11 @@
 (function (window, document, $) {
     'use strict';
 
+    const isDailyCalendar = () => window.location.pathname.indexOf('daily') >= 0;
+    const isWeeklyCalendar = () => window.location.pathname.indexOf('weekly') >= 0;
+
     /* calendar item model */
-    var calendar_item_model = Backbone.Model.extend({
+    let calendar_item_model = Backbone.Model.extend({
         defaults: {
             type: 'idea',
             title: 'TITLE',
@@ -15,7 +20,7 @@
     });
 
     /* calendar item collection */
-    var calendar_item_collection = Backbone.Collection.extend({
+    let calendar_item_collection = Backbone.Collection.extend({
         model: calendar_item_model,
         modelId: function (attrs) {
             return attrs.type + "-" + attrs.id;
@@ -23,35 +28,35 @@
     });
 
     /* calendar item view */
-    var calendar_item_view = Backbone.View.extend({
+    let calendar_item_view = Backbone.View.extend({
         tagName: 'li',
         events: {
             'click': 'open_item',
             'click .calendar-task-list-popover-close': 'close_item'
         },
         template: _.template($('#calendar-item-template').html()),
-        initialize: function () {
+        initialize() {
             this.$el.append(this.template(this.model.attributes));
             this.render();
         },
-        render: function () {
+        render() {
             //this.delegateEvents(['click']);
             return this;
         },
-        open_item: function (event) {
+        open_item(event) {
             event.stopPropagation();
             this.$el.toggleClass('active');
             $('.calendar-task-list-popover').removeClass('open');
             this.$el.find('.calendar-task-list-popover').addClass('open');
         },
-        close_item: function (event) {
+        close_item(event) {
             event.stopPropagation();
             this.$el.find('.calendar-task-list-popover').removeClass('open');
         }
     });
 
     /* the popup tool */
-    var calendar_popup_tool = Backbone.View.extend({
+    let calendar_popup_tool = Backbone.View.extend({
         events: {},
         initialize: function () {
         },
@@ -60,7 +65,7 @@
     });
 
     /* the cell that holds the events */
-    var calendar_container_view = Backbone.View.extend({
+    let calendar_container_view = Backbone.View.extend({
         events: {
             'click': 'show_tool',
             'mouseleave': 'hide_tool',
@@ -71,15 +76,18 @@
             'mouseenter li span': 'add_active',
             'mouseleave li span': 'hide_active'
         },
+
         template: _.template($('#calendar-item-container').html()),
-        initialize: function () {
+
+        initialize() {
             this.empty();
             this.$el.append(this.template());
         },
-        render: function () {
-            var view = this;
+
+        render() {
+            let view = this;
             this.collection.each(function (m) {
-                var c_i = new calendar_item_view({model: m});
+                let c_i = new calendar_item_view({model: m});
                 switch (m.get('type')) {
                     case 'task':
                         view.$el.find('.calendar-task-list.t-task').append(c_i.$el);
@@ -102,191 +110,228 @@
 
             return this;
         },
-        empty: function () {
-            var view = this;
-            view.$el.find('.calendar-schedule').remove();
+
+        empty() {
+            this.$el.find('.calendar-schedule').remove();
+
             return this;
         },
-        show_tool: function (event) {
-            this.$el.append($('#calendar-dropdown-template').html());
-            var popup_label_text = moment(this.$el.data('cell-date'), "YYYY-M-D").format('dddd, MMM Do YYYY');
 
-            if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
+        show_tool(event) {
+            if (!this.$el.find('.calendar-schedule-dropdown-wrapper').length) {
+                this.$el.append($('#calendar-dropdown-template').html());
+            }
+
+            let popup_label_text = moment(this.$el.data('cell-date'), "YYYY-M-D").format('dddd, MMM Do YYYY');
+
+            if (isWeeklyCalendar() || isDailyCalendar()) {
                 popup_label_text = moment(this.$el.data('cell-date-time'), "YYYY-M-D-HHmmss").format('dddd, MMM Do YYYY HH:mm');
             }
 
             this.$el.find('.date-popup-label').text(popup_label_text);
             this.$el.find('.calendar-schedule-dropdown-wrapper').fadeIn(100);
         },
-        hide_tool: function (event) {
+
+        hide_tool(event) {
             this.$el.find('.calendar-schedule-dropdown-wrapper').remove();
         },
-        add_active: function (event) {
+
+        add_active(event) {
             //console.log('mouse over');
             this.$el.addClass('active');
         },
-        hide_active: function (event) {
+
+        hide_active(event) {
             //console.log('hiding active');
             this.$el.removeClass('active');
         },
-        show_task_modal: function () {
-            var cell_date = this.$el.data('cell-date');
 
-            if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
+        show_task_modal() {
+            let cell_date = this.$el.data('cell-date');
+
+            if (isWeeklyCalendar() || isDailyCalendar()) {
                 cell_date = this.$el.data('cell-date-time');
-                $('#task-start-date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm'));
-                $('#task-due-date').val(moment(cell_date, "YYYY-M-D-HHmmss").add(1, 'days').format('YYYY-MM-DD HH:mm'));
+                $('#task-start-date').val(moment(cell_date, "YYYY-M-D-HHmmss").format('MM/DD/YYYY HH:mm'));
+                $('#task-due-date').val(moment(cell_date, "YYYY-M-D-HHmmss").add(1, 'days').format('MM/DD/YYYY HH:mm'));
             } else {
-                $('#task-start-date').val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD HH:mm'));
-                $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('YYYY-MM-DD HH:mm'));
+                $('#task-start-date').val(moment(cell_date, "YYYY-M-D").format('MM/DD/YYYY HH:mm'));
+                $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('MM/DD/YYYY HH:mm'));
             }
 
             $("#addTaskModal").modal({ backdrop: 'static' });
         },
-        show_idea_modal: function () {
+
+        show_idea_modal() {
             $("#createIdea .form-delimiter").hide();
             this.append_date_input_field('idea_date', 'idea_date_info', 'createIdea');
             $("#createIdea").modal({ backdrop: 'static' });
         },
-        show_content_modal: function () {
+
+        show_content_modal() {
             this.append_date_input_field('content_date', 'content_date_info', 'addContentModal');
             $("#addContentModal").modal({ backdrop: 'static' });
         },
-        append_date_input_field: function (fieldId, fieldInfoId, selectorId) {
-            if (!$('#' + fieldId).length) {
-                $('<input>').attr({
+
+        append_date_input_field(fieldId, fieldInfoId, selectorId) {
+            let $field = this.get_field_element(fieldId, selectorId);
+            let $fieldInfo =  this.get_field_info_element(fieldInfoId, selectorId);
+
+            $field.val(this.formatDateValue());
+            $fieldInfo.html(this.formatDateString($field.val()));
+        },
+
+        get_field_element(fieldId, selectorId) {
+            let $field = $('#' + fieldId);
+
+            if (!$field.length) {
+                $field = $('<input>').attr({
                     type: 'hidden',
                     id: fieldId,
                 }).appendTo('#' + selectorId);
             }
 
-            var cell_date = this.$el.data('cell-date');
+            return $field;
+        },
 
-            if (window.location.pathname.indexOf('weekly') >= 0 || window.location.pathname.indexOf('daily') >= 0) {
-                cell_date = this.$el.data('cell-date-time');
-                $('#' + fieldId).val(moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm:ss'));
-            } else {
-                $('#' + fieldId).val(moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD') + ' ' + moment().format('HH:mm:ss'));
-            }
+        get_field_info_element(fieldInfoId, selectorId) {
+            let $fieldInfo = $('#' + fieldInfoId);
 
-            if (!$('#' + fieldInfoId).length) {
-                $('<h4>').attr({
+            if (!$fieldInfo.length) {
+                $fieldInfo = $('<h4>').attr({
                     id: fieldInfoId,
                 }).prependTo('#' + selectorId + ' .sidemodal-container');
             }
 
-            let value = $(`#${fieldId}`).val();
-            let momentObject = moment(value, "YYYY-MM-DD HH:mm:ss");
-            let formattedString = momentObject.format('MM-DD-YY [at] h:mm a');
+            return $fieldInfo;
+        },
 
-            $('#' + fieldInfoId).html(formattedString);
+        formatDateValue() {
+            let cell_date = this.$el.data('cell-date');
+
+            if (isWeeklyCalendar() || isDailyCalendar()) {
+                cell_date = this.$el.data('cell-date-time');
+                return moment(cell_date, "YYYY-M-D-HHmmss").format('YYYY-MM-DD HH:mm:ss');
+            } else {
+                return moment(cell_date, "YYYY-M-D").format('YYYY-MM-DD') + ' ' + moment().format('HH:mm:ss');
+            }
+        },
+
+        formatDateString(value) {
+            return moment(value, "YYYY-MM-DD HH:mm:ss").format('MM/DD/YY [at] h:mm a');
         }
     });
 
     $(function () {
-        var my_campaigns = new campaign_collection(campaigns.map(function (c) {
-            c.date = c.start_date;
-            c.type = 'campaign';
-            return c;
+        let my_campaigns = new campaign_collection(campaigns.map(function (campaign) {
+            campaign.date = campaign.start_date;
+            campaign.type = 'campaign';
+
+            return campaign;
         }));
 
         // Declarations
-        var ideas = new ideas_collection();
-        var tasks = new task_collection();
-        var my_content = new content_collection();
+        let ideas = new ideas_collection();
+        let tasks = new task_collection();
+        let my_content = new content_collection();
 
         // Maps
-        function idea_map(i) {
-            i.date = i.created_at;
-            i.type = 'idea';
-            i.title = i.name;
-            i.author = i.user.name;
-            i.details_url = '/idea/' + i.id;
-            i.explanation = i.text;
-            if (i.user.profile_image) {
-                i.user_image = i.user.profile_image;
+        function idea_map(idea) {
+            idea.date = idea.created_at;
+            idea.type = 'idea';
+            idea.title = idea.name;
+            idea.author = idea.user.name;
+            idea.details_url = '/idea/' + idea.id;
+            idea.explanation = idea.text;
+
+            if (idea.user.profile_image) {
+                idea.user_image = idea.user.profile_image;
             }
 
-            return i;
+            return idea;
         }
 
-        function task_map(t) {
-            t.date = t.start_date;
-            t.type = 'task';
-            t.title = t.name;
-            t.author = t.user.name;
-            t.details_url = '/task/show/' + t.id;
-            t.due = moment(t.due_date).format('MM-DD-YY');
-            t.status = t.status;
-            if (t.user.profile_image) {
-                t.user_image = t.user.profile_image;
+        function task_map(task) {
+            task.date = task.start_date;
+            task.type = 'task';
+            task.title = task.name;
+            task.author = task.user.name;
+            task.details_url = '/task/show/' + task.id;
+            task.due = moment(task.due_date).format('MM-DD-YY');
+
+            if (task.user.profile_image) {
+                task.user_image = task.user.profile_image;
             }
-            t.assigned_to = [];
-            t.assigned_users.forEach(function (i) {
-                t.assigned_to.push(i.name);
+
+            task.assigned_to = [];
+            task.assigned_users.forEach(function (i) {
+                task.assigned_to.push(i.name);
             });
 
-            return t;
+            return task;
         }
 
-        function content_map(c) {
-            c.date = c.created_at;
-            c.type = 'content';
-            c.details_url = '/edit/' + c.id;
+        function content_map(content) {
+            content.date = content.created_at;
+            content.type = 'content';
+            content.details_url = '/edit/' + content.id;
 
             // Limit popup text to 30 words
             let str_text = '';
-            if (/<[a-z][\s\S]*>/i.test(c.body)) {
+            if (/<[a-z][\s\S]*>/i.test(content.body)) {
                 // If text contains formatted html
-                str_text = jQuery(c.body).text();
+                str_text = jQuery(content.body).text();
             } else {
-                str_text = c.body;
+                str_text = content.body;
             }
-            c.explanation = str_text != null ? (str_text.split(" ").splice(0, 30).join(" ") + '...') : '';
 
-            c.due = moment(c.due_date).format('MM-DD-YY');
+            content.explanation = str_text != null
+                ? (str_text.split(" ").splice(0, 30).join(" ") + '...')
+                : '';
+
+            content.due = moment(content.due_date).format('MM-DD-YY');
 
             // Published status
-            if (c.content_status_id == '4') {
-                c.content_status = 'archived';
-                c.content_status_text = 'archived';
+            if (content.content_status_id == '4') {
+                content.content_status = 'archived';
+                content.content_status_text = 'archived';
             }
-            else if (c.content_status_id == '3') {
-                c.content_status = 'published';
-                c.content_status_text = 'published';
-                c.date = c.updated_at;
+            else if (content.content_status_id == '3') {
+                content.content_status = 'published';
+                content.content_status_text = 'published';
+                content.date = content.updated_at;
             }
-            else if (c.content_status_id == '2') {
-                c.content_status = 'ready_published';
-                c.content_status_text = 'ready for publishing';
+            else if (content.content_status_id == '2') {
+                content.content_status = 'ready_published';
+                content.content_status_text = 'ready for publishing';
             }
-            else if (c.content_status_id == '1') {
-                c.content_status = 'written';
-                c.content_status_text = 'being written';
+            else if (content.content_status_id == '1') {
+                content.content_status = 'written';
+                content.content_status_text = 'being written';
             } else {
-                c.content_status = null;
-                c.content_status_text = '';
+                content.content_status = null;
+                content.content_status_text = '';
             }
 
             //Get content type slug
-            var type = $.grep(types, function (e) {
-                return e.id == c.content_type_id;
+            let type = $.grep(types, function (e) {
+                return e.id == content.content_type_id;
             });
 
-            c.type_class = 'primary icon-content-alert ';
+            content.type_class = 'primary icon-content-alert ';
             if (type[0] != null && type[0].slug != null) {
-                c.type_class += 'icon-' + type[0].slug;
+                content.type_class += 'icon-' + type[0].slug;
             }
 
-            c.author = '';
-            c.authors.forEach(function (author) {
-                c.author += author.name + '<br>';
+            content.author = '';
+            content.authors.forEach(function (author) {
+                content.author += author.name + '<br>';
             });
-            if (c.author.profile_image) {
-                c.user_image = c.author.profile_image;
+
+            if (content.author.profile_image) {
+                content.user_image = content.author.profile_image;
             }
 
-            return c;
+            return content;
         }
 
         // Fetch methods
@@ -335,10 +380,9 @@
             addCallback();
         });
 
-
         function addCallback(new_calendar = null, has_calendar = false) {
 
-            var this_calendar = (new_calendar != null && has_calendar == true) ? new_calendar : get_this_calendar();
+            let this_calendar = (new_calendar != null && has_calendar == true) ? new_calendar : get_this_calendar();
 
             $('#calendar-loading-gif').show();
 
@@ -383,12 +427,12 @@
 
         // RENDER
         function renderCalendarItems(calendar_items) {
-            var day_containers = {};
-            var hour_containers = {};
+            let day_containers = {};
+            let hour_containers = {};
 
             calendar_items.each(function (i) {
-                var d = moment(i.get('date')).format('YYYY-M-D');
-                var dt = moment(i.get('date')).format('YYYY-M-D') + '-' + moment(i.get('date')).format('HH') + '0000';
+                let d = moment(i.get('date')).format('YYYY-M-D');
+                let dt = moment(i.get('date')).format('YYYY-M-D') + '-' + moment(i.get('date')).format('HH') + '0000';
                 if (day_containers[d]) {
                     day_containers[d].push(i);
                 } else {
@@ -400,21 +444,25 @@
                     hour_containers[dt] = [i];
                 }
             });
-            var cal_views = {};
-            var page_cell_sel = 'tbody.calendar-month-days td';
-            if (window.location.pathname.indexOf('weekly') >= 0) {
+
+            let cal_views = {};
+            let page_cell_sel = 'tbody.calendar-month-days td';
+
+            if (isWeeklyCalendar()) {
                 page_cell_sel = 'tbody.calendar-week-hours td';
             }
-            if (window.location.pathname.indexOf('daily') >= 0) {
+
+            if (isDailyCalendar()) {
                 page_cell_sel = 'tbody.calendar-day td';
             }
 
             $(page_cell_sel).each(function (i, c) {
-                var d_string = $(c).data('cell-date') || $(c).data('cell-date-time');
+                let d_string = $(c).data('cell-date') || $(c).data('cell-date-time');
+
                 if (d_string) {
-                    var sel = '#date-' + d_string;
-                    var col_set_group = day_containers[d_string] || hour_containers[d_string] || [];
-                    var col = new calendar_item_collection(col_set_group);
+                    let sel = '#date-' + d_string;
+                    let col_set_group = day_containers[d_string] || hour_containers[d_string] || [];
+                    let col = new calendar_item_collection(col_set_group);
 
                     cal_views[d_string] = new calendar_container_view({el: sel, collection: col});
                     cal_views[d_string].render();
@@ -459,7 +507,7 @@
         // Filter
         reset_filter();
 
-        var multiple_select = $('.multipleSelect');
+        let multiple_select = $('.multipleSelect');
         multiple_select.fastselect();
 
         $('#apply-filters').click(function () {
@@ -508,4 +556,3 @@
 
 })
 (window, document, jQuery);
-
