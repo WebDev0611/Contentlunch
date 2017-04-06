@@ -258,21 +258,18 @@ class Task extends Model
     // with tasks
     public static function resourceTasks($resource, $openTasks = false)
     {
-        $tasks = $resource->tasks();
-
-        if ($openTasks) {
-            $tasks = $tasks->where('status', '=', 'open');
-        }
-
-        return $tasks
+        return $resource->tasks()
             ->with('user')
             ->with('assignedUsers')
+            ->when($openTasks, function($query) {
+                return $query->whereStatus('open');
+            })
             ->get()
             ->map(function($task) {
                 $task->due_date_diff = $task->present()->dueDate;
-                $task->user_profile_image = $task->user ?
-                    $task->user->present()->profile_image :
-                    User::DEFAULT_PROFILE_IMAGE;
+                $task->user_profile_image = $task->user
+                    ? $task->user->present()->profile_image
+                    : User::DEFAULT_PROFILE_IMAGE;
 
                 return $task;
             });
