@@ -67,7 +67,8 @@
     });
 
     if (campaign && campaign.id) {
-        tasks.populateList(campaign.id);
+        let openTasksOnly = false;
+        tasks.populateList(campaign.id, openTasksOnly);
     }
 
     //

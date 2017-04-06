@@ -25,7 +25,6 @@ class TaskControllerTest extends TestCase
         $this->account = factory(Account::class)->create();
         $this->user = factory(User::class)->create([ 'name' => 'Task Tester']);
         $this->user->accounts()->attach($this->account);
-
     }
 
     public function testTasksStatusCanBeAlteredByCreator()
