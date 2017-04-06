@@ -2,8 +2,10 @@
 <div id="buying-stages-view">
     <div class="row">
         <div class="col-md-8">
-            <p class="settings-text">
-                These Buying Stages will be used in content and can be changed as needed.
+            <p class="settings-text text-center">
+                A Buying Stage is a point in the customer buying process, which describes the journey your customer goes through before they buy your product/service.
+                Typical stages are "awareness", "consideration" and then "purchase".
+                Buying stages will be used in the content you create in Content Launch, so you can target your content to them.
             </p>
         </div>
         <div class="col-md-4">
