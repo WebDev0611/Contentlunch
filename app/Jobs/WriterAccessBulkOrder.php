@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Facades\Mail;
 use Stripe\Customer;
 use Stripe\Charge;
 use Stripe\Stripe;
@@ -143,6 +144,14 @@ class WriterAccessBulkOrder extends Job implements ShouldQueue
 
         $job = (new DeleteWriterAccessBulkOrder($this->bulkOrderStatus->id))->delay(10);
         $this->dispatch($job);
+
+        foreach ($this->failedOrders as $failedOrder) {
+            Mail::send('emails.order_failed', ['order' => $failedOrder], function($message) {
+                $message->from("no-reply@contentlaunch.com", "Content Launch")
+                    ->to('jon@contentlaunch.com')
+                    ->subject('Order failed!');
+            });
+        }
     }
 
     /**
@@ -161,10 +170,13 @@ class WriterAccessBulkOrder extends Job implements ShouldQueue
         echo "\nThe response";
         var_dump($response);
 
-        if(isset( $response->fault)){
+        if(isset($response->fault)){
             echo "\nError: " . $response->fault . "\n";
             return false;
-        }else{
+        } else if(isset($response->error)){
+            echo "\nError: " . $response->error . "\n";
+            return false;
+        } else{
             echo "\nComplete!\n";
             return true;
         }
