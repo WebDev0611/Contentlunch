@@ -1,11 +1,7 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mjpotter
- * Date: 7/23/16
- * Time: 10:43 AM
- */
 
+use App\Http\Controllers\Controller;
+use App\User;
 use \Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -14,7 +10,7 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
@@ -26,7 +22,7 @@ class UsersController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
@@ -38,7 +34,7 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store()
     {
@@ -54,7 +50,7 @@ class UsersController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int $id
-     * @return Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
@@ -67,9 +63,9 @@ class UsersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  int $id
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(CreateOrEditUserRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $form = $request->all();
 
