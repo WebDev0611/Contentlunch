@@ -21,6 +21,12 @@ $factory->define(App\Content::class, function (Faker\Generator $faker) {
             ])->id;
         },
 
+        'content_status_id' => function($content) use ($faker) {
+            $possibleStatusIDs = \App\ContentStatus::pluck('id')->toArray();
+
+            return $faker->randomElement($possibleStatusIDs);
+        },
+
         'user_id' => function($content) use ($faker) {
             $user = factory(App\User::class)->create();
             $user->accounts()->attach(App\Account::find($content['account_id']));
