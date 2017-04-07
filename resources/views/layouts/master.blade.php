@@ -142,12 +142,13 @@
 @endif
 
 @include('layouts.partials.js_user')
-@include('layouts.partials.intercom')
 @include('layouts.partials.freemium-popup')
+
 @if (getenv('APP_ENV', 'production') === 'production')
+    @include('layouts.partials.intercom')
     @include('layouts.partials.fullstory')
     @include('layouts.partials.google-analytics')
+    @include('layouts.partials.app-cues')
 @endif
-
 </body>
 </html>
