@@ -1,5 +1,6 @@
 <?php
 
+use App\ContentStatus;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -9,6 +10,8 @@ use App\Account;
 
 class ContentTest extends TestCase
 {
+    protected $accounts;
+
     public function setUp()
     {
         parent::setUp();
@@ -67,5 +70,23 @@ class ContentTest extends TestCase
         $contents = Content::search('body content', $this->accounts[0]);
 
         $this->assertEquals(1, $contents->count());
+    }
+
+    public function testConfigureAction()
+    {
+        $content = factory(Content::class)->create();
+
+        $content->configureAction('ready_to_publish');
+        $this->assertEquals($content->content_status_id, ContentStatus::READY);
+
+        $content->configureAction('publish');
+        $this->assertEquals($content->content_status_id, ContentStatus::PUBLISHED);
+
+        $content->configureAction('archived');
+        $this->assertEquals($content->content_status_id, ContentStatus::ARCHIVED);
+
+        $content->configureAction();
+        $this->assertEquals($content->content_status_id, ContentStatus::BEING_WRITTEN);
+
     }
 }
