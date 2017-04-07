@@ -16,6 +16,18 @@ $factory->define(App\Account::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->defineAs(App\Account::class, 'agency', function () use ($factory) {
+    $account = $factory->raw(App\Account::class);
+
+    return array_merge($account, ['account_type_id' => \App\AccountType::AGENCY]);
+});
+
+$factory->defineAs(App\Account::class, 'company', function () use ($factory) {
+    $account = $factory->raw(App\Account::class);
+
+    return array_merge($account, ['account_type_id' => \App\AccountType::COMPANY]);
+});
+
 $factory->define(App\AccountType::class, function (Faker\Generator $faker) {
     return [
         'name' => ucwords($faker->word) . ' Type',

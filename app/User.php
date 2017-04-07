@@ -8,6 +8,7 @@ use App\Content;
 use App\Limit;
 use App\Presenters\UserPresenter;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laracasts\Presenter\PresentableTrait;
@@ -110,8 +111,8 @@ class User extends Authenticatable
     public function scopeCreatedSinceYesterday($query)
     {
         return $query->whereBetween('created_at', [
-            \Carbon\Carbon::now()->subDay(),
-            \Carbon\Carbon::now(),
+            Carbon::now()->subDay(),
+            Carbon::now(),
         ]);
     }
 
