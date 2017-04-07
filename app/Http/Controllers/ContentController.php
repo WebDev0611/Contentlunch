@@ -67,10 +67,9 @@ class ContentController extends Controller
         $open = [];
         $pendingApproval = [];
 
-        try{
+        try {
             $orders = json_decode(utf8_encode($writerAccess->orders()->getContent()))->orders;
-
-        }catch(Exception $e){
+        } catch(Exception $e) {
             $orders = [];
             /*switch (json_last_error()) {
                 case JSON_ERROR_NONE:
@@ -97,8 +96,8 @@ class ContentController extends Controller
             }*/
         }
 
-        foreach ($orders as $order){
-            switch ($order->status){
+        foreach ($orders as $order) {
+            switch ($order->status) {
                 case "Approved" :
                     $approved[] = $order;
                 case "In Progress" :
@@ -109,15 +108,12 @@ class ContentController extends Controller
                     $pendingApproval[] = $order;
             }
         }
-
-
         $countOrders = count($orders);
 
         $connections = $this->selectedAccount
             ->connections()
             ->where('active', 1)
             ->get();
-
 
         return view('content.orders', compact(
             'orders', 'countOrders', 'approved', 'inProgress', 'open', 'pendingApproval', 'connections'
@@ -510,7 +506,8 @@ class ContentController extends Controller
         return view('content.editor', $data);
     }
 
-    public function getContentTypes() {
+    public function getContentTypes()
+    {
         return ContentType::with('provider')->get();
     }
 
