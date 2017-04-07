@@ -1,5 +1,5 @@
 @php
-$restriction = isset($restriction) ? $restriction : 'try out all features of the application, but some functionalities are limited';
+$restriction = isset($restriction) ? $restriction : 'try out all features of the app, but some functionality is limited';
 @endphp
 
 @if(App\Account::selectedAccount()->activeSubscriptions()->first()->subscriptionType->slug == 'trial')
@@ -7,10 +7,10 @@ $restriction = isset($restriction) ? $restriction : 'try out all features of the
 <div class="alert alert-info alert-forms freemium-notification alert-dismissable">
     {{-- <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> --}}
 
-        <h4>You are using the 2 weeks free trial of ContentLaunch</h4>
+        <h4>You are using the 2 week free trial of ContentLaunch</h4>
 
-        <p>You can {!! $restriction !!} during this period. Subscribe to a paid account to remove
-            current limitations.</p>
+        <p>You can {!! $restriction !!} during this period.
+            Switch to a paid account to remove this and other limitations.</p>
 
     <a href="{{route('subscription')}}">
         <button class="btn btn-upgrade">Upgrade now</button>
@@ -25,7 +25,7 @@ $restriction = isset($restriction) ? $restriction : 'try out all features of the
         <h4>You are using the free version of ContentLaunch</h4>
 
         <p>You can {!! $restriction !!}. Switch to a paid account to remove
-            current limitations.</p>
+            this and other limitations.</p>
 
         <a href="{{route('subscription')}}">
             <button class="btn btn-upgrade">Upgrade now</button>
