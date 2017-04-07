@@ -1,8 +1,6 @@
 <?php
 
 $factory->define(App\Content::class, function (Faker\Generator $faker) {
-    $status = $faker->randomElement([1, 2, 3, 4]);
-
     return [
         'content_type_id' => function() use ($faker) {
             $contentTypes = App\ContentType::where('provider_id', '!=', '0')->get();
@@ -40,6 +38,5 @@ $factory->define(App\Content::class, function (Faker\Generator $faker) {
         'meta_description' => $faker->text,
         'due_date' => $faker->dateTimeBetween('now', '1 month')->format('Y-m-d'),
         'title' => $faker->sentence,
-        'content_status_id' => $status,
     ];
 });

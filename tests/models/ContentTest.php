@@ -1,6 +1,7 @@
 <?php
 
 use App\ContentStatus;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -116,5 +117,26 @@ class ContentTest extends TestCase
         $this->assertEquals(Content::published()->count(), 3);
         $this->assertEquals(Content::archived()->count(), 4);
         $this->assertEquals(Content::written()->count(), 5);
+    }
+
+    public function testHasCollaborator()
+    {
+        $userA = factory(\App\User::class)->create();
+        $userB = factory(\App\User::class)->create();
+        $content = factory(Content::class)->create();
+
+        $content->collaborators()->attach($userA);
+
+        $this->assertTrue($content->hasCollaborator($userA));
+        $this->assertFalse($content->hasCollaborator($userB));
+    }
+
+    public function testDueDateCritical()
+    {
+        $contentA = factory(Content::class)->create([ 'due_date' => Carbon::now()->addDays(4) ]);
+        $contentB = factory(Content::class)->create([ 'due_date' => Carbon::now()->addDays(1) ]);
+
+        $this->assertFalse($contentA->isDueDateCritical());
+        $this->assertTrue($contentB->isDueDateCritical());
     }
 }
