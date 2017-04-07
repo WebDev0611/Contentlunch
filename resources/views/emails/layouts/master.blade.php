@@ -20,7 +20,7 @@
 
 <div class="content">
     <div class="logo">
-        <img src="{{asset('images/logo-full.svg')}}" width="215" border="0" alt="Content Launch Logo" />
+        <img src="<?php echo $message->embed('images/logo-full.png'); ?>" width="215" border="0" alt="Content Launch Logo" title="Content Launch Logo">
     </div>
     <h3>{{$title}}</h3>
 
