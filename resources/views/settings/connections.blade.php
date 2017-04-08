@@ -49,8 +49,8 @@
                     <div class="col-md-2">
                         <i class="icon-notification"></i>
                         <p>
-                            Content Connections are the channels that your content is
-                            published to. Use the list on the left to manage them.
+                            Content items produced inside Content Launch are published (or launched) to your Content Connections and include Wordpress, Hubspot, Facebook and Twitter.
+                            Many more will be added in the coming weeks. Use the list on the left to manage your connections.
                         </p>
                     </div>
                 </div>
