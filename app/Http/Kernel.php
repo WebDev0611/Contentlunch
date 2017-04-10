@@ -81,5 +81,6 @@ class Kernel extends HttpKernel
         'calendar' => \App\Http\Middleware\CalendarMiddleware::class,
         'format_date' => \App\Http\Middleware\ConvertDateFormat::class,
         'format_datetime' => \App\Http\Middleware\ConvertDatetimeFormat::class,
+        'agency' => \App\Http\Middleware\AgencyAccountMiddleware::class,
     ];
 }

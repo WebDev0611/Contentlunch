@@ -67,7 +67,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::get('/home', 'HomeController@index');
         Route::get('/dashboard', 'AccountController@stats');
 
-        Route::group(['prefix' => 'agencies'], function () {
+        Route::group(['prefix' => 'agencies', 'middleware' => 'agency'], function () {
             Route::get('/', 'AgencyController@index')->name('agencyIndex');
             Route::post('/', 'AgencyController@store')->name('agencyStore');
             Route::post('/select/{account}', 'AccountController@selectAccount')->name('accountSelect');
