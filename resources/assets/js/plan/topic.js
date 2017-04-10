@@ -153,12 +153,12 @@
             return $('.idea-name').val().length > 1;
         },
 
-        formData() {
+        formData(status = 'active') {
             return {
                 name: $('.idea-name').val(),
                 idea: $('.idea-text').val(),
                 tags: $('.idea-tags').val(),
-                status: status || 'active',
+                status: status,
                 content: this.model.attributes.content.map(model => model.attributes),
                 collaborators: this.collaborators.map(user => user.id),
             };
@@ -180,7 +180,7 @@
 			return $.ajax({
 			    url: '/ideas',
 			    type: 'post',
-			    data: this.formData(),
+			    data: this.formData(status),
 			    dataType: 'json',
 			})
 			.then(function (data) {

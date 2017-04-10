@@ -98,6 +98,11 @@ class CampaignController extends Controller
         }
         Auth::user()->addToLimit('campaigns');
 
+        $request->merge([
+            'start_date' => $this->formatDate($request->get('start_date')),
+            'end_date' => $this->formatDate($request->get('end_date')),
+        ]);
+
         $data = $request->all();
         $validation = $this->createValidation($data);
 
@@ -161,6 +166,11 @@ class CampaignController extends Controller
         }
     }
 
+    private function formatDate($date){
+        $newDateFormat = 'Y-m-d';
+        return date($newDateFormat, strtotime($date));
+    }
+
     public function update(Request $request, Campaign $campaign)
     {
         $validation = $this->createValidation($request->all());
@@ -169,6 +179,11 @@ class CampaignController extends Controller
             $request->flash();
             return redirect('/campaign')->with('errors', $validation->errors());
         }
+
+        $request->merge([
+            'start_date' => $this->formatDate($request->get('start_date')),
+            'end_date' => $this->formatDate($request->get('end_date')),
+        ]);
 
         $campaign->update($request->all());
 

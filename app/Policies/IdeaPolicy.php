@@ -44,7 +44,7 @@ class IdeaPolicy extends BasePolicy
 
     public function update(User $user, Idea $idea)
     {
-        return $idea->user->id == $user->id || $idea->hasCollaborator($user);
+        return $idea->user->id == $user->id || $idea->hasCollaborator($user) || $idea->account->hasUser($user);
     }
 
     public function write(User $user, Idea $idea)

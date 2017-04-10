@@ -35,7 +35,7 @@
         },
 
         rejectIdea() {
-            return $.post('/idea/' + this.model.get('id') + '/reject/')
+            return $.post('/idea/' + this.model.get('id') + '/reject')
                 .then(res => this.showAlert('Idea has been rejected!'));
         },
 
