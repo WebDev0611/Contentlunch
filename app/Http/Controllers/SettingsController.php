@@ -28,7 +28,7 @@ class SettingsController extends Controller {
         $this->saveUserAvatar($request);
 
         return redirect()->route('settings.index')->with([
-            'flash_message'           => 'Account settings updated.',
+            'flash_message'           => 'User settings updated.',
             'flash_message_type'      => 'success',
             'flash_message_important' => true,
         ]);
