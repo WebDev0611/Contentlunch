@@ -30,8 +30,8 @@
                 <thead>
                     <tr>
                         <th>Client</th>
-                        <th># of Projects</th>
-                        <th>Collaborators</th>
+                        <th># of Current Content Projects</th>
+                        <th># of Current Campaigns</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -44,8 +44,8 @@
                             </div>
                             <p class="title">{{ $account->name }}</p>
                         </td>
-                        <td>{{ $account->contents->count() }}</td>
-                        <td>{{ $account->users->count() }}</td>
+                        <td>{{ $account->contents()->current()->count() }}</td>
+                        <td>{{ $account->campaigns->count() }}</td>
                         <td class="tbl-right">
                             {{-- <div class="actionbtnbox">
                                 <button

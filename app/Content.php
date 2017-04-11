@@ -200,6 +200,11 @@ class Content extends Model
         return $query->where('content_status_id', ContentStatus::ARCHIVED);
     }
 
+    public function scopeCurrent ($query)
+    {
+        return $query->whereIn('content_status_id', [ContentStatus::READY, ContentStatus::BEING_WRITTEN]);
+    }
+
     public function setReadyPublished()
     {
         $this->configureAction('ready_to_publish');
