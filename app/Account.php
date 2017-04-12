@@ -216,7 +216,7 @@ class Account extends Model
     public function subscribe(SubscriptionType $subscriptionType, $attributes = [], $proxyToParent = true)
     {
         $mailData = [
-            'oldPlanName' => $this->subscriptionType()->name,
+            'oldPlanName' => $this->oldSubscriptionType()->name,
             'newPlanName' => $subscriptionType->name
         ];
 
@@ -257,6 +257,20 @@ class Account extends Model
         $account = $proxyToParent ? $this->proxyToParent() : $this;
 
         $subscription = $account->subscriptions()->active()->latest()->first();
+        $free = SubscriptionType::findBySlug('free');
+
+        $subType = $subscription
+            ? $subscription->subscriptionType
+            : $free;
+
+        return $subType ?: $free;
+    }
+
+    public function oldSubscriptionType($proxyToParent = true)
+    {
+        $account = $proxyToParent ? $this->proxyToParent() : $this;
+
+        $subscription = $account->subscriptions()->latest()->first();
         $free = SubscriptionType::findBySlug('free');
 
         $subType = $subscription
