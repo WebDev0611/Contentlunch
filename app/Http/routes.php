@@ -274,6 +274,10 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
             Route::get('followers', ['uses' => 'Connections\TwitterController@userSearch']);
         });
 
+        Route::group(['prefix' => 'export'], function () {
+            Route::get('content/{id}/{extension}', 'ExportController@content')->name('export.content');
+        });
+
         /**
          * AJAX Helpers
          */

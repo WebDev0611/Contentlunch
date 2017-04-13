@@ -23,4 +23,9 @@ class ContentPolicy extends BasePolicy
 
         return $launches < $maxLaunches;
     }
+
+    public function edit(User $user, Content $content)
+    {
+        return $content->hasCollaborator($user) || $content->account == $this->account;
+    }
 }
