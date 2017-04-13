@@ -309,7 +309,3 @@ Route::get('/coming-soon',  function () {
 });
 
 Route::post('/stripe-webhook', 'StripeController@webhook');
-
-Route::get('/testhtml',  function () {
-    return view('content.html-test');
-});
