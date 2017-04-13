@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Subscription;
+use App\SubscriptionType;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -16,10 +17,9 @@ class StripeController extends Controller {
     {
         Stripe::setApiKey(Config::get('services.stripe.secret'));
 
-        $event = \Stripe\Event::retrieve($request->id);
+        $event = \Stripe\Event::retrieve($request->id); // Verify the event by fetching it from Stripe
 
         if (isset($event) && isset($event->data->object->customer)) {
-            $event = \Stripe\Event::retrieve($event->id); // Verify the event by fetching it from Stripe
             $object = $event->data->object;
 
             switch ($event->type) {
@@ -37,7 +37,7 @@ class StripeController extends Controller {
                     break;
             }
 
-            return response($event, 200);
+            return response('ok', 200);
         }
         else {
             return response('error', 400);
@@ -54,7 +54,9 @@ class StripeController extends Controller {
         $subscription = Subscription::where('stripe_subscription_id', '=', $object->id)
             ->active()
             ->firstOrFail();
+        $subscriptionType = SubscriptionType::whereSlug($object->plan->id)->firstOrFail();
 
+        $subscription->subscriptionType()->associate($subscriptionType);
         $subscription->start_date = date('Y-m-d', $object->current_period_start);
         $subscription->expiration_date = date('Y-m-d', $object->current_period_end);
         $subscription->save();

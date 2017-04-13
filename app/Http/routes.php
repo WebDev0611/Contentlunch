@@ -53,7 +53,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::post('signup', 'OnboardingController@process_signup');
     });
 
-    Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => ['auth', 'subscription']], function () {
         Route::get('/', 'HomeController@index')->name('dashboard');
 
         Route::get('invite', 'OnboardingInviteController@invite')->name('inviteIndex');
