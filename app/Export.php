@@ -30,7 +30,7 @@ class Export extends Model {
 
         $section = $phpWord->addSection();
 
-        Html::addHtml($section, $html);
+        Html::addHtml($section, html_entity_decode($html));
         $pathToFile = self::exportPath() . ($documentName == null ? 'document_' . time() : $documentName) . '.docx';
 
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');

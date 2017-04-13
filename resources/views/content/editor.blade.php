@@ -77,7 +77,7 @@
                                             {{-- <li><a href="#">Park</a></li> --}}
                                             <li><a href="{{ route('archived_contents.update', $content) }}">Archive</a></li>
                                             <li><a href="{{ route('contentDelete', $content->id) }}">Delete</a></li>
-                                            <li><a id="export-word" href="{{route('export.content', [$content->id, 'docx'])}}">Export to Word document</a></li>
+                                            <li><a id="export-word" href="{{route('export.content', [$content->id, 'docx'])}}" download>Export to Word document</a></li>
                                         </ul>
                                         @endif
                                     </div>

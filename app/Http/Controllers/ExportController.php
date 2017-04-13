@@ -23,7 +23,7 @@ class ExportController extends Controller
             return $this->danger('contents.index', "You don't have sufficient permissions to do this.");
         }
 
-        $pathToFile = Export::htmlToWordDocument($content->body, snake_case($content->title));
+        $pathToFile = Export::htmlToWordDocument($content->body, str_slug($content->title, '-'));
 
         return response()->download($pathToFile)->deleteFileAfterSend(true);
     }
