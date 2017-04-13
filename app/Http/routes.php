@@ -309,3 +309,9 @@ Route::get('/coming-soon',  function () {
 });
 
 Route::post('/stripe-webhook', 'StripeController@webhook');
+
+Route::group([ 'prefix' => 'admin' ], function() {
+    Route::get('dashboard', function() {
+        return view('admin.dashboard.index');
+    });
+});

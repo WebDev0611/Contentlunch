@@ -120,6 +120,18 @@ elixir(function (mix) {
         .copy("resources/assets/images", "public/images")
         .copy("resources/assets/fonts", "public/fonts")
         .copy("resources/assets/downloads", "public/downloads")
+
+        /*
+         |--------------------------------------------------------------------------
+         | Administrative Dashboard
+         |--------------------------------------------------------------------------
+         |
+         | The following files are used in the administrative dashboard of the app.
+         | It uses an existing theme, called Inspinia, to speed up the front-end
+         | development and maintain a consistent look throught the dashboard.
+         |
+         */
+        .sass('admin/admin.scss')
     ;
     mix.livereload();
 });
