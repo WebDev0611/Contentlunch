@@ -132,6 +132,11 @@ elixir(function (mix) {
          |
          */
         .sass('admin/admin.scss')
+        .combine([
+            './resources/assets/admin_theme/font-awesome/css/font-awesome.min.css'
+        ], 'public/css/admin_vendor.css')
+
+        .copy('./resources/assets/admin_theme/font-awesome/fonts', 'public/fonts')
     ;
     mix.livereload();
 });

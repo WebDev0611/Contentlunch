@@ -8,6 +8,7 @@
     <title>Content Launch Administrative Dashboard</title>
 
     <link rel="stylesheet" href="{!! asset('css/admin.css') !!}">
+    <link rel="stylesheet" href="{!! asset('css/admin_vendor.css') !!}">
 
 </head>
 <body>
