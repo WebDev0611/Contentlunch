@@ -15,7 +15,7 @@
                     </a>
                 </div>
                 <div class="logo-element">
-                    <img src="images/logo.svg" alt="">
+                    <img src="/images/logo.svg" style="width: 40px">
                 </div>
             </li>
             <li>
