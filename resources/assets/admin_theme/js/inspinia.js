@@ -106,7 +106,6 @@ $(document).ready(function () {
     $('.navbar-minimalize').on('click', function () {
         $("body").toggleClass("mini-navbar");
         SmoothlyMenu();
-
     });
 
     // Tooltips demo
