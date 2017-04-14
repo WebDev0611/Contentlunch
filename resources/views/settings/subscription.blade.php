@@ -388,6 +388,12 @@
                                 </div>
                             </div>
 
+                        <div class="col-md-10 text-right subscription-cancel">
+                            <a data-toggle="tooltip" data-placement="top" title="To cancel a subscription, please select a 'Free' plan. Note: If you have a paid subscription currently active, you will not receive a refund automatically.">Want to cancel the subscription?</a>
+                        </div>
+
+
+
                         </div>
 
                     {!! Form::close() !!}
