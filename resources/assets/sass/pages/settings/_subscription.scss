@@ -268,3 +268,18 @@ p.no-card {
     margin: 50% 0;
   }
 }
+
+.subscription-cancel {
+  margin-top: 50px !important;
+
+  a {
+    color: #666 !important;
+  }
+
+  .tooltip, .tooltip .tooltip-inner{
+    font-size: 15px;
+  }
+}
+
+
+

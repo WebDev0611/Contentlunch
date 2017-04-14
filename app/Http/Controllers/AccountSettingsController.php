@@ -79,8 +79,16 @@ class AccountSettingsController extends Controller {
             return redirect()->route('subscription')->with('errors', $validation->errors());
         }
 
-        // If free plan is selected: TODO: handle plan downgrade: remove Stripe subscription if it exists
+        $this->initStripe();
+        $customerId = $request->has('stripe-customer-id') ? $request->input('stripe-customer-id') : $this->createStripeCustomer($request)->id;
+        $currentStripeSubscription = $this->getCurrentStripeSubscription($customerId);
+
+        // If free plan is selected:
         if ($request->input('plan-slug') == 'free') {
+            if ($currentStripeSubscription !== null) {
+                $currentStripeSubscription->cancel();
+            }
+
             Account::selectedAccount()->subscribe(SubscriptionType::whereSlug('free')->first());
 
             return $this->redirectToSubscription('Account upgrade is complete!');
@@ -93,14 +101,10 @@ class AccountSettingsController extends Controller {
 
         // Stripe
         try {
-            $this->initStripe();
-            $customerId = !empty($request->input('stripe-customer-id')) ? $request->input('stripe-customer-id') : $this->createStripeCustomer($request)->id;
-
             // Handle one-time payment (charge) or subscription
             if ($isAutoRenew) {
                 // Stripe Subscription
                 $plan = $this->getStripePlan($request);
-                $currentStripeSubscription = $this->getCurrentStripeSubscription($customerId);
 
                 $subscription = ($currentStripeSubscription !== null) ?
                     $this->updateStripeSubscription($currentStripeSubscription, $plan->id) : // update current subscription
