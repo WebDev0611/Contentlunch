@@ -8,7 +8,8 @@
     "bootstrap-sass": "^3.3.0",
     "gulp": "^3.9.1",
     "laravel-elixir": "5.0.0",
-    "laravel-elixir-livereload": "^1.1.6"
+    "laravel-elixir-livereload": "^1.1.6",
+    "testarmada-magellan-nightwatch": "^4.1.2"
   },
   "dependencies": {
     "babel-preset-es2015": "^6.18.0",
