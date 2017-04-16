@@ -14,6 +14,17 @@
         @include('admin.partials.errors')
 
         <div class="row">
+            <div class="col-sm-6 form-group">
+                <div class="form-inline">
+                    {{
+                        Form::text('search', '', [
+                            'class' => 'form-control',
+                            'placeholder' => 'Search...',
+                        ])
+                    }}
+                    {{ Form::submit('Filter', [ 'class' => "btn btn-primary" ]) }}
+                </div>
+            </div>
             <div class="col-sm-6">
                 <div class="pull-right">
                     {{ $users->links() }}
