@@ -24,6 +24,16 @@
                     <span class="nav-label">Dashboard</span>
                 </a>
             </li>
+            <li>
+                <a>
+                    <i class="fa fa-user"></i>
+                    <span class="nav-label">Users</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level collapse">
+                    <li><a href="{{ route('admin_users.index') }}">List of Users</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 </nav>

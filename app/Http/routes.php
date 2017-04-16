@@ -310,8 +310,16 @@ Route::get('/coming-soon',  function () {
 
 Route::post('/stripe-webhook', 'StripeController@webhook');
 
+/*
+ |--------------------------------------------------------------------------
+ | Administrative Dashboard routes
+ |--------------------------------------------------------------------------
+ |
+ | Here are the routes for the admin back-end of the site.
+ |
+*/
 Route::group([ 'prefix' => 'admin' ], function() {
-    Route::get('dashboard', function() {
-        return view('admin.dashboard.index');
-    });
+    Route::get('dashboard', 'Admin\DashboardController@index')->name('admin_dashboard.index');
+
+    Route::get('users', 'Admin\UserController@index')->name('admin_users.index');
 });
