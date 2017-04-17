@@ -18,7 +18,13 @@
         <div id="page-wrapper" class="gray-bg">
             @include('admin.layouts.partials.topnavbar')
 
-            @yield('content')
+            @yield('header')
+            <div class="wrapper wrapper-content animated fadeInRight">
+                @include('admin.partials.flash')
+                @include('admin.partials.errors')
+
+                @yield('content')
+            </div>
 
             @include('admin.layouts.partials.footer')
         </div>
