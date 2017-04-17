@@ -19,7 +19,10 @@ require('laravel-elixir-livereload');
 
 elixir(function (mix) {
     mix
-        .sass('main.scss')
+        .sass([
+            'main.scss',
+            'admin/admin.scss',
+        ])
         .scripts([
             './bower_components/vue/dist/vue.js',
             './bower_components/jquery/dist/jquery.min.js',
@@ -131,7 +134,6 @@ elixir(function (mix) {
          | development and maintain a consistent look throught the dashboard.
          |
          */
-        .sass('admin/admin.scss')
         .scripts([
 
             './bower_components/jquery/dist/jquery.min.js',
