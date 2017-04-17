@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Login;
 use \Illuminate\Http\Request;
 use Validator;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -111,9 +112,10 @@ class AuthController extends Controller
         }
     }
 
-    protected  function authenticated(Request $request)
+    protected  function authenticated(Request $request, User $user)
     {
         Account::selectedAccount()->ensureAccountHasSubscription();
+        Login::registerLogin($request, $user);
 
         return redirect()->intended($this->redirectPath());
     }
