@@ -83,5 +83,6 @@ class Kernel extends HttpKernel
         'format_datetime' => \App\Http\Middleware\ConvertDatetimeFormat::class,
         'agency' => \App\Http\Middleware\AgencyAccountMiddleware::class,
         'subscription' => \App\Http\Middleware\SubscriptionMiddleware::class,
+        'admins_only' => \App\Http\Middleware\RequiresAdminPrivileges::class,
     ];
 }
