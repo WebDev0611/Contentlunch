@@ -102,6 +102,12 @@
 
 .loginscreen.middle-box {
   width: 300px;
+
+  .logo-name img {
+    position: relative;
+    left: 25px;
+    margin-bottom: 20px;
+  }
 }
 
 .loginColumns {
