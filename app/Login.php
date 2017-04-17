@@ -24,4 +24,14 @@ class Login extends Model
 
         return $counts;
     }
+
+    public static function registerLogin(Request $request, User $user)
+    {
+        return static::create([
+            'user_id' => $user->id,
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->header('User-Agent'),
+            'fingerprint' => $request->fingerprint(),
+        ]);
+    }
 }
