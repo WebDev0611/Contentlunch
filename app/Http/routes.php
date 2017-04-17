@@ -173,18 +173,18 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
 
         // - Landing page for creating content
         Route::get('/create', 'ContentController@create')->name('contents.create');
-        Route::post('/create/new', 'ContentController@store')->name('contents.store');
+        Route::post('/create/new', 'ContentController@store')->name('contents.store')->middleware('format_date:due_date,m/d/Y');
 
         // - create form page
         Route::get('/edit', 'ContentController@createContent')->name('content.create');
-        Route::post('/edit', 'ContentController@editStore')->name('content.update');
+        Route::post('/edit', 'ContentController@editStore')->name('content.store');
 
         Route::post('/edit/images', 'ContentController@images')->name('imageContent');
         Route::post('/edit/attachments', 'ContentController@attachments')->name('attachmentContent');
 
         // - editing content form page
         Route::get('/edit/{content}', 'ContentController@editContent')->name('editContent');
-        Route::post('/edit/{content}', 'ContentController@editStore');
+        Route::post('/edit/{content}', 'ContentController@editStore')->name('content.update')->middleware('format_date:due_date,m/d/Y');
 
         Route::get('/collaborate', 'CollaborateController@index');
         Route::get('/collaborate/linkedin', 'CollaborateController@linkedin');

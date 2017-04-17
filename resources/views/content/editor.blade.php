@@ -9,7 +9,7 @@
             <!-- Main Pane -->
             <div class="panel-main">
                 @if (isset($content))
-                    {!! Form::model($content, ['url' => url('edit') . '/' . $content->id, 'files' => 'true' ]) !!}
+                    {!! Form::model($content, ['url' => route('content.update', $content), 'files' => 'true' ]) !!}
                 @else
                     {{ Form::open(['url' => 'edit', 'files'=>'true']) }}
                 @endif
@@ -155,14 +155,13 @@
                                     @php
                                         $dueDateOptions = [
                                             'class' => 'input-calendar datetimepicker input form-control',
-                                            'id' => 'dueDate'
-                                        ];
+                                            'id' => 'dueDate'                                        ];
 
                                         if (!$isCollaborator || $isPublished) {
                                             $dueDateOptions['disabled'] = 'disabled';
                                         }
                                     @endphp
-                                    {!! Form::text('due_date', old('due_date'), $dueDateOptions) !!}
+                                    {!! Form::text('due_date', old('due_date', $content->present()->dueDateFormat), $dueDateOptions) !!}
                                 </div>
                             </div>
                         </div>

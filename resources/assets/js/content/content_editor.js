@@ -22,7 +22,7 @@ $(function() {
     $('#contentType').change(updateCount);
 
     $('.datetimepicker').datetimepicker({
-        format: 'YYYY-MM-DD'
+        format: 'MM/DD/YYYY'
     });
 
     $('.selectpicker').selectpicker({

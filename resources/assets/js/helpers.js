@@ -54,7 +54,7 @@ $(function () {
     });
 
     $('#content-due-date').datetimepicker({
-        format: 'YYYY-MM-DD'
+        format: 'MM/DD/YYYY'
     });
 });
 
