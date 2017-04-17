@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\Shared\Html;
+
 
 class ExportController extends Controller
 {
@@ -23,8 +26,21 @@ class ExportController extends Controller
             return $this->danger('contents.index', "You don't have sufficient permissions to do this.");
         }
 
-        $pathToFile = Export::htmlToWordDocument($content->body, str_slug($content->title, '-'));
+        switch ($extension) {
+            case 'docx' :
+                $pathToFile = Export::contentToWordDocument($content, str_slug($content->title, '-'));
+                break;
+            default:
+                return $this->danger('contents.index', "Unsupported extension.");
+        }
 
         return response()->download($pathToFile)->deleteFileAfterSend(true);
+
+        /*
+        $tp->setValue('metaTitle', $content->meta_title);
+        $tp->setValue('metaDescription', $content->meta_description);
+        $tp->setValue('keywords', $content->meta_keywords);
+
+        */
     }
 }

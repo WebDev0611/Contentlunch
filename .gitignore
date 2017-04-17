@@ -5,6 +5,7 @@
 /public/js
 /public/fonts
 /public/images
+/public/tmp
 /bower_components
 /.vagrant
 Homestead.yaml
