@@ -21,15 +21,28 @@
             </h1>
         </div>
 
-        <form class="m-t" role="form" action="index.html">
-            <div class="form-group">
-                <input type="email" class="form-control" placeholder="Username" required="">
+        @include('admin.partials.flash')
+
+        {{ Form::open([ 'url' => route('admin_login.login') ]) }}
+            <div class="form-group @if($errors->has('email')) has-error @endif">
+                {{ Form::text('email', old('email'), [ 'class' => 'form-control', 'placeholder' => 'Email' ]) }}
+                @if ($errors->has('email'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('email') }}</strong>
+                    </span>
+                @endif
             </div>
-            <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" required="">
+            <div class="form-group @if($errors->has('password')) has-error @endif">
+                {{ Form::password('password', [ 'class' => 'form-control', 'placeholder' => 'Password']) }}
+                @if ($errors->has('password'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('password') }}</strong>
+                    </span>
+                @endif
             </div>
             <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
-        </form>
+        {{ Form::close() }}
+
         <p class="m-t">
             <small>ContentLaunch &copy; 2016-2017</small>
         </p>

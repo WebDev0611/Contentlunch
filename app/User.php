@@ -167,4 +167,9 @@ class User extends Authenticatable
 
         $this->limits()->attach($limit);
     }
+
+    public function isAdmin()
+    {
+        return $this->is_admin == 1;
+    }
 }
