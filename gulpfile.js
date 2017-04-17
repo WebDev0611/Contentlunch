@@ -136,11 +136,11 @@ elixir(function (mix) {
          */
         .scripts([
 
-            './bower_components/jquery/dist/jquery.min.js',
             './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.min.js',
             './bower_components/moment/min/moment.min.js',
             './resources/assets/admin_theme/js/plugins/metisMenu/jquery.metisMenu.js',
             './resources/assets/admin_theme/js/plugins/slimscroll/jquery.slimscroll.min.js',
+            './resources/assets/admin_theme/js/plugins/chartJs/Chart.min.js',
             './resources/assets/admin_theme/js/inspinia.js',
 
         ], 'public/js/admin/admin_vendor.js')
