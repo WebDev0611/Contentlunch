@@ -7,7 +7,6 @@ use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWord\SimpleType\JcTable;
 
 class Export extends Model {
 
@@ -34,18 +33,24 @@ class Export extends Model {
         $phpWord = self::addStylesToWordDocument(new PhpWord());
         $section = $phpWord->addSection();
 
+        // Content title
         $section->addText($content->title, 'mainTitleStyle', ['alignment' => Jc::CENTER]);
         $section->addTextBreak(2);
+
+        // Type and due date
         $textrun = $section->addTextRun();
         $textrun->addText('Content Type: ');
         $textrun->addText($content->contentType->name, ['bold' => true]);
         $textrun->addTextBreak(1);
         $textrun->addText('Due Date: ');
-        $textrun->addText($content->due_date, ['bold' => true]);
+        $textrun->addText(date('m-d-Y', strtotime($content->due_date)), ['bold' => true]);
         $textrun->addTextBreak(1);
+
+        // Body (html)
         Html::addHtml($section, html_entity_decode($content->body));
         $section->addTextBreak(1);
 
+        // Table
         $table = $section->addTable('tableStyle');
         $table->addRow();
         $table->addCell(2000)->addText('Tags');
@@ -69,10 +74,11 @@ class Export extends Model {
         $table->addCell(2000)->addText('Keywords');
         $table->addCell(6000)->addText($content->meta_keywords, ['bold' => true]);
 
+        // Footer
         $section->addFooter()->addText('Generated on ' . date('m-d-Y') . ' at ' . date('h:i A') . ' with ContentLaunch', null, ['alignment' => Jc::RIGHT]);
 
+        // Save it
         $pathToFile = self::exportPath() . ($documentName == null ? 'document_' . time() : $documentName) . '.docx';
-
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($pathToFile);
 
