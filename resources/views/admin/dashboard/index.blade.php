@@ -7,17 +7,13 @@
 @endsection
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>User Logins</h5>
-                </div>
-                <div class="ibox-content">
-                    <div>
-                        <canvas id="lineChart" height="100" width="500"></canvas>
-                    </div>
-                </div>
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>User Logins</h5>
+        </div>
+        <div class="ibox-content">
+            <div>
+                <canvas id="lineChart" height="100" width="500"></canvas>
             </div>
         </div>
     </div>
