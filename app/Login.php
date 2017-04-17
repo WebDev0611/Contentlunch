@@ -4,10 +4,11 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Login extends Model
 {
-    protected $fillable = ['user_id', 'ip_address', 'fingerprint'];
+    protected $fillable = ['user_id', 'ip_address', 'user_agent', 'fingerprint'];
 
     public static function recentLoginsCount($daysAgo = 7)
     {

@@ -16,6 +16,7 @@ class CreateLoginsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->ipAddress('ip_address')->nullable();
+            $table->string('user_agent')->nullable();
             $table->string('fingerprint')->nullable();
             $table->timestamps();
         });

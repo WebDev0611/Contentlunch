@@ -21,7 +21,8 @@ class LoginSeeder extends BaseSeeder
             $login = Login::create([
                 'user_id' => $this->faker->randomElement($users),
                 'ip_address' => $this->faker->ipv4,
-                'fingerprint' => $this->faker->userAgent,
+                'user_agent' => $this->faker->userAgent,
+                'fingerprint' => $this->faker->md5,
             ]);
 
             $login->setCreatedAt($createdAt)
