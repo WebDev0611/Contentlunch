@@ -13,7 +13,7 @@ class FormComponentsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Form::component('clLabel', 'admin.form_components.label', [ 'name' => null ]);
+        \Form::component('clLabel', 'admin.form_components.label', [ 'name' => null, 'size' => 2 ]);
     }
 
     /**

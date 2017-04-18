@@ -1,1 +1,1 @@
-<label class='col-sm-2 control-label'>{{ $name }}</label>
+<label class='col-sm-{{ $size }} control-label'>{{ $name }}</label>
