@@ -64,21 +64,19 @@
 
                                         @if ($isCollaborator)
                                         <button type="button" class="button button-small dropdown-toggle"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                                @if ($isPublished)
-                                                disabled="disabled"
-                                                @endif>
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="caret"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             {{-- <li><a href="#">Preview</a></li> --}}
-                                            {{-- <li><a href="#">Export to PDF</a></li> --}}
                                             {{-- <li><a href="#">Park</a></li> --}}
-                                            <li><a href="{{ route('archived_contents.update', $content) }}">Archive</a></li>
-                                            <li><a href="{{ route('contentDelete', $content->id) }}">Delete</a></li>
-                                            <li><a id="export-word" href="{{route('export.content', [$content->id, 'docx'])}}">Export to Word document</a></li>
-                                            <li><a id="export-pdf" href="{{route('export.content', [$content->id, 'pdf'])}}">Export to PDF</a></li>
+                                            @if (!$isPublished)
+                                                <li><a href="{{ route('archived_contents.update', $content) }}">Archive</a></li>
+                                                <li><a href="{{ route('contentDelete', $content->id) }}">Delete</a></li>
+                                            @endif
+                                            <li><a id="export-word" href="{{route('export.content', [$content->id, 'docx'])}}">Export as Word</a></li>
+                                            <li><a id="export-pdf" href="{{route('export.content', [$content->id, 'pdf'])}}">Export as PDF</a></li>
                                         </ul>
                                         @endif
                                     </div>
