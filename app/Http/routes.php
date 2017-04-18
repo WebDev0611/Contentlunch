@@ -329,5 +329,7 @@ Route::group([ 'prefix' => 'admin' ], function() {
 
         Route::get('accounts', 'Admin\AccountController@index')->name('admin.accounts.index');
         Route::get('accounts/{account}', 'Admin\AccountController@show')->name('admin.accounts.show');
+
+        Route::get('accounts/{account}/edit', 'Admin\AccountController@edit')->name('admin.accounts.edit');
     });
 });

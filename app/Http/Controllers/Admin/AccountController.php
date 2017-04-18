@@ -67,12 +67,13 @@ class AccountController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param Account $account
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function edit($id)
+    public function edit(Account $account)
     {
-        //
+        return view('admin.accounts.edit', compact('account'));
     }
 
     /**
