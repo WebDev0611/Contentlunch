@@ -74,9 +74,25 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            {{ Form::clLabel('Subscription Payments', 4) }}
+                            <div class="col-sm-8">
+                                <div class="form-control-static">
+                                    {{ $account->activeSubscription()->present()->price() }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="ibox float-e-margins m-t">
+        <div class="ibox-title"><h5>Users</h5></div>
+        <div class="ibox-content">
+            @include('admin.users.partials.list', compact('users'))
         </div>
     </div>
 

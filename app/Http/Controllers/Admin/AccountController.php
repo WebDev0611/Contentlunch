@@ -59,7 +59,9 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
-        return view('admin.accounts.show', compact('account'));
+        $users = $account->users()->recent()->get();
+
+        return view('admin.accounts.show', compact('account', 'users'));
     }
 
     /**
