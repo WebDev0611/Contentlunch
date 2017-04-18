@@ -34,6 +34,16 @@
                     <li><a href="{{ route('admin.users.index') }}">List of Users</a></li>
                 </ul>
             </li>
+            <li>
+                <a>
+                    <i class="fa fa-users"></i>
+                    <span class="nav-label">Accounts</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level collapse">
+                    <li><a href="{{ route('admin.accounts.index') }}">List of Accounts</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 </nav>
