@@ -4,9 +4,13 @@ namespace App\Presenters;
 
 use App\Account;
 use App\Presenters\Helpers\BasePresenter;
+use App\Presenters\Helpers\CreatedAtPresenter;
+use App\Presenters\Helpers\UpdatedAtPresenter;
 
 class AccountPresenter extends BasePresenter
 {
+    use CreatedAtPresenter, UpdatedAtPresenter;
+
     public function account_image()
     {
         return $this->entity->account_image ?
