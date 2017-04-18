@@ -24,23 +24,14 @@ class StripeController extends Controller {
 
             switch ($event->type) {
                 case 'invoice.payment_failed' :
-                    $this->failedPayment($object);
-                    break;
+                    return $this->failedPayment($object);
                 case 'customer.subscription.created':
-                    $this->createSubscription($object);
-                    break;
+                    return $this->createSubscription($object);
                 case 'customer.subscription.updated':
-                    $this->updateSubscription($object);
-                    break;
+                    return $this->updateSubscription($object);
                 case 'customer.subscription.deleted':
-                    $this->deleteSubscription($object);
-                    break;
+                    return $this->deleteSubscription($object);
             }
-
-            return response('ok', 200);
-        }
-        else {
-            return response('error', 400);
         }
     }
 
@@ -60,6 +51,8 @@ class StripeController extends Controller {
         $subscription->start_date = date('Y-m-d', $object->current_period_start);
         $subscription->expiration_date = date('Y-m-d', $object->current_period_end);
         $subscription->save();
+
+        return response('ok', 200);
     }
 
     private function deleteSubscription ($object)
@@ -70,6 +63,8 @@ class StripeController extends Controller {
 
         $subscription->valid = false;
         $subscription->save();
+
+        return response('ok', 200);
     }
 
     private function failedPayment ($object)
