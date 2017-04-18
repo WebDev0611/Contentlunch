@@ -3,8 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
@@ -78,9 +80,30 @@ class Export extends Model {
         $section->addFooter()->addText('Generated on ' . date('m-d-Y') . ' at ' . date('h:i A') . ' with ContentLaunch', null, ['alignment' => Jc::RIGHT]);
 
         // Save it
-        $pathToFile = self::exportPath() . ($documentName == null ? 'document_' . time() : $documentName) . '.docx';
+        $pathToFile = self::exportPath() . ($documentName == null ? 'document_' . time() . '_' . str_random(16) : $documentName) . '.docx';
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($pathToFile);
+
+        return $pathToFile;
+    }
+
+    public static function contentToPDFDocument ($content, $documentName = null)
+    {
+        Settings::setPdfRendererPath('../vendor/mpdf/mpdf');
+        Settings::setPdfRendererName('MPDF');
+
+        // Let's create docx document first
+        $docx = self::contentToWordDocument($content);
+        $temp = IOFactory::load($docx);
+
+        $pathToFile = self::exportPath() . ($documentName == null ? 'document_' . time() . '_' . str_random(16) : $documentName) . '.pdf';
+
+        // Save PDF file
+        $xmlWriter = IOFactory::createWriter($temp , 'PDF');
+        $xmlWriter->save($pathToFile, TRUE);
+
+        // Delete temporary docx file
+        File::delete($docx);
 
         return $pathToFile;
     }

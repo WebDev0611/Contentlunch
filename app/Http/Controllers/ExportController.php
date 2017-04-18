@@ -27,6 +27,9 @@ class ExportController extends Controller
             case 'docx' :
                 $pathToFile = Export::contentToWordDocument($content, str_slug($content->title, '-'));
                 break;
+            case 'pdf' :
+                $pathToFile = Export::contentToPDFDocument($content, str_slug($content->title, '-'));
+                break;
             default:
                 return $this->danger('contents.index', "Unsupported extension.");
         }
