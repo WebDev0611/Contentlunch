@@ -24,7 +24,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = $this->accounts->recent()->paginate(100);
+        $accounts = $this->account->recent()->paginate(100);
 
         return view('admin.accounts.index', compact('accounts'));
     }
