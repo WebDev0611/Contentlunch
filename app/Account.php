@@ -88,6 +88,11 @@ class Account extends Model
         return $this->hasMany('App\Task');
     }
 
+    public function type()
+    {
+        return $this->belongsTo('App\AccountType', 'account_type_id');
+    }
+
     public function ideas()
     {
         return $this->hasMany('App\Idea');
