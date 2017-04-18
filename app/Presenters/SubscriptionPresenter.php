@@ -9,9 +9,16 @@ class SubscriptionPresenter extends BasePresenter
 {
     use StartDatePresenter;
 
+    public function type()
+    {
+        return $this->entity->subscriptionType
+            ? $this->entity->subscriptionType->name
+            : 'Invalid Subscription Type';
+    }
+
     public function expirationDateFormat($format = 'm/d/Y')
     {
-        return $this->customDateFormat($this->entity->expiration_date, $format) ?: "-";
+        return $this->customDateFormat($this->entity->expiration_date, $format) ?: 'Never';
     }
 
     public function price()
