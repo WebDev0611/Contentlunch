@@ -53,12 +53,13 @@ class AccountController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Account $account
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function show($id)
+    public function show(Account $account)
     {
-        //
+        return view('admin.accounts.show', compact('account'));
     }
 
     /**

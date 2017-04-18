@@ -328,5 +328,6 @@ Route::group([ 'prefix' => 'admin' ], function() {
         Route::get('users', 'Admin\UserController@index')->name('admin.users.index');
 
         Route::get('accounts', 'Admin\AccountController@index')->name('admin.accounts.index');
+        Route::get('accounts/{account}', 'Admin\AccountController@show')->name('admin.accounts.show');
     });
 });
