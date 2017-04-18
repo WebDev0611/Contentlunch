@@ -17,7 +17,7 @@
             <td>{{ $login->user->email }}</td>
             <td>
                 @foreach ($login->user->accounts as $account)
-                    <span class="label {{ $account->isAgencyAccount() ? 'label-info' : '' }}">{{ $account->name }}</span>
+                    @include('admin.accounts.partials.account_tag')
                 @endforeach
             </td>
             <td>{{ $login->user->present()->createdAtFormat('m/d/Y H:i:s') }}</td>
