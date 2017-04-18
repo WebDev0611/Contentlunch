@@ -11,6 +11,13 @@ class AccountPresenter extends BasePresenter
 {
     use CreatedAtPresenter, UpdatedAtPresenter;
 
+    public function accountType()
+    {
+        return $this->entity->type
+            ? $this->entity->type->name
+            : 'Invalid Account Type';
+    }
+
     public function account_image()
     {
         return $this->entity->account_image ?
