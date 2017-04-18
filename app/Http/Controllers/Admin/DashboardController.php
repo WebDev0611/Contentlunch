@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Login;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -17,9 +18,11 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $logins = Login::recentLoginsCount(14)->values()->toJson();
+        $logins = Login::recentLoginsCount(14)->reverse()->values()->toJson();
+        $users = User::recent()->take(10)->get();
+        $loggedUsers = Login::recent()->with('user')->get();
 
-        return view('admin.dashboard.index', compact('logins'));
+        return view('admin.dashboard.index', compact('logins', 'users', 'loggedUsers'));
     }
 
     /**
