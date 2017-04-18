@@ -19,7 +19,7 @@
                 </div>
             </li>
             <li>
-                <a>
+                <a href="{{ route('admin_dashboard.index') }}">
                     <i class="fa fa-th-large"></i>
                     <span class="nav-label">Dashboard</span>
                 </a>

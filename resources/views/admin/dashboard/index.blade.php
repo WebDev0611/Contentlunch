@@ -17,13 +17,28 @@
             </div>
         </div>
     </div>
+
+    <div class="ibox float-e-margins m-t">
+        <div class="ibox-title">Recently Created Users</div>
+        <div class="ibox-content">
+            @include('admin.users.partials.list')
+        </div>
+    </div>
+
+    <div class="ibox float-e-margins m-t">
+        <div class="ibox-title">Recent Logins</div>
+        <div class="ibox-content">
+            @include('admin.users.partials.logins', ['logins' => $loggedUsers])
+        </div>
+    </div>
+
 @endsection
 
 @push('admin.scripts')
 <script>
     function getLastDays(daysCount) {
         return _.times(daysCount, function(day) {
-            return moment().subtract(day, 'day').format('MMM Do');
+            return moment().utc().subtract(day, 'day').format('MMM Do');
         }).reverse();
     }
 
