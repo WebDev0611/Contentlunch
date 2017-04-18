@@ -121,6 +121,13 @@ class User extends Authenticatable
         ]);
     }
 
+    public function scopeRecent($query)
+    {
+        return $query
+            ->orderBy('users.created_at', 'desc')
+            ->orderBy('users.id', 'desc');
+    }
+
     /**
      * Helper methods
      */
