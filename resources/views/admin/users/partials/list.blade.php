@@ -6,6 +6,7 @@
         <th>Email</th>
         <th>Accounts</th>
         <th>Date Created</th>
+        <th colspan="3">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -20,6 +21,18 @@
                 @endforeach
             </td>
             <td>{{ $user->present()->createdAtFormat('m/d/Y H:i:s') }}</td>
+            <td>
+                <a href="#" class="btn btn-white btn-xs">
+                    <i class="fa fa-search"></i>
+                    Details
+                </a>
+            </td>
+            <td>
+                <a href="#" class="btn btn-white btn-xs">
+                    <i class="fa fa-pencil"></i>
+                    Edit
+                </a>
+            </td>
         </tr>
     @endforeach
     </tbody>
