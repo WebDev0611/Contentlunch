@@ -90,6 +90,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Limit')->withTimestamps();
     }
 
+    public function logins()
+    {
+        return $this->hasMany('App\Login');
+    }
+
     public function partialWriterAccessOrders()
     {
         return $this->hasMany('App\WriterAccessPartialOrder');
