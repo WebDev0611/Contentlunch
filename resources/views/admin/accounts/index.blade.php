@@ -12,6 +12,7 @@
 @section('content')
     <div class="row">
         <div class="col-sm-6 form-group">
+            {{--
             <div class="form-inline">
                 {{
                     Form::text('search', '', [
@@ -21,6 +22,7 @@
                 }}
                 {{ Form::submit('Filter', [ 'class' => "btn btn-primary" ]) }}
             </div>
+            --}}
         </div>
         <div class="col-sm-6">
             <div class="pull-right">
