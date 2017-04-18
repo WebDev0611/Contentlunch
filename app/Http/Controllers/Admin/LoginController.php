@@ -20,7 +20,7 @@ class LoginController extends Controller
         if (!$user->isAdmin()) {
             Auth::logout();
 
-            return redirect()->route('admin_login.show')->with([
+            return redirect()->route('admin.login.show')->with([
                 'flash_message' => 'User not authorized.',
                 'flash_message_type' => 'danger',
                 'flash_message_important' => true,

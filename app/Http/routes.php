@@ -319,11 +319,14 @@ Route::post('/stripe-webhook', 'StripeController@webhook');
  |
 */
 Route::group([ 'prefix' => 'admin' ], function() {
-    Route::post('login', 'Admin\LoginController@login')->name('admin_login.login');
-    Route::get('login', 'Admin\LoginController@getLogin')->name('admin_login.show');
+    Route::post('login', 'Admin\LoginController@login')->name('admin.login.login');
+    Route::get('login', 'Admin\LoginController@getLogin')->name('admin.login.show');
 
     Route::group([ 'middleware' => 'admins_only' ], function() {
-        Route::get('dashboard', 'Admin\DashboardController@index')->name('admin_dashboard.index');
-        Route::get('users', 'Admin\UserController@index')->name('admin_users.index');
+        Route::get('dashboard', 'Admin\DashboardController@index')->name('admin.dashboard.index');
+
+        Route::get('users', 'Admin\UserController@index')->name('admin.users.index');
+
+        Route::get('accounts', 'Admin\AccountController@index')->name('admin.accounts.index');
     });
 });

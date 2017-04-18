@@ -19,7 +19,7 @@
                 </div>
             </li>
             <li>
-                <a href="{{ route('admin_dashboard.index') }}">
+                <a href="{{ route('admin.dashboard.index') }}">
                     <i class="fa fa-th-large"></i>
                     <span class="nav-label">Dashboard</span>
                 </a>
@@ -31,7 +31,7 @@
                     <span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level collapse">
-                    <li><a href="{{ route('admin_users.index') }}">List of Users</a></li>
+                    <li><a href="{{ route('admin.users.index') }}">List of Users</a></li>
                 </ul>
             </li>
         </ul>

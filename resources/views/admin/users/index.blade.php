@@ -4,7 +4,7 @@
     @include('admin.partials.header', [
         'title' => 'Users',
         'breadcrumbs' => [
-            [ 'name' => 'Users', 'url' => route('admin_users.index') ],
+            [ 'name' => 'Users', 'url' => route('admin.users.index') ],
         ]
     ])
 @stop

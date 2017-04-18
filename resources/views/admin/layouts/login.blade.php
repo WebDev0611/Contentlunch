@@ -23,7 +23,7 @@
 
         @include('admin.partials.flash')
 
-        {{ Form::open([ 'url' => route('admin_login.login') ]) }}
+        {{ Form::open([ 'url' => route('admin.login.login') ]) }}
             <div class="form-group @if($errors->has('email')) has-error @endif">
                 {{ Form::text('email', old('email'), [ 'class' => 'form-control', 'placeholder' => 'Email' ]) }}
                 @if ($errors->has('email'))

@@ -24,7 +24,7 @@ class RequiresAdminPrivileges
             if ($isAjax) {
                 return response('Unauthorized.', 401);
             } else {
-                return redirect()->route('admin_login.show');
+                return redirect()->route('admin.login.show');
             }
         }
 
