@@ -81,6 +81,11 @@ class ConnectionController extends Controller
                 $url = (new \oAuth\API\WordPressAuth())->getAuthorizationUrl();
 
                 return Redirect::to($url);
+
+            case 'mailchimp':
+                $url = (new \oAuth\API\MailchimpAuth())->getAuthorizationUrl();
+
+                return Redirect::to($url);
         }
     }
 
