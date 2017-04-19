@@ -331,5 +331,6 @@ Route::group([ 'prefix' => 'admin' ], function() {
         Route::get('accounts/{account}', 'Admin\AccountController@show')->name('admin.accounts.show');
 
         Route::get('accounts/{account}/edit', 'Admin\AccountController@edit')->name('admin.accounts.edit');
+        Route::post('accounts/{account}/edit', 'Admin\AccountController@update')->name('admin.accounts.update');
     });
 });
