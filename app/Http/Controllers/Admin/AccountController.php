@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Account;
+use App\AccountType;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+
 class AccountController extends Controller
 {
     protected $account;
+    protected $accountType;
 
-    public function __construct(Account $account)
+    public function __construct(Account $account, AccountType $accountType)
     {
         $this->account = $account;
+        $this->accountType = $accountType;
     }
 
     /**
