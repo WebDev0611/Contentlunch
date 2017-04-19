@@ -49,9 +49,10 @@ class OnboardingController extends Controller
         $hasFacebook = (boolean) Auth::user()->connectionsBySlug('facebook')->whereActive(true)->count();
         $hasWordPress = (boolean) Auth::user()->connectionsBySlug('wordpress')->count();
         $hasHubspot = (boolean) Auth::user()->connectionsBySlug('hubspot')->count();
+        $hasMailchimp = (boolean) Auth::user()->connectionsBySlug('mailchimp')->count();
 
         return View::make('onboarding.connect',
-            compact('hasTwitter', 'hasFacebook', 'hasWordPress', 'hasHubspot')
+            compact('hasTwitter', 'hasFacebook', 'hasWordPress', 'hasHubspot', 'hasMailchimp')
         );
     }
 

@@ -171,6 +171,9 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         // HubSpot Callback
         Route::get('callback/hubspot', 'Connections\HubspotController@callback')->name('hubspotCallback');
 
+        // Mailchimp Callback
+        Route::get('callback/mailchimp', 'Connections\MailchimpController@callback')->name('mailchimpCallback');
+
         // - Landing page for creating content
         Route::get('/create', 'ContentController@create')->name('contents.create');
         Route::post('/create/new', 'ContentController@store')->name('contents.store')->middleware('format_date:due_date,m/d/Y');
