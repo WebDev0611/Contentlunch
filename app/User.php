@@ -90,6 +90,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Limit')->withTimestamps();
     }
 
+    public function logins()
+    {
+        return $this->hasMany('App\Login');
+    }
+
     public function partialWriterAccessOrders()
     {
         return $this->hasMany('App\WriterAccessPartialOrder');
@@ -114,6 +119,13 @@ class User extends Authenticatable
             Carbon::now()->subDay(),
             Carbon::now(),
         ]);
+    }
+
+    public function scopeRecent($query)
+    {
+        return $query
+            ->orderBy('users.created_at', 'desc')
+            ->orderBy('users.id', 'desc');
     }
 
     /**
@@ -166,5 +178,10 @@ class User extends Authenticatable
         }
 
         $this->limits()->attach($limit);
+    }
+
+    public function isAdmin()
+    {
+        return $this->is_admin == 1;
     }
 }

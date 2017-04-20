@@ -19,7 +19,10 @@ require('laravel-elixir-livereload');
 
 elixir(function (mix) {
     mix
-        .sass('main.scss')
+        .sass([
+            'main.scss',
+            'admin/admin.scss',
+        ])
         .scripts([
             './bower_components/vue/dist/vue.js',
             './bower_components/jquery/dist/jquery.min.js',
@@ -120,6 +123,39 @@ elixir(function (mix) {
         .copy("resources/assets/images", "public/images")
         .copy("resources/assets/fonts", "public/fonts")
         .copy("resources/assets/downloads", "public/downloads")
+
+        /*
+         |--------------------------------------------------------------------------
+         | Administrative Dashboard
+         |--------------------------------------------------------------------------
+         |
+         | The following files are used in the administrative dashboard of the app.
+         | It uses an existing theme, called Inspinia, to speed up the front-end
+         | development and maintain a consistent look throught the dashboard.
+         |
+         */
+        .scripts([
+
+            './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.min.js',
+            './bower_components/moment/min/moment.min.js',
+            './resources/assets/admin_theme/js/plugins/metisMenu/jquery.metisMenu.js',
+            './resources/assets/admin_theme/js/plugins/slimscroll/jquery.slimscroll.min.js',
+            './resources/assets/admin_theme/js/plugins/chartJs/Chart.min.js',
+            './resources/assets/admin_theme/js/plugins/datapicker/bootstrap-datepicker.js',
+            './resources/assets/admin_theme/js/inspinia.js',
+
+        ], 'public/js/admin/admin_vendor.js')
+
+        .combine([
+
+            './resources/assets/admin_theme/font-awesome/css/font-awesome.min.css',
+            './resources/assets/admin_theme/css/animate.css',
+            './resources/assets/admin_theme/css/plugins/datapicker/datepicker3.css',
+
+        ], 'public/css/admin_vendor.css')
+
+        .copy('./resources/assets/admin_theme/font-awesome/fonts', 'public/fonts')
+        .copy('./resources/assets/admin_theme/css/patterns', 'public/css/patterns')
     ;
     mix.livereload();
 });

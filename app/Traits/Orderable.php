@@ -5,9 +5,14 @@ namespace App\Traits;
 
 trait Orderable
 {
+    public function scopeRecent($query)
+    {
+        return $query->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+    }
+
     public function scopeLatest($query)
     {
-        return $query->orderBy('created_at', 'desc');
+        return $query->orderBy('created_at', 'desc')->orderBy('id', 'desc');
     }
 
     public function scopeOldest($query)

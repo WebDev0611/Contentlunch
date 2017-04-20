@@ -166,6 +166,7 @@ return [
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
         App\Providers\ComposerServiceProvider::class,
+        App\Providers\FormComponentsServiceProvider::class,
     ],
 
     /*

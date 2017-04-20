@@ -313,3 +313,32 @@ Route::get('/coming-soon',  function () {
 });
 
 Route::post('/stripe-webhook', 'StripeController@webhook');
+
+/*
+ |--------------------------------------------------------------------------
+ | Administrative Dashboard routes
+ |--------------------------------------------------------------------------
+ |
+ | Here are the routes for the admin back-end of the site.
+ |
+*/
+Route::group([ 'prefix' => 'admin' ], function() {
+    Route::post('login', 'Admin\LoginController@login')->name('admin.login.login');
+    Route::get('login', 'Admin\LoginController@getLogin')->name('admin.login.show');
+
+    Route::group([ 'middleware' => 'admins_only' ], function() {
+        Route::get('dashboard', 'Admin\DashboardController@index')->name('admin.dashboard.index');
+
+        Route::get('users', 'Admin\UserController@index')->name('admin.users.index');
+
+        Route::get('accounts', 'Admin\AccountController@index')->name('admin.accounts.index');
+        Route::get('accounts/{account}', 'Admin\AccountController@show')->name('admin.accounts.show');
+
+        Route::get('accounts/{account}/edit', 'Admin\AccountController@edit')->name('admin.accounts.edit');
+        Route::post('accounts/{account}/edit', 'Admin\AccountController@update')->name('admin.accounts.update');
+
+        Route::post('subscriptions/{account}/create', 'Admin\AccountController@storeSubscription')->name('admin.account_subscriptions.store')
+            ->middleware('format_date:expiration_date,m/d/Y')
+            ->middleware('format_date:start_date,m/d/Y');
+    });
+});
