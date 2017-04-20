@@ -60,6 +60,7 @@ return [
     'mailchimp' => [
         'client_id' => env('MAILCHIMP_CLIENT_ID'),
         'client_secret' => env('MAILCHIMP_CLIENT_SECRET'),
+        'datacenter' => env('MAILCHIMP_DATACENTER'),
         'redirect' => env('MAILCHIMP_REDIRECT')
     ],
 ];
