@@ -50,14 +50,11 @@ class AccountController extends Controller
     public function storeSubscription(Request $request, Account $account)
     {
         $subscriptionType = SubscriptionType::find($request->input('subscription_type'));
+        $data = collect($request->all())
+            ->only('start_date', 'expiration_date')
+            ->toArray();
 
-        $account->subscribe(
-            $subscriptionType,
-            [
-                'start_date' => $request->input('start_date'),
-                'expiration_date' => $request->input('expiration_date'),
-            ]
-        );
+        $account->subscribe($subscriptionType, $data);
 
         return redirect()->route('admin.accounts.edit', $account)->with([
             'flash_message' => sprintf('Added %s subscription to the %s account', $subscriptionType->name, $account->name),
