@@ -88,7 +88,9 @@ class AccountController extends Controller
 
     protected function accountSubscriptions($account)
     {
-        return $account ? $account->subscriptions()->recent()->with('subscriptionType')->get() : []
+        return $account
+            ? $account->subscriptions()->recent()->with('subscriptionType')->get()
+            : [];
     }
 
 
