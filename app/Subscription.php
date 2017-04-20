@@ -3,13 +3,14 @@
 namespace App;
 
 use App\Presenters\SubscriptionPresenter;
+use App\Traits\Orderable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
 
 class Subscription extends Model
 {
-    use PresentableTrait;
+    use PresentableTrait, Orderable;
 
     protected $presenter = SubscriptionPresenter::class;
 
