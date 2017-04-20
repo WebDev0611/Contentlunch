@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Account;
 use App\AccountType;
-use App\Subscription;
 use App\SubscriptionType;
+use App\Traits\Redirectable;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 
 class AccountController extends Controller
 {
+    use Redirectable;
+
     /**
      * Display a listing of the resource.
      *
@@ -111,13 +111,19 @@ class AccountController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param Account $account
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Account $account)
     {
-        //
+        $account->update($request->all());
+
+        return redirect()->route('admin.accounts.edit', $account)->with([
+            'flash_message' => 'Account updated',
+            'flash_message_type' => 'success',
+        ]);
     }
 
     /**
