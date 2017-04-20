@@ -75,10 +75,22 @@ class AccountController extends Controller
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function edit(Account $account)
+    public function edit(Account $account = null)
     {
-        return view('admin.accounts.edit', compact('account'));
+        $data = [
+            'account' => $account,
+            'accountTypes' => $this->accountType->pluck('name', 'id'),
+            'subscriptions' => $this->accountSubscriptions($account),
+        ];
+
+        return view('admin.accounts.edit', $data);
     }
+
+    protected function accountSubscriptions($account)
+    {
+        return $account ? $account->subscriptions()->recent()->with('subscriptionType')->get() : []
+    }
+
 
     /**
      * Update the specified resource in storage.
