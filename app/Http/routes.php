@@ -332,5 +332,9 @@ Route::group([ 'prefix' => 'admin' ], function() {
 
         Route::get('accounts/{account}/edit', 'Admin\AccountController@edit')->name('admin.accounts.edit');
         Route::post('accounts/{account}/edit', 'Admin\AccountController@update')->name('admin.accounts.update');
+
+        Route::post('subscriptions/{account}/create', 'Admin\AccountController@storeSubscription')->name('admin.account_subscriptions.store')
+            ->middleware('format_date:expiration_date,m/d/Y')
+            ->middleware('format_date:start_date,m/d/Y');
     });
 });

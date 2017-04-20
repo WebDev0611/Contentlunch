@@ -141,13 +141,17 @@ elixir(function (mix) {
             './resources/assets/admin_theme/js/plugins/metisMenu/jquery.metisMenu.js',
             './resources/assets/admin_theme/js/plugins/slimscroll/jquery.slimscroll.min.js',
             './resources/assets/admin_theme/js/plugins/chartJs/Chart.min.js',
+            './resources/assets/admin_theme/js/plugins/datapicker/bootstrap-datepicker.js',
             './resources/assets/admin_theme/js/inspinia.js',
 
         ], 'public/js/admin/admin_vendor.js')
 
         .combine([
+
             './resources/assets/admin_theme/font-awesome/css/font-awesome.min.css',
             './resources/assets/admin_theme/css/animate.css',
+            './resources/assets/admin_theme/css/plugins/datapicker/datepicker3.css',
+
         ], 'public/css/admin_vendor.css')
 
         .copy('./resources/assets/admin_theme/font-awesome/fonts', 'public/fonts')

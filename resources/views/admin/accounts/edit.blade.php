@@ -13,6 +13,7 @@
 
 @section('content')
     {{ Form::model($account, [ 'url' => route('admin.accounts.update', $account) ]) }}
+
     @include('admin.accounts.partials.actions')
 
     <div class="ibox">
@@ -20,24 +21,95 @@
         <div class="ibox-content">
             <div class="form-horizontal">
                 <div class="form-group">
-                    {{ Form::clLabel('Name', 4) }}
-                    <div class="col-sm-8">
+                    {{ Form::clLabel('Name') }}
+                    <div class="col-sm-10">
                         {{ Form::clText('name') }}
                     </div>
                 </div>
 
                 <div class="form-group">
-                    {{ Form::clLabel('Account Type', 4) }}
-                    <div class="col-sm-8">
+                    {{ Form::clLabel('Account Type') }}
+                    <div class="col-sm-10">
                         {{ Form::select('account_type_id', $accountTypes, old('account_type_id'), ['class' => 'form-control']) }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    {{ Form::close() }}
 
     <div class="ibox">
-        <div class="ibox-title"><h5>Subscriptions</h5></div>
+        <div class="ibox-title"><h5>New Subscription</h5></div>
+        <div class="ibox-content">
+            {{ Form::open([ 'url' => route('admin.account_subscriptions.store', $account) ]) }}
+
+            {{ Form::hidden('valid', 1) }}
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <p>
+                            Adding a new subscription will deactivate any previous ones and new subscriptions won't be attached
+                            to a Stripe client ID, so any subscription created this way will be free for the user.
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ Form::clLabel('Subscription Type') }}
+                    <div class="col-sm-10">
+                        {{
+                            Form::select(
+                                'subscription_type',
+                                $subscriptionTypes,
+                                null,
+                                [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Select a Subscription Plan'
+                                ]
+                            )
+                        }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ Form::clLabel('Starting Date') }}
+                    <div class="col-sm-10">
+                        <div class="input-group date">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+
+                            <input name='start_date' type="text" class="form-control" value="{{ Carbon\Carbon::now()->format('m/d/Y') }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ Form::clLabel('Expiration Date') }}
+                    <div class="col-sm-10">
+                        <div class="input-group date">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+
+                            <input name="expiration_date" type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-save"></i>
+                            Add Subscription
+                        </button>
+                    </div>
+                </div>
+
+                {{ Form::close() }}
+            </div>
+        </div>
+        <div class="ibox-title"><h5>Current Subscriptions</h5></div>
         <div class="ibox-content">
             <table class="table">
                 <thead>
@@ -81,7 +153,19 @@
             </table>
         </div>
     </div>
-
-    {{ Form::close() }}
-
 @stop
+
+@push('admin.scripts')
+<script>
+
+    $('.input-group.date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true,
+        format: 'mm/dd/yyyy',
+    });
+
+</script>
+@endpush

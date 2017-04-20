@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Account;
 use App\AccountType;
+use App\Subscription;
+use App\SubscriptionType;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -12,15 +14,6 @@ use App\Http\Controllers\Controller;
 
 class AccountController extends Controller
 {
-    protected $account;
-    protected $accountType;
-
-    public function __construct(Account $account, AccountType $accountType)
-    {
-        $this->account = $account;
-        $this->accountType = $accountType;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +21,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = $this->account->recent()->paginate(100);
+        $accounts = Account::recent()->paginate(100);
 
         return view('admin.accounts.index', compact('accounts'));
     }
@@ -52,6 +45,24 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function storeSubscription(Request $request, Account $account)
+    {
+        $subscriptionType = SubscriptionType::find($request->input('subscription_type'));
+
+        $account->subscribe(
+            $subscriptionType,
+            [
+                'start_date' => $request->input('start_date'),
+                'expiration_date' => $request->input('expiration_date'),
+            ]
+        );
+
+        return redirect()->route('admin.accounts.edit', $account)->with([
+            'flash_message' => sprintf('Added %s subscription to the %s account', $subscriptionType->name, $account->name),
+            'flash_message_type' => 'success',
+        ]);
     }
 
     /**
@@ -79,8 +90,9 @@ class AccountController extends Controller
     {
         $data = [
             'account' => $account,
-            'accountTypes' => $this->accountType->pluck('name', 'id'),
+            'accountTypes' => AccountType::pluck('name', 'id'),
             'subscriptions' => $this->accountSubscriptions($account),
+            'subscriptionTypes' => $this->subscriptionTypes(),
         ];
 
         return view('admin.accounts.edit', $data);
@@ -91,6 +103,11 @@ class AccountController extends Controller
         return $account
             ? $account->subscriptions()->recent()->with('subscriptionType')->get()
             : [];
+    }
+
+    protected function subscriptionTypes()
+    {
+        return SubscriptionType::pluck('name', 'id');
     }
 
 
