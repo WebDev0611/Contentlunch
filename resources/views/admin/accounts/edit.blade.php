@@ -82,8 +82,6 @@
         </div>
     </div>
 
-    <pre>{!! print_r($subscriptions->toArray(), true) !!}</pre>
-
     {{ Form::close() }}
 
 @stop
