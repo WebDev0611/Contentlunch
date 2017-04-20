@@ -3,11 +3,12 @@
 namespace App\Presenters;
 
 use App\Presenters\Helpers\BasePresenter;
+use App\Presenters\Helpers\CreatedAtPresenter;
 use App\Presenters\Helpers\StartDatePresenter;
 
 class SubscriptionPresenter extends BasePresenter
 {
-    use StartDatePresenter;
+    use StartDatePresenter, CreatedAtPresenter;
 
     public function type()
     {
