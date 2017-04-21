@@ -11,6 +11,7 @@ function createVueApp() {
     Vue.component('loading', require('./components/Loading.vue'));
     Vue.component('collaborate-search-bar', require('./components/collaborate/CollaborateSearchBar.vue'));
     Vue.component('collaborate-module', require('./components/collaborate/CollaborateModule.vue'));
+    Vue.component('influencer', require('./components/collaborate/Influencer.vue'));
 
     new Vue({ el: '#root' });
 }
