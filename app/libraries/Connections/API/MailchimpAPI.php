@@ -19,6 +19,14 @@ class MailchimpAPI {
     /*
      * Alias method for createCampaign()
      */
+    public function createPost ()
+    {
+        return $this->createCampaign();
+    }
+
+    /*
+     * Alias method for createCampaign()
+     */
     public function createEmail ()
     {
         return $this->createCampaign();
@@ -34,7 +42,9 @@ class MailchimpAPI {
         ];
 
         try {
-            $createResponse = $mailChimp->post('campaigns', $this->prepareCampaignData());
+            $create = $mailChimp->post('campaigns', $this->prepareCampaignData());
+
+            return $create;
 
             /*
             if ($createResponse->getStatusCode() == '200') {
@@ -54,6 +64,13 @@ class MailchimpAPI {
         }
 
         return $response;
+    }
+
+    public function getLists ()
+    {
+        $mailChimp = $this->createMailchimpInstance();
+
+        return $mailChimp->get('lists');
     }
 
     private function createMailchimpInstance ()
@@ -83,6 +100,13 @@ class MailchimpAPI {
                 'feed_url'  => 'http://contentlaunch.app',
                 'frequency' => 'daily'  // Possible Values: daily weekly monthly
             ]
+        ];
+    }
+
+    private function prepareCampaignContentData ()
+    {
+        return [
+            'html' => $this->content->body
         ];
     }
 }
