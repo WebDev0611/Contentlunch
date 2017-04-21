@@ -3,14 +3,18 @@
 
         <collaborate-search-bar></collaborate-search-bar>
 
-        <div class="panel-separator">
-            <div class="panel-contenthead">
-                <p id="influencer-alert"></p>
-            </div>
+        <div class="panel-separator"></div>
+
+        <div class="panel-contenthead">
+            <p v-show="results.length">
+                {{ results.length }} influencers found.
+            </p>
         </div>
 
         <div class="inner wide">
-            <ul class="list-inline list-influencers" id="influencer-results"></ul>
+            <ul class="list-inline list-influencers" id="influencer-results">
+
+            </ul>
         </div>
 
     </div>
