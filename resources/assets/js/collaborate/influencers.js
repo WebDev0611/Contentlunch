@@ -1,8 +1,8 @@
 var camelize = function(str) {
-return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
-if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
-return index == 0 ? match.toLowerCase() : match.toUpperCase();
-});
+    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+    if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+        return index == 0 ? match.toLowerCase() : match.toUpperCase();
+    });
 };
 
 
@@ -13,38 +13,6 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			selected: false
 		}
 	});
-
-	//place holder data
-	var dummy_data = [
-		{
-			title: "Jane Doe",
-			image: "/images/avatar-new.jpg",
-			body: "Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...",
-			twitter_followers: "3,300",
-			facebook_followers: "2,503"
-		},
-		{
-			title: "Mary Ipsum",
-			image: "/images/avatar-new.jpg",
-			body: "Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...",
-			twitter_followers: "3,300",
-			facebook_followers: "2,503"
-		},
-		{
-			title: "Carol Lorem",
-			image: "/images/avatar-new.jpg",
-			body: "Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...",
-			twitter_followers: "3,300",
-			facebook_followers: "2,503"
-		},
-		{
-			title: "Maria Content",
-			image: "/images/avatar-new.jpg",
-			body: "Suspendisse tincidunt eu lectus nec vestibulum. Etiam eget dolor...",
-			twitter_followers: "3,300",
-			facebook_followers: "2,503"
-		},
-	];
 
 	var invite_message_view = Backbone.View.extend({
 		initialize: function(){
@@ -86,7 +54,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			//this.remove();
 		},
 		invite: function(){
-			new influencer_invite_modal({el:"#modal-inviteinfluencer", model: this.model});	
+			new influencer_invite_modal({el:"#modal-inviteinfluencer", model: this.model});
 		}
 	});
 
@@ -131,7 +99,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			console.log('REMOVED!!');
 			var that = this;
 			this.$el.fadeOut(200,function(){
-				that.$el.remove();	
+				that.$el.remove();
 			});
 		},
 		showDetails: function(){
@@ -139,7 +107,7 @@ return index == 0 ? match.toLowerCase() : match.toUpperCase();
 			new influencer_data_modal({el:"#modal-influencerdetails", model: this.model});
 		},
 		invite: function(){
-			new influencer_invite_modal({el:"#modal-inviteinfluencer", model: this.model});	
+			new influencer_invite_modal({el:"#modal-inviteinfluencer", model: this.model});
 		}
 
 	});
