@@ -56,7 +56,7 @@
                 </i>
             </a>
         </li>
-        <!--
+
         <li>
             <a href="/collaborate" class="navigation-menu-link {{ Request::segment(1) == 'collaborate' ? 'active': ''  }}">
                 <i class="navigation-menu-icon icon-navigation-users">
@@ -64,7 +64,7 @@
                 </i>
             </a>
         </li>
-        -->
+
     </ul>
     <a href="/settings" class="navigation-settings {{ Request::segment(2) == 'settings' ? 'active': ''  }}">
         <i class="navigation-menu-icon icon-cog"></i>
