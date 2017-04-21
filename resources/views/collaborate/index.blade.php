@@ -13,65 +13,14 @@
                         <a href="javascript:;">Search for Influencers</a>
                     </li>
                     <li>
-                        <a href="/collaborate/bookmarks">Bookmarked Influencers</a>
+                        <a href="{{ route('collaborate_bookmarks.index') }}">Bookmarked Influencers</a>
                     </li>
                 </ul>
             </div> <!-- End Panel Header -->
 
             <!-- Panel Content -->
             <collaborate-module></collaborate-module>
-
         </div>
-
-
-        <!-- Modal: Details -->
-        <div id="modal-influencerdetails" class="sidemodal inset" style="display: none;">
-            <div class="sidemodal-header">
-                <h4 class="sidemodal-header-title">About</h4>
-                <button class="sidemodal-close">
-                    <i class="icon-remove"></i>
-                </button>
-            </div>
-            <div class="sidemodal-container">
-
-                <!-- Influencer Info -->
-                <div class="influencer-info">
-
-                    <div class="influencer-head">
-                        <div class="influencer-pic">
-                            <div class="user-avatar"></div>
-                        </div>
-                        <div class="influencer-data">
-                            <p class="title">Influencer name</p>
-                            <p class="desc"></p>
-                        </div>
-                    </div>
-
-                    <ul class="list-inline list-soc">
-                        <li><i class="icon-twitter2"></i>3,300</li>
-                        <li><i class="icon-facebook-mini"></i>2,503</li>
-                    </ul>
-
-                    <div class="influenceer-action">
-                        <div class="btn-group">
-                            <button type="button" class="button button-default button-extend invite-btn">INVITE</button>
-                            <button type="button" class="button button-default button-extend">DETAILS</button>
-                        </div>
-
-                        <button type="button" class="button button-outline-secondary button-extend"><i
-                                    class="icon-star-outline"></i>BOOKMARK
-                        </button>
-                    </div>
-
-                    <div class="influencer-desc">
-                        <p></p>
-                    </div>
-
-                </div> <!-- End Influencer Info -->
-
-            </div>
-        </div> <!-- End Modal: Details -->
-
 
         <!-- Modal: Invite Influencer -->
         <div id="modal-inviteinfluencer" class="sidemodal large" style="display: none">
