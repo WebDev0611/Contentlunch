@@ -13,7 +13,7 @@
 
         <div class="inner wide">
             <ul class="list-inline list-influencers" id="influencer-results">
-
+                <influencer v-for="result in results" :data="result"></influencer>
             </ul>
         </div>
 
