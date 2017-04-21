@@ -35,6 +35,7 @@
 
         methods: {
             search() {
+                this.$dispatch('searching');
                 let topic = this.keyword;
 
                 $.getJSON('/influencers', { topic })
