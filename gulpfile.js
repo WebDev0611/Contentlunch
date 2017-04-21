@@ -4,7 +4,9 @@
 process.env.DISABLE_NOTIFIER = true;
 
 var elixir = require('laravel-elixir');
+
 require('laravel-elixir-livereload');
+require('laravel-elixir-vueify');
 
 /*
  |--------------------------------------------------------------------------
@@ -24,7 +26,6 @@ elixir(function (mix) {
             'admin/admin.scss',
         ])
         .scripts([
-            './bower_components/vue/dist/vue.js',
             './bower_components/jquery/dist/jquery.min.js',
             './bower_components/jquery-sticky/jquery.sticky.js',
             './bower_components/underscore/underscore.js',
@@ -35,6 +36,8 @@ elixir(function (mix) {
             './bower_components/sweetalert2/dist/sweetalert2.min.js',
             './bower_components/fastselect/dist/fastselect.standalone.min.js'
         ], "public/js/vendor.js")
+
+        .browserify('vue-app.js')
 
         .scripts([
             './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',
@@ -57,7 +60,6 @@ elixir(function (mix) {
             'resources/assets/js/noautodiscover.js',
             'resources/assets/js/models/**/*.js',
             'resources/assets/js/collections/**/*.js',
-            'resources/assets/js/components/**/*.js',
             'resources/assets/js/views/**/*.js',
             'resources/assets/js/helpers.js'
         ], "public/js/app.js")
