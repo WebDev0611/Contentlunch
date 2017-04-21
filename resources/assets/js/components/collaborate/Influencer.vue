@@ -21,7 +21,6 @@
             </ul>
             <div class="btn-group">
                 <a :href="twitterLink" target='_blank' class="button button-default details">PROFILE</a>
-                <button type="button" class="button button-outline-secondary details">DETAILS</button>
             </div>
         </div>
     </li>
