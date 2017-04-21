@@ -151,26 +151,5 @@
 
             </div>
         </div> <!-- End Modal: Invite Influencer -->
-
-
     </div>
-
-    <script type="text/template" id="influencer-template">
-        <a href="#" class="btn btn-fav"><i class="icon-star-outline"></i><i class="icon-star"></i></a>
-        <div class="body">
-            <div class="user-avatar"><img src="<%= image %>" alt="<%= title %>"/></div>
-      <p class="title"><%= title %></p>
-      <p class="desc"><%= desc %></p>
-    </div>
-    <div class="foot">
-      <ul class="list-inline list-soc">
-        <li><i class="icon-twitter2"></i><%= twitter_num %></li>
-        <!-- <li><i class="icon-facebook-mini"></i><%= facebook_num %></li> -->
-      </ul>
-      <div class="btn-group">
-        <button type="button" class="button button-default invite">INVITE</button>
-        <button type="button" class="button button-outline-secondary details">DETAILS</button>
-      </div>
-    </div>
-</script>
 @stop
