@@ -36,22 +36,13 @@
             twitterFollowers() {
                 let followerCount = this.data.twitter_followers_count;
 
-                if (followerCount < 1000) {
-                    return followerCount;
+                if (followerCount > 1000 && followerCount < 1000000) {
+                    followerCount = Math.floor(followerCount / 1000) + 'k';
+                } else if (followerCount > 1000000) {
+                    followerCount = (Math.floor(followerCount / 100000) / 10) + 'm';
                 }
 
-                if (followerCount < 1000000) {
-                    followerCount = Math.floor(followerCount / 1000);
-                    return followerCount + 'k';
-                }
-
-                followerCount = Math.floor(followerCount / 100000) / 10;
-
-                return followerCount + 'm';
-            },
-
-            hasTwitter() {
-                return this.data.twitter_id.str;
+                return followerCount;
             },
 
             twitterLink() {
