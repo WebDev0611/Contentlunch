@@ -186,6 +186,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::get('/edit/{content}', 'ContentController@editContent')->name('editContent');
         Route::post('/edit/{content}', 'ContentController@editStore')->name('content.update')->middleware('format_date:due_date,m/d/Y');
 
+        Route::get('/collaborate-old', 'CollaborateController@indexOld')->name('collaborate.index.old');
         Route::get('/collaborate', 'CollaborateController@index')->name('collaborate.index');
         Route::get('/collaborate/linkedin', 'CollaborateController@linkedin')->name('collaborate.linkedin');
         Route::get('/collaborate/twitter', 'CollaborateController@twitter')->name('collaborate.twitter');

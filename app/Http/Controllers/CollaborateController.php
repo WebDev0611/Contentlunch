@@ -9,6 +9,11 @@ class CollaborateController extends Controller {
 		return view('collaborate.index');
 	}
 
+    public function indexOld()
+    {
+        return view('collaborate.index_old');
+    }
+
 	public function linkedin()
     {
 		return view('collaborate.linkedin');
