@@ -77,7 +77,7 @@ class HubspotAPI
                     'response' => json_encode($createResponse),
                 ];
 
-                //$this->content->setPublished();
+                $this->content->setPublished();
             }
         } catch (Exception $e) {
             $responseBody = json_decode($e->getResponse()->getBody(true));

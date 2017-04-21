@@ -421,7 +421,16 @@ class ContentController extends Controller
         }
 
         $class = 'Connections\API\\'.$connection->provider->class_name;
-        $create = (new $class($content, $connection))->createPost();
+        $classInstance = new $class($content, $connection);
+
+        $contentType = strtolower($content->contentType->name);
+
+        if($contentType == 'landing page' && method_exists($classInstance,'createPage')) {
+            $create = $classInstance->createPage();
+        } else {
+            // default action
+            $create = $classInstance->createPost();
+        }
 
         return $create;
     }
