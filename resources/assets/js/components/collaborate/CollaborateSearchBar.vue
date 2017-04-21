@@ -8,10 +8,12 @@
                     <input type="text" id="influencer-topic-val"
                            v-model="keyword"
                            placeholder="Search influencers to work on projects..."
+                           @keyup.enter="search"
                            class="input-search-icon">
 
                     <div class="input-form-button-action">
                         <button class="button"
+                                type="submit"
                                 @click="search"
                                 id="influencer-search">SEARCH</button>
                     </div>
