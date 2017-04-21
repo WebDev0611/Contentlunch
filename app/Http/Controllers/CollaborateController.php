@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use View;
-
 class CollaborateController extends Controller {
 
-	public function index(){
-		return View::make('collaborate.index');
+	public function index()
+    {
+		return view('collaborate.index');
 	}
 
-	public function linkedin(){
-		return View::make('collaborate.linkedin');
+	public function linkedin()
+    {
+		return view('collaborate.linkedin');
 	}
 
-	public function twitter(){
-		return View::make('collaborate.twitter');
+	public function twitter()
+    {
+		return view('collaborate.twitter');
 	}
 
-	public function bookmarks(){
-		return View::make('collaborate.bookmarks');
+	public function bookmarks()
+    {
+		return view('collaborate.bookmarks');
 	}
 }
