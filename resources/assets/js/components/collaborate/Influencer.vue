@@ -1,6 +1,6 @@
 <template>
     <li>
-        <a href="#" class="btn btn-fav">
+        <a @click='toggleBookmark' class="btn btn-fav" :class="{ 'active': bookmarked }">
             <i class="icon-star-outline"></i>
             <i class="icon-star"></i>
         </a>
@@ -31,6 +31,18 @@
         name: 'influencer',
 
         props: ['data'],
+
+        data() {
+            return {
+                bookmarked: false,
+            }
+        },
+
+        methods: {
+            toggleBookmark() {
+                this.bookmarked = !this.bookmarked;
+            },
+        },
 
         computed: {
             twitterFollowers() {
