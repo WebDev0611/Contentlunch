@@ -287,6 +287,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
          */
         Route::delete('/api/attachments/{attachment}', 'AttachmentController@destroy')->name('attachments.destroy');
         Route::get('/api/connections', 'ConnectionController@index');
+        Route::get('/api/connections/active', 'ConnectionController@getActiveConnections');
 
         Route::get('/api/campaigns', 'CampaignController@index');
         Route::get('/api/campaigns/collaborators', 'CampaignCollaboratorsController@accountCollaborators');

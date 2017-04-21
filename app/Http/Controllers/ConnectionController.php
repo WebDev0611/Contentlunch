@@ -28,6 +28,16 @@ class ConnectionController extends Controller
         ]);
     }
 
+    public function getActiveConnections ()
+    {
+        return $this->selectedAccount
+            ->connections()
+            ->select('id','name', 'provider_id')
+            ->active()
+            ->with('provider')
+            ->get();
+    }
+
     protected function accountConnections($request)
     {
         return $this->selectedAccount
