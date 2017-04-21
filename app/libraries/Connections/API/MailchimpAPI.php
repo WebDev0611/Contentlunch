@@ -14,6 +14,13 @@ class MailchimpAPI {
         $this->datacenter = Config::get('services.mailchimp.datacenter');
     }
 
+    /*
+     * Alias method for createCampaign()
+     */
+    public function createEmail() {
+        return $this->createCampaign();
+    }
+
     public function createCampaign ()
     {
         $settings = json_decode($this->connection->settings);

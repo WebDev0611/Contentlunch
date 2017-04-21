@@ -427,7 +427,11 @@ class ContentController extends Controller
 
         if($contentType == 'landing page' && method_exists($classInstance,'createPage')) {
             $create = $classInstance->createPage();
-        } else {
+        }
+        elseif($contentType == 'email' && method_exists($classInstance,'createEmail')) {
+            $create = $classInstance->createEmail();
+        }
+        else {
             // default action
             $create = $classInstance->createPost();
         }
