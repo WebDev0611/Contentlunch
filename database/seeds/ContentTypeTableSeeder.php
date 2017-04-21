@@ -26,6 +26,7 @@ class ContentTypeTableSeeder extends BaseSeeder
             [ 'name' => 'HubSpot Blog Post',      'provider_id' =>  3, 'active' => true ],
             [ 'name' => 'Email',                  'provider_id' =>  0, 'active' => true ],
             [ 'name' => 'Website Page',           'provider_id' =>  0, 'active' => true ],
+            [ 'name' => 'Landing Page',           'provider_id' =>  0, 'active' => true ],
 
             [ 'name' => 'Audio Recording',        'provider_id' =>  0, 'active' => false ],
             [ 'name' => 'Case Study',             'provider_id' =>  0, 'active' => false ],
@@ -34,7 +35,6 @@ class ContentTypeTableSeeder extends BaseSeeder
             [ 'name' => 'Google Drive Doc.',      'provider_id' =>  0, 'active' => false ],
             [ 'name' => 'Google+ Update',         'provider_id' =>  0, 'active' => false ],
             [ 'name' => 'Newsletter',             'provider_id' =>  0, 'active' => false ],
-            [ 'name' => 'Landing Page',           'provider_id' =>  0, 'active' => false ],
             [ 'name' => 'Linkedin Update',        'provider_id' =>  0, 'active' => false ],
             [ 'name' => 'Photo',                  'provider_id' =>  0, 'active' => false ],
             [ 'name' => 'SalesForce Asset',       'provider_id' =>  0, 'active' => false ],
