@@ -3,9 +3,13 @@
 namespace App\Presenters;
 
 use App\Presenters\Helpers\BasePresenter;
+use App\Presenters\Helpers\CreatedAtPresenter;
+use App\Presenters\Helpers\UpdatedAtPresenter;
 
 class UserPresenter extends BasePresenter
 {
+    use UpdatedAtPresenter, CreatedAtPresenter;
+
     public function profile_image()
     {
         return $this->entity->profile_image ?
@@ -29,5 +33,14 @@ class UserPresenter extends BasePresenter
             ->get()
             ->pluck('name')
             ->implode(', ');
+    }
+
+    public function lastLoginFormat($format = 'm/d/Y H:i:s')
+    {
+        $login = $this->entity->logins()->recent()->first();
+
+        return $login
+            ? $login->present()->createdAtFormat($format)
+            : '--';
     }
 }

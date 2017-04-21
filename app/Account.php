@@ -4,6 +4,7 @@ namespace App;
 
 use App\AccountType;
 use App\Presenters\AccountPresenter;
+use App\Traits\Orderable;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ use Laracasts\Presenter\PresentableTrait;
 
 class Account extends Model
 {
-    use PresentableTrait;
+    use PresentableTrait, Orderable;
 
     protected $presenter = AccountPresenter::class;
 
@@ -85,6 +86,11 @@ class Account extends Model
     public function tasks()
     {
         return $this->hasMany('App\Task');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo('App\AccountType', 'account_type_id');
     }
 
     public function ideas()
