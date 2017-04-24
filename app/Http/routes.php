@@ -88,7 +88,9 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
 
         Route::group(['prefix' => 'influencers'], function() {
             Route::get('/', 'InfluencersController@search')->name('influencers.search');
-            Route::post('/bookmark', 'InfluencersController@toggleBookmark')->name('influencers.toggle_bookmark');
+
+            Route::get('/bookmarks', 'InfluencersController@index')->name('influencers.bookmarks');
+            Route::post('/bookmarks', 'InfluencersController@toggleBookmark')->name('influencers.toggle_bookmark');
         });
 
         Route::get('/idea/{idea}', 'IdeaController@edit')->name('ideas.edit')->middleware('can:show,idea');
