@@ -184,13 +184,17 @@
     }
   }
 
-  > span.icon-social-hubspot {
+  > span.icon-social-hubspot, > span.icon-social-mailchimp {
     background-size: 80% !important;
     background: transparent url("/images/hubspot-icon-light.png") no-repeat center center;
     width: 30px;
     height: 30px;
     vertical-align: bottom;
     border: 6px solid #ccd0d5;
+  }
+
+  > span.icon-social-mailchimp {
+    background: transparent url("/images/mailchimp-icon.png") no-repeat center center;
   }
 }
 

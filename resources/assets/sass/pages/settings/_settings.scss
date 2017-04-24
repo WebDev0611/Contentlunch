@@ -132,9 +132,14 @@
   margin-top: 35px;
 }
 
-.icon-social-hubspot {
+.icon-social-hubspot, .icon-social-mailchimp {
   background: url("/images/hubspot-icon-dark.png") no-repeat;
   background-size: 100%;
   width: 28px;
   height: 28px;
+}
+
+.icon-social-mailchimp {
+  background: url("/images/mailchimp-icon.png") no-repeat;
+  background-size: 100%;
 }
