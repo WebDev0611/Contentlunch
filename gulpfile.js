@@ -84,9 +84,6 @@ elixir(function (mix) {
             'resources/assets/js/plan/idea_collaborators.js',
         ], "public/js/idea_editor.js")
 
-        /* influencers scripts */
-        .babel('resources/assets/js/collaborate/influencers.js', "public/js/influencers.js")
-
         /* campaign scripts */
         .babel('resources/assets/js/campaign/campaign.js',"public/js/campaign.js")
 
