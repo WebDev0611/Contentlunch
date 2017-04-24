@@ -36,9 +36,9 @@ class MailchimpController extends BaseConnectionController {
         return $this->redirectWithSuccess("You've successfully connected to Mailchimp.");
     }
 
-    public function getContentLists ($content)
+    public function getContentLists ($connection)
     {
-        $mailchimpApi = new MailchimpAPI($content);
+        $mailchimpApi = new MailchimpAPI(null,$connection);
         $response = $mailchimpApi->getLists();
 
         $mapped = array_map(function ($el) {

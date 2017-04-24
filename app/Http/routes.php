@@ -173,7 +173,7 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
 
         // Mailchimp Callback
         Route::get('callback/mailchimp', 'Connections\MailchimpController@callback')->name('mailchimpCallback');
-        Route::get('mailchimp/{content}/lists', 'Connections\MailchimpController@getContentLists')->name('mailchimpLists');
+        Route::get('mailchimp/{connection}/lists', 'Connections\MailchimpController@getContentLists')->name('mailchimpLists');
 
         // - Landing page for creating content
         Route::get('/create', 'ContentController@create')->name('contents.create');
