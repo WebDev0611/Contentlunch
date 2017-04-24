@@ -41,6 +41,12 @@
         methods: {
             toggleBookmark() {
                 this.bookmarked = !this.bookmarked;
+
+                $.ajax({
+                    method: 'post',
+                    data: this.data,
+                    url: '/influencers/bookmark',
+                });
             },
         },
 
