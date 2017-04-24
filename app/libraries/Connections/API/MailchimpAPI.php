@@ -5,6 +5,7 @@ namespace Connections\API;
 use App\MailChimp;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 class MailchimpAPI {
 
@@ -42,20 +43,42 @@ class MailchimpAPI {
         ];
 
         try {
+            /*
+             NOTE: Since there's a bug in Mailchimp API, the POST method returns 500 Error code
+             instead of the actual successful response when creating Campaigns. This is preventing us from fetching
+             Campaign ID directly from the response, but instead we have to make a GET request to fetch all campaigns
+             and then take the newest one.
+            */
+
+            // Let's create a new Campaign.
             $create = $mailChimp->post('campaigns', $this->prepareCampaignData());
 
-            /*
-            if ($createResponse->getStatusCode() == '200') {
+            if($create['status'] = 500) {
+                // Check if this is a bug
+                $allCampaigns = $mailChimp->get('campaigns', [
+                    'sort_field' => 'create_time',
+                    'sort_dir'   => 'DESC'
+                ]);
 
+                $campaignID = $allCampaigns['campaigns'][0]['id'];
+            } elseif(!empty($create['id'])) {
+                $campaignID = $create['id'];
+            }
+
+            // Update the content, and add a body to it
+            $updateContent = $create = $mailChimp->put('campaigns/' . $campaignID . '/content', [
+                'html' => $this->content->body
+            ]);
+
+            // Determine if update succeeded
+            if(!empty($updateContent['plain_text'])) {
                 $response = [
                     'success'  => true,
-                    'response' => json_encode($createResponse),
+                    'response' => [],
                 ];
 
                 $this->content->setPublished();
             }
-            */
-
         } catch (ClientException $e) {
             $responseBody = json_decode($e->getResponse()->getBody());
             $response['success'] = false;
@@ -93,6 +116,9 @@ class MailchimpAPI {
                 'title'        => $this->content->title,
                 'from_name'    => $contentMailchimpSettings->from_name,
                 'reply_to'     => $contentMailchimpSettings->reply_to
+            ],
+            'content'          => [
+                'html' => $this->content->body
             ],
             'variate_settings' => [
                 'winner_criteria' => 'opens'    // Possible Values: opens clicks manual total_revenue
