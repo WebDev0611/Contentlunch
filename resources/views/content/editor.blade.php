@@ -241,7 +241,95 @@
                                     <i class="icon-person-aura"></i>INVITE INFLUENCERS
                                 </button>
                             </div>
+
+                            <div id="mailchimp_loading" class="hidden">
+                                <img src="{{asset('images/ring.gif')}}" height="34" alt="loading">
+                                <span style="color: #999;">Loading Mailchimp data...</span>
+                            </div>
                         </div>
+
+
+                        <div class="row @if($content->mailchimp_settings == null) hidden @endif" id="mailchimp_settings_row">
+
+                            <div class="col-sm-4">
+                                <div class="input-form-group">
+                                    <label for="mailchimp_list">MAILCHIMP LIST</label>
+                                    @php
+                                        $mailchimpListOptions = [
+                                            'class' => 'input form-control',
+                                            'id' => 'mailchimp_list'
+                                        ];
+
+                                        if (!$isCollaborator || $isPublished) {
+                                            $mailchimpListOptions['disabled'] = 'disabled';
+                                        }
+                                    @endphp
+                                    {!!
+                                        Form::select(
+                                            'mailchimp_list',
+                                            [],
+                                            old('mailchimp_list'),
+                                            $mailchimpListOptions
+                                        )
+                                    !!}
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="input-form-group">
+                                    <label>MAILCHIMP FROM NAME</label>
+                                    @php
+                                        $mailchimpFromOptions = [
+                                            'placeholder' => 'From Name',
+                                            'class' => 'input input-larger form-control',
+                                            'id' => 'mailchimp_from_name'
+                                        ];
+
+                                        if (!$isCollaborator || $isPublished) {
+                                            $mailchimpFromOptions['disabled'] = 'disabled';
+                                        }
+                                    @endphp
+                                    {!! Form::text('mailchimp_from_name', old('mailchimp_from_name'), $mailchimpFromOptions) !!}
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="input-form-group">
+                                    <label>MAILCHIMP REPLY TO ADDRESS</label>
+                                    @php
+                                        $mailchimpReplyToOptions = [
+                                            'placeholder' => 'Reply To',
+                                            'class' => 'input input-larger form-control',
+                                            'id' => 'mailchimp_reply_to'
+                                        ];
+
+                                        if (!$isCollaborator || $isPublished) {
+                                            $mailchimpReplyToOptions['disabled'] = 'disabled';
+                                        }
+                                    @endphp
+                                    {!! Form::email('mailchimp_reply_to', old('mailchimp_reply_to'), $mailchimpReplyToOptions) !!}
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4 pull-right">
+                                <div class="input-form-group">
+                                    <label>MAILCHIMP RSS FEED URL</label>
+                                    @php
+                                        $mailchimpFeedOptions = [
+                                            'placeholder' => 'Feed URL',
+                                            'class' => 'input input-larger form-control',
+                                            'id' => 'mailchimp_feed_url'
+                                        ];
+
+                                        if (!$isCollaborator || $isPublished) {
+                                            $mailchimpFeedOptions['disabled'] = 'disabled';
+                                        }
+                                    @endphp
+                                    {!! Form::text('mailchimp_feed_url', !empty($mailchimpSettings->feed_url) ? $mailchimpSettings->feed_url : '', $mailchimpFeedOptions) !!}
+                                </div>
+                            </div>
+                        </div>
+
 
                         <!-- Editor container -->
                         <div class="character-counter">
@@ -639,6 +727,8 @@
 @section('scripts')
 <script>
     var TWEET_CONTENT_TYPE = {!! App\ContentType::whereName('Tweet')->first()->id !!};
+    var connections_details = {!! $connectionsDetails !!};
+    var mailchimp_settings = {!! empty($content->mailchimp_settings) ? '""' : $content->mailchimp_settings !!};
 </script>
 <script type='text/javascript'>
     (function() {

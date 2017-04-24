@@ -56,4 +56,11 @@ return [
         'client_secret' => env('HUBSPOT_CLIENT_SECRET'),
         'redirect' => env('HUBSPOT_REDIRECT')
     ],
+
+    'mailchimp' => [
+        'client_id' => env('MAILCHIMP_CLIENT_ID'),
+        'client_secret' => env('MAILCHIMP_CLIENT_SECRET'),
+        'datacenter' => env('MAILCHIMP_DATACENTER'),
+        'redirect' => env('MAILCHIMP_REDIRECT')
+    ],
 ];

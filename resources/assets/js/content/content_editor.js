@@ -108,4 +108,91 @@ $(function() {
         });
 
     });
+
+    /**
+     * Content destinations
+     */
+    var mailchimp_lists = [];
+    let connection_data = {};
+
+    loadMailchimpDestinationData();
+
+    $("#connections").change(function() {
+        loadMailchimpDestinationData();
+    });
+
+    function loadMailchimpDestinationData(){
+        let destination_id = $("#connections").find(":selected").val();
+
+        if(destination_id.length) {
+            connection_data = getSelectedConnection();
+
+            if(connection_data.provider.slug === 'mailchimp') {
+                // If connection is Mailchimp, fetch needed data from their API and populate corresponding fields
+
+                $('#mailchimp_settings_row, #mailchimp_loading').removeClass('hidden');
+
+                $.when(getMailchimpLists(destination_id)).done(function(mailchimp_lists_tmp){
+                    mailchimp_lists = mailchimp_lists_tmp;
+                    $('#mailchimp_loading').addClass('hidden');
+                    populateMailchimpValues();
+                });
+            } else {
+                $('#mailchimp_settings_row').addClass('hidden');
+            }
+        }
+    }
+
+    function getSelectedConnection() {
+        let destination_id = $("#connections").find(":selected").val();
+
+        return $.grep(connections_details, function (connection) {
+            return connection.id == destination_id;
+        })[0];
+    }
+
+    function populateMailchimpValues(){
+        // Clear all values
+        $('#mailchimp_list').empty();
+        $('#mailchimp_from_name, #mailchimp_reply_to').val('');
+
+        // Populate lists select
+        $.each(mailchimp_lists,function(key, list) {
+            $('#mailchimp_list').append('<option value=' + list.id + '>' + list.name + '</option>');
+        });
+
+        if(mailchimp_settings.list && mailchimp_settings.list.length !== 0) {
+            $('#mailchimp_list').find('option[value=' + mailchimp_settings.list + ']').attr('selected','selected');
+        }
+
+        if(mailchimp_settings.from_name && mailchimp_settings.from_name.length !== 0) {
+            $('#mailchimp_from_name').val(mailchimp_settings.from_name);
+        } else {
+            $('#mailchimp_from_name').val(mailchimp_lists[0].campaign_defaults.from_name);
+        }
+
+        if(mailchimp_settings.reply_to && mailchimp_settings.reply_to.length !== 0) {
+            $('#mailchimp_reply_to').val(mailchimp_settings.reply_to);
+        } else {
+            $('#mailchimp_reply_to').val(mailchimp_lists[0].campaign_defaults.from_email);
+        }
+    }
+    
+    function getMailchimpLists(destination_id) {
+        return $.ajax({
+            method: 'get',
+            url: '/mailchimp/' + destination_id + '/lists',
+            headers: getCSRFHeader(),
+        });
+    }
+
+    $("#mailchimp_list").change(function() {
+        let list = $.grep(mailchimp_lists, function (mc_list) {
+            return mc_list.id == $("#mailchimp_list").find(":selected").val();
+        })[0];
+
+        $('#mailchimp_from_name').val(list.campaign_defaults.from_name);
+        $('#mailchimp_reply_to').val(list.campaign_defaults.from_email);
+    });
+
 });

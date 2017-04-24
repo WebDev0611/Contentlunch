@@ -177,6 +177,19 @@
         </div>
     </div>
 </template>
+
+<template id="mailchimpTemplate">
+    <div class="row" >
+        <div class="col-md-12">
+            <button
+                    type='submit'
+                    class="btn btn-primary">
+                Connect to Mailchimp
+            </button>
+        </div>
+    </div>
+</template>
+
 <script type="text/javascript">
 $(function() {
 
