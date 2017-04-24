@@ -135,15 +135,7 @@ $(function() {
                 $.when(getMailchimpLists(destination_id)).done(function(mailchimp_lists_tmp){
                     mailchimp_lists = mailchimp_lists_tmp;
                     $('#mailchimp_loading').addClass('hidden');
-
-                    // Populate lists select
-                    $.each(mailchimp_lists,function(key, list) {
-                        $('#mailchimp_list').append('<option value=' + list.id + '>' + list.name + '</option>');
-                    });
-
-                    // Populate other fields
-                    $('#mailchimp_from_name').val(mailchimp_lists[0].campaign_defaults.from_name);
-                    $('#mailchimp_reply_to').val(mailchimp_lists[0].campaign_defaults.from_email);
+                    populateMailchimpValues();
                 });
             } else {
                 $('#mailchimp_settings_row').addClass('hidden');
@@ -158,6 +150,33 @@ $(function() {
             return connection.id == destination_id;
         })[0];
     }
+
+    function populateMailchimpValues(){
+        // Clear all values
+        $('#mailchimp_list').empty();
+        $('#mailchimp_from_name, #mailchimp_reply_to').val('');
+
+        // Populate lists select
+        $.each(mailchimp_lists,function(key, list) {
+            $('#mailchimp_list').append('<option value=' + list.id + '>' + list.name + '</option>');
+        });
+
+        if(mailchimp_settings.list.length !== 0) {
+            $('#mailchimp_list').find('option[value=' + mailchimp_settings.list + ']').attr('selected','selected');
+        }
+
+        if(mailchimp_settings.from_name.length !== 0) {
+            $('#mailchimp_from_name').val(mailchimp_settings.from_name);
+        } else {
+            $('#mailchimp_from_name').val(mailchimp_lists[0].campaign_defaults.from_name);
+        }
+
+        if(mailchimp_settings.reply_to.length !== 0) {
+            $('#mailchimp_reply_to').val(mailchimp_settings.reply_to);
+        } else {
+            $('#mailchimp_reply_to').val(mailchimp_lists[0].campaign_defaults.from_email);
+        }
+    }
     
     function getMailchimpLists(destination_id) {
         return $.ajax({
@@ -171,7 +190,6 @@ $(function() {
         let list = $.grep(mailchimp_lists, function (mc_list) {
             return mc_list.id == $("#mailchimp_list").find(":selected").val();
         })[0];
-        console.log(list);
 
         $('#mailchimp_from_name').val(list.campaign_defaults.from_name);
         $('#mailchimp_reply_to').val(list.campaign_defaults.from_email);

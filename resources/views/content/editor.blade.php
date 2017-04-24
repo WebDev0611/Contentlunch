@@ -253,7 +253,7 @@
 
                             <div class="col-sm-4">
                                 <div class="input-form-group">
-                                    <label for="connections">MAILCHIMP LIST</label>
+                                    <label for="mailchimp_list">MAILCHIMP LIST</label>
                                     @php
                                         $mailchimpListOptions = [
                                             'class' => 'input form-control',
@@ -710,6 +710,7 @@
 <script>
     var TWEET_CONTENT_TYPE = {!! App\ContentType::whereName('Tweet')->first()->id !!};
     var connections_details = {!! $connectionsDetails !!};
+    var mailchimp_settings = {!! $content->mailchimp_settings !!};
 </script>
 <script type='text/javascript'>
     (function() {
