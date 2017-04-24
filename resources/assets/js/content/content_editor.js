@@ -161,17 +161,17 @@ $(function() {
             $('#mailchimp_list').append('<option value=' + list.id + '>' + list.name + '</option>');
         });
 
-        if(mailchimp_settings.list.length !== 0) {
+        if(mailchimp_settings.list && mailchimp_settings.list.length !== 0) {
             $('#mailchimp_list').find('option[value=' + mailchimp_settings.list + ']').attr('selected','selected');
         }
 
-        if(mailchimp_settings.from_name.length !== 0) {
+        if(mailchimp_settings.from_name && mailchimp_settings.from_name.length !== 0) {
             $('#mailchimp_from_name').val(mailchimp_settings.from_name);
         } else {
             $('#mailchimp_from_name').val(mailchimp_lists[0].campaign_defaults.from_name);
         }
 
-        if(mailchimp_settings.reply_to.length !== 0) {
+        if(mailchimp_settings.reply_to && mailchimp_settings.reply_to.length !== 0) {
             $('#mailchimp_reply_to').val(mailchimp_settings.reply_to);
         } else {
             $('#mailchimp_reply_to').val(mailchimp_lists[0].campaign_defaults.from_email);

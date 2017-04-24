@@ -503,6 +503,7 @@ class ContentController extends Controller
             'content' => $content,
             'tagsJson' => $this->selectedAccount->present()->tagsJson,
             'connectionsDetails' => $this->selectedAccount->getActiveConnections(),
+            'mailchimpSettings' => json_decode($content->mailchimp_settings),
             'contentTagsJson' => $content->present()->tagsJson,
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
@@ -702,10 +703,12 @@ class ContentController extends Controller
         $mailchimpSettings = [
             'list' => $request->input('mailchimp_list'),
             'from_name' => $request->input('mailchimp_from_name'),
-            'reply_to' => $request->input('mailchimp_reply_to')
+            'reply_to' => $request->input('mailchimp_reply_to'),
+            'feed_url' => $request->input('mailchimp_feed_url')
         ];
 
         $content->mailchimp_settings = json_encode($mailchimpSettings);
+        $content->save();
     }
 
     public function delete(Request $request, $content_id)

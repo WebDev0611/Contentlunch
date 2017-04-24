@@ -310,6 +310,24 @@
                                     {!! Form::email('mailchimp_reply_to', old('mailchimp_reply_to'), $mailchimpReplyToOptions) !!}
                                 </div>
                             </div>
+
+                            <div class="col-sm-4 pull-right">
+                                <div class="input-form-group">
+                                    <label>MAILCHIMP RSS FEED URL</label>
+                                    @php
+                                        $mailchimpFeedOptions = [
+                                            'placeholder' => 'Feed URL',
+                                            'class' => 'input input-larger form-control',
+                                            'id' => 'mailchimp_feed_url'
+                                        ];
+
+                                        if (!$isCollaborator || $isPublished) {
+                                            $mailchimpFeedOptions['disabled'] = 'disabled';
+                                        }
+                                    @endphp
+                                    {!! Form::text('mailchimp_feed_url', !empty($mailchimpSettings->feed_url) ? $mailchimpSettings->feed_url : '', $mailchimpFeedOptions) !!}
+                                </div>
+                            </div>
                         </div>
 
 
@@ -710,7 +728,7 @@
 <script>
     var TWEET_CONTENT_TYPE = {!! App\ContentType::whereName('Tweet')->first()->id !!};
     var connections_details = {!! $connectionsDetails !!};
-    var mailchimp_settings = {!! $content->mailchimp_settings !!};
+    var mailchimp_settings = {!! empty($content->mailchimp_settings) ? '""' : $content->mailchimp_settings !!};
 </script>
 <script type='text/javascript'>
     (function() {

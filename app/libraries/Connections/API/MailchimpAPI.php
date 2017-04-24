@@ -44,8 +44,6 @@ class MailchimpAPI {
         try {
             $create = $mailChimp->post('campaigns', $this->prepareCampaignData());
 
-            return $create;
-
             /*
             if ($createResponse->getStatusCode() == '200') {
 
@@ -57,6 +55,7 @@ class MailchimpAPI {
                 $this->content->setPublished();
             }
             */
+
         } catch (ClientException $e) {
             $responseBody = json_decode($e->getResponse()->getBody());
             $response['success'] = false;
@@ -82,22 +81,24 @@ class MailchimpAPI {
 
     private function prepareCampaignData ()
     {
+        $contentMailchimpSettings = json_decode($this->content->mailchimp_settings);
+
         return [
             'type'             => 'regular', // accepted values: regular, plaintext, absplit, rss, variate
             'recipients'       => [
-                'list_id' => '0c0fcaa3fe'   // string, TODO: GET 'lists' and create dropdown
+                'list_id' => $contentMailchimpSettings->list
             ],
             'settings'         => [
                 'subject_line' => $this->content->email_subject,
                 'title'        => $this->content->title,
-                'from_name'    => 'Content Launch',
-                'reply_to'     => 'testing@contentlaunch.app'
+                'from_name'    => $contentMailchimpSettings->from_name,
+                'reply_to'     => $contentMailchimpSettings->reply_to
             ],
             'variate_settings' => [
                 'winner_criteria' => 'opens'    // Possible Values: opens clicks manual total_revenue
             ],
             'rss_opts'         => [
-                'feed_url'  => 'http://contentlaunch.app',
+                'feed_url'  => $contentMailchimpSettings->feed_url,
                 'frequency' => 'daily'  // Possible Values: daily weekly monthly
             ]
         ];
