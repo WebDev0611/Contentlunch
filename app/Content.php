@@ -7,6 +7,7 @@ use App\Traits\Orderable;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Laracasts\Presenter\PresentableTrait;
 
 class Content extends Model
@@ -44,6 +45,7 @@ class Content extends Model
         'calendar_id'      => 'Calendar',
         'created_at'       => 'Create at',
         'updated_at'       => 'Updated at',
+        'mailchimp_settings'       => 'Mailchimp Settings'
     ];
 
     public $fillable = [
@@ -260,6 +262,10 @@ class Content extends Model
 
             case 'content_status_id':
                 $formattedContent = $value ? ContentStatus::find($value)->name : '-';
+                break;
+
+            case 'mailchimp_settings':
+                $formattedContent = '-';
                 break;
 
             default:

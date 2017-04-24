@@ -562,6 +562,7 @@ class ContentController extends Controller
         $this->saveContentType($request, $content);
         $this->saveConnections($request, $content);
         $this->saveContentTags($request, $content);
+        $this->saveMailchimpSettings($request, $content);
 
         // - Attach the related data
         if ($request->input('related')) {
@@ -694,6 +695,17 @@ class ContentController extends Controller
                     $content->tags()->attach($tag);
                 });
         }
+    }
+
+    private function saveMailchimpSettings($request, $content)
+    {
+        $mailchimpSettings = [
+            'list' => $request->input('mailchimp_list'),
+            'from_name' => $request->input('mailchimp_from_name'),
+            'reply_to' => $request->input('mailchimp_reply_to')
+        ];
+
+        $content->mailchimp_settings = json_encode($mailchimpSettings);
     }
 
     public function delete(Request $request, $content_id)

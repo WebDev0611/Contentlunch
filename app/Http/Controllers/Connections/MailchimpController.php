@@ -38,7 +38,7 @@ class MailchimpController extends BaseConnectionController {
 
     public function getContentLists ($connection)
     {
-        $mailchimpApi = new MailchimpAPI(null,$connection);
+        $mailchimpApi = new MailchimpAPI(null, $connection);
         $response = $mailchimpApi->getLists();
 
         $mapped = array_map(function ($el) {
