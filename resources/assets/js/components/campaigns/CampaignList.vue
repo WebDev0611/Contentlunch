@@ -17,6 +17,9 @@
 
     export default {
         name: 'campaign-list',
+        components: {
+            CampaignRow,
+        },
 
         data() {
             return {

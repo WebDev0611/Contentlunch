@@ -53,10 +53,15 @@
 
 <script>
     import CollaborateSearchBar from './CollaborateSearchBar.vue';
+    import Influencer from './Influencer.vue';
     import Loading from '../Loading.vue';
 
     export default {
         name: 'collaborate-module',
+        components: {
+            CollaborateSearchBar,
+            Influencer,
+        },
 
         data() {
             return {

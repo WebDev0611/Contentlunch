@@ -17,6 +17,10 @@
 
     export default {
         name: 'task-list',
+        components: {
+            TaskRow,
+            Loading,
+        },
 
         props: [ 'userOnly' ],
 
