@@ -93,6 +93,8 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
             Route::post('/bookmarks', 'InfluencersController@toggleBookmark')->name('influencers.toggle_bookmark');
         });
 
+        Route::get('/collaborate', 'CollaborateController@index')->name('collaborate.index');
+
         Route::get('/idea/{idea}', 'IdeaController@edit')->name('ideas.edit')->middleware('can:show,idea');
         Route::post('/idea/{idea}/activate', 'IdeaController@activate')->name('ideas.activate')->middleware('can:update,idea');
         Route::post('/idea/{idea}/park', 'IdeaController@park')->name('ideas.park')->middleware('can:update,idea');
@@ -191,12 +193,6 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         // - editing content form page
         Route::get('/edit/{content}', 'ContentController@editContent')->name('editContent');
         Route::post('/edit/{content}', 'ContentController@editStore')->name('content.update')->middleware('format_date:due_date,m/d/Y');
-
-        Route::get('/collaborate-old', 'CollaborateController@indexOld')->name('collaborate.index.old');
-        Route::get('/collaborate', 'CollaborateController@index')->name('collaborate.index');
-        Route::get('/collaborate/linkedin', 'CollaborateController@linkedin')->name('collaborate.linkedin');
-        Route::get('/collaborate/twitter', 'CollaborateController@twitter')->name('collaborate.twitter');
-        Route::get('/collaborate/bookmarks', 'CollaborateController@bookmarks')->name('collaborate_bookmarks.index');
 
         Route::get('/onboarding', 'OnboardingController@index');
 
