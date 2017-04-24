@@ -19,10 +19,9 @@ require('laravel-elixir-livereload');
 
 elixir(function (mix) {
     mix
-        .sass([
-            'main.scss',
-            'admin/admin.scss',
-        ])
+        .sass('main.scss', 'public/css/main.css')
+        .sass('admin/admin.scss', 'public/css/admin.css')
+
         .scripts([
             './bower_components/vue/dist/vue.js',
             './bower_components/jquery/dist/jquery.min.js',
