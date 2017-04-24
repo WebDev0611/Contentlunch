@@ -3,24 +3,7 @@
 @section('content')
     <div class="workspace">
 
-        <!-- Panel -->
-        <div class="panel">
-
-            <!-- Panel Header -->
-            <div class="panel-header">
-                <ul class="panel-tabs withborder text-center">
-                    <li class="active">
-                        <a href="javascript:;">Search for Influencers</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('collaborate_bookmarks.index') }}">Bookmarked Influencers</a>
-                    </li>
-                </ul>
-            </div> <!-- End Panel Header -->
-
-            <!-- Panel Content -->
-            <collaborate-module></collaborate-module>
-        </div>
+        <collaborate-module></collaborate-module>
 
         <!-- Modal: Invite Influencer -->
         <div id="modal-inviteinfluencer" class="sidemodal large" style="display: none">
