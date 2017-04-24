@@ -163,6 +163,9 @@ class Account extends Model
         $account->ensureAccountHasSubscription();
     }
 
+    /**
+     * @return Account|null
+     */
     public static function selectedAccount()
     {
         if (!Auth::user()) {
@@ -329,5 +332,24 @@ class Account extends Model
     public function getUsers($proxyToParent = true)
     {
         return $proxyToParent ? $this->proxyToParent()->users()->get() : $this->users()->get();
+    }
+
+    public function bookmarkInfluencer(array $data)
+    {
+        $influencer = Influencer::where('twitter_id_str', $data['twitter_id_str'])->first();
+
+        if ($influencer) {
+            $influencer->update($data);
+            $this->influencers()->attach($influencer);
+        } else {
+            $influencer = $this->influencers()->create($data);
+        }
+
+        return $influencer;
+    }
+
+    public function unbookmarkInfluencer(Influencer $influencer)
+    {
+        return $this->influencers()->detach($influencer);
     }
 }
