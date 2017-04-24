@@ -68,6 +68,11 @@ class Account extends Model
         return $this->hasMany('App\Account', 'parent_account_id');
     }
 
+    public function influencers()
+    {
+        return $this->belongsToMany('App\Influencer');
+    }
+
     public function personas()
     {
         return $this->hasMany('App\Persona');
