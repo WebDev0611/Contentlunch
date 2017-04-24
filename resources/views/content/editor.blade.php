@@ -639,6 +639,7 @@
 @section('scripts')
 <script>
     var TWEET_CONTENT_TYPE = {!! App\ContentType::whereName('Tweet')->first()->id !!};
+    var connections_details = {!! $connectionsDetails !!};
 </script>
 <script type='text/javascript'>
     (function() {

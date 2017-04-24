@@ -502,6 +502,7 @@ class ContentController extends Controller
         $data = [
             'content' => $content,
             'tagsJson' => $this->selectedAccount->present()->tagsJson,
+            'connectionsDetails' => $this->selectedAccount->getActiveConnections(),
             'contentTagsJson' => $content->present()->tagsJson,
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),

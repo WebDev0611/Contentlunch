@@ -108,4 +108,35 @@ $(function() {
         });
 
     });
+
+    /**
+     * Content destinations
+     */
+    loadMailchimpDestinationData();
+
+    $("#connections").change(function() {
+        loadMailchimpDestinationData();
+    });
+
+    function loadMailchimpDestinationData(){
+        let destination_id = $("#connections").find(":selected").val();
+        let connection_data = $.grep(connections_details, function (connection, index) {
+            return connection.id == destination_id;
+        })[0];
+
+        if(connection_data.provider.slug === 'mailchimp') {
+            console.log( getMailchimpLists() );
+        }
+    }
+    
+    function getMailchimpLists() {
+        return $.ajax({
+            method: 'get',
+            url: '/mailchimp/' + contentId() + '/lists',
+            headers: getCSRFHeader(),
+        });
+    }
+
+
+
 });
