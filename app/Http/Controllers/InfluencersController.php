@@ -58,9 +58,11 @@ class InfluencersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $influencers = Account::selectedAccount()->influencers()->get();
+
+        return response()->json([ 'data' => $influencers ]);
     }
 
     /**
