@@ -63,4 +63,10 @@ return [
         'datacenter' => env('MAILCHIMP_DATACENTER'),
         'redirect' => env('MAILCHIMP_REDIRECT')
     ],
+
+    'linkedin' => [
+        'client_id' => env('LINKEDIN_CLIENT_ID'),
+        'client_secret' => env('LINKEDIN_CLIENT_SECRET'),
+        'redirect' => env('LINKEDIN_REDIRECT')
+    ],
 ];
