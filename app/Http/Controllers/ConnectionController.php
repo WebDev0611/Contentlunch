@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Connections\API\LinkedInAPI;
 use Illuminate\Http\Request;
 use Config;
 use Auth;
@@ -86,6 +87,9 @@ class ConnectionController extends Controller
                 $url = (new \oAuth\API\MailchimpAuth())->getAuthorizationUrl();
 
                 return Redirect::to($url);
+
+            case 'linkedin':
+                return Socialite::with('linkedin')->redirect();
         }
     }
 
