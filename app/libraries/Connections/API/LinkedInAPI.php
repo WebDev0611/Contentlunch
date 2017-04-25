@@ -32,7 +32,7 @@ class LinkedInAPI {
                     'response' => 'Post published',
                 ];
 
-                //$this->content->setPublished();
+                $this->content->setPublished();
             }
             else {
                 $response = [
@@ -63,13 +63,13 @@ class LinkedInAPI {
 
         $images = $this->content->attachments()->where('type', 'image')->get();
         if(count($images) > 0) {
-            $firstImage = $images->first();
+            $img = $images->last();
 
             $data['json']['content'] = [
                 'title'               => $this->content->title . ': attachment',
                 //'description'         => 'sample image description',
-                'submitted-url'       => $firstImage->filename,
-                'submitted-image-url' => $firstImage->filename,
+                'submitted-url'       => $img->filename,
+                'submitted-image-url' => $img->filename,
             ];
         }
 
