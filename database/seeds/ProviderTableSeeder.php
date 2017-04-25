@@ -30,7 +30,7 @@ class ProviderTableSeeder extends BaseSeeder
                 'name' => 'Linkedin',
                 'slug' => 'linkedin',
                 'type' => 'website',
-                'class_name' => ''
+                'class_name' => 'LinkedInAPI'
             ],
             [
                 'name' => 'Hubspot',
