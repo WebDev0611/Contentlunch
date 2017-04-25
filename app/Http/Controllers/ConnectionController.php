@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Artesaos\LinkedIn\Facades\LinkedIn;
 use Connections\API\LinkedInAPI;
 use Illuminate\Http\Request;
 use Config;
@@ -89,7 +90,9 @@ class ConnectionController extends Controller
                 return Redirect::to($url);
 
             case 'linkedin':
-                return Socialite::with('linkedin')->redirect();
+                $scope = ['r_basicprofile', 'r_emailaddress', 'rw_company_admin', 'w_share'];
+
+                return Socialite::with('linkedin')->scopes($scope)->redirect();
         }
     }
 

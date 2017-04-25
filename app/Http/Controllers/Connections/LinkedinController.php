@@ -12,7 +12,7 @@ class LinkedinController extends BaseConnectionController
         if ($error = $request->has('error')) {
             $this->cleanSessionConnection();
 
-            return $this->redirectWithError($error);
+            return $this->redirectWithError(json_encode($request->input('error')));
         }
 
         $user = Socialite::driver('linkedin')->user();
