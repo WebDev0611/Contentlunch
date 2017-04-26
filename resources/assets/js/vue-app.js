@@ -8,8 +8,16 @@ function createVueApp() {
     Vue.component('campaign-list', require('./components/campaigns/CampaignList.vue'));
     Vue.component('loading', require('./components/Loading.vue'));
     Vue.component('collaborate-module', require('./components/collaborate/CollaborateModule.vue'));
+    Vue.component('messaging-system', require('./components/messaging-system/MessagingSystem.vue'));
+    Vue.component('open-message-bar-button', require('./components/messaging-system/OpenMessageBarButton.vue'));
 
-    new Vue({ el: '#root' });
+    new Vue({
+        el: '#root',
+
+        created() {
+            this.$on('messaging:opening', () => $('#message-modal').modal('show'));
+        }
+    });
 }
 
 function shouldVueLoad() {

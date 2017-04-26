@@ -36,6 +36,8 @@
 
     @include('partials.taskmodal')
 
+    <messaging-system></messaging-system>
+
 </div>
 
 <script src="/js/vendor.js"></script>

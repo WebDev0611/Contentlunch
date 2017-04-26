@@ -67,6 +67,11 @@
                 <i class="icon-checklist"></i>
             </button>
 
+
+
+            <open-message-bar-button></open-message-bar-button>
+
+
             <a href='/logout' class="logout-button search-bar-button">
                 Logout
             </a>
