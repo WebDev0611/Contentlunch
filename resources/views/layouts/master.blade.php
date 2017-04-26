@@ -104,14 +104,6 @@
     });
 
 </script>
-
-<script>
-    var path = document.location.pathname
-    if (path === '/' || path == '/home') {
-        new Vue({ el: '#root' });
-    }
-</script>
-
 <script type="text/javascript">
 
     (function() {
@@ -149,5 +141,7 @@
     @include('layouts.partials.google-analytics')
     @include('layouts.partials.app-cues')
 @endif
+
+<script src="/js/vue-app.js"></script>
 </body>
 </html>

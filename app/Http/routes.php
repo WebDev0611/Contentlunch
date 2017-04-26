@@ -84,8 +84,16 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         Route::get('/plan/prescription', 'PlanController@prescription');
 
         Route::resource('/trending', 'TrendsController@trending');
-        Route::resource('/influencers', 'InfluencersController@search');
         Route::resource('/topics', 'TopicsController@index');
+
+        Route::group(['prefix' => 'influencers'], function() {
+            Route::get('/', 'InfluencersController@search')->name('influencers.search');
+
+            Route::get('/bookmarks', 'InfluencersController@index')->name('influencers.bookmarks');
+            Route::post('/bookmarks', 'InfluencersController@toggleBookmark')->name('influencers.toggle_bookmark');
+        });
+
+        Route::get('/collaborate', 'CollaborateController@index')->name('collaborate.index');
 
         Route::get('/idea/{idea}', 'IdeaController@edit')->name('ideas.edit')->middleware('can:show,idea');
         Route::post('/idea/{idea}/activate', 'IdeaController@activate')->name('ideas.activate')->middleware('can:update,idea');
@@ -189,11 +197,6 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         // - editing content form page
         Route::get('/edit/{content}', 'ContentController@editContent')->name('editContent');
         Route::post('/edit/{content}', 'ContentController@editStore')->name('content.update')->middleware('format_date:due_date,m/d/Y');
-
-        Route::get('/collaborate', 'CollaborateController@index');
-        Route::get('/collaborate/linkedin', 'CollaborateController@linkedin');
-        Route::get('/collaborate/twitter', 'CollaborateController@twitter');
-        Route::get('/collaborate/bookmarks', 'CollaborateController@bookmarks');
 
         Route::get('/onboarding', 'OnboardingController@index');
 

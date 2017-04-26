@@ -8,25 +8,25 @@
 .panel-contenthead {
   padding: 8px 0;
   text-align: center;
-  
+
   p {
     margin: 0;
     line-height: 1.2em;
     font-size: 1.1em;
   }
-  
+
   &.withfilter {
     text-align: left;
     max-width: 1100px;
     margin: 0 auto;
     display: table;
     width: 100%;
-    
+
     > * {
       display: table-cell;
       vertical-align: middle;
     }
-    
+
     > .filter {
       width: 280px;
     }
@@ -36,7 +36,7 @@
 .list-influencers {
   margin: 0 -.5%;
   overflow: hidden;
-  
+
   > li {
     border: 1px solid #E3E7F0;
     border-radius: 4px;
@@ -48,50 +48,50 @@
     padding: 0;
     position: relative;
     margin-bottom: 12px;
-    
+
     &:hover {
       background-color: #F8F9FC;
     }
-    
+
     p {
       margin: 0;
       line-height: 1.2em;
     }
-    
+
     .title {
       font-weight: 700;
       margin-bottom: 5px;
       font-size: 1.2em;
     }
-    
+
     > .body {
       padding: 15px 20px;
       padding-bottom: 0;
-      min-height: 180px;
+      min-height: 220px;
     }
-    
+
     > .foot {
       padding: 12px 20px;
-      
+
       .btn-group {
         display: block;
         overflow: hidden;
         margin-top: 12px;
       }
-      
+
       .btn-group .button {
         display: block;
         width: 50%;
       }
     }
   }
-  
+
   .user-avatar {
     width: 75px;
     height: 75px;
     margin-bottom: 8px;
   }
-  
+
 }
 
 .btn-fav {
@@ -101,23 +101,23 @@
   right: 0;
   top: 0;
   color: rgba(108,119,134,.35);
-  
+
   &:hover {
     color: rgba(108,119,134,.75);
   }
-  
+
   .icon-star {
     display: none;
   }
-  
+
   &.active {
     color: #6944B7;
     box-shadow: none;
-    
+
     .icon-star {
       display: inline-block;
     }
-    
+
     .icon-star-outline {
       display: none;
     }
@@ -130,30 +130,30 @@
   margin-right: -17px !important;
 }
 .influencer-info {
-  
+
   .list-soc {
     margin: 15px 0;
   }
-  
+
   .influenceer-action {
     margin-bottom: 15px;
   }
-  
+
   .button [class^="icon-"] {
     margin-right: 8px;
     font-size: 1.2em;
     position: relative;
     top: 2px;
   }
-  
+
   .btn-group {
     display: block;
     margin-bottom: 5px;
     overflow: hidden;
-    
+
     .button {
       width: 50%;
-      
+
       &:last-child {
         border-left: 1px solid #fff;
       }
@@ -164,34 +164,34 @@
 .influencer-head  {
   display: table;
   width: 100%;
-  
+
   &.smaller {
     margin-bottom: 30px;
-    
+
     .user-avatar {
       width: 75px;
       height: 75px;
     }
   }
-  
+
   .user-avatar {
     width: 100px;
     height: 100px;
-  }  
-  
+  }
+
   > * {
     display: table-cell;
     vertical-align: middle;
   }
-  
+
   > .influencer-data {
     padding-left: 20px;
-    
+
     p {
       line-height: 1.2em;
       opacity: .65;
       margin-bottom: 12px;
-      
+
       &.title {
         opacity: 1;
         font-weight: 700;
@@ -199,8 +199,8 @@
         margin-bottom: 8px;
       }
     }
-    
-    
+
+
   }
 }
 
@@ -215,7 +215,7 @@
     top: 1px;
     font-size: .9em;
   }
-  
+
   .badge {
     background-color: #DADFEB;
     border-radius: 3px;

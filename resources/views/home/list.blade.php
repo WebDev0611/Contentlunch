@@ -73,10 +73,10 @@
                         </div>
                         <div class="tab-content">
                             <div class="tab-pane active" role='tabpanel' id='my-tasks'>
-                                <tasks-list user-only='true'></tasks-list>
+                                <task-list user-only='true'></task-list>
                             </div>
                             <div class="tab-pane" role='tabpanel' id='all-tasks'>
-                                <tasks-list></tasks-list>
+                                <task-list></task-list>
                             </div>
                             <div class="tab-pane" role='tabpanel' id='campaigns'>
                                 <campaign-list></campaign-list>
