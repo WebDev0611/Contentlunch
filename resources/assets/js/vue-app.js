@@ -15,7 +15,13 @@ function createVueApp() {
         el: '#root',
 
         created() {
-            this.$on('messaging:opening', () => $('#message-modal').modal('show'));
+            this.$on('messaging:opening', this.openMessageModal);
+        },
+
+        methods: {
+            openMessageModal() {
+                $('#message-modal').addClass('in');
+            }
         }
     });
 }
