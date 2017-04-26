@@ -184,7 +184,7 @@
     }
   }
 
-  > span.icon-social-hubspot, > span.icon-social-mailchimp {
+  > span.icon-social-hubspot, > span.icon-social-mailchimp, > span.icon-social-linkedin  {
     background-size: 80% !important;
     background: transparent url("/images/hubspot-icon-light.png") no-repeat center center;
     width: 30px;
@@ -195,6 +195,10 @@
 
   > span.icon-social-mailchimp {
     background: transparent url("/images/mailchimp-icon.png") no-repeat center center;
+  }
+
+  > span.icon-social-linkedin {
+    background: transparent url("/images/linkedin-logo.svg") no-repeat center center;
   }
 }
 
