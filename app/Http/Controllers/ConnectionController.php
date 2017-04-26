@@ -93,6 +93,11 @@ class ConnectionController extends Controller
                 $scope = ['r_basicprofile', 'r_emailaddress', 'rw_company_admin', 'w_share'];
 
                 return Socialite::with('linkedin')->scopes($scope)->redirect();
+
+            case 'dropbox':
+                $url = (new \oAuth\API\DropboxAuth())->getAuthorizationUrl();
+
+                return Redirect::to($url);
         }
     }
 

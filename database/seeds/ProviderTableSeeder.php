@@ -72,7 +72,7 @@ class ProviderTableSeeder extends BaseSeeder
                 'name' => 'Dropbox',
                 'slug' => 'dropbox',
                 'type' => 'website',
-                'class_name' => ''
+                'class_name' => 'DropboxAPI'
             ],
             [
                 'name' => 'Google Drive',
