@@ -1,0 +1,21 @@
+.message-modal {
+    position: fixed;
+    top: 0;
+    right: -40%;
+    bottom: 0;
+    height: 100%;
+    width: 30%;
+    min-width: 320px;
+    background: $base-color-white;
+    box-shadow: -3px 0px 5px -5px $base-color-black;
+    z-index: 1050;
+    overflow-y: auto;
+
+    @include transition($base-transition);
+
+    transition: all 400ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+
+    &.in {
+      right: 0;
+    }
+}
