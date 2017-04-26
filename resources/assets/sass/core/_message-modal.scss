@@ -19,3 +19,25 @@
       right: 0;
     }
 }
+
+
+.messages-list-cell {
+    @extend .dashboard-ideas-cell;
+}
+
+.messages-list-team-member {
+    @extend .dashboard-ideas-container;
+    cursor: pointer;
+
+    .messages-list-cell {
+        padding: 12px;
+    }
+}
+
+.messages-list {
+    &-input {
+        width: 100%;
+        padding: 6px;
+        resize: none;
+    }
+}
