@@ -190,6 +190,18 @@
     </div>
 </template>
 
+<template id="linkedinTemplate">
+    <div class="row" >
+        <div class="col-md-12">
+            <button
+                    type='submit'
+                    class="btn btn-primary">
+                Connect to LinkedIn
+            </button>
+        </div>
+    </div>
+</template>
+
 <script type="text/javascript">
 $(function() {
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Artesaos\LinkedIn\Facades\LinkedIn;
+use Connections\API\LinkedInAPI;
 use Illuminate\Http\Request;
 use Config;
 use Auth;
@@ -86,6 +88,11 @@ class ConnectionController extends Controller
                 $url = (new \oAuth\API\MailchimpAuth())->getAuthorizationUrl();
 
                 return Redirect::to($url);
+
+            case 'linkedin':
+                $scope = ['r_basicprofile', 'r_emailaddress', 'rw_company_admin', 'w_share'];
+
+                return Socialite::with('linkedin')->scopes($scope)->redirect();
         }
     }
 

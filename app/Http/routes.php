@@ -10,7 +10,8 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
+
+Route::group(['middleware' => ['fw-block-bl' ]], function () {
 
     /**
      * Route Models
@@ -182,6 +183,9 @@ Route::group(['middleware' => [ 'fw-block-bl' ]], function () {
         // Mailchimp Callback
         Route::get('callback/mailchimp', 'Connections\MailchimpController@callback')->name('mailchimpCallback');
         Route::get('mailchimp/{connection}/lists', 'Connections\MailchimpController@getContentLists')->name('mailchimpLists');
+
+        //LinkedIn callback
+        Route::get('callback/linkedin', 'Connections\LinkedinController@callback')->name('linkedinCallback');
 
         // - Landing page for creating content
         Route::get('/create', 'ContentController@create')->name('contents.create');

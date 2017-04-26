@@ -164,6 +164,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Thujohn\Twitter\TwitterServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
+        Artesaos\LinkedIn\LinkedinServiceProvider::class,
 
         App\Providers\ComposerServiceProvider::class,
         App\Providers\FormComponentsServiceProvider::class,
@@ -221,6 +222,7 @@ return [
         'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Firewall' => PragmaRX\Firewall\Vendor\Laravel\Facade::class,
+        'LinkedIn'  => Artesaos\LinkedIn\Facades\LinkedIn::class,
     ],
 
 ];
