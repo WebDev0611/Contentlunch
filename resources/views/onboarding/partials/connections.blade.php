@@ -142,3 +142,24 @@
         @endif
     </div>
 </div>
+
+<div class="onboarding-import-item @if ($hasDropbox) active @endif">
+    <div class="col-md-6">
+        <img src="/images/cl-avatar2.png" alt="#" class="onboarding-import-item-img">
+        <span class="onboarding-import-item-title">Dropbox</span>
+    </div>
+
+    <div class="col-md-6 text-right">
+        @if (!$hasDropbox)
+            <a  href="{{ route('connectionProvider', [
+                'dropbox',
+                'redirect_route' => 'onboardingConnect'
+            ]) }}"
+                class="button button-small">
+                Connect
+            </a>
+        @else
+            <div class="button button-connected button-small">Connected</div>
+        @endif
+    </div>
+</div>

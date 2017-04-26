@@ -23,8 +23,11 @@ class DropboxAuth {
         $data = [
             'client_id' => $this->client_id,
             'redirect_uri' => $this->redirect,
-            'state' => $this->state
+            'state' => $this->state,
+            'response_type' => 'code'
         ];
+
+        session(['dropbox_state' => $this->state]); // CSRF check value
 
         $params = collect($data)
             ->map(function ($value, $key) {

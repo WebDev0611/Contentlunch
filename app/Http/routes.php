@@ -187,6 +187,10 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         //LinkedIn callback
         Route::get('callback/linkedin', 'Connections\LinkedinController@callback')->name('linkedinCallback');
 
+        //Dropbox Callback
+        Route::get('callback/dropbox', 'Connections\DropboxController@callback')->name('dropboxCallback');
+
+
         // - Landing page for creating content
         Route::get('/create', 'ContentController@create')->name('contents.create');
         Route::post('/create/new', 'ContentController@store')->name('contents.store')->middleware('format_date:due_date,m/d/Y');
