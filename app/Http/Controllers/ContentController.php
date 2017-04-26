@@ -421,7 +421,20 @@ class ContentController extends Controller
         }
 
         $class = 'Connections\API\\'.$connection->provider->class_name;
-        $create = (new $class($content, $connection))->createPost();
+        $classInstance = new $class($content, $connection);
+
+        $contentType = strtolower($content->contentType->name);
+
+        if($contentType == 'landing page' && method_exists($classInstance,'createPage')) {
+            $create = $classInstance->createPage();
+        }
+        elseif($contentType == 'email' && method_exists($classInstance,'createEmail')) {
+            $create = $classInstance->createEmail();
+        }
+        else {
+            // default action
+            $create = $classInstance->createPost();
+        }
 
         return $create;
     }
@@ -489,6 +502,8 @@ class ContentController extends Controller
         $data = [
             'content' => $content,
             'tagsJson' => $this->selectedAccount->present()->tagsJson,
+            'connectionsDetails' => $this->selectedAccount->getActiveConnections(),
+            'mailchimpSettings' => json_decode($content->mailchimp_settings),
             'contentTagsJson' => $content->present()->tagsJson,
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
@@ -548,6 +563,7 @@ class ContentController extends Controller
         $this->saveContentType($request, $content);
         $this->saveConnections($request, $content);
         $this->saveContentTags($request, $content);
+        $this->saveMailchimpSettings($request, $content);
 
         // - Attach the related data
         if ($request->input('related')) {
@@ -680,6 +696,19 @@ class ContentController extends Controller
                     $content->tags()->attach($tag);
                 });
         }
+    }
+
+    private function saveMailchimpSettings($request, $content)
+    {
+        $mailchimpSettings = [
+            'list' => $request->input('mailchimp_list'),
+            'from_name' => $request->input('mailchimp_from_name'),
+            'reply_to' => $request->input('mailchimp_reply_to'),
+            'feed_url' => $request->input('mailchimp_feed_url')
+        ];
+
+        $content->mailchimp_settings = json_encode($mailchimpSettings);
+        $content->save();
     }
 
     public function delete(Request $request, $content_id)

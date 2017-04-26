@@ -190,6 +190,15 @@ class Account extends Model
             ->where('slug', $slug);
     }
 
+    public function getActiveConnections ()
+    {
+        return $this->connections()
+            ->select('id','name', 'provider_id')
+            ->active()
+            ->with('provider')
+            ->get();
+    }
+
     public function authorsDropdown()
     {
         $authorDropdown = ['' => '-- Select Author --'];

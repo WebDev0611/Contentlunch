@@ -156,7 +156,7 @@ class ProviderTableSeeder extends BaseSeeder
                 'name' => 'Mailchimp',
                 'slug' => 'mailchimp',
                 'type' => 'website',
-                'class_name' => ''
+                'class_name' => 'MailchimpAPI'
             ],
             [
                 'name' => 'Exact Target',

@@ -134,7 +134,6 @@
 @endif
 
 @include('layouts.partials.js_user')
-@include('layouts.partials.freemium-popup')
 
 @if (getenv('APP_ENV', 'production') === 'production')
     @include('layouts.partials.intercom')
