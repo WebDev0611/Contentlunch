@@ -12,20 +12,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 
-class ExportController extends Controller
-{
+class ExportController extends Controller {
+
     use Redirectable;
 
     public function __construct ()
     {
         // Make sure temporary export directory exists
         $exportPath = Export::exportPath();
-        if(!is_dir($exportPath)) {
+        if (!is_dir($exportPath)) {
             File::makeDirectory($exportPath);
         }
     }
 
-    public function content ($id, $extension)
+    public function content ($id, $extension, $locationHandle = null)
     {
         $content = Content::findOrFail($id);
 
@@ -42,6 +42,10 @@ class ExportController extends Controller
                 break;
             default:
                 return $this->danger('contents.index', "Unsupported extension.");
+        }
+
+        if ($locationHandle !== null) {
+            $locationHandle->uploadFile($pathToFile, $content->title . '.' . $extension);
         }
 
         return response()->download($pathToFile)->deleteFileAfterSend(true);
