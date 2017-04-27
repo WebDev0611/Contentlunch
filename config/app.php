@@ -165,6 +165,7 @@ return [
         Thujohn\Twitter\TwitterServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
         Artesaos\LinkedIn\LinkedinServiceProvider::class,
+        GrahamCampbell\Dropbox\DropboxServiceProvider::class,
 
         App\Providers\ComposerServiceProvider::class,
         App\Providers\FormComponentsServiceProvider::class,
