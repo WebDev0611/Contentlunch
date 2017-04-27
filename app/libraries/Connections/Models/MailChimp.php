@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Connections\Models;
 
 /**
  * Super-simple, minimum abstraction MailChimp API v3 wrapper

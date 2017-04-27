@@ -2,7 +2,7 @@
 
 namespace Connections\API;
 
-use App\MailChimp;
+use Connections\Models\MailChimp;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
