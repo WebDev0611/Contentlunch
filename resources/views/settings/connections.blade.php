@@ -202,6 +202,18 @@
     </div>
 </template>
 
+<template id="dropboxTemplate">
+    <div class="row" >
+        <div class="col-md-12">
+            <button
+                    type='submit'
+                    class="btn btn-primary">
+                Connect to Dropbox
+            </button>
+        </div>
+    </div>
+</template>
+
 <script type="text/javascript">
 $(function() {
 

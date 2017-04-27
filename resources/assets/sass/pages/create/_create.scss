@@ -184,9 +184,12 @@
     }
   }
 
-  > span.icon-social-hubspot, > span.icon-social-mailchimp, > span.icon-social-linkedin  {
+  > span.icon-social-hubspot,
+  > span.icon-social-mailchimp,
+  > span.icon-social-linkedin,
+  > span.icon-social-dropbox  {
     background-size: 80% !important;
-    background: transparent url("/images/hubspot-icon-light.png") no-repeat center center;
+    background: transparent url("/images/social-icons/hubspot-icon-light.png") no-repeat center center;
     width: 30px;
     height: 30px;
     vertical-align: bottom;
@@ -194,11 +197,15 @@
   }
 
   > span.icon-social-mailchimp {
-    background: transparent url("/images/mailchimp-icon.png") no-repeat center center;
+    background: transparent url("/images/social-icons/mailchimp-icon.png") no-repeat center center;
   }
 
   > span.icon-social-linkedin {
-    background: transparent url("/images/linkedin-logo.svg") no-repeat center center;
+    background: transparent url("/images/social-icons/linkedin-logo.svg") no-repeat center center;
+  }
+
+  > span.icon-social-dropbox {
+    background: transparent url("/images/social-icons/dropbox-icon.png") no-repeat center center;
   }
 }
 

@@ -132,19 +132,24 @@
   margin-top: 35px;
 }
 
-.icon-social-hubspot, .icon-social-mailchimp, .icon-social-linkedin {
-  background: url("/images/hubspot-icon-dark.png") no-repeat;
+.icon-social-hubspot, .icon-social-mailchimp, .icon-social-linkedin,.icon-social-dropbox {
+  background: url("/images/social-icons/hubspot-icon-dark.png") no-repeat;
   background-size: 100%;
   width: 28px;
   height: 28px;
 }
 
 .icon-social-mailchimp {
-  background: url("/images/mailchimp-icon.png") no-repeat;
+  background: url("/images/social-icons/mailchimp-icon.png") no-repeat;
   background-size: 100%;
 }
 
 .icon-social-linkedin {
-  background: url("/images/linkedin-logo.svg") no-repeat;
+  background: url("/images/social-icons/linkedin-logo.svg") no-repeat;
+  background-size: 100%;
+}
+
+.icon-social-dropbox {
+  background: url("/images/social-icons/dropbox-icon.png") no-repeat;
   background-size: 100%;
 }
