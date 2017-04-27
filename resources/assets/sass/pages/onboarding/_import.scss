@@ -49,12 +49,14 @@
 }
 
 .onboarding-import-container {
-  overflow-y: auto;
+  margin-bottom: 30px;
 }
 
 .onboarding-import-item {
   padding: 10px 15px;
   border-bottom: 1px solid #e3e7f0;
+  text-align: center;
+  height: 160px;
 
   @include clearfix;
 
@@ -65,17 +67,28 @@
   .button {
     letter-spacing: .03em;
     text-transform: uppercase;
+    margin-top: 8px;
   }
 
   &-additional-info {
     padding-left: 58px;
   }
+
+  .onboarding-import-item-img {
+    display: block;
+    height: 52px;
+    margin: 8px auto;
+  }
+
+  .onboarding-import-item-title {
+    text-align: center;
+  }
 }
 
-.onboarding-import-item-img {
-  display: inline-block;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  margin-right: 5px;
+#wordpressOnboardingInfo {
+  padding-top: 20px;
+
+  .input-form-group {
+    margin-bottom: 0;
+  }
 }

@@ -45,17 +45,17 @@ class OnboardingController extends Controller
 
     public function connect()
     {
-        $hasTwitter = (boolean) Auth::user()->connectionsBySlug('twitter')->count();
-        $hasFacebook = (boolean) Auth::user()->connectionsBySlug('facebook')->whereActive(true)->count();
-        $hasWordPress = (boolean) Auth::user()->connectionsBySlug('wordpress')->count();
-        $hasHubspot = (boolean) Auth::user()->connectionsBySlug('hubspot')->count();
-        $hasMailchimp = (boolean) Auth::user()->connectionsBySlug('mailchimp')->count();
-        $hasLinkedIn = (boolean) Auth::user()->connectionsBySlug('linkedin')->count();
-        $hasDropbox = (boolean) Auth::user()->connectionsBySlug('dropbox')->count();
+        $account = Account::selectedAccount();
 
-        return View::make('onboarding.connect',
-            compact('hasTwitter', 'hasFacebook', 'hasWordPress', 'hasHubspot', 'hasMailchimp', 'hasLinkedIn', 'hasDropbox')
-        );
+        return view('onboarding.connect', [
+           'hasTwitter' =>  (boolean) $account->connectionsBySlug('twitter')->count(),
+           'hasFacebook' =>  (boolean) $account->connectionsBySlug('facebook')->whereActive(true)->count(),
+           'hasWordPress' =>  (boolean) $account->connectionsBySlug('wordpress')->count(),
+           'hasHubspot' =>  (boolean) $account->connectionsBySlug('hubspot')->count(),
+           'hasMailchimp' =>  (boolean) $account->connectionsBySlug('mailchimp')->count(),
+           'hasLinkedIn' =>  (boolean) $account->connectionsBySlug('linkedin')->count(),
+           'hasDropbox' =>  (boolean) $account->connectionsBySlug('dropbox')->count(),
+        ]);
     }
 
     public function signupWithInvite(Request $request, AccountInvite $invite)

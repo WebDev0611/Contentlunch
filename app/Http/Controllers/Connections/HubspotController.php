@@ -18,9 +18,10 @@ class HubspotController extends BaseConnectionController {
     }
 
     public function callback (Request $request) {
-        if ($error = $request->has('error')) {
-            $this->cleanSessionConnection();
 
+        $this->cleanSessionConnection();
+
+        if ($error = $request->has('error')) {
             return $this->redirectWithError($this->errorMessage($error));
         }
 
@@ -28,11 +29,8 @@ class HubspotController extends BaseConnectionController {
         $token = $this->auth->codeForToken($code);
 
         if (collect($token)->has('error')) {
-            $this->cleanSessionConnection();
-
             return $this->redirectWithError('There was an error with your authentication, please try again');
         }
-
 
         $tokenArray = (array)$token;
         $connection = $this->saveConnection($tokenArray, 'hubspot');
