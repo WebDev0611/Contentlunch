@@ -55,6 +55,7 @@ class OnboardingController extends Controller
            'hasMailchimp' =>  (boolean) $account->connectionsBySlug('mailchimp')->count(),
            'hasLinkedIn' =>  (boolean) $account->connectionsBySlug('linkedin')->count(),
            'hasDropbox' =>  (boolean) $account->connectionsBySlug('dropbox')->count(),
+           'hasGoogleDrive' =>  (boolean) $account->connectionsBySlug('google-drive')->count(),
         ]);
     }
 

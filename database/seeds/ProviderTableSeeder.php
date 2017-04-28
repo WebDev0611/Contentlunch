@@ -78,7 +78,7 @@ class ProviderTableSeeder extends BaseSeeder
                 'name' => 'Google Drive',
                 'slug' => 'google-drive',
                 'type' => 'website',
-                'class_name' => ''
+                'class_name' => 'GoogleDriveAPI'
             ],
             [
                 'name' => 'Slideshare',

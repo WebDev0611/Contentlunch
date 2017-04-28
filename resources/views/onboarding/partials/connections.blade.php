@@ -179,4 +179,25 @@
         </div>
     </div>
 
+    <div class="col-md-4 onboarding-import-item @if ($hasGoogleDrive) active @endif" data-group="editing-sharing">
+        <div class="col-md-12">
+            <img src="/images/social-icons/color-dropbox.svg" alt="#" class="onboarding-import-item-img">
+            <span class="onboarding-import-item-title">Google Drive</span>
+        </div>
+
+        <div class="col-md-12">
+            @if (!$hasGoogleDrive)
+                <a href="{{ route('connectionProvider', [
+                'google-drive',
+                'redirect_route' => 'onboardingConnect'
+            ]) }}"
+                   class="button button-small">
+                    Connect
+                </a>
+            @else
+                <div class="button button-connected button-small">Connected</div>
+            @endif
+        </div>
+    </div>
+
 </div>

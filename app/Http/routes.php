@@ -329,6 +329,11 @@ Route::get('/coming-soon',  function () {
 
 Route::post('/stripe-webhook', 'StripeController@webhook');
 
+Route::get('/gdrive',  function () {
+    $api = new \oAuth\API\GoogleDriveAuth();
+    return $api->getAuthorizationUrl();
+});
+
 /*
  |--------------------------------------------------------------------------
  | Administrative Dashboard routes
