@@ -50,6 +50,14 @@
 
 .onboarding-import-container {
   margin-bottom: 30px;
+
+  ul.list-group li {
+    cursor: pointer;
+  }
+
+  .onboarding-import-list {
+    padding-top: 20px;
+  }
 }
 
 .onboarding-import-item {
