@@ -28,7 +28,7 @@ class WriterAccessPrice extends Model
     {
         return self::select('wordcount')
             ->groupBy('wordcount')
-            ->lists('wordcount');
+            ->pluck('wordcount');
     }
 
     public static function availableWordcountsByAssetType($assetTypeId)

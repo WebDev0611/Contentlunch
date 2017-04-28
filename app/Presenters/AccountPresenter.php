@@ -32,7 +32,7 @@ class AccountPresenter extends BasePresenter
             ->select('id', 'tag')
             ->orderBy('tag', 'asc')
             ->distinct()
-            ->lists('tag', 'id')
+            ->pluck('tag', 'id')
             ->toArray();
     }
 
@@ -43,7 +43,7 @@ class AccountPresenter extends BasePresenter
             ->select('tag')
             ->orderBy('tag', 'asc')
             ->distinct()
-            ->lists('tag')
+            ->pluck('tag')
             ->toJson();
     }
 

@@ -206,7 +206,7 @@ class Account extends Model
             ->select('users.name', 'users.id')
             ->orderBy('name', 'asc')
             ->distinct()
-            ->lists('name', 'id')
+            ->pluck('name', 'id')
             ->toArray();
 
         return $authorDropdown;
@@ -220,7 +220,7 @@ class Account extends Model
             ->select('contents.id', 'contents.title')
             ->orderBy('title', 'asc')
             ->distinct()
-            ->lists('title', 'id')
+            ->pluck('title', 'id')
             ->toArray();
 
         return $dropdown;

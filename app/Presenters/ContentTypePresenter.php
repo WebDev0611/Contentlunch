@@ -13,7 +13,7 @@ class ContentTypePresenter extends BasePresenter
             ->where('active', true)
             ->orderBy('name', 'asc')
             ->distinct()
-            ->lists('name', 'id')
+            ->pluck('name', 'id')
             ->toArray();
     }
 }

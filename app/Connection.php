@@ -76,7 +76,7 @@ class Connection extends Model {
             ->where('active',1)
             ->orderBy('name', 'asc')
             ->distinct()
-            ->lists('name', 'id')
+            ->pluck('name', 'id')
             ->toArray();
 
         return $connectionsdd;
