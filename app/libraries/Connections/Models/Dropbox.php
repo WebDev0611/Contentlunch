@@ -17,7 +17,7 @@ class Dropbox {
         $this->dropbox->configuration = $config;
     }
 
-    public function uploadFile($filePath, $fileName)
+    public function uploadFile($filePath, $fileName, $mimeType = null)
     {
         $stream = fopen($filePath,'r');
 

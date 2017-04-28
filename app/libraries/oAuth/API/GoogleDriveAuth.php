@@ -25,4 +25,9 @@ class GoogleDriveAuth {
     {
         return $this->client->createAuthUrl();
     }
+
+    public function refreshToken ($refreshToken)
+    {
+        return $this->client->refreshToken($refreshToken);
+    }
 }
