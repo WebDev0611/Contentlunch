@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Connections;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use oAuth\API\GoogleDriveAuth;
 
 class GoogleDriveController extends BaseConnectionController {
@@ -20,14 +21,13 @@ class GoogleDriveController extends BaseConnectionController {
             return $this->redirectWithError('There was an error with your authentication, please try again');
         }
 
-        $accessToken = $this->codeForToken($request->input('code'));
+        $token = $this->codeForToken($request->input('code'));
 
-        $tokenArray = [
-            'token'        => $user->token,
-            'refreshToken' => $user->refreshToken,
-            'expiresIn'    => $user->expiresIn
-        ];
-        $connection = $this->saveConnection($tokenArray, 'google-drive');
+        if (collect($token)->has('error')) {
+            return $this->redirectWithError('There was an error with your authentication, please try again');
+        }
+
+        $connection = $this->saveConnection($token, 'google-drive');
 
         return $this->redirectWithSuccess("You've successfully connected to Google.");
     }
@@ -38,5 +38,18 @@ class GoogleDriveController extends BaseConnectionController {
         $auth->client->authenticate($code);
 
         return $auth->client->getAccessToken();
+    }
+
+    public function tokenPostData($code)
+    {
+        $auth = new GoogleDriveAuth();
+
+        return [
+            'client_id' => $auth->client->getClientId(),
+            'redirect_uri' =>  $auth->client->getRedirectUri(),
+            'client_secret' =>  $auth->client->getClientSecret(),
+            'code' => $code,
+            'grant_type' => 'authorization_code'
+        ];
     }
 }
