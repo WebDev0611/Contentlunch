@@ -46,7 +46,7 @@ class SubscriptionTypesTableSeeder extends BaseSeeder
         $free->addLimit($this->limits['content_edits'], 0);
         $free->addLimit($this->limits['influencer_search'], 5);
         $free->addLimit($this->limits['calendars'], 1);
-        $free->addLimit($this->limits['users_per_account'], 2);
+        $free->addLimit($this->limits['users_per_account'], 5);
         $free->addLimit($this->limits['subaccounts_per_account'], 3);
     }
 
@@ -67,7 +67,7 @@ class SubscriptionTypesTableSeeder extends BaseSeeder
         $trial->addLimit($this->limits['content_edits'], 0);
         $trial->addLimit($this->limits['influencer_search'], 5);
         $trial->addLimit($this->limits['calendars'], 1);
-        $trial->addLimit($this->limits['users_per_account'], 2);
+        $trial->addLimit($this->limits['users_per_account'], 5);
         $trial->addLimit($this->limits['subaccounts_per_account'], 3);
     }
 
