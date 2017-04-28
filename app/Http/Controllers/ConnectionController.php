@@ -98,6 +98,11 @@ class ConnectionController extends Controller
                 $url = (new \oAuth\API\DropboxAuth())->getAuthorizationUrl();
 
                 return Redirect::to($url);
+
+            case 'google-drive':
+                $url = (new \oAuth\API\GoogleDriveAuth())->getAuthorizationUrl();
+
+                return Redirect::to($url);
         }
     }
 

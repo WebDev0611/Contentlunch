@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Config;
 
 class GoogleDriveAuth {
 
-    protected $client;
+    public $client;
 
     public function __construct ()
     {

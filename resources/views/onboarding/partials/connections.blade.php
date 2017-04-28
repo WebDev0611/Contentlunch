@@ -181,7 +181,7 @@
 
     <div class="col-md-4 onboarding-import-item @if ($hasGoogleDrive) active @endif" data-group="editing-sharing">
         <div class="col-md-12">
-            <img src="/images/social-icons/color-dropbox.svg" alt="#" class="onboarding-import-item-img">
+            <img src="/images/social-icons/color-google-drive.svg" alt="#" class="onboarding-import-item-img">
             <span class="onboarding-import-item-title">Google Drive</span>
         </div>
 
