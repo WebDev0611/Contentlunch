@@ -45,12 +45,20 @@
         data() {
             return {
                 users: [],
+                messages: [],
                 message: '',
+                channel: null,
             }
         },
 
         ready() {
             this.fetchTeamMembers();
+
+            this.channel = pusher.subscribe('messages');
+
+            this.channel.bind('new-message', data => {
+                console.log(data);
+            });
 
             $('textarea.messages-list-input').each(function() {
                 let offset = this.offsetHeight - this.clientHeight;
@@ -75,7 +83,8 @@
             },
 
             sendMessage() {
-                console.log(this.message);
+                // console.log(this.message);
+                $.post('/api/messages/2', { body: this.message });
                 this.message = '';
             }
         }

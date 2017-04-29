@@ -54,6 +54,10 @@
 <!-- Page Specific JS -->
 @yield('scripts')
 
+<script src="//js.pusher.com/4.0/pusher.min.js"></script>
+<script>
+    var pusher = new Pusher("{{ getenv('PUSHER_APP_KEY') }}");
+</script>
 <script type='text/javascript'>
 
     $(document).ready(function() {
