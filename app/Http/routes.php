@@ -320,6 +320,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('/api/trends/share/{connection}', 'ContentController@trendShare')->name('trendShare');
         Route::post('/search', 'SearchController@index')->name('search.index');
         Route::get('/api/content-types', 'ContentController@getContentTypes');
+
+        Route::post('/api/messages/{user}', 'MessageController@store');
     });
 });
 
