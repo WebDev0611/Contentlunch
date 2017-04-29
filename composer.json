@@ -27,7 +27,8 @@
         "phpoffice/phpword": "v0.13.*",
         "mpdf/mpdf": "^6.1",
         "artesaos/laravel-linkedin": "^1.3",
-        "graham-campbell/dropbox": "^3.4"
+        "graham-campbell/dropbox": "^3.4",
+        "vinkla/pusher": "~1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
