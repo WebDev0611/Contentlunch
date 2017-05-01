@@ -30,7 +30,7 @@ class MessageController extends Controller
         $response = response()->json('Denied', 403);
 
         if ($channel === $this->channel) {
-            $response = $this->pusher->presence_auth($channel, $socket, Auth::id(), []);
+            $response = $this->pusher->presence_auth($channel, $socket, Auth::id(), Auth::user()->toArray());
         }
 
         return $response;
