@@ -42,5 +42,15 @@
     }
 
     list-style: none;
-    padding: 15px;
+    padding: 10px;
+
+    li {
+        padding: 10px;
+        background-color: #efefef;
+        margin-bottom: 20px;
+        border-radius: 5px;
+
+        &.sent { text-align: right; }
+        &.received { text-align: left; }
+    }
 }
