@@ -48,7 +48,7 @@ class MessageController extends Controller
 
     protected function accountChannel()
     {
-        $selectedAccount = Account::selectedAccount();
+        $selectedAccount = Account::selectedAccount()->proxyToParent();
         $hash = sha1("pusher-{$selectedAccount->id}");
 
         return "presence-messages-$hash";
