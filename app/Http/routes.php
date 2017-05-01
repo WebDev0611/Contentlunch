@@ -321,6 +321,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('/search', 'SearchController@index')->name('search.index');
         Route::get('/api/content-types', 'ContentController@getContentTypes');
 
+        Route::post('/pusher/auth', 'MessageController@auth')->name('pusher.auth');
+        Route::get('/api/messages', 'MessageController@index');
         Route::post('/api/messages/{user}', 'MessageController@store');
     });
 });

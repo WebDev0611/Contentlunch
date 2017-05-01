@@ -54,26 +54,22 @@
         ready() {
             this.fetchTeamMembers();
 
-            this.channel = pusher.subscribe('messages');
+            this.fetchMessages().then(response => {
+                this.channel = pusher.subscribe(response.channel);
 
-            this.channel.bind('new-message', data => {
-                console.log(data);
-            });
-
-            $('textarea.messages-list-input').each(function() {
-                let offset = this.offsetHeight - this.clientHeight;
-
-                let resizeTextarea = function(el) {
-                    $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
-                };
-
-                $(this).on('keyup', function(e) { resizeTextarea(this); });
+                this.channel.bind('new-message', data => {
+                    console.log(data);
+                });
             });
         },
 
         methods: {
             closeModal() {
                 $(this.$el).removeClass('in');
+            },
+
+            fetchMessages() {
+                return $.get('/api/messages');
             },
 
             fetchTeamMembers() {

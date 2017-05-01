@@ -56,7 +56,13 @@
 
 <script src="//js.pusher.com/4.0/pusher.min.js"></script>
 <script>
-    var pusher = new Pusher("{{ getenv('PUSHER_APP_KEY') }}");
+    var pusher = new Pusher("{{ getenv('PUSHER_APP_KEY') }}", {
+        auth: {
+            headers: {
+                'X-CSRF-TOKEN': $('input[name=_token]').val(),
+            },
+        },
+    });
 </script>
 <script type='text/javascript'>
 
