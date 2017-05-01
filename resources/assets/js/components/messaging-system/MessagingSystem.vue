@@ -58,7 +58,7 @@
         ready() {
             this.fetchTeamMembers();
 
-            this.fetchMessages().then(this.configureChannel);
+            this.fetchMessages().then(this.configureChannel.bind(this));
         },
 
         methods: {
@@ -66,8 +66,17 @@
                 this.channel = pusher.subscribe(response.channel);
 
                 this.channel.bind('new-message', data => {
+                    console.log(data.message);
                     this.messages.push(data.message);
                 });
+
+                this.channel.bind('pusher:member_added', this.updateOnlineCount.bind(this));
+                this.channel.bind('pusher:member_removed', this.updateOnlineCount.bind(this));
+            },
+
+            updateOnlineCount(member) {
+                debugger;
+                this.membersOnline = this.channel.members.count;
             },
 
             closeModal() {

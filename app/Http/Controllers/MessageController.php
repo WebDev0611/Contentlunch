@@ -56,14 +56,31 @@ class MessageController extends Controller
 
     public function store(Request $request, User $user)
     {
+        $message = $this->createMessage($user, $request->input('body'));
+
+        $this->triggerPusherEvent($message);
+
+        return response()->json([ 'data' => $message ], 201);
+    }
+
+    protected function createMessage(User $user, $body)
+    {
         $message = $this->message
             ->from(Auth::user())
             ->to($user)
-            ->body($request->input('body'))
+            ->body($body)
             ->send();
 
-        $this->pusher->trigger($this->channel, 'new-message', ['message' => $message->toArray() ]);
+        $message->senderData = $message->present()->sender;
+        $message = $message->toArray();
 
-        return response()->json([ 'data' => $message ], 201);
+        unset($message['sender']);
+
+        return $message;
+    }
+
+    protected function triggerPusherEvent(array $message)
+    {
+        return $this->pusher->trigger($this->channel, 'new-message', [ 'message' => $message ]);
     }
 }
