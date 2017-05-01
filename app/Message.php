@@ -2,11 +2,17 @@
 
 namespace App;
 
+use App\Presenters\MessagePresenter;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class Message extends Model
 {
+    use PresentableTrait;
+
+    protected $presenter = MessagePresenter::class;
+
     protected $fillable = ['sender_id', 'recipient_id', 'body'];
 
     public function sender()
