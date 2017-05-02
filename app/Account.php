@@ -238,14 +238,30 @@ class Account extends Model
 
     public function subscribe(SubscriptionType $subscriptionType, $attributes = [], $proxyToParent = true)
     {
-        $mailData = [
-            'oldPlanName' => $this->oldSubscriptionType()->name,
-            'newPlanName' => $subscriptionType->name
-        ];
+        $account = $proxyToParent ? $this->proxyToParent() : $this;
+        $account->deactivateOldSubscriptions($proxyToParent);
+        $account->sendPlanChangeEmail($subscriptionType);
 
+        return $account->createSubscription($subscriptionType, $attributes);
+    }
+
+    public function subscribeWithoutEmail(SubscriptionType $subscriptionType, $attributes = [], $proxyToParent = true)
+    {
         $account = $proxyToParent ? $this->proxyToParent() : $this;
         $account->deactivateOldSubscriptions($proxyToParent);
 
+        return $account->createSubscription($subscriptionType, $attributes);
+    }
+
+    public function deactivateOldSubscriptions($proxyToParent = true)
+    {
+        $account = $proxyToParent ? $this->proxyToParent() : $this;
+
+        return $account->subscriptions()->update([ 'valid' => 0 ]);
+    }
+
+    protected function createSubscription(SubscriptionType $subscriptionType, $attributes)
+    {
         $default = [
             'start_date' => Carbon::now(),
             'auto_renew' => 0,
@@ -254,15 +270,22 @@ class Account extends Model
             'expiration_date' => '0000-00-00',
         ];
 
-        // Notice all users on the account about subscription change
-        $emails = $account->users()->pluck('email')->toArray();
+        return $this->subscriptions()->create(array_merge($default, $attributes));
+    }
+
+    protected function sendPlanChangeEmail(SubscriptionType $subscriptionType)
+    {
+        $mailData = [
+            'oldPlanName' => $this->oldSubscriptionType()->name,
+            'newPlanName' => $subscriptionType->name
+        ];
+
+        $emails = $this->users()->pluck('email')->toArray();
         Mail::send('emails.new_subscription', $mailData, function($message) use ($emails) {
             $message->from("no-reply@contentlaunch.com", "Content Launch")
                 ->to($emails)
                 ->subject('Subscription Plan Change');
         });
-
-        return $account->subscriptions()->create(array_merge($default, $attributes));
     }
 
     public function startTrial()
@@ -329,13 +352,6 @@ class Account extends Model
         if ($account->activeSubscriptions()->isEmpty()) {
             $account->subscribe(SubscriptionType::findBySlug('free'));
         }
-    }
-
-    public function deactivateOldSubscriptions($proxyToParent = true)
-    {
-        $account = $proxyToParent ? $this->proxyToParent() : $this;
-
-        return $account->subscriptions()->update([ 'valid' => 0 ]);
     }
 
     public function getUsers($proxyToParent = true)
