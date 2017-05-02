@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <h4 class="sidemodal-header-title">Team Communication</h4>
-                    <small v-show='membersOnline > 0'>{{ membersOnline }} online</small>
+                    <small v-show='otherMembersOnline > 0'>{{ otherMembersOnline }} online</small>
                 </div>
                 <div class="col-md-6 text-right" id="task-menu">
                     <button class="sidemodal-close normal-flow" @click='closeModal'>
@@ -46,7 +46,7 @@
                 messages: [],
                 message: '',
                 channel: null,
-                membersOnline: 0,
+                otherMembersOnline: 0,
             }
         },
 
@@ -67,10 +67,13 @@
 
                 this.channel.bind('pusher:member_added', this.updateOnlineCount.bind(this));
                 this.channel.bind('pusher:member_removed', this.updateOnlineCount.bind(this));
+                this.channel.bind('pusher:subscription_succeeded', members => {
+                    this.updateOnlineCount();
+                });
             },
 
-            updateOnlineCount(member) {
-                this.membersOnline = this.channel.members.count;
+            updateOnlineCount() {
+                this.otherMembersOnline = this.channel.members.count - 1;
             },
 
             closeModal() {
