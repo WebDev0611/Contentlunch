@@ -350,7 +350,7 @@ class Account extends Model
         $account = $proxyToParent ? $this->proxyToParent() : $this;
 
         if ($account->activeSubscriptions()->isEmpty()) {
-            $account->subscribe(SubscriptionType::findBySlug('free'));
+            $account->subscribeWithoutEmail(SubscriptionType::findBySlug('free'));
         }
     }
 
