@@ -44,13 +44,37 @@
     list-style: none;
     padding: 10px;
 
-    li {
+    .message-body {
         padding: 10px;
         background-color: #efefef;
-        margin-bottom: 20px;
+        margin: 0 10px 20px 10px;
         border-radius: 5px;
+    }
 
-        &.sent { text-align: right; }
-        &.received { text-align: left; }
+    .message-author {
+        border-radius: 100%;
+        display: block;
+        text-align: center;
+        width: 32px;
+        height: 32px;
+        overflow: hidden;
+
+        img {
+            width: 32px;
+        }
+    }
+
+    li {
+        @extend .clearfix;
+    }
+
+    li.sent {
+        .message-author { float: right; }
+        .message-body { float: right; }
+    }
+
+    li.received {
+        .message-author { float: left; }
+        .message-body { float: left; }
     }
 }

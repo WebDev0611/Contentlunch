@@ -24,29 +24,24 @@
 
             <input type="text" v-model='message' @keyup.enter='sendMessage' class='messages-list-input'>
 
-            <ul class="messages-list">
-                <li v-for='message in messages'
-                    :class="{ sent: message.sender_id == User.id, received: message.recipient_id == User.id }">
-
-                    {{ message.body }}
-                </li>
-            </ul>
+            <message-list :messages='messages'></message-list>
         </div>
     </div>
 </template>
 
 <script>
     import MessagesTeamMember from './MessagesTeamMember.vue';
+    import MessageList from './MessageList.vue';
 
     export default {
         name: 'messaging-system',
         components: {
             MessagesTeamMember,
+            MessageList,
         },
 
         data() {
             return {
-                User,
                 users: [],
                 messages: [],
                 message: '',
@@ -75,7 +70,6 @@
             },
 
             updateOnlineCount(member) {
-                debugger;
                 this.membersOnline = this.channel.members.count;
             },
 
