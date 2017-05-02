@@ -6,6 +6,7 @@ use App\Account;
 use App\AccountType;
 use App\Content;
 use App\Limit;
+use App\Message;
 use App\Presenters\UserPresenter;
 use Auth;
 use Carbon\Carbon;
@@ -183,5 +184,26 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->is_admin == 1;
+    }
+
+    public function conversationWith(User $user)
+    {
+        return Message::orWhere(function($q) use ($user) {
+                $q
+                    ->where('recipient_id', $user->id)
+                    ->where('sender_id', $this->id);
+            })
+            ->orWhere(function($q) use ($user) {
+                $q
+                    ->where('recipient_id', $this->id)
+                    ->where('sender_id', $user->id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function($message) {
+                $message->senderData = $message->present()->sender;
+
+                return $message;
+            });
     }
 }
