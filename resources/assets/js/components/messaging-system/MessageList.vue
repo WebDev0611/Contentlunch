@@ -1,6 +1,16 @@
 <template>
     <div>
-        <p v-if='selected'>User: {{ selected.name }}</p>
+        <div class="messages-list-header">
+            <button>
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            <p v-if='selected'>
+                <span class="message-author">
+                    <img :src="selected.profile_image" alt="">
+                </span>
+                {{ selected.name }}
+            </p>
+        </div>
         <ul class="messages-list">
             <li v-for='message in displayedMessages'
                 :class="{ sent: message.sender_id == User.id, received: message.sender_id != User.id }">

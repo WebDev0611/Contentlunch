@@ -41,6 +41,35 @@
         resize: none;
     }
 
+    &-header {
+        border-bottom: 1px solid #ccc;
+
+        button {
+            padding: 23px 15px;
+            background-color: transparent;
+            border: none;
+            border-right: 1px solid #ccc;
+            transition: all .1s linear;
+
+            &:hover {
+                background-color: #f0f0f0;
+            }
+        }
+
+        p {
+            display: inline-block;
+            padding: 10px;
+            margin: 0;
+        }
+
+        .message-author {
+            float: left;
+            position: relative;
+            bottom: 6px;
+            margin-right: 10px;
+        }
+    }
+
     list-style: none;
     padding: 10px;
 
@@ -49,19 +78,7 @@
         background-color: #efefef;
         margin: 0 10px 20px 10px;
         border-radius: 5px;
-    }
-
-    .message-author {
-        border-radius: 100%;
-        display: block;
-        text-align: center;
-        width: 32px;
-        height: 32px;
-        overflow: hidden;
-
-        img {
-            width: 32px;
-        }
+        max-width: 85%;
     }
 
     li {
@@ -76,5 +93,18 @@
     li.received {
         .message-author { float: left; }
         .message-body { float: left; }
+    }
+}
+
+.message-author {
+    border-radius: 100%;
+    display: block;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+
+    img {
+        width: 32px;
     }
 }
