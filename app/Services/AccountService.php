@@ -11,17 +11,20 @@ class AccountService
 
     function __construct(Account $account)
     {
-        $this->selectedAccount = Account::selectedAccount();
         $this->account = $account;
+        $this->selectedAccount = Account::selectedAccount() ?: $account;
     }
 
     public function collaborators()
     {
-        $account = $this->selectedAccount->parentAccount ?: $this->selectedAccount;
-
-        return $account
+        return $this->selectedAccount->proxyToParent()
             ->users()
-            ->get()
+            ->get();
+    }
+
+    public function formattedCollaborators()
+    {
+        return $this->collaborators()
             ->map(function($user) {
                 $user->profile_image = $user->present()->profile_image;
                 $user->location = $user->present()->location;
