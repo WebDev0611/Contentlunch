@@ -25,7 +25,7 @@
 
             <input type="text" v-model='message' @keyup.enter='sendMessage' class='messages-list-input'>
 
-            <message-list :messages='displayedMessages'></message-list>
+            <message-list :messages='messages' :selected='selectedUser'></message-list>
         </div>
     </div>
 </template>
@@ -58,26 +58,12 @@
             this.fetchMessages().then(this.configureChannel.bind(this));
         },
 
-        computed: {
-            displayedMessages() {
-                return this.messages.filter(message => {
-                    return
-                        (message.recipient_id == User.id && message.sender_id == this.selectedUser.id) ||
-                        (message.recipient_id == this.selectedUser.id && message.sender_id == User.id);
-                })
-            }
-        },
-
         methods: {
             configureChannel(response) {
                 console.log(`Configuring channel ${response.channel}`);
                 this.channel = pusher.subscribe(response.channel);
 
-                this.channel.bind('new-message', data => {
-                    console.log(data.message);
-                    this.messages.push(data.message);
-                });
-
+                this.channel.bind('new-message', this.addMessageToConversation.bind(this));
                 this.channel.bind('pusher:member_added', this.updateOnlineCount.bind(this));
                 this.channel.bind('pusher:member_removed', this.updateOnlineCount.bind(this));
                 this.channel.bind('pusher:subscription_succeeded', members => {
@@ -85,6 +71,19 @@
                 });
 
                 console.log('Channel configured.');
+            },
+
+            addMessageToConversation(data) {
+                let message = data.message;
+                let user = null;
+
+                if (message.recipient_id == User.id) {
+                    user = _(this.messages).find({ id: message.sender_id });
+                    user.messages.unshift(message);
+                } else if (message.sender_id == User.id) {
+                    user = _(this.messages).find({ id: message.recipient_id });
+                    user.messages.unshift(message);
+                }
             },
 
             updateOnlineCount() {
@@ -114,7 +113,8 @@
             },
 
             sendMessage() {
-                $.post('/api/messages/2', { body: this.message });
+                let url = `/api/messages/${this.selectedUser.id}`;
+                $.post(url, { body: this.message });
                 this.message = '';
             }
         }
