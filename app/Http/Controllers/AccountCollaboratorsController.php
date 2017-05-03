@@ -22,7 +22,7 @@ class AccountCollaboratorsController extends Controller
 
     public function index()
     {
-        return response()->json($this->accountService->collaborators());
+        return response()->json($this->accountService->formattedCollaborators());
     }
 
     public function delete(Request $request, $id)

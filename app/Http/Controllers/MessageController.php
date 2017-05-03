@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Account;
 use App\Http\Requests;
 use App\Message;
+use App\Services\AccountService;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,12 +16,18 @@ class MessageController extends Controller
     protected $message;
     protected $pusher;
     protected $channel;
+    protected $selectedAccount;
+    protected $accountService;
 
-    public function __construct(Message $message, PusherManager $pusher)
+    public function __construct(Message $message,
+                                PusherManager $pusher,
+                                AccountService $accountService)
     {
         $this->message = $message;
         $this->pusher = $pusher;
         $this->channel = $this->accountChannel();
+        $this->selectedAccount = Account::selectedAccount();
+        $this->accountService = $accountService;
     }
 
     public function auth(Request $request)
@@ -38,12 +45,21 @@ class MessageController extends Controller
 
     public function index()
     {
-        $messages = $this->message->orderBy('id', 'desc')->take(5)->get();
-
         return response()->json([
-            'data' => $messages,
+            'data' => $this->getMessages(),
             'channel' => $this->channel,
         ]);
+    }
+
+    protected function getMessages()
+    {
+        return $this->accountService
+            ->collaborators()
+            ->map(function($user) {
+                $user->messages = Auth::user()->conversationWith($user);
+
+                return $user;
+            });
     }
 
     protected function accountChannel()
