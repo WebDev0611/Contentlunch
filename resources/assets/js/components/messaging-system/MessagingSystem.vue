@@ -17,6 +17,7 @@
             <div class='team-members-list'>
                 <messages-team-member
                     v-for='user in users'
+                    @click='selectedTeamMember(user)'
                     :user='user'
                     :messages='0'>
                 </messages-team-member>
@@ -24,7 +25,7 @@
 
             <input type="text" v-model='message' @keyup.enter='sendMessage' class='messages-list-input'>
 
-            <message-list :messages='messages'></message-list>
+            <message-list :messages='displayedMessages'></message-list>
         </div>
     </div>
 </template>
@@ -47,6 +48,7 @@
                 message: '',
                 channel: null,
                 otherMembersOnline: 0,
+                selectedUser: null,
             }
         },
 
@@ -56,8 +58,19 @@
             this.fetchMessages().then(this.configureChannel.bind(this));
         },
 
+        computed: {
+            displayedMessages() {
+                return this.messages.filter(message => {
+                    return
+                        (message.recipient_id == User.id && message.sender_id == this.selectedUser.id) ||
+                        (message.recipient_id == this.selectedUser.id && message.sender_id == User.id);
+                })
+            }
+        },
+
         methods: {
             configureChannel(response) {
+                console.log(`Configuring channel ${response.channel}`);
                 this.channel = pusher.subscribe(response.channel);
 
                 this.channel.bind('new-message', data => {
@@ -70,6 +83,8 @@
                 this.channel.bind('pusher:subscription_succeeded', members => {
                     this.updateOnlineCount();
                 });
+
+                console.log('Channel configured.');
             },
 
             updateOnlineCount() {
@@ -81,7 +96,11 @@
             },
 
             fetchMessages() {
-                return $.get('/api/messages');
+                return $.get('/api/messages').then(response => {
+                    this.messages = response.data;
+
+                    return response;
+                });
             },
 
             fetchTeamMembers() {
@@ -90,8 +109,11 @@
                 })
             },
 
+            selectedTeamMember(user) {
+                this.selectedUser = user;
+            },
+
             sendMessage() {
-                // console.log(this.message);
                 $.post('/api/messages/2', { body: this.message });
                 this.message = '';
             }
