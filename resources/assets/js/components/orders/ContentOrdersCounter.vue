@@ -1,7 +1,7 @@
 <template>
-    <div class="dashboard-notification-box">
+    <div class="dashboard-notification-box" :class="{'notify' : contentOrdersToReviewCount > 0}">
         <span class="dashboard-notification-box-count">
-                <i class="icon-checklist"></i>
+                <i class="icon-itemlist"></i>
                 <span id="content-orders">{{ contentOrdersToReviewCount }}</span>
             </span>
         <span>Content Orders to Review</span>
@@ -25,7 +25,7 @@
         methods: {
             refresh() {
                 $.get('/api/contents/orders-count', {'pending-approval': true})
-                    .then(response => this.contentOrdersToReviewCount = response.data.count)
+                    .then(response => this.contentOrdersToReviewCount = response.count)
                     .fail(
                         err => {
                             console.log(err.responseJSON);
