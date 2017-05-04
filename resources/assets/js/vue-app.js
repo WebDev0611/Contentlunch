@@ -8,6 +8,8 @@ function createVueApp() {
     Vue.component('campaign-list', require('./components/campaigns/CampaignList.vue'));
     Vue.component('loading', require('./components/Loading.vue'));
     Vue.component('collaborate-module', require('./components/collaborate/CollaborateModule.vue'));
+    Vue.component('content-orders-counter', require('./components/orders/ContentOrdersCounter.vue'));
+
 
     new Vue({ el: '#root' });
 }

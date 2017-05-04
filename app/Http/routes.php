@@ -312,6 +312,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@update');
         Route::get('/api/contents/{content}/tasks', 'ContentTasksController@index');
 
+        Route::get('/api/contents/orders-count', 'ContentController@getOrdersCount');
+
         Route::get('/api/ideas/collaborators', 'IdeaCollaboratorsController@index');
         Route::get('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@index');
         Route::post('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@update');

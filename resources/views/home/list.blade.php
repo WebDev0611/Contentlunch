@@ -30,6 +30,9 @@
                         <span>New Content <br> Pieces Posted</span>
                     </div>
                 </div>
+                <div class="col-md-2">
+                    <content-orders-counter></content-orders-counter>
+                </div>
                 <div class="col-md-3 text-right">
                     <!--
                         <div class="dashboard-layout-container">
