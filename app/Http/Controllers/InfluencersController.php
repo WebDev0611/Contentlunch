@@ -41,8 +41,9 @@ class InfluencersController extends Controller
     public function toggleBookmark(Request $request)
     {
         $twitterId = $request->input('twitter_id_str');
+        $selectedAccount = Account::selectedAccount();
 
-        if ($influencer = Influencer::where('twitter_id_str', $twitterId)->first()) {
+        if ($influencer = $selectedAccount->influencers()->where('twitter_id_str', $twitterId)->first()) {
             Account::selectedAccount()->unbookmarkInfluencer($influencer);
             $response = response()->json(['data' => 'Influencer removed.'], 200);
         } else {
