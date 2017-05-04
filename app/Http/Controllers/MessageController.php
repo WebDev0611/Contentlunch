@@ -57,6 +57,7 @@ class MessageController extends Controller
             ->collaborators()
             ->map(function($user) {
                 $user->messages = Auth::user()->conversationWith($user);
+                $user->profile_image = $user->present()->profile_image;
 
                 return $user;
             });

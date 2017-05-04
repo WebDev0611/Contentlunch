@@ -14,6 +14,11 @@
                 {{ user.email }}
             </small>
         </div>
+        <div class="messages-list-cell">
+            <span class="badge pull-right">
+                {{ unreadMessagesCount }}
+            </span>
+        </div>
     </div>
 </template>
 
@@ -27,6 +32,12 @@
             selectUser() {
                 this.$emit('messages:user-selected', this.user);
             }
-        }
+        },
+
+        computed: {
+            unreadMessagesCount() {
+                return this.user.messages.filter(message => !message.read).length;
+            },
+        },
     }
 </script>
