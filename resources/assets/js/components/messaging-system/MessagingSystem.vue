@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <h4 class="sidemodal-header-title">Team Communication</h4>
-                    <small v-show='otherMembersOnline > 0'>{{ otherMembersOnline }} online</small>
+                    <small v-if='otherMembersOnline > 0'>{{ otherMembersOnline }} online</small>
                 </div>
                 <div class="col-md-6 text-right" id="task-menu">
                     <button class="sidemodal-close normal-flow" @click='closeModal'>
@@ -17,8 +17,9 @@
             <div class='team-members-list'>
                 <messages-team-member
                     v-for='user in users'
-                    @click='selectedTeamMember(user)'
+                    @messages:user-selected='selectTeamMember'
                     :user='user'
+                    :key='user.id'
                     :messages='0'>
                 </messages-team-member>
             </div>
@@ -52,7 +53,7 @@
             }
         },
 
-        ready() {
+        created() {
             this.fetchTeamMembers();
 
             this.fetchMessages().then(this.configureChannel.bind(this));
@@ -108,7 +109,8 @@
                 })
             },
 
-            selectedTeamMember(user) {
+            selectTeamMember(user) {
+                console.log('Selecting team member: ' + user.name);
                 this.selectedUser = user;
             },
 

@@ -35,11 +35,11 @@
 
         methods: {
             search() {
-                this.$dispatch('searching');
+                this.$emit('searching');
                 let topic = this.keyword;
 
                 $.getJSON('/influencers', { topic })
-                    .then(res => this.$dispatch('searched', res.results));
+                    .then(res => this.$emit('searched', res.results));
             }
         }
     }

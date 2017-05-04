@@ -1,5 +1,5 @@
 <template>
-    <div class="messages-list-team-member">
+    <div class="messages-list-team-member" @click='test'>
         <div class="messages-list-cell">
             <div class="dashboard-tasks-img-wrapper">
                 <img :src="user.profile_image" alt="#" class="dashboard-tasks-img">
@@ -21,5 +21,11 @@
         name: 'messages-team-member',
 
         props: [ 'user', 'messages' ],
+
+        methods: {
+            test() {
+                this.$emit('messages:user-selected', this.user);
+            }
+        }
     }
 </script>

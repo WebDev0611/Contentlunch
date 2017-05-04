@@ -10,7 +10,7 @@
 
         methods: {
             openChatBar() {
-                this.$dispatch('messaging:opening');
+                $('#message-modal').addClass('in');
             }
         }
     }
