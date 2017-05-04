@@ -108,3 +108,17 @@
         width: 32px;
     }
 }
+
+.conversation {
+    position: absolute;
+    right: -100%;
+    width: 100%;
+    top: 0;
+    background-color: #fff;
+    height: 100%;
+    transition: all 400ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+
+    &.in {
+        right: 0%;
+    }
+}

@@ -24,9 +24,19 @@
                 </messages-team-member>
             </div>
 
-            <input type="text" v-model='message' @keyup.enter='sendMessage' class='messages-list-input'>
+            <div class="conversation" :class="{ 'in': selectedUser !== null }">
+                <message-list-header
+                    @messages:close-conversation='closeConversation'
+                    :selected='selectedUser'>
+                </message-list-header>
 
-            <message-list :messages='messages' :selected='selectedUser'></message-list>
+                <input type="text" v-model='message' @keyup.enter='sendMessage' class='messages-list-input'>
+
+                <message-list
+                    :messages='messages'
+                    :selected='selectedUser'>
+                </message-list>
+            </div>
         </div>
     </div>
 </template>
@@ -34,12 +44,14 @@
 <script>
     import MessagesTeamMember from './MessagesTeamMember.vue';
     import MessageList from './MessageList.vue';
+    import MessageListHeader from './MessageListHeader.vue';
 
     export default {
         name: 'messaging-system',
         components: {
             MessagesTeamMember,
             MessageList,
+            MessageListHeader,
         },
 
         data() {
@@ -114,11 +126,16 @@
                 this.selectedUser = user;
             },
 
+            closeConversation() {
+                console.log('Closing conversation.');
+                this.selectedUser = null;
+            },
+
             sendMessage() {
                 let url = `/api/messages/${this.selectedUser.id}`;
                 $.post(url, { body: this.message });
                 this.message = '';
-            }
+            },
         }
     }
 </script>
