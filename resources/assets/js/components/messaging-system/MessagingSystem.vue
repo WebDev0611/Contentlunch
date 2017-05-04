@@ -19,8 +19,8 @@
                     v-for='user in users'
                     @messages:user-selected='selectTeamMember'
                     :user='user'
-                    :key='user.id'
-                    :messages='0'>
+                    :online='user.online'
+                    :key='user.id'>
                 </messages-team-member>
             </div>
 
@@ -101,6 +101,17 @@
 
             updateOnlineCount() {
                 this.otherMembersOnline = this.channel.members.count - 1;
+                this.usersOnline = [];
+
+                this.users.forEach(user => {
+                    let userIsOnline = this.channel.members.get(user.id);
+
+                    user.online = userIsOnline !== null;
+
+                    if (userIsOnline) {
+                        this.usersOnline.push(user.id);
+                    }
+                });
             },
 
             closeModal() {
@@ -122,12 +133,10 @@
             },
 
             selectTeamMember(user) {
-                console.log('Selecting team member: ' + user.name);
                 this.selectedUser = user;
             },
 
             closeConversation() {
-                console.log('Closing conversation.');
                 this.selectedUser = null;
             },
 

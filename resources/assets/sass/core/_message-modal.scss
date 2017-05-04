@@ -27,12 +27,25 @@
 
 .messages-list-team-member {
     @extend .dashboard-ideas-container;
+    position: relative;
     cursor: pointer;
 
     .messages-list-cell {
         padding: 12px;
     }
+
+    .message-team-member-online {
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        background-color: #8fe09a;
+    }
 }
+
+
 
 .messages-list {
     &-input {
