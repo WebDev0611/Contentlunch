@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Connections;
 
 
 use Illuminate\Http\Request;
+use oAuth\API\GoogleAnalyticsAuth;
 use oAuth\API\GoogleDriveAuth;
 
 class GoogleController extends BaseConnectionController {
+
+    protected $service;
 
     public function callback (Request $request, $service)
     {
@@ -20,13 +23,14 @@ class GoogleController extends BaseConnectionController {
             return $this->redirectWithError('There was an error with your authentication, please try again');
         }
 
+        $this->service = $service;
         $token = $this->codeForToken($request->input('code'));
 
         if (collect($token)->has('error')) {
             return $this->redirectWithError('There was an error with your authentication, please try again');
         }
 
-        switch ($service) {
+        switch ($this->service) {
             case 'drive':
                 $providerSlug = 'google-drive';
                 break;
@@ -44,7 +48,15 @@ class GoogleController extends BaseConnectionController {
 
     public function codeForToken($code)
     {
-        $auth = new GoogleDriveAuth();
+        switch ($this->service) {
+            case 'drive':
+                $auth = new GoogleDriveAuth();
+                break;
+            case 'analytics':
+                $auth = new GoogleAnalyticsAuth();
+                break;
+        }
+
         $auth->client->authenticate($code);
 
         return $auth->client->getAccessToken();
