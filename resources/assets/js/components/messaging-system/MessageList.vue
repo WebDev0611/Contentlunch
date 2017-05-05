@@ -1,7 +1,6 @@
 <template>
     <ul class="messages-list">
-        <li v-for='message in displayedMessages'
-            :class="{ sent: message.sender_id == User.id, received: message.sender_id != User.id }">
+        <li v-for='message in displayedMessages' :class="classes(message)">
 
             <div class="message-author">
                 <img :src="message.senderData.profile_image" alt="">
@@ -19,10 +18,13 @@
 
         props: ['messages', 'selected'],
 
-        data() {
-            return {
-                User,
-            };
+        methods: {
+            classes(message) {
+                return {
+                    sent: message.sender_id == this.$store.state.user.id,
+                    received: message.sender_id != this.$store.state.user.id
+                };
+            },
         },
 
         computed: {
