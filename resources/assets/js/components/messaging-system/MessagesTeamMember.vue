@@ -44,6 +44,8 @@
                 this.user.messages.forEach(message => {
                     message.read = true;
                 });
+
+                $.post(`/api/messages/${this.user.id}/mark_as_read`);
             },
         },
 
