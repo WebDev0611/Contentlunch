@@ -1,8 +1,6 @@
-"use strict";
+import Vue from 'vue';
 
 function createVueApp() {
-    const Vue = require('vue');
-
     Vue.component('incomplete-task-counter', require('./components/tasks/IncompleteTaskCounter.vue'));
     Vue.component('task-list', require('./components/tasks/TaskList.vue'));
     Vue.component('campaign-list', require('./components/campaigns/CampaignList.vue'));

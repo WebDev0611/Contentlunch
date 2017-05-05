@@ -15,7 +15,7 @@
             </small>
         </div>
         <div class="messages-list-cell">
-            <span class="badge pull-right">
+            <span class="badge pull-right" v-show='unreadMessagesCount > 0'>
                 {{ unreadMessagesCount }}
             </span>
         </div>
@@ -26,17 +26,36 @@
     export default {
         name: 'messages-team-member',
 
+        data() {
+            return {
+                User,
+            };
+        },
+
         props: [ 'user', 'online' ],
 
         methods: {
             selectUser() {
+                this.markAllMessagesAsRead();
                 this.$emit('messages:user-selected', this.user);
-            }
+            },
+
+            markAllMessagesAsRead() {
+                this.user.messages.forEach(message => {
+                    message.read = true;
+                });
+            },
         },
 
         computed: {
             unreadMessagesCount() {
-                return this.user.messages.filter(message => !message.read).length;
+                return this.user.messages
+                    .filter(message => {
+                        return !message.read
+                             && message.sender_id !== User.id
+                             && message.recipient_id == User.id;
+                    })
+                    .length;
             },
         },
     }
