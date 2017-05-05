@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Connections;
 
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use oAuth\API\GoogleDriveAuth;
 
-class GoogleDriveController extends BaseConnectionController {
+class GoogleController extends BaseConnectionController {
 
-    public function callback (Request $request)
+    public function callback (Request $request, $service)
     {
         if ($error = $request->has('error')) {
             $this->cleanSessionConnection();
@@ -27,7 +26,18 @@ class GoogleDriveController extends BaseConnectionController {
             return $this->redirectWithError('There was an error with your authentication, please try again');
         }
 
-        $connection = $this->saveConnection($token, 'google-drive');
+        switch ($service) {
+            case 'drive':
+                $providerSlug = 'google-drive';
+                break;
+            case 'analytics':
+                $providerSlug = 'google-analytics';
+                break;
+            default:
+                return $this->redirectWithError('There was an error with callback, please try again');
+        }
+
+        $connection = $this->saveConnection($token, $providerSlug);
 
         return $this->redirectWithSuccess("You've successfully connected to Google.");
     }
