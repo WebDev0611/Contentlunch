@@ -24,7 +24,12 @@ class GoogleController extends BaseConnectionController {
         }
 
         $this->loadServiceProperties($service);
-        $token = $this->codeForToken($request->input('code'));
+
+        try {
+            $token = $this->codeForToken($request->input('code'));
+        } catch (\Exception $e) {
+            return $this->redirectWithError('There was an error with callback, please try again');
+        }
 
         if (collect($token)->has('error')) {
             return $this->redirectWithError('There was an error with your authentication, please try again');
@@ -52,8 +57,6 @@ class GoogleController extends BaseConnectionController {
                 $this->providerSlug = 'google-analytics';
                 $this->auth = new GoogleAnalyticsAuth();
                 break;
-            default:
-                return $this->redirectWithError('There was an error with callback, please try again');
         }
     }
 }
