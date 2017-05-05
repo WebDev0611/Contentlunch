@@ -114,7 +114,7 @@ class ProviderTableSeeder extends BaseSeeder
                 'name' => 'Google Analytics',
                 'slug' => 'google-analytics',
                 'type' => 'website',
-                'class_name' => ''
+                'class_name' => 'GoogleAnalyticsAPI'
             ],
             [
                 'name' => 'Drupal',
