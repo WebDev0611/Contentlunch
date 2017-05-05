@@ -256,3 +256,12 @@ a:hover, a:focus {
 .btn-group .btn {
   letter-spacing: 0;
 }
+
+.badge.badge-button {
+  display: block;
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  height: 20px;
+  background-color: #f24738;
+}
