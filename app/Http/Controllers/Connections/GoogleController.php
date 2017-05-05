@@ -9,6 +9,7 @@ use oAuth\API\GoogleDriveAuth;
 class GoogleController extends BaseConnectionController {
 
     protected $auth;
+    protected $providerSlug;
 
     public function callback (Request $request, $service)
     {
@@ -22,26 +23,14 @@ class GoogleController extends BaseConnectionController {
             return $this->redirectWithError('There was an error with your authentication, please try again');
         }
 
-        switch ($service) {
-            case 'drive':
-                $providerSlug = 'google-drive';
-                $this->auth = new GoogleDriveAuth();
-                break;
-            case 'analytics':
-                $providerSlug = 'google-analytics';
-                $this->auth = new GoogleAnalyticsAuth();
-                break;
-            default:
-                return $this->redirectWithError('There was an error with callback, please try again');
-        }
-
+        $this->loadServiceProperties($service);
         $token = $this->codeForToken($request->input('code'));
 
         if (collect($token)->has('error')) {
             return $this->redirectWithError('There was an error with your authentication, please try again');
         }
 
-        $connection = $this->saveConnection($token, $providerSlug);
+        $connection = $this->saveConnection($token, $this->providerSlug);
 
         return $this->redirectWithSuccess("You've successfully connected to Google.");
     }
@@ -51,5 +40,20 @@ class GoogleController extends BaseConnectionController {
         $this->auth->client->authenticate($code);
 
         return $this->auth->client->getAccessToken();
+    }
+
+    protected function loadServiceProperties($service) {
+        switch ($service) {
+            case 'drive':
+                $this->providerSlug = 'google-drive';
+                $this->auth = new GoogleDriveAuth();
+                break;
+            case 'analytics':
+                $this->providerSlug = 'google-analytics';
+                $this->auth = new GoogleAnalyticsAuth();
+                break;
+            default:
+                return $this->redirectWithError('There was an error with callback, please try again');
+        }
     }
 }
