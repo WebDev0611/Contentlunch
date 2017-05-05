@@ -70,7 +70,6 @@
 
         methods: {
             configureChannel(response) {
-                console.log(`Configuring channel ${response.channel}`);
                 this.channel = pusher.subscribe(response.channel);
 
                 this.channel.bind('new-message', this.addMessageToConversation.bind(this));
@@ -80,7 +79,7 @@
                     this.updateOnlineCount();
                 });
 
-                console.log('Channel configured.');
+                return response;
             },
 
             addMessageToConversation(data) {
@@ -94,6 +93,8 @@
                     user = _(this.users).find({ id: message.recipient_id });
                     user.messages.unshift(message);
                 }
+
+                this.updateUnreadMessages();
             },
 
             updateOnlineCount() {
@@ -132,7 +133,7 @@
                     })
                     .reduce((total, el) => total + el, 0);
 
-                this.$emit('messages:unread', unreadMessages);
+                this.$store.commit('setUnreadMessages', unreadMessages);
             },
 
             selectTeamMember(user) {

@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import store from './store.js';
 
 function createVueApp() {
     Vue.component('incomplete-task-counter', require('./components/tasks/IncompleteTaskCounter.vue'));
@@ -11,6 +12,7 @@ function createVueApp() {
 
     new Vue({
         el: '#root',
+        store,
     });
 }
 
