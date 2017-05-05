@@ -4,18 +4,13 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = {
+    user: User,
+    messagesByUser: {},
     unreadMessages: 0,
 };
 
 const mutations = {
-    setUnreadMessages(state, unread) {
-        console.log(unread);
-        state.unreadMessages = unread;
-    },
-};
-
-const actions = {
-    setUnreadMessages: ({ commit }) => commit('setUnreadMessages'),
+    setUnreadMessages: (state, unread) => state.unreadMessages = unread,
 };
 
 const getters = {
@@ -25,6 +20,5 @@ const getters = {
 export default new Vuex.Store({
     state,
     getters,
-    actions,
     mutations,
 });
