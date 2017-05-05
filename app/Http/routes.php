@@ -322,8 +322,9 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::get('/api/content-types', 'ContentController@getContentTypes');
 
         Route::post('/pusher/auth', 'MessageController@auth')->name('pusher.auth');
-        Route::get('/api/messages', 'MessageController@index');
-        Route::post('/api/messages/{user}', 'MessageController@store');
+        Route::get('/api/messages', 'MessageController@index')->name('messages.index');
+        Route::post('/api/messages/{user}', 'MessageController@store')->name('messages.store');
+        Route::post('/api/messages/{user}/mark_as_read', 'MessageController@markAsRead')->name('messages.mark_as_read');
     });
 });
 

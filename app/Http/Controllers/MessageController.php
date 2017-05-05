@@ -100,4 +100,20 @@ class MessageController extends Controller
     {
         return $this->pusher->trigger($this->channel, 'new-message', [ 'message' => $message ]);
     }
+
+    /**
+     * Marks the conversation with $user as read by
+     * the logged user.
+     *
+     * @param  User   $user
+     * @return json
+     */
+    public function markAsRead(User $user)
+    {
+        $this->message->where('sender_id', $user->id)
+            ->where('recipient_id', Auth::id())
+            ->update([ 'read' => true ]);
+
+        return response()->json(['data' => 'Messages marked as read'], 200);
+    }
 }
