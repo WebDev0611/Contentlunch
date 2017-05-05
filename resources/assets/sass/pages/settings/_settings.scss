@@ -132,14 +132,7 @@
   margin-top: 35px;
 }
 
-.icon-social-facebook,
-.icon-social-twitter,
-.icon-social-wordpress,
-.icon-social-hubspot,
-.icon-social-mailchimp,
-.icon-social-linkedin,
-.icon-social-dropbox,
-.icon-social-google-drive {
+.icon-social {
   background: url("/images/social-icons/color-hubspot.png") no-repeat;
   background-size: 100%;
   width: 28px;
@@ -182,5 +175,10 @@
 
 .icon-social-google-drive {
   background: url("/images/social-icons/color-google-drive.svg") no-repeat;
+  background-size: 100%;
+}
+
+.icon-social-google-analytics {
+  background: url("/images/social-icons/color-google-analytics.svg") no-repeat;
   background-size: 100%;
 }
