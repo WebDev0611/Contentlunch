@@ -9,28 +9,19 @@ use oAuth\API\GoogleDriveAuth;
 
 class GoogleDriveAPI {
 
+    protected $auth;
+
     public function __construct ($content = null, $connection = null)
     {
         $this->client = null;
         $this->content = $content;
         $this->connection = $connection ? $connection : $this->content->connection;
-    }
-
-    protected function saveConnectionSettings ($jsonEncodedSettings)
-    {
-        $this->connection->settings = $jsonEncodedSettings;
-        $this->connection->save();
+        $this->auth = new GoogleDriveAuth();
     }
 
     public function createPost ()
     {
-        $settings = json_decode($this->connection->settings);
-
-        // Refresh token
-        $auth = new GoogleDriveAuth();
-        $refreshedSettings = $auth->refreshToken($settings->refresh_token);
-        $this->saveConnectionSettings(json_encode($refreshedSettings));
-        $this->client = $auth->client;
+        $this->refreshConnection();
 
         // Call export method
         $export = new ExportController();
@@ -73,5 +64,16 @@ class GoogleDriveAPI {
             'mimeType'   => $fileMimetype,
             'uploadType' => $uploadType
         ]);
+    }
+
+    private function refreshConnection ()
+    {
+        $settings = json_decode($this->connection->settings);
+
+        $refreshedSettings = $this->auth->refreshToken($settings->refresh_token);
+        $this->connection->settings = json_encode($refreshedSettings);
+        $this->connection->save();
+
+        $this->client = $this->auth->client;
     }
 }
