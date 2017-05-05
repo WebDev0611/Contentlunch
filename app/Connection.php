@@ -25,6 +25,11 @@ class Connection extends Model {
         return $query->where("connections.active", true);
     }
 
+    public function scopeWithoutGA($query)
+    {
+        return $query->where("provider_id", "!=", Provider::whereSlug('google-analytics')->first()->id);
+    }
+
     public function scopeSuccesful($query)
     {
         return $query->where('successful', true);
@@ -74,6 +79,7 @@ class Connection extends Model {
         $connectionsdd += Account::selectedAccount()->connections()
             ->select('id','name')
             ->where('active',1)
+            ->withoutGA()
             ->orderBy('name', 'asc')
             ->distinct()
             ->lists('name', 'id')
