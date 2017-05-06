@@ -54,8 +54,8 @@
                 return this.user.messages
                     .filter(message => {
                         return !message.read
-                             && message.sender_id !== User.id
-                             && message.recipient_id == User.id;
+                             && message.sender_id !== this.$store.state.user.id
+                             && message.recipient_id == this.$store.state.user.id;
                     })
                     .length;
             },

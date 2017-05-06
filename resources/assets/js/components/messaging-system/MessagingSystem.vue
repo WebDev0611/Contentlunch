@@ -65,10 +65,19 @@
         },
 
         created() {
-            this.fetchMessages().then(this.configureChannel.bind(this));
+            this.fetchMessages()
+                .then(this.configureChannel.bind(this))
+                .then(this.setMessages);
         },
 
         methods: {
+            setMessages(response) {
+                let messages = response.data
+                    .filter(user => user.id != this.$store.state.user.id);
+
+                this.$store.dispatch('setMessages', messages);
+            },
+
             configureChannel(response) {
                 this.channel = pusher.subscribe(response.channel);
 

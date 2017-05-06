@@ -11,7 +11,12 @@ const state = {
 
 const mutations = {
     setUnreadMessages: (state, unread) => state.unreadMessages = unread,
+    SET_MESSAGES: (state, payload) => state.messagesByUser = payload,
 };
+
+const actions = {
+    setMessages: (context, payload) => context.commit('SET_MESSAGES', payload),
+}
 
 const getters = {
     unreadMessages: state => state.unreadMessages,
@@ -20,5 +25,6 @@ const getters = {
 export default new Vuex.Store({
     state,
     getters,
+    actions,
     mutations,
 });
