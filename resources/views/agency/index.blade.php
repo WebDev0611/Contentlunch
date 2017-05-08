@@ -58,6 +58,38 @@
             }
         }
 
+
+
+        $('a.disable-account').click(function (e) {
+            let accId = $(e.currentTarget).data('account_id');
+            console.log(accId);
+            swal({
+                type: 'warning',
+                title: "Are you sure?",
+                text:
+                    `This subaccount will be disabled, and it's subscription will be cancelled.
+                    This action cannot be undone.`,
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, disable it",
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    return new Promise(resolve => {
+                        $.post('/api/account/disable', {'account_id' : accId})
+                            .done(function (data) {
+                                swal({
+                                    type: 'success',
+                                    title: 'Account disabled!',
+                                    html: 'Reloading the page...',
+                                    showConfirmButton: false,
+                                }).catch(swal.noop);
+                                //resolve()
+                            })
+                    })
+                }
+            })
+        });
+
         @if(Session::has('flash_message') && Session::has('flash_message_type') && session('flash_message_type') == 'danger')
             {!! 'showErrorFeedback("'.session('flash_message').'");' !!}
         @endif

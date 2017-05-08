@@ -47,7 +47,7 @@
                         <td>{{ $account->contents()->current()->count() }}</td>
                         <td>{{ $account->campaigns->count() }}</td>
                         <td class="tbl-right">
-                            {{-- <div class="actionbtnbox">
+                             <div class="actionbtnbox">
                                 <button
                                     type="button"
                                     class="button button-action"
@@ -57,12 +57,10 @@
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
-                                        <a href="#">Action 1</a>
-                                        <a href="#">Action 2</a>
-                                        <a href="#">Action 3</a>
+                                        <a data-account_id="{{$account->id}}" class="disable-account" href="#">Disable account</a>
                                     </li>
                                 </ul>
-                            </div> --}}
+                            </div>
                         </td>
                     </tr>
                     @endforeach

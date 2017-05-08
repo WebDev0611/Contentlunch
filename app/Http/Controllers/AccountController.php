@@ -25,4 +25,9 @@ class AccountController extends Controller
 
         return response()->json([ 'account' => $account->id ]);
     }
+
+    public function disable ()
+    {
+        //
+    }
 }
