@@ -58,8 +58,6 @@
             }
         }
 
-
-
         $('a.disable-account').click(function (e) {
             let accId = $(e.currentTarget).data('account_id');
             swal({
@@ -84,9 +82,15 @@
                                 }).catch(swal.noop);
 
                                 location.reload();
-
                                 //resolve()
                             })
+                            .fail(function(xhr, status, error) {
+                                swal(
+                                    'Oops...',
+                                    xhr.responseJSON.message,
+                                    xhr.responseJSON.type
+                                )
+                            });
                     })
                 }
             })
