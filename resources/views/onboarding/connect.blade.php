@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-8 col-md-offset-2">
+                        <div class="col-md-10 col-md-offset-1">
                             <div class="onboarding-import">
                                 <ul class="onboarding-import-menu">
                                     <li class="active">
@@ -99,6 +99,24 @@
         function hideErrorFeedbacks() {
             $('#wordPressBlogFeedback').slideUp('fast');
         }
+
+        $(".import-tab-menu ul.list-group > li").click(function (e) {
+            $(this).siblings('li.active').removeClass("active");
+            $(this).addClass("active");
+
+            var group = $(this).data('group');
+            var connectionItem = $('.connections-list > .onboarding-import-item');
+            connectionItem.fadeIn();
+
+            if(group == 'all') {
+                connectionItem.removeClass("hidden-item");
+            } else {
+                connectionItem.addClass("hidden-item");
+                $('.connections-list > .onboarding-import-item[data-group="' + group + '"]').removeClass("hidden-item");
+            }
+
+            $('.hidden-item').hide();
+        });
     })();
 </script>
 @endsection

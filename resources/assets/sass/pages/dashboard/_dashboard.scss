@@ -25,7 +25,10 @@
     font-family: $source-sans-pro;
     font-size: 14px;
     line-height: 1;
+  }
 
+  &.notify span {
+    color: #dd4b39;
   }
 }
 

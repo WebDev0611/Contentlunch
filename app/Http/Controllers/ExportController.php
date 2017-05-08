@@ -36,16 +36,18 @@ class ExportController extends Controller {
         switch ($extension) {
             case 'docx' :
                 $pathToFile = Export::contentToWordDocument($content, str_slug($content->title, '-'));
+                $mimetype = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
                 break;
             case 'pdf' :
                 $pathToFile = Export::contentToPDFDocument($content, str_slug($content->title, '-'));
+                $mimetype = 'application/pdf';
                 break;
             default:
                 return $this->danger('contents.index', "Unsupported extension.");
         }
 
         if ($locationHandle !== null) {
-            $locationHandle->uploadFile($pathToFile, $content->title . '.' . $extension);
+            $locationHandle->uploadFile($pathToFile, $content->title . '.' . $extension, $mimetype);
         }
 
         return response()->download($pathToFile)->deleteFileAfterSend(true);

@@ -75,8 +75,8 @@
                                                 <li><a href="{{ route('archived_contents.update', $content) }}">Archive</a></li>
                                                 <li><a href="{{ route('contentDelete', $content->id) }}">Delete</a></li>
                                             @endif
-                                            <li><a id="export-word" href="{{route('export.content', [$content->id, 'docx'])}}">Export as Word</a></li>
-                                            <li><a id="export-pdf" href="{{route('export.content', [$content->id, 'pdf'])}}">Export as PDF</a></li>
+                                            <li><a id="export-word" href="{{route('export.content', [$content->id, 'docx'])}}" target="_blank">Export as Word</a></li>
+                                            <li><a id="export-pdf" href="{{route('export.content', [$content->id, 'pdf'])}}" target="_blank">Export as PDF</a></li>
                                         </ul>
                                         @endif
                                     </div>

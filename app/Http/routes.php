@@ -190,6 +190,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         //Dropbox Callback
         Route::get('callback/dropbox', 'Connections\DropboxController@callback')->name('dropboxCallback');
 
+        //Google Drive Callback
+        Route::get('callback/google', 'Connections\GoogleDriveController@callback')->name('googleDriveCallback');
 
         // - Landing page for creating content
         Route::get('/create', 'ContentController@create')->name('contents.create');
@@ -309,6 +311,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::get('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@index');
         Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@update');
         Route::get('/api/contents/{content}/tasks', 'ContentTasksController@index');
+
+        Route::get('/api/contents/orders-count', 'ContentController@getOrdersCount');
 
         Route::get('/api/ideas/collaborators', 'IdeaCollaboratorsController@index');
         Route::get('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@index');

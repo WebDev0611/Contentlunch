@@ -132,24 +132,55 @@
   margin-top: 35px;
 }
 
-.icon-social-hubspot, .icon-social-mailchimp, .icon-social-linkedin,.icon-social-dropbox {
-  background: url("/images/social-icons/hubspot-icon-dark.png") no-repeat;
+.icon-social-facebook,
+.icon-social-twitter,
+.icon-social-wordpress,
+.icon-social-hubspot,
+.icon-social-mailchimp,
+.icon-social-linkedin,
+.icon-social-dropbox,
+.icon-social-google-drive {
+  background: url("/images/social-icons/color-hubspot.png") no-repeat;
   background-size: 100%;
   width: 28px;
   height: 28px;
+
+  &:before{
+    content: '';
+  }
+}
+
+.icon-social-facebook {
+  background: url("/images/social-icons/color-facebook.svg") no-repeat;
+  background-size: 100%;
+}
+
+.icon-social-twitter {
+  background: url("/images/social-icons/color-twitter.svg") no-repeat;
+  background-size: 100%;
+}
+
+.icon-social-wordpress {
+  background: url("/images/social-icons/color-wordpress.svg") no-repeat;
+  background-size: 100%;
 }
 
 .icon-social-mailchimp {
-  background: url("/images/social-icons/mailchimp-icon.png") no-repeat;
+  background: url("/images/social-icons/color-mailchimp.gif") no-repeat;
   background-size: 100%;
 }
 
 .icon-social-linkedin {
-  background: url("/images/social-icons/linkedin-logo.svg") no-repeat;
+  background: url("/images/social-icons/color-linkedin.svg") no-repeat;
   background-size: 100%;
 }
 
 .icon-social-dropbox {
-  background: url("/images/social-icons/dropbox-icon.png") no-repeat;
+  background: url("/images/social-icons/color-dropbox.svg") no-repeat;
+  background-size: 100%;
+}
+
+.icon-social-google-drive {
+  background: url("/images/social-icons/color-google-drive.svg") no-repeat;
   background-size: 100%;
 }
