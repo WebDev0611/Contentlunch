@@ -26,12 +26,6 @@
     export default {
         name: 'messages-team-member',
 
-        data() {
-            return {
-                User,
-            };
-        },
-
         props: [ 'user', 'online' ],
 
         methods: {
@@ -41,9 +35,7 @@
             },
 
             markAllMessagesAsRead() {
-                this.user.messages.forEach(message => {
-                    message.read = true;
-                });
+                this.$store.dispatch('markAllMessagesAsRead', this.user.id);
 
                 $.post(`/api/messages/${this.user.id}/mark_as_read`);
             },

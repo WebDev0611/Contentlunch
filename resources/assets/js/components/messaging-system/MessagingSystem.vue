@@ -16,7 +16,7 @@
         <div class="sidemodal-container nopadding">
             <div class='team-members-list'>
                 <messages-team-member
-                    v-for='user in users'
+                    v-for='user in messagesByUser'
                     @messages:user-selected='selectTeamMember'
                     :user='user'
                     :online='user.online'
@@ -32,9 +32,7 @@
 
                 <input type="text" v-model='message' @keyup.enter='sendMessage' class='messages-list-input'>
 
-                <message-list
-                    :messages='users'
-                    :selected='selectedUser'>
+                <message-list :selected='selectedUser'>
                 </message-list>
             </div>
         </div>
@@ -45,6 +43,7 @@
     import MessagesTeamMember from './MessagesTeamMember.vue';
     import MessageList from './MessageList.vue';
     import MessageListHeader from './MessageListHeader.vue';
+    import { mapGetters } from 'vuex';
 
     export default {
         name: 'messaging-system',
@@ -56,7 +55,6 @@
 
         data() {
             return {
-                users: [],
                 message: '',
                 channel: null,
                 otherMembersOnline: 0,
@@ -69,6 +67,8 @@
                 .then(this.configureChannel.bind(this))
                 .then(this.setMessages);
         },
+
+        computed: mapGetters(['messagesByUser']),
 
         methods: {
             setMessages(response) {
@@ -95,15 +95,7 @@
                 let message = data.message;
                 let user = null;
 
-                if (message.recipient_id == User.id) {
-                    user = _(this.users).find({ id: message.sender_id });
-                    user.messages.unshift(message);
-                } else if (message.sender_id == User.id) {
-                    user = _(this.users).find({ id: message.recipient_id });
-                    user.messages.unshift(message);
-                }
-
-                this.updateUnreadMessages();
+                this.$store.dispatch('addMessageToConversation', data.message);
             },
 
             updateOnlineCount() {
@@ -128,21 +120,9 @@
             fetchMessages() {
                 return $.get('/api/messages').then(response => {
                     this.users = response.data.filter(user => user.id !== User.id);
-                    this.updateUnreadMessages();
 
                     return response;
                 });
-            },
-
-            updateUnreadMessages() {
-                let unreadMessages = this.users.map(user => {
-                        return user.messages
-                            .filter(message => !message.read && message.recipient_id == User.id)
-                            .length;
-                    })
-                    .reduce((total, el) => total + el, 0);
-
-                this.$store.commit('setUnreadMessages', unreadMessages);
             },
 
             selectTeamMember(user) {

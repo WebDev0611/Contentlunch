@@ -16,7 +16,7 @@
     export default {
         name: 'message-list',
 
-        props: ['messages', 'selected'],
+        props: ['selected'],
 
         methods: {
             classes(message) {
@@ -30,7 +30,7 @@
         computed: {
             displayedMessages() {
                 return this.selected
-                    ? _(this.messages).find({ id: this.selected.id }).messages
+                    ? _(this.$store.state.messagesByUser).find({ id: this.selected.id }).messages
                     : [];
             }
         },

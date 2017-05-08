@@ -11,15 +11,55 @@ const state = {
 
 const mutations = {
     setUnreadMessages: (state, unread) => state.unreadMessages = unread,
-    SET_MESSAGES: (state, payload) => state.messagesByUser = payload,
+    setMessages: (state, payload) => state.messagesByUser = payload,
+
+    addMessage(state, message) {
+        if (message.recipient_id == state.user.id) {
+            let user = _(state.messagesByUser).find({ id: message.sender_id });
+            user.messages.unshift(message);
+        } else if (message.sender_id == state.user.id) {
+            let user = _(state.messagesByUser).find({ id: message.recipient_id });
+            user.messages.unshift(message);
+        }
+    },
+
+    updateUnreadMessages(state) {
+        let unreadMessages = state.messagesByUser.map(user => {
+            return user.messages
+                .filter(message => !message.read && message.recipient_id == User.id)
+                .length;
+        }).reduce((total, el) => total + el, 0);
+
+        state.unreadMessages = unreadMessages;
+    },
+
+    markAllMessagesAsRead(state, userId) {
+        let user = _(state.messagesByUser).find({ id: userId });
+
+        user.messages.forEach(message => message.read = true);
+    }
 };
 
 const actions = {
-    setMessages: (context, payload) => context.commit('SET_MESSAGES', payload),
+    setMessages(context, payload) {
+        context.commit('setMessages', payload);
+        context.commit('updateUnreadMessages');
+    },
+
+    addMessageToConversation(context, payload) {
+        context.commit('addMessage', payload);
+        context.commit('updateUnreadMessages');
+    },
+
+    markAllMessagesAsRead(context, payload) {
+        context.commit('markAllMessagesAsRead', payload);
+        context.commit('updateUnreadMessages');
+    }
 }
 
 const getters = {
     unreadMessages: state => state.unreadMessages,
+    messagesByUser: state => state.messagesByUser,
 };
 
 export default new Vuex.Store({
