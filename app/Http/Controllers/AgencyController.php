@@ -110,6 +110,7 @@ class AgencyController extends Controller {
                     ]);
                 }
 
+                // Stripe subscription
                 $subscription = \Stripe\Subscription::create([
                     "customer" => $payUser->stripe_customer_id,
                     "plan"     => $plan->id,
@@ -120,6 +121,7 @@ class AgencyController extends Controller {
                         'parentAccountId'   => $newAccount->parentAccount->id
                     ]
                 ]);
+                $subscriptionData['stripe_subscription_id'] = $subscription->id;
                 $subscriptionData['start_date'] = date('Y-m-d', $subscription->current_period_start);
                 $subscriptionData['expiration_date'] = date('Y-m-d', $subscription->current_period_end);
             } catch (\Stripe\Error\Base $e) {
@@ -135,6 +137,8 @@ class AgencyController extends Controller {
             if ($subscription->status !== "active") {
                 throw new \Exception("Card not authorized");
             }
+
+            $newAccount->subscribe(SubscriptionType::whereSlug('agency-client')->first(), $subscriptionData, false);
         }
     }
 }
