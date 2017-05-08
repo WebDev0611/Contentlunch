@@ -51,7 +51,11 @@
         }
     });
 </script>
+
+@include('layouts.partials.js_user')
+
 <script src="/js/app.js"></script>
+<script src="/js/vue-app.js"></script>
 <!-- Page Specific JS -->
 @yield('scripts')
 
@@ -146,8 +150,6 @@
     </script>
 @endif
 
-@include('layouts.partials.js_user')
-
 @if (getenv('APP_ENV', 'production') === 'production')
     @include('layouts.partials.intercom')
     @include('layouts.partials.fullstory')
@@ -155,6 +157,6 @@
     @include('layouts.partials.app-cues')
 @endif
 
-<script src="/js/vue-app.js"></script>
+
 </body>
 </html>
