@@ -62,7 +62,6 @@
 
         $('a.disable-account').click(function (e) {
             let accId = $(e.currentTarget).data('account_id');
-            console.log(accId);
             swal({
                 type: 'warning',
                 title: "Are you sure?",
@@ -83,6 +82,9 @@
                                     html: 'Reloading the page...',
                                     showConfirmButton: false,
                                 }).catch(swal.noop);
+
+                                location.reload();
+
                                 //resolve()
                             })
                     })

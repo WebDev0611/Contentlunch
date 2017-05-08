@@ -26,8 +26,14 @@ class AccountController extends Controller
         return response()->json([ 'account' => $account->id ]);
     }
 
-    public function disable ()
+    public function disable (Request $request)
     {
-        //
+        $account = Account::findOrFail($request->input('account_id'));
+        $account->enabled = false;
+        $account->save();
+
+        Account::selectAccount($account->parentAccount);
+
+        return $account;
     }
 }
