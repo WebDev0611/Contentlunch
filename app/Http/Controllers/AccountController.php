@@ -34,7 +34,7 @@ class AccountController extends Controller {
         $account = Account::findOrFail($request->input('account_id'));
         $currentSubscriptions = $account->subscriptions()->active()->get();
 
-        if (!$account->parentAccount) {
+        if (!$account->isSubAccount()) {
             return $this->ajaxResponse('warning', 'You can\'t disable a parent account.');
         }
         elseif ($currentSubscriptions->isEmpty()) {

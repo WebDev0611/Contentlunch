@@ -145,7 +145,7 @@ class AgencyController extends Controller {
             $subscriptionData['start_date'] = date('Y-m-d');
             $subscriptionData['expiration_date'] = '0000-00-00';
 
-            $newAccount->subscribe($currentSubscription->subscriptionType, $subscriptionData, false);
+            $newAccount->subscribe($freeSubscriptionType, $subscriptionData, false);
         }
     }
 }

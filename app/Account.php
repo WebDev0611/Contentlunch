@@ -139,6 +139,15 @@ class Account extends Model
             ->get();
     }
 
+    public function activeChildSubscriptions()
+    {
+        return $this->subscriptions()
+            ->with('SubscriptionType')
+            ->active()
+            ->latest()
+            ->get();
+    }
+
     /**
      * Checks if a user belongs to an account.
      *

@@ -116,7 +116,7 @@ class SubscriptionTypesTableSeeder extends BaseSeeder
         Type::create([
             'name' => 'Agency Client',
             'price' => 99.00,
-            'price_per_client' => 0.00,
+            'price_per_client' => 99.00,
             'description' => 'Agency Client Monthly Plan.'
         ]);
     }
