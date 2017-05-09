@@ -21,7 +21,7 @@ class AgencyController extends Controller {
     public function index ()
     {
         $accounts = collect([Auth::user()->agencyAccount()])
-            ->merge(Auth::user()->agencyAccount()->childAccounts);
+            ->merge(Auth::user()->agencyAccount()->activeChildAccounts);
 
         return view('agency.index', compact('accounts'));
     }
@@ -51,7 +51,7 @@ class AgencyController extends Controller {
 
         // Notice all users on the account about new subaccount
         $emails = $agencyAccount->users()->pluck('email')->toArray();
-        Mail::send('emails.new_subaccount', ['accName' => $newAccount->name], function($message) use ($emails) {
+        Mail::send('emails.new_subaccount', ['accName' => $newAccount->name], function ($message) use ($emails) {
             $message->from("no-reply@contentlaunch.com", "Content Launch")
                 ->to($emails)
                 ->subject('New sub-account added');
@@ -81,8 +81,9 @@ class AgencyController extends Controller {
             ->where('stripe_customer_id', '<>', '')
             ->first();
 
-        // Allow agency to use free sub-accounts limit
         $freeSubscriptionType = SubscriptionType::whereSlug('free')->first();
+
+        // Allow agency to use free sub-accounts limit
         if ($agencyAccount->childAccounts()->count() > $freeSubscriptionType->limit('subaccounts_per_account')) {
 
             // Prepare empty subscription object
@@ -110,6 +111,7 @@ class AgencyController extends Controller {
                     ]);
                 }
 
+                // Stripe subscription
                 $subscription = \Stripe\Subscription::create([
                     "customer" => $payUser->stripe_customer_id,
                     "plan"     => $plan->id,
@@ -120,6 +122,7 @@ class AgencyController extends Controller {
                         'parentAccountId'   => $newAccount->parentAccount->id
                     ]
                 ]);
+                $subscriptionData['stripe_subscription_id'] = $subscription->id;
                 $subscriptionData['start_date'] = date('Y-m-d', $subscription->current_period_start);
                 $subscriptionData['expiration_date'] = date('Y-m-d', $subscription->current_period_end);
             } catch (\Stripe\Error\Base $e) {
@@ -135,6 +138,14 @@ class AgencyController extends Controller {
             if ($subscription->status !== "active") {
                 throw new \Exception("Card not authorized");
             }
+
+            $newAccount->subscribe(SubscriptionType::whereSlug('agency-client')->first(), $subscriptionData, false);
+        }
+        else {
+            $subscriptionData['start_date'] = date('Y-m-d');
+            $subscriptionData['expiration_date'] = '0000-00-00';
+
+            $newAccount->subscribe($freeSubscriptionType, $subscriptionData, false);
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Subscription;
 use App\SubscriptionType;
 use App\User;
@@ -63,6 +64,11 @@ class StripeController extends Controller {
 
         $subscription->valid = false;
         $subscription->save();
+
+        if ($subscription->account->parentAccount) {
+            $subscription->account->enabled = false;
+            $subscription->account->save();
+        }
 
         return response('ok', 200);
     }
