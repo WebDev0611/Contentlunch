@@ -55,7 +55,7 @@ class AccountController extends Controller {
             return $this->ajaxResponse('info',
                 'Your subscription will have to be cancelled manually. Please contact Content Launch support.');
         }
-        else {
+        elseif ($currentSubscriptions->first()->isPaid()) {
             $this->initStripe();
             try {
                 // Cancel Stripe subscription
@@ -65,17 +65,21 @@ class AccountController extends Controller {
                 return $this->ajaxResponse('error',
                     'Error occurred while trying to cancel the Stripe subscription. Please contact Content Launch support.');
             }
-
-            // Cancel CL subscription
-            $account->enabled = false;
-            $account->save();
-
-            Mail::send('emails.disabled_subaccount', ['accName' => $account->name], function ($message) use ($account) {
-                $message->from("no-reply@contentlaunch.com", "Content Launch")
-                    ->to($account->parentAccount->users()->pluck('email')->toArray())
-                    ->subject('Content Launch: Sub-account disabled');
-            });
         }
+
+        // Cancel CL subscription
+        $currentSubscriptions->first()->valid = false;
+        $currentSubscriptions->first()->save();
+
+        // Disable account
+        $account->enabled = false;
+        $account->save();
+
+        Mail::send('emails.disabled_subaccount', ['accName' => $account->name], function ($message) use ($account) {
+            $message->from("no-reply@contentlaunch.com", "Content Launch")
+                ->to($account->parentAccount->users()->pluck('email')->toArray())
+                ->subject('Content Launch: Sub-account disabled');
+        });
 
         Account::selectAccount($account->parentAccount);
 

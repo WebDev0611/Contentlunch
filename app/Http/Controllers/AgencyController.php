@@ -51,7 +51,7 @@ class AgencyController extends Controller {
 
         // Notice all users on the account about new subaccount
         $emails = $agencyAccount->users()->pluck('email')->toArray();
-        Mail::send('emails.new_subaccount', ['accName' => $newAccount->name], function($message) use ($emails) {
+        Mail::send('emails.new_subaccount', ['accName' => $newAccount->name], function ($message) use ($emails) {
             $message->from("no-reply@contentlaunch.com", "Content Launch")
                 ->to($emails)
                 ->subject('New sub-account added');
@@ -81,8 +81,9 @@ class AgencyController extends Controller {
             ->where('stripe_customer_id', '<>', '')
             ->first();
 
-        // Allow agency to use free sub-accounts limit
         $freeSubscriptionType = SubscriptionType::whereSlug('free')->first();
+
+        // Allow agency to use free sub-accounts limit
         if ($agencyAccount->childAccounts()->count() > $freeSubscriptionType->limit('subaccounts_per_account')) {
 
             // Prepare empty subscription object
@@ -139,6 +140,12 @@ class AgencyController extends Controller {
             }
 
             $newAccount->subscribe(SubscriptionType::whereSlug('agency-client')->first(), $subscriptionData, false);
+        }
+        else {
+            $subscriptionData['start_date'] = date('Y-m-d');
+            $subscriptionData['expiration_date'] = '0000-00-00';
+
+            $newAccount->subscribe($currentSubscription->subscriptionType, $subscriptionData, false);
         }
     }
 }
