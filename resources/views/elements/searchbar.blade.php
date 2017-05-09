@@ -46,6 +46,11 @@
 
         <div class="col-md-4 text-right">
 
+            <a href="https://contentlaunch.uservoice.com" class='support-text' title='Click here for support' target='_blank'>
+                Need help?
+                <i class="fa fa-question-circle"></i>
+            </a>
+
             @if(App\Account::selectedAccount()->activePaidSubscriptions()->isEmpty())
                 <a href="{{route('subscription')}}">
                     <button class="btn btn-warning">
@@ -54,11 +59,6 @@
                 </a>
             @endif
 
-            <a  href="https://contentlaunch.uservoice.com/"
-                class="support-icon icon-question"
-                title="Support"
-                target="_blank">
-            </a>
             <button class="search-bar-button-primary btn-create">
                 Create
                 {{-- <span class="caret"></span> --}}
