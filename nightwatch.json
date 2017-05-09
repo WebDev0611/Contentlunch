@@ -13,6 +13,7 @@
 
   "test_settings": {
     "default": {
+      "launch_url": "http://localhost",
       "selenium_port" : 4444,
       "selenium_host" : "localhost",
       "silent": true,
@@ -44,16 +45,12 @@
     },
 
     "sauce": {
+      "launch_url": "https://test.contentlaunch.com",
       "selenium_host": "ondemand.saucelabs.com",
       "selenium_port": 80,
       "username": "nakedculture",
       "access_key": "f1699e8f-76f3-40ff-973d-93c8fb66b433",
-      "desiredCapabilities": {
-        "browserName": "IE",
-        "platform": "Windows 10",
-        "version": "11",
-        "tunnel-identifier": ""
-      },
+      "desiredCapabilities": { "browserName": "internet explorer", "version": "11", "platform": "Windows 8.1" },
       "selenium" : {
         "start_process" : false
       }

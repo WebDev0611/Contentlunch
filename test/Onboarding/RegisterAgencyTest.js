@@ -1,14 +1,8 @@
 module.exports = {
-    /**
-     *
-     * @param browser
-     * @constructor
-     */
-    'Register Account': function (browser) {
+    'Register Agency Account': function (browser) {
         browser
             // Check login page and click register
             .url(browser.launchUrl)
-            .waitForElementVisible('form[action$=login]', 1000, "Login form is visible")
             .click('a[href$=signup]')
 
             // Check signup page and fill out form
@@ -18,6 +12,8 @@ module.exports = {
             .setValue('#password', 'launch123')
             .setValue('input[name=password_confirmation]', 'launch123')
             .setValue('#company_name', 'ContentLaunch')
+            .click('select[name=account_type]')
+            .execute('document.querySelectorAll("select[name=account_type]")[0].children[1].selected = true')
             .click('input[type=submit]')
 
             // Check invite page
@@ -38,10 +34,12 @@ module.exports = {
 
             // Check Dashboard
             .waitForElementVisible('.navigation', 1000, 'Navigation panel is visible.')
+            .waitForElementVisible('.navigation .icon-navigation-agency', 1000, 'Agency icon is visible.')
             .waitForElementVisible('.navigation .icon-navigation-chart', 1000, 'Dashboard icon is visible.')
             .waitForElementVisible('.navigation .icon-navigation-content', 1000, 'Plan icon is visible.')
             .waitForElementVisible('.navigation .icon-navigation-dashboard', 1000, 'Create is visible.')
-            .waitForElementVisible('.navigation .icon-navigation-calendar', 1000, 'Calendar is visible.');
+            .waitForElementVisible('.navigation .icon-navigation-calendar', 1000, 'Calendar is visible.')
+            //.assert.urlEquals("/", "Navigated to Dashboard successfully");
 
         browser.end();
     }

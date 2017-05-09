@@ -1,7 +1,7 @@
 module.exports = {
     'Login Test': function (browser) {
         browser
-            .url('https://test.contentlaunch.com')
+            .url(browser.launchUrl)
             .waitForElementVisible('body', 1000)
             .setValue('#email', 'admin@test.com')
             .setValue('#password', 'launch123')
