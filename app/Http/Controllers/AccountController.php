@@ -7,6 +7,7 @@ use Auth;
 
 use App\Account;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Mail;
 use Stripe\Stripe;
 
 class AccountController extends Controller {
@@ -35,6 +36,18 @@ class AccountController extends Controller {
 
         if ($currentSubscriptions->isEmpty()) {
             // This is the case with 'old' client subscriptions, when there was no subscription_id for client accounts.
+            $data = [
+                'accName' => $account->name,
+                'parentAccName' => $account->parentAccount == null ? 'None' : $account->parentAccount->name,
+                'userName' => Auth::user()->name,
+                'userEmail' => Auth::user()->email
+            ];
+
+            Mail::send('emails.disable_subaccount', $data, function($message) {
+                $message->from("no-reply@contentlaunch.com", "Content Launch")
+                    ->to('jon@contentlaunch.com')
+                    ->subject('Content Launch: Disabling a sub-account');
+            });
 
             return $this->ajaxResponse('info',
                 'Your subscription will have to be cancelled manually. Please contact Content Launch support.');
