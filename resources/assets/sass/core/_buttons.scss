@@ -38,10 +38,10 @@ a:hover, a:focus {
   border-radius: 3px;
   font-family: $source-code-pro;
   font-weight: bold;
-  font-size: 13px;
+  font-size: 12px;
   padding-top: 9px;
   padding-bottom: 9px;
-  letter-spacing: .05em;
+  letter-spacing: .1em;
 
   @include transition($base-transition);
 
