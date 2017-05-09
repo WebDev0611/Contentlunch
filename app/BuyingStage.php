@@ -21,7 +21,7 @@ class BuyingStage extends Model
             ->select('id', 'name')
             ->orderBy('name', 'asc')
             ->distinct()
-            ->lists('name', 'id')
+            ->pluck('name', 'id')
             ->toArray();
 
         return $buyingStageDropdown;

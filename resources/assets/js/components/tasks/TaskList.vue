@@ -7,7 +7,11 @@
                 <a href @click="openTaskModal">create one now</a>
             </div>
         </div>
-        <task-row v-for='task in tasks' :task='task'></task-row>
+        <task-row
+            v-for='task in tasks'
+            :task='task'
+            :key='task.id'>
+        </task-row>
     </div>
 </template>
 

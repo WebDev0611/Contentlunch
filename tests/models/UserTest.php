@@ -1,11 +1,12 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+use App\Account;
+use App\Message;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-use App\User;
-use App\Account;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class UserTest extends TestCase
 {
@@ -41,8 +42,7 @@ class UserTest extends TestCase
 
     public function testBelongsToAgencyAccount()
     {
-        $userA = factory(User::class)->create();
-        $userB = factory(User::class)->create();
+        list($userA, $userB) = factory(User::class, 2)->create();
         $agency = factory(Account::class, 'agency')->create();
         $company = factory(Account::class, 'company')->create();
 
@@ -53,5 +53,21 @@ class UserTest extends TestCase
         $this->assertFalse($userB->belongsToAgencyAccount());
 
         $this->assertEquals($agency->id, $userA->agencyAccount()->id);
+    }
+
+    public function testMessagesAreReturnedCorrectly()
+    {
+        list($userA, $userB) = factory(User::class, 2)->create();
+
+        factory(Message::class)->create(['sender_id' => $userA->id, 'recipient_id' => $userB->id, 'created_at' => Carbon::now()->subDays(1)]);
+        factory(Message::class)->create(['sender_id' => $userB->id, 'recipient_id' => $userA->id, 'created_at' => Carbon::now()]);
+
+        $conversation = $userA->conversationWith($userB);
+
+        $this->assertEquals(2, $conversation->count());
+        $this->assertEquals($userA->id, $conversation[1]->sender_id);
+        $this->assertEquals($userB->id, $conversation[1]->recipient_id);
+        $this->assertEquals($userB->id, $conversation[0]->sender_id);
+        $this->assertEquals($userA->id, $conversation[0]->recipient_id);
     }
 }

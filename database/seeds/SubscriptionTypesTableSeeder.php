@@ -116,6 +116,6 @@ class SubscriptionTypesTableSeeder extends BaseSeeder
         User::first()
             ->accounts()
             ->first()
-            ->subscribe(Type::findBySlug('pro-annually'));
+            ->subscribeWithoutEmail(Type::findBySlug('pro-annually'));
     }
 }

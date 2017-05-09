@@ -131,7 +131,7 @@ class SettingsController extends Controller {
             ->where('class_name', '!=', '')
             ->orderBy('name', 'asc')
             ->distinct()
-            ->lists('name', 'slug')
+            ->pluck('name', 'slug')
             ->toArray();
     }
 

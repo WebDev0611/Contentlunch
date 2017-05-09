@@ -12,7 +12,7 @@ class CountryPresenter extends BasePresenter
         $dropdown = [ '' => '-- Select a Country --' ];
         $dropdown += Country::orderBy('priority', 'desc')
             ->orderBy('country_name', 'asc')
-            ->lists('country_name', 'country_code')
+            ->pluck('country_name', 'country_code')
             ->toArray();
 
         return $dropdown;

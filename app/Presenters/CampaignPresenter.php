@@ -27,7 +27,7 @@ class CampaignPresenter extends BasePresenter
             ->where('status', 1)
             ->orderBy('title', 'asc')
             ->distinct()
-            ->lists('title', 'id')
+            ->pluck('title', 'id')
             ->toArray();
 
         return $campaignDropdown;

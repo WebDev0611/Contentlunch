@@ -13,7 +13,7 @@ class CampaignTypePresenter extends Presenter
         $campaignTypeDropdown += CampaignType::select('id','name')
             ->orderBy('name', 'asc')
             ->distinct()
-            ->lists('name', 'id')
+            ->pluck('name', 'id')
             ->toArray();
 
         return $campaignTypeDropdown;

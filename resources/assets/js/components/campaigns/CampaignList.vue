@@ -7,7 +7,11 @@
                 <a href="/campaign">create one now</a>
             </div>
         </div>
-        <campaign-row v-for='campaign in campaigns' :campaign="campaign"></campaign-row>
+        <campaign-row
+            v-for='campaign in campaigns'
+            :campaign="campaign"
+            :key="campaign.id">
+        </campaign-row>
     </div>
 </template>
 

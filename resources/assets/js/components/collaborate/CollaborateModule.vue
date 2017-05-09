@@ -12,7 +12,10 @@
         </div>
 
         <div class="panel-container bottompadded" v-show="tab === 'influencers'">
-            <collaborate-search-bar></collaborate-search-bar>
+            <collaborate-search-bar
+                @searched='updateListResults'
+                @searching='showLoadingGif'>
+            </collaborate-search-bar>
 
             <div class="panel-separator"></div>
 
@@ -43,7 +46,11 @@
             <div class="inner wide">
                 <loading v-show="loading"></loading>
                 <ul class="list-inline list-influencers">
-                    <influencer v-for="bookmark in bookmarks" :data="bookmark"></influencer>
+                    <influencer
+                        v-for="bookmark in bookmarks"
+                        :data="bookmark"
+                        :key='bookmark.id'>
+                    </influencer>
                 </ul>
             </div>
         </div>
@@ -73,20 +80,6 @@
         },
 
         created() {
-            this.$on('searched', data => {
-                this.results = data.map(element => {
-                    let twitter_id_str = element.twitter_id_str;
-
-                    if (_.findWhere(this.bookmarks, { twitter_id_str })) {
-                        element.bookmarked = true;
-                    }
-
-                    return element;
-                });
-                this.loading = false;
-            });
-
-            this.$on('searching', () => this.loading = true);
             this.fetchBookmarks();
         },
 
@@ -104,6 +97,23 @@
                             return element;
                         });
                     });
+            },
+
+            updateListResults(data) {
+                this.results = data.map(element => {
+                    let twitter_id_str = element.twitter_id_str;
+
+                    if (_.findWhere(this.bookmarks, { twitter_id_str })) {
+                        element.bookmarked = true;
+                    }
+
+                    return element;
+                });
+                this.loading = false;
+            },
+
+            showLoadingGif() {
+                this.loading = true;
             }
         }
     }

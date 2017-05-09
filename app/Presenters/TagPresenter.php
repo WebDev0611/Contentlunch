@@ -12,7 +12,7 @@ class TagPresenter extends BasePresenter
         return Tag::select('id', 'tag')
             ->orderBy('tag', 'asc')
             ->distinct()
-            ->lists('tag', 'id')
+            ->pluck('tag', 'id')
             ->toArray();
     }
 
@@ -21,7 +21,7 @@ class TagPresenter extends BasePresenter
         return Tag::select('tag')
             ->orderBy('tag', 'asc')
             ->distinct()
-            ->lists('tag')
+            ->pluck('tag')
             ->toJson();
     }
 }
