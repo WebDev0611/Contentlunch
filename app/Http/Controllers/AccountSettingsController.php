@@ -66,7 +66,7 @@ class AccountSettingsController extends Controller {
         }
 
         $data = $this->prepareData();
-        $data['accounts'] = Auth::user()->agencyAccount()->childAccounts;
+        $data['accounts'] = Auth::user()->agencyAccount()->activeChildAccounts;
 
         return view('settings.subscription-clients', $data);
     }

@@ -35,16 +35,16 @@
                 </div>
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-4">
                 @include('elements.searchbar-form-field')
             </div>
         @else
-            <div class="col-md-8">
+            <div class="col-md-7">
                 @include('elements.searchbar-form-field')
             </div>
         @endif
 
-        <div class="col-md-4 text-right">
+        <div class="col-md-5 text-right">
 
             <a href="https://contentlaunch.uservoice.com" class='support-text' title='Click here for support' target='_blank'>
                 Need help?
