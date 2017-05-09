@@ -43,7 +43,7 @@ class AccountController extends Controller {
                 'userEmail' => Auth::user()->email
             ];
 
-            Mail::send('emails.disable_subaccount', $data, function($message) {
+            Mail::send('emails.disable_old_subaccount', $data, function($message) {
                 $message->from("no-reply@contentlaunch.com", "Content Launch")
                     ->to('jon@contentlaunch.com')
                     ->subject('Content Launch: Disabling a sub-account');
@@ -66,6 +66,12 @@ class AccountController extends Controller {
             // Cancel CL subscription
             $account->enabled = false;
             $account->save();
+
+            Mail::send('emails.disabled_subaccount', ['accName' => $account->name], function($message) use ($account) {
+                $message->from("no-reply@contentlaunch.com", "Content Launch")
+                    ->to($account->parentAccount->users()->pluck('email')->toArray())
+                    ->subject('Content Launch: Sub-account disabled');
+            });
         }
 
         Account::selectAccount($account->parentAccount);
@@ -86,4 +92,6 @@ class AccountController extends Controller {
             'message' => $message
         ], $status);
     }
+
+
 }
