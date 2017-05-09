@@ -34,16 +34,19 @@ class AccountController extends Controller {
         $account = Account::findOrFail($request->input('account_id'));
         $currentSubscriptions = $account->subscriptions()->active()->get();
 
-        if ($currentSubscriptions->isEmpty()) {
+        if (!$account->parentAccount) {
+            return $this->ajaxResponse('warning', 'You can\'t disable a parent account.');
+        }
+        elseif ($currentSubscriptions->isEmpty()) {
             // This is the case with 'old' client subscriptions, when there was no subscription_id for client accounts.
             $data = [
-                'accName' => $account->name,
+                'accName'       => $account->name,
                 'parentAccName' => $account->parentAccount == null ? 'None' : $account->parentAccount->name,
-                'userName' => Auth::user()->name,
-                'userEmail' => Auth::user()->email
+                'userName'      => Auth::user()->name,
+                'userEmail'     => Auth::user()->email
             ];
 
-            Mail::send('emails.disable_old_subaccount', $data, function($message) {
+            Mail::send('emails.disable_old_subaccount', $data, function ($message) {
                 $message->from("no-reply@contentlaunch.com", "Content Launch")
                     ->to('jon@contentlaunch.com')
                     ->subject('Content Launch: Disabling a sub-account');
@@ -67,7 +70,7 @@ class AccountController extends Controller {
             $account->enabled = false;
             $account->save();
 
-            Mail::send('emails.disabled_subaccount', ['accName' => $account->name], function($message) use ($account) {
+            Mail::send('emails.disabled_subaccount', ['accName' => $account->name], function ($message) use ($account) {
                 $message->from("no-reply@contentlaunch.com", "Content Launch")
                     ->to($account->parentAccount->users()->pluck('email')->toArray())
                     ->subject('Content Launch: Sub-account disabled');

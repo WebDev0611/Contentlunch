@@ -47,6 +47,7 @@
                         <td>{{ $account->contents()->current()->count() }}</td>
                         <td>{{ $account->campaigns->count() }}</td>
                         <td class="tbl-right">
+                            @if($account->parentAccount)
                              <div class="actionbtnbox">
                                 <button
                                     type="button"
@@ -61,6 +62,7 @@
                                     </li>
                                 </ul>
                             </div>
+                            @endif
                         </td>
                     </tr>
                     @endforeach
