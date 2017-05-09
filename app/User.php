@@ -186,6 +186,11 @@ class User extends Authenticatable
         return $this->is_admin == 1;
     }
 
+    public function isGuest()
+    {
+        return $this->is_guest == 1;
+    }
+
     public function conversationWith(User $user)
     {
         return Message::orWhere(function($q) use ($user) {
