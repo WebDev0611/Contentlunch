@@ -46,7 +46,7 @@ class CompanyListComposer
 
             $childAccounts = $agencyAccounts
                 ->map(function($agencyAccount) {
-                    return $agencyAccount->childAccounts;
+                    return $agencyAccount->activeChildAccounts;
                 })
                 ->flatten(1);
 

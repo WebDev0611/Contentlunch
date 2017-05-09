@@ -108,6 +108,11 @@ class Account extends Model
         return $this->hasMany('App\Subscription');
     }
 
+    public function activeChildAccounts()
+    {
+        return $this->childAccounts()->whereEnabled(true);
+    }
+
     // Returns all active subscriptions for the account
     public function activeSubscriptions()
     {
@@ -130,6 +135,15 @@ class Account extends Model
             ->with('SubscriptionType')
             ->active()
             ->paid()
+            ->latest()
+            ->get();
+    }
+
+    public function activeChildSubscriptions()
+    {
+        return $this->subscriptions()
+            ->with('SubscriptionType')
+            ->active()
             ->latest()
             ->get();
     }

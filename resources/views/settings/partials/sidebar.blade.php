@@ -29,7 +29,7 @@
             @if ($account->isAgencyAccount() || $account->isSubAccount())
 
                 <label for="#">Clients</label>
-                <h3 class="settings-profile-heading">{{count($user->agencyAccount()->childAccounts)}}</h3>
+                <h3 class="settings-profile-heading">{{count($user->agencyAccount()->activeChildAccounts)}}</h3>
 
             @endif
 
