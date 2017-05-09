@@ -21,7 +21,7 @@ class AgencyController extends Controller {
     public function index ()
     {
         $accounts = collect([Auth::user()->agencyAccount()])
-            ->merge(Auth::user()->agencyAccount()->childAccounts);
+            ->merge(Auth::user()->agencyAccount()->activeChildAccounts);
 
         return view('agency.index', compact('accounts'));
     }
