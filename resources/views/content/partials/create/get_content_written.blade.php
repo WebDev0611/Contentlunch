@@ -118,6 +118,7 @@
                     <div class="create-tabs-priceline" style="margin-bottom: 20px">
                         <span>PROMO CREDIT</span>
                         <h4 id="promo_amount">+$ 0.00</h4>
+                        <input id="promo_discount" name="promo_discount" type="hidden" value="0">
                         <button id="use_credit" class="btn btn-default" type="button">Use credit</button>
                     </div>
                 @endif
@@ -179,6 +180,7 @@
             resetPromoCredit: function () {
                 creditLeft = promoCreditAmount;
                 this.total = this.basePrice() * this.orderCount;
+                this.$el.find('#promo_discount').val(0);
 
                 this.renderPromoCredit();
             },
@@ -200,6 +202,7 @@
 
                 this.total = Math.max(0, diff);
                 this.$el.find('#total_cost').text(this.formatPrice(this.total));
+                this.$el.find('#promo_discount').val(total - this.total);
                 this.renderPromoCredit();
             },
 
