@@ -329,7 +329,10 @@ class ContentController extends Controller
         $contenttypedd = ContentTypePresenter::dropdown();
         $campaigndd = CampaignPresenter::dropdown();
 
-        $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd');
+        $promotion = Auth::user()->contentOrdersPromotion();
+        $userIsOnPaidAccount = !Account::selectedAccount()->activePaidSubscriptions()->isEmpty();
+
+        $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd', 'promotion', 'userIsOnPaidAccount');
 
         return view('content.create', $data);
     }

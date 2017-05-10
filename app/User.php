@@ -206,4 +206,9 @@ class User extends Authenticatable
                 return $message;
             });
     }
+
+    public function contentOrdersPromotion ()
+    {
+        return Promo::whereEmail($this->email)->active()->first();
+    }
 }
