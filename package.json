@@ -2,7 +2,11 @@
   "private": true,
   "scripts": {
     "prod": "gulp --production",
-    "dev": "gulp && gulp watch"
+    "dev": "gulp && gulp watch",
+    "docker": "cd laradock && docker-compose up -d nginx mysql redis beanstalkd && cd ../",
+    "ssh-workspace": "cd laradock && docker-compose exec workspace bash && cd ../",
+    "ssh-mysql": "cd laradock && docker-compose exec mysql bash && cd ../",
+    "ssh-redis": "cd laradock && docker-compose exec redis bash && cd ../"
   },
   "devDependencies": {
     "bootstrap-sass": "^3.3.0",
