@@ -13,7 +13,7 @@ class AddPromoDiscountFieldToWriterAccessPartialOrdersTable extends Migration
     public function up()
     {
         Schema::table('writer_access_partial_orders', function (Blueprint $table) {
-            $table->boolean('promo_discount')->default(0);
+            $table->float('promo_discount')->default(0);
         });
     }
 

@@ -61,6 +61,7 @@ class WriterAccessPartialOrderController extends Controller
             'wordcount' => $data['writer_access_word_count'],
             'writer_level' => $data['writer_access_writer_level'],
             'order_count' => $data['writer_access_order_count'],
+            'promo_discount' => $data['promo_discount'],
         ]);
 
         $order->user()->associate(Auth::user())->save();

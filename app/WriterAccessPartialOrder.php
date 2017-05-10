@@ -26,7 +26,8 @@ class WriterAccessPartialOrder extends Model
         'target_audience',
         'tone_of_writing',
         'bulk_file',
-        'order_count'
+        'order_count',
+        'promo_discount'
     ];
 
     public function user()
