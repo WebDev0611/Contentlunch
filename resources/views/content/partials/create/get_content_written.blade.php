@@ -114,6 +114,13 @@
                     <span>COST PER ORDER</span>
                     <h4 id="price_each">$40.70</h4>
                 </div>
+                @if($promotion && $userIsOnPaidAccount)
+                    <div class="create-tabs-priceline" style="margin-bottom: 20px">
+                        <span>PROMO CREDIT</span>
+                        <h4 id="promo_amount">+$ 0.00</h4>
+                        <button id="use_credit" class="btn btn-default" type="button">Use credit</button>
+                    </div>
+                @endif
             </div>
         </div>
         <input
@@ -128,6 +135,14 @@
 <script type="text/javascript">
     var prices =  (function() { return {!! $pricesJson !!}; })();
 
+    @if($promotion && $userIsOnPaidAccount)
+        var promoCreditAmount = {{$promotion->credit}};
+    @else
+        var promoCreditAmount = 0.00;
+    @endif
+    var creditLeft = promoCreditAmount;
+
+
     $('.datetimepicker').datetimepicker({
         format: 'MM-DD-YYYY'
     });
@@ -141,6 +156,7 @@
                 'change #writer_access_asset_type': 'render',
                 'change #writer_access_word_count': 'calculateOrderPrices',
                 'change #writer_access_writer_level': 'calculateOrderPrices',
+                'click #use_credit': 'applyPromoCredit',
             },
 
             initialize: function() {
@@ -153,10 +169,38 @@
                 this.renderOrdersCount();
                 this.populateWordCountSelect();
                 this.calculateOrderPrices();
+                this.renderPromoCredit();
             },
 
             renderOrdersCount: function() {
                 this.$el.find('#writer_access_order_count').val(this.orderCount);
+            },
+
+            resetPromoCredit: function () {
+                creditLeft = promoCreditAmount;
+                this.total = this.basePrice() * this.orderCount;
+
+                this.renderPromoCredit();
+            },
+
+            renderPromoCredit: function () {
+                this.$el.find('#promo_amount').text('+' + this.formatPrice(creditLeft));
+                if(creditLeft === 0 || this.total === 0) {
+                    this.$el.find('#use_credit').hide();
+                } else {
+                    this.$el.find('#use_credit').show();
+                }
+            },
+
+            applyPromoCredit: function () {
+                var total = this.basePrice() * this.orderCount;
+                var diff = total - creditLeft;
+
+                creditLeft = (diff < 0) ? Math.abs(diff) : 0;
+
+                this.total = Math.max(0, diff);
+                this.$el.find('#total_cost').text(this.formatPrice(this.total));
+                this.renderPromoCredit();
             },
 
             increaseWriterAccessCount: function(e) {
@@ -230,6 +274,8 @@
 
                 this.$el.find('#price_each').text(this.formatPrice(orderPrice));
                 this.$el.find('#total_cost').text(this.formatPrice(totalPrice));
+
+                this.resetPromoCredit();
             },
 
             formatPrice: function(price) {
