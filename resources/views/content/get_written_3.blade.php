@@ -83,6 +83,10 @@
                                         <td><strong>Number of orders</strong></td>
                                         <td><strong>{{ $order->order_count }}</strong></td>
                                     </tr>
+                                    <tr class="ordercount">
+                                        <td>Promo discount</td>
+                                        <td>{{ $order->present()->promoDiscount }}</td>
+                                    </tr>
                                     <tr>
                                         <td><strong>TOTAL</strong></td>
                                         <td><strong>{{ $order->present()->price }}</strong></td>

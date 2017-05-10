@@ -57,7 +57,7 @@ class WriterAccessPartialOrder extends Model
 
     public function getPriceAttribute()
     {
-        return $this->fee * $this->order_count;
+        return ($this->fee * $this->order_count) - $this->promo_discount;
     }
 
     public function writerAccessFormat()

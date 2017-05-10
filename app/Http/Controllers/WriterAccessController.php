@@ -6,6 +6,7 @@ use App\WriterAccessPrice;
 use DateTime;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Stripe\Stripe;
 use Stripe\ApiRequestor;
@@ -454,17 +455,25 @@ class WriterAccessController extends Controller
                 ));
             }
 
+            $price = max($price - $orderDetails->promo_discount ,0);
+
             $bulkOrderStatus =  WriterAccessBulkOrderStatus::create();
 
             $job = (new WriterAccessBulkOrder($bulkOrderStatus->id, $user, $orders, $this->apiProject, $this->apiProjectId, $stripeToken, Config::get('services.stripe.secret'), $price));
 
             $this->dispatch($job);
 
+            $contentOrdersPromotion = $user->contentOrdersPromotion();
+            if($contentOrdersPromotion) {
+                $contentOrdersPromotion->credit -= $orderDetails->promo_discount;
+                $contentOrdersPromotion->save();
+            }
+
             return redirect()
                 ->to('/get_content_written/bulk-order/'.$bulkOrderStatus->id)
                 ->with("orders", $orders);
 
-        }catch(Exception $e){
+        } catch(Exception $e){
             return $this->redirectToOrderReview($orderDetails, $e->getMessage(), 'danger');
         }
     }
