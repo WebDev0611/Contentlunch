@@ -28,5 +28,9 @@ class ModelServicesProvider extends ServiceProvider
         $this->app->bind('accountService', function($app) {
             return new AccountService($app->make(Account::class));
         });
+
+        $this->app->bind('contentService', function($app) {
+            return new ContentService($app->make(Content::class));
+        });
     }
 }

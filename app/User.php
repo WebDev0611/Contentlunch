@@ -56,14 +56,14 @@ class User extends Authenticatable
         return $this->account->connections();
     }
 
-    public function calendars()
-    {
-        return $this->hasMany('App\Calendar');
-    }
-
     public function assignedTasks()
     {
         return $this->belongsToMany('App\Task');
+    }
+
+    public function calendars()
+    {
+        return $this->hasMany('App\Calendar');
     }
 
     public function campaigns()
