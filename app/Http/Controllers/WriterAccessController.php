@@ -282,6 +282,8 @@ class WriterAccessController extends Controller
             }
         }
 
+        $this->reducePromoCreditAmount($partialOrder);
+
         // Now that they've paid, lets create the order.
         $response = $this->post('/orders', $order->toArray());
         $responseContent = json_decode($response->getContent());
@@ -303,12 +305,6 @@ class WriterAccessController extends Controller
 
             $errorMsg = 'An error occurred while trying to place your order. Please contact ContentLaunch support for more info. Thanks.';
             return $this->redirectToOrderReview($partialOrder, $errorMsg, 'danger');
-        }
-
-        $contentOrdersPromotion = $partialOrder->user->contentOrdersPromotion();
-        if($contentOrdersPromotion) {
-            $contentOrdersPromotion->credit -= $partialOrder->promo_discount;
-            $contentOrdersPromotion->save();
         }
 
         return redirect()
@@ -472,11 +468,7 @@ class WriterAccessController extends Controller
 
             $this->dispatch($job);
 
-            $contentOrdersPromotion = $user->contentOrdersPromotion();
-            if($contentOrdersPromotion) {
-                $contentOrdersPromotion->credit -= $orderDetails->promo_discount;
-                $contentOrdersPromotion->save();
-            }
+            $this->reducePromoCreditAmount($orderDetails);
 
             return redirect()
                 ->to('/get_content_written/bulk-order/'.$bulkOrderStatus->id)
@@ -646,6 +638,17 @@ class WriterAccessController extends Controller
     public function setApiProject($apiProject)
     {
         $this->apiProject = $apiProject;
+    }
+
+    /**
+     * @param WriterAccessPartialOrder $partialOrder
+     */
+    public function reducePromoCreditAmount($partialOrder) {
+        $contentOrdersPromotion = $partialOrder->user->contentOrdersPromotion();
+        if($contentOrdersPromotion) {
+            $contentOrdersPromotion->credit -= $partialOrder->promo_discount;
+            $contentOrdersPromotion->save();
+        }
     }
 
     /**

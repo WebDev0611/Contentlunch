@@ -83,10 +83,14 @@
                                         <td><strong>Number of orders</strong></td>
                                         <td><strong>{{ $order->order_count }}</strong></td>
                                     </tr>
-                                    <tr class="ordercount">
-                                        <td>Promo discount</td>
-                                        <td>{{ $order->present()->promoDiscount }}</td>
-                                    </tr>
+
+                                    @if($order->promo_discount > 0)
+                                        <tr class="ordercount">
+                                            <td>Promo discount</td>
+                                            <td>{{ $order->present()->promoDiscount }}</td>
+                                        </tr>
+                                    @endif
+
                                     <tr>
                                         <td><strong>TOTAL</strong></td>
                                         <td><strong>{{ $order->present()->price }}</strong></td>
