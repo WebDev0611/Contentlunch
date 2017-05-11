@@ -15,11 +15,11 @@ class CreateWriterAccessCommentsTable extends Migration
         Schema::create('writer_access_comments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('order_id')->unsigned();
+            $table->string('order_id');
             $table->string('timestamp');
-            $table->integer('writer_id')->unsigned()->nullable();
+            $table->string('writer_id')->nullable();
             $table->string('writer_name')->nullable();
-            $table->integer('editor_id')->unsigned()->nullable();
+            $table->string('editor_id')->nullable();
             $table->string('editor_name')->nullable();
             $table->boolean('from_client')->default(false);
             $table->text('note')->default('');
