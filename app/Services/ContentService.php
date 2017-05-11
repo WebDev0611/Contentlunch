@@ -25,7 +25,13 @@ class ContentService
 
     protected function guestContentList()
     {
-
+        return [
+           'countContent' => Auth::user()->guestContents()->count(),
+           'published' => Auth::user()->guestContents()->published()->recentlyUpdated()->get(),
+           'readyPublished' => Auth::user()->guestContents()->readyToPublish()->recentlyUpdated()->get(),
+           'written' => Auth::user()->guestContents()->written()->recentlyUpdated()->get(),
+           'connections' => $this->selectedAccount->connections()->active()->get(),
+        ];
     }
 
     protected function userContentList()
