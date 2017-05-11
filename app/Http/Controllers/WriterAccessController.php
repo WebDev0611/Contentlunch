@@ -179,6 +179,11 @@ class WriterAccessController extends Controller
         }
     }
 
+    public function allOrders ()
+    {
+        return $this->get('/orders');
+    }
+
     /**
      * Return an array of comment for the order id passed.
      * @param $id

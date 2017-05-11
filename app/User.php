@@ -111,6 +111,11 @@ class User extends Authenticatable
        return $this->hasMany('App\Task');
     }
 
+    public function writerAccessComments()
+    {
+        return $this->hasMany('App\WriterAccessComment');
+    }
+
     /**
      * User model custom scopes
      */
