@@ -6,7 +6,6 @@ use App\WriterAccessPrice;
 use DateTime;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Stripe\Stripe;
 use Stripe\ApiRequestor;
@@ -269,14 +268,18 @@ class WriterAccessController extends Controller
         $this->initStripe();
         $customer = $this->createStripeCustomer($request);
 
-        try {
-            $charge = $this->createStripeCharge($customer, $order);
-        } catch (\Exception $e) {
-            return $this->redirectToOrderReview($partialOrder, $e->getMessage(), 'danger');
-        }
+        $order->setPrice(max($order->getPrice() - $partialOrder->promo_discount, 0));
 
-        if($charge->status !== "succeeded"){
-            return $this->redirectToOrderReview($partialOrder, "We're sorry, your card was declined. Please try another card.", 'danger');
+        if($order->getPrice() > 0) {
+            try {
+                $charge = $this->createStripeCharge($customer, $order);
+            } catch (\Exception $e) {
+                return $this->redirectToOrderReview($partialOrder, $e->getMessage(), 'danger');
+            }
+
+            if($charge->status !== "succeeded"){
+                return $this->redirectToOrderReview($partialOrder, "We're sorry, your card was declined. Please try another card.", 'danger');
+            }
         }
 
         // Now that they've paid, lets create the order.
@@ -289,7 +292,7 @@ class WriterAccessController extends Controller
                 'user_name' => Auth::user()->name,
                 'user_email' => Auth::user()->email,
                 'acc_id' => Auth::user()->selectedAccount->id,
-                'api_response' => $responseContent->fault
+                'api_response' => isset($responseContent->fault) ? $responseContent->fault : $responseContent->error
             ];
 
             Mail::send('emails.writeraccess_error', ['data' => $errorData], function($message) {
@@ -300,6 +303,12 @@ class WriterAccessController extends Controller
 
             $errorMsg = 'An error occurred while trying to place your order. Please contact ContentLaunch support for more info. Thanks.';
             return $this->redirectToOrderReview($partialOrder, $errorMsg, 'danger');
+        }
+
+        $contentOrdersPromotion = $partialOrder->user->contentOrdersPromotion();
+        if($contentOrdersPromotion) {
+            $contentOrdersPromotion->credit -= $partialOrder->promo_discount;
+            $contentOrdersPromotion->save();
         }
 
         return redirect()
