@@ -330,6 +330,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::get('/api/messages', 'MessageController@index')->name('messages.index');
         Route::post('/api/messages/{user}', 'MessageController@store')->name('messages.store');
         Route::post('/api/messages/{user}/mark_as_read', 'MessageController@markAsRead')->name('messages.mark_as_read');
+
+        Route::get('/api/writeraccess-fetch-comments', 'WriterAccessCommentController@fetch');
     });
 });
 

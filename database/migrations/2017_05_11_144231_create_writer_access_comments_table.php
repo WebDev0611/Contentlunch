@@ -16,6 +16,7 @@ class CreateWriterAccessCommentsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('order_id');
+            $table->string('order_title');
             $table->string('timestamp');
             $table->string('writer_id')->nullable();
             $table->string('writer_name')->nullable();

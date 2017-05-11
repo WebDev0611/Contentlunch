@@ -11,4 +11,9 @@ class WriterAccessComment extends Model {
     {
         return $this->belongsTo('App\User');
     }
+
+    public function scopeUserNotNotified($query)
+    {
+        return $query->where('client_notified', false);
+    }
 }
