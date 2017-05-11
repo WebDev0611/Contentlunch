@@ -1,12 +1,10 @@
 <?php
 
 use App\Promo;
-use Illuminate\Database\Seeder;
 
-class ContentOrdersPromotionsSeeder extends Seeder {
+class ContentOrdersPromotionsSeeder extends BaseSeeder {
 
-    private function eligibleEmails(){
-        // Insert eligible email addresses into this array
+    private function emails(){
         return [
             'admin@test.com',
             'editor@test.com',
@@ -18,7 +16,7 @@ class ContentOrdersPromotionsSeeder extends Seeder {
     {
         $promos = Promo::all();
 
-        foreach ($this->eligibleEmails() as $emailAdress) {
+        foreach ($this->emails() as $emailAdress) {
             if(!$promos->contains('email', $emailAdress)) {
                 DB::table('content_orders_promotions')->insert([
                     'email' => $emailAdress

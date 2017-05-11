@@ -28,6 +28,6 @@ class CreateContentOrdersPromotionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('logins');
+        Schema::drop('content_orders_promotions');
     }
 }
