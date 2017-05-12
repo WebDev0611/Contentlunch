@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendWriterAccessCommentNotification;
 use App\User;
 use App\WriterAccessComment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-
 
 class WriterAccessCommentController extends Controller {
 
@@ -47,35 +45,14 @@ class WriterAccessCommentController extends Controller {
 
         $this->sendNotificationEmails();
 
-        return response()->json('ok');
+        return response()->json('done');
     }
 
     public function sendNotificationEmails ()
     {
         $comments = WriterAccessComment::userNotNotified()->get();
         $comments->each(function ($comment) {
-            $data = [
-                'order_title' => $comment->order_title,
-                'sender'      => '',
-                'message'     => $comment->note,
-                'timestamp'   => date('Y-m-d H:i', strtotime($comment->timestamp)),
-            ];
-
-            if ($comment->editor_name) {
-                $data['sender'] = $comment->editor_name;
-            }
-            elseif ($comment->writer_name) {
-                $data['sender'] = $comment->writer_name;
-            }
-
-            Mail::send('emails.writeraccess_comment', ['data' => $data], function($message) use ($comment) {
-                $message->from("no-reply@contentlaunch.com", "Content Launch")
-                    ->to($comment->user->email)
-                    ->replyTo('reply@to.com', 'Reply Name') // TODO add reply-to mail
-                    ->subject('New Message from WriterAccess');
-            });
-
-            // TODO set client_notified flag to true
+            $this->dispatch((new SendWriterAccessCommentNotification($comment))->delay(10));
         });
     }
 
