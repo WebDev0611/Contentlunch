@@ -54,6 +54,11 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('signup', 'OnboardingController@process_signup');
     });
 
+    Route::group([ 'prefix' => 'guests' ], function() {
+        Route::get('signup/{guestInvite}', 'GuestController@create')->name('guests.create');
+        Route::post('create', 'GuestController@store')->name('guests.store');
+    });
+
     Route::group(['middleware' => ['auth', 'subscription']], function () {
         Route::get('/', 'HomeController@index')->name('dashboard');
 
@@ -294,6 +299,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::group(['prefix' => 'export'], function () {
             Route::get('content/{id}/{extension}', 'ExportController@content')->name('export.content');
         });
+
+
 
         /**
          * AJAX Helpers

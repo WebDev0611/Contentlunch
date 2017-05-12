@@ -2,9 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use App\User;
 use App\Helpers;
+use App\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Route;
 
 class AccountInvite extends Model
 {
@@ -15,6 +16,10 @@ class AccountInvite extends Model
         parent::boot();
         static::creating(function($invite) {
             $invite->generateToken();
+        });
+
+        Route::bind('guestInvite', function($value) {
+            return self::where('is_guest', true)->where('token', $value)->first();
         });
     }
 
@@ -36,6 +41,11 @@ class AccountInvite extends Model
     public function isUsed()
     {
         return (boolean) $this->user_id;
+    }
+
+    public function isGuest()
+    {
+        return (boolean) $this->is_guest;
     }
 
     public function generateToken()
