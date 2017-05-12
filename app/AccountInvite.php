@@ -17,10 +17,6 @@ class AccountInvite extends Model
         static::creating(function($invite) {
             $invite->generateToken();
         });
-
-        Route::bind('guestInvite', function($value) {
-            return self::where('is_guest', true)->where('token', $value)->first();
-        });
     }
 
     public function account()
