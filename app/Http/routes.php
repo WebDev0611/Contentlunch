@@ -152,6 +152,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
 
         Route::get('/content/orders', 'ContentController@orders')->name('content_orders.index');
         Route::get('/content/orders/{id}', 'ContentController@order')->name('contentOrder');
+        Route::get('/content/orders/{id}/comments', 'ContentController@orderComments')->name('contentOrderComments');
         Route::get('/content/orders/approve/{id}', 'WriterAccessController@orderApprove')->name('orderApprove');
         Route::get('/content/orders/delete/{id}', 'ContentController@orderDelete')->name('orderDelete');
         Route::get('/content/my', 'ContentController@my');

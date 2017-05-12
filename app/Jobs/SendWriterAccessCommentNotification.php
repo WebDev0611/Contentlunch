@@ -33,6 +33,7 @@ class SendWriterAccessCommentNotification extends Job implements ShouldQueue {
     public function handle (Mailer $mailer)
     {
         $data = [
+            'order_id' => $this->comment->order_id,
             'order_title' => $this->comment->order_title,
             'sender'      => '',
             'message'     => $this->comment->note,
@@ -51,7 +52,6 @@ class SendWriterAccessCommentNotification extends Job implements ShouldQueue {
         $mailer->send('emails.writeraccess_comment', ['data' => $data], function ($message) {
             $message->from("no-reply@contentlaunch.com", "Content Launch")
                 ->to($this->comment->user->email)
-                ->replyTo('reply@to.com', 'Reply Name')// TODO add reply-to mail
                 ->subject('New Message from WriterAccess');
         });
 

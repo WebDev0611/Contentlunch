@@ -26,5 +26,7 @@
             <td>{{ $data['timestamp'] }}</td>
         </tr>
     </table>
-    <p>To post an answer, please reply to this email.</p>
+    <a href="{{route('contentOrderComments', $data['order_id'])}}">
+        <button>Click here to reply</button>
+    </a>
 @endsection
