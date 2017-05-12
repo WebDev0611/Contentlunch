@@ -6,6 +6,7 @@ use App\Jobs\SendWriterAccessCommentNotification;
 use App\User;
 use App\WriterAccessComment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class WriterAccessCommentController extends Controller {
 
@@ -52,7 +53,15 @@ class WriterAccessCommentController extends Controller {
     {
         $comments = WriterAccessComment::userNotNotified()->get();
         $comments->each(function ($comment) {
-            $this->dispatch((new SendWriterAccessCommentNotification($comment))->delay(10));
+            $redis_key = 'wa_comment_' . $comment->id;
+
+            if(!Redis::exists($redis_key)){
+                // Prevent jobs from piling up onto job queue
+                Redis::set($redis_key, 'true');
+                Redis::persist($redis_key);
+
+                $this->dispatch((new SendWriterAccessCommentNotification($comment))->delay(10));
+            }
         });
     }
 

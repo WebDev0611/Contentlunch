@@ -30,6 +30,6 @@ class Kernel extends ConsoleKernel
             ->timezone('America/Los_Angeles');
 
         // Check for new WriterAccess comments
-        $schedule->call('App\Http\Controllers\WriterAccessCommentController@fetch')->everyTenMinutes();
+        $schedule->call('App\Http\Controllers\WriterAccessCommentController@fetch')->everyThirtyMinutes();
     }
 }

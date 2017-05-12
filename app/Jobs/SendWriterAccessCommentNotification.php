@@ -8,6 +8,7 @@ use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Redis;
 
 class SendWriterAccessCommentNotification extends Job implements ShouldQueue {
 
@@ -56,5 +57,8 @@ class SendWriterAccessCommentNotification extends Job implements ShouldQueue {
 
         $this->comment->client_notified = true;
         $this->comment->save();
+
+        $redis_key = 'wa_comment_' . $this->comment->id;
+        Redis::del($redis_key);
     }
 }
