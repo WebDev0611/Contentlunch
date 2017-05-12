@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 use App\Account;
+use App\Campaign;
 use App\Services\AccountService;
+use App\Services\CampaignService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class ModelServicesProvider extends ServiceProvider
@@ -31,6 +34,10 @@ class ModelServicesProvider extends ServiceProvider
 
         $this->app->bind('contentService', function($app) {
             return new ContentService($app->make(Content::class));
+        });
+
+        $this->app->bind('campaignService', function($app) {
+            return new CampaignService($app->make(Campaign::class));
         });
     }
 }
