@@ -13,7 +13,7 @@ class ContentService
     public function __construct(Content $content)
     {
         $this->content = $content;
-        $this->selectedAccount = Account::selectedAccount() ?: $account;
+        $this->selectedAccount = Account::selectedAccount() ?: $content->account;
     }
 
     public function list()

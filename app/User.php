@@ -86,6 +86,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Content', 'content_guest');
     }
 
+    public function guestCampaigns()
+    {
+        return $this->belongsToMany('App\Campaign', 'campaign_guest');
+    }
+
     public function ideas()
     {
         return $this->hasMany('App\Idea');
