@@ -44,6 +44,11 @@ class AccountInvite extends Model
         return (boolean) $this->is_guest;
     }
 
+    public function scopeAvailable($query)
+    {
+        return $query->where('user_id', null);
+    }
+
     public function generateToken()
     {
         $this->token = str_replace('-', '', Helpers::uuid());
