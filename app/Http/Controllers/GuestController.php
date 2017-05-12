@@ -26,10 +26,14 @@ class GuestController extends Controller
      */
     public function create(Request $request, AccountInvite $guestInvite)
     {
-        $user = new User;
-        $avatarUrl = session('avatar_temp_url');
+        $data = [
+            'user' => new User,
+            'avatarUrl' => session('avatar_temp_url'),
+            'accountName' => $guestInvite->account->name,
+            'guestEmail' => $guestInvite->email,
+        ];
 
-        return view('guests.create', compact('user', 'avatarUrl', 'guestInvite'));
+        return view('guests.create', $data);
     }
 
     /**
