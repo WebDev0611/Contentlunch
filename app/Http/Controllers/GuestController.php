@@ -50,7 +50,7 @@ class GuestController extends Controller
     {
         $account = $guestInvite->account;
 
-        $user = $this->createInvitedUser($guestInvite, $request);
+        $user = $this->createInvitedGuest($guestInvite, $request);
 
         $this->createNewUserSession($user);
 
@@ -68,13 +68,12 @@ class GuestController extends Controller
         Auth::login($user);
     }
 
-    private function createInvitedUser(AccountInvite $invite, $request)
+    private function createInvitedGuest(AccountInvite $invite, $request)
     {
-        return $invite->createUser([
+        return $invite->createGuest([
             'name' => $request->name,
             'password' => $request->password,
             'email' => $request->email,
-            'is_guest' => true,
         ]);
     }
 

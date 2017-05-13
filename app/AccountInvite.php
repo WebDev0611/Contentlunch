@@ -67,6 +67,20 @@ class AccountInvite extends Model
         return $user;
     }
 
+    public function createGuest(array $userData)
+    {
+        $user = User::create([
+            'name' => $userData['name'],
+            'password' => bcrypt($userData['password']),
+            'email' => $userData['email'],
+            'is_guest' => true,
+        ]);
+
+        $this->attachUser($user);
+
+        return $user;
+    }
+
     public function attachUser(User $user)
     {
         $user->accounts()->attach($this->account_id);
