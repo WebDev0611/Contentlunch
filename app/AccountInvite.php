@@ -73,4 +73,20 @@ class AccountInvite extends Model
         $this->user()->associate($user);
         $this->save();
     }
+
+    public static function findByGuestToken($token)
+    {
+        return self::where('is_guest', true)
+            ->where('token', $token)
+            ->available()
+            ->first();
+    }
+
+    public static function findByUserToken($token)
+    {
+        return self::where('is_guest', false)
+            ->where('token', $token)
+            ->available()
+            ->first();
+    }
 }
