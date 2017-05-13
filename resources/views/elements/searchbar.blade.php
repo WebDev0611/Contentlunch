@@ -51,6 +51,7 @@
                 <i class="fa fa-question-circle"></i>
             </a>
 
+            @can('guests-denied')
             @if(App\Account::selectedAccount()->activePaidSubscriptions()->isEmpty())
                 <a href="{{route('subscription')}}">
                     <button class="btn btn-warning">
@@ -58,6 +59,7 @@
                     </button>
                 </a>
             @endif
+            @endcan
 
             @can('guests-denied')
             <button class="search-bar-button-primary btn-create">
