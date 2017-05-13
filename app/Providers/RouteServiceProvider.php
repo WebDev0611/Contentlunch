@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\AccountInvite;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -28,15 +29,19 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot($router);
 
         $router->bind('guestInvite', function($value) {
-            return AccountInvite::where('is_guest', true)
-                ->where('token', $value)
-                ->first();
+            if (!$invite = AccountInvite::findByGuestToken($value)) {
+                throw new NotFoundHttpException;
+            }
+
+            return $invite;
         });
 
         $router->bind('invite', function($value) {
-            return AccountInvite::where('is_guest', false)
-                ->where('token', $value)
-                ->first();
+            if (!$invite = AccountInvite::findByUserToken($value)) {
+                throw new NotFoundHttpException;
+            }
+
+            return $invite;
         });
     }
 

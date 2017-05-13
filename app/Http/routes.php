@@ -56,7 +56,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
 
     Route::group([ 'prefix' => 'guests' ], function() {
         Route::get('signup/{guestInvite}', 'GuestController@create')->name('guests.create');
-        Route::post('create', 'GuestController@store')->name('guests.store');
+        Route::post('signup/{guestInvite}', 'GuestController@store')->name('guests.store');
     });
 
     Route::group(['middleware' => ['auth', 'subscription']], function () {

@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\AccountInvite;
 use App\Http\Requests;
+use App\Http\Requests\Onboarding\InvitedAccountRequest;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class GuestController extends Controller
 {
@@ -31,6 +34,7 @@ class GuestController extends Controller
             'avatarUrl' => session('avatar_temp_url'),
             'accountName' => $guestInvite->account->name,
             'guestEmail' => $guestInvite->email,
+            'guestInvite' => $guestInvite,
         ];
 
         return view('guests.create', $data);
@@ -42,9 +46,36 @@ class GuestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(InvitedAccountRequest $request, AccountInvite $guestInvite)
     {
-        //
+        $account = $guestInvite->account;
+
+        $user = $this->createInvitedUser($guestInvite, $request);
+
+        $this->createNewUserSession($user);
+
+        return redirect('/')->with([
+            'flash_message' => "Welcome to ContentLaunch! You're now part of the {$guestInvite->account->name} account!",
+            'flash_message_type' => 'success',
+            'flash_message_important' => true
+        ]);
+    }
+
+    protected function createNewUserSession($user)
+    {
+        Auth::logout();
+        Session::flush();
+        Auth::login($user);
+    }
+
+    private function createInvitedUser(AccountInvite $invite, $request)
+    {
+        return $invite->createUser([
+            'name' => $request->name,
+            'password' => $request->password,
+            'email' => $request->email,
+            'is_guest' => true,
+        ]);
     }
 
     /**

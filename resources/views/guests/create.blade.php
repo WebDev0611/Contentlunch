@@ -28,7 +28,7 @@
 
                     {{
                         Form::open([
-                            'route' => 'guests.store',
+                            'route' => [ 'guests.store', $guestInvite ],
                             'name' => 'signup_form',
                             'files' => 'true',
                             'id' => 'profile_settings',
