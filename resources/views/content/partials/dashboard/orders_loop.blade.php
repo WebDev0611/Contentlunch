@@ -15,7 +15,7 @@
         <ul class="dashboard-tasks-list">
             <li>STATUS: <strong>{{$order->status}}</strong></li>
             <li>WRITER: <strong>{{$order->writer ? $order->writer->name : "None"}}</strong></li>
-            <li><a href="{{route('contentOrderComments', $order->id)}}" style="color: #2481ff;">Comments</a></li>
+            <li><a href="{{route('contentOrderComments', $order->id)}}" class="comments-link">Comments</a></li>
         </ul>
     </div>
     <div class="create-panel-table-cell text-right  ">

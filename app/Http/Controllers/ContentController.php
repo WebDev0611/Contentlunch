@@ -18,6 +18,7 @@ use App\Presenters\CampaignPresenter;
 use App\Presenters\ContentTypePresenter;
 use App\Tag;
 use App\User;
+use App\WriterAccessComment;
 use App\WriterAccessPrice;
 use Auth;
 use Exception;
@@ -335,6 +336,20 @@ class ContentController extends Controller
         $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd', 'promotion', 'userIsOnPaidAccount');
 
         return view('content.create', $data);
+    }
+
+    public function orderComments ($id)
+    {
+        if(!Auth::user()->writerAccessComments->contains('order_id', $id)) {
+            return redirect()->route('content_orders.index')->with([
+                'flash_message' => 'You don\'t have sufficient permissions to do this.',
+                'flash_message_type' => 'danger',
+            ]);
+        }
+
+        $comments = WriterAccessComment::whereOrderId($id)->orderBy('timestamp', 'asc')->get();
+
+        return view('content.order_comments', ['comments' => $comments]);
     }
 
     protected function getWriterLevels($assetTypeId, $wordcount)

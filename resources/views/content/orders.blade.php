@@ -17,6 +17,10 @@
             margin: 20px 40px;
             display: none;
         }
+
+        a.comments-link {
+            color: #2481ff !important;
+        }
     </style>
 @stop
 
