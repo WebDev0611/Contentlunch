@@ -31,11 +31,11 @@
                                 placeholder="One or more e-mail addresses separated by commas">
                         </div>
 
-                        <div class="alert alert-danger alert-forms">
+                        <div class="alert alert-danger alert-forms" v-show='showError'>
                             Please enter one or more email addresses.
                         </div>
 
-                        <button class="send-invitation button button-extend text-uppercase">
+                        <button class="send-invitation button button-extend text-uppercase" @click='inviteGuests'>
                             Send Invitation
                         </button>
                     </div>
@@ -54,6 +54,7 @@
         data() {
             return {
                 emails: '',
+                showError: false,
             };
         },
 
@@ -75,6 +76,10 @@
             },
 
             inviteGuests() {
+                if (!this.emails || this.emails === '') {
+                    this.showError = true;
+                    return this.showError;
+                }
                 let url = this.inviteUrl();
 
                 console.log('inviting user!');
