@@ -46,4 +46,37 @@ class ContentService
             'connections' => $this->selectedAccount->connections()->active()->get(),
         ];
     }
+
+    public function inviteGuests(Content $Content, $emails)
+    {
+        $emails->each(function($email) {
+            $this->sendGuestInvite($email);
+        });
+    }
+
+    protected function sendGuestInvite($email)
+    {
+        $data = [
+            'link' => $this->createInviteUrl($email),
+            'user' => Auth::user(),
+            'account' => $this->selectedAccount->proxyToParent(),
+        ];
+
+        Mail::send('emails.invite.email_invite', $data, function($message) use ($email) {
+            $message->from("invites@contentlaunch.com", "Content Launch")
+                ->to($email)
+                ->subject('You\'ve been invited to Content Launch');
+        });
+    }
+
+    private function createInviteUrl($email)
+    {
+        $accountInvite = AccountInvite::create([
+            'email' => $email,
+            'account_id' => $this->selectedAccount->id,
+            'is_guest' => true,
+        ]);
+
+        return route('guests.create', $accountInvite);
+    }
 }
