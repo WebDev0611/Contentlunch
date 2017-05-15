@@ -1,6 +1,6 @@
 <template>
     <div class="modal fade"
-        id="modal-invite-team-member"
+        id="modal-invite-guests"
         tabindex="-1"
         role="dialog"
         aria-labelledby="Invite Client">
@@ -26,6 +26,7 @@
                         <div class="input-form-group">
                             <label for="#">Invite</label>
                             <input type="text"
+                                v-model='emails'
                                 class="email-invites input"
                                 placeholder="One or more e-mail addresses separated by commas">
                         </div>
@@ -47,5 +48,37 @@
 <script>
     export default {
         name: 'guests-invite-modal',
+
+        props: [ 'contentId', 'type' ],
+
+        data() {
+            return {
+                emails: '',
+            };
+        },
+
+        methods: {
+            inviteUrl() {
+                switch(this.type) {
+                    case 'content': return `/api/contents/${this.contentId}/guests`;
+                    case 'campaign': //
+                    case 'idea': //
+
+                    default:
+                        console.error(
+                            "Error! Invalid type for the <guests-invite-modal> component. " +
+                            "Use either 'campaign', 'content' or 'idea'."
+                        );
+
+                        return null;
+                }
+            },
+
+            inviteGuests() {
+                let url = this.inviteUrl();
+
+                console.log('inviting user!');
+            }
+        },
     }
 </script>

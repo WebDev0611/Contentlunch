@@ -30,6 +30,11 @@
         </div>
     </div>
 
+    <guests-invite-modal
+        content-id="{{ $content->id }}"
+        type='content'>
+    </guests-invite-modal>
+
     @include('content.partials.editor.launch_modals')
 @stop
 

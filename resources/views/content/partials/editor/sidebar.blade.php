@@ -36,11 +36,11 @@
 <div class="sidepanel-head">
     <ul class="panel-tabs withborder withtopborder">
         <li class="active">
-            <a href="#sidetab-collaborators" data-toggle="tab">Collaborators</a>
+            <a href="#sidetab-collaborators" class='add-person-tab' data-toggle="tab">Collaborators</a>
         </li>
 
         <li>
-            <a href="#sidetab-guests" data-toggle="tab">Guests</a>
+            <a href="#sidetab-guests" class='add-person-tab' data-toggle="tab">Guests</a>
         </li>
 
         @if ($isCollaborator)
