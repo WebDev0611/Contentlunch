@@ -20,14 +20,14 @@
                 @include('content.partials.editor.main_form')
 
                 {{ Form::close() }}
-            </div> <!-- End Main Pane -->
+            </div>
 
             <!-- Side Pane -->
             <aside class="panel-sidebar" id='editor-panel-sidebar'>
                 @include('content.partials.editor.sidebar')
-            </aside> <!-- End Side Pane -->
+            </aside>
 
-        </div>  <!-- End Panel Container -->
+        </div>
     </div>
 
     @include('content.partials.editor.launch_modals')
