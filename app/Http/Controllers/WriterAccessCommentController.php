@@ -6,6 +6,7 @@ use App\Jobs\SendWriterAccessCommentNotification;
 use App\User;
 use App\WriterAccessComment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 
 class WriterAccessCommentController extends Controller {
@@ -63,6 +64,15 @@ class WriterAccessCommentController extends Controller {
                 $this->dispatch((new SendWriterAccessCommentNotification($comment))->delay(10));
             }
         });
+    }
+
+    public function getOrderComments ($orderId)
+    {
+        if(!Auth::user()->writerAccessComments->contains('order_id', $orderId)) {
+            return response()->json([ 'data' => 'You don\'t have sufficient permissions to do this.' ], 403);
+        }
+
+        return WriterAccessComment::whereOrderId($orderId)->orderBy('timestamp', 'asc')->get();
     }
 
     private function getAllUsersOrders ()

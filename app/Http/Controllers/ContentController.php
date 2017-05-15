@@ -347,9 +347,7 @@ class ContentController extends Controller
             ]);
         }
 
-        $comments = WriterAccessComment::whereOrderId($id)->orderBy('timestamp', 'asc')->get();
-
-        return view('content.order_comments', ['comments' => $comments]);
+        return view('content.order_comments', ['orderId' => $id]);
     }
 
     protected function getWriterLevels($assetTypeId, $wordcount)

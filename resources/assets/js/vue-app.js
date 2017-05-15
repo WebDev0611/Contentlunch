@@ -9,6 +9,8 @@ Vue.component('collaborate-module', require('./components/collaborate/Collaborat
 Vue.component('messaging-system', require('./components/messaging-system/MessagingSystem.vue'));
 Vue.component('open-message-bar-button', require('./components/messaging-system/OpenMessageBarButton.vue'));
 Vue.component('content-orders-counter', require('./components/orders/ContentOrdersCounter.vue'));
+Vue.component('content-order-comment', require('./components/orders/ContentOrderComment.vue'));
+Vue.component('content-order-comment-list', require('./components/orders/ContentOrderCommentList.vue'));
 
 new Vue({
     el: '#root',
