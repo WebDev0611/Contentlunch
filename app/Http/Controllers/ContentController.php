@@ -510,6 +510,7 @@ class ContentController extends Controller
             'campaignDropdown' => CampaignPresenter::dropdown(),
             'connections' => Connection::dropdown(),
             'contentTypeDropdown' => ContentTypePresenter::dropdown(),
+            'isPublished' => false,
         ];
 
         return view('content.editor', $data);
@@ -537,6 +538,7 @@ class ContentController extends Controller
             'images' => $content->attachments()->where('type', 'image')->get(),
             'isCollaborator' => $content->hasCollaborator(Auth::user()),
             'tasks' => $content->tasks()->with('user')->get(),
+            'isPublished' => isset($content) && $content->status  && $content->status->slug == 'published',
         ];
 
         return view('content.editor', $data);
