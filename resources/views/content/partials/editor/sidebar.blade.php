@@ -38,11 +38,11 @@
         <li class="active">
             <a href="#sidetab-collaborators" data-toggle="tab">Collaborators</a>
         </li>
-        {{--
+
         <li>
             <a href="#sidetab-guests" data-toggle="tab">Guests</a>
         </li>
-        --}}
+
         @if ($isCollaborator)
         <li class="tablink">
             <a href="#" id='add-person-to-content' class="btn button-text"><i class="icon-add-person"></i></a>
@@ -60,6 +60,6 @@
 
     <!-- Tab 2: Guests -->
     <div class="sidepanel nopadding tab-pane" id="sidetab-guests">
-        @include('content.partials.editor.sidebar_guests')
+        <guests-list content-id='{{ $content->id }}' type='content'></guests-list>
     </div>
 </div>
