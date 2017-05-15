@@ -4,10 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Content;
 use App\Http\Requests;
+use App\Services\ContentService;
 use Illuminate\Http\Request;
 
 class ContentGuestsController extends Controller
 {
+    private $content;
+
+    public function __construct(ContentService $content)
+    {
+        $this->content = $content;
+    }
+
     /**
      * Display a listing of the resource.
      *
