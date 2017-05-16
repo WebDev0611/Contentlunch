@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 class AccountInvite extends Model
 {
-    public $fillable = [ 'email', 'account_id' ];
+    public $fillable = [ 'email', 'account_id', 'is_guest' ];
 
     public static function boot()
     {
