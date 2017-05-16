@@ -75,6 +75,11 @@ class WriterAccessCommentController extends Controller {
         return WriterAccessComment::whereOrderId($orderId)->orderBy('timestamp', 'asc')->get();
     }
 
+    public function postOrderComment (Request $request, $orderId)
+    {
+        //TODO
+    }
+
     private function getAllUsersOrders ()
     {
         $allOrders = collect(json_decode(utf8_encode($this->WAController->allOrders()->getContent()))->orders);
