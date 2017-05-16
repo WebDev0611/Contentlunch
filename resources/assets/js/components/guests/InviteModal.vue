@@ -82,7 +82,7 @@
                 }
                 let url = this.inviteUrl();
 
-                console.log('inviting user!');
+                $.post(url, { emails: this.emails }).then(response => console.log(response));
             }
         },
     }

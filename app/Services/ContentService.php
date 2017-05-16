@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Account;
+use App\AccountInvite;
 use App\Content;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ContentService
 {
@@ -62,7 +64,7 @@ class ContentService
             'account' => $this->selectedAccount->proxyToParent(),
         ];
 
-        Mail::send('emails.invite.email_invite', $data, function($message) use ($email) {
+        Mail::send('emails.invite.guest', $data, function($message) use ($email) {
             $message->from("invites@contentlaunch.com", "Content Launch")
                 ->to($email)
                 ->subject('You\'ve been invited to Content Launch');

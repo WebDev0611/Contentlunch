@@ -50,7 +50,11 @@ class ContentGuestsController extends Controller
      */
     public function store(Request $request, Content $content)
     {
+        $emails = collect($request->input('emails'));
 
+        $this->content->inviteGuests($content, $emails);
+
+        return response()->json([ 'data' => 'ok' ]);
     }
 
     /**
