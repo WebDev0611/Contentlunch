@@ -81,6 +81,11 @@ class AccountInvite extends Model
             'is_guest' => true,
         ]);
 
+        switch ($this->inviteable_type) {
+            case Content::class: $user->guestContents()->attach($this->inviteable); break;
+            default:
+        }
+
         $this->attachUser($user);
 
         return $user;
