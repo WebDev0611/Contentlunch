@@ -338,9 +338,9 @@ class ContentController extends Controller
         return view('content.create', $data);
     }
 
-    public function orderComments ($id)
+    public function orderComments (Request $request, $id)
     {
-        if(!Auth::user()->writerAccessComments->contains('order_id', $id)) {
+        if(!collect($this->getOrders($request))->contains('id', $id)) {
             return redirect()->route('content_orders.index')->with([
                 'flash_message' => 'You don\'t have sufficient permissions to do this.',
                 'flash_message_type' => 'danger',
@@ -356,6 +356,13 @@ class ContentController extends Controller
             ->where('asset_type_id', $assetTypeId)
             ->where('wordcount', $wordcount)
             ->get();
+    }
+
+    public function getOrders (Request $request)
+    {
+        $writerAccess = new WriterAccessController($request);
+
+        return json_decode(utf8_encode($writerAccess->orders()->getContent()))->orders;
     }
 
     public function getOrdersCount(Request $request) {

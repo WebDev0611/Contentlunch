@@ -1,15 +1,15 @@
 <template>
     <div>
-
-        <loading v-if='!loaded'></loading>
-
         <div class="alert alert-info" role="alert" v-if="!comments.length && loaded">
             No comments for this order yet.
         </div>
 
         <h3 v-if="comments.length" class="order-title">{{comments[0].order_title}}</h3>
 
+        <loading v-if='!loaded'></loading>
+
         <content-order-comment
+                v-if="loaded"
                 v-for="comment in comments"
                 :key="comment.id"
                 :comment="comment"
@@ -57,10 +57,7 @@
         },
 
         created() {
-            this.fetchComments().then(response => {
-                this.comments = response;
-                this.loaded = true;
-            });
+            this.refresh()
         },
 
         methods: {
@@ -75,16 +72,29 @@
                     this.sending = true;
                     $.post('/api/content/orders/' + this.orderId + '/comments', {comment: this.message})
                         .done(response => {
+                            this.refresh()
                             swal("Done!", response.message, "success")
-                            this.info = ''
-                            this.message = ''
                         })
                         .fail((xhr, status, error) => {
-                            this.info = xhr.responseJSON.message
+                            if (xhr.responseJSON.error) {
+                                this.info = xhr.responseJSON.error
+                            } else if (xhr.responseJSON.fault) {
+                                this.info = xhr.responseJSON.fault
+                            }
                         }).always(() => {
                         this.sending = false;
                     });
                 }
+            },
+
+            refresh() {
+                this.info = ''
+                this.message = ''
+                this.loaded = false;
+                this.fetchComments().then(response => {
+                    this.comments = response;
+                    this.loaded = true;
+                });
             }
         }
     }

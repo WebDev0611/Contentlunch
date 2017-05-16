@@ -33,16 +33,7 @@ class WriterAccessCommentController extends Controller {
 
         foreach ($orders as $order) {
             $this->order = $order;
-
-            // Get comments for order and save them to DB (if they're not already saved)
-            $apiResponse = $this->WAController->comments($order['order']->id)->getContent();
-            $orderComments = collect(json_decode(utf8_encode($apiResponse))->orders)->pluck('comments')->flatten();
-
-            $orderComments->each(function ($comment) {
-                if (!$this->commentExists($comment)) {
-                    $this->createNewComment($comment);
-                }
-            });
+            $this->fetchNewComments($order['order']->id);
         }
 
         $this->sendNotificationEmails();
@@ -56,7 +47,7 @@ class WriterAccessCommentController extends Controller {
         $comments->each(function ($comment) {
             $redis_key = 'wa_comment_' . $comment->id;
 
-            if(!Redis::exists($redis_key)){
+            if (!Redis::exists($redis_key)) {
                 // Prevent jobs from piling up onto job queue
                 Redis::set($redis_key, 'true');
                 Redis::persist($redis_key);
@@ -68,8 +59,8 @@ class WriterAccessCommentController extends Controller {
 
     public function getOrderComments ($orderId)
     {
-        if(!Auth::user()->writerAccessComments->contains('order_id', $orderId)) {
-            return response()->json([ 'data' => 'You don\'t have sufficient permissions to do this.' ], 403);
+        if (!collect($this->getAllUsersOrders())->pluck('order')->contains('id', $orderId)) {
+            return response()->json(['data' => 'You don\'t have sufficient permissions to do this.'], 403);
         }
 
         return WriterAccessComment::whereOrderId($orderId)->orderBy('timestamp', 'asc')->get();
@@ -77,7 +68,29 @@ class WriterAccessCommentController extends Controller {
 
     public function postOrderComment (Request $request, $orderId)
     {
-        //TODO
+        $response = $this->WAController->postComment($request, $orderId);
+        $content = json_decode($response->getContent());
+
+        if (isset($content->error) || isset($content->fault)) {
+            return response()->json($content, 500);
+        }
+
+        $this->fetchNewComments($orderId);
+
+        return response()->json(['message' => 'Comment successfully posted.']);
+    }
+
+    private function fetchNewComments ($orderId)
+    {
+        // Get comments for order and save them to DB (if they're not already saved)
+        $apiResponse = $this->WAController->comments($orderId)->getContent();
+        $orderComments = collect(json_decode(utf8_encode($apiResponse))->orders)->pluck('comments')->flatten();
+
+        $orderComments->each(function ($comment) {
+            if (!$this->commentExists($comment)) {
+                $this->createNewComment($comment);
+            }
+        });
     }
 
     private function getAllUsersOrders ()
