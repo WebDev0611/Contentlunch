@@ -35,9 +35,11 @@
                             Please enter one or more email addresses.
                         </div>
 
-                        <button class="send-invitation button button-extend text-uppercase" @click='inviteGuests'>
+                        <button class="send-invitation button button-extend text-uppercase" @click='inviteGuests' v-show='!loading'>
                             Send Invitation
                         </button>
+
+                        <loading v-show='loading'></loading>
                     </div>
                 </div>
             </div>
@@ -46,8 +48,12 @@
 </template>
 
 <script>
+    import Loading from '../Loading.vue';
+
     export default {
         name: 'guests-invite-modal',
+
+        components: { Loading },
 
         props: [ 'contentId', 'type' ],
 
@@ -55,6 +61,7 @@
             return {
                 emails: '',
                 showError: false,
+                loading: false,
             };
         },
 
@@ -80,9 +87,30 @@
                     this.showError = true;
                     return this.showError;
                 }
-                let url = this.inviteUrl();
 
-                $.post(url, { emails: this.emails }).then(response => console.log(response));
+                this.loading = true;
+
+                $.post(this.inviteUrl(), { emails: this.emails }).then(response => {
+                    this.closeModal();
+                    this.showModalFeedback();
+                });
+            },
+
+            closeModal() {
+                $('#modal-invite-guests').modal('hide');
+                this.loading = false;
+            },
+
+            showModalFeedback() {
+                let plural = this.emails.split(',').length > 1;
+                let message = plural
+                    ? 'The invites were sent. The users will be able to join this piece of content as a guest'
+                    : 'The invite was sent. The user will be able to join this piece fo content as a guest';
+
+                let header = plural ? 'Guests invited!' : 'Guest invited!';
+
+                swal(header, message, 'success');
+                this.emails = '';
             }
         },
     }
