@@ -71,9 +71,9 @@ class ContentService
         });
     }
 
-    private function createInviteUrl($email)
+    private function createInviteUrl(Content $content, $email)
     {
-        $accountInvite = AccountInvite::create([
+        $accountInvite = $content->invites()->create([
             'email' => $email,
             'account_id' => $this->selectedAccount->id,
             'is_guest' => true,
