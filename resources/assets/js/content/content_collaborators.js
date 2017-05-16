@@ -79,7 +79,6 @@
         },
 
         openInviteGuestsModal() {
-            debugger;
             $('#modal-invite-guests').modal('show');
         }
     });
