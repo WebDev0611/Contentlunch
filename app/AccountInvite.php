@@ -29,6 +29,11 @@ class AccountInvite extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function inviteable()
+    {
+        return $this->morphTo();
+    }
+
     public function getRouteKeyName()
     {
         return 'token';

@@ -49,17 +49,17 @@ class ContentService
         ];
     }
 
-    public function inviteGuests(Content $Content, $emails)
+    public function inviteGuests(Content $content, $emails)
     {
-        $emails->each(function($email) {
-            $this->sendGuestInvite($email);
+        $emails->each(function($email) use ($content) {
+            $this->sendGuestInvite($content, $email);
         });
     }
 
-    protected function sendGuestInvite($email)
+    protected function sendGuestInvite(Content $content, $email)
     {
         $data = [
-            'link' => $this->createInviteUrl($email),
+            'link' => $this->createInviteUrl($content, $email),
             'user' => Auth::user(),
             'account' => $this->selectedAccount->proxyToParent(),
         ];
