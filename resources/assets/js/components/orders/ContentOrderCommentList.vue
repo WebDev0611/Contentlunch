@@ -70,7 +70,7 @@
                     this.info = 'Comment can\'t be empty'
                 } else {
                     this.sending = true;
-                    $.post('/api/content/orders/' + this.orderId + '/comments', {comment: this.message})
+                    $.post('/api/content/orders/' + this.orderId + '/comments?fresh=true', {comment: this.message})
                         .done(response => {
                             this.refresh()
                             swal("Done!", response.message, "success")
