@@ -4,7 +4,7 @@
                 <i class="icon-itemlist"></i>
                 <span id="content-orders">{{ contentOrdersToReviewCount }}</span>
             </span>
-        <span>Content Orders to Review</span>
+        <span>Content Orders <br> to Review</span>
     </div>
 </template>
 

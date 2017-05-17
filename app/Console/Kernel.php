@@ -31,5 +31,8 @@ class Kernel extends ConsoleKernel
 
         // Check for new WriterAccess comments
         $schedule->call('App\Http\Controllers\WriterAccessCommentController@fetch')->everyThirtyMinutes();
+
+        // Check for Pending Content Orders
+        $schedule->call('App\Tasks\OrderReports@sendPendingOrdersNotification')->everyThirtyMinutes();
     }
 }
