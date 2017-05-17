@@ -28,7 +28,7 @@ class WriterAccessCommentController extends Controller {
 
     public function fetch ()
     {
-        $orders = $this->getAllUsersOrders();
+        $orders = $this->getUsersOrders();
 
         foreach ($orders as $order) {
             $this->order = $order;
@@ -42,7 +42,7 @@ class WriterAccessCommentController extends Controller {
 
     public function sendNotificationEmails ()
     {
-        $comments = WriterAccessComment::userNotNotified()->get();
+        $comments = WriterAccessComment::userNotNotified()->notFromClient()->get();
         $comments->each(function ($comment) {
             $this->dispatch((new SendWriterAccessCommentNotification($comment))->delay(10));
         });
@@ -50,7 +50,7 @@ class WriterAccessCommentController extends Controller {
 
     public function getOrderComments ($orderId)
     {
-        if (!collect($this->getAllUsersOrders())->pluck('order')->contains('id', $orderId)) {
+        if (!collect($this->getUsersOrders())->pluck('order')->contains('id', $orderId)) {
             return response()->json(['data' => 'You don\'t have sufficient permissions to do this.'], 403);
         }
 
@@ -66,6 +66,7 @@ class WriterAccessCommentController extends Controller {
             return response()->json($content, 500);
         }
 
+        $this->order = $this->getUsersOrders([$orderId])[0];
         $this->fetchNewComments($orderId);
 
         return response()->json(['message' => 'Comment successfully posted.']);
@@ -84,9 +85,18 @@ class WriterAccessCommentController extends Controller {
         });
     }
 
-    private function getAllUsersOrders ()
+    private function getUsersOrders ($ids = [])
     {
-        $allOrders = collect(json_decode(utf8_encode($this->WAController->allOrders()->getContent()))->orders);
+        if (!empty($ids)) {
+            $tmpOrders = [];
+            foreach ($ids as $id) {
+                $tmpOrders[] = json_decode(utf8_encode($this->WAController->getOrders($id)->getContent()))->orders;
+            }
+            $allOrders = collect($tmpOrders)->flatten();
+        }
+        else {
+            $allOrders = collect(json_decode(utf8_encode($this->WAController->getOrders()->getContent()))->orders);
+        }
 
         // Get only orders that belong to one of our users' projects
         $orders = [];
@@ -137,5 +147,4 @@ class WriterAccessCommentController extends Controller {
         return !$this->wa_comments->where('order_id', (string)$this->order['order']->id)
             ->where('timestamp', $comment->timestamp)->isEmpty();
     }
-
 }

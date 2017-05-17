@@ -6,6 +6,7 @@ use App\WriterAccessPrice;
 use DateTime;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Stripe\Stripe;
 use Stripe\ApiRequestor;
@@ -179,8 +180,12 @@ class WriterAccessController extends Controller
         }
     }
 
-    public function allOrders ()
+    public function getOrders ($id = null)
     {
+        if($id !== null) {
+            return $this->get('/orders/' . $id);
+        }
+
         return $this->get('/orders');
     }
 
@@ -197,7 +202,8 @@ class WriterAccessController extends Controller
     public function postComment(Request $request, $id)
     {
         $comment = $request->input("comment");
-        return $this->post('/orders/'.$id."?action=revise", ["notes"=>$comment]);
+        $cacheKey = $id . '-' . base64_encode($comment);
+        return $this->post('/orders/'.$id.'/comments', ["notes"=>$comment], $cacheKey);
     }
 
     public function orderApprove(Request $request, $id)

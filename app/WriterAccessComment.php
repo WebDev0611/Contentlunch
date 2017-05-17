@@ -21,4 +21,9 @@ class WriterAccessComment extends Model {
     {
         return $query->where('client_notified', false);
     }
+
+    public function scopeNotFromClient($query)
+    {
+        return $query->where('from_client', false);
+    }
 }
