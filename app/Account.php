@@ -391,4 +391,19 @@ class Account extends Model
     {
         return $this->influencers()->detach($influencer);
     }
+
+    public function guestList()
+    {
+        return User::select('users.*')
+            ->join('content_guest', 'content_guest.user_id', '=', 'users.id')
+            ->join('contents', 'contents.id', '=', 'content_guest.content_id')
+            ->where('contents.account_id', $this->id)
+            ->groupBy('users.id')
+            ->get()
+            ->map(function($user) {
+                $user->profile_image = $user->present()->profile_image;
+
+                return $user;
+            });
+    }
 }

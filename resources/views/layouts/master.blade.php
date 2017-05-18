@@ -157,6 +157,7 @@
     @include('layouts.partials.app-cues')
 @endif
 
+<pre>{{ url('/') }}</pre>
 
 </body>
 </html>
