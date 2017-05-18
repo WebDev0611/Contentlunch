@@ -11,6 +11,8 @@ Vue.component('open-message-bar-button', require('./components/messaging-system/
 Vue.component('content-orders-counter', require('./components/orders/ContentOrdersCounter.vue'));
 Vue.component('guests-invite-modal', require('./components/guests/InviteModal.vue'));
 Vue.component('guests-list', require('./components/guests/GuestList.vue'));
+Vue.component('content-order-comment', require('./components/orders/ContentOrderComment.vue'));
+Vue.component('content-order-comment-list', require('./components/orders/ContentOrderCommentList.vue'));
 
 new Vue({
     el: '#root',
