@@ -9,13 +9,8 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="onboarding-container">
-                    @if($errors->count()>0)
-                        <div class="alert alert-danger">
-                            <p>{{ $errors->first('name') }}</p>
-                            <p>{{ $errors->first('email') }}</p>
-                            <p>{{ $errors->first('password') }}</p>
-                        </div>
-                    @endif
+                    @include('partials.error')
+
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
                             <h3 class="onboarding-heading text-center">Welcome to ContentLaunch</h3>

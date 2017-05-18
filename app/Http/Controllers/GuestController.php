@@ -29,6 +29,10 @@ class GuestController extends Controller
      */
     public function create(Request $request, AccountInvite $guestInvite)
     {
+        if (Auth::check()) {
+            return $this->handleExistingUser($guestInvite, Auth::user());
+        }
+
         $data = [
             'user' => new User,
             'avatarUrl' => session('avatar_temp_url'),
@@ -38,6 +42,19 @@ class GuestController extends Controller
         ];
 
         return view('guests.create', $data);
+    }
+
+    public function handleExistingUser(AccountInvite $guestInvite, $user)
+    {
+        $guestInvite->attachUser($user);
+
+        $this->createNewUserSession($user);
+
+        return redirect('/')->with([
+            'flash_message' => "Welcome to ContentLaunch! You're now part of the {$guestInvite->account->name} account!",
+            'flash_message_type' => 'success',
+            'flash_message_important' => true
+        ]);
     }
 
     /**
