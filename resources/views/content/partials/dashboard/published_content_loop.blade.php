@@ -23,6 +23,7 @@
             UPDATED: <strong>{{ strtoupper($content->present()->updatedAtFormat) }}</strong>
         </span>
     </div>
+    @can('guests-denied')
     <div class="create-panel-table-cell text-right cell-size-10">
         <div class="create-dropdown">
             <button type="button" class="button button-action" data-toggle="dropdown">
@@ -35,4 +36,5 @@
             </ul>
         </div>
     </div>
+    @endcan
 </div>

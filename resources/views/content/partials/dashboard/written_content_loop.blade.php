@@ -2,6 +2,7 @@
     <div class="create-panel-table-cell cell-size-5">
         @include('content.partials.avatar')
     </div>
+
     <div class="create-panel-table-cell cell-size-65">
         <h5 class="dashboard-tasks-title">
             <a href="{{ route('editContent', $content) }}">{{ $content->present()->title }}</a>
@@ -10,6 +11,7 @@
             {{ strtoupper($content->present()->createdAt) }}
         </span>
     </div>
+
     <div class="create-panel-table-cell text-center cell-size-5"
         data-toggle="tooltip"
         data-placement="top"
@@ -18,11 +20,14 @@
 
         <i class="tooltip-icon large {{ $content->present()->contentIcon }}"></i>
     </div>
+
     <div class="create-panel-table-cell text-right cell-size-15">
         <span class="dashboard-performing-text small @if($content->isDueDateCritical()) critical @endif">
             DUE: <strong>{{ strtoupper($content->present()->dueDateFormat) }}</strong>
         </span>
     </div>
+
+    @can('guests-denied')
     <div class="create-panel-table-cell text-right cell-size-10">
         <div class="create-dropdown">
             <button type="button" class="button button-action" data-toggle="dropdown">
@@ -35,4 +40,5 @@
             </ul>
         </div>
     </div>
+    @endcan
 </div>

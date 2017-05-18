@@ -18,10 +18,15 @@ class AccountPolicy extends BasePolicy
             return true;
         }
 
-        $currentUsers = $account->users()->count();
+        $currentUsers = $this->usersCount($account);
         $maxUsersCount = $account->limit('users_per_account');
 
         return $currentUsers < $maxUsersCount;
+    }
+
+    protected function usersCount($account)
+    {
+        return $account->users()->where('is_guest', false)->count();
     }
 
     public function invite(User $user, Account $account, array $emails)
@@ -30,7 +35,7 @@ class AccountPolicy extends BasePolicy
             return true;
         }
 
-        $currentUsersCount = $account->users()->count();
+        $currentUsersCount = $this->usersCount($account);
         $emailsCount = collect($emails)->count();
 
         $maxUsersCount = $account->limit('users_per_account');

@@ -17,6 +17,7 @@
         </span>
     </div>
 
+    @can('guests-denied')
     <div class="create-panel-table-cell text-center cell-size-5"
         data-toggle="tooltip"
         data-placement="top"
@@ -25,4 +26,5 @@
 
         <i class="tooltip-icon large {{ $content->present()->contentIcon }}"></i>
     </div>
+    @endcan
 </div>

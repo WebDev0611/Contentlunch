@@ -29,4 +29,11 @@ class InvitedAccountRequest extends Request
             'password' => 'required|min:8|confirmed'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'email.unique' => 'It appears this email is already taken. <a href="/login">Log in</a> and try again.',
+        ];
+    }
 }

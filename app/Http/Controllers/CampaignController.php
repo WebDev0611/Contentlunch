@@ -10,6 +10,7 @@ use App\Content;
 use App\Helpers;
 use App\Limit;
 use App\Presenters\CampaignTypePresenter;
+use App\Services\CampaignService;
 use App\Traits\Redirectable;
 use Auth;
 use Illuminate\Http\Request;
@@ -18,15 +19,18 @@ use Validator;
 
 class CampaignController extends Controller
 {
+    private $campaignService;
+
     use Redirectable;
+
+    public function __construct(CampaignService $campaignService)
+    {
+        $this->campaignService = $campaignService;
+    }
 
     public function index(Request $request)
     {
-        $campaignCollection = Account::selectedAccount()
-            ->campaigns()
-            ->orderBy('created_at', 'desc')
-            ->with('user')
-            ->get();
+        $campaignCollection = $this->campaignService->campaignList();
 
         return response()->json([
             'data' => $this->addDates($campaignCollection)

@@ -1,3 +1,4 @@
+@can('guests-denied')
 @if(App\Account::selectedAccount()->activeSubscriptions()->first()->subscriptionType->slug == 'trial')
 
 <div class="alert alert-info alert-forms freemium-notification-2 alert-dismissable">
@@ -41,3 +42,4 @@
     </div>
 
 @endif
+@endcan

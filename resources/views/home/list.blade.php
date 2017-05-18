@@ -7,11 +7,12 @@
     <div class="workspace">
         <div class="container-fluid">
 
+            @can('guests-denied')
             <div class="row">
-
                 <div class="col-md-2">
                     <incomplete-task-counter></incomplete-task-counter>
                 </div>
+
                 <div class="col-md-2">
                     <div class="dashboard-notification-box">
                     <span class="dashboard-notification-box-count">
@@ -53,11 +54,14 @@
                         -->
                 </div>
             </div>
+            @endcan
+
             <div class="row">
                 <div class="col-md-6" id="tab-container">
                     <div class="panel">
                         <div class="panel-header">
                             <ul class="panel-tabs spacing">
+                                @can('guests-denied')
                                 <li class="active my-tasks">
                                     <a href="#my-tasks" role='tab' data-toggle='tab'>My tasks</a>
                                 </li>
@@ -67,6 +71,12 @@
                                 <li class="campaigns">
                                     <a href="#campaigns" role='tab' data-toggle='tab'>Campaigns</a>
                                 </li>
+                                @else
+                                <li class="campaigns active">
+                                    <a href="#campaigns" role='tab' data-toggle='tab'>Campaigns</a>
+                                </li>
+                                @endcan
+
                                 <!-- out for now
                                 <li>
                                     <a href="javascript:;">Recently Viewed</a>
@@ -75,6 +85,7 @@
                             </ul>
                         </div>
                         <div class="tab-content">
+                            @can('guests-denied')
                             <div class="tab-pane active" role='tabpanel' id='my-tasks'>
                                 <task-list user-only='true'></task-list>
                             </div>
@@ -84,6 +95,12 @@
                             <div class="tab-pane" role='tabpanel' id='campaigns'>
                                 <campaign-list></campaign-list>
                             </div>
+                            @else
+                            <div class="tab-pane active" role='tabpanel' id='campaigns'>
+                                <campaign-list></campaign-list>
+                            </div>
+                            @endcan
+
                         </div>
                     </div>
                 </div>
@@ -99,6 +116,7 @@
                     </div>
                 </div>
                 -->
+                @can('guests-denied')
                 <div class="col-md-3" id="misc-container">
                     <div class="panel" id="recent-ideas">
                         <div class="panel-header">
@@ -111,7 +129,6 @@
                             </h4>
                         </div>
                     </div>
-
                     <div class="panel" id="team-members-container">
                         <div class="panel-header">
                             <h4 class="panel-sidebar-title-secondary">
@@ -123,8 +140,8 @@
                             </h4>
                         </div>
                     </div>
-
                 </div>
+                @endcan
 
             </div>
         </div>

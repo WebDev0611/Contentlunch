@@ -1,3 +1,4 @@
+@can('guests-denied')
 @php
 $restriction = isset($restriction) ? $restriction : 'try out all features of the app, but some functionality is limited';
 @endphp
@@ -33,3 +34,4 @@ $restriction = isset($restriction) ? $restriction : 'try out all features of the
     </div>
 
 @endif
+@endcan

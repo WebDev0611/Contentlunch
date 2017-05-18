@@ -29,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password'
+        'name', 'email', 'password', 'is_guest'
     ];
 
     /**
@@ -56,14 +56,14 @@ class User extends Authenticatable
         return $this->account->connections();
     }
 
-    public function calendars()
-    {
-        return $this->hasMany('App\Calendar');
-    }
-
     public function assignedTasks()
     {
         return $this->belongsToMany('App\Task');
+    }
+
+    public function calendars()
+    {
+        return $this->hasMany('App\Calendar');
     }
 
     public function campaigns()
@@ -79,6 +79,16 @@ class User extends Authenticatable
     public function country()
     {
         return $this->belongsTo('App\Country', 'country_code', 'country_code');
+    }
+
+    public function guestContents()
+    {
+        return $this->belongsToMany('App\Content', 'content_guest');
+    }
+
+    public function guestCampaigns()
+    {
+        return $this->belongsToMany('App\Campaign', 'campaign_guest');
     }
 
     public function ideas()
@@ -189,6 +199,11 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->is_admin == 1;
+    }
+
+    public function isGuest()
+    {
+        return $this->is_guest == 1;
     }
 
     public function conversationWith(User $user)

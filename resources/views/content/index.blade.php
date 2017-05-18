@@ -24,7 +24,9 @@
                 @forelse ($published as $content)
                     @include('content.partials.dashboard.published_content_loop')
                 @empty
-                    <div class="alert alert-info alert-forms" role="alert"><p>No Published Content at this moment.</p></div>
+                    <div class="alert alert-info alert-forms" role="alert">
+                        <p>No Published Content at this moment.</p>
+                    </div>
                 @endforelse
 
                 <div class="create-panel-table hide">
@@ -43,7 +45,9 @@
                 @forelse ($readyPublished as $content)
                     @include('content.partials.dashboard.ready_published_content_loop')
                 @empty
-                    <div class="alert alert-info alert-forms" role="alert"><p>No Content that is ready for publishing at this moment.</p></div>
+                    <div class="alert alert-info alert-forms" role="alert">
+                        <p>No Content that is ready for publishing at this moment.</p>
+                    </div>
                 @endforelse
 
                 <div class="create-panel-table hide">
@@ -79,6 +83,7 @@
     </div>
 </div>
 
+@can('guests-denied')
 <div id="launch" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -152,6 +157,7 @@
         </div>
     </div>
 </div>
+@endcan
 @stop
 
 @section('scripts')

@@ -14,15 +14,16 @@
         @include('settings.partials.sidebar')
         <div class="panel-main left-separator">
 
+            @can('guests-denied')
             <div class="panel-header">
-                <!-- navigation -->
                 @include('settings.partials.navigation')
             </div>
+            @endcan
 
             @include('elements.freemium-alert')
 
             <div class="panel-container">
-            @if ($errors->any())
+                @if ($errors->any())
                     <div class="alert alert-danger" id="formError">
                         <p><strong>Oops! We had some errors:</strong>
                             <ul>
