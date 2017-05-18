@@ -149,6 +149,11 @@ class Content extends Model
         return $this->morphMany('App\AccountInvite', 'inviteable');
     }
 
+    public function messages()
+    {
+        return $this->hasMany('App\ContentMessage');
+    }
+
     public function persona()
     {
         return $this->belongsTo('App\Persona');
