@@ -157,6 +157,5 @@
     @include('layouts.partials.app-cues')
 @endif
 
-
 </body>
 </html>

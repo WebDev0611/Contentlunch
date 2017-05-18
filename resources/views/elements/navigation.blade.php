@@ -3,6 +3,7 @@
         <img src="/images/logo.svg" alt="Content Launch">
     </a>
     <ul class="navigation-menu">
+        @can('guests-denied')
         <li>
             <a href="{{route('subscription')}}" class="navigation-menu-profile navigation-menu-link {{ Request::segment(1) != 'subscription' ?: 'active' }}">
 
@@ -19,6 +20,9 @@
                 @endif
             </a>
         </li>
+        @endcan
+
+        @can('guests-denied')
         @if (\Auth::user()->belongsToAgencyAccount())
         <li>
             <a href="/agencies" class="navigation-menu-link {{ Request::segment(1) != 'agencies' ?: 'active' }}">
@@ -28,6 +32,8 @@
             </a>
         </li>
         @endif
+        @endcan
+
         <li>
             <a href="/home" class="navigation-menu-link {{ Request::segment(1) != 'home' ?: 'active' }}">
                 <i class="navigation-menu-icon icon-navigation-chart">
@@ -35,6 +41,8 @@
                 </i>
             </a>
         </li>
+
+        @can('guests-denied')
         <li>
             <a href="/plan" class="navigation-menu-link {{ Request::segment(1) != 'plan' ?: 'active' }}">
                 <i class="navigation-menu-icon icon-navigation-content">
@@ -42,6 +50,8 @@
                 </i>
             </a>
         </li>
+        @endcan
+
         <li>
             <a href="/content" class="navigation-menu-link {{ Request::segment(1) != 'content' ?: 'active' }}">
                 <i class="navigation-menu-icon icon-navigation-dashboard">
@@ -49,6 +59,8 @@
                 </i>
             </a>
         </li>
+
+        @can('guests-denied')
         <li>
             <a href="/calendar" class="navigation-menu-link {{ Request::segment(1) != 'calendar' ?: 'active' }}">
                 <i class="navigation-menu-icon icon-navigation-calendar">
@@ -56,7 +68,9 @@
                 </i>
             </a>
         </li>
+        @endcan
 
+        @can('guests-denied')
         <li>
             <a href="/collaborate" class="navigation-menu-link {{ Request::segment(1) == 'collaborate' ? 'active': ''  }}">
                 <i class="navigation-menu-icon icon-navigation-users">
@@ -64,6 +78,7 @@
                 </i>
             </a>
         </li>
+        @endcan
 
     </ul>
     <a href="/settings" class="navigation-settings {{ Request::segment(2) == 'settings' ? 'active': ''  }}">

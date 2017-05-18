@@ -14,3 +14,15 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'phone' => $faker->phoneNumber,
     ];
 });
+
+$factory->defineAs(App\User::class, 'admin', function ($faker) use ($factory) {
+    $user = $factory->raw(App\User::class);
+
+    return array_merge($user, ['is_admin' => true]);
+});
+
+$factory->defineAs(App\User::class, 'guest', function ($faker) use ($factory) {
+    $user = $factory->raw(App\User::class);
+
+    return array_merge($user, ['is_guest' => true, 'is_admin' => false]);
+});

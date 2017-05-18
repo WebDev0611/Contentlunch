@@ -54,6 +54,11 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('signup', 'OnboardingController@process_signup');
     });
 
+    Route::group([ 'prefix' => 'guests' ], function() {
+        Route::get('signup/{guestInvite}', 'GuestController@create')->name('guests.create');
+        Route::post('signup/{guestInvite}', 'GuestController@store')->name('guests.store');
+    });
+
     Route::group(['middleware' => ['auth', 'subscription']], function () {
         Route::get('/', 'HomeController@index')->name('dashboard');
 
@@ -295,6 +300,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
             Route::get('content/{id}/{extension}', 'ExportController@content')->name('export.content');
         });
 
+
+
         /**
          * AJAX Helpers
          */
@@ -310,6 +317,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
 
         Route::get('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@index');
         Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@update');
+        Route::get('/api/contents/{content}/guests', 'ContentGuestsController@index');
+        Route::post('/api/contents/{content}/guests', 'ContentGuestsController@store');
         Route::get('/api/contents/{content}/tasks', 'ContentTasksController@index');
 
         Route::get('/api/contents/orders-count', 'ContentController@getOrdersCount');

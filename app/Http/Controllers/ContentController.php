@@ -16,6 +16,7 @@ use App\Limit;
 use App\Persona;
 use App\Presenters\CampaignPresenter;
 use App\Presenters\ContentTypePresenter;
+use App\Services\ContentService;
 use App\Tag;
 use App\User;
 use App\WriterAccessPrice;
@@ -31,23 +32,17 @@ use Validator;
 class ContentController extends Controller
 {
     protected $selectedAccount;
+    protected $content;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, ContentService $content)
     {
         $this->selectedAccount = Account::selectedAccount();
+        $this->content = $content;
     }
 
     public function index()
     {
-        $this->selectedAccount->cleanContentWithoutStatus();
-
-        $data = [
-            'countContent' => $this->selectedAccount->contents()->count(),
-            'published' => $this->selectedAccount->contents()->published()->recentlyUpdated()->get(),
-            'readyPublished' => $this->selectedAccount->contents()->readyToPublish()->recentlyUpdated()->get(),
-            'written' => $this->selectedAccount->contents()->written()->recentlyUpdated()->get(),
-            'connections' => $this->selectedAccount->connections()->active()->get(),
-        ];
+        $data = $this->content->list();
 
         return view('content.index', $data);
     }
@@ -518,6 +513,7 @@ class ContentController extends Controller
             'campaignDropdown' => CampaignPresenter::dropdown(),
             'connections' => Connection::dropdown(),
             'contentTypeDropdown' => ContentTypePresenter::dropdown(),
+            'isPublished' => false,
         ];
 
         return view('content.editor', $data);
@@ -545,6 +541,7 @@ class ContentController extends Controller
             'images' => $content->attachments()->where('type', 'image')->get(),
             'isCollaborator' => $content->hasCollaborator(Auth::user()),
             'tasks' => $content->tasks()->with('user')->get(),
+            'isPublished' => isset($content) && $content->status  && $content->status->slug == 'published',
         ];
 
         return view('content.editor', $data);

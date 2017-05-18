@@ -2,9 +2,14 @@
     <div>
         <loading v-if='!loaded'></loading>
         <div class="dashboard-tasks-container" v-if="!campaigns.length && loaded">
-            <div class="dashboard-tasks-cell">
+            <div class="dashboard-tasks-cell" v-if='!user.is_guest'>
                 <h5 class="dashboard-tasks-title">No campaigns: </h5>
-                <a href="/campaign">create one now</a>
+                <a href="/campaign" >create one now</a>
+            </div>
+            <div class="dashboard-tasks-cell" v-if='user.is_guest'>
+                <h5 class="dashboard-tasks-title">
+                    No campaigns found.
+                </h5>
             </div>
         </div>
         <campaign-row
@@ -18,6 +23,7 @@
 <script>
     import CampaignRow from './CampaignRow.vue';
     import Loading from '../Loading.vue';
+    import { mapState } from 'vuex';
 
     export default {
         name: 'campaign-list',
@@ -43,6 +49,12 @@
             fetchCampaigns() {
                 return $.get('/api/campaigns');
             }
-        }
+        },
+
+        computed: mapState({
+            user(state) {
+                return state.user;
+            }
+        }),
     }
 </script>
