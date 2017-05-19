@@ -43,7 +43,7 @@ class ContentController extends Controller
 
     public function index()
     {
-        $data = $this->content->list();
+        $data = $this->content->contentList();
 
         return view('content.index', $data);
     }

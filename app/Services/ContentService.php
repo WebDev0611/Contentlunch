@@ -18,7 +18,7 @@ class ContentService
         $this->selectedAccount = Account::selectedAccount() ?: $content->account;
     }
 
-    public function list()
+    public function contentList()
     {
         return Auth::user()->isGuest()
             ? $this->guestContentList()

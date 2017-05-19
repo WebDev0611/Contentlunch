@@ -16,7 +16,11 @@ var idea_view = Backbone.View.extend({
             <img src="<%= avatar %>" alt="#" class="plan-ideas-img">
         </div>
         <div class="plan-ideas-cell cell-size-35">
-            <h5 class="plan-ideas-title"><%= name %></h5>
+            <a href="/idea/<%= id %>">
+                <h5 class="plan-ideas-title">
+                    <%= name %>
+                </h5>
+            </a>
             <span class="plan-ideas-text"><%= text %></span>
         </div>
 
