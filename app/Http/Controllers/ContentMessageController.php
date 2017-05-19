@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Content;
 use App\ContentMessage;
 use App\Http\Requests;
 use App\Services\AccountService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Vinkla\Pusher\PusherManager;
 
 class ContentMessageController extends Controller
@@ -16,13 +18,10 @@ class ContentMessageController extends Controller
     protected $selectedAccount;
     protected $accountService;
 
-    public function __construct(ContentMessage $message,
-                                PusherManager $pusher,
-                                AccountService $accountService)
+    public function __construct(ContentMessage $message, PusherManager $pusher)
     {
         $this->message = $message;
         $this->pusher = $pusher;
-        $this->accountService = $a$meccountService;
     }
 
     /**
@@ -52,6 +51,24 @@ class ContentMessageController extends Controller
         $hash = sha1("pusher-content-{$content->id}");
 
         return "presence-content-$hash";
+    }
+
+    /**
+     * Authenticates the user via Pusher.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function auth(Request $request, Content $content)
+    {
+        $channel = $request->input('channel_name');
+        $socket = $request->input('socket_id');
+        $response = response()->json('Denied', 403);
+
+        if ($channel === $this->contentChannel($content)) {
+            $response = $this->pusher->presence_auth($channel, $socket, Auth::id(), Auth::user()->toArray());
+        }
+
+        return $response;
     }
 
     /**

@@ -2,12 +2,15 @@
 
 namespace App;
 
+use App\Presenters\ContentMessagePresenter;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
 
 class ContentMessage extends Model
 {
     use PresentableTrait;
+
+    protected $presenter = ContentMessagePresenter::class;
 
     public $table = 'content_messages';
     public $fillable = [
