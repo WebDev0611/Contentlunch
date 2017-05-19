@@ -6,6 +6,7 @@ use App\Account;
 use App\Campaign;
 use App\Services\AccountService;
 use App\Services\CampaignService;
+use App\Services\ContentService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
