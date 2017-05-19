@@ -296,7 +296,7 @@ class WriterAccessController extends Controller
         $this->reducePromoCreditAmount($partialOrder);
 
         // Now that they've paid, lets create the order.
-        $response = $this->post('/orders', $order->toArray(), $partialOrder->id);
+        $response = $this->post('/orders', $order->toArray());
         $responseContent = json_decode($response->getContent());
 
         if (isset($responseContent->fault) || isset($responseContent->error)) {
