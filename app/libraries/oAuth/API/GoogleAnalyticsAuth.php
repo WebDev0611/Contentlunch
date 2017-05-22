@@ -13,5 +13,6 @@ class GoogleAnalyticsAuth extends GoogleAuth {
 
         $this->client->setRedirectUri(Config::get('services.google-analytics.redirect'));
         $this->client->addScope(Google_Service_Analytics::ANALYTICS);
+        $this->client->addScope(Google_Service_Analytics::ANALYTICS_EDIT);
     }
 }

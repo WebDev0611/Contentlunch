@@ -17,12 +17,12 @@ class GoogleDriveAPI {
         $this->content = $content;
         $this->connection = $connection ? $connection : $this->content->connection;
         $this->auth = new GoogleDriveAuth();
+
+        $this->refreshConnection();
     }
 
     public function createPost ()
     {
-        $this->refreshConnection();
-
         // Call export method
         $export = new ExportController();
         $exportResponse = $export->content($this->content->id, 'docx', $this);
@@ -70,9 +70,13 @@ class GoogleDriveAPI {
     {
         $settings = json_decode($this->connection->settings);
 
-        $refreshedSettings = $this->auth->refreshToken($settings->refresh_token);
-        $this->connection->settings = json_encode($refreshedSettings);
-        $this->connection->save();
+        if (time() > ($settings->created + $settings->expires_in)) {
+            $refreshedSettings = $this->auth->refreshToken($settings->refresh_token);
+            $this->connection->settings = json_encode($refreshedSettings);
+            $this->connection->save();
+        } else {
+            $this->auth->client->setAccessToken($settings->access_token);
+        }
 
         $this->client = $this->auth->client;
     }

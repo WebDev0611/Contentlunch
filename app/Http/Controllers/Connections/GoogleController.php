@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers\Connections;
 
+use App\Account;
+use App\Connection;
+use App\Provider;
+use Connections\API\GoogleAnalyticsAPI;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use oAuth\API\GoogleAnalyticsAuth;
 use oAuth\API\GoogleDriveAuth;
 
@@ -10,6 +15,23 @@ class GoogleController extends BaseConnectionController {
 
     protected $auth;
     protected $providerSlug;
+
+    public function analytics ()
+    {
+        $conn = Account::selectedAccount()
+            ->connections()
+            ->where('provider_id', Provider::whereSlug('google-analytics')->first()->id)
+            ->active()
+            ->first();
+
+        if($conn) {
+            $api = new GoogleAnalyticsAPI(null, $conn);
+            //TODO: this is some test data, replace it
+            var_dump($api->getProfileData('51602619', '2016-01-01', '2017-05-01'));
+        } else {
+            var_dump('No connection');
+        }
+    }
 
     public function callback (Request $request, $service)
     {
