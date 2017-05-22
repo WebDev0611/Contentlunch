@@ -329,6 +329,18 @@ class Content extends Model
             ->count();
     }
 
+    public function hasGuest(User $user)
+    {
+        return (boolean) $this->guests()
+            ->where('users.id', $user->id)
+            ->count();
+    }
+
+    public function hasAccessToMessages(User $user)
+    {
+        return $this->hasCollaborator($user) || $this->hasGuest($user);
+    }
+
     public function author() {
         $author = $this->authors()->orderBy('created_at')->first();
 
