@@ -26,7 +26,8 @@ class WriterAccessPartialOrder extends Model
         'target_audience',
         'tone_of_writing',
         'bulk_file',
-        'order_count'
+        'order_count',
+        'promo_discount'
     ];
 
     public function user()
@@ -56,7 +57,7 @@ class WriterAccessPartialOrder extends Model
 
     public function getPriceAttribute()
     {
-        return $this->fee * $this->order_count;
+        return ($this->fee * $this->order_count) - $this->promo_discount;
     }
 
     public function writerAccessFormat()

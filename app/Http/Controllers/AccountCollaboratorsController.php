@@ -3,39 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Account;
-use Illuminate\Http\Request;
+use App\Services\AccountService;
 use Auth;
+use Illuminate\Http\Request;
 
 class AccountCollaboratorsController extends Controller
 {
     protected $request;
     protected $selectedAccount;
+    protected $accountService;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, AccountService $accountService)
     {
         $this->request = $request;
+        $this->accountService = $accountService;
         $this->selectedAccount = Account::selectedAccount();
     }
 
     public function index()
     {
-        $account = $this->selectedAccount->parentAccount ?: $this->selectedAccount;
-
-        $users = $account
-            ->users()
-            ->get()
-            ->map(function($user) {
-                $user->profile_image = $user->present()->profile_image;
-                $user->location = $user->present()->location;
-                $user->total_tasks = $user->assignedTasks()
-                    ->where('account_id', $this->selectedAccount->id)
-                    ->where('status', 'open')
-                    ->count();
-
-                return $user;
-            });
-
-        return response()->json($users);
+        return response()->json($this->accountService->formattedCollaborators());
     }
 
     public function delete(Request $request, $id)

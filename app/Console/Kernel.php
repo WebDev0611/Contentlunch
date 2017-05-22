@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Http\Controllers\WriterAccessCommentController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,10 +25,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
         $schedule->call('App\Tasks\DailyReport@sendEmailReport')
             ->dailyAt('10:00')
             ->timezone('America/Los_Angeles');
+
+        // Check for new WriterAccess comments
+        $schedule->call('App\Http\Controllers\WriterAccessCommentController@fetch')->everyThirtyMinutes();
+
+        // Check for Pending Content Orders
+        $schedule->call('App\Tasks\OrderReports@sendPendingOrdersNotification')->everyThirtyMinutes();
     }
 }

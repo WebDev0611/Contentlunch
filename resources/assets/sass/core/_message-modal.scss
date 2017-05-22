@@ -1,0 +1,137 @@
+.message-modal {
+    position: fixed;
+    top: 0;
+    right: -40%;
+    bottom: 0;
+    height: 100%;
+    width: 30%;
+    min-width: 320px;
+    background: $base-color-white;
+    box-shadow: -3px 0px 5px -5px $base-color-black;
+    z-index: 1050;
+    overflow-y: auto;
+
+    @include transition($base-transition);
+
+    transition: all 400ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+
+    &.in {
+      right: 0;
+    }
+}
+
+
+.messages-list-cell {
+    @extend .dashboard-ideas-cell;
+}
+
+.messages-list-team-member {
+    @extend .dashboard-ideas-container;
+    position: relative;
+    cursor: pointer;
+
+    .messages-list-cell {
+        padding: 12px;
+    }
+
+    .message-team-member-online {
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        background-color: #8fe09a;
+    }
+}
+
+
+
+.messages-list {
+    &-input {
+        width: 100%;
+        padding: 6px;
+        resize: none;
+    }
+
+    &-header {
+        border-bottom: 1px solid #ccc;
+
+        button {
+            padding: 23px 15px;
+            background-color: transparent;
+            border: none;
+            border-right: 1px solid #ccc;
+            transition: all .1s linear;
+
+            &:hover {
+                background-color: #f0f0f0;
+            }
+        }
+
+        p {
+            display: inline-block;
+            padding: 10px;
+            margin: 0;
+        }
+
+        .message-author {
+            float: left;
+            position: relative;
+            bottom: 6px;
+            margin-right: 10px;
+        }
+    }
+
+    list-style: none;
+    padding: 10px;
+
+    .message-body {
+        padding: 10px;
+        background-color: #efefef;
+        margin: 0 10px 20px 10px;
+        border-radius: 5px;
+        max-width: 85%;
+    }
+
+    li {
+        @extend .clearfix;
+    }
+
+    li.sent {
+        .message-author { float: right; }
+        .message-body { float: right; }
+    }
+
+    li.received {
+        .message-author { float: left; }
+        .message-body { float: left; }
+    }
+}
+
+.message-author {
+    border-radius: 100%;
+    display: block;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+
+    img {
+        width: 32px;
+    }
+}
+
+.conversation {
+    position: absolute;
+    right: -100%;
+    width: 100%;
+    top: 0;
+    background-color: #fff;
+    height: 100%;
+    transition: all 400ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+
+    &.in {
+        right: 0%;
+    }
+}

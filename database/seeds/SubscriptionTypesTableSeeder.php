@@ -24,6 +24,7 @@ class SubscriptionTypesTableSeeder extends BaseSeeder
         $this->createTrialPlan();
         $this->createBasicPlan();
         $this->createProPlan();
+        $this->createAgencyClientPlan();
         $this->setAdminAsPro();
 
         $this->enableForeignKeys();
@@ -111,11 +112,20 @@ class SubscriptionTypesTableSeeder extends BaseSeeder
         $proAnnually->addLimit($this->limits['users_per_account'], 10);
     }
 
+    public function createAgencyClientPlan() {
+        Type::create([
+            'name' => 'Agency Client',
+            'price' => 99.00,
+            'price_per_client' => 99.00,
+            'description' => 'Agency Client Monthly Plan.'
+        ]);
+    }
+
     protected function setAdminAsPro()
     {
         User::first()
             ->accounts()
             ->first()
-            ->subscribe(Type::findBySlug('pro-annually'));
+            ->subscribeWithoutEmail(Type::findBySlug('pro-annually'));
     }
 }

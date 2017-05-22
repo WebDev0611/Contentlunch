@@ -54,6 +54,11 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('signup', 'OnboardingController@process_signup');
     });
 
+    Route::group([ 'prefix' => 'guests' ], function() {
+        Route::get('signup/{guestInvite}', 'GuestController@create')->name('guests.create');
+        Route::post('signup/{guestInvite}', 'GuestController@store')->name('guests.store');
+    });
+
     Route::group(['middleware' => ['auth', 'subscription']], function () {
         Route::get('/', 'HomeController@index')->name('dashboard');
 
@@ -152,6 +157,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
 
         Route::get('/content/orders', 'ContentController@orders')->name('content_orders.index');
         Route::get('/content/orders/{id}', 'ContentController@order')->name('contentOrder');
+        Route::get('/content/orders/{id}/comments', 'ContentController@orderComments')->name('contentOrderComments');
         Route::get('/content/orders/approve/{id}', 'WriterAccessController@orderApprove')->name('orderApprove');
         Route::get('/content/orders/delete/{id}', 'ContentController@orderDelete')->name('orderDelete');
         Route::get('/content/my', 'ContentController@my');
@@ -295,6 +301,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
             Route::get('content/{id}/{extension}', 'ExportController@content')->name('export.content');
         });
 
+
+
         /**
          * AJAX Helpers
          */
@@ -310,6 +318,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
 
         Route::get('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@index');
         Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@update');
+        Route::get('/api/contents/{content}/guests', 'ContentGuestsController@index');
+        Route::post('/api/contents/{content}/guests', 'ContentGuestsController@store');
         Route::get('/api/contents/{content}/tasks', 'ContentTasksController@index');
 
         Route::get('/api/contents/orders-count', 'ContentController@getOrdersCount');
@@ -320,10 +330,20 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
 
         Route::get('/api/account/members', 'AccountCollaboratorsController@index');
         Route::delete('/api/account/members/{id}', 'AccountCollaboratorsController@delete');
+        Route::post('/api/account/disable', 'AccountController@disable');
         Route::get('/api/tasks', 'TaskController@index');
         Route::post('/api/trends/share/{connection}', 'ContentController@trendShare')->name('trendShare');
         Route::post('/search', 'SearchController@index')->name('search.index');
         Route::get('/api/content-types', 'ContentController@getContentTypes');
+
+        Route::post('/pusher/auth', 'MessageController@auth')->name('pusher.auth');
+        Route::get('/api/messages', 'MessageController@index')->name('messages.index');
+        Route::post('/api/messages/{user}', 'MessageController@store')->name('messages.store');
+        Route::post('/api/messages/{user}/mark_as_read', 'MessageController@markAsRead')->name('messages.mark_as_read');
+
+        Route::get('/api/writeraccess-fetch-comments', 'WriterAccessCommentController@fetch');
+        Route::get('/api/content/orders/{id}/comments', 'WriterAccessCommentController@getOrderComments');
+        Route::post('/api/content/orders/{id}/comments', 'WriterAccessCommentController@postOrderComment');
     });
 });
 

@@ -6,6 +6,7 @@ use App\Account;
 use App\AccountType;
 use App\Content;
 use App\Limit;
+use App\Message;
 use App\Presenters\UserPresenter;
 use Auth;
 use Carbon\Carbon;
@@ -28,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password'
+        'name', 'email', 'password', 'is_guest'
     ];
 
     /**
@@ -55,14 +56,14 @@ class User extends Authenticatable
         return $this->account->connections();
     }
 
-    public function calendars()
-    {
-        return $this->hasMany('App\Calendar');
-    }
-
     public function assignedTasks()
     {
         return $this->belongsToMany('App\Task');
+    }
+
+    public function calendars()
+    {
+        return $this->hasMany('App\Calendar');
     }
 
     public function campaigns()
@@ -78,6 +79,16 @@ class User extends Authenticatable
     public function country()
     {
         return $this->belongsTo('App\Country', 'country_code', 'country_code');
+    }
+
+    public function guestContents()
+    {
+        return $this->belongsToMany('App\Content', 'content_guest');
+    }
+
+    public function guestCampaigns()
+    {
+        return $this->belongsToMany('App\Campaign', 'campaign_guest');
     }
 
     public function ideas()
@@ -108,6 +119,11 @@ class User extends Authenticatable
     public function tasks()
     {
        return $this->hasMany('App\Task');
+    }
+
+    public function writerAccessComments()
+    {
+        return $this->hasMany('App\WriterAccessComment');
     }
 
     /**
@@ -183,5 +199,36 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->is_admin == 1;
+    }
+
+    public function isGuest()
+    {
+        return $this->is_guest == 1;
+    }
+
+    public function conversationWith(User $user)
+    {
+        return Message::orWhere(function($q) use ($user) {
+                $q
+                    ->where('recipient_id', $user->id)
+                    ->where('sender_id', $this->id);
+            })
+            ->orWhere(function($q) use ($user) {
+                $q
+                    ->where('recipient_id', $this->id)
+                    ->where('sender_id', $user->id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function($message) {
+                $message->senderData = $message->present()->sender;
+
+                return $message;
+            });
+    }
+
+    public function contentOrdersPromotion ()
+    {
+        return Promo::whereEmail($this->email)->active()->first();
     }
 }

@@ -8,6 +8,7 @@
     <meta name=description content="Content Launch">
     <meta name=viewport content="initial-scale=1.0,width=device-width">
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" >
+    <link rel="stylesheet" href="/css/vendor.css">
     <link rel=stylesheet href=/css/main.css>
 
     <link rel="stylesheet" href="/css/plugins/dropzone/basic.min.css">
@@ -36,6 +37,8 @@
 
     @include('partials.taskmodal')
 
+    <messaging-system></messaging-system>
+
 </div>
 
 <script src="/js/vendor.js"></script>
@@ -48,10 +51,24 @@
         }
     });
 </script>
+
+@include('layouts.partials.js_user')
+
 <script src="/js/app.js"></script>
+<script src="/js/vue-app.js"></script>
 <!-- Page Specific JS -->
 @yield('scripts')
 
+<script src="//js.pusher.com/4.0/pusher.min.js"></script>
+<script>
+    var pusher = new Pusher("{{ getenv('PUSHER_APP_KEY') }}", {
+        auth: {
+            headers: {
+                'X-CSRF-TOKEN': $('input[name=_token]').val(),
+            },
+        },
+    });
+</script>
 <script type='text/javascript'>
 
     $(document).ready(function() {
@@ -133,8 +150,6 @@
     </script>
 @endif
 
-@include('layouts.partials.js_user')
-
 @if (getenv('APP_ENV', 'production') === 'production')
     @include('layouts.partials.intercom')
     @include('layouts.partials.fullstory')
@@ -142,6 +157,5 @@
     @include('layouts.partials.app-cues')
 @endif
 
-<script src="/js/vue-app.js"></script>
 </body>
 </html>

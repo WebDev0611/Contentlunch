@@ -41,13 +41,13 @@ class ContentPresenter extends BasePresenter
     {
         return $this->entity
             ->tags()
-            ->lists('tag')
+            ->pluck('tag')
             ->toJson();
     }
 
     public function tags()
     {
-        return $this->entity->tags()->lists('tag')->implode(', ');
+        return $this->entity->tags()->pluck('tag')->implode(', ');
     }
 
     public function contentStatusIcon()

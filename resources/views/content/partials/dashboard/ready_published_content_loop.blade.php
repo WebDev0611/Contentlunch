@@ -23,6 +23,7 @@
             DUE: <strong>{{ strtoupper($content->present()->dueDateFormat) }}</strong>
         </span>
     </div>
+    @can('guests-denied')
     <div class="create-panel-table-cell cell-size-15 text-right">
         <i  class="create-panel-spaceship icon-spaceship-circle open-launch-menu"
             data-content="{{ $content->id }}"
@@ -30,4 +31,5 @@
             data-target="#launch">
         </i>
     </div>
+    @endcan
 </div>

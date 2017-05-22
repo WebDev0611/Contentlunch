@@ -25,4 +25,9 @@ class WriterAccessPartialOrderPresenter extends BasePresenter
     {
         return "$" . number_format((float)$this->entity->fee, 2, '.', ',');
     }
+
+    public function promoDiscount()
+    {
+        return "$" . number_format((float)$this->entity->promo_discount, 2, '.', ',');
+    }
 }

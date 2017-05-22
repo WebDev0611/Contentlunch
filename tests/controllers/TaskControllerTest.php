@@ -27,6 +27,36 @@ class TaskControllerTest extends TestCase
         $this->user->accounts()->attach($this->account);
     }
 
+    public function testTaskCanBeClosedByCreator()
+    {
+        $this->be($this->user);
+        $task = factory(Task::class)->create([
+            'account_id' => $this->account->id,
+            'user_id' => $this->user->id,
+            'status' => 'open',
+        ]);
+
+        $response = $this->action('POST', 'TaskController@close', $task);
+
+        $this->assertEquals('closed', Task::find($task->id)->status);
+        $this->assertEquals($response->getStatusCode(), 200);
+    }
+
+    public function testTaskCanBeOpenedByCreator()
+    {
+        $this->be($this->user);
+        $task = factory(Task::class)->create([
+            'account_id' => $this->account->id,
+            'user_id' => $this->user->id,
+            'status' => 'closed',
+        ]);
+
+        $response = $this->action('POST', 'TaskController@open', $task);
+
+        $this->assertEquals('open', Task::find($task->id)->status);
+        $this->assertEquals($response->getStatusCode(), 200);
+    }
+
     public function testTasksStatusCanBeAlteredByCreator()
     {
         $this->be($this->user);

@@ -82,7 +82,7 @@ class Connection extends Model {
             ->withoutGA()
             ->orderBy('name', 'asc')
             ->distinct()
-            ->lists('name', 'id')
+            ->pluck('name', 'id')
             ->toArray();
 
         return $connectionsdd;

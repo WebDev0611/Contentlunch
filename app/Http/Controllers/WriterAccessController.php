@@ -6,6 +6,7 @@ use App\WriterAccessPrice;
 use DateTime;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Stripe\Stripe;
 use Stripe\ApiRequestor;
@@ -179,6 +180,15 @@ class WriterAccessController extends Controller
         }
     }
 
+    public function getOrders ($id = null)
+    {
+        if($id !== null) {
+            return $this->get('/orders/' . $id);
+        }
+
+        return $this->get('/orders');
+    }
+
     /**
      * Return an array of comment for the order id passed.
      * @param $id
@@ -192,7 +202,8 @@ class WriterAccessController extends Controller
     public function postComment(Request $request, $id)
     {
         $comment = $request->input("comment");
-        return $this->post('/orders/'.$id."?action=revise", ["notes"=>$comment]);
+        $cacheKey = $id . '-' . base64_encode($comment);
+        return $this->post('/orders/'.$id.'/comments', ["notes"=>$comment], $cacheKey);
     }
 
     public function orderApprove(Request $request, $id)
@@ -268,18 +279,24 @@ class WriterAccessController extends Controller
         $this->initStripe();
         $customer = $this->createStripeCustomer($request);
 
-        try {
-            $charge = $this->createStripeCharge($customer, $order);
-        } catch (\Exception $e) {
-            return $this->redirectToOrderReview($partialOrder, $e->getMessage(), 'danger');
+        $order->setPrice(max($order->getPrice() - $partialOrder->promo_discount, 0));
+
+        if($order->getPrice() > 0) {
+            try {
+                $charge = $this->createStripeCharge($customer, $order);
+            } catch (\Exception $e) {
+                return $this->redirectToOrderReview($partialOrder, $e->getMessage(), 'danger');
+            }
+
+            if($charge->status !== "succeeded"){
+                return $this->redirectToOrderReview($partialOrder, "We're sorry, your card was declined. Please try another card.", 'danger');
+            }
         }
 
-        if($charge->status !== "succeeded"){
-            return $this->redirectToOrderReview($partialOrder, "We're sorry, your card was declined. Please try another card.", 'danger');
-        }
+        $this->reducePromoCreditAmount($partialOrder);
 
         // Now that they've paid, lets create the order.
-        $response = $this->post('/orders', $order->toArray());
+        $response = $this->post('/orders', $order->toArray(), $partialOrder->id);
         $responseContent = json_decode($response->getContent());
 
         if (isset($responseContent->fault) || isset($responseContent->error)) {
@@ -288,7 +305,7 @@ class WriterAccessController extends Controller
                 'user_name' => Auth::user()->name,
                 'user_email' => Auth::user()->email,
                 'acc_id' => Auth::user()->selectedAccount->id,
-                'api_response' => $responseContent->fault
+                'api_response' => isset($responseContent->fault) ? $responseContent->fault : $responseContent->error
             ];
 
             Mail::send('emails.writeraccess_error', ['data' => $errorData], function($message) {
@@ -454,17 +471,21 @@ class WriterAccessController extends Controller
                 ));
             }
 
+            $price = max($price - $orderDetails->promo_discount ,0);
+
             $bulkOrderStatus =  WriterAccessBulkOrderStatus::create();
 
             $job = (new WriterAccessBulkOrder($bulkOrderStatus->id, $user, $orders, $this->apiProject, $this->apiProjectId, $stripeToken, Config::get('services.stripe.secret'), $price));
 
             $this->dispatch($job);
 
+            $this->reducePromoCreditAmount($orderDetails);
+
             return redirect()
                 ->to('/get_content_written/bulk-order/'.$bulkOrderStatus->id)
                 ->with("orders", $orders);
 
-        }catch(Exception $e){
+        } catch(Exception $e){
             return $this->redirectToOrderReview($orderDetails, $e->getMessage(), 'danger');
         }
     }
@@ -628,6 +649,17 @@ class WriterAccessController extends Controller
     public function setApiProject($apiProject)
     {
         $this->apiProject = $apiProject;
+    }
+
+    /**
+     * @param WriterAccessPartialOrder $partialOrder
+     */
+    public function reducePromoCreditAmount($partialOrder) {
+        $contentOrdersPromotion = $partialOrder->user->contentOrdersPromotion();
+        if($contentOrdersPromotion) {
+            $contentOrdersPromotion->credit -= $partialOrder->promo_discount;
+            $contentOrdersPromotion->save();
+        }
     }
 
     /**

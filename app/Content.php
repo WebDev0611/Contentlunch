@@ -86,34 +86,17 @@ class Content extends Model
         }
     }
 
-    public function contentType()
-    {
-        return $this->belongsTo('App\ContentType');
-    }
-
     public function account()
     {
         return $this->belongsTo('App\Account');
     }
 
-    public function calendar()
+    public function adjustments()
     {
-        return $this->belongsTo('App\Calendar');
-    }
-
-    public function authors()
-    {
-        return $this->belongsToMany('App\User');
-    }
-
-    public function collaborators()
-    {
-        return $this->belongsToMany('App\User');
-    }
-
-    public function tags()
-    {
-        return $this->belongsToMany('App\Tag');
+        return $this->belongsToMany('App\User', 'adjustments')
+            ->withTimestamps()
+            ->withPivot(['before', 'after','id'])
+            ->latest('pivot_updated_at');
     }
 
     public function attachments()
@@ -121,14 +104,19 @@ class Content extends Model
         return $this->hasMany('App\Attachment');
     }
 
+    public function authors()
+    {
+        return $this->belongsToMany('App\User');
+    }
+
     public function buying_stage()
     {
         return $this->belongsTo('App\BuyingStage');
     }
 
-    public function persona()
+    public function calendar()
     {
-        return $this->belongsTo('App\Persona');
+        return $this->belongsTo('App\Calendar');
     }
 
     public function campaign()
@@ -136,9 +124,34 @@ class Content extends Model
         return $this->belongsTo('App\Campaign');
     }
 
+    public function collaborators()
+    {
+        return $this->belongsToMany('App\User');
+    }
+
     public function connection()
     {
         return $this->belongsTo('App\Connection');
+    }
+
+    public function contentType()
+    {
+        return $this->belongsTo('App\ContentType');
+    }
+
+    public function guests()
+    {
+        return $this->belongsToMany('App\User', 'content_guest');
+    }
+
+    public function invites()
+    {
+        return $this->morphMany('App\AccountInvite', 'inviteable');
+    }
+
+    public function persona()
+    {
+        return $this->belongsTo('App\Persona');
     }
 
     public function related()
@@ -151,17 +164,14 @@ class Content extends Model
         return $this->belongsTo('App\ContentStatus', 'content_status_id');
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
+    }
+
     public function tasks()
     {
         return $this->belongsToMany('App\Task');
-    }
-
-    public function adjustments()
-    {
-        return $this->belongsToMany('App\User', 'adjustments')
-            ->withTimestamps()
-            ->withPivot(['before', 'after','id'])
-            ->latest('pivot_updated_at');
     }
 
     /**

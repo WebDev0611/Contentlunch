@@ -45,7 +45,7 @@ class ContentType extends Model
             ->where('provider_id', '!=', '0')
             ->orderBy('name', 'asc')
             ->distinct()
-            ->lists('name', 'id')
+            ->pluck('name', 'id')
             ->toArray();
 
         return $contentTypeOptions;

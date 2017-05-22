@@ -16,8 +16,10 @@ use App\Limit;
 use App\Persona;
 use App\Presenters\CampaignPresenter;
 use App\Presenters\ContentTypePresenter;
+use App\Services\ContentService;
 use App\Tag;
 use App\User;
+use App\WriterAccessComment;
 use App\WriterAccessPrice;
 use Auth;
 use Exception;
@@ -31,23 +33,17 @@ use Validator;
 class ContentController extends Controller
 {
     protected $selectedAccount;
+    protected $content;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, ContentService $content)
     {
         $this->selectedAccount = Account::selectedAccount();
+        $this->content = $content;
     }
 
     public function index()
     {
-        $this->selectedAccount->cleanContentWithoutStatus();
-
-        $data = [
-            'countContent' => $this->selectedAccount->contents()->count(),
-            'published' => $this->selectedAccount->contents()->published()->recentlyUpdated()->get(),
-            'readyPublished' => $this->selectedAccount->contents()->readyToPublish()->recentlyUpdated()->get(),
-            'written' => $this->selectedAccount->contents()->written()->recentlyUpdated()->get(),
-            'connections' => $this->selectedAccount->connections()->active()->get(),
-        ];
+        $data = $this->content->contentList();
 
         return view('content.index', $data);
     }
@@ -329,9 +325,24 @@ class ContentController extends Controller
         $contenttypedd = ContentTypePresenter::dropdown();
         $campaigndd = CampaignPresenter::dropdown();
 
-        $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd');
+        $promotion = Auth::user()->contentOrdersPromotion();
+        $userIsOnPaidAccount = !Account::selectedAccount()->activePaidSubscriptions()->isEmpty();
+
+        $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd', 'promotion', 'userIsOnPaidAccount');
 
         return view('content.create', $data);
+    }
+
+    public function orderComments (Request $request, $id)
+    {
+        if(!collect($this->getOrders($request))->contains('id', $id)) {
+            return redirect()->route('content_orders.index')->with([
+                'flash_message' => 'You don\'t have sufficient permissions to do this.',
+                'flash_message_type' => 'danger',
+            ]);
+        }
+
+        return view('content.order_comments', ['orderId' => $id]);
     }
 
     protected function getWriterLevels($assetTypeId, $wordcount)
@@ -340,6 +351,13 @@ class ContentController extends Controller
             ->where('asset_type_id', $assetTypeId)
             ->where('wordcount', $wordcount)
             ->get();
+    }
+
+    public function getOrders (Request $request)
+    {
+        $writerAccess = new WriterAccessController($request);
+
+        return json_decode(utf8_encode($writerAccess->orders()->getContent()))->orders;
     }
 
     public function getOrdersCount(Request $request) {
@@ -515,6 +533,7 @@ class ContentController extends Controller
             'campaignDropdown' => CampaignPresenter::dropdown(),
             'connections' => Connection::dropdown(),
             'contentTypeDropdown' => ContentTypePresenter::dropdown(),
+            'isPublished' => false,
         ];
 
         return view('content.editor', $data);
@@ -542,6 +561,7 @@ class ContentController extends Controller
             'images' => $content->attachments()->where('type', 'image')->get(),
             'isCollaborator' => $content->hasCollaborator(Auth::user()),
             'tasks' => $content->tasks()->with('user')->get(),
+            'isPublished' => isset($content) && $content->status  && $content->status->slug == 'published',
         ];
 
         return view('content.editor', $data);

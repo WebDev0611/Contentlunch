@@ -10,47 +10,50 @@
             </span>
         </div>
 
-        @if ($activeSubscription->isPaid())
+        @can("guests-denied")
+            @if ($activeSubscription->isPaid())
+                <span class="settings-profile-subscription paid">Paid Subscription</span>
 
-            <span class="settings-profile-subscription paid">Paid Subscription</span>
+                <label for="#">{{ $activeSubscription->subscriptionType->name }}</label>
+                <h3 class="settings-profile-heading">{{ $activeSubscription->present()->price }}</h3>
 
-            <label for="#">{{ $activeSubscription->subscriptionType->name }}</label>
-            <h3 class="settings-profile-heading">{{ $activeSubscription->present()->price }}</h3>
+                <label for="#">Start Date</label>
+                <h3 class="settings-profile-heading">{{ $activeSubscription->present()->startDateFormat }}</h3>
 
-            <label for="#">Start Date</label>
-            <h3 class="settings-profile-heading">{{ $activeSubscription->present()->startDateFormat }}</h3>
+                <label for="#">Expiration Date</label>
+                <h3 class="settings-profile-heading">{{ $activeSubscription->present()->expirationDateFormat  }}</h3>
 
-            <label for="#">Expiration Date</label>
-            <h3 class="settings-profile-heading">{{ $activeSubscription->present()->expirationDateFormat  }}</h3>
+                <label for="#">Users</label>
+                <h3 class="settings-profile-heading">{{ $account->present()->usersCountStatus }}</h3>
 
-            <label for="#">Users</label>
-            <h3 class="settings-profile-heading">{{ $account->present()->usersCountStatus }}</h3>
+                @if ($account->isAgencyAccount() || $account->isSubAccount())
 
-            @if ($account->isAgencyAccount() || $account->isSubAccount())
+                    <label for="#">Clients</label>
+                    <h3 class="settings-profile-heading">{{count($user->agencyAccount()->activeChildAccounts)}}</h3>
 
-                <label for="#">Clients</label>
-                <h3 class="settings-profile-heading">{{count($user->agencyAccount()->childAccounts)}}</h3>
+                @endif
+            @else
 
+                <span class="settings-profile-subscription free">FREE Version</span>
+
+                <label for="#">Paid Monthly</label>
+                <h3 class="settings-profile-heading">$0.00</h3>
+
+                <label for="#">Max Users</label>
+                <h3 class="settings-profile-heading">{{ $account->limit('users_per_account') }}</h3>
+
+                @if ($account->isAgencyAccount () || $account->isSubAccount())
+                    <label for="#">Clients</label>
+                    <h3 class="settings-profile-heading">
+                        {{ $account->present()->subAccountsStatus }}
+                    </h3>
+                @endif
             @endif
-
         @else
+            <span class="settings-profile-subscription free">Guest Account</span>
+        @endcan
 
-            <span class="settings-profile-subscription free">FREE Version</span>
-
-            <label for="#">Paid Monthly</label>
-            <h3 class="settings-profile-heading">$0.00</h3>
-
-            <label for="#">Max Users</label>
-            <h3 class="settings-profile-heading">{{ $account->limit('users_per_account') }}</h3>
-
-            @if ($account->isAgencyAccount () || $account->isSubAccount())
-                <label for="#">Clients</label>
-                <h3 class="settings-profile-heading">
-                    {{ $account->present()->subAccountsStatus }}
-                </h3>
-            @endif
-        @endif
-
+        @can('guests-denied')
         <div class="form-group">
             <label for="#">Payment Info</label>
             <span>
@@ -65,7 +68,7 @@
                 @endif
             </span>
         </div>
-
+        @endcan
 
     </div>
 </aside>

@@ -1,5 +1,14 @@
 <div class="row">
 
+    @if($promotion && !$userIsOnPaidAccount)
+        <div class="col-md-8 col-md-offset-2 promo-notification">
+            <div class="alert alert-info text-center" role="alert">
+                You are eligible for getting 3 free content orders! <br>
+                $150 extra credit will be added to your account if you upgrade to one of our Premium Plans. <br>
+                <a href="{{route('subscription')}}"><button class="btn btn-default">Upgrade now</button></a>
+            </div>
+        </div>
+    @endif
 
     {!! Form::open([ 'url' => 'get_content_written/partials' ]) !!}
     <div class="col-md-8 col-md-offset-2" id='writerAccessForm'>
@@ -105,6 +114,14 @@
                     <span>COST PER ORDER</span>
                     <h4 id="price_each">$40.70</h4>
                 </div>
+                @if($promotion && $userIsOnPaidAccount)
+                    <div class="create-tabs-priceline" style="margin-bottom: 20px">
+                        <span>PROMO CREDIT</span>
+                        <h4 id="promo_amount">+$ 0.00</h4>
+                        <button id="use_credit" class="btn btn-default" type="button">Use credit</button>
+                    </div>
+                @endif
+                <input id="promo_discount" name="promo_discount" type="hidden" value="0">
             </div>
         </div>
         <input
@@ -119,6 +136,14 @@
 <script type="text/javascript">
     var prices =  (function() { return {!! $pricesJson !!}; })();
 
+    @if($promotion && $userIsOnPaidAccount)
+        var promoCreditAmount = {{$promotion->credit}};
+    @else
+        var promoCreditAmount = 0.00;
+    @endif
+    var creditLeft = promoCreditAmount;
+
+
     $('.datetimepicker').datetimepicker({
         format: 'MM-DD-YYYY'
     });
@@ -132,6 +157,7 @@
                 'change #writer_access_asset_type': 'render',
                 'change #writer_access_word_count': 'calculateOrderPrices',
                 'change #writer_access_writer_level': 'calculateOrderPrices',
+                'click #use_credit': 'applyPromoCredit',
             },
 
             initialize: function() {
@@ -144,10 +170,40 @@
                 this.renderOrdersCount();
                 this.populateWordCountSelect();
                 this.calculateOrderPrices();
+                this.renderPromoCredit();
             },
 
             renderOrdersCount: function() {
                 this.$el.find('#writer_access_order_count').val(this.orderCount);
+            },
+
+            resetPromoCredit: function () {
+                creditLeft = promoCreditAmount;
+                this.total = this.basePrice() * this.orderCount;
+                this.$el.find('#promo_discount').val(0);
+
+                this.renderPromoCredit();
+            },
+
+            renderPromoCredit: function () {
+                this.$el.find('#promo_amount').text('+' + this.formatPrice(creditLeft));
+                if(creditLeft === 0 || this.total === 0) {
+                    this.$el.find('#use_credit').hide();
+                } else {
+                    this.$el.find('#use_credit').show();
+                }
+            },
+
+            applyPromoCredit: function () {
+                var total = this.basePrice() * this.orderCount;
+                var diff = total - creditLeft;
+
+                creditLeft = (diff < 0) ? Math.abs(diff) : 0;
+
+                this.total = Math.max(0, diff);
+                this.$el.find('#total_cost').text(this.formatPrice(this.total));
+                this.$el.find('#promo_discount').val(total - this.total);
+                this.renderPromoCredit();
             },
 
             increaseWriterAccessCount: function(e) {
@@ -221,6 +277,8 @@
 
                 this.$el.find('#price_each').text(this.formatPrice(orderPrice));
                 this.$el.find('#total_cost').text(this.formatPrice(totalPrice));
+
+                this.resetPromoCredit();
             },
 
             formatPrice: function(price) {

@@ -104,27 +104,29 @@ class WriterAccessBulkOrder extends Job implements ShouldQueue
             die();
         }
 
-        try{
-            echo "Trying to create a charge.\n";
-            $charge = Charge::create(array(
-                'amount' => $this->totalOrderPrice * 100,
-                'currency' => 'usd',
-                'description' => 'ContentLaunch Order',
-                "customer" => $customerId
-            ));
+        if($this->totalOrderPrice > 0) {
+            try{
+                echo "Trying to create a charge.\n";
+                $charge = Charge::create(array(
+                    'amount' => $this->totalOrderPrice * 100,
+                    'currency' => 'usd',
+                    'description' => 'ContentLaunch Order',
+                    "customer" => $customerId
+                ));
 
 
-            if($charge->status !== "succeeded"){
-                throw new Exception("Card not authorized");
+                if($charge->status !== "succeeded"){
+                    throw new Exception("Card not authorized");
+                }
+
+                echo $charge->id."\n";
+
+            }catch(Exception $e){
+                echo $e->getMessage();
+                echo $e->getTrace();
+                // TODO: We need to do something here to let the user know that the card was not authorized. Maybe move this back to the controller.
+                die();
             }
-
-            echo $charge->id."\n";
-
-        }catch(Exception $e){
-            echo $e->getMessage();
-            echo $e->getTrace();
-            // TODO: We need to do something here to let the user know that the card was not authorized. Maybe move this back to the controller.
-            die();
         }
 
         foreach ($this->orders as $key=>$order){

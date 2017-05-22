@@ -41,6 +41,16 @@ class Campaign extends Model
         return $this->belongsToMany('App\Attachment')->withTimestamps();
     }
 
+    public function guests()
+    {
+        return $this->belongsToMany('App\User', 'campaign_guest');
+    }
+
+    public function invites()
+    {
+        return $this->morphMany('App\AccountInvite', 'inviteable');
+    }
+
     public function collaborators()
     {
         return $this->belongsToMany('App\User')->withTimestamps();

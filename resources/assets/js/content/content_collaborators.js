@@ -62,11 +62,25 @@
         openAddPersonModal: function(event) {
             event.preventDefault();
             event.stopPropagation();
+
+            if ($('#sidetab-collaborators').is(':visible')) {
+                this.openInviteCollaboratorsModal();
+            }
+            else if ($('#sidetab-guests').is(':visible')) {
+                this.openInviteGuestsModal();
+            }
+        },
+
+        openInviteCollaboratorsModal() {
             var modal = new AddCollaboratorModalView();
             modal.render();
             $('body').prepend(modal.el);
             modal.showModal();
         },
+
+        openInviteGuestsModal() {
+            $('#modal-invite-guests').modal('show');
+        }
     });
 
     new SidebarView({ el: '#editor-panel-sidebar' });

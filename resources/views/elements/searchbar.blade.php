@@ -1,6 +1,6 @@
 <header class="search-bar">
     <div class="row">
-        @if (\Auth::user()->belongsToAgencyAccount())
+        @if (\Auth::user()->belongsToAgencyAccount() && !Auth::user()->isGuest())
             <div class="col-md-3">
                 <div class="header-clients">
                     <div class="dropdown-client">
@@ -35,17 +35,23 @@
                 </div>
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-4">
                 @include('elements.searchbar-form-field')
             </div>
         @else
-            <div class="col-md-8">
+            <div class="col-md-7">
                 @include('elements.searchbar-form-field')
             </div>
         @endif
 
-        <div class="col-md-4 text-right">
+        <div class="col-md-5 text-right">
 
+            <a href="https://contentlaunch.uservoice.com" class='support-text' title='Click here for support' target='_blank'>
+                Need help?
+                <i class="fa fa-question-circle"></i>
+            </a>
+
+            @can('guests-denied')
             @if(App\Account::selectedAccount()->activePaidSubscriptions()->isEmpty())
                 <a href="{{route('subscription')}}">
                     <button class="btn btn-warning">
@@ -53,19 +59,18 @@
                     </button>
                 </a>
             @endif
+            @endcan
 
-            <a  href="https://contentlaunch.uservoice.com/"
-                class="support-icon icon-question"
-                title="Support"
-                target="_blank">
-            </a>
+            @can('guests-denied')
             <button class="search-bar-button-primary btn-create">
                 Create
-                {{-- <span class="caret"></span> --}}
             </button>
             <button class="search-bar-button add-task-action" title="Create a Task">
                 <i class="icon-checklist"></i>
             </button>
+            @endcan
+
+            <open-message-bar-button></open-message-bar-button>
 
             <a href='/logout' class="logout-button search-bar-button">
                 Logout

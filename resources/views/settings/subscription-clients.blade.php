@@ -52,27 +52,52 @@
                                         <tbody>
                                         @foreach ($accounts as $key => $account)
                                             <tr>
+
                                                 <td>
                                                     <div class="clientlogo">
-                                                        <img src="{{ $account->present()->account_image }}" alt="{{ $account->name }}"/>
+                                                        <img src="{{ $account->present()->account_image }}"
+                                                             alt="{{ $account->name }}"/>
                                                     </div>
                                                     <p class="title">{{ $account->name }}</p>
                                                 </td>
 
-                                                <td>{{ date_format(date_create($account->parentAccount->activeSubscriptions()->first()->start_date), "n-j-y") }}</td>
+                                                @if($account->activeChildSubscriptions()->isEmpty())
+                                                    {{-- Old sub-account (before implementing client subscriptions) --}}
 
-                                                @if($account->parentAccount->activeSubscriptions()->first()->expiration_date == '0000-00-00')
-                                                    <td>-</td>
+                                                    <td>{{ date_format(date_create($account->parentAccount->activeSubscriptions()->first()->start_date), "n-j-y") }}</td>
+
+                                                    @if($account->parentAccount->activeSubscriptions()->first()->expiration_date == '0000-00-00')
+                                                        <td>-</td>
+                                                    @else
+                                                        <td>{{ date_format(date_create($account->parentAccount->activeSubscriptions()->first()->expiration_date), "n-j-y") }}</td>
+                                                    @endif
+
+                                                    @if($key < App\SubscriptionType::findBySlug('free')->limit('subaccounts_per_account'))
+                                                        <td>$0/mo</td>
+                                                    @else
+                                                        <td>
+                                                            ${{ number_format($account->parentAccount->activeSubscriptions()->first()->subscriptionType->price_per_client) }}
+                                                            /mo
+                                                        </td>
+                                                    @endif
+
                                                 @else
-                                                    <td>{{ date_format(date_create($account->parentAccount->activeSubscriptions()->first()->expiration_date), "n-j-y") }}</td>
-                                                @endif
+                                                    {{-- New sub-account --}}
 
-                                                @if($key < App\SubscriptionType::findBySlug('free')->limit('subaccounts_per_account'))
-                                                    <td>$0/mo</td>
-                                                @else
-                                                    <td>${{ number_format($account->parentAccount->activeSubscriptions()->first()->subscriptionType->price_per_client) }}/mo</td>
-                                                @endif
+                                                    <td>{{ date_format(date_create($account->activeChildSubscriptions()->first()->start_date), "n-j-y") }}</td>
 
+                                                    @if($account->activeChildSubscriptions()->first()->expiration_date == '0000-00-00')
+                                                        <td>-</td>
+                                                    @else
+                                                        <td>{{ date_format(date_create($account->activeChildSubscriptions()->first()->expiration_date), "n-j-y") }}</td>
+                                                    @endif
+
+                                                    <td>
+                                                        ${{ number_format($account->activeChildSubscriptions()->first()->subscriptionType->price_per_client) }}
+                                                        /mo
+                                                    </td>
+
+                                                @endif
 
                                             </tr>
                                         @endforeach
@@ -98,9 +123,9 @@
 @section('scripts')
     <script src="/js/subscriptions.js"></script>
     <script>
-        $(function(){
+        $(function () {
             //tasks
-            $('#add-task-button').click(function() {
+            $('#add-task-button').click(function () {
                 add_task(addTaskCallback);
             });
 
