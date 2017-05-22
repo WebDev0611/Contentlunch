@@ -87,9 +87,35 @@ class ContentMessageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Content $content)
     {
-        //
+        $message = $this->createMessage($content, $request->input('body'));
+
+        $this->triggerPusherEvent($content, $message);
+
+        return response()->json([ 'data' => $message ], 201);
+    }
+
+    protected function createMessage(Content $content, $message)
+    {
+        $message = $content->messages()->create([
+            'sender_id' => Auth::id(),
+            'body' => $message,
+        ]);
+
+        $message->senderData = $message->present()->sender;
+        $message = $message->toArray();
+
+        unset($message['sender']);
+
+        return $message;
+    }
+
+    protected function triggerPusherEvent(Content $content, array $message)
+    {
+        $channel = $this->contentChannel($content);
+
+        return $this->pusher->trigger($channel, 'new-message', [ 'message' => $message ]);
     }
 
     /**

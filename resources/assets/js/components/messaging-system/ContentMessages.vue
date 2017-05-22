@@ -63,7 +63,9 @@
             },
 
             sendMessage() {
-                console.log(this.message);
+                let url = `/api/contents/${this.contentId}/messages`;
+                $.post(url, { body: this.message });
+                this.message = '';
             },
         },
     }
