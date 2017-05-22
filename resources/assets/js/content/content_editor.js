@@ -16,7 +16,12 @@ $(function() {
         setup: function(editor) {
             contentEditor = editor;
             editor.on('keyup', updateCount);
-        }
+        },
+        plugins: ["advlist autolink lists link image charmap print preview anchor help", "searchreplace visualblocks fullscreen", "insertdatetime media table contextmenu imagetools"],
+        toolbar: "insertfile undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image | help",
+        menubar: 1,
+        statusbar: 1,
+        branding: false
     });
 
     $('#contentType').change(updateCount);
