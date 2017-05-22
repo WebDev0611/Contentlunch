@@ -39,7 +39,7 @@ class ContentMessageController extends Controller
 
     public function contentMessages(Content $content)
     {
-        return $content->messages()->get()->map(function($message) {
+        return $content->messages()->orderBy('created_at', 'desc')->get()->map(function($message) {
             $message->senderData = $message->present()->sender;
 
             return $message;
@@ -69,16 +69,6 @@ class ContentMessageController extends Controller
         }
 
         return $response;
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**

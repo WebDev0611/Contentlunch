@@ -37,22 +37,34 @@
         methods: {
             fetchMessages() {
                 return $.get(`/api/contents/${this.contentId}/messages`).then(response => {
-                    this.messages = response.data;
-
-                    return response;
-                });
+                        this.messages = response.data;
+                        return response;
+                    }).then(this.configureChannel.bind(this));
             },
 
             configureChannel(response) {
-               this.channel = pusher.subscribe(response.channel);
+                let pusher = this.configurePusher();
 
-               this.channel.bind('new-message', this.addMessageToConversation.bind(this));
+                this.channel = pusher.subscribe(response.channel);
 
-               return response;
+                this.channel.bind('new-message', this.addMessageToConversation.bind(this));
+
+                return response;
+            },
+
+            configurePusher() {
+                return new Pusher(pusherKey, {
+                    authEndpoint: `/api/contents/${this.contentId}/messages/auth`,
+                    auth: {
+                        headers: {
+                            'X-CSRF-TOKEN': $('input[name=_token]').val(),
+                        },
+                    },
+                });
             },
 
             addMessageToConversation(data) {
-                this.messages.push(data.message);
+                this.messages.unshift(data.message);
             },
 
             classes(message) {
