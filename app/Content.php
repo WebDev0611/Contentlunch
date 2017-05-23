@@ -149,6 +149,11 @@ class Content extends Model
         return $this->morphMany('App\AccountInvite', 'inviteable');
     }
 
+    public function messages()
+    {
+        return $this->hasMany('App\ContentMessage');
+    }
+
     public function persona()
     {
         return $this->belongsTo('App\Persona');
@@ -322,6 +327,18 @@ class Content extends Model
         return (boolean) $this->authors()
             ->where('users.id', $user->id)
             ->count();
+    }
+
+    public function hasGuest(User $user)
+    {
+        return (boolean) $this->guests()
+            ->where('users.id', $user->id)
+            ->count();
+    }
+
+    public function hasAccessToMessages(User $user)
+    {
+        return $this->hasCollaborator($user) || $this->hasGuest($user);
     }
 
     public function author() {

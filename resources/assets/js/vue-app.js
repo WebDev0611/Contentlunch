@@ -13,6 +13,7 @@ Vue.component('guests-invite-modal', require('./components/guests/InviteModal.vu
 Vue.component('guests-list', require('./components/guests/GuestList.vue'));
 Vue.component('content-order-comment', require('./components/orders/ContentOrderComment.vue'));
 Vue.component('content-order-comment-list', require('./components/orders/ContentOrderCommentList.vue'));
+Vue.component('content-messages', require('./components/messaging-system/ContentMessages.vue'));
 
 new Vue({
     el: '#root',

@@ -45,8 +45,6 @@
     }
 }
 
-
-
 .messages-list {
     &-input {
         width: 100%;
@@ -133,5 +131,17 @@
 
     &.in {
         right: 0%;
+    }
+}
+
+.team-communication {
+    .alert-forms {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .messages-list {
+        max-height: 500px;
+        overflow-y: scroll;
     }
 }
