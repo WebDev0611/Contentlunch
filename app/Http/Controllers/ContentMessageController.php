@@ -64,11 +64,16 @@ class ContentMessageController extends Controller
         $socket = $request->input('socket_id');
         $response = response()->json('Denied', 403);
 
-        if ($channel === $this->contentChannel($content)) {
+        if ($channel === $this->contentChannel($content) && $this->userIsAllowedAccess($content)) {
             $response = $this->pusher->presence_auth($channel, $socket, Auth::id(), Auth::user()->toArray());
         }
 
         return $response;
+    }
+
+    protected function userIsAllowedAccess($content)
+    {
+        return $content->hasCollaborator(Auth::user()) || $content->hasGuest(Auth::user());
     }
 
     /**
@@ -79,6 +84,10 @@ class ContentMessageController extends Controller
      */
     public function store(Request $request, Content $content)
     {
+        if (!$this->userIsAllowedAccess($content)) {
+            return response()->json([ 'data' => 'Forbidden' ], 403);
+        }
+
         $message = $this->createMessage($content, $request->input('body'));
 
         $this->triggerPusherEvent($content, $message);
