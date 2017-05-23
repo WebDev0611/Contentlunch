@@ -1,18 +1,26 @@
 <template>
-    <div>
-        <input type="text" v-model='message' @keyup.enter='sendMessage' class='messages-list-input'>
+    <div class='team-communication'>
+        <input type="text"
+            v-model='message'
+            v-show='hasAccess'
+            @keyup.enter='sendMessage'
+            class='messages-list-input'>
 
-        <ul class="messages-list">
+        <ul class="messages-list" v-show='hasAccess'>
             <li v-for='message in messages' :class="classes(message)">
 
                 <div class="message-author">
-                    <img :src="message.senderData.profile_image" alt="">
+                    <img :src="message.senderData.profile_image" :title="message.senderData.name">
                 </div>
                 <div class="message-body">
                     {{ message.body }}
                 </div>
             </li>
         </ul>
+
+        <div class="alert alert-info alert-forms" v-show='!hasAccess'>
+            You must be an active collaborator or invited guest to access team communication.
+        </div>
     </div>
 </template>
 
@@ -20,7 +28,7 @@
     export default {
         name: 'content-messages',
 
-        props: [ 'contentId' ],
+        props: [ 'contentId', 'hasAccess' ],
 
         data() {
             return {
@@ -36,17 +44,21 @@
 
         methods: {
             fetchMessages() {
-                return $.get(`/api/contents/${this.contentId}/messages`).then(response => {
-                        this.messages = response.data;
-                        return response;
-                    }).then(this.configureChannel.bind(this));
+                return $.get(`/api/contents/${this.contentId}/messages`)
+                    .then(this.configureMessages.bind(this))
+                    .then(this.configureChannel.bind(this));
+            },
+
+            configureMessages(response) {
+                this.messages = response.data;
+
+                return response;
             },
 
             configureChannel(response) {
                 let pusher = this.configurePusher();
 
                 this.channel = pusher.subscribe(response.channel);
-
                 this.channel.bind('new-message', this.addMessageToConversation.bind(this));
 
                 return response;

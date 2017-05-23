@@ -16,7 +16,10 @@
 
 <div class="tab-content">
     <div class="sidepanel tab-pane nopadding active" role="tabpanel" id="sidetab-communication">
-        <content-messages content-id="{{ $content->id }}"></content-messages>
+        <content-messages
+            content-id="{{ $content->id }}"
+            has-access='{!! $content->hasAccessToMessages(Auth::user()); !!}'>
+        </content-messages>
     </div>
 
     <div class="sidepanel tab-pane" role="tabpanel" id="sidetab-tasks">
