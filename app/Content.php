@@ -9,12 +9,39 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Laracasts\Presenter\PresentableTrait;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Content extends Model
 {
-    use PresentableTrait, Orderable;
+    use PresentableTrait, Orderable, LogsActivity;
 
     public $presenter = ContentPresenter::class;
+
+    protected static $logAttributes = [
+        'content_type_id',
+        'account_id',
+        'due_date',
+        'title',
+        'connection_id',
+        'body',
+        'buying_stage_id',
+        'persona_id',
+        'campaign_id',
+        'meta_title',
+        'meta_keywords',
+        'meta_description',
+        'content_status_id',
+        'archived',
+        'ready_published',
+        'published',
+        'written',
+        'user_id',
+        'email_subject',
+        'calendar_id',
+        'mailchimp_settings',
+    ];
+
+    protected static $logOnlyDirty = true;
 
     /**
      * Human readable column names.
@@ -54,36 +81,9 @@ class Content extends Model
         'content_type_id',
     ];
 
-    public static function boot()
-    {
-        parent::boot();
-        static::updating(function($content) {
-            $content->logChanges();
-        });
-    }
-
     public static function fieldName($key = null)
     {
         return Content::$fieldNames[$key];
-    }
-
-    public function logChanges($userId = null)
-    {
-        $userId = $userId ?: Auth::id();
-        $changed  = $this->getDirty();
-        $fresh = $this->fresh()->toArray();
-
-        // don't want to track file and images ( i don't think )
-        // removing the input fields i don't want to track and bloat the history
-        array_forget($changed, ['updated_at', 'files', 'images']);
-        array_forget($fresh, ['updated_at', 'files', 'images']);
-
-        if (count($changed) > 0) {
-            $this->adjustments()->attach($userId, [
-                'before' => json_encode(array_intersect_key($fresh, $changed)),
-                'after' => json_encode($changed)
-            ]);
-        }
     }
 
     public function account()
