@@ -6,6 +6,7 @@ use App\ContentPrescription;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ContentPrescriptionController extends Controller {
@@ -23,6 +24,8 @@ class ContentPrescriptionController extends Controller {
             ->whereBudget($request->input('monthly-budget'))
             ->whereCompanyType($request->input('company-type'))
             ->first();
+
+        $prescription->users()->attach(Auth::user()->id, ['url' => $request->input('url')]);
 
         return view('plan.prescription_results', ['contentPackage' => $prescription->content_package]);
     }
