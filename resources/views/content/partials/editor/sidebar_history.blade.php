@@ -1,25 +1,25 @@
 <ul class="list-unstyled">
     @if(isset($content))
-        @foreach($content->history() as $adjustment)
+        @foreach($content->history() as $activity)
         <li>
-            @if ($adjustment['type'] == 'content')
+            @if ($activity->subject_type == 'App\Content')
                 @php
-                    $user = $adjustment['adjustment'];
+                    $user = $activity->causer;
                 @endphp
 
                 <div>
-                    {{ $user->name }} - {{$user->pivot->updated_at->diffForHumans() }}
-                    <a class="btn btn-link showChanges" data-class="changes-{{$user->pivot->id}}">Show Changes</a>
+                    {{ $user->name }} - {{ $activity->updated_at->diffForHumans() }}
+                    <a class="btn btn-link showChanges" data-class="changes-{{ $activity->id }}">Show Changes</a>
                 </div>
 
-                <div class="changes-{{$user->pivot->id}} changes">
+                <div class="changes-{{ $activity->id }} changes">
                     <h4 class="text-center">Before</h4>
                     <table class="table table-striped">
                         <tr>
                             <th class="text-center">Field</th>
                             <th class="text-center">Before</th>
                         </tr>
-                        @foreach(json_decode($user->pivot->before) as $key => $before)
+                        @foreach($activity->properties['old'] as $key => $before)
                         <tr>
                             <td><strong>{{ \App\Content::fieldName($key) }}</strong></td>
                             <td>{{ \App\Content::cleanedHistoryContent($key, $before) }}</td>
@@ -27,14 +27,14 @@
                         @endforeach
                     </table>
                 </div>
-                <div class="changes-{{$user->pivot->id}} changes">
+                <div class="changes-{{ $activity->id }} changes">
                     <h4 class="text-center">After</h4>
                     <table class="table table-striped">
                         <tr>
                             <th class="text-center">Field</th>
                             <th class="text-center">After</th>
                         </tr>
-                        @foreach(json_decode($user->pivot->after) as $key => $after)
+                        @foreach($activity->properties['attributes'] as $key => $after)
                         <tr>
                             <td><strong>{{ \App\Content::fieldName($key) }}</strong></td>
                             <td>{{ \App\Content::cleanedHistoryContent($key, $after) }}</td>
@@ -44,13 +44,18 @@
                 </div>
             @endif
 
-            @if ($adjustment['type'] == 'content_task')
+            @if ($activity->subject_type == 'App\Task')
                 <div>
                     @php
-                        $task = $adjustment['adjustment']->task;
+                        $task = $activity->subject;
                     @endphp
-                    {{ $adjustment['adjustment']->statusChangeDescription() }}
-                    <a href="{{ route('tasks.edit', $task->id) }}" target="_blank" class="btn btn-link showChanges">Show Task</a>
+
+                    {{ $activity->statusDescription }}
+                    <a  href="{{ route('tasks.edit', $task->id) }}"
+                        target="_blank"
+                        class="btn btn-link showChanges">
+                        Show Task
+                    </a>
                 </div>
             @endif
         </li>

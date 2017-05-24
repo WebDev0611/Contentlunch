@@ -97,38 +97,46 @@ trait HandlesContentHistory
 
     public function history()
     {
-        return $this->contentTasksHistory()
-            ->merge($this->contentAdjustments())
+        return $this->contentHistory()
+            ->merge($this->contentTasksHistory())
             ->sort(function ($adjustmentA, $adjustmentB) {
-                return $adjustmentA['date']->lt($adjustmentB['date']) ? 1 : -1;
+                return $adjustmentA->created_at->lt($adjustmentB->created_at) ? 1 : -1;
             });
     }
 
-    protected function contentAdjustments()
+    protected function contentHistory()
     {
-        return $this->adjustments
-            ->map(function ($adjustmentUser) {
-                return [
-                    'type' => 'content',
-                    'adjustment' => $adjustmentUser,
-                    'date' => $adjustmentUser->pivot->created_at,
-                ];
-            });
+        return $this->activity()->orderBy('created_at', 'desc')->get();
     }
 
-    protected function contentTasksHistory()
+    public function contentTasksHistory()
     {
         return $this->tasks
-            ->map(function ($task) {
-                return $task->statusAdjustments();
-            })
+            ->map(function ($task) { return $task->activity; })
             ->flatten(1)
-            ->map(function ($taskAdjustment) {
-                return [
-                    'type' => 'content_task',
-                    'adjustment' => $taskAdjustment,
-                    'date' => $taskAdjustment->created_at,
-                ];
+            ->filter(function($activity) {
+                $properties = collect($activity->properties['attributes']);
+
+                return $activity->description === 'updated' && $properties->has('status');
+            })
+            ->map(function($activity) {
+                $task = $activity->subject;
+
+                switch ($activity->properties['attributes']['status']) {
+                    case 'open': $statusVerb = 'opened'; break;
+                    default: $statusVerb = $activity->properties['attributes']['status'];
+                }
+
+                if ($activity->causer_id && $activity->causer_type == 'App\User') {
+                    $userName = $activity->causer->name;
+                    $statusDescription = "$userName $statusVerb the task '$task->name'.";
+                } else {
+                    $statusDescription = "The task '$task->name' was $statusVerb.";
+                }
+
+                $activity->statusDescription = $statusDescription;
+
+                return $activity;
             });
     }
 }
