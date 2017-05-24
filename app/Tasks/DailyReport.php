@@ -4,6 +4,7 @@ namespace App\Tasks;
 
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 /**
@@ -27,6 +28,28 @@ class DailyReport
             $message->from("no-reply@contentlaunch.com", "Content Launch")
                 ->to('jon@contentlaunch.com')
                 ->subject('Content Launch Daily User Report ' . $now->format('m/d/Y'));
+        });
+    }
+
+    /**
+     * Sends email report about used prescriptions in the last 24h
+     */
+    public function sendPrescriptionsEmailReport ()
+    {
+        $prescriptions = DB::table('content_prescription_user')->whereBetween('created_at', [
+            Carbon::now()->subDay(),
+            Carbon::now(),
+        ])->get();
+
+        $now = Carbon::now('America/Los_Angeles');
+        $yesterday = Carbon::now('America/Los_Angeles')->subDay();
+
+        $data = compact('prescriptions', 'now', 'yesterday');
+
+        Mail::send('emails.prescription_report', $data, function($message) use ($now) {
+            $message->from("no-reply@contentlaunch.com", "Content Launch")
+                ->to('jon@contentlaunch.com')
+                ->subject('Content Launch Daily Prescriptions Report ' . $now->format('m/d/Y'));
         });
     }
 }
