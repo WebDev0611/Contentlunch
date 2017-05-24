@@ -66,10 +66,12 @@ class GoogleAnalyticsAPI {
         }
     }
 
-    public function getProfileData ($analyticsViewId, $startDate, $endDate)
+    public function getProfileData ($analyticsViewId, $startDate = null, $endDate = null, $path = null)
     {
         $metrics = [
             'ga:sessions',
+            'ga:entrances',
+            'ga:exits',
             'ga:pageviews',
             'ga:users',
             'ga:avgSessionDuration',
@@ -77,17 +79,24 @@ class GoogleAnalyticsAPI {
             'ga:organicSearches',
             //'ga:hits',
             'ga:pageLoadTime',
-            'ga:socialInteractions'
+            'ga:socialInteractions',
         ];
 
-        $res = $this->analyticsService->data_ga->get(
+        // If dates are empty, get last 30 days
+        if(!$startDate || !$endDate) {
+            $startDate =  date('Y-m-d', strtotime('-30 days'));
+            $endDate = date('Y-m-d');
+        }
+
+        $opt = !$path ? [] : ['filters' => 'ga:pagePath==' . $path];
+
+        return $this->analyticsService->data_ga->get(
             'ga:' . $analyticsViewId,
             $startDate,
             $endDate,
-            implode(',', $metrics)
+            implode(',', $metrics),
+            $opt
         );
-
-        return $res['totalsForAllResults'];
     }
 
     private function refreshConnection ()

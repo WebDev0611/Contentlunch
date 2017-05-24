@@ -24,13 +24,20 @@ class GoogleController extends BaseConnectionController {
             ->active()
             ->first();
 
-        if($conn) {
-            $api = new GoogleAnalyticsAPI(null, $conn);
-            //TODO: this is some test data, replace it
-            var_dump($api->getProfileData('51602619', '2016-01-01', '2017-05-01'));
-        } else {
-            var_dump('No connection');
+        if (!$conn) {
+            return response('No connection');
         }
+
+        $api = new GoogleAnalyticsAPI(null, $conn);
+
+        //TODO: this is some test data, replace it
+        $data = $api->getProfileData('51602619');
+
+        echo 'Displaying data for profile: ' . $data['modelData']['profileInfo']['profileName'] . '<br>';
+        echo 'Date range: ' . $data['modelData']['query']['start-date'] . ' - ' . $data['modelData']['query']['end-date'] .  '<br>';
+        var_dump($data['totalsForAllResults']);
+
+        return 'ok';
     }
 
     public function callback (Request $request, $service)
@@ -69,7 +76,8 @@ class GoogleController extends BaseConnectionController {
         return $this->auth->client->getAccessToken();
     }
 
-    protected function loadServiceProperties($service) {
+    protected function loadServiceProperties ($service)
+    {
         switch ($service) {
             case 'drive':
                 $this->providerSlug = 'google-drive';

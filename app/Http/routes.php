@@ -348,6 +348,9 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::get('/api/writeraccess-fetch-comments', 'WriterAccessCommentController@fetch');
         Route::get('/api/content/orders/{id}/comments', 'WriterAccessCommentController@getOrderComments');
         Route::post('/api/content/orders/{id}/comments', 'WriterAccessCommentController@postOrderComment');
+
+        // Analytics test route
+        Route::get('/analytics', 'Connections\GoogleController@analytics');
     });
 });
 
