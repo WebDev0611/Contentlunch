@@ -18,27 +18,14 @@ class Task extends Model
     protected $presenter = TaskPresenter::class;
 
     protected static $logAttributes = [
-        'content_type_id',
-        'account_id',
+        'name',
+        'url',
+        'explanation',
+        'start_date',
         'due_date',
-        'title',
-        'connection_id',
-        'body',
-        'buying_stage_id',
-        'persona_id',
-        'campaign_id',
-        'meta_title',
-        'meta_keywords',
-        'meta_description',
-        'content_status_id',
-        'archived',
-        'ready_published',
-        'published',
-        'written',
         'user_id',
-        'email_subject',
-        'calendar_id',
-        'mailchimp_settings',
+        'account_id',
+        'status',
     ];
 
     protected static $logOnlyDirty = true;
