@@ -88,6 +88,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::get('/plan/editor', 'PlanController@editor');
         Route::get('/plan/trends', 'PlanController@trends');
         Route::get('/plan/prescription', 'PlanController@prescription');
+        Route::post('/plan/prescription', 'ContentPrescriptionController@showPrescription')->name('showPrescription');
 
         Route::resource('/trending', 'TrendsController@trending');
         Route::resource('/topics', 'TopicsController@index');

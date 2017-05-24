@@ -27,13 +27,15 @@
                         Please complete the form and we’ll suggest a content program
                         <i class="popover-icon icon-question"
                            data-toggle="popover"
-                           title="Content Prescription"
+                           title="How Content Prescription Works?"
                            data-content="The Content Launch team reviews your goals, budget and the type of company you are, and based on this, provides the best content recommendations to improve your marketing goals"
                            data-placement="bottom"
                         ></i>
                     </h5>
 
-                    <form action="#" method="post">
+                    <form action="{{route('showPrescription')}}" method="post">
+
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
@@ -63,7 +65,7 @@
                                         <div class="input-form-group">
                                             <label for="#">WHAT ARE YOUR GOALS?</label>
                                             <div class="select">
-                                                <select name="goals" id="goalsSelect">
+                                                <select name="goal" id="goalsSelect" required>
                                                     <option value="" disabled selected>Select Goal</option>
                                                     <option value="traffic-from-search-engines">Traffic from Search
                                                         Engines
@@ -81,7 +83,7 @@
                                         <div class="input-form-group">
                                             <label for="#">WHAT IS YOUR MONTHLY BUDGET</label>
                                             <div class="select">
-                                                <select name="monthly-budget">
+                                                <select name="monthly-budget" required>
                                                     <option value="" disabled selected>Select amount range</option>
                                                     <option value="500">$500</option>
                                                     <option value="1000">$1.000</option>
@@ -101,8 +103,8 @@
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="input-form-group">
-                                    <label for="#">COMPANY NAME</label>
-                                    <input type="text" class="input" placeholder="Enter company name">
+                                    <label for="#">URL</label>
+                                    <input type="text" class="input" placeholder="Paste URL" name="url">
                                 </div>
 
                                 <div class="input-form-group text-right">

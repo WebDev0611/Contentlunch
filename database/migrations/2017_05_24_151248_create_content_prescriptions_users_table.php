@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserContentPrescriptionsTable extends Migration
+class CreateContentPrescriptionsUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class CreateUserContentPrescriptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_content_prescriptions', function (Blueprint $table) {
+        Schema::create('content_prescriptions_users', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('account_id')->unsigned();
+            $table->string('url');
             $table->timestamps();
 
             $table->foreign('user_id')
@@ -32,6 +32,6 @@ class CreateUserContentPrescriptionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('user_content_prescriptions');
+        Schema::drop('content_prescriptions_users');
     }
 }
