@@ -20,6 +20,7 @@
                     </li>
                 </ul>
             </div>
+
             <div class="row prescription">
 
                 <div class="col-md-8 col-md-offset-2">
@@ -33,7 +34,21 @@
                         ></i>
                     </h5>
 
-                    <form action="{{route('showPrescription')}}" method="post">
+                    @if ($errors->any())
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="alert alert-danger alert-forms" id="formError">
+                                <p><strong>Oops! We had some errors:</strong>
+                                <ul>
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                </p>
+                            </div>
+                        </div>
+                    @endif
+
+                    <form action="{{route('getPrescription')}}" method="post">
 
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
@@ -85,13 +100,13 @@
                                             <div class="select">
                                                 <select name="monthly-budget" required>
                                                     <option value="" disabled selected>Select amount range</option>
-                                                    <option value="500">$500</option>
-                                                    <option value="1000">$1.000</option>
-                                                    <option value="2000">$2.000</option>
-                                                    <option value="4000">$4.000</option>
-                                                    <option value="6000">$6.000</option>
-                                                    <option value="8000">$8.000</option>
-                                                    <option value="16000">$16.000</option>
+                                                    <option value="500.00">$500</option>
+                                                    <option value="1000.00">$1.000</option>
+                                                    <option value="2000.00">$2.000</option>
+                                                    <option value="4000.00">$4.000</option>
+                                                    <option value="6000.00">$6.000</option>
+                                                    <option value="8000.00">$8.000</option>
+                                                    <option value="16000.00">$16.000</option>
                                                 </select>
                                             </div>
                                         </div>
