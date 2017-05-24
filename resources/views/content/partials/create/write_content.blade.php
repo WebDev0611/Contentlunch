@@ -56,3 +56,21 @@
     </div>
      {{ Form::close() }}
 </div>
+
+@section('scripts')
+    <script type="text/javascript">
+        $(function () {
+            // Javascript to enable link to tab
+            var url = document.location.toString();
+            if (url.match('#')) {
+                $('.create-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+            }
+
+            // Change hash for page-reload
+            $('.create-tabs a').on('shown.bs.tab', function (e) {
+                window.location.hash = e.target.hash;
+                window.scrollTo(0, 0);
+            })
+        });
+    </script>
+@endsection
