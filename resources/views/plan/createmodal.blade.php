@@ -30,6 +30,21 @@
             <label for="#">EXPLAIN YOUR IDEA</label>
             <textarea rows="4" class="input idea-text" placeholder="Explain idea in a paragraph or so"></textarea>
         </div>
+        <div class="col-md-4 input-form-group no-padding">
+            <label>ASSIGN TO CALENDAR</label>
+            @php
+                $calendarsDropdown = \App\Account::selectedAccount()->calendarsDropdown();
+            @endphp
+            {!!
+                Form::select(
+                    'calendar_id',
+                    $calendarsDropdown,
+                    min(array_keys($calendarsDropdown)),
+                    ['id' => 'idea-calendar-id', 'class' => 'input selectpicker form-control', 'title' => 'Choose Calendar']
+                )
+            !!}
+        </div>
+        <div class="clearfix"></div>
         <div class="input-form-group">
             <label for="#">TAGS</label>
             <input type="text" class="input idea-tags" placeholder="Enter comma separated tags">

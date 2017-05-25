@@ -158,6 +158,7 @@
                 name: $('.idea-name').val(),
                 idea: $('.idea-text').val(),
                 tags: $('.idea-tags').val(),
+                calendar_id: $('#idea-calendar-id').val(),
                 status: status,
                 content: this.model.attributes.content.map(model => model.attributes),
                 collaborators: this.collaborators.map(user => user.id),

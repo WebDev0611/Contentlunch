@@ -166,6 +166,7 @@
         show_idea_modal() {
             $("#createIdea .form-delimiter").hide();
             this.append_date_input_field('idea_date', 'idea_date_info', 'createIdea');
+            $("#idea-calendar-id").closest('.input-form-group').hide();
             $("#createIdea").modal({ backdrop: 'static' });
         },
 
