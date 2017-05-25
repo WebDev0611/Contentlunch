@@ -35,9 +35,17 @@
             </div>
         </div> --}}
 
+        {{ Form::open([ 'route' => 'guidelines.update' ]) }}
+
         <div class="input-form-group">
             <label for="#">COMPANY PUBLISHING GUIDELINES</label>
-            <textarea class="input"></textarea>
+            {{
+                Form::textarea(
+                    'publishing_guidelines',
+                    old('publishing_guidelines', $guidelines->publishing_guidelines),
+                    [ 'class' => 'input', 'rows' => 3 ]
+                )
+            }}
             <p class="help-block">
                 Explain most important elements of company’s publishing strategy.
                 This information will be provided to each collaborator and guest
@@ -45,13 +53,20 @@
         </div>
         <div class="input-form-group">
             <label for="#">EXPLAIN COMPANY STRATEGY IN SHORT</label>
-            <textarea class="input"></textarea>
+            {{
+                Form::textarea(
+                    'company_strategy',
+                    old('company_strategy', $guidelines->company_strategy),
+                    [ 'class' => 'input', 'rows' => 3 ]
+                )
+            }}
             <p class="help-block">
                 Create more content, Invite more collaborators, Schedule a Consultation, Write more blog posts.
             </p>
         </div>
         <div class="input-form-group">
-            <button class="button button-extend">Save Changes</button>
+            {{ Form::submit('Save Changes', [ 'class' => 'button button-extend' ]) }}
         </div>
+        {{ Form::close() }}
     </div>
 </div>
