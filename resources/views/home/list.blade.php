@@ -117,6 +117,9 @@
                 </div>
                 -->
                 @can('guests-denied')
+                <div class="col-md-3">
+                    <activity-feed></activity-feed>
+                </div>
                 <div class="col-md-3" id="misc-container">
                     <div class="panel" id="recent-ideas">
                         <div class="panel-header">
