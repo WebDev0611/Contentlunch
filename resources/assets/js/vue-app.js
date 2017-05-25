@@ -14,6 +14,7 @@ Vue.component('guests-list', require('./components/guests/GuestList.vue'));
 Vue.component('content-order-comment', require('./components/orders/ContentOrderComment.vue'));
 Vue.component('content-order-comment-list', require('./components/orders/ContentOrderCommentList.vue'));
 Vue.component('content-messages', require('./components/messaging-system/ContentMessages.vue'));
+Vue.component('activity-feed', require('./components/dashboard/ActivityFeed.vue'));
 
 new Vue({
     el: '#root',

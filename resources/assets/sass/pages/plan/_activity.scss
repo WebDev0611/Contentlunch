@@ -26,7 +26,7 @@
   background: #f8f9fc;
   margin-bottom: 5px;
   border-radius: 3px;
-  
+
   &:before {
     content:"";
     display: inline-block;
@@ -39,12 +39,12 @@
     left: -5px;
     top: 10px;
   }
-  
+
   p {
     line-height: 1.3em;
     font-size: 15px;
     margin: 0;
-    
+
     &.plan-activity-title {
       font-weight: normal;
       color: #a3a2aa;
@@ -62,7 +62,7 @@
       }
     }
   }
-  
+
 }
 
 

@@ -12,4 +12,9 @@ use Carbon\Carbon;
 class TaskPresenter extends BasePresenter
 {
     use DueDatePresenter, StartDatePresenter, UpdatedAtPresenter, CreatedAtPresenter;
+
+    public function title()
+    {
+        return $this->entity->name ? $this->entity->name : 'Untitled Task';
+    }
 }
