@@ -327,8 +327,9 @@ class ContentController extends Controller
 
         $promotion = Auth::user()->contentOrdersPromotion();
         $userIsOnPaidAccount = !Account::selectedAccount()->activePaidSubscriptions()->isEmpty();
+        $isAgencyAccount = Account::selectedAccount()->isAgencyAccount();
 
-        $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd', 'promotion', 'userIsOnPaidAccount');
+        $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd', 'promotion', 'userIsOnPaidAccount', 'isAgencyAccount');
 
         return view('content.create', $data);
     }

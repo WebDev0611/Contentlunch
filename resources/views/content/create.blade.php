@@ -148,8 +148,8 @@
             var promoCreditAmount = 0.00;
         @endif
 
+        var isAgencyAccount = {{$isAgencyAccount ? 'true' : 'false'}};
         var creditLeft = promoCreditAmount;
-
 
         $('.datetimepicker').datetimepicker({
             format: 'MM-DD-YYYY'
@@ -203,6 +203,7 @@
 
                 applyPromoCredit: function () {
                     var total = this.basePrice() * this.orderCount;
+                    total = this.applyAgencyDiscount(total);
                     var diff = total - creditLeft;
 
                     creditLeft = (diff < 0) ? Math.abs(diff) : 0;
@@ -281,6 +282,7 @@
                 calculateOrderPrices: function() {
                     var orderPrice = this.basePrice();
                     var totalPrice = orderPrice * this.orderCount;
+                    totalPrice = this.applyAgencyDiscount(totalPrice);
 
                     this.$el.find('#price_each').text(this.formatPrice(orderPrice));
                     this.$el.find('#total_cost').text(this.formatPrice(totalPrice));
@@ -288,8 +290,12 @@
                     this.resetPromoCredit();
                 },
 
+                applyAgencyDiscount(totalPrice) {
+                    return !isAgencyAccount ? totalPrice : (totalPrice - (totalPrice * 10/100));
+                },
+
                 formatPrice: function(price) {
-                    return '$ ' + price + '.00';
+                    return '$ ' + parseFloat(price).toFixed(2);
                 },
             });
 

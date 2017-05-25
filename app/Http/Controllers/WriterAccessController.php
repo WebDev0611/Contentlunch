@@ -279,7 +279,12 @@ class WriterAccessController extends Controller
         $this->initStripe();
         $customer = $this->createStripeCustomer($request);
 
-        $order->setPrice(max($order->getPrice() - $partialOrder->promo_discount, 0));
+        $orderPrice = $order->getPrice();
+        if(Auth::user()->belongsToAgencyAccount()) {
+            $orderPrice -= ($orderPrice * 10/100);
+        }
+
+        $order->setPrice(max($orderPrice - $partialOrder->promo_discount, 0));
 
         if($order->getPrice() > 0) {
             try {
@@ -471,6 +476,10 @@ class WriterAccessController extends Controller
                 ));
             }
 
+
+            if(Auth::user()->belongsToAgencyAccount()) {
+                $price -= ($price * 10/100);
+            }
             $price = max($price - $orderDetails->promo_discount ,0);
 
             $bulkOrderStatus =  WriterAccessBulkOrderStatus::create();

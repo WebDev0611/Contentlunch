@@ -108,6 +108,9 @@
             <div class="col-md-4">
                 <div class="create-tabs-priceline">
                     <span>TOTAL</span>
+                    @if($isAgencyAccount)
+                    <h6>INCLUDING -10% AGENCY DISCOUNT</h6>
+                    @endif
                     <h4 id="total_cost">$40.70</h4>
                 </div>
                 <div class="create-tabs-priceline">
