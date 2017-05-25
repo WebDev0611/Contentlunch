@@ -19,12 +19,14 @@
                             <th class="text-center">Field</th>
                             <th class="text-center">Before</th>
                         </tr>
-                        @foreach($activity->properties['old'] as $key => $before)
-                        <tr>
-                            <td><strong>{{ \App\Content::fieldName($key) }}</strong></td>
-                            <td>{{ \App\Content::cleanedHistoryContent($key, $before) }}</td>
-                        </tr>
-                        @endforeach
+                        @if(isset($activity->properties['old']))
+                            @foreach($activity->properties['old'] as $key => $before)
+                            <tr>
+                                <td><strong>{{ \App\Content::fieldName($key) }}</strong></td>
+                                <td>{{ \App\Content::cleanedHistoryContent($key, $before) }}</td>
+                            </tr>
+                            @endforeach
+                        @endif
                     </table>
                 </div>
                 <div class="changes-{{ $activity->id }} changes">
