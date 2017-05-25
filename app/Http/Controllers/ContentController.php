@@ -528,6 +528,7 @@ class ContentController extends Controller
             'contentTagsJson' => collect([])->toJson(),
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
+            'calendarsDropdown' => $this->selectedAccount->calendarsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
             'personaDropdown' => Persona::dropdown(),
             'campaignDropdown' => CampaignPresenter::dropdown(),
@@ -552,6 +553,7 @@ class ContentController extends Controller
             'contentTagsJson' => $content->present()->tagsJson,
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
+            'calendarsDropdown' => $this->selectedAccount->calendarsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
             'personaDropdown' => Persona::dropdown(),
             'campaignDropdown' => CampaignPresenter::dropdown(),
@@ -610,6 +612,7 @@ class ContentController extends Controller
         $this->saveConnections($request, $content);
         $this->saveContentTags($request, $content);
         $this->saveMailchimpSettings($request, $content);
+        $this->saveAsCalendarContent($request, $content);
 
         // - Attach the related data
         if ($request->input('related')) {

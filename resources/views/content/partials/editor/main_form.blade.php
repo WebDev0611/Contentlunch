@@ -268,6 +268,35 @@
             @endif
         </div>
 
+        <div class="col-md-6 no-padding">
+            <div class="input-form-group">
+                <label>ASSIGN TO CALENDAR</label>
+                @php
+                    $contentCalendarOptions = [
+                        'class' => 'input selectpicker form-control',
+                        'id' => 'contentCalendar',
+                        'data-live-search' => 'true',
+                        'title' => 'Choose Calendar',
+                    ];
+
+                    if (!$isCollaborator || $isPublished) {
+                        $contentCalendarOptions['disabled'] = 'disabled';
+                    }
+                @endphp
+
+                {!!
+                    Form::select(
+                        'calendar_id',
+                        $calendarsDropdown,
+                        !empty($content->calendar_id) ? $content->calendar_id : (old('calendar_id') ?: min(array_keys($calendarsDropdown))),
+                        $contentCalendarOptions
+                    )
+                !!}
+            </div>
+        </div>
+
+            <div class="clearfix"></div>
+
         <div class="input-form-group">
             @php
                 $tagsOptions = [
