@@ -12,6 +12,11 @@ class CampaignPresenter extends BasePresenter
 {
     use StartDatePresenter, EndDatePresenter, UpdatedAtPresenter;
 
+    public function title()
+    {
+        return $this->entity->title ? $this->entity->title : 'Untitled Campaign';
+    }
+
     public function collaboratorsIDs()
     {
         return $this->entity->collaborators->pluck('id')->implode(',');
