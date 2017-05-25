@@ -158,6 +158,8 @@
                 $('#task-due-date').val(moment(cell_date, "YYYY-M-D").add(1, 'days').format('MM/DD/YYYY HH:mm'));
             }
 
+            $("#calendar-id").closest('.input-form-group').hide();
+
             $("#addTaskModal").modal({ backdrop: 'static' });
         },
 

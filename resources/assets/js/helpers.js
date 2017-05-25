@@ -156,6 +156,8 @@ function getCalendarId() {
 
     if (element.length && element.val() === 'on') {
         calendarId = element.data('id');
+    } else if($('#calendar-id').length) {
+        calendarId = $('#calendar-id').val();
     }
 
     return calendarId;

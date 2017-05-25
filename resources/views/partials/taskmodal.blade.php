@@ -45,6 +45,21 @@
             <label for="#">Reference URL</label>
             <input type="text" class="input" name="task-url" id="task-url" placeholder="Paste URL">
         </div>
+        <div class="col-md-4 input-form-group no-padding">
+                <label>ASSIGN TO CALENDAR</label>
+                @php
+                    $calendarsDropdown = \App\Account::selectedAccount()->calendarsDropdown();
+                @endphp
+                {!!
+                    Form::select(
+                        'calendar_id',
+                        $calendarsDropdown,
+                        min(array_keys($calendarsDropdown)),
+                        ['id' => 'calendar-id', 'class' => 'input selectpicker form-control', 'title' => 'Choose Calendar']
+                    )
+                !!}
+        </div>
+        <div class="clearfix"></div>
 
         <div class="input-form-group">
             <label for="#">Assign Task To</label>
@@ -60,7 +75,7 @@
                         </label>
                     </li>
                 @endforeach
-            <ul>
+            </ul>
         </div>
 
         @php
