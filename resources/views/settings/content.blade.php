@@ -8,28 +8,25 @@
         @include('settings.partials.sidebar')
         <div class="panel-main left-separator">
             <div class="panel-header">
-                <!-- navigation -->
                 @include('settings.partials.navigation')
             </div>
 
             @include('elements.freemium-alert')
 
             <ul class="settings-nav">
-                <!-- <li class="active"><a href="#content" data-toggle='tab'>General Content</a></li> -->
-                <li class='active'><a href="#personas" data-toggle='tab'>Personas</a></li>
+                <li class="active"><a href="#content" data-toggle='tab'>Company Strategy</a></li>
+                <li><a href="#personas" data-toggle='tab'>Personas</a></li>
                 <li><a href="#buying-stages" data-toggle='tab'>Buying Stages</a></li>
             </ul>
 
             <div class="tab-content">
-                <!--
                 <div role="tabpanel" class="tab-pane active" id='content'>
                     <div class="panel-container">
                         @include('settings.partials.contentSettings.general_content')
                     </div>
                 </div>
-                -->
 
-                <div role="tabpanel" class="tab-pane active" id='personas'>
+                <div role="tabpanel" class="tab-pane" id='personas'>
                     <div class="panel-container">
                         @include('settings.partials.contentSettings.personas')
                     </div>
