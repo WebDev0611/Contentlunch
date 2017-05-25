@@ -46,7 +46,7 @@ class CreateActivityLogTable extends Migration
 
                 return [
                     'log_name' => 'default',
-                    'description' => 'update',
+                    'description' => 'updated',
                     'subject_id' => $adjustment->content_id,
                     'subject_type' => Content::class,
                     'causer_id' => $adjustment->user_id,
@@ -72,7 +72,7 @@ class CreateActivityLogTable extends Migration
 
                 return [
                     'log_name' => 'default',
-                    'description' => 'update',
+                    'description' => 'updated',
                     'subject_id' => $adjustment->task_id,
                     'subject_type' => Task::class,
                     'causer_id' => $adjustment->user_id,
