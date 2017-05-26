@@ -5,7 +5,7 @@
     <li class="{{ (Request::is('settings/connections') ? 'active' : '') }} panel-connection-settings">
         <a href="{{ route('connections.index') }}">Content Connections</a>
     </li>
-    <li class="{{ Request::is('settings/buying') ? 'active' : '' }} panel-content-settings">
+    <li class="{{ Request::is('settings/buying') || Request::is('settings/content') ? 'active' : '' }} panel-content-settings">
         <a href="{{ route('buying_settings.index') }}">Content Settings</a>
     </li>
     <li class="{{ Request::is('settings/account') ? 'active' : '' }} panel-account-settings">
