@@ -1,5 +1,5 @@
 @can('guests-denied')
-@if ($guidelines->publishing_guidelines && $guidelines->company_strategy)
+@if (isset($guidelines) && $guidelines->publishing_guidelines && $guidelines->company_strategy)
 <div class="row">
     <div class="col-sm-6">
         <div class="input-form-group">
