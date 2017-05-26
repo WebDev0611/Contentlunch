@@ -562,6 +562,7 @@ class ContentController extends Controller
             'isCollaborator' => $content->hasCollaborator(Auth::user()),
             'tasks' => $content->tasks()->with('user')->get(),
             'isPublished' => isset($content) && $content->status  && $content->status->slug == 'published',
+            'guidelines' => $this->selectedAccount->guidelines,
         ];
 
         return view('content.editor', $data);

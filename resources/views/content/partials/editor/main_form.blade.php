@@ -33,6 +33,8 @@
             </p>
         </div>
 
+        @include('content.partials.editor.guidelines')
+
         <div class="row">
             <div class="col-sm-6">
                 <div class="input-form-group">

@@ -17,6 +17,8 @@
 
                 @include('content.partials.editor.header')
 
+
+
                 @include('content.partials.editor.main_form')
 
                 {{ Form::close() }}
