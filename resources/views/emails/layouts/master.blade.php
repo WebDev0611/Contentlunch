@@ -18,7 +18,7 @@
 <div class="content" style="width: 100%; max-width: 600px;margin: 0 auto; padding: 20px; background-color:#fff;">
 
     <div class="logo" style="margin: 10px 0 30px;">
-        <img src="<?php echo $message->embed('images/logo-full.png'); ?>" width="215" border="0" alt="Content Launch Logo" title="Content Launch Logo">
+        <img src="<?php echo $message->embed(public_path() . '/images/logo-full.png'); ?>" width="215" border="0" alt="Content Launch Logo" title="Content Launch Logo">
     </div>
     <h3>{{$title}}</h3>
 
