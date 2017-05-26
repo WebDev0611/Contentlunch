@@ -29,12 +29,11 @@
                         <div class="col-md-12 text-center">
 
                             <p class="result-heading">
-                                Based on the input you provided,
-                                we selected a Content Package that best suits your needs:
+                                Thanks for completing the form! <br> The Content Launch Team believes this would be the best Content Prescription for your company:
                             </p>
                             <h3>{{$contentPackage}}</h3>
 
-                            <p>Want us to write it for you? Just click the button below.</p>
+                            <p>The Content Launch Writing Team would be happy to help write this content for you. Ready to get started?</p>
 
                             <a href="{{route('contents.create') . '#GetContentWritten'}}">
                                 <button class="btn btn-primary btn-lg">Get Content Written</button>
