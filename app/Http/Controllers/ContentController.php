@@ -327,8 +327,9 @@ class ContentController extends Controller
 
         $promotion = Auth::user()->contentOrdersPromotion();
         $userIsOnPaidAccount = !Account::selectedAccount()->activePaidSubscriptions()->isEmpty();
+        $isAgencyAccount = Account::selectedAccount()->isAgencyAccount();
 
-        $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd', 'promotion', 'userIsOnPaidAccount');
+        $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd', 'promotion', 'userIsOnPaidAccount', 'isAgencyAccount');
 
         return view('content.create', $data);
     }
@@ -528,6 +529,7 @@ class ContentController extends Controller
             'contentTagsJson' => collect([])->toJson(),
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
+            'calendarsDropdown' => $this->selectedAccount->calendarsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
             'personaDropdown' => Persona::dropdown(),
             'campaignDropdown' => CampaignPresenter::dropdown(),
@@ -552,6 +554,7 @@ class ContentController extends Controller
             'contentTagsJson' => $content->present()->tagsJson,
             'authorDropdown' => $this->selectedAccount->authorsDropdown(),
             'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
+            'calendarsDropdown' => $this->selectedAccount->calendarsDropdown(),
             'buyingStageDropdown' => BuyingStage::dropdown(),
             'personaDropdown' => Persona::dropdown(),
             'campaignDropdown' => CampaignPresenter::dropdown(),
@@ -611,6 +614,7 @@ class ContentController extends Controller
         $this->saveConnections($request, $content);
         $this->saveContentTags($request, $content);
         $this->saveMailchimpSettings($request, $content);
+        $this->saveAsCalendarContent($request, $content);
 
         // - Attach the related data
         if ($request->input('related')) {

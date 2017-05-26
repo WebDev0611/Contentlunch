@@ -84,6 +84,13 @@
                                         <td><strong>{{ $order->order_count }}</strong></td>
                                     </tr>
 
+                                    @if($order->user->belongsToAgencyAccount())
+                                        <tr class="ordercount">
+                                            <td>Agency discount</td>
+                                            <td>-10%</td>
+                                        </tr>
+                                    @endif
+
                                     @if($order->promo_discount > 0)
                                         <tr class="ordercount">
                                             <td>Promo discount</td>

@@ -245,6 +245,13 @@ class Account extends Model
         return $dropdown;
     }
 
+    public function calendarsDropdown()
+    {
+        return $this->calendars()
+            ->pluck('name', 'id')
+            ->toArray();
+    }
+
     public function cleanContentWithoutStatus()
     {
         $this->contents()
