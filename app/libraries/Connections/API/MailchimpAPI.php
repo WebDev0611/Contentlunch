@@ -14,7 +14,6 @@ class MailchimpAPI {
         $this->client = null;
         $this->content = $content;
         $this->connection = $connection ? $connection : $this->content->connection;
-        $this->datacenter = Config::get('services.mailchimp.datacenter');
     }
 
     /*
@@ -95,11 +94,20 @@ class MailchimpAPI {
         return $mailChimp->get('lists');
     }
 
+    public function getMetadata ()
+    {
+        $settings = json_decode($this->connection->settings);
+
+        $mailChimp = new MailChimp($settings->access_token, 'oAuth2', null, 'metadata');
+
+        return $mailChimp->get('');
+    }
+
     private function createMailchimpInstance ()
     {
         $settings = json_decode($this->connection->settings);
 
-        return new MailChimp($settings->access_token, 'oAuth2', null, $this->datacenter);
+        return new MailChimp($settings->access_token, 'oAuth2', null, $settings->datacenter);
     }
 
     private function prepareCampaignData ()
