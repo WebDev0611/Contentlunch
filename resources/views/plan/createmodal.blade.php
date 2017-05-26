@@ -39,7 +39,7 @@
                 Form::select(
                     'calendar_id',
                     $calendarsDropdown,
-                    min(array_keys($calendarsDropdown)),
+                    $calendarsDropdown ? min(array_keys($calendarsDropdown)) : '',
                     ['id' => 'idea-calendar-id', 'class' => 'input selectpicker form-control', 'title' => 'Choose Calendar']
                 )
             !!}

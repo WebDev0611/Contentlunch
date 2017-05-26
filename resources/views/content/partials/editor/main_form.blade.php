@@ -282,13 +282,22 @@
                     if (!$isCollaborator || $isPublished) {
                         $contentCalendarOptions['disabled'] = 'disabled';
                     }
+
+                    if(!empty($content->calendar_id)){
+                        $selected = $content->calendar_id;
+                    }
+                    else if($calendarsDropdown) {
+                        $selected = min(array_keys($calendarsDropdown));
+                    } else {
+                        $selected = old('calendar_id');
+                    }
                 @endphp
 
                 {!!
                     Form::select(
                         'calendar_id',
                         $calendarsDropdown,
-                        !empty($content->calendar_id) ? $content->calendar_id : (old('calendar_id') ?: min(array_keys($calendarsDropdown))),
+                        $selected,
                         $contentCalendarOptions
                     )
                 !!}
