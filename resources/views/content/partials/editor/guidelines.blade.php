@@ -11,7 +11,7 @@
     </div>
     <div class="col-sm-6">
         <div class="input-form-group">
-            <label>Company Strategy</label>
+            <label>Content Strategy</label>
             <p class="form-control-static">
                 {{ $guidelines->company_strategy }}
             </p>
