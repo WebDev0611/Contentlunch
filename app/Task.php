@@ -200,6 +200,7 @@ class Task extends Model
                 return $query->where('account_id', $account->id);
             })
             ->with('user')
+            ->with('contents')
             ->orderBy('created_at', 'desc')
             ->where('status', 'open')
             ->distinct()

@@ -19,15 +19,25 @@
                     DUE ON: <strong>{{ task.due_date }}</strong>
                 </li>
 
-                <!--
                 <li>
-                    STAGE:
-                    <i class="dashboard-tasks-list-icon primary icon-idea"></i>
-                    <i class="dashboard-tasks-list-icon tertiary icon-content"></i>
-                    <i class="dashboard-tasks-list-icon tertiary icon-alert"></i>
-                    <i class="dashboard-tasks-list-icon tertiary icon-share"></i>
+                    Content Stage: {{ contentStage }}
                 </li>
-                -->
+
+                <li v-if='contentStage > 0'>
+                    STAGE:
+                    <i :class="{ 'primary': contentStage >= 1 }"
+                        class="dashboard-tasks-list-icon icon-idea"></i>
+
+                    <i :class="{ 'primary': contentStage >= 2, 'tertiary': contentStage < 2 }"
+                        class="dashboard-tasks-list-icon icon-content"></i>
+
+                    <i :class="{ 'primary': contentStage >= 3, 'tertiary': contentStage < 3 }"
+                        class="dashboard-tasks-list-icon icon-alert"></i>
+
+                    <i :class="{ 'primary': contentStage >= 4, 'tertiary': contentStage < 4 }"
+                        class="dashboard-tasks-list-icon icon-share"></i>
+
+                </li>
 
                 <li>
                     <a :href="link"><strong>View Task</strong></a>
@@ -64,7 +74,15 @@
                 const timeAgo = moment(this.task.created_at).format('x');
 
                 return (currentTime - timeAgo) <= 60 * 10 * 1000;
-            }
+            },
+        },
+
+        computed: {
+            contentStage() {
+                let content = this.task.contents ? this.task.contents[0] : null;
+
+                return content ? content.content_status_id : 0;
+            },
         }
     }
 </script>
