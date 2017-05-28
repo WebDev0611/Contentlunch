@@ -39,8 +39,8 @@
 
                 </li>
 
-                <li>
-                    <a :href="link"><strong>View Task</strong></a>
+                <li v-if='contentStage > 0'>
+                    <a :href="contentLink"><strong>View Content</strong></a>
                 </li>
             </ul>
         </div>
@@ -65,7 +65,6 @@
             this.task.due_date = dueDate === 'Invalid date' ? false : dueDate;
 
             this.active = this.createdInLast10Minutes() ? 'active' : '';
-            this.link = `/task/show/${this.task.id}`;
         },
 
         methods: {
@@ -78,10 +77,20 @@
         },
 
         computed: {
-            contentStage() {
-                let content = this.task.contents ? this.task.contents[0] : null;
+            content() {
+                return this.task.contents ? this.task.contents[0] : null;
+            },
 
-                return content ? content.content_status_id : 0;
+            contentStage() {
+                return this.content ? this.content.content_status_id : 0;
+            },
+
+            contentLink() {
+                return this.content ? `/edit/${this.content.id}` : '';
+            },
+
+            link() {
+                return `/task/show/${this.task.id}`;
             },
         }
     }
