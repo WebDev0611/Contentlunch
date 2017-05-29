@@ -14,7 +14,7 @@
             @include('elements.freemium-alert')
 
             <ul class="settings-nav">
-                <li class="active"><a href="#content" data-toggle='tab'>Company Strategy</a></li>
+                <li class="active"><a href="#content" data-toggle='tab'>Content Strategy</a></li>
                 <li><a href="#personas" data-toggle='tab'>Personas</a></li>
                 <li><a href="#buying-stages" data-toggle='tab'>Buying Stages</a></li>
             </ul>

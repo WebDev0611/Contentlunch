@@ -33,6 +33,6 @@ class GuidelineController extends Controller
 
         $guideline->update($request->all());
 
-        return $this->success('content_settings.index', 'Your company strategy was updated successfully.');
+        return $this->success('content_settings.index', 'Your content strategy was updated successfully.');
     }
 }

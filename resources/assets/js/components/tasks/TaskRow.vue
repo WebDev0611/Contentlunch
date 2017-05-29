@@ -19,25 +19,37 @@
                     DUE ON: <strong>{{ task.due_date }}</strong>
                 </li>
 
-                <!--
                 <li>
-                    STAGE:
-                    <i class="dashboard-tasks-list-icon primary icon-idea"></i>
-                    <i class="dashboard-tasks-list-icon tertiary icon-content"></i>
-                    <i class="dashboard-tasks-list-icon tertiary icon-alert"></i>
-                    <i class="dashboard-tasks-list-icon tertiary icon-share"></i>
+                    Content Stage: {{ contentStage }}
                 </li>
-                -->
 
-                <li>
-                    <a :href="link"><strong>View Task</strong></a>
+                <li v-if='contentStage > 0'>
+                    STAGE:
+                    <i class="dashboard-tasks-list-icon primary icon-idea" title='Idea'></i>
+
+                    <i :class="{ 'primary': contentStage >= 1, 'tertiary': contentStage < 1 }"
+                        class="dashboard-tasks-list-icon icon-content"
+                        title='Content being written'></i>
+
+                    <i :class="{ 'primary': contentStage >= 2, 'tertiary': contentStage < 2 }"
+                        class="dashboard-tasks-list-icon icon-alert"
+                        title='Ready to Publish'></i>
+
+                    <i :class="{ 'primary': contentStage >= 3, 'tertiary': contentStage < 3 }"
+                        class="dashboard-tasks-list-icon icon-share"
+                        title='Published'></i>
+
+                </li>
+
+                <li v-if='contentStage > 0'>
+                    <a :href="contentLink"><strong>View Content</strong></a>
                 </li>
             </ul>
         </div>
         <div class="dashboard-tasks-cell cell-size-15">
-                <span class="dashboard-tasks-text small" :class="{ active: active }">
-                    {{ task.created_at_diff }}
-                </span>
+            <span class="dashboard-tasks-text small" :class="{ active: active }">
+                {{ task.created_at_diff }}
+            </span>
         </div>
     </div>
 </template>
@@ -55,7 +67,6 @@
             this.task.due_date = dueDate === 'Invalid date' ? false : dueDate;
 
             this.active = this.createdInLast10Minutes() ? 'active' : '';
-            this.link = `/task/show/${this.task.id}`;
         },
 
         methods: {
@@ -64,7 +75,25 @@
                 const timeAgo = moment(this.task.created_at).format('x');
 
                 return (currentTime - timeAgo) <= 60 * 10 * 1000;
-            }
+            },
+        },
+
+        computed: {
+            content() {
+                return this.task.contents ? this.task.contents[0] : null;
+            },
+
+            contentStage() {
+                return this.content ? this.content.content_status_id : 0;
+            },
+
+            contentLink() {
+                return this.content ? `/edit/${this.content.id}` : '';
+            },
+
+            link() {
+                return `/task/show/${this.task.id}`;
+            },
         }
     }
 </script>
