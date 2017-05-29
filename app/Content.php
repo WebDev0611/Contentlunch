@@ -104,6 +104,11 @@ class Content extends Model
         return $this->belongsTo('App\ContentType');
     }
 
+    public function customContentType()
+    {
+        return $this->belongsTo('App\CustomContentType');
+    }
+
     public function guests()
     {
         return $this->belongsToMany('App\User', 'content_guest');
