@@ -10,6 +10,7 @@ use App\Campaign;
 use App\Connection;
 use App\Content;
 use App\ContentType;
+use App\CustomContentType;
 use App\Helpers;
 use App\Http\Requests\Content\ContentRequest;
 use App\Limit;
@@ -25,6 +26,7 @@ use Auth;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Input;
 use Response;
 use Storage;
@@ -268,10 +270,20 @@ class ContentController extends Controller
                 redirect()->back()->withErrors($validator, 'content');
         }
 
+        if($request->has('custom_content_type')) {
+            $customContentType = CustomContentType::whereName($request->input('custom_content_type'))->first();
+            if(!$customContentType) {
+                $customContentType = CustomContentType::create([
+                    'name' => $request->input('custom_content_type')
+                ]);
+            }
+        }
+
         $content = Content::create([
             'title' => $request->input('title'),
             'body' => $request->input('body'),
             'content_type_id' => $request->input('content_type_id'),
+            'custom_content_type_id' => isset($customContentType) ? $customContentType->id : null,
         ]);
 
         $this->selectedAccount->contents()->save($content);

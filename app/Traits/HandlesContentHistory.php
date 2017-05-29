@@ -38,6 +38,7 @@ trait HandlesContentHistory
         'created_at' => 'Create at',
         'updated_at' => 'Updated at',
         'mailchimp_settings' => 'Mailchimp Settings',
+        'custom_content_type_id' => 'Custom Content Type'
     ];
 
     public static function fieldName($key = null)
