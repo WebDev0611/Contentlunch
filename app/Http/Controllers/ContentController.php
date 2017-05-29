@@ -659,6 +659,7 @@ class ContentController extends Controller
     {
         return Validator::make($requestData, [
             'content_type_id' => 'required|exists:content_types,id',
+            'custom_content_type' => 'required_if:custom_content_type_present,true',
             'title' => 'required',
         ],
         [
