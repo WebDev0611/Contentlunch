@@ -81,6 +81,7 @@ elixir(function (mix) {
 
         /* Content Editor */
         .babel('resources/assets/js/content/*.js', 'public/js/content.js')
+        .babel('resources/assets/js/content/create/*.js', 'public/js/content-create.js')
 
         /* ideas */
         .babel('resources/assets/js/plan/ideas.js', "public/js/ideas.js")
