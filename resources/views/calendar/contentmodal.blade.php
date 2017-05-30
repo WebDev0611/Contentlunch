@@ -45,6 +45,12 @@
             </div>
         </div>
 
+        <div class="input-form-group hidden">
+            <label for="#">Custom content type</label>
+            {!! Form::text('custom_content_type', old('custom_content_type'), ['placeholder' => 'Enter content type', 'class' => 'input input-larger form-control', 'id' => 'customContentType']) !!}
+            {!! Form::hidden('custom_content_type_present', 'false') !!}
+        </div>
+
         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
     </div>
 </div>
