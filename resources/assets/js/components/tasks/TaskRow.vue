@@ -19,26 +19,9 @@
                     DUE ON: <strong>{{ task.due_date }}</strong>
                 </li>
 
-                <li>
-                    Content Stage: {{ contentStage }}
-                </li>
-
                 <li v-if='contentStage > 0'>
                     STAGE:
-                    <i class="dashboard-tasks-list-icon primary icon-idea" title='Idea'></i>
-
-                    <i :class="{ 'primary': contentStage >= 1, 'tertiary': contentStage < 1 }"
-                        class="dashboard-tasks-list-icon icon-content"
-                        title='Content being written'></i>
-
-                    <i :class="{ 'primary': contentStage >= 2, 'tertiary': contentStage < 2 }"
-                        class="dashboard-tasks-list-icon icon-alert"
-                        title='Ready to Publish'></i>
-
-                    <i :class="{ 'primary': contentStage >= 3, 'tertiary': contentStage < 3 }"
-                        class="dashboard-tasks-list-icon icon-share"
-                        title='Published'></i>
-
+                    <content-stage-icon :content-stage='contentStage'></content-stage-icon>
                 </li>
 
                 <li v-if='contentStage > 0'>
@@ -55,10 +38,16 @@
 </template>
 
 <script>
+    import ContentStageIcon from '../dashboard/ContentStageIcon.vue';
+
     export default {
         name: 'task-row',
 
         props: [ 'task' ],
+
+        components: {
+            ContentStageIcon,
+        },
 
         created() {
             this.task.profile_image = this.task.user.profile_image || '/images/cl-avatar2.png';
