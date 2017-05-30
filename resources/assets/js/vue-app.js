@@ -15,6 +15,7 @@ Vue.component('content-order-comment', require('./components/orders/ContentOrder
 Vue.component('content-order-comment-list', require('./components/orders/ContentOrderCommentList.vue'));
 Vue.component('content-messages', require('./components/messaging-system/ContentMessages.vue'));
 Vue.component('activity-feed', require('./components/dashboard/ActivityFeed.vue'));
+Vue.component('content-list', require('./components/dashboard/ContentList.vue'));
 
 new Vue({
     el: '#root',
