@@ -120,31 +120,28 @@ $(function() {
     var mailchimp_lists = [];
     let connection_data = {};
 
-    loadMailchimpDestinationData();
-
     $("#connections").change(function() {
         loadMailchimpDestinationData();
     });
 
+    loadMailchimpDestinationData();
+
     function loadMailchimpDestinationData(){
         let destination_id = $("#connections").find(":selected").val();
+        connection_data = getSelectedConnection();
 
-        if(destination_id.length) {
-            connection_data = getSelectedConnection();
+        if(destination_id.length && connection_data.provider.slug === 'mailchimp') {
+            // If connection is Mailchimp, fetch needed data from their API and populate corresponding fields
+            $('#mailchimp_settings_row, #mailchimp_loading').removeClass('hidden');
 
-            if(connection_data.provider.slug === 'mailchimp') {
-                // If connection is Mailchimp, fetch needed data from their API and populate corresponding fields
-
-                $('#mailchimp_settings_row, #mailchimp_loading').removeClass('hidden');
-
-                $.when(getMailchimpLists(destination_id)).done(function(mailchimp_lists_tmp){
-                    mailchimp_lists = mailchimp_lists_tmp;
-                    $('#mailchimp_loading').addClass('hidden');
-                    populateMailchimpValues();
-                });
-            } else {
-                $('#mailchimp_settings_row').addClass('hidden');
-            }
+            $.when(getMailchimpLists(destination_id)).done(function (mailchimp_lists_tmp) {
+                mailchimp_lists = mailchimp_lists_tmp;
+                $('#mailchimp_loading').addClass('hidden');
+                populateMailchimpValues();
+            });
+        }
+        else {
+            $('#mailchimp_settings_row').addClass('hidden');
         }
     }
 
@@ -199,5 +196,4 @@ $(function() {
         $('#mailchimp_from_name').val(list.campaign_defaults.from_name);
         $('#mailchimp_reply_to').val(list.campaign_defaults.from_email);
     });
-
 });
