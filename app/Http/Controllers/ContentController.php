@@ -593,8 +593,10 @@ class ContentController extends Controller
     {
         if ($request->input('action') == 'written_content') {
             $validation = $this->onSaveValidation($request->all());
-        } else {
+        } elseif($request->input('action') == 'ready_to_publish') {
             $validation = $this->onSubmitValidation($request->all());
+        } else {
+            $validation = $this->onPublishValidation($request->all());
         }
 
         if ($validation->fails()) {
@@ -651,15 +653,30 @@ class ContentController extends Controller
             'content_type_id' => 'required|exists:content_types,id',
             'due_date' => 'required',
             'title' => 'required',
-            'connection_id' => 'required|exists:connections,id',
             'content_id' => 'required|exists:contents,id',
             'body' => 'required',
         ],
         [
             'content_type_id.required' => 'The content type is required.',
             'body.required' => 'The content body field is required.',
-            'connection_id.required' => 'The content destination is required.'
         ]);
+    }
+
+    private function onPublishValidation(array $requestData)
+    {
+        return Validator::make($requestData, [
+            'content_type_id' => 'required|exists:content_types,id',
+            'due_date' => 'required',
+            'title' => 'required',
+            'connection_id' => 'required|exists:connections,id',
+            'content_id' => 'required|exists:contents,id',
+            'body' => 'required',
+        ],
+            [
+                'content_type_id.required' => 'The content type is required.',
+                'body.required' => 'The content body field is required.',
+                'connection_id.required' => 'The content destination is required.'
+            ]);
     }
 
     private function onSaveValidation(array $requestData)
