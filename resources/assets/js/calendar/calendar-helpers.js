@@ -196,6 +196,7 @@ function store_content(callback) {
     $('#add-content-button').prop('disabled', true);
     let contentTitle = $('#content-title').val();
     let contentType = $("#content-type-id option:selected").val();
+    let customContentType = $("#customContentType").val();
 
     $('#content-status-alert').addClass('hidden');
     $('#content-status-text').text('');
@@ -220,8 +221,9 @@ function store_content(callback) {
 
     //saves the form data
     let content_obj = {
-        title: $('#content-title').val(),
-        content_type_id: $("#content-type-id option:selected").val(),
+        title: contentTitle,
+        content_type_id: contentType,
+        custom_content_type: customContentType.length !== 0 ? customContentType : null,
         due_date: $('#content-due-date').val(),
         calendar_id: getCalendarId(),
         created_at: $('#content_date').val()
