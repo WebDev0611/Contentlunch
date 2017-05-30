@@ -49,6 +49,21 @@ class ContentService
         ];
     }
 
+    public function recentContent()
+    {
+        return $this->selectedAccount
+            ->contents()
+            ->recentlyUpdated()
+            ->take(10)
+            ->get()
+            ->map(function($content) {
+                $content->author = $content->author();
+                $content->title = $content->present()->title;
+
+                return $content;
+            });
+    }
+
     public function inviteGuests(Content $content, $emails)
     {
         $emails->each(function($email) use ($content) {

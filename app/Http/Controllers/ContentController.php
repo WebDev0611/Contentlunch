@@ -41,11 +41,11 @@ class ContentController extends Controller
         $this->content = $content;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = $this->content->contentList();
-
-        return view('content.index', $data);
+        return $request->ajax()
+            ? response()->json([ 'data' => $this->content->recentContent() ])
+            : view('content.index', $this->content->contentList());
     }
 
     public function orders(Request $request)
