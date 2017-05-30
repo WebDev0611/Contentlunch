@@ -7,13 +7,9 @@
         </div>
         <div class="dashboard-members-cell cell-size-75">
             <p class="dashboard-ideas-text">{{ content.title }}</p>
-            STAGE:
-            <content-stage-icon :content-stage='contentStage'></content-stage-icon>
-        </div>
-        <div class="dashboard-members-cell cell-size-20">
-            <span class="dashboard-ideas-text small" style='float:right' title='This user has 3 assigned task(s)'>
-                <i class="icon-checklist"></i>
-                123
+            <span class="dashboard-members-text small">
+                STAGE:
+                <content-stage-icon :content-stage='contentStage'></content-stage-icon>
             </span>
         </div>
     </div>
