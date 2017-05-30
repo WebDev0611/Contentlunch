@@ -270,14 +270,7 @@ class ContentController extends Controller
                 redirect()->back()->withErrors($validator, 'content');
         }
 
-        if($request->has('custom_content_type')) {
-            $customContentType = CustomContentType::whereName($request->input('custom_content_type'))->first();
-            if(!$customContentType) {
-                $customContentType = CustomContentType::create([
-                    'name' => $request->input('custom_content_type')
-                ]);
-            }
-        }
+        $customContentType = $this->saveCustomContentType($request);
 
         $content = Content::create([
             'title' => $request->input('title'),
@@ -578,6 +571,7 @@ class ContentController extends Controller
             'tasks' => $content->tasks()->with('user')->get(),
             'isPublished' => isset($content) && $content->status  && $content->status->slug == 'published',
             'guidelines' => $this->selectedAccount->guidelines,
+            'customContentType' => isset($content->customContentType) ? $content->customContentType->name : ''
         ];
 
         return view('content.editor', $data);
@@ -627,6 +621,7 @@ class ContentController extends Controller
         $this->saveContentTags($request, $content);
         $this->saveMailchimpSettings($request, $content);
         $this->saveAsCalendarContent($request, $content);
+        $this->saveCustomContentType($request, $content);
 
         // - Attach the related data
         if ($request->input('related')) {
@@ -932,6 +927,28 @@ class ContentController extends Controller
         return Validator::make($input, [
             'file' => 'image|max:3000',
         ]);
+    }
+
+    private function saveCustomContentType (Request $request, Content $content = null)
+    {
+        $customContentType = null;
+
+        if($request->has('custom_content_type')) {
+            $customContentType = CustomContentType::whereName($request->input('custom_content_type'))->first();
+
+            if (!$customContentType) {
+                $customContentType = CustomContentType::create([
+                    'name' => $request->input('custom_content_type')
+                ]);
+            }
+
+            if($content !== null) {
+                $content->customContentType()->associate($customContentType);
+                $content->save();
+            }
+        }
+
+        return $customContentType;
     }
 
 }

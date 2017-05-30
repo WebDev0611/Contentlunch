@@ -78,6 +78,22 @@
             </div>
         </div>
 
+        <div class="row" >
+            <div class="col-sm-6">
+                <div class="input-form-group hidden">
+                    <label for="#">CUSTOM CONTENT TYPE</label>
+
+                    {!! Form::text(
+                    'custom_content_type',
+                    old('custom_content_type', $customContentType),
+                    ['placeholder' => 'Enter content type', 'class' => 'input input-larger form-control', 'id' => 'customContentType'])
+                    !!}
+
+                    {!! Form::hidden('custom_content_type_present', 'false') !!}
+                </div>
+            </div>
+        </div>
+
         <div class="input-form-group">
             <label for="title">TITLE</label>
             @php

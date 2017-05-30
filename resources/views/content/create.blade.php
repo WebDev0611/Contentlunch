@@ -157,4 +157,5 @@
     </script>
 
     <script src="/js/content-create.js"></script>
+    <script src="/js/content-custom.js"></script>
 @stop

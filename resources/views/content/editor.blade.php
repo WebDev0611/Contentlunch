@@ -61,4 +61,5 @@
     })();
 </script>
 <script src="/js/content.js"></script>
+<script src="/js/content-custom.js"></script>
 @stop
