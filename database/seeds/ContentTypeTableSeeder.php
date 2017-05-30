@@ -28,6 +28,7 @@ class ContentTypeTableSeeder extends BaseSeeder
             [ 'name' => 'Website Page',           'provider_id' =>  0, 'active' => true ],
             [ 'name' => 'Landing Page',           'provider_id' =>  0, 'active' => true ],
             [ 'name' => 'Linkedin Update',        'provider_id' =>  2, 'active' => true ],
+            [ 'name' => 'Custom',                 'provider_id' =>  0, 'active' => true ],
 
             [ 'name' => 'Audio Recording',        'provider_id' =>  0, 'active' => false ],
             [ 'name' => 'Case Study',             'provider_id' =>  0, 'active' => false ],

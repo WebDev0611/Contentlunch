@@ -27,6 +27,11 @@
                        {!! Form::select('content_type_id', $contenttypedd, old('content_type_id'), ['class' => 'input selectpicker form-control', 'id' => 'contentType', 'data-live-search' => 'true', 'title' => 'Choose Content Type']) !!}
                     </div>
                 </div>
+                <div class="input-form-group hidden">
+                    <label for="#">Custom content type</label>
+                    {!! Form::text('custom_content_type', old('custom_content_type'), ['placeholder' => 'Enter content type', 'class' => 'input input-larger form-control', 'id' => 'customContentType']) !!}
+                    {!! Form::hidden('custom_content_type_present', 'false') !!}
+                </div>
             </div>
             <!--
             <div class="col-md-6">

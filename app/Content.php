@@ -41,6 +41,7 @@ class Content extends Model
         'email_subject',
         'calendar_id',
         'mailchimp_settings',
+        'custom_content_type_id'
     ];
 
     protected static $logOnlyDirty = true;
@@ -49,6 +50,7 @@ class Content extends Model
         'title',
         'body',
         'content_type_id',
+        'custom_content_type_id',
     ];
 
     public function account()
@@ -102,6 +104,11 @@ class Content extends Model
     public function contentType()
     {
         return $this->belongsTo('App\ContentType');
+    }
+
+    public function customContentType()
+    {
+        return $this->belongsTo('App\CustomContentType');
     }
 
     public function guests()
