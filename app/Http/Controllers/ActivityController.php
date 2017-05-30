@@ -22,7 +22,7 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        $data = $this->account->activityFeed();
+        $data = $this->account->activityFeed()->take(10);
 
         return response()->json(compact('data'));
     }
