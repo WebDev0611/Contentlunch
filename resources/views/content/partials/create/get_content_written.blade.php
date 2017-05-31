@@ -3,8 +3,8 @@
     @if($promotion && !$userIsOnPaidAccount)
         <div class="col-md-8 col-md-offset-2 promo-notification">
             <div class="alert alert-info text-center" role="alert">
-                You are eligible for getting 3 free content orders! <br>
-                $150 extra credit will be added to your account if you upgrade to one of our Premium Plans. <br>
+                <b>You are eligible to receive a discount on your content order!</b> <br>
+                A $150 credit will be added to your account if you upgrade to a Premium Plan. <br>
                 <a href="{{route('subscription')}}"><button class="btn btn-default">Upgrade now</button></a>
             </div>
         </div>
