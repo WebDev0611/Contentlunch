@@ -49,6 +49,9 @@
                                 <div class="select select-small extend" v-show='campaignsLoaded'>
                                     <select v-model='campaign'>
                                         <option :value="null">All</option>
+                                        <option v-for='campaign in campaigns' :value="campaign.id">
+                                            {{ campaign.title }}
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -96,6 +99,19 @@
         computed: {
             loaded() {
                 return this.stagesLoaded && this.campaignsLoaded && this.authorsLoaded;
+            }
+        },
+
+        created() {
+            this.fetchCampaigns();
+        },
+
+        methods: {
+            fetchCampaigns() {
+                $.get('/api/campaigns').then(response => {
+                    this.campaigns = response.data;
+                    this.campaignsLoaded = true;
+                })
             }
         }
     }
