@@ -118,17 +118,7 @@
                 -->
                 @can('guests-denied')
                 <div class="col-md-3" id="misc-container">
-                    <div class="panel" id="recent-ideas">
-                        <div class="panel-header">
-                            <h4 class="panel-sidebar-title-secondary">
-                                Recent Ideas
-                                <a href="/plan/ideas">
-                                    See All
-                                    <i class="icon-arrow-right"></i>
-                                </a>
-                            </h4>
-                        </div>
-                    </div>
+                    <recent-ideas-list></recent-ideas-list>
                     <content-list></content-list>
                 </div>
                 <div class="col-md-3">
