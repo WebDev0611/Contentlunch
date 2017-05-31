@@ -34,6 +34,9 @@
                                 <div class="select select-small extend" v-show='authorsLoaded'>
                                     <select v-model='author'>
                                         <option :value="null">Any one</option>
+                                        <option v-for='author in authors' :value="author.id">
+                                            {{ author.name }}
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -104,6 +107,7 @@
 
         created() {
             this.fetchCampaigns();
+            this.fetchCollaborators();
         },
 
         methods: {
@@ -112,6 +116,13 @@
                     this.campaigns = response.data;
                     this.campaignsLoaded = true;
                 })
+            },
+
+            fetchCollaborators() {
+                $.get('/api/account/members').then(response => {
+                    this.authors = response.filter(author => !author.is_guest);
+                    this.authorsLoaded = true;
+                });
             }
         }
     }
