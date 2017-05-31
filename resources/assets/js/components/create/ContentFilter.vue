@@ -64,7 +64,7 @@
             </div>
             <div class="col-md-2 text-right">
                 <div class="create-link-dropdown" v-show='loaded'>
-                    <a href="#">FILTER CONTENT</a>
+                    <a :href="filterUrl()">FILTER CONTENT</a>
                 </div>
             </div>
         </div>
@@ -123,6 +123,16 @@
                     this.authorsLoaded = true;
                 });
             },
+
+            filterUrl() {
+                let parameters = $.param({
+                    stage: this.stage,
+                    campaign: this.campaign,
+                    author: this.author
+                });
+
+                return `/content?${parameters}`;
+            }
         }
     }
 </script>
