@@ -12,13 +12,13 @@
                                 <label class="select-horizontal-label">Show:</label>
                             </div>
                             <div class="col-md-8">
-                                <loading size='small' v-show='!stagesLoaded'></loading>
-                                <div class="select select-small extend" v-show='stagesLoaded'>
+                                <div class="select select-small extend">
                                     <select v-model='stage'>
                                         <option :value='null'>All Types</option>
-                                        <option value="published">Published</option>
-                                        <option value="ready_published">Ready to be Published</option>
-                                        <option value="written">Being Written</option>
+                                        <option value="3">Published</option>
+                                        <option value="2">Ready</option>
+                                        <option value="1">Writing</option>
+                                        <option value="4">Archived</option>
                                     </select>
                                 </div>
                             </div>
@@ -87,7 +87,6 @@
             return {
                 stage: null,
                 stages: [],
-                stagesLoaded: false,
 
                 campaign: null,
                 campaigns: [],
@@ -101,7 +100,7 @@
 
         computed: {
             loaded() {
-                return this.stagesLoaded && this.campaignsLoaded && this.authorsLoaded;
+                return this.campaignsLoaded && this.authorsLoaded;
             }
         },
 
@@ -123,7 +122,7 @@
                     this.authors = response.filter(author => !author.is_guest);
                     this.authorsLoaded = true;
                 });
-            }
+            },
         }
     }
 </script>
