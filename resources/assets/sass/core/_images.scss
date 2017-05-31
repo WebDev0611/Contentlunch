@@ -33,7 +33,14 @@
   margin: 20px auto;
   display: block;
   max-height: 50px;
+
+  &.loading-small {
+    margin: 5px auto;
+    max-height: 30px;
+  }
 }
+
+
 
 .loading-gif {
   position: absolute;
