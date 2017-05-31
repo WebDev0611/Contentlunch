@@ -129,6 +129,10 @@
                             </h4>
                         </div>
                     </div>
+                    <content-list></content-list>
+                </div>
+                <div class="col-md-3">
+                    <activity-feed></activity-feed>
                     <div class="panel" id="team-members-container">
                         <div class="panel-header">
                             <h4 class="panel-sidebar-title-secondary">

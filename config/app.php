@@ -167,6 +167,7 @@ return [
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
         Artesaos\LinkedIn\LinkedinServiceProvider::class,
         GrahamCampbell\Dropbox\DropboxServiceProvider::class,
+        Spatie\Activitylog\ActivitylogServiceProvider::class,
 
         App\Providers\ComposerServiceProvider::class,
         App\Providers\FormComponentsServiceProvider::class,

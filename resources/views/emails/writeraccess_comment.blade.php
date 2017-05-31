@@ -1,11 +1,11 @@
 @php
-    $staticData = ['title' => 'New Message from WriterAccess'];
+    $staticData = ['title' => 'New message on your order'];
 @endphp
 
 @extends('emails.layouts.master', $staticData)
 @section('content')
     <p>
-        This is an automatic email notification from Content Launch app triggered by WriterAccess.<br><br>
+        This is an automatic email notification from Content Launch app.<br><br>
         <b>You have a new comment on your content order:</b>
     </p>
     <table>

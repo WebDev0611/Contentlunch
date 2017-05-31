@@ -126,6 +126,11 @@ class User extends Authenticatable
         return $this->hasMany('App\WriterAccessComment');
     }
 
+    public function contentPrescriptions()
+    {
+        return $this->belongsToMany('App\ContentPrescription')->withTimestamps();
+    }
+
     /**
      * User model custom scopes
      */

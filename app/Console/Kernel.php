@@ -29,6 +29,10 @@ class Kernel extends ConsoleKernel
             ->dailyAt('10:00')
             ->timezone('America/Los_Angeles');
 
+        $schedule->call('App\Tasks\DailyReport@sendPrescriptionsEmailReport')
+            ->dailyAt('10:10')
+            ->timezone('America/Los_Angeles');
+
         // Check for new WriterAccess comments
         $schedule->call('App\Http\Controllers\WriterAccessCommentController@fetch')->everyThirtyMinutes();
 

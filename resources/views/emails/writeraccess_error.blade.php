@@ -1,11 +1,11 @@
 @php
-    $staticData = ['title' => 'WriterAccess API error occurred'];
+    $staticData = ['title' => 'Content Order - API error occurred'];
 @endphp
 
 @extends('emails.layouts.master', $staticData)
 @section('content')
     <p>
-        This is an automatic email notification from Content Launch app triggered by WriterAccess error when trying to place the order.<br><br>
+        This is an automatic email notification from the Content Launch app triggered by error when trying to place the order.<br><br>
         <b>Order details:</b>
     </p>
     <table>
@@ -30,7 +30,7 @@
             <td>{{ date('M-d-Y H:i:s') }}</td>
         </tr>
         <tr>
-            <td><b>WriterAccess response:</b></td>
+            <td><b>Response:</b></td>
             <td>{{ $data['api_response'] }}</td>
         </tr>
     </table>

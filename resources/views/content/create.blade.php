@@ -121,3 +121,41 @@
     </div>
 </div>
 @stop
+
+@section('scripts')
+    <script type="text/javascript">
+        $(function () {
+            // Javascript to enable link to tab
+            var url = document.location.toString();
+            if (url.match('#')) {
+                $('.create-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+            }
+
+            // Change hash for page-reload
+            $('.create-tabs a').on('shown.bs.tab', function (e) {
+                window.location.hash = e.target.hash;
+                window.scrollTo(0, 0);
+            })
+        });
+    </script>
+
+    <script type="text/javascript">
+        var prices =  (function() { return {!! $pricesJson !!}; })();
+
+        @if($promotion && $userIsOnPaidAccount)
+            var promoCreditAmount = {{$promotion->credit}};
+        @else
+            var promoCreditAmount = 0.00;
+        @endif
+
+        var isAgencyAccount = {{$isAgencyAccount ? 'true' : 'false'}};
+        var creditLeft = promoCreditAmount;
+
+        $('.datetimepicker').datetimepicker({
+            format: 'MM-DD-YYYY'
+        });
+    </script>
+
+    <script src="/js/content-create.js"></script>
+    <script src="/js/content-custom.js"></script>
+@stop

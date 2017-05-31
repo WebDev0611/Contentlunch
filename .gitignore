@@ -10,6 +10,7 @@
 /.vagrant
 Homestead.yaml
 Homestead.json
+homestead.sh
 .env
 .idea
 .DS_Store

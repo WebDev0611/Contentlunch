@@ -33,6 +33,12 @@ class MailchimpController extends BaseConnectionController {
         $tokenArray = (array)$token;
         $connection = $this->saveConnection($tokenArray, 'mailchimp');
 
+        // Add datacenter to connection settings
+        $connSettings = json_decode($connection->settings);
+        $connSettings->datacenter = $this->getDatacenter($connection);
+        $connection->settings = json_encode($connSettings);
+        $connection->save();
+
         return $this->redirectWithSuccess("You've successfully connected to Mailchimp.");
     }
 
@@ -43,10 +49,10 @@ class MailchimpController extends BaseConnectionController {
 
         $mapped = array_map(function ($el) {
             return [
-                'id' => $el['id'],
-                'name' => $el['name'],
-                'contact' => $el['contact'],
-                'campaign_defaults' => $el['campaign_defaults'],
+                'id'                  => $el['id'],
+                'name'                => $el['name'],
+                'contact'             => $el['contact'],
+                'campaign_defaults'   => $el['campaign_defaults'],
                 'subscribe_url_short' => $el['subscribe_url_short']
             ];
         }, $response['lists']);
@@ -59,5 +65,14 @@ class MailchimpController extends BaseConnectionController {
         return $error == 'access_denied' ?
             'You need to authorize ContentLaunch if you want to use the Mailchimp connection' :
             $request->input('error_description');
+    }
+
+    private function getDatacenter ($connection)
+    {
+        $mailchimpApi = new MailchimpAPI(null, $connection);
+
+        $response = $mailchimpApi->getMetadata();
+
+        return $response['dc'];
     }
 }

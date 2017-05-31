@@ -11,7 +11,7 @@ class ContentTypePresenter extends BasePresenter
     {
         return ContentType::select('id','name')
             ->where('active', true)
-            ->orderBy('name', 'asc')
+            ->orderBy('order', 'asc')
             ->distinct()
             ->pluck('name', 'id')
             ->toArray();

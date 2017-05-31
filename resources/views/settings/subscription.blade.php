@@ -428,6 +428,8 @@
             function addTaskCallback(task) {
                 $('#addTaskModal').modal('hide');
             }
+
+            $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
 @stop

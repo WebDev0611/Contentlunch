@@ -9,12 +9,26 @@ use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 use Laracasts\Presenter\PresentableTrait;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Task extends Model
 {
-    use PresentableTrait;
+    use PresentableTrait, LogsActivity;
 
     protected $presenter = TaskPresenter::class;
+
+    protected static $logAttributes = [
+        'name',
+        'url',
+        'explanation',
+        'start_date',
+        'due_date',
+        'user_id',
+        'account_id',
+        'status',
+    ];
+
+    protected static $logOnlyDirty = true;
 
     public $fillable = [
         'name',
@@ -26,32 +40,6 @@ class Task extends Model
         'account_id',
         'status',
     ];
-
-    public static function boot()
-    {
-        parent::boot();
-        static::updating(function($task) {
-            $task->logChanges();
-        });
-    }
-
-    public function logChanges($userId = null)
-    {
-        $userId = $userId ?: Auth::id();
-        $changed  = $this->getDirty();
-        $fresh = $this->fresh()->toArray();
-
-        array_forget($changed, ['updated_at' ]);
-        array_forget($fresh, ['updated_at' ]);
-
-        if (count($changed) > 0) {
-            $this->adjustments()->create([
-                'user_id' => $userId,
-                'before' => json_encode(array_intersect_key($fresh, $changed)),
-                'after' => json_encode($changed)
-            ]);
-        }
-    }
 
     public function account()
     {
@@ -194,7 +182,7 @@ class Task extends Model
             ->tasks()
             ->with('user')
             ->with('assignedUsers')
-            ->with('contents')
+            ->with('contents.status')
             ->orderBy('created_at', 'desc')
             ->where('status', 'open')
             ->get()
@@ -212,6 +200,7 @@ class Task extends Model
                 return $query->where('account_id', $account->id);
             })
             ->with('user')
+            ->with('contents.status')
             ->orderBy('created_at', 'desc')
             ->where('status', 'open')
             ->distinct()

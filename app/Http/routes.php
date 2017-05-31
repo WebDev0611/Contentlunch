@@ -87,7 +87,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
 
         Route::get('/plan/editor', 'PlanController@editor');
         Route::get('/plan/trends', 'PlanController@trends');
-        Route::get('/plan/prescription', 'PlanController@prescription');
+        Route::get('/plan/prescription', 'PlanController@prescription')->name('prescription');
+        Route::post('/plan/prescription', 'ContentPrescriptionController@showPrescription')->name('getPrescription');
 
         Route::resource('/trending', 'TrendsController@trending');
         Route::resource('/topics', 'TopicsController@index');
@@ -222,6 +223,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
             Route::get('content', 'SettingsController@content')->name('content_settings.index');
             Route::get('buying', 'SettingsController@content')->name('buying_settings.index');
 
+            Route::post('guidelines', 'GuidelineController@update')->name('guidelines.update');
+
             Route::get('email/verify/{confirmationCode}', 'SettingsController@verifyUserEmail');
 
             // Connection Routes
@@ -316,6 +319,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
 
         Route::get('/api/campaigns/{campaign}/tasks', 'CampaignTasksController@index');
 
+        Route::get('/api/contents', 'ContentController@index');
         Route::get('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@index');
         Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@update');
         Route::get('/api/contents/{content}/guests', 'ContentGuestsController@index');
@@ -331,6 +335,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::get('/api/ideas/collaborators', 'IdeaCollaboratorsController@index');
         Route::get('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@index');
         Route::post('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@update');
+
+        Route::get('/api/activity_feed', 'ActivityController@index');
 
         Route::get('/api/account/members', 'AccountCollaboratorsController@index');
         Route::delete('/api/account/members/{id}', 'AccountCollaboratorsController@delete');

@@ -58,6 +58,11 @@ class Account extends Model
         return $this->hasMany('App\Campaign');
     }
 
+    public function guidelines()
+    {
+        return $this->hasOne('App\Guideline');
+    }
+
     public function parentAccount()
     {
         return $this->belongsTo('App\Account', 'parent_account_id');
@@ -238,6 +243,13 @@ class Account extends Model
             ->toArray();
 
         return $dropdown;
+    }
+
+    public function calendarsDropdown()
+    {
+        return $this->calendars()
+            ->pluck('name', 'id')
+            ->toArray();
     }
 
     public function cleanContentWithoutStatus()

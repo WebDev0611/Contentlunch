@@ -59,6 +59,7 @@
   }
 }
 
+.avatar-img-wrapper,
 .dashboard-tasks-img-wrapper {
   width: 32px;
   height: 32px;
@@ -67,6 +68,7 @@
   text-align: center;
   position: relative;
 
+  .avatar-img,
   .dashboard-tasks-img {
     width: 32px;
   }

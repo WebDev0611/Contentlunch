@@ -7,10 +7,11 @@ use App\User;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Campaign extends Model
 {
-    use PresentableTrait;
+    use PresentableTrait, LogsActivity;
 
     protected $presenter = CampaignPresenter::class;
 
@@ -30,6 +31,19 @@ class Campaign extends Model
         'description',
         'goals',
     ];
+
+    protected static $logAttributes = [
+        'title',
+        'status',
+        'campaign_type_id',
+        'start_date',
+        'end_date',
+        'is_recurring',
+        'description',
+        'goals',
+    ];
+
+    protected static $logOnlyDirty = true;
 
     public function account()
     {

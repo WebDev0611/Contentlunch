@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Guideline;
 use App\Helpers;
 use App\Http\Requests\AccountSettings\AccountSettingsRequest;
 use App\Presenters\CountryPresenter;
@@ -11,12 +12,19 @@ use App\User;
 use Auth;
 use Illuminate\Support\Facades\Mail;
 
-class SettingsController extends Controller {
+class SettingsController extends Controller
+{
+    private $selectedAccount;
 
-    public function index ()
+    public function __construct()
+    {
+        $this->selectedAccount = Account::selectedAccount();
+    }
+
+    public function index()
     {
         $user = Auth::user();
-        $account = Account::selectedAccount();
+        $account = $this->selectedAccount;
         $countries = CountryPresenter::dropdown();
 
         return view('settings.index', compact('user', 'account', 'countries'));
@@ -98,12 +106,13 @@ class SettingsController extends Controller {
         ]);
     }
 
-    public function content ()
+    public function content()
     {
         $user = Auth::user();
         $account = Account::selectedAccount();
+        $guidelines = $this->selectedAccount->guidelines()->firstOrCreate([]);
 
-        return view('settings.content', compact('user', 'account'));
+        return view('settings.content', compact('user', 'account', 'guidelines'));
     }
 
     public function connections ()
