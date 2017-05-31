@@ -6,12 +6,7 @@
         <div class="panel-main">
             @include('content.partials.dashboard.panel_tabs')
 
-            {{--<div class="panel-header">
-                <h4 class="panel-container-title">{{ $countContent }} Content Items</h4>
-            </div>--}}
-
-
-            {{-- @include('content.partials.dashboard.filter') --}}
+            @include('content.partials.dashboard.filter')
 
             @include('elements.freemium-alert', ['restriction' => 'launch 5 content pieces'])
 
