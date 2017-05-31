@@ -13,8 +13,8 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="select select-small extend">
-                                    <select name="content_stage" id="#">
-                                        <option>All Types</option>
+                                    <select name="content_stage" v-model='contentStage'>
+                                        <option :value='null'>All Types</option>
                                         <option value="published">Published</option>
                                         <option value="ready_published">Ready to be Published</option>
                                         <option value="written">Being Written</option>
@@ -67,5 +67,11 @@
         name: 'content-filter',
 
         props: [ 'contentCount' ],
+
+        data() {
+            return {
+                contentStage: null,
+            };
+        },
     }
 </script>
