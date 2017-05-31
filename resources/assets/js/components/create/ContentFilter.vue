@@ -12,8 +12,9 @@
                                 <label class="select-horizontal-label">Show:</label>
                             </div>
                             <div class="col-md-8">
-                                <div class="select select-small extend">
-                                    <select name="content_stage" v-model='contentStage'>
+                                <loading size='small' v-show='!stagesLoaded'></loading>
+                                <div class="select select-small extend" v-show='stagesLoaded'>
+                                    <select v-model='stage'>
                                         <option :value='null'>All Types</option>
                                         <option value="published">Published</option>
                                         <option value="ready_published">Ready to be Published</option>
@@ -29,9 +30,10 @@
                                 <label class="select-horizontal-label">By:</label>
                             </div>
                             <div class="col-md-8">
-                                <div class="select select-small extend">
-                                    <select name="#" id="#">
-                                        <option value="#">Any one</option>
+                                <loading size='small' v-show='!authorsLoaded'></loading>
+                                <div class="select select-small extend" v-show='authorsLoaded'>
+                                    <select v-model='author'>
+                                        <option :value="null">Any one</option>
                                     </select>
                                 </div>
                             </div>
@@ -43,9 +45,10 @@
                                 <label class="select-horizontal-label">Campaign:</label>
                             </div>
                             <div class="col-md-8">
-                                <div class="select select-small extend">
-                                    <select name="#" id="#">
-                                        <option value="#">All</option>
+                                <loading size='small' v-show='!campaignsLoaded'></loading>
+                                <div class="select select-small extend" v-show='campaignsLoaded'>
+                                    <select v-model='campaign'>
+                                        <option :value="null">All</option>
                                     </select>
                                 </div>
                             </div>
@@ -54,7 +57,7 @@
                 </div>
             </div>
             <div class="col-md-2 text-right">
-                <div class="create-link-dropdown">
+                <div class="create-link-dropdown" v-show='loaded'>
                     <a href="#">FILTER CONTENT</a>
                 </div>
             </div>
@@ -63,15 +66,37 @@
 </template>
 
 <script>
+    import Loading from '../Loading.vue';
+
     export default {
         name: 'content-filter',
+
+        components: {
+            Loading,
+        },
 
         props: [ 'contentCount' ],
 
         data() {
             return {
-                contentStage: null,
+                stage: null,
+                stages: [],
+                stagesLoaded: false,
+
+                campaign: null,
+                campaigns: [],
+                campaignsLoaded: false,
+
+                author: null,
+                authors: [],
+                authorsLoaded: false,
             };
         },
+
+        computed: {
+            loaded() {
+                return this.stagesLoaded && this.campaignsLoaded && this.authorsLoaded;
+            }
+        }
     }
 </script>
