@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-on:mouseenter='hover = true' v-on:mouseleave='hover = false'>
         <div class="dashboard-ideas-cell cell-size-5">
             <div class="dashboard-tasks-img-wrapper">
                 <img :src="profileImage" alt="#" class="dashboard-tasks-img">
@@ -10,7 +10,7 @@
             <span class="dashboard-ideas-text small">{{ createdAt }}</span>
         </div>
         <div class="dashboard-ideas-cell cell-size-15">
-            <div class="dashboard-ideas-dropdown hidden idea-hover">
+            <div class="dashboard-ideas-dropdown idea-hover" :class="{ 'hidden': !hover }">
                 <button type="button" class="button button-action" data-toggle="dropdown">
                     <i class="icon-add-circle"></i>
                 </button>
@@ -29,6 +29,12 @@
         name: 'recent-ideas-list-item',
 
         props: [ 'idea' ],
+
+        data() {
+            return {
+                hover: false,
+            };
+        },
 
         computed: {
             profileImage() {
