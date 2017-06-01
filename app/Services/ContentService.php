@@ -25,10 +25,7 @@ class ContentService
             : $this->userContentList();
 
         $data['connections'] = $this->connections();
-        $data['countContent'] = collect($data)
-            ->only('published', 'readyPublished', 'written')
-            ->map(function($collection) { return $collection->count(); })
-            ->sum();
+        $data['countContent'] = $this->contentCount($data);
 
         return $data;
     }
@@ -36,6 +33,14 @@ class ContentService
     protected function connections()
     {
         return $this->selectedAccount->connections()->active()->get();
+    }
+
+    protected function contentCount(array $data)
+    {
+        return collect($data)
+            ->only('published', 'readyPublished', 'written')
+            ->map(function($collection) { return $collection->count(); })
+            ->sum();
     }
 
     protected function guestContentList(array $filters = [])
