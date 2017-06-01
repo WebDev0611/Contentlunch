@@ -18,7 +18,6 @@
                                         <option value="3">Published</option>
                                         <option value="2">Ready</option>
                                         <option value="1">Writing</option>
-                                        <option value="4">Archived</option>
                                     </select>
                                 </div>
                             </div>
