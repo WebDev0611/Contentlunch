@@ -281,6 +281,7 @@ class ContentController extends Controller
         $content = Content::create([
             'title' => $request->input('title'),
             'body' => $request->input('body'),
+            'user_id' => Auth::id(),
             'content_type_id' => $request->input('content_type_id'),
             'custom_content_type_id' => isset($customContentType) ? $customContentType->id : null,
         ]);
@@ -303,8 +304,6 @@ class ContentController extends Controller
 
         return redirect('edit/'.$content->id);
     }
-
-
 
     public function create()
     {

@@ -49,6 +49,7 @@ class Content extends Model
     public $fillable = [
         'title',
         'body',
+        'user_id',
         'content_type_id',
         'custom_content_type_id',
     ];
