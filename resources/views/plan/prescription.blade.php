@@ -96,17 +96,17 @@
                                             </div>
                                         </div>
                                         <div class="input-form-group">
-                                            <label for="#">WHAT IS YOUR MONTHLY BUDGET</label>
+                                            <label for="#">WHAT IS YOUR MONTHLY BUDGET FOR CONTENT PRODUCTION?</label>
                                             <div class="select">
                                                 <select name="monthly-budget" required>
                                                     <option value="" disabled selected>Select amount range</option>
                                                     <option value="500.00">$500</option>
-                                                    <option value="1000.00">$1.000</option>
-                                                    <option value="2000.00">$2.000</option>
-                                                    <option value="4000.00">$4.000</option>
-                                                    <option value="6000.00">$6.000</option>
-                                                    <option value="8000.00">$8.000</option>
-                                                    <option value="16000.00">$16.000</option>
+                                                    <option value="1000.00">$1K</option>
+                                                    <option value="2000.00">$2K</option>
+                                                    <option value="4000.00">$4K</option>
+                                                    <option value="6000.00">$6K</option>
+                                                    <option value="8000.00">$8K</option>
+                                                    <option value="16000.00">$16K</option>
                                                 </select>
                                             </div>
                                         </div>
