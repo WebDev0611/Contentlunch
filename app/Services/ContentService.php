@@ -30,19 +30,6 @@ class ContentService
         return $data;
     }
 
-    protected function connections()
-    {
-        return $this->selectedAccount->connections()->active()->get();
-    }
-
-    protected function contentCount(array $data)
-    {
-        return collect($data)
-            ->only('published', 'readyPublished', 'written')
-            ->map(function($collection) { return $collection->count(); })
-            ->sum();
-    }
-
     protected function guestContentList(array $filters = [])
     {
         $published = Auth::user()->guestContents()->published()->recentlyUpdated()->get();
@@ -61,6 +48,19 @@ class ContentService
         $written = $this->selectedAccount->contents()->written()->recentlyUpdated()->get();
 
         return compact('published', 'readyPublished', 'written');
+    }
+
+    protected function connections()
+    {
+        return $this->selectedAccount->connections()->active()->get();
+    }
+
+    protected function contentCount(array $data)
+    {
+        return collect($data)
+            ->only('published', 'readyPublished', 'written')
+            ->map(function($collection) { return $collection->count(); })
+            ->sum();
     }
 
     public function recentContent()
