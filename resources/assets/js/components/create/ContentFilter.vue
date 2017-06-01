@@ -72,6 +72,7 @@
 
 <script>
     import Loading from '../Loading.vue';
+    import URLSearchParams from 'url-search-params';
 
     export default {
         name: 'content-filter',
@@ -106,9 +107,18 @@
         created() {
             this.fetchCampaigns();
             this.fetchCollaborators();
+            this.setDefaultParameters();
         },
 
         methods: {
+            setDefaultParameters() {
+                let params = new URLSearchParams(location.search.slice(1));
+
+                this.stage = params.get('stage') || this.stage;
+                this.campaign = params.get('campaign') || this.campaign;
+                this.author = params.get('author') || this.author;
+            },
+
             fetchCampaigns() {
                 $.get('/api/campaigns').then(response => {
                     this.campaigns = response.data;
