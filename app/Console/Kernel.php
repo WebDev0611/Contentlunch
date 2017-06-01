@@ -25,13 +25,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call('App\Tasks\DailyReport@sendEmailReport')
-            ->dailyAt('10:00')
-            ->timezone('America/Los_Angeles');
+        if(env('APP_ENV') == 'production') {
+            $schedule->call('App\Tasks\DailyReport@sendEmailReport')
+                ->dailyAt('08:00')
+                ->timezone('America/Los_Angeles');
 
-        $schedule->call('App\Tasks\DailyReport@sendPrescriptionsEmailReport')
-            ->dailyAt('10:10')
-            ->timezone('America/Los_Angeles');
+            $schedule->call('App\Tasks\DailyReport@sendPrescriptionsEmailReport')
+                ->dailyAt('08:05')
+                ->timezone('America/Los_Angeles');
+        }
 
         // Check for new WriterAccess comments
         $schedule->call('App\Http\Controllers\WriterAccessCommentController@fetch')->everyThirtyMinutes();

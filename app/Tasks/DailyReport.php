@@ -34,7 +34,7 @@ class DailyReport
     /**
      * Sends email report about used prescriptions in the last 24h
      */
-    public function sendPrescriptionsEmailReport ()
+    public static function sendPrescriptionsEmailReport ()
     {
         $prescriptions = DB::table('content_prescription_user')->whereBetween('created_at', [
             Carbon::now()->subDay(),
