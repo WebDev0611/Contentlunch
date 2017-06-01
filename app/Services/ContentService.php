@@ -32,7 +32,7 @@ class ContentService
            'published' => Auth::user()->guestContents()->published()->recentlyUpdated()->get(),
            'readyPublished' => Auth::user()->guestContents()->readyToPublish()->recentlyUpdated()->get(),
            'written' => Auth::user()->guestContents()->written()->recentlyUpdated()->get(),
-           'connections' => $this->selectedAccount->connections()->active()->get(),
+           'connections' => $this->selectedAccount->connections()->active()->WithoutGA()->get(),
         ];
     }
 
@@ -45,7 +45,7 @@ class ContentService
             'published' => $this->selectedAccount->contents()->published()->recentlyUpdated()->get(),
             'readyPublished' => $this->selectedAccount->contents()->readyToPublish()->recentlyUpdated()->get(),
             'written' => $this->selectedAccount->contents()->written()->recentlyUpdated()->get(),
-            'connections' => $this->selectedAccount->connections()->active()->get(),
+            'connections' => $this->selectedAccount->connections()->active()->WithoutGA()->get(),
         ];
     }
 

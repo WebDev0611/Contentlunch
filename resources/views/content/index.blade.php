@@ -95,8 +95,8 @@
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
                         <p class="text-gray text-center">
-                            Here are the content connections you can push out to, check the ones you want, and
-                            click launch and they go out in real time to be published.
+                            Here are your content connections. To launch content, simply check the connections, click launch
+                            and your content will be published right now!
                         </p>
 
                         @foreach ($connections as $conn)
