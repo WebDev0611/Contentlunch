@@ -5,6 +5,13 @@
                 <span id="content-orders">{{ contentOrdersToReviewCount }}</span>
             </span>
         <span>Content Orders <br> to Review</span>
+        <span>
+            <a href="/content/orders" title="Go to content orders page">
+                <button class="btn btn-default orders-link" type="button">Go
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </button>
+            </a>
+        </span>
     </div>
 </template>
 
@@ -37,3 +44,9 @@
         }
     }
 </script>
+
+<style scoped>
+    .orders-link span {
+        color: #b0acb7;
+    }
+</style>

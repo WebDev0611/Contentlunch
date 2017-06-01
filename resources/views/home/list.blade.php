@@ -31,7 +31,7 @@
                         <span>New Content <br> Pieces Posted</span>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <content-orders-counter></content-orders-counter>
                 </div>
                 <div class="col-md-3 text-right">
