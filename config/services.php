@@ -75,9 +75,16 @@ return [
         'redirect' => env('DROPBOX_REDIRECT')
     ],
 
-    'google-drive' => [
+    'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
-        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => env('GOOGLE_REDIRECT')
+        'client_secret' => env('GOOGLE_CLIENT_SECRET')
+    ],
+
+    'google-drive' => [
+        'redirect' => env('GOOGLE_REDIRECT_DRIVE')
+    ],
+
+    'google-analytics' => [
+        'redirect' => env('GOOGLE_REDIRECT_ANALYTICS')
     ],
 ];

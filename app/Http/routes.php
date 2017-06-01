@@ -197,8 +197,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         //Dropbox Callback
         Route::get('callback/dropbox', 'Connections\DropboxController@callback')->name('dropboxCallback');
 
-        //Google Drive Callback
-        Route::get('callback/google', 'Connections\GoogleDriveController@callback')->name('googleDriveCallback');
+        //Google Callback
+        Route::get('callback/google/{service}', 'Connections\GoogleController@callback')->name('googleCallback');
 
         // - Landing page for creating content
         Route::get('/create', 'ContentController@create')->name('contents.create');

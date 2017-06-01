@@ -10,6 +10,7 @@ use App\Campaign;
 use App\Connection;
 use App\Content;
 use App\ContentType;
+use App\CustomContentType;
 use App\Helpers;
 use App\Http\Requests\Content\ContentRequest;
 use App\Limit;
@@ -25,6 +26,7 @@ use Auth;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Input;
 use Response;
 use Storage;
@@ -274,10 +276,13 @@ class ContentController extends Controller
                 redirect()->back()->withErrors($validator, 'content');
         }
 
+        $customContentType = $this->saveCustomContentType($request);
+
         $content = Content::create([
             'title' => $request->input('title'),
             'body' => $request->input('body'),
             'content_type_id' => $request->input('content_type_id'),
+            'custom_content_type_id' => isset($customContentType) ? $customContentType->id : null,
         ]);
 
         $this->selectedAccount->contents()->save($content);
@@ -572,6 +577,7 @@ class ContentController extends Controller
             'tasks' => $content->tasks()->with('user')->get(),
             'isPublished' => isset($content) && $content->status  && $content->status->slug == 'published',
             'guidelines' => $this->selectedAccount->guidelines,
+            'customContentType' => isset($content->customContentType) ? $content->customContentType->name : ''
         ];
 
         return view('content.editor', $data);
@@ -593,8 +599,10 @@ class ContentController extends Controller
     {
         if ($request->input('action') == 'written_content') {
             $validation = $this->onSaveValidation($request->all());
-        } else {
+        } elseif($request->input('action') == 'ready_to_publish') {
             $validation = $this->onSubmitValidation($request->all());
+        } else {
+            $validation = $this->onPublishValidation($request->all());
         }
 
         if ($validation->fails()) {
@@ -621,6 +629,7 @@ class ContentController extends Controller
         $this->saveContentTags($request, $content);
         $this->saveMailchimpSettings($request, $content);
         $this->saveAsCalendarContent($request, $content);
+        $this->saveCustomContentType($request, $content);
 
         // - Attach the related data
         if ($request->input('related')) {
@@ -650,21 +659,37 @@ class ContentController extends Controller
             'content_type_id' => 'required|exists:content_types,id',
             'due_date' => 'required',
             'title' => 'required',
-            'connection_id' => 'required|exists:connections,id',
             'content_id' => 'required|exists:contents,id',
             'body' => 'required',
         ],
         [
             'content_type_id.required' => 'The content type is required.',
             'body.required' => 'The content body field is required.',
-            'connection_id.required' => 'The content destination is required.'
         ]);
+    }
+
+    private function onPublishValidation(array $requestData)
+    {
+        return Validator::make($requestData, [
+            'content_type_id' => 'required|exists:content_types,id',
+            'due_date' => 'required',
+            'title' => 'required',
+            'connection_id' => 'required|exists:connections,id',
+            'content_id' => 'required|exists:contents,id',
+            'body' => 'required',
+        ],
+            [
+                'content_type_id.required' => 'The content type is required.',
+                'body.required' => 'The content body field is required.',
+                'connection_id.required' => 'The content destination is required.'
+            ]);
     }
 
     private function onSaveValidation(array $requestData)
     {
         return Validator::make($requestData, [
             'content_type_id' => 'required|exists:content_types,id',
+            'custom_content_type' => 'required_if:custom_content_type_present,true',
             'title' => 'required',
         ],
         [
@@ -925,6 +950,28 @@ class ContentController extends Controller
         return Validator::make($input, [
             'file' => 'image|max:3000',
         ]);
+    }
+
+    private function saveCustomContentType (Request $request, Content $content = null)
+    {
+        $customContentType = null;
+
+        if($request->has('custom_content_type')) {
+            $customContentType = CustomContentType::whereName($request->input('custom_content_type'))->first();
+
+            if (!$customContentType) {
+                $customContentType = CustomContentType::create([
+                    'name' => $request->input('custom_content_type')
+                ]);
+            }
+
+            if($content !== null) {
+                $content->customContentType()->associate($customContentType);
+                $content->save();
+            }
+        }
+
+        return $customContentType;
     }
 
 }

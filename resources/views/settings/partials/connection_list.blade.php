@@ -2,7 +2,7 @@
     @foreach($connections as $con)
     <div class="settings-import-item">
         <div class="col-md-6">
-            <span class="icon-social-{{ $con->provider->slug }}"></span>
+            <span class="icon-social icon-social-{{ $con->provider->slug }}"></span>
             <span class="settings-import-item-title">{{ $con->name }}</span>
         </div>
         <div class="col-md-6 text-right">

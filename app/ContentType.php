@@ -43,7 +43,7 @@ class ContentType extends Model
         $contentTypeOptions = ['' => '-- Select Content Type --'];
         $contentTypeOptions += ContentType::select('id','name')
             ->where('provider_id', '!=', '0')
-            ->orderBy('name', 'asc')
+            ->orderBy('order', 'asc')
             ->distinct()
             ->pluck('name', 'id')
             ->toArray();

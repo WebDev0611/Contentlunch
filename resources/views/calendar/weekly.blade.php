@@ -190,4 +190,5 @@ var my = {!! $my !!};
 </script>
 <script src="/js/calendar.js"></script>
 <script src="/js/calendar-helpers.js"></script>
+<script src="/js/content-custom.js"></script>
 @stop

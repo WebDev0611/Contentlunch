@@ -103,6 +103,11 @@ class ConnectionController extends Controller
                 $url = (new \oAuth\API\GoogleDriveAuth())->getAuthorizationUrl();
 
                 return Redirect::to($url);
+
+            case 'google-analytics':
+                $url = (new \oAuth\API\GoogleAnalyticsAuth())->getAuthorizationUrl();
+
+                return Redirect::to($url);
         }
     }
 
