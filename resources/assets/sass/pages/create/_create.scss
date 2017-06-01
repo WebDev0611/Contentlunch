@@ -129,7 +129,7 @@
 @for $i from 1 to 20 {
   $j: $i * 5;
   .cell-size-#{$j} {
-    width: percentage($j / 100);
+    width: percentage($j / 100) !important;
   }
 }
 
