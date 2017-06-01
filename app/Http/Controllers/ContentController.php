@@ -45,11 +45,11 @@ class ContentController extends Controller
 
     public function index(Request $request)
     {
-        $filters = [
+        $filters = collect([
             'author' => $request->input('author'),
             'campaign' => $request->input('campaign'),
             'stage' => $request->input('stage'),
-        ];
+        ])->filter()->toArray();
 
         return $request->ajax()
             ? response()->json([ 'data' => $this->content->recentContent() ])
