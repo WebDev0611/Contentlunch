@@ -74,7 +74,7 @@ class Content extends Model
 
     public function authors()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User')->withTimestamps();
     }
 
     public function buying_stage()

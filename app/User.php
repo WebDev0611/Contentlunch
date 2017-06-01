@@ -83,7 +83,7 @@ class User extends Authenticatable
 
     public function guestContents()
     {
-        return $this->belongsToMany('App\Content', 'content_guest');
+        return $this->belongsToMany('App\Content', 'content_guest')->withTimestamps();
     }
 
     public function guestCampaigns()
