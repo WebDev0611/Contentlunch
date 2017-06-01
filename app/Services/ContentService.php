@@ -20,34 +20,31 @@ class ContentService
 
     public function contentList(array $filters = [])
     {
-        $data = Auth::user()->isGuest()
-            ? $this->guestContentList()
-            : $this->userContentList();
+        $this->selectedAccount->cleanContentWithoutStatus();
 
-        $data['connections'] = $this->connections();
+        $data = [
+            'published' => $this->filteredContent($filters)->published()->get(),
+            'readyPublished' => $this->filteredContent($filters)->readyToPublish()->get(),
+            'written' => $this->filteredContent($filters)->written()->get(),
+            'connections' => $this->connections(),
+        ];
+
         $data['countContent'] = $this->contentCount($data);
 
         return $data;
     }
 
-    protected function guestContentList(array $filters = [])
+    protected function filteredContent(array $filters = [])
     {
-        $published = Auth::user()->guestContents()->published()->recentlyUpdated()->get();
-        $readyPublished = Auth::user()->guestContents()->readyToPublish()->recentlyUpdated()->get();
-        $written = Auth::user()->guestContents()->written()->recentlyUpdated()->get();
+        $query = Auth::user()->isGuest()
+            ? Auth::user()->guestContents()->recentlyUpdated()
+            : $this->selectedAccount->contents()->recentlyUpdated();
 
-        return compact('published', 'readyPublished', 'written');
-    }
+        $query->when($filters['author'], function($q) use ($filters) {
+                return $q->where('user_id', $filters['author']);
+            });
 
-    protected function userContentList(array $filters = [])
-    {
-        $this->selectedAccount->cleanContentWithoutStatus();
-
-        $published = $this->selectedAccount->contents()->published()->recentlyUpdated()->get();
-        $readyPublished = $this->selectedAccount->contents()->readyToPublish()->recentlyUpdated()->get();
-        $written = $this->selectedAccount->contents()->written()->recentlyUpdated()->get();
-
-        return compact('published', 'readyPublished', 'written');
+        return $query;
     }
 
     protected function connections()
