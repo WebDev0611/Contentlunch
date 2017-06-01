@@ -40,11 +40,17 @@ class ContentService
             ? Auth::user()->guestContents()->recentlyUpdated()
             : $this->selectedAccount->contents()->recentlyUpdated();
 
-        $query->when($filters['author'], function($q) use ($filters) {
-                return $q->where('user_id', $filters['author']);
-            });
+        $filters = collect($filters);
 
-        return $query;
+        return $query->when($filters->has('author'), function($query) use ($filters) {
+                return $query->where('user_id', $filters['author']);
+            })
+            ->when($filters->has('campaign'), function ($query) use ($filters) {
+                return $query->where('campaign_id', $filters['campaign']);
+            })
+            ->when($filters->has('stage'), function($query) use ($filters) {
+                return $query->where('content_status_id', $filters['stage']);
+            });
     }
 
     protected function connections()
