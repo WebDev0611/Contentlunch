@@ -18,37 +18,44 @@ class ContentService
         $this->selectedAccount = Account::selectedAccount() ?: $content->account;
     }
 
-    public function contentList()
+    public function contentList(array $filters = [])
     {
-        return Auth::user()->isGuest()
+        $data = Auth::user()->isGuest()
             ? $this->guestContentList()
             : $this->userContentList();
+
+        $data['connections'] = $this->connections();
+        $data['countContent'] = collect($data)
+            ->only('published', 'readyPublished', 'written')
+            ->map(function($collection) { return $collection->count(); })
+            ->sum();
+
+        return $data;
     }
 
-    protected function guestContentList()
+    protected function connections()
     {
-        $connections = $this->selectedAccount->connections()->active()->get();
+        return $this->selectedAccount->connections()->active()->get();
+    }
 
+    protected function guestContentList(array $filters = [])
+    {
         $published = Auth::user()->guestContents()->published()->recentlyUpdated()->get();
         $readyPublished = Auth::user()->guestContents()->readyToPublish()->recentlyUpdated()->get();
         $written = Auth::user()->guestContents()->written()->recentlyUpdated()->get();
-        $countContent = $published->count() + $readyPublished->count() + $written->count();
 
-        return compact('countContent', 'published', 'readyPublished', 'written', 'connections');
+        return compact('published', 'readyPublished', 'written');
     }
 
-    protected function userContentList()
+    protected function userContentList(array $filters = [])
     {
         $this->selectedAccount->cleanContentWithoutStatus();
-
-        $connections = $this->selectedAccount->connections()->active()->get();
 
         $published = $this->selectedAccount->contents()->published()->recentlyUpdated()->get();
         $readyPublished = $this->selectedAccount->contents()->readyToPublish()->recentlyUpdated()->get();
         $written = $this->selectedAccount->contents()->written()->recentlyUpdated()->get();
-        $countContent = $published->count() + $readyPublished->count() + $written->count();
 
-        return compact('countContent', 'published', 'readyPublished', 'written', 'connections');
+        return compact('published', 'readyPublished', 'written');
     }
 
     public function recentContent()

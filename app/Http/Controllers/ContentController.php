@@ -43,9 +43,15 @@ class ContentController extends Controller
 
     public function index(Request $request)
     {
+        $filters = [
+            'author' => $request->input('author'),
+            'campaign' => $request->input('campaign'),
+            'stage' => $request->input('stage'),
+        ];
+
         return $request->ajax()
             ? response()->json([ 'data' => $this->content->recentContent() ])
-            : view('content.index', $this->content->contentList());
+            : view('content.index', $this->content->contentList($filters));
     }
 
     public function orders(Request $request)
