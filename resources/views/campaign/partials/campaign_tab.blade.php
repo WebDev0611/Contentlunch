@@ -104,6 +104,7 @@
                 'placeholder' => 'Enter Campaign Description',
                 'class' => 'input input-larger form-control',
                 'id' => 'campaign-description',
+                'rows' => '5'
             ], $isCollaborator);
         @endphp
         {!! Form::textarea('description', old('description'), $descriptionOptions) !!}
@@ -114,7 +115,8 @@
             $goalsOptions = \App\Helpers::isCollaborator([
                 'placeholder' => 'Enter Campaign Goals',
                 'class' => 'input input-larger form-control',
-                'id' => 'campaign-goals'
+                'id' => 'campaign-goals',
+                'rows' => '5'
             ], $isCollaborator);
         @endphp
         {!! Form::textarea('goals', old('goals'), $goalsOptions) !!}
