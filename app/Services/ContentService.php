@@ -18,35 +18,52 @@ class ContentService
         $this->selectedAccount = Account::selectedAccount() ?: $content->account;
     }
 
-    public function contentList()
-    {
-        return Auth::user()->isGuest()
-            ? $this->guestContentList()
-            : $this->userContentList();
-    }
-
-    protected function guestContentList()
-    {
-        return [
-           'countContent' => Auth::user()->guestContents()->count(),
-           'published' => Auth::user()->guestContents()->published()->recentlyUpdated()->get(),
-           'readyPublished' => Auth::user()->guestContents()->readyToPublish()->recentlyUpdated()->get(),
-           'written' => Auth::user()->guestContents()->written()->recentlyUpdated()->get(),
-           'connections' => $this->selectedAccount->connections()->active()->WithoutGA()->get(),
-        ];
-    }
-
-    protected function userContentList()
+    public function contentList(array $filters = [])
     {
         $this->selectedAccount->cleanContentWithoutStatus();
 
-        return [
-            'countContent' => $this->selectedAccount->contents()->count(),
-            'published' => $this->selectedAccount->contents()->published()->recentlyUpdated()->get(),
-            'readyPublished' => $this->selectedAccount->contents()->readyToPublish()->recentlyUpdated()->get(),
-            'written' => $this->selectedAccount->contents()->written()->recentlyUpdated()->get(),
-            'connections' => $this->selectedAccount->connections()->active()->WithoutGA()->get(),
+        $data = [
+            'published' => $this->filteredContent($filters)->published()->get(),
+            'readyPublished' => $this->filteredContent($filters)->readyToPublish()->get(),
+            'written' => $this->filteredContent($filters)->written()->get(),
+            'connections' => $this->connections(),
         ];
+
+        $data['countContent'] = $this->contentCount($data);
+
+        return $data;
+    }
+
+    protected function filteredContent(array $filters = [])
+    {
+        $query = Auth::user()->isGuest()
+            ? Auth::user()->guestContents()->recentlyUpdated()
+            : $this->selectedAccount->contents()->recentlyUpdated();
+
+        $filters = collect($filters);
+
+        return $query->when($filters->has('author'), function($query) use ($filters) {
+                return $query->where('user_id', $filters['author']);
+            })
+            ->when($filters->has('campaign'), function ($query) use ($filters) {
+                return $query->where('campaign_id', $filters['campaign']);
+            })
+            ->when($filters->has('stage'), function($query) use ($filters) {
+                return $query->where('content_status_id', $filters['stage']);
+            });
+    }
+
+    protected function connections()
+    {
+        return $this->selectedAccount->connections()->active()->withoutGA->get();
+    }
+
+    protected function contentCount(array $data)
+    {
+        return collect($data)
+            ->only('published', 'readyPublished', 'written')
+            ->map(function($collection) { return $collection->count(); })
+            ->sum();
     }
 
     public function recentContent()
@@ -57,7 +74,7 @@ class ContentService
             ->take(10)
             ->get()
             ->map(function($content) {
-                $content->author = $content->author();
+                $content->author = $content->author;
                 $content->title = $content->present()->title;
                 $content->due_date_human = $content->present()->dueDate;
 

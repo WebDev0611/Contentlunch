@@ -40,11 +40,8 @@ class ContentCollaboratorsController extends Controller
 
     public function update(Request $request, Content $content)
     {
-        $content->authors()->detach();
-
-        // Always attach current user
-        $content->authors()->attach(Auth::user()->id);
-        $content->authors()->attach($request->input('authors'));
+        $authorIds = collect($request->input('authors'))->merge(Auth::id())->toArray();
+        $content->authors()->sync($authorIds);
 
         return response()->json([
             'data' => Content::find($content->id)->authors()->get()

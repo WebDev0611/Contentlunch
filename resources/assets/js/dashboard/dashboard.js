@@ -16,11 +16,6 @@ $(document).ready(function() {
         return $('.idea-count').text(this.last30Days().length);
     });
 
-    var ideas = new recent_ideas_view({
-        el: '#recent-ideas',
-        collection: recent_ideas
-    });
-
     recent_ideas.fetch();
 
     var recent_content = new content_collection();

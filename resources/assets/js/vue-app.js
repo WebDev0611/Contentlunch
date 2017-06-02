@@ -16,6 +16,8 @@ Vue.component('content-order-comment-list', require('./components/orders/Content
 Vue.component('content-messages', require('./components/messaging-system/ContentMessages.vue'));
 Vue.component('activity-feed', require('./components/dashboard/ActivityFeed.vue'));
 Vue.component('content-list', require('./components/dashboard/ContentList.vue'));
+Vue.component('recent-ideas-list', require('./components/dashboard/RecentIdeasList.vue'));
+Vue.component('content-filter', require('./components/create/ContentFilter.vue'));
 
 new Vue({
     el: '#root',

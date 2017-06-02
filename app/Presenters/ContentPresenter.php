@@ -65,4 +65,18 @@ class ContentPresenter extends BasePresenter
 
         return $status;
     }
+
+    public function authorName()
+    {
+        return $this->entity->author
+            ? $this->entity->author->name
+            : 'No author specified';
+    }
+
+    public function authorProfileImage()
+    {
+        return $this->entity->author
+            ? $this->entity->author->present()->profile_image
+            : \App\User::DEFAULT_PROFILE_IMAGE;
+    }
 }

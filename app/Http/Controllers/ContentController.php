@@ -45,9 +45,15 @@ class ContentController extends Controller
 
     public function index(Request $request)
     {
+        $filters = collect([
+            'author' => $request->input('author'),
+            'campaign' => $request->input('campaign'),
+            'stage' => $request->input('stage'),
+        ])->filter()->toArray();
+
         return $request->ajax()
             ? response()->json([ 'data' => $this->content->recentContent() ])
-            : view('content.index', $this->content->contentList());
+            : view('content.index', $this->content->contentList($filters));
     }
 
     public function orders(Request $request)
@@ -275,6 +281,7 @@ class ContentController extends Controller
         $content = Content::create([
             'title' => $request->input('title'),
             'body' => $request->input('body'),
+            'user_id' => Auth::id(),
             'content_type_id' => $request->input('content_type_id'),
             'custom_content_type_id' => isset($customContentType) ? $customContentType->id : null,
         ]);
@@ -297,8 +304,6 @@ class ContentController extends Controller
 
         return redirect('edit/'.$content->id);
     }
-
-
 
     public function create()
     {
