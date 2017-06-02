@@ -72,6 +72,11 @@ class Content extends Model
         return $this->hasMany('App\Attachment');
     }
 
+    public function author()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
     public function authors()
     {
         return $this->belongsToMany('App\User')->withTimestamps();
@@ -200,12 +205,6 @@ class Content extends Model
     public function hasAccessToMessages(User $user)
     {
         return $this->hasCollaborator($user) || $this->hasGuest($user);
-    }
-
-    public function author() {
-        $author = $this->authors()->orderBy('created_at')->first();
-
-        return $author ? $author : null;
     }
 
     public function dueDateDiffFromToday()
