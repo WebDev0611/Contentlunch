@@ -55,7 +55,7 @@ class ContentService
 
     protected function connections()
     {
-        return $this->selectedAccount->connections()->active()->withoutGA->get();
+        return $this->selectedAccount->connections()->active()->withoutGA()->get();
     }
 
     protected function contentCount(array $data)
