@@ -74,7 +74,7 @@ class ContentService
             ->take(10)
             ->get()
             ->map(function($content) {
-                $content->author = $content->author();
+                $content->author = $content->author;
                 $content->title = $content->present()->title;
 
                 return $content;
