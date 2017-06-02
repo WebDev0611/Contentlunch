@@ -22,3 +22,11 @@
         props: [ 'contentStage' ],
     }
 </script>
+
+<style scoped>
+    i {
+        width:16px;
+        height:16px;
+        margin: 0 1px;
+    }
+</style>

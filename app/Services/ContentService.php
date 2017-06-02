@@ -59,6 +59,7 @@ class ContentService
             ->map(function($content) {
                 $content->author = $content->author();
                 $content->title = $content->present()->title;
+                $content->due_date_human = $content->present()->dueDate;
 
                 return $content;
             });
