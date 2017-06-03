@@ -17,7 +17,12 @@ Vue.component('content-messages', require('./components/messaging-system/Content
 Vue.component('activity-feed', require('./components/dashboard/ActivityFeed.vue'));
 Vue.component('content-list', require('./components/dashboard/ContentList.vue'));
 Vue.component('recent-ideas-list', require('./components/dashboard/RecentIdeasList.vue'));
+
+// Create Module
 Vue.component('content-filter', require('./components/create/ContentFilter.vue'));
+
+// Plan Module
+Vue.component('ideas-list', require('./components/plan/IdeasList.vue'));
 
 new Vue({
     el: '#root',
