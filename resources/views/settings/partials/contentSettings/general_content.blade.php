@@ -38,7 +38,7 @@
         {{ Form::open([ 'route' => 'guidelines.update' ]) }}
 
         <div class="input-form-group">
-            <label for="#">COMPANY PUBLISHING GUIDELINES</label>
+            <label for="#">CONTENT PUBLISHING GUIDELINES</label>
             {{
                 Form::textarea(
                     'publishing_guidelines',
@@ -49,10 +49,11 @@
             <p class="help-block">
                 Explain most important elements of company’s publishing strategy.
                 This information will be provided to each collaborator and guest
+                on the Content Editor.
             </p>
         </div>
         <div class="input-form-group">
-            <label for="#">EXPLAIN COMPANY STRATEGY IN SHORT</label>
+            <label for="#">EXPLAIN CONTENT STRATEGY IN SHORT</label>
             {{
                 Form::textarea(
                     'company_strategy',

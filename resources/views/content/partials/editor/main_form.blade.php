@@ -33,6 +33,8 @@
             </p>
         </div>
 
+
+
         <div class="row">
             <div class="col-sm-6">
                 <div class="input-form-group">
@@ -259,6 +261,7 @@
             </div>
         </div>
 
+        @include('content.partials.editor.guidelines')
 
         <!-- Editor container -->
         <div class="character-counter">
