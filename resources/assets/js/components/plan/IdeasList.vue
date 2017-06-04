@@ -17,25 +17,11 @@
 
         components: { Loading, IdeasListItem },
 
-        data() {
-            return {
-                allIdeas: [],
-            };
-        },
-
-        created() {
-            this.fetchIdeas();
-        },
-
-        methods: {
-            fetchIdeas() {
-                return $.get('/ideas').then(response => this.allIdeas = response);
-            }
-        },
+        props: [ 'status' ],
 
         computed: {
             ideas() {
-                return this.allIdeas.filter(idea => idea.status === 'active');
+                return this.$store.state.ideas.filter(idea => idea.status === this.status);
             },
         },
     }

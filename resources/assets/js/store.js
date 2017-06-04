@@ -7,9 +7,11 @@ const state = {
     user: User,
     messagesByUser: {},
     unreadMessages: 0,
+    ideas: [],
 };
 
 const mutations = {
+    setIdeas: (state, payload) => state.ideas = payload,
     setUnreadMessages: (state, unread) => state.unreadMessages = unread,
     setMessages: (state, payload) => state.messagesByUser = payload,
 
@@ -41,6 +43,10 @@ const mutations = {
 };
 
 const actions = {
+    fetchIdeas(context, payload) {
+        $.get('/ideas').then(response => context.commit('setIdeas', response));
+    },
+
     setMessages(context, payload) {
         context.commit('setMessages', payload);
         context.commit('updateUnreadMessages');
@@ -60,6 +66,7 @@ const actions = {
 const getters = {
     unreadMessages: state => state.unreadMessages,
     messagesByUser: state => state.messagesByUser,
+    ideas: state => state.ideas,
 };
 
 export default new Vuex.Store({

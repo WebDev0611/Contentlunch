@@ -5,37 +5,7 @@
 
 <div class="workspace">
     <div class="panel clearfix">
-        <div class="panel-main">
-
-            <div class="panel-header">
-                <ul class="panel-tabs text-center">
-                    <li>
-                        <a href="/plan">Topic Generator</a>
-                    </li>
-                    <li>
-                        <a href="/plan/trends">Content Trends</a>
-                    </li>
-                    <li>
-                        <a href="/plan/prescription">Content Prescription</a>
-                    </li>
-                    <li class="active">
-                        <a href="javascript:;" id="active-ideas-link">Active Ideas</a>
-                    </li>
-                    <li>
-                        <a href="javascript:;" id="parked-ideas-link">Parked Ideas</a>
-                    </li>
-                </ul>
-            </div>
-
-            @include('elements.freemium-alert', ['restriction' => 'create only ten ideas per month'])
-
-            <input type="text" class="plan-panel-search" placeholder="Quick Search">
-            <ideas-list></ideas-list>
-
-            <div id="idea-container">
-            </div>
-
-        </div>
+        <ideas></ideas>
 
         <!--
         <aside class="panel-sidebar">
