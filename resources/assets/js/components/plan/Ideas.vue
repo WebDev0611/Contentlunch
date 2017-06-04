@@ -38,13 +38,12 @@
 </template>
 
 <script>
-    import FreemiumAlert from '../FreemiumAlert.vue';
     import IdeasList from './IdeasList.vue';
 
     export default {
         name: 'ideas',
 
-        components: { FreemiumAlert, IdeasList },
+        components: { IdeasList },
 
         created() {
             this.$store.dispatch('fetchIdeas');
