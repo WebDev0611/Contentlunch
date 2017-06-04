@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class='plan-ideas-container'>
         <div class="plan-ideas-cell cell-size-5">
             <avatar :user='idea.user'></avatar>
         </div>
