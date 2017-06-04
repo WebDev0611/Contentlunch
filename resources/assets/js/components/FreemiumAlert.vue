@@ -1,5 +1,5 @@
 <template>
-    <div class="alert alert-info alert-forms freemium-notification alert-dismissable">
+    <div class="alert alert-info alert-forms freemium-notification alert-dismissable" v-show='accountPlan'>
 
         <h4>You are using the {{ accountPlan }} of ContentLaunch</h4>
 
@@ -18,7 +18,7 @@
     export default {
         name: 'freemium-alert',
 
-        props: ['type', 'restriction'],
+        props: ['type'],
 
         computed: {
             restrictionMessage() {
@@ -26,7 +26,7 @@
             },
 
             accountPlan() {
-                switch (this.type) {
+                switch (this.$store.state.subscriptionType) {
                     case 'trial': return '2 week free trial';
                     case 'free': return 'free version';
                     default: return null;

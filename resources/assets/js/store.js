@@ -5,6 +5,8 @@ Vue.use(Vuex);
 
 const state = {
     user: User,
+    account: Account,
+    accountPlan: AccountPlan,
     messagesByUser: {},
     unreadMessages: 0,
     ideas: [],
@@ -67,6 +69,7 @@ const getters = {
     unreadMessages: state => state.unreadMessages,
     messagesByUser: state => state.messagesByUser,
     ideas: state => state.ideas,
+    subscriptionType: state => state.accountPlan.slug,
 };
 
 export default new Vuex.Store({
