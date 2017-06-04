@@ -13,11 +13,11 @@
             </li>
 
             <li v-show="park && idea.status !== 'parked'">
-                <a @click='park' href='#'>Park It</a>
+                <a @click.prevent='deactivate' href='#'>Park It</a>
             </li>
 
             <li v-show="park && idea.status === 'parked'">
-                <a @click='activate' href='#'>Unpark It</a>
+                <a @click.prevent='activate' href='#'>Unpark It</a>
             </li>
         </ul>
     </div>
@@ -45,7 +45,7 @@
         },
 
         methods: {
-            park() {
+            deactivate() {
                 this.idea.status = 'parked';
 
                 return $.post(`/idea/${this.idea.id}/park`);
