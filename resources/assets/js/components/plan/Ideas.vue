@@ -20,7 +20,8 @@
             </ul>
         </div>
 
-        <freemium-alert>
+        <freemium-alert
+            restriction='create only ten ideas per month'>
         </freemium-alert>
 
         <div class="tab-content">
