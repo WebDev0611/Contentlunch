@@ -129,6 +129,11 @@ class Account extends Model
             ->get();
     }
 
+    public function activeSubscriptionType()
+    {
+        return $this->activeSubscription()->subscriptionType;
+    }
+
     public function activeSubscription()
     {
         return $this->activeSubscriptions()->first();
