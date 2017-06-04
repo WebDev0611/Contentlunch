@@ -42,15 +42,5 @@
             Avatar,
             IdeasListItemDropdown,
         },
-
-        computed: {
-            profileImage() {
-                return this.idea.user.profile_image || '/images/cl-avatar2.png';
-            },
-
-            writeItLink() {
-
-            }
-        }
     }
 </script>
