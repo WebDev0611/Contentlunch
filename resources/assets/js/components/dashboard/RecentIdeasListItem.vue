@@ -1,34 +1,32 @@
 <template>
     <div v-on:mouseenter='hover = true' v-on:mouseleave='hover = false'>
         <div class="dashboard-ideas-cell cell-size-5">
-            <div class="dashboard-tasks-img-wrapper">
-                <img :src="profileImage" alt="#" class="dashboard-tasks-img">
-            </div>
+            <avatar :user='idea.user'></avatar>
         </div>
         <div class="dashboard-ideas-cell cell-size-80">
             <p class="dashboard-ideas-text">{{ idea.name }}</p>
             <span class="dashboard-ideas-text small">{{ createdAt }}</span>
         </div>
         <div class="dashboard-ideas-cell cell-size-15">
-            <div class="dashboard-ideas-dropdown idea-hover" :class="{ 'hidden': !hover }">
-                <button type="button" class="button button-action" data-toggle="dropdown">
-                    <i class="icon-add-circle"></i>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <li>
-                        <a :href="writeLink">Write It</a>
-                    </li>
-                </ul>
-            </div>
+            <ideas-list-item-dropdown
+                :idea='idea'
+                :hover='hover'
+                actions='write'>
+            </ideas-list-item-dropdown>
         </div>
     </div>
 </template>
 
 <script>
+    import IdeasListItemDropdown from '../plan/IdeasListItemDropdown.vue';
+    import Avatar from '../Avatar.vue';
+
     export default {
         name: 'recent-ideas-list-item',
 
         props: [ 'idea' ],
+
+        components: { Avatar, IdeasListItemDropdown },
 
         data() {
             return {
