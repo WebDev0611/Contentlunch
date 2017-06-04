@@ -13,10 +13,10 @@
         </div>
 
         <div class="plan-ideas-cell cell-size-25">
-            <span class="plan-ideas-text"><%= created_diff.toUpperCase() %></span>
+            <span class="plan-ideas-text">{{ idea.created_diff.toUpperCase() }}</span>
         </div>
         <div class="plan-ideas-cell cell-size-25">
-            <span class="plan-ideas-text">UPDATED: <%= updated_diff.toUpperCase() %></span>
+            <span class="plan-ideas-text">UPDATED: {{ idea.updated_diff.toUpperCase() }}</span>
         </div>
 
         <div class="plan-ideas-cell cell-size-10">
