@@ -28,6 +28,8 @@
 </template>
 
 <script>
+    import bus from '../bus.js';
+
     export default {
         name: 'ideas-list-item-dropdown',
 
@@ -59,6 +61,10 @@
                 this.idea.status = 'active';
 
                 return $.post(`/idea/${this.idea.id}/activate`);
+            },
+
+            openCollaboratorModal() {
+                bus.$emit('socialize', this.idea);
             },
         },
 

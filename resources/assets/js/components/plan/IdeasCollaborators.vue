@@ -1,5 +1,5 @@
 <template>
-    <div id="launch" class="modal fade" tabindex="-1" role="dialog" id='ideas-collaborator-modal'>
+    <div class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -49,8 +49,24 @@
 </template>
 
 <script>
+    import bus from '../bus.js';
+
     export default {
         name: 'ideas-collaborators',
 
+        data() {
+            return {
+                loaded: false,
+                idea: null,
+                collaborators: [],
+            };
+        },
+
+        created() {
+            bus.$on('socialize', idea => {
+                this.idea = idea;
+                $(this.$el).modal('show');
+            });
+        }
     }
 </script>

@@ -27,7 +27,8 @@
         <div class="tab-content">
             <div class="tab-pane active" id="active-ideas">
                 <input type="text" class="plan-panel-search" placeholder="Quick Search">
-                <ideas-list status='active'></ideas-list>
+                <ideas-list status='active' @socialize='showModal = true'>
+                </ideas-list>
             </div>
             <div class="tab-pane" id="parked-ideas">
                 <input type="text" class="plan-panel-search" placeholder="Quick Search">
@@ -42,14 +43,18 @@
 <script>
     import IdeasList from './IdeasList.vue';
     import IdeasCollaborators from './IdeasCollaborators.vue';
+    import bus from '../bus.js';
 
     export default {
         name: 'ideas',
 
-        components: { IdeasList },
+        components: {
+            IdeasList,
+            IdeasCollaborators,
+        },
 
         created() {
             this.$store.dispatch('fetchIdeas');
-        }
+        },
     }
 </script>
