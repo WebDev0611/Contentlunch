@@ -34,11 +34,14 @@
                 <ideas-list status='parked'></ideas-list>
             </div>
         </div>
+
+        <ideas-collaborators></ideas-collaborators>
     </div>
 </template>
 
 <script>
     import IdeasList from './IdeasList.vue';
+    import IdeasCollaborators from './IdeasCollaborators.vue';
 
     export default {
         name: 'ideas',

@@ -15,9 +15,9 @@
                                 Select the users you want to collaborate with.
                             </p>
                             <div class="collaborators-list">
-                                <img src="/images/ring.gif" class='loading-relative' alt="">
+                                <loading v-show='loaded'></loading>
                             </div>
-                            <div class="empty-collaborators-message text-center" style="display:none">
+                            <div class="empty-collaborators-message text-center" v-show='loaded && !collaborators'>
                                 <p>We couldn't find any other account members. Please use the field below to invite friends.</p>
                                 <div class="inner">
                                     <div class="input-form-group">
