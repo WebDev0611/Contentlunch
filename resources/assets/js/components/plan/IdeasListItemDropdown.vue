@@ -19,6 +19,10 @@
             <li v-show="park && idea.status === 'parked'">
                 <a @click.prevent='activate' href='#'>Unpark It</a>
             </li>
+
+            <li v-show="socialize && idea.status !== 'parked'">
+                <a @click.prevent='openCollaboratorModal' href="#">Socialize It</a>
+            </li>
         </ul>
     </div>
 </template>
