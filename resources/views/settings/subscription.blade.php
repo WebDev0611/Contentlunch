@@ -389,7 +389,7 @@
                             </div>
 
                         <div class="col-md-10 text-right subscription-cancel">
-                            <a data-toggle="tooltip" data-placement="top" title="To cancel a subscription, select a 'Free' plan. Note: If you have an active paid subscription and it's past the 15th of the month, your subscription will stop on the 1st of the next month.">Want to cancel the subscription?</a>
+                            <a data-toggle="tooltip" data-placement="top" title="To cancel a subscription, select a 'Free' plan. Note: If you have an active paid subscription and it's past the 15th of the month, your subscription will stop on the 1st of the next month.">Want to cancel your subscription?</a>
                         </div>
 
                         </div>
