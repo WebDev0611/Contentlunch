@@ -15,9 +15,9 @@
                                 Select the users you want to collaborate with.
                             </p>
                             <div class="collaborators-list">
-                                <loading v-show='loaded'></loading>
+                                <loading v-show='!loaded'></loading>
                             </div>
-                            <div class="empty-collaborators-message text-center" v-show='loaded && !collaborators'>
+                            <div class="empty-collaborators-message text-center" v-show='loaded && !possibleCollaborators'>
                                 <p>We couldn't find any other account members. Please use the field below to invite friends.</p>
                                 <div class="inner">
                                     <div class="input-form-group">
@@ -65,8 +65,33 @@
         created() {
             bus.$on('socialize', idea => {
                 this.idea = idea;
-                $(this.$el).modal('show');
+                this.loadIdeaCollaborators();
+                this.showModal();
             });
-        }
+        },
+
+        methods: {
+            loadIdeaCollaborators() {
+                return $.get(this.url())
+                    .then(response => {
+                        this.collaborators = response.data;
+                        this.loaded = true;
+                    });
+            },
+
+            url() {
+                let params = $.param({ possible_collaborators: 1 });
+
+                return `/api/ideas/${this.idea.id}/collaborators?${params}`;
+            },
+
+            showModal() {
+                $(this.$el).modal('show');
+            },
+
+            possibleCollaborators() {
+                return this.collaborators.filter(user => !user.is_guest);
+            }
+        },
     }
 </script>
