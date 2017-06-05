@@ -135,8 +135,7 @@ class CampaignController extends Controller
     protected function createValidation(array $requestData)
     {
         return Validator::make($requestData, [
-            'title' => 'required',
-            'status' => 'required',
+            'title' => 'required'
         ]);
     }
 
@@ -149,8 +148,9 @@ class CampaignController extends Controller
             'end_date' => $requestData['end_date'],
             'goals' => $requestData['goals'],
             'campaign_type_id' => (int) $requestData['campaign_type_id'],
-            'status' => (int) $requestData['status'],
+            'status' => Campaign::ACTIVE,
             'user_id' => Auth::id(),
+            'interval' => $requestData['interval']
         ]);
     }
 

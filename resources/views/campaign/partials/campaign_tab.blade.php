@@ -80,20 +80,20 @@
         --}}
         <div class="col-sm-4">
             <div class="input-form-group">
-                <label for="#">STATUS *</label>
+                <label for="#">CAMPAIGN INTERVAL *</label>
                 @php
                     $options = [
-                        '0' => 'Inactive',
-                        '1' => 'Active',
-                        '2' => 'Paused',
+                        'one-time' => 'One Time',
+                        'recurring' => 'Recurring',
+                        'serial' => 'Serial',
                     ];
 
                     $statusOptions = \App\Helpers::isCollaborator([
-                        'placeholder' => 'Set Campaign status',
+                        'placeholder' => 'Set Campaign interval',
                         'class' => 'input',
                     ], $isCollaborator);
                 @endphp
-                {!! Form::select('status', $options, old('status'), $statusOptions) !!}
+                {!! Form::select('interval', $options, old('interval'), $statusOptions) !!}
             </div>
         </div>
     </div>
