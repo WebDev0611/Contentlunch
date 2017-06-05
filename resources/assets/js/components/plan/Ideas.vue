@@ -43,7 +43,6 @@
 <script>
     import IdeasList from './IdeasList.vue';
     import IdeasCollaborators from './IdeasCollaborators.vue';
-    import bus from '../bus.js';
 
     export default {
         name: 'ideas',
