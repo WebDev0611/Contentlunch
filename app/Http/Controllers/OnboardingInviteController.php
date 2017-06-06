@@ -27,7 +27,16 @@ class OnboardingInviteController extends Controller
         }
 
         foreach ($emails as $email) {
-            $this->sendInvite($email);
+            try {
+                $this->sendInvite($email);
+            } catch (\Exception $e) {
+                if (get_class($e) === 'Swift_RfcComplianceException') {
+                    $message = "'$email' is not a valid email format.";
+                    return $this->errorFeedback($request, $message);
+                }
+
+                return $this->errorFeedback($request, "An error has occurred. Please try again in a few minutes", 500);
+            }
         }
 
         return $this->successFeedback($request, $emails);
@@ -80,6 +89,17 @@ class OnboardingInviteController extends Controller
         }
 
         return $feedback;
+    }
+
+    protected function errorFeedback($request, $message, $code = 400)
+    {
+        return $request->ajax()
+            ? response()->json([ 'data' => $message ], $code)
+            : redirect()->route('inviteIndex')->with([
+                'flash_message' => $message,
+                'flash_message_type' => 'danger',
+                'flash_message_important' => true,
+            ]);
     }
 
     protected function successFeedback($request, $emails)
