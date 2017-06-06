@@ -9,7 +9,19 @@
                     <h4 class="modal-title">INVITE COLLABORATORS</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row" v-show='loaded && !possibleCollaborators.length'>
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="empty-collaborators-message text-center">
+                                <p>
+                                    We couldn't find any other account members. Please use
+                                    the field below to invite friends.
+                                </p>
+                                <invite-form @invited='closeModal'></invite-form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" v-show='loaded && possibleCollaborators.length'>
                         <div class="col-md-8 col-md-offset-2">
                             <p class="text-gray text-center">
                                 Select the users you want to collaborate with.
@@ -22,27 +34,7 @@
                                     :key='collaborator.id'>
                                 </ideas-collaborators-list-item>
                             </div>
-                            <div class="empty-collaborators-message text-center"
-                                v-show='loaded && !possibleCollaborators.length'>
 
-                                <p>We couldn't find any other account members. Please use the field below to invite friends.</p>
-                                <div class="inner">
-                                    <div class="input-form-group">
-                                        <label for="#">Invite</label>
-                                        <input type="text" class="email-invites input" placeholder="One or more e-mail addresses separated by commas">
-                                    </div>
-                                    <div class="alert alert-danger alert-forms" style='display:none'>
-                                        Please enter one or more email addresses.
-                                    </div>
-                                    <button class="send-invitation button button-extend text-uppercase">
-                                        Send Invitation
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-md-offset-3">
                             <button @click='saveCollaborators' class="button button-primary text-uppercase button-extend">
                                 Invite Users
                             </button>
@@ -57,12 +49,14 @@
 <script>
     import bus from '../bus.js';
     import IdeasCollaboratorsListItem from './IdeasCollaboratorsListItem.vue';
+    import InviteForm from '../InviteForm.vue';
 
     export default {
         name: 'ideas-collaborators',
 
         components: {
             IdeasCollaboratorsListItem,
+            InviteForm,
         },
 
         data() {
