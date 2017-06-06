@@ -1,17 +1,21 @@
 <template>
     <div>
         <loading v-if='!loaded'></loading>
+
         <div class="dashboard-tasks-container" v-if="!tasks.length && loaded">
             <div class="dashboard-tasks-cell">
                 <h5 class="dashboard-tasks-title">No tasks: </h5>
                 <a href @click="openTaskModal">create one now</a>
             </div>
         </div>
-        <task-row
-            v-for='task in tasks'
-            :task='task'
-            :key='task.id'>
-        </task-row>
+
+        <div class="scroller scroller--tasks" v-if='tasks.length && loaded'>
+            <task-row
+                v-for='task in tasks'
+                :task='task'
+                :key='task.id'>
+            </task-row>
+        </div>
     </div>
 </template>
 
