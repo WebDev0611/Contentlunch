@@ -4,7 +4,7 @@
             <avatar :user='idea.user'></avatar>
         </div>
         <div class="plan-ideas-cell cell-size-35">
-            <a href="/idea/<%= id %>">
+            <a :href="ideaLink">
                 <h5 class="plan-ideas-title">
                     {{ idea.name }}
                 </h5>
@@ -41,6 +41,12 @@
         components: {
             Avatar,
             IdeasListItemDropdown,
+        },
+
+        computed: {
+            ideaLink() {
+                return `/idea/${this.idea.id}`;
+            },
         },
     }
 </script>

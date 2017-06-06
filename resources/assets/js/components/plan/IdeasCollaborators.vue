@@ -14,10 +14,17 @@
                             <p class="text-gray text-center">
                                 Select the users you want to collaborate with.
                             </p>
+                            <loading v-show='!loaded'></loading>
                             <div class="collaborators-list">
-                                <loading v-show='!loaded'></loading>
+                                <ideas-collaborators-list-item
+                                    v-for='collaborator in possibleCollaborators'
+                                    :collaborator='collaborator'
+                                    :key='collaborator.id'>
+                                </ideas-collaborators-list-item>
                             </div>
-                            <div class="empty-collaborators-message text-center" v-show='loaded && !possibleCollaborators'>
+                            <div class="empty-collaborators-message text-center"
+                                v-show='loaded && !possibleCollaborators.length'>
+
                                 <p>We couldn't find any other account members. Please use the field below to invite friends.</p>
                                 <div class="inner">
                                     <div class="input-form-group">
@@ -50,9 +57,14 @@
 
 <script>
     import bus from '../bus.js';
+    import IdeasCollaboratorsListItem from './IdeasCollaboratorsListItem.vue';
 
     export default {
         name: 'ideas-collaborators',
+
+        components: {
+            IdeasCollaboratorsListItem,
+        },
 
         data() {
             return {
@@ -72,6 +84,9 @@
 
         methods: {
             loadIdeaCollaborators() {
+                this.loaded = false;
+                this.collaborators = [];
+
                 return $.get(this.url())
                     .then(response => {
                         this.collaborators = response.data;
@@ -88,10 +103,12 @@
             showModal() {
                 $(this.$el).modal('show');
             },
+        },
 
+        computed: {
             possibleCollaborators() {
                 return this.collaborators.filter(user => !user.is_guest);
             }
-        },
+        }
     }
 </script>
