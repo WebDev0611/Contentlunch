@@ -63,11 +63,8 @@ class IdeaCollaboratorsController extends Controller
      */
     public function update(Request $request, Idea $idea)
     {
-        $idea->collaborators()->detach();
-
-        // Always attach current user
-        $idea->collaborators()->attach(Auth::user()->id);
-        $idea->collaborators()->attach($request->input('collaborators'));
+        $authorIds = collect($request->input('collaborators'))->merge(Auth::id())->toArray();
+        $idea->collaborators()->sync($authorIds);
 
         return response()->json([
             'data' => Idea::find($idea->id)->collaborators()->get()
