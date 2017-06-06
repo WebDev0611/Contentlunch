@@ -43,10 +43,9 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
-                            <button
-                                class="button button-primary text-uppercase button-extend invite-users"
-                                data-toggle="modal"
-                                data-target="#ideas-collaborator-modal">Invite Users</button>
+                            <button @click='saveCollaborators' class="button button-primary text-uppercase button-extend">
+                                Invite Users
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -87,11 +86,10 @@
                 this.loaded = false;
                 this.collaborators = [];
 
-                return $.get(this.url())
-                    .then(response => {
-                        this.collaborators = response.data;
-                        this.loaded = true;
-                    });
+                return $.get(this.url()).then(response => {
+                    this.collaborators = response.data;
+                    this.loaded = true;
+                });
             },
 
             url() {
@@ -102,6 +100,30 @@
 
             showModal() {
                 $(this.$el).modal('show');
+            },
+
+            closeModal() {
+                $(this.$el).modal('hide');
+            },
+
+            collaboratorIds() {
+                return this.collaborators
+                    .filter(user => user.is_collaborator)
+                    .map(user => user.id);
+            },
+
+            saveCollaborators() {
+                let collaborators = this.collaboratorIds();
+
+                $.post(`/api/ideas/${this.idea.id}/collaborators`, { collaborators })
+                    .then(response => {
+                        this.showSuccessFeedback();
+                        this.closeModal();
+                    });
+            },
+
+            showSuccessFeedback() {
+                swal('Idea Shared!', 'The selected users were invited to collaborate on this idea.', 'success');
             },
         },
 
