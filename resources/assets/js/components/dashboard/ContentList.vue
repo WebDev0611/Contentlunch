@@ -3,6 +3,10 @@
         <div class="panel-header">
             <h4 class="panel-sidebar-title-secondary">
                 Recent Content
+                <a href="/content">
+                    See All
+                    <i class="icon-arrow-right"></i>
+                </a>
             </h4>
         </div>
         <div class="panel-container nopadding">
