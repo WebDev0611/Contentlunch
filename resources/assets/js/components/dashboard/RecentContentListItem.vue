@@ -24,7 +24,7 @@
     import ContentStageIcon from './ContentStageIcon.vue';
 
     export default {
-        name: 'content-list-item',
+        name: 'recent-content-list-item',
 
         components: {
             ContentStageIcon,

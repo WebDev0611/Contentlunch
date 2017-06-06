@@ -11,25 +11,25 @@
         </div>
         <div class="panel-container nopadding">
             <loading v-show='loading'></loading>
-            <content-list-item
+            <recent-content-list-item
                 v-for='content in contents'
                 :content='content'
                 :key='content.id'>
-            </content-list-item>
+            </recent-content-list-item>
         </div>
     </div>
 </template>
 
 <script>
     import Loading from '../Loading.vue';
-    import ContentListItem from './ContentListItem.vue';
+    import RecentContentListItem from './RecentContentListItem.vue';
 
     export default {
-        name: 'content-list',
+        name: 'recent-content-list',
 
         components: {
             Loading,
-            ContentListItem,
+            RecentContentListItem,
         },
 
         data() {
