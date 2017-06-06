@@ -30,6 +30,7 @@ class Campaign extends Model
         'is_recurring',
         'description',
         'goals',
+        'interval'
     ];
 
     protected static $logAttributes = [

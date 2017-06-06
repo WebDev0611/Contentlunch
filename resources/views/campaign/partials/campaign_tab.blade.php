@@ -80,20 +80,20 @@
         --}}
         <div class="col-sm-4">
             <div class="input-form-group">
-                <label for="#">STATUS *</label>
+                <label for="#">CAMPAIGN INTERVAL *</label>
                 @php
                     $options = [
-                        '0' => 'Inactive',
-                        '1' => 'Active',
-                        '2' => 'Paused',
+                        'one-time' => 'One Time',
+                        'recurring' => 'Recurring',
+                        'serial' => 'Serial',
                     ];
 
                     $statusOptions = \App\Helpers::isCollaborator([
-                        'placeholder' => 'Set Campaign status',
+                        'placeholder' => 'Set Campaign interval',
                         'class' => 'input',
                     ], $isCollaborator);
                 @endphp
-                {!! Form::select('status', $options, old('status'), $statusOptions) !!}
+                {!! Form::select('interval', $options, old('interval'), $statusOptions) !!}
             </div>
         </div>
     </div>
@@ -104,6 +104,7 @@
                 'placeholder' => 'Enter Campaign Description',
                 'class' => 'input input-larger form-control',
                 'id' => 'campaign-description',
+                'rows' => '5'
             ], $isCollaborator);
         @endphp
         {!! Form::textarea('description', old('description'), $descriptionOptions) !!}
@@ -114,7 +115,8 @@
             $goalsOptions = \App\Helpers::isCollaborator([
                 'placeholder' => 'Enter Campaign Goals',
                 'class' => 'input input-larger form-control',
-                'id' => 'campaign-goals'
+                'id' => 'campaign-goals',
+                'rows' => '5'
             ], $isCollaborator);
         @endphp
         {!! Form::textarea('goals', old('goals'), $goalsOptions) !!}
