@@ -9,25 +9,30 @@
             </div>
         </div>
 
-        <div class="scroller scroller--tasks" v-if='tasks.length && loaded'>
-            <task-row
-                v-for='task in tasks'
-                :task='task'
-                :key='task.id'>
-            </task-row>
-        </div>
+        <task-row
+            v-for='task in tasks'
+            :task='task'
+            :key='task.id'>
+        </task-row>
+
+        <load-more-button
+            @click.native='fetchMoreTasks'
+            total-left='44'>
+        </load-more-button>
     </div>
 </template>
 
 <script>
     import TaskRow from './TaskRow.vue';
     import Loading from '../Loading.vue';
+    import LoadMoreButton from '../LoadMoreButton.vue';
 
     export default {
         name: 'task-list',
         components: {
             TaskRow,
             Loading,
+            LoadMoreButton,
         },
 
         props: [ 'userOnly' ],
@@ -50,6 +55,10 @@
                         this.tasks = response.data;
                         this.loaded = true;
                     });
+            },
+
+            fetchMoreTasks() {
+                console.log('jerere');
             },
 
             openTaskModal(event) {
