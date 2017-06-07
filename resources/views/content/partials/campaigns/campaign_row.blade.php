@@ -34,14 +34,19 @@
     </div>
 
     @elseif($campaign->isInPreparation())
-        <div class="dashboard-tasks-cell cell-size-40 text-right">
+        <div class="dashboard-tasks-cell campaigns-list cell-size-40 text-right">
             <ul class="dashboard-tasks-list">
                 <li>
-                    STARTING IN:
-                    <strong>{{ strtoupper($campaign->present()->startDate) }}</strong>
+                    @if($campaign->status == \App\Campaign::INACTIVE)
+                        <p class="label label-warning">Deactivated</p>
+                    @else
+                        STARTING IN:
+                        <strong>{{ strtoupper($campaign->present()->startDate) }}</strong>
+                    @endif
                 </li>
             </ul>
         </div>
     @endif
+
     <div></div>
 </div>
