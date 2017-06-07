@@ -56,7 +56,9 @@
                     @forelse ($archivedCampaigns as $campaign)
                         <div class="create-panel-table">
                             <div class="create-panel-table-cell cell-size-5">
-                                @include('content.partials.avatar')
+                                <div class="dashboard-tasks-img-wrapper">
+                                    <img src="{{ $campaign->user->present()->profile_image }}" alt="#" class="dashboard-tasks-img">
+                                </div>
                             </div>
                             <div class="create-panel-table-cell cell-size-75">
                                 <h5 class="dashboard-tasks-title">
