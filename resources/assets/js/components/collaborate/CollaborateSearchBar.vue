@@ -7,7 +7,7 @@
 
                     <input type="text" id="influencer-topic-val"
                            v-model="keyword"
-                           placeholder="Search influencers to work on projects..."
+                           placeholder="Enter a topic, industry or keyword to find influencers to help with content projects (to co-create and/or promote your content)"
                            @keyup.enter="search"
                            class="input-search-icon">
 
