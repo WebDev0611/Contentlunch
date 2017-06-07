@@ -37,20 +37,15 @@ class CampaignController extends Controller
         ]);
     }
 
-    public function dashboardIndex()
+    public function dashboardIndex(Request $request)
     {
-        $account = Account::selectedAccount();
-
-        $activeCampaigns = $account->campaigns()->active()->orderBy('created_at', 'desc')->with('user')->get();
-        $inactiveCampaigns = $account->campaigns()->inactive()->orderBy('created_at', 'desc')->with('user')->get();
-        $pausedCampaigns = $account->campaigns()->paused()->orderBy('created_at', 'desc')->with('user')->get();
-        $inPreparationCampaigns = $account->campaigns()->inPreparation()->orderBy('created_at', 'desc')->with('user')->get();
+        $activeCampaigns = $this->filterAccountCampaigns($request)['activeCampaigns'];
+        $inPreparationCampaigns = $this->filterAccountCampaigns($request)['inPreparationCampaigns'];
 
         return view('content.campaigns', [
-            'activeCampaigns' => $this->addDates($activeCampaigns),
-            'inactiveCampaigns' => $this->addDates($inactiveCampaigns),
-            'pausedCampaigns' => $this->addDates($pausedCampaigns),
-            'inPreparationCampaigns' => $this->addDates($inPreparationCampaigns),
+            'activeCampaigns' => !$activeCampaigns ? [] : $this->addDates($activeCampaigns->get()),
+            'inPreparationCampaigns' => !$inPreparationCampaigns ? [] : $this->addDates($inPreparationCampaigns->get()),
+            'campaignCount' => count(Account::selectedAccount()->campaigns()->get())
         ]);
     }
 
@@ -300,5 +295,30 @@ class CampaignController extends Controller
         $campaign->delete();
 
         return $this->success('campaigns.index', 'Campaign deleted.');
+    }
+
+    private function filterAccountCampaigns (Request $request) {
+        $account = Account::selectedAccount();
+
+        $activeCampaigns = $account->campaigns()->active()->orderBy('created_at', 'desc')->with('user');
+        $inPreparationCampaigns = $account->campaigns()->inPreparation()->orderBy('created_at', 'desc');
+
+        if($request->has('author')) {
+            $activeCampaigns = $activeCampaigns->where('user_id', $request->get('author'));
+            $inPreparationCampaigns = $inPreparationCampaigns->where('user_id', $request->get('author'));
+        }
+
+        if($request->has('stage')) {
+            switch ($request->get('stage')) {
+                case 'active':
+                    $inPreparationCampaigns = [];
+                    break;
+                case 'in-preparation':
+                    $activeCampaigns = [];
+                    break;
+            }
+        }
+
+        return compact('activeCampaigns', 'inPreparationCampaigns');
     }
 }

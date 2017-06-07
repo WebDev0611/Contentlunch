@@ -6,6 +6,8 @@
             <div class="panel-main">
                 @include('content.partials.dashboard.panel_tabs')
 
+                <campaign-filter campaign-count='{{ $campaignCount }}'></campaign-filter>
+
                 @include('elements.freemium-alert', ['restriction' => 'create only three campaigns'])
 
                 <div class="create-panel-container no-padding">

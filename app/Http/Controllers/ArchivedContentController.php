@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Campaign;
 use App\Content;
 use Illuminate\Http\Request;
@@ -17,8 +18,8 @@ class ArchivedContentController extends Controller
      */
     public function index()
     {
-        $archived = Content::archived()->latest()->get();
-        $archivedCampaigns = Campaign::archived()->latest()->get();
+        $archived = Account::selectedAccount()->contents()->archived()->latest()->get();
+        $archivedCampaigns = Account::selectedAccount()->campaigns()->archived()->latest()->get();
 
         return view('content.archived.index', compact('archived', 'archivedCampaigns'));
     }
