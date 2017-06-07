@@ -10,7 +10,7 @@
                 <div class="create-panel-container">
                     <h4 class="create-panel-heading">
                         <i class="icon-share"></i>
-                        ARCHIVED CONTENTS
+                        ARCHIVED CONTENT
                     </h4>
 
                     @forelse ($archived as $content)
