@@ -53,7 +53,6 @@ class TaskController extends Controller
             ->take(6)
             ->get()
             ->map(function($task) {
-                dd(get_class($task));
                 $task->addDueDateDiffs();
                 return $task;
             });
