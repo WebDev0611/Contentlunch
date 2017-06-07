@@ -69,7 +69,7 @@
 
         computed: {
             content() {
-                return this.task.contents ? this.task.contents[0] : null;
+                return this.task.contents ? this.task.contents.data[0] : null;
             },
 
             contentStage() {
