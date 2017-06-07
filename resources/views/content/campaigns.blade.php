@@ -26,31 +26,15 @@
 
                 <div class="create-panel-container no-padding">
                     <h4 class="create-panel-heading">
-                        INACTIVE
+                        IN PREPARATION
                     </h4>
 
                     <div>
-                        @forelse ($inactiveCampaigns as $campaign)
+                        @forelse ($inPreparationCampaigns as $campaign)
                             @include('content.partials.campaigns.campaign_row')
                         @empty
                             <div class="alert alert-info alert-forms" role="alert">
                                 <p>No Inactive Campaigns at this moment.</p>
-                            </div>
-                        @endforelse
-                    </div>
-                </div>
-
-                <div class="create-panel-container no-padding">
-                    <h4 class="create-panel-heading">
-                        PAUSED
-                    </h4>
-
-                    <div>
-                        @forelse ($pausedCampaigns as $campaign)
-                            @include('content.partials.campaigns.campaign_row')
-                        @empty
-                            <div class="alert alert-info alert-forms" role="alert">
-                                <p>No Paused Campaigns at this moment.</p>
                             </div>
                         @endforelse
                     </div>

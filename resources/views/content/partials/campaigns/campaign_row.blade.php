@@ -14,10 +14,12 @@
             <li>UPDATED: <strong>{{ strtoupper($campaign->updated_at_diff) }}</strong></li>
         </ul>
     </div>
+
+    @if($campaign->isActive())
     <div class="dashboard-tasks-cell cell-size-20">
         <ul class="dashboard-tasks-list">
             <li>
-                START DATE: <br />
+                STARTED: <br />
                 <strong>{{ strtoupper($campaign->started) }}</strong>
             </li>
         </ul>
@@ -25,10 +27,21 @@
     <div class="dashboard-tasks-cell cell-size-20">
         <ul class="dashboard-tasks-list">
             <li>
-                END DATE: <br />
+                ENDING: <br />
                 <strong>{{ strtoupper($campaign->ending) }}</strong>
             </li>
         </ul>
     </div>
+
+    @elseif($campaign->isInPreparation())
+        <div class="dashboard-tasks-cell cell-size-40 text-right">
+            <ul class="dashboard-tasks-list">
+                <li>
+                    STARTING IN:
+                    <strong>{{ strtoupper($campaign->present()->startDate) }}</strong>
+                </li>
+            </ul>
+        </div>
+    @endif
     <div></div>
 </div>

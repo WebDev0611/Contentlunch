@@ -44,11 +44,13 @@ class CampaignController extends Controller
         $activeCampaigns = $account->campaigns()->active()->orderBy('created_at', 'desc')->with('user')->get();
         $inactiveCampaigns = $account->campaigns()->inactive()->orderBy('created_at', 'desc')->with('user')->get();
         $pausedCampaigns = $account->campaigns()->paused()->orderBy('created_at', 'desc')->with('user')->get();
+        $inPreparationCampaigns = $account->campaigns()->inPreparation()->orderBy('created_at', 'desc')->with('user')->get();
 
         return view('content.campaigns', [
             'activeCampaigns' => $this->addDates($activeCampaigns),
             'inactiveCampaigns' => $this->addDates($inactiveCampaigns),
             'pausedCampaigns' => $this->addDates($pausedCampaigns),
+            'inPreparationCampaigns' => $this->addDates($inPreparationCampaigns),
         ]);
     }
 
@@ -59,6 +61,7 @@ class CampaignController extends Controller
                 $campaign->updated_at_diff = $campaign->present()->updatedAt;
                 $campaign->started = $campaign->present()->startDateFormat('M j, Y');
                 $campaign->ending = $campaign->present()->endDateFormat('M j, Y');
+                $campaign->starting_in = $campaign->present()->startDate();
 
                 return $campaign;
             });

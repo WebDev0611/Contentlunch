@@ -5,6 +5,7 @@ namespace App;
 use App\Presenters\CampaignPresenter;
 use App\User;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -103,7 +104,19 @@ class Campaign extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('status', static::ACTIVE);
+        return $query->where('status', static::ACTIVE)
+            ->where(function($q) {
+                $q->where('start_date', '<=', Carbon::now())
+                    ->where('end_date', '>=', Carbon::now());
+        });
+    }
+
+    public function scopeInPreparation($query)
+    {
+        return $query->where(function($q) {
+                $q->where('start_date', '>', Carbon::now())
+                    ->where('end_date', '>', Carbon::now());
+            });
     }
 
     public function scopeInactive($query)
@@ -123,7 +136,15 @@ class Campaign extends Model
 
     public function isActive()
     {
-        return $this->status == static::ACTIVE;
+        return $this->status == static::ACTIVE &&
+             $this->start_date <= Carbon::now() &&
+             $this->end_date >= Carbon::now();
+    }
+
+    public function isInPreparation()
+    {
+        return $this->start_date > Carbon::now() &&
+            $this->end_date > Carbon::now();
     }
 
     public function deactivate()
