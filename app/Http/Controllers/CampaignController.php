@@ -299,24 +299,20 @@ class CampaignController extends Controller
 
     private function filterAccountCampaigns (Request $request) {
         $account = Account::selectedAccount();
+        $activeCampaigns = [];
+        $inPreparationCampaigns = [];
 
-        $activeCampaigns = $account->campaigns()->active()->orderBy('created_at', 'desc')->with('user');
-        $inPreparationCampaigns = $account->campaigns()->inPreparation()->orderBy('created_at', 'desc');
-
-        if($request->has('author')) {
-            $activeCampaigns = $activeCampaigns->where('user_id', $request->get('author'));
-            $inPreparationCampaigns = $inPreparationCampaigns->where('user_id', $request->get('author'));
+        if(!$request->has('stage') || $request->get('stage') == 'active') {
+            $activeCampaigns = $account->campaigns()->active()->orderBy('created_at', 'desc')->with('user');
         }
-
-        if($request->has('stage')) {
-            switch ($request->get('stage')) {
-                case 'active':
-                    $inPreparationCampaigns = [];
-                    break;
-                case 'in-preparation':
-                    $activeCampaigns = [];
-                    break;
-            }
+        if(!$request->has('stage') || $request->get('stage') == 'in-preparation') {
+            $inPreparationCampaigns = $account->campaigns()->inPreparation()->orderBy('created_at', 'desc')->with('user');
+        }
+        if($request->has('author')) {
+            $activeCampaigns = $activeCampaigns ?
+                $activeCampaigns->where('user_id', $request->get('author')) : [];
+            $inPreparationCampaigns = $inPreparationCampaigns ?
+                $inPreparationCampaigns->where('user_id', $request->get('author')) : [];
         }
 
         return compact('activeCampaigns', 'inPreparationCampaigns');
