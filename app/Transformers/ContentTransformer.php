@@ -7,6 +7,10 @@ use League\Fractal\TransformerAbstract;
 
 class ContentTransformer extends TransformerAbstract
 {
+    protected $availableIncludes = [
+        'status',
+    ];
+
     public function transform(Content $content)
     {
         return [
@@ -32,5 +36,10 @@ class ContentTransformer extends TransformerAbstract
             'created_at' => (string) $content->created_at,
             'updated_at' => (string) $content->updated_at,
         ];
+    }
+
+    public function includeStatus(Content $content)
+    {
+        return $this->item($content->status, new ContentStatusTransformer);
     }
 }
