@@ -33,15 +33,50 @@ class TaskController extends Controller
     {
         $shouldReturnAccountTasks = $request->account_tasks == '1';
 
-        if ($shouldReturnAccountTasks) {
-            $tasks = Task::accountTasks($this->selectedAccount);
-        } else {
-            $tasks = Task::userTasks(Auth::user(), $this->selectedAccount);
-        }
+        $tasks = $shouldReturnAccountTasks
+            ? $this->paginatedAccountTasks($request->input('page'))
+            : $this->paginatedUserTasks($request->input('page'));
 
         return response()->json([ 'data' => $tasks ]);
     }
 
+    protected function paginatedAccountTasks($page = 0)
+    {
+        return $this->selectedAccount
+            ->tasks()
+            ->with('user')
+            ->with('assignedUsers')
+            ->with('contents.status')
+            ->orderBy('created_at', 'desc')
+            ->where('status', 'open')
+            ->skip($page * 6)
+            ->take(6)
+            ->get()
+            ->map(function($task) {
+                dd(get_class($task));
+                $task->addDueDateDiffs();
+                return $task;
+            });
+    }
+
+    protected function paginatedUserTasks($page = 0)
+    {
+        return Auth::user()
+            ->assignedTasks()
+            ->where('account_id', $this->selectedAccount->id)
+            ->with('user')
+            ->with('contents.status')
+            ->orderBy('created_at', 'desc')
+            ->where('status', 'open')
+            ->skip($page * 6)
+            ->take(6)
+            ->distinct()
+            ->get()
+            ->map(function($task) {
+                $task->addDueDateDiffs();
+                return $task;
+            });
+    }
 
     /**
      * Show the form for creating a new resource.
