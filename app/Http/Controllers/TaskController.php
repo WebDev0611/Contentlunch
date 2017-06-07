@@ -9,7 +9,9 @@ use App\Campaign;
 use App\Content;
 use App\Helpers;
 use App\Task;
+use App\Transformers\TaskTransformer;
 use Auth;
+use Fractal;
 use Illuminate\Http\Request;
 use Storage;
 use View;
@@ -33,48 +35,42 @@ class TaskController extends Controller
     {
         $shouldReturnAccountTasks = $request->account_tasks == '1';
 
-        $tasks = $shouldReturnAccountTasks
+        return $shouldReturnAccountTasks
             ? $this->paginatedAccountTasks($request->input('page'))
             : $this->paginatedUserTasks($request->input('page'));
-
-        return response()->json([ 'data' => $tasks ]);
     }
 
     protected function paginatedAccountTasks($page = 0)
     {
-        return $this->selectedAccount
+        $taskQuery = $this->selectedAccount
             ->tasks()
             ->with('user')
             ->with('assignedUsers')
             ->with('contents.status')
             ->orderBy('created_at', 'desc')
             ->where('status', 'open')
-            ->skip($page * 6)
-            ->take(6)
-            ->get()
-            ->map(function($task) {
-                $task->addDueDateDiffs();
-                return $task;
-            });
+            ->get();
+
+        Fractal::getManager()->parseIncludes([ 'user', 'assignedUsers', 'contents.status' ]);
+
+        return Fractal::collection($taskQuery, new TaskTransformer);
     }
 
     protected function paginatedUserTasks($page = 0)
     {
-        return Auth::user()
+        $tasks = Auth::user()
             ->assignedTasks()
             ->where('account_id', $this->selectedAccount->id)
             ->with('user')
             ->with('contents.status')
             ->orderBy('created_at', 'desc')
             ->where('status', 'open')
-            ->skip($page * 6)
-            ->take(6)
             ->distinct()
-            ->get()
-            ->map(function($task) {
-                $task->addDueDateDiffs();
-                return $task;
-            });
+            ->get();
+
+        Fractal::getManager()->parseIncludes([ 'user', 'contents.status' ]);
+
+        return Fractal::collection($tasks, new TaskTransformer);
     }
 
     /**
