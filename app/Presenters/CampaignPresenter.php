@@ -3,6 +3,7 @@
 namespace App\Presenters;
 
 use App\Presenters\Helpers\BasePresenter;
+use App\Presenters\Helpers\CreatedAtPresenter;
 use App\Presenters\Helpers\EndDatePresenter;
 use App\Presenters\Helpers\StartDatePresenter;
 use App\Presenters\Helpers\UpdatedAtPresenter;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CampaignPresenter extends BasePresenter
 {
-    use StartDatePresenter, EndDatePresenter, UpdatedAtPresenter;
+    use StartDatePresenter, EndDatePresenter, UpdatedAtPresenter, CreatedAtPresenter;
 
     public function title()
     {

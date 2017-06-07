@@ -114,9 +114,13 @@ class Campaign extends Model
     public function scopeInPreparation($query)
     {
         return $query->where(function($q) {
-                $q->where('start_date', '>', Carbon::now())
+                $q->where('status', '!=', static::PAUSED)
+                    ->where('start_date', '>', Carbon::now())
                     ->where('end_date', '>', Carbon::now());
-            })->orWhere('status', static::INACTIVE);
+                })->orWhere(function($q) {
+                    $q->where('status', static::INACTIVE)
+                        ->where('end_date', '>', Carbon::now());
+                });
     }
 
     public function scopeArchived($query)

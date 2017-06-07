@@ -20,7 +20,9 @@
                             </div>
                             <div class="create-panel-table-cell cell-size-75">
                                 <h5 class="dashboard-tasks-title">
-                                    {{ $content->present()->title }}
+                                    <a href="{{route('editContent', $content->id)}}">
+                                        {{ $content->present()->title }}
+                                    </a>
                                 </h5>
                                 <span class="dashboard-members-text small">
                                     {{ strtoupper($content->present()->createdAt) }}
@@ -44,6 +46,39 @@
                         <div class="alert alert-info alert-forms" role="alert"><p>No Archived Content at this moment.</p></div>
                     @endforelse
                 </div>
+
+                <div class="create-panel-container">
+                    <h4 class="create-panel-heading">
+                        <i class="icon-itemlist"></i>
+                        ARCHIVED CAMPAIGNS
+                    </h4>
+
+                    @forelse ($archivedCampaigns as $campaign)
+                        <div class="create-panel-table">
+                            <div class="create-panel-table-cell cell-size-5">
+                                @include('content.partials.avatar')
+                            </div>
+                            <div class="create-panel-table-cell cell-size-75">
+                                <h5 class="dashboard-tasks-title">
+                                    <a href="{{route('campaigns.edit', $campaign->id)}}">
+                                        {{ $campaign->present()->title }}
+                                    </a>
+                                </h5>
+                                <span class="dashboard-members-text small">
+                                    {{ strtoupper($campaign->present()->createdAt) }}
+                                </span>
+                            </div>
+                            <div class="create-panel-table-cell text-right cell-size-15">
+                                <span class="dashboard-performing-text small">
+                                    UPDATED: <strong>{{ strtoupper($campaign->present()->updatedAtFormat) }}</strong>
+                                </span>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="alert alert-info alert-forms" role="alert"><p>No Archived Campaigns at this moment.</p></div>
+                    @endforelse
+                </div>
+
             </div>
         </div>
     </div>
