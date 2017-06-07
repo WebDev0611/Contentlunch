@@ -9,6 +9,7 @@ class TaskTransformer extends TransformerAbstract
 {
     protected $availableIncludes = [
         'user',
+        'assignedUsers',
     ];
 
     public function transform(Task $task)
@@ -34,5 +35,10 @@ class TaskTransformer extends TransformerAbstract
     public function includeUser(Task $task)
     {
         return $this->item($task->user, new UserTransformer);
+    }
+
+    public function includeAssignedUsers(Task $task)
+    {
+        return $this->collection($task->assignedUsers, new UserTransformer);
     }
 }
