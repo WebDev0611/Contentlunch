@@ -1,7 +1,5 @@
 <template>
     <div>
-        <loading v-if='!loaded'></loading>
-
         <div class="dashboard-tasks-container" v-if="!tasks.length && loaded">
             <div class="dashboard-tasks-cell">
                 <h5 class="dashboard-tasks-title">No tasks: </h5>
@@ -15,7 +13,10 @@
             :key='task.id'>
         </task-row>
 
+        <loading v-if='!loaded'></loading>
+
         <load-more-button
+            v-if='loaded'
             @click.native='fetchMoreTasks'
             :total-left='totalTasksLeft'>
         </load-more-button>
