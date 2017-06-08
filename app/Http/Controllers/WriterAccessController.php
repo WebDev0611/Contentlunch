@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\WriterAccessOrder;
 use App\WriterAccessPrice;
 use DateTime;
 use Illuminate\Http\Response;
@@ -321,6 +322,15 @@ class WriterAccessController extends Controller
 
             $errorMsg = 'An error occurred while trying to place your order. Please contact ContentLaunch support for more info. Thanks.';
             return $this->redirectToOrderReview($partialOrder, $errorMsg, 'danger');
+        } else {
+            // Save order
+            $writerAccessOrder = WriterAccessOrder::creteNewOrder($responseContent->orders[0]->id);
+            if($writerAccessOrder !== true) {
+                return $this->redirectToOrderReview($partialOrder,
+                    "Error ocurred while trying to save your order. (" . $writerAccessOrder['message'] . ")
+                     Please contact Content Launch support.",
+                    'danger');
+            }
         }
 
         return redirect()
