@@ -17,7 +17,7 @@
 
         <load-more-button
             @click.native='fetchMoreTasks'
-            total-left='44'>
+            :total-left='totalTasksLeft'>
         </load-more-button>
     </div>
 </template>
@@ -41,6 +41,8 @@
             return {
                 loaded: false,
                 tasks: [],
+                totalTasks: 0,
+                page: 0,
             };
         },
 
@@ -53,6 +55,7 @@
                 $.get('/api/tasks', { account_tasks: this.userOnly ? 0 : 1, })
                     .then(response => {
                         this.tasks = response.data;
+                        this.totalTasks = response.meta.total;
                         this.loaded = true;
                     });
             },
@@ -64,7 +67,13 @@
             openTaskModal(event) {
                 event.preventDefault();
                 openTaskModal();
-            }
-        }
+            },
+        },
+
+        computed: {
+            totalTasksLeft() {
+                return this.totalTasks - this.tasks.length;
+            },
+        },
     }
 </script>
