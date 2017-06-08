@@ -36,41 +36,52 @@ class TaskController extends Controller
         $shouldReturnAccountTasks = $request->account_tasks == '1';
 
         return $shouldReturnAccountTasks
-            ? $this->paginatedAccountTasks($request->input('page'))
-            : $this->paginatedUserTasks($request->input('page'));
+            ? $this->paginatedAccountTasks()
+            : $this->paginatedUserTasks();
     }
 
-    protected function paginatedAccountTasks($page = 0)
+    protected function paginatedAccountTasks()
     {
-        $taskQuery = $this->selectedAccount
+        $tasks = $this->paginatedAccountTasksQuery()->paginate(6);
+
+        Fractal::getManager()->parseIncludes([ 'user', 'contents.status' ]);
+
+        return Fractal::collection($tasks, new TaskTransformer, function($resources) {
+            $resources->setMetaValue('total', $this->paginatedAccountTasksQuery()->count());
+        });
+    }
+
+    protected function paginatedAccountTasksQuery()
+    {
+        return $this->selectedAccount
             ->tasks()
             ->with('user')
-            ->with('assignedUsers')
             ->with('contents.status')
             ->orderBy('created_at', 'desc')
-            ->where('status', 'open')
-            ->get();
-
-        Fractal::getManager()->parseIncludes([ 'user', 'assignedUsers', 'contents.status' ]);
-
-        return Fractal::collection($taskQuery, new TaskTransformer);
+            ->open();
     }
 
-    protected function paginatedUserTasks($page = 0)
+    protected function paginatedUserTasks()
     {
-        $tasks = Auth::user()
+        $tasks = $this->paginatedUsersTasksQuery()->paginate(6);
+
+        Fractal::getManager()->parseIncludes([ 'user', 'contents.status' ]);
+
+        return Fractal::collection($tasks, new TaskTransformer, function($resources) {
+            $resources->setMetaValue('total', $this->paginatedUsersTasksQuery()->count());
+        });
+    }
+
+    protected function paginatedUsersTasksQuery()
+    {
+        return Auth::user()
             ->assignedTasks()
             ->where('account_id', $this->selectedAccount->id)
             ->with('user')
             ->with('contents.status')
-            ->orderBy('created_at', 'desc')
-            ->where('status', 'open')
-            ->distinct()
-            ->get();
-
-        Fractal::getManager()->parseIncludes([ 'user', 'contents.status' ]);
-
-        return Fractal::collection($tasks, new TaskTransformer);
+            ->orderBy('tasks.created_at', 'desc')
+            ->open()
+            ->distinct();
     }
 
     /**
