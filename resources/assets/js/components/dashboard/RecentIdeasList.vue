@@ -22,6 +22,14 @@
                 :idea='idea'
                 :key='idea.id'>
             </recent-ideas-list-item>
+
+            <loading v-if='!loaded'></loading>
+
+            <load-more-button
+                v-if='loaded'
+                @click.native='fetchMoreIdeas'
+                :total-left='totalIdeasLeft'>
+            </load-more-button>
         </div>
     </div>
 </template>
@@ -45,6 +53,7 @@
                 ideas: [],
                 loaded: false,
                 page: 1,
+                totalIdeas: 0,
             };
         },
 
@@ -67,9 +76,23 @@
             fetchIdeas() {
                 return this.request().then(response => {
                     this.ideas = response.data;
+                    this.totalIdeas = response.meta.total;
+                    this.loaded = true;
+                });
+            },
+
+            fetchMoreIdeas() {
+                return this.request().then(response => {
+                    this.ideas = this.ideas.concat(response.data);
                     this.loaded = true;
                 });
             },
         },
+
+        computed: {
+            totalIdeasLeft() {
+                return this.totalIdeas - this.ideas.length;
+            }
+        }
     }
 </script>
