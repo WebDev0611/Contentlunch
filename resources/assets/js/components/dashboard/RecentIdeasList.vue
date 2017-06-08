@@ -29,18 +29,22 @@
 <script>
     import Loading from '../Loading.vue';
     import RecentIdeasListItem from './RecentIdeasListItem.vue';
+    import LoadMoreButton from '../LoadMoreButton.vue';
 
     export default {
         name: 'recent-ideas-list',
 
         components: {
             Loading,
+            LoadMoreButton,
             RecentIdeasListItem,
         },
 
         data() {
             return {
                 ideas: [],
+                loaded: false,
+                page: 1,
             };
         },
 
@@ -49,8 +53,22 @@
         },
 
         methods: {
+            request() {
+                let payload = {
+                    page: this.page++,
+                    include: 'user',
+                }
+
+                this.loaded = false;
+
+                return $.get('/api/ideas', payload);
+            },
+
             fetchIdeas() {
-                return $.get('/ideas').then(response => this.ideas = response);
+                return this.request().then(response => {
+                    this.ideas = response.data;
+                    this.loaded = true;
+                });
             },
         },
     }

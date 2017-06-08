@@ -2,11 +2,12 @@
 
 namespace App\Transformers;
 
+use App\Idea;
 use League\Fractal\TransformerAbstract;
 
 class IdeaTransformer extends TransformerAbstract
 {
-    protected $availableInclues = [
+    protected $availableIncludes = [
         'user',
     ];
 
