@@ -19,6 +19,10 @@ class CreateWriterAccessWritersTable extends Migration
             $table->string('location')->nullable();
             $table->float('rating');
             $table->string('photo')->nullable();
+            $table->string('quote')->nullable();
+            $table->string('educationlevel')->nullable();
+            $table->string('summary')->nullable();
+            $table->string('specialties')->nullable();
             $table->timestamps();
         });
     }
