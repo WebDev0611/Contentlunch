@@ -59,9 +59,9 @@ class CreateWriterAccessOrdersTable extends Migration
             $table->string('expertise_name')->nullable();
 
             // FKs
-            $table->integer('targetwriter_id')->unsigned()->nullable(); // FK
-            $table->integer('writer_id')->unsigned()->nullable(); // FK
-            $table->integer('editor_id')->unsigned()->nullable(); // FK
+            $table->string('targetwriter_id')->nullable();
+            $table->string('writer_id')->nullable();
+            $table->string('editor_id')->nullable();
 
             // Timestamps
             $table->timestamps();

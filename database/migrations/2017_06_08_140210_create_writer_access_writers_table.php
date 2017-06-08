@@ -14,7 +14,7 @@ class CreateWriterAccessWritersTable extends Migration
     {
         Schema::create('writer_access_writers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('writer_id')->unsigned()->unique();
+            $table->string('writer_id')->unique();
             $table->string('name');
             $table->string('location')->nullable();
             $table->float('rating');
