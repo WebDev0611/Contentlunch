@@ -43,7 +43,7 @@
                 loaded: false,
                 tasks: [],
                 totalTasks: 0,
-                page: 0,
+                page: 1,
             };
         },
 
@@ -52,17 +52,32 @@
         },
 
         methods: {
+            request() {
+                let payload = {
+                    account_tasks: this.userOnly ? 0 : 1,
+                    page: this.page,
+                };
+
+                this.loaded = false;
+
+                return $.get('/api/tasks', payload);
+            },
+
             fetchTasks() {
-                $.get('/api/tasks', { account_tasks: this.userOnly ? 0 : 1, })
-                    .then(response => {
-                        this.tasks = response.data;
-                        this.totalTasks = response.meta.total;
-                        this.loaded = true;
-                    });
+                return this.request().then(response => {
+                    this.tasks = response.data;
+                    this.totalTasks = response.meta.total;
+                    this.loaded = true;
+                });
             },
 
             fetchMoreTasks() {
-                console.log('jerere');
+                this.page = this.page + 1;
+
+                this.request().then(response => {
+                    this.tasks = this.tasks.concat(response.data);
+                    this.loaded = true;
+                });
             },
 
             openTaskModal(event) {
