@@ -190,6 +190,11 @@ class WriterAccessController extends Controller
         return $this->get('/orders');
     }
 
+    public function getWriter ($id)
+    {
+        return $this->get('/writers/' . $id);
+    }
+
     /**
      * Return an array of comment for the order id passed.
      * @param $id
@@ -324,10 +329,11 @@ class WriterAccessController extends Controller
             return $this->redirectToOrderReview($partialOrder, $errorMsg, 'danger');
         } else {
             // Save order
-            $writerAccessOrder = WriterAccessOrder::creteNewOrder($responseContent->orders[0]->id);
-            if($writerAccessOrder !== true) {
+            $writerAccessOrder = new WriterAccessOrder($request);
+            $createOrder = $writerAccessOrder->creteNewOrder($responseContent->orders[0]->id);
+            if($createOrder !== true) {
                 return $this->redirectToOrderReview($partialOrder,
-                    "Error ocurred while trying to save your order. (" . $writerAccessOrder['message'] . ")
+                    "Error ocurred while trying to save your order. (" . $createOrder['message'] . ")
                      Please contact Content Launch support.",
                     'danger');
             }
@@ -531,7 +537,7 @@ class WriterAccessController extends Controller
             curl_close($curl);
 
             Redis::set($redis_key, serialize( $output ));
-            Redis::expire($redis_key, 60*20); //set cache for 20 min
+            Redis::expire($redis_key, 60*10); //set cache for 10 min
         }else{
             $output = unserialize($redis_cache);
         }
