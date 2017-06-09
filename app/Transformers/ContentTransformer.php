@@ -22,6 +22,9 @@ class ContentTransformer extends TransformerAbstract
             'account_id' => $content->account_id,
             'due_date' => (string) $content->due_date,
             'connection_id' => $content->connection_id,
+            'content_icon' => $content->present()->contentIcon,
+            'content_type' => $content->present()->contentType,
+            'link' => $content->present()->link,
             'body' => $content->body,
             'buying_stage_id' => $content->buying_stage_id,
             'persona_id' => $content->persona_id,
@@ -37,6 +40,7 @@ class ContentTransformer extends TransformerAbstract
             'custom_content_type_id' => $content->custom_content_type_id,
             'created_at' => (string) $content->created_at,
             'updated_at' => (string) $content->updated_at,
+            'created_at_diff' => $content->present()->createdAt,
         ];
     }
 
