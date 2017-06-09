@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Account;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 
 class WriterAccessOrdersController extends Controller
 {
@@ -17,6 +15,6 @@ class WriterAccessOrdersController extends Controller
             return response()->json('You don\'t have permission to access this resource.');
         }
 
-        return $user->writerAccessOrders;
+        return $user->writerAccessOrders()->with('writer')->get();
     }
 }
