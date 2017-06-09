@@ -121,6 +121,11 @@ class User extends Authenticatable
        return $this->hasMany('App\Task');
     }
 
+    public function writerAccessOrders()
+    {
+        return $this->hasMany('App\WriterAccessOrder', 'project_id', 'writer_access_Project_id');
+    }
+
     public function writerAccessComments()
     {
         return $this->hasMany('App\WriterAccessComment');
