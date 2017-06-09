@@ -41,6 +41,9 @@ class ContentTransformer extends TransformerAbstract
             'created_at' => (string) $content->created_at,
             'updated_at' => (string) $content->updated_at,
             'created_at_diff' => $content->present()->createdAt,
+            'updated_at_diff' => $content->present()->updatedAt,
+            'created_at_format' => $content->present()->createdAtFormat,
+            'updated_at_format' => $content->present()->updatedAtFormat,
         ];
     }
 
