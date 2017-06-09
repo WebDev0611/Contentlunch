@@ -162,6 +162,27 @@ class Content extends Model
         return $this->title;
     }
 
+    public function scopeFilterByAuthor($query, array $filters)
+    {
+        return $query->when(collect($filters)->has('author'), function($query) use ($filters) {
+            return $query->where('user_id', $filters['author']);
+        });
+    }
+
+    public function scopeFilterByCampaign($query, array $filters)
+    {
+        return $query->when(collect($filters)->has('campaign'), function ($query) use ($filters) {
+            return $query->where('campaign_id', $filters['campaign']);
+        });
+    }
+
+    public function scopeFilterByStatus($query, array $filters)
+    {
+        return $query->when(collect($filters)->has('stage'), function($query) use ($filters) {
+            return $query->where('content_status_id', $filters['stage']);
+        });
+    }
+
     public static function search($term, $account = null)
     {
         if (!$account) {
