@@ -34,7 +34,7 @@ class ActivityTransformer extends TransformerAbstract
     {
         switch ($activity->subject_type) {
             case \App\Task::class: return $this->item($activity->subject, new TaskTransformer);
-            case \App\Content::class: return $this->item($activity->subject, new ContentTrasnformer);
+            case \App\Content::class: return $this->item($activity->subject, new ContentTransformer);
             default: return null;
         }
     }
