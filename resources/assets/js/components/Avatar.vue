@@ -1,6 +1,6 @@
 <template>
     <div class="dashboard-tasks-img-wrapper">
-        <img :src="profileImage" alt="#" class="dashboard-tasks-img">
+        <img :src="profileImage" :title="user.name" class="dashboard-tasks-img">
     </div>
 </template>
 
