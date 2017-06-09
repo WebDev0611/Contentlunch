@@ -37,33 +37,67 @@ class ContentController extends Controller
 {
     protected $selectedAccount;
     protected $content;
+    protected $filters;
 
     public function __construct(Request $request, ContentService $content)
     {
         $this->selectedAccount = Account::selectedAccount();
         $this->content = $content;
+        $this->filters = $this->getFilters($request);
     }
 
-    public function index(Request $request)
+    protected function getFilters(Request $request)
     {
-        $filters = collect([
+        return collect([
             'author' => $request->input('author'),
             'campaign' => $request->input('campaign'),
             'stage' => $request->input('stage'),
         ])->filter()->toArray();
+    }
 
+    public function index(Request $request)
+    {
         return $request->ajax()
             ? $this->indexAjax()
-            : view('content.index', $this->content->contentList($filters));
+            : view('content.index', $this->content->contentList($this->filters));
+    }
+
+    protected function fractalCollection($contents = [], $total = 0)
+    {
+        return \Fractal::collection($contents, new ContentTransformer, function($resources) use ($total) {
+            $resources->setMetaValue('total', $total);
+        });
     }
 
     protected function indexAjax()
     {
-        $contents = $this->selectedAccount->contents()->recentlyUpdated()->paginate(5);
+        $contents = $this->selectedAccount->contents()->where('content_status_id', '!=', 4)->recentlyUpdated()->paginate(5);
 
-        return \Fractal::collection($contents, new ContentTransformer, function($resources) {
-            $resources->setMetaValue('total', $this->selectedAccount->contents()->count());
-        });
+        return $this->fractalCollection($contents, $this->selectedAccount->contents()->count());
+    }
+
+    public function published()
+    {
+        $contents = $this->content->publishedQuery($this->filters)->paginate(5);
+        $total = $this->content->publishedQuery($this->filters)->count();
+
+        return $this->fractalCollection($contents, $total);
+    }
+
+    public function ready()
+    {
+        $contents = $this->content->readyQuery($this->filters)->paginate(5);
+        $total = $this->content->readyQuery($this->filters)->count();
+
+        return $this->fractalCollection($contents, $total);
+    }
+
+    public function written()
+    {
+        $contents = $this->content->writtenQuery($this->filters)->paginate(5);
+        $total = $this->content->writtenQuery($this->filters)->count();
+
+        return $this->fractalCollection($contents, $total);
     }
 
     public function orders(Request $request)
