@@ -71,17 +71,17 @@ class CreateWriterAccessOrdersTable extends Migration
             $table->foreign('targetwriter_id')
                 ->references('writer_id')
                 ->on('writer_access_writers')
-                ->onDelete('cascade');
+                ->onDelete('set null');
 
             $table->foreign('writer_id')
                 ->references('writer_id')
                 ->on('writer_access_writers')
-                ->onDelete('cascade');
+                ->onDelete('set null');
 
             $table->foreign('editor_id')
                 ->references('writer_id')
                 ->on('writer_access_writers')
-                ->onDelete('cascade');
+                ->onDelete('set null');
         });
     }
 
