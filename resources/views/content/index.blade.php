@@ -8,6 +8,8 @@
 
             <content-filter content-count='{{ $countContent }}'></content-filter>
 
+            <content-dashboard></content-dashboard>
+
             @include('elements.freemium-alert', ['restriction' => 'launch 5 content pieces'])
 
             <div class="create-panel-container">

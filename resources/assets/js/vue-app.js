@@ -28,6 +28,7 @@ Vue.component('recent-ideas-list', require('./components/dashboard/RecentIdeasLi
 
 // Create Module
 Vue.component('content-filter', require('./components/create/ContentFilter.vue'));
+Vue.component('content-dashboard', require('./components/create/ContentDashboard.vue'));
 
 // Plan Module
 Vue.component('ideas', require('./components/plan/Ideas.vue'));
