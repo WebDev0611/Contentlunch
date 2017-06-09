@@ -23,9 +23,9 @@ class ContentService
         $this->selectedAccount->cleanContentWithoutStatus();
 
         $data = [
-            'published' => $this->filteredContent($filters)->published()->get(),
-            'readyPublished' => $this->filteredContent($filters)->readyToPublish()->get(),
-            'written' => $this->filteredContent($filters)->written()->get(),
+            'published' => $this->publishedQuery($filters)->get(),
+            'readyPublished' => $this->readyQuery($filters)->get(),
+            'written' => $this->writtenQuery($filters)->get(),
             'connections' => $this->connections(),
         ];
 
@@ -36,21 +36,32 @@ class ContentService
 
     protected function filteredContent(array $filters = [])
     {
-        $query = Auth::user()->isGuest()
+        return $this->guestOrUserContentQuery()
+            ->filterByAuthor($filters)
+            ->filterByCampaign($filters)
+            ->filterByStatus($filters);
+    }
+
+    protected function guestOrUserContentQuery()
+    {
+        return Auth::user()->isGuest()
             ? Auth::user()->guestContents()->recentlyUpdated()
             : $this->selectedAccount->contents()->recentlyUpdated();
+    }
 
-        $filters = collect($filters);
+    public function publishedQuery(array $filters = [])
+    {
+        return $this->filteredContent($filters)->published();
+    }
 
-        return $query->when($filters->has('author'), function($query) use ($filters) {
-                return $query->where('user_id', $filters['author']);
-            })
-            ->when($filters->has('campaign'), function ($query) use ($filters) {
-                return $query->where('campaign_id', $filters['campaign']);
-            })
-            ->when($filters->has('stage'), function($query) use ($filters) {
-                return $query->where('content_status_id', $filters['stage']);
-            });
+    public function readyQuery(array $filters = [])
+    {
+        return $this->filteredContent($filters)->readyToPublish();
+    }
+
+    public function writtenQuery(array $filters = [])
+    {
+        return $this->filteredContent($filters)->written();
     }
 
     protected function connections()
