@@ -17,7 +17,9 @@ class Activity extends \Spatie\Activitylog\Models\Activity
     {
         parent::boot();
         static::creating(function($activity) {
-            $activity->account_id = Account::selectedAccount()->id;
+            if ($selectedAccount = Account::selectedAccount()) {
+                $activity->account_id = $selectedAccount->id;
+            }
         });
     }
 }
