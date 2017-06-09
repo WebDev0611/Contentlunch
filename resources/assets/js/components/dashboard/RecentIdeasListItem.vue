@@ -4,7 +4,11 @@
             <avatar :user='idea.user'></avatar>
         </div>
         <div class="dashboard-ideas-cell cell-size-80">
-            <p class="dashboard-ideas-text">{{ idea.name }}</p>
+            <a :href="ideaLink">
+                <p class="dashboard-ideas-text">
+                    {{ idea.name }}
+                </p>
+            </a>
             <span class="dashboard-ideas-text small">{{ createdAt }}</span>
         </div>
         <div class="dashboard-ideas-cell cell-size-15">
@@ -45,7 +49,11 @@
 
             writeLink() {
                 return `/idea/${this.idea.id}/write`;
-            }
+            },
+
+            ideaLink() {
+                return `/idea/${this.idea.id}`;
+            },
         },
     }
 </script>
