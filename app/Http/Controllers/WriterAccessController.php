@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\CreatesNewWriterAccessOrder;
 use App\WriterAccessOrder;
 use App\WriterAccessPrice;
 use DateTime;
@@ -31,6 +32,8 @@ use Illuminate\Support\Facades\Redis;
  */
 class WriterAccessController extends Controller
 {
+    use CreatesNewWriterAccessOrder;
+
     /**
      * @var string
      */
@@ -329,8 +332,7 @@ class WriterAccessController extends Controller
             return $this->redirectToOrderReview($partialOrder, $errorMsg, 'danger');
         } else {
             // Save order
-            $writerAccessOrder = new WriterAccessOrder($request);
-            $createOrder = $writerAccessOrder->creteNewOrder($responseContent->orders[0]->id);
+            $createOrder = $this->createWriterAccessOrder($responseContent->orders[0]->id);
             if($createOrder !== true) {
                 return $this->redirectToOrderReview($partialOrder,
                     "Error ocurred while trying to save your order. (" . $createOrder['message'] . ")

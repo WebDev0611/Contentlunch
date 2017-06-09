@@ -2,13 +2,10 @@
 
 namespace App;
 
-use App\Http\Controllers\WriterAccessController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class WriterAccessOrder extends Model {
-
-    private $writerAccess;
 
     private $request;
 
@@ -36,10 +33,9 @@ class WriterAccessOrder extends Model {
         'maxcost'
     ];
 
-    public function __construct ()
+    public function __construct (Request $request)
     {
-        $this->request = request();
-        $this->writerAccess = new WriterAccessController($this->request);
+        $this->request = $request;
     }
 
     public function targetWriter ()
@@ -55,28 +51,6 @@ class WriterAccessOrder extends Model {
     public function editor ()
     {
         return $this->belongsTo('App\WriterAccessWriter', 'editor_id', 'writer_id');
-    }
-
-    public function creteNewOrder ($orderId)
-    {
-        $this->writerAccess = new WriterAccessController($this->request);
-        $data = json_decode(utf8_encode($this->writerAccess->getOrders($orderId)->getContent()));
-
-        if (isset($data->fault)) {
-            return redirect()->route('content_orders.index')->with([
-                'flash_message'           => $data->fault,
-                'flash_message_type'      => 'danger',
-                'flash_message_important' => true,
-            ]);
-        }
-
-        $this->fillOrder($data->orders[0]);
-
-        try {
-            return $this->save();
-        } catch (\Illuminate\Database\QueryException $e) {
-            return ['error' => true, 'message' => $e->errorInfo[2]];
-        }
     }
 
     public function fillOrder ($order)
@@ -102,21 +76,20 @@ class WriterAccessOrder extends Model {
     {
         if ($order->recipients->writer) {
             $writerId = $order->recipients->writer->id;
-            $writerAccessWriter = WriterAccessWriter::whereWriterId($writerId)->first();
-
-            if (!$writerAccessWriter) {
-                $data = json_decode(utf8_encode($this->writerAccess->getWriter($writerId)->getContent()));
-                $writer = collect($data->writers[0])->toArray();
-                $writer['writer_id'] = $writer['id'];
-
-                $writerAccessWriter = WriterAccessWriter::create($writer);
-            }
-
+            $writerAccessWriter = WriterAccessWriter::getOrCreate($this->request, $writerId);
             $this->targetWriter()->associate($writerAccessWriter);
-            $this->save();
         }
 
-        // TODO: Add 2 more: writer, editor
+        if ($order->writer) {
+            $writerId = $order->writer->id;
+            $writerAccessWriter = WriterAccessWriter::getOrCreate($this->request, $writerId);
+            $this->writer()->associate($writerAccessWriter);
+        }
 
+        if ($order->editor) {
+            $writerId = $order->editor->id;
+            $writerAccessWriter = WriterAccessWriter::getOrCreate($this->request, $writerId);
+            $this->editor()->associate($writerAccessWriter);
+        }
     }
 }
