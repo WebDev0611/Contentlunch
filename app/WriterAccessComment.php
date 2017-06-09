@@ -17,6 +17,11 @@ class WriterAccessComment extends Model {
         return $this->belongsTo('App\User');
     }
 
+    public function order ()
+    {
+        return $this->belongsTo('App\WriterAccessOrder', 'order_id', 'order_id');
+    }
+
     public function scopeUserNotNotified($query)
     {
         return $query->where('client_notified', false);

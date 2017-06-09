@@ -58,6 +58,11 @@ class WriterAccessOrder extends Model {
         return $this->belongsTo('App\WriterAccessWriter', 'editor_id', 'writer_id');
     }
 
+    public function comments ()
+    {
+        return $this->hasMany('App\WriterAccessComment', 'order_id', 'order_id');
+    }
+
     public function fillOrder ($order)
     {
         foreach ($this->fillable as $param) {
