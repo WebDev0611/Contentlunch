@@ -27,7 +27,7 @@
 
             <load-more-button
                 v-if='loaded'
-                @click.native='fetchMoreIdeas'
+                @click.native='fetchIdeas'
                 :total-left='totalIdeasLeft'>
             </load-more-button>
         </div>
@@ -70,21 +70,16 @@
 
                 this.loaded = false;
 
-                return $.get('/api/ideas', payload);
+                return $.get('/api/ideas', payload).then(response => {
+                    this.loaded = true;
+                    return response;
+                });
             },
 
             fetchIdeas() {
                 return this.request().then(response => {
-                    this.ideas = response.data;
-                    this.totalIdeas = response.meta.total;
-                    this.loaded = true;
-                });
-            },
-
-            fetchMoreIdeas() {
-                return this.request().then(response => {
                     this.ideas = this.ideas.concat(response.data);
-                    this.loaded = true;
+                    this.totalIdeas = response.meta.total;
                 });
             },
         },
