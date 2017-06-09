@@ -32,10 +32,14 @@ class ActivityTransformer extends TransformerAbstract
 
     public function includeSubject(Activity $activity)
     {
-        switch ($activity->subject_type) {
-            case \App\Task::class: return $this->item($activity->subject, new TaskTransformer);
-            case \App\Content::class: return $this->item($activity->subject, new ContentTransformer);
-            default: return null;
-        }
+        $transformer = $this->getTransformerInstance($activity->subject_type);
+        return $this->item($activity->subject, $transformer);
+    }
+
+    public function getTransformerInstance($subjectType)
+    {
+        $className = 'App\\Transformers\\' . collect(explode('\\', $subjectType))->last() . 'Transformer';
+
+        return new $className;
     }
 }
