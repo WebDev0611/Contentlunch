@@ -33,9 +33,14 @@ class WriterAccessOrder extends Model {
         'maxcost'
     ];
 
-    public function __construct (Request $request)
+    public function __construct ()
     {
-        $this->request = $request;
+        $this->request = request();
+    }
+
+    public function user ()
+    {
+        return $this->belongsTo('App\User', 'project_id', 'writer_access_Project_id');
     }
 
     public function targetWriter ()

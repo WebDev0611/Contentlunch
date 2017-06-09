@@ -8,19 +8,13 @@ use App\WriterAccessOrder;
 
 trait CreatesNewWriterAccessOrder {
 
-    private $writerAccess;
-
-    private $request;
-
-    private $order;
-
     public function createWriterAccessOrder ($orderId)
     {
-        $this->request = request();
-        $this->writerAccess = new WriterAccessController($this->request);
-        $this->order = new WriterAccessOrder($this->request);
+        $request = request();
+        $writerAccess = new WriterAccessController($request);
+        $order = new WriterAccessOrder($request);
 
-        $data = json_decode(utf8_encode($this->writerAccess->getOrders($orderId)->getContent()));
+        $data = json_decode(utf8_encode($writerAccess->getOrders($orderId)->getContent()));
 
         if (isset($data->fault)) {
             return redirect()->route('content_orders.index')->with([
@@ -30,10 +24,10 @@ trait CreatesNewWriterAccessOrder {
             ]);
         }
 
-        $this->order->fillOrder($data->orders[0]);
+        $order->fillOrder($data->orders[0]);
 
         try {
-            return $this->order->save();
+            return $order->save();
         } catch (\Illuminate\Database\QueryException $e) {
             return ['error' => true, 'message' => $e->errorInfo[2]];
         }
