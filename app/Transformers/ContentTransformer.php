@@ -9,16 +9,18 @@ class ContentTransformer extends TransformerAbstract
 {
     protected $availableIncludes = [
         'status',
+        'user',
     ];
 
     public function transform(Content $content)
     {
         return [
             'id' => $content->id,
+            'title' => $content->present()->title,
+            'due_date_human' => $content->present()->dueDate,
             'content_type_id' => $content->content_type_id,
             'account_id' => $content->account_id,
             'due_date' => (string) $content->due_date,
-            'title' => $content->present()->title,
             'connection_id' => $content->connection_id,
             'body' => $content->body,
             'buying_stage_id' => $content->buying_stage_id,
@@ -41,5 +43,10 @@ class ContentTransformer extends TransformerAbstract
     public function includeStatus(Content $content)
     {
         return $this->item($content->status, new ContentStatusTransformer);
+    }
+
+    public function includeUser(Content $content)
+    {
+        return $this->item($content->author, new UserTransformer);
     }
 }

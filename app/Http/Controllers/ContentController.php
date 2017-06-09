@@ -19,6 +19,7 @@ use App\Presenters\CampaignPresenter;
 use App\Presenters\ContentTypePresenter;
 use App\Services\ContentService;
 use App\Tag;
+use App\Transformers\ContentTransformer;
 use App\User;
 use App\WriterAccessComment;
 use App\WriterAccessPrice;
@@ -52,8 +53,17 @@ class ContentController extends Controller
         ])->filter()->toArray();
 
         return $request->ajax()
-            ? response()->json([ 'data' => $this->content->recentContent() ])
+            ? $this->indexAjax()
             : view('content.index', $this->content->contentList($filters));
+    }
+
+    protected function indexAjax()
+    {
+        $contents = $this->selectedAccount->contents()->recentlyUpdated()->paginate(5);
+
+        return \Fractal::collection($contents, new ContentTransformer, function($resources) {
+            $resources->setMetaValue('total', $this->selectedAccount->contents()->count());
+        });
     }
 
     public function orders(Request $request)

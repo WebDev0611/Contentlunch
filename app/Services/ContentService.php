@@ -66,22 +66,6 @@ class ContentService
             ->sum();
     }
 
-    public function recentContent()
-    {
-        return $this->selectedAccount
-            ->contents()
-            ->recentlyUpdated()
-            ->take(10)
-            ->get()
-            ->map(function($content) {
-                $content->author = $content->author;
-                $content->title = $content->present()->title;
-                $content->due_date_human = $content->present()->dueDate;
-
-                return $content;
-            });
-    }
-
     public function inviteGuests(Content $content, $emails)
     {
         $emails->each(function($email) use ($content) {
