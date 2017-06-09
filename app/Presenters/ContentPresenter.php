@@ -17,6 +17,11 @@ class ContentPresenter extends BasePresenter
         return $this->entity->title ? $this->entity->title : 'Untitled Content';
     }
 
+    public function link()
+    {
+        return route('editContent', $this->entity);
+    }
+
     public function contentIcon()
     {
         $contentIcon = '';
