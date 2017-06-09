@@ -400,6 +400,12 @@ class WriterAccessController extends Controller
             $response = $this->post('/orders', array_merge($order->toArray()));
 
             $responseContent = json_decode($response->getContent());
+
+            // Save order
+            $createOrder = $this->createWriterAccessOrder($responseContent->orders[0]->id);
+            if($createOrder !== true) {
+                echo "Error ocurred while trying to save order. (" . $createOrder['message'] . ")";
+            }
         }catch(Exception $e){
             echo $e->getMessage();
             echo $e->getStack();
