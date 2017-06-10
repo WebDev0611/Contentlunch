@@ -10,7 +10,12 @@
             :key='content.id'>
         </content-list-item>
 
-        <load-more-button>
+        <loading v-show='!loaded'></loading>
+
+        <load-more-button
+            v-show='loaded'
+            @click.native='fetchContents'
+            :total-left='contentsLeft'>
         </load-more-button>
     </div>
 </template>
@@ -65,9 +70,15 @@
 
             fetchContents() {
                 return this.request().then(response => {
-                    this.contents = response.data;
+                    this.contents = this.contents.concat(response.data);
                     this.total = response.meta.total;
                 });
+            }
+        },
+
+        computed: {
+            contentsLeft() {
+                return this.total - this.contents.length;
             }
         }
     }
