@@ -21,6 +21,8 @@ class ContentTransformer extends TransformerAbstract
             'content_type_id' => $content->content_type_id,
             'account_id' => $content->account_id,
             'due_date' => (string) $content->due_date,
+            'due_date_format' => $content->present()->dueDateFormat,
+            'due_date_critical' => $content->isDueDateCritical(),
             'connection_id' => $content->connection_id,
             'content_icon' => $content->present()->contentIcon,
             'content_type' => $content->present()->contentType,
