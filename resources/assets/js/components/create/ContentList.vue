@@ -23,6 +23,7 @@
 <script>
     import LoadMoreButton from '../LoadMoreButton.vue';
     import ContentListItem from './ContentListItem.vue';
+    import bus from '../bus.js';
 
     export default {
         name: 'content-list',
@@ -40,11 +41,24 @@
                 loaded: false,
                 total: 0,
                 page: 1,
+                authorFilter: null,
+                campaignFilter: null,
+                stageFilter: null,
             }
         },
 
         created() {
             this.fetchContents();
+
+            bus.$on('filter', filters => {
+                this.authorFilter = filters.author;
+                this.campaignFilter = filters.campaign;
+                this.stageFilter = filters.stage;
+                this.page = 1;
+                this.contents = [];
+
+                this.fetchContents();
+            });
         },
 
         methods: {
@@ -58,6 +72,9 @@
                 let payload = {
                     include: 'user',
                     page: this.page++,
+                    author: this.authorFilter,
+                    campaign: this.campaignFilter,
+                    stage: this.stageFilter,
                 };
 
                 this.loaded = false;

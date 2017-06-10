@@ -63,7 +63,7 @@
             </div>
             <div class="col-md-2 text-right">
                 <div class="create-link-dropdown" v-show='loaded'>
-                    <a :href="filterUrl()">FILTER CONTENT</a>
+                    <a @click.prevent='filterContents' href="#">FILTER CONTENT</a>
                 </div>
             </div>
         </div>
@@ -73,6 +73,7 @@
 <script>
     import Loading from '../Loading.vue';
     import URLSearchParams from 'url-search-params';
+    import bus from '../bus.js';
 
     export default {
         name: 'content-filter',
@@ -116,7 +117,7 @@
 
                 this.stage = params.get('stage') || this.stage;
                 this.campaign = params.get('campaign') || this.campaign;
-                this.author = params.get('author') || this.author;
+                this.author = params.get('author') || this.auhor;
             },
 
             fetchCampaigns() {
@@ -133,14 +134,14 @@
                 });
             },
 
-            filterUrl() {
-                let parameters = $.param({
+            filterContents() {
+                let filters = {
                     stage: this.stage,
                     campaign: this.campaign,
-                    author: this.author
-                });
+                    author: this.author,
+                };
 
-                return `/content?${parameters}`;
+                bus.$emit('filter', filters);
             }
         }
     }
