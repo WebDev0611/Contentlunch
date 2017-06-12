@@ -76,16 +76,16 @@ class WriterAccessOrder extends Model {
         }
 
         $this->order_id = $order->id;
-        $this->project_id = $order->project ? $order->project->id : null;
-        $this->category_id = $order->category ? $order->category->id : null;
-        $this->category_name = $order->category ? $order->category->name : null;
-        $this->asset_id = $order->asset ? $order->asset->id : null;
-        $this->asset_name = $order->asset ? $order->asset->name : null;
-        $this->expertise_id = $order->expertise ? $order->expertise->id : null;
-        $this->expertise_name = $order->expertise ? $order->expertise->name : null;
+        $this->project_id = isset($order->project) ? $order->project->id : null;
+        $this->category_id = isset($order->category) ? $order->category->id : null;
+        $this->category_name = isset($order->category) ? $order->category->name : null;
+        $this->asset_id = isset($order->asset) ? $order->asset->id : null;
+        $this->asset_name = isset($order->asset) ? $order->asset->name : null;
+        $this->expertise_id = isset($order->expertise) ? $order->expertise->id : null;
+        $this->expertise_name = isset($order->expertise) ? $order->expertise->name : null;
         $this->lovelist = $order->recipients->lovelist;
-        $this->preview_title = $order->preview ? $order->preview->title : null;
-        $this->preview_text = $order->preview ? $order->preview->text : null;
+        $this->preview_title = isset($order->preview) ? $order->preview->title : null;
+        $this->preview_text = isset($order->preview) ? $order->preview->text : null;
 
         $this->fillWriters($order);
     }

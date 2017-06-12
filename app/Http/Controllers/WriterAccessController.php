@@ -187,7 +187,13 @@ class WriterAccessController extends Controller
     public function getOrders ($id = null, $full = false)
     {
         if($id !== null) {
-            return !$full ? $this->get('/orders/' . $id) : $this->post('/orders/'.$id."/previewfull");
+            if (!$full) {
+                return $this->get('/orders/' . $id);
+            }
+            else {
+                $cacheKey = $id . '-' . time();
+                return $this->post('/orders/' . $id . '/previewfull', null, $cacheKey);
+            }
         }
 
         return $this->get('/orders');

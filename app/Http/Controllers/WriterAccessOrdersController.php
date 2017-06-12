@@ -8,6 +8,7 @@ use App\User;
 use App\WriterAccessOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -61,15 +62,16 @@ class WriterAccessOrdersController extends Controller {
             elseif ($apiOrder->status !== $localOrder->status && $localOrder->status !== 'Deleted') {
                 // order status has changed so let's update it
                 $fullApiOrder = $this->getFullApiOrder($apiOrder);
-                $localOrder->fillOrder($fullApiOrder);
-                $localOrder->save();
 
                 $this->sendEmailStatusNotification([
                     'oldStatus' => $localOrder->status,
                     'newStatus' => $apiOrder->status,
-                    'orderId'   => $localOrder->id,
+                    'orderId'   => $localOrder->order_id,
                     'userEmail' => $localOrder->user->email
                 ]);
+
+                $localOrder->fillOrder($fullApiOrder);
+                $localOrder->save();
             }
         });
     }
@@ -116,6 +118,9 @@ class WriterAccessOrdersController extends Controller {
     {
         if($apiOrder->status == 'Pending Approval' || $apiOrder->status == 'Approved') {
             $data = json_decode(utf8_encode($this->WAController->getOrders($apiOrder->id, true)->getContent()));
+            if(isset($data->preview)) {
+                $data->order->preview = $data->preview;
+            }
             return $data->order;
         } else {
             $data = json_decode(utf8_encode($this->WAController->getOrders($apiOrder->id)->getContent()));
