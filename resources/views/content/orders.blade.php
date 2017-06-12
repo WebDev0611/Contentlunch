@@ -36,24 +36,8 @@
 
                 @include('content.partials.dashboard.order_filter')
 
-                <div class="create-panel-container {{$countOrders !== 0 ? "no-padding" : ""}} order-container hide-over-10">
+                <content-orders-list></content-orders-list>
 
-                    <content-orders-list></content-orders-list>
-
-                    <div class="alert alert-info alert-forms no-orders-message" role="alert"><p>There are no orders for the current filter setting.</p></div>
-
-                    <div class="create-panel-table{{$countOrders <= 10 ? " hide" : ""}}" id="showAllPanel">
-                        <div class="create-panel-table-cell text-center">
-                            <a href="#">{{$countOrders > 10 ? ($countOrders-10)." More - Show All" : ""}}</a>
-                        </div>
-                    </div>
-
-                    <div class="create-panel-table" style="display: none;" id="showLessPanel">
-                        <div class="create-panel-table-cell text-center">
-                            <a href="#">Show Less</a>
-                        </div>
-                    </div>
-                </div>
             </div>
             <aside class="panel-sidebar hide">
                 <div class="panel-header">
@@ -140,6 +124,7 @@
 
 @section('scripts')
 <script>
+    /*
     (function($){
         var $showAllPanel = $("#showAllPanel"),
             $showLessPanel = $("#showLessPanel"),
@@ -183,5 +168,6 @@
         });
 
     })(jQuery);
+    */
 </script>
 @stop
