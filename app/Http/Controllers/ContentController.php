@@ -478,7 +478,7 @@ class ContentController extends Controller
                 return Connection::find($connectionId);
             });
 
-        $response = response()->json(['data' => 'Content not found'], 404);
+        $response = response()->json(['data' => 'Content not found.'], 404);
 
         if ($content) {
             $errors = [];
@@ -501,7 +501,9 @@ class ContentController extends Controller
             }
 
             $response = response()->json([
-                'data' => 'Content published',
+                'data' => $failedConnections > 0
+                    ? 'There were errors with some connections.'
+                    : 'Content published.',
                 'errors' => $errors,
                 'content' => $content,
                 'published_connections' => $publishedConnections,
