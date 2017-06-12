@@ -16,8 +16,6 @@
                 <ul class="dashboard-tasks-list">
                     <li>STATUS: <strong>{{order.status}}</strong></li>
                     <li>WRITER: <strong>{{order.writer ? order.writer.name : ''}}</strong></li>
-                    <li><a :href="'http://contentlaunch.app/content/orders/' + order.order_id + '/comments'" class="comments-link">Comments</a>
-                    </li>
                 </ul>
             </div>
 

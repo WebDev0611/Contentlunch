@@ -38,11 +38,7 @@
 
                 <div class="create-panel-container {{$countOrders !== 0 ? "no-padding" : ""}} order-container hide-over-10">
 
-                @forelse ($orders as $order)
-                        @include('content.partials.dashboard.orders_loop')
-                    @empty
-                        <div class="alert alert-info alert-forms" role="alert"><p>No orders at this moment.</p></div>
-                    @endforelse
+                    <content-orders-list></content-orders-list>
 
                     <div class="alert alert-info alert-forms no-orders-message" role="alert"><p>There are no orders for the current filter setting.</p></div>
 

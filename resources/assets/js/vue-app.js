@@ -26,7 +26,7 @@ Vue.component('recent-ideas-list', require('./components/dashboard/RecentIdeasLi
 // Content Orders
 Vue.component('content-order-comment', require('./components/orders/ContentOrderComment.vue'));
 Vue.component('content-order-comment-list', require('./components/orders/ContentOrderCommentList.vue'));
-Vue.component('content-order-list', require('./components/orders/ContentOrderList.vue'));
+Vue.component('content-orders-list', require('./components/orders/ContentOrdersList.vue'));
 Vue.component('content-order-item', require('./components/orders/ContentOrderItem.vue'));
 
 // Create Module

@@ -1,16 +1,24 @@
 <template>
     <div>
-        <content-order-item v-for="order in orders"
+        <loading v-if='!loaded'></loading>
+
+        <content-order-item v-if="orders.length"
+                            v-for="order in orders"
                             :order="order"
                             :key="order.id"
         ></content-order-item>
+
+        <div v-if="!orders.length" class="alert alert-info alert-forms" role="alert">
+            <p>No orders at this moment.</p>
+        </div>
     </div>
 </template>
 
-
 <script>
+    import Loading from '../Loading.vue';
+
     export default {
-        name: 'content-order-list',
+        name: 'content-orders-list',
 
         data() {
             return {
