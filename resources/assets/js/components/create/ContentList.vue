@@ -89,6 +89,12 @@
                 return this.request().then(response => {
                     this.contents = this.contents.concat(response.data);
                     this.total = response.meta.total;
+
+                    bus.$emit('contents-fetched', {
+                        contents: this.contents,
+                        total: this.total,
+                        stage: this.stage,
+                    });
                 });
             }
         },

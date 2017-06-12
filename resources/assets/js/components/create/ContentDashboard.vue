@@ -1,6 +1,34 @@
 <template>
     <div>
+        <content-filter :content-count='contentCount'></content-filter>
         <freemium-alert restriction='launch 5 content pieces'></freemium-alert>
+
+        <div class="create-panel-container">
+            <h4 class="create-panel-heading">
+                <i class="icon-connect"></i>
+                PUBLISHED
+            </h4>
+
+            <content-list stage='published'></content-list>
+        </div>
+
+        <div class="create-panel-container">
+            <h4 class="create-panel-heading">
+                <i class="icon-connect"></i>
+                READY TO PUBLISH
+            </h4>
+
+            <content-list stage='ready'></content-list>
+        </div>
+
+        <div class="create-panel-container">
+            <h4 class="create-panel-heading">
+                <i class="icon-connect"></i>
+                BEING WRITTEN / EDITED
+            </h4>
+
+            <content-list stage='written'></content-list>
+        </div>
 
         <modal title='Launch Content' :show='showLaunchModal' @close='showLaunchModal = false'>
             <div class="row">
@@ -58,35 +86,6 @@
                 </div>
             </div>
         </modal>
-
-        <div class="create-panel-container">
-            <h4 class="create-panel-heading">
-                <i class="icon-connect"></i>
-                PUBLISHED
-            </h4>
-
-            <content-list stage='published'></content-list>
-        </div>
-
-        <div class="create-panel-container">
-            <h4 class="create-panel-heading">
-                <i class="icon-connect"></i>
-                READY TO PUBLISH
-            </h4>
-
-            <content-list stage='ready'></content-list>
-        </div>
-
-        <div class="create-panel-container">
-            <h4 class="create-panel-heading">
-                <i class="icon-connect"></i>
-                BEING WRITTEN / EDITED
-            </h4>
-
-            <content-list stage='written'></content-list>
-        </div>
-
-
     </div>
 </template>
 
@@ -113,6 +112,12 @@
 
                 connectionsLoaded: false,
                 publishingContent: false,
+
+                totals: {
+                    published: 0,
+                    ready: 0,
+                    written: 0,
+                }
             };
         },
 
@@ -122,6 +127,14 @@
                 this.contentSelected = content;
                 this.showLaunchModal = true;
             });
+
+            bus.$on('contents-fetched', data => this.totals[data.stage] = data.total);
+        },
+
+        computed: {
+            contentCount() {
+                return this.totals.published + this.totals.ready + this.totals.written;
+            },
         },
 
         methods: {
