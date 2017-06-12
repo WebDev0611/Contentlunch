@@ -73,53 +73,6 @@ class ContentController extends Controller
         return view('content.orders', compact( 'connections' ));
     }
 
-    public function order(Request $request, $id)
-    {
-
-        $writerAccess = new WriterAccessController($request);
-        $error = null;
-
-        try{
-            $data1 = json_decode(utf8_encode($writerAccess->orders($id)->getContent()));
-            $data2 = json_decode(utf8_encode($writerAccess->comments($id)->getContent()));
-
-            if(isset($data1->fault) || isset($data2->fault)){
-                return redirect()->route('content_orders.index')->with([
-                    'flash_message' => isset($data1->fault) ? $data1->fault : $data2->fault,
-                    'flash_message_type' => 'danger',
-                    'flash_message_important' => true,
-                ]);
-            }
-
-           //dd($data1);
-
-            $order = $data1->order;
-            $writer = $data1->writer;
-            $preview = $data1->preview;
-            $comments = $data2->orders[0]->comments;
-
-        }catch(Exception $e){
-            $order = null;
-            $writer = null;
-            $preview = null;
-            return redirect()->route('content_orders.index')->with([
-                'flash_message' => $e->getMessage(),
-                'flash_message_type' => 'danger',
-                'flash_message_important' => true,
-            ]);
-        }
-
-        $connections = $this->selectedAccount
-            ->connections()
-            ->where('active', 1)
-            ->get();
-
-        return view('content.order', compact(
-            'order', 'connections', 'writer', 'preview', 'comments'
-        ));
-
-    }
-
     public function store(Request $request)
     {
         $validator = $this->onSaveValidation($request->all());
