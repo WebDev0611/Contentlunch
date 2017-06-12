@@ -21,10 +21,13 @@
                 <p>No orders at this moment.</p>
             </div>
 
-            <div class="alert alert-info alert-forms no-orders-message" role="alert"><p>
-                There are no orders for the current filter setting.</p></div>
+            <div v-if="orders.length && itemsPassingFilter === 0"
+                 class="alert alert-info alert-forms"
+                 role="alert">
+                <p> There are no orders for the current filter setting.</p>
+            </div>
 
-            <div class="create-panel-table" :class="orders.length <= showLimit ? 'hide' : ''">
+            <div class="create-panel-table" :class="showMorePanelClass">
                 <div class="create-panel-table-cell text-center">
                     <a @click="showMore" href="#">{{ showMorePanelText }}</a>
                 </div>
@@ -43,9 +46,9 @@
         data() {
             return {
                 orders: [],
-                showLimit: 3,
-                itemsToShow: 3,
-                itemsPassingFilter: 3,
+                showLimit: 5,
+                itemsToShow: 5,
+                itemsPassingFilter: 0,
                 filter: 'all',
                 loaded: false
             }
@@ -55,6 +58,7 @@
             this.loadOrders().then(response => {
                 this.orders = response;
                 this.loaded = true;
+                this.itemsPassingFilter = this.orders.length
             });
 
             this.$on('changeFilter', filter => {
@@ -66,6 +70,10 @@
         },
 
         computed: {
+            showMorePanelClass() {
+                return (this.orders.length <= this.showLimit || this.itemsPassingFilter <= this.showLimit) ? 'hide' : ''
+            },
+
             showMorePanelText() {
                 return this.itemsToShow > this.showLimit ? 'Show Less' : (this.orders.length - this.showLimit) + " More - Show All"
             }
