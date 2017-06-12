@@ -6,6 +6,7 @@ use App\Traits\CreatesNewWriterAccessOrder;
 use App\User;
 use App\WriterAccessOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 
 class WriterAccessOrdersController extends Controller {
@@ -34,11 +35,18 @@ class WriterAccessOrdersController extends Controller {
             if (!$localOrder) {
                 // order somehow doesn't exist in our DB so let's create it
                 $this->createWriterAccessOrder($apiOrder->id);
-            } elseif ($apiOrder->status !== $localOrder->status) {
+            } elseif ($apiOrder->status !== $localOrder->status && $localOrder->status !== 'Deleted') {
                 // order status has changed so let's update it
                 $fullApiOrder = json_decode(utf8_encode($this->WAController->getOrders($apiOrder->id)->getContent()));
                 $localOrder->fillOrder($fullApiOrder->orders[0]);
                 $localOrder->save();
+
+                $this->sendEmailStatusNotification([
+                    'oldStatus' => $localOrder->status,
+                    'newStatus' => $apiOrder->status,
+                    'orderId' => $localOrder->id,
+                    'userEmail' => $localOrder->user->email
+                ]);
             }
         });
     }
@@ -79,5 +87,14 @@ class WriterAccessOrdersController extends Controller {
         }
 
         return collect($orders);
+    }
+
+    private function sendEmailStatusNotification ($emailData)
+    {
+        Mail::send('emails.writeraccess_order_status_update', $emailData, function($message) use ($emailData){
+            $message->from("no-reply@contentlaunch.com", "Content Launch")
+                ->to($emailData['userEmail'])
+                ->subject('Content Order Status Change');
+        });
     }
 }

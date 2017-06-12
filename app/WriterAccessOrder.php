@@ -63,6 +63,11 @@ class WriterAccessOrder extends Model {
         return $this->hasMany('App\WriterAccessComment', 'order_id', 'order_id');
     }
 
+    public function scopeNotDeleted ($query)
+    {
+        return $query->where('status', '!=', 'Deleted');
+    }
+
     public function fillOrder ($order)
     {
         foreach ($this->fillable as $param) {
