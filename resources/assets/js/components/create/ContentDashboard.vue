@@ -43,7 +43,10 @@
                     </div>
                     <p class="text-gray">IS NOW PUBLISHED TO:</p>
                     <div class="modal-social">
-
+                        <span
+                            v-for='name in connectionsPublished'
+                            :class="[ 'icon-social-' + name ]">
+                        </span>
                     </div>
                 </div>
             </div>
@@ -105,6 +108,7 @@
 
                 connections: [],
                 connectionsSelected: [],
+                connectionsPublished: [],
                 contentSelected: null,
 
                 connectionsLoaded: false,
@@ -136,13 +140,36 @@
             },
 
             publishContent() {
-                this.publishingContent = true;
+                this.publishRequest()
+                    .then(this.showLaunchCompletedFeedback.bind(this))
+                    .catch(this.showFeedbackError.bind(this));
 
-                setTimeout(() => {
-                    this.showLaunchModal = false;
-                    this.showContentLaunchedModal = true;
-                    this.publishingContent = false;
-                }, 4000);
+            },
+
+            showLaunchCompletedFeedback(response) {
+                this.showLaunchModal = false;
+                this.showContentLaunchedModal = true;
+                this.connectionsPublished = response.published_connections;
+
+                return response;
+            },
+
+            showFeedbackError(response) {
+                this.showLaunchModal = false;
+                swal('Error!', response.responseJSON.data, 'error');
+            },
+
+            publishRequest() {
+                this.publishingContent = true;
+                this.connectionsPublished = [];
+
+                let connections = this.connectionsSelected.join(',');
+
+                return $.get(`/content/multipublish/${this.contentSelected.id}?connections=${connections}`)
+                    .then(response => {
+                        this.publishingContent = false;
+                        return response;
+                    });
             }
         },
     }
