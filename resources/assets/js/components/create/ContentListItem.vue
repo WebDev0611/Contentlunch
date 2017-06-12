@@ -20,22 +20,32 @@
                 UPDATED: <strong>{{ content.updated_at_format }}</strong>
             </span>
 
-            <span class="dashboard-performing-text small" :class="{ critical: content.due_date_critical }" v-if='isReadyToPublish'>
-                DUE: <strong>{{ content.due_date_format }}</strong>
+            <span class="dashboard-performing-text small"
+                :class="{ critical: content.due_date_critical }"
+                v-if='isReadyToPublish || isBeingWritten'>
+
+                DUE: <strong>{{ content.due_date_format.toUpperCase() }}</strong>
             </span>
         </div>
 
-        <div class="create-panel-table-cell text-right cell-size-10" v-if='!isGuest && isPublished'>
+        <div class="create-panel-table-cell text-right cell-size-10" v-if='!isGuest && (isPublished || isBeingWritten)'>
             <div class="create-dropdown">
                 <button type="button" class="button button-action" data-toggle="dropdown">
                     <i class="icon-add-circle"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li>
+                    <li v-if='isPublished'>
                         <a :href="archiveLink">Archive it</a>
+                    </li>
+                    <li v-if='isBeingWritten'>
+                        <a :href="content.link">Edit</a>
                     </li>
                 </ul>
             </div>
+        </div>
+
+        <div class="create-panel-table-cell cell-size-15 text-right" v-if='!isGuest && isReadyToPublish'>
+            <i class="create-panel-spaceship icon-spaceship-circle"></i>
         </div>
 
 
@@ -61,9 +71,14 @@
                 return this.content.content_status_id == 2;
             },
 
+            isBeingWritten() {
+                return this.content.content_status_id == 1;
+            },
+
             archiveLink() {
                 return `/content/${this.content.id}/archive`;
-            }
+            },
+
         }
     }
 </script>
