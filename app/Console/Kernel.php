@@ -35,6 +35,9 @@ class Kernel extends ConsoleKernel
                 ->timezone('America/Los_Angeles');
         }
 
+        // Check WriterAccess orders every 15 min
+        $schedule->call('App\Http\Controllers\WriterAccessOrdersController@fetch')->cron('*/15 * * * * *');
+
         // Check for new WriterAccess comments
         $schedule->call('App\Http\Controllers\WriterAccessCommentController@fetch')->everyThirtyMinutes();
 

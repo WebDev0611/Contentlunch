@@ -348,6 +348,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('/api/messages/{user}', 'MessageController@store')->name('messages.store');
         Route::post('/api/messages/{user}/mark_as_read', 'MessageController@markAsRead')->name('messages.mark_as_read');
 
+        Route::get('/api/writeraccess-fetch-orders', 'WriterAccessOrdersController@fetch');
         Route::get('/api/content/orders', 'WriterAccessOrdersController@getOrders');
         Route::get('/api/content/orders-count', 'WriterAccessOrdersController@getOrdersCount');
 
