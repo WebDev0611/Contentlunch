@@ -26,10 +26,12 @@ class CreateWriterAccessOrdersTable extends Migration
             $table->integer('hourstocomplete')->nullable();
             $table->integer('hourstoapprove')->nullable();
             $table->integer('hourstorevise')->nullable();
+            $table->integer('paidreview')->nullable();
 
             $table->string('order_id')->unique();
             $table->string('status');
             $table->string('title');
+            $table->string('approved')->nullable();
 
             $table->text('instructions');
             $table->text('special');
@@ -38,10 +40,8 @@ class CreateWriterAccessOrdersTable extends Migration
             $table->text('seo');
             $table->text('preview_text')->nullable();
 
-            $table->boolean('approved')->nullable();
             $table->boolean('autoapproved')->nullable();
             $table->boolean('allowhtml');
-            $table->boolean('paidreview');
             $table->boolean('lovelist');
 
             $table->float('maxcost');

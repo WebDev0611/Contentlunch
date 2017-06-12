@@ -16,8 +16,8 @@
                                 <h4>Content Order</h4>
                             </div>
                             {{ Form::open(['url' => '/create/new']) }}
-                            {{ Form::hidden('title', $order->title) }}
-                            {{ Form::hidden('body', $preview->text) }}
+                            {{ Form::hidden('title', $order->preview_title) }}
+                            {{ Form::hidden('body', $order->preview_text) }}
                             {{ Form::hidden('content_type', 0) }}
                             <div class="col-md-6 text-right">
                                 <div class="head-actions">
@@ -26,7 +26,7 @@
                                         class="button button-outline-secondary button-small delimited approve"
                                         name="action"
                                         value="written_content"
-                                        @if($order->status !== "Approved")href="/content/orders/approve/{{ $order->id }}" @endif>
+                                        @if($order->status !== "Approved")href="/content/orders/approve/{{ $order->order_id }}" @endif>
                                         <img src="/images/icons/check-large.svg" alt="Approve">@if($order->status === "Approved") APPROVED @else APPROVE @endif
                                     </a>
 
@@ -72,12 +72,12 @@
                                     <label for="content_type">WRITER</label>
                                     <div class="row">
                                         <div class="col-sm-2">
-                                            <img class="img-circle" id="writer-img" src="{{ $writer->photo }}" alt="{{ $writer->name }}">
+                                            <img class="img-circle" id="writer-img" src="{{ $order->writer->photo }}" alt="{{ $order->writer->name }}">
                                         </div>
                                         <div class="col-sm-6">
-                                            {{ $writer->name }} <br />
-                                            {{ $writer->location }} <br />
-                                            @for($i=0; $i<$writer->rating; $i++)
+                                            {{ $order->writer->name }} <br />
+                                            {{ $order->writer->location }} <br />
+                                            @for($i=0; $i<$order->writer->rating; $i++)
                                                 <img class="rating-star" src="/images/icons/star.svg" alt="">
                                             @endfor
                                         </div>
@@ -110,7 +110,7 @@
                                 ];
                             @endphp
 
-                            {!! @isset($preview) ? $preview->text : '<div class="alert alert-info alert-forms" role="alert"><p>Content has not been submitted for this order yet..</p></div>' !!}
+                            {!! @isset($order->preview_text) ? $order->preview_text : '<div class="alert alert-info alert-forms" role="alert"><p>Content has not been submitted for this order yet..</p></div>' !!}
 
                         </div>
 
@@ -140,7 +140,7 @@
                         </span>
                     </div>
                 </div>
-
+{{--
                 @if(count($comments) > 0)
                 <div class="panel-body">
                     <ul class="comment">
@@ -161,6 +161,7 @@
                         </p>
                     </div>
                 @endif
+                --}}
             </aside> <!-- End Side Pane -->
 
         </div>

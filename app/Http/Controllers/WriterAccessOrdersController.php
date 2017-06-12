@@ -40,6 +40,13 @@ class WriterAccessOrdersController extends Controller {
                 'flash_message_important' => true,
             ]);
         }
+        elseif ($order->status != 'Pending Approval' && $order->status != 'Approved') {
+            return redirect()->route('content_orders.index')->with([
+                'flash_message'           => 'This order is not yet available for preview.',
+                'flash_message_type'      => 'danger',
+                'flash_message_important' => true,
+            ]);
+        }
 
         $connections = Account::selectedAccount()
             ->connections()
@@ -116,14 +123,17 @@ class WriterAccessOrdersController extends Controller {
 
     private function getFullApiOrder ($apiOrder)
     {
-        if($apiOrder->status == 'Pending Approval' || $apiOrder->status == 'Approved') {
+        if ($apiOrder->status == 'Pending Approval' || $apiOrder->status == 'Approved') {
             $data = json_decode(utf8_encode($this->WAController->getOrders($apiOrder->id, true)->getContent()));
-            if(isset($data->preview)) {
+            if (isset($data->preview)) {
                 $data->order->preview = $data->preview;
             }
+
             return $data->order;
-        } else {
+        }
+        else {
             $data = json_decode(utf8_encode($this->WAController->getOrders($apiOrder->id)->getContent()));
+
             return $data->orders[0];
         }
     }
