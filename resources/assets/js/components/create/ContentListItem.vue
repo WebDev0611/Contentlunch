@@ -45,7 +45,9 @@
         </div>
 
         <div class="create-panel-table-cell cell-size-15 text-right" v-if='!isGuest && isReadyToPublish'>
-            <i class="create-panel-spaceship icon-spaceship-circle"></i>
+            <a @click.prevent='openLaunchModal' href="#">
+                <i class="create-panel-spaceship icon-spaceship-circle"></i>
+            </a>
         </div>
 
 
@@ -53,10 +55,18 @@
 </template>
 
 <script>
+    import bus from '../bus.js';
+
     export default {
         name: 'content-list-item',
 
         props: ['content'],
+
+        methods: {
+            openLaunchModal() {
+                bus.$emit('launch-clicked', this.content);
+            },
+        },
 
         computed: {
             isGuest() {
