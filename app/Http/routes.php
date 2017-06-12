@@ -329,8 +329,6 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('/api/contents/{content}/messages', 'ContentMessageController@store');
         Route::post('/api/contents/{content}/messages/auth', 'ContentMessageController@auth');
 
-        Route::get('/api/contents/orders-count', 'ContentController@getOrdersCount');
-
         Route::get('/api/ideas/collaborators', 'IdeaCollaboratorsController@index');
         Route::get('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@index');
         Route::post('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@update');
@@ -351,6 +349,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('/api/messages/{user}/mark_as_read', 'MessageController@markAsRead')->name('messages.mark_as_read');
 
         Route::get('/api/content/orders', 'WriterAccessOrdersController@getOrders');
+        Route::get('/api/content/orders-count', 'WriterAccessOrdersController@getOrdersCount');
 
         Route::get('/api/writeraccess-fetch-comments', 'WriterAccessCommentController@fetch');
         Route::get('/api/content/orders/{id}/comments', 'WriterAccessCommentController@getOrderComments');

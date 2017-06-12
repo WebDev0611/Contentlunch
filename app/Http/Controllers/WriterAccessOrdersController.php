@@ -7,14 +7,31 @@ use Illuminate\Http\Request;
 
 class WriterAccessOrdersController extends Controller
 {
-    public function getOrders(Request $request)
-    {
-        $user = $request->user();
+    private $user;
 
-        if(!$user) {
+    public function __construct(Request $request)
+    {
+        $this->user = $request->user();
+    }
+
+    public function getOrders()
+    {
+        if(!$this->user) {
             return response()->json('You don\'t have permission to access this resource.');
         }
 
-        return $user->writerAccessOrders()->with('writer')->orderBy('updated_at', 'desc')->get();
+        return $this->user->writerAccessOrders()->with('writer')->orderBy('updated_at', 'desc')->get();
+    }
+
+    public function getOrdersCount(Request $request) {
+
+        $orders = $this->user->writerAccessOrders();
+        $count = $orders->count();
+
+        if($request->has('pending-approval')) {
+            $count = $orders->whereStatus('Pending Approval')->count();
+        }
+
+        return response()->json(['count' => $count]);
     }
 }

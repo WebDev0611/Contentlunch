@@ -225,32 +225,6 @@ class ContentController extends Controller
         return json_decode(utf8_encode($writerAccess->orders()->getContent()))->orders;
     }
 
-    public function getOrdersCount(Request $request) {
-        $writerAccess = new WriterAccessController($request);
-
-        try {
-            $orders = json_decode(utf8_encode($writerAccess->orders()->getContent()))->orders;
-        } catch(Exception $e) {
-            return response()->json('Error occurred while trying to fetch the data.', 500);
-        }
-
-        $count = count($orders);
-
-        if($request->has('pending-approval')) {
-            $pendingApproval = [];
-
-            foreach ($orders as $order) {
-                if ($order->status == "Pending Approval") {
-                    $pendingApproval[] = $order;
-                }
-            }
-
-            $count = count($pendingApproval);
-        }
-
-        return response()->json(['count' => $count]);
-    }
-
     public function trendShare(Request $request, Connection $connection)
     {
         $content = (object) Input::all();
