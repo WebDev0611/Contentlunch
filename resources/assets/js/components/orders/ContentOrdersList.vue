@@ -3,7 +3,7 @@
         <content-orders-filter :orders-count="orders.length">
         </content-orders-filter>
 
-        <div class="create-panel-container order-container hide-over-10"
+        <div class="create-panel-container order-container"
              :class="orders.length ? 'no-padding' : ''">
 
             <loading v-if='!loaded'></loading>
@@ -27,10 +27,11 @@
                 <p> There are no orders for the current filter setting.</p>
             </div>
 
-            <div class="create-panel-table" :class="showMorePanelClass">
-                <div class="create-panel-table-cell text-center">
-                    <a @click="showMore" href="#">{{ showMorePanelText }}</a>
-                </div>
+        </div>
+
+        <div class="create-panel-table" :class="showMorePanelClass">
+            <div class="create-panel-table-cell text-center">
+                <a @click="showMore" href="#">{{ showMorePanelText }}</a>
             </div>
         </div>
 
@@ -46,8 +47,8 @@
         data() {
             return {
                 orders: [],
-                showLimit: 5,
-                itemsToShow: 5,
+                showLimit: 10,
+                itemsToShow: 10,
                 itemsPassingFilter: 0,
                 filter: 'all',
                 loaded: false

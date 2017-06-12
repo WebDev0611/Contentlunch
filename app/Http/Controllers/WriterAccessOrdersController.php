@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Traits\CreatesNewWriterAccessOrder;
 use App\User;
 use App\WriterAccessOrder;
-use function Clue\StreamFilter\fun;
 use Illuminate\Http\Request;
 
 
@@ -36,7 +35,10 @@ class WriterAccessOrdersController extends Controller {
                 // order somehow doesn't exist in our DB so let's create it
                 $this->createWriterAccessOrder($apiOrder->id);
             } elseif ($apiOrder->status !== $localOrder->status) {
-                // TODO: order status has changed so let's update it
+                // order status has changed so let's update it
+                $fullApiOrder = json_decode(utf8_encode($this->WAController->getOrders($apiOrder->id)->getContent()));
+                $localOrder->fillOrder($fullApiOrder->orders[0]);
+                $localOrder->save();
             }
         });
     }
