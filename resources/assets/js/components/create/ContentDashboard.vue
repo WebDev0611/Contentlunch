@@ -23,7 +23,7 @@
         <div class="create-panel-container">
             <h4 class="create-panel-heading">
                 <i class="icon-connect"></i>
-                WRITTEN
+                BEING WRITTEN / EDITED
             </h4>
 
             <content-list stage='written'></content-list>
