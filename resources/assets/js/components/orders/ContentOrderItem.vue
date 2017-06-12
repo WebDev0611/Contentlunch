@@ -1,5 +1,6 @@
 <template>
-    <div :class="index >= itemsToShow ? 'hidden' : ''">
+    <div :class="index >= itemsToShow ? 'hidden' : ''"
+         v-if="passesFilter">
 
         <div :title="order.title"
              :data-original-title="order.title"
@@ -14,7 +15,9 @@
             </div>
 
             <div class="create-panel-table-cell title-cell">
-                <h5 class="dashboard-tasks-title"> {{order.title}} </h5>
+                <a :href="'/content/orders/' + order.id">
+                    <h5 class="dashboard-tasks-title"> {{order.title}} </h5>
+                </a>
                 <ul class="dashboard-tasks-list">
                     <li>STATUS: <strong>{{order.status}}</strong></li>
                     <li>WRITER: <strong>{{order.writer ? order.writer.name : 'None'}}</strong></li>
@@ -23,7 +26,7 @@
 
             <div class="create-panel-table-cell text-right">
                 <a v-if="order.status === 'Approved' || order.status === 'Pending Approval'"
-                   :href="'/content/orders/' + order.order_id">
+                   :href="'/content/orders/' + order.id">
                     <i class="icon-edit large"></i>
                 </a>
                 <span v-else class="red small">Order in progress</span>
@@ -47,11 +50,15 @@
     export default {
         name: 'content-order-item',
 
-        props: ['order', 'index', 'itemsToShow'],
+        props: ['order', 'index', 'itemsToShow', 'filter'],
 
         computed: {
             borderColor() {
                 return (this.order.status === 'Approved' || this.order.status === 'Pending Approval') ? 'border-green' : ''
+            },
+
+            passesFilter() {
+                return this.filter === 'all' || this.order.status === this.filter
             }
         }
     }

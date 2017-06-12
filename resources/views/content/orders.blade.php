@@ -34,8 +34,6 @@
 
                 @include('elements.freemium-alert')
 
-                @include('content.partials.dashboard.order_filter')
-
                 <content-orders-list></content-orders-list>
 
             </div>
@@ -120,54 +118,4 @@
         </div>
     </div>
 
-@stop
-
-@section('scripts')
-<script>
-    /*
-    (function($){
-        var $showAllPanel = $("#showAllPanel"),
-            $showLessPanel = $("#showLessPanel"),
-            $orderContainer = $(".order-container"),
-            $noOrdersMessage = $(".no-orders-message");
-
-        $showAllPanel.on("click", function(e){
-            e.preventDefault();
-            $orderContainer.removeClass("hide-over-10");
-            $showAllPanel.hide();
-            $showLessPanel.show();
-        });
-
-        $showLessPanel.on("click", function(e){
-            e.preventDefault();
-            $orderContainer.addClass("hide-over-10");
-            $showLessPanel.hide();
-            $showAllPanel.show();
-        });
-
-        $("#statusFilter").on("change", function(e){
-            var status = $(this).val(),
-                $allOrderListRows = $(".order-list-row"),
-                $matchingOrderListRows = $(".order-list-row[data-status='"+status+"']");
-
-            if(status === "all"){
-                $allOrderListRows.removeClass("hide");
-                if($allOrderListRows.length > 10){
-                    $showAllPanel.show();
-                }
-            }else{
-                $showAllPanel.hide();
-                $allOrderListRows.addClass("hide");
-                $matchingOrderListRows.removeClass("hide");
-                if($matchingOrderListRows.length === 0){
-                    $noOrdersMessage.show();
-                }else{
-                    $noOrdersMessage.hide();
-                }
-            }
-        });
-
-    })(jQuery);
-    */
-</script>
 @stop

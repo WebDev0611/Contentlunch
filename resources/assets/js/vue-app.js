@@ -28,6 +28,7 @@ Vue.component('content-order-comment', require('./components/orders/ContentOrder
 Vue.component('content-order-comment-list', require('./components/orders/ContentOrderCommentList.vue'));
 Vue.component('content-orders-list', require('./components/orders/ContentOrdersList.vue'));
 Vue.component('content-order-item', require('./components/orders/ContentOrderItem.vue'));
+Vue.component('content-orders-filter', require('./components/orders/ContentOrdersFilter.vue'));
 
 // Create Module
 Vue.component('content-filter', require('./components/create/ContentFilter.vue'));
