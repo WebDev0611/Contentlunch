@@ -8,6 +8,7 @@ Vue.component('freemium-alert', require('./components/FreemiumAlert.vue'));
 Vue.component('messaging-system', require('./components/messaging-system/MessagingSystem.vue'));
 Vue.component('open-message-bar-button', require('./components/messaging-system/OpenMessageBarButton.vue'));
 Vue.component('alert', require('./components/Alert.vue'));
+Vue.component('modal', require('./components/Modal.vue'));
 
 // Collaborate Module
 Vue.component('collaborate-module', require('./components/collaborate/CollaborateModule.vue'));
