@@ -24,9 +24,34 @@
             </div>
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                    <button class="button button-primary text-uppercase button-extend">
+                    <button class="button button-primary text-uppercase button-extend" @click='publishContent' v-show='!publishingContent'>
                         LAUNCH
                     </button>
+
+                    <loading v-show='publishingContent'></loading>
+                </div>
+            </div>
+        </modal>
+
+        <modal title='Content Launched' :show='showContentLaunchedModal' @close='showContentLaunchedModal = false'>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 text-center">
+                    <i class="modal-icon-success icon-check-large"></i>
+                    <div class="form-group">
+                        <img src="/images/cl-avatar2.png" alt="#" class="create-image">
+                        <h4></h4>
+                    </div>
+                    <p class="text-gray">IS NOW PUBLISHED TO:</p>
+                    <div class="modal-social">
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <a @click.prevent='showContentLaunchedModal = false' href="#" class="button text-uppercase button-extend">
+                        Go to Dashboard
+                    </a>
                 </div>
             </div>
         </modal>
@@ -76,10 +101,14 @@
         data() {
             return {
                 showLaunchModal: false,
-                connectionsLoaded: false,
+                showContentLaunchedModal: false,
+
                 connections: [],
                 connectionsSelected: [],
                 contentSelected: null,
+
+                connectionsLoaded: false,
+                publishingContent: false,
             };
         },
 
@@ -105,6 +134,16 @@
                     this.connectionsLoaded = true;
                 });
             },
+
+            publishContent() {
+                this.publishingContent = true;
+
+                setTimeout(() => {
+                    this.showLaunchModal = false;
+                    this.showContentLaunchedModal = true;
+                    this.publishingContent = false;
+                }, 4000);
+            }
         },
     }
 </script>
