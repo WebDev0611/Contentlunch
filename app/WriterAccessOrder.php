@@ -14,6 +14,7 @@ class WriterAccessOrder extends Model {
         'approved',
         'autoapproved',
         'approvedwords',
+        'approvedrating',
         'title',
         'instructions',
         'special',
@@ -83,6 +84,8 @@ class WriterAccessOrder extends Model {
         $this->expertise_id = $order->expertise ? $order->expertise->id : null;
         $this->expertise_name = $order->expertise ? $order->expertise->name : null;
         $this->lovelist = $order->recipients->lovelist;
+        $this->preview_title = $order->preview ? $order->preview->title : null;
+        $this->preview_text = $order->preview ? $order->preview->text : null;
 
         $this->fillWriters($order);
     }

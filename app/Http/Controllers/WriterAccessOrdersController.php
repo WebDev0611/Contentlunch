@@ -60,8 +60,8 @@ class WriterAccessOrdersController extends Controller {
             }
             elseif ($apiOrder->status !== $localOrder->status && $localOrder->status !== 'Deleted') {
                 // order status has changed so let's update it
-                $fullApiOrder = json_decode(utf8_encode($this->WAController->getOrders($apiOrder->id)->getContent()));
-                $localOrder->fillOrder($fullApiOrder->orders[0]);
+                $fullApiOrder = $this->getFullApiOrder($apiOrder);
+                $localOrder->fillOrder($fullApiOrder);
                 $localOrder->save();
 
                 $this->sendEmailStatusNotification([
@@ -110,6 +110,17 @@ class WriterAccessOrdersController extends Controller {
         }
 
         return collect($orders);
+    }
+
+    private function getFullApiOrder ($apiOrder)
+    {
+        if($apiOrder->status == 'Pending Approval' || $apiOrder->status == 'Approved') {
+            $data = json_decode(utf8_encode($this->WAController->getOrders($apiOrder->id, true)->getContent()));
+            return $data->order;
+        } else {
+            $data = json_decode(utf8_encode($this->WAController->getOrders($apiOrder->id)->getContent()));
+            return $data->orders[0];
+        }
     }
 
     private function sendEmailStatusNotification ($emailData)

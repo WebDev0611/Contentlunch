@@ -184,10 +184,10 @@ class WriterAccessController extends Controller
         }
     }
 
-    public function getOrders ($id = null)
+    public function getOrders ($id = null, $full = false)
     {
         if($id !== null) {
-            return $this->get('/orders/' . $id);
+            return !$full ? $this->get('/orders/' . $id) : $this->post('/orders/'.$id."/previewfull");
         }
 
         return $this->get('/orders');
