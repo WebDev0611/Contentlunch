@@ -169,6 +169,7 @@ return [
         GrahamCampbell\Dropbox\DropboxServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
 
+        App\Providers\FractalServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
         App\Providers\FormComponentsServiceProvider::class,
     ],
@@ -226,6 +227,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Firewall' => PragmaRX\Firewall\Vendor\Laravel\Facade::class,
         'LinkedIn'  => Artesaos\LinkedIn\Facades\LinkedIn::class,
+        'Fractal' => GatherContent\LaravelFractal\LaravelFractalFacade::class,
     ],
 
 ];

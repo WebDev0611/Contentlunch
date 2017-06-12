@@ -9,7 +9,9 @@ use App\Campaign;
 use App\Content;
 use App\Helpers;
 use App\Task;
+use App\Transformers\TaskTransformer;
 use Auth;
+use Fractal;
 use Illuminate\Http\Request;
 use Storage;
 use View;
@@ -33,15 +35,54 @@ class TaskController extends Controller
     {
         $shouldReturnAccountTasks = $request->account_tasks == '1';
 
-        if ($shouldReturnAccountTasks) {
-            $tasks = Task::accountTasks($this->selectedAccount);
-        } else {
-            $tasks = Task::userTasks(Auth::user(), $this->selectedAccount);
-        }
-
-        return response()->json([ 'data' => $tasks ]);
+        return $shouldReturnAccountTasks
+            ? $this->paginatedAccountTasks()
+            : $this->paginatedUserTasks();
     }
 
+    protected function paginatedAccountTasks()
+    {
+        $tasks = $this->paginatedAccountTasksQuery()->paginate(6);
+
+        Fractal::getManager()->parseIncludes([ 'user', 'contents.status' ]);
+
+        return Fractal::collection($tasks, new TaskTransformer, function($resources) {
+            $resources->setMetaValue('total', $this->paginatedAccountTasksQuery()->count());
+        });
+    }
+
+    protected function paginatedAccountTasksQuery()
+    {
+        return $this->selectedAccount
+            ->tasks()
+            ->with('user')
+            ->with('contents.status')
+            ->orderBy('created_at', 'desc')
+            ->open();
+    }
+
+    protected function paginatedUserTasks()
+    {
+        $tasks = $this->paginatedUsersTasksQuery()->paginate(6);
+
+        Fractal::getManager()->parseIncludes([ 'user', 'contents.status' ]);
+
+        return Fractal::collection($tasks, new TaskTransformer, function($resources) {
+            $resources->setMetaValue('total', $this->paginatedUsersTasksQuery()->count());
+        });
+    }
+
+    protected function paginatedUsersTasksQuery()
+    {
+        return Auth::user()
+            ->assignedTasks()
+            ->where('account_id', $this->selectedAccount->id)
+            ->with('user')
+            ->with('contents.status')
+            ->orderBy('tasks.created_at', 'desc')
+            ->open()
+            ->distinct();
+    }
 
     /**
      * Show the form for creating a new resource.

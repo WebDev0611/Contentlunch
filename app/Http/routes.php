@@ -319,6 +319,9 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::get('/api/campaigns/{campaign}/tasks', 'CampaignTasksController@index');
 
         Route::get('/api/contents', 'ContentController@index');
+        Route::get('/api/contents/published', 'ContentController@published');
+        Route::get('/api/contents/ready', 'ContentController@ready');
+        Route::get('/api/contents/written', 'ContentController@written');
         Route::get('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@index');
         Route::post('/api/contents/{content}/collaborators', 'ContentCollaboratorsController@update');
         Route::get('/api/contents/{content}/guests', 'ContentGuestsController@index');
@@ -331,6 +334,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
 
         Route::get('/api/contents/orders-count', 'ContentController@getOrdersCount');
 
+        Route::get('/api/ideas', 'IdeaController@recent');
         Route::get('/api/ideas/collaborators', 'IdeaCollaboratorsController@index');
         Route::get('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@index');
         Route::post('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@update');

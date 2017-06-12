@@ -8,6 +8,7 @@ use App\Content;
 use App\Idea;
 use App\IdeaContent;
 use App\Limit;
+use App\Transformers\IdeaTransformer;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -15,6 +16,12 @@ use Storage;
 
 class IdeaController extends Controller
 {
+    private $selectedAccount;
+
+    public function __construct()
+    {
+        $this->selectedAccount = Account::selectedAccount();;
+    }
 
     /**
      * Display a listing of the resource.
@@ -22,9 +29,26 @@ class IdeaController extends Controller
      */
     public function index()
     {
-        $ideas = Idea::accountIdeas(Account::selectedAccount());
+        $ideas = Idea::accountIdeas($this->selectedAccount);
 
         return response()->json($ideas);
+    }
+
+    /**
+     * Recent ideas endpoint.
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function recent(Request $request)
+    {
+        return \Fractal::collection($this->accountIdeas(), new IdeaTransformer, function($resources) {
+            $resources->setMetaValue('total', $this->selectedAccount->ideas()->count());
+        });
+    }
+
+    protected function accountIdeas()
+    {
+        return $this->selectedAccount->ideas()->recent()->with('user')->paginate(5);
     }
 
     /**

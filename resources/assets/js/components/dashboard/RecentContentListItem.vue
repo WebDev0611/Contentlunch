@@ -2,7 +2,7 @@
     <div>
         <div class="dashboard-ideas-cell cell-size-5">
             <div class="dashboard-tasks-img-wrapper">
-                <img :src="imageProfile" alt="#" class="dashboard-tasks-img">
+                <avatar :user='content.user'></avatar>
             </div>
         </div>
         <div class="dashboard-members-cell cell-size-75">
@@ -24,7 +24,7 @@
     import ContentStageIcon from './ContentStageIcon.vue';
 
     export default {
-        name: 'content-list-item',
+        name: 'recent-content-list-item',
 
         components: {
             ContentStageIcon,
@@ -33,14 +33,6 @@
         props: [ 'content' ],
 
         computed: {
-            imageProfile() {
-                let defaultAvatar = '/images/cl-avatar2.png';
-
-                return this.content.author
-                    ? this.content.author.profile_image || defaultAvatar
-                    : defaultAvatar;
-            },
-
             contentStage() {
                 return this.content.content_status_id;
             },

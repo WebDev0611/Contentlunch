@@ -7,6 +7,8 @@ Vue.component('avatar', require('./components/Avatar.vue'));
 Vue.component('freemium-alert', require('./components/FreemiumAlert.vue'));
 Vue.component('messaging-system', require('./components/messaging-system/MessagingSystem.vue'));
 Vue.component('open-message-bar-button', require('./components/messaging-system/OpenMessageBarButton.vue'));
+Vue.component('alert', require('./components/Alert.vue'));
+Vue.component('modal', require('./components/Modal.vue'));
 
 // Collaborate Module
 Vue.component('collaborate-module', require('./components/collaborate/CollaborateModule.vue'));
@@ -22,12 +24,13 @@ Vue.component('content-order-comment', require('./components/orders/ContentOrder
 Vue.component('content-order-comment-list', require('./components/orders/ContentOrderCommentList.vue'));
 Vue.component('content-messages', require('./components/messaging-system/ContentMessages.vue'));
 Vue.component('activity-feed', require('./components/dashboard/ActivityFeed.vue'));
-Vue.component('content-list', require('./components/dashboard/ContentList.vue'));
+Vue.component('recent-content-list', require('./components/dashboard/RecentContentList.vue'));
 Vue.component('recent-ideas-list', require('./components/dashboard/RecentIdeasList.vue'));
 
 // Create Module
 Vue.component('content-filter', require('./components/create/ContentFilter.vue'));
 Vue.component('campaign-filter', require('./components/create/CampaignFilter.vue'));
+Vue.component('content-dashboard', require('./components/create/ContentDashboard.vue'));
 
 // Plan Module
 Vue.component('ideas', require('./components/plan/Ideas.vue'));

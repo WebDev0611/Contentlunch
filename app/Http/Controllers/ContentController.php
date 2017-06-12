@@ -19,6 +19,7 @@ use App\Presenters\CampaignPresenter;
 use App\Presenters\ContentTypePresenter;
 use App\Services\ContentService;
 use App\Tag;
+use App\Transformers\ContentTransformer;
 use App\User;
 use App\WriterAccessComment;
 use App\WriterAccessPrice;
@@ -36,24 +37,67 @@ class ContentController extends Controller
 {
     protected $selectedAccount;
     protected $content;
+    protected $filters;
 
     public function __construct(Request $request, ContentService $content)
     {
         $this->selectedAccount = Account::selectedAccount();
         $this->content = $content;
+        $this->filters = $this->getFilters($request);
     }
 
-    public function index(Request $request)
+    protected function getFilters(Request $request)
     {
-        $filters = collect([
+        return collect([
             'author' => $request->input('author'),
             'campaign' => $request->input('campaign'),
             'stage' => $request->input('stage'),
         ])->filter()->toArray();
+    }
 
+    public function index(Request $request)
+    {
         return $request->ajax()
-            ? response()->json([ 'data' => $this->content->recentContent() ])
-            : view('content.index', $this->content->contentList($filters));
+            ? $this->indexAjax()
+            : view('content.index', $this->content->contentList($this->filters));
+    }
+
+    protected function fractalCollection($contents = [], $total = 0)
+    {
+        return \Fractal::collection($contents, new ContentTransformer, function($resources) use ($total) {
+            $resources->setMetaValue('total', $total);
+        });
+    }
+
+    protected function indexAjax()
+    {
+        $contents = $this->selectedAccount->contents()->where('content_status_id', '!=', 4)->recentlyUpdated()->paginate(5);
+
+        return $this->fractalCollection($contents, $this->selectedAccount->contents()->count());
+    }
+
+    public function published()
+    {
+        $contents = $this->content->publishedQuery($this->filters)->paginate(5);
+        $total = $this->content->publishedQuery($this->filters)->count();
+
+        return $this->fractalCollection($contents, $total);
+    }
+
+    public function ready()
+    {
+        $contents = $this->content->readyQuery($this->filters)->paginate(5);
+        $total = $this->content->readyQuery($this->filters)->count();
+
+        return $this->fractalCollection($contents, $total);
+    }
+
+    public function written()
+    {
+        $contents = $this->content->writtenQuery($this->filters)->paginate(5);
+        $total = $this->content->writtenQuery($this->filters)->count();
+
+        return $this->fractalCollection($contents, $total);
     }
 
     public function orders(Request $request)
@@ -434,7 +478,7 @@ class ContentController extends Controller
                 return Connection::find($connectionId);
             });
 
-        $response = response()->json(['data' => 'Content not found'], 404);
+        $response = response()->json(['data' => 'Content not found.'], 404);
 
         if ($content) {
             $errors = [];
@@ -457,7 +501,9 @@ class ContentController extends Controller
             }
 
             $response = response()->json([
-                'data' => 'Content published',
+                'data' => $failedConnections > 0
+                    ? 'There were errors with some connections.'
+                    : 'Content published.',
                 'errors' => $errors,
                 'content' => $content,
                 'published_connections' => $publishedConnections,

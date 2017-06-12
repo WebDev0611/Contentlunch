@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
+use App\Activity;
 use App\Http\Requests;
 use App\Services\AccountService;
+use App\Transformers\ActivityTransformer;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
@@ -13,6 +16,7 @@ class ActivityController extends Controller
     public function __construct(AccountService $account)
     {
         $this->account = $account;
+        $this->selectedAccount = Account::selectedAccount();
     }
 
     /**
@@ -22,9 +26,11 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        $data = $this->account->activityFeed()->take(10);
+        $activities = $this->account->activityFeed()->paginate(5);
 
-        return response()->json(compact('data'));
+        return \Fractal::collection($activities, new ActivityTransformer, function($resources) {
+            $resources->setMetaValue('total', $this->account->activityFeed()->count());
+        });
     }
 
     /**

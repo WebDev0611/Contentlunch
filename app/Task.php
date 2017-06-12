@@ -227,7 +227,7 @@ class Task extends Model
             });
     }
 
-    protected function addDueDateDiffs()
+    public function addDueDateDiffs()
     {
         $this->due_date_diff = $this->present()->dueDate;
         $this->updated_at_diff = $this->present()->updatedAt;

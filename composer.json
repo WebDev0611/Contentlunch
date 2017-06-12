@@ -30,7 +30,8 @@
         "graham-campbell/dropbox": "^3.4",
         "vinkla/pusher": "~1.0",
         "google/apiclient": "^2.0",
-        "spatie/laravel-activitylog": "^1.15"
+        "spatie/laravel-activitylog": "^1.15",
+        "gathercontent/laravel-fractal": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

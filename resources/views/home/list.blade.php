@@ -119,7 +119,7 @@
                 @can('guests-denied')
                 <div class="col-md-3" id="misc-container">
                     <recent-ideas-list></recent-ideas-list>
-                    <content-list></content-list>
+                    <recent-content-list></recent-content-list>
                 </div>
                 <div class="col-md-3">
                     <activity-feed></activity-feed>

@@ -2,11 +2,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Account;
+use App\Traits\Orderable;
+use Illuminate\Database\Eloquent\Model;
 
 class Idea extends Model
 {
+    use Orderable;
+
     protected $table = 'idea';
     public $fillable = [
         'user_id',
