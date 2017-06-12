@@ -1,5 +1,5 @@
 <template>
-    <div :class="index >= showLimit ? 'hidden' : ''">
+    <div :class="index >= itemsToShow ? 'hidden' : ''">
 
         <div :title="order.title"
              :data-original-title="order.title"
@@ -47,11 +47,7 @@
     export default {
         name: 'content-order-item',
 
-        props: ['order', 'index', 'showLimit'],
-
-        created(){
-          console.log(this.index)
-        },
+        props: ['order', 'index', 'itemsToShow'],
 
         computed: {
             borderColor() {

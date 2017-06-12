@@ -9,7 +9,7 @@
                             :order="order"
                             :key="order.id"
                             :index="key"
-                            :show-limit="showLimit"
+                            :items-to-show="itemsToShow"
         ></content-order-item>
 
         <div v-if="!orders.length" class="alert alert-info alert-forms" role="alert">
@@ -19,10 +19,7 @@
         <div class="alert alert-info alert-forms no-orders-message" role="alert"><p>
             There are no orders for the current filter setting.</p></div>
 
-        <div class="create-panel-table"
-             :class="orders.length <= showLimit ? 'hide' : ''"
-             id="showAllPanel">
-
+        <div class="create-panel-table" :class="orders.length <= showLimit ? 'hide' : ''">
             <div class="create-panel-table-cell text-center">
                 <a @click="showMore" href="#">{{ showMorePanelText }}</a>
             </div>
@@ -40,6 +37,7 @@
             return {
                 orders: [],
                 showLimit: 3,
+                itemsToShow: 3,
                 loaded: false
             }
         },
@@ -53,7 +51,7 @@
 
         computed: {
             showMorePanelText() {
-                return (this.orders.length - this.showLimit) + " More - Show All";
+                return this.itemsToShow > this.showLimit ? 'Show Less' : (this.orders.length - this.showLimit) + " More - Show All"
             }
         },
 
@@ -63,14 +61,8 @@
             },
 
             showMore() {
-                this.showLimit = this.orders.length
+                this.itemsToShow = (this.itemsToShow > this.showLimit) ? this.showLimit : this.orders.length;
             }
         }
     }
 </script>
-
-<style scoped>
-    #showLessPanel {
-        display: none;
-    }
-</style>

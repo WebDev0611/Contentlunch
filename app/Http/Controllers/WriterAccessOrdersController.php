@@ -15,6 +15,6 @@ class WriterAccessOrdersController extends Controller
             return response()->json('You don\'t have permission to access this resource.');
         }
 
-        return $user->writerAccessOrders()->with('writer')->get();
+        return $user->writerAccessOrders()->with('writer')->orderBy('updated_at', 'desc')->get();
     }
 }
