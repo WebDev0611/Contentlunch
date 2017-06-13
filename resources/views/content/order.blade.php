@@ -15,19 +15,19 @@
                             <div class="col-md-6">
                                 <h4>Content Order</h4>
                             </div>
-                            {{ Form::open(['url' => '/create/new']) }}
-                            {{ Form::hidden('title', $order->preview_title) }}
-                            {{ Form::hidden('body', $order->preview_text) }}
-                            {{ Form::hidden('content_type', 0) }}
+
                             <div class="col-md-6 text-right">
                                 <div class="head-actions">
                                     <a
-                                        @if($order->status !== "Pending Approval") disabled @endif
-                                        class="button button-outline-secondary button-small delimited approve"
-                                        name="action"
-                                        value="written_content"
-                                        @if($order->status !== "Approved")href="/content/orders/approve/{{ $order->order_id }}" @endif>
-                                        <img src="/images/icons/check-large.svg" alt="Approve">@if($order->status === "Approved") APPROVED @else APPROVE @endif
+                                            @if($order->status !== "Pending Approval") disabled @endif
+                                            class="button button-outline-secondary button-small delimited approve"
+                                            name="action"
+                                            value="written_content"
+                                            @if($order->status !== "Approved") href="/content/orders/approve/{{ $order->order_id }}" @endif>
+
+                                        <img src="/images/icons/check-large.svg"
+                                             alt="Approve">@if($order->status === "Approved") APPROVED @else
+                                            APPROVE @endif
                                     </a>
 
 
@@ -38,9 +38,20 @@
                                             value="written_content">
                                         <img src="/images/icons/spaceship-circle.svg" alt="Launch"> LAUNCH
                                     </button>
+
+                                    @if($order->status === "Approved")
+                                        <a href="{{ route('export.order', [$order->id, 'docx']) }}">
+                                            <button
+                                                    type="button"
+                                                    class="button button-outline-secondary button-small delimited launch"
+                                                    name="action">
+                                                <img src="/images/icons/export.svg" alt="Export"> DOWNLOAD
+                                            </button>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
-                            {{ Form::close() }}
+
                         </div>
                     </div>
                 </div> <!-- End Panel Header -->
@@ -57,11 +68,11 @@
                         @if ($errors->any())
                             <div class="alert alert-danger alert-forms" id="formError">
                                 <p><strong>Oops! We had some errors:</strong>
-                                    <ul>
+                                <ul>
                                     @foreach($errors->all() as $error)
                                         <li>{{ $error }}</li>
                                     @endforeach
-                                    </ul>
+                                </ul>
                                 </p>
                             </div>
                         @endif
@@ -72,11 +83,12 @@
                                     <label for="content_type">WRITER</label>
                                     <div class="row">
                                         <div class="col-sm-2">
-                                            <img class="img-circle" id="writer-img" src="{{ $order->writer->photo }}" alt="{{ $order->writer->name }}">
+                                            <img class="img-circle" id="writer-img" src="{{ $order->writer->photo }}"
+                                                 alt="{{ $order->writer->name }}">
                                         </div>
                                         <div class="col-sm-6">
-                                            {{ $order->writer->name }} <br />
-                                            {{ $order->writer->location }} <br />
+                                            {{ $order->writer->name }} <br/>
+                                            {{ $order->writer->location }} <br/>
                                             @for($i=0; $i<$order->writer->rating; $i++)
                                                 <img class="rating-star" src="/images/icons/star.svg" alt="">
                                             @endfor
@@ -90,7 +102,9 @@
                                                               '<b>Summary</b>: ' . $order->writer->summary;
                                             @endphp
 
-                                            <button type="button" data-toggle="popover" data-trigger="focus" title="{{ $order->writer->name }}" class="btn btn-sm btn-default writer-more"
+                                            <button type="button" data-toggle="popover" data-trigger="focus"
+                                                    title="{{ $order->writer->name }}"
+                                                    class="btn btn-sm btn-default writer-more"
                                                     data-content="{{ $writerInfo }}">
                                                 More about writer
                                             </button>
@@ -157,59 +171,54 @@
 
 @section('styles')
     <style>
-        a.approve img, button.launch img{
+        a.approve img, button.launch img {
             width: 20px;
             margin-right: 2px;
         }
 
-        #writer-img{
+        #writer-img {
             width: 66px;
         }
 
-        .rating-star{
+        .rating-star {
             width: 12px;
         }
 
-        .comment-sidebar{
+        .comment-sidebar {
 
         }
-        .comment
-        {
+
+        .comment {
             list-style: none;
             margin: 0;
             padding: 0;
         }
 
-        .comment li
-        {
+        .comment li {
             margin-bottom: 10px;
             padding-top: 15px;
             padding-bottom: 15px;
             border-bottom: 1px dotted #B3A9A9;
         }
 
-        .comment li.left .comment-body
-        {
+        .comment li.left .comment-body {
             margin-left: 60px;
         }
 
-        .comment li.right .comment-body
-        {
+        .comment li.right .comment-body {
             margin-right: 60px;
         }
 
-
-        .comment li .comment-body p
-        {
+        .comment li .comment-body p {
             margin: 0;
             color: #777777;
         }
 
-        .alert.margin-20{
+        .alert.margin-20 {
             margin: 20px;
         }
 
-        div.popover{
+        div.popover {
             width: 300px;
         }
 
@@ -226,7 +235,7 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('[data-toggle="popover"]').popover({
                 'html': true
             });

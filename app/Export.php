@@ -107,4 +107,10 @@ class Export extends Model {
 
         return $pathToFile;
     }
+
+    public static function orderToWordDocument ($content, $documentName = null)
+    {
+        // TODO
+    }
+
 }

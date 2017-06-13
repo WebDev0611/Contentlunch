@@ -301,6 +301,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
 
         Route::group(['prefix' => 'export'], function () {
             Route::get('content/{id}/{extension}', 'ExportController@content')->name('export.content');
+            Route::get('order/{id}/{extension}', 'ExportController@order')->name('export.order');
         });
 
 

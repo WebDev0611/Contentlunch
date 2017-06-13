@@ -1,9 +1,5 @@
 <template xmlns="http://www.w3.org/1999/html">
     <div>
-        <div class="alert alert-info alert-forms margin-20" v-if="!comments.length && loaded">
-            <p><strong>No comments have been posted for this order.</strong></p>
-        </div>
-
         <loading v-if='!loaded'></loading>
 
         <div class="panel-footer" v-if="loaded">
@@ -18,6 +14,10 @@
                 </span>
 
             <loading class="pull-right" v-if="sending"></loading>
+        </div>
+
+        <div class="alert alert-info alert-forms margin-20" v-if="!comments.length && loaded">
+            <p><strong>No comments have been posted for this order.</strong></p>
         </div>
 
         <content-order-comment
